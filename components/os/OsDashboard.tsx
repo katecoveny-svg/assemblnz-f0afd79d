@@ -32,9 +32,11 @@ export type OsDashboardProps = {
  * else stays quiet.
  */
 export function OsDashboard(p: OsDashboardProps) {
-  const sparkPath = p.insightPoints
+  // A sparkline needs two points; pad a flat line rather than divide by zero.
+  const points = p.insightPoints.length >= 2 ? p.insightPoints : [50, 50];
+  const sparkPath = points
     .map((v, i) => {
-      const x = (i / (p.insightPoints.length - 1)) * 300;
+      const x = (i / (points.length - 1)) * 300;
       const y = 44 - (v / 100) * 40;
       return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
     })
@@ -129,7 +131,7 @@ export function OsDashboard(p: OsDashboardProps) {
       {/* ── everything else, quietly ────────────────────────────────── */}
       <nav aria-label="All areas" className={`${styles.quietNav} ${styles.cardEmerge}`} style={{ animationDelay: '0.42s' }}>
         {p.quietLinks.map((l) => (
-          <Link key={l.href} href={l.href} className={styles.quietLink}>
+          <Link key={`${l.label}-${l.href}`} href={l.href} className={styles.quietLink}>
             {l.label}
           </Link>
         ))}

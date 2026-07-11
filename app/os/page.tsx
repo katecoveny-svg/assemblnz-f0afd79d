@@ -46,7 +46,11 @@ export default async function AssemblOsPage() {
         greetingSub="Here's what's happening in your business today."
         askHref="/living-site/dog-training"
         tiles={[
-          { label: 'new enquiries', value: String(enquiries.length), hint: 'replies drafted' },
+          {
+            label: 'new enquiries',
+            value: String(enquiries.length),
+            hint: enquiries.length > 0 ? 'replies drafted' : 'the desk is quiet',
+          },
           { label: 'facts in your genome', value: String(facts.length), hint: live ? 'live' : 'sample' },
           { label: 'services live', value: String(services), hint: 'priced once, shown everywhere' },
           { label: 'improvement ready', value: '1', hint: 'waiting for your yes' },

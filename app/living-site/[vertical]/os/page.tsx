@@ -81,24 +81,39 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
           { label: 'improvement ready', value: '1', hint: 'waiting for your yes' },
         ]}
         actions={[
-          {
-            text:
-              enquiries.length > 0
-                ? `Reply to ${enquiries.length} new enquir${enquiries.length === 1 ? 'y' : 'ies'} — drafts are ready`
-                : 'Send yourself a test enquiry from the website',
-            impact: 'high',
-            href: `${siteHref}#book`,
-          },
+          // The flagship has a real triage tab behind the demo gate; the other
+          // verticals' enquiries live only in the database, so their action
+          // stays on the website and says exactly what it does.
+          v.slug === 'dog-training' && enquiries.length > 0
+            ? {
+                text: `Reply to ${enquiries.length} new enquir${enquiries.length === 1 ? 'y' : 'ies'} — drafts are ready`,
+                impact: 'high' as const,
+                href: '/customers/auckland-dog-trainer/ops?tab=leads',
+              }
+            : {
+                text:
+                  enquiries.length > 0
+                    ? `${enquiries.length} enquir${enquiries.length === 1 ? 'y' : 'ies'} captured from the website — send another test`
+                    : 'Send yourself a test enquiry from the website',
+                impact: 'high' as const,
+                href: `${siteHref}#book`,
+              },
           {
             text: 'Update a price once — the website follows on the next load',
             impact: 'medium',
             href: '/living-site',
           },
-          {
-            text: 'Ask the desk agent anything on the site',
-            impact: 'medium',
-            href: siteHref,
-          },
+          v.chat
+            ? {
+                text: 'Ask the desk agent anything on the site',
+                impact: 'medium' as const,
+                href: siteHref,
+              }
+            : {
+                text: 'Visit your website — every fact on it reads from the genome',
+                impact: 'medium' as const,
+                href: siteHref,
+              },
         ]}
         orbInitial={v.businessName.charAt(0)}
         orbSurfaces={ORB_SURFACES}
@@ -112,7 +127,7 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
         quietLinks={[
           { label: 'the website', href: siteHref },
           { label: 'the genome tour', href: '/living-site' },
-          { label: 'all sample businesses', href: '/living-site' },
+          { label: 'the assembl OS', href: '/os' },
           { label: 'install your own', href: '/install' },
         ]}
       />
