@@ -319,3 +319,14 @@
   text-decoration: underline;
   white-space: nowrap;
 }
+
+/* ── embedded shell ─────────────────────────────────────────────────── */
+/* The pearl screen hosted inside another surface (the gated console):
+   a rounded panel instead of a full-viewport takeover. */
+.shellEmbedded {
+  min-height: 0;
+  border-radius: 24px;
+  border: 1px solid var(--os-hairline);
+  overflow: hidden;
+  box-shadow: var(--os-shadow);
+}
