@@ -18,9 +18,9 @@ const COLUMNS: { label: string; links: { href: string; label: string }[] }[] = [
   {
     label: "product",
     links: [
-      { href: "/agents", label: "agents" },
-      { href: "/bundles", label: "bundles" },
-      { href: "/bills", label: "bills" },
+      { href: "/living-site", label: "the living site" },
+      { href: "/os", label: "the operating system" },
+      { href: "/install", label: "install a business" },
       { href: "/pricing", label: "pricing" },
       { href: "/trust", label: "trust" },
     ],
@@ -83,7 +83,7 @@ export function SiteFooter() {
           <span aria-hidden style={{ color: GOLD, fontSize: 10, lineHeight: 1 }}>
             •
           </span>
-          adaptive. connected. purpose-built.
+          less admin. more mahi.
         </p>
 
         <div

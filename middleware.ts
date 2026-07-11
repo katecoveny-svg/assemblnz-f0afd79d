@@ -536,7 +536,8 @@ const legacyKeteRedirect = (request: NextRequest) => {
   if (!PUBLIC_KETE_ROOTS.includes(root)) return null;
 
   const url = request.nextUrl.clone();
-  url.pathname = '/agents';
+  // Straight to the living site — /agents itself now 308s there too.
+  url.pathname = '/living-site';
   url.search = '';
   return NextResponse.redirect(url, 308);
 };
@@ -549,6 +550,24 @@ const productRedirect = (request: NextRequest) => {
   // cast is fictional now and the page lives at its industry slug.
   if (matchesPrefix(pathname, '/living-site/fred')) {
     url.pathname = '/living-site/dog-training';
+    url.search = '';
+    return NextResponse.redirect(url, 308);
+  }
+
+  // The agent marketplace is not the story (Living Business OS direction,
+  // chrome sweep 2026-07-11): old /agents and /bundles URLs land on the
+  // living site instead. /agents/pick stays — the fleet browser is used
+  // behind the gates.
+  if (
+    (pathname === '/agents' || pathname.startsWith('/agents/')) &&
+    pathname !== '/agents/pick'
+  ) {
+    url.pathname = '/living-site';
+    url.search = '';
+    return NextResponse.redirect(url, 308);
+  }
+  if (pathname === '/bundles' || pathname.startsWith('/bundles/')) {
+    url.pathname = '/pricing';
     url.search = '';
     return NextResponse.redirect(url, 308);
   }

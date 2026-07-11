@@ -15,21 +15,21 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     n: '01',
-    label: 'read signals',
-    title: 'agents draft it.',
-    body: 'bring a job your team does by hand — an rfi, an allergen report, a customs entry. the agent for that work writes the first draft in seconds, citing the current rules for your industry.',
+    label: 'install',
+    title: 'ten answers become your genome.',
+    body: 'choose your industry and answer ten questions. your business genome — every fact about your business, written down once — assembles, and the website, crm, bookings, knowledge and agents appear around it.',
   },
   {
     n: '02',
-    label: 'route work',
-    title: 'you review and sign off.',
-    body: 'the draft lands with a named person who accepts, edits, or rejects it. nothing sends, publishes, or gets lodged without that sign-off.',
+    label: 'one source of truth',
+    title: 'every surface reads it.',
+    body: 'update a price once and the website, proposals, emails and the desk agent all follow on their next load. no cms, no duplicate editing, no version drift.',
   },
   {
     n: '03',
-    label: 'move to proof',
-    title: 'you get the evidence pack.',
-    body: 'every signed output carries its receipt: the sources used, what changed in review, and who approved it. one file, dated and filed, ready when someone asks.',
+    label: 'improve',
+    title: 'one improvement every morning.',
+    body: 'assembl watches how your business runs and prepares one improvement a day — already done, as a draft, waiting for your yes. nothing sends, publishes, or books without you.',
   },
 ] as const;
 
@@ -155,8 +155,8 @@ export default function HowItWorksPage() {
             <span style={{ color: palette.ink, fontWeight: 600 }}>Built in Aotearoa.</span> Agents
             cite current NZ legislation, council and sector rules from the start.
           </p>
-          <Link href="/agents" className={styles.navCta} style={{ padding: '11px 22px' }}>
-            explore marketplace
+          <Link href="/living-site" className={styles.navCta} style={{ padding: '11px 22px' }}>
+            see a living site
             <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
               •
             </span>

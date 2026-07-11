@@ -19,13 +19,13 @@ export function AuthHeader() {
           <span className={styles.pillDash} aria-hidden />
         </Link>
         <nav className={styles.nav} aria-label="Primary">
-          <Link href="/agents">Agents</Link>
+          <Link href="/how-it-works">How it works</Link>
+          <Link href="/living-site">Living site</Link>
           <Link href="/pricing">Pricing</Link>
-          <Link href="/trust">Trust</Link>
           <Link href="/about">About</Link>
         </nav>
-        <Link href="/agents" className={styles.cta}>
-          Browse agents
+        <Link href="/living-site" className={styles.cta}>
+          See a living site
         </Link>
       </div>
     </header>

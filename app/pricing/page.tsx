@@ -245,11 +245,11 @@ export default function PricingPage() {
 
             {/* the honest footnote */}
             <p className="rise" style={{ ...body, fontSize: 13, marginTop: 32, maxWidth: 620 }}>
-              Not sure where to start? Every agent in the{' '}
-              <Link href="/agents" style={{ color: palette.ink }}>
-                marketplace
+              Not sure where to start? Step inside a{' '}
+              <Link href="/living-site" style={{ color: palette.ink }}>
+                living site
               </Link>{' '}
-              answers three messages free, no card — or start with a{' '}
+              free, no card — or start with a{' '}
               <Link href="/pilot-sprint" style={{ color: palette.ink }}>
                 pilot
               </Link>{' '}

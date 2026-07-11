@@ -175,10 +175,10 @@ export default function FaqPage() {
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <Link
-                href="/agents"
+                href="/living-site"
                 className="inline-flex h-12 items-center rounded-full bg-[color:var(--assembl-pounamu)] px-7 text-sm font-medium text-[#FFF7EC] md:h-14 md:px-9 md:text-base"
               >
-                Browse agents
+                See a living site
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link

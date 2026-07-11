@@ -37,7 +37,7 @@ export const PRICING_TIERS: PricingTier[] = [
       { label: 'one agent, yours', price: '$9.99/mo' },
     ],
     points: [
-      'every agent in the marketplace answers three messages free — no card',
+      'every agent inside your living site answers three messages free — no card',
       'pick the one that earns its keep and take it home',
       'every reply is a draft you approve',
     ],
@@ -54,7 +54,7 @@ export const PRICING_TIERS: PricingTier[] = [
     points: [
       'pro stack: any three agents plus one, working as a team',
       'specialist: a whole purpose-built collection — construction, automotive, creative, animal care and more',
-      'all-access: the entire marketplace, one price',
+      'all-access: every agent assembl runs, one price',
     ],
     cta: { label: 'book a pilot', href: '/pilot-sprint' },
     featured: true,
