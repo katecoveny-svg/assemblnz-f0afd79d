@@ -9,12 +9,15 @@ export function GenomeOrb({
   initial,
   surfaces,
   size = 340,
+  image,
 }: {
   /** The letterform inside the orb — 'a' for assembl, the business initial otherwise. */
   initial: string;
   /** Orbiting surface labels (6–10 read best). */
   surfaces: string[];
   size?: number;
+  /** Optional liquid-glass render for the centre — replaces the CSS pearl. */
+  image?: string;
 }) {
   const c = 200; // viewBox centre
   const orbitR = 150;
@@ -67,13 +70,27 @@ export function GenomeOrb({
         />
       ))}
 
-      {/* the pearl */}
-      <circle cx={c} cy={c} r={74} fill="url(#orb-pearl)" className={styles.pearl} />
-      <circle cx={c} cy={c} r={74} className={styles.pearlRim} />
-      <ellipse cx={c - 22} cy={c - 30} rx={26} ry={16} className={styles.pearlGlint} />
-      <text x={c} y={c + 21} textAnchor="middle" className={styles.initial}>
-        {initial}
-      </text>
+      {/* the pearl — a real glass render when we have one, CSS otherwise */}
+      {image ? (
+        <image
+          href={image}
+          x={c - 96}
+          y={c - 96}
+          width={192}
+          height={192}
+          preserveAspectRatio="xMidYMid meet"
+          className={styles.pearl}
+        />
+      ) : (
+        <>
+          <circle cx={c} cy={c} r={74} fill="url(#orb-pearl)" className={styles.pearl} />
+          <circle cx={c} cy={c} r={74} className={styles.pearlRim} />
+          <ellipse cx={c - 22} cy={c - 30} rx={26} ry={16} className={styles.pearlGlint} />
+          <text x={c} y={c + 21} textAnchor="middle" className={styles.initial}>
+            {initial}
+          </text>
+        </>
+      )}
 
       {/* orbiting surfaces — nodes drift */}
       {nodes.map((n, i) => (

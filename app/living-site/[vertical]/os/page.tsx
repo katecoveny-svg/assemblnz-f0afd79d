@@ -122,6 +122,7 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
                 href: siteHref,
               },
         ]}
+        orbImage="/brand/genome/sphere-genome-alpha.png"
         orbInitial={v.businessName.charAt(0)}
         orbSurfaces={ORB_SURFACES}
         genomeHref="/living-site"

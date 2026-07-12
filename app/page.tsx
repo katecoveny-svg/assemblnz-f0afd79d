@@ -52,37 +52,62 @@ export default async function HomePage() {
             </div>
           </Reveal>
           <Reveal>
-            <div style={{ maxWidth: 560, margin: '26px 0 0' }}>
-              {[
-                'Your website says one thing.',
-                'Your CRM says another.',
-                'Your documents are out of date.',
-                'Your team answers the same questions over and over.',
-                'Your AI doesn’t know your business.',
-              ].map((line) => (
-                <p
-                  key={line}
-                  style={{
-                    margin: '0 0 10px',
-                    fontSize: 16.5,
-                    lineHeight: 1.5,
-                    color: palette.bodyGrey,
-                  }}
-                >
-                  {line}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: '28px 48px',
+                margin: '26px 0 0',
+              }}
+            >
+              <div style={{ flex: '1 1 420px', maxWidth: 560 }}>
+                {[
+                  'Your website says one thing.',
+                  'Your CRM says another.',
+                  'Your documents are out of date.',
+                  'Your team answers the same questions over and over.',
+                  'Your AI doesn’t know your business.',
+                ].map((line) => (
+                  <p
+                    key={line}
+                    style={{
+                      margin: '0 0 10px',
+                      fontSize: 16.5,
+                      lineHeight: 1.5,
+                      color: palette.bodyGrey,
+                    }}
+                  >
+                    {line}
+                  </p>
+                ))}
+                <p style={{ margin: '26px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink }}>
+                  assembl changes that. Every part of your business connects to one shared
+                  understanding of how your business works.
                 </p>
-              ))}
-              <p style={{ margin: '26px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink }}>
-                assembl changes that. Every part of your business connects to one shared
-                understanding of how your business works.
-              </p>
-              <p style={{ margin: '14px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink }}>
-                We call it your <strong>Business Genome</strong>. One business. One brain.
-                Update something once — it updates everywhere
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
+                <p style={{ margin: '14px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink }}>
+                  We call it your <strong>Business Genome</strong>. One business. One brain.
+                  Update something once — it updates everywhere
+                  <span aria-hidden style={{ color: palette.accentGold }}>
+                    .
+                  </span>
+                </p>
+              </div>
+              {/* the genome itself — your whole business, held in one drop of
+                  glass (multiply blend melts the render's studio grey into
+                  the paper) */}
+              <img
+                src="/brand/genome/genome-city.png"
+                alt="The Business Genome — a whole business held inside a drop of glass"
+                style={{
+                  flex: '0 1 460px',
+                  minWidth: 300,
+                  maxWidth: 'min(460px, 100%)',
+                  height: 'auto',
+                  mixBlendMode: 'multiply',
+                  borderRadius: 26,
+                }}
+              />
             </div>
           </Reveal>
         </div>

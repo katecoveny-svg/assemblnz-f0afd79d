@@ -14,6 +14,8 @@ export type OsDashboardProps = {
   actions: OsAction[];
   orbInitial: string;
   orbSurfaces: string[];
+  /** Optional liquid-glass render for the orb's centre. */
+  orbImage?: string;
   genomeHref: string;
   assistantLede: string;
   assistantCta: string;
@@ -101,7 +103,7 @@ export function OsDashboard(p: OsDashboardProps) {
             business genome
           </p>
           <Link href={p.genomeHref} aria-label="Open the Business Genome" style={{ display: 'block' }}>
-            <GenomeOrb initial={p.orbInitial} surfaces={p.orbSurfaces} size={330} />
+            <GenomeOrb initial={p.orbInitial} surfaces={p.orbSurfaces} size={330} image={p.orbImage} />
           </Link>
         </section>
       </div>

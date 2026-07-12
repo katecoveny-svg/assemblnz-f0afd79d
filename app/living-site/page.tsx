@@ -4,7 +4,6 @@ import { palette } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
 import { BusinessGenome } from '@/components/ops/fred/BusinessGenome';
 import { MorningBrief } from '@/components/ops/fred/MorningBrief';
-import { GenomeOrb } from '@/components/os/GenomeOrb';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
@@ -76,14 +75,22 @@ export default async function LivingSitePage() {
                   Sample business — real system. Go on: change a price, approve the brief.
                 </p>
               </div>
-              {/* the genome itself — the pearl orb, surfaces in orbit */}
-              <div aria-hidden style={{ flex: '0 0 auto', margin: '0 auto' }}>
-                <GenomeOrb
-                  initial="a"
-                  surfaces={['website', 'crm', 'knowledge', 'bookings', 'voice', 'email', 'automations', 'marketing']}
-                  size={300}
-                />
-              </div>
+              {/* the genome itself — the glass sphere (multiply melts the
+                  render's studio grey into the paper) */}
+              <img
+                aria-hidden
+                src="/brand/genome/sphere-genome.png"
+                alt=""
+                style={{
+                  flex: '0 1 360px',
+                  minWidth: 260,
+                  maxWidth: 'min(360px, 100%)',
+                  height: 'auto',
+                  margin: '0 auto',
+                  mixBlendMode: 'multiply',
+                  borderRadius: 26,
+                }}
+              />
             </div>
           </Reveal>
           <div
