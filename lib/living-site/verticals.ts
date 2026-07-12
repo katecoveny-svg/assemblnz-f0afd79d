@@ -48,6 +48,8 @@ export type SampleVertical = {
   palette: VerticalPalette;
   /** Brand-font pairing (getBrandFonts key — reuses loaded font sets). */
   fontSlug: string;
+  /** Optional glass-sphere render (Kate's liquid-glass set) for the hero. */
+  sphere?: string;
   enquiry: {
     heading: string;
     lede: string;
@@ -88,6 +90,7 @@ function fact(
 export const SAMPLE_VERTICALS: SampleVertical[] = [
   {
     slug: 'dog-training',
+    sphere: '/brand/genome/sphere-dog.png',
     tenant: 'auckland-dog-trainer',
     industryLabel: 'dog training',
     businessName: 'Harbourside Dog Training',
@@ -127,6 +130,7 @@ export const SAMPLE_VERTICALS: SampleVertical[] = [
   },
   {
     slug: 'customs',
+    sphere: '/brand/genome/sphere-customs.png',
     tenant: 'sample-customs',
     industryLabel: 'customs brokerage',
     businessName: 'Gateway Customs Brokers',
@@ -209,6 +213,7 @@ export const SAMPLE_VERTICALS: SampleVertical[] = [
   },
   {
     slug: 'hospitality',
+    sphere: '/brand/genome/sphere-hospitality.png',
     tenant: 'sample-hospitality',
     industryLabel: 'café & hospitality',
     businessName: 'Wharf Lane Café',
@@ -329,6 +334,7 @@ export const SAMPLE_VERTICALS: SampleVertical[] = [
   },
   {
     slug: 'beauty',
+    sphere: '/brand/genome/sphere-salon.png',
     tenant: 'sample-beauty',
     industryLabel: 'salon & beauty',
     businessName: 'Willow & Fern',

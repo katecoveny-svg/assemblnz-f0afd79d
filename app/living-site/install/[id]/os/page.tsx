@@ -88,6 +88,7 @@ export default async function InstallOsPage({ params }: { params: Promise<Params
             href: '/living-site',
           },
         ]}
+        orbImage="/brand/genome/sphere-genome-alpha.png"
         orbInitial={v.businessName.charAt(0)}
         orbSurfaces={ORB_SURFACES}
         genomeHref="/living-site"

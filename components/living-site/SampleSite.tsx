@@ -192,22 +192,41 @@ export function SampleSite({
               </a>
             </div>
           </div>
-          <div
-            aria-hidden
-            className={art.heroArt}
-            style={{
-              background: `radial-gradient(130% 130% at 32% 22%, #ffffff 0%, ${p.card} 40%, ${p.bg} 62%, ${p.accent}66 92%, ${p.accent}99 100%)`,
-              boxShadow: `0 30px 70px ${p.ink}22, inset 0 1px 0 rgba(255,255,255,0.9)`,
-              border: `1px solid ${p.ink}10`,
-            }}
-          >
-            <span className={art.heroArtRing} style={{ width: '68%', aspectRatio: '1', left: '-18%', top: '-22%', borderColor: `${p.accent}33` }} />
-            <span className={art.heroArtRing} style={{ width: '46%', aspectRatio: '1', right: '-12%', bottom: '-16%', borderColor: `${p.accent}2b` }} />
-            <span className={art.heroArtGlint} />
-            <span className={art.heroArtLetter} style={{ color: p.accent }}>
-              {v.businessName.charAt(0)}
-            </span>
-          </div>
+          {v.sphere ? (
+            // The industry's glass-sphere render — multiply melts the
+            // render's studio grey into the page wash.
+            <div aria-hidden style={{ display: 'grid', placeItems: 'center' }}>
+              <img
+                src={v.sphere}
+                alt=""
+                style={{
+                  width: '100%',
+                  maxWidth: 420,
+                  height: 'auto',
+                  borderRadius: 26,
+                  boxShadow: `0 30px 70px ${p.ink}22, inset 0 1px 0 rgba(255,255,255,0.9)`,
+                  border: `1px solid ${p.ink}10`,
+                }}
+              />
+            </div>
+          ) : (
+            <div
+              aria-hidden
+              className={art.heroArt}
+              style={{
+                background: `radial-gradient(130% 130% at 32% 22%, #ffffff 0%, ${p.card} 40%, ${p.bg} 62%, ${p.accent}66 92%, ${p.accent}99 100%)`,
+                boxShadow: `0 30px 70px ${p.ink}22, inset 0 1px 0 rgba(255,255,255,0.9)`,
+                border: `1px solid ${p.ink}10`,
+              }}
+            >
+              <span className={art.heroArtRing} style={{ width: '68%', aspectRatio: '1', left: '-18%', top: '-22%', borderColor: `${p.accent}33` }} />
+              <span className={art.heroArtRing} style={{ width: '46%', aspectRatio: '1', right: '-12%', bottom: '-16%', borderColor: `${p.accent}2b` }} />
+              <span className={art.heroArtGlint} />
+              <span className={art.heroArtLetter} style={{ color: p.accent }}>
+                {v.businessName.charAt(0)}
+              </span>
+            </div>
+          )}
         </section>
 
         {/* ── about ──────────────────────────────────────────────────── */}

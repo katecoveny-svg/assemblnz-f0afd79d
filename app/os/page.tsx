@@ -78,6 +78,7 @@ export default async function AssemblOsPage() {
             href: '/customers/auckland-dog-trainer/ops?tab=genome',
           },
         ]}
+        orbImage="/brand/genome/sphere-genome-alpha.png"
         orbInitial="a"
         orbSurfaces={GENOME_SURFACES.slice(0, 10).map((s) =>
           s.name.toLowerCase().replace('public ', '').replace(' & chat agent', '').replace(' assistant', ''),
