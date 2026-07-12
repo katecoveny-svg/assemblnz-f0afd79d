@@ -216,7 +216,7 @@ export function AssemblConciergeWidget() {
               aria-label="Close ask assembl"
               title="Close"
               onClick={() => setOpen(false)}
-              className="rounded-full p-2 text-[rgba(26,25,24,0.55)] transition-all hover:bg-[rgba(26,25,24,0.06)] hover:text-[#1A1918] focus-visible:bg-[rgba(26,25,24,0.06)] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2"
+              className="rounded-full p-2 text-[rgba(26,25,24,0.55)] transition-all hover:bg-[rgba(26,25,24,0.06)] hover:text-[#1A1918] focus-visible:bg-[rgba(26,25,24,0.06)] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               <X className="h-4 w-4" aria-hidden />
             </button>
@@ -267,7 +267,7 @@ export function AssemblConciergeWidget() {
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isTyping}
-                  className="rounded-full border border-[rgba(26,25,24,0.12)] bg-white px-3 py-1 text-xs text-[#56544B] transition-all hover:-translate-y-0.5 hover:border-[#BFA37A] hover:text-[#1A1918] focus-visible:-translate-y-0.5 focus-visible:border-[#BFA37A] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2 disabled:opacity-40"
+                  className="rounded-full border border-[rgba(26,25,24,0.12)] bg-white px-3 py-1 text-xs text-[#56544B] transition-all hover:-translate-y-0.5 hover:border-[#BFA37A] hover:text-[#1A1918] focus-visible:-translate-y-0.5 focus-visible:border-[#BFA37A] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                 >
                   {prompt}
                 </button>
@@ -298,7 +298,7 @@ export function AssemblConciergeWidget() {
                   type="submit"
                   aria-label="Send"
                   style={{ backgroundColor: INK, color: PAPER }}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl transition-all hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2 disabled:opacity-40"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl transition-all hover:opacity-90 focus-visible:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                   disabled={!draft.trim() || isTyping}
                 >
                   <Send className="h-4 w-4" aria-hidden />
@@ -324,7 +324,7 @@ export function AssemblConciergeWidget() {
             </form>
             <Link
               href={latestMatch.href}
-              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2"
+              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
               style={{ color: GOLD }}
             >
               {latestMatch.cta}
@@ -339,7 +339,7 @@ export function AssemblConciergeWidget() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         style={{ backgroundColor: GOLD, color: INK }}
-        className="inline-flex h-14 items-center gap-2 rounded-full border border-[rgba(26,25,24,0.10)] px-6 shadow-[0_16px_44px_rgba(26,25,24,0.18)] transition-all hover:-translate-y-0.5 hover:opacity-90 focus-visible:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2"
+        className="inline-flex h-14 items-center gap-2 rounded-full border border-[rgba(26,25,24,0.10)] px-6 shadow-[0_16px_44px_rgba(26,25,24,0.18)] transition-all hover:-translate-y-0.5 hover:opacity-90 focus-visible:-translate-y-0.5 focus-visible:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         aria-expanded={open}
         aria-haspopup="dialog"
       >
