@@ -3,10 +3,11 @@
 import { useState, type CSSProperties, type FormEvent } from 'react';
 import { CalendarCheck, ShieldCheck } from 'lucide-react';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
+import { localBookingStorageKey, type LivingSiteBooking } from '@/lib/living-site/bookings';
 import type { VerticalPalette } from '@/lib/living-site/verticals';
 import styles from './sample.module.css';
 
-type BookingState = 'idle' | 'sending' | 'sent' | 'error';
+type BookingState = 'idle' | 'sending' | 'sent' | 'sent-local' | 'error';
 
 export function SampleBookingForm({
   tenant,
@@ -31,33 +32,71 @@ export function SampleBookingForm({
     setError('');
     const form = new FormData(event.currentTarget);
     const service = services.find((item) => item.id === serviceId);
+    const input = {
+      tenant,
+      serviceId,
+      serviceLabel: service?.label ?? 'Service request',
+      name: String(form.get('name') ?? ''),
+      email: String(form.get('email') ?? ''),
+      phone: String(form.get('phone') ?? ''),
+      preferredDate: String(form.get('preferredDate') ?? ''),
+      preferredTime: String(form.get('preferredTime') ?? ''),
+      notes: String(form.get('notes') ?? ''),
+      website: String(form.get('website') ?? ''),
+    };
+    const saveToBrowser = (reason: string) => {
+      const booking: LivingSiteBooking = {
+        id: `local-${window.crypto.randomUUID()}`,
+        tenant,
+        serviceId,
+        serviceLabel: input.serviceLabel,
+        name: input.name,
+        email: input.email,
+        phone: input.phone || null,
+        preferredDate: input.preferredDate,
+        preferredTime: input.preferredTime,
+        notes: input.notes || null,
+        status: 'requested',
+        source: 'browser-only',
+        createdAt: new Date().toISOString(),
+      };
+      const key = localBookingStorageKey(tenant);
+      let existing: LivingSiteBooking[] = [];
+      try {
+        const parsed = JSON.parse(window.localStorage.getItem(key) ?? '[]');
+        if (Array.isArray(parsed)) existing = parsed as LivingSiteBooking[];
+      } catch {
+        // Ignore malformed older browser data and start a clean local queue.
+      }
+      window.localStorage.setItem(key, JSON.stringify([booking, ...existing].slice(0, 30)));
+      setError(reason);
+      setState('sent-local');
+    };
+    let response: Response;
     try {
-      const response = await fetch('/api/living-site/booking', {
+      response = await fetch('/api/living-site/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tenant,
-          serviceId,
-          serviceLabel: service?.label ?? 'Service request',
-          name: form.get('name'),
-          email: form.get('email'),
-          phone: form.get('phone'),
-          preferredDate: form.get('preferredDate'),
-          preferredTime: form.get('preferredTime'),
-          notes: form.get('notes'),
-          website: form.get('website'),
-        }),
+        body: JSON.stringify(input),
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || !result.ok) throw new Error(result.error ?? 'Could not save the request.');
-      setState('sent');
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Could not save the request.');
-      setState('error');
+      saveToBrowser(cause instanceof Error ? cause.message : 'the shared booking desk could not be reached');
+      return;
     }
+    const result = await response.json().catch(() => ({}));
+    if (response.status === 503) {
+      saveToBrowser(result.error ?? 'the shared booking desk is unavailable');
+      return;
+    }
+    if (!response.ok || !result.ok) {
+      setError(result.error ?? 'Could not save the request.');
+      setState('error');
+      return;
+    }
+    setState('sent');
   }
 
-  if (state === 'sent') {
+  if (state === 'sent' || state === 'sent-local') {
     return (
       <div
         className={styles.success}
@@ -65,8 +104,11 @@ export function SampleBookingForm({
         style={{ '--sample-accent': palette.accent, '--sample-muted': palette.muted } as CSSProperties}
       >
         <CalendarCheck aria-hidden />
-        <h3>Request received.</h3>
-        <p>{owner} will check the diary and confirm the time with you. Nothing has been charged or booked yet.</p>
+        <h3>{state === 'sent' ? 'Request received.' : 'Request saved on this browser.'}</h3>
+        <p>{state === 'sent'
+          ? `${owner} will check the diary and confirm the time with you. Nothing has been charged or booked yet.`
+          : `The shared booking desk is not configured here, so this fictional request is available to the CRM on this browser only. ${owner} has not confirmed it and nothing has been charged.`}</p>
+        {state === 'sent-local' ? <small>{error}</small> : null}
       </div>
     );
   }

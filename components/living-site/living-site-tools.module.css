@@ -133,6 +133,19 @@
 .record h3 { margin: 0; font-size: 13px; }
 .record p { margin: 5px 0 0; color: var(--tool-muted); font-size: 11px; line-height: 1.5; }
 .record a { color: var(--tool-accent); font-size: 10px; font-weight: 700; }
+.recordActions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 10px; }
+.recordActions button {
+  min-height: 29px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--tool-ink) 14%, transparent);
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--tool-ink);
+  background: #fff;
+  font: 700 9px var(--font-brand-body), system-ui, sans-serif;
+}
+.recordActions button:hover { border-color: var(--tool-accent); }
+.recordActions button:disabled { cursor: wait; opacity: .55; }
 .status { align-self: start; padding: 5px 8px; border-radius: 999px; color: var(--tool-ink); background: color-mix(in srgb, var(--tool-accent) 14%, #fff); font: 8px var(--font-brand-mono), monospace; letter-spacing: .09em; text-transform: uppercase; }
 .empty { padding: 18px; border: 1px dashed color-mix(in srgb, var(--tool-ink) 18%, transparent); border-radius: 14px; color: var(--tool-muted); font-size: 12px; line-height: 1.55; }
 

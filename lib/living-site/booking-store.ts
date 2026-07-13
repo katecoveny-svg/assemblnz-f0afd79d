@@ -1,21 +1,8 @@
 import 'server-only';
 import { getServiceClient } from '@/lib/supabase/service';
+import { canTransitionBooking, type LivingSiteBooking, type LivingSiteBookingStatus } from '@/lib/living-site/bookings';
 
-export type LivingSiteBooking = {
-  id: string;
-  tenant: string;
-  serviceId: string;
-  serviceLabel: string;
-  name: string;
-  email: string;
-  phone: string | null;
-  preferredDate: string;
-  preferredTime: string;
-  notes: string | null;
-  status: 'requested' | 'confirmed' | 'declined' | 'completed' | 'cancelled';
-  source: string;
-  createdAt: string;
-};
+export type { LivingSiteBooking } from '@/lib/living-site/bookings';
 
 type BookingRow = {
   id: string;
@@ -105,5 +92,42 @@ export async function getRecentBookings(
     return (data as BookingRow[]).map(fromRow);
   } catch {
     return [];
+  }
+}
+
+export type BookingStatusUpdate =
+  | { ok: true; booking: LivingSiteBooking }
+  | { ok: false; reason: 'not_found' | 'invalid_transition' | 'unavailable' };
+
+export async function updateBookingStatus(input: {
+  tenant: string;
+  id: string;
+  status: LivingSiteBookingStatus;
+}): Promise<BookingStatusUpdate> {
+  try {
+    const supabase = getServiceClient();
+    const { data: current, error: readError } = await supabase
+      .from('living_site_bookings')
+      .select('id, status')
+      .eq('tenant', input.tenant)
+      .eq('id', input.id)
+      .maybeSingle();
+    if (readError) return { ok: false, reason: 'unavailable' };
+    if (!current) return { ok: false, reason: 'not_found' };
+    const currentStatus = current.status as LivingSiteBookingStatus;
+    if (!canTransitionBooking(currentStatus, input.status)) {
+      return { ok: false, reason: 'invalid_transition' };
+    }
+    const { data, error } = await supabase
+      .from('living_site_bookings')
+      .update({ status: input.status })
+      .eq('tenant', input.tenant)
+      .eq('id', input.id)
+      .select('id, tenant, service_id, service_label, name, email, phone, preferred_date, preferred_time, notes, status, source, created_at')
+      .single();
+    if (error || !data) return { ok: false, reason: 'unavailable' };
+    return { ok: true, booking: fromRow(data as BookingRow) };
+  } catch {
+    return { ok: false, reason: 'unavailable' };
   }
 }

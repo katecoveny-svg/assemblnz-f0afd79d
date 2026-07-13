@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { storeBooking } from '@/lib/living-site/booking-store';
+import { consume, rateKey } from '@/lib/creative/ratelimit';
+import { storeBooking, updateBookingStatus } from '@/lib/living-site/booking-store';
+import { isLivingSiteBookingStatus } from '@/lib/living-site/bookings';
 import { INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
 import { VERTICAL_TENANTS } from '@/lib/living-site/verticals';
 
@@ -7,6 +9,7 @@ export const maxDuration = 15;
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function value(input: unknown, max: number): string | null {
   return typeof input === 'string' && input.trim().length > 0 && input.trim().length <= max
@@ -88,4 +91,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'could not save the request — try again shortly' }, { status: 503 });
   }
   return NextResponse.json({ ok: true, id, status: 'requested' });
+}
+
+/**
+ * Owner-side status change for a saved request. The transition graph prevents
+ * a request skipping directly to completed, or a closed request reopening.
+ */
+export async function PATCH(request: Request) {
+  const body = (await request.json().catch(() => null)) as Record<string, unknown> | null;
+  if (!body) return NextResponse.json({ ok: false, error: 'invalid json' }, { status: 400 });
+  const tenant = await allowedTenant(value(body.tenant, 60));
+  const id = value(body.id, 40);
+  const status = body.status;
+  if (tenant === 'unavailable') {
+    return NextResponse.json({ ok: false, error: 'booking desk unavailable — try again shortly' }, { status: 503 });
+  }
+  if (!tenant || !id || !UUID_RE.test(id) || !isLivingSiteBookingStatus(status) || status === 'requested') {
+    return NextResponse.json({ ok: false, error: 'valid tenant, booking id and next status are required' }, { status: 400 });
+  }
+  const rate = await consume(rateKey(request), 'living-site-booking-status');
+  if (!rate.ok) return NextResponse.json({ ok: false, error: 'update limit reached — try again in an hour' }, { status: 429 });
+  const result = await updateBookingStatus({ tenant, id, status });
+  if (!result.ok) {
+    if (result.reason === 'not_found') return NextResponse.json({ ok: false, error: 'booking request not found' }, { status: 404 });
+    if (result.reason === 'invalid_transition') return NextResponse.json({ ok: false, error: 'that booking status change is not allowed' }, { status: 409 });
+    return NextResponse.json({ ok: false, error: 'could not update the request — try again shortly' }, { status: 503 });
+  }
+  return NextResponse.json({ ok: true, booking: result.booking });
 }

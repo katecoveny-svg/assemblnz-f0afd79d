@@ -18,7 +18,7 @@ export default async function InstallCrmPage({ params }: { params: Promise<{ id:
   const site = `/living-site/install/${install.id}`;
   return (
     <OwnerToolShell v={install.v} current="crm" title="CRM & bookings" rootHref={root} siteHref={site} stripText={`${install.v.businessName} · generated install · owner tools are live`}>
-      <CustomerDesk v={install.v} enquiries={enquiries} bookings={bookings} siteHref={site} />
+      <CustomerDesk v={install.v} tenant={install.tenant} enquiries={enquiries} bookings={bookings} siteHref={site} />
     </OwnerToolShell>
   );
 }

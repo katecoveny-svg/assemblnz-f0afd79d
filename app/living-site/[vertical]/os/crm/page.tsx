@@ -16,7 +16,7 @@ export default async function LivingSiteCrmPage({ params }: { params: Promise<{ 
   ]);
   return (
     <OwnerToolShell v={v} current="crm" title="CRM & bookings">
-      <CustomerDesk v={v} enquiries={enquiries} bookings={bookings} />
+      <CustomerDesk v={v} tenant={v.tenant} enquiries={enquiries} bookings={bookings} />
     </OwnerToolShell>
   );
 }
