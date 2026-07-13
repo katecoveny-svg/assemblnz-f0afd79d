@@ -102,14 +102,12 @@ export default async function HomePage() {
                 style={{ flex: '0 1 460px', minWidth: 300 }}
               >
                 <img
-                  src="/brand/genome/genome-city.png"
-                  alt="The Business Genome — a whole business held inside a drop of glass. Click to explore it in 3D."
+                  src="/brand/genome/pale-hero-dome.png"
+                  alt="The Business Genome — a whole business held inside a drop of glass. Click to explore it."
                   style={{
                     width: '100%',
-                    maxWidth: 'min(460px, 100%)',
+                    maxWidth: 'min(500px, 100%)',
                     height: 'auto',
-                    mixBlendMode: 'multiply',
-                    borderRadius: 26,
                   }}
                 />
               </Link>

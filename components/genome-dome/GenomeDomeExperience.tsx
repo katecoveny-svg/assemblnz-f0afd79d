@@ -6,45 +6,44 @@ import dynamic from 'next/dynamic';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import { GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 import type { DomeSurface } from './DomeScene';
+import { InteractiveDome, type DomeView } from './InteractiveDome';
 import styles from './genome-dome.module.css';
 
 /**
- * The Business Genome hero — Kate's liquid-dome spec, end to end:
- * header · interactive glass dome (560px) · click a gold node to open the
- * genome drawer for that surface. WebGL failure or reduced budgets fall
- * back to the PNG with a CSS float. The heavy 3D chunk lazy-loads after
- * first paint; the poster shows immediately.
+ * The Business Genome hero — Kate's liquid-dome direction, end to end:
+ * header · the pale-palette dome render, tilting with the mouse, its gold
+ * network clickable · click a node to open the genome drawer for that
+ * surface, live from the database.
+ *
+ * The render IS the default experience (it's the signed-off look). The
+ * WebGL scene switches on automatically only when the real droplet GLB
+ * exists at /brand/genome/assembl_liquid_dome.glb — never the procedural
+ * stand-in, which read as a weird blob next to the renders.
  */
 
-const DomeScene = dynamic(() => import('./DomeScene'), { ssr: false, loading: () => <Poster /> });
+const DomeScene = dynamic(() => import('./DomeScene'), { ssr: false });
 
-const POSTER_PRIMARY = '/assets/assembl_pale_hero_dome.png';
-const POSTER_FALLBACK = '/brand/genome/sphere-genome-alpha.png';
+const DOME_GLB = '/brand/genome/assembl_liquid_dome.glb';
 
-let webglSupport: boolean | null = null;
-function detectWebgl(): boolean | null {
-  if (webglSupport === null) {
-    try {
-      const c = document.createElement('canvas');
-      webglSupport = !!(c.getContext('webgl2') || c.getContext('webgl'));
-    } catch {
-      webglSupport = false;
-    }
+// Resolved once per page load: real GLB present AND WebGL available.
+let webglPromise: Promise<boolean> | null = null;
+let webglResult: boolean | null = null;
+function checkTrue3d(): Promise<boolean> {
+  if (!webglPromise) {
+    webglPromise = (async () => {
+      try {
+        const c = document.createElement('canvas');
+        if (!c.getContext('webgl2') && !c.getContext('webgl')) return false;
+        const head = await fetch(DOME_GLB, { method: 'HEAD' });
+        const type = head.headers.get('content-type') ?? '';
+        webglResult = head.ok && !type.includes('text/html');
+      } catch {
+        webglResult = false;
+      }
+      return webglResult ?? false;
+    })();
   }
-  return webglSupport;
-}
-
-function Poster() {
-  const [src, setSrc] = React.useState(POSTER_PRIMARY);
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt="The Business Genome — a liquid glass dome holding the whole business"
-      className={styles.poster}
-      onError={() => src !== POSTER_FALLBACK && setSrc(POSTER_FALLBACK)}
-    />
-  );
+  return webglPromise;
 }
 
 export function GenomeDomeExperience({
@@ -54,14 +53,18 @@ export function GenomeDomeExperience({
   facts: GenomeFact[];
   live: boolean;
 }) {
-  // WebGL support decides 3D vs the floating PNG (spec fallback). Detected
-  // once on the client; the server snapshot says null so hydration matches.
-  const webgl = React.useSyncExternalStore(
-    () => () => {},
-    detectWebgl,
-    () => null,
-  );
+  const [true3d, setTrue3d] = React.useState(false);
+  React.useEffect(() => {
+    let mounted = true;
+    checkTrue3d().then((ok) => {
+      if (mounted && ok) setTrue3d(true);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
+  const [view, setView] = React.useState<DomeView>('hero');
   const [selected, setSelected] = React.useState<DomeSurface | null>(null);
   const [hovered, setHovered] = React.useState<DomeSurface | null>(null);
 
@@ -90,21 +93,44 @@ export function GenomeDomeExperience({
       </p>
 
       <div className={styles.domeBox} aria-label="Interactive Business Genome dome">
-        {webgl === false ? <Poster /> : webgl ? (
+        {true3d ? (
           <DomeScene surfaces={surfaces} onSelect={setSelected} onHover={setHovered} />
         ) : (
-          <Poster />
+          <InteractiveDome
+            surfaces={surfaces}
+            view={view}
+            onSelect={setSelected}
+            onHover={setHovered}
+          />
         )}
       </div>
+
+      {!true3d ? (
+        <div className={styles.viewRow} role="group" aria-label="Dome view">
+          <button
+            type="button"
+            className={`${styles.viewChip} ${view === 'hero' ? styles.viewChipActive : ''}`}
+            onClick={() => setView('hero')}
+          >
+            harbour view
+          </button>
+          <button
+            type="button"
+            className={`${styles.viewChip} ${view === 'topdown' ? styles.viewChipActive : ''}`}
+            onClick={() => setView('topdown')}
+          >
+            from above
+          </button>
+        </div>
+      ) : null}
+
       <p className={styles.hoverHint} aria-live="polite">
         {hovered ? (
           <>
             <strong>{hovered.name.toLowerCase()}</strong> — click to open the genome
           </>
-        ) : webgl ? (
-          'each gold node is a surface reading the genome — click one'
         ) : (
-          ' '
+          'each gold node is a surface reading the genome — click one'
         )}
       </p>
 
