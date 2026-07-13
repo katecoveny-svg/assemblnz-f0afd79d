@@ -18,9 +18,11 @@ import {
 } from '@/lib/customers/auckland-dog-trainer/agent';
 import { GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 import {
+  GENOME_TENANT,
   getLiveGenomeFacts,
   getRecentEnquiries,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import { loadWorkView } from '@/lib/os/work-view';
 
 type OpsSearchParams = { tab?: string | string[] };
 
@@ -139,6 +141,8 @@ export default async function AucklandDogTrainerOpsHome({
   // and surface here — full rows on the triage tab, the count on the brief.
   // Same limit as the Today tile so the two never show different numbers.
   const enquiries = tab === 'leads' || tab === 'brief' ? await getRecentEnquiries(20) : null;
+  // Work & proof: what the OS is carrying and the evidence trail behind it.
+  const work = tab === 'work' ? await loadWorkView(GENOME_TENANT) : null;
 
   return (
     <OsWowStage
@@ -157,6 +161,7 @@ export default async function AucklandDogTrainerOpsHome({
           genomeLive={genome?.live ?? false}
           liveEnquiries={enquiries ?? undefined}
           liveEnquiryCount={enquiries ? enquiries.length : undefined}
+          work={work}
         />
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">

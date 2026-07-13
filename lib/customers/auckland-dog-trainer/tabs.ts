@@ -6,6 +6,7 @@ export const FRED_TABS = [
   { key: 'week', label: 'Today' },
   { key: 'brief', label: 'Morning brief' },
   { key: 'genome', label: 'Business Genome' },
+  { key: 'work', label: 'Work & proof' },
   { key: 'landing', label: 'Landing hub' },
   { key: 'leads', label: 'Lead triage' },
   { key: 'dogs', label: 'Training CRM' },
