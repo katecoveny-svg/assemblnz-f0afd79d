@@ -1,0 +1,195 @@
+/* The Business Genome liquid dome — Kate's spec palette.
+   Opal #A8BDBF · Columbia #C5D7D9 · Anti-Flash White #F2F1F0 ·
+   Ming #3F7373 · Palm Leaf #768C45 · Gold #D4AF37 (nodes/hairlines only). */
+
+.stage {
+  min-height: 100vh;
+  background: #f2f1f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(28px, 6vh, 72px) 20px 64px;
+}
+
+.brandline {
+  margin: 0;
+  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-size: 15px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #3f7373;
+  text-align: center;
+}
+
+.wordmark {
+  margin: 10px 0 0;
+  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-size: clamp(19px, 3vw, 26px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #768c45;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #3f7373;
+  text-align: center;
+}
+
+.samplenote {
+  margin: 8px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #3f7373;
+  opacity: 0.65;
+  text-align: center;
+}
+
+.domeBox {
+  position: relative;
+  width: min(560px, 92vw);
+  aspect-ratio: 1;
+  margin-top: clamp(8px, 3vh, 28px);
+}
+
+.hoverHint {
+  min-height: 22px;
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: #3f7373;
+  text-align: center;
+}
+
+.hoverHint strong {
+  color: #768c45;
+}
+
+/* PNG fallback + loading poster — CSS float per spec */
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: dome-float 5.4s ease-in-out infinite;
+}
+
+@keyframes dome-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster { animation: none; }
+}
+
+/* ── genome drawer ──────────────────────────────────────────────────── */
+.drawerScrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(63, 115, 115, 0.18);
+  z-index: 200;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 92vw);
+  z-index: 201;
+  background: #ffffff;
+  border-left: 1px solid #c5d7d9;
+  box-shadow: -24px 0 60px rgba(63, 115, 115, 0.16);
+  padding: 26px 26px 32px;
+  overflow-y: auto;
+  animation: drawer-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes drawer-in {
+  from { transform: translateX(40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.drawerLabel {
+  margin: 0;
+  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #768c45;
+}
+
+.drawerTitle {
+  margin: 10px 0 0;
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-size: 27px;
+  line-height: 1.15;
+  color: #3f7373;
+}
+
+.drawerReads {
+  margin: 10px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #3f7373;
+  opacity: 0.85;
+}
+
+.drawerFact {
+  margin-top: 14px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  background: #f2f1f0;
+  border-left: 2px solid #d4af37;
+}
+
+.drawerFactLabel {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #3f7373;
+}
+
+.drawerFactValue {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #3f7373;
+  opacity: 0.85;
+}
+
+.drawerClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid #c5d7d9;
+  background: #f2f1f0;
+  color: #3f7373;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.quietRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  justify-content: center;
+  margin-top: clamp(14px, 3vh, 30px);
+}
+
+.quietLink {
+  font-size: 12.5px;
+  color: #3f7373;
+  text-decoration: none;
+  border-bottom: 1px solid #c5d7d9;
+  padding-bottom: 1px;
+}

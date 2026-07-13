@@ -80,6 +80,7 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/living-site',
   '/install',
   '/os',
+  '/genome',
   // The marketing site proper (wiring audit 2026-07-10): the homepage IS the
   // real front door now, and it links to these — every path the nav, footers
   // and sitemap promise must actually serve on the apex. Anything NOT listed

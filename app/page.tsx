@@ -96,18 +96,23 @@ export default async function HomePage() {
               {/* the genome itself — your whole business, held in one drop of
                   glass (multiply blend melts the render's studio grey into
                   the paper) */}
-              <img
-                src="/brand/genome/genome-city.png"
-                alt="The Business Genome — a whole business held inside a drop of glass"
-                style={{
-                  flex: '0 1 460px',
-                  minWidth: 300,
-                  maxWidth: 'min(460px, 100%)',
-                  height: 'auto',
-                  mixBlendMode: 'multiply',
-                  borderRadius: 26,
-                }}
-              />
+              <Link
+                href="/genome"
+                aria-label="Explore the Business Genome in 3D"
+                style={{ flex: '0 1 460px', minWidth: 300 }}
+              >
+                <img
+                  src="/brand/genome/genome-city.png"
+                  alt="The Business Genome — a whole business held inside a drop of glass. Click to explore it in 3D."
+                  style={{
+                    width: '100%',
+                    maxWidth: 'min(460px, 100%)',
+                    height: 'auto',
+                    mixBlendMode: 'multiply',
+                    borderRadius: 26,
+                  }}
+                />
+              </Link>
             </div>
           </Reveal>
         </div>
