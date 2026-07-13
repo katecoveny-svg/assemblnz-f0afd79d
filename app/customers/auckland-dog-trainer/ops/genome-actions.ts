@@ -37,16 +37,57 @@ export async function updateGenomeFactAction(
 
   try {
     const supabase = getServiceClient();
-    // Update only — facts are born in migrations/ops flows, never from here.
-    const { data, error } = await supabase
+    // Read the current value first so the edit lands in the history log.
+    const { data: before } = await supabase
       .from('living_site_genome')
-      .update({ value: v, updated_at: new Date().toISOString() })
+      .select('value')
+      .eq('tenant', GENOME_TENANT)
+      .eq('fact_id', id)
+      .maybeSingle();
+
+    const now = new Date().toISOString();
+    // Update only — facts are born in migrations/ops flows, never from here.
+    // An owner edit is the strongest provenance there is: confirmed, now.
+    let { data, error } = await supabase
+      .from('living_site_genome')
+      .update({
+        value: v,
+        updated_at: now,
+        source: 'owner-edit',
+        verification: 'confirmed',
+        verified_at: now,
+      })
       .eq('tenant', GENOME_TENANT)
       .eq('fact_id', id)
       .select('fact_id');
+    if (error) {
+      // Provenance columns may not exist yet (migration 20260722090000
+      // pending on this database) — never let that block an owner edit.
+      ({ data, error } = await supabase
+        .from('living_site_genome')
+        .update({ value: v, updated_at: now })
+        .eq('tenant', GENOME_TENANT)
+        .eq('fact_id', id)
+        .select('fact_id'));
+    }
     if (error) return { ok: false, message: 'The database write failed — try again.' };
     if (!data || data.length === 0) {
       return { ok: false, message: 'That fact isn’t in the live genome yet.' };
+    }
+
+    // Append-only edit history — best-effort, never blocks the edit.
+    try {
+      await supabase.from('living_site_genome_history').insert({
+        tenant: GENOME_TENANT,
+        fact_id: id,
+        old_value: before?.value ?? null,
+        new_value: v,
+        new_verification: 'confirmed',
+        source: 'owner-edit',
+        actor: 'ops-console',
+      });
+    } catch {
+      /* history table pending — the edit itself already succeeded */
     }
   } catch {
     return { ok: false, message: 'The database is unreachable right now.' };

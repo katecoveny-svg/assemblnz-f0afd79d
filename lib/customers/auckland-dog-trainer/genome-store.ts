@@ -15,6 +15,7 @@ import {
   GENOME_FACTS,
   type GenomeFact,
   type GenomeSection,
+  type GenomeVerification,
   type SurfaceId,
 } from './genome';
 
@@ -26,7 +27,20 @@ type GenomeRow = {
   label: string;
   value: string;
   read_by: string[] | null;
+  // provenance columns (migration 20260722090000) — absent on older DBs
+  source?: string | null;
+  verification?: string | null;
+  confidence?: number | null;
+  verified_at?: string | null;
 };
+
+const VERIFICATIONS: GenomeVerification[] = [
+  'confirmed',
+  'inferred',
+  'suggested',
+  'stale',
+  'conflicting',
+];
 
 export type GenomeRead = { facts: GenomeFact[]; live: boolean };
 
@@ -48,6 +62,12 @@ function rowToFact(row: GenomeRow): GenomeFact {
     label: row.label,
     value: row.value,
     readBy: (row.read_by ?? []) as SurfaceId[],
+    source: row.source ?? undefined,
+    verification: VERIFICATIONS.includes(row.verification as GenomeVerification)
+      ? (row.verification as GenomeVerification)
+      : undefined,
+    confidence: row.confidence ?? undefined,
+    verifiedAt: row.verified_at ?? undefined,
   };
 }
 
@@ -62,9 +82,10 @@ export async function getGenomeFactsFor(
 ): Promise<GenomeRead> {
   try {
     const supabase = getServiceClient();
+    // select('*') so the read works with or without the provenance columns
     const { data, error } = await supabase
       .from('living_site_genome')
-      .select('fact_id, section, label, value, read_by')
+      .select('*')
       .eq('tenant', tenant);
     if (error || !data || data.length === 0) {
       return { facts: fallback, live: false };
