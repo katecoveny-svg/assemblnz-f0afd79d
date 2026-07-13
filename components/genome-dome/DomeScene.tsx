@@ -18,8 +18,8 @@ import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
  * breathes on a slow float. Every visual constant here comes from the spec.
  */
 
-const DOME_GLB = '/assets/assembl_liquid_dome.glb';
-const CITY_PNG = '/assets/assembl_topdown_pale_dome.png';
+const DOME_GLB = '/brand/genome/assembl_liquid_dome.glb';
+const CITY_PNG = '/brand/genome/pale-topdown-dome.png';
 const CITY_FALLBACK = '/brand/genome/sphere-genome-alpha.png';
 
 const OPAL = '#A8BDBF';
