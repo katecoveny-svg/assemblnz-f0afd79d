@@ -22,6 +22,8 @@ import styles from './genome-dome.module.css';
  */
 
 const DomeScene = dynamic(() => import('./DomeScene'), { ssr: false });
+// Kate's attractor study in brand form — the genome as a living field.
+const EmergentGenome = dynamic(() => import('./EmergentGenome'), { ssr: false });
 
 const DOME_GLB = '/brand/genome/assembl_liquid_dome.glb';
 
@@ -64,7 +66,7 @@ export function GenomeDomeExperience({
     };
   }, []);
 
-  const [view, setView] = React.useState<DomeView>('hero');
+  const [view, setView] = React.useState<'living' | DomeView>('living');
   const [selected, setSelected] = React.useState<DomeSurface | null>(null);
   const [hovered, setHovered] = React.useState<DomeSurface | null>(null);
 
@@ -95,6 +97,8 @@ export function GenomeDomeExperience({
       <div className={styles.domeBox} aria-label="Interactive Business Genome dome">
         {true3d ? (
           <DomeScene surfaces={surfaces} onSelect={setSelected} onHover={setHovered} />
+        ) : view === 'living' ? (
+          <EmergentGenome />
         ) : (
           <InteractiveDome
             surfaces={surfaces}
@@ -107,6 +111,13 @@ export function GenomeDomeExperience({
 
       {!true3d ? (
         <div className={styles.viewRow} role="group" aria-label="Dome view">
+          <button
+            type="button"
+            className={`${styles.viewChip} ${view === 'living' ? styles.viewChipActive : ''}`}
+            onClick={() => setView('living')}
+          >
+            living view
+          </button>
           <button
             type="button"
             className={`${styles.viewChip} ${view === 'hero' ? styles.viewChipActive : ''}`}
@@ -125,7 +136,9 @@ export function GenomeDomeExperience({
       ) : null}
 
       <p className={styles.hoverHint} aria-live="polite">
-        {hovered ? (
+        {view === 'living' && !true3d ? (
+          'the genome as a living field — always moving, always settling · switch views to open a surface'
+        ) : hovered ? (
           <>
             <strong>{hovered.name.toLowerCase()}</strong> — click to open the genome
           </>
