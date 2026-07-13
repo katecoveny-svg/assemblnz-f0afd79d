@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { V2Nav } from '@/components/v2/V2Chrome';
-import { HomeHero } from '@/components/v2/home/HomeHero';
+import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
+import { BusinessGenomeSection } from '@/components/business-genome/BusinessGenomeSection';
 import { GENOME_FACTS, GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 
 export const metadata: Metadata = {
-  title: 'assembl — less admin. more mahi. The Living Business Operating System.',
+  title: 'assembl — your living Business Genome',
   description:
-    'One connected dashboard for the website, customer desk, knowledge, bookings and workflows — powered by a shared Business Genome and kept under human review. Built in Aotearoa.',
+    'assembl connects your business knowledge, people, tools and workflows into one living operating system, with specialised agents and human approval kept visible.',
   alternates: { canonical: '/' },
 };
 
@@ -17,9 +18,10 @@ export const metadata: Metadata = {
  */
 export default function HomePage() {
   return (
-    <div style={{ minHeight: '100vh', background: '#f3f0ea', color: '#26312d' }}>
+    <div style={{ minHeight: '100vh', background: '#fff', color: '#313c42' }}>
       <V2Nav />
-      <HomeHero genomeFacts={GENOME_FACTS.length} surfaces={GENOME_SURFACES.length} />
+      <AssemblHero />
+      <BusinessGenomeSection genomeFacts={GENOME_FACTS.length} surfaces={GENOME_SURFACES.length} />
       <footer
         style={{
           display: 'flex',
@@ -28,7 +30,8 @@ export default function HomePage() {
           justifyContent: 'space-between',
           gap: 18,
           padding: '24px clamp(18px, 4vw, 58px) 34px',
-          borderTop: '1px solid rgba(35, 62, 53, 0.1)',
+          borderTop: '1px solid rgba(49, 60, 66, 0.1)',
+          background: '#f8f9f8',
           fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
         }}
       >
@@ -50,7 +53,7 @@ export default function HomePage() {
             ['/contact', 'Contact'],
             ['/legal/privacy', 'Privacy'],
           ].map(([href, label]) => (
-            <Link key={href} href={href} style={{ color: '#53645d', fontSize: 11, textDecoration: 'none' }}>
+            <Link key={href} href={href} style={{ color: '#53656a', fontSize: 11, textDecoration: 'none' }}>
               {label}
             </Link>
           ))}
