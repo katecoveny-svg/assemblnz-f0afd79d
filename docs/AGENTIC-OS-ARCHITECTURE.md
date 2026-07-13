@@ -304,3 +304,31 @@ incomplete surfaces (`ACTION_DISPATCH_ENABLED` precedent); structured logs
 via the receipts/audit pattern; no new provider-specific code outside
 `lib/ai/`; nothing sends without a human yes — the slice keeps that
 invariant load-bearing, not decorative.
+
+---
+
+## G. Model & Capability Router (added 2026-07-13, Kate's routing brief)
+
+Every task declares `TaskRequirements` (capabilities, risk, latency and
+quality preference, data classification, estimated value, independent-
+verification flag — `lib/os/routing.ts`). The router scores the candidate
+registry on capability fit, tenant policy, privacy ceiling, price,
+provider availability, **measured performance on real Assembl workflows**
+(`model_workflow_stats`, written by `scripts/run-os-evals.ts` over the
+Assembl evaluation set in `lib/os/evals/cases.ts` — newsletter parsing,
+enquiry analysis and drafting, task/date extraction, genome population,
+risk identification, tool choice, approval decisions) and recent failure
+rates from the `model_calls` ledger. Never published benchmarks alone.
+
+Rules that bite: unknown/experimental providers earn production traffic
+only by beating a production model on that workflow's measurements;
+restricted data never routes to providers without the contractual
+ceiling; `requiresIndependentVerification` forces a second provider into
+the ladder; every routing decision's rationale is recorded on the task.
+
+Adopted sequence: Claude Sonnet 5 primary with Opus 4.8 selective →
+provider-neutral interface (done) → GPT-5.6 Terra as second production
+provider (key-gated, ready) → Gemini 3.5 Flash for Workspace/media-heavy
+work → GPT-Live spoken Chief of Staff prototype (experimental) →
+per-workflow evaluation + automatic fallback (done) → Grok experimental
+until it clearly wins a defined workflow (enforced in the router).

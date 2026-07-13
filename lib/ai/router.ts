@@ -65,6 +65,57 @@ function ollamaProvider() {
   return createOpenAI({ apiKey: process.env.OLLAMA_API_KEY ?? 'ollama', baseURL });
 }
 
+function openaiProvider() {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) return null;
+  return createOpenAI({ apiKey });
+}
+
+function xaiProvider() {
+  const apiKey = process.env.XAI_API_KEY;
+  if (!apiKey) return null;
+  return createOpenAI({ apiKey, baseURL: 'https://api.x.ai/v1' });
+}
+
+/**
+ * Build a rung for ANY registry model id (lib/os/routing.ts candidates).
+ * Provider resolved by id shape; null when the credential is missing.
+ */
+export function rungForModelId(id: string, isPrimary: boolean): ModelRung | null {
+  if (id.startsWith('claude')) {
+    if (!process.env.ANTHROPIC_API_KEY) return null;
+    return { id, label: id, model: anthropic(id), isPrimary };
+  }
+  if (id.startsWith('gemini')) {
+    const p = geminiProvider();
+    return p ? { id, label: id, model: p(id), isPrimary } : null;
+  }
+  if (id.startsWith('groq:')) {
+    const p = groqProvider();
+    return p ? { id, label: id, model: p(id.slice('groq:'.length)), isPrimary } : null;
+  }
+  if (id.startsWith('ollama:')) {
+    const p = ollamaProvider();
+    return p ? { id, label: id, model: p(id.slice('ollama:'.length)), isPrimary } : null;
+  }
+  if (id.startsWith('grok')) {
+    const p = xaiProvider();
+    return p ? { id, label: id, model: p(id), isPrimary } : null;
+  }
+  if (id.startsWith('gpt') || id.startsWith('o')) {
+    const p = openaiProvider();
+    return p ? { id, label: id, model: p(id), isPrimary } : null;
+  }
+  return null;
+}
+
+/** Ladder from an ordered id list (the Model & Capability Router's output). */
+export function resolveLadderFromIds(ids: readonly string[]): ModelRung[] {
+  return ids
+    .map((id, i) => rungForModelId(id, i === 0))
+    .filter((r): r is ModelRung => r !== null);
+}
+
 /**
  * Build the ordered, availability-filtered ladder for one agent.
  * @param primaryModelId concrete Anthropic id from the agent's tier
