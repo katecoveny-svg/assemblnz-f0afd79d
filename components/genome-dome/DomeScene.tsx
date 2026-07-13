@@ -314,7 +314,7 @@ function Rig({ children }: { children: React.ReactNode }) {
     target.rotation.y = THREE.MathUtils.lerp(target.rotation.y, rotation.current + state.pointer.x * 0.11, 0.055);
     target.position.y = 0.14 + Math.sin(state.clock.getElapsedTime() * 0.55) * 0.028;
   });
-  return <group ref={group}>{children}</group>;
+  return <group ref={group} scale={1.48}>{children}</group>;
 }
 
 function CityDome({
@@ -373,7 +373,7 @@ export default function DomeScene({
   return (
     <Canvas
       dpr={[1, 1.8]}
-      camera={{ position: [0, 1.28, 4.25], fov: 31 }}
+      camera={{ position: [0, 1.03, 3.32], fov: 30 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       shadows
       style={{ background: 'transparent' }}

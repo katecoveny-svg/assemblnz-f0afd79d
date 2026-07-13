@@ -1,4 +1,18 @@
 export type DocumentTotals = { subtotal: number; gst: number; total: number };
+export type CommercialDocumentKind = 'proposal' | 'invoice';
+
+export function commercialDocumentNumber(
+  kind: CommercialDocumentKind,
+  id: string,
+  now = new Date(),
+): string {
+  const year = new Intl.DateTimeFormat('en-NZ', {
+    timeZone: 'Pacific/Auckland',
+    year: 'numeric',
+  }).format(now);
+  const prefix = kind === 'proposal' ? 'P' : 'INV';
+  return `${prefix}-${year}-${id.replace(/[^a-z0-9]/gi, '').slice(0, 8).toUpperCase()}`;
+}
 
 /** First NZD-looking amount in a Business Genome service value. */
 export function priceFromGenome(value: string): number {

@@ -8,7 +8,6 @@ import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import { PwaRegister } from '@/components/site/PwaRegister';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { PUBLIC_MARKETPLACE_AGENTS } from '@/lib/marketplace/agents';
 import {
   graph,
   organizationNode,
@@ -20,16 +19,14 @@ import {
 import './globals.css';
 
 // Site-wide entity graph — assembl (Organization), dash (sibling brand), Kate
-// Hudson (Person / founder), the WebSite, and the marketplace itself
-// (SoftwareApplication). Emitted on every page so answer engines read one
-// consistent set of entity signals no matter where they land.
-const LIVE_AGENT_COUNT = PUBLIC_MARKETPLACE_AGENTS.filter((a) => a.status === 'live').length;
+// Hudson (Person / founder), the WebSite, and the Living Site product. Emitted
+// on every page so answer engines read one consistent set of entity signals.
 const SITE_GRAPH = graph(
   organizationNode(),
   dashOrganizationNode(),
   personNode(),
   websiteNode(),
-  softwareApplicationNode(LIVE_AGENT_COUNT),
+  softwareApplicationNode(),
 );
 
 // Next 16/Turbopack currently trips a prerender workStore invariant across
@@ -69,19 +66,19 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
+    default: 'assembl — a Living Site for your New Zealand business. Less admin. More mahi.',
     template: '%s · assembl',
   },
   description:
-    'purpose-built agents for the work New Zealand teams actually do. Agents draft, your people approve, and every output carries the record of how it was made. Built in Aotearoa.',
+    'One connected website, customer desk, Business Genome and set of approval-led workflows for your New Zealand business. Built in Aotearoa.',
   metadataBase: new URL('https://www.assembl.co.nz'),
   alternates: { canonical: '/' },
   // og:image comes from the file-convention opengraph-image.tsx per route
   // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
+    title: 'assembl — a Living Site for your New Zealand business. Less admin. More mahi.',
     description:
-      'purpose-built agents for the work New Zealand teams actually do. Agents draft, people decide.',
+      'A connected website, customer desk, Business Genome and approval-led workflows. Your business stays in control.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -89,9 +86,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
+    title: 'assembl — a Living Site for your New Zealand business. Less admin. More mahi.',
     description:
-      'purpose-built agents for the work New Zealand teams actually do. Agents draft, people decide.',
+      'A connected website, customer desk, Business Genome and approval-led workflows. Built in Aotearoa.',
   },
   icons: {
     icon: [

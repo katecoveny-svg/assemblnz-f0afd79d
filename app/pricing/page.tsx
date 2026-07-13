@@ -1,265 +1,140 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { palette, typography } from '@assembl/canvas/tokens';
-import { MicroLabel } from '@assembl/canvas';
-import { HeroArt } from '@/components/v2/HeroArt';
-import { MottoStrip } from '@/components/v2/V2Chrome';
-import { orderedBundles } from '@/lib/marketplace/bundles';
-import { PRICING_TIERS as TIERS, tierForBundle } from '@/lib/registry/pricing';
-import styles from '@/components/v2/v2.module.css';
+import { ArrowRight, Check, Layers3, ShieldCheck, Sparkles } from 'lucide-react';
+import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
+import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
+import {
+  PILOT_SPRINT_EX_GST_NZD,
+  PILOT_SPRINT_GST_NZD,
+  PILOT_SPRINT_TOTAL_NZD,
+} from '@/lib/billing/pilot-sprint';
+import styles from './pricing.module.css';
 
 export const metadata: Metadata = {
-  title: 'pricing — assembl',
+  title: 'Living Site pricing',
   description:
-    'one living site grows your business while you run it. benefit first, price second: try any agent free, take one for $9.99, run a pro stack for $49, a specialist collection for $199, everything for $250 — or buy the outcome from $5,000. NZD, GST inclusive.',
+    'Explore an assembl Living Site free, or commission a ten-working-day Founding Pilot for NZ$1,500 plus GST. One real workflow, installed around your business.',
   alternates: { canonical: '/pricing' },
 };
 
-/**
- * /pricing — the LIVE marketplace ladder (Free / $9.99 / Pro Stack $49 pick
- * 3+1 / Specialist $199 / All-Access $250 / enterprise custom / outcome from
- * $5,000), replacing the pre-marketplace May-11 ladder ($29/$1,490/$1,990/
- * $2,990) that no longer matched what checkout actually charges.
- *
- * Kept identical to the marketing site's /pricing (2026-07-05 consolidation:
- * pricing must read the same on every surface). Benefit-first copy, then the
- * price. Every V4 bundle maps to a tier below. All NZD, GST-inclusive.
- * Deny-list obeyed: agents "cite current NZ legislation" (never "trained
- * on"), human-in-the-loop always, no "enterprise-grade".
- */
+const PILOT_INCLUDES = [
+  'One agreed workflow, mapped against the way your team works now',
+  'A Business Genome containing the facts that workflow is allowed to use',
+  'The relevant website, intake, desk and draft tools needed to prove the loop',
+  'Human approval gates, source notes and a practical handover',
+] as const;
+
+const OPERATE_INCLUDES = [
+  'Hosting, monitoring and support scoped to the system you keep',
+  'Additional workflows, integrations and team access added in agreed stages',
+  'Third-party usage shown separately before you approve it',
+  'A monthly price agreed before the pilot moves into ongoing operation',
+] as const;
 
 export default function PricingPage() {
-  const bundles = orderedBundles();
-
-  const body: React.CSSProperties = {
-    fontFamily: typography.body.fontFamily,
-    fontSize: 15,
-    lineHeight: typography.body.lineHeight,
-    color: palette.bodyGrey,
-  };
-
+  const checkoutConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
   return (
     <div className={styles.page}>
-      <section style={{ position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.45 }}>
-          <HeroArt constellation />
+      <section className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>Living Site pricing · NZD</p>
+          <h1>Buy the working loop first<span>.</span></h1>
+          <p className={styles.lede}>
+            See the system working in a fictional business for free. When you are ready,
+            a Founding Pilot installs one valuable workflow around the facts, approvals and
+            tools your business actually uses.
+          </p>
+          <div className={styles.heroActions}>
+            <Link href="/pilot-sprint" className={styles.primaryCta}>
+              Start a founding pilot <ArrowRight aria-hidden />
+            </Link>
+            <Link href="/living-site" className={styles.secondaryCta}>Explore the live demos</Link>
+          </div>
+          <div className={styles.priceLine}>
+            <strong>NZ${PILOT_SPRINT_EX_GST_NZD.toLocaleString('en-NZ')}</strong>
+            <span>+ NZ${PILOT_SPRINT_GST_NZD.toLocaleString('en-NZ')} GST · ten working days</span>
+          </div>
         </div>
-
-        <div className={styles.section} style={{ position: 'relative' }}>
-          <div className={styles.inner}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                •
-              </span>
-              <MicroLabel>pricing · nzd, gst inclusive</MicroLabel>
-            </div>
-            <h1 className={styles.h1} style={{ marginTop: 18, maxWidth: 700 }}>
-              start free. pay when it earns its keep
-              <span aria-hidden style={{ color: palette.accentGold }}>
-                .
-              </span>
-            </h1>
-            <p style={{ ...body, marginTop: 18, maxWidth: 440 }}>
-              Your Living Site starts free — every agent inside it is free to try, and a
-              person approves every output. All prices NZD, GST inclusive.
-            </p>
-
-            {/* the four tiers */}
-            <div
-              className={styles.cardGrid}
-              style={{ marginTop: 48, gridTemplateColumns: undefined }}
-            >
-              {TIERS.map((t) => (
-                <div
-                  key={t.name}
-                  className="rise"
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 12,
-                    padding: '26px 26px 24px',
-                    borderRadius: 16,
-                    border: `1px solid ${t.featured ? palette.goldSoft : palette.hairline}`,
-                    background: '#FFFFFF',
-                    boxShadow: t.featured
-                      ? '0 14px 36px rgba(26, 25, 24, 0.08)'
-                      : '0 8px 28px rgba(26, 25, 24, 0.05)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <h2
-                      style={{
-                        fontFamily: typography.display.fontFamily,
-                        fontWeight: typography.display.fontWeight,
-                        fontSize: 26,
-                        textTransform: 'lowercase',
-                        margin: 0,
-                        color: palette.ink,
-                      }}
-                    >
-                      {t.name}
-                    </h2>
-                    {t.featured ? (
-                      <span aria-hidden style={{ color: palette.accentGold, fontSize: 13 }}>
-                        •
-                      </span>
-                    ) : null}
-                  </div>
-
-                  {/* benefit first — the price follows */}
-                  <p
-                    style={{
-                      fontFamily: typography.display.fontFamily,
-                      fontWeight: typography.display.fontWeightMin,
-                      fontSize: 18,
-                      lineHeight: 1.35,
-                      color: palette.ink,
-                      margin: 0,
-                    }}
-                  >
-                    {t.benefit}
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {t.rows.map((r) => (
-                      <div
-                        key={r.label}
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'baseline',
-                          gap: 12,
-                          borderTop: `1px solid ${palette.hairline}`,
-                          paddingTop: 8,
-                        }}
-                      >
-                        <span style={{ ...body, fontSize: 13 }}>{r.label}</span>
-                        <span
-                          style={{
-                            fontFamily: typography.display.fontFamily,
-                            fontWeight: typography.display.fontWeight,
-                            fontSize: 20,
-                            whiteSpace: 'nowrap',
-                            color: palette.ink,
-                          }}
-                        >
-                          {r.price}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <ul
-                    style={{
-                      listStyle: 'none',
-                      margin: 0,
-                      padding: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 8,
-                    }}
-                  >
-                    {t.points.map((p) => (
-                      <li key={p} style={{ ...body, fontSize: 13, display: 'flex', gap: 8 }}>
-                        <span
-                          aria-hidden
-                          style={{ color: palette.goldSoft, fontSize: 11, lineHeight: '20px' }}
-                        >
-                          •
-                        </span>
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={t.cta.href}
-                    className={styles.navCta}
-                    style={{ marginTop: 'auto', justifyContent: 'center' }}
-                  >
-                    {t.cta.label}
-                    <span
-                      aria-hidden
-                      style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}
-                    >
-                      •
-                    </span>
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            {/* every V4 bundle mapped to a tier — what you're buying */}
-            <div className="rise" style={{ marginTop: 56 }}>
-              <MicroLabel as="h2">which tier buys which collection</MicroLabel>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  marginTop: 16,
-                  border: `1px solid ${palette.hairline}`,
-                  borderRadius: 14,
-                  background: 'rgba(255,255,255,0.92)',
-                  overflow: 'hidden',
-                }}
-              >
-                {bundles.map((b, i) => (
-                  <div
-                    key={b.slug}
-                    style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: '4px 18px',
-                      alignItems: 'baseline',
-                      justifyContent: 'space-between',
-                      padding: '13px 18px',
-                      borderTop: i === 0 ? 'none' : `1px solid ${palette.hairline}`,
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-                      <Link
-                        href={`/bundles/${b.slug}`}
-                        style={{
-                          fontFamily: typography.display.fontFamily,
-                          fontWeight: typography.display.fontWeight,
-                          fontSize: 19,
-                          textTransform: 'lowercase',
-                          color: palette.ink,
-                          textDecoration: 'none',
-                        }}
-                      >
-                        {b.name}
-                      </Link>
-                      <MicroLabel style={{ fontSize: 9 }}>{b.category}</MicroLabel>
-                    </div>
-                    <span style={{ ...body, fontSize: 12.5 }}>
-                      {tierForBundle(b.slug, b.standalone)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <p style={{ ...body, fontSize: 13, marginTop: 14, maxWidth: 620 }}>
-                All-access ($250/mo) includes every collection above. Team pricing for a whole
-                bundle is on each collection page.
-              </p>
-            </div>
-
-            {/* the honest footnote */}
-            <p className="rise" style={{ ...body, fontSize: 13, marginTop: 32, maxWidth: 620 }}>
-              Not sure where to start? Step inside a{' '}
-              <Link href="/living-site" style={{ color: palette.ink }}>
-                living site
-              </Link>{' '}
-              free, no card — or start with a{' '}
-              <Link href="/pilot-sprint" style={{ color: palette.ink }}>
-                pilot
-              </Link>{' '}
-              and buy the outcome, not the software.
-            </p>
+        <div className={styles.domeCard} aria-label="Interactive Auckland Business Genome">
+          <GenomeDomeVisual label="Explore the live genome" />
+          <div className={styles.domeStatus}>
+            <span />
+            website · desk · workflow · evidence
           </div>
         </div>
       </section>
 
-      <MottoStrip />
+      <section className={styles.pathSection} aria-labelledby="pricing-path-title">
+        <div className={styles.sectionHeading}>
+          <p className={styles.eyebrow}>A practical path to live</p>
+          <h2 id="pricing-path-title">Three clear stages. No mystery platform fee.</h2>
+          <p>Each stage has a different job: understand it, prove it, then decide what is worth keeping.</p>
+        </div>
+        <div className={styles.pathGrid}>
+          <article className={styles.stageCard}>
+            <div className={styles.stageIcon}><Sparkles aria-hidden /></div>
+            <p className={styles.stageNumber}>01 · explore</p>
+            <h3>See a Living Site work</h3>
+            <p className={styles.stagePrice}>Free</p>
+            <p>Use the fictional vertical demos to test the website, booking request, customer desk, proposal, invoice, voice desk and marketing studio.</p>
+            <ul>
+              <li><Check aria-hidden /> No card</li>
+              <li><Check aria-hidden /> Fictional sample data</li>
+              <li><Check aria-hidden /> Nothing connects to your business</li>
+            </ul>
+            <Link href="/living-site">Open the demos <ArrowRight aria-hidden /></Link>
+          </article>
+
+          <article className={`${styles.stageCard} ${styles.featuredCard}`}>
+            <div className={styles.stageIcon}><Layers3 aria-hidden /></div>
+            <p className={styles.stageNumber}>02 · founding pilot</p>
+            <h3>Prove one real workflow</h3>
+            <p className={styles.stagePrice}>NZ${PILOT_SPRINT_EX_GST_NZD.toLocaleString('en-NZ')} <small>+ GST</small></p>
+            <p>Ten working days to install one agreed workflow against your own rules and sources, with a named person retaining control.</p>
+            <ul>
+              {PILOT_INCLUDES.map((item) => <li key={item}><Check aria-hidden /> {item}</li>)}
+            </ul>
+            <Link href="/pilot-sprint">See the pilot scope <ArrowRight aria-hidden /></Link>
+          </article>
+
+          <article className={styles.stageCard}>
+            <div className={styles.stageIcon}><ShieldCheck aria-hidden /></div>
+            <p className={styles.stageNumber}>03 · operate</p>
+            <h3>Keep only what earns its place</h3>
+            <p className={styles.stagePrice}>Agreed after the pilot</p>
+            <p>The pilot gives us enough evidence to price the live system honestly. You see the ongoing scope and cost before choosing to continue.</p>
+            <ul>
+              {OPERATE_INCLUDES.map((item) => <li key={item}><Check aria-hidden /> {item}</li>)}
+            </ul>
+            <Link href="/contact">Talk through your workflow <ArrowRight aria-hidden /></Link>
+          </article>
+        </div>
+      </section>
+
+      <section className={styles.checkoutSection}>
+        <div className={styles.checkoutCopy}>
+          <p className={styles.eyebrow}>For approved founding pilots</p>
+          <h2>Ready to fund the build?</h2>
+          <p>
+            Use secure checkout only after the workflow, success measure and start date are agreed.
+            Stripe charges NZ${PILOT_SPRINT_TOTAL_NZD.toLocaleString('en-NZ')} including GST and creates the payment record.
+          </p>
+          <div className={styles.checkoutFact}>
+            <strong>NZ${PILOT_SPRINT_EX_GST_NZD.toLocaleString('en-NZ')}</strong>
+            <span>build</span>
+            <strong>NZ${PILOT_SPRINT_GST_NZD.toLocaleString('en-NZ')}</strong>
+            <span>GST</span>
+            <strong>NZ${PILOT_SPRINT_TOTAL_NZD.toLocaleString('en-NZ')}</strong>
+            <span>charged</span>
+          </div>
+        </div>
+        <PilotSprintCheckout configured={checkoutConfigured} />
+      </section>
+
+      <section className={styles.finePrint}>
+        <p><strong>What the founding price is for:</strong> an early, tightly scoped pilot where both sides learn quickly. It is not a promise to replace every system in ten days.</p>
+        <p><strong>What stays with you:</strong> your business data, your approvals and the decision to continue. Checkout does not grant assembl permission to publish, send, charge your customers or confirm bookings.</p>
+      </section>
     </div>
   );
 }

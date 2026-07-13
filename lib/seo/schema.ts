@@ -5,8 +5,8 @@
  * lean on structured data to identify entities, prices and relationships. This
  * module is the single source of truth for that markup so every surface emits
  * the SAME organisation, person and pricing facts — consistent entity signals
- * are what let a crawler disambiguate "assembl" (lowercase, the NZ AI
- * marketplace) from the English word.
+ * let a crawler disambiguate "assembl" (lowercase, the NZ Living Site product)
+ * from the English word.
  *
  * RULE: everything here must reflect REAL, verifiable facts — real prices, real
  * agents, real people. No invented street addresses, no fabricated social
@@ -27,7 +27,7 @@ export const ORG_ID = `${SITE_URL}/#organization`;
 export const DASH_ORG_ID = `${SITE_URL}/#dash`;
 export const PERSON_ID = `${SITE_URL}/#kate-hudson`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
-export const SOFTWARE_ID = `${SITE_URL}/#marketplace`;
+export const SOFTWARE_ID = `${SITE_URL}/#living-site`;
 
 const LOGO = `${SITE_URL}/icons/assembl-icon-512x512.png`;
 const OG_IMAGE = `${SITE_URL}/og/og-assembl.png`;
@@ -39,18 +39,15 @@ const OG_IMAGE = `${SITE_URL}/og/og-assembl.png`;
  */
 const KATE_SAME_AS: string[] = [];
 
-/** Canonical price ladder — mirrors lib/billing/agent-pricing.ts (NZD, GST-incl). */
+/** Canonical public Living Site offers (NZD). */
 export const PRICE_TIERS = [
-  { name: 'Free', price: 0, note: 'First 3 messages with any agent' },
-  { name: 'Everyday', price: 9.99, note: 'One everyday agent, unlimited' },
-  { name: 'Pro Stack', price: 49, note: 'Pick 3 everyday agents + 1 specialist' },
-  { name: 'Specialist', price: 199, note: 'One specialist agent, unlimited' },
-  { name: 'All-Access', price: 250, note: 'Every agent on the shelf' },
+  { name: 'Living Site demos', price: 0, note: 'Fictional sample businesses, no card required' },
+  { name: 'Founding Pilot Sprint', price: 1500, note: 'One agreed workflow over ten working days, plus GST' },
 ] as const;
 
 type Json = Record<string, unknown>;
 
-/** assembl — the parent company / marketplace operator. */
+/** assembl — the Living Site company. */
 export function organizationNode(): Json {
   return {
     '@type': 'Organization',
@@ -66,7 +63,7 @@ export function organizationNode(): Json {
     },
     image: OG_IMAGE,
     description:
-      'assembl is an AI platform built in Aotearoa New Zealand: a marketplace of specialist agents for the admin work that drains small teams. Every output is a human-reviewed draft, sealed with a Mana Receipt provenance record, and designed to the Privacy Act 2020 (including IPP 3A).',
+      'assembl builds Living Sites for New Zealand businesses: one connected website, customer desk, Business Genome and set of approval-led workflows. Drafts remain reviewable and people retain control of bookings, sends, publishing and commercial commitments.',
     slogan: 'Mahi that earns its proof.',
     foundingLocation: {
       '@type': 'Place',
@@ -130,19 +127,18 @@ export function websiteNode(): Json {
 }
 
 /**
- * The marketplace as a SoftwareApplication, with an aggregate offer that spans
- * the real price ladder (Free → All-Access $250/mo).
+ * The Living Site product, with only the public offers assembl currently makes.
  */
-export function softwareApplicationNode(agentCount: number): Json {
+export function softwareApplicationNode(): Json {
   const paid = PRICE_TIERS.filter((t) => t.price > 0).map((t) => t.price);
   return {
     '@type': 'SoftwareApplication',
     '@id': SOFTWARE_ID,
-    name: 'assembl agent marketplace',
+    name: 'assembl Living Site',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: `${SITE_URL}/agents`,
-    description: `A marketplace of ${agentCount} specialist AI agents tuned for New Zealand work — family admin, trades, health, legal, creative and back-office. Every output is a human-reviewed draft with an evidence pack.`,
+    url: `${SITE_URL}/living-site`,
+    description: 'A connected business workspace that brings a public website, booking requests, customer records, Business Genome, voice and chat desk, proposals, invoices and draft marketing tools into one approval-led system.',
     publisher: { '@id': ORG_ID },
     offers: {
       '@type': 'AggregateOffer',

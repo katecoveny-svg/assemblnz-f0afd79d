@@ -2,11 +2,11 @@
  * lib/seo/llms.ts — generates /llms.txt and /llms-full.txt (llmstxt.org).
  *
  * llms.txt is the emerging convention for telling an LLM, in clean Markdown,
- * what a site is and where its important content lives — the AI-search
+ * what a site is and where its important content lives — the answer-engine
  * equivalent of a sitemap + an editor's note. We generate it from the LIVE
- * agent roster so it never drifts from the marketplace.
+ * specialist roster so the optional agent catalogue does not drift.
  *
- *   /llms.txt       — the map: what assembl is, offerings, key pages, agent index
+ *   /llms.txt       — the map: what assembl is, offerings, key pages, specialist index
  *   /llms-full.txt  — the map PLUS the actual content chunks a model can cite
  */
 import {
@@ -24,21 +24,24 @@ function agentsByCat(cat: MarketplaceCategory) {
 }
 
 const SUMMARY =
-  'assembl is an AI platform built in Aotearoa New Zealand: a marketplace of specialist agents for the admin work that drains small teams. Every output is a human-reviewed draft, sealed with a Mana Receipt provenance record, and designed to the Privacy Act 2020 (including IPP 3A).';
+  'assembl builds Living Sites for New Zealand businesses: one connected website, customer desk, Business Genome and set of approval-led workflows. People retain control of bookings, sends, publishing and commercial commitments.';
 
-const INTRO = `assembl (always lowercase) is a New Zealand company founded by Kate Hudson. It is not a general chatbot — it is a shelf of single-purpose agents, each tuned for one real New Zealand job (school notices, GST, rosters, clinical notes, building consents, customs entries, employment law). An agent drafts the work; a named person on the team reviews and signs it off; every output ships with an evidence pack — the "Mana Receipt" — recording the sources used and who approved it. Personal details are masked before any model call.`;
+const INTRO = `assembl (always lowercase) is a New Zealand company founded by Kate Hudson. A Living Site is the connected operating layer for one business: its public website, booking and enquiry flows, customer desk, Business Genome, resident voice and chat desk, proposals, invoices and draft marketing tools. Specialist agents can be installed inside that system for particular work. A named person reviews commitments and decides what is sent, published, booked or charged.`;
 
 const PRICING_BLOCK = PRICE_TIERS.map(
-  (t) => `- **${t.name}** — ${t.price === 0 ? 'NZ$0' : `NZ$${t.price}/month`}: ${t.note}`,
+  (t) => `- **${t.name}** — ${t.price === 0 ? 'NZ$0' : `NZ$${t.price}`}: ${t.note}`,
 ).join('\n');
 
 const KEY_PAGES = [
-  ['/agents', 'The marketplace — browse every agent by category'],
-  ['/pricing', 'Pricing ladder: Free → Everyday $9.99 → Pro Stack $49 → Specialist $199 → All-Access $250'],
+  ['/living-site', 'Explore the fictional Living Site verticals and their connected owner workspaces'],
+  ['/pricing', 'Living Site path: free demos → NZ$1,500 plus GST Founding Pilot → agreed ongoing operation'],
+  ['/pilot-sprint', 'The ten-working-day Founding Pilot scope and secure checkout for approved pilots'],
+  ['/genome', 'The interactive Business Genome and the surfaces that read from it'],
+  ['/agents', 'Specialist agents that can be installed for particular work'],
   ['/about', 'What assembl is, the founder, and how the human-in-the-loop works'],
   ['/trust', 'Trust Centre — data residency, PII masking, evidence packs, compliance posture'],
   ['/mana-receipts', 'How the Mana Receipt provenance layer works'],
-  ['/faq', 'Answers to the questions people ask about NZ AI agents and assembl'],
+  ['/faq', 'Answers to the questions people ask about specialist agents and assembl'],
   ['/data', 'DaaS — New Zealand data feeds API'],
   ['/contact', 'Get in touch'],
 ];
@@ -67,7 +70,7 @@ export function buildLlmsTxt(): string {
   }
   lines.push('');
 
-  lines.push('## Agents');
+  lines.push('## Specialist agents');
   lines.push('');
   for (const cat of CATEGORIES) {
     const agents = agentsByCat(cat.slug);
@@ -84,7 +87,7 @@ export function buildLlmsTxt(): string {
   lines.push('## About');
   lines.push('');
   lines.push(
-    'assembl was founded by Kate Hudson and is built in Aotearoa New Zealand. It exists to give people their time back — for the work that matters and the life around it. NZ law, council and sector rules, and tikanga are built in from the start, not bolted on.',
+    'assembl was founded by Kate Hudson and is built in Aotearoa New Zealand. It exists to give people their time back by connecting the scattered surfaces of a business around one shared source of truth.',
   );
   lines.push('');
   lines.push('## dash (sibling brand)');
@@ -108,25 +111,25 @@ export function buildLlmsFullTxt(): string {
   lines.push('## What assembl is');
   lines.push('');
   lines.push(
-    'assembl is an AI platform built in Aotearoa New Zealand that solves the real reason AI adoption stalls in New Zealand businesses: not the technology, but trust and uptake. Instead of asking teams to learn prompting and switch tools, assembl ships a marketplace of specialist agents that each do one ordinary job and produce a reviewable result in minutes.',
+    'assembl builds a Living Site around one New Zealand business. The public website, customer desk, knowledge, booking requests, resident agents and draft tools read from the same Business Genome, so a fact can be maintained once instead of copied between disconnected systems.',
   );
   lines.push('');
   lines.push(
-    'Every output is draft-only and reviewed by a named human before it ships, with an auditable trail (the "Mana Receipt" provenance layer) and privacy designed to the Privacy Act 2020 including IPP 3A. The adoption path is deliberate: a public agent proves useful, then becomes a private, branded tool for that team — turning a single win into a repeatable internal system.',
+    'Draft-generating tools remain reviewable by a named person. A booking request is not a confirmed booking, a marketing draft is not published, and a proposal or invoice is not sent until the business decides. Where an evidence pack is available, it records the sources and approvals attached to the work.',
   );
   lines.push('');
 
   lines.push('## How the human loop works');
   lines.push('');
   lines.push(
-    'Every output runs the same steps: the request comes in and personal details are masked first; the right agent and model are chosen; the work is drafted with sources cited inline; someone on the team reads it and decides; and the receipt is sealed with their name on it. The model never sees a real name.',
+    'Each workflow has an explicit boundary. The system can collect a request, read allowed Business Genome facts and prepare a draft. A named person checks the result and remains responsible for any booking confirmation, send, publication, payment request or commercial commitment.',
   );
   lines.push('');
 
   lines.push('## Data and privacy');
   lines.push('');
   lines.push(
-    'Data is hosted in Sydney today, with a New Zealand hosting option in progress. Personally identifiable information (PII) is stripped before any model call — names stay with the user. Every output ends in an evidence pack: a downloadable bundle you can hand to an auditor. This is designed to the New Zealand Privacy Act 2020, including Information Privacy Principle 3A.',
+    'The public demos use fictional data. A production pilot is scoped around the customer data and integrations needed for one agreed workflow, with collection notices, access controls and human approval points reviewed before go-live. The trust centre records the current platform posture without inventing guarantees.',
   );
   lines.push('');
 
@@ -135,7 +138,7 @@ export function buildLlmsFullTxt(): string {
   lines.push(PRICING_BLOCK);
   lines.push('');
 
-  lines.push('## Agents (full catalogue)');
+  lines.push('## Specialist agents (catalogue)');
   lines.push('');
   for (const cat of CATEGORIES) {
     const agents = agentsByCat(cat.slug);
