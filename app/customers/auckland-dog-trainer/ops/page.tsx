@@ -24,6 +24,7 @@ import {
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { loadWorkView } from '@/lib/os/work-view';
 import { loadConnectionsView } from '@/lib/os/connections';
+import { loadIntelligenceView } from '@/lib/os/intelligence';
 
 type OpsSearchParams = { tab?: string | string[] };
 
@@ -146,6 +147,8 @@ export default async function AucklandDogTrainerOpsHome({
   const work = tab === 'work' ? await loadWorkView(GENOME_TENANT) : null;
   // Connections: connected systems and capabilities, honestly reported.
   const connections = tab === 'connections' ? loadConnectionsView() : null;
+  // Intelligence: signals computed from real activity, never invented.
+  const intel = tab === 'intelligence' ? await loadIntelligenceView(GENOME_TENANT) : null;
 
   return (
     <OsWowStage
@@ -166,6 +169,7 @@ export default async function AucklandDogTrainerOpsHome({
           liveEnquiryCount={enquiries ? enquiries.length : undefined}
           work={work}
           connections={connections}
+          intel={intel}
         />
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
