@@ -18,6 +18,8 @@ export type ConnectionView = {
   role: string;
   state: ConnectionState;
   note: string;
+  /** Quiet actions the operator can take (e.g. connect an inbox). */
+  actions?: Array<{ label: string; href: string }>;
 };
 
 export type ConnectionsView = {
@@ -65,6 +67,10 @@ async function inboxConnection(tenant: string): Promise<ConnectionView> {
       note: run
         ? 'not connected yet — the sync heartbeat is running in dry mode'
         : 'not connected yet',
+      actions: [
+        { label: 'connect gmail', href: `/api/os/inbox/connect/gmail?tenant=${tenant}` },
+        { label: 'connect outlook', href: `/api/os/inbox/connect/outlook?tenant=${tenant}` },
+      ],
     };
   } catch {
     return {

@@ -40,6 +40,20 @@ export function ConnectionsTab({ connections }: { connections: ConnectionsView }
               <span className="basis-full text-xs" style={{ color: 'var(--brand-muted)' }}>
                 {s.role} — {s.note}
               </span>
+              {s.actions && s.actions.length > 0 ? (
+                <span className="basis-full">
+                  {s.actions.map((a) => (
+                    <a
+                      key={a.href}
+                      href={a.href}
+                      className="mr-3 text-xs underline underline-offset-2"
+                      style={{ color: '#3f7373' }}
+                    >
+                      {a.label}
+                    </a>
+                  ))}
+                </span>
+              ) : null}
             </li>
           ))}
         </ul>
