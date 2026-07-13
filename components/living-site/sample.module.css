@@ -63,3 +63,102 @@
     transition: none;
   }
 }
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+  color: var(--sample-muted);
+  font-family: var(--font-brand-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.form label span {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1.5px solid color-mix(in srgb, var(--sample-ink) 15%, transparent);
+  border-radius: 12px;
+  outline: none;
+  color: var(--sample-ink);
+  background: var(--sample-card);
+  font: 14px/1.45 var(--font-brand-body), system-ui, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: var(--sample-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sample-accent) 14%, transparent);
+}
+
+.form textarea { resize: vertical; }
+
+.form > button {
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff;
+  background: var(--sample-ink);
+  font: 700 12px var(--font-brand-body), system-ui, sans-serif;
+}
+
+.form > button:disabled { cursor: wait; opacity: .65; }
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.reviewNote {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--sample-muted);
+  font-size: 11px;
+}
+
+.reviewNote svg { width: 15px; color: var(--sample-accent); }
+.error { margin: 0; color: #9b3b3b; font-size: 12px; }
+
+.success {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--sample-accent, #3f7373) 28%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--sample-accent, #3f7373) 7%, #fff);
+}
+
+.success svg { width: 24px; color: var(--sample-accent, #3f7373); }
+.success h3 { margin: 0; font: 500 24px var(--font-brand-display), Georgia, serif; }
+.success p { margin: 0; color: var(--sample-muted, #5c6273); font-size: 13px; line-height: 1.55; }

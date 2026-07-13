@@ -6,6 +6,7 @@ import {
   Activity,
   ArrowRight,
   BookOpen,
+  CalendarDays,
   Check,
   CircleCheck,
   ExternalLink,
@@ -19,16 +20,18 @@ import {
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
 import { SampleEnquiryForm } from '@/components/living-site/SampleEnquiryForm';
+import { SampleBookingForm } from '@/components/living-site/SampleBookingForm';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import { SAMPLE_VERTICALS, type SampleVertical } from '@/lib/living-site/verticals';
 import styles from './living-site-dashboard.module.css';
 
-type DashboardTab = 'overview' | 'services' | 'knowledge' | 'enquire' | 'ask';
+type DashboardTab = 'overview' | 'services' | 'knowledge' | 'book' | 'enquire' | 'ask';
 
 const TAB_META: Record<DashboardTab, { label: string; icon: typeof Home }> = {
   overview: { label: 'Overview', icon: Home },
   services: { label: 'Services', icon: ListChecks },
   knowledge: { label: 'Good to know', icon: BookOpen },
+  book: { label: 'Book', icon: CalendarDays },
   enquire: { label: 'Enquire', icon: Send },
   ask: { label: 'Ask the desk', icon: MessageSquareText },
 };
@@ -55,6 +58,7 @@ export function LivingSiteDashboard({
   install?: { id: string };
 }) {
   const [tab, setTab] = useState<DashboardTab>('overview');
+  const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>();
   const services = facts.filter((item) => item.section === 'services');
   const knowledge = facts.filter((item) => item.section === 'knowledge');
   const surfaces = new Set(facts.flatMap((item) => item.readBy)).size;
@@ -67,8 +71,13 @@ export function LivingSiteDashboard({
   const tenant = install ? `install-${install.id}` : v.tenant;
   const osHref = install ? `/living-site/install/${install.id}/os` : `/living-site/${v.slug}/os`;
   const tabs: DashboardTab[] = v.chat
-    ? ['overview', 'services', 'knowledge', 'enquire', 'ask']
-    : ['overview', 'services', 'knowledge', 'enquire'];
+    ? ['overview', 'services', 'knowledge', 'book', 'enquire', 'ask']
+    : ['overview', 'services', 'knowledge', 'book', 'enquire'];
+
+  const openBooking = (serviceId?: string) => {
+    setSelectedServiceId(serviceId);
+    setTab('book');
+  };
 
   const variables = {
     '--living-ink': v.palette.ink,
@@ -145,12 +154,16 @@ export function LivingSiteDashboard({
               testimonial={testimonial}
               voice={voice}
               onTab={setTab}
+              onBook={openBooking}
             />
           ) : null}
-          {tab === 'services' ? <ServicesPanel services={services} onEnquire={() => setTab('enquire')} /> : null}
+          {tab === 'services' ? <ServicesPanel services={services} onBook={openBooking} /> : null}
           {tab === 'knowledge' ? <KnowledgePanel knowledge={knowledge} rules={rules} /> : null}
           {tab === 'enquire' ? (
             <EnquiryPanel v={v} tenant={tenant} />
+          ) : null}
+          {tab === 'book' ? (
+            <BookingPanel v={v} tenant={tenant} services={services} initialServiceId={selectedServiceId} />
           ) : null}
           {tab === 'ask' && v.chat ? (
             <AskPanel v={v} facts={facts} />
@@ -185,6 +198,7 @@ function OverviewPanel({
   testimonial,
   voice,
   onTab,
+  onBook,
 }: {
   v: SampleVertical;
   services: GenomeFact[];
@@ -197,6 +211,7 @@ function OverviewPanel({
   testimonial?: string;
   voice?: string;
   onTab: (tab: DashboardTab) => void;
+  onBook: (serviceId?: string) => void;
 }) {
   return (
     <div className={styles.panelStack}>
@@ -206,7 +221,8 @@ function OverviewPanel({
           <h2>{v.heroHeadline}</h2>
           <p>{v.heroLede}</p>
           <div className={styles.heroActions}>
-            <button type="button" onClick={() => onTab('enquire')}>Tell us what you need <ArrowRight aria-hidden /></button>
+            <button type="button" onClick={() => onBook()}>Request a time <CalendarDays aria-hidden /></button>
+            <button type="button" className={styles.heroGhost} onClick={() => onTab('enquire')}>Send an enquiry</button>
             {v.chat ? <button type="button" className={styles.heroGhost} onClick={() => onTab('ask')}>Ask the desk</button> : null}
           </div>
         </div>
@@ -271,15 +287,40 @@ function Signal({ value, label, hint }: { value: string; label: string; hint: st
   return <article className={styles.signal}><strong>{value}</strong><span>{label}</span><small>{hint}</small></article>;
 }
 
-function ServicesPanel({ services, onEnquire }: { services: GenomeFact[]; onEnquire: () => void }) {
+function ServicesPanel({ services, onBook }: { services: GenomeFact[]; onBook: (serviceId: string) => void }) {
   return (
     <section className={styles.panelStack}>
       <div className={styles.panelHeading}><p className={styles.eyebrow}>services · from the Business Genome</p><h2>Clear choices, without the brochure hunt.</h2><p>Select any service to open the same enquiry desk.</p></div>
       <div className={styles.serviceGrid}>
         {services.map((service) => {
           const value = splitValue(service.value);
-          return <article key={service.id} className={styles.serviceCard}><span><CircleCheck aria-hidden /> available</span><h3>{service.label}</h3><strong>{value.lead}</strong>{value.rest ? <p>{value.rest}</p> : null}<button type="button" onClick={onEnquire}>Ask about this <ArrowRight aria-hidden /></button></article>;
+          return <article key={service.id} className={styles.serviceCard}><span><CircleCheck aria-hidden /> available</span><h3>{service.label}</h3><strong>{value.lead}</strong>{value.rest ? <p>{value.rest}</p> : null}<button type="button" onClick={() => onBook(service.id)}>Request this <CalendarDays aria-hidden /></button></article>;
         })}
+      </div>
+    </section>
+  );
+}
+
+function BookingPanel({
+  v,
+  tenant,
+  services,
+  initialServiceId,
+}: {
+  v: SampleVertical;
+  tenant: string;
+  services: GenomeFact[];
+  initialServiceId?: string;
+}) {
+  return (
+    <section className={styles.panelStack}>
+      <div className={styles.panelHeading}>
+        <p className={styles.eyebrow}>booking desk · owner confirmed</p>
+        <h2>Request a day that works.</h2>
+        <p>Choose a service and a preferred window. {v.owner} checks availability before confirming; no payment is taken here.</p>
+      </div>
+      <div className={styles.formCard}>
+        <SampleBookingForm tenant={tenant} owner={v.owner} services={services} palette={v.palette} initialServiceId={initialServiceId} />
       </div>
     </section>
   );

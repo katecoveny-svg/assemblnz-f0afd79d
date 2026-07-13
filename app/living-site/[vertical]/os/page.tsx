@@ -7,6 +7,7 @@ import {
   getGenomeFactsFor,
   getRecentEnquiries,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import { getRecentBookings } from '@/lib/living-site/booking-store';
 import { verticalBySlug } from '@/lib/living-site/verticals';
 
 export const dynamic = 'force-dynamic';
@@ -47,12 +48,15 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
   const v = verticalBySlug((await params).vertical);
   if (!v) notFound();
 
-  const [{ facts, live }, enquiries] = await Promise.all([
+  const [{ facts, live }, enquiries, bookings] = await Promise.all([
     getGenomeFactsFor(v.tenant, v.fallbackFacts),
     getRecentEnquiries(20, v.tenant),
+    getRecentBookings(v.tenant, 20),
   ]);
   const services = facts.filter((f) => f.section === 'services').length;
   const siteHref = `/living-site/${v.slug}`;
+  const osHref = `/living-site/${v.slug}/os`;
+  const requestedBookings = bookings.filter((item) => item.status === 'requested').length;
 
   return (
     <div className={styles.shell}>
@@ -83,57 +87,44 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
                   ? 'replies drafted'
                   : 'captured from the website',
           },
+          { label: 'booking requests', value: String(requestedBookings), hint: requestedBookings ? 'need your confirmation' : 'the diary is clear' },
           { label: 'facts in your genome', value: String(facts.length), hint: live ? 'live' : 'sample' },
           { label: 'services live', value: String(services), hint: 'priced once, shown everywhere' },
-          { label: 'improvement ready', value: '1', hint: 'waiting for your yes' },
         ]}
         actions={[
-          // The flagship has a real triage tab behind the demo gate; the other
-          // verticals' enquiries live only in the database, so their action
-          // stays on the website and says exactly what it does.
-          v.slug === 'dog-training' && enquiries.length > 0
-            ? {
-                text: `Reply to ${enquiries.length} new enquir${enquiries.length === 1 ? 'y' : 'ies'} — drafts are ready`,
-                impact: 'high' as const,
-                href: '/customers/auckland-dog-trainer/ops?tab=leads',
-              }
-            : {
-                text:
-                  enquiries.length > 0
-                    ? `${enquiries.length} enquir${enquiries.length === 1 ? 'y' : 'ies'} captured from the website — send another test`
-                    : 'Send yourself a test enquiry from the website',
-                impact: 'high' as const,
-                href: `${siteHref}#book`,
-              },
           {
-            text: 'Update a price once — the website follows on the next load',
-            impact: 'medium',
-            href: '/living-site',
+            text: enquiries.length || requestedBookings
+              ? `Review ${enquiries.length + requestedBookings} customer item${enquiries.length + requestedBookings === 1 ? '' : 's'} in CRM & bookings`
+              : 'Open CRM & bookings — then send yourself a test request',
+            impact: 'high' as const,
+            href: `${osHref}/crm`,
           },
-          v.chat
-            ? {
-                text: 'Ask the desk agent anything on the site',
-                impact: 'medium' as const,
-                href: siteHref,
-              }
-            : {
-                text: 'Visit your website — every fact on it reads from the genome',
-                impact: 'medium' as const,
-                href: siteHref,
-              },
+          {
+            text: 'Create a GST-calculated proposal or invoice from live service pricing',
+            impact: 'medium' as const,
+            href: `${osHref}/documents`,
+          },
+          {
+            text: 'Draft a campaign from the same services and brand voice',
+            impact: 'medium' as const,
+            href: `${osHref}/studio`,
+          },
         ]}
         orbImage="/brand/genome/sphere-genome-alpha.png"
         orbInitial={v.businessName.charAt(0)}
         orbSurfaces={ORB_SURFACES}
         genomeHref="/living-site"
         assistantLede={`I've been watching ${v.businessName}'s week — there are a couple of things worth your yes.`}
-        assistantCta="show me"
-        assistantHref={siteHref}
+        assistantCta="open the studio"
+        assistantHref={`${osHref}/studio`}
         insightName={facts.find((f) => f.section === 'services')?.label ?? 'Top service'}
         insightDelta="↑ steady"
         insightPoints={[18, 26, 24, 38, 34, 46, 42, 58, 55, 70]}
         quietLinks={[
           { label: 'the website', href: siteHref },
+          { label: 'CRM & bookings', href: `${osHref}/crm` },
+          { label: 'proposals & invoices', href: `${osHref}/documents` },
+          { label: 'marketing studio', href: `${osHref}/studio` },
           { label: 'the genome tour', href: '/living-site' },
           { label: 'the assembl OS', href: '/os' },
           { label: 'install your own', href: '/install' },
