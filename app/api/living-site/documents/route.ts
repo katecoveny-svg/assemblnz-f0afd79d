@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
+import { isAdminUser } from '@/lib/admin/ensureAdmin';
 import { consume, rateKey } from '@/lib/creative/ratelimit';
 import { storeDocument, type LivingSiteDocumentKind } from '@/lib/living-site/document-store';
 import { INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
 import { VERTICAL_TENANTS } from '@/lib/living-site/verticals';
+import { createClient } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 export const maxDuration = 15;
@@ -58,6 +60,15 @@ export async function POST(request: Request) {
       ok: false,
       error: 'tenant, document type, customer, valid email, service, description, quantity and rate are required',
     }, { status: 400 });
+  }
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ ok: false, error: 'sign in to save commercial drafts' }, { status: 401 });
+  }
+  if (!await isAdminUser(user.id, user.email ?? '')) {
+    return NextResponse.json({ ok: false, error: 'operator access is required' }, { status: 403 });
   }
 
   const rate = await consume(rateKey(request), 'living-site-documents');
