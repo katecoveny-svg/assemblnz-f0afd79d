@@ -95,6 +95,23 @@ export async function getRecentBookings(
   }
 }
 
+export async function getBookingStatusCount(
+  tenant: string,
+  status: LivingSiteBookingStatus,
+): Promise<number | null> {
+  try {
+    const supabase = getServiceClient();
+    const { count, error } = await supabase
+      .from('living_site_bookings')
+      .select('id', { count: 'exact', head: true })
+      .eq('tenant', tenant)
+      .eq('status', status);
+    return error || typeof count !== 'number' ? null : count;
+  } catch {
+    return null;
+  }
+}
+
 export type BookingStatusUpdate =
   | { ok: true; booking: LivingSiteBooking }
   | { ok: false; reason: 'not_found' | 'invalid_transition' | 'unavailable' };

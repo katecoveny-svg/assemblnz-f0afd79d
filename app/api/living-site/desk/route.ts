@@ -4,7 +4,7 @@ import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { generateWithFallback, resolveModelLadder } from '@/lib/ai/router';
 import { getGenomeFactsFor } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { consume, rateKey } from '@/lib/creative/ratelimit';
-import { deterministicDeskAnswer } from '@/lib/living-site/desk';
+import { deterministicDeskAnswer, genomeFactsCitedInAnswer } from '@/lib/living-site/desk';
 import { getInstall, INSTALL_TENANT_RE } from '@/lib/living-site/install-store';
 import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
 
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
 You answer only from the Business Genome below. Never invent a price, testimonial, availability, credential, outcome or policy. If the answer is missing, say so and offer to draft a question for ${desk.v.owner}.
 
-You may explain how to request a time, but you never confirm a booking, take payment, send an email, publish content or commit the business. Every answer is a draft for ${desk.v.owner}'s review. Use warm, plain NZ English and keep the response concise.
+You may explain how to request a time, but you never confirm a booking, take payment, send an email, publish content or commit the business. Every answer is a draft for ${desk.v.owner}'s review. Use warm, plain NZ English and keep the response concise. After every factual claim, cite the supporting fact id exactly in square brackets, for example [g-entry]. Do not cite an id that is not in the genome.
 
 BUSINESS GENOME (${desk.live ? 'live database' : 'sample fallback'}):
 ${factsText}`;
@@ -63,13 +63,17 @@ ${factsText}`;
     messages,
     agentSlug: `living-site-${tenant}`,
   });
-  const selected = fallback.facts.map((fact) => ({ id: fact.id, label: fact.label, section: fact.section }));
+  const fallbackSources = fallback.facts.map((fact) => ({ id: fact.id, label: fact.label, section: fact.section }));
   if (!generated.ok) {
-    return NextResponse.json({ answer: fallback.answer, sources: selected, mode: 'genome-rules' });
+    return NextResponse.json({ answer: fallback.answer, sources: fallbackSources, mode: 'genome-rules' });
+  }
+  const citedFacts = genomeFactsCitedInAnswer(generated.text, desk.facts);
+  if (citedFacts.length === 0) {
+    return NextResponse.json({ answer: fallback.answer, sources: fallbackSources, mode: 'genome-rules' });
   }
   return NextResponse.json({
     answer: generated.text,
-    sources: selected,
+    sources: citedFacts.map((fact) => ({ id: fact.id, label: fact.label, section: fact.section })),
     mode: generated.rung.isPrimary ? 'primary-model' : 'fallback-model',
   });
 }

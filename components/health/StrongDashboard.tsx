@@ -68,6 +68,11 @@ const SWAP_LABELS: Array<{ mode: SwapMode; label: string }> = [
   { mode: 'family', label: 'Family-friendly' },
 ];
 
+const NZ_TODAY = new Intl.DateTimeFormat('en-NZ', {
+  weekday: 'long',
+  timeZone: 'Pacific/Auckland',
+}).format(new Date());
+
 export function StrongDashboard() {
   const profile = FICTIONAL_STRONG_PROFILE;
   const [tab, setTab] = useState<TabId>('today');
@@ -84,7 +89,9 @@ export function StrongDashboard() {
   const shopping = useMemo(() => compileShoppingList(mealPlan), [mealPlan]);
   const day = mealPlan[selectedDay];
   const dayRecipes = recipesForDay(day);
-  const dayNutrition = totalDayNutrition(day);
+  const selectedDayNutrition = totalDayNutrition(day);
+  const todayPlan = mealPlan.find((entry) => entry.day === NZ_TODAY) ?? mealPlan[0];
+  const todayNutrition = totalDayNutrition(todayPlan);
 
   function swapDinner(mode: SwapMode) {
     const currentId = day.recipeIds[3];
@@ -94,8 +101,12 @@ export function StrongDashboard() {
   }
 
   async function copyShoppingList() {
-    await navigator.clipboard.writeText(buildShoppingListText(shopping));
-    setNotice('Shopping list copied. Review it in the retailer app before buying.');
+    try {
+      await navigator.clipboard.writeText(buildShoppingListText(shopping));
+      setNotice('Shopping list copied. Review it in the retailer app before buying.');
+    } catch {
+      setNotice('The browser could not copy the list. Use the visible checklist or allow clipboard access and try again.');
+    }
   }
 
   function downloadCalendarFile() {
@@ -169,7 +180,7 @@ export function StrongDashboard() {
             location={location}
             minutes={minutes}
             session={session}
-            protein={dayNutrition.proteinGrams}
+            protein={todayNutrition.proteinGrams}
             proteinTarget={profile.nutritionTargets.proteinGrams}
             onLocation={setLocation}
             onMinutes={setMinutes}
@@ -184,7 +195,7 @@ export function StrongDashboard() {
             mealPlan={mealPlan}
             selectedDay={selectedDay}
             recipes={dayRecipes}
-            totals={dayNutrition}
+            totals={selectedDayNutrition}
             onDay={setSelectedDay}
             onSwap={swapDinner}
             onShop={() => setTab('shop')}

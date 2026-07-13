@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import {
   Activity,
@@ -70,8 +70,19 @@ export function LivingSiteDashboard({
   const voice = fact(facts, 'g-voice')?.value;
   const [wordmark] = (fact(facts, 'g-name')?.value ?? v.businessName).split(' · ');
   const tenant = install ? `install-${install.id}` : v.tenant;
+  const siteHref = install ? `/living-site/install/${install.id}` : `/living-site/${v.slug}`;
   const osHref = install ? `/living-site/install/${install.id}/os` : `/living-site/${v.slug}/os`;
   const tabs: DashboardTab[] = ['overview', 'services', 'knowledge', 'book', 'enquire', 'ask'];
+
+  useEffect(() => {
+    const applyHash = () => {
+      const candidate = window.location.hash.slice(1) as DashboardTab;
+      if (candidate in TAB_META) setTab(candidate);
+    };
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+    return () => window.removeEventListener('hashchange', applyHash);
+  }, []);
 
   const openBooking = (serviceId?: string) => {
     setSelectedServiceId(serviceId);
@@ -95,7 +106,7 @@ export function LivingSiteDashboard({
 
       <div className={styles.workspace}>
         <aside className={styles.sidebar}>
-          <Link href={`/living-site/${v.slug}`} className={styles.brandBlock}>
+          <Link href={siteHref} className={styles.brandBlock}>
             <span className={styles.brandMark}>{wordmark.charAt(0)}</span>
             <span><strong>{wordmark}</strong><small>{v.tagline}</small></span>
           </Link>
@@ -244,7 +255,7 @@ function OverviewPanel({
             {services.slice(0, 4).map((service) => {
               const value = splitValue(service.value);
               return (
-                <button key={service.id} type="button" onClick={() => onTab('enquire')}>
+                <button key={service.id} type="button" onClick={() => onBook(service.id)}>
                   <span className={styles.rowCheck}><Check aria-hidden /></span>
                   <span><strong>{service.label}</strong><small>{value.rest ?? 'Ask for the details'}</small></span>
                   <b>{value.lead}</b>
@@ -289,7 +300,7 @@ function Signal({ value, label, hint }: { value: string; label: string; hint: st
 function ServicesPanel({ services, onBook }: { services: GenomeFact[]; onBook: (serviceId: string) => void }) {
   return (
     <section className={styles.panelStack}>
-      <div className={styles.panelHeading}><p className={styles.eyebrow}>services · from the Business Genome</p><h2>Clear choices, without the brochure hunt.</h2><p>Select any service to open the same enquiry desk.</p></div>
+      <div className={styles.panelHeading}><p className={styles.eyebrow}>services · from the Business Genome</p><h2>Clear choices, without the brochure hunt.</h2><p>Select any service to open the booking request with that service ready.</p></div>
       <div className={styles.serviceGrid}>
         {services.map((service) => {
           const value = splitValue(service.value);

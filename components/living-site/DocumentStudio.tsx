@@ -37,6 +37,7 @@ export function DocumentStudio({
   const [savedNumber, setSavedNumber] = useState('');
   const [documents, setDocuments] = useState(initialDocuments);
   const totals = useMemo(() => documentTotals(quantity, rate), [quantity, rate]);
+  const amountsValid = Number.isFinite(quantity) && quantity > 0 && Number.isFinite(rate) && rate >= 0;
   const documentNumber = savedNumber || `${kind === 'proposal' ? 'P' : 'INV'}-${issueYear}-DRAFT`;
   const localStorageKey = `assembl:living-site-documents:${tenant}`;
 
@@ -75,8 +76,8 @@ export function DocumentStudio({
   const saveDraft = async () => {
     setError('');
     setNotice('');
-    if (!client.trim() || !email.trim() || !serviceId || !description.trim()) {
-      setError('Add the customer, valid email, service and description before saving.');
+    if (!client.trim() || !email.trim() || !serviceId || !description.trim() || !amountsValid) {
+      setError('Add the customer, valid email, service, description, positive quantity and valid rate before saving.');
       return;
     }
     setBusy(true);
@@ -115,8 +116,9 @@ export function DocumentStudio({
       setDocuments((current) => [local, ...current.filter((item) => item.id !== local.id)].slice(0, 12));
       setNotice(`${local.documentNumber} saved in this browser only because ${reason}. Apply the document migration to enable the shared tenant record.`);
     };
+    let response: Response;
     try {
-      const response = await fetch('/api/living-site/documents', {
+      response = await fetch('/api/living-site/documents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -131,23 +133,27 @@ export function DocumentStudio({
           notes,
         }),
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || !result.document) {
-        if (response.status === 503) {
-          saveToBrowser(result.error ?? 'the shared document store is unavailable');
-          return;
-        }
-        throw new Error(result.error ?? 'Could not save the draft.');
-      }
-      const saved = result.document as LivingSiteDocument;
-      setSavedNumber(saved.documentNumber);
-      setDocuments((current) => [saved, ...current.filter((item) => item.id !== saved.id)].slice(0, 12));
-      setNotice(`${saved.documentNumber} saved as a draft. It has not been approved, sent or entered into the books.`);
     } catch (cause) {
-      saveToBrowser(cause instanceof Error ? cause.message : 'the shared document store could not be reached');
-    } finally {
+      saveToBrowser(cause instanceof Error ? `the network request failed: ${cause.message}` : 'the shared document store could not be reached');
       setBusy(false);
+      return;
     }
+    const result = await response.json().catch(() => ({}));
+    if (response.status === 503) {
+      saveToBrowser(result.error ?? 'the shared document store is unavailable');
+      setBusy(false);
+      return;
+    }
+    if (!response.ok || !result.document) {
+      setError(result.error ?? 'Could not save the draft.');
+      setBusy(false);
+      return;
+    }
+    const saved = result.document as LivingSiteDocument;
+    setSavedNumber(saved.documentNumber);
+    setDocuments((current) => [saved, ...current.filter((item) => item.id !== saved.id)].slice(0, 12));
+    setNotice(`${saved.documentNumber} saved as a draft. It has not been approved, sent or entered into the books.`);
+    setBusy(false);
   };
 
   const reopen = (document: LivingSiteDocument) => {
@@ -166,6 +172,10 @@ export function DocumentStudio({
   };
 
   const copyEmail = async () => {
+    if (!amountsValid) {
+      setError('Enter a positive quantity and valid rate before copying the email.');
+      return;
+    }
     const subject = `${kind === 'proposal' ? 'Proposal' : 'Draft invoice'} ${documentNumber} from ${v.businessName}`;
     const body = [
       `Kia ora ${client || 'there'},`,
@@ -179,8 +189,12 @@ export function DocumentStudio({
       v.owner,
       v.businessName,
     ].join('\n');
-    await navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`);
-    setNotice('Draft email copied. Review it before sending.');
+    try {
+      await navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`);
+      setNotice('Draft email copied. Review it before sending.');
+    } catch {
+      setError('The browser could not copy the email. Allow clipboard access and try again.');
+    }
   };
 
   return (
@@ -205,17 +219,18 @@ export function DocumentStudio({
             </div>
             <label>Description<input value={description} onChange={(event) => { markDirty(); setDescription(event.target.value); }} /></label>
             <div className={styles.formRow}>
-              <label>Quantity<input type="number" min="0.01" step="0.01" value={quantity} onChange={(event) => { markDirty(); setQuantity(Number(event.target.value)); }} /></label>
-              <label>Unit price · NZD ex GST<input type="number" min="0" step="0.01" value={rate} onChange={(event) => { markDirty(); setRate(Number(event.target.value)); }} /></label>
+              <label>Quantity<input type="number" min="0.01" step="0.01" value={Number.isFinite(quantity) ? quantity : ''} onChange={(event) => { markDirty(); setQuantity(event.target.value === '' ? Number.NaN : Number(event.target.value)); }} /></label>
+              <label>Unit price · NZD ex GST<input type="number" min="0" step="0.01" value={Number.isFinite(rate) ? rate : ''} onChange={(event) => { markDirty(); setRate(event.target.value === '' ? Number.NaN : Number(event.target.value)); }} /></label>
             </div>
             <label>Scope or payment notes<textarea rows={5} value={notes} onChange={(event) => { markDirty(); setNotes(event.target.value); }} placeholder={kind === 'proposal' ? 'What is included, timing, exclusions, acceptance terms…' : 'Payment due date, reference, bank details…'} /></label>
             <div className={styles.buttonRow}>
               <button className={styles.primaryButton} type="button" disabled={busy} onClick={() => void saveDraft()}>{busy ? 'saving…' : savedNumber ? 'Save as a new draft' : 'Save draft'}</button>
-              <button className={styles.secondaryButton} type="button" onClick={() => window.print()}>Print / save PDF</button>
-              <button className={styles.secondaryButton} type="button" onClick={() => void copyEmail()}>Copy covering email</button>
+              <button className={styles.secondaryButton} type="button" disabled={!amountsValid} onClick={() => window.print()}>Print / save PDF</button>
+              <button className={styles.secondaryButton} type="button" disabled={!amountsValid} onClick={() => void copyEmail()}>Copy covering email</button>
             </div>
             {notice ? <p className={styles.notice} role="status">{notice}</p> : null}
             {error ? <p className={styles.error} role="alert">{error}</p> : null}
+            {!amountsValid ? <p className={styles.error}>Quantity must be greater than zero and the rate cannot be blank.</p> : null}
           </form>
         </section>
 

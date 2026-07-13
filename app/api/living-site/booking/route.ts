@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { consume, rateKey } from '@/lib/creative/ratelimit';
+import { getGenomeFactsFor } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { storeBooking, updateBookingStatus } from '@/lib/living-site/booking-store';
 import { isLivingSiteBookingStatus } from '@/lib/living-site/bookings';
-import { INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
-import { VERTICAL_TENANTS } from '@/lib/living-site/verticals';
+import { getInstall, INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
+import { SAMPLE_VERTICALS, VERTICAL_TENANTS } from '@/lib/living-site/verticals';
 
 export const maxDuration = 15;
 
@@ -38,6 +39,19 @@ async function allowedTenant(raw: string | null): Promise<string | null | 'unava
   return null;
 }
 
+async function serviceForTenant(tenant: string, serviceId: string) {
+  const sample = SAMPLE_VERTICALS.find((item) => item.tenant === tenant);
+  if (sample) {
+    const { facts } = await getGenomeFactsFor(tenant, sample.fallbackFacts);
+    return facts.find((fact) => fact.section === 'services' && fact.id === serviceId) ?? null;
+  }
+  if (INSTALL_TENANT_RE.test(tenant)) {
+    const install = await getInstall(tenant.slice('install-'.length));
+    return install?.facts.find((fact) => fact.section === 'services' && fact.id === serviceId) ?? null;
+  }
+  return null;
+}
+
 /**
  * Public booking-request intake. This records a preferred time; it never
  * promises or confirms a slot. The owner reviews every request in the CRM.
@@ -55,7 +69,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'booking desk unavailable — try again shortly' }, { status: 503 });
   }
   const serviceId = value(body.serviceId, 80);
-  const serviceLabel = value(body.serviceLabel, 160);
   const name = value(body.name, 120);
   const email = value(body.email, 200);
   const phone = value(body.phone, 40) ?? undefined;
@@ -64,7 +77,7 @@ export async function POST(request: Request) {
   const notes = value(body.notes, 1500) ?? undefined;
 
   if (
-    !tenant || !serviceId || !serviceLabel || !name || !email || !EMAIL_RE.test(email)
+    !tenant || !serviceId || !name || !email || !EMAIL_RE.test(email)
     || !preferredDate || !DATE_RE.test(preferredDate) || !preferredTime
   ) {
     return NextResponse.json(
@@ -75,11 +88,17 @@ export async function POST(request: Request) {
   if (preferredDate < nzToday()) {
     return NextResponse.json({ ok: false, error: 'preferred date cannot be in the past' }, { status: 400 });
   }
+  const service = await serviceForTenant(tenant, serviceId);
+  if (!service) {
+    return NextResponse.json({ ok: false, error: 'choose a service from this Living Site' }, { status: 400 });
+  }
+  const rate = await consume(rateKey(request), 'living-site-booking-intake');
+  if (!rate.ok) return NextResponse.json({ ok: false, error: 'booking request limit reached — try again in an hour' }, { status: 429 });
 
   const id = await storeBooking({
     tenant,
     serviceId,
-    serviceLabel,
+    serviceLabel: service.label,
     name,
     email,
     phone,

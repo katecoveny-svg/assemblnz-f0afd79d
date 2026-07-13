@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
-import { deterministicDeskAnswer, rankGenomeFacts } from './desk';
+import { deterministicDeskAnswer, genomeFactsCitedInAnswer, rankGenomeFacts } from './desk';
 
 const facts: GenomeFact[] = [
   { id: 'service', section: 'services', label: 'Initial assessment', value: '$95 · 45 min', readBy: ['website'] },
@@ -22,5 +22,10 @@ describe('Living Site resident desk', () => {
   it('never claims a requested time is confirmed', () => {
     const result = deterministicDeskAnswer({ question: 'Can I book tomorrow?', facts, businessName: 'Sample Clinic', owner: 'Mia' });
     expect(result.answer).toContain('not confirmed');
+  });
+
+  it('derives displayed sources from citations in the generated answer', () => {
+    expect(genomeFactsCitedInAnswer('The assessment costs $95 [service].', facts).map((fact) => fact.id)).toEqual(['service']);
+    expect(genomeFactsCitedInAnswer('No source marker.', facts)).toEqual([]);
   });
 });

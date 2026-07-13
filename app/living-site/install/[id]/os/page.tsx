@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { OsDashboard } from '@/components/os/OsDashboard';
 import styles from '@/components/os/os.module.css';
 import { getRecentEnquiries } from '@/lib/customers/auckland-dog-trainer/genome-store';
-import { getRecentBookings } from '@/lib/living-site/booking-store';
+import { getBookingStatusCount, getRecentBookings } from '@/lib/living-site/booking-store';
 import { getInstall } from '@/lib/living-site/install-store';
 
 export const dynamic = 'force-dynamic';
@@ -39,14 +39,15 @@ export default async function InstallOsPage({ params }: { params: Promise<Params
   if (!install) notFound();
 
   const { v, facts, id, tenant } = install;
-  const [enquiries, bookings] = await Promise.all([
+  const [enquiries, bookings, requestedCount] = await Promise.all([
     getRecentEnquiries(20, tenant),
     getRecentBookings(tenant, 20),
+    getBookingStatusCount(tenant, 'requested'),
   ]);
   const services = facts.filter((f) => f.section === 'services').length;
   const siteHref = `/living-site/install/${id}`;
   const osHref = `/living-site/install/${id}/os`;
-  const requestedBookings = bookings.filter((item) => item.status === 'requested').length;
+  const requestedBookings = requestedCount ?? bookings.filter((item) => item.status === 'requested').length;
 
   return (
     <div className={styles.shell}>

@@ -32,6 +32,11 @@ export function rankGenomeFacts(question: string, facts: GenomeFact[], limit = 4
     .map((item) => item.fact);
 }
 
+export function genomeFactsCitedInAnswer(answer: string, facts: GenomeFact[]): GenomeFact[] {
+  const ids = new Set(Array.from(answer.matchAll(/\[([a-z0-9-]+)\]/gi), (match) => match[1].toLowerCase()));
+  return facts.filter((fact) => ids.has(fact.id.toLowerCase()));
+}
+
 export function deterministicDeskAnswer(input: {
   question: string;
   facts: GenomeFact[];

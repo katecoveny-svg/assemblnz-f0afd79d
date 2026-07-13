@@ -7,7 +7,7 @@ import {
   getGenomeFactsFor,
   getRecentEnquiries,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
-import { getRecentBookings } from '@/lib/living-site/booking-store';
+import { getBookingStatusCount, getRecentBookings } from '@/lib/living-site/booking-store';
 import { verticalBySlug } from '@/lib/living-site/verticals';
 
 export const dynamic = 'force-dynamic';
@@ -48,15 +48,16 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
   const v = verticalBySlug((await params).vertical);
   if (!v) notFound();
 
-  const [{ facts, live }, enquiries, bookings] = await Promise.all([
+  const [{ facts, live }, enquiries, bookings, requestedCount] = await Promise.all([
     getGenomeFactsFor(v.tenant, v.fallbackFacts),
     getRecentEnquiries(20, v.tenant),
     getRecentBookings(v.tenant, 20),
+    getBookingStatusCount(v.tenant, 'requested'),
   ]);
   const services = facts.filter((f) => f.section === 'services').length;
   const siteHref = `/living-site/${v.slug}`;
   const osHref = `/living-site/${v.slug}/os`;
-  const requestedBookings = bookings.filter((item) => item.status === 'requested').length;
+  const requestedBookings = requestedCount ?? bookings.filter((item) => item.status === 'requested').length;
 
   return (
     <div className={styles.shell}>

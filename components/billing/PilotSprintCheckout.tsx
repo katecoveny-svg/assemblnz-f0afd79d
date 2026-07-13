@@ -60,7 +60,7 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
         <label className="grid gap-1 text-xs font-semibold">Business<input name="business" required maxLength={180} autoComplete="organization" className="rounded-xl border border-black/15 bg-white px-3 py-3 text-sm font-normal" /></label>
       </div>
       <label className="grid gap-1 text-xs font-semibold">Invoice email<input name="email" type="email" required maxLength={200} autoComplete="email" className="rounded-xl border border-black/15 bg-white px-3 py-3 text-sm font-normal" /></label>
-      <label className="grid gap-1 text-xs font-semibold">Agreed workflow<textarea name="workflow" required maxLength={600} rows={4} className="rounded-xl border border-black/15 bg-white px-3 py-3 text-sm font-normal" placeholder="The one workflow agreed with assembl…" /></label>
+      <label className="grid gap-1 text-xs font-semibold">Agreed workflow<textarea name="workflow" required maxLength={500} rows={4} className="rounded-xl border border-black/15 bg-white px-3 py-3 text-sm font-normal" placeholder="The one workflow agreed with assembl…" /></label>
       <label className="flex items-start gap-3 text-xs leading-5 text-[color:var(--text-body)]">
         <input name="accepted" type="checkbox" required className="mt-1" />
         <span>

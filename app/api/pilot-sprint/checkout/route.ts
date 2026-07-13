@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   const name = field(input.name, 120);
   const business = field(input.business, 180);
   const email = field(input.email, 200);
-  const workflow = field(input.workflow, 600);
+  const workflow = field(input.workflow, 500);
   const accepted = input.accepted === true;
   if (!name || !business || !email || !EMAIL_RE.test(email) || !workflow || !accepted) {
     return NextResponse.json({ error: 'Name, business, valid email, agreed workflow and acceptance are required.' }, { status: 400 });
@@ -43,7 +43,11 @@ export async function POST(request: Request) {
   if (!rate.ok) return NextResponse.json({ error: 'Too many checkout attempts. Try again in an hour.' }, { status: 429 });
 
   try {
-    const origin = request.headers.get('origin') ?? new URL(request.url).origin;
+    const requestUrl = new URL(request.url);
+    const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL || process.env.APP_URL || 'https://www.assembl.co.nz';
+    const origin = process.env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1'].includes(requestUrl.hostname)
+      ? requestUrl.origin
+      : new URL(configuredOrigin).origin;
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -67,7 +71,7 @@ export async function POST(request: Request) {
         assembl_offer: 'founding-pilot-sprint',
         customer_name: name,
         business: business.slice(0, 180),
-        workflow: workflow.slice(0, 500),
+        workflow,
         price_ex_gst_nzd: String(PILOT_SPRINT_EX_GST_NZD),
         gst_nzd: String(PILOT_SPRINT_GST_NZD),
       },
