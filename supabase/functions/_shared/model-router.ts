@@ -43,6 +43,12 @@ const PREFIX_MAP: Record<string, string> = {
 function normalise(pref: string | null | undefined): string {
   if (!pref) return DEFAULT_MODEL;
   if (pref.includes("/")) return pref; // already fully qualified
+  // Claude preferences are honoured when an Anthropic key exists —
+  // llm-call.ts routes anthropic/* natively. The old behaviour (silently
+  // downgrading Claude to Gemini) only remains as the no-key fallback.
+  if (pref.startsWith("claude") && Deno.env.get("ANTHROPIC_API_KEY")) {
+    return `anthropic/${pref}`;
+  }
   return PREFIX_MAP[pref] || `google/${pref}`;
 }
 
