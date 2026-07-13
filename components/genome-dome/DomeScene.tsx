@@ -4,15 +4,17 @@ import * as React from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Line } from '@react-three/drei/core/Line';
+import { useGLTF } from '@react-three/drei/core/Gltf';
+import { useTexture } from '@react-three/drei/core/Texture';
 
 /**
  * A shallow city dome inspired by the supplied City Domes reference.
  * It is intentionally architectural rather than blob-like: an upper glass
- * hemisphere, a miniature Auckland plate and clickable gold data nodes.
- * genome nodes. No downloaded model or third-party texture is required.
+ * membrane, a miniature Auckland plate and clickable gold data nodes.
+ * The approved GLB supplies the irregular liquid outline; the Auckland render
+ * beneath it is keyed live so the source file remains untouched.
  */
 
-const OPAL = '#A8BDBF';
 const COLUMBIA = '#C5D7D9';
 const MING = '#3F7373';
 const GOLD = '#D4AF37';
@@ -57,6 +59,41 @@ export function createCityBlocks(count = 92): CityBlock[] {
 }
 
 const BLOCKS = createCityBlocks();
+
+function AucklandPlate() {
+  const texture = useTexture('/brand/genome/assembl-topdown-pale-dome.png');
+  const material = React.useMemo(() => new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    uniforms: { map: { value: texture } },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D map;
+      varying vec2 vUv;
+      void main() {
+        vec4 colour = texture2D(map, vUv);
+        float magenta = step(0.88, colour.r) * step(0.80, colour.b) * (1.0 - step(0.28, colour.g));
+        if (magenta > 0.5) discard;
+        gl_FragColor = vec4(colour.rgb, colour.a * 0.82);
+      }
+    `,
+  }), [texture]);
+
+  React.useEffect(() => () => material.dispose(), [material]);
+
+  return (
+    <mesh rotation-x={-Math.PI / 2} position={[0, -0.252, 0]} renderOrder={1}>
+      <planeGeometry args={[2.44, 2.44]} />
+      <primitive object={material} attach="material" />
+    </mesh>
+  );
+}
 
 function CityBlocks() {
   const mesh = React.useRef<THREE.InstancedMesh>(null);
@@ -227,27 +264,33 @@ function GenomeNode({
 
 function GlassShell() {
   const dome = React.useRef<THREE.Mesh>(null);
+  const { scene } = useGLTF('/3d/assembl_topdown_blob.glb');
+  const geometry = React.useMemo(() => {
+    const source = scene.getObjectByName('AssemblTopDown_Blob');
+    return source instanceof THREE.Mesh
+      ? source.geometry.clone()
+      : new THREE.SphereGeometry(1.34, 72, 36);
+  }, [scene]);
+
+  React.useEffect(() => () => geometry.dispose(), [geometry]);
+
   useFrame(({ clock }) => {
     if (!dome.current) return;
-    const breath = 0.68 + Math.sin(clock.getElapsedTime() * 0.55) * 0.006;
+    const breath = 0.76 + Math.sin(clock.getElapsedTime() * 0.55) * 0.009;
     dome.current.scale.y = breath;
   });
 
   return (
     <>
-      <mesh ref={dome} position={[0, -0.27, 0]} scale={[1, 0.68, 1]} renderOrder={4}>
-        <sphereGeometry args={[1.34, 96, 48, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <meshPhysicalMaterial
-          color="#dce9e9"
-          transmission={0.08}
-          thickness={0.16}
-          ior={1.32}
-          roughness={0.11}
+      <mesh ref={dome} geometry={geometry} position={[0, 0.12, 0]} scale={[1, 0.76, 1]} renderOrder={4}>
+        <meshStandardMaterial
+          color="#eaf3f3"
+          emissive="#f5fbfa"
+          emissiveIntensity={0.28}
+          roughness={0.16}
           metalness={0}
           transparent
-          opacity={0.16}
-          clearcoat={1}
-          clearcoatRoughness={0.08}
+          opacity={0.08}
           side={THREE.DoubleSide}
           depthWrite={false}
         />
@@ -295,6 +338,7 @@ function CityDome({
         <cylinderGeometry args={[1.27, 1.2, 0.07, 96]} />
         <meshPhysicalMaterial color="#e8f1f2" emissive="#f7faf9" emissiveIntensity={0.12} roughness={0.38} metalness={0.02} clearcoat={0.4} />
       </mesh>
+      <AucklandPlate />
       <RoadRings />
       <AucklandContext />
       <CityBlocks />
@@ -313,6 +357,9 @@ function CityDome({
     </Rig>
   );
 }
+
+useGLTF.preload('/3d/assembl_topdown_blob.glb');
+useTexture.preload('/brand/genome/assembl-topdown-pale-dome.png');
 
 export default function DomeScene({
   surfaces,

@@ -16,7 +16,7 @@
   font-family: var(--font-mono), 'Space Mono', monospace;
   font-size: 15px;
   letter-spacing: 0.3em;
-  text-transform: uppercase;
+  text-transform: lowercase;
   color: #3f7373;
   text-align: center;
 }

@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import { GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 import type { DomeSurface } from './DomeScene';
+import { DomePoster } from './DomePoster';
 import styles from './genome-dome.module.css';
 
 /**
@@ -17,9 +18,6 @@ import styles from './genome-dome.module.css';
  */
 
 const DomeScene = dynamic(() => import('./DomeScene'), { ssr: false, loading: () => <Poster /> });
-
-const POSTER_PRIMARY = '/brand/genome/genome-city.png';
-const POSTER_FALLBACK = '/brand/genome/sphere-genome-alpha.png';
 
 let webglSupport: boolean | null = null;
 function detectWebgl(): boolean | null {
@@ -35,16 +33,7 @@ function detectWebgl(): boolean | null {
 }
 
 function Poster() {
-  const [src, setSrc] = React.useState(POSTER_PRIMARY);
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt="The Business Genome — a liquid glass dome holding the whole business"
-      className={styles.poster}
-      onError={() => src !== POSTER_FALLBACK && setSrc(POSTER_FALLBACK)}
-    />
-  );
+  return <DomePoster className={styles.poster} />;
 }
 
 export function GenomeDomeExperience({

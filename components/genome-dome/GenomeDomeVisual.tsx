@@ -2,13 +2,13 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import Image from 'next/image';
 import { GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
+import { DomePoster } from './DomePoster';
 import styles from './genome-dome-visual.module.css';
 
 const DomeScene = dynamic(() => import('./DomeScene'), {
   ssr: false,
-  loading: () => <Image src="/brand/genome/genome-city.png" alt="" width={720} height={560} className={styles.poster} />,
+  loading: () => <DomePoster className={styles.poster} />,
 });
 
 export function GenomeDomeVisual({ link = true, label = 'Explore the Business Genome' }: { link?: boolean; label?: string }) {
