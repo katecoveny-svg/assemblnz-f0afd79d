@@ -34,6 +34,33 @@ export type AdminUser = {
   email: string;
 };
 
+/** Non-redirecting admin check for Route Handlers and server actions. */
+export async function isAdminUser(userId: string, rawEmail: string): Promise<boolean> {
+  const email = rawEmail.toLowerCase();
+  if (ADMIN_EMAILS.has(email)) return true;
+  if (await isDesignatedAdmin(userId, email)) return true;
+
+  try {
+    const supabase = await createClient();
+    const [{ data: roleRow }, { data: profileRow }] = await Promise.all([
+      supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .eq('role', 'admin')
+        .maybeSingle(),
+      supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('user_id', userId)
+        .maybeSingle(),
+    ]);
+    return Boolean(roleRow || profileRow?.is_admin === true);
+  } catch {
+    return false;
+  }
+}
+
 /** True when the (already authenticated) user is on the designated_admins allowlist. */
 async function isDesignatedAdmin(userId: string, email: string): Promise<boolean> {
   // Prefer the service client (table writes are service-role only, and this
@@ -103,31 +130,7 @@ export async function ensureAdmin(redirectTo?: string): Promise<AdminUser> {
   }
 
   const email = user.email?.toLowerCase() ?? '';
-  if (ADMIN_EMAILS.has(email)) {
-    return { id: user.id, email };
-  }
-
-  // The DB allowlist — operators Kate adds without a deploy.
-  if (await isDesignatedAdmin(user.id, email)) {
-    return { id: user.id, email };
-  }
-
-  // Fall back to the legacy role/flag check.
-  const [{ data: roleRow }, { data: profileRow }] = await Promise.all([
-    supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .eq('role', 'admin')
-      .maybeSingle(),
-    supabase
-      .from('profiles')
-      .select('is_admin')
-      .eq('user_id', user.id)
-      .maybeSingle(),
-  ]);
-
-  if (roleRow || profileRow?.is_admin === true) {
+  if (await isAdminUser(user.id, email)) {
     return { id: user.id, email };
   }
 

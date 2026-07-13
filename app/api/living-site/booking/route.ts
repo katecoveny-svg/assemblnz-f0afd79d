@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
+import { isAdminUser } from '@/lib/admin/ensureAdmin';
 import { consume, rateKey } from '@/lib/creative/ratelimit';
 import { getGenomeFactsFor } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { storeBooking, updateBookingStatus } from '@/lib/living-site/booking-store';
 import { isLivingSiteBookingStatus } from '@/lib/living-site/bookings';
 import { getInstall, INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
 import { SAMPLE_VERTICALS, VERTICAL_TENANTS } from '@/lib/living-site/verticals';
+import { createClient } from '@/lib/supabase/server';
 
 export const maxDuration = 15;
 
@@ -127,6 +129,14 @@ export async function PATCH(request: Request) {
   }
   if (!tenant || !id || !UUID_RE.test(id) || !isLivingSiteBookingStatus(status) || status === 'requested') {
     return NextResponse.json({ ok: false, error: 'valid tenant, booking id and next status are required' }, { status: 400 });
+  }
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return NextResponse.json({ ok: false, error: 'sign in to update booking requests' }, { status: 401 });
+  }
+  if (!await isAdminUser(user.id, user.email ?? '')) {
+    return NextResponse.json({ ok: false, error: 'operator access is required' }, { status: 403 });
   }
   const rate = await consume(rateKey(request), 'living-site-booking-status');
   if (!rate.ok) return NextResponse.json({ ok: false, error: 'update limit reached — try again in an hour' }, { status: 429 });

@@ -88,7 +88,7 @@ export function SampleBookingForm({
       saveToBrowser(result.error ?? 'the shared booking desk is unavailable');
       return;
     }
-    if (!response.ok || !result.ok) {
+    if (!response.ok || !result.ok || typeof result.id !== 'string') {
       setError(result.error ?? 'Could not save the request.');
       setState('error');
       return;
