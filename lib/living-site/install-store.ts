@@ -137,16 +137,23 @@ export async function createInstall(
     const id = `${base.slug}-${token}`;
     const tenant = `install-${id}`;
 
-    const { error } = await supabase.from('living_site_genome').insert(
-      facts.map((f) => ({
-        tenant,
-        fact_id: f.id,
-        section: f.section,
-        label: f.label,
-        value: f.value,
-        read_by: f.readBy,
-      })),
+    // Installer answers are the owner's own words — confirmed provenance.
+    const baseRows = facts.map((f) => ({
+      tenant,
+      fact_id: f.id,
+      section: f.section,
+      label: f.label,
+      value: f.value,
+      read_by: f.readBy,
+    }));
+    let { error } = await supabase.from('living_site_genome').insert(
+      baseRows.map((r) => ({ ...r, source: 'installer', verification: 'confirmed' })),
     );
+    if (error) {
+      // Provenance columns may not exist yet (migration 20260722090000
+      // pending on this database) — fall back to the legacy shape.
+      ({ error } = await supabase.from('living_site_genome').insert(baseRows));
+    }
     if (error) return { ok: false, error: 'unavailable' };
 
     // The pre-check races concurrent requests, so re-count AFTER inserting:

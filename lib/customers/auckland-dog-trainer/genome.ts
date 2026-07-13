@@ -47,12 +47,28 @@ export type GenomeSection =
   | 'proof'
   | 'operations';
 
+/** How sure the system is about a fact. Agents must never treat anything
+ *  below 'confirmed' as a business fact they can commit on. */
+export type GenomeVerification =
+  | 'confirmed'
+  | 'inferred'
+  | 'suggested'
+  | 'stale'
+  | 'conflicting';
+
 export type GenomeFact = {
   id: string;
   section: GenomeSection;
   label: string;
   value: string;
   readBy: SurfaceId[];
+  /** Provenance (migration 20260722090000). Optional so the static
+   *  fallback lists and older rows stay valid: absent means 'confirmed'
+   *  seed data. */
+  source?: string;
+  verification?: GenomeVerification;
+  confidence?: number | null;
+  verifiedAt?: string | null;
 };
 
 export const GENOME_SECTION_LABELS: Record<GenomeSection, string> = {
