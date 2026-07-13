@@ -163,6 +163,8 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
         system: draftSystemPrompt(ctx, grounding),
         messages: [{ role: 'user', content: question }],
         agentSlug: DESK_AGENT,
+        tenant: ctx.tenant,
+        taskId,
       });
       if (result.ok) {
         draft = result.text;
