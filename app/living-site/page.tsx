@@ -75,22 +75,22 @@ export default async function LivingSitePage() {
                   Sample business — real system. Go on: change a price, approve the brief.
                 </p>
               </div>
-              {/* the genome itself — the glass sphere (multiply melts the
-                  render's studio grey into the paper) */}
+              {/* the genome itself — the glass sphere; click through to the
+                  interactive dome */}
+              <Link href="/genome" aria-label="Explore the Business Genome in 3D" style={{ flex: '0 1 360px', margin: '0 auto' }}>
               <img
-                aria-hidden
                 src="/brand/genome/sphere-genome.png"
-                alt=""
+                alt="The Business Genome — explore it in 3D"
                 style={{
-                  flex: '0 1 360px',
+                  width: '100%',
                   minWidth: 260,
                   maxWidth: 'min(360px, 100%)',
                   height: 'auto',
-                  margin: '0 auto',
                   mixBlendMode: 'multiply',
                   borderRadius: 26,
                 }}
               />
+              </Link>
             </div>
           </Reveal>
           <div
