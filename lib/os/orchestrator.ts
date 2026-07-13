@@ -54,10 +54,16 @@ type BusinessContext = {
   facts: GenomeFact[];
 };
 
-/** Resolve who the enquiry is for: a sample vertical, an install, or the
- *  flagship. Null only when an install tenant's genome cannot be read. */
+/** Resolve who the enquiry is for: a sample vertical, an install, assembl
+ *  itself (the business runs on its own architecture), or the flagship.
+ *  Null only when an install tenant's genome cannot be read. */
 async function resolveBusiness(tenant: string | undefined): Promise<BusinessContext | null> {
   const t = tenant ?? GENOME_TENANT;
+  if (t === 'assembl') {
+    const { facts, live } = await getGenomeFactsFor('assembl', []);
+    if (!live || facts.length === 0) return null;
+    return { tenant: t, businessName: 'assembl', owner: 'Kate', facts };
+  }
   const vertical = SAMPLE_VERTICALS.find((v) => v.tenant === t);
   if (vertical) {
     const { facts } = await getGenomeFactsFor(t, vertical.fallbackFacts);
@@ -281,11 +287,27 @@ export async function onActionDecided(input: {
     const supabase = getServiceClient();
     const { data } = await supabase
       .from('os_tasks')
-      .select('id, tenant, status')
+      .select('id, tenant, status, model, assigned_agent')
       .eq('action_request_id', input.actionRequestId)
       .limit(1);
     const task = data?.[0];
     if (!task) return;
+
+    // Phase 5 outcome scoring: the decision itself is a measurement the
+    // router learns from (approved drafts = the model did the job).
+    try {
+      await supabase.from('os_outcomes').insert({
+        tenant: task.tenant as string,
+        task_id: task.id as string,
+        workflow: 'enquiry-reply',
+        model: (task.model as string | null) ?? null,
+        agent: (task.assigned_agent as string | null) ?? null,
+        score: input.decision === 'approved' ? 1 : 0,
+        decided_by: input.reviewer,
+      });
+    } catch {
+      /* outcome table pending — the decision still completes */
+    }
 
     await addEvidence({
       tenant: task.tenant as string,
