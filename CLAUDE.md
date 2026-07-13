@@ -50,3 +50,26 @@ metric: "How did it already know that?"
   branch from `origin/main` — never stack on merged history.
 - Demo data is SAMPLE-labelled everywhere; nothing sends without a human yes
   (draft-only is a product principle, not just copy).
+
+## Copy rules — non-negotiable
+
+- Every customer-facing string lives in `COPY.md` (mirrored by
+  `lib/copy/homepage.ts`). Code renders strings from that manifest; you never
+  author copy inline.
+- You may NEVER rewrite, paraphrase, "tighten", or "improve" any string in
+  `COPY.md`. If a task seems to need new or changed copy, STOP and ask Kate.
+  Propose; never substitute.
+- Banned everywhere, including placeholder and alt text: "quietly", "quiet
+  intelligence", "seamless", "seamlessly", "effortless", "unlock", "empower",
+  "elevate", "supercharge", "revolutionise", "game-changing", "cutting-edge",
+  "harness the power", "take your business to the next level", "in today's
+  fast-paced world", "the work that matters" as a standalone line.
+- No rule-of-three cadence added for rhythm ("X, Y, and Z" repeated as
+  decoration).
+- NZ English spelling. Te reo Māori words keep their macrons (mahi, Tāmaki
+  Makaurau, Aotearoa, mātauranga). Never add te reo as decoration; never
+  generate karakia, mihimihi, pepeha or any ceremonial text.
+- The tagline "Mahi that earns its proof." is fixed. Never touch it.
+- Sentences must pass this test: could a reader picture the actual work and the
+  time it saves? If a sentence could sit on any SaaS site, it does not belong
+  on this one.
