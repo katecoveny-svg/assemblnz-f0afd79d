@@ -615,14 +615,14 @@ function IndustryKetePage({
               Start with <TeReo>{kete.name}</TeReo>, the {kete.englishName}.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
-              The Pilot Sprint — NZ$5,000 + GST for two weeks — is the fastest way to see your work drafted, reviewed, and sealed with proof.
+              The Founding Pilot Sprint — NZ$1,500 + GST for ten working days — is the fastest way to see your work drafted, reviewed, and sealed with proof.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
-                Book your pilot
+                Book a founding pilot
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
                 <Link

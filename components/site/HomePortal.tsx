@@ -44,8 +44,8 @@ const HAPAI_CARD_STYLES = [
 
 const PRICING_ENTRY_POINTS = [
   {
-    name: 'Pilot Sprint',
-    price: '$5,000 + GST',
+    name: 'Founding Pilot Sprint',
+    price: '$1,500 + GST',
     bestFor: 'Use this to prove one workflow inside your business.',
     body: 'We map the job, build the first agent-assisted workflow, set the human review points, run it on real work, and package the result as an evidence pack. Ten working days.',
     cta: 'Book a pilot',

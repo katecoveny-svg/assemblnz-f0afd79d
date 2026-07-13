@@ -128,15 +128,15 @@ export default function OutputsPage() {
               See one of these drafted on your own work.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
-              A Pilot Sprint — NZ$5,000 + GST for two weeks — takes one of your real
-              workflows and produces the output, reviewed and sealed with proof, by Friday.
+              A Founding Pilot Sprint — NZ$1,500 + GST for ten working days — takes one of your real
+              workflows and produces the output, reviewed and sealed with proof.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/pilot-sprint"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
-                Book a Pilot Sprint
+                Book a Founding Pilot Sprint
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link

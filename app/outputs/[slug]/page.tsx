@@ -359,15 +359,15 @@ export default async function OutputDetailPage({
               See {output.name.toLowerCase()} drafted on your work.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
-              A Pilot Sprint — NZ$5,000 + GST for two weeks — produces this output from your
-              real records, reviewed and sealed with an evidence pack, by Friday.
+              A Founding Pilot Sprint — NZ$1,500 + GST for ten working days — produces this output from your
+              real records, reviewed and sealed with an evidence pack.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/pilot-sprint"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
-                Book a Pilot Sprint
+                Book a Founding Pilot Sprint
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
