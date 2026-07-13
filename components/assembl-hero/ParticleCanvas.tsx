@@ -51,7 +51,7 @@ function HeroFallback() {
 export function ParticleCanvas() {
   const [webgl, setWebgl] = useState<boolean | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [stage, setStage] = useState<FormationName>('wing');
+  const [stage, setStage] = useState<FormationName>(FORMATIONS[0]);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -68,7 +68,7 @@ export function ParticleCanvas() {
   // mirroring the sculpture's hold/morph rhythm.
   useEffect(() => {
     if (reducedMotion) {
-      queueMicrotask(() => setStage('wing'));
+      queueMicrotask(() => setStage(FORMATIONS[0]));
       return undefined;
     }
     const cycleMs = (HOLD_SECONDS + MORPH_SECONDS) * 1000;

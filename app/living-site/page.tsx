@@ -5,7 +5,7 @@ import { MicroLabel } from '@assembl/canvas';
 import { BusinessGenome } from '@/components/ops/fred/BusinessGenome';
 import { MorningBrief } from '@/components/ops/fred/MorningBrief';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
-import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
+import { KineticHero } from '@/components/v2/home/hero-particles/KineticHero';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { getBrandFonts } from '@/lib/brand/fonts';
@@ -76,11 +76,11 @@ export default async function LivingSitePage() {
                   Sample business — real system. Go on: change a price, approve the brief.
                 </p>
               </div>
-              {/* the genome itself — the glass sphere; click through to the
-                  interactive dome */}
-              <Link href="/genome" aria-label="Explore the Business Genome in 3D" style={{ flex: '0 1 360px', margin: '0 auto' }}>
-                <span style={{ display: 'block', width: '100%', minWidth: 260, height: 320, overflow: 'hidden', borderRadius: 26 }}>
-                  <GenomeDomeVisual link={false} />
+              {/* the genome itself — the living particle sculpture, morphing
+                  through its formations; click through to the interactive view */}
+              <Link href="/genome" aria-label="Explore the Business Genome in 3D" style={{ flex: '0 1 420px', margin: '0 auto' }}>
+                <span style={{ display: 'block', width: '100%', minWidth: 280, height: 340, overflow: 'hidden', borderRadius: 26 }}>
+                  <KineticHero />
                 </span>
               </Link>
             </div>

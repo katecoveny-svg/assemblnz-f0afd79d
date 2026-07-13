@@ -89,7 +89,7 @@ export function ParticleField({
   // Morph state lives in refs — mutated only inside the frame loop.
   const state = React.useRef({ index: 0, progress: 1, holdLeft: HOLD_SECONDS, morphing: false });
 
-  const startName: FormationName = lockedFormation ?? 'wing';
+  const startName: FormationName = lockedFormation ?? FORMATIONS[0];
 
   const { positions, targets, seeds, styles } = React.useMemo(() => {
     const initial = createTargets(startName, cfg);
