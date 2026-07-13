@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
+import { GenomeDesk } from '@/components/living-site/GenomeDesk';
 import { SampleEnquiryForm } from '@/components/living-site/SampleEnquiryForm';
 import { SampleBookingForm } from '@/components/living-site/SampleBookingForm';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
@@ -70,9 +71,7 @@ export function LivingSiteDashboard({
   const [wordmark] = (fact(facts, 'g-name')?.value ?? v.businessName).split(' · ');
   const tenant = install ? `install-${install.id}` : v.tenant;
   const osHref = install ? `/living-site/install/${install.id}/os` : `/living-site/${v.slug}/os`;
-  const tabs: DashboardTab[] = v.chat
-    ? ['overview', 'services', 'knowledge', 'book', 'enquire', 'ask']
-    : ['overview', 'services', 'knowledge', 'book', 'enquire'];
+  const tabs: DashboardTab[] = ['overview', 'services', 'knowledge', 'book', 'enquire', 'ask'];
 
   const openBooking = (serviceId?: string) => {
     setSelectedServiceId(serviceId);
@@ -165,8 +164,8 @@ export function LivingSiteDashboard({
           {tab === 'book' ? (
             <BookingPanel v={v} tenant={tenant} services={services} initialServiceId={selectedServiceId} />
           ) : null}
-          {tab === 'ask' && v.chat ? (
-            <AskPanel v={v} facts={facts} />
+          {tab === 'ask' ? (
+            <AskPanel v={v} facts={facts} tenant={tenant} />
           ) : null}
         </main>
       </div>
@@ -223,7 +222,7 @@ function OverviewPanel({
           <div className={styles.heroActions}>
             <button type="button" onClick={() => onBook()}>Request a time <CalendarDays aria-hidden /></button>
             <button type="button" className={styles.heroGhost} onClick={() => onTab('enquire')}>Send an enquiry</button>
-            {v.chat ? <button type="button" className={styles.heroGhost} onClick={() => onTab('ask')}>Ask the desk</button> : null}
+            <button type="button" className={styles.heroGhost} onClick={() => onTab('ask')}>Ask the desk</button>
           </div>
         </div>
         <div className={styles.heroVisual}>
@@ -349,13 +348,29 @@ function EnquiryPanel({ v, tenant }: { v: SampleVertical; tenant: string }) {
   );
 }
 
-function AskPanel({ v, facts }: { v: SampleVertical; facts: GenomeFact[] }) {
-  if (!v.chat) return null;
+function AskPanel({ v, facts, tenant }: { v: SampleVertical; facts: GenomeFact[]; tenant: string }) {
+  const services = facts.filter((item) => item.section === 'services');
+  const prompts = [
+    services[0] ? `What does ${services[0].label} include and cost?` : 'What services are available?',
+    'How do I request a time?',
+    'What policies should I know before enquiring?',
+  ];
   return (
     <section className={styles.panelStack}>
-      <div className={styles.panelHeading}><p className={styles.eyebrow}>resident desk · voice and chat</p><h2>Ask about a service, price or policy.</h2><p>The desk reads the same {facts.length} Business Genome facts as this dashboard. Replies remain drafts.</p></div>
+      <div className={styles.panelHeading}><p className={styles.eyebrow}>resident desk · voice and chat</p><h2>Ask about a service, price or policy.</h2><p>The desk reads the same {facts.length} Business Genome facts as this dashboard. Replies remain drafts and every commitment stays with {v.owner}.</p></div>
       <div className={styles.formCard}>
-        <PilotAgentChat apiPath={v.chat.apiPath} agentName={v.chat.agentName} greeting={v.chat.greeting} tryMe={v.chat.tryMe} accent={v.palette.accent} draftNote={v.chat.draftNote} />
+        {v.chat ? (
+          <PilotAgentChat apiPath={v.chat.apiPath} agentName={v.chat.agentName} greeting={v.chat.greeting} tryMe={v.chat.tryMe} accent={v.palette.accent} draftNote={v.chat.draftNote} />
+        ) : (
+          <GenomeDesk
+            tenant={tenant}
+            businessName={v.businessName}
+            owner={v.owner}
+            palette={v.palette}
+            greeting={`Kia ora — this is ${v.businessName}'s resident desk. Ask about a service, current price, policy or how to request a time. I read the same Business Genome as this site, and ${v.owner} approves every commitment.`}
+            prompts={prompts}
+          />
+        )}
       </div>
     </section>
   );
