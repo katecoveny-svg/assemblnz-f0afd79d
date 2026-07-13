@@ -28,6 +28,7 @@ import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
 import { OS_AGENTS } from './agents';
 import { resolveCapability } from './capabilities';
 import { addEvidence } from './evidence';
+import { suggestFactFromQuestion } from './memory';
 import { addTaskEvent, createTask, updateTaskFields, updateTaskStatus } from './tasks';
 
 const DESK_AGENT = OS_AGENTS.desk.id;
@@ -143,6 +144,17 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
     const grounded = confirmedFacts(ctx.facts);
     const ranked = rankGenomeFacts(`${input.detail ?? ''} ${input.message}`, grounded, 6);
     const grounding = ranked.length > 0 ? ranked : grounded.slice(0, 4);
+
+    // Operating memory: a question the genome couldn't answer becomes a
+    // SUGGESTED fact for the owner to confirm or discard — never confirmed
+    // by the system itself, and capped so learning stays calm.
+    if (ranked.length === 0) {
+      void suggestFactFromQuestion({
+        tenant: ctx.tenant,
+        question: [input.detail, input.message].filter(Boolean).join(' — '),
+        taskId,
+      });
+    }
     await addTaskEvent(taskId, 'plan', {
       agent: DESK_AGENT,
       groundedFactIds: grounding.map((f) => f.id),

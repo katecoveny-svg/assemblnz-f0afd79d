@@ -20,6 +20,7 @@ import { GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 import {
   GENOME_TENANT,
   getLiveGenomeFacts,
+  getLiveGenomeFactsForReview,
   getRecentEnquiries,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { loadWorkView } from '@/lib/os/work-view';
@@ -138,7 +139,8 @@ export default async function AucklandDogTrainerOpsHome({
   // Today is the assembl OS itself — the pearl screen, links gated.
   if (tab === 'week') return <PearlToday accent={config.colours.accent} />;
 
-  const genome = tab === 'genome' ? await getLiveGenomeFacts() : null;
+  // The review read: the owner's grid also shows suggested/unverified facts.
+  const genome = tab === 'genome' ? await getLiveGenomeFactsForReview() : null;
   // The enquiry loop: public-website submissions land in living_site_enquiries
   // and surface here — full rows on the triage tab, the count on the brief.
   // Same limit as the Today tile so the two never show different numbers.

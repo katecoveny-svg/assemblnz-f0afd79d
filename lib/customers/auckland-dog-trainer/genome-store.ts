@@ -79,6 +79,11 @@ function rowToFact(row: GenomeRow): GenomeFact {
 export async function getGenomeFactsFor(
   tenant: string,
   fallback: GenomeFact[],
+  opts?: {
+    /** Include suggested/inferred/stale facts. ONLY for the owner's review
+     *  surfaces — public sites and agent grounding must never see them. */
+    includeUnverified?: boolean;
+  },
 ): Promise<GenomeRead> {
   try {
     const supabase = getServiceClient();
@@ -90,7 +95,14 @@ export async function getGenomeFactsFor(
     if (error || !data || data.length === 0) {
       return { facts: fallback, live: false };
     }
-    const byId = new Map((data as GenomeRow[]).map((r) => [r.fact_id, rowToFact(r)]));
+    const rows = (data as GenomeRow[]).filter(
+      (r) =>
+        opts?.includeUnverified ||
+        !r.verification ||
+        r.verification === 'confirmed',
+    );
+    if (rows.length === 0) return { facts: fallback, live: false };
+    const byId = new Map(rows.map((r) => [r.fact_id, rowToFact(r)]));
     const ordered: GenomeFact[] = [];
     for (const fact of fallback) {
       const live = byId.get(fact.id);
@@ -104,9 +116,15 @@ export async function getGenomeFactsFor(
   }
 }
 
-/** Live genome for the flagship dog-training tenant. */
+/** Live genome for the flagship dog-training tenant (confirmed facts). */
 export async function getLiveGenomeFacts(): Promise<GenomeRead> {
   return getGenomeFactsFor(GENOME_TENANT, GENOME_FACTS);
+}
+
+/** The owner's review read: includes suggested/inferred/stale facts so the
+ *  console can show what needs confirmation. Never use on public surfaces. */
+export async function getLiveGenomeFactsForReview(): Promise<GenomeRead> {
+  return getGenomeFactsFor(GENOME_TENANT, GENOME_FACTS, { includeUnverified: true });
 }
 
 export type LiveEnquiry = {
