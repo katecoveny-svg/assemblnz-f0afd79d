@@ -25,11 +25,12 @@ import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import { deterministicDeskAnswer, rankGenomeFacts } from '@/lib/living-site/desk';
 import { getInstall } from '@/lib/living-site/install-store';
 import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
+import { OS_AGENTS } from './agents';
+import { resolveCapability } from './capabilities';
 import { addEvidence } from './evidence';
-import { classifyActionRisk, requiresApproval } from './policy';
 import { addTaskEvent, createTask, updateTaskFields, updateTaskStatus } from './tasks';
 
-const DESK_AGENT = 'desk';
+const DESK_AGENT = OS_AGENTS.desk.id;
 const PRIMARY_MODEL = 'claude-sonnet-4-6';
 const FALLBACKS = ['gemini-2.5-flash', 'groq:llama-3.3-70b-versatile', 'ollama:llama3.3'] as const;
 
@@ -104,7 +105,10 @@ export type IntakeResult = { taskId: string; status: string } | null;
  */
 export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
   try {
-    const risk = classifyActionRisk('email_draft');
+    // The agent requests a capability, never a vendor — the registry
+    // answers with the resolution path, risk and approval requirement.
+    const capability = resolveCapability('send_customer_email');
+    const risk = capability.risk;
     const plan = {
       steps: [
         'classify the enquiry',
@@ -113,7 +117,8 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
         'file the draft for approval — nothing sends without a yes',
         'record evidence',
       ],
-      capability: 'send_customer_email',
+      capability: capability.key,
+      resolution: capability.resolution,
       risk,
     };
 
@@ -223,7 +228,7 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
       return { taskId, status: 'blocked' };
     }
 
-    const status = requiresApproval(risk) ? 'awaiting_approval' : 'ready';
+    const status = capability.needsApproval ? 'awaiting_approval' : 'ready';
     await updateTaskStatus(taskId, status, { actionRequestId: request.id });
     return { taskId, status };
   } catch {
