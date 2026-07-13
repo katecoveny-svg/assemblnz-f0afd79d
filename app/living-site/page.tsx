@@ -5,6 +5,7 @@ import { MicroLabel } from '@assembl/canvas';
 import { BusinessGenome } from '@/components/ops/fred/BusinessGenome';
 import { MorningBrief } from '@/components/ops/fred/MorningBrief';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
+import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { getBrandFonts } from '@/lib/brand/fonts';
@@ -78,18 +79,9 @@ export default async function LivingSitePage() {
               {/* the genome itself — the glass sphere; click through to the
                   interactive dome */}
               <Link href="/genome" aria-label="Explore the Business Genome in 3D" style={{ flex: '0 1 360px', margin: '0 auto' }}>
-              <img
-                src="/brand/genome/sphere-genome.png"
-                alt="The Business Genome — explore it in 3D"
-                style={{
-                  width: '100%',
-                  minWidth: 260,
-                  maxWidth: 'min(360px, 100%)',
-                  height: 'auto',
-                  mixBlendMode: 'multiply',
-                  borderRadius: 26,
-                }}
-              />
+                <span style={{ display: 'block', width: '100%', minWidth: 260, height: 320, overflow: 'hidden', borderRadius: 26 }}>
+                  <GenomeDomeVisual link={false} />
+                </span>
               </Link>
             </div>
           </Reveal>

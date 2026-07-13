@@ -49,11 +49,11 @@ export const FAMILY_PLAN = SUBSCRIBE_PLANS[0];
 export const INDUSTRY_PACK_PLAN = SUBSCRIBE_PLANS[1];
 
 export const PILOT_SPRINT = {
-  frame: 'Try before you buy.',
+  frame: 'Founding Pilot price.',
   bannerCopy:
-    'NZ$5,000 + GST · two weeks · one workflow · one evidence pack · money-back if no time saved by week two.',
+    'NZ$1,500 + GST · ten working days · one workflow · one evidence pack · founding pilots only.',
   creditBack:
-    'Pilot Sprint is the try-before-you-buy path into Industry Pack: continue to a pack and your Sprint covers month one, then NZ$3,500/month.',
+    'Use the Founding Pilot Sprint to prove the workflow first. Any ongoing pack is scoped and priced separately after the Sprint.',
 };
 
 export const OUTCOME_OFFER = {

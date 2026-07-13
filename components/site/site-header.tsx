@@ -120,6 +120,11 @@ export function isAssemblBills(pathname: string | null): boolean {
   return pathname === "/bills" || pathname.startsWith("/bills/");
 }
 
+/** Strong is a self-contained Health OS sample with its own navigation. */
+export function isStandaloneHealth(pathname: string | null): boolean {
+  return pathname === "/health/strong" || Boolean(pathname?.startsWith("/health/strong/"));
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   // Platform never changes at runtime; the server snapshot says Mac (the
@@ -154,7 +159,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || pathname === "/") return null;
 
   return (
     <header

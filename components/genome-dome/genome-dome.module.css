@@ -16,7 +16,7 @@
   font-family: var(--font-mono), 'Space Mono', monospace;
   font-size: 15px;
   letter-spacing: 0.3em;
-  text-transform: uppercase;
+  text-transform: lowercase;
   color: #3f7373;
   text-align: center;
 }
@@ -66,6 +66,38 @@
 
 .hoverHint strong {
   color: #768c45;
+}
+
+.surfaceTray {
+  display: flex;
+  width: min(760px, 94vw);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.surfaceTray button {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 1px solid rgba(63, 115, 115, 0.16);
+  border-radius: 999px;
+  cursor: pointer;
+  color: #3f7373;
+  background: rgba(255, 255, 255, 0.66);
+  font: inherit;
+  font-size: 10px;
+}
+
+.surfaceTray button span {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
 }
 
 /* PNG fallback + loading poster — CSS float per spec */

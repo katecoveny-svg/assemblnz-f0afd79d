@@ -46,6 +46,7 @@ export interface RateResult {
 
 /** Check-and-record one generation for `key`. Returns whether it's allowed. */
 export async function consume(key: string, kind: string): Promise<RateResult> {
+  const scopedKey = `${kind}:${key}`;
   // Try Supabase first for cross-instance correctness.
   try {
     const sb = getServiceClient();
@@ -54,6 +55,7 @@ export async function consume(key: string, kind: string): Promise<RateResult> {
       .from("auaha_generations")
       .select("id", { count: "exact", head: true })
       .eq("rate_key", key)
+      .eq("kind", kind)
       .gte("created_at", sinceIso);
     if (!error && typeof count === "number") {
       if (count >= HOURLY_LIMIT) {
@@ -65,6 +67,6 @@ export async function consume(key: string, kind: string): Promise<RateResult> {
   } catch {
     /* Supabase not configured or table absent — fall through to memory. */
   }
-  const m = memHit(key);
+  const m = memHit(scopedKey);
   return { ok: m.ok, remaining: m.remaining, limit: HOURLY_LIMIT, resetMs: m.resetMs };
 }

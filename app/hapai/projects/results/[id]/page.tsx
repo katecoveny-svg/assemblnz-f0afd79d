@@ -127,13 +127,13 @@ export default async function HapaiProjectResultsPage({
             Pilot Sprint fit.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-            Want assembl to build one of these with you? A Pilot Sprint is
-            $5,000 + GST: one workflow, one team, one proof. The project stays
+            Want assembl to build one of these with you? A Founding Pilot Sprint is
+            $1,500 + GST: one workflow, one team, one proof. The project stays
             yours, with named human review and an evidence pack.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href="/pilot-sprint" className="cta-primary inline-flex h-12 items-center px-6">
-              Book a pilot
+              Book a founding pilot
             </Link>
             <Link href="/hapai/projects" className="btn-ghost inline-flex h-12 items-center px-6">
               Run again
