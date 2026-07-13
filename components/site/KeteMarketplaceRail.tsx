@@ -29,7 +29,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
             alt=""
             width={32}
             height={32}
-            className="h-8 w-8 rounded-sm object-cover transition hover:opacity-90"
+            className="h-8 w-8 rounded-sm object-cover transition hover:opacity-90 group-focus-visible:opacity-90"
           />
           <div className="min-w-0">
             <h2 className="font-display text-3xl leading-none text-[color:var(--text-primary)]">
