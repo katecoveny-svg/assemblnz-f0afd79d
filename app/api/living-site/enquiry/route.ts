@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, after } from 'next/server';
 import { storeEnquiry } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
 import { VERTICAL_TENANTS } from '@/lib/living-site/verticals';
+import { intakeEnquiry } from '@/lib/os/orchestrator';
 
 export const maxDuration = 15;
 
@@ -67,5 +68,17 @@ export async function POST(request: Request) {
       { status: 503 },
     );
   }
+
+  // The OS intake runs after the response: the enquiry becomes a task, the
+  // desk agent drafts a genome-grounded reply, and the draft is filed for
+  // approval. Fail-soft — the visitor's enquiry is already stored above.
+  after(async () => {
+    try {
+      await intakeEnquiry({ tenant, name, email, detail: dog, message });
+    } catch {
+      /* the OS layer must never break the public enquiry flow */
+    }
+  });
+
   return NextResponse.json({ ok: true });
 }

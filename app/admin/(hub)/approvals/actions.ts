@@ -60,6 +60,9 @@ export async function approveAgentAction(formData: FormData) {
   try {
     const { decideActionRequest } = await import('@/lib/agents/action-requests');
     await decideActionRequest(id, 'approved', admin.email, note || undefined);
+    // Close the OS loop: the linked task completes with the approval on record.
+    const { onActionDecided } = await import('@/lib/os/orchestrator');
+    await onActionDecided({ actionRequestId: id, decision: 'approved', reviewer: admin.email });
   } catch {
     // Fail soft — the row simply stays pending.
   }
@@ -74,6 +77,8 @@ export async function rejectAgentAction(formData: FormData) {
   try {
     const { decideActionRequest } = await import('@/lib/agents/action-requests');
     await decideActionRequest(id, 'rejected', admin.email, note || undefined);
+    const { onActionDecided } = await import('@/lib/os/orchestrator');
+    await onActionDecided({ actionRequestId: id, decision: 'rejected', reviewer: admin.email });
   } catch {
     // Fail soft.
   }
