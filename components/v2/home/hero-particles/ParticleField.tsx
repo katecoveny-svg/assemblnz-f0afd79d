@@ -46,8 +46,8 @@ const VERT = /* glsl */ `
     float perspective = 6.0 / max(0.001, -mv.z);
     gl_PointSize = clamp(
       aStyle.x * uPointScale * perspective * uPixelRatio,
-      0.8 * uPixelRatio,
-      2.2 * uPixelRatio
+      0.9 * uPixelRatio,
+      3.0 * uPixelRatio
     );
 
     // points brighten as they arrive and soften while dispersing
@@ -108,7 +108,7 @@ export function ParticleField({
       uTime: { value: 0 },
       uPixelRatio: { value: 1 },
       uPointScale: { value: cfg.pointSize },
-      uColor: { value: new THREE.Color('#82898f') }, // silver on white
+      uColor: { value: new THREE.Color('#49545b') }, // graphite ink on white
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
