@@ -8,6 +8,7 @@
  * view model.
  */
 import 'server-only';
+import { getServiceClient } from '@/lib/supabase/service';
 import { CAPABILITIES, resolveCapability } from './capabilities';
 
 export type ConnectionState = 'connected' | 'approval_gated' | 'not_connected';
@@ -33,7 +34,49 @@ function has(name: string): boolean {
   return Boolean(process.env[name] && String(process.env[name]).length > 0);
 }
 
-export function loadConnectionsView(): ConnectionsView {
+/** Inbox ingestion state for a tenant: connected? last sync heartbeat? */
+async function inboxConnection(tenant: string): Promise<ConnectionView> {
+  try {
+    const supabase = getServiceClient();
+    const [{ count }, { data: run }] = await Promise.all([
+      supabase
+        .from('os_inbox_tokens')
+        .select('tenant', { count: 'exact', head: true })
+        .eq('tenant', tenant),
+      supabase
+        .from('os_inbox_runs')
+        .select('ran_at, dry_run')
+        .order('ran_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
+    if ((count ?? 0) > 0) {
+      return {
+        name: 'Email inbox',
+        role: 'reads new customer emails into the operating loop',
+        state: 'approval_gated',
+        note: 'connected — every email becomes a task with a drafted reply awaiting your yes',
+      };
+    }
+    return {
+      name: 'Email inbox',
+      role: 'reads new customer emails into the operating loop',
+      state: 'not_connected',
+      note: run
+        ? 'not connected yet — the sync heartbeat is running in dry mode'
+        : 'not connected yet',
+    };
+  } catch {
+    return {
+      name: 'Email inbox',
+      role: 'reads new customer emails into the operating loop',
+      state: 'not_connected',
+      note: 'not connected yet',
+    };
+  }
+}
+
+export async function loadConnectionsView(tenant?: string): Promise<ConnectionsView> {
   const dispatchOn = process.env.ACTION_DISPATCH_ENABLED === 'true';
 
   const systems: ConnectionView[] = [
@@ -81,6 +124,8 @@ export function loadConnectionsView(): ConnectionsView {
       note: has('ELEVENLABS_API_KEY') ? 'live' : 'browser speech carries the desk instead',
     },
   ];
+
+  if (tenant) systems.splice(1, 0, await inboxConnection(tenant));
 
   return {
     systems,

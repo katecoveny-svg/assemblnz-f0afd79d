@@ -148,7 +148,7 @@ export default async function AucklandDogTrainerOpsHome({
   // Work & proof: what the OS is carrying and the evidence trail behind it.
   const work = tab === 'work' ? await loadWorkView(GENOME_TENANT) : null;
   // Connections: connected systems and capabilities, honestly reported.
-  const connections = tab === 'connections' ? loadConnectionsView() : null;
+  const connections = tab === 'connections' ? await loadConnectionsView(GENOME_TENANT) : null;
   // Intelligence: signals computed from real activity, never invented.
   const intel = tab === 'intelligence' ? await loadIntelligenceView(GENOME_TENANT) : null;
 
