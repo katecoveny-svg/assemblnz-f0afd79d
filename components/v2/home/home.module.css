@@ -48,25 +48,22 @@
   z-index: 0;
   pointer-events: none;
 }
-.heroArtInner {
+/* the sculpture's region — never full-bleed; the copy column stays clear
+   and the white page dominates (≥75% of the hero stays empty) */
+.heroSculpt {
   position: absolute;
-  inset: 0;
-}
-@media (min-width: 900px) {
-  .heroArtInner {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(0, 0, 0, 0.4) 22%,
-      black 52%
-    );
-    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 22%, black 52%);
-  }
+  right: 1%;
+  top: 8%;
+  width: 56%;
+  height: 80%;
 }
 @media (max-width: 899px) {
-  .heroArtInner {
-    /* the pearl wave is quiet by design — keep most of it under the copy */
-    opacity: 0.8;
+  .heroSculpt {
+    right: 0;
+    left: 0;
+    top: -2%;
+    width: 100%;
+    height: 30%;
   }
 }
 
