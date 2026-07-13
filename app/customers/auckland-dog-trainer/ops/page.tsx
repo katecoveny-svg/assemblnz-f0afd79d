@@ -23,6 +23,7 @@ import {
   getRecentEnquiries,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { loadWorkView } from '@/lib/os/work-view';
+import { loadConnectionsView } from '@/lib/os/connections';
 
 type OpsSearchParams = { tab?: string | string[] };
 
@@ -143,6 +144,8 @@ export default async function AucklandDogTrainerOpsHome({
   const enquiries = tab === 'leads' || tab === 'brief' ? await getRecentEnquiries(20) : null;
   // Work & proof: what the OS is carrying and the evidence trail behind it.
   const work = tab === 'work' ? await loadWorkView(GENOME_TENANT) : null;
+  // Connections: connected systems and capabilities, honestly reported.
+  const connections = tab === 'connections' ? loadConnectionsView() : null;
 
   return (
     <OsWowStage
@@ -162,6 +165,7 @@ export default async function AucklandDogTrainerOpsHome({
           liveEnquiries={enquiries ?? undefined}
           liveEnquiryCount={enquiries ? enquiries.length : undefined}
           work={work}
+          connections={connections}
         />
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">

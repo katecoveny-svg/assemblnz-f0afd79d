@@ -581,7 +581,9 @@ function AgentsTab() {
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import type { LiveEnquiry } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import type { WorkView } from '@/lib/os/work-view';
+import type { ConnectionsView } from '@/lib/os/connections';
 import { WorkProofTab } from './WorkProofTab';
+import { ConnectionsTab } from './ConnectionsTab';
 
 export function FredDashboard({
   tab,
@@ -590,6 +592,7 @@ export function FredDashboard({
   liveEnquiries,
   liveEnquiryCount,
   work,
+  connections,
 }: {
   tab: FredTabKey;
   genomeFacts?: GenomeFact[];
@@ -597,6 +600,7 @@ export function FredDashboard({
   liveEnquiries?: LiveEnquiry[];
   liveEnquiryCount?: number | null;
   work?: WorkView | null;
+  connections?: ConnectionsView | null;
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: NAVY }}>
@@ -608,6 +612,7 @@ export function FredDashboard({
         {tab === 'brief' ? <MorningBrief liveEnquiryCount={liveEnquiryCount} /> : null}
         {tab === 'genome' ? <BusinessGenome facts={genomeFacts} live={genomeLive} editable /> : null}
         {tab === 'work' && work ? <WorkProofTab work={work} /> : null}
+        {tab === 'connections' && connections ? <ConnectionsTab connections={connections} /> : null}
         {tab === 'landing' ? <LandingTab /> : null}
         {tab === 'leads' ? <LeadsTab liveEnquiries={liveEnquiries} /> : null}
         {tab === 'dogs' ? <DogsTab /> : null}
