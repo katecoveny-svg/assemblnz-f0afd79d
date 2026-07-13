@@ -112,21 +112,50 @@ export async function generateWithFallback(opts: {
   messages: ModelMessage[];
   agentSlug?: string | null;
   userId?: string | null;
+  /** model_calls ledger context (migration 20260722093000). */
+  tenant?: string | null;
+  taskId?: string | null;
 }): Promise<{ ok: true; text: string; rung: ModelRung } | { ok: false }> {
   const { ladder, messages, agentSlug, userId } = opts;
+  const { recordModelCall, providerFromModelId } = await import('./call-log');
   for (let i = 0; i < ladder.length; i++) {
     const rung = ladder[i];
     const system = rung.isPrimary ? opts.system : `${opts.system}\n\n${FALLBACK_DISCLOSURE}`;
+    const started = Date.now();
     try {
-      const { text } = await generateText({ model: rung.model, system, messages });
+      const { text, usage } = await generateText({ model: rung.model, system, messages });
+      void recordModelCall({
+        tenant: opts.tenant,
+        agent: agentSlug,
+        taskId: opts.taskId,
+        provider: providerFromModelId(rung.id),
+        model: rung.id,
+        fallbackFrom: i > 0 ? ladder[0].id : null,
+        latencyMs: Date.now() - started,
+        tokensIn: usage?.inputTokens,
+        tokensOut: usage?.outputTokens,
+        ok: true,
+      });
       return { ok: true, text, rung };
     } catch (err) {
+      const reason = err instanceof Error ? err.message : String(err);
+      void recordModelCall({
+        tenant: opts.tenant,
+        agent: agentSlug,
+        taskId: opts.taskId,
+        provider: providerFromModelId(rung.id),
+        model: rung.id,
+        fallbackFrom: i > 0 ? ladder[0].id : null,
+        latencyMs: Date.now() - started,
+        ok: false,
+        error: reason,
+      });
       await recordModelFallback({
         agentSlug,
         userId,
         primaryModel: rung.id,
         fallbackModel: ladder[i + 1]?.id ?? null,
-        reason: err instanceof Error ? err.message : String(err),
+        reason,
       });
     }
   }
