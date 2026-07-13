@@ -15,7 +15,7 @@
  * the OS layer is unavailable.
  */
 import 'server-only';
-import { generateWithFallback, resolveModelLadder } from '@/lib/ai/router';
+import { generateWithFallback, resolveLadderFromIds } from '@/lib/ai/router';
 import { createActionRequest } from '@/lib/agents/action-requests';
 import {
   GENOME_TENANT,
@@ -29,11 +29,23 @@ import { OS_AGENTS } from './agents';
 import { resolveCapability } from './capabilities';
 import { addEvidence } from './evidence';
 import { suggestFactFromQuestion } from './memory';
+import { routeForWorkflow } from './routing-live';
+import type { TaskRequirements } from './routing';
 import { addTaskEvent, createTask, updateTaskFields, updateTaskStatus } from './tasks';
 
 const DESK_AGENT = OS_AGENTS.desk.id;
-const PRIMARY_MODEL = 'claude-sonnet-4-6';
-const FALLBACKS = ['gemini-2.5-flash', 'groq:llama-3.3-70b-versatile', 'ollama:llama3.3'] as const;
+
+/** What an enquiry reply actually needs — the router picks the model from
+ *  this, tenant policy, measured workflow performance and failure rates. */
+const ENQUIRY_REPLY_REQUIREMENTS: TaskRequirements = {
+  capabilities: ['reasoning', 'long_context', 'structured_output'],
+  riskLevel: 'high', // an external communication once approved
+  latencyPreference: 'background', // runs after the response, via after()
+  qualityPreference: 'balanced',
+  dataClassification: 'internal',
+  estimatedValue: 'medium',
+  requiresIndependentVerification: false,
+};
 
 type BusinessContext = {
   tenant: string;
@@ -160,8 +172,11 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
       groundedFactIds: grounding.map((f) => f.id),
     });
 
-    // One provider abstraction for the whole OS: the router's ladder.
-    const ladder = resolveModelLadder(PRIMARY_MODEL, FALLBACKS);
+    // The Model & Capability Router: requirements + tenant policy +
+    // measured Assembl performance + failure rates → an ordered ladder.
+    const route = await routeForWorkflow('enquiry-reply', ENQUIRY_REPLY_REQUIREMENTS);
+    const ladder = resolveLadderFromIds(route.ladder);
+    await addTaskEvent(taskId, 'plan', { routing: route.rationale.slice(0, 6) });
     const question = [
       `Enquiry from ${input.name}${input.detail ? ` (${input.detail})` : ''}:`,
       input.message,
