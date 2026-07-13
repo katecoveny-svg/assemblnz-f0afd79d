@@ -380,18 +380,18 @@ export function createSeedsAndStyles(cfg: HeroParticleSettings) {
     let drift: number;
     if (i < roles.structural) {
       delay = u * 0.14; // the skeleton arrives first
-      size = 1.75 + rand() * 0.45;
-      alpha = 0.78 + rand() * 0.17;
+      size = 2.0 + rand() * 0.55;
+      alpha = 0.86 + rand() * 0.14;
       drift = 0.006 + rand() * 0.005;
     } else if (i < roles.structural + roles.supporting) {
       delay = 0.1 + u * 0.26; // curves fill in second
-      size = 1.0 + rand() * 0.3;
-      alpha = 0.24 + rand() * 0.2;
+      size = 1.15 + rand() * 0.35;
+      alpha = 0.34 + rand() * 0.26;
       drift = 0.008 + rand() * 0.007;
     } else {
       delay = 0.3 + u * 0.18; // atmosphere settles last
-      size = 0.85 + rand() * 0.2;
-      alpha = 0.08 + rand() * 0.12;
+      size = 0.9 + rand() * 0.25;
+      alpha = 0.12 + rand() * 0.14;
       drift = 0.01 + rand() * 0.009;
     }
     seeds[i * 4] = delay;

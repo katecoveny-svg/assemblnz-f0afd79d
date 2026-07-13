@@ -9,9 +9,7 @@
   overflow: hidden;
   border-bottom: 1px solid rgba(49, 60, 66, 0.09);
   color: var(--graphite);
-  background:
-    radial-gradient(circle at 82% 45%, rgba(197, 215, 217, 0.33), transparent 30rem),
-    linear-gradient(180deg, #fff 0%, #fdfdfc 68%, #f7f9f8 100%);
+  background: #fff;
 }
 
 .signalRail {
@@ -112,8 +110,12 @@
 
 .heroCanvas {
   position: absolute;
-  inset: 56px 0 0 36%;
+  top: 56px;
+  right: 0;
+  bottom: 0;
+  left: 36%;
   z-index: 1;
+  transition: top 1.1s cubic-bezier(0.22, 0.8, 0.24, 1), left 1.1s cubic-bezier(0.22, 0.8, 0.24, 1);
 }
 .heroCanvas::before {
   position: absolute;
@@ -123,6 +125,37 @@
   content: '';
   pointer-events: none;
   background: linear-gradient(90deg, #fff 4%, rgba(255,255,255,0.92) 30%, transparent 100%);
+  transition: opacity 0.8s ease;
+}
+
+/* ── the overture — a white viewport, only the sculpture forming ────────── */
+.heroCopy,
+.signalRail {
+  transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
+}
+.overture .heroCopy {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+.overture .signalRail {
+  opacity: 0;
+  pointer-events: none;
+}
+.overture .heroCanvas {
+  top: 0;
+  left: 0;
+}
+.overture .heroCanvas::before {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroCanvas,
+  .heroCanvas::before,
+  .heroCopy,
+  .signalRail {
+    transition: none;
+  }
 }
 .canvasFrame { position: relative; width: 100%; height: 100%; margin: 0; overflow: hidden; }
 .canvasFrame canvas { touch-action: pan-y; }
@@ -150,6 +183,7 @@
 @media (max-width: 1000px) {
   .heroCopy { width: min(590px, 56vw); margin-left: 38px; }
   .heroCanvas { left: 38%; }
+  .overture .heroCanvas { left: 0; }
 }
 
 @media (max-width: 760px) {
@@ -157,8 +191,9 @@
   .signalRail { position: relative; top: auto; right: auto; left: auto; justify-content: space-between; padding: 18px 18px 0; }
   .signalRail span:nth-child(2) { display: none; }
   .signalRail span:first-child { margin: 0; }
-  .heroCanvas { position: relative; inset: auto; height: 43svh; min-height: 310px; margin-top: 6px; }
+  .heroCanvas { position: relative; inset: auto; height: 43svh; min-height: 310px; margin-top: 6px; transition: height 1.1s cubic-bezier(0.22, 0.8, 0.24, 1); }
   .heroCanvas::before { inset: auto 0 0; width: 100%; height: 25%; background: linear-gradient(0deg, #fff, transparent); }
+  .overture .heroCanvas { top: auto; left: auto; height: 86svh; }
   .heroCopy { width: auto; min-height: auto; margin: 0; padding: 10px 20px 32px; }
   .heroCopy h1 { margin-top: 15px; font-size: clamp(48px, 14vw, 68px); line-height: 0.94; }
   .lede { margin-top: 22px; font-size: 13px; }
