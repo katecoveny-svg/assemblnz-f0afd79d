@@ -277,7 +277,23 @@ function FactRow({
       }
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
-        <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: C.ink }}>{fact.label}</p>
+        <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: C.ink }}>
+          {fact.label}
+          {fact.verification && fact.verification !== 'confirmed' ? (
+            <span
+              style={{
+                marginLeft: 8,
+                fontSize: 9.5,
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#8a6d1f',
+              }}
+            >
+              {fact.verification} — needs your confirmation
+            </span>
+          ) : null}
+        </p>
         {editable && !editing ? (
           <button type="button" onClick={() => { setDraft(fact.value); setEditing(true); setSaved(false); }} style={chipBtn}>
             edit
