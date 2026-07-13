@@ -580,6 +580,8 @@ function AgentsTab() {
 
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import type { LiveEnquiry } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import type { WorkView } from '@/lib/os/work-view';
+import { WorkProofTab } from './WorkProofTab';
 
 export function FredDashboard({
   tab,
@@ -587,12 +589,14 @@ export function FredDashboard({
   genomeLive = false,
   liveEnquiries,
   liveEnquiryCount,
+  work,
 }: {
   tab: FredTabKey;
   genomeFacts?: GenomeFact[];
   genomeLive?: boolean;
   liveEnquiries?: LiveEnquiry[];
   liveEnquiryCount?: number | null;
+  work?: WorkView | null;
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: NAVY }}>
@@ -603,6 +607,7 @@ export function FredDashboard({
       <OsScrollReveal key={tab} delay={0.04}>
         {tab === 'brief' ? <MorningBrief liveEnquiryCount={liveEnquiryCount} /> : null}
         {tab === 'genome' ? <BusinessGenome facts={genomeFacts} live={genomeLive} editable /> : null}
+        {tab === 'work' && work ? <WorkProofTab work={work} /> : null}
         {tab === 'landing' ? <LandingTab /> : null}
         {tab === 'leads' ? <LeadsTab liveEnquiries={liveEnquiries} /> : null}
         {tab === 'dogs' ? <DogsTab /> : null}
