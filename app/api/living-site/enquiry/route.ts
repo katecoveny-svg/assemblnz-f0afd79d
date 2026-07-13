@@ -39,7 +39,8 @@ export async function POST(request: Request) {
   // than minting arbitrary tenant rows.
   const rawTenant = str(b.tenant, 60);
   let tenant: string | undefined;
-  if (rawTenant && VERTICAL_TENANTS.has(rawTenant)) {
+  if (rawTenant && (VERTICAL_TENANTS.has(rawTenant) || rawTenant === 'assembl')) {
+    // assembl runs on its own architecture — its enquiries take the same loop.
     tenant = rawTenant;
   } else if (rawTenant && INSTALL_TENANT_RE.test(rawTenant)) {
     const exists = await installTenantExists(rawTenant);

@@ -46,20 +46,39 @@ export async function suggestFactFromQuestion(input: {
     if ((count ?? 0) >= SUGGESTION_CAP) return false;
 
     const factId = suggestionFactId(value);
-    const { error } = await supabase.from('living_site_genome').upsert(
-      {
-        tenant: input.tenant,
-        fact_id: factId,
-        section: 'knowledge',
-        label: 'Customers are asking',
-        value,
-        read_by: [],
-        source: 'agent-desk',
-        verification: 'suggested',
-        confidence: 0.4,
-      },
-      { onConflict: 'tenant,fact_id', ignoreDuplicates: true },
-    );
+
+    // Confidence calibration (Phase 5): a repeated question is demand.
+    // Each recurrence nudges the suggestion's confidence up (capped well
+    // below anything a human confirmation would set).
+    const { data: existing } = await supabase
+      .from('living_site_genome')
+      .select('confidence, verification')
+      .eq('tenant', input.tenant)
+      .eq('fact_id', factId)
+      .maybeSingle();
+    if (existing) {
+      if (existing.verification === 'suggested') {
+        const bumped = Math.min(0.85, (Number(existing.confidence) || 0.4) + 0.1);
+        await supabase
+          .from('living_site_genome')
+          .update({ confidence: bumped, updated_at: new Date().toISOString() })
+          .eq('tenant', input.tenant)
+          .eq('fact_id', factId);
+      }
+      return false; // no new suggestion, no new evidence
+    }
+
+    const { error } = await supabase.from('living_site_genome').insert({
+      tenant: input.tenant,
+      fact_id: factId,
+      section: 'knowledge',
+      label: 'Customers are asking',
+      value,
+      read_by: [],
+      source: 'agent-desk',
+      verification: 'suggested',
+      confidence: 0.4,
+    });
     if (error) return false;
 
     await addEvidence({

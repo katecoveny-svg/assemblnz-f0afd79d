@@ -69,12 +69,63 @@ async function loadFailureRates(): Promise<Record<string, number>> {
   }
 }
 
-/** Route a workflow's task with live measurements. */
+/** Operator outcomes (Phase 5): approval rate per model on this workflow —
+ *  the strongest real-world signal there is. Blended into accuracy. */
+async function loadOutcomeRates(workflow: string): Promise<Record<string, number>> {
+  try {
+    const supabase = getServiceClient();
+    const { data } = await supabase
+      .from('os_outcomes')
+      .select('model, score')
+      .eq('workflow', workflow)
+      .order('created_at', { ascending: false })
+      .limit(300);
+    const agg = new Map<string, { n: number; sum: number }>();
+    for (const r of data ?? []) {
+      if (!r.model) continue;
+      const a = agg.get(r.model as string) ?? { n: 0, sum: 0 };
+      a.n += 1;
+      a.sum += Number(r.score);
+      agg.set(r.model as string, a);
+    }
+    const out: Record<string, number> = {};
+    for (const [model, a] of agg) if (a.n >= 3) out[model] = a.sum / a.n;
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+/** Route a workflow's task with live measurements: eval accuracy blended
+ *  with real operator-approval outcomes (70/30 when both exist). */
 export async function routeForWorkflow(
   workflow: string,
   requirements: TaskRequirements,
   tenantPolicy?: TenantModelPolicy,
 ): Promise<RouteDecision> {
-  const [stats, failureRates] = await Promise.all([loadWorkflowStats(workflow), loadFailureRates()]);
-  return routeModel({ requirements, workflow, stats, failureRates, tenantPolicy });
+  const [stats, failureRates, outcomes] = await Promise.all([
+    loadWorkflowStats(workflow),
+    loadFailureRates(),
+    loadOutcomeRates(workflow),
+  ]);
+  const blended: WorkflowStat[] = stats.map((s) => {
+    const outcome = outcomes[s.model];
+    return outcome === undefined
+      ? s
+      : { ...s, accuracy: +(s.accuracy * 0.7 + outcome * 0.3).toFixed(3) };
+  });
+  for (const [model, rate] of Object.entries(outcomes)) {
+    if (!blended.some((s) => s.model === model)) {
+      blended.push({
+        model,
+        workflow,
+        accuracy: rate,
+        toolSuccess: null,
+        hallucinationRate: null,
+        avgLatencyMs: null,
+        avgCostNzd: null,
+      });
+    }
+  }
+  return routeModel({ requirements, workflow, stats: blended, failureRates, tenantPolicy });
 }
