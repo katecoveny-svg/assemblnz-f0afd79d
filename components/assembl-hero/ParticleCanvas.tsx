@@ -3,13 +3,27 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FORMATION_LABELS, FORMATION_ORDER, type FormationName } from '@/lib/formations/living-genome';
+import {
+  FORMATIONS,
+  HOLD_SECONDS,
+  MORPH_SECONDS,
+  type FormationName,
+} from '@/components/v2/home/hero-particles/config';
 import styles from './assembl-hero.module.css';
 
-const ParticleScene = dynamic(() => import('./ParticleScene'), {
-  ssr: false,
-  loading: () => <HeroFallback />,
-});
+const KineticHero = dynamic(
+  () => import('@/components/v2/home/hero-particles/KineticHero').then((m) => m.KineticHero),
+  { ssr: false, loading: () => <HeroFallback /> },
+);
+
+/** Caption copy for each formation of the kinetic sculpture. */
+const FORMATION_LABELS: Record<FormationName, string> = {
+  wing: 'collective knowledge',
+  school: 'coordinated movement',
+  matariki: 'patterns become visible',
+  rivers: 'work begins to flow',
+  genome: 'your living business genome',
+};
 
 function supportsWebgl() {
   try {
@@ -37,7 +51,7 @@ function HeroFallback() {
 export function ParticleCanvas() {
   const [webgl, setWebgl] = useState<boolean | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [stage, setStage] = useState<FormationName>('signal');
+  const [stage, setStage] = useState<FormationName>('wing');
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -50,17 +64,20 @@ export function ParticleCanvas() {
     return () => media.removeEventListener('change', update);
   }, []);
 
+  // The caption announces the incoming formation the moment its morph starts,
+  // mirroring the sculpture's hold/morph rhythm.
   useEffect(() => {
     if (reducedMotion) {
-      queueMicrotask(() => setStage('genome'));
+      queueMicrotask(() => setStage('wing'));
       return undefined;
     }
+    const cycleMs = (HOLD_SECONDS + MORPH_SECONDS) * 1000;
     const started = performance.now();
     const timer = window.setInterval(() => {
       const elapsed = performance.now() - started;
-      const index = Math.min(FORMATION_ORDER.length - 1, Math.floor(Math.max(0, elapsed - 700) / 2050));
-      setStage(FORMATION_ORDER[index]);
-    }, 180);
+      const index = Math.floor((elapsed + MORPH_SECONDS * 1000) / cycleMs) % FORMATIONS.length;
+      setStage(FORMATIONS[index]);
+    }, 250);
     return () => window.clearInterval(timer);
   }, [reducedMotion]);
 
@@ -68,7 +85,7 @@ export function ParticleCanvas() {
     <figure className={styles.canvasFrame} aria-label="The living Business Genome forming from connected signals">
       {webgl === false ? <HeroFallback /> : null}
       {webgl === null ? <HeroFallback /> : null}
-      {webgl ? <ParticleScene reducedMotion={reducedMotion} /> : null}
+      {webgl ? <KineticHero /> : null}
       <figcaption className={styles.canvasCaption}>
         <span className={styles.liveDot} aria-hidden />
         {FORMATION_LABELS[stage]}
