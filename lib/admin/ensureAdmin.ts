@@ -134,6 +134,6 @@ export async function ensureAdmin(redirectTo?: string): Promise<AdminUser> {
     return { id: user.id, email };
   }
 
-  // Signed in but not an operator — send them to the public marketplace.
-  redirect('/agents');
+  // Signed in but not an operator — send them to the public front door.
+  redirect('/living-site');
 }
