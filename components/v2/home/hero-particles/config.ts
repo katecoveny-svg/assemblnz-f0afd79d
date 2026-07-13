@@ -59,10 +59,12 @@ export const heroParticleConfig: Record<HeroBreakpoint, HeroParticleSettings> = 
   },
 };
 
-export const FORMATIONS = ['wing', 'school', 'matariki', 'rivers', 'genome'] as const;
+/** The genome helix leads — the one shape every visitor recognises at a
+ *  glance, and the one the headline is about. */
+export const FORMATIONS = ['genome', 'wing', 'school', 'matariki', 'rivers'] as const;
 export type FormationName = (typeof FORMATIONS)[number];
 
 /** Seconds a formation holds before morphing on. */
-export const HOLD_SECONDS = 7;
+export const HOLD_SECONDS = 3.8;
 /** Seconds a morph takes end to end. */
-export const MORPH_SECONDS = 3.4;
+export const MORPH_SECONDS = 2.4;
