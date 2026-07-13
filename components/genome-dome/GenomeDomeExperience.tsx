@@ -18,7 +18,7 @@ import styles from './genome-dome.module.css';
 
 const DomeScene = dynamic(() => import('./DomeScene'), { ssr: false, loading: () => <Poster /> });
 
-const POSTER_PRIMARY = '/assets/assembl_pale_hero_dome.png';
+const POSTER_PRIMARY = '/brand/genome/genome-city.png';
 const POSTER_FALLBACK = '/brand/genome/sphere-genome-alpha.png';
 
 let webglSupport: boolean | null = null;
@@ -84,7 +84,7 @@ export function GenomeDomeExperience({
           business genome
         </span>
       </h1>
-      <p className={styles.subtitle}>One source of truth. Everything connected.</p>
+      <p className={styles.subtitle}>Tāmaki Makaurau as a connected business city. One source of truth beneath the glass.</p>
       <p className={styles.samplenote}>
         sample business — details fictional{live ? ' · reading live from the database' : ''}
       </p>
@@ -107,6 +107,14 @@ export function GenomeDomeExperience({
           ' '
         )}
       </p>
+
+      <div className={styles.surfaceTray} aria-label="Business Genome surfaces">
+        {surfaces.map((surface) => (
+          <button key={surface.id} type="button" onClick={() => setSelected(surface)}>
+            <span aria-hidden /> {surface.name}
+          </button>
+        ))}
+      </div>
 
       <nav aria-label="Genome links" className={styles.quietRow}>
         <Link href="/living-site" className={styles.quietLink}>

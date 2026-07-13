@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   Activity,
   ArrowRight,
@@ -15,6 +14,7 @@ import {
   Network,
   Sparkles,
 } from 'lucide-react';
+import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
 import styles from './home-dashboard-hero.module.css';
 
 type HomeTab = 'today' | 'sites' | 'genome' | 'proof';
@@ -83,8 +83,7 @@ function TodayPanel({ genomeFacts, surfaces }: { genomeFacts: number; surfaces: 
           <div className={styles.actions}><Link href="/living-site">Step inside a Living Site <ArrowRight aria-hidden /></Link><Link href="/how-it-works" className={styles.ghost}>How it works</Link></div>
         </div>
         <div className={styles.genomeVisual}>
-          <Image src="/brand/genome/sphere-genome-alpha.png" alt="A glass Business Genome connecting the business" width={420} height={420} priority />
-          <span><Activity aria-hidden /> connected now</span>
+          <GenomeDomeVisual label="Explore the live genome" />
         </div>
       </section>
 
@@ -138,7 +137,7 @@ function GenomePanel({ genomeFacts, surfaces }: { genomeFacts: number; surfaces:
   return (
     <div className={styles.panelStack}>
       <section className={styles.panelHeading}><p className={styles.eyebrow}>Business Genome</p><h1>Change the fact once. Let every approved surface follow.</h1><p>Services, prices, policies, people and operating rules stay structured and visible.</p></section>
-      <div className={styles.genomeGrid}><section className={styles.genomeImage}><Image src="/brand/genome/sphere-genome-alpha.png" alt="Business Genome glass sphere" width={420} height={420} /></section><section className={styles.card}><p className={styles.eyebrow}>connected readers</p><div className={styles.readerList}>{['Public Living Site','Customer desk','Bookings','Knowledge','Email drafts','Owner dashboard'].map((reader)=><p key={reader}><Network aria-hidden /><span>{reader}</span><b>reading</b></p>)}</div><small>{genomeFacts} facts · {surfaces} connected surface types in the current sample.</small></section></div>
+      <div className={styles.genomeGrid}><section className={styles.genomeImage}><GenomeDomeVisual label="Open the full genome" /></section><section className={styles.card}><p className={styles.eyebrow}>connected readers</p><div className={styles.readerList}>{['Public Living Site','Customer desk','Bookings','Knowledge','Email drafts','Owner dashboard'].map((reader)=><p key={reader}><Network aria-hidden /><span>{reader}</span><b>reading</b></p>)}</div><small>{genomeFacts} facts · {surfaces} connected surface types in the current sample.</small></section></div>
     </div>
   );
 }

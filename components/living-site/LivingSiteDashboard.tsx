@@ -2,7 +2,6 @@
 
 import { useState, type CSSProperties } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   Activity,
   ArrowRight,
@@ -18,6 +17,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
+import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
 import { SampleEnquiryForm } from '@/components/living-site/SampleEnquiryForm';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
 import { SAMPLE_VERTICALS, type SampleVertical } from '@/lib/living-site/verticals';
@@ -210,8 +210,8 @@ function OverviewPanel({
             {v.chat ? <button type="button" className={styles.heroGhost} onClick={() => onTab('ask')}>Ask the desk</button> : null}
           </div>
         </div>
-        <div className={styles.heroVisual} aria-hidden>
-          {v.sphere ? <Image src={v.sphere} alt="" width={420} height={420} /> : <span>{v.businessName.charAt(0)}</span>}
+        <div className={styles.heroVisual}>
+          <GenomeDomeVisual label="Explore the Business Genome" />
         </div>
       </section>
 
