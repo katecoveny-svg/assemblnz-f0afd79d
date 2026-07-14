@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
+import { BusinessGenomeOrbit } from '@/components/genome-orbit/BusinessGenomeOrbit';
 import { BusinessGenomeSection } from '@/components/business-genome/BusinessGenomeSection';
 import { GENOME_FACTS, GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 
@@ -21,6 +22,7 @@ export default function HomePage() {
     <div style={{ minHeight: '100vh', background: '#fff', color: '#313c42' }}>
       <V2Nav />
       <AssemblHero />
+      <BusinessGenomeOrbit />
       <BusinessGenomeSection genomeFacts={GENOME_FACTS.length} surfaces={GENOME_SURFACES.length} />
       <footer
         style={{
