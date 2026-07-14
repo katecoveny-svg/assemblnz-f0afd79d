@@ -26,6 +26,7 @@ import { deterministicDeskAnswer, rankGenomeFacts } from '@/lib/living-site/desk
 import { getInstall } from '@/lib/living-site/install-store';
 import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
 import { OS_AGENTS } from './agents';
+import { getProductionRelease, provenanceStamp } from './agent-registry';
 import { resolveCapability } from './capabilities';
 import { addEvidence } from './evidence';
 import { suggestFactFromQuestion } from './memory';
@@ -223,12 +224,17 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
       modelUsed = 'deterministic';
     }
 
+    // Governance: which agent release produced this — recorded beside the
+    // proof, provider-neutral (Agent Definition Registry).
+    const release = await getProductionRelease(DESK_AGENT);
+    const provenance = release ? provenanceStamp(release, modelUsed) : { model: modelUsed };
+
     await addEvidence({
       tenant: ctx.tenant,
       taskId,
       kind: 'model_call',
       summary: `Draft written by ${modelUsed} for the ${DESK_AGENT} agent`,
-      refs: { model: modelUsed, groundedFactIds: grounding.map((f) => f.id) },
+      refs: { ...provenance, groundedFactIds: grounding.map((f) => f.id) },
     });
 
     // The existing human gate: a pending action request. Dispatch stays
@@ -247,6 +253,7 @@ export async function intakeEnquiry(input: IntakeInput): Promise<IntakeResult> {
 
     await updateTaskFields(taskId, {
       model: modelUsed,
+      ...(release ? { agentVersion: release.version } : {}),
       ...(request ? { actionRequestId: request.id } : {}),
     });
 

@@ -179,6 +179,7 @@ export async function updateTaskFields(
     plan: Record<string, unknown>;
     actionRequestId: string;
     model: string;
+    agentVersion: string;
     outcome: string;
     risk: RiskLevel;
   }>,
@@ -190,9 +191,16 @@ export async function updateTaskFields(
     if (fields.plan !== undefined) patch.plan = fields.plan;
     if (fields.actionRequestId !== undefined) patch.action_request_id = fields.actionRequestId;
     if (fields.model !== undefined) patch.model = fields.model;
+    if (fields.agentVersion !== undefined) patch.agent_version = fields.agentVersion;
     if (fields.outcome !== undefined) patch.outcome = fields.outcome.slice(0, 2000);
     if (fields.risk !== undefined) patch.risk = fields.risk;
-    const { error } = await supabase.from('os_tasks').update(patch).eq('id', taskId);
+    let { error } = await supabase.from('os_tasks').update(patch).eq('id', taskId);
+    if (error && fields.agentVersion !== undefined) {
+      // agent_version column may be pending (migration 20260722097000) —
+      // never let governance metadata block the task update.
+      delete patch.agent_version;
+      ({ error } = await supabase.from('os_tasks').update(patch).eq('id', taskId));
+    }
     return !error;
   } catch {
     return false;
