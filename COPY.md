@@ -140,7 +140,7 @@ reads them from the manifest and they are never rewritten.
 Centre node: `Business Genome`
 
 ### Conversational build scroll — script (verbatim, in order)
-1. `Hi Kate.`  _(OPEN DECISION: Kate to confirm whether the public site opens with `Hi Kate.` or `Kia ora.` — the demo build keeps `Hi Kate.` either way. Do not change without her word.)_
+1. `Kia ora.`  _(DECIDED 2026-07-14 by Kate: the public site opens with `Kia ora.`)_
 2. `Let's build your business.`
 3. `What do you do?`
 4. `Tell me about it.`
