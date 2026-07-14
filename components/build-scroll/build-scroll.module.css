@@ -1,0 +1,171 @@
+/* Conversational build scroll (Prompt 3). The build talks, the sources you
+   drop assemble into a small genome orbit, it lands on "Done." Light/pearl,
+   one accent (Ming teal), gold on the core rim. Tokens from the --a-* layer.
+   Motion assembles — reveals glide, chips settle out from the core. */
+
+.section {
+  position: relative;
+  padding: var(--a-section-pad) clamp(20px, 5vw, 64px);
+  background: var(--a-paper-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(48px, 8vh, 96px);
+  overflow: hidden;
+}
+
+/* ── The conversation ─────────────────────────────────────────────────── */
+.thread {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3.4vh, 34px);
+  text-align: center;
+}
+
+.line {
+  margin: 0;
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(24px, 4.6vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--a-text);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.line:first-child {
+  color: var(--a-accent);
+}
+
+.line[data-visible='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Assemble: chips settle out from the core into a small orbit ───────── */
+.assemble {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.assemble[data-visible='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.miniOrbit {
+  --r: 0px;
+  position: relative;
+  width: min(84vw, 380px);
+  height: min(84vw, 380px);
+  display: grid;
+  place-items: center;
+}
+
+.assemble[data-visible='true'] .miniOrbit {
+  --r: clamp(120px, 30vw, 172px);
+}
+
+.core {
+  position: relative;
+  z-index: 2;
+  width: clamp(112px, 26vw, 150px);
+  height: clamp(112px, 26vw, 150px);
+  border-radius: var(--a-radius-node);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--a-glass-strong);
+  border: 1px solid var(--a-glass-border);
+  box-shadow: var(--a-shadow-lift), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+.coreMark {
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--a-accent);
+}
+
+.core strong {
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(15px, 3vw, 19px);
+  line-height: 1.08;
+  text-align: center;
+  color: var(--a-text);
+  letter-spacing: -0.01em;
+}
+
+.chip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 8px 14px;
+  border-radius: var(--a-radius-chip);
+  font-family: var(--font-mono), 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--a-text-dim);
+  background: var(--a-glass);
+  border: 1px solid var(--a-glass-border);
+  box-shadow: var(--a-shadow);
+  backdrop-filter: blur(6px);
+  /* Collapsed at the core until assembled, then glides out to its seat. */
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(-1 * var(--r)))
+    rotate(calc(-1 * var(--a)));
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.6s ease;
+  transition-delay: calc(var(--k) * 90ms);
+}
+
+.assemble[data-visible='true'] .chip {
+  opacity: 1;
+}
+
+/* ── Done ──────────────────────────────────────────────────────────────── */
+.done {
+  margin: 0;
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(28px, 5vw, 52px);
+  letter-spacing: -0.02em;
+  color: var(--a-accent);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.done[data-visible='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Reduced motion: the global stylesheet zeroes transition durations, so every
+   revealed element lands in its data-visible='true' state without travel. But
+   chips start opacity:0 with no travel needed — keep them visible at rest. */
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .assemble,
+  .done {
+    opacity: 1;
+    transform: none;
+  }
+
+  .miniOrbit {
+    --r: clamp(120px, 30vw, 172px);
+  }
+
+  .chip {
+    opacity: 1;
+  }
+}

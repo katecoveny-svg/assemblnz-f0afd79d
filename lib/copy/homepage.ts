@@ -129,13 +129,12 @@ export const ORBIT_NODES = [
 ] as const;
 
 /**
- * Conversational build scroll (Prompt 3 — not yet built). Verbatim, in order.
- * OPEN DECISION: whether the public first line is "Hi Kate." or "Kia ora."
- * is Kate's call; do not change without her word.
+ * Conversational build scroll (Prompt 3). Verbatim, in order.
+ * DECIDED 2026-07-14 by Kate: the public site opens with "Kia ora."
  */
 export const BUILD_SCRIPT = {
   lines: [
-    'Hi Kate.',
+    'Kia ora.',
     "Let's build your business.",
     'What do you do?',
     'Tell me about it.',
