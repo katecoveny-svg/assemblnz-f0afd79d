@@ -56,7 +56,7 @@ export function BusinessGenomeSection({ genomeFacts, surfaces }: { genomeFacts: 
 
   return (
     <>
-      <section className={styles.section} id="business-genome">
+      <section className={styles.section} id="living-map">
         <div className={styles.intro}>
           <p className={styles.eyebrow}>The system becomes visible</p>
           <h2>Not another stack of apps. One living map of the business.</h2>

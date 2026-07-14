@@ -85,6 +85,33 @@
     --kete-hoko: #7B3F8F;
     --kete-ako: #6B5843;
     --kete-matauranga: #3D5A7A;
+
+    /* ── Orbit + conversational-scroll token layer (light/pearl) ──────────
+       Adapted from the redesign prompt-pack's token structure onto assembl's
+       existing light palette (NOT the pack's dark #0B0F14). One restrained
+       accent = Ming teal; gold reserved for node rims + hairlines per canon.
+       These `--a-*` names are the single source of truth for the genome
+       orbit and the build scroll, so both surfaces stay in lockstep. */
+    --a-paper: #ffffff;                       /* base canvas */
+    --a-paper-2: #f7f9f8;                      /* recessed panels */
+    --a-glass: rgba(255, 255, 255, 0.72);      /* frosted node/card fill */
+    --a-glass-strong: rgba(255, 255, 255, 0.9);
+    --a-glass-border: rgba(49, 60, 66, 0.12);  /* hairline on glass */
+    --a-text: #313c42;                         /* charcoal ink */
+    --a-text-dim: rgba(49, 60, 66, 0.62);      /* secondary ink */
+    --a-text-faint: rgba(49, 60, 66, 0.42);
+    --a-accent: #3f7373;                       /* Ming teal — the one accent */
+    --a-accent-deep: #2c5757;                  /* accent hover/press */
+    --a-accent-soft: rgba(63, 115, 115, 0.12); /* accent wash */
+    --a-gold: #b8964f;                         /* node rims, hairline detail */
+    --a-gold-soft: rgba(184, 150, 79, 0.16);
+    --a-radius-chip: 12px;
+    --a-radius-card: 20px;
+    --a-radius-node: 9999px;
+    --a-shadow: 0 8px 32px rgba(49, 60, 66, 0.1);
+    --a-shadow-lift: 0 18px 54px rgba(49, 60, 66, 0.16);
+    --a-section-pad: clamp(96px, 12vh, 160px);
+    --a-maxw: 1120px;
   }
 
   html {
