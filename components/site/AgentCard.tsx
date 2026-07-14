@@ -124,7 +124,7 @@ export function AgentCard({
           className={`mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full border px-5 text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 ${
             selected
               ? 'border-[color:var(--assembl-sage-mist)] bg-[color:var(--assembl-sage-mist)] text-[color:var(--assembl-paper)]'
-              : 'border-[rgba(35,33,31,0.18)] bg-white/40 text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]'
+              : 'border-[rgba(35,33,31,0.18)] bg-white/40 text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)] focus-visible:border-[color:var(--text-primary)]'
           }`}
           aria-pressed={selected}
         >

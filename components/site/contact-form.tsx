@@ -45,7 +45,7 @@ export function ContactForm() {
           </p>
           <button
             onClick={handleCopy}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:border-[color:var(--text-primary)] focus-visible:text-[color:var(--text-primary)]"
             aria-label={copied ? "Reference copied" : "Copy reference to clipboard"}
             title={copied ? "Reference copied" : "Copy reference"}
           >
