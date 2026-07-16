@@ -218,7 +218,7 @@ export function SiteHeader() {
             onClick={openCommandPalette}
             aria-haspopup="dialog"
             title={isMac ? "Search (⌘K)" : "Search (Ctrl K)"}
-            className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 lg:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:-translate-y-0.5 hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:-translate-y-0.5 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0 lg:inline-flex"
           >
             <Search className="h-3.5 w-3.5" aria-hidden />
             <span>Search</span>

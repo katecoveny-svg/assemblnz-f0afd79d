@@ -13,7 +13,6 @@ export function MarketplaceHeader() {
       className="sticky top-0 z-30 border-b backdrop-blur"
       style={{ borderColor: PALETTE.hairline, backgroundColor: 'rgba(255,247,236,0.85)' }}
     >
-      {/* dash motif hairline */}
       <div style={{ height: 4, background: DASH_MOTIF }} aria-hidden />
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
         <div className="flex items-end gap-3">
@@ -28,6 +27,9 @@ export function MarketplaceHeader() {
         <nav className="flex items-center gap-5 text-sm font-bold" style={{ color: PALETTE.ink }}>
           <Link href="/agents" className="hover:opacity-70">
             Browse
+          </Link>
+          <Link href="/pilot" className="rounded-full px-4 py-2 hover:opacity-80" style={{ backgroundColor: PALETTE.canary }}>
+            Build an agent
           </Link>
           <Link href="/" className="hidden hover:opacity-70 sm:inline" style={{ color: PALETTE.body }}>
             About assembl
@@ -51,6 +53,7 @@ export function MarketplaceFooter() {
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold" style={{ color: PALETTE.ink }}>
           <Link href="/agents" className="hover:opacity-70">Agents</Link>
+          <Link href="/pilot" className="hover:opacity-70">Build an agent</Link>
           <Link href="/pricing" className="hover:opacity-70">Pricing</Link>
           <Link href="/mana-receipts" className="hover:opacity-70">Trust</Link>
           <Link href="/legal/privacy" className="hover:opacity-70">Privacy</Link>

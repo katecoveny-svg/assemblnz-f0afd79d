@@ -10,11 +10,10 @@ import styles from './v2.module.css';
  * SiteHeader). Server-safe: pure links, motion lives in CSS.
  */
 
-// Living Site story first — the marketplace is internal plumbing, not the
-// front door (it stays reachable from the footer and /agents directly).
 const NAV_LINKS = [
   { href: '/how-it-works', label: 'how it works' },
   { href: '/living-site', label: 'living site' },
+  { href: '/pilot', label: 'build an agent' },
   { href: '/pricing', label: 'pricing' },
   { href: '/about', label: 'about' },
 ];
@@ -55,8 +54,8 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={styles.navLink}>
           sign in
         </Link>
-        <Link href="/living-site" className={styles.navCta}>
-          see a living site
+        <Link href="/pilot" className={styles.navCta}>
+          build an agent
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
             •
           </span>
