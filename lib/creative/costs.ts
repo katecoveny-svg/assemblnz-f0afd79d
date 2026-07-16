@@ -2,7 +2,7 @@
 // Estimates are indicative NZD, rounded up — enough for an honest per-gen figure on the
 // receipt, not billing-grade. Never store a raw prompt that could carry PII.
 
-export type Provider = "gemini" | "imagen" | "veo" | "fal" | "elevenlabs" | "google-tts" | "anthropic";
+export type Provider = "gemini" | "imagen" | "veo" | "fal" | "runway" | "elevenlabs" | "google-tts" | "anthropic";
 
 /** Rough US$→NZD; kept local so a receipt never depends on a live FX call. */
 const USD_TO_NZD = 1.68;
@@ -14,6 +14,7 @@ export const COST_USD = {
   falFluxPerImage: 0.05, // Fal Flux Pro v1.1
   veoPerSecond: 0.2, // Veo 3.1 fast (with audio) — indicative
   falKlingPerVideo: 0.35, // Fal Kling image-to-video, ~5s
+  runwayPerVideo: 0.25, // Runway Gen-4 Turbo image-to-video, ~5s
   geminiTextPerCall: 0.002, // 2.5 Flash, a paragraph or two
   elevenLabsPerKChar: 0.3, // Creator-tier TTS
   googleTtsPerKChar: 0.016, // Gemini TTS fallback
@@ -23,8 +24,10 @@ export function imageCostNzd(count: number, provider: "imagen" | "fal"): number 
   const unit = provider === "imagen" ? COST_USD.imagenPerImage : COST_USD.falFluxPerImage;
   return nzd(unit * count);
 }
-export function videoCostNzd(provider: "veo" | "fal", seconds = 8): number {
-  return nzd(provider === "veo" ? COST_USD.veoPerSecond * seconds : COST_USD.falKlingPerVideo);
+export function videoCostNzd(provider: "veo" | "fal" | "runway", seconds = 8): number {
+  if (provider === "veo") return nzd(COST_USD.veoPerSecond * seconds);
+  if (provider === "runway") return nzd(COST_USD.runwayPerVideo);
+  return nzd(COST_USD.falKlingPerVideo);
 }
 export function copyCostNzd(): number {
   return nzd(COST_USD.geminiTextPerCall);

@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       kind: "video",
       provider: started.provider,
       model: started.model,
-      costNzd: videoCostNzd(started.provider === "veo" ? "veo" : "fal"),
+      costNzd: videoCostNzd(started.provider === "veo" ? "veo" : started.provider === "runway" ? "runway" : "fal"),
       brief,
       spec: `${aspectRatio ?? "16:9"} · ~8s${referenceDataUrl ? " · ref upload" : ""}`,
       now: new Date().toISOString(),
