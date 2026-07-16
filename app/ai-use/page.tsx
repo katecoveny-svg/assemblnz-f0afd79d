@@ -98,7 +98,7 @@ export default function AIUseDisclosurePage() {
               >
                 New Zealand Digital Government guidance on artificial intelligence
               </a>
-              . Related: <Link className="underline-offset-2 hover:underline" href="/privacy">Privacy Statement</Link>.
+              . Related: <Link className="underline-offset-2 hover:underline" href="/legal/privacy">Privacy Statement</Link>.
             </p>
           </SectionReveal>
         </div>

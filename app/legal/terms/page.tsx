@@ -132,7 +132,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.6}>
               <h2 className="font-display text-2xl font-light md:text-3xl">8. Privacy.</h2>
               <p className="mt-3">
-                Our handling of personal information is governed by the <Link href="/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Statement</Link> and <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Policy</Link>, which are incorporated into these Terms by reference. By using assembl you confirm you have read and accept them.
+                Our handling of personal information is governed by the <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Statement</Link> and <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Policy</Link>, which are incorporated into these Terms by reference. By using assembl you confirm you have read and accept them.
               </p>
             </SectionReveal>
 

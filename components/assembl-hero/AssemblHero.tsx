@@ -48,35 +48,37 @@ export function AssemblHero() {
 
   return (
     <header className={overture ? `${styles.hero} ${styles.overture}` : styles.hero}>
-      <div className={styles.signalRail} aria-label="assembl operating principles">
-        <span>{HERO.signalRail[0]}</span>
-        <span>{HERO.signalRail[1]}</span>
-        <span><i aria-hidden /> {HERO.signalRail[2]}</span>
-      </div>
-
-      <div className={styles.heroCanvas}>
-        <HeroPatternCanvas />
-      </div>
-
-      <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>{HERO.eyebrow}</p>
-        <h1>
-          {HERO.headline.line1}
-          <span>{HERO.headline.line2}</span>
-        </h1>
-        <p className={styles.lede}>{HERO.lede}</p>
-        <div className={styles.actions}>
-          <Link href="/pilot-sprint">
-            {HERO.actions.primary} <ArrowRight aria-hidden />
-          </Link>
-          <Link href="#business-genome" className={styles.secondaryAction}>
-            {HERO.actions.secondary} <ArrowDown aria-hidden />
-          </Link>
+      <div className={styles.heroInner}>
+        <div className={styles.signalRail} aria-label="assembl operating principles">
+          <span>{HERO.signalRail[0]}</span>
+          <span>{HERO.signalRail[1]}</span>
+          <span><i aria-hidden /> {HERO.signalRail[2]}</span>
         </div>
-        <div className={styles.proofLine}>
-          <span><CheckCircle2 aria-hidden /> {HERO.proofLine[0]}</span>
-          <span><CheckCircle2 aria-hidden /> {HERO.proofLine[1]}</span>
-          <span><CheckCircle2 aria-hidden /> {HERO.proofLine[2]}</span>
+
+        <div className={styles.heroCanvas}>
+          <HeroPatternCanvas />
+        </div>
+
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>{HERO.eyebrow}</p>
+          <h1>
+            {HERO.headline.line1}
+            <span>{HERO.headline.line2}</span>
+          </h1>
+          <p className={styles.lede}>{HERO.lede}</p>
+          <div className={styles.actions}>
+            <Link href="/pilot-sprint">
+              {HERO.actions.primary} <ArrowRight aria-hidden />
+            </Link>
+            <Link href="#business-genome" className={styles.secondaryAction}>
+              {HERO.actions.secondary} <ArrowDown aria-hidden />
+            </Link>
+          </div>
+          <div className={styles.proofLine}>
+            <span><CheckCircle2 aria-hidden /> {HERO.proofLine[0]}</span>
+            <span><CheckCircle2 aria-hidden /> {HERO.proofLine[1]}</span>
+            <span><CheckCircle2 aria-hidden /> {HERO.proofLine[2]}</span>
+          </div>
         </div>
       </div>
     </header>
