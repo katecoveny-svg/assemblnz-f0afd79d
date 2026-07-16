@@ -128,7 +128,7 @@ const SPLASH_EXEMPT_EXACT = new Set([
   '/widget.js',
 ]);
 const SPLASH_STATIC_FILE =
-  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|pdf|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
 
 const splashGate = (request: NextRequest): NextResponse | null => {
   const host = (request.headers.get('host') ?? '').toLowerCase();
@@ -218,7 +218,7 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/ad-studio',
 ];
 const DEMO_AUTH_STATIC_FILE =
-  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|pdf|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
 
 const needsDemoAuth = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;

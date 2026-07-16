@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Lato, Space_Mono } from 'next/font/google';
-import { SiteHeader } from '@/components/site/site-header';
-import { SiteFooter } from '@/components/site/site-footer';
+import { GlobalNav, GlobalFooter } from '@/components/site/GlobalChrome';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
 import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget';
@@ -122,11 +121,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <PwaRegister />
           <div className="relative flex min-h-screen flex-col">
-            <SiteHeader />
+            <GlobalNav />
             <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>
               {children}
             </main>
-            <SiteFooter />
+            <GlobalFooter />
           </div>
         </KeteAccentProvider>
       </body>

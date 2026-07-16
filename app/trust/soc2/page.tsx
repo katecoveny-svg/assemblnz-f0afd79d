@@ -93,7 +93,7 @@ export default function CompliancePosturePage() {
               </div>
               <p className="mt-6 text-sm leading-7 text-[color:var(--text-secondary)]">
                 More detail:{" "}
-                <Link className="underline-offset-2 hover:underline" href="/privacy">
+                <Link className="underline-offset-2 hover:underline" href="/legal/privacy">
                   Privacy Statement
                 </Link>{" "}
                 ·{" "}
@@ -180,7 +180,7 @@ export default function CompliancePosturePage() {
           <SectionReveal delay={0.25}>
             <p className="mt-14 text-sm leading-7 text-[color:var(--text-secondary)]">
               Related:{" "}
-              <Link className="underline-offset-2 hover:underline" href="/privacy">
+              <Link className="underline-offset-2 hover:underline" href="/legal/privacy">
                 Privacy Statement
               </Link>{" "}
               ·{" "}

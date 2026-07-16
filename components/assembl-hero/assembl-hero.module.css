@@ -12,6 +12,16 @@
   background: #fff;
 }
 
+/* Cap and centre the composition so on ultra-wide screens the copy and the
+   sculpture stay in one band instead of drifting to opposite edges. The hero
+   background + bottom border stay full-bleed; only the content is capped. */
+.heroInner {
+  position: relative;
+  max-width: 1600px;
+  min-height: calc(100svh - 84px);
+  margin: 0 auto;
+}
+
 .signalRail {
   position: absolute;
   z-index: 4;
@@ -188,6 +198,7 @@
 
 @media (max-width: 760px) {
   .hero { min-height: auto; padding-bottom: 34px; }
+  .heroInner { min-height: auto; }
   .signalRail { position: relative; top: auto; right: auto; left: auto; justify-content: space-between; padding: 18px 18px 0; }
   .signalRail span:nth-child(2) { display: none; }
   .signalRail span:first-child { margin: 0; }

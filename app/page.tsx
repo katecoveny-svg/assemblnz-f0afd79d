@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { V2Nav } from '@/components/v2/V2Chrome';
 import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
 import { BusinessGenomeOrbit } from '@/components/genome-orbit/BusinessGenomeOrbit';
 import { BuildScroll } from '@/components/build-scroll/BuildScroll';
@@ -22,7 +20,6 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#313c42' }}>
-      <V2Nav />
       <AssemblHero />
       <BusinessGenomeOrbit />
       <BuildScroll />
