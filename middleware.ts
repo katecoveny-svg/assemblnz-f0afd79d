@@ -114,6 +114,7 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/hapai',
   '/free-tools',
   '/pattern-studio',
+  '/ad-studio',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   '/robots.txt',
@@ -213,6 +214,8 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/install',
   // Public Pattern Studio tool — reachable on the demo host too.
   '/pattern-studio',
+  // Public Ad Studio — genome-driven ad generator, reachable on the demo host.
+  '/ad-studio',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;

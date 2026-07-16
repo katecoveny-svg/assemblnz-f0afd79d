@@ -733,8 +733,11 @@ export function PatternStudioClient() {
               {auahaNote}
             </p>
           )}
+          <Link href="/ad-studio" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+            Ad Studio — a campaign from your Genome →
+          </Link>
           <Link href="/customers/creative-agency/ops" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
-            Open AUAHA for ads, 3D + scheduling →
+            Open AUAHA for 3D + scheduling →
           </Link>
         </section>
       </aside>
