@@ -16,6 +16,7 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react';
+import { Reveal } from '@/components/motion/Reveal';
 import styles from './business-genome.module.css';
 
 const SYSTEMS = [
@@ -51,21 +52,28 @@ const AGENT_POSITIONS = [
   { left: '12%', top: '37%' },
 ];
 
+const SCENARIOS = [
+  { number: '01', title: 'An enquiry arrives', body: 'The customer response agent finds the right service facts, prepares a reply and leaves it on the desk for approval.', href: '/living-site', label: 'Open the customer desk' },
+  { number: '02', title: 'A booking becomes a customer', body: 'The confirmed request appears in the CRM with its source, next action and the original Business Genome context.', href: '/living-site/dog-training', label: 'See a working Living Site' },
+  { number: '03', title: 'Commercial work stays connected', body: 'Proposal and invoice drafts use the approved customer, service and price facts — with reviewer and status visible.', href: '/living-site/dog-training/os', label: 'Open the operating dashboard' },
+  { number: '04', title: 'The business learns', body: 'Repeated customer questions become a suggested knowledge update, ready for a person to review once.', href: '/genome', label: 'Explore the live genome' },
+] as const;
+
 export function BusinessGenomeSection({ genomeFacts, surfaces }: { genomeFacts: number; surfaces: number }) {
   const [system, setSystem] = useState('overview');
 
   return (
     <>
       <section className={styles.section} id="living-map">
-        <div className={styles.intro}>
+        <Reveal className={styles.intro}>
           <p className={styles.eyebrow}>The system becomes visible</p>
           <h2>Not another stack of apps. One living map of the business.</h2>
           <p>
             Every website answer, booking rule, customer record and agent action reads the same structured Business Genome. Change the source once; each connected surface can prepare the right update for review.
           </p>
-        </div>
+        </Reveal>
 
-        <div className={styles.workspace}>
+        <Reveal className={styles.workspace} delay={80}>
           <aside className={styles.leftRail}>
             <div className={styles.workspaceBrand}><span>a</span><div><b>assembl</b><small>Business Genome</small></div></div>
             <nav aria-label="Business Genome systems">
@@ -140,28 +148,29 @@ export function BusinessGenomeSection({ genomeFacts, surfaces }: { genomeFacts: 
             </div>
             <div className={styles.approvalNote}><FileCheck2 aria-hidden /><p><b>A person stays in control.</b><span>Sources, assumptions and approval state travel with the work.</span></p></div>
           </aside>
-        </div>
+        </Reveal>
       </section>
 
       <section className={styles.actionSection}>
-        <div className={styles.intro}>
+        <Reveal className={styles.intro}>
           <p className={styles.eyebrow}>Intelligence in action</p>
           <h2>Context becomes useful work.</h2>
-        </div>
+        </Reveal>
         <div className={styles.scenarioGrid}>
-          <Scenario number="01" title="An enquiry arrives" body="The customer response agent finds the right service facts, prepares a reply and leaves it on the desk for approval." href="/living-site" label="Open the customer desk" />
-          <Scenario number="02" title="A booking becomes a customer" body="The confirmed request appears in the CRM with its source, next action and the original Business Genome context." href="/living-site/dog-training" label="See a working Living Site" />
-          <Scenario number="03" title="Commercial work stays connected" body="Proposal and invoice drafts use the approved customer, service and price facts — with reviewer and status visible." href="/living-site/dog-training/os" label="Open the operating dashboard" />
-          <Scenario number="04" title="The business learns" body="Repeated customer questions become a suggested knowledge update, ready for a person to review once." href="/genome" label="Explore the live genome" />
+          {SCENARIOS.map((s, i) => (
+            <Reveal key={s.number} className={styles.cardCell} delay={i * 90}>
+              <Scenario {...s} />
+            </Reveal>
+          ))}
         </div>
       </section>
 
       <section className={styles.agentSection}>
-        <div>
+        <Reveal>
           <p className={styles.eyebrow}>Agents born from context</p>
           <h2>Specialists inside the system — not products on a shelf.</h2>
           <p>Each capability knows its role, source knowledge, connected tools, permissions, required approvals and success criteria.</p>
-        </div>
+        </Reveal>
         <div className={styles.agentMap}>
           <span className={styles.agentCore}><Network aria-hidden /><b>Business Genome</b><small>shared context</small></span>
           {['Customer response', 'Operations coordinator', 'Financial monitor', 'Knowledge keeper', 'Growth planner'].map((agent, index) => (
@@ -171,8 +180,10 @@ export function BusinessGenomeSection({ genomeFacts, surfaces }: { genomeFacts: 
       </section>
 
       <section className={styles.pilotCta}>
-        <div><p className={styles.eyebrow}>Founding pilot sprint</p><h2>Build the first working version of your business.</h2><p>A focused installation for founding pilots: Business Genome, live dashboard, one priority workflow and the proof needed to decide what comes next.</p></div>
-        <div className={styles.priceCard}><small>Founding pilot</small><strong>NZ$1,500</strong><span>+ GST · one focused sprint</span><ul><li><CheckCircle2 aria-hidden /> Business Genome workshop</li><li><CheckCircle2 aria-hidden /> Working Living Site dashboard</li><li><CheckCircle2 aria-hidden /> One connected workflow</li></ul><Link href="/pilot-sprint">Apply for a founding pilot <ArrowRight aria-hidden /></Link></div>
+        <Reveal>
+          <p className={styles.eyebrow}>Founding pilot sprint</p><h2>Build the first working version of your business.</h2><p>A focused installation for founding pilots: Business Genome, live dashboard, one priority workflow and the proof needed to decide what comes next.</p>
+        </Reveal>
+        <Reveal delay={120} className={styles.priceCard}><small>Founding pilot</small><strong>NZ$1,500</strong><span>+ GST · one focused sprint</span><ul><li><CheckCircle2 aria-hidden /> Business Genome workshop</li><li><CheckCircle2 aria-hidden /> Working Living Site dashboard</li><li><CheckCircle2 aria-hidden /> One connected workflow</li></ul><Link href="/pilot-sprint">Apply for a founding pilot <ArrowRight aria-hidden /></Link></Reveal>
       </section>
     </>
   );

@@ -107,8 +107,25 @@
 
 @keyframes flow { to { stroke-dashoffset: -26; } }
 
+/* Hover life (motion assembles — a calm lift, nothing that pops or bounces) */
+.cardCell { height: 100%; }
+.scenario { height: 100%; transition: transform 0.35s cubic-bezier(0.2,0.7,0.2,1), border-color 0.35s ease, box-shadow 0.35s ease; }
+.scenario:hover { transform: translateY(-6px); border-color: rgba(184,150,79,0.5); box-shadow: 0 24px 60px rgba(55,77,73,0.13); }
+.scenario a svg, .insightList a svg { transition: transform 0.25s ease; }
+.scenario:hover a svg, .insightList a:hover svg { transform: translateX(4px); }
+.agentNode { transition: transform 0.35s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.35s ease, border-color 0.35s ease; }
+.agentNode:hover { transform: translate(-50%,-50%) scale(1.06); border-color: rgba(184,150,79,0.45); box-shadow: 0 18px 44px rgba(63,115,115,0.16); z-index: 3; }
+.priceCard > a { transition: background 0.25s ease, transform 0.25s ease; }
+.priceCard > a:hover { background: var(--a-accent-deep); transform: translateY(-2px); }
+.priceCard > a svg { transition: transform 0.25s ease; }
+.priceCard > a:hover svg { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .scenario, .agentNode, .priceCard > a, .scenario a svg, .insightList a svg, .priceCard > a svg { transition: none; }
+}
+
 @media (max-width: 1120px) {
-  .workspace { grid-template-columns: 170px minmax(400px,1fr); }
+  .workspace { grid-template-columns: 170px minmax(0, 1fr); }
   .intelligencePanel { grid-column: 1 / -1; display: grid; grid-template-columns: 190px 1fr; gap: 18px; border-top: 1px solid rgba(53,74,75,0.09); border-left: 0; }
   .insightList { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
   .approvalNote { grid-column: 1 / -1; }
@@ -116,7 +133,7 @@
 }
 
 @media (max-width: 820px) {
-  .workspace { grid-template-columns: 1fr; }
+  .workspace { grid-template-columns: minmax(0, 1fr); }
   .leftRail { display: block; padding: 14px; border-right: 0; border-bottom: 1px solid rgba(53,74,75,0.09); }
   .workspaceBrand { padding-bottom: 12px; }
   .leftRail nav { flex-direction: row; overflow-x: auto; scrollbar-width: none; }
@@ -146,11 +163,42 @@
   .scenarioGrid { grid-template-columns: 1fr; margin-top: 30px; }
   .scenario { min-height: 260px; }
   .agentSection { padding-inline: 18px; }
-  .agentMap { min-height: 390px; }
-  .agentCore { width: 125px; height: 98px; }
-  .agentNode { width: 98px; min-height: 65px; padding: 7px; }
-  .agentNode b { font-size: 7px; }
-  .agentNode small { display: none; }
+  /* The circular map doesn't fit a phone — become a tidy grid instead. */
+  .agentMap {
+    position: static;
+    min-height: auto;
+    border: none;
+    background: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .agentMap::before,
+  .agentMap::after { display: none; }
+  .agentCore {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    grid-column: 1 / -1;
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border-radius: 20px;
+  }
+  .agentNode {
+    position: static;
+    left: auto !important;
+    top: auto !important;
+    transform: none;
+    width: auto;
+    min-height: auto;
+    padding: 14px 12px;
+  }
+  .agentNode i { display: none; }
+  .agentNode b { font-size: 11px; }
+  .agentNode small { display: block; }
   .pilotCta { padding: 28px 18px; border-radius: 22px; }
 }
 
