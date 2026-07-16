@@ -17,7 +17,13 @@
  * --a-* tokens so the one accent stays the single source of truth.
  */
 
-export type PatternMode = 'halftone' | 'dither' | 'ascii' | 'particles' | 'particleText';
+export type PatternMode =
+  | 'halftone'
+  | 'dither'
+  | 'ascii'
+  | 'particles'
+  | 'particleText'
+  | 'vortex';
 export type PatternEffect = 'wave' | 'pulse' | 'ripple' | 'spiral' | 'noise' | 'off';
 export type DotShape = 'circle' | 'square' | 'diamond' | 'triangle';
 export type ParticleShape = 'circle' | 'square' | 'diamond' | 'spark';
@@ -47,6 +53,9 @@ export interface PatternSettings {
   foregroundColor: string;
   accentColor: string;
   isAnimated: boolean;
+  /** Optional source image: grid modes render it as a pattern; particle modes
+   *  sample its shape. null clears it. */
+  image?: CanvasImageSource | null;
 }
 
 export const ASSEMBL_PRESETS: Record<string, { backgroundColor: string; foregroundColor: string }> = {
@@ -111,6 +120,11 @@ interface Particle {
   r: number;
   phase: number;
   accent?: boolean;
+  // vortex-only
+  angle?: number;
+  radius?: number;
+  z?: number;
+  spin?: number;
 }
 
 type TextState = 'cloud' | 'assembling' | 'holding' | 'dispersing';
@@ -138,6 +152,9 @@ export class AssemblPatternStudio {
   private raf: number | null = null;
   private lastFrame: number | null = null;
   private resizeObserver: ResizeObserver | null = null;
+  private imageData: ImageData | null = null;
+  private imageW = 0;
+  private imageH = 0;
 
   private readonly onResize = () => {
     this.resizeCanvas();
@@ -161,6 +178,7 @@ export class AssemblPatternStudio {
 
     if (this.settings.mode === 'particles') this.updateFreeParticles(dt);
     else if (this.settings.mode === 'particleText') this.updateTextParticles(dt, rawDt / 1000);
+    else if (this.settings.mode === 'vortex') this.updateVortex(dt);
 
     this.renderFrame(this.time);
     this.raf = requestAnimationFrame(this.tick);
@@ -192,9 +210,12 @@ export class AssemblPatternStudio {
     const prevCount = this.settings.count;
     const prevWords = this.settings.words.join('');
     const prevMouse = this.settings.mouseInteractive;
+    const prevImage = this.settings.image;
     const wasAnimated = this.settings.isAnimated;
 
     this.settings = { ...this.settings, ...partial };
+
+    if (partial.image !== undefined && partial.image !== prevImage) this.buildImageSample();
 
     const modeChanged = this.settings.mode !== prevMode;
     const gridChanged = this.settings.density !== prevDensity;
@@ -257,6 +278,7 @@ export class AssemblPatternStudio {
     if (mode === 'halftone' || mode === 'dither' || mode === 'ascii') this.buildGrid();
     else if (mode === 'particles') this.initFreeParticles();
     else if (mode === 'particleText') this.initTextParticles();
+    else if (mode === 'vortex') this.initVortex();
   }
 
   /** Reduced-motion / static: snap particleText straight to the assembled word. */
@@ -404,8 +426,9 @@ export class AssemblPatternStudio {
       mix = cyclePos - i;
     }
 
+    const useImage = this.hasImage();
     for (const dot of this.dots) {
-      const field = this.fieldValue(dot, t);
+      const field = useImage ? this.imageValue(dot.x, dot.y) : this.fieldValue(dot, t);
       const boost = this.mouseBoost(dot);
       const r = Math.max(0, Math.min(this.maxRadius, this.maxRadius * field + boost * this.maxRadius * 0.6));
       if (morphing) {
@@ -427,8 +450,9 @@ export class AssemblPatternStudio {
     ctx.fillRect(0, 0, this.width, this.height);
     ctx.fillStyle = foregroundColor;
     const cell = this.spacing;
+    const useImage = this.hasImage();
     for (const dot of this.dots) {
-      const field = this.fieldValue(dot, t);
+      const field = useImage ? this.imageValue(dot.x, dot.y) : this.fieldValue(dot, t);
       const threshold = BAYER_4[dot.row % 4][dot.col % 4];
       if (field > threshold) {
         ctx.fillRect(dot.x - cell / 2, dot.y - cell / 2, cell * 0.92, cell * 0.92);
@@ -445,8 +469,9 @@ export class AssemblPatternStudio {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = `${Math.max(8, this.spacing * 0.95)}px 'Space Mono', 'Courier New', monospace`;
+    const useImage = this.hasImage();
     for (const dot of this.dots) {
-      const field = this.fieldValue(dot, t);
+      const field = useImage ? this.imageValue(dot.x, dot.y) : this.fieldValue(dot, t);
       const boost = this.mouseBoost(dot);
       const v = Math.max(0, Math.min(1, field + boost * 0.5));
       const charIdx = Math.floor(v * (ASCII_RAMP.length - 1));
@@ -743,10 +768,145 @@ export class AssemblPatternStudio {
       case 'particleText':
         this.renderTextParticles();
         break;
+      case 'vortex':
+        this.renderVortex();
+        break;
       case 'halftone':
       default:
         this.renderHalftone(t);
     }
+  }
+
+  // ── image source ────────────────────────────────────────────────────
+  /** Rasterise the source image to a cover-fit sample buffer for the modes. */
+  private buildImageSample() {
+    const img = this.settings.image;
+    if (!img) {
+      this.imageData = null;
+      return;
+    }
+    const sw = 260;
+    const sh = 260;
+    const off = document.createElement('canvas');
+    off.width = sw;
+    off.height = sh;
+    const octx = off.getContext('2d');
+    if (!octx) {
+      this.imageData = null;
+      return;
+    }
+    // Natural size of the source.
+    const iw =
+      (img as HTMLImageElement).naturalWidth || (img as HTMLCanvasElement).width || sw;
+    const ih =
+      (img as HTMLImageElement).naturalHeight || (img as HTMLCanvasElement).height || sh;
+    const scale = Math.max(sw / iw, sh / ih);
+    const dw = iw * scale;
+    const dh = ih * scale;
+    octx.drawImage(img, (sw - dw) / 2, (sh - dh) / 2, dw, dh);
+    try {
+      this.imageData = octx.getImageData(0, 0, sw, sh);
+      this.imageW = sw;
+      this.imageH = sh;
+    } catch {
+      this.imageData = null; // cross-origin taint guard
+    }
+  }
+
+  /** Sampled brightness 0..1 at canvas coords (dark ink → high value). */
+  private imageValue(x: number, y: number): number {
+    const d = this.imageData;
+    if (!d) return 0;
+    const ix = Math.min(this.imageW - 1, Math.max(0, Math.floor((x / this.width) * this.imageW)));
+    const iy = Math.min(this.imageH - 1, Math.max(0, Math.floor((y / this.height) * this.imageH)));
+    const i = (iy * this.imageW + ix) * 4;
+    const a = d.data[i + 3] / 255;
+    const lum = (0.299 * d.data[i] + 0.587 * d.data[i + 1] + 0.114 * d.data[i + 2]) / 255;
+    // Darker + more opaque → bigger mark.
+    return a * (1 - lum);
+  }
+
+  private hasImage(): boolean {
+    return !!this.imageData;
+  }
+
+  // ── vortex (particle swirl with glow, depth-sorted for a 3D read) ────
+  private initVortex() {
+    const n = Math.max(1, Math.round(this.settings.count));
+    const next: Particle[] = [];
+    for (let i = 0; i < n; i += 1) {
+      next.push({
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        r: 0.8 + Math.random() * 2.2,
+        phase: Math.random() * Math.PI * 2,
+        angle: Math.random() * Math.PI * 2,
+        radius: 0.08 + Math.random() * 0.92,
+        z: Math.random(),
+        spin: 0.6 + Math.random() * 0.8,
+        accent: Math.random() < 0.16,
+      });
+    }
+    this.particles = next;
+  }
+
+  private updateVortex(dt: number) {
+    const swirl = 0.02 + (this.settings.speed / 3) * 0.05;
+    const pull = 0.0016 + (this.settings.turbulence / 100) * 0.004;
+    for (const p of this.particles) {
+      const prox = 1 - (p.radius ?? 0.5); // faster + tighter toward the eye
+      p.angle = (p.angle ?? 0) + swirl * (p.spin ?? 1) * (0.6 + prox * 2.4) * dt;
+      p.radius = (p.radius ?? 0.5) - pull * (0.5 + prox * 1.8) * dt;
+      p.z = ((p.z ?? 0) + 0.004 * dt) % 1;
+      if ((p.radius ?? 0) < 0.05) {
+        p.radius = 1 + Math.random() * 0.1;
+        p.angle = Math.random() * Math.PI * 2;
+      }
+    }
+  }
+
+  private renderVortex() {
+    const ctx = this.ctx;
+    const { backgroundColor, foregroundColor, accentColor, glow } = this.settings;
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    const cx = this.width / 2;
+    const cy = this.height / 2;
+    const coreR = Math.min(this.width, this.height) * 0.46;
+
+    // Luminous heart.
+    const bloom = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR);
+    bloom.addColorStop(0, this.withAlpha(foregroundColor, 0.28));
+    bloom.addColorStop(0.45, this.withAlpha(foregroundColor, 0.08));
+    bloom.addColorStop(1, this.withAlpha(foregroundColor, 0));
+    ctx.fillStyle = bloom;
+    ctx.beginPath();
+    ctx.arc(cx, cy, coreR, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Depth sort (far first) so nearer particles read on top — the 3D cue.
+    const ordered = [...this.particles].sort((a, b) => (a.z ?? 0) - (b.z ?? 0));
+    for (const p of ordered) {
+      const r = (p.radius ?? 0.5) * coreR;
+      const depth = 0.4 + (p.z ?? 0.5) * 0.6; // 0.4..1 size/alpha by depth
+      const x = cx + Math.cos(p.angle ?? 0) * r;
+      const y = cy + Math.sin(p.angle ?? 0) * r * 0.82; // slight tilt = perspective
+      const size = p.r * depth * (1.4 - (p.radius ?? 0.5) * 0.6);
+      ctx.fillStyle = p.accent ? accentColor : foregroundColor;
+      if (glow) {
+        ctx.shadowBlur = 10 * depth;
+        ctx.shadowColor = ctx.fillStyle;
+      }
+      ctx.globalAlpha = depth;
+      ctx.beginPath();
+      ctx.arc(x, y, Math.max(0.4, size), 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
   }
 }
 
