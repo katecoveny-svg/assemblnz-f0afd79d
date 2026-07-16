@@ -23,7 +23,10 @@ const FORMATS: Array<[string, number, number]> = [
   ['Landscape 16:9', 1920, 1080],
 ];
 
-const BUSINESSES = SAMPLE_VERTICALS.map((v) => ({ slug: v.slug, name: v.businessName }));
+const BUSINESSES = [
+  { slug: 'assembl', name: 'assembl (launch)' },
+  ...SAMPLE_VERTICALS.map((v) => ({ slug: v.slug, name: v.businessName })),
+];
 
 function hexToRgba(hex: string, a: number): string {
   const m = hex.replace('#', '');

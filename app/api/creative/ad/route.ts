@@ -4,11 +4,12 @@ import { isNotConfigured } from "@/lib/creative/generate";
 import { buildReceipt, imageCostNzd } from "@/lib/creative/costs";
 import { consume, rateKey } from "@/lib/creative/ratelimit";
 import { SAMPLE_VERTICALS } from "@/lib/living-site/verticals";
+import { ASSEMBL_AD } from "@/lib/creative/ad-campaign";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const KNOWN_SLUGS = new Set(SAMPLE_VERTICALS.map((v) => v.slug));
+const KNOWN_SLUGS = new Set([ASSEMBL_AD.slug, ...SAMPLE_VERTICALS.map((v) => v.slug)]);
 
 export async function POST(req: Request) {
   const { slug, goal } = (await req.json().catch(() => ({}))) as { slug?: string; goal?: string };
