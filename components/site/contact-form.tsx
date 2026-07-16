@@ -45,7 +45,7 @@ export function ContactForm() {
           </p>
           <button
             onClick={handleCopy}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:border-[color:var(--text-primary)] focus-visible:text-[color:var(--text-primary)]"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:-translate-y-0.5 hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:-translate-y-0.5 focus-visible:border-[color:var(--text-primary)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
             aria-label={copied ? "Reference copied" : "Copy reference to clipboard"}
             title={copied ? "Reference copied" : "Copy reference"}
           >
@@ -228,6 +228,9 @@ export function ContactForm() {
           font-size: 14px;
           color: var(--text-primary);
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .form-input:hover {
+          border-color: rgba(157, 140, 125, 0.45);
         }
         .form-input:focus {
           outline: 2px solid var(--assembl-pounamu);
