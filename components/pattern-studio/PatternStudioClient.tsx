@@ -30,6 +30,18 @@ const AD_FORMATS: Array<[string, number, number]> = [
   ['Landscape 16:9', 1920, 1080],
 ];
 
+/** Stamp the assembl wordmark into a frame's bottom-left corner. */
+function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number, color: string) {
+  const size = Math.max(13, Math.round(w * 0.028));
+  ctx.font = `600 ${size}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = color;
+  ctx.globalAlpha = 0.94;
+  ctx.fillText('assembl', Math.round(w * 0.04), Math.round(h - w * 0.04));
+  ctx.globalAlpha = 1;
+}
+
 /** Draw wrapped caption text upward from a baseline (last line sits at y). */
 function wrapText(
   ctx: CanvasRenderingContext2D,
@@ -160,10 +172,43 @@ export function PatternStudioClient() {
     setStatus('Cleared image.');
   };
 
+  // A copy of the live frame with the assembl wordmark stamped in — so every
+  // image export carries the brand.
+  const brandedCanvas = (): HTMLCanvasElement | null => {
+    const src = canvasRef.current;
+    if (!src) return null;
+    const t = document.createElement('canvas');
+    t.width = src.width;
+    t.height = src.height;
+    const ctx = t.getContext('2d');
+    if (!ctx) return null;
+    ctx.drawImage(src, 0, 0);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawWordmark(ctx, t.width / dpr, t.height / dpr, s.foregroundColor);
+    return t;
+  };
+
   const recordVideo = () => {
-    const c = canvasRef.current;
-    if (!c || recording || typeof MediaRecorder === 'undefined') return;
-    const stream = c.captureStream(30);
+    const src = canvasRef.current;
+    if (!src || recording || typeof MediaRecorder === 'undefined') return;
+    // Composite the live canvas + wordmark each frame so the video is branded.
+    const comp = document.createElement('canvas');
+    comp.width = src.width;
+    comp.height = src.height;
+    const cctx = comp.getContext('2d');
+    if (!cctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let raf = 0;
+    const paint = () => {
+      cctx.setTransform(1, 0, 0, 1, 0, 0);
+      cctx.drawImage(src, 0, 0);
+      cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawWordmark(cctx, comp.width / dpr, comp.height / dpr, s.foregroundColor);
+      raf = requestAnimationFrame(paint);
+    };
+    paint();
+    const stream = comp.captureStream(30);
     const type = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
       ? 'video/webm;codecs=vp9'
       : 'video/webm';
@@ -173,6 +218,7 @@ export function PatternStudioClient() {
       if (ev.data.size) chunks.push(ev.data);
     };
     rec.onstop = () => {
+      cancelAnimationFrame(raf);
       const blob = new Blob(chunks, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -212,10 +258,7 @@ export function PatternStudioClient() {
           ctx.textAlign = 'left';
           wrapText(ctx, caption.trim(), pad, h - pad - Math.round(w * 0.06), w - pad * 2, Math.round(w * 0.065));
         }
-        ctx.font = `600 ${Math.round(w * 0.03)}px 'Cormorant Garamond', Georgia, serif`;
-        ctx.fillStyle = s.accentColor;
-        ctx.textAlign = 'left';
-        ctx.fillText('assembl', pad, h - pad);
+        drawWordmark(ctx, w, h, s.accentColor);
       }
       await new Promise<void>((resolve) => {
         c.toBlob((blob) => {
@@ -238,13 +281,37 @@ export function PatternStudioClient() {
   };
 
   const downloadPNG = () => {
-    const c = canvasRef.current;
-    if (!c) return;
+    const t = brandedCanvas();
+    if (!t) return;
     const a = document.createElement('a');
-    a.href = c.toDataURL('image/png');
+    a.href = t.toDataURL('image/png');
     a.download = `assembl-pattern-${s.mode}.png`;
     a.click();
     setStatus('Saved PNG frame.');
+  };
+
+  const sharePNG = async () => {
+    const t = brandedCanvas();
+    if (!t) return;
+    const blob = await new Promise<Blob | null>((res) => t.toBlob(res, 'image/png'));
+    if (!blob) return;
+    const file = new File([blob], `assembl-${s.mode}.png`, { type: 'image/png' });
+    if (navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'assembl', text: caption.trim() || 'assembl' });
+        setStatus('Shared.');
+      } catch {
+        setStatus('Share cancelled.');
+      }
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Sharing not supported here — downloaded instead.');
+    }
   };
 
   const downloadCode = () => {
@@ -462,6 +529,10 @@ export function PatternStudioClient() {
           <button type="button" className={styles.action} onClick={recordVideo} disabled={recording}>
             {recording ? 'Recording…' : 'Record video (WebM, 6s)'}
           </button>
+          <button type="button" className={styles.action} onClick={sharePNG}>
+            Share
+          </button>
+          <p className={styles.status}>Every export carries the assembl wordmark.</p>
           <div className={styles.codeTabs}>
             <button
               type="button"
