@@ -1,8 +1,8 @@
 // AUAHA generation core — server-only. Real providers, honest fallbacks.
-// Image  : Google Imagen 4.0  → Fal Flux Pro
-// Video  : Fal Kling/Luma     → Google Veo 3.1
+// Image  : Google Imagen 4.0        → Fal Flux Pro
+// Video  : Runway Gen-4 (i2v)        → Fal Kling/Luma → Google Veo 3.1
 // Copy   : Gemini 2.5 Flash (streamed)
-// Podcast: ElevenLabs         → Gemini (Google) TTS
+// Podcast: ElevenLabs               → Gemini (Google) TTS
 // A missing key never throws a 500 — it returns a typed NotConfigured so the UI can
 // render an honest panel naming the exact env var.
 
@@ -16,9 +16,28 @@ export const keys = {
     process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
     "",
   fal: () => process.env.FAL_KEY || process.env.FAL_API_KEY || "",
+  runway: () => process.env.RUNWAY_API_KEY || process.env.RUNWAYML_API_SECRET || "",
   eleven: () => process.env.ELEVENLABS_API_KEY || "",
   elevenVoice: () => process.env.ELEVENLABS_VOICE_ID || "Xb7hH8MSUJpSbSDYk0k2", // Alice — warm adult
 };
+
+const RUNWAY_API = "https://api.dev.runwayml.com/v1";
+const RUNWAY_VERSION = "2024-11-06";
+
+/** Map a friendly aspect ratio to Runway gen4_turbo's supported `ratio` tokens. */
+function runwayRatio(aspectRatio: string): string {
+  switch (aspectRatio) {
+    case "9:16":
+      return "720:1280";
+    case "1:1":
+      return "960:960";
+    case "4:5":
+      return "832:1104";
+    case "16:9":
+    default:
+      return "1280:720";
+  }
+}
 
 export class NotConfigured extends Error {
   constructor(public envVar: string, public detail: string) {
@@ -145,6 +164,7 @@ async function falFlux(prompt: string, count: number, key: string): Promise<stri
 // Fal Kling is (relatively) synchronous; Veo is long-running so we start-then-poll.
 export type VideoStart =
   | { provider: "fal"; model: string; done: true; video: string } // data URL
+  | { provider: "runway"; model: string; done: false; operation: string }
   | { provider: "veo"; model: string; done: false; operation: string };
 
 export async function startVideo(
@@ -152,6 +172,38 @@ export async function startVideo(
   opts: { aspectRatio?: string; referenceDataUrl?: string } = {},
 ): Promise<VideoStart> {
   const aspectRatio = opts.aspectRatio ?? "16:9";
+
+  // 1. Runway Gen-4 — image-to-video, so only when a seed frame is supplied
+  //    (the "Send to AUAHA" studio hand-off always sends one). Long-running:
+  //    return the task id and let the client poll. Any failure falls through.
+  const rw = keys.runway();
+  if (rw && opts.referenceDataUrl?.startsWith("data:image/")) {
+    try {
+      const res = await fetch(`${RUNWAY_API}/image_to_video`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${rw}`,
+          "Content-Type": "application/json",
+          "X-Runway-Version": RUNWAY_VERSION,
+        },
+        body: JSON.stringify({
+          model: "gen4_turbo",
+          promptImage: opts.referenceDataUrl,
+          promptText: brief,
+          ratio: runwayRatio(aspectRatio),
+          duration: 5,
+        }),
+      });
+      if (res.ok) {
+        const d = (await res.json()) as { id?: string };
+        if (d.id) return { provider: "runway", model: "runwayml/gen4_turbo", done: false, operation: `runway:${d.id}` };
+      }
+      // non-200 → fall through to Fal / Veo
+    } catch {
+      // network error → fall through
+    }
+  }
+
   const f = keys.fal();
   if (f) {
     // Prefer image-to-video when a still/frame is provided.
@@ -227,6 +279,7 @@ export async function startVideo(
 }
 
 export async function pollVideo(operation: string): Promise<{ done: boolean; video?: string }> {
+  if (operation.startsWith("runway:")) return pollRunway(operation.slice("runway:".length));
   const g = keys.gemini();
   if (!g) throw new NotConfigured("GEMINI_API_KEY", "Cannot poll Veo without GEMINI_API_KEY.");
   const res = await fetch(`${GLB}/${operation}?key=${g}`);
@@ -243,6 +296,26 @@ export async function pollVideo(operation: string): Promise<{ done: boolean; vid
   // Download the finished clip server-side (URI is key-scoped) and inline it.
   const vr = await fetch(uri.includes("key=") ? uri : `${uri}${uri.includes("?") ? "&" : "?"}key=${g}`);
   return { done: true, video: dataUrl("video/mp4", await bufToB64(vr)) };
+}
+
+/** Poll a Runway Gen-4 task. Returns the inlined clip on SUCCEEDED; treats
+ *  FAILED as done-with-no-video so the client stops polling honestly. */
+async function pollRunway(taskId: string): Promise<{ done: boolean; video?: string }> {
+  const rw = keys.runway();
+  if (!rw) throw new NotConfigured("RUNWAY_API_KEY", "Cannot poll Runway without RUNWAY_API_KEY.");
+  const res = await fetch(`${RUNWAY_API}/tasks/${taskId}`, {
+    headers: { Authorization: `Bearer ${rw}`, "X-Runway-Version": RUNWAY_VERSION },
+  });
+  if (!res.ok) throw new Error(`Runway poll ${res.status}`);
+  const d = (await res.json()) as { status?: string; output?: string[] };
+  if (d.status === "SUCCEEDED") {
+    const url = d.output?.[0];
+    if (!url) return { done: true };
+    const vr = await fetch(url);
+    return { done: true, video: dataUrl("video/mp4", await bufToB64(vr)) };
+  }
+  if (d.status === "FAILED") return { done: true };
+  return { done: false };
 }
 
 // ── COPY (streamed) ────────────────────────────────────────────────────────────

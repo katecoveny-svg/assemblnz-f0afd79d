@@ -30,6 +30,14 @@ const AD_FORMATS: Array<[string, number, number]> = [
   ['Landscape 16:9', 1920, 1080],
 ];
 
+/** AUAHA render formats → the aspect ratio the API forwards to each provider. */
+const AR_BY_FORMAT: Record<string, string> = {
+  'Square 1:1': '1:1',
+  'Story 9:16': '9:16',
+  'Portrait 4:5': '4:5',
+  'Landscape 16:9': '16:9',
+};
+
 /** Stamp the assembl wordmark into a frame's bottom-left corner. */
 function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number, color: string) {
   const size = Math.max(13, Math.round(w * 0.028));
@@ -111,6 +119,15 @@ export function PatternStudioClient() {
   const [caption, setCaption] = useState('');
   const [recording, setRecording] = useState(false);
   const [hasImage, setHasImage] = useState(false);
+
+  // Send to AUAHA — hand this frame to the creative kete for a real render.
+  const [auahaKind, setAuahaKind] = useState<'Image' | 'Video'>('Image');
+  const [auahaFormat, setAuahaFormat] = useState(AD_FORMATS[0][0]);
+  const [auahaBrief, setAuahaBrief] = useState('');
+  const [auahaBusy, setAuahaBusy] = useState(false);
+  const [auahaImg, setAuahaImg] = useState<string | null>(null);
+  const [auahaVid, setAuahaVid] = useState<string | null>(null);
+  const [auahaNote, setAuahaNote] = useState('');
 
   // Construct the engine once; drive it via updateSettings after.
   useEffect(() => {
@@ -311,6 +328,109 @@ export function PatternStudioClient() {
       a.click();
       URL.revokeObjectURL(url);
       setStatus('Sharing not supported here — downloaded instead.');
+    }
+  };
+
+  // Stamp the wordmark onto an AUAHA-rendered still, then download it — so a
+  // generated asset carries the brand too, not just the studio's own exports.
+  const downloadBrandedImage = async (src: string, name: string) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    await new Promise<void>((res, rej) => {
+      img.onload = () => res();
+      img.onerror = () => rej(new Error('load failed'));
+      img.src = src;
+    });
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth || 1080;
+    c.height = img.naturalHeight || 1080;
+    const ctx = c.getContext('2d');
+    if (!ctx) return;
+    ctx.drawImage(img, 0, 0);
+    try {
+      drawWordmark(ctx, c.width, c.height, '#ffffff');
+      const a = document.createElement('a');
+      a.href = c.toDataURL('image/png');
+      a.download = name;
+      a.click();
+    } catch {
+      // Canvas tainted (hosted URL without CORS) — fall back to the raw asset.
+      const a = document.createElement('a');
+      a.href = src;
+      a.download = name;
+      a.click();
+    }
+  };
+
+  // Poll the AUAHA video endpoint until the render lands (Runway/Veo are async).
+  const pollAuahaVideo = async (operation: string): Promise<string | null> => {
+    for (let i = 0; i < 40; i++) {
+      await new Promise((r) => setTimeout(r, 6000));
+      const r = await fetch('/api/creative/video/poll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ operation }),
+      });
+      const d = await r.json();
+      if (d.notConfigured || d.error) return null;
+      if (d.done) return (d.video as string) ?? null;
+    }
+    return null;
+  };
+
+  const sendToAuaha = async () => {
+    if (auahaBusy) return;
+    const t = brandedCanvas();
+    if (!t) return;
+    const referenceDataUrl = t.toDataURL('image/png');
+    const aspectRatio = AR_BY_FORMAT[auahaFormat] ?? '1:1';
+    const brief =
+      auahaBrief.trim() ||
+      `A polished on-brand social asset built from this ${s.mode} pattern — teal and gold, calm and editorial.`;
+    setAuahaBusy(true);
+    setAuahaImg(null);
+    setAuahaVid(null);
+    setAuahaNote('');
+    setStatus('Sending this frame to AUAHA…');
+    try {
+      if (auahaKind === 'Image') {
+        const r = await fetch('/api/creative/image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ brief, aspectRatio, count: 1, agent: 'prism', referenceDataUrl }),
+        });
+        const d = await r.json();
+        if (d.notConfigured) setAuahaNote(`AUAHA needs ${d.envVar} set for image. ${d.detail}`);
+        else if (d.error) setAuahaNote(d.error);
+        else if (d.images?.[0]) {
+          setAuahaImg(d.images[0]);
+          setStatus('AUAHA rendered a still.');
+        } else setAuahaNote('AUAHA returned no image.');
+      } else {
+        const r = await fetch('/api/creative/video', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ brief, aspectRatio, referenceDataUrl }),
+        });
+        const d = await r.json();
+        if (d.notConfigured) setAuahaNote(`AUAHA needs ${d.envVar} set for video. ${d.detail}`);
+        else if (d.error) setAuahaNote(d.error);
+        else if (d.done && d.video) {
+          setAuahaVid(d.video);
+          setStatus('AUAHA rendered a film.');
+        } else if (d.operation) {
+          setStatus('AUAHA is rendering the film — this takes a minute or two…');
+          const video = await pollAuahaVideo(d.operation);
+          if (video) {
+            setAuahaVid(video);
+            setStatus('AUAHA rendered a film.');
+          } else setAuahaNote('The render did not finish in time. Try again, or open AUAHA.');
+        } else setAuahaNote('AUAHA returned no film.');
+      }
+    } catch (e) {
+      setAuahaNote((e as Error).message);
+    } finally {
+      setAuahaBusy(false);
     }
   };
 
@@ -558,14 +678,66 @@ export function PatternStudioClient() {
         </section>
 
         <section className={styles.group}>
-          <h3>Motion graphics · 3D · ads</h3>
+          <h3>Send to AUAHA</h3>
           <p className={styles.status} style={{ minHeight: 0, lineHeight: 1.5 }}>
-            For a polished motion-graphic ad, a 3D render or a scheduled campaign, take this pattern
-            to AUAHA — your creative kete generates it on-brand (After Effects, Runway video, Spline
-            3D, Buffer scheduling).
+            Hand this frame to your creative kete for a real render — a still (Google Imagen / Fal
+            Flux) or a film (Runway Gen-4 / Fal Kling / Google Veo), seeded by the pattern.
           </p>
+          <Select label="Make" value={auahaKind} options={['Image', 'Video']} onChange={(v) => setAuahaKind(v as 'Image' | 'Video')} />
+          <Select label="Format" value={auahaFormat} options={AD_FORMATS.map((f) => f[0])} onChange={setAuahaFormat} />
+          <label className={styles.field}>
+            <span>Brief</span>
+            <input
+              type="text"
+              value={auahaBrief}
+              placeholder="What should it become? (optional)"
+              onChange={(e) => setAuahaBrief(e.target.value)}
+            />
+          </label>
+          <button type="button" className={styles.action} onClick={sendToAuaha} disabled={auahaBusy}>
+            {auahaBusy ? 'Rendering with AUAHA…' : 'Render with AUAHA'}
+          </button>
+          {auahaImg && (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={auahaImg}
+                alt="AUAHA-rendered still from this pattern"
+                style={{ width: '100%', borderRadius: 8, marginTop: 10, display: 'block' }}
+              />
+              <button
+                type="button"
+                className={styles.action}
+                onClick={() => downloadBrandedImage(auahaImg, `assembl-auaha-${auahaFormat.replace(/\W+/g, '-').toLowerCase()}.png`)}
+              >
+                Download still
+              </button>
+            </>
+          )}
+          {auahaVid && (
+            <>
+              <video
+                src={auahaVid}
+                controls
+                loop
+                playsInline
+                style={{ width: '100%', borderRadius: 8, marginTop: 10, display: 'block' }}
+              />
+              <a className={styles.action} href={auahaVid} download="assembl-auaha.mp4" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+                Download film
+              </a>
+            </>
+          )}
+          {auahaNote && (
+            <p className={styles.status} style={{ minHeight: 0, lineHeight: 1.5 }} aria-live="polite">
+              {auahaNote}
+            </p>
+          )}
+          <Link href="/ad-studio" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+            Ad Studio — a campaign from your Genome →
+          </Link>
           <Link href="/customers/creative-agency/ops" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
-            Open AUAHA →
+            Open AUAHA for 3D + scheduling →
           </Link>
         </section>
       </aside>
