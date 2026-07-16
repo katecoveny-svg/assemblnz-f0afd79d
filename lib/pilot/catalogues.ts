@@ -67,6 +67,7 @@ export const KNOWLEDGE_SOURCES: KnowledgeSource[] = [
   { id: 'training-materials', label: 'Training materials', kind: 'static' },
   { id: 'examples', label: 'Previous examples', kind: 'static' },
   { id: 'website', label: 'Website pages', kind: 'live' },
+  { id: 'grounded-web', label: 'Current web sources with citations', kind: 'live' },
   { id: 'spreadsheets', label: 'Spreadsheets', kind: 'live' },
   { id: 'crm', label: 'CRM data', kind: 'live' },
   { id: 'customer-records', label: 'Customer records', kind: 'live' },
@@ -115,6 +116,7 @@ export const CATEGORISED_TOOLS: CategorisedTool[] = [
   { id: 'read-notion', label: 'Notion', category: 'read' },
   { id: 'read-airtable', label: 'Airtable', category: 'read' },
   { id: 'read-website', label: 'Website search', category: 'read' },
+  { id: 'read-grounded-web', label: 'Live web research with citations', category: 'read' },
   { id: 'read-docs', label: 'Uploaded docs', category: 'read' },
   { id: 'read-crm', label: 'CRM', category: 'read' },
   { id: 'read-slack', label: 'Slack', category: 'read' },
@@ -137,6 +139,7 @@ export const CATEGORISED_TOOLS: CategorisedTool[] = [
   { id: 'auto-internal-api', label: 'Internal APIs', category: 'automation' },
   // Knowledge
   { id: 'kn-doc-search', label: 'Document search', category: 'knowledge' },
+  { id: 'kn-grounded-web', label: 'Grounded web search (provider-neutral)', category: 'knowledge' },
   { id: 'kn-rag', label: 'RAG', category: 'knowledge' },
   { id: 'kn-vector-db', label: 'Vector database', category: 'knowledge' },
   { id: 'kn-internal-kb', label: 'Internal knowledge base', category: 'knowledge' },
