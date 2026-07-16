@@ -28,7 +28,7 @@ export function MarketplaceHeader() {
           <Link href="/agents" className="hover:opacity-70">
             Browse
           </Link>
-          <Link href="/pilot" className="rounded-full px-4 py-2 hover:opacity-80" style={{ backgroundColor: PALETTE.canary }}>
+          <Link href="/pilot" className="rounded-full px-4 py-2 hover:opacity-80" style={{ backgroundColor: PALETTE.accentGold }}>
             Build an agent
           </Link>
           <Link href="/" className="hidden hover:opacity-70 sm:inline" style={{ color: PALETTE.body }}>
