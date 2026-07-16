@@ -113,6 +113,7 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/assembling',
   '/hapai',
   '/free-tools',
+  '/pattern-studio',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   '/robots.txt',
@@ -210,6 +211,8 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   // Living Site funnel — public everywhere, including the demo host.
   '/living-site',
   '/install',
+  // Public Pattern Studio tool — reachable on the demo host too.
+  '/pattern-studio',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
