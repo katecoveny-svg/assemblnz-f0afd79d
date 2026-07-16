@@ -4,6 +4,7 @@ import { V2Nav } from '@/components/v2/V2Chrome';
 import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
 import { BusinessGenomeOrbit } from '@/components/genome-orbit/BusinessGenomeOrbit';
 import { BuildScroll } from '@/components/build-scroll/BuildScroll';
+import { PatternDivider } from '@/components/pattern-studio/PatternDivider';
 import { BusinessGenomeSection } from '@/components/business-genome/BusinessGenomeSection';
 import { GENOME_FACTS, GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
 
@@ -25,6 +26,7 @@ export default function HomePage() {
       <AssemblHero />
       <BusinessGenomeOrbit />
       <BuildScroll />
+      <PatternDivider />
       <BusinessGenomeSection genomeFacts={GENOME_FACTS.length} surfaces={GENOME_SURFACES.length} />
       <footer
         style={{
