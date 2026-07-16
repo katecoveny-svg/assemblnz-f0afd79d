@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
+import { PatternBackdrop } from "@/components/pattern-studio/PatternBackdrop";
 
 export const metadata: Metadata = {
   title: "AI Use Disclosure | assembl",
@@ -20,7 +21,15 @@ const commitments = [
 export default function AIUseDisclosurePage() {
   return (
     <main className="bg-[color:var(--assembl-paper)]">
-      <section className="container py-24 md:py-32">
+      <section className="relative overflow-hidden container py-24 md:py-32">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="mx-auto max-w-4xl">
           <SectionReveal>
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">

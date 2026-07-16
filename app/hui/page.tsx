@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import HuiStudio from "@/components/hui/HuiStudio";
+import { PatternBackdrop } from "@/components/pattern-studio/PatternBackdrop";
 
 export const metadata: Metadata = {
   title: "Hui — you ran the meeting, let us write it up",
@@ -21,10 +22,13 @@ export default function HuiPage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(58,56,50,0.10) 0%, transparent 65%)" }}
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
         />
         <div className="relative container grid items-center gap-10 py-16 md:grid-cols-2 md:py-20">
           <div>

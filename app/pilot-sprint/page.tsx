@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
-import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
 
 export const metadata: Metadata = {
@@ -26,8 +26,15 @@ export default async function PilotSprintPage({
   const checkoutConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-28 lg:py-36">
-        <ShaderHeroBackdrop />
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] py-28 lg:py-36">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="container relative z-10">
           <SectionReveal>
             <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">Founding Pilot Sprint</p>

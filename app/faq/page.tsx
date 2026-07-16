@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import {
   graph,
   faqPageNode,
@@ -59,7 +60,15 @@ export default function FaqPage() {
       <JsonLd data={schema} />
 
       {/* Hero */}
-      <section className="border-b border-[rgba(35,33,31,0.08)]">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)]">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="mx-auto max-w-[1100px] px-5 py-14 md:px-10 md:py-20">
           <p className="text-[11px] uppercase tracking-[0.28em] text-[#9A8E72]" style={{ fontFamily: MONO }}>
             001 — Questions, answered

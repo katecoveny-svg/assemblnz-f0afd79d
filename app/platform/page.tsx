@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
-import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { PRICING_NOTE } from '@/lib/pricing';
 
 export const metadata: Metadata = {
@@ -28,8 +28,15 @@ export default function PlatformPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_18%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]">
-        <ShaderHeroBackdrop />
+      <section className="relative overflow-hidden">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="relative z-10 container py-28 md:py-40">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>

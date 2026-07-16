@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Check, Mail, ShieldCheck, Sparkles } from 'lucide-react';
 import { INDUSTRY_KETES } from '@/lib/kete';
 import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 
 export const metadata: Metadata = {
   title: 'Start',
@@ -22,6 +23,14 @@ export default function StartPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)]">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="container grid min-h-[92vh] items-center gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_460px] lg:py-20">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
