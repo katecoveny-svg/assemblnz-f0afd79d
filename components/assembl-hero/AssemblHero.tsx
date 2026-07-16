@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { ParticleCanvas } from './ParticleCanvas';
+import { HeroPatternCanvas } from './HeroPatternCanvas';
 import { HERO } from '@/lib/copy/homepage';
 import styles from './assembl-hero.module.css';
 
@@ -55,7 +55,7 @@ export function AssemblHero() {
       </div>
 
       <div className={styles.heroCanvas}>
-        <ParticleCanvas />
+        <HeroPatternCanvas />
       </div>
 
       <div className={styles.heroCopy}>
