@@ -50,9 +50,10 @@ export function HeroPatternCanvas() {
         words={['assembl']}
         count={count}
         particleShape="circle"
-        glow
-        turbulence={26}
+        glow={false}
+        turbulence={12}
         speed={1.1}
+        holdSeconds={3.6}
         mouseInteractive
         mouseMode="repel"
         backgroundColor={colors.background}
