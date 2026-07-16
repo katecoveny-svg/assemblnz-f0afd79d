@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
 import { BusinessGenomeOrbit } from '@/components/genome-orbit/BusinessGenomeOrbit';
 import { BuildScroll } from '@/components/build-scroll/BuildScroll';

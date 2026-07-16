@@ -54,8 +54,8 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={styles.navLink}>
           sign in
         </Link>
-        <Link href="/pilot" className={styles.navCta}>
-          build an agent
+        <Link href="/genome" className={styles.navCta}>
+          try the live genome
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
             •
           </span>
