@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PLAYGROUND } from '@/lib/copy/homepage';
+import { composeAd, loadCampaignImage, type ComposableCampaign } from '@/components/ad-studio/compose';
 
 const PatternStudio = dynamic(() => import('@/components/pattern-studio/AssemblPatternStudioComponent'), {
   ssr: false,
@@ -42,6 +43,8 @@ export function BrandPlayground() {
   const [dna, setDna] = useState<Dna | null>(null);
   const [reading, setReading] = useState(false);
   const [note, setNote] = useState('');
+  const [making, setMaking] = useState(false);
+  const [ads, setAds] = useState<Array<{ label: string; w: number; h: number; dataUrl: string }>>([]);
 
   const readSite = async () => {
     if (reading || !url.trim()) return;
@@ -74,6 +77,37 @@ export function BrandPlayground() {
       /* storage unavailable — the studio just starts empty */
     }
     router.push('/ad-studio');
+  };
+
+  // Make the ads right here — same campaign engine as the Ad Studio.
+  const makeAds = async () => {
+    if (!dna || making) return;
+    setMaking(true);
+    setNote('');
+    setAds([]);
+    try {
+      const r = await fetch('/api/creative/ad', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dna, goal: '' }),
+      });
+      const d = await r.json();
+      if (d.error || d.notConfigured) {
+        setNote(d.error ?? `This needs ${d.envVar} set.`);
+        return;
+      }
+      const c = d.campaign as ComposableCampaign;
+      const img = await loadCampaignImage(c.image);
+      if (document.fonts?.ready) await document.fonts.ready;
+      setAds([
+        { label: 'Square 1:1', w: 1080, h: 1080, dataUrl: composeAd(img, 1080, 1080, c) },
+        { label: 'Landscape 16:9', w: 1920, h: 1080, dataUrl: composeAd(img, 1920, 1080, c) },
+      ]);
+    } catch (e) {
+      setNote((e as Error).message);
+    } finally {
+      setMaking(false);
+    }
   };
 
   return (
@@ -210,7 +244,8 @@ export function BrandPlayground() {
             </span>
             <button
               type="button"
-              onClick={toAdStudio}
+              onClick={makeAds}
+              disabled={making}
               style={{
                 padding: '12px 20px',
                 borderRadius: 999,
@@ -219,14 +254,58 @@ export function BrandPlayground() {
                 color: '#fff',
                 fontSize: 14,
                 fontWeight: 700,
+                cursor: making ? 'default' : 'pointer',
+                opacity: making ? 0.7 : 1,
+              }}
+            >
+              {making ? PLAYGROUND.makingAdsAction : PLAYGROUND.adsAction}
+            </button>
+            <button
+              type="button"
+              onClick={toAdStudio}
+              style={{
+                padding: '12px 20px',
+                borderRadius: 999,
+                border: `1px solid ${HAIRLINE}`,
+                background: 'rgba(255,255,255,0.92)',
+                color: INK,
+                fontSize: 13,
+                fontWeight: 700,
                 cursor: 'pointer',
               }}
             >
-              {PLAYGROUND.adsAction}
+              {PLAYGROUND.openStudioAction}
             </button>
             <Link href="/pattern-studio" style={{ color: INK, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
               {PLAYGROUND.patternsAction} →
             </Link>
+          </div>
+        )}
+
+        {ads.length > 0 && dna && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, pointerEvents: 'auto' }}>
+            {ads.map((card) => (
+              <figure key={card.label} style={{ margin: 0, width: card.w > card.h ? 300 : 220 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={card.dataUrl}
+                  alt={`${dna.name} ad — ${card.label}`}
+                  style={{ width: '100%', borderRadius: 12, display: 'block', border: `1px solid ${HAIRLINE}` }}
+                />
+                <figcaption
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 6 }}
+                >
+                  <span style={{ fontSize: 11, color: MUTED }}>{card.label}</span>
+                  <a
+                    href={card.dataUrl}
+                    download={`assembl-ad-${card.w}x${card.h}.png`}
+                    style={{ color: dna.accent, fontSize: 12, fontWeight: 700, textDecoration: 'none' }}
+                  >
+                    Download
+                  </a>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         )}
       </div>
