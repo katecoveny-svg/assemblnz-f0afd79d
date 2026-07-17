@@ -15,16 +15,26 @@ const FOOTER_LINKS: Array<[string, string]> = [
   ['/legal/privacy', 'Privacy'],
 ];
 
+// Free, public tools — surfaced so they're actually reachable, not orphaned.
+const TOOL_LINKS: Array<[string, string]> = [
+  ['/hapai', 'Free tools'],
+  ['/pattern-studio', 'Pattern Studio'],
+  ['/ad-studio', 'Ad Studio'],
+  ['/hui', 'Meeting notes'],
+];
+
+const linkStyle = { color: '#53656a', fontSize: 11, textDecoration: 'none' } as const;
+
 export function V2Footer() {
   return (
     <footer
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
-        gap: 18,
-        padding: '24px clamp(18px, 4vw, 58px) 34px',
+        gap: 22,
+        padding: '26px clamp(18px, 4vw, 58px) 36px',
         borderTop: '1px solid rgba(49, 60, 66, 0.1)',
         background: '#f8f9f8',
         fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
@@ -38,13 +48,36 @@ export function V2Footer() {
           Mahi that earns its proof. Built in Aotearoa.
         </p>
       </div>
-      <nav aria-label="assembl footer" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 18px' }}>
-        {FOOTER_LINKS.map(([href, label]) => (
-          <Link key={href} href={href} style={{ color: '#53656a', fontSize: 11, textDecoration: 'none' }}>
-            {label}
-          </Link>
-        ))}
-      </nav>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
+        <nav aria-label="assembl footer" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 18px' }}>
+          {FOOTER_LINKS.map(([href, label]) => (
+            <Link key={href} href={href} style={linkStyle}>
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <nav
+          aria-label="Free tools"
+          style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px 16px' }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--font-mono), Space Mono, monospace',
+              fontSize: 9,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: '#9aa39c',
+            }}
+          >
+            Free tools
+          </span>
+          {TOOL_LINKS.map(([href, label]) => (
+            <Link key={href} href={href} style={{ ...linkStyle, color: '#3f7373' }}>
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </footer>
   );
 }

@@ -3,9 +3,25 @@ import Link from 'next/link';
 import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
 import { BusinessGenomeOrbit } from '@/components/genome-orbit/BusinessGenomeOrbit';
 import { BuildScroll } from '@/components/build-scroll/BuildScroll';
+import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { PatternDivider } from '@/components/pattern-studio/PatternDivider';
 import { BusinessGenomeSection } from '@/components/business-genome/BusinessGenomeSection';
 import { GENOME_FACTS, GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
+
+const REPEATABLE_VALUES = [20, 35, 50];
+
+/** Seed the calculator from shareable URL params, clamped to safe ranges. */
+function readSavingsSeed(sp: Record<string, string | string[] | undefined>) {
+  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+  const clamp = (n: number, lo: number, hi: number, fallback: number) =>
+    Number.isFinite(n) ? Math.min(hi, Math.max(lo, Math.round(n))) : fallback;
+  const repeatable = Number(one(sp.repeatable));
+  return {
+    people: clamp(Number(one(sp.team)), 1, 25, 4),
+    adminHours: clamp(Number(one(sp.admin)), 1, 20, 6),
+    repeatableShare: REPEATABLE_VALUES.includes(repeatable) ? repeatable : 35,
+  };
+}
 
 export const metadata: Metadata = {
   title: 'assembl — your living Business Genome',
@@ -18,12 +34,19 @@ export const metadata: Metadata = {
  * Dashboard-first front door. The interactive workspace carries the company
  * story; the full interactive Business Genome remains available at /genome.
  */
-export default function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const seed = readSavingsSeed(await searchParams);
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#313c42' }}>
       <AssemblHero />
       <BusinessGenomeOrbit />
       <BuildScroll />
+
+      <TimeSavingsCalculator initialValues={seed} />
 
       <section
         aria-labelledby="agent-builder-title"

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { MarketplaceHeader, MarketplaceFooter } from '@/components/marketplace/MarketplaceChrome';
 import { isVoiceConfigured } from '@/lib/voice/platform-voice';
 import { getOwner } from '@/lib/pilot/store';
 import { PilotFlow } from './PilotFlow';
@@ -18,11 +17,11 @@ export default async function PilotPage() {
   // Auth is only needed to save/ship — the guided flow runs for everyone.
   const owner = await getOwner();
 
+  // On the global assembl chrome now (V2Nav + slim footer via layout) — the
+  // "build an agent" flow stays, the retired marketplace chrome is gone.
   return (
-    <div className="mk-root min-h-screen" style={{ backgroundColor: '#FFF7EC' }}>
-      <MarketplaceHeader />
+    <div className="min-h-screen" style={{ backgroundColor: '#fff' }}>
       <PilotFlow voiceConfigured={voiceConfigured} signedIn={Boolean(owner)} />
-      <MarketplaceFooter />
     </div>
   );
 }

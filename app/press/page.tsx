@@ -37,11 +37,9 @@ export default function PressPage() {
               Logos, wordmarks, and brand assets for media use. Please
               attribute as &quot;assembl&quot; (lowercase). For interviews or commentary, email{' '}
               <a
-                href="mailto:hello@assembl.co.nz"
+                href="mailto:assembl@assembl.co.nz"
                 className="text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
-              >
-                hello@assembl.co.nz
-              </a>
+              >assembl@assembl.co.nz</a>
               .
             </p>
           </div>
