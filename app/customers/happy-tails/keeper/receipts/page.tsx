@@ -61,7 +61,7 @@ export default function ReceiptsPage() {
         </div>
       ))}
 
-      <div className="note" style={{ marginTop: 8, background: '#f5efe0', borderRadius: 10, padding: '12px 14px' }}>
+      <div className="note" style={{ marginTop: 8, background: '#f4eee0', borderRadius: 10, padding: '12px 14px' }}>
         <b>Liana</b> sits at the top of every business-change and email receipt. <b>Mathis</b> sits at the top of every SMS receipt. Keeper drafts and stamps — it never signs, never sends. Two-voice discipline is enforced by a hard rule: email is always Liana, SMS is always the assigned carer, never mixed.
       </div>
 

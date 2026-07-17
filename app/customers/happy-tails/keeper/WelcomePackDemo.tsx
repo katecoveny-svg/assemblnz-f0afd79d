@@ -104,7 +104,7 @@ export function WelcomePackDemo() {
           </div>
 
           <div className={`packpage draftbody${pages[page].cover ? ' coverp' : ''}`}>
-            {pages[page].cover && <div className="crmphoto" style={{ width: 120, height: 120, marginBottom: 16 }}><svg viewBox="0 0 120 62" fill="none" stroke="#7a4e2c" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round"><path d="M16 40 Q9 38 10 30 Q11 23 16 23" /><path d="M16 23 Q24 16 40 20 L100 24 Q112 24 110 34" /><path d="M26 40v11M42 40v11M92 40v11M104 40v11" /></svg></div>}
+            {pages[page].cover && <div className="crmphoto" style={{ width: 120, height: 120, marginBottom: 16 }}><svg viewBox="0 0 120 62" fill="none" stroke="#2e5a58" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round"><path d="M16 40 Q9 38 10 30 Q11 23 16 23" /><path d="M16 23 Q24 16 40 20 L100 24 Q112 24 110 34" /><path d="M26 40v11M42 40v11M92 40v11M104 40v11" /></svg></div>}
             <h2 className="edit" contentEditable={step === 3} suppressContentEditableWarning>{pages[page].title}</h2>
             {pages[page].body.map((para, i) => (
               <p key={i} className="edit" contentEditable={step === 3} suppressContentEditableWarning>{para}</p>

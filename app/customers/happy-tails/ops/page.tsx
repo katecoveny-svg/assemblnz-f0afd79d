@@ -1,4 +1,6 @@
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { TickerNumber } from '@/lib/motion';
@@ -25,8 +27,22 @@ import {
 } from '@/lib/customers/happy-tails/agent';
 import { MANA_RECEIPTS, ROSTER } from '@/lib/tenants/happy-tails/data';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { GENOME_SECTION_LABELS, type GenomeSection } from '@/lib/customers/auckland-dog-trainer/genome';
+import { getGenomeFactsFor } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import { HAPPY_TAILS_TENANT, HAPPY_TAILS_GENOME_FACTS } from '@/lib/customers/happy-tails/genome';
+import { updateGenomeFactFormAction } from './genome-actions';
 
-const serif = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
+export const dynamic = 'force-dynamic';
+
+const serif = "var(--font-brand-display), 'Cormorant Garamond', Georgia, serif";
+
+// Pearl canon (2026-07-17): ink · muted · gold · teal on a white ground.
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
+const TEAL = '#3f7373';
+
+const eyebrow: CSSProperties = { fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED };
 
 /**
  * Happy Tails — the AI operating system for the doggy daycare.
@@ -52,10 +68,66 @@ const happyTailsAvatars = [
   '/brand/happy-tails/dog-poodle-curls.png',
 ];
 
-export default function HappyTailsOpsHome() {
+type OpsSearchParams = { tab?: string | string[] };
+
+const TABS = [
+  { key: 'overview', label: 'Overview' },
+  { key: 'genome', label: 'Genome' },
+] as const;
+type TabKey = (typeof TABS)[number]['key'];
+const TAB_KEYS: ReadonlySet<string> = new Set(TABS.map((t) => t.key));
+
+function first(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
+function TabBar({ active }: { active: TabKey }) {
+  return (
+    <nav aria-label="Happy Tails sections" className="mt-8" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      {TABS.map((t) => {
+        const on = t.key === active;
+        return (
+          <Link
+            key={t.key}
+            href={`/customers/happy-tails/ops?tab=${t.key}`}
+            scroll={false}
+            aria-current={on ? 'page' : undefined}
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              padding: '8px 16px',
+              borderRadius: 999,
+              textDecoration: 'none',
+              color: on ? '#fff' : INK,
+              background: on ? INK : '#fbfcfb',
+              border: `1.5px solid ${on ? INK : `${GOLD}66`}`,
+              boxShadow: on ? '0 6px 16px rgba(49,60,66,0.16)' : 'none',
+            }}
+          >
+            {t.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+export default async function HappyTailsOpsHome({ searchParams }: { searchParams?: Promise<OpsSearchParams> }) {
   const config = getBrandConfig('happy-tails');
   if (!config) notFound();
-  const accent = config.colours.accent; // warm brown — CTA + status dot only.
+  const accent = config.colours.accent; // pearl teal — CTA + status dot only.
+
+  const sp = await searchParams;
+  const rawTab = first(sp?.tab);
+  const tab: TabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as TabKey) : 'overview';
+
+  // The Happy Tails genome — live rows for tenant 'happy-tails' when the
+  // database is reachable, the in-repo mirror otherwise. Review read: the
+  // owner sees suggested/inferred facts so they can confirm them.
+  const genome =
+    tab === 'genome'
+      ? await getGenomeFactsFor(HAPPY_TAILS_TENANT, HAPPY_TAILS_GENOME_FACTS, { includeUnverified: true })
+      : null;
 
   const latest = MANA_RECEIPTS[0];
   const pendingDrafts =
@@ -131,6 +203,88 @@ export default function HappyTailsOpsHome() {
           stay Drafts in Xero until issued.
         </div>
 
+        {/* ── Section tabs — the workspace overview or the genome ────────── */}
+        <TabBar active={tab} />
+
+        {tab === 'genome' && genome && (
+          <section
+            className="mt-8 rounded-2xl border bg-white/90 p-6 backdrop-blur-sm"
+            style={{ borderColor: 'rgba(49,60,66,0.12)' }}
+          >
+            <div className="flex items-center gap-2">
+              <span style={{ width: 8, height: 8, borderRadius: 999, background: GOLD }} />
+              <p style={{ ...eyebrow, color: GOLD }}>the business genome</p>
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span
+                style={{
+                  ...eyebrow,
+                  fontSize: 9.5,
+                  color: genome.live ? TEAL : MUTED,
+                  border: `1px solid ${(genome.live ? TEAL : MUTED)}55`,
+                  borderRadius: 999,
+                  padding: '3px 9px',
+                }}
+              >
+                {genome.live ? 'live' : 'mirror'}
+              </span>
+              <p style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.6 }}>
+                What the business runs on — one set of facts, and every surface on this console reads it.
+                Change a fact once and everything that reads it follows.
+                {genome.live ? '' : ' The database is out of reach right now, so this is the read-only sample mirror.'}
+              </p>
+            </div>
+            {(Object.keys(GENOME_SECTION_LABELS) as GenomeSection[]).map((section) => {
+              const facts = genome.facts.filter((f) => f.section === section);
+              if (facts.length === 0) return null;
+              return (
+                <div key={section} style={{ marginTop: 18 }}>
+                  <p style={eyebrow}>{GENOME_SECTION_LABELS[section]}</p>
+                  {facts.map((f) => (
+                    <div key={f.id} style={{ padding: '10px 0', borderBottom: `1px solid ${GOLD}22` }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 13.5, fontWeight: 600, color: INK }}>{f.label}</span>
+                        {f.verification && f.verification !== 'confirmed' ? (
+                          <span style={{ ...eyebrow, fontSize: 9, color: TEAL }}>{f.verification}</span>
+                        ) : null}
+                      </div>
+                      <div style={{ fontSize: 13, marginTop: 3, lineHeight: 1.55, color: INK }}>{f.value}</div>
+                      {f.readBy.length > 0 ? (
+                        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 4 }}>read by {f.readBy.join(' · ')}</div>
+                      ) : null}
+                      {genome.live ? (
+                        <details style={{ marginTop: 6 }}>
+                          <summary style={{ fontSize: 11, color: MUTED, cursor: 'pointer' }}>edit</summary>
+                          <form action={updateGenomeFactFormAction} style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+                            <input type="hidden" name="factId" value={f.id} />
+                            <input
+                              name="value"
+                              defaultValue={f.value}
+                              maxLength={300}
+                              aria-label={`New value for ${f.label}`}
+                              style={{ flex: '1 1 260px', borderRadius: 10, border: `1px solid ${GOLD}44`, background: '#fff', padding: '8px 11px', fontSize: 12.5, color: INK, fontFamily: 'var(--font-brand-body)' }}
+                            />
+                            <button
+                              type="submit"
+                              style={{ fontSize: 12.5, fontWeight: 600, padding: '7px 14px', borderRadius: 999, cursor: 'pointer', color: '#fff', background: INK, border: `1.5px solid ${INK}` }}
+                            >
+                              Save
+                            </button>
+                          </form>
+                        </details>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+            <p style={{ fontSize: 11, color: MUTED, marginTop: 14 }}>
+              Edits land in the genome with a history trail; the mirror in the code never changes.
+            </p>
+          </section>
+        )}
+
+        {tab === 'overview' && (<>
         <section
           className="mt-8 rounded-2xl border border-black/10 bg-white/90 p-5 backdrop-blur-sm"
           style={{ borderLeft: `4px solid ${accent}` }}
@@ -145,18 +299,18 @@ export default function HappyTailsOpsHome() {
             Liana&apos;s week · enrolment · bus · welcome packs
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
-          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
+          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#313c42' }}>
             Daycare command centre — enrolment, bus, welcome packs, owner support, and social —
             not a training OS. Lead triage, dog CRM, care journeys, Welcome Pack studio, time
             cockpit, and the Keeper agent mesh.
           </p>
-          <a
+          <Link
             href="/customers/happy-tails/ops/os"
             className="mt-4 inline-flex text-[10px] uppercase"
             style={{ letterSpacing: '0.16em', color: accent }}
           >
             open the daycare OS →
-          </a>
+          </Link>
         </section>
 
         {/* ── Fold 2 · read signals · route work · move to proof ──────────── */}
@@ -215,7 +369,7 @@ export default function HappyTailsOpsHome() {
                 {p.label}
               </p>
               <div className="mt-3">{p.live}</div>
-              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
+              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#313c42' }}>
                 {p.body}
               </p>
             </div>
@@ -228,7 +382,7 @@ export default function HappyTailsOpsHome() {
             talk to {HAPPY_TAILS_AGENT_NAME}
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
-          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
+          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#313c42' }}>
             The workspace agent, live. Real roster, real pricing maths, the
             locked two-voice rules — every answer cites its sources.
           </p>
@@ -251,7 +405,7 @@ export default function HappyTailsOpsHome() {
               <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                 the two-voice rule
               </p>
-              <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#3E3C36' }}>
+              <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#313c42' }}>
                 Locked hard rule: texts go out in <strong>Mathis&apos;s</strong>{' '}
                 voice, emails in <strong>Liana&apos;s</strong>. Keeper drafts in
                 the right voice automatically — try the pickup SMS prompt and
@@ -302,7 +456,7 @@ export default function HappyTailsOpsHome() {
             <h2 className="mt-2 text-2xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
               meet kaiako — your force-free trainer<span style={{ color: ASSEMBL_GOLD }}>.</span>
             </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: '#313c42' }}>
               Keeper now routes any dog-training question to <strong>Kaiako</strong>, the newest specialist in
               the Kaitiaki bundle and the training voice behind <strong>Alphassembl</strong>. Kaiako works
               force-free — LIMA and the humane hierarchy, never a shock, prong or “dominance” fix — grounds
@@ -314,19 +468,19 @@ export default function HappyTailsOpsHome() {
                 <span
                   key={b}
                   className="rounded-full px-3 py-1 text-[11px] font-semibold"
-                  style={{ backgroundColor: '#F5EFE4', color: '#3E3C36' }}
+                  style={{ backgroundColor: '#eef1ef', color: '#313c42' }}
                 >
                   {b}
                 </span>
               ))}
             </div>
-            <a
+            <Link
               href="/alphassembl/chat"
               className="mt-5 inline-block rounded-xl px-5 py-2.5 text-sm font-semibold lowercase tracking-[0.06em] text-white"
               style={{ backgroundColor: accent }}
             >
               ask kaiako →
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -348,7 +502,7 @@ export default function HappyTailsOpsHome() {
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
             the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
-          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
+          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#313c42' }}>
             Receipts and mana show the journey. The latest:
           </p>
           <div className="mt-5 rounded-2xl border border-black/10 bg-white/90 p-6 backdrop-blur-sm">
@@ -357,7 +511,10 @@ export default function HappyTailsOpsHome() {
               <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
                 drafted by {latest.draftedBy} · {latest.draftedAt} · voice: {latest.voice} · signed {latest.signedBy}
               </span>
-              <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-amber-900">
+              <span
+                className="ml-auto rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-wider"
+                style={{ backgroundColor: 'rgba(184,150,79,0.16)', color: '#7a6434' }}
+              >
                 {latest.sentAt ? 'sent after approval' : latest.approvedBy ? 'approved' : 'pending review'}
               </span>
             </div>
@@ -382,7 +539,7 @@ export default function HappyTailsOpsHome() {
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
             ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
+          <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#313c42' }}>
             The pilot runs draft-only until you say otherwise. One conversation
             starts it.
           </p>
@@ -394,6 +551,7 @@ export default function HappyTailsOpsHome() {
             start the pilot conversation
           </a>
         </section>
+        </>)}
       </div>
     </div>
   );

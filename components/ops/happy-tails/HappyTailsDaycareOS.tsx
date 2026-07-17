@@ -32,18 +32,18 @@ import {
 export type { HtOsTab };
 export { HT_OS_TABS };
 
-const INK = '#1A1918';
-const MUTED = '#6B655C';
-const ACCENT = '#8B5A2B';
-const CREAM = '#FBF7F1';
-const PAPER = '#F5EFE4';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const ACCENT = '#3f7373';
+const CREAM = '#ffffff';
+const PAPER = '#fbfcfb';
+const GOLD = '#b8964f';
 
 const glass: CSSProperties = {
   borderRadius: 16,
   border: `1px solid ${INK}14`,
   background: CREAM,
-  boxShadow: '0 10px 28px rgba(26,25,24,0.06)',
+  boxShadow: '0 10px 28px rgba(49,60,66,0.06)',
 };
 
 const eyebrow: CSSProperties = {
@@ -77,7 +77,7 @@ function TabBar({ active }: { active: HtOsTab }) {
                 color: on ? '#fff' : INK,
                 background: on ? INK : CREAM,
                 border: `1.5px solid ${on ? INK : `${INK}22`}`,
-                boxShadow: on ? '0 8px 20px rgba(26,25,24,0.2)' : 'none',
+                boxShadow: on ? '0 8px 20px rgba(49,60,66,0.2)' : 'none',
               }}
             >
               {t.label}
@@ -200,7 +200,7 @@ function LandingTab() {
   const [path, setPath] = useState<DaycarePath | null>(null);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <div style={{ ...glass, padding: 18, background: `linear-gradient(135deg, ${INK}, #3a342c)` }}>
+      <div style={{ ...glass, padding: 18, background: `linear-gradient(135deg, ${INK}, #3e4a51)` }}>
         <p style={{ ...eyebrow, color: GOLD }}>public landing hub · daycare</p>
         <h2 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 24, color: '#fff' }}>
           Not sure what care your pup needs? Find the right Happy Tails path.
