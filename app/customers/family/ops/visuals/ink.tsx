@@ -6,7 +6,7 @@ import type { CSSProperties } from 'react';
  * Quentin Blake meets Oliver Jeffers, calmer. Everything a family knows, drawn
  * like a Sunday-paper cartoonist.
  *
- * Champagne canon: ink strokes, occasional gold fills. No canary, no 3D, no
+ * Pearl canon: ink strokes, occasional gold fills. No canary, no 3D, no
  * photos. These are placeholders for a future commissioned NZ illustrator or a
  * Vessel Studio line-art pass — swap the paths, keep the API.
  */

@@ -8,7 +8,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
  * on, motion strips back to a calm still.
  *
  * - SkyBar: a soft time-of-day gradient that shifts with real Auckland local
- *   time (dawn peach → midday cream → afternoon amber → dusk violet → night ink).
+ *   time (dawn peach → midday pearl → afternoon amber → dusk violet → night ink).
  * - InkArrive: new items settle in with a soft ink-flourish, not a hard bounce.
  * - NameGlow: a family member's name gets a barely-there gold underline when
  *   their next event is imminent (within the hour).
@@ -16,11 +16,11 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 
 const GOLD = '#b8964f';
 
-// Time-of-day palettes — paper-warm, champagne canon, never canary.
+// Time-of-day palettes — pearl canon (white ground, soft tints), never canary.
 type Sky = { a: string; b: string; label: string };
 function skyFor(hour: number): Sky {
   if (hour >= 5 && hour < 8) return { a: '#F6D9C4', b: '#FBF0E6', label: 'dawn' };       // peach
-  if (hour >= 8 && hour < 16) return { a: '#FBF6EC', b: '#FDFAF3', label: 'midday' };     // cream
+  if (hour >= 8 && hour < 16) return { a: '#f2f5f4', b: '#fcfdfc', label: 'midday' };     // pearl
   if (hour >= 16 && hour < 19) return { a: '#F3D8A9', b: '#FBEFD8', label: 'afternoon' }; // amber
   if (hour >= 19 && hour < 21) return { a: '#D9C4DE', b: '#EFE6E9', label: 'dusk' };      // violet
   return { a: '#3A3550', b: '#5A5468', label: 'night' };                                   // ink

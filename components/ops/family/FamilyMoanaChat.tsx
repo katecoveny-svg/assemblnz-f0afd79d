@@ -17,11 +17,11 @@ import { DefaultChatTransport, type UIMessage } from 'ai';
  */
 
 const MARINER_AGENT = 'tide-weather';
-const GOLD = '#BFA37A';
+const GOLD = '#b8964f';
 const BLUE = '#2E5A6B';
 const SEA = '#6E93A6';
 const SAGE = '#7A8B6F';
-const INK = '#2A2620';
+const INK = '#313c42';
 
 const GREETING =
   "Kia ora — I'm Moana, your mariner. Ask me about the tides at Islington Bay off Rangitoto, a weather window for the weekend, a pre-launch safety checklist, or knots for the kids. I draft and suggest — you skipper. Nothing gets booked or sent without you.";
@@ -58,7 +58,7 @@ export function FamilyMoanaChat() {
       className="flex flex-col overflow-hidden rounded-2xl"
       style={{
         border: `1px solid ${GOLD}55`,
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,253,249,0.7))',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(251,252,251,0.7))',
         backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
         boxShadow: '0 16px 44px rgba(46,90,107,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
         minHeight: 440,
@@ -68,7 +68,7 @@ export function FamilyMoanaChat() {
         <span style={{ width: 34, height: 34, borderRadius: 10, background: `linear-gradient(135deg, ${BLUE}, ${SEA})`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 15 }} aria-hidden>≈</span>
         <div className="flex-1">
           <p className="text-sm font-semibold" style={{ color: INK }}>Moana · your mariner</p>
-          <p className="text-[11px]" style={{ color: '#8a8272' }}>tides · weather · safety · draft-only</p>
+          <p className="text-[11px]" style={{ color: '#68766f' }}>tides · weather · safety · draft-only</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium" style={{ background: `${BLUE}18`, color: INK }}>
           <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: busy ? BLUE : SAGE }} />
@@ -78,7 +78,7 @@ export function FamilyMoanaChat() {
 
       <div ref={scrollRef} className="flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 py-4" style={{ maxHeight: 440 }}>
         {messages.length === 0 ? (
-          <div className="text-[12.5px] leading-relaxed" style={{ color: '#8a8272' }}>{GREETING}</div>
+          <div className="text-[12.5px] leading-relaxed" style={{ color: '#68766f' }}>{GREETING}</div>
         ) : (
           messages.map((m) => {
             const mine = m.role === 'user';

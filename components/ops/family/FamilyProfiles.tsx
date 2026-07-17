@@ -9,16 +9,16 @@ import { addFamilyMemberAction, toggleDemoModeAction } from '@/app/customers/fam
  * demo-mode toggle swaps to placeholder names for prospect showings.
  */
 
-const INK = '#1A1918';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
 const display = 'var(--font-brand-display)';
 
 const card: CSSProperties = {
   borderRadius: 14, border: `1px solid ${GOLD}33`,
-  background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: 14,
+  background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: 14,
 };
 const label: CSSProperties = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
 
@@ -35,7 +35,7 @@ export function FamilyProfiles({ people, custody, demoMode }: { people: Person[]
   return (
     <div>
       {/* Custody + homes banner */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', borderRadius: 12, border: `1px solid ${(custody.withAaron ? '#8E7BA6' : SAGE)}44`, background: '#fffdf9', padding: '9px 13px', marginBottom: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', borderRadius: 12, border: `1px solid ${(custody.withAaron ? '#8E7BA6' : SAGE)}44`, background: '#fbfcfb', padding: '9px 13px', marginBottom: 12 }}>
         <span style={{ width: 8, height: 8, borderRadius: 999, background: custody.withAaron ? '#8E7BA6' : SAGE }} />
         <span style={{ fontSize: 13, fontWeight: 700, color: INK }}>{custody.label}</span>
         <span style={{ fontSize: 11.5, color: MUTED }}>{custody.range} · {custody.homeThisWeek}</span>

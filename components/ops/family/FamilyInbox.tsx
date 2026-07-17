@@ -12,9 +12,9 @@ import { FamilyDropzone } from '@/components/ops/family/FamilyDropzone';
  * strip reflects the live sync.
  */
 
-const INK = '#2A2620';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const SAGE = '#7A8B6F';
 const CORAL = '#E08A6B';
 const BLUE = '#6E93A6';
@@ -35,7 +35,7 @@ const SAMPLE: InboxItem[] = [
 
 const card: CSSProperties = {
   borderRadius: 14, border: `1px solid ${GOLD}33`,
-  background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: '11px 13px',
+  background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: '11px 13px',
 };
 
 function Dot({ on }: { on: boolean }) {
@@ -83,7 +83,7 @@ export function FamilyInbox({ status, connectState = null }: { status: InboxStat
       {connectState ? <ConnectBanner state={connectState} /> : null}
 
       {/* status strip */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', border: `1px solid ${GOLD}44`, background: '#fffdf9', borderRadius: 12, padding: '9px 13px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', border: `1px solid ${GOLD}44`, background: '#fbfcfb', borderRadius: 12, padding: '9px 13px' }}>
         <Dot on={connected} />
         <span style={{ fontSize: 12.5, fontWeight: 600, color: INK }}>Echo · always-on inbox</span>
         <span style={{ fontSize: 11.5, color: MUTED }}>scans every 15 min · draft-only</span>

@@ -10,9 +10,9 @@ import { draftGearReminderAction } from '@/app/customers/family/ops/actions';
  * nothing sends on its own. Draft-only.
  */
 
-const INK = '#1A1918';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
 
@@ -45,7 +45,7 @@ export function FamilyPacking() {
         ))}
       </div>
 
-      <div style={{ marginTop: 12, borderRadius: 12, border: `1px solid ${GOLD}33`, background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: 14 }}>
+      <div style={{ marginTop: 12, borderRadius: 12, border: `1px solid ${GOLD}33`, background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: 14 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
           <div style={{ fontSize: 14.5, fontWeight: 700, color: INK, fontFamily: 'var(--font-brand-display)' }}>{sel.label}</div>
           <div style={{ fontSize: 11, color: MUTED }}>for {sel.who} · {sel.items.length} things</div>

@@ -17,9 +17,9 @@ import { FamilyDropzone } from '@/components/ops/family/FamilyDropzone';
  * the delivery leg via Uber Direct is the part we can build today.
  */
 
-const INK = '#2A2620';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const SAGE = '#7A8B6F';
 const WOOLIES = '#0A7D34';
 
@@ -28,7 +28,7 @@ const USUAL = ['Milk 2L', 'Weet-Bix', 'Wholemeal bread', 'Bananas', 'Beef mince 
 const card: CSSProperties = {
   borderRadius: 14,
   border: `1px solid ${GOLD}33`,
-  background: 'linear-gradient(180deg,#ffffff,#fffdf9)',
+  background: 'linear-gradient(180deg,#ffffff,#fbfcfb)',
   padding: 14,
 };
 const label: CSSProperties = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
@@ -66,7 +66,7 @@ export function FamilyKitchen() {
         <p style={{ ...label, marginTop: 14 }}>your family’s usual</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
           {USUAL.map((it) => (
-            <a key={it} href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ fontSize: 11.5, color: INK, textDecoration: 'none', border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 9px', background: '#fffdf9' }}>{it}</a>
+            <a key={it} href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ fontSize: 11.5, color: INK, textDecoration: 'none', border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 9px', background: '#fbfcfb' }}>{it}</a>
           ))}
         </div>
         <div style={{ fontSize: 11, color: MUTED, marginTop: 8 }}>Built from your last few shops · tap any item to open Woolworths</div>

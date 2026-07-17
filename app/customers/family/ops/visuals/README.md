@@ -5,7 +5,7 @@ future direction change is a one-folder swap. The rest of the app talks to this
 folder through a small, stable surface.
 
 **Locked direction: illustrated + ambient motion (Option B).** Hand-drawn line
-art, champagne canon (paper `#FBFAF6`, ink `#313c42`, gold `#b8964f`), Cormorant
+art, pearl canon (white ground, ink `#313c42`, gold `#b8964f`, muted `#68766f`), Cormorant
 lowercase headers, Lato body, Space Mono labels, subtle paper grain, and ambient
 motion that's load-bearing but never attention-seeking.
 

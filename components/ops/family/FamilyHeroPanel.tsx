@@ -14,10 +14,10 @@ import { AmbientStyles } from '@/app/customers/family/ops/visuals/ambient';
  * a live "reading your newsletter…" pending state.
  */
 
-const CREAM = '#FBFAF6';
-const INK = '#1A1918';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const CREAM = '#ffffff';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 
 function ParseButton() {
@@ -46,7 +46,7 @@ export function FamilyHeroPanel({ parsed }: { parsed: boolean }) {
   return (
     <div style={{
       position: 'relative', overflow: 'hidden', borderRadius: 22,
-      border: `1px solid ${GOLD}55`, boxShadow: '0 16px 44px rgba(154,123,58,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
+      border: `1px solid ${GOLD}55`, boxShadow: '0 16px 44px rgba(49,60,66,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
       minHeight: 460,
     }}>
       <AmbientStyles />
@@ -57,7 +57,7 @@ export function FamilyHeroPanel({ parsed }: { parsed: boolean }) {
         <h1 style={{ fontFamily: 'var(--font-brand-display)', fontSize: 'clamp(2.1rem,4.4vw,3.3rem)', fontWeight: 600, color: INK, margin: '8px 0 0', lineHeight: 1.04 }}>
           Life admin, handled<span style={{ color: CORAL }}>.</span>
         </h1>
-        <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#5b5548', margin: '12px 0 0', maxWidth: 500 }}>
+        <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#68766f', margin: '12px 0 0', maxWidth: 500 }}>
           Forward your school newsletter and I&rsquo;ll turn it into the family&rsquo;s week — events, pickups,
           what to buy, what to sign, what to pay. I <strong>draft and suggest</strong>; you approve.
         </p>

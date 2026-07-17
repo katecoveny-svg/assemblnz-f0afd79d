@@ -12,9 +12,9 @@ import { draftDelivereasyIntakeAction } from '@/app/customers/family/ops/actions
  * Uber Teens on the family profile.
  */
 
-const INK = '#2A2620';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const BLUE = '#6E93A6';
 const SAGE = '#7A8B6F';
 const CORAL = '#E08A6B';
@@ -63,7 +63,7 @@ const RIDES: Ride[] = [
 const card: CSSProperties = {
   borderRadius: 14,
   border: `1px solid ${GOLD}33`,
-  background: 'linear-gradient(180deg,#ffffff,#fffdf9)',
+  background: 'linear-gradient(180deg,#ffffff,#fbfcfb)',
   padding: 14,
 };
 function pill(color: string): CSSProperties {
