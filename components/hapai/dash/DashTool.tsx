@@ -107,10 +107,10 @@ export function DashTool({ config }: { config: DashToolConfig }) {
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 40px; }
   .mark { font-weight: 900; letter-spacing: -0.02em; color: #313c42; font-size: 22px; }
   .eyebrow { font: 700 11px/1 "Space Mono",ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #b8964f; }
-  h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin: 12px 0 4px; color: #313c42; }
+  h1 { font: 500 34px/1.05 'Cormorant Garamond', Georgia, serif; letter-spacing: -0.02em; margin: 12px 0 4px; color: #313c42; }
   .dash { width: 120px; height: 9px; background: #b8964f; border-radius: 999px; margin: 14px 0 18px; }
   .meta { color: #8A8678; font-size: 13px; margin-bottom: 24px; }
-  .rule { border: 0; border-top: 1px solid #EFEADC; margin: 24px 0; }
+  .rule { border: 0; border-top: 1px solid rgba(35,33,31,0.10); margin: 24px 0; }
   .body h2 { font-size: 22px; font-weight: 900; color: #313c42; margin: 24px 0 8px; }
   .body h3 { font-size: 17px; font-weight: 700; color: #313c42; margin: 18px 0 6px; }
   .body ul { margin: 0 0 12px; padding-left: 20px; }
@@ -155,7 +155,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             <button
               type="button"
               onClick={loadSample}
-              className="mk-mono rounded-full border border-[#EFEADC] bg-white px-4 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8A8678] transition hover:text-[#313c42]"
+              className="font-mono rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-4 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8A8678] transition hover:text-[#313c42]"
             >
               Load an example
             </button>
@@ -165,7 +165,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
         <div className="grid gap-4 md:grid-cols-2">
           {config.allowImage ? (
             <label className="md:col-span-2">
-              <span className="mk-mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-[#8A8678]">
+              <span className="font-mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-[#8A8678]">
                 {config.imageLabel ?? 'Upload a photo'}
               </span>
               <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[#D8CEB4] bg-white p-4">
@@ -192,7 +192,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                         setImageDataUrl('');
                         setImageName('');
                       }}
-                      className="relative z-10 inline-flex h-10 items-center gap-2 rounded-full border border-[#EFEADC] bg-white px-4 text-sm text-[#56544B]"
+                      className="relative z-10 inline-flex h-10 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-4 text-sm text-[#56544B]"
                     >
                       <X className="h-4 w-4" aria-hidden />
                       Remove
@@ -200,7 +200,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   ) : null}
                 </div>
                 {imageDataUrl ? (
-                  <div className="mt-4 overflow-hidden rounded-[8px] border border-[#EFEADC] bg-white">
+                  <div className="mt-4 overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={imageDataUrl} alt="" className="max-h-[260px] w-full object-contain" />
                   </div>
@@ -213,19 +213,19 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             const full = field.full || field.type === 'textarea';
             return (
               <label key={field.name} className={full ? 'md:col-span-2' : 'block'}>
-                <span className="mk-mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-[#8A8678]">{field.label}</span>
+                <span className="font-mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-[#8A8678]">{field.label}</span>
                 {field.type === 'textarea' ? (
                   <textarea
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="min-h-[150px] w-full rounded-[10px] border border-[#EFEADC] bg-white p-4 text-sm leading-relaxed text-[#313c42] outline-none focus:border-[#b8964f]"
+                    className="min-h-[150px] w-full rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white p-4 text-sm leading-relaxed text-[#313c42] outline-none focus:border-[#b8964f]"
                     placeholder={field.placeholder}
                   />
                 ) : field.type === 'select' ? (
                   <select
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#313c42] outline-none focus:border-[#b8964f]"
+                    className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white px-3 text-sm text-[#313c42] outline-none focus:border-[#b8964f]"
                   >
                     {field.options?.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -237,7 +237,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   <input
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#313c42] outline-none focus:border-[#b8964f]"
+                    className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white px-3 text-sm text-[#313c42] outline-none focus:border-[#b8964f]"
                     placeholder={field.placeholder}
                   />
                 )}
@@ -259,7 +259,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
           <button
             type="button"
             onClick={clearAll}
-            className="rounded-full border border-[#EFEADC] bg-white px-6 py-3 text-sm text-[#56544B] transition hover:text-[#313c42]"
+            className="rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-6 py-3 text-sm text-[#56544B] transition hover:text-[#313c42]"
           >
             Clear
           </button>
@@ -267,7 +267,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
         </div>
 
         {loading ? (
-          <div className="mt-6 rounded-[12px] border border-[#EFEADC] bg-white p-5">
+          <div className="mt-6 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-white p-5">
             <DashLoader label={config.loadingLabel} width={64} />
           </div>
         ) : null}
@@ -277,9 +277,9 @@ export function DashTool({ config }: { config: DashToolConfig }) {
       </div>
 
       {html ? (
-        <section className="m-4 rounded-[12px] border border-[#EFEADC] bg-white p-7 md:m-5 md:p-9">
+        <section className="m-4 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-white p-7 md:m-5 md:p-9">
           <div
-            className="dash-output max-w-none text-[#313c42] [&_h2]:mt-6 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:tracking-[-0.01em] [&_h2:first-child]:mt-0 [&_h3]:mt-5 [&_h3]:text-lg [&_h3]:font-bold [&_li]:mb-1.5 [&_p]:mt-3 [&_p]:leading-relaxed [&_strong]:font-bold [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-[#56544B]"
+            className="dash-output max-w-none text-[#313c42] [&_h2]:mt-6 [&_h2]:font-display [&_h2]:text-3xl [&_h2]:font-medium [&_h2]:tracking-[-0.01em] [&_h2:first-child]:mt-0 [&_h3]:mt-5 [&_h3]:text-lg [&_h3]:font-bold [&_li]:mb-1.5 [&_p]:mt-3 [&_p]:leading-relaxed [&_strong]:font-bold [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-[#56544B]"
             dangerouslySetInnerHTML={{ __html: html }}
           />
           <div className="mt-7 flex flex-wrap gap-3">
@@ -293,7 +293,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             <button
               type="button"
               onClick={copyOutput}
-              className="inline-flex items-center gap-2 rounded-full border border-[#EFEADC] bg-white px-5 py-3 text-sm text-[#56544B] hover:text-[#313c42]"
+              className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-5 py-3 text-sm text-[#56544B] hover:text-[#313c42]"
             >
               <Copy className="h-4 w-4" /> Copy to clipboard
             </button>
