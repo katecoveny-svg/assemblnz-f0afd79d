@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { AdStudioClient } from '@/components/ad-studio/AdStudioClient';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 
 export const metadata: Metadata = {
   title: 'assembl — Ad Studio',
   description:
-    'On-brand ad campaigns from your Business Genome: copy in the kete voice, an on-brand image, laid out in every size — all drafts.',
+    'On-brand ad campaigns from your Business Genome: copy in your brand voice, an on-brand image, laid out in every size — all drafts.',
   alternates: { canonical: '/ad-studio' },
 };
 
@@ -18,10 +19,25 @@ export default function AdStudioPage() {
     <div style={{ minHeight: '100vh', background: '#fff', color: '#313c42' }}>
       <header
         style={{
-          padding: '28px clamp(20px, 5vw, 40px) 20px',
+          position: 'relative',
+          overflow: 'hidden',
+          padding: '48px clamp(20px, 5vw, 40px) 40px',
           borderBottom: '1px solid rgba(49, 60, 66, 0.1)',
         }}
       >
+        <PatternBackdrop
+          className="absolute inset-0"
+          mode="particles"
+          colorRole="gold"
+          count={150}
+          connectLines
+          connectDistance={140}
+          glow
+          opacity={0.55}
+          speed={0.8}
+          lazyMount={false}
+        />
+        <div style={{ position: 'relative', zIndex: 1 }}>
         <p
           style={{
             margin: 0,
@@ -45,6 +61,7 @@ export default function AdStudioPage() {
         >
           Ad Studio
         </h1>
+        </div>
       </header>
       <AdStudioClient />
     </div>
