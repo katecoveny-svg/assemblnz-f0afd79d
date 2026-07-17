@@ -73,13 +73,14 @@ export default {
           foreground: 'hsl(var(--card-foreground))',
         },
         assembl: {
-          paper: '#FAF7F2',
-          ink: '#23211F',
-          pounamu: '#2B6B57',
-          clay: '#AC5838',
-          mist: '#E8E4DE',
-          shadow: '#B8B2A8',
-          gold: '#D4A853',
+          /* Pearl canon (2026-07-17): teal + gold on white. */
+          paper: '#ffffff',
+          ink: '#313c42',
+          pounamu: '#3f7373',
+          clay: '#3f7373',
+          mist: '#e8ecea',
+          shadow: '#b9c2bd',
+          gold: '#b8964f',
         },
         kete: {
           waihanga: '#2B6B57',   // pounamu

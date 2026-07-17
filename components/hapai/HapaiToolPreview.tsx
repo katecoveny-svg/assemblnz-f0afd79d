@@ -17,8 +17,8 @@ type HapaiToolPreviewProps = {
 // identical for every tool, so the colour is the only thing that varies.
 const CATEGORY_ACCENT: Record<HapaiTool['category'], string> = {
   adoption: '#C9A24B', // gold
-  operations: '#3A3832', // pounamu
-  marketing: '#AC5838', // kōkōwai / clay
+  operations: '#313c42', // pounamu
+  marketing: '#3f7373', // kōkōwai / clay
   record: '#5B4FA0', // kahurangi
   lifestyle: '#D4842A', // karaka
   education: '#3B7CB5', // kikorangi
@@ -44,7 +44,7 @@ export function HapaiToolPreview({ tool }: HapaiToolPreviewProps) {
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(120% 90% at 80% 12%, ${accent}22 0%, transparent 46%), linear-gradient(135deg, #FFF7EC 0%, #F1EBDF 60%, #E9E2D4 100%)`,
+          background: `radial-gradient(120% 90% at 80% 12%, ${accent}22 0%, transparent 46%), linear-gradient(135deg, #ffffff 0%, #F1EBDF 60%, #E9E2D4 100%)`,
         }}
       />
 
@@ -93,7 +93,7 @@ export function HapaiToolPreview({ tool }: HapaiToolPreviewProps) {
 
       {/* brand mark — consistent on every cover */}
       <span
-        className="absolute bottom-3 left-4 font-display text-[15px] lowercase tracking-[-0.02em] text-[#23211F]/35"
+        className="absolute bottom-3 left-4 font-display text-[15px] lowercase tracking-[-0.02em] text-[#313c42]/35"
         style={{ fontWeight: 300 }}
       >
         assembl

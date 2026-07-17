@@ -137,7 +137,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     status: 'live',
     description:
       'Paste a commercial invoice and get back a structured customs entry draft your broker can check and file. Nothing is ever lodged.',
-    href: '/hapai/pikau',
+    href: '/hapai/customs-entry',
     visual: 'customs',
     shareable: true,
     category: 'operations',
@@ -196,7 +196,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     status: 'live',
     description:
       'Turns the school notice, the sports draw, and tomorrow’s weather into a five-line morning brief. So you stop forgetting the rugby boots.',
-    href: '/hapai/dawn',
+    href: '/hapai/9am-brief',
     visual: 'morning-brief',
     shareable: true,
     category: 'operations',

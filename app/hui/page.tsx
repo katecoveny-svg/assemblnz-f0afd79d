@@ -48,7 +48,7 @@ export default function HuiPage() {
             <div className="mt-8">
               <a
                 href="#try"
-                className="inline-block rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#3A3832]"
+                className="inline-block rounded-full bg-[#313c42] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#313c42]"
               >
                 Try it now — 1 free run
               </a>

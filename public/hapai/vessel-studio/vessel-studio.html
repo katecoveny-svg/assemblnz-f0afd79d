@@ -11,15 +11,15 @@
 <style>
   :root {
     /* Locked Mārama Whenua values */
-    --paper: #FAF7F2;
+    --paper: #ffffff;
     --paper-soft: #EFEAE1;
     --mist: #E8E4DE;
     --line: #D8D2C7;
-    --ink: #23211F;
+    --ink: #313c42;
     --ink-soft: #4A4A4A;
     --ink-faint: #8A8580;
-    --gold: #D4A853;
-    --pounamu: #2B6B57;
+    --gold: #b8964f;
+    --pounamu: #3f7373;
     --rust: #B85C38;
     --error-bg: #F4E9E4;
     --error-ink: #7A2E15;
@@ -253,7 +253,7 @@
   .ref-zone {
     position: relative;
     height: 240px;
-    border: 1px dashed #D4A853;
+    border: 1px dashed #b8964f;
     background: var(--mist);
     border-radius: var(--radius);
     display: flex;
@@ -1364,7 +1364,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="vessel studio">
-<meta name="theme-color" content="#FAF7F2">
+<meta name="theme-color" content="#ffffff">
 <meta name="description" content="vessel studio · hapai · assembl — a quiet prompt builder for hero imagery. Built in Aotearoa.">
 <link rel="stylesheet" href="/hapai/_scaffold/shell.css">
 </head>
@@ -1700,7 +1700,7 @@
       label: 'Toro (Family / Lifestyle)',
       pillar: 'family · lifestyle',
       grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent smoky charcoal and warm grey glass plates stacked horizontally, topped with a quiet cream stoneware oval form evoking home',
-      tonalSignature: 'quiet domestic intelligence, self-supporting form'
+      tonalSignature: 'calm domestic presence, self-supporting form'
     },
     {
       id: 'custom',
@@ -1720,13 +1720,13 @@
       label: 'Founder Portrait',
       pillar: 'Brand · Founder content',
       grammar: 'editorial portrait photograph of a woman in her late 30s with shoulder-length sun-kissed blonde hair, warm gentle smile, calm and present expression, wearing soft cream or beige knitwear, sometimes holding a long-haired black dachshund with tan markings, seated in a warm cream-paper interior with soft natural light from a window upper left, plants and books in soft focus background',
-      tonalSignature: 'quiet intelligence, time returned, no harsh shadows',
+      tonalSignature: 'calm presence, time returned, no harsh shadows',
       defaultAspectRatio: '4:5',
       defaultMotion: 'still',
       portrait: true,
       flagNegatives: [
         'harsh shadows', 'beauty filter', 'plastic skin', 'oversaturated',
-        'neon', 'dark moody', 'studio backdrop', 'white seamless'
+        'neon', 'dark moody', 'studio backdrop', 'white sweep backdrop'
       ],
     },
   ];
@@ -3111,6 +3111,16 @@
       ctx.imageSmoothingQuality = 'high';
       const crop = computeCrop(exportState.image, exportState.focal, sz.w, sz.h);
       ctx.drawImage(exportState.image, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, sz.w, sz.h);
+      // assembl wordmark — every export carries the brand (brand-all-exports).
+      const markSize = Math.max(18, Math.round(sz.w * 0.024));
+      const pad = Math.round(sz.w * 0.03);
+      ctx.font = '600 ' + markSize + "px 'Cormorant Garamond', Georgia, serif";
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'bottom';
+      ctx.fillStyle = 'rgba(0,0,0,0.35)';
+      ctx.fillText('assembl', sz.w - pad + 1, sz.h - pad + 1);
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      ctx.fillText('assembl', sz.w - pad, sz.h - pad);
       c.toBlob((blob) => {
         if (blob) resolve(blob);
         else reject(new Error('blob generation failed'));

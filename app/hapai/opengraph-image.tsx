@@ -7,13 +7,13 @@ export const contentType = "image/png";
 // Brand-locked hex values.
 const MIST = "#F7F3EE";
 const POUNAMU_900 = "#0E5546";
-const POUNAMU_700 = "#3A3832";
-const TAUPE_900 = "#23211F";
+const POUNAMU_700 = "#313c42";
+const TAUPE_900 = "#313c42";
 const TAUPE_700 = "#5C544B";
 const TAUPE_600 = "#7C7268";
 const TAUPE_500 = "#9A8F84";
 const TAUPE_200 = "#D9D2C8";
-const KETE_GOLD = "#D9A85A";
+const KETE_GOLD = "#b8964f";
 
 const TIERS = ["akoranga", "kaimahi", "tohunga", "rangatira", "pou"];
 const SESSIONS = ["0", "5", "25", "75", "200+"];

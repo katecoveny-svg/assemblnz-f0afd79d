@@ -42,12 +42,12 @@ export function DashToolShell({
 }: DashToolShellProps) {
   return (
     <main
-      className={`mk-root ${lato.variable} ${spaceMono.variable} min-h-screen bg-[#FFF7EC] px-5 py-10 text-[#3A3832] md:px-10 md:py-14`}
+      className={`mk-root ${lato.variable} ${spaceMono.variable} min-h-screen bg-[#ffffff] px-5 py-10 text-[#313c42] md:px-10 md:py-14`}
     >
       <div className="mx-auto max-w-[1320px]">
         <Link
           href="/hapai"
-          className="mk-mono inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#8A8678] transition hover:text-[#3A3832]"
+          className="mk-mono inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#8A8678] transition hover:text-[#313c42]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           SPARK library
@@ -62,19 +62,19 @@ export function DashToolShell({
               aria-hidden
             />
             <div className="relative">
-              <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#C79B1F]">{eyebrow}</p>
-              <h1 className="mt-4 max-w-3xl text-[clamp(2.6rem,5.4vw,4.6rem)] font-black leading-[0.96] tracking-[-0.02em] text-[#3A3832]">
+              <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#b8964f]">{eyebrow}</p>
+              <h1 className="mt-4 max-w-3xl text-[clamp(2.6rem,5.4vw,4.6rem)] font-black leading-[0.96] tracking-[-0.02em] text-[#313c42]">
                 {title}
               </h1>
               {/* champagne pill-dash */}
-              <div className="mt-6 h-[10px] w-40 rounded-full bg-[#BFA37A]" aria-hidden />
+              <div className="mt-6 h-[10px] w-40 rounded-full bg-[#b8964f]" aria-hidden />
               <p className="mt-6 max-w-2xl text-[clamp(1.02rem,1.5vw,1.2rem)] leading-relaxed text-[#56544B]">{intro}</p>
 
               {highlights.length > 0 ? (
                 <div className="mt-8 grid gap-3 sm:grid-cols-3">
                   {highlights.map((item) => (
-                    <div key={item.title} className="rounded-[10px] border border-[#EFEADC] bg-[#FFF7EC] p-4">
-                      <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#C79B1F]">{item.title}</p>
+                    <div key={item.title} className="rounded-[10px] border border-[#EFEADC] bg-[#ffffff] p-4">
+                      <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#b8964f]">{item.title}</p>
                       <p className="mt-2 text-sm leading-relaxed text-[#56544B]">{item.body}</p>
                     </div>
                   ))}
@@ -85,34 +85,34 @@ export function DashToolShell({
 
           {/* aside — share + posture, charcoal panel */}
           <aside className="flex flex-col gap-4 rounded-[14px] border border-[#EFEADC] bg-white p-4 shadow-[0_24px_70px_rgba(58,56,50,0.08)]">
-            <div className="rounded-[10px] bg-[#3A3832] p-6 text-white">
-              <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#BFA37A]">share this</p>
+            <div className="rounded-[10px] bg-[#313c42] p-6 text-white">
+              <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#b8964f]">share this</p>
               <p className="mt-3 text-sm leading-relaxed text-white/80">{shareText}</p>
               <div className="mt-5">
                 <ShareableToolActions title={shareTitle} text={shareText} path={toolPath} />
               </div>
             </div>
-            <div className="rounded-[10px] border border-[#EFEADC] bg-[#FFF7EC] p-5">
+            <div className="rounded-[10px] border border-[#EFEADC] bg-[#ffffff] p-5">
               <div className="flex items-start gap-3">
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#C79B1F]" aria-hidden />
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#b8964f]" aria-hidden />
                 <div>
-                  <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#C79B1F]">draft-only posture</p>
+                  <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#b8964f]">draft-only posture</p>
                   <p className="mt-2 text-sm leading-relaxed text-[#56544B]">{posture}</p>
                 </div>
               </div>
             </div>
             <p className="mk-mono flex flex-wrap gap-x-3 gap-y-1 px-1 text-[11px] text-[#8A8678]">
-              <Link href="/privacy" className="hover:text-[#3A3832]">Privacy</Link>
+              <Link href="/privacy" className="hover:text-[#313c42]">Privacy</Link>
               <span aria-hidden>·</span>
-              <Link href="/legal/terms" className="hover:text-[#3A3832]">Terms</Link>
+              <Link href="/legal/terms" className="hover:text-[#313c42]">Terms</Link>
               <span aria-hidden>·</span>
-              <Link href="/legal/disclaimer" className="hover:text-[#3A3832]">Draft-only disclaimer</Link>
+              <Link href="/legal/disclaimer" className="hover:text-[#313c42]">Draft-only disclaimer</Link>
             </p>
           </aside>
         </section>
 
         <section className="mt-6 rounded-[14px] border border-[#EFEADC] bg-white p-3 shadow-[0_24px_70px_rgba(58,56,50,0.06)] md:mt-8 md:p-4">
-          <div className="rounded-[10px] border border-[#EFEADC] bg-[#FFF7EC]">{children}</div>
+          <div className="rounded-[10px] border border-[#EFEADC] bg-[#ffffff]">{children}</div>
         </section>
       </div>
     </main>

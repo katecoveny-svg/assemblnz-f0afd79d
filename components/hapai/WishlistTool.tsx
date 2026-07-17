@@ -106,11 +106,11 @@ export function WishlistTool() {
       <div className="grid gap-6 p-5 md:p-7 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── FORM ─────────────────────────────────────────────── */}
         <form onSubmit={submit} className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/70 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A3832]">Your wish</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#313c42]">Your wish</p>
           <label className="mt-4 block">
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">Your business</span>
             <input
-              className="mt-1.5 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm outline-none focus:border-[#3A3832]"
+              className="mt-1.5 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm outline-none focus:border-[#313c42]"
               value={business}
               onChange={(e) => setBusiness(e.target.value)}
               placeholder="e.g. a Tauranga cafe, a Pīkau freight broker, a Waikato sparky"
@@ -119,7 +119,7 @@ export function WishlistTool() {
           <label className="mt-4 block">
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">One job you wish you could hand off</span>
             <textarea
-              className="mt-1.5 min-h-[96px] w-full resize-none rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#3A3832]"
+              className="mt-1.5 min-h-[96px] w-full resize-none rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#313c42]"
               value={wish}
               onChange={(e) => setWish(e.target.value)}
               placeholder="e.g. chasing allergen info from suppliers and keeping our menu matrix current"
@@ -128,7 +128,7 @@ export function WishlistTool() {
           <button
             type="submit"
             disabled={status === "loading" || !business.trim() || !wish.trim()}
-            className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#23211F] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#313c42] px-5 text-sm font-medium text-[#ffffff] transition hover:bg-[#313c42] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Sparkles className="h-4 w-4" aria-hidden />}
             Draft my specialist spec
@@ -150,22 +150,22 @@ export function WishlistTool() {
           ) : (
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FBF3DF] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]">
+                <span className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#313c42]">
                   {spec.kete} kete
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(217,168,90,0.4)] bg-[#FBF3E2] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#8A5B10]">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(184, 150, 79,0.4)] bg-[#FBF3E2] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#8A5B10]">
                   <Stamp className="h-3 w-3" aria-hidden /> Sealed in an evidence pack
                 </span>
               </div>
 
-              <h2 className="mt-4 font-display text-3xl font-light leading-tight text-[#23211F]">
+              <h2 className="mt-4 font-display text-3xl font-light leading-tight text-[#313c42]">
                 {spec.specialistName}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">{spec.forLine}</p>
 
-              <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.24)] bg-gradient-to-br from-[#FFF7EC] to-[#EDF3EE] p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A3832]">Hours back, each week</p>
-                <p className="mt-1 font-display text-[clamp(2.4rem,5vw,3.4rem)] font-light leading-none text-[#23211F] tabular-nums">
+              <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.24)] bg-gradient-to-br from-[#ffffff] to-[#f3f5f3] p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#313c42]">Hours back, each week</p>
+                <p className="mt-1 font-display text-[clamp(2.4rem,5vw,3.4rem)] font-light leading-none text-[#313c42] tabular-nums">
                   {hours}<span className="ml-1 align-top text-base text-[#5A5550]">hrs</span>
                 </p>
                 <p className="mt-1 text-[11px] text-[#5A5550]">Conservative estimate for a small NZ business.</p>
@@ -173,18 +173,18 @@ export function WishlistTool() {
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#3A3832]">It would draft</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">It would draft</p>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[#3D4250]">
                     {spec.drafts.map((d) => (
-                      <li key={d} className="flex gap-2"><span aria-hidden className="text-[#3A3832]">·</span><span>{d}</span></li>
+                      <li key={d} className="flex gap-2"><span aria-hidden className="text-[#313c42]">·</span><span>{d}</span></li>
                     ))}
                   </ul>
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#3A3832]">Checks on every output</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">Checks on every output</p>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[#3D4250]">
                     {spec.checks.map((c) => (
-                      <li key={c} className="flex gap-2"><span aria-hidden className="text-[#3A3832]">✓</span><span>{c}</span></li>
+                      <li key={c} className="flex gap-2"><span aria-hidden className="text-[#313c42]">✓</span><span>{c}</span></li>
                     ))}
                   </ul>
                 </div>
@@ -198,13 +198,13 @@ export function WishlistTool() {
 
               <div className="mt-5 rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white/70 p-4">
                 {claimStatus === "done" ? (
-                  <p className="flex items-center gap-2 text-sm text-[#23211F]">
-                    <Check className="h-5 w-5 shrink-0 text-[#3A3832]" aria-hidden />
+                  <p className="flex items-center gap-2 text-sm text-[#313c42]">
+                    <Check className="h-5 w-5 shrink-0 text-[#313c42]" aria-hidden />
                     Ka pai. We’ll be in touch with your spec.
                   </p>
                 ) : (
                   <form onSubmit={submitClaim}>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3A3832]">Claim this spec</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#313c42]">Claim this spec</p>
                     <p className="mt-2 text-xs leading-relaxed text-[#5A5550]">
                       Leave an email and we’ll send this spec and what it would take to build it. Draft-only, no obligation.
                     </p>
@@ -216,12 +216,12 @@ export function WishlistTool() {
                         value={email}
                         onChange={(e) => { setEmail(e.target.value); if (claimStatus === "error") setClaimStatus("idle"); }}
                         placeholder="you@business.co.nz"
-                        className="h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm outline-none focus:border-[#3A3832]"
+                        className="h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm outline-none focus:border-[#313c42]"
                       />
                       <button
                         type="submit"
                         disabled={claimStatus === "saving"}
-                        className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#23211F] disabled:cursor-wait disabled:opacity-60"
+                        className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#313c42] px-5 text-sm font-medium text-[#ffffff] transition hover:bg-[#313c42] disabled:cursor-wait disabled:opacity-60"
                       >
                         {claimStatus === "saving" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                         Send it to me

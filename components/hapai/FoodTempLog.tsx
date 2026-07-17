@@ -105,18 +105,18 @@ export function FoodTempLog({ context = "hapai" }: { context?: "hapai" | "manaak
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(172,88,56,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(199,155,31,0.14),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(172,88,56,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(199,155,31,0.14),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#313c42] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1120px]">
-        <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#AC5838]">
+        <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3f7373]">
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> {copy.backLabel}
         </Link>
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#AC5838]">{copy.eyebrow}</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3f7373]">{copy.eyebrow}</p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3.2rem,7vw,6rem)] font-light leading-[0.9]">{copy.h1}</h1>
             <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-[#2A2825]">{copy.body}</p>
             <div className="mt-8 rounded-[14px] border border-[rgba(172,88,56,0.22)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
-              <p className="font-medium text-[#23211F]">Food Act 2014 record posture</p>
+              <p className="font-medium text-[#313c42]">Food Act 2014 record posture</p>
               <p className="mt-2">This tool creates a daily record you can file. Failed readings are flagged with corrective actions so the Duty Manager can file the record against the venue Food Control Plan.</p>
             </div>
           </header>
@@ -156,8 +156,8 @@ export function FoodTempLog({ context = "hapai" }: { context?: "hapai" | "manaak
             <label className="mt-5 block">
               <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{photoLabel}</span>
               <input type="file" accept="image/*" onChange={(event) => handlePhoto(event.target.files?.[0])} className="sr-only" id="food-temp-photo" />
-              <span className="flex min-h-[120px] cursor-pointer flex-col items-center justify-center rounded-[12px] border border-dashed border-[rgba(35,33,31,0.22)] bg-[#F7F4EE] p-5 text-center">
-                <Camera className="h-8 w-8 text-[#AC5838]" aria-hidden />
+              <span className="flex min-h-[120px] cursor-pointer flex-col items-center justify-center rounded-[12px] border border-dashed border-[rgba(35,33,31,0.22)] bg-[#f7f9f8] p-5 text-center">
+                <Camera className="h-8 w-8 text-[#3f7373]" aria-hidden />
                 <span className="mt-2 text-sm text-[#5A5550]">Tap to attach a photo</span>
               </span>
             </label>
@@ -174,7 +174,7 @@ export function FoodTempLog({ context = "hapai" }: { context?: "hapai" | "manaak
             )}
 
             {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
-            <button type="button" disabled={!canSubmit} onClick={submit} className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#AC5838] px-6 text-sm font-medium text-white transition hover:bg-[#8E432B] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]">
+            <button type="button" disabled={!canSubmit} onClick={submit} className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#3f7373] px-6 text-sm font-medium text-white transition hover:bg-[#8E432B] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]">
               {submitting ? "Saving record..." : "Create food safety record"}
             </button>
           </section>
@@ -196,7 +196,7 @@ function cookingToTemps(rows: CookRow[]): CookingReading[] {
     .filter((row) => row.dish && Number.isFinite(row.tempC));
 }
 
-const inputClass = "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 text-sm text-[#23211F] outline-none transition focus:border-[#AC5838] focus:bg-white";
+const inputClass = "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#f7f9f8] px-3 text-sm text-[#313c42] outline-none transition focus:border-[#3f7373] focus:bg-white";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -212,7 +212,7 @@ function ReadingRows({ title, target, rows, setRows, defaultLabel }: { title: st
     <section className="mt-7">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-normal text-[#23211F]">{title}</h2>
+          <h2 className="font-display text-2xl font-normal text-[#313c42]">{title}</h2>
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">{target}</p>
         </div>
         <button type="button" onClick={() => setRows([...rows, { id: newId(), label: `${defaultLabel} ${rows.length + 1}`, tempC: "" }])} className="inline-flex h-9 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] px-3 text-sm">
@@ -239,7 +239,7 @@ function CookingRows({ rows, setRows }: { rows: CookRow[]; setRows: (rows: CookR
     <section className="mt-7">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-normal text-[#23211F]">Cooking final temps</h2>
+          <h2 className="font-display text-2xl font-normal text-[#313c42]">Cooking final temps</h2>
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">Optional · target ≥75°C for 30 sec</p>
         </div>
         <button type="button" onClick={() => setRows([...rows, { id: newId(), dish: "", tempC: "", cookedToTime: "" }])} className="inline-flex h-9 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] px-3 text-sm">
@@ -264,7 +264,7 @@ function CookingRows({ rows, setRows }: { rows: CookRow[]; setRows: (rows: CookR
 
 function CheckBox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (value: boolean) => void }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] px-3 py-2 text-sm">
+    <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#f7f9f8] px-3 py-2 text-sm">
       <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} className="rounded" />
       {label}
     </label>
