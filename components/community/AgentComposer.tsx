@@ -90,6 +90,9 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [captureOpen, setCaptureOpen] = useState(false);
+  // True when the 402 was the hand-over gate (agent built, email before the
+  // link) rather than the daily limit — it swaps in the approved framing.
+  const [captureReady, setCaptureReady] = useState(false);
 
   const pickTemplate = (id: string) => {
     setTemplateId(id);
@@ -130,9 +133,10 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
       });
       if (res.status === 402) {
         const data = (await res.json().catch(() => null)) as
-          | { capture?: boolean; message?: string }
+          | { capture?: boolean; message?: string; error?: string }
           | null;
         if (data?.capture) {
+          setCaptureReady(data.error === 'capture_required');
           setCaptureOpen(true);
         } else {
           setError(data?.message ?? 'Daily limit reached.');
@@ -379,6 +383,13 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
       <CaptureModal
         open={captureOpen}
         surface="agent:create"
+        // approved by Kate 2026-07-17 — hand-over framing (agent already built)
+        heading={captureReady ? 'Your agent is ready.' : undefined}
+        body={
+          captureReady
+            ? 'Add your email and we’ll hand over its page — yours to share, free.'
+            : undefined
+        }
         onClose={() => setCaptureOpen(false)}
         onUnlocked={() => {
           setCaptureOpen(false);

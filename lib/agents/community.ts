@@ -16,6 +16,8 @@ import 'server-only';
 import { createHash } from 'node:crypto';
 import { getServiceClient } from '@/lib/supabase/service';
 import { slugify } from '@/lib/pilot/identity';
+import { decodeStatelessSlug, isStatelessSlug } from '@/lib/agents/community-link';
+import { buildCommunityDraft } from '@/lib/community/seed';
 import type { AgentPack, PatternIdentity, PilotSpec } from '@/lib/pilot/types';
 
 export interface SharedAgent {
@@ -27,6 +29,45 @@ export interface SharedAgent {
   systemPrompt: string;
   shareSlug: string;
   spec: PilotSpec | null;
+}
+
+/** A shared agent plus how it resolved — DB row or stateless link. */
+export interface ResolvedCommunityAgent extends SharedAgent {
+  /** True when the agent was rebuilt from a `l~…` link, not a DB row. */
+  stateless: boolean;
+  /** Community template the agent grew from, when known. */
+  templateId: string | null;
+}
+
+/**
+ * Resolve a /a/[slug] agent from EITHER storage mode:
+ *  - `l~…` slugs decode + strictly re-validate + rebuild server-side
+ *    (no DB touched — these links outlive any outage, forever);
+ *  - anything else reads the shared community_agents row as before.
+ * Null for unknown/unshared/tampered slugs in both modes.
+ */
+export async function resolveCommunityAgent(slug: string): Promise<ResolvedCommunityAgent | null> {
+  if (isStatelessSlug(slug)) {
+    const seed = decodeStatelessSlug(slug);
+    if (!seed) return null;
+    const draft = buildCommunityDraft(seed);
+    if (!draft.pack?.systemPrompt?.trim()) return null;
+    return {
+      name: draft.name,
+      description: draft.description,
+      icon: draft.icon,
+      accent: draft.accent,
+      identity: draft.spec.identity ?? null,
+      systemPrompt: draft.pack.systemPrompt,
+      shareSlug: slug,
+      spec: draft.spec,
+      stateless: true,
+      templateId: seed.templateId || null,
+    };
+  }
+  const agent = await getSharedAgent(slug);
+  if (!agent) return null;
+  return { ...agent, stateless: false, templateId: agent.spec?.templateId ?? null };
 }
 
 function rowToShared(row: Record<string, unknown>): SharedAgent {

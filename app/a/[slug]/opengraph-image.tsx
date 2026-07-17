@@ -1,4 +1,4 @@
-import { getSharedAgent } from '@/lib/agents/community';
+import { resolveCommunityAgent } from '@/lib/agents/community';
 import {
   ogAlt,
   ogContentType,
@@ -16,20 +16,23 @@ export default async function SharedAgentOpenGraphImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  // Shared rows only; unknown slugs get the generic card rather than a 500.
-  const agent = await getSharedAgent(slug);
+  // DB rows (shared only) and stateless `l~…` links both render; unknown
+  // slugs get the generic card rather than a 500. Stateless slugs are long
+  // opaque payloads, so the card shows the builder route instead.
+  const agent = await resolveCommunityAgent(slug);
+  const isStateless = agent?.stateless ?? false;
   return renderAgentOgImage(
     agent
       ? {
           name: agent.name,
           description: agent.description,
-          shareSlug: agent.shareSlug,
+          shareSlug: isStateless ? '' : agent.shareSlug,
           accent: agent.accent,
         }
       : {
           name: 'Community agent',
           description: 'Built by a visitor. Everything it writes is a draft.',
-          shareSlug: slug,
+          shareSlug: '',
           accent: '#3f7373',
         },
   );

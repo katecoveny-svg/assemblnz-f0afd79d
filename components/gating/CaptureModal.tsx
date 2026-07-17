@@ -14,11 +14,17 @@ export function CaptureModal({
   surface,
   onClose,
   onUnlocked,
+  heading,
+  body,
 }: {
   open: boolean;
   surface: string; // e.g. 'chat:waihanga'
   onClose: () => void;
   onUnlocked: () => void;
+  /** Optional approved heading override (defaults to the standard wall copy). */
+  heading?: string;
+  /** Optional approved body override (defaults to the standard wall copy). */
+  body?: string;
 }) {
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
@@ -78,11 +84,11 @@ export function CaptureModal({
           Keep going — free
         </p>
         <h2 id="capture-title" className="mt-3 font-display text-display-md font-light">
-          Add your email to continue.
+          {heading ?? 'Add your email to continue.'}
         </h2>
         <p className="mt-3 text-body-sm text-[color:var(--text-body)]">
-          You’ve used your free go. Drop your email and your limit lifts straight away — no card, no
-          sign-up.
+          {body ??
+            'You’ve used your free go. Drop your email and your limit lifts straight away — no card, no sign-up.'}
         </p>
         <form onSubmit={submit} className="mt-5 space-y-4">
           <div>

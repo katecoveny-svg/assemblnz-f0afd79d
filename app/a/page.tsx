@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getSharedAgent } from '@/lib/agents/community';
+import { resolveCommunityAgent } from '@/lib/agents/community';
 import { AgentComposer, type ComposerPrefill } from '@/components/community/AgentComposer';
 
 // searchParams (?remix=) + a service-client read make this per-request.
@@ -23,7 +23,8 @@ export default async function BuilderPage({
   const { remix } = await searchParams;
   let prefill: ComposerPrefill | null = null;
   if (remix) {
-    const source = await getSharedAgent(remix);
+    // DB slugs and stateless `l~…` links both remix.
+    const source = await resolveCommunityAgent(remix);
     if (source) {
       prefill = {
         name: source.name,
