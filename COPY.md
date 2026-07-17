@@ -181,12 +181,14 @@ Centre node: `Business Genome`
 ## Homepage — Pattern Studio brand playground (2026-07-17)
 
 Mirrors `PLAYGROUND` in `lib/copy/homepage.ts`. Drafted from Kate's direction
-("we imagined the imagery for the website, built a tool to create it");
-awaiting Kate's sign-off — edit here, code follows.
+("we imagined the imagery for the website, built a tool to create it").
+APPROVED by Kate 2026-07-17 — edit here, code follows.
 
 - Eyebrow: `Pattern Studio × Ad Studio`
 - Heading: `We imagined this site's imagery, then built the tool that makes it.`
 - Body: `Every moving pattern on this site comes from the Pattern Studio. Paste your web address and it reads your brand — your name, your colour — so you can make your own patterns and ads.`
 - Input label: `Your website` (placeholder `e.g. yourbusiness.co.nz`)
 - Actions: `Read my brand` / `Reading…` · `Make my ads` / `Making your ads…` · `Open the Ad Studio` · `Open the Pattern Studio`
+- 3D band: `Your brand, live` · `Make a motion hero` / `Directing your motion hero…`
+- Motion note: `A short cinematic hero clip in your brand colour — a draft to review, yours to download.`
 
