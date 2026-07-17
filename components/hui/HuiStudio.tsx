@@ -437,7 +437,7 @@ export default function HuiStudio() {
               onClick={unlockWithEmail}
               className="rounded-full bg-[#313c42] px-6 py-3 text-sm font-medium text-white hover:bg-[#313c42]"
             >
-              Unlock Hui
+              Open Hui
             </button>
           </div>
         </div>

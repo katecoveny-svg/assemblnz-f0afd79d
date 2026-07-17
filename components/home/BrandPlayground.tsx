@@ -10,6 +10,7 @@ import { composeAd, loadCampaignImage, type ComposableCampaign } from '@/compone
 const PatternStudio = dynamic(() => import('@/components/pattern-studio/AssemblPatternStudioComponent'), {
   ssr: false,
 });
+const BrandHero3D = dynamic(() => import('./BrandHero3DScene'), { ssr: false });
 
 type Dna = {
   url: string;
@@ -45,6 +46,9 @@ export function BrandPlayground() {
   const [note, setNote] = useState('');
   const [making, setMaking] = useState(false);
   const [ads, setAds] = useState<Array<{ label: string; w: number; h: number; dataUrl: string }>>([]);
+  const [heroBusy, setHeroBusy] = useState(false);
+  const [heroStatus, setHeroStatus] = useState('');
+  const [heroVideo, setHeroVideo] = useState('');
 
   const readSite = async () => {
     if (reading || !url.trim()) return;
@@ -107,6 +111,62 @@ export function BrandPlayground() {
       setNote((e as Error).message);
     } finally {
       setMaking(false);
+    }
+  };
+
+  // Tier 2: a generated motion hero — the same Prism/Veo pipeline as the
+  // creative studio, briefed from the read brand. Drafts only, downloadable.
+  const makeMotionHero = async () => {
+    if (!dna || heroBusy) return;
+    setHeroBusy(true);
+    setHeroVideo('');
+    setHeroStatus(PLAYGROUND.heroMakingAction);
+    const brief =
+      `Cinematic hero shot for ${dna.name}` +
+      (dna.descriptor ? ` — ${dna.descriptor}` : '') +
+      `. Slow camera drift, natural Aotearoa light, editorial composition, ` +
+      `accents in the brand colour ${dna.accent}. No text, no logos.`;
+    try {
+      const r = await fetch('/api/creative/video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ brief, aspectRatio: '16:9' }),
+      });
+      const d = await r.json();
+      if (d.error || d.notConfigured) {
+        setHeroStatus(d.error ?? `This needs ${d.envVar} set.`);
+        return;
+      }
+      if (d.done && d.video) {
+        setHeroVideo(d.video as string);
+        setHeroStatus('');
+        return;
+      }
+      const op = d.operation as string;
+      for (let i = 0; i < 20; i++) {
+        await new Promise((res) => setTimeout(res, 6000));
+        const pr = await fetch('/api/creative/video/poll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ operation: op }),
+        });
+        const pj = await pr.json().catch(() => ({}));
+        if (pj.done && pj.video) {
+          setHeroVideo(pj.video as string);
+          setHeroStatus('');
+          return;
+        }
+        if (pj.error) {
+          setHeroStatus(pj.error);
+          return;
+        }
+        setHeroStatus(`${PLAYGROUND.heroMakingAction} (${(i + 1) * 6}s)`);
+      }
+      setHeroStatus('The video is taking longer than expected — try again.');
+    } catch (e) {
+      setHeroStatus((e as Error).message);
+    } finally {
+      setHeroBusy(false);
     }
   };
 
@@ -279,6 +339,106 @@ export function BrandPlayground() {
             <Link href="/pattern-studio" style={{ color: INK, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
               {PLAYGROUND.patternsAction} →
             </Link>
+          </div>
+        )}
+
+        {dna && (
+          <div
+            style={{
+              display: 'grid',
+              gap: 14,
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              alignItems: 'stretch',
+              maxWidth: 720,
+              pointerEvents: 'auto',
+            }}
+          >
+            {/* Tier 1 — the live 3D form in the brand colour. */}
+            <div
+              style={{
+                position: 'relative',
+                minHeight: 240,
+                borderRadius: 18,
+                border: `1px solid ${HAIRLINE}`,
+                background: 'rgba(255,255,255,0.55)',
+                overflow: 'hidden',
+              }}
+            >
+              <BrandHero3D accent={dna.accent} />
+              <span
+                style={{
+                  position: 'absolute',
+                  left: 12,
+                  bottom: 10,
+                  color: MUTED,
+                  fontSize: 10,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {PLAYGROUND.heroLiveLabel}
+              </span>
+            </div>
+
+            {/* Tier 2 — the generated motion hero. */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+                justifyContent: 'center',
+                padding: 16,
+                borderRadius: 18,
+                border: `1px solid ${HAIRLINE}`,
+                background: 'rgba(255,255,255,0.85)',
+              }}
+            >
+              {heroVideo ? (
+                <>
+                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                  <video
+                    src={heroVideo}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{ width: '100%', borderRadius: 12, display: 'block' }}
+                  />
+                  <a
+                    href={heroVideo}
+                    download={`assembl-motion-hero.mp4`}
+                    style={{ color: dna.accent, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}
+                  >
+                    Download
+                  </a>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={makeMotionHero}
+                    disabled={heroBusy}
+                    style={{
+                      alignSelf: 'flex-start',
+                      padding: '12px 20px',
+                      borderRadius: 999,
+                      border: 'none',
+                      background: INK,
+                      color: '#fff',
+                      fontSize: 14,
+                      fontWeight: 700,
+                      cursor: heroBusy ? 'default' : 'pointer',
+                      opacity: heroBusy ? 0.7 : 1,
+                    }}
+                  >
+                    {heroBusy ? PLAYGROUND.heroMakingAction : PLAYGROUND.heroAction}
+                  </button>
+                  <p style={{ margin: 0, color: MUTED, fontSize: 12, lineHeight: 1.5 }} aria-live="polite">
+                    {heroStatus || PLAYGROUND.heroNote}
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         )}
 

@@ -214,5 +214,9 @@ export const PLAYGROUND = {
   makingAdsAction: 'Making your ads…',
   openStudioAction: 'Open the Ad Studio',
   patternsAction: 'Open the Pattern Studio',
+  heroLiveLabel: 'Your brand, live',
+  heroAction: 'Make a motion hero',
+  heroMakingAction: 'Directing your motion hero…',
+  heroNote: 'A short cinematic hero clip in your brand colour — a draft to review, yours to download.',
 } as const;
 
