@@ -58,7 +58,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
           <Link
             key={`${kete.slug}-${agent.slug}`}
             href={`/agents/${agent.slug}`}
-            className="group relative flex h-[280px] w-[220px] shrink-0 flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 transition duration-200 hover:-translate-y-1 hover:shadow-card-hover focus-visible:-translate-y-1 focus-visible:shadow-card-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+            className="group relative flex h-[280px] w-[220px] shrink-0 flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 transition duration-200 hover:-translate-y-1 hover:shadow-card-hover focus-visible:-translate-y-1 focus-visible:shadow-card-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
           >
             <span className="absolute left-0 top-0 h-1.5 w-16" style={{ backgroundColor: kete.accent }} />
             <div className="p-4">
