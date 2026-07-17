@@ -1,11 +1,23 @@
 // Client-side ad composition — shared by the Ad Studio and the homepage
 // brand playground so a campaign renders identically everywhere.
 
+export type ComposableVariant = {
+  kind: string; // 'scene' | 'abstract'
+  image: string; // data URL base still
+};
+
+/** Palette for the client-composed Pattern Studio backdrop (no image API). */
+export type PatternAdSpec = { accent: string; ink: string; bg: string };
+
 export type ComposableCampaign = {
   business: { name: string; slug: string; tagline: string; accent: string; ink: string; bg: string };
   headline: string;
   caption: string;
   image: string;
+  /** generated base stills (scene, abstract) — optional so older payloads compose as before */
+  variants?: ComposableVariant[];
+  /** palette spec for the pattern variant — optional, falls back to the business palette */
+  pattern?: PatternAdSpec;
 };
 
 export function hexToRgba(hex: string, a: number): string {
@@ -50,17 +62,10 @@ export function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth:
   return lines;
 }
 
-/** Compose one on-brand ad: image cover, scrim, eyebrow, headline, caption, wordmark. */
-export function composeAd(img: HTMLImageElement, w: number, h: number, c: ComposableCampaign): string {
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return '';
-
-  coverDraw(ctx, img, w, h);
-
-  // Bottom scrim so text stays legible over any image.
+/** The shared text layer: scrim, eyebrow, headline, caption, wordmark — drawn
+ *  identically over a photographic still, an abstract still, or pattern art. */
+function drawAdOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, c: ComposableCampaign) {
+  // Bottom scrim so text stays legible over any backdrop.
   const grad = ctx.createLinearGradient(0, h * 0.34, 0, h);
   grad.addColorStop(0, 'rgba(0,0,0,0)');
   grad.addColorStop(1, hexToRgba(c.business.ink, 0.9));
@@ -111,7 +116,83 @@ export function composeAd(img: HTMLImageElement, w: number, h: number, c: Compos
   ctx.globalAlpha = 0.96;
   ctx.fillText('assembl', pad, bottom);
   ctx.globalAlpha = 1;
+}
 
+/** Compose one on-brand ad: image cover, scrim, eyebrow, headline, caption, wordmark. */
+export function composeAd(img: HTMLImageElement, w: number, h: number, c: ComposableCampaign): string {
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '';
+
+  coverDraw(ctx, img, w, h);
+  drawAdOverlay(ctx, w, h, c);
+
+  return canvas.toDataURL('image/png');
+}
+
+/** Render real Pattern Studio engine art (static frame, brand accent on the
+ *  spec's field) into an offscreen canvas at w×h. Engine loads lazily so pages
+ *  that never compose a pattern ad don't carry it. */
+export async function renderPatternBackdrop(spec: PatternAdSpec, w: number, h: number): Promise<HTMLCanvasElement> {
+  const { default: AssemblPatternStudio } = await import('../pattern-studio/AssemblPatternStudio');
+
+  // The engine sizes itself from its parent element, so it renders inside a
+  // hidden host sized to the ad, then the frame is copied out.
+  const host = document.createElement('div');
+  host.style.cssText = `position:fixed;left:-100000px;top:0;width:${w}px;height:${h}px;pointer-events:none;`;
+  const engineCanvas = document.createElement('canvas');
+  host.appendChild(engineCanvas);
+  document.body.appendChild(host);
+  try {
+    const engine = new AssemblPatternStudio(engineCanvas, {
+      mode: 'halftone',
+      animationEffect: 'wave',
+      dotShape: 'circle',
+      density: 42,
+      size: 42,
+      intensity: 72,
+      isAnimated: false,
+      mouseInteractive: false,
+      backgroundColor: spec.bg,
+      foregroundColor: spec.accent,
+      accentColor: spec.ink,
+    });
+    engine.destroy();
+
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (ctx) {
+      ctx.fillStyle = spec.bg;
+      ctx.fillRect(0, 0, w, h);
+      // The engine canvas is DPR-scaled; drawImage normalises back to w×h.
+      ctx.drawImage(engineCanvas, 0, 0, w, h);
+    }
+    return out;
+  } finally {
+    host.remove();
+  }
+}
+
+/** Compose the pattern-ad variant: Pattern Studio art in the brand palette
+ *  behind the same headline/caption/wordmark layer. No image API involved. */
+export async function composePatternAd(w: number, h: number, c: ComposableCampaign): Promise<string> {
+  const spec: PatternAdSpec = c.pattern ?? {
+    accent: c.business.accent,
+    ink: c.business.ink,
+    bg: '#ffffff',
+  };
+  const art = await renderPatternBackdrop(spec, w, h);
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '';
+  ctx.drawImage(art, 0, 0, w, h);
+  drawAdOverlay(ctx, w, h, c);
   return canvas.toDataURL('image/png');
 }
 

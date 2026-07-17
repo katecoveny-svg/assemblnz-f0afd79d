@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
-import { composeAd, hexToRgba, loadCampaignImage } from './compose';
+import { composeAd, composePatternAd, hexToRgba, loadCampaignImage } from './compose';
 
 type Campaign = {
   business: { name: string; slug: string; tagline: string; accent: string; ink: string; bg: string };
@@ -12,6 +12,8 @@ type Campaign = {
   image: string;
   imageProvider: string;
   copyProvider: string;
+  variants?: Array<{ kind: string; prompt: string; image: string; provider: string }>;
+  pattern?: { accent: string; ink: string; bg: string };
   live: boolean;
 };
 
@@ -139,9 +141,21 @@ export function AdStudioClient() {
       }
       const c = d.campaign as Campaign;
       setCampaign(c);
-      const img = await loadCampaignImage(c.image);
       if (document.fonts?.ready) await document.fonts.ready;
-      const cards = FORMATS.map(([label, w, h]) => ({ label, w, h, dataUrl: composeAd(img, w, h, c) }));
+      // Three looks per campaign: the generated stills (scene, abstract) and
+      // the pattern ad composed right here from the brand palette.
+      const variantLabels: Record<string, string> = { scene: 'Scene', abstract: 'Abstract' };
+      const stills = c.variants?.length ? c.variants : [{ kind: 'scene', image: c.image }];
+      const cards: AdCard[] = [];
+      for (const v of stills) {
+        const img = await loadCampaignImage(v.image);
+        for (const [label, w, h] of FORMATS) {
+          cards.push({ label: `${variantLabels[v.kind] ?? v.kind} · ${label}`, w, h, dataUrl: composeAd(img, w, h, c) });
+        }
+      }
+      for (const [label, w, h] of FORMATS) {
+        cards.push({ label: `Pattern · ${label}`, w, h, dataUrl: await composePatternAd(w, h, c) });
+      }
       setAds(cards);
       setNote(
         `Campaign ready — ${c.copyProvider === 'muse' ? 'Muse wrote the copy' : 'copy from your brand facts'}, ${c.imageProvider} made the image${
@@ -158,7 +172,8 @@ export function AdStudioClient() {
   const download = (card: AdCard) => {
     const a = document.createElement('a');
     a.href = card.dataUrl;
-    a.download = `assembl-ad-${mode === 'site' ? 'your-site' : slug}-${card.w}x${card.h}.png`;
+    const fileSlug = card.label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    a.download = `assembl-ad-${mode === 'site' ? 'your-site' : slug}-${fileSlug}.png`;
     a.click();
   };
   const downloadAll = () => ads.forEach((card, i) => window.setTimeout(() => download(card), i * 250));

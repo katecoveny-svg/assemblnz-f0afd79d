@@ -16,6 +16,24 @@ import { verticalBySlug } from "@/lib/living-site/verticals";
 import type { BusinessDna as SiteDna } from "./site-brand";
 import type { GenomeFact, GenomeSection } from "@/lib/customers/auckland-dog-trainer/genome";
 
+/** One generated base still. `scene` is photographic (the work and the place,
+ *  no people); `abstract` is non-figurative, built from the brand's colours. */
+export interface AdVariant {
+  kind: "scene" | "abstract";
+  prompt: string;
+  image: string; // data URL
+  provider: "imagen" | "fal";
+}
+
+/** Spec for the pattern-ad variant. The Pattern Studio engine is browser
+ *  canvas, so the server sends only the palette and the client composes it —
+ *  zero image-API calls for this variant. */
+export interface PatternAdSpec {
+  accent: string;
+  ink: string;
+  bg: string;
+}
+
 export interface AdCampaign {
   business: {
     name: string;
@@ -28,10 +46,16 @@ export interface AdCampaign {
   };
   headline: string;
   caption: string;
+  /** legacy mirror of the scene variant's prompt — older consumers keep working */
   imagePrompt: string;
-  image: string; // data URL — a single base image, composed at each size client-side
+  /** legacy mirror of the scene variant's image (data URL) */
+  image: string;
   imageProvider: "imagen" | "fal";
   copyProvider: "muse" | "genome";
+  /** generated base stills: scene always; abstract when generation succeeds */
+  variants: AdVariant[];
+  /** palette for the client-composed Pattern Studio variant */
+  pattern: PatternAdSpec;
   /** true when the genome came from the live database, not the static fallback */
   live: boolean;
 }
@@ -128,7 +152,12 @@ function brandContext(b: ResolvedBusiness): string {
 }
 
 /** Lenient JSON extractor — Gemini sometimes wraps output in fences or prose. */
-function parseCampaignJson(raw: string): { headline?: string; caption?: string; imagePrompt?: string } {
+function parseCampaignJson(raw: string): {
+  headline?: string;
+  caption?: string;
+  imagePrompt?: string;
+  abstractPrompt?: string;
+} {
   const start = raw.indexOf("{");
   const end = raw.lastIndexOf("}");
   if (start === -1 || end === -1 || end <= start) return {};
@@ -138,10 +167,32 @@ function parseCampaignJson(raw: string): { headline?: string; caption?: string; 
       headline: typeof obj.headline === "string" ? obj.headline.trim() : undefined,
       caption: typeof obj.caption === "string" ? obj.caption.trim() : undefined,
       imagePrompt: typeof obj.imagePrompt === "string" ? obj.imagePrompt.trim() : undefined,
+      abstractPrompt: typeof obj.abstractPrompt === "string" ? obj.abstractPrompt.trim() : undefined,
     };
   } catch {
     return {};
   }
+}
+
+/** Steer appended to every generated-image prompt so no variant art-directs
+ *  people — the model otherwise pictures someone doing the service. */
+const NO_PEOPLE = "No people, no faces, no hands. No text, no logos.";
+
+function withNoPeople(prompt: string): string {
+  return /no people/i.test(prompt) ? prompt : `${prompt} ${NO_PEOPLE}`;
+}
+
+/** Deterministic abstract art direction from the brand's own palette and mood
+ *  words — used when the copy model is away or replies thin. */
+function fallbackAbstractPrompt(b: ResolvedBusiness): string {
+  const mood =
+    b.facts.find((f) => /voice|tone|mood/i.test(f.label))?.value || b.descriptor || b.tagline;
+  return (
+    `A non-figurative abstract composition built only from the colours ${b.accent}, ${b.ink} and ${b.bg} ` +
+    `on a ${b.bg} field — soft layered gradient bands, fine grain, one or two simple geometric forms, ` +
+    `generous negative space. Mood words: ${mood}. ` +
+    `No recognisable objects or scenery. ${NO_PEOPLE}`
+  );
 }
 
 /**
@@ -191,11 +242,12 @@ async function runCampaign(b: ResolvedBusiness, goal: string): Promise<AdCampaig
   const muse = getAgent("muse")!;
   const system =
     muse.systemPrompt +
-    `\n\n## THIS TASK\nYou are writing ONE social ad for the business below, working only from its Business Genome (never invent services, prices or claims it doesn't state). Return ONLY minified JSON, no prose, no code fences, exactly:\n{"headline":"...","caption":"...","imagePrompt":"..."}\n- headline: max 6 words, benefit-led, no banned words.\n- caption: 1–2 sentences for a social feed, one soft call to action.\n- imagePrompt: a detailed art-direction prompt for a photographic, on-brand image with NO text and no logos — subject, setting, light, mood, palette. NZ context where natural.`;
+    `\n\n## THIS TASK\nYou are writing ONE social ad for the business below, working only from its Business Genome (never invent services, prices or claims it doesn't state). Return ONLY minified JSON, no prose, no code fences, exactly:\n{"headline":"...","caption":"...","imagePrompt":"...","abstractPrompt":"..."}\n- headline: max 6 words, benefit-led, no banned words.\n- caption: 1–2 sentences for a social feed, one soft call to action.\n- imagePrompt: a detailed art-direction prompt for a photographic, on-brand image of the WORK and the PLACE — tools, product, materials, setting, texture, light. No people, no faces, no hands, no text, no logos. NZ context where natural.\n- abstractPrompt: an art-direction prompt for a non-figurative abstract composition built only from the brand colours ${b.accent}, ${b.ink} and ${b.bg} and the brand's mood — gradients, grain, simple geometry, generous negative space. No recognisable objects, no people, no text, no logos.`;
 
   let headline = "";
   let caption = "";
   let imagePrompt = "";
+  let abstractPrompt = "";
   let copyProvider: AdCampaign["copyProvider"] = "muse";
   try {
     const raw = await geminiText(system, `BUSINESS GENOME\n${ctx}\n\nCAMPAIGN GOAL\n${objective}`, 0.8);
@@ -203,6 +255,7 @@ async function runCampaign(b: ResolvedBusiness, goal: string): Promise<AdCampaig
     headline = parsed.headline ?? "";
     caption = parsed.caption ?? "";
     imagePrompt = parsed.imagePrompt ?? "";
+    abstractPrompt = parsed.abstractPrompt ?? "";
   } catch (e) {
     if (!isNotConfigured(e)) throw e;
     copyProvider = "genome";
@@ -213,9 +266,30 @@ async function runCampaign(b: ResolvedBusiness, goal: string): Promise<AdCampaig
   if (!headline) headline = b.fallbackHeadline;
   if (!caption) caption = b.fallbackCaption;
   if (!imagePrompt)
-    imagePrompt = `A photographic, on-brand image for ${b.name} — ${b.descriptor}, ${b.tagline}. Natural Aotearoa light, editorial composition, warm and calm. No text, no logos.`;
+    imagePrompt = `A photographic, on-brand image of the everyday work of ${b.name} — ${b.descriptor}, ${b.tagline}. The tools, materials and setting of the job, natural Aotearoa light, editorial composition, warm and calm. ${NO_PEOPLE}`;
+  if (!abstractPrompt) abstractPrompt = fallbackAbstractPrompt(b);
+  imagePrompt = withNoPeople(imagePrompt);
+  abstractPrompt = withNoPeople(abstractPrompt);
 
-  const img = await generateImages(imagePrompt, { count: 1, aspectRatio: "1:1" });
+  // Two generated stills, one API call each. The scene is required; the
+  // abstract is best-effort — if it fails, the campaign still ships with the
+  // scene and the (zero-generation) pattern spec.
+  const [sceneImg, abstractImg] = await Promise.all([
+    generateImages(imagePrompt, { count: 1, aspectRatio: "1:1" }),
+    generateImages(abstractPrompt, { count: 1, aspectRatio: "1:1" }).catch(() => null),
+  ]);
+
+  const variants: AdVariant[] = [
+    { kind: "scene", prompt: imagePrompt, image: sceneImg.images[0], provider: sceneImg.provider },
+  ];
+  if (abstractImg?.images[0]) {
+    variants.push({
+      kind: "abstract",
+      prompt: abstractPrompt,
+      image: abstractImg.images[0],
+      provider: abstractImg.provider,
+    });
+  }
 
   return {
     business: {
@@ -229,9 +303,12 @@ async function runCampaign(b: ResolvedBusiness, goal: string): Promise<AdCampaig
     headline,
     caption,
     imagePrompt,
-    image: img.images[0],
-    imageProvider: img.provider,
+    image: sceneImg.images[0],
+    imageProvider: sceneImg.provider,
     copyProvider,
+    variants,
+    // Pattern art always composes on white so the overlaid type carries the ink.
+    pattern: { accent: b.accent, ink: b.ink, bg: "#ffffff" },
     live: b.live,
   };
 }
