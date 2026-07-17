@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { getBrandConfig } from '@/lib/brand/configs';
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
  * Happy Tails workspace shell — the AI-OS layer stack:
  *   1. assembl OS chrome (paper, particulate, Cormorant) — identical across pilots.
  *   2. Customer wallpaper — the tails-and-paws line pattern at ~4%, tiled.
- *   3. Customer accent — warm brown in two places only (CTA + status dot).
+ *   3. Customer accent — pearl teal in two places only (CTA + status dot).
  *
  * NOTE: this replaces the old pin-slug OpsShell reuse for the LANDING only.
  * The deeper console pages (roster / crm / …) resolve through the dynamic
@@ -80,14 +81,14 @@ export default function HappyTailsOpsLayout({ children }: { children: ReactNode 
             <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
               <AssemblWordmark /> × Happy Tails · concept pilot · Aotearoa
             </span>
-            <a
+            <Link
               href="/alphassembl"
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10.5px] font-medium"
               style={{ background: '#1a2e4a', color: '#f8f9fa', letterSpacing: '0.02em' }}
             >
               <span style={{ width: 6, height: 6, borderRadius: 999, background: '#f59e0b' }} />
               Powered by Alphassembl
-            </a>
+            </Link>
           </div>
         </footer>
       </div>

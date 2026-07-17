@@ -17,13 +17,13 @@ const NAV = [
 /** Sketch dachshund line-drawing — the Happy Tails mark. */
 export function DachshundMark() {
   return (
-    <svg viewBox="0 0 120 62" fill="none" stroke="#1a1712" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg viewBox="0 0 120 62" fill="none" stroke="#313c42" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M16 40 Q10 40 9 32 Q8 24 15 22 L18 30" />
       <path d="M15 22 Q22 14 34 17 Q40 18 46 24 L104 24 Q114 24 114 33 Q114 40 106 40" />
       <path d="M46 24 Q42 34 46 40" />
       <path d="M26 40 L26 52 M40 40 L40 52 M96 40 L96 52 M108 40 L108 52" />
       <path d="M104 24 Q112 18 110 12" />
-      <circle cx="16" cy="27" r="1.6" fill="#1a1712" stroke="none" />
+      <circle cx="16" cy="27" r="1.6" fill="#313c42" stroke="none" />
     </svg>
   );
 }
@@ -31,7 +31,7 @@ export function DachshundMark() {
 /** Small brown dachshund avatar for dog rows. */
 export function DogAvatar() {
   return (
-    <svg viewBox="0 0 120 62" fill="none" stroke="#7a4e2c" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg viewBox="0 0 120 62" fill="none" stroke="#2e5a58" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M16 40 Q9 38 10 30 Q11 23 16 23" />
       <path d="M16 23 Q24 16 40 20 L100 24 Q112 24 110 34" />
       <path d="M46 24 Q42 33 46 40" />

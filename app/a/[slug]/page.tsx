@@ -103,7 +103,7 @@ export default async function SharedAgentPage({
         </p>
 
         <div style={{ marginTop: 28 }}>
-          <CommunityAgentChat slug={agent.shareSlug} name={agent.name} />
+          <CommunityAgentChat slug={agent.shareSlug} name={agent.name} templateId={agent.templateId} />
         </div>
 
         <div style={{ marginTop: 26, display: 'flex', flexWrap: 'wrap', gap: 12 }}>

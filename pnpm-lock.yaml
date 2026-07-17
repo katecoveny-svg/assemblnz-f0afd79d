@@ -128,6 +128,9 @@ importers:
       zod:
         specifier: ^4.4.2
         version: 4.4.3
+      zustand:
+        specifier: ^5
+        version: 5.0.14(@types/react@19.2.14)(immer@11.1.8)(react@19.0.0)(use-sync-external-store@1.6.0(react@19.0.0))
     devDependencies:
       '@types/node':
         specifier: ^22.16.5

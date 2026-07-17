@@ -28,11 +28,11 @@ export default function InvoicingPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', border: '1px solid var(--line)', borderRadius: 16, overflow: 'hidden', background: 'var(--card)' }}>
-        <div style={{ padding: '20px 22px', borderRight: '1px dashed var(--line2)', background: '#fdfcf8' }}>
+        <div style={{ padding: '20px 22px', borderRight: '1px dashed var(--line2)', background: '#fbfcfb' }}>
           <h3>Bookings summed by dog</h3>
           <div className="note" style={{ marginBottom: 16 }}>From the running roster — June · 14 dogs</div>
           {rows.map(({ dog, matched }, i) => (
-            <div key={dog.slug} style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '11px 12px', borderRadius: 11, marginBottom: 8, ...(i === 0 ? { background: 'var(--canary-soft)', border: '1px solid #f0dd8f' } : {}) }}>
+            <div key={dog.slug} style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '11px 12px', borderRadius: 11, marginBottom: 8, ...(i === 0 ? { background: 'var(--canary-soft)', border: '1px solid rgba(184, 150, 79, 0.38)' } : {}) }}>
               <div className="av" style={{ width: 32, height: 32, background: '#fff' }}><DogAvatar /></div>
               <div>
                 <div style={{ fontWeight: 600, fontSize: 13.5 }}>{dog.name}</div>

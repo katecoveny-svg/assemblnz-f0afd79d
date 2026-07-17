@@ -55,7 +55,7 @@ export default function TeamPage() {
         ))}
       </div>
 
-      <div className="note" style={{ marginTop: 16, background: '#f5efe0', borderRadius: 10, padding: '12px 14px' }}>
+      <div className="note" style={{ marginTop: 16, background: '#f4eee0', borderRadius: 10, padding: '12px 14px' }}>
         Permission levels gate what Keeper lets each person do: <b>approve outgoing</b> (Liana signs comms + issues invoices), <b>draft only</b> (Mathis + carers approve their own SMS), <b>read-only</b> (handlers see the roster). Keeper never sends on anyone&apos;s behalf.
       </div>
 

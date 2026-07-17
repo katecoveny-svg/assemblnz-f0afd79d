@@ -1,4 +1,17 @@
 /**
+ * ══════════════════════════════════════════════════════════════════════════
+ * REAL BUSINESS — USED WITH THE OWNER'S PERMISSION. DO NOT SCRUB.
+ *
+ * Happy Tails is a real business taking part by permission — a deliberate,
+ * locked exception to the fictional-demo-cast rule (Kate, 2026-07-17).
+ * The real details on these invite-gated ops/keeper surfaces (names, phone,
+ * GST, addresses, brand) stay exactly as they are: do NOT fictionalise or
+ * genericise them. The one hard boundary is the Business Genome
+ * (`lib/customers/happy-tails/genome.ts` + `living_site_genome`): no
+ * personal detail — no names, phone, GST, email, addresses or social
+ * handles — ever goes in there.
+ * ══════════════════════════════════════════════════════════════════════════
+ *
  * Happy Tails × Keeper — canonical demo data (source of truth for the pilot workspace).
  *
  * Franklin's record and the Mathis SMS thread are real artefacts Kate shared
@@ -96,16 +109,18 @@ export const HAPPY_TAILS_BRAND: BrandConfig = {
   gst: '142-043-939',
   website: 'www.happytailsdaycare.co.nz',
   instagram: '@happytailsnz',
+  // Pearl canon (2026-07-17): white ground, pearl ink, gold + deep teal.
+  // Key names are structural (older readers) — only the values re-tokened.
   colors: {
-    bg: '#FAF7F2',
-    ink: '#1a1712',
-    ink2: '#3d3428',
-    mute: '#7a746a',
-    line: '#e6ded0',
-    card: '#fffdf9',
-    canary: '#BFA37A',
-    canarySoft: '#fff4c9',
-    brown: '#7a4e2c',
+    bg: '#ffffff',
+    ink: '#313c42',
+    ink2: '#46545c',
+    mute: '#68766f',
+    line: '#e8ecea',
+    card: '#fbfcfb',
+    canary: '#b8964f',
+    canarySoft: '#f4eee0',
+    brown: '#2e5a58',
   },
   fonts: {
     serif: "'Cormorant Garamond', Georgia, serif",

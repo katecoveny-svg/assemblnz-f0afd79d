@@ -1,5 +1,4 @@
 import {
-  Archivo_Black,
   Cormorant_Garamond,
   Fraunces,
   Inter,
@@ -70,16 +69,9 @@ const lato = Lato({
   weight: ['400', '700'],
 });
 
-// HAPPY TAILS: real brand font on happytailsdaycare.co.nz is Murs Gothic Wide
-// Bold (headings) + Public Sans 500 (body), read from the site's computed CSS
-// 2026-07-02. Murs Gothic is Wix-licensed and can't ship here — Archivo Black
-// is the closest free wide-bold-grotesque stand-in. Public Sans is exact.
-const archivoBlack = Archivo_Black({
-  subsets: ['latin'],
-  variable: '--font-brand-display',
-  display: 'swap',
-  weight: ['400'],
-});
+// Pearl canon (2026-07-17): Happy Tails reads the Cormorant display + Inter
+// body like the rest of the pearl surfaces (their keeper workspace already
+// sets Cormorant via --font-keeper-serif). Public Sans stays for Toa.
 const publicSans = Public_Sans({
   subsets: ['latin'],
   variable: '--font-brand-body',
@@ -132,7 +124,7 @@ export type BrandFonts = {
 export function getBrandFonts(slug: string): BrandFonts {
   switch (slug) {
     case 'happy-tails':
-      return { display: archivoBlack, body: publicSans, mono: jetbrainsMono };
+      return { display: cormorant, body: inter, mono: jetbrainsMono };
     case 'air-nz':
       return { display: interTight, body: frauncesItalicBody, mono: jetbrainsMono };
     case 'everyday-rewards':

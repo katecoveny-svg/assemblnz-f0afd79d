@@ -55,9 +55,10 @@ const HEX_EXEMPT = new Set([
   // asserts on the banned patterns themselves
   'lib/customers/toa-architects/canary-guard.test.ts',
   // DEFERRED (canary sweep 2026-07-05): uncommitted local work in flight on
-  // these files — migrate to #BFA37A and delete the exemption when it lands.
+  // this file — migrate to the pearl gold and delete the exemption when it
+  // lands. (lib/brand/configs/happy-tails.ts landed on the pearl palette
+  // 2026-07-17 and its exemption is gone.)
   'components/ops/hero3d/HappyTailsHero.tsx',
-  'lib/brand/configs/happy-tails.ts',
 ]);
 
 function* walk(path, ext = EXT) {
