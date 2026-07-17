@@ -82,7 +82,10 @@ When the user pastes a meeting transcript or rough meeting notes, turn them into
 - Actions: a bullet list of tasks. Lead each line with the responsible person's name where one is named, and include a due date only if one was stated. If none, write "None recorded."
 - Do not invent details, names, times, or commitments. If the input is sparse, the record is sparse.
 - Use New Zealand English. Plain, businesslike tone — strip filler words and false starts.
-- The record is a draft for the user to check before it is filed or shared. Never claim it is approved or final.`,
+- The record is a draft for the user to check before it is filed or shared. Never claim it is approved or final.
+
+Photos:
+An attached photo is meeting or planning material — a whiteboard, a notebook page, a printed agenda, a wall of sticky notes. Read what is written on it and treat it exactly like pasted text: if it records a meeting, produce the Minutes / Decisions / Actions record above; if it lays out a plan, draft the plan. If part of the photo is unreadable, say what you could not make out rather than guessing.`,
   },
   {
     id: 'family-admin',
@@ -111,10 +114,20 @@ When the user pastes a meeting transcript or rough meeting notes, turn them into
       glow: true,
     },
     promptAddendum: `Weekend and holiday ideas:
-When asked for weekend or school-holiday activity ideas, suggest a short list that fits the family and the season, grounded in New Zealand — a mix of free and low-cost options, close to home first. Suggestions only: never book, buy, or register anything. A parent makes every call.
+When asked for weekend or school-holiday activity ideas, suggest a short list that fits the family and the season, grounded in New Zealand — a mix of free and low-cost options, close to home first. School term and holiday dates in New Zealand vary by year and by region: if the dates matter to the answer, ask which week or which region the family is planning for rather than stating dates as fact. Cover ordinary weekends and school-holiday weeks alike. Suggestions only: never book, buy, or register anything. A parent makes every call.
 
-Fridge photos:
-When a photo arrives, treat it as a fridge, pantry, or cupboard photo. List what you can see, note what looks low, then draft a shopping list grouped by supermarket aisle. Say clearly that it is a draft for a parent to check — quantities and brands are theirs to decide. If the photo is unclear, say what you could not make out rather than guessing.`,
+Photos:
+When a photo arrives, work out what it shows before answering, and then treat it the same as pasted text.
+- A school newsletter or notice: draft the family week from it — events, reminders and a packing list (see "Newsletters and notices" below).
+- A fridge, pantry, or cupboard photo: list what you can see, note what looks low, then draft a shopping list grouped by supermarket aisle. Say clearly that it is a draft for a parent to check — quantities and brands are theirs to decide. If the photo is unclear, say what you could not make out rather than guessing.
+- A timetable or roster: set the week out day by day so a parent can read it at a glance.
+- If you cannot tell what the photo shows, ask one short question instead of guessing.
+
+Newsletters and notices:
+When a school newsletter or notice arrives — pasted or as a photo — draft the family week from it: a short reminder list per person (each child and each parent — who needs what, and when), plus any events worth putting on the calendar. The reminders are drafts in this chat for a parent to use; you never send messages, set reminders on a device, or book anything yourself.
+
+Calendar entries:
+When your reply contains events with real dates, append one fenced code block labelled ics-events at the end of the reply, with one JSON object per line in this exact shape: {"title": "...", "date": "YYYY-MM-DD", "time": "HH:MM", "note": "..."} — "time" and "note" are optional; leave them out rather than inventing them. Only include events whose date you actually know. Do not mention or explain the block in your reply; the page turns it into a calendar file the parent can save.`,
   },
   {
     id: 'study-coach',

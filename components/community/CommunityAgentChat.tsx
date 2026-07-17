@@ -14,11 +14,20 @@
  * used here — it hardcodes the 'hapai:' surface and can't replay streams.)
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, ImagePlus, Loader2, X } from 'lucide-react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import dynamic from 'next/dynamic';
+import { ArrowRight, CalendarPlus, ImagePlus, Loader2, Mic, Volume2, VolumeX, X } from 'lucide-react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
 import { CaptureModal } from '@/components/gating/CaptureModal';
+import { buildIcs, extractIcsEvents, type IcsEvent } from '@/lib/community/ics';
+
+// Meeting capture (record / upload audio) only exists for chief-of-staff
+// agents — dynamic import so other agents never load the recorder code.
+const MeetingCapture = dynamic(
+  () => import('./MeetingCapture').then((m) => m.MeetingCapture),
+  { ssr: false },
+);
 
 const INK = '#313c42';
 const MUTED = '#68766f';
@@ -33,16 +42,112 @@ interface PendingPhoto {
   mediaType: string;
 }
 
-export function CommunityAgentChat({ slug, name }: { slug: string; name: string }) {
+// ---------------------------------------------------------------------------
+// Voice in/out — mirrors the Genome Desk (components/living-site/GenomeDesk.tsx):
+// SpeechRecognition (webkit-prefixed where needed) for quick voice input into
+// the message field, speechSynthesis for spoken replies. Both feature-detected;
+// unsupported browsers simply never see the controls. Distinct from the
+// chief-of-staff meeting recorder (MediaRecorder → server transcription).
+// ---------------------------------------------------------------------------
+
+type Recognition = {
+  lang: string;
+  interimResults: boolean;
+  start: () => void;
+  stop: () => void;
+  onresult:
+    | ((event: {
+        results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }>;
+      }) => void)
+    | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+};
+
+function recognitionConstructor(): (new () => Recognition) | null {
+  if (typeof window === 'undefined') return null;
+  const speechWindow = window as unknown as {
+    SpeechRecognition?: new () => Recognition;
+    webkitSpeechRecognition?: new () => Recognition;
+  };
+  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null;
+}
+
+function cancelSpeech() {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+/** Speak a completed reply — markdown and emoji stripped, en-NZ voice first. */
+function speak(text: string) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const clean = text
+    .replace(/[#*_>`~]/g, '')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!clean) return;
+  const utterance = new SpeechSynthesisUtterance(clean.slice(0, 900));
+  const voices = window.speechSynthesis.getVoices();
+  utterance.voice =
+    voices.find((voice) => voice.lang === 'en-NZ') ??
+    voices.find((voice) => voice.lang === 'en-AU') ??
+    voices.find((voice) => voice.lang.startsWith('en')) ??
+    null;
+  utterance.rate = 1.02;
+  window.speechSynthesis.speak(utterance);
+}
+
+/** Download validated calendar events as a hand-rolled .ics file. */
+function downloadIcs(events: IcsEvent[]) {
+  const blob = new Blob([buildIcs(events)], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'family-week.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+export function CommunityAgentChat({
+  slug,
+  name,
+  templateId,
+}: {
+  slug: string;
+  name: string;
+  /** Community template the agent grew from — gates per-template UI. */
+  templateId?: string | null;
+}) {
   const [input, setInput] = useState('');
   const [captureOpen, setCaptureOpen] = useState(false);
   const [gateNote, setGateNote] = useState<string | null>(null);
   const [photos, setPhotos] = useState<PendingPhoto[]>([]);
   const [photoNote, setPhotoNote] = useState<string | null>(null);
+  const [listening, setListening] = useState(false);
+  const [voiceReplies, setVoiceReplies] = useState(false);
   const lastSent = useRef('');
   const lastPhotos = useRef<PendingPhoto[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<Recognition | null>(null);
+  const micBase = useRef('');
+  const lastSpokenId = useRef<string | null>(null);
+  const micSupported = useSyncExternalStore(
+    () => () => {},
+    () => recognitionConstructor() !== null,
+    () => false,
+  );
+  const voiceSupported = useSyncExternalStore(
+    () => () => {},
+    () => typeof window !== 'undefined' && 'speechSynthesis' in window,
+    () => false,
+  );
 
   // One stable transport; its fetch reads state via setters and a ref, so it
   // stays current without re-creating the chat.
@@ -100,6 +205,62 @@ export function CommunityAgentChat({ slug, name }: { slug: string; name: string 
         p.url.startsWith('data:image/'),
     );
 
+  // Spoken replies: once a reply COMPLETES (never token-by-token), read it out
+  // — ics-events blocks stripped along with markdown/emoji inside speak().
+  useEffect(() => {
+    if (!voiceReplies || status !== 'ready') return;
+    const last = messages[messages.length - 1];
+    if (!last || last.role !== 'assistant' || last.id === 'greeting') return;
+    if (lastSpokenId.current === last.id) return;
+    lastSpokenId.current = last.id;
+    speak(extractIcsEvents(textOf(last)).text);
+  }, [voiceReplies, status, messages]);
+
+  // Unmount: stop any speech and any open recognition session.
+  useEffect(() => {
+    return () => {
+      cancelSpeech();
+      try {
+        recognitionRef.current?.stop();
+      } catch {
+        /* ignore */
+      }
+    };
+  }, []);
+
+  const toggleMic = () => {
+    if (listening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+    const RecognitionConstructor = recognitionConstructor();
+    if (!RecognitionConstructor) return;
+    cancelSpeech();
+    const next = new RecognitionConstructor();
+    next.lang = 'en-NZ';
+    next.interimResults = true;
+    micBase.current = input.trim();
+    next.onresult = (event) => {
+      const result = event.results[event.results.length - 1];
+      const transcript = result?.[0]?.transcript ?? '';
+      // Interim results land straight in the input field; the visitor sends.
+      setInput(micBase.current ? `${micBase.current} ${transcript}` : transcript);
+    };
+    next.onend = () => setListening(false);
+    next.onerror = () => setListening(false);
+    recognitionRef.current = next;
+    setListening(true);
+    next.start();
+  };
+
+  const toggleVoiceReplies = () => {
+    cancelSpeech();
+    // Only replies that complete from now on are spoken — never the history.
+    const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant');
+    lastSpokenId.current = lastAssistant?.id ?? null;
+    setVoiceReplies((v) => !v);
+  };
+
   const addPhoto = (file: File | undefined) => {
     setPhotoNote(null);
     if (!file) return;
@@ -121,6 +282,9 @@ export function CommunityAgentChat({ slug, name }: { slug: string; name: string 
   const submit = (t: string) => {
     const v = t.trim();
     if ((!v && photos.length === 0) || busy) return;
+    // New input interrupts any spoken reply and any open mic session.
+    cancelSpeech();
+    if (listening) recognitionRef.current?.stop();
     lastSent.current = v;
     lastPhotos.current = photos;
     setGateNote(null);
@@ -151,10 +315,15 @@ export function CommunityAgentChat({ slug, name }: { slug: string; name: string 
           style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 12, padding: 18 }}
         >
           {messages.map((m) => {
-            const text = textOf(m);
-            const images = imagesOf(m);
-            if (!text && images.length === 0) return null;
             const isUser = m.role === 'user';
+            // Assistant replies may carry a fenced ics-events block (family
+            // admin calendar contract) — never shown raw; it becomes the
+            // save-to-calendar action instead.
+            const { text, events } = isUser
+              ? { text: textOf(m), events: [] as IcsEvent[] }
+              : extractIcsEvents(textOf(m));
+            const images = imagesOf(m);
+            if (!text && images.length === 0 && events.length === 0) return null;
             return (
               <div
                 key={m.id}
@@ -185,6 +354,30 @@ export function CommunityAgentChat({ slug, name }: { slug: string; name: string 
                   </div>
                 )}
                 {text}
+                {events.length > 0 && (
+                  <div style={{ marginTop: text ? 10 : 0 }}>
+                    <button
+                      type="button"
+                      onClick={() => downloadIcs(events)}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '7px 14px',
+                        borderRadius: 999,
+                        border: `1px solid ${HAIRLINE}`,
+                        background: '#fbfaf6',
+                        color: INK,
+                        fontSize: 13,
+                        fontFamily: 'inherit',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <CalendarPlus size={14} />
+                      Save to calendar (.ics)
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -310,6 +503,54 @@ export function CommunityAgentChat({ slug, name }: { slug: string; name: string 
           >
             <ImagePlus size={18} />
           </button>
+          {micSupported && (
+            <button
+              type="button"
+              onClick={toggleMic}
+              disabled={busy}
+              aria-pressed={listening}
+              aria-label={listening ? 'Stop listening' : 'Ask with your voice'}
+              title={listening ? 'Stop listening' : 'Ask with your voice'}
+              style={{
+                display: 'flex',
+                width: 42,
+                height: 42,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 14,
+                border: listening ? 'none' : `1px solid ${HAIRLINE}`,
+                background: listening ? '#B42828' : '#fff',
+                color: listening ? '#fff' : MUTED,
+                cursor: busy ? 'default' : 'pointer',
+                opacity: busy ? 0.4 : 1,
+              }}
+            >
+              <Mic size={18} aria-hidden />
+            </button>
+          )}
+          {voiceSupported && (
+            <button
+              type="button"
+              onClick={toggleVoiceReplies}
+              aria-pressed={voiceReplies}
+              aria-label={voiceReplies ? 'voice replies on' : 'voice replies off'}
+              title={voiceReplies ? 'voice replies on' : 'voice replies off'}
+              style={{
+                display: 'flex',
+                width: 42,
+                height: 42,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 14,
+                border: `1px solid ${HAIRLINE}`,
+                background: '#fff',
+                color: voiceReplies ? TEAL : MUTED,
+                cursor: 'pointer',
+              }}
+            >
+              {voiceReplies ? <Volume2 size={18} aria-hidden /> : <VolumeX size={18} aria-hidden />}
+            </button>
+          )}
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -356,6 +597,18 @@ export function CommunityAgentChat({ slug, name }: { slug: string; name: string 
             <ArrowRight size={18} />
           </button>
         </div>
+        {templateId === 'chief-of-staff' && (
+          <MeetingCapture
+            disabled={busy}
+            onTranscript={(t) => {
+              const transcript = t.trim();
+              if (!transcript) return;
+              // Plain transcript into the input — the visitor checks it, then
+              // sends it for the write-up.
+              setInput((v) => (v ? `${v}\n${transcript}` : transcript));
+            }}
+          />
+        )}
       </div>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 
