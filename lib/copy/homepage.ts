@@ -218,5 +218,7 @@ export const PLAYGROUND = {
   heroAction: 'Make a motion hero',
   heroMakingAction: 'Directing your motion hero…',
   heroNote: 'A short cinematic hero clip in your brand colour — a draft to review, yours to download.',
+  shareAction: 'Share',
+  savePatternAction: 'Save this pattern',
 } as const;
 

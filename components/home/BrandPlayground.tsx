@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PLAYGROUND } from '@/lib/copy/homepage';
@@ -31,6 +31,29 @@ const HAIRLINE = 'rgba(49, 60, 66, 0.12)';
 /** SessionStorage key the Ad Studio picks the read brand up from. */
 export const BRAND_DNA_KEY = 'assembl-brand-dna';
 
+/** Share an output — a file via the Web Share API where supported, else the
+ *  page link; last resort copies the link. Never throws at the caller. */
+async function shareAsset(opts: { dataUrl?: string; url?: string; filename: string; title: string }) {
+  try {
+    if (opts.dataUrl) {
+      const blob = await (await fetch(opts.dataUrl)).blob();
+      const file = new File([blob], opts.filename, { type: blob.type });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: opts.title });
+        return;
+      }
+    }
+    const url = opts.url ?? window.location.origin;
+    if (navigator.share) {
+      await navigator.share({ title: opts.title, url });
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+  } catch {
+    /* user cancelled or unsupported — nothing to clean up */
+  }
+}
+
 /**
  * The homepage Pattern Studio moment: the same engine that draws this site's
  * imagery, live and interactive — and pointed at the visitor's own website.
@@ -46,6 +69,7 @@ export function BrandPlayground() {
   const [note, setNote] = useState('');
   const [making, setMaking] = useState(false);
   const [ads, setAds] = useState<Array<{ label: string; w: number; h: number; dataUrl: string }>>([]);
+  const patternRef = useRef<HTMLDivElement>(null);
   const [heroBusy, setHeroBusy] = useState(false);
   const [heroStatus, setHeroStatus] = useState('');
   const [heroVideo, setHeroVideo] = useState('');
@@ -112,6 +136,18 @@ export function BrandPlayground() {
     } finally {
       setMaking(false);
     }
+  };
+
+  // Snapshot the live pattern (the visitor's name in their colour) as a PNG.
+  const savePattern = async () => {
+    const canvas = patternRef.current?.querySelector('canvas');
+    if (!canvas) return;
+    const dataUrl = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `assembl-pattern-${(dna?.name ?? 'assembl').toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`;
+    a.click();
+    await shareAsset({ dataUrl, filename: a.download, title: dna?.name ?? 'assembl' });
   };
 
   // Tier 2: a generated motion hero — the same Prism/Veo pipeline as the
@@ -186,7 +222,7 @@ export function BrandPlayground() {
       }}
     >
       {/* The live engine — interactive; re-forms as the visitor's brand. */}
-      <div style={{ position: 'absolute', inset: 0 }} aria-hidden>
+      <div ref={patternRef} style={{ position: 'absolute', inset: 0 }} aria-hidden>
         <PatternStudio
           mode={dna ? 'particleText' : 'particles'}
           words={dna ? [dna.name] : ['assembl']}
@@ -339,6 +375,20 @@ export function BrandPlayground() {
             <Link href="/pattern-studio" style={{ color: INK, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
               {PLAYGROUND.patternsAction} →
             </Link>
+            <button
+              type="button"
+              onClick={savePattern}
+              style={{
+                border: 'none',
+                background: 'transparent',
+                color: MUTED,
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              {PLAYGROUND.savePatternAction}
+            </button>
           </div>
         )}
 
@@ -404,13 +454,22 @@ export function BrandPlayground() {
                     playsInline
                     style={{ width: '100%', borderRadius: 12, display: 'block' }}
                   />
-                  <a
-                    href={heroVideo}
-                    download={`assembl-motion-hero.mp4`}
-                    style={{ color: dna.accent, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}
-                  >
-                    Download
-                  </a>
+                  <span style={{ display: 'inline-flex', gap: 12 }}>
+                    <button
+                      type="button"
+                      onClick={() => shareAsset({ url: heroVideo, filename: 'assembl-motion-hero.mp4', title: dna.name })}
+                      style={{ border: 'none', background: 'transparent', color: MUTED, fontSize: 13, fontWeight: 700, cursor: 'pointer', padding: 0 }}
+                    >
+                      {PLAYGROUND.shareAction}
+                    </button>
+                    <a
+                      href={heroVideo}
+                      download={`assembl-motion-hero.mp4`}
+                      style={{ color: dna.accent, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}
+                    >
+                      Download
+                    </a>
+                  </span>
                 </>
               ) : (
                 <>
@@ -456,13 +515,28 @@ export function BrandPlayground() {
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 6 }}
                 >
                   <span style={{ fontSize: 11, color: MUTED }}>{card.label}</span>
-                  <a
-                    href={card.dataUrl}
-                    download={`assembl-ad-${card.w}x${card.h}.png`}
-                    style={{ color: dna.accent, fontSize: 12, fontWeight: 700, textDecoration: 'none' }}
-                  >
-                    Download
-                  </a>
+                  <span style={{ display: 'inline-flex', gap: 10 }}>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        shareAsset({
+                          dataUrl: card.dataUrl,
+                          filename: `assembl-ad-${card.w}x${card.h}.png`,
+                          title: dna.name,
+                        })
+                      }
+                      style={{ border: 'none', background: 'transparent', color: MUTED, fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: 0 }}
+                    >
+                      {PLAYGROUND.shareAction}
+                    </button>
+                    <a
+                      href={card.dataUrl}
+                      download={`assembl-ad-${card.w}x${card.h}.png`}
+                      style={{ color: dna.accent, fontSize: 12, fontWeight: 700, textDecoration: 'none' }}
+                    >
+                      Download
+                    </a>
+                  </span>
                 </figcaption>
               </figure>
             ))}

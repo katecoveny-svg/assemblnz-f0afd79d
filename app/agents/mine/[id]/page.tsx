@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getOwner, getDraft } from '@/lib/pilot/store';
 import { modelLabel } from '@/lib/pilot/models';
 import { MyAgentChat } from './MyAgentChat';
+import { SharePublicPage } from './SharePublicPage';
 
 // Owner-scoped read — RLS means a foreign id resolves as absent.
 export const dynamic = 'force-dynamic';
@@ -108,6 +109,7 @@ export default async function MyAgentPage({ params }: { params: Promise<{ id: st
           <p style={{ margin: '12px 0 0', color: MUTED, fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {modelLabel(draft.modelPreference)} · every reply is a draft for you to check
           </p>
+          {ready ? <SharePublicPage agentId={draft.id} /> : null}
         </div>
 
         {ready ? (
