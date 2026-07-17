@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { PainfulWorkflowCapture } from '@/components/hapai/PainfulWorkflowCapture';
 import { ToolLeadCapture } from '@/components/hapai/ToolLeadCapture';
 import {
@@ -97,8 +98,21 @@ const adoptionLoop = [
 export default function HapaiPage() {
   return (
     <div className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
+        {/* Pattern Studio motion — decorative, behind the hero. */}
+        <PatternBackdrop
+          className="absolute inset-0"
+          mode="particles"
+          colorRole="accent"
+          count={120}
+          connectLines
+          connectDistance={130}
+          glow
+          opacity={0.32}
+          speed={0.55}
+          lazyMount={false}
+        />
+        <div className="relative z-[1] mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               built in aotearoa · SPARK

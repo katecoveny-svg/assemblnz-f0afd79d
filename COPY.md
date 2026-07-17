@@ -147,3 +147,26 @@ Centre node: `Business Genome`
 5. `Drop anything you've got.`
 6. Chips, one per step, in order: `Website` · `PDFs` · `Emails` · `Price list` · `Logo` · `Facebook` · `Google Drive`
 7. `Done.`
+
+---
+
+## Time-savings calculator (homepage) — pulled from the Codex preview, 2026-07-17
+
+Mirrors `SAVINGS` in `lib/copy/homepage.ts`. Strings adapted from the
+homepage tool Kate asked to pull in from the Codex preview (PR #915);
+awaiting Kate's sign-off — edit here, code follows.
+
+- Eyebrow: `A two-minute reality check`
+- Heading: `How many hours could you get back?`
+- Body: `Use your own numbers. We will show a plain planning estimate — no form, no phone call and no inflated promise.`
+- Question 1: `People doing repeat admin`
+- Question 2: `Admin hours each week, per person` (unit: `hrs`)
+- Question 3: `How much of that work is repetitive?`
+  - `20%` / `a little` · `35%` / `a fair amount` · `50%` / `about half`
+- Result label: `Your mahi-saved estimate`
+- Result heading: `hours back each week`
+- Result facts: `hours a year` · `working days`
+- Note: `This estimate assumes half of your repetitive admin time could be recovered. Planning estimate only.`
+- Actions: `Try the live demo` · `Share result` · `Result shared`
+- Share title: `How much time could assembl give back?`
+- Share text: `Our assembl planning estimate: {weekly} hours back each week — about {days} working days a year.`

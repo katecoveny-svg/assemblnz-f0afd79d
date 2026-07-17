@@ -103,8 +103,15 @@
 
 .priceLine span { font-size: .82rem; }
 
+/* Hero children ride above the Pattern Studio backdrop (z 0). */
+.heroCopy {
+  position: relative;
+  z-index: 1;
+}
+
 .domeCard {
   position: relative;
+  z-index: 1;
   min-height: 520px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,.82);

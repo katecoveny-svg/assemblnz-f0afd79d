@@ -11,8 +11,9 @@ import "server-only";
 import { getAgent } from "./agents";
 import { generateImages, geminiText, isNotConfigured } from "./generate";
 import { getGenomeFactsFor } from "@/lib/customers/auckland-dog-trainer/genome-store";
+import { ASSEMBL_TENANT, ASSEMBL_FALLBACK_FACTS } from "@/lib/customers/assembl/genome";
 import { verticalBySlug } from "@/lib/living-site/verticals";
-import type { GenomeFact, GenomeSection, SurfaceId } from "@/lib/customers/auckland-dog-trainer/genome";
+import type { GenomeFact, GenomeSection } from "@/lib/customers/auckland-dog-trainer/genome";
 
 export interface AdCampaign {
   business: {
@@ -45,42 +46,6 @@ export const ASSEMBL_AD = {
   bg: "#ffffff",
 } as const;
 
-const noSurfaces: SurfaceId[] = [];
-const fact = (id: string, section: GenomeSection, label: string, value: string): GenomeFact => ({
-  id,
-  section,
-  label,
-  value,
-  readBy: noSurfaces,
-});
-
-// assembl's canonical brand facts — grounding context for MUSE, not published
-// copy. The motto/promise/tagline are assembl's own fixed, approved lines.
-const ASSEMBL_FACTS: GenomeFact[] = [
-  fact(
-    "a-concept",
-    "identity",
-    "What it is",
-    "A living business operating system — one Business Genome per customer that every surface (website, CRM, bookings, agents, emails) reads.",
-  ),
-  fact("a-motto", "identity", "Motto", "Less admin. More mahi."),
-  fact("a-promise", "identity", "Promise", "assembl grows your business while you run it."),
-  fact("a-audience", "identity", "Who it's for", "New Zealand small businesses."),
-  fact(
-    "a-how",
-    "services",
-    "How it works",
-    "Answer a few questions; assembl writes your Genome, then builds and runs your website, CRM, bookings and agents from it.",
-  ),
-  fact(
-    "a-difference",
-    "identity",
-    "Difference",
-    "Not an AI agent marketplace — the calmest business OS: one primary action per screen, human words, no jargon.",
-  ),
-  fact("a-tagline", "proof", "Tagline (fixed)", "Mahi that earns its proof."),
-];
-
 export class UnknownBusiness extends Error {
   constructor(public slug: string) {
     super(`Unknown business: ${slug}`);
@@ -105,6 +70,10 @@ type ResolvedBusiness = {
 /** Resolve a slug to a runnable business — assembl itself, or a sample vertical. */
 async function resolveBusiness(slug: string): Promise<ResolvedBusiness | null> {
   if (slug === ASSEMBL_AD.slug) {
+    // Dogfood: assembl grounds its own ads on its own LIVE genome (tenant
+    // 'assembl'), exactly like every sample vertical. The static fallback
+    // mirrors the DB seeds, so behaviour is identical when the DB is away.
+    const { facts, live } = await getGenomeFactsFor(ASSEMBL_TENANT, ASSEMBL_FALLBACK_FACTS);
     return {
       slug: ASSEMBL_AD.slug,
       name: ASSEMBL_AD.name,
@@ -113,8 +82,8 @@ async function resolveBusiness(slug: string): Promise<ResolvedBusiness | null> {
       accent: ASSEMBL_AD.accent,
       ink: ASSEMBL_AD.ink,
       bg: ASSEMBL_AD.bg,
-      facts: ASSEMBL_FACTS,
-      live: false,
+      facts,
+      live,
       fallbackHeadline: "Less admin. More mahi.",
       fallbackCaption: "assembl grows your business while you run it.",
     };

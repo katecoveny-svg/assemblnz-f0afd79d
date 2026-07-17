@@ -18,7 +18,7 @@ export default function PressPage() {
     <>
       <section className="relative overflow-hidden py-24 lg:py-28">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}

@@ -56,14 +56,14 @@ export default function FaqPage() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-[rgba(49,60,66,0.1)]">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.28}
           speed={0.5}
           lazyMount={false}
         />
-        <div className="mx-auto max-w-[1000px] px-5 py-14 md:px-10 md:py-20">
+        <div className="relative z-10 mx-auto max-w-[1000px] px-5 py-14 md:px-10 md:py-20">
           <p className="text-[11px] uppercase tracking-[0.22em] text-[#8b7447]" style={{ fontFamily: MONO }}>
             Questions, answered
           </p>

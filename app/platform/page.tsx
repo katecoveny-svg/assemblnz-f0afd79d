@@ -30,7 +30,7 @@ export default function PlatformPage() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}

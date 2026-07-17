@@ -86,7 +86,7 @@ export default async function DataApiPage() {
       {/* Hero */}
       <section className="relative overflow-hidden py-24 lg:py-32">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}

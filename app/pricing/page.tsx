@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, Check, Layers3, ShieldCheck, Sparkles } from 'lucide-react';
 import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
 import { GenomeDomeVisual } from '@/components/genome-dome/GenomeDomeVisual';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import {
   PILOT_SPRINT_EX_GST_NZD,
   PILOT_SPRINT_GST_NZD,
@@ -35,7 +36,20 @@ export default function PricingPage() {
   const checkoutConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
+      <section className={styles.hero} style={{ position: 'relative' }}>
+        {/* Pattern Studio motion — decorative, behind the hero grid. */}
+        <PatternBackdrop
+          className="absolute inset-0"
+          mode="particles"
+          colorRole="gold"
+          count={110}
+          connectLines
+          connectDistance={130}
+          glow
+          opacity={0.3}
+          speed={0.55}
+          lazyMount={false}
+        />
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>Living Site pricing · NZD</p>
           <h1>Buy the working loop first<span>.</span></h1>

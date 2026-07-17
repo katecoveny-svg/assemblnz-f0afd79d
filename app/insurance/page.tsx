@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight, Car, Home, ShieldCheck, WalletCards } from "lucide-react";
+import { PatternBackdrop } from "@/components/pattern-studio/PatternBackdrop";
 
 export const metadata: Metadata = {
   title: "Insurance gap analysis",
@@ -24,8 +25,17 @@ const CONTROL =
 export default function InsurancePage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="border-b border-[rgba(35,33,31,0.10)] px-6 py-16 lg:px-10 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-16 lg:px-10 lg:py-24">
+        {/* Pattern Studio motion — decorative, behind the hero. */}
+        <PatternBackdrop
+          className="absolute inset-0"
+          mode="halftone"
+          colorRole="accent"
+          opacity={0.24}
+          speed={0.5}
+          lazyMount={false}
+        />
+        <div className="relative z-[1] mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <header>
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               insurance gap analysis

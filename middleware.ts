@@ -572,10 +572,13 @@ const productRedirect = (request: NextRequest) => {
   // The agent marketplace is not the story (Living Business OS direction,
   // chrome sweep 2026-07-11): old /agents and /bundles URLs land on the
   // living site instead. /agents/pick stays — the fleet browser is used
-  // behind the gates.
+  // behind the gates. /agents/mine stays too — saved Pilot builds run there
+  // (the ship screen links straight to it).
   if (
     (pathname === '/agents' || pathname.startsWith('/agents/')) &&
-    pathname !== '/agents/pick'
+    pathname !== '/agents/pick' &&
+    pathname !== '/agents/mine' &&
+    !pathname.startsWith('/agents/mine/')
   ) {
     url.pathname = '/living-site';
     url.search = '';
