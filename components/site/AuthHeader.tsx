@@ -20,12 +20,11 @@ export function AuthHeader() {
         </Link>
         <nav className={styles.nav} aria-label="Primary">
           <Link href="/how-it-works">How it works</Link>
-          <Link href="/living-site">Living site</Link>
           <Link href="/pricing">Pricing</Link>
           <Link href="/about">About</Link>
         </nav>
         <Link href="/genome" className={styles.cta}>
-          Try the live Genome
+          Try the demo
         </Link>
       </div>
     </header>

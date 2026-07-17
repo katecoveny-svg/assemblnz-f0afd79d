@@ -152,10 +152,10 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
     <div className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}><span aria-hidden /> Public demonstration · fictional Auckland business</p>
-          <h1>Change one fact.<br /><em>See every surface update.</em></h1>
+          <p className={styles.eyebrow}><span aria-hidden /> Live demo · fictional Auckland business</p>
+          <h1>Change one fact.<br /><em>See the work update.</em></h1>
           <p className={styles.lede}>
-            This is an actual assembl Business Genome: structured facts, connected surfaces and governed agents using one shared source of truth. Try a sandbox change, then give a live agent a job.
+            Try a safe change, see where it flows, then ask an agent to prepare a sourced draft. Nothing is sent.
           </p>
           <div className={styles.heroActions}>
             <a href="#genome-workspace">Open the Genome <ArrowRight aria-hidden /></a>
@@ -174,9 +174,9 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
       </section>
 
       <section className={styles.explainer} aria-label="How the demonstration works">
-        <article><span>one</span><h2>A fact changes</h2><p>Choose a safe sandbox change. The public demo never edits customer data.</p></article>
-        <article><span>two</span><h2>Every reader sees it</h2><p>The site, booking flow, CRM and agents all resolve from the same fact.</p></article>
-        <article><span>three</span><h2>An agent prepares work</h2><p>The output carries its sources, version and approval boundary.</p></article>
+        <article><span>one</span><h2>Change a fact</h2><p>Choose a safe example change.</p></article>
+        <article><span>two</span><h2>See the ripple</h2><p>Watch the connected work update.</p></article>
+        <article><span>three</span><h2>Run an agent</h2><p>Get a draft with its sources attached.</p></article>
       </section>
 
       <section id="genome-workspace" className={styles.workspace}>
@@ -312,8 +312,9 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
       </section>
 
       <section className={styles.finalCta}>
-        <h2>The agent is useful because<br /><em>the business is understood.</em></h2>
-        <div><Link href="/install">Build your Business Genome <ArrowRight aria-hidden /></Link><Link href="/pilot">Build an agent</Link></div>
+        <p>Ready to use your own workflow?</p>
+        <h2>Start small.<br /><em>Prove what saves time.</em></h2>
+        <div><Link href="/pilot-sprint">Start a pilot <ArrowRight aria-hidden /></Link><Link href="/pricing">See the price</Link></div>
       </section>
     </div>
   );

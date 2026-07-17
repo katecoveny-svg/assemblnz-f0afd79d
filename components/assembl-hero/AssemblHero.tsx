@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { ArrowDown, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { HeroPatternCanvas } from './HeroPatternCanvas';
 import { HERO } from '@/lib/copy/homepage';
 import styles from './assembl-hero.module.css';
@@ -67,11 +67,11 @@ export function AssemblHero() {
           </h1>
           <p className={styles.lede}>{HERO.lede}</p>
           <div className={styles.actions}>
-            <Link href="/pilot-sprint">
+            <Link href="/genome">
               {HERO.actions.primary} <ArrowRight aria-hidden />
             </Link>
-            <Link href="#business-genome" className={styles.secondaryAction}>
-              {HERO.actions.secondary} <ArrowDown aria-hidden />
+            <Link href="/pilot-sprint" className={styles.secondaryAction}>
+              {HERO.actions.secondary} <ArrowRight aria-hidden />
             </Link>
           </div>
           <div className={styles.proofLine}>

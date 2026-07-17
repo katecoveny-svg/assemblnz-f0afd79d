@@ -65,19 +65,19 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — a Living Site for your New Zealand business. Less admin. More mahi.',
+    default: 'assembl — less admin, more mahi',
     template: '%s · assembl',
   },
   description:
-    'One connected website, customer desk, Business Genome and set of approval-led workflows for your New Zealand business. Built in Aotearoa.',
+    'Agents that prepare the repetitive work behind your business, using your rules and waiting for your approval.',
   metadataBase: new URL('https://www.assembl.co.nz'),
   alternates: { canonical: '/' },
   // og:image comes from the file-convention opengraph-image.tsx per route
   // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl — a Living Site for your New Zealand business. Less admin. More mahi.',
+    title: 'assembl — less admin, more mahi',
     description:
-      'A connected website, customer desk, Business Genome and approval-led workflows. Your business stays in control.',
+      'Agents that prepare repetitive work using your business rules. Your team stays in control.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -85,9 +85,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — a Living Site for your New Zealand business. Less admin. More mahi.',
+    title: 'assembl — less admin, more mahi',
     description:
-      'A connected website, customer desk, Business Genome and approval-led workflows. Built in Aotearoa.',
+      'Agents that prepare repetitive work using your business rules. Built in Aotearoa.',
   },
   icons: {
     icon: [
