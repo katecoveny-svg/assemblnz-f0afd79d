@@ -1,11 +1,9 @@
 /**
- * Homepage copy — the single strings source, mirroring COPY.md verbatim.
+ * Homepage copy — the single strings source, mirrored in COPY.md.
  *
- * Components import from here; no homepage copy is authored inline. Per
- * CLAUDE.md → "Copy rules — non-negotiable": never rewrite, paraphrase,
- * "tighten" or "improve" any string here. If a change seems needed, STOP and
- * ask Kate. Propose; never substitute. Keep this file byte-identical to
- * COPY.md.
+ * The simplified public story below was approved by Kate on 17 July 2026.
+ * Components import from here so the homepage keeps one short, consistent
+ * vocabulary.
  */
 
 export const BRAND = {
@@ -15,18 +13,73 @@ export const BRAND = {
 } as const;
 
 export const HERO = {
-  signalRail: ['Living Business Genome', 'Built in Aotearoa', 'Human approval stays visible'],
-  eyebrow: 'Your business · understood as one living system',
+  signalRail: ['Try it without an account', 'Built in Aotearoa', 'You approve every action'],
+  eyebrow: 'Agents for the work behind your business',
   headline: {
-    line1: 'Your business already has a genome.',
-    line2: 'assembl makes it intelligent.',
+    line1: 'Your business, understood.',
+    line2: 'Your admin, prepared.',
   },
-  lede: 'Connect the people, knowledge, customers and workflows you already have. assembl turns that context into a working operating system — with specialised agents, clear permissions and proof before anything consequential changes.',
+  lede: 'assembl creates one source of truth for your business, then gives you agents that prepare useful work for your approval.',
   actions: {
-    primary: 'Build your Business Genome',
-    secondary: 'See the living system',
+    primary: 'Try the live demo',
+    secondary: 'Start a pilot',
   },
-  proofLine: ['One shared source of truth', 'Review before send', 'Sources attached'],
+  proofLine: ['One source of truth', 'Drafts ready to review', 'Nothing sends without you'],
+} as const;
+
+/**
+ * Mahi-saved calculator (homepage tool). A plain, no-form planning estimate.
+ * Assumes half of repetitive admin time is recoverable — labelled as an
+ * estimate, never a promise.
+ */
+export const SAVINGS = {
+  eyebrow: 'A two-minute reality check',
+  heading: 'How many hours could you get back?',
+  body: 'Use your own numbers. We will show a plain planning estimate — no form, no phone call and no inflated promise.',
+  peopleLabel: 'People doing repeat admin',
+  hoursLabel: 'Admin hours each week, per person',
+  repeatableLabel: 'How much of that work is repetitive?',
+  repeatableOptions: [
+    { value: 20, label: 'a little' },
+    { value: 35, label: 'a fair amount' },
+    { value: 50, label: 'about half' },
+  ],
+  hoursShort: 'hrs',
+  resultLabel: 'Your mahi-saved estimate',
+  resultHeading: 'hours back each week',
+  yearlyHoursLabel: 'hours a year',
+  workingDaysLabel: 'working days',
+  planningNote: 'This estimate assumes half of your repetitive admin time could be recovered. Planning estimate only.',
+  liveDemoAction: 'Try the live demo',
+  shareAction: 'Share result',
+  sharedAction: 'Result shared',
+  shareTitle: 'How much time could assembl give back?',
+  shareText: (weeklyHours: string, workingDays: number) =>
+    `Our assembl planning estimate: ${weeklyHours} hours back each week — about ${workingDays} working days a year.`,
+} as const;
+
+export const HOME = {
+  metadata: {
+    title: 'assembl — less admin, more mahi',
+    description: 'assembl creates one source of truth for your business, then gives you agents that prepare the admin for your approval.',
+  },
+  savings: SAVINGS,
+  how: {
+    eyebrow: 'How it works',
+    heading: 'One workflow. Three clear steps.',
+    steps: [
+      { number: '01', title: 'We understand it.', body: 'We capture the facts, rules and tools behind one piece of work.' },
+      { number: '02', title: 'Agents prepare it.', body: 'Replies, follow-ups, briefs and documents arrive as useful drafts.' },
+      { number: '03', title: 'Your team approves it.', body: 'Important actions wait for a person, with sources and status visible.' },
+    ],
+  },
+  pilot: {
+    eyebrow: 'Founding pilot · NZ$1,500 + GST',
+    heading: 'Start with one workflow.',
+    body: 'In ten working days, we build and test one useful workflow around the way your business already works.',
+    includes: ['One agreed workflow', 'Your rules and source facts', 'A working, reviewable result'],
+    actions: { primary: 'Start a pilot', secondary: 'See the price' },
+  },
 } as const;
 
 /** Sculpture caption labels — order is genome-first, then the wing cycle. */
@@ -145,37 +198,6 @@ export const BUILD_SCRIPT = {
 } as const;
 
 /**
- * Mahi-saved calculator (homepage tool). A plain, no-form planning estimate.
- * Assumes half of repetitive admin time is recoverable — labelled as an
- * estimate, never a promise.
- */
-export const SAVINGS = {
-  eyebrow: 'A two-minute reality check',
-  heading: 'How many hours could you get back?',
-  body: 'Use your own numbers. We will show a plain planning estimate — no form, no phone call and no inflated promise.',
-  peopleLabel: 'People doing repeat admin',
-  hoursLabel: 'Admin hours each week, per person',
-  repeatableLabel: 'How much of that work is repetitive?',
-  repeatableOptions: [
-    { value: 20, label: 'a little' },
-    { value: 35, label: 'a fair amount' },
-    { value: 50, label: 'about half' },
-  ],
-  hoursShort: 'hrs',
-  resultLabel: 'Your mahi-saved estimate',
-  resultHeading: 'hours back each week',
-  yearlyHoursLabel: 'hours a year',
-  workingDaysLabel: 'working days',
-  planningNote: 'This estimate assumes half of your repetitive admin time could be recovered. Planning estimate only.',
-  liveDemoAction: 'Try the live demo',
-  shareAction: 'Share result',
-  sharedAction: 'Result shared',
-  shareTitle: 'How much time could assembl give back?',
-  shareText: (weeklyHours: string, workingDays: number) =>
-    `Our assembl planning estimate: ${weeklyHours} hours back each week — about ${workingDays} working days a year.`,
-} as const;
-
-/**
  * Homepage Pattern Studio moment — the brand playground. Drafted from Kate's
  * direction 2026-07-17 ("we imagined the imagery, built the tool to create
  * it"); mirrored in COPY.md, awaiting sign-off.
@@ -191,3 +213,4 @@ export const PLAYGROUND = {
   adsAction: 'Make my ads',
   patternsAction: 'Open the Pattern Studio',
 } as const;
+

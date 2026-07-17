@@ -12,8 +12,6 @@ import styles from './v2.module.css';
 
 const NAV_LINKS = [
   { href: '/how-it-works', label: 'how it works' },
-  { href: '/living-site', label: 'living site' },
-  { href: '/pilot', label: 'build an agent' },
   { href: '/pricing', label: 'pricing' },
   { href: '/about', label: 'about' },
 ];
@@ -55,7 +53,7 @@ export function V2Nav({ current }: { current?: string }) {
           sign in
         </Link>
         <Link href="/genome" className={styles.navCta}>
-          try the live genome
+          try the demo
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
             •
           </span>

@@ -7,10 +7,7 @@
   --ink: #313c42;
   --soft: #68766f;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 76% 8%, rgba(228, 238, 238, .6), transparent 31rem),
-    radial-gradient(circle at 14% 23%, rgba(243, 245, 243, .7), transparent 28rem),
-    var(--paper);
+  background: var(--paper);
 }
 
 .hero {
@@ -66,7 +63,7 @@
   justify-content: center;
   gap: 12px;
   padding: 0 24px;
-  border: 1px solid rgba(26, 77, 61, .2);
+  border: 1px solid rgba(46, 90, 88, .2);
   border-radius: 999px;
   color: var(--deep);
   background: rgba(255, 255, 255, .68);
@@ -80,7 +77,7 @@
 .primaryCta {
   color: #fff;
   background: var(--deep);
-  box-shadow: 0 16px 40px rgba(26, 77, 61, .18);
+  box-shadow: 0 16px 40px rgba(46, 90, 88, .18);
 }
 
 .primaryCta:hover,
@@ -104,35 +101,40 @@
 
 .priceLine span { font-size: .82rem; }
 
-/* Hero children ride above the Pattern Studio backdrop (z 0). */
-.heroCopy {
-  position: relative;
-  z-index: 1;
-}
+.heroCopy { position: relative; }
 
 .domeCard {
   position: relative;
-  z-index: 1;
   min-height: 520px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,.82);
+  isolation: isolate;
+  border: 1px solid rgba(63,115,115,.2);
   border-radius: 30px;
-  background:
-    radial-gradient(circle at 50% 37%, rgba(255,255,255,.96), rgba(232,242,242,.58) 42%, rgba(203,221,221,.42) 76%),
-    linear-gradient(150deg, rgba(255,255,255,.77), rgba(213,228,229,.56)),
-    #dfe9e8;
+  background: #fff;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.96),
     inset 0 -32px 70px rgba(63,115,115,.07),
     0 44px 100px rgba(50,78,71,.14);
 }
 
-.domeCard > div:first-child { min-height: 520px; }
+.domePattern {
+  z-index: 0;
+}
+
+.domeVisual {
+  position: relative;
+  z-index: 1;
+  min-height: 520px;
+  background: radial-gradient(circle at 50% 42%, rgba(251,250,246,.1), rgba(251,250,246,.5) 78%);
+}
+
+.domeVisual > div { min-height: 520px; }
 
 .domeStatus {
   position: absolute;
   left: 24px;
   bottom: 22px;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 9px;
@@ -140,7 +142,7 @@
   border: 1px solid rgba(63,115,115,.14);
   border-radius: 999px;
   color: #3f7373;
-  background: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.82);
   backdrop-filter: blur(18px);
   font: 700 .58rem/1 var(--font-mono), monospace;
   letter-spacing: .11em;
@@ -152,7 +154,7 @@
   height: 7px;
   border-radius: 50%;
   background: var(--amber);
-  box-shadow: 0 0 0 5px rgba(217,168,90,.15);
+  box-shadow: 0 0 0 5px rgba(184,150,79,.15);
 }
 
 .pathSection {
@@ -302,7 +304,7 @@
 
 @media (max-width: 1000px) {
   .hero { grid-template-columns: 1fr; }
-  .domeCard, .domeCard > div:first-child { min-height: 460px; }
+  .domeCard, .domeVisual, .domeVisual > div { min-height: 460px; }
   .pathGrid { grid-template-columns: 1fr; }
   .stageCard { min-height: auto; }
   .featuredCard { transform: none; }
@@ -314,7 +316,7 @@
   .hero h1 { font-size: clamp(3.8rem, 18vw, 5rem); }
   .heroActions > a { width: 100%; }
   .priceLine { align-items: flex-start; flex-direction: column; gap: 7px; }
-  .domeCard, .domeCard > div:first-child { min-height: 360px; }
+  .domeCard, .domeVisual, .domeVisual > div { min-height: 360px; }
   .domeCard { border-radius: 22px; }
   .pathSection { padding-block: 76px; }
   .stageCard { padding: 24px; border-radius: 22px; }
