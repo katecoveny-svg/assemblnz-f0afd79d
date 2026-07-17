@@ -47,8 +47,10 @@ NZ English spelling. Te reo Māori keeps its macrons.
 - `Agents for the work behind your business`
 
 ### Headline (two lines)
-- `Your business, understood.`
-- `Your admin, prepared.`
+- `Less admin.`
+- `More mahi.`
+
+(Restored to the locked concept line at Kate's direction, 17 July 2026.)
 
 ### Lede
 - `assembl creates one source of truth for your business, then gives you agents that prepare useful work for your approval.`

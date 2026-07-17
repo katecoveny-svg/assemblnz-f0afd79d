@@ -16,8 +16,8 @@ export const HERO = {
   signalRail: ['Try it without an account', 'Built in Aotearoa', 'You approve every action'],
   eyebrow: 'Agents for the work behind your business',
   headline: {
-    line1: 'Your business, understood.',
-    line2: 'Your admin, prepared.',
+    line1: 'Less admin.',
+    line2: 'More mahi.',
   },
   lede: 'assembl creates one source of truth for your business, then gives you agents that prepare useful work for your approval.',
   actions: {
