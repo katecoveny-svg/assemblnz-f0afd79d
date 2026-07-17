@@ -170,3 +170,17 @@ awaiting Kate's sign-off — edit here, code follows.
 - Actions: `Try the live demo` · `Share result` · `Result shared`
 - Share title: `How much time could assembl give back?`
 - Share text: `Our assembl planning estimate: {weekly} hours back each week — about {days} working days a year.`
+
+---
+
+## Homepage — Pattern Studio brand playground (2026-07-17)
+
+Mirrors `PLAYGROUND` in `lib/copy/homepage.ts`. Drafted from Kate's direction
+("we imagined the imagery for the website, built a tool to create it");
+awaiting Kate's sign-off — edit here, code follows.
+
+- Eyebrow: `Pattern Studio × Ad Studio`
+- Heading: `We imagined this site's imagery, then built the tool that makes it.`
+- Body: `Every moving pattern on this site comes from the Pattern Studio. Paste your web address and it reads your brand — your name, your colour — so you can make your own patterns and ads.`
+- Input label: `Your website` (placeholder `e.g. yourbusiness.co.nz`)
+- Actions: `Read my brand` / `Reading…` · `Make my ads` · `Open the Pattern Studio`

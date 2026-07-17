@@ -1,14 +1,15 @@
 .page {
-  --paper: #faf7f2;
-  --pounamu: #2b6b57;
-  --deep: #1a4d3d;
-  --amber: #d9a85a;
-  --ink: #3d4250;
-  --soft: #5c6273;
+  /* Pearl canon — the homepage palette (teal + gold on white). */
+  --paper: #ffffff;
+  --pounamu: #3f7373;
+  --deep: #2e5a58;
+  --amber: #b8964f;
+  --ink: #313c42;
+  --soft: #68766f;
   color: var(--ink);
   background:
-    radial-gradient(circle at 76% 8%, rgba(197, 215, 217, .58), transparent 31rem),
-    radial-gradient(circle at 14% 23%, rgba(222, 232, 211, .54), transparent 28rem),
+    radial-gradient(circle at 76% 8%, rgba(228, 238, 238, .6), transparent 31rem),
+    radial-gradient(circle at 14% 23%, rgba(243, 245, 243, .7), transparent 28rem),
     var(--paper);
 }
 

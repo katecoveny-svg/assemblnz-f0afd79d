@@ -4,6 +4,7 @@ import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
 import { BusinessGenomeOrbit } from '@/components/genome-orbit/BusinessGenomeOrbit';
 import { BuildScroll } from '@/components/build-scroll/BuildScroll';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
+import { BrandPlayground } from '@/components/home/BrandPlayground';
 import { PatternDivider } from '@/components/pattern-studio/PatternDivider';
 import { BusinessGenomeSection } from '@/components/business-genome/BusinessGenomeSection';
 import { GENOME_FACTS, GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
@@ -47,6 +48,8 @@ export default async function HomePage({
       <BuildScroll />
 
       <TimeSavingsCalculator initialValues={seed} />
+
+      <BrandPlayground />
 
       <section
         aria-labelledby="agent-builder-title"
