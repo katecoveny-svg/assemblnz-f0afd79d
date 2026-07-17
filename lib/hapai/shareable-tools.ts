@@ -132,7 +132,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     posture: 'Draft only. A named person reviews the spec; nothing auto-lodges. Not legal, financial, or medical advice.',
   },
   {
-    slug: 'pikau',
+    slug: 'customs-entry',
     name: 'Customs entry drafter',
     status: 'live',
     description:
@@ -191,7 +191,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     posture: 'Draft brief only. The owner signs off scope, budget, and deadlines.',
   },
   {
-    slug: 'dawn',
+    slug: '9am-brief',
     name: 'The Dawn',
     status: 'live',
     description:

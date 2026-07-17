@@ -10,8 +10,9 @@ export const metadata: Metadata = {
     description:
       "Paste the day’s mess and get back a clear list: what matters, who to chase, what to pack.",
     type: "website",
-    url: "https://www.assembl.co.nz/hapai/dawn",
+    url: "https://www.assembl.co.nz/hapai/9am-brief",
     siteName: "assembl",
+    images: ["/hapai/9am-brief/opengraph-image"],
   },
   twitter: {
     card: "summary_large_image",

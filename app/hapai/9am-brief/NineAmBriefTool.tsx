@@ -59,7 +59,7 @@ export function NineAmBriefTool() {
     setLoading(true);
     void requestDashAd({ tool: "dawn" });
     try {
-      const response = await gate.fetch("/api/hapai/dawn", {
+      const response = await gate.fetch("/api/hapai/9am-brief", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ today, meetings, followUps, worries, notes, imageDataUrl }),
