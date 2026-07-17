@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
+import { GenomeMotionBackdrop } from './GenomeMotionBand';
 import {
   GENOME_SECTION_LABELS,
   type GenomeFact,
@@ -90,14 +90,7 @@ export function GenomeShowcase({
     >
       {/* Hero — few words, live proof. */}
       <section style={{ position: 'relative', overflow: 'hidden', borderBottom: `1px solid ${HAIRLINE}` }}>
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="halftone"
-          colorRole="accent"
-          opacity={0.24}
-          speed={0.5}
-          lazyMount={false}
-        />
+        <GenomeMotionBackdrop />
         <div
           style={{
             position: 'relative',
