@@ -10,9 +10,9 @@ import { InkJar } from '@/app/customers/family/ops/visuals/ink';
  * moves — "release" files a pending approval, and dispatch stays off.
  */
 
-const INK = '#2A2620';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
 
@@ -49,7 +49,7 @@ const KIDS: Kid[] = [
 const card: CSSProperties = {
   borderRadius: 14,
   border: `1px solid ${GOLD}33`,
-  background: 'linear-gradient(180deg,#ffffff,#fffdf9)',
+  background: 'linear-gradient(180deg,#ffffff,#fbfcfb)',
   padding: 14,
 };
 const label: CSSProperties = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };

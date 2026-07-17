@@ -11,9 +11,9 @@ import { InkJar } from '@/app/customers/family/ops/visuals/ink';
  * and delightful; "save progress" persists the XP.
  */
 
-const INK = '#1A1918';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
 const BLUE = '#6E93A6';
@@ -75,7 +75,7 @@ function KidQuest({ kid }: { kid: Kid }) {
   }
 
   return (
-    <div style={{ borderRadius: 16, border: `1px solid ${kid.accent}44`, background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: 15, boxShadow: `0 10px 30px ${kid.accent}14` }}>
+    <div style={{ borderRadius: 16, border: `1px solid ${kid.accent}44`, background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: 15, boxShadow: `0 10px 30px ${kid.accent}14` }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <span style={{ width: 44, height: 44, borderRadius: 14, flex: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${kid.accent}, ${GOLD})`, color: '#fff', fontFamily: 'var(--font-brand-display)', fontSize: 20, fontWeight: 700 }}>{level}</span>
         <div style={{ flex: 1 }}>

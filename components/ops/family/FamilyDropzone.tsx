@@ -16,9 +16,9 @@ import { InkUpload } from '@/app/customers/family/ops/visuals/ink';
  * can't be decoded server-side).
  */
 
-const INK = '#1A1918';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const SAGE = '#7A8B6F';
 
 type Kind = 'receipt' | 'fridge' | 'product' | 'newsletter' | 'video';
@@ -51,7 +51,7 @@ export function FamilyDropzone({
 
   return (
     <form ref={formRef} action={uploadFamilyFileAction}
-      style={{ borderRadius: 12, border: `1px solid ${GOLD}33`, background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: 12 }}>
+      style={{ borderRadius: 12, border: `1px solid ${GOLD}33`, background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: 12 }}>
       <input type="hidden" name="kind" value={kind} />
       <input type="hidden" name="from" value={from} />
 

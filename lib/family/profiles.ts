@@ -27,7 +27,7 @@ export type Person = {
 };
 
 const CORAL = '#E08A6B';
-const GOLD = '#BFA37A';
+const GOLD = '#b8964f';
 const SAGE = '#7A8B6F';
 const BLUE = '#6E93A6';
 const PLUM = '#8E7BA6';

@@ -14,10 +14,10 @@ import { DefaultChatTransport, type UIMessage } from 'ai';
  */
 
 const FAMILY_AGENT = 'toro';
-const GOLD = '#BFA37A';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
-const INK = '#2A2620';
+const INK = '#313c42';
 
 const GREETING =
   "Kia ora — I'm your family assistant. Ask me what's on this week, who should do Friday's pickup, or get me to draft a nut-free shared-plate list or sort out tomorrow morning. I suggest and draft; you approve. Nothing gets booked, paid or sent without you.";
@@ -54,9 +54,9 @@ export function FamilyChat() {
       className="flex flex-col overflow-hidden rounded-2xl"
       style={{
         border: `1px solid ${GOLD}55`,
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,253,249,0.7))',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(251,252,251,0.7))',
         backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-        boxShadow: '0 16px 44px rgba(154,123,58,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
+        boxShadow: '0 16px 44px rgba(49,60,66,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
         minHeight: 440,
       }}
     >
@@ -64,7 +64,7 @@ export function FamilyChat() {
         <span style={{ width: 34, height: 34, borderRadius: 10, background: `linear-gradient(135deg, ${CORAL}, ${GOLD})`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 15 }} aria-hidden>◍</span>
         <div className="flex-1">
           <p className="text-sm font-semibold" style={{ color: INK }}>Your family assistant</p>
-          <p className="text-[11px]" style={{ color: '#8a8272' }}>live · draft-only · suggests, you approve</p>
+          <p className="text-[11px]" style={{ color: '#68766f' }}>live · draft-only · suggests, you approve</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium" style={{ background: `${GOLD}22`, color: INK }}>
           <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: busy ? CORAL : SAGE }} />
@@ -74,7 +74,7 @@ export function FamilyChat() {
 
       <div ref={scrollRef} className="flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 py-4" style={{ maxHeight: 440 }}>
         {messages.length === 0 ? (
-          <div className="text-[12.5px] leading-relaxed" style={{ color: '#8a8272' }}>{GREETING}</div>
+          <div className="text-[12.5px] leading-relaxed" style={{ color: '#68766f' }}>{GREETING}</div>
         ) : (
           messages.map((m) => {
             const mine = m.role === 'user';

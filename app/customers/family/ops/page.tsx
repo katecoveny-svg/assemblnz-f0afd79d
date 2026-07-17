@@ -23,8 +23,12 @@ import { familyOpsVisuals } from './visuals/manifest';
 import { getInboxStatus } from '@/lib/family/inbox-status';
 import { getFamilyViewer } from '@/lib/family/viewer';
 import { WHANAU, WHANAU_DEMO, custodyThisWeek, DEMO_MODE_COOKIE, type Person } from '@/lib/family/profiles';
+import { GENOME_SECTION_LABELS, type GenomeSection } from '@/lib/customers/auckland-dog-trainer/genome';
+import { getGenomeFactsFor } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import { FAMILY_TENANT, FAMILY_GENOME_FACTS } from '@/lib/customers/family/genome';
 import { cookies } from 'next/headers';
 import { approveAction, dismissAction, assignPickupAction, emailDigestAction } from './actions';
+import { updateGenomeFactFormAction } from './genome-actions';
 import { OsScrollReveal } from '@/components/ops/shared/OsMotion';
 
 export const dynamic = 'force-dynamic';
@@ -39,9 +43,9 @@ export const dynamic = 'force-dynamic';
  * sends. Server-rendered with server actions, so the core works with no JS.
  */
 
-const CREAM = '#FBFAF6';
+const CREAM = '#ffffff';
 const INK = '#313c42';
-const MUTED = '#8A8272';
+const MUTED = '#68766f';
 const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
@@ -50,8 +54,8 @@ const BLUE = '#6E93A6';
 const glass: CSSProperties = {
   borderRadius: 18,
   border: `1px solid ${GOLD}55`,
-  background: 'linear-gradient(180deg, #ffffff, #fffdf9)',
-  boxShadow: '0 12px 34px rgba(154,123,58,0.10), inset 0 1px 0 rgba(255,255,255,0.8)',
+  background: 'linear-gradient(180deg, #ffffff, #fbfcfb)',
+  boxShadow: '0 12px 34px rgba(49,60,66,0.08), inset 0 1px 0 rgba(255,255,255,0.8)',
 };
 const eyebrow: CSSProperties = { fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED };
 const display = 'var(--font-brand-display)';
@@ -98,6 +102,7 @@ const TABS = [
   { key: 'kitchen', label: 'Kitchen' },
   { key: 'money', label: 'Money' },
   { key: 'inbox', label: 'Inbox' },
+  { key: 'genome', label: 'Genome' },
 ] as const;
 type TabKey = (typeof TABS)[number]['key'];
 const TAB_KEYS: ReadonlySet<string> = new Set(TABS.map((t) => t.key));
@@ -124,9 +129,9 @@ function TabBar({ active }: { active: TabKey }) {
               borderRadius: 999,
               textDecoration: 'none',
               color: on ? '#fff' : INK,
-              background: on ? INK : '#fffdf9',
+              background: on ? INK : '#fbfcfb',
               border: `1.5px solid ${on ? INK : `${GOLD}66`}`,
-              boxShadow: on ? '0 6px 16px rgba(26,25,24,0.16)' : 'none',
+              boxShadow: on ? '0 6px 16px rgba(49,60,66,0.16)' : 'none',
             }}
           >
             {t.label}
@@ -159,6 +164,13 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
   const parsed = items.some((i) => i.source === 'newsletter');
   const inboxStatus = await getInboxStatus('demo');
   const viewer = await getFamilyViewer();
+  // The family genome — live rows for tenant 'family' when the database is
+  // reachable, the in-repo fictional mirror otherwise. Review read: the
+  // family sees suggested/inferred facts so they can confirm them.
+  const genome =
+    tab === 'genome'
+      ? await getGenomeFactsFor(FAMILY_TENANT, FAMILY_GENOME_FACTS, { includeUnverified: true })
+      : null;
 
   const jar = await cookies();
   const demoMode = jar.get(DEMO_MODE_COOKIE)?.value === '1';
@@ -184,7 +196,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
       <DemoRibbon />
 
       {viewer ? (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', padding: '8px 14px', borderRadius: 999, border: `1px solid ${GOLD}44`, background: '#fffdf9', fontSize: 12.5 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', padding: '8px 14px', borderRadius: 999, border: `1px solid ${GOLD}44`, background: '#fbfcfb', fontSize: 12.5 }}>
           <span style={{ fontFamily: display, fontSize: 16, color: INK }}>{viewer.greeting}</span>
           <span style={{ color: MUTED }}>
             {viewer.isKid
@@ -433,9 +445,69 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
               <p style={{ ...eyebrow, marginTop: 14 }}>the family</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
                 {g.people.map((p) => (
-                  <span key={p.id} style={{ fontSize: 12, border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 10px', background: '#fffdf9' }}>{p.title}</span>
+                  <span key={p.id} style={{ fontSize: 12, border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 10px', background: '#fbfcfb' }}>{p.title}</span>
                 ))}
               </div>
+            </Section>
+          </>
+        )}
+
+        {tab === 'genome' && genome && (
+          <>
+            {/* ── The family genome — one set of facts, every helper reads it ── */}
+            <Section id="genome" title="The family genome" accent={GOLD} empty={false}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span style={{ ...eyebrow, fontSize: 9.5, color: genome.live ? SAGE : MUTED, border: `1px solid ${(genome.live ? SAGE : MUTED)}55`, borderRadius: 999, padding: '3px 9px' }}>
+                  {genome.live ? 'live' : 'mirror'}
+                </span>
+                <p style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.6 }}>
+                  What the household runs on — one set of facts, and every helper on this console reads it.
+                  Change a fact once and everything that reads it follows.
+                  {genome.live ? '' : ' The database is out of reach right now, so this is the read-only sample mirror.'}
+                </p>
+              </div>
+              {(Object.keys(GENOME_SECTION_LABELS) as GenomeSection[]).map((section) => {
+                const facts = genome.facts.filter((f) => f.section === section);
+                if (facts.length === 0) return null;
+                return (
+                  <div key={section} style={{ marginTop: 18 }}>
+                    <p style={eyebrow}>{GENOME_SECTION_LABELS[section]}</p>
+                    {facts.map((f) => (
+                      <div key={f.id} style={{ padding: '10px 0', borderBottom: `1px solid ${GOLD}22` }}>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+                          <span style={{ fontSize: 13.5, fontWeight: 600 }}>{f.label}</span>
+                          {f.verification && f.verification !== 'confirmed' ? (
+                            <span style={{ ...eyebrow, fontSize: 9, color: CORAL }}>{f.verification}</span>
+                          ) : null}
+                        </div>
+                        <div style={{ fontSize: 13, marginTop: 3, lineHeight: 1.55 }}>{f.value}</div>
+                        {f.readBy.length > 0 ? (
+                          <div style={{ fontSize: 10.5, color: MUTED, marginTop: 4 }}>read by {f.readBy.join(' · ')}</div>
+                        ) : null}
+                        {genome.live ? (
+                          <details style={{ marginTop: 6 }}>
+                            <summary style={{ fontSize: 11, color: MUTED, cursor: 'pointer' }}>edit</summary>
+                            <form action={updateGenomeFactFormAction} style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+                              <input type="hidden" name="factId" value={f.id} />
+                              <input
+                                name="value"
+                                defaultValue={f.value}
+                                maxLength={300}
+                                aria-label={`New value for ${f.label}`}
+                                style={{ flex: '1 1 260px', borderRadius: 10, border: `1px solid ${GOLD}44`, background: '#fff', padding: '8px 11px', fontSize: 12.5, color: INK, fontFamily: 'var(--font-brand-body)' }}
+                              />
+                              <button type="submit" style={btn(INK)}>Save</button>
+                            </form>
+                          </details>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
+              <p style={{ fontSize: 11, color: MUTED, marginTop: 14 }}>
+                Sample household — details fictional. Edits land in the genome with a history trail; the mirror in the code never changes.
+              </p>
             </Section>
           </>
         )}

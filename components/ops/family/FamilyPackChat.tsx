@@ -21,10 +21,10 @@ import { DefaultChatTransport, type UIMessage } from 'ai';
  */
 
 const PACK_AGENT = 'pack';
-const GOLD = '#BFA37A';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
-const INK = '#2A2620';
+const INK = '#313c42';
 
 const GREETING =
   "Kia ora — I'm PACK, your dog-training second opinion. Tell me what's tricky with Franklin (or any dog) — jumping on visitors, reacting to bikes on walks, pulling on the lead, recall. I'll build a plan from the trainers who actually know this, cite who said what, and show you both sides where they disagree. Guidance only: anything with biting or aggression, I'll point you to a certified behaviourist.";
@@ -81,9 +81,9 @@ export function FamilyPackChat() {
       className="flex flex-col overflow-hidden rounded-2xl"
       style={{
         border: `1px solid ${GOLD}55`,
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,253,249,0.7))',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.9), rgba(251,252,251,0.7))',
         backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-        boxShadow: '0 16px 44px rgba(191,163,122,0.14), inset 0 1px 0 rgba(255,255,255,0.8)',
+        boxShadow: '0 16px 44px rgba(184,150,79,0.14), inset 0 1px 0 rgba(255,255,255,0.8)',
         minHeight: 440,
       }}
     >
@@ -93,7 +93,7 @@ export function FamilyPackChat() {
         </span>
         <div className="flex-1">
           <p className="text-sm font-semibold" style={{ color: INK }}>PACK · dog training</p>
-          <p className="text-[11px]" style={{ color: '#8a8272' }}>reactivity · jumping · cited · draft-only</p>
+          <p className="text-[11px]" style={{ color: '#68766f' }}>reactivity · jumping · cited · draft-only</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium" style={{ background: `${GOLD}22`, color: INK }}>
           <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: busy ? CORAL : SAGE }} />
@@ -103,7 +103,7 @@ export function FamilyPackChat() {
 
       <div ref={scrollRef} className="flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 py-4" style={{ maxHeight: 440 }}>
         {messages.length === 0 ? (
-          <div className="text-[12.5px] leading-relaxed" style={{ color: '#8a8272' }}>{GREETING}</div>
+          <div className="text-[12.5px] leading-relaxed" style={{ color: '#68766f' }}>{GREETING}</div>
         ) : (
           messages.map((m) => {
             const mine = m.role === 'user';
@@ -133,7 +133,7 @@ export function FamilyPackChat() {
           className="flex-1 rounded-xl px-3 py-2 text-[13px] outline-none"
           style={{ background: 'rgba(255,255,255,0.8)', border: '1px solid rgba(0,0,0,0.08)', color: INK }} />
         <button type="submit" disabled={busy || !input.trim()} className="rounded-xl px-4 py-2 text-[13px] font-medium transition disabled:opacity-40"
-          style={{ background: `linear-gradient(180deg, #c9a878, ${GOLD})`, color: '#fff', boxShadow: `0 4px 14px ${GOLD}66, inset 0 1px 0 rgba(255,255,255,0.35)` }}>
+          style={{ background: `linear-gradient(180deg, #cbac67, ${GOLD})`, color: '#fff', boxShadow: `0 4px 14px ${GOLD}66, inset 0 1px 0 rgba(255,255,255,0.35)` }}>
           Ask
         </button>
       </form>

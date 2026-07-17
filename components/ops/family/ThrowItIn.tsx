@@ -13,9 +13,9 @@ import { InkMic } from '@/app/customers/family/ops/visuals/ink';
  * the app's approved en-NZ transcription (no new third-party provider).
  */
 
-const INK = '#1A1918';
-const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const MUTED = '#68766f';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
 
@@ -97,7 +97,7 @@ export function ThrowItIn() {
       }
       setTimeout(() => { setText(''); setChannel('text'); }, 0);
     }}
-      style={{ borderRadius: 16, border: `1px solid ${GOLD}44`, background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: '10px 12px', boxShadow: '0 8px 24px rgba(154,123,58,0.08)' }}>
+      style={{ borderRadius: 16, border: `1px solid ${GOLD}44`, background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: '10px 12px', boxShadow: '0 8px 24px rgba(49,60,66,0.08)' }}>
       <input type="hidden" name="from" value={from} />
       <input type="hidden" name="channel" value={channel} />
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>

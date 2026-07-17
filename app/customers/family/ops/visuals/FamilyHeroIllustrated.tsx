@@ -7,7 +7,7 @@ import { SkyBar } from './ambient';
  * direction B). Replaces the old WebGL orb hero (no 3D on family/ops). A soft
  * time-of-day sky, a paper-grain wash, and a warm line-art domestic still-life:
  * a home, a wee whānau, the day drifting past. Ink strokes, gold accents,
- * champagne canon. Motion is ambient and respects prefers-reduced-motion.
+ * pearl canon. Motion is ambient and respects prefers-reduced-motion.
  *
  * This is a placeholder illustration — the API (fills the hero panel behind the
  * text) is stable, so a commissioned NZ illustrator or a Vessel Studio line-art
@@ -19,7 +19,7 @@ const GOLD = '#b8964f';
 
 export default function FamilyHeroIllustrated() {
   return (
-    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(120% 90% at 62% 20%, #ffffff, #FBFAF6 72%)' }}>
+    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(120% 90% at 62% 20%, #ffffff, #fbfcfb 72%)' }}>
       {/* time-of-day sky, tucked to the top */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 120, opacity: 0.9 }}>
         <SkyBar height={120} radius={0} />
