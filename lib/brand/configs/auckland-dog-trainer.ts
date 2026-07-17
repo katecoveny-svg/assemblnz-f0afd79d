@@ -14,12 +14,13 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   slug: 'auckland-dog-trainer',
   displayName: 'Harbourside Dog Training',
   logo: {
-    // Sam's real ADT lockup (pink, dog inside the D) from aucklanddogtrainer.com.
-    src: '/brand/auckland-dog-trainer/logo-adt-pink.png',
-    alt: 'ADT — Harbourside Dog Training',
-    wordmark: true,
+    // Fictional cast (locked 2026-07-10): no real-world lockup may surface.
+    // A non-image src renders the monogram chip + display name in OpsShell.
+    src: 'monogram',
+    alt: 'Harbourside Dog Training',
+    wordmark: false,
   },
-  siteUrl: 'https://aucklanddogtrainer.com',
+  siteUrl: 'https://www.assembl.co.nz/living-site/dog-training',
   mascot: {
     src: '/brand/auckland-dog-trainer/heroes/studio-paw.webp',
     alt: 'Dog giving paw — calm, method-first',

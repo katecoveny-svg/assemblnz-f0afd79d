@@ -111,7 +111,7 @@ export default function OpsOverview() {
                 }}
               >
                 the native partner slot, earning in the everyday wait
-                <span style={{ color: '#BFA37A' }}>.</span>
+                <span style={{ color: '#b8964f' }}>.</span>
               </p>
               <p
                 style={{

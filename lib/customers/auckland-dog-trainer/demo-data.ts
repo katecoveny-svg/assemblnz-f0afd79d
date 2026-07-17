@@ -1,6 +1,6 @@
 /**
  * Sam OS — extended command-centre demo data.
- * SAMPLE only. Offers track aucklanddogtrainer.com + pitch brief pricing.
+ * SAMPLE only. Offers are fictional demo pricing (Harbourside Dog Training).
  */
 
 export type Urgency = 'routine' | 'soon' | 'urgent' | 'safety';

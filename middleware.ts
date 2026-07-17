@@ -268,10 +268,10 @@ const DEMO_401_HTML = `<!doctype html>
   .wm { font-family: 'Cormorant Garamond', serif; font-weight: 500;
         font-size: clamp(3rem, 8vw, 4.5rem); letter-spacing: 0.02em;
         text-transform: lowercase; margin: 0; }
-  .wm span { color: #BFA37A; }
+  .wm span { color: #b8964f; }
   p { font-size: 0.95rem; letter-spacing: 0.04em; color: rgba(245,241,232,.75);
       margin: 1.25rem 2rem 0; line-height: 1.7; }
-  a { color: #BFA37A; text-decoration: none; }
+  a { color: #b8964f; text-decoration: none; }
 </style>
 </head>
 <body>

@@ -94,7 +94,7 @@ export default function OpsOverview() {
                   margin: 0,
                 }}
               >
-                every wait, earning<span style={{ color: '#BFA37A' }}>.</span>
+                every wait, earning<span style={{ color: '#b8964f' }}>.</span>
               </p>
               <p
                 style={{

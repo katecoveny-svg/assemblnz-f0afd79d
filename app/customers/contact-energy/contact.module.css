@@ -3,7 +3,7 @@
  *
  * Contact's verified brand is primary: red #E62A32 / #D91C24, Montserrat
  * (900 headings), paper #F9F8F8, pill CTAs. The assembl earn layer carries
- * champagne gold #BFA37A ONLY — gold marks money moments, red marks Contact.
+ * champagne gold #b8964f ONLY — gold marks money moments, red marks Contact.
  */
 
 .root {
@@ -14,7 +14,7 @@
   --ce-paper: #f9f8f8;
   --ce-soft: #cdcaca;
   --ce-line: #e8e5e2;
-  --ce-gold: #bfa37a;
+  --ce-gold: #b8964f;
   --ce-gold-deep: #8a6b4e;
   --ce-gold-tint: #f6f1e7;
   --ce-body: var(--contact-body), Montserrat, system-ui, sans-serif;

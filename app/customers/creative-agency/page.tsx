@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 };
 
 const PAPER = "#FBFAF6";
-const INK = "#1A1918";
+const INK = "#313c42";
 const GREY = "#5A5850";
-const GOLD = "#BFA37A";
+const GOLD = "#b8964f";
 const GOLD_DEEP = "#A88A5E";
 const SAND = "#EFEADC";
 const CLOUD = "#FFFFFF";

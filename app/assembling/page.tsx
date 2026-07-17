@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
 };
 
-const MASCOT = '/dash/mascot-dog.png';
+const MASCOT = '/assembling/mascot-dog.png';
 
 export default function DashPage() {
   return (

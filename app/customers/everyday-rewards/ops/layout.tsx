@@ -69,7 +69,7 @@ export default function EverydayRewardsOpsLayout({ children }: { children: React
             }}
           />
           <OsMotionField
-            accent={brand?.colours.canary ?? '#BFA37A'}
+            accent={brand?.colours.canary ?? '#b8964f'}
             secondary={brand?.colours.accent ?? '#E87722'}
             intensity="soft"
           />

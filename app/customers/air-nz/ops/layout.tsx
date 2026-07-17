@@ -75,7 +75,7 @@ export default function AirNzOpsLayout({ children }: { children: ReactNode }) {
             }}
           />
           <OsMotionField
-            accent={brand?.colours.canary ?? '#BFA37A'}
+            accent={brand?.colours.canary ?? '#b8964f'}
             secondary={brand?.colours.accent ?? '#0B4A56'}
             intensity="soft"
           />

@@ -11,8 +11,8 @@ import type { CSSProperties } from 'react';
  * Vessel Studio line-art pass — swap the paths, keep the API.
  */
 
-const INK = '#1A1918';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const GOLD = '#b8964f';
 
 type IconProps = { size?: number; stroke?: string; fill?: string; style?: CSSProperties; title?: string };
 

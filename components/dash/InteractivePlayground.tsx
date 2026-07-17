@@ -12,7 +12,7 @@
 
 import { useEffect, useRef } from 'react';
 
-const MASCOT = '/dash/mascot-dog.png';
+const MASCOT = '/assembling/mascot-dog.png';
 
 interface Coin {
   el: HTMLDivElement;

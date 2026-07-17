@@ -12,9 +12,9 @@
 
 export const palette = {
   /** warm paper white — the background of every surface */
-  paper: '#FBFAF6',
+  paper: '#ffffff',
   /** deeper paper — secondary background / subtle panels */
-  paperDeep: '#F7F5EE',
+  paperDeep: '#f7f9f8',
   /** particulate silver — light dots and strokes */
   silver: '#D8D6CE',
   /** particulate warm-grey silver — denser dots */
@@ -28,17 +28,17 @@ export const palette = {
   /** soft gold — secondary flecks and the constellation lines */
   goldSoft: '#D9B87A',
   /** ink text */
-  ink: '#1A1918',
+  ink: '#313c42',
   /** warm champagne gold accent — the tiny period after "advantage." and CTA emphasis */
-  accentGold: '#BFA37A',
+  accentGold: '#b8964f',
   /** steely navy — cool structural accent inside the art */
   navy: '#4A6B8C',
   /** bronze / tan — deep warm accent */
   bronze: '#8A6B4E',
   /** warm grey body copy */
-  bodyGrey: '#5A5850',
+  bodyGrey: '#68766f',
   /** hairline borders on paper (aligned with PR #644 chrome) */
-  hairline: '#E7E4DA',
+  hairline: '#e8ecea',
 } as const;
 
 export const typography = {
