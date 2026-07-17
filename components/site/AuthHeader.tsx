@@ -24,8 +24,8 @@ export function AuthHeader() {
           <Link href="/pricing">Pricing</Link>
           <Link href="/about">About</Link>
         </nav>
-        <Link href="/living-site" className={styles.cta}>
-          See a living site
+        <Link href="/genome" className={styles.cta}>
+          Try the live Genome
         </Link>
       </div>
     </header>
