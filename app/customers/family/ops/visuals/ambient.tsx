@@ -14,7 +14,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
  *   their next event is imminent (within the hour).
  */
 
-const GOLD = '#BFA37A';
+const GOLD = '#b8964f';
 
 // Time-of-day palettes — paper-warm, champagne canon, never canary.
 type Sky = { a: string; b: string; label: string };

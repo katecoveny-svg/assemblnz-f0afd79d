@@ -72,7 +72,7 @@ export default function ContactEnergyLayout({ children }: { children: ReactNode 
         }}
       />
       <OsMotionField
-        accent={brand?.colours.canary ?? '#BFA37A'}
+        accent={brand?.colours.canary ?? '#b8964f'}
         secondary={brand?.colours.accent ?? '#C8102E'}
         intensity="soft"
         className="z-[0]"

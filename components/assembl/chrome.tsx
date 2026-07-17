@@ -12,10 +12,11 @@ import styles from './chrome.module.css';
  * disabled wholesale under prefers-reduced-motion.
  */
 
-export const ASSEMBL_PAPER = '#FBFAF6';
-export const ASSEMBL_INK = '#1A1918';
-export const ASSEMBL_WARM_GREY = '#5A5850';
-export const ASSEMBL_GOLD = '#BFA37A';
+// Pearl canon (2026-07-17): the demo chrome reads the homepage palette.
+export const ASSEMBL_PAPER = '#ffffff';
+export const ASSEMBL_INK = '#313c42';
+export const ASSEMBL_WARM_GREY = '#68766f';
+export const ASSEMBL_GOLD = '#b8964f';
 
 /** The particulate mountain-and-wave landscape, as a decorative backdrop. */
 export function ParticulateBackdrop({ className = '' }: { className?: string }) {

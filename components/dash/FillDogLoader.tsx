@@ -8,7 +8,7 @@
  * looping demo. Honours prefers-reduced-motion (holds a static fill).
  * Ref: HANDOFF.md §5 + "Assembling — Birdie Direction" / "Assembling — Interactive".
  */
-const SRC = '/dash/mascot-dog.png';
+const SRC = '/assembling/mascot-dog.png';
 
 export function FillDogLoader({
   progress,

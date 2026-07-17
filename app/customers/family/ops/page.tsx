@@ -40,9 +40,9 @@ export const dynamic = 'force-dynamic';
  */
 
 const CREAM = '#FBFAF6';
-const INK = '#1A1918';
+const INK = '#313c42';
 const MUTED = '#8A8272';
-const GOLD = '#BFA37A';
+const GOLD = '#b8964f';
 const CORAL = '#E08A6B';
 const SAGE = '#7A8B6F';
 const BLUE = '#6E93A6';
@@ -169,7 +169,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
       role: String((p.detail as { role?: string })?.role || 'whānau'),
       kind: 'parent' as const,
       details: ((p.detail as { details?: string[] })?.details ?? []),
-      accent: '#BFA37A',
+      accent: '#b8964f',
     }));
   const people: Person[] = [...(demoMode ? WHANAU_DEMO : WHANAU), ...added];
   const custody = custodyThisWeek();
@@ -390,9 +390,8 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                 <div style={{ ...glass, padding: 16 }}>
                   <p style={{ ...eyebrow, color: GOLD }}>what PACK is for</p>
                   <p style={{ fontSize: 13, color: INK, lineHeight: 1.6, marginTop: 8 }}>
-                    A calm, cited second opinion that blends the world’s most-trusted trainers —
-                    <strong> Mark Vette</strong> (NZ), Will Atherton, Sophia Yin, Cesar Millan and more.
-                    Built for the two hard ones: <strong>reactivity</strong> and <strong>jumping</strong>.
+                    A calm, cited second opinion that blends widely trusted, published training
+                    methods. Built for the two hard ones: <strong>reactivity</strong> and <strong>jumping</strong>.
                   </p>
                   <ul style={{ margin: '10px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 5 }}>
                     <li style={{ fontSize: 12.5, color: MUTED }}>Week-by-week plans, measured in weeks not days.</li>

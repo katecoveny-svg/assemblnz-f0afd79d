@@ -22,8 +22,8 @@
   --anz-amber: #e6a200;
   --anz-red: #d0342c;
   /* assembl-side lockup tokens */
-  --a-canary: #BFA37A;
-  --a-cream: #fff7ec;
+  --a-canary: #b8964f;
+  --a-cream: #ffffff;
   --a-charcoal: #3a3832;
 
   --anz-body: var(--airnz-body), 'Inter Tight', system-ui, sans-serif;

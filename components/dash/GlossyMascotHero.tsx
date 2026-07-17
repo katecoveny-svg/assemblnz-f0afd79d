@@ -67,11 +67,11 @@ export function GlossyMascotHero() {
           loop
           muted
           playsInline
-          poster="/dash/dash-mascot-poster.jpg"
+          poster="/assembling/dash-mascot-poster.jpg"
           aria-label="Assembling — a glossy white and canary-yellow dachshund mascot, slowly turning"
         >
-          <source src="/dash/dash-mascot.webm" type="video/webm" />
-          <source src="/dash/dash-mascot.mp4" type="video/mp4" />
+          <source src="/assembling/dash-mascot.webm" type="video/webm" />
+          <source src="/assembling/dash-mascot.mp4" type="video/mp4" />
         </video>
       </div>
 

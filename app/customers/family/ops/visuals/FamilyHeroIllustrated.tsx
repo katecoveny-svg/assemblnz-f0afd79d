@@ -14,8 +14,8 @@ import { SkyBar } from './ambient';
  * pass can drop straight in.
  */
 
-const INK = '#1A1918';
-const GOLD = '#BFA37A';
+const INK = '#313c42';
+const GOLD = '#b8964f';
 
 export default function FamilyHeroIllustrated() {
   return (

@@ -41,7 +41,7 @@ export const SOCIAL_PRESETS: Record<SocialPilot, SocialPreset> = {
     ink: '#1B2A4A',
     surface: '#FFFCFB',
     muted: '#6B7389',
-    handle: '@aucklanddogtrainer',
+    handle: '@harboursidedogtraining',
     platforms: [
       { id: 'instagram', label: 'Instagram', connected: true },
       { id: 'facebook', label: 'Facebook', connected: true },

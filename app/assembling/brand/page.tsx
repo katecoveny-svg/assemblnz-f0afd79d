@@ -96,7 +96,7 @@ export default function BrandPage() {
               </div>
             </div>
             <img
-              src="/dash/mascot-dog.png"
+              src="/assembling/mascot-dog.png"
               alt="Assembling mascot"
               className="bd-floaty"
               style={{
