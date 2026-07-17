@@ -16,24 +16,26 @@ export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = 'image/png';
 export const ogAlt = 'assembl SPARK share card';
 
-const CREAM = '#FAF7F2';
-const CREAM2 = '#EFE3CE'; // ceramic disc tone, shows against the cream field
-const POUNAMU = '#2B6B57';
-const POUNAMU_DARK = '#103F35';
-const INK = '#23211F';
-const TAUPE = '#7C7268';
-const LINE = '#DED7CD';
-const AMBER = '#D9A85A';
+const CREAM = '#ffffff';
+const CREAM2 = '#f3f5f3'; // ceramic disc tone, shows against the pearl field
+const POUNAMU = '#3f7373';
+const POUNAMU_DARK = '#2e5a58';
+const INK = '#313c42';
+const TAUPE = '#68766f';
+const LINE = '#e8ecea';
+const AMBER = '#b8964f';
 
 // One accent per category — the same map the on-site tool cover uses, so the
 // share card's vessel mark matches the card a visitor sees on /hapai.
+// Pearl canon: one restrained accent — teal for every category, gold for
+// the adoption tier. The old six-colour kete map is retired.
 const CATEGORY_ACCENT = {
-  adoption: '#C9A24B',
-  operations: '#2B6B57',
-  marketing: '#AC5838',
-  record: '#5B4FA0',
-  lifestyle: '#D4842A',
-  education: '#3B7CB5',
+  adoption: '#b8964f',
+  operations: '#3f7373',
+  marketing: '#3f7373',
+  record: '#3f7373',
+  lifestyle: '#3f7373',
+  education: '#3f7373',
 } as const;
 
 const categoryLabels = {
@@ -133,7 +135,7 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
             position: 'absolute',
             inset: 0,
             background:
-              'radial-gradient(circle at 76% 27%, rgba(43,107,87,0.16), transparent 34%), radial-gradient(circle at 86% 82%, rgba(217,168,90,0.18), transparent 30%)',
+              'radial-gradient(circle at 76% 27%, rgba(43,107,87,0.16), transparent 34%), radial-gradient(circle at 86% 82%, rgba(184, 150, 79,0.18), transparent 30%)',
           }}
         />
         {/* soft accent ring behind the mark */}

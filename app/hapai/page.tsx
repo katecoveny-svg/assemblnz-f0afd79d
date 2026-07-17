@@ -155,8 +155,8 @@ export default function HapaiPage() {
                 className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FFF7EC]/8 via-transparent to-[#FFF7EC]/46" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#FFF7EC]/88 p-4 backdrop-blur">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff]/8 via-transparent to-[#ffffff]/46" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#ffffff]/88 p-4 backdrop-blur">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   public tool library
                 </p>
@@ -185,7 +185,7 @@ export default function HapaiPage() {
                 href={tool.href}
                 className="glass-card glass-card-hover group flex flex-col p-6"
               >
-                <h3 className="font-display text-2xl font-light leading-tight text-[#23211F]">
+                <h3 className="font-display text-2xl font-light leading-tight text-[#313c42]">
                   {tool.name}
                 </h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -212,7 +212,7 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <section className="border-b border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] px-5 py-16 md:px-10 md:py-24">
+      <section className="border-b border-[rgba(35,33,31,0.10)] bg-[#f3f5f3] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
@@ -273,14 +273,14 @@ export default function HapaiPage() {
                     <span
                       className={
                         tool.status === 'live'
-                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FBF3DF] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]'
+                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#313c42]'
                           : 'rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]'
                       }
                     >
                       {tool.status}
                     </span>
                   </div>
-                  <h3 className="mt-5 font-display text-[2rem] font-light leading-none text-[#23211F]">
+                  <h3 className="mt-5 font-display text-[2rem] font-light leading-none text-[#313c42]">
                     {tool.name}
                   </h3>
                   <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -290,7 +290,7 @@ export default function HapaiPage() {
                     <div className="mt-auto pt-7">
                       <Link
                         href={tool.href}
-                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(58,56,50,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(58,56,50,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(58,56,50,0.14)]"
+                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(58,56,50,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#313c42] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(58,56,50,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(58,56,50,0.14)]"
                       >
                         Open tool <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
@@ -329,7 +329,7 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <section id="workflow-request" className="border-t border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] px-5 py-16 md:px-10 md:py-24">
+      <section id="workflow-request" className="border-t border-[rgba(35,33,31,0.10)] bg-[#f3f5f3] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
           <PainfulWorkflowCapture />
         </div>

@@ -14,12 +14,12 @@ export const dashOgContentType = 'image/png';
 export const dashOgAlt = 'assembl SPARK — Dash share card';
 
 // Locked Dash palette.
-const CREAM = '#FFF7EC';
+const CREAM = '#ffffff';
 const PAPER = '#FFFFFF';
-const INK = '#3A3832'; // charcoal
+const INK = '#313c42'; // charcoal
 const BODY = '#56544B';
-const CHAMPAGNE = '#BFA37A';
-const GOLD = '#C79B1F';
+const CHAMPAGNE = '#b8964f';
+const GOLD = '#b8964f';
 const MUTED = '#8A8678';
 const HAIRLINE = '#EFEADC';
 

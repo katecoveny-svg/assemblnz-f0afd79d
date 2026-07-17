@@ -239,7 +239,7 @@ function ResultCard({
             <div
               key={i}
               className={`flex-1 h-[2px] rounded-sm ${
-                i <= tierIndex ? "bg-[#D9A85A]/60" : "bg-transparent"
+                i <= tierIndex ? "bg-[#b8964f]/60" : "bg-transparent"
               }`}
             />
           ))}

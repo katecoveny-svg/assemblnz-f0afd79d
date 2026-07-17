@@ -24,8 +24,8 @@ export async function GET(
       scope: tool.href,
       display: "standalone",
       display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
-      background_color: "#FFF7EC",
-      theme_color: "#3A3832",
+      background_color: "#ffffff",
+      theme_color: "#313c42",
       categories: ["productivity", "business", "education"],
       icons: [
         {

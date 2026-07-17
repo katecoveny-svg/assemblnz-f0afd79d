@@ -106,17 +106,17 @@ export function TurfMaintenanceLog() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(106,138,111,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(58,56,50,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(106,138,111,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(58,56,50,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#313c42] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1120px]">
         <Link
           href="/hapai"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> SPARK library
         </Link>
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#313c42]">
               SPARK · turf maintenance log
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3.2rem,7vw,6rem)] font-light leading-[0.9]">
@@ -128,7 +128,7 @@ export function TurfMaintenanceLog() {
               chemical sprays — log in 30 seconds, file with confidence.
             </p>
             <div className="mt-8 rounded-[14px] border border-[rgba(58,56,50,0.22)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
-              <p className="font-medium text-[#23211F]">
+              <p className="font-medium text-[#313c42]">
                 Compliance posture
               </p>
               <p className="mt-2">
@@ -240,7 +240,7 @@ export function TurfMaintenanceLog() {
             <section className="mt-7">
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <h2 className="font-display text-2xl font-normal text-[#23211F]">
+                  <h2 className="font-display text-2xl font-normal text-[#313c42]">
                     Chemical applications
                   </h2>
                   <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
@@ -271,7 +271,7 @@ export function TurfMaintenanceLog() {
                 {chemicals.map((row) => (
                   <div
                     key={row.id}
-                    className="grid gap-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] p-3 md:grid-cols-2"
+                    className="grid gap-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#f7f9f8] p-3 md:grid-cols-2"
                   >
                     <input
                       value={row.product}
@@ -348,7 +348,7 @@ export function TurfMaintenanceLog() {
             </section>
 
             <section className="mt-7">
-              <h2 className="font-display text-2xl font-normal text-[#23211F]">
+              <h2 className="font-display text-2xl font-normal text-[#313c42]">
                 Hazard inspection
               </h2>
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
@@ -400,7 +400,7 @@ export function TurfMaintenanceLog() {
               type="button"
               disabled={!canSubmit}
               onClick={submit}
-              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#3A3832] px-6 text-sm font-medium text-white transition hover:bg-[#245746] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
+              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#313c42] px-6 text-sm font-medium text-white transition hover:bg-[#2c5757] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
             >
               {submitting ? "Saving record..." : "Create turf maintenance record"}
             </button>
@@ -412,7 +412,7 @@ export function TurfMaintenanceLog() {
 }
 
 const inputClass =
-  "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 text-sm text-[#23211F] outline-none transition focus:border-[#3A3832] focus:bg-white";
+  "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#f7f9f8] px-3 text-sm text-[#313c42] outline-none transition focus:border-[#313c42] focus:bg-white";
 
 function Field({
   label,
@@ -441,7 +441,7 @@ function CheckBox({
   onChange: (value: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] px-3 py-2 text-sm">
+    <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#f7f9f8] px-3 py-2 text-sm">
       <input
         type="checkbox"
         checked={checked}

@@ -1,11 +1,11 @@
 /**
- * assembl — champagne-gold brand design system (DIRECTION-LOCKED-2026-07-01)
- * Palette: champagne gold #BFA37A · charcoal #3A3832 · body #56544B · cream #FFF7EC
- *          paper white #FFFFFF · hairline #EFEADC · gold eyebrows #BFA37A
+ * assembl — pearl canon design system (2026-07-17: legacy tokens remapped)
+ * Palette: gold #b8964f · ink #313c42 · body #68766f · pearl white #ffffff
+ *          teal accent #3f7373 · hairline #e8ecea · gold eyebrows #b8964f
  * Type: Cormorant Garamond (display/wordmark/headlines) + Lato (body/UI) +
  *       Space Mono (labels). Lowercase assembl wordmark. (dash brand = Lato.)
  * Light theme only.
- * Updated: 2026-07-03 — bright-yellow accent retired sitewide; champagne gold #BFA37A is the accent
+ * Updated: 2026-07-17 — warm cream/champagne layer remapped to the pearl canon
  */
 
 @tailwind base;
@@ -22,55 +22,59 @@
     --font-lato: var(--font-body);
     --font-space-mono: var(--font-mono);
 
-    --background: 35 100% 96%;          /* cream #FFF7EC */
-    --foreground: 45 7% 21%;            /* charcoal #3A3832 */
+    --background: 0 0% 100%;            /* pearl white */
+    --foreground: 207 10% 23%;          /* ink #313c42 */
     --card: 0 0% 100%;                  /* paper white */
-    --card-foreground: 45 7% 21%;
+    --card-foreground: 207 10% 23%;
     --popover: 0 0% 100%;
-    --popover-foreground: 45 7% 21%;
-    --primary: 45 7% 21%;              /* charcoal — interactive ink */
+    --popover-foreground: 207 10% 23%;
+    --primary: 207 10% 23%;            /* ink — interactive */
     --primary-foreground: 0 0% 100%;
-    --secondary: 44 37% 90%;           /* hairline #EFEADC */
-    --secondary-foreground: 45 7% 21%;
-    --muted: 44 37% 90%;
-    --muted-foreground: 49 7% 32%;     /* body #56544B */
-    --accent: 36 35% 61%;              /* champagne gold #BFA37A — highlight/CTA pop */
-    --accent-foreground: 45 7% 21%;    /* charcoal sits ON gold, never white */
+    --secondary: 150 8% 92%;           /* hairline #e8ecea */
+    --secondary-foreground: 207 10% 23%;
+    --muted: 150 8% 92%;
+    --muted-foreground: 150 6% 44%;    /* body #68766f */
+    --accent: 41 43% 52%;              /* gold #b8964f — highlight/CTA pop */
+    --accent-foreground: 207 10% 23%;  /* ink sits ON gold, never white */
     --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 44 37% 90%;              /* hairline #EFEADC */
-    --input: 44 37% 90%;
-    --ring: 45 7% 21%;                 /* charcoal focus ring (gold too pale to ring) */
+    --border: 150 8% 92%;              /* hairline #e8ecea */
+    --input: 150 8% 92%;
+    --ring: 180 30% 35%;               /* teal focus ring */
     --radius: 24px;
 
-    --assembl-paper: #FFF7EC;           /* base canvas — cream */
-    --assembl-mist: #FFF7EC;
+    /* PEARL CANON (2026-07-17): the legacy --assembl-* layer now maps onto
+       the homepage palette — teal + gold on white — so every surface still
+       reading these tokens (the free tools, the warm interior cohort) lands
+       on the one canon without per-page rewrites. */
+    --assembl-paper: #ffffff;           /* base canvas — pearl white */
+    --assembl-mist: #f7f9f8;
     --assembl-cloud: #FFFFFF;           /* cards — paper white */
-    --assembl-cloud-legacy: #EFEADC;
-    --assembl-sand: #EFEADC;            /* hairline / dividers */
-    --assembl-taupe: #EFEADC;
-    --assembl-taupe-deep: #3A3832;
+    --assembl-cloud-legacy: #e8ecea;
+    --assembl-sand: #e8ecea;            /* hairline / dividers */
+    --assembl-taupe: #e8ecea;
+    --assembl-taupe-deep: #313c42;
 
-    /* CHAMPAGNE GOLD — brand pop (CTA fills, highlights, underlines). Charcoal text on top. */
-    --assembl-gold: #BFA37A;
-    --assembl-gold-soft: #EDE3CB;     /* pale wash */
-    --assembl-gold-deep: #A88A5E;     /* hover on gold fills */
+    /* GOLD — brand pop (CTA fills, highlights, underlines). Ink text on top. */
+    --assembl-gold: #b8964f;
+    --assembl-gold-soft: #f2ecdd;     /* pale wash */
+    --assembl-gold-deep: #9c7f3f;     /* hover on gold fills */
 
-    /* CHARCOAL — primary interactive ink. The former pounamu tokens now map here
-       so every focus ring, link, and solid CTA inherits the new ink in one move. */
-    --assembl-pounamu: #3A3832;         /* alias → charcoal ink */
-    --assembl-pounamu-deep: #23211F;    /* hover, deep accents */
-    --assembl-pounamu-soft: #D9D3C5;    /* subtle warm wash (was sage tint) */
-    --assembl-pounamu-paper: #FBF3DF;   /* very pale gold tint for bg */
-    --assembl-sage-mist: #3A3832;       /* alias — kept for backwards compat */
+    /* MING TEAL — primary interactive accent. The former pounamu tokens map
+       here so every focus ring, link, and solid CTA inherits the one accent. */
+    --assembl-pounamu: #3f7373;         /* alias → teal accent */
+    --assembl-pounamu-deep: #2c5757;    /* hover, deep accents */
+    --assembl-pounamu-soft: #dbe7e7;    /* subtle teal wash */
+    --assembl-pounamu-paper: #eef4f4;   /* very pale teal tint for bg */
+    --assembl-sage-mist: #3f7373;       /* alias — kept for backwards compat */
 
-    /* GOLD — eyebrows, hairlines, chapter numerals (readable gold-on-cream) */
-    --assembl-gold-thread: #BFA37A;     /* gold eyebrows */
-    --assembl-soft-gold: #BFA37A;       /* alias — kept for backwards compat */
+    /* GOLD — eyebrows, hairlines, chapter numerals (readable gold-on-white) */
+    --assembl-gold-thread: #b8964f;     /* gold eyebrows */
+    --assembl-soft-gold: #b8964f;       /* alias — kept for backwards compat */
 
-    --text-primary: #3A3832;            /* charcoal — headings */
-    --text-secondary: #56544B;          /* body muted */
-    --text-body: #56544B;
+    --text-primary: #313c42;            /* ink — headings */
+    --text-secondary: #68766f;          /* body muted */
+    --text-body: #68766f;
 
     --shadow-soft: 0 8px 30px rgba(35, 33, 31, 0.08);
     --shadow-card: 0 4px 20px rgba(35, 33, 31, 0.06);
@@ -242,8 +246,8 @@
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 48%),
       radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.45), transparent 38%),
-      linear-gradient(135deg, #BFA37A 0%, #C8A876 52%, #A88A5E 100%);
-    color: #3A3832;
+      linear-gradient(135deg, #b8964f 0%, #c2a35e 52%, #9c7f3f 100%);
+    color: #313c42;
     border: 1px solid rgba(58, 56, 50, 0.14);
     border-radius: 999px;
     font-family: var(--font-body), 'Lato', sans-serif;
@@ -313,9 +317,9 @@
      marketplace-direction surfaces, distinct from the champagne-gold .cta-primary. */
   .cta-charcoal {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:-translate-y-0.5;
-    background: #3A3832;
-    color: #FFF7EC;
-    border: 1px solid #3A3832;
+    background: #313c42;
+    color: #ffffff;
+    border: 1px solid #313c42;
     border-radius: 999px;
     font-family: var(--font-body), 'Lato', sans-serif;
     font-weight: 600;
@@ -346,7 +350,7 @@
      (Legacy class name kept so existing markup picks up the new look.) */
   .badge-sage {
     background: rgba(191, 163, 122, 0.18);
-    color: #3A3832;
+    color: #313c42;
     border: 1px solid rgba(58, 56, 50, 0.18);
     border-radius: 16px;
     padding: 4px 12px;
@@ -358,9 +362,9 @@
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
-      #23211F 0%,
-      #3A3832 55%,
-      #BFA37A 100%
+      #313c42 0%,
+      #3f7373 55%,
+      #b8964f 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -373,9 +377,9 @@
   }
 
   .paper-noise {
-    background-color: #FFF7EC;
+    background-color: #ffffff;
     background-image:
-      linear-gradient(rgba(255, 247, 236, 0.96), rgba(255, 247, 236, 0.96)),
+      linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
       url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   }
 }
@@ -401,7 +405,7 @@
 
 @media print {
   html, body {
-    background: #FFF7EC !important;
+    background: #ffffff !important;
     margin: 0 !important;
     padding: 0 !important;
     -webkit-print-color-adjust: exact;

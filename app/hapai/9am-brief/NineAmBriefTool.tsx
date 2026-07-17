@@ -103,18 +103,18 @@ export function NineAmBriefTool() {
 <title>The Dawn — evidence pack</title>
 <style>
   :root { color-scheme: light; }
-  body { margin: 0; background: #FFF7EC; color: #23211F; font: 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  body { margin: 0; background: #ffffff; color: #313c42; font: 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 40px; }
-  .mark { font-weight: 600; letter-spacing: -0.01em; color: #23211F; font-size: 20px; }
-  .eyebrow { font: 600 11px/1 ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #3A3832; }
-  h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 10px 0 4px; color: #23211F; }
+  .mark { font-weight: 600; letter-spacing: -0.01em; color: #313c42; font-size: 20px; }
+  .eyebrow { font: 600 11px/1 ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #313c42; }
+  h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 10px 0 4px; color: #313c42; }
   .meta { color: #6B6661; font-size: 13px; margin-bottom: 28px; }
   .rule { border: 0; border-top: 1px solid rgba(35,33,31,0.12); margin: 24px 0; }
-  .brief h2 { font-size: 18px; color: #3A3832; margin: 22px 0 8px; }
+  .brief h2 { font-size: 18px; color: #313c42; margin: 22px 0 8px; }
   .brief ul { margin: 0 0 12px; padding-left: 20px; }
   .brief p { margin: 0 0 12px; }
-  .foot { margin-top: 32px; padding: 16px 18px; background: #23211F; color: #FFF7EC; border-radius: 10px; font-size: 13px; line-height: 1.5; }
-  .foot b { color: #D9A85A; }
+  .foot { margin-top: 32px; padding: 16px 18px; background: #313c42; color: #ffffff; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+  .foot b { color: #b8964f; }
   @media print { body { background: #fff; } .wrap { padding: 0; } }
 </style></head>
 <body><div class="wrap">
@@ -189,11 +189,11 @@ export function NineAmBriefTool() {
       }))}
       aside={
         <>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">free vs connected</p>
-          <p className="mt-3 font-display text-4xl font-light leading-none text-[#FFF7EC]">
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#b8964f]">free vs connected</p>
+          <p className="mt-3 font-display text-4xl font-light leading-none text-[#ffffff]">
             The connected version reads your day for you.
           </p>
-          <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FFF7EC]/82">
+          <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#ffffff]/82">
             <li className="flex gap-3"><CalendarCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Connect your calendar, inbox, and the school portal. It reads them. You don’t have to.</li>
             <li className="flex gap-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> The free version only drafts — nothing gets sent without you.</li>
             <li className="flex gap-3"><Mic className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Talk into it like a voice note. Live voice is coming.</li>
@@ -204,17 +204,17 @@ export function NineAmBriefTool() {
         <div className="grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap gap-3">
-              <button type="button" onClick={loadFounderSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FFF7EC] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#3A3832] hover:bg-white">
+              <button type="button" onClick={loadFounderSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
                 Load founder day
               </button>
-              <button type="button" onClick={loadSchoolSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FFF7EC] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#3A3832] hover:bg-white">
+              <button type="button" onClick={loadSchoolSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
                 Load school bag brief
               </button>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="md:col-span-2">
                 <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Upload a timetable, note, or screenshot</span>
-                <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(58,56,50,0.32)] bg-[#F7F4EE] p-4">
+                <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(58,56,50,0.32)] bg-[#f7f9f8] p-4">
                   <input
                     type="file"
                     accept="image/*"
@@ -224,11 +224,11 @@ export function NineAmBriefTool() {
                   />
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-4">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3A3832] text-[#FFF7EC]">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#313c42] text-[#ffffff]">
                         <Upload className="h-5 w-5" aria-hidden />
                       </span>
                       <div>
-                        <p className="font-medium text-[#23211F]">
+                        <p className="font-medium text-[#313c42]">
                           {imageName || "Drop in a school notice, sports draw, whiteboard, or inbox screenshot."}
                         </p>
                         <p className="mt-1 text-sm text-[#6B6661]">
@@ -264,7 +264,7 @@ export function NineAmBriefTool() {
                 <input
                   value={today}
                   onChange={(event) => setToday(event.target.value)}
-                  className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#3A3832]"
+                  className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#f7f9f8] px-3 outline-none focus:border-[#313c42]"
                   placeholder="e.g. Busy founder day. Need to close loose loops before travel."
                 />
               </label>
@@ -279,7 +279,7 @@ export function NineAmBriefTool() {
                 type="button"
                 onClick={generateBrief}
                 disabled={loading || !hasInput}
-                className="inline-flex rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#3A3832] disabled:bg-[#C8C2BC]"
+                className="inline-flex rounded-full bg-[#313c42] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#313c42] disabled:bg-[#C8C2BC]"
               >
                 <Sparkles className="mr-2 h-4 w-4" aria-hidden />
                 {loading ? "Drafting brief..." : "Draft my Dawn"}
@@ -296,7 +296,7 @@ export function NineAmBriefTool() {
                   setImageName("");
                   setHtml("");
                 }}
-                className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#23211F]"
+                className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#313c42]"
               >
                 Clear
               </button>
@@ -304,7 +304,7 @@ export function NineAmBriefTool() {
             </div>
             {loading ? <DashAgentLoader label="Dawn" /> : null}
             {loading ? (
-              <p className="mt-4 rounded-[10px] border border-[#C79B1F]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
+              <p className="mt-4 rounded-[10px] border border-[#b8964f]/30 bg-[#f7f9f8] px-4 py-3 text-sm text-[#6B5A28]">
                 Turning your day into a clear list: what matters, who to chase, what’s next.
                 {dashAd ? (
                   <>
@@ -329,7 +329,7 @@ export function NineAmBriefTool() {
           </div>
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3A3832]">who it's for</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">who it's for</p>
             <h2 className="mt-3 font-display text-4xl font-light leading-none">One tool, every kind of morning.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>For founders:</strong> screenshots, inbox scraps, and loose follow-ups become a calm action queue.</li>
@@ -342,15 +342,15 @@ export function NineAmBriefTool() {
 
         {html ? (
           <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-8">
-            <div className="prose prose-neutral max-w-none [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#3A3832]" dangerouslySetInnerHTML={{ __html: html }} />
+            <div className="prose prose-neutral max-w-none [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#313c42]" dangerouslySetInnerHTML={{ __html: html }} />
             <div className="mt-6 flex flex-wrap gap-3">
-              <button type="button" onClick={downloadEvidencePack} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#3A3832]">
+              <button type="button" onClick={downloadEvidencePack} className="inline-flex items-center gap-2 rounded-full bg-[#313c42] px-5 py-3 text-sm font-medium text-white hover:bg-[#313c42]">
                 <Download className="h-4 w-4" /> Download evidence pack
               </button>
-              <button type="button" onClick={copyOutput} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
+              <button type="button" onClick={copyOutput} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#313c42]">
                 <Copy className="h-4 w-4" /> Copy to clipboard
               </button>
-              <button type="button" onClick={downloadMarkdown} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
+              <button type="button" onClick={downloadMarkdown} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#313c42]">
                 <Download className="h-4 w-4" /> Download .md
               </button>
             </div>
@@ -378,7 +378,7 @@ function Field({
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="min-h-[170px] w-full rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] p-4 text-sm leading-relaxed outline-none focus:border-[#3A3832] focus:bg-white"
+        className="min-h-[170px] w-full rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#f7f9f8] p-4 text-sm leading-relaxed outline-none focus:border-[#313c42] focus:bg-white"
         placeholder={placeholder}
       />
     </label>

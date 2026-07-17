@@ -112,7 +112,7 @@ export function CustomsEntryTool() {
           }}
           className="rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A7D6E]">Commercial invoice</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3f7373]">Commercial invoice</p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <Field label="Supplier / consignor">
@@ -154,15 +154,15 @@ export function CustomsEntryTool() {
           </div>
 
           <div className="mt-6 flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A7D6E]">Line items</p>
-            <button type="button" onClick={addLine} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,125,110,0.3)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#3A7D6E] transition hover:bg-[#3A7D6E]/8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3f7373]">Line items</p>
+            <button type="button" onClick={addLine} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,125,110,0.3)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#3f7373] transition hover:bg-[#3f7373]/8">
               <Plus className="h-3.5 w-3.5" aria-hidden /> Add line
             </button>
           </div>
 
           <div className="mt-3 space-y-3">
             {lines.map((line, index) => (
-              <div key={index} className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-[#F7F4EE] p-3">
+              <div key={index} className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-[#f7f9f8] p-3">
                 <div className="flex items-start gap-2">
                   <input
                     className={inputClass}
@@ -185,7 +185,7 @@ export function CustomsEntryTool() {
             ))}
           </div>
 
-          <button type="submit" className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#3A7D6E] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#2E6657]">
+          <button type="submit" className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#3f7373] px-5 text-sm font-medium text-[#ffffff] transition hover:bg-[#2E6657]">
             <FileCheck2 className="h-4 w-4" aria-hidden /> Build the draft
           </button>
         </form>
@@ -194,7 +194,7 @@ export function CustomsEntryTool() {
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="flex flex-wrap items-center gap-2">
             {TRUST_BADGES.map((badge) => (
-              <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FBF3DF] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#3A3832]">
+              <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#313c42]">
                 <ShieldCheck className="h-3 w-3" aria-hidden /> {badge}
               </span>
             ))}
@@ -206,7 +206,7 @@ export function CustomsEntryTool() {
             </p>
           ) : (
             <div className="mt-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A7D6E]">Customs entry draft</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3f7373]">Customs entry draft</p>
 
               <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                 <Meta label="Supplier" value={`${draft.header.supplierName} · ${draft.header.supplierCountry}`} />
@@ -217,7 +217,7 @@ export function CustomsEntryTool() {
 
               <div className="mt-4 overflow-x-auto rounded-[8px] border border-[rgba(35,33,31,0.08)]">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#F7F4EE] text-[#5A5550]">
+                  <thead className="bg-[#f7f9f8] text-[#5A5550]">
                     <tr>
                       <th className="p-2">Description</th>
                       <th className="p-2 text-right">Qty</th>
@@ -247,11 +247,11 @@ export function CustomsEntryTool() {
               </dl>
 
               <div className="mt-4 rounded-[8px] border border-[rgba(58,125,110,0.22)] bg-[#E7F1ED] p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3A7D6E]">Before your broker lodges</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3f7373]">Before your broker lodges</p>
                 <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-[#3D4250]">
                   {draft.brokerChecklist.map((item) => (
                     <li key={item} className="flex gap-2">
-                      <span aria-hidden className="text-[#3A7D6E]">▢</span>
+                      <span aria-hidden className="text-[#3f7373]">▢</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -289,7 +289,7 @@ export function CustomsEntryTool() {
 }
 
 const inputClass =
-  "h-10 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm text-[#23211F] outline-none transition focus:border-[#3A7D6E]";
+  "h-10 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm text-[#313c42] outline-none transition focus:border-[#3f7373]";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -304,7 +304,7 @@ function Meta({ label, value, strong = false }: { label: string; value: string; 
   return (
     <div>
       <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B6661]">{label}</dt>
-      <dd className={["mt-0.5", strong ? "font-medium text-[#23211F]" : "text-[#23211F]"].join(" ")}>{value}</dd>
+      <dd className={["mt-0.5", strong ? "font-medium text-[#313c42]" : "text-[#313c42]"].join(" ")}>{value}</dd>
     </div>
   );
 }

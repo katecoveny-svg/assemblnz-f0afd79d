@@ -43,7 +43,7 @@ export function PainfulWorkflowCapture() {
   return (
     <form
       onSubmit={onSubmit}
-      className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#FFF7EC] shadow-[0_22px_70px_rgba(35,33,31,0.08)]"
+      className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#ffffff] shadow-[0_22px_70px_rgba(35,33,31,0.08)]"
     >
       <div className="grid gap-8 p-5 md:grid-cols-[0.86fr_1.14fr] md:p-7">
         <div>
@@ -109,7 +109,7 @@ export function PainfulWorkflowCapture() {
           <button
             type="submit"
             disabled={state === "loading"}
-            className="mt-2 inline-flex h-12 w-fit items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] px-6 font-mono text-[10px] uppercase tracking-[0.14em] text-[#FFF7EC] transition hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(58,56,50,0.26)] disabled:cursor-wait disabled:opacity-70"
+            className="mt-2 inline-flex h-12 w-fit items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] px-6 font-mono text-[10px] uppercase tracking-[0.14em] text-[#ffffff] transition hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(58,56,50,0.26)] disabled:cursor-wait disabled:opacity-70"
           >
             {state === "loading" ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden />

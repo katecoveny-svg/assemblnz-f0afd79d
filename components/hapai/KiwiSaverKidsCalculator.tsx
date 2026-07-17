@@ -72,7 +72,7 @@ export function KiwiSaverKidsCalculator() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(184,149,106,0.18),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(58,56,50,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(184, 150, 79,0.18),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(58,56,50,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#313c42] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1120px]">
         <Link
           href="/hapai"
@@ -97,8 +97,8 @@ export function KiwiSaverKidsCalculator() {
               between just the kick-start and a wee top-up alongside it.
             </p>
 
-            <div className="mt-8 rounded-[14px] border border-[rgba(184,149,106,0.32)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
-              <p className="font-medium text-[#23211F]">
+            <div className="mt-8 rounded-[14px] border border-[rgba(184, 150, 79,0.32)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
+              <p className="font-medium text-[#313c42]">
                 The maths behind the headline
               </p>
               <p className="mt-2">
@@ -285,11 +285,11 @@ export function KiwiSaverKidsCalculator() {
             </div>
 
             {/* ── HERO RESULT ───────────────────────────────────── */}
-            <div className="mt-7 rounded-[14px] border border-[rgba(184,149,106,0.32)] bg-gradient-to-br from-[#FFF7EC] to-[#F3EEE4] p-6">
+            <div className="mt-7 rounded-[14px] border border-[rgba(184, 150, 79,0.32)] bg-gradient-to-br from-[#ffffff] to-[#f3f5f3] p-6">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#B8956A]">
                 Projected balance at age {retirementAge}
               </p>
-              <p className="mt-2 font-display text-[clamp(2.8rem,5.5vw,4.6rem)] font-light leading-[1] text-[#23211F]">
+              <p className="mt-2 font-display text-[clamp(2.8rem,5.5vw,4.6rem)] font-light leading-[1] text-[#313c42]">
                 {formatNzd(projection.finalBalance)}
               </p>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-[#5A5550]">
@@ -335,7 +335,7 @@ export function KiwiSaverKidsCalculator() {
             {/* ── COMPARE ──────────────────────────────────────── */}
             {monthlyContribution > 0 && (
               <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.22)] bg-[#F0F5F1] p-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3A3832]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">
                   <Sparkles className="-mt-1 mr-1 inline h-3.5 w-3.5" aria-hidden />
                   Top-ups vs policy alone
                 </p>
@@ -381,7 +381,7 @@ export function KiwiSaverKidsCalculator() {
                             ? formatNzd(row.contributionsThisYear)
                             : "—"}
                         </td>
-                        <td className="py-1.5 text-right tabular-nums text-[#3A3832]">
+                        <td className="py-1.5 text-right tabular-nums text-[#313c42]">
                           {formatNzd(row.growthThisYear)}
                         </td>
                         <td className="py-1.5 text-right tabular-nums font-medium">
@@ -406,7 +406,7 @@ export function KiwiSaverKidsCalculator() {
 }
 
 const inputClass =
-  "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 text-sm text-[#23211F] outline-none transition focus:border-[#B8956A] focus:bg-white";
+  "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#f7f9f8] px-3 text-sm text-[#313c42] outline-none transition focus:border-[#B8956A] focus:bg-white";
 
 function Field({
   label,
@@ -435,7 +435,7 @@ function Stat({
   sub: string;
 }) {
   return (
-    <div className="rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] p-3">
+    <div className="rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#f7f9f8] p-3">
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
         {label}
       </p>

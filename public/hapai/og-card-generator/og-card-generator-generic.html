@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>og card generator · white-label · made with assembl</title>
 <meta name="description" content="og card generator creates white-label 1200 by 630 social share cards. All cards render locally in your browser.">
-<meta name="theme-color" content="#FAF7F2">
+<meta name="theme-color" content="#ffffff">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #FAF7F2;
+    --paper: #ffffff;
     --paper-soft: #EFEAE1;
     --mist: #E8E4DE;
     --line: #D8D2C7;
-    --ink: #23211F;
+    --ink: #313c42;
     --ink-soft: #4A4A4A;
     --ink-faint: #8A8580;
-    --gold: #D4A853;
-    --pounamu: #2B6B57;
+    --gold: #b8964f;
+    --pounamu: #3f7373;
     --radius: 4px;
     --pad: 18px;
     --maxw: 1240px;
@@ -330,7 +330,7 @@
         <div class="label">accent colour</div>
         <div class="radio-stack" id="accentOptions"></div>
         <div class="custom-colour-row">
-          <input type="color" id="customAccent" value="#2B6B57" aria-label="custom accent colour">
+          <input type="color" id="customAccent" value="#3f7373" aria-label="custom accent colour">
           <div class="helper">custom colour is used when custom is selected.</div>
         </div>
       </div>
@@ -380,16 +380,16 @@
   const $ = (id) => document.getElementById(id);
   const imageCache = new Map();
   const accentOptions = [
-    ["waihanga", "Waihanga", "pounamu", "#2B6B57"],
-    ["manaaki", "Manaaki", "kōkōwai", "#AC5838"],
+    ["waihanga", "Waihanga", "pounamu", "#3f7373"],
+    ["manaaki", "Manaaki", "kōkōwai", "#3f7373"],
     ["pikau", "Pīkau", "kikorangi", "#3B7CB5"],
     ["arataki", "Arataki", "karaka", "#D4842A"],
     ["auaha", "Auaha", "kahurangi", "#5B4FA0"],
     ["ako", "Ako", "parauri", "#6B5843"],
     ["matauranga", "Mātauranga", "pōuriuri", "#3D5A7A"],
     ["hoko", "Hoko", "waiporoporo", "#7B3F8F"],
-    ["toro", "Tōro", "mangū", "#23211F"],
-    ["custom", "Custom", "colour picker", "#2B6B57"],
+    ["toro", "Tōro", "mangū", "#313c42"],
+    ["custom", "Custom", "colour picker", "#3f7373"],
   ];
   const vessels = [
     ["none", "No vessel", ""],
@@ -451,7 +451,7 @@
   function selectedAccent() {
     const value = getChecked("accent");
     if (value === "custom") return $("customAccent").value;
-    return accentOptions.find(([key]) => key === value)?.[3] || "#2B6B57";
+    return accentOptions.find(([key]) => key === value)?.[3] || "#3f7373";
   }
 
   function vesselPath(value) {
@@ -508,7 +508,7 @@
     const wordmarkPos = getChecked("wordmark");
     canvas.width = 1200;
     canvas.height = 630;
-    ctx.fillStyle = "#FAF7F2";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, 1200, 630);
     ctx.fillStyle = accent;
     ctx.globalAlpha = 0.08;
@@ -546,7 +546,7 @@
     }
     if (wordmarkPos !== "hide") {
       const [wmx, wmy, wma] = wordmarkPosition(wordmarkPos);
-      ctx.fillStyle = "#2B6B57";
+      ctx.fillStyle = "#3f7373";
       ctx.font = 'italic 34px "Cormorant Garamond", Georgia, serif';
       ctx.textAlign = wma;
       ctx.fillText(brandName(), wmx, wmy);
@@ -579,7 +579,7 @@
     document.querySelector('input[name="vessel"][value="waihanga"]').checked = true;
     document.querySelector('input[name="layout"][value="left"]').checked = true;
     document.querySelector('input[name="wordmark"][value="top-left"]').checked = true;
-    $("customAccent").value = "#2B6B57";
+    $("customAccent").value = "#3f7373";
     renderCard();
   }
 

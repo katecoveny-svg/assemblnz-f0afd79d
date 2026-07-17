@@ -13,14 +13,14 @@ export function FoodAuditResultActions({ venueName, resultUrl }: { venueName: st
         <button
           type="button"
           onClick={() => window.print()}
-          className="inline-flex h-11 items-center gap-2 rounded-full bg-[#AC5838] px-5 text-sm font-medium text-white"
+          className="inline-flex h-11 items-center gap-2 rounded-full bg-[#3f7373] px-5 text-sm font-medium text-white"
         >
           <Printer className="h-4 w-4" aria-hidden />
           Download as PDF
         </button>
         <a
           href={`mailto:?subject=${subject}&body=${body}`}
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] px-5 text-sm font-medium text-[#23211F]"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] px-5 text-sm font-medium text-[#313c42]"
         >
           <Mail className="h-4 w-4" aria-hidden />
           Email the record

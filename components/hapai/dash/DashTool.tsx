@@ -103,20 +103,20 @@ export function DashTool({ config }: { config: DashToolConfig }) {
 <title>${escapeHtml(config.name)} — evidence pack</title>
 <style>
   :root { color-scheme: light; }
-  body { margin: 0; background: #FFF7EC; color: #3A3832; font: 16px/1.6 "Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  body { margin: 0; background: #ffffff; color: #313c42; font: 16px/1.6 "Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 40px; }
-  .mark { font-weight: 900; letter-spacing: -0.02em; color: #3A3832; font-size: 22px; }
-  .eyebrow { font: 700 11px/1 "Space Mono",ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #C79B1F; }
-  h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin: 12px 0 4px; color: #3A3832; }
-  .dash { width: 120px; height: 9px; background: #BFA37A; border-radius: 999px; margin: 14px 0 18px; }
+  .mark { font-weight: 900; letter-spacing: -0.02em; color: #313c42; font-size: 22px; }
+  .eyebrow { font: 700 11px/1 "Space Mono",ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #b8964f; }
+  h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin: 12px 0 4px; color: #313c42; }
+  .dash { width: 120px; height: 9px; background: #b8964f; border-radius: 999px; margin: 14px 0 18px; }
   .meta { color: #8A8678; font-size: 13px; margin-bottom: 24px; }
   .rule { border: 0; border-top: 1px solid #EFEADC; margin: 24px 0; }
-  .body h2 { font-size: 22px; font-weight: 900; color: #3A3832; margin: 24px 0 8px; }
-  .body h3 { font-size: 17px; font-weight: 700; color: #3A3832; margin: 18px 0 6px; }
+  .body h2 { font-size: 22px; font-weight: 900; color: #313c42; margin: 24px 0 8px; }
+  .body h3 { font-size: 17px; font-weight: 700; color: #313c42; margin: 18px 0 6px; }
   .body ul { margin: 0 0 12px; padding-left: 20px; }
   .body p { margin: 0 0 12px; }
-  .foot { margin-top: 32px; padding: 16px 18px; background: #3A3832; color: #FFF7EC; border-radius: 10px; font-size: 13px; line-height: 1.5; }
-  .foot b { color: #BFA37A; }
+  .foot { margin-top: 32px; padding: 16px 18px; background: #313c42; color: #ffffff; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+  .foot b { color: #b8964f; }
   @media print { body { background: #fff; } .wrap { padding: 0; } }
 </style></head>
 <body><div class="wrap">
@@ -155,7 +155,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             <button
               type="button"
               onClick={loadSample}
-              className="mk-mono rounded-full border border-[#EFEADC] bg-white px-4 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8A8678] transition hover:text-[#3A3832]"
+              className="mk-mono rounded-full border border-[#EFEADC] bg-white px-4 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8A8678] transition hover:text-[#313c42]"
             >
               Load an example
             </button>
@@ -177,11 +177,11 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   aria-label={config.imageLabel ?? 'Upload a photo'}
                 />
                 <div className="flex items-center gap-4">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#BFA37A] text-[#3A3832]">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#b8964f] text-[#313c42]">
                     <Upload className="h-5 w-5" aria-hidden />
                   </span>
                   <div className="flex-1">
-                    <p className="font-bold text-[#3A3832]">{imageName || 'Tap to add a photo or screenshot.'}</p>
+                    <p className="font-bold text-[#313c42]">{imageName || 'Tap to add a photo or screenshot.'}</p>
                     <p className="mt-1 text-sm text-[#8A8678]">It reads the visible text. If the image is unclear, it won’t guess.</p>
                   </div>
                   {imageDataUrl ? (
@@ -218,14 +218,14 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   <textarea
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="min-h-[150px] w-full rounded-[10px] border border-[#EFEADC] bg-white p-4 text-sm leading-relaxed text-[#3A3832] outline-none focus:border-[#BFA37A]"
+                    className="min-h-[150px] w-full rounded-[10px] border border-[#EFEADC] bg-white p-4 text-sm leading-relaxed text-[#313c42] outline-none focus:border-[#b8964f]"
                     placeholder={field.placeholder}
                   />
                 ) : field.type === 'select' ? (
                   <select
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#3A3832] outline-none focus:border-[#BFA37A]"
+                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#313c42] outline-none focus:border-[#b8964f]"
                   >
                     {field.options?.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -237,7 +237,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   <input
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#3A3832] outline-none focus:border-[#BFA37A]"
+                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#313c42] outline-none focus:border-[#b8964f]"
                     placeholder={field.placeholder}
                   />
                 )}
@@ -251,7 +251,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             type="button"
             onClick={run}
             disabled={loading || !hasInput}
-            className="inline-flex items-center rounded-full bg-[#3A3832] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#56544B] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
+            className="inline-flex items-center rounded-full bg-[#313c42] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#56544B] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
           >
             <Sparkles className="mr-2 h-4 w-4" aria-hidden />
             {loading ? 'Working…' : config.ctaLabel}
@@ -259,7 +259,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
           <button
             type="button"
             onClick={clearAll}
-            className="rounded-full border border-[#EFEADC] bg-white px-6 py-3 text-sm text-[#56544B] transition hover:text-[#3A3832]"
+            className="rounded-full border border-[#EFEADC] bg-white px-6 py-3 text-sm text-[#56544B] transition hover:text-[#313c42]"
           >
             Clear
           </button>
@@ -279,21 +279,21 @@ export function DashTool({ config }: { config: DashToolConfig }) {
       {html ? (
         <section className="m-4 rounded-[12px] border border-[#EFEADC] bg-white p-7 md:m-5 md:p-9">
           <div
-            className="dash-output max-w-none text-[#3A3832] [&_h2]:mt-6 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:tracking-[-0.01em] [&_h2:first-child]:mt-0 [&_h3]:mt-5 [&_h3]:text-lg [&_h3]:font-bold [&_li]:mb-1.5 [&_p]:mt-3 [&_p]:leading-relaxed [&_strong]:font-bold [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-[#56544B]"
+            className="dash-output max-w-none text-[#313c42] [&_h2]:mt-6 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:tracking-[-0.01em] [&_h2:first-child]:mt-0 [&_h3]:mt-5 [&_h3]:text-lg [&_h3]:font-bold [&_li]:mb-1.5 [&_p]:mt-3 [&_p]:leading-relaxed [&_strong]:font-bold [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-[#56544B]"
             dangerouslySetInnerHTML={{ __html: html }}
           />
           <div className="mt-7 flex flex-wrap gap-3">
             <button
               type="button"
               onClick={downloadEvidencePack}
-              className="inline-flex items-center gap-2 rounded-full bg-[#3A3832] px-5 py-3 text-sm font-bold text-white hover:bg-[#56544B]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#313c42] px-5 py-3 text-sm font-bold text-white hover:bg-[#56544B]"
             >
               <Download className="h-4 w-4" /> Download evidence pack
             </button>
             <button
               type="button"
               onClick={copyOutput}
-              className="inline-flex items-center gap-2 rounded-full border border-[#EFEADC] bg-white px-5 py-3 text-sm text-[#56544B] hover:text-[#3A3832]"
+              className="inline-flex items-center gap-2 rounded-full border border-[#EFEADC] bg-white px-5 py-3 text-sm text-[#56544B] hover:text-[#313c42]"
             >
               <Copy className="h-4 w-4" /> Copy to clipboard
             </button>

@@ -108,7 +108,7 @@ const ROUTES: Array<{
 ];
 
 const inputClass =
-  "h-11 w-full rounded-[10px] border border-white/45 bg-white/62 px-3 text-sm text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] outline-none transition backdrop-blur-xl focus:border-[#3A3832] focus:ring-2 focus:ring-[#3A3832]/18";
+  "h-11 w-full rounded-[10px] border border-white/45 bg-white/62 px-3 text-sm text-[#313c42] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] outline-none transition backdrop-blur-xl focus:border-[#313c42] focus:ring-2 focus:ring-[#313c42]/18";
 
 export default function ElectrifyFormPage() {
   return (
@@ -132,7 +132,7 @@ export default function ElectrifyFormPage() {
                 </p>
               </div>
 
-              <div className="relative min-h-[280px] overflow-hidden rounded-[24px] border border-white/45 bg-[#23211F] shadow-[0_28px_90px_rgba(35,33,31,0.18)] [transform:perspective(1100px)_rotateX(1.6deg)_rotateY(-4deg)]">
+              <div className="relative min-h-[280px] overflow-hidden rounded-[24px] border border-white/45 bg-[#313c42] shadow-[0_28px_90px_rgba(35,33,31,0.18)] [transform:perspective(1100px)_rotateX(1.6deg)_rotateY(-4deg)]">
                 <Image
                   src="/img/hapai/tools/electrify-vessel.jpg"
                   alt="Sculptural vessel representing electrification planning"
@@ -141,8 +141,8 @@ export default function ElectrifyFormPage() {
                   className="object-cover object-[50%_38%]"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/72 via-transparent to-white/10" />
-                <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2 text-[#FFF7EC]">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#313c42]/72 via-transparent to-white/10" />
+                <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2 text-[#ffffff]">
                   <HeroChip icon={Car} label="Fleet" />
                   <HeroChip icon={BatteryCharging} label="Heat" />
                   <HeroChip icon={SunMedium} label="Solar" />
@@ -194,7 +194,7 @@ export default function ElectrifyFormPage() {
                         className={[
                           "group flex gap-3 rounded-[14px] border p-3 shadow-[0_14px_34px_rgba(35,33,31,0.07)] backdrop-blur-xl transition",
                           isLive
-                            ? "cursor-pointer border-white/48 bg-white/54 hover:-translate-y-0.5 hover:border-[#3A3832]/34 hover:bg-white/78"
+                            ? "cursor-pointer border-white/48 bg-white/54 hover:-translate-y-0.5 hover:border-[#313c42]/34 hover:bg-white/78"
                             : "cursor-not-allowed border-white/30 bg-white/35 opacity-65",
                         ].join(" ")}
                         aria-disabled={!isLive}
@@ -302,7 +302,7 @@ export default function ElectrifyFormPage() {
                   {FUEL_TYPES.map((fuel) => (
                     <label
                       key={fuel.value}
-                      className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#3A3832]/45 hover:bg-white"
+                      className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#313c42]/45 hover:bg-white"
                     >
                       <input type="checkbox" name="fuelTypes" value={fuel.value} className="rounded" />
                       <span>{fuel.label}</span>
@@ -357,7 +357,7 @@ export default function ElectrifyFormPage() {
 
             <button
               type="submit"
-              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-medium text-[#FFF7EC] shadow-[0_18px_36px_rgba(58,56,50,0.24)] transition hover:-translate-y-0.5 hover:bg-[#245746]"
+              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-medium text-[#ffffff] shadow-[0_18px_36px_rgba(58,56,50,0.24)] transition hover:-translate-y-0.5 hover:bg-[#2c5757]"
             >
               Calculate my savings <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </button>
@@ -506,7 +506,7 @@ function Field({
   return (
     <label className="block" htmlFor={name}>
       <span className="block text-sm font-medium text-[color:var(--text-primary)]">
-        {label} {required && <span className="text-[#AC5838]">*</span>}
+        {label} {required && <span className="text-[#3f7373]">*</span>}
       </span>
       {hint && (
         <span className="mt-1 block text-xs leading-relaxed text-[color:var(--text-secondary)]">
