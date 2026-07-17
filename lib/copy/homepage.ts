@@ -143,3 +143,34 @@ export const BUILD_SCRIPT = {
   chips: ['Website', 'PDFs', 'Emails', 'Price list', 'Logo', 'Facebook', 'Google Drive'],
   done: 'Done.',
 } as const;
+
+/**
+ * Mahi-saved calculator (homepage tool). A plain, no-form planning estimate.
+ * Assumes half of repetitive admin time is recoverable — labelled as an
+ * estimate, never a promise.
+ */
+export const SAVINGS = {
+  eyebrow: 'A two-minute reality check',
+  heading: 'How many hours could you get back?',
+  body: 'Use your own numbers. We will show a plain planning estimate — no form, no phone call and no inflated promise.',
+  peopleLabel: 'People doing repeat admin',
+  hoursLabel: 'Admin hours each week, per person',
+  repeatableLabel: 'How much of that work is repetitive?',
+  repeatableOptions: [
+    { value: 20, label: 'a little' },
+    { value: 35, label: 'a fair amount' },
+    { value: 50, label: 'about half' },
+  ],
+  hoursShort: 'hrs',
+  resultLabel: 'Your mahi-saved estimate',
+  resultHeading: 'hours back each week',
+  yearlyHoursLabel: 'hours a year',
+  workingDaysLabel: 'working days',
+  planningNote: 'This estimate assumes half of your repetitive admin time could be recovered. Planning estimate only.',
+  liveDemoAction: 'Try the live demo',
+  shareAction: 'Share result',
+  sharedAction: 'Result shared',
+  shareTitle: 'How much time could assembl give back?',
+  shareText: (weeklyHours: string, workingDays: number) =>
+    `Our assembl planning estimate: ${weeklyHours} hours back each week — about ${workingDays} working days a year.`,
+} as const;
