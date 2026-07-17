@@ -153,7 +153,7 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}><span aria-hidden /> Public demonstration · fictional Auckland business</p>
-          <h1>Change one fact.<br /><em>Watch the whole business think differently.</em></h1>
+          <h1>Change one fact.<br /><em>See every surface update.</em></h1>
           <p className={styles.lede}>
             This is an actual assembl Business Genome: structured facts, connected surfaces and governed agents using one shared source of truth. Try a sandbox change, then give a live agent a job.
           </p>
@@ -312,7 +312,6 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
       </section>
 
       <section className={styles.finalCta}>
-        <p>That is the difference.</p>
         <h2>The agent is useful because<br /><em>the business is understood.</em></h2>
         <div><Link href="/install">Build your Business Genome <ArrowRight aria-hidden /></Link><Link href="/pilot">Build an agent</Link></div>
       </section>
