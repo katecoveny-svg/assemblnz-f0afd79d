@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getSharedAgent } from '@/lib/agents/community';
+import { resolveCommunityAgent } from '@/lib/agents/community';
 import { IdentityPattern } from '@/components/community/IdentityPattern';
 import { CommunityAgentChat } from '@/components/community/CommunityAgentChat';
 import { DEFAULT_IDENTITY } from '@/lib/community/templates';
 
-// Service-client read per request; shared rows only.
+// Service-client read per request (DB slugs); `l~…` slugs rebuild statelessly.
 export const dynamic = 'force-dynamic';
 
 const INK = '#313c42';
@@ -19,7 +19,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const agent = await getSharedAgent(slug);
+  const agent = await resolveCommunityAgent(slug);
   if (!agent) return { title: 'Community agent · assembl' };
   return {
     title: `${agent.name} · assembl`,
@@ -33,7 +33,7 @@ export default async function SharedAgentPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const agent = await getSharedAgent(slug);
+  const agent = await resolveCommunityAgent(slug);
   if (!agent) notFound();
 
   const identity = agent.identity ?? DEFAULT_IDENTITY;

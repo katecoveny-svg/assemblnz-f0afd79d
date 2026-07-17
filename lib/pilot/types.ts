@@ -90,6 +90,11 @@ export interface PilotSpec {
   tone: AgentTone;
   /** Optional pattern-signature identity (public builder /a). */
   identity?: PatternIdentity;
+  /**
+   * Optional community-template id (public builder /a) — recorded so the chat
+   * route can apply template-specific behaviour (e.g. mariner live weather).
+   */
+  templateId?: string;
 }
 
 // ── The 19-item agent pack ────────────────────────────────────────────────

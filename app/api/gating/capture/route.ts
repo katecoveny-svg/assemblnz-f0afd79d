@@ -43,28 +43,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Consent is required' }, { status: 400 });
   }
 
-  let service: ReturnType<typeof getServiceClient>;
+  // Best-effort DB insert. A paused/unreachable Supabase must NEVER block the
+  // visitor: recordLead below still notifies Kate (so no lead is lost) and
+  // markCaptured still lifts the tier — the wall opens either way.
   try {
-    service = getServiceClient();
+    const service = getServiceClient();
+    const { error } = await service.from('hapai_leads').insert({
+      email: email.trim().toLowerCase(),
+      tool_slug: surface,
+      source: `gate:${surface}`,
+      consent,
+      payload: { captured_via: 'gating-wall' },
+    });
+    if (error) {
+      console.error('gating/capture insert failed — continuing without DB', {
+        surface,
+        message: error.message,
+      });
+    }
   } catch (error) {
-    console.error('gating/capture service client unavailable', {
+    console.error('gating/capture DB unavailable — continuing without DB', {
       surface,
       message: error instanceof Error ? error.message : String(error),
     });
-    return NextResponse.json({ error: 'Capture is unavailable right now' }, { status: 503 });
-  }
-
-  const { error } = await service.from('hapai_leads').insert({
-    email: email.trim().toLowerCase(),
-    tool_slug: surface,
-    source: `gate:${surface}`,
-    consent,
-    payload: { captured_via: 'gating-wall' },
-  });
-
-  if (error) {
-    console.error('gating/capture insert failed', { surface, message: error.message });
-    return NextResponse.json({ error: 'Capture failed' }, { status: 500 });
   }
 
   // Notify Kate + mirror into the unified leads table. Fail-soft.
