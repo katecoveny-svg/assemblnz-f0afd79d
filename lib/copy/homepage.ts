@@ -211,6 +211,8 @@ export const PLAYGROUND = {
   readAction: 'Read my brand',
   readingAction: 'Reading…',
   adsAction: 'Make my ads',
+  makingAdsAction: 'Making your ads…',
+  openStudioAction: 'Open the Ad Studio',
   patternsAction: 'Open the Pattern Studio',
 } as const;
 

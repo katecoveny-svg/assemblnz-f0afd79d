@@ -188,5 +188,5 @@ awaiting Kate's sign-off — edit here, code follows.
 - Heading: `We imagined this site's imagery, then built the tool that makes it.`
 - Body: `Every moving pattern on this site comes from the Pattern Studio. Paste your web address and it reads your brand — your name, your colour — so you can make your own patterns and ads.`
 - Input label: `Your website` (placeholder `e.g. yourbusiness.co.nz`)
-- Actions: `Read my brand` / `Reading…` · `Make my ads` · `Open the Pattern Studio`
+- Actions: `Read my brand` / `Reading…` · `Make my ads` / `Making your ads…` · `Open the Ad Studio` · `Open the Pattern Studio`
 

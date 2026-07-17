@@ -152,22 +152,63 @@ function metaContent(html: string, matcher: RegExp): string {
   return m ? strip(m[1]).slice(0, 300) : "";
 }
 
-/** Most frequent non-neutral hex in the page — a decent accent guess. */
-function guessAccent(html: string): string | undefined {
+/** Most frequent non-neutral colour across the given texts — the accent guess.
+ *  Reads #hex, rgb() and rgba() forms so sites that keep colour in CSS count. */
+function guessAccent(texts: string[]): string | undefined {
   const counts = new Map<string, number>();
-  for (const m of html.matchAll(/#([0-9a-fA-F]{6})\b/g)) {
-    const hex = m[1].toLowerCase();
-    const r = parseInt(hex.slice(0, 2), 16);
-    const g = parseInt(hex.slice(2, 4), 16);
-    const b = parseInt(hex.slice(4, 6), 16);
+  const tally = (r: number, g: number, b: number) => {
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     // Skip near-neutrals (greys, whites, blacks) — we want the brand colour.
-    if (max - min < 24 || max < 40 || min > 225) continue;
+    if (max - min < 24 || max < 40 || min > 225) return;
+    const hex = [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('');
     counts.set(hex, (counts.get(hex) ?? 0) + 1);
+  };
+  for (const text of texts) {
+    for (const m of text.matchAll(/#([0-9a-fA-F]{6})\b/g)) {
+      const hex = m[1].toLowerCase();
+      tally(parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16));
+    }
+    for (const m of text.matchAll(/#([0-9a-fA-F]{3})\b/g)) {
+      const [r, g, b] = m[1].toLowerCase().split('').map((c) => parseInt(c + c, 16));
+      tally(r, g, b);
+    }
+    for (const m of text.matchAll(/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/g)) {
+      tally(Number(m[1]), Number(m[2]), Number(m[3]));
+    }
   }
   const top = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
   return top ? `#${top[0]}` : undefined;
+}
+
+/** Fetch up to two of the page's stylesheets (SSRF-checked like the page
+ *  itself) so accent detection sees the real palette — most sites keep
+ *  colour in CSS files, not inline. Fail-soft: on any problem, just skip. */
+async function fetchStylesheets(html: string, baseUrl: string): Promise<string[]> {
+  const hrefs: string[] = [];
+  for (const m of html.matchAll(/<link[^>]+rel=["']stylesheet["'][^>]*>/gi)) {
+    const href = /href=["']([^"']+)["']/.exec(m[0])?.[1];
+    if (href) hrefs.push(href);
+    if (hrefs.length >= 2) break;
+  }
+  const out: string[] = [];
+  for (const href of hrefs) {
+    try {
+      const url = new URL(href, baseUrl);
+      if (url.protocol !== 'https:' && url.protocol !== 'http:') continue;
+      await assertPublicHost(url.hostname);
+      const res = await fetch(url, {
+        signal: AbortSignal.timeout(5_000),
+        headers: { 'User-Agent': 'assembl-ad-studio/1.0 (+https://www.assembl.co.nz/ad-studio)' },
+      });
+      if (!res.ok) continue;
+      const text = await res.text();
+      out.push(text.slice(0, 300_000));
+    } catch {
+      /* skip this sheet */
+    }
+  }
+  return out;
 }
 
 type Distilled = {
@@ -228,7 +269,11 @@ export async function readSiteBrand(rawUrl: string): Promise<BusinessDna> {
     metaContent(html, /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']*)["']/i);
   const themeColor = metaContent(html, /<meta[^>]+name=["']theme-color["'][^>]+content=["']([^"']*)["']/i);
 
-  const accent = assertHex(themeColor || guessAccent(html), "#3f7373");
+  // Accent: a valid, non-neutral theme-colour wins; otherwise the most
+  // frequent non-neutral colour across the page AND its stylesheets.
+  const sheets = await fetchStylesheets(html, finalUrl);
+  const themeAccent = /^#[0-9a-fA-F]{6}$/.test(themeColor) ? guessAccent([themeColor]) : undefined;
+  const accent = assertHex(themeAccent ?? guessAccent([html, ...sheets]), "#3f7373");
   const fallbackName = (siteName || ogTitle || title || new URL(finalUrl).hostname).split(/[|·–—-]/)[0].trim().slice(0, 80);
 
   const text = strip(html).slice(0, 5000);
