@@ -191,4 +191,5 @@ APPROVED by Kate 2026-07-17 — edit here, code follows.
 - Actions: `Read my brand` / `Reading…` · `Make my ads` / `Making your ads…` · `Open the Ad Studio` · `Open the Pattern Studio`
 - 3D band: `Your brand, live` · `Make a motion hero` / `Directing your motion hero…`
 - Motion note: `A short cinematic hero clip in your brand colour — a draft to review, yours to download.`
+- Share row: `Share` · `Save this pattern`
 

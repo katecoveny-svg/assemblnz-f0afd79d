@@ -119,8 +119,15 @@ const SPLASH_EXEMPT_PREFIXES = [
   // Legacy /privacy path — exempt so the next.config redirect to
   // /legal/privacy fires instead of the splash rewrite shadowing it.
   '/privacy',
+  // Public agent share pages — the viral builder (/a) and every /a/<slug>
+  // page. Deliberately '/a/' with a trailing slash: a bare '/a' prefix would
+  // startsWith-match unrelated paths like /app. The exact '/a' lives in
+  // SPLASH_EXEMPT_EXACT below.
+  '/a/',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
+  // The public agent builder itself (share pages are '/a/' in the prefixes).
+  '/a',
   '/robots.txt',
   '/sitemap.xml',
   '/favicon.ico',
@@ -222,12 +229,19 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/ad-studio',
   // Public "build an agent" flow, reachable on the demo host too.
   '/pilot',
+  // Public agent share pages — '/a/' (trailing slash) on purpose: a bare
+  // '/a' prefix would startsWith-match tenant slugs like
+  // /auckland-dog-trainer and open gated pilots. Exact '/a' is handled in
+  // needsDemoAuth below.
+  '/a/',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|pdf|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
 
 const needsDemoAuth = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
+  // The public agent builder — exact match here; '/a/…' is in the prefix list.
+  if (pathname === '/a') return false;
   if (DEMO_AUTH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) {
     return false;
   }

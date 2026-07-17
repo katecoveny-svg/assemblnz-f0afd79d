@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AssemblPatternStudio } from './AssemblPatternStudio';
 
-type Mode = 'halftone' | 'dither' | 'ascii' | 'particles' | 'particleText';
+type Mode = 'halftone' | 'dither' | 'ascii' | 'particles' | 'particleText' | 'vortex';
 type Effect = 'wave' | 'pulse' | 'ripple' | 'spiral' | 'noise' | 'off';
 type DotShape = 'circle' | 'square' | 'diamond' | 'triangle';
 type ParticleShape = 'circle' | 'square' | 'diamond' | 'spark';

@@ -146,6 +146,9 @@ export class AssemblPatternStudio {
   private dots: Dot[] = [];
   private particles: Particle[] = [];
   private wordTargets: Array<Array<[number, number]>> = [];
+  /** Per-word sampled extent [spanX, spanY] so targets scale to FIT the
+   *  canvas — without this, long words / short canvases clip the letters. */
+  private wordSpans: Array<[number, number]> = [];
   private wordIndex = 0;
   private textState: TextState = 'cloud';
   private textStateTime = 0;
@@ -281,6 +284,15 @@ export class AssemblPatternStudio {
     else if (mode === 'vortex') this.initVortex();
   }
 
+  /** Scale factor that keeps the current word inside the canvas with margins. */
+  private wordFitScale(): number {
+    const span = this.wordSpans[this.wordIndex];
+    if (!span) return 1;
+    const sx = (this.width * 0.86) / Math.max(1, span[0]);
+    const sy = (this.height * 0.72) / Math.max(1, span[1]);
+    return Math.min(1, sx, sy);
+  }
+
   /** Reduced-motion / static: snap particleText straight to the assembled word. */
   private prepareStatic() {
     if (this.settings.mode !== 'particleText' || !this.particles.length) return;
@@ -290,10 +302,11 @@ export class AssemblPatternStudio {
     this.textStateTime = 0;
     const cx = this.width / 2;
     const cy = this.height / 2;
+    const fit = this.wordFitScale();
     for (let i = 0; i < this.particles.length; i += 1) {
       const t = targets[i % targets.length];
-      this.particles[i].x = cx + t[0];
-      this.particles[i].y = cy + t[1];
+      this.particles[i].x = cx + t[0] * fit;
+      this.particles[i].y = cy + t[1] * fit;
       this.particles[i].vx = 0;
       this.particles[i].vy = 0;
     }
@@ -596,6 +609,15 @@ export class AssemblPatternStudio {
     const { count, words } = this.settings;
     const list = words && words.length ? words : ['assembl'];
     this.wordTargets = list.map((w) => this.sampleWordPoints(w));
+    this.wordSpans = this.wordTargets.map((pts) => {
+      let maxX = 1;
+      let maxY = 1;
+      for (const [x, y] of pts) {
+        if (Math.abs(x) > maxX) maxX = Math.abs(x);
+        if (Math.abs(y) > maxY) maxY = Math.abs(y);
+      }
+      return [maxX * 2, maxY * 2];
+    });
     this.wordIndex = 0;
     this.textState = 'cloud';
     this.textStateTime = 0;
@@ -641,13 +663,14 @@ export class AssemblPatternStudio {
 
     const targets = this.wordTargets[this.wordIndex] ?? [];
     const jitterAmt = turbulence / 100;
+    const fit = this.wordFitScale();
 
     for (let i = 0; i < this.particles.length; i += 1) {
       const p = this.particles[i];
       if (this.textState === 'assembling' || this.textState === 'holding') {
         const t = targets.length ? targets[i % targets.length] : [0, 0];
-        const tx = cx + t[0];
-        const ty = cy + t[1];
+        const tx = cx + t[0] * fit;
+        const ty = cy + t[1] * fit;
         const dx = tx - p.x;
         const dy = ty - p.y;
         const d = Math.hypot(dx, dy) + 0.001;

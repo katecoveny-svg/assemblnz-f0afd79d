@@ -61,6 +61,22 @@ export interface Guardrails {
 
 export type AgentTone = 'warm' | 'neutral' | 'formal' | 'specialist';
 
+/**
+ * Pattern-signature identity — the agent's visual mark, rendered live by the
+ * Pattern Studio engine (vortex or particles). Carried inside `spec` so it
+ * round-trips through the jsonb column with no schema change. Optional:
+ * classic Pilot drafts don't have one.
+ */
+export interface PatternIdentity {
+  mode: 'vortex' | 'particles';
+  foregroundColor: string;
+  accentColor: string;
+  count: number;
+  turbulence: number;
+  speed: number;
+  glow: boolean;
+}
+
 /** The structured spec captured across steps 1–7. */
 export interface PilotSpec {
   domain: Domain | '';
@@ -72,6 +88,8 @@ export interface PilotSpec {
   tools: string[];         // tool ids (grouped registry)
   guardrails: Guardrails;
   tone: AgentTone;
+  /** Optional pattern-signature identity (public builder /a). */
+  identity?: PatternIdentity;
 }
 
 // ── The 19-item agent pack ────────────────────────────────────────────────

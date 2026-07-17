@@ -9,6 +9,9 @@ const BASE = 'https://www.assembl.co.nz';
 
 const CORE_PATHS = [
   '',
+  // The public agent builder (per-agent share pages are deliberately not
+  // listed — they're visitor-made and unreviewed).
+  '/a',
   // The Living Site funnel — the primary story; keep these prominent.
   '/living-site',
   '/install',
