@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 
 import { MotionAssetView } from '@/components/brand/MotionAssetView';
 import { FEATURED_ASSET_ID, getMotionAsset } from '@/lib/brand/motion-assets';
-import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 
 export const metadata: Metadata = {
   title: 'Press kit',
@@ -16,8 +16,15 @@ export default function PressPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-24 lg:py-28">
-        <ShaderHeroBackdrop />
+      <section className="relative overflow-hidden py-24 lg:py-28">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="container relative z-10">
           <div className="mx-auto max-w-5xl">
             <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">

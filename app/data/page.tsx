@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, Check, Webhook, FileJson, MapPin } from 'lucide-react';
 import { Eyebrow } from '@/components/site/Eyebrow';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
-import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { DataLiveCounter } from '@/components/site/data/DataLiveCounter';
 import { DataWaitlistForm } from '@/components/site/data/DataWaitlistForm';
 import { getRegulatoryPulse } from '@/lib/regulatory-pulse';
@@ -84,8 +84,15 @@ export default async function DataApiPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-24 lg:py-32">
-        <ShaderHeroBackdrop />
+      <section className="relative overflow-hidden py-24 lg:py-32">
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
+        />
         <div className="container relative z-10">
           <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>

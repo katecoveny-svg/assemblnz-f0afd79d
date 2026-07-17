@@ -8,6 +8,7 @@ const FOOTER_LINKS: Array<[string, string]> = [
   ['/living-site', 'Living Sites'],
   ['/genome', 'Business Genome'],
   ['/os', 'Operating system'],
+  ['/pilot', 'Build an agent'],
   ['/install', 'Install'],
   ['/trust', 'Trust'],
   ['/contact', 'Contact'],

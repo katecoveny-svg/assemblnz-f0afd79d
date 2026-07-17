@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Mail, Clock, MapPin } from 'lucide-react';
 import { ContactForm } from '@/components/site/contact-form';
 import { Eyebrow } from '@/components/site/Eyebrow';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -15,21 +16,15 @@ export default function ContactPage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* Atmospheric layer — sits behind the radial gradient and content */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-          <img
-            src="/images/ambient-warmth.webp"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.11]"
-          />
-        </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(58,56,50, 0.10) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(184, 178, 168, 0.12) 0%, transparent 50%)',
-          }}
+        {/* Pattern Studio backdrop — the canonical generative layer, replacing
+            the old warm ambient photo + sand gradient. Faint gold, static. */}
+        <PatternBackdrop
+          className="absolute inset-0 -z-10"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.3}
+          speed={0.5}
+          lazyMount={false}
         />
         <div className="container py-20 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
