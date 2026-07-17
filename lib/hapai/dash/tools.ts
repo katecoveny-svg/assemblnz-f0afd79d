@@ -143,7 +143,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
         name: 'child',
         label: 'Child’s name or year (optional)',
         type: 'text',
-        placeholder: 'e.g. Mia, Year 4',
+        placeholder: 'e.g. Year 4 student',
       },
       {
         name: 'notice',
@@ -171,7 +171,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
       'Draft summary only. Dates and actions are read from the notice you supplied; confirm against the original before relying on them.',
     kete: 'ako',
     sample: {
-      child: 'Mia, Year 4',
+      child: 'Year 4 student',
       notice:
         'Hi everyone! A few reminders. Mufti Day is next Friday 4 July — gold coin donation, sports theme. Year 4 trip to MOTAT is Tuesday 8 July, permission slips and $12 due by Monday. Cross-country is Thursday 10 July, wear house colours. Book Fair runs all of week 9. Please return library books. Thanks, Room 12.',
     },

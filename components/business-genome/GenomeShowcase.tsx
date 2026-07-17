@@ -255,7 +255,7 @@ export function GenomeShowcase({
               textDecoration: 'none',
             }}
           >
-            See the operating system
+            See the OS on the sample business
           </Link>
           <Link href="/pilot-sprint" style={{ color: TEAL, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
             Install yours →

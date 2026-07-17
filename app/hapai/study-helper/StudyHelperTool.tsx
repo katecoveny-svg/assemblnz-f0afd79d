@@ -49,11 +49,11 @@ function htmlToMarkdown(html: string) {
 }
 
 export function StudyHelperTool() {
-  const [student, setStudent] = useState("Jack");
+  const [student, setStudent] = useState("");
   const [yearLevel, setYearLevel] = useState("Year 9");
-  const [school, setSchool] = useState("Sacred Heart College");
-  const [textTitle, setTextTitle] = useState("Falling into Rarohenga");
-  const [author, setAuthor] = useState("Steph Matuku");
+  const [school, setSchool] = useState("");
+  const [textTitle, setTextTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [examContext, setExamContext] = useState("English novel study essay tomorrow");
   const [mode, setMode] = useState<(typeof modes)[number]["id"]>("essay-plan");
   const [essayQuestion, setEssayQuestion] = useState("");
@@ -133,18 +133,19 @@ export function StudyHelperTool() {
     reader.readAsDataURL(file);
   }
 
-  function loadJackTonight() {
-    setStudent("Jack");
+  // Fictional sample — a worked example, never a real student.
+  function loadExamSample() {
+    setStudent("Alex");
     setYearLevel("Year 9");
-    setSchool("Sacred Heart College");
+    setSchool("Harbourside College");
     setTextTitle("Falling into Rarohenga");
     setAuthor("Steph Matuku");
     setExamContext("First English exam tomorrow. Novel study essay.");
     setEssayQuestion("We do not know the exact question yet. Build an adaptable essay plan for a novel study essay.");
     setRoughIdeas(
-      "Jack needs a direct plan for tonight. Help him remember plot, themes, characters, setting, and how to turn one scene into a paragraph. He needs confidence, not a full essay to memorise.",
+      "The student needs a direct plan for tonight. Help them remember plot, themes, characters, setting, and how to turn one scene into a paragraph. They need confidence, not a full essay to memorise.",
     );
-    setQuoteBank("No exact quotes yet. Make a quote/evidence hunt list and remind him not to invent wording.");
+    setQuoteBank("No exact quotes yet. Make a quote/evidence hunt list and remind them not to invent wording.");
     setMode("essay-plan");
   }
 
@@ -209,8 +210,8 @@ export function StudyHelperTool() {
         <section className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap gap-3">
-              <button type="button" onClick={loadJackTonight} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
-                Load Jack tonight
+              <button type="button" onClick={loadExamSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
+                Load a sample exam night
               </button>
               {modes.map(({ id, label, icon: Icon }) => (
                 <button
@@ -257,7 +258,7 @@ export function StudyHelperTool() {
                           {imageName || "Drop in a teacher sheet, notes page, or essay plan photo."}
                         </p>
                         <p className="mt-1 text-sm text-[#6B6661]">
-                          The parser reads visible text only. Jack still checks exact quotes in the novel.
+                          The parser reads visible text only. The student still checks exact quotes in the novel.
                         </p>
                       </div>
                     </div>
@@ -304,7 +305,7 @@ export function StudyHelperTool() {
                     ))}
                   </div>
                   <p className="mt-4 text-sm leading-relaxed text-[#6B6661]">
-                    These are prompts, not claims. The plan will ask Jack to prove any idea with a scene or exact quote.
+                    These are prompts, not claims. The plan will ask the student to prove any idea with a scene or exact quote.
                   </p>
                 </div>
               </label>
@@ -351,7 +352,7 @@ export function StudyHelperTool() {
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">what this becomes</p>
             <h2 className="mt-3 font-display text-4xl font-light leading-none">Mapped to NZ Curriculum skills.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
-              <li><strong>Tonight:</strong> Year 9 English exam prep for Jack on <em>Falling into Rarohenga</em>.</li>
+              <li><strong>Sample:</strong> Year 9 English exam prep on <em>Falling into Rarohenga</em> — swap in your own details.</li>
               <li><strong>Next:</strong> upload teacher rubrics, timetable photos, novel notes, and practice paragraphs.</li>
               <li><strong>Generic version:</strong> share this with any NZ student for a prompt, notes photo, quote bank, or practice paragraph.</li>
               <li><strong>Guardrail:</strong> coaching and recall, not ghostwriting.</li>

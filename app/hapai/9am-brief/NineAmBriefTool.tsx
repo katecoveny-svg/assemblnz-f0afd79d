@@ -158,7 +158,7 @@ export function NineAmBriefTool() {
   function loadFounderSample() {
     setToday("Busy operator day. Need to close loose loops before travel and keep the important people warm.");
     setMeetings("10am supplier check-in\n1pm internal build review\n4pm pilot follow-up window");
-    setFollowUps("Send Dad the Pīkau link\nSend Praveen the Arataki dealership note\nConfirm Nick has the Waihanga one-pager");
+    setFollowUps("Send the supplier the updated price list\nSend the new customer the welcome note\nConfirm the contractor has the one-pager");
     setWorries("SPARK tools need to look more credible before sharing\nMeeting recorder needs to feel like a proper assistant, not a form");
     setNotes("Turn scattered screenshots, emails, and whiteboard notes into one calm list. Keep everything draft-only.");
   }
@@ -269,7 +269,7 @@ export function NineAmBriefTool() {
                 />
               </label>
               <Field label="Meetings and deadlines" value={meetings} onChange={setMeetings} placeholder="10am Nick, 2pm supplier call, invoice due Friday..." />
-              <Field label="Follow-ups" value={followUps} onChange={setFollowUps} placeholder="Dad Pīkau link, Nick one-pager, Praveen dealership email..." />
+              <Field label="Follow-ups" value={followUps} onChange={setFollowUps} placeholder="supplier price list, customer welcome note, contractor one-pager..." />
               <Field label="Risks or worries" value={worries} onChange={setWorries} placeholder="Anything likely to slip, block, confuse, or need a decision." />
               <Field label="Loose notes" value={notes} onChange={setNotes} placeholder="Paste messy notes, reminders, inbox scraps, Slack snippets, or half-thoughts." />
             </div>

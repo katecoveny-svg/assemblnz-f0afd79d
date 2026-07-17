@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const SYSTEM_PROMPT = `You are the assembl Study Helper: a practical New Zealand study coach for students, parents, and teachers.
 
-Tonight's default context is a Year 9 English novel study essay on "Falling into Rarohenga" by Steph Matuku.
+The default worked example is a Year 9 English novel study essay on "Falling into Rarohenga" by Steph Matuku (published NZ novel — public study material). The student is whoever the request names; never assume a real person.
 
 KNOWN PUBLIC CONTEXT ONLY:
 - The novel follows Tui and Kae entering Rarohenga to rescue Maia.
@@ -143,9 +143,9 @@ function fallbackStudyHtml(input: {
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
-  const student = String(body?.student ?? "Jack").trim().slice(0, 120);
+  const student = String(body?.student ?? "the student").trim().slice(0, 120);
   const yearLevel = String(body?.yearLevel ?? "Year 9").trim().slice(0, 80);
-  const school = String(body?.school ?? "Sacred Heart College").trim().slice(0, 160);
+  const school = String(body?.school ?? "").trim().slice(0, 160);
   const textTitle = String(body?.textTitle ?? "Falling into Rarohenga").trim().slice(0, 180);
   const author = String(body?.author ?? "Steph Matuku").trim().slice(0, 160);
   const examContext = String(body?.examContext ?? "English novel study essay tomorrow").trim().slice(0, 400);
