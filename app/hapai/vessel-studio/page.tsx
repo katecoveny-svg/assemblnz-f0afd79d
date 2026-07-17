@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegacyHapaiToolShell } from "@/components/hapai/LegacyHapaiToolShell";
+import { VesselStudioTool } from "@/components/hapai/VesselStudioTool";
 
 export const metadata: Metadata = {
   title: "Vessel studio — assembl",
@@ -7,14 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function VesselStudioPage() {
-  return (
-    <LegacyHapaiToolShell
-      title="Vessel studio."
-      kicker="hapai · marketing"
-      description="A quiet prompt builder for branded hero imagery and vessel-led campaign assets."
-      posture="Draft imagery only. A named person picks, checks, and publishes the final asset."
-      path="/hapai/vessel-studio"
-      legacyPath="/static-hapai/vessel-studio/vessel-studio.html"
-    />
-  );
+  return <VesselStudioTool />;
 }
