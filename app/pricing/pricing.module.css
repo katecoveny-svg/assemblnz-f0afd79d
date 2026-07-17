@@ -1,5 +1,6 @@
 .page {
-  --paper: #fbfaf6;
+  /* Pearl canon — the homepage palette (teal + gold on white). */
+  --paper: #ffffff;
   --pounamu: #3f7373;
   --deep: #2e5a58;
   --amber: #b8964f;

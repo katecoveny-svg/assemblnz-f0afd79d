@@ -196,3 +196,21 @@ export const BUILD_SCRIPT = {
   chips: ['Website', 'PDFs', 'Emails', 'Price list', 'Logo', 'Facebook', 'Google Drive'],
   done: 'Done.',
 } as const;
+
+/**
+ * Homepage Pattern Studio moment — the brand playground. Drafted from Kate's
+ * direction 2026-07-17 ("we imagined the imagery, built the tool to create
+ * it"); mirrored in COPY.md, awaiting sign-off.
+ */
+export const PLAYGROUND = {
+  eyebrow: 'Pattern Studio × Ad Studio',
+  heading: "We imagined this site's imagery, then built the tool that makes it.",
+  body: 'Every moving pattern on this site comes from the Pattern Studio. Paste your web address and it reads your brand — your name, your colour — so you can make your own patterns and ads.',
+  urlLabel: 'Your website',
+  urlPlaceholder: 'e.g. yourbusiness.co.nz',
+  readAction: 'Read my brand',
+  readingAction: 'Reading…',
+  adsAction: 'Make my ads',
+  patternsAction: 'Open the Pattern Studio',
+} as const;
+

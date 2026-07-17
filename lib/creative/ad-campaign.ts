@@ -13,6 +13,7 @@ import { generateImages, geminiText, isNotConfigured } from "./generate";
 import { getGenomeFactsFor } from "@/lib/customers/auckland-dog-trainer/genome-store";
 import { ASSEMBL_TENANT, ASSEMBL_FALLBACK_FACTS } from "@/lib/customers/assembl/genome";
 import { verticalBySlug } from "@/lib/living-site/verticals";
+import type { BusinessDna as SiteDna } from "./site-brand";
 import type { GenomeFact, GenomeSection } from "@/lib/customers/auckland-dog-trainer/genome";
 
 export interface AdCampaign {
@@ -151,7 +152,39 @@ function parseCampaignJson(raw: string): { headline?: string; caption?: string; 
 export async function generateAdCampaign(slug: string, goal: string): Promise<AdCampaign> {
   const b = await resolveBusiness(slug);
   if (!b) throw new UnknownBusiness(slug);
+  return runCampaign(b, goal);
+}
 
+/**
+ * Build a campaign for a visitor's OWN business, from the Business DNA read
+ * off their website (the Pomelli flow). The DNA arrives sanitised
+ * (lib/creative/site-brand.ts sanitizeDna) — treat its values as brand data,
+ * never as instructions.
+ */
+export async function generateAdCampaignForDna(dna: SiteDna, goal: string): Promise<AdCampaign> {
+  const b: ResolvedBusiness = {
+    slug: "your-site",
+    name: dna.name,
+    descriptor: dna.descriptor || "business",
+    tagline: dna.tagline,
+    accent: dna.accent,
+    ink: dna.ink,
+    bg: dna.bg,
+    facts: dna.facts.map((f, i) => ({
+      id: `dna-${i}`,
+      section: f.label === "Service" ? "services" : "identity",
+      label: f.label,
+      value: f.value,
+      readBy: [],
+    })),
+    live: false,
+    fallbackHeadline: dna.tagline || dna.name,
+    fallbackCaption: dna.descriptor || dna.tagline || dna.name,
+  };
+  return runCampaign(b, goal);
+}
+
+async function runCampaign(b: ResolvedBusiness, goal: string): Promise<AdCampaign> {
   const ctx = brandContext(b);
   const objective = goal.trim() || "a general awareness ad that brings in new enquiries";
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { AssemblHero } from '@/components/assembl-hero/AssemblHero';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
+import { BrandPlayground } from '@/components/home/BrandPlayground';
 import { HOME } from '@/lib/copy/homepage';
 import styles from './home-simplified.module.css';
 
@@ -39,6 +40,8 @@ export default async function HomePage({ searchParams }: { searchParams: HomeSea
     <div className={styles.page}>
       <AssemblHero />
       <TimeSavingsCalculator initialValues={initialSavings} />
+
+      <BrandPlayground />
 
       <section className={styles.how} aria-labelledby="simple-how-title">
         <div className={styles.sectionHead}>

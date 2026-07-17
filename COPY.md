@@ -175,3 +175,18 @@ Centre node: `Business Genome`
 5. `Drop anything you've got.`
 6. Chips, one per step, in order: `Website` · `PDFs` · `Emails` · `Price list` · `Logo` · `Facebook` · `Google Drive`
 7. `Done.`
+
+---
+
+## Homepage — Pattern Studio brand playground (2026-07-17)
+
+Mirrors `PLAYGROUND` in `lib/copy/homepage.ts`. Drafted from Kate's direction
+("we imagined the imagery for the website, built a tool to create it");
+awaiting Kate's sign-off — edit here, code follows.
+
+- Eyebrow: `Pattern Studio × Ad Studio`
+- Heading: `We imagined this site's imagery, then built the tool that makes it.`
+- Body: `Every moving pattern on this site comes from the Pattern Studio. Paste your web address and it reads your brand — your name, your colour — so you can make your own patterns and ads.`
+- Input label: `Your website` (placeholder `e.g. yourbusiness.co.nz`)
+- Actions: `Read my brand` / `Reading…` · `Make my ads` · `Open the Pattern Studio`
+

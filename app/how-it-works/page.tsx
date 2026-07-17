@@ -1,6 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { palette, typography } from '@assembl/canvas/tokens';
+import { typography } from '@assembl/canvas/tokens';
+
+// Pearl canon — the homepage palette; overrides the warm canvas tokens here.
+const pearl = {
+  ink: '#313c42',
+  bodyGrey: '#68766f',
+  accentGold: '#b8964f',
+  hairline: 'rgba(49, 60, 66, 0.12)',
+} as const;
 import { MicroLabel } from '@assembl/canvas';
 import { HeroArt } from '@/components/v2/HeroArt';
 import styles from '@/components/v2/v2.module.css';
@@ -38,16 +46,16 @@ export default function HowItWorksPage() {
     fontFamily: typography.body.fontFamily,
     fontSize: 15,
     lineHeight: typography.body.lineHeight,
-    color: palette.bodyGrey,
+    color: pearl.bodyGrey,
   };
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} style={{ backgroundColor: '#fff', color: pearl.ink }}>
       {/* ── hero — paper white + the signed-off particulate landscape ── */}
       <section className={styles.hero}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
+            <span aria-hidden style={{ color: pearl.accentGold, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
             <MicroLabel>understand · prepare · approve</MicroLabel>
@@ -57,7 +65,7 @@ export default function HowItWorksPage() {
             style={{ marginTop: 22, fontSize: 'clamp(2.2rem, 4vw, 3.6rem)' }}
           >
             how assembl works
-            <span aria-hidden style={{ color: palette.accentGold }}>
+            <span aria-hidden style={{ color: pearl.accentGold }}>
               .
             </span>
           </h1>
@@ -82,14 +90,14 @@ export default function HowItWorksPage() {
                     height: '100%',
                     padding: '26px 24px',
                     background: '#fff',
-                    border: `1px solid ${palette.hairline}`,
+                    border: `1px solid ${pearl.hairline}`,
                     borderRadius: 14,
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span
                       aria-hidden
-                      style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1 }}
+                      style={{ color: pearl.accentGold, fontSize: 11, lineHeight: 1 }}
                     >
                       •
                     </span>
@@ -121,17 +129,17 @@ export default function HowItWorksPage() {
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: 20,
-            borderTop: `1px solid ${palette.hairline}`,
+            borderTop: `1px solid ${pearl.hairline}`,
             paddingTop: 36,
           }}
         >
           <p style={{ ...body, maxWidth: 480 }}>
-            <span style={{ color: palette.ink, fontWeight: 600 }}>Built in Aotearoa.</span> Start
+            <span style={{ color: pearl.ink, fontWeight: 600 }}>Built in Aotearoa.</span> Start
             with the demo, then use a pilot to prove one workflow with your own rules.
           </p>
           <Link href="/genome" className={styles.navCta} style={{ padding: '11px 22px' }}>
             try the live demo
-            <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
+            <span aria-hidden style={{ color: pearl.accentGold, fontSize: 15, lineHeight: 1 }}>
               •
             </span>
           </Link>
