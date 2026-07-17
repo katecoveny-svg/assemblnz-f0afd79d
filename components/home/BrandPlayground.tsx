@@ -5,7 +5,12 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PLAYGROUND } from '@/lib/copy/homepage';
-import { composeAd, loadCampaignImage, type ComposableCampaign } from '@/components/ad-studio/compose';
+import {
+  composeAd,
+  composePatternAd,
+  loadCampaignImage,
+  type ComposableCampaign,
+} from '@/components/ad-studio/compose';
 
 const PatternStudio = dynamic(() => import('@/components/pattern-studio/AssemblPatternStudioComponent'), {
   ssr: false,
@@ -125,12 +130,26 @@ export function BrandPlayground() {
         return;
       }
       const c = d.campaign as ComposableCampaign;
-      const img = await loadCampaignImage(c.image);
       if (document.fonts?.ready) await document.fonts.ready;
-      setAds([
-        { label: 'Square 1:1', w: 1080, h: 1080, dataUrl: composeAd(img, 1080, 1080, c) },
-        { label: 'Landscape 16:9', w: 1920, h: 1080, dataUrl: composeAd(img, 1920, 1080, c) },
-      ]);
+      const sizes: Array<[string, number, number]> = [
+        ['Square 1:1', 1080, 1080],
+        ['Landscape 16:9', 1920, 1080],
+      ];
+      // Three looks per campaign: the generated stills (scene, abstract) plus
+      // the pattern ad composed here from the brand palette — no image call.
+      const variantLabels: Record<string, string> = { scene: 'Scene', abstract: 'Abstract' };
+      const stills = c.variants?.length ? c.variants : [{ kind: 'scene', image: c.image }];
+      const cards: Array<{ label: string; w: number; h: number; dataUrl: string }> = [];
+      for (const v of stills) {
+        const img = await loadCampaignImage(v.image);
+        for (const [size, w, h] of sizes) {
+          cards.push({ label: `${variantLabels[v.kind] ?? v.kind} · ${size}`, w, h, dataUrl: composeAd(img, w, h, c) });
+        }
+      }
+      for (const [size, w, h] of sizes) {
+        cards.push({ label: `Pattern · ${size}`, w, h, dataUrl: await composePatternAd(w, h, c) });
+      }
+      setAds(cards);
     } catch (e) {
       setNote((e as Error).message);
     } finally {
@@ -445,7 +464,6 @@ export function BrandPlayground() {
             >
               {heroVideo ? (
                 <>
-                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                   <video
                     src={heroVideo}
                     autoPlay
@@ -503,7 +521,9 @@ export function BrandPlayground() {
 
         {ads.length > 0 && dna && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, pointerEvents: 'auto' }}>
-            {ads.map((card) => (
+            {ads.map((card) => {
+              const fileSlug = card.label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+              return (
               <figure key={card.label} style={{ margin: 0, width: card.w > card.h ? 300 : 220 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -521,7 +541,7 @@ export function BrandPlayground() {
                       onClick={() =>
                         shareAsset({
                           dataUrl: card.dataUrl,
-                          filename: `assembl-ad-${card.w}x${card.h}.png`,
+                          filename: `assembl-ad-${fileSlug}.png`,
                           title: dna.name,
                         })
                       }
@@ -531,7 +551,7 @@ export function BrandPlayground() {
                     </button>
                     <a
                       href={card.dataUrl}
-                      download={`assembl-ad-${card.w}x${card.h}.png`}
+                      download={`assembl-ad-${fileSlug}.png`}
                       style={{ color: dna.accent, fontSize: 12, fontWeight: 700, textDecoration: 'none' }}
                     >
                       Download
@@ -539,7 +559,8 @@ export function BrandPlayground() {
                   </span>
                 </figcaption>
               </figure>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

@@ -36,7 +36,8 @@ export async function POST(req: Request) {
     );
   }
 
-  // One campaign generates a base image → count it against the image budget.
+  // One campaign generates its base stills (scene + abstract; the pattern
+  // variant is client-composed, no image call) → one image-budget consume.
   const rl = await consume(rateKey(req), "image");
   if (!rl.ok) {
     return NextResponse.json(
@@ -54,7 +55,7 @@ export async function POST(req: Request) {
       kind: "image",
       provider: campaign.imageProvider,
       model: `ad campaign · ${campaign.copyProvider} copy · ${campaign.imageProvider} image`,
-      costNzd: imageCostNzd(1, campaign.imageProvider),
+      costNzd: imageCostNzd(campaign.variants.length, campaign.imageProvider),
       brief: `${campaign.business.name}: ${goal}`.trim(),
       spec: dna
         ? `campaign · brand read from ${dna.url || "the visitor's site"}`
