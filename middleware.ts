@@ -103,18 +103,22 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/ai-use',
   '/data',
   '/hui',
-  '/industry-pack',
   '/insurance',
-  '/platform',
   '/press',
   '/public-assembly',
-  '/start',
   '/toro',
   '/assembling',
   '/hapai',
   '/free-tools',
   '/pattern-studio',
   '/ad-studio',
+  // "Build an agent" — the Pilot flow is public (the homepage + /genome CTA
+  // target it). Kept; the retired kete pricing pages (/industry-pack, /start,
+  // /platform) are removed from the public surface.
+  '/pilot',
+  // Legacy /privacy path — exempt so the next.config redirect to
+  // /legal/privacy fires instead of the splash rewrite shadowing it.
+  '/privacy',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   '/robots.txt',
@@ -216,6 +220,8 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/pattern-studio',
   // Public Ad Studio — genome-driven ad generator, reachable on the demo host.
   '/ad-studio',
+  // Public "build an agent" flow, reachable on the demo host too.
+  '/pilot',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|pdf|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;

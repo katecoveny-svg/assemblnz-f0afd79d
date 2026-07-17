@@ -28,8 +28,6 @@ export function isDashMicrosite(pathname: string | null): boolean {
 export function isAgentMarketplace(pathname: string | null): boolean {
   if (!pathname) return false;
   if (pathname === "/agents/pick") return false;
-  // Pilot (the agent maker) uses the marketplace chrome.
-  if (pathname === "/pilot" || pathname.startsWith("/pilot/")) return true;
   return pathname === "/agents" || pathname.startsWith("/agents/");
 }
 
