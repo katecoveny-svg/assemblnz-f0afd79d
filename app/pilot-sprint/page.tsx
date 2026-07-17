@@ -28,7 +28,7 @@ export default async function PilotSprintPage({
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] py-28 lg:py-36">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}

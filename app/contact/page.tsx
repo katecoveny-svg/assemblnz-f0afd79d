@@ -19,14 +19,14 @@ export default function ContactPage() {
         {/* Pattern Studio backdrop — the canonical generative layer, replacing
             the old warm ambient photo + sand gradient. Faint gold, static. */}
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}
           speed={0.5}
           lazyMount={false}
         />
-        <div className="container py-20 md:py-24">
+        <div className="container relative z-10 py-20 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow label="Get in touch" className="justify-center" />
             <h1 className="mt-6 font-display text-display-xl font-light">

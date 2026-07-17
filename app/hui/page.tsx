@@ -23,14 +23,14 @@ export default function HuiPage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}
           speed={0.5}
           lazyMount={false}
         />
-        <div className="relative container grid items-center gap-10 py-16 md:grid-cols-2 md:py-20">
+        <div className="relative z-10 container grid items-center gap-10 py-16 md:grid-cols-2 md:py-20">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               Hui · the meeting agent

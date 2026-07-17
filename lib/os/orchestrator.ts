@@ -22,6 +22,7 @@ import {
   getGenomeFactsFor,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
+import { ASSEMBL_TENANT, ASSEMBL_GENOME_FACTS } from '@/lib/customers/assembl/genome';
 import { deterministicDeskAnswer, rankGenomeFacts } from '@/lib/living-site/desk';
 import { getInstall } from '@/lib/living-site/install-store';
 import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
@@ -60,9 +61,11 @@ type BusinessContext = {
  *  Null only when an install tenant's genome cannot be read. */
 async function resolveBusiness(tenant: string | undefined): Promise<BusinessContext | null> {
   const t = tenant ?? GENOME_TENANT;
-  if (t === 'assembl') {
-    const { facts, live } = await getGenomeFactsFor('assembl', []);
-    if (!live || facts.length === 0) return null;
+  if (t === ASSEMBL_TENANT) {
+    // Dogfood: assembl's own loop grounds on its own genome. The static
+    // fallback mirrors the DB seeds (migration 20260722096000), so the loop
+    // keeps drafting from confirmed facts even when the DB is unreachable.
+    const { facts } = await getGenomeFactsFor(ASSEMBL_TENANT, ASSEMBL_GENOME_FACTS);
     return { tenant: t, businessName: 'assembl', owner: 'Kate', facts };
   }
   const vertical = SAMPLE_VERTICALS.find((v) => v.tenant === t);

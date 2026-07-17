@@ -28,6 +28,9 @@ export function isDashMicrosite(pathname: string | null): boolean {
 export function isAgentMarketplace(pathname: string | null): boolean {
   if (!pathname) return false;
   if (pathname === "/agents/pick") return false;
+  // "My agents" (saved Pilot builds) is part of the living-OS surface, not
+  // the marketplace — it keeps the standard site chrome.
+  if (pathname === "/agents/mine" || pathname.startsWith("/agents/mine/")) return false;
   return pathname === "/agents" || pathname.startsWith("/agents/");
 }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import styles from './mana-receipts.module.css';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { ReceiptMock } from './ReceiptMock';
 import { HERO_RECEIPT } from './receipt-data';
 
@@ -29,8 +30,17 @@ export default function ManaReceiptsPage() {
     <main className={styles.root}>
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <div className={styles.heroDash} aria-hidden />
-      <section className={styles.hero}>
-        <div className={styles.wrap}>
+      <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Pattern Studio motion — decorative, behind the hero copy. */}
+        <PatternBackdrop
+          className="absolute inset-0"
+          mode="halftone"
+          colorRole="gold"
+          opacity={0.22}
+          speed={0.5}
+          lazyMount={false}
+        />
+        <div className={styles.wrap} style={{ position: 'relative', zIndex: 1 }}>
           <p className={styles.eyebrow}>004 — Trust · Kaitiakitanga · Mana Receipts</p>
           <h1 className={styles.h1}>
             The receipt is the proof.

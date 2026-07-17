@@ -23,14 +23,14 @@ export default function AIUseDisclosurePage() {
     <main className="bg-[color:var(--assembl-paper)]">
       <section className="relative overflow-hidden container py-24 md:py-32">
         <PatternBackdrop
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           mode="halftone"
           colorRole="gold"
           opacity={0.3}
           speed={0.5}
           lazyMount={false}
         />
-        <div className="mx-auto max-w-4xl">
+        <div className="relative z-10 mx-auto max-w-4xl">
           <SectionReveal>
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
               Compliance · Model Use
