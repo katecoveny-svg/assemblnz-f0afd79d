@@ -7,9 +7,9 @@ import { getLiveGenomeFacts } from '@/lib/customers/auckland-dog-trainer/genome-
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'live Business Genome demo — one source of truth, governed agents · assembl',
+  title: 'live demo — change one fact, see the work update · assembl',
   description:
-    'Try a real assembl Business Genome on a fictional Auckland business. Change one fact, see every connected surface respond, then run a governed agent with sources and human approval visible.',
+    'Try assembl on a fictional Auckland business. Change one fact, see the work update, then run an agent that shows its sources.',
   alternates: { canonical: '/genome' },
 };
 

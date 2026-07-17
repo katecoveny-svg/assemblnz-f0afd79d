@@ -8,28 +8,28 @@ import styles from '@/components/v2/v2.module.css';
 export const metadata: Metadata = {
   title: 'assembl — how it works',
   description:
-    'install a living site — website, crm, bookings, knowledge, and agents on one source of truth. agents draft the work inside it, a person signs off, and the proof shows the journey.',
+    'assembl understands one workflow, prepares the repetitive work, and keeps a person in control.',
   alternates: { canonical: '/how-it-works' },
 };
 
 const STEPS = [
   {
     n: '01',
-    label: 'install',
-    title: 'ten answers become your genome.',
-    body: 'choose your industry and answer ten questions. your business genome — every fact about your business, written down once — assembles, and the website, crm, bookings, knowledge and agents appear around it.',
+    label: 'understand',
+    title: 'we learn one workflow.',
+    body: 'We capture the facts, rules, people and tools behind one repetitive piece of work.',
   },
   {
     n: '02',
-    label: 'one source of truth',
-    title: 'every surface reads it.',
-    body: 'update a price once and the website, proposals, emails and the desk agent all follow on their next load. no cms, no duplicate editing, no version drift.',
+    label: 'prepare',
+    title: 'agents prepare the work.',
+    body: 'Replies, follow-ups, briefs and documents arrive as drafts using the same approved facts.',
   },
   {
     n: '03',
-    label: 'improve',
-    title: 'one improvement every morning.',
-    body: 'assembl watches how your business runs and prepares one improvement a day — already done, as a draft, waiting for your yes. nothing sends, publishes, or books without you.',
+    label: 'approve',
+    title: 'your team stays in control.',
+    body: 'A person reviews important work before anything is sent, published, booked or charged.',
   },
 ] as const;
 
@@ -50,7 +50,7 @@ export default function HowItWorksPage() {
             <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
-            <MicroLabel>install · run · improve every morning</MicroLabel>
+            <MicroLabel>understand · prepare · approve</MicroLabel>
           </div>
           <h1
             className={styles.h1}
@@ -62,9 +62,8 @@ export default function HowItWorksPage() {
             </span>
           </h1>
           <p style={{ ...body, marginTop: 24, maxWidth: 420 }}>
-            You install a Living Site — one source of truth running your website, CRM,
-            bookings, and agents. The agents draft the work inside it, a person signs it
-            off, and the proof shows the journey.
+            Start with one repetitive job. assembl prepares it using your business rules,
+            and your team decides what happens next.
           </p>
         </div>
         <div className={styles.heroArt}>
@@ -112,31 +111,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* ── the four-line brand story ────────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 28, paddingBottom: 28 }}>
-        <div className={`${styles.inner} rise`} style={{ textAlign: 'center' }}>
-          <div
-            className={styles.h1}
-            style={{
-              fontSize: 'clamp(1.35rem, 2.6vw, 2rem)',
-              lineHeight: 1.55,
-              fontWeight: 400,
-            }}
-          >
-            the user sets the destination.
-            <br />
-            the agents read the signals.
-            <br />
-            the system finds a path.
-            <br />
-            the proof — receipts and mana — show the journey
-            <span aria-hidden style={{ color: palette.accentGold }}>
-              .
-            </span>
-          </div>
-        </div>
-      </section>
-
       {/* ── built for nz + cta ───────────────────────────────────────── */}
       <section className={styles.section} style={{ paddingTop: 8, paddingBottom: 56 }}>
         <div
@@ -152,11 +126,11 @@ export default function HowItWorksPage() {
           }}
         >
           <p style={{ ...body, maxWidth: 480 }}>
-            <span style={{ color: palette.ink, fontWeight: 600 }}>Built in Aotearoa.</span> Agents
-            cite current NZ legislation, council and sector rules from the start.
+            <span style={{ color: palette.ink, fontWeight: 600 }}>Built in Aotearoa.</span> Start
+            with the demo, then use a pilot to prove one workflow with your own rules.
           </p>
-          <Link href="/living-site" className={styles.navCta} style={{ padding: '11px 22px' }}>
-            see a living site
+          <Link href="/genome" className={styles.navCta} style={{ padding: '11px 22px' }}>
+            try the live demo
             <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
               •
             </span>

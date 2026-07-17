@@ -311,12 +311,11 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // are uppercase).
 export const nav = [
   { href: '/how-it-works', label: 'how it works' },
-  { href: '/living-site',  label: 'living site' },
   { href: '/pricing',      label: 'pricing' },
   { href: '/about',        label: 'about' },
 ] as const;
 
-export const navCta = { href: '/genome', label: 'try the live genome' };
+export const navCta = { href: '/genome', label: 'try the demo' };
 
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 

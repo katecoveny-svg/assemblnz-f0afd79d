@@ -12,57 +12,41 @@ import {
 import styles from './pricing.module.css';
 
 export const metadata: Metadata = {
-  title: 'Living Site pricing',
+  title: 'pricing — start with one workflow',
   description:
-    'Explore an assembl Living Site free, or commission a ten-working-day Founding Pilot for NZ$1,500 plus GST. One real workflow, installed around your business.',
+    'Try the assembl demo free, then build one real workflow in a ten-working-day pilot for NZ$1,500 plus GST.',
   alternates: { canonical: '/pricing' },
 };
 
 const PILOT_INCLUDES = [
-  'One agreed workflow, mapped against the way your team works now',
-  'A Business Genome containing the facts that workflow is allowed to use',
-  'The relevant website, intake, desk and draft tools needed to prove the loop',
-  'Human approval gates, source notes and a practical handover',
+  'One agreed workflow',
+  'Your rules, sources and current tools',
+  'A working result your team can review',
 ] as const;
 
 const OPERATE_INCLUDES = [
-  'Hosting, monitoring and support scoped to the system you keep',
-  'Additional workflows, integrations and team access added in agreed stages',
-  'Third-party usage shown separately before you approve it',
-  'A monthly price agreed before the pilot moves into ongoing operation',
+  'Keep the workflow only if it saves useful time',
+  'Add integrations or team access in stages',
+  'Agree the ongoing cost before anything continues',
 ] as const;
 
 export default function PricingPage() {
   const checkoutConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
   return (
     <div className={styles.page}>
-      <section className={styles.hero} style={{ position: 'relative' }}>
-        {/* Pattern Studio motion — decorative, behind the hero grid. */}
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="particles"
-          colorRole="gold"
-          count={110}
-          connectLines
-          connectDistance={130}
-          glow
-          opacity={0.3}
-          speed={0.55}
-          lazyMount={false}
-        />
+      <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Living Site pricing · NZD</p>
-          <h1>Buy the working loop first<span>.</span></h1>
+          <p className={styles.eyebrow}>Simple pricing · NZD</p>
+          <h1>Start with one workflow<span>.</span></h1>
           <p className={styles.lede}>
-            See the system working in a fictional business for free. When you are ready,
-            a Founding Pilot installs one valuable workflow around the facts, approvals and
-            tools your business actually uses.
+            Try the demo for free. If it fits, a ten-working-day pilot builds one useful
+            workflow around your rules, tools and approvals.
           </p>
           <div className={styles.heroActions}>
             <Link href="/pilot-sprint" className={styles.primaryCta}>
-              Start a founding pilot <ArrowRight aria-hidden />
+              Start a pilot <ArrowRight aria-hidden />
             </Link>
-            <Link href="/living-site" className={styles.secondaryCta}>Explore the live demos</Link>
+            <Link href="/genome" className={styles.secondaryCta}>Try the live demo</Link>
           </div>
           <div className={styles.priceLine}>
             <strong>NZ${PILOT_SPRINT_EX_GST_NZD.toLocaleString('en-NZ')}</strong>
@@ -70,7 +54,22 @@ export default function PricingPage() {
           </div>
         </div>
         <div className={styles.domeCard} aria-label="Interactive Auckland Business Genome">
-          <GenomeDomeVisual label="Explore the live genome" />
+          <PatternBackdrop
+            className={styles.domePattern}
+            mode="particles"
+            colorRole="accent"
+            count={135}
+            particleShape="spark"
+            connectLines
+            connectDistance={128}
+            glow
+            opacity={0.72}
+            speed={0.65}
+            lazyMount={false}
+          />
+          <div className={styles.domeVisual}>
+            <GenomeDomeVisual label="Explore the live genome" />
+          </div>
           <div className={styles.domeStatus}>
             <span />
             website · desk · workflow · evidence
@@ -80,58 +79,58 @@ export default function PricingPage() {
 
       <section className={styles.pathSection} aria-labelledby="pricing-path-title">
         <div className={styles.sectionHeading}>
-          <p className={styles.eyebrow}>A practical path to live</p>
-          <h2 id="pricing-path-title">Three clear stages. No mystery platform fee.</h2>
-          <p>Each stage has a different job: understand it, prove it, then decide what is worth keeping.</p>
+          <p className={styles.eyebrow}>A clear path</p>
+          <h2 id="pricing-path-title">Try it. Build one. Decide.</h2>
+          <p>No long transformation programme and no hidden platform commitment.</p>
         </div>
         <div className={styles.pathGrid}>
           <article className={styles.stageCard}>
             <div className={styles.stageIcon}><Sparkles aria-hidden /></div>
-            <p className={styles.stageNumber}>01 · explore</p>
-            <h3>See a Living Site work</h3>
+            <p className={styles.stageNumber}>01 · try</p>
+            <h3>Try the live demo</h3>
             <p className={styles.stagePrice}>Free</p>
-            <p>Use the fictional vertical demos to test the website, booking request, customer desk, proposal, invoice, voice desk and marketing studio.</p>
+            <p>Change one business fact and see connected work update.</p>
             <ul>
               <li><Check aria-hidden /> No card</li>
               <li><Check aria-hidden /> Fictional sample data</li>
-              <li><Check aria-hidden /> Nothing connects to your business</li>
+              <li><Check aria-hidden /> Nothing is sent or published</li>
             </ul>
-            <Link href="/living-site">Open the demos <ArrowRight aria-hidden /></Link>
+            <Link href="/genome">Open the demo <ArrowRight aria-hidden /></Link>
           </article>
 
           <article className={`${styles.stageCard} ${styles.featuredCard}`}>
             <div className={styles.stageIcon}><Layers3 aria-hidden /></div>
-            <p className={styles.stageNumber}>02 · founding pilot</p>
-            <h3>Prove one real workflow</h3>
+            <p className={styles.stageNumber}>02 · pilot</p>
+            <h3>Build one real workflow</h3>
             <p className={styles.stagePrice}>NZ${PILOT_SPRINT_EX_GST_NZD.toLocaleString('en-NZ')} <small>+ GST</small></p>
-            <p>Ten working days to install one agreed workflow against your own rules and sources, with a named person retaining control.</p>
+            <p>Ten working days to turn one repetitive job into a working, reviewable result.</p>
             <ul>
               {PILOT_INCLUDES.map((item) => <li key={item}><Check aria-hidden /> {item}</li>)}
             </ul>
-            <Link href="/pilot-sprint">See the pilot scope <ArrowRight aria-hidden /></Link>
+            <Link href="/pilot-sprint">Start a pilot <ArrowRight aria-hidden /></Link>
           </article>
 
           <article className={styles.stageCard}>
             <div className={styles.stageIcon}><ShieldCheck aria-hidden /></div>
-            <p className={styles.stageNumber}>03 · operate</p>
+            <p className={styles.stageNumber}>03 · decide</p>
             <h3>Keep only what earns its place</h3>
             <p className={styles.stagePrice}>Agreed after the pilot</p>
-            <p>The pilot gives us enough evidence to price the live system honestly. You see the ongoing scope and cost before choosing to continue.</p>
+            <p>Use the evidence from the pilot to decide whether to keep, change or stop.</p>
             <ul>
               {OPERATE_INCLUDES.map((item) => <li key={item}><Check aria-hidden /> {item}</li>)}
             </ul>
-            <Link href="/contact">Talk through your workflow <ArrowRight aria-hidden /></Link>
+            <Link href="/contact">Ask a question <ArrowRight aria-hidden /></Link>
           </article>
         </div>
       </section>
 
       <section className={styles.checkoutSection}>
         <div className={styles.checkoutCopy}>
-          <p className={styles.eyebrow}>For approved founding pilots</p>
-          <h2>Ready to fund the build?</h2>
+          <p className={styles.eyebrow}>Secure checkout</p>
+          <h2>Ready to start?</h2>
           <p>
-            Use secure checkout only after the workflow, success measure and start date are agreed.
-            Stripe charges NZ${PILOT_SPRINT_TOTAL_NZD.toLocaleString('en-NZ')} including GST and creates the payment record.
+            Use checkout after we agree the workflow, success measure and start date.
+            The total is NZ${PILOT_SPRINT_TOTAL_NZD.toLocaleString('en-NZ')} including GST.
           </p>
           <div className={styles.checkoutFact}>
             <strong>NZ${PILOT_SPRINT_EX_GST_NZD.toLocaleString('en-NZ')}</strong>

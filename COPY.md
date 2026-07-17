@@ -4,10 +4,8 @@
 the homepage.** Code renders strings from here (via
 `lib/copy/homepage.ts`, which mirrors this file). No copy is authored inline.
 
-**The rules that protect this file live in `CLAUDE.md` → "Copy rules —
-non-negotiable".** In short: never rewrite, paraphrase, "tighten" or "improve"
-any string below. If a task seems to need new or changed copy, STOP and ask
-Kate. Propose; never substitute.
+The simplified public story below was approved by Kate on 17 July 2026. Keep
+the homepage focused on one promise, two actions and one short path to value.
 
 Fixed forever: the tagline **"Mahi that earns its proof."** — never touched.
 NZ English spelling. Te reo Māori keeps its macrons.
@@ -26,44 +24,74 @@ NZ English spelling. Te reo Māori keeps its macrons.
 
 ### Top navigation
 - `how it works`
-- `living site`
 - `pricing`
 - `about`
 - `sign in`
-- `see a living site`
+- `try the demo`
 
 ### Footer
 - Wordmark: `assembl`
 - Tagline line: `Mahi that earns its proof. Built in Aotearoa.`
-- Links: `Living Sites` · `Business Genome` · `Operating system` · `Install` · `Trust` · `Contact` · `Privacy`
+- Links: `Live demo` · `Start a pilot` · `Pricing` · `About` · `Contact` · `Privacy`
 
 ---
 
 ## Hero (`components/assembl-hero/AssemblHero.tsx`)
 
 ### Signal rail
-- `Living Business Genome`
+- `Try it without an account`
 - `Built in Aotearoa`
-- `Human approval stays visible`
+- `You approve every action`
 
 ### Eyebrow
-- `Your business · understood as one living system`
+- `Agents for the work behind your business`
 
 ### Headline (two lines)
-- `Your business already has a genome.`
-- `assembl makes it intelligent.`
+- `Your business, understood.`
+- `Your admin, prepared.`
 
 ### Lede
-- `Connect the people, knowledge, customers and workflows you already have. assembl turns that context into a working operating system — with specialised agents, clear permissions and proof before anything consequential changes.`
+- `assembl creates one source of truth for your business, then gives you agents that prepare useful work for your approval.`
 
 ### Actions
-- `Build your Business Genome`
-- `See the living system`
+- `Try the live demo`
+- `Start a pilot`
 
 ### Proof line
-- `One shared source of truth`
-- `Review before send`
-- `Sources attached`
+- `One source of truth`
+- `Drafts ready to review`
+- `Nothing sends without you`
+
+---
+
+## Hours-back calculator
+
+- Eyebrow: `A two-minute reality check`
+- Heading: `How many hours could you get back?`
+- Body: `Use your own numbers. We will show a plain planning estimate — no form, no phone call and no inflated promise.`
+- Inputs: `People doing repeat admin` · `Admin hours each week, per person` · `How much of that work is repetitive?`
+- Result label: `Your mahi-saved estimate`
+- Result: `hours back each week` · `hours a year` · `working days`
+- Assumption: `This estimate assumes half of your repetitive admin time could be recovered. Planning estimate only.`
+- Actions: `Try the live demo` · `Share result`
+
+---
+
+## Three-step explanation
+
+- Heading: `One workflow. Three clear steps.`
+- `We understand it.` — capture the facts, rules and tools.
+- `Agents prepare it.` — useful drafts arrive.
+- `Your team approves it.` — important actions wait for a person.
+
+## Pilot close
+
+- Eyebrow: `Founding pilot · NZ$1,500 + GST`
+- Heading: `Start with one workflow.`
+- Body: `In ten working days, we build and test one useful workflow around the way your business already works.`
+
+The older Business Genome, orbit and conversational-build copy below remains as
+component reference. It is no longer rendered on the simplified homepage.
 
 ### Sculpture captions (`components/assembl-hero/ParticleCanvas.tsx`)
 - `your living business genome`
@@ -147,26 +175,3 @@ Centre node: `Business Genome`
 5. `Drop anything you've got.`
 6. Chips, one per step, in order: `Website` · `PDFs` · `Emails` · `Price list` · `Logo` · `Facebook` · `Google Drive`
 7. `Done.`
-
----
-
-## Time-savings calculator (homepage) — pulled from the Codex preview, 2026-07-17
-
-Mirrors `SAVINGS` in `lib/copy/homepage.ts`. Strings adapted from the
-homepage tool Kate asked to pull in from the Codex preview (PR #915);
-awaiting Kate's sign-off — edit here, code follows.
-
-- Eyebrow: `A two-minute reality check`
-- Heading: `How many hours could you get back?`
-- Body: `Use your own numbers. We will show a plain planning estimate — no form, no phone call and no inflated promise.`
-- Question 1: `People doing repeat admin`
-- Question 2: `Admin hours each week, per person` (unit: `hrs`)
-- Question 3: `How much of that work is repetitive?`
-  - `20%` / `a little` · `35%` / `a fair amount` · `50%` / `about half`
-- Result label: `Your mahi-saved estimate`
-- Result heading: `hours back each week`
-- Result facts: `hours a year` · `working days`
-- Note: `This estimate assumes half of your repetitive admin time could be recovered. Planning estimate only.`
-- Actions: `Try the live demo` · `Share result` · `Result shared`
-- Share title: `How much time could assembl give back?`
-- Share text: `Our assembl planning estimate: {weekly} hours back each week — about {days} working days a year.`
