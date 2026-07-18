@@ -1,0 +1,926 @@
+
+.root {
+  --paper: #fbfaf6;
+  --white: #fffefa;
+  --ink: #263339;
+  --deep: #182226;
+  --body: #5f6b6c;
+  --muted: #8d9695;
+  --sea: #dce9e6;
+  --sea-strong: #86aaa3;
+  --brass: #b8964f;
+  --line: rgba(38, 51, 57, 0.13);
+  min-height: calc(100vh - 76px);
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(38, 51, 57, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 51, 57, 0.026) 1px, transparent 1px),
+    var(--paper);
+  background-size: 48px 48px;
+}
+
+.root * {
+  box-sizing: border-box;
+}
+
+.topline {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 0 max(20px, calc((100vw - 1240px) / 2));
+  color: var(--muted);
+  background: rgba(255, 254, 250, 0.72);
+  font: 600 0.62rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero {
+  min-height: min(790px, calc(100vh - 120px));
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr);
+  gap: clamp(36px, 6vw, 92px);
+  align-items: center;
+  width: min(1240px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(55px, 7vw, 100px) 0;
+}
+
+.heroCopy {
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #4e817b;
+  font: 700 0.66rem/1.4 var(--font-mono), monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.heroCopy h1,
+.resultHeader h1,
+.formingCopy h1 {
+  margin: 19px 0 0;
+  color: var(--deep);
+  font: 500 clamp(3.9rem, 7.1vw, 7.4rem)/0.83 var(--font-display), Georgia, serif;
+  letter-spacing: -0.055em;
+}
+
+.heroCopy h1 em {
+  color: #557f78;
+  font-weight: 500;
+}
+
+.lede {
+  max-width: 570px;
+  margin: 28px 0 0;
+  color: var(--body);
+  font-size: clamp(0.96rem, 1.2vw, 1.1rem);
+  line-height: 1.65;
+}
+
+.intake {
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+.intake label > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font: 600 0.67rem/1.4 var(--font-mono), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.intake textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 118px;
+  border: 1px solid rgba(38, 51, 57, 0.2);
+  border-radius: 2px;
+  padding: 16px 17px;
+  outline: none;
+  color: var(--ink);
+  background: rgba(255, 254, 250, 0.86);
+  box-shadow: 0 18px 55px rgba(31, 44, 48, 0.06);
+  font: 400 0.92rem/1.55 var(--font-sans), sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.intake textarea:focus {
+  border-color: #557f78;
+  box-shadow: 0 0 0 3px rgba(85, 127, 120, 0.1), 0 18px 55px rgba(31, 44, 48, 0.06);
+}
+
+.intake textarea::placeholder {
+  color: #8a9290;
+}
+
+.samples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.samples button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 11px;
+  color: var(--body);
+  background: rgba(255, 254, 250, 0.64);
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.samples button:hover,
+.samples button[aria-pressed='true'] {
+  border-color: #6e9891;
+  color: var(--ink);
+  background: var(--sea);
+}
+
+.primary {
+  min-height: 51px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 24px;
+  color: var(--white);
+  background: var(--ink);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.primary svg,
+.result a svg,
+.result button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.intake > small {
+  display: inline-block;
+  margin-left: 13px;
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.heroVisual {
+  position: relative;
+  min-height: clamp(440px, 45vw, 650px);
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(38, 51, 57, 0.1);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.92), transparent 54%),
+    linear-gradient(145deg, #edf4f1, #d8e7e4);
+  box-shadow: 0 35px 100px rgba(38, 51, 57, 0.14);
+}
+
+.motionProfile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.motionProfile canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.motionLabel {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  color: rgba(38, 51, 57, 0.58);
+  font: 600 0.57rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.motionLabel strong {
+  color: #426d67;
+  font-weight: 700;
+}
+
+.visualFacts {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+  left: 17px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid rgba(38, 51, 57, 0.1);
+  background: rgba(255, 254, 250, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.visualFacts span {
+  padding: 12px;
+  color: var(--body);
+  font-size: 0.65rem;
+}
+
+.visualFacts span + span {
+  border-left: 1px solid var(--line);
+}
+
+.visualFacts b {
+  margin-right: 7px;
+  color: var(--brass);
+  font: 700 0.58rem var(--font-mono), monospace;
+}
+
+.movements {
+  width: min(1240px, calc(100% - 40px));
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+  padding: 24px 0 34px;
+}
+
+.movements div {
+  position: relative;
+  display: grid;
+  gap: 9px;
+}
+
+.movements span {
+  color: var(--brass);
+  font: 700 0.58rem var(--font-mono), monospace;
+}
+
+.movements strong {
+  font: 500 1.2rem var(--font-display), Georgia, serif;
+}
+
+.movements i {
+  position: absolute;
+  top: 6px;
+  right: 18px;
+  left: 30px;
+  height: 1px;
+  background: var(--line);
+}
+
+.forming {
+  position: relative;
+  min-height: calc(100vh - 120px);
+  display: grid;
+  place-items: center;
+  background: linear-gradient(140deg, #e1ece9, #fbfaf6 66%);
+}
+
+.forming > .motionProfile {
+  position: absolute;
+  inset: 0;
+  min-height: 100%;
+  opacity: 0.68;
+}
+
+.formingCopy {
+  position: relative;
+  z-index: 1;
+  width: min(640px, calc(100% - 40px));
+  text-align: center;
+}
+
+.formingCopy > span {
+  color: var(--brass);
+  font: 700 0.66rem var(--font-mono), monospace;
+  letter-spacing: 0.16em;
+}
+
+.formingCopy h1 {
+  font-size: clamp(5.5rem, 13vw, 11rem);
+}
+
+.formingCopy p {
+  margin: 22px 0 0;
+  color: var(--body);
+  font-size: 1rem;
+}
+
+.formingCopy > div {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-top: 30px;
+}
+
+.formingCopy i {
+  height: 3px;
+  background: rgba(38, 51, 57, 0.14);
+  transition: background 250ms ease;
+}
+
+.formingCopy i.complete {
+  background: #537f77;
+}
+
+.result {
+  width: min(1240px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(45px, 7vw, 88px) 0 70px;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 36px;
+}
+
+.resultHeader > div:first-child {
+  max-width: 760px;
+}
+
+.resultHeader h1 {
+  font-size: clamp(4.1rem, 8vw, 8rem);
+}
+
+.resultHeader > div:first-child > p:last-child {
+  max-width: 650px;
+  margin: 20px 0 0;
+  color: var(--body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.resultHeaderActions {
+  display: flex;
+  gap: 8px;
+}
+
+.resultHeaderActions button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: var(--white);
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.profileCard,
+.genomeCard,
+.team,
+.workCard,
+.publicCard {
+  background: var(--white);
+}
+
+.profileCard {
+  min-height: 650px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+.profileCard .motionProfile {
+  min-height: 560px;
+  background: linear-gradient(145deg, #edf4f1, #d8e7e4);
+}
+
+.profileCard > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 16px 19px;
+}
+
+.profileCard > div:last-child > span {
+  color: var(--muted);
+  font: 600 0.57rem var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.profileCard a,
+.genomeCard > a,
+.publicCard > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #3d6f68;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.genomeCard {
+  min-height: 650px;
+  padding: clamp(28px, 4vw, 52px);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font: 600 0.57rem var(--font-mono), monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cardHead b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: #3d6f68;
+  background: var(--sea);
+  font-size: 0.54rem;
+}
+
+.cardHead b svg {
+  width: 10px;
+  height: 10px;
+}
+
+.genomeCard h2,
+.team h2,
+.workCard h2,
+.publicCard h2 {
+  margin: 28px 0 0;
+  color: var(--deep);
+  font: 500 clamp(2.7rem, 5vw, 5rem)/0.94 var(--font-display), Georgia, serif;
+  letter-spacing: -0.04em;
+}
+
+.genomeCard > p {
+  margin: 15px 0 0;
+  color: var(--body);
+  font-size: 0.85rem;
+}
+
+.genomeCard dl {
+  margin: 34px 0 25px;
+  border-top: 1px solid var(--line);
+}
+
+.genomeCard dl div {
+  display: grid;
+  grid-template-columns: 126px 1fr;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding: 13px 0;
+}
+
+.genomeCard dt {
+  color: var(--muted);
+  font: 600 0.58rem/1.45 var(--font-mono), monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.genomeCard dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.team {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  padding: clamp(28px, 4vw, 52px);
+}
+
+.teamIntro {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 48px;
+  align-items: end;
+}
+
+.teamIntro > p {
+  max-width: 480px;
+  margin: 0 0 5px;
+  color: var(--body);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.agentRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.agentRow::before {
+  position: absolute;
+  top: 38px;
+  right: 16.5%;
+  left: 16.5%;
+  height: 1px;
+  background: #91b2ab;
+  content: '';
+}
+
+.agentRow article {
+  position: relative;
+  z-index: 1;
+  min-height: 235px;
+  border: 1px solid var(--line);
+  padding: 22px;
+  background: #f9faf7;
+}
+
+.agentRow article > span {
+  color: var(--brass);
+  font: 700 0.58rem var(--font-mono), monospace;
+}
+
+.agentRow article > i {
+  width: 12px;
+  height: 12px;
+  display: block;
+  margin: 20px 0 27px;
+  border: 3px solid var(--white);
+  border-radius: 50%;
+  background: #6e9991;
+  box-shadow: 0 0 0 1px #6e9991;
+}
+
+.agentRow h3 {
+  margin: 0;
+  font: 500 2rem/1 var(--font-display), Georgia, serif;
+}
+
+.agentRow strong {
+  display: block;
+  margin-top: 9px;
+  color: #4c766f;
+  font-size: 0.67rem;
+}
+
+.agentRow p {
+  margin: 17px 0 0;
+  color: var(--body);
+  font-size: 0.72rem;
+}
+
+.workGrid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.workCard,
+.publicCard {
+  min-height: 450px;
+  border: 1px solid var(--line);
+  padding: clamp(28px, 4vw, 48px);
+}
+
+.workCard > svg {
+  width: 28px;
+  height: 28px;
+  margin-top: 62px;
+  color: var(--brass);
+}
+
+.workCard > p {
+  max-width: 520px;
+  margin: 18px 0 0;
+  color: var(--body);
+  line-height: 1.6;
+}
+
+.workCard > div:not(.cardHead) {
+  margin-top: 23px;
+  border-left: 3px solid #6e9991;
+  padding: 13px 16px;
+  color: var(--ink);
+  background: var(--sea);
+  font-size: 0.75rem;
+}
+
+.workCard > small {
+  display: block;
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 0.65rem;
+}
+
+.publicCard {
+  color: var(--white);
+  background: var(--ink);
+}
+
+.publicCard .cardHead {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.publicCard .cardHead b {
+  color: var(--sea);
+  background: rgba(220, 233, 230, 0.14);
+}
+
+.publicCard > p:nth-of-type(1) {
+  margin: 70px 0 0;
+  color: #a9c9c2;
+  font: 600 0.62rem var(--font-mono), monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.publicCard h2 {
+  color: var(--white);
+}
+
+.publicCard > p:nth-of-type(2) {
+  max-width: 430px;
+  margin: 20px 0 28px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.publicCard > a {
+  width: fit-content;
+  border-bottom: 1px solid rgba(220, 233, 230, 0.45);
+  padding-bottom: 5px;
+  color: var(--sea);
+}
+
+.resultFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  padding: 26px 28px;
+  background: var(--sea);
+}
+
+.resultFooter > div {
+  display: grid;
+  gap: 7px;
+}
+
+.resultFooter span {
+  color: #54736e;
+  font: 600 0.57rem var(--font-mono), monospace;
+  letter-spacing: 0.1em;
+}
+
+.resultFooter strong {
+  font: 500 1.55rem var(--font-display), Georgia, serif;
+}
+
+.resultFooter > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  padding: 0 18px;
+  color: var(--white);
+  background: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .heroVisual {
+    min-height: 500px;
+  }
+
+  .resultGrid,
+  .workGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .teamIntro {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 720px) {
+  .topline {
+    padding: 0 16px;
+  }
+
+  .topline span:last-child {
+    display: none;
+  }
+
+  .hero,
+  .result,
+  .movements {
+    width: min(100% - 28px, 1240px);
+  }
+
+  .hero {
+    min-height: 0;
+    padding: 48px 0 28px;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(3.55rem, 17vw, 5.5rem);
+  }
+
+  .lede {
+    font-size: 0.9rem;
+  }
+
+  .intake > small {
+    display: block;
+    margin: 10px 0 0 2px;
+  }
+
+  .samples {
+    gap: 6px;
+  }
+
+  .samples button {
+    padding: 7px 9px;
+  }
+
+  .primary {
+    width: 100%;
+  }
+
+  .heroVisual {
+    min-height: 390px;
+  }
+
+  .visualFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .visualFacts span {
+    padding: 8px 10px;
+  }
+
+  .visualFacts span + span {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .movements {
+    grid-template-columns: repeat(5, minmax(70px, 1fr));
+    overflow-x: auto;
+  }
+
+  .movements i {
+    display: none;
+  }
+
+  .forming {
+    min-height: 76vh;
+  }
+
+  .formingCopy h1 {
+    font-size: clamp(4.7rem, 24vw, 8rem);
+  }
+
+  .result {
+    padding-top: 38px;
+  }
+
+  .resultHeader {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .resultHeader h1 {
+    font-size: clamp(3.6rem, 17vw, 6rem);
+  }
+
+  .resultHeaderActions {
+    width: 100%;
+  }
+
+  .resultHeaderActions button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .profileCard,
+  .genomeCard {
+    min-height: 0;
+  }
+
+  .profileCard .motionProfile {
+    min-height: 420px;
+  }
+
+  .profileCard > div:last-child {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .genomeCard dl div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .agentRow {
+    grid-template-columns: 1fr;
+  }
+
+  .agentRow::before {
+    top: 38px;
+    bottom: 38px;
+    left: 28px;
+    width: 1px;
+    height: auto;
+  }
+
+  .agentRow article {
+    min-height: 190px;
+    padding-left: 54px;
+  }
+
+  .agentRow article > i {
+    position: absolute;
+    top: 21px;
+    left: 22px;
+    margin: 0;
+  }
+
+  .workCard,
+  .publicCard {
+    min-height: 0;
+  }
+
+  .workCard > svg,
+  .publicCard > p:nth-of-type(1) {
+    margin-top: 45px;
+  }
+
+  .resultFooter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .resultFooter > a {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary,
+  .samples button {
+    transition: none;
+  }
+}

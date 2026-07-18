@@ -126,6 +126,11 @@ export function isStandaloneHealth(pathname: string | null): boolean {
   return pathname === "/health/strong" || Boolean(pathname?.startsWith("/health/strong/"));
 }
 
+/** Motion Studio is a full-screen creative tool with its own compact chrome. */
+export function isMotionStudio(pathname: string | null): boolean {
+  return pathname === "/motion-studio" || Boolean(pathname?.startsWith("/motion-studio/"));
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   // Platform never changes at runtime; the server snapshot says Mac (the
@@ -160,7 +165,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || pathname === "/") return null;
 
   return (
     <header

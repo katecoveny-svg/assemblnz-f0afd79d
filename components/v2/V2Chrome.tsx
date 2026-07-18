@@ -11,9 +11,9 @@ import styles from './v2.module.css';
  */
 
 const NAV_LINKS = [
-  { href: '/how-it-works', label: 'how it works' },
+  { href: '/motion-studio', label: 'motion studio' },
+  { href: '/a', label: 'build an agent' },
   { href: '/pricing', label: 'pricing' },
-  { href: '/about', label: 'about' },
 ];
 
 export function V2Nav({ current }: { current?: string }) {
@@ -52,8 +52,8 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={styles.navLink}>
           sign in
         </Link>
-        <Link href="/genome" className={styles.navCta}>
-          try the demo
+        <Link href="/#one-minute-title" className={styles.navCta}>
+          build a business
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
             •
           </span>
