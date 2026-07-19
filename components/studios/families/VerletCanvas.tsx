@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { VERLET_PALETTES, type VerletPalette } from '@/lib/generative-art/families/verlet';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -16,7 +17,8 @@ function hexToRgb(hex: string): [number, number, number] {
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
 
-export function VerletCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function VerletCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ wind: Number((nx * 0.5).toFixed(3)), gravity: Number(((1 - ny) * 0.5).toFixed(3)) }));
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
@@ -201,7 +203,8 @@ export function VerletCanvas({ presetId, values, seed, background, onExportersRe
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (

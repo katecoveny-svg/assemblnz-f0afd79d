@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { CONSTELLATION_PALETTES, type ConstellationPalette } from '@/lib/generative-art/families/constellation';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -36,7 +37,8 @@ function mulberry32(seed: number) {
   };
 }
 
-export function ConstellationCanvas({ presetId, values, seed, background, text, onExportersReady }: RendererProps) {
+export function ConstellationCanvas({ presetId, values, seed, background, text, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ radius: Math.round(40 + nx * 180), nodes: Math.round(20 + (1 - ny) * 200) }));
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
@@ -224,7 +226,8 @@ export function ConstellationCanvas({ presetId, values, seed, background, text, 
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (

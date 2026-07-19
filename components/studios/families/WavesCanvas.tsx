@@ -4,6 +4,7 @@ import { Suspense, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, type RootState } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { WAVES_PALETTES, type WavesPalette } from '@/lib/generative-art/families/waves';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -88,7 +89,8 @@ function Sheet({ palette, amp, freq, speed, tilt, roughness, seed }: SheetProps)
   );
 }
 
-export function WavesCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function WavesCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ freq: Number((0.4 + nx * 2.6).toFixed(2)), amp: Number((0.05 + (1 - ny) * 0.85).toFixed(2)) }));
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const r3fRef = useRef<WavesR3F | null>(null);
   const basePalette = WAVES_PALETTES[presetId] ?? WAVES_PALETTES.silk;
@@ -165,7 +167,8 @@ export function WavesCanvas({ presetId, values, seed, background, onExportersRea
   return (
     <div
       ref={canvasHostRef}
-      className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+      className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
       style={{
         background: `radial-gradient(circle at 50% 30%, ${palette.high}22 0%, ${palette.ground} 60%, ${palette.low}22 100%)`,
       }}

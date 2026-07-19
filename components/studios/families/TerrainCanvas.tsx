@@ -4,6 +4,7 @@ import { Suspense, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, type RootState } from '@react-three/fiber';
 
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { TERRAIN_PALETTES, type TerrainPalette } from '@/lib/generative-art/families/terrain';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -185,7 +186,8 @@ function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: Surfa
   );
 }
 
-export function TerrainCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function TerrainCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ ridge: Number(nx.toFixed(2)), amp: Number((0.1 + (1 - ny) * 1.3).toFixed(2)) }));
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const r3fRef = useRef<TerrainR3F | null>(null);
   const basePalette = TERRAIN_PALETTES[presetId] ?? TERRAIN_PALETTES.sunrise;
@@ -262,7 +264,8 @@ export function TerrainCanvas({ presetId, values, seed, background, onExportersR
   return (
     <div
       ref={canvasHostRef}
-      className="relative ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+      className="relative ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
       style={{
         background: `linear-gradient(180deg, ${palette.high}30 0%, ${palette.ground} 45%, ${palette.low}20 100%)`,
       }}

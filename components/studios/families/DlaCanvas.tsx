@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { DLA_PALETTES, type DlaPalette } from '@/lib/generative-art/families/dla';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -26,7 +27,8 @@ function mulberry32(seed: number) {
 
 interface Walker { x: number; y: number; }
 
-export function DlaCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function DlaCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ stickBias: Number((0.7 + nx * 0.3).toFixed(3)), walkers: Math.round(20 + (1 - ny) * 180) }));
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
@@ -230,7 +232,8 @@ export function DlaCanvas({ presetId, values, seed, background, onExportersReady
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { GRID_PALETTES } from '@/lib/generative-art/families/grid';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
 import { canvasScaledToBlob } from '@/lib/generative-art/render-utils';
@@ -23,7 +24,8 @@ function mulberry32(seed: number) {
   };
 }
 
-export function GridCanvas({ presetId, values, seed, onExportersReady }: RendererProps) {
+export function GridCanvas({ presetId, values, seed, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ jitter: Number(nx.toFixed(2)), cols: Math.round(4 + (1 - ny) * 20) }));
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
@@ -148,7 +150,8 @@ export function GridCanvas({ presetId, values, seed, onExportersReady }: Rendere
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (

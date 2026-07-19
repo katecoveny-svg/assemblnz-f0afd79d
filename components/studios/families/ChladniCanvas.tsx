@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { CHLADNI_PALETTES, type ChladniPalette } from '@/lib/generative-art/families/chladni';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -95,7 +96,8 @@ void main() {
   outColor = vec4(c, 1.0);
 }`;
 
-export function ChladniCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function ChladniCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ m: Math.round(1 + nx * 11), n: Math.round(1 + (1 - ny) * 11) }));
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const glRef = useRef<WebGL2RenderingContext | null>(null);
@@ -232,7 +234,8 @@ export function ChladniCanvas({ presetId, values, seed, background, onExportersR
     <div className="relative w-full">
       <div
         ref={hostRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && !error && (
