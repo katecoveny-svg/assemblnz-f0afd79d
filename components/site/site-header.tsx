@@ -137,6 +137,12 @@ export function isStudio(pathname: string | null): boolean {
   return pathname === "/studio" || Boolean(pathname?.startsWith("/studio/"));
 }
 
+/** Build-an-agent — a full-viewport 3D interaction; the site chrome sits
+ *  under the scene and any nav bar would clip the parts. */
+export function isBuildAnAgent(pathname: string | null): boolean {
+  return pathname === "/build-an-agent" || Boolean(pathname?.startsWith("/build-an-agent/"));
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   // Platform never changes at runtime; the server snapshot says Mac (the

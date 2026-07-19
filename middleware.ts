@@ -126,6 +126,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   // startsWith-match unrelated paths like /app. The exact '/a' lives in
   // SPLASH_EXEMPT_EXACT below.
   '/a/',
+  // Build-an-agent — the interactive 3D agent builder, public route.
+  '/build-an-agent',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).

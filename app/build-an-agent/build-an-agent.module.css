@@ -1,0 +1,113 @@
+.root {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #FBFAF6;
+  color: #1A1918;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.overlayTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2.5rem);
+  pointer-events: none;
+}
+
+.wordmark {
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: #1A1918;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  pointer-events: auto;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: #6a6560;
+  max-width: 18ch;
+  text-align: right;
+}
+
+.overlayBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2.5rem);
+  pointer-events: none;
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-size: 0.88rem;
+  color: #1A1918;
+  background: rgba(251, 250, 246, 0.72);
+  border: 1px solid rgba(26, 25, 24, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  pointer-events: auto;
+}
+
+.hintDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #BFA37A;
+  box-shadow: 0 0 0 3px rgba(191, 163, 122, 0.18);
+}
+
+.debug {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: #a09b95;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .overlayTop {
+    align-items: flex-start;
+  }
+  .eyebrow {
+    max-width: 12ch;
+    font-size: 0.6rem;
+  }
+  .overlayBottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .debug {
+    align-self: flex-end;
+  }
+}
