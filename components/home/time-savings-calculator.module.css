@@ -89,6 +89,21 @@
   color: #fff;
   background: var(--deep);
 }
+.resultArt {
+  position: absolute;
+  inset: 0;
+  background-image: url('/home/savings-panel-art-ink.png');
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.5;
+}
+.resultScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(130% 80% at 50% 0%, rgba(35, 68, 66, 0.5) 0%, rgba(46, 90, 88, 0) 60%),
+    linear-gradient(180deg, rgba(46, 90, 88, 0.4) 0%, rgba(46, 90, 88, 0.14) 44%, rgba(20, 40, 39, 0.88) 100%);
+}
 .resultInner { position: relative; z-index: 1; display: flex; flex-direction: column; }
 .result > svg,
 .resultInner > svg { width: 28px; height: 28px; color: var(--gold); }
