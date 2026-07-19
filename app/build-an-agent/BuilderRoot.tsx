@@ -3,8 +3,8 @@
 import { useState } from 'react';
 
 import { BuilderScene } from '@/components/build-an-agent/BuilderScene';
+import { IntakeSection } from '@/components/build-an-agent/IntakeSection';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
-import { OneMinuteBusiness } from '@/components/one-minute-business/OneMinuteBusiness';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
 import styles from './build-an-agent.module.css';
@@ -85,30 +85,15 @@ export function BuilderRoot() {
         </a>
       </section>
 
-      {/* ── SECTION 2 · INTAKE — describe your business, meet your agent ── */}
-      <section id="intake" className={styles.intakeSection} aria-label="Describe your business">
-        <div className={styles.sectionBanner}>
-          <p className={styles.sectionEyebrow}>step two · describe your business</p>
-          <h2 className={styles.sectionHeading}>
-            Tell your agent what it&rsquo;s working on.
-          </h2>
-          <p className={styles.sectionLede}>
-            One paragraph in your own words. Assembl reads it and gives you a
-            first answer you can steal — the repeated job it sees, the agent
-            it&rsquo;d build, and what the first week looks like.
-          </p>
-        </div>
-        <OneMinuteBusiness />
-      </section>
+      {/* ── SECTION 2 · INTAKE — warm, first-person, Business Genome-first ── */}
+      <IntakeSection />
 
       {/* ── SECTION 3 · TIME BACK — the estimator, pre-set to a sensible start ── */}
       <section id="time-back" className={styles.savingsSection} aria-label="Time back estimate">
         <div className={styles.sectionBanner}>
-          <p className={styles.sectionEyebrow}>step three · time back</p>
-          <h2 className={styles.sectionHeading}>How many hours could you get back?</h2>
-          <p className={styles.sectionLede}>
-            A plain planning estimate — your numbers, no form, no phone call.
-          </p>
+          <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.savings.eyebrow}</p>
+          <h2 className={styles.sectionHeading}>{BUILD_AN_AGENT.savings.heading}</h2>
+          <p className={styles.sectionLede}>{BUILD_AN_AGENT.savings.lede}</p>
         </div>
         <TimeSavingsCalculator initialValues={INITIAL_SAVINGS} />
       </section>
@@ -116,20 +101,15 @@ export function BuilderRoot() {
       {/* ── SECTION 4 · CLOSING — hand it to us to build for real ── */}
       <section id="hand-off" className={styles.closingSection} aria-label="Hand it to us">
         <div className={styles.closingCard}>
-          <p className={styles.sectionEyebrow}>step four · optional</p>
-          <h2 className={styles.closingHeading}>Want us to build this properly for your business?</h2>
-          <p className={styles.closingBody}>
-            The one you just designed is a taste. If it lit up an idea for your team, drop your
-            email — Kate at assembl reads them herself and comes back with a plain plan and price.
-          </p>
+          <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.closing.eyebrow}</p>
+          <h2 className={styles.closingHeading}>{BUILD_AN_AGENT.closing.heading}</h2>
+          <p className={styles.closingBody}>{BUILD_AN_AGENT.closing.body}</p>
           <p className={styles.closingMailto}>
-            <a href="mailto:assembl@assembl.co.nz?subject=I%20built%20an%20agent%20on%20assembl">
-              assembl@assembl.co.nz
+            <a href={`mailto:${BUILD_AN_AGENT.closing.email}?subject=I%20built%20an%20agent%20on%20assembl`}>
+              {BUILD_AN_AGENT.closing.email}
             </a>
           </p>
-          <p className={styles.closingFinePrint}>
-            Draft-only. Nothing sends without a human yes. Made in Aotearoa.
-          </p>
+          <p className={styles.closingFinePrint}>{BUILD_AN_AGENT.closing.finePrint}</p>
         </div>
       </section>
     </main>

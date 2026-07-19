@@ -111,8 +111,10 @@ export async function POST(req: NextRequest) {
   }
 
   // Honest fallback if no model is reachable — never fake a generated answer.
+  // Warm, first-person, still centred on the Business Genome idea so the shape
+  // of the answer matches what the live model would return.
   if (!answer) {
-    answer = `Here's how I'd start on your business. First I'd find the admin job that repeats most — the one you'd name if I asked what eats your week — and gather the notes, files and history it runs on. Then I'd prepare a first draft you can check in minutes instead of building from scratch. Nothing goes out until you approve it.\n\nThat's the shape of it. To see me do it on your real work, your assembl agent runs inside your workspace.`;
+    answer = `Thanks for that — I read it properly. The live model's offline for a beat, but here's the shape of what I'd draft for you.\n\nYour Business Genome is the one place you'd hold every fact about the way you work — the services, the pricing, the questions your customers always ask, the rules that never change. Every surface reads it: the website, the CRM, the drafts your team sends, the answers on the phone. Change a fact once — everything updates.\n\nMonday morning I'd already have the week's small awkward jobs teed up as drafts for you to say yes to. Nothing sends until you approve it. That's how assembl feels different from software you have to remember to open.\n\nDrop your email below and Kate will write back with a plan built around the actual paragraph you just wrote — not a template.`;
     fellBack = true;
   }
 
