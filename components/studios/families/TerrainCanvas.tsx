@@ -2,7 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, type RootState } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
+
 import type { RendererProps } from '@/lib/generative-art/families';
 import { TERRAIN_PALETTES, type TerrainPalette } from '@/lib/generative-art/families/terrain';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
@@ -86,6 +86,9 @@ interface SurfaceProps {
 
 function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: SurfaceProps) {
   const meshRef = useRef<MeshRef | null>(null);
+  // Stable colour buffer — a fresh Float32Array in JSX would recreate the
+  // attribute (zeroed → black terrain) on every parent re-render.
+  const colorArray = useMemo(() => new Float32Array(181 * 181 * 3), []);
 
   // Compute the heightmap once per (seed, amp, freq, octaves, ridge). Sample
   // FBM with an optional ridge fold — ridge=1 turns each octave into
@@ -104,14 +107,18 @@ function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: Surfa
     const heights = new Float32Array(pos.count);
     let hMin = Infinity, hMax = -Infinity;
     for (let i = 0; i < pos.count; i++) {
+      // PlaneGeometry is local-XY with Z as its normal — after the -90°
+      // mesh rotation, local Z is world up. Sample noise across local
+      // (x, y) and write the height into local Z. (Writing local Y — the
+      // original bug — just slid vertices within the plane, invisibly.)
       const bx = base[i * 3];
-      const bz = base[i * 3 + 2];
+      const by = base[i * 3 + 1];
       let h = 0;
       let f = freq;
       let a = 1;
       let sum = 0;
       for (let o = 0; o < octaveCount; o++) {
-        const n = noise(bx * f + 100, bz * f + 100);
+        const n = noise(bx * f + 100, by * f + 100);
         const shaped = ridge > 0 ? (1 - Math.abs(2 * n - 1)) : n;
         const value = n * (1 - ridge) + shaped * ridge;
         h += value * a;
@@ -120,7 +127,7 @@ function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: Surfa
         a *= 0.5;
       }
       h = (h / sum) * amp;
-      arr[i * 3 + 1] = h;
+      arr[i * 3 + 2] = h;
       heights[i] = h;
       if (h < hMin) hMin = h;
       if (h > hMax) hMax = h;
@@ -129,7 +136,11 @@ function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: Surfa
     mesh.userData.heights = heights;
     mesh.geometry.computeVertexNormals?.();
 
-    // Vertex colouring — three-stop gradient by normalised height.
+    // Vertex colouring — three-stop gradient by normalised height. The
+    // color attribute is declared in JSX below so it exists when the
+    // material compiles its shader (adding it after first render leaves
+    // vertexColors permanently blank — the original "terrain doesn't
+    // load" bug).
     const col = mesh.geometry.attributes.color;
     if (col && col.array) {
       const carr = col.array;
@@ -160,7 +171,10 @@ function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: Surfa
 
   return (
     <mesh ref={meshRef as unknown as never} rotation={[-Math.PI / 2 + tilt, 0, 0]} position={[0, -0.25, 0]}>
-      <planeGeometry args={[5, 5, 180, 180]} />
+      <planeGeometry args={[5, 5, 180, 180]}>
+        {/* 181×181 vertices × rgb — must exist before the material compiles. */}
+        <bufferAttribute attach="attributes-color" args={[colorArray, 3]} />
+      </planeGeometry>
       <meshStandardMaterial
         vertexColors
         metalness={palette.metalness}
@@ -254,7 +268,7 @@ export function TerrainCanvas({ presetId, values, seed, background, onExportersR
       }}
     >
       <Canvas
-        camera={{ position: [0, 1.9, 3.6], fov: 40 }}
+        camera={{ position: [0, 2.4, 5.6], fov: 40 }}
         dpr={[1, 2]}
         gl={{ antialias: true, preserveDrawingBuffer: true, alpha: true }}
         onCreated={(state: RootState & TerrainR3F) => {
@@ -262,11 +276,15 @@ export function TerrainCanvas({ presetId, values, seed, background, onExportersR
         }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={0.55} />
-          {/* Low sun so ridges cast long shadows. */}
+          <ambientLight intensity={0.85} />
+          {/* Low sun so ridges cast long shadows; front fill keeps the
+              near slope readable instead of silhouette-black. */}
           <directionalLight position={[4, 2.4, 1.5]} intensity={1.5} color="#FFE7C7" />
           <directionalLight position={[-3, 1.2, -2]} intensity={0.5} color="#B4C7D9" />
-          <Environment preset="sunset" background={false} />
+          <directionalLight position={[0, 1.4, 5]} intensity={0.75} color="#FFF4E4" />
+          {/* No drei Environment here — the CDN HDR fetch could hang the
+              whole terrain on slow networks; three directional lights carry
+              the matte landscape fine. */}
           <Surface
             palette={palette}
             amp={amp}

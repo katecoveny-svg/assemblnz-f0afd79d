@@ -21,6 +21,11 @@ import { SANDPILE_FAMILY } from '@/lib/generative-art/families/sandpile';
 import { RIPPLES_FAMILY } from '@/lib/generative-art/families/ripples';
 import { DLA_FAMILY } from '@/lib/generative-art/families/dla';
 import { deleteSavedPreset, listSavedPresets, savePreset, type SavedPreset } from '@/lib/generative-art/my-presets';
+import { FAMILY_RENDERERS } from './family-renderers';
+import { buildCodeSnippet } from '@/lib/generative-art/code-export';
+import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
+import { ASSET_GROUPS, ASSET_SIZES, type AssetGroup, type AssetSize } from '@/lib/generative-art/asset-sizes';
+import { BACKGROUNDS, type BackgroundId } from '@/lib/generative-art/backgrounds';
 
 type AspectId = 'classic' | 'square' | 'hero' | 'portrait';
 interface AspectSpec { id: AspectId; label: string; ratio: string; maxWidth: string; hint: string; }
@@ -30,11 +35,57 @@ const ASPECTS: AspectSpec[] = [
   { id: 'hero',     label: 'Hero',     ratio: '21 / 9',   maxWidth: '1200px', hint: '21 : 9' },
   { id: 'portrait', label: 'Portrait', ratio: '9 / 16',   maxWidth: '480px',  hint: '9 : 16' },
 ];
-import { FAMILY_RENDERERS } from './family-renderers';
-import { buildCodeSnippet } from '@/lib/generative-art/code-export';
-import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
-import { ASSET_GROUPS, ASSET_SIZES, type AssetGroup, type AssetSize } from '@/lib/generative-art/asset-sizes';
-import { BACKGROUNDS, type BackgroundId } from '@/lib/generative-art/backgrounds';
+
+// --- Text overlay (assembl fonts) ------------------------------------------
+type OverlayFont = 'cormorant' | 'lato' | 'mono';
+interface TextOverlay {
+  on: boolean;
+  text: string;
+  font: OverlayFont;
+  weight: number;
+  size: number;              // px at live canvas scale
+  color: 'ink' | 'champagne';
+  align: 'left' | 'center' | 'right';
+  x: number;                 // 0..1 fraction of canvas width
+  y: number;                 // 0..1 fraction of canvas height
+}
+const OVERLAY_FONTS: Record<OverlayFont, { label: string; css: string; weights: number[] }> = {
+  cormorant: { label: 'Cormorant', css: "'Cormorant Garamond', Georgia, serif", weights: [300, 400, 500, 600, 700] },
+  lato:      { label: 'Lato',      css: "'Lato', system-ui, sans-serif",        weights: [100, 300, 400, 700, 900] },
+  mono:      { label: 'Space Mono',css: "'Space Mono', ui-monospace, monospace", weights: [400, 700] },
+};
+const OVERLAY_COLORS: Record<'ink' | 'champagne', string> = { ink: '#1A1918', champagne: '#BFA37A' };
+const DEFAULT_OVERLAY: TextOverlay = {
+  on: false, text: '', font: 'cormorant', weight: 600, size: 48,
+  color: 'ink', align: 'center', x: 0.5, y: 0.5,
+};
+
+/** Composite the overlay text onto an exported PNG blob. Fonts are the
+ *  page-loaded webfonts; document.fonts.load warms them before drawing. */
+async function compositeOverlay(blob: Blob, overlay: TextOverlay, scale = 1): Promise<Blob> {
+  if (!overlay.on || !overlay.text.trim()) return blob;
+  const img = new Image();
+  const url = URL.createObjectURL(blob);
+  await new Promise<void>((res, rej) => { img.onload = () => res(); img.onerror = () => rej(new Error('decode')); img.src = url; });
+  URL.revokeObjectURL(url);
+  const out = document.createElement('canvas');
+  out.width = img.width;
+  out.height = img.height;
+  const ctx = out.getContext('2d');
+  if (!ctx) return blob;
+  ctx.drawImage(img, 0, 0);
+  const spec = OVERLAY_FONTS[overlay.font];
+  // Scale the on-screen px size to the export's pixel width (the live
+  // canvas is ~720 CSS px wide at classic aspect).
+  const fontPx = Math.max(8, Math.round(overlay.size * (img.width / 720) * scale));
+  try { await document.fonts.load(`${overlay.weight} ${fontPx}px ${spec.css.split(',')[0]}`); } catch { /* fallback stack */ }
+  ctx.font = `${overlay.weight} ${fontPx}px ${spec.css}`;
+  ctx.fillStyle = OVERLAY_COLORS[overlay.color];
+  ctx.textAlign = overlay.align;
+  ctx.textBaseline = 'middle';
+  ctx.fillText(overlay.text, overlay.x * out.width, overlay.y * out.height);
+  return await new Promise<Blob>((resolve) => out.toBlob((b) => resolve(b ?? blob), 'image/png'));
+}
 
 const FAMILIES: Family[] = [
   LINE_FAMILY,
@@ -83,6 +134,7 @@ interface StudioState {
   background: BackgroundId | null;
   text: string;
   aspect: AspectId;
+  overlay: TextOverlay;
 }
 
 function pickFamily(id: string | null): Family {
@@ -112,7 +164,24 @@ function stateFromSearch(sp: URLSearchParams | null): StudioState {
   const text = sp?.get('text') ?? '';
   const arRaw = sp?.get('ar') as AspectId | null;
   const aspect: AspectId = arRaw && ASPECTS.some((a) => a.id === arRaw) ? arRaw : 'classic';
-  return { family: family.id, presetId: preset.id, values, seed, background, text, aspect };
+  const overlay: TextOverlay = { ...DEFAULT_OVERLAY };
+  const ot = sp?.get('t');
+  if (ot) {
+    overlay.on = true;
+    overlay.text = ot;
+    const f = sp?.get('tf') as OverlayFont | null;
+    if (f && f in OVERLAY_FONTS) overlay.font = f;
+    const num = (k: string, fb: number) => { const v = Number(sp?.get(k)); return Number.isFinite(v) ? v : fb; };
+    overlay.weight = num('twt', overlay.weight);
+    overlay.size = num('tsz', overlay.size);
+    overlay.x = num('tx', overlay.x);
+    overlay.y = num('ty', overlay.y);
+    const c = sp?.get('tc');
+    if (c === 'champagne') overlay.color = 'champagne';
+    const a = sp?.get('ta');
+    if (a === 'left' || a === 'right') overlay.align = a;
+  }
+  return { family: family.id, presetId: preset.id, values, seed, background, text, aspect, overlay };
 }
 
 function stateToSearch(state: StudioState): URLSearchParams {
@@ -129,6 +198,16 @@ function stateToSearch(state: StudioState): URLSearchParams {
   if (state.background) s.set('bg', state.background);
   if (state.text.trim()) s.set('text', state.text);
   if (state.aspect !== 'classic') s.set('ar', state.aspect);
+  if (state.overlay.on && state.overlay.text.trim()) {
+    s.set('t', state.overlay.text);
+    s.set('tf', state.overlay.font);
+    s.set('twt', String(state.overlay.weight));
+    s.set('tsz', String(Math.round(state.overlay.size)));
+    s.set('tx', state.overlay.x.toFixed(3));
+    s.set('ty', state.overlay.y.toFixed(3));
+    if (state.overlay.color !== 'ink') s.set('tc', state.overlay.color);
+    if (state.overlay.align !== 'center') s.set('ta', state.overlay.align);
+  }
   return s;
 }
 
@@ -210,6 +289,7 @@ export function GenerativeArtCanvas() {
       background: fam.supportsBackground ? prev.background : null,
       text: fam.supportsText ? prev.text : '',
       aspect: prev.aspect,
+      overlay: prev.overlay,
     }));
   }, []);
 
@@ -225,6 +305,7 @@ export function GenerativeArtCanvas() {
         background: prev.background,
         text: prev.text,
         aspect: prev.aspect,
+        overlay: prev.overlay,
       };
     });
   }, []);
@@ -263,8 +344,10 @@ export function GenerativeArtCanvas() {
   const downloadPng = useCallback(async () => {
     const png = exportersRef.current.png;
     if (!png) return;
-    download(await png(), 'png');
-  }, [download]);
+    const blob = await png();
+    if (!blob) return;
+    download(await compositeOverlay(blob, state.overlay), 'png');
+  }, [download, state.overlay]);
 
   const downloadSvg = useCallback(() => {
     const svg = exportersRef.current.svg?.();
@@ -323,8 +406,9 @@ export function GenerativeArtCanvas() {
       if (!renderer) return;
       setExportingSize(size.id);
       try {
-        const blob = await renderer(size.width, size.height);
-        if (!blob) return;
+        const raw = await renderer(size.width, size.height);
+        if (!raw) return;
+        const blob = await compositeOverlay(raw, state.overlay);
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -337,7 +421,7 @@ export function GenerativeArtCanvas() {
         setExportingSize(null);
       }
     },
-    [state.family, state.presetId, state.seed],
+    [state.family, state.presetId, state.seed, state.overlay],
   );
 
   const exportSizesForGroup = useMemo(
@@ -376,6 +460,7 @@ export function GenerativeArtCanvas() {
       background: sp.background,
       text: sp.text,
       aspect: prev.aspect,
+      overlay: prev.overlay,
     }));
   }, []);
 
@@ -510,16 +595,63 @@ export function GenerativeArtCanvas() {
         })}
       </div>
 
-      {/* Renderer */}
-      <Renderer
-        presetId={state.presetId}
-        values={state.values}
-        seed={state.seed}
-        ground={family.ground}
-        background={state.background}
-        text={state.text || null}
-        onExportersReady={onExportersReady}
-      />
+      {/* Renderer — keyed by aspect so changing the canvas shape remounts
+          the renderer at the new container size. p5 only listens to window
+          resize and the raw-WebGL families size once on mount, so without
+          this the art stayed at its original size inside a resized frame. */}
+      <div className="relative">
+        <Renderer
+          key={`${state.family}-${state.aspect}`}
+          presetId={state.presetId}
+          values={state.values}
+          seed={state.seed}
+          ground={family.ground}
+          background={state.background}
+          text={state.text || null}
+          onAdjust={(patch) => setState((prev) => ({ ...prev, values: { ...prev.values, ...patch } }))}
+          onExportersReady={onExportersReady}
+        />
+        {state.overlay.on && state.overlay.text.trim() && (
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label="drag to position the text"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              const host = (e.currentTarget.parentElement?.querySelector('.ga-canvas') ?? e.currentTarget.parentElement) as HTMLElement;
+              const rect = host.getBoundingClientRect();
+              const move = (ev: PointerEvent) => {
+                setState((prev) => ({
+                  ...prev,
+                  overlay: {
+                    ...prev.overlay,
+                    x: Math.max(0, Math.min(1, (ev.clientX - rect.left) / rect.width)),
+                    y: Math.max(0, Math.min(1, (ev.clientY - rect.top) / rect.height)),
+                  },
+                }));
+              };
+              const up = () => {
+                window.removeEventListener('pointermove', move);
+                window.removeEventListener('pointerup', up);
+              };
+              window.addEventListener('pointermove', move);
+              window.addEventListener('pointerup', up);
+            }}
+            className="absolute z-10 -translate-x-1/2 -translate-y-1/2 cursor-move select-none whitespace-pre"
+            style={{
+              left: `${state.overlay.x * 100}%`,
+              top: `${state.overlay.y * 100}%`,
+              fontFamily: OVERLAY_FONTS[state.overlay.font].css,
+              fontWeight: state.overlay.weight,
+              fontSize: state.overlay.size,
+              color: OVERLAY_COLORS[state.overlay.color],
+              textAlign: state.overlay.align,
+            }}
+          >
+            {state.overlay.text}
+          </div>
+        )}
+      </div>
 
       {/* Background chips + text input — only shown for families that
           declare support for them. */}
@@ -748,6 +880,121 @@ export function GenerativeArtCanvas() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Text overlay controls */}
+      <div className="flex flex-col gap-3 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
+        <div className="flex items-center justify-between">
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">text</span>
+          <button
+            type="button"
+            aria-pressed={state.overlay.on}
+            onClick={() => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, on: !prev.overlay.on } }))}
+            className={[
+              'rounded-[2px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition',
+              state.overlay.on
+                ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
+            ].join(' ')}
+          >
+            {state.overlay.on ? 'on' : 'off'}
+          </button>
+        </div>
+        {state.overlay.on && (
+          <>
+            <input
+              type="text"
+              value={state.overlay.text}
+              onChange={(e) => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, text: e.target.value } }))}
+              placeholder="assembl."
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-2 text-[16px] text-[color:var(--text-primary)] focus:border-[color:var(--text-primary)] focus:outline-none"
+              style={{ fontFamily: OVERLAY_FONTS[state.overlay.font].css, fontWeight: state.overlay.weight }}
+            />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                font
+                <select
+                  value={state.overlay.font}
+                  onChange={(e) => {
+                    const font = e.target.value as OverlayFont;
+                    setState((prev) => ({
+                      ...prev,
+                      overlay: {
+                        ...prev.overlay,
+                        font,
+                        weight: OVERLAY_FONTS[font].weights.includes(prev.overlay.weight)
+                          ? prev.overlay.weight
+                          : OVERLAY_FONTS[font].weights[Math.floor(OVERLAY_FONTS[font].weights.length / 2)],
+                      },
+                    }));
+                  }}
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[11px] normal-case text-[color:var(--text-primary)]"
+                >
+                  {(Object.keys(OVERLAY_FONTS) as OverlayFont[]).map((f) => (
+                    <option key={f} value={f}>{OVERLAY_FONTS[f].label}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                weight
+                <select
+                  value={state.overlay.weight}
+                  onChange={(e) => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, weight: Number(e.target.value) } }))}
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[11px] text-[color:var(--text-primary)]"
+                >
+                  {OVERLAY_FONTS[state.overlay.font].weights.map((w) => (
+                    <option key={w} value={w}>{w}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                size · {Math.round(state.overlay.size)}px
+                <input
+                  type="range" min={12} max={200} step={1}
+                  value={state.overlay.size}
+                  onChange={(e) => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, size: Number(e.target.value) } }))}
+                />
+              </label>
+              <div className="flex items-end gap-2">
+                {(['ink', 'champagne'] as const).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, color: c } }))}
+                    aria-pressed={state.overlay.color === c}
+                    className={[
+                      'rounded-[2px] border px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]',
+                      state.overlay.color === c
+                        ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                        : 'border-[color:var(--assembl-cloud)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
+                    ].join(' ')}
+                  >
+                    {c}
+                  </button>
+                ))}
+                {(['left', 'center', 'right'] as const).map((a) => (
+                  <button
+                    key={a}
+                    type="button"
+                    onClick={() => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, align: a } }))}
+                    aria-pressed={state.overlay.align === a}
+                    className={[
+                      'rounded-[2px] border px-2 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]',
+                      state.overlay.align === a
+                        ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                        : 'border-[color:var(--assembl-cloud)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
+                    ].join(' ')}
+                  >
+                    {a[0]}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <p className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              drag the text on the canvas to position it · baked into png exports
+            </p>
+          </>
+        )}
       </div>
 
       {/* Sliders */}
