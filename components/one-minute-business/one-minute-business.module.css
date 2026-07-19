@@ -1167,3 +1167,28 @@
   color: #426d67; font-size: 0.82rem; line-height: 1.4;
 }
 .agentSaved svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+.agentTextRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px 18px;
+  border-top: 1px solid rgba(38, 51, 57, 0.1);
+  background: rgba(255, 254, 250, 0.6);
+}
+.agentTextRow textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(38, 51, 57, 0.16);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  resize: vertical;
+  min-height: 84px;
+  font-family: inherit;
+}
+.agentTextRow textarea:focus { outline: none; border-color: var(--sea-strong); }
+.agentTextRow .agentPrimary { justify-content: center; }
+.agentTextRow .agentPrimary:disabled { opacity: 0.4; cursor: default; }
