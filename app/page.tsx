@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import { AssemblHeroScene } from '@/components/home/AssemblHeroScene';
-import { AssemblHeroMedia } from '@/components/home/AssemblHeroMedia';
+import { StudioWaveHero } from '@/components/home/StudioWaveHero';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { OneMinuteBusiness } from '@/components/one-minute-business/OneMinuteBusiness';
 import { HOME } from '@/lib/copy/homepage';
@@ -37,18 +36,10 @@ export default async function HomePage({ searchParams }: { searchParams: HomeSea
 
   return (
     <div className={styles.page}>
-      {/* Hero band. When the rendered agent-assembly loop exists at
-          public/assets/assembl-agent-assembly.mp4, AssemblHeroMedia plays
-          it (boomerang encoded at render time, poster + reduced-motion
-          still, offscreen pause). Until then the live R3F assembly scene
-          renders as the fallback — zero visible change today. */}
-      <AssemblHeroMedia
-        videoSrc="/assets/assembl-agent-assembly.mp4"
-        posterSrc="/assets/assembl-agent-assembly-poster.jpg"
-        reducedMotionSrc="/assets/assembl-agent-still.jpg"
-        alt="Chrome and glass components assemble into an agent: core, knowledge cubes, abilities, connector and evaluation ring."
-        fallback={<AssemblHeroScene />}
-      />
+      {/* Hero band — a LIVE 3D piece from the creative studio (Waves).
+          Kate art-directs it at /creative-playground and pastes the
+          numbers into StudioWaveHero's HERO_LOOK. Decorative only. */}
+      <StudioWaveHero />
       <OneMinuteBusiness />
       <TimeSavingsCalculator initialValues={initialSavings} />
     </div>
