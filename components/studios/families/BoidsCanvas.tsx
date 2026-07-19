@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { BOIDS_PALETTES, type BoidsPalette } from '@/lib/generative-art/families/boids';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -26,7 +27,8 @@ function mulberry32(seed: number) {
   };
 }
 
-export function BoidsCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function BoidsCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ cohesion: Number((nx * 3).toFixed(2)), separation: Number(((1 - ny) * 3).toFixed(2)) }));
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
@@ -223,7 +225,8 @@ export function BoidsCanvas({ presetId, values, seed, background, onExportersRea
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (

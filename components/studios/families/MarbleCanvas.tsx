@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { MARBLE_PALETTES, type MarblePalette } from '@/lib/generative-art/families/marble';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -45,7 +46,8 @@ interface Ring {
   pts: Float32Array; // xy pairs
 }
 
-export function MarbleCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
+export function MarbleCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ combStrength: Number((0.2 + nx * 2.3).toFixed(2)), drops: Math.round(3 + (1 - ny) * 37) }));
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
@@ -256,7 +258,8 @@ export function MarbleCanvas({ presetId, values, seed, background, onExportersRe
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (

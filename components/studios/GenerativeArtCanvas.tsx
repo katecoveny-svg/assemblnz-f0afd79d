@@ -569,6 +569,14 @@ export function GenerativeArtCanvas() {
         })}
       </div>
 
+      {/* Drag hint — every family responds to pointer drag (Chrome uses
+          orbit instead; Line adds shift+drag move via its own chip). */}
+      {family.id !== 'chrome' && family.id !== 'line' && (
+        <div className="text-center font-mono text-[9.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          drag the canvas to shape it · sliders follow
+        </div>
+      )}
+
       {/* Aspect chips — universal control for the live canvas shape */}
       <div className="flex flex-wrap items-center gap-1.5">
         <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">

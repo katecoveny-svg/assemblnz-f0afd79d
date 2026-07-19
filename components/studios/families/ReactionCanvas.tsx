@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RendererProps } from '@/lib/generative-art/families';
+import { useDragAdjust } from '@/lib/generative-art/use-drag-adjust';
 import { REACTION_PALETTES } from '@/lib/generative-art/families/reaction';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
@@ -150,7 +151,8 @@ void main() {
   outColor = vec4(c, 1.0);
 }`;
 
-export function ReactionCanvas({ presetId, values, seed, background, text, onExportersReady }: RendererProps) {
+export function ReactionCanvas({ presetId, values, seed, background, text, onAdjust, onExportersReady }: RendererProps) {
+  const drag = useDragAdjust(onAdjust, (nx, ny) => ({ feed: Number((0.01 + nx * 0.09).toFixed(3)), kill: Number((0.04 + (1 - ny) * 0.035).toFixed(3)) }));
   const hostRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State | null>(null);
   const [ready, setReady] = useState(false);
@@ -483,7 +485,8 @@ export function ReactionCanvas({ presetId, values, seed, background, text, onExp
     <div className="relative w-full">
       <div
         ref={hostRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        {...drag}
+        className="relative mx-auto ga-canvas w-full touch-none cursor-crosshair overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && !error && (
