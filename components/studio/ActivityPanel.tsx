@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useStudioStore } from '@/lib/studio/store';
-import { REFUND_DRAFT, REFUND_MESSAGE, REFUND_SOURCE, TEST_STAGES, stageIndex, type TestStageId } from '@/lib/studio/simulate';
+import { listAllComponents } from '@/lib/studio/schema';
+import { REFUND_DRAFT, REFUND_MESSAGE, REFUND_SOURCE, TEST_STAGES, stageIndex } from '@/lib/studio/simulate';
 
 /**
  * The lower activity + test panel. Collapsible. Runs the refund
@@ -9,6 +11,7 @@ import { REFUND_DRAFT, REFUND_MESSAGE, REFUND_SOURCE, TEST_STAGES, stageIndex, t
  */
 export function ActivityPanel() {
   const test = useStudioStore((s) => s.test);
+  const agent = useStudioStore((s) => s.agent);
   const open = useStudioStore((s) => s.panels.activity);
   const togglePanel = useStudioStore((s) => s.togglePanel);
   const runTest = useStudioStore((s) => s.runTest);
@@ -18,6 +21,19 @@ export function ActivityPanel() {
 
   const currentIdx = stageIndex(test.stage);
   const showApprovalUI = test.stage === 'awaiting-approval' && test.approved === null;
+
+  // Warnings — components that still need setup before deploy.
+  const warnings = useMemo(() => {
+    return listAllComponents(agent)
+      .filter((c) => {
+        const status = (c.data as { status?: string }).status;
+        return status === 'draft' || status === 'warning';
+      })
+      .map((c) => {
+        const d = c.data as { title?: string; provider?: string };
+        return `${d.title ?? d.provider ?? c.id} needs setup before deploy`;
+      });
+  }, [agent]);
 
   return (
     <div className={[
@@ -162,6 +178,31 @@ export function ActivityPanel() {
               <Stat label="duration" value={`${(test.durationMs / 1000).toFixed(1)}s`} />
               <Stat label="est. cost" value={`$${test.costEstimateUsd.toFixed(3)}`} />
               <Stat label="confidence" value={`${(test.confidence * 100).toFixed(0)}%`} />
+            </div>
+
+            {/* Deploy summary + warnings. */}
+            <div className="flex flex-col gap-2 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-3">
+              <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                <span>deploy</span>
+                <span>{agent.deployment.environment} · v{agent.deployment.version}</span>
+              </div>
+              {warnings.length > 0 ? (
+                <ul className="flex flex-col gap-1">
+                  {warnings.map((w, i) => (
+                    <li key={i} className="font-mono text-[10.5px] text-[color:var(--st-warning,#a86b3d)]">⚠ {w}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="font-mono text-[10.5px] text-[color:var(--st-success,#4d7468)]">All components configured.</p>
+              )}
+              <button
+                type="button"
+                disabled={warnings.length > 0}
+                className="self-start rounded-[2px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] disabled:opacity-50"
+                title={warnings.length > 0 ? 'Resolve warnings before deploying' : 'Deploy (prototype — no live deployment)'}
+              >
+                Deploy
+              </button>
             </div>
           </div>
         </div>

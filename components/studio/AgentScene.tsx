@@ -105,32 +105,50 @@ function useSceneModules(agent: AgentDefinition): ModuleSpec[] {
 
 interface MeshLike {
   rotation: { x: number; y: number };
-  scale: { set: (x: number, y: number, z: number) => void };
+  scale: { set: (x: number, y: number, z: number) => void; setScalar?: (s: number) => void };
   position: { x: number; y: number; z: number };
 }
 
-function Core({ selectedId, reducedMotion }: { selectedId: string; reducedMotion: boolean }) {
+/**
+ * Core visual states per the design direction:
+ *   idle     — still, restrained highlight movement
+ *   thinking — slow internal pulse (searching / drafting stages)
+ *   working  — visible data movement between modules (handled by pulses)
+ *   waiting  — motion pauses, the approval block becomes the focus
+ *   error    — controlled warning tint, no violent motion
+ */
+export type CoreState = 'idle' | 'thinking' | 'working' | 'waiting' | 'error';
+
+function Core({ selectedId, reducedMotion, coreState }: { selectedId: string; reducedMotion: boolean; coreState: CoreState }) {
   const meshRef = useRef<MeshLike | null>(null);
+  const t = useRef(0);
   useFrame((_, delta) => {
     if (!meshRef.current) return;
-    if (reducedMotion) return;
-    meshRef.current.rotation.y += delta * 0.08;
+    if (reducedMotion || coreState === 'waiting' || coreState === 'error') return;
+    // Idle: barely-there rotation. Thinking: slow pulse. Working: brisker pulse.
+    meshRef.current.rotation.y += delta * (coreState === 'idle' ? 0.05 : 0.10);
+    if (coreState === 'thinking' || coreState === 'working') {
+      t.current += delta * (coreState === 'thinking' ? 1.4 : 2.2);
+      const s = 1 + Math.sin(t.current) * 0.015;
+      meshRef.current.scale.setScalar?.(s);
+    }
   });
   const active = selectedId === 'instructions' || selectedId === 'intelligence' || selectedId === 'memory';
   const scale = active ? 1.05 : 1;
+  const colour = coreState === 'error' ? '#934b4b' : '#EDEFF1';
   return (
     <mesh ref={meshRef as unknown as never} scale={scale}>
       <sphereGeometry args={[1.15, 96, 96]} />
       <meshPhysicalMaterial
-        color="#EDEFF1"
+        color={colour}
         metalness={1}
         roughness={0.05}
         clearcoat={1}
         clearcoatRoughness={0.05}
-        iridescence={0.7}
+        iridescence={0.55}
         iridescenceIOR={1.3}
-        iridescenceThicknessRange={[100, 700]}
-        envMapIntensity={1.3}
+        iridescenceThicknessRange={[100, 620]}
+        envMapIntensity={1.25}
       />
     </mesh>
   );
@@ -152,7 +170,7 @@ function InstructionCapsule({ position, selected, hovered, onSelect, onHover }: 
     >
       <capsuleGeometry args={[0.34, 0.9, 16, 32]} />
       <meshPhysicalMaterial
-        color={selected ? '#2B6B57' : '#DDE1E4'}
+        color={selected ? '#93bbb4' : '#DDE1E4'}
         metalness={selected ? 0.4 : 1.0}
         roughness={selected ? 0.30 : 0.06}
         clearcoat={1}
@@ -209,7 +227,7 @@ function ConnectorTile({ position, selected, hovered, onSelect, onHover }: {
     >
       <boxGeometry args={[1.05, 0.75, 0.14]} />
       <meshPhysicalMaterial
-        color={selected ? '#2B6B57' : '#F4CE7A'}
+        color={selected ? '#93bbb4' : '#F4CE7A'}
         metalness={0.75}
         roughness={0.20}
         clearcoat={1}
@@ -235,7 +253,7 @@ function ApprovalBlock({ position, selected, hovered, onSelect, onHover }: {
     >
       <cylinderGeometry args={[0.32, 0.32, 0.5, 24, 1]} />
       <meshPhysicalMaterial
-        color={selected ? '#2B6B57' : '#D4A853'}
+        color={selected ? '#93bbb4' : '#D4A853'}
         metalness={0.5}
         roughness={0.35}
         clearcoat={1}
@@ -267,7 +285,7 @@ function EvaluationRing({ position, selected, hovered, onSelect, onHover, reduce
     >
       <torusGeometry args={[1.55, 0.055, 24, 128]} />
       <meshPhysicalMaterial
-        color={selected ? '#2B6B57' : '#79A6B2'}
+        color={selected ? '#93bbb4' : '#79A6B2'}
         metalness={1.0}
         roughness={0.08}
         clearcoat={1}
@@ -281,7 +299,7 @@ function BoundaryShell({ selected }: { selected: boolean }) {
     <mesh>
       <sphereGeometry args={[3.15, 64, 64]} />
       <meshPhysicalMaterial
-        color={selected ? '#2B6B57' : '#F5F1E8'}
+        color={selected ? '#93bbb4' : '#F5F1E8'}
         metalness={0}
         roughness={0.15}
         transmission={0.94}
@@ -328,6 +346,31 @@ function ConnectionLine({ from, to, colour }: { from: [number, number, number]; 
   );
 }
 
+/** A single controlled particle travelling along an active connection while
+ *  the agent is working. One pulse per edge — no persistent streams. */
+function DataPulse({ from, to, reducedMotion }: {
+  from: [number, number, number];
+  to: [number, number, number];
+  reducedMotion: boolean;
+}) {
+  const ref = useRef<MeshLike | null>(null);
+  const t = useRef(Math.random());
+  useFrame((_, delta) => {
+    if (!ref.current || reducedMotion) return;
+    t.current = (t.current + delta * 0.5) % 1;
+    ref.current.position.x = from[0] + (to[0] - from[0]) * t.current;
+    ref.current.position.y = from[1] + (to[1] - from[1]) * t.current;
+    ref.current.position.z = from[2] + (to[2] - from[2]) * t.current;
+  });
+  if (reducedMotion) return null;
+  return (
+    <mesh ref={ref as unknown as never} position={from}>
+      <sphereGeometry args={[0.05, 12, 12]} />
+      <meshBasicMaterial color="#93bbb4" />
+    </mesh>
+  );
+}
+
 function OverlayLabel({ position, text, active, selected, onSelect }: {
   position: [number, number, number];
   text: string;
@@ -365,11 +408,32 @@ function SceneContents({ resetRequestRef }: { resetRequestRef: React.RefObject<R
   const select = useStudioStore((s) => s.select);
   const reducedMotion = useStudioStore((s) => s.reducedMotion);
   const testActivity = useStudioStore((s) => s.test.activity);
+  const testStage = useStudioStore((s) => s.test.stage);
+  const testApproved = useStudioStore((s) => s.test.approved);
   const testActive = useMemo(
     () => testActivity[testActivity.length - 1]?.active ?? [],
     [testActivity],
   );
   const modules = useSceneModules(agent);
+
+  // Core state machine — derived, never stored.
+  const coreState: CoreState = useMemo(() => {
+    if (testApproved === false) return 'error';
+    switch (testStage) {
+      case 'searching':
+      case 'source-found':
+        return 'thinking';
+      case 'drafting':
+      case 'uncertainty':
+      case 'approved':
+      case 'ready-to-send':
+        return 'working';
+      case 'awaiting-approval':
+        return 'waiting';
+      default:
+        return 'idle';
+    }
+  }, [testStage, testApproved]);
 
   const boundaryId = agent.boundaries[0]?.id ?? '';
   const CORE_ANCHOR: [number, number, number] = [0, 0.4, 0];
@@ -378,7 +442,7 @@ function SceneContents({ resetRequestRef }: { resetRequestRef: React.RefObject<R
     'informs': '#5B5049',
     'enables': '#3C7FA0',
     'requires-approval': '#C79B1F',
-    'protects': '#2B6B57',
+    'protects': '#93bbb4',
     'evaluates': '#79A6B2',
   };
 
@@ -403,7 +467,7 @@ function SceneContents({ resetRequestRef }: { resetRequestRef: React.RefObject<R
         <mesh onClick={(e: { stopPropagation: () => void }) => { e.stopPropagation(); if (boundaryId) select(boundaryId); }}>
           <sphereGeometry args={[3.15, 64, 64]} />
           <meshPhysicalMaterial
-            color={selectedId === boundaryId ? '#2B6B57' : '#F5F1E8'}
+            color={selectedId === boundaryId ? '#93bbb4' : '#F5F1E8'}
             metalness={0}
             roughness={0.18}
             transmission={0.9}
@@ -418,7 +482,7 @@ function SceneContents({ resetRequestRef }: { resetRequestRef: React.RefObject<R
 
       {/* Central chrome core — instructions/intelligence/memory anchor here. */}
       <group position={CORE_ANCHOR}>
-        <Core selectedId={selectedId} reducedMotion={reducedMotion} />
+        <Core selectedId={selectedId} reducedMotion={reducedMotion} coreState={coreState} />
       </group>
 
       {/* Modules. */}
@@ -461,14 +525,21 @@ function SceneContents({ resetRequestRef }: { resetRequestRef: React.RefObject<R
         );
       })}
 
-      {/* Connections — one per edge in the agent schema. */}
+      {/* Connections — one per edge in the agent schema. Active edges carry
+          a single travelling pulse while the agent is working. */}
       {agent.connections.map((edge) => {
         const src = modules.find((m) => m.componentId === edge.sourceId);
         const dst = modules.find((m) => m.componentId === edge.targetId);
         const fromPos = src?.anchor.position ?? CORE_ANCHOR;
         const toPos = dst?.anchor.position ?? CORE_ANCHOR;
+        const edgeActive =
+          (coreState === 'working' || coreState === 'thinking') &&
+          (testActive.includes(edge.sourceId) || testActive.includes(edge.targetId));
         return (
-          <ConnectionLine key={edge.id} from={fromPos} to={toPos} colour={relationshipColour[edge.relationship]} />
+          <group key={edge.id}>
+            <ConnectionLine from={fromPos} to={toPos} colour={relationshipColour[edge.relationship]} />
+            {edgeActive && <DataPulse from={fromPos} to={toPos} reducedMotion={reducedMotion} />}
+          </group>
         );
       })}
 

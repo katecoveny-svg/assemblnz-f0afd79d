@@ -35,7 +35,7 @@ export function StudioClient() {
   }, []);
 
   return (
-    <div className="flex h-screen flex-col bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
+    <div className="studio-root flex h-screen flex-col">
       <StudioTopBar />
       {isMobile ? (
         <div className="flex-1 overflow-y-auto">
