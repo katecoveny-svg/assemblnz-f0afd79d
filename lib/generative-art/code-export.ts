@@ -412,5 +412,6 @@ export function buildCodeSnippet(args: Args): string {
     case 'line':   return lineSnippet(args);
     case 'chrome': return chromeSnippet(args);
     case 'flow':   return flowSnippet(args);
+    default:       return lineSnippet({ ...args, family: 'line', presetId: 'bloom' });
   }
 }

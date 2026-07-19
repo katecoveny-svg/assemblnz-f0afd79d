@@ -1,4 +1,4 @@
-export type FamilyId = 'line' | 'chrome' | 'flow';
+export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves';
 
 export interface SliderSpec {
   key: string;
@@ -36,6 +36,13 @@ export interface RendererProps {
     png?: () => Promise<Blob | null> | Blob | null;
     svg?: () => string | null;
     code?: () => string | null;
+    /**
+     * Render at any pixel size, returning a fresh PNG blob with the
+     * watermark already stamped. Line + Chrome re-run their generators at
+     * the exact size; Flow falls back to a letterboxed scale of the
+     * current sim because the trails ARE the current sim.
+     */
+    renderAtSize?: (width: number, height: number) => Promise<Blob | null>;
   }) => void;
 }
 

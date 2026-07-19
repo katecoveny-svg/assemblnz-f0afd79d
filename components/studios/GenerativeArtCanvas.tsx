@@ -6,15 +6,29 @@ import type { Family, FamilyId, FamilyPreset } from '@/lib/generative-art/famili
 import { LINE_FAMILY } from '@/lib/generative-art/families/line';
 import { CHROME_FAMILY } from '@/lib/generative-art/families/chrome';
 import { FLOW_FAMILY } from '@/lib/generative-art/families/flow';
+import { CONSTELLATION_FAMILY } from '@/lib/generative-art/families/constellation';
+import { GRID_FAMILY } from '@/lib/generative-art/families/grid';
+import { WAVES_FAMILY } from '@/lib/generative-art/families/waves';
 import { FAMILY_RENDERERS } from './family-renderers';
 import { buildCodeSnippet } from '@/lib/generative-art/code-export';
 import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
+import { ASSET_GROUPS, ASSET_SIZES, type AssetGroup, type AssetSize } from '@/lib/generative-art/asset-sizes';
 
-const FAMILIES: Family[] = [LINE_FAMILY, CHROME_FAMILY, FLOW_FAMILY];
+const FAMILIES: Family[] = [
+  LINE_FAMILY,
+  CONSTELLATION_FAMILY,
+  GRID_FAMILY,
+  CHROME_FAMILY,
+  WAVES_FAMILY,
+  FLOW_FAMILY,
+];
 const FAMILY_MAP: Record<FamilyId, Family> = {
   line: LINE_FAMILY,
   chrome: CHROME_FAMILY,
   flow: FLOW_FAMILY,
+  constellation: CONSTELLATION_FAMILY,
+  grid: GRID_FAMILY,
+  waves: WAVES_FAMILY,
 };
 
 interface StudioState {
@@ -116,6 +130,7 @@ export function GenerativeArtCanvas() {
     png?: () => Promise<Blob | null> | Blob | null;
     svg?: () => string | null;
     code?: () => string | null;
+    renderAtSize?: (w: number, h: number) => Promise<Blob | null>;
   }>({});
   const onExportersReady = useCallback((exp: typeof exportersRef.current) => {
     exportersRef.current = exp;
@@ -225,6 +240,38 @@ export function GenerativeArtCanvas() {
   }, [copy.text, copy.title, shareUrl, state.family, state.presetId, state.seed]);
 
   const intents = useMemo(() => shareIntents(shareUrl, copy.text), [shareUrl, copy.text]);
+
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportGroup, setExportGroup] = useState<AssetGroup>('social');
+  const [exportingSize, setExportingSize] = useState<string | null>(null);
+
+  const downloadAtSize = useCallback(
+    async (size: AssetSize) => {
+      const renderer = exportersRef.current.renderAtSize;
+      if (!renderer) return;
+      setExportingSize(size.id);
+      try {
+        const blob = await renderer(size.width, size.height);
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `assembl-${state.family}-${state.presetId}-${size.id}-${state.seed}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } finally {
+        setExportingSize(null);
+      }
+    },
+    [state.family, state.presetId, state.seed],
+  );
+
+  const exportSizesForGroup = useMemo(
+    () => ASSET_SIZES.filter((s) => s.group === exportGroup),
+    [exportGroup],
+  );
 
   const Renderer = FAMILY_RENDERERS[family.id];
 
@@ -343,6 +390,72 @@ export function GenerativeArtCanvas() {
               code
             </button>
           )}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setExportOpen((v) => !v)}
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+              title="download at a preset social / print / wallpaper size"
+            >
+              export ▾
+            </button>
+            {exportOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full z-20 mt-2 flex min-w-[280px] flex-col overflow-hidden rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] shadow-[0_10px_30px_rgba(35,33,31,0.12)]"
+              >
+                <div className="flex gap-0 border-b border-[color:var(--assembl-cloud)]">
+                  {ASSET_GROUPS.map((g) => {
+                    const active = exportGroup === g.id;
+                    return (
+                      <button
+                        key={g.id}
+                        type="button"
+                        onClick={() => setExportGroup(g.id)}
+                        className={[
+                          'flex-1 px-2 py-2 font-mono text-[9.5px] uppercase tracking-[0.16em]',
+                          active
+                            ? 'bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                            : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',
+                        ].join(' ')}
+                      >
+                        {g.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="flex max-h-[52vh] flex-col overflow-y-auto">
+                  {exportSizesForGroup.map((size) => {
+                    const busy = exportingSize === size.id;
+                    return (
+                      <button
+                        key={size.id}
+                        type="button"
+                        onClick={() => downloadAtSize(size)}
+                        disabled={busy}
+                        className="flex items-baseline justify-between gap-3 px-3 py-2 text-left hover:bg-[color:var(--assembl-cloud)]/60 disabled:opacity-60"
+                      >
+                        <div>
+                          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-primary)]">
+                            {size.label}
+                          </div>
+                          <div className="font-mono text-[9.5px] tracking-[0.06em] text-[color:var(--text-secondary)]">
+                            {size.hint}
+                          </div>
+                        </div>
+                        {busy && (
+                          <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                            rendering…
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="relative">
             <button
               type="button"

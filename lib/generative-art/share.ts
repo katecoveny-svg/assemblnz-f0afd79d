@@ -11,6 +11,9 @@ export function shareCopyFor(family: FamilyId, presetLabel: string): ShareCopy {
     line: `Just made ${presetLabel} in the assembl creative playground — layered translucent line art, entirely in the browser`,
     chrome: `${presetLabel} — real-time chrome + glass in the assembl creative playground`,
     flow: `${presetLabel} — particle flow through curl noise, in the assembl creative playground`,
+    constellation: `${presetLabel} — a network of nodes and edges, from the assembl creative playground`,
+    grid: `${presetLabel} — algorithmic grid, from the assembl creative playground`,
+    waves: `${presetLabel} — real-time silk sheet, from the assembl creative playground`,
   };
   return {
     title: `${presetLabel} · assembl`,

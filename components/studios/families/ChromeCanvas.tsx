@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useCallback, useEffect, useMemo, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, type RootState } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { CHROME_FAMILY, CHROME_PALETTES, CHROME_SHAPES, type ChromePalette, type ChromeShape } from '@/lib/generative-art/families/chrome';
@@ -128,8 +128,22 @@ function Piece({
   );
 }
 
+interface R3FState {
+  gl: {
+    setSize: (w: number, h: number, updateStyle?: boolean) => void;
+    render: (scene: unknown, camera: unknown) => void;
+    domElement: HTMLCanvasElement;
+    getSize: (t: { width: number; height: number }) => { width: number; height: number };
+    setPixelRatio: (pr: number) => void;
+    getPixelRatio: () => number;
+  };
+  scene: unknown;
+  camera: { aspect?: number; updateProjectionMatrix?: () => void };
+}
+
 export function ChromeCanvas({ presetId, values, seed, onExportersReady }: RendererProps) {
   const canvasHostRef = useRef<HTMLDivElement>(null);
+  const r3fRef = useRef<R3FState | null>(null);
   const shape = shapeAt(values.shape ?? 0);
   const palette = paletteAt(values.palette ?? 0);
 
@@ -140,9 +154,60 @@ export function ChromeCanvas({ presetId, values, seed, onExportersReady }: Rende
     return await new Promise<Blob | null>((resolve) => stamped.toBlob((b) => resolve(b), 'image/png'));
   }, [palette.ground]);
 
+  const renderAtSize = useCallback(
+    async (w: number, h: number): Promise<Blob | null> => {
+      const state = r3fRef.current;
+      if (!state) return null;
+      const { gl, scene, camera } = state;
+      const size = { width: 0, height: 0 };
+      gl.getSize(size);
+      const prevRatio = gl.getPixelRatio();
+      const prevAspect = camera.aspect ?? 1;
+      try {
+        gl.setPixelRatio(1);
+        gl.setSize(w, h, false);
+        if (camera.aspect !== undefined) camera.aspect = w / h;
+        camera.updateProjectionMatrix?.();
+        gl.render(scene, camera);
+        const dom = gl.domElement;
+        const blob: Blob | null = await new Promise((resolve) =>
+          dom.toBlob((b) => resolve(b), 'image/png'),
+        );
+        if (!blob) return null;
+        // Composite the watermark on top at the exact export size.
+        const img = new Image();
+        const url = URL.createObjectURL(blob);
+        await new Promise<void>((res, rej) => {
+          img.onload = () => res();
+          img.onerror = () => rej(new Error('render decode failed'));
+          img.src = url;
+        });
+        URL.revokeObjectURL(url);
+        const out = document.createElement('canvas');
+        out.width = w;
+        out.height = h;
+        const ctx = out.getContext('2d');
+        if (!ctx) return null;
+        ctx.fillStyle = palette.ground;
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        const stamped = stampWatermarkOnCanvas(out, palette.ground);
+        return await new Promise((resolve) => stamped.toBlob((b) => resolve(b), 'image/png'));
+      } finally {
+        // Restore live view.
+        gl.setPixelRatio(prevRatio);
+        gl.setSize(size.width, size.height, false);
+        if (camera.aspect !== undefined) camera.aspect = prevAspect;
+        camera.updateProjectionMatrix?.();
+        gl.render(scene, camera);
+      }
+    },
+    [palette.ground],
+  );
+
   useEffect(() => {
-    onExportersReady?.({ png });
-  }, [onExportersReady, png]);
+    onExportersReady?.({ png, renderAtSize });
+  }, [onExportersReady, png, renderAtSize]);
 
   return (
     <div
@@ -156,6 +221,9 @@ export function ChromeCanvas({ presetId, values, seed, onExportersReady }: Rende
         camera={{ position: [0, 0, 4.2], fov: 42 }}
         dpr={[1, 2]}
         gl={{ antialias: true, preserveDrawingBuffer: true, alpha: true }}
+        onCreated={(state: RootState & R3FState) => {
+          r3fRef.current = state;
+        }}
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.55} />
