@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { BuilderScene } from '@/components/studio/BuilderScene';
+import { renderBuildCard } from '@/lib/studio/builder-card';
 import {
   BUILDER_STEPS,
   EMPTY_PICKS,
@@ -84,6 +85,43 @@ export function BuilderClient() {
   }, [picks]);
 
   const summary = useMemo(() => summarise(picks), [picks]);
+
+  const buildCard = useCallback(async (): Promise<Blob | null> => {
+    return renderBuildCard({
+      name: picks.name.trim() || 'your agent',
+      jobLabel: picks.job ? JOB_LABEL[picks.job] ?? '' : '',
+      knows: summary.knows,
+      does: summary.does,
+      asks: summary.asks,
+    });
+  }, [picks, summary]);
+
+  const downloadCard = useCallback(async () => {
+    const blob = await buildCard();
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${(picks.name.trim() || 'my-agent').replace(/\s+/g, '-').toLowerCase()}-assembl.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [buildCard, picks.name]);
+
+  const shareCard = useCallback(async () => {
+    const blob = await buildCard();
+    if (!blob) return;
+    const file = new File([blob], 'assembl-agent.png', { type: 'image/png' });
+    const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean; share?: (d: ShareData) => Promise<void> };
+    if (nav.canShare && nav.canShare({ files: [file] }) && nav.share) {
+      try { await nav.share({ files: [file], title: 'My assembl agent', text: 'An agent I assembled with assembl.' }); return; } catch { /* dismissed */ }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'assembl-agent.png';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [buildCard]);
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-[1180px] flex-col gap-6 px-5 py-8 md:px-10">
@@ -216,6 +254,20 @@ export function BuilderClient() {
                   className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)]"
                 >
                   {copied ? 'link copied' : 'share this build'}
+                </button>
+                <button
+                  type="button"
+                  onClick={downloadCard}
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                >
+                  download card
+                </button>
+                <button
+                  type="button"
+                  onClick={shareCard}
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                >
+                  share card
                 </button>
                 <Link
                   href="/pilot"
