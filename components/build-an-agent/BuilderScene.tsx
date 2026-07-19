@@ -6,7 +6,12 @@ import { Suspense, useEffect } from 'react';
 import * as THREE from 'three';
 
 import { useReducedMotion3D } from './hooks/useReducedMotion3D';
+import { Guardrails } from './parts/Guardrails';
+import { Knowledge } from './parts/Knowledge';
+import { Memory } from './parts/Memory';
 import { ModelCore } from './parts/ModelCore';
+import { Tools } from './parts/Tools';
+import { Voice } from './parts/Voice';
 import { CameraParallax } from './scene/CameraParallax';
 import { Ground } from './scene/Ground';
 import { HorizonWaves } from './scene/HorizonWaves';
@@ -63,6 +68,31 @@ export function BuilderScene({ onPartMove }: Props) {
         initialPosition={[0, 0.6, 0]}
         reduced={reduced}
         onMove={(p) => onPartMove?.('model', p)}
+      />
+      <Memory
+        initialPosition={[-2.4, 0.55, -0.4]}
+        reduced={reduced}
+        onMove={(p) => onPartMove?.('memory', p)}
+      />
+      <Tools
+        initialPosition={[2.4, 0.5, -0.4]}
+        reduced={reduced}
+        onMove={(p) => onPartMove?.('tools', p)}
+      />
+      <Knowledge
+        initialPosition={[-1.4, 0.55, 1.6]}
+        reduced={reduced}
+        onMove={(p) => onPartMove?.('knowledge', p)}
+      />
+      <Voice
+        initialPosition={[1.4, 0.55, 1.6]}
+        reduced={reduced}
+        onMove={(p) => onPartMove?.('voice', p)}
+      />
+      <Guardrails
+        initialPosition={[0, 0.5, 2.2]}
+        reduced={reduced}
+        onMove={(p) => onPartMove?.('guardrails', p)}
       />
 
       <CameraParallax reduced={reduced} />

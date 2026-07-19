@@ -15,27 +15,19 @@ interface Props {
 }
 
 /**
- * The model core — a chrome-family iridescent sphere. Draggable across
- * the y=0 plane. Breathes on its own so the scene feels alive at rest.
+ * Knowledge — a glass cylinder that reads as a tube of light. Transmission
+ * and low roughness so the studio HDRI shows through it.
  */
-export function ModelCore({ initialPosition = [0, 0.6, 0], reduced = false, onMove }: Props) {
+export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false, onMove }: Props) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const drag = useDrag3D(initialPosition, 0.6);
+  const drag = useDrag3D(initialPosition, 0.55);
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
-    if (reduced) {
-      meshRef.current.rotation.set(0, 0, 0);
-      return;
-    }
+    if (reduced) return;
     const t = clock.getElapsedTime();
-    meshRef.current.rotation.y = t * 0.25;
-    meshRef.current.rotation.x = Math.sin(t * 0.4) * 0.08;
-    if (!drag.isDragging) {
-      meshRef.current.position.y = drag.position[1] + Math.sin(t * 0.9) * 0.03;
-    } else {
-      meshRef.current.position.y = drag.position[1];
-    }
+    meshRef.current.rotation.y = t * 0.22;
+    meshRef.current.rotation.x = Math.PI / 2 + Math.sin(t * 0.3) * 0.05;
     if (onMove) onMove(drag.position);
   });
 
@@ -44,6 +36,7 @@ export function ModelCore({ initialPosition = [0, 0.6, 0], reduced = false, onMo
       <mesh
         ref={meshRef}
         position={[0, drag.position[1], 0]}
+        rotation={[Math.PI / 2, 0, 0]}
         onPointerOver={(e) => {
           e.stopPropagation();
           document.body.style.cursor = drag.isDragging ? 'grabbing' : 'grab';
@@ -53,28 +46,26 @@ export function ModelCore({ initialPosition = [0, 0.6, 0], reduced = false, onMo
         }}
         {...drag.handlers}
       >
-        <sphereGeometry args={[0.42, 96, 96]} />
+        <cylinderGeometry args={[0.18, 0.18, 0.72, 48, 1, false]} />
         <meshPhysicalMaterial
           color="#F5F1E8"
-          metalness={0.85}
-          roughness={0.08}
+          metalness={0.05}
+          roughness={0.06}
+          transmission={0.9}
+          thickness={0.5}
+          ior={1.4}
           clearcoat={1}
           clearcoatRoughness={0.05}
-          iridescence={0.9}
-          iridescenceIOR={1.35}
-          iridescenceThicknessRange={[120, 640]}
-          transmission={0.05}
-          ior={1.5}
           envMapIntensity={1.4}
         />
       </mesh>
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.55, 48]} />
-        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.14 : 0.09} />
+        <circleGeometry args={[0.4, 48]} />
+        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.12 : 0.08} />
       </mesh>
 
-      <PartLabel text={BUILD_AN_AGENT.parts.modelCore.label} />
+      <PartLabel text={BUILD_AN_AGENT.parts.connectors.label} />
     </group>
   );
 }

@@ -29,16 +29,19 @@ export function Kohatu({ count = 22, reduced = false }: Props) {
       spinSpeed: number;
     }> = [];
     for (let i = 0; i < count; i++) {
+      // Push all stones behind the parts (z < -3) and spread laterally so
+      // nothing near the camera dwarfs the model core in perspective.
       const angle = (i / count) * Math.PI * 2 + (i % 3) * 0.4;
-      const radius = 4.5 + (i % 5) * 1.4;
+      const radius = 5.5 + (i % 5) * 1.2;
+      const zBias = -3.5 - (i % 4) * 1.2;
       out.push({
         base: new THREE.Vector3(
           Math.cos(angle) * radius,
-          0.4 + (i % 4) * 0.3,
-          Math.sin(angle) * radius - 2 + (i % 3) * 0.6,
+          0.6 + (i % 4) * 0.35,
+          zBias - Math.abs(Math.sin(angle)) * 1.4,
         ),
-        scale: 0.08 + (i % 4) * 0.03,
-        driftAmp: 0.08 + (i % 3) * 0.04,
+        scale: 0.07 + (i % 4) * 0.018,
+        driftAmp: 0.07 + (i % 3) * 0.03,
         driftSpeed: 0.2 + (i % 5) * 0.05,
         phase: (i * 0.7) % (Math.PI * 2),
         spinAxis: new THREE.Vector3(
