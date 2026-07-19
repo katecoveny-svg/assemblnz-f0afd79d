@@ -32,6 +32,18 @@ const ReactionCanvas = dynamic(
   () => import('./families/ReactionCanvas').then((m) => m.ReactionCanvas),
   { ssr: false }
 );
+const BoidsCanvas = dynamic(
+  () => import('./families/BoidsCanvas').then((m) => m.BoidsCanvas),
+  { ssr: false }
+);
+const AttractorsCanvas = dynamic(
+  () => import('./families/AttractorsCanvas').then((m) => m.AttractorsCanvas),
+  { ssr: false }
+);
+const GrowthCanvas = dynamic(
+  () => import('./families/GrowthCanvas').then((m) => m.GrowthCanvas),
+  { ssr: false }
+);
 
 export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = {
   line: LineCanvas,
@@ -41,4 +53,7 @@ export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = 
   grid: GridCanvas,
   waves: WavesCanvas,
   reaction: ReactionCanvas,
+  boids: BoidsCanvas,
+  attractors: AttractorsCanvas,
+  growth: GrowthCanvas,
 };

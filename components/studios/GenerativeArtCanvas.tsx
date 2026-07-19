@@ -10,6 +10,9 @@ import { CONSTELLATION_FAMILY } from '@/lib/generative-art/families/constellatio
 import { GRID_FAMILY } from '@/lib/generative-art/families/grid';
 import { WAVES_FAMILY } from '@/lib/generative-art/families/waves';
 import { REACTION_FAMILY } from '@/lib/generative-art/families/reaction';
+import { BOIDS_FAMILY } from '@/lib/generative-art/families/boids';
+import { ATTRACTORS_FAMILY } from '@/lib/generative-art/families/attractors';
+import { GROWTH_FAMILY } from '@/lib/generative-art/families/growth';
 import { FAMILY_RENDERERS } from './family-renderers';
 import { buildCodeSnippet } from '@/lib/generative-art/code-export';
 import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
@@ -20,6 +23,9 @@ const FAMILIES: Family[] = [
   LINE_FAMILY,
   CONSTELLATION_FAMILY,
   GRID_FAMILY,
+  GROWTH_FAMILY,
+  BOIDS_FAMILY,
+  ATTRACTORS_FAMILY,
   CHROME_FAMILY,
   WAVES_FAMILY,
   REACTION_FAMILY,
@@ -33,6 +39,9 @@ const FAMILY_MAP: Record<FamilyId, Family> = {
   grid: GRID_FAMILY,
   waves: WAVES_FAMILY,
   reaction: REACTION_FAMILY,
+  boids: BOIDS_FAMILY,
+  attractors: ATTRACTORS_FAMILY,
+  growth: GROWTH_FAMILY,
 };
 
 interface StudioState {

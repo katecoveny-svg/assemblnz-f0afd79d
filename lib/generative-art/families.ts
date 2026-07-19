@@ -1,6 +1,6 @@
 import type { BackgroundId } from './backgrounds';
 
-export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves' | 'reaction';
+export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves' | 'reaction' | 'boids' | 'attractors' | 'growth';
 
 export interface SliderSpec {
   key: string;

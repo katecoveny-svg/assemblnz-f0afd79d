@@ -15,6 +15,9 @@ export function shareCopyFor(family: FamilyId, presetLabel: string): ShareCopy {
     grid: `${presetLabel} — algorithmic grid, from the assembl creative playground`,
     waves: `${presetLabel} — real-time silk sheet, from the assembl creative playground`,
     reaction: `${presetLabel} — Gray-Scott chemistry live on the GPU, from the assembl creative playground`,
+    boids: `${presetLabel} — flocking physics, from the assembl creative playground`,
+    attractors: `${presetLabel} — chaos in phase space, from the assembl creative playground`,
+    growth: `${presetLabel} — L-system fractal growth, from the assembl creative playground`,
   };
   return {
     title: `${presetLabel} · assembl`,
