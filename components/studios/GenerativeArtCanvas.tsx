@@ -2,54 +2,63 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import type p5Type from 'p5';
-import {
-  PRESETS,
-  PRESET_ORDER,
-  defaultParams,
-  type PresetId,
-  type SketchParams,
-} from '@/lib/generative-art/presets';
-import { buildShells, shellsToSvg } from '@/lib/generative-art/sketch';
+import type { Family, FamilyId, FamilyPreset } from '@/lib/generative-art/families';
+import { LINE_FAMILY } from '@/lib/generative-art/families/line';
+import { LIQUID_FAMILY } from '@/lib/generative-art/families/liquid';
+import { CHROME_FAMILY } from '@/lib/generative-art/families/chrome';
+import { FAMILY_RENDERERS } from './family-renderers';
 
-type P5Ctor = typeof p5Type;
+const FAMILIES: Family[] = [LINE_FAMILY, LIQUID_FAMILY, CHROME_FAMILY];
+const FAMILY_MAP: Record<FamilyId, Family> = {
+  line: LINE_FAMILY,
+  liquid: LIQUID_FAMILY,
+  chrome: CHROME_FAMILY,
+};
 
-function paramsToSearch(params: SketchParams): URLSearchParams {
-  const s = new URLSearchParams();
-  s.set('preset', params.preset);
-  s.set('shells', String(params.shells));
-  s.set('warp', params.warp.toFixed(2));
-  s.set('hue', String(Math.round(params.hue)));
-  s.set('tint', params.tint.toFixed(2));
-  s.set('alpha', params.alpha.toFixed(3));
-  s.set('stroke', params.stroke.toFixed(2));
-  s.set('noise', params.noise.toFixed(2));
-  s.set('seed', String(params.seed));
-  return s;
+interface StudioState {
+  family: FamilyId;
+  presetId: string;
+  values: Record<string, number>;
+  seed: number;
 }
 
-function paramsFromSearch(sp: URLSearchParams | null): SketchParams | null {
-  if (!sp) return null;
-  const preset = (sp.get('preset') as PresetId) || null;
-  if (!preset || !(preset in PRESETS)) return null;
-  const base = defaultParams(preset);
-  const num = (k: string, fallback: number) => {
-    const raw = sp.get(k);
-    if (raw == null) return fallback;
-    const v = Number(raw);
-    return Number.isFinite(v) ? v : fallback;
-  };
-  return {
-    preset,
-    shells: Math.round(num('shells', base.shells)),
-    warp: num('warp', base.warp),
-    hue: num('hue', base.hue),
-    tint: num('tint', base.tint),
-    alpha: num('alpha', base.alpha),
-    stroke: num('stroke', base.stroke),
-    noise: num('noise', base.noise),
-    seed: Math.round(num('seed', base.seed)),
-  };
+function pickFamily(id: string | null): Family {
+  if (id && id in FAMILY_MAP) return FAMILY_MAP[id as FamilyId];
+  return LINE_FAMILY;
+}
+
+function pickPreset(family: Family, id: string | null): FamilyPreset {
+  return family.presets.find((p) => p.id === id) ?? family.presets[0];
+}
+
+function stateFromSearch(sp: URLSearchParams | null): StudioState {
+  const family = pickFamily(sp?.get('family') ?? null);
+  const preset = pickPreset(family, sp?.get('preset') ?? null);
+  const values = { ...preset.defaults };
+  for (const slider of preset.sliders) {
+    const raw = sp?.get(slider.key);
+    if (raw != null) {
+      const v = Number(raw);
+      if (Number.isFinite(v)) values[slider.key] = v;
+    }
+  }
+  const seedRaw = sp?.get('seed');
+  const seed = seedRaw != null && Number.isFinite(Number(seedRaw)) ? Math.round(Number(seedRaw)) : 8471;
+  return { family: family.id, presetId: preset.id, values, seed };
+}
+
+function stateToSearch(state: StudioState): URLSearchParams {
+  const family = FAMILY_MAP[state.family];
+  const preset = pickPreset(family, state.presetId);
+  const s = new URLSearchParams();
+  s.set('family', state.family);
+  s.set('preset', state.presetId);
+  s.set('seed', String(state.seed));
+  for (const slider of preset.sliders) {
+    const v = state.values[slider.key];
+    if (v != null) s.set(slider.key, slider.step >= 1 ? String(Math.round(v)) : v.toFixed(3));
+  }
+  return s;
 }
 
 interface SliderRowProps {
@@ -82,168 +91,196 @@ function SliderRow({ label, value, min, max, step, display, onChange }: SliderRo
   );
 }
 
+interface AiResult {
+  imageUrl: string;
+  prompt: string;
+  cost: number | null;
+}
+type AiState =
+  | { kind: 'idle' }
+  | { kind: 'rendering' }
+  | { kind: 'error'; message: string; hint?: string; prompt?: string }
+  | { kind: 'done'; result: AiResult };
+
 export function GenerativeArtCanvas() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const initialParams = useMemo(
-    () => paramsFromSearch(searchParams) ?? defaultParams('bloom'),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-  const [params, setParams] = useState<SketchParams>(initialParams);
-  const paramsRef = useRef(params);
-  paramsRef.current = params;
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const p5Ref = useRef<p5Type | null>(null);
-  const sizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
-  const [canvasReady, setCanvasReady] = useState(false);
+  const initial = useMemo(() => stateFromSearch(searchParams), []);
+  const [state, setState] = useState<StudioState>(initial);
   const [copied, setCopied] = useState<string | null>(null);
-  const preset = PRESETS[params.preset];
+  const [ai, setAi] = useState<AiState>({ kind: 'idle' });
 
-  const draw = useCallback((p: p5Type) => {
-    const current = paramsRef.current;
-    const preset = PRESETS[current.preset];
-    const { w, h } = sizeRef.current;
-    p.background(preset.palette.ground);
-    p.noFill();
-    p.strokeJoin(p.ROUND);
-    const shells = buildShells({ width: w, height: h, params: current, preset });
-    for (const shell of shells) {
-      const [fr, fg, fb] = hexToRgb(shell.fillHex);
-      const [sr, sg, sb] = hexToRgb(shell.strokeHex);
-      p.fill(fr, fg, fb, Math.round(shell.fillAlpha * 255));
-      p.stroke(sr, sg, sb, Math.round(shell.strokeAlpha * 255));
-      p.strokeWeight(current.stroke);
-      p.beginShape();
-      for (const pt of shell.points) {
-        p.vertex(pt.x, pt.y);
-      }
-      p.endShape(p.CLOSE);
-    }
+  const family = FAMILY_MAP[state.family];
+  const preset = pickPreset(family, state.presetId);
+
+  const exportersRef = useRef<{
+    png?: () => Promise<Blob | null> | Blob | null;
+    svg?: () => string | null;
+  }>({});
+  const onExportersReady = useCallback((exp: typeof exportersRef.current) => {
+    exportersRef.current = exp;
   }, []);
-
-  useEffect(() => {
-    let disposed = false;
-    let p5Instance: p5Type | null = null;
-
-    async function init() {
-      const mod = await import('p5');
-      const P5: P5Ctor = (mod as { default: P5Ctor }).default;
-      if (disposed || !containerRef.current) return;
-
-      const sketch = (p: p5Type) => {
-        p.setup = () => {
-          const el = containerRef.current!;
-          const rect = el.getBoundingClientRect();
-          const w = Math.max(320, rect.width);
-          const h = Math.max(320, rect.height);
-          sizeRef.current = { w, h };
-          p.pixelDensity(Math.min(2, window.devicePixelRatio || 1));
-          p.createCanvas(w, h);
-          p.noLoop();
-          draw(p);
-          setCanvasReady(true);
-        };
-        p.windowResized = () => {
-          const el = containerRef.current;
-          if (!el) return;
-          const rect = el.getBoundingClientRect();
-          const w = Math.max(320, rect.width);
-          const h = Math.max(320, rect.height);
-          sizeRef.current = { w, h };
-          p.resizeCanvas(w, h);
-          draw(p);
-        };
-        p.draw = () => draw(p);
-      };
-
-      p5Instance = new P5(sketch, containerRef.current);
-      p5Ref.current = p5Instance;
-    }
-
-    init();
-    return () => {
-      disposed = true;
-      p5Instance?.remove();
-      p5Ref.current = null;
-    };
-  }, [draw]);
-
-  // Redraw on param change (throttled via rAF).
-  useEffect(() => {
-    if (!p5Ref.current) return;
-    let raf = requestAnimationFrame(() => {
-      p5Ref.current?.redraw();
-    });
-    return () => cancelAnimationFrame(raf);
-  }, [params]);
 
   // Sync URL params (debounced).
   useEffect(() => {
     const t = window.setTimeout(() => {
-      const s = paramsToSearch(params);
+      const s = stateToSearch(state);
       router.replace(`?${s.toString()}`, { scroll: false });
     }, 400);
     return () => window.clearTimeout(t);
-  }, [params, router]);
+  }, [state, router]);
 
-  const applyPreset = useCallback((id: PresetId) => {
-    setParams({ ...defaultParams(id), seed: paramsRef.current.seed });
+  const selectFamily = useCallback((id: FamilyId) => {
+    const fam = FAMILY_MAP[id];
+    const preset = fam.presets[0];
+    setState((prev) => ({
+      family: id,
+      presetId: preset.id,
+      values: { ...preset.defaults },
+      seed: prev.seed,
+    }));
+    setAi({ kind: 'idle' });
   }, []);
 
-  const patch = useCallback((p: Partial<SketchParams>) => {
-    setParams((prev) => ({ ...prev, ...p }));
+  const selectPreset = useCallback((id: string) => {
+    setState((prev) => {
+      const fam = FAMILY_MAP[prev.family];
+      const preset = pickPreset(fam, id);
+      return {
+        family: prev.family,
+        presetId: id,
+        values: { ...preset.defaults },
+        seed: prev.seed,
+      };
+    });
+    setAi({ kind: 'idle' });
+  }, []);
+
+  const patchValue = useCallback((key: string, v: number) => {
+    setState((prev) => ({ ...prev, values: { ...prev.values, [key]: v } }));
   }, []);
 
   const reseed = useCallback(() => {
-    setParams((prev) => ({ ...prev, seed: Math.floor(Math.random() * 100000) }));
+    setState((prev) => ({ ...prev, seed: Math.floor(Math.random() * 100000) }));
   }, []);
 
-  const downloadPng = useCallback(() => {
-    if (!p5Ref.current) return;
-    p5Ref.current.saveCanvas(`assembl-${params.preset}-${params.seed}`, 'png');
-  }, [params.preset, params.seed]);
-
-  const downloadSvg = useCallback(() => {
-    const { w, h } = sizeRef.current;
-    const preset = PRESETS[params.preset];
-    const shells = buildShells({ width: w, height: h, params, preset });
-    const svg = shellsToSvg(shells, w, h, preset.palette.ground, params.stroke);
-    const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const downloadPng = useCallback(async () => {
+    const png = exportersRef.current.png;
+    if (!png) return;
+    const blob = await png();
+    if (!blob) return;
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `assembl-${params.preset}-${params.seed}.svg`;
+    a.download = `assembl-${state.family}-${state.presetId}-${state.seed}.png`;
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-  }, [params]);
+  }, [state.family, state.presetId, state.seed]);
+
+  const downloadSvg = useCallback(() => {
+    const svg = exportersRef.current.svg?.();
+    if (!svg) return;
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `assembl-${state.family}-${state.presetId}-${state.seed}.svg`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }, [state.family, state.presetId, state.seed]);
 
   const copyShareUrl = useCallback(() => {
-    const s = paramsToSearch(params);
+    const s = stateToSearch(state);
     const url = `${window.location.origin}${window.location.pathname}?${s.toString()}`;
     navigator.clipboard.writeText(url);
     setCopied('link');
     window.setTimeout(() => setCopied(null), 1600);
-  }, [params]);
+  }, [state]);
+
+  const renderAtFirefly = useCallback(async () => {
+    setAi({ kind: 'rendering' });
+    try {
+      const res = await fetch('/api/creative-playground/render', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          family: state.family,
+          presetId: state.presetId,
+          values: state.values,
+          seed: state.seed,
+        }),
+      });
+      const body = await res.json();
+      if (body?.ok) {
+        setAi({
+          kind: 'done',
+          result: { imageUrl: body.imageUrl, prompt: body.prompt, cost: body.cost_usd },
+        });
+      } else {
+        setAi({
+          kind: 'error',
+          message: body?.error ?? 'render failed',
+          hint: body?.hint,
+          prompt: body?.prompt,
+        });
+      }
+    } catch (err) {
+      setAi({ kind: 'error', message: err instanceof Error ? err.message : 'render failed' });
+    }
+  }, [state]);
+
+  const Renderer = FAMILY_RENDERERS[family.id];
 
   return (
-    <div className="flex w-full flex-col gap-5">
-      {/* Preset chips */}
-      <div className="flex flex-wrap gap-2" role="tablist" aria-label="preset">
-        {PRESET_ORDER.map((id) => {
-          const p = PRESETS[id];
-          const active = params.preset === id;
+    <div className="flex w-full flex-col gap-6">
+      {/* Family tabs */}
+      <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="family">
+        {FAMILIES.map((f) => {
+          const active = state.family === f.id;
           return (
             <button
-              key={id}
+              key={f.id}
               type="button"
               role="tab"
               aria-selected={active}
-              onClick={() => applyPreset(id)}
+              onClick={() => selectFamily(f.id)}
+              className={[
+                'group flex flex-col items-start rounded-[3px] border px-3.5 py-2 text-left transition',
+                active
+                  ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                  : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]',
+              ].join(' ')}
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em]">{f.label}</span>
+              <span
+                className={[
+                  'mt-0.5 font-mono text-[9.5px] tracking-[0.06em]',
+                  active ? 'text-[color:var(--assembl-paper)]/70' : 'text-[color:var(--text-secondary)]',
+                ].join(' ')}
+              >
+                {f.blurb}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Preset chips */}
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label="preset">
+        {family.presets.map((p) => {
+          const active = state.presetId === p.id;
+          return (
+            <button
+              key={p.id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => selectPreset(p.id)}
               className={[
                 'rounded-[2px] border px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] transition',
                 active
@@ -257,19 +294,14 @@ export function GenerativeArtCanvas() {
         })}
       </div>
 
-      {/* Canvas frame */}
-      <div className="relative w-full">
-        <div
-          ref={containerRef}
-          className="relative mx-auto aspect-[0.92/1] w-full max-w-[720px] overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
-          style={{ background: preset.palette.ground }}
-        />
-        {!canvasReady && (
-          <div className="absolute inset-0 flex items-center justify-center font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
-            assembling…
-          </div>
-        )}
-      </div>
+      {/* Renderer */}
+      <Renderer
+        presetId={state.presetId}
+        values={state.values}
+        seed={state.seed}
+        ground={family.ground}
+        onExportersReady={onExportersReady}
+      />
 
       {/* Actions */}
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -291,80 +323,102 @@ export function GenerativeArtCanvas() {
           >
             {copied === 'link' ? 'copied' : 'copy link'}
           </button>
-          <button
-            type="button"
-            onClick={downloadPng}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
-          >
-            png
-          </button>
-          <button
-            type="button"
-            onClick={downloadSvg}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
-          >
-            svg
-          </button>
+          {family.supportsPngDownload && (
+            <button
+              type="button"
+              onClick={downloadPng}
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            >
+              png
+            </button>
+          )}
+          {family.supportsSvgDownload && (
+            <button
+              type="button"
+              onClick={downloadSvg}
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            >
+              svg
+            </button>
+          )}
         </div>
       </div>
 
       {/* Sliders */}
-      <div className="grid gap-4 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4 sm:grid-cols-2">
-        <SliderRow
-          label="shells"
-          value={params.shells}
-          min={5}
-          max={40}
-          step={1}
-          display={String(params.shells)}
-          onChange={(v) => patch({ shells: v })}
-        />
-        <SliderRow
-          label="warp"
-          value={params.warp}
-          min={0}
-          max={1}
-          step={0.01}
-          display={params.warp.toFixed(2)}
-          onChange={(v) => patch({ warp: v })}
-        />
-        <SliderRow
-          label="alpha"
-          value={params.alpha}
-          min={0.03}
-          max={0.20}
-          step={0.005}
-          display={params.alpha.toFixed(3)}
-          onChange={(v) => patch({ alpha: v })}
-        />
-        <SliderRow
-          label="stroke"
-          value={params.stroke}
-          min={0.5}
-          max={2.5}
-          step={0.05}
-          display={`${params.stroke.toFixed(2)}px`}
-          onChange={(v) => patch({ stroke: v })}
-        />
-        <SliderRow
-          label="noise"
-          value={params.noise}
-          min={0.5}
-          max={3}
-          step={0.05}
-          display={params.noise.toFixed(2)}
-          onChange={(v) => patch({ noise: v })}
-        />
-        <SliderRow
-          label="seed"
-          value={params.seed}
-          min={0}
-          max={99999}
-          step={1}
-          display={String(params.seed)}
-          onChange={(v) => patch({ seed: Math.round(v) })}
-        />
-      </div>
+      {preset.sliders.length > 0 && (
+        <div className="grid gap-4 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4 sm:grid-cols-2">
+          {preset.sliders.map((slider) => {
+            const value = state.values[slider.key] ?? preset.defaults[slider.key] ?? slider.min;
+            const display = slider.format ? slider.format(value) : String(value);
+            return (
+              <SliderRow
+                key={slider.key}
+                label={slider.label}
+                value={value}
+                min={slider.min}
+                max={slider.max}
+                step={slider.step}
+                display={display}
+                onChange={(v) => patchValue(slider.key, v)}
+              />
+            );
+          })}
+          <SliderRow
+            label="seed"
+            value={state.seed}
+            min={0}
+            max={99999}
+            step={1}
+            display={String(state.seed)}
+            onChange={(v) => setState((prev) => ({ ...prev, seed: Math.round(v) }))}
+          />
+        </div>
+      )}
+
+      {/* Cross-family AI "Render at Firefly quality" — hide on Liquid (that family
+          IS the AI call — no need for a second one). */}
+      {!family.isAiFirst && (
+        <div className="flex flex-col gap-3 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div>
+              <div className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
+                render at firefly quality
+              </div>
+              <div className="mt-1 font-mono text-[10.5px] tracking-[0.05em] text-[color:var(--text-secondary)]">
+                {family.id === 'line'
+                  ? 'send this sketch to fal flux 1.1 pro — painterly, editorial'
+                  : 'send this scene to fal flux 1.1 pro — richer, cinematic 3d'}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={renderAtFirefly}
+              disabled={ai.kind === 'rendering'}
+              className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] disabled:opacity-60"
+            >
+              {ai.kind === 'rendering' ? 'assembling…' : 'render'}
+            </button>
+          </div>
+          {ai.kind === 'done' && (
+            <div className="mt-1 overflow-hidden rounded-[2px] border border-[color:var(--assembl-cloud)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={ai.result.imageUrl} alt="firefly render" className="block h-auto w-full" />
+              <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                <span>fal flux 1.1 pro · seed {state.seed}</span>
+                {ai.result.cost != null && <span>~${ai.result.cost.toFixed(2)} usd</span>}
+              </div>
+            </div>
+          )}
+          {ai.kind === 'error' && (
+            <div className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-2 font-mono text-[10.5px] leading-[1.55] text-[color:var(--text-primary)]">
+              {ai.message}
+              {ai.hint && (
+                <div className="mt-1 text-[color:var(--text-secondary)]">{ai.hint}</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <style jsx global>{`
         input.ga-slider {
@@ -393,13 +447,4 @@ export function GenerativeArtCanvas() {
       `}</style>
     </div>
   );
-}
-
-function hexToRgb(hex: string): [number, number, number] {
-  const h = hex.replace('#', '');
-  return [
-    parseInt(h.slice(0, 2), 16),
-    parseInt(h.slice(2, 4), 16),
-    parseInt(h.slice(4, 6), 16),
-  ];
 }

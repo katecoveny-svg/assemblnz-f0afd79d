@@ -37,7 +37,8 @@ declare module '@react-three/drei' {
   export const Box: (props: Common) => any;
   export const Cylinder: (props: Common) => any;
   export const Plane: (props: Common) => any;
-  export const Environment: (props: { preset?: string }) => any;
+  export const Environment: (props: { preset?: string; background?: boolean; files?: string | string[]; resolution?: number; children?: unknown }) => any;
+  export const Lightformer: (props: Record<string, unknown>) => any;
   export const Html: (props: Record<string, unknown>) => any;
   export const OrbitControls: (props: Record<string, unknown>) => any;
   export const PointerLockControls: (props: Record<string, unknown>) => any;
@@ -65,6 +66,8 @@ declare namespace React {
       circleGeometry: Record<string, unknown>;
       sphereGeometry: Record<string, unknown>;
       boxGeometry: Record<string, unknown>;
+      torusGeometry: Record<string, unknown>;
+      torusKnotGeometry: Record<string, unknown>;
       bufferGeometry: Record<string, unknown>;
       bufferAttribute: Record<string, unknown>;
       lineSegments: Record<string, unknown>;
