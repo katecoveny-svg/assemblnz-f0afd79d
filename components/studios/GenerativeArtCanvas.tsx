@@ -8,6 +8,7 @@ import { CHROME_FAMILY } from '@/lib/generative-art/families/chrome';
 import { FLOW_FAMILY } from '@/lib/generative-art/families/flow';
 import { FAMILY_RENDERERS } from './family-renderers';
 import { buildCodeSnippet } from '@/lib/generative-art/code-export';
+import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
 
 const FAMILIES: Family[] = [LINE_FAMILY, CHROME_FAMILY, FLOW_FAMILY];
 const FAMILY_MAP: Record<FamilyId, Family> = {
@@ -102,6 +103,14 @@ export function GenerativeArtCanvas() {
 
   const family = FAMILY_MAP[state.family];
   const preset = pickPreset(family, state.presetId);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [sharing, setSharing] = useState(false);
+
+  const shareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    return `${window.location.origin}${window.location.pathname}?${stateToSearch(state).toString()}`;
+  }, [state]);
+  const copy = useMemo(() => shareCopyFor(state.family, preset.label), [state.family, preset.label]);
 
   const exportersRef = useRef<{
     png?: () => Promise<Blob | null> | Blob | null;
@@ -184,17 +193,38 @@ export function GenerativeArtCanvas() {
       presetId: state.presetId,
       values: state.values,
       seed: state.seed,
+      shareUrl,
     });
     download(new Blob([src], { type: 'text/html' }), 'html');
-  }, [download, state]);
+  }, [download, shareUrl, state]);
 
   const copyShareUrl = useCallback(() => {
-    const s = stateToSearch(state);
-    const url = `${window.location.origin}${window.location.pathname}?${s.toString()}`;
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(shareUrl);
     setCopied('link');
     window.setTimeout(() => setCopied(null), 1600);
-  }, [state]);
+  }, [shareUrl]);
+
+  const openShare = useCallback(async () => {
+    // On mobile / iOS Safari with the Web Share API, offer the native sheet
+    // (with the rendered PNG attached when the browser supports files).
+    setSharing(true);
+    try {
+      const pngExporter = exportersRef.current.png;
+      const png = pngExporter ? await pngExporter() : null;
+      const shared = await tryNativeShare({
+        url: shareUrl,
+        title: copy.title,
+        text: copy.text,
+        pngBlob: png,
+        filename: `assembl-${state.family}-${state.presetId}-${state.seed}.png`,
+      });
+      if (!shared) setShareOpen((v) => !v);
+    } finally {
+      setSharing(false);
+    }
+  }, [copy.text, copy.title, shareUrl, state.family, state.presetId, state.seed]);
+
+  const intents = useMemo(() => shareIntents(shareUrl, copy.text), [shareUrl, copy.text]);
 
   const Renderer = FAMILY_RENDERERS[family.id];
 
@@ -313,6 +343,46 @@ export function GenerativeArtCanvas() {
               code
             </button>
           )}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={openShare}
+              disabled={sharing}
+              className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] disabled:opacity-60"
+            >
+              {sharing ? 'sharing…' : 'share'}
+            </button>
+            {shareOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full z-20 mt-2 flex min-w-[180px] flex-col overflow-hidden rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] shadow-[0_10px_30px_rgba(35,33,31,0.12)]"
+                onMouseLeave={() => setShareOpen(false)}
+              >
+                {intents.map((intent) => (
+                  <a
+                    key={intent.key}
+                    href={intent.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setShareOpen(false)}
+                    className="px-3 py-2 text-left font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                  >
+                    {intent.label}
+                  </a>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    copyShareUrl();
+                    setShareOpen(false);
+                  }}
+                  className="border-t border-[color:var(--assembl-cloud)] px-3 py-2 text-left font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                >
+                  {copied === 'link' ? 'copied' : 'copy link'}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

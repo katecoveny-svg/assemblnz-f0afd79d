@@ -7,38 +7,46 @@ import type { FamilyId } from './families';
 import { PRESETS as LINE_PRESETS, type PresetId as LinePresetId } from './presets';
 import { CHROME_PALETTES, CHROME_SHAPES, type ChromePalette, type ChromeShape } from './families/chrome';
 import { FLOW_PALETTES } from './families/flow';
+import { watermarkHtmlSnippet } from './watermark';
 
 interface Args {
   family: FamilyId;
   presetId: string;
   values: Record<string, number>;
   seed: number;
+  /** Full share URL back to the playground with these exact params. */
+  shareUrl?: string;
 }
 
 const P5_CDN = 'https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js';
 
-function shellCode(title: string, body: string): string {
+function shellCode(title: string, body: string, ground: string, shareUrl?: string): string {
+  const originComment = shareUrl
+    ? `<!-- reproduce or remix this piece at ${shareUrl} -->`
+    : '<!-- made with the assembl creative playground · assembl.co.nz/creative-playground -->';
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <title>${title}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+${originComment}
 <style>
-  html, body { margin: 0; padding: 0; background: #FDFCF9; }
+  html, body { margin: 0; padding: 0; background: ${ground}; }
   body { display: grid; place-items: center; min-height: 100vh; }
-  main { width: min(720px, 92vw); aspect-ratio: 0.92 / 1; }
+  main { width: min(720px, 92vw); aspect-ratio: 0.92 / 1; position: relative; }
   canvas { display: block; width: 100% !important; height: 100% !important; }
 </style>
 </head>
 <body>
 <main id="stage"></main>
+${watermarkHtmlSnippet(ground)}
 ${body}
 </body>
 </html>`;
 }
 
-function lineSnippet({ presetId, values, seed }: Args): string {
+function lineSnippet({ presetId, values, seed, shareUrl }: Args): string {
   const preset = LINE_PRESETS[presetId as LinePresetId] ?? LINE_PRESETS.bloom;
   const params = {
     preset: preset.id,
@@ -175,10 +183,12 @@ new p5((p) => {
   }
 });
 </script>`,
+    palette.ground,
+    shareUrl,
   );
 }
 
-function chromeSnippet({ values, seed }: Args): string {
+function chromeSnippet({ values, seed, shareUrl }: Args): string {
   const paletteIdx = Math.max(0, Math.min(CHROME_PALETTES.length - 1, Math.round(values.palette ?? 0)));
   const shapeIdx = Math.max(0, Math.min(CHROME_SHAPES.length - 1, Math.round(values.shape ?? 0)));
   const palette: ChromePalette = CHROME_PALETTES[paletteIdx].id;
@@ -306,10 +316,12 @@ window.addEventListener('resize', () => {
   renderer.setSize(w, h);
 });
 </script>`,
+    paletteSpec.ground,
+    shareUrl,
   );
 }
 
-function flowSnippet({ presetId, values, seed }: Args): string {
+function flowSnippet({ presetId, values, seed, shareUrl }: Args): string {
   const palette = FLOW_PALETTES[presetId] ?? FLOW_PALETTES.silk;
   const params = {
     preset: presetId,
@@ -390,6 +402,8 @@ new p5((p) => {
   };
 });
 </script>`,
+    palette.ground,
+    shareUrl,
   );
 }
 

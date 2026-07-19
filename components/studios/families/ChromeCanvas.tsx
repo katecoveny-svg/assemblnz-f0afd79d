@@ -5,6 +5,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { CHROME_FAMILY, CHROME_PALETTES, CHROME_SHAPES, type ChromePalette, type ChromeShape } from '@/lib/generative-art/families/chrome';
+import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
 
 function paletteAt(index: number) {
   const clamped = Math.max(0, Math.min(CHROME_PALETTES.length - 1, Math.round(index)));
@@ -135,10 +136,9 @@ export function ChromeCanvas({ presetId, values, seed, onExportersReady }: Rende
   const png = useCallback(async (): Promise<Blob | null> => {
     const canvas = canvasHostRef.current?.querySelector('canvas') as HTMLCanvasElement | null;
     if (!canvas) return null;
-    return await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob((b) => resolve(b), 'image/png')
-    );
-  }, []);
+    const stamped = stampWatermarkOnCanvas(canvas, palette.ground);
+    return await new Promise<Blob | null>((resolve) => stamped.toBlob((b) => resolve(b), 'image/png'));
+  }, [palette.ground]);
 
   useEffect(() => {
     onExportersReady?.({ png });

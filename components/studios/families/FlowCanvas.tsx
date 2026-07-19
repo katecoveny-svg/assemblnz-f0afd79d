@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { FLOW_PALETTES } from '@/lib/generative-art/families/flow';
+import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
 
 interface Particle {
   x: number;
@@ -156,8 +157,9 @@ export function FlowCanvas({ presetId, values, seed, onExportersReady }: Rendere
   const png = useCallback(async (): Promise<Blob | null> => {
     const canvas = containerRef.current?.querySelector('canvas') as HTMLCanvasElement | null;
     if (!canvas) return null;
-    return await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), 'image/png'));
-  }, []);
+    const stamped = stampWatermarkOnCanvas(canvas, palette.ground);
+    return await new Promise<Blob | null>((resolve) => stamped.toBlob((b) => resolve(b), 'image/png'));
+  }, [palette.ground]);
 
   useEffect(() => {
     onExportersReady?.({ png });
