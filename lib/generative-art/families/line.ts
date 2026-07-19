@@ -47,17 +47,5 @@ export const LINE_FAMILY: Family = {
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: true,
-  isAiFirst: false,
-  aiPrompt: (presetId, v) => {
-    const preset = PRESETS.find((p) => p.id === presetId) ?? PRESETS[0];
-    const paletteHint: Record<string, string> = {
-      bloom: 'blue-teal (#1A5164 to #B7CED5)',
-      sunrise: 'warm coral and terracotta',
-      ocean: 'deep ocean teals',
-      whisper: 'paper-cream near-monochrome',
-    };
-    const density = v.shells >= 30 ? 'dense stacked layers' : v.shells <= 20 ? 'sparse airy layers' : 'balanced layered shells';
-    const warp = v.warp >= 0.75 ? 'organic petal-like warping' : 'gentle noise-warped shells';
-    return `layered translucent ${paletteHint[presetId] ?? 'blue-teal'} organic petals, ${density}, ${warp}, painterly editorial render, white background, hand-composed feel, high detail, no logo, no text, no watermark, aspect ratio 1:1 — inspired by ${preset.label}`;
-  },
+  supportsCodeDownload: true,
 };

@@ -4,15 +4,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Family, FamilyId, FamilyPreset } from '@/lib/generative-art/families';
 import { LINE_FAMILY } from '@/lib/generative-art/families/line';
-import { LIQUID_FAMILY } from '@/lib/generative-art/families/liquid';
 import { CHROME_FAMILY } from '@/lib/generative-art/families/chrome';
+import { FLOW_FAMILY } from '@/lib/generative-art/families/flow';
 import { FAMILY_RENDERERS } from './family-renderers';
+import { buildCodeSnippet } from '@/lib/generative-art/code-export';
 
-const FAMILIES: Family[] = [LINE_FAMILY, LIQUID_FAMILY, CHROME_FAMILY];
+const FAMILIES: Family[] = [LINE_FAMILY, CHROME_FAMILY, FLOW_FAMILY];
 const FAMILY_MAP: Record<FamilyId, Family> = {
   line: LINE_FAMILY,
-  liquid: LIQUID_FAMILY,
   chrome: CHROME_FAMILY,
+  flow: FLOW_FAMILY,
 };
 
 interface StudioState {
@@ -91,17 +92,6 @@ function SliderRow({ label, value, min, max, step, display, onChange }: SliderRo
   );
 }
 
-interface AiResult {
-  imageUrl: string;
-  prompt: string;
-  cost: number | null;
-}
-type AiState =
-  | { kind: 'idle' }
-  | { kind: 'rendering' }
-  | { kind: 'error'; message: string; hint?: string; prompt?: string }
-  | { kind: 'done'; result: AiResult };
-
 export function GenerativeArtCanvas() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -109,7 +99,6 @@ export function GenerativeArtCanvas() {
   const initial = useMemo(() => stateFromSearch(searchParams), []);
   const [state, setState] = useState<StudioState>(initial);
   const [copied, setCopied] = useState<string | null>(null);
-  const [ai, setAi] = useState<AiState>({ kind: 'idle' });
 
   const family = FAMILY_MAP[state.family];
   const preset = pickPreset(family, state.presetId);
@@ -117,12 +106,12 @@ export function GenerativeArtCanvas() {
   const exportersRef = useRef<{
     png?: () => Promise<Blob | null> | Blob | null;
     svg?: () => string | null;
+    code?: () => string | null;
   }>({});
   const onExportersReady = useCallback((exp: typeof exportersRef.current) => {
     exportersRef.current = exp;
   }, []);
 
-  // Sync URL params (debounced).
   useEffect(() => {
     const t = window.setTimeout(() => {
       const s = stateToSearch(state);
@@ -140,7 +129,6 @@ export function GenerativeArtCanvas() {
       values: { ...preset.defaults },
       seed: prev.seed,
     }));
-    setAi({ kind: 'idle' });
   }, []);
 
   const selectPreset = useCallback((id: string) => {
@@ -154,7 +142,6 @@ export function GenerativeArtCanvas() {
         seed: prev.seed,
       };
     });
-    setAi({ kind: 'idle' });
   }, []);
 
   const patchValue = useCallback((key: string, v: number) => {
@@ -165,34 +152,41 @@ export function GenerativeArtCanvas() {
     setState((prev) => ({ ...prev, seed: Math.floor(Math.random() * 100000) }));
   }, []);
 
-  const downloadPng = useCallback(async () => {
-    const png = exportersRef.current.png;
-    if (!png) return;
-    const blob = await png();
+  const download = useCallback((blob: Blob | null, ext: string) => {
     if (!blob) return;
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `assembl-${state.family}-${state.presetId}-${state.seed}.png`;
+    a.download = `assembl-${state.family}-${state.presetId}-${state.seed}.${ext}`;
     document.body.appendChild(a);
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
   }, [state.family, state.presetId, state.seed]);
 
+  const downloadPng = useCallback(async () => {
+    const png = exportersRef.current.png;
+    if (!png) return;
+    download(await png(), 'png');
+  }, [download]);
+
   const downloadSvg = useCallback(() => {
     const svg = exportersRef.current.svg?.();
     if (!svg) return;
-    const blob = new Blob([svg], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `assembl-${state.family}-${state.presetId}-${state.seed}.svg`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }, [state.family, state.presetId, state.seed]);
+    download(new Blob([svg], { type: 'image/svg+xml' }), 'svg');
+  }, [download]);
+
+  const downloadCode = useCallback(() => {
+    // Prefer a family-supplied exporter (in case a family wants to bundle its
+    // own runtime state), otherwise fall back to the shared builder.
+    const src = exportersRef.current.code?.() ?? buildCodeSnippet({
+      family: state.family,
+      presetId: state.presetId,
+      values: state.values,
+      seed: state.seed,
+    });
+    download(new Blob([src], { type: 'text/html' }), 'html');
+  }, [download, state]);
 
   const copyShareUrl = useCallback(() => {
     const s = stateToSearch(state);
@@ -200,38 +194,6 @@ export function GenerativeArtCanvas() {
     navigator.clipboard.writeText(url);
     setCopied('link');
     window.setTimeout(() => setCopied(null), 1600);
-  }, [state]);
-
-  const renderAtFirefly = useCallback(async () => {
-    setAi({ kind: 'rendering' });
-    try {
-      const res = await fetch('/api/creative-playground/render', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          family: state.family,
-          presetId: state.presetId,
-          values: state.values,
-          seed: state.seed,
-        }),
-      });
-      const body = await res.json();
-      if (body?.ok) {
-        setAi({
-          kind: 'done',
-          result: { imageUrl: body.imageUrl, prompt: body.prompt, cost: body.cost_usd },
-        });
-      } else {
-        setAi({
-          kind: 'error',
-          message: body?.error ?? 'render failed',
-          hint: body?.hint,
-          prompt: body?.prompt,
-        });
-      }
-    } catch (err) {
-      setAi({ kind: 'error', message: err instanceof Error ? err.message : 'render failed' });
-    }
   }, [state]);
 
   const Renderer = FAMILY_RENDERERS[family.id];
@@ -341,6 +303,16 @@ export function GenerativeArtCanvas() {
               svg
             </button>
           )}
+          {family.supportsCodeDownload && (
+            <button
+              type="button"
+              onClick={downloadCode}
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+              title="download a self-contained html file that reproduces this piece offline"
+            >
+              code
+            </button>
+          )}
         </div>
       </div>
 
@@ -372,51 +344,6 @@ export function GenerativeArtCanvas() {
             display={String(state.seed)}
             onChange={(v) => setState((prev) => ({ ...prev, seed: Math.round(v) }))}
           />
-        </div>
-      )}
-
-      {/* Cross-family AI "Render at Firefly quality" — hide on Liquid (that family
-          IS the AI call — no need for a second one). */}
-      {!family.isAiFirst && (
-        <div className="flex flex-col gap-3 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <div>
-              <div className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
-                render at firefly quality
-              </div>
-              <div className="mt-1 font-mono text-[10.5px] tracking-[0.05em] text-[color:var(--text-secondary)]">
-                {family.id === 'line'
-                  ? 'send this sketch to fal flux 1.1 pro — painterly, editorial'
-                  : 'send this scene to fal flux 1.1 pro — richer, cinematic 3d'}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={renderAtFirefly}
-              disabled={ai.kind === 'rendering'}
-              className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] disabled:opacity-60"
-            >
-              {ai.kind === 'rendering' ? 'assembling…' : 'render'}
-            </button>
-          </div>
-          {ai.kind === 'done' && (
-            <div className="mt-1 overflow-hidden rounded-[2px] border border-[color:var(--assembl-cloud)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={ai.result.imageUrl} alt="firefly render" className="block h-auto w-full" />
-              <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
-                <span>fal flux 1.1 pro · seed {state.seed}</span>
-                {ai.result.cost != null && <span>~${ai.result.cost.toFixed(2)} usd</span>}
-              </div>
-            </div>
-          )}
-          {ai.kind === 'error' && (
-            <div className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-2 font-mono text-[10.5px] leading-[1.55] text-[color:var(--text-primary)]">
-              {ai.message}
-              {ai.hint && (
-                <div className="mt-1 text-[color:var(--text-secondary)]">{ai.hint}</div>
-              )}
-            </div>
-          )}
         </div>
       )}
 
