@@ -510,8 +510,12 @@ export function GenerativeArtCanvas() {
         })}
       </div>
 
-      {/* Renderer */}
+      {/* Renderer — keyed by aspect so changing the canvas shape remounts
+          the renderer at the new container size. p5 only listens to window
+          resize and the raw-WebGL families size once on mount, so without
+          this the art stayed at its original size inside a resized frame. */}
       <Renderer
+        key={`${state.family}-${state.aspect}`}
         presetId={state.presetId}
         values={state.values}
         seed={state.seed}
