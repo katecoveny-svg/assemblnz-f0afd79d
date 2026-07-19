@@ -283,6 +283,10 @@
     transform: translateY(-2px);
   }
 
+  .cta-primary:active {
+    transform: translateY(0);
+  }
+
   .btn-ghost {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:-translate-y-0.5;
     background:
@@ -313,6 +317,10 @@
     transform: translateY(-2px);
   }
 
+  .btn-ghost:active {
+    transform: translateY(0);
+  }
+
   /* Charcoal-fill pill — editorial charcoal + cream CTA used by some
      marketplace-direction surfaces, distinct from the champagne-gold .cta-primary. */
   .cta-charcoal {
@@ -332,6 +340,10 @@
     background: #2A2824;
     box-shadow: 0 18px 40px rgba(58, 56, 50, 0.28);
     transform: translateY(-2px);
+  }
+
+  .cta-charcoal:active {
+    transform: translateY(0);
   }
 
   /* Gold eyebrow/chip — readable gold-on-cream */
