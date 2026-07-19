@@ -19,9 +19,10 @@ import { Kohatu } from './scene/Kohatu';
 
 interface Props {
   onPartMove?: (id: string, position: [number, number, number]) => void;
+  speaking?: boolean;
 }
 
-export function BuilderScene({ onPartMove }: Props) {
+export function BuilderScene({ onPartMove, speaking = false }: Props) {
   const reduced = useReducedMotion3D();
 
   // R3F's Canvas can miss the very first parent-size measurement when the
@@ -67,6 +68,7 @@ export function BuilderScene({ onPartMove }: Props) {
       <ModelCore
         initialPosition={[0, 0.6, 0]}
         reduced={reduced}
+        speaking={speaking}
         onMove={(p) => onPartMove?.('model', p)}
       />
       <Memory

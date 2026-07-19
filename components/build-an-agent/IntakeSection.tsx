@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useRef, useState } from 'react';
 
+import { useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
 import styles from './intake-section.module.css';
@@ -21,6 +22,7 @@ const MAX = 900;
 
 export function IntakeSection() {
   const copy = BUILD_AN_AGENT.intake;
+  const { setBusiness: setBusinessInStore } = useBuilder();
   const [business, setBusiness] = useState('');
   const [state, setState] = useState<State>({ kind: 'idle' });
   const [email, setEmail] = useState('');
@@ -49,6 +51,9 @@ export function IntakeSection() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!canSubmit) return;
+    // Pass the business paragraph up to the Configure + Ask sections so the
+    // real Claude call downstream knows what the agent is for.
+    setBusinessInStore(business.trim());
     setState({ kind: 'submitting' });
     try {
       const res = await fetch('/api/home-intake', {

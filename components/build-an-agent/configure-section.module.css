@@ -1,0 +1,224 @@
+.root {
+  position: relative;
+  padding: clamp(4rem, 9vh, 7rem) clamp(1.25rem, 5vw, 3rem);
+  background: linear-gradient(180deg, #FBFAF6 0%, #f4f0e5 100%);
+  border-top: 1px solid rgba(26, 25, 24, 0.06);
+  color: #1A1918;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+}
+
+.banner {
+  max-width: 62rem;
+  margin: 0 auto clamp(2rem, 5vh, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: #6a6560;
+}
+.heading {
+  margin: 0;
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: #1A1918;
+  max-width: 24ch;
+}
+.lede {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: #3d3833;
+  max-width: 55ch;
+}
+
+.card {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: #ffffff;
+  border: 1px solid rgba(26, 25, 24, 0.06);
+  border-radius: 22px;
+  box-shadow: 0 30px 70px -50px rgba(26, 25, 24, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px dashed rgba(26, 25, 24, 0.1);
+}
+.nameLabel {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  color: #6a6560;
+}
+.nameInput {
+  width: 100%;
+  padding: 0.7rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 25, 24, 0.14);
+  background: #FBFAF6;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-size: 1rem;
+  color: #1A1918;
+}
+.nameInput:focus-visible {
+  outline: none;
+  border-color: rgba(191, 163, 122, 0.6);
+  box-shadow: 0 0 0 3px rgba(191, 163, 122, 0.18);
+}
+
+/* ── PART CARD ── */
+.partCard {
+  display: grid;
+  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  gap: 1.4rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px dashed rgba(26, 25, 24, 0.08);
+}
+.partCard:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.partHead {
+  display: flex;
+  gap: 0.7rem;
+}
+.partNumber {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: #a09b95;
+  padding-top: 0.28rem;
+}
+.partHeadCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+.partTitle {
+  margin: 0;
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: #1A1918;
+}
+.partHelper {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #6a6560;
+  max-width: 22ch;
+}
+
+.partBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* ── CHIPS ── */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.chip {
+  appearance: none;
+  border: 1px solid rgba(26, 25, 24, 0.12);
+  background: #FBFAF6;
+  color: #3d3833;
+  padding: 0.5rem 0.85rem;
+  border-radius: 14px;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  cursor: pointer;
+  text-align: left;
+  min-width: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+.chip:hover, .chip:focus-visible {
+  border-color: rgba(191, 163, 122, 0.5);
+  outline: none;
+}
+.chipActive {
+  background: #1A1918;
+  border-color: #1A1918;
+  color: #FBFAF6;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px -18px rgba(26, 25, 24, 0.6);
+}
+.chipActive:hover, .chipActive:focus-visible {
+  border-color: #1A1918;
+}
+.chipLabel {
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+.chipHelper {
+  font-size: 0.76rem;
+  opacity: 0.72;
+  line-height: 1.35;
+}
+
+/* ── VOICE FIELD ── */
+.voiceField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.voiceLabel {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.66rem;
+  color: #6a6560;
+}
+.voiceArea {
+  width: 100%;
+  min-height: 4rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 25, 24, 0.14);
+  background: #FBFAF6;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-size: 0.95rem;
+  color: #1A1918;
+  resize: vertical;
+  line-height: 1.5;
+}
+.voiceArea:focus-visible {
+  outline: none;
+  border-color: rgba(191, 163, 122, 0.6);
+  box-shadow: 0 0 0 3px rgba(191, 163, 122, 0.18);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 780px) {
+  .partCard {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .chip {
+    min-width: 0;
+    flex: 1 1 46%;
+  }
+}

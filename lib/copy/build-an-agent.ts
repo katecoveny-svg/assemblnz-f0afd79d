@@ -84,13 +84,50 @@ export const BUILD_AN_AGENT = {
     fallbackNote:
       'The live model is offline for a beat — Kate at assembl still gets your note and will write back with a plain plan for the business you described.',
   },
+  configure: {
+    eyebrow: 'step three · configure the parts',
+    heading: 'Choose what your agent gets to do.',
+    lede:
+      'Every chip below is a piece of the agent you can already see on the canvas above. Pick what fits your business — nothing sends without you.',
+    nameLabel: 'What are you calling it?',
+    namePlaceholder: 'e.g. Awhi · the practice agent · Southline Scout',
+    voiceLabel: 'How you want it to speak',
+    voicePlaceholder:
+      "e.g. Warm, plain-spoken, method-first — never shouty. Always writes like a person, not a form. Never invents prices.",
+  },
+  ask: {
+    eyebrow: 'step four · ask it something',
+    heading: 'Now ask your agent something from your day.',
+    lede:
+      'A real answer, streaming from the model core. The parts you placed shape the reply — the model tier, the memory, the tools, the knowledge sources, the guardrails, your voice brief.',
+    questionLabel: 'Your question',
+    questionPlaceholder: 'Something small and real from your week.',
+    starter:
+      "It's Monday morning. My biggest customer just emailed asking if we can pull tomorrow's install forward to today. What would you draft me?",
+    suggestionsLabel: 'Try one of these',
+    suggestions: [
+      "Draft a reply to a customer asking for a price we don't publish.",
+      'Write me a short email to the team about tomorrow.',
+      'Summarise this week for me in three lines.',
+    ],
+    submitLabel: 'Ask it',
+    stopLabel: 'Stop',
+    draftNote: 'Draft only. A person always confirms. Nothing sends.',
+    defaultName: 'your agent',
+    idleLabel: 'ready when you are',
+    idleBody:
+      "I'm here. Ask me something small from your week and I'll draft a reply, an update, or a summary. Nothing goes anywhere — it's a preview.",
+    streamingLabel: 'writing',
+    streamingBody: "reading your question, pulling the parts together",
+    readyLabel: 'draft ready · a person confirms',
+  },
   savings: {
-    eyebrow: 'step three · time back',
+    eyebrow: 'step five · time back',
     heading: 'How many hours could you get back?',
     lede: 'Your own numbers. A plain planning estimate — no form, no phone call, no inflated promise.',
   },
   closing: {
-    eyebrow: 'step four · optional',
+    eyebrow: 'step six · optional',
     heading: 'Want us to build this properly for your business?',
     body:
       'The one you just designed is a taste. If it lit up an idea for your team, drop your email — Kate at assembl reads them herself and comes back with a plain plan and price.',
