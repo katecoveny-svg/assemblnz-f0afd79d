@@ -42,7 +42,7 @@ function json(data: unknown, status = 200) {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { segment?: string; painPoint?: string; email?: string } = {};
+  let body: { segment?: string; painPoint?: string; email?: string; agentName?: string } = {};
   try {
     body = await req.json();
   } catch {
@@ -84,14 +84,24 @@ export async function POST(req: NextRequest) {
     fellBack = true;
   }
 
-  // Capture the pain point as an anonymous lead — fail-soft, never blocks.
-  void notifyLead({
-    formName: 'Homepage front-door agent',
-    email: body.email ?? null,
-    fields: { segment: body.segment ?? 'service', specialist: specialist.agentName, painPoint },
-    sourceUrl: req.headers.get('referer'),
-    ip,
-  });
+  // Email Kate only when it's a real lead — the visitor left an email in the
+  // "make it yours" step. Anonymous asks don't notify (no inbox flood).
+  // Fail-soft: a failed send never blocks the answer.
+  const email = String(body.email ?? '').trim();
+  if (email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    void notifyLead({
+      formName: 'Homepage front-door agent',
+      email,
+      fields: {
+        segment: body.segment ?? 'service',
+        specialist: specialist.agentName,
+        namedAgent: String(body.agentName ?? '').trim() || undefined,
+        painPoint,
+      },
+      sourceUrl: req.headers.get('referer'),
+      ip,
+    });
+  }
 
   return json({
     agentName: specialist.agentName,
