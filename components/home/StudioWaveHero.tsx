@@ -1,25 +1,29 @@
 'use client';
 
-import { WavesCanvas } from '@/components/studios/families/WavesCanvas';
+import { ChromeCanvas } from '@/components/studios/families/ChromeCanvas';
 
 /**
  * The homepage hero — a LIVE piece from the creative studio, not a video.
- * Renders the Waves family full-bleed at hero aspect.
  *
- * ART DIRECTION IS YOURS: build the look at /creative-playground
- * (family=waves), then copy the numbers from the share URL into
- * HERO_LOOK below. The slider keys match one-to-one.
- * e.g. ?family=waves&preset=pearl&amp=0.22&freq=1.0&speed=0.24…
+ * ART DIRECTION IS KATE'S: this look was built in the playground and
+ * exported 2026-07-19 — the iridescent chrome torus-knot, seed 8471.
+ * To change it, build a new look at /creative-playground (any family),
+ * copy the numbers from the share URL, and paste them here. Keys match
+ * the URL one-to-one:
+ * ?family=chrome&preset=iridescent-torus&seed=8471&shape=1&palette=0
+ *   &ior=1.500&roughness=0.050&dispersion=0.060&wobble=0.000&spin=0.500
  */
 const HERO_LOOK = {
-  presetId: 'pearl',
+  presetId: 'iridescent-torus',
   seed: 8471,
   values: {
-    amp: 0.22,
-    freq: 1.0,
-    speed: 0.24,
-    tilt: -0.08,
-    roughness: 0.42,
+    shape: 1,        // torus-knot
+    palette: 0,      // chrome
+    ior: 1.5,
+    roughness: 0.05,
+    dispersion: 0.06,
+    wobble: 0,
+    spin: 0.5,
   },
 };
 
@@ -35,7 +39,7 @@ export function StudioWaveHero() {
         '--ga-max': '100%',
       } as React.CSSProperties}
     >
-      <WavesCanvas
+      <ChromeCanvas
         presetId={HERO_LOOK.presetId}
         values={HERO_LOOK.values}
         seed={HERO_LOOK.seed}
