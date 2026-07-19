@@ -63,15 +63,17 @@ interface PartSpec {
  * front-right; the tile leans in from the right; the ring underlines
  * the whole structure.
  */
+/**
+ * Calmed 2026-07-19: four parts, not eight. The homepage's job is to
+ * DE-mystify the agent — one core, one knowledge cube, one ability, one
+ * safety ring, arriving in unhurried layers. The full anatomy lives in
+ * the guided builder (/studio/build) where each layer is explained.
+ */
 const PARTS: PartSpec[] = [
-  { id: 'core',   kind: 'core',       from: [0, 6.5, -2],     to: [0, 0.75, 0],        delay: 0.15, duration: 1.0 },
-  { id: 'kn-1',   kind: 'cube-clear', from: [-7, 3.2, -3],    to: [-1.7, 0.15, 0.2],   delay: 0.55, duration: 0.9 },
-  { id: 'kn-2',   kind: 'cube-clear', from: [-6.4, -2.2, 2],  to: [-2.25, -0.7, -0.6], delay: 0.75, duration: 0.9 },
-  { id: 'memory', kind: 'cube-frost', from: [6.8, 3.8, -2.5], to: [1.9, 1.05, -0.95],  delay: 0.9,  duration: 0.9 },
-  { id: 'ab-1',   kind: 'capsule',    from: [-4.5, -4, 3.5],  to: [-0.95, -0.6, 0.95], rotation: [0, 0, 0],            delay: 1.1,  duration: 0.85 },
-  { id: 'ab-2',   kind: 'capsule',    from: [4.8, -3.6, 3.2], to: [1.3, -0.85, 0.7],   rotation: [0, 0.4, Math.PI / 2], delay: 1.25, duration: 0.85 },
-  { id: 'tile',   kind: 'tile',       from: [7.5, -1.5, 1.5], to: [2.45, 0.05, 0.25],  rotation: [0, -0.5, 0],          delay: 1.45, duration: 0.85 },
-  { id: 'ring',   kind: 'ring',       from: [0, -5.5, -1],    to: [0, -1.15, 0],       delay: 1.6,  duration: 0.95 },
+  { id: 'core', kind: 'core',       from: [0, 6.5, -2],    to: [0, 0.7, 0],        delay: 0.2, duration: 1.1 },
+  { id: 'kn',   kind: 'cube-clear', from: [-7, 3.2, -3],   to: [-1.85, -0.1, 0.1], delay: 1.0, duration: 1.0 },
+  { id: 'ab',   kind: 'capsule',    from: [4.8, -3.6, 3.2],to: [1.5, -0.55, 0.8],  rotation: [0, 0.4, Math.PI / 2], delay: 1.8, duration: 0.95 },
+  { id: 'ring', kind: 'ring',       from: [0, -5.5, -1],   to: [0, -1.05, 0],      delay: 2.6, duration: 1.0 },
 ];
 
 function PartMesh({ spec, reducedMotion, t0 }: { spec: PartSpec; reducedMotion: boolean; t0: number }) {
