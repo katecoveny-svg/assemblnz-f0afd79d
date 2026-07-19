@@ -522,6 +522,7 @@ export function GenerativeArtCanvas() {
         ground={family.ground}
         background={state.background}
         text={state.text || null}
+        onAdjust={(patch) => setState((prev) => ({ ...prev, values: { ...prev.values, ...patch } }))}
         onExportersReady={onExportersReady}
       />
 

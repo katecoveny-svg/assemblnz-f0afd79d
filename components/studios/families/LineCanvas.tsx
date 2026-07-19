@@ -17,13 +17,20 @@ function hexToRgb(hex: string): [number, number, number] {
   ];
 }
 
-export function LineCanvas({ presetId, values, seed, onExportersReady }: RendererProps) {
+export function LineCanvas({ presetId, values, seed, onAdjust, onExportersReady }: RendererProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const sizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const [ready, setReady] = useState(false);
 
   const preset = PRESETS[presetId as PresetId] ?? PRESETS.bloom;
+
+  // Shift+drag composition offset — local to the renderer, baked into
+  // both the live draw and the SVG/PNG exports.
+  const offsetRef = useRef({ x: 0, y: 0 });
+  const dragRef = useRef<{ startX: number; startY: number; shift: boolean; startOffset: { x: number; y: number } } | null>(null);
+  const onAdjustRef = useRef(onAdjust);
+  onAdjustRef.current = onAdjust;
 
   const stateRef = useRef({ presetId, values, seed });
   stateRef.current = { presetId, values, seed };
@@ -37,6 +44,8 @@ export function LineCanvas({ presetId, values, seed, onExportersReady }: Rendere
     const shells = buildShells({
       width: w,
       height: h,
+      offsetX: offsetRef.current.x,
+      offsetY: offsetRef.current.y,
       params: {
         preset: preset.id,
         shells: vals.shells,
@@ -128,6 +137,8 @@ export function LineCanvas({ presetId, values, seed, onExportersReady }: Rendere
     const shells = buildShells({
       width: w,
       height: h,
+      offsetX: offsetRef.current.x,
+      offsetY: offsetRef.current.y,
       params: {
         preset: preset.id,
         shells: vals.shells,
@@ -148,9 +159,12 @@ export function LineCanvas({ presetId, values, seed, onExportersReady }: Rendere
   const renderAtSize = useCallback(async (w: number, h: number): Promise<Blob | null> => {
     const { presetId: pid, values: vals, seed: s } = stateRef.current;
     const preset = PRESETS[pid as PresetId] ?? PRESETS.bloom;
+    const live = sizeRef.current;
     const shells = buildShells({
       width: w,
       height: h,
+      offsetX: live.w > 0 ? (offsetRef.current.x / live.w) * w : 0,
+      offsetY: live.h > 0 ? (offsetRef.current.y / live.h) * h : 0,
       params: {
         preset: preset.id,
         shells: vals.shells,
@@ -172,18 +186,66 @@ export function LineCanvas({ presetId, values, seed, onExportersReady }: Rendere
     onExportersReady?.({ png, svg, renderAtSize });
   }, [onExportersReady, png, svg, renderAtSize]);
 
+  // Unified pointer interactivity: drag reshapes (X → warp, Y → shells);
+  // Shift+drag moves the composition centre. Touch-compatible.
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.setPointerCapture?.(e.pointerId);
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      shift: e.shiftKey,
+      startOffset: { ...offsetRef.current },
+    };
+  }, []);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    const drag = dragRef.current;
+    const el = containerRef.current;
+    if (!drag || !el) return;
+    const rect = el.getBoundingClientRect();
+    if (drag.shift) {
+      offsetRef.current = {
+        x: drag.startOffset.x + (e.clientX - drag.startX),
+        y: drag.startOffset.y + (e.clientY - drag.startY),
+      };
+      p5Ref.current?.redraw();
+      return;
+    }
+    // Reshape: absolute pointer position inside the canvas drives params.
+    const nx = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const ny = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+    onAdjustRef.current?.({
+      warp: Number(nx.toFixed(2)),
+      shells: Math.round(5 + (1 - ny) * 35),
+    });
+  }, []);
+
+  const handlePointerUp = useCallback((e: React.PointerEvent) => {
+    containerRef.current?.releasePointerCapture?.(e.pointerId);
+    dragRef.current = null;
+  }, []);
+
   return (
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        className="relative mx-auto ga-canvas w-full cursor-crosshair touch-none overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: preset.palette.ground }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
       />
       {!ready && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
           assembling…
         </div>
       )}
+      <div className="mt-2 text-center font-mono text-[9.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+        drag to reshape · shift+drag to move
+      </div>
     </div>
   );
 }

@@ -90,12 +90,15 @@ export interface BuildOptions {
   height: number;
   params: SketchParams;
   preset?: Preset;
+  /** Composition-centre shift in pixels (Shift+drag move). */
+  offsetX?: number;
+  offsetY?: number;
 }
 
-export function buildShells({ width, height, params, preset }: BuildOptions): ShellSpec[] {
+export function buildShells({ width, height, params, preset, offsetX = 0, offsetY = 0 }: BuildOptions): ShellSpec[] {
   const p = preset ?? PRESETS[params.preset];
-  const cx = width / 2;
-  const cy = height / 2;
+  const cx = width / 2 + offsetX;
+  const cy = height / 2 + offsetY;
   const maxR = Math.min(width, height) * 0.46;
 
   const shellCount = Math.max(3, Math.floor(params.shells));

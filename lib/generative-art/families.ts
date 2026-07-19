@@ -31,6 +31,9 @@ export interface RendererProps {
   background?: BackgroundId | null;
   /** Free-form text some families weave into the composition. */
   text?: string | null;
+  /** Renderer-driven live parameter changes (mouse interactivity) — the
+   *  shell merges the patch into `values` so sliders + URL stay in sync. */
+  onAdjust?: (patch: Record<string, number>) => void;
   /**
    * Called by the renderer to expose export functions to the host.
    *   png — a rendered image
