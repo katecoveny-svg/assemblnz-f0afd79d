@@ -71,4 +71,6 @@ export const CONSTELLATION_FAMILY: Family = {
   supportsPngDownload: true,
   supportsSvgDownload: false,
   supportsCodeDownload: true,
+  supportsBackground: true,
+  supportsText: true,
 };

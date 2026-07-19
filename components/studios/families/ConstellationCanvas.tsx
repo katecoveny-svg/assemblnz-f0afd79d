@@ -1,17 +1,23 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
-import { CONSTELLATION_PALETTES } from '@/lib/generative-art/families/constellation';
+import { CONSTELLATION_PALETTES, type ConstellationPalette } from '@/lib/generative-art/families/constellation';
+import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
 import { canvasScaledToBlob } from '@/lib/generative-art/render-utils';
+import { textToPoints } from '@/lib/generative-art/text-shape';
 
 interface Node {
   x: number;
   y: number;
   vx: number;
   vy: number;
+  /** Optional home position when the piece is text-seeded — nodes drift
+   *  around this rather than the whole frame. */
+  tx?: number;
+  ty?: number;
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -30,13 +36,33 @@ function mulberry32(seed: number) {
   };
 }
 
-export function ConstellationCanvas({ presetId, values, seed, onExportersReady }: RendererProps) {
+export function ConstellationCanvas({ presetId, values, seed, background, text, onExportersReady }: RendererProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const p5Ref = useRef<p5Type | null>(null);
   const [ready, setReady] = useState(false);
-  const palette = CONSTELLATION_PALETTES[presetId] ?? CONSTELLATION_PALETTES.paper;
-  const stateRef = useRef({ values, palette, seed });
-  stateRef.current = { values, palette, seed };
+
+  const basePalette = CONSTELLATION_PALETTES[presetId] ?? CONSTELLATION_PALETTES.paper;
+  const bg = backgroundById(background);
+  const palette: ConstellationPalette = useMemo(() => {
+    if (!bg) return basePalette;
+    // When ink / sea fog / paper is set, override ground + swap ink so
+    // nodes stay legible against the new backdrop.
+    return {
+      ground: bg.ground,
+      node: bg.ink,
+      edge: bg.inkSoft,
+      edgeStrong: bg.ink,
+    };
+  }, [basePalette, bg]);
+
+  const stateRef = useRef({ values, palette, seed, text });
+  stateRef.current = { values, palette, seed, text };
+
+  // Track when text changes so we re-seed the node target positions.
+  const textVersionRef = useRef(0);
+  useEffect(() => {
+    textVersionRef.current += 1;
+  }, [text, seed, presetId]);
 
   useEffect(() => {
     let disposed = false;
@@ -50,11 +76,29 @@ export function ConstellationCanvas({ presetId, values, seed, onExportersReady }
         let nodes: Node[] = [];
         let w = 0;
         let h = 0;
+        let lastTextVersion = -1;
 
-        function respawn() {
-          const { values: v, seed: s } = stateRef.current;
+        async function respawn() {
+          const { values: v, seed: s, text: currentText } = stateRef.current;
           const rand = mulberry32(s ^ 0xd1c3);
           const target = Math.max(4, Math.round(v.nodes ?? 110));
+          const clean = currentText?.trim() ?? '';
+          if (clean) {
+            // Text-seeded: sample node home positions from the letter mask.
+            const pts = await textToPoints(clean, Math.max(64, Math.floor(w)), Math.max(64, Math.floor(h)), target);
+            if (pts.length > 0) {
+              nodes = pts.map(([tx, ty]) => ({
+                x: tx + (rand() - 0.5) * 8,
+                y: ty + (rand() - 0.5) * 8,
+                vx: (rand() - 0.5) * 0.4,
+                vy: (rand() - 0.5) * 0.4,
+                tx,
+                ty,
+              }));
+              return;
+            }
+          }
+          // Free-drift fallback (no text).
           nodes = Array.from({ length: target }, () => ({
             x: rand() * w,
             y: rand() * h,
@@ -69,8 +113,7 @@ export function ConstellationCanvas({ presetId, values, seed, onExportersReady }
           h = Math.max(320, r.height);
           p.pixelDensity(Math.min(2, window.devicePixelRatio || 1));
           p.createCanvas(w, h);
-          respawn();
-          setReady(true);
+          void respawn().then(() => setReady(true));
         };
         p.windowResized = () => {
           const r = containerRef.current?.getBoundingClientRect();
@@ -78,12 +121,19 @@ export function ConstellationCanvas({ presetId, values, seed, onExportersReady }
           w = Math.max(320, r.width);
           h = Math.max(320, r.height);
           p.resizeCanvas(w, h);
-          respawn();
+          void respawn();
         };
         p.draw = () => {
-          const { values: v, palette: pal } = stateRef.current;
+          const { values: v, palette: pal, text: currentText } = stateRef.current;
           const targetCount = Math.max(4, Math.round(v.nodes ?? 110));
-          if (nodes.length !== targetCount) respawn();
+
+          if (
+            textVersionRef.current !== lastTextVersion ||
+            nodes.length !== targetCount
+          ) {
+            lastTextVersion = textVersionRef.current;
+            void respawn();
+          }
 
           p.background(pal.ground);
           const radius = v.radius ?? 110;
@@ -92,15 +142,25 @@ export function ConstellationCanvas({ presetId, values, seed, onExportersReady }
           const nodeSize = v.nodeSize ?? 3.5;
           const edgeAlpha = v.edgeAlpha ?? 0.28;
           const edgeWidth = v.edgeWidth ?? 0.9;
+          const textMode = Boolean(currentText?.trim());
 
-          // Advance + wrap.
+          // Advance + wrap. In text mode nodes tether gently to their home.
           for (const n of nodes) {
             n.x += n.vx * speed;
             n.y += n.vy * speed;
-            if (n.x < -10) n.x = w + 10;
-            else if (n.x > w + 10) n.x = -10;
-            if (n.y < -10) n.y = h + 10;
-            else if (n.y > h + 10) n.y = -10;
+            if (textMode && n.tx !== undefined && n.ty !== undefined) {
+              // Spring toward the letterform home so the phrase stays legible
+              // while nodes still visibly drift.
+              const dx = n.tx - n.x;
+              const dy = n.ty - n.y;
+              n.vx = n.vx * 0.94 + dx * 0.008;
+              n.vy = n.vy * 0.94 + dy * 0.008;
+            } else {
+              if (n.x < -10) n.x = w + 10;
+              else if (n.x > w + 10) n.x = -10;
+              if (n.y < -10) n.y = h + 10;
+              else if (n.y > h + 10) n.y = -10;
+            }
           }
 
           // Edges — draw first so nodes sit on top.
@@ -113,7 +173,6 @@ export function ConstellationCanvas({ presetId, values, seed, onExportersReady }
               const dy = nodes[i].y - nodes[j].y;
               const d2 = dx * dx + dy * dy;
               if (d2 > radius2) continue;
-              // Closer nodes get the strong edge colour, farther get the soft.
               const t = d2 / radius2;
               const fade = 1 - t;
               const rr = Math.round(er + (esr - er) * fade);

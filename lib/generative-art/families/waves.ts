@@ -42,4 +42,5 @@ export const WAVES_FAMILY: Family = {
   supportsPngDownload: true,
   supportsSvgDownload: false,
   supportsCodeDownload: false,
+  supportsBackground: true,
 };

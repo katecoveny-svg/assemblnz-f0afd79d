@@ -1,11 +1,9 @@
 /**
- * Deterministic 3D avatar per agent slug. Every agent maps to a stable
- * shape + palette + seed so the same agent always renders the same
- * avatar (Franklin the dachshund is always the emerald icosahedron; Kate
- * always sees Kaiako as the pearl cube; etc.).
- *
- * Consumers pass their own slug — no shared registry the code base has
- * to keep in sync.
+ * Deterministic 3D avatar per agent slug. Every marketplace slug maps to a
+ * stable shape + palette + seed so the same agent always renders the same
+ * avatar. Curated overrides for the flagship agents (per the LOCKED CANON
+ * roster in lib/marketplace/agents.ts); everything else auto-derives from
+ * the slug hash so a new agent slots in without a code change.
  */
 
 import { CHROME_PALETTES, CHROME_SHAPES, type ChromePalette, type ChromeShape } from '@/lib/generative-art/families/chrome';
@@ -22,31 +20,98 @@ export interface AgentAvatarSpec {
 }
 
 /**
- * Curated overrides for agents whose brand identity is fixed. Keep this
- * small — the general path just hashes the slug so a new agent gets a
- * sensible default without needing an entry here.
+ * Curated overrides for slugs that live in the current marketplace registry.
+ * Keep this list aligned with lib/marketplace/agents.ts — new slugs still
+ * work without an entry here (the hash-based default is sensible), but the
+ * flagship agents deserve a hand-picked look.
  */
 const CURATED: Record<string, Partial<AgentAvatarSpec>> = {
-  keeper:     { shape: 'sphere',      palette: 'gold' },
-  kaiako:     { shape: 'cube',        palette: 'pearl' },
-  pai:        { shape: 'icosahedron', palette: 'emerald' },
-  arai:       { shape: 'wobble',      palette: 'obsidian' },
-  ata:        { shape: 'torus-knot',  palette: 'chrome' },
-  atlas:      { shape: 'torus',       palette: 'ocean' },
-  aroha:      { shape: 'sphere',      palette: 'rose' },
-  rawa:       { shape: 'cube',        palette: 'copper' },
-  kaupapa:    { shape: 'torus-knot',  palette: 'ocean' },
-  whakaee:    { shape: 'icosahedron', palette: 'gold' },
-  dash:       { shape: 'torus',       palette: 'gold' },
-  auaha:      { shape: 'wobble',      palette: 'rose' },
-  echo:       { shape: 'sphere',      palette: 'chrome' },
-  hui:        { shape: 'torus',       palette: 'pearl' },
-  aria:       { shape: 'sphere',      palette: 'pearl' },
-  pack:       { shape: 'wobble',      palette: 'gold' },
-  franklin:   { shape: 'icosahedron', palette: 'emerald' },
-  aironaut:   { shape: 'torus-knot',  palette: 'gold' },
-  mana:       { shape: 'cube',        palette: 'obsidian' },
-  toro:       { shape: 'torus',       palette: 'copper' },
+  // Category tiles (start-here, family, business, creative, trades, health, build)
+  'start-here':    { shape: 'sphere',      palette: 'chrome' },
+  family:          { shape: 'sphere',      palette: 'gold' },
+  business:        { shape: 'torus',       palette: 'ocean' },
+  creative:        { shape: 'wobble',      palette: 'rose' },
+  trades:          { shape: 'cube',        palette: 'copper' },
+  health:          { shape: 'icosahedron', palette: 'emerald' },
+  build:           { shape: 'torus-knot',  palette: 'chrome' },
+
+  // Flagship named agents
+  atlas:           { shape: 'torus',       palette: 'ocean' },
+  keeper:          { shape: 'sphere',      palette: 'gold' },
+  echo:            { shape: 'sphere',      palette: 'chrome' },
+  hui:             { shape: 'torus',       palette: 'pearl' },
+  toro:            { shape: 'torus',       palette: 'copper' },
+  pilot:           { shape: 'torus-knot',  palette: 'chrome' },
+  prism:           { shape: 'icosahedron', palette: 'pearl' },
+  muse:            { shape: 'wobble',      palette: 'rose' },
+  auaha:           { shape: 'wobble',      palette: 'rose' },
+  quill:           { shape: 'sphere',      palette: 'pearl' },
+
+  // Health / construction pack
+  aroha:           { shape: 'sphere',      palette: 'rose' },
+  pai:             { shape: 'icosahedron', palette: 'emerald' },
+  arai:            { shape: 'wobble',      palette: 'obsidian' },
+  ata:             { shape: 'torus-knot',  palette: 'chrome' },
+  rawa:            { shape: 'cube',        palette: 'copper' },
+  kaupapa:         { shape: 'torus-knot',  palette: 'ocean' },
+  whakaae:         { shape: 'icosahedron', palette: 'gold' },
+  kaiako:          { shape: 'cube',        palette: 'pearl' },
+
+  // Kete / verticals
+  arataki:         { shape: 'torus',       palette: 'copper' },
+  pikau:           { shape: 'sphere',      palette: 'ocean' },
+  hoko:            { shape: 'cube',        palette: 'gold' },
+  'hoko-cga':      { shape: 'cube',        palette: 'gold' },
+  voyage:          { shape: 'sphere',      palette: 'ocean' },
+  saffron:         { shape: 'wobble',      palette: 'gold' },
+  aura:            { shape: 'sphere',      palette: 'pearl' },
+  gateway:         { shape: 'torus',       palette: 'chrome' },
+  cellar:          { shape: 'cube',        palette: 'obsidian' },
+
+  // Family / personal
+  awhi:            { shape: 'sphere',      palette: 'rose' },
+  dawn:            { shape: 'sphere',      palette: 'pearl' },
+  'fridge-to-list':{ shape: 'cube',        palette: 'copper' },
+  'school-notice': { shape: 'cube',        palette: 'pearl' },
+  'panui-parser':  { shape: 'torus-knot',  palette: 'obsidian' },
+  'ako-licence':   { shape: 'cube',        palette: 'ocean' },
+
+  // Business ops
+  chief:           { shape: 'torus-knot',  palette: 'obsidian' },
+  front:           { shape: 'sphere',      palette: 'chrome' },
+  sweep:           { shape: 'wobble',      palette: 'chrome' },
+  switch:          { shape: 'torus',       palette: 'gold' },
+  pipeline:        { shape: 'torus-knot',  palette: 'chrome' },
+  treasury:        { shape: 'cube',        palette: 'gold' },
+  'invoice-tidy':  { shape: 'cube',        palette: 'copper' },
+  'travel-logs':   { shape: 'torus',       palette: 'ocean' },
+  'social-manager':{ shape: 'wobble',      palette: 'rose' },
+  roster:          { shape: 'cube',        palette: 'pearl' },
+  counter:         { shape: 'sphere',      palette: 'obsidian' },
+
+  // Trades / food / maritime
+  'food-temp-logs':   { shape: 'cube',        palette: 'emerald' },
+  'stock-count':      { shape: 'cube',        palette: 'copper' },
+  'compliance-check': { shape: 'icosahedron', palette: 'ocean' },
+  'tide-weather':     { shape: 'sphere',      palette: 'ocean' },
+  'catch-log':        { shape: 'torus',       palette: 'ocean' },
+
+  // Animal / conservation
+  'vet-small-animal':   { shape: 'sphere',      palette: 'rose' },
+  'vet-large-animal':   { shape: 'sphere',      palette: 'copper' },
+  'vet-equine':         { shape: 'sphere',      palette: 'obsidian' },
+  'vet-exotic':         { shape: 'wobble',      palette: 'emerald' },
+  'zoo-vet':            { shape: 'wobble',      palette: 'emerald' },
+  'wildbase-recovery':  { shape: 'icosahedron', palette: 'emerald' },
+  'spca-workflow':      { shape: 'sphere',      palette: 'gold' },
+  'rescue-coordination':{ shape: 'sphere',      palette: 'copper' },
+  'doggy-daycare':      { shape: 'sphere',      palette: 'gold' },
+  'kakapo-recovery':    { shape: 'icosahedron', palette: 'emerald' },
+  'kiwi-conservation':  { shape: 'sphere',      palette: 'emerald' },
+  'species-recovery':   { shape: 'icosahedron', palette: 'emerald' },
+
+  // Meta — the "assembl" agent itself (homepage + build-an-agent)
+  assembl:         { shape: 'sphere',      palette: 'chrome' },
 };
 
 function hashString(s: string): number {
@@ -61,8 +126,8 @@ function hashString(s: string): number {
 }
 
 function pickCurated(slug: string): Partial<AgentAvatarSpec> | undefined {
-  // Match by exact key first, then by prefix (e.g. `pai-quality` → `pai`).
   if (CURATED[slug]) return CURATED[slug];
+  // Fall back to the first hyphen-segment (e.g. `hoko-cga` → `hoko`).
   const first = slug.split('-')[0];
   if (first && CURATED[first]) return CURATED[first];
   return undefined;

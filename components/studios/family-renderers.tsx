@@ -28,6 +28,10 @@ const WavesCanvas = dynamic(
   () => import('./families/WavesCanvas').then((m) => m.WavesCanvas),
   { ssr: false }
 );
+const ReactionCanvas = dynamic(
+  () => import('./families/ReactionCanvas').then((m) => m.ReactionCanvas),
+  { ssr: false }
+);
 
 export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = {
   line: LineCanvas,
@@ -36,4 +40,5 @@ export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = 
   constellation: ConstellationCanvas,
   grid: GridCanvas,
   waves: WavesCanvas,
+  reaction: ReactionCanvas,
 };

@@ -1,4 +1,6 @@
-export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves';
+import type { BackgroundId } from './backgrounds';
+
+export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves' | 'reaction';
 
 export interface SliderSpec {
   key: string;
@@ -25,6 +27,10 @@ export interface RendererProps {
   values: Record<string, number>;
   seed: number;
   ground?: string;
+  /** Universal ground override — set when the user picked ink / sea fog / paper. */
+  background?: BackgroundId | null;
+  /** Free-form text some families weave into the composition. */
+  text?: string | null;
   /**
    * Called by the renderer to expose export functions to the host.
    *   png — a rendered image
@@ -55,6 +61,10 @@ export interface Family {
   supportsPngDownload: boolean;
   supportsSvgDownload: boolean;
   supportsCodeDownload: boolean;
+  /** True when the family honours the shell-level background chip. */
+  supportsBackground?: boolean;
+  /** True when the family weaves a text string into the composition. */
+  supportsText?: boolean;
 }
 
 export function getPreset(family: Family, id: string): FamilyPreset {

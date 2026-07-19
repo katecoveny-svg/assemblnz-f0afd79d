@@ -14,6 +14,7 @@ export function shareCopyFor(family: FamilyId, presetLabel: string): ShareCopy {
     constellation: `${presetLabel} — a network of nodes and edges, from the assembl creative playground`,
     grid: `${presetLabel} — algorithmic grid, from the assembl creative playground`,
     waves: `${presetLabel} — real-time silk sheet, from the assembl creative playground`,
+    reaction: `${presetLabel} — Gray-Scott chemistry live on the GPU, from the assembl creative playground`,
   };
   return {
     title: `${presetLabel} · assembl`,

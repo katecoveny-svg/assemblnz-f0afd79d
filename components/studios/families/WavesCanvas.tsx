@@ -5,6 +5,7 @@ import { Canvas, useFrame, type RootState } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { WAVES_PALETTES, type WavesPalette } from '@/lib/generative-art/families/waves';
+import { backgroundById } from '@/lib/generative-art/backgrounds';
 import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
 
 interface WavesR3F {
@@ -87,10 +88,15 @@ function Sheet({ palette, amp, freq, speed, tilt, roughness, seed }: SheetProps)
   );
 }
 
-export function WavesCanvas({ presetId, values, seed, onExportersReady }: RendererProps) {
+export function WavesCanvas({ presetId, values, seed, background, onExportersReady }: RendererProps) {
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const r3fRef = useRef<WavesR3F | null>(null);
-  const palette = WAVES_PALETTES[presetId] ?? WAVES_PALETTES.silk;
+  const basePalette = WAVES_PALETTES[presetId] ?? WAVES_PALETTES.silk;
+  const bg = backgroundById(background);
+  const palette: WavesPalette = useMemo(
+    () => (bg ? { ...basePalette, ground: bg.ground } : basePalette),
+    [basePalette, bg],
+  );
 
   const amp = values.amp ?? 0.32;
   const freq = values.freq ?? 1.2;
