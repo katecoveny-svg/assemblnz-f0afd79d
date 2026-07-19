@@ -1149,3 +1149,21 @@
 
 .spin { animation: agentSpin 0.9s linear infinite; }
 @keyframes agentSpin { to { transform: rotate(360deg); } }
+
+.agentEmailRow { display: flex; gap: 8px; }
+.agentEmailRow input {
+  flex: 1; min-height: 42px; padding: 0 14px;
+  border: 1px solid rgba(38, 51, 57, 0.16); border-radius: 12px;
+  background: var(--white); color: var(--ink); font-size: 0.84rem;
+}
+.agentEmailRow input:focus { outline: none; border-color: var(--sea-strong); }
+.agentEmailRow button {
+  min-height: 42px; padding: 0 18px; border-radius: 12px;
+  background: var(--brass); color: #fff; font: 700 0.78rem/1 system-ui; cursor: pointer;
+}
+.agentEmailRow button:disabled { opacity: 0.4; cursor: default; }
+.agentSaved {
+  display: flex; align-items: center; gap: 7px;
+  color: #426d67; font-size: 0.82rem; line-height: 1.4;
+}
+.agentSaved svg { width: 15px; height: 15px; flex-shrink: 0; }

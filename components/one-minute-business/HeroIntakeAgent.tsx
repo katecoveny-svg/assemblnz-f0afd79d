@@ -45,7 +45,9 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
   const [role, setRole] = useState(info.role);
   const [name, setName] = useState('');
   const [look, setLook] = useState(LOOKS[0]);
+  const [email, setEmail] = useState('');
   const [saved, setSaved] = useState(false);
+  const [sending, setSending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Reset to the ready state whenever the visitor switches segment.
@@ -56,9 +58,30 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
     setAgentName(info.agentName);
     setRole(info.role);
     setName('');
+    setEmail('');
     setSaved(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment]);
+
+  async function saveLead(e: React.FormEvent) {
+    e.preventDefault();
+    const addr = email.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(addr)) return;
+    setSending(true);
+    try {
+      await fetch('/api/home-intake', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ segment, painPoint: pain, email: addr, agentName: name.trim() || agentName }),
+      });
+      setSaved(true);
+    } catch {
+      // Fail-soft — the card is still theirs to keep.
+      setSaved(true);
+    } finally {
+      setSending(false);
+    }
+  }
 
   useEffect(() => {
     if ((phase === 'answered' || phase === 'thinking') && scrollRef.current) {
@@ -203,6 +226,22 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
               />
             ))}
           </div>
+          {saved ? (
+            <p className={styles.agentSaved}><Check aria-hidden /> On its way — we’ll be in touch about building {shownName} for real.</p>
+          ) : (
+            <form className={styles.agentEmailRow} onSubmit={saveLead}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email to keep it (optional)"
+                aria-label="Your email"
+              />
+              <button type="submit" disabled={sending || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())}>
+                {sending ? '…' : 'send'}
+              </button>
+            </form>
+          )}
           <div className={styles.agentAfter}>
             <Link href="/studio/build" className={styles.agentPrimary}>build it for real <ArrowRight aria-hidden /></Link>
             <button type="button" className={styles.agentGhost} onClick={restart}><RotateCcw aria-hidden /> start over</button>
