@@ -436,7 +436,7 @@ export function OneMinuteBusiness() {
               </form>
             </div>
             <div className={styles.heroVisual}>
-              <HeroIntakeAgent segment={(description ? preview : FALLBACK).id} seedPrompt={description} />
+              <HeroIntakeAgent seedBusiness={description} />
             </div>
           </div>
           <div className={styles.movements} aria-label="How one minute business works">

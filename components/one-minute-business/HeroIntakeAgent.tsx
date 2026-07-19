@@ -2,28 +2,21 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, Loader2, RotateCcw, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, Download, Loader2, RotateCcw, Share2 } from 'lucide-react';
+import { renderAgentCard } from '@/lib/home-intake/agent-card';
 import styles from './one-minute-business.module.css';
 
 /**
- * The homepage front-door agent. Replaces the decorative motion-profile
- * vortex with a real, working specialist: it answers the visitor's biggest
- * pain point (via /api/home-intake), then invites them to make it theirs —
- * name it and give it a look. Draft-only, lead-captured, on-brand.
+ * The homepage front-door agent. The visitor describes their REAL business in
+ * their own words; the general analyst reads it and prepares a genuinely
+ * useful first answer, which they can download or share as an assembl-branded
+ * card, or make their own (name + look). Every submission emails Kate a lead.
  */
 
 type Phase = 'ready' | 'thinking' | 'answered' | 'named';
 
-// Client-safe display fields. The system prompts that actually drive the
-// answer live server-side only (lib/home-intake/specialists.ts).
-const DISPLAY: Record<string, { agentName: string; role: string; suggestion: string }> = {
-  customs: { agentName: 'Pīkau', role: 'customs & logistics specialist', suggestion: 'Every shipment, I chase missing supplier docs by email before I can classify anything.' },
-  architect: { agentName: 'the practice agent', role: 'architecture studio assistant', suggestion: 'Turning vague first enquiries into a proper brief eats hours every week.' },
-  builder: { agentName: 'the build agent', role: 'residential construction assistant', suggestion: 'Every Friday I lose an evening writing the site update for clients.' },
-  plumber: { agentName: 'the jobs agent', role: 'trades coordination assistant', suggestion: 'Prepping tomorrow’s jobs — parts, access, history — takes forever the night before.' },
-  'dog-trainer': { agentName: 'the training agent', role: 'canine practice assistant', suggestion: 'Writing up a first training plan from my enquiry notes takes ages per client.' },
-  service: { agentName: 'your assembl agent', role: 'specialist service assistant', suggestion: 'The same admin job comes back every week and eats time I don’t have.' },
-};
+const DEFAULT_NAME = 'your assembl agent';
+const DEFAULT_ROLE = 'business analyst';
 
 const LOOKS: Array<{ id: string; label: string; from: string; to: string }> = [
   { id: 'sea', label: 'Sea glass', from: '#86aaa3', to: '#2d3d3a' },
@@ -32,79 +25,49 @@ const LOOKS: Array<{ id: string; label: string; from: string; to: string }> = [
   { id: 'coral', label: 'Coral', from: '#e0a58c', to: '#7d3f2f' },
 ];
 
-function display(segment: string) {
-  return DISPLAY[segment] ?? DISPLAY.service;
-}
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seedPrompt?: string }) {
-  const info = display(segment);
+export function HeroIntakeAgent({ seedBusiness }: { seedBusiness?: string }) {
   const [phase, setPhase] = useState<Phase>('ready');
-  const [pain, setPain] = useState('');
+  const [business, setBusiness] = useState('');
   const [answer, setAnswer] = useState('');
-  const [agentName, setAgentName] = useState(info.agentName);
-  const [role, setRole] = useState(info.role);
+  const [agentName, setAgentName] = useState(DEFAULT_NAME);
+  const [role, setRole] = useState(DEFAULT_ROLE);
   const [name, setName] = useState('');
   const [look, setLook] = useState(LOOKS[0]);
   const [email, setEmail] = useState('');
   const [saved, setSaved] = useState(false);
   const [sending, setSending] = useState(false);
+  const [busy, setBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Reset to the ready state whenever the visitor switches segment.
+  // Keep in sync with the left-column description until they type their own.
+  const touched = useRef(false);
   useEffect(() => {
-    setPhase('ready');
-    setPain('');
-    setAnswer('');
-    setAgentName(info.agentName);
-    setRole(info.role);
-    setName('');
-    setEmail('');
-    setSaved(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [segment]);
-
-  async function saveLead(e: React.FormEvent) {
-    e.preventDefault();
-    const addr = email.trim();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(addr)) return;
-    setSending(true);
-    try {
-      await fetch('/api/home-intake', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ segment, painPoint: pain, email: addr, agentName: name.trim() || agentName }),
-      });
-      setSaved(true);
-    } catch {
-      // Fail-soft — the card is still theirs to keep.
-      setSaved(true);
-    } finally {
-      setSending(false);
+    if (!touched.current && phase === 'ready' && typeof seedBusiness === 'string') {
+      setBusiness(seedBusiness);
     }
-  }
+  }, [seedBusiness, phase]);
 
   useEffect(() => {
-    if ((phase === 'answered' || phase === 'thinking') && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [phase, answer]);
 
-  async function ask(text: string) {
-    const trimmed = text.trim();
-    if (trimmed.length < 3) return;
-    setPain(trimmed);
+  async function ask() {
+    const text = business.trim();
+    if (text.length < 12) return;
     setPhase('thinking');
     setAnswer('');
     try {
       const res = await fetch('/api/home-intake', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ segment, painPoint: trimmed }),
+        body: JSON.stringify({ business: text }),
       });
       const data = await res.json();
       if (data?.answer) {
-        setAgentName(data.agentName ?? info.agentName);
-        setRole(data.role ?? info.role);
+        setAgentName(data.agentName ?? DEFAULT_NAME);
+        setRole(data.role ?? DEFAULT_ROLE);
         setAnswer(data.answer);
         setPhase('answered');
       } else {
@@ -117,30 +80,91 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
     }
   }
 
-  function restart() {
-    setPhase('ready');
-    setPain('');
-    setAnswer('');
-    setName('');
-    setSaved(false);
+  const shownName = name.trim() || agentName;
+  const initial = (name.trim() ? name.trim() : 'assembl').replace(/^the /i, '').charAt(0).toUpperCase();
+
+  async function makeCard(): Promise<Blob | null> {
+    return renderAgentCard({ agentName: shownName, role, business: business.trim(), answer });
   }
 
-  const shownName = name.trim() || agentName;
-  const initial = shownName.replace(/^the /i, '').trim().charAt(0).toUpperCase() || 'A';
+  async function downloadCard() {
+    setBusy(true);
+    try {
+      const blob = await makeCard();
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${shownName.replace(/\s+/g, '-').toLowerCase()}-assembl.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function shareCard() {
+    setBusy(true);
+    try {
+      const blob = await makeCard();
+      if (!blob) return;
+      const file = new File([blob], 'assembl-agent.png', { type: 'image/png' });
+      const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+      if (nav.canShare && nav.canShare({ files: [file] })) {
+        await nav.share({ files: [file], title: 'My assembl agent', text: 'A first agent for my business, from assembl.' });
+      } else {
+        // No file-share support — fall back to a download.
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'assembl-agent.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch {
+      /* user dismissed the share sheet — no-op */
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function saveLead(e: React.FormEvent) {
+    e.preventDefault();
+    const addr = email.trim();
+    if (!EMAIL_RE.test(addr)) return;
+    setSending(true);
+    try {
+      await fetch('/api/home-intake', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ leadOnly: true, business: business.trim(), email: addr, agentName: shownName, answer }),
+      });
+      setSaved(true);
+    } catch {
+      setSaved(true);
+    } finally {
+      setSending(false);
+    }
+  }
+
+  function restart() {
+    setPhase('ready');
+    setAnswer('');
+    setName('');
+    setEmail('');
+    setSaved(false);
+  }
 
   return (
     <div className={styles.agentPanel}>
       <div className={styles.agentTopline}>
         <span>live agent · draft only</span>
-        <span>{segment.replace('-', ' ')}</span>
+        <span>your business</span>
       </div>
 
       <div className={styles.agentBody} ref={scrollRef}>
-        {/* Agent identity */}
         <div className={styles.agentHead}>
-          <span className={styles.agentMark} style={{ background: `linear-gradient(150deg, ${look.from}, ${look.to})` }} aria-hidden>
-            {initial}
-          </span>
+          <span className={styles.agentMark} style={{ background: `linear-gradient(150deg, ${look.from}, ${look.to})` }} aria-hidden>{initial}</span>
           <div>
             <strong>{shownName}</strong>
             <em>{role}</em>
@@ -149,19 +173,16 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
 
         {phase === 'ready' ? (
           <div className={styles.agentIntro}>
-            <p>Tell me the job that eats your week. I’ll prepare a real first step — a draft you’d approve, not send.</p>
-            <button type="button" className={styles.agentSuggest} onClick={() => ask(seedPrompt?.trim() || info.suggestion)}>
-              <Sparkles aria-hidden /> {seedPrompt?.trim() ? 'Use what I typed' : info.suggestion}
-            </button>
+            <p>Tell me about your business — what you do, who you serve, and the admin that eats your week. I’ll show you the first agent I’d build.</p>
           </div>
         ) : null}
 
         {phase !== 'ready' ? (
-          <div className={styles.agentBubbleUser}>{pain}</div>
+          <div className={styles.agentBubbleUser}>{business.trim()}</div>
         ) : null}
 
         {phase === 'thinking' ? (
-          <div className={styles.agentBubbleThinking}><Loader2 aria-hidden className={styles.spin} /> preparing a first step…</div>
+          <div className={styles.agentBubbleThinking}><Loader2 aria-hidden className={styles.spin} /> reading your business…</div>
         ) : null}
 
         {answer ? (
@@ -181,30 +202,27 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
         ) : null}
       </div>
 
-      {/* Footer actions per phase */}
       {phase === 'ready' ? (
-        <form
-          className={styles.agentInputRow}
-          onSubmit={(e) => { e.preventDefault(); ask(pain); }}
-        >
-          <input
-            value={pain}
-            onChange={(e) => setPain(e.target.value)}
-            placeholder="My biggest time-sink is…"
-            aria-label="Your biggest pain point"
+        <form className={styles.agentTextRow} onSubmit={(e) => { e.preventDefault(); ask(); }}>
+          <textarea
+            value={business}
+            onChange={(e) => { touched.current = true; setBusiness(e.target.value); }}
+            placeholder="e.g. I run a small architecture practice in Auckland. We lose hours qualifying enquiries and writing client updates…"
+            rows={3}
+            aria-label="Describe your business"
           />
-          <button type="submit" disabled={pain.trim().length < 3} aria-label="Ask the agent">
-            <ArrowRight aria-hidden />
+          <button type="submit" className={styles.agentPrimary} disabled={business.trim().length < 12}>
+            show me the first agent <ArrowRight aria-hidden />
           </button>
         </form>
       ) : null}
 
       {phase === 'answered' ? (
         <div className={styles.agentAfter}>
-          <button type="button" className={styles.agentPrimary} onClick={() => setPhase('named')}>
-            make it yours <ArrowRight aria-hidden />
-          </button>
-          <button type="button" className={styles.agentGhost} onClick={restart}><RotateCcw aria-hidden /> ask again</button>
+          <button type="button" className={styles.agentPrimary} onClick={() => setPhase('named')}>make it yours <ArrowRight aria-hidden /></button>
+          <button type="button" className={styles.agentGhost} onClick={downloadCard} disabled={busy}><Download aria-hidden /> download</button>
+          <button type="button" className={styles.agentGhost} onClick={shareCard} disabled={busy}><Share2 aria-hidden /> share</button>
+          <button type="button" className={styles.agentGhost} onClick={restart}><RotateCcw aria-hidden /> again</button>
         </div>
       ) : null}
 
@@ -216,35 +234,21 @@ export function HeroIntakeAgent({ segment, seedPrompt }: { segment: string; seed
           </label>
           <div className={styles.agentLooks} role="group" aria-label="Pick a look">
             {LOOKS.map((l) => (
-              <button
-                key={l.id}
-                type="button"
-                aria-pressed={look.id === l.id}
-                aria-label={l.label}
-                onClick={() => setLook(l)}
-                style={{ background: `linear-gradient(150deg, ${l.from}, ${l.to})` }}
-              />
+              <button key={l.id} type="button" aria-pressed={look.id === l.id} aria-label={l.label} onClick={() => setLook(l)} style={{ background: `linear-gradient(150deg, ${l.from}, ${l.to})` }} />
             ))}
           </div>
           {saved ? (
             <p className={styles.agentSaved}><Check aria-hidden /> On its way — we’ll be in touch about building {shownName} for real.</p>
           ) : (
             <form className={styles.agentEmailRow} onSubmit={saveLead}>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email to keep it (optional)"
-                aria-label="Your email"
-              />
-              <button type="submit" disabled={sending || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())}>
-                {sending ? '…' : 'send'}
-              </button>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email to keep it (optional)" aria-label="Your email" />
+              <button type="submit" disabled={sending || !EMAIL_RE.test(email.trim())}>{sending ? '…' : 'send'}</button>
             </form>
           )}
           <div className={styles.agentAfter}>
-            <Link href="/studio/build" className={styles.agentPrimary}>build it for real <ArrowRight aria-hidden /></Link>
-            <button type="button" className={styles.agentGhost} onClick={restart}><RotateCcw aria-hidden /> start over</button>
+            <button type="button" className={styles.agentGhost} onClick={downloadCard} disabled={busy}><Download aria-hidden /> download</button>
+            <button type="button" className={styles.agentGhost} onClick={shareCard} disabled={busy}><Share2 aria-hidden /> share</button>
+            <Link href="/studio/build" className={styles.agentGhost}>build it for real <ArrowRight aria-hidden /></Link>
           </div>
           {saved ? null : <small className={styles.agentFoot}>No sign-up. Nothing is published without you.</small>}
         </div>
