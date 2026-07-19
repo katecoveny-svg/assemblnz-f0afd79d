@@ -19,7 +19,10 @@ export const ComponentCategory = z.enum([
   'knowledge',
   'abilities',
   'connected-apps',
-  'control',
+  'boundaries',
+  'approvals',
+  'tests',
+  'appearance',
 ]);
 export type ComponentCategory = z.infer<typeof ComponentCategory>;
 
@@ -319,11 +322,11 @@ export const COMPONENT_LIBRARY: LibraryEntry[] = [
   { type: 'connector-drive',    category: 'connected-apps', label: 'Google Drive',    description: 'Read + write documents in a folder',         multiInstance: false },
   { type: 'connector-xero',     category: 'connected-apps', label: 'Xero',            description: 'Invoices + contact records',                 multiInstance: false },
   { type: 'connector-hubspot',  category: 'connected-apps', label: 'HubSpot',         description: 'Deal + contact records',                     multiInstance: false },
-  // Control
-  { type: 'boundary',           category: 'control',        label: 'Boundary',        description: 'A rule the agent will not cross',            multiInstance: true },
-  { type: 'approval',           category: 'control',        label: 'Approval',        description: 'Ask a human before a specific action',       multiInstance: true },
-  { type: 'evaluation-tone',    category: 'control',        label: 'Tone evaluation', description: 'Judge every reply against tone standards',   multiInstance: false },
-  { type: 'evaluation-accuracy',category: 'control',        label: 'Fact evaluation', description: 'Check claims against cited knowledge',       multiInstance: false },
+  // Boundaries / approvals / tests — separate sections per the design direction.
+  { type: 'boundary',           category: 'boundaries',     label: 'Boundary',        description: 'A rule the agent will not cross',            multiInstance: true },
+  { type: 'approval',           category: 'approvals',      label: 'Approval',        description: 'Ask a human before a specific action',       multiInstance: true },
+  { type: 'evaluation-tone',    category: 'tests',          label: 'Tone evaluation', description: 'Judge every reply against tone standards',   multiInstance: false },
+  { type: 'evaluation-accuracy',category: 'tests',          label: 'Fact evaluation', description: 'Check claims against cited knowledge',       multiInstance: false },
 ];
 
 export const CATEGORY_LABEL: Record<ComponentCategory, string> = {
@@ -331,7 +334,10 @@ export const CATEGORY_LABEL: Record<ComponentCategory, string> = {
   knowledge: 'Knowledge',
   abilities: 'Abilities',
   'connected-apps': 'Connected apps',
-  control: 'Control',
+  boundaries: 'Boundaries',
+  approvals: 'Approvals',
+  tests: 'Tests',
+  appearance: 'Appearance',
 };
 
 /**

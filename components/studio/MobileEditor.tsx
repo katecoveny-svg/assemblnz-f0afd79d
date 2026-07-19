@@ -52,7 +52,7 @@ export function MobileEditor() {
 
       <div className="rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
         <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">components in this agent</div>
-        {(['essentials', 'knowledge', 'abilities', 'connected-apps', 'control'] as const).map((cat) => {
+        {(['essentials', 'knowledge', 'abilities', 'connected-apps', 'boundaries', 'approvals', 'tests'] as const).map((cat) => {
           const items = byCategory.get(cat) ?? [];
           return (
             <div key={cat} className="mt-3 flex flex-col gap-1">

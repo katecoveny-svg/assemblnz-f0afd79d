@@ -50,7 +50,7 @@ function worstOf(a: ComponentStatus, b: ComponentStatus): ComponentStatus {
 export function ComponentLibrary() {
   const addComponent = useStudioStore((s) => s.addComponent);
   const status = useLibraryStatus();
-  const categories: ComponentCategory[] = ['essentials', 'knowledge', 'abilities', 'connected-apps', 'control'];
+  const categories: ComponentCategory[] = ['essentials', 'knowledge', 'abilities', 'connected-apps', 'boundaries', 'approvals', 'tests'];
 
   return (
     <aside className="flex h-full flex-col gap-4 overflow-y-auto border-r border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
