@@ -212,7 +212,7 @@ export function ChromeCanvas({ presetId, values, seed, onExportersReady }: Rende
   return (
     <div
       ref={canvasHostRef}
-      className="relative mx-auto aspect-[0.92/1] w-full max-w-[720px] overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+      className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
       style={{
         background: `radial-gradient(circle at 45% 40%, ${palette.ground}FF 0%, ${palette.ground} 55%, #DADCDE 100%)`,
       }}

@@ -56,6 +56,22 @@ const MarbleCanvas = dynamic(
   () => import('./families/MarbleCanvas').then((m) => m.MarbleCanvas),
   { ssr: false }
 );
+const TerrainCanvas = dynamic(
+  () => import('./families/TerrainCanvas').then((m) => m.TerrainCanvas),
+  { ssr: false }
+);
+const SandpileCanvas = dynamic(
+  () => import('./families/SandpileCanvas').then((m) => m.SandpileCanvas),
+  { ssr: false }
+);
+const RipplesCanvas = dynamic(
+  () => import('./families/RipplesCanvas').then((m) => m.RipplesCanvas),
+  { ssr: false }
+);
+const DlaCanvas = dynamic(
+  () => import('./families/DlaCanvas').then((m) => m.DlaCanvas),
+  { ssr: false }
+);
 
 export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = {
   line: LineCanvas,
@@ -71,4 +87,8 @@ export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = 
   chladni: ChladniCanvas,
   verlet: VerletCanvas,
   marble: MarbleCanvas,
+  terrain: TerrainCanvas,
+  sandpile: SandpileCanvas,
+  ripples: RipplesCanvas,
+  dla: DlaCanvas,
 };

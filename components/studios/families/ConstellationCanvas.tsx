@@ -224,7 +224,7 @@ export function ConstellationCanvas({ presetId, values, seed, background, text, 
     <div className="relative w-full">
       <div
         ref={containerRef}
-        className="relative mx-auto aspect-[0.92/1] w-full max-w-[720px] overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
+        className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
         style={{ background: palette.ground }}
       />
       {!ready && (
