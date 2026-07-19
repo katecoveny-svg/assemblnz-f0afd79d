@@ -34,6 +34,10 @@ export const BUILDER_STEPS: BuilderStep[] = [
       { id: 'invoices', label: 'Chase invoices',     means: 'Follows up unpaid invoices politely and on schedule.' },
       { id: 'research', label: 'Research + summarise', means: 'Reads sources and gives you the short version.' },
       { id: 'social',   label: 'Draft social posts', means: 'Turns your week into posts you approve before they go out.' },
+      { id: 'quotes',   label: 'Prepare quotes',     means: 'Turns a job brief into a priced draft from your rates.' },
+      { id: 'triage',   label: 'Triage + route',     means: 'Sorts what comes in by urgency and sends it the right way.' },
+      { id: 'onboard',  label: 'Onboard new clients', means: 'Collects what you need from a new client, in order.' },
+      { id: 'reports',  label: 'Write the weekly update', means: 'Pulls the week together into a draft you sign off.' },
     ],
   },
   {
@@ -47,6 +51,10 @@ export const BUILDER_STEPS: BuilderStep[] = [
       { id: 'policies', label: 'Policies + terms',  means: 'Refunds, cancellations, the fine print.' },
       { id: 'prices',   label: 'Price list',        means: 'So it never invents a price.' },
       { id: 'drive',    label: 'A Google Drive folder', means: 'Documents you drop in stay current.' },
+      { id: 'past-jobs', label: 'Past jobs + notes', means: 'How you handled the work before.' },
+      { id: 'inbox',    label: 'Your inbox history', means: 'How you actually reply, in your own words.' },
+      { id: 'brand',    label: 'Brand + tone guide', means: 'So it sounds like you, not a robot.' },
+      { id: 'calendar', label: 'Your calendar',     means: 'What you’re booked for and when you’re free.' },
     ],
   },
   {
@@ -60,6 +68,10 @@ export const BUILDER_STEPS: BuilderStep[] = [
       { id: 'calendar', label: 'Book calendar events', means: 'Puts confirmed bookings on your calendar.' },
       { id: 'research', label: 'Research',            means: 'Looks things up and cites where answers came from.' },
       { id: 'document', label: 'Create documents',    means: 'Drafts quotes and summaries from a brief.' },
+      { id: 'summarise', label: 'Summarise',          means: 'Turns a long thread or file into the short version.' },
+      { id: 'schedule', label: 'Offer times',         means: 'Suggests slots that fit your real availability.' },
+      { id: 'follow',   label: 'Follow up',           means: 'Chases the reply you’re still waiting on.' },
+      { id: 'flag',     label: 'Flag risks',          means: 'Marks anything unusual for you to look at.' },
     ],
   },
   {
@@ -73,6 +85,10 @@ export const BUILDER_STEPS: BuilderStep[] = [
       { id: 'drive',    label: 'Google Drive',    means: 'Reads and files documents.' },
       { id: 'xero',     label: 'Xero',            means: 'Sees invoices and payment status.' },
       { id: 'hubspot',  label: 'HubSpot',         means: 'Keeps customer records current.' },
+      { id: 'outlook',  label: 'Outlook',         means: 'Reads and sends from a Microsoft inbox.' },
+      { id: 'myob',     label: 'MYOB',            means: 'Sees invoices and payments the NZ way.' },
+      { id: 'whatsapp', label: 'WhatsApp',        means: 'Drafts replies to customer messages.' },
+      { id: 'sheets',   label: 'Google Sheets',   means: 'Reads and updates a working spreadsheet.' },
     ],
   },
   {
@@ -85,6 +101,9 @@ export const BUILDER_STEPS: BuilderStep[] = [
       { id: 'privacy',      label: 'Privacy boundary',      means: 'Never mentions one customer to another.' },
       { id: 'money',        label: 'Money boundary',        means: 'Never quotes a price outside your list.' },
       { id: 'escalate',     label: 'Escalate the hard ones', means: 'Upset customer or unclear answer → straight to you.' },
+      { id: 'cite',         label: 'Always show its working', means: 'Every answer points to where it came from.' },
+      { id: 'log',          label: 'Log every action',      means: 'A record of what it did, so you can check.' },
+      { id: 'quiet-hours',  label: 'Respect quiet hours',   means: 'Nothing goes out overnight or on weekends.' },
     ],
   },
 ];
