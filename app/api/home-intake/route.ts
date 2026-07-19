@@ -17,7 +17,7 @@ import type { ModelMessage } from 'ai';
 import { resolveModelLadder, generateWithFallback } from '@/lib/ai/router';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { GENERAL_ANALYST, GENERAL_ANALYST_PROMPT } from '@/lib/home-intake/specialists';
-import { notifyLead, clientIpFromHeaders } from '@/lib/lead-capture';
+import { notifyLead, persistLead, clientIpFromHeaders, type NotifyLeadInput } from '@/lib/lead-capture';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -42,6 +42,23 @@ function rateLimited(ip: string): boolean {
 
 function json(data: unknown, status = 200) {
   return Response.json(data, { status });
+}
+
+/**
+ * Capture a lead so Kate never loses one:
+ *  - persistLead is AWAITED → a durable row in lead_inquiries, visible at
+ *    /admin/support, regardless of email deliverability.
+ *  - notifyLead is best-effort (not awaited) → emails assembl@assembl.co.nz
+ *    without blocking the response on Brevo's retry backoff.
+ * Both legs are fail-soft and never throw.
+ */
+async function captureLead(input: NotifyLeadInput) {
+  try {
+    await persistLead(input);
+  } catch {
+    /* fail-soft — persistLead already logs */
+  }
+  void notifyLead(input);
 }
 
 export async function POST(req: NextRequest) {
@@ -69,10 +86,10 @@ export async function POST(req: NextRequest) {
   const validEmail = EMAIL_RE.test(email);
 
   // A lead-only re-post (visitor left their email on an answer they already
-  // have) — email Kate the enriched lead and return, no model call.
+  // have) — capture the enriched lead and return, no model call.
   if (body.leadOnly) {
     if (validEmail) {
-      void notifyLead({
+      await captureLead({
         formName: 'Homepage agent — lead left contact',
         email,
         fields: {
@@ -116,9 +133,8 @@ export async function POST(req: NextRequest) {
     fellBack = true;
   }
 
-  // Every genuine submission is a lead — email it straight to Kate (fail-soft),
-  // with the visitor's contact when they left one.
-  void notifyLead({
+  // Every genuine submission is a lead — capture it (durable row + email).
+  await captureLead({
     formName: 'Homepage agent — new business',
     email: validEmail ? email : null,
     fields: {
