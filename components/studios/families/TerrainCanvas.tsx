@@ -2,7 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, type RootState } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
+import { BufferAttribute } from 'three';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { TERRAIN_PALETTES, type TerrainPalette } from '@/lib/generative-art/families/terrain';
 import { backgroundById } from '@/lib/generative-art/backgrounds';
@@ -130,6 +130,15 @@ function Surface({ palette, amp, freq, octaves, ridge, tilt, spin, seed }: Surfa
     mesh.geometry.computeVertexNormals?.();
 
     // Vertex colouring — three-stop gradient by normalised height.
+    // planeGeometry ships with NO color attribute; without this line the
+    // vertexColors material renders nothing (the original "terrain doesn't
+    // load" bug).
+    if (!mesh.geometry.attributes.color) {
+      mesh.geometry.setAttribute?.(
+        'color',
+        new BufferAttribute(new Float32Array(pos.count * 3), 3) as unknown as never,
+      );
+    }
     const col = mesh.geometry.attributes.color;
     if (col && col.array) {
       const carr = col.array;
@@ -266,7 +275,9 @@ export function TerrainCanvas({ presetId, values, seed, background, onExportersR
           {/* Low sun so ridges cast long shadows. */}
           <directionalLight position={[4, 2.4, 1.5]} intensity={1.5} color="#FFE7C7" />
           <directionalLight position={[-3, 1.2, -2]} intensity={0.5} color="#B4C7D9" />
-          <Environment preset="sunset" background={false} />
+          {/* No drei Environment here — the CDN HDR fetch could hang the
+              whole terrain on slow networks; three directional lights carry
+              the matte landscape fine. */}
           <Surface
             palette={palette}
             amp={amp}
