@@ -13,6 +13,23 @@ import { REACTION_FAMILY } from '@/lib/generative-art/families/reaction';
 import { BOIDS_FAMILY } from '@/lib/generative-art/families/boids';
 import { ATTRACTORS_FAMILY } from '@/lib/generative-art/families/attractors';
 import { GROWTH_FAMILY } from '@/lib/generative-art/families/growth';
+import { CHLADNI_FAMILY } from '@/lib/generative-art/families/chladni';
+import { VERLET_FAMILY } from '@/lib/generative-art/families/verlet';
+import { MARBLE_FAMILY } from '@/lib/generative-art/families/marble';
+import { TERRAIN_FAMILY } from '@/lib/generative-art/families/terrain';
+import { SANDPILE_FAMILY } from '@/lib/generative-art/families/sandpile';
+import { RIPPLES_FAMILY } from '@/lib/generative-art/families/ripples';
+import { DLA_FAMILY } from '@/lib/generative-art/families/dla';
+import { deleteSavedPreset, listSavedPresets, savePreset, type SavedPreset } from '@/lib/generative-art/my-presets';
+
+type AspectId = 'classic' | 'square' | 'hero' | 'portrait';
+interface AspectSpec { id: AspectId; label: string; ratio: string; maxWidth: string; hint: string; }
+const ASPECTS: AspectSpec[] = [
+  { id: 'classic',  label: 'Classic',  ratio: '0.92 / 1', maxWidth: '720px',  hint: '0.92 : 1' },
+  { id: 'square',   label: 'Square',   ratio: '1 / 1',    maxWidth: '720px',  hint: '1 : 1' },
+  { id: 'hero',     label: 'Hero',     ratio: '21 / 9',   maxWidth: '1200px', hint: '21 : 9' },
+  { id: 'portrait', label: 'Portrait', ratio: '9 / 16',   maxWidth: '480px',  hint: '9 : 16' },
+];
 import { FAMILY_RENDERERS } from './family-renderers';
 import { buildCodeSnippet } from '@/lib/generative-art/code-export';
 import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
@@ -24,11 +41,18 @@ const FAMILIES: Family[] = [
   CONSTELLATION_FAMILY,
   GRID_FAMILY,
   GROWTH_FAMILY,
+  DLA_FAMILY,
   BOIDS_FAMILY,
   ATTRACTORS_FAMILY,
+  SANDPILE_FAMILY,
   CHROME_FAMILY,
   WAVES_FAMILY,
+  TERRAIN_FAMILY,
+  RIPPLES_FAMILY,
   REACTION_FAMILY,
+  CHLADNI_FAMILY,
+  VERLET_FAMILY,
+  MARBLE_FAMILY,
   FLOW_FAMILY,
 ];
 const FAMILY_MAP: Record<FamilyId, Family> = {
@@ -42,6 +66,13 @@ const FAMILY_MAP: Record<FamilyId, Family> = {
   boids: BOIDS_FAMILY,
   attractors: ATTRACTORS_FAMILY,
   growth: GROWTH_FAMILY,
+  chladni: CHLADNI_FAMILY,
+  verlet: VERLET_FAMILY,
+  marble: MARBLE_FAMILY,
+  terrain: TERRAIN_FAMILY,
+  sandpile: SANDPILE_FAMILY,
+  ripples: RIPPLES_FAMILY,
+  dla: DLA_FAMILY,
 };
 
 interface StudioState {
@@ -51,6 +82,7 @@ interface StudioState {
   seed: number;
   background: BackgroundId | null;
   text: string;
+  aspect: AspectId;
 }
 
 function pickFamily(id: string | null): Family {
@@ -78,7 +110,9 @@ function stateFromSearch(sp: URLSearchParams | null): StudioState {
   const bgRaw = sp?.get('bg') as BackgroundId | null;
   const background = bgRaw && BACKGROUNDS.some((b) => b.id === bgRaw) ? bgRaw : null;
   const text = sp?.get('text') ?? '';
-  return { family: family.id, presetId: preset.id, values, seed, background, text };
+  const arRaw = sp?.get('ar') as AspectId | null;
+  const aspect: AspectId = arRaw && ASPECTS.some((a) => a.id === arRaw) ? arRaw : 'classic';
+  return { family: family.id, presetId: preset.id, values, seed, background, text, aspect };
 }
 
 function stateToSearch(state: StudioState): URLSearchParams {
@@ -94,6 +128,7 @@ function stateToSearch(state: StudioState): URLSearchParams {
   }
   if (state.background) s.set('bg', state.background);
   if (state.text.trim()) s.set('text', state.text);
+  if (state.aspect !== 'classic') s.set('ar', state.aspect);
   return s;
 }
 
@@ -174,6 +209,7 @@ export function GenerativeArtCanvas() {
       seed: prev.seed,
       background: fam.supportsBackground ? prev.background : null,
       text: fam.supportsText ? prev.text : '',
+      aspect: prev.aspect,
     }));
   }, []);
 
@@ -188,8 +224,13 @@ export function GenerativeArtCanvas() {
         seed: prev.seed,
         background: prev.background,
         text: prev.text,
+        aspect: prev.aspect,
       };
     });
+  }, []);
+
+  const setAspect = useCallback((id: AspectId) => {
+    setState((prev) => ({ ...prev, aspect: id }));
   }, []);
 
   const setBackground = useCallback((id: BackgroundId | null) => {
@@ -304,10 +345,57 @@ export function GenerativeArtCanvas() {
     [exportGroup],
   );
 
+  // My presets — localStorage-backed named saves per family.
+  const [myPresets, setMyPresets] = useState<SavedPreset[]>([]);
+  const refreshMyPresets = useCallback(() => {
+    setMyPresets(listSavedPresets(state.family));
+  }, [state.family]);
+  useEffect(() => { refreshMyPresets(); }, [refreshMyPresets]);
+
+  const saveCurrent = useCallback(() => {
+    const label = window.prompt('Name this preset', preset.label);
+    if (!label?.trim()) return;
+    savePreset({
+      family: state.family,
+      parentPresetId: state.presetId,
+      label: label.trim(),
+      values: state.values,
+      seed: state.seed,
+      background: state.background,
+      text: state.text,
+    });
+    refreshMyPresets();
+  }, [preset.label, refreshMyPresets, state.background, state.family, state.presetId, state.seed, state.text, state.values]);
+
+  const applyMyPreset = useCallback((sp: SavedPreset) => {
+    setState((prev) => ({
+      family: sp.family,
+      presetId: sp.parentPresetId,
+      values: { ...sp.values },
+      seed: sp.seed,
+      background: sp.background,
+      text: sp.text,
+      aspect: prev.aspect,
+    }));
+  }, []);
+
+  const removeMyPreset = useCallback((id: string) => {
+    deleteSavedPreset(id);
+    refreshMyPresets();
+  }, [refreshMyPresets]);
+
   const Renderer = FAMILY_RENDERERS[family.id];
+  const currentAspect = ASPECTS.find((a) => a.id === state.aspect) ?? ASPECTS[0];
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div
+      className="flex w-full flex-col gap-6"
+      style={{
+        // Renderers pick up these CSS vars via .ga-canvas
+        '--ga-aspect': currentAspect.ratio,
+        '--ga-max': currentAspect.maxWidth,
+      } as React.CSSProperties}
+    >
       {/* Family tabs */}
       <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="family">
         {FAMILIES.map((f) => {
@@ -340,6 +428,38 @@ export function GenerativeArtCanvas() {
         })}
       </div>
 
+      {/* My presets — shown when the current family has any saved. Sits
+          above the built-in chips so Kate's own looks are one tap away. */}
+      {myPresets.length > 0 && (
+        <div className="flex flex-col gap-1.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            my presets · saved to this browser
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {myPresets.map((sp) => (
+              <div key={sp.id} className="group flex items-stretch overflow-hidden rounded-[2px] border border-[color:var(--assembl-cloud)]">
+                <button
+                  type="button"
+                  onClick={() => applyMyPreset(sp)}
+                  className="px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                  title={`seeded from ${sp.parentPresetId}`}
+                >
+                  {sp.label}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeMyPreset(sp.id)}
+                  aria-label="remove"
+                  className="border-l border-[color:var(--assembl-cloud)] px-2 font-mono text-[10.5px] text-[color:var(--text-secondary)] hover:bg-[color:var(--assembl-cloud)]/60 hover:text-[color:var(--text-primary)]"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Preset chips */}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="preset">
         {family.presets.map((p) => {
@@ -359,6 +479,32 @@ export function GenerativeArtCanvas() {
               ].join(' ')}
             >
               {p.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Aspect chips — universal control for the live canvas shape */}
+      <div className="flex flex-wrap items-center gap-1.5">
+        <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          canvas
+        </span>
+        {ASPECTS.map((a) => {
+          const active = state.aspect === a.id;
+          return (
+            <button
+              key={a.id}
+              type="button"
+              onClick={() => setAspect(a.id)}
+              className={[
+                'rounded-[2px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] transition',
+                active
+                  ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                  : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
+              ].join(' ')}
+              title={a.hint}
+            >
+              {a.label}
             </button>
           );
         })}
@@ -451,6 +597,14 @@ export function GenerativeArtCanvas() {
             className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
           >
             new seed
+          </button>
+          <button
+            type="button"
+            onClick={saveCurrent}
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            title="save this exact state to your browser"
+          >
+            save
           </button>
           <button
             type="button"

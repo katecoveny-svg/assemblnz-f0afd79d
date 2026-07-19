@@ -713,3 +713,11 @@
 
 /* Compass mark (placeholder silhouette logo — no real Aironaut logo used) */
 .air-compass { color: var(--air-brass); }
+
+/* Creative-playground canvas — shell sets --ga-aspect + --ga-max via the
+   aspect toggle. Renderers use `ga-canvas` in place of a fixed aspect. */
+.ga-canvas {
+  aspect-ratio: var(--ga-aspect, 0.92 / 1);
+  max-width: var(--ga-max, 720px);
+  margin-inline: auto;
+}

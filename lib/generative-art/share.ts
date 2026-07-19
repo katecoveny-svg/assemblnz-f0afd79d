@@ -18,6 +18,13 @@ export function shareCopyFor(family: FamilyId, presetLabel: string): ShareCopy {
     boids: `${presetLabel} — flocking physics, from the assembl creative playground`,
     attractors: `${presetLabel} — chaos in phase space, from the assembl creative playground`,
     growth: `${presetLabel} — L-system fractal growth, from the assembl creative playground`,
+    chladni: `${presetLabel} — Chladni resonance patterns, from the assembl creative playground`,
+    verlet: `${presetLabel} — Verlet spring-mesh cloth, from the assembl creative playground`,
+    marble: `${presetLabel} — ink-on-water marbling, from the assembl creative playground`,
+    terrain: `${presetLabel} — 3D heightmap terrain, from the assembl creative playground`,
+    sandpile: `${presetLabel} — Bak-Tang-Wiesenfeld avalanche, from the assembl creative playground`,
+    ripples: `${presetLabel} — 2D wave equation on a pond, from the assembl creative playground`,
+    dla: `${presetLabel} — diffusion-limited coral growth, from the assembl creative playground`,
   };
   return {
     title: `${presetLabel} · assembl`,
