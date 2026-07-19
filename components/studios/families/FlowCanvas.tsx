@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { FLOW_PALETTES } from '@/lib/generative-art/families/flow';
+import { stampWatermarkOnCanvas } from '@/lib/generative-art/watermark';
+import { canvasScaledToBlob } from '@/lib/generative-art/render-utils';
 
 interface Particle {
   x: number;
@@ -156,12 +158,25 @@ export function FlowCanvas({ presetId, values, seed, onExportersReady }: Rendere
   const png = useCallback(async (): Promise<Blob | null> => {
     const canvas = containerRef.current?.querySelector('canvas') as HTMLCanvasElement | null;
     if (!canvas) return null;
-    return await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), 'image/png'));
-  }, []);
+    const stamped = stampWatermarkOnCanvas(canvas, palette.ground);
+    return await new Promise<Blob | null>((resolve) => stamped.toBlob((b) => resolve(b), 'image/png'));
+  }, [palette.ground]);
+
+  const renderAtSize = useCallback(
+    async (w: number, h: number): Promise<Blob | null> => {
+      const canvas = containerRef.current?.querySelector('canvas') as HTMLCanvasElement | null;
+      if (!canvas) return null;
+      // Flow is stateful — the trails ARE the current sim. Scale the current
+      // frame into the target size with the ground colour behind so the
+      // aspect never gets stretched.
+      return canvasScaledToBlob(canvas, w, h, palette.ground);
+    },
+    [palette.ground],
+  );
 
   useEffect(() => {
-    onExportersReady?.({ png });
-  }, [onExportersReady, png]);
+    onExportersReady?.({ png, renderAtSize });
+  }, [onExportersReady, png, renderAtSize]);
 
   return (
     <div className="relative w-full">

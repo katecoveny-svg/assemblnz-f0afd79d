@@ -5,6 +5,8 @@ import type p5Type from 'p5';
 import type { RendererProps } from '@/lib/generative-art/families';
 import { buildShells, shellsToSvg } from '@/lib/generative-art/sketch';
 import { PRESETS, type PresetId } from '@/lib/generative-art/presets';
+import { stampWatermarkOnCanvas, stampWatermarkOnSvg } from '@/lib/generative-art/watermark';
+import { svgToPngBlob } from '@/lib/generative-art/render-utils';
 
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace('#', '');
@@ -111,11 +113,12 @@ export function LineCanvas({ presetId, values, seed, onExportersReady }: Rendere
 
   const png = useCallback(async (): Promise<Blob | null> => {
     if (!p5Ref.current) return null;
-    return await new Promise<Blob | null>((resolve) => {
-      const el = containerRef.current?.querySelector('canvas') as HTMLCanvasElement | null;
-      if (!el) return resolve(null);
-      el.toBlob((b) => resolve(b), 'image/png');
-    });
+    const el = containerRef.current?.querySelector('canvas') as HTMLCanvasElement | null;
+    if (!el) return null;
+    const { presetId: pid } = stateRef.current;
+    const preset = PRESETS[pid as PresetId] ?? PRESETS.bloom;
+    const stamped = stampWatermarkOnCanvas(el, preset.palette.ground);
+    return await new Promise<Blob | null>((resolve) => stamped.toBlob((b) => resolve(b), 'image/png'));
   }, []);
 
   const svg = useCallback((): string | null => {
@@ -138,12 +141,36 @@ export function LineCanvas({ presetId, values, seed, onExportersReady }: Rendere
       },
       preset,
     });
-    return shellsToSvg(shells, w, h, preset.palette.ground, vals.stroke);
+    const svg = shellsToSvg(shells, w, h, preset.palette.ground, vals.stroke);
+    return stampWatermarkOnSvg(svg, preset.palette.ground);
+  }, []);
+
+  const renderAtSize = useCallback(async (w: number, h: number): Promise<Blob | null> => {
+    const { presetId: pid, values: vals, seed: s } = stateRef.current;
+    const preset = PRESETS[pid as PresetId] ?? PRESETS.bloom;
+    const shells = buildShells({
+      width: w,
+      height: h,
+      params: {
+        preset: preset.id,
+        shells: vals.shells,
+        warp: vals.warp,
+        hue: preset.hue,
+        tint: preset.tint,
+        alpha: vals.alpha,
+        stroke: vals.stroke,
+        noise: vals.noise,
+        seed: s,
+      },
+      preset,
+    });
+    const svgSrc = shellsToSvg(shells, w, h, preset.palette.ground, vals.stroke);
+    return svgToPngBlob(svgSrc, w, h, preset.palette.ground);
   }, []);
 
   useEffect(() => {
-    onExportersReady?.({ png, svg });
-  }, [onExportersReady, png, svg]);
+    onExportersReady?.({ png, svg, renderAtSize });
+  }, [onExportersReady, png, svg, renderAtSize]);
 
   return (
     <div className="relative w-full">

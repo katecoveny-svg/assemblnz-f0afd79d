@@ -27,8 +27,14 @@ export default function CreativePlaygroundPage() {
       </section>
 
       <footer className="mx-auto max-w-[1180px] px-5 pb-10 text-[10.5px] font-mono uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:px-10">
-        <div className="border-t border-[color:var(--assembl-cloud)] pt-6">
-          every family runs in your browser — line via p5, chrome via three.js, flow via curl noise
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[color:var(--assembl-cloud)] pt-6">
+          <span>every family runs in your browser — line via p5, chrome via three.js, flow via curl noise</span>
+          <a
+            href="/creative-playground/avatars"
+            className="underline decoration-[color:var(--assembl-cloud)] underline-offset-4 hover:decoration-[color:var(--text-primary)]"
+          >
+            agent avatars →
+          </a>
         </div>
       </footer>
     </main>
