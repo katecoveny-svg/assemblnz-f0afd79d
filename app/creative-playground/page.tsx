@@ -4,7 +4,7 @@ import { GenerativeArtCanvas } from '@/components/studios/GenerativeArtCanvas';
 export const metadata: Metadata = {
   title: 'creative playground — assembl',
   description:
-    'A generative art studio. Every piece begins as a seed. Sliders shape it. Firefly-quality render finishes it. Yours to keep.',
+    'A generative art studio. Every piece runs entirely in your browser — line art, chrome shapes, or particle flow. Yours to keep as PNG, SVG, or self-contained code.',
 };
 
 export default function CreativePlaygroundPage() {
@@ -18,7 +18,7 @@ export default function CreativePlaygroundPage() {
           creative playground.
         </h1>
         <p className="mt-4 max-w-[560px] text-[15px] leading-[1.55] text-[color:var(--text-secondary)] md:text-[17px]">
-          Every piece begins as a seed. Sliders shape it. Firefly finishes it. Yours to keep.
+          Every piece begins as a seed. Sliders shape it. Everything runs in your browser — no keys, no upload, no cloud. Yours to keep as PNG, SVG, or self-contained code.
         </p>
       </header>
 
@@ -28,7 +28,7 @@ export default function CreativePlaygroundPage() {
 
       <footer className="mx-auto max-w-[1180px] px-5 pb-10 text-[10.5px] font-mono uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:px-10">
         <div className="border-t border-[color:var(--assembl-cloud)] pt-6">
-          algorithmic mode runs entirely in your browser · a render pass to fal flux is next
+          every family runs in your browser — line via p5, chrome via three.js, flow via curl noise
         </div>
       </footer>
     </main>

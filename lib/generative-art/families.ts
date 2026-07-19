@@ -1,4 +1,4 @@
-export type FamilyId = 'line' | 'liquid' | 'chrome';
+export type FamilyId = 'line' | 'chrome' | 'flow';
 
 export interface SliderSpec {
   key: string;
@@ -27,11 +27,15 @@ export interface RendererProps {
   ground?: string;
   /**
    * Called by the renderer to expose export functions to the host.
-   * Line: png + svg. Chrome: png (canvas toDataURL). Liquid: png (the AI return).
+   *   png — a rendered image
+   *   svg — SVG source (Line only)
+   *   code — a self-contained HTML+JS snippet that reproduces the current
+   *          state (the "download as code" export)
    */
   onExportersReady?: (exporters: {
     png?: () => Promise<Blob | null> | Blob | null;
     svg?: () => string | null;
+    code?: () => string | null;
   }) => void;
 }
 
@@ -41,17 +45,9 @@ export interface Family {
   blurb: string;
   ground: string;
   presets: FamilyPreset[];
-  /**
-   * Compose a fine-tuned Firefly/Flux prompt from the current family state so
-   * the "Render at Firefly quality" button ships something well-shaped for the
-   * family. Line → painterly render. Liquid → keeps photoreal. Chrome →
-   * richer 3D render.
-   */
-  aiPrompt: (presetId: string, values: Record<string, number>, seed: number) => string;
   supportsPngDownload: boolean;
   supportsSvgDownload: boolean;
-  /** True when the family's own renderer IS the AI call (Liquid). */
-  isAiFirst: boolean;
+  supportsCodeDownload: boolean;
 }
 
 export function getPreset(family: Family, id: string): FamilyPreset {
