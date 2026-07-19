@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { AssemblHeroScene } from '@/components/home/AssemblHeroScene';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { OneMinuteBusiness } from '@/components/one-minute-business/OneMinuteBusiness';
 import { HOME } from '@/lib/copy/homepage';
@@ -35,6 +36,10 @@ export default async function HomePage({ searchParams }: { searchParams: HomeSea
 
   return (
     <div className={styles.page}>
+      {/* Decorative assembly hero — a white 3D scene; parts fly in and lock
+          into the assembled-agent shape. Carries no copy (aria-hidden);
+          every string below still comes from COPY.md. */}
+      <AssemblHeroScene />
       <OneMinuteBusiness />
       <TimeSavingsCalculator initialValues={initialSavings} />
     </div>
