@@ -13,6 +13,10 @@ import { REACTION_FAMILY } from '@/lib/generative-art/families/reaction';
 import { BOIDS_FAMILY } from '@/lib/generative-art/families/boids';
 import { ATTRACTORS_FAMILY } from '@/lib/generative-art/families/attractors';
 import { GROWTH_FAMILY } from '@/lib/generative-art/families/growth';
+import { CHLADNI_FAMILY } from '@/lib/generative-art/families/chladni';
+import { VERLET_FAMILY } from '@/lib/generative-art/families/verlet';
+import { MARBLE_FAMILY } from '@/lib/generative-art/families/marble';
+import { deleteSavedPreset, listSavedPresets, savePreset, type SavedPreset } from '@/lib/generative-art/my-presets';
 import { FAMILY_RENDERERS } from './family-renderers';
 import { buildCodeSnippet } from '@/lib/generative-art/code-export';
 import { shareCopyFor, shareIntents, tryNativeShare } from '@/lib/generative-art/share';
@@ -29,6 +33,9 @@ const FAMILIES: Family[] = [
   CHROME_FAMILY,
   WAVES_FAMILY,
   REACTION_FAMILY,
+  CHLADNI_FAMILY,
+  VERLET_FAMILY,
+  MARBLE_FAMILY,
   FLOW_FAMILY,
 ];
 const FAMILY_MAP: Record<FamilyId, Family> = {
@@ -42,6 +49,9 @@ const FAMILY_MAP: Record<FamilyId, Family> = {
   boids: BOIDS_FAMILY,
   attractors: ATTRACTORS_FAMILY,
   growth: GROWTH_FAMILY,
+  chladni: CHLADNI_FAMILY,
+  verlet: VERLET_FAMILY,
+  marble: MARBLE_FAMILY,
 };
 
 interface StudioState {
@@ -304,6 +314,44 @@ export function GenerativeArtCanvas() {
     [exportGroup],
   );
 
+  // My presets — localStorage-backed named saves per family.
+  const [myPresets, setMyPresets] = useState<SavedPreset[]>([]);
+  const refreshMyPresets = useCallback(() => {
+    setMyPresets(listSavedPresets(state.family));
+  }, [state.family]);
+  useEffect(() => { refreshMyPresets(); }, [refreshMyPresets]);
+
+  const saveCurrent = useCallback(() => {
+    const label = window.prompt('Name this preset', preset.label);
+    if (!label?.trim()) return;
+    savePreset({
+      family: state.family,
+      parentPresetId: state.presetId,
+      label: label.trim(),
+      values: state.values,
+      seed: state.seed,
+      background: state.background,
+      text: state.text,
+    });
+    refreshMyPresets();
+  }, [preset.label, refreshMyPresets, state.background, state.family, state.presetId, state.seed, state.text, state.values]);
+
+  const applyMyPreset = useCallback((sp: SavedPreset) => {
+    setState({
+      family: sp.family,
+      presetId: sp.parentPresetId,
+      values: { ...sp.values },
+      seed: sp.seed,
+      background: sp.background,
+      text: sp.text,
+    });
+  }, []);
+
+  const removeMyPreset = useCallback((id: string) => {
+    deleteSavedPreset(id);
+    refreshMyPresets();
+  }, [refreshMyPresets]);
+
   const Renderer = FAMILY_RENDERERS[family.id];
 
   return (
@@ -339,6 +387,38 @@ export function GenerativeArtCanvas() {
           );
         })}
       </div>
+
+      {/* My presets — shown when the current family has any saved. Sits
+          above the built-in chips so Kate's own looks are one tap away. */}
+      {myPresets.length > 0 && (
+        <div className="flex flex-col gap-1.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            my presets · saved to this browser
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {myPresets.map((sp) => (
+              <div key={sp.id} className="group flex items-stretch overflow-hidden rounded-[2px] border border-[color:var(--assembl-cloud)]">
+                <button
+                  type="button"
+                  onClick={() => applyMyPreset(sp)}
+                  className="px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                  title={`seeded from ${sp.parentPresetId}`}
+                >
+                  {sp.label}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeMyPreset(sp.id)}
+                  aria-label="remove"
+                  className="border-l border-[color:var(--assembl-cloud)] px-2 font-mono text-[10.5px] text-[color:var(--text-secondary)] hover:bg-[color:var(--assembl-cloud)]/60 hover:text-[color:var(--text-primary)]"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Preset chips */}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="preset">
@@ -451,6 +531,14 @@ export function GenerativeArtCanvas() {
             className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
           >
             new seed
+          </button>
+          <button
+            type="button"
+            onClick={saveCurrent}
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            title="save this exact state to your browser"
+          >
+            save
           </button>
           <button
             type="button"

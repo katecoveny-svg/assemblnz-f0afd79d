@@ -44,6 +44,18 @@ const GrowthCanvas = dynamic(
   () => import('./families/GrowthCanvas').then((m) => m.GrowthCanvas),
   { ssr: false }
 );
+const ChladniCanvas = dynamic(
+  () => import('./families/ChladniCanvas').then((m) => m.ChladniCanvas),
+  { ssr: false }
+);
+const VerletCanvas = dynamic(
+  () => import('./families/VerletCanvas').then((m) => m.VerletCanvas),
+  { ssr: false }
+);
+const MarbleCanvas = dynamic(
+  () => import('./families/MarbleCanvas').then((m) => m.MarbleCanvas),
+  { ssr: false }
+);
 
 export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = {
   line: LineCanvas,
@@ -56,4 +68,7 @@ export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = 
   boids: BoidsCanvas,
   attractors: AttractorsCanvas,
   growth: GrowthCanvas,
+  chladni: ChladniCanvas,
+  verlet: VerletCanvas,
+  marble: MarbleCanvas,
 };

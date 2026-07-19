@@ -18,6 +18,9 @@ export function shareCopyFor(family: FamilyId, presetLabel: string): ShareCopy {
     boids: `${presetLabel} — flocking physics, from the assembl creative playground`,
     attractors: `${presetLabel} — chaos in phase space, from the assembl creative playground`,
     growth: `${presetLabel} — L-system fractal growth, from the assembl creative playground`,
+    chladni: `${presetLabel} — Chladni resonance patterns, from the assembl creative playground`,
+    verlet: `${presetLabel} — Verlet spring-mesh cloth, from the assembl creative playground`,
+    marble: `${presetLabel} — ink-on-water marbling, from the assembl creative playground`,
   };
   return {
     title: `${presetLabel} · assembl`,

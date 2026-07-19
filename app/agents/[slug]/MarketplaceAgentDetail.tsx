@@ -10,6 +10,7 @@ import {
   type MarketplaceAgent,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
+import { AgentAvatar } from '@/components/agents/AgentAvatar';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 import orb from '@/components/marketplace/orbGrid.module.css';
 import { agentEmailAddress } from '@/lib/agent-email/addresses';
@@ -50,18 +51,18 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           className="mt-6 flex flex-col gap-6 rounded-[26px] p-6 md:flex-row md:items-center md:p-8"
           style={SURFACE}
         >
-          <span
-            className={`${orb.orb} shrink-0`}
-            style={{
-              width: 88,
-              height: 88,
-              background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #BFA37A 52%, #E0A800 100%)',
-            }}
-            aria-hidden
-          >
-            <span className={orb.orbSpec} aria-hidden />
-            <AgentIcon name={agent.icon} className="relative h-11 w-11" />
-          </span>
+          {/* Detail-page hero avatar — the deterministic 3D chrome piece
+              per slug. Only one avatar on this page, so a single WebGL
+              context is safe. The 2D AgentIcon still ships on the grid
+              (~60 cards can't each afford their own R3F canvas). */}
+          <div className="shrink-0">
+            <AgentAvatar slug={agent.slug} size={88} round />
+            {/* Keep the flat AgentIcon available for graceful degradation
+                — SSR renders nothing for AgentAvatar until R3F mounts. */}
+            <span className="sr-only">
+              <AgentIcon name={agent.icon} className="h-11 w-11" />
+            </span>
+          </div>
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span
