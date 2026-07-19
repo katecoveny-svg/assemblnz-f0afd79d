@@ -13,3 +13,7 @@
 ## 2026-07-02 - Standardizing Active Press States Site-Wide
 **Learning:** Adding standardized active/pressed CSS transitions (like `active:translate-y-0` and `active:scale-100`) to complex cards and quick action prompts with hover/focus lift states completes the sensory feedback loop, dramatically improving the responsiveness and tactile feel of the interface.
 **Action:** Pair hover/focus lifts (such as `-translate-y-0.5` or `-translate-y-1` and hover scale boosts) with `active:translate-y-0 active:scale-100` on elements like marketing cards, prompt buttons, and concierge triggers.
+
+## 2026-07-08 - High-Intent Checkout Form Accessibility & Polite Counters
+**Learning:** High-intent interactive forms like checkout and fit-checks demand strong accessibility features. Implicit nested labels can fail screen readers and limit click-target sizing; explicit `htmlFor` and `id` associations are superior. In addition, when adding text length constraints, using a standard visual character counter is great, but screen-reader announcements can get highly annoying (verbose) if they declare the count on every keystroke. Combining visual counters with an `sr-only` polite live region that is silent until hitting a critical 90% threshold strikes the perfect utility/verbosity balance.
+**Action:** Always refactor forms to use explicit `htmlFor` properties on labels. Implement character counters with a dual visual/polite live-region setup that remains silent for screen readers until the input length reaches 90% of `maxLength`.
