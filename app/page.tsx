@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { AssemblHeroScene } from '@/components/home/AssemblHeroScene';
+import { AssemblHeroMedia } from '@/components/home/AssemblHeroMedia';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { OneMinuteBusiness } from '@/components/one-minute-business/OneMinuteBusiness';
 import { HOME } from '@/lib/copy/homepage';
@@ -36,10 +37,18 @@ export default async function HomePage({ searchParams }: { searchParams: HomeSea
 
   return (
     <div className={styles.page}>
-      {/* Decorative assembly hero — a white 3D scene; parts fly in and lock
-          into the assembled-agent shape. Carries no copy (aria-hidden);
-          every string below still comes from COPY.md. */}
-      <AssemblHeroScene />
+      {/* Hero band. When the rendered agent-assembly loop exists at
+          public/assets/assembl-agent-assembly.mp4, AssemblHeroMedia plays
+          it (boomerang encoded at render time, poster + reduced-motion
+          still, offscreen pause). Until then the live R3F assembly scene
+          renders as the fallback — zero visible change today. */}
+      <AssemblHeroMedia
+        videoSrc="/assets/assembl-agent-assembly.mp4"
+        posterSrc="/assets/assembl-agent-assembly-poster.jpg"
+        reducedMotionSrc="/assets/assembl-agent-still.jpg"
+        alt="Chrome and glass components assemble into an agent: core, knowledge cubes, abilities, connector and evaluation ring."
+        fallback={<AssemblHeroScene />}
+      />
       <OneMinuteBusiness />
       <TimeSavingsCalculator initialValues={initialSavings} />
     </div>
