@@ -112,6 +112,7 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/free-tools',
   '/pattern-studio',
   '/ad-studio',
+  '/creative-playground',
   // "Build an agent" — the Pilot flow is public (the homepage + /genome CTA
   // target it). Kept; the retired kete pricing pages (/industry-pack, /start,
   // /platform) are removed from the public surface.
@@ -227,6 +228,8 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/pattern-studio',
   // Public Ad Studio — genome-driven ad generator, reachable on the demo host.
   '/ad-studio',
+  // Public creative playground — generative art module + Fal render.
+  '/creative-playground',
   // Public "build an agent" flow, reachable on the demo host too.
   '/pilot',
   // Public agent share pages — '/a/' (trailing slash) on purpose: a bare
