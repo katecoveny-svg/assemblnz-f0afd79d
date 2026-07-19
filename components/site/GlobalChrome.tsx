@@ -16,6 +16,7 @@ import {
   isStandaloneHealth,
   isMotionStudio,
   isStudio,
+  isBuildAnAgent,
 } from '@/components/site/site-header';
 
 /**
@@ -39,7 +40,8 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isAssemblBills(pathname) ||
     isStandaloneHealth(pathname) ||
     isMotionStudio(pathname) ||
-    isStudio(pathname)
+    isStudio(pathname) ||
+    isBuildAnAgent(pathname)
   );
 }
 

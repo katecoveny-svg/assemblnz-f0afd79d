@@ -71,6 +71,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── /build-an-agent (2026-07-20): the interactive one-page landing —
+      // 3D agent builder + intake + time-back + capture. Kate's call to make
+      // this the front door; kept as a 302 (permanent: false) so we can flip
+      // back to the splash homepage without hunting an indexed 301.
+      { source: '/', destination: '/build-an-agent', permanent: false },
+
       // ── v2 site (2026-07-02): /pricing is canonical again. The marketplace
       // ladder page at /agents/pricing folded into it — 301 the old URL so
       // saved links, paywall CTAs and indexed pages land on the one ladder.
