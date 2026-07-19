@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { ArrowRight, Check, Copy, TimerReset } from 'lucide-react';
 import { SAVINGS } from '@/lib/copy/homepage';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import styles from './time-savings-calculator.module.css';
 
 const WEEKS_PER_YEAR = 48;
@@ -114,18 +113,11 @@ export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorPr
         </div>
 
         <div className={styles.result} aria-live="polite">
-          <PatternBackdrop
-            className="absolute inset-0"
-            mode="particles"
-            colorRole="gold"
-            count={110}
-            connectLines
-            connectDistance={130}
-            glow
-            opacity={0.4}
-            speed={0.6}
-            lazyMount={false}
-          />
+          {/* Panel texture — a still from the creative studio (Waves · Silk,
+              seed 52449), art-directed by Kate. Layered under the deep-teal
+              scrim so the white result text keeps full contrast. */}
+          <div className={styles.resultArt} aria-hidden />
+          <div className={styles.resultScrim} aria-hidden />
           <div className={styles.resultInner}>
             <TimerReset aria-hidden />
             <p>{SAVINGS.resultLabel}</p>
