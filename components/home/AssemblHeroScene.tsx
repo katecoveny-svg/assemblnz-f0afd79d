@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
+import { Environment, Edges } from '@react-three/drei';
 
 /**
  * The homepage hero — a wide white studio scene with real depth.
@@ -13,12 +13,16 @@ import { Environment } from '@react-three/drei';
  * paths and lock into the shape of an assembled agent — the same anatomy
  * the studio (/studio) teaches.
  *
- * Decorative only: no text is rendered in WebGL, the canvas is
- * aria-hidden, and every string on the page still comes from COPY.md
- * surfaces below the scene.
+ * Composition notes (2026-07-19 fix):
+ * - Glass cubes carry faint graphite Edges so they read on a white ground
+ *   instead of dissolving into flat rectangles.
+ * - Parts are arranged asymmetrically — deliberately NOT two capsules
+ *   under the sphere (which read as a face).
+ * - The whole structure is scaled + framed to fit the band with margin,
+ *   so nothing clips at the fold and the headline below stays high.
  *
- * Reduced motion: the structure starts fully assembled and the floor
- * holds still.
+ * Decorative only: aria-hidden, no WebGL text, all page copy still comes
+ * from COPY.md surfaces below.
  */
 
 interface MeshLike {
@@ -44,26 +48,30 @@ function easeOutCubic(t: number): number {
 
 interface PartSpec {
   id: string;
-  /** Where the part starts (scattered, off-stage). */
   from: [number, number, number];
-  /** Where it locks in (the assembled agent). */
   to: [number, number, number];
-  /** Animation start offset in seconds — parts arrive in sequence. */
+  rotation?: [number, number, number];
   delay: number;
-  /** Seconds the part takes to travel. */
   duration: number;
   kind: 'core' | 'cube-clear' | 'cube-frost' | 'capsule' | 'tile' | 'ring';
 }
 
+/**
+ * Assembled layout — asymmetric on purpose. Core sits high-centre; the
+ * knowledge cubes stagger down the left; memory floats behind-right;
+ * one capsule stands vertical at front-left, the other lies low at
+ * front-right; the tile leans in from the right; the ring underlines
+ * the whole structure.
+ */
 const PARTS: PartSpec[] = [
-  { id: 'core',    kind: 'core',       from: [0, 6.5, -2],     to: [0, 0.55, 0],      delay: 0.15, duration: 1.0 },
-  { id: 'kn-1',    kind: 'cube-clear', from: [-7, 3.2, -3],    to: [-1.85, 0.42, -0.4], delay: 0.55, duration: 0.9 },
-  { id: 'kn-2',    kind: 'cube-clear', from: [-6.4, -2.2, 2],  to: [-1.55, -0.52, 0.7], delay: 0.75, duration: 0.9 },
-  { id: 'memory',  kind: 'cube-frost', from: [6.8, 3.8, -2.5], to: [1.75, 0.72, -0.55], delay: 0.9,  duration: 0.9 },
-  { id: 'ab-1',    kind: 'capsule',    from: [-4.5, -4, 3.5],  to: [-0.75, -0.95, 1.05], delay: 1.1, duration: 0.85 },
-  { id: 'ab-2',    kind: 'capsule',    from: [4.8, -3.6, 3.2], to: [0.85, -0.95, 1.05], delay: 1.25, duration: 0.85 },
-  { id: 'tile',    kind: 'tile',       from: [7.5, -1.5, 1.5], to: [2.05, -0.35, 0.55], delay: 1.45, duration: 0.85 },
-  { id: 'ring',    kind: 'ring',       from: [0, -5.5, -1],    to: [0, -1.35, 0],      delay: 1.6,  duration: 0.95 },
+  { id: 'core',   kind: 'core',       from: [0, 6.5, -2],     to: [0, 0.75, 0],        delay: 0.15, duration: 1.0 },
+  { id: 'kn-1',   kind: 'cube-clear', from: [-7, 3.2, -3],    to: [-1.7, 0.15, 0.2],   delay: 0.55, duration: 0.9 },
+  { id: 'kn-2',   kind: 'cube-clear', from: [-6.4, -2.2, 2],  to: [-2.25, -0.7, -0.6], delay: 0.75, duration: 0.9 },
+  { id: 'memory', kind: 'cube-frost', from: [6.8, 3.8, -2.5], to: [1.9, 1.05, -0.95],  delay: 0.9,  duration: 0.9 },
+  { id: 'ab-1',   kind: 'capsule',    from: [-4.5, -4, 3.5],  to: [-0.95, -0.6, 0.95], rotation: [0, 0, 0],            delay: 1.1,  duration: 0.85 },
+  { id: 'ab-2',   kind: 'capsule',    from: [4.8, -3.6, 3.2], to: [1.3, -0.85, 0.7],   rotation: [0, 0.4, Math.PI / 2], delay: 1.25, duration: 0.85 },
+  { id: 'tile',   kind: 'tile',       from: [7.5, -1.5, 1.5], to: [2.45, 0.05, 0.25],  rotation: [0, -0.5, 0],          delay: 1.45, duration: 0.85 },
+  { id: 'ring',   kind: 'ring',       from: [0, -5.5, -1],    to: [0, -1.15, 0],       delay: 1.6,  duration: 0.95 },
 ];
 
 function PartMesh({ spec, reducedMotion, t0 }: { spec: PartSpec; reducedMotion: boolean; t0: number }) {
@@ -85,19 +93,15 @@ function PartMesh({ spec, reducedMotion, t0 }: { spec: PartSpec; reducedMotion: 
       spec.from[1] + (spec.to[1] - spec.from[1]) * e,
       spec.from[2] + (spec.to[2] - spec.from[2]) * e,
     );
-    // Gentle settle rotation while travelling; still when locked.
-    if (t < 1) {
-      mesh.rotation.y += 0.02 * (1 - t);
-      mesh.rotation.x += 0.012 * (1 - t);
-    } else {
-      settled.current = true;
-    }
+    if (t >= 1) settled.current = true;
   });
+
+  const rot = spec.rotation ?? [0, 0, 0];
 
   switch (spec.kind) {
     case 'core':
       return (
-        <mesh ref={ref as unknown as never} position={spec.from}>
+        <mesh ref={ref as unknown as never} position={spec.from} scale={0.82}>
           <sphereGeometry args={[0.95, 96, 96]} />
           <meshPhysicalMaterial
             color="#EDEFF1" metalness={1} roughness={0.05}
@@ -109,30 +113,33 @@ function PartMesh({ spec, reducedMotion, t0 }: { spec: PartSpec; reducedMotion: 
       );
     case 'cube-clear':
       return (
-        <mesh ref={ref as unknown as never} position={spec.from} scale={0.78}>
-          <boxGeometry args={[0.85, 0.85, 0.85, 6, 6, 6]} />
+        <mesh ref={ref as unknown as never} position={spec.from} scale={0.66}>
+          <boxGeometry args={[0.85, 0.85, 0.85, 4, 4, 4]} />
           <meshPhysicalMaterial
-            color="#F0F3F5" metalness={0} roughness={0.05}
-            transmission={1} ior={1.5} thickness={0.8}
+            color="#EDF2F2" metalness={0} roughness={0.12}
+            transmission={0.7} ior={1.5} thickness={0.8}
             clearcoat={1} envMapIntensity={1.1}
           />
+          {/* Faint graphite edge so the cube reads on a white ground. */}
+          <Edges scale={1.002} color="#9AA0A2" threshold={30} />
         </mesh>
       );
     case 'cube-frost':
       return (
-        <mesh ref={ref as unknown as never} position={spec.from} scale={0.68}>
-          <boxGeometry args={[0.85, 0.85, 0.85, 6, 6, 6]} />
+        <mesh ref={ref as unknown as never} position={spec.from} scale={0.56}>
+          <boxGeometry args={[0.85, 0.85, 0.85, 4, 4, 4]} />
           <meshPhysicalMaterial
-            color="#F1F3F4" metalness={0} roughness={0.55}
-            transmission={0.85} ior={1.45} thickness={0.7}
+            color="#EEF1F1" metalness={0} roughness={0.55}
+            transmission={0.6} ior={1.45} thickness={0.7}
             clearcoat={1} envMapIntensity={1.05}
           />
+          <Edges scale={1.002} color="#A8AEB0" threshold={30} />
         </mesh>
       );
     case 'capsule':
       return (
-        <mesh ref={ref as unknown as never} position={spec.from} rotation={[0, 0, Math.PI / 2]}>
-          <capsuleGeometry args={[0.22, 0.6, 12, 24]} />
+        <mesh ref={ref as unknown as never} position={spec.from} rotation={rot} scale={0.9}>
+          <capsuleGeometry args={[0.2, 0.55, 12, 24]} />
           <meshPhysicalMaterial
             color="#DDE1E4" metalness={1} roughness={0.07}
             clearcoat={1} envMapIntensity={1.2}
@@ -141,29 +148,30 @@ function PartMesh({ spec, reducedMotion, t0 }: { spec: PartSpec; reducedMotion: 
       );
     case 'tile':
       return (
-        <mesh ref={ref as unknown as never} position={spec.from}>
-          <boxGeometry args={[0.8, 0.55, 0.1]} />
+        <mesh ref={ref as unknown as never} position={spec.from} rotation={rot}>
+          <boxGeometry args={[0.72, 0.5, 0.09]} />
           <meshPhysicalMaterial
-            color="#E9DFC8" metalness={0.7} roughness={0.25}
-            clearcoat={1} envMapIntensity={1.1}
+            color="#D9C9A3" metalness={0.75} roughness={0.22}
+            clearcoat={1} envMapIntensity={1.15}
           />
+          <Edges scale={1.004} color="#B5A47C" threshold={30} />
         </mesh>
       );
     case 'ring':
       return (
-        <mesh ref={ref as unknown as never} position={spec.from} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[1.35, 0.045, 20, 120]} />
+        <mesh ref={ref as unknown as never} position={spec.from} rotation={[Math.PI / 2.25, 0, 0]}>
+          <torusGeometry args={[1.7, 0.05, 20, 140]} />
           <meshPhysicalMaterial
-            color="#C8DEDA" metalness={0.9} roughness={0.1}
-            clearcoat={1} envMapIntensity={1.15}
+            color="#93BBB4" metalness={0.85} roughness={0.12}
+            clearcoat={1} envMapIntensity={1.2}
           />
         </mesh>
       );
   }
 }
 
-/** The silk floor — a broad plane with slow two-octave waves rolling
- *  through it. Pure white-on-white; depth comes from shading + fog. */
+/** The silk floor — a broad plane with slow two-octave waves. White on
+ *  white; depth comes from shading + fog, not colour. */
 function WaveFloor({ reducedMotion }: { reducedMotion: boolean }) {
   const ref = useRef<WaveMeshLike | null>(null);
   useFrame(({ clock }) => {
@@ -185,7 +193,7 @@ function WaveFloor({ reducedMotion }: { reducedMotion: boolean }) {
     mesh.geometry.computeVertexNormals?.();
   });
   return (
-    <mesh ref={ref as unknown as never} rotation={[-Math.PI / 2.15, 0, 0]} position={[0, -1.85, -2]}>
+    <mesh ref={ref as unknown as never} rotation={[-Math.PI / 2.15, 0, 0]} position={[0, -1.75, -2]}>
       <planeGeometry args={[38, 26, 130, 90]} />
       <meshStandardMaterial color="#FAFAF7" metalness={0.08} roughness={0.75} />
     </mesh>
@@ -193,14 +201,14 @@ function WaveFloor({ reducedMotion }: { reducedMotion: boolean }) {
 }
 
 /** Pointer parallax — the whole structure leans very slightly with the
- *  cursor so the scene reads as deep, not printed. */
+ *  cursor so the scene reads deep, not printed. */
 function ParallaxGroup({ children, reducedMotion }: { children: React.ReactNode; reducedMotion: boolean }) {
   const ref = useRef<GroupLike | null>(null);
   useFrame(({ pointer }) => {
     const g = ref.current;
     if (!g || reducedMotion) return;
-    g.rotation.y += ((pointer.x * 0.09) - g.rotation.y) * 0.04;
-    g.rotation.x += ((-pointer.y * 0.05) - g.rotation.x) * 0.04;
+    g.rotation.y += ((pointer.x * 0.07) - g.rotation.y) * 0.04;
+    g.rotation.x += ((-pointer.y * 0.04) - g.rotation.x) * 0.04;
   });
   return <group ref={ref as unknown as never}>{children}</group>;
 }
@@ -209,8 +217,7 @@ function SceneContents({ reducedMotion }: { reducedMotion: boolean }) {
   const t0 = useMemo(() => 0, []);
   return (
     <>
-      {/* Depth: white fog swallows the horizon so the floor reads endless. */}
-      <fog attach="fog" args={['#FBFAF6', 7, 20]} />
+      <fog attach="fog" args={['#FBFAF6', 8, 22]} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[5, 7, 4]} intensity={1.25} color="#FFFFFF" />
       <directionalLight position={[-6, 3, -3]} intensity={0.7} color="#EDF3F8" />
@@ -220,9 +227,13 @@ function SceneContents({ reducedMotion }: { reducedMotion: boolean }) {
       <WaveFloor reducedMotion={reducedMotion} />
 
       <ParallaxGroup reducedMotion={reducedMotion}>
-        {PARTS.map((p) => (
-          <PartMesh key={p.id} spec={p} reducedMotion={reducedMotion} t0={t0} />
-        ))}
+        {/* Scaled + raised so the assembled structure fits the band with
+            clear margin — nothing clips at the fold. */}
+        <group scale={0.82} position={[0, 0.28, 0]}>
+          {PARTS.map((p) => (
+            <PartMesh key={p.id} spec={p} reducedMotion={reducedMotion} t0={t0} />
+          ))}
+        </group>
       </ParallaxGroup>
     </>
   );
@@ -249,19 +260,16 @@ export function AssemblHeroScene() {
     }
   }, []);
 
-  // Graceful: no WebGL → no hero band, the page below is untouched.
   if (!webglOk) return null;
 
   return (
     <div
       aria-hidden
-      className="pointer-events-none relative h-[52vh] min-h-[340px] w-full overflow-hidden md:h-[62vh]"
+      className="pointer-events-none relative h-[42vh] min-h-[300px] w-full overflow-hidden md:h-[50vh] md:max-h-[520px]"
       style={{ background: '#FBFAF6' }}
     >
       <Canvas
-        // Camera sits low and slightly off-axis — the "skew" that gives the
-        // white scene its depth.
-        camera={{ position: [0.6, 0.4, 6.4], fov: 38, rotation: [0.04, 0.05, 0] }}
+        camera={{ position: [0.5, 0.7, 6.6], fov: 36, rotation: [0.02, 0.04, 0] }}
         dpr={[1, 1.75]}
         gl={{ antialias: true, alpha: true }}
         style={{ pointerEvents: 'auto' }}
@@ -270,9 +278,8 @@ export function AssemblHeroScene() {
           <SceneContents reducedMotion={reducedMotion} />
         </Suspense>
       </Canvas>
-      {/* Soft fade into the page below so the band never hard-stops. */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-20"
         style={{ background: 'linear-gradient(180deg, rgba(251,250,246,0) 0%, #fbfaf6 100%)' }}
       />
     </div>
