@@ -7,12 +7,17 @@
  * Configure + Ask sections (below the fold) can read and write the same
  * BuildConfig. No zustand — the shape stays small enough that a reducer
  * fits it fine.
+ *
+ * On mount the provider looks for a ?c=<base64> query param — a shared link
+ * — and merges the decoded partial config into the initial state so the
+ * receiver lands on the exact agent the sender built.
  */
 
-import { createContext, useCallback, useContext, useMemo, useReducer } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 
 import type { BuildConfig, ModelTier, MemoryScope } from './config';
 import { DEFAULT_CONFIG } from './config';
+import { decodeConfig } from './share';
 
 type PartPositions = Record<string, [number, number, number]>;
 
@@ -33,7 +38,8 @@ type Action =
   | { type: 'setVoice'; value: string }
   | { type: 'toggleGuardrail'; id: string }
   | { type: 'movePart'; id: string; position: [number, number, number] }
-  | { type: 'setSpeaking'; value: boolean };
+  | { type: 'setSpeaking'; value: boolean }
+  | { type: 'hydrateConfig'; value: Partial<BuildConfig> };
 
 function toggle(list: string[], id: string): string[] {
   return list.includes(id) ? list.filter((x) => x !== id) : [...list, id];
@@ -64,6 +70,8 @@ function reducer(state: BuilderState, action: Action): BuilderState {
       return { ...state, parts: { ...state.parts, [action.id]: action.position } };
     case 'setSpeaking':
       return { ...state, speaking: action.value };
+    case 'hydrateConfig':
+      return { ...state, config: { ...state.config, ...action.value } };
     default:
       return state;
   }
@@ -100,6 +108,17 @@ export function BuilderProvider({ children }: { children: React.ReactNode }) {
     parts: INITIAL_PARTS,
     speaking: false,
   });
+
+  // Hydrate from ?c=<base64> on mount so a shared link lands on the exact
+  // agent the sender built. Runs client-side only.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const encoded = params.get('c');
+    if (!encoded) return;
+    const decoded = decodeConfig(encoded);
+    if (decoded) dispatch({ type: 'hydrateConfig', value: decoded });
+  }, []);
 
   const setName          = useCallback((v: string)    => dispatch({ type: 'setName', value: v }), []);
   const setBusiness      = useCallback((v: string)    => dispatch({ type: 'setBusiness', value: v }), []);

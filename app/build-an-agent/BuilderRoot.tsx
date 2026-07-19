@@ -4,6 +4,7 @@ import { AskSection } from '@/components/build-an-agent/AskSection';
 import { BuilderScene } from '@/components/build-an-agent/BuilderScene';
 import { ConfigureSection } from '@/components/build-an-agent/ConfigureSection';
 import { IntakeSection } from '@/components/build-an-agent/IntakeSection';
+import { ShareSection } from '@/components/build-an-agent/ShareSection';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { BuilderProvider, useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
@@ -99,7 +100,10 @@ function BuilderPage() {
       {/* ── SECTION 4 · ASK — real streaming Claude answer, mesh glows ── */}
       <AskSection />
 
-      {/* ── SECTION 5 · TIME BACK — the estimator ── */}
+      {/* ── SECTION 5 · SHARE — copy link, save PNG, hold-by-email ── */}
+      <ShareSection />
+
+      {/* ── SECTION 6 · TIME BACK — the estimator ── */}
       <section id="time-back" className={styles.savingsSection} aria-label="Time back estimate">
         <div className={styles.sectionBanner}>
           <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.savings.eyebrow}</p>
