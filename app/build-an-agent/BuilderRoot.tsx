@@ -5,6 +5,7 @@ import { BuilderScene } from '@/components/build-an-agent/BuilderScene';
 import { ConfigureSection } from '@/components/build-an-agent/ConfigureSection';
 import { IntakeSection } from '@/components/build-an-agent/IntakeSection';
 import { ShareSection } from '@/components/build-an-agent/ShareSection';
+import { WhatYouGetSection } from '@/components/build-an-agent/WhatYouGetSection';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { BuilderProvider, useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
@@ -111,6 +112,9 @@ function BuilderPage() {
 
       {/* ── SECTION 4 · ASK — real streaming Claude answer, mesh glows ── */}
       <AskSection />
+
+      {/* ── THE PLATFORM PROMISE — the agent is one part; here's the OS ── */}
+      <WhatYouGetSection />
 
       {/* ── SECTION 5 · SHARE — copy link, save PNG, hold-by-email ── */}
       <ShareSection />
