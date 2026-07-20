@@ -55,6 +55,57 @@ function useGradientTexture(): THREE.CanvasTexture | null {
   }, []);
 }
 
+/**
+ * A soft bloom sitting BEHIND the assembly — the light source the composition
+ * was missing. Reference heroes of this kind get their drama from one strong
+ * light behind the subject; on a paper-white brand that can't be a neon glow,
+ * so this is a wide, low-opacity champagne wash that lifts the objects off the
+ * backdrop and gives the eye a centre.
+ */
+function useBloomTexture(): THREE.CanvasTexture | null {
+  return useMemo(() => {
+    if (typeof document === 'undefined') return null;
+    const c = document.createElement('canvas');
+    c.width = c.height = 256;
+    const ctx = c.getContext('2d');
+    if (!ctx) return null;
+    const g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    g.addColorStop(0, 'rgba(255, 246, 226, 0.95)');
+    g.addColorStop(0.35, 'rgba(243, 231, 208, 0.55)');
+    g.addColorStop(0.68, 'rgba(226, 226, 224, 0.18)');
+    g.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 256, 256);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }, []);
+}
+
+export function CoreBloom({
+  position = [0, 0.6, 0],
+  size = 7,
+}: {
+  position?: [number, number, number];
+  size?: number;
+}) {
+  const texture = useBloomTexture();
+  if (!texture) return null;
+  return (
+    <mesh position={[position[0], position[1], position[2] - 2.4]} renderOrder={-1}>
+      <planeGeometry args={[size, size]} />
+      <meshBasicMaterial
+        map={texture}
+        transparent
+        opacity={0.9}
+        depthWrite={false}
+        fog={false}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
+
 export function SceneBackdrop() {
   const texture = useGradientTexture();
   if (!texture) return null;

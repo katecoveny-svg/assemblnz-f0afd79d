@@ -15,7 +15,7 @@ import { Tools } from './parts/Tools';
 import { Voice } from './parts/Voice';
 import { CameraParallax } from './scene/CameraParallax';
 import { Ground } from './scene/Ground';
-import { SceneBackdrop } from './scene/SceneBackdrop';
+import { CoreBloom, SceneBackdrop } from './scene/SceneBackdrop';
 import { ReflectiveFloor } from './scene/ReflectiveFloor';
 import { HorizonWaves } from './scene/HorizonWaves';
 import { Kohatu } from './scene/Kohatu';
@@ -58,26 +58,26 @@ interface Props {
  */
 const LAYOUT = {
   desktop: {
-    core: [1.15, 0.62, 0] as const,
-    scale: 1,
-    aimBias: 0.46,
-    aimY: -0.12,
+    core: [1.05, 0.72, 0] as const,
+    scale: 1.34,
+    aimBias: 0.5,
+    aimY: -0.06,
   },
   tablet: {
-    core: [0.62, 0.62, 0] as const,
-    scale: 0.74,
-    aimBias: 0.4,
-    aimY: -0.12,
+    core: [0.58, 0.7, 0] as const,
+    scale: 1.02,
+    aimBias: 0.44,
+    aimY: -0.08,
   },
   // Portrait: the hero copy owns the lower ~60% of the viewport, so the
   // assembly has to clear it entirely — hence the high core. The camera looks
   // at the origin from y 1.92, so world-y has to climb a long way before the
   // assembly lands in the top third of a tall phone frame.
   mobile: {
-    core: [0, 0.7, 0] as const,
-    scale: 0.62,
+    core: [0, 0.72, 0] as const,
+    scale: 0.82,
     aimBias: 0,
-    aimY: -1.75,
+    aimY: -0.95,
   },
 } as const;
 
@@ -143,9 +143,14 @@ export function BuilderScene({
   const corePos = corePosition ?? ([...core] as [number, number, number]);
   // Aim tracks the LAYOUT core, not the live dragged one — the framing
   // shouldn't swing around every time someone picks the knot up.
+  // The narrower the frame, the higher the assembly has to ride: the hero copy
+  // takes a fixed number of LINES, so on a portrait canvas it occupies far more
+  // of the height, and a subject framed for 16:9 lands right on the headline.
+  // Aiming lower pushes the assembly up, so the lift scales with (1 - fit).
+  const aimY = layout.aimY - (1 - cam.fit) * 3.3;
   const aim: [number, number, number] = [
     core[0] * layout.aimBias,
-    core[1] + layout.aimY,
+    core[1] + aimY,
     0,
   ];
 
@@ -193,6 +198,7 @@ export function BuilderScene({
       {/* The room. Renders behind everything and ignores fog — the fog then
           blends the actual world INTO it, which is what gives distance. */}
       <SceneBackdrop />
+      <CoreBloom position={core} size={7.4} />
 
       <fog attach="fog" args={['#EFE9DC', 8, 30]} />
 

@@ -40,9 +40,9 @@ function frameFor(width: number, height: number): ResponsiveCamera {
   const aspect = height > 0 ? width / height : REFERENCE_ASPECT;
   const fit = Math.max(0.58, Math.min(1, aspect / REFERENCE_ASPECT));
 
-  if (width < 560) return { bucket: 'mobile', position: [0, 1.92, 7.8], fov: 47, aspect, fit };
-  if (width < 960) return { bucket: 'tablet', position: [0, 1.86, 6.3], fov: 44, aspect, fit };
-  return { bucket: 'desktop', position: [0, 1.8, 5.4], fov: 42, aspect, fit };
+  if (width < 560) return { bucket: 'mobile', position: [0, 1.74, 7.4], fov: 47, aspect, fit };
+  if (width < 960) return { bucket: 'tablet', position: [0, 1.66, 6.0], fov: 44, aspect, fit };
+  return { bucket: 'desktop', position: [0, 1.58, 5.0], fov: 42, aspect, fit };
 }
 
 export function useResponsiveCamera(

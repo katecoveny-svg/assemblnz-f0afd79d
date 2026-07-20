@@ -126,13 +126,13 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  height: min(56vh, 32rem);
+  height: min(44vh, 26rem);
   background: linear-gradient(
     180deg,
     rgba(251, 250, 246, 0) 0%,
-    rgba(251, 250, 246, 0.65) 22%,
-    rgba(251, 250, 246, 0.88) 50%,
-    rgba(251, 250, 246, 0.96) 100%
+    rgba(251, 250, 246, 0.42) 26%,
+    rgba(251, 250, 246, 0.78) 58%,
+    rgba(251, 250, 246, 0.94) 100%
   );
   pointer-events: none;
 }
@@ -141,13 +141,14 @@
   position: absolute;
   left: clamp(1.25rem, 4vw, 2.5rem);
   right: clamp(1.25rem, 4vw, 2.5rem);
-  bottom: clamp(4.5rem, 8vh, 6.5rem);
+  bottom: clamp(4.5rem, 9vh, 7rem);
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.85rem, 2vh, 1.4rem);
+  gap: clamp(0.8rem, 1.8vh, 1.25rem);
   pointer-events: none;
-  max-width: 48ch;
+  /* Narrower column: the copy is a caption beside the subject, not a wall. */
+  max-width: 34ch;
 }
 
 .headline {
@@ -172,7 +173,7 @@
   font-size: clamp(0.98rem, 1.4vw, 1.15rem);
   line-height: 1.5;
   color: #3d3833;
-  max-width: 42ch;
+  max-width: 32ch;
 }
 
 .ctaRow {
@@ -231,8 +232,9 @@
 .chipRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 0.45rem;
-  margin: 0.35rem 0 0;
+  align-items: baseline;
+  gap: 0 0.5rem;
+  margin: 0.15rem 0 0;
   padding: 0;
   list-style: none;
   pointer-events: none;
@@ -240,21 +242,24 @@
 .chip {
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.6rem;
-  color: #6a6560;
-  padding: 0.32rem 0.6rem;
-  border: 1px solid rgba(26, 25, 24, 0.1);
-  border-radius: 999px;
-  background: rgba(251, 250, 246, 0.66);
+  letter-spacing: 0.13em;
+  font-size: 0.58rem;
+  color: #8b857e;
+}
+/* Middot separators instead of six pill outlines — the words carry the same
+   meaning with a fraction of the visual weight. */
+.chip + .chip::before {
+  content: '·';
+  margin-right: 0.5rem;
+  color: #c3bcb2;
 }
 
 .hint {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.78rem;
-  color: #6a6560;
+  font-size: 0.72rem;
+  color: #8b857e;
 }
 .hintDot {
   width: 0.55rem;
