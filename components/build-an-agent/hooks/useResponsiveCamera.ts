@@ -31,24 +31,35 @@ export interface ResponsiveCamera {
    * and wider; falls away as the box gets squarer or portrait.
    */
   fit: number;
+  /**
+   * False until the host has been measured with a real (non-zero) box.
+   *
+   * A container can legitimately be 0x0 at mount — a collapsed pane, a hidden
+   * tab, a parent that hasn't laid out yet — and R3F measures its parent once
+   * on mount. If that measurement lands on 0x0 the canvas stays at the browser
+   * default 300x150 and the scene never renders, with no error. Feeding this
+   * into the Canvas key means the Canvas is rebuilt the moment the host gains
+   * a real size, instead of staying invisible forever.
+   */
+  measured: boolean;
 }
 
 /** The aspect the layout was composed against. */
 const REFERENCE_ASPECT = 1.6;
 
-function frameFor(width: number, height: number): ResponsiveCamera {
+function frameFor(width: number, height: number, measured: boolean): ResponsiveCamera {
   const aspect = height > 0 ? width / height : REFERENCE_ASPECT;
   const fit = Math.max(0.58, Math.min(1, aspect / REFERENCE_ASPECT));
 
-  if (width < 560) return { bucket: 'mobile', position: [0, 1.92, 7.8], fov: 47, aspect, fit };
-  if (width < 960) return { bucket: 'tablet', position: [0, 1.86, 6.3], fov: 44, aspect, fit };
-  return { bucket: 'desktop', position: [0, 1.8, 5.4], fov: 42, aspect, fit };
+  if (width < 560) return { bucket: 'mobile', position: [0, 1.74, 7.4], fov: 47, aspect, fit, measured };
+  if (width < 960) return { bucket: 'tablet', position: [0, 1.66, 6.0], fov: 44, aspect, fit, measured };
+  return { bucket: 'desktop', position: [0, 1.58, 5.0], fov: 42, aspect, fit, measured };
 }
 
 export function useResponsiveCamera(
   hostRef: RefObject<HTMLElement | null>,
 ): ResponsiveCamera {
-  const [frame, setFrame] = useState<ResponsiveCamera>(() => frameFor(1280, 800));
+  const [frame, setFrame] = useState<ResponsiveCamera>(() => frameFor(1280, 800, false));
 
   useEffect(() => {
     const el = hostRef.current;
@@ -57,12 +68,15 @@ export function useResponsiveCamera(
     const measure = () => {
       const r = el.getBoundingClientRect();
       if (r.width === 0 || r.height === 0) return;
-      const next = frameFor(r.width, r.height);
+      const next = frameFor(r.width, r.height, true);
       setFrame((prev) =>
         // Only re-render when the framing meaningfully changes. A
         // ResizeObserver on a live WebGL host fires continuously during a
         // drag-resize, and every bucket change remounts the whole Canvas.
-        prev.bucket === next.bucket && Math.abs(prev.fit - next.fit) < 0.02
+        // `measured` flipping false -> true always counts.
+        prev.measured === next.measured &&
+        prev.bucket === next.bucket &&
+        Math.abs(prev.fit - next.fit) < 0.02
           ? prev
           : next,
       );

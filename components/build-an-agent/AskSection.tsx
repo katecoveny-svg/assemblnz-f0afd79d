@@ -87,14 +87,16 @@ export function AskSection() {
       className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
       aria-label="Ask your agent"
     >
-      <div className="chromeField" aria-hidden />
-      <header className={`${styles.banner} glowSoft`} data-parallax="0.05">
+      <div className="chromeField" aria-hidden>
+        <span className="stepGhost" data-parallax="0.14">04</span>
+      </div>
+      <header className={`${styles.banner} glowSoft stepSpine`} data-parallax="0.05">
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
       </header>
 
-      <div className={styles.card}>
+      <div className={`${styles.card} glassPanel`}>
         <form className={styles.form} onSubmit={ask}>
           <label className={styles.field}>
             <span className={styles.fieldLabel}>{copy.questionLabel}</span>

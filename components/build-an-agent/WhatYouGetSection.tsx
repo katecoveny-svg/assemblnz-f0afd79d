@@ -32,7 +32,7 @@ export function WhatYouGetSection() {
 
       <ul className={styles.grid}>
         {copy.cards.map((card) => (
-          <li key={card.id} className={`${styles.card} revealChild liftCard`}>
+          <li key={card.id} className={`${styles.card} revealChild liftCard glassPanel`}>
             <h3 className={styles.cardTitle}>{card.title}</h3>
             <p className={styles.cardBody}>{card.body}</p>
             {card.href && card.cta ? (
