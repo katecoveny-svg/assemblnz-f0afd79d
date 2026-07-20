@@ -16,6 +16,9 @@ import {
   softwareApplicationNode,
 } from '@/lib/seo/schema';
 import './globals.css';
+// The shared life layer (btn3d / reveal / glowSoft / liftCard / parallax).
+// Opt-in classes only — see app/life.css.
+import './life.css';
 
 // Site-wide entity graph — assembl (Organization), dash (sibling brand), Kate
 // Hudson (Person / founder), the WebSite, and the Living Site product. Emitted
