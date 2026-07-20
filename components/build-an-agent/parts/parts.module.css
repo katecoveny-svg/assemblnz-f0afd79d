@@ -3,11 +3,12 @@
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 0.62rem;
-  color: #1A1918;
+  color: #FBFAF6;
   white-space: nowrap;
-  padding: 0.35rem 0.65rem;
-  background: rgba(251, 250, 246, 0.78);
-  border: 1px solid rgba(26, 25, 24, 0.08);
+  padding: 0.34rem 0.7rem;
+  background: rgba(26, 25, 24, 0.82);
+  border: 1px solid rgba(26, 25, 24, 0.9);
+  box-shadow: 0 6px 16px -10px rgba(26, 25, 24, 0.8);
   border-radius: 999px;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);

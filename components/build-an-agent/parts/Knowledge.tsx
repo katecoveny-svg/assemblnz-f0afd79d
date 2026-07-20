@@ -63,17 +63,19 @@ export function Knowledge({
         }}
         {...drag.handlers}
       >
-        <boxGeometry args={[0.52, 0.52, 0.52]} />
+        <boxGeometry args={[0.42, 0.42, 0.42]} />
         <meshPhysicalMaterial
-          color="#F5F4EF"
-          metalness={0.02}
-          roughness={0.32}
-          transmission={0.6}
-          thickness={0.7}
-          ior={1.4}
-          clearcoat={0.5}
-          clearcoatRoughness={0.3}
-          envMapIntensity={0.9}
+          color="#8FA6A1"
+          metalness={0.04}
+          roughness={0.22}
+          transmission={0.7}
+          thickness={1.6}
+          ior={1.46}
+          attenuationColor="#48635F"
+          attenuationDistance={0.5}
+          clearcoat={0.85}
+          clearcoatRoughness={0.18}
+          envMapIntensity={1.5}
         />
       </mesh>
 
@@ -89,11 +91,6 @@ export function Knowledge({
           opacity={0.85}
         />
       )}
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.5, 48]} />
-        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.12 : 0.08} />
-      </mesh>
 
       <PartLabel text={BUILD_AN_AGENT.parts.connectors.label} />
     </group>

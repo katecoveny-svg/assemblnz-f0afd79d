@@ -66,29 +66,33 @@ export function Memory({
         <mesh position={[0, 0, 0]}>
           <boxGeometry args={[0.44, 0.44, 0.44]} />
           <meshPhysicalMaterial
-            color="#F2F2EE"
-            metalness={0.05}
-            roughness={0.08}
-            transmission={0.75}
-            thickness={0.5}
-            ior={1.45}
+            color="#9FB4B0"
+            metalness={0.1}
+            roughness={0.05}
+            transmission={0.82}
+            thickness={1.4}
+            ior={1.52}
+            attenuationColor="#3E5A57"
+            attenuationDistance={0.6}
             clearcoat={1}
-            clearcoatRoughness={0.06}
-            envMapIntensity={1.2}
+            clearcoatRoughness={0.04}
+            envMapIntensity={1.9}
           />
         </mesh>
         <mesh ref={topRef} position={[0, 0.46, 0]} rotation={[0, 0.5, 0]}>
           <boxGeometry args={[0.32, 0.32, 0.32]} />
           <meshPhysicalMaterial
-            color="#F2F2EE"
-            metalness={0.05}
-            roughness={0.08}
-            transmission={0.75}
-            thickness={0.4}
-            ior={1.45}
+            color="#9FB4B0"
+            metalness={0.1}
+            roughness={0.05}
+            transmission={0.82}
+            thickness={1.1}
+            ior={1.52}
+            attenuationColor="#3E5A57"
+            attenuationDistance={0.5}
             clearcoat={1}
-            clearcoatRoughness={0.06}
-            envMapIntensity={1.2}
+            clearcoatRoughness={0.04}
+            envMapIntensity={1.9}
           />
         </mesh>
       </group>
@@ -105,11 +109,6 @@ export function Memory({
           opacity={0.85}
         />
       )}
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.48, 48]} />
-        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.12 : 0.08} />
-      </mesh>
 
       <PartLabel text={BUILD_AN_AGENT.parts.memory.label} />
     </group>

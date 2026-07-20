@@ -67,12 +67,12 @@ export function Voice({
       >
         <capsuleGeometry args={[0.16, 0.36, 12, 32]} />
         <meshPhysicalMaterial
-          color="#F7F5F0"
-          metalness={0.05}
-          roughness={0.42}
-          clearcoat={0.35}
-          clearcoatRoughness={0.4}
-          envMapIntensity={0.8}
+          color="#4A4F52"
+          metalness={0.18}
+          roughness={0.34}
+          clearcoat={0.7}
+          clearcoatRoughness={0.28}
+          envMapIntensity={1.3}
         />
       </mesh>
 
@@ -88,11 +88,6 @@ export function Voice({
           opacity={0.85}
         />
       )}
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.42, 48]} />
-        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.12 : 0.08} />
-      </mesh>
 
       <PartLabel text={BUILD_AN_AGENT.parts.prompt.label} />
     </group>
