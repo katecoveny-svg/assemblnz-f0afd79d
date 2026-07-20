@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense, useMemo, useRef, useState } from 'react';
-import { AdditiveBlending, CanvasTexture, SRGBColorSpace } from 'three';
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
 // drei's flat `@react-three/drei` .d.ts only re-exports Html. Every other
 // component lives at a subpath; importing from the top hits a Vercel
@@ -125,44 +124,23 @@ function Installation({
 
 /**
  * The centrepiece — the assembled agent itself, suspended mid-air above the
- * six parts it is made from. Recognisable at a glance because it's the only
- * thing in the hall that: floats with no plinth, carries an orbiting ring,
- * sits inside a champagne glow with its own light shaft from the ceiling,
- * and throws warm light onto the reflective floor below it.
+ * six parts it is made from. Recognisable at a glance as the only thing in
+ * the hall that floats with no plinth and carries an orbiting ring.
  *
- * Per brand canon the central chrome form IS agent identity — and iridescence
- * is reserved for a "limited active state", which a living, suspended agent
- * earns. So the core carries a whisper of it; the parts below carry none.
+ * Deliberately clean polished chrome — NO glow, NO light shaft, NO
+ * iridescence. All three were killed: the shaft blew out the top of the
+ * frame, and the glow + iridescence threw pink/yellow/green across the
+ * plinths and the reflective floor and drowned the other objects. The float
+ * and the ring alone read it as "the agent".
  */
-function useGlowTexture() {
-  return useMemo(() => {
-    if (typeof document === 'undefined') return null;
-    const c = document.createElement('canvas');
-    c.width = c.height = 256;
-    const ctx = c.getContext('2d');
-    if (!ctx) return null;
-    const g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
-    g.addColorStop(0, 'rgba(255, 236, 200, 0.9)');
-    g.addColorStop(0.35, 'rgba(191, 163, 122, 0.42)');
-    g.addColorStop(0.7, 'rgba(191, 163, 122, 0.12)');
-    g.addColorStop(1, 'rgba(191, 163, 122, 0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 256, 256);
-    const tex = new CanvasTexture(c);
-    tex.colorSpace = SRGBColorSpace;
-    return tex;
-  }, []);
-}
-
 function AssemblAgent() {
   const bob = useRef<Group>(null!);
   const ring = useRef<Group>(null!);
-  const glow = useGlowTexture();
 
   useFrame(({ clock }, dt) => {
     const t = clock.getElapsedTime();
     if (bob.current) {
-      bob.current.position.y = 3.1 + Math.sin(t * 0.7) * 0.12;
+      bob.current.position.y = 2.7 + Math.sin(t * 0.7) * 0.12;
       bob.current.rotation.y += dt * 0.25;
     }
     if (ring.current) {
@@ -173,48 +151,18 @@ function AssemblAgent() {
 
   return (
     <group position={[0, 0, -3.6]}>
-      {/* light shaft from the ceiling — a soft cone the agent hangs inside */}
-      <mesh position={[0, 5.2, 0]}>
-        <coneGeometry args={[1.7, 4.6, 48, 1, true]} />
-        <meshBasicMaterial
-          color="#fff2d8"
-          transparent
-          opacity={0.1}
-          blending={AdditiveBlending}
-          depthWrite={false}
-          toneMapped={false}
-        />
-      </mesh>
-
-      <group ref={bob} position={[0, 3.1, 0]}>
-        {/* champagne glow billboard behind the core */}
-        {glow ? (
-          <sprite scale={[4.2, 4.2, 1]}>
-            <spriteMaterial
-              map={glow}
-              transparent
-              blending={AdditiveBlending}
-              depthWrite={false}
-              toneMapped={false}
-              opacity={0.85}
-            />
-          </sprite>
-        ) : null}
-
-        {/* the agent — polished chrome identity core, whisper of iridescence
-            (the reserved active state: this one is alive) */}
+      <group ref={bob} position={[0, 2.7, 0]}>
+        {/* the agent — polished chrome identity core, same family as the
+            chrome parts below, just larger and airborne */}
         <mesh>
           <sphereGeometry args={[0.72, 96, 96]} />
           <meshPhysicalMaterial
-            color="#f2f1ee"
+            color="#eceae6"
             metalness={1}
-            roughness={0.06}
+            roughness={0.05}
             clearcoat={1}
             clearcoatRoughness={0.04}
-            iridescence={0.35}
-            iridescenceIOR={1.4}
-            iridescenceThicknessRange={[120, 420]}
-            envMapIntensity={2.1}
+            envMapIntensity={2}
           />
         </mesh>
 
@@ -223,20 +171,17 @@ function AssemblAgent() {
           <mesh>
             <torusGeometry args={[1.12, 0.035, 24, 160]} />
             <meshPhysicalMaterial
-              color="#d9cdb8"
+              color="#c9ccd0"
               metalness={0.95}
               roughness={0.18}
               clearcoat={0.7}
               clearcoatRoughness={0.15}
-              envMapIntensity={1.6}
+              envMapIntensity={1.5}
             />
           </mesh>
         </group>
 
-        {/* warm light the agent throws onto the hall + reflective floor */}
-        <pointLight color="#ffdfae" intensity={2.6} distance={9} decay={2} />
-
-        <Html position={[0, -1.55, 0]} center distanceFactor={9} occlude>
+        <Html position={[0, 1.7, 0]} center distanceFactor={9}>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
@@ -261,9 +206,6 @@ function AssemblAgent() {
           </div>
         </Html>
       </group>
-
-      {/* a denser drift of sparkles inside the shaft */}
-      <Sparkles count={26} scale={[2.6, 4.5, 2.6]} position={[0, 3, 0]} size={2.8} speed={0.35} color="#BFA37A" opacity={0.8} />
     </group>
   );
 }
@@ -276,17 +218,15 @@ function GalleryRoom() {
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
         <planeGeometry args={[60, 60]} />
         <MeshReflectorMaterial
-          resolution={512}
-          mixBlur={1}
-          mixStrength={2.4}
-          blur={[280, 80]}
-          roughness={0.82}
-          depthScale={1.1}
-          minDepthThreshold={0.4}
-          maxDepthThreshold={1.25}
+          resolution={1024}
+          mixBlur={0.8}
+          mixStrength={1.3}
+          blur={[180, 60]}
+          roughness={0.9}
+          depthScale={0}
           color="#e7e3da"
-          metalness={0.22}
-          mirror={0.42}
+          metalness={0.18}
+          mirror={0.32}
         />
       </mesh>
 
@@ -304,12 +244,12 @@ function GalleryRoom() {
         <meshStandardMaterial color="#efece5" roughness={1} />
       </mesh>
 
-      {/* ceiling light bars — soft emissive fixtures, visible in the floor +
-          the chrome. These are what make it read as a real gallery. */}
+      {/* ceiling light bars — soft emissive fixtures. Kept gentle so the top
+          of the frame doesn't blow out and wash the suspended agent to white. */}
       {[-4, 0, 4].map((x) => (
         <mesh key={x} position={[x, 7.4, -2]} rotation={[Math.PI / 2, 0, 0]}>
           <planeGeometry args={[1.1, 9]} />
-          <meshBasicMaterial color="#fff6e6" toneMapped={false} />
+          <meshBasicMaterial color="#efe7d5" />
         </mesh>
       ))}
 
@@ -335,9 +275,9 @@ function StudioEnvironment() {
           env backdrop made the chrome parts mirror black and go nearly as dark
           as the obsidian core — the softboxes below add the bright streaks and
           warm/cool split on top of this. */}
-      <color attach="background" args={['#e9e6df']} />
+      <color attach="background" args={['#e0dcd3']} />
       {/* big soft key overhead */}
-      <Lightformer form="rect" intensity={3.2} position={[0, 6, -5]} scale={[14, 7, 1]} color="#ffffff" />
+      <Lightformer form="rect" intensity={2.3} position={[0, 6, -5]} scale={[14, 7, 1]} color="#ffffff" />
       {/* warm fill from the left, cool from the right — the two-tone that
           makes chrome look lit rather than painted */}
       <Lightformer
