@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
+import { useReveal } from './useReveal';
 import styles from './ask-section.module.css';
 
 /**
@@ -20,6 +21,7 @@ export function AskSection() {
     setSpeaking,
   } = useBuilder();
   const copy = BUILD_AN_AGENT.ask;
+  const { ref, shown } = useReveal<HTMLElement>();
 
   const [question, setQuestion] = useState<string>(copy.starter);
   const [answer, setAnswer] = useState('');
@@ -79,8 +81,13 @@ export function AskSection() {
   }
 
   return (
-    <section id="ask" className={styles.root} aria-label="Ask your agent">
-      <header className={styles.banner}>
+    <section
+      id="ask"
+      ref={ref}
+      className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
+      aria-label="Ask your agent"
+    >
+      <header className={`${styles.banner} glowSoft`}>
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
@@ -120,13 +127,13 @@ export function AskSection() {
 
           <div className={styles.submitRow}>
             {speaking ? (
-              <button type="button" className={styles.stopButton} onClick={stop}>
+              <button type="button" className="btn3d btn3dGhost btn3dSm" onClick={stop}>
                 {copy.stopLabel}
               </button>
             ) : (
               <button
                 type="submit"
-                className={styles.submit}
+                className="btn3d"
                 disabled={question.trim().length < 3}
               >
                 {copy.submitLabel}
@@ -180,7 +187,7 @@ export function AskSection() {
             <div className={styles.shareStrip}>
               <button
                 type="button"
-                className={styles.shareCtaBtn}
+                className="btn3d btn3dSm"
                 onClick={() =>
                   document.getElementById('share')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }

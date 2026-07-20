@@ -10,6 +10,7 @@ import {
 import { useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
+import { useReveal } from './useReveal';
 import styles from './configure-section.module.css';
 
 /**
@@ -30,10 +31,16 @@ export function ConfigureSection() {
   } = useBuilder();
 
   const copy = BUILD_AN_AGENT.configure;
+  const { ref, shown } = useReveal<HTMLElement>();
 
   return (
-    <section id="configure" className={styles.root} aria-label="Configure your agent">
-      <header className={styles.banner}>
+    <section
+      id="configure"
+      ref={ref}
+      className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
+      aria-label="Configure your agent"
+    >
+      <header className={`${styles.banner} glowSoft`}>
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>

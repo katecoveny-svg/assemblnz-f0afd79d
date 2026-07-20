@@ -140,7 +140,7 @@ export function TimeSavingsCalculator({ initialValues, hideIntro = false }: Time
             </div>
             <small>{SAVINGS.planningNote}</small>
             <div className={styles.resultActions}>
-              <Link href="/genome">{SAVINGS.liveDemoAction} <ArrowRight aria-hidden /></Link>
+              <Link href="/os">{SAVINGS.liveDemoAction} <ArrowRight aria-hidden /></Link>
               <button type="button" onClick={shareResult}>
                 {shareState === 'shared' ? <Check aria-hidden /> : <Copy aria-hidden />}
                 {shareState === 'shared' ? SAVINGS.sharedAction : SAVINGS.shareAction}
