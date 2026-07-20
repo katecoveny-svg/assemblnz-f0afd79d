@@ -5,20 +5,19 @@ import {
   EDITORIAL_SUBLINE,
   EDITORIAL_CTAS,
 } from '@/lib/copy/editorial-home';
-import { InlineDemoChip } from './InlineDemoChip';
+import { InlineVignette } from './InlineVignette';
 
 /**
  * Viewport 1 — the arresting typography moment.
  *
  * White gallery ground, dark ink. A tiny Cormorant italic wordmark up top,
- * then a MASSIVE Archivo Black H1 broken poetically across lines with tiny
- * concept-demo chips slotted between phrases like photo strips in a
- * magazine spread. Space Mono sub-line, two calm CTAs, a lot of paper
- * left unwritten.
+ * then a MASSIVE Archivo Black H1 broken poetically across lines. Between
+ * phrases the H1 stops and shows tiny LIVE 3D objects (chrome sphere,
+ * glass block, iridescent koru) sitting on the type baseline — the
+ * designbyshiv "photo strip between words" trick, translated to r3f so
+ * the "MAKE AI VISIBLE" claim is answered inside the sentence itself.
  *
- * Reference: designbyshiv._ "The Work" post — coffee-cup type spread —
- * translated to the assembl gallery palette (paper #FBFAF6, ink #1A1918,
- * champagne #BFA37A).
+ * No italic accents, no added commas — Kate's words, verbatim.
  */
 export function EditorialHero() {
   return (
@@ -26,7 +25,6 @@ export function EditorialHero() {
       aria-label="assembl — make AI visible"
       className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-[#FBFAF6] px-6 pb-10 pt-8 text-[#1A1918] sm:px-10 sm:pb-14 sm:pt-10 lg:px-16 lg:pb-20 lg:pt-14"
     >
-      {/* Top rail — wordmark left, tiny nav pill right (kept understated) */}
       <header className="relative z-10 flex items-start justify-between">
         <a
           href="/"
@@ -45,15 +43,11 @@ export function EditorialHero() {
         </nav>
       </header>
 
-      {/* The hero type block — everything else is negative space */}
       <div className="relative z-10 mx-auto mt-10 flex w-full max-w-[1200px] flex-1 flex-col justify-center sm:mt-14">
         <h1
           className="text-left uppercase text-[#1A1918]"
           style={{
             fontFamily: 'var(--font-editorial)',
-            // Poster set at page width — smaller on mobile so the whole H1
-            // + subline + CTAs sit inside one initial viewport with room to
-            // breathe, scales up to a hard ceiling on desktop.
             fontSize: 'clamp(2.25rem, 8.4vw, 6.75rem)',
             lineHeight: 0.94,
             letterSpacing: '-0.025em',
@@ -67,19 +61,10 @@ export function EditorialHero() {
             if (token.kind === 'break') {
               return <br key={key} />;
             }
-            if (token.kind === 'chip') {
+            if (token.kind === 'vig') {
               return (
                 <Fragment key={key}>
-                  <InlineDemoChip id={token.id} />{' '}
-                </Fragment>
-              );
-            }
-            if (token.kind === 'accent') {
-              return (
-                <Fragment key={key}>
-                  <span className="italic" style={{ fontFamily: 'var(--font-display)', fontWeight: 600 }}>
-                    {token.value}
-                  </span>{' '}
+                  <InlineVignette id={token.id} />{' '}
                 </Fragment>
               );
             }
@@ -92,7 +77,6 @@ export function EditorialHero() {
         </h1>
       </div>
 
-      {/* Sub-line + CTAs — small, calm, editorial */}
       <footer className="relative z-10 mt-10 flex flex-col gap-6 sm:mt-14 sm:flex-row sm:items-end sm:justify-between">
         <p
           className="max-w-[36ch] text-[10px] uppercase leading-[1.6] tracking-[0.32em] text-[#1A1918]/70 sm:text-[11px]"
@@ -119,7 +103,6 @@ export function EditorialHero() {
         </div>
       </footer>
 
-      {/* Champagne hairline etched into the base of the hero — assembl chrome */}
       <span
         aria-hidden
         className="pointer-events-none absolute inset-x-6 bottom-4 h-px bg-[#BFA37A]/60 sm:inset-x-10 lg:inset-x-16"
