@@ -7,6 +7,7 @@ import {
   getRecentEnquiries,
 } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import { GENOME_SURFACES } from '@/lib/customers/auckland-dog-trainer/genome';
+import { AGENT_MESH, LEADS, WEEK_BLOCKS } from '@/lib/customers/auckland-dog-trainer/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -99,6 +100,20 @@ export default async function AssemblOsPage() {
           { label: 'bookings', href: '/customers/auckland-dog-trainer/ops?tab=time' },
           { label: 'the living site tour', href: '/living-site' },
         ]}
+        // The team of agents, the drafts waiting on Sam's yes, and the
+        // activity trace — all read from the existing (approved) sample data
+        // so /os is finally an agent operating system, not a static dashboard.
+        agents={AGENT_MESH.map((a) => ({ name: a.name, job: a.job, status: a.status }))}
+        approvals={LEADS.filter((l) => l.draftReply).map((l) => ({
+          who: `${l.owner} · ${l.dog}`,
+          summary: l.triage,
+          draft: l.draftReply as string,
+        }))}
+        activity={WEEK_BLOCKS.map((w) => ({
+          when: w.when,
+          title: w.title,
+          meta: `${w.mins} min`,
+        }))}
       />
     </div>
   );
