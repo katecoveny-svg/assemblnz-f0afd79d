@@ -2,6 +2,7 @@
 
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
+import { useReveal } from './useReveal';
 import styles from './what-you-get-section.module.css';
 
 /**
@@ -13,10 +14,16 @@ import styles from './what-you-get-section.module.css';
  */
 export function WhatYouGetSection() {
   const copy = BUILD_AN_AGENT.whatYouGet;
+  const { ref, shown } = useReveal<HTMLElement>();
 
   return (
-    <section id="what-you-get" className={styles.root} aria-label="What you get with assembl">
-      <header className={styles.banner}>
+    <section
+      id="what-you-get"
+      ref={ref}
+      className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
+      aria-label="What you get with assembl"
+    >
+      <header className={`${styles.banner} glowSoft`}>
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
@@ -24,7 +31,7 @@ export function WhatYouGetSection() {
 
       <ul className={styles.grid}>
         {copy.cards.map((card) => (
-          <li key={card.id} className={styles.card}>
+          <li key={card.id} className={`${styles.card} revealChild liftCard`}>
             <h3 className={styles.cardTitle}>{card.title}</h3>
             <p className={styles.cardBody}>{card.body}</p>
             {card.href && card.cta ? (

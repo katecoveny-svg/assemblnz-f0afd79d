@@ -6,6 +6,7 @@ import { encodeConfig } from '@/lib/build-an-agent/share';
 import { useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
+import { useReveal } from './useReveal';
 import styles from './share-section.module.css';
 
 type SaveState = 'idle' | 'sending' | 'sent' | 'error';
@@ -23,6 +24,7 @@ export function ShareSection() {
     state: { config },
   } = useBuilder();
   const copy = BUILD_AN_AGENT.share;
+  const { ref, shown } = useReveal<HTMLElement>();
 
   const encoded = useMemo(() => encodeConfig(config), [config]);
   const [origin, setOrigin] = useState('');
@@ -96,8 +98,13 @@ export function ShareSection() {
   }
 
   return (
-    <section id="share" className={styles.root} aria-label="Save and share your agent">
-      <header className={styles.banner}>
+    <section
+      id="share"
+      ref={ref}
+      className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
+      aria-label="Save and share your agent"
+    >
+      <header className={`${styles.banner} glowSoft`}>
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
@@ -137,7 +144,7 @@ export function ShareSection() {
               />
               <button
                 type="button"
-                className={styles.linkButton}
+                className="btn3d btn3dSm"
                 onClick={copyLink}
                 aria-live="polite"
               >
@@ -147,7 +154,7 @@ export function ShareSection() {
           </div>
 
           <div className={styles.buttonRow}>
-            <button type="button" className={styles.secondary} onClick={downloadImage}>
+            <button type="button" className="btn3d btn3dGhost btn3dSm" onClick={downloadImage}>
               {copy.saveImage}
               <span aria-hidden className={styles.buttonArrow}>↓</span>
             </button>
@@ -170,7 +177,7 @@ export function ShareSection() {
             </label>
             <button
               type="submit"
-              className={styles.saveButton}
+              className="btn3d btn3dSm"
               disabled={
                 save === 'sending' ||
                 save === 'sent' ||

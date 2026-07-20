@@ -11,6 +11,9 @@ import { BuilderProvider, useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
 import styles from './build-an-agent.module.css';
+// Side-effect import: publishes the shared :global life classes (btn3d,
+// reveal, glowSoft, liftCard) that every section on this page composes.
+import './life.module.css';
 
 const INITIAL_SAVINGS = { people: 3, adminHours: 6, repeatableShare: 35 };
 
@@ -74,12 +77,12 @@ function BuilderPage() {
           <div className={styles.ctaRow}>
             <button
               type="button"
-              className={styles.ctaPrimary}
+              className="btn3d"
               onClick={() => scrollToId('intake')}
             >
               {BUILD_AN_AGENT.hero.startAction}
             </button>
-            <a href={BUILD_AN_AGENT.hero.secondaryHref} className={styles.ctaSecondary}>
+            <a href={BUILD_AN_AGENT.hero.secondaryHref} className="btn3d btn3dGhost">
               {BUILD_AN_AGENT.hero.secondaryAction}
             </a>
           </div>

@@ -1,0 +1,186 @@
+/* ------------------------------------------------------------
+ * The life layer — tactile 3D buttons, sea-glass glow, scroll
+ * reveals and hover lift, shared across every section of the
+ * page. Canon: motion explains the system; nothing loops for
+ * decoration; everything collapses under prefers-reduced-motion.
+ * ------------------------------------------------------------ */
+
+/* ── 3D PRESSABLE BUTTONS ───────────────────────────────────
+   A real edge under the cap: the button sits ON the page, lifts
+   on hover, and physically depresses onto its shadow when
+   pressed. :global so section modules can compose it. */
+:global(.btn3d) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  background: linear-gradient(180deg, #2b2926 0%, #1A1918 60%, #121110 100%);
+  color: #FBFAF6;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.16) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.35) inset,
+    0 6px 0 #0a0a09,
+    0 12px 26px -12px rgba(26, 25, 24, 0.7);
+  transform: translateY(0);
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    box-shadow 140ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    filter 200ms ease;
+}
+:global(.btn3d:hover),
+:global(.btn3d:focus-visible) {
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.35) inset,
+    0 8px 0 #0a0a09,
+    0 18px 34px -14px rgba(26, 25, 24, 0.72),
+    0 0 0 4px rgba(127, 168, 160, 0.16);
+}
+:global(.btn3d:active) {
+  transform: translateY(5px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+    0 1px 0 #0a0a09,
+    0 4px 10px -6px rgba(26, 25, 24, 0.6);
+}
+:global(.btn3d:disabled) {
+  background: linear-gradient(180deg, #c3bfba 0%, #b5b1ac 100%);
+  box-shadow: 0 4px 0 #9d9a95, 0 8px 16px -10px rgba(26, 25, 24, 0.4);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Ghost variant — paper cap, same physical edge. */
+:global(.btn3dGhost) {
+  background: linear-gradient(180deg, #ffffff 0%, #FBFAF6 100%);
+  color: #1A1918;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 -1px 0 rgba(26, 25, 24, 0.06) inset,
+    0 5px 0 #ddd8cc,
+    0 12px 24px -14px rgba(26, 25, 24, 0.45);
+}
+:global(.btn3dGhost:hover),
+:global(.btn3dGhost:focus-visible) {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -1px 0 rgba(26, 25, 24, 0.06) inset,
+    0 7px 0 #ddd8cc,
+    0 18px 30px -16px rgba(26, 25, 24, 0.5),
+    0 0 0 4px rgba(127, 168, 160, 0.18);
+}
+:global(.btn3dGhost:active) {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 0 #ddd8cc,
+    0 4px 10px -6px rgba(26, 25, 24, 0.35);
+}
+
+/* Small variant for in-card actions. */
+:global(.btn3dSm) {
+  font-size: 0.9rem;
+  padding: 0.7rem 1.15rem;
+}
+
+/* ── SCROLL REVEAL ──────────────────────────────────────────
+   Sections rise once, on first view. */
+:global(.reveal) {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 720ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 720ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+:global(.revealShown) {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Children stagger a touch behind their section. */
+:global(.revealShown .revealChild) {
+  opacity: 1;
+  transform: translateY(0);
+}
+:global(.revealChild) {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 640ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 640ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:global(.revealChild:nth-child(1)) { transition-delay: 60ms; }
+:global(.revealChild:nth-child(2)) { transition-delay: 120ms; }
+:global(.revealChild:nth-child(3)) { transition-delay: 180ms; }
+:global(.revealChild:nth-child(4)) { transition-delay: 240ms; }
+:global(.revealChild:nth-child(5)) { transition-delay: 300ms; }
+:global(.revealChild:nth-child(6)) { transition-delay: 360ms; }
+:global(.revealChild:nth-child(7)) { transition-delay: 420ms; }
+
+/* ── GLOW ───────────────────────────────────────────────────
+   A soft sea-glass bloom behind key surfaces. Restrained: this
+   is light on paper, never neon. */
+:global(.glowSoft) {
+  position: relative;
+}
+:global(.glowSoft)::before {
+  content: '';
+  position: absolute;
+  inset: -18% -8%;
+  z-index: -1;
+  background: radial-gradient(
+    60% 55% at 50% 40%,
+    rgba(127, 168, 160, 0.16) 0%,
+    rgba(127, 168, 160, 0.06) 45%,
+    rgba(127, 168, 160, 0) 75%
+  );
+  pointer-events: none;
+}
+
+/* Cards lift and catch a rim of light on hover. */
+:global(.liftCard) {
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.25, 1),
+    box-shadow 260ms cubic-bezier(0.2, 0.8, 0.25, 1),
+    border-color 260ms ease;
+}
+:global(.liftCard:hover) {
+  transform: translateY(-4px);
+  border-color: rgba(127, 168, 160, 0.5);
+  box-shadow:
+    0 28px 60px -38px rgba(26, 25, 24, 0.5),
+    0 0 0 1px rgba(127, 168, 160, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.btn3d),
+  :global(.btn3dGhost),
+  :global(.liftCard) {
+    transition: none;
+  }
+  :global(.btn3d:hover),
+  :global(.btn3dGhost:hover),
+  :global(.btn3d:active),
+  :global(.liftCard:hover) {
+    transform: none;
+  }
+  :global(.reveal),
+  :global(.revealChild) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

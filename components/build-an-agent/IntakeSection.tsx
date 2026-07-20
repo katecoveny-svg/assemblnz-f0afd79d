@@ -5,6 +5,7 @@ import { FormEvent, useMemo, useRef, useState } from 'react';
 import { useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
+import { useReveal } from './useReveal';
 import styles from './intake-section.module.css';
 
 type SampleId = keyof typeof BUILD_AN_AGENT.intake.sampleBusinesses;
@@ -22,6 +23,7 @@ const MAX = 900;
 
 export function IntakeSection() {
   const copy = BUILD_AN_AGENT.intake;
+  const { ref, shown } = useReveal<HTMLElement>();
   const {
     state: { config },
     setBusiness: setBusinessInStore,
@@ -111,8 +113,13 @@ export function IntakeSection() {
   const showAnswer = state.kind === 'answered';
 
   return (
-    <section id="intake" className={styles.root} aria-label="Tell your agent about your business">
-      <header className={styles.banner}>
+    <section
+      id="intake"
+      ref={ref}
+      className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
+      aria-label="Tell your agent about your business"
+    >
+      <header className={`${styles.banner} glowSoft`}>
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
@@ -156,7 +163,7 @@ export function IntakeSection() {
           </div>
 
           <div className={styles.submitRow}>
-            <button type="submit" className={styles.submit} disabled={!canSubmit}>
+            <button type="submit" className="btn3d" disabled={!canSubmit}>
               {state.kind === 'submitting' ? copy.submitBusy : copy.submitLabel}
               <span className={styles.submitArrow} aria-hidden>→</span>
             </button>
@@ -236,7 +243,7 @@ export function IntakeSection() {
                 </label>
                 <button
                   type="submit"
-                  className={styles.leadSubmit}
+                  className="btn3d btn3dGhost btn3dSm"
                   disabled={
                     leadState === 'sending' ||
                     leadState === 'sent' ||
