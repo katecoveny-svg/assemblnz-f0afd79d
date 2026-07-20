@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
+import { CHROME, CHROME_MATERIAL } from './chrome';
 import { useDrag3D } from '../hooks/useDrag3D';
 import { PartLabel } from './PartLabel';
 
@@ -65,14 +66,7 @@ export function Tools({
         {...drag.handlers}
       >
         <capsuleGeometry args={[0.17, 0.42, 12, 32]} />
-        <meshPhysicalMaterial
-          color="#E4E8EB"
-          metalness={1}
-          roughness={0.07}
-          clearcoat={1}
-          clearcoatRoughness={0.05}
-          envMapIntensity={2.1}
-        />
+        <meshPhysicalMaterial color={CHROME.abilities} {...CHROME_MATERIAL} />
       </mesh>
 
       {drag.docked && (
@@ -88,7 +82,7 @@ export function Tools({
         />
       )}
 
-      <PartLabel text={BUILD_AN_AGENT.parts.tools.label} />
+      <PartLabel text={BUILD_AN_AGENT.parts.tools.label} y={drag.position[1] + 0.52} />
     </group>
   );
 }

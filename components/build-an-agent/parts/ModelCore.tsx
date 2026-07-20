@@ -97,13 +97,13 @@ export function ModelCore({
         }}
         {...drag.handlers}
       >
-        <sphereGeometry args={[0.72, 16, 16]} />
+        <sphereGeometry args={[0.58, 16, 16]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       {/* The obsidian knot — glossy black, crisp studio reflections. */}
       <mesh ref={knotRef} position={[0, drag.position[1], 0]}>
-        <torusKnotGeometry args={[0.34, 0.115, 220, 36, 2, 3]} />
+        <torusKnotGeometry args={[0.27, 0.09, 220, 36, 2, 3]} />
         <meshPhysicalMaterial
           color="#0B0B0D"
           metalness={0.35}
@@ -121,7 +121,7 @@ export function ModelCore({
         position={[0, drag.position[1], 0]}
         rotation={[Math.PI / 2 + 0.14, 0, 0]}
       >
-        <torusGeometry args={[0.92, 0.02, 20, 140]} />
+        <torusGeometry args={[0.76, 0.018, 20, 140]} />
         <meshPhysicalMaterial
           color="#C9CCD0"
           metalness={0.92}
@@ -135,7 +135,7 @@ export function ModelCore({
 
       {/* Speaking halo — sea-glass active state, faded in while streaming. */}
       <mesh ref={haloRef} position={[0, drag.position[1], 0]}>
-        <sphereGeometry args={[0.6, 48, 48]} />
+        <sphereGeometry args={[0.48, 48, 48]} />
         <meshBasicMaterial
           color={SEAGLASS}
           transparent
@@ -145,8 +145,8 @@ export function ModelCore({
         />
       </mesh>
 
-      <PartLabel text={BUILD_AN_AGENT.parts.modelCore.label} />
-      <PartLabel text={BUILD_AN_AGENT.parts.guardrails.label} x={1.18} y={0.55} />
+      <PartLabel text={BUILD_AN_AGENT.parts.modelCore.label} y={drag.position[1] + 0.55} />
+      <PartLabel text={BUILD_AN_AGENT.parts.guardrails.label} x={0} y={drag.position[1] - 0.62} />
     </group>
   );
 }

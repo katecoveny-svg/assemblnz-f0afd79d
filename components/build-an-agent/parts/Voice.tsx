@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
+import { CHROME, CHROME_MATERIAL } from './chrome';
 import { useDrag3D } from '../hooks/useDrag3D';
 import { PartLabel } from './PartLabel';
 
@@ -65,15 +66,8 @@ export function Voice({
         }}
         {...drag.handlers}
       >
-        <capsuleGeometry args={[0.16, 0.36, 12, 32]} />
-        <meshPhysicalMaterial
-          color="#4A4F52"
-          metalness={0.18}
-          roughness={0.34}
-          clearcoat={0.7}
-          clearcoatRoughness={0.28}
-          envMapIntensity={1.3}
-        />
+        <sphereGeometry args={[0.27, 64, 64]} />
+        <meshPhysicalMaterial color={CHROME.voice} {...CHROME_MATERIAL} />
       </mesh>
 
       {drag.docked && (
@@ -89,7 +83,7 @@ export function Voice({
         />
       )}
 
-      <PartLabel text={BUILD_AN_AGENT.parts.prompt.label} />
+      <PartLabel text={BUILD_AN_AGENT.parts.prompt.label} y={drag.position[1] + 0.52} />
     </group>
   );
 }
