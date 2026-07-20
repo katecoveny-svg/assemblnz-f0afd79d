@@ -168,8 +168,10 @@ export const BUILD_AN_AGENT = {
         id: 'agents',
         title: 'Agents',
         body: 'Staff for the work that repeats — quotes, follow-ups, invoices, updates. Built from the same parts you just placed.',
-        // NOT /agents: the marketplace was retired (middleware 308s it to the
-        // dog-training sample). The OS is where assembl's own agents work.
+        // /os is now an actual agent operating system: the team of agents,
+        // the drafts waiting on a yes, and the activity trace — so
+        // "watch them work" has somewhere true to land. (It NOT being an
+        // agent surface was the original bug; see app/os/page.tsx.)
         href: '/os',
         cta: 'watch them work',
       },
