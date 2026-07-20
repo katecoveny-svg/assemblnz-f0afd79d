@@ -9,9 +9,11 @@ import { Environment } from '@react-three/drei/core/Environment';
 import { OrbitControls } from '@react-three/drei/core/OrbitControls';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { MeshReflectorMaterial } from '@react-three/drei/core/MeshReflectorMaterial';
+import { MeshDistortMaterial } from '@react-three/drei/core/MeshDistortMaterial';
+import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { Sparkles } from '@react-three/drei/core/Sparkles';
 import { Html } from '@react-three/drei';
-import type { Group } from 'three';
+import { BackSide, type Group } from 'three';
 import {
   AGENT_PARTS,
   GALLERY_PART_ORDER,
@@ -41,10 +43,15 @@ function useLayout() {
 
 function Plinth() {
   return (
-    <mesh position={[0, 0.55, 0]} castShadow={false}>
-      <boxGeometry args={[1.05, 1.1, 1.05]} />
+    <RoundedBox
+      args={[1.05, 1.15, 1.05]}
+      radius={0.16}
+      smoothness={6}
+      position={[0, 0.575, 0]}
+      castShadow={false}
+    >
       <meshStandardMaterial color="#f2efe8" roughness={0.9} metalness={0.02} />
-    </mesh>
+    </RoundedBox>
   );
 }
 
@@ -79,25 +86,25 @@ function Installation({
     >
       <Plinth />
       {/* the part, floating just above the plinth top */}
-      <group ref={spin} position={[0, 1.55, 0]} scale={hover ? 0.92 : 0.86}>
+      <group ref={spin} position={[0, 1.62, 0]} scale={hover ? 0.94 : 0.88}>
         <PartMesh id={id} />
       </group>
-      <Html position={[0, 2.5, 0]} center distanceFactor={9} occlude>
+      {/* placard ON the plinth front face — frees the air above the parts and
+          keeps the name + description together and readable. */}
+      <Html position={[0, 0.66, 0.53]} center distanceFactor={7.5}>
         <div
           style={{
             fontFamily: 'var(--font-mono)',
             textAlign: 'center',
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
-            transition: 'opacity 200ms ease',
-            opacity: hover ? 1 : 0.72,
           }}
         >
           <div
             style={{
-              fontSize: 12,
+              fontSize: 11,
               color: '#1A1918',
-              letterSpacing: '0.24em',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
             }}
           >
@@ -105,12 +112,10 @@ function Installation({
           </div>
           <div
             style={{
-              marginTop: 4,
-              fontSize: 9.5,
-              color: 'rgba(26,25,24,0.55)',
-              letterSpacing: '0.02em',
-              opacity: hover ? 1 : 0,
-              transition: 'opacity 200ms ease',
+              marginTop: 3,
+              fontSize: 8.5,
+              color: 'rgba(26,25,24,0.5)',
+              letterSpacing: '0.01em',
             }}
           >
             {part.helper}
@@ -123,64 +128,48 @@ function Installation({
 
 /**
  * The centrepiece — the assembled agent itself, suspended mid-air above the
- * six parts it is made from. Recognisable at a glance as the only thing in
- * the hall that floats with no plinth and carries an orbiting ring.
+ * six parts it is made from.
  *
- * Deliberately clean polished chrome — NO glow, NO light shaft, NO
- * iridescence. All three were killed: the shaft blew out the top of the
- * frame, and the glow + iridescence threw pink/yellow/green across the
- * plinths and the reflective floor and drowned the other objects. The float
- * and the ring alone read it as "the agent".
+ * Reads as ALIVE, not a planet: the chrome surface flows and folds like
+ * liquid mercury (MeshDistortMaterial), as though the parts are still
+ * assembling into it. No ring, no glow — the fluid motion and the float are
+ * what make it the agent. A slow scale-breath adds to the "coalescing" read.
  */
 function AssemblAgent() {
   const bob = useRef<Group>(null!);
-  const ring = useRef<Group>(null!);
+  const core = useRef<Group>(null!);
 
   useFrame(({ clock }, dt) => {
     const t = clock.getElapsedTime();
     if (bob.current) {
       bob.current.position.y = 2.7 + Math.sin(t * 0.7) * 0.12;
-      bob.current.rotation.y += dt * 0.25;
+      bob.current.rotation.y += dt * 0.18;
     }
-    if (ring.current) {
-      ring.current.rotation.z = t * 0.4;
-      ring.current.rotation.x = Math.PI / 2.6 + Math.sin(t * 0.5) * 0.08;
+    if (core.current) {
+      const s = 1 + Math.sin(t * 0.9) * 0.04;
+      core.current.scale.set(s, 1 / Math.sqrt(s), s);
     }
   });
 
   return (
     <group position={[0, 0, -3.6]}>
       <group ref={bob} position={[0, 2.7, 0]}>
-        {/* the agent — polished chrome identity core, same family as the
-            chrome parts below, just larger and airborne */}
-        <mesh>
-          <sphereGeometry args={[0.72, 96, 96]} />
-          <meshPhysicalMaterial
-            color="#eceae6"
-            metalness={1}
-            roughness={0.05}
-            clearcoat={1}
-            clearcoatRoughness={0.04}
-            envMapIntensity={2}
-          />
-        </mesh>
-
-        {/* the assembled ring — boundaries made part of the whole */}
-        <group ref={ring}>
+        {/* the agent — a fluid chrome body, mercury mid-assembly */}
+        <group ref={core}>
           <mesh>
-            <torusGeometry args={[1.12, 0.035, 24, 160]} />
-            <meshPhysicalMaterial
-              color="#c9ccd0"
-              metalness={0.95}
-              roughness={0.18}
-              clearcoat={0.7}
-              clearcoatRoughness={0.15}
-              envMapIntensity={1.5}
+            <sphereGeometry args={[0.82, 160, 160]} />
+            <MeshDistortMaterial
+              color="#edeae5"
+              metalness={1}
+              roughness={0.04}
+              envMapIntensity={2.6}
+              distort={0.6}
+              speed={2.8}
             />
           </mesh>
         </group>
 
-        <Html position={[0, 1.7, 0]} center distanceFactor={9}>
+        <Html position={[0, 1.55, 0]} center distanceFactor={9}>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
@@ -229,28 +218,14 @@ function GalleryRoom() {
         />
       </mesh>
 
-      {/* back + side walls, warm matte white */}
-      <mesh position={[0, 5, -8]}>
-        <planeGeometry args={[40, 12]} />
-        <meshStandardMaterial color="#f5f2eb" roughness={1} />
+      {/* curved cyclorama — one seamless curved wall wrapping the hall instead
+          of three flat planes. A photographer's infinity curve; reads as a
+          soft, rounded room. Inner faces only (BackSide); open-ended so it
+          never caps into a ceiling or floor over the reflective plane. */}
+      <mesh position={[0, 6, -1.5]}>
+        <cylinderGeometry args={[11.5, 11.5, 20, 96, 1, true]} />
+        <meshStandardMaterial color="#efece4" roughness={1} side={BackSide} />
       </mesh>
-      <mesh position={[-11, 5, -2]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[16, 12]} />
-        <meshStandardMaterial color="#efece5" roughness={1} />
-      </mesh>
-      <mesh position={[11, 5, -2]} rotation={[0, -Math.PI / 2, 0]}>
-        <planeGeometry args={[16, 12]} />
-        <meshStandardMaterial color="#efece5" roughness={1} />
-      </mesh>
-
-      {/* ceiling light bars — soft emissive fixtures. Kept gentle so the top
-          of the frame doesn't blow out and wash the suspended agent to white. */}
-      {[-4, 0, 4].map((x) => (
-        <mesh key={x} position={[x, 7.4, -2]} rotation={[Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[1.1, 9]} />
-          <meshBasicMaterial color="#efe7d5" />
-        </mesh>
-      ))}
 
       {/* champagne wordmark etched into the floor at the entry point */}
       <mesh position={[0, 0.006, 3.2]} rotation={[-Math.PI / 2, 0, 0]}>

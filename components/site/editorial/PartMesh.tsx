@@ -23,31 +23,31 @@ function materialProps(material: PartMaterial, tint: string) {
   if (material === 'obsidian') {
     return {
       color: tint,
-      metalness: 0.4,
-      roughness: 0.06,
+      metalness: 0.5,
+      roughness: 0.04,
       clearcoat: 1,
-      clearcoatRoughness: 0.04,
-      envMapIntensity: 1.6,
+      clearcoatRoughness: 0.03,
+      envMapIntensity: 2.2,
     };
   }
   if (material === 'brushed') {
     return {
       color: tint,
-      metalness: 0.9,
-      roughness: 0.22,
+      metalness: 0.92,
+      roughness: 0.18,
       clearcoat: 0.6,
-      clearcoatRoughness: 0.2,
-      envMapIntensity: 1.3,
+      clearcoatRoughness: 0.18,
+      envMapIntensity: 1.7,
     };
   }
-  // chrome
+  // chrome — punchier: more reflection, sharper
   return {
     color: tint,
-    metalness: 0.98,
-    roughness: 0.08,
+    metalness: 1,
+    roughness: 0.05,
     clearcoat: 1,
-    clearcoatRoughness: 0.05,
-    envMapIntensity: 2,
+    clearcoatRoughness: 0.04,
+    envMapIntensity: 2.7,
   };
 }
 
