@@ -5,13 +5,17 @@ export const BUILD_AN_AGENT = {
       'Pick the parts, drop them in, watch it think. In three minutes you have a working AI agent for your business — one you can share.',
   },
   hero: {
-    eyebrow: 'AI, made to fit your business',
+    // Kate's hero direction, 2026-07-20 — strings verbatim.
+    eyebrow: 'Your business, intelligently assembled.',
     headline: {
-      line1: 'Build an AI agent.',
-      line2: 'In three minutes.',
+      line1: 'build intelligence',
+      line2: 'you can understand.',
     },
-    lede: 'Drag the parts into the scene. Give it a job. Test it on a real question from your day. Send it to a colleague, or ask us to make it real.',
-    startAction: 'Start building',
+    lede: 'See what your AI knows, what it can do, and where you stay in control.',
+    startAction: 'assemble your business',
+    secondaryAction: 'see how it works',
+    secondaryHref: '/how-it-works',
+    chips: ['knowledge', 'abilities', 'connected apps', 'boundaries', 'approvals', 'tests'],
     resumeAction: 'Keep building',
   },
   parts: {
