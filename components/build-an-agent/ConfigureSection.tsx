@@ -10,6 +10,7 @@ import {
 import { useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
+import { PartGlyph, type PartShape } from './PartGlyph';
 import { useReveal } from './useReveal';
 import styles from './configure-section.module.css';
 
@@ -40,7 +41,8 @@ export function ConfigureSection() {
       className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
       aria-label="Configure your agent"
     >
-      <header className={`${styles.banner} glowSoft`}>
+      <div className="chromeField" aria-hidden />
+      <header className={`${styles.banner} glowSoft`} data-parallax="0.05">
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
@@ -62,6 +64,7 @@ export function ConfigureSection() {
         {/* Model core — tier */}
         <PartCard
           number="01"
+          shape="knot"
           title={BUILD_AN_AGENT.parts.modelCore.label}
           helper={BUILD_AN_AGENT.parts.modelCore.helper}
         >
@@ -82,6 +85,7 @@ export function ConfigureSection() {
         {/* Memory — scope */}
         <PartCard
           number="02"
+          shape="cubes"
           title={BUILD_AN_AGENT.parts.memory.label}
           helper={BUILD_AN_AGENT.parts.memory.helper}
         >
@@ -102,6 +106,7 @@ export function ConfigureSection() {
         {/* Tools — multi-select */}
         <PartCard
           number="03"
+          shape="capsule"
           title={BUILD_AN_AGENT.parts.tools.label}
           helper={BUILD_AN_AGENT.parts.tools.helper}
         >
@@ -122,6 +127,7 @@ export function ConfigureSection() {
         {/* Knowledge — multi-select NZ sources */}
         <PartCard
           number="04"
+          shape="octahedron"
           title={BUILD_AN_AGENT.parts.connectors.label}
           helper={BUILD_AN_AGENT.parts.connectors.helper}
         >
@@ -142,6 +148,7 @@ export function ConfigureSection() {
         {/* Voice — free text */}
         <PartCard
           number="05"
+          shape="sphere"
           title={BUILD_AN_AGENT.parts.prompt.label}
           helper={BUILD_AN_AGENT.parts.prompt.helper}
         >
@@ -161,6 +168,7 @@ export function ConfigureSection() {
         {/* Guardrails — multi-select */}
         <PartCard
           number="06"
+          shape="ring"
           title={BUILD_AN_AGENT.parts.guardrails.label}
           helper={BUILD_AN_AGENT.parts.guardrails.helper}
         >
@@ -184,18 +192,21 @@ export function ConfigureSection() {
 
 function PartCard({
   number,
+  shape,
   title,
   helper,
   children,
 }: {
   number: string;
+  shape: PartShape;
   title: string;
   helper: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.partCard}>
+    <div className={`${styles.partCard} liftCard`}>
       <div className={styles.partHead}>
+        <PartGlyph shape={shape} />
         <span className={styles.partNumber} aria-hidden>
           {number}
         </span>

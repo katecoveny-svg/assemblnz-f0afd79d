@@ -25,13 +25,18 @@
   padding: 0.9rem 1.5rem;
   border-radius: 999px;
   text-decoration: none;
-  background: linear-gradient(180deg, #2b2926 0%, #1A1918 60%, #121110 100%);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, #3a3733 0%, #1A1918 52%, #0d0c0b 100%);
   color: #FBFAF6;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.16) inset,
-    0 -2px 0 rgba(0, 0, 0, 0.35) inset,
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.4) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.22),
     0 6px 0 #0a0a09,
-    0 12px 26px -12px rgba(26, 25, 24, 0.7);
+    0 12px 26px -12px rgba(26, 25, 24, 0.7),
+    0 10px 34px -14px rgba(127, 168, 160, 0.4);
   transform: translateY(0);
   transition:
     transform 140ms cubic-bezier(0.2, 0.9, 0.3, 1),
@@ -45,9 +50,11 @@
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.2) inset,
     0 -2px 0 rgba(0, 0, 0, 0.35) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.5),
     0 8px 0 #0a0a09,
     0 18px 34px -14px rgba(26, 25, 24, 0.72),
-    0 0 0 4px rgba(127, 168, 160, 0.16);
+    0 0 0 5px rgba(127, 168, 160, 0.2),
+    0 16px 46px -12px rgba(127, 168, 160, 0.6);
 }
 :global(.btn3d:active) {
   transform: translateY(5px);
@@ -64,6 +71,26 @@
   transform: none;
 }
 
+:global(.btn3d)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 46%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  transition: transform 620ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+:global(.btn3d:hover)::after,
+:global(.btn3d:focus-visible)::after {
+  transform: translateX(120%);
+}
+
 /* Ghost variant — paper cap, same physical edge. */
 :global(.btn3dGhost) {
   background: linear-gradient(180deg, #ffffff 0%, #FBFAF6 100%);
@@ -71,6 +98,7 @@
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 -1px 0 rgba(26, 25, 24, 0.06) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.3),
     0 5px 0 #ddd8cc,
     0 12px 24px -14px rgba(26, 25, 24, 0.45);
 }
@@ -182,5 +210,88 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+
+/* ── PARALLAX ───────────────────────────────────────────────
+   useParallax() writes --py (px) onto anything with a
+   data-parallax attribute; these classes decide what to do
+   with it. Translation only — no scale, nothing that can
+   trigger layout. */
+:global(.parallaxY) {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+/* Drifts the opposite way, for a counter-moving decorative layer. */
+:global(.parallaxYInv) {
+  transform: translate3d(0, calc(var(--py, 0px) * -1), 0);
+  will-change: transform;
+}
+
+/* ── DECORATIVE CHROME ──────────────────────────────────────
+   A brushed hairline and a soft chrome arc, used to break up
+   long runs of type. Purely decorative: aria-hidden at the
+   call site, and they never carry meaning. */
+:global(.chromeRule) {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(26, 25, 24, 0) 0%,
+    rgba(26, 25, 24, 0.16) 22%,
+    rgba(191, 163, 122, 0.5) 50%,
+    rgba(26, 25, 24, 0.16) 78%,
+    rgba(26, 25, 24, 0) 100%
+  );
+}
+
+/* A wide, very soft lens of light behind a section — gives a
+   wall of text somewhere for the eye to rest. */
+:global(.chromeField) {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+:global(.chromeField)::before,
+:global(.chromeField)::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+:global(.chromeField)::before {
+  width: 46vw;
+  height: 46vw;
+  top: -14vw;
+  right: -10vw;
+  background: radial-gradient(
+    circle,
+    rgba(127, 168, 160, 0.22) 0%,
+    rgba(127, 168, 160, 0) 68%
+  );
+}
+:global(.chromeField)::after {
+  width: 38vw;
+  height: 38vw;
+  bottom: -16vw;
+  left: -12vw;
+  background: radial-gradient(
+    circle,
+    rgba(191, 163, 122, 0.24) 0%,
+    rgba(191, 163, 122, 0) 68%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.parallaxY),
+  :global(.parallaxYInv) {
+    transform: none;
+  }
+  :global(.btn3d)::after {
+    display: none;
   }
 }

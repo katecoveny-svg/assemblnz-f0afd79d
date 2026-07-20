@@ -7,6 +7,12 @@
   font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
 }
 
+.banner,
+.card {
+  position: relative;
+  z-index: 1;
+}
+
 .banner {
   max-width: 62rem;
   margin: 0 auto clamp(2rem, 5vh, 3rem);
@@ -86,25 +92,25 @@
 /* ── PART CARD ── */
 .partCard {
   display: grid;
-  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
   gap: 1.4rem;
-  padding: 1.1rem 0;
-  border-bottom: 1px dashed rgba(26, 25, 24, 0.08);
-}
-.partCard:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+  padding: 1.15rem 1.15rem;
+  border: 1px solid rgba(26, 25, 24, 0.06);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfaf6 100%);
+  box-shadow: 0 18px 40px -34px rgba(26, 25, 24, 0.35);
 }
 .partHead {
   display: flex;
-  gap: 0.7rem;
+  align-items: flex-start;
+  gap: 0.85rem;
 }
 .partNumber {
   font-family: var(--font-space-mono, 'Space Mono', monospace);
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   letter-spacing: 0.14em;
-  color: #a09b95;
-  padding-top: 0.28rem;
+  color: #b6b1aa;
+  padding-top: 0.42rem;
 }
 .partHeadCopy {
   display: flex;

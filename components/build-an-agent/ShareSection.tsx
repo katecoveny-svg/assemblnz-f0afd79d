@@ -104,7 +104,8 @@ export function ShareSection() {
       className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
       aria-label="Save and share your agent"
     >
-      <header className={`${styles.banner} glowSoft`}>
+      <div className="chromeField" aria-hidden />
+      <header className={`${styles.banner} glowSoft`} data-parallax="0.05">
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>

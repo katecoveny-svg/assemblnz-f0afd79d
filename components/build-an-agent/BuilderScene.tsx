@@ -47,8 +47,8 @@ const LAYOUT = {
     scale: 1,
   },
   tablet: {
-    core: [0.92, 0.62, 0] as const,
-    scale: 0.86,
+    core: [0.62, 0.62, 0] as const,
+    scale: 0.74,
   },
   // Portrait: the hero copy owns the lower ~60% of the viewport, so the
   // assembly has to clear it entirely — hence the high core. The camera looks
