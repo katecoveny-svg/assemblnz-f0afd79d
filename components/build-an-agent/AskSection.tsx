@@ -21,7 +21,7 @@ export function AskSection() {
   } = useBuilder();
   const copy = BUILD_AN_AGENT.ask;
 
-  const [question, setQuestion] = useState(copy.starter);
+  const [question, setQuestion] = useState<string>(copy.starter);
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [asked, setAsked] = useState(false);
