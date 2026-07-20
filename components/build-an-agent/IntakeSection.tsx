@@ -22,7 +22,11 @@ const MAX = 900;
 
 export function IntakeSection() {
   const copy = BUILD_AN_AGENT.intake;
-  const { setBusiness: setBusinessInStore } = useBuilder();
+  const {
+    state: { config },
+    setBusiness: setBusinessInStore,
+    setName,
+  } = useBuilder();
   const [business, setBusiness] = useState('');
   const [state, setState] = useState<State>({ kind: 'idle' });
   const [email, setEmail] = useState('');
@@ -201,6 +205,21 @@ export function IntakeSection() {
               {state.fellBack && (
                 <p className={styles.answerFallback}>{copy.fallbackNote}</p>
               )}
+
+              {/* Name it at the peak-delight moment — people share things
+                  they've named. Writes the shared store, so the ask section,
+                  the share card and the OG image all pick it up. */}
+              <label className={styles.nameRow}>
+                <span className={styles.nameLabel}>{copy.nameLabel}</span>
+                <input
+                  type="text"
+                  className={styles.nameInput}
+                  value={config.name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={copy.namePlaceholder}
+                  maxLength={80}
+                />
+              </label>
 
               <form className={styles.leadForm} onSubmit={handleLead}>
                 <label className={styles.leadField}>

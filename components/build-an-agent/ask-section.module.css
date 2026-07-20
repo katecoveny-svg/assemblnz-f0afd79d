@@ -244,6 +244,33 @@
 }
 .answerBody p { margin: 0; }
 
+.shareStrip {
+  display: flex;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(26, 25, 24, 0.1);
+}
+.shareCtaBtn {
+  appearance: none;
+  border: none;
+  background: #1A1918;
+  color: #FBFAF6;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 180ms ease, transform 180ms ease;
+}
+.shareCtaBtn:hover, .shareCtaBtn:focus-visible {
+  background: #2b2926;
+  transform: translateY(-1px);
+  outline: none;
+}
+
 .error {
   margin: 0;
   padding: 0.7rem 0.85rem;

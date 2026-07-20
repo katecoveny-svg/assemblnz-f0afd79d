@@ -1,0 +1,124 @@
+.root {
+  position: relative;
+  padding: clamp(4rem, 9vh, 7rem) clamp(1.25rem, 5vw, 3rem);
+  background: linear-gradient(180deg, #f4f0e5 0%, #FBFAF6 30%);
+  border-top: 1px solid rgba(26, 25, 24, 0.06);
+  color: #1A1918;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+}
+
+.banner {
+  max-width: 62rem;
+  margin: 0 auto clamp(2rem, 5vh, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: #6a6560;
+}
+.heading {
+  margin: 0;
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: #1A1918;
+  max-width: 28ch;
+}
+.lede {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: #3d3833;
+  max-width: 58ch;
+}
+
+.grid {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
+  background: #ffffff;
+  border: 1px solid rgba(26, 25, 24, 0.07);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px -44px rgba(26, 25, 24, 0.35);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(127, 168, 160, 0.45);
+  box-shadow: 0 26px 56px -40px rgba(26, 25, 24, 0.4);
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: #1A1918;
+  letter-spacing: -0.01em;
+}
+
+.cardBody {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #3d3833;
+  flex: 1;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1A1918;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(127, 168, 160, 0.6);
+  padding-bottom: 2px;
+  transition: border-color 180ms ease;
+}
+.cardLink:hover {
+  border-color: #7FA8A0;
+}
+.cardArrow {
+  font-size: 1em;
+  transition: transform 180ms ease;
+}
+.cardLink:hover .cardArrow {
+  transform: translateX(3px);
+}
+
+.cardNote {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  color: #6a6560;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

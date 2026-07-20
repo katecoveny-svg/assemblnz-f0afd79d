@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import { Line } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -11,16 +12,33 @@ import { PartLabel } from './PartLabel';
 interface Props {
   initialPosition?: [number, number, number];
   reduced?: boolean;
+  /** Live core position + this part's port angle — magnetic docking hub. */
+  corePosition: [number, number, number];
+  dockAngle: number;
   onMove?: (position: [number, number, number]) => void;
+  onDock?: (docked: boolean) => void;
 }
 
 /**
  * Knowledge — a single frosted translucent cube (canon: translucent cube =
  * knowledge source). Larger and calmer than memory's stacked clear cubes.
  */
-export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false, onMove }: Props) {
+export function Knowledge({
+  initialPosition = [-1.4, 0.55, 1.6],
+  reduced = false,
+  corePosition,
+  dockAngle,
+  onMove,
+  onDock,
+}: Props) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const drag = useDrag3D(initialPosition, 0.55);
+  const drag = useDrag3D(initialPosition, 0.55, {
+    center: corePosition,
+    angle: dockAngle,
+    radius: 1.7,
+    threshold: 1.6,
+    onDock,
+  });
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
@@ -58,6 +76,19 @@ export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false
           envMapIntensity={0.9}
         />
       </mesh>
+
+      {drag.docked && (
+        <Line
+          points={[
+            [0, drag.position[1], 0],
+            [corePosition[0] - drag.position[0], 0.6, corePosition[2] - drag.position[2]],
+          ]}
+          color="#7FA8A0"
+          lineWidth={1.5}
+          transparent
+          opacity={0.85}
+        />
+      )}
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
         <circleGeometry args={[0.5, 48]} />

@@ -41,17 +41,25 @@ export function ModelCore({
   const knotRef = useRef<THREE.Mesh>(null);
   const ringRef = useRef<THREE.Mesh>(null);
   const haloRef = useRef<THREE.Mesh>(null);
+  // Smoothed pointer-follow — the knot subtly turns toward the cursor, so
+  // the central form feels aware of you (canon: "the sense that the central
+  // form is alive").
+  const follow = useRef({ x: 0, y: 0 });
   const drag = useDrag3D(initialPosition, 0.6);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, pointer }) => {
     const t = clock.getElapsedTime();
+    if (!reduced) {
+      follow.current.x += (pointer.x - follow.current.x) * 0.06;
+      follow.current.y += (pointer.y - follow.current.y) * 0.06;
+    }
     if (knotRef.current) {
       if (reduced) {
         knotRef.current.rotation.set(0, 0, 0);
       } else {
         const spin = speaking ? 0.55 : 0.2;
-        knotRef.current.rotation.y = t * spin;
-        knotRef.current.rotation.x = Math.sin(t * 0.35) * 0.1;
+        knotRef.current.rotation.y = t * spin + follow.current.x * 0.35;
+        knotRef.current.rotation.x = Math.sin(t * 0.35) * 0.1 - follow.current.y * 0.22;
       }
       if (!drag.isDragging && !reduced) {
         const bobAmp = speaking ? 0.07 : 0.03;
