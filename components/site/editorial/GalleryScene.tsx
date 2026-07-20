@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
 // drei's flat `@react-three/drei` .d.ts only re-exports Html. Every other
 // component lives at a subpath; importing from the top hits a Vercel
 // typecheck failure. Keep subpaths so future drei users don't repeat this.
@@ -106,16 +106,16 @@ function Installation({
     <group
       ref={group}
       position={position}
-      onClick={(e) => {
+      onClick={(e: ThreeEvent<MouseEvent>) => {
         e.stopPropagation();
         onOpen(id);
       }}
-      onPointerOver={(e) => {
+      onPointerOver={(e: ThreeEvent<PointerEvent>) => {
         e.stopPropagation();
         setHover(true);
         document.body.style.cursor = 'pointer';
       }}
-      onPointerOut={(e) => {
+      onPointerOut={(e: ThreeEvent<PointerEvent>) => {
         e.stopPropagation();
         setHover(false);
         document.body.style.cursor = 'auto';
