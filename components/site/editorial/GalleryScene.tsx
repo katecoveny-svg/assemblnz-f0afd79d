@@ -11,6 +11,7 @@ import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { MeshReflectorMaterial } from '@react-three/drei/core/MeshReflectorMaterial';
 import { MeshDistortMaterial } from '@react-three/drei/core/MeshDistortMaterial';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
+import { Lightformer } from '@react-three/drei/core/Lightformer';
 import { Sparkles } from '@react-three/drei/core/Sparkles';
 import { Html } from '@react-three/drei';
 import { BackSide, type Group } from 'three';
@@ -34,8 +35,9 @@ function useLayout() {
     return GALLERY_PART_ORDER.map((id, i) => {
       const t = n === 1 ? 0 : i / (n - 1) - 0.5; // -0.5 … 0.5
       const x = t * spread;
-      // edges pushed back, centre pulled forward → concave toward camera
-      const z = -2.4 - Math.abs(t) * 2.1;
+      // shallow concave arc — flattened so the plinths (and their placards)
+      // read as more of a line than a deep curve.
+      const z = -2.4 - Math.abs(t) * 1.2;
       return { id, position: [x, 0, z] as [number, number, number] };
     });
   }, []);
@@ -96,15 +98,16 @@ function Installation({
           style={{
             fontFamily: 'var(--font-mono)',
             textAlign: 'center',
-            whiteSpace: 'nowrap',
+            width: 150,
             pointerEvents: 'none',
           }}
         >
           <div
             style={{
               fontSize: 11,
+              fontWeight: 700,
               color: '#1A1918',
-              letterSpacing: '0.2em',
+              letterSpacing: '0.18em',
               textTransform: 'uppercase',
             }}
           >
@@ -112,9 +115,10 @@ function Installation({
           </div>
           <div
             style={{
-              marginTop: 3,
-              fontSize: 8.5,
-              color: 'rgba(26,25,24,0.5)',
+              marginTop: 4,
+              fontSize: 8,
+              lineHeight: 1.45,
+              color: 'rgba(26,25,24,0.6)',
               letterSpacing: '0.01em',
             }}
           >
@@ -169,28 +173,22 @@ function AssemblAgent() {
           </mesh>
         </group>
 
-        <Html position={[0, 1.55, 0]} center distanceFactor={9}>
+        <Html position={[0, 2.15, 0]} center distanceFactor={9}>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
-              textAlign: 'center',
+              fontWeight: 700,
+              fontSize: 14,
+              color: '#1A1918',
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
               whiteSpace: 'nowrap',
               pointerEvents: 'none',
+              textShadow:
+                '0 0 14px rgba(250,249,246,0.95), 0 0 6px rgba(250,249,246,0.9), 0 1px 2px rgba(250,249,246,0.9)',
             }}
           >
-            <div
-              style={{
-                fontSize: 12.5,
-                color: '#1A1918',
-                letterSpacing: '0.26em',
-                textTransform: 'uppercase',
-              }}
-            >
-              {GALLERY_AGENT.label}
-            </div>
-            <div style={{ marginTop: 4, fontSize: 9.5, color: 'rgba(26,25,24,0.6)' }}>
-              {GALLERY_AGENT.helper}
-            </div>
+            {GALLERY_AGENT.label}
           </div>
         </Html>
       </group>
@@ -272,13 +270,36 @@ export function GalleryScene() {
         <ContactShadows position={[0, 0.02, 0]} opacity={0.32} scale={22} blur={2.6} far={6} color="#2a2622" />
         <Sparkles count={36} scale={[14, 5, 10]} size={2.2} speed={0.2} color="#BFA37A" opacity={0.5} />
 
-        {/* apartment HDRI — real bright-and-dark content, so the chrome gets
-            crisp highlights and dark gaps and reads as SHINY (the look the
-            inline poster vignettes have). background={false} keeps the visible
-            hall as the paper scene. This replaced a custom Lightformer studio
-            that lit everything on a uniform base and made the chrome go flat. */}
+        {/* Hand-built studio: a MID-BRIGHT grey base so the chrome reads as
+            bright silver (not black like the studio preset, not busy like the
+            apartment preset's room-in-the-blob), with big white softboxes for
+            crisp highlight streaks. The base↔softbox contrast is what makes it
+            shiny; there's nothing in it that reads as "a room". */}
         <Suspense fallback={null}>
-          <Environment preset="apartment" background={false} />
+          <Environment resolution={256} frames={1}>
+            <color attach="background" args={['#c6c6c8']} />
+            {/* big top key */}
+            <Lightformer form="rect" intensity={4} position={[0, 6, -5]} scale={[16, 8, 1]} color="#ffffff" />
+            {/* strong side softboxes — clean bright panels, no structure */}
+            <Lightformer
+              form="rect"
+              intensity={3.2}
+              position={[-8, 2, 3]}
+              rotation-y={Math.PI / 2}
+              scale={[9, 11, 1]}
+              color="#ffffff"
+            />
+            <Lightformer
+              form="rect"
+              intensity={3.2}
+              position={[8, 2, 3]}
+              rotation-y={-Math.PI / 2}
+              scale={[9, 11, 1]}
+              color="#ffffff"
+            />
+            {/* soft front catch */}
+            <Lightformer form="ring" intensity={1.4} position={[0, 3, 7]} scale={6} color="#ffffff" />
+          </Environment>
         </Suspense>
 
         <OrbitControls
