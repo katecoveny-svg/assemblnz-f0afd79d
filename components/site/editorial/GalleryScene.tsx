@@ -23,7 +23,7 @@ const INSTALLATIONS: Array<{ id: VignetteId; position: [number, number, number] 
 
 function Plinth() {
   return (
-    <mesh position={[0, 0.6, 0]} receiveShadow castShadow>
+    <mesh position={[0, 0.6, 0]}>
       <boxGeometry args={[1.3, 1.2, 1.3]} />
       <meshStandardMaterial color="#f0ede6" roughness={0.85} metalness={0.02} />
     </mesh>
@@ -39,7 +39,7 @@ function InstallationForm({ id }: { id: VignetteId }) {
 
   if (shape === 'sphere') {
     return (
-      <mesh ref={ref} castShadow>
+      <mesh ref={ref}>
         <sphereGeometry args={[0.5, 96, 96]} />
         <meshPhysicalMaterial
           color="#f6f6f6"
@@ -57,7 +57,7 @@ function InstallationForm({ id }: { id: VignetteId }) {
     // translucent block look as drei's MeshTransmissionMaterial, without
     // the .d.ts export gap that broke the Vercel typecheck.
     return (
-      <mesh ref={ref} castShadow>
+      <mesh ref={ref}>
         <boxGeometry args={[0.8, 0.8, 0.8]} />
         <meshPhysicalMaterial
           color="#ffd28a"
@@ -75,7 +75,7 @@ function InstallationForm({ id }: { id: VignetteId }) {
   }
 
   return (
-    <mesh ref={ref} castShadow>
+    <mesh ref={ref}>
       <torusGeometry args={[0.45, 0.16, 48, 128]} />
       <meshPhysicalMaterial
         color="#eae8e3"
@@ -149,7 +149,7 @@ function GalleryRoom() {
   return (
     <>
       {/* polished concrete floor */}
-      <mesh receiveShadow position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[50, 50]} />
         <meshStandardMaterial color="#e8e4dc" roughness={0.55} metalness={0.05} />
       </mesh>
@@ -216,27 +216,18 @@ export function GalleryScene() {
       style={{ height: '100svh' }}
     >
       <Canvas
-        shadows
         frameloop="always"
-        dpr={[1, 1.75]}
+        dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         camera={{ position: [0, 2.2, 4.8], fov: 44 }}
       >
         <color attach="background" args={['#EFECE5']} />
 
+        {/* No hardware shadows — ContactShadows below fakes floor contact
+            without the shadow-map memory + render-pass cost that seemed to
+            wedge R3F at desktop viewport sizes. */}
         <ambientLight intensity={0.55} />
-        <directionalLight
-          position={[5, 10, 3]}
-          intensity={1.6}
-          castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-          shadow-camera-far={25}
-          shadow-camera-left={-10}
-          shadow-camera-right={10}
-          shadow-camera-top={10}
-          shadow-camera-bottom={-10}
-        />
+        <directionalLight position={[5, 10, 3]} intensity={1.6} />
         <spotLight position={[0, 6, 2]} angle={0.55} penumbra={0.8} intensity={1.0} color="#fff2d8" />
 
         <GalleryRoom />
