@@ -84,13 +84,72 @@ export const BUILD_AN_AGENT = {
     fallbackNote:
       'The live model is offline for a beat — Kate at assembl still gets your note and will write back with a plain plan for the business you described.',
   },
+  configure: {
+    eyebrow: 'step three · configure the parts',
+    heading: 'Choose what your agent gets to do.',
+    lede:
+      'Every chip below is a piece of the agent you can already see on the canvas above. Pick what fits your business — nothing sends without you.',
+    nameLabel: 'What are you calling it?',
+    namePlaceholder: 'e.g. Awhi · the practice agent · Southline Scout',
+    voiceLabel: 'How you want it to speak',
+    voicePlaceholder:
+      "e.g. Warm, plain-spoken, method-first — never shouty. Always writes like a person, not a form. Never invents prices.",
+  },
+  ask: {
+    eyebrow: 'step four · ask it something',
+    heading: 'Now ask your agent something from your day.',
+    lede:
+      'A real answer, streaming from the model core. The parts you placed shape the reply — the model tier, the memory, the tools, the knowledge sources, the guardrails, your voice brief.',
+    questionLabel: 'Your question',
+    questionPlaceholder: 'Something small and real from your week.',
+    starter:
+      "It's Monday morning. My biggest customer just emailed asking if we can pull tomorrow's install forward to today. What would you draft me?",
+    suggestionsLabel: 'Try one of these',
+    suggestions: [
+      "Draft a reply to a customer asking for a price we don't publish.",
+      'Write me a short email to the team about tomorrow.',
+      'Summarise this week for me in three lines.',
+    ],
+    submitLabel: 'Ask it',
+    stopLabel: 'Stop',
+    draftNote: 'Draft only. A person always confirms. Nothing sends.',
+    defaultName: 'your agent',
+    idleLabel: 'ready when you are',
+    idleBody:
+      "I'm here. Ask me something small from your week and I'll draft a reply, an update, or a summary. Nothing goes anywhere — it's a preview.",
+    streamingLabel: 'writing',
+    streamingBody: "reading your question, pulling the parts together",
+    readyLabel: 'draft ready · a person confirms',
+  },
+  share: {
+    eyebrow: 'step five · keep it or share it',
+    heading: 'Save the agent you just built.',
+    lede:
+      "Send it to a colleague, tuck it in your notes, or drop your email — I'll hold it for you. Every shared link opens the exact agent, in the exact shape, so someone else can see what you saw.",
+    previewAlt: 'Preview card for {name}',
+    previewCaption: 'The card that appears when the link is pasted somewhere.',
+    linkLabel: 'Your shareable link',
+    linkCopy: 'Copy',
+    linkCopied: 'Copied',
+    saveImage: 'Save as image',
+    manualCopyPrompt: 'Copy your share link',
+    defaultName: 'your agent',
+    saveLabel: 'Keep it for me',
+    savePlaceholder: 'your email — optional, only used to write back',
+    saveSubmit: 'Send this to my inbox',
+    saveSending: 'sending',
+    saveSent: 'Sent — Kate has it',
+    saveErrorGeneric: 'The mailer hiccuped — try once more or drop it in the hand-off card below.',
+    emailInvalid: 'That looks off — check the address and try again.',
+    footnote: 'Draft only. Nothing sends without a human yes. Made in Aotearoa.',
+  },
   savings: {
-    eyebrow: 'step three · time back',
+    eyebrow: 'step six · time back',
     heading: 'How many hours could you get back?',
     lede: 'Your own numbers. A plain planning estimate — no form, no phone call, no inflated promise.',
   },
   closing: {
-    eyebrow: 'step four · optional',
+    eyebrow: 'step seven · optional',
     heading: 'Want us to build this properly for your business?',
     body:
       'The one you just designed is a taste. If it lit up an idea for your team, drop your email — Kate at assembl reads them herself and comes back with a plain plan and price.',

@@ -1,24 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-
+import { AskSection } from '@/components/build-an-agent/AskSection';
 import { BuilderScene } from '@/components/build-an-agent/BuilderScene';
+import { ConfigureSection } from '@/components/build-an-agent/ConfigureSection';
 import { IntakeSection } from '@/components/build-an-agent/IntakeSection';
+import { ShareSection } from '@/components/build-an-agent/ShareSection';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
+import { BuilderProvider, useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
 import styles from './build-an-agent.module.css';
-
-type PartPositions = Record<string, [number, number, number]>;
-
-const INITIAL_PARTS: PartPositions = {
-  model: [0, 0.6, 0],
-  memory: [-2.4, 0.55, -0.4],
-  tools: [2.4, 0.5, -0.4],
-  knowledge: [-1.4, 0.55, 1.6],
-  voice: [1.4, 0.55, 1.6],
-  guardrails: [0, 0.5, 2.2],
-};
 
 const INITIAL_SAVINGS = { people: 3, adminHours: 6, repeatableShare: 35 };
 
@@ -27,8 +18,27 @@ function scrollToId(id: string) {
   el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+/**
+ * The one-page /build-an-agent flow.
+ *
+ * All six sections share the same <BuilderProvider>: what the visitor drags
+ * on the canvas up top, what they configure in the middle, and what the real
+ * Claude answer streams from below are the same agent, with the same parts,
+ * with the same shared state.
+ */
 export function BuilderRoot() {
-  const [parts, setParts] = useState<PartPositions>(INITIAL_PARTS);
+  return (
+    <BuilderProvider>
+      <BuilderPage />
+    </BuilderProvider>
+  );
+}
+
+function BuilderPage() {
+  const {
+    state: { parts, speaking },
+    movePart,
+  } = useBuilder();
   const placedCount = Object.keys(parts).length;
 
   return (
@@ -36,11 +46,7 @@ export function BuilderRoot() {
       {/* ── SECTION 1 · IMMERSIVE 3D HERO — a single-screen builder canvas ── */}
       <section id="build" className={styles.hero} aria-label="Build your agent">
         <div className={styles.canvas}>
-          <BuilderScene
-            onPartMove={(id, position) =>
-              setParts((prev) => ({ ...prev, [id]: position }))
-            }
-          />
+          <BuilderScene onPartMove={movePart} speaking={speaking} />
         </div>
 
         <div className={styles.heroOverlayTop}>
@@ -88,7 +94,16 @@ export function BuilderRoot() {
       {/* ── SECTION 2 · INTAKE — warm, first-person, Business Genome-first ── */}
       <IntakeSection />
 
-      {/* ── SECTION 3 · TIME BACK — the estimator, pre-set to a sensible start ── */}
+      {/* ── SECTION 3 · CONFIGURE — chip pickers per placed part ── */}
+      <ConfigureSection />
+
+      {/* ── SECTION 4 · ASK — real streaming Claude answer, mesh glows ── */}
+      <AskSection />
+
+      {/* ── SECTION 5 · SHARE — copy link, save PNG, hold-by-email ── */}
+      <ShareSection />
+
+      {/* ── SECTION 6 · TIME BACK — the estimator ── */}
       <section id="time-back" className={styles.savingsSection} aria-label="Time back estimate">
         <div className={styles.sectionBanner}>
           <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.savings.eyebrow}</p>
@@ -98,7 +113,7 @@ export function BuilderRoot() {
         <TimeSavingsCalculator initialValues={INITIAL_SAVINGS} />
       </section>
 
-      {/* ── SECTION 4 · CLOSING — hand it to us to build for real ── */}
+      {/* ── SECTION 6 · CLOSING — hand it to us to build for real ── */}
       <section id="hand-off" className={styles.closingSection} aria-label="Hand it to us">
         <div className={styles.closingCard}>
           <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.closing.eyebrow}</p>
