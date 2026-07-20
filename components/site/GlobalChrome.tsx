@@ -19,6 +19,9 @@ import {
   isBuildAnAgent,
 } from '@/components/site/site-header';
 
+// Editorial gallery rebuild owns its own wordmark + footer.
+const isEditorialHome = (pathname: string | null): boolean => pathname === '/';
+
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
  * rendered on every marketing page so the frame stops changing as you move
@@ -41,7 +44,8 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isStandaloneHealth(pathname) ||
     isMotionStudio(pathname) ||
     isStudio(pathname) ||
-    isBuildAnAgent(pathname)
+    isBuildAnAgent(pathname) ||
+    isEditorialHome(pathname)
   );
 }
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Lato, Space_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Lato, Space_Mono, Archivo_Black } from 'next/font/google';
 import { GlobalNav, GlobalFooter } from '@/components/site/GlobalChrome';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
@@ -66,6 +66,16 @@ const spaceMono = Space_Mono({
   display: 'swap',
 });
 
+// Editorial gallery homepage — chunky grotesque for the hero + manifesto type,
+// paired with Cormorant italic. Closest free equivalent to the Neue Haas
+// Grotesk Display Black feel Kate referenced in the designbyshiv brief.
+const archivoBlack = Archivo_Black({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-editorial',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: {
     default: 'assembl — less admin, more mahi',
@@ -106,7 +116,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NZ" className={`${cormorant.variable} ${lato.variable} ${spaceMono.variable}`}>
+    <html lang="en-NZ" className={`${cormorant.variable} ${lato.variable} ${spaceMono.variable} ${archivoBlack.variable}`}>
 
       <body>
         <JsonLd data={SITE_GRAPH} />
