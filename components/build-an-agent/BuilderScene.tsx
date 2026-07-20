@@ -5,7 +5,9 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect } from 'react';
 import * as THREE from 'three';
 
+import { useDeviceCapability } from './hooks/useDeviceCapability';
 import { useReducedMotion3D } from './hooks/useReducedMotion3D';
+import { useResponsiveCamera } from './hooks/useResponsiveCamera';
 import { Guardrails } from './parts/Guardrails';
 import { Knowledge } from './parts/Knowledge';
 import { Memory } from './parts/Memory';
@@ -24,6 +26,8 @@ interface Props {
 
 export function BuilderScene({ onPartMove, speaking = false }: Props) {
   const reduced = useReducedMotion3D();
+  const capability = useDeviceCapability();
+  const cam = useResponsiveCamera();
 
   // R3F's Canvas can miss the very first parent-size measurement when the
   // component is dynamically imported into a full-viewport container; nudging
@@ -38,10 +42,20 @@ export function BuilderScene({ onPartMove, speaking = false }: Props) {
 
   return (
     <Canvas
+      // Remounts the whole scene if the perf tier or the camera's width
+      // bucket flips mid-session (a devtools viewport resize, a phone
+      // rotation) — camera + gl settings below are read once at Canvas
+      // construction, so a fresh key is the simplest way to make either
+      // change actually take effect.
+      key={`${capability.tier}-${cam.bucket}`}
       shadows={false}
-      dpr={[1, 2]}
-      gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-      camera={{ position: [0, 1.8, 5.4], fov: 42, near: 0.1, far: 200 }}
+      dpr={capability.dpr}
+      gl={{
+        antialias: capability.tier === 'full',
+        alpha: false,
+        powerPreference: capability.tier === 'full' ? 'high-performance' : 'low-power',
+      }}
+      camera={{ position: cam.position, fov: cam.fov, near: 0.1, far: 200 }}
       resize={{ debounce: 0, offsetSize: true, scroll: false }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.NeutralToneMapping;
@@ -51,19 +65,34 @@ export function BuilderScene({ onPartMove, speaking = false }: Props) {
       style={{ touchAction: 'none', width: '100%', height: '100%', display: 'block' }}
     >
       {/* HDRI comes in when it's ready — the rest of the scene renders now,
-          not held hostage by the CDN request. */}
-      <Suspense fallback={null}>
-        <Environment preset="studio" background={false} environmentIntensity={0.9} />
-      </Suspense>
+          not held hostage by the CDN request. Skipped entirely on the lite
+          tier — it's the single heaviest thing this scene does. */}
+      {capability.showEnvironment && (
+        <Suspense fallback={null}>
+          <Environment preset="studio" background={false} environmentIntensity={0.9} />
+        </Suspense>
+      )}
 
       <hemisphereLight args={['#FFFFFF', '#E8E4D8', 0.7]} />
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[6, 8, 4]} intensity={1.1} color="#FFF7E4" />
-      <directionalLight position={[-5, 3, -2]} intensity={0.45} color="#E8F1FF" />
+      <ambientLight intensity={capability.ambientIntensity} />
+      {/* Metallic parts rely on the HDRI for their specular highlights — with
+          no environment map to reflect (lite tier), they go flat and dark.
+          A stronger direct key + fill light gives them real specular pop
+          without paying for realtime reflection convolution. */}
+      <directionalLight
+        position={[6, 8, 4]}
+        intensity={capability.showEnvironment ? 1.1 : 1.7}
+        color="#FFF7E4"
+      />
+      <directionalLight
+        position={[-5, 3, -2]}
+        intensity={capability.showEnvironment ? 0.45 : 0.85}
+        color="#E8F1FF"
+      />
 
       <Ground />
       <HorizonWaves reduced={reduced} />
-      <Kohatu reduced={reduced} />
+      <Kohatu reduced={reduced} count={capability.kohatuCount} />
 
       <ModelCore
         initialPosition={[0, 0.6, 0]}
@@ -97,7 +126,7 @@ export function BuilderScene({ onPartMove, speaking = false }: Props) {
         onMove={(p) => onPartMove?.('guardrails', p)}
       />
 
-      <CameraParallax reduced={reduced} />
+      <CameraParallax reduced={reduced || !capability.allowParallax} />
     </Canvas>
   );
 }

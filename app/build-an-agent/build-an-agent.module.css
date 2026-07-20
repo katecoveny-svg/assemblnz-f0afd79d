@@ -64,6 +64,26 @@
   text-align: right;
 }
 
+/* Scrim behind the hero copy — a soft upward wash of paper white so the
+   headline stays legible no matter which part happens to drift behind it.
+   Kept subtle: this is "clean canvas", not a dark gradient banner. */
+.heroCopyScrim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: min(56vh, 32rem);
+  background: linear-gradient(
+    180deg,
+    rgba(251, 250, 246, 0) 0%,
+    rgba(251, 250, 246, 0.65) 22%,
+    rgba(251, 250, 246, 0.88) 50%,
+    rgba(251, 250, 246, 0.96) 100%
+  );
+  pointer-events: none;
+}
+
 .heroCopy {
   position: absolute;
   left: clamp(1.25rem, 4vw, 2.5rem);
@@ -296,15 +316,29 @@
     font-size: 0.6rem;
   }
   .headline {
-    font-size: clamp(2.2rem, 8vw, 3rem);
+    font-size: clamp(2rem, 9vw, 2.6rem);
   }
+  .lede {
+    font-size: 0.92rem;
+  }
+  /* Sits closer to the bottom edge and gets a taller scrim (below) so the
+     6 drifting parts never fight the headline for legibility on a portrait
+     phone — the scene reads as background texture behind the copy here,
+     not a peer element competing with it. */
   .heroCopy {
-    bottom: 6rem;
+    bottom: 5.5rem;
+    gap: 0.65rem;
+  }
+  .heroCopyScrim {
+    height: 68vh;
   }
   .ctaRow {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.85rem;
+    gap: 0.65rem;
+  }
+  .hint {
+    font-size: 0.78rem;
   }
   .scrollCue {
     display: none;

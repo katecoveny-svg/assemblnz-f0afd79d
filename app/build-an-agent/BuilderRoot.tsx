@@ -56,6 +56,8 @@ function BuilderPage() {
           <p className={styles.eyebrow}>{BUILD_AN_AGENT.hero.eyebrow}</p>
         </div>
 
+        <div className={styles.heroCopyScrim} aria-hidden />
+
         <div className={styles.heroCopy}>
           <h1 className={styles.headline}>
             <span>{BUILD_AN_AGENT.hero.headline.line1}</span>
