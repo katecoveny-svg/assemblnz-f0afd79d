@@ -20,9 +20,13 @@ type TimeSavingsCalculatorProps = {
     adminHours: number;
     repeatableShare: number;
   };
+  /** When embedded under a section that already supplies its own eyebrow +
+   *  heading (the /build-an-agent flow), suppress the calculator's own intro
+   *  so the "How many hours could you get back?" heading isn't doubled. */
+  hideIntro?: boolean;
 };
 
-export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorProps) {
+export function TimeSavingsCalculator({ initialValues, hideIntro = false }: TimeSavingsCalculatorProps) {
   const [people, setPeople] = useState(initialValues.people);
   const [adminHours, setAdminHours] = useState(initialValues.adminHours);
   const [repeatableShare, setRepeatableShare] = useState(initialValues.repeatableShare);
@@ -59,12 +63,19 @@ export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorPr
   }
 
   return (
-    <section id="time-savings" className={styles.section} aria-labelledby="time-savings-title">
-      <div className={styles.intro}>
-        <p className={styles.eyebrow}>{SAVINGS.eyebrow}</p>
-        <h2 id="time-savings-title">{SAVINGS.heading}</h2>
-        <p>{SAVINGS.body}</p>
-      </div>
+    <section
+      id="time-savings"
+      className={styles.section}
+      aria-labelledby={hideIntro ? undefined : 'time-savings-title'}
+      aria-label={hideIntro ? SAVINGS.heading : undefined}
+    >
+      {!hideIntro && (
+        <div className={styles.intro}>
+          <p className={styles.eyebrow}>{SAVINGS.eyebrow}</p>
+          <h2 id="time-savings-title">{SAVINGS.heading}</h2>
+          <p>{SAVINGS.body}</p>
+        </div>
+      )}
 
       <div className={styles.calculator}>
         <div className={styles.questions}>
