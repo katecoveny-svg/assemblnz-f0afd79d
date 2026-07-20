@@ -4,7 +4,6 @@ import { Suspense, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
   Environment,
-  MeshTransmissionMaterial,
   OrbitControls,
   ContactShadows,
   Sparkles,
@@ -53,21 +52,22 @@ function InstallationForm({ id }: { id: VignetteId }) {
   }
 
   if (shape === 'block') {
+    // Native three.js physical material with transmission — same warm-lit
+    // translucent block look as drei's MeshTransmissionMaterial, without
+    // the .d.ts export gap that broke the Vercel typecheck.
     return (
       <mesh ref={ref} castShadow>
         <boxGeometry args={[0.8, 0.8, 0.8]} />
-        <MeshTransmissionMaterial
-          samples={8}
-          resolution={128}
+        <meshPhysicalMaterial
+          color="#ffd28a"
           transmission={1}
           thickness={0.6}
-          roughness={0.04}
+          roughness={0.05}
           ior={1.42}
-          chromaticAberration={0.05}
-          backside
-          color="#ffd28a"
           attenuationColor="#ff8f4a"
           attenuationDistance={1.1}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
         />
       </mesh>
     );
@@ -216,6 +216,7 @@ export function GalleryScene() {
     >
       <Canvas
         shadows
+        frameloop="always"
         dpr={[1, 1.75]}
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         camera={{ position: [0, 2.2, 4.8], fov: 44 }}

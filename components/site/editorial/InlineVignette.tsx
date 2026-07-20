@@ -2,7 +2,7 @@
 
 import { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, MeshTransmissionMaterial } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 import type { Mesh } from 'three';
 import { CONCEPT_VIGNETTES } from '@/lib/copy/editorial-home';
 
@@ -42,18 +42,16 @@ function VignetteObject({ id }: { id: VignetteId }) {
     return (
       <mesh ref={ref}>
         <boxGeometry args={[1.1, 1.1, 1.1]} />
-        <MeshTransmissionMaterial
-          samples={8}
-          resolution={128}
+        <meshPhysicalMaterial
+          color="#ffd28a"
           transmission={1}
           thickness={0.6}
-          roughness={0.05}
-          ior={1.4}
-          chromaticAberration={0.05}
-          backside
-          color="#ffd28a"
+          roughness={0.06}
+          ior={1.42}
           attenuationColor="#ff9a63"
           attenuationDistance={1.2}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
         />
       </mesh>
     );
