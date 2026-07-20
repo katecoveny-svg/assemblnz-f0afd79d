@@ -11,9 +11,6 @@ import { BuilderProvider, useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
 import styles from './build-an-agent.module.css';
-// Side-effect import: publishes the shared :global life classes (btn3d,
-// reveal, glowSoft, liftCard) that every section on this page composes.
-import './life.module.css';
 
 
 function scrollToId(id: string) {
@@ -68,6 +65,7 @@ function BuilderPage() {
           <p className={styles.eyebrow}>{BUILD_AN_AGENT.hero.eyebrow}</p>
         </div>
 
+        <div className={styles.heroVignette} aria-hidden />
         <div className={styles.heroCopyScrim} aria-hidden />
 
         <div className={styles.heroCopy}>

@@ -1,15 +1,28 @@
 /* ------------------------------------------------------------
- * The life layer — tactile 3D buttons, sea-glass glow, scroll
- * reveals and hover lift, shared across every section of the
- * page. Canon: motion explains the system; nothing loops for
- * decoration; everything collapses under prefers-reduced-motion.
+ * THE LIFE LAYER — sitewide.
+ *
+ * Tactile 3D buttons, sea-glass glow, scroll reveals, hover lift,
+ * parallax and decorative chrome. Lives here rather than inside
+ * /build-an-agent so every surface can compose the same classes.
+ *
+ * Canon: motion explains the system; nothing loops for decoration;
+ * everything collapses under prefers-reduced-motion.
+ *
+ * These are deliberately plain, unscoped class names — they are a
+ * shared vocabulary, not a component's private styles. Checked
+ * against the rest of the app before promoting: the only prior
+ * `reveal` in the codebase is `bd-reveal`, which doesn't collide.
+ *
+ * Opt-in only. Nothing here applies to an element that hasn't
+ * asked for it by class, so promoting the file changes no
+ * existing page's appearance on its own.
  * ------------------------------------------------------------ */
 
 /* ── 3D PRESSABLE BUTTONS ───────────────────────────────────
    A real edge under the cap: the button sits ON the page, lifts
    on hover, and physically depresses onto its shadow when
-   pressed. :global so section modules can compose it. */
-:global(.btn3d) {
+   pressed. Global, so any module can compose it by name. */
+.btn3d {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -43,8 +56,8 @@
     box-shadow 140ms cubic-bezier(0.2, 0.9, 0.3, 1),
     filter 200ms ease;
 }
-:global(.btn3d:hover),
-:global(.btn3d:focus-visible) {
+.btn3d:hover,
+.btn3d:focus-visible {
   outline: none;
   transform: translateY(-2px);
   box-shadow:
@@ -56,7 +69,7 @@
     0 0 0 5px rgba(127, 168, 160, 0.2),
     0 16px 46px -12px rgba(127, 168, 160, 0.6);
 }
-:global(.btn3d:active) {
+.btn3d:active {
   transform: translateY(5px);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.12) inset,
@@ -64,14 +77,14 @@
     0 1px 0 #0a0a09,
     0 4px 10px -6px rgba(26, 25, 24, 0.6);
 }
-:global(.btn3d:disabled) {
+.btn3d:disabled {
   background: linear-gradient(180deg, #c3bfba 0%, #b5b1ac 100%);
   box-shadow: 0 4px 0 #9d9a95, 0 8px 16px -10px rgba(26, 25, 24, 0.4);
   cursor: not-allowed;
   transform: none;
 }
 
-:global(.btn3d)::after {
+.btn3d::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -86,13 +99,13 @@
   transform: translateX(-120%);
   transition: transform 620ms cubic-bezier(0.3, 0.7, 0.2, 1);
 }
-:global(.btn3d:hover)::after,
-:global(.btn3d:focus-visible)::after {
+.btn3d:hover::after,
+.btn3d:focus-visible::after {
   transform: translateX(120%);
 }
 
 /* Ghost variant — paper cap, same physical edge. */
-:global(.btn3dGhost) {
+.btn3dGhost {
   background: linear-gradient(180deg, #ffffff 0%, #FBFAF6 100%);
   color: #1A1918;
   box-shadow:
@@ -102,8 +115,8 @@
     0 5px 0 #ddd8cc,
     0 12px 24px -14px rgba(26, 25, 24, 0.45);
 }
-:global(.btn3dGhost:hover),
-:global(.btn3dGhost:focus-visible) {
+.btn3dGhost:hover,
+.btn3dGhost:focus-visible {
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.95) inset,
     0 -1px 0 rgba(26, 25, 24, 0.06) inset,
@@ -111,7 +124,7 @@
     0 18px 30px -16px rgba(26, 25, 24, 0.5),
     0 0 0 4px rgba(127, 168, 160, 0.18);
 }
-:global(.btn3dGhost:active) {
+.btn3dGhost:active {
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 1px 0 #ddd8cc,
@@ -119,14 +132,14 @@
 }
 
 /* Small variant for in-card actions. */
-:global(.btn3dSm) {
+.btn3dSm {
   font-size: 0.9rem;
   padding: 0.7rem 1.15rem;
 }
 
 /* ── SCROLL REVEAL ──────────────────────────────────────────
    Sections rise once, on first view. */
-:global(.reveal) {
+.reveal {
   opacity: 0;
   transform: translateY(22px);
   transition:
@@ -134,37 +147,37 @@
     transform 720ms cubic-bezier(0.2, 0.7, 0.2, 1);
   will-change: opacity, transform;
 }
-:global(.revealShown) {
+.revealShown {
   opacity: 1;
   transform: translateY(0);
 }
 /* Children stagger a touch behind their section. */
-:global(.revealShown .revealChild) {
+.revealShown .revealChild {
   opacity: 1;
   transform: translateY(0);
 }
-:global(.revealChild) {
+.revealChild {
   opacity: 0;
   transform: translateY(14px);
   transition:
     opacity 640ms cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 640ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-:global(.revealChild:nth-child(1)) { transition-delay: 60ms; }
-:global(.revealChild:nth-child(2)) { transition-delay: 120ms; }
-:global(.revealChild:nth-child(3)) { transition-delay: 180ms; }
-:global(.revealChild:nth-child(4)) { transition-delay: 240ms; }
-:global(.revealChild:nth-child(5)) { transition-delay: 300ms; }
-:global(.revealChild:nth-child(6)) { transition-delay: 360ms; }
-:global(.revealChild:nth-child(7)) { transition-delay: 420ms; }
+.revealChild:nth-child(1) { transition-delay: 60ms; }
+.revealChild:nth-child(2) { transition-delay: 120ms; }
+.revealChild:nth-child(3) { transition-delay: 180ms; }
+.revealChild:nth-child(4) { transition-delay: 240ms; }
+.revealChild:nth-child(5) { transition-delay: 300ms; }
+.revealChild:nth-child(6) { transition-delay: 360ms; }
+.revealChild:nth-child(7) { transition-delay: 420ms; }
 
 /* ── GLOW ───────────────────────────────────────────────────
    A soft sea-glass bloom behind key surfaces. Restrained: this
    is light on paper, never neon. */
-:global(.glowSoft) {
+.glowSoft {
   position: relative;
 }
-:global(.glowSoft)::before {
+.glowSoft::before {
   content: '';
   position: absolute;
   inset: -18% -8%;
@@ -179,13 +192,13 @@
 }
 
 /* Cards lift and catch a rim of light on hover. */
-:global(.liftCard) {
+.liftCard {
   transition:
     transform 260ms cubic-bezier(0.2, 0.8, 0.25, 1),
     box-shadow 260ms cubic-bezier(0.2, 0.8, 0.25, 1),
     border-color 260ms ease;
 }
-:global(.liftCard:hover) {
+.liftCard:hover {
   transform: translateY(-4px);
   border-color: rgba(127, 168, 160, 0.5);
   box-shadow:
@@ -194,19 +207,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(.btn3d),
-  :global(.btn3dGhost),
-  :global(.liftCard) {
+  .btn3d,
+  .btn3dGhost,
+  .liftCard {
     transition: none;
   }
-  :global(.btn3d:hover),
-  :global(.btn3dGhost:hover),
-  :global(.btn3d:active),
-  :global(.liftCard:hover) {
+  .btn3d:hover,
+  .btn3dGhost:hover,
+  .btn3d:active,
+  .liftCard:hover {
     transform: none;
   }
-  :global(.reveal),
-  :global(.revealChild) {
+  .reveal,
+  .revealChild {
     opacity: 1;
     transform: none;
     transition: none;
@@ -219,12 +232,12 @@
    data-parallax attribute; these classes decide what to do
    with it. Translation only — no scale, nothing that can
    trigger layout. */
-:global(.parallaxY) {
+.parallaxY {
   transform: translate3d(0, var(--py, 0px), 0);
   will-change: transform;
 }
 /* Drifts the opposite way, for a counter-moving decorative layer. */
-:global(.parallaxYInv) {
+.parallaxYInv {
   transform: translate3d(0, calc(var(--py, 0px) * -1), 0);
   will-change: transform;
 }
@@ -233,7 +246,7 @@
    A brushed hairline and a soft chrome arc, used to break up
    long runs of type. Purely decorative: aria-hidden at the
    call site, and they never carry meaning. */
-:global(.chromeRule) {
+.chromeRule {
   height: 1px;
   border: 0;
   margin: 0;
@@ -249,21 +262,21 @@
 
 /* A wide, very soft lens of light behind a section — gives a
    wall of text somewhere for the eye to rest. */
-:global(.chromeField) {
+.chromeField {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
 }
-:global(.chromeField)::before,
-:global(.chromeField)::after {
+.chromeField::before,
+.chromeField::after {
   content: '';
   position: absolute;
   border-radius: 50%;
   filter: blur(60px);
 }
-:global(.chromeField)::before {
+.chromeField::before {
   width: 46vw;
   height: 46vw;
   top: -14vw;
@@ -274,7 +287,7 @@
     rgba(127, 168, 160, 0) 68%
   );
 }
-:global(.chromeField)::after {
+.chromeField::after {
   width: 38vw;
   height: 38vw;
   bottom: -16vw;
@@ -287,11 +300,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(.parallaxY),
-  :global(.parallaxYInv) {
+  .parallaxY,
+  .parallaxYInv {
     transform: none;
   }
-  :global(.btn3d)::after {
+  .btn3d::after {
     display: none;
   }
 }

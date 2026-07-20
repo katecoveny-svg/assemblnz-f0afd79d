@@ -2,7 +2,7 @@
 
 import { ContactShadows, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 import { useDeviceCapability } from './hooks/useDeviceCapability';
@@ -15,6 +15,7 @@ import { Tools } from './parts/Tools';
 import { Voice } from './parts/Voice';
 import { CameraParallax } from './scene/CameraParallax';
 import { Ground } from './scene/Ground';
+import { SceneBackdrop } from './scene/SceneBackdrop';
 import { ReflectiveFloor } from './scene/ReflectiveFloor';
 import { HorizonWaves } from './scene/HorizonWaves';
 import { Kohatu } from './scene/Kohatu';
@@ -76,7 +77,7 @@ const LAYOUT = {
     core: [0, 0.7, 0] as const,
     scale: 0.62,
     aimBias: 0,
-    aimY: -1.35,
+    aimY: -1.75,
   },
 } as const;
 
@@ -116,16 +117,35 @@ export function BuilderScene({
   corePosition,
   speaking = false,
 }: Props) {
+  const hostRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion3D();
   const capability = useDeviceCapability();
-  const cam = useResponsiveCamera();
+  const cam = useResponsiveCamera(hostRef);
   const layout = LAYOUT[cam.bucket];
-  const corePos = corePosition ?? ([...layout.core] as [number, number, number]);
+  // The core itself slides toward centre on a narrow frame — an off-centre
+  // core plus a narrow horizontal field is exactly how it used to walk off
+  // the edge.
+  const core: [number, number, number] = [
+    layout.core[0] * cam.fit,
+    layout.core[1],
+    layout.core[2],
+  ];
+  const fitted = { core, scale: layout.scale };
+  // A narrow frame gets the SAME composition, from further back — squeezing
+  // the layout instead just piles the parts on top of each other, and a
+  // camera operator short on width steps back rather than rearranging the
+  // subject. fov is vertical, so pulling z is what buys horizontal room.
+  const base: [number, number, number] = [
+    cam.position[0],
+    cam.position[1],
+    cam.position[2] / cam.fit,
+  ];
+  const corePos = corePosition ?? ([...core] as [number, number, number]);
   // Aim tracks the LAYOUT core, not the live dragged one — the framing
   // shouldn't swing around every time someone picks the knot up.
   const aim: [number, number, number] = [
-    layout.core[0] * layout.aimBias,
-    layout.core[1] + layout.aimY,
+    core[0] * layout.aimBias,
+    core[1] + layout.aimY,
     0,
   ];
 
@@ -141,13 +161,14 @@ export function BuilderScene({
   }, []);
 
   return (
+    <div ref={hostRef} style={{ position: 'absolute', inset: 0 }}>
     <Canvas
       // Remounts the whole scene if the perf tier or the camera's width
       // bucket flips mid-session (a devtools viewport resize, a phone
       // rotation) — camera + gl settings below are read once at Canvas
       // construction, so a fresh key is the simplest way to make either
       // change actually take effect.
-      key={`${capability.tier}-${cam.bucket}`}
+      key={`${capability.tier}-${cam.bucket}-${cam.fit.toFixed(2)}`}
       shadows={false}
       dpr={capability.dpr}
       gl={{
@@ -155,7 +176,7 @@ export function BuilderScene({
         alpha: false,
         powerPreference: capability.tier === 'full' ? 'high-performance' : 'low-power',
       }}
-      camera={{ position: cam.position, fov: cam.fov, near: 0.1, far: 200 }}
+      camera={{ position: base, fov: cam.fov, near: 0.1, far: 200 }}
       resize={{ debounce: 0, offsetSize: true, scroll: false }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
@@ -169,7 +190,11 @@ export function BuilderScene({
           tier — it's the single heaviest thing this scene does. */}
       {/* Depth fog — distant kōhatu and the floor edge recede into paper,
           so the assembly reads as standing in a room with air in it. */}
-      <fog attach="fog" args={['#F4F1E9', 9, 26]} />
+      {/* The room. Renders behind everything and ignores fog — the fog then
+          blends the actual world INTO it, which is what gives distance. */}
+      <SceneBackdrop />
+
+      <fog attach="fog" args={['#EFE9DC', 8, 30]} />
 
       {capability.showEnvironment && (
         <Suspense fallback={null}>
@@ -214,13 +239,13 @@ export function BuilderScene({
       <Kohatu reduced={reduced} count={capability.kohatuCount} />
 
       <ModelCore
-        initialPosition={[...layout.core] as [number, number, number]}
+        initialPosition={[...core] as [number, number, number]}
         reduced={reduced}
         speaking={speaking}
         onMove={(p) => onPartMove?.('model', p)}
       />
       <Memory
-        initialPosition={partPos(layout, 'memory')}
+        initialPosition={partPos(fitted, 'memory')}
         reduced={reduced}
         corePosition={corePos}
         dockAngle={dockAngle('memory')}
@@ -228,7 +253,7 @@ export function BuilderScene({
         onDock={(d) => onPartDock?.('memory', d)}
       />
       <Tools
-        initialPosition={partPos(layout, 'tools')}
+        initialPosition={partPos(fitted, 'tools')}
         reduced={reduced}
         corePosition={corePos}
         dockAngle={dockAngle('tools')}
@@ -236,7 +261,7 @@ export function BuilderScene({
         onDock={(d) => onPartDock?.('tools', d)}
       />
       <Knowledge
-        initialPosition={partPos(layout, 'knowledge')}
+        initialPosition={partPos(fitted, 'knowledge')}
         reduced={reduced}
         corePosition={corePos}
         dockAngle={dockAngle('knowledge')}
@@ -244,7 +269,7 @@ export function BuilderScene({
         onDock={(d) => onPartDock?.('knowledge', d)}
       />
       <Voice
-        initialPosition={partPos(layout, 'voice')}
+        initialPosition={partPos(fitted, 'voice')}
         reduced={reduced}
         corePosition={corePos}
         dockAngle={dockAngle('voice')}
@@ -255,7 +280,8 @@ export function BuilderScene({
           the intelligence core, rendered inside ModelCore so it follows the
           core wherever it's dragged (canon: ring = the clear outer shell). */}
 
-      <CameraParallax reduced={reduced || !capability.allowParallax} base={cam.position} aim={aim} />
+      <CameraParallax reduced={reduced || !capability.allowParallax} base={base} aim={aim} />
     </Canvas>
+    </div>
   );
 }
