@@ -17,7 +17,7 @@ export const EDITORIAL_WORDMARK = 'assembl.';
  *
  * Token kinds:
  *   text  — Kate's words, rendered verbatim in the poster face
- *   vig   — an inline 3D vignette (id references CONCEPT_VIGNETTES below)
+ *   vig   — an inline 3D agent part (id references AGENT_PARTS below)
  *   break — force a line break at this point
  */
 export type HeroToken =
@@ -25,30 +25,32 @@ export type HeroToken =
   // `emph` = the champagne-accented word(s). Used for "AI", "VISIBLE AGENTS",
   // "AGENTIC ERA" — the two or three phrases the poster leans on.
   | { kind: 'emph'; value: string }
-  | { kind: 'vig'; id: 'woolworths' | 'contact' | 'airnz' }
+  // `vig` = an inline live 3D object — one of the six agent parts.
+  | { kind: 'vig'; id: PartId }
   | { kind: 'break' };
 
 // Copy from Kate's 2026-07-21 brief: "MAKE AI VISIBLE. NEW ZEALAND'S AGENTS
 // YOU CAN SEE HOLD AND UNDERSTAND that understand your business too." — with
 // her instruction to "rework for punch, keep spirit". Broken poetically for
-// the poster; inline vignettes answer the "make AI visible" claim inside the
-// sentence. No Oxford commas (house rule). Swap only on Kate's word.
+// the poster; inline vignettes are the actual agent PARTS (chrome objects),
+// answering the "make AI visible" claim inside the sentence. No Oxford commas
+// (house rule). Swap only on Kate's word.
 export const EDITORIAL_HERO_TOKENS: HeroToken[] = [
   { kind: 'text', value: 'MAKE' },
   { kind: 'emph', value: 'AI' },
-  { kind: 'vig', id: 'woolworths' },
+  { kind: 'vig', id: 'intelligence' },
   { kind: 'text', value: 'VISIBLE.' },
   { kind: 'break' },
   { kind: 'text', value: 'NEW ZEALAND’S AGENTS' },
   { kind: 'break' },
   { kind: 'text', value: 'YOU CAN SEE HOLD' },
-  { kind: 'vig', id: 'contact' },
+  { kind: 'vig', id: 'memory' },
   { kind: 'text', value: 'AND UNDERSTAND —' },
   { kind: 'break' },
   { kind: 'text', value: 'THAT UNDERSTAND YOUR' },
   { kind: 'break' },
   { kind: 'text', value: 'BUSINESS' },
-  { kind: 'vig', id: 'airnz' },
+  { kind: 'vig', id: 'voice' },
   { kind: 'text', value: 'TOO.' },
 ];
 
@@ -65,21 +67,21 @@ export const EDITORIAL_MANIFESTO_TOKENS: HeroToken[] = [
   { kind: 'text', value: 'AI IS NOT COMPLEX.' },
   { kind: 'break' },
   { kind: 'text', value: 'WE HAVE' },
-  { kind: 'vig', id: 'woolworths' },
+  { kind: 'vig', id: 'knowledge' },
   { kind: 'text', value: 'MADE IT SO.' },
   { kind: 'break' },
   { kind: 'emph', value: 'VISIBLE AGENTS' },
   { kind: 'text', value: 'ARE THE ONLY' },
   { kind: 'break' },
   { kind: 'text', value: 'AGENTS PEOPLE' },
-  { kind: 'vig', id: 'contact' },
+  { kind: 'vig', id: 'abilities' },
   { kind: 'text', value: 'ACTUALLY ADOPT.' },
   { kind: 'break' },
   { kind: 'text', value: 'WELCOME TO THE' },
   { kind: 'emph', value: 'AGENTIC ERA' },
   { kind: 'break' },
   { kind: 'text', value: 'WITH YOUR OWN HANDS' },
-  { kind: 'vig', id: 'airnz' },
+  { kind: 'vig', id: 'boundaries' },
   { kind: 'text', value: 'ON THE WHEEL.' },
 ];
 
@@ -92,33 +94,94 @@ export const EDITORIAL_CTAS = {
 } as const;
 
 /**
- * The three concept installations — surfaced as tiny inline 3D vignettes in
- * the hero H1, then rendered as physical sculptures on plinths inside the
- * walkable gallery (viewport 2). `href` points at Kate's concept-studio
- * microsites — the enterprise cold-outreach targets, not the fictional
- * demo cast. Independent-concept disclaimer must sit near any embed.
+ * The six parts of an assembl agent — the same objects the agent builder is
+ * made of, surfaced two ways: as tiny live 3D objects wedged between words in
+ * the posters, and as full sculptures on plinths in the walkable gallery.
  *
- * `shape` picks the physical form the vignette + installation take:
- *   sphere → chrome/glass sphere (Woolworths / Everyday Rewards)
- *   block  → translucent glass block, warm-lit (Contact Energy)
- *   torus  → chrome torus, iridescent (Air New Zealand koru)
+ * This is a HOMEPAGE, not the named concept demos — so the objects are the
+ * product's own vocabulary (Intelligence, Memory, Knowledge, Abilities,
+ * Voice, Boundaries), each with the physical form and material the builder
+ * uses. Intelligence is the obsidian knot — deliberately NOT chrome; it's the
+ * one object made of a different substance. The other five are one chrome
+ * family in distinct tints, so they read as a set.
+ *
+ * `shape`    → the geometry the object takes
+ * `material` → obsidian | chrome | brushed (drives the PBR in the 3D code)
+ * `tint`     → base colour for that material
+ * `helper`   → the builder's own one-line description of the part
  */
-export const CONCEPT_VIGNETTES = {
-  woolworths: {
-    label: 'Woolworths',
+export type PartShape = 'knot' | 'cubes' | 'octahedron' | 'capsule' | 'sphere' | 'ring';
+export type PartMaterial = 'obsidian' | 'chrome' | 'brushed';
+
+export const AGENT_PARTS = {
+  intelligence: {
+    label: 'Intelligence',
+    shape: 'knot' as const,
+    material: 'obsidian' as PartMaterial,
+    tint: '#0B0B0D',
+    helper: 'The brain. Picks its words.',
+  },
+  memory: {
+    label: 'Memory',
+    shape: 'cubes' as const,
+    material: 'chrome' as PartMaterial,
+    tint: '#C4D2DB',
+    helper: 'What it remembers between chats.',
+  },
+  knowledge: {
+    label: 'Knowledge',
+    shape: 'octahedron' as const,
+    material: 'chrome' as PartMaterial,
+    tint: '#D3CCC0',
+    helper: 'Where it looks things up.',
+  },
+  abilities: {
+    label: 'Abilities',
+    shape: 'capsule' as const,
+    material: 'chrome' as PartMaterial,
+    tint: '#E6EAED',
+    helper: 'What it can go and do.',
+  },
+  voice: {
+    label: 'Voice',
     shape: 'sphere' as const,
-    href: 'https://assembl-concept-studio.katecoveny.chatgpt.site/everyday-rewards',
+    material: 'chrome' as PartMaterial,
+    tint: '#AEB6BC',
+    helper: 'How it speaks and what it cares about.',
   },
-  contact: {
-    label: 'Contact',
-    shape: 'block' as const,
-    href: 'https://assembl-concept-studio.katecoveny.chatgpt.site/contact',
+  boundaries: {
+    label: 'Boundaries',
+    shape: 'ring' as const,
+    material: 'brushed' as PartMaterial,
+    tint: '#C9CCD0',
+    helper: 'What it will never do.',
   },
-  airnz: {
-    label: 'Air NZ',
-    shape: 'torus' as const,
-    href: 'https://assembl-concept-studio.katecoveny.chatgpt.site/air-new-zealand',
-  },
+} as const;
+
+export type PartId = keyof typeof AGENT_PARTS;
+
+/** Order the parts stand in the gallery, left to right along the arc. */
+export const GALLERY_PART_ORDER: PartId[] = [
+  'memory',
+  'knowledge',
+  'intelligence',
+  'voice',
+  'abilities',
+  'boundaries',
+];
+
+/**
+ * The suspended centrepiece — the assembled agent itself, floating above the
+ * six parts it is made from. Label kept to the product vocabulary.
+ */
+export const GALLERY_AGENT = {
+  label: 'The assembl agent',
+  helper: 'Every part below, assembled.',
+} as const;
+
+export const GALLERY_CAPTION = {
+  left: 'The gallery · the parts of an assembl agent',
+  right: 'Drag to look · every object is a part you can place',
 } as const;
 
 /**

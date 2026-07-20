@@ -1,90 +1,51 @@
 'use client';
 
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useMemo, useRef, useState } from 'react';
+import { AdditiveBlending, CanvasTexture, SRGBColorSpace } from 'three';
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
 // drei's flat `@react-three/drei` .d.ts only re-exports Html. Every other
 // component lives at a subpath; importing from the top hits a Vercel
 // typecheck failure. Keep subpaths so future drei users don't repeat this.
 import { Environment } from '@react-three/drei/core/Environment';
+import { Lightformer } from '@react-three/drei/core/Lightformer';
 import { OrbitControls } from '@react-three/drei/core/OrbitControls';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows';
+import { MeshReflectorMaterial } from '@react-three/drei/core/MeshReflectorMaterial';
 import { Sparkles } from '@react-three/drei/core/Sparkles';
 import { Html } from '@react-three/drei';
-import type { Group, Mesh } from 'three';
-import { CONCEPT_VIGNETTES } from '@/lib/copy/editorial-home';
+import type { Group } from 'three';
+import {
+  AGENT_PARTS,
+  GALLERY_PART_ORDER,
+  GALLERY_AGENT,
+  GALLERY_CAPTION,
+  type PartId,
+} from '@/lib/copy/editorial-home';
+import { PartMesh } from './PartMesh';
 
-type VignetteId = keyof typeof CONCEPT_VIGNETTES;
-
-const INSTALLATIONS: Array<{ id: VignetteId; position: [number, number, number] }> = [
-  { id: 'woolworths', position: [-3.4, 0, -1.5] },
-  { id: 'contact', position: [0, 0, -2.6] },
-  { id: 'airnz', position: [3.4, 0, -1.5] },
-];
+/**
+ * Where each part stands. A shallow arc that bows toward the camera at the
+ * centre, so all six read at once and the edges recede into the hall.
+ */
+function useLayout() {
+  return useMemo(() => {
+    const n = GALLERY_PART_ORDER.length;
+    const spread = 9.4; // total width across the arc
+    return GALLERY_PART_ORDER.map((id, i) => {
+      const t = n === 1 ? 0 : i / (n - 1) - 0.5; // -0.5 … 0.5
+      const x = t * spread;
+      // edges pushed back, centre pulled forward → concave toward camera
+      const z = -2.4 - Math.abs(t) * 2.1;
+      return { id, position: [x, 0, z] as [number, number, number] };
+    });
+  }, []);
+}
 
 function Plinth() {
   return (
-    <mesh position={[0, 0.6, 0]}>
-      <boxGeometry args={[1.3, 1.2, 1.3]} />
-      <meshStandardMaterial color="#f0ede6" roughness={0.85} metalness={0.02} />
-    </mesh>
-  );
-}
-
-function InstallationForm({ id }: { id: VignetteId }) {
-  const ref = useRef<Mesh>(null!);
-  useFrame((_, dt) => {
-    if (ref.current) ref.current.rotation.y += dt * 0.12;
-  });
-  const shape = CONCEPT_VIGNETTES[id].shape;
-
-  if (shape === 'sphere') {
-    return (
-      <mesh ref={ref}>
-        <sphereGeometry args={[0.5, 96, 96]} />
-        <meshPhysicalMaterial
-          color="#f6f6f6"
-          metalness={1}
-          roughness={0.06}
-          clearcoat={1}
-          clearcoatRoughness={0.04}
-        />
-      </mesh>
-    );
-  }
-
-  if (shape === 'block') {
-    // Native three.js physical material with transmission — same warm-lit
-    // translucent block look as drei's MeshTransmissionMaterial, without
-    // the .d.ts export gap that broke the Vercel typecheck.
-    return (
-      <mesh ref={ref}>
-        <boxGeometry args={[0.8, 0.8, 0.8]} />
-        <meshPhysicalMaterial
-          color="#ffd28a"
-          transmission={1}
-          thickness={0.6}
-          roughness={0.05}
-          ior={1.42}
-          attenuationColor="#ff8f4a"
-          attenuationDistance={1.1}
-          clearcoat={1}
-          clearcoatRoughness={0.1}
-        />
-      </mesh>
-    );
-  }
-
-  return (
-    <mesh ref={ref}>
-      <torusGeometry args={[0.45, 0.16, 48, 128]} />
-      <meshPhysicalMaterial
-        color="#eae8e3"
-        metalness={1}
-        roughness={0.14}
-        iridescence={1}
-        iridescenceIOR={1.55}
-        iridescenceThicknessRange={[120, 900]}
-      />
+    <mesh position={[0, 0.55, 0]} castShadow={false}>
+      <boxGeometry args={[1.05, 1.1, 1.05]} />
+      <meshStandardMaterial color="#f2efe8" roughness={0.9} metalness={0.02} />
     </mesh>
   );
 }
@@ -92,28 +53,25 @@ function InstallationForm({ id }: { id: VignetteId }) {
 function Installation({
   id,
   position,
-  onOpen,
 }: {
-  id: VignetteId;
+  id: PartId;
   position: [number, number, number];
-  onOpen: (id: VignetteId) => void;
 }) {
-  const group = useRef<Group>(null!);
+  const spin = useRef<Group>(null!);
   const [hover, setHover] = useState(false);
-  const vig = CONCEPT_VIGNETTES[id];
+  const part = AGENT_PARTS[id];
+
+  useFrame((_, dt) => {
+    if (spin.current) spin.current.rotation.y += dt * (hover ? 0.4 : 0.16);
+  });
 
   return (
     <group
-      ref={group}
       position={position}
-      onClick={(e: ThreeEvent<MouseEvent>) => {
-        e.stopPropagation();
-        onOpen(id);
-      }}
       onPointerOver={(e: ThreeEvent<PointerEvent>) => {
         e.stopPropagation();
         setHover(true);
-        document.body.style.cursor = 'pointer';
+        document.body.style.cursor = 'grab';
       }}
       onPointerOut={(e: ThreeEvent<PointerEvent>) => {
         e.stopPropagation();
@@ -122,96 +80,294 @@ function Installation({
       }}
     >
       <Plinth />
-      <group position={[0, 1.7, 0]} scale={hover ? 1.05 : 1}>
-        <InstallationForm id={id} />
+      {/* the part, floating just above the plinth top */}
+      <group ref={spin} position={[0, 1.55, 0]} scale={hover ? 0.92 : 0.86}>
+        <PartMesh id={id} />
       </group>
-      <Html position={[0, 2.55, 0]} center distanceFactor={7} occlude>
-        <span
+      <Html position={[0, 2.5, 0]} center distanceFactor={9} occlude>
+        <div
           style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            color: '#1A1918',
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
+            textAlign: 'center',
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
-            opacity: hover ? 1 : 0.7,
+            transition: 'opacity 200ms ease',
+            opacity: hover ? 1 : 0.72,
           }}
         >
-          {vig.label}
-        </span>
+          <div
+            style={{
+              fontSize: 12,
+              color: '#1A1918',
+              letterSpacing: '0.24em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {part.label}
+          </div>
+          <div
+            style={{
+              marginTop: 4,
+              fontSize: 9.5,
+              color: 'rgba(26,25,24,0.55)',
+              letterSpacing: '0.02em',
+              opacity: hover ? 1 : 0,
+              transition: 'opacity 200ms ease',
+            }}
+          >
+            {part.helper}
+          </div>
+        </div>
       </Html>
     </group>
   );
 }
 
+/**
+ * The centrepiece — the assembled agent itself, suspended mid-air above the
+ * six parts it is made from. Recognisable at a glance because it's the only
+ * thing in the hall that: floats with no plinth, carries an orbiting ring,
+ * sits inside a champagne glow with its own light shaft from the ceiling,
+ * and throws warm light onto the reflective floor below it.
+ *
+ * Per brand canon the central chrome form IS agent identity — and iridescence
+ * is reserved for a "limited active state", which a living, suspended agent
+ * earns. So the core carries a whisper of it; the parts below carry none.
+ */
+function useGlowTexture() {
+  return useMemo(() => {
+    if (typeof document === 'undefined') return null;
+    const c = document.createElement('canvas');
+    c.width = c.height = 256;
+    const ctx = c.getContext('2d');
+    if (!ctx) return null;
+    const g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    g.addColorStop(0, 'rgba(255, 236, 200, 0.9)');
+    g.addColorStop(0.35, 'rgba(191, 163, 122, 0.42)');
+    g.addColorStop(0.7, 'rgba(191, 163, 122, 0.12)');
+    g.addColorStop(1, 'rgba(191, 163, 122, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 256, 256);
+    const tex = new CanvasTexture(c);
+    tex.colorSpace = SRGBColorSpace;
+    return tex;
+  }, []);
+}
+
+function AssemblAgent() {
+  const bob = useRef<Group>(null!);
+  const ring = useRef<Group>(null!);
+  const glow = useGlowTexture();
+
+  useFrame(({ clock }, dt) => {
+    const t = clock.getElapsedTime();
+    if (bob.current) {
+      bob.current.position.y = 3.1 + Math.sin(t * 0.7) * 0.12;
+      bob.current.rotation.y += dt * 0.25;
+    }
+    if (ring.current) {
+      ring.current.rotation.z = t * 0.4;
+      ring.current.rotation.x = Math.PI / 2.6 + Math.sin(t * 0.5) * 0.08;
+    }
+  });
+
+  return (
+    <group position={[0, 0, -3.6]}>
+      {/* light shaft from the ceiling — a soft cone the agent hangs inside */}
+      <mesh position={[0, 5.2, 0]}>
+        <coneGeometry args={[1.7, 4.6, 48, 1, true]} />
+        <meshBasicMaterial
+          color="#fff2d8"
+          transparent
+          opacity={0.1}
+          blending={AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+
+      <group ref={bob} position={[0, 3.1, 0]}>
+        {/* champagne glow billboard behind the core */}
+        {glow ? (
+          <sprite scale={[4.2, 4.2, 1]}>
+            <spriteMaterial
+              map={glow}
+              transparent
+              blending={AdditiveBlending}
+              depthWrite={false}
+              toneMapped={false}
+              opacity={0.85}
+            />
+          </sprite>
+        ) : null}
+
+        {/* the agent — polished chrome identity core, whisper of iridescence
+            (the reserved active state: this one is alive) */}
+        <mesh>
+          <sphereGeometry args={[0.72, 96, 96]} />
+          <meshPhysicalMaterial
+            color="#f2f1ee"
+            metalness={1}
+            roughness={0.06}
+            clearcoat={1}
+            clearcoatRoughness={0.04}
+            iridescence={0.35}
+            iridescenceIOR={1.4}
+            iridescenceThicknessRange={[120, 420]}
+            envMapIntensity={2.1}
+          />
+        </mesh>
+
+        {/* the assembled ring — boundaries made part of the whole */}
+        <group ref={ring}>
+          <mesh>
+            <torusGeometry args={[1.12, 0.035, 24, 160]} />
+            <meshPhysicalMaterial
+              color="#d9cdb8"
+              metalness={0.95}
+              roughness={0.18}
+              clearcoat={0.7}
+              clearcoatRoughness={0.15}
+              envMapIntensity={1.6}
+            />
+          </mesh>
+        </group>
+
+        {/* warm light the agent throws onto the hall + reflective floor */}
+        <pointLight color="#ffdfae" intensity={2.6} distance={9} decay={2} />
+
+        <Html position={[0, -1.55, 0]} center distanceFactor={9} occlude>
+          <div
+            style={{
+              fontFamily: 'var(--font-mono)',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+              pointerEvents: 'none',
+            }}
+          >
+            <div
+              style={{
+                fontSize: 12.5,
+                color: '#1A1918',
+                letterSpacing: '0.26em',
+                textTransform: 'uppercase',
+              }}
+            >
+              {GALLERY_AGENT.label}
+            </div>
+            <div style={{ marginTop: 4, fontSize: 9.5, color: 'rgba(26,25,24,0.6)' }}>
+              {GALLERY_AGENT.helper}
+            </div>
+          </div>
+        </Html>
+      </group>
+
+      {/* a denser drift of sparkles inside the shaft */}
+      <Sparkles count={26} scale={[2.6, 4.5, 2.6]} position={[0, 3, 0]} size={2.8} speed={0.35} color="#BFA37A" opacity={0.8} />
+    </group>
+  );
+}
+
+/** The hall — polished reflective floor, warm-white walls, ceiling light bars. */
 function GalleryRoom() {
   return (
     <>
-      {/* polished concrete floor */}
-      <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[50, 50]} />
-        <meshStandardMaterial color="#e8e4dc" roughness={0.55} metalness={0.05} />
+      {/* polished concrete floor with real reflections */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+        <planeGeometry args={[60, 60]} />
+        <MeshReflectorMaterial
+          resolution={512}
+          mixBlur={1}
+          mixStrength={2.4}
+          blur={[280, 80]}
+          roughness={0.82}
+          depthScale={1.1}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.25}
+          color="#e7e3da"
+          metalness={0.22}
+          mirror={0.42}
+        />
       </mesh>
-      {/* back wall */}
-      <mesh position={[0, 4, -6]}>
-        <planeGeometry args={[24, 8]} />
-        <meshStandardMaterial color="#f4f1ea" roughness={1} />
+
+      {/* back + side walls, warm matte white */}
+      <mesh position={[0, 5, -8]}>
+        <planeGeometry args={[40, 12]} />
+        <meshStandardMaterial color="#f5f2eb" roughness={1} />
       </mesh>
-      {/* side walls */}
-      <mesh position={[-8, 4, -1]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[10, 8]} />
+      <mesh position={[-11, 5, -2]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[16, 12]} />
         <meshStandardMaterial color="#efece5" roughness={1} />
       </mesh>
-      <mesh position={[8, 4, -1]} rotation={[0, -Math.PI / 2, 0]}>
-        <planeGeometry args={[10, 8]} />
+      <mesh position={[11, 5, -2]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[16, 12]} />
         <meshStandardMaterial color="#efece5" roughness={1} />
       </mesh>
+
+      {/* ceiling light bars — soft emissive fixtures, visible in the floor +
+          the chrome. These are what make it read as a real gallery. */}
+      {[-4, 0, 4].map((x) => (
+        <mesh key={x} position={[x, 7.4, -2]} rotation={[Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[1.1, 9]} />
+          <meshBasicMaterial color="#fff6e6" toneMapped={false} />
+        </mesh>
+      ))}
+
       {/* champagne wordmark etched into the floor at the entry point */}
-      <mesh position={[0, 0.005, 2.5]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[2.2, 0.42]} />
-        <meshStandardMaterial color="#BFA37A" transparent opacity={0.32} roughness={1} />
+      <mesh position={[0, 0.006, 3.2]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[2.4, 0.44]} />
+        <meshStandardMaterial color="#BFA37A" transparent opacity={0.28} roughness={1} />
       </mesh>
     </>
   );
 }
 
-function DemoLightbox({ id, onClose }: { id: VignetteId; onClose: () => void }) {
-  const vig = CONCEPT_VIGNETTES[id];
+/**
+ * The reflection environment — a small studio built from Lightformers on a
+ * dark backdrop. This is what gives the chrome its bright softbox streaks and
+ * deep gaps (how real polished metal reads), while the visible scene stays
+ * the bright paper hall. resolution + one bake keep it cheap.
+ */
+function StudioEnvironment() {
   return (
-    <div className="fixed inset-0 z-[80] flex flex-col bg-[#1A1918]/85 backdrop-blur-sm">
-      <div className="flex items-center justify-between border-b border-white/10 px-6 py-3 text-[#FBFAF6]">
-        <span
-          className="text-[11px] uppercase tracking-[0.22em]"
-          style={{ fontFamily: 'var(--font-mono)' }}
-        >
-          Concept demo · {vig.label} · independent concept, not endorsed by the named organisation
-        </span>
-        <button
-          onClick={onClose}
-          className="rounded-full border border-white/25 px-4 py-1 text-[12px] transition-colors hover:bg-white/10"
-          style={{ fontFamily: 'var(--font-body)' }}
-        >
-          Close
-        </button>
-      </div>
-      <iframe
-        src={vig.href}
-        title={`${vig.label} concept demo`}
-        className="flex-1 w-full border-0 bg-white"
-        allow="fullscreen; clipboard-write"
+    <Environment resolution={256} frames={1}>
+      {/* Light base so the chrome reads as bright silver, not black. A dark
+          env backdrop made the chrome parts mirror black and go nearly as dark
+          as the obsidian core — the softboxes below add the bright streaks and
+          warm/cool split on top of this. */}
+      <color attach="background" args={['#e9e6df']} />
+      {/* big soft key overhead */}
+      <Lightformer form="rect" intensity={3.2} position={[0, 6, -5]} scale={[14, 7, 1]} color="#ffffff" />
+      {/* warm fill from the left, cool from the right — the two-tone that
+          makes chrome look lit rather than painted */}
+      <Lightformer
+        form="rect"
+        intensity={1.5}
+        position={[-8, 2, 2]}
+        rotation-y={Math.PI / 2}
+        scale={[10, 9, 1]}
+        color="#fff0d8"
       />
-    </div>
+      <Lightformer
+        form="rect"
+        intensity={1.5}
+        position={[8, 2, 2]}
+        rotation-y={-Math.PI / 2}
+        scale={[10, 9, 1]}
+        color="#e4eeff"
+      />
+      {/* a soft ring in front for a catchlight */}
+      <Lightformer form="ring" intensity={1.1} position={[0, 3, 6]} scale={5} color="#ffffff" />
+    </Environment>
   );
 }
 
 export function GalleryScene() {
-  const [open, setOpen] = useState<VignetteId | null>(null);
+  const layout = useLayout();
 
   return (
     <section
-      id="gallery"
-      aria-label="assembl gallery — walkable installations of the three concept demos"
+      aria-label="the assembl gallery — the six parts of an agent"
       className="relative w-full bg-[#EFECE5]"
       style={{ height: '100svh' }}
     >
@@ -219,55 +375,56 @@ export function GalleryScene() {
         frameloop="always"
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-        camera={{ position: [0, 2.2, 4.8], fov: 44 }}
+        camera={{ position: [0, 2.5, 8.5], fov: 46, near: 0.1, far: 100 }}
       >
         <color attach="background" args={['#EFECE5']} />
+        <fog attach="fog" args={['#EFECE5', 12, 30]} />
 
-        {/* No hardware shadows — ContactShadows below fakes floor contact
-            without the shadow-map memory + render-pass cost that seemed to
-            wedge R3F at desktop viewport sizes. */}
-        <ambientLight intensity={0.55} />
-        <directionalLight position={[5, 10, 3]} intensity={1.6} />
-        <spotLight position={[0, 6, 2]} angle={0.55} penumbra={0.8} intensity={1.0} color="#fff2d8" />
+        {/* No hardware shadow maps — ContactShadows fakes floor contact without
+            the render-pass cost. Scene lights sit alongside the studio env. */}
+        <hemisphereLight args={['#ffffff', '#e6e1d6', 0.6]} />
+        <ambientLight intensity={0.32} />
+        <directionalLight position={[5, 10, 4]} intensity={1.1} color="#fff6e8" />
+        <directionalLight position={[-6, 5, -2]} intensity={0.5} color="#e6efff" />
 
         <GalleryRoom />
-        {INSTALLATIONS.map((inst) => (
-          <Installation
-            key={inst.id}
-            id={inst.id}
-            position={inst.position}
-            onOpen={setOpen}
-          />
+        <AssemblAgent />
+        {layout.map((inst) => (
+          <Installation key={inst.id} id={inst.id} position={inst.position} />
         ))}
-        <ContactShadows position={[0, 0.01, 0]} opacity={0.35} scale={16} blur={2.2} far={5} />
-        <Sparkles count={40} scale={[10, 4, 8]} size={2.5} speed={0.25} color="#BFA37A" opacity={0.55} />
+        <ContactShadows position={[0, 0.02, 0]} opacity={0.32} scale={22} blur={2.6} far={6} color="#2a2622" />
+        <Sparkles count={36} scale={[14, 5, 10]} size={2.2} speed={0.2} color="#BFA37A" opacity={0.5} />
 
         <Suspense fallback={null}>
-          <Environment preset="apartment" />
+          <StudioEnvironment />
         </Suspense>
 
         <OrbitControls
           enablePan={false}
-          minDistance={3.5}
-          maxDistance={9}
-          minPolarAngle={Math.PI / 3.2}
+          minDistance={5}
+          maxDistance={12}
+          minPolarAngle={Math.PI / 3.4}
           maxPolarAngle={Math.PI / 2.05}
-          target={[0, 1.6, -1.5]}
+          target={[0, 1.4, -2]}
           enableDamping
           dampingFactor={0.08}
         />
       </Canvas>
 
       <div className="pointer-events-none absolute inset-x-6 top-6 flex items-start justify-between text-[#1A1918]/75 sm:inset-x-10 lg:inset-x-16">
-        <span className="text-[10px] uppercase tracking-[0.32em] sm:text-[11px]" style={{ fontFamily: 'var(--font-mono)' }}>
-          The Gallery · Three concept installations · drag to look, tap an object to open
+        <span
+          className="text-[10px] uppercase tracking-[0.32em] sm:text-[11px]"
+          style={{ fontFamily: 'var(--font-mono)' }}
+        >
+          {GALLERY_CAPTION.left}
         </span>
-        <span className="hidden text-[10px] uppercase tracking-[0.32em] sm:inline sm:text-[11px]" style={{ fontFamily: 'var(--font-mono)' }}>
-          Independent concepts · not endorsed by the named organisations
+        <span
+          className="hidden text-[10px] uppercase tracking-[0.32em] sm:inline sm:text-[11px]"
+          style={{ fontFamily: 'var(--font-mono)' }}
+        >
+          {GALLERY_CAPTION.right}
         </span>
       </div>
-
-      {open ? <DemoLightbox id={open} onClose={() => setOpen(null)} /> : null}
     </section>
   );
 }
