@@ -22,28 +22,65 @@ export const EDITORIAL_WORDMARK = 'assembl.';
  */
 export type HeroToken =
   | { kind: 'text'; value: string }
+  // `emph` = the champagne-accented word(s). Used for "AI", "VISIBLE AGENTS",
+  // "AGENTIC ERA" — the two or three phrases the poster leans on.
+  | { kind: 'emph'; value: string }
   | { kind: 'vig'; id: 'woolworths' | 'contact' | 'airnz' }
   | { kind: 'break' };
 
-// Kate's message 2026-07-20: "Please don't say New Zealand's ai adoption
-// agency!" — so that phrase is removed. Waiting for Kate to hand back the
-// replacement middle line; using "WE BUILD" as a stand-in so the hero still
-// reads. Do not tighten this — swap on Kate's word.
+// Copy from Kate's 2026-07-21 brief: "MAKE AI VISIBLE. NEW ZEALAND'S AGENTS
+// YOU CAN SEE HOLD AND UNDERSTAND that understand your business too." — with
+// her instruction to "rework for punch, keep spirit". Broken poetically for
+// the poster; inline vignettes answer the "make AI visible" claim inside the
+// sentence. No Oxford commas (house rule). Swap only on Kate's word.
 export const EDITORIAL_HERO_TOKENS: HeroToken[] = [
-  { kind: 'text', value: 'MAKE AI' },
+  { kind: 'text', value: 'MAKE' },
+  { kind: 'emph', value: 'AI' },
   { kind: 'vig', id: 'woolworths' },
   { kind: 'text', value: 'VISIBLE.' },
   { kind: 'break' },
-  { kind: 'text', value: 'WE BUILD' },
+  { kind: 'text', value: 'NEW ZEALAND’S AGENTS' },
+  { kind: 'break' },
+  { kind: 'text', value: 'YOU CAN SEE HOLD' },
   { kind: 'vig', id: 'contact' },
-  { kind: 'text', value: 'AGENTS YOU CAN' },
+  { kind: 'text', value: 'AND UNDERSTAND —' },
   { kind: 'break' },
-  { kind: 'text', value: 'SEE HOLD AND' },
-  { kind: 'text', value: 'UNDERSTAND.' },
+  { kind: 'text', value: 'THAT UNDERSTAND YOUR' },
   { kind: 'break' },
-  { kind: 'text', value: 'NOTHING SHIPS' },
+  { kind: 'text', value: 'BUSINESS' },
   { kind: 'vig', id: 'airnz' },
-  { kind: 'text', value: 'WITHOUT YOUR YES.' },
+  { kind: 'text', value: 'TOO.' },
+];
+
+/**
+ * Viewport 3 — the manifesto. Same poster face and inline-vignette trick as
+ * the hero. Copy from Kate's 2026-07-21 brief, verbatim spirit:
+ * "AI IS NOT COMPLEX. WE HAVE MADE IT SO. VISIBLE AGENTS ARE THE ONLY AGENTS
+ * PEOPLE ACTUALLY ADOPT. WELCOME TO THE AGENTIC ERA WITH YOUR OWN HANDS ON
+ * THE WHEEL."
+ */
+export const EDITORIAL_MANIFESTO_EYEBROW = 'THE MANIFESTO';
+
+export const EDITORIAL_MANIFESTO_TOKENS: HeroToken[] = [
+  { kind: 'text', value: 'AI IS NOT COMPLEX.' },
+  { kind: 'break' },
+  { kind: 'text', value: 'WE HAVE' },
+  { kind: 'vig', id: 'woolworths' },
+  { kind: 'text', value: 'MADE IT SO.' },
+  { kind: 'break' },
+  { kind: 'emph', value: 'VISIBLE AGENTS' },
+  { kind: 'text', value: 'ARE THE ONLY' },
+  { kind: 'break' },
+  { kind: 'text', value: 'AGENTS PEOPLE' },
+  { kind: 'vig', id: 'contact' },
+  { kind: 'text', value: 'ACTUALLY ADOPT.' },
+  { kind: 'break' },
+  { kind: 'text', value: 'WELCOME TO THE' },
+  { kind: 'emph', value: 'AGENTIC ERA' },
+  { kind: 'break' },
+  { kind: 'text', value: 'WITH YOUR OWN HANDS' },
+  { kind: 'vig', id: 'airnz' },
+  { kind: 'text', value: 'ON THE WHEEL.' },
 ];
 
 export const EDITORIAL_SUBLINE =
@@ -82,4 +119,24 @@ export const CONCEPT_VIGNETTES = {
     shape: 'torus' as const,
     href: 'https://assembl-concept-studio.katecoveny.chatgpt.site/air-new-zealand',
   },
+} as const;
+
+/**
+ * Editorial footer — quiet. Reply address is the canonical assembl inbox.
+ * Links are lowercase, hyphenated, Space Mono. Year stamped by the component
+ * so it never drifts (the build passes it in — Date.now() is unavailable in
+ * some render contexts we target).
+ */
+export const EDITORIAL_FOOTER = {
+  contactLabel: 'Say kia ora',
+  contactEmail: 'assembl@assembl.co.nz',
+  links: [
+    { label: 'field-notes', href: '/field-notes' },
+    { label: 'concept-studio', href: 'https://assembl-concept-studio.katecoveny.chatgpt.site' },
+    { label: 'about', href: '/about' },
+    { label: 'pilots', href: '/pilots' },
+  ],
+  signoff: 'assembl.',
+  // Kate Hudson is the founder; the studio ships from Aotearoa.
+  place: 'Made visible in Aotearoa',
 } as const;

@@ -1,11 +1,10 @@
-import { Fragment } from 'react';
 import {
   EDITORIAL_WORDMARK,
   EDITORIAL_HERO_TOKENS,
   EDITORIAL_SUBLINE,
   EDITORIAL_CTAS,
 } from '@/lib/copy/editorial-home';
-import { InlineVignette } from './InlineVignette';
+import { PosterHeadline } from './PosterHeadline';
 
 /**
  * Viewport 1 — the arresting typography moment.
@@ -23,7 +22,7 @@ export function EditorialHero() {
   return (
     <section
       aria-label="assembl — make AI visible"
-      className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-[#FBFAF6] px-6 pb-10 pt-8 text-[#1A1918] sm:px-10 sm:pb-14 sm:pt-10 lg:px-16 lg:pb-20 lg:pt-14"
+      className="relative flex min-h-[100svh] w-full flex-col justify-between overflow-hidden bg-[#FBFAF6] px-6 pb-8 pt-7 text-[#1A1918] sm:px-10 sm:pb-10 sm:pt-9 lg:px-16 lg:pb-12 lg:pt-10"
     >
       <header className="relative z-10 flex items-start justify-between">
         <a
@@ -43,38 +42,8 @@ export function EditorialHero() {
         </nav>
       </header>
 
-      <div className="relative z-10 mx-auto mt-10 flex w-full max-w-[1200px] flex-1 flex-col justify-center sm:mt-14">
-        <h1
-          className="text-left uppercase text-[#1A1918]"
-          style={{
-            fontFamily: 'var(--font-editorial)',
-            fontSize: 'clamp(2.25rem, 8.4vw, 6.75rem)',
-            lineHeight: 0.94,
-            letterSpacing: '-0.025em',
-            overflowWrap: 'break-word',
-            wordBreak: 'break-word',
-            hyphens: 'manual',
-          }}
-        >
-          {EDITORIAL_HERO_TOKENS.map((token, idx) => {
-            const key = `hero-${idx}`;
-            if (token.kind === 'break') {
-              return <br key={key} />;
-            }
-            if (token.kind === 'vig') {
-              return (
-                <Fragment key={key}>
-                  <InlineVignette id={token.id} />{' '}
-                </Fragment>
-              );
-            }
-            return (
-              <Fragment key={key}>
-                {token.value}{' '}
-              </Fragment>
-            );
-          })}
-        </h1>
+      <div className="relative z-10 mx-auto mt-6 flex w-full max-w-[1200px] flex-1 flex-col justify-center sm:mt-8">
+        <PosterHeadline tokens={EDITORIAL_HERO_TOKENS} />
       </div>
 
       <footer className="relative z-10 mt-10 flex flex-col gap-6 sm:mt-14 sm:flex-row sm:items-end sm:justify-between">
