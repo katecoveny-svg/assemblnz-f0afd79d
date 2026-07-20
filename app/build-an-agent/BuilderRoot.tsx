@@ -112,7 +112,7 @@ function BuilderPage() {
           <h2 className={styles.sectionHeading}>{BUILD_AN_AGENT.savings.heading}</h2>
           <p className={styles.sectionLede}>{BUILD_AN_AGENT.savings.lede}</p>
         </div>
-        <TimeSavingsCalculator initialValues={INITIAL_SAVINGS} />
+        <TimeSavingsCalculator initialValues={INITIAL_SAVINGS} hideIntro />
       </section>
 
       {/* ── SECTION 6 · CLOSING — hand it to us to build for real ── */}
