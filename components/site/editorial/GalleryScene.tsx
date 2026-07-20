@@ -2,13 +2,14 @@
 
 import { Suspense, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import {
-  Environment,
-  OrbitControls,
-  ContactShadows,
-  Sparkles,
-  Html,
-} from '@react-three/drei';
+// drei's flat `@react-three/drei` .d.ts only re-exports Html. Every other
+// component lives at a subpath; importing from the top hits a Vercel
+// typecheck failure. Keep subpaths so future drei users don't repeat this.
+import { Environment } from '@react-three/drei/core/Environment';
+import { OrbitControls } from '@react-three/drei/core/OrbitControls';
+import { ContactShadows } from '@react-three/drei/core/ContactShadows';
+import { Sparkles } from '@react-three/drei/core/Sparkles';
+import { Html } from '@react-three/drei';
 import type { Group, Mesh } from 'three';
 import { CONCEPT_VIGNETTES } from '@/lib/copy/editorial-home';
 

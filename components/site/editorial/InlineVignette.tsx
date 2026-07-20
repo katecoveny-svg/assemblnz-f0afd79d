@@ -2,7 +2,9 @@
 
 import { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
+// drei's top-level index only re-exports Html at the type level. Use the
+// core subpath so the Vercel typecheck can find Environment.
+import { Environment } from '@react-three/drei/core/Environment';
 import type { Mesh } from 'three';
 import { CONCEPT_VIGNETTES } from '@/lib/copy/editorial-home';
 
