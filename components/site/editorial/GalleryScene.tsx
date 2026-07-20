@@ -6,7 +6,6 @@ import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
 // component lives at a subpath; importing from the top hits a Vercel
 // typecheck failure. Keep subpaths so future drei users don't repeat this.
 import { Environment } from '@react-three/drei/core/Environment';
-import { Lightformer } from '@react-three/drei/core/Lightformer';
 import { OrbitControls } from '@react-three/drei/core/OrbitControls';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { MeshReflectorMaterial } from '@react-three/drei/core/MeshReflectorMaterial';
@@ -262,46 +261,6 @@ function GalleryRoom() {
   );
 }
 
-/**
- * The reflection environment — a small studio built from Lightformers on a
- * dark backdrop. This is what gives the chrome its bright softbox streaks and
- * deep gaps (how real polished metal reads), while the visible scene stays
- * the bright paper hall. resolution + one bake keep it cheap.
- */
-function StudioEnvironment() {
-  return (
-    <Environment resolution={256} frames={1}>
-      {/* Light base so the chrome reads as bright silver, not black. A dark
-          env backdrop made the chrome parts mirror black and go nearly as dark
-          as the obsidian core — the softboxes below add the bright streaks and
-          warm/cool split on top of this. */}
-      <color attach="background" args={['#e0dcd3']} />
-      {/* big soft key overhead */}
-      <Lightformer form="rect" intensity={2.3} position={[0, 6, -5]} scale={[14, 7, 1]} color="#ffffff" />
-      {/* warm fill from the left, cool from the right — the two-tone that
-          makes chrome look lit rather than painted */}
-      <Lightformer
-        form="rect"
-        intensity={1.5}
-        position={[-8, 2, 2]}
-        rotation-y={Math.PI / 2}
-        scale={[10, 9, 1]}
-        color="#fff0d8"
-      />
-      <Lightformer
-        form="rect"
-        intensity={1.5}
-        position={[8, 2, 2]}
-        rotation-y={-Math.PI / 2}
-        scale={[10, 9, 1]}
-        color="#e4eeff"
-      />
-      {/* a soft ring in front for a catchlight */}
-      <Lightformer form="ring" intensity={1.1} position={[0, 3, 6]} scale={5} color="#ffffff" />
-    </Environment>
-  );
-}
-
 export function GalleryScene() {
   const layout = useLayout();
 
@@ -320,12 +279,15 @@ export function GalleryScene() {
         <color attach="background" args={['#EFECE5']} />
         <fog attach="fog" args={['#EFECE5', 12, 30]} />
 
-        {/* No hardware shadow maps — ContactShadows fakes floor contact without
-            the render-pass cost. Scene lights sit alongside the studio env. */}
-        <hemisphereLight args={['#ffffff', '#e6e1d6', 0.6]} />
-        <ambientLight intensity={0.32} />
-        <directionalLight position={[5, 10, 4]} intensity={1.1} color="#fff6e8" />
-        <directionalLight position={[-6, 5, -2]} intensity={0.5} color="#e6efff" />
+        {/* Kept deliberately LOW. The chrome's shine comes almost entirely
+            from the apartment HDRI reflections below — a lot of flat fill light
+            here washes out the reflection contrast and the objects fade into
+            the pale hall. One warm key for a highlight, one cool rim, minimal
+            ambient. */}
+        <hemisphereLight args={['#ffffff', '#e6e1d6', 0.22]} />
+        <ambientLight intensity={0.12} />
+        <directionalLight position={[5, 10, 4]} intensity={1.3} color="#fff6e8" />
+        <directionalLight position={[-6, 5, -2]} intensity={0.55} color="#e6efff" />
 
         <GalleryRoom />
         <AssemblAgent />
@@ -335,8 +297,13 @@ export function GalleryScene() {
         <ContactShadows position={[0, 0.02, 0]} opacity={0.32} scale={22} blur={2.6} far={6} color="#2a2622" />
         <Sparkles count={36} scale={[14, 5, 10]} size={2.2} speed={0.2} color="#BFA37A" opacity={0.5} />
 
+        {/* apartment HDRI — real bright-and-dark content, so the chrome gets
+            crisp highlights and dark gaps and reads as SHINY (the look the
+            inline poster vignettes have). background={false} keeps the visible
+            hall as the paper scene. This replaced a custom Lightformer studio
+            that lit everything on a uniform base and made the chrome go flat. */}
         <Suspense fallback={null}>
-          <StudioEnvironment />
+          <Environment preset="apartment" background={false} />
         </Suspense>
 
         <OrbitControls
