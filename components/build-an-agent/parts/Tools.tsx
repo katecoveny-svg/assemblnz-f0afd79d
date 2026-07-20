@@ -66,12 +66,12 @@ export function Tools({
       >
         <capsuleGeometry args={[0.17, 0.42, 12, 32]} />
         <meshPhysicalMaterial
-          color="#D9DDE0"
-          metalness={0.9}
-          roughness={0.16}
-          clearcoat={0.8}
-          clearcoatRoughness={0.12}
-          envMapIntensity={1.4}
+          color="#E4E8EB"
+          metalness={1}
+          roughness={0.07}
+          clearcoat={1}
+          clearcoatRoughness={0.05}
+          envMapIntensity={2.1}
         />
       </mesh>
 
@@ -87,11 +87,6 @@ export function Tools({
           opacity={0.85}
         />
       )}
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.5, 48]} />
-        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.12 : 0.08} />
-      </mesh>
 
       <PartLabel text={BUILD_AN_AGENT.parts.tools.label} />
     </group>

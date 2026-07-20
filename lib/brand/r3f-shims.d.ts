@@ -64,6 +64,7 @@ declare module '@react-three/drei' {
   export const ContactShadows: (props: Record<string, unknown>) => any;
   export const Edges: (props: Record<string, unknown>) => any;
   export const Line: (props: Record<string, unknown>) => any;
+  export const MeshReflectorMaterial: (props: Record<string, unknown>) => any;
   // Loose overload — real types kick in once drei is installed.
   export function useTexture(input: string | string[]): any;
   // GLTF loader hook + preloader — loose shim; real types arrive with drei.
@@ -111,7 +112,11 @@ declare namespace React {
       meshStandardMaterial: Record<string, unknown>;
       meshPhysicalMaterial: Record<string, unknown>;
       meshBasicMaterial: Record<string, unknown>;
+      meshPhongMaterial: Record<string, unknown>;
       color: Record<string, unknown>;
+      fog: Record<string, unknown>;
+      fogExp2: Record<string, unknown>;
+      spotLight: Record<string, unknown>;
     }
   }
 }

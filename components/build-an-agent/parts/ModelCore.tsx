@@ -132,11 +132,6 @@ export function ModelCore({
         />
       </mesh>
 
-      {/* Shadow disc under the assembly. */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.72, 48]} />
-        <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.16 : 0.1} />
-      </mesh>
 
       {/* Speaking halo — sea-glass active state, faded in while streaming. */}
       <mesh ref={haloRef} position={[0, drag.position[1], 0]}>

@@ -35,23 +35,29 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  padding: clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2.5rem);
+  padding: clamp(0.9rem, 2.4vw, 1.4rem) clamp(1.25rem, 4vw, 2.5rem);
   pointer-events: none;
+  background: linear-gradient(180deg, rgba(251, 250, 246, 0.92) 0%, rgba(251, 250, 246, 0) 100%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 
 .wordmark {
   font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
   font-weight: 600;
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.9rem, 5vw, 2.9rem);
   color: #1A1918;
   text-decoration: none;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1;
   pointer-events: auto;
+  transition: opacity 200ms ease;
 }
+.wordmark:hover { opacity: 0.66; }
 
 .eyebrow {
   margin: 0;
@@ -100,7 +106,7 @@
 .headline {
   margin: 0;
   font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(2.4rem, 6vw, 4.4rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
