@@ -41,14 +41,16 @@ export function ConfigureSection() {
       className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
       aria-label="Configure your agent"
     >
-      <div className="chromeField" aria-hidden />
-      <header className={`${styles.banner} glowSoft`} data-parallax="0.05">
+      <div className="chromeField" aria-hidden>
+        <span className="stepGhost" data-parallax="0.14">03</span>
+      </div>
+      <header className={`${styles.banner} glowSoft stepSpine`} data-parallax="0.05">
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
       </header>
 
-      <div className={styles.card}>
+      <div className={`${styles.card} glassPanel`}>
         <label className={styles.nameRow}>
           <span className={styles.nameLabel}>{copy.nameLabel}</span>
           <input

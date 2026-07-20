@@ -308,3 +308,100 @@
     display: none;
   }
 }
+
+/* ── GLASS PANELS ───────────────────────────────────────────
+   The below-fold cards were flat #ffffff on #FBFAF6 paper with
+   a 6%-opacity hairline — which is to say, edges you cannot
+   actually see. They read as text floating in a void rather
+   than as objects on a surface.
+
+   Canon calls for frosted glass and translucent volumes, so
+   these ARE glass: a slight vertical gradient so the surface
+   catches light, a bright top edge and a darker bottom one
+   (the two things that make a real edge read), a close contact
+   shadow AND a long soft one, and a faint champagne rim.
+
+   No pseudo-elements here on purpose — these compose onto
+   component-owned elements, and ::before/::after are theirs. */
+/* Doubled selector (.glassPanel.glassPanel) purely for specificity: this
+   stylesheet is imported by the root layout, so it loses the cascade to the
+   CSS-module rules on the very elements it composes onto. Doubling beats them
+   without reaching for !important, which would block per-component overrides
+   later. */
+.glassPanel.glassPanel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 248, 243, 0.9) 100%);
+  border: 1px solid rgba(26, 25, 24, 0.08);
+  border-radius: 22px;
+  backdrop-filter: blur(10px) saturate(1.06);
+  -webkit-backdrop-filter: blur(10px) saturate(1.06);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -1px 0 rgba(26, 25, 24, 0.05) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.12),
+    0 2px 5px -2px rgba(26, 25, 24, 0.1),
+    0 40px 70px -46px rgba(26, 25, 24, 0.62);
+}
+
+/* ── EDITORIAL STEP NUMERAL ─────────────────────────────────
+   An oversized ghosted numeral behind each step. Gives a long
+   scroll of type a sense of place and progress, and it's the
+   one piece of pure editorial drama the page can afford
+   without adding another object that has to mean something.
+
+   Lives inside .chromeField, which is already decorative,
+   already behind the content, and already clips overflow. */
+.stepGhost {
+  position: absolute;
+  top: clamp(0.75rem, 2.5vw, 2.5rem);
+  right: clamp(0.75rem, 3vw, 3.5rem);
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 600;
+  font-size: clamp(9rem, 24vw, 20rem);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  color: rgba(26, 25, 24, 0.045);
+  user-select: none;
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+
+/* ── STEP SPINE ─────────────────────────────────────────────
+   A chrome hairline rising out of each step banner, with a
+   ring at its foot. Read down the page it makes one assembly
+   line rather than a stack of unrelated panels — which is the
+   product's whole claim. */
+.stepSpine {
+  position: relative;
+  padding-left: clamp(1.5rem, 3vw, 2.6rem);
+}
+.stepSpine::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 25, 24, 0.28);
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d8d4cc 70%, #b9b4ab 100%);
+  box-shadow: 0 1px 2px rgba(26, 25, 24, 0.18);
+}
+.stepSpine::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  bottom: 100%;
+  width: 1px;
+  height: clamp(2.5rem, 7vh, 5rem);
+  background: linear-gradient(
+    180deg,
+    rgba(26, 25, 24, 0) 0%,
+    rgba(26, 25, 24, 0.16) 60%,
+    rgba(191, 163, 122, 0.55) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepGhost { transform: none; }
+}

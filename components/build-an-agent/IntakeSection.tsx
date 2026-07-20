@@ -119,15 +119,17 @@ export function IntakeSection() {
       className={`${styles.root} reveal ${shown ? 'revealShown' : ''}`}
       aria-label="Tell your agent about your business"
     >
-      <div className="chromeField" aria-hidden />
-      <header className={`${styles.banner} glowSoft`} data-parallax="0.05">
+      <div className="chromeField" aria-hidden>
+        <span className="stepGhost" data-parallax="0.14">02</span>
+      </div>
+      <header className={`${styles.banner} glowSoft stepSpine`} data-parallax="0.05">
         <p className={styles.eyebrow}>{copy.eyebrow}</p>
         <h2 className={styles.heading}>{copy.heading}</h2>
         <p className={styles.lede}>{copy.lede}</p>
       </header>
 
       <div className={styles.grid}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={`${styles.form} glassPanel`} onSubmit={handleSubmit}>
           <label className={styles.field}>
             <span className={styles.fieldLabel}>{copy.textareaLabel}</span>
             <textarea
@@ -178,7 +180,7 @@ export function IntakeSection() {
           )}
         </form>
 
-        <aside className={styles.answerCard} aria-live="polite">
+        <aside className={`${styles.answerCard} glassPanel`} aria-live="polite">
           <div className={styles.answerTop}>
             <span className={styles.answerBadge}>your assembl agent</span>
             <span className={styles.answerSub}>draft only · a person confirms</span>
