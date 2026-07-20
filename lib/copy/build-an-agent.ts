@@ -212,17 +212,18 @@ export const BUILD_AN_AGENT = {
     emailInvalid: 'That looks off — check the address and try again.',
     footnote: 'Draft only. Nothing sends without a human yes. Made in Aotearoa.',
   },
-  savings: {
-    eyebrow: 'step six · time back',
-    heading: 'How many hours could you get back?',
-    lede: 'Your own numbers. A plain planning estimate — no form, no phone call, no inflated promise.',
-  },
   closing: {
-    eyebrow: 'step seven · optional',
-    heading: 'Want us to build this properly for your business?',
+    // The finale, not a numbered step — this is the ask.
+    eyebrow: 'the real one',
+    heading: 'Now build it on your actual business.',
     body:
-      'The one you just designed is a taste. If it lit up an idea for your team, drop your email — Kate at assembl reads them herself and comes back with a plain plan and price.',
+      "What you just made is a sketch. The real one knows your prices, your customers and your inbox — and has the work drafted before you ask for it. Tell Kate what you'd hand over first.",
+    cta: 'Get a plan and a price',
+    ctaSecondary: 'See what a pilot includes',
+    ctaSecondaryHref: '/pilot-sprint',
     email: 'assembl@assembl.co.nz',
+    emailSubject: 'I built an agent on assembl',
+    emailNote: 'Straight to Kate — she answers these herself.',
     finePrint: 'Draft-only. Nothing sends without a human yes. Made in Aotearoa.',
   },
 } as const;

@@ -6,7 +6,6 @@ import { ConfigureSection } from '@/components/build-an-agent/ConfigureSection';
 import { IntakeSection } from '@/components/build-an-agent/IntakeSection';
 import { ShareSection } from '@/components/build-an-agent/ShareSection';
 import { WhatYouGetSection } from '@/components/build-an-agent/WhatYouGetSection';
-import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
 import { BuilderProvider, useBuilder } from '@/lib/build-an-agent/store';
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
 
@@ -15,7 +14,6 @@ import styles from './build-an-agent.module.css';
 // reveal, glowSoft, liftCard) that every section on this page composes.
 import './life.module.css';
 
-const INITIAL_SAVINGS = { people: 3, adminHours: 6, repeatableShare: 35 };
 
 function scrollToId(id: string) {
   const el = typeof document !== 'undefined' ? document.getElementById(id) : null;
@@ -128,26 +126,37 @@ function BuilderPage() {
       {/* ── SECTION 5 · SHARE — copy link, save PNG, hold-by-email ── */}
       <ShareSection />
 
-      {/* ── SECTION 6 · TIME BACK — the estimator ── */}
-      <section id="time-back" className={styles.savingsSection} aria-label="Time back estimate">
-        <div className={styles.sectionBanner}>
-          <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.savings.eyebrow}</p>
-          <h2 className={styles.sectionHeading}>{BUILD_AN_AGENT.savings.heading}</h2>
-          <p className={styles.sectionLede}>{BUILD_AN_AGENT.savings.lede}</p>
-        </div>
-        <TimeSavingsCalculator initialValues={INITIAL_SAVINGS} hideIntro />
-      </section>
-
-      {/* ── SECTION 6 · CLOSING — hand it to us to build for real ── */}
-      <section id="hand-off" className={styles.closingSection} aria-label="Hand it to us">
-        <div className={styles.closingCard}>
+      {/* ── THE ASK — the finale, not a numbered step ── */}
+      <section id="hand-off" className={styles.closingSection} aria-label="Build it for real">
+        <div className={`${styles.closingCard} glowSoft`}>
           <p className={styles.sectionEyebrow}>{BUILD_AN_AGENT.closing.eyebrow}</p>
           <h2 className={styles.closingHeading}>{BUILD_AN_AGENT.closing.heading}</h2>
           <p className={styles.closingBody}>{BUILD_AN_AGENT.closing.body}</p>
+
+          <div className={styles.closingActions}>
+            <a
+              className="btn3d"
+              href={`mailto:${BUILD_AN_AGENT.closing.email}?subject=${encodeURIComponent(
+                BUILD_AN_AGENT.closing.emailSubject,
+              )}`}
+            >
+              {BUILD_AN_AGENT.closing.cta}
+              <span aria-hidden>→</span>
+            </a>
+            <a className="btn3d btn3dGhost" href={BUILD_AN_AGENT.closing.ctaSecondaryHref}>
+              {BUILD_AN_AGENT.closing.ctaSecondary}
+            </a>
+          </div>
+
           <p className={styles.closingMailto}>
-            <a href={`mailto:${BUILD_AN_AGENT.closing.email}?subject=I%20built%20an%20agent%20on%20assembl`}>
+            <a
+              href={`mailto:${BUILD_AN_AGENT.closing.email}?subject=${encodeURIComponent(
+                BUILD_AN_AGENT.closing.emailSubject,
+              )}`}
+            >
               {BUILD_AN_AGENT.closing.email}
             </a>
+            <span className={styles.closingMailNote}>{BUILD_AN_AGENT.closing.emailNote}</span>
           </p>
           <p className={styles.closingFinePrint}>{BUILD_AN_AGENT.closing.finePrint}</p>
         </div>
