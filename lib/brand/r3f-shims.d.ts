@@ -63,6 +63,7 @@ declare module '@react-three/drei' {
   export const PointerLockControls: (props: Record<string, unknown>) => any;
   export const ContactShadows: (props: Record<string, unknown>) => any;
   export const Edges: (props: Record<string, unknown>) => any;
+  export const Line: (props: Record<string, unknown>) => any;
   // Loose overload — real types kick in once drei is installed.
   export function useTexture(input: string | string[]): any;
   // GLTF loader hook + preloader — loose shim; real types arrive with drei.

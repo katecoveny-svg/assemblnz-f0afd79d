@@ -47,7 +47,8 @@ export const BUILD_AN_AGENT = {
     },
   },
   scene: {
-    dragHint: 'Drag the piece. Drop it anywhere.',
+    dragHint: 'Drag a piece to the core to connect it.',
+    connectedLabel: 'of 4 connected',
     reducedMotionNote: 'Motion reduced — the scene is still, the build still works.',
   },
   intake: {
@@ -83,6 +84,8 @@ export const BUILD_AN_AGENT = {
     disclaimer:
       'No sign-up. Nothing sends. Kate at assembl reads leads herself and drops you a plain reply if you leave an email.',
     answerHeading: 'What your Business Genome would look like',
+    nameLabel: 'Name your agent',
+    namePlaceholder: 'e.g. Awhi · the front desk · Scout',
     resetLabel: 'try a different business',
     emailPlaceholder: 'your email — optional, we only use it to write back',
     emailSubmit: 'send me a version to keep',
@@ -126,6 +129,7 @@ export const BUILD_AN_AGENT = {
     streamingLabel: 'writing',
     streamingBody: "reading your question, pulling the parts together",
     readyLabel: 'draft ready · a person confirms',
+    shareCta: 'Keep it or share it',
   },
   whatYouGet: {
     eyebrow: 'the whole platform · what you get',

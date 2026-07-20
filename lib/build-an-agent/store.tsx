@@ -24,6 +24,8 @@ type PartPositions = Record<string, [number, number, number]>;
 interface BuilderState {
   config: BuildConfig;
   parts: PartPositions;
+  /** Which parts are magnetically docked to the intelligence core. */
+  docked: Record<string, boolean>;
   /** True while the ask stream is in flight — the model-core mesh glows. */
   speaking: boolean;
 }
@@ -38,6 +40,7 @@ type Action =
   | { type: 'setVoice'; value: string }
   | { type: 'toggleGuardrail'; id: string }
   | { type: 'movePart'; id: string; position: [number, number, number] }
+  | { type: 'setDocked'; id: string; value: boolean }
   | { type: 'setSpeaking'; value: boolean }
   | { type: 'hydrateConfig'; value: Partial<BuildConfig> };
 
@@ -68,6 +71,8 @@ function reducer(state: BuilderState, action: Action): BuilderState {
       };
     case 'movePart':
       return { ...state, parts: { ...state.parts, [action.id]: action.position } };
+    case 'setDocked':
+      return { ...state, docked: { ...state.docked, [action.id]: action.value } };
     case 'setSpeaking':
       return { ...state, speaking: action.value };
     case 'hydrateConfig':
@@ -97,6 +102,7 @@ interface Ctx {
   setVoice: (v: string) => void;
   toggleGuardrail: (id: string) => void;
   movePart: (id: string, position: [number, number, number]) => void;
+  setDocked: (id: string, value: boolean) => void;
   setSpeaking: (v: boolean) => void;
 }
 
@@ -106,6 +112,7 @@ export function BuilderProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, {
     config: DEFAULT_CONFIG,
     parts: INITIAL_PARTS,
+    docked: {},
     speaking: false,
   });
 
@@ -130,11 +137,12 @@ export function BuilderProvider({ children }: { children: React.ReactNode }) {
   const toggleGuardrail  = useCallback((id: string)   => dispatch({ type: 'toggleGuardrail', id }), []);
   const movePart         = useCallback((id: string, position: [number, number, number]) =>
     dispatch({ type: 'movePart', id, position }), []);
+  const setDocked        = useCallback((id: string, v: boolean) => dispatch({ type: 'setDocked', id, value: v }), []);
   const setSpeaking      = useCallback((v: boolean)   => dispatch({ type: 'setSpeaking', value: v }), []);
 
   const value = useMemo<Ctx>(
-    () => ({ state, setName, setBusiness, setModelTier, setMemoryScope, toggleTool, toggleKnowledge, setVoice, toggleGuardrail, movePart, setSpeaking }),
-    [state, setName, setBusiness, setModelTier, setMemoryScope, toggleTool, toggleKnowledge, setVoice, toggleGuardrail, movePart, setSpeaking],
+    () => ({ state, setName, setBusiness, setModelTier, setMemoryScope, toggleTool, toggleKnowledge, setVoice, toggleGuardrail, movePart, setDocked, setSpeaking }),
+    [state, setName, setBusiness, setModelTier, setMemoryScope, toggleTool, toggleKnowledge, setVoice, toggleGuardrail, movePart, setDocked, setSpeaking],
   );
 
   return <BuilderContext.Provider value={value}>{children}</BuilderContext.Provider>;

@@ -20,10 +20,26 @@ import { Kohatu } from './scene/Kohatu';
 
 interface Props {
   onPartMove?: (id: string, position: [number, number, number]) => void;
+  onPartDock?: (id: string, docked: boolean) => void;
+  /** Live intelligence-core position — the magnetic docking hub. */
+  corePosition?: [number, number, number];
   speaking?: boolean;
 }
 
-export function BuilderScene({ onPartMove, speaking = false }: Props) {
+// Port angles around the core, radians (0 = +x, π/2 = toward camera).
+const DOCK_ANGLES = {
+  memory: Math.PI, // left
+  tools: 0, // right
+  knowledge: Math.PI * 0.65, // front-left
+  voice: Math.PI * 0.35, // front-right
+} as const;
+
+export function BuilderScene({
+  onPartMove,
+  onPartDock,
+  corePosition = [0, 0.6, 0],
+  speaking = false,
+}: Props) {
   const reduced = useReducedMotion3D();
   const capability = useDeviceCapability();
   const cam = useResponsiveCamera();
@@ -102,28 +118,40 @@ export function BuilderScene({ onPartMove, speaking = false }: Props) {
       <Memory
         initialPosition={[-2.4, 0.55, -0.4]}
         reduced={reduced}
+        corePosition={corePosition}
+        dockAngle={DOCK_ANGLES.memory}
         onMove={(p) => onPartMove?.('memory', p)}
+        onDock={(d) => onPartDock?.('memory', d)}
       />
       <Tools
         initialPosition={[2.4, 0.5, -0.4]}
         reduced={reduced}
+        corePosition={corePosition}
+        dockAngle={DOCK_ANGLES.tools}
         onMove={(p) => onPartMove?.('tools', p)}
+        onDock={(d) => onPartDock?.('tools', d)}
       />
       <Knowledge
         initialPosition={[-1.4, 0.55, 1.6]}
         reduced={reduced}
+        corePosition={corePosition}
+        dockAngle={DOCK_ANGLES.knowledge}
         onMove={(p) => onPartMove?.('knowledge', p)}
+        onDock={(d) => onPartDock?.('knowledge', d)}
       />
       <Voice
         initialPosition={[1.4, 0.55, 1.6]}
         reduced={reduced}
+        corePosition={corePosition}
+        dockAngle={DOCK_ANGLES.voice}
         onMove={(p) => onPartMove?.('voice', p)}
+        onDock={(d) => onPartDock?.('voice', d)}
       />
       {/* Boundaries no longer floats loose — it's the precision ring around
           the intelligence core, rendered inside ModelCore so it follows the
           core wherever it's dragged (canon: ring = the clear outer shell). */}
 
-      <CameraParallax reduced={reduced || !capability.allowParallax} />
+      <CameraParallax reduced={reduced || !capability.allowParallax} base={cam.position} />
     </Canvas>
   );
 }

@@ -310,6 +310,35 @@
   line-height: 1.5;
 }
 
+.nameRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.nameLabel {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.62rem;
+  color: #6a6560;
+}
+.nameInput {
+  width: 100%;
+  padding: 0.72rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 25, 24, 0.14);
+  background: #FBFAF6;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-size: 0.95rem;
+  color: #1A1918;
+}
+.nameInput:focus-visible {
+  outline: none;
+  border-color: rgba(127, 168, 160, 0.7);
+  box-shadow: 0 0 0 3px rgba(127, 168, 160, 0.18);
+}
+
 .leadForm {
   display: flex;
   gap: 0.55rem;

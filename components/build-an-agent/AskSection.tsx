@@ -173,6 +173,23 @@ export function AskSection() {
               {error}
             </p>
           )}
+
+          {/* Share at peak delight — the moment the answer lands, not three
+              sections later. */}
+          {answer && !speaking && (
+            <div className={styles.shareStrip}>
+              <button
+                type="button"
+                className={styles.shareCtaBtn}
+                onClick={() =>
+                  document.getElementById('share')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              >
+                {copy.shareCta}
+                <span aria-hidden>↓</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

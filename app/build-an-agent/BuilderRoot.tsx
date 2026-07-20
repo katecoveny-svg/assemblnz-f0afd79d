@@ -37,17 +37,23 @@ export function BuilderRoot() {
 
 function BuilderPage() {
   const {
-    state: { parts, speaking },
+    state: { parts, docked, speaking },
     movePart,
+    setDocked,
   } = useBuilder();
-  const placedCount = Object.keys(parts).length;
+  const dockedCount = Object.values(docked).filter(Boolean).length;
 
   return (
     <main className={styles.root}>
       {/* ── SECTION 1 · IMMERSIVE 3D HERO — a single-screen builder canvas ── */}
       <section id="build" className={styles.hero} aria-label="Build your agent">
         <div className={styles.canvas}>
-          <BuilderScene onPartMove={movePart} speaking={speaking} />
+          <BuilderScene
+            onPartMove={movePart}
+            onPartDock={setDocked}
+            corePosition={parts.model}
+            speaking={speaking}
+          />
         </div>
 
         <div className={styles.heroOverlayTop}>
@@ -86,7 +92,7 @@ function BuilderPage() {
           </ul>
           <span className={styles.hint} aria-live="polite">
             <span className={styles.hintDot} aria-hidden />
-            {BUILD_AN_AGENT.scene.dragHint} · {placedCount} pieces on the table
+            {BUILD_AN_AGENT.scene.dragHint} · {dockedCount} {BUILD_AN_AGENT.scene.connectedLabel}
           </span>
         </div>
 
