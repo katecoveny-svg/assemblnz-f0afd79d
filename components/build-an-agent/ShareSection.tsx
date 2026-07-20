@@ -31,9 +31,11 @@ export function ShareSection() {
   }, []);
 
   const shareUrl = origin ? `${origin}/build-an-agent?c=${encoded}` : `/build-an-agent?c=${encoded}`;
+  // The /og route handler (not the opengraph-image file convention — that
+  // never receives query params, so it can't personalise).
   const imageUrl = origin
-    ? `${origin}/build-an-agent/opengraph-image?c=${encoded}`
-    : `/build-an-agent/opengraph-image?c=${encoded}`;
+    ? `${origin}/build-an-agent/og?c=${encoded}`
+    : `/build-an-agent/og?c=${encoded}`;
 
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState('');
