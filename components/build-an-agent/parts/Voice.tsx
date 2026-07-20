@@ -15,8 +15,9 @@ interface Props {
 }
 
 /**
- * Voice — a torus-knot "petal" form that gently pulses. Warm champagne
- * with high iridescence so it feels alive when spoken to.
+ * Voice — an upright matte-ceramic capsule that gently pulses as it "speaks".
+ * Warm white ceramic distinguishes it from the chrome abilities capsule
+ * (which lies horizontal); the pulse is the tell that this one talks.
  */
 export function Voice({ initialPosition = [1.4, 0.55, 1.6], reduced = false, onMove }: Props) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -26,8 +27,8 @@ export function Voice({ initialPosition = [1.4, 0.55, 1.6], reduced = false, onM
     if (!meshRef.current) return;
     if (reduced) return;
     const t = clock.getElapsedTime();
-    meshRef.current.rotation.y = t * 0.28;
-    const pulse = 1 + Math.sin(t * 1.4) * 0.03;
+    meshRef.current.rotation.y = t * 0.2;
+    const pulse = 1 + Math.sin(t * 1.6) * 0.035;
     meshRef.current.scale.setScalar(pulse);
     if (onMove) onMove(drag.position);
   });
@@ -46,17 +47,14 @@ export function Voice({ initialPosition = [1.4, 0.55, 1.6], reduced = false, onM
         }}
         {...drag.handlers}
       >
-        <torusKnotGeometry args={[0.24, 0.08, 128, 24, 2, 3]} />
+        <capsuleGeometry args={[0.16, 0.36, 12, 32]} />
         <meshPhysicalMaterial
-          color="#EBD9B8"
-          metalness={0.55}
-          roughness={0.15}
-          clearcoat={0.9}
-          clearcoatRoughness={0.08}
-          iridescence={0.7}
-          iridescenceIOR={1.3}
-          iridescenceThicknessRange={[200, 720]}
-          envMapIntensity={1.2}
+          color="#F7F5F0"
+          metalness={0.05}
+          roughness={0.42}
+          clearcoat={0.35}
+          clearcoatRoughness={0.4}
+          envMapIntensity={0.8}
         />
       </mesh>
 

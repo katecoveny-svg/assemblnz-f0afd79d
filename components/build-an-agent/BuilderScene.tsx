@@ -8,7 +8,6 @@ import * as THREE from 'three';
 import { useDeviceCapability } from './hooks/useDeviceCapability';
 import { useReducedMotion3D } from './hooks/useReducedMotion3D';
 import { useResponsiveCamera } from './hooks/useResponsiveCamera';
-import { Guardrails } from './parts/Guardrails';
 import { Knowledge } from './parts/Knowledge';
 import { Memory } from './parts/Memory';
 import { ModelCore } from './parts/ModelCore';
@@ -120,11 +119,9 @@ export function BuilderScene({ onPartMove, speaking = false }: Props) {
         reduced={reduced}
         onMove={(p) => onPartMove?.('voice', p)}
       />
-      <Guardrails
-        initialPosition={[0, 0.5, 2.2]}
-        reduced={reduced}
-        onMove={(p) => onPartMove?.('guardrails', p)}
-      />
+      {/* Boundaries no longer floats loose — it's the precision ring around
+          the intelligence core, rendered inside ModelCore so it follows the
+          core wherever it's dragged (canon: ring = the clear outer shell). */}
 
       <CameraParallax reduced={reduced || !capability.allowParallax} />
     </Canvas>

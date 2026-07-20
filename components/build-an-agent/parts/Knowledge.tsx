@@ -15,8 +15,8 @@ interface Props {
 }
 
 /**
- * Knowledge — a glass cylinder that reads as a tube of light. Transmission
- * and low roughness so the studio HDRI shows through it.
+ * Knowledge — a single frosted translucent cube (canon: translucent cube =
+ * knowledge source). Larger and calmer than memory's stacked clear cubes.
  */
 export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false, onMove }: Props) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -26,8 +26,8 @@ export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false
     if (!meshRef.current) return;
     if (reduced) return;
     const t = clock.getElapsedTime();
-    meshRef.current.rotation.y = t * 0.22;
-    meshRef.current.rotation.x = Math.PI / 2 + Math.sin(t * 0.3) * 0.05;
+    meshRef.current.rotation.y = t * 0.16;
+    meshRef.current.rotation.x = Math.sin(t * 0.25) * 0.05;
     if (onMove) onMove(drag.position);
   });
 
@@ -36,7 +36,6 @@ export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false
       <mesh
         ref={meshRef}
         position={[0, drag.position[1], 0]}
-        rotation={[Math.PI / 2, 0, 0]}
         onPointerOver={(e) => {
           e.stopPropagation();
           document.body.style.cursor = drag.isDragging ? 'grabbing' : 'grab';
@@ -46,22 +45,22 @@ export function Knowledge({ initialPosition = [-1.4, 0.55, 1.6], reduced = false
         }}
         {...drag.handlers}
       >
-        <cylinderGeometry args={[0.18, 0.18, 0.72, 48, 1, false]} />
+        <boxGeometry args={[0.52, 0.52, 0.52]} />
         <meshPhysicalMaterial
-          color="#F5F1E8"
-          metalness={0.05}
-          roughness={0.06}
-          transmission={0.9}
-          thickness={0.5}
+          color="#F5F4EF"
+          metalness={0.02}
+          roughness={0.32}
+          transmission={0.6}
+          thickness={0.7}
           ior={1.4}
-          clearcoat={1}
-          clearcoatRoughness={0.05}
-          envMapIntensity={1.4}
+          clearcoat={0.5}
+          clearcoatRoughness={0.3}
+          envMapIntensity={0.9}
         />
       </mesh>
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
-        <circleGeometry args={[0.4, 48]} />
+        <circleGeometry args={[0.5, 48]} />
         <meshBasicMaterial color="#1A1918" transparent opacity={drag.isDragging ? 0.12 : 0.08} />
       </mesh>
 
