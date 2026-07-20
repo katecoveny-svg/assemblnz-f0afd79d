@@ -28,52 +28,79 @@ interface Props {
 }
 
 /**
- * Where each part rests before it's docked. Spread scales with the camera
- * bucket: the mobile/tablet cameras sit further back with a wider fov, so a
- * fixed x would push the outer parts off-frame. Everything stays right of
- * the hero copy, which occupies the left third.
+ * The assembly sits RIGHT of the hero copy: the intelligence core at the
+ * centre, the four parts arranged around it in an X.
+ *
+ * This is a DESIGNED composition, not a procedural orbit. A ring generated
+ * from evenly-spaced angles looks correct in plan view and reads terribly
+ * through a near-level camera — opposite angles collapse onto the same screen
+ * x, so the far part just hides behind the near one, and the whole thing
+ * flattens into a horizontal smear. Placing the four by hand gives every part
+ * its own x AND its own height, so all five silhouettes stay legible at once.
+ *
+ * Offsets are relative to the core, so the assembly moves and scales as one
+ * when the viewport bucket changes.
  */
-const REST_LAYOUT = {
+const LAYOUT = {
   desktop: {
-    memory: [1.35, 0.55, -1.15],
-    tools: [2.4, 0.5, -0.3],
-    knowledge: [1.75, 0.5, 0.55],
-    voice: [2.25, 0.5, 1.15],
+    core: [1.15, 0.62, 0] as const,
+    scale: 1,
   },
   tablet: {
-    memory: [1.15, 0.55, -1.0],
-    tools: [2.0, 0.5, -0.25],
-    knowledge: [1.5, 0.5, 0.5],
-    voice: [1.95, 0.5, 1.0],
+    core: [0.62, 0.62, 0] as const,
+    scale: 0.74,
   },
+  // Portrait: the hero copy owns the lower ~60% of the viewport, so the
+  // assembly has to clear it entirely — hence the high core. The camera looks
+  // at the origin from y 1.92, so world-y has to climb a long way before the
+  // assembly lands in the top third of a tall phone frame.
   mobile: {
-    // Portrait: stack around the core rather than beside it — the copy takes
-    // the lower half, so the parts ring the knot up top.
-    memory: [-1.15, 0.55, -0.9],
-    tools: [1.25, 0.5, -0.9],
-    knowledge: [-1.3, 0.5, 0.7],
-    voice: [1.35, 0.5, 0.7],
+    core: [0, 2.05, 0] as const,
+    scale: 0.62,
   },
 } as const;
 
-// Port angles around the core, radians (0 = +x, π/2 = toward camera).
-const DOCK_ANGLES = {
-  memory: Math.PI, // left
-  tools: 0, // right
-  knowledge: Math.PI * 0.65, // front-left
-  voice: Math.PI * 0.35, // front-right
+// Offsets from the core — [x, y, z]. High-left, low-left, high-right,
+// low-right: an X, so no part sits directly in front of another.
+const PART_OFFSET = {
+  knowledge: [-1.16, 0.42, 0.30] as const,
+  memory: [-0.74, -0.36, -0.42] as const,
+  tools: [1.14, 0.44, 0.12] as const,
+  voice: [0.82, -0.38, 0.46] as const,
 } as const;
+
+type PartKey = keyof typeof PART_OFFSET;
+
+function partPos(
+  layout: { core: readonly [number, number, number]; scale: number },
+  key: PartKey,
+): [number, number, number] {
+  const [ox, oy, oz] = PART_OFFSET[key];
+  const { core, scale } = layout;
+  return [core[0] + ox * scale, core[1] + oy * scale, core[2] + oz * scale];
+}
+
+/**
+ * Where a part docks back to — derived from its own offset, so a dragged part
+ * always returns to the port it came from rather than a hard-coded angle that
+ * could drift out of sync with the layout above.
+ */
+function dockAngle(key: PartKey): number {
+  const [ox, , oz] = PART_OFFSET[key];
+  return Math.atan2(oz, ox);
+}
 
 export function BuilderScene({
   onPartMove,
   onPartDock,
-  corePosition = [0, 0.6, 0],
+  corePosition,
   speaking = false,
 }: Props) {
   const reduced = useReducedMotion3D();
   const capability = useDeviceCapability();
   const cam = useResponsiveCamera();
-  const rest = REST_LAYOUT[cam.bucket];
+  const layout = LAYOUT[cam.bucket];
+  const corePos = corePosition ?? ([...layout.core] as [number, number, number]);
 
   // R3F's Canvas can miss the very first parent-size measurement when the
   // component is dynamically imported into a full-viewport container; nudging
@@ -160,40 +187,40 @@ export function BuilderScene({
       <Kohatu reduced={reduced} count={capability.kohatuCount} />
 
       <ModelCore
-        initialPosition={[0, 0.6, 0]}
+        initialPosition={[...layout.core] as [number, number, number]}
         reduced={reduced}
         speaking={speaking}
         onMove={(p) => onPartMove?.('model', p)}
       />
       <Memory
-        initialPosition={rest.memory as [number, number, number]}
+        initialPosition={partPos(layout, 'memory')}
         reduced={reduced}
-        corePosition={corePosition}
-        dockAngle={DOCK_ANGLES.memory}
+        corePosition={corePos}
+        dockAngle={dockAngle('memory')}
         onMove={(p) => onPartMove?.('memory', p)}
         onDock={(d) => onPartDock?.('memory', d)}
       />
       <Tools
-        initialPosition={rest.tools as [number, number, number]}
+        initialPosition={partPos(layout, 'tools')}
         reduced={reduced}
-        corePosition={corePosition}
-        dockAngle={DOCK_ANGLES.tools}
+        corePosition={corePos}
+        dockAngle={dockAngle('tools')}
         onMove={(p) => onPartMove?.('tools', p)}
         onDock={(d) => onPartDock?.('tools', d)}
       />
       <Knowledge
-        initialPosition={rest.knowledge as [number, number, number]}
+        initialPosition={partPos(layout, 'knowledge')}
         reduced={reduced}
-        corePosition={corePosition}
-        dockAngle={DOCK_ANGLES.knowledge}
+        corePosition={corePos}
+        dockAngle={dockAngle('knowledge')}
         onMove={(p) => onPartMove?.('knowledge', p)}
         onDock={(d) => onPartDock?.('knowledge', d)}
       />
       <Voice
-        initialPosition={rest.voice as [number, number, number]}
+        initialPosition={partPos(layout, 'voice')}
         reduced={reduced}
-        corePosition={corePosition}
-        dockAngle={DOCK_ANGLES.voice}
+        corePosition={corePos}
+        dockAngle={dockAngle('voice')}
         onMove={(p) => onPartMove?.('voice', p)}
         onDock={(d) => onPartDock?.('voice', d)}
       />

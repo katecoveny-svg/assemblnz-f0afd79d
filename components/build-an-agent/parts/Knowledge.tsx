@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
+import { CHROME, CHROME_MATERIAL } from './chrome';
 import { useDrag3D } from '../hooks/useDrag3D';
 import { PartLabel } from './PartLabel';
 
@@ -63,20 +64,8 @@ export function Knowledge({
         }}
         {...drag.handlers}
       >
-        <boxGeometry args={[0.42, 0.42, 0.42]} />
-        <meshPhysicalMaterial
-          color="#8FA6A1"
-          metalness={0.04}
-          roughness={0.22}
-          transmission={0.7}
-          thickness={1.6}
-          ior={1.46}
-          attenuationColor="#48635F"
-          attenuationDistance={0.5}
-          clearcoat={0.85}
-          clearcoatRoughness={0.18}
-          envMapIntensity={1.5}
-        />
+        <octahedronGeometry args={[0.26, 0]} />
+        <meshPhysicalMaterial color={CHROME.knowledge} {...CHROME_MATERIAL} roughness={0.18} />
       </mesh>
 
       {drag.docked && (
@@ -92,7 +81,7 @@ export function Knowledge({
         />
       )}
 
-      <PartLabel text={BUILD_AN_AGENT.parts.connectors.label} />
+      <PartLabel text={BUILD_AN_AGENT.parts.connectors.label} y={drag.position[1] + 0.52} />
     </group>
   );
 }

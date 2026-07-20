@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
+import { CHROME, CHROME_MATERIAL } from './chrome';
 import { useDrag3D } from '../hooks/useDrag3D';
 import { PartLabel } from './PartLabel';
 
@@ -64,36 +65,12 @@ export function Memory({
         {...drag.handlers}
       >
         <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.44, 0.44, 0.44]} />
-          <meshPhysicalMaterial
-            color="#9FB4B0"
-            metalness={0.1}
-            roughness={0.05}
-            transmission={0.82}
-            thickness={1.4}
-            ior={1.52}
-            attenuationColor="#3E5A57"
-            attenuationDistance={0.6}
-            clearcoat={1}
-            clearcoatRoughness={0.04}
-            envMapIntensity={1.9}
-          />
+          <boxGeometry args={[0.36, 0.36, 0.36]} />
+          <meshPhysicalMaterial color={CHROME.memory} {...CHROME_MATERIAL} roughness={0.2} />
         </mesh>
-        <mesh ref={topRef} position={[0, 0.46, 0]} rotation={[0, 0.5, 0]}>
-          <boxGeometry args={[0.32, 0.32, 0.32]} />
-          <meshPhysicalMaterial
-            color="#9FB4B0"
-            metalness={0.1}
-            roughness={0.05}
-            transmission={0.82}
-            thickness={1.1}
-            ior={1.52}
-            attenuationColor="#3E5A57"
-            attenuationDistance={0.5}
-            clearcoat={1}
-            clearcoatRoughness={0.04}
-            envMapIntensity={1.9}
-          />
+        <mesh ref={topRef} position={[0, 0.38, 0]} rotation={[0, 0.5, 0]}>
+          <boxGeometry args={[0.26, 0.26, 0.26]} />
+          <meshPhysicalMaterial color={CHROME.memory} {...CHROME_MATERIAL} roughness={0.2} />
         </mesh>
       </group>
 
@@ -110,7 +87,7 @@ export function Memory({
         />
       )}
 
-      <PartLabel text={BUILD_AN_AGENT.parts.memory.label} />
+      <PartLabel text={BUILD_AN_AGENT.parts.memory.label} y={drag.position[1] + 0.52} />
     </group>
   );
 }

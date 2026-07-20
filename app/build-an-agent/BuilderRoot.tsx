@@ -2,6 +2,7 @@
 
 import { AskSection } from '@/components/build-an-agent/AskSection';
 import { BuilderScene } from '@/components/build-an-agent/BuilderScene';
+import { useParallax } from '@/components/build-an-agent/hooks/useParallax';
 import { ConfigureSection } from '@/components/build-an-agent/ConfigureSection';
 import { IntakeSection } from '@/components/build-an-agent/IntakeSection';
 import { ShareSection } from '@/components/build-an-agent/ShareSection';
@@ -43,6 +44,9 @@ function BuilderPage() {
     setDocked,
   } = useBuilder();
   const dockedCount = Object.values(docked).filter(Boolean).length;
+
+  // Drives every [data-parallax] element on the page.
+  useParallax();
 
   return (
     <main className={styles.root}>

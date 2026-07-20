@@ -83,12 +83,10 @@ function reducer(state: BuilderState, action: Action): BuilderState {
 }
 
 const INITIAL_PARTS: PartPositions = {
-  model: [0, 0.6, 0],
-  memory: [-2.4, 0.55, -0.4],
-  tools: [2.4, 0.5, -0.4],
-  knowledge: [-1.4, 0.55, 1.6],
-  voice: [1.4, 0.55, 1.6],
-  guardrails: [0, 0.5, 2.2],
+  // Matches LAYOUT.desktop.core in BuilderScene — the scene reports the real
+  // position on its first frame, but seeding it right avoids one frame where
+  // docking would measure against the wrong centre.
+  model: [1.15, 0.62, 0],
 };
 
 interface Ctx {

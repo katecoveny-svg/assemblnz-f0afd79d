@@ -41,23 +41,54 @@
   justify-content: space-between;
   padding: clamp(0.9rem, 2.4vw, 1.4rem) clamp(1.25rem, 4vw, 2.5rem);
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(251, 250, 246, 0.92) 0%, rgba(251, 250, 246, 0) 100%);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: linear-gradient(
+    180deg,
+    rgba(251, 250, 246, 0.86) 0%,
+    rgba(251, 250, 246, 0.62) 62%,
+    rgba(251, 250, 246, 0) 100%
+  );
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+/* The hairline that turns a wash into a bar. */
+.heroOverlayTop::after {
+  content: '';
+  position: absolute;
+  left: clamp(1.25rem, 4vw, 2.5rem);
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(26, 25, 24, 0) 0%,
+    rgba(26, 25, 24, 0.14) 20%,
+    rgba(191, 163, 122, 0.55) 50%,
+    rgba(26, 25, 24, 0.14) 80%,
+    rgba(26, 25, 24, 0) 100%
+  );
 }
 
 .wordmark {
   font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
   font-weight: 600;
   font-size: clamp(1.9rem, 5vw, 2.9rem);
-  color: #1A1918;
+  background: linear-gradient(168deg, #3d3833 0%, #1A1918 45%, #000000 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   text-decoration: none;
   letter-spacing: -0.02em;
   line-height: 1;
   pointer-events: auto;
-  transition: opacity 200ms ease;
+  transition: filter 240ms ease, transform 240ms ease;
 }
-.wordmark:hover { opacity: 0.66; }
+.wordmark:hover {
+  filter: drop-shadow(0 4px 14px rgba(127, 168, 160, 0.55));
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wordmark:hover { transform: none; }
+}
 
 .eyebrow {
   margin: 0;
