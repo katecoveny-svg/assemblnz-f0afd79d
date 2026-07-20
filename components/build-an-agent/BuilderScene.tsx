@@ -41,22 +41,42 @@ interface Props {
  * Offsets are relative to the core, so the assembly moves and scales as one
  * when the viewport bucket changes.
  */
+/*
+ * aimBias / aimY control FRAMING, and they exist because the camera aims at
+ * the assembly now rather than at the world origin.
+ *
+ * aimBias is how far along the line from origin to core the camera looks:
+ * 0 aims at the origin (the old behaviour — the assembly ends up in the
+ * distorted corner of the frustum), 1 aims dead at the core (which centres it
+ * and puts it behind the hero copy). The value in between is what buys the
+ * "assembly sits right of the copy" composition WITHOUT the off-axis blowout.
+ *
+ * aimY biases the aim vertically: aiming below the core lifts the assembly in
+ * frame, which is how portrait clears the hero copy — done with the camera
+ * rather than by shoving the objects into the sky.
+ */
 const LAYOUT = {
   desktop: {
     core: [1.15, 0.62, 0] as const,
     scale: 1,
+    aimBias: 0.46,
+    aimY: -0.12,
   },
   tablet: {
     core: [0.62, 0.62, 0] as const,
     scale: 0.74,
+    aimBias: 0.4,
+    aimY: -0.12,
   },
   // Portrait: the hero copy owns the lower ~60% of the viewport, so the
   // assembly has to clear it entirely — hence the high core. The camera looks
   // at the origin from y 1.92, so world-y has to climb a long way before the
   // assembly lands in the top third of a tall phone frame.
   mobile: {
-    core: [0, 2.05, 0] as const,
+    core: [0, 0.7, 0] as const,
     scale: 0.62,
+    aimBias: 0,
+    aimY: -1.35,
   },
 } as const;
 
@@ -101,6 +121,13 @@ export function BuilderScene({
   const cam = useResponsiveCamera();
   const layout = LAYOUT[cam.bucket];
   const corePos = corePosition ?? ([...layout.core] as [number, number, number]);
+  // Aim tracks the LAYOUT core, not the live dragged one — the framing
+  // shouldn't swing around every time someone picks the knot up.
+  const aim: [number, number, number] = [
+    layout.core[0] * layout.aimBias,
+    layout.core[1] + layout.aimY,
+    0,
+  ];
 
   // R3F's Canvas can miss the very first parent-size measurement when the
   // component is dynamically imported into a full-viewport container; nudging
@@ -228,7 +255,7 @@ export function BuilderScene({
           the intelligence core, rendered inside ModelCore so it follows the
           core wherever it's dragged (canon: ring = the clear outer shell). */}
 
-      <CameraParallax reduced={reduced || !capability.allowParallax} base={cam.position} />
+      <CameraParallax reduced={reduced || !capability.allowParallax} base={cam.position} aim={aim} />
     </Canvas>
   );
 }
