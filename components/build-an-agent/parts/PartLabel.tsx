@@ -7,6 +7,10 @@ import styles from './parts.module.css';
 interface Props {
   text: string;
   y?: number;
+  /** Optional lateral offset — used by labels that annotate an attached form
+   *  (the boundaries ring) rather than the part's own centre. */
+  x?: number;
+  z?: number;
   visible?: boolean;
 }
 
@@ -14,23 +18,16 @@ interface Props {
  * A floating HTML label that hovers just above its part.
  *
  * Sits above (not below) so it never drifts toward the hero copy anchored
- * to the bottom of the viewport — every part's rest position is near
- * y≈0.5-0.6, so a below-offset label lands close to ground level, right in
- * the zone the headline/lede occupy on narrow viewports. Above keeps it
- * near the part regardless of screen size.
- *
- * y is an offset from the part group's local origin (ground level, y=0),
- * not from the mesh's own height — 1.15 clears the tallest part (the model
- * core sphere, top ≈1.02) with a small margin so the pill floats clear of
- * every mesh rather than intersecting it.
+ * to the bottom of the viewport. y is an offset from the part group's local
+ * origin (ground level) — 1.15 clears the tallest part with margin.
  *
  * Uses drei's <Html> so the label inherits the site's fonts and we don't
  * need to load a WebGL font file at runtime.
  */
-export function PartLabel({ text, y = 1.15, visible = true }: Props) {
+export function PartLabel({ text, y = 1.15, x = 0, z = 0, visible = true }: Props) {
   return (
     <Html
-      position={[0, y, 0]}
+      position={[x, y, z]}
       center
       distanceFactor={7}
       zIndexRange={[10, 0]}

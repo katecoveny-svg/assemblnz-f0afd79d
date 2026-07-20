@@ -101,6 +101,7 @@ declare namespace React {
       boxGeometry: Record<string, unknown>;
       torusGeometry: Record<string, unknown>;
       torusKnotGeometry: Record<string, unknown>;
+      capsuleGeometry: Record<string, unknown>;
       icosahedronGeometry: Record<string, unknown>;
       bufferGeometry: Record<string, unknown>;
       bufferAttribute: Record<string, unknown>;

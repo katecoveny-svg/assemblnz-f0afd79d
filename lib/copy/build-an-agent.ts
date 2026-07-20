@@ -19,8 +19,10 @@ export const BUILD_AN_AGENT = {
     resumeAction: 'Keep building',
   },
   parts: {
+    // Labels follow the canonical vocabulary (2026-07-20): model → intelligence,
+    // tools → abilities, guardrails → boundaries.
     modelCore: {
-      label: 'The model',
+      label: 'Intelligence',
       helper: 'The brain. Picks its words.',
     },
     memory: {
@@ -28,7 +30,7 @@ export const BUILD_AN_AGENT = {
       helper: 'What it remembers between chats.',
     },
     tools: {
-      label: 'Tools',
+      label: 'Abilities',
       helper: 'What it can go and do.',
     },
     connectors: {
@@ -40,7 +42,7 @@ export const BUILD_AN_AGENT = {
       helper: 'How it speaks and what it cares about.',
     },
     guardrails: {
-      label: 'Guardrails',
+      label: 'Boundaries',
       helper: 'What it will never do.',
     },
   },
