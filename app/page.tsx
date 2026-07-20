@@ -1,47 +1,26 @@
 import type { Metadata } from 'next';
-import { StudioWaveHero } from '@/components/home/StudioWaveHero';
-import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
-import { OneMinuteBusiness } from '@/components/one-minute-business/OneMinuteBusiness';
-import { HOME } from '@/lib/copy/homepage';
-import styles from './home-simplified.module.css';
+import { EditorialHero } from '@/components/site/editorial/EditorialHero';
+
+/**
+ * assembl.co.nz homepage — editorial gallery rebuild (2026-07-20).
+ *
+ * Stage 1 of Kate's `homepage/editorial-gallery` brief: the typography-first
+ * hero moment (viewport 1). The walkable 3D gallery (viewport 2), the
+ * manifesto (viewport 3) and the editorial footer follow once this stage
+ * is approved on the Vercel preview URL.
+ */
 
 export const metadata: Metadata = {
-  title: 'one minute business · assembl',
-  description: 'Describe your business and see its Business Genome, coordinated agent team and first useful result form in about a minute.',
+  title: 'assembl — make AI visible',
+  description:
+    'assembl is New Zealand’s AI adoption agency. We build agents you can see, hold and understand. Nothing ships without your yes.',
   alternates: { canonical: '/' },
 };
 
-type HomeSearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-function sharedNumber(
-  value: string | string[] | undefined,
-  allowed: (candidate: number) => boolean,
-  fallback: number,
-) {
-  const candidate = Number(Array.isArray(value) ? value[0] : value);
-  return allowed(candidate) ? candidate : fallback;
-}
-
-export default async function HomePage({ searchParams }: { searchParams: HomeSearchParams }) {
-  const query = await searchParams;
-  const initialSavings = {
-    people: sharedNumber(query.team, (value) => Number.isInteger(value) && value >= 1 && value <= 25, 3),
-    adminHours: sharedNumber(query.admin, (value) => Number.isInteger(value) && value >= 1 && value <= 20, 6),
-    repeatableShare: sharedNumber(
-      query.repeatable,
-      (value) => HOME.savings.repeatableOptions.some((option) => option.value === value),
-      35,
-    ),
-  };
-
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      {/* Hero band — a LIVE 3D piece from the creative studio (Waves).
-          Kate art-directs it at /creative-playground and pastes the
-          numbers into StudioWaveHero's HERO_LOOK. Decorative only. */}
-      <StudioWaveHero />
-      <OneMinuteBusiness />
-      <TimeSavingsCalculator initialValues={initialSavings} />
+    <div className="bg-[#FBFAF6] text-[#1A1918]">
+      <EditorialHero />
     </div>
   );
 }
