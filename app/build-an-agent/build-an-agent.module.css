@@ -151,12 +151,57 @@
   outline: none;
 }
 
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 1.4rem;
+  border: 1px solid rgba(26, 25, 24, 0.22);
+  border-radius: 999px;
+  background: rgba(251, 250, 246, 0.7);
+  color: #1A1918;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
+}
+.ctaSecondary:hover,
+.ctaSecondary:focus-visible {
+  border-color: rgba(191, 163, 122, 0.7);
+  background: #FBFAF6;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* The six parts of an assembled agent — Space Mono micro-chips under the CTAs. */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.45rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.chip {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  color: #6a6560;
+  padding: 0.32rem 0.6rem;
+  border: 1px solid rgba(26, 25, 24, 0.1);
+  border-radius: 999px;
+  background: rgba(251, 250, 246, 0.66);
+}
+
 .hint {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.85rem;
-  color: #4a4642;
+  font-size: 0.78rem;
+  color: #6a6560;
 }
 .hintDot {
   width: 0.55rem;

@@ -72,11 +72,21 @@ function BuilderPage() {
             >
               {BUILD_AN_AGENT.hero.startAction}
             </button>
-            <span className={styles.hint} aria-live="polite">
-              <span className={styles.hintDot} aria-hidden />
-              {BUILD_AN_AGENT.scene.dragHint} · {placedCount} pieces on the table
-            </span>
+            <a href={BUILD_AN_AGENT.hero.secondaryHref} className={styles.ctaSecondary}>
+              {BUILD_AN_AGENT.hero.secondaryAction}
+            </a>
           </div>
+          <ul className={styles.chipRow} aria-label="The parts of an assembled agent">
+            {BUILD_AN_AGENT.hero.chips.map((chip) => (
+              <li key={chip} className={styles.chip}>
+                {chip}
+              </li>
+            ))}
+          </ul>
+          <span className={styles.hint} aria-live="polite">
+            <span className={styles.hintDot} aria-hidden />
+            {BUILD_AN_AGENT.scene.dragHint} · {placedCount} pieces on the table
+          </span>
         </div>
 
         <a
