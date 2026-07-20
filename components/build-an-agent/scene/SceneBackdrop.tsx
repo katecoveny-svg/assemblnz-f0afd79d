@@ -93,7 +93,7 @@ export function CoreBloom({
   if (!texture) return null;
   return (
     <mesh position={[position[0], position[1], position[2] - 2.4]} renderOrder={-1}>
-      <planeGeometry args={[size, size]} />
+      <planeGeometry args={[size * 0.92, size * 1.7]} />
       <meshBasicMaterial
         map={texture}
         transparent
