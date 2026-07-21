@@ -6,6 +6,7 @@ import {
   Lightformer,
   MeshReflectorMaterial,
 } from '@react-three/drei';
+import { OrbitControls, Sparkles } from '@react-three/drei/core';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { useCursor } from '@react-three/drei/web/useCursor';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
@@ -48,7 +49,8 @@ const PARTS = [
   },
 ] as const;
 
-type PartId = (typeof PARTS)[number]['id'];
+export type AgentGalleryPartId = (typeof PARTS)[number]['id'];
+type PartId = AgentGalleryPartId;
 
 const POSITIONS: Record<PartId, [number, number, number]> = {
   memory: [-4.35, 0, 0.18],
@@ -57,6 +59,15 @@ const POSITIONS: Record<PartId, [number, number, number]> = {
   voice: [0.88, 0, 0.12],
   abilities: [2.62, 0, -0.18],
   boundaries: [4.35, 0, 0.18],
+};
+
+const MOTION_PHASE: Record<PartId, number> = {
+  memory: 0,
+  knowledge: 0.9,
+  intelligence: 1.8,
+  voice: 2.7,
+  abilities: 3.6,
+  boundaries: 4.5,
 };
 
 function hasWebGL() {
@@ -68,16 +79,17 @@ function hasWebGL() {
   }
 }
 
-function CameraRig({ active }: { active: PartId }) {
+function CameraRig({ active, focus }: { active: PartId; focus: boolean }) {
   const { camera, size } = useThree();
   const target = useRef(new THREE.Vector3());
   const desired = useRef(new THREE.Vector3());
 
   useFrame(() => {
+    if (!focus) return;
     const portrait = size.width / size.height < 0.76;
     const activeX = POSITIONS[active][0];
-    desired.current.set(portrait ? activeX : 0, portrait ? 0.5 : 0.85, portrait ? 7.4 : 12.6);
-    target.current.set(portrait ? activeX : 0, 0.25, 0);
+    desired.current.set(activeX, portrait ? 0.65 : 1.05, portrait ? 7.4 : 7.1);
+    target.current.set(activeX, 0.15, 0);
     camera.position.lerp(desired.current, 0.055);
     camera.lookAt(target.current);
   });
@@ -88,13 +100,18 @@ function CameraRig({ active }: { active: PartId }) {
 function Sculpture({ id, active }: { id: PartId; active: boolean }) {
   const group = useRef<THREE.Group>(null);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (!group.current) return;
+    const time = clock.getElapsedTime();
+    const phase = MOTION_PHASE[id];
+    const float = Math.sin(time * 0.72 + phase) * 0.075;
     group.current.position.y = THREE.MathUtils.lerp(
       group.current.position.y,
-      active ? 0.16 : 0,
+      (active ? 0.16 : 0) + float,
       0.08,
     );
+    group.current.rotation.y = time * (active ? 0.34 : 0.2) + phase;
+    group.current.rotation.z = Math.sin(time * 0.4 + phase) * 0.035;
     const scale = THREE.MathUtils.lerp(group.current.scale.x, active ? 1.1 : 1, 0.08);
     group.current.scale.setScalar(scale);
   });
@@ -181,6 +198,38 @@ function Sculpture({ id, active }: { id: PartId; active: boolean }) {
   );
 }
 
+function AmbientOrb() {
+  const orb = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (!orb.current) return;
+    const time = clock.getElapsedTime();
+    orb.current.position.y = 2.38 + Math.sin(time * 0.46) * 0.16;
+    orb.current.position.x = 0.1 + Math.sin(time * 0.23) * 0.22;
+    orb.current.rotation.y = time * 0.16;
+  });
+
+  return (
+    <group ref={orb} position={[0.1, 2.38, -1.85]}>
+      <mesh>
+        <sphereGeometry args={[0.78, 56, 56]} />
+        <meshPhysicalMaterial
+          color="#d7c9aa"
+          metalness={0.94}
+          roughness={0.055}
+          clearcoat={1}
+          clearcoatRoughness={0.035}
+          envMapIntensity={3.1}
+        />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0.2, 0]}>
+        <torusGeometry args={[0.95, 0.018, 12, 96]} />
+        <meshPhysicalMaterial color="#f5efe2" metalness={0.9} roughness={0.12} />
+      </mesh>
+    </group>
+  );
+}
+
 function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSelect: () => void }) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
@@ -210,16 +259,16 @@ function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSele
   );
 }
 
-function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: PartId) => void }) {
+function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: boolean; onSelect: (id: PartId) => void }) {
   return (
     <>
-      <color attach="background" args={['#f4f1ea']} />
-      <fog attach="fog" args={['#f4f1ea', 11, 24]} />
-      <ambientLight intensity={0.62} />
-      <hemisphereLight args={['#ffffff', '#c6c0b5', 0.92]} />
-      <directionalLight position={[-5, 8, 7]} intensity={2.7} color="#fff7df" />
-      <directionalLight position={[5, 5, 2]} intensity={1.8} color="#dbecef" />
-      <directionalLight position={[0, 2, -5]} intensity={1.25} color="#e0bd72" />
+      <color attach="background" args={['#efece5']} />
+      <fog attach="fog" args={['#efece5', 12, 28]} />
+      <ambientLight intensity={0.55} />
+      <hemisphereLight args={['#ffffff', '#c7c0b5', 0.78]} />
+      <directionalLight position={[-5, 9, 7]} intensity={2.4} color="#fff8e8" />
+      <directionalLight position={[6, 5, 3]} intensity={1.55} color="#dfecef" />
+      <spotLight position={[0, 7, 3]} angle={0.58} penumbra={0.82} intensity={1.2} color="#fff0d0" />
 
       <Environment resolution={256}>
         <Lightformer form="rect" intensity={7} color="#fffdf6" position={[0, 6, 4]} scale={[12, 3, 1]} />
@@ -228,9 +277,17 @@ function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: Par
         <Lightformer form="ring" intensity={3} color="#ffffff" position={[0, 1, -4]} scale={[5, 5, 1]} />
       </Environment>
 
-      <mesh position={[0, 2.35, -3.4]}>
-        <planeGeometry args={[24, 9]} />
-        <meshStandardMaterial color="#f7f4ee" roughness={0.92} />
+      <mesh position={[0, 2.55, -4.8]}>
+        <planeGeometry args={[25, 10]} />
+        <meshStandardMaterial color="#f6f3ed" roughness={1} />
+      </mesh>
+      <mesh position={[-7.8, 2.55, -0.2]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[12, 10]} />
+        <meshStandardMaterial color="#eeeae2" roughness={1} />
+      </mesh>
+      <mesh position={[7.8, 2.55, -0.2]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[12, 10]} />
+        <meshStandardMaterial color="#eeeae2" roughness={1} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.58, 0]}>
         <planeGeometry args={[26, 24]} />
@@ -248,17 +305,7 @@ function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: Par
         />
       </mesh>
 
-      <mesh position={[0.1, 2.38, -1.85]}>
-        <sphereGeometry args={[0.78, 56, 56]} />
-        <meshPhysicalMaterial
-          color="#d0b678"
-          metalness={0.92}
-          roughness={0.065}
-          clearcoat={1}
-          clearcoatRoughness={0.05}
-          envMapIntensity={2.7}
-        />
-      </mesh>
+      <AmbientOrb />
 
       {PARTS.map((part) => (
         <Exhibit
@@ -278,15 +325,57 @@ function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: Par
         resolution={512}
         color="#413d36"
       />
-      <CameraRig active={active} />
+      <Sparkles
+        count={34}
+        scale={[11, 3.8, 5]}
+        size={1.7}
+        speed={0.18}
+        color="#bfa37a"
+        opacity={0.38}
+      />
+      <CameraRig active={active} focus={focus} />
+      <OrbitControls
+        enabled={!focus}
+        enablePan={false}
+        enableZoom
+        minDistance={8.8}
+        maxDistance={14.2}
+        minPolarAngle={Math.PI / 2.8}
+        maxPolarAngle={Math.PI / 1.95}
+        minAzimuthAngle={-0.34}
+        maxAzimuthAngle={0.34}
+        target={[0, 0.05, 0]}
+        enableDamping
+        dampingFactor={0.075}
+        autoRotate
+        autoRotateSpeed={0.18}
+      />
     </>
   );
 }
 
-export function AgentGalleryRoom() {
-  const [active, setActive] = useState<PartId>('intelligence');
+interface AgentGalleryRoomProps {
+  activePart?: PartId;
+  embedded?: boolean;
+  focus?: boolean;
+  onActivePartChange?: (part: PartId) => void;
+}
+
+export function AgentGalleryRoom({
+  activePart,
+  embedded = false,
+  focus = false,
+  onActivePartChange,
+}: AgentGalleryRoomProps = {}) {
+  const [internalActive, setInternalActive] = useState<PartId>('intelligence');
   const [webglReady, setWebglReady] = useState(false);
-  const activePart = PARTS.find((part) => part.id === active) ?? PARTS[2];
+  const active = activePart ?? internalActive;
+  const activeDefinition = PARTS.find((part) => part.id === active) ?? PARTS[2];
+
+  const selectPart = (part: PartId) => {
+    setInternalActive(part);
+    onActivePartChange?.(part);
+  };
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setWebglReady(hasWebGL()));
@@ -294,7 +383,7 @@ export function AgentGalleryRoom() {
   }, []);
 
   return (
-    <div className={styles.galleryShell}>
+    <div className={styles.galleryShell} data-embedded={embedded ? 'true' : undefined}>
       <div className={styles.galleryTitle}>
         <span>the assembl agent</span>
         <small>six visible parts · one useful role</small>
@@ -316,14 +405,14 @@ export function AgentGalleryRoom() {
         <Canvas
           className={styles.galleryCanvas}
           dpr={[1, 1.5]}
-          camera={{ position: [0, 0.85, 12.6], fov: 43, near: 0.1, far: 50 }}
+          camera={{ position: [0, 1.35, 11.8], fov: 43, near: 0.1, far: 50 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.22;
           }}
         >
-          <GalleryScene active={active} onSelect={setActive} />
+          <GalleryScene active={active} focus={focus} onSelect={selectPart} />
         </Canvas>
       ) : null}
 
@@ -335,12 +424,12 @@ export function AgentGalleryRoom() {
         ))}
       </div>
 
-      <div className={styles.galleryControls}>
+      {!embedded ? <div className={styles.galleryControls}>
         <div className={styles.galleryReadout} aria-live="polite">
           <span>{String(PARTS.findIndex((part) => part.id === active) + 1).padStart(2, '0')} / 06</span>
           <div>
-            <strong>{activePart.label}</strong>
-            <p>{activePart.helper}</p>
+            <strong>{activeDefinition.label}</strong>
+            <p>{activeDefinition.helper}</p>
           </div>
         </div>
 
@@ -350,7 +439,7 @@ export function AgentGalleryRoom() {
               key={part.id}
               type="button"
               aria-pressed={active === part.id}
-              onClick={() => setActive(part.id)}
+              onClick={() => selectPart(part.id)}
             >
               {part.label}
             </button>
@@ -360,7 +449,7 @@ export function AgentGalleryRoom() {
         <Link href="/a" className={styles.galleryAction}>
           build yours <span aria-hidden>→</span>
         </Link>
-      </div>
+      </div> : null}
     </div>
   );
 }

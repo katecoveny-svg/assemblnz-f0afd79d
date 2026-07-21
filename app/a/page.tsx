@@ -6,9 +6,9 @@ import { AgentComposer, type ComposerPrefill } from '@/components/community/Agen
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Build an agent · assembl',
+  title: 'Build one clear agent · assembl',
   description:
-    'Name it, say what it should handle, pick its pattern. You get a page you can share — everything it writes is a draft.',
+    'Give an agent one clear job, choose how it should behave and create a shareable public trial. Everything it prepares stays a draft.',
 };
 
 const INK = '#313c42';
@@ -55,12 +55,12 @@ export default async function BuilderPage({
             letterSpacing: '-0.03em',
           }}
         >
-          Build an agent. Share it.
+          Build one agent.<br />Give it one clear job.
         </h1>
         <p style={{ margin: '16px 0 0', maxWidth: 560, color: MUTED, fontSize: 16, lineHeight: 1.6 }}>
           {prefill
-            ? 'You are remixing a shared agent — change anything, then create your own.'
-            : 'Name it, say what it should handle, pick its pattern. You get a page you can share — everything it writes is a draft.'}
+            ? 'You are remixing a shared trial. Change the job, voice or visual signature, then create your own version.'
+            : 'Name the job, choose how the agent should behave and create a shareable trial. It prepares drafts; it never sends or changes anything.'}
         </p>
 
         <div style={{ marginTop: 44, paddingTop: 36, borderTop: `1px solid ${HAIRLINE}` }}>

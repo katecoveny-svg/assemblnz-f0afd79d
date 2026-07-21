@@ -39,8 +39,6 @@ import { writeChatReceipt } from '@/lib/agents/receipts';
 
 export const maxDuration = 60;
 
-const PUBLIC_DEMO_FALLBACKS = new Set(['atlas', 'dawn', 'hui', 'pikau', 'auaha', 'sweep']);
-
 function latestUserText(messages: UIMessage[]): string {
   const latest = [...messages].reverse().find((message) => message.role === 'user');
   if (!latest) return '';
@@ -51,7 +49,7 @@ function latestUserText(messages: UIMessage[]): string {
     .trim();
 }
 
-function publicDemoDraft(slug: string, prompt: string): string {
+function publicDemoDraft(slug: string, prompt: string, name: string, description: string): string {
   const task = prompt.length > 0 ? `Task received: ${prompt.slice(0, 180)}` : 'Task received from the selected starter.';
   const drafts: Record<string, string[]> = {
     atlas: [
@@ -111,7 +109,14 @@ function publicDemoDraft(slug: string, prompt: string): string {
   };
 
   return [
-    ...(drafts[slug] ?? ['Sample draft', '', 'The task is ready to be shaped once a live provider is connected.']),
+    ...(drafts[slug] ?? [
+      `${name} preview draft`,
+      '',
+      `Clear job: ${description}`,
+      '1. Confirm the facts and source material this task is allowed to use.',
+      '2. Prepare the smallest useful draft and show any assumptions beside it.',
+      '3. Stop at the named human decision before anything is sent, filed or changed.',
+    ]),
     '',
     task,
     '',
@@ -120,13 +125,19 @@ function publicDemoDraft(slug: string, prompt: string): string {
   ].join('\n');
 }
 
-function publicDemoResponse(slug: string, prompt: string, headers: Record<string, string>): Response {
+function publicDemoResponse(
+  slug: string,
+  prompt: string,
+  name: string,
+  description: string,
+  headers: Record<string, string>,
+): Response {
   const stream = createUIMessageStream({
     execute: ({ writer }) => {
       const id = `sample-${slug}`;
       writer.write({ type: 'start' });
       writer.write({ type: 'text-start', id });
-      writer.write({ type: 'text-delta', id, delta: publicDemoDraft(slug, prompt) });
+      writer.write({ type: 'text-delta', id, delta: publicDemoDraft(slug, prompt, name, description) });
       writer.write({ type: 'text-end', id });
       writer.write({ type: 'finish', finishReason: 'stop' });
     },
@@ -303,15 +314,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const rung = pickRung(ladder);
 
   if (!rung) {
-    if (PUBLIC_DEMO_FALLBACKS.has(slug)) {
-      return publicDemoResponse(slug, latestUserText(body.messages ?? []), corsHeaders(req));
-    }
-    return Response.json(
-      {
-        error:
-          'Chat is not configured yet — set ANTHROPIC_API_KEY (primary) or a fallback key (GEMINI_API_KEY / GROQ_API_KEY / OLLAMA_BASE_URL). See .env.local.example.',
-      },
-      { status: 503, headers: corsHeaders(req) },
+    return publicDemoResponse(
+      slug,
+      latestUserText(body.messages ?? []),
+      agent.name,
+      agent.description,
+      corsHeaders(req),
     );
   }
 
