@@ -216,7 +216,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
             <label htmlFor="agent-name" style={fieldLabel}>
-              Name
+              Agent name
             </label>
             <input
               id="agent-name"
@@ -229,7 +229,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
           </div>
           <div>
             <label htmlFor="agent-sentence" style={fieldLabel}>
-              What should it handle?
+              What one job should it prepare?
             </label>
             <textarea
               id="agent-sentence"
@@ -237,12 +237,12 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
               maxLength={300}
               rows={3}
               onChange={(e) => setSentence(e.target.value)}
-              placeholder="One sentence on the job it does."
+              placeholder="One sentence describing the job and the useful draft you want back."
               style={{ ...inputStyle, resize: 'vertical' }}
             />
           </div>
           <div>
-            <span style={fieldLabel}>Tone</span>
+            <span style={fieldLabel}>How should it sound?</span>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {TONES.map((t) => (
                 <button
@@ -269,7 +269,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
 
         {/* Identity remix */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <span style={fieldLabel}>Pattern signature</span>
+          <span style={fieldLabel}>Visual signature</span>
           <div
             style={{
               height: 150,
@@ -373,11 +373,10 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
           opacity: busy ? 0.5 : 1,
         }}
       >
-        {busy ? 'Creating…' : 'Create my agent'}
+        {busy ? 'Building…' : 'Build this trial agent'}
       </button>
       <p style={{ margin: '12px 0 0', color: MUTED, fontSize: 12 }}>
-        Everything it writes is a draft for a person to check. Your agent gets a public page you
-        can share.
+        You get a public page you can share. Every answer stays a draft for a person to check.
       </p>
 
       <CaptureModal
