@@ -51,15 +51,15 @@
   margin: 22px 0 0;
   color: var(--ink);
   font-family: var(--font-body), Inter, sans-serif;
-  font-weight: 900;
-  letter-spacing: -.07em;
+  font-weight: 620;
+  letter-spacing: -.035em;
   text-transform: uppercase;
 }
 
 .hero h1 {
   max-width: 950px;
-  font-size: clamp(4.2rem, 8.8vw, 9.7rem);
-  line-height: .78;
+  font-size: clamp(3.7rem, 7vw, 7.6rem);
+  line-height: .9;
 }
 
 .hero h1 em,
@@ -67,7 +67,7 @@
 .darkSection h2 em {
   color: #7a7e7a;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 520;
 }
 
 .lede {
@@ -141,7 +141,7 @@
   gap: clamp(36px, 7vw, 100px);
   align-items: end;
 }
-.section h2,.darkSection h2 { max-width: 900px; font-size: clamp(3.2rem, 6.8vw, 7.4rem); line-height: .82; }
+.section h2,.darkSection h2 { max-width: 900px; font-size: clamp(2.9rem, 5.3vw, 5.8rem); line-height: .94; }
 .sectionHeader > p { margin: 0; padding-top: 22px; border-top: 1px solid var(--line); color: var(--body); font-size: .88rem; line-height: 1.7; }
 
 .demoGrid,.agentGrid,.stepGrid {
@@ -190,8 +190,8 @@
 .demoCard h3,.agentCard h3,.stepCard h3 {
   margin: 42px 0 0;
   color: var(--ink);
-  font: 900 clamp(1.8rem,2.7vw,3.2rem)/.92 var(--font-body), Inter, sans-serif;
-  letter-spacing: -.055em;
+  font: 650 clamp(1.65rem,2.25vw,2.65rem)/1 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.03em;
   text-transform: uppercase;
 }
 .label { margin: 11px 0 0; color: #58605a; font: 700 .55rem var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; }
@@ -238,7 +238,7 @@
 
 @media (max-width: 620px) {
   .hero,.section,.darkSection,.truthBar { width: 100%; border-inline: 0; }
-  .hero h1 { font-size: clamp(3.7rem,18vw,6rem); }
+  .hero h1 { font-size: clamp(3.15rem,14vw,4.8rem); line-height: .94; }
   .section,.darkSection { padding: 72px 18px; }
   .demoGrid,.agentGrid,.truthBar { grid-template-columns: 1fr; }
   .demoCard,.agentCard,.stepCard { min-height: 310px; }
