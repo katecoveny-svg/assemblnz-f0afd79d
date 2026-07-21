@@ -157,7 +157,10 @@ export function AgentAssemblyStudio() {
               activePart={activeId}
               embedded
               focus={xray}
-              onActivePartChange={setActiveId}
+              onActivePartChange={(part) => {
+                setActiveId(part);
+                setXray(true);
+              }}
             />
           </div>
 

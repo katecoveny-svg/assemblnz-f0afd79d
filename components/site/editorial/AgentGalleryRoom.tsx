@@ -7,7 +7,6 @@ import {
   MeshReflectorMaterial,
 } from '@react-three/drei';
 import { OrbitControls, Sparkles } from '@react-three/drei/core';
-import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { useCursor } from '@react-three/drei/web/useCursor';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import Link from 'next/link';
@@ -247,14 +246,45 @@ function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSele
       }}
       onPointerOut={() => setHovered(false)}
     >
-      <RoundedBox args={[1.14, 1.22, 1.08]} radius={0.08} smoothness={4} position={[0, -0.96, 0]}>
+      <mesh position={[0, -0.96, 0]}>
+        <cylinderGeometry args={[0.49, 0.61, 1.22, 32]} />
         <meshStandardMaterial color={active ? '#fffdf8' : '#f8f6f1'} roughness={0.72} />
-      </RoundedBox>
-      <mesh position={[0, -0.33, 0]}>
-        <boxGeometry args={[0.9, 0.026, 0.84]} />
+      </mesh>
+      <mesh position={[0, -0.34, 0]}>
+        <cylinderGeometry args={[0.53, 0.53, 0.045, 32]} />
         <meshStandardMaterial color={active ? '#b8964f' : '#dedad1'} roughness={0.5} />
       </mesh>
+      <pointLight position={[0, 2.7, 1.15]} intensity={active ? 0.82 : 0.34} distance={5.5} color="#fff0d2" />
       <Sculpture id={id} active={active} />
+    </group>
+  );
+}
+
+function DataFlow() {
+  const group = useRef<THREE.Group>(null);
+  const count = 15;
+
+  useFrame(({ clock }) => {
+    if (!group.current) return;
+    const time = clock.getElapsedTime();
+    group.current.children.forEach((child, index) => {
+      const progress = (time * 0.075 + index / count) % 1;
+      child.position.x = THREE.MathUtils.lerp(-4.7, 4.7, progress);
+      child.position.y = -0.2 + Math.sin(progress * Math.PI * 5) * 0.055;
+      child.position.z = -0.42 + Math.cos(progress * Math.PI * 3) * 0.045;
+      const pulse = 0.6 + Math.sin(time * 2.2 + index) * 0.25;
+      child.scale.setScalar(pulse);
+    });
+  });
+
+  return (
+    <group ref={group}>
+      {Array.from({ length: count }, (_, index) => (
+        <mesh key={index}>
+          <sphereGeometry args={[0.026, 10, 10]} />
+          <meshBasicMaterial color={index % 3 === 0 ? '#fff8df' : '#b8964f'} transparent opacity={0.68} />
+        </mesh>
+      ))}
     </group>
   );
 }
@@ -315,6 +345,8 @@ function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: bool
           onSelect={() => onSelect(part.id)}
         />
       ))}
+
+      <DataFlow />
 
       <ContactShadows
         position={[0, -1.56, 0]}
