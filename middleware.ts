@@ -112,6 +112,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/free-tools',
   '/pattern-studio',
   '/ad-studio',
+  '/motion-studio',
+  '/concept-studio',
   // "Build an agent" — the Pilot flow is public (the homepage + /genome CTA
   // target it). Kept; the retired kete pricing pages (/industry-pack, /start,
   // /platform) are removed from the public surface.
@@ -583,21 +585,9 @@ const productRedirect = (request: NextRequest) => {
     return NextResponse.redirect(url, 308);
   }
 
-  // The agent marketplace is not the story (Living Business OS direction,
-  // chrome sweep 2026-07-11): old /agents and /bundles URLs land on the
-  // living site instead. /agents/pick stays — the fleet browser is used
-  // behind the gates. /agents/mine stays too — saved Pilot builds run there
-  // (the ship screen links straight to it).
-  if (
-    (pathname === '/agents' || pathname.startsWith('/agents/')) &&
-    pathname !== '/agents/pick' &&
-    pathname !== '/agents/mine' &&
-    !pathname.startsWith('/agents/mine/')
-  ) {
-    url.pathname = '/living-site';
-    url.search = '';
-    return NextResponse.redirect(url, 308);
-  }
+  // /agents is public again: the curated index and individual demos explain
+  // one clear job at a time. The detail and chat routes keep their draft-only
+  // approval boundaries, while the Living Site remains a separate system demo.
   if (pathname === '/bundles' || pathname.startsWith('/bundles/')) {
     url.pathname = '/pricing';
     url.search = '';

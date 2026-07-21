@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { palette, motto } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
 import { AssemblWordmark } from '@/components/site/AssemblWordmark';
+import { PUBLIC_NAV_LINKS } from '@/lib/public-site';
 import styles from './v2.module.css';
 
 /**
@@ -9,12 +10,6 @@ import styles from './v2.module.css';
  * for surfaces that ship their own chrome (/ and /agents suppress the global
  * SiteHeader). Server-safe: pure links, motion lives in CSS.
  */
-
-const NAV_LINKS = [
-  { href: '/motion-studio', label: 'motion studio' },
-  { href: '/a', label: 'build an agent' },
-  { href: '/pricing', label: 'pricing' },
-];
 
 export function V2Nav({ current }: { current?: string }) {
   return (
@@ -30,7 +25,7 @@ export function V2Nav({ current }: { current?: string }) {
         />
       </Link>
       <div className={styles.navLinks}>
-        {NAV_LINKS.map((l) => (
+        {PUBLIC_NAV_LINKS.map((l) => (
           <Link
             key={l.href}
             href={l.href}
@@ -48,12 +43,12 @@ export function V2Nav({ current }: { current?: string }) {
           </Link>
         ))}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <Link href="/login" className={styles.navLink}>
+      <div className={styles.navUtilities}>
+        <Link href="/login" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
-        <Link href="/#one-minute-title" className={styles.navCta}>
-          build a business
+        <Link href="/genome" className={styles.navCta}>
+          try the live demo
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
             •
           </span>

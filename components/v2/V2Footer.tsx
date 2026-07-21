@@ -6,6 +6,8 @@ import Link from 'next/link';
  */
 const FOOTER_LINKS: Array<[string, string]> = [
   ['/genome', 'Live demo'],
+  ['/agents', 'Agents'],
+  ['/concept-studio', 'Concept Studio'],
   ['/pilot-sprint', 'Start a pilot'],
   ['/pricing', 'Pricing'],
   ['/about', 'About'],
@@ -16,9 +18,11 @@ const FOOTER_LINKS: Array<[string, string]> = [
 // Free, public tools — surfaced so they're actually reachable, not orphaned.
 const TOOL_LINKS: Array<[string, string]> = [
   ['/hapai', 'Free tools'],
+  ['/motion-studio', 'Motion Studio'],
   ['/pattern-studio', 'Pattern Studio'],
   ['/ad-studio', 'Ad Studio'],
   ['/hui', 'Meeting notes'],
+  ['/a', 'Agent Maker'],
 ];
 
 const linkStyle = { color: '#53656a', fontSize: 11, textDecoration: 'none' } as const;

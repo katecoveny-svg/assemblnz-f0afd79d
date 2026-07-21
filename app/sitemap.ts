@@ -12,6 +12,13 @@ const CORE_PATHS = [
   // The public agent builder (per-agent share pages are deliberately not
   // listed — they're visitor-made and unreviewed).
   '/a',
+  '/agents',
+  '/concept-studio',
+  '/genome',
+  '/hapai',
+  '/motion-studio',
+  '/pattern-studio',
+  '/ad-studio',
   // The Living Site funnel — the primary story; keep these prominent.
   '/living-site',
   '/install',
