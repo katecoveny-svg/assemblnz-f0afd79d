@@ -313,7 +313,7 @@ export function SiteHeader() {
                       href={item.href}
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        "flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light tracking-tight transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring",
+                        "flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light tracking-tight transition-all rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 hover:opacity-80 focus-visible:opacity-80",
                         isActive
                           ? "text-[color:var(--text-primary)]"
                           : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -327,7 +327,7 @@ export function SiteHeader() {
               <li>
                 <Link
                   href="/login"
-                  className="flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light lowercase tracking-tight text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                  className="flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light lowercase tracking-tight text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 transition-all hover:opacity-80 focus-visible:opacity-80"
                 >
                   sign in
                 </Link>
