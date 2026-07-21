@@ -179,7 +179,7 @@ export function CommunityAgentChat({
   const greeting: UIMessage = {
     id: 'greeting',
     role: 'assistant',
-    parts: [{ type: 'text', text: `Hi — I’m ${name}. What are we working on?` }],
+    parts: [{ type: 'text', text: `Hi — I’m ${name}. Tell me the job in front of you and I’ll prepare a draft.` }],
   };
   const { messages, sendMessage, status, error } = useChat({
     transport,
