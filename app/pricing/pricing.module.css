@@ -38,8 +38,8 @@
   max-width: 720px;
   margin: 24px 0 0;
   color: var(--deep);
-  font: 900 clamp(4rem, 8vw, 8rem)/.78 var(--font-body), Inter, sans-serif;
-  letter-spacing: -.075em;
+  font: 620 clamp(3.7rem, 6.7vw, 6.8rem)/.9 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.035em;
   text-transform: uppercase;
 }
 
@@ -176,8 +176,8 @@
 .checkoutCopy h2 {
   margin: 18px 0 0;
   color: var(--deep);
-  font: 900 clamp(2.7rem, 5vw, 5.5rem)/.84 var(--font-body), Inter, sans-serif;
-  letter-spacing: -.065em;
+  font: 620 clamp(2.6rem, 4.2vw, 4.6rem)/.96 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.035em;
   text-transform: uppercase;
 }
 
@@ -230,8 +230,8 @@
 .stageCard h3 {
   margin: 16px 0 0;
   color: var(--deep);
-  font: 900 2rem/.95 var(--font-body), Inter, sans-serif;
-  letter-spacing: -.05em;
+  font: 650 1.8rem/1 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.03em;
   text-transform: uppercase;
 }
 
@@ -323,7 +323,7 @@
 
 @media (max-width: 640px) {
   .hero { width: min(100% - 28px, 1220px); min-height: 0; padding: 64px 0; }
-  .hero h1 { font-size: clamp(3.8rem, 18vw, 5rem); }
+  .hero h1 { font-size: clamp(3.15rem, 14vw, 4.7rem); }
   .heroActions > a { width: 100%; }
   .priceLine { align-items: flex-start; flex-direction: column; gap: 7px; }
   .domeCard, .domeVisual, .domeVisual > div { min-height: 360px; }
