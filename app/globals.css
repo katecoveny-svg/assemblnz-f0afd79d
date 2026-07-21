@@ -53,7 +53,7 @@
     --assembl-cloud-legacy: #e8ecea;
     --assembl-sand: #e8ecea;            /* hairline / dividers */
     --assembl-taupe: #e8ecea;
-    --assembl-taupe-deep: #313c42;
+    --assembl-taupe-deep: #252d31;
 
     /* GOLD — brand pop (CTA fills, highlights, underlines). Ink text on top. */
     --assembl-gold: #b8964f;
@@ -72,7 +72,7 @@
     --assembl-gold-thread: #b8964f;     /* gold eyebrows */
     --assembl-soft-gold: #b8964f;       /* alias — kept for backwards compat */
 
-    --text-primary: #313c42;            /* ink — headings */
+    --text-primary: #252d31;            /* dark navy ink — headings */
     --text-secondary: #68766f;          /* body muted */
     --text-body: #68766f;
 
@@ -101,7 +101,7 @@
     --a-glass: rgba(255, 255, 255, 0.72);      /* frosted node/card fill */
     --a-glass-strong: rgba(255, 255, 255, 0.9);
     --a-glass-border: rgba(49, 60, 66, 0.12);  /* hairline on glass */
-    --a-text: #313c42;                         /* charcoal ink */
+    --a-text: #252d31;                         /* dark navy ink */
     --a-text-dim: rgba(49, 60, 66, 0.62);      /* secondary ink */
     --a-text-faint: rgba(49, 60, 66, 0.42);
     --a-accent: #3f7373;                       /* Ming teal — the one accent */
