@@ -1,21 +1,21 @@
 
 .root {
-  --paper: #fbfaf6;
-  --white: #fffefa;
-  --ink: #263339;
-  --deep: #182226;
-  --body: #5f6b6c;
-  --muted: #8d9695;
-  --sea: #dce9e6;
-  --sea-strong: #86aaa3;
-  --brass: #b8964f;
-  --line: rgba(38, 51, 57, 0.13);
+  --paper: #f0f0eb;
+  --white: #f7f7f3;
+  --ink: #111311;
+  --deep: #111311;
+  --body: #545954;
+  --muted: #7b807b;
+  --sea: #d8e8df;
+  --sea-strong: #91aa9d;
+  --brass: #737873;
+  --line: rgba(17, 19, 17, 0.18);
   min-height: calc(100vh - 76px);
   overflow: hidden;
   color: var(--ink);
   background:
-    linear-gradient(rgba(38, 51, 57, 0.026) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(38, 51, 57, 0.026) 1px, transparent 1px),
+    linear-gradient(rgba(17, 19, 17, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 19, 17, 0.045) 1px, transparent 1px),
     var(--paper);
   background-size: 48px 48px;
 }
@@ -32,7 +32,7 @@
   border-bottom: 1px solid var(--line);
   padding: 0 max(20px, calc((100vw - 1240px) / 2));
   color: var(--muted);
-  background: rgba(255, 254, 250, 0.72);
+  background: rgba(240, 240, 235, 0.88);
   font: 600 0.62rem/1 var(--font-mono), monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -56,24 +56,26 @@
 
 .eyebrow {
   margin: 0;
-  color: #4e817b;
+  color: #4f544f;
   font: 700 0.66rem/1.4 var(--font-mono), monospace;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.heroCopy h1,
-.resultHeader h1,
-.formingCopy h1 {
+.heroCopy h2,
+.resultHeader h2,
+.formingCopy h2 {
   margin: 19px 0 0;
   color: var(--deep);
-  font: 500 clamp(3.9rem, 7.1vw, 7.4rem)/0.83 var(--font-display), Georgia, serif;
-  letter-spacing: -0.055em;
+  font: 900 clamp(3.9rem, 7.1vw, 7.4rem)/0.8 var(--font-body), Inter, sans-serif;
+  letter-spacing: -0.072em;
+  text-transform: uppercase;
 }
 
-.heroCopy h1 em {
-  color: #557f78;
-  font-weight: 500;
+.heroCopy h2 em {
+  color: #777c77;
+  font-style: normal;
+  font-weight: 900;
 }
 
 .lede {
@@ -114,7 +116,7 @@
 }
 
 .intake textarea:focus {
-  border-color: #557f78;
+  border-color: #111311;
   box-shadow: 0 0 0 3px rgba(85, 127, 120, 0.1), 0 18px 55px rgba(31, 44, 48, 0.06);
 }
 
@@ -131,7 +133,7 @@
 
 .samples button {
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 8px 11px;
   color: var(--body);
   background: rgba(255, 254, 250, 0.64);
@@ -142,7 +144,7 @@
 
 .samples button:hover,
 .samples button[aria-pressed='true'] {
-  border-color: #6e9891;
+  border-color: #111311;
   color: var(--ink);
   background: var(--sea);
 }
@@ -155,7 +157,7 @@
   gap: 12px;
   margin-top: 18px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0 24px;
   color: var(--white);
   background: var(--ink);
@@ -193,11 +195,11 @@
   min-height: clamp(440px, 45vw, 650px);
   display: grid;
   overflow: hidden;
-  border: 1px solid rgba(38, 51, 57, 0.1);
+  border: 1px solid var(--line);
   background:
     radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.92), transparent 54%),
-    linear-gradient(145deg, #edf4f1, #d8e7e4);
-  box-shadow: 0 35px 100px rgba(38, 51, 57, 0.14);
+    linear-gradient(145deg, #f3f3ef, #cfd3cf);
+  box-shadow: 0 35px 100px rgba(17, 19, 17, 0.14);
 }
 
 .motionProfile {
@@ -228,7 +230,7 @@
 }
 
 .motionLabel strong {
-  color: #426d67;
+  color: #343834;
   font-weight: 700;
 }
 
@@ -281,7 +283,9 @@
 }
 
 .movements strong {
-  font: 500 1.2rem var(--font-display), Georgia, serif;
+  font: 900 1.05rem var(--font-body), Inter, sans-serif;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
 }
 
 .movements i {
@@ -298,7 +302,7 @@
   min-height: calc(100vh - 120px);
   display: grid;
   place-items: center;
-  background: linear-gradient(140deg, #e1ece9, #fbfaf6 66%);
+  background: linear-gradient(140deg, #d8e8df, #f0f0eb 66%);
 }
 
 .forming > .motionProfile {
@@ -321,7 +325,7 @@
   letter-spacing: 0.16em;
 }
 
-.formingCopy h1 {
+.formingCopy h2 {
   font-size: clamp(5.5rem, 13vw, 11rem);
 }
 
@@ -345,7 +349,7 @@
 }
 
 .formingCopy i.complete {
-  background: #537f77;
+  background: #111311;
 }
 
 .result {
@@ -366,7 +370,7 @@
   max-width: 760px;
 }
 
-.resultHeader h1 {
+.resultHeader h2 {
   font-size: clamp(4.1rem, 8vw, 8rem);
 }
 
@@ -389,7 +393,7 @@
   align-items: center;
   gap: 8px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0 14px;
   color: var(--ink);
   background: var(--white);
@@ -421,7 +425,7 @@
 
 .profileCard .motionProfile {
   min-height: 560px;
-  background: linear-gradient(145deg, #edf4f1, #d8e7e4);
+  background: linear-gradient(145deg, #f3f3ef, #cfd3cf);
 }
 
 .profileCard > div:last-child {
@@ -471,7 +475,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 5px 8px;
   color: #3d6f68;
   background: var(--sea);
@@ -489,8 +493,9 @@
 .publicCard h2 {
   margin: 28px 0 0;
   color: var(--deep);
-  font: 500 clamp(2.7rem, 5vw, 5rem)/0.94 var(--font-display), Georgia, serif;
-  letter-spacing: -0.04em;
+  font: 900 clamp(2.7rem, 5vw, 5rem)/0.86 var(--font-body), Inter, sans-serif;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
 }
 
 .genomeCard > p {
@@ -592,7 +597,9 @@
 
 .agentRow h3 {
   margin: 0;
-  font: 500 2rem/1 var(--font-display), Georgia, serif;
+  font: 900 2rem/.95 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.05em;
+  text-transform: uppercase;
 }
 
 .agentRow strong {
@@ -716,7 +723,9 @@
 }
 
 .resultFooter strong {
-  font: 500 1.55rem var(--font-display), Georgia, serif;
+  font: 900 1.4rem var(--font-body), Inter, sans-serif;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
 }
 
 .resultFooter > a {
@@ -724,7 +733,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0 18px;
   color: var(--white);
   background: var(--ink);
@@ -774,7 +783,7 @@
     padding: 48px 0 28px;
   }
 
-  .heroCopy h1 {
+  .heroCopy h2 {
     font-size: clamp(3.55rem, 17vw, 5.5rem);
   }
 
@@ -829,7 +838,7 @@
     min-height: 76vh;
   }
 
-  .formingCopy h1 {
+  .formingCopy h2 {
     font-size: clamp(4.7rem, 24vw, 8rem);
   }
 
@@ -842,7 +851,7 @@
     flex-direction: column;
   }
 
-  .resultHeader h1 {
+  .resultHeader h2 {
     font-size: clamp(3.6rem, 17vw, 6rem);
   }
 

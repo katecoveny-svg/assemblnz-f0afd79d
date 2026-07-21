@@ -1,23 +1,20 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { palette, typography } from '@assembl/canvas/tokens';
-import { MicroLabel } from '@assembl/canvas';
-import { HeroArt } from '@/components/v2/HeroArt';
-import { MottoStrip } from '@/components/v2/V2Chrome';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { graph, articleNode, breadcrumbNode, personNode, SITE_URL } from '@/lib/seo/schema';
-import styles from '@/components/v2/v2.module.css';
+import publicStyles from '@/components/public/public-pages.module.css';
+import styles from './about.module.css';
 
 export const metadata: Metadata = {
-  title: 'about — assembl',
+  title: 'about — built in Aotearoa for work that needs judgement',
   description:
-    'assembl builds living sites — a business operating system from aotearoa new zealand, founded by kate hudson. one source of truth runs your website, crm, bookings, and agents; people decide, and every output carries the record of how it was made.',
+    'assembl builds Living Sites: one confirmed Business Genome feeding your website, desk, bookings and agents. Agents prepare the work, people approve it and the proof stays attached.',
   alternates: { canonical: '/about' },
   openGraph: {
     title: 'about assembl',
-    description:
-      'built in aotearoa, founded by kate hudson. agents draft, people decide, and every output carries its receipt.',
+    description: 'Built in Aotearoa. Agents prepare the work, people decide and the proof stays attached.',
     url: `${SITE_URL}/about`,
     type: 'article',
   },
@@ -25,9 +22,9 @@ export const metadata: Metadata = {
 
 const ABOUT_SCHEMA = graph(
   articleNode({
-    headline: 'What assembl is — the living business platform built in Aotearoa New Zealand',
+    headline: 'About assembl — the Living Site company built in Aotearoa New Zealand',
     description:
-      'assembl is an AI platform built in Aotearoa New Zealand that solves the real reason AI adoption stalls in New Zealand businesses: not the technology, but trust and uptake. Founded by Kate Hudson.',
+      'assembl connects a business website, customer desk, bookings, drafts and specialist agents to one confirmed Business Genome, with named human review and evidence attached.',
     path: '/about',
     datePublished: '2026-07-01',
   }),
@@ -38,225 +35,111 @@ const ABOUT_SCHEMA = graph(
   ]),
 );
 
-/**
- * /about — the founding story in the locked direction. English-first,
- * tikanga-lite: te reo appears only where it earns its place (mahi, whānau,
- * the Te Tiriti statement link). Founder is Kate Hudson — always.
- */
-
-const STEPS = [
-  ['one business, one brain.', 'Every fact lives once in your Business Genome — and every surface reads it.'],
-  ['you decide.', 'Nothing sends or publishes until a named person approves it.'],
-  [
-    'it gets better every day.',
-    'One improvement each morning — already done, as a draft, waiting for your yes.',
-  ],
+const BUILDING_BLOCKS = [
+  {
+    number: '01',
+    title: 'A Business Genome',
+    copy: 'Your confirmed offers, prices, rules, people and voice live once. Every approved surface reads the same facts.',
+  },
+  {
+    number: '02',
+    title: 'Agents with a job',
+    copy: 'Each agent prepares one kind of work: a meeting record, customer reply, customs draft, campaign or operating brief.',
+  },
+  {
+    number: '03',
+    title: 'Evidence that travels',
+    copy: 'Sources, assumptions, model mode, checks and reviewer stay attached to the result so someone else can understand it.',
+  },
 ] as const;
 
 export default function AboutPage() {
-  const body: React.CSSProperties = {
-    fontFamily: typography.body.fontFamily,
-    fontSize: 15,
-    lineHeight: typography.body.lineHeight,
-    color: palette.bodyGrey,
-  };
-
   return (
-    <div className={styles.page}>
+    <div className={publicStyles.page}>
       <JsonLd data={ABOUT_SCHEMA} />
 
-      {/* ── hero: story left, founder portrait right ─────────────────── */}
-      <section style={{ position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.4 }}>
-          <HeroArt constellation={false} />
+      <section className={publicStyles.hero}>
+        <div>
+          <p className={publicStyles.eyebrow}>about assembl · built in Aotearoa</p>
+          <h1>Work prepared.<br /><em>Judgement kept human.</em></h1>
+          <p className={publicStyles.lede}>
+            assembl builds Living Sites: one confirmed source of truth feeding the website, customer desk, bookings, drafts and specialist agents around a business.
+          </p>
+          <div className={publicStyles.actions}>
+            <Link href="/genome" className={publicStyles.primary}>See the system live <ArrowRight aria-hidden size={16} /></Link>
+            <Link href="/concept-studio" className={publicStyles.secondary}>Explore the Concept Studio</Link>
+          </div>
         </div>
-        <div className={styles.section} style={{ position: 'relative', paddingBottom: 48 }}>
-          <div className={`${styles.inner} ${styles.detail}`} style={{ alignItems: 'center' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel>about assembl</MicroLabel>
-              </div>
-              <h1 className={styles.h1} style={{ marginTop: 18, maxWidth: 560 }}>
-                less admin. more mahi
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </h1>
-              <p style={{ ...body, marginTop: 22, maxWidth: 480 }}>
-                Document-heavy work eats people&apos;s days. The reports, the customs entries, the
-                notices, the compliance paperwork — hours that should go to the actual job, or home
-                to your whānau.
-              </p>
-              <p style={{ ...body, marginTop: 14, maxWidth: 480 }}>
-                assembl takes that load off. Specialist agents write the first draft; someone on
-                your team checks it and signs it off. Every piece of work carries a plain record of
-                how it was made — so you can trust it, file it, or hand it on.
-              </p>
-            </div>
-            <div
-              style={{
-                position: 'relative',
-                aspectRatio: '4 / 5',
-                maxWidth: 420,
-                width: '100%',
-                justifySelf: 'center',
-                borderRadius: 16,
-                overflow: 'hidden',
-                border: `1px solid ${palette.hairline}`,
-                boxShadow: '0 24px 70px rgba(26, 25, 24, 0.10)',
-              }}
-            >
-              <Image
-                src="/img/about/kate-hudson-portrait-tan-blazer-art.webp"
-                alt="Kate Hudson, founder of assembl"
-                fill
-                priority
-                sizes="(min-width: 1000px) 420px, 100vw"
-                quality={82}
-                style={{ objectFit: 'cover' }}
-              />
+        <aside className={publicStyles.heroAside} aria-label="What assembl stands for">
+          <div className={publicStyles.heroFact}><span>01</span><div><strong>One source of truth</strong><p>A fact changes once, then every approved surface reads the update.</p></div></div>
+          <div className={publicStyles.heroFact}><span>02</span><div><strong>Named human review</strong><p>Agents prepare. A person checks, edits and decides what happens next.</p></div></div>
+          <div className={publicStyles.heroFact}><span>03</span><div><strong>Proof with the work</strong><p>Sources and decisions remain visible after the impressive part is over.</p></div></div>
+        </aside>
+      </section>
+
+      <section className={publicStyles.section}>
+        <div className={publicStyles.sectionHeader}>
+          <div><p className={publicStyles.eyebrow}>what we are building</p><h2>A business that can <em>stay coherent.</em></h2></div>
+          <p>Most teams do not need another blank tool. They need their facts to stay aligned and the repetitive work to arrive ready for review.</p>
+        </div>
+        <div className={publicStyles.stepGrid}>
+          {BUILDING_BLOCKS.map((item) => (
+            <article key={item.number} className={publicStyles.stepCard}>
+              <span className={publicStyles.number}>{item.number}</span>
+              <h3>{item.title}</h3>
+              <p className={publicStyles.summary}>{item.copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={`${publicStyles.section} ${styles.founderSection}`}>
+        <div className={styles.founderGrid}>
+          <div className={styles.portrait}>
+            <Image
+              src="/img/about/kate-hudson-portrait-tan-blazer-art.webp"
+              alt="Kate Hudson, founder of assembl"
+              fill
+              sizes="(min-width: 900px) 420px, 92vw"
+              quality={75}
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          <div className={styles.founderCopy}>
+            <p className={publicStyles.eyebrow}>from the founder</p>
+            <blockquote>“I started assembl because capable people were losing too much of their week to work a system should have prepared for them.”</blockquote>
+            <p>
+              Kate Hudson founded assembl in Aotearoa to make useful automation easier to trust. The company is built around a simple operating boundary: the system can read, organise, compare and prepare; a person owns the decision.
+            </p>
+            <p>
+              New Zealand law, privacy and the realities of small teams are part of the product design from the start. They are not a localisation pass added later.
+            </p>
+            <div className={styles.founderLinks}>
+              <Link href="/trust">How trust works</Link>
+              <Link href="/te-tiriti">Te Tiriti statement</Link>
+              <Link href="/ai-use">Responsible use</Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── what assembl is ──────────────────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 24 }}>
-        <div className={`${styles.inner} rise`} style={{ maxWidth: 760 }}>
-          <MicroLabel as="h2">what assembl is</MicroLabel>
-          <p
-            style={{
-              fontFamily: typography.display.fontFamily,
-              fontWeight: typography.display.fontWeightMin,
-              fontSize: 'clamp(1.4rem, 2.6vw, 1.8rem)',
-              lineHeight: 1.45,
-              color: palette.ink,
-              marginTop: 18,
-              marginBottom: 0,
-            }}
-          >
-            assembl is an AI platform built in Aotearoa that solves the real reason AI adoption
-            stalls in NZ businesses: not the technology, but trust and uptake. Purpose-built agents
-            do one ordinary job each and produce a reviewable result in minutes — no prompting to
-            learn, no tools to switch.
-          </p>
-          <p style={{ ...body, marginTop: 20 }}>
-            Every output is draft-only and reviewed by a named human before it ships, with an
-            auditable trail — the Mana Receipts provenance layer — and privacy designed to the
-            Privacy Act 2020, including IPP 3A. One public win becomes a private, branded tool for
-            that team, then a repeatable internal system.
-          </p>
-        </div>
-      </section>
-
-      {/* ── how it works ─────────────────────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 12 }}>
-        <div className={`${styles.inner} rise`}>
-          <MicroLabel as="h2">how it works</MicroLabel>
-          <ol
-            style={{
-              listStyle: 'none',
-              margin: '24px 0 0',
-              padding: 0,
-              display: 'grid',
-              gap: 20,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            }}
-          >
-            {STEPS.map(([title, copy], i) => (
-              <li
-                key={title}
-                style={{
-                  borderTop: `1px solid ${palette.hairline}`,
-                  paddingTop: 18,
-                }}
-              >
-                <MicroLabel>
-                  step {i + 1}{' '}
-                  <span aria-hidden style={{ color: palette.accentGold }}>
-                    •
-                  </span>
-                </MicroLabel>
-                <h3
-                  style={{
-                    fontFamily: typography.display.fontFamily,
-                    fontWeight: typography.display.fontWeight,
-                    fontSize: 24,
-                    textTransform: 'lowercase',
-                    margin: '10px 0 0',
-                    color: palette.ink,
-                  }}
-                >
-                  {title}
-                </h3>
-                <p style={{ ...body, fontSize: 13.5, marginTop: 8, marginBottom: 0 }}>{copy}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* ── from the founder ─────────────────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 12 }}>
-        <div className={`${styles.inner} rise`} style={{ maxWidth: 760 }}>
-          <MicroLabel as="h2">from the founder</MicroLabel>
-          <blockquote
-            style={{
-              fontFamily: typography.display.fontFamily,
-              fontWeight: typography.display.fontWeightMin,
-              fontSize: 'clamp(1.5rem, 3vw, 2.1rem)',
-              lineHeight: 1.3,
-              color: palette.ink,
-              margin: '18px 0 0',
-            }}
-          >
-            &ldquo;I started assembl to give people their time back — for the work that matters,
-            and the life around it.&rdquo;
-          </blockquote>
-          <MicroLabel style={{ display: 'block', marginTop: 14 }}>
-            kate hudson · founder
-          </MicroLabel>
-          <p style={{ ...body, marginTop: 22 }}>
-            Built for Aotearoa: NZ law, council and sector rules, and tikanga are in from the
-            start, not bolted on. Read the{' '}
-            <Link href="/te-tiriti" style={{ color: palette.ink }}>
-              Te Tiriti statement
-            </Link>{' '}
-            and the{' '}
-            <Link href="/trust" style={{ color: palette.ink }}>
-              trust page
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
-
-      {/* ── cta ──────────────────────────────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 12, paddingBottom: 40 }}>
-        <div
-          className={`${styles.inner} rise`}
-          style={{ display: 'flex', flexWrap: 'wrap', gap: 22, alignItems: 'center' }}
-        >
-          <Link href="/living-site" className={styles.navCta} style={{ padding: '11px 22px' }}>
-            see a living site
-            <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
-              •
-            </span>
-          </Link>
-          <Link
-            href="/pilot-sprint"
-            className={styles.navLink}
-            style={{ borderBottom: `1px solid ${palette.hairline}`, paddingBottom: 2 }}
-          >
-            or start with a pilot in 30 days
-          </Link>
-        </div>
-      </section>
-
-      <MottoStrip />
+      <div className={publicStyles.darkWrap}>
+        <section className={publicStyles.darkSection}>
+          <div className={publicStyles.sectionHeader}>
+            <div><p className={publicStyles.eyebrow}>the operating promise</p><h2>Mahi that earns <em>its proof.</em></h2></div>
+            <p>A polished result is not enough. It should be possible to see what the system used, what it assumed and who approved it.</p>
+          </div>
+          <div className={publicStyles.stepGrid}>
+            <article className={publicStyles.stepCard}><CheckCircle2 aria-hidden /><h3>Prepare, do not pretend</h3><p>Public and pilot tools say clearly when data, integrations or outputs are simulated.</p></article>
+            <article className={publicStyles.stepCard}><CheckCircle2 aria-hidden /><h3>Review before action</h3><p>No auto-send, auto-file, auto-book or auto-decide promise without a named human approval step.</p></article>
+            <article className={publicStyles.stepCard}><CheckCircle2 aria-hidden /><h3>Keep the receipt</h3><p>The useful output and the record of how it was made belong together.</p></article>
+          </div>
+          <div className={publicStyles.actions}>
+            <Link href="/pricing" className={publicStyles.primary}>See the pilot price</Link>
+            <Link href="/contact" className={publicStyles.secondary}>Talk about one workflow</Link>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
