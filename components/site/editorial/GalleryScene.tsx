@@ -182,11 +182,6 @@ export function GalleryScene() {
           <Link href="/build-an-agent" className={styles.primaryAction}>assemble my business <span aria-hidden>→</span></Link>
           <a href="mailto:assembl@assembl.co.nz" className={styles.textAction}>talk to Kate</a>
         </div>
-        <footer className={styles.footer}>
-          <Link href="/" className={styles.wordmark}>assembl</Link>
-          <span>Aotearoa New Zealand · 2026</span>
-          <a href="mailto:assembl@assembl.co.nz">assembl@assembl.co.nz</a>
-        </footer>
       </section>
     </main>
   );

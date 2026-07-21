@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { EditorialHero } from '@/components/site/editorial/EditorialHero';
+import { AgentAssemblyStudio } from '@/components/home/AgentAssemblyStudio';
 import { GalleryScene } from '@/components/site/editorial/GalleryScene';
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div>
-      <EditorialHero />
+      <AgentAssemblyStudio />
       <GalleryScene />
     </div>
   );

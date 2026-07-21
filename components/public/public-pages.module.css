@@ -50,8 +50,8 @@
 .darkSection h2 {
   margin: 22px 0 0;
   color: var(--ink);
-  font-family: var(--font-body), Inter, sans-serif;
-  font-weight: 900;
+  font-family: var(--font-editorial), 'Arial Black', sans-serif;
+  font-weight: 400;
   letter-spacing: -.07em;
   text-transform: uppercase;
 }
@@ -190,7 +190,7 @@
 .demoCard h3,.agentCard h3,.stepCard h3 {
   margin: 42px 0 0;
   color: var(--ink);
-  font: 900 clamp(1.8rem,2.7vw,3.2rem)/.92 var(--font-body), Inter, sans-serif;
+  font: 400 clamp(1.8rem,2.7vw,3.2rem)/.92 var(--font-editorial), 'Arial Black', sans-serif;
   letter-spacing: -.055em;
   text-transform: uppercase;
 }
@@ -227,6 +227,31 @@
 .truthBar div { padding: 22px; background: #f4f4ef; }
 .truthBar strong { display: block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
 .truthBar span { display: block; margin-top: 7px; color: #676c67; font-size: .68rem; line-height: 1.5; }
+
+@supports (animation-timeline: view()) {
+  .sectionHeader,
+  .demoGrid,
+  .agentGrid,
+  .stepGrid,
+  .truthBar {
+    animation: publicReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 32%;
+  }
+}
+
+@keyframes publicReveal {
+  from { opacity: .18; transform: translateY(46px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionHeader,
+  .demoGrid,
+  .agentGrid,
+  .stepGrid,
+  .truthBar { animation: none; }
+}
 
 @media (max-width: 900px) {
   .hero,.sectionHeader { grid-template-columns: 1fr; }
