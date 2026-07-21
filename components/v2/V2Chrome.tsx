@@ -5,11 +5,7 @@ import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 import { PUBLIC_NAV_LINKS } from '@/lib/public-site';
 import styles from './v2.module.css';
 
-/**
- * v2 marketing chrome — the glass nav + motto strip from the locked direction,
- * for surfaces that ship their own chrome (/ and /agents suppress the global
- * SiteHeader). Server-safe: pure links, motion lives in CSS.
- */
+/** Public studio chrome. Server-safe: pure links, motion lives in CSS. */
 
 export function V2Nav({ current }: { current?: string }) {
   return (
@@ -47,10 +43,10 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
-        <Link href="/genome" className={styles.navCta}>
-          try the live demo
-          <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
-            •
+        <Link href="/a" className={styles.navCta}>
+          assemble an agent
+          <span aria-hidden style={{ fontSize: 14, lineHeight: 1 }}>
+            ↗
           </span>
         </Link>
       </div>

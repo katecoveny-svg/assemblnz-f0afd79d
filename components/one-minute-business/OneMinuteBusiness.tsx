@@ -400,17 +400,17 @@ export function OneMinuteBusiness() {
   return (
     <section className={styles.root} aria-labelledby="one-minute-title">
       <div className={styles.topline}>
-        <span>assembl / one minute business</span>
-        <span>free · no account</span>
+        <span>assembl / live Business Genome demo</span>
+        <span>one minute · free · no account</span>
       </div>
 
       {mode === 'input' ? (
         <>
           <div className={styles.hero}>
             <div className={styles.heroCopy}>
-              <p className={styles.eyebrow}>the front door to assembl</p>
-              <h1 id="one-minute-title">Describe your business.<br /><em>Watch it form.</em></h1>
-              <p className={styles.lede}>See your Business Genome, a focused agent team and one useful piece of completed work—in about a minute.</p>
+              <p className={styles.eyebrow}>Live demo / assemble a small business system</p>
+              <h2 id="one-minute-title">Describe your business.<br /><em>Watch it assemble.</em></h2>
+              <p className={styles.lede}>See the knowledge, agents, approval rule and first useful draft that form around your business—in about a minute.</p>
               <form className={styles.intake} onSubmit={submit}>
                 <label>
                   <span>What does your business do?</span>
@@ -429,7 +429,7 @@ export function OneMinuteBusiness() {
                   ))}
                 </div>
                 <button className={styles.primary} type="submit" disabled={!description.trim()}>
-                  form my business <ArrowRight aria-hidden />
+                  assemble my business <ArrowRight aria-hidden />
                 </button>
                 <small>No sign-up. Nothing is published without you.</small>
               </form>
@@ -456,7 +456,7 @@ export function OneMinuteBusiness() {
           <BusinessMotionProfile profile={result} label={false} />
           <div className={styles.formingCopy}>
             <span>0{stage + 1} / 05</span>
-            <h1>{STAGES[stage][0]}</h1>
+            <h2>{STAGES[stage][0]}</h2>
             <p>{STAGES[stage][1]}</p>
             <div>{STAGES.map((item, index) => <i key={item[0]} className={index <= stage ? styles.complete : ''} />)}</div>
           </div>
@@ -468,7 +468,7 @@ export function OneMinuteBusiness() {
           <header className={styles.resultHeader}>
             <div>
               <p className={styles.eyebrow}>your living business / formed</p>
-              <h1>{result.name}</h1>
+              <h2>{result.name}</h2>
               <p>{result.promise}</p>
             </div>
             <div className={styles.resultHeaderActions}>

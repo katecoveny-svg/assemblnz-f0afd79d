@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { TimeSavingsCalculator } from '@/components/home/TimeSavingsCalculator';
+import { AgentAssemblyStudio } from '@/components/home/AgentAssemblyStudio';
 import { OneMinuteBusiness } from '@/components/one-minute-business/OneMinuteBusiness';
 import { HOME } from '@/lib/copy/homepage';
 import publicStyles from '@/components/public/public-pages.module.css';
 import styles from './home-simplified.module.css';
 
 export const metadata: Metadata = {
-  title: 'one minute business · assembl',
-  description: 'Describe your business and see its Business Genome, coordinated agent team and first useful result form in about a minute.',
+  title: 'assembl — build intelligence you can understand',
+  description: 'Assemble business agents visually. See their knowledge, abilities, connected apps, boundaries and approvals—then try a live Business Genome.',
   alternates: { canonical: '/' },
 };
 
@@ -38,7 +39,10 @@ export default async function HomePage({ searchParams }: { searchParams: HomeSea
 
   return (
     <div className={styles.page}>
-      <OneMinuteBusiness />
+      <AgentAssemblyStudio />
+      <div id="live-business-demo">
+        <OneMinuteBusiness />
+      </div>
       <TimeSavingsCalculator initialValues={initialSavings} />
 
       <section className={publicStyles.section}>

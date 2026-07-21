@@ -25,7 +25,15 @@ const TOOL_LINKS: Array<[string, string]> = [
   ['/a', 'Agent Maker'],
 ];
 
-const linkStyle = { color: '#53656a', fontSize: 11, textDecoration: 'none' } as const;
+const linkStyle = {
+  color: '#4c504c',
+  fontFamily: 'var(--font-mono), Space Mono, monospace',
+  fontSize: 9,
+  fontWeight: 700,
+  letterSpacing: '0.08em',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
+} as const;
 
 export function V2Footer() {
   return (
@@ -35,19 +43,19 @@ export function V2Footer() {
         flexWrap: 'wrap',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        gap: 22,
-        padding: '26px clamp(18px, 4vw, 58px) 36px',
-        borderTop: '1px solid rgba(49, 60, 66, 0.1)',
-        background: '#f8f9f8',
+        gap: 34,
+        padding: '34px clamp(18px, 3.3vw, 52px) 44px',
+        borderTop: '1px solid rgba(17, 19, 17, 0.18)',
+        background: '#f0f0eb',
         fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
       }}
     >
       <div>
-        <p style={{ margin: 0, fontFamily: 'var(--font-display), Georgia, serif', fontSize: 19 }}>
+        <p style={{ margin: 0, fontFamily: 'var(--font-body), Inter, sans-serif', fontSize: 21, fontWeight: 900, letterSpacing: '-0.04em' }}>
           assembl
         </p>
-        <p style={{ margin: '4px 0 0', color: '#68766f', fontSize: 10, letterSpacing: '0.08em' }}>
-          Mahi that earns its proof. Built in Aotearoa.
+        <p style={{ margin: '5px 0 0', color: '#686d68', fontSize: 10, letterSpacing: '0.06em' }}>
+          See what your agent is made of. Built in Aotearoa.
         </p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
@@ -68,13 +76,13 @@ export function V2Footer() {
               fontSize: 9,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: '#9aa39c',
+              color: '#777c77',
             }}
           >
             Free tools
           </span>
           {TOOL_LINKS.map(([href, label]) => (
-            <Link key={href} href={href} style={{ ...linkStyle, color: '#3f7373' }}>
+            <Link key={href} href={href} style={linkStyle}>
               {label}
             </Link>
           ))}
