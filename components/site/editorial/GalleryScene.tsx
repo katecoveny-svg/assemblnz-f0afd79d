@@ -11,7 +11,6 @@ import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { MeshReflectorMaterial } from '@react-three/drei/core/MeshReflectorMaterial';
 import { MeshDistortMaterial } from '@react-three/drei/core/MeshDistortMaterial';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
-import { Lightformer } from '@react-three/drei/core/Lightformer';
 import { Sparkles } from '@react-three/drei/core/Sparkles';
 import { Html } from '@react-three/drei';
 import { BackSide, type Group } from 'three';
@@ -162,11 +161,14 @@ function AssemblAgent() {
         <group ref={core}>
           <mesh>
             <sphereGeometry args={[0.82, 160, 160]} />
+            {/* roughness a touch higher than the parts so the apartment HDRI
+                smears into soft warm shine on the blob instead of a readable
+                room, while still reading as polished liquid metal. */}
             <MeshDistortMaterial
               color="#edeae5"
               metalness={1}
-              roughness={0.04}
-              envMapIntensity={2.6}
+              roughness={0.16}
+              envMapIntensity={2.4}
               distort={0.6}
               speed={2.8}
             />
@@ -270,36 +272,13 @@ export function GalleryScene() {
         <ContactShadows position={[0, 0.02, 0]} opacity={0.32} scale={22} blur={2.6} far={6} color="#2a2622" />
         <Sparkles count={36} scale={[14, 5, 10]} size={2.2} speed={0.2} color="#BFA37A" opacity={0.5} />
 
-        {/* Hand-built WARM studio. The neutral-grey version of this read cold
-            and flat; this warms the base to a soft champagne and the softboxes
-            to warm white, with ONE cool panel on the right. Warm+cool across
-            the chrome is what makes it look richly lit rather than a dull grey
-            mirror — and it's still clean, no room-in-the-blob. */}
+        {/* apartment HDRI — the ONLY version that read crisp and shiny (every
+            custom Lightformer studio I tried went soft and faded, because big
+            soft area lights give low-contrast reflections). Its one flaw was
+            the room showing in the big blob — fixed at the blob itself by
+            softening its roughness, NOT by re-lighting the whole scene. */}
         <Suspense fallback={null}>
-          <Environment resolution={256} frames={1}>
-            <color attach="background" args={['#cfc6b3']} />
-            {/* big warm top key */}
-            <Lightformer form="rect" intensity={4.6} position={[0, 6, -5]} scale={[16, 8, 1]} color="#fff2d6" />
-            {/* warm left, cool right — the two-tone that gives chrome life */}
-            <Lightformer
-              form="rect"
-              intensity={3.4}
-              position={[-8, 2, 3]}
-              rotation-y={Math.PI / 2}
-              scale={[9, 11, 1]}
-              color="#ffe7c2"
-            />
-            <Lightformer
-              form="rect"
-              intensity={2.4}
-              position={[8, 2, 3]}
-              rotation-y={-Math.PI / 2}
-              scale={[9, 11, 1]}
-              color="#dce8ff"
-            />
-            {/* warm front catch */}
-            <Lightformer form="ring" intensity={1.8} position={[0, 3, 7]} scale={6} color="#fff4e2" />
-          </Environment>
+          <Environment preset="apartment" background={false} />
         </Suspense>
 
         <OrbitControls
