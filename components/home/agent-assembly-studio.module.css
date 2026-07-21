@@ -60,7 +60,7 @@
 .intro h1 {
   max-width: 1120px;
   margin: clamp(42px, 6vh, 88px) 0 0;
-  font: 400 clamp(3.6rem, 7.55vw, 8.9rem)/.78 var(--font-editorial), 'Arial Black', sans-serif;
+  font: 900 clamp(3.6rem, 7.55vw, 8.9rem)/.78 var(--font-body), Inter, sans-serif;
   letter-spacing: -.078em;
   text-transform: uppercase;
 }
@@ -101,49 +101,6 @@
 .introActions a:first-child { color: #fff; background: var(--ink); }
 .introActions a:hover { color: #fff; background: #343734; }
 .introActions svg { width: 15px; height: 15px; }
-
-.galleryStudio {
-  position: relative;
-  min-height: 700px;
-  border-bottom: 1px solid var(--line);
-  background: #e8e7e1;
-  scroll-margin-top: 65px;
-}
-
-.galleryBar {
-  position: relative;
-  z-index: 20;
-  display: grid;
-  min-height: 42px;
-  grid-template-columns: 190px 1fr auto 300px;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  color: #555a55;
-  background: rgba(240, 240, 235, .94);
-  font: 700 .55rem/1 var(--font-mono), monospace;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-}
-
-.galleryBar > span {
-  display: flex;
-  min-height: 42px;
-  align-items: center;
-  gap: 8px;
-  padding: 0 14px;
-  border-right: 1px solid var(--line);
-}
-
-.galleryBar > span:nth-child(3) { justify-content: flex-end; }
-.galleryBar > span:last-child { border-right: 0; border-left: 1px solid var(--line); }
-.galleryBar svg { width: 13px; height: 13px; }
-.galleryBar i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #5b9678;
-  box-shadow: 0 0 0 4px rgba(91,150,120,.12);
-}
 
 .studio {
   display: grid;
@@ -341,7 +298,7 @@
 .inspectorProof p { margin: 6px 0 0; font-size: .65rem; line-height: 1.45; }
 
 .captionLine { display: grid; grid-template-columns: 1fr 1fr; min-height: 115px; align-items: center; }
-.captionLine span { padding: 26px clamp(18px,3.3vw,52px); font-family: var(--font-editorial), 'Arial Black', sans-serif; font-size: clamp(1.5rem,2.3vw,2.7rem); font-weight: 400; letter-spacing: -.04em; text-transform: uppercase; }
+.captionLine span { padding: 26px clamp(18px,3.3vw,52px); font-size: clamp(1.5rem,2.3vw,2.7rem); font-weight: 900; letter-spacing: -.04em; text-transform: uppercase; }
 .captionLine p { margin: 0; padding: 26px clamp(18px,3.3vw,52px); border-left: 1px solid var(--line); color: #5b605b; font: 700 .59rem/1.7 var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; }
 
 @keyframes breathe {
@@ -362,7 +319,7 @@
     animation-range: exit 0% exit 88%;
   }
 
-  .galleryStudio {
+  .studio {
     animation: galleryArrive linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 34%;
@@ -399,10 +356,6 @@
   .introTitle { min-height: 330px; border-right: 0; }
   .intro h1 { font-size: clamp(3.2rem, 15vw, 6rem); }
   .introCopy { border-top: 1px solid var(--line); }
-  .galleryStudio { min-height: 680px; }
-  .galleryBar { grid-template-columns: 1fr 1fr; }
-  .galleryBar > span:nth-child(3),
-  .galleryBar > span:last-child { display: none; }
   .studio { grid-template-columns: 1fr; min-height: 660px; }
   .library { border-right: 0; border-bottom: 1px solid var(--line); }
   .library .panelLabel,.libraryHint { display: none; }
@@ -434,5 +387,5 @@
   .core,.module { transition: none; }
   .introTitle h1,
   .introCopy,
-  .galleryStudio { animation: none; }
+  .studio { animation: none; }
 }

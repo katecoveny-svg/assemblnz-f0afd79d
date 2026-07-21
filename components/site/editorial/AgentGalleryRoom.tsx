@@ -48,7 +48,8 @@ const PARTS = [
   },
 ] as const;
 
-type PartId = (typeof PARTS)[number]['id'];
+export type AgentGalleryPartId = (typeof PARTS)[number]['id'];
+type PartId = AgentGalleryPartId;
 
 const POSITIONS: Record<PartId, [number, number, number]> = {
   memory: [-4.35, 0, 0.18],
@@ -68,16 +69,17 @@ function hasWebGL() {
   }
 }
 
-function CameraRig({ active }: { active: PartId }) {
+function CameraRig({ active, focus }: { active: PartId; focus: boolean }) {
   const { camera, size } = useThree();
   const target = useRef(new THREE.Vector3());
   const desired = useRef(new THREE.Vector3());
 
   useFrame(() => {
     const portrait = size.width / size.height < 0.76;
+    const focusActive = portrait || focus;
     const activeX = POSITIONS[active][0];
-    desired.current.set(portrait ? activeX : 0, portrait ? 0.5 : 0.85, portrait ? 7.4 : 12.6);
-    target.current.set(portrait ? activeX : 0, 0.25, 0);
+    desired.current.set(focusActive ? activeX : 0, portrait ? 0.5 : 0.85, focusActive ? 7.4 : 12.6);
+    target.current.set(focusActive ? activeX : 0, 0.25, 0);
     camera.position.lerp(desired.current, 0.055);
     camera.lookAt(target.current);
   });
@@ -210,7 +212,7 @@ function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSele
   );
 }
 
-function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: PartId) => void }) {
+function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: boolean; onSelect: (id: PartId) => void }) {
   return (
     <>
       <color attach="background" args={['#f4f1ea']} />
@@ -278,15 +280,33 @@ function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: Par
         resolution={512}
         color="#413d36"
       />
-      <CameraRig active={active} />
+      <CameraRig active={active} focus={focus} />
     </>
   );
 }
 
-export function AgentGalleryRoom() {
-  const [active, setActive] = useState<PartId>('intelligence');
+interface AgentGalleryRoomProps {
+  activePart?: PartId;
+  embedded?: boolean;
+  focus?: boolean;
+  onActivePartChange?: (part: PartId) => void;
+}
+
+export function AgentGalleryRoom({
+  activePart,
+  embedded = false,
+  focus = false,
+  onActivePartChange,
+}: AgentGalleryRoomProps = {}) {
+  const [internalActive, setInternalActive] = useState<PartId>('intelligence');
   const [webglReady, setWebglReady] = useState(false);
-  const activePart = PARTS.find((part) => part.id === active) ?? PARTS[2];
+  const active = activePart ?? internalActive;
+  const activeDefinition = PARTS.find((part) => part.id === active) ?? PARTS[2];
+
+  const selectPart = (part: PartId) => {
+    setInternalActive(part);
+    onActivePartChange?.(part);
+  };
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setWebglReady(hasWebGL()));
@@ -294,7 +314,7 @@ export function AgentGalleryRoom() {
   }, []);
 
   return (
-    <div className={styles.galleryShell}>
+    <div className={styles.galleryShell} data-embedded={embedded ? 'true' : undefined}>
       <div className={styles.galleryTitle}>
         <span>the assembl agent</span>
         <small>six visible parts · one useful role</small>
@@ -323,7 +343,7 @@ export function AgentGalleryRoom() {
             gl.toneMappingExposure = 1.22;
           }}
         >
-          <GalleryScene active={active} onSelect={setActive} />
+          <GalleryScene active={active} focus={focus} onSelect={selectPart} />
         </Canvas>
       ) : null}
 
@@ -335,12 +355,12 @@ export function AgentGalleryRoom() {
         ))}
       </div>
 
-      <div className={styles.galleryControls}>
+      {!embedded ? <div className={styles.galleryControls}>
         <div className={styles.galleryReadout} aria-live="polite">
           <span>{String(PARTS.findIndex((part) => part.id === active) + 1).padStart(2, '0')} / 06</span>
           <div>
-            <strong>{activePart.label}</strong>
-            <p>{activePart.helper}</p>
+            <strong>{activeDefinition.label}</strong>
+            <p>{activeDefinition.helper}</p>
           </div>
         </div>
 
@@ -350,7 +370,7 @@ export function AgentGalleryRoom() {
               key={part.id}
               type="button"
               aria-pressed={active === part.id}
-              onClick={() => setActive(part.id)}
+              onClick={() => selectPart(part.id)}
             >
               {part.label}
             </button>
@@ -360,7 +380,7 @@ export function AgentGalleryRoom() {
         <Link href="/a" className={styles.galleryAction}>
           build yours <span aria-hidden>→</span>
         </Link>
-      </div>
+      </div> : null}
     </div>
   );
 }
