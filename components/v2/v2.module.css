@@ -3,7 +3,7 @@
 .page {
   min-height: 100vh;
   background-color: #fbfaf6;
-  color: #1a1918;
+  color: #252d31;
   overflow-x: clip;
   /* canvas typography.body reads var(--font-sans); the site loads Lato as
      --font-body — bridge them so the whole v2 surface uses one quiet grotesk */
@@ -49,7 +49,7 @@
   transition: color 200ms ease;
 }
 .navLink:hover {
-  color: #1a1918;
+  color: #252d31;
 }
 .navUtilities {
   display: flex;
@@ -62,9 +62,9 @@
   gap: 13px;
   min-height: 38px;
   padding: 0 15px;
-  border: 1px solid #111311;
-  border-radius: 0;
-  background: #111311;
+  border: 1px solid #252d31;
+  border-radius: 12px;
+  background: #252d31;
   font-family: var(--font-mono), monospace;
   font-size: 9px;
   font-weight: 700;
@@ -76,7 +76,7 @@
 }
 .navCta:hover {
   border-color: #4f544f;
-  background: #343734;
+  background: #34434b;
   transform: translateY(-1px);
 }
 
@@ -149,7 +149,7 @@
   font-size: clamp(2.8rem, 5.4vw, 4.4rem);
   line-height: .98;
   letter-spacing: -.035em;
-  color: #1a1918;
+  color: #252d31;
 }
 .h2 {
   margin: 0;
@@ -158,7 +158,7 @@
   font-size: clamp(1.8rem, 3.4vw, 2.65rem);
   line-height: 1.06;
   letter-spacing: -.025em;
-  color: #1a1918;
+  color: #252d31;
 }
 
 /* ── card grids ─────────────────────────────────────────────────────── */
@@ -234,10 +234,10 @@
   composes: railItem;
   background: #ffffff;
   border: 1px solid #e7e4da;
-  color: #1a1918;
+  color: #252d31;
 }
 a.railItem:hover {
-  color: #1a1918;
+  color: #252d31;
   background: rgba(255, 255, 255, 0.7);
 }
 .railSoon {
