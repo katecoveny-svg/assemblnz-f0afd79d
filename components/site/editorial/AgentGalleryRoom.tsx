@@ -101,23 +101,23 @@ function Sculpture({ id, active }: { id: PartId; active: boolean }) {
 
   const silver = (
     <meshPhysicalMaterial
-      color="#d9d6ce"
-      metalness={0.88}
-      roughness={0.12}
+      color="#e6ece8"
+      metalness={0.94}
+      roughness={0.075}
       clearcoat={1}
-      clearcoatRoughness={0.08}
-      envMapIntensity={1.5}
+      clearcoatRoughness={0.035}
+      envMapIntensity={2.4}
     />
   );
 
   const gold = (
     <meshPhysicalMaterial
-      color="#b8964f"
-      metalness={0.82}
-      roughness={0.14}
-      clearcoat={0.9}
-      clearcoatRoughness={0.08}
-      envMapIntensity={1.6}
+      color="#d2b36e"
+      metalness={0.9}
+      roughness={0.085}
+      clearcoat={1}
+      clearcoatRoughness={0.035}
+      envMapIntensity={2.5}
     />
   );
 
@@ -147,12 +147,12 @@ function Sculpture({ id, active }: { id: PartId; active: boolean }) {
         <mesh position={[0, 0.2, 0]} rotation={[0.35, 0.05, 0.25]}>
           <torusKnotGeometry args={[0.4, 0.14, 170, 28, 2, 3]} />
           <meshPhysicalMaterial
-            color="#0b0c0d"
-            metalness={0.48}
-            roughness={0.06}
+            color="#171b1a"
+            metalness={0.72}
+            roughness={0.045}
             clearcoat={1}
             clearcoatRoughness={0.03}
-            envMapIntensity={1.8}
+            envMapIntensity={2.6}
           />
         </mesh>
       )}
@@ -215,15 +215,17 @@ function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: Par
     <>
       <color attach="background" args={['#f4f1ea']} />
       <fog attach="fog" args={['#f4f1ea', 11, 24]} />
-      <ambientLight intensity={0.8} />
-      <hemisphereLight args={['#ffffff', '#c8c2b7', 1.15]} />
-      <directionalLight position={[-5, 8, 7]} intensity={2.2} color="#fffaf0" />
-      <directionalLight position={[5, 5, 2]} intensity={1.15} color="#e6eff2" />
+      <ambientLight intensity={0.62} />
+      <hemisphereLight args={['#ffffff', '#c6c0b5', 0.92]} />
+      <directionalLight position={[-5, 8, 7]} intensity={2.7} color="#fff7df" />
+      <directionalLight position={[5, 5, 2]} intensity={1.8} color="#dbecef" />
+      <directionalLight position={[0, 2, -5]} intensity={1.25} color="#e0bd72" />
 
-      <Environment resolution={128}>
-        <Lightformer intensity={4} position={[0, 6, 4]} scale={[10, 3, 1]} />
-        <Lightformer intensity={2} position={[-5, 1, 2]} scale={[3, 7, 1]} />
-        <Lightformer intensity={2} position={[5, 2, 1]} scale={[3, 6, 1]} />
+      <Environment resolution={256}>
+        <Lightformer form="rect" intensity={7} color="#fffdf6" position={[0, 6, 4]} scale={[12, 3, 1]} />
+        <Lightformer form="rect" intensity={4.5} color="#ffe6a8" position={[-5, 1, 2]} scale={[3, 8, 1]} />
+        <Lightformer form="rect" intensity={4} color="#d7edf0" position={[5, 2, 1]} scale={[3, 7, 1]} />
+        <Lightformer form="ring" intensity={3} color="#ffffff" position={[0, 1, -4]} scale={[5, 5, 1]} />
       </Environment>
 
       <mesh position={[0, 2.35, -3.4]}>
@@ -249,12 +251,12 @@ function GalleryScene({ active, onSelect }: { active: PartId; onSelect: (id: Par
       <mesh position={[0.1, 2.38, -1.85]}>
         <sphereGeometry args={[0.78, 56, 56]} />
         <meshPhysicalMaterial
-          color="#c7ae7b"
-          metalness={0.78}
-          roughness={0.1}
+          color="#d0b678"
+          metalness={0.92}
+          roughness={0.065}
           clearcoat={1}
           clearcoatRoughness={0.05}
-          envMapIntensity={1.8}
+          envMapIntensity={2.7}
         />
       </mesh>
 
@@ -318,7 +320,7 @@ export function AgentGalleryRoom() {
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
-            gl.toneMappingExposure = 1.08;
+            gl.toneMappingExposure = 1.22;
           }}
         >
           <GalleryScene active={active} onSelect={setActive} />
@@ -355,7 +357,7 @@ export function AgentGalleryRoom() {
           ))}
         </div>
 
-        <Link href="/build-an-agent#intake" className={styles.galleryAction}>
+        <Link href="/a" className={styles.galleryAction}>
           build yours <span aria-hidden>→</span>
         </Link>
       </div>
