@@ -502,8 +502,9 @@
   justify-content: flex-end;
   padding: clamp(2rem, 4vw, 3.4rem);
   overflow: hidden;
-  color: #fff;
-  background: #193f35;
+  color: #313c42;
+  border: 1px solid rgba(49,60,66,.12);
+  background: #f1f0ec;
 }
 
 .genomeCard::before {
@@ -513,26 +514,51 @@
   height: 410px;
   top: -140px;
   right: -150px;
-  border: 1px solid rgba(255,255,255,.2);
+  border: 1px solid rgba(49,60,66,.13);
   border-radius: 50%;
-  box-shadow: 0 0 0 52px rgba(255,255,255,.025), 0 0 0 104px rgba(255,255,255,.02);
+  box-shadow: 0 0 0 52px rgba(49,60,66,.025), 0 0 0 104px rgba(49,60,66,.018);
 }
 
 .genomeTopline { position: absolute; top: 2rem; left: 2rem; right: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.55rem; opacity: .76; }
-.genomeTopline i { background: #dcebe6; box-shadow: 0 0 0 5px rgba(220,235,230,.1); }
-.genomeCard h3 { position: relative; margin: 0; font-family: var(--font-display, serif); font-size: clamp(2.4rem, 4.1vw, 4.5rem); font-weight: 500; line-height: .92; letter-spacing: -.045em; }
+.genomeTopline i { background: #7e8582; box-shadow: 0 0 0 5px rgba(49,60,66,.07); }
+.genomeCard h3 { position: relative; margin: 0; font-family: var(--font-body), Inter, sans-serif; font-size: clamp(2.4rem, 4.1vw, 4.5rem); font-weight: 900; line-height: .86; letter-spacing: -.065em; text-transform: uppercase; }
 .genomeCard p { position: relative; margin: 1.8rem 0 0; max-width: 37ch; font-family: var(--font-mono, monospace); font-size: .55rem; line-height: 1.7; text-transform: uppercase; letter-spacing: .12em; opacity: .68; }
 
-.genomeMark { position: absolute; top: 24%; left: 15%; width: 170px; height: 170px; }
-.genomeMark span { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.25); border-radius: 48% 52% 44% 56%; transform: rotate(14deg); }
-.genomeMark span:nth-child(2) { inset: 20px; transform: rotate(72deg); }
-.genomeMark span:nth-child(3) { inset: 42px; background: radial-gradient(circle at 35% 30%, #98b9ae, #254f43 55%, #112e26); box-shadow: inset 8px 10px 16px rgba(255,255,255,.12); }
+.genomeMark { position: absolute; top: 24%; left: 15%; width: 170px; height: 170px; animation: genomeFloat 5.6s ease-in-out infinite; }
+.genomeMark span { position: absolute; inset: 0; border: 1px solid rgba(49,60,66,.22); border-radius: 50%; animation: genomeOrbit 11s linear infinite; }
+.genomeMark span:nth-child(2) { inset: 20px; animation-direction: reverse; animation-duration: 8s; }
+.genomeMark span:nth-child(3) {
+  inset: 42px;
+  border: 0;
+  background:
+    radial-gradient(circle at 31% 24%, #fff 0 5%, #e9e3d8 14%, #a69f94 37%, #f7f2e9 53%, #595a59 76%, #d8d1c4 100%);
+  box-shadow:
+    inset -12px -14px 22px rgba(27,29,29,.38),
+    inset 9px 9px 16px rgba(255,255,255,.55),
+    0 22px 38px rgba(0,0,0,.22);
+  animation: chromeTurn 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes genomeFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(12px, -18px, 0); }
+}
+
+@keyframes genomeOrbit {
+  from { transform: rotate(0deg) scaleX(.92); }
+  to { transform: rotate(360deg) scaleX(.92); }
+}
+
+@keyframes chromeTurn {
+  from { transform: rotate(-12deg) scale(.96); filter: brightness(.92); }
+  to { transform: rotate(18deg) scale(1.06); filter: brightness(1.16); }
+}
 
 .surfaceGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-.surfaceCard { min-height: 272px; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(1.6rem, 3vw, 2.5rem); border: 1px solid var(--line); background: rgba(255,255,255,.52); transition: transform 220ms ease, background 220ms ease; }
+.surfaceCard { min-height: 272px; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(1.6rem, 3vw, 2.5rem); border: 1px solid var(--line); background: #f1f0ec; transition: transform 220ms ease, background 220ms ease; }
 .surfaceCard:hover { transform: translateY(-4px); background: #fff; }
 .cardNumber { color: var(--brass); font-size: .55rem; }
-.surfaceCard h3 { margin: 0 0 .7rem; font-family: var(--font-display, serif); font-size: clamp(1.8rem, 2.6vw, 2.65rem); font-weight: 600; letter-spacing: -.035em; }
+.surfaceCard h3 { margin: 0 0 .7rem; font-family: var(--font-body), Inter, sans-serif; font-size: clamp(1.8rem, 2.6vw, 2.65rem); font-weight: 900; line-height: .9; letter-spacing: -.055em; text-transform: uppercase; }
 .surfaceCard p { margin: 0; max-width: 34ch; color: var(--soft); font-size: .88rem; line-height: 1.6; }
 .surfaceCard small { color: #858a91; font-size: .48rem; }
 
@@ -877,11 +903,11 @@
 
 .systemLayout .sectionIntro h2 em {
   margin: .16em 0 0 .06em;
-  font-family: var(--font-display, 'Cormorant Garamond', serif);
-  font-weight: 500;
-  letter-spacing: -.06em;
-  text-transform: none;
-  color: #85674e;
+  font-family: var(--font-editorial, 'Arial Black', sans-serif);
+  font-weight: 800;
+  letter-spacing: -.075em;
+  text-transform: uppercase;
+  color: #8b8f8c;
 }
 
 .systemLayout .sectionIntro > p {
@@ -899,8 +925,13 @@
   top: 5.5rem;
   min-height: min(72svh, 700px);
   margin-bottom: 24svh;
-  border-radius: 18px;
-  background: #282a2a;
+  border-radius: 0;
+  background: #f1f0ec;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .genomeMark,
+  .genomeMark span { animation: none; }
 }
 
 .systemLayout .surfaceGrid {
@@ -913,9 +944,9 @@
   position: sticky;
   top: 7rem;
   min-height: 42svh;
-  border-radius: 18px;
-  background: #f8f7f3;
-  box-shadow: 0 35px 80px -64px rgba(36,39,44,.74);
+  border-radius: 0;
+  background: #f1f0ec;
+  box-shadow: none;
 }
 
 .systemLayout .surfaceCard:nth-child(2) { top: 7.7rem; }
