@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 
 /**
  * The homepage's slim footer, extracted so it can be the single site-wide
@@ -51,9 +52,7 @@ export function V2Footer() {
       }}
     >
       <div>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body), Inter, sans-serif', fontSize: 21, fontWeight: 650, letterSpacing: '-0.02em' }}>
-          assembl
-        </p>
+        <AssemblWordmark className="text-[24px] leading-none" style={{ letterSpacing: '0.12em', color: '#252d31' }} />
         <p style={{ margin: '5px 0 0', color: '#686d68', fontSize: 10, letterSpacing: '0.06em' }}>
           See what your agent is made of. Built in Aotearoa.
         </p>

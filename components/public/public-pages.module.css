@@ -1,6 +1,6 @@
 .page {
   --paper: #f0f0eb;
-  --ink: #111311;
+  --ink: #252d31;
   --body: #545954;
   --line: rgba(17, 19, 17, .18);
   min-height: 100vh;
@@ -28,6 +28,8 @@
   min-height: 650px;
   border-inline: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
 }
 
 .hero > div:first-child {
@@ -116,7 +118,7 @@
   gap: 10px;
   padding: 0 17px;
   border: 1px solid var(--ink);
-  border-radius: 0;
+  border-radius: 12px;
   color: var(--ink);
   background: transparent;
   font: 700 .6rem/1 var(--font-mono), monospace;
@@ -126,7 +128,7 @@
   transition: color 160ms ease, background 160ms ease;
 }
 .primary { color: #fff; background: var(--ink); }
-.primary:hover,.secondary:hover,.cardLink:hover { color: #fff; background: #343734; }
+.primary:hover,.secondary:hover,.cardLink:hover { color: #fff; background: #34434b; }
 
 .section,
 .darkSection {
@@ -151,6 +153,8 @@
   margin-top: 58px;
   border: 1px solid var(--line);
   background: var(--line);
+  overflow: hidden;
+  border-radius: 18px;
 }
 
 .demoCard,.agentCard,.stepCard {
@@ -174,7 +178,7 @@
   align-items: center;
   gap: 7px;
   border: 1px solid var(--line);
-  border-radius: 0;
+  border-radius: 18px;
   padding: 6px 8px;
   color: #505550;
   background: transparent;
@@ -201,7 +205,7 @@
 .cardActions { margin-top: auto; padding-top: 26px; }
 .cardLink { min-height: 40px; padding-inline: 13px; font-size: .54rem; }
 
-.darkWrap { color: #f2f2ed; background: #111311; }
+.darkWrap { margin: 24px; overflow: hidden; color: #f2f2ed; background: #252d31; border-radius: 24px; }
 .darkSection { border-color: rgba(255,255,255,.2); }
 .darkSection h2 { color: #f2f2ed; }
 .darkSection h2 em { color: #8c918c; }
@@ -211,7 +215,7 @@
 .darkSection .stepCard { color: #fff; background: #181b18; }
 .darkSection .stepCard h3 { color: #fff; }
 .darkSection .stepCard p { color: rgba(242,242,237,.68); }
-.darkSection .primary { color: #111311; border-color: #fff; background: #fff; }
+.darkSection .primary { color: #252d31; border-color: #fff; background: #fff; }
 .darkSection .secondary { color: #fff; border-color: rgba(255,255,255,.5); }
 
 .truthBar {

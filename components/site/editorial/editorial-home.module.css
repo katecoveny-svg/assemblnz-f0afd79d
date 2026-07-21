@@ -216,7 +216,7 @@
   transition: transform 180ms ease, background 180ms ease;
 }
 
-.primaryAction:hover { transform: translateY(-2px); background: #0e0f11; }
+.primaryAction:hover { transform: translateY(-2px); background: #1c252a; }
 
 .textAction {
   position: relative;
@@ -504,6 +504,7 @@
   overflow: hidden;
   color: #313c42;
   border: 1px solid rgba(49,60,66,.12);
+  border-radius: 22px;
   background: #f1f0ec;
 }
 
@@ -555,7 +556,7 @@
 }
 
 .surfaceGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-.surfaceCard { min-height: 272px; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(1.6rem, 3vw, 2.5rem); border: 1px solid var(--line); background: #f1f0ec; transition: transform 220ms ease, background 220ms ease; }
+.surfaceCard { min-height: 272px; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(1.6rem, 3vw, 2.5rem); border: 1px solid var(--line); border-radius: 22px; background: #f1f0ec; transition: transform 220ms ease, background 220ms ease; }
 .surfaceCard:hover { transform: translateY(-4px); background: #fff; }
 .cardNumber { color: var(--brass); font-size: .55rem; }
 .surfaceCard h3 { margin: 0 0 .7rem; font-family: var(--font-body), Inter, sans-serif; font-size: clamp(1.8rem, 2.6vw, 2.65rem); font-weight: 900; line-height: .9; letter-spacing: -.055em; text-transform: uppercase; }
@@ -569,7 +570,9 @@
   align-items: center;
   padding: clamp(7rem, 12vw, 12rem) max(1.5rem, calc((100vw - 1380px) / 2));
   color: #f8f6f1;
-  background: #202326;
+  margin: 24px;
+  border-radius: 24px;
+  background: #252d31;
 }
 
 .approvalCopy { max-width: 560px; }
@@ -579,7 +582,7 @@
 .approvalCopy > p { margin: 2rem 0; color: #b6bbc0; }
 .approvalCopy .textAction { color: #fff; }
 
-.approvalPanel { border: 1px solid rgba(255,255,255,.13); background: #292d31; box-shadow: 0 40px 90px -60px #000; }
+.approvalPanel { overflow: hidden; border: 1px solid rgba(255,255,255,.13); border-radius: 20px; background: #303a40; box-shadow: 0 40px 90px -60px rgba(37,45,49,.8); }
 .panelHeader { display: flex; justify-content: space-between; align-items: flex-start; padding: 1.8rem 2rem; border-bottom: 1px solid rgba(255,255,255,.1); }
 .panelHeader div { display: flex; flex-direction: column; gap: .55rem; }
 .panelHeader span { color: #9299a1; font-size: .52rem; }
@@ -599,7 +602,7 @@
 .conceptHeader h2 { font-size: clamp(3.2rem, 6vw, 6.5rem); line-height: .9; }
 .conceptHeader > p { max-width: 47ch; }
 .conceptGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; }
-.conceptCard { color: var(--ink); background: rgba(255,255,255,.65); border: 1px solid var(--line); text-decoration: none; transition: transform 220ms ease, box-shadow 220ms ease; }
+.conceptCard { overflow: hidden; color: var(--ink); background: rgba(255,255,255,.65); border: 1px solid var(--line); border-radius: 20px; text-decoration: none; transition: transform 220ms ease, box-shadow 220ms ease; }
 .conceptCard:hover { transform: translateY(-5px); box-shadow: 0 30px 65px -50px rgba(36,39,44,.6); }
 .conceptArt { position: relative; height: clamp(260px, 29vw, 420px); display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle, #fff, #e8e4dc 72%); }
 .conceptArt::after { content:''; position:absolute; width: 54%; height: 12px; bottom: 15%; border-radius: 50%; background: rgba(36,39,44,.13); filter: blur(10px); }
@@ -868,7 +871,7 @@
   background: rgba(245,245,242,.72);
 }
 
-.activityIcon { background: #242625; }
+.activityIcon { background: #252d31; }
 
 .systemLayout {
   width: min(1380px, 100%);
@@ -892,7 +895,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--font-editorial, 'Arial Black', sans-serif);
-  font-size: clamp(4.6rem, 7.2vw, 8.2rem);
+  font-size: clamp(4rem, 6.2vw, 6.7rem);
   font-weight: 650;
   line-height: .88;
   letter-spacing: -.035em;
@@ -905,6 +908,8 @@
   margin: .28em 0 0 .06em;
   font-family: var(--font-editorial, 'Arial Black', sans-serif);
   font-weight: 550;
+  font-size: .76em;
+  font-style: normal;
   letter-spacing: -.025em;
   text-transform: uppercase;
   color: #8b8f8c;
@@ -925,7 +930,7 @@
   top: 5.5rem;
   min-height: min(72svh, 700px);
   margin-bottom: 24svh;
-  border-radius: 0;
+  border-radius: 22px;
   background: #f1f0ec;
 }
 
@@ -944,7 +949,7 @@
   position: sticky;
   top: 7rem;
   min-height: 42svh;
-  border-radius: 0;
+  border-radius: 22px;
   background: #f1f0ec;
   box-shadow: none;
 }
@@ -996,7 +1001,7 @@
   .heroHeading { font-size: clamp(3.8rem, 18vw, 6.6rem); }
   .systemLayout { display: block; }
   .systemLayout .sectionIntro { position: relative; top: auto; margin-bottom: 5rem; }
-  .systemLayout .sectionIntro h2 { font-size: clamp(4rem, 16vw, 6.4rem); }
+  .systemLayout .sectionIntro h2 { font-size: clamp(3.35rem, 13vw, 5.2rem); }
   .systemLayout .genomeCard,
   .systemLayout .surfaceCard { position: relative; top: auto !important; margin-bottom: 1rem; }
   .systemLayout .surfaceGrid { gap: 1rem; }
