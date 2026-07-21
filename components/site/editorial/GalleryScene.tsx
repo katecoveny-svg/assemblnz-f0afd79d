@@ -62,10 +62,9 @@ const concepts = [
   },
 ];
 
-export function GalleryScene() {
+export function ConnectedSystemSection() {
   return (
-    <main>
-      <section id="how-it-works" className={styles.systemSection} aria-labelledby="system-heading">
+    <section id="how-it-works" className={styles.systemSection} aria-labelledby="system-heading">
         <div className={styles.systemLayout}>
           <div className={styles.sectionIntro}>
             <p className={styles.kicker}><span aria-hidden /> one connected system</p>
@@ -105,7 +104,14 @@ export function GalleryScene() {
           </div>
           </div>
         </div>
-      </section>
+    </section>
+  );
+}
+
+export function GalleryScene() {
+  return (
+    <main>
+      <ConnectedSystemSection />
 
       <section className={styles.approvalSection} aria-labelledby="approval-heading">
         <div className={styles.approvalCopy}>
