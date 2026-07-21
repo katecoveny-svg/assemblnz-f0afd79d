@@ -167,7 +167,7 @@ export function AgentChat({
             <AgentIcon name={agent.icon} className="relative h-5 w-5" />
           </span>
           <div className="flex items-baseline gap-2 leading-tight">
-            <p className="text-xl" style={{ fontFamily: 'var(--font-inter), Inter, Arial, sans-serif', fontWeight: 800, letterSpacing: '-0.04em', color: PALETTE.ink }}>
+            <p className="text-xl" style={{ fontFamily: 'var(--font-inter), Inter, Arial, sans-serif', fontWeight: 650, letterSpacing: '-0.02em', color: PALETTE.ink }}>
               {agent.name}
             </p>
           </div>
