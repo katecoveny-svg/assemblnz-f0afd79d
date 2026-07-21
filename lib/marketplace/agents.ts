@@ -118,21 +118,22 @@ export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = {
   animal: 'Animal & Conservation',
 };
 
-// Locked canon palette.
+// Public editorial palette. Shared by the agent index, detail and chat surfaces
+// so moving between them feels like one assembl system.
 export const PALETTE = {
-  accentGold: '#BFA37A',
-  accentGold2: '#D9C7A5',
-  ink: '#3A3832',
-  body: '#56544B',
-  paper: '#FFFFFF',
-  cream: '#FFF7EC',
-  hairline: '#EFEADC',
-  gold: '#C79B1F',
-  muted: '#8A8678',
+  accentGold: '#C9CBC7',
+  accentGold2: '#E3E4E0',
+  ink: '#252D31',
+  body: '#555C5F',
+  paper: '#FAFAF7',
+  cream: '#F3F2ED',
+  hairline: '#D7D8D3',
+  gold: '#8E928F',
+  muted: '#797F7D',
 } as const;
 
 export const DASH_MOTIF =
-  'repeating-linear-gradient(90deg, #BFA37A 0 20px, transparent 20px 32px)';
+  'repeating-linear-gradient(90deg, #252D31 0 20px, transparent 20px 32px)';
 
 /** Free-fallback model ladder after the tier primary (lib/ai/router.ts). */
 export const FALLBACK_MODELS = [
