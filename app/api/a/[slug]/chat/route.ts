@@ -26,7 +26,13 @@
  * footer: built by a visitor, drafts only, never sends anything.
  */
 import { createHash } from 'node:crypto';
-import { convertToModelMessages, streamText, type UIMessage } from 'ai';
+import {
+  convertToModelMessages,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  streamText,
+  type UIMessage,
+} from 'ai';
 import { resolveCommunityAgent } from '@/lib/agents/community';
 import { checkChatRateLimit, chatClientIp } from '@/lib/agents/chat-rate-limit';
 import { gate, gateBlockedResponse, gateHeaders } from '@/lib/gating/server';
@@ -53,6 +59,37 @@ function textOf(message: UIMessage): string {
     .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
     .map((p) => p.text)
     .join(' ');
+}
+
+function latestQuestion(messages: UIMessage[]): string {
+  const latest = [...messages].reverse().find((message) => message.role === 'user');
+  return latest ? textOf(latest).trim() : '';
+}
+
+function previewResponse(
+  name: string,
+  description: string,
+  question: string,
+  headers: HeadersInit,
+): Response {
+  const task = question || 'the question you selected';
+  const answer = [
+    `I’m ${name}. I’m set up to ${description.replace(/[.!]+$/, '').toLowerCase()}.`,
+    `For “${task.slice(0, 240)}”, I’d begin by separating the facts you already trust from the details that still need checking. Then I’d prepare the smallest useful draft: the answer, next step, and any decision that must stay with a person.`,
+    'This preview does not have a live model provider connected, so I have not searched a source or taken an action. In a live workspace I would use the approved Business Genome and show the evidence beside the draft.',
+    'Draft only — nothing has been sent, posted or changed.',
+  ].join('\n\n');
+  const stream = createUIMessageStream({
+    execute: ({ writer }) => {
+      const id = `preview-${Date.now()}`;
+      writer.write({ type: 'start' });
+      writer.write({ type: 'text-start', id });
+      writer.write({ type: 'text-delta', id, delta: answer });
+      writer.write({ type: 'text-end', id });
+      writer.write({ type: 'finish', finishReason: 'stop' });
+    },
+  });
+  return createUIMessageStreamResponse({ stream, headers });
 }
 
 /** Short stable key for long stateless slugs (rate-limit + gate counters). */
@@ -84,14 +121,6 @@ export async function POST(
   const verdict = await gate(req, 'agent', key);
   if (!verdict.allowed) return gateBlockedResponse(verdict);
 
-  const resolved = resolveModel('gemini');
-  if (!resolved) {
-    return Response.json(
-      { error: 'No model provider is configured.' },
-      { status: 503, headers: gateHeaders(verdict) },
-    );
-  }
-
   let body: { messages?: UIMessage[] };
   try {
     body = await req.json();
@@ -103,6 +132,16 @@ export async function POST(
   }
 
   const messages = Array.isArray(body.messages) ? body.messages.slice(-40) : [];
+
+  const resolved = resolveModel('gemini');
+  if (!resolved) {
+    return previewResponse(
+      agent.name,
+      agent.description || 'help with the job you described',
+      latestQuestion(messages),
+      gateHeaders(verdict),
+    );
+  }
 
   // Validate every incoming image part before anything reaches the model.
   for (const message of messages) {
