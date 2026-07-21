@@ -521,7 +521,7 @@
 
 .genomeTopline { position: absolute; top: 2rem; left: 2rem; right: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.55rem; opacity: .76; }
 .genomeTopline i { background: #7e8582; box-shadow: 0 0 0 5px rgba(49,60,66,.07); }
-.genomeCard h3 { position: relative; margin: 0; font-family: var(--font-body), Inter, sans-serif; font-size: clamp(2.4rem, 4.1vw, 4.5rem); font-weight: 900; line-height: .86; letter-spacing: -.065em; text-transform: uppercase; }
+.genomeCard h3 { position: relative; margin: 0; font-family: var(--font-body), Inter, sans-serif; font-size: clamp(2.35rem, 3.9vw, 4.25rem); font-weight: 650; line-height: .98; letter-spacing: -.035em; text-transform: uppercase; }
 .genomeCard p { position: relative; margin: 1.8rem 0 0; max-width: 37ch; font-family: var(--font-mono, monospace); font-size: .55rem; line-height: 1.7; text-transform: uppercase; letter-spacing: .12em; opacity: .68; }
 
 .genomeMark { position: absolute; top: 24%; left: 15%; width: 170px; height: 170px; animation: genomeFloat 5.6s ease-in-out infinite; }
@@ -893,19 +893,19 @@
   flex-direction: column;
   font-family: var(--font-editorial, 'Arial Black', sans-serif);
   font-size: clamp(4.6rem, 7.2vw, 8.2rem);
-  font-weight: 800;
-  line-height: .76;
-  letter-spacing: -.075em;
+  font-weight: 650;
+  line-height: .88;
+  letter-spacing: -.035em;
   text-transform: uppercase;
 }
 
 .systemLayout .sectionIntro h2 span:nth-child(2) { margin-left: .38em; }
 
 .systemLayout .sectionIntro h2 em {
-  margin: .16em 0 0 .06em;
+  margin: .28em 0 0 .06em;
   font-family: var(--font-editorial, 'Arial Black', sans-serif);
-  font-weight: 800;
-  letter-spacing: -.075em;
+  font-weight: 550;
+  letter-spacing: -.025em;
   text-transform: uppercase;
   color: #8b8f8c;
 }
