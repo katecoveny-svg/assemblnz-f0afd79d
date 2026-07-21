@@ -27,7 +27,7 @@ export function ContactForm() {
 
   if (state.status === "success") {
     return (
-      <div className="border border-black/15 bg-[#f7f7f2] p-8 text-center md:p-12" role="status">
+      <div className="rounded-[18px] border border-[#252d31]/15 bg-[#f7f7f2] p-8 text-center md:p-12" role="status">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-assembl-pounamu/25 bg-assembl-pounamu/10">
           <CheckCircle2
             className="h-6 w-6 text-assembl-pounamu"
@@ -71,7 +71,7 @@ export function ContactForm() {
   }
 
   return (
-    <form action={formAction} className="border border-black/15 bg-[#f7f7f2] p-7 md:p-10">
+    <form action={formAction} className="rounded-[18px] border border-[#252d31]/15 bg-[#f7f7f2] p-7 md:p-10">
       <div className="grid gap-5">
         <Field label="What's this about?" name="intent" required>
           <select
@@ -223,7 +223,7 @@ export function ContactForm() {
           padding: 12px 14px;
           background: rgba(255, 255, 255, 0.65);
           border: 1px solid rgba(37, 45, 49, 0.22);
-          border-radius: 0;
+          border-radius: 12px;
           font-family: 'Inter', sans-serif;
           font-size: 14px;
           color: var(--text-primary);
