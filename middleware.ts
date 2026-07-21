@@ -128,6 +128,9 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/a/',
   // Build-an-agent — the interactive 3D agent builder, public route.
   '/build-an-agent',
+  // Agentic customer journeys — the "everyday, assembled" reference journey and
+  // any future journey configuration render here (public concept surface).
+  '/journeys',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).
