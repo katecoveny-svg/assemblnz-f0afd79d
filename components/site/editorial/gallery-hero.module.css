@@ -187,6 +187,7 @@
   height: min(790px, calc(100svh - 107px));
   min-height: 658px;
   overflow: hidden;
+  border-radius: 20px;
   border: 0;
   background: #f4f1ea;
   box-shadow: none;
