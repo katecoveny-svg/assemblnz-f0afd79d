@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Mail, Clock, MapPin } from 'lucide-react';
 import { ContactForm } from '@/components/site/contact-form';
-import { Eyebrow } from '@/components/site/Eyebrow';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
+import publicStyles from '@/components/public/public-pages.module.css';
+import styles from './contact.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -13,40 +13,28 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        {/* Pattern Studio backdrop — the canonical generative layer, replacing
-            the old warm ambient photo + sand gradient. Faint gold, static. */}
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="halftone"
-          colorRole="gold"
-          opacity={0.3}
-          speed={0.5}
-          lazyMount={false}
-        />
-        <div className="container relative z-10 py-20 md:py-24">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow label="Get in touch" className="justify-center" />
-            <h1 className="mt-6 font-display text-display-xl font-light">
-              Let&apos;s <em className="not-italic text-[color:var(--assembl-pounamu)]">talk.</em>
-            </h1>
-            <p className="mt-6 text-lg text-[color:var(--text-body)]">
+    <div className={publicStyles.page}>
+      <section className={`${publicStyles.hero} ${styles.hero}`}>
+        <div>
+            <p className={publicStyles.eyebrow}>get in touch · one useful conversation</p>
+            <h1>Let&apos;s<br /><em>talk.</em></h1>
+            <p className={publicStyles.lede}>
               Whether you are ready for a pilot or just want to understand what assembl does for
               your industry — we would like to hear from you.
             </p>
-          </div>
         </div>
+        <aside className={publicStyles.heroAside} aria-label="Contact expectations">
+          <div className={publicStyles.heroFact}><span>01</span><div><strong>Tell us the job</strong><p>The repeated task, decision or handoff you want to make clearer.</p></div></div>
+          <div className={publicStyles.heroFact}><span>02</span><div><strong>We reply ourselves</strong><p>A person reads every enquiry and responds within one working day.</p></div></div>
+          <div className={publicStyles.heroFact}><span>03</span><div><strong>No hard sell</strong><p>We will say plainly whether assembl fits the work and what the next step would be.</p></div></div>
+        </aside>
       </section>
 
-      {/* Form + sidebar */}
-      <section className="relative">
-        <div className="container pb-20">
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[2fr_1fr]">
+      <section className={`${publicStyles.section} ${styles.formSection}`}>
+          <div className={styles.formGrid}>
             <ContactForm />
 
-            <aside className="space-y-6">
+            <aside className={styles.contactRail}>
               <ContactCard
                 icon={Mail}
                 title="Email"
@@ -78,7 +66,7 @@ export default function ContactPage() {
                 ]}
               />
 
-              <div className="glass-card p-6">
+              <div className={styles.contactCard}>
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                   Success message
                 </p>
@@ -88,9 +76,8 @@ export default function ContactPage() {
               </div>
             </aside>
           </div>
-        </div>
       </section>
-    </>
+    </div>
   );
 }
 
@@ -104,17 +91,17 @@ function ContactCard({
   lines: React.ReactNode[];
 }) {
   return (
-    <div className="glass-card p-6">
+    <div className={styles.contactCard}>
       <div className="flex items-start gap-4">
         <div
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center"
           style={{
-            background: 'rgba(58,56,50, 0.10)',
-            border: '1px solid rgba(58,56,50, 0.20)',
+            background: '#252d31',
+            border: '1px solid #252d31',
           }}
         >
           <Icon
-            className="h-4 w-4 text-[color:var(--assembl-sage-mist)]"
+            className="h-4 w-4 text-white"
             aria-hidden
           />
         </div>

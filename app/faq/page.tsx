@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { graph, faqPageNode, articleNode, breadcrumbNode, SITE_URL } from '@/lib/seo/schema';
 import { FAQS } from './faq-content';
 import { FaqAccordion } from './FaqAccordion';
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 const MONO = 'var(--font-mono), ui-monospace, monospace';
-const DISPLAY = 'var(--font-display), Georgia, serif';
+const DISPLAY = 'var(--font-body), Inter, Arial, sans-serif';
 
 export default function FaqPage() {
   const schema = graph(
@@ -54,22 +53,14 @@ export default function FaqPage() {
       <JsonLd data={schema} />
 
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-[rgba(49,60,66,0.1)]">
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="halftone"
-          colorRole="gold"
-          opacity={0.28}
-          speed={0.5}
-          lazyMount={false}
-        />
+      <section className="relative overflow-hidden border-b border-[rgba(49,60,66,0.15)] bg-[#f0f0eb]">
         <div className="relative z-10 mx-auto max-w-[1000px] px-5 py-14 md:px-10 md:py-20">
           <p className="text-[11px] uppercase tracking-[0.22em] text-[#8b7447]" style={{ fontFamily: MONO }}>
             Questions, answered
           </p>
           <h1
-            className="mt-5 text-4xl font-light leading-[1.03] md:text-6xl"
-            style={{ fontFamily: DISPLAY, letterSpacing: '-0.02em' }}
+            className="mt-5 text-4xl font-semibold uppercase leading-[1] md:text-6xl"
+            style={{ fontFamily: DISPLAY, letterSpacing: '-0.035em' }}
           >
             The questions people ask about <em className="not-italic text-[#3f7373]">assembl</em>.
           </h1>

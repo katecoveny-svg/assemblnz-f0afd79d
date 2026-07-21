@@ -51,7 +51,7 @@ export function V2Footer() {
       }}
     >
       <div>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body), Inter, sans-serif', fontSize: 21, fontWeight: 900, letterSpacing: '-0.04em' }}>
+        <p style={{ margin: 0, fontFamily: 'var(--font-body), Inter, sans-serif', fontSize: 21, fontWeight: 650, letterSpacing: '-0.02em' }}>
           assembl
         </p>
         <p style={{ margin: '5px 0 0', color: '#686d68', fontSize: 10, letterSpacing: '0.06em' }}>

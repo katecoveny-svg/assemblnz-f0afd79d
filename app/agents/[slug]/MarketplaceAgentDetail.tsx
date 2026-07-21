@@ -20,8 +20,8 @@ import { EmailAgentLine } from './EmailAgentLine';
 // The same tightly set grotesk used by the large editorial homepage type.
 const HEADLINE: React.CSSProperties = {
   fontFamily: 'var(--font-inter), Inter, Arial, sans-serif',
-  fontWeight: 800,
-  letterSpacing: '-0.055em',
+  fontWeight: 650,
+  letterSpacing: '-0.035em',
 };
 
 const SURFACE: React.CSSProperties = {

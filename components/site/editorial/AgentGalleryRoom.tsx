@@ -3,6 +3,7 @@
 import {
   ContactShadows,
   Environment,
+  Html,
   Lightformer,
   MeshReflectorMaterial,
 } from '@react-three/drei';
@@ -229,7 +230,7 @@ function AmbientOrb() {
   );
 }
 
-function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSelect: () => void }) {
+function Exhibit({ id, label, active, onSelect }: { id: PartId; label: string; active: boolean; onSelect: () => void }) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
 
@@ -256,6 +257,9 @@ function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSele
       </mesh>
       <pointLight position={[0, 2.7, 1.15]} intensity={active ? 0.82 : 0.34} distance={5.5} color="#fff0d2" />
       <Sculpture id={id} active={active} />
+      <Html center position={[0, -1.67, 0]} distanceFactor={9.6} zIndexRange={[4, 1]}>
+        <span className={styles.exhibitLabel} data-active={active ? 'true' : undefined}>{label}</span>
+      </Html>
     </group>
   );
 }
@@ -341,6 +345,7 @@ function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: bool
         <Exhibit
           key={part.id}
           id={part.id}
+          label={part.label}
           active={active === part.id}
           onSelect={() => onSelect(part.id)}
         />
@@ -447,14 +452,6 @@ export function AgentGalleryRoom({
           <GalleryScene active={active} focus={focus} onSelect={selectPart} />
         </Canvas>
       ) : null}
-
-      <div className={styles.plinthLabels} aria-hidden>
-        {PARTS.map((part) => (
-          <span key={part.id} data-active={active === part.id}>
-            {part.label}
-          </span>
-        ))}
-      </div>
 
       {!embedded ? <div className={styles.galleryControls}>
         <div className={styles.galleryReadout} aria-live="polite">

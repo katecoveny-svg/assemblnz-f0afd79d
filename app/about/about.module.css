@@ -22,8 +22,8 @@
   max-width: 730px;
   margin: 24px 0 0;
   color: #111311;
-  font: 900 clamp(2.2rem, 4.5vw, 4.3rem)/.9 var(--font-body), Inter, sans-serif;
-  letter-spacing: -.065em;
+  font: 560 clamp(2rem, 3.7vw, 3.55rem)/1.02 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.032em;
   text-transform: uppercase;
 }
 

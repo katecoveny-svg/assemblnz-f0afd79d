@@ -27,7 +27,7 @@ export function ContactForm() {
 
   if (state.status === "success") {
     return (
-      <div className="glass-card-elevated p-8 md:p-12 text-center" role="status">
+      <div className="border border-black/15 bg-[#f7f7f2] p-8 text-center md:p-12" role="status">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-assembl-pounamu/25 bg-assembl-pounamu/10">
           <CheckCircle2
             className="h-6 w-6 text-assembl-pounamu"
@@ -71,7 +71,7 @@ export function ContactForm() {
   }
 
   return (
-    <form action={formAction} className="glass-card-elevated p-7 md:p-10">
+    <form action={formAction} className="border border-black/15 bg-[#f7f7f2] p-7 md:p-10">
       <div className="grid gap-5">
         <Field label="What's this about?" name="intent" required>
           <select
@@ -200,7 +200,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base disabled:opacity-60"
+            className="inline-flex h-12 items-center bg-[#252d31] px-7 font-mono text-xs uppercase tracking-[0.12em] text-white disabled:opacity-60"
           >
             {isPending ? (
               <>
@@ -222,15 +222,15 @@ export function ContactForm() {
           width: 100%;
           padding: 12px 14px;
           background: rgba(255, 255, 255, 0.65);
-          border: 1px solid rgba(157, 140, 125, 0.25);
-          border-radius: 14px;
+          border: 1px solid rgba(37, 45, 49, 0.22);
+          border-radius: 0;
           font-family: 'Inter', sans-serif;
           font-size: 14px;
           color: var(--text-primary);
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
         .form-input:hover {
-          border-color: rgba(157, 140, 125, 0.45);
+          border-color: rgba(37, 45, 49, 0.55);
         }
         .form-input:focus {
           outline: 2px solid var(--assembl-pounamu);
