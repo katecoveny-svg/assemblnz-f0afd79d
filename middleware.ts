@@ -126,6 +126,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   // startsWith-match unrelated paths like /app. The exact '/a' lives in
   // SPLASH_EXEMPT_EXACT below.
   '/a/',
+  // Build-an-agent — the interactive 3D agent builder, public route.
+  '/build-an-agent',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).
@@ -229,6 +231,10 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/pattern-studio',
   // Public Ad Studio — genome-driven ad generator, reachable on the demo host.
   '/ad-studio',
+  // Public creative playground — generative art module + Fal render.
+  '/creative-playground',
+  // Public agent workbench — visually assembles an agent from typed components.
+  '/studio',
   // Public "build an agent" flow, reachable on the demo host too.
   '/pilot',
   // Public agent share pages — '/a/' (trailing slash) on purpose: a bare

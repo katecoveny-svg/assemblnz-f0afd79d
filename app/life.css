@@ -1,0 +1,407 @@
+/* ------------------------------------------------------------
+ * THE LIFE LAYER — sitewide.
+ *
+ * Tactile 3D buttons, sea-glass glow, scroll reveals, hover lift,
+ * parallax and decorative chrome. Lives here rather than inside
+ * /build-an-agent so every surface can compose the same classes.
+ *
+ * Canon: motion explains the system; nothing loops for decoration;
+ * everything collapses under prefers-reduced-motion.
+ *
+ * These are deliberately plain, unscoped class names — they are a
+ * shared vocabulary, not a component's private styles. Checked
+ * against the rest of the app before promoting: the only prior
+ * `reveal` in the codebase is `bd-reveal`, which doesn't collide.
+ *
+ * Opt-in only. Nothing here applies to an element that hasn't
+ * asked for it by class, so promoting the file changes no
+ * existing page's appearance on its own.
+ * ------------------------------------------------------------ */
+
+/* ── 3D PRESSABLE BUTTONS ───────────────────────────────────
+   A real edge under the cap: the button sits ON the page, lifts
+   on hover, and physically depresses onto its shadow when
+   pressed. Global, so any module can compose it by name. */
+.btn3d {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, #3a3733 0%, #1A1918 52%, #0d0c0b 100%);
+  color: #FBFAF6;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.4) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.22),
+    0 6px 0 #0a0a09,
+    0 12px 26px -12px rgba(26, 25, 24, 0.7),
+    0 10px 34px -14px rgba(127, 168, 160, 0.4);
+  transform: translateY(0);
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    box-shadow 140ms cubic-bezier(0.2, 0.9, 0.3, 1),
+    filter 200ms ease;
+}
+.btn3d:hover,
+.btn3d:focus-visible {
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 -2px 0 rgba(0, 0, 0, 0.35) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.5),
+    0 8px 0 #0a0a09,
+    0 18px 34px -14px rgba(26, 25, 24, 0.72),
+    0 0 0 5px rgba(127, 168, 160, 0.2),
+    0 16px 46px -12px rgba(127, 168, 160, 0.6);
+}
+.btn3d:active {
+  transform: translateY(5px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+    0 1px 0 #0a0a09,
+    0 4px 10px -6px rgba(26, 25, 24, 0.6);
+}
+.btn3d:disabled {
+  background: linear-gradient(180deg, #c3bfba 0%, #b5b1ac 100%);
+  box-shadow: 0 4px 0 #9d9a95, 0 8px 16px -10px rgba(26, 25, 24, 0.4);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 46%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  transition: transform 620ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.btn3d:hover::after,
+.btn3d:focus-visible::after {
+  transform: translateX(120%);
+}
+
+/* Ghost variant — paper cap, same physical edge. */
+.btn3dGhost {
+  background: linear-gradient(180deg, #ffffff 0%, #FBFAF6 100%);
+  color: #1A1918;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 -1px 0 rgba(26, 25, 24, 0.06) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.3),
+    0 5px 0 #ddd8cc,
+    0 12px 24px -14px rgba(26, 25, 24, 0.45);
+}
+.btn3dGhost:hover,
+.btn3dGhost:focus-visible {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -1px 0 rgba(26, 25, 24, 0.06) inset,
+    0 7px 0 #ddd8cc,
+    0 18px 30px -16px rgba(26, 25, 24, 0.5),
+    0 0 0 4px rgba(127, 168, 160, 0.18);
+}
+.btn3dGhost:active {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 0 #ddd8cc,
+    0 4px 10px -6px rgba(26, 25, 24, 0.35);
+}
+
+/* Small variant for in-card actions. */
+.btn3dSm {
+  font-size: 0.9rem;
+  padding: 0.7rem 1.15rem;
+}
+
+/* ── SCROLL REVEAL ──────────────────────────────────────────
+   Sections rise once, on first view. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 720ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 720ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.revealShown {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Children stagger a touch behind their section. */
+.revealShown .revealChild {
+  opacity: 1;
+  transform: translateY(0);
+}
+.revealChild {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 640ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 640ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.revealChild:nth-child(1) { transition-delay: 60ms; }
+.revealChild:nth-child(2) { transition-delay: 120ms; }
+.revealChild:nth-child(3) { transition-delay: 180ms; }
+.revealChild:nth-child(4) { transition-delay: 240ms; }
+.revealChild:nth-child(5) { transition-delay: 300ms; }
+.revealChild:nth-child(6) { transition-delay: 360ms; }
+.revealChild:nth-child(7) { transition-delay: 420ms; }
+
+/* ── GLOW ───────────────────────────────────────────────────
+   A soft sea-glass bloom behind key surfaces. Restrained: this
+   is light on paper, never neon. */
+.glowSoft {
+  position: relative;
+}
+.glowSoft::before {
+  content: '';
+  position: absolute;
+  inset: -18% -8%;
+  z-index: -1;
+  background: radial-gradient(
+    60% 55% at 50% 40%,
+    rgba(127, 168, 160, 0.16) 0%,
+    rgba(127, 168, 160, 0.06) 45%,
+    rgba(127, 168, 160, 0) 75%
+  );
+  pointer-events: none;
+}
+
+/* Cards lift and catch a rim of light on hover. */
+.liftCard {
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.25, 1),
+    box-shadow 260ms cubic-bezier(0.2, 0.8, 0.25, 1),
+    border-color 260ms ease;
+}
+.liftCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(127, 168, 160, 0.5);
+  box-shadow:
+    0 28px 60px -38px rgba(26, 25, 24, 0.5),
+    0 0 0 1px rgba(127, 168, 160, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn3d,
+  .btn3dGhost,
+  .liftCard {
+    transition: none;
+  }
+  .btn3d:hover,
+  .btn3dGhost:hover,
+  .btn3d:active,
+  .liftCard:hover {
+    transform: none;
+  }
+  .reveal,
+  .revealChild {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ── PARALLAX ───────────────────────────────────────────────
+   useParallax() writes --py (px) onto anything with a
+   data-parallax attribute; these classes decide what to do
+   with it. Translation only — no scale, nothing that can
+   trigger layout. */
+.parallaxY {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+/* Drifts the opposite way, for a counter-moving decorative layer. */
+.parallaxYInv {
+  transform: translate3d(0, calc(var(--py, 0px) * -1), 0);
+  will-change: transform;
+}
+
+/* ── DECORATIVE CHROME ──────────────────────────────────────
+   A brushed hairline and a soft chrome arc, used to break up
+   long runs of type. Purely decorative: aria-hidden at the
+   call site, and they never carry meaning. */
+.chromeRule {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(26, 25, 24, 0) 0%,
+    rgba(26, 25, 24, 0.16) 22%,
+    rgba(191, 163, 122, 0.5) 50%,
+    rgba(26, 25, 24, 0.16) 78%,
+    rgba(26, 25, 24, 0) 100%
+  );
+}
+
+/* A wide, very soft lens of light behind a section — gives a
+   wall of text somewhere for the eye to rest. */
+.chromeField {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.chromeField::before,
+.chromeField::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+.chromeField::before {
+  width: 46vw;
+  height: 46vw;
+  top: -14vw;
+  right: -10vw;
+  background: radial-gradient(
+    circle,
+    rgba(127, 168, 160, 0.22) 0%,
+    rgba(127, 168, 160, 0) 68%
+  );
+}
+.chromeField::after {
+  width: 38vw;
+  height: 38vw;
+  bottom: -16vw;
+  left: -12vw;
+  background: radial-gradient(
+    circle,
+    rgba(191, 163, 122, 0.24) 0%,
+    rgba(191, 163, 122, 0) 68%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallaxY,
+  .parallaxYInv {
+    transform: none;
+  }
+  .btn3d::after {
+    display: none;
+  }
+}
+
+/* ── GLASS PANELS ───────────────────────────────────────────
+   The below-fold cards were flat #ffffff on #FBFAF6 paper with
+   a 6%-opacity hairline — which is to say, edges you cannot
+   actually see. They read as text floating in a void rather
+   than as objects on a surface.
+
+   Canon calls for frosted glass and translucent volumes, so
+   these ARE glass: a slight vertical gradient so the surface
+   catches light, a bright top edge and a darker bottom one
+   (the two things that make a real edge read), a close contact
+   shadow AND a long soft one, and a faint champagne rim.
+
+   No pseudo-elements here on purpose — these compose onto
+   component-owned elements, and ::before/::after are theirs. */
+/* Doubled selector (.glassPanel.glassPanel) purely for specificity: this
+   stylesheet is imported by the root layout, so it loses the cascade to the
+   CSS-module rules on the very elements it composes onto. Doubling beats them
+   without reaching for !important, which would block per-component overrides
+   later. */
+.glassPanel.glassPanel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 248, 243, 0.9) 100%);
+  border: 1px solid rgba(26, 25, 24, 0.08);
+  border-radius: 22px;
+  backdrop-filter: blur(10px) saturate(1.06);
+  -webkit-backdrop-filter: blur(10px) saturate(1.06);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 -1px 0 rgba(26, 25, 24, 0.05) inset,
+    0 0 0 1px rgba(191, 163, 122, 0.12),
+    0 2px 5px -2px rgba(26, 25, 24, 0.1),
+    0 40px 70px -46px rgba(26, 25, 24, 0.62);
+}
+
+/* ── EDITORIAL STEP NUMERAL ─────────────────────────────────
+   An oversized ghosted numeral behind each step. Gives a long
+   scroll of type a sense of place and progress, and it's the
+   one piece of pure editorial drama the page can afford
+   without adding another object that has to mean something.
+
+   Lives inside .chromeField, which is already decorative,
+   already behind the content, and already clips overflow. */
+.stepGhost {
+  position: absolute;
+  top: clamp(0.75rem, 2.5vw, 2.5rem);
+  right: clamp(0.75rem, 3vw, 3.5rem);
+  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
+  font-weight: 600;
+  font-size: clamp(9rem, 24vw, 20rem);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  color: rgba(26, 25, 24, 0.045);
+  user-select: none;
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+
+/* ── STEP SPINE ─────────────────────────────────────────────
+   A chrome hairline rising out of each step banner, with a
+   ring at its foot. Read down the page it makes one assembly
+   line rather than a stack of unrelated panels — which is the
+   product's whole claim. */
+.stepSpine {
+  position: relative;
+  padding-left: clamp(1.5rem, 3vw, 2.6rem);
+}
+.stepSpine::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 25, 24, 0.28);
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #d8d4cc 70%, #b9b4ab 100%);
+  box-shadow: 0 1px 2px rgba(26, 25, 24, 0.18);
+}
+.stepSpine::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  bottom: 100%;
+  width: 1px;
+  height: clamp(2.5rem, 7vh, 5rem);
+  background: linear-gradient(
+    180deg,
+    rgba(26, 25, 24, 0) 0%,
+    rgba(26, 25, 24, 0.16) 60%,
+    rgba(191, 163, 122, 0.55) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepGhost { transform: none; }
+}

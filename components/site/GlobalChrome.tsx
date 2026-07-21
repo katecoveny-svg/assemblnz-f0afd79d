@@ -15,7 +15,12 @@ import {
   isAssemblBills,
   isStandaloneHealth,
   isMotionStudio,
+  isStudio,
+  isBuildAnAgent,
 } from '@/components/site/site-header';
+
+// Editorial gallery rebuild owns its own wordmark + footer.
+const isEditorialHome = (pathname: string | null): boolean => pathname === '/';
 
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
@@ -37,7 +42,10 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isAlphassembl(pathname) ||
     isAssemblBills(pathname) ||
     isStandaloneHealth(pathname) ||
-    isMotionStudio(pathname)
+    isMotionStudio(pathname) ||
+    isStudio(pathname) ||
+    isBuildAnAgent(pathname) ||
+    isEditorialHome(pathname)
   );
 }
 

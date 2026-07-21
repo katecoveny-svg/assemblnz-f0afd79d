@@ -131,6 +131,18 @@ export function isMotionStudio(pathname: string | null): boolean {
   return pathname === "/motion-studio" || Boolean(pathname?.startsWith("/motion-studio/"));
 }
 
+/** assembl studio — the agent workbench is a full-viewport tool with its own
+ *  compact top bar; the global chrome would push its lower panel off-screen. */
+export function isStudio(pathname: string | null): boolean {
+  return pathname === "/studio" || Boolean(pathname?.startsWith("/studio/"));
+}
+
+/** Build-an-agent — a full-viewport 3D interaction; the site chrome sits
+ *  under the scene and any nav bar would clip the parts. */
+export function isBuildAnAgent(pathname: string | null): boolean {
+  return pathname === "/build-an-agent" || Boolean(pathname?.startsWith("/build-an-agent/"));
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   // Platform never changes at runtime; the server snapshot says Mac (the
@@ -165,7 +177,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isStudio(pathname) || pathname === "/") return null;
 
   return (
     <header

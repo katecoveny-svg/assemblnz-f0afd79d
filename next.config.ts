@@ -71,6 +71,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── Editorial gallery rebuild (2026-07-20): `/` renders the editorial
+      // hero + walkable gallery. The 2026-07-20 302 to /build-an-agent is
+      // removed on this branch — the interactive builder still lives at
+      // /build-an-agent as a first-class route, it's just no longer the
+      // front door.
+
       // ── v2 site (2026-07-02): /pricing is canonical again. The marketplace
       // ladder page at /agents/pricing folded into it — 301 the old URL so
       // saved links, paywall CTAs and indexed pages land on the one ladder.

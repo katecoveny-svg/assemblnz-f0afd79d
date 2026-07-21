@@ -5,6 +5,12 @@ import styles from './os.module.css';
 export type OsTile = { label: string; value: string; hint?: string };
 export type OsAction = { text: string; impact: 'high' | 'medium'; href: string };
 export type OsQuietLink = { label: string; href: string };
+/** One agent on the team, with what it does and whether it's working now. */
+export type OsAgent = { name: string; job: string; status: 'live' | 'watching' | 'drafting' };
+/** A draft an agent has written and left waiting for a human yes. */
+export type OsApproval = { who: string; summary: string; draft: string };
+/** One thing that happened on the record — the activity trace. */
+export type OsActivityItem = { when: string; title: string; meta?: string };
 
 export type OsDashboardProps = {
   greeting: string;
@@ -25,6 +31,16 @@ export type OsDashboardProps = {
   /** 0–100 sparkline points, left to right. */
   insightPoints: number[];
   quietLinks: OsQuietLink[];
+  /** The team of agents working the business. */
+  agents?: OsAgent[];
+  /** Drafts waiting for a yes — the approvals queue. */
+  approvals?: OsApproval[];
+  /** What the agents actually did — the activity trace. */
+  activity?: OsActivityItem[];
+  /** Section labels (approved strings, passed from the page). */
+  agentsLabel?: string;
+  approvalsLabel?: string;
+  activityLabel?: string;
 };
 
 /**
@@ -107,6 +123,60 @@ export function OsDashboard(p: OsDashboardProps) {
           </Link>
         </section>
       </div>
+
+      {/* ── the agents working the business ─────────────────────────── */}
+      {p.agents && p.agents.length > 0 ? (
+        <section className={`${styles.card} ${styles.cardEmerge}`} style={{ animationDelay: '0.28s' }}>
+          <p className={styles.cardLabel}>{p.agentsLabel ?? 'agents'}</p>
+          <ul className={styles.agentGrid}>
+            {p.agents.map((a) => (
+              <li key={a.name} className={styles.agentItem}>
+                <span className={`${styles.agentDot} ${styles[`agentDot_${a.status}`]}`} aria-hidden />
+                <span className={styles.agentBody}>
+                  <span className={styles.agentName}>{a.name}</span>
+                  <span className={styles.agentJob}>{a.job}</span>
+                </span>
+                <span className={styles.agentStatus}>{a.status}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {/* ── waiting for your yes + activity ─────────────────────────── */}
+      {(p.approvals && p.approvals.length > 0) || (p.activity && p.activity.length > 0) ? (
+        <div className={styles.body}>
+          {p.approvals && p.approvals.length > 0 ? (
+            <section className={`${styles.card} ${styles.cardEmerge}`} style={{ animationDelay: '0.32s' }}>
+              <p className={styles.cardLabel}>{p.approvalsLabel ?? 'waiting for your yes'}</p>
+              <ul className={styles.approvalList}>
+                {p.approvals.map((a) => (
+                  <li key={a.who} className={styles.approval}>
+                    <p className={styles.approvalWho}>{a.who}</p>
+                    <p className={styles.approvalSummary}>{a.summary}</p>
+                    <p className={styles.approvalDraft}>{a.draft}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {p.activity && p.activity.length > 0 ? (
+            <section className={`${styles.card} ${styles.cardEmerge}`} style={{ animationDelay: '0.36s' }}>
+              <p className={styles.cardLabel}>{p.activityLabel ?? 'activity'}</p>
+              <ul className={styles.activityList}>
+                {p.activity.map((it) => (
+                  <li key={`${it.when}-${it.title}`} className={styles.activityItem}>
+                    <span className={styles.activityWhen}>{it.when}</span>
+                    <span className={styles.activityTitle}>{it.title}</span>
+                    {it.meta ? <span className={styles.activityMeta}>{it.meta}</span> : null}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+        </div>
+      ) : null}
 
       {/* ── assistant + insight ─────────────────────────────────────── */}
       <div className={styles.body}>

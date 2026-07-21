@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Check, Copy, RotateCcw, Sparkles } from 'lucide-react';
+import { HeroIntakeAgent } from './HeroIntakeAgent';
 import styles from './one-minute-business.module.css';
 
 type MotionKind = 'route' | 'grid' | 'stack' | 'flow' | 'constellation' | 'vortex';
@@ -435,12 +436,7 @@ export function OneMinuteBusiness() {
               </form>
             </div>
             <div className={styles.heroVisual}>
-              <BusinessMotionProfile profile={description ? preview : FALLBACK} />
-              <div className={styles.visualFacts}>
-                <span><b>01</b> genome</span>
-                <span><b>02</b> agent team</span>
-                <span><b>03</b> useful work</span>
-              </div>
+              <HeroIntakeAgent seedBusiness={description} />
             </div>
           </div>
           <div className={styles.movements} aria-label="How one minute business works">

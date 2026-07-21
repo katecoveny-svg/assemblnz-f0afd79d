@@ -713,3 +713,32 @@
 
 /* Compass mark (placeholder silhouette logo — no real Aironaut logo used) */
 .air-compass { color: var(--air-brass); }
+
+/* Creative-playground canvas — shell sets --ga-aspect + --ga-max via the
+   aspect toggle. Renderers use `ga-canvas` in place of a fixed aspect. */
+.ga-canvas {
+  aspect-ratio: var(--ga-aspect, 0.92 / 1);
+  max-width: var(--ga-max, 720px);
+  margin-inline: auto;
+}
+
+/* assembl studio — scoped design tokens (design direction 2026-07-19).
+   Applied under .studio-root so the studio can evolve its own palette
+   without touching the marketing-site tokens. */
+.studio-root {
+  --st-paper: #f7f7f3;
+  --st-white: #ffffff;
+  --st-fog: #ececea;
+  --st-silver: #c9cacc;
+  --st-graphite: #686b6c;
+  --st-charcoal: #202223;
+  --st-black: #0b0c0c;
+  --st-sea-glass: #c8deda;
+  --st-sea-glass-strong: #93bbb4;
+  --st-warning: #a86b3d;
+  --st-danger: #934b4b;
+  --st-success: #4d7468;
+  background: var(--st-paper);
+  color: var(--st-charcoal);
+}
+.studio-root ::selection { background: var(--st-sea-glass); }

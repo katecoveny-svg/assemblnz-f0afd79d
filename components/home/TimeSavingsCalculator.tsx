@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { ArrowRight, Check, Copy, TimerReset } from 'lucide-react';
 import { SAVINGS } from '@/lib/copy/homepage';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import styles from './time-savings-calculator.module.css';
 
 const WEEKS_PER_YEAR = 48;
@@ -21,9 +20,13 @@ type TimeSavingsCalculatorProps = {
     adminHours: number;
     repeatableShare: number;
   };
+  /** When embedded under a section that already supplies its own eyebrow +
+   *  heading (the /build-an-agent flow), suppress the calculator's own intro
+   *  so the "How many hours could you get back?" heading isn't doubled. */
+  hideIntro?: boolean;
 };
 
-export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorProps) {
+export function TimeSavingsCalculator({ initialValues, hideIntro = false }: TimeSavingsCalculatorProps) {
   const [people, setPeople] = useState(initialValues.people);
   const [adminHours, setAdminHours] = useState(initialValues.adminHours);
   const [repeatableShare, setRepeatableShare] = useState(initialValues.repeatableShare);
@@ -60,12 +63,19 @@ export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorPr
   }
 
   return (
-    <section id="time-savings" className={styles.section} aria-labelledby="time-savings-title">
-      <div className={styles.intro}>
-        <p className={styles.eyebrow}>{SAVINGS.eyebrow}</p>
-        <h2 id="time-savings-title">{SAVINGS.heading}</h2>
-        <p>{SAVINGS.body}</p>
-      </div>
+    <section
+      id="time-savings"
+      className={styles.section}
+      aria-labelledby={hideIntro ? undefined : 'time-savings-title'}
+      aria-label={hideIntro ? SAVINGS.heading : undefined}
+    >
+      {!hideIntro && (
+        <div className={styles.intro}>
+          <p className={styles.eyebrow}>{SAVINGS.eyebrow}</p>
+          <h2 id="time-savings-title">{SAVINGS.heading}</h2>
+          <p>{SAVINGS.body}</p>
+        </div>
+      )}
 
       <div className={styles.calculator}>
         <div className={styles.questions}>
@@ -114,18 +124,11 @@ export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorPr
         </div>
 
         <div className={styles.result} aria-live="polite">
-          <PatternBackdrop
-            className="absolute inset-0"
-            mode="particles"
-            colorRole="gold"
-            count={110}
-            connectLines
-            connectDistance={130}
-            glow
-            opacity={0.4}
-            speed={0.6}
-            lazyMount={false}
-          />
+          {/* Panel texture — a still from the creative studio (Waves · Silk,
+              seed 52449), art-directed by Kate. Layered under the deep-teal
+              scrim so the white result text keeps full contrast. */}
+          <div className={styles.resultArt} aria-hidden />
+          <div className={styles.resultScrim} aria-hidden />
           <div className={styles.resultInner}>
             <TimerReset aria-hidden />
             <p>{SAVINGS.resultLabel}</p>
@@ -137,7 +140,7 @@ export function TimeSavingsCalculator({ initialValues }: TimeSavingsCalculatorPr
             </div>
             <small>{SAVINGS.planningNote}</small>
             <div className={styles.resultActions}>
-              <Link href="/genome">{SAVINGS.liveDemoAction} <ArrowRight aria-hidden /></Link>
+              <Link href="/os">{SAVINGS.liveDemoAction} <ArrowRight aria-hidden /></Link>
               <button type="button" onClick={shareResult}>
                 {shareState === 'shared' ? <Check aria-hidden /> : <Copy aria-hidden />}
                 {shareState === 'shared' ? SAVINGS.sharedAction : SAVINGS.shareAction}

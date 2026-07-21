@@ -1,0 +1,22 @@
+.label {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.62rem;
+  color: #FBFAF6;
+  white-space: nowrap;
+  padding: 0.34rem 0.7rem;
+  background: rgba(26, 25, 24, 0.82);
+  border: 1px solid rgba(26, 25, 24, 0.9);
+  box-shadow: 0 6px 16px -10px rgba(26, 25, 24, 0.8);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+  transform: translate3d(-50%, -0.6rem, 0);
+  transition: opacity 220ms ease;
+}
+
+.labelHidden {
+  opacity: 0;
+}

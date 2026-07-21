@@ -14,29 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
-type HomeSearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-function sharedNumber(
-  value: string | string[] | undefined,
-  allowed: (candidate: number) => boolean,
-  fallback: number,
-) {
-  const candidate = Number(Array.isArray(value) ? value[0] : value);
-  return allowed(candidate) ? candidate : fallback;
-}
-
-export default async function HomePage({ searchParams }: { searchParams: HomeSearchParams }) {
-  const query = await searchParams;
-  const initialSavings = {
-    people: sharedNumber(query.team, (value) => Number.isInteger(value) && value >= 1 && value <= 25, 3),
-    adminHours: sharedNumber(query.admin, (value) => Number.isInteger(value) && value >= 1 && value <= 20, 6),
-    repeatableShare: sharedNumber(
-      query.repeatable,
-      (value) => HOME.savings.repeatableOptions.some((option) => option.value === value),
-      35,
-    ),
-  };
-
+export default function HomePage() {
   return (
     <div className={styles.page}>
       <AgentAssemblyStudio />
