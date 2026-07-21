@@ -6,6 +6,7 @@ import {
   Lightformer,
   MeshReflectorMaterial,
 } from '@react-three/drei';
+import { OrbitControls, Sparkles } from '@react-three/drei/core';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { useCursor } from '@react-three/drei/web/useCursor';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
@@ -84,11 +85,11 @@ function CameraRig({ active, focus }: { active: PartId; focus: boolean }) {
   const desired = useRef(new THREE.Vector3());
 
   useFrame(() => {
+    if (!focus) return;
     const portrait = size.width / size.height < 0.76;
-    const focusActive = portrait || focus;
     const activeX = POSITIONS[active][0];
-    desired.current.set(focusActive ? activeX : 0, portrait ? 0.5 : 0.85, focusActive ? 7.4 : 12.6);
-    target.current.set(focusActive ? activeX : 0, 0.25, 0);
+    desired.current.set(activeX, portrait ? 0.65 : 1.05, portrait ? 7.4 : 7.1);
+    target.current.set(activeX, 0.15, 0);
     camera.position.lerp(desired.current, 0.055);
     camera.lookAt(target.current);
   });
@@ -261,13 +262,13 @@ function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSele
 function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: boolean; onSelect: (id: PartId) => void }) {
   return (
     <>
-      <color attach="background" args={['#f4f1ea']} />
-      <fog attach="fog" args={['#f4f1ea', 11, 24]} />
-      <ambientLight intensity={0.62} />
-      <hemisphereLight args={['#ffffff', '#c6c0b5', 0.92]} />
-      <directionalLight position={[-5, 8, 7]} intensity={2.7} color="#fff7df" />
-      <directionalLight position={[5, 5, 2]} intensity={1.8} color="#dbecef" />
-      <directionalLight position={[0, 2, -5]} intensity={1.25} color="#e0bd72" />
+      <color attach="background" args={['#efece5']} />
+      <fog attach="fog" args={['#efece5', 12, 28]} />
+      <ambientLight intensity={0.55} />
+      <hemisphereLight args={['#ffffff', '#c7c0b5', 0.78]} />
+      <directionalLight position={[-5, 9, 7]} intensity={2.4} color="#fff8e8" />
+      <directionalLight position={[6, 5, 3]} intensity={1.55} color="#dfecef" />
+      <spotLight position={[0, 7, 3]} angle={0.58} penumbra={0.82} intensity={1.2} color="#fff0d0" />
 
       <Environment resolution={256}>
         <Lightformer form="rect" intensity={7} color="#fffdf6" position={[0, 6, 4]} scale={[12, 3, 1]} />
@@ -276,9 +277,17 @@ function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: bool
         <Lightformer form="ring" intensity={3} color="#ffffff" position={[0, 1, -4]} scale={[5, 5, 1]} />
       </Environment>
 
-      <mesh position={[0, 2.35, -3.4]}>
-        <planeGeometry args={[24, 9]} />
-        <meshStandardMaterial color="#f7f4ee" roughness={0.92} />
+      <mesh position={[0, 2.55, -4.8]}>
+        <planeGeometry args={[25, 10]} />
+        <meshStandardMaterial color="#f6f3ed" roughness={1} />
+      </mesh>
+      <mesh position={[-7.8, 2.55, -0.2]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[12, 10]} />
+        <meshStandardMaterial color="#eeeae2" roughness={1} />
+      </mesh>
+      <mesh position={[7.8, 2.55, -0.2]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[12, 10]} />
+        <meshStandardMaterial color="#eeeae2" roughness={1} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.58, 0]}>
         <planeGeometry args={[26, 24]} />
@@ -316,7 +325,31 @@ function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: bool
         resolution={512}
         color="#413d36"
       />
+      <Sparkles
+        count={34}
+        scale={[11, 3.8, 5]}
+        size={1.7}
+        speed={0.18}
+        color="#bfa37a"
+        opacity={0.38}
+      />
       <CameraRig active={active} focus={focus} />
+      <OrbitControls
+        enabled={!focus}
+        enablePan={false}
+        enableZoom
+        minDistance={8.8}
+        maxDistance={14.2}
+        minPolarAngle={Math.PI / 2.8}
+        maxPolarAngle={Math.PI / 1.95}
+        minAzimuthAngle={-0.34}
+        maxAzimuthAngle={0.34}
+        target={[0, 0.05, 0]}
+        enableDamping
+        dampingFactor={0.075}
+        autoRotate
+        autoRotateSpeed={0.18}
+      />
     </>
   );
 }
@@ -372,7 +405,7 @@ export function AgentGalleryRoom({
         <Canvas
           className={styles.galleryCanvas}
           dpr={[1, 1.5]}
-          camera={{ position: [0, 0.85, 12.6], fov: 43, near: 0.1, far: 50 }}
+          camera={{ position: [0, 1.35, 11.8], fov: 43, near: 0.1, far: 50 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           onCreated={({ gl }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
