@@ -14,25 +14,23 @@ import { AgentAvatar } from '@/components/agents/AgentAvatar';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 import orb from '@/components/marketplace/orbGrid.module.css';
 import { agentEmailAddress } from '@/lib/agent-email/addresses';
+import { KAUMATUA_HELD_SLUGS } from '@/lib/agents/knowledge-map';
 import { EmailAgentLine } from './EmailAgentLine';
 
-// Headline + name face: the assembl display, Cormorant Garamond — matches the
-// homepage orb cards and the restyled marketplace grid so an agent reads the
-// same on its card, detail and chat header (one continuous glass surface).
+// The same tightly set grotesk used by the large editorial homepage type.
 const HEADLINE: React.CSSProperties = {
-  fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
-  fontWeight: 600,
-  letterSpacing: '-0.02em',
+  fontFamily: 'var(--font-inter), Inter, Arial, sans-serif',
+  fontWeight: 800,
+  letterSpacing: '-0.055em',
 };
 
-// Soft gold-glow card surface — the orb-card look, reused for the detail panels.
 const SURFACE: React.CSSProperties = {
   backgroundColor: PALETTE.paper,
   border: `1px solid ${PALETTE.hairline}`,
-  boxShadow: '0 16px 44px rgba(180, 140, 0, 0.08)',
 };
 
 export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
+  const isPaused = KAUMATUA_HELD_SLUGS.has(agent.slug);
   return (
     <div className="mk-root min-h-screen" style={{ backgroundColor: PALETTE.cream }}>
       <MarketplaceHeader />
@@ -91,9 +89,18 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
 
         {/* CTAs */}
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <Link href={`/agents/${agent.slug}/chat`} className={orb.installPill} style={{ padding: '13px 26px', fontSize: 15 }}>
-            <MessageCircle size={18} aria-hidden /> Try free
-          </Link>
+          {isPaused ? (
+            <span
+              className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-bold"
+              style={{ borderColor: PALETTE.hairline, color: PALETTE.body, backgroundColor: PALETTE.paper }}
+            >
+              Paused for iwi and kaumātua review
+            </span>
+          ) : (
+            <Link href={`/agents/${agent.slug}/chat`} className={orb.installPill} style={{ padding: '13px 26px', fontSize: 15 }}>
+              <MessageCircle size={18} aria-hidden /> Try this agent
+            </Link>
+          )}
           {agent.priceNzd > 0 ? (
             <Link
               href={agentCheckoutHref(agent)}
@@ -190,7 +197,8 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           <Meta label="Category" value={CATEGORY_LABELS[agent.category]} />
         </div>
         <p className="mt-3 text-sm" style={{ color: PALETTE.muted }}>
-          The first 3 messages with any agent are free. Bundles available on the{' '}
+          {isPaused ? 'This agent will open after its cultural review is complete. ' : 'Try three messages free. Every response is a draft for you to review. '}
+          Bundles are available on the{' '}
           <Link href="/pricing" className="font-bold underline" style={{ color: PALETTE.ink }}>
             pricing page
           </Link>
