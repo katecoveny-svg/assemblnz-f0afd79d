@@ -80,8 +80,8 @@
   transition: transform .2s ease, background .2s ease;
 }
 .quiet-button:hover { background: var(--white); }
-.share-button { border-color: var(--ink); background: var(--ink); color: white; }
-.share-button:hover { transform: translateY(-1px); background: var(--deep); }
+.motion-studio-root .share-button { border-color: var(--ink); background: var(--ink); color: white; }
+.motion-studio-root .share-button:hover { transform: translateY(-1px); background: var(--deep); }
 
 .remix-note {
   display: flex;

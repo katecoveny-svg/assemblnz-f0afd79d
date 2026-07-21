@@ -286,6 +286,11 @@
 .approval svg { width: 17px; height: 17px; flex: 0 0 auto; }
 .approval strong { display: block; font-size: 10px; }
 .approval p { margin: 5px 0 0; font-size: 9px; line-height: 1.45; }
+.resultActions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+.resultActions button { display: inline-flex; min-height: 42px; align-items: center; gap: 8px; padding: 0 15px; border: 1px solid rgba(49,60,66,.15); border-radius: 999px; color: #26383a; background: #fff; font: inherit; font-size: 9px; font-weight: 750; cursor: pointer; }
+.resultActions button:first-child { color: #fff; border-color: #26383a; background: #26383a; }
+.resultActions svg { width: 14px; height: 14px; }
+.resultBrand { margin: 14px 0 0; color: #7a817c; font-family: var(--font-mono), monospace; font-size: 7px; font-weight: 700; letter-spacing: .11em; line-height: 1.5; text-transform: uppercase; }
 
 .finalCta { padding: clamp(90px, 14vw, 190px) 22px; color: #fff; background: var(--deep); text-align: center; }
 .finalCta > p { margin: 0; font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: .17em; text-transform: uppercase; color: #bcd3c8; }

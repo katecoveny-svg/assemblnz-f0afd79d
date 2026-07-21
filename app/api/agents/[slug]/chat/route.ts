@@ -1,4 +1,12 @@
-import { convertToModelMessages, stepCountIs, streamText, tool, type UIMessage } from 'ai';
+import {
+  convertToModelMessages,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  stepCountIs,
+  streamText,
+  tool,
+  type UIMessage,
+} from 'ai';
 import { z } from 'zod';
 import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
@@ -30,6 +38,101 @@ import { checkChatRateLimit, chatClientIp } from '@/lib/agents/chat-rate-limit';
 import { writeChatReceipt } from '@/lib/agents/receipts';
 
 export const maxDuration = 60;
+
+const PUBLIC_DEMO_FALLBACKS = new Set(['atlas', 'dawn', 'hui', 'pikau', 'auaha', 'sweep']);
+
+function latestUserText(messages: UIMessage[]): string {
+  const latest = [...messages].reverse().find((message) => message.role === 'user');
+  if (!latest) return '';
+  return latest.parts
+    .filter((part): part is { type: 'text'; text: string } => part.type === 'text')
+    .map((part) => part.text)
+    .join(' ')
+    .trim();
+}
+
+function publicDemoDraft(slug: string, prompt: string): string {
+  const task = prompt.length > 0 ? `Task received: ${prompt.slice(0, 180)}` : 'Task received from the selected starter.';
+  const drafts: Record<string, string[]> = {
+    atlas: [
+      'Sample workflow read',
+      '',
+      '1. Start with one repeated, low-risk task that already has a clear human owner.',
+      '2. Write down the source facts and the point where a person must decide.',
+      '3. Test the draft on three real examples before connecting another tool.',
+      '',
+      'Keep human: judgement, sensitive conversations and any final commitment.',
+    ],
+    dawn: [
+      'Sample day brief',
+      '',
+      'First: choose the one outcome that would make today feel complete.',
+      'Next: protect a short focus block before the messages and small requests take over.',
+      'Then: group the remaining work into reply, decide and schedule.',
+      '',
+      'Decision needed: what must move today, and what can wait without causing harm?',
+    ],
+    hui: [
+      'Sample meeting record',
+      '',
+      'Decision: confirm the single outcome the group agreed to pursue.',
+      'Action: name one owner and one due date for each next step.',
+      'Open question: record what still needs evidence instead of turning it into an assumption.',
+      '',
+      'Review: the meeting chair checks the wording before these minutes are shared.',
+    ],
+    pikau: [
+      'Sample customs draft checklist',
+      '',
+      '• Match the commercial invoice to the packing-list line items.',
+      '• Confirm description, quantity, value, currency, origin and freight treatment.',
+      '• Hold the tariff code and duty treatment until they are checked against the live NZ tariff.',
+      '',
+      'Lodgement boundary: a licensed customs broker checks and lodges the final entry.',
+    ],
+    auaha: [
+      'Sample creative direction',
+      '',
+      'Promise: say one useful thing the audience can understand immediately.',
+      'Proof: show the real detail that makes the promise credible.',
+      'Format: make a strong square lead asset, then adapt it for story and landscape placements.',
+      '',
+      'Clearance: a person checks brand, facts, rights and channel fit before publishing.',
+    ],
+    sweep: [
+      'Sample inbox triage',
+      '',
+      'Reply now: messages blocking another person or carrying a real deadline.',
+      'Reply later: useful messages that need thought but do not stop today’s work.',
+      'No reply: notifications, duplicates and FYI messages with no action.',
+      '',
+      'Next move: answer the two most consequential messages, then close the inbox.',
+    ],
+  };
+
+  return [
+    ...(drafts[slug] ?? ['Sample draft', '', 'The task is ready to be shaped once a live provider is connected.']),
+    '',
+    task,
+    '',
+    'Proof note: public sample mode. No calendar, inbox, customer record or live business source was read.',
+    'Approval: waiting for you.',
+  ].join('\n');
+}
+
+function publicDemoResponse(slug: string, prompt: string, headers: Record<string, string>): Response {
+  const stream = createUIMessageStream({
+    execute: ({ writer }) => {
+      const id = `sample-${slug}`;
+      writer.write({ type: 'start' });
+      writer.write({ type: 'text-start', id });
+      writer.write({ type: 'text-delta', id, delta: publicDemoDraft(slug, prompt) });
+      writer.write({ type: 'text-end', id });
+      writer.write({ type: 'finish', finishReason: 'stop' });
+    },
+  });
+  return createUIMessageStreamResponse({ stream, headers });
+}
 
 // ── CORS ─────────────────────────────────────────────────────────────────────
 // The staging marketing site (a static Next app on its own origin) embeds the
@@ -185,6 +288,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     );
   }
 
+  let body: { messages?: UIMessage[] };
+  try {
+    body = await req.json();
+  } catch {
+    return Response.json({ error: 'Invalid request body.' }, { status: 400, headers: corsHeaders(req) });
+  }
+
   // Resolve the free-fallback ladder: the tier primary (Claude) then Gemini →
   // Groq → Ollama, filtered to whatever credentials are configured. If the
   // primary's key is missing but a fallback's is set, the agent still answers.
@@ -193,6 +303,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const rung = pickRung(ladder);
 
   if (!rung) {
+    if (PUBLIC_DEMO_FALLBACKS.has(slug)) {
+      return publicDemoResponse(slug, latestUserText(body.messages ?? []), corsHeaders(req));
+    }
     return Response.json(
       {
         error:
@@ -200,13 +313,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
       },
       { status: 503, headers: corsHeaders(req) },
     );
-  }
-
-  let body: { messages?: UIMessage[] };
-  try {
-    body = await req.json();
-  } catch {
-    return Response.json({ error: 'Invalid request body.' }, { status: 400, headers: corsHeaders(req) });
   }
 
   // ── Free-tier gate ────────────────────────────────────────────────────────

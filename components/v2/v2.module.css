@@ -1,8 +1,4 @@
-/* v2 marketing surfaces — DIRECTION-LOCKED-2026-07-01.
-   Warm paper white, silvery-gold particulate art, lowercase Cormorant display,
-   massive whitespace. Inline styles carry the token values (from
-   @assembl/canvas/tokens); this module only holds what inline styles cannot:
-   media queries and keyframed/scroll behaviour. */
+/* Public studio frame — paper, ink, hard grid and quiet interface type. */
 
 .page {
   min-height: 100vh;
@@ -25,16 +21,17 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 24px;
-  background: rgba(251, 250, 246, 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid #e7e4da;
+  min-height: 65px;
+  padding: 10px clamp(18px, 2.4vw, 38px);
+  background: rgba(240, 240, 235, 0.9);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(17, 19, 17, .18);
 }
 .navLinks {
   display: none;
   align-items: center;
-  gap: 28px;
+  gap: clamp(18px, 2.4vw, 34px);
 }
 @media (min-width: 768px) {
   .navLinks {
@@ -42,31 +39,44 @@
   }
 }
 .navLink {
-  font-size: 13.5px;
-  color: #5a5850;
-  text-transform: lowercase;
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #555a55;
+  text-transform: uppercase;
   text-decoration: none;
   transition: color 200ms ease;
 }
 .navLink:hover {
   color: #1a1918;
 }
+.navUtilities {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 .navCta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 18px;
-  border: 1px solid #e7e4da;
-  border-radius: 999px;
-  background: #ffffff;
-  font-size: 13.5px;
-  color: #1a1918;
-  text-transform: lowercase;
+  gap: 13px;
+  min-height: 38px;
+  padding: 0 15px;
+  border: 1px solid #111311;
+  border-radius: 0;
+  background: #111311;
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #ffffff;
+  text-transform: uppercase;
   text-decoration: none;
   transition: border-color 200ms ease, transform 200ms ease;
 }
 .navCta:hover {
-  border-color: #d9b87a;
+  border-color: #4f544f;
+  background: #343734;
   transform: translateY(-1px);
 }
 
@@ -90,6 +100,9 @@
   .navCta {
     padding: 8px 14px !important;
     font-size: 12.5px;
+  }
+  .navSignIn {
+    display: none;
   }
 }
 @media (min-width: 900px) {
