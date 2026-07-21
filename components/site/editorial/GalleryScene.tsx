@@ -210,9 +210,9 @@ function GalleryRoom() {
           blur={[180, 60]}
           roughness={0.9}
           depthScale={0}
-          color="#e7e3da"
-          metalness={0.18}
-          mirror={0.32}
+          color="#e4ddcd"
+          metalness={0.2}
+          mirror={0.4}
         />
       </mesh>
 
@@ -249,18 +249,18 @@ export function GalleryScene() {
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         camera={{ position: [0, 2.5, 8.5], fov: 46, near: 0.1, far: 100 }}
       >
-        <color attach="background" args={['#EFECE5']} />
-        <fog attach="fog" args={['#EFECE5', 12, 30]} />
+        <color attach="background" args={['#F1ECE1']} />
+        <fog attach="fog" args={['#F1ECE1', 12, 30]} />
 
         {/* Kept deliberately LOW. The chrome's shine comes almost entirely
             from the apartment HDRI reflections below — a lot of flat fill light
             here washes out the reflection contrast and the objects fade into
             the pale hall. One warm key for a highlight, one cool rim, minimal
             ambient. */}
-        <hemisphereLight args={['#ffffff', '#e6e1d6', 0.22]} />
-        <ambientLight intensity={0.12} />
-        <directionalLight position={[5, 10, 4]} intensity={1.3} color="#fff6e8" />
-        <directionalLight position={[-6, 5, -2]} intensity={0.55} color="#e6efff" />
+        <hemisphereLight args={['#fff3e0', '#e6dcc8', 0.28]} />
+        <ambientLight intensity={0.16} color="#fff2df" />
+        <directionalLight position={[5, 10, 4]} intensity={1.5} color="#fff0d4" />
+        <directionalLight position={[-6, 5, -2]} intensity={0.5} color="#dfe8ff" />
 
         <GalleryRoom />
         <AssemblAgent />
@@ -270,35 +270,35 @@ export function GalleryScene() {
         <ContactShadows position={[0, 0.02, 0]} opacity={0.32} scale={22} blur={2.6} far={6} color="#2a2622" />
         <Sparkles count={36} scale={[14, 5, 10]} size={2.2} speed={0.2} color="#BFA37A" opacity={0.5} />
 
-        {/* Hand-built studio: a MID-BRIGHT grey base so the chrome reads as
-            bright silver (not black like the studio preset, not busy like the
-            apartment preset's room-in-the-blob), with big white softboxes for
-            crisp highlight streaks. The base↔softbox contrast is what makes it
-            shiny; there's nothing in it that reads as "a room". */}
+        {/* Hand-built WARM studio. The neutral-grey version of this read cold
+            and flat; this warms the base to a soft champagne and the softboxes
+            to warm white, with ONE cool panel on the right. Warm+cool across
+            the chrome is what makes it look richly lit rather than a dull grey
+            mirror — and it's still clean, no room-in-the-blob. */}
         <Suspense fallback={null}>
           <Environment resolution={256} frames={1}>
-            <color attach="background" args={['#c6c6c8']} />
-            {/* big top key */}
-            <Lightformer form="rect" intensity={4} position={[0, 6, -5]} scale={[16, 8, 1]} color="#ffffff" />
-            {/* strong side softboxes — clean bright panels, no structure */}
+            <color attach="background" args={['#cfc6b3']} />
+            {/* big warm top key */}
+            <Lightformer form="rect" intensity={4.6} position={[0, 6, -5]} scale={[16, 8, 1]} color="#fff2d6" />
+            {/* warm left, cool right — the two-tone that gives chrome life */}
             <Lightformer
               form="rect"
-              intensity={3.2}
+              intensity={3.4}
               position={[-8, 2, 3]}
               rotation-y={Math.PI / 2}
               scale={[9, 11, 1]}
-              color="#ffffff"
+              color="#ffe7c2"
             />
             <Lightformer
               form="rect"
-              intensity={3.2}
+              intensity={2.4}
               position={[8, 2, 3]}
               rotation-y={-Math.PI / 2}
               scale={[9, 11, 1]}
-              color="#ffffff"
+              color="#dce8ff"
             />
-            {/* soft front catch */}
-            <Lightformer form="ring" intensity={1.4} position={[0, 3, 7]} scale={6} color="#ffffff" />
+            {/* warm front catch */}
+            <Lightformer form="ring" intensity={1.8} position={[0, 3, 7]} scale={6} color="#fff4e2" />
           </Environment>
         </Suspense>
 
