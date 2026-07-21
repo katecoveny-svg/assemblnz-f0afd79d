@@ -75,17 +75,32 @@ export default function SparkBuilder() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             maxLength={1200}
+            aria-describedby="spark-counter"
           />
           <div className={styles.controls}>
             <span className={styles.hint}>Plain English. SPARK builds a working tool — you set the terms.</span>
-            <button
-              type="button"
-              className={styles.build}
-              disabled={state.kind === 'building' || description.trim().length < 12}
-              onClick={() => build(description)}
-            >
-              {state.kind === 'building' ? 'SPARK is building…' : 'Build it →'}
-            </button>
+            <div className="flex flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:gap-3">
+              <div className="flex flex-col items-end">
+                <span
+                  id="spark-counter"
+                  className="font-mono text-[10px] uppercase tracking-[0.1em] text-[color:var(--spark-ink-soft)]"
+                  aria-hidden="true"
+                >
+                  {description.length} / 1200 characters
+                </span>
+                <span className="sr-only" aria-live="polite">
+                  {description.length > 1080 ? `${description.length} / 1200 characters` : ""}
+                </span>
+              </div>
+              <button
+                type="button"
+                className={styles.build}
+                disabled={state.kind === 'building' || description.trim().length < 12}
+                onClick={() => build(description)}
+              >
+                {state.kind === 'building' ? 'SPARK is building…' : 'Build it →'}
+              </button>
+            </div>
           </div>
         </div>
 
