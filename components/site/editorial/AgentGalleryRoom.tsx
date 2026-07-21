@@ -60,6 +60,15 @@ const POSITIONS: Record<PartId, [number, number, number]> = {
   boundaries: [4.35, 0, 0.18],
 };
 
+const MOTION_PHASE: Record<PartId, number> = {
+  memory: 0,
+  knowledge: 0.9,
+  intelligence: 1.8,
+  voice: 2.7,
+  abilities: 3.6,
+  boundaries: 4.5,
+};
+
 function hasWebGL() {
   try {
     const canvas = document.createElement('canvas');
@@ -90,13 +99,18 @@ function CameraRig({ active, focus }: { active: PartId; focus: boolean }) {
 function Sculpture({ id, active }: { id: PartId; active: boolean }) {
   const group = useRef<THREE.Group>(null);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (!group.current) return;
+    const time = clock.getElapsedTime();
+    const phase = MOTION_PHASE[id];
+    const float = Math.sin(time * 0.72 + phase) * 0.075;
     group.current.position.y = THREE.MathUtils.lerp(
       group.current.position.y,
-      active ? 0.16 : 0,
+      (active ? 0.16 : 0) + float,
       0.08,
     );
+    group.current.rotation.y = time * (active ? 0.34 : 0.2) + phase;
+    group.current.rotation.z = Math.sin(time * 0.4 + phase) * 0.035;
     const scale = THREE.MathUtils.lerp(group.current.scale.x, active ? 1.1 : 1, 0.08);
     group.current.scale.setScalar(scale);
   });
@@ -183,6 +197,38 @@ function Sculpture({ id, active }: { id: PartId; active: boolean }) {
   );
 }
 
+function AmbientOrb() {
+  const orb = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (!orb.current) return;
+    const time = clock.getElapsedTime();
+    orb.current.position.y = 2.38 + Math.sin(time * 0.46) * 0.16;
+    orb.current.position.x = 0.1 + Math.sin(time * 0.23) * 0.22;
+    orb.current.rotation.y = time * 0.16;
+  });
+
+  return (
+    <group ref={orb} position={[0.1, 2.38, -1.85]}>
+      <mesh>
+        <sphereGeometry args={[0.78, 56, 56]} />
+        <meshPhysicalMaterial
+          color="#d7c9aa"
+          metalness={0.94}
+          roughness={0.055}
+          clearcoat={1}
+          clearcoatRoughness={0.035}
+          envMapIntensity={3.1}
+        />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0.2, 0]}>
+        <torusGeometry args={[0.95, 0.018, 12, 96]} />
+        <meshPhysicalMaterial color="#f5efe2" metalness={0.9} roughness={0.12} />
+      </mesh>
+    </group>
+  );
+}
+
 function Exhibit({ id, active, onSelect }: { id: PartId; active: boolean; onSelect: () => void }) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
@@ -250,17 +296,7 @@ function GalleryScene({ active, focus, onSelect }: { active: PartId; focus: bool
         />
       </mesh>
 
-      <mesh position={[0.1, 2.38, -1.85]}>
-        <sphereGeometry args={[0.78, 56, 56]} />
-        <meshPhysicalMaterial
-          color="#d0b678"
-          metalness={0.92}
-          roughness={0.065}
-          clearcoat={1}
-          clearcoatRoughness={0.05}
-          envMapIntensity={2.7}
-        />
-      </mesh>
+      <AmbientOrb />
 
       {PARTS.map((part) => (
         <Exhibit
