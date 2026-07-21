@@ -31,7 +31,7 @@ export function V2Nav({ current }: { current?: string }) {
           >
             {l.label}
             {current === l.href ? (
-              <span aria-hidden style={{ color: palette.accentGold }}>
+              <span aria-hidden style={{ color: '#8e928f' }}>
                 {' '}
                 •
               </span>
@@ -59,7 +59,7 @@ export function MottoStrip() {
   return (
     <div className={styles.motto}>
       <MicroLabel>{motto}</MicroLabel>
-      <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
+      <span aria-hidden style={{ color: '#8e928f', fontSize: 12, lineHeight: 1 }}>
         •
       </span>
     </div>
