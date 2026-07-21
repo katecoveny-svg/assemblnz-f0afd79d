@@ -1,9 +1,9 @@
 .page {
   --paper: #f0f0eb;
   --pounamu: #4f5c54;
-  --deep: #111311;
+  --deep: #252d31;
   --amber: #737873;
-  --ink: #111311;
+  --ink: #252d31;
   --soft: #575c57;
   color: var(--ink);
   background:
@@ -23,6 +23,8 @@
   padding: 0;
   border-inline: 1px solid rgba(17,19,17,.18);
   border-bottom: 1px solid rgba(17,19,17,.18);
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
 }
 
 .eyebrow,
@@ -70,8 +72,8 @@
   justify-content: center;
   gap: 12px;
   padding: 0 24px;
-  border: 1px solid #111311;
-  border-radius: 0;
+  border: 1px solid #252d31;
+  border-radius: 12px;
   color: var(--deep);
   background: rgba(255, 255, 255, .68);
   font: 700 .61rem var(--font-mono), monospace;
@@ -90,7 +92,7 @@
 }
 
 .primaryCta:hover,
-.secondaryCta:hover { color: #fff; background: #343734; }
+.secondaryCta:hover { color: #fff; background: #34434b; }
 .primaryCta svg,
 .secondaryCta svg,
 .stageCard > a svg { width: 16px; height: 16px; }
@@ -120,7 +122,7 @@
   isolation: isolate;
   border: 0;
   border-left: 1px solid rgba(17,19,17,.18);
-  border-radius: 0;
+  border-radius: 18px 0 0 18px;
   background: #d9dcd8;
   box-shadow: none;
 }
@@ -148,7 +150,7 @@
   gap: 9px;
   padding: 10px 14px;
   border: 1px solid rgba(63,115,115,.14);
-  border-radius: 0;
+  border-radius: 12px;
   color: #343834;
   background: rgba(255,255,255,.82);
   backdrop-filter: blur(18px);
@@ -195,6 +197,8 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   margin-top: 46px;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .stageCard {
@@ -209,7 +213,7 @@
 }
 
 .featuredCard {
-  border-color: #111311;
+  border-color: #252d31;
   background: #fff;
   transform: none;
 }
