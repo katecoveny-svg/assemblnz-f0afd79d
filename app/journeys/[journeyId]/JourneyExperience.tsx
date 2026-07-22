@@ -56,6 +56,7 @@ export function JourneyExperience({
   const [intentText, setIntentText] = useState('');
   const [busy, setBusy] = useState(false);
   const [budgetInput, setBudgetInput] = useState('');
+  const [entryError, setEntryError] = useState<string | null>(null);
 
   const entry = journey.entryPoints[0];
   const plan = run ? currentPlan(run) : null;
@@ -90,15 +91,21 @@ export function JourneyExperience({
   async function submitIntent() {
     if (!intentText.trim()) return;
     setBusy(true);
+    setEntryError(null);
     const started = startJourneyRun({
       journey,
       statedIntent: intentText.trim(),
       sessionId: `web-${journey.id}`,
     });
-    // Structure the intent server-side (model-backed, deterministic fallback).
-    const result = await structureIntentAction(started.statedIntent);
-    setRun(applyIntentResult(started, result));
+    // Structure the intent server-side (rate-limited, size-limited, model-backed
+    // with deterministic fallback).
+    const res = await structureIntentAction(started.statedIntent);
     setBusy(false);
+    if (!res.ok) {
+      setEntryError(res.message);
+      return;
+    }
+    setRun(applyIntentResult(started, res.result));
     setArea('journey');
   }
 
@@ -233,6 +240,7 @@ export function JourneyExperience({
             intentText={intentText}
             setIntentText={setIntentText}
             busy={busy}
+            entryError={entryError}
             submitIntent={submitIntent}
             budgetInput={budgetInput}
             setBudgetInput={setBudgetInput}
@@ -269,6 +277,7 @@ type MainProps = {
   intentText: string;
   setIntentText: (v: string) => void;
   busy: boolean;
+  entryError: string | null;
   submitIntent: () => void;
   budgetInput: string;
   setBudgetInput: (v: string) => void;
@@ -356,6 +365,9 @@ function Entry(props: MainProps) {
       <button className={styles.primary} type="button" onClick={props.submitIntent} disabled={props.busy || !props.intentText.trim()}>
         {props.busy ? 'Understanding…' : 'Start the journey'}
       </button>
+      {props.entryError && (
+        <p role="alert" className={styles.entryError}>{props.entryError}</p>
+      )}
     </section>
   );
 }

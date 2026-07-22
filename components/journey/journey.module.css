@@ -402,6 +402,16 @@
 .areaTabActive { background: var(--j-ink); color: #fff; border-color: var(--j-ink); }
 .areaTab:disabled { opacity: 0.35; cursor: not-allowed; }
 
+.entryError {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: #a24b3c;
+  background: rgba(162, 75, 60, 0.08);
+  border: 1px solid rgba(162, 75, 60, 0.2);
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+}
+
 .disclosure {
   margin-top: 2rem;
   border: 1px solid var(--j-line);

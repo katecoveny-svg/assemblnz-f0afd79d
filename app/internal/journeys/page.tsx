@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { ensureAdmin } from '@/lib/admin/ensureAdmin';
 import { runEval } from '@/lib/journey/eval/run-eval';
 import { AGENT_CONTRACT_LIST } from '@/lib/journey/contracts';
 import { CAPABILITY_REGISTRY, resolveCapabilityStatus } from '@/lib/journey/capabilities';
@@ -14,17 +16,25 @@ export const metadata: Metadata = {
 };
 
 /**
- * Protected operational view (brief §10). Lives under /internal, which the
- * middleware splash gate rewrites to `/` on the live host — so it is not
- * publicly reachable there. NOTE: this is boundary-based hiding, not
- * authentication; a real deployment must gate this behind auth (documented in
- * docs/deployment-and-release-checklist.md).
+ * Protected operational view (brief §10). Gated by real server-side auth
+ * (`ensureAdmin` — Supabase auth + admin allowlist); unauthenticated visitors
+ * are redirected to /admin/login and no operational data is rendered. The
+ * middleware splash gate is defence-in-depth on top, not the access control.
  *
- * Shows what is genuinely verifiable now: eval-suite status, agent contracts +
- * versions, and live capability statuses. Recent-run listing requires durable
- * persistence (Supabase), which is not configured in the sandbox.
+ * Shows eval-suite status, agent contracts + versions, live capability statuses
+ * and recent runs. Durable run listing requires Supabase persistence.
  */
 export default async function JourneyOpsPage() {
+  // Fail closed: if the auth backend is not configured (e.g. sandbox with no
+  // Supabase keys) nobody can authenticate, so deny access with a clean redirect
+  // rather than a 500 — and never render operational data.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+    redirect('/admin/login?redirect=/internal/journeys');
+  }
+  // Real server-side authentication (Supabase auth + admin allowlist). Redirects
+  // unauthenticated visitors to /admin/login; non-admins to the public site.
+  // No internal data is computed or rendered before this gate passes.
+  await ensureAdmin('/internal/journeys');
   const evalReport = runEval();
   const runs = await journeyRepository.listRuns(GROCERY_TENANT);
   const mono = 'var(--font-mono, monospace)';
