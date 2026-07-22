@@ -18,6 +18,17 @@ export const SIGNED_URL_COPY = {
   suffix: 'rewarded wait-state product · concept 001',
 } as const;
 
+/** The single hero statement — begin with purpose (design constitution §21). */
+export const HERO_COPY = {
+  eyebrow: 'everyday rewards × assembl · private concept',
+  heading: 'The wait, assembled.',
+  line:
+    'One optional moment in the Everyday Rewards app — the weekly-shop planning wait — ' +
+    'turned into a prepared week the household approves. Watch it take shape.',
+  customerMode: 'customer',
+  journeyMode: 'inside the journey',
+} as const;
+
 /** "01 · the mirror" — the customer surface and the operations surface, together. */
 export const TWO_TRUTHS_COPY = {
   sectionLabel: '01 · the mirror · customer app + operations view',
