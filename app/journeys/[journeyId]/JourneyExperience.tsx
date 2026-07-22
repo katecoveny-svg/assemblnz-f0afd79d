@@ -1,12 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CustomerJourney, JourneyRun } from '@/lib/journey/types';
 import { selectGenomeContext, type JourneyGenomeContext } from '@/lib/journey/genome-context';
 import { GROCERY_GENOME_FACTS, GROCERY_RULES } from '@/lib/journey/genome/grocery-genome';
 import {
   startJourneyRun,
-  processIntent,
+  applyIntentResult,
   answerContext,
   completeContext,
   processRecommendation,
@@ -28,6 +28,7 @@ import { ApprovalCard } from '@/components/journey/ApprovalCard';
 import { WaitState } from '@/components/journey/WaitState';
 import { JourneyProofCard } from '@/components/journey/JourneyProofCard';
 import { InsideTheJourney } from '@/components/journey/InsideTheJourney';
+import { structureIntentAction, persistJourneyRunAction } from './actions';
 import styles from '@/components/journey/journey.module.css';
 
 type View = 'customer' | 'inside';
@@ -41,8 +42,14 @@ const AREAS: { id: Area; label: string }[] = [
   { id: 'proof', label: 'Proof' },
 ];
 
-export function JourneyExperience({ journey }: { journey: CustomerJourney }) {
-  const [run, setRun] = useState<JourneyRun | null>(null);
+export function JourneyExperience({
+  journey,
+  initialRun = null,
+}: {
+  journey: CustomerJourney;
+  initialRun?: JourneyRun | null;
+}) {
+  const [run, setRun] = useState<JourneyRun | null>(initialRun);
   const [view, setView] = useState<View>('customer');
   const [area, setArea] = useState<Area>('journey');
   const [intentText, setIntentText] = useState('');
@@ -70,6 +77,14 @@ export function JourneyExperience({ journey }: { journey: CustomerJourney }) {
   const hasPlan = Boolean(plan);
   const hasActions = Boolean(run && run.proposedActions.length > 0);
 
+  /* ── persistence ──────────────────────────────────────────────────────── */
+  // Persist the run whenever its timeline advances. Fire-and-forget: a missing
+  // DB falls back server-side and never blocks the experience.
+  useEffect(() => {
+    if (!run) return;
+    void persistJourneyRunAction(run);
+  }, [run?.id, run?.timeline.length, run?.status]);
+
   /* ── handlers ─────────────────────────────────────────────────────────── */
   async function submitIntent() {
     if (!intentText.trim()) return;
@@ -79,8 +94,9 @@ export function JourneyExperience({ journey }: { journey: CustomerJourney }) {
       statedIntent: intentText.trim(),
       sessionId: `web-${journey.id}`,
     });
-    const withIntent = await processIntent(started);
-    setRun(withIntent);
+    // Structure the intent server-side (model-backed, deterministic fallback).
+    const result = await structureIntentAction(started.statedIntent);
+    setRun(applyIntentResult(started, result));
     setBusy(false);
     setArea('journey');
   }

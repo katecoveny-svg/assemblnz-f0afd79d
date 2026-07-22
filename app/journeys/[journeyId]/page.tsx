@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { journeyRepository } from '@/lib/journey/repository';
 import { JourneyExperience } from './JourneyExperience';
+import { loadJourneyRunAction } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,11 +23,18 @@ export async function generateMetadata({
 
 export default async function JourneyPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ journeyId: string }>;
+  searchParams: Promise<{ run?: string }>;
 }) {
   const { journeyId } = await params;
   const journey = await journeyRepository.findJourneyPublic(journeyId);
   if (!journey) notFound();
-  return <JourneyExperience journey={journey} />;
+
+  // Resume a persisted run when ?run=<id> is present (scoped to this tenant).
+  const { run: runId } = await searchParams;
+  const initialRun = runId ? await loadJourneyRunAction(journey.tenantId, runId) : null;
+
+  return <JourneyExperience journey={journey} initialRun={initialRun} />;
 }
