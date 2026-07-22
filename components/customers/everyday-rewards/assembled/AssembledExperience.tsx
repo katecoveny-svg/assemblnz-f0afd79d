@@ -24,6 +24,7 @@ import { AgentNegotiation } from './AgentNegotiation';
 import { DirectorsCut } from './DirectorsCut';
 import { BeforeWith } from './BeforeWith';
 import { AskThisJourney } from './AskThisJourney';
+import { KaimahiAgent } from './KaimahiAgent';
 import { PilotSimulator } from './PilotSimulator';
 
 type View = 'customer' | 'inside';
@@ -74,10 +75,11 @@ export function AssembledExperience() {
                     prepared, the total held against their budget. Nothing is ordered until they
                     approve. Change a lever above and the phone reassembles from the same run.
                   </p>
-                  <p style={{ fontSize: 13, color: '#8a959c', marginTop: 14 }}>
+                  <p style={{ fontSize: 13, color: '#8a959c', marginTop: 14, marginBottom: 20 }}>
                     Switch to <strong>inside the journey</strong> to see the agents, evidence and
                     proof behind exactly this shop.
                   </p>
+                  <KaimahiAgent />
                 </div>
               </div>
             ) : (
