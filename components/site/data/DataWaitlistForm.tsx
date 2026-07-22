@@ -113,7 +113,7 @@ export function DataWaitlistForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchIntent(value)}
-              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
+              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/40 focus-visible:ring-offset-2 ${
                 active
                   ? 'bg-[color:var(--assembl-pounamu)] text-white'
                   : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]'
