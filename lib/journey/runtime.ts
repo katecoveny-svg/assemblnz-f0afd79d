@@ -26,6 +26,7 @@ import {
   GroceryIntentSchema,
   mockIntentService,
   type GroceryIntent,
+  type IntentParseResult,
   type IntentService,
 } from './services/intent';
 import { nextContextQuestions, type ContextQuestion } from './services/context';
@@ -130,14 +131,19 @@ export function startJourneyRun(args: StartRunArgs): JourneyRun {
 
 /* ── stage 2: intent ──────────────────────────────────────────────────── */
 
-export async function processIntent(
+/**
+ * Apply an already-computed intent result to the run (structure it, record
+ * evidence, advance to context). Kept separate from `processIntent` so a model
+ * call can happen server-side and the deterministic state update can happen
+ * anywhere.
+ */
+export function applyIntentResult(
   run: JourneyRun,
-  service: IntentService = mockIntentService,
+  result: IntentParseResult,
   now?: string,
-): Promise<JourneyRun> {
+): JourneyRun {
   const next = clone(run);
   next.timeline.push(mkEvent(next, 'agent_started', 'Intent agent interpreting the request.', { stageId: 'intent', agentId: 'intent' }, now));
-  const result = await service.parse(run.statedIntent);
   next.structuredIntent = result.intent as unknown as Record<string, unknown>;
   next.timeline.push(
     mkEvent(next, 'agent_completed', `Structured intent ready (confidence ${(result.confidence * 100).toFixed(0)}%).`, {
@@ -157,6 +163,20 @@ export async function processIntent(
   next.currentStageId = 'context';
   next.timeline.push(mkEvent(next, 'stage_completed', 'Understood the intent.', { stageId: 'intent' }, now));
   return next;
+}
+
+/**
+ * Structure the stated intent using the given service (default: the
+ * deterministic mock), then apply it. Server code passes the model-backed
+ * service; the same deterministic state update runs either way.
+ */
+export async function processIntent(
+  run: JourneyRun,
+  service: IntentService = mockIntentService,
+  now?: string,
+): Promise<JourneyRun> {
+  const result = await service.parse(run.statedIntent);
+  return applyIntentResult(run, result, now);
 }
 
 /* ── stage 3: context ─────────────────────────────────────────────────── */

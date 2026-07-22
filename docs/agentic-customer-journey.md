@@ -113,17 +113,27 @@ result into the pure `selectGenomeContext`.
 
 ## Replacing simulations with real connectors
 
-- **Intent**: implement `IntentService` (or use `liveIntentService(call)`) with a
-  model behind the repo's `ai` SDK; output is validated by `GroceryIntentSchema`
-  and falls back safely on invalid data. Swap `mockIntentService` for it.
+- **Intent** *(now wired)*: `lib/journey/services/intent-live.ts`
+  (`anthropicIntentService`) structures intent with a model via the repo's `ai`
+  SDK (`generateObject` + `GroceryIntentSchema`), falling back to the
+  deterministic parser when no `ANTHROPIC_API_KEY` is set or the model returns
+  invalid data. The model call runs **server-side only** — the client calls the
+  `structureIntentAction` server action, which returns a validated
+  `IntentParseResult` that `runtime.applyIntentResult` applies deterministically.
+- **Persistence** *(now wired)*: `SupabaseJourneyRepository`
+  (`lib/journey/repository-supabase.ts`) implements `JourneyRepository` against
+  the `journey_runs` table (migration `20260722000000_journey_runs.sql`, RLS
+  deny-all, service-role only). It degrades to an in-process fallback when the DB
+  or keys are absent, so the surface works with or without the migration applied.
+  The client persists via `persistJourneyRunAction` (fire-and-forget on each
+  timeline advance) and resumes a run via `/journeys/[id]?run=<runId>`
+  (`loadJourneyRunAction`, tenant-scoped). `InMemoryJourneyRepository` remains for
+  tests and the seed listing.
 - **Catalogue**: replace `CATALOGUE` / `MEAL_IDEAS` in `catalogue.ts` with a real
   product feed behind the same shape.
 - **Ordering**: the `connector_action` tool permission is `unavailable`. A real
   commerce connector would raise a high-risk `ProposedAction` (execution `live`),
   still gated by human approval.
-- **Persistence**: `InMemoryJourneyRepository` implements `JourneyRepository`; a
-  Supabase-backed implementation drops in behind the same interface (add a
-  migration + service-role reads/writes; keep tenant isolation).
 
 ## Authority & approvals
 
@@ -159,12 +169,14 @@ actions and evidence:
 
 ## Current limitations
 
-- **No persistence.** Runs live in an in-memory seed repository and are not saved
-  across sessions. No DB migration was added this pass.
+- **Persistence is best-effort.** Runs persist to `journey_runs` via the
+  service-role client when the migration is applied and keys are set; otherwise
+  they fall back to an in-process map (not durable). No auth/ownership model yet
+  beyond tenant scoping — the surface is a public concept demo.
 - **Simulation only.** No live retailer data, pricing or ordering; every action
   is `simulated` / `proposed` and labelled. No order is placed.
-- **Deterministic intent.** The intent service is a keyword parser, not a model;
-  the `IntentService` seam exists to swap in a model later.
+- **Intent needs a key to be model-backed.** Without `ANTHROPIC_API_KEY` the
+  intent service is the deterministic keyword parser (safe fallback).
 - **Grocery-specific genome mapping.** The stage→fact mapping is authored for the
   grocery tenant; a second journey needs its own mapping/fact set.
 - **Estimates, not measurements.** Time-saved and preference-adherence figures are
