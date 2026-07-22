@@ -8,6 +8,7 @@
 
 import type { ScenarioRun } from '@/lib/concepts/woolworths-assembled';
 import { Card, Eyebrow } from '@/components/customers/everyday-rewards/ui';
+import { PhoneFrame } from '@/components/customers/everyday-rewards/PhoneFrame';
 import styles from '@/app/customers/everyday-rewards/assembled/assembled.module.css';
 
 const ORANGE = '#fd6400';
@@ -98,6 +99,97 @@ export function CustomerExperience({ data }: { data: ScenarioRun }) {
         </p>
       ) : null}
     </Card>
+  );
+}
+
+/**
+ * The customer experience, as the shopper would see it in the Everyday Rewards
+ * app — the same run as the operator view, rendered in the branded phone.
+ */
+export function PhoneCustomerView({ data }: { data: ScenarioRun }) {
+  const { plan, run } = data;
+  const overBudget = !plan.withinBudget;
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <PhoneFrame width={360}>
+        <div className={styles.assemble} key={run.id} style={{ padding: '10px 20px 24px' }}>
+          <div
+            style={{
+              fontFamily: 'var(--edr-mono), monospace',
+              fontSize: 10,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: GREY,
+            }}
+          >
+            Everyday Rewards · your weekend, assembled
+          </div>
+          <h3
+            style={{
+              fontFamily: 'var(--edr-display), Georgia, serif',
+              fontWeight: 600,
+              fontSize: 23,
+              color: NAVY,
+              margin: '4px 0 2px',
+              lineHeight: 1.15,
+            }}
+          >
+            The week, already understood
+          </h3>
+
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, margin: '10px 0 2px' }}>
+            <span style={{ fontSize: 30, fontWeight: 700, color: NAVY, fontVariantNumeric: 'tabular-nums' }}>
+              ${plan.estimatedTotalNzd.toFixed(2)}
+            </span>
+            <span style={{ fontSize: 12.5, color: overBudget ? '#bd161c' : GREY }}>
+              {plan.budgetCeilingNzd != null
+                ? overBudget
+                  ? `$${plan.overBudgetByNzd.toFixed(0)} over $${plan.budgetCeilingNzd}`
+                  : `within your $${plan.budgetCeilingNzd}`
+                : 'indicative'}
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '12px 0' }}>
+            {plan.meals.slice(0, 5).map((m) => (
+              <span key={m.id} style={{ fontSize: 11.5, padding: '4px 9px', borderRadius: 999, background: '#ffe6d1', color: '#c65100' }}>
+                {m.name}
+              </span>
+            ))}
+          </div>
+
+          <div style={{ maxHeight: 188, overflowY: 'auto', paddingRight: 4 }}>
+            {plan.basket.slice(0, 12).map((i) => (
+              <div key={i.sku} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: CHARCOAL, padding: '4px 0', borderBottom: '1px solid rgba(34,48,60,0.06)' }}>
+                <span>{i.quantity}× {i.name}</span>
+                <span style={{ fontVariantNumeric: 'tabular-nums' }}>${i.lineTotalNzd.toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            style={{
+              width: '100%',
+              marginTop: 14,
+              padding: '13px 16px',
+              borderRadius: 14,
+              border: 'none',
+              background: ORANGE,
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 15,
+              cursor: 'pointer',
+            }}
+          >
+            Approve this shop
+          </button>
+          <div style={{ textAlign: 'center', fontSize: 11, color: GREY, marginTop: 8 }}>
+            nothing is ordered until you approve
+          </div>
+        </div>
+      </PhoneFrame>
+    </div>
   );
 }
 
