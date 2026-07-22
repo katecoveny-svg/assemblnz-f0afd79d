@@ -131,6 +131,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   // Agentic customer journeys — the "everyday, assembled" reference journey and
   // any future journey configuration render here (public concept surface).
   '/journeys',
+  // Canonical public experience route (the sandbox journey).
+  '/experience',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).

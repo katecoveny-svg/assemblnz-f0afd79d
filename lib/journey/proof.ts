@@ -7,7 +7,7 @@
  * gamified score — it reports what actually happened in the run.
  */
 
-import type { CustomerJourney, JourneyProofSummary, JourneyRun } from './types';
+import type { CustomerJourney, JourneyProofSummary, JourneyRun, ProofMetric } from './types';
 import { currentPlan } from './runtime';
 
 const STANDING_LIMITATIONS = [
@@ -61,6 +61,89 @@ export function summariseJourney(run: JourneyRun, journey: CustomerJourney): Jou
 
   const customerEffortEvents = 1 /* the initial intent */ + contextQuestionsAsked + approvalsRequested;
 
+  // ── Data lineage: every metric names its source type + source events ──────
+  const idsOfType = (t: string) => run.timeline.filter((e) => e.type === t).map((e) => e.id);
+  const lineage: ProofMetric[] = [
+    {
+      id: 'stage_completion',
+      name: 'Journey completed',
+      value: Math.round((stagesCompleted / totalStages) * 100),
+      unit: 'percent',
+      sourceType: 'calculated',
+      sourceEventIds: idsOfType('stage_completed'),
+      methodology: 'distinct stage_completed events ÷ total stages',
+      confidence: 'high',
+    },
+    {
+      id: 'context_questions',
+      name: 'Questions asked',
+      value: contextQuestionsAsked,
+      unit: 'count',
+      sourceType: 'measured',
+      sourceEventIds: idsOfType('context_updated'),
+      methodology: 'answered context keys recorded on the run',
+      confidence: 'high',
+    },
+    {
+      id: 'actions_approved',
+      name: 'Actions approved',
+      value: `${approvedActionCount}/${proposed.length}`,
+      sourceType: 'measured',
+      sourceEventIds: idsOfType('approval_granted'),
+      methodology: 'approval_granted events vs proposed actions',
+      confidence: 'high',
+    },
+    {
+      id: 'human_interventions',
+      name: 'Human handoffs',
+      value: humanInterventionCount,
+      unit: 'count',
+      sourceType: 'measured',
+      sourceEventIds: idsOfType('human_handoff'),
+      confidence: 'high',
+    },
+    {
+      id: 'policy_checks',
+      name: 'Policy checks passed',
+      value: policyChecksPassed,
+      unit: 'count',
+      sourceType: 'calculated',
+      sourceEventIds: run.evidence.map((e) => e.id),
+      methodology: 'dietary exclusions honoured + approval gates respected',
+      confidence: 'high',
+    },
+    {
+      id: 'customer_minutes_saved',
+      name: 'Customer time saved',
+      value: estimatedCustomerMinutesSaved ?? 0,
+      unit: 'minutes',
+      sourceType: 'estimated',
+      sourceEventIds: [],
+      methodology: '18 + meals×3 + lines×0.5 (heuristic; not measured)',
+      confidence: 'low',
+    },
+    {
+      id: 'staff_minutes_saved',
+      name: 'Staff time saved',
+      value: estimatedStaffMinutesSaved ?? 0,
+      unit: 'minutes',
+      sourceType: 'estimated',
+      sourceEventIds: [],
+      methodology: 'fixed estimate for a self-served run',
+      confidence: 'low',
+    },
+    {
+      id: 'budget_variance',
+      name: 'Budget variance',
+      value: budgetVarianceNzd ?? 0,
+      unit: 'nzd',
+      sourceType: 'simulated',
+      sourceEventIds: [],
+      methodology: 'estimated basket total − stated budget (indicative prices)',
+      confidence: 'medium',
+    },
+  ];
+
   return {
     runId: run.id,
     journeyId: run.journeyId,
@@ -82,6 +165,7 @@ export function summariseJourney(run: JourneyRun, journey: CustomerJourney): Jou
     assumptionsSurfaced,
     unresolvedIssues,
     limitations: STANDING_LIMITATIONS,
+    lineage,
     estimatedOnly: true,
   };
 }

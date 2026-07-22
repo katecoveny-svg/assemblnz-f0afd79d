@@ -37,6 +37,7 @@ import {
   type ResolutionOutcome,
 } from './services/resolution';
 import { dietaryExclusions } from './services/plan';
+import { verifyAgentInvocation, verificationAllowsProgress } from './verification';
 
 /** Map a journey action type onto an OS action kind for risk classification. */
 const ACTION_KIND: Record<string, string> = {
@@ -121,6 +122,7 @@ export function startJourneyRun(args: StartRunArgs): JourneyRun {
     proposedActions: [],
     evidence: [],
     metrics: [],
+    verifications: [],
     startedAt: now,
   };
   base.timeline.push(
@@ -152,14 +154,24 @@ export function applyIntentResult(
       metadata: { confidence: result.confidence, uncertainties: result.uncertainties },
     }, now),
   );
+  // Defensive: a malformed model result may not match the intent shape. Build
+  // the evidence detail safely; verification below will reject invalid output.
+  const i = result.intent as Partial<GroceryIntent> | undefined;
   next.evidence.push({
     id: `${run.id}-ev-intent`,
     runId: run.id,
     kind: 'assumption',
     label: 'Interpreted intent',
-    detail: `${result.intent.people} people · ${result.intent.durationDays} days · avoid: ${result.intent.avoid.join(', ') || 'none'}`,
+    detail: `${i?.people ?? '?'} people · ${i?.durationDays ?? '?'} days · avoid: ${(Array.isArray(i?.avoid) ? i!.avoid : []).join(', ') || 'none'}`,
     createdAt: ts(now),
   });
+  // Verify the intent agent against its contract before proceeding.
+  const ok = recordVerification(next, 'intent', next.statedIntent, next.structuredIntent, now);
+  if (!ok) {
+    next.status = 'failed';
+    next.timeline.push(mkEvent(next, 'journey_failed', 'Intent verification failed — not proceeding.', { stageId: 'intent' }, now));
+    return next;
+  }
   next.currentStageId = 'context';
   next.timeline.push(mkEvent(next, 'stage_completed', 'Understood the intent.', { stageId: 'intent' }, now));
   return next;
@@ -270,6 +282,13 @@ export function processRecommendation(run: JourneyRun, now?: string): JourneyRun
       metadata: { estimatedTotalNzd: plan.estimatedTotalNzd, withinBudget: plan.withinBudget },
     }, now),
   );
+  // Verify the plan agent (dietary respected, budget flag consistent).
+  const planOk = recordVerification(next, 'plan', currentIntent(next), plan, now);
+  if (!planOk) {
+    next.status = 'failed';
+    next.timeline.push(mkEvent(next, 'journey_failed', 'Plan verification failed — not proceeding to commitment.', { stageId: 'recommendation' }, now));
+    return next;
+  }
   next.currentStageId = 'commitment';
   next.timeline.push(mkEvent(next, 'stage_completed', 'Assembled the plan.', { stageId: 'recommendation' }, now));
   return next;
@@ -280,6 +299,14 @@ export function proposeBasket(run: JourneyRun, now?: string): JourneyRun {
   const next = clone(run);
   const plan = currentPlan(next);
   if (!plan) return next;
+  // Verify the basket agent before proposing an approval-required action.
+  const basketOutput = plan.basket.map((i) => ({ sku: i.sku, quantity: i.quantity, lineTotalNzd: i.lineTotalNzd }));
+  const basketOk = recordVerification(next, 'basket', plan, basketOutput, now);
+  if (!basketOk) {
+    next.status = 'failed';
+    next.timeline.push(mkEvent(next, 'journey_failed', 'Basket verification failed — no action proposed.', { stageId: 'action', agentId: 'basket' }, now));
+    return next;
+  }
   const decision = decideAuthority('assemble_basket');
   next.currentStageId = 'action';
   const action = mkAction(next, {
@@ -411,6 +438,8 @@ export function runResolution(run: JourneyRun, issue: JourneyException, now?: st
     next.timeline.push(mkEvent(next, 'approval_requested', `Approval requested: ${outcome.summary}`, { stageId: 'resolution', agentId: 'resolution' }, now));
   }
   next.evidence.push({ id: `${run.id}-ev-res-${next.evidence.length}`, runId: run.id, kind: 'calculation', label: 'Resolution', detail: outcome.summary, createdAt: ts(now) });
+  const basketOutput = (plan?.basket ?? []).map((i) => ({ sku: i.sku, quantity: i.quantity, lineTotalNzd: i.lineTotalNzd }));
+  recordVerification(next, 'resolution', basketOutput, outcome, now);
   return { run: next, outcome };
 }
 
@@ -493,5 +522,34 @@ function clone(run: JourneyRun): JourneyRun {
     proposedActions: run.proposedActions.map((a) => ({ ...a })),
     evidence: run.evidence.map((e) => ({ ...e })),
     metrics: run.metrics.map((m) => ({ ...m })),
+    verifications: run.verifications.map((v) => ({ ...v })),
   };
+}
+
+/** Record an agent verification on the run and return whether to proceed. */
+function recordVerification(
+  run: JourneyRun,
+  agentId: string,
+  input: unknown,
+  output: unknown,
+  now?: string,
+): boolean {
+  const result = verifyAgentInvocation({
+    invocationId: `${run.id}-inv-${run.verifications.length + 1}`,
+    agentId,
+    input,
+    output,
+    now,
+  });
+  run.verifications.push(result);
+  run.timeline.push(
+    mkEvent(
+      run,
+      'agent_completed',
+      `Verification ${result.status} for ${agentId} (${result.checks.filter((c) => c.passed).length}/${result.checks.length} checks).`,
+      { agentId, metadata: { verification: result.status, invocationId: result.invocationId } },
+      now,
+    ),
+  );
+  return verificationAllowsProgress(result);
 }

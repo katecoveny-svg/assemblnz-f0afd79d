@@ -342,13 +342,51 @@ export type JourneyRun = {
   proposedActions: ProposedAction[];
   evidence: EvidenceRecord[];
   metrics: JourneyRunMetric[];
+  /** Per-invocation agent verification results (contract-checked). */
+  verifications: AgentVerificationResultRef[];
   startedAt: string;
   completedAt?: string;
+};
+
+/**
+ * Structural shape of an agent verification result stored on a run. The full
+ * type + engine live in `lib/journey/verification.ts`; this ref avoids a type
+ * cycle while keeping `JourneyRun` self-describing.
+ */
+export type AgentVerificationResultRef = {
+  invocationId: string;
+  agentId: string;
+  agentVersion: string;
+  status: 'passed' | 'failed' | 'review_required';
+  checks: { id: string; name: string; passed: boolean; evidence?: string }[];
+  errors: string[];
+  verifiedAt: string;
 };
 
 /* ────────────────────────────────────────────────────────────────────────
  * Proof
  * ──────────────────────────────────────────────────────────────────────── */
+
+/**
+ * A single proof metric with explicit data lineage — so estimated or simulated
+ * figures are never presented as measured (brief §8).
+ */
+export type ProofMetric = {
+  id: string;
+  name: string;
+  value: number | string;
+  unit?: string;
+  sourceType:
+    | 'measured'
+    | 'calculated'
+    | 'customer_reported'
+    | 'model_assessed'
+    | 'estimated'
+    | 'simulated';
+  sourceEventIds: string[];
+  methodology?: string;
+  confidence?: 'low' | 'medium' | 'high';
+};
 
 export type JourneyProofSummary = {
   runId: string;
@@ -371,6 +409,8 @@ export type JourneyProofSummary = {
   assumptionsSurfaced: string[];
   unresolvedIssues: string[];
   limitations: string[];
+  /** Every metric carries its own data lineage (source type + source events). */
+  lineage: ProofMetric[];
   /** Every proof metric is estimated or simulated in the seed build. */
   estimatedOnly: boolean;
 };

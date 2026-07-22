@@ -28,6 +28,7 @@ import { ApprovalCard } from '@/components/journey/ApprovalCard';
 import { WaitState } from '@/components/journey/WaitState';
 import { JourneyProofCard } from '@/components/journey/JourneyProofCard';
 import { InsideTheJourney } from '@/components/journey/InsideTheJourney';
+import { JourneyDisclosure } from '@/components/journey/JourneyDisclosure';
 import { structureIntentAction, persistJourneyRunAction } from './actions';
 import styles from '@/components/journey/journey.module.css';
 
@@ -245,6 +246,8 @@ export function JourneyExperience({
             finish={finish}
           />
         )}
+
+        <JourneyDisclosure />
 
         <p className={styles.sampleStrip}>
           sample journey — details fictional · everything simulated · no order is placed

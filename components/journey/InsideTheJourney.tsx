@@ -1,8 +1,16 @@
 import type { CustomerJourney, JourneyRun } from '@/lib/journey/types';
 import type { JourneyGenomeContext } from '@/lib/journey/genome-context';
 import { JOURNEY_AGENT_ROLES } from '@/lib/journey/agents';
+import { getAgentContract } from '@/lib/journey/contracts';
+import { CAPABILITY_REGISTRY, resolveCapabilityStatus } from '@/lib/journey/capabilities';
 import { StatusChip } from './StatusChip';
 import styles from './journey.module.css';
+
+const VERIFY_TONE: Record<string, string> = {
+  passed: styles.chipPositive,
+  review_required: styles.chipCaution,
+  failed: styles.chipNeutral,
+};
 
 /**
  * "Inside the journey" — the assembl differentiator. Reveals how the agents,
@@ -44,13 +52,19 @@ export function InsideTheJourney({
           <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--a-text-dim)' }}>No agent runs at this stage.</p>
         ) : (
           <div className={styles.agentGrid}>
-            {activeRoles.map((role) => (
-              <div key={role.id} className={styles.agent}>
-                <p className={styles.agentName}>{role.name}</p>
-                <p className={styles.agentRole}>{role.purpose}</p>
-                <StatusChip status="sandbox" title={`Authority: ${role.authority}`} />
-              </div>
-            ))}
+            {activeRoles.map((role) => {
+              const contract = getAgentContract(role.id);
+              return (
+                <div key={role.id} className={styles.agent}>
+                  <p className={styles.agentName}>
+                    {role.name}
+                    {contract && <span className={styles.lineQty}> · contract v{contract.version}</span>}
+                  </p>
+                  <p className={styles.agentRole}>{role.purpose}</p>
+                  <StatusChip status="sandbox" title={`Authority: ${role.authority}`} />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -97,6 +111,40 @@ export function InsideTheJourney({
             ))}
           </ul>
         )}
+      </div>
+
+      <div className={styles.insideCard}>
+        <p className={styles.insideTitle}>Agent verification ({run.verifications.length})</p>
+        {run.verifications.length === 0 ? (
+          <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--a-text-dim)' }}>No agent invocations verified yet.</p>
+        ) : (
+          run.verifications.map((v) => (
+            <p key={v.invocationId} style={{ margin: '0 0 0.4rem', fontSize: '0.85rem' }}>
+              <span className={`${styles.chip} ${VERIFY_TONE[v.status] ?? styles.chipNeutral}`}>
+                <span className={styles.chipDot} aria-hidden />
+                {v.status.replace('_', ' ')}
+              </span>{' '}
+              <strong>{v.agentId}</strong> v{v.agentVersion} —{' '}
+              {v.checks.filter((c) => c.passed).length}/{v.checks.length} checks
+              {v.errors.length > 0 && <span style={{ color: '#a24b3c' }}> · {v.errors.join('; ')}</span>}
+            </p>
+          ))
+        )}
+      </div>
+
+      <div className={styles.insideCard}>
+        <p className={styles.insideTitle}>Capability status</p>
+        <div className={styles.agentGrid}>
+          {CAPABILITY_REGISTRY.slice(0, 8).map((c) => (
+            <div key={c.id} className={styles.agent}>
+              <p className={styles.agentName} style={{ fontSize: '0.82rem' }}>{c.name}</p>
+              <div style={{ margin: '0.3rem 0' }}>
+                <StatusChip status={resolveCapabilityStatus(c.id)} title={c.disclosure} />
+              </div>
+              <p className={styles.agentRole} style={{ fontSize: '0.72rem' }}>{c.disclosure}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className={styles.insideCard}>

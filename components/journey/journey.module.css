@@ -402,6 +402,34 @@
 .areaTabActive { background: var(--j-ink); color: #fff; border-color: var(--j-ink); }
 .areaTab:disabled { opacity: 0.35; cursor: not-allowed; }
 
+.disclosure {
+  margin-top: 2rem;
+  border: 1px solid var(--j-line);
+  border-radius: 16px;
+  background: var(--j-paper-2);
+  padding: 0 1.2rem;
+}
+.disclosureSummary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--j-accent-deep);
+}
+.disclosureSummary::-webkit-details-marker { display: none; }
+.disclosureBody { padding-bottom: 1.2rem; }
+.disclosureList { display: grid; gap: 0.75rem; margin: 0 0 1rem; }
+.disclosureList dt {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--j-ink);
+}
+.disclosureList dd { margin: 0.15rem 0 0; font-size: 0.85rem; line-height: 1.5; color: var(--j-dim); }
+.disclosureLimits { margin: 0; font-size: 0.8rem; line-height: 1.5; color: var(--j-dim); }
+
 .sampleStrip {
   text-align: center;
   font-family: var(--font-mono, monospace);

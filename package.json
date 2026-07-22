@@ -17,6 +17,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "eval:journeys": "tsx scripts/eval-journeys.ts",
     "test:agents": "tsx lib/testing/cli.ts",
     "test:agents:ci": "vitest run lib/testing/agent-suite.test.ts",
     "seed:agent-scenarios": "tsx scripts/seed-agent-scenarios.ts"
