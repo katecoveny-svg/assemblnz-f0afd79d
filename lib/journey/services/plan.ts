@@ -66,6 +66,7 @@ export function dietaryExclusions(intent: GroceryIntent): Set<DietaryTag> {
     excl.add('contains_meat');
   }
   if (diet.includes('vegan')) excl.add('contains_dairy');
+  if (diet.some((d) => /gluten[- ]?free/.test(d))) excl.add('contains_gluten');
   if (intent.avoid.some((a) => /spic/i.test(a))) excl.add('spicy');
   if (intent.avoid.some((a) => /nut/i.test(a))) excl.add('contains_nuts');
   return excl;
