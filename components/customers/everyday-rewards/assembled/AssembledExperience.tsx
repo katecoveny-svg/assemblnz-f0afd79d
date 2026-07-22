@@ -3,8 +3,14 @@
 /**
  * Orchestrator for the private Woolworths "assembled" concept. Holds the
  * scenario and derives the ONE `ScenarioRun` that every section reads, so the
- * customer view, inside-the-journey view, negotiation, director's cut, ask
- * panel and proof are always the same run (brief addition #3).
+ * customer view, inside-the-journey view, negotiation, director's cut, memory,
+ * cross-surface, commercial hypothesis, human rescue and proof are always the
+ * same run (brief addition #3).
+ *
+ * The page is an editorial arc: a private arrival, the one lever, then "the
+ * mirror" (customer surface + operations surface, two truths of one moment),
+ * the constellation, and the wow-factors that all recompute from the shared
+ * run — closing on three ways to reply instead of "book a demo".
  */
 
 import { useMemo, useRef, useState } from 'react';
@@ -15,34 +21,66 @@ import {
   type Scenario,
 } from '@/lib/concepts/woolworths-assembled';
 import { recipientFor } from '@/lib/concepts/recipients';
-import { Container } from '@/components/customers/everyday-rewards/ui';
+import { SIGNED_URL_COPY, TWO_TRUTHS_COPY, PHONE_DEMO_COPY } from '@/lib/concepts/everyday-rewards-copy';
+import { Container, Eyebrow, DisplayHeading } from '@/components/customers/everyday-rewards/ui';
 import styles from '@/app/customers/everyday-rewards/assembled/assembled.module.css';
 import { PrivateInvitation } from './PrivateInvitation';
 import { ChangeOneThing } from './ChangeOneThing';
-import { PhoneCustomerView, JourneyInside } from './SharedRunViews';
+import { PhoneDemo } from './PhoneDemo';
+import { JourneyInside } from './SharedRunViews';
+import { Constellation } from './Constellation';
 import { AgentNegotiation } from './AgentNegotiation';
 import { DirectorsCut } from './DirectorsCut';
+import { LiveSignal } from './LiveSignal';
+import { MemoryPassport } from './MemoryPassport';
+import { CrossSurface } from './CrossSurface';
+import { CommercialHypothesis } from './CommercialHypothesis';
 import { BeforeWith } from './BeforeWith';
+import { HumanRescue } from './HumanRescue';
 import { AskThisJourney } from './AskThisJourney';
 import { KaimahiAgent } from './KaimahiAgent';
 import { PilotSimulator } from './PilotSimulator';
-
-type View = 'customer' | 'inside';
+import { ReplyVerbs } from './ReplyVerbs';
 
 export function AssembledExperience() {
   const params = useSearchParams();
   const recipient = recipientFor(params.get('for'));
   const [scenario, setScenario] = useState<Scenario>(BASE_SCENARIO);
-  const [view, setView] = useState<View>('customer');
   const data = useMemo(() => buildScenarioRun(scenario), [scenario]);
   const journeyRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className={styles.page}>
-      <Container style={{ paddingTop: 40, paddingBottom: 0 }}>
+      <Container style={{ paddingTop: 28, paddingBottom: 0 }}>
+        {/* signed-url strip — who this private link was prepared for */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+            gap: 12,
+            flexWrap: 'wrap',
+            fontFamily: 'var(--edr-mono), monospace',
+            fontSize: 10.5,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: '#8a959c',
+            paddingBottom: 10,
+            borderBottom: '1px solid rgba(34,48,60,0.08)',
+          }}
+        >
+          <span>
+            {SIGNED_URL_COPY.eyebrow}{' '}
+            <strong style={{ color: '#c65100' }}>
+              {recipient.personalised ? `${recipient.fullName} · ${recipient.org}` : recipient.org}
+            </strong>
+          </span>
+          <span>{SIGNED_URL_COPY.suffix}</span>
+        </div>
+
         <div
           className={styles.statusStrip}
-          style={{ background: '#ffe6d1', color: '#c65100', marginBottom: 24 }}
+          style={{ background: '#ffe6d1', color: '#c65100', margin: '24px 0 0' }}
         >
           concept · everyday rewards × assembl · illustrative, nothing ordered
         </div>
@@ -56,36 +94,49 @@ export function AssembledExperience() {
           />
         </section>
 
+        {/* the one lever */}
         <section className={styles.section} ref={journeyRef}>
           <ChangeOneThing scenario={scenario} onChange={setScenario} />
         </section>
 
+        {/* 01 · the mirror — one moment, two truths, visible at both ends */}
         <section className={styles.section}>
-          <ViewToggle view={view} onChange={setView} />
-          <div style={{ marginTop: 24 }}>
-            {view === 'customer' ? (
-              <div className={styles.grid2} style={{ alignItems: 'center' }}>
-                <PhoneCustomerView data={data} />
-                <div>
-                  <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a959c', marginBottom: 10 }}>
-                    the customer view
-                  </div>
-                  <p style={{ fontSize: 15.5, lineHeight: 1.65, color: '#3a474e', maxWidth: 460 }}>
-                    What the shopper sees in the Everyday Rewards app: the week understood, the shop
-                    prepared, the total held against their budget. Nothing is ordered until they
-                    approve. Change a lever above and the phone reassembles from the same run.
-                  </p>
-                  <p style={{ fontSize: 13, color: '#8a959c', marginTop: 14, marginBottom: 20 }}>
-                    Switch to <strong>inside the journey</strong> to see the agents, evidence and
-                    proof behind exactly this shop.
-                  </p>
-                  <KaimahiAgent />
-                </div>
+          <Eyebrow>{TWO_TRUTHS_COPY.sectionLabel}</Eyebrow>
+          <DisplayHeading size={34}>{TWO_TRUTHS_COPY.heading}</DisplayHeading>
+          <p style={{ fontSize: 15.5, lineHeight: 1.6, color: '#3a474e', maxWidth: 660, margin: '12px 0 28px' }}>
+            {TWO_TRUTHS_COPY.body}
+          </p>
+
+          <div className={styles.grid2} style={{ gap: 32, alignItems: 'start' }}>
+            <div>
+              <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a959c', marginBottom: 14 }}>
+                {TWO_TRUTHS_COPY.customerLabel}
               </div>
-            ) : (
+              <div style={{ fontSize: 12.5, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#c65100', marginBottom: 10 }}>
+                {PHONE_DEMO_COPY.eyebrow}
+              </div>
+              <PhoneDemo data={data} />
+              <p style={{ fontSize: 13, color: '#8a959c', margin: '16px 0 18px', maxWidth: 380 }}>
+                {TWO_TRUTHS_COPY.customerNote}
+              </p>
+              <KaimahiAgent />
+            </div>
+
+            <div>
+              <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a959c', marginBottom: 14 }}>
+                {TWO_TRUTHS_COPY.opsLabel}
+              </div>
               <JourneyInside data={data} />
-            )}
+              <p style={{ fontSize: 13, color: '#8a959c', marginTop: 16, maxWidth: 420 }}>
+                {TWO_TRUTHS_COPY.opsNote}
+              </p>
+            </div>
           </div>
+        </section>
+
+        {/* the journey, assembled in space */}
+        <section className={styles.section}>
+          <Constellation data={data} />
         </section>
 
         <section className={styles.section}>
@@ -97,7 +148,27 @@ export function AssembledExperience() {
         </section>
 
         <section className={styles.section}>
+          <LiveSignal />
+        </section>
+
+        <section className={styles.section}>
+          <MemoryPassport data={data} />
+        </section>
+
+        <section className={styles.section}>
+          <CrossSurface data={data} />
+        </section>
+
+        <section className={styles.section}>
+          <CommercialHypothesis data={data} />
+        </section>
+
+        <section className={styles.section}>
           <BeforeWith />
+        </section>
+
+        <section className={styles.section}>
+          <HumanRescue data={data} />
         </section>
 
         <section className={styles.section}>
@@ -108,48 +179,21 @@ export function AssembledExperience() {
           <PilotSimulator />
         </section>
 
+        {/* the reply — not "book a demo" */}
+        <section className={styles.section}>
+          <ReplyVerbs recipient={recipient} />
+        </section>
+
         <section className={styles.section}>
           <p style={{ fontSize: 12.5, color: '#8a959c', lineHeight: 1.6, maxWidth: 680 }}>
             Independent concept by assembl. Not affiliated with, endorsed by, or
             representing Woolworths New Zealand or Everyday Rewards. Catalogue, prices,
             household and figures are illustrative; no order is placed and no live system
-            is connected.
+            is connected. The one live input on this page — the Auckland temperature — is
+            clearly labelled as a live signal.
           </p>
         </section>
       </Container>
-    </div>
-  );
-}
-
-function ViewToggle({ view, onChange }: { view: View; onChange: (v: View) => void }) {
-  return (
-    <div
-      role="tablist"
-      aria-label="Experience view"
-      style={{ display: 'inline-flex', gap: 4, padding: 4, borderRadius: 999, background: '#f2f2f2' }}
-    >
-      {(['customer', 'inside'] as const).map((v) => (
-        <button
-          key={v}
-          role="tab"
-          aria-selected={view === v}
-          type="button"
-          onClick={() => onChange(v)}
-          style={{
-            padding: '9px 18px',
-            borderRadius: 999,
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: 14,
-            fontWeight: 700,
-            background: view === v ? '#fff' : 'transparent',
-            color: view === v ? '#c65100' : '#8a959c',
-            boxShadow: view === v ? '0 2px 8px rgba(34,48,60,0.10)' : 'none',
-          }}
-        >
-          {v === 'customer' ? 'customer experience' : 'inside the journey'}
-        </button>
-      ))}
     </div>
   );
 }
