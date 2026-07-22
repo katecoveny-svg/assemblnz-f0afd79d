@@ -103,9 +103,23 @@ local → staging → public sandbox → controlled pilot → production
 - **Production**: only after a pilot with real usage evidence. Do not describe as
   production-ready until the Unresolved risks are closed.
 
+## Status of earlier gaps (updated after the verify/harden pass)
+- ✅ **Rate limiting** — added to `structureIntentAction` (`lib/journey/guards.ts`,
+  env-configurable, tested). *Caveat: in-process/per-instance, not distributed.*
+- ✅ **Input-size limits + validation** — intent length, run-payload bytes, run-id
+  format enforced server-side before any model/tool call (tested).
+- ✅ **Internal auth** — `/internal/journeys` gated by `ensureAdmin()`, fails
+  closed to `/admin/login` (verified `307`).
+- ✅ **Error monitoring (code)** — `lib/observability/journey-report.ts` with
+  redaction, wired into server actions. *Provider DSN still pending.*
+
 ## Unresolved risks (must close before a genuine customer pilot)
-1. No rate limiting / input-size cap on journey server actions.
-2. No error tracking / analytics.
-3. Persistence + model-intent paths unverified against live infrastructure.
-4. `/internal/*` is hidden by the splash boundary, not authenticated — add real
-   auth before exposing the ops view anywhere reachable.
+1. **Distributed rate limiting** — replace the in-process window with a
+   Supabase/Upstash-backed counter for real serverless enforcement.
+2. **Error-tracking provider** — connect a DSN (Sentry/etc.); code + redaction
+   are ready.
+3. **Live-infra verification** — run persistence (apply `journey_runs` migration
+   + keys) and model-intent (with `ANTHROPIC_API_KEY`) against real staging infra.
+4. **Client-runtime failure reporting** — forward verification/journey failures
+   from the browser runtime to monitoring (currently trace-only until runs
+   persist server-side).
