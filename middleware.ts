@@ -133,6 +133,9 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/journeys',
   // Canonical public experience route (the sandbox journey).
   '/experience',
+  // Private concept routes — reached via magic link, gated server-side by a
+  // concept access token (see lib/concepts/access.ts), noindex, not in sitemap.
+  '/concepts',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).
