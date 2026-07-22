@@ -16,11 +16,16 @@ import {
   Wrench,
 } from 'lucide-react';
 
-import {
-  AgentGalleryRoom,
-  type AgentGalleryPartId,
-} from '@/components/site/editorial/AgentGalleryRoom';
+import { AssemblyHeroScene } from './AssemblyHeroScene';
 import styles from './agent-assembly-studio.module.css';
+
+type AgentGalleryPartId =
+  | 'memory'
+  | 'knowledge'
+  | 'intelligence'
+  | 'voice'
+  | 'abilities'
+  | 'boundaries';
 
 type Part = {
   id: AgentGalleryPartId;
@@ -152,16 +157,8 @@ export function AgentAssemblyStudio() {
             <span>study / 01</span>
           </div>
 
-          <div className={styles.assembly} aria-label="Explorable white-room gallery of the six parts of an assembl agent">
-            <AgentGalleryRoom
-              activePart={activeId}
-              embedded
-              focus={xray}
-              onActivePartChange={(part) => {
-                setActiveId(part);
-                setXray(true);
-              }}
-            />
+          <div className={styles.assembly} aria-label="A three-dimensional study of the parts of an assembl agent assembling together">
+            <AssemblyHeroScene activeId={activeId} className={styles.scene3d} />
           </div>
 
           <div className={styles.canvasControls}>
