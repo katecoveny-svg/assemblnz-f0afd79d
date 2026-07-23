@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-27 - Propagating Required Field States in Abstracted Form Fields
+**Learning:** In highly customized abstracted form elements, setting the `required` attribute on the underlying input is insufficient. For complete visual and semantic harmony, label tags must render a matching visual requirement indicator (like the brand-standard Pounamu green asterisk `*` in `aria-hidden="true"`), and input elements must carry explicit `aria-required="true"` to fully support assistive technology.
+**Action:** Always ensure custom `Field` wrappers propagate the `required` boolean to set both visible labels and semantic screen reader attributes in unison.

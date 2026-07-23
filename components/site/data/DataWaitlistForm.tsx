@@ -162,7 +162,7 @@ export function DataWaitlistForm() {
               name="useCase"
               rows={2}
               placeholder={copy.useCasePlaceholder}
-              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/30"
             />
           </div>
 
@@ -211,15 +211,21 @@ function Field({
     <div>
       <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         {label}
+        {required && (
+          <span className="ml-1 text-[color:var(--assembl-pounamu)]" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
+        aria-required={required ? "true" : undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/30"
       />
     </div>
   );
