@@ -1,19 +1,21 @@
 'use client';
 
 /**
- * Orchestrator for the private Woolworths "assembled" concept. Holds the
- * scenario and derives the ONE `ScenarioRun` that every section reads, so the
- * customer view, inside-the-journey view, negotiation, director's cut, memory,
- * cross-surface, commercial hypothesis, human rescue and proof are always the
- * same run (brief addition #3).
+ * The private Woolworths "assembled" concept — one calm scene, not a scroll
+ * (design constitution §9, §10, §24).
  *
- * The page is an editorial arc: a private arrival, the one lever, then "the
- * mirror" (customer surface + operations surface, two truths of one moment),
- * the constellation, and the wow-factors that all recompute from the shared
- * run — closing on three ways to reply instead of "book a demo".
+ * Purpose first (§21): a single hero statement, then the ONE thing that
+ * matters — the wait assembling into a prepared shop (§17). Everything else is
+ * progressive disclosure: the operator's "inside the journey" view is a mode
+ * toggle (§18), and the agents, memory, economics and proof are depths opened
+ * on demand, never stacked down the page. It closes on a single next action.
+ *
+ * Every surface reads the ONE shared `ScenarioRun`, so the lever, the phone,
+ * the journey view and every depth always describe the same week. Nothing is
+ * ordered; figures are simulated and labelled.
  */
 
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   BASE_SCENARIO,
@@ -21,38 +23,29 @@ import {
   type Scenario,
 } from '@/lib/concepts/woolworths-assembled';
 import { recipientFor } from '@/lib/concepts/recipients';
-import { SIGNED_URL_COPY, TWO_TRUTHS_COPY, PHONE_DEMO_COPY } from '@/lib/concepts/everyday-rewards-copy';
-import { Container, Eyebrow, DisplayHeading } from '@/components/customers/everyday-rewards/ui';
+import { SIGNED_URL_COPY, HERO_COPY } from '@/lib/concepts/everyday-rewards-copy';
+import { Container } from '@/components/customers/everyday-rewards/ui';
 import styles from '@/app/customers/everyday-rewards/assembled/assembled.module.css';
-import { PrivateInvitation } from './PrivateInvitation';
 import { ChangeOneThing } from './ChangeOneThing';
-import { PhoneDemo } from './PhoneDemo';
+import { WaitAssembly } from './WaitAssembly';
 import { JourneyInside } from './SharedRunViews';
-import { Constellation } from './Constellation';
-import { AgentNegotiation } from './AgentNegotiation';
-import { DirectorsCut } from './DirectorsCut';
-import { LiveSignal } from './LiveSignal';
-import { MemoryPassport } from './MemoryPassport';
-import { CrossSurface } from './CrossSurface';
-import { CommercialHypothesis } from './CommercialHypothesis';
-import { BeforeWith } from './BeforeWith';
-import { HumanRescue } from './HumanRescue';
-import { AskThisJourney } from './AskThisJourney';
-import { KaimahiAgent } from './KaimahiAgent';
-import { PilotSimulator } from './PilotSimulator';
+import { Depths } from './Depths';
 import { ReplyVerbs } from './ReplyVerbs';
+
+type Mode = 'customer' | 'journey';
 
 export function AssembledExperience() {
   const params = useSearchParams();
   const recipient = recipientFor(params.get('for'));
   const [scenario, setScenario] = useState<Scenario>(BASE_SCENARIO);
+  const [mode, setMode] = useState<Mode>('customer');
+  const [leverOpen, setLeverOpen] = useState(false);
   const data = useMemo(() => buildScenarioRun(scenario), [scenario]);
-  const journeyRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className={styles.page}>
-      <Container style={{ paddingTop: 28, paddingBottom: 0 }}>
-        {/* signed-url strip — who this private link was prepared for */}
+      <Container style={{ paddingTop: 28 }}>
+        {/* signed-url strip — quiet, who this was prepared for */}
         <div
           style={{
             display: 'flex',
@@ -77,123 +70,96 @@ export function AssembledExperience() {
           </span>
           <span>{SIGNED_URL_COPY.suffix}</span>
         </div>
-
-        <div
-          className={styles.statusStrip}
-          style={{ background: '#ffe6d1', color: '#c65100', margin: '24px 0 0' }}
-        >
-          concept · everyday rewards × assembl · illustrative, nothing ordered
-        </div>
       </Container>
 
-      <Container>
-        <section className={styles.section}>
-          <PrivateInvitation
-            recipient={recipient}
-            onExperience={() => journeyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          />
-        </section>
-
-        {/* the one lever */}
-        <section className={styles.section} ref={journeyRef}>
-          <ChangeOneThing scenario={scenario} onChange={setScenario} />
-        </section>
-
-        {/* 01 · the mirror — one moment, two truths, visible at both ends */}
-        <section className={styles.section}>
-          <Eyebrow>{TWO_TRUTHS_COPY.sectionLabel}</Eyebrow>
-          <DisplayHeading size={34}>{TWO_TRUTHS_COPY.heading}</DisplayHeading>
-          <p style={{ fontSize: 15.5, lineHeight: 1.6, color: '#3a474e', maxWidth: 660, margin: '12px 0 28px' }}>
-            {TWO_TRUTHS_COPY.body}
-          </p>
-
-          <div className={styles.grid2} style={{ gap: 32, alignItems: 'start' }}>
-            <div>
-              <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a959c', marginBottom: 14 }}>
-                {TWO_TRUTHS_COPY.customerLabel}
-              </div>
-              <div style={{ fontSize: 12.5, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#c65100', marginBottom: 10 }}>
-                {PHONE_DEMO_COPY.eyebrow}
-              </div>
-              <PhoneDemo data={data} />
-              <p style={{ fontSize: 13, color: '#8a959c', margin: '16px 0 18px', maxWidth: 380 }}>
-                {TWO_TRUTHS_COPY.customerNote}
-              </p>
-              <KaimahiAgent />
-            </div>
-
-            <div>
-              <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a959c', marginBottom: 14 }}>
-                {TWO_TRUTHS_COPY.opsLabel}
-              </div>
-              <JourneyInside data={data} />
-              <p style={{ fontSize: 13, color: '#8a959c', marginTop: 16, maxWidth: 420 }}>
-                {TWO_TRUTHS_COPY.opsNote}
-              </p>
-            </div>
+      {/* ── the scene ──────────────────────────────────────────────────── */}
+      <Container style={{ paddingTop: 'clamp(40px, 8vh, 96px)', paddingBottom: 'clamp(40px, 8vh, 96px)' }}>
+        {/* purpose, first */}
+        <div style={{ maxWidth: 760, marginBottom: 'clamp(32px, 5vw, 56px)' }}>
+          <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c65100', marginBottom: 16 }}>
+            {recipient.personalised ? `${recipient.firstName} — ${HERO_COPY.eyebrow}` : HERO_COPY.eyebrow}
           </div>
-        </section>
-
-        {/* the journey, assembled in space */}
-        <section className={styles.section}>
-          <Constellation data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <AgentNegotiation data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <DirectorsCut data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <LiveSignal />
-        </section>
-
-        <section className={styles.section}>
-          <MemoryPassport data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <CrossSurface data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <CommercialHypothesis data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <BeforeWith />
-        </section>
-
-        <section className={styles.section}>
-          <HumanRescue data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <AskThisJourney data={data} />
-        </section>
-
-        <section className={styles.section}>
-          <PilotSimulator />
-        </section>
-
-        {/* the reply — not "book a demo" */}
-        <section className={styles.section}>
-          <ReplyVerbs recipient={recipient} />
-        </section>
-
-        <section className={styles.section}>
-          <p style={{ fontSize: 12.5, color: '#8a959c', lineHeight: 1.6, maxWidth: 680 }}>
-            Independent concept by assembl. Not affiliated with, endorsed by, or
-            representing Woolworths New Zealand or Everyday Rewards. Catalogue, prices,
-            household and figures are illustrative; no order is placed and no live system
-            is connected. The one live input on this page — the Auckland temperature — is
-            clearly labelled as a live signal.
+          <h1 style={{ fontFamily: 'var(--edr-display), Georgia, serif', fontWeight: 500, fontSize: 'clamp(2.6rem, 6vw, 4rem)', lineHeight: 1.02, letterSpacing: '-0.02em', color: '#22303c', margin: 0 }}>
+            {HERO_COPY.heading}
+          </h1>
+          <p style={{ fontSize: 'clamp(1.05rem, 2vw, 1.25rem)', lineHeight: 1.55, color: '#3a474e', maxWidth: 620, margin: '22px 0 0' }}>
+            {HERO_COPY.line}
           </p>
-        </section>
+        </div>
+
+        {/* the two quiet controls: the mode, and the one lever */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 'clamp(28px, 4vw, 44px)' }}>
+          <ModeToggle mode={mode} onChange={setMode} />
+          <button
+            type="button"
+            className={styles.depthLink}
+            data-open={leverOpen}
+            onClick={() => setLeverOpen((v) => !v)}
+          >
+            change one thing {leverOpen ? '✕' : '→'}
+          </button>
+        </div>
+
+        {leverOpen ? (
+          <div className={styles.assemble} style={{ marginBottom: 'clamp(28px, 4vw, 44px)', maxWidth: 760 }}>
+            <ChangeOneThing scenario={scenario} onChange={setScenario} />
+          </div>
+        ) : null}
+
+        {/* the one thing that matters */}
+        {mode === 'customer' ? (
+          <WaitAssembly data={data} />
+        ) : (
+          <div style={{ maxWidth: 760 }}>
+            <JourneyInside data={data} />
+          </div>
+        )}
       </Container>
+
+      {/* ── go deeper — hidden until asked for ─────────────────────────── */}
+      <Container style={{ paddingTop: 'clamp(36px, 5vw, 64px)', paddingBottom: 'clamp(36px, 5vw, 64px)', borderTop: '1px solid rgba(34,48,60,0.08)' }}>
+        <Depths data={data} />
+      </Container>
+
+      {/* ── the next action ────────────────────────────────────────────── */}
+      <Container style={{ paddingTop: 'clamp(36px, 5vw, 64px)', paddingBottom: 'clamp(28px, 4vw, 48px)', borderTop: '1px solid rgba(34,48,60,0.08)' }}>
+        <ReplyVerbs recipient={recipient} />
+        <p style={{ fontSize: 12.5, color: '#8a959c', lineHeight: 1.6, maxWidth: 680, marginTop: 40 }}>
+          Independent concept by assembl. Not affiliated with, endorsed by, or representing
+          Woolworths New Zealand or Everyday Rewards. Catalogue, prices, household and figures
+          are illustrative; no order is placed and no live system is connected. The one live
+          input — the Auckland temperature, under &ldquo;the one live signal&rdquo; — is labelled as such.
+        </p>
+      </Container>
+    </div>
+  );
+}
+
+function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void }) {
+  return (
+    <div role="tablist" aria-label="View" style={{ display: 'inline-flex', gap: 4, padding: 4, borderRadius: 999, background: '#f2f2f2' }}>
+      {(['customer', 'journey'] as const).map((m) => (
+        <button
+          key={m}
+          role="tab"
+          aria-selected={mode === m}
+          type="button"
+          onClick={() => onChange(m)}
+          style={{
+            padding: '9px 18px',
+            borderRadius: 999,
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: 13.5,
+            fontWeight: 700,
+            background: mode === m ? '#fff' : 'transparent',
+            color: mode === m ? '#c65100' : '#8a959c',
+            boxShadow: mode === m ? '0 2px 8px rgba(34,48,60,0.10)' : 'none',
+          }}
+        >
+          {m === 'customer' ? HERO_COPY.customerMode : HERO_COPY.journeyMode}
+        </button>
+      ))}
     </div>
   );
 }
