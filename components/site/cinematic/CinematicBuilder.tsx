@@ -234,26 +234,38 @@ export function CinematicBuilder() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#FDFBF7');
     const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-    camera.position.set(0, 0.5, 10);
+    camera.position.set(0, 0.4, 9.2);
+    camera.lookAt(0, 0, 0);
 
+    // Kate's proven softbox recipe (assembl3d.js): emissive panels baked into
+    // the env map give chrome its long specular streaks — directional lights
+    // alone bake to almost nothing and everything reads as black blobs.
     const pmrem = new THREE.PMREMGenerator(renderer);
     const env = new THREE.Scene();
-    env.background = new THREE.Color('#050505');
-    let e1 = new THREE.DirectionalLight('#FFFFFF', 30); e1.position.set(5, 8, 5); env.add(e1);
-    e1 = new THREE.DirectionalLight('#FFFFFF', 18); e1.position.set(-5, 3, 2); env.add(e1);
-    scene.environment = pmrem.fromScene(env, 0.04).texture;
-    scene.add(new THREE.AmbientLight('#FFFFFF', 0.35));
-    const key = new THREE.DirectionalLight('#FFFFFF', 4); key.position.set(5, 8, 5); scene.add(key);
+    env.background = new THREE.Color('#0A0A0D');
+    const softbox = (color: string, w: number, h: number, x: number, y: number, z: number) => {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color }));
+      m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
+    };
+    softbox('#FFFFFF', 14, 5, 0, 9, 0);
+    softbox('#FFF6E8', 8, 12, -10, 2, 4);
+    softbox('#E9EEF4', 8, 10, 10, 1, -3);
+    softbox('#FFFFFF', 3, 14, 5, 2, 8);
+    softbox('#D9DEE6', 16, 3, 0, -7, 0);
+    scene.environment = pmrem.fromScene(env, 0.02).texture;
+    scene.add(new THREE.AmbientLight('#FFFFFF', 0.5));
+    const key = new THREE.DirectionalLight('#FFFFFF', 2.5); key.position.set(5, 8, 5); scene.add(key);
+    const fill = new THREE.DirectionalLight('#FFF8EE', 1); fill.position.set(-3, 3, 3); scene.add(fill);
 
-    const brass = new THREE.MeshStandardMaterial({ color: '#B8964F', metalness: 1, roughness: 0.06, envMapIntensity: 35 });
-    const brassBright = new THREE.MeshStandardMaterial({ color: '#D4A843', metalness: 1, roughness: 0.04, envMapIntensity: 40 });
-    const chrome = new THREE.MeshPhysicalMaterial({ color: '#C8CCD2', metalness: 1, roughness: 0.02, envMapIntensity: 35, clearcoat: 1 });
-    const navy = new THREE.MeshStandardMaterial({ color: '#080D1A', metalness: 1, roughness: 0.05, envMapIntensity: 35, emissive: '#080D1A', emissiveIntensity: 0.1 });
-    const navyDark = new THREE.MeshStandardMaterial({ color: '#050812', metalness: 1, roughness: 0.03, envMapIntensity: 40, emissive: '#050812', emissiveIntensity: 0.15 });
+    const brass = new THREE.MeshPhysicalMaterial({ color: '#B8964F', metalness: 1, roughness: 0.12, envMapIntensity: 1.6, clearcoat: 0.6, clearcoatRoughness: 0.2 });
+    const brassBright = new THREE.MeshPhysicalMaterial({ color: '#D4A843', metalness: 1, roughness: 0.07, envMapIntensity: 2.0, clearcoat: 0.8, clearcoatRoughness: 0.1 });
+    const chrome = new THREE.MeshPhysicalMaterial({ color: '#D6DADF', metalness: 1, roughness: 0.02, envMapIntensity: 2.4, clearcoat: 1, clearcoatRoughness: 0.03 });
+    const navy = new THREE.MeshPhysicalMaterial({ color: '#0C1836', metalness: 0.85, roughness: 0.06, envMapIntensity: 2.0, clearcoat: 1, clearcoatRoughness: 0.05 });
+    const navyDark = new THREE.MeshPhysicalMaterial({ color: '#081026', metalness: 0.9, roughness: 0.04, envMapIntensity: 2.2, clearcoat: 1, clearcoatRoughness: 0.04 });
 
     const group = new THREE.Group();
     scene.add(group);
-    group.position.y = -0.5;
+    group.position.y = 0.1;
 
     const core = new THREE.Mesh(new THREE.SphereGeometry(1.2, 64, 64), navy);
     group.add(core);
