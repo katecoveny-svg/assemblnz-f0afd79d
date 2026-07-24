@@ -188,135 +188,186 @@ export function CinematicBuilder() {
       const { jsPDF } = await import('jspdf');
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
       const W = 210;
+      const H = 297;
+      const M = 20; // margin
+
+      const hexToRgb = (hex: string): [number, number, number] => {
+        const h = hex.replace('#', '');
+        return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+      };
       const PAPER: [number, number, number] = [253, 251, 247];
-      const INK: [number, number, number] = [26, 25, 23];
-      const INK2: [number, number, number] = [110, 107, 100];
+      const INK: [number, number, number] = brief?.brand?.ink ? hexToRgb(brief.brand.ink) : [26, 25, 23];
+      const MUTED: [number, number, number] = [122, 118, 110];
       const BRASS: [number, number, number] = [184, 150, 79];
-      const who = agentName.trim() || 'your agent';
+      // Their colour leads the document; assembl's brass stays as the maker's mark.
+      const ACCENT: [number, number, number] = brief?.brand?.primary ? hexToRgb(brief.brand.primary) : BRASS;
+      const ACCENT2: [number, number, number] | null = brief?.brand?.secondary ? hexToRgb(brief.brand.secondary) : null;
+      const who = brief ? brief.source.replace(/^www\./, '') : (agentName.trim() || 'your agent');
+      const dated = new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
 
-      doc.setFillColor(...PAPER);
-      doc.rect(0, 0, W, 297, 'F');
+      const page = () => { doc.setFillColor(...PAPER); doc.rect(0, 0, W, H, 'F'); };
+      const mono = (t: string, x: number, y: number, size = 7, col = MUTED, align?: 'right') => {
+        doc.setFont('courier', 'normal');
+        doc.setFontSize(size);
+        doc.setTextColor(...col);
+        doc.text(t.toUpperCase(), x, y, align ? { align, charSpace: 0.5 } : { charSpace: 0.5 });
+      };
+      const foot = (n: string) => {
+        doc.setDrawColor(230, 226, 218);
+        doc.setLineWidth(0.2);
+        doc.line(M, H - 18, W - M, H - 18);
+        mono('assembl  ·  blueprint', M, H - 13);
+        mono(n, W - M, H - 13, 7, MUTED, 'right');
+      };
 
-      // header
-      doc.setTextColor(...INK);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(20);
-      doc.text('assembl.', 18, 22);
+      // ── PAGE 1 · the cover, in their colour ──────────────────────────────
+      page();
+      doc.setFillColor(...ACCENT);
+      doc.rect(0, 0, W, 88, 'F');
+      if (ACCENT2) { doc.setFillColor(...ACCENT2); doc.rect(0, 88, W, 3.2, 'F'); }
+
+      doc.setFont('courier', 'normal');
       doc.setFontSize(7.5);
-      doc.setTextColor(...BRASS);
-      doc.text('AGENT BLUEPRINT  ·  BUILT IN AOTEAROA NEW ZEALAND', 18, 28, { charSpace: 0.6 });
-      doc.setDrawColor(...BRASS);
-      doc.setLineWidth(0.4);
-      doc.line(18, 32, W - 18, 32);
-
-      // title + date
-      doc.setTextColor(...INK);
-      doc.setFontSize(26);
-      doc.setFont('helvetica', 'light' as never);
-      doc.text(who, 18, 45);
+      doc.setTextColor(255, 255, 255);
+      doc.text('BUSINESS BLUEPRINT', M, 26, { charSpace: 0.9 });
+      doc.setFont('times', 'normal');
+      doc.setFontSize(34);
+      doc.text(doc.splitTextToSize(who, W - M * 2) as string[], M, 48);
+      doc.setFont('courier', 'normal');
       doc.setFontSize(8);
-      doc.setTextColor(...INK2);
-      doc.setFont('helvetica', 'normal');
-      doc.text(
-        new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' }),
-        18, 51,
-      );
+      doc.text(`READ FROM THEIR OWN WEBSITE  ·  ${dated.toUpperCase()}`, M, 72, { charSpace: 0.6 });
 
-      // 3D snapshot of the visitor's own assembly
+      // The agent, wearing their colours.
       const shot = captureRef.current?.();
-      if (shot) {
-        doc.setFillColor(255, 255, 255);
-        doc.roundedRect(126, 36, 66, 50, 3, 3, 'F');
-        doc.addImage(shot, 'PNG', 128, 38, 62, 46);
-        doc.setFontSize(6);
-        doc.setTextColor(...INK2);
-        doc.text('your assembly · interactive at assembl.co.nz/build-an-agent', 128, 89);
+      if (shot) doc.addImage(shot, 'PNG', W / 2 - 47, 100, 94, 70);
+
+      doc.setFont('times', 'normal');
+      doc.setFontSize(15);
+      doc.setTextColor(...INK);
+      if (brief) {
+        doc.text(doc.splitTextToSize(brief.business, W - M * 2) as string[], M, 190);
+      } else {
+        doc.text('An agent assembled from six visible parts.', M, 190);
       }
 
-      // six parts
-      let y = 100;
-      PARTS.forEach((part) => {
-        doc.setFillColor(255, 255, 255);
-        doc.roundedRect(18, y - 5, W - 36, 24, 2.5, 2.5, 'F');
-        doc.setTextColor(...BRASS);
-        doc.setFontSize(9);
-        doc.text(part.s, 23, y + 1);
-        doc.setTextColor(...INK);
-        doc.setFontSize(11);
-        doc.text(part.n, 32, y + 1);
-        doc.setFontSize(8);
-        doc.setTextColor(...INK2);
-        doc.text(doc.splitTextToSize(`${part.q}  ${part.v}`, W - 60) as string[], 32, y + 6);
-        doc.setFontSize(6.5);
-        doc.setTextColor(...BRASS);
-        doc.text(part.a.toUpperCase(), 32, y + 16, { charSpace: 0.4 });
-        y += 27;
-      });
+      if (brief?.brand) {
+        mono('the colours it is wearing', M, 232, 7, MUTED);
+        const sw = [brief.brand.primary, brief.brand.secondary, brief.brand.accent].filter(Boolean) as string[];
+        sw.forEach((hex, i) => {
+          doc.setFillColor(...hexToRgb(hex));
+          doc.roundedRect(M + i * 34, 236, 28, 16, 1.5, 1.5, 'F');
+          mono(hex, M + i * 34, 258, 6, MUTED);
+        });
+      }
+      foot('01');
 
-      // boundary strip
-      doc.setFillColor(8, 13, 26);
-      doc.roundedRect(18, y - 2, W - 36, 14, 2.5, 2.5, 'F');
-      doc.setTextColor(212, 168, 67);
-      doc.setFontSize(8.5);
-      doc.text('nothing sends without approval — the rule travels with the work.', 24, y + 6.5);
-
-      // footer — the loop back
-      doc.setFontSize(8);
-      doc.setTextColor(...INK2);
-      doc.text('assemble your own:', 18, 285);
-      doc.setTextColor(...BRASS);
-      doc.textWithLink('assembl.co.nz/build-an-agent', 45, 285, { url: shareUrl() });
-      doc.setTextColor(...INK2);
-      doc.text('assembl@assembl.co.nz  ·  Aotearoa New Zealand', W - 18, 285, { align: 'right' });
-
-      // Page 2 — the visitor's own business, read off their own website.
+      // ── PAGE 2 · what the website says ───────────────────────────────────
       if (brief) {
-        doc.addPage();
-        doc.setFillColor(...PAPER);
-        doc.rect(0, 0, W, 297, 'F');
-        doc.setTextColor(...BRASS);
-        doc.setFontSize(7.5);
-        doc.text(`BUSINESS BLUEPRINT  ·  READ FROM ${brief.source.toUpperCase()}`, 18, 22, { charSpace: 0.6 });
-        doc.setDrawColor(...BRASS);
-        doc.line(18, 26, W - 18, 26);
+        doc.addPage(); page();
+        doc.setFillColor(...ACCENT);
+        doc.rect(0, 0, W, 2.4, 'F');
+        mono('what your website says', M, 24, 8, ACCENT);
 
-        let by = 38;
-        const block = (label: string, lines: string[]) => {
-          if (!lines.length) return;
-          doc.setTextColor(...BRASS);
-          doc.setFontSize(7.5);
-          doc.text(label.toUpperCase(), 18, by, { charSpace: 0.5 });
-          by += 6;
-          doc.setTextColor(...INK2);
-          doc.setFontSize(9.5);
-          lines.forEach((line) => {
-            const wrapped = doc.splitTextToSize(line, W - 40) as string[];
-            if (by + wrapped.length * 5 > 275) return;
-            doc.text(wrapped, 20, by);
-            by += wrapped.length * 5 + 2;
+        let y = 40;
+        const heading = (t: string) => {
+          if (y > H - 46) { foot('02'); doc.addPage(); page(); y = 30; }
+          mono(t, M, y, 7, ACCENT);
+          y += 7;
+        };
+        const bullets = (items: string[]) => {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(...INK);
+          items.forEach((it) => {
+            const wrapped = doc.splitTextToSize(it, W - M * 2 - 6) as string[];
+            if (y + wrapped.length * 5 > H - 30) { foot('02'); doc.addPage(); page(); y = 30; }
+            doc.setFillColor(...ACCENT);
+            doc.circle(M + 1.4, y - 1.4, 0.9, 'F');
+            doc.text(wrapped, M + 6, y);
+            y += wrapped.length * 5 + 3.5;
           });
-          by += 8;
+          y += 8;
+        };
+        const para = (t: string) => {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(...INK);
+          const wrapped = doc.splitTextToSize(t, W - M * 2) as string[];
+          doc.text(wrapped, M, y);
+          y += wrapped.length * 5 + 11;
         };
 
-        doc.setTextColor(...INK);
-        doc.setFontSize(15);
-        doc.text(doc.splitTextToSize(brief.business, W - 36) as string[], 18, by);
-        by += (doc.splitTextToSize(brief.business, W - 36) as string[]).length * 7 + 10;
+        if (brief.sells.length) { heading('what you offer'); bullets(brief.sells); }
+        if (brief.facts.length) { heading('facts your agent will not invent around'); bullets(brief.facts); }
+        if (brief.voice) { heading('your voice'); para(brief.voice); }
+        foot('02');
 
-        block('what you offer', brief.sells.map((x) => `· ${x}`));
-        block('facts your agent will not invent around', brief.facts.map((x) => `· ${x}`));
-        if (brief.voice) block('your voice', [brief.voice]);
-        block('what your website does not answer', brief.blindSpots.map((x) => `· ${x}`));
+        // ── PAGE 3 · the gaps — the page people forward ────────────────────
+        if (brief.blindSpots.length) {
+          doc.addPage(); page();
+          doc.setFillColor(...ACCENT);
+          doc.rect(0, 0, W, 2.4, 'F');
+          mono('what your website does not answer', M, 24, 8, ACCENT);
+          doc.setFont('times', 'normal');
+          doc.setFontSize(19);
+          doc.setTextColor(...INK);
+          doc.text(doc.splitTextToSize('Every one of these is a question a customer already has.', W - M * 2) as string[], M, 42);
 
-        doc.setFontSize(7);
-        doc.setTextColor(...INK2);
-        doc.text(
-          'Read from one public page on the date above. Nothing was stored. Confirm anything commercial before relying on it.',
-          18, 285,
-        );
+          let gy = 66;
+          brief.blindSpots.forEach((b, i) => {
+            const wrapped = doc.splitTextToSize(b, W - M * 2 - 16) as string[];
+            const boxH = wrapped.length * 5.4 + 15;
+            doc.setFillColor(255, 255, 255);
+            doc.roundedRect(M, gy, W - M * 2, boxH, 2.5, 2.5, 'F');
+            mono(String(i + 1).padStart(2, '0'), M + 7, gy + 10, 8, ACCENT);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10.5);
+            doc.setTextColor(...INK);
+            doc.text(wrapped, M + 18, gy + 10);
+            gy += boxH + 6;
+          });
+          foot('03');
+        }
       }
 
-      doc.save(`${(agentName.trim() || 'assembl-agent').replace(/[^\w-]+/g, '-').toLowerCase()}-blueprint.pdf`);
+      // ── FINAL PAGE · the agent's own anatomy + the boundary ──────────────
+      doc.addPage(); page();
+      doc.setFillColor(...ACCENT);
+      doc.rect(0, 0, W, 2.4, 'F');
+      mono('the agent, part by part', M, 24, 8, ACCENT);
+      let py = 38;
+      PARTS.forEach((part) => {
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(M, py, W - M * 2, 25, 2.5, 2.5, 'F');
+        mono(part.s, M + 7, py + 9, 8, ACCENT);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(...INK);
+        doc.text(part.n, M + 18, py + 9);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(...MUTED);
+        doc.text(doc.splitTextToSize(part.v, W - M * 2 - 26) as string[], M + 18, py + 15);
+        py += 28;
+      });
+
+      doc.setFillColor(8, 13, 26);
+      doc.roundedRect(M, py + 4, W - M * 2, 17, 2.5, 2.5, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(212, 168, 67);
+      doc.text('Nothing sends without approval — the rule travels with the work.', M + 8, py + 14.5);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...MUTED);
+      doc.text('Assembled by assembl from one public page on the date shown. Nothing was stored.', M, H - 30);
+      doc.text('Confirm anything commercial before relying on it.', M, H - 25.5);
+      doc.setTextColor(...BRASS);
+      doc.textWithLink('assembl.co.nz/build-an-agent', M, H - 13, { url: shareUrl() });
+      mono('assembl@assembl.co.nz  ·  aotearoa new zealand', W - M, H - 13, 7, MUTED, 'right');
+
+      doc.save(`${who.replace(/[^\w-]+/g, '-').toLowerCase()}-blueprint.pdf`);
     } finally {
       setPdfBusy(false);
     }
