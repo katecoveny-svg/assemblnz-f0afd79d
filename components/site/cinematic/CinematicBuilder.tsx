@@ -26,16 +26,191 @@ export function CinematicBuilder() {
   const [active, setActive] = useState(1);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [agentName, setAgentName] = useState('');
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [askQ, setAskQ] = useState('');
+  const [askA, setAskA] = useState('');
+  const [askBusy, setAskBusy] = useState(false);
   const activeRef = useRef(active);
   activeRef.current = active;
+  // Set by the scene effect: renders a fresh frame and returns it as a PNG
+  // data-URI (WebGL buffers are cleared after present, so capture must
+  // re-render synchronously).
+  const captureRef = useRef<(() => string) | null>(null);
+
+  // A share link restores the named agent and the inspected part.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const n = q.get('name');
+    const part = q.get('part');
+    if (n) setAgentName(n.slice(0, 40));
+    if (part && !Number.isNaN(+part)) setActive(Math.min(5, Math.max(0, +part)));
+  }, []);
+
+  function shareUrl() {
+    const q = new URLSearchParams();
+    if (agentName.trim()) q.set('name', agentName.trim());
+    q.set('part', String(activeRef.current));
+    return `https://www.assembl.co.nz/build-an-agent?${q.toString()}`;
+  }
 
   function copyCard() {
     const p = PARTS[activeRef.current];
+    const who = agentName.trim() || `${p.n} Agent`;
     navigator.clipboard.writeText(
-      `assembl agent recipe\n${p.s} — ${p.n} Agent\n\n${p.q}\n${p.v}\n\nAccess: ${p.a}\nnothing sends without approval\n\nassembl.co.nz`,
+      `assembl agent recipe — ${who}\n${p.s} — ${p.n}\n\n${p.q}\n${p.v}\n\nAccess: ${p.a}\nnothing sends without approval\n\n${shareUrl()}`,
     );
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  function shareIntent(net: 'x' | 'li') {
+    const text = `I assembled ${agentName.trim() || 'an agent'} with assembl — every part visible, nothing sends without approval.`;
+    const url = shareUrl();
+    const href =
+      net === 'x'
+        ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
+        : `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    window.open(href, '_blank', 'noopener');
+  }
+
+  // Same live agent the homepage demo streams from — here it answers AS the
+  // agent the visitor just named and inspected.
+  async function askAgent() {
+    const question = askQ.trim();
+    if (!question || askBusy) return;
+    setAskBusy(true);
+    setAskA('');
+    try {
+      const res = await fetch('/api/build-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          config: {
+            name: agentName.trim() || 'assembl demo agent',
+            business: 'a New Zealand small business',
+            modelTier: 'mid',
+            memoryScope: 'session',
+            tools: ['calendar', 'web-search'],
+            knowledge: [],
+            voice: 'Warm, plain-spoken. Never invents prices.',
+            guardrails: ['cite-sources', 'no-personal-data'],
+          },
+        }),
+      });
+      if (!res.ok || !res.body) {
+        setAskA('The agent is resting — try again in a moment.');
+        return;
+      }
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let acc = '';
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        setAskA(acc);
+      }
+    } catch {
+      setAskA('The agent is resting — try again in a moment.');
+    } finally {
+      setAskBusy(false);
+    }
+  }
+
+  async function downloadPdf() {
+    if (pdfBusy) return;
+    setPdfBusy(true);
+    try {
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+      const W = 210;
+      const PAPER: [number, number, number] = [253, 251, 247];
+      const INK: [number, number, number] = [26, 25, 23];
+      const INK2: [number, number, number] = [110, 107, 100];
+      const BRASS: [number, number, number] = [184, 150, 79];
+      const who = agentName.trim() || 'your agent';
+
+      doc.setFillColor(...PAPER);
+      doc.rect(0, 0, W, 297, 'F');
+
+      // header
+      doc.setTextColor(...INK);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(20);
+      doc.text('assembl.', 18, 22);
+      doc.setFontSize(7.5);
+      doc.setTextColor(...BRASS);
+      doc.text('AGENT BLUEPRINT  ·  BUILT IN AOTEAROA NEW ZEALAND', 18, 28, { charSpace: 0.6 });
+      doc.setDrawColor(...BRASS);
+      doc.setLineWidth(0.4);
+      doc.line(18, 32, W - 18, 32);
+
+      // title + date
+      doc.setTextColor(...INK);
+      doc.setFontSize(26);
+      doc.setFont('helvetica', 'light' as never);
+      doc.text(who, 18, 45);
+      doc.setFontSize(8);
+      doc.setTextColor(...INK2);
+      doc.setFont('helvetica', 'normal');
+      doc.text(
+        new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' }),
+        18, 51,
+      );
+
+      // 3D snapshot of the visitor's own assembly
+      const shot = captureRef.current?.();
+      if (shot) {
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(126, 36, 66, 50, 3, 3, 'F');
+        doc.addImage(shot, 'PNG', 128, 38, 62, 46);
+        doc.setFontSize(6);
+        doc.setTextColor(...INK2);
+        doc.text('your assembly · interactive at assembl.co.nz/build-an-agent', 128, 89);
+      }
+
+      // six parts
+      let y = 100;
+      PARTS.forEach((part) => {
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(18, y - 5, W - 36, 24, 2.5, 2.5, 'F');
+        doc.setTextColor(...BRASS);
+        doc.setFontSize(9);
+        doc.text(part.s, 23, y + 1);
+        doc.setTextColor(...INK);
+        doc.setFontSize(11);
+        doc.text(part.n, 32, y + 1);
+        doc.setFontSize(8);
+        doc.setTextColor(...INK2);
+        doc.text(doc.splitTextToSize(`${part.q}  ${part.v}`, W - 60) as string[], 32, y + 6);
+        doc.setFontSize(6.5);
+        doc.setTextColor(...BRASS);
+        doc.text(part.a.toUpperCase(), 32, y + 16, { charSpace: 0.4 });
+        y += 27;
+      });
+
+      // boundary strip
+      doc.setFillColor(8, 13, 26);
+      doc.roundedRect(18, y - 2, W - 36, 14, 2.5, 2.5, 'F');
+      doc.setTextColor(212, 168, 67);
+      doc.setFontSize(8.5);
+      doc.text('nothing sends without approval — the rule travels with the work.', 24, y + 6.5);
+
+      // footer — the loop back
+      doc.setFontSize(8);
+      doc.setTextColor(...INK2);
+      doc.text('assemble your own:', 18, 285);
+      doc.setTextColor(...BRASS);
+      doc.textWithLink('assembl.co.nz/build-an-agent', 45, 285, { url: shareUrl() });
+      doc.setTextColor(...INK2);
+      doc.text('assembl@assembl.co.nz  ·  Aotearoa New Zealand', W - 18, 285, { align: 'right' });
+
+      doc.save(`${(agentName.trim() || 'assembl-agent').replace(/[^\w-]+/g, '-').toLowerCase()}-blueprint.pdf`);
+    } finally {
+      setPdfBusy(false);
+    }
   }
 
   useEffect(() => {
@@ -177,6 +352,13 @@ export function CinematicBuilder() {
     tick();
     cleanups.push(() => cancelAnimationFrame(raf));
 
+    // PDF snapshot: re-render synchronously, then read the buffer.
+    captureRef.current = () => {
+      renderer.render(scene, camera);
+      return renderer.domElement.toDataURL('image/png');
+    };
+    cleanups.push(() => { captureRef.current = null; });
+
     on(window, 'resize', () => {
       const w = canvas.clientWidth, h = canvas.clientHeight;
       camera.aspect = w / h;
@@ -240,6 +422,27 @@ export function CinematicBuilder() {
           </div>
         </div>
 
+        <div className="page-body" style={{ paddingTop: 0 }}>
+          <div className="glass-panel" style={{ maxWidth: 720 }}>
+            <div className="panel-header">
+              {agentName.trim() ? `${agentName.trim()} — live` : 'Agent — live'}{' '}
+              <span className="live">{askBusy ? 'drafting' : 'ready'}</span>
+            </div>
+            <textarea
+              className="demo-input"
+              rows={2}
+              value={askQ}
+              maxLength={400}
+              placeholder="ask it something a customer would ask…"
+              onChange={(e) => setAskQ(e.target.value)}
+            />
+            <button className="btn btn-solid demo-btn" onClick={askAgent} disabled={askBusy || !askQ.trim()}>
+              {askBusy ? 'drafting…' : 'ask the agent'}
+            </button>
+            {askA ? <div className="demo-answer">{askA}</div> : null}
+          </div>
+        </div>
+
         <CineFooter />
       </div>
 
@@ -248,13 +451,25 @@ export function CinematicBuilder() {
           <div className="share-card">
             <button className="close-btn" onClick={() => setShareOpen(false)}>✕</button>
             <div className="sc-kicker">agent recipe · assembl</div>
-            <div className="sc-title">{p.n} Agent</div>
+            <div className="sc-title">{agentName.trim() || `${p.n} Agent`}</div>
+            <input
+              className="sc-name"
+              type="text"
+              value={agentName}
+              maxLength={40}
+              placeholder="name your agent…"
+              onChange={(e) => setAgentName(e.target.value)}
+            />
             <div className="sc-parts">{PARTS.map((pp) => <span className="sc-p" key={pp.s}>{pp.s} {pp.n}</span>)}</div>
             <div className="sc-desc">{p.v}</div>
             <div className="sc-proof">nothing sends without approval · {p.a}</div>
             <div className="sc-actions">
-              <button className="btn btn-solid" onClick={copyCard}>{copied ? 'copied!' : 'copy card'}</button>
-              <button className="btn btn-glass" onClick={() => setShareOpen(false)}>close</button>
+              <button className="btn btn-solid" onClick={downloadPdf} disabled={pdfBusy}>
+                {pdfBusy ? 'assembling…' : 'download the blueprint (pdf)'}
+              </button>
+              <button className="btn btn-glass" onClick={copyCard}>{copied ? 'copied!' : 'copy link'}</button>
+              <button className="btn btn-glass" onClick={() => shareIntent('x')}>share on X</button>
+              <button className="btn btn-glass" onClick={() => shareIntent('li')}>linkedin</button>
             </div>
           </div>
         </div>

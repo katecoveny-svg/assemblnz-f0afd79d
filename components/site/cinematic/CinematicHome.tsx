@@ -486,7 +486,7 @@ export function CinematicHome() {
             <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>your AI is</span></span>
             <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>made of.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>assembl understands what people need, completes the work around them, and proves the experience is improving. Not another chatbot. Not another dashboard.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>assembl reads what your customer needs, drafts the work, and shows you the minutes it gave back. A person approves before anything sends.</p>
           <div className="hero-cta hero-cta-cinema">
             <a className="btn btn-solid" href="#genome">walk the platform</a>
             <a className="btn btn-glass" href="/build-an-agent">build an agent</a>
@@ -499,7 +499,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-left">
             <div className="kicker">01 — Business Blueprint</div>
             <h2>Your business,<br /><span className="accent">understood.</span></h2>
-            <p>Not a database. A living model of what you sell, how you speak, what you allow. The Blueprint is the source of truth for every journey. Change it once — every journey updates.</p>
+            <p>What you sell, how you speak, what needs sign-off — written down once, in one place. Change the budget ceiling here and every agent works to the new number.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Blueprint — live <span className="live">connected</span></div>
@@ -517,7 +517,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-right">
             <div className="kicker">02 — Journey Composer</div>
             <h2>Every journey,<br /><span className="accent">composed.</span></h2>
-            <p>Entry, intent, context, recommendation, commitment, action, wait, fulfilment, resolution. The same architecture for every industry. Only the configuration changes.</p>
+            <p>A customer asks for the week&rsquo;s shop. assembl reads the household calendar, drafts the plan, asks for one approval, and records the 47 minutes it gave back. Swap groceries for bookings or quotes — the steps hold.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">Journey — everyday, assembled <span className="live">running</span></div>
@@ -535,7 +535,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-left">
             <div className="kicker">03 — Agent Harness</div>
             <h2>Specialists,<br /><span className="accent">not one assistant.</span></h2>
-            <p>Each agent has a contract — purpose, inputs, outputs, authority, limitations. They collaborate through the Runtime. They never improvise. You stay in control.</p>
+            <p>Each agent does one job — reading intent, checking the budget, drafting the plan — with written limits on what it may touch. Anything consequential waits for your yes.</p>
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>
           </div>
           <div className="panel reveal-right" data-delay="200">
@@ -554,7 +554,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-right">
             <div className="kicker">04 — Assembling · Monetised Wait</div>
             <h2>Waiting,<br /><span className="accent">made useful.</span></h2>
-            <p>Every wait state in every customer journey is a monetised moment. While the agent works, the user earns — charity at launch, with more rewards rolling out. One line of code. You keep 55%.</p>
+            <p>While the agent prepares the work, your customer watches it happen and earns a small reward — charity at launch, more rewards rolling out. One line of code to add. You keep 55% of wait revenue.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">While you wait — live <span className="live">assembling</span></div>
@@ -573,7 +573,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-left">
             <div className="kicker">05 — Assembl Proof</div>
             <h2>Evidence,<br /><span className="accent">not analytics.</span></h2>
-            <p>Every journey leaves a trace. Every decision is recorded. Every outcome is measured against the baseline. No black box. No approximations. Just proof.</p>
+            <p>Each run records what the agent read, what it drafted, who approved it, and the minutes it returned — measured against how long the job took before.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Proof — this journey <span className="live">recorded</span></div>

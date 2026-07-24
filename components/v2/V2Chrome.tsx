@@ -43,7 +43,8 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
-        <Link href="/a" className={styles.navCta}>
+        {/* The old /a builder is superseded by the cinematic /build-an-agent. */}
+        <Link href="/build-an-agent" className={styles.navCta}>
           assemble an agent
           <span aria-hidden style={{ fontSize: 14, lineHeight: 1 }}>
             ↗
