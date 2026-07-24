@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { CineFooter } from './CineFooter';
 import * as THREE from 'three';
 
 /**
@@ -192,7 +193,7 @@ export function CinematicAgents() {
           <div style={{ marginBottom: 60 }}><a className="btn btn-solid" href="/build-an-agent">build an agent →</a></div>
         </div>
 
-        <footer>assembl · aotearoa new zealand · © 2026</footer>
+        <CineFooter />
       </div>
     </div>
   );

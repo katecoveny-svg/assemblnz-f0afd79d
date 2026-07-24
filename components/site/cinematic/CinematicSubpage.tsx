@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { CineFooter } from './CineFooter';
 import * as THREE from 'three';
 
 /**
@@ -184,7 +185,7 @@ export function CinematicSubpage({ spec }: { spec: SubpageSpec }) {
           </div>
         </div>
 
-        <footer>assembl · aotearoa new zealand · © 2026</footer>
+        <CineFooter />
       </div>
     </div>
   );

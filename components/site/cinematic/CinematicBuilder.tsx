@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { CineFooter } from './CineFooter';
 import * as THREE from 'three';
 
 /**
@@ -239,7 +240,7 @@ export function CinematicBuilder() {
           </div>
         </div>
 
-        <footer>assembl · aotearoa new zealand · © 2026</footer>
+        <CineFooter />
       </div>
 
       {shareOpen ? (
