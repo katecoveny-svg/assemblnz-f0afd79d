@@ -91,6 +91,10 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/about',
   '/agents',
   '/pricing',
+  // Cinematic pages (Kate's prototype system, 2026-07-24)
+  '/pilots',
+  '/field-notes',
+  '/build-an-agent',
   '/how-it-works',
   '/trust',
   '/contact',

@@ -22,8 +22,9 @@ import {
 // Editorial gallery rebuild owns its own wordmark + footer.
 // The cinematic surfaces ship their own nav + footer (Kate's prototype
 // chrome) — global chrome must stay out of their way.
+const CINEMATIC_PATHS = new Set(['/', '/pricing', '/agents', '/about', '/pilots', '/field-notes']);
 const isEditorialHome = (pathname: string | null): boolean =>
-  pathname === '/' || pathname === '/pricing';
+  !!pathname && CINEMATIC_PATHS.has(pathname);
 
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
