@@ -470,6 +470,7 @@ export function CinematicHome() {
         <nav className="nav">
           <a className="wordmark" href="#top">assembl</a>
           <div className="nav-links">
+            <a href="/concepts">concepts</a>
             <a href="#genome">blueprint</a>
             <a href="#journey">journey</a>
             <a href="#agents">agents</a>
