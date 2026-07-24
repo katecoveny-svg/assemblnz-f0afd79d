@@ -65,6 +65,25 @@ export function CinematicBuilder() {
     const part = q.get('part');
     if (n) setAgentName(n.slice(0, 40));
     if (part && !Number.isNaN(+part)) setActive(Math.min(5, Math.max(0, +part)));
+
+    // Arriving from the homepage invitation: the blueprint has already been
+    // assembled, so pick it up rather than making the model read the page again.
+    const site = q.get('site');
+    if (!site) return;
+    setSiteUrl(site);
+    try {
+      const stored = sessionStorage.getItem('assembl:brief');
+      if (!stored) return;
+      const parsed = JSON.parse(stored) as Brief;
+      if (parsed?.source === site) {
+        setBrief(parsed);
+        if (!n) setAgentName(parsed.source.replace(/^www\./, '').split('.')[0]);
+        if (parsed.questions?.[0]) setAskQ(parsed.questions[0]);
+      }
+      sessionStorage.removeItem('assembl:brief');
+    } catch {
+      /* nothing handed over — the visitor can assemble again from here */
+    }
   }, []);
 
   function shareUrl() {
