@@ -95,7 +95,7 @@ export default function DisclaimerPage() {
             <SectionReveal delay={0.5}>
               <h2 className="font-display text-2xl font-light md:text-3xl">Indemnity.</h2>
               <p className="mt-3">
-                To the maximum extent permitted by law, you agree to indemnify assembl Ltd and its directors, employees, and contractors against any loss, claim, or liability arising from your use of the platform, including any reliance on a draft that was not properly reviewed by a qualified human in your team before action was taken.
+                To the maximum extent permitted by law, you agree to indemnify assembl NZ Limited and its directors, employees, and contractors against any loss, claim, or liability arising from your use of the platform, including any reliance on a draft that was not properly reviewed by a qualified human in your team before action was taken.
               </p>
             </SectionReveal>
 

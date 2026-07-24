@@ -100,10 +100,12 @@ export function rankColours(counts: Map<string, number>): BrandColours | null {
     if (l > 0.93 || l < 0.08) continue;
     if (s < 0.22) continue;
 
-    // Favour frequency, but don't let a hundred uses of a pale tint beat the
-    // real brand colour: weight by saturation and by being mid-lightness.
-    const lightnessFit = 1 - Math.abs(l - 0.5) * 1.4;
-    scored.push({ hex, count, score: Math.log2(count + 1) * (0.45 + s) * Math.max(0.25, lightnessFit) });
+    // Favour frequency, weighted by saturation. The lightness term only
+    // nudges: plenty of real brands are deep (navy, aubergine, forest,
+    // burgundy), and an earlier, harsher version of this handed Summerset's
+    // CTA red the crown over the #470A68 purple they use 245 times.
+    const lightnessFit = 1 - Math.abs(l - 0.5) * 0.8;
+    scored.push({ hex, count, score: Math.log2(count + 1) * (0.45 + s) * Math.max(0.4, lightnessFit) });
   }
 
   if (!scored.length) return null;
@@ -112,14 +114,22 @@ export function rankColours(counts: Map<string, number>): BrandColours | null {
   const primary = scored[0];
   const primaryHue = satLight(...parseHex(primary.hex)!).hue;
 
+  // A real second brand colour gets used repeatedly. Below this floor we are
+  // just reading noise — a stray tint in one module stylesheet — and telling
+  // someone "these are your colours" while showing them the wrong one is worse
+  // than showing them none. (Ryman's green appears twice; a pale blue they do
+  // not use appears three times. Neither is their brand.)
+  const floor = Math.max(4, primary.count * 0.05);
+  const believable = scored.slice(1).filter((c) => c.count >= floor);
+
   // Secondary must be a genuinely different hue, not a shade of the primary.
-  const secondary = scored.slice(1).find((c) => {
+  const secondary = believable.find((c) => {
     const { hue } = satLight(...parseHex(c.hex)!);
     return hueDistance(hue, primaryHue) > 40;
   }) ?? null;
 
   const secondaryHue = secondary ? satLight(...parseHex(secondary.hex)!).hue : null;
-  const accent = scored.slice(1).find((c) => {
+  const accent = believable.find((c) => {
     if (secondary && c.hex === secondary.hex) return false;
     const { hue } = satLight(...parseHex(c.hex)!);
     return hueDistance(hue, primaryHue) > 25 && (secondaryHue === null || hueDistance(hue, secondaryHue) > 25);
