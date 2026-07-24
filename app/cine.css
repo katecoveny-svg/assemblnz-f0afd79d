@@ -657,3 +657,21 @@
   padding-bottom: 2px; transition: color 0.3s, border-color 0.3s;
 }
 .cine footer .foot-links a:hover { color: var(--brass); border-color: var(--brass); }
+
+.cine .sc-name {
+  width: 100%; margin: 10px 0 14px; padding: 11px 14px;
+  border: 1px solid rgba(26, 25, 23, 0.15); border-radius: 12px;
+  font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--ink);
+  background: rgba(255, 255, 255, 0.7); outline: none;
+}
+.cine .sc-name:focus { border-color: var(--brass); }
+.cine .sc-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.cine .sc-actions .btn[disabled] { opacity: 0.5; cursor: wait; }
+
+/* mobile: the assembly must never sit over body copy */
+@media (max-width: 700px) {
+  .cine #canvas-3d { opacity: 0.38; }
+  .cine .section-copy p, .cine .lede {
+    text-shadow: 0 1px 12px rgba(253, 251, 247, 0.95), 0 0 26px rgba(253, 251, 247, 0.9);
+  }
+}
