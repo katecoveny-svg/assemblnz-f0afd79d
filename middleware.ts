@@ -120,6 +120,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/concept-studio',
   // Creative playground — linked from the cinematic footer (2026-07-24).
   '/creative-playground',
+  // Public, client-name-free journey walkthrough (2026-07-25).
+  '/concepts',
   // "Build an agent" — the Pilot flow is public (the homepage + /genome CTA
   // target it). Kept; the retired kete pricing pages (/industry-pack, /start,
   // /platform) are removed from the public surface.

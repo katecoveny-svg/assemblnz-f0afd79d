@@ -7,6 +7,7 @@ export function CineFooter() {
   return (
     <footer>
       <nav className="foot-links" aria-label="legal and account">
+        <a href="/concepts">concepts</a>
         <a href="/legal/privacy">privacy</a>
         <a href="/legal/terms">terms</a>
         <a href="/legal/disclaimer">disclaimer</a>
