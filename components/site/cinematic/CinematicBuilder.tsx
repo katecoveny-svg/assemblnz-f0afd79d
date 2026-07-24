@@ -21,6 +21,8 @@ type Brief = {
   facts: string[];
   blindSpots: string[];
   source: string;
+  /** Counted off their own stylesheets — null when the site has no clear palette. */
+  brand: { primary: string; secondary: string | null; accent: string | null; ink: string } | null;
 };
 
 const PARTS = [
@@ -52,6 +54,9 @@ export function CinematicBuilder() {
   // data-URI (WebGL buffers are cleared after present, so capture must
   // re-render synchronously).
   const captureRef = useRef<(() => string) | null>(null);
+  /** The visitor's own brand palette, read live by the render loop. */
+  const brandRef = useRef<{ primary: string; secondary: string | null } | null>(null);
+  brandRef.current = brief?.brand ?? null;
 
   // A share link restores the named agent and the inspected part.
   useEffect(() => {
@@ -371,14 +376,12 @@ export function CinematicBuilder() {
     scene.add(group);
     group.position.y = 0.1;
 
-    const core = new THREE.Mesh(new THREE.SphereGeometry(1.2, 64, 64), navy);
+    const core = new THREE.Mesh(new THREE.SphereGeometry(1.2, 64, 64), navy.clone());
     group.add(core);
-    const glow = new THREE.Mesh(
-      new THREE.SphereGeometry(0.7, 32, 32),
-      new THREE.MeshStandardMaterial({ color: '#D4A843', metalness: 0.5, roughness: 0.1, emissive: '#D4A843', emissiveIntensity: 0.5, transparent: true, opacity: 0.95 }),
-    );
+    const glowMat = new THREE.MeshStandardMaterial({ color: '#D4A843', metalness: 0.5, roughness: 0.1, emissive: '#D4A843', emissiveIntensity: 0.5, transparent: true, opacity: 0.95 });
+    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32), glowMat);
     group.add(glow);
-    const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.2, 0.08, 16, 96), brassBright);
+    const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.2, 0.08, 16, 96), brassBright.clone());
     ring1.rotation.x = Math.PI / 2.5; group.add(ring1);
     const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.8, 0.06, 12, 72), chrome);
     ring2.rotation.x = Math.PI / 2.8; ring2.rotation.y = Math.PI / 4; group.add(ring2);
@@ -435,9 +438,40 @@ export function CinematicBuilder() {
     });
 
     let t = 0, raf = 0;
+    // Their colour goes in the middle; the rings take their second colour; the
+    // chrome stays assembl's. Applied per-frame because a blueprint can land at
+    // any moment — comparing first keeps it to a no-op the rest of the time.
+    let appliedBrand = '';
+    function applyBrand() {
+      const b = brandRef.current;
+      const sig = b ? `${b.primary}|${b.secondary ?? ''}` : '';
+      if (sig === appliedBrand) return;
+      appliedBrand = sig;
+      if (b) {
+        core.material.color.set(b.primary);
+        core.material.emissive.set(b.primary);
+        core.material.emissiveIntensity = 0.18;
+        glowMat.color.set(b.primary);
+        glowMat.emissive.set(b.primary);
+        ring1.material.color.set(b.secondary ?? b.primary);
+        ring1.material.emissiveIntensity = 0;
+      } else {
+        core.material.color.set('#080D1A');
+        core.material.emissive.set('#080D1A');
+        core.material.emissiveIntensity = 0.1;
+        glowMat.color.set('#D4A843');
+        glowMat.emissive.set('#D4A843');
+        ring1.material.color.set('#D4A843');
+      }
+      core.material.needsUpdate = true;
+      ring1.material.needsUpdate = true;
+      glowMat.needsUpdate = true;
+    }
+
     function tick() {
       raf = requestAnimationFrame(tick);
       t += 0.016;
+      applyBrand();
       core.rotation.y = t * 0.1;
       glow.rotation.y = -t * 0.15;
       ring1.rotation.z = t * 0.06;
@@ -537,6 +571,27 @@ export function CinematicBuilder() {
                   <span className="brief-lab">what it understood</span>
                   <p>{brief.business}</p>
                 </div>
+                {brief.brand ? (
+                  <div className="brief-line">
+                    <span className="brief-lab">your colours · read off your own stylesheet</span>
+                    <div className="brand-swatches">
+                      <span className="sw" style={{ background: brief.brand.primary }} title={brief.brand.primary}>
+                        <em>{brief.brand.primary}</em>
+                      </span>
+                      {brief.brand.secondary ? (
+                        <span className="sw" style={{ background: brief.brand.secondary }} title={brief.brand.secondary}>
+                          <em>{brief.brand.secondary}</em>
+                        </span>
+                      ) : null}
+                      {brief.brand.accent ? (
+                        <span className="sw" style={{ background: brief.brand.accent }} title={brief.brand.accent}>
+                          <em>{brief.brand.accent}</em>
+                        </span>
+                      ) : null}
+                      <span className="sw-note">your agent above is wearing them</span>
+                    </div>
+                  </div>
+                ) : null}
                 {brief.sells.length ? (
                   <div className="brief-line">
                     <span className="brief-lab">knowledge · what you offer</span>
