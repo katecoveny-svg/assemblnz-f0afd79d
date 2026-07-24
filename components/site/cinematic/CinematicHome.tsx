@@ -268,6 +268,22 @@ export function CinematicHome() {
     }
 
     const stageMap: Record<number, THREE.Mesh> = { 1: knowledge, 2: ability, 3: appTile, 4: approval };
+
+    // One keyframe per section: intro, blueprint, journey, agents, wait,
+    // proof, finale. s=scale, x/y/z=assembly position, ry/rx=rotation,
+    // cz/cy=camera. Alternates sides with the copy, dives near for agents,
+    // rises for wait, pulls wide for proof, lands centre-stage huge for the
+    // finale — one full slow turn across the whole page.
+    const KEYS = [
+      { s: 1.30, x:  3.0, y: -0.2, z:  0.0, ry: 0.15, rx: 0.00, cz:  9.2, cy: 0.4 }, // intro — huge, right
+      { s: 0.95, x: -3.0, y:  0.3, z: -0.6, ry: 1.25, rx: 0.05, cz:  8.6, cy: 0.5 }, // blueprint — swings left
+      { s: 1.00, x:  3.1, y: -0.5, z: -1.4, ry: 2.30, rx: -0.06, cz: 8.2, cy: 0.2 }, // journey — right, deeper
+      { s: 1.45, x: -2.6, y:  0.0, z:  0.8, ry: 3.35, rx: 0.08, cz:  7.2, cy: 0.4 }, // agents — close-up left
+      { s: 0.85, x:  2.8, y:  1.1, z: -1.0, ry: 4.40, rx: 0.30, cz:  8.6, cy: 0.9 }, // wait — rises, tilts
+      { s: 0.72, x: -2.7, y: -0.6, z: -2.2, ry: 5.30, rx: -0.10, cz: 10.4, cy: 0.3 }, // proof — pulls wide
+      { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.55, rx: 0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
+    ];
+
     let prevScroll = 0, spin = 0, t = 0, raf = 0;
 
     function tick() {
@@ -311,17 +327,41 @@ export function CinematicHome() {
 
       parts.rotation.y = tt * 0.008;
 
+      // ── SCROLL CHOREOGRAPHY ──────────────────────────────────────────
+      // The assembly is the co-star of the whole page: FAR larger than the
+      // prototype's drift, and it travels — side to side, toward and away
+      // from the camera, rising and diving, completing a full slow turn —
+      // keyframed per section and eased between them. `stageFloat` is a
+      // continuous section index (2.4 = 40% through section 2), so motion
+      // direction and depth genuinely change as you move down the page.
+      let sf = 0;
+      for (let i = 0; i < sections.length; i++) {
+        const r = sections[i].getBoundingClientRect();
+        const mid = innerHeight * 0.5;
+        if (r.top > mid) break;
+        if (r.bottom <= mid) { sf = i + 1; continue; }
+        sf = i + (mid - r.top) / Math.max(1, r.height);
+      }
+      sf = Math.min(sf, KEYS.length - 1);
+      const i0 = Math.floor(sf), i1 = Math.min(i0 + 1, KEYS.length - 1);
+      const f = sf - i0, e = f * f * (3 - 2 * f); // smoothstep between stages
+      const k = (a: number, b: number) => a + (b - a) * e;
+      const A = KEYS[i0], B = KEYS[i1];
+
       const narrow = innerWidth < 900;
       const fit = Math.min(1, innerWidth / 1400);
-      group.scale.setScalar(narrow ? 0.55 : 0.7 + fit * 0.2);
-      group.position.x = (narrow ? 0.4 : 3.1) + mx * 0.3 - Math.sin(prog * Math.PI) * (narrow ? 0.4 : 1.0);
-      group.position.y = (narrow ? 1.6 : 0) + my * 0.2 + Math.sin(prog * Math.PI * 2) * 0.4;
-      group.rotation.y = prog * Math.PI * 0.35 + mx * 0.08 + spin * 3;
-      group.rotation.z = Math.sin(prog * Math.PI * 1.6) * 0.03 + spin * 0.6;
+      const baseScale = k(A.s, B.s) * (narrow ? 0.55 : 0.85 + fit * 0.15);
+      group.scale.setScalar(baseScale);
+      group.position.x = k(A.x, B.x) * (narrow ? 0.25 : 1) + mx * 0.3;
+      group.position.y = k(A.y, B.y) + (narrow ? 1.5 : 0) + my * 0.2;
+      group.position.z = k(A.z, B.z);
+      group.rotation.y = k(A.ry, B.ry) + mx * 0.08 + spin * 3;
+      group.rotation.x = k(A.rx, B.rx) + spin * 0.4;
+      group.rotation.z = Math.sin(sf * 1.1) * 0.04 + spin * 0.6;
       camera.position.x = mx * 0.9;
-      camera.position.y = 0.4 - my * 0.45;
-      camera.position.z = 10 - prog * 1.8;
-      camera.lookAt(group.position.x * 0.35, group.position.y * 0.4, 0);
+      camera.position.y = k(A.cy, B.cy) - my * 0.45;
+      camera.position.z = k(A.cz, B.cz);
+      camera.lookAt(group.position.x * 0.35, group.position.y * 0.4, group.position.z * 0.5);
 
       placeLabel('core', core, 2.4, currentStage === 0);
       components.forEach((c) => placeLabel(c.key, c.mesh, 0.8, stageMap[currentStage] === c.mesh));

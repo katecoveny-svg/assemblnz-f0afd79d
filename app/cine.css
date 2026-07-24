@@ -465,3 +465,31 @@
   .cine .hero-word, .cine .hero-sub-cinema, .cine .hero-cta-cinema, .cine .finale-word { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
   .cine .reveal-left, .cine .reveal-right, .cine .reveal-fade { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
 }
+
+/* ── PRICING (Kate's pricing.html, scoped) ── */
+.cine .page-header { padding: 160px 48px 48px; max-width: 1080px; margin: 0 auto; }
+.cine .page-body { max-width: 1080px; margin: 0 auto; padding: 0 48px 48px; }
+.cine .page-header h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 1.06; }
+.cine .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 48px 0; }
+@media (max-width: 640px) { .cine .pricing-grid { grid-template-columns: 1fr; } .cine .page-header, .cine .page-body { padding-left: 24px; padding-right: 24px; } }
+.cine .price-card {
+  background: rgba(255,255,255,0.5); backdrop-filter: blur(20px);
+  border-radius: 28px; padding: 36px; border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 12px 40px rgba(0,0,0,0.04);
+  transition: all 0.4s var(--ease-out); position: relative; overflow: hidden;
+}
+.cine .price-card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 25% 25%, rgba(184,150,79,0.03), transparent 55%); pointer-events: none; }
+.cine .price-card:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(0,0,0,0.1); border-color: rgba(184,150,79,0.2); }
+.cine .price-card.featured { border: 2px solid var(--brass); }
+.cine .price-badge { position: absolute; top: 16px; right: 24px; background: var(--brass); color: #fff; padding: 6px 18px; border-radius: 50px; font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; }
+.cine .price-tier { font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem; letter-spacing: 0.18em; color: var(--brass); margin-bottom: 12px; }
+.cine .price-amount { font-family: 'Inter Tight', sans-serif; font-size: 3.2rem; font-weight: 300; margin-bottom: 8px; }
+.cine .price-amount span { font-size: 1rem; color: var(--ink-3); }
+.cine .price-desc { font-size: 0.88rem; color: var(--ink-2); line-height: 1.6; margin-bottom: 24px; }
+.cine .price-list { list-style: none; margin: 0 0 24px; padding: 0; }
+.cine .price-list li { padding: 8px 0; font-size: 0.85rem; color: var(--ink-2); display: flex; align-items: center; gap: 10px; }
+.cine .price-list li::before { content: '✓'; color: var(--brass); font-weight: 600; }
+.cine .founding { margin: 48px 0; padding: 40px; background: var(--navy); border-radius: 28px; color: var(--paper); border: 1px solid rgba(184,150,79,0.15); }
+.cine .founding h2 { font-family: 'Inter Tight', sans-serif; font-weight: 300; font-size: 1.8rem; margin-bottom: 12px; }
+.cine .founding .accent { color: var(--brass); }
+.cine .founding p { font-size: 0.92rem; opacity: 0.8; line-height: 1.65; max-width: 600px; }

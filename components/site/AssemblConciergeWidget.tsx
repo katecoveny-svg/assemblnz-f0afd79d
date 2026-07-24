@@ -179,7 +179,7 @@ export function AssemblConciergeWidget() {
 
   // Don't render the global concierge on an agent's own chat page, the internal
   // /admin operator hub, a tenant workspace, or the homepage (its own portal).
-  if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || pathname === '/') {
+  if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || pathname === '/' || pathname === '/pricing') {
     return null;
   }
 

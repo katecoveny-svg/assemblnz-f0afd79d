@@ -20,7 +20,10 @@ import {
 } from '@/components/site/site-header';
 
 // Editorial gallery rebuild owns its own wordmark + footer.
-const isEditorialHome = (pathname: string | null): boolean => pathname === '/';
+// The cinematic surfaces ship their own nav + footer (Kate's prototype
+// chrome) — global chrome must stay out of their way.
+const isEditorialHome = (pathname: string | null): boolean =>
+  pathname === '/' || pathname === '/pricing';
 
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
