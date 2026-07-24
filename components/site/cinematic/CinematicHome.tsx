@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { CineFooter } from './CineFooter';
+import { BlueprintStart } from './BlueprintStart';
 import * as THREE from 'three';
 
 /**
@@ -488,9 +489,18 @@ export function CinematicHome() {
             <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>made of.</span></span>
           </h1>
           <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>assembl reads what your customer needs, drafts the work, and shows you the minutes it gave back. A person approves before anything sends.</p>
+          {/* The first thing a visitor does. Kate's hero copy stays the first
+              thing they read; this is the first thing that pays them back. */}
+          <div className="bp-invite">
+            <div className="bp-invite-head">Start with what you&rsquo;ve already written.</div>
+            <p className="bp-invite-sub">
+              Your website is enough. It reads one page, assembles an agent that knows your business, and shows you the
+              questions your site leaves unanswered.
+            </p>
+            <BlueprintStart />
+          </div>
           <div className="hero-cta hero-cta-cinema">
-            <a className="btn btn-solid" href="#genome">walk the platform</a>
-            <a className="btn btn-glass" href="/build-an-agent">build an agent</a>
+            <a className="btn btn-glass" href="#genome">or walk the platform ↓</a>
           </div>
         </section>
 
