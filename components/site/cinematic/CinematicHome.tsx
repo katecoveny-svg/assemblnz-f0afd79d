@@ -397,12 +397,15 @@ export function CinematicHome() {
       const k = (a: number, b: number) => a + (b - a) * e;
       const A = KEYS[i0], B = KEYS[i1];
 
-      const narrow = innerWidth < 900;
-      const fit = Math.min(1, innerWidth / 1400);
-      const baseScale = k(A.s, B.s) * (narrow ? 0.55 : 0.85 + fit * 0.15);
+      // Continuous width blend (0 at ≤700px … 1 at ≥1400px) — the old binary
+      // <900px switch left mid-width windows with full desktop placement and
+      // the assembly parked on top of the headline.
+      const wide = Math.min(1, Math.max(0, (innerWidth - 700) / 700));
+      const baseScale = k(A.s, B.s) * (0.5 + 0.5 * wide);
       group.scale.setScalar(baseScale);
-      group.position.x = k(A.x, B.x) * (narrow ? 0.25 : 1) + mx * 0.3;
-      group.position.y = k(A.y, B.y) + (narrow ? 1.5 : 0) + my * 0.2;
+      // narrower window → pushed further to its side + lifted above the copy
+      group.position.x = k(A.x, B.x) * (1 + (1 - wide) * 0.45) + mx * 0.3;
+      group.position.y = k(A.y, B.y) + (1 - wide) * 1.4 + my * 0.2;
       group.position.z = k(A.z, B.z);
       group.rotation.y = k(A.ry, B.ry) + mx * 0.08 + spin * 3;
       group.rotation.x = k(A.rx, B.rx) + spin * 0.4;
