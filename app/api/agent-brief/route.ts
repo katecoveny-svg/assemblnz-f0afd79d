@@ -24,6 +24,7 @@ import { generateText } from 'ai';
 import { pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { clientIpFromHeaders } from '@/lib/lead-capture';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { extractBrandColours, stylesheetUrls } from '@/lib/build-an-agent/brand-colours';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -108,7 +109,7 @@ function toText(html: string): string {
     .slice(0, MAX_TEXT);
 }
 
-async function fetchPage(u: URL): Promise<string | null> {
+async function fetchBody(u: URL, accept: string): Promise<string | null> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
   try {
@@ -117,12 +118,10 @@ async function fetchPage(u: URL): Promise<string | null> {
       redirect: 'follow',
       headers: {
         'user-agent': 'assembl-blueprint/1.0 (+https://www.assembl.co.nz/build-an-agent)',
-        accept: 'text/html,application/xhtml+xml',
+        accept,
       },
     });
     if (!res.ok) return null;
-    const type = res.headers.get('content-type') ?? '';
-    if (!type.includes('html')) return null;
     const buf = await res.arrayBuffer();
     if (buf.byteLength > MAX_BYTES) return null;
     return new TextDecoder().decode(buf);
@@ -131,6 +130,27 @@ async function fetchPage(u: URL): Promise<string | null> {
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function fetchPage(u: URL): Promise<string | null> {
+  return fetchBody(u, 'text/html,application/xhtml+xml');
+}
+
+/**
+ * Pull the site's own stylesheets so the brand palette comes from what they
+ * actually ship, not from inline utility classes. Each URL is re-checked
+ * through the same SSRF guard — a page can link a stylesheet anywhere.
+ */
+async function fetchStyles(html: string, base: URL): Promise<string[]> {
+  const urls = stylesheetUrls(html, base);
+  const bodies = await Promise.all(
+    urls.map(async (raw) => {
+      const safe = await safeUrl(raw);
+      if (!safe) return null;
+      return fetchBody(safe, 'text/css');
+    }),
+  );
+  return bodies.filter((b): b is string => typeof b === 'string');
 }
 
 const EXTRACT_SYSTEM = `You read a business's own public website and write the Business Blueprint an AI agent would need to answer that business's customers honestly.
@@ -204,6 +224,10 @@ export async function POST(req: NextRequest) {
     return bad(422, "There wasn't much readable text on that page. Try the About or Services page.");
   }
 
+  // Brand palette, counted rather than guessed (see lib/build-an-agent/brand-colours).
+  const styles = await fetchStyles(html, u);
+  const brand = extractBrandColours([html, ...styles]);
+
   // Deep tier: judging what a business does from its own marketing copy is
   // reasoning work, and a wrong blueprint poisons every answer after it.
   const ladder = resolveModelLadder(MODEL_TIER_TO_ANTHROPIC.premium, []);
@@ -228,7 +252,7 @@ export async function POST(req: NextRequest) {
   if (!brief) return bad(502, "The blueprint didn't come back cleanly. Try again in a moment.");
 
   return Response.json(
-    { ...brief, source: u.hostname, model: rung.id },
+    { ...brief, brand, source: u.hostname, model: rung.id },
     { headers: { 'cache-control': 'no-store' } },
   );
 }

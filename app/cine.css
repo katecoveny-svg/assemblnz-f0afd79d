@@ -763,3 +763,19 @@
 .cine .concept-note { margin-top: 40px; max-width: 820px; }
 .cine .concept-note p { font-size: 0.95rem; line-height: 1.68; color: var(--ink-2); margin: 0; }
 .cine .concept-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+.cine .brand-swatches { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.cine .brand-swatches .sw {
+  position: relative; width: 74px; height: 44px; border-radius: 10px;
+  border: 1px solid rgba(26, 25, 23, 0.14); box-shadow: 0 6px 16px rgba(26, 25, 23, 0.1);
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px;
+}
+.cine .brand-swatches .sw em {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.44rem; font-style: normal;
+  letter-spacing: 0.06em; color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.cine .brand-swatches .sw-note {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.46rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
+}
