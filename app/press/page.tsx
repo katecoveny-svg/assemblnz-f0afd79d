@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 
 import { MotionAssetView } from '@/components/brand/MotionAssetView';
 import { FEATURED_ASSET_ID, getMotionAsset } from '@/lib/brand/motion-assets';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 
 export const metadata: Metadata = {
   title: 'Press kit',
@@ -16,21 +15,13 @@ export default function PressPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden py-24 lg:py-28">
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="halftone"
-          colorRole="gold"
-          opacity={0.3}
-          speed={0.5}
-          lazyMount={false}
-        />
+      <section className="relative overflow-hidden border-b border-black/15 bg-[#f0f0eb] py-20 lg:py-24">
         <div className="container relative z-10">
           <div className="mx-auto max-w-5xl">
             <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">
               Media
             </p>
-            <h1 className="mt-3 font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.92] tracking-[-0.03em] text-[color:var(--assembl-pounamu)]">
+            <h1 className="mt-5 font-sans text-[clamp(3rem,6vw,5.2rem)] font-semibold uppercase leading-[0.96] tracking-[-0.035em] text-[#252d31]">
               Press kit
             </h1>
             <p className="mt-4 max-w-2xl text-body-md text-[color:var(--text-body)]">
@@ -48,10 +39,10 @@ export default function PressPage() {
 
       <main className="mx-auto max-w-5xl px-6 pb-24 pt-12">
       <section className="mt-12">
-        <h2 className="font-display text-display-sm">Wordmarks</h2>
+        <h2 className="font-sans text-3xl font-semibold tracking-[-0.025em]">Wordmarks</h2>
         <div className="mt-6 grid gap-12 md:grid-cols-2">
           <div>
-            <h3 className="font-display text-2xl">assembl wordmark</h3>
+            <h3 className="font-sans text-2xl font-medium">assembl wordmark</h3>
             <Image
               src="/img/press/assembl-wordmark.png"
               alt="assembl wordmark"
@@ -68,7 +59,7 @@ export default function PressPage() {
             </a>
           </div>
           <div>
-            <h3 className="font-display text-2xl">tōro wordmark</h3>
+            <h3 className="font-sans text-2xl font-medium">tōro wordmark</h3>
             <Image
               src="/img/press/toro-wordmark.png"
               alt="tōro wordmark"
@@ -91,7 +82,7 @@ export default function PressPage() {
         <section className="mt-16">
           <div className="flex items-end justify-between gap-6">
             <div>
-              <h2 className="font-display text-display-sm">3D motion</h2>
+              <h2 className="font-sans text-3xl font-semibold tracking-[-0.025em]">3D motion</h2>
               <p className="mt-3 max-w-2xl text-body-md text-[color:var(--text-body)]">
                 Interactive 3D scenes from the assembl Spline library. Free to embed
                 in editorial coverage with attribution to &quot;assembl&quot;
@@ -127,7 +118,7 @@ export default function PressPage() {
       )}
 
       <section className="mt-16">
-        <h2 className="font-display text-display-sm">One-page pitch</h2>
+        <h2 className="font-sans text-3xl font-semibold tracking-[-0.025em]">One-page pitch</h2>
         <p className="mt-3 max-w-2xl text-body-md text-[color:var(--text-body)]">
           A printable one-pager covering the headline, kete, pricing, and contact
           details.

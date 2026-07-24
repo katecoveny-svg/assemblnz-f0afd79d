@@ -96,7 +96,7 @@ export default async function SharedAgentPage({
             textTransform: 'uppercase',
           }}
         >
-          Community agent — built by a visitor · drafts only ·{' '}
+          Public trial agent · one clear job · drafts only ·{' '}
           <a href={reportHref} style={{ color: MUTED, textDecoration: 'underline' }}>
             report
           </a>

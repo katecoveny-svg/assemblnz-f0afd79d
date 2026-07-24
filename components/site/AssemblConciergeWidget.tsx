@@ -14,17 +14,10 @@ type Message = {
   body: string;
 };
 
-/*
- * Champagne canon (DIRECTION-LOCKED-2026-07-01): paper #FBFAF6, ink #1A1918,
- * champagne gold #BFA37A accent — no canary yellow anywhere. Cormorant 600
- * lowercase headers, Lato body, Space Mono micro-labels. Pricing and bundle
- * names are never written here — they read from the single registry
- * (lib/registry/pricing + lib/marketplace/bundles) so this surface can't drift
- * from /pricing.
- */
-const PAPER = '#FBFAF6';
-const INK = '#1A1918';
-const GOLD = '#BFA37A';
+/* The public studio frame: paper, ink and one quiet sea-glass status accent. */
+const PAPER = '#F0F0EB';
+const INK = '#111311';
+const GOLD = '#557060';
 
 const QUICK_PROMPTS = [
   'how does pricing work?',
@@ -191,7 +184,7 @@ export function AssemblConciergeWidget() {
           aria-modal="true"
           aria-label="ask assembl"
           style={{ backgroundColor: PAPER }}
-          className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-2xl border border-[rgba(26,25,24,0.10)] shadow-[0_24px_70px_rgba(26,25,24,0.16)] animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300"
+          className="w-[min(calc(100vw-2rem),390px)] overflow-hidden border border-[rgba(17,19,17,0.24)] shadow-[0_24px_70px_rgba(17,19,17,0.16)] animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300"
         >
           <div className="flex items-start justify-between gap-4 border-b border-[rgba(26,25,24,0.08)] p-4">
             <div>
@@ -267,7 +260,7 @@ export function AssemblConciergeWidget() {
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isTyping}
-                  className="rounded-full border border-[rgba(26,25,24,0.12)] bg-white px-3 py-1 text-xs text-[#56544B] transition-all hover:-translate-y-0.5 hover:border-[#BFA37A] hover:text-[#1A1918] focus-visible:-translate-y-0.5 focus-visible:border-[#BFA37A] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0 disabled:opacity-40"
+                  className="border border-[rgba(17,19,17,0.18)] bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-[0.04em] text-[#4f544f] transition-all hover:border-[#111311] hover:text-[#111311] focus-visible:border-[#111311] focus-visible:text-[#111311] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                 >
                   {prompt}
                 </button>
@@ -292,13 +285,13 @@ export function AssemblConciergeWidget() {
                   placeholder="ask anything..."
                   disabled={isTyping}
                   aria-describedby="concierge-counter"
-                  className="h-11 min-w-0 flex-1 rounded-xl border border-[rgba(26,25,24,0.14)] bg-white px-3 text-sm text-[#1A1918] transition-all focus:border-[#BFA37A] focus:outline focus:outline-2 focus:outline-[#BFA37A]/30 focus:outline-offset-0 disabled:opacity-60"
+                  className="h-11 min-w-0 flex-1 border border-[rgba(17,19,17,0.2)] bg-white px-3 text-sm text-[#111311] transition-all focus:border-[#111311] focus:outline focus:outline-2 focus:outline-[#111311]/20 focus:outline-offset-0 disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   aria-label="Send"
                   style={{ backgroundColor: INK, color: PAPER }}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl transition-all hover:opacity-90 focus-visible:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
+                  className="inline-flex h-11 w-11 items-center justify-center transition-all hover:opacity-90 focus-visible:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                   disabled={!draft.trim() || isTyping}
                 >
                   <Send className="h-4 w-4" aria-hidden />
@@ -338,12 +331,12 @@ export function AssemblConciergeWidget() {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
-        style={{ backgroundColor: GOLD, color: INK }}
-        className="inline-flex h-14 items-center gap-2 rounded-full border border-[rgba(26,25,24,0.10)] px-6 shadow-[0_16px_44px_rgba(26,25,24,0.18)] transition-all hover:-translate-y-0.5 hover:opacity-90 focus-visible:-translate-y-0.5 focus-visible:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
+        style={{ backgroundColor: INK, color: PAPER }}
+        className="inline-flex h-12 items-center gap-2 border border-[#111311] px-5 shadow-[0_16px_44px_rgba(17,19,17,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[#343734] focus-visible:-translate-y-0.5 focus-visible:bg-[#343734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
         aria-expanded={open}
         aria-haspopup="dialog"
       >
-        <span className="font-display text-lg font-semibold lowercase leading-none">
+        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] leading-none">
           ask assembl
         </span>
       </button>

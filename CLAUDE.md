@@ -16,6 +16,25 @@ carries a "sample business — details fictional" strip. Keep it that way.
 **Read `docs/LIVING-SITE-HANDOVER.md` before touching Living Site work** —
 it carries the full state, database details, PR history, and the open list.
 
+**Strategic direction — agentic customer journeys.** assembl creates agentic
+customer journeys that understand what people need, complete the work around
+them, and prove the experience is improving. "Find the friction. Assemble the
+journey. Prove the result." Full strategy in `docs/assembl-context.md`; the
+reusable foundation lives in `lib/journey/` (`docs/agentic-customer-journey.md`)
+with the reference journey "everyday, assembled" at `/journeys/everyday-assembled`.
+One `CustomerJourney` object powers the runtime, customer interface, approvals,
+wait state and proof; industries reuse it by changing configuration only. The
+Business Genome is the intelligence foundation; context is selected per stage
+(never load the whole genome). Nothing sends/orders without a human yes; label
+simulated/proposed/approval-required honestly — never claim `completed` unless
+genuinely done.
+
+**Design canon — invoke the `assembl-design` skill**
+(`plugins/assembl-core/skills/assembl-design/SKILL.md`) before ANY assembl
+visual, interface or copy work. Naming is lowercase `assembl` everywhere;
+motion is assembly (no spinners); accent teal, gold hairlines, paper white,
+graphite primaries; no canary yellow.
+
 **Design canon (locked 2026-07-10): `docs/DESIGN-SYSTEM-VNEXT.md`.** The
 short version: not a SaaS dashboard — the calmest business OS ever designed.
 One primary action per screen; progressive disclosure; if a screen can lose

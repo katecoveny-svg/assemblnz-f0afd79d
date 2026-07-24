@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
-import { PatternBackdrop } from "@/components/pattern-studio/PatternBackdrop";
 
 export const metadata: Metadata = {
   title: "AI Use Disclosure | assembl",
@@ -21,21 +20,13 @@ const commitments = [
 export default function AIUseDisclosurePage() {
   return (
     <main className="bg-[color:var(--assembl-paper)]">
-      <section className="relative overflow-hidden container py-24 md:py-32">
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="halftone"
-          colorRole="gold"
-          opacity={0.3}
-          speed={0.5}
-          lazyMount={false}
-        />
+      <section className="relative overflow-hidden container py-24 md:py-28">
         <div className="relative z-10 mx-auto max-w-4xl">
           <SectionReveal>
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
               Compliance · Model Use
             </p>
-            <h1 className="mt-5 max-w-3xl font-display text-[clamp(3rem,7vw,6rem)] font-light leading-[0.92] text-[color:var(--text-primary)]">
+            <h1 className="mt-5 max-w-3xl font-sans text-[clamp(3rem,6vw,5.25rem)] font-semibold uppercase leading-[0.96] tracking-[-0.035em] text-[color:var(--text-primary)]">
               AI use, plainly.
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-secondary)]">
@@ -60,7 +51,7 @@ export default function AIUseDisclosurePage() {
 
           <div className="mt-14 grid gap-10 md:grid-cols-2">
             <SectionReveal delay={0.15}>
-              <h2 className="font-display text-2xl font-light md:text-3xl">Models we may call</h2>
+              <h2 className="font-sans text-2xl font-medium md:text-3xl">Models we may call</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 Current production workflows may call Claude Sonnet 4.6, Gemini 2.5
                 Flash, Gemini embedding models, OpenAI models where configured, or
@@ -69,7 +60,7 @@ export default function AIUseDisclosurePage() {
               </p>
             </SectionReveal>
             <SectionReveal delay={0.2}>
-              <h2 className="font-display text-2xl font-light md:text-3xl">The four pou</h2>
+              <h2 className="font-sans text-2xl font-medium md:text-3xl">The four pou</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 Rangatiratanga means people keep agency. Kaitiakitanga means data is
                 cared for. Manaakitanga means tools are useful without being pushy.
@@ -77,7 +68,7 @@ export default function AIUseDisclosurePage() {
               </p>
             </SectionReveal>
             <SectionReveal delay={0.25}>
-              <h2 className="font-display text-2xl font-light md:text-3xl">What we do not do</h2>
+              <h2 className="font-sans text-2xl font-medium md:text-3xl">What we do not do</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 assembl does not make final legal, financial, employment, health, or
                 entitlement decisions. It does not auto-send messages, auto-file
@@ -86,7 +77,7 @@ export default function AIUseDisclosurePage() {
               </p>
             </SectionReveal>
             <SectionReveal delay={0.3}>
-              <h2 className="font-display text-2xl font-light md:text-3xl">Public-sector posture</h2>
+              <h2 className="font-sans text-2xl font-medium md:text-3xl">Public-sector posture</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 Our AI use is shaped by New Zealand public-service expectations for
                 safe, transparent, and responsible use of generative AI. We design

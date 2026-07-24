@@ -1,0 +1,269 @@
+/* Woolworths "assembled" concept — layout + assembly motion.
+   Motion communicates work, never entertainment (design canon §11): pieces
+   settle into place; nothing spins or bounces. All motion is disabled under
+   prefers-reduced-motion. */
+
+.page {
+  --edr-orange: #fd6400;
+  --edr-orange-dark: #c65100;
+  --edr-orange-light: #ffe6d1;
+  --edr-navy: #22303c;
+  --edr-charcoal: #3a474e;
+  --edr-grey-mid: #8a959c;
+  --edr-grey-light: #f2f2f2;
+  --edr-paper: #fbfaf7;
+  background: var(--edr-paper);
+  min-height: 100vh;
+  font-family: var(--edr-body), Roboto, system-ui, sans-serif;
+}
+
+.section {
+  border-top: 1px solid rgba(34, 48, 60, 0.08);
+  padding: 56px 0;
+}
+.section:first-child {
+  border-top: none;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The scene: the phone and the work taking shape beside it. One calm stage,
+   generous whitespace (design canon §9) — not a stack of sections. */
+.stage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(32px, 6vw, 88px);
+  align-items: center;
+}
+.stagePhone {
+  display: flex;
+  justify-content: center;
+}
+.stageWork {
+  min-height: 452px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (max-width: 880px) {
+  .stage {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .stageWork {
+    min-height: 0;
+  }
+}
+
+/* A quiet disclosure affordance — a depth you open, hidden until asked for. */
+.depthRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+.depthLink {
+  border: 1px solid rgba(34, 48, 60, 0.14);
+  background: #fff;
+  color: var(--edr-charcoal);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+.depthLink:hover {
+  border-color: var(--edr-orange);
+  color: var(--edr-navy);
+}
+.depthLink[data-open='true'] {
+  border-color: var(--edr-orange);
+  background: var(--edr-orange-light);
+  color: var(--edr-orange-dark);
+}
+.depthLink:focus-visible {
+  outline: 2px solid var(--edr-orange);
+  outline-offset: 2px;
+}
+.depthPanel {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(34, 48, 60, 0.1);
+}
+
+/* A piece that has just (re)assembled — a quiet settle, no bounce. */
+.assemble {
+  animation: settle 520ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reassembleTrail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: var(--edr-grey-mid);
+}
+.reassembleTrail span[data-on='true'] {
+  color: var(--edr-orange-dark);
+  font-weight: 600;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chip {
+  border: 1.5px solid rgba(34, 48, 60, 0.16);
+  background: #fff;
+  color: var(--edr-navy);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 120ms ease;
+}
+.chip:hover {
+  border-color: var(--edr-orange);
+}
+.chip:active {
+  transform: translateY(1px);
+}
+.chip[data-active='true'] {
+  border-color: var(--edr-orange);
+  background: var(--edr-orange-light);
+  color: var(--edr-orange-dark);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--edr-orange);
+  outline-offset: 2px;
+}
+
+.timeline {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding: 8px 2px 18px;
+  scroll-snap-type: x proximity;
+}
+.tEvent {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 208px;
+  padding: 0 18px;
+  border-left: 1px solid rgba(34, 48, 60, 0.12);
+  cursor: pointer;
+}
+.tEvent:first-child {
+  border-left: none;
+  padding-left: 2px;
+}
+.tDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--edr-orange);
+  margin-bottom: 12px;
+}
+.tEvent[data-muted='true'] .tDot {
+  background: rgba(34, 48, 60, 0.2);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table td {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(34, 48, 60, 0.08);
+  vertical-align: top;
+  font-size: 14px;
+  color: var(--edr-charcoal);
+  line-height: 1.55;
+}
+.table tr:first-child td {
+  border-top: none;
+}
+
+.beforeList,
+.withList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.beforeList li,
+.withList li {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.beforeList li {
+  background: var(--edr-grey-light);
+  color: var(--edr-grey-mid);
+}
+.withList li {
+  background: var(--edr-orange-light);
+  color: var(--edr-orange-dark);
+  font-weight: 600;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--edr-charcoal);
+}
+.field select,
+.field input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(34, 48, 60, 0.16);
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--edr-navy);
+}
+
+.statusStrip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--edr-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assemble {
+    animation: none;
+  }
+}

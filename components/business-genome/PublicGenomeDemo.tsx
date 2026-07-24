@@ -8,9 +8,11 @@ import {
   CircleDot,
   Copy,
   Database,
+  Download,
   Network,
   Play,
   RotateCcw,
+  Share2,
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
@@ -77,6 +79,36 @@ const AGENTS: Array<{
 
 const SECTION_ORDER = Object.keys(GENOME_SECTION_LABELS) as GenomeSection[];
 
+function drawWrappedText(
+  context: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
+  maxLines: number,
+) {
+  const words = text.replace(/\s+/g, ' ').trim().split(' ');
+  const lines: string[] = [];
+  let line = '';
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (context.measureText(next).width <= maxWidth) {
+      line = next;
+      continue;
+    }
+    if (line) lines.push(line);
+    line = word;
+    if (lines.length === maxLines) break;
+  }
+  if (line && lines.length < maxLines) lines.push(line);
+  if (words.length > 0 && lines.length === maxLines) {
+    lines[maxLines - 1] = `${lines[maxLines - 1].replace(/[.,;:]?$/, '')}…`;
+  }
+  lines.forEach((item, index) => context.fillText(item, x, y + index * lineHeight));
+  return y + lines.length * lineHeight;
+}
+
 function nodePosition(index: number, total: number): React.CSSProperties {
   const angle = (index / total) * Math.PI * 2 - Math.PI / 2;
   const x = 50 + Math.cos(angle) * 39;
@@ -94,6 +126,7 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
   const [shareState, setShareState] = React.useState<'idle' | 'copied'>('idle');
+  const [resultShareState, setResultShareState] = React.useState<'idle' | 'shared' | 'copied'>('idle');
 
   const scenario = RIPPLE_SCENARIOS.find((item) => item.id === scenarioId) ?? null;
   const demoFacts = React.useMemo(
@@ -146,6 +179,122 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
     } catch {
       setShareState('idle');
     }
+  }
+
+  const resultShareText = React.useMemo(() => {
+    if (!result) return '';
+    return [
+      'assembl · Business Genome demo',
+      `${result.agent.name} · ${result.agent.role}`,
+      '',
+      result.draft,
+      '',
+      `Sources: ${result.sources.map((source) => source.label).join(' · ')}`,
+      `Review: ${result.approval.reviewer} · ${result.approval.boundary}`,
+      '',
+      'Draft only · assembl.co.nz/genome',
+    ].join('\n');
+  }, [result]);
+
+  async function makeResultCard() {
+    if (!result) throw new Error('Run an agent first.');
+    const canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    const context = canvas.getContext('2d');
+    if (!context) throw new Error('This browser could not make the share card.');
+
+    const gradient = context.createLinearGradient(0, 0, 1200, 630);
+    gradient.addColorStop(0, '#fbfaf6');
+    gradient.addColorStop(1, '#e8f1ed');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 1200, 630);
+
+    context.fillStyle = '#26383a';
+    context.font = '600 32px Georgia, serif';
+    context.fillText('assembl', 72, 72);
+    context.fillStyle = '#3f7373';
+    context.font = '700 15px monospace';
+    context.fillText('BUSINESS GENOME · SHAREABLE DRAFT', 72, 110);
+
+    context.fillStyle = '#26383a';
+    context.font = '500 54px Georgia, serif';
+    context.fillText(`${result.agent.name} prepared this draft.`, 72, 190);
+
+    context.fillStyle = '#53656a';
+    context.font = '400 25px Arial, sans-serif';
+    const draftBottom = drawWrappedText(context, result.draft, 72, 246, 770, 36, 6);
+
+    context.fillStyle = 'rgba(255,255,255,0.72)';
+    context.strokeStyle = 'rgba(49,60,66,0.14)';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.roundRect(882, 150, 246, 304, 24);
+    context.fill();
+    context.stroke();
+    context.fillStyle = '#3f7373';
+    context.font = '700 13px monospace';
+    context.fillText('SOURCES USED', 912, 194);
+    context.fillStyle = '#26383a';
+    context.font = '600 18px Arial, sans-serif';
+    result.sources.slice(0, 5).forEach((source, index) => {
+      drawWrappedText(context, source.label, 912, 234 + index * 44, 186, 22, 2);
+    });
+
+    const reviewY = Math.max(500, draftBottom + 30);
+    context.fillStyle = '#b8964f';
+    context.beginPath();
+    context.arc(80, reviewY - 6, 7, 0, Math.PI * 2);
+    context.fill();
+    context.fillStyle = '#26383a';
+    context.font = '700 17px Arial, sans-serif';
+    context.fillText(`Awaiting human review · ${result.approval.reviewer}`, 104, reviewY);
+    context.fillStyle = '#68766f';
+    context.font = '400 15px Arial, sans-serif';
+    context.fillText('Fictional demo data · nothing was sent or published', 72, 588);
+    context.fillStyle = '#3f7373';
+    context.font = '700 16px monospace';
+    context.textAlign = 'right';
+    context.fillText('assembl.co.nz/genome', 1128, 588);
+    context.textAlign = 'left';
+
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((value) => value ? resolve(value) : reject(new Error('The share card could not be rendered.')), 'image/png');
+    });
+    return new File([blob], 'assembl-business-genome-result.png', { type: 'image/png' });
+  }
+
+  async function shareResult() {
+    if (!result) return;
+    try {
+      const file = await makeResultCard();
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          title: `${result.agent.name} · assembl Business Genome`,
+          text: 'A sourced draft from the assembl Business Genome public demo.',
+          url: window.location.href,
+          files: [file],
+        });
+        setResultShareState('shared');
+      } else {
+        await navigator.clipboard.writeText(resultShareText);
+        setResultShareState('copied');
+      }
+      window.setTimeout(() => setResultShareState('idle'), 2000);
+    } catch {
+      setResultShareState('idle');
+    }
+  }
+
+  async function downloadResultCard() {
+    if (!result) return;
+    const file = await makeResultCard();
+    const url = URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = file.name;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   return (
@@ -304,6 +453,14 @@ export function PublicGenomeDemo({ facts, live }: { facts: GenomeFact[]; live: b
                     ))}
                   </div>
                   <div id="approval-proof" className={styles.approval}><ShieldCheck aria-hidden /><div><strong>Awaiting human review · {result.approval.reviewer}</strong><p>{result.approval.boundary}</p></div></div>
+                  <div className={styles.resultActions}>
+                    <button type="button" onClick={shareResult}>
+                      {resultShareState === 'copied' ? <Check aria-hidden /> : <Share2 aria-hidden />}
+                      {resultShareState === 'copied' ? 'Result copied' : resultShareState === 'shared' ? 'Result shared' : 'Share result'}
+                    </button>
+                    <button type="button" onClick={downloadResultCard}><Download aria-hidden /> Download branded card</button>
+                  </div>
+                  <p className={styles.resultBrand}>assembl · Business Genome demo · fictional data · draft only</p>
                 </div>
               ) : null}
             </div>

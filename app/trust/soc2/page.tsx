@@ -53,7 +53,7 @@ export default function CompliancePosturePage() {
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
               Trust Centre · Security &amp; compliance
             </p>
-            <h1 className="mt-5 max-w-3xl font-display text-[clamp(3rem,7vw,6rem)] font-light leading-[0.92] text-[color:var(--text-primary)]">
+            <h1 className="mt-5 max-w-3xl font-sans text-[clamp(3rem,6vw,5.25rem)] font-semibold uppercase leading-[0.96] tracking-[-0.035em] text-[color:var(--text-primary)]">
               Compliance, the honest version.
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-secondary)]">

@@ -6,7 +6,7 @@
 .page {
   min-height: 100vh;
   background-color: #fbfaf6;
-  color: #1a1918;
+  color: #252d31;
   overflow-x: clip;
   --font-sans: var(--font-body);
   font-family: var(--font-body), system-ui, sans-serif;
@@ -86,7 +86,7 @@
   font-size: 19px;
   font-weight: 500;
   font-style: italic;
-  color: #1a1918;
+  color: #252d31;
   line-height: 1;
 }
 .metaphorTag {
@@ -105,7 +105,7 @@
   line-height: 1.03;
   letter-spacing: 0.01em;
   text-transform: lowercase;
-  color: #1a1918;
+  color: #252d31;
 }
 .h2 {
   margin: 0;
@@ -115,7 +115,7 @@
   line-height: 1.08;
   letter-spacing: 0.01em;
   text-transform: lowercase;
-  color: #1a1918;
+  color: #252d31;
 }
 .lede {
   margin: 20px 0 0;
@@ -139,7 +139,7 @@
   gap: 9px;
   padding: 13px 26px;
   border-radius: 999px;
-  background: #1a1918;
+  background: #252d31;
   color: #fbfaf6;
   font-size: 14px;
   text-transform: lowercase;
@@ -159,7 +159,7 @@
   border: 1px solid #e7e4da;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.75);
-  color: #1a1918;
+  color: #252d31;
   font-size: 14px;
   text-transform: lowercase;
   text-decoration: none;
@@ -190,7 +190,7 @@
   font-weight: 600;
   font-size: 21px;
   line-height: 1;
-  color: #1a1918;
+  color: #252d31;
 }
 
 /* scroll hint */
@@ -246,7 +246,7 @@
   gap: 8px;
   margin-top: 22px;
   font-size: 13.5px;
-  color: #1a1918;
+  color: #252d31;
   text-transform: lowercase;
   text-decoration: none;
   border-bottom: 1px solid #d9b87a;
@@ -366,7 +366,7 @@
   font-weight: 500;
   font-size: clamp(1.5rem, 2.6vw, 2rem);
   line-height: 1.1;
-  color: #1a1918;
+  color: #252d31;
 }
 .stageSubtitle {
   font-size: 11px;
@@ -464,7 +464,7 @@
   font-size: 23px;
   line-height: 1.15;
   text-transform: lowercase;
-  color: #1a1918;
+  color: #252d31;
 }
 .workflowBody {
   margin: 0;
@@ -582,7 +582,7 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 1.1;
-  color: #1a1918;
+  color: #252d31;
 }
 .keteEnglish {
   font-size: 10px;
@@ -773,7 +773,7 @@
   transition: color 200ms ease;
 }
 .footerLink:hover {
-  color: #1a1918;
+  color: #252d31;
 }
 .footerDisclaimer {
   font-size: 11.5px;

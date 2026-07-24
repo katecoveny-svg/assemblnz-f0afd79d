@@ -1,24 +1,30 @@
 .page {
-  /* Pearl canon — the homepage palette (teal + gold on white). */
-  --paper: #ffffff;
-  --pounamu: #3f7373;
-  --deep: #2e5a58;
-  --amber: #b8964f;
-  --ink: #313c42;
-  --soft: #68766f;
+  --paper: #f0f0eb;
+  --pounamu: #4f5c54;
+  --deep: #252d31;
+  --amber: #737873;
+  --ink: #252d31;
+  --soft: #575c57;
   color: var(--ink);
-  background: var(--paper);
+  background:
+    linear-gradient(90deg, transparent calc(25% - .5px), rgba(17,19,17,.055) 25%, transparent calc(25% + .5px)),
+    linear-gradient(90deg, transparent calc(75% - .5px), rgba(17,19,17,.055) 75%, transparent calc(75% + .5px)),
+    var(--paper);
 }
 
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(420px, .88fr);
-  gap: clamp(2rem, 6vw, 6.5rem);
+  gap: 0;
   align-items: center;
-  width: min(1220px, calc(100% - 40px));
+  width: min(1320px, calc(100% - 48px));
   min-height: 720px;
   margin: 0 auto;
-  padding: 88px 0 72px;
+  padding: 0;
+  border-inline: 1px solid rgba(17,19,17,.18);
+  border-bottom: 1px solid rgba(17,19,17,.18);
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
 }
 
 .eyebrow,
@@ -34,11 +40,12 @@
   max-width: 720px;
   margin: 24px 0 0;
   color: var(--deep);
-  font: 400 clamp(4rem, 8vw, 7.3rem)/.82 var(--font-display), serif;
-  letter-spacing: -.052em;
+  font: 620 clamp(3.7rem, 6.7vw, 6.8rem)/.9 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.035em;
+  text-transform: uppercase;
 }
 
-.hero h1 span { color: var(--amber); }
+.hero h1 span { color: #767b76; }
 
 .lede {
   max-width: 650px;
@@ -47,6 +54,8 @@
   font-size: clamp(1.08rem, 1.7vw, 1.32rem);
   line-height: 1.72;
 }
+
+.heroCopy { padding: clamp(60px,7vw,105px) clamp(24px,4vw,64px); }
 
 .heroActions {
   display: flex;
@@ -63,25 +72,27 @@
   justify-content: center;
   gap: 12px;
   padding: 0 24px;
-  border: 1px solid rgba(46, 90, 88, .2);
-  border-radius: 999px;
+  border: 1px solid #252d31;
+  border-radius: 12px;
   color: var(--deep);
   background: rgba(255, 255, 255, .68);
-  font-size: .92rem;
+  font: 700 .61rem var(--font-mono), monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: inset 0 1px rgba(255,255,255,.9);
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: none;
+  transition: color .2s ease, background .2s ease;
 }
 
 .primaryCta {
   color: #fff;
   background: var(--deep);
-  box-shadow: 0 16px 40px rgba(46, 90, 88, .18);
+  box-shadow: none;
 }
 
 .primaryCta:hover,
-.secondaryCta:hover { transform: translateY(-2px); }
+.secondaryCta:hover { color: #fff; background: #34434b; }
 .primaryCta svg,
 .secondaryCta svg,
 .stageCard > a svg { width: 16px; height: 16px; }
@@ -96,7 +107,8 @@
 
 .priceLine strong {
   color: var(--deep);
-  font: 500 1.7rem/1 var(--font-display), serif;
+  font: 900 1.55rem/1 var(--font-body), sans-serif;
+  letter-spacing: -.04em;
 }
 
 .priceLine span { font-size: .82rem; }
@@ -105,16 +117,14 @@
 
 .domeCard {
   position: relative;
-  min-height: 520px;
+  min-height: 720px;
   overflow: hidden;
   isolation: isolate;
-  border: 1px solid rgba(63,115,115,.2);
-  border-radius: 30px;
-  background: #fff;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.96),
-    inset 0 -32px 70px rgba(63,115,115,.07),
-    0 44px 100px rgba(50,78,71,.14);
+  border: 0;
+  border-left: 1px solid rgba(17,19,17,.18);
+  border-radius: 18px 0 0 18px;
+  background: #d9dcd8;
+  box-shadow: none;
 }
 
 .domePattern {
@@ -124,11 +134,11 @@
 .domeVisual {
   position: relative;
   z-index: 1;
-  min-height: 520px;
+  min-height: 720px;
   background: radial-gradient(circle at 50% 42%, rgba(251,250,246,.1), rgba(251,250,246,.5) 78%);
 }
 
-.domeVisual > div { min-height: 520px; }
+.domeVisual > div { min-height: 720px; }
 
 .domeStatus {
   position: absolute;
@@ -140,8 +150,8 @@
   gap: 9px;
   padding: 10px 14px;
   border: 1px solid rgba(63,115,115,.14);
-  border-radius: 999px;
-  color: #3f7373;
+  border-radius: 12px;
+  color: #343834;
   background: rgba(255,255,255,.82);
   backdrop-filter: blur(18px);
   font: 700 .58rem/1 var(--font-mono), monospace;
@@ -158,9 +168,9 @@
 }
 
 .pathSection {
-  padding: 108px max(20px, calc((100vw - 1220px) / 2));
-  border-block: 1px solid rgba(61,66,80,.09);
-  background: rgba(255,255,255,.5);
+  padding: 108px max(24px, calc((100vw - 1192px) / 2));
+  border-block: 1px solid rgba(17,19,17,.18);
+  background: rgba(255,255,255,.16);
 }
 
 .sectionHeading { max-width: 760px; }
@@ -168,8 +178,9 @@
 .checkoutCopy h2 {
   margin: 18px 0 0;
   color: var(--deep);
-  font: 400 clamp(2.7rem, 5vw, 4.8rem)/.95 var(--font-display), serif;
+  font: 620 clamp(2.6rem, 4.2vw, 4.6rem)/.96 var(--font-body), Inter, sans-serif;
   letter-spacing: -.035em;
+  text-transform: uppercase;
 }
 
 .sectionHeading > p:last-child,
@@ -184,8 +195,10 @@
 .pathGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 1px;
   margin-top: 46px;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .stageCard {
@@ -193,18 +206,16 @@
   min-height: 630px;
   flex-direction: column;
   padding: 30px;
-  border: 1px solid rgba(61,66,80,.1);
-  border-radius: 28px;
-  background: rgba(255,255,255,.78);
-  box-shadow: 0 20px 62px rgba(61,66,80,.06), inset 0 1px rgba(255,255,255,.95);
+  border: 1px solid rgba(17,19,17,.18);
+  border-radius: 0;
+  background: #f4f4ef;
+  box-shadow: none;
 }
 
 .featuredCard {
-  border-color: rgba(184,150,79,.36);
-  background:
-    radial-gradient(circle at 100% 0, rgba(217,168,90,.17), transparent 15rem),
-    linear-gradient(145deg, rgba(239,247,243,.96), rgba(255,255,255,.86));
-  transform: translateY(-12px);
+  border-color: #252d31;
+  background: #fff;
+  transform: none;
 }
 
 .stageIcon {
@@ -214,7 +225,7 @@
   margin-bottom: 30px;
   place-items: center;
   border: 1px solid rgba(43,107,87,.14);
-  border-radius: 15px;
+  border-radius: 0;
   color: var(--pounamu);
   background: rgba(226,239,232,.72);
 }
@@ -223,14 +234,17 @@
 .stageCard h3 {
   margin: 16px 0 0;
   color: var(--deep);
-  font: 500 2rem/1.05 var(--font-display), serif;
+  font: 650 1.8rem/1 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
 }
 
 .stagePrice {
   min-height: 54px;
   margin: 18px 0 0;
   color: var(--ink);
-  font: 500 2.05rem/1.08 var(--font-display), serif;
+  font: 900 1.8rem/1.02 var(--font-body), Inter, sans-serif;
+  letter-spacing: -.04em;
 }
 
 .stagePrice small { color: var(--soft); font: 500 .75rem var(--font-body), sans-serif; }
@@ -284,7 +298,7 @@
   border-top: 1px solid rgba(61,66,80,.1);
 }
 
-.checkoutFact strong { color: var(--deep); font: 500 1.15rem var(--font-display), serif; }
+.checkoutFact strong { color: var(--deep); font: 900 1.1rem var(--font-body), sans-serif; }
 .checkoutFact span { color: var(--soft); font-size: .66rem; text-transform: uppercase; }
 
 .finePrint {
@@ -294,7 +308,7 @@
   padding: 36px max(20px, calc((100vw - 1120px) / 2));
   border-top: 1px solid rgba(61,66,80,.09);
   color: var(--soft);
-  background: rgba(255,255,255,.42);
+  background: rgba(255,255,255,.18);
   font-size: .79rem;
   line-height: 1.65;
 }
@@ -313,13 +327,13 @@
 
 @media (max-width: 640px) {
   .hero { width: min(100% - 28px, 1220px); min-height: 0; padding: 64px 0; }
-  .hero h1 { font-size: clamp(3.8rem, 18vw, 5rem); }
+  .hero h1 { font-size: clamp(3.15rem, 14vw, 4.7rem); }
   .heroActions > a { width: 100%; }
   .priceLine { align-items: flex-start; flex-direction: column; gap: 7px; }
   .domeCard, .domeVisual, .domeVisual > div { min-height: 360px; }
-  .domeCard { border-radius: 22px; }
+  .domeCard { border-radius: 0; }
   .pathSection { padding-block: 76px; }
-  .stageCard { padding: 24px; border-radius: 22px; }
+  .stageCard { padding: 24px; border-radius: 0; }
   .checkoutSection { width: min(100% - 28px, 1120px); padding: 78px 0; }
   .checkoutFact { grid-template-columns: auto 1fr; }
   .finePrint { grid-template-columns: 1fr; }

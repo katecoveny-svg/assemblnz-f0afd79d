@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 
 export const metadata: Metadata = {
   title: 'assembl — how it works',
@@ -36,8 +35,8 @@ const STEPS = [
 
 const INK = '#313c42';
 const MUTED = '#68766f';
-const TEAL = '#3f7373';
-const GOLD = '#b8964f';
+const TEAL = '#252d31';
+const GOLD = '#737873';
 const HAIRLINE = 'rgba(49, 60, 66, 0.12)';
 
 export default function HowItWorksPage() {
@@ -50,16 +49,7 @@ export default function HowItWorksPage() {
         fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
       }}
     >
-      {/* Hero — pearl, with live Pattern Studio motion. */}
-      <section style={{ position: 'relative', overflow: 'hidden', borderBottom: `1px solid ${HAIRLINE}` }}>
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="halftone"
-          colorRole="accent"
-          opacity={0.26}
-          speed={0.5}
-          lazyMount={false}
-        />
+      <section style={{ position: 'relative', overflow: 'hidden', borderBottom: `1px solid ${HAIRLINE}`, background: '#f0f0eb' }}>
         <div
           style={{
             position: 'relative',
@@ -75,11 +65,12 @@ export default function HowItWorksPage() {
           <h1
             style={{
               margin: '16px 0 0',
-              fontFamily: 'var(--font-display), Georgia, serif',
-              fontSize: 'clamp(40px, 7vw, 78px)',
-              fontWeight: 400,
-              lineHeight: 0.96,
+              fontFamily: 'var(--font-body), Inter, Arial, sans-serif',
+              fontSize: 'clamp(44px, 6vw, 76px)',
+              fontWeight: 620,
+              lineHeight: 0.98,
               letterSpacing: '-0.035em',
+              textTransform: 'uppercase',
             }}
           >
             how assembl works<span aria-hidden style={{ color: GOLD }}>.</span>
@@ -100,8 +91,8 @@ export default function HowItWorksPage() {
               style={{
                 padding: '28px 26px',
                 border: `1px solid ${HAIRLINE}`,
-                borderRadius: 20,
-                background: '#fff',
+                borderRadius: 0,
+                background: '#fafaf7',
               }}
             >
               <p style={{ margin: 0, color: TEAL, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>

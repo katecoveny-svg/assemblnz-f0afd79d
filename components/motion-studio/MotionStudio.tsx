@@ -667,7 +667,7 @@ export function MotionStudio() {
   };
 
   return (
-    <main className={`motion-studio-root studio ${config.background === "night" ? "dark-studio" : ""}`}>
+    <div className={`motion-studio-root studio ${config.background === "night" ? "dark-studio" : ""}`}>
       <header className="studio-header">
         <div className="brand-lockup"><Link href="/">assembl</Link><span>motion studio <i>beta</i></span></div>
         <div className="header-note">SCULPT · MOVE · EXPORT · REMIX</div>
@@ -767,6 +767,6 @@ export function MotionStudio() {
           </button>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

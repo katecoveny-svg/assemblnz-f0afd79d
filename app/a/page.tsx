@@ -6,14 +6,14 @@ import { AgentComposer, type ComposerPrefill } from '@/components/community/Agen
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Build an agent · assembl',
+  title: 'Build one clear agent · assembl',
   description:
-    'Name it, say what it should handle, pick its pattern. You get a page you can share — everything it writes is a draft.',
+    'Give an agent one clear job, choose how it should behave and create a shareable public trial. Everything it prepares stays a draft.',
 };
 
-const INK = '#313c42';
-const MUTED = '#68766f';
-const HAIRLINE = 'rgba(49, 60, 66, 0.12)';
+const INK = '#252d31';
+const MUTED = '#666d6f';
+const HAIRLINE = '#d7d8d3';
 
 export default async function BuilderPage({
   searchParams,
@@ -39,31 +39,36 @@ export default async function BuilderPage({
     <div
       style={{
         minHeight: '100vh',
-        background: '#fff',
+        background: '#f3f2ed',
         color: INK,
         fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
       }}
     >
-      <main style={{ margin: '0 auto', maxWidth: 960, padding: '72px clamp(20px, 5vw, 40px) 100px' }}>
+      <main style={{ margin: '0 auto', maxWidth: 1380, padding: 'clamp(64px, 9vw, 132px) clamp(20px, 5vw, 64px) 120px' }}>
+        <p style={{ margin: '0 0 28px', fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED }}>
+          Agent builder · public trial · drafts only
+        </p>
         <h1
           style={{
             margin: 0,
-            fontFamily: 'var(--font-display), Georgia, serif',
-            fontSize: 'clamp(38px, 6vw, 64px)',
-            fontWeight: 400,
-            lineHeight: 1.02,
-            letterSpacing: '-0.03em',
+            maxWidth: 1100,
+            fontFamily: 'var(--font-body), Inter, Arial, sans-serif',
+            fontSize: 'clamp(54px, 8vw, 112px)',
+            fontWeight: 600,
+            lineHeight: 0.92,
+            letterSpacing: '-0.045em',
+            textTransform: 'uppercase',
           }}
         >
-          Build an agent. Share it.
+          Build one agent.<br />Give it one clear job.
         </h1>
-        <p style={{ margin: '16px 0 0', maxWidth: 560, color: MUTED, fontSize: 16, lineHeight: 1.6 }}>
+        <p style={{ margin: '32px 0 0 auto', maxWidth: 560, color: MUTED, fontSize: 17, lineHeight: 1.7 }}>
           {prefill
-            ? 'You are remixing a shared agent — change anything, then create your own.'
-            : 'Name it, say what it should handle, pick its pattern. You get a page you can share — everything it writes is a draft.'}
+            ? 'You are remixing a shared trial. Change the job, voice or visual signature, then create your own version.'
+            : 'Name the job, choose how the agent should behave and create a shareable trial. It prepares drafts; it never sends or changes anything.'}
         </p>
 
-        <div style={{ marginTop: 44, paddingTop: 36, borderTop: `1px solid ${HAIRLINE}` }}>
+        <div style={{ marginTop: 64, paddingTop: 40, borderTop: `1px solid ${HAIRLINE}` }}>
           <AgentComposer prefill={prefill} />
         </div>
       </main>

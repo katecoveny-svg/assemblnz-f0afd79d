@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 
 /**
  * The homepage's slim footer, extracted so it can be the single site-wide
@@ -6,6 +7,8 @@ import Link from 'next/link';
  */
 const FOOTER_LINKS: Array<[string, string]> = [
   ['/genome', 'Live demo'],
+  ['/agents', 'Agents'],
+  ['/concept-studio', 'Concept Studio'],
   ['/pilot-sprint', 'Start a pilot'],
   ['/pricing', 'Pricing'],
   ['/about', 'About'],
@@ -16,12 +19,22 @@ const FOOTER_LINKS: Array<[string, string]> = [
 // Free, public tools — surfaced so they're actually reachable, not orphaned.
 const TOOL_LINKS: Array<[string, string]> = [
   ['/hapai', 'Free tools'],
+  ['/motion-studio', 'Motion Studio'],
   ['/pattern-studio', 'Pattern Studio'],
   ['/ad-studio', 'Ad Studio'],
   ['/hui', 'Meeting notes'],
+  ['/a', 'Agent Maker'],
 ];
 
-const linkStyle = { color: '#53656a', fontSize: 11, textDecoration: 'none' } as const;
+const linkStyle = {
+  color: '#4c504c',
+  fontFamily: 'var(--font-mono), Space Mono, monospace',
+  fontSize: 9,
+  fontWeight: 700,
+  letterSpacing: '0.08em',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
+} as const;
 
 export function V2Footer() {
   return (
@@ -31,19 +44,17 @@ export function V2Footer() {
         flexWrap: 'wrap',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        gap: 22,
-        padding: '26px clamp(18px, 4vw, 58px) 36px',
-        borderTop: '1px solid rgba(49, 60, 66, 0.1)',
-        background: '#f8f9f8',
+        gap: 34,
+        padding: '34px clamp(18px, 3.3vw, 52px) 44px',
+        borderTop: '1px solid rgba(17, 19, 17, 0.18)',
+        background: '#f0f0eb',
         fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
       }}
     >
       <div>
-        <p style={{ margin: 0, fontFamily: 'var(--font-display), Georgia, serif', fontSize: 19 }}>
-          assembl
-        </p>
-        <p style={{ margin: '4px 0 0', color: '#68766f', fontSize: 10, letterSpacing: '0.08em' }}>
-          Mahi that earns its proof. Built in Aotearoa.
+        <AssemblWordmark className="text-[24px] leading-none" style={{ letterSpacing: '0.12em', color: '#252d31' }} />
+        <p style={{ margin: '5px 0 0', color: '#686d68', fontSize: 10, letterSpacing: '0.06em' }}>
+          See what your agent is made of. Built in Aotearoa.
         </p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
@@ -64,13 +75,13 @@ export function V2Footer() {
               fontSize: 9,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: '#9aa39c',
+              color: '#777c77',
             }}
           >
             Free tools
           </span>
           {TOOL_LINKS.map(([href, label]) => (
-            <Link key={href} href={href} style={{ ...linkStyle, color: '#3f7373' }}>
+            <Link key={href} href={href} style={linkStyle}>
               {label}
             </Link>
           ))}

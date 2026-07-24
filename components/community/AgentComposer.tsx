@@ -23,10 +23,10 @@ import {
 } from '@/lib/community/templates';
 import type { AgentTone, PatternIdentity } from '@/lib/pilot/types';
 
-const INK = '#313c42';
-const MUTED = '#68766f';
-const TEAL = '#3f7373';
-const HAIRLINE = 'rgba(49, 60, 66, 0.12)';
+const INK = '#252d31';
+const MUTED = '#666d6f';
+const ACCENT = '#252d31';
+const HAIRLINE = '#d7d8d3';
 
 const TONES: { id: AgentTone; label: string }[] = [
   { id: 'warm', label: 'Warm' },
@@ -48,12 +48,12 @@ const cardStyle = (active: boolean): CSSProperties => ({
   gap: 0,
   padding: 0,
   textAlign: 'left',
-  borderRadius: 18,
-  border: `1px solid ${active ? TEAL : HAIRLINE}`,
-  background: '#fff',
+  borderRadius: 0,
+  border: `1px solid ${active ? INK : HAIRLINE}`,
+  background: '#fafaf7',
   cursor: 'pointer',
   overflow: 'hidden',
-  boxShadow: active ? `0 0 0 1px ${TEAL}` : 'none',
+  boxShadow: active ? `inset 0 -4px 0 ${INK}` : 'none',
 });
 
 const fieldLabel: CSSProperties = {
@@ -61,16 +61,17 @@ const fieldLabel: CSSProperties = {
   margin: '0 0 8px',
   color: MUTED,
   fontSize: 12,
-  letterSpacing: '0.08em',
+  fontFamily: 'var(--font-mono), monospace',
+  letterSpacing: '0.14em',
   textTransform: 'uppercase',
 };
 
 const inputStyle: CSSProperties = {
   width: '100%',
   padding: '12px 14px',
-  borderRadius: 14,
+  borderRadius: 0,
   border: `1px solid ${HAIRLINE}`,
-  background: '#fff',
+  background: '#fafaf7',
   color: INK,
   fontSize: 15,
   fontFamily: 'inherit',
@@ -165,7 +166,8 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-          gap: 14,
+          gap: 1,
+          background: HAIRLINE,
         }}
       >
         {COMMUNITY_TEMPLATES.map((t) => (
@@ -175,11 +177,11 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
             onClick={() => pickTemplate(t.id)}
             style={cardStyle(templateId === t.id)}
           >
-            <div style={{ height: 96, borderBottom: `1px solid ${HAIRLINE}` }}>
+            <div style={{ height: 112, borderBottom: `1px solid ${HAIRLINE}` }}>
               <IdentityPattern identity={t.identity} />
             </div>
             <div style={{ padding: '12px 14px 14px' }}>
-              <p style={{ margin: 0, color: INK, fontSize: 14, fontWeight: 700 }}>{t.label}</p>
+              <p style={{ margin: 0, color: INK, fontSize: 15, fontWeight: 600 }}>{t.label}</p>
               <p style={{ margin: '6px 0 0', color: MUTED, fontSize: 12, lineHeight: 1.5 }}>
                 {t.description}
               </p>
@@ -193,7 +195,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
             ...cardStyle(templateId === ''),
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: 180,
+            minHeight: 199,
           }}
         >
           <span style={{ color: MUTED, fontSize: 14, fontWeight: 700 }}>Start blank</span>
@@ -208,15 +210,15 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: 24,
           padding: 'clamp(18px, 3vw, 30px)',
-          borderRadius: 22,
+          borderRadius: 0,
           border: `1px solid ${HAIRLINE}`,
-          background: '#fbfaf6',
+          background: '#fafaf7',
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div>
             <label htmlFor="agent-name" style={fieldLabel}>
-              Name
+              Agent name
             </label>
             <input
               id="agent-name"
@@ -229,7 +231,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
           </div>
           <div>
             <label htmlFor="agent-sentence" style={fieldLabel}>
-              What should it handle?
+              What one job should it prepare?
             </label>
             <textarea
               id="agent-sentence"
@@ -237,12 +239,12 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
               maxLength={300}
               rows={3}
               onChange={(e) => setSentence(e.target.value)}
-              placeholder="One sentence on the job it does."
+              placeholder="One sentence describing the job and the useful draft you want back."
               style={{ ...inputStyle, resize: 'vertical' }}
             />
           </div>
           <div>
-            <span style={fieldLabel}>Tone</span>
+            <span style={fieldLabel}>How should it sound?</span>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {TONES.map((t) => (
                 <button
@@ -251,9 +253,9 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
                   onClick={() => setTone(t.id)}
                   style={{
                     padding: '8px 14px',
-                    borderRadius: 999,
-                    border: `1px solid ${tone === t.id ? TEAL : HAIRLINE}`,
-                    background: tone === t.id ? TEAL : '#fff',
+                    borderRadius: 0,
+                    border: `1px solid ${tone === t.id ? ACCENT : HAIRLINE}`,
+                    background: tone === t.id ? ACCENT : '#fafaf7',
                     color: tone === t.id ? '#fff' : INK,
                     fontSize: 12,
                     fontWeight: 700,
@@ -269,11 +271,11 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
 
         {/* Identity remix */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <span style={fieldLabel}>Pattern signature</span>
+          <span style={fieldLabel}>Visual signature</span>
           <div
             style={{
               height: 150,
-              borderRadius: 16,
+              borderRadius: 0,
               border: `1px solid ${HAIRLINE}`,
               overflow: 'hidden',
               background: '#fff',
@@ -289,9 +291,9 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
                 onClick={() => setId({ mode: m })}
                 style={{
                   padding: '7px 13px',
-                  borderRadius: 999,
-                  border: `1px solid ${identity.mode === m ? TEAL : HAIRLINE}`,
-                  background: identity.mode === m ? TEAL : '#fff',
+                  borderRadius: 0,
+                  border: `1px solid ${identity.mode === m ? ACCENT : HAIRLINE}`,
+                  background: identity.mode === m ? ACCENT : '#fafaf7',
                   color: identity.mode === m ? '#fff' : INK,
                   fontSize: 12,
                   fontWeight: 700,
@@ -331,7 +333,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
               max={100}
               value={identity.turbulence}
               onChange={(e) => setId({ turbulence: Number(e.target.value) })}
-              style={{ width: '100%', accentColor: TEAL }}
+              style={{ width: '100%', accentColor: ACCENT }}
             />
           </label>
           <label style={{ color: MUTED, fontSize: 12 }}>
@@ -342,7 +344,7 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
               max={400}
               value={identity.count}
               onChange={(e) => setId({ count: Number(e.target.value) })}
-              style={{ width: '100%', accentColor: TEAL }}
+              style={{ width: '100%', accentColor: ACCENT }}
             />
           </label>
         </div>
@@ -363,21 +365,23 @@ export function AgentComposer({ prefill }: { prefill?: ComposerPrefill | null })
           alignItems: 'center',
           marginTop: 22,
           padding: '15px 26px',
-          borderRadius: 999,
+          borderRadius: 0,
           border: 'none',
           background: INK,
           color: '#fff',
-          fontSize: 14,
-          fontWeight: 700,
+          fontFamily: 'var(--font-mono), monospace',
+          fontSize: 12,
+          fontWeight: 600,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
           cursor: busy ? 'default' : 'pointer',
           opacity: busy ? 0.5 : 1,
         }}
       >
-        {busy ? 'Creating…' : 'Create my agent'}
+        {busy ? 'Building…' : 'Build this trial agent'}
       </button>
       <p style={{ margin: '12px 0 0', color: MUTED, fontSize: 12 }}>
-        Everything it writes is a draft for a person to check. Your agent gets a public page you
-        can share.
+        You get a public page you can share. Every answer stays a draft for a person to check.
       </p>
 
       <CaptureModal

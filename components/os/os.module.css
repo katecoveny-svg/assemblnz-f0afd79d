@@ -330,3 +330,138 @@
   overflow: hidden;
   box-shadow: var(--os-shadow);
 }
+
+/* ── AGENTS · APPROVALS · ACTIVITY ──────────────────────────
+   Added when /os became an actual agent operating system: the
+   team of agents, the drafts waiting for a yes, and the
+   activity trace. Same calm card language as the rest of the
+   screen — hairlines, one gold accent, no chrome for its own
+   sake. */
+
+.agentGrid {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.15rem 1.5rem;
+}
+.agentItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--os-hairline);
+}
+.agentDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+/* live = working now; drafting = writing something for review;
+   watching = on call, nothing to do yet. */
+.agentDot_live {
+  background: var(--os-gold);
+  box-shadow: 0 0 0 3px rgba(184, 150, 79, 0.16);
+}
+.agentDot_drafting {
+  background: #7fa8a0;
+  box-shadow: 0 0 0 3px rgba(127, 168, 160, 0.16);
+}
+.agentDot_watching {
+  background: transparent;
+  border: 1.5px solid var(--os-muted);
+}
+.agentBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.agentName {
+  font-size: 0.95rem;
+  color: var(--os-ink);
+}
+.agentJob {
+  font-size: 0.8rem;
+  color: var(--os-muted);
+  line-height: 1.3;
+}
+.agentStatus {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.58rem;
+  color: var(--os-muted);
+  align-self: start;
+  padding-top: 0.15rem;
+}
+
+.approvalList,
+.activityList {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+.approval {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--os-hairline);
+}
+.approval:last-child {
+  border-bottom: none;
+}
+.approvalWho {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--os-ink);
+}
+.approvalSummary {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: var(--os-muted);
+}
+/* The actual draft, held in a soft gold-edged well — this is the
+   thing waiting for the yes, so it should read as a real artefact
+   on the page, not a caption. */
+.approvalDraft {
+  margin: 0.6rem 0 0;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--os-ink);
+  background: linear-gradient(180deg, #fffdf8 0%, #fbf7ec 100%);
+  border: 1px solid var(--os-gold-soft);
+  border-left: 2px solid var(--os-gold);
+  border-radius: 10px;
+}
+
+.activityItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.85rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--os-hairline);
+}
+.activityItem:last-child {
+  border-bottom: none;
+}
+.activityWhen {
+  font-family: var(--font-space-mono, 'Space Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--os-muted);
+  white-space: nowrap;
+}
+.activityTitle {
+  font-size: 0.88rem;
+  color: var(--os-ink);
+  min-width: 0;
+}
+.activityMeta {
+  font-size: 0.72rem;
+  color: var(--os-muted);
+  white-space: nowrap;
+}
