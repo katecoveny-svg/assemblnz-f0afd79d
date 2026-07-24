@@ -678,3 +678,41 @@
       0 0 44px rgba(253, 251, 247, 0.85);
   }
 }
+
+/* ── build-an-agent · assemble from a real website ───────────────────────── */
+.cine .site-panel { max-width: 760px; }
+.cine .site-row { display: flex; gap: 10px; margin-top: 4px; }
+@media (max-width: 620px) { .cine .site-row { flex-direction: column; } }
+.cine .site-input {
+  flex: 1; padding: 13px 16px; border-radius: 12px;
+  border: 1px solid rgba(26, 25, 23, 0.15); background: rgba(255, 255, 255, 0.75);
+  font-family: 'Lato', sans-serif; font-size: 0.95rem; color: var(--ink); outline: none;
+}
+.cine .site-input:focus { border-color: var(--brass); }
+.cine .site-note {
+  margin-top: 10px; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
+}
+.cine .site-error { margin-top: 12px; font-size: 0.85rem; color: #9a3412; }
+
+.cine .brief { margin-top: 26px; border-top: 1px solid rgba(26, 25, 23, 0.1); padding-top: 22px; }
+.cine .brief-line { margin-bottom: 20px; }
+.cine .brief-line p { font-size: 0.92rem; line-height: 1.6; color: var(--ink-2); margin: 0; }
+.cine .brief-lab {
+  display: block; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.48rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass);
+}
+.cine .brief-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.cine .brief-chip {
+  padding: 6px 12px; border-radius: 30px; background: rgba(184, 150, 79, 0.1);
+  border: 1px solid rgba(184, 150, 79, 0.3); font-size: 0.78rem; color: var(--ink);
+}
+.cine .brief-list { margin: 0; padding-left: 18px; }
+.cine .brief-list li { font-size: 0.88rem; line-height: 1.55; color: var(--ink-2); margin-bottom: 5px; }
+.cine .brief-gap .brief-list li { color: var(--ink); }
+.cine .brief-q {
+  padding: 8px 14px; border-radius: 30px; background: #fff; cursor: pointer;
+  border: 1px solid rgba(26, 25, 23, 0.15); font-family: 'Lato', sans-serif;
+  font-size: 0.8rem; color: var(--ink); text-align: left; transition: all 0.25s ease;
+}
+.cine .brief-q:hover { border-color: var(--brass); background: rgba(184, 150, 79, 0.08); }
