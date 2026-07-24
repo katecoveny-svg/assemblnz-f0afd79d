@@ -35,7 +35,7 @@ export default function TermsPage() {
           <div className="mt-12 space-y-10 text-base leading-relaxed text-[color:var(--text-body)] md:text-[17px]">
             <SectionReveal delay={0.2}>
               <p>
-                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl Ltd (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
+                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl NZ Limited (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
               </p>
             </SectionReveal>
 
@@ -53,7 +53,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.25}>
               <h2 className="font-display text-2xl font-light md:text-3xl">1. Who we are.</h2>
               <p className="mt-3">
-                assembl Ltd is a New Zealand limited liability company, registered and operating in Tāmaki Makaurau (Auckland), Aotearoa New Zealand. These Terms are governed by New Zealand law and any dispute is subject to the exclusive jurisdiction of the New Zealand courts.
+                assembl NZ Limited (NZBN 9429053514950) is a New Zealand limited liability company, registered and operating in Tāmaki Makaurau (Auckland), Aotearoa New Zealand. These Terms are governed by New Zealand law and any dispute is subject to the exclusive jurisdiction of the New Zealand courts.
               </p>
             </SectionReveal>
 
@@ -110,7 +110,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.5}>
               <h2 className="font-display text-2xl font-light md:text-3xl">6. Intellectual property.</h2>
               <p className="mt-3">
-                The assembl platform, the brand, the kete naming, the design language, the agent system prompts, the workflow registry, the evidence-pack format, and the underlying code are owned by assembl Ltd. You may not copy, reproduce, or redistribute them without our written permission.
+                The assembl platform, the brand, the kete naming, the design language, the agent system prompts, the workflow registry, the evidence-pack format, and the underlying code are owned by assembl NZ Limited. You may not copy, reproduce, or redistribute them without our written permission.
               </p>
               <p className="mt-3">
                 Outputs generated for you from your inputs are yours, subject to the visible assembl watermark and the third-party-rights of the underlying language-model providers. You retain copyright in the inputs you submit. You grant assembl a limited licence to process those inputs for the purpose of generating your output — no broader licence is granted, and your inputs are not used to train models.

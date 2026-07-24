@@ -35,7 +35,7 @@ export default function PrivacyPage() {
           <div className="mt-12 space-y-10 text-base leading-relaxed text-[color:var(--text-body)] md:text-[17px]">
             <SectionReveal delay={0.2}>
               <p>
-                assembl Ltd (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is a New Zealand company that operates the platform at assembl.co.nz and the app at app.assembl.co.nz. We handle personal information in accordance with the Privacy Act 2020 and the thirteen Information Privacy Principles (IPPs), including IPP 3A (indirect collection notification) which came into force on 1 May 2026.
+                assembl NZ Limited (NZBN 9429053514950) (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is a New Zealand company that operates the platform at assembl.co.nz and the app at app.assembl.co.nz. We handle personal information in accordance with the Privacy Act 2020 and the thirteen Information Privacy Principles (IPPs), including IPP 3A (indirect collection notification) which came into force on 1 May 2026.
               </p>
               <p className="mt-3">
                 Our nominated Privacy Officer is the assembl founder, Kate Hudson. You can reach the Privacy Officer at{' '}
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
                 <li className="list-disc">All data is encrypted at rest using AES-256.</li>
                 <li className="list-disc">Row-level security policies enforce tenant isolation at the database level.</li>
                 <li className="list-disc">Service-role credentials are rotated, scoped to specific edge functions, and never exposed to the browser.</li>
-                <li className="list-disc">Access to production data is restricted to assembl Ltd directors. We log every read.</li>
+                <li className="list-disc">Access to production data is restricted to assembl NZ Limited directors. We log every read.</li>
               </ul>
             </SectionReveal>
 
