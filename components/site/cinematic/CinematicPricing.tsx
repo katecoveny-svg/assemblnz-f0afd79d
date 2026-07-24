@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
 
 /**
  * /pricing — Kate's pricing.html prototype, ported 1:1 (copy + tiers hers,
@@ -12,7 +13,7 @@ import * as THREE from 'three';
  * NOTE FOR REVIEW: this REPLACES the live pilot-sprint Stripe checkout page.
  * Flagged to Kate before any merge.
  */
-export function CinematicPricing() {
+export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: boolean }) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -110,7 +111,7 @@ export function CinematicPricing() {
         <nav className="nav">
           <a className="wordmark" href="/">assembl</a>
           <div className="nav-links">
-            <a href="/#agents">agents</a>
+            <a href="/agents">agents</a>
             <a href="/pricing">pricing</a>
             <a href="/build-an-agent">build an agent</a>
           </div>
@@ -125,21 +126,22 @@ export function CinematicPricing() {
 
         <div className="page-body">
           <div className="pricing-grid">
-            <div className="price-card">
-              <div className="price-tier">founding pilot</div>
-              <div className="price-amount">$299<span>/mo</span></div>
-              <div className="price-desc">For businesses ready to replace one repeat task with a supervised agent. Full platform. Named support.</div>
+            <div className="price-card featured">
+              <div className="price-badge">founding offer</div>
+              <div className="price-tier">founding offer</div>
+              <div className="price-amount">$1,500<span> +GST · one-off</span></div>
+              <div className="price-desc">Your Business Blueprint and a working agent with a real customer journey — built with you, measured honestly.</div>
               <ul className="price-list">
-                <li>Living Site — public website + business blueprint</li>
-                <li>One agent — built around your facts</li>
-                <li>Business inbox with drafts</li>
+                <li>Business Blueprint — your living source of truth</li>
+                <li>One working agent — built around your facts</li>
+                <li>One customer journey — end to end, traced</li>
                 <li>Approval workflow — people stay in control</li>
                 <li>Named support — direct line to the team</li>
                 <li>NZ-hosted, NZ Privacy Act compliant</li>
               </ul>
-              <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz">begin a conversation</a>
+              <PilotSprintCheckout configured={checkoutConfigured} />
             </div>
-            <div className="price-card featured">
+            <div className="price-card">
               <div className="price-badge">coming</div>
               <div className="price-tier">team</div>
               <div className="price-amount">$899<span>/mo</span></div>
@@ -157,7 +159,7 @@ export function CinematicPricing() {
           </div>
 
           <div className="founding">
-            <h2>The <span className="accent">founding pilot</span></h2>
+            <h2>The <span className="accent">founding offer</span></h2>
             <p>We&rsquo;re working closely with a small group of New Zealand businesses to replace one real repeat task with a supervised agent — and to measure the result honestly. If you have a job that costs time or creates avoidable risk, we&rsquo;d like to hear about it.</p>
           </div>
         </div>

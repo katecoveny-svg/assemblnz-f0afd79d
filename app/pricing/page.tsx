@@ -15,5 +15,6 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
-  return <CinematicPricing />;
+  const checkoutConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
+  return <CinematicPricing checkoutConfigured={checkoutConfigured} />;
 }

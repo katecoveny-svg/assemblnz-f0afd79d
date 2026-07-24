@@ -596,8 +596,11 @@ const productRedirect = (request: NextRequest) => {
   // living site instead. /agents/pick stays — the fleet browser is used
   // behind the gates. /agents/mine stays too — saved Pilot builds run there
   // (the ship screen links straight to it).
+  // /agents itself is BACK as a real page (Kate's cinematic agents page,
+  // ported from her prototype 2026-07-24) — only the old marketplace
+  // SUBPATHS still land on the living site.
   if (
-    (pathname === '/agents' || pathname.startsWith('/agents/')) &&
+    pathname.startsWith('/agents/') &&
     pathname !== '/agents/pick' &&
     pathname !== '/agents/mine' &&
     !pathname.startsWith('/agents/mine/')

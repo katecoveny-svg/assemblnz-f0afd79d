@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 /**
@@ -21,6 +21,54 @@ import * as THREE from 'three';
  */
 export function CinematicHome() {
   const rootRef = useRef<HTMLDivElement>(null);
+
+  // ── LIVE AGENT DEMO ── a real Claude call via /api/build-agent, streamed.
+  // Drafts only; nothing sends. The config is a sensible default agent.
+  const [demoQ, setDemoQ] = useState('');
+  const [demoA, setDemoA] = useState('');
+  const [demoBusy, setDemoBusy] = useState(false);
+  async function askAgent() {
+    const question = demoQ.trim();
+    if (!question || demoBusy) return;
+    setDemoBusy(true);
+    setDemoA('');
+    try {
+      const res = await fetch('/api/build-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          config: {
+            name: 'assembl demo agent',
+            business: 'a New Zealand small business',
+            modelTier: 'mid',
+            memoryScope: 'session',
+            tools: ['calendar', 'web-search'],
+            knowledge: [],
+            voice: 'Warm, plain-spoken. Never invents prices.',
+            guardrails: ['cite-sources', 'no-personal-data'],
+          },
+        }),
+      });
+      if (!res.ok || !res.body) {
+        setDemoA('The agent is resting — try again in a moment.');
+        return;
+      }
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let acc = '';
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        setDemoA(acc);
+      }
+    } catch {
+      setDemoA('The agent is resting — try again in a moment.');
+    } finally {
+      setDemoBusy(false);
+    }
+  }
 
   useEffect(() => {
     const root = rootRef.current;
@@ -121,7 +169,7 @@ export function CinematicHome() {
     cleanups.push(() => finIO.disconnect());
 
     // ── TIMELINE + PROGRESS HAIRLINE ──
-    const sections = ['#top', '#genome', '#journey', '#agents', '#wait', '#proof', '#begin'].map((s) => $(s)!);
+    const sections = ['#top', '#genome', '#journey', '#agents', '#wait', '#proof', '#demo', '#begin'].map((s) => $(s)!);
     const dots = $$('.timeline-dot');
     const progressBar = $('#cine-progress')!;
     let currentStage = 0;
@@ -281,7 +329,8 @@ export function CinematicHome() {
       { s: 1.45, x: -2.6, y:  0.0, z:  0.8, ry: 3.35, rx: 0.08, cz:  7.2, cy: 0.4 }, // agents — close-up left
       { s: 0.85, x:  2.8, y:  1.1, z: -1.0, ry: 4.40, rx: 0.30, cz:  8.6, cy: 0.9 }, // wait — rises, tilts
       { s: 0.72, x: -2.7, y: -0.6, z: -2.2, ry: 5.30, rx: -0.10, cz: 10.4, cy: 0.3 }, // proof — pulls wide
-      { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.55, rx: 0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
+      { s: 1.35, x:  2.6, y: -0.1, z:  0.6, ry: 5.95, rx: 0.05, cz:  7.4, cy: 0.4 }, // demo — leans in beside the live panel
+      { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.90, rx: 0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
     ];
 
     let prevScroll = 0, spin = 0, t = 0, raf = 0;
@@ -409,6 +458,7 @@ export function CinematicHome() {
         <div className="timeline-dot" data-label="agents" data-target="#agents" />
         <div className="timeline-dot" data-label="wait" data-target="#wait" />
         <div className="timeline-dot" data-label="proof" data-target="#proof" />
+        <div className="timeline-dot" data-label="demo" data-target="#demo" />
         <div className="timeline-dot" data-label="begin" data-target="#begin" />
       </div>
 
@@ -527,6 +577,31 @@ export function CinematicHome() {
             <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">Customer satisfaction</div><div className="d-tag">94% ↑</div></div>
             <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Agent calls avoided</div><div className="d-tag">1 saved</div></div>
             <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">Revenue impact</div><div className="d-tag">+$2.40</div></div>
+          </div>
+        </section>
+
+        <section className="section" id="demo">
+          <span className="ghost left" aria-hidden="true">06</span>
+          <span className="editorial left">live demo · a real agent · drafting</span>
+          <div className="section-copy reveal-right">
+            <div className="kicker">06 — Live Demo</div>
+            <h2>Ask it<br /><span className="accent">something.</span></h2>
+            <p>A real agent, answering live from a sample Business Blueprint. Drafts only — nothing sends without a person&rsquo;s yes.</p>
+          </div>
+          <div className="panel reveal-left" data-delay="200">
+            <div className="panel-header">Agent — live <span className="live">{demoBusy ? 'drafting' : 'ready'}</span></div>
+            <textarea
+              className="demo-input"
+              rows={3}
+              maxLength={600}
+              placeholder="It's Monday morning. My biggest customer wants to move tomorrow's job to today — what would you draft?"
+              value={demoQ}
+              onChange={(e) => setDemoQ(e.target.value)}
+            />
+            <button className="btn btn-solid demo-btn" onClick={askAgent} disabled={demoBusy || !demoQ.trim()}>
+              {demoBusy ? 'drafting…' : 'ask the agent'}
+            </button>
+            {demoA ? <div className="demo-answer">{demoA}</div> : null}
           </div>
         </section>
 
