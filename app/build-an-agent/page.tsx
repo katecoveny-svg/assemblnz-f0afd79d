@@ -1,44 +1,20 @@
 import type { Metadata } from 'next';
-
-import { BUILD_AN_AGENT } from '@/lib/copy/build-an-agent';
-
-import { BuilderRoot } from './BuilderRoot';
-
-type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+import { CinematicBuilder } from '@/components/site/cinematic/CinematicBuilder';
+import '../cine.css';
 
 /**
- * Shared links carry ?c=<config>. When present, point the OG image at the
- * personalised /og card so a pasted link previews the sender's actual agent —
- * that preview IS the viral loop. Without ?c=, the opengraph-image file
- * convention supplies the default card.
+ * /build-an-agent — Kate's agent-builder.html prototype (2026-07-24), ported
+ * 1:1 to the cinematic system: the interactive vitrine (drag to rotate, click
+ * a part to inspect, share an agent recipe). Replaces the previous R3F
+ * builder page on this branch.
  */
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}): Promise<Metadata> {
-  const base: Metadata = {
-    title: BUILD_AN_AGENT.meta.title,
-    description: BUILD_AN_AGENT.meta.description,
-    alternates: { canonical: '/build-an-agent' },
-  };
-  const { c } = await searchParams;
-  const encoded = Array.isArray(c) ? c[0] : c;
-  if (!encoded) return base;
-  return {
-    ...base,
-    openGraph: {
-      title: BUILD_AN_AGENT.meta.title,
-      description: BUILD_AN_AGENT.meta.description,
-      images: [{ url: `/build-an-agent/og?c=${encodeURIComponent(encoded)}`, width: 1200, height: 630 }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      images: [`/build-an-agent/og?c=${encodeURIComponent(encoded)}`],
-    },
-  };
-}
+
+export const metadata: Metadata = {
+  title: 'assembl · build an agent',
+  description: 'Build intelligence you can see. Drag to rotate, inspect every part — nothing sends without approval.',
+  alternates: { canonical: '/build-an-agent' },
+};
 
 export default function BuildAnAgentPage() {
-  return <BuilderRoot />;
+  return <CinematicBuilder />;
 }

@@ -6,94 +6,39 @@ import { Canvas, useFrame } from '@react-three/fiber';
 // core subpath so the Vercel typecheck can find Environment.
 import { Environment } from '@react-three/drei/core/Environment';
 import type { Mesh } from 'three';
-import { CONCEPT_VIGNETTES } from '@/lib/copy/editorial-home';
-
-type VignetteId = keyof typeof CONCEPT_VIGNETTES;
+import { AGENT_PARTS, type PartId } from '@/lib/copy/editorial-home';
+import { PartMesh } from './PartMesh';
 
 /**
- * The 3D form inside a single inline vignette. Kept minimal: one primitive
- * per concept, a slow constant rotation, an apartment-preset environment
- * for the chrome/glass reflections. Runs at pixel-density-capped DPR so 3
- * of these embedded inside the hero H1 stay cheap.
+ * The 3D form inside a single inline vignette — one of the six agent parts,
+ * slowly rotating, lit by an apartment-preset environment so the chrome and
+ * obsidian read. DPR is capped so several of these embedded in the poster
+ * stay cheap.
  */
-function VignetteObject({ id }: { id: VignetteId }) {
+function VignetteObject({ id }: { id: PartId }) {
   const ref = useRef<Mesh>(null!);
   useFrame((_, dt) => {
     if (!ref.current) return;
     ref.current.rotation.y += dt * 0.6;
     ref.current.rotation.x = Math.sin(performance.now() * 0.0004) * 0.15;
   });
-  const shape = CONCEPT_VIGNETTES[id].shape;
-
-  if (shape === 'sphere') {
-    return (
-      <mesh ref={ref}>
-        <sphereGeometry args={[0.9, 64, 64]} />
-        <meshPhysicalMaterial
-          color="#f2f2f2"
-          metalness={1}
-          roughness={0.08}
-          clearcoat={1}
-          clearcoatRoughness={0.05}
-        />
-      </mesh>
-    );
-  }
-
-  if (shape === 'block') {
-    return (
-      <mesh ref={ref}>
-        <boxGeometry args={[1.1, 1.1, 1.1]} />
-        <meshPhysicalMaterial
-          color="#ffd28a"
-          transmission={1}
-          thickness={0.6}
-          roughness={0.06}
-          ior={1.42}
-          attenuationColor="#ff9a63"
-          attenuationDistance={1.2}
-          clearcoat={1}
-          clearcoatRoughness={0.1}
-        />
-      </mesh>
-    );
-  }
-
-  // torus — Air NZ, iridescent chrome
-  return (
-    <mesh ref={ref}>
-      <torusGeometry args={[0.7, 0.28, 48, 128]} />
-      <meshPhysicalMaterial
-        color="#e8e6e2"
-        metalness={1}
-        roughness={0.12}
-        iridescence={1}
-        iridescenceIOR={1.6}
-        iridescenceThicknessRange={[100, 800]}
-      />
-    </mesh>
-  );
+  return <PartMesh id={id} meshRef={ref} scale={0.9} />;
 }
 
 /**
- * A tiny inline 3D card slotted between words in the hero H1 — a live,
- * rotating physical object (chrome sphere / glass block / iridescent koru)
- * sized to sit on the type baseline. Replaces the flat coloured chip
- * approach; makes the "make AI visible" claim by literally showing 3D
- * objects made of light inside the sentence.
- *
- * Wrapped in a link out to the concept-studio microsite — click the object,
- * open the demo.
+ * A tiny inline 3D object slotted between words in the poster — a live,
+ * rotating agent part (Intelligence knot, Memory cubes, Voice sphere…) sized
+ * to sit on the type baseline. The designbyshiv "photo between words" trick,
+ * but the objects are the product's own parts: the "make AI visible" claim
+ * answered by literally showing the parts inside the sentence.
  */
-export function InlineVignette({ id }: { id: VignetteId }) {
-  const vig = CONCEPT_VIGNETTES[id];
+export function InlineVignette({ id }: { id: PartId }) {
+  const part = AGENT_PARTS[id];
   return (
-    <a
-      href={vig.href}
-      target="_blank"
-      rel="noreferrer noopener"
-      aria-label={`Concept demo — ${vig.label}`}
-      className="relative mx-[0.06em] inline-block h-[0.9em] w-[0.9em] translate-y-[0.08em] rounded-full align-baseline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1A1918] focus-visible:ring-offset-2"
+    <span
+      aria-label={`${part.label} — a part of an assembl agent`}
+      role="img"
+      className="relative mx-[0.06em] inline-block h-[0.92em] w-[0.92em] translate-y-[0.08em] align-baseline"
       style={{ verticalAlign: 'baseline' }}
     >
       <Canvas
@@ -109,6 +54,6 @@ export function InlineVignette({ id }: { id: VignetteId }) {
           <Environment preset="apartment" />
         </Suspense>
       </Canvas>
-    </a>
+    </span>
   );
 }
