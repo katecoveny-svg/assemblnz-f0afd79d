@@ -237,9 +237,19 @@ export function CinematicBuilder() {
       doc.setFontSize(8);
       doc.text(`READ FROM THEIR OWN WEBSITE  ·  ${dated.toUpperCase()}`, M, 72, { charSpace: 0.6 });
 
-      // The agent, wearing their colours.
+      // The agent, wearing their colours. Fit to the vitrine's real aspect —
+      // a fixed box stretches the sphere into an ellipse.
       const shot = captureRef.current?.();
-      if (shot) doc.addImage(shot, 'PNG', W / 2 - 47, 100, 94, 70);
+      if (shot) {
+        const cv = rootRef.current?.querySelector('#builder-canvas') as HTMLCanvasElement | null;
+        const aspect = cv && cv.height ? cv.width / cv.height : 4 / 3;
+        const boxW = 118;
+        const boxH = 74;
+        let imgW = boxW;
+        let imgH = boxW / aspect;
+        if (imgH > boxH) { imgH = boxH; imgW = boxH * aspect; }
+        doc.addImage(shot, 'PNG', W / 2 - imgW / 2, 100 + (boxH - imgH) / 2, imgW, imgH);
+      }
 
       doc.setFont('times', 'normal');
       doc.setFontSize(15);
