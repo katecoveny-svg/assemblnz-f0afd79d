@@ -140,11 +140,22 @@ export function extractBrandColours(sources: string[]): BrandColours | null {
   return rankColours(counts);
 }
 
-/** Same-origin stylesheet URLs referenced by a page, capped. */
-export function stylesheetUrls(html: string, base: URL, cap = 5): string[] {
-  const out: string[] = [];
+/**
+ * Stylesheet URLs referenced by a page, ranked so the brand's own theme sheet
+ * is fetched first.
+ *
+ * Document order is the wrong order: sites commonly load a dozen per-module
+ * stylesheets before the main theme file, and a module's link-blue can easily
+ * out-score the real brand colour if the theme sheet never gets fetched.
+ * (Ryman's theme sheet is last on the page, and skipping it turned their green
+ * into a stray cyan.) So: theme-looking names first, same-origin next.
+ */
+export function stylesheetUrls(html: string, base: URL, cap = 8): string[] {
+  const candidates: Array<{ url: string; rank: number }> = [];
   const re = /<link[^>]+rel=["']?stylesheet["']?[^>]*>/gi;
   const links = html.match(re) ?? [];
+  const seen = new Set<string>();
+
   for (const tag of links) {
     const m = tag.match(/href=["']([^"']+)["']/i);
     if (!m) continue;
@@ -155,10 +166,22 @@ export function stylesheetUrls(html: string, base: URL, cap = 5): string[] {
       continue;
     }
     if (u.protocol !== 'https:' && u.protocol !== 'http:') continue;
-    // Skip the obvious third-party frameworks — their palettes aren't the brand.
-    if (/bootstrap|font-awesome|normalize|splide|swiper|fontawesome|jsdelivr\.net\/npm\/(bootstrap|swiper)/i.test(u.pathname + u.hostname)) continue;
-    out.push(u.toString());
-    if (out.length >= cap) break;
+    const where = `${u.hostname}${u.pathname}`;
+    // Third-party frameworks ship their own palettes — never the brand's.
+    if (/bootstrap|font-awesome|fontawesome|normalize|splide|swiper|slick|lightbox|jquery|cookieconsent/i.test(where)) continue;
+    const key = u.toString();
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    let rank = 2;
+    if (/theme|stylesheet|main|global|site|brand|style\b|styles\b|tokens|variables/i.test(u.pathname)) rank = 0;
+    else if (/module_|component|widget/i.test(u.pathname)) rank = 3;
+    if (u.hostname !== base.hostname && rank !== 0) rank += 1; // prefer their own host
+    candidates.push({ url: key, rank });
   }
-  return out;
+
+  return candidates
+    .sort((a, b) => a.rank - b.rank)
+    .slice(0, cap)
+    .map((c) => c.url);
 }
