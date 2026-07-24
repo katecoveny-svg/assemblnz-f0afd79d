@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { CineFooter } from './CineFooter';
 import * as THREE from 'three';
 import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
 
@@ -164,7 +165,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
           </div>
         </div>
 
-        <footer>assembl · aotearoa new zealand · © 2026</footer>
+        <CineFooter />
       </div>
     </div>
   );
