@@ -36,13 +36,22 @@ Eight accent colours, one per kete. Each kete owns its accent inside its own sco
 | Ako | Early Childhood | Parauri |
 | Tōro | Whānau | Mangū |
 
-## typography
+## typography (UPDATED 2026-07-24 — clean geometric direction)
 
-- **Display** — Cormorant Garamond, weight 300. Italic emphasis sparingly, never as decoration. Used for hero headlines and large editorial moments.
-- **Body** — Inter, regular and medium. Default for paragraph copy, navigation, buttons.
-- **Mono / labels / prompt output** — IBM Plex Mono. Used for code, evidence-pack metadata, machine output, and small labels.
+- **Display** — Inter Tight, weights 200–400, upright only. Large headline moments
+  are big, tight-tracked, strictly left-aligned. No italic display type; emphasis
+  is colour (one accent word), never slant. Loaded where used (currently
+  `components/home-v3/`) as `--font-inter-tight`; promote to `app/layout.tsx`
+  as `--font-display` when the v3 direction covers all marketing surfaces.
+- **Body** — Lato, light and regular (this is what `app/layout.tsx` actually
+  loads as `--font-body`; the previous doc said Inter — code wins).
+- **Mono / labels / prompt output** — Space Mono via `--font-mono`. Used for
+  code, evidence-pack metadata, machine output, kickers, and small labels.
 
-Loaded via `next/font/google` in `app/layout.tsx` and exposed as the CSS variables `--font-display`, `--font-body`, `--font-mono`. Tailwind aliases: `font-display`, `font-body` (and `font-sans`), `font-mono`.
+Cormorant Garamond display is RETIRED for new marketing surfaces (superseded by
+the 2026-07-24 clean-minimal direction below). It remains loaded as
+`--font-display` only while legacy pages still reference it — do not use it in
+new work.
 
 ## voice — core messaging (LOCKED 2026-04-07)
 
@@ -87,15 +96,39 @@ Banned in all public copy:
 
 No em-dashes used as drama beats. No tricolons-of-three when one good clause will do. No "In a world where..." opens.
 
-## visual language — sculptural evidence vessels
+## visual language (UPDATED 2026-07-24 — clean minimalism + expressive glossy 3D)
 
-Signature motif: soft feathery silk-organza translucent forms with embedded gold light points, on cream paper, in editorial product photography. References: Aesop product photography, Joby Aviation cinematic scroll storytelling, Linear's interface clarity.
+Owner-approved direction change (Kate, 2026-07-24), developed in the
+`assembl-3d-gallery` exploration and ported here as `/home-v3`. Reference:
+antonskvor.webflow.io — clean geometric sans, asymmetric left-aligned layouts,
+paper white with huge whitespace, premium 3D as the single expressive element.
 
-Vessels are self-supporting organic forms. Brass armatures, cages, rails, spines, and metal frames are RETIRED.
+Signature motif: **the agent, assembled** — one meaningful real-time 3D assembly
+of piano-gloss materials on warm paper. Every object represents a real component
+of an assembl agent and carries a small projected label:
 
-Linear gold elements (route lines, trajectories, threads, wires) are RETIRED. The only acceptable gold is embedded gold light points — small bead-like accents inside the silk.
+- piano-gloss navy core + chrome band + clear glass shell = agent identity + boundaries
+- frosted glass cube = knowledge
+- brass capsule = ability
+- chrome tile = connected app
+- navy cube = approval step
+- brass ring = evaluation status
 
-Banned: kōwhaiwhai, sacred Māori carving patterns, decorative indigenous patterning, neon, hologram clichés, generic SaaS gradients, sci-fi dashboards, dark/forest backgrounds.
+Rules: 3D is never decorative — each object is labelled, and the component that
+belongs to the section in view lights up (soft gold emissive) as the visitor
+scrolls. Motion is fluid and interruptible: blur-to-sharp reveals, magnetic
+buttons, pointer-tilt glass panels, scroll-velocity spin. `prefers-reduced-motion`
+gets a calm still composition. Gloss depends on bright softbox planes baked into
+the environment map — see `components/home-v3/HomeV3.tsx`.
+
+Status of the earlier silk-organza vessel language: RETIRED for the homepage and
+new marketing surfaces. The locked kete vessel renders (below) remain in use on
+kete pages until re-rendered in the new material language — do not mix the two
+motifs on one page.
+
+Banned (unchanged): kōwhaiwhai, sacred Māori carving patterns, decorative
+indigenous patterning, neon, hologram clichés, generic SaaS gradients, sci-fi
+dashboards, dark/forest backgrounds.
 
 ## material grammar per kete (UPDATED 2026-05-07 — soft feathery direction)
 

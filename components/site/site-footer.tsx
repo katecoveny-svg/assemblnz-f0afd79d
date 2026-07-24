@@ -70,7 +70,7 @@ export function SiteFooter() {
   // white-labelled — suppress the assembl footer across the whole subtree.
   // pathname === "/" — the root is the coming-soon splash until the fresh
   // marketing site cuts over; the splash carries no chrome at all.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || pathname === "/" || pathname === "/home-v3") return null;
 
   return (
     <footer
