@@ -668,10 +668,13 @@
 .cine .sc-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .cine .sc-actions .btn[disabled] { opacity: 0.5; cursor: wait; }
 
-/* mobile: the assembly must never sit over body copy */
+/* mobile: keep the assembly full-strength (dimming washed it out) — the
+   type carries a paper halo instead, same trick as the desktop hero. */
 @media (max-width: 700px) {
-  .cine #canvas-3d { opacity: 0.38; }
-  .cine .section-copy p, .cine .lede {
-    text-shadow: 0 1px 12px rgba(253, 251, 247, 0.95), 0 0 26px rgba(253, 251, 247, 0.9);
+  .cine .section-copy p, .cine .lede, .cine .section-copy h2, .cine .kicker, .cine .hero-sub-cinema {
+    text-shadow:
+      0 1px 10px rgba(253, 251, 247, 0.98),
+      0 0 22px rgba(253, 251, 247, 0.95),
+      0 0 44px rgba(253, 251, 247, 0.85);
   }
 }
