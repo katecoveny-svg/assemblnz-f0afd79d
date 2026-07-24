@@ -12,6 +12,17 @@ import * as THREE from 'three';
  * recipe (near-black env + very high envMapIntensity) kept as-is.
  */
 
+/** What /api/agent-brief reads back off a real business website. */
+type Brief = {
+  business: string;
+  sells: string[];
+  voice: string;
+  questions: string[];
+  facts: string[];
+  blindSpots: string[];
+  source: string;
+};
+
 const PARTS = [
   { n: 'memory', s: '01', q: 'What does it remember?', v: 'Customer preferences, past interactions, context that carries across sessions. Consent-based and data-minimised.', a: 'read/write · consent-based' },
   { n: 'knowledge', s: '02', q: 'What does it know?', v: 'Approved offers, prices, FAQs and business rules from the Blueprint. Reads only confirmed sources.', a: 'read only · confirmed sources' },
@@ -31,6 +42,10 @@ export function CinematicBuilder() {
   const [askQ, setAskQ] = useState('');
   const [askA, setAskA] = useState('');
   const [askBusy, setAskBusy] = useState(false);
+  const [siteUrl, setSiteUrl] = useState('');
+  const [brief, setBrief] = useState<Brief | null>(null);
+  const [briefBusy, setBriefBusy] = useState(false);
+  const [briefError, setBriefError] = useState('');
   const activeRef = useRef(active);
   activeRef.current = active;
   // Set by the scene effect: renders a fresh frame and returns it as a PNG
@@ -74,8 +89,40 @@ export function CinematicBuilder() {
     window.open(href, '_blank', 'noopener');
   }
 
-  // Same live agent the homepage demo streams from — here it answers AS the
-  // agent the visitor just named and inspected.
+  /** Read a real business website and assemble its Business Blueprint. */
+  async function assembleFromSite() {
+    const url = siteUrl.trim();
+    if (!url || briefBusy) return;
+    setBriefBusy(true);
+    setBriefError('');
+    setBrief(null);
+    setAskA('');
+    try {
+      const res = await fetch('/api/agent-brief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBriefError(typeof data?.error === 'string' ? data.error : 'That site could not be read.');
+        return;
+      }
+      setBrief(data as Brief);
+      if (!agentName.trim() && data.source) {
+        setAgentName(String(data.source).replace(/^www\./, '').split('.')[0]);
+      }
+      if (Array.isArray(data.questions) && data.questions[0]) setAskQ(String(data.questions[0]));
+    } catch {
+      setBriefError('The blueprint service is resting — try again in a moment.');
+    } finally {
+      setBriefBusy(false);
+    }
+  }
+
+  // Same live agent the homepage demo streams from — but once a blueprint is
+  // assembled it answers as THAT business's agent, from that business's own
+  // published facts, on the deep model tier.
   async function askAgent() {
     const question = askQ.trim();
     if (!question || askBusy) return;
@@ -89,12 +136,22 @@ export function CinematicBuilder() {
           question,
           config: {
             name: agentName.trim() || 'assembl demo agent',
-            business: 'a New Zealand small business',
-            modelTier: 'mid',
+            business: brief
+              ? [
+                  `${brief.business} (public website: ${brief.source})`,
+                  brief.sells.length ? `What they offer: ${brief.sells.join('; ')}.` : '',
+                  brief.facts.length ? `Facts from their own site — treat these as the only ones you know: ${brief.facts.join(' | ')}` : '',
+                  brief.blindSpots.length ? `Their site does NOT answer: ${brief.blindSpots.join('; ')}. If asked about these, say plainly that the website doesn't cover it and what you'd need.` : '',
+                ].filter(Boolean).join('\n')
+              : 'a New Zealand small business',
+            // Deep tier: this is answering as someone's real business.
+            modelTier: brief ? 'premium' : 'mid',
             memoryScope: 'session',
             tools: ['calendar', 'web-search'],
-            knowledge: [],
-            voice: 'Warm, plain-spoken. Never invents prices.',
+            knowledge: brief ? [`${brief.source} — public website`] : [],
+            voice: brief?.voice
+              ? `${brief.voice} Never invent a price, a service or a claim that isn't in the facts above.`
+              : 'Warm, plain-spoken. Never invents prices.',
             guardrails: ['cite-sources', 'no-personal-data'],
           },
         }),
@@ -206,6 +263,53 @@ export function CinematicBuilder() {
       doc.textWithLink('assembl.co.nz/build-an-agent', 45, 285, { url: shareUrl() });
       doc.setTextColor(...INK2);
       doc.text('assembl@assembl.co.nz  ·  Aotearoa New Zealand', W - 18, 285, { align: 'right' });
+
+      // Page 2 — the visitor's own business, read off their own website.
+      if (brief) {
+        doc.addPage();
+        doc.setFillColor(...PAPER);
+        doc.rect(0, 0, W, 297, 'F');
+        doc.setTextColor(...BRASS);
+        doc.setFontSize(7.5);
+        doc.text(`BUSINESS BLUEPRINT  ·  READ FROM ${brief.source.toUpperCase()}`, 18, 22, { charSpace: 0.6 });
+        doc.setDrawColor(...BRASS);
+        doc.line(18, 26, W - 18, 26);
+
+        let by = 38;
+        const block = (label: string, lines: string[]) => {
+          if (!lines.length) return;
+          doc.setTextColor(...BRASS);
+          doc.setFontSize(7.5);
+          doc.text(label.toUpperCase(), 18, by, { charSpace: 0.5 });
+          by += 6;
+          doc.setTextColor(...INK2);
+          doc.setFontSize(9.5);
+          lines.forEach((line) => {
+            const wrapped = doc.splitTextToSize(line, W - 40) as string[];
+            if (by + wrapped.length * 5 > 275) return;
+            doc.text(wrapped, 20, by);
+            by += wrapped.length * 5 + 2;
+          });
+          by += 8;
+        };
+
+        doc.setTextColor(...INK);
+        doc.setFontSize(15);
+        doc.text(doc.splitTextToSize(brief.business, W - 36) as string[], 18, by);
+        by += (doc.splitTextToSize(brief.business, W - 36) as string[]).length * 7 + 10;
+
+        block('what you offer', brief.sells.map((x) => `· ${x}`));
+        block('facts your agent will not invent around', brief.facts.map((x) => `· ${x}`));
+        if (brief.voice) block('your voice', [brief.voice]);
+        block('what your website does not answer', brief.blindSpots.map((x) => `· ${x}`));
+
+        doc.setFontSize(7);
+        doc.setTextColor(...INK2);
+        doc.text(
+          'Read from one public page on the date above. Nothing was stored. Confirm anything commercial before relying on it.',
+          18, 285,
+        );
+      }
 
       doc.save(`${(agentName.trim() || 'assembl-agent').replace(/[^\w-]+/g, '-').toLowerCase()}-blueprint.pdf`);
     } finally {
@@ -399,8 +503,78 @@ export function CinematicBuilder() {
         <header className="page-header" style={{ paddingBottom: 24 }}>
           <div className="kicker">assemble an agent</div>
           <h1>Build intelligence<br /><span className="accent">you can see.</span></h1>
-          <p className="lede" style={{ marginTop: 12 }}>Drag to rotate. Click a part to inspect what it does. Nothing sends without approval.</p>
+          <p className="lede" style={{ marginTop: 12 }}>Put your website in. Watch an agent assemble itself out of what your business already says — then ask it the question your customers keep asking. Nothing sends without approval.</p>
         </header>
+
+        <div className="page-body" style={{ paddingBottom: 0 }}>
+          <div className="glass-panel site-panel">
+            <div className="panel-header">
+              start here <span className="live">{briefBusy ? 'reading the site' : brief ? 'blueprint ready' : 'step 01'}</span>
+            </div>
+            <div className="site-row">
+              <input
+                className="site-input"
+                type="text"
+                inputMode="url"
+                value={siteUrl}
+                maxLength={200}
+                placeholder="yourbusiness.co.nz"
+                onChange={(e) => setSiteUrl(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') assembleFromSite(); }}
+              />
+              <button className="btn btn-solid" onClick={assembleFromSite} disabled={briefBusy || !siteUrl.trim()}>
+                {briefBusy ? 'assembling…' : 'assemble my agent'}
+              </button>
+            </div>
+            <div className="site-note">
+              Reads one public page. Nothing is stored, and nothing is sent anywhere.
+            </div>
+            {briefError ? <div className="site-error">{briefError}</div> : null}
+
+            {brief ? (
+              <div className="brief">
+                <div className="brief-line">
+                  <span className="brief-lab">what it understood</span>
+                  <p>{brief.business}</p>
+                </div>
+                {brief.sells.length ? (
+                  <div className="brief-line">
+                    <span className="brief-lab">knowledge · what you offer</span>
+                    <div className="brief-chips">{brief.sells.map((x) => <span className="brief-chip" key={x}>{x}</span>)}</div>
+                  </div>
+                ) : null}
+                {brief.facts.length ? (
+                  <div className="brief-line">
+                    <span className="brief-lab">facts it will not invent around</span>
+                    <ul className="brief-list">{brief.facts.map((x) => <li key={x}>{x}</li>)}</ul>
+                  </div>
+                ) : null}
+                {brief.voice ? (
+                  <div className="brief-line">
+                    <span className="brief-lab">voice · how you already write</span>
+                    <p>{brief.voice}</p>
+                  </div>
+                ) : null}
+                {brief.blindSpots.length ? (
+                  <div className="brief-line brief-gap">
+                    <span className="brief-lab">what your site doesn&rsquo;t answer</span>
+                    <ul className="brief-list">{brief.blindSpots.map((x) => <li key={x}>{x}</li>)}</ul>
+                  </div>
+                ) : null}
+                {brief.questions.length ? (
+                  <div className="brief-line">
+                    <span className="brief-lab">try asking it</span>
+                    <div className="brief-chips">
+                      {brief.questions.map((q) => (
+                        <button className="brief-q" key={q} onClick={() => { setAskQ(q); document.getElementById('ask-panel')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}>{q}</button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </div>
 
         <div className="page-body">
           <div className="builder-3d">
@@ -435,10 +609,12 @@ export function CinematicBuilder() {
         </div>
 
         <div className="page-body" style={{ paddingTop: 0 }}>
-          <div className="glass-panel" style={{ maxWidth: 720 }}>
+          <div className="glass-panel" id="ask-panel" style={{ maxWidth: 720 }}>
             <div className="panel-header">
               {agentName.trim() ? `${agentName.trim()} — live` : 'Agent — live'}{' '}
-              <span className="live">{askBusy ? 'drafting' : 'ready'}</span>
+              <span className="live">
+                {askBusy ? 'drafting' : brief ? `grounded in ${brief.source}` : 'ready'}
+              </span>
             </div>
             <textarea
               className="demo-input"

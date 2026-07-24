@@ -2532,5 +2532,5 @@ export function agentIsSpecialist(
 export const MODEL_TIER_TO_ANTHROPIC: Record<ModelTier, string> = {
   cheap: 'claude-haiku-4-5-20251001',
   mid: 'claude-sonnet-4-6',
-  premium: 'claude-opus-4-8',
+  premium: 'claude-opus-5',
 };

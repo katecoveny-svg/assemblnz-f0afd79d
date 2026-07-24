@@ -75,6 +75,18 @@ export const MODEL_CANDIDATES: readonly ModelCandidate[] = [
     envKeys: ['ANTHROPIC_API_KEY'],
   },
   {
+    id: 'claude-opus-5',
+    provider: 'anthropic',
+    label: 'Claude Opus 5 (deep tier)',
+    capabilities: [...CORE, 'coding', 'vision'],
+    latency: 'standard',
+    quality: 5,
+    costPerMTokensNzd: 45,
+    maxDataClassification: 'restricted',
+    status: 'production',
+    envKeys: ['ANTHROPIC_API_KEY'],
+  },
+  {
     id: 'claude-opus-4-8',
     provider: 'anthropic',
     label: 'Claude Opus 4.8 (selective)',
