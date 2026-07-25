@@ -599,7 +599,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-right">
             <div className="kicker">05 — Assembling · Monetised Wait</div>
             <h2>Nobody likes<br /><span className="accent">waiting.</span></h2>
-            <p>While it works, your customer sees what it&rsquo;s doing — and earns a small reward for waiting. Goes to charity at launch, with more coming.</p>
+            <p>While it works, your customer sees exactly what it&rsquo;s doing — and earns a small credit for the wait, toward what they&rsquo;re buying or their next one.</p>
             <p style={{ marginTop: 14 }}>One line of code to add. You keep 55% of what the wait earns.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
