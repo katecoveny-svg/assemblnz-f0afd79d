@@ -506,11 +506,11 @@ export function CinematicHome() {
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
           <h1>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Your business notices</span></span>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>a hundred things a day.</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>It acts on three.</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Agentic customer</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>journeys, assembled</span></span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>one agent at a time.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>A guest who has stayed every March for six years. A warranty running out in a fortnight. A regular whose usual order was discontinued last week. All of that is already sitting in your systems. assembl puts agents inside your business that read those signals and prepare the next thing, ready for someone to approve.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Specialist agents sit inside your business, reading the signals your systems already hold, and prepare the next thing for every customer — the first quote through to the tenth year. A guest who has stayed every March. A warranty running out in a fortnight. Each agent drafts. A person approves.</p>
           {/* The first thing a visitor does. Kate's hero copy stays the first
               thing they read; this is the first thing that pays them back. */}
           <div className="bp-invite">
