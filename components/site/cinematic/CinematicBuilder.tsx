@@ -60,6 +60,8 @@ export function CinematicBuilder() {
   const [keptUrl, setKeptUrl] = useState('');
   const [keptCopied, setKeptCopied] = useState(false);
   const [portraitBusy, setPortraitBusy] = useState(false);
+  // Separate from keeping the blueprint — aggregate use is opted into, never inherited.
+  const [aggregateConsent, setAggregateConsent] = useState(false);
   const activeRef = useRef(active);
   activeRef.current = active;
   // Set by the scene effect: renders a fresh frame and returns it as a PNG
@@ -124,7 +126,7 @@ export function CinematicBuilder() {
       const res = await fetch('/api/blueprint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ brief, email: keepEmail.trim() }),
+        body: JSON.stringify({ brief, email: keepEmail.trim(), aggregateConsent }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -962,6 +964,17 @@ export function CinematicBuilder() {
                       Everything else here is read-and-forget. Keeping it stores this blueprint for 90 days so it has a
                       link you can send, and lets Kate write back once.
                     </div>
+                    <label className="sc-consent">
+                      <input
+                        type="checkbox"
+                        checked={aggregateConsent}
+                        onChange={(e) => setAggregateConsent(e.target.checked)}
+                      />
+                      <span>
+                        Optional: let assembl count this anonymously towards a yearly picture of what New Zealand
+                        business websites leave unanswered. Your name and address are never published.
+                      </span>
+                    </label>
                     {keepError ? <div className="sc-keep-err">{keepError}</div> : null}
                   </>
                 )}

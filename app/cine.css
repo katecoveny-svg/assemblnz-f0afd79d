@@ -871,3 +871,9 @@
   background: rgba(8, 13, 26, 0.04); border: 1px solid rgba(8, 13, 26, 0.12);
 }
 .cine .brief-refuse p { margin: 0 0 14px; font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); }
+
+.cine .sc-consent {
+  display: flex; gap: 9px; align-items: flex-start; margin-top: 12px; cursor: pointer;
+  font-size: 0.72rem; line-height: 1.55; color: var(--ink-3);
+}
+.cine .sc-consent input { margin-top: 3px; accent-color: var(--brass); flex: 0 0 auto; }
