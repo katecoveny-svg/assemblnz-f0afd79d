@@ -27,8 +27,8 @@ export default async function Image({ params }: { params: Promise<{ slug: string
     (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', background: '#FDFBF7' }}>
         <div style={{ background: accent, padding: '56px 64px 44px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-          <div style={{ fontSize: 21, letterSpacing: 6, color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase' }}>
-            Business Blueprint · assembl
+          <div style={{ fontSize: 21, letterSpacing: 6, color: 'rgba(255,255,255,0.85)' }}>
+            BUSINESS BLUEPRINT · ASSEMBL
           </div>
           <div style={{ fontSize: 78, color: '#fff', marginTop: 26, lineHeight: 1.05 }}>{name}</div>
           {answered !== null && total > 0 ? (
@@ -45,8 +45,8 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         {second ? <div style={{ background: second, height: 12, display: 'flex' }} /> : null}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '26px 64px', background: '#FDFBF7' }}>
           <div style={{ fontSize: 26, color: '#1A1918' }}>assembl.co.nz</div>
-          <div style={{ fontSize: 20, color: '#8A867E', letterSpacing: 3, textTransform: 'uppercase' }}>
-            Aotearoa New Zealand
+          <div style={{ fontSize: 20, color: '#8A867E', letterSpacing: 3 }}>
+            AOTEAROA NEW ZEALAND
           </div>
         </div>
       </div>
