@@ -24,12 +24,18 @@ const HITS = new Map<string, number[]>();
 const WINDOW_MS = 60 * 60_000;
 const MAX_HITS = 10;
 
-function rateLimited(ip: string): boolean {
+/** Rejected requests are not counted — see the note in /api/agent-brief. */
+function rateLimited(ip: string | null): boolean {
+  if (!ip) return false;
   const now = Date.now();
   const recent = (HITS.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= MAX_HITS) {
+    HITS.set(ip, recent);
+    return true;
+  }
   recent.push(now);
   HITS.set(ip, recent);
-  return recent.length > MAX_HITS;
+  return false;
 }
 
 /** Loose match — a site rarely rewords a gap identically, so compare on shape. */
@@ -54,7 +60,7 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: 'bad request' }, { status: 400 });
   }
 
-  const ip = clientIpFromHeaders(req.headers) ?? 'anon';
+  const ip = clientIpFromHeaders(req.headers);
   if (rateLimited(ip)) {
     return Response.json({ error: 'Give it a little while before checking again.' }, { status: 429 });
   }

@@ -22,12 +22,19 @@ const WINDOW_MS = 60 * 60_000;
 const MAX_HITS = 3;
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-function rateLimited(ip: string): boolean {
+/** Rejected requests are not counted — counting them made the window
+ *  self-perpetuating and locked people out for as long as they retried. */
+function rateLimited(ip: string | null): boolean {
+  if (!ip) return false;
   const now = Date.now();
   const recent = (HITS.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= MAX_HITS) {
+    HITS.set(ip, recent);
+    return true;
+  }
   recent.push(now);
   HITS.set(ip, recent);
-  return recent.length > MAX_HITS;
+  return false;
 }
 
 function json(data: unknown, status = 200) {
@@ -42,7 +49,7 @@ export async function POST(req: NextRequest) {
     return json({ error: 'bad request' }, 400);
   }
 
-  const ip = clientIpFromHeaders(req.headers) ?? 'anon';
+  const ip = clientIpFromHeaders(req.headers);
   if (rateLimited(ip)) {
     return json({ error: 'Already caught yours — check back in an hour.' }, 429);
   }

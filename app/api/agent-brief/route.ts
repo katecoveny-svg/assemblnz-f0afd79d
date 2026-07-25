@@ -35,14 +35,29 @@ const MAX_TEXT = 14_000;
 
 const HITS = new Map<string, number[]>();
 const WINDOW_MS = 60 * 60_000;
-const MAX_HITS = 8;
+const MAX_HITS = 30;
 
-function rateLimited(ip: string): boolean {
+/**
+ * Returns true when this client has already had its allowance this hour.
+ *
+ * A rejected request must NOT be recorded. Counting them made the window
+ * self-perpetuating: once someone tripped the limit, every retry pushed a
+ * fresh timestamp and the hour never drained, so they were locked out for as
+ * long as they kept trying. Only successful admissions are counted now.
+ */
+function rateLimited(ip: string | null): boolean {
+  // An unidentifiable client must not share one bucket with every other
+  // unidentifiable client — that turned a per-IP limit into a global one.
+  if (!ip) return false;
   const now = Date.now();
   const recent = (HITS.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= MAX_HITS) {
+    HITS.set(ip, recent);
+    return true;
+  }
   recent.push(now);
   HITS.set(ip, recent);
-  return recent.length > MAX_HITS;
+  return false;
 }
 
 function bad(status: number, error: string): Response {
@@ -282,7 +297,7 @@ export async function POST(req: NextRequest) {
     return bad(400, 'bad request');
   }
 
-  const ip = clientIpFromHeaders(req.headers) ?? 'anon';
+  const ip = clientIpFromHeaders(req.headers);
   if (rateLimited(ip)) {
     return bad(429, "That's a lot of websites. Take a breather, or email assembl@assembl.co.nz.");
   }
