@@ -25,6 +25,8 @@ type Brief = {
   brand: { primary: string; secondary: string | null; accent: string | null; ink: string } | null;
   /** How many of the extracted questions the site actually answers. */
   answered?: number;
+  /** The ones it doesn't — used for the refusal demo. */
+  unanswered?: string[];
 };
 
 const PARTS = [
@@ -57,6 +59,7 @@ export function CinematicBuilder() {
   const [keepError, setKeepError] = useState('');
   const [keptUrl, setKeptUrl] = useState('');
   const [keptCopied, setKeptCopied] = useState(false);
+  const [portraitBusy, setPortraitBusy] = useState(false);
   const activeRef = useRef(active);
   activeRef.current = active;
   // Set by the scene effect: renders a fresh frame and returns it as a PNG
@@ -134,6 +137,19 @@ export function CinematicBuilder() {
     } finally {
       setKeepBusy(false);
     }
+  }
+
+  /**
+   * Ask the agent something the website genuinely does not answer, and let the
+   * visitor watch it decline rather than invent. Every competitor demos an AI
+   * that answers; this is the one that earns trust.
+   */
+  function askTheHardOne() {
+    const q = brief?.unanswered?.[0];
+    if (!q) return;
+    setAskQ(q);
+    document.getElementById('ask-panel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => { void askAgent(); }, 500);
   }
 
   function copyKept() {
@@ -237,6 +253,83 @@ export function CinematicBuilder() {
       setAskA('The agent is resting — try again in a moment.');
     } finally {
       setAskBusy(false);
+    }
+  }
+
+  /**
+   * The agent, in their colours, as a shareable image.
+   *
+   * This is the artefact someone posts publicly — it flatters them. (The gaps
+   * are the thing people forward privately; different journey, different
+   * design.) Composited on a canvas rather than rendered server-side so it uses
+   * the exact frame the visitor is looking at.
+   */
+  async function downloadPortrait() {
+    if (portraitBusy) return;
+    const shot = captureRef.current?.();
+    if (!shot) return;
+    setPortraitBusy(true);
+    try {
+      const W = 1200, H = 630;
+      const cv = document.createElement('canvas');
+      cv.width = W; cv.height = H;
+      const ctx = cv.getContext('2d');
+      if (!ctx) return;
+
+      const accent = brief?.brand?.primary ?? '#B8964F';
+      ctx.fillStyle = '#FDFBF7';
+      ctx.fillRect(0, 0, W, H);
+      // a soft wash of their colour behind the agent
+      const wash = ctx.createRadialGradient(W * 0.62, H * 0.5, 20, W * 0.62, H * 0.5, H * 0.85);
+      wash.addColorStop(0, `${accent}26`);
+      wash.addColorStop(1, '#FDFBF700');
+      ctx.fillStyle = wash;
+      ctx.fillRect(0, 0, W, H);
+
+      const img = new Image();
+      img.src = shot;
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+      const scale = Math.min((W * 0.58) / img.width, (H * 0.92) / img.height);
+      const iw = img.width * scale, ih = img.height * scale;
+      ctx.drawImage(img, W * 0.60 - iw / 2 + 60, H / 2 - ih / 2, iw, ih);
+
+      const name = (brief?.source ?? agentName.trim() ?? 'your agent').replace(/^www\./, '');
+      ctx.fillStyle = accent;
+      ctx.font = '600 17px ui-monospace, monospace';
+      ctx.fillText('YOUR AGENT · ASSEMBL', 64, 96);
+
+      ctx.fillStyle = '#1A1918';
+      ctx.font = '300 54px Lato, system-ui, sans-serif';
+      ctx.fillText(name, 64, 168);
+
+      ctx.fillStyle = 'rgba(26,25,24,0.62)';
+      ctx.font = '300 23px Lato, system-ui, sans-serif';
+      const line = brief?.brand?.secondary
+        ? 'Built from our own website, wearing our own colours.'
+        : 'Built from our own website.';
+      ctx.fillText(line, 64, 212);
+
+      // their palette, small
+      const sw = [brief?.brand?.primary, brief?.brand?.secondary, brief?.brand?.accent].filter(Boolean) as string[];
+      sw.forEach((hex, i) => {
+        ctx.fillStyle = hex;
+        ctx.fillRect(64 + i * 52, H - 148, 40, 40);
+      });
+
+      ctx.fillStyle = 'rgba(26,25,24,0.5)';
+      ctx.font = '400 17px ui-monospace, monospace';
+      ctx.fillText('assembl.co.nz', 64, H - 72);
+
+      const blob: Blob | null = await new Promise((res) => cv.toBlob(res, 'image/png'));
+      if (!blob) return;
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = `${name.replace(/[^\w-]+/g, '-').toLowerCase()}-agent.png`;
+      a.click();
+      URL.revokeObjectURL(href);
+    } finally {
+      setPortraitBusy(false);
     }
   }
 
@@ -736,6 +829,18 @@ export function CinematicBuilder() {
                     <ul className="brief-list">{brief.blindSpots.map((x) => <li key={x}>{x}</li>)}</ul>
                   </div>
                 ) : null}
+                {brief.unanswered?.length ? (
+                  <div className="brief-line brief-refuse">
+                    <span className="brief-lab">watch it refuse to make something up</span>
+                    <p>
+                      Your site doesn&rsquo;t answer &ldquo;{brief.unanswered[0]}&rdquo;. Ask it anyway — a useful agent
+                      says so plainly instead of inventing an answer.
+                    </p>
+                    <button className="btn btn-solid" onClick={askTheHardOne} disabled={askBusy}>
+                      ask it the hard one →
+                    </button>
+                  </div>
+                ) : null}
                 {brief.questions.length ? (
                   <div className="brief-line">
                     <span className="brief-lab">try asking it</span>
@@ -865,6 +970,9 @@ export function CinematicBuilder() {
             <div className="sc-actions">
               <button className="btn btn-solid" onClick={downloadPdf} disabled={pdfBusy}>
                 {pdfBusy ? 'assembling…' : 'download the blueprint (pdf)'}
+              </button>
+              <button className="btn btn-glass" onClick={downloadPortrait} disabled={portraitBusy}>
+                {portraitBusy ? 'drawing…' : 'download the agent image'}
               </button>
               <button className="btn btn-glass" onClick={copyCard}>{copied ? 'copied!' : 'copy link'}</button>
               <button className="btn btn-glass" onClick={() => shareIntent('x')}>share on X</button>

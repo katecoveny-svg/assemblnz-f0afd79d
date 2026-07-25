@@ -24,6 +24,7 @@ export interface Brief {
   source: string;
   brand: BriefBrand | null;
   answered?: number;
+  unanswered?: string[];
 }
 
 export type Stage =

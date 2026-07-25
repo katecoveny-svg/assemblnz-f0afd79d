@@ -178,6 +178,9 @@ type Brief = {
   /** How many of `questions` the page actually answers. A count of real
    *  things — deliberately not a score, because there is no rubric behind one. */
   answered: number;
+  /** The ones it does not answer, kept so the agent can be asked a question it
+   *  will honestly refuse — the most convincing thing it does. */
+  unanswered: string[];
 };
 
 function coerce(raw: string): Brief | null {
@@ -200,6 +203,7 @@ function coerce(raw: string): Brief | null {
   // still accepted so a model that ignores the schema degrades rather than fails.
   const rawQs = Array.isArray(o.questions) ? o.questions.slice(0, 5) : [];
   const questions: string[] = [];
+  const unanswered: string[] = [];
   let answered = 0;
   for (const item of rawQs) {
     if (typeof item === 'string') { questions.push(item); continue; }
@@ -208,6 +212,7 @@ function coerce(raw: string): Brief | null {
       if (typeof q !== 'string') continue;
       questions.push(q);
       if ((item as Record<string, unknown>).answerable === true) answered += 1;
+      else unanswered.push(q);
     }
   }
 
@@ -219,6 +224,7 @@ function coerce(raw: string): Brief | null {
     facts: list(o.facts, 8),
     blindSpots: list(o.blindSpots, 4),
     answered,
+    unanswered,
   };
 }
 

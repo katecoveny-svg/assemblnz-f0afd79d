@@ -864,3 +864,10 @@
 .cine .bp-live-sw em {
   font-style: normal; font-size: 0.52rem; color: var(--ink-3); text-transform: none; letter-spacing: 0.04em;
 }
+
+/* the refusal demo — the most convincing thing the agent does */
+.cine .brief-refuse {
+  padding: 18px; border-radius: 14px;
+  background: rgba(8, 13, 26, 0.04); border: 1px solid rgba(8, 13, 26, 0.12);
+}
+.cine .brief-refuse p { margin: 0 0 14px; font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); }
