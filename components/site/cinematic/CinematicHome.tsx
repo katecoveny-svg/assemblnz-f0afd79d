@@ -171,7 +171,7 @@ export function CinematicHome() {
     cleanups.push(() => finIO.disconnect());
 
     // ── TIMELINE + PROGRESS HAIRLINE ──
-    const sections = ['#top', '#genome', '#journey', '#agents', '#wait', '#proof', '#demo', '#begin'].map((s) => $(s)!);
+    const sections = ['#top', '#genome', '#journey', '#knows', '#agents', '#wait', '#proof', '#demo', '#begin'].map((s) => $(s)!);
     const dots = $$('.timeline-dot');
     const progressBar = $('#cine-progress')!;
     let currentStage = 0;
@@ -472,6 +472,7 @@ export function CinematicHome() {
         <div className="timeline-dot active" data-label="intro" data-target="#top" />
         <div className="timeline-dot" data-label="blueprint" data-target="#genome" />
         <div className="timeline-dot" data-label="journey" data-target="#journey" />
+        <div className="timeline-dot" data-label="who" data-target="#knows" />
         <div className="timeline-dot" data-label="agents" data-target="#agents" />
         <div className="timeline-dot" data-label="wait" data-target="#wait" />
         <div className="timeline-dot" data-label="proof" data-target="#proof" />
@@ -496,23 +497,23 @@ export function CinematicHome() {
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
           <h1>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>See what</span></span>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>your AI is</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>made of.</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Every business has</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>a customer journey.</span></span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>Most of it runs through you.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>assembl reads what your customer needs, drafts the work, and shows you the minutes it gave back. A person approves before anything sends.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Someone arrives wanting something. assembl works out what they&rsquo;re after, walks them through it, and has the work drafted and waiting for your yes. Nothing goes out until you say so.</p>
           {/* The first thing a visitor does. Kate's hero copy stays the first
               thing they read; this is the first thing that pays them back. */}
           <div className="bp-invite">
-            <div className="bp-invite-head">Start with what you&rsquo;ve already written.</div>
+            <div className="bp-invite-head">Start with your website.</div>
             <p className="bp-invite-sub">
-              Your website is enough. It reads one page, assembles an agent that knows your business, and shows you the
-              questions your site leaves unanswered.
+              Paste your URL. We&rsquo;ll read one page, build an agent that knows your business, and show you the
+              questions your site leaves hanging.
             </p>
             <BlueprintStart />
           </div>
           <div className="hero-cta hero-cta-cinema">
-            <a className="btn btn-glass" href="#genome">or walk the platform ↓</a>
+            <a className="btn btn-glass" href="#genome">or have a look around ↓</a>
           </div>
         </section>
 
@@ -521,8 +522,9 @@ export function CinematicHome() {
           <span className="editorial">business blueprint · living source · connected</span>
           <div className="section-copy reveal-left">
             <div className="kicker">01 — Business Blueprint</div>
-            <h2>Your business,<br /><span className="accent">understood.</span></h2>
-            <p>What you sell, how you speak, what needs sign-off — written down once, in one place. Change the budget ceiling here and every agent works to the new number.</p>
+            <h2>Say it once.<br /><span className="accent">Every agent listens.</span></h2>
+            <p>What you sell, how you talk, what needs your sign-off — written down properly, in one place. Lift the budget ceiling here and every agent moves with it.</p>
+            <p style={{ marginTop: 14 }}>This is what keeps the journey yours, rather than something generic wearing your logo.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Blueprint — live <span className="live">connected</span></div>
@@ -539,8 +541,10 @@ export function CinematicHome() {
           <span className="editorial left">journey composer · assembled · traced</span>
           <div className="section-copy reveal-right">
             <div className="kicker">02 — Journey Composer</div>
-            <h2>Every journey,<br /><span className="accent">composed.</span></h2>
-            <p>A customer asks for the week&rsquo;s shop. assembl reads the household calendar, drafts the plan, asks for one approval, and records the 47 minutes it gave back. Swap groceries for bookings or quotes — the steps hold.</p>
+            <h2>A plumber, a lodge<br />and a supermarket.<br /><span className="accent">Same shape underneath.</span></h2>
+            <p>Someone turns up wanting something. There&rsquo;s a bit of back and forth, a decision to make, then the work itself.</p>
+            <p style={{ marginTop: 14 }}>assembl picks up what they&rsquo;re really after, asks only the one thing it still needs to know, drafts the job, and brings it to you.</p>
+            <p style={{ marginTop: 14 }}>Here it&rsquo;s a week&rsquo;s groceries. Make it a booking, a quote, a claim — the steps hold.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">Journey — everyday, assembled <span className="live">running</span></div>
@@ -552,13 +556,31 @@ export function CinematicHome() {
           </div>
         </section>
 
-        <section className="section" id="agents">
+        <section className="section" id="knows">
           <span className="ghost right" aria-hidden="true">03</span>
-          <span className="editorial">agent harness · specialists · contracts</span>
+          <span className="editorial">intent · history · what you offer</span>
           <div className="section-copy reveal-left">
-            <div className="kicker">03 — Agent Harness</div>
-            <h2>Specialists,<br /><span className="accent">not one assistant.</span></h2>
-            <p>Each agent does one job — reading intent, checking the budget, drafting the plan — with written limits on what it may touch. Anything consequential waits for your yes.</p>
+            <div className="kicker">03 — Knowing who&rsquo;s asking</div>
+            <h2>The same question,<br /><span className="accent">two different answers.</span></h2>
+            <p>A regular who orders the same thing every Friday shouldn&rsquo;t be asked what they like. Someone new deserves a few more questions, asked kindly.</p>
+            <p style={{ marginTop: 14 }}>assembl reads what a customer wants, what they&rsquo;ve done before, and what you actually offer — then guides them from there. Not a form. Not a menu. A conversation that already knows half the answers.</p>
+          </div>
+          <div className="panel reveal-right" data-delay="200">
+            <div className="panel-header">&ldquo;Can I get the usual?&rdquo; <span className="live">two people</span></div>
+            <div className="d-row"><div className="m-shape brass">A</div><div className="d-name">Ordered every Friday since March</div><div className="d-tag">asks nothing</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;Same as usual — Thursday delivery, and I&rsquo;ve left the coriander out again.&rdquo;</div></div>
+            <div className="d-row" style={{ marginTop: 18 }}><div className="m-shape navy">B</div><div className="d-name">First time here</div><div className="d-tag">asks three things</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;How many are you feeding, anything you avoid, and when suits for delivery?&rdquo;</div></div>
+          </div>
+        </section>
+
+        <section className="section" id="agents">
+          <span className="ghost left" aria-hidden="true">04</span>
+          <span className="editorial left">agent harness · specialists · contracts</span>
+          <div className="section-copy reveal-left">
+            <div className="kicker">04 — Agent Harness</div>
+            <h2>Each agent does one job,<br /><span className="accent">and does it well.</span></h2>
+            <p>One reads what the customer wants. One watches the budget. One drafts the plan. Each works to written limits on what it may touch, and anything that matters comes back to you first.</p>
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>
           </div>
           <div className="panel reveal-right" data-delay="200">
@@ -572,12 +594,13 @@ export function CinematicHome() {
         </section>
 
         <section className="section" id="wait">
-          <span className="ghost left" aria-hidden="true">04</span>
-          <span className="editorial left">monetised wait · reward layer · earning</span>
+          <span className="ghost right" aria-hidden="true">05</span>
+          <span className="editorial">monetised wait · reward layer · earning</span>
           <div className="section-copy reveal-right">
-            <div className="kicker">04 — Assembling · Monetised Wait</div>
-            <h2>Waiting,<br /><span className="accent">made useful.</span></h2>
-            <p>While the agent prepares the work, your customer watches it happen and earns a small reward — charity at launch, more rewards rolling out. One line of code to add. You keep 55% of wait revenue.</p>
+            <div className="kicker">05 — Assembling · Monetised Wait</div>
+            <h2>Nobody enjoys<br /><span className="accent">a spinner.</span></h2>
+            <p>While the agent works, your customer can watch it happen — and earn a small reward for the wait. Charity at launch, with more to come.</p>
+            <p style={{ marginTop: 14 }}>One line of code to add. You keep 55% of what the wait earns.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">While you wait — live <span className="live">assembling</span></div>
@@ -591,12 +614,12 @@ export function CinematicHome() {
         </section>
 
         <section className="section" id="proof">
-          <span className="ghost right" aria-hidden="true">05</span>
-          <span className="editorial">proof · evidence · measured</span>
+          <span className="ghost left" aria-hidden="true">06</span>
+          <span className="editorial left">proof · evidence · measured</span>
           <div className="section-copy reveal-left">
-            <div className="kicker">05 — Assembl Proof</div>
-            <h2>Evidence,<br /><span className="accent">not analytics.</span></h2>
-            <p>Each run records what the agent read, what it drafted, who approved it, and the minutes it returned — measured against how long the job took before.</p>
+            <div className="kicker">06 — Assembl Proof</div>
+            <h2>Receipts,<br /><span className="accent">not dashboards.</span></h2>
+            <p>Every journey records what the agent read, what it drafted, who approved it, and the minutes it handed back — measured against how long the job used to take.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Proof — this journey <span className="live">recorded</span></div>
@@ -608,12 +631,12 @@ export function CinematicHome() {
         </section>
 
         <section className="section" id="demo">
-          <span className="ghost left" aria-hidden="true">06</span>
-          <span className="editorial left">live demo · a real agent · drafting</span>
+          <span className="ghost right" aria-hidden="true">07</span>
+          <span className="editorial">live demo · a real agent · drafting</span>
           <div className="section-copy reveal-right">
-            <div className="kicker">06 — Live Demo</div>
+            <div className="kicker">07 — Live Demo</div>
             <h2>Ask it<br /><span className="accent">something.</span></h2>
-            <p>A real agent, answering live from a sample Business Blueprint. Drafts only — nothing sends without a person&rsquo;s yes.</p>
+            <p>A real agent, answering live from a sample business. It drafts. It never sends.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">Agent — live <span className="live">{demoBusy ? 'drafting' : 'ready'}</span></div>
