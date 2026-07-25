@@ -49,7 +49,7 @@ function makeSlug(domain: string): string {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export async function POST(req: NextRequest) {
-  let body: { brief?: unknown; email?: string } = {};
+  let body: { brief?: unknown; email?: string; aggregateConsent?: boolean } = {};
   try {
     body = await req.json();
   } catch {
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
   try {
     const { error } = await getServiceClient()
       .from('blueprint_shares')
-      .insert({ slug, domain, brief, email });
+      .insert({ slug, domain, brief, email, aggregate_consent: body.aggregateConsent === true });
     if (error) {
       console.error('[blueprint] insert failed:', error.message);
       return Response.json({ error: 'Could not keep that blueprint right now.' }, { status: 503 });
