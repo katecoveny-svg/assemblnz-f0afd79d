@@ -159,7 +159,9 @@ Rules:
 - Use ONLY what the page says. Never invent services, prices, locations, claims or statistics. If the page does not say it, leave it out.
 - Write in plain New Zealand English. Short sentences. No marketing adjectives, no "seamless", "unlock", "empower", "elevate", "cutting-edge".
 - "voice" describes how this business already writes — tone, formality, the words they favour — so an agent can sound like them.
-- "questions" are the questions this business's real customers would ask, judging by what the page emphasises and what it leaves unclear. For each one, set "answerable" to true ONLY if the page gives enough to answer it properly. Be strict: a vague gesture at a topic is not an answer.
+- "questions" are the five things this business's customers MOST want to know before they buy or commit. Choose them from the customer's point of view ONLY — decide the list BEFORE you consider whether the page answers them, and never pick easier questions to make the tally look better. If customers would ask about price, eligibility, timeframes or what happens if something goes wrong, those belong in the list whether or not the page covers them.
+- Then, for each question, set "answerable" to true ONLY if this page gives a customer enough to actually act on. Be strict: naming a topic is not answering it, and a link to somewhere else is not an answer. It is normal for several to be false — most websites answer perhaps half. A run of five "true" almost always means the questions were chosen too gently.
+- "questions" and "blindSpots" must agree with each other: if something is listed as a blind spot, any question about it is not answerable.
 - "facts" are concrete, checkable specifics an agent must get right: services offered, locations, hours, guarantees, named products, anything numeric the page states.
 - "blindSpots" name things a customer would want to know that the page does NOT answer. Be specific and useful — this is the most valuable field.
 
