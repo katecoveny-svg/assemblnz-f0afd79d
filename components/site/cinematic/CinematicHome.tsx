@@ -524,7 +524,7 @@ export function CinematicHome() {
             <div className="kicker">01 — Business Blueprint</div>
             <h2>Write your business<br /><span className="accent">down once.</span></h2>
             <p>What you sell. What you charge. What you&rsquo;d never agree to without checking first. Written down once, in one place.</p>
-            <p style={{ marginTop: 14 }}>Change the budget limit here and every agent uses the new number. This is the bit that makes it sound like you and not like everyone else.</p>
+            <p style={{ marginTop: 14 }}>Change the spend limit here and every agent uses the new number from that moment. This is the part that makes it sound like you.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Your business, written down <span className="live">in use</span></div>
@@ -542,7 +542,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-right">
             <div className="kicker">02 — Journey Composer</div>
             <h2>A plumber, a lodge,<br />a supermarket.<br /><span className="accent">The same five steps.</span></h2>
-            <p>Someone asks for something. You work out what they actually want. You check a couple of things. You write it up. They say yes.</p>
+            <p>Someone asks for something. You work out what they actually want, check a couple of things, write it up — and they say yes.</p>
             <p style={{ marginTop: 14 }}>Every business does those five steps. The words change, the steps don&rsquo;t. assembl does the first four and brings you the fifth.</p>
             <p style={{ marginTop: 14 }}>A quote, a booking, a claim, a delivery question — same five steps every time.</p>
           </div>
@@ -562,8 +562,8 @@ export function CinematicHome() {
           <div className="section-copy reveal-left">
             <div className="kicker">03 — Who&rsquo;s asking</div>
             <h2>It knows a regular<br /><span className="accent">from a first-timer.</span></h2>
-            <p>Someone who orders the same thing every Friday shouldn&rsquo;t be asked what they like. Someone new should be asked a bit more, and asked nicely.</p>
-            <p style={{ marginTop: 14 }}>assembl checks what they&rsquo;ve ordered before and what you actually offer, then asks only what it still needs to know. Not a form. Not a menu. It already has half the answers.</p>
+            <p>Someone who has ordered the same thing every Friday for a year shouldn&rsquo;t be asked what they like. Someone who has never dealt with you before should be asked properly, and asked well.</p>
+            <p style={{ marginTop: 14 }}>assembl checks what they&rsquo;ve bought from you before, and what you actually offer, then asks for whatever is still missing. Usually that&rsquo;s one question.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">&ldquo;Can you do Thursday?&rdquo; <span className="live">two people</span></div>
@@ -619,7 +619,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-left">
             <div className="kicker">06 — Assembl Proof</div>
             <h2>You can see<br /><span className="accent">what it did.</span></h2>
-            <p>Every job keeps a record: what it read, what it wrote, who approved it, and how many minutes it saved against how long that job used to take you.</p>
+            <p>Every job keeps a record. What it read, what it wrote, who approved it, and how long the same job used to take you before.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Proof — this journey <span className="live">recorded</span></div>

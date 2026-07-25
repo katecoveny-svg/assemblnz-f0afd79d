@@ -43,11 +43,14 @@
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 20px 40px;
   display: flex; justify-content: space-between; align-items: center;
-  background: rgba(250, 248, 244, 0.75);
+  background: rgba(250, 248, 244, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(26, 25, 23, 0.05);
   transition: all 0.4s var(--ease-out);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cine .nav { background: rgba(250, 248, 244, 0.99); }
 }
 .cine .wordmark {
   font-family: 'Cormorant Garamond', serif;
