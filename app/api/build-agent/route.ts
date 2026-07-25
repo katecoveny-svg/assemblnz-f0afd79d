@@ -34,12 +34,19 @@ const HITS = new Map<string, number[]>();
 const WINDOW_MS = 60 * 60_000;
 const MAX_HITS = 20;
 
-function rateLimited(ip: string): boolean {
+/** Rejected requests are not counted — counting them made the window
+ *  self-perpetuating and locked people out for as long as they retried. */
+function rateLimited(ip: string | null): boolean {
+  if (!ip) return false;
   const now = Date.now();
   const recent = (HITS.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= MAX_HITS) {
+    HITS.set(ip, recent);
+    return true;
+  }
   recent.push(now);
   HITS.set(ip, recent);
-  return recent.length > MAX_HITS;
+  return false;
 }
 
 function bad(status: number, error: string): Response {
@@ -62,7 +69,7 @@ export async function POST(req: NextRequest) {
     return bad(400, 'Ask your agent a real question.');
   }
 
-  const ip = clientIpFromHeaders(req.headers) ?? 'anon';
+  const ip = clientIpFromHeaders(req.headers);
   if (rateLimited(ip)) {
     return bad(429, "You've tried a bunch — take a break or drop your email so Kate can write back.");
   }

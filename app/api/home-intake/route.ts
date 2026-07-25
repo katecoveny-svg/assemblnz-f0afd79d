@@ -32,12 +32,19 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const HITS = new Map<string, number[]>();
 const WINDOW_MS = 10 * 60_000;
 const MAX_HITS = 14;
-function rateLimited(ip: string): boolean {
+/** Rejected requests are not counted — counting them made the window
+ *  self-perpetuating and locked people out for as long as they retried. */
+function rateLimited(ip: string | null): boolean {
+  if (!ip) return false;
   const now = Date.now();
   const recent = (HITS.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= MAX_HITS) {
+    HITS.set(ip, recent);
+    return true;
+  }
   recent.push(now);
   HITS.set(ip, recent);
-  return recent.length > MAX_HITS;
+  return false;
 }
 
 function json(data: unknown, status = 200) {
@@ -81,7 +88,7 @@ export async function POST(req: NextRequest) {
     return json({ error: 'Tell the agent a little about your business.' }, 400);
   }
 
-  const ip = clientIpFromHeaders(req.headers) ?? 'anon';
+  const ip = clientIpFromHeaders(req.headers);
   const email = String(body.email ?? '').trim();
   const validEmail = EMAIL_RE.test(email);
 
