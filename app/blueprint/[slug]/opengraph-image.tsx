@@ -7,7 +7,6 @@ import { readBlueprint } from '@/lib/build-an-agent/blueprint-store';
  * makes the link worth sending.
  */
 
-export const runtime = 'nodejs';
 export const alt = 'Business Blueprint by assembl';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
