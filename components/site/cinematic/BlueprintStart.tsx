@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { assembleBlueprint, type Brief as SharedBrief, type BriefBrand } from '@/lib/build-an-agent/assemble-client';
 
 /**
  * The Blueprint invitation — the first thing a visitor does on the homepage.
@@ -11,17 +12,14 @@ import { useState } from 'react';
  * asked to read the same page twice.
  */
 
-type Brand = { primary: string; secondary: string | null; accent: string | null; ink: string } | null;
+type Brief = SharedBrief;
 
-interface Brief {
-  business: string;
-  sells: string[];
-  voice: string;
-  questions: string[];
-  facts: string[];
-  blindSpots: string[];
-  source: string;
-  brand: Brand;
+/** What has actually finished, shown while the model reads. */
+interface Progress {
+  fetched?: string;
+  styles?: number;
+  brand?: BriefBrand | null;
+  reading?: boolean;
 }
 
 export function BlueprintStart() {
@@ -29,6 +27,7 @@ export function BlueprintStart() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [brief, setBrief] = useState<Brief | null>(null);
+  const [progress, setProgress] = useState<Progress>({});
 
   async function assemble() {
     const value = url.trim();
@@ -36,20 +35,17 @@ export function BlueprintStart() {
     setBusy(true);
     setError('');
     setBrief(null);
+    setProgress({});
     try {
-      const res = await fetch('/api/agent-brief', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: value }),
+      const result = await assembleBlueprint(value, (evt) => {
+        if (evt.stage === 'fetched') setProgress((p) => ({ ...p, fetched: evt.source }));
+        else if (evt.stage === 'styles') setProgress((p) => ({ ...p, styles: evt.count }));
+        else if (evt.stage === 'colours') setProgress((p) => ({ ...p, brand: evt.brand }));
+        else if (evt.stage === 'reading') setProgress((p) => ({ ...p, reading: true }));
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(typeof data?.error === 'string' ? data.error : 'That site could not be read.');
-        return;
-      }
-      setBrief(data as Brief);
-    } catch {
-      setError('The blueprint service is resting — try again in a moment.');
+      setBrief(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'The blueprint service is resting — try again in a moment.');
     } finally {
       setBusy(false);
     }
@@ -87,6 +83,30 @@ export function BlueprintStart() {
         One public page, about ten seconds. Nothing is stored and nothing is sent.
       </div>
       {error ? <div className="bp-error">{error}</div> : null}
+
+      {busy ? (
+        <div className="bp-progress">
+          {progress.fetched ? <div className="bp-step done">read {progress.fetched}</div> : <div className="bp-step">fetching the page…</div>}
+          {progress.styles !== undefined ? (
+            <div className="bp-step done">{progress.styles} stylesheet{progress.styles === 1 ? '' : 's'} read</div>
+          ) : null}
+          {progress.brand !== undefined ? (
+            <div className="bp-step done">
+              <span>your colours</span>
+              <span className="bp-live-sw">
+                {progress.brand ? (
+                  [progress.brand.primary, progress.brand.secondary, progress.brand.accent]
+                    .filter(Boolean)
+                    .map((hex) => <i key={hex as string} className="bp-sw" style={{ background: hex as string }} />)
+                ) : (
+                  <em>no clear palette — your agent will wear assembl&rsquo;s</em>
+                )}
+              </span>
+            </div>
+          ) : null}
+          {progress.reading ? <div className="bp-step">reading what your business does…</div> : null}
+        </div>
+      ) : null}
 
       {brief ? (
         <div className="bp-result">

@@ -222,8 +222,53 @@ function coerce(raw: string): Brief | null {
   };
 }
 
+/**
+ * Emit the assembly as NDJSON so the page can show what has actually finished.
+ * Only real milestones are reported — the fetch, the stylesheets, the resolved
+ * palette. Nothing here is a timer pretending to be progress.
+ */
+function streamed(run: (emit: (evt: unknown) => void) => Promise<void>): Response {
+  const enc = new TextEncoder();
+  const body = new ReadableStream({
+    async start(controller) {
+      const emit = (evt: unknown) => controller.enqueue(enc.encode(`${JSON.stringify(evt)}\n`));
+      try {
+        await run(emit);
+      } catch (err) {
+        console.error('[agent-brief] stream failed', err);
+        emit({ stage: 'error', error: 'The blueprint did not come back cleanly. Try again in a moment.' });
+      } finally {
+        controller.close();
+      }
+    },
+  });
+  return new Response(body, {
+    headers: { 'content-type': 'application/x-ndjson; charset=utf-8', 'cache-control': 'no-store' },
+  });
+}
+
+/** The model call, shared by the streaming and plain paths. */
+async function runExtraction(u: URL, text: string): Promise<Brief | null> {
+  // Deep tier: judging what a business does from its own marketing copy is
+  // reasoning work, and a wrong blueprint poisons every answer after it.
+  const rung = pickRung(resolveModelLadder(MODEL_TIER_TO_ANTHROPIC.premium, []));
+  if (!rung) return null;
+  try {
+    const { text: generated } = await generateText({
+      model: rung.model,
+      system: EXTRACT_SYSTEM,
+      messages: [{ role: 'user', content: `Website: ${u.toString()}\n\nPage text:\n${text}` }],
+      maxRetries: 1,
+    });
+    return coerce(generated);
+  } catch (err) {
+    console.error('[agent-brief] extraction failed', err);
+    return null;
+  }
+}
+
 export async function POST(req: NextRequest) {
-  let body: { url?: string } = {};
+  let body: { url?: string; stream?: boolean } = {};
   try {
     body = await req.json();
   } catch {
@@ -238,6 +283,37 @@ export async function POST(req: NextRequest) {
   const u = await safeUrl(String(body.url ?? '').trim().slice(0, 300));
   if (!u) return bad(400, "That doesn't look like a public website address. Try yourbusiness.co.nz");
 
+  if (body.stream) {
+    return streamed(async (emit) => {
+      const html = await fetchPage(u);
+      if (!html) {
+        emit({ stage: 'error', error: "Couldn't read that site — it may be down, private, or blocking robots." });
+        return;
+      }
+      emit({ stage: 'fetched', source: u.hostname });
+
+      const text = toText(html);
+      if (text.length < 200) {
+        emit({ stage: 'error', error: "There wasn't much readable text on that page. Try the About or Services page." });
+        return;
+      }
+
+      const styles = await fetchStyles(html, u);
+      emit({ stage: 'styles', count: styles.length });
+
+      const brand = extractBrandColours([html, ...styles]);
+      emit({ stage: 'colours', brand });
+      emit({ stage: 'reading' });
+
+      const brief = await runExtraction(u, text);
+      if (!brief) {
+        emit({ stage: 'error', error: "The blueprint didn't come back cleanly. Try again in a moment." });
+        return;
+      }
+      emit({ stage: 'done', brief: { ...brief, brand, source: u.hostname } });
+    });
+  }
+
   const html = await fetchPage(u);
   if (!html) return bad(422, "Couldn't read that site — it may be down, private, or blocking robots. Try another page.");
 
@@ -250,31 +326,11 @@ export async function POST(req: NextRequest) {
   const styles = await fetchStyles(html, u);
   const brand = extractBrandColours([html, ...styles]);
 
-  // Deep tier: judging what a business does from its own marketing copy is
-  // reasoning work, and a wrong blueprint poisons every answer after it.
-  const ladder = resolveModelLadder(MODEL_TIER_TO_ANTHROPIC.premium, []);
-  const rung = pickRung(ladder);
-  if (!rung) return bad(503, 'The blueprint model is offline right now.');
-
-  let out: string;
-  try {
-    const { text: generated } = await generateText({
-      model: rung.model,
-      system: EXTRACT_SYSTEM,
-      messages: [{ role: 'user', content: `Website: ${u.toString()}\n\nPage text:\n${text}` }],
-      maxRetries: 1,
-    });
-    out = generated;
-  } catch (err) {
-    console.error('[agent-brief] extraction failed', err);
-    return bad(502, "The blueprint didn't come back cleanly. Try again in a moment.");
-  }
-
-  const brief = coerce(out);
+  const brief = await runExtraction(u, text);
   if (!brief) return bad(502, "The blueprint didn't come back cleanly. Try again in a moment.");
 
   return Response.json(
-    { ...brief, brand, source: u.hostname, model: rung.id },
+    { ...brief, brand, source: u.hostname, model: MODEL_TIER_TO_ANTHROPIC.premium },
     { headers: { 'cache-control': 'no-store' } },
   );
 }
