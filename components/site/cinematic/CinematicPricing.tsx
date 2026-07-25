@@ -122,47 +122,114 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
         <header className="page-header">
           <div className="kicker">pricing</div>
           <h1>Agents prepare.<br /><span className="accent">People decide.</span></h1>
-          <p className="lede" style={{ marginTop: 16 }}>Start with something that gives you a result: build a small agent, make a moving visual, or see a Business Blueprint ripple through a fictional company.</p>
+          <p className="lede" style={{ marginTop: 16 }}>
+            $1,500 gets one real thing running in your business in about two weeks. Not a demo,
+            not a slide deck. After that it&rsquo;s $250 a month to keep it working.
+          </p>
+          <p className="lede" style={{ marginTop: 10, opacity: 0.72 }}>
+            <a href="/build-an-agent" style={{ textDecoration: 'underline' }}>Paste your website first</a>
+            {' '}— it&rsquo;s free, and you&rsquo;ll see what we&rsquo;d be working from.
+          </p>
         </header>
 
         <div className="page-body">
           <div className="pricing-grid">
             <div className="price-card featured">
-              <div className="price-badge">founding offer</div>
-              <div className="price-tier">founding offer</div>
-              <div className="price-amount">$1,500<span> +GST · one-off</span></div>
-              <div className="price-desc">Your Business Blueprint and a working agent with a real customer journey — built with you, measured honestly.</div>
+              <div className="price-badge">the install</div>
+              <div className="price-tier">the install</div>
+              <div className="price-amount">$1,500<span> +GST · once</span></div>
+              <div className="price-desc">
+                Two weeks. At the end you have three things, and honest numbers on whether they helped.
+              </div>
               <ul className="price-list">
-                <li>Business Blueprint — your living source of truth</li>
-                <li>One working agent — built around your facts</li>
-                <li>One customer journey — end to end, traced</li>
-                <li>Approval workflow — people stay in control</li>
-                <li>Named support — direct line to the team</li>
+                <li><b>A written record of how your business works</b> — what you sell, how you talk,
+                  what needs your sign-off. A real document you can read and change.</li>
+                <li><b>One agent doing one real job</b> — drafting a quote, preparing a booking,
+                  pulling a claim together. Not a chatbot.</li>
+                <li><b>One customer journey, start to finish</b> — every step recorded, so you can
+                  see what it read and what it did.</li>
+                <li>First month of running included</li>
                 <li>NZ-hosted, NZ Privacy Act compliant</li>
               </ul>
               <PilotSprintCheckout configured={checkoutConfigured} />
             </div>
             <div className="price-card">
-              <div className="price-badge">coming</div>
-              <div className="price-tier">team</div>
-              <div className="price-amount">$899<span>/mo</span></div>
-              <div className="price-desc">For teams managing multiple customer journeys. More agents. Multiple surfaces. Shared evidence.</div>
+              <div className="price-badge">after that</div>
+              <div className="price-tier">keep it running</div>
+              <div className="price-amount">$250<span>/mo +GST</span></div>
+              <div className="price-desc">
+                Nothing switches off at the end of the install. This keeps it hosted, running and
+                accurate when your prices, staff or policies change — which is most of the work.
+              </div>
               <ul className="price-list">
-                <li>Everything in founding pilot</li>
-                <li>Up to 5 agents — specialist team</li>
-                <li>Multiple business surfaces</li>
-                <li>Team inbox with shared drafts</li>
-                <li>Proof lineage across all journeys</li>
-                <li>Priority support</li>
+                <li>Hosting and running costs</li>
+                <li>Your written record kept current</li>
+                <li>The agent re-checked against it</li>
+                <li>Cancel any time — you keep the written record either way</li>
               </ul>
-              <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz">join the waitlist</a>
+              <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz?subject=Keeping%20it%20running">talk to us</a>
             </div>
           </div>
 
-          <div className="founding">
-            <h2>The <span className="accent">founding offer</span></h2>
-            <p>We&rsquo;re working closely with a small group of New Zealand businesses to replace one real repeat task with a supervised agent — and to measure the result honestly. If you have a job that costs time or creates avoidable risk, we&rsquo;d like to hear about it.</p>
+          <div className="founding" style={{ marginTop: 44 }}>
+            <h2>As you <span className="accent">grow</span></h2>
+            <p style={{ marginBottom: 24 }}>
+              More agents when you want them, not before. Most people start with one and add a second
+              when a different job starts annoying them — and by then your business is already written
+              down, so the second one is quicker to build.
+            </p>
+            <div className="pricing-grid">
+              <div className="price-card">
+                <div className="price-tier">team</div>
+                <div className="price-amount">$800<span>/mo +GST</span></div>
+                <div className="price-desc">A few agents covering one full journey, end to end.</div>
+                <ul className="price-list">
+                  <li>Everything in keep it running</li>
+                  <li>Several agents, each with its own written limits</li>
+                  <li>One complete customer journey</li>
+                  <li>Shared drafts your team can see</li>
+                </ul>
+                <a className="btn btn-ghost" href="mailto:assembl@assembl.co.nz?subject=Team">talk to us</a>
+              </div>
+              <div className="price-card">
+                <div className="price-tier">outcome</div>
+                <div className="price-amount">talk to us</div>
+                <div className="price-desc">
+                  Priced on the work delivered rather than on seats — for when the job is bigger than
+                  one journey.
+                </div>
+                <ul className="price-list">
+                  <li>Scoped against a result you name</li>
+                  <li>A scorecard agreed before we start</li>
+                  <li>Fail a line of it and we change the design or stop</li>
+                </ul>
+                <a className="btn btn-ghost" href="mailto:assembl@assembl.co.nz?subject=Outcome">start a conversation</a>
+              </div>
+            </div>
           </div>
+
+          <div className="founding" style={{ marginTop: 44 }}>
+            <h2>What the two weeks <span className="accent">look like</span></h2>
+            <p>
+              <b>Week one</b> — we sit down and write your business down properly, then build the
+              agent around it.<br />
+              <b>Week two</b> — it runs against your real work. You watch it. We fix what&rsquo;s wrong.<br />
+              <b>At the end</b> — a working agent, and honest numbers on whether it saved anyone time.
+              If it didn&rsquo;t, we&rsquo;ll tell you.
+            </p>
+          </div>
+
+          <div className="founding" style={{ marginTop: 44 }}>
+            <h2>Before you pay <span className="accent">anything</span></h2>
+            <p>
+              <b>Paste your website.</b> We read one page, build an agent that knows your business,
+              and show you the questions your site leaves hanging. About ten seconds, nothing saved.<br />
+              <b>Ask the live agent something.</b> It answers from a sample business on the home page.<br />
+              <b>The free tools.</b> Meeting notes, a 9am brief, share cards — one task each, no account.
+            </p>
+          </div>
+
+          <p style={{ marginTop: 34, fontSize: 13, opacity: 0.6 }}>All prices NZD, GST exclusive.</p>
         </div>
 
         <CineFooter />

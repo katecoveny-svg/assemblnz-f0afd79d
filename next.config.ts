@@ -195,7 +195,11 @@ const nextConfig: NextConfig = {
       { source: "/tools/vessel-studio/:path*", destination: "/hapai/vessel-studio/:path*", permanent: false },
       { source: "/tools/caption-composer/:path*", destination: "/hapai/caption-composer/:path*", permanent: false },
       { source: "/tools/brief-generator/:path*", destination: "/hapai/brief-generator/:path*", permanent: false },
-      { source: "/book-a-pilot", destination: "/pilot-sprint", permanent: false },
+      // One pricing surface. /pilot-sprint was a second live page quoting the
+      // same $1,500 — two prices for one company is the fastest way to make a
+      // buyer distrust both, even when the numbers happen to agree.
+      { source: "/pilot-sprint", destination: "/pricing", permanent: true },
+      { source: "/book-a-pilot", destination: "/pricing", permanent: false },
 
       // Meeting tool unified at /hui (canonical). The old HAPAI meeting-recorder
       // and its underlying meeting-notes page were the same tool at two URLs —
