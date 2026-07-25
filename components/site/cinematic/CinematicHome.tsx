@@ -607,17 +607,19 @@ export function CinematicHome() {
           <span className="ghost right" aria-hidden="true">05</span>
           <span className="editorial">monetised wait · reward layer · earning</span>
           <div className="section-copy reveal-right">
-            <div className="kicker">05 — Assembling · Monetised Wait</div>
-            <h2>Nobody likes<br /><span className="accent">waiting.</span></h2>
-            <p>While it works, your customer sees exactly what it&rsquo;s doing — and earns a small credit for the wait, toward what they&rsquo;re buying or their next one.</p>
-            <p style={{ marginTop: 14 }}>One line of code to add. You keep 55% of what the wait earns.</p>
+            <div className="kicker">05 — Assembling · The Wait</div>
+            <h2>A fair trade<br /><span className="accent">for the wait.</span></h2>
+            <p>While an agent works, your customer watches it happen and earns a credit toward what they&rsquo;re buying. In return it asks one optional question — how they&rsquo;ll use it, when suits, who else it&rsquo;s for.</p>
+            <p style={{ marginTop: 14 }}>By the time the work is ready you know something about them you didn&rsquo;t, and they have something back for the wait. Neither of you spent anything extra.</p>
+            <p style={{ marginTop: 14 }}>One line of code to add.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
-            <div className="panel-header">While you wait — live <span className="live">assembling</span></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Reading what they asked for</div><div className="w-reward">reward</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Checking it against your prices</div><div className="w-reward">reward</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Writing the draft</div><div className="w-reward">reward</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Putting it in front of you</div><div className="w-reward">reward</div></div>
+            <div className="panel-header">While you wait <span className="live">both getting something</span></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Reading what they asked for</div><div className="w-reward">+ credit</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;Anything we should know about the site?&rdquo;</div><div className="w-reward">optional</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Checking it against your prices</div><div className="w-reward">+ credit</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;Does morning or afternoon suit?&rdquo;</div><div className="w-reward">optional</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Putting the draft in front of you</div><div className="w-reward">credit banked</div></div>
             <div className="w-bar"><div className="w-fill" id="cine-w-fill" /></div>
             <div className="w-note" id="cine-w-note">assembling — 0%</div>
           </div>
