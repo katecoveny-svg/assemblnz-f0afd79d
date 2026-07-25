@@ -285,8 +285,30 @@ async function runExtraction(u: URL, text: string): Promise<Brief | null> {
     return coerce(generated);
   } catch (err) {
     console.error('[agent-brief] extraction failed', err);
+    // Surface the *class* of failure so a live outage can be diagnosed from
+    // outside without reading logs. Never includes the key or the message body.
+    const raw = String((err as { message?: string })?.message ?? err);
+    lastFailureReason =
+      /authentication|invalid x-api-key|401/i.test(raw) ? 'auth: the API key was rejected'
+      : /credit|billing|quota|insufficient/i.test(raw) ? 'billing: credit or quota exhausted'
+      : /not_found|model/i.test(raw) ? 'model: that model is not available to this key'
+      : /rate.?limit|429/i.test(raw) ? 'upstream rate limit'
+      : /timeout|abort|ETIMEDOUT/i.test(raw) ? 'timeout reading or generating'
+      : 'unknown';
     return null;
   }
+}
+
+/** Last extraction failure class, for the GET health check. Never a key. */
+let lastFailureReason: string | null = null;
+
+export async function GET() {
+  return Response.json({
+    ok: true,
+    anthropic_key_present: Boolean(process.env.ANTHROPIC_API_KEY),
+    key_length: (process.env.ANTHROPIC_API_KEY ?? '').length,
+    last_failure: lastFailureReason,
+  });
 }
 
 export async function POST(req: NextRequest) {
