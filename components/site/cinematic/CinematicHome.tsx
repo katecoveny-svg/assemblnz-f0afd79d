@@ -497,11 +497,11 @@ export function CinematicHome() {
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
           <h1>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Every business has</span></span>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>a customer journey.</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>Right now, that&rsquo;s you.</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Your customers ask.</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>Right now you answer</span></span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>every single one.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Most of it runs through you. Someone arrives wanting something; assembl works out what they&rsquo;re after, walks them through it, and has the work drafted and waiting for your yes. Nothing goes out until you say so.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>The quote. The booking. The reply about the delivery. assembl reads what they&rsquo;re asking for, writes the draft, and puts it in front of you. You check it and send it. Nothing goes out without you.</p>
           {/* The first thing a visitor does. Kate's hero copy stays the first
               thing they read; this is the first thing that pays them back. */}
           <div className="bp-invite">
@@ -522,17 +522,17 @@ export function CinematicHome() {
           <span className="editorial">business blueprint · living source · connected</span>
           <div className="section-copy reveal-left">
             <div className="kicker">01 — Business Blueprint</div>
-            <h2>Say it once.<br /><span className="accent">Every agent listens.</span></h2>
-            <p>What you sell, how you talk, what needs your sign-off — written down properly, in one place. Lift the budget ceiling here and every agent moves with it.</p>
-            <p style={{ marginTop: 14 }}>This is what keeps the journey yours, rather than something generic wearing your logo.</p>
+            <h2>Write your business<br /><span className="accent">down once.</span></h2>
+            <p>What you sell. What you charge. What you&rsquo;d never agree to without checking first. Written down once, in one place.</p>
+            <p style={{ marginTop: 14 }}>Change the budget limit here and every agent uses the new number. This is the bit that makes it sound like you and not like everyone else.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
-            <div className="panel-header">Blueprint — live <span className="live">connected</span></div>
-            <div className="d-row"><div className="m-shape brass">01</div><div className="d-name">Weekly shop template</div><div className="d-tag">v2.4</div></div>
-            <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">Dietary exclusions</div><div className="d-tag">enforced</div></div>
-            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Budget ceiling — $220</div><div className="d-tag">active</div></div>
-            <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">Voice — warm, plain</div><div className="d-tag">encoded</div></div>
-            <div className="d-row"><div className="m-shape navy">05</div><div className="d-name">Approval matrix</div><div className="d-tag">6 levels</div></div>
+            <div className="panel-header">Your business, written down <span className="live">in use</span></div>
+            <div className="d-row"><div className="m-shape brass">01</div><div className="d-name">What you sell</div><div className="d-tag">your list</div></div>
+            <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">What you charge for it</div><div className="d-tag">your prices</div></div>
+            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">How you talk to people</div><div className="d-tag">your words</div></div>
+            <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">What you&rsquo;d never agree to</div><div className="d-tag">your rules</div></div>
+            <div className="d-row"><div className="m-shape navy">05</div><div className="d-name">Who has to sign it off</div><div className="d-tag">your people</div></div>
           </div>
         </section>
 
@@ -541,18 +541,18 @@ export function CinematicHome() {
           <span className="editorial left">journey composer · assembled · traced</span>
           <div className="section-copy reveal-right">
             <div className="kicker">02 — Journey Composer</div>
-            <h2>A plumber, a lodge<br />and a supermarket.<br /><span className="accent">Same shape underneath.</span></h2>
-            <p>Someone turns up wanting something. There&rsquo;s a bit of back and forth, a decision to make, then the work itself.</p>
-            <p style={{ marginTop: 14 }}>assembl picks up what they&rsquo;re really after, asks only the one thing it still needs to know, drafts the job, and brings it to you.</p>
-            <p style={{ marginTop: 14 }}>Here it&rsquo;s a week&rsquo;s groceries. Make it a booking, a quote, a claim — the steps hold.</p>
+            <h2>A plumber, a lodge,<br />a supermarket.<br /><span className="accent">The same five steps.</span></h2>
+            <p>Someone asks for something. You work out what they actually want. You check a couple of things. You write it up. They say yes.</p>
+            <p style={{ marginTop: 14 }}>Every business does those five steps. The words change, the steps don&rsquo;t. assembl does the first four and brings you the fifth.</p>
+            <p style={{ marginTop: 14 }}>A quote, a booking, a claim, a delivery question — same five steps every time.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
-            <div className="panel-header">Journey — everyday, assembled <span className="live">running</span></div>
-            <div className="d-row"><div className="m-shape navy">01</div><div className="d-name">Intent received</div><div className="d-tag">&ldquo;the week, please&rdquo;</div></div>
-            <div className="d-row"><div className="m-shape brass">02</div><div className="d-name">Context selected</div><div className="d-tag">household · calendar</div></div>
-            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Plan assembled</div><div className="d-tag">7 meals · constraints</div></div>
-            <div className="d-row"><div className="m-shape navy">04</div><div className="d-name">Approval requested</div><div className="d-tag">one decision</div></div>
-            <div className="d-row"><div className="m-shape brass">05</div><div className="d-name">Proof recorded</div><div className="d-tag">47 min saved</div></div>
+            <div className="panel-header">The five steps <span className="live">running</span></div>
+            <div className="d-row"><div className="m-shape navy">01</div><div className="d-name">Someone asks</div><div className="d-tag">&ldquo;can you do this?&rdquo;</div></div>
+            <div className="d-row"><div className="m-shape brass">02</div><div className="d-name">Work out what they mean</div><div className="d-tag">reads the request</div></div>
+            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Check a couple of things</div><div className="d-tag">your prices · your rules</div></div>
+            <div className="d-row"><div className="m-shape navy">04</div><div className="d-name">Write it up</div><div className="d-tag">draft ready</div></div>
+            <div className="d-row"><div className="m-shape brass">05</div><div className="d-name">You say yes</div><div className="d-tag">then it goes</div></div>
           </div>
         </section>
 
@@ -560,17 +560,17 @@ export function CinematicHome() {
           <span className="ghost right" aria-hidden="true">03</span>
           <span className="editorial">intent · history · what you offer</span>
           <div className="section-copy reveal-left">
-            <div className="kicker">03 — Knowing who&rsquo;s asking</div>
-            <h2>The same question,<br /><span className="accent">two different answers.</span></h2>
-            <p>A regular who orders the same thing every Friday shouldn&rsquo;t be asked what they like. Someone new deserves a few more questions, asked kindly.</p>
-            <p style={{ marginTop: 14 }}>assembl reads what a customer wants, what they&rsquo;ve done before, and what you actually offer — then guides them from there. Not a form. Not a menu. A conversation that already knows half the answers.</p>
+            <div className="kicker">03 — Who&rsquo;s asking</div>
+            <h2>It knows a regular<br /><span className="accent">from a first-timer.</span></h2>
+            <p>Someone who orders the same thing every Friday shouldn&rsquo;t be asked what they like. Someone new should be asked a bit more, and asked nicely.</p>
+            <p style={{ marginTop: 14 }}>assembl checks what they&rsquo;ve ordered before and what you actually offer, then asks only what it still needs to know. Not a form. Not a menu. It already has half the answers.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
-            <div className="panel-header">&ldquo;Can I get the usual?&rdquo; <span className="live">two people</span></div>
-            <div className="d-row"><div className="m-shape brass">A</div><div className="d-name">Ordered every Friday since March</div><div className="d-tag">asks nothing</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;Same as usual — Thursday delivery, and I&rsquo;ve left the coriander out again.&rdquo;</div></div>
+            <div className="panel-header">&ldquo;Can you do Thursday?&rdquo; <span className="live">two people</span></div>
+            <div className="d-row"><div className="m-shape brass">A</div><div className="d-name">Dealt with them nine times</div><div className="d-tag">asks nothing</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;Thursday works — same as last time, and I&rsquo;ve put you down for the morning.&rdquo;</div></div>
             <div className="d-row" style={{ marginTop: 18 }}><div className="m-shape navy">B</div><div className="d-name">First time here</div><div className="d-tag">asks three things</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;How many are you feeding, anything you avoid, and when suits for delivery?&rdquo;</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">&ldquo;Happy to. Whereabouts are you, what&rsquo;s the job, and does morning or afternoon suit?&rdquo;</div></div>
           </div>
         </section>
 
@@ -579,8 +579,8 @@ export function CinematicHome() {
           <span className="editorial left">agent harness · specialists · contracts</span>
           <div className="section-copy reveal-left">
             <div className="kicker">04 — Agent Harness</div>
-            <h2>Each agent does one job,<br /><span className="accent">and does it well.</span></h2>
-            <p>One reads what the customer wants. One watches the budget. One drafts the plan. Each works to written limits on what it may touch, and anything that matters comes back to you first.</p>
+            <h2>One agent<br /><span className="accent">per job.</span></h2>
+            <p>One reads the request. One checks the price. One writes the draft. Each has a written list of what it&rsquo;s allowed to touch, and anything that costs money or goes to a customer waits for you.</p>
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>
           </div>
           <div className="panel reveal-right" data-delay="200">
@@ -598,16 +598,16 @@ export function CinematicHome() {
           <span className="editorial">monetised wait · reward layer · earning</span>
           <div className="section-copy reveal-right">
             <div className="kicker">05 — Assembling · Monetised Wait</div>
-            <h2>Nobody enjoys<br /><span className="accent">a spinner.</span></h2>
-            <p>While the agent works, your customer can watch it happen — and earn a small reward for the wait. Charity at launch, with more to come.</p>
+            <h2>Nobody likes<br /><span className="accent">waiting.</span></h2>
+            <p>While it works, your customer sees what it&rsquo;s doing — and earns a small reward for waiting. Goes to charity at launch, with more coming.</p>
             <p style={{ marginTop: 14 }}>One line of code to add. You keep 55% of what the wait earns.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">While you wait — live <span className="live">assembling</span></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Reading the household rhythm</div><div className="w-reward">+$0.14</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Checking the calendar for pressure points</div><div className="w-reward">+$0.08</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Balancing nutrition against the budget</div><div className="w-reward">+$0.22</div></div>
-            <div className="w-step"><div className="w-dot" /><div className="w-text">Preparing your approval — one decision</div><div className="w-reward">+$0.31</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Reading what they asked for</div><div className="w-reward">reward</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Checking it against your prices</div><div className="w-reward">reward</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Writing the draft</div><div className="w-reward">reward</div></div>
+            <div className="w-step"><div className="w-dot" /><div className="w-text">Putting it in front of you</div><div className="w-reward">reward</div></div>
             <div className="w-bar"><div className="w-fill" id="cine-w-fill" /></div>
             <div className="w-note" id="cine-w-note">assembling — 0%</div>
           </div>
@@ -618,15 +618,15 @@ export function CinematicHome() {
           <span className="editorial left">proof · evidence · measured</span>
           <div className="section-copy reveal-left">
             <div className="kicker">06 — Assembl Proof</div>
-            <h2>Receipts,<br /><span className="accent">not dashboards.</span></h2>
-            <p>Every journey records what the agent read, what it drafted, who approved it, and the minutes it handed back — measured against how long the job used to take.</p>
+            <h2>You can see<br /><span className="accent">what it did.</span></h2>
+            <p>Every job keeps a record: what it read, what it wrote, who approved it, and how many minutes it saved against how long that job used to take you.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">Proof — this journey <span className="live">recorded</span></div>
-            <div className="d-row"><div className="m-shape brass">01</div><div className="d-name">Time saved</div><div className="d-tag">47 min</div></div>
-            <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">Customer satisfaction</div><div className="d-tag">94% ↑</div></div>
-            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Agent calls avoided</div><div className="d-tag">1 saved</div></div>
-            <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">Revenue impact</div><div className="d-tag">+$2.40</div></div>
+            <div className="d-row"><div className="m-shape brass">01</div><div className="d-name">What it read</div><div className="d-tag">every source</div></div>
+            <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">What it wrote</div><div className="d-tag">the draft</div></div>
+            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Who approved it</div><div className="d-tag">named</div></div>
+            <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">Minutes it saved</div><div className="d-tag">measured</div></div>
           </div>
         </section>
 
@@ -636,7 +636,7 @@ export function CinematicHome() {
           <div className="section-copy reveal-right">
             <div className="kicker">07 — Live Demo</div>
             <h2>Ask it<br /><span className="accent">something.</span></h2>
-            <p>A real agent, answering live from a sample business. It drafts. It never sends.</p>
+            <p>A real agent, answering from a sample business. It writes drafts. It doesn&rsquo;t send them.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">Agent — live <span className="live">{demoBusy ? 'drafting' : 'ready'}</span></div>
