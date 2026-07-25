@@ -325,7 +325,7 @@ export function CinematicHome() {
     // rises for wait, pulls wide for proof, lands centre-stage huge for the
     // finale — one full slow turn across the whole page.
     const KEYS = [
-      { s: 1.30, x:  3.0, y: -0.2, z:  0.0, ry: 0.15, rx: 0.00, cz:  9.2, cy: 0.4 }, // intro — huge, right
+      { s: 0.95, x:  3.9, y: -0.2, z:  0.0, ry: 0.15, rx: 0.00, cz:  9.2, cy: 0.4 }, // intro — big, clear of the headline
       { s: 0.95, x: -3.0, y:  0.3, z: -0.6, ry: 1.25, rx: 0.05, cz:  8.6, cy: 0.5 }, // blueprint — swings left
       { s: 1.00, x:  3.1, y: -0.5, z: -1.4, ry: 2.30, rx: -0.06, cz: 8.2, cy: 0.2 }, // journey — right, deeper
       { s: 1.45, x: -2.6, y:  0.0, z:  0.8, ry: 3.35, rx: 0.08, cz:  7.2, cy: 0.4 }, // agents — close-up left
@@ -403,10 +403,22 @@ export function CinematicHome() {
       // <900px switch left mid-width windows with full desktop placement and
       // the assembly parked on top of the headline.
       const wide = Math.min(1, Math.max(0, (innerWidth - 700) / 700));
-      const baseScale = k(A.s, B.s) * (0.5 + 0.5 * wide);
+
+      // The keyframes place the assembly in world units, but the camera's
+      // vertical FOV is fixed — so a wider window shows more world, and a fixed
+      // x offset drifts the object back over the copy. On a 1750px screen the
+      // intro sat on top of the headline. Push it out in proportion to how much
+      // wider than the reference frame we actually are, and ease the scale back
+      // so it stops overflowing on short, wide windows.
+      const REFERENCE_ASPECT = 1.6;
+      const aspect = innerWidth / Math.max(1, innerHeight);
+      const spread = Math.min(1.9, Math.max(1, aspect / REFERENCE_ASPECT));
+      const roomy = Math.min(1, Math.max(0.78, 1 - (aspect - REFERENCE_ASPECT) * 0.22));
+
+      const baseScale = k(A.s, B.s) * (0.5 + 0.5 * wide) * roomy;
       group.scale.setScalar(baseScale);
       // narrower window → pushed further to its side + lifted above the copy
-      group.position.x = k(A.x, B.x) * (1 + (1 - wide) * 0.45) + mx * 0.3;
+      group.position.x = k(A.x, B.x) * (1 + (1 - wide) * 0.45) * spread + mx * 0.3;
       group.position.y = k(A.y, B.y) + (1 - wide) * 1.4 + my * 0.2;
       group.position.z = k(A.z, B.z);
       group.rotation.y = k(A.ry, B.ry) + mx * 0.08 + spin * 3;
