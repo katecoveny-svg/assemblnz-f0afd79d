@@ -324,15 +324,24 @@ export function CinematicHome() {
     // cz/cy=camera. Alternates sides with the copy, dives near for agents,
     // rises for wait, pulls wide for proof, lands centre-stage huge for the
     // finale — one full slow turn across the whole page.
+    // One keyframe per section — intro, blueprint, journey, who, agents, wait,
+    // proof, demo, finale. There must be exactly as many of these as there are
+    // entries in `sections` above: the scroll position indexes straight into
+    // this array, so adding a section without adding a pose silently shifts
+    // every stage after it onto the wrong one.
+    // s=scale, x/y/z=assembly position, ry/rx=rotation, cz/cy=camera.
+    // Sides alternate with the copy, dives near for agents, rises for wait,
+    // pulls wide for proof, lands centre-stage for the finale.
     const KEYS = [
-      { s: 0.95, x:  3.9, y: -0.2, z:  0.0, ry: 0.15, rx: 0.00, cz:  9.2, cy: 0.4 }, // intro — big, clear of the headline
-      { s: 0.95, x: -3.0, y:  0.3, z: -0.6, ry: 1.25, rx: 0.05, cz:  8.6, cy: 0.5 }, // blueprint — swings left
-      { s: 1.00, x:  3.1, y: -0.5, z: -1.4, ry: 2.30, rx: -0.06, cz: 8.2, cy: 0.2 }, // journey — right, deeper
-      { s: 1.45, x: -2.6, y:  0.0, z:  0.8, ry: 3.35, rx: 0.08, cz:  7.2, cy: 0.4 }, // agents — close-up left
-      { s: 0.85, x:  2.8, y:  1.1, z: -1.0, ry: 4.40, rx: 0.30, cz:  8.6, cy: 0.9 }, // wait — rises, tilts
-      { s: 0.72, x: -2.7, y: -0.6, z: -2.2, ry: 5.30, rx: -0.10, cz: 10.4, cy: 0.3 }, // proof — pulls wide
-      { s: 1.35, x:  2.6, y: -0.1, z:  0.6, ry: 5.95, rx: 0.05, cz:  7.4, cy: 0.4 }, // demo — leans in beside the live panel
-      { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.90, rx: 0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
+      { s: 0.95, x:  3.9, y: -0.2, z:  0.0, ry: 0.15, rx:  0.00, cz:  9.2, cy: 0.4 }, // intro — big, clear of the headline
+      { s: 0.95, x: -3.0, y:  0.3, z: -0.6, ry: 1.05, rx:  0.05, cz:  8.6, cy: 0.5 }, // blueprint — swings left
+      { s: 1.00, x:  3.1, y: -0.5, z: -1.4, ry: 1.95, rx: -0.06, cz:  8.2, cy: 0.2 }, // journey — right, deeper
+      { s: 1.15, x: -2.9, y:  0.4, z: -0.4, ry: 2.85, rx:  0.04, cz:  8.0, cy: 0.5 }, // who — left, leans in
+      { s: 1.45, x:  2.9, y:  0.0, z:  0.8, ry: 3.70, rx:  0.08, cz:  7.2, cy: 0.4 }, // agents — close-up right
+      { s: 0.90, x: -2.8, y:  1.1, z: -1.0, ry: 4.55, rx:  0.30, cz:  8.6, cy: 0.9 }, // wait — rises, tilts
+      { s: 0.78, x:  2.7, y: -0.6, z: -2.2, ry: 5.35, rx: -0.10, cz: 10.4, cy: 0.3 }, // proof — pulls wide
+      { s: 1.35, x: -2.6, y: -0.1, z:  0.6, ry: 6.10, rx:  0.05, cz:  7.4, cy: 0.4 }, // demo — leans in beside the live panel
+      { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.90, rx:  0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
     ];
 
     let prevScroll = 0, spin = 0, t = 0, raf = 0;
@@ -415,7 +424,7 @@ export function CinematicHome() {
       const spread = Math.min(1.9, Math.max(1, aspect / REFERENCE_ASPECT));
       const roomy = Math.min(1, Math.max(0.78, 1 - (aspect - REFERENCE_ASPECT) * 0.22));
 
-      const baseScale = k(A.s, B.s) * (0.5 + 0.5 * wide) * roomy;
+      const baseScale = k(A.s, B.s) * (0.74 + 0.26 * wide) * roomy;
       group.scale.setScalar(baseScale);
       // narrower window → pushed further to its side + lifted above the copy
       group.position.x = k(A.x, B.x) * (1 + (1 - wide) * 0.45) * spread + mx * 0.3;
@@ -497,11 +506,11 @@ export function CinematicHome() {
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
           <h1>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Your customers ask.</span></span>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>Right now you answer</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>every single one.</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Your business notices</span></span>
+            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>a hundred things a day.</span></span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>It acts on three.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>The quote. The booking. The reply about the delivery. assembl reads what they&rsquo;re asking for, writes the draft, and puts it in front of you. You check it and send it. Nothing goes out without you.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>A guest who has stayed every March for six years. A warranty running out in a fortnight. A regular whose usual order was discontinued last week. All of that is already sitting in your systems. assembl puts agents inside your business that read those signals and prepare the next thing, ready for someone to approve.</p>
           {/* The first thing a visitor does. Kate's hero copy stays the first
               thing they read; this is the first thing that pays them back. */}
           <div className="bp-invite">
@@ -522,8 +531,8 @@ export function CinematicHome() {
           <span className="editorial">business blueprint · living source · connected</span>
           <div className="section-copy reveal-left">
             <div className="kicker">01 — Business Blueprint</div>
-            <h2>Write your business<br /><span className="accent">down once.</span></h2>
-            <p>What you sell. What you charge. What you&rsquo;d never agree to without checking first. Written down once, in one place.</p>
+            <h2>They work from<br /><span className="accent">your rules, not theirs.</span></h2>
+            <p>What you sell. What you charge. What you would never agree to without checking first. Written down once, in one place, and every agent reads it before it does anything.</p>
             <p style={{ marginTop: 14 }}>Change the spend limit here and every agent uses the new number from that moment. This is the part that makes it sound like you.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
@@ -541,10 +550,10 @@ export function CinematicHome() {
           <span className="editorial left">journey composer · assembled · traced</span>
           <div className="section-copy reveal-right">
             <div className="kicker">02 — Journey Composer</div>
-            <h2>A plumber, a lodge,<br />a supermarket.<br /><span className="accent">The same five steps.</span></h2>
-            <p>Someone asks for something. You work out what they actually want, check a couple of things, write it up — and they say yes.</p>
-            <p style={{ marginTop: 14 }}>Every business does those five steps. The words change, the steps don&rsquo;t. assembl does the first four and brings you the fifth.</p>
-            <p style={{ marginTop: 14 }}>A quote, a booking, a claim, a delivery question — same five steps every time.</p>
+            <h2>A customer isn&rsquo;t<br />an enquiry.<br /><span className="accent">They&rsquo;re twenty years.</span></h2>
+            <p>The first quote. The job itself. The follow-up nobody got round to. The warranty that ran out quietly. The call they made to somebody else three years later, because you had gone quiet.</p>
+            <p style={{ marginTop: 14 }}>Every one of those moments is already recorded somewhere in your business. They just sit in different places and never reach anyone in time to matter.</p>
+            <p style={{ marginTop: 14 }}>assembl joins them up and prepares the next one, so the relationship stops depending on whoever happens to remember.</p>
           </div>
           <div className="panel reveal-left" data-delay="200">
             <div className="panel-header">The five steps <span className="live">running</span></div>
@@ -561,9 +570,9 @@ export function CinematicHome() {
           <span className="editorial">intent · history · what you offer</span>
           <div className="section-copy reveal-left">
             <div className="kicker">03 — Who&rsquo;s asking</div>
-            <h2>It knows a regular<br /><span className="accent">from a first-timer.</span></h2>
-            <p>Someone who has ordered the same thing every Friday for a year shouldn&rsquo;t be asked what they like. Someone who has never dealt with you before should be asked properly, and asked well.</p>
-            <p style={{ marginTop: 14 }}>assembl checks what they&rsquo;ve bought from you before, and what you actually offer, then asks for whatever is still missing. Usually that&rsquo;s one question.</p>
+            <h2>It reads what<br /><span className="accent">already happened.</span></h2>
+            <p>Someone who has ordered the same thing every Friday for a year should not be asked what they like. Someone who has never dealt with you before should be asked properly, and asked well.</p>
+            <p style={{ marginTop: 14 }}>Every agent reads the whole history before it says anything — what they bought, what went wrong once, what they were promised. Usually there is one question left to ask.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
             <div className="panel-header">&ldquo;Can you do Thursday?&rdquo; <span className="live">two people</span></div>
@@ -579,8 +588,9 @@ export function CinematicHome() {
           <span className="editorial left">agent harness · specialists · contracts</span>
           <div className="section-copy reveal-left">
             <div className="kicker">04 — Agent Harness</div>
-            <h2>One agent<br /><span className="accent">per job.</span></h2>
-            <p>One reads the request. One checks the price. One writes the draft. Each has a written list of what it&rsquo;s allowed to touch, and anything that costs money or goes to a customer waits for you.</p>
+            <h2>Each one watches<br /><span className="accent">a different thing.</span></h2>
+            <p>One watches for work coming due. One watches what is about to lapse. One notices a customer who has gone quiet. One drafts the message and one checks it against your rules before you ever see it.</p>
+            <p style={{ marginTop: 14 }}>Each has a written list of what it may touch. None of them send.</p>
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>
           </div>
           <div className="panel reveal-right" data-delay="200">
