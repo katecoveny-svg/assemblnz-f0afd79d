@@ -846,3 +846,21 @@
   margin-top: 10px; font-size: 0.72rem; line-height: 1.55; color: var(--ink-3);
 }
 .cine .sc-keep-err { margin-top: 9px; font-size: 0.8rem; color: #9a3412; }
+
+/* real progress — only steps that have actually finished */
+.cine .bp-progress { margin-top: 20px; display: flex; flex-direction: column; gap: 9px; }
+.cine .bp-step {
+  display: flex; align-items: center; gap: 9px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+}
+.cine .bp-step::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(26, 25, 23, 0.2); flex: 0 0 auto;
+}
+.cine .bp-step.done { color: var(--ink-2); }
+.cine .bp-step.done::before { background: var(--brass); }
+.cine .bp-live-sw { display: inline-flex; align-items: center; gap: 4px; }
+.cine .bp-live-sw em {
+  font-style: normal; font-size: 0.52rem; color: var(--ink-3); text-transform: none; letter-spacing: 0.04em;
+}
