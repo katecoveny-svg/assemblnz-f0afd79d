@@ -295,6 +295,46 @@ async function runExtraction(u: URL, text: string): Promise<Brief | null> {
       : /rate.?limit|429/i.test(raw) ? 'upstream rate limit'
       : /timeout|abort|ETIMEDOUT/i.test(raw) ? 'timeout reading or generating'
       : 'unknown';
+    // Claude is the right model for this judgement, but a blueprint that does
+    // not come back at all is worse than one from the second-best model.
+    const viaGemini = await extractWithGemini(u, text);
+    if (viaGemini) {
+      lastFailureReason += ' — answered by gemini instead';
+      return viaGemini;
+    }
+    return null;
+  }
+}
+
+/**
+ * Fallback rung: Gemini Flash, called over REST so this adds no dependency to
+ * a route that is already in production. Returns null on any doubt — a wrong
+ * blueprint is worse than none.
+ */
+async function extractWithGemini(u: URL, text: string): Promise<Brief | null> {
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(key)}`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: EXTRACT_SYSTEM }] },
+          contents: [{ role: 'user', parts: [{ text: `Website: ${u.toString()}\n\nPage text:\n${text}` }] }],
+          generationConfig: { temperature: 0.3, maxOutputTokens: 2400, responseMimeType: 'application/json' },
+        }),
+        signal: AbortSignal.timeout(28_000),
+      },
+    );
+    const j = (await res.json()) as {
+      candidates?: { content?: { parts?: { text?: string }[] } }[];
+    };
+    const out = (j.candidates?.[0]?.content?.parts ?? []).map((p) => p.text ?? '').join('').trim();
+    return out ? coerce(out) : null;
+  } catch (err) {
+    console.error('[agent-brief] gemini fallback failed', err);
     return null;
   }
 }
