@@ -499,9 +499,9 @@ export function CinematicHome() {
           <h1>
             <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Every business has</span></span>
             <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>a customer journey.</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>Most of it runs through you.</span></span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>Right now, that&rsquo;s you.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Someone arrives wanting something. assembl works out what they&rsquo;re after, walks them through it, and has the work drafted and waiting for your yes. Nothing goes out until you say so.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Most of it runs through you. Someone arrives wanting something; assembl works out what they&rsquo;re after, walks them through it, and has the work drafted and waiting for your yes. Nothing goes out until you say so.</p>
           {/* The first thing a visitor does. Kate's hero copy stays the first
               thing they read; this is the first thing that pays them back. */}
           <div className="bp-invite">
