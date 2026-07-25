@@ -159,12 +159,12 @@ Rules:
 - Use ONLY what the page says. Never invent services, prices, locations, claims or statistics. If the page does not say it, leave it out.
 - Write in plain New Zealand English. Short sentences. No marketing adjectives, no "seamless", "unlock", "empower", "elevate", "cutting-edge".
 - "voice" describes how this business already writes — tone, formality, the words they favour — so an agent can sound like them.
-- "questions" are the questions this business's real customers would ask, judging by what the page emphasises and what it leaves unclear.
+- "questions" are the questions this business's real customers would ask, judging by what the page emphasises and what it leaves unclear. For each one, set "answerable" to true ONLY if the page gives enough to answer it properly. Be strict: a vague gesture at a topic is not an answer.
 - "facts" are concrete, checkable specifics an agent must get right: services offered, locations, hours, guarantees, named products, anything numeric the page states.
 - "blindSpots" name things a customer would want to know that the page does NOT answer. Be specific and useful — this is the most valuable field.
 
 Reply with ONLY a JSON object, no prose or code fences:
-{"business":"one sentence: who they are and who they serve","sells":["up to 6 things they offer"],"voice":"1-2 sentences on how they write","questions":["up to 5 real customer questions"],"facts":["up to 8 concrete facts from the page"],"blindSpots":["up to 4 things the page does not answer"]}`;
+{"business":"one sentence: who they are and who they serve","sells":["up to 6 things they offer"],"voice":"1-2 sentences on how they write","questions":[{"q":"a real customer question","answerable":true}],"facts":["up to 8 concrete facts from the page"],"blindSpots":["up to 4 things the page does not answer"]}`;
 
 type Brief = {
   business: string;
@@ -173,6 +173,9 @@ type Brief = {
   questions: string[];
   facts: string[];
   blindSpots: string[];
+  /** How many of `questions` the page actually answers. A count of real
+   *  things — deliberately not a score, because there is no rubric behind one. */
+  answered: number;
 };
 
 function coerce(raw: string): Brief | null {
@@ -190,13 +193,30 @@ function coerce(raw: string): Brief | null {
     Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string').slice(0, cap) : [];
   const business = typeof o.business === 'string' ? o.business : '';
   if (!business) return null;
+
+  // Questions come back as {q, answerable}. Older shapes (plain strings) are
+  // still accepted so a model that ignores the schema degrades rather than fails.
+  const rawQs = Array.isArray(o.questions) ? o.questions.slice(0, 5) : [];
+  const questions: string[] = [];
+  let answered = 0;
+  for (const item of rawQs) {
+    if (typeof item === 'string') { questions.push(item); continue; }
+    if (item && typeof item === 'object') {
+      const q = (item as Record<string, unknown>).q;
+      if (typeof q !== 'string') continue;
+      questions.push(q);
+      if ((item as Record<string, unknown>).answerable === true) answered += 1;
+    }
+  }
+
   return {
     business,
     sells: list(o.sells, 6),
     voice: typeof o.voice === 'string' ? o.voice : '',
-    questions: list(o.questions, 5),
+    questions,
     facts: list(o.facts, 8),
     blindSpots: list(o.blindSpots, 4),
+    answered,
   };
 }
 
