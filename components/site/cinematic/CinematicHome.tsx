@@ -605,7 +605,7 @@ export function CinematicHome() {
 
         <section className="section" id="wait">
           <span className="ghost right" aria-hidden="true">05</span>
-          <span className="editorial">monetised wait · reward layer · earning</span>
+          <span className="editorial">the wait · a credit · one question back</span>
           <div className="section-copy reveal-right">
             <div className="kicker">05 — Assembling · The Wait</div>
             <h2>A fair trade<br /><span className="accent">for the wait.</span></h2>
