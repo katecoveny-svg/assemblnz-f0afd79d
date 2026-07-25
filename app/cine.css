@@ -828,3 +828,21 @@
 .cine .bp-gaps ul { margin: 9px 0 0; padding-left: 18px; }
 .cine .bp-gaps li { font-size: 0.9rem; line-height: 1.55; color: var(--ink-2); margin-bottom: 5px; }
 .cine .bp-open { margin-top: 20px; }
+
+/* keep-and-share — the one place a blueprint is stored */
+.cine .sc-keep {
+  margin: 18px 0 20px; padding: 18px; border-radius: 14px;
+  background: rgba(184, 150, 79, 0.07); border: 1px solid rgba(184, 150, 79, 0.28);
+}
+.cine .sc-keep-row { display: flex; gap: 8px; margin-top: 10px; }
+@media (max-width: 560px) { .cine .sc-keep-row { flex-direction: column; } }
+.cine .sc-keep-input {
+  flex: 1; min-width: 0; padding: 11px 13px; border-radius: 10px;
+  border: 1px solid rgba(26, 25, 23, 0.16); background: #fff;
+  font-family: 'Lato', sans-serif; font-size: 0.86rem; color: var(--ink); outline: none;
+}
+.cine .sc-keep-input:focus { border-color: var(--brass); }
+.cine .sc-keep-note {
+  margin-top: 10px; font-size: 0.72rem; line-height: 1.55; color: var(--ink-3);
+}
+.cine .sc-keep-err { margin-top: 9px; font-size: 0.8rem; color: #9a3412; }

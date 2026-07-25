@@ -23,6 +23,8 @@ type Brief = {
   source: string;
   /** Counted off their own stylesheets — null when the site has no clear palette. */
   brand: { primary: string; secondary: string | null; accent: string | null; ink: string } | null;
+  /** How many of the extracted questions the site actually answers. */
+  answered?: number;
 };
 
 const PARTS = [
@@ -48,6 +50,13 @@ export function CinematicBuilder() {
   const [brief, setBrief] = useState<Brief | null>(null);
   const [briefBusy, setBriefBusy] = useState(false);
   const [briefError, setBriefError] = useState('');
+  // Keeping a blueprint is the one place anything is stored, so it is opt-in
+  // and the email is the consent step.
+  const [keepEmail, setKeepEmail] = useState('');
+  const [keepBusy, setKeepBusy] = useState(false);
+  const [keepError, setKeepError] = useState('');
+  const [keptUrl, setKeptUrl] = useState('');
+  const [keptCopied, setKeptCopied] = useState(false);
   const activeRef = useRef(active);
   activeRef.current = active;
   // Set by the scene effect: renders a fresh frame and returns it as a PNG
@@ -103,9 +112,40 @@ export function CinematicBuilder() {
     setTimeout(() => setCopied(false), 2000);
   }
 
+  /** Save the blueprint and mint the link that can actually be sent. */
+  async function keepAndShare() {
+    if (!brief || keepBusy) return;
+    setKeepBusy(true);
+    setKeepError('');
+    try {
+      const res = await fetch('/api/blueprint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ brief, email: keepEmail.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setKeepError(typeof data?.error === 'string' ? data.error : 'Could not keep that right now.');
+        return;
+      }
+      setKeptUrl(String(data.url));
+    } catch {
+      setKeepError('Could not keep that right now — try again in a moment.');
+    } finally {
+      setKeepBusy(false);
+    }
+  }
+
+  function copyKept() {
+    if (!keptUrl) return;
+    navigator.clipboard.writeText(keptUrl);
+    setKeptCopied(true);
+    setTimeout(() => setKeptCopied(false), 2000);
+  }
+
   function shareIntent(net: 'x' | 'li') {
     const text = `I assembled ${agentName.trim() || 'an agent'} with assembl — every part visible, nothing sends without approval.`;
-    const url = shareUrl();
+    const url = keptUrl || shareUrl();
     const href =
       net === 'x'
         ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
@@ -786,6 +826,42 @@ export function CinematicBuilder() {
             <div className="sc-parts">{PARTS.map((pp) => <span className="sc-p" key={pp.s}>{pp.s} {pp.n}</span>)}</div>
             <div className="sc-desc">{p.v}</div>
             <div className="sc-proof">nothing sends without approval · {p.a}</div>
+            {brief ? (
+              <div className="sc-keep">
+                {keptUrl ? (
+                  <>
+                    <span className="brief-lab">your blueprint has a home</span>
+                    <div className="sc-keep-row">
+                      <input className="sc-keep-input" readOnly value={keptUrl} onFocus={(e) => e.currentTarget.select()} />
+                      <button className="btn btn-solid" onClick={copyKept}>{keptCopied ? 'copied' : 'copy link'}</button>
+                    </div>
+                    <div className="sc-keep-note">Kept for 90 days, then deleted.</div>
+                  </>
+                ) : (
+                  <>
+                    <span className="brief-lab">keep it, so you can send it</span>
+                    <div className="sc-keep-row">
+                      <input
+                        className="sc-keep-input"
+                        type="email"
+                        value={keepEmail}
+                        placeholder="you@yourbusiness.co.nz"
+                        onChange={(e) => setKeepEmail(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') keepAndShare(); }}
+                      />
+                      <button className="btn btn-solid" onClick={keepAndShare} disabled={keepBusy || !keepEmail.trim()}>
+                        {keepBusy ? 'keeping…' : 'get my link'}
+                      </button>
+                    </div>
+                    <div className="sc-keep-note">
+                      Everything else here is read-and-forget. Keeping it stores this blueprint for 90 days so it has a
+                      link you can send, and lets Kate write back once.
+                    </div>
+                    {keepError ? <div className="sc-keep-err">{keepError}</div> : null}
+                  </>
+                )}
+              </div>
+            ) : null}
             <div className="sc-actions">
               <button className="btn btn-solid" onClick={downloadPdf} disabled={pdfBusy}>
                 {pdfBusy ? 'assembling…' : 'download the blueprint (pdf)'}

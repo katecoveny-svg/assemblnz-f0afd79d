@@ -122,6 +122,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/creative-playground',
   // Public, client-name-free journey walkthrough (2026-07-25).
   '/concepts',
+  // Kept Business Blueprints — private links, noindex (2026-07-25).
+  '/blueprint',
   // "Build an agent" — the Pilot flow is public (the homepage + /genome CTA
   // target it). Kept; the retired kete pricing pages (/industry-pack, /start,
   // /platform) are removed from the public surface.
