@@ -511,18 +511,22 @@ export function CinematicHome() {
             <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>one agent at a time.</span></span>
           </h1>
           <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Specialist agents sit inside your business, reading the signals your systems already hold, and prepare the next thing for every customer — the first quote through to the tenth year. A guest who has stayed every March. A warranty running out in a fortnight. Each agent drafts. A person approves.</p>
-          {/* The first thing a visitor does. Kate's hero copy stays the first
-              thing they read; this is the first thing that pays them back. */}
+          {/* The demo is the product, so it leads. The seven sections below
+              are the how-it-works for anyone who has to explain this to a
+              boss — they earn their place, they just should not be in front
+              of the thing they describe. */}
           <div className="bp-invite">
-            <div className="bp-invite-head">Start with your website.</div>
+            <div className="bp-invite-tag"><i />live · reads one page · about ten seconds</div>
+            <div className="bp-invite-head">Watch one assemble itself out of your business.</div>
             <p className="bp-invite-sub">
-              Paste your URL. We&rsquo;ll read one page, build an agent that knows your business, and show you the
-              questions your site leaves hanging.
+              Paste your web address. It reads one page, builds a specialist that knows what you sell and how you
+              talk, takes on your own colours, and shows you the questions your site leaves hanging. Then ask it
+              something — it answers from your business, and tells you plainly when your site never said.
             </p>
             <BlueprintStart />
           </div>
           <div className="hero-cta hero-cta-cinema">
-            <a className="btn btn-glass" href="#genome">or have a look around ↓</a>
+            <a className="btn btn-glass" href="#genome">or read how it works ↓</a>
           </div>
         </section>
 

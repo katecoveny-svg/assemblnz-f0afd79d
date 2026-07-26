@@ -784,15 +784,34 @@
 }
 
 /* ── the Blueprint invitation · first thing a visitor does ───────────────── */
-.cine .bp-invite { margin-top: 40px; max-width: 640px; }
+.cine .bp-invite {
+  margin-top: 44px; max-width: 760px;
+  padding: 30px 32px 32px;
+  border-radius: 22px;
+  border: 1px solid rgba(184, 150, 79, 0.34);
+  background: linear-gradient(140deg, rgba(255, 253, 248, 0.94), rgba(250, 246, 236, 0.82));
+  box-shadow: 0 26px 60px -32px rgba(26, 25, 23, 0.34), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.cine .bp-invite-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--brass); font-weight: 500; margin-bottom: 14px;
+}
+.cine .bp-invite-tag i {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--brass);
+  animation: bpPulse 2.4s ease-in-out infinite; font-style: normal;
+}
+@keyframes bpPulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
+@media (max-width: 620px) { .cine .bp-invite { padding: 24px 20px 26px; } }
 .cine .bp-invite-head {
   font-family: 'Lato', sans-serif; font-weight: 300; font-size: clamp(1.35rem, 2.6vw, 1.9rem);
   letter-spacing: -0.012em; color: var(--ink); margin-bottom: 10px;
 }
 .cine .bp-invite-sub {
-  font-size: 0.95rem; line-height: 1.65; color: var(--ink-2); margin: 0 0 22px; max-width: 560px;
+  font-size: 1rem; line-height: 1.6; color: var(--ink-2); margin: 0 0 22px; max-width: 62ch;
 }
-.cine .bp-start { max-width: 600px; }
+.cine .bp-start { max-width: 100%; }
 .cine .bp-row { display: flex; gap: 10px; }
 @media (max-width: 620px) { .cine .bp-row { flex-direction: column; } }
 .cine .bp-input {
