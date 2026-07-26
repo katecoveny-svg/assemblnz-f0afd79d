@@ -132,7 +132,7 @@
 .cine .hero {
   min-height: auto;
   display: flex; flex-direction: column; justify-content: center;
-  padding: 96px 0 64px;
+  padding: 96px 48px 64px;
   position: relative;
 }
 .cine .hero-index {
