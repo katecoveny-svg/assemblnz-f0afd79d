@@ -154,6 +154,21 @@ function harvestMeta(html: string): string {
   return out.join('\n');
 }
 
+
+/** A specific, honest reason beats one apologetic message for every cause. */
+function fetchErrorMessage(): string {
+  const r = lastFetchReason ?? '';
+  if (/^http 40[13]$/.test(r))
+    return 'That site turns away automated readers, so we can\u2019t read it from our servers. Some big retailers do. Try a page that isn\u2019t behind their bot protection, like your About or Services page.';
+  if (/^http 404$/.test(r))
+    return 'That page wasn\u2019t found. Check the address, or try the site\u2019s home page.';
+  if (/^http 5/.test(r))
+    return 'That site is having trouble right now \u2014 the error came from their end, not ours. Worth trying again shortly.';
+  if (r === 'timeout')
+    return 'That site took too long to answer. Try again, or give us a lighter page such as your About page.';
+  return 'We couldn\u2019t reach that site. Check the address, or try another page.';
+}
+
 /** Strip a page to readable text, dropping chrome that adds no signal. */
 function toText(html: string): string {
   const body = html
@@ -434,7 +449,7 @@ export async function POST(req: NextRequest) {
     return streamed(async (emit) => {
       const html = await fetchPage(u);
       if (!html) {
-        emit({ stage: 'error', error: "Couldn't read that site — it may be down, private, or blocking robots." });
+        emit({ stage: 'error', error: fetchErrorMessage() });
         return;
       }
       emit({ stage: 'fetched', source: u.hostname });
@@ -462,7 +477,7 @@ export async function POST(req: NextRequest) {
   }
 
   const html = await fetchPage(u);
-  if (!html) return bad(422, "Couldn't read that site — it may be down, private, or blocking robots. Try another page.");
+  if (!html) return bad(422, fetchErrorMessage());
 
   const text = toText(html);
   if (text.length < 200) {
