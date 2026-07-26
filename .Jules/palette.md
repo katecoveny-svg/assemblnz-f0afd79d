@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-26 - Unified Interaction Parity & Form Accessibility
+**Learning:** For interactive waitlist and consult forms, adding clear visual required markers (color-matched asterisks) paired with `aria-required` guarantees seamless assistive technology navigation. Furthermore, transitioning from generic click focus to keyboard-only `focus-visible` with matching ring offsets protects the clean visual aesthetic for mouse users while providing excellent contrast and accessibility for keyboard users. Adding transition lifts and physical press states completes the premium sensory feedback.
+**Action:** Add `aria-required` and visual asterisks to all user-facing contact or lead forms. Utilize `focus-visible` with brand offsets and hover-lifts paired with active-pressed states to satisfy interaction parity.
