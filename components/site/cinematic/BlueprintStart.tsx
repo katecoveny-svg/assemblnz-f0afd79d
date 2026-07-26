@@ -44,6 +44,16 @@ export function BlueprintStart() {
         else if (evt.stage === 'reading') setProgress((p) => ({ ...p, reading: true }));
       });
       setBrief(result);
+      // Announce it so anything else on the page can wear this business —
+      // the assembler in particular. sessionStorage as well as the event, so
+      // a reload keeps it. They sit far apart in the tree and threading a
+      // prop through the whole page component to reach one of them is worse.
+      try {
+        sessionStorage.setItem('assembl:brief', JSON.stringify(result));
+      } catch {
+        /* private mode — nothing downstream depends on this succeeding */
+      }
+      window.dispatchEvent(new CustomEvent('assembl:brief', { detail: result }));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'The blueprint service is resting — try again in a moment.');
     } finally {

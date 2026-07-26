@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 /**
  * The assembler — six parts, one core, click to place.
@@ -99,9 +99,30 @@ function portPos(angle: number) {
   return { x: 50 + Math.cos(rad) * R, y: 50 + Math.sin(rad) * R };
 }
 
-export function AgentAssembler({ brief }: { brief?: AssemblerBrief }) {
+export function AgentAssembler({ brief: given }: { brief?: AssemblerBrief } = {}) {
   const [placed, setPlaced] = useState<string[]>([]);
   const [last, setLast] = useState<Part | null>(null);
+  const [heard, setHeard] = useState<AssemblerBrief | null>(null);
+
+  // Pick up a blueprint read elsewhere on the page, so the parts wear the
+  // visitor's own business rather than the generic labels. Reads what is
+  // already stored first, in case they arrived after a reload.
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem('assembl:brief');
+      if (stored) setHeard(JSON.parse(stored) as AssemblerBrief);
+    } catch {
+      /* private mode, or something else wrote nonsense there */
+    }
+    const onBrief = (e: Event) => {
+      const detail = (e as CustomEvent).detail as AssemblerBrief | undefined;
+      if (detail) setHeard(detail);
+    };
+    window.addEventListener('assembl:brief', onBrief);
+    return () => window.removeEventListener('assembl:brief', onBrief);
+  }, []);
+
+  const brief = given ?? heard ?? undefined;
 
   const accent = brief?.brand?.palette?.[0];
   const done = placed.length === PARTS.length;
