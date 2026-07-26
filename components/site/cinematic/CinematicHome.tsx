@@ -588,18 +588,18 @@ export function CinematicHome() {
           <span className="editorial left">agent harness · specialists · contracts</span>
           <div className="section-copy reveal-left">
             <div className="kicker">04 — Agent Harness</div>
-            <h2>Each one watches<br /><span className="accent">a different thing.</span></h2>
+            <h2>Specialist team members,<br /><span className="accent">not one big brain.</span></h2>
             <p>One watches for work coming due. One watches what is about to lapse. One notices a customer who has gone quiet. One drafts the message and one checks it against your rules before you ever see it.</p>
-            <p style={{ marginTop: 14 }}>Each has a written list of what it may touch. None of them send.</p>
+            <p style={{ marginTop: 14 }}>Each has a single job, a written list of what it may touch, and an authority level that says how far it can go on its own. Nothing that commits money or reaches a customer gets past &ldquo;draft&rdquo; without a named person.</p>
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>
           </div>
           <div className="panel reveal-right" data-delay="200">
-            <div className="panel-header">Agent team — this journey <span className="live">active</span></div>
-            <div className="d-row"><div className="m-shape navy">01</div><div className="d-name">Intent Agent</div><div className="d-tag">v1.2 · passed</div></div>
-            <div className="d-row"><div className="m-shape chrome">02</div><div className="d-name">Context Agent</div><div className="d-tag">v1.0 · passed</div></div>
-            <div className="d-row"><div className="m-shape brass">03</div><div className="d-name">Planning Agent</div><div className="d-tag">v2.1 · passed</div></div>
-            <div className="d-row"><div className="m-shape navy">04</div><div className="d-name">Budget Agent</div><div className="d-tag">v1.4 · resolved</div></div>
-            <div className="d-row"><div className="m-shape chrome">05</div><div className="d-name">Proof Agent</div><div className="d-tag">v1.0 · recording</div></div>
+            <div className="panel-header">How far each one may go <span className="live">authority</span></div>
+            <div className="d-row"><div className="m-shape navy">01</div><div className="d-name">Observe</div><div className="d-tag">watches, says nothing</div></div>
+            <div className="d-row"><div className="m-shape chrome">02</div><div className="d-name">Draft</div><div className="d-tag">writes it, holds it</div></div>
+            <div className="d-row"><div className="m-shape brass">03</div><div className="d-name">Recommend</div><div className="d-tag">puts options to you</div></div>
+            <div className="d-row"><div className="m-shape navy">04</div><div className="d-name">Act with approval</div><div className="d-tag">your click, then it goes</div></div>
+            <div className="d-row"><div className="m-shape chrome">05</div><div className="d-name">Anything with a cost</div><div className="d-tag">never past draft alone</div></div>
           </div>
         </section>
 
@@ -630,15 +630,17 @@ export function CinematicHome() {
           <span className="editorial left">proof · evidence · measured</span>
           <div className="section-copy reveal-left">
             <div className="kicker">06 — Assembl Proof</div>
-            <h2>You can see<br /><span className="accent">what it did.</span></h2>
-            <p>Every job keeps a record. What it read, what it wrote, who approved it, and how long the same job used to take you before.</p>
+            <h2>A flight log,<br /><span className="accent">not a dashboard.</span></h2>
+            <p>Every job finishes with a record you can actually read. What each specialist looked at, what it wrote, who approved it, and how long the same job used to take you before.</p>
+            <p style={{ marginTop: 14 }}>Measured numbers and calculated ones are kept apart, and labelled. If we worked something out rather than counted it, the log says so.</p>
           </div>
           <div className="panel reveal-right" data-delay="200">
-            <div className="panel-header">Proof — this journey <span className="live">recorded</span></div>
-            <div className="d-row"><div className="m-shape brass">01</div><div className="d-name">What it read</div><div className="d-tag">every source</div></div>
-            <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">What it wrote</div><div className="d-tag">the draft</div></div>
-            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Who approved it</div><div className="d-tag">named</div></div>
-            <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">Minutes it saved</div><div className="d-tag">measured</div></div>
+            <div className="panel-header">Flight log — this job <span className="live">certified</span></div>
+            <div className="d-row"><div className="m-shape brass">01</div><div className="d-name">What each one read</div><div className="d-tag">every source, in order</div></div>
+            <div className="d-row"><div className="m-shape navy">02</div><div className="d-name">What it wrote</div><div className="d-tag">the draft, kept</div></div>
+            <div className="d-row"><div className="m-shape chrome">03</div><div className="d-name">Who approved it</div><div className="d-tag">named, and when</div></div>
+            <div className="d-row"><div className="m-shape brass">04</div><div className="d-name">Time taken</div><div className="d-tag">measured</div></div>
+            <div className="d-row"><div className="m-shape navy">05</div><div className="d-name">Time saved</div><div className="d-tag">calculated · labelled</div></div>
           </div>
         </section>
 
