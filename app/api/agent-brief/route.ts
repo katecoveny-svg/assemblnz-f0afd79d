@@ -174,6 +174,9 @@ function toText(html: string): string {
   return combined.slice(0, MAX_TEXT);
 }
 
+/** Why the last page fetch failed, for the GET health check. Never a URL. */
+let lastFetchReason: string | null = null;
+
 async function fetchBody(u: URL, accept: string): Promise<string | null> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
@@ -186,7 +189,11 @@ async function fetchBody(u: URL, accept: string): Promise<string | null> {
         accept,
       },
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      lastFetchReason = `http ${res.status}`;
+      return null;
+    }
+    lastFetchReason = null;
     const buf = await res.arrayBuffer();
     // A big page is not an unreadable one. Rejecting anything over the cap
     // meant a 1.3MB retail homepage came back as "couldn't read that site",
@@ -194,7 +201,8 @@ async function fetchBody(u: URL, accept: string): Promise<string | null> {
     // instead of failing — the cap is here to bound memory, not to judge.
     const slice = buf.byteLength > MAX_BYTES ? buf.slice(0, MAX_BYTES) : buf;
     return new TextDecoder('utf-8', { fatal: false }).decode(slice);
-  } catch {
+  } catch (err) {
+    lastFetchReason = /abort|timeout/i.test(String(err)) ? 'timeout' : 'network';
     return null;
   } finally {
     clearTimeout(timer);
@@ -402,6 +410,7 @@ export async function GET() {
     anthropic_key_present: Boolean(process.env.ANTHROPIC_API_KEY),
     key_length: (process.env.ANTHROPIC_API_KEY ?? '').length,
     last_failure: lastFailureReason,
+    last_fetch_failure: lastFetchReason,
   });
 }
 
