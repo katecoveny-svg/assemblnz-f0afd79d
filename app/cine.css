@@ -130,9 +130,9 @@
 
 /* ── HERO ── */
 .cine .hero {
-  min-height: 100vh;
+  min-height: auto;
   display: flex; flex-direction: column; justify-content: center;
-  padding: 140px 48px 8vh 48px;
+  padding: 96px 0 64px;
   position: relative;
 }
 .cine .hero-index {

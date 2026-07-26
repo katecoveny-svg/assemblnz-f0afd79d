@@ -510,7 +510,7 @@ export function CinematicHome() {
             <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.45s' }}>journeys, assembled</span></span>
             <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.65s' }}>one agent at a time.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 36 }}>Specialist agents sit inside your business, reading the signals your systems already hold, and prepare the next thing for every customer — the first quote through to the tenth year. A guest who has stayed every March. A warranty running out in a fortnight. Each agent drafts. A person approves.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 28 }}>Specialist agents sit inside your business, read the signals your systems already hold, and prepare the next thing for every customer — the first quote through to the tenth year. Each one drafts. A person approves.</p>
           {/* The demo is the product, so it leads. The seven sections below
               are the how-it-works for anyone who has to explain this to a
               boss — they earn their place, they just should not be in front
