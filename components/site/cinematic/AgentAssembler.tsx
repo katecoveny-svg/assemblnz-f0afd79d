@@ -139,8 +139,17 @@ export function AgentAssembler({ brief: given }: { brief?: AssemblerBrief } = {}
 
   const who = useMemo(() => {
     if (!brief?.business) return null;
-    // First clause only — the full sentence is too long for a caption.
-    return brief.business.split(/[.,]/)[0]?.trim() ?? null;
+    // The blueprint's opening line is a full sentence — "Kowhai Plumbing is an
+    // Auckland plumbing and gasfitting firm" — and dropping the whole thing
+    // into a caption reads as a mistake. Take the subject: everything before
+    // the verb that starts the description.
+    const first = brief.business.split(/[.;]/)[0]!.trim();
+    const subject = first.split(
+      /\s+(?:is|are|was|were|operates|provides|offers|supplies|sells|specialises|specializes|delivers|runs|helps)\b/i,
+    )[0]!.trim();
+    const name = (subject || first).replace(/[,–—-]\s*$/, '').trim();
+    // If it is still a mouthful it was never a name, so say nothing.
+    return name.length >= 2 && name.length <= 42 ? name : null;
   }, [brief]);
 
   return (
