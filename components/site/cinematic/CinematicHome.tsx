@@ -593,7 +593,7 @@ export function CinematicHome() {
           <span className="editorial left">agent harness · specialists · contracts</span>
           <div className="section-copy reveal-left">
             <div className="kicker">04 — Agent Harness</div>
-            <h2>Specialist team members,<br /><span className="accent">not one big brain.</span></h2>
+            <h2>Specialist team members,<br /><span className="accent">not one that does everything.</span></h2>
             <p>One watches for work coming due. One watches what is about to lapse. One notices a customer who has gone quiet. One drafts the message and one checks it against your rules before you ever see it.</p>
             <p style={{ marginTop: 14 }}>Each has a single job, a written list of what it may touch, and an authority level that says how far it can go on its own. Nothing that commits money or reaches a customer gets past &ldquo;draft&rdquo; without a named person.</p>
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>

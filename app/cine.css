@@ -980,3 +980,15 @@
 @media (prefers-reduced-motion: reduce) {
   .cine .asm-core, .cine .asm-port-dot, .cine .asm-wire, .cine .asm-chip { transition: none; }
 }
+
+/* The cine nav had no narrow-width rule at all, so below roughly 900px the
+   wordmark and the links sat on top of each other. */
+@media (max-width: 900px) {
+  .cine .nav { padding: 14px 20px; }
+  .cine .nav-links { display: none; }
+  .cine .wordmark { font-size: 1.15rem; }
+  .cine .nav-cta { padding: 9px 16px; font-size: 0.72rem; }
+}
+@media (max-width: 620px) {
+  .cine .hero { padding: 76px 20px 48px; }
+}
