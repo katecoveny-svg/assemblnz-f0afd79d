@@ -30,7 +30,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const FETCH_TIMEOUT_MS = 9_000;
-const MAX_BYTES = 900_000;
+const MAX_BYTES = 2_000_000;
 const MAX_TEXT = 14_000;
 
 const HITS = new Map<string, number[]>();
@@ -106,9 +106,57 @@ async function safeUrl(raw: string): Promise<URL | null> {
   return u;
 }
 
+/**
+ * Harvest the parts of a page that carry meaning but sit outside the body.
+ *
+ * Single-page apps render their content in the browser, so stripping tags
+ * leaves almost nothing — giltrap.com yields 1,900 characters that way, which
+ * is too thin to read a business from. What those sites *do* ship in the HTML
+ * is the title, the meta and Open Graph description, and JSON-LD structured
+ * data. That is often the richest description of the business on the page.
+ */
+function harvestMeta(html: string): string {
+  const out: string[] = [];
+
+  const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1];
+  if (title) out.push(`Page title: ${title.trim()}`);
+
+  const metaOf = (name: string) => {
+    const re = new RegExp(
+      `<meta[^>]+(?:name|property)=["']${name}["'][^>]+content=["']([^"']+)["']`, 'i');
+    const alt = new RegExp(
+      `<meta[^>]+content=["']([^"']+)["'][^>]+(?:name|property)=["']${name}["']`, 'i');
+    return re.exec(html)?.[1] ?? alt.exec(html)?.[1];
+  };
+  for (const [label, key] of [
+    ['Description', 'description'],
+    ['Site name', 'og:site_name'],
+    ['Open Graph title', 'og:title'],
+    ['Open Graph description', 'og:description'],
+  ] as const) {
+    const v = metaOf(key);
+    if (v) out.push(`${label}: ${v.trim()}`);
+  }
+
+  // JSON-LD is where a well-built site describes itself properly.
+  const ld = html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi);
+  for (const m of ld) {
+    const raw = (m[1] ?? '').trim();
+    if (raw.length > 4 && raw.length < 6_000) out.push(`Structured data: ${raw}`);
+  }
+
+  // Image alt text names products and services on image-led sites.
+  const alts = [...html.matchAll(/<img[^>]+alt=["']([^"']{4,90})["']/gi)]
+    .map((m) => m[1]!.trim())
+    .filter((a) => !/^(icon|logo|image|photo|banner|arrow|chevron)$/i.test(a));
+  if (alts.length) out.push(`Images on the page: ${[...new Set(alts)].slice(0, 30).join(' · ')}`);
+
+  return out.join('\n');
+}
+
 /** Strip a page to readable text, dropping chrome that adds no signal. */
 function toText(html: string): string {
-  return html
+  const body = html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
@@ -120,8 +168,10 @@ function toText(html: string): string {
     .replace(/&#39;|&rsquo;/g, "'")
     .replace(/&quot;|&ldquo;|&rdquo;/g, '"')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, MAX_TEXT);
+    .trim();
+  const meta = harvestMeta(html);
+  const combined = meta ? `${meta}\n\nPage text:\n${body}` : body;
+  return combined.slice(0, MAX_TEXT);
 }
 
 async function fetchBody(u: URL, accept: string): Promise<string | null> {
@@ -138,8 +188,12 @@ async function fetchBody(u: URL, accept: string): Promise<string | null> {
     });
     if (!res.ok) return null;
     const buf = await res.arrayBuffer();
-    if (buf.byteLength > MAX_BYTES) return null;
-    return new TextDecoder().decode(buf);
+    // A big page is not an unreadable one. Rejecting anything over the cap
+    // meant a 1.3MB retail homepage came back as "couldn't read that site",
+    // when everything worth reading sits in the first chunk anyway. Truncate
+    // instead of failing — the cap is here to bound memory, not to judge.
+    const slice = buf.byteLength > MAX_BYTES ? buf.slice(0, MAX_BYTES) : buf;
+    return new TextDecoder('utf-8', { fatal: false }).decode(slice);
   } catch {
     return null;
   } finally {
