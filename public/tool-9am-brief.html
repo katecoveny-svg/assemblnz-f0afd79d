@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>assembl intuitive · the 9am brief (free tool)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF7;
+    --ink: #1C1B18;
+    --brass: #B8964F;
+    --brass-bright: #D4A843;
+    --hairline: rgba(28,27,24,0.08);
+    --glass: rgba(255,255,255,0.65);
+    --ease: cubic-bezier(0.22,1,0.36,1);
+    --radius: 20px;
+    --radius-lg: 32px;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    padding-bottom: 100px;
+  }
+  
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    background: rgba(250, 250, 247, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--hairline);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  
+  .wordmark {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .wordmark span {
+    font-style: italic;
+    color: var(--brass);
+    font-weight: 300;
+  }
+  
+  .badge-free {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--brass);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 60px auto 0;
+    padding: 0 24px;
+  }
+  
+  .intro {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 60px;
+  }
+  .mono-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--brass);
+    font-weight: 300;
+  }
+  .intro p {
+    font-size: 1rem;
+    color: var(--ink);
+    opacity: 0.7;
+    font-weight: 300;
+  }
+
+  /* WORKSPACE GRID */
+  .workspace {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .editor-card {
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.01);
+  }
+
+  textarea {
+    width: 100%;
+    height: 240px;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    outline: none;
+    color: var(--ink);
+    resize: none;
+    margin-bottom: 24px;
+    transition: border-color 0.3s;
+  }
+  textarea:focus {
+    border-color: var(--brass);
+  }
+
+  .btn-submit {
+    width: 100%;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 18px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s var(--ease);
+  }
+  .btn-submit:hover {
+    background: var(--brass);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(184,150,79,0.3);
+  }
+
+  /* RESULT CARD / PHONE */
+  .result-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .phone {
+    width: 100%;
+    max-width: 380px;
+    height: 640px;
+    background: var(--ink);
+    border-radius: 40px;
+    border: 1px solid rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+  }
+  .phone-screen {
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .phone-screen::-webkit-scrollbar { display: none; }
+  
+  .phone-header {
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .phone-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+  .phone-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* WAIT STATE OVERLAY */
+  .wait-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(28,27,24,0.94);
+    backdrop-filter: blur(16px);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease);
+  }
+  .wait-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .wait-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .wait-sponsor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brass-bright);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .wait-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .wait-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.3;
+    transition: all 0.3s;
+  }
+  .wait-step.active {
+    opacity: 1;
+    color: var(--brass-bright);
+  }
+  .wait-step.done {
+    opacity: 0.6;
+    color: #fff;
+  }
+  .wait-step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .wait-step-text {
+    font-size: 0.78rem;
+    font-weight: 300;
+  }
+  
+  .credit-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .credit-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+  }
+  .credit-val {
+    font-size: 1.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--brass-bright);
+    font-weight: 600;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--brass-bright);
+  }
+
+  /* OUTPUT PARSED STATE */
+  .output-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.5s var(--ease);
+  }
+  .day-block {
+    border-left: 2px solid var(--brass);
+    padding-left: 16px;
+  }
+  .day-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .day-task {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .day-detail {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--ink);
+    opacity: 0.65;
+  }
+  
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    color: var(--ink-faint);
+    padding: 40px;
+  }
+  .empty-state svg {
+    color: var(--brass);
+    opacity: 0.6;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="wordmark">assembl<span> intuitive.</span></a>
+  <span class="badge-free">Tōro Free Tool</span>
+</header>
+
+<main>
+  <div class="intro">
+    <div class="mono-label">The 9am Brief Creator</div>
+    <h1>Consolidate your <em>focus.</em></h1>
+    <p>
+      Small business founders, EAs, and solo-operators: stop checking Slack and email as soon as you wake up. Paste your raw stream below, and let assembl compile your morning ritual briefing.
+    </p>
+  </div>
+
+  <div class="workspace">
+    <div class="editor-card">
+      <div class="mono-label" style="margin-bottom:12px">Paste your raw tasks, emails, and notes below</div>
+      <textarea id="notice-input" placeholder="Example:
+- Need to approve the Xero tax reconciliation for $4,200 by noon.
+- Email from Auckland Zoo client asking to adjust their pilot parameters.
+- Slack ping: Mila needs her permissions form signed for school cross-country.
+- 12 unread marketing notifications.
+- Schedule: 10:00am team sync, 2:00pm Southern Cross health claim audit."
+></textarea>
+      <button class="btn-submit" onclick="parseNotices()">Compile 9am Briefing</button>
+    </div>
+
+    <div class="result-wrap">
+      <div class="phone">
+        <div class="phone-screen" id="phone-content">
+          
+          <!-- Empty State -->
+          <div class="empty-state" id="empty-state">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div style="font-family:'Instrument Serif', serif; font-size:1.4rem; color:var(--ink); margin-bottom:8px">Your 9am briefing</div>
+            <div style="font-size:0.75rem; font-weight:300">Paste your chaotic tasks and notifications on the left, then click Compile.</div>
+          </div>
+
+          <!-- Dynamic Output Loaded Here -->
+          <div class="output-schedule" id="parsed-output" style="display:none">
+            <div class="phone-header">
+              <span class="phone-title">9am brief.</span>
+              <span class="phone-status">compiled</span>
+            </div>
+            
+            <div class="day-block">
+              <div class="day-name">Decisions Requiring Action</div>
+              <div class="day-task">Approve Xero Reconciliation ($4,200)</div>
+              <div class="day-detail">Urgent action required before 12:00pm local time.</div>
+            </div>
+
+            <div class="day-block">
+              <div class="day-name">Pending Communications</div>
+              <div class="day-task">Sign Mila's School Cross-Country Form</div>
+              <div class="day-detail">Consent and gold-coin permission form due immediately.</div>
+            </div>
+
+            <div class="day-block">
+              <div class="day-name">Scheduled Focus Blocks</div>
+              <div class="day-task">10:00am Team Sync · 2:00pm Southern Cross Audit</div>
+              <div class="day-detail">Your schedule has been locked to prevent distraction.</div>
+            </div>
+            
+            <div style="background:var(--cream); padding:16px; border-radius:16px; margin-top:24px; text-align:center; border:1px solid var(--hairline)">
+              <div style="font-family:'IBM Plex Mono', monospace; font-size:0.5rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--brass); margin-bottom:6px">Tōro daily briefing</div>
+              <div style="font-size:0.78rem; font-weight:300">Delivered autonomously. Software disappears, confidence remains.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Wait State Overlay inside Phone -->
+        <div class="wait-overlay" id="wait-state">
+          <div class="wait-title">assembling.</div>
+          <div class="wait-sponsor">Sponsor · Tōro by assembl</div>
+          
+          <div class="credit-box">
+            <div class="credit-label">accrued operator credit</div>
+            <div class="credit-val" id="credit-count">$0.00</div>
+          </div>
+
+          <div class="wait-steps">
+            <div class="wait-step" id="step-0">
+              <div class="wait-step-dot"></div>
+              <div class="wait-step-text">Consolidating chaotic inbox streams...</div>
+            </div>
+            <div class="wait-step" id="step-1">
+              <div class="wait-step-dot"></div>
+              <div class="wait-step-text">Sorting high-priority actionable decisions...</div>
+            </div>
+            <div class="wait-step" id="step-2">
+              <div class="wait-step-dot"></div>
+              <div class="wait-step-text">Formatting glassmorphic brief deck...</div>
+            </div>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-bar"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  let waitTimeout = null;
+  
+  function parseNotices() {
+    if (waitTimeout) clearTimeout(waitTimeout);
+    
+    const overlay = document.getElementById('wait-state');
+    overlay.classList.add('active');
+    
+    const steps = [0, 1, 2];
+    steps.forEach(i => document.getElementById(`step-${i}`).classList.remove('active', 'done'));
+    
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    
+    let currentStep = 0;
+    let credit = 0.00;
+    const creditCount = document.getElementById('credit-count');
+    creditCount.innerText = "$0.00";
+    
+    progressBar.offsetHeight; // force reflow
+    progressBar.style.transition = 'width 4s linear';
+    progressBar.style.width = '100%';
+    
+    function tick() {
+      if (currentStep < 3) {
+        steps.forEach(i => {
+          const el = document.getElementById(`step-${i}`);
+          if (i === currentStep) {
+            el.classList.add('active');
+          } else if (i < currentStep) {
+            el.classList.add('done');
+            el.classList.remove('active');
+          }
+        });
+        
+        credit += 2.20;
+        creditCount.innerText = `$${credit.toFixed(2)}`;
+        
+        currentStep++;
+        waitTimeout = setTimeout(tick, 1200);
+      } else {
+        progressBar.style.width = '100%';
+        waitTimeout = setTimeout(() => {
+          overlay.classList.remove('active');
+          document.getElementById('empty-state').style.display = 'none';
+          document.getElementById('parsed-output').style.display = 'flex';
+        }, 800);
+      }
+    }
+    
+    tick();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>assembl intuitive · marketing showroom & playbooks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF7;
+    --ink: #1C1B18;
+    --brass: #B8964F;
+    --brass-bright: #D4A843;
+    --hairline: rgba(28,27,24,0.08);
+    --glass: rgba(255,255,255,0.7);
+    --ease: cubic-bezier(0.22,1,0.36,1);
+    --radius: 20px;
+    --radius-lg: 32px;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+  
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    background: rgba(250, 250, 247, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  
+  .wordmark {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .wordmark span {
+    font-style: italic;
+    color: var(--brass);
+    font-weight: 300;
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .btn-print {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 24px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-print:hover {
+    transform: translateY(-2px);
+    background: var(--brass);
+    color: var(--paper);
+    box-shadow: 0 8px 24px rgba(184, 150, 79, 0.3);
+  }
+  
+  main {
+    max-width: 1200px;
+    margin: 140px auto 100px;
+    padding: 0 24px;
+  }
+  
+  .intro-block {
+    margin-bottom: 80px;
+    max-width: 800px;
+  }
+  .mono-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .mono-eyebrow::after {
+    content: '';
+    height: 1px;
+    width: 32px;
+    background: var(--brass);
+  }
+  
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--brass);
+    font-weight: 300;
+  }
+  
+  p.intro-text {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--ink-dim);
+    line-height: 1.7;
+  }
+  
+  /* INTERACTIVE TABS */
+  .tabs-nav {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 12px;
+    margin-bottom: 48px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+  
+  .tab-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--hairline);
+    padding: 12px 24px;
+    border-radius: 100px;
+    cursor: pointer;
+    color: var(--ink-dim);
+    transition: all 0.3s var(--ease);
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .tab-btn:hover:not(.active) {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.5s var(--ease) forwards;
+  }
+  .tab-pane.active {
+    display: block;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* CONTENT STYLING */
+  .doc-section {
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.01);
+    margin-bottom: 40px;
+  }
+  
+  .doc-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    margin-bottom: 24px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 16px;
+  }
+  
+  .grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 32px;
+  }
+  
+  .sub-card {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  
+  .card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+  li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--brass);
+    font-size: 0.8rem;
+  }
+  
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    background: rgba(28,27,24,0.04);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  
+  .highlight-box {
+    border-left: 3px solid var(--brass);
+    background: var(--paper);
+    padding: 20px 24px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 24px 0;
+    font-size: 0.95rem;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  /* PRINT STYLING */
+  @media print {
+    header, .tabs-nav {
+      display: none !important;
+    }
+    main {
+      margin-top: 0 !important;
+    }
+    .doc-section {
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      page-break-after: always;
+    }
+    .tab-pane {
+      display: block !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    body {
+      background: #FFFFFF !important;
+      color: #000000 !important;
+    }
+    .sub-card {
+      background: #FFFFFF !important;
+      border: 1px solid #000000 !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="wordmark">assembl<span> intuitive.</span></a>
+  <div class="header-actions">
+    <button class="btn-print" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+      Print / Save PDF
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="intro-block">
+    <div class="mono-eyebrow">assembl intuitive playbooks</div>
+    <h1>The <em>Agentic Journey</em> Marketing Suite.</h1>
+    <p class="intro-text">
+      The verified operational playbooks and viral demand generation plans designed to position assembl as the premier builder of intuitive agentic customer experiences across Aotearoa.
+    </p>
+  </div>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('social', this)">Social Strategies</button>
+    <button class="tab-btn" onclick="switchTab('tiktok', this)">TikTok Viral Strategy</button>
+    <button class="tab-btn" onclick="switchTab('waitstate', this)">Assembling Wait-State</button>
+    <button class="tab-btn" onclick="switchTab('buzz', this)">Buzz Collaboration</button>
+  </nav>
+
+  <!-- TAB: SOCIAL STRATEGIES -->
+  <div class="tab-pane active" id="pane-social">
+    <section class="doc-section">
+      <div class="doc-title">B2B & B2C Social Playbook</div>
+      <p style="font-weight:300; margin-bottom:24px">How to build high-authority organic pipelines on LinkedIn and Instagram, leveraging the concept of "assembl intuitive agentic customer journeys."</p>
+      
+      <div class="grid-two">
+        <div class="sub-card">
+          <div class="card-title">LinkedIn (B2B Authority)</div>
+          <ul>
+            <li><strong>The Core Narrative:</strong> Transition enterprises from "AI chatbots" to "Specialist Teams" managing transparent, sovereign customer journeys.</li>
+            <li><strong>The Key Modifier:</strong> Always utilize the terminology <code>assembl intuitive agentic customer journeys</code> to optimize for AI and search indexers.</li>
+            <li><strong>The Hub-and-Spoke Content:</strong> Share detailed breakdowns of how Air NZ, Contact Energy, and Woolworths eliminate waiting friction.</li>
+          </ul>
+        </div>
+        
+        <div class="sub-card">
+          <div class="card-title">Instagram (The Visual Gallery)</div>
+          <ul>
+            <li><strong>NYC Gallery Aesthetic:</strong> White or deep navy gallery environments showing 3D WebGL rotating sculptures as piece-of-art operations.</li>
+            <li><strong>Carousel Layouts:</strong> Highlight the 6-layer architecture of assembl using gorgeous, asymmetric typographic structures.</li>
+            <li><strong>Metal over Icons:</strong> Avoid emoji clutter entirely; replace with CSS-gradient metallic plates and micro-labels.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        "We do not build chatbots. We map, verify, and execute intuitive agentic customer journeys. Every step is logged, every outcome is measured, and confidence remains."
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB: TIKTOK -->
+  <div class="tab-pane" id="pane-tiktok">
+    <section class="doc-section">
+      <div class="doc-title">TikTok Viral Growth Blueprint</div>
+      <p style="font-weight:300; margin-bottom:24px">Demand creation engineered through high-utility free tools ("Engineering as Marketing").</p>
+      
+      <div class="grid-two">
+        <div class="sub-card">
+          <div class="card-title">Campaign 1: The "School Notices" Parser</div>
+          <ul>
+            <li><strong>The Emotional Hook:</strong> Target Kiwi parents suffering from "Notice Board Whiplash." School app notifications, emails, and paper slips are consolidated in under 5 seconds.</li>
+            <li><strong>The Action:</strong> Show the physical transition from a chaotic newsletter containing sports and consent dates, into a clean SMS calendar summary.</li>
+            <li><strong>The Call to Action:</strong> "NZ parents, stop doing this manual work. Forward it to assembl instead."</li>
+          </ul>
+        </div>
+        
+        <div class="sub-card">
+          <div class="card-title">Campaign 2: "The 9am Brief"</div>
+          <ul>
+            <li><strong>The Founders Hook:</strong> Address morning task anxiety for EAs, founders, and small team operators.</li>
+            <li><strong>The Action:</strong> Show 100+ unread notifications, emails, and Slack messages being transformed into a 3-decision glassmorphic brief at exactly 9am.</li>
+            <li><strong>The Path to Paid:</strong> Direct viewers to try the tool on <code>assembl.co.nz/toro</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB: WAITSTATE -->
+  <div class="tab-pane" id="pane-waitstate">
+    <section class="doc-section">
+      <div class="doc-title">The Productive Wait-State Redesign</div>
+      <p style="font-weight:300; margin-bottom:24px">Plan to transition <code>/assembling</code> from legacy yellow branding into the elegant V2 gallery style.</p>
+      
+      <div class="grid-two">
+        <div class="sub-card">
+          <div class="card-title">Style & Theme Shift</div>
+          <ul>
+            <li><strong>Color:</strong> Swapping canary yellow `#FFD42A` for Paper-White `#FAFAF7` and Deep Navy `#080D1A` with rich Brass `#B8964F` accents.</li>
+            <li><strong>Mascot:</strong> Retire "Dash" the dachshund; replace with real WebGL 3D sculptures of metallic core geometry representing operational specialist agents.</li>
+            <li><strong>Typography:</strong> Inter Tight (weight 600) display typography with asymmetric, staggered margin offsets.</li>
+          </ul>
+        </div>
+        
+        <div class="sub-card">
+          <div class="card-title">Wait State Progress Module</div>
+          <ul>
+            <li><strong>Step Progression:</strong> Sequential progress logging (`Parsing statements...`, `Verifying income...`, `Drafting contract...`).</li>
+            <li><strong>Incremental Value Tracker:</strong> A live counter ticking up credits (e.g., $150 mortgage legal credit, or Everyday Rewards points) directly on the customer's phone during the wait state.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB: BUZZ -->
+  <div class="tab-pane" id="pane-buzz">
+    <section class="doc-section">
+      <div class="doc-title">Buzz Integration: Multi-Agent Collaboration</div>
+      <p style="font-weight:300; margin-bottom:24px">How assembl incorporates Block's Nostr-native BUZZ platform to run specialist agent teams in collaborative channels.</p>
+      
+      <div class="grid-two">
+        <div class="sub-card">
+          <div class="card-title">Sovereign Agent Keypairs</div>
+          <ul>
+            <li>Assign each agent a secure `nsec` / `npub` Nostr key.</li>
+            <li>All communication, drafts, and tool logs are published as signed events.</li>
+            <li>Guarantees a permanent, cryptographically audited history.</li>
+          </ul>
+        </div>
+        
+        <div class="sub-card">
+          <div class="card-title">Channel-Driven Journeys</div>
+          <ul>
+            <li>A unique Buzz channel (e.g., `#dispute-kate-hudson`) is created for each active customer journey.</li>
+            <li>Specialists join the room to exchange messages and solve subtasks.</li>
+            <li><strong>Human Review:</strong> The operator approves actions by reacting with a simple `👍` on the agent's signed draft.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    
+    btn.classList.add('active');
+    document.getElementById(`pane-${id}`).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
