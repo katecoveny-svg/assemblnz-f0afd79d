@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { CineFooter } from './CineFooter';
 import { BlueprintStart } from './BlueprintStart';
+import { AgentAssembler } from './AgentAssembler';
 import * as THREE from 'three';
 
 /**
@@ -598,6 +599,10 @@ export function CinematicHome() {
             <a className="btn btn-glass" href="/build-an-agent" style={{ marginTop: 28 }}>assemble an agent →</a>
           </div>
           <div className="panel reveal-right" data-delay="200">
+            <div className="panel-header">Build one <span className="live">click a part</span></div>
+            <AgentAssembler />
+          </div>
+          <div className="panel reveal-right" data-delay="320" style={{ marginTop: 22 }}>
             <div className="panel-header">How far each one may go <span className="live">authority</span></div>
             <div className="d-row"><div className="m-shape navy">01</div><div className="d-name">Observe</div><div className="d-tag">watches, says nothing</div></div>
             <div className="d-row"><div className="m-shape chrome">02</div><div className="d-name">Draft</div><div className="d-tag">writes it, holds it</div></div>

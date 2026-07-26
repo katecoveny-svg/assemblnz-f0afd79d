@@ -899,3 +899,84 @@
   font-size: 0.72rem; line-height: 1.55; color: var(--ink-3);
 }
 .cine .sc-consent input { margin-top: 3px; accent-color: var(--brass); flex: 0 0 auto; }
+
+/* ══ the assembler — six parts, one core, click to place ══════════════════ */
+.cine .asm { --asm-accent: var(--brass); margin-top: 40px; }
+.cine .asm-stage {
+  position: relative; width: 100%; max-width: 560px; margin: 0 auto;
+  aspect-ratio: 1 / 1;
+}
+.cine .asm-wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.cine .asm-wire {
+  stroke: rgba(26, 25, 23, 0.13); stroke-width: 0.35; vector-effect: non-scaling-stroke;
+  transition: stroke 0.5s ease, stroke-width 0.5s ease;
+}
+.cine .asm-wire.on { stroke: var(--asm-accent); stroke-width: 1.1; }
+.cine .asm-core {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 27%; aspect-ratio: 1; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 34% 30%, #fffdf8, #efe9dc 62%, #ddd5c4);
+  border: 1px solid rgba(184, 150, 79, 0.4);
+  box-shadow: 0 0 0 0 rgba(184, 150, 79, 0.32), 0 16px 40px -18px rgba(26, 25, 23, 0.4);
+  transition: box-shadow 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.cine .asm-core[data-count="3"], .cine .asm-core[data-count="4"] { box-shadow: 0 0 0 10px rgba(184,150,79,0.08), 0 16px 40px -18px rgba(26,25,23,0.4); }
+.cine .asm-core[data-count="5"] { box-shadow: 0 0 0 16px rgba(184,150,79,0.10), 0 16px 40px -18px rgba(26,25,23,0.4); }
+.cine .asm-core.done {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 0 22px rgba(184, 150, 79, 0.13), 0 22px 54px -18px rgba(26, 25, 23, 0.46);
+}
+.cine .asm-core-n { font-family: 'Cormorant Garamond', serif; font-size: 2.1rem; line-height: 1; color: var(--ink); }
+.cine .asm-core-of { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+.cine .asm-port {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  background: none; border: 0; cursor: pointer; padding: 6px; width: 116px;
+}
+.cine .asm-port-dot {
+  width: 15px; height: 15px; border-radius: 50%;
+  border: 1px solid rgba(26, 25, 23, 0.26); background: rgba(255, 255, 255, 0.9);
+  transition: all 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.cine .asm-port.on .asm-port-dot {
+  background: var(--asm-accent); border-color: var(--asm-accent);
+  transform: scale(1.5); box-shadow: 0 0 0 6px rgba(184, 150, 79, 0.16);
+}
+.cine .asm-port-name {
+  font-size: 0.72rem; line-height: 1.25; text-align: center; color: var(--ink-3);
+  transition: color 0.4s ease;
+}
+.cine .asm-port.on .asm-port-name { color: var(--ink); font-weight: 500; }
+.cine .asm-port:hover .asm-port-name { color: var(--ink); }
+.cine .asm-tray { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 26px; }
+.cine .asm-chip {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 10px 15px; border-radius: 12px; cursor: pointer;
+  border: 1px solid rgba(26, 25, 23, 0.14); background: rgba(255, 255, 255, 0.78);
+  transition: all 0.3s ease;
+}
+.cine .asm-chip:hover:not(:disabled) { border-color: var(--asm-accent); transform: translateY(-2px); }
+.cine .asm-chip.on { opacity: 0.34; cursor: default; }
+.cine .asm-chip-name { font-size: 0.84rem; color: var(--ink); }
+.cine .asm-chip-auth { font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--brass); }
+.cine .asm-read {
+  margin: 26px auto 0; max-width: 560px; min-height: 128px;
+  padding: 20px 22px; border-radius: 16px;
+  border: 1px solid rgba(26, 25, 23, 0.09); background: rgba(255, 255, 255, 0.6);
+}
+.cine .asm-read-empty { font-size: 0.95rem; color: var(--ink-2); line-height: 1.6; margin: 0; }
+.cine .asm-read-head { font-size: 1.08rem; color: var(--ink); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.cine .asm-read-done { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; }
+.cine .asm-read-auth { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brass); border: 1px solid rgba(184,150,79,0.4); border-radius: 99px; padding: 3px 9px; }
+.cine .asm-read-job { font-size: 0.95rem; color: var(--ink-2); line-height: 1.6; margin: 9px 0 0; }
+.cine .asm-read-detail { font-size: 0.87rem; color: var(--ink-3); line-height: 1.55; margin: 7px 0 0; }
+.cine .asm-again { margin-top: 14px; background: none; border: 0; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass); }
+@media (max-width: 620px) {
+  .cine .asm-stage { max-width: 340px; }
+  .cine .asm-port { width: 84px; }
+  .cine .asm-port-name { font-size: 0.62rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cine .asm-core, .cine .asm-port-dot, .cine .asm-wire, .cine .asm-chip { transition: none; }
+}
