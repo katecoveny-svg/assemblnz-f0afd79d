@@ -1399,3 +1399,10 @@
   font-family: 'Lato', sans-serif; font-size: 0.84rem; line-height: 1.55; color: var(--ink);
 }
 .cine .gallery-hand b { font-weight: 700; }
+
+/* the wait section's tier pointer — one line, the strategy's front door */
+.cine .wait-tier {
+  margin-top: 10px !important; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem !important; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.cine .wait-tier a { color: var(--brass-bright); text-decoration: none; border-bottom: 1px solid rgba(212, 168, 67, 0.45); }

@@ -496,6 +496,9 @@ export function CinematicHome() {
             <div className="kicker">02 — The Wait</div>
             <h2>The only part<br /><span className="accent">nobody else builds.</span></h2>
             <p>Tap through it. Minutes your customer would resent become loyalty they keep.</p>
+            <p className="wait-tier">
+              Tier one of three, live — <a href="/assembling">the monetisation framework →</a>
+            </p>
           </div>
           <div className="wsp-hold reveal-left" data-delay="200">
             <WaitState />

@@ -141,6 +141,12 @@ em.g{font-style:normal;color:var(--accent)}
 .pow span{font-size:12px;color:var(--muted);line-height:1.5}
 .prinline{margin-top:16px;font-size:11px;letter-spacing:.06em;color:var(--muted-2);line-height:1.7}
 .prinline em{font-style:normal;color:var(--champ)}
+.tiersline{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:30px}
+.tl{border:1px solid var(--line-2);border-radius:16px;padding:15px 17px;background:rgba(13,13,15,.6)}
+.tl.on{border-color:var(--accent);background:rgba(13,13,15,.85)}
+.tl i{font-style:normal;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.tl b{display:block;font-size:13.5px;margin:6px 0 4px}
+.tl span{font-size:11.5px;color:var(--muted);line-height:1.5}
 /* the explainer sits on the dark page, so it takes the page's own ink */
 #wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
   --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -306,6 +312,11 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <div class="pow"><i>04 — VALUE EXCHANGE</i><b>The wait pays</b><span>The customer earns as they watch, and one optional question comes back the other way.</span></div>
   </div>
   <p class="prinline rise"><em>Be relevant</em> — right thing, right moment · <em>Be respectful</em> — short, skippable, quiet by design · <em>Be measurable</em> — real impact, on the record · <em>Be Aotearoa</em> — built here, for how Kiwis actually wait</p>
+  <div class="tiersline rise">
+    <div class="tl on"><i>tier 01 · this concept, live</i><b>The assembling loader</b><span>The wait shown, the wait paid — what this page runs.</span></div>
+    <div class="tl"><i>tier 02 · the path</i><b>The sponsored chat line</b><span>A labelled co-pilot behind this journey, stepping forward only with found value.</span></div>
+    <div class="tl"><i>tier 03 · the path</i><b>The joint-venture UI</b><span>A shared surface with your partners — every action still ends in a human approval.</span></div>
+  </div>
 </div></section>
 
 <section id="mirror"><div class="wrap">

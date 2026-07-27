@@ -183,6 +183,12 @@ em.g{font-style:normal;color:var(--accent)}
 .pow span{font-size:12px;color:var(--muted);line-height:1.5}
 .prinline{margin-top:16px;font-size:11px;letter-spacing:.06em;color:var(--muted-2);line-height:1.7}
 .prinline em{font-style:normal;color:var(--champ)}
+.tiersline{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:30px}
+.tl{border:1px solid var(--line-2);border-radius:16px;padding:15px 17px;background:rgba(13,13,15,.6)}
+.tl.on{border-color:var(--accent);background:rgba(13,13,15,.85)}
+.tl i{font-style:normal;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.tl b{display:block;font-size:13.5px;margin:6px 0 4px}
+.tl span{font-size:11.5px;color:var(--muted);line-height:1.5}
 /* the explainer sits on the dark page, so it takes the page's own ink */
 #wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
   --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -344,6 +350,11 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <div class="pow"><i>04 \u2014 VALUE EXCHANGE</i><b>The wait pays</b><span>The customer earns as they watch, and one optional question comes back the other way.</span></div>
   </div>
   <p class="prinline rise"><em>Be relevant</em> \u2014 right thing, right moment \u00b7 <em>Be respectful</em> \u2014 short, skippable, quiet by design \u00b7 <em>Be measurable</em> \u2014 real impact, on the record \u00b7 <em>Be Aotearoa</em> \u2014 built here, for how Kiwis actually wait</p>
+  <div class="tiersline rise">
+    <div class="tl on"><i>tier 01 \u00b7 this concept, live</i><b>The assembling loader</b><span>The wait shown, the wait paid \u2014 what this page runs.</span></div>
+    <div class="tl"><i>tier 02 \u00b7 the path</i><b>The sponsored chat line</b><span>A labelled co-pilot behind this journey, stepping forward only with found value.</span></div>
+    <div class="tl"><i>tier 03 \u00b7 the path</i><b>The joint-venture UI</b><span>A shared surface with your partners \u2014 every action still ends in a human approval.</span></div>
+  </div>
 </div></section>
 
 <section id="mirror"><div class="wrap">
@@ -916,6 +927,8 @@ function boardPage(c) {
     <div class="pow"><i>03 \u00b7 value delivery</i><b>Worth the minutes</b><span>The work shown as it happens \u2014 useful, short, skippable.</span></div>
     <div class="pow"><i>04 \u00b7 value exchange</i><b>The wait pays</b><span>The customer earns; one optional question comes back.</span></div>
   </div>
+
+  <p style="margin-top:12px;font-size:12px;color:var(--soft)">This concept is <b style="color:var(--ink)">tier 01 of three</b> \u2014 the assembling loader. The path: a labelled sponsored chat line, then a joint-venture surface. Full framework: assembl.co.nz/assembling</p>
 
   <h2>The exchange</h2>
   <div class="duo">
