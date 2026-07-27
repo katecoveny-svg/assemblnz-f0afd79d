@@ -1253,10 +1253,81 @@
 /* dragging happens on the canvas — let it take the pointer */
 .cine .shrm-canvas { pointer-events: auto; touch-action: none; cursor: grab; }
 .cine .shrm-canvas:active { cursor: grabbing; }
+
+/* the plinth speaks — the lesson card that follows the walk */
+.cine .shrm-lesson {
+  position: absolute; bottom: 96px; left: 48px; z-index: 2; max-width: 400px;
+  background: rgba(251,248,241,0.94); border: 1.5px solid rgba(184,150,79,0.55);
+  border-radius: 20px; padding: 20px 24px 18px; backdrop-filter: blur(10px);
+  box-shadow: 0 16px 40px -18px rgba(27,26,23,0.35);
+  animation: shrm-lesson-in 0.45s var(--ease-out);
+}
+@keyframes shrm-lesson-in { from { opacity: 0; transform: translateY(10px); } }
+.cine .shrm-lesson-k {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #8A6A2E; margin-bottom: 8px;
+}
+.cine .shrm-lesson b {
+  display: block; font-family: 'Lato', sans-serif; font-weight: 700;
+  font-size: 1.24rem; color: #1B1A17; margin-bottom: 6px;
+}
+.cine .shrm-lesson p {
+  margin: 0; font-family: 'Lato', sans-serif; font-weight: 400;
+  font-size: 0.85rem; line-height: 1.55; color: rgba(27,26,23,0.86);
+}
+.cine .shrm-lesson-j { margin-top: 10px !important; padding-top: 10px; border-top: 1px solid rgba(184,150,79,0.35); }
+.cine .shrm-lesson-j span {
+  display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  letter-spacing: 0.18em; text-transform: uppercase; color: #8A6A2E; margin-bottom: 4px;
+}
+
+/* assembled — the finale block: the document is the exit, not the old builder */
+.cine .shrm-finale {
+  position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%); z-index: 3;
+  width: min(680px, calc(100% - 44px)); text-align: center;
+  background: rgba(251,248,241,0.95); border: 1.5px solid rgba(184,150,79,0.6);
+  border-radius: 24px; padding: 26px 30px 24px; backdrop-filter: blur(12px);
+  box-shadow: 0 22px 54px -20px rgba(27,26,23,0.42);
+  animation: shrm-lesson-in 0.6s var(--ease-out);
+}
+.cine .shrm-finale > b {
+  display: block; font-family: 'Lato', sans-serif; font-weight: 700;
+  font-size: 1.5rem; color: #1B1A17;
+}
+.cine .shrm-finale > span {
+  display: block; margin-top: 6px; font-family: 'Lato', sans-serif; font-weight: 300;
+  font-size: 0.9rem; color: rgba(27,26,23,0.8);
+}
+.cine .shrm-finale-row {
+  display: flex; gap: 14px; align-items: center; justify-content: center;
+  flex-wrap: wrap; margin-top: 18px;
+}
+.cine .shrm-finale-row button {
+  cursor: pointer; border: 0; border-radius: 999px; padding: 15px 30px;
+  font-family: 'Lato', sans-serif; font-size: 0.9rem; font-weight: 700;
+  background: #1B1A17; color: #FBF8F1;
+  box-shadow: 0 14px 34px -14px rgba(27,26,23,0.55);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.cine .shrm-finale-row button:hover { transform: translateY(-2px); }
+.cine .shrm-finale-row button:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.cine .shrm-finale-row a {
+  font-family: 'Lato', sans-serif; font-size: 0.86rem; font-weight: 700;
+  color: #8A6A2E; text-decoration: none; border-bottom: 1px solid rgba(184,150,79,0.5);
+}
+.cine .shrm-finale-err {
+  display: block; margin-top: 10px; font-style: normal;
+  font-family: 'Lato', sans-serif; font-size: 0.78rem; color: #8A2E2E;
+}
+
 @media (max-width: 720px) {
   .cine .shrm { height: 320vh; }
   .cine .shrm-head { left: 22px; top: 84px; }
   .cine .shrm-door { right: 22px; bottom: 84px; }
+  .cine .shrm-lesson { left: 16px; right: 16px; max-width: none; bottom: 78px; padding: 16px 18px 14px; }
+  .cine .shrm-lesson p { font-size: 0.8rem; }
+  .cine .shrm-count { top: 84px; right: 16px; font-size: 1.4rem; padding: 9px 16px; }
+  .cine .shrm-finale { bottom: 18px; padding: 20px 18px 18px; }
 }
 
 /* ══ IN PLAIN WORDS — the crawlable Q&A above the footer ══ */

@@ -6,21 +6,21 @@ import * as THREE from 'three';
 /**
  * The showroom — a white, high-end gallery you walk through and assemble in.
  *
- * Kate's brief, 2026-07-26, second pass: "white high end … premium high end
- * art gallery in New York with brass, gold, liquid metal, black taurus knots
- * … that people can drag and literally assembl their agent. the labels are
- * horrendous and wrong blue and font … need rounded corners."
+ * Kate's brief, 2026-07-26: white NY gallery, brass and liquid metal, black
+ * gloss knots, drag-to-assemble. Second brief, 2026-07-27: the room must
+ * TEACH — "the plinth should say and explain exactly what that piece of the
+ * agent does… the customer journey should be actually explained visually.
+ * That's the whole idea." So every piece now carries a lesson card that
+ * follows the walk, the dais finale happens in the light (the old path dove
+ * into the dark doorway — Kate's "blank dark blue screen"), and assembling
+ * all six ends in a downloadable journey document, not the old builder.
  *
- * So: white marble room, warm spotlights with true shadows, six exhibits —
- * black piano-gloss torus knots, brass, liquid chrome — on ivory plinths with
- * rounded ivory Lato name cards. The camera rides a fixed path on scroll, and
- * every sample can be PICKED UP and dragged to the dais at the end of the
- * room: place all six and the doorway lights fully. A tap places a sample
- * too, so it works without a precise drag. That is the product, literally:
- * you assemble the agent.
- *
- * ?sp=0..1 pins the camera for capture (scrolled captures composite blank on
- * this page). Everything disposes on unmount.
+ * Engineering notes:
+ * - The render loop only runs while the room is on screen (IntersectionObserver)
+ *   — this page carries two WebGL scenes, and two live contexts is how mobile
+ *   Safari/Chrome start losing one.
+ * - webglcontextlost is preventDefault-ed so the context can come back.
+ * - ?sp=0..1 pins the camera for capture (scrolled captures composite blank).
  */
 
 const BONE = '#F4F1EA';
@@ -30,12 +30,36 @@ const GOLD = '#B8964F';
 const GOLD_HI = '#D4A843';
 
 const EXHIBITS = [
-  { name: 'Knowledge', note: 'what it may read' },
-  { name: 'Signals', note: 'what it watches for' },
-  { name: 'Ability', note: 'the one job it does' },
-  { name: 'Boundary', note: 'where it stops' },
-  { name: 'Approval', note: 'your yes, every time' },
-  { name: 'Flight log', note: 'what it did, kept' },
+  {
+    name: 'Knowledge', note: 'what it may read',
+    tell: 'Your website, your price list, your policies — the pages you choose, nothing else. It answers from these, and says so when it cannot.',
+    journey: 'The first enquiry is answered from your own words, not a guess.',
+  },
+  {
+    name: 'Signals', note: 'what it watches for',
+    tell: 'The enquiry that just landed. The order that changed. The silence since March. It notices, so nobody has to remember to.',
+    journey: 'The moment something needs attention, it has already been seen.',
+  },
+  {
+    name: 'Ability', note: 'the one job it does',
+    tell: 'Draft the quote. Prepare the reply. One job, done properly — never "everything".',
+    journey: 'The quote arrives drafted while your customer is still interested.',
+  },
+  {
+    name: 'Boundary', note: 'where it stops',
+    tell: 'What it must never say, spend or send — written down and enforced, not hoped for.',
+    journey: 'Your customer only ever sees what you would stand behind.',
+  },
+  {
+    name: 'Approval', note: 'your yes, every time',
+    tell: 'Nothing leaves without a named person saying so. The agent drafts; a human decides.',
+    journey: 'The wait while you decide is rewarded — never resented.',
+  },
+  {
+    name: 'Flight log', note: 'what it did, kept',
+    tell: 'Every step recorded in plain words, kept where you can read it — six months later, still there.',
+    journey: '"Where did this come from?" has a one-line answer.',
+  },
 ];
 
 /** Subtle height→normal noise; streak >1 smears it into brushed metal. */
@@ -71,8 +95,7 @@ function makeNormalTexture(size: number, streak: number, strength: number): THRE
   return tex;
 }
 
-/** Gallery name card: ivory, rounded, Lato — the old navy plates were the
- *  "horrendous and wrong blue" Kate called out. */
+/** Gallery name card: ivory, rounded, Lato. */
 function makeCard(name: string, note: string): THREE.CanvasTexture {
   const c = document.createElement('canvas');
   c.width = 512; c.height = 176;
@@ -103,6 +126,107 @@ export function Showroom() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [placed, setPlaced] = useState(0);
   const [lastPlaced, setLastPlaced] = useState<string | null>(null);
+  const [lesson, setLesson] = useState<number>(0);
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [pdfErr, setPdfErr] = useState('');
+
+  /**
+   * The journey document — what six placed pieces become. Client-side jsPDF,
+   * wrapped so a failed chunk can never strand the button (the builder's old
+   * downloadPdf taught us that the hard way).
+   */
+  const downloadPdf = async () => {
+    if (pdfBusy) return;
+    setPdfBusy(true); setPdfErr('');
+    try {
+      const { default: JsPDF } = await import('jspdf');
+      const doc = new JsPDF({ unit: 'pt', format: 'a4' });
+      const W = 595, M = 64;
+      const NAVY = '#0B1524', GOLDC = '#B8964F', SOFT = '#6E6A60';
+
+      // cover
+      doc.setFillColor(251, 248, 241);
+      doc.rect(0, 0, W, 842, 'F');
+      doc.setDrawColor(184, 150, 79); doc.setLineWidth(1.4);
+      doc.line(M, 130, W - M, 130);
+      doc.setTextColor(NAVY);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+      doc.text('assembl', M, 110);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(SOFT);
+      doc.text('intuitive agentic customer journeys', M + 52, 110);
+      doc.setTextColor(NAVY); doc.setFont('helvetica', 'bold'); doc.setFontSize(40);
+      doc.text('Your agent,', M, 300);
+      doc.text('assembled.', M, 348);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(12); doc.setTextColor(SOFT);
+      doc.text('Six parts, placed by hand in the assembl gallery —', M, 396);
+      doc.text('and what they become in your customer journey.', M, 414);
+      doc.setFontSize(9);
+      doc.text(new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' }), M, 760);
+      doc.setTextColor(GOLDC);
+      doc.text('assembl.co.nz', W - M, 760, { align: 'right' });
+
+      // the six parts
+      doc.addPage();
+      doc.setFillColor(255, 255, 255); doc.rect(0, 0, W, 842, 'F');
+      doc.setTextColor(GOLDC); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+      doc.text('THE SIX PARTS', M, 88);
+      let y = 128;
+      EXHIBITS.forEach((ex, i) => {
+        doc.setTextColor(GOLDC); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+        doc.text(String(i + 1).padStart(2, '0'), M, y);
+        doc.setTextColor(NAVY); doc.setFontSize(15);
+        doc.text(`${ex.name} — ${ex.note}`, M + 26, y);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5); doc.setTextColor(60, 58, 52);
+        const tell = doc.splitTextToSize(ex.tell, W - M * 2 - 26);
+        doc.text(tell, M + 26, y + 18);
+        doc.setTextColor(GOLDC); doc.setFontSize(9.5);
+        const j = doc.splitTextToSize(`In your customer's journey: ${ex.journey}`, W - M * 2 - 26);
+        doc.text(j, M + 26, y + 18 + tell.length * 13 + 6);
+        y += 34 + tell.length * 13 + j.length * 12 + 26;
+      });
+
+      // the journey
+      doc.addPage();
+      doc.setFillColor(251, 248, 241); doc.rect(0, 0, W, 842, 'F');
+      doc.setTextColor(GOLDC); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+      doc.text('THE JOURNEY THEY RUN TOGETHER', M, 88);
+      const MOMENTS: Array<[string, string]> = [
+        ['The first enquiry', 'Answered from your own words the moment it lands — Knowledge doing its job while everyone else is at lunch.'],
+        ['The quote, prepared', 'Ability drafts it from your prices and terms; Boundary keeps it inside what you would sign; it waits for your yes.'],
+        ['The wait, rewarded', 'While Approval holds the line, your customer watches the work happen and earns loyalty for the minutes — the wait state.'],
+        ['The follow-through', 'Signals catch the booking, the reminder, the thing your busiest week drops — drafted before anyone had to remember.'],
+        ['Years two through ten', 'The Flight log keeps every step in plain words, so "where did this come from?" always has an answer.'],
+      ];
+      let jy = 130;
+      MOMENTS.forEach(([t, b], i) => {
+        doc.setTextColor(GOLDC); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+        doc.text(String(i + 1).padStart(2, '0'), M, jy);
+        doc.setTextColor(NAVY); doc.setFontSize(14);
+        doc.text(t, M + 26, jy);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5); doc.setTextColor(60, 58, 52);
+        const lines = doc.splitTextToSize(b, W - M * 2 - 26);
+        doc.text(lines, M + 26, jy + 17);
+        jy += 30 + lines.length * 13 + 18;
+      });
+      doc.setDrawColor(184, 150, 79); doc.setLineWidth(1);
+      doc.line(M, jy + 6, W - M, jy + 6);
+      doc.setTextColor(NAVY); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+      doc.text('Make it yours in one minute.', M, jy + 34);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(60, 58, 52);
+      doc.text('This is the concept you assembled by hand. The personalised version reads your own website —', M, jy + 52);
+      doc.text('your words, your colours, your gaps — and drafts the journey for your business:', M, jy + 66);
+      doc.setTextColor(GOLDC); doc.setFont('helvetica', 'bold');
+      doc.text('assembl.co.nz/ai-ready', M, jy + 84);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(SOFT);
+      doc.text('assembl — intuitive agentic customer journeys · Aotearoa New Zealand · assembl NZ Limited · NZBN 9429053514950', M, 800);
+
+      doc.save('assembl-your-agent-assembled.pdf');
+    } catch {
+      setPdfErr('The document could not be assembled just now — refresh and try again.');
+    } finally {
+      setPdfBusy(false);
+    }
+  };
 
   useEffect(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -115,6 +239,10 @@ export function Showroom() {
     renderer.toneMappingExposure = 1.02;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // A lost context is recoverable only if the default handling is prevented.
+    const onCtxLost = (e: Event) => e.preventDefault();
+    canvas.addEventListener('webglcontextlost', onCtxLost);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(BONE);
@@ -184,7 +312,6 @@ export function Showroom() {
     const liquid = new THREE.MeshPhysicalMaterial({ color: '#E8ECF0', metalness: 1, roughness: 0.008, envMapIntensity: 3.0, clearcoat: 1, clearcoatRoughness: 0.01 });
     const brass = new THREE.MeshPhysicalMaterial({ color: GOLD_HI, metalness: 1, roughness: 0.14, normalMap: brushed, normalScale: new THREE.Vector2(0.3, 0.3), envMapIntensity: 2.0, clearcoat: 0.7 });
 
-    // black torus knots + brass + liquid metal — the sculpture set
     const sampleGeo: THREE.BufferGeometry[] = [
       new THREE.TorusKnotGeometry(0.42, 0.13, 220, 28, 2, 3),   // knowledge — black knot
       new THREE.IcosahedronGeometry(0.5, 3),                    // signals — liquid metal
@@ -216,7 +343,6 @@ export function Showroom() {
       plinth.castShadow = true;
       plinth.receiveShadow = true;
       scene.add(plinth);
-      // brass rim on the plinth top
       const rim = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.05, 1.56), brass.clone());
       rim.position.set(x, 1.62, z);
       scene.add(rim);
@@ -245,7 +371,6 @@ export function Showroom() {
         spot.shadow.bias = -0.0004;
       }
       scene.add(spot);
-      // the beam, barely there on white — presence, not wash
       const beam = new THREE.Mesh(
         new THREE.ConeGeometry(1.6, 7.4, 40, 1, true),
         new THREE.MeshBasicMaterial({ color: '#FFEFC8', transparent: true, opacity: 0.05, depthWrite: false, side: THREE.DoubleSide }),
@@ -270,13 +395,23 @@ export function Showroom() {
     daisSpot.castShadow = true;
     daisSpot.shadow.mapSize.set(1024, 1024);
     scene.add(daisSpot);
+    // the beacon — a gold column that brightens as the agent takes shape,
+    // readable from the far end of the corridor (Kate: "you can't really see it")
+    const beacon = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.8, 1.3, 7.2, 44, 1, true),
+      new THREE.MeshBasicMaterial({ color: GOLD_HI, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }),
+    );
+    beacon.position.set(DAIS.x, 3.8, DAIS.z);
+    scene.add(beacon);
+    // Higher and tighter than before — the assembled cluster reads as one
+    // object above the dais rim, not six crumbs lost behind it.
     const slotPos = (slot: number) => new THREE.Vector3(
-      DAIS.x + Math.cos((slot / 6) * Math.PI * 2 + Math.PI / 6) * 1.55,
-      0.85,
-      DAIS.z + Math.sin((slot / 6) * Math.PI * 2 + Math.PI / 6) * 1.55,
+      DAIS.x + Math.cos((slot / 6) * Math.PI * 2 + Math.PI / 6) * 1.35,
+      1.5,
+      DAIS.z + Math.sin((slot / 6) * Math.PI * 2 + Math.PI / 6) * 1.35,
     );
 
-    // the doorway beyond the dais — dark aperture, gold light inside
+    // the doorway beyond the dais — scenery now, never the destination
     const doorC = document.createElement('canvas');
     doorC.width = 256; doorC.height = 512;
     const dgc = doorC.getContext('2d')!;
@@ -293,12 +428,13 @@ export function Showroom() {
     const doorTex = new THREE.CanvasTexture(doorC);
     const door = new THREE.Mesh(
       new THREE.PlaneGeometry(3.6, 7.2),
-      new THREE.MeshBasicMaterial({ map: doorTex, transparent: true, opacity: 0.92 }),
+      new THREE.MeshBasicMaterial({ map: doorTex, transparent: true, opacity: 0.85 }),
     );
     door.position.set(0, 3.6, -61.8);
     scene.add(door);
 
-    // ── the fixed path ──
+    // ── the fixed path — ends looking AT the dais, in the light. The old
+    // path carried on toward the doorway and the last screens went dark. ──
     const path = new THREE.CatmullRomCurve3([
       new THREE.Vector3(0, 2.7, 9),
       new THREE.Vector3(1.6, 2.4, 0.6),
@@ -306,13 +442,13 @@ export function Showroom() {
       new THREE.Vector3(1.7, 2.4, -16.6),
       new THREE.Vector3(-1.7, 2.3, -25.2),
       new THREE.Vector3(1.6, 2.4, -33.8),
-      new THREE.Vector3(-1.4, 2.4, -41.5),
-      new THREE.Vector3(0, 3.8, -44.6),
+      new THREE.Vector3(-1.2, 2.5, -40.5),
+      new THREE.Vector3(0, 3.3, -45.6),
     ]);
     const lookTargets = [
       ...exhibits.map((e) => e.home.clone()),
-      new THREE.Vector3(0, 1.2, -52),
-      new THREE.Vector3(0, 2.5, -57),   // dais in the foreground, door above it
+      new THREE.Vector3(0, 1.5, -50),
+      new THREE.Vector3(0, 1.4, -52),   // the dais holds the final frame
     ];
 
     // ── drag-to-assemble ──
@@ -322,6 +458,10 @@ export function Showroom() {
     let dragging: Ex | null = null;
     let downAt = 0, moved = 0, downX = 0, downY = 0;
     let placedCount = 0;
+    // A tap teaches as well as places: the lesson card follows the walk, but a
+    // just-placed piece holds the card for a beat so the person reads what
+    // they added.
+    let lessonHold: { idx: number; until: number } | null = null;
 
     const setPointer = (e: PointerEvent) => {
       const r = canvas.getBoundingClientRect();
@@ -333,6 +473,8 @@ export function Showroom() {
       placedCount += 1;
       setPlaced(placedCount);
       setLastPlaced(EXHIBITS[ex.slot]!.name);
+      lessonHold = { idx: ex.slot, until: performance.now() + 2800 };
+      setLesson(ex.slot);
       ex.flight = { from: ex.sample.position.clone(), start: performance.now() };
     };
     const onDown = (e: PointerEvent) => {
@@ -384,6 +526,11 @@ export function Showroom() {
     addEventListener('resize', onResize);
 
     const look = new THREE.Vector3();
+    let lessonShown = 0;
+    let finaleW = 0;
+    const finalePos = new THREE.Vector3(0, 2.6, -46.6);
+    const finaleLook = new THREE.Vector3(0, 1.45, -52);
+
     function tick() {
       raf = requestAnimationFrame(tick);
       if (!reduced) t += 0.016;
@@ -404,16 +551,31 @@ export function Showroom() {
       look.lerpVectors(lookTargets[si]!, lookTargets[si + 1]!, sf * sf * (3 - 2 * sf));
       camera.lookAt(look);
 
+      // Once the agent is whole, the camera settles on the dais and stays —
+      // the assembly is the payoff, and it happens in the light.
+      if (placedCount === 6) {
+        finaleW = Math.min(1, finaleW + 0.016 / 1.6);
+        const fw = finaleW * finaleW * (3 - 2 * finaleW);
+        camera.position.lerp(finalePos, fw);
+        look.lerp(finaleLook, fw);
+        camera.lookAt(look);
+      }
+
+      // the lesson follows the walk — nearest plinth wins, a fresh placement holds
+      if (lessonHold && performance.now() > lessonHold.until) lessonHold = null;
+      const nearest = Math.max(0, Math.min(5, Math.round(-camera.position.z / 8.6)));
+      const want = lessonHold ? lessonHold.idx : nearest;
+      if (want !== lessonShown) { lessonShown = want; setLesson(want); }
+
       exhibits.forEach((ex, i) => {
         if (ex.flight) {
-          // the arc to the dais — fast enough to follow, slow enough to read
           const f = Math.min(1, (performance.now() - ex.flight.start) / 1100);
           const e2 = f * f * (3 - 2 * f);
           const to = slotPos(ex.slot);
           ex.sample.position.lerpVectors(ex.flight.from, to, e2);
           ex.sample.position.y += Math.sin(f * Math.PI) * 2.2;   // over the room, not through it
           ex.sample.rotation.y += 0.08;
-          if (f >= 1) { ex.flight = null; ex.sample.position.copy(to); }
+          if (f >= 1) { ex.flight = null; ex.sample.position.copy(to); ex.sample.scale.setScalar(1.18); }
         } else if (ex.placed) {
           ex.sample.rotation.y += 0.012;
           const sp = slotPos(ex.slot);
@@ -426,16 +588,30 @@ export function Showroom() {
         }
       });
 
-      const doorPulse = placedCount === 6 ? 0.95 + Math.sin(t * 2.4) * 0.05 : 0.55 + placedCount * 0.06;
+      // beacon + door — brighter with every placement, alive at six
+      (beacon.material as THREE.MeshBasicMaterial).opacity =
+        placedCount === 6 ? 0.16 + Math.sin(t * 2.2) * 0.05 : placedCount * 0.022;
+      const doorPulse = placedCount === 6 ? 0.9 + Math.sin(t * 2.4) * 0.05 : 0.5 + placedCount * 0.05;
       (door.material as THREE.MeshBasicMaterial).opacity = doorPulse;
 
       renderer.render(scene, camera);
     }
-    tick();
+
+    // Two WebGL scenes share this page — only the one on screen may render.
+    let running = false;
+    const start = () => { if (!running) { running = true; tick(); } };
+    const stop = () => { if (running) { running = false; cancelAnimationFrame(raf); } };
+    const io = new IntersectionObserver(
+      (entries) => { (entries[0]?.isIntersecting ? start : stop)(); },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(wrap);
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      io.disconnect();
       removeEventListener('resize', onResize);
+      canvas.removeEventListener('webglcontextlost', onCtxLost);
       canvas.removeEventListener('pointerdown', onDown);
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerup', onUp);
@@ -449,6 +625,7 @@ export function Showroom() {
     };
   }, []);
 
+  const lx = EXHIBITS[lesson]!;
   return (
     <div ref={wrapRef} className="shrm">
       <div className="shrm-stick shrm-light">
@@ -456,17 +633,40 @@ export function Showroom() {
         <div className="shrm-head">
           <div className="kicker">02 — the gallery</div>
           <h2>Six parts.<br /><span className="accent">Assemble yours.</span></h2>
-          <p className="shrm-sub">Drag any piece to the dais — or tap it.</p>
+          <p className="shrm-sub">Walk the room. Tap each piece to place it.</p>
         </div>
         <div className="shrm-count" aria-live="polite">
           {placed} <span>of 6 placed</span>
           {lastPlaced && placed < 6 && <em>{lastPlaced} → the dais</em>}
         </div>
-        <div className="shrm-hint">scroll to walk the room · tap a piece to send it to the dais</div>
+
+        {/* the plinth speaks: what this piece does, and where it sits in the journey */}
+        {placed < 6 && (
+          <aside className="shrm-lesson" key={lesson} aria-live="polite">
+            <div className="shrm-lesson-k">{String(lesson + 1).padStart(2, '0')} · {lx.note}</div>
+            <b>{lx.name}</b>
+            <p>{lx.tell}</p>
+            <p className="shrm-lesson-j"><span>in your customer&rsquo;s journey</span>{lx.journey}</p>
+          </aside>
+        )}
+
         {placed >= 6 ? (
-          <a className="shrm-door" href="/ai-ready">assembled — get your journey document →</a>
+          <div className="shrm-finale">
+            <b>Assembled.</b>
+            <span>Six parts, one agent — this is the shape of your customer journey.</span>
+            <div className="shrm-finale-row">
+              <button type="button" onClick={() => void downloadPdf()} disabled={pdfBusy}>
+                {pdfBusy ? 'assembling your document…' : 'download your agent · the journey document'}
+              </button>
+              <a href="/ai-ready">make it personal to your site →</a>
+            </div>
+            {pdfErr && <i className="shrm-finale-err">{pdfErr}</i>}
+          </div>
         ) : (
-          <a className="shrm-door" href="#builder">skip to the builder ↓</a>
+          <>
+            <div className="shrm-hint">scroll to walk the room · tap a piece to send it to the dais</div>
+            <a className="shrm-door" href="#builder">skip to the live builder ↓</a>
+          </>
         )}
       </div>
     </div>

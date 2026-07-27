@@ -720,8 +720,19 @@ export function CinematicBuilder() {
       });
       renderer.render(scene, camera);
     }
-    tick();
-    cleanups.push(() => cancelAnimationFrame(raf));
+    // Two WebGL scenes share /build-an-agent (the gallery above this) — only
+    // the one on screen may render, or mobile browsers start dropping contexts.
+    let running = false;
+    const startLoop = () => { if (!running) { running = true; tick(); } };
+    const stopLoop = () => { if (running) { running = false; cancelAnimationFrame(raf); } };
+    const vio = new IntersectionObserver(
+      (entries) => { (entries[0]?.isIntersecting ? startLoop : stopLoop)(); },
+      { rootMargin: '200px 0px' },
+    );
+    vio.observe(canvas);
+    const onCtxLost = (e: Event) => e.preventDefault();
+    canvas.addEventListener('webglcontextlost', onCtxLost);
+    cleanups.push(() => { stopLoop(); vio.disconnect(); canvas.removeEventListener('webglcontextlost', onCtxLost); });
 
     // PDF snapshot: re-render synchronously, then read the buffer.
     captureRef.current = () => {

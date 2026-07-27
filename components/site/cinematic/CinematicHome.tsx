@@ -491,11 +491,11 @@ export function CinematicHome() {
 
         <section className="section" id="wait">
           <span className="ghost right" aria-hidden="true">03</span>
-          <span className="editorial">the wait · a credit · one question back</span>
+          <span className="editorial">the wait · loyalty earned · one question back</span>
           <div className="section-copy reveal-right">
             <div className="kicker">02 — The Wait</div>
             <h2>The only part<br /><span className="accent">nobody else builds.</span></h2>
-            <p>Tap through it.</p>
+            <p>Tap through it. Minutes your customer would resent become loyalty they keep.</p>
           </div>
           <div className="wsp-hold reveal-left" data-delay="200">
             <WaitState />

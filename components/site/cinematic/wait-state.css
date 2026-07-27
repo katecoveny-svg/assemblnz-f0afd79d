@@ -72,7 +72,13 @@
 
 .wsp-app {
   font-family: 'Inter Tight', sans-serif; font-weight: 600;
-  font-size: 1.06rem; color: var(--ink); text-align: center; margin-bottom: 16px;
+  font-size: 1.06rem; color: var(--ink); text-align: center; margin-bottom: 6px;
+}
+/* the loyalty line — names the mechanic so nobody mistakes it for a spinner */
+.wsp-loyal {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass);
+  text-align: center; margin-bottom: 12px;
 }
 
 /* the spinner — the whole point, so the biggest thing on the screen */
@@ -140,6 +146,17 @@
 }
 .wsp-learned b { font-weight: 600; color: var(--navy); }
 .wsp-learned.muted { opacity: 0.7; }
+
+/* the payoff — the wait became loyalty they keep */
+.wsp-redeem {
+  width: 100%; margin-top: 12px; padding: 10px 14px;
+  border-radius: 12px; background: rgba(191,163,122,0.14);
+  border: 1px solid rgba(184,150,79,0.4);
+  font-size: 0.72rem; font-weight: 400; color: var(--ink); line-height: 1.45;
+  animation: wsp-redeem-in 0.5s var(--ease);
+}
+.wsp-redeem b { font-weight: 700; color: var(--navy); }
+@keyframes wsp-redeem-in { from { opacity: 0; transform: translateY(6px); } }
 
 .wsp-go {
   margin-top: auto; cursor: pointer; width: 100%;

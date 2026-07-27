@@ -20,7 +20,7 @@ import './wait-state.css';
 
 type Ask = { q: string; options: [string, string]; learn: [string, string] };
 type Step = { agent: string; doing: string; credit?: number; ask?: Ask };
-type Scenario = { id: string; label: string; app: string; unit: [string, string]; steps: Step[] };
+type Scenario = { id: string; label: string; app: string; unit: [string, string]; redeem: string; steps: Step[] };
 
 const SCENARIOS: Scenario[] = [
   {
@@ -28,6 +28,7 @@ const SCENARIOS: Scenario[] = [
     label: 'Power',
     app: 'Why is my bill up?',
     unit: ['$', ''],
+    redeem: 'off your next bill',
     steps: [
       { agent: 'Meter', doing: 'Thirty days of use', credit: 0.15 },
       { agent: 'Weather', doing: 'Against the cold snap', credit: 0.2 },
@@ -48,6 +49,7 @@ const SCENARIOS: Scenario[] = [
     label: 'Groceries',
     app: 'A week of meals',
     unit: ['', ' pts'],
+    redeem: 'toward free delivery',
     steps: [
       { agent: 'Basket', doing: 'What you actually buy', credit: 60 },
       { agent: 'Stock', doing: 'On the shelf near you', credit: 40 },
@@ -68,6 +70,7 @@ const SCENARIOS: Scenario[] = [
     label: 'A claim',
     app: 'Storm damage',
     unit: ['$', ''],
+    redeem: 'off your excess',
     steps: [
       { agent: 'Policy', doing: 'What this covers', credit: 0.4 },
       { agent: 'Photos', doing: 'Sorted and matched', credit: 0.35 },
@@ -142,6 +145,7 @@ export function WaitState() {
           </div>
 
           <div className="wsp-app">{sc.app}</div>
+          <div className="wsp-loyal">the wait pays loyalty</div>
 
           {/* The spinner. It is the whole idea, so it is the biggest thing here. */}
           <div className={`wsp-ring${running ? ' spin' : ''}${finished ? ' done' : ''}`}>
@@ -155,7 +159,7 @@ export function WaitState() {
             </svg>
             <div className="wsp-mid">
               <div className="wsp-credit">{credit > 0 ? money(credit) : money(0)}</div>
-              <div className="wsp-credit-l">{finished ? 'yours' : 'earned so far'}</div>
+              <div className="wsp-credit-l">{finished ? 'yours to keep' : 'in your wallet'}</div>
             </div>
           </div>
 
@@ -174,6 +178,11 @@ export function WaitState() {
             })}
           </ol>
 
+          {finished && (
+            <div className="wsp-redeem">
+              <b>{money(credit)}</b> in your loyalty wallet — {sc.redeem}
+            </div>
+          )}
           {learned && (
             <div className="wsp-learned">
               they told you: <b>{learned}</b>
