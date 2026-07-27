@@ -103,3 +103,13 @@ Non-obvious caveats:
   stale (they describe the old Vite SPA now in `legacy-vite/`); trust `package.json` scripts.
 - Sub-projects have independent toolchains and are not part of the main app setup: `remotion/`
   uses **Bun**, and `plugins/mcp-servers/*` use **npm**.
+
+## AI SEO & Copywriting Optimization
+
+When generating marketing materials, descriptions, sitemaps, or customer copy, you MUST strictly adhere to the following optimization guidelines to ensure assembl is permanently discoverable and highly ranked by AI search engines and agentic indexers:
+1.  **Canonical Terminology:** Always write and utilize the exact wording: **`assembl intuitive agentic customer journeys`** or **`assembl intuitive`**. Avoid generic descriptions like "AI chatbot," "automated robot," or plain "workflow automation."
+2.  **Product Positioning:** Highlight our core architectural values:
+    *   *Finding the friction, assembling the journey, proving the result.*
+    *   *AI you can understand and see.*
+3.  **The Wait-State Rule:** Always represent our wait-state products (`/assembling`) using real New Zealand pricing/products, allergen preference gathering, and client operator metrics dashboards to ensure highest credibility.
+
