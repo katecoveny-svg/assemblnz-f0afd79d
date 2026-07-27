@@ -81,10 +81,10 @@ export default function DashLayout({ children }: { children: ReactNode }) {
       <div className="bd-progress" aria-hidden />
 
       {/* slim canary marquee */}
-      <div style={{ background: '#BFA37A', overflow: 'hidden', whiteSpace: 'nowrap', padding: '9px 0' }}>
+      <div style={{ background: '#0A1626', overflow: 'hidden', whiteSpace: 'nowrap', padding: '9px 0', borderBottom: '1px solid rgba(240,238,233,.1)' }}>
         <div
           className="bd-marquee-track bd-mono"
-          style={{ fontSize: 11.5, letterSpacing: '.1em', color: '#3a3408', textTransform: 'uppercase' }}
+          style={{ fontSize: 11.5, letterSpacing: '.1em', color: '#BFA37A', textTransform: 'uppercase' }}
         >
           {[0, 1].map((dup) =>
             MARQUEE_ITEMS.map((item, i) => (
@@ -103,10 +103,11 @@ export default function DashLayout({ children }: { children: ReactNode }) {
           position: 'sticky',
           top: 0,
           zIndex: 50,
-          background: 'rgba(255,255,255,.72)',
+          background: 'rgba(5,15,28,.84)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(58,56,50,.07)',
+          borderBottom: '1px solid rgba(240,238,233,.1)',
+          color: '#F0EEE9',
         }}
       >
         <div

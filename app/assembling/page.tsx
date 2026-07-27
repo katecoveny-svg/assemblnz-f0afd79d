@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { WaitState } from '@/components/site/cinematic/WaitState';
 import { DashWaitlistForm } from './DashWaitlistForm';
+import { TierPlayground } from './TierPlayground';
 import './assembling-canon.css';
 
 /**
@@ -60,7 +61,87 @@ export default function AssemblingPage() {
           </div>
           <div className="asm-stage">
             <WaitState />
-            <div className="asm-stage-note mono">live — the module itself, not a picture of it</div>
+            <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
+          </div>
+        </section>
+
+        {/* ── the three tiers — the monetisation architecture ── */}
+        <section className="asm-band" id="tiers">
+          <span className="mono">the framework</span>
+          <h2>Three tiers of agentic value.</h2>
+          <p className="sub">
+            Beyond subscriptions: co-branded experience wrapped around the moments customers
+            already spend waiting and deciding. No banner ads — plain, warm, contextual
+            intelligence, labelled when it is sponsored.
+          </p>
+          <div className="asm-doors">
+            <div className="asm-door">
+              <div>
+                <span className="mono">tier 01 · low friction</span>
+                <b>The assembling loader</b>
+                <p>Idle wait time becomes a contextual, co-branded interstitial — the customer
+                watches the real work assemble, and a partner slot rides inside the genuine steps.
+                Live today; that is the module above.</p>
+              </div>
+              <span className="go">planning interstitials</span>
+            </div>
+            <div className="asm-door">
+              <div>
+                <span className="mono">tier 02 · medium integration</span>
+                <b>The sponsored chat line</b>
+                <p>A labelled co-pilot behind the primary journey. It steps forward only when it
+                has found something worth saying — a saving, a shortcut, a better slot — and it
+                never pretends to be the journey itself.</p>
+              </div>
+              <span className="go">co-pilot specialists</span>
+            </div>
+            <div className="asm-door">
+              <div>
+                <span className="mono">tier 03 · high utility</span>
+                <b>The joint-venture UI</b>
+                <p>A shared, co-branded surface where a partner&rsquo;s capability is woven natively
+                into the journey — book, redeem, optimise in place. Deep utility, and every action
+                still ends in a human approval.</p>
+              </div>
+              <span className="go">immersive portals</span>
+            </div>
+          </div>
+        </section>
+
+        {/* ── the playground ── */}
+        <section className="asm-band" id="playground">
+          <span className="mono">interactive studio</span>
+          <h2>See a tier in a journey.</h2>
+          <p className="sub">
+            Pick a demonstrator and a tier. The demonstrators are deliberately generic — the
+            named-buyer versions live in their own concept rooms.
+          </p>
+          <TierPlayground />
+        </section>
+
+        {/* ── the roadmap ── */}
+        <section className="asm-band" id="roadmap">
+          <span className="mono">the path forward</span>
+          <h2>The rollout, in three phases.</h2>
+          <div className="asm-pow asm-road">
+            <div>
+              <i className="mono">phase 01 · now</i>
+              <b>Tactical assembling interstitials</b>
+              <span>Tier-one loaders into the live demonstrators — the wait shown, the wait paid.
+              This phase is shipping: fifteen concept demos already run it.</span>
+            </div>
+            <div>
+              <i className="mono">phase 02 · next</i>
+              <b>Contextual sponsored co-pilots</b>
+              <span>Labelled chat-line specialists behind active journeys, stepping forward only
+              with found value — piloted with one partner per demonstrator.</span>
+            </div>
+            <div>
+              <i className="mono">phase 03 · then</i>
+              <b>Immersive joint-venture environments</b>
+              <span>Co-branded transactional surfaces for the deepest journeys — and, further out,
+              wait-slots matched to partners in real time. Trust rules travel with every phase.</span>
+            </div>
           </div>
         </section>
 
