@@ -171,6 +171,18 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the family of waits + how the wait is powered */
+.momgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:34px}
+.mom{border:1px solid var(--line);border-radius:14px;padding:14px 15px;background:rgba(13,13,15,.82)}
+.mom b{display:block;font-size:13.5px;margin-bottom:4px}
+.mom span{font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+.powgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:38px}
+.pow{border:1px solid var(--line-2);border-radius:16px;padding:16px 17px;background:rgba(13,13,15,.7)}
+.pow i{font-style:normal;font-size:10px;letter-spacing:.14em;color:var(--accent)}
+.pow b{display:block;font-size:13.5px;margin:6px 0 4px}
+.pow span{font-size:12px;color:var(--muted);line-height:1.5}
+.prinline{margin-top:16px;font-size:11px;letter-spacing:.06em;color:var(--muted-2);line-height:1.7}
+.prinline em{font-style:normal;color:var(--champ)}
 /* the explainer sits on the dark page, so it takes the page's own ink */
 #wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
   --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -315,6 +327,23 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="grid3" style="margin-top:44px">
     ${c.waitCards.map(([t, b]) => `<div class="glass tight rise"><h3 style="font-size:19px">${esc(t)}</h3><p class="kicker" style="margin-top:11px;font-size:14px">${esc(b)}</p></div>`).join('\n    ')}
   </div>`}
+
+  ${c.moments ? `
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait \u2014 a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">${esc(c.momentsTitle || 'Every waiting moment, the same pattern.')}</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    ${c.moments.map(([t, d]) => `<div class="mom"><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join('\n    ')}
+  </div>` : ''}
+  <div class="powgrid rise">
+    <div class="pow"><i>01 \u2014 INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
+    <div class="pow"><i>02 \u2014 HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
+    <div class="pow"><i>03 \u2014 VALUE DELIVERY</i><b>Something worth the minutes</b><span>The work shown as it happens \u2014 useful, short, skippable.</span></div>
+    <div class="pow"><i>04 \u2014 VALUE EXCHANGE</i><b>The wait pays</b><span>The customer earns as they watch, and one optional question comes back the other way.</span></div>
+  </div>
+  <p class="prinline rise"><em>Be relevant</em> \u2014 right thing, right moment \u00b7 <em>Be respectful</em> \u2014 short, skippable, quiet by design \u00b7 <em>Be measurable</em> \u2014 real impact, on the record \u00b7 <em>Be Aotearoa</em> \u2014 built here, for how Kiwis actually wait</p>
 </div></section>
 
 <section id="mirror"><div class="wrap">
