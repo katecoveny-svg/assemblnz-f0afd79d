@@ -90,7 +90,8 @@ export function AssemblingScene() {
     });
 
     const group = new THREE.Group();
-    group.position.set(-0.9, 0.15, 0);
+    // right-of-centre and lifted — the copy column is sacred ground
+    group.position.set(0.7, 0.55, 0);
     scene.add(group);
 
     // the carrier — a brass ring, gently inclined
