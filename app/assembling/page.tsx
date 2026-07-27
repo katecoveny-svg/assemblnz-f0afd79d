@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { WaitState } from '@/components/site/cinematic/WaitState';
 import { DashWaitlistForm } from './DashWaitlistForm';
 import { TierPlayground } from './TierPlayground';
+import { AssemblingScene } from './AssemblingScene';
 import './assembling-canon.css';
 
 /**
@@ -41,7 +42,8 @@ export default function AssemblingPage() {
       <div className="wrap">
         {/* ── hero: the claim on the left, the product itself on the right ── */}
         <section className="asm-hero">
-          <div>
+          <AssemblingScene />
+          <div className="asm-hero-copy">
             <span className="mono">assembling · the loyalty layer for the agentic wait</span>
             <h1>
               The wait state,

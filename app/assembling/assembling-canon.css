@@ -172,3 +172,9 @@ footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
 .asm-road > div i { color: var(--asm-hi); }
 @media (max-width: 760px) { .tp-controls { grid-template-columns: 1fr; } }
 .asm-door .mono { display: block; margin-bottom: 8px; }
+
+/* the hero scene — canon threads + the accruing seed, behind the copy */
+.asm-hero { position: relative; }
+.asm-scene { position: absolute; inset: -40px -10vw; z-index: 0; pointer-events: none; }
+.asm-scene canvas { width: 100%; height: 100%; display: block; }
+.asm-hero-copy, .asm-hero .asm-stage { position: relative; z-index: 1; }
