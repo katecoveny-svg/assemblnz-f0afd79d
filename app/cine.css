@@ -1170,6 +1170,12 @@
   color: transparent;
   animation: inst-sheen 7.5s linear infinite;
 }
+.cine.inst .hero h1 .hero-word.accent {
+  opacity: 0; transform: translateY(110%); filter: blur(8px);
+  animation:
+    cine-wordIn 1.2s var(--ease-out) forwards,
+    inst-sheen 7.5s linear infinite;
+}
 @keyframes inst-sheen {
   from { background-position: 0% 0; }
   to { background-position: 240% 0; }
@@ -1221,6 +1227,12 @@
   font-size: 0.52rem; letter-spacing: 0.16em; text-transform: uppercase;
   color: rgba(27,26,23,0.6); margin-top: 2px;
 }
+.cine .shrm-count em {
+  display: block; font-style: normal; font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #8A6A2E; margin-top: 6px; animation: shrm-toast 0.5s var(--ease-out);
+}
+@keyframes shrm-toast { from { opacity: 0; transform: translateY(4px); } }
 .cine .shrm-hint {
   position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 2;
   font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;

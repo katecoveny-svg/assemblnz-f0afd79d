@@ -102,6 +102,7 @@ export function Showroom() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [placed, setPlaced] = useState(0);
+  const [lastPlaced, setLastPlaced] = useState<string | null>(null);
 
   useEffect(() => {
     const wrap = wrapRef.current, canvas = canvasRef.current;
@@ -200,6 +201,7 @@ export function Showroom() {
       home: THREE.Vector3;
       placed: boolean;
       slot: number;
+      flight: { from: THREE.Vector3; start: number } | null;
     };
     const exhibits: Ex[] = [];
     const plinthMat = new THREE.MeshStandardMaterial({ color: IVORY, roughness: 0.42, metalness: 0.05 });
@@ -225,7 +227,7 @@ export function Showroom() {
       sample.castShadow = true;
       sample.userData.exhibit = i;
       scene.add(sample);
-      exhibits.push({ sample, home, placed: false, slot: i });
+      exhibits.push({ sample, home, placed: false, slot: i, flight: null });
 
       const card = new THREE.Mesh(
         new THREE.PlaneGeometry(1.4, 0.48),
@@ -330,7 +332,8 @@ export function Showroom() {
       ex.placed = true;
       placedCount += 1;
       setPlaced(placedCount);
-      ex.sample.position.copy(slotPos(ex.slot));
+      setLastPlaced(EXHIBITS[ex.slot]!.name);
+      ex.flight = { from: ex.sample.position.clone(), start: performance.now() };
     };
     const onDown = (e: PointerEvent) => {
       setPointer(e);
@@ -400,7 +403,16 @@ export function Showroom() {
       camera.lookAt(look);
 
       exhibits.forEach((ex, i) => {
-        if (ex.placed) {
+        if (ex.flight) {
+          // the arc to the dais — fast enough to follow, slow enough to read
+          const f = Math.min(1, (performance.now() - ex.flight.start) / 1100);
+          const e2 = f * f * (3 - 2 * f);
+          const to = slotPos(ex.slot);
+          ex.sample.position.lerpVectors(ex.flight.from, to, e2);
+          ex.sample.position.y += Math.sin(f * Math.PI) * 2.2;   // over the room, not through it
+          ex.sample.rotation.y += 0.08;
+          if (f >= 1) { ex.flight = null; ex.sample.position.copy(to); }
+        } else if (ex.placed) {
           ex.sample.rotation.y += 0.012;
           const sp = slotPos(ex.slot);
           ex.sample.position.y = sp.y + Math.sin(t * 1.1 + i) * 0.04;
@@ -446,11 +458,14 @@ export function Showroom() {
         </div>
         <div className="shrm-count" aria-live="polite">
           {placed} <span>of 6 placed</span>
+          {lastPlaced && placed < 6 && <em>{lastPlaced} → the dais</em>}
         </div>
-        <div className="shrm-hint">scroll to walk · drag to assemble</div>
-        <a className="shrm-door" href="/build-an-agent">
-          {placed >= 6 ? 'your agent is assembled — step in →' : 'step into the builder →'}
-        </a>
+        <div className="shrm-hint">scroll to walk the room · tap a piece to send it to the dais</div>
+        {placed >= 6 ? (
+          <a className="shrm-door" href="/ai-ready">assembled — get your journey document →</a>
+        ) : (
+          <a className="shrm-door" href="#builder">skip to the builder ↓</a>
+        )}
       </div>
     </div>
   );

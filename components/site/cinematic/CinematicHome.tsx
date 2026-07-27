@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { CineFooter } from './CineFooter';
 import { BlueprintStart } from './BlueprintStart';
 import { WaitState } from './WaitState';
-import { Showroom } from './Showroom';
 import { HOME_FAQ } from './faq';
 import * as THREE from 'three';
 
@@ -196,7 +195,7 @@ export function CinematicHome() {
     // Five stages. This array, KEYS below and the timeline dots in the markup
     // must stay the same length — a mismatch silently renders the next stage's
     // pose at every step below the gap.
-    const sections = ['#top', '#showroom', '#wait', '#demo', '#begin'].map((s) => $(s)!);
+    const sections = ['#top', '#wait', '#demo', '#begin'].map((s) => $(s)!);
     const dots = $$('.timeline-dot');
     const progressBar = $('#cine-progress')!;
     let currentStage = 0;
@@ -226,13 +225,13 @@ export function CinematicHome() {
     renderer.setSize(innerWidth, innerHeight);
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.28;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#030B1F');   // super deep navy — Kate's call: navy, not black
     // Atmospheric depth: things further away sink into the navy, which is what
     // sells the page as a space rather than a backdrop.
-    scene.fog = new THREE.FogExp2('#030B1F', 0.026);
+    scene.fog = new THREE.FogExp2('#030B1F', 0.016);
     const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 100);
 
     // Env — studio softboxes baked into the env map (her shiny-chrome recipe).
@@ -258,7 +257,8 @@ export function CinematicHome() {
     const key = new THREE.DirectionalLight('#FFFFFF', 1.9); key.position.set(5, 8, 5); scene.add(key);
     // the knot's own footlight — gold from below-left so the dark side of
     // every thread still carries an edge against the navy
-    const rim = new THREE.PointLight('#D4A843', 40, 26, 1.6); rim.position.set(-4, -2, 5); scene.add(rim);
+    const rim = new THREE.PointLight('#D4A843', 55, 28, 1.6); rim.position.set(-4, -2, 5); scene.add(rim);
+    const rim2 = new THREE.PointLight('#DCE6F2', 34, 26, 1.7); rim2.position.set(5, 4, 4); scene.add(rim2);
 
     const mats = {
       brassBright: new THREE.MeshPhysicalMaterial({ color: '#D4A843', metalness: 1, roughness: 0.07, envMapIntensity: 2.0, clearcoat: 0.8, clearcoatRoughness: 0.1 }),
@@ -285,12 +285,12 @@ export function CinematicHome() {
     // navy"). A chrome thread wound through a gold one, a hairline horizon
     // ring, a gold seed at the centre. Nothing thicker than 0.02 — the old
     // assembly's 0.085 band is precisely what read as clunky.
-    const threadA = new THREE.Mesh(new THREE.TorusKnotGeometry(1.5, 0.02, 700, 20, 2, 3), mats.chrome);
-    const threadB = new THREE.Mesh(new THREE.TorusKnotGeometry(1.9, 0.013, 700, 16, 3, 5), mats.brassBright.clone());
+    const threadA = new THREE.Mesh(new THREE.TorusKnotGeometry(1.5, 0.028, 700, 24, 2, 3), mats.chrome);
+    const threadB = new THREE.Mesh(new THREE.TorusKnotGeometry(1.9, 0.018, 700, 20, 3, 5), mats.brassBright.clone());
     // piano-black third winding — the black taurus of the gallery language;
     // on navy it reads by its highlights, which is what the footlight is for
     const threadC = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(1.2, 0.024, 600, 20, 2, 5),
+      new THREE.TorusKnotGeometry(1.2, 0.032, 600, 24, 2, 5),
       new THREE.MeshPhysicalMaterial({ color: '#050608', metalness: 0.9, roughness: 0.05, envMapIntensity: 2.6, clearcoat: 1, clearcoatRoughness: 0.03 }),
     );
     const horizon = new THREE.Mesh(new THREE.TorusGeometry(3.1, 0.008, 10, 300), mats.chrome.clone());
@@ -322,8 +322,7 @@ export function CinematicHome() {
     // Sides alternate with the copy, dives near for agents, rises for wait,
     // pulls wide for proof, lands centre-stage for the finale.
     const KEYS = [
-      { s: 1.08, x:  3.9, y: -0.2, z:  0.0, ry: 0.15, rx:  0.00, cz:  9.2, cy: 0.4 }, // intro — big, clear of the headline
-      { s: 0.50, x:  0.0, y:  0.3, z: -3.0, ry: 1.20, rx:  0.00, cz: 11.0, cy: 0.4 }, // showroom — parked small; its canvas covers the frame
+      { s: 1.52, x:  4.1, y: -0.1, z:  0.6, ry: 0.15, rx:  0.00, cz:  8.4, cy: 0.4 }, // intro — fills its half, like the lab did
       { s: 0.85, x: -3.2, y:  0.9, z: -1.2, ry: 2.60, rx:  0.28, cz:  9.0, cy: 0.8 }, // the wait — rises and clears the phone
       { s: 1.30, x:  3.0, y: -0.1, z:  0.6, ry: 4.30, rx:  0.05, cz:  7.6, cy: 0.4 }, // ask — leans in beside the live panel
       { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.20, rx:  0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
@@ -435,7 +434,6 @@ export function CinematicHome() {
 
       <div className="timeline">
         <div className="timeline-dot active" data-label="intro" data-target="#top" />
-        <div className="timeline-dot" data-label="showroom" data-target="#showroom" />
         <div className="timeline-dot" data-label="the wait" data-target="#wait" />
         <div className="timeline-dot" data-label="ask it" data-target="#demo" />
         <div className="timeline-dot" data-label="begin" data-target="#begin" />
@@ -448,10 +446,9 @@ export function CinematicHome() {
           </a>
           <div className="nav-links">
             <a href="/concepts">concepts</a>
-            <a href="#showroom">showroom</a>
             <a href="#wait">the wait</a>
             <a href="#demo">ask it</a>
-            <a href="/build-an-agent">build one</a>
+            <a href="/build-an-agent">assemble</a>
             <a href="/ai-ready">ai ready?</a>
           </div>
           <a className="nav-cta" href="#begin">begin</a>
@@ -463,7 +460,7 @@ export function CinematicHome() {
               took too long to land. */}
           <h1>
             <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Assembled intuitive</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.45s' }}>customer journeys.</span></span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.45s' }}>agentic customer journeys.</span></span>
           </h1>
           <p className="lede hero-sub-cinema" style={{ marginTop: 28 }}>Agentic business solutions for Aotearoa.</p>
           {/* The demo is the product, so it leads. The seven sections below
@@ -477,22 +474,18 @@ export function CinematicHome() {
             <BlueprintStart />
           </div>
           <div className="hero-cta hero-cta-cinema">
-            <a className="btn btn-glass" href="/build-an-agent">or build one in 3D →</a>
+            <a className="btn btn-glass" href="/build-an-agent">or assemble one in the gallery →</a>
           </div>
         </section>
 
 
 
 
-        <section id="showroom" aria-label="The showroom — six parts of an agent">
-          <Showroom />
-        </section>
-
         <section className="section" id="wait">
-          <span className="ghost right" aria-hidden="true">04</span>
+          <span className="ghost right" aria-hidden="true">03</span>
           <span className="editorial">the wait · a credit · one question back</span>
           <div className="section-copy reveal-right">
-            <div className="kicker">03 — The Wait</div>
+            <div className="kicker">02 — The Wait</div>
             <h2>The only part<br /><span className="accent">nobody else builds.</span></h2>
             <p>Tap through it.</p>
           </div>
@@ -503,10 +496,10 @@ export function CinematicHome() {
 
 
         <section className="section" id="demo">
-          <span className="ghost right" aria-hidden="true">04</span>
+          <span className="ghost right" aria-hidden="true">03</span>
           <span className="editorial">live demo · a real agent · drafting</span>
           <div className="section-copy reveal-right">
-            <div className="kicker">04 — Ask it</div>
+            <div className="kicker">03 — Ask it</div>
             <h2>Ask it<br /><span className="accent">something.</span></h2>
             <p>A real agent. It drafts, it never sends.</p>
           </div>
