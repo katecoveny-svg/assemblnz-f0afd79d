@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>NZ Post · an independent concept by assembl</title>
-<meta name="description" content="An independent concept prepared for NZ Post. Not affiliated with or endorsed by NZ Post.">
+<title>Ledgerline · a category demonstrator by assembl</title>
+<meta name="description" content="Ledgerline — a category demonstrator of an agentic customer journey by assembl. No real company; every name is invented.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 :root{
   --ink:#0A0A0B; --ink-2:#111114; --paper:#FFFFFF; --muted:#8E9299; --muted-2:#6B6F76;
   --line:rgba(255,255,255,.13); --line-2:rgba(255,255,255,.07);
-  --accent:#0068FF; --accent-2:#32A465;
+  --accent:#1E2A38; --accent-2:#C9A227;
   --champ:#BFA37A; --champ-soft:rgba(191,163,122,.13);
   --sans:"Lato",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
 }
@@ -112,8 +112,8 @@ em.g{font-style:normal;color:var(--accent)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
-  --wp-accent:#0068FF; --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
-  --wp-rim:color-mix(in srgb, #0068FF 58%, transparent);
+  --wp-accent:#C9A227; --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, #C9A227 58%, transparent);
   --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
   --wp-sans:var(--sans); --wp-app:var(--sans);
 }
@@ -210,15 +210,15 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 
 <div class="signed"><div class="wrap">
   <span class="k">Prepared for</span>
-  <span class="v" id="signedFor"><b>Customer Experience</b> · NZ Post · Aotearoa New Zealand</span>
+  <span class="v" id="signedFor"><b>A category demonstrator</b> · Banking and lending · an invented example</span>
 </div></div>
 
 <main>
 <header class="hero"><div class="wrap"><div class="narrow">
-  <div class="eyebrow rise">The parcel wait · a concept</div>
-  <h1 class="rise">“Where is<br>my parcel?”<br><em class="g">Answered before they ask.</em></h1>
-  <p class="lede rise">The single most repeated question in New Zealand logistics. Your tracking page today is a gateway — it takes the enquiry and routes it. This is a concept for the ninety seconds before someone gives up on tracking and picks up the phone.</p>
-  <div class="quote rise"><p>“A tracking number that says “in transit” answers none of the three things the customer actually wants to know.”</p><cite>What we found reading nzpost.co.nz</cite></div>
+  <div class="eyebrow rise">The application wait · a demonstrator</div>
+  <h1 class="rise">They applied on Tuesday.<br><em class="g">It is Friday.</em><br>Nobody has said anything.</h1>
+  <p class="lede rise">A lending application sits in assessment for days, and the applicant hears nothing because there is nothing definite to say. This demonstrates the alternative: honest progress, no decision implied, and the one question that shortens the assessment for everyone.</p>
+  <div class="quote rise"><p>“Silence during an assessment is not neutral. People read it as a no.”</p><cite>Ledgerline · an invented example</cite></div>
   <div class="btns rise">
     <a class="btn solid" href="#wait">See the moment <span class="arw">→</span></a>
     <button class="btn ghost" onclick="openChat()">Ask it about this</button>
@@ -228,10 +228,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 <section id="wait"><div class="wrap">
   <div class="num rise">01 — THE WAIT</div>
   <div class="narrow rise">
-    <div class="eyebrow">Monday, 7:15pm</div>
-    <h2>The parcel that has not moved since Thursday</h2>
-    <p class="lede">Someone refreshes a tracking page for the fourth time. The status has not changed. They do not know whether that is normal, whether it is lost, whether anyone is looking, or whether they should buy another one. So they ring you — and the person who answers has to start from nothing.</p>
-    <p class="kicker" style="color:var(--accent)">We read your own tracking page. It offers a parcel enquiry and a link to FAQs, and it does not state a delivery timeframe, when a parcel is considered lost, how an investigation works, or what compensation applies.</p>
+    <div class="eyebrow">A Friday, 11:30am</div>
+    <h2>The three days of nothing</h2>
+    <p class="lede">An application went in on Tuesday. Since then: an acknowledgement email and silence. The applicant does not know whether their documents were enough, whether a person has looked at it, or whether they should be applying somewhere else at the same time. So some of them do.</p>
+    <p class="kicker" style="color:var(--accent)">Assessment queues are slow for good reasons — verification, affordability, human review. The applicant is not owed a faster answer. They are owed a truthful account of where it is, and nobody sends one because the only template says "approved" or "declined".</p>
   </div>
   
   <!-- The wait itself, not three paragraphs about it. Same component the
@@ -242,9 +242,9 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
-      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A status code, a link to an enquiry form, and a call that begins with “can I take your tracking number”.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every unanswered tracking check becomes a contact. The cheapest contact is the one the tracking page prevented.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Turns the status into an answer, in the wait, and hands the hard ones to a person with the file already open.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">An acknowledgement, then nothing until an outcome. The wait reads as a decision that has already gone badly.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Applicants apply elsewhere in parallel, and the ones you would have said yes to are gone by the time you say it.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Says truthfully where it is, asks the one thing that unblocks it, and stops. It never decides.</p></div>
       <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
@@ -254,8 +254,8 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="num rise">02 — THE WORK, PREPARED</div>
   <div class="narrow rise">
     <div class="eyebrow">The same situation, four ways</div>
-    <h2>One tracking number. Four honest answers.</h2>
-    <p class="kicker">The same “in transit” status means four different things. Choose a situation and see what the customer could be told instead of a status code.</p>
+    <h2>One application. Four honest updates.</h2>
+    <p class="kicker">The same three days, four situations. Not one of these says approved, declined or likely — that is a lender’s decision under the CCCFA, and this concept does not touch it.</p>
   </div>
   <div style="margin-top:38px" class="rise">
     <div class="marqrow" id="marqrow"></div>
@@ -277,10 +277,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Before a person ever reads it</div>
-      <h2>What it refuses to say</h2>
-      <p class="kicker">Most of the harm in delivery communications comes from confident answers. These checks exist to stop them.</p>
-      <p class="kicker">Drafts are held against Fair Trading Act 1986, Consumer Guarantees Act 1993, and the Privacy Act 2020.</p>
-      <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the tracking answers →</button>
+      <h2>The checks that run before an update is sent</h2>
+      <p class="kicker">Lending is the most boundaried category assembl builds in. The guards are the reason this is sendable at all.</p>
+      <p class="kicker">Drafts are held against the Credit Contracts and Consumer Finance Act 2003 and the Responsible Lending Code, the Privacy Act 2020, and the Fair Trading Act 1986.</p>
+      <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the queue →</button>
     </div>
     <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
   </div>
@@ -290,15 +290,15 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="num rise">04 — ON ONE SCREEN</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing here has been sent</div>
-    <h2>The parcels that need a person today</h2>
+    <h2>The queue, before anything sends</h2>
     <p class="kicker">Illustrative and fictional. No production access is requested by this concept.</p>
   </div>
   <div class="glass rise" style="margin-top:34px;overflow-x:auto">
     <table class="ops">
-      <thead><tr><th>Situation</th><th>Volume</th><th>Prepared</th><th>Waiting on</th><th>Status</th></tr></thead>
-      <tbody><tr><td><b>Running normally</b></td><td>—</td><td>Reassurance, no action needed</td><td>Nobody — closes itself</td><td><span class="st ok">Answered</span></td></tr><tr><td><b>No scan for 3+ days</b></td><td>—</td><td>Proactive note, site asked to look</td><td>Depot response</td><td><span class="st wait">Looking</span></td></tr><tr><td><b>Delivery attempted, card left</b></td><td>—</td><td>Collection point, ID needed, redirect offered</td><td>Nobody — closes itself</td><td><span class="st ok">Answered</span></td></tr><tr><td><b>Arrived damaged</b></td><td>—</td><td>File assembled for a claims decision</td><td>A person</td><td><span class="st hot">Held — decision</span></td></tr><tr><td><b>Address looks wrong</b></td><td>—</td><td>Draft held</td><td>Customer confirmation</td><td><span class="st wait">Awaiting reply</span></td></tr><tr><td><b>Returned to sender</b></td><td>—</td><td>Explanation plus options</td><td>Sender contact</td><td><span class="st wait">Awaiting approval</span></td></tr></tbody>
+      <thead><tr><th>Application</th><th>Count</th><th>Prepared</th><th>Waiting on</th><th>Status</th></tr></thead>
+      <tbody><tr><td><b>Complete, genuinely queued</b></td><td>—</td><td>Honest update, no outcome implied</td><td>Assessor, in order</td><td><span class="st wait">Awaiting assessment</span></td></tr><tr><td><b>One document outstanding</b></td><td>—</td><td>The specific item named</td><td>Applicant to send it</td><td><span class="st wait">Awaiting applicant</span></td></tr><tr><td><b>Something changed since applying</b></td><td>—</td><td>Flagged for an assessor</td><td>Assessor</td><td><span class="st wait">Awaiting assessment</span></td></tr><tr><td><b>Language reads as hardship</b></td><td>—</td><td>Nothing drafted</td><td>A named person, urgently</td><td><span class="st hot">Held — no draft</span></td></tr><tr><td><b>Joint, no sharing consent</b></td><td>—</td><td>Nothing drafted</td><td>Both applicants</td><td><span class="st hot">Held — no draft</span></td></tr><tr><td><b>Identity not yet verified</b></td><td>—</td><td>Update held</td><td>Verification</td><td><span class="st ok">Parked</span></td></tr></tbody>
     </table>
-    <p style="font-size:12.5px;color:var(--muted-2);margin-top:18px;font-weight:300">Volumes are deliberately blank. This concept has no NZ Post data and does not estimate parcel numbers.</p>
+    <p style="font-size:12.5px;color:var(--muted-2);margin-top:18px;font-weight:300">Counts are blank because this is a demonstrator. There is no Ledgerline, and therefore no applications.</p>
   </div>
 </div></section>
 
@@ -314,10 +314,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <div class="rise"><div class="receipt">
       <div class="rh">Mana Receipt · draft</div>
       <dl>
-        <dt>Artefact</dt><dd id="rArt">Tracking answer — no scan for three days</dd>
-        <dt>Read</dt><dd>Scan history (placeholder) · network expectations (placeholder) · published delivery information from nzpost.co.nz</dd>
-        <dt>Rules held</dt><dd>Fair Trading Act 1986 · Consumer Guarantees Act 1993 · Privacy Act 2020</dd>
-        <dt>Refused</dt><dd>No delivery date, compensation amount, hold period or claim outcome was stated — none of these were published on the pages we read.</dd>
+        <dt>Artefact</dt><dd id="rArt">Application update — complete file, in the queue</dd>
+        <dt>Read</dt><dd>Invented product and process facts for an invented lender · application fields: submitted documents, outstanding items, queue position, hardship-language flag, joint-applicant consent. No credit file. No bank transactions.</dd>
+        <dt>Rules held</dt><dd>Credit Contracts and Consumer Finance Act 2003 · Responsible Lending Code · Privacy Act 2020 · Fair Trading Act 1986</dd>
+        <dt>Refused</dt><dd>No credit decision was made or implied. No rate, amount or term was personalised. Nothing was drafted for an application reading as hardship, or for a joint application without per-applicant sharing consent.</dd>
         <dt>Approver</dt><dd>A named person. Unsent until then.</dd>
         <dt>Prepared</dt><dd id="rWhen">—</dd>
         <dt>Reference</dt><dd class="hash" id="rHash">—</dd>
@@ -337,9 +337,9 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     </div></div>
     <div class="rise"><div class="glass pilot">
       <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
-      <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>One parcel situation — the parcel that has stopped moving. Six weeks. Not claims, not the contact centre, not the app.</p></div></div>
-      <div class="step"><span class="n">2</span><div><h4>Access</h4><p>Your published delivery information and the status codes themselves. No customer records. No addresses. No parcel contents.</p></div></div>
-      <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Tracking checks that did not become a phone call. Answers a person agreed with. Proactive notes sent before the customer chased. One CX lead’s honest answer to “is this better than the status code?”</p></div></div>
+      <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>In a real engagement: progress updates for opted-in applicants on one product, six weeks. Not the credit model, not pricing, not affordability, not the decision.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h4>Access</h4><p>Published product facts and the field names for submitted documents, outstanding items, queue position, hardship flags and joint-consent status. No credit files. No bank statements.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Applicants who stopped chasing. Documents supplied faster because the ask was specific. Held cases a person agreed should have been held. And whether an assessor would put their name to every update that went out.</p></div></div>
       <p class="kicker" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
     </div></div>
   </div>
@@ -349,7 +349,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <p class="kicker">Not “book a demo”. Any of these is a real next step, and the third is a perfectly good answer.</p>
   </div>
   <div class="verbs rise">
-    <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about NZ Post. Tell us which line and we will fix it or take the concept down.</div></a>
+    <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about Ledgerline. Tell us which line and we will fix it or take the concept down.</div></a>
     <a class="verb" href="#" onclick="return verb('narrow')"><div class="w">Narrow it</div><div class="s">One situation, six weeks. Tell us which and we will scope it against how you actually work.</div></a>
     <a class="verb" href="#" onclick="return verb('decline')"><div class="w">Decline it</div><div class="s">Not now, or not at all. Say so and you will not hear from us again about this.</div></a>
   </div>
@@ -357,7 +357,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="glass unfin rise" style="margin-top:44px">
     <div class="eyebrow" style="margin-bottom:12px">The unfinished pane</div>
     <h3>What is the one constraint we have got wrong?</h3>
-    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how NZ Post actually runs that we could not see. One line is enough.</p>
+    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how Ledgerline actually runs that we could not see. One line is enough.</p>
     <div class="row">
       <input id="constraint" placeholder="The thing we clearly don't understand about your business…" onkeydown="if(event.key==='Enter')sendConstraint()">
       <button class="btn solid" onclick="sendConstraint()">Send it <span class="arw">→</span></button>
@@ -369,8 +369,8 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 
 <footer><div class="wrap narrow">
   
-  <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by NZ Post. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
-  <p style="margin-top:16px">Verified from NZ Post's own published material: NZ Post’s tracking page offers a parcel enquiry and links to FAQs at support.nzpost.co.nz. That page does not state a standard delivery timeframe. It does not state when a parcel is considered lost, or how an investigation proceeds. It does not state what damage cover includes or how to claim.</p>
+  <p><b>A category demonstrator.</b> Ledgerline is not a real company. The name, the palette, the cast, the figures and every draft on this page were invented by assembl to show the shape of an agentic customer journey in this category, without borrowing anyone's brand to do it.</p>
+  <p style="margin-top:16px">What is real: This is a demonstrator by assembl, a New Zealand agentic-AI studio, and Ledgerline does not exist. The mechanic shown is real and is the one assembl builds: a rewarded wait state that gives a truthful account of where work sits, asks the one question that unblocks it, and stops before a person decides. The regulatory boundaries named on this page are real ones that apply to consumer lending in Aotearoa.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
   <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
 </div></footer>
@@ -378,7 +378,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 <button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
 <div class="chat" id="chat">
   <div class="chathead">
-    <div class="t"><span class="d"></span> NZ Post concept <small>· it will say when it doesn't know</small></div>
+    <div class="t"><span class="d"></span> Ledgerline concept <small>· it will say when it doesn't know</small></div>
     <button class="x" onclick="closeChat()" aria-label="Close">×</button>
   </div>
   <div class="msgs" id="msgs"></div><div class="sugg" id="sugg"></div>
@@ -389,14 +389,14 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 <script src="three.min.js"></script>
 <script>
 var CFG={
-  company:"NZ Post", short:"NZ Post",
-  accent:"#0068FF", accent2:"#32A465",
-  generic:false,
-  execs:{"cx":"Customer Experience","ops":"Delivery Operations","digital":"Digital"}, buyerTitle:"Customer Experience", buyerLine:"NZ Post · Aotearoa New Zealand",
-  variants:[{"key":"normal","label":"Running normally","chan":"Tracking view · parcel moving as expected","body":"Your parcel is on track.\n\nIt was scanned this morning at the Auckland processing centre and is on the network for delivery. Nothing here needs your attention.\n\nIf it has not arrived by the end of the day after the estimated date, we will start looking without you having to ask, and we will tell you we have.","rules":["Says plainly that no action is needed — most people just want permission to stop worrying","Commits to a next step and a date rather than leaving it open","No estimated delivery date is invented here — a pilot would read your real network data"]},{"key":"stalled","label":"Not scanned for three days","chan":"Tracking view · no movement, no exception raised","body":"Your parcel has not been scanned since Thursday.\n\nThat is longer than we would expect, and we have not raised an exception on it — so this is us telling you before you had to chase it.\n\nWe have asked the last site that handled it to look. You do not need to do anything yet. If we have not found it by Wednesday we will contact you about what happens next, including what you are covered for.","rules":["Volunteers the bad news rather than waiting for the enquiry","Distinguishes “we have not looked yet” from “we have looked and cannot find it” — those are very different to a customer","Names a date for the next contact","Cover is mentioned but no amount is stated — that was not published"]},{"key":"failed","label":"Delivery attempted, nobody home","chan":"Tracking view · card left, parcel at a collection point","body":"We tried to deliver on Friday afternoon and nobody was home, so your parcel is waiting at a collection point near you.\n\nYou will need photo ID that matches the name on the parcel. It will be held for a set period before it is returned to sender — we will tell you the exact date rather than leave you guessing.\n\nIf getting there is difficult, you can redirect it. That is a two-minute job and it is free.","rules":["Leads with what happened, not with an instruction","States the requirement (ID) before the customer arrives without it","Holding period is referenced but the exact number is left for real data — store hours and hold periods were not published on the page we read"]},{"key":"damaged","label":"Arrived damaged","chan":"Held — routed to a person","body":"This one is not answered automatically.\n\nA damaged parcel is a claim, and a claim decision belongs to a person with the policy in front of them. What this concept does is prepare the file — the scan history, where the damage most likely occurred, the sender’s cover, and the photographs the customer has already sent.\n\nSo the person who picks it up starts at the decision instead of starting at “can I take your tracking number”.","rules":["Refuses to decide a claim — that is a person’s job","Prepares the file so the person starts further along","No cover amount, excess or eligibility is stated; your own page does not publish them and this concept does not guess"]}], guard:[{"ok":true,"t":"No delivery promise beyond the network data","d":"Where an estimated date exists it is quoted; where it does not, the draft says so instead of producing a comforting guess.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — “your parcel will arrive tomorrow”","d":"The source status did not support it. A missed promise costs more than a vague answer, and generates the call it was meant to prevent.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — compensation amount","d":"A cover figure was drafted from an old template. Your published tracking page does not state what damage cover includes, so nothing was asserted.","law":"Fair Trading Act 1986 · CGA 1993"},{"ok":true,"t":"Claim decisions routed to a person","d":"Damage and loss are prepared, never decided. The file is assembled; the judgement is not.","law":"Consumer Guarantees Act 1993"},{"ok":true,"t":"No personal detail beyond the tracking holder","d":"Nothing about the sender, the contents, or the address is surfaced to anyone but the person entitled to it.","law":"Privacy Act 2020"}],
-  verified:["NZ Post’s tracking page offers a parcel enquiry and links to FAQs at support.nzpost.co.nz.","That page does not state a standard delivery timeframe.","It does not state when a parcel is considered lost, or how an investigation proceeds.","It does not state what damage cover includes or how to claim."], laws:"Fair Trading Act 1986, Consumer Guarantees Act 1993, and the Privacy Act 2020.",
-  pilotScope:"One parcel situation — the parcel that has stopped moving. Six weeks. Not claims, not the contact centre, not the app.", pilotAccess:"Your published delivery information and the status codes themselves. No customer records. No addresses. No parcel contents.", pilotScorecard:"Tracking checks that did not become a phone call. Answers a person agreed with. Proactive notes sent before the customer chased. One CX lead’s honest answer to “is this better than the status code?”",
-  verbNoun:"parcel-wait concept", receiptArtefact:"Tracking answer — no scan for three days"
+  company:"Ledgerline", short:"Ledgerline",
+  accent:"#1E2A38", accent2:"#C9A227",
+  generic:true,
+  execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Banking and lending · an invented example",
+  variants:[{"key":"waiting","label":"Just genuinely queued","chan":"Update · complete file, in the queue","body":"Your application is complete and it is in the queue. That is the whole truth of it.\n\nNothing is missing, nothing has gone wrong, and nobody has decided anything. An assessor picks it up in the order it arrived.\n\nWe are not going to tell you it looks good, because we do not know and it would not be ours to say.\n\nIf anything changes at your end, tell us — that is the one thing that can slow it down.","rules":["Never says approved, declined, likely or looking good","Says plainly that nothing has been decided","No timeframe is promised, only the ordering","Names the one thing the applicant can usefully do"]},{"key":"missing","label":"Something is missing","chan":"Update · one document outstanding","body":"One thing is holding this up, and it is a document, not a doubt.\n\nWe need the second page of the statement you sent — the one you uploaded stops halfway.\n\nThat is the only thing outstanding. Send it and this goes back into the queue exactly where it was, not to the back.\n\nNothing has been decided either way.","rules":["Names the specific missing item, not \"further information\"","Says explicitly that resubmitting does not lose queue position","Separates a document problem from an assessment concern","No decision stated or implied"]},{"key":"hardship","label":"Signs of hardship","chan":"Held — not sent · routed to a person","body":"This update was not drafted.\n\nThe application contains language that reads as financial hardship, or as borrowing to service existing borrowing. An automated progress note into that moment is how a lender does real harm.\n\nHeld and routed to a named person, with the words that triggered it attached.\n\nWhat they may decide is that the right outcome is not a loan — a budgeting service, a hardship process, or a conversation. This concept will never make that call.","rules":["The most important output refuses to produce a message","Hardship language is checked before anything drafts","Escalated with the trigger words attached","\"Not a loan\" is an outcome this concept must allow for"]},{"key":"joint","label":"A joint application","chan":"Held — not sent · consent per applicant","body":"Nothing was sent to either applicant.\n\nThis is a joint application, and a progress update can reveal what the other person did or did not submit. Consent to apply together is not consent to be told about each other.\n\nHeld until both applicants have agreed what may be shared.\n\nWhat this concept will not do is treat two people as one recipient because they are on one form.","rules":["Joint applications require per-applicant sharing consent","Never reveals one applicant’s submissions to the other","Held rather than genericised into uselessness","Consent is per-action, not implied by the application"]}], guard:[{"ok":true,"t":"No credit decision, anywhere","d":"No update says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.","law":"Credit Contracts and Consumer Finance Act 2003"},{"ok":true,"t":"No rate, amount or term is quoted","d":"Nothing is personalised to an applicant, because personalising a price is a lending decision.","law":"CCCFA · Responsible Lending Code"},{"ok":false,"t":"Held — application reads as hardship","d":"Nothing drafted. Routed to a named person with the triggering words attached. One right answer is no loan at all.","law":"CCCFA · Responsible Lending Code, lender responsibilities"},{"ok":false,"t":"Held — joint application without sharing consent","d":"An update can reveal what a co-applicant submitted. Held until both have agreed what may be shared.","law":"Privacy Act 2020 · IPP 11"},{"ok":true,"t":"No inducement and no urgency","d":"No credit, bonus or deadline is attached to an application update. The wait returns a truthful account and nothing else.","law":"CCCFA · Fair Trading Act 1986"}],
+  verified:["This is a demonstrator by assembl, a New Zealand agentic-AI studio, and Ledgerline does not exist.","The mechanic shown is real and is the one assembl builds: a rewarded wait state that gives a truthful account of where work sits, asks the one question that unblocks it, and stops before a person decides.","The regulatory boundaries named on this page are real ones that apply to consumer lending in Aotearoa."], laws:"the Credit Contracts and Consumer Finance Act 2003 and the Responsible Lending Code, the Privacy Act 2020, and the Fair Trading Act 1986.",
+  pilotScope:"In a real engagement: progress updates for opted-in applicants on one product, six weeks. Not the credit model, not pricing, not affordability, not the decision.", pilotAccess:"Published product facts and the field names for submitted documents, outstanding items, queue position, hardship flags and joint-consent status. No credit files. No bank statements.", pilotScorecard:"Applicants who stopped chasing. Documents supplied faster because the ask was specific. Held cases a person agreed should have been held. And whether an assessor would put their name to every update that went out.",
+  verbNoun:"category demonstrator", receiptArtefact:"Application update — complete file, in the queue"
 };
 
 (function(){
@@ -705,7 +705,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an NZ Post product · no tracking data was used","skipLabel":"rather not say","scenarios":[{"id":"parcel","label":"The parcel","app":"Where is my parcel?","unit":[""," min"],"earning":"on the phone, not spent","yours":"the call they skip","told":"they told you:","declined":"they would rather not say. Tracking still gets assembled.","steps":[{"agent":"Scan","doing":"Last movement, and where","credit":4},{"agent":"Lane","doing":"How this lane usually runs","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Is there somewhere safe to leave it?","options":["Yes, behind the gate","I need to sign"],"learn":["safe place behind the gate, so no second attempt","signature required, so book a window"]}},{"agent":"Rule","doing":"Your lost-parcel threshold — once you give us it","credit":6},{"agent":"Draft","doing":"Ready for a person to send","credit":8}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Ledgerline is not a real company · no credit decision is made here","startLabel":"where is my application?","skipLabel":"rather not say","scenarios":[{"id":"assessment","label":"The assessment","app":"Your application, day three","unit":[""," min"],"earning":"of chasing, skipped","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The update still gets prepared.","steps":[{"agent":"State","doing":"Where it honestly sits today","credit":5},{"agent":"Docs","doing":"What landed, what is still missing","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Has anything changed since you applied?","options":["Yes, something has","No, all the same"],"learn":["something changed, so an assessor needs it before deciding","nothing changed, so the file is complete as submitted"]}},{"agent":"Queue","doing":"What happens next, and roughly when","credit":6},{"agent":"Person","doing":"Waiting on an assessor — no decision here","credit":8}]}]});
 })();
 </script>
 </body>

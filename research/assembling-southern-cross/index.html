@@ -80,6 +80,22 @@ em.g{font-style:normal;color:var(--accent)}
    screen is light, and against this near-black page it becomes the one thing
    in the section your eye goes to. The three cards move alongside it so the
    section shows before it explains. */
+/* ══ DENSITY ══════════════════════════════════════════════════════════════
+   Kate: the demos read "text heavy and boring". The substance stays; what
+   changes is that the REASONING is one line you can open, and the verdict is
+   what you scan. Held checks open themselves, because those are the ones worth
+   reading. */
+.check .t{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font-weight:700;font-size:15.5px;color:var(--paper);padding:0;cursor:pointer}
+.check .t .more{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);border:1px solid var(--line);border-radius:99px;padding:3px 9px;flex-shrink:0}
+.check .t:hover .more{border-color:var(--accent);color:var(--accent)}
+.check .d[hidden]{display:none}
+.ruletoggle{display:flex;align-items:center;gap:10px;margin-top:18px;padding:0;cursor:pointer;
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ruletoggle:hover{color:var(--accent)}
+.ruletoggle .more{font-size:9.5px;border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+.rules[hidden]{display:none}
 .waitgrid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-top:44px}
 .waitcards{display:flex;flex-direction:column;gap:16px}
 .waitdemo{position:sticky;top:88px}
@@ -96,8 +112,8 @@ em.g{font-style:normal;color:var(--accent)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
-  --wp-accent:var(--accent); --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
-  --wp-rim:color-mix(in srgb, var(--accent) 58%, transparent);
+  --wp-accent:#009ADE; --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, #009ADE 58%, transparent);
   --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
   --wp-sans:var(--sans); --wp-app:var(--sans);
 }
@@ -352,6 +368,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </main>
 
 <footer><div class="wrap narrow">
+  
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by Southern Cross Health Society. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
   <p style="margin-top:16px">Verified from Southern Cross Health Society's own published material: Southern Cross Health Society describes itself as “NZ owned and not-for-profit”. It reported more than 951,000 members as at 30 June 2025. For the year ended 30 June 2025, “94c of every dollar received in premiums” was paid out in claims. It paid 68% of the value of all health insurance claims in the New Zealand market. Its stated purpose is to provide “peace of mind so you and your family can get back to feeling good, faster”.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
@@ -374,6 +391,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 var CFG={
   company:"Southern Cross Health Society", short:"Southern Cross",
   accent:"#009ADE", accent2:"#FC6014",
+  generic:false,
   execs:{"remediation":"Customer Engagement Manager — Remediation","cco":"Chief Customer Officer","ceo":"Chief Executive"}, buyerTitle:"Customer Engagement — Remediation", buyerLine:"Southern Cross Health Society · Auckland",
   variants:[{"key":"simple","label":"Straightforward","chan":"Remediation letter · member with a single affected claim","body":"Kia ora,\n\nWe have found an error in how one of your claims was assessed, and we are putting it right.\n\nWhat happened: between March and August, a small number of claims were assessed using an out-of-date benefit limit. One of yours was affected.\n\nWhat it means for you: you were out of pocket by an amount we have now calculated. It will be paid back to your nominated account within ten working days. You do not need to do anything.\n\nIf you would like to talk it through, you can call us and we will have your file open before you finish explaining.","rules":["Names what happened before it names the remedy","States plainly that the member does not need to act","No apology-shaped sentence that avoids saying what went wrong","The redress figure is left for a person to confirm — it was not supplied to this concept"]},{"key":"complex","label":"Multiple claims","chan":"Remediation letter · member with several affected claims over two years","body":"Kia ora,\n\nWe have found an error affecting more than one of your claims, and we want to explain it properly rather than briefly.\n\nWhat happened: an out-of-date benefit limit was applied to claims assessed between March and August. Several of yours fall inside that period.\n\nWhat it means for you: each affected claim has been recalculated individually. We have listed them on the enclosed page so you can check them against your own records — please tell us if anything is missing.\n\nWhat we are doing: the total will be paid back to your nominated account. If you would prefer it applied against your premium instead, call us and we will arrange that.","rules":["Longer, because the situation is more complicated — length follows the member, not the template","Invites the member to check the working rather than asking them to trust it","Offers a genuine choice about how redress is applied","Flagged for a person: multi-claim cases are never sent unreviewed"]},{"key":"sensitive","label":"Sensitive claim","chan":"Remediation letter · claim relates to a serious health event","body":"Kia ora,\n\nWe are writing about a claim from a time that we know was not an easy one for you.\n\nWe have found that it was assessed using an out-of-date benefit limit, and that you were left out of pocket as a result. That should not have happened, and we are sorry.\n\nWe have recalculated it. Rather than set out the detail in a letter, we would like to talk it through with you at a time that suits — one person, who will have read your file first.\n\nIf you would rather have it in writing, tell us and we will send the full working instead.","rules":["Held back from the bulk send entirely — routed to a named person first","Does not lead with the mechanics of the error","Offers a conversation before it offers a calculation","Never assumes which format the member wants"]},{"key":"deceased","label":"Member has died","chan":"Held — not sent · estate contact required","body":"This letter was not drafted.\n\nThe member record carries a date of death. A remediation letter addressed to someone who has died, arriving at a family home, is the kind of harm that no amount of redress repairs.\n\nHeld for a named person to decide the right approach — which may be the estate’s nominated contact, or may be nothing at all.\n\nNo draft has been prepared, because the right first step here is a decision, not a letter.","rules":["The most important output is the one that refuses to produce a letter","Deceased-member records are checked before any draft is written, not after","Escalated with the reason attached, not silently dropped from the run","A person decides whether anything is sent at all"]}], guard:[{"ok":true,"t":"Plain language, no hedging","d":"The draft says what went wrong in the first two sentences. Passive constructions that avoid naming the error were rewritten.","law":"Fair Trading Act 1986 · CoFI fair-conduct principle"},{"ok":true,"t":"The member is told whether they must act","d":"Every draft answers “what do I have to do” explicitly, including when the answer is nothing.","law":"CoFI · fair, ethical and compliant outcomes"},{"ok":false,"t":"Held — 41 records carry a date of death","d":"No letter was drafted for any of them. Routed to a named person to decide the approach, which may be no contact at all.","law":"Privacy Act 2020 · harm prevention"},{"ok":false,"t":"Held — 12 members flagged as vulnerable","d":"Removed from the bulk run. A conversation is offered before a calculation, and a person chooses who makes the call.","law":"CoFI · vulnerable-customer obligations"},{"ok":true,"t":"No redress figure invented","d":"Every draft leaves the amount for a person to confirm. No figure was supplied to this concept and none was guessed.","law":"Fair Trading Act 1986"}],
   verified:["Southern Cross Health Society describes itself as “NZ owned and not-for-profit”.","It reported more than 951,000 members as at 30 June 2025.","For the year ended 30 June 2025, “94c of every dollar received in premiums” was paid out in claims.","It paid 68% of the value of all health insurance claims in the New Zealand market.","Its stated purpose is to provide “peace of mind so you and your family can get back to feeling good, faster”."], laws:"Conduct of Financial Institutions (CoFI) regime, Fair Trading Act 1986, Privacy Act 2020, and the Health Information Privacy Code 2020.",
@@ -395,7 +413,10 @@ function renderTabs(){
 function renderDraft(){
   var v=byKey(cur);
   document.getElementById('draftBox').innerHTML='<div class="fade"><div class="chan">'+v.chan+'</div><div class="body">'+v.body+'</div>'+
-    '<div class="rules">'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+    '<button class="ruletoggle" type="button" aria-expanded="false">Why it is written this way<span class="more">'+v.rules.length+'</span></button>'+
+    '<div class="rules" hidden>'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+  var rt=document.getElementById('draftBox').querySelector('.ruletoggle'),rl=document.getElementById('draftBox').querySelector('.rules');
+  rt.onclick=function(){var open=rl.hidden;rl.hidden=!open;rt.setAttribute('aria-expanded',String(open))};
   stamp();
 }
 function pick(k){cur=k;renderTabs();renderDraft()}
@@ -412,7 +433,13 @@ function runGuard(){
     setTimeout(function(){
       var d=document.createElement('div');
       d.className='check '+(g.ok?'pass':'block')+' fade';
-      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><div class="t">'+g.t+'</div><div class="d">'+g.d+'</div><div class="law">'+g.law+'</div></div>';
+      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><button class="t" type="button" aria-expanded="false">'+g.t+
+        '<span class="more">why</span></button><div class="d" hidden>'+g.d+'<div class="law">'+g.law+'</div></div></div>';
+      var head=d.querySelector('.t'),body=d.querySelector('.d');
+      head.onclick=function(){var open=body.hidden;body.hidden=!open;head.setAttribute('aria-expanded',String(open));
+        head.querySelector('.more').textContent=open?'close':'why'};
+      /* A held check is the interesting one, so it opens itself. */
+      if(!g.ok){body.hidden=false;head.setAttribute('aria-expanded','true');head.querySelector('.more').textContent='close'}
       out.appendChild(d);
     },red?0:i*420);
   });
@@ -443,7 +470,7 @@ function sendConstraint(){
 }
 
 var GENOME=[
-"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+".",
+(CFG.generic?"You are an assistant on a CATEGORY DEMONSTRATOR built by assembl (a New Zealand agentic-AI studio). "+CFG.company+" is NOT a real company — it is an invented example for this category. Never claim it exists, never invent facts about a real competitor, and say plainly that this page demonstrates a shape rather than describing a real client.":"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+"."),
 "You are NOT "+CFG.company+", you do not speak for them, and you must say so if asked.",
 "",
 "VERIFIED FACTS you may rely on (from "+CFG.company+"'s own published material):",

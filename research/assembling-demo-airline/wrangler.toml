@@ -1,0 +1,6 @@
+name = "assembling-demo-airline"
+compatibility_date = "2025-10-01"
+pages_build_output_dir = "."
+
+[ai]
+binding = "AI"

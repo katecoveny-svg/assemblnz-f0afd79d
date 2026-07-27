@@ -80,6 +80,22 @@ em.g{font-style:normal;color:var(--accent)}
    screen is light, and against this near-black page it becomes the one thing
    in the section your eye goes to. The three cards move alongside it so the
    section shows before it explains. */
+/* ══ DENSITY ══════════════════════════════════════════════════════════════
+   Kate: the demos read "text heavy and boring". The substance stays; what
+   changes is that the REASONING is one line you can open, and the verdict is
+   what you scan. Held checks open themselves, because those are the ones worth
+   reading. */
+.check .t{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font-weight:700;font-size:15.5px;color:var(--paper);padding:0;cursor:pointer}
+.check .t .more{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);border:1px solid var(--line);border-radius:99px;padding:3px 9px;flex-shrink:0}
+.check .t:hover .more{border-color:var(--accent);color:var(--accent)}
+.check .d[hidden]{display:none}
+.ruletoggle{display:flex;align-items:center;gap:10px;margin-top:18px;padding:0;cursor:pointer;
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ruletoggle:hover{color:var(--accent)}
+.ruletoggle .more{font-size:9.5px;border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+.rules[hidden]{display:none}
 .waitgrid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-top:44px}
 .waitcards{display:flex;flex-direction:column;gap:16px}
 .waitdemo{position:sticky;top:88px}
@@ -96,8 +112,8 @@ em.g{font-style:normal;color:var(--accent)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
-  --wp-accent:var(--accent); --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
-  --wp-rim:color-mix(in srgb, var(--accent) 58%, transparent);
+  --wp-accent:#1352DE; --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, #1352DE 58%, transparent);
   --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
   --wp-sans:var(--sans); --wp-app:var(--sans);
 }
@@ -352,6 +368,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </main>
 
 <footer><div class="wrap narrow">
+  
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by AIG New Zealand. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
   <p style="margin-top:16px">Verified from AIG New Zealand's own published material: AIG New Zealand is a commercial and specialty insurer serving New Zealand businesses. Reading aig.co.nz with assembl’s own tool, it answers two of the five questions its customers most want answered before buying. AIG New Zealand is advertising for a customer lifecycle role.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
@@ -374,6 +391,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 var CFG={
   company:"AIG New Zealand", short:"AIG",
   accent:"#1352DE", accent2:"#FF8200",
+  generic:false,
   execs:{"customer":"Customer & Lifecycle","claims":"Claims","dist":"Distribution"}, buyerTitle:"Customer & Lifecycle", buyerLine:"AIG New Zealand · Auckland",
   variants:[{"key":"moving","label":"Progressing","chan":"Claim update · nothing required from the customer","body":"Your claim is moving and there is nothing you need to do.\n\nAn assessor has been assigned and has what they need from you. The next step sits with us, not with you.\n\nWe will come back to you when there is a decision or if anything changes — you should not have to chase us to find out where it is.","rules":["Leads with “nothing you need to do” — the most valuable sentence in a claim update","Says where the work currently sits","No settlement figure, no date, no outcome is implied"]},{"key":"blocked","label":"Waiting on the customer","chan":"Claim update · one specific thing is missing","body":"Your claim is waiting on one thing.\n\nWe need the repairer’s written quote — not the invoice, the quote before the work. That is the only item outstanding, and once it arrives the file goes straight to assessment.\n\nIf getting it is difficult, tell us and we will work out another way rather than leaving the claim sitting.","rules":["Names exactly one thing, and distinguishes it from the thing people usually send by mistake","Says what happens the moment it arrives","Offers a route out if the requirement is hard to meet"]},{"key":"complex","label":"Complex, genuinely slow","chan":"Claim update · honest about the delay","body":"Your claim is taking longer than either of us would like, and it is worth explaining why rather than sending another holding note.\n\nIt involves a specialist assessment that only a small number of people in New Zealand can do, and we are in their queue. We are not waiting on you.\n\nWe would rather tell you that plainly than keep saying “still in progress”. If the timing creates a problem for your business, tell us and we will look at what can be done in the meantime.","rules":["Explains the delay instead of restating the status","Explicitly says the customer is not the blocker","Opens a door for interim help without promising any"]},{"key":"declined","label":"Heading toward decline","chan":"Held — not sent · a person must make this call","body":"No update was drafted.\n\nThis claim is heading toward a decline, and a decline is not a status update. It is a decision with consequences for a business, and it belongs to a person who can explain it, answer for it, and hear the response.\n\nWhat this concept prepared instead is the file — the policy wording that applies, the evidence on both sides, and the questions the customer is most likely to ask.\n\nThe conversation is not ours to have.","rules":["The concept refuses to communicate a decline at all","Prepares the person for the conversation rather than replacing it","No coverage position is asserted anywhere in this concept","Escalated with the reason attached"]}], guard:[{"ok":true,"t":"No coverage position stated","d":"Every draft describes where the claim is, never whether it is covered. Coverage is a person’s call, made against the policy.","law":"Fair Trading Act 1986 · FMCA fair-dealing"},{"ok":false,"t":"Blocked — settlement figure","d":"A number appeared in a draft from the file notes. No amount is ever communicated by this concept, at any stage.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — decline communication","d":"The draft was suppressed entirely and the file routed to a named person. A decline is a conversation, not a notification.","law":"FMCA fair-dealing · CoFI"},{"ok":true,"t":"No settlement date promised","d":"Where a timeframe is genuinely known it is given; where it is not, the draft says so rather than reassuring.","law":"Fair Trading Act 1986"},{"ok":true,"t":"Commercially sensitive detail contained","d":"Nothing about the insured’s business, the assessment, or third parties leaves the file.","law":"Privacy Act 2020"}],
   verified:["AIG New Zealand is a commercial and specialty insurer serving New Zealand businesses.","Reading aig.co.nz with assembl’s own tool, it answers two of the five questions its customers most want answered before buying.","AIG New Zealand is advertising for a customer lifecycle role."], laws:"the Financial Markets Conduct Act fair-dealing provisions, the Conduct of Financial Institutions regime, the Fair Trading Act 1986, and the Privacy Act 2020.",
@@ -395,7 +413,10 @@ function renderTabs(){
 function renderDraft(){
   var v=byKey(cur);
   document.getElementById('draftBox').innerHTML='<div class="fade"><div class="chan">'+v.chan+'</div><div class="body">'+v.body+'</div>'+
-    '<div class="rules">'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+    '<button class="ruletoggle" type="button" aria-expanded="false">Why it is written this way<span class="more">'+v.rules.length+'</span></button>'+
+    '<div class="rules" hidden>'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+  var rt=document.getElementById('draftBox').querySelector('.ruletoggle'),rl=document.getElementById('draftBox').querySelector('.rules');
+  rt.onclick=function(){var open=rl.hidden;rl.hidden=!open;rt.setAttribute('aria-expanded',String(open))};
   stamp();
 }
 function pick(k){cur=k;renderTabs();renderDraft()}
@@ -412,7 +433,13 @@ function runGuard(){
     setTimeout(function(){
       var d=document.createElement('div');
       d.className='check '+(g.ok?'pass':'block')+' fade';
-      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><div class="t">'+g.t+'</div><div class="d">'+g.d+'</div><div class="law">'+g.law+'</div></div>';
+      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><button class="t" type="button" aria-expanded="false">'+g.t+
+        '<span class="more">why</span></button><div class="d" hidden>'+g.d+'<div class="law">'+g.law+'</div></div></div>';
+      var head=d.querySelector('.t'),body=d.querySelector('.d');
+      head.onclick=function(){var open=body.hidden;body.hidden=!open;head.setAttribute('aria-expanded',String(open));
+        head.querySelector('.more').textContent=open?'close':'why'};
+      /* A held check is the interesting one, so it opens itself. */
+      if(!g.ok){body.hidden=false;head.setAttribute('aria-expanded','true');head.querySelector('.more').textContent='close'}
       out.appendChild(d);
     },red?0:i*420);
   });
@@ -443,7 +470,7 @@ function sendConstraint(){
 }
 
 var GENOME=[
-"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+".",
+(CFG.generic?"You are an assistant on a CATEGORY DEMONSTRATOR built by assembl (a New Zealand agentic-AI studio). "+CFG.company+" is NOT a real company — it is an invented example for this category. Never claim it exists, never invent facts about a real competitor, and say plainly that this page demonstrates a shape rather than describing a real client.":"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+"."),
 "You are NOT "+CFG.company+", you do not speak for them, and you must say so if asked.",
 "",
 "VERIFIED FACTS you may rely on (from "+CFG.company+"'s own published material):",

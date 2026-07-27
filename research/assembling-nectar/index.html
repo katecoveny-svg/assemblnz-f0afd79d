@@ -80,6 +80,22 @@ em.g{font-style:normal;color:var(--accent)}
    screen is light, and against this near-black page it becomes the one thing
    in the section your eye goes to. The three cards move alongside it so the
    section shows before it explains. */
+/* ══ DENSITY ══════════════════════════════════════════════════════════════
+   Kate: the demos read "text heavy and boring". The substance stays; what
+   changes is that the REASONING is one line you can open, and the verdict is
+   what you scan. Held checks open themselves, because those are the ones worth
+   reading. */
+.check .t{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font-weight:700;font-size:15.5px;color:var(--paper);padding:0;cursor:pointer}
+.check .t .more{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);border:1px solid var(--line);border-radius:99px;padding:3px 9px;flex-shrink:0}
+.check .t:hover .more{border-color:var(--accent);color:var(--accent)}
+.check .d[hidden]{display:none}
+.ruletoggle{display:flex;align-items:center;gap:10px;margin-top:18px;padding:0;cursor:pointer;
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ruletoggle:hover{color:var(--accent)}
+.ruletoggle .more{font-size:9.5px;border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+.rules[hidden]{display:none}
 .waitgrid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-top:44px}
 .waitcards{display:flex;flex-direction:column;gap:16px}
 .waitdemo{position:sticky;top:88px}
@@ -96,8 +112,8 @@ em.g{font-style:normal;color:var(--accent)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
-  --wp-accent:var(--accent); --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
-  --wp-rim:color-mix(in srgb, var(--accent) 58%, transparent);
+  --wp-accent:#056268; --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, #056268 58%, transparent);
   --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
   --wp-sans:var(--sans); --wp-app:var(--sans);
 }
@@ -352,6 +368,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </main>
 
 <footer><div class="wrap narrow">
+  
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by Nectar Money and Instant Finance. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
   <p style="margin-top:16px">Verified from Nectar Money and Instant Finance's own published material: Nectar Money’s own homepage leads with “Fast like a fintech. Fair like a human.” and “We combine smart technology with real human judgement to find a loan that works for you.” Nectar publishes personal loans of $2,000–$50,000, fixed personalised rates from 7.95% to 29.95% p.a., a $240 establishment fee, a $1.75 admin fee per repayment, terms of six months to five years, a seven-minute quote and 97% same-day funding. Nectar states the personalised rate is fixed for the life of the loan, that there are no early repayment penalties, and that it is 100% online. Instant Finance leads with “Makers Of Possible”, states “100% Kiwi owned Est. 1971” and “25 Locations across the country & online everywhere”, and describes itself as making “personal loans and access to finance easy for everyday Kiwis”. Instant Finance publishes rates of 9.95% to 29.95% per annum, establishment fees of $100 to $220, a $3 administration fee per instalment, a $7.70 ID verification processing fee, a $25 minimum weekly repayment, and “same day response”. It states it is a “Proud member of Financial Services Federation”. Symon Nausbaum is named as Founder and Chief Executive of Nectar NZ Limited, and as a director of Instant Finance Limited for fifteen years; company records list him among the significant beneficial owners of Instant Finance Limited.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
@@ -374,6 +391,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 var CFG={
   company:"Nectar Money and Instant Finance", short:"Nectar × Instant Finance",
   accent:"#056268", accent2:"#DFA092",
+  generic:false,
   execs:{"symon":"Founder and Chief Executive, Nectar NZ Limited","group":"Group — Nectar Money and Instant Finance","ops":"Head of Lending Operations"}, buyerTitle:"Founder and Chief Executive", buyerLine:"Nectar NZ Limited · and Instant Finance · Tāmaki Makaurau",
   variants:[{"key":"branch","label":"Better with a person","chan":"Handover · digital application → branch conversation","body":"Kia ora,\n\nWe have not finished looking at your application, and we are not going to leave you guessing while we do.\n\nOne thing we noticed: what you have told us is the kind of thing that is much easier to sort out in a conversation than in a form. Instant Finance — same owners as Nectar — has branches with people in them, and there is one near you.\n\nIf you would like, we can pass everything you have already typed straight across so you do not start again. You would be talking to a person, not re-filling a form.\n\nNothing has been decided, and nothing has been declined. Say the word and we will make the introduction.","rules":["Never says approved, declined, or likely — no credit decision is made or implied","Names the ownership link plainly rather than pretending it is a coincidence","The handover is offered, never performed automatically — the applicant consents first","Everything they typed moves with them, because re-typing is where people give up"]},{"key":"notyet","label":"Not yet, and why","chan":"Held · applicant told what would change the answer","body":"Kia ora,\n\nWe are not able to go ahead with this application right now.\n\nWe would rather tell you what that actually means than leave it at no. The reason sits with one part of your application, and it is the kind of thing that changes — sometimes within a few months.\n\nWhat we are not going to do is guess at your circumstances or tell you what to do about them. A lender will set out the specific reason, in writing, and what would need to be different.\n\nWe have not passed your details to anyone else, and we will not without you asking us to.","rules":["The reason is left for a lender to state — this concept does not know it and does not invent it","Says plainly that the decline is not permanent, without promising a future yes","No third-party referral, and no data sharing, without the applicant asking","Refuses to give financial advice, because that is a licensed activity"]},{"key":"hardship","label":"Signs of hardship","chan":"Held — not sent · routed to a person immediately","body":"This message was not drafted.\n\nThe application contains language that reads as financial hardship, or as borrowing to service existing borrowing. Sending an automated anything into that moment is how a lender does real harm — and it is exactly the situation the responsible lending rules exist for.\n\nHeld and routed to a named person, with the words that triggered it attached so they can judge for themselves.\n\nWhat that person may decide is that the right outcome is not a loan at all — a budgeting service, a hardship process, or simply a conversation. This concept will never make that call.","rules":["The most important output is the one that refuses to produce a message","Hardship language is checked before anything is drafted, never after","Escalated with the trigger words attached, not silently dropped from the run","A person decides — and “not a loan” is an outcome this concept must allow for"]},{"key":"topup","label":"Existing customer","chan":"Handover · already a customer of the other brand","body":"Kia ora,\n\nYou are already a customer of ours — under our other name.\n\nRather than run you through a new application as though we had never met, we have pulled together what we already hold, so you can check it is still right before anything goes further.\n\nWhat has changed since we last spoke is the part we cannot see, and it is the part that matters. So that is the only thing we are asking you about.\n\nAny new lending is a fresh decision by a lender, made properly. Being an existing customer does not change that, and we are not going to imply that it does.","rules":["Recognises the person across both brands instead of treating them as a stranger","Shows what is already held so they can correct it — provenance visible","States explicitly that history does not pre-approve anything","Asks only about the gap, not about everything again"]}], guard:[{"ok":true,"t":"No credit decision, anywhere","d":"No draft says approved, declined, pre-approved, eligible or likely. Every one of them ends with a named person, not an outcome.","law":"Credit Contracts and Consumer Finance Act 2003"},{"ok":true,"t":"No rate, no amount, no term quoted","d":"Published rate ranges are shown as published ranges. Nothing is personalised to an applicant, because personalising a price is a lending decision.","law":"CCCFA · Responsible Lending Code"},{"ok":false,"t":"Held — 3 applications read as hardship","d":"Nothing was drafted for any of them. Routed to a named person with the triggering words attached. One possible right answer is no loan at all.","law":"CCCFA · Responsible Lending Code, lender responsibility principles"},{"ok":false,"t":"Held — cross-brand handover without consent","d":"A Nectar applicant’s details are never moved to Instant Finance, or the reverse, until they ask for it. The draft offers; it does not transfer.","law":"Privacy Act 2020 · IPP 10 and IPP 11"},{"ok":true,"t":"No inducement to borrow","d":"The wait returns time and a straight answer, never a credit, discount or bonus toward taking a loan. A sweetener here would be the wrong instrument.","law":"CCCFA · Responsible Lending Code"},{"ok":true,"t":"No financial advice","d":"Drafts never recommend a product, a brand or a course of action. “Talk to a person” is an offer, not advice.","law":"Financial Markets Conduct Act 2013 · advice regime"}],
   verified:["Nectar Money’s own homepage leads with “Fast like a fintech. Fair like a human.” and “We combine smart technology with real human judgement to find a loan that works for you.”","Nectar publishes personal loans of $2,000–$50,000, fixed personalised rates from 7.95% to 29.95% p.a., a $240 establishment fee, a $1.75 admin fee per repayment, terms of six months to five years, a seven-minute quote and 97% same-day funding.","Nectar states the personalised rate is fixed for the life of the loan, that there are no early repayment penalties, and that it is 100% online.","Instant Finance leads with “Makers Of Possible”, states “100% Kiwi owned Est. 1971” and “25 Locations across the country & online everywhere”, and describes itself as making “personal loans and access to finance easy for everyday Kiwis”.","Instant Finance publishes rates of 9.95% to 29.95% per annum, establishment fees of $100 to $220, a $3 administration fee per instalment, a $7.70 ID verification processing fee, a $25 minimum weekly repayment, and “same day response”. It states it is a “Proud member of Financial Services Federation”.","Symon Nausbaum is named as Founder and Chief Executive of Nectar NZ Limited, and as a director of Instant Finance Limited for fifteen years; company records list him among the significant beneficial owners of Instant Finance Limited."], laws:"the Credit Contracts and Consumer Finance Act 2003 and the Responsible Lending Code, the Privacy Act 2020, the Financial Markets Conduct Act 2013 advice regime, and the Fair Trading Act 1986.",
@@ -395,7 +413,10 @@ function renderTabs(){
 function renderDraft(){
   var v=byKey(cur);
   document.getElementById('draftBox').innerHTML='<div class="fade"><div class="chan">'+v.chan+'</div><div class="body">'+v.body+'</div>'+
-    '<div class="rules">'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+    '<button class="ruletoggle" type="button" aria-expanded="false">Why it is written this way<span class="more">'+v.rules.length+'</span></button>'+
+    '<div class="rules" hidden>'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+  var rt=document.getElementById('draftBox').querySelector('.ruletoggle'),rl=document.getElementById('draftBox').querySelector('.rules');
+  rt.onclick=function(){var open=rl.hidden;rl.hidden=!open;rt.setAttribute('aria-expanded',String(open))};
   stamp();
 }
 function pick(k){cur=k;renderTabs();renderDraft()}
@@ -412,7 +433,13 @@ function runGuard(){
     setTimeout(function(){
       var d=document.createElement('div');
       d.className='check '+(g.ok?'pass':'block')+' fade';
-      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><div class="t">'+g.t+'</div><div class="d">'+g.d+'</div><div class="law">'+g.law+'</div></div>';
+      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><button class="t" type="button" aria-expanded="false">'+g.t+
+        '<span class="more">why</span></button><div class="d" hidden>'+g.d+'<div class="law">'+g.law+'</div></div></div>';
+      var head=d.querySelector('.t'),body=d.querySelector('.d');
+      head.onclick=function(){var open=body.hidden;body.hidden=!open;head.setAttribute('aria-expanded',String(open));
+        head.querySelector('.more').textContent=open?'close':'why'};
+      /* A held check is the interesting one, so it opens itself. */
+      if(!g.ok){body.hidden=false;head.setAttribute('aria-expanded','true');head.querySelector('.more').textContent='close'}
       out.appendChild(d);
     },red?0:i*420);
   });
@@ -443,7 +470,7 @@ function sendConstraint(){
 }
 
 var GENOME=[
-"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+".",
+(CFG.generic?"You are an assistant on a CATEGORY DEMONSTRATOR built by assembl (a New Zealand agentic-AI studio). "+CFG.company+" is NOT a real company — it is an invented example for this category. Never claim it exists, never invent facts about a real competitor, and say plainly that this page demonstrates a shape rather than describing a real client.":"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+"."),
 "You are NOT "+CFG.company+", you do not speak for them, and you must say so if asked.",
 "",
 "VERIFIED FACTS you may rely on (from "+CFG.company+"'s own published material):",

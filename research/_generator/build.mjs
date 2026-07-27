@@ -21,9 +21,22 @@ const DONOR = resolve(RESEARCH, 'assembling-summerset');
 const esc = (s) => String(s).replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const js = (s) => JSON.stringify(s);
 
+/** Relative luminance, for deciding what is legible on a light phone screen. */
+function lum(hex) {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
 function page(c) {
   const accent = c.primary;
   const accent2 = c.secondary || c.primary;
+  /* The wait-phone screen is light, so a NEAR-BLACK primary turns the champagne
+     ring into a black ring and the whole idea of it disappears. Only near-blacks
+     swap — the threshold was 0.16 first, which also swapped away perfectly good
+     dark-but-saturated accents like Nectar's teal (0.098). 0.05 catches the
+     charcoals and indigos and leaves the real brand colours alone. */
+  const phoneAccent = lum(accent) < 0.05 && lum(accent2) > lum(accent) * 2 ? accent2 : accent;
   const h1 = c.h1.map((line, i) =>
     i === c.h1Accent ? `<em class="g">${line}</em>` : line).join('<br>');
 
@@ -33,8 +46,8 @@ function page(c) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>${esc(c.company)} · an independent concept by assembl</title>
-<meta name="description" content="An independent concept prepared for ${esc(c.company)}. Not affiliated with or endorsed by ${esc(c.company)}.">
+<title>${esc(c.company)} · ${c.generic ? `a category demonstrator by assembl` : `an independent concept by assembl`}</title>
+<meta name="description" content="${c.generic ? esc(c.company) + ` — a category demonstrator of an agentic customer journey by assembl. No real company; every name is invented.` : `An independent concept prepared for ` + esc(c.company) + `. Not affiliated with or endorsed by ` + esc(c.company) + `.`}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -109,6 +122,22 @@ em.g{font-style:normal;color:var(--accent)}
    screen is light, and against this near-black page it becomes the one thing
    in the section your eye goes to. The three cards move alongside it so the
    section shows before it explains. */
+/* ══ DENSITY ══════════════════════════════════════════════════════════════
+   Kate: the demos read "text heavy and boring". The substance stays; what
+   changes is that the REASONING is one line you can open, and the verdict is
+   what you scan. Held checks open themselves, because those are the ones worth
+   reading. */
+.check .t{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font-weight:700;font-size:15.5px;color:var(--paper);padding:0;cursor:pointer}
+.check .t .more{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);border:1px solid var(--line);border-radius:99px;padding:3px 9px;flex-shrink:0}
+.check .t:hover .more{border-color:var(--accent);color:var(--accent)}
+.check .d[hidden]{display:none}
+.ruletoggle{display:flex;align-items:center;gap:10px;margin-top:18px;padding:0;cursor:pointer;
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ruletoggle:hover{color:var(--accent)}
+.ruletoggle .more{font-size:9.5px;border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+.rules[hidden]{display:none}
 .waitgrid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-top:44px}
 .waitcards{display:flex;flex-direction:column;gap:16px}
 .waitdemo{position:sticky;top:88px}
@@ -125,8 +154,8 @@ em.g{font-style:normal;color:var(--accent)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
-  --wp-accent:var(--accent); --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
-  --wp-rim:color-mix(in srgb, var(--accent) 58%, transparent);
+  --wp-accent:${phoneAccent}; --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, ${phoneAccent} 58%, transparent);
   --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
   --wp-sans:var(--sans); --wp-app:var(--sans);
 }
@@ -382,8 +411,11 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </main>
 
 <footer><div class="wrap narrow">
+  ${c.generic ? `
+  <p><b>A category demonstrator.</b> ${esc(c.company)} is not a real company. The name, the palette, the cast, the figures and every draft on this page were invented by assembl to show the shape of an agentic customer journey in this category, without borrowing anyone's brand to do it.</p>
+  <p style="margin-top:16px">What is real: ${c.verified.map(esc).join(' ')}</p>` : `
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by ${esc(c.company)}. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
-  <p style="margin-top:16px">Verified from ${esc(c.company)}'s own published material: ${c.verified.map(esc).join(' ')}</p>
+  <p style="margin-top:16px">Verified from ${esc(c.company)}'s own published material: ${c.verified.map(esc).join(' ')}</p>`}
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
   <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
 </div></footer>
@@ -404,6 +436,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 var CFG={
   company:${js(c.company)}, short:${js(c.short)},
   accent:${js(accent)}, accent2:${js(accent2)},
+  generic:${js(Boolean(c.generic))},
   execs:${js(c.execs)}, buyerTitle:${js(c.buyerTitle)}, buyerLine:${js(c.buyerLine)},
   variants:${js(c.variants)}, guard:${js(c.guard)},
   verified:${js(c.verified)}, laws:${js(c.laws)},
@@ -425,7 +458,10 @@ function renderTabs(){
 function renderDraft(){
   var v=byKey(cur);
   document.getElementById('draftBox').innerHTML='<div class="fade"><div class="chan">'+v.chan+'</div><div class="body">'+v.body+'</div>'+
-    '<div class="rules">'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+    '<button class="ruletoggle" type="button" aria-expanded="false">Why it is written this way<span class="more">'+v.rules.length+'</span></button>'+
+    '<div class="rules" hidden>'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+  var rt=document.getElementById('draftBox').querySelector('.ruletoggle'),rl=document.getElementById('draftBox').querySelector('.rules');
+  rt.onclick=function(){var open=rl.hidden;rl.hidden=!open;rt.setAttribute('aria-expanded',String(open))};
   stamp();
 }
 function pick(k){cur=k;renderTabs();renderDraft()}
@@ -442,7 +478,13 @@ function runGuard(){
     setTimeout(function(){
       var d=document.createElement('div');
       d.className='check '+(g.ok?'pass':'block')+' fade';
-      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><div class="t">'+g.t+'</div><div class="d">'+g.d+'</div><div class="law">'+g.law+'</div></div>';
+      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><button class="t" type="button" aria-expanded="false">'+g.t+
+        '<span class="more">why</span></button><div class="d" hidden>'+g.d+'<div class="law">'+g.law+'</div></div></div>';
+      var head=d.querySelector('.t'),body=d.querySelector('.d');
+      head.onclick=function(){var open=body.hidden;body.hidden=!open;head.setAttribute('aria-expanded',String(open));
+        head.querySelector('.more').textContent=open?'close':'why'};
+      /* A held check is the interesting one, so it opens itself. */
+      if(!g.ok){body.hidden=false;head.setAttribute('aria-expanded','true');head.querySelector('.more').textContent='close'}
       out.appendChild(d);
     },red?0:i*420);
   });
@@ -473,7 +515,7 @@ function sendConstraint(){
 }
 
 var GENOME=[
-"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+".",
+(CFG.generic?"You are an assistant on a CATEGORY DEMONSTRATOR built by assembl (a New Zealand agentic-AI studio). "+CFG.company+" is NOT a real company — it is an invented example for this category. Never claim it exists, never invent facts about a real competitor, and say plainly that this page demonstrates a shape rather than describing a real client.":"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+"."),
 "You are NOT "+CFG.company+", you do not speak for them, and you must say so if asked.",
 "",
 "VERIFIED FACTS you may rely on (from "+CFG.company+"'s own published material):",
