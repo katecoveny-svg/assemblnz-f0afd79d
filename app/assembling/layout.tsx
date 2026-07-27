@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import './dash-kit.css';
 import './birdie.css';
+import './assembling-canon.css';
 import { dashFontVars } from './fonts';
 
 /**
@@ -44,31 +45,31 @@ const MARQUEE_ITEMS = [
 ];
 
 function Wordmark({ size = 28 }: { size?: number }) {
-  const barW = Math.round(size * 0.93);
-  const barH = Math.round(size * 0.29);
+  // Canon lockup: the assembl wordmark carries the brand; "assembling" rides
+  // as the product tag, mono. The canary bar is retired with the rest of Birdie.
   return (
-    <span style={{ display: 'flex', alignItems: 'flex-end', gap: Math.round(size * 0.32) }}>
+    <span style={{ display: 'flex', alignItems: 'baseline', gap: Math.round(size * 0.4) }}>
       <span
         style={{
-          fontWeight: 900,
+          fontWeight: 700,
           fontSize: size,
-          letterSpacing: '-.045em',
-          color: '#3a3832',
-          lineHeight: 0.8,
+          letterSpacing: '0.01em',
+          lineHeight: 0.9,
+        }}
+      >
+        assembl
+      </span>
+      <span
+        style={{
+          fontFamily: 'var(--font-space-mono, monospace)',
+          fontSize: Math.max(9, Math.round(size * 0.34)),
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          color: '#B8964F',
         }}
       >
         assembling
       </span>
-      <span
-        aria-hidden
-        style={{
-          width: barW,
-          height: barH,
-          borderRadius: Math.round(barH * 0.6),
-          background: '#BFA37A',
-          marginBottom: Math.round(size * 0.18),
-        }}
-      />
     </span>
   );
 }

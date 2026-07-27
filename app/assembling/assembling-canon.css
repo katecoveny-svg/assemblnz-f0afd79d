@@ -1,0 +1,123 @@
+/* /assembling — canon skin. Retires the Birdie canary-and-dog look: deep navy,
+   brass, Lato. Loaded AFTER dash-kit/birdie so the cascade wins; the bd-*
+   chrome (marquee, nav, progress) is re-skinned here rather than rewritten. */
+
+:root {
+  --asm-navy: #050F1C;
+  --asm-navy-2: #0A1626;
+  --asm-paper: #FAFAF7;
+  --asm-ink: #F0EEE9;
+  --asm-ink-dim: rgba(240, 238, 233, 0.72);
+  --asm-brass: #B8964F;
+  --asm-hi: #D4A843;
+  --asm-champ: #BFA37A;
+  --asm-line: rgba(240, 238, 233, 0.14);
+}
+
+/* ── chrome re-skin ── */
+body:has(.asm) { background: var(--asm-navy); }
+.bd-progress { background: linear-gradient(90deg, var(--asm-brass), var(--asm-hi)) !important; }
+.bd-marquee-track, .bd-marquee-track * { color: var(--asm-champ) !important; }
+[class*='bd-marquee'] { background: var(--asm-navy-2) !important; border-color: var(--asm-line) !important; }
+.bd-nav-inner, .bd-nav-inner * { color: var(--asm-ink) !important; }
+header:has(.bd-nav-inner) { background: rgba(5, 15, 28, 0.82) !important; border-color: var(--asm-line) !important; }
+.bd-nav-link:hover { color: var(--asm-hi) !important; }
+footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
+
+/* ── page ── */
+.asm {
+  background: var(--asm-navy); color: var(--asm-ink);
+  font-family: 'Lato', system-ui, sans-serif;
+  overflow-x: clip;
+}
+.asm .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+.asm .mono {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--asm-brass);
+}
+
+.asm-hero { padding: 120px 0 70px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+.asm-hero h1 {
+  margin: 14px 0 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em;
+  font-size: clamp(2.4rem, 5.2vw, 4.4rem); line-height: 1.06; color: var(--asm-ink);
+}
+.asm-hero h1 .metal {
+  font-weight: 300;
+  background: linear-gradient(100deg, #6E5722, #B8964F 22%, #F6E7B5 40%, #D4A843 55%, #EDD9A0 75%, #6E5722);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: asm-sheen 8s linear infinite;
+}
+@keyframes asm-sheen { to { background-position: 220% 0; } }
+.asm-hero .lede { margin: 22px 0 0; max-width: 54ch; font-weight: 300; font-size: 1.02rem; line-height: 1.7; color: var(--asm-ink-dim); }
+.asm-cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-top: 30px; }
+.asm-cta {
+  display: inline-block; text-decoration: none; cursor: pointer; border: 0;
+  border-radius: 999px; padding: 16px 32px;
+  font: 700 0.95rem 'Lato', sans-serif; background: var(--asm-ink); color: var(--asm-navy);
+  transition: transform 0.25s ease;
+}
+.asm-cta:hover { transform: translateY(-2px); }
+.asm-cta.ghost { background: transparent; color: var(--asm-ink); border: 1px solid var(--asm-line); }
+
+.asm-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.asm-stage-note { text-align: center; }
+
+.asm-band { padding: 84px 0; border-top: 1px solid var(--asm-line); }
+.asm-band h2 {
+  margin: 12px 0 0; font-weight: 700; text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.2; color: var(--asm-ink);
+}
+.asm-band .sub { margin: 14px 0 0; max-width: 62ch; font-weight: 300; line-height: 1.65; color: var(--asm-ink-dim); }
+
+.asm-pow { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 40px; }
+.asm-pow > div {
+  border: 1px solid var(--asm-line); border-radius: 18px; padding: 20px 22px;
+  background: rgba(240, 238, 233, 0.03);
+}
+.asm-pow i { font-style: normal; display: block; }
+.asm-pow b { display: block; margin: 8px 0 6px; font-size: 1.02rem; }
+.asm-pow span { font-weight: 300; font-size: 0.88rem; line-height: 1.55; color: var(--asm-ink-dim); }
+
+.asm-doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 40px; }
+.asm-door {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 26px;
+  border: 1px solid var(--asm-line); border-radius: 24px; padding: 28px;
+  background: linear-gradient(160deg, rgba(184, 150, 79, 0.08), rgba(240, 238, 233, 0.02) 55%);
+  text-decoration: none; color: var(--asm-ink);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.asm-door:hover { border-color: rgba(212, 168, 67, 0.6); transform: translateY(-3px); }
+.asm-door b { font-size: 1.25rem; }
+.asm-door p { margin: 10px 0 0; font-weight: 300; font-size: 0.9rem; line-height: 1.6; color: var(--asm-ink-dim); }
+.asm-door .go { color: var(--asm-hi); font-weight: 700; font-size: 0.85rem; }
+
+.asm-truth {
+  margin-top: 40px; border: 1px solid rgba(184, 150, 79, 0.4); border-radius: 20px;
+  padding: 24px 28px; background: rgba(184, 150, 79, 0.07);
+  font-weight: 300; line-height: 1.7; color: var(--asm-ink);
+}
+.asm-truth b { font-weight: 700; }
+
+.asm-measure { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 40px; }
+.asm-measure > div { border: 1px solid var(--asm-line); border-radius: 18px; padding: 22px; background: rgba(240, 238, 233, 0.03); }
+.asm-measure b { display: block; font-size: 1.05rem; margin-bottom: 6px; }
+.asm-measure span { font-weight: 300; font-size: 0.86rem; line-height: 1.55; color: var(--asm-ink-dim); }
+
+.asm-wait { padding-bottom: 110px; }
+.asm-wait .panel {
+  max-width: 640px; border: 1px solid var(--asm-line); border-radius: 24px;
+  padding: 34px; background: rgba(240, 238, 233, 0.04); backdrop-filter: blur(14px);
+}
+.asm-wait .fine { margin-top: 16px; font-weight: 300; font-size: 0.78rem; color: var(--asm-ink-dim); }
+
+@media (max-width: 900px) {
+  .asm-hero { grid-template-columns: 1fr; padding-top: 90px; }
+  .asm-band { padding: 64px 0; }
+}
+
+/* the layout wrapper carries an inline white background for the Birdie
+   subroutes — when the canon page is inside it, the wrapper and footer go navy */
+.dash-kit:has(.asm) { background: #050F1C !important; }
+.dash-kit:has(.asm) footer { background: #0A1626 !important; border-color: rgba(240, 238, 233, 0.14) !important; }
+.dash-kit:has(.asm) footer, .dash-kit:has(.asm) footer a, .dash-kit:has(.asm) footer span { color: #F0EEE9 !important; }
