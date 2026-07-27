@@ -197,8 +197,8 @@ export const CLIENTS = [
         told: 'they told you:',
         declined: 'they would rather not say. Tracking still gets assembled.',
         steps: [
-          { agent: 'Scan', doing: 'Last movement, and where', credit: 4 },
-          { agent: 'Lane', doing: 'How this lane usually runs', credit: 7 },
+          { agent: 'Scan', doing: 'Through Wiri \u2014 thirty thousand an hour move here', credit: 4 },
+          { agent: 'Van', doing: 'On the run for your street \u2014 seven stops out', credit: 7 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Is there somewhere safe to leave it?',
             options: ['Yes, behind the gate', 'I need to sign'],
@@ -484,6 +484,26 @@ export const CLIENTS = [
           { agent: 'Renewal', doing: 'What the decision costs either way', credit: 6 },
           { agent: 'Draft', doing: 'A vendor note, ready for the agent to send', credit: 9 },
         ],
+      },
+      {
+        id: 'apply', label: 'The application',
+        app: 'Your key, being cut',
+        unit: ['', ' pts'],
+        earning: 'move-in credit, growing',
+        yours: 'toward the move \u2014 spent on Marketplace',
+        told: 'you told them:',
+        declined: 'you would rather not say. The checks keep running.',
+        steps: [
+          { agent: 'Notch 1', doing: 'Who you are \u2014 verified', credit: 60 },
+          { agent: 'Notch 2', doing: 'References \u2014 landlords called back', credit: 70 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'When do you actually need to move?',
+            options: ['Inside two weeks', 'I can be flexible'],
+            learn: ['urgent \u2014 matched to homes that can settle fast', 'flexible \u2014 more homes fit, including the slow-to-settle good ones'],
+          } },
+          { agent: 'Notch 3', doing: 'Credit \u2014 checked once, carried to every application', credit: 80 },
+          { agent: 'Key', doing: 'Cut \u2014 with the agent for a decision', credit: 90 },
+        ],
       }],
     },
     mirrorTitle: 'One agent. Four moments in the lifecycle.',
@@ -648,7 +668,7 @@ export const CLIENTS = [
       },
       {
         id: 'seven', label: 'The seven minutes',
-        app: 'While we work this out',
+        app: 'While we read, you watch',
         /* CCCFA s41: an establishment fee may be no more than the lender's
            reasonable cost of processing the application. A ceiling, not a floor.
            A complete file costs less to process, so a lower fee for that class
@@ -660,8 +680,8 @@ export const CLIENTS = [
         told: 'you told us:',
         declined: 'you would rather not say. You keep what you have earned.',
         steps: [
-          { agent: 'Have', doing: 'What you have already given us', credit: 25 },
-          { agent: 'Rate', doing: 'What your rate will be built from', credit: 20 },
+          { agent: 'Lanes', doing: 'Your statement reads itself \u2014 essentials, spending, debts', credit: 25 },
+          { agent: 'Checks', doing: 'Reasonable-inquiry checks lighting green, one by one', credit: 20 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Is this your only current loan?',
             options: ['Yes, only this', 'No, there are others'],
@@ -1150,6 +1170,26 @@ export const CLIENTS = [
           } },
           { agent: 'Shortlist', doing: 'Five from thirty, and why each one', credit: 4 },
           { agent: 'Yours', doing: 'Ready for you to choose — nothing ordered', credit: 2 },
+        ],
+      },
+      {
+        id: 'delivery', label: 'Delivery day',
+        app: 'Tonight\u2019s dinner, assembling',
+        unit: ['', ' pts'],
+        earning: 'kitchen credit, growing',
+        yours: 'toward next week\u2019s add-ons',
+        told: 'you told us:',
+        declined: 'you would rather not say. Dinner still arrives.',
+        steps: [
+          { agent: 'Bench', doing: 'Tonight\u2019s ragù \u2014 every ingredient confirmed', credit: 20 },
+          { agent: 'Swap', doing: 'Courgettes subbed \u2014 hail, not luck', credit: 25 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Which night are takeaways most tempting?',
+            options: ['Friday', 'Midweek'],
+            learn: ['Friday \u2014 that night gets the fastest recipe from now on', 'midweek \u2014 Tuesday gets the 15-minute meal'],
+          } },
+          { agent: 'Packed', doing: 'Chilled, checked, on the van', credit: 25 },
+          { agent: 'Window', doing: 'Your window tightened to forty minutes', credit: 30 },
         ],
       }],
     },

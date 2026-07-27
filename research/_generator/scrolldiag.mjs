@@ -45,12 +45,12 @@ const diag = await evl(`(async () => {
 console.log('DIAG', diag);
 const d = JSON.parse(diag);
 // screenshot 1: end of gallery region (just before builder)
-await evl(`document.scrollingElement.scrollTop = ${Math.max(0, (d.builderTop ?? 3000) - 450)}; 'ok'`);
+await evl(`document.scrollingElement.scrollTop = Math.round((document.querySelector('.shrm')?.offsetHeight ?? 3000) * 0.35); 'ok'`);
 await wait(900);
 let shot = await send('Page.captureScreenshot', { format: 'png' });
 writeFileSync(`${outPrefix}-boundary.png`, Buffer.from(shot.result.data, 'base64'));
 // screenshot 2: builder hero
-await evl(`document.scrollingElement.scrollTop = ${(d.builderTop ?? 3000) + 80}; 'ok'`);
+await evl(`document.scrollingElement.scrollTop = Math.round((document.querySelector('.shrm')?.offsetHeight ?? 3000) * 0.8); 'ok'`);
 await wait(900);
 shot = await send('Page.captureScreenshot', { format: 'png' });
 writeFileSync(`${outPrefix}-builderhero.png`, Buffer.from(shot.result.data, 'base64'));
