@@ -171,3 +171,4 @@ footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
 .tp-fine { margin-top: 14px; font-weight: 300; font-size: 0.76rem; color: var(--asm-ink-dim); }
 .asm-road > div i { color: var(--asm-hi); }
 @media (max-width: 760px) { .tp-controls { grid-template-columns: 1fr; } }
+.asm-door .mono { display: block; margin-bottom: 8px; }
