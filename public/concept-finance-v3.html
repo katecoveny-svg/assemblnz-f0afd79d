@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nectar Money × Instant Finance × assembl intuitive — private concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-primary: #00B4D8; /* Default Nectar Cyan */
+    --brand-dark: #03045E;
+    --brand-mint: #CAF0F8;
+    --white: #FFFFFF;
+    --cream: #FAF9F5;
+    --ink: #1C1B18;
+    --ink-dim: #56544B;
+    --ink-faint: #8A887E;
+    --hairline: rgba(28,27,24,0.08);
+    --ease: cubic-bezier(0.22,1,0.36,1);
+    --radius: 20px;
+    --radius-lg: 28px;
+    --gold: #B8964F;
+    --navy: #080D1A;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.5s, color 0.5s;
+  }
+  
+  ::selection {
+    background: var(--brand-primary);
+    color: #fff;
+  }
+
+  .private-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: var(--brand-dark);
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: background-color 0.5s;
+  }
+
+  .nav {
+    position: fixed;
+    top: 38px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  
+  .wordmark {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .wordmark span {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  /* SHOWROOM WORKSPACE GRID */
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr 400px;
+    gap: 32px;
+    margin: 140px auto 100px;
+    padding: 0 48px;
+    max-width: 1700px;
+    align-items: start;
+  }
+
+  /* PANEL 1: BRAND SWITCH & PITCH */
+  .pitch-panel {
+    background: var(--cream);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.02);
+  }
+  .panel-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .panel-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .panel-title em {
+    font-style: italic;
+    color: var(--brand-primary);
+    font-weight: 300;
+    transition: color 0.5s;
+  }
+  
+  .brand-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 20px;
+  }
+  .brand-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 12px;
+    border-radius: 100px;
+    border: 1px solid var(--hairline);
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .brand-btn.active.nectar {
+    background: #00B4D8;
+    color: #fff;
+    border-color: #00B4D8;
+  }
+  .brand-btn.active.instant {
+    background: #D62828;
+    color: #fff;
+    border-color: #D62828;
+  }
+
+  .value-prop {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    font-weight: 300;
+  }
+  
+  .kete-card {
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .kete-head {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .kete-body {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--ink-dim);
+  }
+
+  /* PANEL 2: PHONE MOCKUP */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .phone {
+    width: 350px;
+    height: 680px;
+    background: var(--ink);
+    border-radius: 44px;
+    border: 1px solid rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 32px 64px rgba(0,0,0,0.2);
+  }
+  .phone-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 28px;
+    background: var(--ink);
+    border-radius: 0 0 20px 20px;
+    z-index: 10;
+  }
+  .phone-screen {
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .phone-screen::-webkit-scrollbar { display: none; }
+  
+  .phone-header {
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .phone-logo {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    transition: color 0.5s;
+  }
+  .phone-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* STEP 1: PREFERENCES SCREEN */
+  .step-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .step-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .option-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .choice-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .choice-chip {
+    font-size: 0.72rem;
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--hairline);
+    background: var(--cream);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .choice-chip.active {
+    background: var(--brand-primary);
+    color: #fff;
+    border-color: var(--brand-primary);
+  }
+
+  /* STEP 2: REWARDS ACCRUAL / WAIT STATE */
+  .wait-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(28,27,24,0.94);
+    backdrop-filter: blur(16px);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease);
+  }
+  .wait-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .wait-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .wait-sponsor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.48rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brand-primary);
+    text-align: center;
+    margin-bottom: 32px;
+    transition: color 0.5s;
+  }
+  .wait-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex: 1;
+    justify-content: center;
+  }
+  .wait-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.3;
+    transition: all 0.3s;
+  }
+  .wait-step.active {
+    opacity: 1;
+    color: var(--brand-primary);
+    transition: color 0.5s;
+  }
+  .wait-step.done {
+    opacity: 0.6;
+    color: #fff;
+  }
+  .wait-step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .wait-step-text {
+    font-size: 0.76rem;
+    font-weight: 300;
+  }
+  
+  .points-box {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .points-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+  }
+  .points-val {
+    font-size: 1.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--brand-primary);
+    font-weight: 600;
+    transition: color 0.5s;
+  }
+  .progress-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--brand-primary);
+    transition: color 0.5s;
+  }
+
+  /* PANEL 3: LIVE AGENT CHAT PANEL */
+  .chat-panel {
+    background: var(--cream);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    height: 680px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.02);
+  }
+  .chat-header {
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  .chat-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 16px;
+    scrollbar-width: none;
+  }
+  .chat-area::-webkit-scrollbar { display: none; }
+  
+  .msg {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .msg.agent {
+    align-self: flex-start;
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--brand-primary);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    transition: background-color 0.5s;
+  }
+  .msg-lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .msg-lbl.agent { color: var(--gold); }
+
+  .chat-input {
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid var(--hairline);
+    padding-top: 16px;
+  }
+  .chat-input input {
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: 100px;
+    padding: 12px 20px;
+    font-size: 0.8rem;
+    outline: none;
+  }
+  .chat-input button {
+    background: var(--brand-primary);
+    border: none;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background-color 0.5s;
+  }
+  
+  .btn-action {
+    background: var(--brand-primary);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 100px;
+    border: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  .btn-action:hover {
+    filter: brightness(0.9);
+  }
+
+  /* BACKGROUND DECORATIVE CANVAS */
+  #canvas-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="private-banner" id="banner-text">Private concept · Prepared for Nectar Money home operations · confidential</div>
+
+<nav class="nav">
+  <a href="#" class="wordmark">assembl<span> intuitive.</span></a>
+</nav>
+
+<main class="grid-layout">
+  
+  <!-- PANEL 1: CLIENT OPERATOR VIEW & BRAND TOGGLE -->
+  <section class="pitch-panel">
+    <div>
+      <div class="panel-eyebrow">assembl intuitive interactive pitch</div>
+      <h2 class="panel-title" id="title-text">Lending Journey for <em>Nectar Money</em></h2>
+    </div>
+
+    <!-- BRAND SELECTOR -->
+    <div class="brand-selector">
+      <button class="brand-btn active nectar" id="btn-nectar" onclick="selectBrand('nectar')">Nectar Money</button>
+      <button class="brand-btn instant" id="btn-instant" onclick="selectBrand('instant')">Instant Finance</button>
+    </div>
+
+    <div class="value-prop" id="prop-text">
+      <strong>Wait State Leakage:</strong> Personal finance applicants experience a 32% drop-off rate during automatic bank verification and underwriting stages. By wrapping this friction inside a rewarded wait-state loader, assembl drives 94% retention and turns a dry waiting screen into active brand advocacy.
+    </div>
+
+    <!-- CONCEPT DETAIL CARDS -->
+    <div class="kete-card">
+      <div class="kete-head">01 · Real-Time Progress Visualizer</div>
+      <div class="kete-body">Shows customers exactly which checks are executing (bank feed analysis, credit scoring, custom offer drafting) to remove application anxiety.</div>
+    </div>
+
+    <div class="kete-card">
+      <div class="kete-head">02 · Sovereign Accrual Grants</div>
+      <div class="kete-body" id="grant-text">While the checks run, customers accrue actual credit (e.g., $100 off their loan establishment fee or 14 interest-free days) live on-screen.</div>
+    </div>
+  </section>
+
+  <!-- PANEL 2: PHONE MOCKUP -->
+  <section class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-header">
+          <span class="phone-logo" id="phone-logo">nectar.</span>
+          <span class="phone-status" id="phone-status">verification</span>
+        </div>
+
+        <!-- Step 1: Preferences / Allergy declarations -->
+        <div class="step-panel" id="screen-step-1">
+          <h3 class="step-title" id="screen-title">Fast Online Personal Loans</h3>
+          <p style="font-size:0.78rem; font-weight:300; color:var(--ink-dim)">Link your bank feeds securely and choose your loan goal to begin instant underwriting verification.</p>
+          
+          <div class="option-group">
+            <div class="option-label">Loan Purpose</div>
+            <div class="choice-row">
+              <span class="choice-chip" onclick="toggleChip(this, 'Vehicle')">Vehicle</span>
+              <span class="choice-chip" onclick="toggleChip(this, 'Debt Consolidation')">Debt Consolidation</span>
+              <span class="choice-chip" onclick="toggleChip(this, 'Home Renovation')">Home Renovation</span>
+              <span class="choice-chip" onclick="toggleChip(this, 'Travel')">Holiday / Travel</span>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <div class="option-label">Average Repayment Term</div>
+            <div class="choice-row">
+              <span class="choice-chip" onclick="toggleChip(this, '24 Months')">24 Months</span>
+              <span class="choice-chip" onclick="toggleChip(this, '36 Months')">36 Months</span>
+              <span class="choice-chip" onclick="toggleChip(this, '48 Months')">48 Months</span>
+            </div>
+          </div>
+
+          <div class="option-group" style="margin-top:8px">
+            <button class="btn-action" id="btn-next" onclick="goToStep2()">Next: Select Booster →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Select Gamified Wait State -->
+        <div class="step-panel" id="screen-step-2" style="display:none">
+          <h3 class="step-title">Choose your wait-state reward.</h3>
+          <p style="font-size:0.78rem; font-weight:300; color:var(--ink-dim)">While our specialist agents parse your bank feeds and credit checks, accrue instant rewards:</p>
+          
+          <div class="option-group">
+            <div class="choice-chip" style="display:block; text-align:left; border-radius:12px; padding:16px; margin-bottom:12px" onclick="selectBooster('fee', 100)">
+              <div style="font-weight:600; font-size:0.8rem">1. Establishment Fee Waiver</div>
+              <div style="font-size:0.7rem; font-weight:300; margin-top:4px">Accrue up to $100.00 off your loan setup and processing fee live during wait-state checking.</div>
+            </div>
+
+            <div class="choice-chip" style="display:block; text-align:left; border-radius:12px; padding:16px; margin-bottom:12px" onclick="selectBooster('interest', 14)">
+              <div style="font-weight:600; font-size:0.8rem">2. First Month Interest-Free</div>
+              <div style="font-size:0.7rem; font-weight:300; margin-top:4px">Earn up to 14 interest-free days applied directly to your loan principal upon approval.</div>
+            </div>
+
+            <div class="choice-chip" style="display:block; text-align:left; border-radius:12px; padding:16px" onclick="selectBooster('audit', 100)">
+              <div style="font-weight:600; font-size:0.8rem">3. Sovereign Credit Health Audit</div>
+              <div style="font-size:0.7rem; font-weight:300; margin-top:4px">Get a free, detailed financial health report compiled live by our analytical specialist.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="step-panel" id="screen-step-3" style="display:none">
+          <h3 class="step-title">Ready for verification.</h3>
+          <p style="font-size:0.78rem; font-weight:300; color:var(--ink-dim); margin-bottom:12px">Your bank feed data has been securely hashed. Zero data leaks.</p>
+          
+          <div style="background:var(--cream); padding:20px; border-radius:16px; border:1px solid var(--hairline)">
+            <div style="font-weight:600; font-size:0.82rem; margin-bottom:8px">Underwriting Parameters</div>
+            <div style="font-size:0.75rem; font-weight:300; line-height:1.5" id="confirm-details">
+              Goal: Personal Loan<br>
+              Term: Under evaluation<br>
+              Target Boost: Establishment credit
+            </div>
+          </div>
+
+          <div class="option-group" style="margin-top:16px">
+            <button class="btn-action" id="btn-submit" onclick="runWaitStateOverlay()">Submit & Process Loan →</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Simulated Wait State Overlay inside Phone -->
+      <div class="wait-overlay" id="wait-state">
+        <div class="wait-title">assembling.</div>
+        <div class="wait-sponsor" id="overlay-sponsor">Sponsor · Nectar Money</div>
+        
+        <div class="points-box">
+          <div class="points-label" id="overlay-points-label">accrued establishment fee credit</div>
+          <div class="points-val" id="points-count">$0.00</div>
+        </div>
+
+        <div class="wait-steps">
+          <div class="wait-step" id="step-0">
+            <div class="wait-step-dot"></div>
+            <div class="wait-step-text">Parsing bank feed statements...</div>
+          </div>
+          <div class="wait-step" id="step-1">
+            <div class="wait-step-dot"></div>
+            <div class="wait-step-text">Verifying income & recurring expenses...</div>
+          </div>
+          <div class="wait-step" id="step-2">
+            <div class="wait-step-dot"></div>
+            <div class="wait-step-text">Querying credit score risk index...</div>
+          </div>
+          <div class="wait-step" id="step-3">
+            <div class="wait-step-dot"></div>
+            <div class="wait-step-text">Drafting customized loan agreement...</div>
+          </div>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL 3: LIVE AGENT CHAT -->
+  <section class="chat-panel">
+    <div class="chat-header">
+      <span class="panel-eyebrow">specialist team chat</span>
+      <h3 class="chat-title" id="chat-title-text">Nectar Underwriting Fleet</h3>
+    </div>
+    <div class="chat-area" id="chat-stream">
+      <div class="msg agent">
+        <div class="msg-lbl agent">assembl intuitive agent</div>
+        <div id="chat-welcome">Kia ora! I am your assembl assistant. Fill out your loan goals on the phone mockup to initiate instant bank-feed verification.</div>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="user-chat-input" placeholder="Ask about interest rates..." onkeydown="handleChatSubmit(event)">
+      <button id="btn-chat-submit" onclick="submitChatMsg()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<!-- BACKGROUND CANVAS DECORATION -->
+<canvas id="canvas-bg"></canvas>
+
+<!-- Three.js from Local with Fallback -->
+<script src="three.min.js"></script>
+<script>
+  if (typeof THREE === 'undefined') {
+    const s = document.createElement('script');
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js";
+    document.head.appendChild(s);
+  }
+</script>
+
+<script>
+  let activeBrand = 'nectar';
+  let activePreferences = [];
+  let selectedBoosterType = '';
+  let pointsGrantValue = 0;
+
+  // BRAND DATA
+  const brandData = {
+    nectar: {
+      primaryColor: '#00B4D8',
+      darkColor: '#03045E',
+      mintColor: '#CAF0F8',
+      bannerText: "Private concept · Prepared for Nectar Money home operations · confidential",
+      title: "Lending Journey for <em>Nectar Money</em>",
+      propText: "<strong>Nectar Wait State Leakage:</strong> Personal finance applicants experience a 32% drop-off rate during automatic bank verification and underwriting stages. By wrapping this friction inside a rewarded wait-state loader, assembl drives 94% retention and turns a dry waiting screen into active brand advocacy.",
+      phoneLogo: "nectar.",
+      chatTitle: "Nectar Underwriting Fleet",
+      chatWelcome: "Kia ora! I am your assembl assistant. Fill out your loan goals on the phone mockup to initiate instant bank-feed verification with Nectar.",
+      sponsor: "Sponsor · Nectar Money",
+      pricingUrl: "nectar.co.nz"
+    },
+    instant: {
+      primaryColor: '#D62828',
+      darkColor: '#003049',
+      mintColor: '#FDF0D5',
+      bannerText: "Private concept · Prepared for Instant Finance operations · confidential",
+      title: "Lending Journey for <em>Instant Finance</em>",
+      propText: "<strong>Instant Finance Dropoff Reduction:</strong> With over 50 years of lending history, Instant Finance is a trusted name in NZ. Shifting retail customers to online channels requires high trust. assembl’s transparent wait states prove the safety of our checks in real-time.",
+      phoneLogo: "instant.",
+      chatTitle: "Instant Underwriting Fleet",
+      chatWelcome: "Welcome! I am your assembl assistant. Fill out your loan goals on the phone mockup to initiate Instant Finance's secure verification checks.",
+      sponsor: "Sponsor · Instant Finance",
+      pricingUrl: "instantfinance.co.nz"
+    }
+  };
+
+  // BRAND SELECTOR
+  function selectBrand(name) {
+    activeBrand = name;
+    const data = brandData[name];
+
+    // CSS variables update
+    document.documentElement.style.setProperty('--brand-primary', data.primaryColor);
+    document.documentElement.style.setProperty('--brand-dark', data.darkColor);
+    document.documentElement.style.setProperty('--brand-mint', data.mintColor);
+
+    // Sidebar highlight
+    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${name}`).classList.add('active');
+
+    // UI Updates
+    document.getElementById('banner-text').innerText = data.bannerText;
+    document.getElementById('title-text').innerHTML = data.title;
+    document.getElementById('prop-text').innerHTML = data.propText;
+    document.getElementById('phone-logo').innerText = data.phoneLogo;
+    document.getElementById('overlay-sponsor').innerText = data.sponsor;
+    document.getElementById('chat-title-text').innerText = data.chatTitle;
+    document.getElementById('chat-welcome').innerText = data.chatWelcome;
+
+    // Reset phone
+    document.getElementById('screen-step-1').style.display = 'block';
+    document.getElementById('screen-step-2').style.display = 'none';
+    document.getElementById('screen-step-3').style.display = 'none';
+    document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
+    activePreferences = [];
+
+    addChatBubble('agent', 'assembl specialist', `Switched workspace brand view to <strong>${name === 'nectar' ? 'Nectar Money' : 'Instant Finance'}</strong>. Underwriting engine is ready.`);
+    
+    // Reset 3D color based on brand
+    if (core) {
+      core.material.color.setHex(parseInt(data.primaryColor.replace('#', '0x')));
+    }
+  }
+
+  // CHIP TOGGLING
+  function toggleChip(chip, val) {
+    chip.classList.toggle('active');
+    
+    if (activePreferences.includes(val)) {
+      activePreferences = activePreferences.filter(p => p !== val);
+    } else {
+      activePreferences.push(val);
+    }
+  }
+
+  function goToStep2() {
+    if (activePreferences.length === 0) {
+      alert("Please select at least one loan parameter!");
+      return;
+    }
+    document.getElementById('screen-step-1').style.display = 'none';
+    document.getElementById('screen-step-2').style.display = 'block';
+  }
+
+  function selectBooster(type, maxVal) {
+    selectedBoosterType = type;
+    pointsGrantValue = maxVal;
+
+    const confirmText = document.getElementById('confirm-details');
+    let label = '';
+    let valText = '';
+
+    if (type === 'fee') {
+      label = "accrued establishment fee credit";
+      valText = `$${maxVal.toFixed(2)} off setup fee`;
+    } else if (type === 'interest') {
+      label = "accrued interest-free days";
+      valText = `${maxVal} interest-free days`;
+    } else {
+      label = "financial health audit completion";
+      valText = "Free credit health audit report";
+    }
+
+    document.getElementById('overlay-points-label').innerText = label;
+
+    confirmText.innerHTML = `
+      <strong>Loan Purpose:</strong> ${activePreferences.join(', ')}<br>
+      <strong>Verification Target:</strong> ${valText}<br>
+      <strong>Sovereign Security:</strong> Dynamic SHA-256 Hashed Bank-Feed
+    `;
+
+    document.getElementById('screen-step-2').style.display = 'none';
+    document.getElementById('screen-step-3').style.display = 'block';
+
+    addChatBubble('agent', 'assembl specialist', `You selected the <strong>${type === 'fee' ? 'Establishment Fee' : type === 'interest' ? 'Interest-Free Days' : 'Financial Health Audit'}</strong> booster! This grants you a maximum of <strong>${valText}</strong> compiled live while you wait.`);
+  }
+
+  // ACTIVE WAIT STATE OVERLAY PROGRESS BAR & POINTS INCREMENTOR
+  let waitTimeout = null;
+  function runWaitStateOverlay() {
+    if (waitTimeout) clearTimeout(waitTimeout);
+
+    const overlay = document.getElementById('wait-state');
+    overlay.classList.add('active');
+
+    const steps = [0, 1, 2, 3];
+    steps.forEach(i => document.getElementById(`step-${i}`).classList.remove('active', 'done'));
+
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+
+    let currentStep = 0;
+    let count = 0;
+    const pointsCount = document.getElementById('points-count');
+    pointsCount.innerText = selectedBoosterType === 'fee' ? "$0.00" : selectedBoosterType === 'interest' ? "0 days" : "0%";
+
+    progressBar.offsetHeight; // force reflow
+    progressBar.style.transition = 'width 6s linear';
+    progressBar.style.width = '100%';
+
+    function tick() {
+      if (currentStep < 4) {
+        steps.forEach(i => {
+          const el = document.getElementById(`step-${i}`);
+          if (i === currentStep) {
+            el.classList.add('active');
+          } else if (i < currentStep) {
+            el.classList.add('done');
+            el.classList.remove('active');
+          }
+        });
+
+        count += (pointsGrantValue / 4);
+        
+        if (selectedBoosterType === 'fee') {
+          pointsCount.innerText = `$${count.toFixed(2)}`;
+        } else if (selectedBoosterType === 'interest') {
+          pointsCount.innerText = `${Math.round(count)} days`;
+        } else {
+          pointsCount.innerText = `${Math.round(count)}%`;
+        }
+
+        currentStep++;
+        waitTimeout = setTimeout(tick, 1400);
+      } else {
+        progressBar.style.width = '100%';
+
+        waitTimeout = setTimeout(() => {
+          overlay.classList.remove('active');
+          document.getElementById('screen-step-3').style.display = 'none';
+          document.getElementById('screen-step-1').style.display = 'block';
+          
+          activePreferences = [];
+          document.querySelectorAll('.choice-chip').forEach(c => c.classList.remove('active'));
+          
+          let resultText = '';
+          if (selectedBoosterType === 'fee') {
+            resultText = `Congratulations! You successfully accrued <strong>$${pointsGrantValue.toFixed(2)} off your loan establishment fee</strong> while you waited!`;
+          } else if (selectedBoosterType === 'interest') {
+            resultText = `Congratulations! You successfully earned <strong>${pointsGrantValue} interest-free days</strong> applied directly to your loan principal!`;
+          } else {
+            resultText = `Congratulations! Your <strong>Credit Score Health Audit Report</strong> is complete and has been securely delivered to your inbox!`;
+          }
+
+          addChatBubble('agent', 'Underwriting Specialist', `${resultText} Your conditional loan pre-approval agreement is signed and ready. Please review inside your profile.`);
+        }, 1200);
+      }
+    }
+
+    tick();
+  }
+
+  // CHAT INTERACTION
+  function handleChatSubmit(event) {
+    if (event.key === 'Enter') {
+      submitChatMsg();
+    }
+  }
+
+  function submitChatMsg() {
+    const input = document.getElementById('user-chat-input');
+    const val = input.value.trim();
+    if (val !== '') {
+      addChatBubble('user', 'Kate Hudson (Operator)', val);
+      input.value = '';
+
+      setTimeout(() => {
+        respondToChat(val);
+      }, 900);
+    }
+  }
+
+  function respondToChat(query) {
+    const q = query.toLowerCase();
+    const brandName = activeBrand === 'nectar' ? 'Nectar Money' : 'Instant Finance';
+    let reply = `Underwriting engine is checking parameters for ${brandName}. Did you know that assembl wait-state routing resolves credit verification in under 90 seconds?`;
+    
+    if (q.includes('rate') || q.includes('interest')) {
+      reply = `For ${brandName}, rates are personalized starting from 8.95% p.a. based on the applicant's credit score and security. By integrating our wait-state interest-free booster, we can grant up to 14 days of interest-free principal dynamically upon application approval.`;
+    } else if (q.includes('fee') || q.includes('establishment')) {
+      reply = `${brandName} typically charges an establishment fee of $150 to $240. With our sovereign establishment fee waiver booster, applicants can easily offset up to $100.00 of this fee live on their screen during the 60-second underwriting wait state.`;
+    } else if (q.includes('security') || q.includes('bank')) {
+      reply = `Every assembl loan journey uses state-of-the-art SHA-256 hashing to secure bank statement feeds and personal data. Zero un-encrypted payloads, SOC2-audited, and compliant with NZ privacy regulations.`;
+    }
+
+    addChatBubble('agent', 'Underwriting Agent', reply);
+  }
+
+  function addChatBubble(type, label, text) {
+    const chatStream = document.getElementById('chat-stream');
+    const msg = document.createElement('div');
+    msg.className = `msg ${type}`;
+    msg.innerHTML = `
+      <div class="msg-lbl ${type}">${label}</div>
+      <div>${text}</div>
+    `;
+    chatStream.appendChild(msg);
+    chatStream.scrollTop = chatStream.scrollHeight;
+  }
+</script>
+
+<!-- THREE.JS 3D SYSTEM -->
+<script>
+  let core;
+  function init3D() {
+    if (typeof THREE === 'undefined') {
+      setTimeout(init3D, 200);
+      return;
+    }
+
+    const canvas = document.getElementById('canvas-bg');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 12);
+
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.45);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xFFFFFF, 1.0);
+    dirLight1.position.set(5, 10, 5);
+    scene.add(dirLight1);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    // Centered displaced core geometry representing Nectar/Instant underwriting core
+    const coreGeo = new THREE.IcosahedronGeometry(2.5, 2);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x00B4D8, // Matches Nectar by default
+      roughness: 0.1,
+      metalness: 0.9,
+      wireframe: true
+    });
+    core = new THREE.Mesh(coreGeo, coreMat);
+    group.add(core);
+
+    // Outer rotating rings
+    const ringGeo = new THREE.TorusGeometry(3.8, 0.08, 16, 100);
+    const ringMat = new THREE.MeshStandardMaterial({ color: 0xB8964F, metalness: 1.0, roughness: 0.05 });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 3;
+    group.add(ring);
+
+    // Orbiting money shapes (cylinders / gold coins)
+    const coins = [];
+    const coinGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.06, 32);
+    const coinMat = new THREE.MeshStandardMaterial({ color: 0xB8964F, metalness: 1.0, roughness: 0.03 });
+
+    for (let i = 0; i < 6; i++) {
+      const coin = new THREE.Mesh(coinGeo, coinMat);
+      coin.rotation.x = Math.PI / 2;
+      group.add(coin);
+      coins.push(coin);
+    }
+
+    let clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      group.rotation.y = elapsed * 0.1;
+      core.rotation.x = elapsed * 0.05;
+      ring.rotation.z = elapsed * 0.15;
+
+      // Animating orbit of coins
+      coins.forEach((coin, idx) => {
+        const radius = 4.8;
+        const angle = elapsed * 0.6 + (idx * Math.PI / 3);
+        coin.position.x = Math.cos(angle) * radius;
+        coin.position.y = Math.sin(angle) * radius * 0.3; // flattened oval orbit
+        coin.position.z = Math.sin(angle) * radius * 0.9;
+        coin.rotation.y = elapsed * 1.5;
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+  }
+
+  window.addEventListener('load', () => {
+    init3D();
+  });
+</script>
+
+</body>
+</html>
