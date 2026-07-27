@@ -30,7 +30,13 @@
   background: var(--paper);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
+  /* hidden creates a scroll container and silently kills position:sticky in
+     Blink — the gallery's pinned screen scrolled away as a navy void (Kate's
+     "blank dark blue screen", finally caught on her machine). clip clips
+     without becoming a scroller; the hidden line stays as the old-browser
+     fallback. */
   overflow-x: hidden;
+  overflow-x: clip;
   cursor: none;
 }
 @media (hover: none) { .cine { cursor: auto; } }
