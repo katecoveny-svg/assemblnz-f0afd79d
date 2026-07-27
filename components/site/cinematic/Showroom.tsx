@@ -467,10 +467,14 @@ export function Showroom() {
       const r = canvas.getBoundingClientRect();
       pointer.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     };
+    const placedOrder: string[] = [];
     const place = (ex: Ex) => {
       if (ex.placed) return;
       ex.placed = true;
       placedCount += 1;
+      // the builder below assembles FROM these — the placement order travels
+      placedOrder.push(EXHIBITS[ex.slot]!.name);
+      try { sessionStorage.setItem('assembl-gallery-parts', JSON.stringify(placedOrder)); } catch { /* private mode */ }
       setPlaced(placedCount);
       setLastPlaced(EXHIBITS[ex.slot]!.name);
       lessonHold = { idx: ex.slot, until: performance.now() + 2800 };

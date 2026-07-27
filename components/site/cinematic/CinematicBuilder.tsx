@@ -42,6 +42,15 @@ export function CinematicBuilder() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(1);
   const [shareOpen, setShareOpen] = useState(false);
+  // The pieces placed in the gallery above carry down into this builder —
+  // "the builder is meant to assemble from the parts" (Kate, 27 Jul).
+  const [galleryParts, setGalleryParts] = useState<string[]>([]);
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('assembl-gallery-parts');
+      if (raw) setGalleryParts(JSON.parse(raw) as string[]);
+    } catch { /* no handoff — the builder stands alone */ }
+  }, []);
   const [copied, setCopied] = useState(false);
   const [agentName, setAgentName] = useState('');
   const [pdfBusy, setPdfBusy] = useState(false);
@@ -777,6 +786,12 @@ export function CinematicBuilder() {
             <div className="panel-header">
               start here <span className="live">{briefBusy ? 'reading the site' : brief ? 'blueprint ready' : 'step 01'}</span>
             </div>
+            {galleryParts.length > 0 && (
+              <div className="gallery-hand">
+                <b>Your {galleryParts.length} pieces from the gallery are in:</b> {galleryParts.join(' · ')}.
+                Now give it your site — the agent assembles from these parts, in your colours, from your words.
+              </div>
+            )}
             <div className="site-row">
               <input
                 className="site-input"
@@ -901,7 +916,11 @@ export function CinematicBuilder() {
               </div>
               <div className="part-actions">
                 <button className="btn btn-glass" onClick={() => setShareOpen(true)}>share ↗</button>
-                <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz">assemble →</a>
+                {/* This said "assemble →" and opened an email — Kate caught it.
+                    Assemble means assemble: it builds the blueprint document. */}
+                <button className="btn btn-solid" onClick={() => void downloadPdf()} disabled={pdfBusy}>
+                  {pdfBusy ? 'assembling…' : 'assemble the document ↓'}
+                </button>
               </div>
             </div>
           </div>
