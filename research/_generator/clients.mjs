@@ -604,7 +604,7 @@ export const CLIENTS = [
     lede: 'You built an engine that quotes in seven minutes, and that is genuinely rare. This is a concept for what else those same seven minutes could produce — not a faster decision, which you already have, but a decision the person actually understands when it lands.',
     quote: 'Fast like a fintech. Fair like a human.',
     quoteCite: 'Nectar Money · nectar.co.nz, July 2026',
-    whyNow: 'Your rate is personalised, fixed for the life of the loan, and can land anywhere between 7.95% and 29.95% p.a. That is a twenty-two point spread arriving as a single number, at the end of a seven-minute wait, to someone who is applying because something has already gone wrong.',
+    whyNow: 'Your establishment fee is $240, and under the fees rules that figure has to be no more than what it actually costs you to process an application. A file that arrives complete costs less to process. So the wait can hand part of that fee back and the arithmetic still works — the applicant is paid for reducing your cost, not for borrowing.',
 
     waitTitle: 'The seven minutes before the number',
     waitWhen: 'A Tuesday, 9:12pm',
@@ -612,7 +612,7 @@ export const CLIENTS = [
     waitCards: [
       ['What happens now', 'Seven minutes of nothing, then a number. The questions that number creates arrive afterwards, by phone or not at all.'],
       ['What it costs', 'A rate nobody understands is a rate people re-shop. And an incomplete file spends your assessors\u2019 time, not the applicant\u2019s.'],
-      ['What the concept does', 'Spends the wait making the file complete and the offer legible, and stops. Your engine still decides.'],
+      ['What the concept does', 'Spends the wait making the file complete, hands back part of the establishment fee for the cost that saves, and stops.'],
     ],
 
     waitPhone: {
@@ -623,9 +623,20 @@ export const CLIENTS = [
       scenarios: [{
         id: 'seven', label: 'The seven minutes',
         app: 'While we work this out',
-        unit: ['', '%'],
-        earning: 'of your file, ready',
-        yours: 'ready for a person',
+        /* The credit is a REDUCTION IN THE ESTABLISHMENT FEE, and that is the
+           whole legal argument. Under CCCFA s41 a credit fee must not be
+           unreasonable, and the FMA's consumer credit fees guidelines put an
+           establishment fee at no more than the lender's reasonable cost of
+           processing the application, setting up the loan and advancing the
+           credit. The constraint is a CEILING. You cannot charge too little.
+           A file that arrives complete costs less to process, and the
+           guidelines allow a fee set on the average cost of establishing loans
+           "of a particular type" — so a lower fee for the complete-on-arrival
+           class is cost-reflective pricing, not an inducement. The applicant is
+           paid for reducing the cost, not for borrowing. */
+        unit: ['$', '', 0],
+        earning: 'off your establishment fee',
+        yours: 'off your establishment fee',
         told: 'you told us:',
         declined: 'you would rather not say. It goes to an assessor as it stands.',
         steps: [
@@ -636,8 +647,8 @@ export const CLIENTS = [
             options: ['Yes, only this', 'No, there are others'],
             learn: ['one commitment, so the file is complete as it stands', 'other commitments, so an assessor needs them before deciding'],
           } },
-          { agent: 'Cost', doing: 'The total, not just the rate', credit: 30 },
-          { agent: 'Ready', doing: 'Waiting on a lender — no decision made here', credit: 25 },
+          { agent: 'Cost', doing: 'The total, with the fee credit in it', credit: 30 },
+          { agent: 'Ready', doing: 'Complete on arrival — cheaper to process', credit: 25 },
         ],
       }],
     },
@@ -697,7 +708,8 @@ export const CLIENTS = [
     guard: [
       { ok: true, t: 'No rate is predicted or hinted at', d: 'The concept explains what builds a personalised rate using your published factors, and never estimates the number. That is your engine\u2019s output and only its output.', law: 'Credit Contracts and Consumer Finance Act 2003' },
       { ok: true, t: 'No credit decision, anywhere', d: 'No output says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.', law: 'CCCFA · Responsible Lending Code' },
-      { ok: true, t: 'Nothing accrues in cash or points', d: 'The wait returns readiness and a straight explanation. A reward attached to a credit application is an inducement, and lender responsibility covers all dealings with borrowers.', law: 'CCCFA s9C · Responsible Lending Code' },
+      { ok: true, t: 'The fee credit is cost-reflective, not an inducement', d: 'An establishment fee may be no more than the reasonable cost of processing the application. A file that arrives complete costs less, so a lower fee for that class is pricing. It is earned by preparing, not by borrowing, and it is capped well below anything that could move an affordability decision.', law: 'CCCFA s41 · FMA consumer credit fees guidelines' },
+      { ok: true, t: 'No interest-free period is offered', d: 'Interest is price, not cost recovery, so a rate concession has no cost-reflective justification and reads far more like an inducement to borrow. Deliberately not in scope.', law: 'CCCFA s9C · Responsible Lending Code' },
       { ok: false, t: 'Held — application reads as hardship', d: 'Nothing drafted. Routed to a named person with the triggering words attached. One right answer here is no loan at all.', law: 'CCCFA · Responsible Lending Code, lender responsibilities' },
       { ok: false, t: 'Held — total cost cannot be shown honestly', d: 'Where term or amount are still moving, no total is displayed. A cost figure that quietly changes is worse than no figure.', law: 'Fair Trading Act 1986 · CCCFA disclosure' },
       { ok: true, t: 'No third party sees anything', d: 'Nothing is passed to Instant Finance or anyone else. That is a separate business with separate consent, and this concept does not bridge them.', law: 'Privacy Act 2020 · IPP 11' },
@@ -718,7 +730,7 @@ export const CLIENTS = [
     receiptArtefact: 'Seven-minute explanation — complete file, offer legible',
     receiptRead: 'Published rate ranges, fees and product facts from nectar.co.nz · application fields: submitted documents, stated commitments, requested amount and term, hardship-language flag. No credit file. No bank transactions. No affordability assessment.',
     receiptRules: 'Credit Contracts and Consumer Finance Act 2003 · Responsible Lending Code · Privacy Act 2020 · Fair Trading Act 1986',
-    receiptRefused: 'No rate was predicted. No credit decision was made or implied. Nothing accrued in cash or points. Nothing was drafted for an application reading as hardship, and no total cost was shown where it could still change.',
+    receiptRefused: 'No rate was predicted. No credit decision was made or implied. No interest-free period or rate concession was offered. The fee credit is capped and cost-justified, and it is earned by completing the file rather than by drawing down. Nothing was drafted for an application reading as hardship, and no total cost was shown where it could still change.',
 
     pilotScope: 'The seven minutes on one product, for opted-in applicants. Six weeks. It sits beside your approval tool and does not touch it — not the model, not pricing, not affordability, not the decision.',
     pilotAccess: 'Your published rate and fee tables, and the field names for submitted documents, requested amount and term, stated commitments and a hardship flag. No credit files. No bank statements. No applicant records leave your systems.',
