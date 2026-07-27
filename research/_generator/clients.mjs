@@ -620,178 +620,139 @@ export const CLIENTS = [
       note: 'Illustrative concept screen · not a Nectar product · no rate is predicted and no credit decision is made here',
       startLabel: 'start the seven minutes',
       skipLabel: 'rather not say',
+      /* ══ THE RULE ══════════════════════════════════════════════════════════
+         The number in the ring is what THIS PERSON walks away with. Not what
+         the business saves, not what their friend saves. And no step is a
+         refusal — a reward list is the wrong place to advertise what you will
+         not do. Refusals live in the guard section below. */
       scenarios: [
-      /* ══ BEFORE THEY EVER APPLY ════════════════════════════════════════════
-         The earliest wait, and the one nobody owns: someone on a comparison
-         site who wants to know their rate and is afraid that looking will hurt
-         their score. That fear is why people either apply everywhere at once or
-         nowhere at all.
-
-         🔴 The concept does not perform the soft check and does not indicate a
-         personalised rate — both are the lender's. It explains what a soft
-         check does to a credit file, and makes sure the check runs on complete
-         information so its answer is worth having. */
       {
         id: 'before', label: 'Before you apply',
-        app: 'Will looking hurt my score?',
-        unit: ['', '%'],
-        earning: 'of the picture, no footprint',
-        yours: 'and no footprint',
+        app: 'Where do I actually stand?',
+        unit: ['', ' min'],
+        earning: 'saved, so far',
+        yours: 'saved \u2014 and no marks on your file',
         told: 'you told us:',
-        declined: 'you would rather not say. The check runs on what we have.',
+        declined: 'you would rather not say. You still keep all of this.',
         steps: [
-          { agent: 'Footprint', doing: 'What a soft check does to your file — nothing visible', credit: 30 },
-          { agent: 'Published', doing: 'The real range, 7.95% to 29.95% p.a.', credit: 20 },
+          { agent: 'No mark', doing: 'A soft look. Nothing lands on your credit file.', credit: 6 },
+          { agent: 'Real', doing: 'The actual range, 7.95% to 29.95% p.a.', credit: 4 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Are you shopping around right now?',
             options: ['Yes, comparing', 'Just you'],
-            learn: ['comparing, so here is what makes the numbers comparable', 'just us, so nothing to line up against'],
+            learn: ['comparing, so here is what makes the numbers line up', 'just us, so nothing to compare against'],
           } },
-          { agent: 'Yours', doing: 'What we would need to make a check accurate', credit: 30 },
-          { agent: 'Ready', doing: 'Waiting on you — no check run, no record made', credit: 20 },
+          { agent: 'Kept', doing: 'What you typed is saved \u2014 you type it once', credit: 5 },
+          { agent: 'Portable', doing: 'And you can take all of it somewhere else', credit: 3 },
         ],
       },
       {
         id: 'seven', label: 'The seven minutes',
         app: 'While we work this out',
-        /* The credit is a REDUCTION IN THE ESTABLISHMENT FEE, and that is the
-           whole legal argument. Under CCCFA s41 a credit fee must not be
-           unreasonable, and the FMA's consumer credit fees guidelines put an
-           establishment fee at no more than the lender's reasonable cost of
-           processing the application, setting up the loan and advancing the
-           credit. The constraint is a CEILING. You cannot charge too little.
-           A file that arrives complete costs less to process, and the
-           guidelines allow a fee set on the average cost of establishing loans
-           "of a particular type" — so a lower fee for the complete-on-arrival
-           class is cost-reflective pricing, not an inducement. The applicant is
-           paid for reducing the cost, not for borrowing. */
+        /* CCCFA s41: an establishment fee may be no more than the lender's
+           reasonable cost of processing the application. A ceiling, not a floor.
+           A complete file costs less to process, so a lower fee for that class
+           is cost-reflective. They are paid for reducing the cost, not for
+           borrowing. */
         unit: ['$', '', 0],
         earning: 'off your establishment fee',
         yours: 'off your establishment fee',
         told: 'you told us:',
-        declined: 'you would rather not say. It goes to an assessor as it stands.',
+        declined: 'you would rather not say. You keep what you have earned.',
         steps: [
           { agent: 'Have', doing: 'What you have already given us', credit: 25 },
-          { agent: 'Rate', doing: 'What a personalised rate is built from', credit: 20 },
+          { agent: 'Rate', doing: 'What your rate will be built from', credit: 20 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Is this your only current loan?',
             options: ['Yes, only this', 'No, there are others'],
-            learn: ['one commitment, so the file is complete as it stands', 'other commitments, so an assessor needs them before deciding'],
+            learn: ['one commitment, so your file is complete', 'other commitments, so an assessor will want those'],
           } },
-          { agent: 'Cost', doing: 'The total, with the fee credit in it', credit: 30 },
-          { agent: 'Ready', doing: 'Complete on arrival — cheaper to process', credit: 25 },
+          { agent: 'Cost', doing: 'The total you will pay, fees included', credit: 30 },
+          { agent: 'Yours', doing: 'Complete on arrival \u2014 so the $100 is yours', credit: 25 },
         ],
       },
-      /* ══ THE SECOND WAIT, AND THE BIGGER ONE ═══════════════════════════════
-         Everyone treats the application as the wait. It is seven minutes. The
-         LOAN TERM is the wait — up to five years, 260 weekly touchpoints, and
-         the lender says nothing across the whole of it except taking money.
-
-         This scenario is the inversion that makes lending work with a reward:
-         it pays for REPAYING, not for borrowing. That is the opposite of an
-         inducement and impossible to characterise as one. It also uses two
-         things Nectar already does and never surfaces — reporting to the credit
-         bureaus, and charging no penalty for early repayment.
-
-         Nothing here promises a rate change. A rate review is a lender's
-         decision; the concept flags the file and stops, as everywhere else. */
       {
         id: 'term', label: 'The three years',
         app: 'Payment twelve, on time',
-        unit: ['', ' on time'],
-        earning: 'payments, on time',
-        yours: 'twelve in a row',
+        /* The $1.75 admin fee recovers the cost of administering repayments, and
+           a proven payer costs less to administer \u2014 no arrears letters, no
+           collections. Waiving it is priced to the cost, and it rewards
+           REPAYING, which is the inverse of an inducement to borrow. */
+        unit: ['$', '', 0],
+        earning: 'of fees, waived',
+        yours: 'yours, across the rest of the term',
         told: 'you told us:',
-        declined: 'you would rather not say. The review still gets flagged.',
+        declined: 'you would rather not say. The waiver stands either way.',
         steps: [
-          { agent: 'Record', doing: 'Every payment so far, on time', credit: 3 },
-          { agent: 'Bureaus', doing: 'What we have reported for you, and what it built', credit: 3 },
+          { agent: 'Record', doing: 'Twelve payments, every one on time', credit: 40 },
+          { agent: 'Built', doing: 'What that has built on your credit file', credit: 30 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Finish sooner, or pay less each week?',
             options: ['Finish sooner', 'Pay less weekly'],
             learn: ['finish sooner, so anything extra shortens the end date', 'less weekly, so a person will look at the structure'],
           } },
-          { agent: 'Review', doing: 'Flagged for a human rate review', credit: 3 },
-          { agent: 'Free', doing: 'And no penalty if you go faster', credit: 3 },
+          { agent: 'Waived', doing: 'Your $1.75 admin fee, gone from here on', credit: 60 },
+          { agent: 'Free', doing: 'And no penalty if you clear it early', credit: 40 },
         ],
       },
-      /* ══ THE DECLINE, MADE INTO A DATE ═════════════════════════════════════
-         A "no" is currently an endpoint, and an endpoint is where people go to
-         a worse lender. This turns it into a date. The LENDER states the reason
-         — the concept never guesses it and never promises a future yes. What it
-         produces is consent to check back, and a month to do it in. */
       {
         id: 'notyet', label: 'Not yet',
         app: 'Not this time',
-        unit: ['', ' months'],
-        earning: 'until it is worth asking again',
-        yours: 'a date, not a maybe',
+        unit: ['', ' min'],
+        earning: 'saved, so far',
+        yours: 'saved \u2014 and your file is yours',
         told: 'you told us:',
         declined: 'you would rather not be contacted. Then we will not.',
         steps: [
-          { agent: 'Said', doing: 'The reason, in the lender’s own words', credit: 1 },
-          { agent: 'Changes', doing: 'Which part of it is the kind that changes', credit: 1 },
+          { agent: 'Why', doing: 'The reason, in the lender\u2019s own words', credit: 5 },
+          { agent: 'Changes', doing: 'Which part of it is the kind that changes', credit: 4 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Want us to check back when it might have?',
             options: ['Yes, get in touch', 'No, leave it'],
-            learn: ['a check-back, with a date they agreed to', 'no contact — and that is the end of it'],
+            learn: ['a check-back, on a date you agreed to', 'no contact \u2014 and that is the end of it'],
           } },
-          { agent: 'When', doing: 'A month, not "in the future"', credit: 1 },
-          { agent: 'Nobody', doing: 'Your details went to no one else', credit: 0 },
+          { agent: 'Yours', doing: 'Everything you typed, downloadable \u2014 take it anywhere', credit: 8 },
+          { agent: 'Date', doing: 'And a month, if you want us to look again', credit: 5 },
         ],
       },
-      /* ══ THE GRADUATION ════════════════════════════════════════════════════
-         The best-qualified person you will ever have just finished paying, and
-         the relationship ends in silence. Nectar sells Credit Builder and Top
-         Up, which are graduation products with no graduation moment attached.
-
-         🔴 Nothing here pitches new lending. Someone who has just got out of
-         debt is precisely who should not be sold more of it. What they get is
-         the record, which is theirs. */
       {
         id: 'paid', label: 'Paid off',
         app: 'That was the last one',
-        unit: ['', ' payments'],
-        earning: 'payments, all on time',
-        yours: 'and a file to prove it',
+        unit: ['$', '', 0],
+        earning: 'held for you',
+        yours: 'held, if you ever need us again',
         told: 'you told us:',
-        declined: 'you would rather not say. The record is yours regardless.',
+        declined: 'you would rather not say. It is held regardless.',
         steps: [
-          { agent: 'Done', doing: 'Thirty-six payments, every one on time', credit: 30 },
-          { agent: 'Built', doing: 'What we reported for you, and what it is worth', credit: 6 },
+          { agent: 'Done', doing: 'Thirty-six payments. Nothing owed.', credit: 40 },
+          { agent: 'Proof', doing: 'Your full repayment record, in writing', credit: 30 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Want the record sent to you?',
             options: ['Yes, send it', 'No thanks'],
-            learn: ['sent — it is theirs and it works anywhere', 'not sent, and nothing follows'],
+            learn: ['sent \u2014 it is yours and it works anywhere', 'not sent, and nothing follows'],
           } },
-          { agent: 'Nothing', doing: 'No new loan is being offered here', credit: 0 },
-          { agent: 'Door', doing: 'Open, if they ever want it. Not before.', credit: 0 },
+          { agent: 'Next', doing: 'Half your establishment fee, held \u2014 we know you now', credit: 120 },
+          { agent: 'Quiet', doing: 'And nobody will ring you about it', credit: 10 },
         ],
       },
-      /* ══ WORD OF MOUTH, UNPAID ═════════════════════════════════════════════
-         Word of mouth is the strongest channel in lending, and a referral fee
-         is the fastest way to poison it — paying for introductions of credit
-         customers also drags you toward the financial advice and intermediary
-         rules. So nothing is paid. What is shareable is the EXPLANATION, because
-         people forward things they understood. */
       {
-        id: 'word', label: 'Telling a mate',
+        id: 'plain', label: 'In plain words',
         app: 'What did you actually get?',
         unit: ['', ' min'],
-        earning: 'of your mate’s evening, saved',
-        yours: 'saved, for someone else',
+        earning: 'saved, so far',
+        yours: 'yours to keep, or to pass on',
         told: 'you told us:',
-        declined: 'you would rather not share it. Nothing is sent.',
+        declined: 'you would rather not say. You still keep the summary.',
         steps: [
-          { agent: 'Plain', doing: 'What you got, in words you would use', credit: 8 },
-          { agent: 'Cost', doing: 'What it cost, with the fees in it', credit: 6 },
+          { agent: 'Plain', doing: 'Your loan, in words you would actually use', credit: 7 },
+          { agent: 'Cost', doing: 'What it cost, with every fee in it', credit: 6 },
           { agent: 'Ask', doing: 'One question', ask: {
-            q: 'Strip your numbers out before sharing?',
-            options: ['Yes, take them out', 'Leave them in'],
-            learn: ['numbers removed — the shape without the personal detail', 'left in, because they chose to'],
+            q: 'Keep your numbers in, if you pass it on?',
+            options: ['Take them out', 'Leave them in'],
+            learn: ['numbers removed \u2014 the shape without your detail', 'left in, because you chose to'],
           } },
-          { agent: 'Yours', doing: 'Nothing is sent by us — you send it', credit: 5 },
-          { agent: 'Unpaid', doing: 'No referral fee, to you or anyone', credit: 0 },
+          { agent: 'Keep', doing: 'Yours to keep, and to check us against', credit: 4 },
+          { agent: 'Pass', doing: 'Or send it to whoever asked you about us', credit: 3 },
         ],
       }],
     },
@@ -946,105 +907,93 @@ export const CLIENTS = [
       note: 'Illustrative concept screen · not an Instant Finance product · no credit decision is made here',
       startLabel: 'get ready for 11am',
       skipLabel: 'rather not say',
-      scenarios: [{
+      /* Same rule as Nectar: the ring is what the CUSTOMER walks away with, and
+         no step is a refusal. The branch-side value \u2014 a prepared person, a
+         consistent network \u2014 is argued in the sections below, not smuggled
+         into a screen the customer is looking at. */
+      scenarios: [
+      {
         id: 'branch', label: 'Before the branch',
         app: 'Your 11am, at Manukau',
         unit: ['', ' min'],
-        earning: 'of the conversation, done',
-        yours: 'they start at minute five',
-        told: 'they told you:',
-        declined: 'they would rather not say. The brief goes across as it stands.',
+        earning: 'off your appointment',
+        yours: 'saved \u2014 you start at minute five',
+        told: 'you told us:',
+        declined: 'you would rather not say. You still keep the rest.',
         steps: [
-          { agent: 'Already', doing: 'Everything they have told you before', credit: 4 },
-          { agent: 'Purpose', doing: 'What the money is actually for', credit: 3 },
+          { agent: 'Kept', doing: 'Everything you have already told us', credit: 4 },
+          { agent: 'Purpose', doing: 'What the money is for, in your words', credit: 3 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Is anyone coming in with you?',
             options: ['Yes, my partner', 'On my own'],
-            learn: ['two people, so book the room and prepare both sets of ID', 'on their own, so a desk is fine'],
+            learn: ['two of you, so a room is booked and both IDs are ready', 'on your own, so a desk is fine'],
           } },
-          { agent: 'Bring', doing: 'What to bring, so nobody comes back twice', credit: 5 },
-          { agent: 'Brief', doing: 'One page, for the person taking the appointment', credit: 3 },
+          { agent: 'Bring', doing: 'Exactly what to bring \u2014 no second trip', credit: 5 },
+          { agent: 'Read', doing: 'And someone has read it before you arrive', credit: 3 },
         ],
       },
-      /* ══ WHAT ONLY THIS BRANCH KNOWS ═══════════════════════════════════════
-         Twenty-five branches means twenty-five people who know their town, and
-         that is the one thing a website and a call centre structurally cannot
-         do. It is also the thing head office never captures.
-
-         🔴 HARD LINE: local knowledge serves the APPOINTMENT, never the
-         assessment. Which employer issues what payslip, when the freezing works
-         does short shifts, which day the marae has a hui — that is service.
-         Inferring anything about creditworthiness from where someone lives or
-         works is profiling, and it is blocked. */
       {
-        id: 'local', label: 'What Manukau knows',
-        app: 'Things head office cannot know',
-        unit: ['', ' things'],
-        earning: 'only this branch knows',
-        yours: 'in the brief',
-        told: 'the branch told you:',
-        declined: 'nothing to add this week. The brief goes as it stands.',
+        id: 'local', label: 'What your branch knows',
+        app: 'The person here knows the town',
+        /* \ud83d\udd34 Local knowledge serves the APPOINTMENT, never the
+           assessment. Which employer issues what payslip is service; inferring
+           creditworthiness from where somebody lives or works is profiling, and
+           a guard below blocks it. */
+        unit: ['', ' min'],
+        earning: 'saved, so far',
+        yours: 'saved \u2014 and no second trip',
+        told: 'you told us:',
+        declined: 'nothing to work around. The usual times, then.',
         steps: [
-          { agent: 'Payslips', doing: 'Which local employers issue what, and how', credit: 2 },
-          { agent: 'Season', doing: 'Who is on short shifts this month', credit: 1 },
+          { agent: 'Payslips', doing: 'Your employer\u2019s payslips \u2014 we know the format', credit: 4 },
+          { agent: 'Open', doing: 'What this branch actually opens, this week', credit: 3 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Anything on this week we should work around?',
             options: ['Yes, there is', 'Normal week'],
-            learn: ['a local commitment, so offer times around it', 'normal week, so the usual slots'],
+            learn: ['a commitment, so times are offered around it', 'a normal week, so the usual slots'],
           } },
-          { agent: 'Hours', doing: 'What this branch actually opens, this week', credit: 1 },
-          { agent: 'Never', doing: 'None of it touches the assessment', credit: 0 },
+          { agent: 'Times', doing: 'Times that fit what is on in town', credit: 4 },
+          { agent: 'Person', doing: 'And a person here, not a call centre', credit: 3 },
         ],
       },
-      /* ══ THEY WALK BACK IN ═════════════════════════════════════════════════
-         A branch network lives on repeat custom, and the person who finished
-         paying is the one most likely to come back. Making them start again is
-         the fastest way to waste fifty-five years of relationship.
-
-         🔴 Same rule as Nectar's graduation: nothing is sold at the counter to
-         someone who has just cleared a loan. */
       {
-        id: 'back', label: 'They come back',
+        id: 'back', label: 'Coming back',
         app: 'Second time, same branch',
         unit: ['', ' min'],
-        earning: 'of starting again, skipped',
-        yours: 'they pick up where they left off',
-        told: 'they told you:',
-        declined: 'they would rather not say. The brief goes as it stands.',
+        earning: 'saved, so far',
+        yours: 'saved \u2014 you pick up where you left off',
+        told: 'you told us:',
+        declined: 'you would rather not say. We will confirm it in the room.',
         steps: [
-          { agent: 'History', doing: 'They finished the last one, every payment on time', credit: 4 },
-          { agent: 'Held', doing: 'What you already hold, for them to correct', credit: 5 },
+          { agent: 'History', doing: 'You finished the last one. Every payment on time.', credit: 4 },
+          { agent: 'Held', doing: 'What we already hold, for you to correct', credit: 5 },
           { agent: 'Ask', doing: 'One question', ask: {
             q: 'Is anything different since last time?',
             options: ['Yes, a fair bit', 'Much the same'],
-            learn: ['circumstances changed, so an assessor starts fresh', 'much the same, so only confirm what matters'],
+            learn: ['a fair bit, so we start that part fresh', 'much the same, so we only confirm what matters'],
           } },
-          { agent: 'Fresh', doing: 'A new decision, made properly — nothing carries over', credit: 3 },
-          { agent: 'Nothing', doing: 'Nobody is being sold anything at the counter', credit: 0 },
+          { agent: 'Short', doing: 'So the paperwork is the short version', credit: 3 },
+          { agent: 'Same', doing: 'And the same person, if they are in', credit: 2 },
         ],
       },
-      /* ══ WORD OF MOUTH, AT TOWN SCALE ══════════════════════════════════════
-         In a branch network the referral IS the marketing, and it already
-         happens — someone tells their cousin which branch to walk into and who
-         to ask for. Unpaid, for the same reasons as Nectar. */
       {
-        id: 'word', label: 'Who to ask for',
-        app: 'Telling someone where to go',
+        id: 'where', label: 'Your branch, saved',
+        app: 'Where to go, and who to ask for',
         unit: ['', ' min'],
-        earning: 'of someone else’s time, saved',
-        yours: 'saved, for the next person',
-        told: 'they told you:',
-        declined: 'they would rather not share it. Nothing is prepared.',
+        earning: 'saved, so far',
+        yours: 'yours to keep, or to pass on',
+        told: 'you told us:',
+        declined: 'you would rather not say. You still keep the details.',
         steps: [
-          { agent: 'Where', doing: 'Which branch, and what it opens', credit: 4 },
-          { agent: 'Bring', doing: 'What to take, so nobody comes back twice', credit: 5 },
+          { agent: 'Where', doing: 'Your branch, and what it opens', credit: 4 },
+          { agent: 'Who', doing: 'The person you dealt with, by name', credit: 5 },
           { agent: 'Ask', doing: 'One question', ask: {
-            q: 'Name the person you dealt with?',
+            q: 'Keep their name on it, if you pass it on?',
             options: ['Yes, name them', 'Just the branch'],
-            learn: ['a name to ask for, which is the whole point of a branch', 'the branch only, no person named'],
+            learn: ['a name to ask for, which is the point of a branch', 'the branch only, no person named'],
           } },
-          { agent: 'Theirs', doing: 'They send it. We send nothing.', credit: 3 },
-          { agent: 'Unpaid', doing: 'No referral fee, to them or to staff', credit: 0 },
+          { agent: 'Bring', doing: 'And what to take, so nobody comes back twice', credit: 3 },
+          { agent: 'Keep', doing: 'Yours to keep, or to send to whoever asked', credit: 3 },
         ],
       }],
     },

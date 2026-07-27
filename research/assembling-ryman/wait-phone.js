@@ -31,6 +31,15 @@
  *                                  //   so a host carousel can stop advancing
  *    });
  *
+ *  ── TWO RULES FOR WHOEVER WRITES THE SCENARIOS ─────────────────────────────
+ *  1. THE NUMBER IN THE RING IS WHAT THE PERSON HOLDING THE PHONE WALKS AWAY
+ *     WITH. Not what the business saves. Not what their friend saves. A ring
+ *     counting somebody else's benefit is a lie told in a rewards component,
+ *     and it reads as one — it was written once and immediately caught.
+ *  2. NO STEP IS A REFUSAL. "No referral fee, to you or anyone" in a reward
+ *     list is not a reward. Everything the concept refuses to do belongs in the
+ *     page's guard section, which is where anyone hunting for the catch goes.
+ *
  *  A step is { agent, doing, credit?, ask? } and an ask is
  *  { q, options: [a, b], learn: [a, b] } — learn[i] is what answering with
  *  options[i] taught the business, said back in their words.
