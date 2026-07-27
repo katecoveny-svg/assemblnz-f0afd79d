@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+import os
+import sys
+import base64
+
+ENV_PATH = "/Users/kateharland/assemblnz-f0afd79d/.env.local"
+
+def read_env():
+    secrets = {}
+    if os.path.exists(ENV_PATH):
+        with open(ENV_PATH, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, val = line.split("=", 1)
+                    secrets[key.strip()] = val.strip()
+    return secrets
+
+def write_env(secrets):
+    with open(ENV_PATH, "w") as f:
+        f.write("# assembl intuitive · Secure Environment Vault\n")
+        f.write("# This file is git-ignored and holds local secrets.\n\n")
+        for key, val in sorted(secrets.items()):
+            f.write(f"{key}={val}\n")
+
+def mask_val(val):
+    if len(val) <= 8:
+        return "*" * len(val)
+    return val[:4] + "*" * (len(val) - 8) + val[-4:]
+
+def cmd_set(key, val):
+    secrets = read_env()
+    secrets[key] = val
+    write_env(secrets)
+    print(f"Success! Secret set: {key} = {mask_val(val)}")
+
+def cmd_get(key):
+    secrets = read_env()
+    val = secrets.get(key)
+    if val:
+        print(val)
+    else:
+        print(f"Error: Key '{key}' not found in vault.", file=sys.stderr)
+        sys.exit(1)
+
+def cmd_list():
+    secrets = read_env()
+    if not secrets:
+        print("Vault is empty. Use 'assembl-vault set KEY VALUE' to add a secret.")
+        return
+    print("assembl intuitive · Active Vault Keys:")
+    print("-" * 50)
+    for key, val in sorted(secrets.items()):
+        print(f"{key:<35} | {mask_val(val)}")
+    print("-" * 50)
+
+def cmd_export():
+    secrets = read_env()
+    if not secrets:
+        print("Error: No secrets to export.", file=sys.stderr)
+        sys.exit(1)
+    
+    # Simple obfuscated base64 payload for easy copying between chats/agents
+    payload_str = ""
+    for k, v in sorted(secrets.items()):
+        payload_str += f"{k}={v}\n"
+    
+    encoded = base64.b64encode(payload_str.encode()).decode()
+    print("\n--- BEGIN SECURE ASSEMBL VAULT PAYLOAD ---")
+    print(encoded)
+    print("--- END SECURE ASSEMBL VAULT PAYLOAD ---\n")
+    print("Copy the base64 string above to easily share secrets with other agents or workspaces.")
+
+def cmd_import(payload):
+    try:
+        decoded = base64.b64decode(payload.strip()).decode()
+        secrets = read_env()
+        added_count = 0
+        for line in decoded.split("\n"):
+            line = line.strip()
+            if line and "=" in line:
+                key, val = line.split("=", 1)
+                secrets[key.strip()] = val.strip()
+                added_count += 1
+        write_env(secrets)
+        print(f"Success! Securely imported {added_count} secrets into {ENV_PATH}.")
+    except Exception as e:
+        print(f"Error: Invalid payload. Parse failed: {e}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("assembl intuitive · Vault CLI Tool v1.0")
+        print("Usage:")
+        print("  assembl-vault set <KEY> <VALUE>   - Add or update a secret")
+        print("  assembl-vault get <KEY>           - Print raw value of a secret")
+        print("  assembl-vault list                - List all keys (masked)")
+        print("  assembl-vault export              - Export all secrets as a shareable string")
+        print("  assembl-vault import <string>     - Import secrets from shareable string")
+        sys.exit(1)
+        
+    cmd = sys.argv[1].lower()
+    if cmd == "set" and len(sys.argv) == 4:
+        cmd_set(sys.argv[2], sys.argv[3])
+    elif cmd == "get" and len(sys.argv) == 3:
+        cmd_get(sys.argv[2])
+    elif cmd == "list":
+        cmd_list()
+    elif cmd == "export":
+        cmd_export()
+    elif cmd == "import" and len(sys.argv) == 3:
+        cmd_import(sys.argv[2])
+    else:
+        print("Error: Invalid arguments. Run without arguments to see usage.", file=sys.stderr)
+        sys.exit(1)

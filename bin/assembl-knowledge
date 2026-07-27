@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+import os
+import sys
+from datetime import datetime
+
+# Set path of repository root
+REPO_ROOT = "/Users/kateharland/assemblnz-f0afd79d"
+KNOWLEDGE_DIR = os.path.join(REPO_ROOT, "docs/knowledge")
+REGISTRY_PATH = os.path.join(KNOWLEDGE_DIR, "REGISTRY.md")
+
+def init_system():
+    os.makedirs(KNOWLEDGE_DIR, exist_ok=True)
+    if not os.path.exists(REGISTRY_PATH):
+        with open(REGISTRY_PATH, "w") as f:
+            f.write("# assembl intuitive · Knowledge Update Registry\n\n")
+            f.write("AI agents MUST read the latest updates listed below before beginning development or drafting marketing copy.\n\n")
+            f.write("| Date | Topic | Description | File |\n")
+            f.write("|------|-------|-------------|------|\n")
+
+def add_update(title, description, content):
+    init_system()
+    
+    # Generate filename
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    clean_title = title.lower().replace(" ", "-").replace("/", "-").replace("\\", "-")
+    filename = f"{date_str}-{clean_title}.md"
+    file_path = os.path.join(KNOWLEDGE_DIR, filename)
+    
+    # Write knowledge update file
+    with open(file_path, "w") as f:
+        f.write(f"# Knowledge Update: {title}\n\n")
+        f.write(f"**Date:** {datetime.now().strftime('%d %B %Y')}\n")
+        f.write(f"**Topic:** {title}\n")
+        f.write(f"**Description:** {description}\n\n")
+        f.write("---\n\n")
+        f.write(content)
+        f.write("\n")
+        
+    # Append to Registry
+    relative_path = os.path.join("docs/knowledge", filename)
+    registry_line = f"| {datetime.now().strftime('%Y-%m-%d')} | {title} | {description} | [{filename}]({filename}) |\n"
+    
+    # Read registry and insert line after header table
+    with open(REGISTRY_PATH, "r") as f:
+        lines = f.readlines()
+        
+    inserted = False
+    for i, line in enumerate(lines):
+        if line.startswith("|------|"):
+            lines.insert(i + 1, registry_line)
+            inserted = True
+            break
+            
+    if not inserted:
+        lines.append(registry_line)
+        
+    with open(REGISTRY_PATH, "w") as f:
+        f.writelines(lines)
+        
+    print(f"Success! Created knowledge update: {relative_path}")
+    print(f"Registry updated at: {REGISTRY_PATH}")
+    
+    # Stage in git if inside repo
+    os.system(f"git -C {REPO_ROOT} add docs/knowledge/")
+
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Usage: assembl-knowledge '<Title>' '<Brief Description>'")
+        print("Example: assembl-knowledge 'Launch Day Guidelines' 'Updated rules for website launch'")
+        sys.exit(1)
+        
+    title = sys.argv[1]
+    description = sys.argv[2]
+    
+    print("Enter the full body of the knowledge update (press Ctrl+D when finished):")
+    content = sys.stdin.read()
+    
+    add_update(title, description, content)
