@@ -85,6 +85,12 @@ em.g{font-style:normal;color:var(--accent)}
 .waitdemo{position:sticky;top:88px}
 .wp-invite{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
   margin-bottom:16px;font-weight:700}
+/* The sculpture is a FIXED full-screen canvas, so a 4%-white panel reads straight
+   through it and the copy becomes unreadable. Solidify the panel — never fade the
+   canvas to win legibility. */
+.waitcards .glass{background:rgba(13,13,15,.88);border-color:rgba(255,255,255,.10)}
+.waitcards .kicker{background:rgba(13,13,15,.88);border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:18px 22px}
 @media(max-width:960px){.waitgrid{grid-template-columns:1fr;gap:36px;justify-items:center}
   .waitdemo{position:static}.waitcards{width:100%}}
 /* wait-phone.js, driven from this client's palette */
@@ -534,17 +540,93 @@ function grounded(q){
   var chrome=new THREE.MeshStandardMaterial({color:'#EDEFF2',metalness:1,roughness:0.09,envMapIntensity:2.0});
 
   var g=new THREE.Group();s.add(g);
-  g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.55,1),core));
-  var shell=new THREE.Mesh(new THREE.IcosahedronGeometry(2.25,1),
-    new THREE.MeshPhysicalMaterial({color:CFG.accent,metalness:0.1,roughness:0.22,transmission:0.72,transparent:true,opacity:0.42,envMapIntensity:1.6}));
-  g.add(shell);
-  var r1=new THREE.Mesh(new THREE.TorusGeometry(4.6,0.035,14,140),champ);r1.rotation.x=Math.PI/2.1;g.add(r1);
-  var r2=new THREE.Mesh(new THREE.TorusGeometry(5.7,0.022,12,140),champ);r2.rotation.x=Math.PI/2.4;r2.rotation.z=Math.PI/7;g.add(r2);
+
+  /* ══ THE INSTRUMENT ═══════════════════════════════════════════════════════
+     Every object here has to MEAN something for the category it sits in — a
+     generic faceted ball says nothing about a parcel, a claim or a loan. Each
+     builder returns its moving parts, and each part gets its own axis and
+     speed: one group spin reads as a screensaver, per-part motion reads as a
+     mechanism. Linear members stay hairline (tube radius <= 0.035); anything
+     thicker reads as plumbing.
+     ═════════════════════════════════════════════════════════════════════════ */
+  var glass=new THREE.MeshPhysicalMaterial({color:CFG.accent,metalness:0.1,roughness:0.22,
+    transmission:0.72,transparent:true,opacity:0.42,envMapIntensity:1.6});
+  var parts=[];
+  function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
+
+  var OBJECTS={
+    /* one continuous path through the whole thing — one application, one journey.
+       Kate's chosen homepage direction, so it is the right default. */
+    filament:function(){
+      part(new THREE.Mesh(new THREE.TorusKnotGeometry(1.75,0.028,560,10,2,3),chrome),0.012,0.05,0);
+      part(new THREE.Mesh(new THREE.TorusKnotGeometry(1.42,0.018,480,8,3,5),champ),-0.03,-0.035,0.01);
+      part(new THREE.Mesh(new THREE.TorusKnotGeometry(2.05,0.020,420,8,2,5),core),0.02,0.022,0);
+      part(new THREE.Mesh(new THREE.SphereGeometry(0.30,40,32),champ),0,0.09,0);
+    },
+    /* a great circle with a bead running it — a route, and someone on it */
+    arc:function(){
+      part(new THREE.Mesh(new THREE.SphereGeometry(1.30,44,36),glass),0,0.03,0);
+      var a=part(new THREE.Mesh(new THREE.TorusGeometry(2.30,0.030,12,180,Math.PI*1.45),champ),0,0.04,0);
+      a.rotation.set(Math.PI/2.6,0,Math.PI/9);
+      var b=part(new THREE.Mesh(new THREE.TorusGeometry(2.85,0.020,10,180,Math.PI*1.1),chrome),0,-0.03,0);
+      b.rotation.set(Math.PI/2.1,0.5,-Math.PI/6);
+      /* the bead is parented to the arc, so the arc's own spin carries it along
+         the route rather than leaving it parked at one point on the circle */
+      var bead=new THREE.Mesh(new THREE.SphereGeometry(0.17,26,20),core);
+      bead.position.set(2.30,0,0);a.add(bead);
+    },
+    /* a basket, assembled: small volumes finding their places on a lattice */
+    lattice:function(){
+      for(var i=0;i<26;i++){
+        var sc=0.20+Math.random()*0.30;
+        var m=part(new THREE.Mesh(new THREE.BoxGeometry(sc,sc,sc),
+          i%3===0?champ:(i%3===1?core:sec)),
+          (Math.random()-0.5)*0.06,(Math.random()-0.5)*0.06,(Math.random()-0.5)*0.06);
+        var t=i/26*Math.PI*2, ring=1.15+(i%3)*0.52;
+        m.position.set(Math.cos(t)*ring,(i%5-2)*0.42,Math.sin(t)*ring);
+      }
+      part(new THREE.Mesh(new THREE.IcosahedronGeometry(0.72,1),glass),0,0.05,0);
+    },
+    /* concentric arcs over one small volume — something kept safe, not enclosed */
+    shelter:function(){
+      [[1.55,0.030,champ,0],[1.95,0.024,chrome,0.22],[2.35,0.020,champ,0.44]].forEach(function(d,i){
+        var m=part(new THREE.Mesh(new THREE.TorusGeometry(d[0],d[1],12,150,Math.PI*0.92),d[2]),
+          0,0,(i%2?1:-1)*0.02);
+        m.rotation.set(0,d[3],Math.PI);
+      });
+      part(new THREE.Mesh(new THREE.SphereGeometry(0.60,40,32),core),0,0.04,0).position.y=-0.30;
+      part(new THREE.Mesh(new THREE.TorusGeometry(0.95,0.016,10,120),chrome),0.03,0,0).rotation.x=Math.PI/2;
+    },
+    /* an element in a coil — the thing that actually costs money to run */
+    helix:function(){
+      var pts=[];for(var i=0;i<=440;i++){var t=i/440*Math.PI*9;
+        pts.push(new THREE.Vector3(Math.cos(t)*1.15,(i/440-0.5)*3.3,Math.sin(t)*1.15))}
+      part(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),440,0.030,8,false),champ),0,0.05,0);
+      part(new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.13,3.5,24),chrome),0,0.02,0);
+      part(new THREE.Mesh(new THREE.TorusGeometry(1.85,0.020,10,150),core),0.02,0,0.03).rotation.x=Math.PI/2;
+      part(new THREE.Mesh(new THREE.SphereGeometry(0.26,32,24),glass),0,0.06,0);
+    },
+    /* a box, and the path a thing takes through it */
+    parcel:function(){
+      var e=new THREE.EdgesGeometry(new THREE.BoxGeometry(2.0,2.0,2.0));
+      var box2=new THREE.LineSegments(e,new THREE.LineBasicMaterial({color:'#BFA37A',transparent:true,opacity:0.85}));
+      part(box2,0.010,0.035,0.006);
+      part(new THREE.Mesh(new THREE.BoxGeometry(1.02,1.02,1.02),core),0.02,0.05,0.01);
+      var pts=[];for(var i=0;i<=180;i++){var t=i/180*Math.PI*3.2;
+        pts.push(new THREE.Vector3(Math.cos(t)*(2.6-i/180*1.2),(i/180-0.5)*2.4,Math.sin(t)*(2.6-i/180*1.2)))}
+      part(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),180,0.017,7,false),chrome),0,-0.03,0);
+    },
+  };
+  (OBJECTS[CFG.object]||OBJECTS.filament)();
+  /* The horizon rings were 4.6/5.7 — wide enough that the assembly spilled left
+     across the headline column even with the hero pose hard right. Compact. */
+  var r1=new THREE.Mesh(new THREE.TorusGeometry(3.15,0.030,14,140),champ);r1.rotation.x=Math.PI/2.1;g.add(r1);
+  var r2=new THREE.Mesh(new THREE.TorusGeometry(3.80,0.018,12,140),champ);r2.rotation.x=Math.PI/2.4;r2.rotation.z=Math.PI/7;g.add(r2);
   var orbs=[];
-  [{geo:new THREE.OctahedronGeometry(0.52,0),m:sec,rad:3.5,sp:0.30,ph:0.4,ya:0.9},
-   {geo:new THREE.TetrahedronGeometry(0.50,0),m:chrome,rad:4.1,sp:0.24,ph:2.1,ya:1.2},
-   {geo:new THREE.IcosahedronGeometry(0.44,0),m:core,rad:3.8,sp:0.34,ph:4.0,ya:0.7},
-   {geo:new THREE.TorusGeometry(0.40,0.13,14,44),m:champ,rad:4.5,sp:0.28,ph:5.4,ya:1.0}
+  [{geo:new THREE.OctahedronGeometry(0.38,0),m:sec,rad:2.55,sp:0.30,ph:0.4,ya:0.7},
+   {geo:new THREE.TetrahedronGeometry(0.36,0),m:chrome,rad:2.95,sp:0.24,ph:2.1,ya:0.9},
+   {geo:new THREE.IcosahedronGeometry(0.32,0),m:core,rad:2.75,sp:0.34,ph:4.0,ya:0.55},
+   {geo:new THREE.TorusGeometry(0.30,0.10,14,44),m:champ,rad:3.20,sp:0.28,ph:5.4,ya:0.8}
   ].forEach(function(d){var m=new THREE.Mesh(d.geo,d.m);m.userData=d;g.add(m);orbs.push(m)});
   var N=80,pg=new THREE.BufferGeometry(),pp=new Float32Array(N*3);
   for(var i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*22;pp[i*3+1]=(Math.random()-0.5)*13;pp[i*3+2]=(Math.random()-0.5)*16}
@@ -552,7 +634,7 @@ function grounded(q){
   s.add(new THREE.Points(pg,new THREE.PointsMaterial({color:'#BFA37A',size:0.035,transparent:true,opacity:0.40})));
 
   /* hero pose sits hard right — the headline column owns the left half */
-  var KEYS=[{p:0.00,x:4.30,y:-0.10,sc:0.86,ry:-0.4},{p:0.18,x:-2.70,y:0.15,sc:0.74,ry:0.7},
+  var KEYS=[{p:0.00,x:5.70,y:-0.10,sc:0.72,ry:-0.4},{p:0.18,x:-2.70,y:0.15,sc:0.74,ry:0.7},
             {p:0.38,x:2.60,y:0.05,sc:0.76,ry:1.9},{p:0.58,x:-2.55,y:0.15,sc:0.74,ry:3.0},
             {p:0.78,x:2.50,y:0.05,sc:0.80,ry:4.2},{p:1.00,x:0.00,y:0.00,sc:1.05,ry:5.6}];
   function ss(a){return a*a*(3-2*a)}
@@ -570,7 +652,10 @@ function grounded(q){
     var k=pose(prog),narrow=innerWidth<820,damp=narrow?0.30:1,sd=narrow?0.60:1;
     g.position.x=k.x*damp+mx*0.28;g.position.y=k.y+Math.sin(t*0.35)*0.12;
     g.scale.setScalar(k.sc*sd);g.rotation.y=k.ry+t*0.05;
-    shell.rotation.y=-t*0.08;shell.rotation.x=t*0.04;
+    /* per-part motion — one group spin reads as a screensaver. Deltas are scaled
+       by the same 0.016 step the clock uses, so spin 0.05 means 0.05 rad/sec. */
+    if(!reduced)parts.forEach(function(m){var sp=m.userData.spin;if(!sp)return;
+      m.rotation.x+=sp.x*0.016;m.rotation.y+=sp.y*0.016;m.rotation.z+=sp.z*0.016});
     r1.rotation.z=t*0.05;r2.rotation.z=-t*0.035;
     orbs.forEach(function(m){var d=m.userData,a=d.ph+t*d.sp+prog*Math.PI;
       m.position.set(Math.cos(a)*d.rad,Math.sin(t*0.25+d.ph)*d.ya,Math.sin(a)*d.rad);

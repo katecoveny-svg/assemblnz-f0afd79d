@@ -292,6 +292,24 @@ em.g{font-style:normal;color:var(--champ)}
 .tnote{font-size:12px;color:var(--muted-2);margin-top:14px;font-weight:300;line-height:1.55}
 
 /* ── live inventory engine ── */
+/* ══ THE WAIT ═════════════════════════════════════════════════════════════
+   .appwrap/.appcopy/.device carried NO rules at all, so the wait section
+   rendered as one full-width unstyled column. Two columns, copy left, the
+   phone right, and the phone is the only lit thing in a monochrome room. */
+.appwrap{display:grid;grid-template-columns:1fr 340px;gap:56px;align-items:start}
+.appcopy{min-width:0}
+.device{display:flex;justify-content:center;position:sticky;top:88px}
+@media(max-width:900px){.appwrap{grid-template-columns:1fr;gap:38px}
+  .device{position:static}}
+/* wait-phone.js — Giltrap is monochrome, so the accent is the champagne and the
+   completed state goes to true black rather than to a second brand colour. */
+#wait-mount .wp{
+  --wp-paper:#FFFFFF; --wp-ink:#0A0A0B; --wp-ink-2:#6B6F76;
+  --wp-accent:var(--champ); --wp-done:#0A0A0B; --wp-line:rgba(10,10,11,.11);
+  --wp-rim:rgba(191,163,122,.62);
+  --wp-shell:linear-gradient(160deg,#2a2a2c 0%,#101012 44%,#2a2a2c 100%);
+  --wp-sans:var(--sans); --wp-app:var(--sans);
+}
 .eng{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
 @media(max-width:900px){.eng{grid-template-columns:1fr}}
 .feed{border:1px solid var(--line);border-radius:18px;padding:24px;background:rgba(255,255,255,.03)}
@@ -560,15 +578,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
         <div><div class="t">One question at a time, all of them optional</div>
         <div class="d">No finance data is ever requested. Nothing is passed to a third party. A person confirms every fitting and every booking before it happens.</div></div></div>
     </div>
-    <div class="device"><div class="screen">
-      <div class="sbar"><span>9:41</span><span>Your car</span><span>5G</span></div>
-      <div class="ahead"><h4>Being built</h4><span class="pill" id="wcredit">$0 credit</span></div>
-      <div class="abody" id="wbody"></div>
-      <div class="afoot">Illustrative concept screen · not a Giltrap product</div>
-    </div></div>
-  </div>
-  <div style="text-align:center;margin-top:26px" class="rise">
-    <button class="btn ghost" onclick="playWait()" id="wbtn">Play four months in twelve seconds →</button>
+    <div class="device"><div id="wait-mount"></div></div>
   </div>
 </div></section>
 
@@ -837,6 +847,7 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
 </div>
 
 <script src="three.min.js"></script>
+<script src="wait-phone.js"></script>
 <script>
 var EXECS={
   'gm-customer-marketing':{n:'Group GM Customer &amp; Marketing'},'ceo':{n:'Group Chief Executive'},
@@ -1369,49 +1380,61 @@ document.getElementById('flight').innerHTML=
    '<span><i class="fcell soft" style="opacity:1"></i>Always on / triggered</span>'+
    '<span><i class="fcell evt" style="opacity:1"></i>The event</span></div></div>';
 
-/* ══ the wait — a credit that accrues, and one optional question per stage ══ */
-var WAIT=[
- {s:'Order confirmed',d:'Your build slot is held. Nothing to do yet.',c:0,
-  q:null,learn:null},
- {s:'In production',d:'Body in paint. Roughly nine weeks from here.',c:150,
-  q:'Will anything be towed?',learn:'Towbar quoted and held — not fitted until you say so'},
- {s:'Built · awaiting shipping',d:'Finished and waiting on a vessel.',c:300,
-  q:'Can you charge at home?',learn:'Home charger assessment booked into the delivery week'},
- {s:'On the water',d:'Sailed Tuesday. Arriving Auckland in about three weeks.',c:450,
-  q:'Who else will drive it?',learn:'Second driver added to the handover, both sets of keys prepared'},
- {s:'Landed · compliance',d:'Through the port. Compliance and registration under way.',c:600,
-  q:'When does your current rego expire?',learn:'Changeover timed so you are never off the road'},
- {s:'In prep',d:'Detailing, accessories, final check.',c:750,
-  q:'Roof rails for the ski season?',learn:'Fitted during prep instead of a return visit'},
- {s:'Ready for you',d:'Handover booked. Your first service is already in the diary.',c:900,
-  q:null,learn:'Everything above is fitted, booked and paid from your credit'}
-];
-var wPlayed=false;
-function paintWait(i){
-  var w=WAIT[i];
-  document.getElementById('wcredit').textContent='$'+w.c+' credit';
-  var rows='';
-  WAIT.forEach(function(x,j){
-    var on=j<=i,now=j===i;
-    rows+='<div class="acard'+(now?' notice':'')+'" style="opacity:'+(on?1:0.32)+';transition:.5s">'+
-      '<div class="k">'+(now?'Now':(on?'Done':'To come'))+'</div>'+
-      '<div class="v">'+x.s+'</div>'+
-      (now?'<div class="s">'+x.d+'</div>':'')+
-      (now&&x.q?'<div class="s" style="color:var(--champ);margin-top:8px"><b>'+x.q+'</b></div>':'')+
-      (now&&x.learn?'<div class="s" style="margin-top:6px">→ '+x.learn+'</div>':'')+
-    '</div>';
+/* ══ THE WAIT, ON A PHONE ═════════════════════════════════════════════════════
+   Was: an unstyled div that auto-played once and rendered as a raw stack of text
+   — .device/.screen/.ahead/.abody/.afoot never had a single CSS rule in this
+   file, so the "concept screen" was a 1148px-wide column of unformatted lines.
+   Now the same component the assembl homepage runs.
+
+   The seven stages are the real build sequence, the credit accrues to $900 as it
+   did before, and the three questions now genuinely BLOCK until answered or
+   declined. That is the difference that matters: previously the questions were
+   printed as decoration, so the page claimed "each stage asks one optional
+   question" while never actually asking one. */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+
+  WaitPhone.mount(mount,{
+    chrome:'phone',
+    note:'Illustrative concept screen · not a Giltrap product · nothing is fitted or booked without a person',
+    startLabel:'play four months',
+    skipLabel:'rather not say',
+    scenarios:[{
+      id:'build', label:'The build',
+      app:'Your car is being built',
+      unit:['$','',0],
+      earning:'credit, so far',
+      yours:'toward their first year',
+      told:'they told you:',
+      declined:'they would rather not say. The car still arrives right.',
+      steps:[
+        {agent:'Slot',    doing:'Build slot held. Nothing to do yet.', credit:0},
+        {agent:'Paint',   doing:'Body in paint — roughly nine weeks from here', credit:150},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Will anything be towed?',
+          options:['Yes, a boat','No towing'],
+          learn:['towbar quoted and held — not fitted until they say so','no towbar, so nothing quoted'],
+        }},
+        {agent:'Vessel',  doing:'Finished, waiting on a ship', credit:150},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Can you charge at home?',
+          options:['Not sure','Already sorted'],
+          learn:['home charger assessment booked into the delivery week','charging sorted, so nothing booked'],
+        }},
+        {agent:'Water',   doing:'Sailed Tuesday. Auckland in about three weeks.', credit:150},
+        {agent:'Port',    doing:'Through compliance and registration', credit:150},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Who else will drive it?',
+          options:['One other driver','Just me'],
+          learn:['second driver on the handover, both sets of keys prepared','single driver, so one key and a shorter handover'],
+        }},
+        {agent:'Prep',    doing:'Detailing and accessories, fitted now not later', credit:150},
+        {agent:'Ready',   doing:'Handover booked. First service already in the diary.', credit:150},
+      ],
+    }],
   });
-  document.getElementById('wbody').innerHTML=rows+
-   '<button class="acta">Choose what your credit goes to <span class="arw">→</span></button>';
-}
-paintWait(0);
-function playWait(){
-  if(wPlayed)return;wPlayed=true;
-  var b=document.getElementById('wbtn');b.style.opacity='.5';b.style.pointerEvents='none';
-  b.textContent='Four months, and $900 toward their first year';
-  var red=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  WAIT.forEach(function(_,i){setTimeout(function(){paintWait(i)},red?0:i*1700)});
-}
+})();
 
 /* Six worked examples across the portfolio, from real inventory events. */
 var CREATIVE=[

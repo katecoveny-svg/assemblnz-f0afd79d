@@ -11,6 +11,7 @@
 export const CLIENTS = [
   {
     slug: 'southern-cross',
+    object: 'shelter',
     company: 'Southern Cross Health Society',
     short: 'Southern Cross',
     primary: '#009ADE',
@@ -156,6 +157,7 @@ export const CLIENTS = [
 
   {
     slug: 'nzpost',
+    object: 'parcel',
     company: 'NZ Post',
     short: 'NZ Post',
     primary: '#0068FF',
@@ -292,6 +294,7 @@ export const CLIENTS = [
 
   {
     slug: 'aig',
+    object: 'shelter',
     company: 'AIG New Zealand',
     short: 'AIG',
     primary: '#1352DE',
@@ -427,6 +430,7 @@ export const CLIENTS = [
 
   {
     slug: 'trademe',
+    object: 'lattice',
     company: 'Trade Me Property',
     short: 'Trade Me',
     primary: '#006EBD',
@@ -562,5 +566,187 @@ export const CLIENTS = [
     ],
     laws: 'the Fair Trading Act 1986, the Privacy Act 2020, and the Unsolicited Electronic Messages Act 2007.',
     verbNoun: 'lifecycle concept',
+  },
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     NECTAR MONEY × INSTANT FINANCE — for Symon Nausbaum.
+     Warm intro: Kate knows him. He is Founder and CEO of Nectar NZ Limited AND
+     was a director of Instant Finance Limited for fifteen years; public records
+     name him a significant beneficial owner of Instant Finance (with Sharlene
+     Mitchell). So one person owns both a 1971 branch lender with 25 locations
+     and a 2016 digital lender that quotes in seven minutes.
+
+     The concept is built on that single fact. Nectar's own tagline is "Fast like
+     a fintech. Fair like a human." — which is a description of his two
+     companies, and right now they are two separate funnels. The unassembled
+     moment is the DECLINE: someone who does not fit the digital credit box at
+     9pm gets a no, when a branch two suburbs away might have said yes after a
+     conversation. Nobody carries them across, so they start again somewhere
+     else, or they go to a truck shop.
+
+     🔴 HARD BOUNDARY, and it is the whole reason this is sendable: consumer
+     lending is CCCFA territory. This concept NEVER makes a credit decision,
+     never assesses affordability, never quotes a rate and never suggests one
+     brand is cheaper for a given person. It prepares a handover. A lender
+     decides. Every number below is published on their own websites.
+     ══════════════════════════════════════════════════════════════════════════ */
+  {
+    slug: 'nectar',
+    object: 'filament',
+    company: 'Nectar Money and Instant Finance',
+    short: 'Nectar × Instant Finance',
+    /* Verified by reading computed styles on both live sites, July 2026:
+       Nectar navy #002A42 (315 uses) / teal #056268 (141) / mint #73BBA5 /
+       blush #DFA092; Instant Finance teal #47A1A3 (109) / #60C7C1 / rust
+       #CF442D. Nectar's navy leads because the group story starts with it. */
+    primary: '#056268',
+    secondary: '#DFA092',
+    paletteConfidence: 'high',
+    buyerTitle: 'Founder and Chief Executive',
+    buyerLine: 'Nectar NZ Limited · and Instant Finance · Tāmaki Makaurau',
+    execs: {
+      symon: 'Founder and Chief Executive, Nectar NZ Limited',
+      group: 'Group — Nectar Money and Instant Finance',
+      ops: 'Head of Lending Operations',
+    },
+    eyebrow: 'The decline · a concept',
+    h1: ['Fast like a fintech.', 'Fair like a human.', 'Currently two funnels.'],
+    h1Accent: 2,
+    lede: 'That first line is yours — it is on the front of nectar.co.nz. It also happens to describe the two companies you own: a digital lender that quotes in seven minutes, and a 1971 branch lender with twenty-five locations and people in them. This is a concept for the one moment where those two halves should meet and currently do not.',
+    quote: 'Fast like a fintech. Fair like a human.',
+    quoteCite: 'Nectar Money · nectar.co.nz, July 2026',
+    whyNow: 'Both sites publish their own numbers, and the gap between them is the opportunity: Nectar starts at 7.95% p.a. and is 100% online; Instant Finance starts at 9.95% p.a. and has twenty-five branches. A person who does not fit the first one is not told about the second. They just get a no.',
+
+    waitTitle: 'The nine-o’clock no',
+    waitWhen: 'A Tuesday, 9:12pm',
+    waitBody: 'Someone starts an application because something has already gone wrong — a car that failed its warrant, a vet bill, a bond. They are seven minutes in when the answer comes back as a decline, or as silence. In that moment they do not learn what would have changed the answer, and they are not told that the same owner runs twenty-five branches where a person could have talked it through. So they close the tab and try a worse lender.',
+    waitCards: [
+      ['What happens now', 'A decline is an endpoint. The applicant learns nothing they could act on, and the group loses someone it had already paid to acquire.'],
+      ['What it costs', 'Two acquisition budgets competing for the same person, and the ones who fall between the brands walk to whoever answers next.'],
+      ['What the concept does', 'Prepares a handover — their situation carried across so they never start again — and stops. A lender decides everything that matters.'],
+    ],
+
+    /* Time, not money. A credit toward a loan would be an inducement to borrow,
+       which is precisely what a responsible lender must not do. What the wait
+       returns is the re-typing they never have to do, and one useful answer. */
+    waitPhone: {
+      chrome: 'phone',
+      note: 'Illustrative concept screen · not a Nectar or Instant Finance product · no credit decision is made here',
+      startLabel: 'tap to wait',
+      skipLabel: 'rather not say',
+      scenarios: [{
+        id: 'handover', label: 'The handover',
+        app: 'While we look at this',
+        unit: ['', ' min'],
+        earning: 'of re-typing, skipped',
+        yours: 'never start again',
+        told: 'they told you:',
+        declined: 'they would rather not say. The handover still gets prepared.',
+        steps: [
+          { agent: 'Purpose', doing: 'What the money is actually for', credit: 4 },
+          { agent: 'Told us', doing: 'Everything they already typed, kept', credit: 7 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Would it help to talk to someone in person?',
+            options: ['Yes, near me', 'Online is fine'],
+            learn: ['a branch conversation, so hand them to one', 'online only, so keep it in one channel'],
+          } },
+          { agent: 'Options', doing: 'Which channels are open to them at all', credit: 6 },
+          { agent: 'Person', doing: 'Waiting on a lender — no decision made here', credit: 9 },
+        ],
+      }],
+    },
+
+    mirrorTitle: 'One applicant. Four honest endings.',
+    mirrorKicker: 'The same person, four situations. Not one of these drafts approves, declines, prices or assesses anything — that is a lender’s job under the CCCFA, and this concept does not touch it. What it does is make sure nobody is dropped without a next step.',
+    variants: [
+      {
+        key: 'branch', label: 'Better with a person',
+        chan: 'Handover · digital application → branch conversation',
+        body: "Kia ora,\n\nWe have not finished looking at your application, and we are not going to leave you guessing while we do.\n\nOne thing we noticed: what you have told us is the kind of thing that is much easier to sort out in a conversation than in a form. Instant Finance — same owners as Nectar — has branches with people in them, and there is one near you.\n\nIf you would like, we can pass everything you have already typed straight across so you do not start again. You would be talking to a person, not re-filling a form.\n\nNothing has been decided, and nothing has been declined. Say the word and we will make the introduction.",
+        rules: [
+          'Never says approved, declined, or likely — no credit decision is made or implied',
+          'Names the ownership link plainly rather than pretending it is a coincidence',
+          'The handover is offered, never performed automatically — the applicant consents first',
+          'Everything they typed moves with them, because re-typing is where people give up',
+        ],
+      },
+      {
+        key: 'notyet', label: 'Not yet, and why',
+        chan: 'Held · applicant told what would change the answer',
+        body: "Kia ora,\n\nWe are not able to go ahead with this application right now.\n\nWe would rather tell you what that actually means than leave it at no. The reason sits with one part of your application, and it is the kind of thing that changes — sometimes within a few months.\n\nWhat we are not going to do is guess at your circumstances or tell you what to do about them. A lender will set out the specific reason, in writing, and what would need to be different.\n\nWe have not passed your details to anyone else, and we will not without you asking us to.",
+        rules: [
+          'The reason is left for a lender to state — this concept does not know it and does not invent it',
+          'Says plainly that the decline is not permanent, without promising a future yes',
+          'No third-party referral, and no data sharing, without the applicant asking',
+          'Refuses to give financial advice, because that is a licensed activity',
+        ],
+      },
+      {
+        key: 'hardship', label: 'Signs of hardship',
+        chan: 'Held — not sent · routed to a person immediately',
+        body: "This message was not drafted.\n\nThe application contains language that reads as financial hardship, or as borrowing to service existing borrowing. Sending an automated anything into that moment is how a lender does real harm — and it is exactly the situation the responsible lending rules exist for.\n\nHeld and routed to a named person, with the words that triggered it attached so they can judge for themselves.\n\nWhat that person may decide is that the right outcome is not a loan at all — a budgeting service, a hardship process, or simply a conversation. This concept will never make that call.",
+        rules: [
+          'The most important output is the one that refuses to produce a message',
+          'Hardship language is checked before anything is drafted, never after',
+          'Escalated with the trigger words attached, not silently dropped from the run',
+          'A person decides — and “not a loan” is an outcome this concept must allow for',
+        ],
+      },
+      {
+        key: 'topup', label: 'Existing customer',
+        chan: 'Handover · already a customer of the other brand',
+        body: "Kia ora,\n\nYou are already a customer of ours — under our other name.\n\nRather than run you through a new application as though we had never met, we have pulled together what we already hold, so you can check it is still right before anything goes further.\n\nWhat has changed since we last spoke is the part we cannot see, and it is the part that matters. So that is the only thing we are asking you about.\n\nAny new lending is a fresh decision by a lender, made properly. Being an existing customer does not change that, and we are not going to imply that it does.",
+        rules: [
+          'Recognises the person across both brands instead of treating them as a stranger',
+          'Shows what is already held so they can correct it — provenance visible',
+          'States explicitly that history does not pre-approve anything',
+          'Asks only about the gap, not about everything again',
+        ],
+      },
+    ],
+
+    guardTitle: 'The checks that run before a lender ever reads it',
+    guardLede: 'Consumer lending is the most heavily boundaried thing assembl has built a concept for, and that is the point of showing the guards first. The ones that block are the ones worth looking at.',
+    guardBtn: 'Run the checks on the batch',
+    guard: [
+      { ok: true, t: 'No credit decision, anywhere', d: 'No draft says approved, declined, pre-approved, eligible or likely. Every one of them ends with a named person, not an outcome.', law: 'Credit Contracts and Consumer Finance Act 2003' },
+      { ok: true, t: 'No rate, no amount, no term quoted', d: 'Published rate ranges are shown as published ranges. Nothing is personalised to an applicant, because personalising a price is a lending decision.', law: 'CCCFA · Responsible Lending Code' },
+      { ok: false, t: 'Held — 3 applications read as hardship', d: 'Nothing was drafted for any of them. Routed to a named person with the triggering words attached. One possible right answer is no loan at all.', law: 'CCCFA · Responsible Lending Code, lender responsibility principles' },
+      { ok: false, t: 'Held — cross-brand handover without consent', d: 'A Nectar applicant’s details are never moved to Instant Finance, or the reverse, until they ask for it. The draft offers; it does not transfer.', law: 'Privacy Act 2020 · IPP 10 and IPP 11' },
+      { ok: true, t: 'No inducement to borrow', d: 'The wait returns time and a straight answer, never a credit, discount or bonus toward taking a loan. A sweetener here would be the wrong instrument.', law: 'CCCFA · Responsible Lending Code' },
+      { ok: true, t: 'No financial advice', d: 'Drafts never recommend a product, a brand or a course of action. “Talk to a person” is an offer, not advice.', law: 'Financial Markets Conduct Act 2013 · advice regime' },
+    ],
+
+    opsTitle: 'The queue, before anything sends',
+    opsCols: ['Situation', 'Volume', 'Prepared', 'Waiting on', 'Status'],
+    ops: [
+      ['Better with a person — branch offered', '—', 'Handover drafted, consent not yet asked', 'Applicant to say yes', 'wait', 'Awaiting consent'],
+      ['Not yet — reason to come from a lender', '—', 'Message drafted, reason left blank', 'Lender to state the reason', 'wait', 'Awaiting approval'],
+      ['Existing customer of the other brand', '—', 'What we already hold, for them to check', 'Lending operations sign-off', 'wait', 'Awaiting approval'],
+      ['Language reads as hardship', '—', 'Nothing drafted', 'A named person, urgently', 'hot', 'Held — no draft'],
+      ['Borrowing to service borrowing', '—', 'Nothing drafted', 'A named person, urgently', 'hot', 'Held — no draft'],
+      ['Identity not yet verified', '—', 'Draft held', 'ID verification', 'ok', 'Parked'],
+    ],
+    opsNote: 'Volumes are deliberately blank. This concept has no Nectar or Instant Finance data of any kind and does not estimate how many applications anything affects.',
+
+    receiptArtefact: 'Handover message — digital application to branch conversation',
+    receiptRead: 'Published rate ranges, fees and channel facts from nectar.co.nz and instantfinance.co.nz · application fields: stated purpose, preferred channel, hardship-language flag. No credit file. No bank transactions. No affordability data.',
+    receiptRules: 'Credit Contracts and Consumer Finance Act 2003 · Responsible Lending Code · Privacy Act 2020 · Financial Markets Conduct Act 2013 advice regime · Fair Trading Act 1986',
+    receiptRefused: 'No credit decision was made or implied. No rate, amount or term was personalised. No details were moved between brands. Nothing was drafted for an application reading as hardship.',
+
+    pilotScope: 'One moment, one direction: Nectar applications that do not complete, offered a branch conversation. Six weeks. Not the credit model, not pricing, not affordability, not the Instant Finance branch systems.',
+    pilotAccess: 'Your published rate and fee tables, your branch list, and the field names that mark a stalled or declined application plus a hardship flag. No credit files. No bank statements. No affordability assessments. No applicant records leave your systems.',
+    pilotScorecard: 'Handover drafts accepted without rewrite. Applicants who said yes to a conversation. Held cases a person agreed should have been held. And the honest one: whether a branch manager would put their name to the message that arrived ahead of the customer.',
+
+    verified: [
+      'Nectar Money’s own homepage leads with “Fast like a fintech. Fair like a human.” and “We combine smart technology with real human judgement to find a loan that works for you.”',
+      'Nectar publishes personal loans of $2,000–$50,000, fixed personalised rates from 7.95% to 29.95% p.a., a $240 establishment fee, a $1.75 admin fee per repayment, terms of six months to five years, a seven-minute quote and 97% same-day funding.',
+      'Nectar states the personalised rate is fixed for the life of the loan, that there are no early repayment penalties, and that it is 100% online.',
+      'Instant Finance leads with “Makers Of Possible”, states “100% Kiwi owned Est. 1971” and “25 Locations across the country & online everywhere”, and describes itself as making “personal loans and access to finance easy for everyday Kiwis”.',
+      'Instant Finance publishes rates of 9.95% to 29.95% per annum, establishment fees of $100 to $220, a $3 administration fee per instalment, a $7.70 ID verification processing fee, a $25 minimum weekly repayment, and “same day response”. It states it is a “Proud member of Financial Services Federation”.',
+      'Symon Nausbaum is named as Founder and Chief Executive of Nectar NZ Limited, and as a director of Instant Finance Limited for fifteen years; company records list him among the significant beneficial owners of Instant Finance Limited.',
+    ],
+    laws: 'the Credit Contracts and Consumer Finance Act 2003 and the Responsible Lending Code, the Privacy Act 2020, the Financial Markets Conduct Act 2013 advice regime, and the Fair Trading Act 1986.',
+    verbNoun: 'handover concept',
   },
 ];
