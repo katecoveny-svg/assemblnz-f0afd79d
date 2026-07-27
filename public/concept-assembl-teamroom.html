@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>assembl intuitive · team workspace (buzz concept)</title>
+<title>assembl intuitive · sovereign teamroom workspace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -141,6 +141,10 @@
     border-color: var(--brass);
     background: var(--glass-hover);
   }
+  .concept-card.active {
+    border-color: var(--brass);
+    background: var(--glass-hover);
+  }
   .concept-num {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.55rem;
@@ -157,7 +161,7 @@
     color: var(--text-muted);
   }
 
-  /* PANEL 2: THE ASSEMBL TEAM ROOM (BUZZ CLIENT) */
+  /* PANEL 2: THE ASSEMBL TEAM ROOM */
   .workspace-panel {
     background: rgba(5,7,15,0.72);
     border: 1px solid var(--hairline);
@@ -412,7 +416,7 @@
 </head>
 <body>
 
-<div class="private-banner">Private concept · assembl intuitive buzz integration demonstrator</div>
+<div class="private-banner">Private concept · assembl intuitive sovereign teamroom workspace</div>
 
 <nav class="nav">
   <a href="#" class="wordmark">assembl<span> intuitive.</span></a>
@@ -423,48 +427,48 @@
   <!-- PANEL 1: CLIENT PITCH & CONCEPT -->
   <section class="pitch-panel">
     <div>
-      <div class="mono-eyebrow">assembl intuitive x buzz</div>
-      <h2 class="pitch-title">Sovereign <em>Team Rooms</em> for Agentic Journeys.</h2>
+      <div class="mono-eyebrow">assembl intuitive sovereign workspace</div>
+      <h2 class="pitch-title">Sovereign <em>Teamrooms</em> for Agentic Journeys.</h2>
     </div>
     <p class="pitch-desc">
-      Stop managing your AI agents through isolated, black-box pipelines. Buzz integrates a decentralized, Nostr-native collaboration room where humans and agent teams co-exist transparently.
+      Stop managing your AI specialist fleets through isolated, black-box pipelines. assembl maps out collaborative sovereign teamrooms where human operators and specialist agent teams co-exist with total transparency.
     </p>
 
     <!-- CORE BENEFIT CARDS -->
-    <div class="concept-card" onclick="selectScenario('woolworths')">
+    <div class="concept-card active" id="card-woolworths" onclick="selectScenario('woolworths')">
       <div class="concept-num">01 · Sovereign Audit Log</div>
-      <div class="concept-head">Cryptographically Signed Actions</div>
-      <div class="concept-body">Every single document read, API query, or email draft generated is signed by the agent’s unique key. It creates a tamper-proof flight log.</div>
+      <div class="concept-head">Cryptographically Audited Actions</div>
+      <div class="concept-body">Every single document read, API query, or invoice draft compiled is signed by the agent’s unique key. It creates a tamper-proof flight log.</div>
     </div>
 
-    <div class="concept-card" onclick="selectScenario('airnz')">
+    <div class="concept-card" id="card-airnz" onclick="selectScenario('airnz')">
       <div class="concept-num">02 · Collaborative Channels</div>
-      <div class="concept-head">Teammates, Not Hidden Bots</div>
-      <div class="concept-body">Agents are added to project-specific channels just like human employees. They talk, delegate, and collaborate in plain, audited text.</div>
+      <div class="concept-head">Specialist Teammates, Not Chatbots</div>
+      <div class="concept-body">Specialist agents join channels just like human employees. They talk, delegate subtasks, and organize work transparently in plain, audited text.</div>
     </div>
 
-    <div class="concept-card" onclick="selectScenario('xero')">
-      <div class="concept-num">03 · Human-In-The-Loop Contracts</div>
+    <div class="concept-card" id="card-xero" onclick="selectScenario('xero')">
+      <div class="concept-num">03 · Human-In-The-Loop Safeguards</div>
       <div class="concept-head">Sovereign Operator Approvals</div>
-      <div class="concept-body">Agents compile the draft proposals, but they wait for a human operator’s thumbs-up reaction (Nostr signature) before dispatching.</div>
+      <div class="concept-body">Agents compile the draft proposals, but they wait for your cryptographic approval signature (thumbs-up) before dispatching any action.</div>
     </div>
   </section>
 
   <!-- PANEL 2: THE TEAM ROOM (BUZZ CLIENT) -->
   <section class="workspace-panel">
     <div class="sidebar">
-      <div class="sidebar-header">assembl workspace.</div>
+      <div class="sidebar-header">assembl room.</div>
       
       <div class="channel-list">
-        <div class="channel-title">Channels</div>
+        <div class="channel-title">Active Channels</div>
         <div class="channel-item active" id="chan-woolworths" onclick="selectScenario('woolworths')">woolworths-rewards</div>
         <div class="channel-item" id="chan-airnz" onclick="selectScenario('airnz')">airnz-standby</div>
         <div class="channel-item" id="chan-xero" onclick="selectScenario('xero')">xero-billing</div>
       </div>
 
       <div class="channel-list" style="margin-top:auto">
-        <div class="channel-title">Relay Node</div>
-        <div style="font-family:'IBM Plex Mono', monospace; font-size:0.5rem; color:var(--brass)">ws://localhost:3000</div>
+        <div class="channel-title">Local Relay Node</div>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:0.5rem; color:var(--brass)">assembl.local:3000</div>
       </div>
     </div>
 
@@ -493,7 +497,7 @@
     <!-- Sovereign Action Draft Card -->
     <div class="action-card">
       <div class="action-header">
-        <span class="mono-eyebrow">Awaiting Sovereign Approval</span>
+        <span class="mono-eyebrow">Awaiting Operator Approval</span>
         <h3 class="action-title" style="margin-top:4px">Pending Draft Sign-off</h3>
       </div>
 
@@ -503,7 +507,7 @@
 
       <div class="action-meta">
         <span>AUTHOR: <strong id="draft-author">Context Agent</strong></span>
-        <span>ID: <strong id="draft-id">NIP34-5892</strong></span>
+        <span>ID: <strong id="draft-id">SEC-5892</strong></span>
       </div>
 
       <button class="btn-approve" onclick="approveDraft()">👍 Approve & Sign Draft</button>
@@ -531,33 +535,33 @@
     woolworths: {
       roomName: "woolworths-rewards",
       draftAuthor: "Liaison Agent",
-      draftId: "NIP34-9402",
+      draftId: "SEC-9402",
       draft: "Hi Kate, we flagged that outlier $142.50 Uber charge while you were in Wellington. We’ve credited your Everyday Rewards account with 150 points instantly. Your approval is the only thing left. Click here to confirm.",
       chat: [
-        { avatar: "CA", author: "Context Agent", sig: "npub1589a...", msg: "Detecting outlier $142.50 transaction on Everyday Rewards profile. Querying Geo-location mismatch... Geo shows Sydney; passenger is currently in Wellington. Flagging." },
-        { avatar: "AS", author: "Audit Specialist", sig: "npub178a9...", msg: "Spend behavior analyzed. Customer averages $22.40 on Uber trips. Geolocation mismatch confirmed. Recommend: full instant credit." },
-        { avatar: "LA", author: "Liaison Agent", sig: "npub18c3b...", msg: "Compiled draft refund of $142.50 and Everyday Rewards points offset. @Operator (Kate Hudson) please approve draft." }
+        { avatar: "CA", author: "Context Agent", sig: "as_npub1589a...", msg: "Detecting outlier $142.50 transaction on Everyday Rewards profile. Querying Geo-location mismatch... Geo shows Sydney; passenger is currently in Wellington. Flagging." },
+        { avatar: "AS", author: "Audit Specialist", sig: "as_npub178a9...", msg: "Spend behavior analyzed. Customer averages $22.40 on Uber trips. Geolocation mismatch confirmed. Recommend: full instant credit." },
+        { avatar: "LA", author: "Liaison Agent", sig: "as_npub18c3b...", msg: "Compiled draft refund of $142.50 and Everyday Rewards points offset. @Operator (Kate Hudson) please approve draft." }
       ]
     },
     airnz: {
       roomName: "airnz-standby",
       draftAuthor: "Re-routing Agent",
-      draftId: "NIP34-8021",
+      draftId: "SEC-8021",
       draft: "Dear Mila, flight NZ102 has been cancelled due to weather. We have secured your standby priority seat on flight NZ104 leaving at 4:15pm. Please confirm to sign your standby boarding pass. No cost applies.",
       chat: [
-        { avatar: "CA", author: "Context Agent", sig: "npub1589a...", msg: "Flight NZ102 Wellington to Auckland CANCELLED. Scanning manifest for high-priority passengers... Mila Coveny (High Loyalty Member) flagged." },
-        { avatar: "RA", author: "Re-routing Agent", sig: "npub142ab...", msg: "Alternative flights searched. NZ104 has 2 open standby seats. Locking seat 14B under standby priority hold." },
-        { avatar: "LA", author: "Liaison Agent", sig: "npub18c3b...", msg: "Draft re-routing pass compiled. Awaiting operator signature to publish ticket." }
+        { avatar: "CA", author: "Context Agent", sig: "as_npub1589a...", msg: "Flight NZ102 Wellington to Auckland CANCELLED. Scanning manifest for high-priority passengers... Mila Coveny (High Loyalty Member) flagged." },
+        { avatar: "RA", author: "Re-routing Agent", sig: "as_npub142ab...", msg: "Alternative flights searched. NZ104 has 2 open standby seats. Locking seat 14B under standby priority hold." },
+        { avatar: "LA", author: "Liaison Agent", sig: "as_npub18c3b...", msg: "Draft re-routing pass compiled. Awaiting operator signature to publish ticket." }
       ]
     },
     xero: {
       roomName: "xero-billing",
       draftAuthor: "Billing Specialist",
-      draftId: "NIP34-1153",
+      draftId: "SEC-1153",
       draft: "Xero Tax Reconciliation Draft: Tax Year 2026. Adjusted gross: $142,500. Total provisional offset: $4,200. Awaiting operator approval to reconcile ledger and submit IRD payload.",
       chat: [
-        { avatar: "CA", author: "Context Agent", sig: "npub1589a...", msg: "Xero ledger pulled. Scanning outstanding tax reconciliations for Q2... Discovered $4,200 pending provisional tax offset." },
-        { avatar: "BS", author: "Billing Specialist", sig: "npub119fa...", msg: "Validating provisional tax offset against IRD regulations. Company meets low-risk thresholds. Compiling reconciliation payload." }
+        { avatar: "CA", author: "Context Agent", sig: "as_npub1589a...", msg: "Xero ledger pulled. Scanning outstanding tax reconciliations for Q2... Discovered $4,200 pending provisional tax offset." },
+        { avatar: "BS", author: "Billing Specialist", sig: "as_npub119fa...", msg: "Validating provisional tax offset against IRD regulations. Company meets low-risk thresholds. Compiling reconciliation payload." }
       ]
     }
   };
@@ -572,6 +576,10 @@
     // Highlight sidebar
     document.querySelectorAll('.channel-item').forEach(el => el.classList.remove('active'));
     document.getElementById(`chan-${name}`).classList.add('active');
+
+    // Highlight pitch cards
+    document.querySelectorAll('.concept-card').forEach(el => el.classList.remove('active'));
+    document.getElementById(`card-${name}`).classList.add('active');
 
     // Update headers
     document.getElementById('room-name').innerText = `#${data.roomName}`;
@@ -610,7 +618,7 @@
         <div class="msg-content" style="border-color:var(--ww-green); background:rgba(0,166,81,0.02)">
           <div class="msg-meta">
             <span class="msg-author" style="color:var(--ww-green)">Kate Hudson (Operator)</span>
-            <span class="msg-sig">SIG: approved_nsec189b...</span>
+            <span class="msg-sig">SIG: approved_as_nsec189b...</span>
           </div>
           <div class="msg-text">👍 Approved and cryptographically signed. Dispatching draft immediately.</div>
         </div>
