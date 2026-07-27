@@ -1,32 +1,33 @@
-/* /assembling — canon skin. Retires the Birdie canary-and-dog look: deep navy,
-   brass, Lato. Loaded AFTER dash-kit/birdie so the cascade wins; the bd-*
-   chrome (marquee, nav, progress) is re-skinned here rather than rewritten. */
+/* /assembling — paper canon (Kate, 28 Jul: "invert the page to paper off-white
+   with navy and brass moving assembled 3D objects"). The navy marquee stays as
+   the single dark band; everything else is the brand's true primary: paper,
+   ink, brass. Loaded after dash-kit/birdie so the cascade wins. */
 
 :root {
-  --asm-navy: #050F1C;
-  --asm-navy-2: #0A1626;
   --asm-paper: #FAFAF7;
-  --asm-ink: #F0EEE9;
-  --asm-ink-dim: rgba(240, 238, 233, 0.72);
+  --asm-paper-2: #F3F1EA;
+  --asm-ink: #1C1B18;
+  --asm-ink-dim: rgba(28, 27, 24, 0.72);
+  --asm-navy: #0C1836;
+  --asm-navy-deep: #050F1C;
   --asm-brass: #B8964F;
   --asm-hi: #D4A843;
   --asm-champ: #BFA37A;
-  --asm-line: rgba(240, 238, 233, 0.14);
+  --asm-line: rgba(28, 27, 24, 0.14);
 }
 
 /* ── chrome re-skin ── */
-body:has(.asm) { background: var(--asm-navy); }
+body:has(.asm) { background: var(--asm-paper); }
 .bd-progress { background: linear-gradient(90deg, var(--asm-brass), var(--asm-hi)) !important; }
-.bd-marquee-track, .bd-marquee-track * { color: var(--asm-champ) !important; }
-[class*='bd-marquee'] { background: var(--asm-navy-2) !important; border-color: var(--asm-line) !important; }
 .bd-nav-inner, .bd-nav-inner * { color: var(--asm-ink) !important; }
-header:has(.bd-nav-inner) { background: rgba(5, 15, 28, 0.82) !important; border-color: var(--asm-line) !important; }
-.bd-nav-link:hover { color: var(--asm-hi) !important; }
-footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
+.bd-nav-link:hover { color: var(--asm-brass) !important; }
+.dash-kit:has(.asm) { background: var(--asm-paper) !important; }
+.dash-kit:has(.asm) footer { background: var(--asm-paper-2) !important; border-color: var(--asm-line) !important; }
+.dash-kit:has(.asm) footer, .dash-kit:has(.asm) footer a, .dash-kit:has(.asm) footer span { color: var(--asm-ink) !important; }
 
 /* ── page ── */
 .asm {
-  background: var(--asm-navy); color: var(--asm-ink);
+  background: var(--asm-paper); color: var(--asm-ink);
   font-family: 'Lato', system-ui, sans-serif;
   overflow-x: clip;
 }
@@ -36,34 +37,38 @@ footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--asm-brass);
 }
 
-.asm-hero { padding: 120px 0 70px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+.asm-hero { position: relative; padding: 110px 0 70px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+.asm-scene { position: absolute; inset: -60px -8vw -40px 30%; z-index: 0; pointer-events: none; }
+.asm-scene canvas { width: 100%; height: 100%; display: block; }
+.asm-hero-copy, .asm-hero .asm-stage { position: relative; z-index: 1; }
 .asm-hero h1 {
   margin: 14px 0 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em;
   font-size: clamp(2.4rem, 5.2vw, 4.4rem); line-height: 1.06; color: var(--asm-ink);
 }
 .asm-hero h1 .metal {
   font-weight: 300;
-  background: linear-gradient(100deg, #6E5722, #B8964F 22%, #F6E7B5 40%, #D4A843 55%, #EDD9A0 75%, #6E5722);
-  background-size: 220% 100%;
+  background: linear-gradient(100deg, #8A6A2E 0%, #D4A843 38%, #F6E7B5 55%, #B8964F 82%);
+  background-size: 200% 100%;
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   animation: asm-sheen 8s linear infinite;
 }
-@keyframes asm-sheen { to { background-position: 220% 0; } }
+@keyframes asm-sheen { to { background-position: 200% 0; } }
 .asm-hero .lede { margin: 22px 0 0; max-width: 54ch; font-weight: 300; font-size: 1.02rem; line-height: 1.7; color: var(--asm-ink-dim); }
 .asm-cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-top: 30px; }
 .asm-cta {
   display: inline-block; text-decoration: none; cursor: pointer; border: 0;
   border-radius: 999px; padding: 16px 32px;
-  font: 700 0.95rem 'Lato', sans-serif; background: var(--asm-ink); color: var(--asm-navy);
+  font: 700 0.95rem 'Lato', sans-serif; background: var(--asm-navy-deep); color: var(--asm-paper);
+  box-shadow: 0 14px 30px -16px rgba(5, 15, 28, 0.5);
   transition: transform 0.25s ease;
 }
 .asm-cta:hover { transform: translateY(-2px); }
-.asm-cta.ghost { background: transparent; color: var(--asm-ink); border: 1px solid var(--asm-line); }
+.asm-cta.ghost { background: transparent; color: var(--asm-ink); border: 1px solid var(--asm-line); box-shadow: none; }
 
 .asm-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
 .asm-stage-note { text-align: center; }
 
-.asm-band { padding: 84px 0; border-top: 1px solid var(--asm-line); }
+.asm-band { padding: 84px 0; border-top: 1px solid var(--asm-line); position: relative; z-index: 1; }
 .asm-band h2 {
   margin: 12px 0 0; font-weight: 700; text-transform: uppercase;
   font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.2; color: var(--asm-ink);
@@ -73,7 +78,7 @@ footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
 .asm-pow { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 40px; }
 .asm-pow > div {
   border: 1px solid var(--asm-line); border-radius: 18px; padding: 20px 22px;
-  background: rgba(240, 238, 233, 0.03);
+  background: #FFFFFF; box-shadow: 0 14px 34px -26px rgba(28, 27, 24, 0.4);
 }
 .asm-pow i { font-style: normal; display: block; }
 .asm-pow b { display: block; margin: 8px 0 6px; font-size: 1.02rem; }
@@ -83,99 +88,88 @@ footer:has(.asm-foot-mark), .asm footer { background: var(--asm-navy-2); }
 .asm-door {
   display: flex; flex-direction: column; justify-content: space-between; gap: 26px;
   border: 1px solid var(--asm-line); border-radius: 24px; padding: 28px;
-  background: linear-gradient(160deg, rgba(184, 150, 79, 0.08), rgba(240, 238, 233, 0.02) 55%);
+  background: linear-gradient(160deg, rgba(184, 150, 79, 0.09), #FFFFFF 55%);
   text-decoration: none; color: var(--asm-ink);
+  box-shadow: 0 18px 44px -30px rgba(28, 27, 24, 0.45);
   transition: border-color 0.3s ease, transform 0.3s ease;
 }
-.asm-door:hover { border-color: rgba(212, 168, 67, 0.6); transform: translateY(-3px); }
+.asm-door:hover { border-color: rgba(184, 150, 79, 0.7); transform: translateY(-3px); }
 .asm-door b { font-size: 1.25rem; }
+.asm-door .mono { display: block; margin-bottom: 8px; }
 .asm-door p { margin: 10px 0 0; font-weight: 300; font-size: 0.9rem; line-height: 1.6; color: var(--asm-ink-dim); }
-.asm-door .go { color: var(--asm-hi); font-weight: 700; font-size: 0.85rem; }
+.asm-door .go { color: var(--asm-brass); font-weight: 700; font-size: 0.85rem; }
 
 .asm-truth {
-  margin-top: 40px; border: 1px solid rgba(184, 150, 79, 0.4); border-radius: 20px;
-  padding: 24px 28px; background: rgba(184, 150, 79, 0.07);
+  margin-top: 40px; border: 1px solid rgba(184, 150, 79, 0.5); border-radius: 20px;
+  padding: 24px 28px; background: rgba(184, 150, 79, 0.08);
   font-weight: 300; line-height: 1.7; color: var(--asm-ink);
 }
 .asm-truth b { font-weight: 700; }
 
 .asm-measure { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 40px; }
-.asm-measure > div { border: 1px solid var(--asm-line); border-radius: 18px; padding: 22px; background: rgba(240, 238, 233, 0.03); }
+.asm-measure > div { border: 1px solid var(--asm-line); border-radius: 18px; padding: 22px; background: #FFFFFF; }
 .asm-measure b { display: block; font-size: 1.05rem; margin-bottom: 6px; }
 .asm-measure span { font-weight: 300; font-size: 0.86rem; line-height: 1.55; color: var(--asm-ink-dim); }
 
 .asm-wait { padding-bottom: 110px; }
 .asm-wait .panel {
   max-width: 640px; border: 1px solid var(--asm-line); border-radius: 24px;
-  padding: 34px; background: rgba(240, 238, 233, 0.04); backdrop-filter: blur(14px);
+  padding: 34px; background: #FFFFFF; box-shadow: 0 20px 50px -34px rgba(28, 27, 24, 0.5);
 }
 .asm-wait .fine { margin-top: 16px; font-weight: 300; font-size: 0.78rem; color: var(--asm-ink-dim); }
 
-@media (max-width: 900px) {
-  .asm-hero { grid-template-columns: 1fr; padding-top: 90px; }
-  .asm-band { padding: 64px 0; }
-}
-
-/* the layout wrapper carries an inline white background for the Birdie
-   subroutes — when the canon page is inside it, the wrapper and footer go navy */
-.dash-kit:has(.asm) { background: #050F1C !important; }
-.dash-kit:has(.asm) footer { background: #0A1626 !important; border-color: rgba(240, 238, 233, 0.14) !important; }
-.dash-kit:has(.asm) footer, .dash-kit:has(.asm) footer a, .dash-kit:has(.asm) footer span { color: #F0EEE9 !important; }
-
-/* ── tier playground ── */
+/* ── tier playground, on paper ── */
 .tp { margin-top: 40px; }
 .tp-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .tp-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .tp-chip {
   cursor: pointer; border-radius: 999px; padding: 9px 16px;
   font: 400 0.8rem 'Lato', sans-serif; letter-spacing: 0.02em;
-  background: transparent; color: var(--asm-ink-dim); border: 1px solid var(--asm-line);
+  background: #FFFFFF; color: var(--asm-ink-dim); border: 1px solid var(--asm-line);
   transition: all 0.22s ease;
 }
-.tp-chip:hover { border-color: var(--asm-hi); color: var(--asm-ink); }
-.tp-chip.on { background: var(--asm-hi); color: var(--asm-navy); border-color: var(--asm-hi); font-weight: 700; }
+.tp-chip:hover { border-color: var(--asm-brass); color: var(--asm-ink); }
+.tp-chip.on { background: var(--asm-navy-deep); color: #FAFAF7; border-color: var(--asm-navy-deep); font-weight: 700; }
 .tp-stage {
   margin-top: 24px; border: 1px solid var(--asm-line); border-radius: 22px;
-  padding: 28px 30px; background: rgba(240, 238, 233, 0.04); backdrop-filter: blur(12px);
-  min-height: 280px;
+  padding: 28px 30px; background: #FFFFFF; min-height: 280px;
+  box-shadow: 0 20px 50px -34px rgba(28, 27, 24, 0.45);
 }
 .tp-stage-head { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: baseline; border-bottom: 1px solid var(--asm-line); padding-bottom: 14px; margin-bottom: 20px; }
 .tp-stage-head b { font-size: 1.1rem; }
 .tp-stage-head span { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--asm-brass); }
 .tp-loader b { display: block; margin-bottom: 14px; font-size: 1rem; }
-.tp-step { display: flex; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px dashed rgba(240, 238, 233, 0.1); }
+.tp-step { display: flex; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px dashed var(--asm-line); }
 .tp-step i { width: 9px; height: 9px; border-radius: 50%; background: var(--asm-hi); flex: 0 0 auto; animation: tp-pulse 1.6s ease-in-out infinite; }
 .tp-step:nth-child(3) i { animation-delay: 0.4s; } .tp-step:nth-child(4) i { animation-delay: 0.8s; }
 @keyframes tp-pulse { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
 .tp-step em { font-style: normal; font-weight: 700; }
 .tp-step span { font-weight: 300; font-size: 0.9rem; color: var(--asm-ink-dim); }
 .tp-partner {
-  margin-top: 18px; display: inline-block; border: 1px dashed rgba(212, 168, 67, 0.55);
+  margin-top: 18px; display: inline-block; border: 1px dashed rgba(184, 150, 79, 0.7);
   border-radius: 999px; padding: 8px 16px;
   font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--asm-hi);
+  text-transform: uppercase; color: var(--asm-brass);
 }
 .tp-chat { display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
 .tp-bubble {
   border: 1px solid var(--asm-line); border-radius: 16px 16px 16px 4px;
   padding: 14px 18px; font-weight: 300; font-size: 0.92rem; line-height: 1.55;
-  background: rgba(240, 238, 233, 0.05);
+  background: var(--asm-paper-2);
 }
-.tp-bubble.copilot { border-color: rgba(212, 168, 67, 0.5); background: rgba(184, 150, 79, 0.09); border-radius: 16px 16px 4px 16px; margin-left: 34px; }
+.tp-bubble.copilot { border-color: rgba(184, 150, 79, 0.6); background: rgba(184, 150, 79, 0.1); border-radius: 16px 16px 4px 16px; margin-left: 34px; }
 .tp-bubble.copilot i { display: block; margin-top: 10px; font-style: normal; font-family: 'Space Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asm-brass); }
 .tp-jv-head { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1rem; margin-bottom: 14px; }
-.tp-jv-head i { font-style: normal; color: var(--asm-hi); }
-.tp-jv-row { display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed rgba(240, 238, 233, 0.1); }
-.tp-jv-row b { flex: 0 0 84px; color: var(--asm-hi); }
+.tp-jv-head i { font-style: normal; color: var(--asm-brass); }
+.tp-jv-row { display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--asm-line); }
+.tp-jv-row b { flex: 0 0 84px; color: var(--asm-brass); }
 .tp-jv-row span { font-weight: 300; font-size: 0.92rem; color: var(--asm-ink-dim); }
 .tp-fine { margin-top: 14px; font-weight: 300; font-size: 0.76rem; color: var(--asm-ink-dim); }
-.asm-road > div i { color: var(--asm-hi); }
-@media (max-width: 760px) { .tp-controls { grid-template-columns: 1fr; } }
-.asm-door .mono { display: block; margin-bottom: 8px; }
+.asm-road > div i { color: var(--asm-brass); }
 
-/* the hero scene — canon threads + the accruing seed, behind the copy */
-.asm-hero { position: relative; }
-.asm-scene { position: absolute; inset: -40px -10vw; z-index: 0; pointer-events: none; }
-.asm-scene canvas { width: 100%; height: 100%; display: block; }
-.asm-hero-copy, .asm-hero .asm-stage { position: relative; z-index: 1; }
-.asm-hero-copy { text-shadow: 0 1px 16px rgba(5, 15, 28, 0.85), 0 0 3px rgba(5, 15, 28, 0.9); }
+@media (max-width: 900px) {
+  .asm-hero { grid-template-columns: 1fr; padding-top: 90px; }
+  .asm-scene { display: none; }
+  .asm-band { padding: 64px 0; }
+}
+@media (max-width: 760px) { .tp-controls { grid-template-columns: 1fr; } }

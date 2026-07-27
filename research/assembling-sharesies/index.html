@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every investing moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>Join</b><span>five minutes</span></div>
+    <div class="mom"><b>The transfer</b><span>up to ten days, visible</span></div>
+    <div class="mom"><b>Landed</b><span>the first slices</span></div>
+    <div class="mom"><b>Auto-invest</b><span>the habit, set</span></div>
+    <div class="mom"><b>The dip</b><span>explained, not soothed</span></div>
+    <div class="mom"><b>The decades</b><span>watched, kept</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not a Sharesies product · nothing here is financial advice and no order is placed or changed","startLabel":"what happens next?","skipLabel":"rather not say","scenarios":[{"id":"queued","label":"The queue","app":"Your order is queued","unit":[""," min"],"earning":"of refreshing, skipped","yours":"their evening back","told":"they told you:","declined":"they would rather not say. The explanation still gets prepared.","steps":[{"agent":"Order","doing":"What you asked for, in plain words","credit":3},{"agent":"Open","doing":"When this market next opens, in your time","credit":4},{"agent":"Ask","doing":"One question","ask":{"q":"Is this your first investment?","options":["Yes, my first","I have done this before"],"learn":["first investment — so explain the price, not the platform","not their first, so skip the basics"]}},{"agent":"Price","doing":"Why the price is not known yet","credit":5},{"agent":"Change","doing":"How to change your mind, and until when","credit":4}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not a Sharesies product · nothing here is financial advice and no order is placed or changed","startLabel":"what happens next?","skipLabel":"rather not say","scenarios":[{"id":"queued","label":"The queue","app":"Your order is queued","unit":[""," min"],"earning":"of refreshing, skipped","yours":"their evening back","told":"they told you:","declined":"they would rather not say. The explanation still gets prepared.","steps":[{"agent":"Order","doing":"What you asked for, in plain words","credit":3},{"agent":"Open","doing":"When this market next opens, in your time","credit":4},{"agent":"Ask","doing":"One question","ask":{"q":"Is this your first investment?","options":["Yes, my first","I have done this before"],"learn":["first investment — so explain the price, not the platform","not their first, so skip the basics"]}},{"agent":"Price","doing":"Why the price is not known yet","credit":5},{"agent":"Change","doing":"How to change your mind, and until when","credit":4}]},{"id":"transfer","label":"The transfer","app":"Your money, in transit","unit":[""," days"],"earning":"of the dark days, lit","yours":"fee-free days as it lands","told":"you told us:","declined":"you would rather not say. The transfer moves anyway.","steps":[{"agent":"Old provider","doing":"Sell-down started — units to cash","credit":2},{"agent":"IRD","doing":"The middle leg — notified, moving","credit":3},{"agent":"Ask","doing":"One question","ask":{"q":"Is this money for a first home, or retirement?","options":["First home","Retirement"],"learn":["a shorter runway — settings a person confirms with you","the long runway — a diversified path, drafted"]}},{"agent":"In transit","doing":"Where it is today — no more dark days","credit":3},{"agent":"Landed","doing":"Slices assembling as the cash clears","credit":2}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>

@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every claim moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>Lodge</b><span>the ruined day, told once</span></div>
+    <div class="mom"><b>Documents</b><span>the ping-pong, ended</span></div>
+    <div class="mom"><b>The rebuild</b><span>your trip, pinned and verified</span></div>
+    <div class="mom"><b>Assessment</b><span>numbers against schedule</span></div>
+    <div class="mom"><b>Decision</b><span>drafted for a person</span></div>
+    <div class="mom"><b>Payment</b><span>ten working days, watched</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an AIG product · no claim data was used","skipLabel":"rather not say","scenarios":[{"id":"claim","label":"The claim","app":"Claim, day eleven","unit":[""," min"],"earning":"chasing, not spent","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The update still gets prepared.","steps":[{"agent":"State","doing":"Where the claim actually sits today","credit":7},{"agent":"Docs","doing":"What landed, what is still missing","credit":6},{"agent":"Ask","doing":"One question","ask":{"q":"Are you trading in the meantime?","options":["Reduced capacity","Fully stood down"],"learn":["trading at reduced capacity, so cashflow is the pressure","fully stood down — this is now urgent"]}},{"agent":"Assessor","doing":"Assigned, and when they will call","credit":9},{"agent":"Draft","doing":"Ready for a person to send","credit":8}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an AIG product · no claim data was used","skipLabel":"rather not say","scenarios":[{"id":"claim","label":"The claim","app":"Claim, day eleven","unit":[""," min"],"earning":"chasing, not spent","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The update still gets prepared.","steps":[{"agent":"State","doing":"Where the claim actually sits today","credit":7},{"agent":"Docs","doing":"What landed, what is still missing","credit":6},{"agent":"Ask","doing":"One question","ask":{"q":"Are you trading in the meantime?","options":["Reduced capacity","Fully stood down"],"learn":["trading at reduced capacity, so cashflow is the pressure","fully stood down — this is now urgent"]}},{"agent":"Assessor","doing":"Assigned, and when they will call","credit":9},{"agent":"Draft","doing":"Ready for a person to send","credit":8}]},{"id":"trip","label":"The trip, rebuilt","app":"Your claim, pinned","unit":["$",""],"earning":"toward your excess","yours":"off your excess at settlement","told":"you told us:","declined":"you would rather not say. The rebuild continues.","steps":[{"agent":"Flights","doing":"Pinned to the timeline — outbound, the cancellation, home","credit":12},{"agent":"Hospital","doing":"Receipts matched to the night they happened","credit":14},{"agent":"Ask","doing":"One question","ask":{"q":"Do you need an emergency payment today?","options":["Yes — still travelling","No — home and safe"],"learn":["interim payment queued for a person to approve today","routine path — full assessment, done properly"]}},{"agent":"Pins","doing":"Every pin green — the trip verified end to end","credit":12},{"agent":"Draft","doing":"Settlement drafted for a person","credit":12}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>

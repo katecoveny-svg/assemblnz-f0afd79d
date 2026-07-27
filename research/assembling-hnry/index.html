@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every tax moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>Invoice</b><span>raised, split at source</span></div>
+    <div class="mom"><b>Payday</b><span>tax gone before it lands</span></div>
+    <div class="mom"><b>The charge</b><span>one question, sorted</span></div>
+    <div class="mom"><b>Quarter</b><span>GST filed while you slept</span></div>
+    <div class="mom"><b>EOFY</b><span>the year, replayed</span></div>
+    <div class="mom"><b>The number</b><span>no shock — it was paid all year</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an Hnry product · no deductibility is determined and no tax is calculated here","startLabel":"sort this charge","skipLabel":"ask me later","scenarios":[{"id":"expense","label":"The charge","app":"What was this for?","unit":[""," min"],"earning":"of admin, skipped","yours":"their Thursday back","told":"they told you:","declined":"they will answer later. It stays in the queue, unguessed.","steps":[{"agent":"Charge","doing":"Merchant, amount, and when","credit":2},{"agent":"Pattern","doing":"What they usually do at this merchant","credit":4},{"agent":"Ask","doing":"One question","ask":{"q":"Was this for a job?","options":["Yes, a job","Personal"],"learn":["for a job — which job is the next question","personal, so it never enters the tax record"]}},{"agent":"Attach","doing":"Filed against the right work","credit":5},{"agent":"Review","doing":"Waiting on Hnry — nothing determined here","credit":3}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an Hnry product · no deductibility is determined and no tax is calculated here","startLabel":"sort this charge","skipLabel":"ask me later","scenarios":[{"id":"expense","label":"The charge","app":"What was this for?","unit":[""," min"],"earning":"of admin, skipped","yours":"their Thursday back","told":"they told you:","declined":"they will answer later. It stays in the queue, unguessed.","steps":[{"agent":"Charge","doing":"Merchant, amount, and when","credit":2},{"agent":"Pattern","doing":"What they usually do at this merchant","credit":4},{"agent":"Ask","doing":"One question","ask":{"q":"Was this for a job?","options":["Yes, a job","Personal"],"learn":["for a job — which job is the next question","personal, so it never enters the tax record"]}},{"agent":"Attach","doing":"Filed against the right work","credit":5},{"agent":"Review","doing":"Waiting on Hnry — nothing determined here","credit":3}]},{"id":"eofy","label":"The year rewind","app":"Your year, replayed","unit":["$",""],"earning":"of fee, back","yours":"off your next invoice’s fee","told":"you told us:","declined":"they will answer later. Nothing files with it unresolved.","steps":[{"agent":"Rewind","doing":"Twelve months of invoices, replayed in order","credit":3},{"agent":"Streams","doing":"Tax, GST, ACC, student loan — split as they happened","credit":4},{"agent":"Ask","doing":"One question","ask":{"q":"Any income this year outside Hnry?","options":["Yes, some","No — all here"],"learn":["flagged for a person before anything is filed","complete — nothing chased in March"]}},{"agent":"IRD","doing":"Assessment watched, not waited on","credit":4},{"agent":"Number","doing":"One number — already paid as you earned","credit":4}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>

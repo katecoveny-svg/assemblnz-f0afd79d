@@ -103,11 +103,11 @@ export default function DashLayout({ children }: { children: ReactNode }) {
           position: 'sticky',
           top: 0,
           zIndex: 50,
-          background: 'rgba(5,15,28,.84)',
+          background: 'rgba(250,250,247,.82)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(240,238,233,.1)',
-          color: '#F0EEE9',
+          borderBottom: '1px solid rgba(28,27,24,.1)',
+          color: '#1C1B18',
         }}
       >
         <div
