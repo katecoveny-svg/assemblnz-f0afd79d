@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A status code, a link to an enquiry form, and a call that begins with “can I take your tracking number”.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every unanswered tracking check becomes a contact. The cheapest contact is the one the tracking page prevented.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Turns the status into an answer, in the wait, and hands the hard ones to a person with the file already open.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an NZ Post product · no tracking data was used","skipLabel":"rather not say","scenarios":[{"id":"parcel","label":"The parcel","app":"Where is my parcel?","unit":[""," min"],"earning":"on the phone, not spent","yours":"the call they skip","told":"they told you:","declined":"they would rather not say. Tracking still gets assembled.","steps":[{"agent":"Scan","doing":"Last movement, and where","credit":4},{"agent":"Lane","doing":"How this lane usually runs","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Is there somewhere safe to leave it?","options":["Yes, behind the gate","I need to sign"],"learn":["safe place behind the gate, so no second attempt","signature required, so book a window"]}},{"agent":"Rule","doing":"Your lost-parcel threshold — once you give us it","credit":6},{"agent":"Draft","doing":"Ready for a person to send","credit":8}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>

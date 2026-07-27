@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">The agent builds the story by hand on a Sunday, or has the conversation without it.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Not the listing — the next one. An agent who could not answer the vendor lists elsewhere next time.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Prepares the vendor conversation from data you already hold, and stops before it sends.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not a Trade Me product · no listing data was used","skipLabel":"rather not say","scenarios":[{"id":"listing","label":"The listing","app":"Six weeks on market","unit":[""," min"],"earning":"of Sunday night, back","yours":"their Sunday night","told":"the agent told you:","declined":"the agent would rather not say. The vendor note still gets drafted.","steps":[{"agent":"Views","doing":"This listing against comparable ones","credit":8},{"agent":"Watchers","doing":"Who is circling but not enquiring","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Has the vendor moved on price yet?","options":["Not yet","Once already"],"learn":["price untested, so lead with the comparables","already moved once — so the note leads with presentation, not price"]}},{"agent":"Renewal","doing":"What the decision costs either way","credit":6},{"agent":"Draft","doing":"A vendor note, ready for the agent to send","credit":9}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>

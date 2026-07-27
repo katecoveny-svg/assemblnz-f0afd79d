@@ -1379,5 +1379,24 @@ window.__getAgentName = () => agentName;
   }));
 })();
 </script>
+
+<style>
+/* The explainer that says what the phone actually is. Same copy on every
+   demo, from wait-phone.js, so it cannot drift page to page. */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--ink); --wpx-accent:var(--er-orange-dark);
+  --wp-mono:'Space Mono',ui-monospace,monospace;
+  max-width:640px; margin:34px auto 0; padding:26px 28px; border-radius:18px;
+  background:#fff; border:1px solid rgba(0,0,0,.09); box-shadow:0 6px 26px rgba(0,0,0,.05)}
+</style>
+<script>
+(function(){
+  if(!window.WaitPhone||!WaitPhone.explain)return;
+  var host=document.querySelector('.phone-wrap');
+  if(!host)return;
+  var box=document.createElement('div');box.id='wait-explain';
+  host.appendChild(box);
+  WaitPhone.explain(box);
+})();
+</script>
 </body>
 </html>

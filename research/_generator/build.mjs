@@ -171,6 +171,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -304,8 +308,8 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       ${c.waitCards.map(([t, b]) => `<div class="glass tight"><h3 style="font-size:18px">${esc(t)}</h3><p class="kicker" style="margin-top:10px;font-size:14px">${esc(b)}</p></div>`).join('\n      ')}
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>` : `
   <div class="grid3" style="margin-top:44px">
@@ -803,6 +807,7 @@ ${c.waitPhone ? `
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,${js(c.waitPhone)});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>` : ''}
 </body>

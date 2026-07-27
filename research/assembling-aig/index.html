@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">The broker chases. The claims handler is across six files. The customer learns things by asking twice.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">A commercial claim handled opaquely is a renewal lost eleven months later, for reasons nobody writes down.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Assembles the state of the claim into something a person can send, and flags what is actually blocking it.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an AIG product · no claim data was used","skipLabel":"rather not say","scenarios":[{"id":"claim","label":"The claim","app":"Claim, day eleven","unit":[""," min"],"earning":"chasing, not spent","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The update still gets prepared.","steps":[{"agent":"State","doing":"Where the claim actually sits today","credit":7},{"agent":"Docs","doing":"What landed, what is still missing","credit":6},{"agent":"Ask","doing":"One question","ask":{"q":"Are you trading in the meantime?","options":["Reduced capacity","Fully stood down"],"learn":["trading at reduced capacity, so cashflow is the pressure","fully stood down — this is now urgent"]}},{"agent":"Assessor","doing":"Assigned, and when they will call","credit":9},{"agent":"Draft","doing":"Ready for a person to send","credit":8}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>

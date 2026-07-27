@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A number with no story. The contact centre reconstructs the explanation one call at a time.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Bill shock is the single biggest driver of switching in the category, and it is an explanation problem.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Assembles the reason from their own usage, asks the one thing the data cannot know, and stops.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Tidewatt Energy is not a real company · nothing is charged or changed without approval","startLabel":"assemble my bill","skipLabel":"rather not say","scenarios":[{"id":"bill","label":"The bill","app":"Why is my bill up?","unit":["$",""],"earning":"earned so far","yours":"yours","told":"you told us:","declined":"you would rather not say. The bill still gets explained.","steps":[{"agent":"Meter","doing":"Thirty days of your actual use","credit":0.18},{"agent":"Weather","doing":"Against the cold snap, not last year","credit":0.11},{"agent":"Ask","doing":"One question","ask":{"q":"Anyone new in the house this month?","options":["Yes, one more","No change"],"learn":["the household grew — so it is people, not weather","no change, so the weather explains it"]}},{"agent":"Spikes","doing":"Anything unusual, flagged for you","credit":0.33},{"agent":"Draft","doing":"Ready for a person to send","credit":0.52}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>

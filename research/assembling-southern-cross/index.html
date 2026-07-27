@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A template goes to thousands. The contact centre absorbs the questions the letter did not answer, one call at a time.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">For a not-for-profit that returns 94c in the dollar, a remediation handled coldly costs more in trust than it ever does in redress.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Prepares each member’s letter against their actual circumstances, flags the ones a person must read, and stops.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not a Southern Cross product · no member data was used","skipLabel":"rather not say","scenarios":[{"id":"letter","label":"The letter","app":"About your claim","unit":[""," min"],"earning":"on hold, not spent","yours":"the call they skip","told":"they told you:","declined":"they would rather not say. The letter still gets prepared.","steps":[{"agent":"Error","doing":"What went wrong, in two sentences","credit":6},{"agent":"Yours","doing":"The claim of theirs it touched","credit":8},{"agent":"Ask","doing":"One question","ask":{"q":"Would you rather talk than read?","options":["Please call me","Writing is fine"],"learn":["wants a call before a calculation","happy in writing, so send the full working"]}},{"agent":"Redress","doing":"Left blank for a person to confirm","credit":5},{"agent":"Held","doing":"Waiting on a named reviewer","credit":9}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>

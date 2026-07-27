@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A push notification, then a queue. The wait is spent producing frustration rather than answers.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">The most expensive hour in the airline’s year, spent making the relationship worse instead of better.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Prepares three genuine options against tonight’s actual availability, and stops. The passenger chooses.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Southerly Air is not a real company · nothing is booked without your approval","startLabel":"prepare my options","skipLabel":"rather not say","scenarios":[{"id":"delay","label":"The delay","app":"SA 428 · delayed","unit":[""," pts"],"earning":"points, staged","yours":"points, staged","told":"you told us:","declined":"you would rather not say. The options still get prepared.","steps":[{"agent":"Cause","doing":"What actually changed, in plain words","credit":100},{"agent":"Seats","doing":"What is genuinely available tonight","credit":100},{"agent":"Ask","doing":"One question","ask":{"q":"Do you have to be there tonight?","options":["Yes, tonight","Tomorrow is fine"],"learn":["must be there tonight, so only tonight’s options","tomorrow is fine, so a morning seat opens up"]}},{"agent":"Onward","doing":"Your connection, and whether it holds","credit":100},{"agent":"Options","doing":"Three, ready for you to choose","credit":100}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>

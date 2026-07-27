@@ -224,6 +224,18 @@
     '.wp-lockup{font-family:var(--wp-mono); font-size:.5rem; letter-spacing:.1em;',
     '  color:var(--wp-ink-2); opacity:.75; text-align:center; line-height:1.6}',
 
+    /* ── the explainer: what the thing on the screen actually is ──────────── */
+    '.wpx{font-family:var(--wpx-sans,inherit); color:var(--wpx-ink,inherit)}',
+    '.wpx-lead{font-size:1.12rem; font-weight:700; line-height:1.35; margin:0 0 10px}',
+    '.wpx-sub{font-size:.94rem; line-height:1.55; margin:0 0 22px; opacity:.82}',
+    '.wpx-list{list-style:none; margin:0; padding:0; display:grid; gap:14px}',
+    '.wpx-item{display:grid; grid-template-columns:26px 1fr; gap:13px; align-items:start}',
+    '.wpx-n{font-family:var(--wp-mono); font-size:.62rem; letter-spacing:.1em;',
+    '  color:var(--wpx-accent,#BFA37A); padding-top:3px; font-weight:700}',
+    '.wpx-t{font-weight:700; font-size:.95rem; margin:0 0 3px}',
+    '.wpx-d{font-size:.9rem; line-height:1.5; margin:0; opacity:.82}',
+    '.wpx-close{margin:20px 0 0; font-size:.92rem; line-height:1.55; font-weight:700}',
+
     '@media (max-width:400px){',
     '  .wp-phone{width:272px; height:558px}',
     '  .wp-ring{width:140px; height:140px}',
@@ -520,5 +532,46 @@
     return ctl;
   }
 
-  global.WaitPhone = { mount: mount, BEAT: BEAT };
+  /**
+   * Say what the thing on the screen actually is.
+   *
+   * Every demo showed a phone and left people to work out the idea from a ring
+   * and five agent names. This is the paragraph that was missing. Kept concrete
+   * on purpose: no "reimagining", no "experience layer" — a spinner, a hold
+   * queue, and the three things that go there instead.
+   */
+  function explain(host, opts) {
+    if (!host) return null;
+    ensureCss();
+    opts = opts || {};
+    var el = document.createElement('div');
+    el.className = 'wpx';
+    el.innerHTML =
+      '<p class="wpx-lead">' + esc(opts.lead ||
+        'A wait is the one moment you have someone’s whole attention, and it is spent on nothing.') + '</p>' +
+      '<p class="wpx-sub">' + esc(opts.sub ||
+        'Right now that is a spinner, a hold queue, or an email saying you will be in touch. ' +
+        'Tap the phone and watch what goes there instead.') + '</p>' +
+      '<ol class="wpx-list">' +
+        item('01', 'The ring',
+          'Counts what the person waiting walks away with. Their number, going up while they wait.') +
+        item('02', 'The specialists',
+          'Work one at a time, and each one says what it is doing. Nobody has to take a spinner on trust.') +
+        item('03', 'The one question',
+          'It stops and waits. A question you can scroll past is not a question. Answer it and the screen ' +
+          'tells you what it learned; say no and the work still finishes.') +
+      '</ol>' +
+      '<p class="wpx-close">' + esc(opts.close ||
+        'That third one is the argument. A wait that asks one good question is the only part of a customer ' +
+        'journey that sends something back the other way.') + '</p>';
+    host.appendChild(el);
+    return el;
+
+    function item(n, t, d) {
+      return '<li class="wpx-item"><span class="wpx-n">' + n + '</span>' +
+        '<div><p class="wpx-t">' + esc(t) + '</p><p class="wpx-d">' + esc(d) + '</p></div></li>';
+    }
+  }
+
+  global.WaitPhone = { mount: mount, explain: explain, BEAT: BEAT };
 })(typeof window !== 'undefined' ? window : this);

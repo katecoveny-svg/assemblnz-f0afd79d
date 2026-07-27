@@ -129,6 +129,10 @@ em.g{font-style:normal;color:var(--accent)}
 .roomrec .rl:last-of-type{border-bottom:0}
 .roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(13,13,15,.88); border-color:rgba(255,255,255,.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -262,10 +266,10 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
       <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">The conversation restarts from the beginning, because nothing carries between the phone, the form and the desk.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">The scarcest thing you own is a trained person’s attention in a room, and a third of it goes on re-collection.</p></div>
       <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Assembles what is already known into a one-page brief for the person taking the appointment, and stops there.</p></div>
-      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
     </div>
   </div>
 </div></section>
@@ -758,6 +762,7 @@ function grounded(q){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
   WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an Instant Finance product · no credit decision is made here","startLabel":"get ready for 11am","skipLabel":"rather not say","scenarios":[{"id":"branch","label":"Before the branch","app":"Your 11am, at Manukau","unit":[""," min"],"earning":"off your appointment","yours":"saved — you start at minute five","told":"you told us:","declined":"you would rather not say. You still keep the rest.","steps":[{"agent":"Kept","doing":"Everything you have already told us","credit":4},{"agent":"Purpose","doing":"What the money is for, in your words","credit":3},{"agent":"Ask","doing":"One question","ask":{"q":"Is anyone coming in with you?","options":["Yes, my partner","On my own"],"learn":["two of you, so a room is booked and both IDs are ready","on your own, so a desk is fine"]}},{"agent":"Bring","doing":"Exactly what to bring — no second trip","credit":5},{"agent":"Read","doing":"And someone has read it before you arrive","credit":3}]},{"id":"local","label":"What your branch knows","app":"The person here knows the town","unit":[""," min"],"earning":"saved, so far","yours":"saved — and no second trip","told":"you told us:","declined":"nothing to work around. The usual times, then.","steps":[{"agent":"Payslips","doing":"Your employer’s payslips — we know the format","credit":4},{"agent":"Open","doing":"What this branch actually opens, this week","credit":3},{"agent":"Ask","doing":"One question","ask":{"q":"Anything on this week we should work around?","options":["Yes, there is","Normal week"],"learn":["a commitment, so times are offered around it","a normal week, so the usual slots"]}},{"agent":"Times","doing":"Times that fit what is on in town","credit":4},{"agent":"Person","doing":"And a person here, not a call centre","credit":3}]},{"id":"back","label":"Coming back","app":"Second time, same branch","unit":[""," min"],"earning":"saved, so far","yours":"saved — you pick up where you left off","told":"you told us:","declined":"you would rather not say. We will confirm it in the room.","steps":[{"agent":"History","doing":"You finished the last one. Every payment on time.","credit":4},{"agent":"Held","doing":"What we already hold, for you to correct","credit":5},{"agent":"Ask","doing":"One question","ask":{"q":"Is anything different since last time?","options":["Yes, a fair bit","Much the same"],"learn":["a fair bit, so we start that part fresh","much the same, so we only confirm what matters"]}},{"agent":"Short","doing":"So the paperwork is the short version","credit":3},{"agent":"Same","doing":"And the same person, if they are in","credit":2}]},{"id":"where","label":"Your branch, saved","app":"Where to go, and who to ask for","unit":[""," min"],"earning":"saved, so far","yours":"yours to keep, or to pass on","told":"you told us:","declined":"you would rather not say. You still keep the details.","steps":[{"agent":"Where","doing":"Your branch, and what it opens","credit":4},{"agent":"Who","doing":"The person you dealt with, by name","credit":5},{"agent":"Ask","doing":"One question","ask":{"q":"Keep their name on it, if you pass it on?","options":["Yes, name them","Just the branch"],"learn":["a name to ask for, which is the point of a branch","the branch only, no person named"]}},{"agent":"Bring","doing":"And what to take, so nobody comes back twice","credit":3},{"agent":"Keep","doing":"Yours to keep, or to send to whoever asked","credit":3}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
 </body>
