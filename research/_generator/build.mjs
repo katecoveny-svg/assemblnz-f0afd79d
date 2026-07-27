@@ -843,6 +843,103 @@ ${c.waitPhone ? `
 </html>`;
 }
 
+
+/** The honest one-pager — the concept boards' structure, only sourced facts.
+    Prints clean to A4 (File → Print → PDF); every number names its source. */
+function boardPage(c) {
+  const accent = c.primary, accent2 = c.secondary;
+  return `<!doctype html>
+<html lang="en-NZ"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>${esc(c.short)} \u00d7 assembl \u2014 the monetised wait state, one page</title>
+<style>
+  :root{--a:${accent};--a2:${accent2};--ink:#101418;--soft:#5A6068;--line:#E3E1DB;--paper:#FCFBF8}
+  *{box-sizing:border-box;margin:0}
+  body{background:#EEECE6;color:var(--ink);font:15px/1.55 'Lato',-apple-system,system-ui,sans-serif;padding:34px 14px}
+  .sheet{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:52px 56px;box-shadow:0 30px 70px -40px rgba(16,20,24,.35)}
+  .mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:3px solid var(--a);padding-bottom:22px}
+  h1{font-size:34px;line-height:1.12;margin-top:10px}
+  h1 em{font-style:normal;color:var(--a2)}
+  .who{font-weight:700;font-size:15px}
+  .who span{color:var(--soft);font-weight:400}
+  .promise{margin-top:12px;color:var(--soft);max-width:58ch}
+  h2{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--a2);margin:36px 0 14px}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .fact{border:1px solid var(--line);border-left:4px solid var(--a);border-radius:12px;padding:14px 16px;background:#fff}
+  .fact b{display:block;font-size:14.5px;line-height:1.45;margin-bottom:6px}
+  .fact i{font-style:normal;font-size:11px;color:var(--soft)}
+  .moms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .mom{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+  .mom b{display:block;font-size:13px}
+  .mom span{font-size:11.5px;color:var(--soft)}
+  .pows{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .pow{border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:#fff}
+  .pow i{font-style:normal;font-size:9.5px;letter-spacing:.12em;color:var(--a2);text-transform:uppercase}
+  .pow b{display:block;font-size:12.5px;margin:5px 0 3px}
+  .pow span{font-size:11px;color:var(--soft);line-height:1.45}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .panel{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff}
+  .panel b{display:block;margin-bottom:8px;font-size:14px}
+  .panel p{font-size:13px;color:var(--soft)}
+  .measure{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .foot{margin-top:38px;border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--soft)}
+  .foot b{color:var(--ink)}
+  @media(max-width:720px){.facts,.duo,.measure{grid-template-columns:1fr}.moms{grid-template-columns:1fr 1fr}.pows{grid-template-columns:1fr 1fr}.sheet{padding:34px 22px}}
+  @media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border:0;border-radius:0;max-width:none;padding:24px 30px}}
+</style></head><body>
+<div class="sheet">
+  <div class="top">
+    <div>
+      <div class="who">${esc(c.short)} <span>\u00d7 assembl \u00b7 an independent concept</span></div>
+      <h1>The monetised<br><em>wait state.</em></h1>
+      <p class="promise">${esc(c.boardPromise || 'The moments your customers already wait, made visible, valuable, and on the record \u2014 every draft held for a person.')}</p>
+    </div>
+    <div class="mono" style="text-align:right;color:var(--a2)">the wait itself,<br>not a picture of it<br><br>${esc(new Date().toLocaleDateString('en-NZ',{month:'long',year:'numeric'}))}</div>
+  </div>
+
+  <h2>At a glance \u2014 every number carries its source</h2>
+  <div class="facts">
+    ${(c.boardFacts||[]).map(([f,src]) => `<div class="fact"><b>${esc(f)}</b><i>\u2014 ${esc(src)}</i></div>`).join('\n    ')}
+  </div>
+
+  ${c.moments ? `<h2>Every waiting moment, one pattern</h2>
+  <div class="moms">
+    ${c.moments.map(([t,d]) => `<div class="mom"><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join('\n    ')}
+  </div>` : ''}
+
+  <h2>How assembl powers it</h2>
+  <div class="pows">
+    <div class="pow"><i>01 \u00b7 intent signal</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters now.</span></div>
+    <div class="pow"><i>02 \u00b7 honest duration</i><b>How long, truthfully</b><span>Real steps, real progress \u2014 never a wait stretched to fill.</span></div>
+    <div class="pow"><i>03 \u00b7 value delivery</i><b>Worth the minutes</b><span>The work shown as it happens \u2014 useful, short, skippable.</span></div>
+    <div class="pow"><i>04 \u00b7 value exchange</i><b>The wait pays</b><span>The customer earns; one optional question comes back.</span></div>
+  </div>
+
+  <h2>The exchange</h2>
+  <div class="duo">
+    <div class="panel"><b>What the customer earns</b><p>${esc(c.boardEarn || 'Value they keep, funded by the business running the journey \u2014 never by selling the person waiting.')}</p></div>
+    <div class="panel"><b>The one question</b><p>${esc(c.boardQuestion || 'One optional question, asked inside the wait \u2014 the only part of the journey that sends something back the other way. Decline it and the work still finishes.')}</p></div>
+  </div>
+
+  <h2>What a pilot measures \u2014 no projections on this page</h2>
+  <div class="measure">
+    <div class="panel"><b>Waits completed v. abandoned</b><p>Against your current spinner, on your own traffic.</p></div>
+    <div class="panel"><b>Value earned and redeemed</b><p>What the waits gave, and who came back to spend it.</p></div>
+    <div class="panel"><b>Questions answered v. declined</b><p>And what the answers changed in triage.</p></div>
+    <div class="panel"><b>Approval, always human</b><p>Every output held for a named person \u2014 audited, on the record.</p></div>
+  </div>
+
+  <div class="foot">
+    <span><b>The live concept:</b> assembling-${c.slug}.pages.dev</span>
+    <span><b>assembl</b> \u2014 intuitive agentic customer journeys \u00b7 assembl.co.nz</span>
+    <span>Independent concept \u00b7 not affiliated with ${esc(c.short)} \u00b7 no customer data used</span>
+  </div>
+</div>
+</body></html>`;
+}
+
 const only = process.argv[2];
 const targets = only ? CLIENTS.filter((c) => c.slug === only) : CLIENTS;
 if (!targets.length) {
@@ -854,6 +951,7 @@ for (const c of targets) {
   const dir = resolve(RESEARCH, `assembling-${c.slug}`);
   mkdirSync(resolve(dir, 'functions/api'), { recursive: true });
   writeFileSync(resolve(dir, 'index.html'), page(c));
+  if (c.boardFacts) writeFileSync(resolve(dir, 'board.html'), boardPage(c));
   writeFileSync(resolve(dir, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
   writeFileSync(resolve(dir, 'wrangler.toml'),
     `name = "assembling-${c.slug}"\ncompatibility_date = "2025-10-01"\npages_build_output_dir = "."\n\n[ai]\nbinding = "AI"\n`);
