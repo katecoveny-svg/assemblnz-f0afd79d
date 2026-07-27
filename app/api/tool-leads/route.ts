@@ -43,8 +43,9 @@ export async function POST(req: Request) {
 
   const { email, toolSlug, payload, consentMarketing, source } = parsed.data;
 
-  // Soft guard: accept registered SPARK tools plus the library page capture.
-  if (toolSlug !== "hapai-library" && !getHapaiTool(toolSlug)) {
+  // Soft guard: accept registered SPARK tools plus the standalone capture
+  // surfaces (the /hapai library page and the /ai-ready journey gate).
+  if (!["hapai-library", "ai-ready"].includes(toolSlug) && !getHapaiTool(toolSlug)) {
     return NextResponse.json({ error: "Unknown tool" }, { status: 400 });
   }
 

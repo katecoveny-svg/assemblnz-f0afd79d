@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>a concept for air new zealand · assembling · airpoints · air NZ</title>
+<meta name="description" content="Independent concept prepared for Air New Zealand. Rewarded wait states powered by assembling.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700;800;900&family=Lato:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFAF6;--ink:#1A1918;
+  --champ:#BFA37A;--champ-15:rgba(191,163,122,.15);
+  --teal:#00A0AF;--teal-dark:#007A85;
+  --navy:#080D1A;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Lato',-apple-system,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+  --app:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.12;}
+.content{position:relative;z-index:1;}
+.shell{max-width:1080px;margin:0 auto;padding:28px 28px 96px}
+@media(max-width:640px){.shell{padding:18px 16px 72px}}
+
+.ribbon{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:24px;border-bottom:1px solid rgba(26,25,24,.15);padding-bottom:12px}
+.ribbon .r{color:rgba(26,25,24,.5)}
+
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink);background:var(--champ-15);border:1px solid var(--champ);padding:3px 8px;letter-spacing:.10em;text-transform:uppercase;margin-right:6px;border-radius:2px}
+.chip.dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+.signed-note{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:rgba(26,25,24,.7);letter-spacing:.10em;text-transform:uppercase;padding:6px 10px;background:rgba(0,160,175,.10);border:1px solid rgba(0,160,175,.35);margin-bottom:20px;border-radius:2px}
+.signed-note strong{color:var(--ink)}
+
+.hero{padding:36px 0 28px;display:grid;grid-template-columns:1fr 0.9fr;gap:48px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+.eyebrow{font-family:var(--mono);font-size:11px;color:rgba(26,25,24,.7);letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+.eyebrow strong{color:var(--teal);font-weight:700}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,5.5vw,56px);line-height:1.02;letter-spacing:-.015em;margin:0 0 18px;text-transform:lowercase}
+.hero h1 em{font-style:italic;color:var(--teal);font-weight:500}
+.name-line{font-family:var(--serif);font-style:italic;font-weight:500;font-size:18px;color:var(--ink);margin:8px 0 20px}
+.hero-sub{font-size:14px;line-height:1.55;color:rgba(26,25,24,.7);max-width:520px;margin-bottom:20px}
+.hero-sub strong{color:var(--ink);font-weight:700}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+
+.phone-wrap{position:relative;display:flex;justify-content:center}
+.phone{width:280px;height:590px;background:#111;border-radius:44px;padding:11px;position:relative;box-shadow:0 24px 48px rgba(0,0,0,.2),0 0 0 1.5px #222 inset}
+.phone::before{content:"";position:absolute;top:14px;left:50%;transform:translateX(-50%);width:100px;height:22px;background:#111;border-radius:14px;z-index:5}
+.phone-screen{position:relative;width:100%;height:100%;background:#fff;border-radius:34px;overflow:hidden;font-family:var(--app);color:#0e0e0e}
+.status-bar{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font-size:14px;font-weight:600;z-index:3;pointer-events:none}
+.slide{position:absolute;inset:0;padding:54px 16px 16px;display:flex;flex-direction:column}
+
+/* AIR NZ APP */
+.az-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-shrink:0}
+.az-logo{display:flex;align-items:center;gap:6px;font-weight:800;font-size:13px;color:var(--teal)}
+.az-logo::before{content:"";width:18px;height:18px;background:var(--teal);border-radius:50%;clip-path:polygon(0 0,100% 0,100% 60%,50% 100%,0 60%)}
+.az-header-r{display:flex;align-items:center;gap:6px}
+.az-avatar{width:22px;height:22px;background:#E8E8E8;border-radius:50%}
+.az-card-btn{background:var(--teal);color:#fff;font-family:var(--app);font-weight:700;font-size:10px;padding:5px 10px;border-radius:12px}
+.az-kia{font-size:11px;font-weight:600;margin:2px 0 10px;flex-shrink:0}
+.az-flight-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);flex-shrink:0}
+.az-flight-card .az-route{font-size:14px;font-weight:700}
+.az-flight-card .az-time{font-size:10px;color:#666;margin-top:2px}
+.az-flight-card .az-status{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:10px;font-size:9px;font-weight:700;background:rgba(0,160,175,.1);color:var(--teal)}
+.az-pts-card{background:#fff;border-radius:12px;padding:11px 12px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);flex-shrink:0}
+.az-pts-card .prow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.az-pts-lab{font-size:10px;font-weight:700}
+.az-pts-val{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.az-pts-val small{font-size:10px;font-weight:600;color:#999;margin-left:2px}
+.az-pts-bar{height:5px;background:#F0F0F0;border-radius:3px;overflow:hidden;margin:4px 0 5px}
+.az-pts-fill{height:100%;background:var(--teal);border-radius:3px;transition:width 1s ease}
+.az-pts-away{font-size:9px;color:#666;font-weight:500}
+
+/* WAIT STATE */
+.wait-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.95);border-radius:34px;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;opacity:0;pointer-events:none;transition:opacity 0.6s ease}
+.wait-overlay.show{opacity:1;pointer-events:auto}
+.wait-title{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:6px;text-align:center}
+.wait-sub{font-size:12px;color:rgba(26,25,24,.6);margin-bottom:24px;font-family:var(--mono);letter-spacing:.1em;text-align:center}
+.wait-steps{width:100%;margin-bottom:16px}
+.wait-step{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:11px;opacity:0.3;transition:all 0.5s ease}
+.wait-step.on{opacity:1}
+.wait-step.done{opacity:0.6}
+.wait-dot{width:7px;height:7px;border-radius:50%;background:#ccc;flex-shrink:0;transition:all 0.5s ease}
+.wait-step.on .wait-dot{background:var(--teal);box-shadow:0 0 10px rgba(0,160,175,0.4)}
+.wait-step.done .wait-dot{background:var(--ink)}
+.wait-reward{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--teal);font-weight:700}
+.wait-bar{width:100%;height:3px;background:#eee;border-radius:3px;overflow:hidden}
+.wait-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-dark));border-radius:3px;transition:width 0.8s ease}
+.wait-note{margin-top:12px;font-family:var(--mono);font-size:9px;color:rgba(26,25,24,.5);letter-spacing:.1em}
+.wait-sponsor{margin-top:16px;padding-top:12px;border-top:1px solid #eee;font-family:var(--mono);font-size:8px;color:rgba(26,25,24,.4);letter-spacing:.12em;text-align:center}
+.wait-total{font-family:var(--app);font-size:28px;font-weight:800;color:var(--teal);margin:8px 0}
+
+.ae-section{margin:60px 0}
+.ae-header{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:12px}
+.ae-title{font-family:var(--serif);font-weight:600;font-size:clamp(24px,4vw,32px);letter-spacing:-.01em;margin-bottom:8px}
+.ae-sub{font-size:14px;line-height:1.6;color:rgba(26,25,24,.7);max-width:600px;margin-bottom:28px}
+
+.chat-panel{
+  background:var(--navy);border-radius:24px;padding:28px;
+  border:1px solid rgba(184,150,79,0.15);
+  margin-bottom:24px;
+}
+.chat-header{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.chat-header .live-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.chat-messages{display:flex;flex-direction:column;gap:14px;min-height:200px;max-height:400px;overflow-y:auto;margin-bottom:20px}
+.chat-msg{display:flex;gap:10px;align-items:flex-start}
+.chat-msg .avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em}
+.chat-msg.agent .avatar{background:rgba(0,160,175,0.15);color:var(--teal)}
+.chat-msg .bubble{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 14px;font-family:var(--app);font-size:12px;line-height:1.5;color:rgba(255,255,255,0.85);max-width:420px}
+.chat-msg .bubble .champ{color:var(--champ)}
+
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.metric-card{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:20px;
+}
+.metric-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:8px}
+.metric-value{font-family:var(--app);font-size:22px;font-weight:800;color:#fff}
+.metric-sub{font-family:var(--mono);font-size:10px;letter-spacing:.10em;color:rgba(255,255,255,0.4);margin-top:4px}
+.metric-value.brass{color:var(--champ)}
+
+.controls{padding:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(26,25,24,0.08);border-radius:16px;margin-bottom:24px}
+.controls-title{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(26,25,24,.5);margin-bottom:16px}
+.control-row{display:flex;gap:8px;flex-wrap:wrap}
+.control-btn{padding:10px 18px;border-radius:50px;font-family:var(--app);font-size:11px;font-weight:600;border:1px solid rgba(26,25,24,0.15);background:#fff;color:var(--ink);cursor:pointer;transition:all 0.2s ease}
+.control-btn:hover{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+.control-btn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+footer{margin-top:60px;padding-top:24px;border-top:1px solid rgba(26,25,24,.15);font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:rgba(26,25,24,.5)}
+
+/* ── outreach moves: boundary · verbs · unfinished · tikanga ── */
+.gov{margin:56px 0 0;padding:26px 26px 22px;border:1px solid rgba(26,25,24,.12);border-radius:16px;background:rgba(255,255,255,.4)}
+.gov .gt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:10px}
+.gov p{font-size:13.5px;line-height:1.65;color:rgba(26,25,24,.75);max-width:660px;margin:0}
+.verbs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 0}
+@media(max-width:700px){.verbs{grid-template-columns:1fr}}
+.verb{display:block;text-decoration:none;border:1px solid rgba(26,25,24,.15);border-radius:12px;padding:16px;color:var(--ink);transition:all .25s ease;background:#fff}
+.verb:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 10px 24px rgba(26,25,24,.08)}
+.verb .vl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:6px}
+.verb .vt{font-family:var(--serif);font-size:15.5px;font-style:italic;line-height:1.35}
+.unf{border:1.5px dashed var(--teal);padding:22px;margin:22px 0 0;border-radius:12px;background:rgba(0,160,175,.06)}
+.unf .lab{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px}
+.unf p{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.4;color:var(--ink);margin:0 0 14px}
+.unf .field{display:flex;gap:0}
+.unf input{flex:1;background:#fff;border:1px solid var(--ink);border-right:0;padding:12px 14px;font-size:13px;color:var(--ink);outline:none;border-radius:8px 0 0 8px}
+.unf button{background:var(--ink);color:var(--paper);border:0;padding:0 20px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-weight:700;border-radius:0 8px 8px 0}
+.unf button:hover{background:var(--teal);color:#fff}
+@media(max-width:640px){.unf .field{flex-direction:column;gap:8px}.unf input{border-right:1px solid var(--ink);border-radius:8px}.unf button{padding:13px;border-radius:8px}}
+.tik{margin-top:16px;font-family:var(--mono);font-size:9px;color:rgba(26,25,24,.45);letter-spacing:.08em}
+.tik::before{content:"● ";color:#3a9c5e;font-size:8px}
+
+/* ── uplift: Air New Zealand's app world is black — dark phone ── */
+.phone-screen{background:#0B0B0C;color:#F0F0F0}
+.status-bar{color:#E8E8E8}
+.az-kia{color:#fff}
+.az-flight-card,.az-pts-card{background:#151519;border:1px solid #26262B;color:#EDEDED}
+.az-flight-card .az-route{color:#fff}
+.az-card-btn{background:#1D1D22;color:#EDEDED;border:1px solid #333}
+.az-avatar{background:#26262B}
+.az-pts-bar{background:#26262B}
+.wait-overlay{background:rgba(9,9,11,.93);color:#EFEFEF}
+.wait-title{color:#fff}
+.wait-step{color:rgba(255,255,255,.85)}
+.wait-note{color:rgba(255,255,255,.55)}
+.wait-sponsor{color:rgba(255,255,255,.4);border-top:1px solid #26262B}
+.wait-bar{background:#26262B}
+
+/* legibility: metric cards read white-on-paper outside the navy panel */
+.metrics-grid .metric-card{background:var(--navy);border:1px solid rgba(191,163,122,.25)}
+
+/* ── journey slides · dots · name-your-agent ── */
+.meta-strip{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(26,25,24,.55);text-align:center;padding:9px 12px;border-bottom:1px solid rgba(26,25,24,.08);background:var(--paper);position:relative;z-index:20}
+.jslide{position:absolute;inset:0;z-index:3;padding:60px 18px 18px;display:flex;flex-direction:column;justify-content:center;background:#0B0B0C;opacity:0;pointer-events:none;transition:opacity .55s ease;border-radius:34px}
+.jslide.on{opacity:1;pointer-events:auto}
+.js-badge{align-self:flex-start;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal);padding:4px 9px;border-radius:20px;margin-bottom:13px}
+.js-h{font-family:var(--serif);font-size:23px;line-height:1.15;margin-bottom:10px;color:#F2F2F2}
+.js-p{font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.65);margin-bottom:13px}
+.js-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
+.js-chip{font-size:10px;padding:5px 10px;border-radius:20px;background:rgba(0,160,175,.15);color:#F2F2F2}
+.js-cta{align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--teal);color:#fff;padding:11px 16px;border-radius:10px;font-weight:700}
+.js-lab{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.js-row{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;padding:8px 0;border-bottom:1px solid #26262B;color:rgba(255,255,255,.65)}
+.js-row b{color:#F2F2F2;font-weight:600}
+.js-name{margin-top:14px}
+.js-name input{width:100%;padding:10px 12px;border:1px solid #26262B;border-radius:8px;font-size:12px;background:transparent;color:#F2F2F2;outline:none}
+.js-name input:focus{border-color:var(--teal)}
+.js-name .nb{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;color:rgba(255,255,255,.65);margin-top:6px}
+.pdots{position:absolute;bottom:11px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:7px;z-index:6}
+.pdots .d{width:6px;height:6px;border-radius:50%;background:#777;opacity:.35;transition:all .3s}
+.pdots .d.on{opacity:1;background:var(--teal);transform:scale(1.25)}
+.pdots .pp{font-family:var(--mono);font-size:9px;color:#777;cursor:pointer;margin-left:6px;letter-spacing:.08em;opacity:.8;user-select:none}
+
+/* ── the pilot ask ── */
+.pilot-ask{margin:56px 0 0;padding:26px;border:1px solid rgba(26,25,24,.12);border-radius:16px;background:rgba(255,255,255,.4)}
+.pilot-ask .gt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:6px}
+.pilot-ask .sub{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);margin:0 0 18px}
+.pcells{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.pcells{grid-template-columns:1fr}}
+.pcell{border:1px solid rgba(26,25,24,.15);border-radius:12px;padding:16px;background:#fff}
+.pcell .pn{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--champ);margin-bottom:8px}
+.pcell .pt{font-size:12.5px;line-height:1.6;color:rgba(26,25,24,.78)}
+.pfail{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:rgba(26,25,24,.55);margin:16px 0 0}
+</style>
+</head>
+<body>
+<div class="meta-strip">shared in confidence · independent concept · simulated data · not affiliated with air new zealand</div>
+<canvas id="canvas-3d"></canvas>
+<div class="content">
+<div class="shell">
+
+  <div class="ribbon">
+    <span class="r">assembl concept</span>
+    <span class="r">airpoints · air new zealand</span>
+  </div>
+
+  <div class="signed-note">
+    <strong>Independent concept prepared for Air New Zealand</strong>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Rewarded wait states <strong>powered by assembling</strong></div>
+      <h1>Turn every <em>flight search</em> into an Airpoints moment.</h1>
+      <div class="name-line">Airpoints, <strong>reimagined</strong></div>
+      <p class="hero-sub">
+        <strong>Your app makes travellers wait while it searches.</strong> Assembling turns that wait into Airpoints they keep. One line of code. <strong>You keep 55%.</strong>
+      </p>
+      <div class="pill-row">
+        <span class="chip dark">1 line to install</span>
+        <span class="chip dark">55% you keep</span>
+        <span class="chip teal">NZ only</span>
+        <span class="chip dark">opt-in</span>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="status-bar"><span>9:41</span><span>✈️</span></div>
+          
+          <div class="jslide" id="jslide-1">
+            <div class="js-badge">optional · rewarded · +$1.52</div>
+            <div class="js-h">Your Wednesday, ready to review.</div>
+            <div class="js-p">Three ranked rebook options prepared before the passenger reaches for the phone. Nothing booked without their say-so.</div>
+            <div class="js-chips"><span class="js-chip">3 ranked options</span><span class="js-chip">aisle seat kept</span><span class="js-chip">same-day arrival</span></div>
+            <div class="js-cta">show me my options →</div>
+          </div>
+          <div class="jslide" id="jslide-2">
+            <div class="js-lab">mana receipt · simulated</div>
+            <div class="js-h">Approved by you.</div>
+            <div class="js-row"><span>moment completed</span><b>✓</b></div>
+            <div class="js-row"><span>reward minted</span><b>+$1.52</b></div>
+            <div class="js-row"><span>record kept by</span><b>Air New Zealand</b></div>
+            <div class="js-row" id="js-name-row"><span>assembl sees</span><b>nothing personal</b></div>
+            <div class="js-name"><input type="text" id="agent-name" placeholder="name your agent…" maxlength="24"><div class="nb">whatever you call it stays on the mana receipt forever.</div></div>
+          </div>
+          <div class="pdots"><span class="d on"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="pp" id="pp" title="pause">❚❚</span></div>
+
+          <div class="wait-overlay" id="wait-overlay">
+            <div class="wait-title">rebooking your flight</div>
+            <div class="wait-sub">powered by assembling</div>
+            <div class="wait-steps" id="wait-steps">
+              <div class="wait-step"><div class="wait-dot"></div>Checking flight availability<div class="wait-reward">+$0.28</div></div>
+              <div class="wait-step"><div class="wait-dot"></div>Validating Airpoints balance<div class="wait-reward">+$0.12</div></div>
+              <div class="wait-step"><div class="wait-dot"></div>Negotiating seat allocation<div class="wait-reward">+$0.45</div></div>
+              <div class="wait-step"><div class="wait-dot"></div>Preparing your approval<div class="wait-reward">+$0.67</div></div>
+            </div>
+            <div class="wait-bar"><div class="wait-fill" id="wait-fill"></div></div>
+            <div class="wait-total" id="wait-total">+$1.52</div>
+            <div class="wait-note" id="wait-note">assembling — 0%</div>
+            <div class="wait-sponsor">SPONSORED · WHILE YOU WAIT · Air New Zealand — a little something for the wait.</div>
+          </div>
+          <div class="slide">
+            <div class="az-header">
+              <div class="az-logo">air new zealand</div>
+              <div class="az-header-r">
+                <div class="az-card-btn">airpoints</div>
+                <div class="az-avatar"></div>
+              </div>
+            </div>
+            <div class="az-kia">Kia ora, Sarah</div>
+            <div class="az-flight-card">
+              <div class="az-route">AKL → WLG</div>
+              <div class="az-time">Today · NZ647 · 14:30</div>
+              <div class="az-status">delayed 75m</div>
+            </div>
+            <div class="az-pts-card">
+              <div class="prow"><span class="az-pts-lab">Airpoints balance</span><span class="az-pts-val" id="pts-val">3,240<small>pts</small></span></div>
+              <div class="az-pts-bar"><div class="az-pts-fill" id="pts-fill" style="width:16.2%"></div></div>
+              <div class="az-pts-away" id="pts-away">16,760 to Silver</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="controls-title">change one thing — watch the journey recompute</div>
+    <div class="control-row">
+      <button class="control-btn" onclick="changeScenario('default',this)">current</button>
+      <button class="control-btn" onclick="changeScenario('delay',this)">delay +75m</button>
+      <button class="control-btn" onclick="changeScenario('child',this)">traveller with child</button>
+      <button class="control-btn" onclick="changeScenario('lounge',this)">lounge full</button>
+      <button class="control-btn" onclick="changeScenario('tight',this)">tight connection</button>
+      <button class="control-btn" onclick="changeScenario('decline',this)">decline partner</button>
+    </div>
+  </div>
+
+  <div class="chat-panel">
+    <div class="chat-header"><span class="live-dot"></span>agent harness — live</div>
+    <div class="chat-messages" id="chat-msgs">
+      <div class="chat-msg agent">
+        <div class="avatar">RA</div>
+        <div class="bubble">Rebook Agent here. I've found 3 alternative flights AKL→WLG. <span class="champ">NZ649 at 15:45</span> has 12 seats available and honours your window preference.</div>
+      </div>
+      <div class="chat-msg agent">
+        <div class="avatar">LA</div>
+        <div class="bubble">Loyalty Agent — your Airpoints status is recognised. You're 16,760 pts from Silver. <span class="champ">This rebook earns 120 pts.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ae-section">
+    <div class="ae-header">assembl elevation</div>
+    <div class="ae-title">The next level of Airpoints</div>
+    <div class="ae-sub">assembl doesn't replace your brand — it elevates it. Every wait state becomes a rewarded moment. Every interaction earns Airpoints. Every second proves value.</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Wait time</div>
+        <div class="metric-value" id="m-wait">68s</div>
+        <div class="metric-sub">avg per session</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Reward value</div>
+        <div class="metric-value brass" id="m-reward">+$1.52</div>
+        <div class="metric-sub">per wait state</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Monthly revenue</div>
+        <div class="metric-value brass" id="m-monthly">$62K</div>
+        <div class="metric-sub">55% to Air NZ</div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- ── the pilot ask ── -->
+  <div class="pilot-ask">
+    <div class="gt">the pilot ask</div>
+    <p class="sub">the smallest credible next step.</p>
+    <div class="pcells">
+      <div class="pcell"><div class="pn">01 · the scope</div><div class="pt">One disruption class (weather delay >4h at ZQN or WLG) · 500–1,000 opted-in Airpoints Silver+ members based in Auckland · a 4-week window.</div></div>
+      <div class="pcell"><div class="pn">02 · the access</div><div class="pt">Read-only schedule and passenger context. Draft-write only for rebook proposals. No writes to reservations in phase 1 — staged rebook for phase-2 review.</div></div>
+      <div class="pcell"><div class="pn">03 · the scorecard</div><div class="pt">≥50% call deflection · ≥60% three-option review rate · ≥40% confirmed in-app rebook · 0 unapproved actions.</div></div>
+    </div>
+    <p class="pfail">fail any line of the scorecard and we change the design or stop.</p>
+  </div>
+
+  <!-- ── the boundary · the reply · the unfinished pane ── -->
+  <div class="gov">
+    <div class="gt">the boundary</div>
+    <p>No production access is requested by this concept. No live customer, price, reward or purchase is involved. Scope, privacy, security and commercial terms require joint approval before any pilot begins.</p>
+    <div class="verbs">
+      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=air%20nz%20·%20assembling%20concept%20·%20we%20got%20this%20wrong&body=Kate%20—%0A%0AWhere%20the%20concept%20got%20it%20wrong:%0A%0A—"><div class="vl">verb one</div><div class="vt">"tell us which household we got wrong."</div></a>
+      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=air%20nz%20·%20assembling%20concept%20·%20one%20constraint%20we%20missed&body=Kate%20—%0A%0AOne%20constraint%20you%20haven%27t%20accounted%20for:%0A%0A—"><div class="vl">verb two</div><div class="vt">"send us one constraint we haven't accounted for."</div></a>
+      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=air%20nz%20·%20assembling%20concept%20·%20a%20sceptic%27s%20read&body=Kate%20—%0A%0AForwarding%20to%20the%20sharpest%20sceptic%20on%20the%20team:%0A%0A—"><div class="vl">verb three</div><div class="vt">"share this with the sharpest sceptic on your team — we want their read."</div></a>
+    </div>
+    <div class="unf">
+      <div class="lab">unfinished · awaiting the air new zealand constraint</div>
+      <p>"the concept looks right except for one thing — <em>[your constraint here]</em>."</p>
+      <div class="field"><input type="text" id="constraint" placeholder="type one sentence · e.g. the reservations engine can't stage rebooks without ops sign-off"><button onclick="sendConstraint()">send it</button></div>
+    </div>
+    <div class="tik">tikanga governance panel · signed off 21 jul 2026 · ref TIK-2026-07-21-C001</div>
+  </div>
+
+  <footer>assembl · aotearoa new zealand · © 2026</footer>
+</div>
+</div>
+
+<script src="three.min.js"></script>
+<script>
+(function(){
+  if(typeof THREE==='undefined'){setTimeout(arguments.callee,100);return}
+  const c=document.getElementById('canvas-3d')
+  const r=new THREE.WebGLRenderer({canvas:c,antialias:true,alpha:true})
+  r.setSize(innerWidth,innerHeight)
+  r.setPixelRatio(Math.min(devicePixelRatio,2))
+  const s=new THREE.Scene()
+  const cam=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,0.1,100)
+  cam.position.set(-2,0.3,12)
+  cam.lookAt(0,0,0)
+  const pmrem=new THREE.PMREMGenerator(r)
+  const env=new THREE.Scene()
+  env.background=new THREE.Color('#0A0A0A')
+  let e=new THREE.DirectionalLight('#FFFFFF',40);e.position.set(5,8,5);env.add(e)
+  e=new THREE.DirectionalLight('#FFFFFF',20);e.position.set(-5,3,2);env.add(e)
+  s.environment=pmrem.fromScene(env,0.04).texture
+  s.add(new THREE.AmbientLight('#FFFFFF',0.25))
+  const key=new THREE.DirectionalLight('#FFFFFF',5);key.position.set(5,10,5);s.add(key)
+  const brass=new THREE.MeshStandardMaterial({color:'#7A5C2A',metalness:1,roughness:0.12,envMapIntensity:25})
+  const brassB=new THREE.MeshStandardMaterial({color:'#9A7A3A',metalness:1,roughness:0.06,envMapIntensity:35})
+  const dark=new THREE.MeshStandardMaterial({color:'#050812',metalness:1,roughness:0.03,envMapIntensity:40})
+  const whiteChrome=new THREE.MeshStandardMaterial({color:'#F8F9FA',metalness:1,roughness:0.02,envMapIntensity:35})
+  const group=new THREE.Group();s.add(group);group.position.set(3,0,0)
+  const core=new THREE.Mesh(new THREE.TorusGeometry(1.8,0.5,32,128),brassB);group.add(core)
+  const inner=new THREE.Mesh(new THREE.SphereGeometry(0.9,48,48),new THREE.MeshPhysicalMaterial({color:'#9A7A3A',metalness:0.95,roughness:0.05,transmission:0.3,transparent:true,opacity:0.9,envMapIntensity:20}));group.add(inner)
+  const tri=new THREE.Mesh(new THREE.ConeGeometry(0.6,1.2,4),dark);tri.position.set(-2.5,0.5,0);tri.rotation.z=Math.PI/4;group.add(tri)
+  const dia=new THREE.Mesh(new THREE.OctahedronGeometry(0.7,0),brass);dia.position.set(2.5,-0.3,0);group.add(dia)
+  const smRing=new THREE.Mesh(new THREE.TorusGeometry(0.5,0.15,16,48),brassB);smRing.position.set(0,1.8,0);smRing.rotation.x=Math.PI/3;group.add(smRing)
+  const r1=new THREE.Mesh(new THREE.TorusGeometry(5,0.08,16,128),brassB);r1.rotation.x=Math.PI/2.3;r1.rotation.z=Math.PI/8;group.add(r1)
+  const r2=new THREE.Mesh(new THREE.TorusGeometry(4,0.05,12,96),brass);r2.rotation.x=Math.PI/2.6;r2.rotation.y=Math.PI/5;group.add(r2)
+  const orbiters=[]
+  const defs=[
+    {geo:new THREE.TorusGeometry(0.5,0.18,20,60),mat:brassB,r:6,speed:0.35,phase:0,yAmp:1.2},
+    {geo:new THREE.OctahedronGeometry(0.6,0),mat:dark,r:6.5,speed:0.28,phase:1.5,yAmp:0.9},
+    {geo:new THREE.ConeGeometry(0.5,1,4),mat:brass,r:5.5,speed:0.4,phase:3,yAmp:1},
+    {geo:new THREE.TorusGeometry(0.4,0.12,16,48),mat:brass,r:7,speed:0.22,phase:0.8,yAmp:1.3},
+    {geo:new THREE.IcosahedronGeometry(0.55,0),mat:whiteChrome,r:5.2,speed:0.45,phase:4.5,yAmp:0.8},
+    {geo:new THREE.OctahedronGeometry(0.5,1),mat:dark,r:6.2,speed:0.32,phase:2.2,yAmp:1.1},
+    {geo:new THREE.TetrahedronGeometry(0.5,0),mat:whiteChrome,r:5.8,speed:0.38,phase:1,yAmp:1.4},
+  ]
+  defs.forEach(d=>{const m=new THREE.Mesh(d.geo,d.mat);m.userData=d;group.add(m);orbiters.push(m)})
+  const lm=new THREE.LineBasicMaterial({color:'#7A5C2A',transparent:true,opacity:0.5})
+  orbiters.forEach(m=>{const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),m.position.clone()]);const l=new THREE.Line(g,lm);group.add(l);m.userData.line=l})
+  const N=120,pGeo=new THREE.BufferGeometry(),pp=new Float32Array(N*3)
+  for(let i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*25;pp[i*3+1]=(Math.random()-0.5)*15;pp[i*3+2]=(Math.random()-0.5)*25}
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pp,3))
+  const parts=new THREE.Points(pGeo,new THREE.PointsMaterial({color:'#7A5C2A',size:0.08,transparent:true,opacity:0.35}));s.add(parts)
+  const g1=new THREE.PointLight('#FFFFFF',4,20);g1.position.set(2,2,3);s.add(g1)
+  const g2=new THREE.PointLight('#FFFFFF',3,15);g2.position.set(-3,-1,2);s.add(g2)
+  let scrollY=0;addEventListener('scroll',()=>{scrollY=window.scrollY},{passive:true})
+  let t=0
+  function anim(){
+    requestAnimationFrame(anim);t+=0.016
+    const max=document.body.scrollHeight-innerHeight,prog=max>0?scrollY/max:0
+    core.rotation.x=t*0.15+prog*Math.PI*0.3;core.rotation.y=t*0.1+prog*Math.PI*0.2;core.rotation.z=Math.sin(t*0.3)*0.15;core.scale.setScalar(1+Math.sin(t*0.5)*0.03)
+    inner.material.opacity=0.9+Math.sin(t*2)*0.25;inner.rotation.y=t*0.3
+    tri.rotation.y=t*0.2;tri.rotation.z=Math.sin(t*0.15)*0.2
+    dia.rotation.y=-t*0.18;dia.rotation.x=Math.sin(t*0.25)*0.15
+    smRing.rotation.z=t*0.12;smRing.rotation.y=Math.sin(t*0.2)*0.1
+    r1.rotation.z=t*0.08+prog*Math.PI*0.4;r1.rotation.x=Math.sin(t*0.15)*0.05
+    r2.rotation.z=-t*0.06+prog*Math.PI*0.2;r2.rotation.y=t*0.04
+    orbiters.forEach(m=>{
+      const d=m.userData;const a=d.phase+t*d.speed+prog*Math.PI*2
+      m.position.set(Math.cos(a)*d.r,Math.sin(t*0.5+d.phase)*d.yAmp+Math.sin(prog*Math.PI*3)*0.8,Math.sin(a)*d.r)
+      m.rotation.y=t*0.35+d.phase;m.rotation.x=Math.sin(t*0.3+d.phase)*0.35;m.rotation.z=Math.cos(t*0.25+d.phase)*0.15
+      m.userData.line.geometry.setFromPoints([new THREE.Vector3(0,0,0),m.position.clone()])
+    })
+    parts.rotation.y=t*0.012;parts.rotation.x=scrollY*0.0003
+    g1.position.x=group.position.x+2;g1.position.y=group.position.y+1
+    g2.position.x=group.position.x-2;g2.position.y=group.position.y-1
+    group.position.x=3-prog*6+scrollY*0.001;group.position.y=Math.sin(prog*Math.PI*2.5)*0.8+Math.sin(t*0.3)*0.2
+    group.rotation.y=prog*Math.PI*0.4;group.rotation.z=Math.sin(prog*Math.PI*2)*0.08+scrollY*0.0002
+    r.render(s,cam)
+  }
+  anim()
+  addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();r.setSize(innerWidth,innerHeight)})
+})()
+</script>
+<script>
+let waitTimer=null,waitStep=0
+const waitMsgs=document.querySelectorAll('.wait-step')
+const waitOverlay=document.getElementById('wait-overlay')
+const chatMsgs=document.getElementById('chat-msgs')
+let scenario='default'
+
+function startWait(){
+  if(waitTimer)return
+  waitOverlay.classList.add('show');if(window._setDotsSafe)_setDotsSafe(1)
+  waitStep=0
+  waitMsgs.forEach(s=>{s.classList.remove('on','done')})
+  document.getElementById('wait-fill').style.width='0%'
+  document.getElementById('wait-total').textContent='+$0.00'
+  tickWait()
+}
+
+function tickWait(){
+  let total=0
+  for(let i=0;i<waitStep;i++)total+=parseFloat(waitMsgs[i].querySelector('.wait-reward').textContent.replace('+$',''))
+  document.getElementById('wait-total').textContent='+$'+total.toFixed(2)
+  if(waitStep<waitMsgs.length){
+    waitMsgs.forEach((s,i)=>{s.classList.toggle('on',i===waitStep);s.classList.toggle('done',i<waitStep)})
+    document.getElementById('wait-fill').style.width=Math.round(((waitStep+1)/waitMsgs.length)*100)+'%'
+    document.getElementById('wait-note').textContent='assembling — '+Math.round(((waitStep+1)/waitMsgs.length)*100)+'%'
+    waitStep++
+    waitTimer=setTimeout(tickWait,1400)
+  }else{
+    waitMsgs.forEach(s=>{s.classList.add('done');s.classList.remove('on')})
+    document.getElementById('wait-fill').style.width='100%'
+    document.getElementById('wait-note').textContent='ready — your approval'
+    waitTimer=setTimeout(()=>{
+      waitOverlay.classList.remove('show')
+      waitStep=0;waitTimer=null
+      if(window._journeyAdvance)_journeyAdvance()
+      const pv=document.getElementById('pts-val'),pf=document.getElementById('pts-fill'),pa=document.getElementById('pts-away')
+      const newPts=3240+152;pv.innerHTML=newPts+'<small>pts</small>';pf.style.width=Math.min(20,(newPts/3240*16.2))+'%';pa.textContent=Math.max(0,16760-(newPts-3240))+' to Silver'
+      addChatMsg('agent','RE','Resolution Agent. <span class="champ">Flight rebooked.</span> NZ649 at 15:45. Window seat confirmed. 120pts earned.')
+    },2500)
+  }
+}
+
+function addChatMsg(type,abbr,msg){
+  const div=document.createElement('div')
+  div.className='chat-msg '+type
+  div.innerHTML='<div class="avatar">'+abbr+'</div><div class="bubble">'+msg+'</div>'
+  chatMsgs.appendChild(div)
+  chatMsgs.scrollTop=chatMsgs.scrollHeight
+}
+
+const scenarioData={
+  default:{wait:'68s',reward:'+$1.52',monthly:'$62K'},
+  delay:{wait:'82s',reward:'+$2.10',monthly:'$71K'},
+  child:{wait:'74s',reward:'+$1.85',monthly:'$67K'},
+  lounge:{wait:'59s',reward:'+$1.30',monthly:'$58K'},
+  tight:{wait:'91s',reward:'+$2.45',monthly:'$78K'},
+  decline:{wait:'52s',reward:'+$1.10',monthly:'$54K'},
+}
+
+function changeScenario(name,btn){
+  document.querySelectorAll('.control-btn').forEach(b=>b.classList.remove('active'))
+  btn.classList.add('active')
+  scenario=name
+  const d=scenarioData[name]
+  document.getElementById('m-wait').textContent=d.wait
+  document.getElementById('m-reward').textContent=d.reward
+  document.getElementById('m-monthly').textContent=d.monthly
+  chatMsgs.innerHTML=''
+  addChatMsg('agent','CA','Context Agent — recalibrating for <span class="champ">'+name+'</span> scenario.')
+  addChatMsg('agent','RA','Rebook Agent — plan recomputed. '+d.reward+' earned per wait state. Flight options updated.')
+  addChatMsg('agent','LA','Loyalty Agent — Airpoints status maintained. Points earn rate recalculated.')
+  if(waitTimer){clearTimeout(waitTimer);waitTimer=null;waitStep=0}
+  waitOverlay.classList.remove('show')
+  setTimeout(startWait,600)
+}
+setTimeout(startWait,2000)
+</script>
+
+<!-- ══ LIVE AGENT — assembling concept Q&A (added 2026-07-24) ══
+     Self-contained bottom-right widget wired to /api/agent (Cloudflare Pages
+     Function, Workers AI free tier / Anthropic when keyed). Kate's scripted
+     journey chat above stays untouched — this adds the REAL agent. -->
+<style>
+#alw-pill{position:fixed;right:22px;bottom:22px;z-index:900;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:#1A1918;color:#FBFAF6;border:1px solid #BFA37A;border-radius:40px;padding:11px 18px;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px rgba(26,25,24,.25)}
+#alw-pill .d{width:7px;height:7px;border-radius:50%;background:#BFA37A;animation:alwPulse 2s infinite}
+@keyframes alwPulse{0%,100%{opacity:1}50%{opacity:.35}}
+#alw-panel{position:fixed;right:22px;bottom:74px;z-index:901;width:min(340px,calc(100vw - 44px));background:#FBFAF6;border:1px solid rgba(26,25,24,.15);border-radius:16px;box-shadow:0 24px 60px rgba(26,25,24,.28);display:none;flex-direction:column;overflow:hidden}
+#alw-panel.open{display:flex}
+#alw-head{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#BFA37A;padding:12px 14px;border-bottom:1px solid rgba(26,25,24,.08)}
+#alw-log{padding:12px 14px;max-height:280px;overflow-y:auto;font-family:'Lato',sans-serif;font-size:12.5px;line-height:1.55;color:#1A1918}
+#alw-log .q{color:rgba(26,25,24,.55);margin:8px 0 4px}
+#alw-log .a{margin:0 0 8px;white-space:pre-wrap}
+#alw-row{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(26,25,24,.08)}
+#alw-in{flex:1;font-family:'Lato',sans-serif;font-size:12.5px;padding:9px 11px;border:1px solid rgba(26,25,24,.15);border-radius:10px;outline:none}
+#alw-in:focus{border-color:#BFA37A}
+#alw-go{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;background:#1A1918;color:#FBFAF6;border:none;border-radius:10px;padding:0 14px;cursor:pointer}
+#alw-go:disabled{opacity:.45}
+
+/* ── journey slides · dots · name-your-agent ── */
+.meta-strip{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(26,25,24,.55);text-align:center;padding:9px 12px;border-bottom:1px solid rgba(26,25,24,.08);background:var(--paper);position:relative;z-index:20}
+.jslide{position:absolute;inset:0;z-index:3;padding:60px 18px 18px;display:flex;flex-direction:column;justify-content:center;background:#0B0B0C;opacity:0;pointer-events:none;transition:opacity .55s ease;border-radius:34px}
+.jslide.on{opacity:1;pointer-events:auto}
+.js-badge{align-self:flex-start;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal);padding:4px 9px;border-radius:20px;margin-bottom:13px}
+.js-h{font-family:var(--serif);font-size:23px;line-height:1.15;margin-bottom:10px;color:#F2F2F2}
+.js-p{font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.65);margin-bottom:13px}
+.js-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
+.js-chip{font-size:10px;padding:5px 10px;border-radius:20px;background:rgba(0,160,175,.15);color:#F2F2F2}
+.js-cta{align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--teal);color:#fff;padding:11px 16px;border-radius:10px;font-weight:700}
+.js-lab{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.js-row{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;padding:8px 0;border-bottom:1px solid #26262B;color:rgba(255,255,255,.65)}
+.js-row b{color:#F2F2F2;font-weight:600}
+.js-name{margin-top:14px}
+.js-name input{width:100%;padding:10px 12px;border:1px solid #26262B;border-radius:8px;font-size:12px;background:transparent;color:#F2F2F2;outline:none}
+.js-name input:focus{border-color:var(--teal)}
+.js-name .nb{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;color:rgba(255,255,255,.65);margin-top:6px}
+.pdots{position:absolute;bottom:11px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:7px;z-index:6}
+.pdots .d{width:6px;height:6px;border-radius:50%;background:#777;opacity:.35;transition:all .3s}
+.pdots .d.on{opacity:1;background:var(--teal);transform:scale(1.25)}
+.pdots .pp{font-family:var(--mono);font-size:9px;color:#777;cursor:pointer;margin-left:6px;letter-spacing:.08em;opacity:.8;user-select:none}
+</style>
+<button id="alw-pill"><span class="d"></span>ask assembling — live</button>
+<div id="alw-panel" role="dialog" aria-label="ask assembling — live agent">
+  <div id="alw-head">assembling concept agent · live · draft-only</div>
+  <div id="alw-log"><div class="a">Kia ora — ask me anything about this concept. Nothing here touches production systems; nothing sends without a person's yes.</div></div>
+  <div id="alw-row"><input id="alw-in" placeholder="ask about this concept…" maxlength="400"><button id="alw-go">ask</button></div>
+</div>
+<script>
+(function(){
+  var pill=document.getElementById('alw-pill'),panel=document.getElementById('alw-panel'),
+      log=document.getElementById('alw-log'),inp=document.getElementById('alw-in'),go=document.getElementById('alw-go');
+  pill.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open'))inp.focus();});
+  async function ask(){
+    var m=inp.value.trim(); if(!m||go.disabled)return;
+    go.disabled=true; inp.value='';
+    var q=document.createElement('div');q.className='q';q.textContent='you — '+m;log.appendChild(q);
+    var a=document.createElement('div');a.className='a';a.textContent='…';log.appendChild(a);
+    log.scrollTop=log.scrollHeight;
+    try{
+      var r=await fetch('/api/agent',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({agent:'concept',message:m})});
+      var j=await r.json(); a.textContent=j.text||'(no reply)';
+    }catch(e){a.textContent='The agent is resting — try again shortly.';}
+    go.disabled=false; log.scrollTop=log.scrollHeight;
+  }
+  go.addEventListener('click',ask);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
+})();
+</script>
+
+
+<script>
+/* signed ?for= personalisation + unfinished-pane constraint mailto */
+const EXECS={
+  'jeremy-obrien':{first:'Jeremy',full:"Jeremy O'Brien",signedFor:"jeremy o'brien · ccdo · air new zealand"}
+};
+(function(){
+  const q=new URLSearchParams(location.search);
+  const h=location.hash.startsWith('#for=')?location.hash.slice(5):null;
+  const k=(q.get('for')||h||'jeremy-obrien').toLowerCase();
+  const e=EXECS[k]||EXECS['jeremy-obrien'];
+  const n=document.querySelector('.signed-note');
+  if(n&&e)n.textContent='independent concept prepared for '+e.signedFor;
+})();
+function sendConstraint(){
+  const v=document.getElementById('constraint').value.trim();
+  if(!v){document.getElementById('constraint').focus();return}
+  location.href='mailto:assembl@assembl.co.nz?subject='+encodeURIComponent('air nz · assembling concept · one constraint')+'&body='+encodeURIComponent('Assembl —\n\nThe constraint you missed:\n\n'+v+'\n\n— sent from the unfinished pane at '+location.href);
+}
+</script>
+
+
+<script>
+/* journey: home → assembling → review → approved · dots · play/pause · naming */
+(function(){
+  const s1=document.getElementById('jslide-1'),s2=document.getElementById('jslide-2')
+  const dots=[...document.querySelectorAll('.pdots .d')],pp=document.getElementById('pp')
+  let playing=true,jt=null
+  window._setDotsSafe=function(i){dots.forEach((d,n)=>d.classList.toggle('on',n===i))}
+  function show(a,b){s1.classList.toggle('on',a);s2.classList.toggle('on',b)}
+  window._journeyAdvance=function(){
+    show(true,false);_setDotsSafe(2)
+    clearTimeout(jt);jt=setTimeout(()=>{show(false,true);_setDotsSafe(3)
+      jt=setTimeout(()=>{show(false,false);_setDotsSafe(0)
+        if(playing)jt=setTimeout(()=>{startWait()},1900)
+      },4200)
+    },3600)
+  }
+  pp.addEventListener('click',()=>{playing=!playing;pp.textContent=playing?'❚❚':'▶';pp.title=playing?'pause':'play'
+    if(playing){clearTimeout(jt);show(false,false);_setDotsSafe(1);startWait()}else{clearTimeout(jt)}})
+  const nm=document.getElementById('agent-name')
+  nm.addEventListener('change',()=>{
+    const v=nm.value.trim();if(!v)return
+    const h=document.querySelector('.chat-header')
+    if(h)h.innerHTML='<span class="live-dot"></span>'+v.toLowerCase()+' · agent harness — live'
+    const r=document.getElementById('js-name-row')
+    if(r)r.innerHTML='<span>named by you</span><b>'+v+'</b>'
+  })
+})();
+</script>
+</body>
+</html>

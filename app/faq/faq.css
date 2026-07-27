@@ -1,0 +1,91 @@
+/* /faq — Instrument: deep navy, Lato, gold metal. A tool, not a wall of text. */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.faqpg {
+  min-height: 100vh; background: #030B1F; color: #F0EEE9;
+  font-family: 'Lato', system-ui, sans-serif;
+}
+.faqpg-main { max-width: 820px; margin: 0 auto; padding: 130px 24px 90px; }
+.faqpg-kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  letter-spacing: 0.24em; text-transform: uppercase; color: #D4A843; margin: 0 0 26px;
+}
+.faqpg h1 {
+  margin: 0; font-family: 'Lato', system-ui, sans-serif; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  font-size: clamp(1.9rem, 4.6vw, 3.2rem); line-height: 1.18; color: #F0EEE9;
+}
+.faqpg h1 .metal {
+  font-weight: 300;
+  background: linear-gradient(100deg, #6E5722, #B8964F 22%, #F6E7B5 38%, #D4A843 52%, #EDD9A0 72%, #6E5722);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: faq-sheen 8s linear infinite;
+}
+@keyframes faq-sheen { to { background-position: 220% 0; } }
+.faqpg-sub { max-width: 56ch; font-weight: 300; line-height: 1.65; margin: 20px 0 0; }
+
+.faqt { margin-top: 44px; }
+.faqt-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+.faqt-chips button {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 8px 15px; border-radius: 999px; cursor: pointer;
+  background: transparent; color: rgba(240,238,233,0.75);
+  border: 1px solid rgba(240,238,233,0.24); transition: all 0.24s ease;
+}
+.faqt-chips button:hover { border-color: #D4A843; color: #F0EEE9; }
+.faqt-chips button.on { background: #D4A843; color: #030B1F; border-color: #D4A843; font-weight: 500; }
+
+.faqt-list { display: flex; flex-direction: column; gap: 10px; }
+.faqt-card {
+  border: 1px solid rgba(240,238,233,0.12); border-radius: 18px;
+  background: rgba(240,238,233,0.03); overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.faqt-card.open { border-color: rgba(212,168,67,0.55); background: rgba(212,168,67,0.05); }
+.faqt-card:hover:not(.open) { border-color: rgba(240,238,233,0.28); }
+.faqt-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 18px 22px; cursor: pointer; text-align: left;
+  background: none; border: 0; color: #F0EEE9;
+  font: 700 1rem 'Lato', sans-serif;
+}
+.faqt-card.open .faqt-q {
+  background: linear-gradient(100deg, #B8964F 0%, #F6E7B5 34%, #D4A843 52%, #EDD9A0 72%, #C9A245 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.faqt-card.open .faqt-q i { -webkit-text-fill-color: #D4A843; }
+.faqt-q i {
+  font-style: normal; font-weight: 300; font-size: 1.3rem; color: rgba(240,238,233,0.6);
+  flex: 0 0 auto;
+}
+.faqt-a { padding: 0 22px 18px; }
+.faqt-a p { margin: 0; font-weight: 300; font-size: 0.93rem; line-height: 1.75; color: #F0EEE9; max-width: 64ch; }
+.faqt-a-row { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+.faqt-copy {
+  cursor: pointer; border-radius: 999px; padding: 8px 16px;
+  font: 700 0.72rem 'Lato', sans-serif;
+  background: transparent; color: #D4A843; border: 1px solid rgba(212,168,67,0.5);
+  transition: all 0.24s ease;
+}
+.faqt-copy:hover { background: rgba(212,168,67,0.12); }
+.faqt-cat {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,238,233,0.45);
+}
+
+.faqpg-cta {
+  margin-top: 54px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  border-top: 1px solid rgba(240,238,233,0.1); padding-top: 34px;
+}
+.faqpg-cta a {
+  text-decoration: none; border-radius: 999px; padding: 14px 26px;
+  font: 700 0.88rem 'Lato', sans-serif;
+}
+.faqpg-cta .solid { background: #F0EEE9; color: #030B1F; }
+.faqpg-cta .ghost { color: #F0EEE9; border: 1px solid rgba(240,238,233,0.3); }
+
+@media (max-width: 640px) { .faqpg-main { padding: 100px 16px 70px; } }

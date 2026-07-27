@@ -214,19 +214,28 @@
 }
 .cine .ghost.right { right: 4vw; } .cine .ghost.left { left: 4vw; }
 
+/* Two panels in one section were two flex children competing with the copy
+   column for the same row, so both collapsed. A stack takes one slot. */
+.cine .panel-stack { flex: 1; max-width: 500px; display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.cine .panel-stack > .panel { max-width: 100%; }
+
 /* ── GLASS PANELS ── */
 .cine .panel {
-  flex: 1; max-width: 500px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  flex: 1; max-width: 500px; min-width: 0;
+  /* Was 0.55 alpha. The sculpture is a fixed full-screen canvas, so at wide
+     widths it lands directly behind a panel and read straight through it —
+     the panel content was genuinely unreadable. Glass, but glass you can
+     read through only in one direction. */
+  background: rgba(253, 251, 247, 0.93);
+  backdrop-filter: blur(28px) saturate(1.1);
+  -webkit-backdrop-filter: blur(28px) saturate(1.1);
   border-radius: 28px;
   padding: 36px;
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow:
-    0 1px 2px rgba(0,0,0,0.02),
-    0 8px 32px rgba(0,0,0,0.04),
-    inset 0 1px 0 rgba(255,255,255,0.8);
+    0 1px 2px rgba(0,0,0,0.03),
+    0 12px 44px rgba(0,0,0,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.9);
   transition: all 0.5s var(--ease-out);
   position: relative;
   overflow: hidden;
@@ -469,10 +478,24 @@
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
+/* Stack at 1080, not 900. The copy column is a hard 440px that will not shrink
+   and the gap is 100px, so between 900 and ~1140 the panel was squeezed to a
+   couple of hundred pixels and its text wrapped one word per line. A windowed
+   browser sits right in that band. */
+@media (max-width: 1080px) {
   .cine .content > .section, .cine .content > .section:nth-child(even) { flex-direction: column !important; padding: 80px 24px; gap: 48px; }
   .cine .editorial, .cine .timeline, .cine .obj-label { display: none; }
-  .cine .panel { max-width: 100%; }
+  .cine .panel, .cine .panel-stack { max-width: 100%; }
+  .cine .section-copy { max-width: 100%; }
+  /* Stacked, the copy runs full width and the sculpture ends up behind the
+     words. Fading the canvas fixed that and killed the sculpture with it —
+     it went grey and washed. So the canvas keeps its full strength and the
+     copy gets its own paper instead. */
+  .cine .section-copy {
+    position: relative; z-index: 1;
+    background: linear-gradient(to right, var(--paper) 0%, var(--paper) 72%, rgba(253,251,247,0) 100%);
+    padding: 4px 0;
+  }
   .cine .hero { padding: 140px 24px 10vh; }
   .cine .stats-strip { flex-direction: column; align-items: flex-start; gap: 48px; padding: 12vh 24px; }
 }
@@ -992,3 +1015,289 @@
 @media (max-width: 620px) {
   .cine .hero { padding: 76px 20px 48px; }
 }
+
+/* ══ THE FINALE, ON THE DARK ═══════════════════════════════════════════════
+   The last keyframe brings the assembly centre-stage and near-black, so ink on
+   paper stops working here. Rather than fade the sculpture — which is what made
+   the whole page look washed — the words move to the other side of the
+   contrast: light type, a soft radial scrim to sit them on, and a paper button
+   that reads against chrome.
+   ══════════════════════════════════════════════════════════════════════════ */
+.cine .finale::before {
+  content: ''; position: absolute; inset: -6% -4%; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse 78% 62% at 34% 50%,
+    rgba(8,13,26,0.62) 0%, rgba(8,13,26,0.34) 46%, rgba(8,13,26,0) 78%);
+}
+.cine .finale h2 { color: var(--paper); text-shadow: 0 2px 30px rgba(8,13,26,0.5); }
+.cine .finale h2 .accent { color: var(--brass); }
+.cine .finale .btn-solid {
+  background: var(--paper); color: var(--navy); border-color: var(--paper);
+  box-shadow: 0 6px 22px rgba(8,13,26,0.34);
+}
+.cine .finale .btn-glass {
+  color: var(--paper); border-color: rgba(253,251,247,0.42);
+  background: rgba(253,251,247,0.06);
+}
+.cine .finale .btn-glass:hover { background: rgba(253,251,247,0.14); }
+
+/* The hero headline sits on the sculpture at every width — it was legible on a
+   1990px screen and not on a 680px one. A left-weighted paper wash gives the
+   words a surface without touching the canvas, which is what dimming did. */
+.cine .hero::before {
+  content: ''; position: absolute; inset: 0 auto 0 0; width: min(112%, 1180px);
+  z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg,
+    var(--paper) 0%, rgba(253,251,247,0.96) 44%, rgba(253,251,247,0.72) 66%, rgba(253,251,247,0) 100%);
+}
+
+/* ══ INSTRUMENT — the homepage's own skin ═══════════════════════════════════
+   Kate's direction, 2026-07-26, chosen from /lab/directions: near-black navy,
+   Lato caps (700 over 300, both full ink — hierarchy by weight, never grey),
+   gold mono kicker, hairline chrome+gold filament behind. Scoped to
+   .cine.inst so /pricing keeps the paper look until it is ported deliberately.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cine.inst {
+  --paper: #030B1F;
+  --paper-warm: #060B16;
+  --ink: #F0EEE9;
+  --ink-2: #F0EEE9;   /* no grey text — hierarchy comes from weight */
+  --ink-3: #F0EEE9;
+  --brass: #D4A843;   /* the darker brass vanishes on navy */
+  --brass-glow: rgba(212, 168, 67, 0.2);
+}
+
+/* type: Lato caps, weight does the talking. The explicit color matters:
+   globals.css paints every h1–h6 slate (#252D31) via --text-primary, which
+   passed unseen on paper and turned the headline to mud on navy. */
+.cine.inst h1, .cine.inst h2 {
+  font-family: 'Lato', system-ui, sans-serif;
+  font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+  color: var(--ink);
+}
+.cine.inst .hero h1 { font-size: clamp(2rem, 4.4vw, 4.4rem); line-height: 1.22; }
+.cine.inst .hero h1 .accent,
+.cine.inst h2 .accent { color: var(--ink); font-weight: 300; }
+.cine.inst .section-copy h2 { font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.3; }
+.cine.inst .finale h2 {
+  font-size: clamp(2rem, 5vw, 5rem); line-height: 1.18;
+  color: var(--ink); text-shadow: none;
+}
+.cine.inst .finale h2 .accent { color: var(--ink); font-weight: 300; }
+.cine.inst .lede { color: var(--ink); font-weight: 400; }
+
+/* chrome surfaces onto dark glass */
+.cine.inst .nav {
+  background: rgba(3, 11, 31, 0.82);
+  border-bottom: 1px solid rgba(240, 238, 233, 0.08);
+}
+.cine.inst .wordmark { font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 0.04em; }
+.cine.inst .nav-links a:hover { color: var(--brass); }
+.cine.inst .panel {
+  background: rgba(5, 14, 34, 0.88);
+  border: 1px solid rgba(240, 238, 233, 0.1);
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(240, 238, 233, 0.06);
+}
+.cine.inst .btn-solid { background: var(--ink); color: #030B1F; box-shadow: 0 6px 22px rgba(0,0,0,0.4); }
+.cine.inst .btn-glass {
+  background: rgba(240, 238, 233, 0.06); color: var(--ink);
+  border: 1px solid rgba(240, 238, 233, 0.26);
+}
+.cine.inst .btn-glass:hover { background: rgba(240, 238, 233, 0.14); }
+
+/* fixtures that were ink-on-paper */
+.cine.inst .ghost { color: rgba(240, 238, 233, 0.04); }
+.cine.inst .timeline-dot { background: rgba(240, 238, 233, 0.22); }
+.cine.inst .timeline-dot.active { background: var(--brass); }
+.cine.inst .editorial { color: var(--brass); }
+.cine.inst .custom-cursor { border-color: var(--brass); }
+.cine.inst .progress-hairline { background: var(--brass); }
+
+/* the finale's radial scrim was tuned for paper; on navy it just deepens */
+.cine.inst .finale .btn-solid { background: var(--ink); color: #030B1F; }
+.cine.inst .finale .btn-glass { color: var(--ink); border-color: rgba(240,238,233,0.32); }
+
+/* the live-demo input */
+.cine.inst input, .cine.inst textarea {
+  background: rgba(240, 238, 233, 0.05); color: var(--ink);
+  border-color: rgba(240, 238, 233, 0.18);
+}
+.cine.inst input::placeholder, .cine.inst textarea::placeholder { color: rgba(240, 238, 233, 0.45); }
+
+/* Instrument: surfaces that carried hardcoded paper values */
+.cine.inst .hero::before {
+  background: linear-gradient(100deg,
+    var(--paper) 0%, rgba(3,11,31,0.96) 44%, rgba(3,11,31,0.72) 66%, rgba(3,11,31,0) 100%);
+}
+.cine.inst .section-copy {
+  background: linear-gradient(to right, var(--paper) 0%, var(--paper) 72%, rgba(3,11,31,0) 100%);
+}
+.cine.inst .bp-invite {
+  border: 1px solid rgba(212, 168, 67, 0.36);
+  background: linear-gradient(140deg, rgba(8, 13, 26, 0.92), rgba(3, 11, 31, 0.84));
+  box-shadow: 0 26px 60px -32px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(240, 238, 233, 0.07) inset;
+}
+.cine.inst .nav-cta { background: var(--ink); color: #030B1F; }
+
+/* Instrument: the paper glows. On paper these text-shadows kept ink readable
+   over the object; on navy a white halo around light type reads as dark
+   letters punched out of a blob. Depth now comes from a navy shadow. */
+.cine.inst .hero h1,
+.cine.inst h2,
+.cine.inst .lede,
+.cine.inst .section-copy p {
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* ══ METAL TYPE ═════════════════════════════════════════════════════════════
+   Kate: "the font needs to have some actual gold metal chrome in there (is
+   this even possible) to match the knot on some headers". It is: a metallic
+   gradient clipped to the glyphs, with a slow sheen sweeping through, so the
+   accent line reads as the same material as the object behind it. Reserved
+   for the accent line of display headers only — body text stays ink. */
+.cine.inst h1 .accent,
+.cine.inst .section-copy h2 .accent,
+.cine.inst .finale h2 .accent {
+  font-weight: 300;
+  background: linear-gradient(
+    100deg,
+    #6E5722 0%, #B8964F 18%, #F6E7B5 32%, #D4A843 44%,
+    #8A6A2E 55%, #EDD9A0 68%, #FFF7D6 74%, #C9A245 86%, #6E5722 100%
+  );
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: inst-sheen 7.5s linear infinite;
+}
+@keyframes inst-sheen {
+  from { background-position: 0% 0; }
+  to { background-position: 240% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cine.inst h1 .accent, .cine.inst .section-copy h2 .accent, .cine.inst .finale h2 .accent {
+    animation: none;
+  }
+}
+@supports not (-webkit-background-clip: text) {
+  .cine.inst h1 .accent, .cine.inst .section-copy h2 .accent, .cine.inst .finale h2 .accent {
+    background: none; color: var(--ink); -webkit-text-fill-color: currentColor;
+  }
+}
+
+/* ── Instrument footer — the paper page's hairlines vanished on navy ── */
+.cine.inst footer { border-top: 1px solid rgba(240, 238, 233, 0.08); color: var(--ink); }
+.cine.inst footer .foot-links a { color: var(--ink); border-bottom-color: rgba(240, 238, 233, 0.22); }
+.cine.inst footer .foot-links a:hover { color: var(--brass); border-bottom-color: var(--brass); }
+
+/* ══ THE SHOWROOM ═══════════════════════════════════════════════════════════
+   A 460vh corridor with a sticky viewport: the outer div provides the scroll
+   distance, the inner one stays put while the camera rides its path. */
+.cine .shrm { position: relative; height: 460vh; }
+.cine .shrm-stick { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.cine .shrm-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.cine .shrm-head { position: absolute; top: 92px; left: 48px; z-index: 2; max-width: 440px; }
+.cine .shrm-head h2 { font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.3; }
+/* the gallery is a white room inside a navy site — its overlay text is ink */
+.cine.inst .shrm-light .shrm-head h2 { color: #1B1A17; text-shadow: none; }
+.cine.inst .shrm-light .shrm-head h2 .accent {
+  background: linear-gradient(100deg, #8A6A2E 0%, #D4A843 40%, #F6E7B5 55%, #B8964F 80%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  font-weight: 300;
+}
+.cine .shrm-sub {
+  margin-top: 12px; font-family: 'Lato', sans-serif; font-weight: 400;
+  font-size: 0.86rem; color: #1B1A17;
+}
+.cine .shrm-count {
+  position: absolute; top: 96px; right: 48px; z-index: 2;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 2rem; color: #1B1A17;
+  background: rgba(251,248,241,0.85); border: 1.5px solid rgba(184,150,79,0.6);
+  border-radius: 20px; padding: 12px 22px; backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px -14px rgba(27,26,23,0.3);
+}
+.cine .shrm-count span {
+  display: block; font-family: 'IBM Plex Mono', monospace; font-weight: 400;
+  font-size: 0.52rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(27,26,23,0.6); margin-top: 2px;
+}
+.cine .shrm-hint {
+  position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 2;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.22em; text-transform: uppercase; color: rgba(27,26,23,0.55);
+  animation: shrm-hint 2.6s ease-in-out infinite;
+}
+@keyframes shrm-hint { 0%,100% { transform: translate(-50%,0); } 50% { transform: translate(-50%,6px); } }
+.cine .shrm-door {
+  position: absolute; bottom: 64px; right: 48px; z-index: 2;
+  display: inline-flex; align-items: center;
+  padding: 15px 30px; border-radius: 999px; text-decoration: none;
+  font-family: 'Lato', sans-serif; font-size: 0.88rem; font-weight: 700;
+  background: #1B1A17; color: #FBF8F1;
+  box-shadow: 0 14px 34px -14px rgba(27,26,23,0.55);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.cine .shrm-door:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(27,26,23,0.6); }
+/* dragging happens on the canvas — let it take the pointer */
+.cine .shrm-canvas { pointer-events: auto; touch-action: none; cursor: grab; }
+.cine .shrm-canvas:active { cursor: grabbing; }
+@media (max-width: 720px) {
+  .cine .shrm { height: 380vh; }
+  .cine .shrm-head { left: 22px; top: 84px; }
+  .cine .shrm-door { right: 22px; bottom: 84px; }
+}
+
+/* ══ IN PLAIN WORDS — the crawlable Q&A above the footer ══ */
+.cine .faq { padding: 110px 48px 70px; max-width: 880px; margin: 0 auto; }
+.cine .faq-kick { margin-bottom: 34px; }
+.cine .faq dl { margin: 0; }
+.cine .faq-item { margin-bottom: 34px; }
+.cine .faq dt {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 1.02rem;
+  letter-spacing: 0.01em; margin-bottom: 10px; color: var(--ink);
+}
+.cine .faq dd {
+  margin: 0; font-weight: 300; font-size: 0.92rem; line-height: 1.75; color: var(--ink);
+  max-width: 72ch;
+}
+@media (max-width: 720px) { .cine .faq { padding: 80px 22px 60px; } }
+
+/* the locked phrase, in the header itself */
+.cine .nav-tag {
+  display: inline-block; margin-left: 14px; padding-left: 14px;
+  border-left: 1px solid rgba(240, 238, 233, 0.22);
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brass); vertical-align: middle; transform: translateY(-1px);
+}
+@media (max-width: 860px) { .cine .nav-tag { display: none; } }
+
+/* ══ THE WORDS, AS THE PRODUCT ══════════════════════════════════════════════
+   Kate: "the text in the site that explains everything is actually gold. it IS
+   the assembl product and i need this to be displayed accordingly." So the
+   plain-words block stops being a footnote: gold-framed, the questions set in
+   the metal, room to breathe. */
+.cine.inst .faq {
+  max-width: 940px; padding: 120px 48px 90px;
+}
+.cine.inst .faq dl {
+  border: 1px solid rgba(212, 168, 67, 0.38);
+  border-radius: 26px;
+  padding: 46px 48px 22px;
+  background: linear-gradient(160deg, rgba(212,168,67,0.05), rgba(3,11,31,0.35) 55%);
+  box-shadow: 0 24px 70px -40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(240,238,233,0.05);
+}
+.cine.inst .faq dt {
+  font-size: clamp(1.12rem, 1.7vw, 1.5rem); font-weight: 700;
+  letter-spacing: 0.015em; text-transform: none;
+  background: linear-gradient(100deg, #B8964F 0%, #F6E7B5 34%, #D4A843 52%, #EDD9A0 72%, #C9A245 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@supports not (-webkit-background-clip: text) {
+  .cine.inst .faq dt { background: none; color: var(--brass); -webkit-text-fill-color: currentColor; }
+}
+.cine.inst .faq dd { font-size: 0.98rem; line-height: 1.85; }
+.cine.inst .faq-item { margin-bottom: 40px; }
+@media (max-width: 720px) { .cine.inst .faq dl { padding: 30px 24px 10px; } }

@@ -63,8 +63,18 @@ export function organizationNode(): Json {
     },
     image: OG_IMAGE,
     description:
-      'assembl builds Living Sites for New Zealand businesses: one connected website, customer desk, Business Genome and set of approval-led workflows. Drafts remain reviewable and people retain control of bookings, sends, publishing and commercial commitments.',
+      'assembl is a New Zealand agentic customer experience (agentic CX) company. It designs and runs agentic customer journeys: teams of specialist AI agents inside a business that read the signals its systems already hold, prepare the next step for every customer from first enquiry to the tenth year, and draft rather than act — a named person approves anything that reaches a customer or commits money. assembl also builds rewarded wait states, where customers watch the work happen, earn a credit toward what they are buying, and answer one optional question back.',
     slogan: 'Mahi that earns its proof.',
+    knowsAbout: [
+      'agentic customer journeys',
+      'agentic CX',
+      'agentic customer experience',
+      'AI agents for business',
+      'customer journey automation',
+      'rewarded wait states',
+      'human-approved AI workflows',
+      'AI adoption for New Zealand businesses',
+    ],
     foundingLocation: {
       '@type': 'Place',
       name: 'Aotearoa New Zealand',
@@ -96,7 +106,7 @@ export function dashOrganizationNode(): Json {
     url: `${SITE_URL}/dash`,
     slogan: 'Get paid for the wait.',
     description:
-      'dash is the sibling brand to assembl — a rewards and attention layer that pays people for the time they spend waiting, and funds charity through ethical, NZ-first ad fill.',
+      'dash is the sibling brand to assembl — the rewarded wait state layer. While agents work, the customer watches the work happen and earns a credit toward what they are already buying.',
     parentOrganization: { '@id': ORG_ID },
   };
 }
@@ -127,18 +137,18 @@ export function websiteNode(): Json {
 }
 
 /**
- * The Living Site product, with only the public offers assembl currently makes.
+ * The product node, with only the public offers assembl currently makes.
  */
 export function softwareApplicationNode(): Json {
   const paid = PRICE_TIERS.filter((t) => t.price > 0).map((t) => t.price);
   return {
     '@type': 'SoftwareApplication',
     '@id': SOFTWARE_ID,
-    name: 'assembl Living Site',
+    name: 'assembl — agentic customer journeys',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: `${SITE_URL}/living-site`,
-    description: 'A connected business workspace that brings a public website, booking requests, customer records, Business Genome, voice and chat desk, proposals, invoices and draft marketing tools into one approval-led system.',
+    url: `${SITE_URL}/build-an-agent`,
+    description: 'Agentic customer journeys for New Zealand businesses: specialist AI agents with one job each and a written limit, drafting every step of the customer relationship for a named person to approve — plus rewarded wait states that give the customer a credit while the work happens.',
     publisher: { '@id': ORG_ID },
     offers: {
       '@type': 'AggregateOffer',

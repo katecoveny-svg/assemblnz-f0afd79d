@@ -1,3 +1,18 @@
+/**
+ * PARKED — not mounted anywhere. 2026-07-26.
+ *
+ * This was a flat, click-to-place version of the assembler on the homepage.
+ * Kate's call: the part-picking belongs in a real 3D module, and it does not
+ * belong on the homepage at all — it is a builder tool, and virality lives
+ * there. The genuine 3D one already exists at /build-an-agent
+ * (components/build-an-agent/BuilderScene.tsx, useDrag3D, parts/*), so this
+ * was a weaker duplicate of a shipped feature.
+ *
+ * Kept only because the part list, the authority levels and the blueprint
+ * hand-off below are worth lifting into a compact embed later. Delete it if
+ * that never happens — do not re-mount it on the homepage.
+ */
+
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';

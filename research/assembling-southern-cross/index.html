@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Southern Cross Health Society · the member journey layer · an independent concept by assembl</title>
+<meta name="description" content="An independent concept prepared for Southern Cross Health Society. Not affiliated with or endorsed by Southern Cross.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0C0E; --ink-2:#101317; --paper:#FFFFFF; --muted:#8B939C; --muted-2:#69717A;
+  --line:rgba(255,255,255,.13); --line-2:rgba(255,255,255,.07);
+  --sx:#009ADE; --sx-2:#FC6014; --sx-soft:rgba(0,154,222,.13);
+  --champ:#BFA37A; --care:#5FCBA6;
+  --sans:"Lato",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid var(--sx);outline-offset:3px;border-radius:6px}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+.narrow{max-width:730px}
+#scene{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 120% 70% at 50% 42%,transparent 0%,rgba(10,12,14,.34) 55%,rgba(10,12,14,.88) 100%)}
+.veil::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(10,12,14,.95) 0%,rgba(10,12,14,.88) 34%,rgba(10,12,14,.34) 58%,transparent 78%)}
+@media(max-width:820px){.veil::after{background:linear-gradient(180deg,rgba(10,12,14,.82) 0%,rgba(10,12,14,.93) 100%)}}
+main{position:relative;z-index:2}
+.topbar{position:sticky;top:0;z-index:60;background:rgba(10,12,14,.84);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-2)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:18px}
+.mark{display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;white-space:nowrap}
+.mark .dot{width:10px;height:10px;border-radius:50%;background:var(--champ);box-shadow:0 0 14px rgba(191,163,122,.7)}
+.mark small{color:var(--muted-2);font-weight:400}
+.navlinks{display:flex;gap:23px;flex:1;justify-content:center}
+.navlinks a{font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s}
+.navlinks a:hover{color:var(--sx)}
+@media(max-width:1020px){.navlinks{display:none}}
+.askbtn{background:var(--paper);color:var(--ink);font-size:13px;font-weight:700;padding:10px 20px;border-radius:999px;display:flex;gap:9px;align-items:center;white-space:nowrap}
+.askbtn .d{width:6px;height:6px;border-radius:50%;background:var(--sx);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.signed{background:var(--ink-2);border-bottom:1px solid var(--line-2);position:relative;z-index:59}
+.signed .wrap{padding:11px 26px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.signed .k{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--sx);font-weight:700}
+.signed .v{font-size:13px;color:var(--muted)}
+.signed .v b{color:var(--paper);font-weight:700}
+section{padding:100px 0;position:relative}
+.eyebrow{font-size:10.5px;font-weight:900;letter-spacing:.26em;text-transform:uppercase;color:var(--sx);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--sx);opacity:.6}
+h1{font-weight:900;font-size:clamp(42px,7vw,86px);line-height:.99;letter-spacing:-.032em}
+h2{font-weight:900;font-size:clamp(30px,4.5vw,52px);line-height:1.04;letter-spacing:-.024em}
+h3{font-weight:700;font-size:clamp(19px,2.3vw,26px);line-height:1.18;letter-spacing:-.012em}
+.lede{color:#C3C9CF;font-size:clamp(17px,2.05vw,21px);line-height:1.55;margin-top:24px;max-width:52ch;font-weight:300}
+.kicker{color:var(--muted);font-size:16px;margin-top:16px;max-width:64ch;font-weight:300}
+em.g{font-style:normal;color:var(--sx)}
+.num{font-size:10.5px;letter-spacing:.24em;color:var(--muted-2);font-weight:700;margin-bottom:14px}
+.hero{min-height:clamp(560px,88vh,880px);display:flex;align-items:center;padding:70px 0 80px}
+.btns{display:flex;gap:13px;margin-top:38px;flex-wrap:wrap}
+.btn{padding:15px 28px;border-radius:999px;font-size:14.5px;font-weight:700;display:inline-flex;gap:10px;align-items:center;text-decoration:none;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:var(--paper);color:var(--ink)}
+.btn.solid .arw{color:var(--sx)}
+.btn.ghost{border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--sx);color:var(--sx)}
+.trust{margin-top:34px;padding-left:18px;border-left:1px solid var(--line);max-width:50ch}
+.trust p{font-size:13px;color:var(--muted-2);font-weight:300;line-height:1.55}
+.glass{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:20px;padding:30px;backdrop-filter:blur(10px)}
+.glass.tight{padding:22px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.stack{display:flex;flex-direction:column;gap:12px;margin-top:34px}
+.tier{border:1px solid var(--line);border-radius:18px;padding:24px 26px}
+.tier .tl{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:11px}
+.tier h4{font-size:19px;font-weight:700;margin-bottom:8px}
+.tier p{font-size:14.5px;color:var(--muted);font-weight:300;line-height:1.55}
+.tier .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
+.tier .chips span{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:var(--muted-2);white-space:nowrap}
+.tier.theirs{background:rgba(255,255,255,.02)}.tier.theirs .tl{color:var(--muted-2)}
+.tier.ours{background:var(--sx-soft);border-color:var(--sx)}.tier.ours .tl{color:var(--sx)}
+.tier.surface{background:rgba(255,255,255,.035)}.tier.surface .tl{color:var(--care)}
+.tierjoin{text-align:center;color:var(--muted-2);font-size:16px;line-height:1}
+.jbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.jbtn{border:1px solid var(--line);border-radius:999px;padding:11px 20px;font-size:13.5px;font-weight:700;color:var(--muted);transition:.22s}
+.jbtn:hover{border-color:var(--sx);color:var(--paper)}
+.jbtn.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.jmeta{font-size:13px;color:var(--muted-2);font-weight:300;margin-bottom:26px}
+.jmeta b{color:var(--sx);font-weight:700}
+.jrail{position:relative;padding-left:34px}
+.jrail::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:1px;background:var(--line)}
+.jrail .fill{position:absolute;left:11px;top:6px;width:1px;background:var(--sx);height:0;transition:height 1.1s ease}
+.jstep{position:relative;padding:0 0 26px;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.jstep.in{opacity:1;transform:none}
+.jstep .dot{position:absolute;left:-29px;top:4px;width:23px;height:23px;border-radius:50%;border:1px solid var(--line);background:var(--ink);display:grid;place-items:center;font-size:10.5px;font-weight:700;color:var(--muted-2);transition:.3s}
+.jstep.in .dot{border-color:var(--sx);color:var(--sx)}
+.jstep.hold .dot{border-color:#E2756B;color:#E2756B}
+.jstep h4{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.jstep .src{font-size:11.5px;color:var(--muted-2);margin-top:5px}
+.jstep .src b{color:var(--care);font-weight:400}
+.jstep .did{font-size:14.5px;color:#CFD5DB;font-weight:300;line-height:1.55;margin-top:9px}
+.jstep .ok{font-size:11.5px;margin-top:9px;display:inline-flex;gap:7px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--muted)}
+.jstep.hold .ok{border-color:rgba(226,117,107,.5);color:#E2756B}
+.jstep .ok .p{width:5px;height:5px;border-radius:50%;background:var(--sx)}
+.jstep.hold .ok .p{background:#E2756B}
+.camp{margin-top:36px}
+.cnav{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:26px}
+@media(max-width:900px){.cnav{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.cnav{grid-template-columns:repeat(2,1fr)}}
+.cbtn{border:1px solid var(--line);border-radius:14px;padding:15px 12px;text-align:left;transition:.22s}
+.cbtn:hover{border-color:var(--sx)}
+.cbtn.on{background:var(--sx-soft);border-color:var(--sx)}
+.cbtn .cn{font-size:10px;letter-spacing:.18em;color:var(--muted-2);font-weight:700}
+.cbtn.on .cn{color:var(--sx)}
+.cbtn .ct{font-size:14px;font-weight:700;margin-top:6px;line-height:1.2}
+.cpanel{border:1px solid var(--line);border-radius:20px;padding:32px;background:rgba(255,255,255,.035)}
+.cpanel .ch{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--sx);font-weight:700;margin-bottom:12px}
+.cpanel h3{margin-bottom:14px}
+.cpanel .lead{font-size:16px;color:#CFD5DB;font-weight:300;line-height:1.6;max-width:64ch}
+.cwork{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px}
+@media(max-width:820px){.cwork{grid-template-columns:1fr}}
+.cbox{border:1px solid var(--line-2);border-radius:14px;padding:20px;background:rgba(255,255,255,.028)}
+.cbox .bh{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);font-weight:700;margin-bottom:12px}
+.cbox ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.cbox li{font-size:14px;color:#C3C9CF;font-weight:300;line-height:1.5;padding-left:17px;position:relative}
+.cbox li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--sx);opacity:.7}
+.cbox.hold li::before{background:#E2756B}
+.cbox.hold .bh{color:#E2756B}
+.cnote{margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);font-size:13.5px;color:var(--muted);font-weight:300;line-height:1.6}
+.cnote b{color:var(--paper);font-weight:700}
+.appwrap{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center;margin-top:38px}
+.appcopy{flex:1 1 320px;max-width:460px}
+.device{flex:0 0 auto;width:326px;max-width:88vw;background:#05070A;border-radius:44px;padding:10px;box-shadow:0 40px 90px -30px rgba(0,0,0,.9);border:1px solid var(--line)}
+.screen{background:#0E1216;border-radius:35px;overflow:hidden;min-height:590px;display:flex;flex-direction:column}
+.sbar{display:flex;justify-content:space-between;padding:14px 22px 8px;font-size:12px;color:var(--muted);font-weight:500}
+.ahead{padding:14px 20px 0;display:flex;justify-content:space-between;align-items:center}
+.ahead h4{font-size:17px;font-weight:700}
+.ahead .pill{background:var(--sx-soft);color:var(--sx);font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px}
+.abody{padding:18px 20px 22px;flex:1}
+.acard{border:1px solid var(--line-2);border-radius:14px;padding:15px 16px;margin-bottom:10px;background:rgba(255,255,255,.03)}
+.acard .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);font-weight:700}
+.acard .v{font-size:15px;font-weight:700;margin-top:5px}
+.acard .s{font-size:12.5px;color:var(--muted);font-weight:300;margin-top:4px;line-height:1.45}
+.acard.notice{border-color:var(--sx);background:var(--sx-soft)}
+.acard.notice .k{color:var(--sx)}
+.arow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acta{width:100%;background:var(--paper);color:var(--ink);border-radius:14px;padding:15px;font-size:14px;font-weight:700;margin-top:6px;display:flex;justify-content:space-between;align-items:center}
+.acta .arw{color:var(--sx)}
+.afoot{font-size:10.5px;color:var(--muted-2);text-align:center;padding:0 20px 16px;line-height:1.5}
+.check{border:1px solid var(--line);border-radius:14px;padding:17px 19px;margin-top:11px;display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.028)}
+.check .ic{width:24px;height:24px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}
+.check.pass .ic{background:rgba(0,154,222,.18);color:var(--sx)}
+.check.block .ic{background:rgba(226,117,107,.16);color:#E2756B}
+.check .t{font-size:14.5px;font-weight:700;line-height:1.35}
+.check .d{font-size:13px;color:var(--muted);margin-top:5px;font-weight:300;line-height:1.5}
+.check .law{font-size:11px;color:var(--muted-2);margin-top:7px}
+.ops{width:100%;border-collapse:collapse}
+.ops th{text-align:left;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);font-weight:700;padding:0 12px 13px 0;border-bottom:1px solid var(--line)}
+.ops td{padding:15px 12px 15px 0;border-bottom:1px solid var(--line-2);font-size:14px;font-weight:300;color:#C3C9CF;vertical-align:top}
+.ops td b{font-weight:700;color:var(--paper)}
+.ops .st{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px;white-space:nowrap;display:inline-block}
+.ops .st.wait{background:rgba(0,154,222,.16);color:var(--sx)}
+.ops .st.ok{background:rgba(255,255,255,.08);color:var(--muted)}
+.ops .st.hot{background:rgba(226,117,107,.14);color:#E2756B}
+@media(max-width:760px){.ops thead{display:none}.ops td{display:block;padding:6px 0;border:none}.ops tr{display:block;padding:16px 0;border-bottom:1px solid var(--line-2)}}
+.receipt{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:28px;font-size:13.5px}
+.receipt .rh{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--sx);font-weight:700;margin-bottom:18px}
+.receipt dl{display:grid;grid-template-columns:auto 1fr;gap:11px 22px}
+.receipt dt{color:var(--muted-2);font-size:12px}
+.receipt dd{color:#D7DCE1;font-weight:300;word-break:break-word}
+.receipt .hash{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--sx)}
+.boundary{border:1px solid var(--sx);border-radius:20px;padding:34px;background:var(--sx-soft)}
+.pilot .step{display:flex;gap:18px;padding:17px 0;border-bottom:1px solid var(--line-2)}
+.pilot .step:last-child{border-bottom:none}
+.pilot .n{flex:0 0 auto;width:27px;height:27px;border-radius:50%;border:1px solid var(--sx);color:var(--sx);font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.pilot .step h4{font-size:15.5px;font-weight:700;margin-bottom:5px}
+.pilot .step p{font-size:14px;color:var(--muted);font-weight:300;line-height:1.55}
+.verbs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.verbs{grid-template-columns:1fr}}
+.verb{border:1px solid var(--line);border-radius:16px;padding:22px;text-decoration:none;display:block;transition:.22s}
+.verb:hover{border-color:var(--sx);background:rgba(0,154,222,.06);transform:translateY(-2px)}
+.verb .w{font-size:17px;font-weight:900;color:var(--sx)}
+.verb .s{font-size:13px;color:var(--muted);margin-top:7px;font-weight:300;line-height:1.5}
+.unfin input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-size:15px;color:var(--paper);font-family:inherit;font-weight:300}
+.unfin input::placeholder{color:var(--muted-2)}
+.unfin .row{display:flex;gap:11px;margin-top:13px;flex-wrap:wrap}
+.agentbtn{position:fixed;right:22px;bottom:22px;z-index:80;background:var(--paper);color:var(--ink);border-radius:999px;padding:15px 24px;font-weight:700;font-size:14.5px;box-shadow:0 18px 46px -14px rgba(0,0,0,.75);display:flex;gap:10px;align-items:center}
+.agentbtn .d{width:7px;height:7px;border-radius:50%;background:var(--sx);animation:pulse 2.4s infinite}
+.chat{position:fixed;right:22px;bottom:22px;z-index:90;width:410px;max-width:calc(100vw - 24px);height:620px;max-height:calc(100vh - 24px);background:var(--ink-2);border:1px solid var(--line);border-radius:22px;box-shadow:0 34px 90px -22px rgba(0,0,0,.85);display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chathead{padding:18px 20px;border-bottom:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center}
+.chathead .t{font-weight:700;font-size:14.5px;display:flex;gap:10px;align-items:center}
+.chathead .t .d{width:7px;height:7px;border-radius:50%;background:var(--sx)}
+.chathead .t small{color:var(--muted-2);font-weight:400;font-size:11.5px}
+.chathead .x{color:var(--muted);font-size:22px;padding:2px 8px;line-height:1}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:13px}
+.msg{max-width:88%;padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.55;font-weight:300}
+.msg.a{background:rgba(255,255,255,.06);border:1px solid var(--line-2);align-self:flex-start;border-bottom-left-radius:5px}
+.msg.u{background:var(--paper);color:var(--ink);align-self:flex-end;border-bottom-right-radius:5px;font-weight:400}
+.sugg{display:flex;flex-wrap:wrap;gap:7px;padding:0 20px 12px}
+.sugg button{border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:12px;color:var(--muted)}
+.sugg button:hover{border-color:var(--sx);color:var(--sx)}
+.chatin{border-top:1px solid var(--line-2);padding:14px;display:flex;gap:10px}
+.chatin input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14.5px;color:var(--paper);font-family:inherit;font-weight:300}
+.chatin .send{background:var(--paper);color:var(--ink);border-radius:12px;padding:0 18px;font-weight:700;font-size:14px}
+.agentnote{font-size:11px;color:var(--muted-2);text-align:center;padding:0 20px 12px}
+.typing{align-self:flex-start;color:var(--muted-2);font-size:13px;padding:5px 4px;font-weight:300}
+footer{border-top:1px solid var(--line-2);padding:56px 0 70px;color:var(--muted-2);font-size:13px;line-height:1.75;font-weight:300;background:var(--ink-2)}
+footer b{color:var(--muted);font-weight:700}
+footer .fin{margin-top:26px;font-size:12px;color:#585F66}
+.rise{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.rise.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rise,.jstep{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<canvas id="scene"></canvas><div class="veil"></div>
+
+<nav class="topbar"><div class="wrap">
+  <div class="mark"><span class="dot"></span>assembl <small>· independent concept</small></div>
+  <div class="navlinks">
+    <a href="#layer">The layer</a><a href="#journey">The journey</a><a href="#remediation">Remediation</a>
+    <a href="#app">In the app</a><a href="#guard">The guard</a><a href="#pilot">The pilot</a>
+  </div>
+  <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
+</div></nav>
+
+<div class="signed"><div class="wrap">
+  <span class="k">Prepared for</span>
+  <span class="v" id="signedFor"><b>Customer Engagement — Remediation</b> · Southern Cross Health Society</span>
+</div></div>
+
+<main>
+
+<header class="hero"><div class="wrap"><div class="narrow">
+  <div class="eyebrow rise">A member journey layer · a concept</div>
+  <h1 class="rise">951,000 members.<br>Every one of them<br><em class="g">a different Tuesday.</em></h1>
+  <p class="lede rise">A layer that sits over the systems you already run, joins what a member's record knows across all of them, and prepares the next thing they need to hear — in the app, in a letter, or from the person who picks up the phone. It never sends. It never decides a claim.</p>
+  <div class="btns rise">
+    <a class="btn solid" href="#remediation">See a remediation, made properly <span class="arw">→</span></a>
+    <button class="btn ghost" onclick="openChat()">Ask it anything</button>
+  </div>
+  <div class="trust rise"><p>Your own numbers: more than 951,000 members as at 30 June 2025, and 94c of every dollar received in premiums paid out in claims in the year to that date. A not-for-profit returning 94c in the dollar has more to lose from a badly handled moment than almost anyone.</p></div>
+</div></div></header>
+
+<section id="layer"><div class="wrap">
+  <div class="num rise">01 — WHERE IT SITS</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Above your systems, never instead of them</div>
+    <h2>The member's record already knows. It has just never been read as one thing.</h2>
+    <p class="lede">Policy, claims, prior approvals, the app, the contact centre, the provider network. Each knows part of a member. None holds the whole picture — and the member experiences all of it as one relationship with you.</p>
+    <p class="kicker">Nothing gets replaced. Nothing gets migrated. No claim is ever assessed, approved or declined by this layer.</p>
+  </div>
+  <div class="stack">
+    <div class="tier surface rise">
+      <div class="tl">Layer 3 · what your people see</div>
+      <h4>One screen, each morning</h4>
+      <p>Today's member moments, what is prepared, what is waiting on a person, and what has been deliberately held back.</p>
+    </div>
+    <div class="tierjoin rise">▲</div>
+    <div class="tier ours rise">
+      <div class="tl">Layer 2 · the layer this concept is about</div>
+      <h4>Specialist agents, each with written limits</h4>
+      <p>Single-job agents that read across the systems and prepare the next thing a member needs. None sends. None assesses a claim.</p>
+      <div class="chips">
+        <span>Journey orchestrator</span><span>Remediation planner</span><span>Prior-approval preparer</span>
+        <span>Claim-status explainer</span><span>Vulnerability guard</span><span>Renewal preparer</span>
+      </div>
+    </div>
+    <div class="tierjoin rise">▲</div>
+    <div class="tier theirs rise">
+      <div class="tl">Layer 1 · your world, untouched</div>
+      <h4>Everything you already run</h4>
+      <p>Read-only, and only the fields a given job needs. Health information is never read in order to write a message.</p>
+      <div class="chips">
+        <span>Policy administration</span><span>Claims</span><span>Prior approvals</span>
+        <span>My Southern Cross app</span><span>Contact centre</span><span>Affiliated provider network</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="journey"><div class="wrap">
+  <div class="num rise">02 — THE JOURNEY ASSEMBLES</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Five moments, five different journeys</div>
+    <h2>Joining is a transaction. A diagnosis is not.</h2>
+    <p class="kicker">A member journey that treats all five of these the same is the reason insurance feels administrative at the exact moment it should not. Choose a moment and watch the journey assemble — the stages change, what it reads changes, and so does who approves.</p>
+  </div>
+  <div style="margin-top:36px" class="rise">
+    <div class="jbar" id="jbar"></div>
+    <div class="jmeta" id="jmeta"></div>
+    <div class="grid2">
+      <div class="glass"><div class="jrail" id="jrail"></div></div>
+      <div class="glass tight">
+        <div class="num" style="margin-bottom:16px">WHAT MAKES THIS DIFFERENT</div>
+        <p class="kicker" style="font-size:14.5px;margin-top:0"><b style="color:var(--paper);font-weight:700">It reads the record, not the health information.</b> Whether a claim is open, whether an approval is pending, whether someone has called three times — that is enough to prepare a message. The diagnosis is not needed and is not read.</p>
+        <p class="kicker" style="font-size:14.5px"><b style="color:var(--paper);font-weight:700">It reaches the member where they already are.</b> The app is the fastest way to tell someone something before an envelope does.</p>
+        <p class="kicker" style="font-size:14.5px"><b style="color:var(--paper);font-weight:700">It knows when to say nothing.</b> Every journey here contains at least one step that is deliberately held.</p>
+        <div class="check pass" style="margin-top:20px"><span class="ic">✓</span>
+          <div><div class="t">No claim is ever decided here</div><div class="d">The layer explains state and prepares words. Assessment, approval and decline stay with your people.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="remediation"><div class="wrap">
+  <div class="num rise">03 — A REMEDIATION, MADE PROPERLY</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Research first · comms second · send last</div>
+    <h2>Most remediation goes wrong before a word is written.</h2>
+    <p class="lede">Your own role description asks for remediation communications delivered with accuracy, empathy and integrity, driving fair, ethical and compliant outcomes under CoFI. That is not a writing brief. It is a research brief with a letter at the end of it.</p>
+    <p class="kicker">Here is the whole campaign, in the order it should actually happen. Click through it.</p>
+  </div>
+  <div class="camp rise">
+    <div class="cnav" id="cnav"></div>
+    <div class="cpanel" id="cpanel"></div>
+  </div>
+</div></section>
+
+<section id="app"><div class="wrap">
+  <div class="num rise">04 — WHERE IT LANDS</div>
+  <div class="appwrap">
+    <div class="appcopy rise">
+      <div class="eyebrow">My Southern Cross</div>
+      <h2 style="font-size:clamp(28px,3.6vw,42px)">Tell them before the envelope does.</h2>
+      <p class="kicker">You already describe the app as a pocket-sized healthcare partner where members check benefit balances, request prior approval and make instant claims. That makes it the single best place to say something difficult first — because it arrives when the member opens it, not on the day the post decides.</p>
+      <p class="kicker">A remediation notice in the app, a day ahead of the letter, does three things a letter alone cannot: it removes the shock of an unexplained envelope, it answers the first question immediately, and it gives them a way to ask the second one.</p>
+      <p class="kicker" style="color:var(--muted-2);font-size:14px">Illustrative screen. Not a Southern Cross design, and no app data was accessed. Only registered policyholders can make claims or request prior approvals.</p>
+    </div>
+    <div class="device rise"><div class="screen">
+      <div class="sbar"><span>9:41</span><span>My Southern Cross</span><span>5G</span></div>
+      <div class="ahead"><h4>Kia ora</h4><span class="pill">Member</span></div>
+      <div class="abody">
+        <div class="acard notice">
+          <div class="k">Something we need to tell you</div>
+          <div class="v">We made an error on one of your claims</div>
+          <div class="s">We have already worked out what you are owed and it is on its way back to you. You do not need to do anything. A letter with the detail arrives tomorrow.</div>
+        </div>
+        <div class="arow">
+          <div class="acard"><div class="k">Benefit balance</div><div class="v">Available</div><div class="s">Current period</div></div>
+          <div class="acard"><div class="k">Prior approval</div><div class="v">1 pending</div><div class="s">Submitted Monday</div></div>
+        </div>
+        <div class="acard"><div class="k">Recent claim</div><div class="v">Being assessed</div><div class="s">We will tell you the moment it changes — you will not need to check back.</div></div>
+        <button class="acta">Talk to someone about this <span class="arw">→</span></button>
+      </div>
+      <div class="afoot">Illustrative concept screen · not a Southern Cross product</div>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="guard"><div class="wrap">
+  <div class="num rise">05 — THE GUARD</div>
+  <div class="grid2">
+    <div class="rise">
+      <div class="eyebrow">Before a person ever reads it</div>
+      <h2>The checks that matter most are the ones that stop a letter being written at all.</h2>
+      <p class="kicker">Remediation is where a well-meaning template does the most damage. These run on every draft in the batch, and the ones that block are the point of the whole thing.</p>
+      <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the batch →</button>
+    </div>
+    <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
+  </div>
+</div></section>
+
+<section id="board"><div class="wrap">
+  <div class="num rise">06 — THIS MORNING</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Nothing on this board has been sent</div>
+    <h2>The batch, before anything goes out.</h2>
+    <p class="kicker">Illustrative cohorts — not Southern Cross data. Cohort sizes are deliberately blank: this concept has no member data and does not estimate how many people anything affects.</p>
+  </div>
+  <div class="glass rise" style="margin-top:32px;overflow-x:auto">
+    <table class="ops">
+      <thead><tr><th>Cohort</th><th>Members</th><th>Prepared</th><th>Waiting on</th><th>Status</th></tr></thead>
+      <tbody id="opsBody"></tbody>
+    </table>
+    <p style="font-size:12.5px;color:var(--muted-2);margin-top:18px;font-weight:300">Every row is a draft waiting for a named person. The layer does not send, approve, assess, or calculate redress.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="num rise">07 — HOW IT WAS MADE</div>
+  <div class="grid2">
+    <div class="rise">
+      <div class="eyebrow">Mana Receipt</div>
+      <h2>Every letter carries its own working.</h2>
+      <p class="kicker">Not a log somebody has to go and find. The provenance travels with the piece of work — which fields it read, which rules it held, who must approve it, and what it refused to do.</p>
+      <p class="kicker">On a remediation, that record is the difference between explaining your process to a regulator and reconstructing it.</p>
+    </div>
+    <div class="rise"><div class="receipt">
+      <div class="rh">Mana Receipt · draft</div>
+      <dl>
+        <dt>Artefact</dt><dd id="rArt">—</dd>
+        <dt>Read</dt><dd id="rRead">—</dd>
+        <dt>Not read</dt><dd>Diagnosis, clinical notes, provider correspondence, or any health information</dd>
+        <dt>Rules held</dt><dd>Conduct of Financial Institutions regime · Fair Trading Act 1986 · Privacy Act 2020 · Health Information Privacy Code 2020</dd>
+        <dt>Refused</dt><dd>No redress amount calculated or stated. No letter drafted for a deceased or flagged-vulnerable member.</dd>
+        <dt>Approver</dt><dd>A named person. Unsent until then.</dd>
+        <dt>Prepared</dt><dd id="rWhen">—</dd>
+        <dt>Reference</dt><dd class="hash" id="rHash">—</dd>
+      </dl>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="pilot"><div class="wrap">
+  <div class="num rise">08 — WHAT WE ARE ACTUALLY ASKING</div>
+  <div class="grid2">
+    <div class="rise"><div class="boundary">
+      <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
+      <h3>What this will never do</h3>
+      <p class="kicker" style="margin-top:14px">It does not send. It drafts, and a named person sends. It never assesses, approves or declines a claim. It never calculates or states a redress amount. It never reads a diagnosis, clinical note or any health information in order to write a message. It does not write back to your systems. It does not pretend to be a person — every message says it was prepared by a machine and approved by a human.</p>
+      <p class="kicker">No production access is requested by this concept.</p>
+    </div></div>
+    <div class="rise"><div class="glass pilot">
+      <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
+      <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>One remediation cohort, research through to a batch ready to send. Six weeks. Not the whole programme, not the contact centre, not the underlying assessment.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h4>Access</h4><p>The remediation scope note, your letter templates, your contact-centre call drivers, and the <em>names</em> of the fields that mark a deceased or vulnerable member. No member records. No health information. No claims data.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Drafts accepted without rewrite. Held cases a person agreed should have been held. Contact-centre calls the letter would have caused. Complaints. One remediation lead's honest answer to “would you put your name on this?”</p></div></div>
+      <p class="kicker" style="margin-top:20px;color:var(--sx)">Fail any line of the scorecard and we change the design or stop.</p>
+    </div></div>
+  </div>
+
+  <div class="narrow rise" style="margin-top:70px">
+    <div class="eyebrow">Three ways to reply</div><h2>Pick a verb.</h2>
+    <p class="kicker">Not “book a demo”. Any of these is a real next step, and the third one is a perfectly good answer.</p>
+  </div>
+  <div class="verbs rise">
+    <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about Southern Cross or about how remediation actually works. Tell us which line and we will fix it or take the concept down.</div></a>
+    <a class="verb" href="#" onclick="return verb('narrow')"><div class="w">Narrow it</div><div class="s">One cohort, six weeks, research through to a batch. Tell us which and we will scope it against how you actually work.</div></a>
+    <a class="verb" href="#" onclick="return verb('decline')"><div class="w">Decline it</div><div class="s">Not now, or not at all. Say so and you will not hear from us again about this.</div></a>
+  </div>
+
+  <div class="glass unfin rise" style="margin-top:44px">
+    <div class="eyebrow" style="margin-bottom:12px">The unfinished pane</div>
+    <h3>What is the one constraint we have got wrong?</h3>
+    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how Southern Cross actually runs that we could not see. One line is enough.</p>
+    <div class="row">
+      <input id="constraint" placeholder="The thing we clearly don't understand about your business…" onkeydown="if(event.key==='Enter')sendConstraint()">
+      <button class="btn solid" onclick="sendConstraint()">Send it <span class="arw">→</span></button>
+    </div>
+    <p style="font-size:12px;color:var(--muted-2);margin-top:12px" id="cnote">Opens your mail app to assembl@assembl.co.nz. Nothing is collected by this page.</p>
+  </div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap narrow">
+  <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by Southern Cross Health Society. Built by assembl from publicly available information. Cohorts, screens, letters and figures in this concept are illustrative and fictional, and no member data of any kind was accessed.</p>
+  <p style="margin-top:16px">Verified from Southern Cross Health Society's own published material: “NZ owned and not-for-profit”; a “member driven health insurer”; more than 951,000 members as at 30 June 2025; 94c of every dollar received in premiums paid out in claims for the year ended 30 June 2025; 68% of the value of all health insurance claims in the New Zealand market; the stated purpose of providing “peace of mind so you and your family can get back to feeling good, faster”; Reader's Digest Most Trusted Health Insurance Brand 2017–2026 and Reader's Digest Quality Service Award, Health Insurance winner 2025; and the My Southern Cross app described as “your pocket-sized healthcare partner” for checking benefit balances, requesting prior approval and making instant claims, where only registered policyholders can make claims or request prior approvals.</p>
+  <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
+  <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
+</div></footer>
+
+<button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
+<div class="chat" id="chat">
+  <div class="chathead">
+    <div class="t"><span class="d"></span> Southern Cross concept <small>· it will say when it doesn't know</small></div>
+    <button class="x" onclick="closeChat()" aria-label="Close">×</button>
+  </div>
+  <div class="msgs" id="msgs"></div><div class="sugg" id="sugg"></div>
+  <div class="agentnote" id="agentnote"></div>
+  <div class="chatin"><input id="chatinput" placeholder="Ask about the layer, the remediation, the pilot…" onkeydown="if(event.key==='Enter')sendChat()"><button class="send" onclick="sendChat()">Send</button></div>
+</div>
+
+<script src="three.min.js"></script>
+<script>
+var EXECS={
+  'remediation':{n:'Customer Engagement Manager — Remediation'},
+  'cco':{n:'Chief Customer Officer'},
+  'ceo':{n:'Chief Executive'},
+  'conduct':{n:'Conduct &amp; Compliance'},
+  'digital':{n:'Digital — My Southern Cross'}
+};
+(function(){
+  var k=new URLSearchParams(location.search).get('for');
+  if(k&&EXECS[k]) document.getElementById('signedFor').innerHTML='<b>'+EXECS[k].n+'</b> · Southern Cross Health Society';
+})();
+
+var JOURNEYS={
+  joining:{label:'Joining',kind:'Transactional · but it sets every expectation',
+    note:'The only journey here where speed is the whole point. Everything after this is judged against what you promised now.',
+    steps:[
+      {t:'Quote requested',src:'Quote tool',did:'Nothing personalised. There is no relationship yet, and pretending otherwise is how first impressions get wasted.',ok:'No approval needed — nothing sent'},
+      {t:'Plan chosen',src:'Policy administration',did:'Plain-language summary of what is covered, what is not, and what has a stand-down. The exclusions get the same typeface as the benefits.',ok:'Product owner approves wording'},
+      {t:'First 30 days',src:'App registration + policy',did:'One prompt to register for the app, because a member who never registers cannot claim instantly and will ring you instead.',ok:'Lifecycle owner approves'},
+      {t:'First claim attempt',src:'Claims + app',did:'If it fails, the reason is explained in the app in words, not a code. Most first-claim failures are process, not cover.',ok:'Claims lead approves wording'},
+      {t:'Marketing wants this cohort',src:'Campaign tooling',did:'Blocked for the first 60 days. A brand-new member does not need an offer; they need their first claim to go smoothly.',ok:'Held by design',hold:true}
+    ]},
+  claiming:{label:'Claiming',kind:'High volume · the promise being tested',
+    note:'You describe claiming as fast and simple. This journey is about the ones where it is not, because those are the only ones a member remembers.',
+    steps:[
+      {t:'Claim submitted',src:'Claims + app',did:'Acknowledged with what happens next and roughly when — not a reference number and silence.',ok:'Auto-acknowledged, wording pre-approved'},
+      {t:'Assessing',src:'Claims state',did:'Nothing sent unless it takes longer than the member was told. Silence inside the promised window is fine; outside it is not.',ok:'No approval needed — nothing sent'},
+      {t:'Taking longer than expected',src:'Claims state + call history',did:'Proactive note explaining why, and explicitly whether we are waiting on the member. Sent before they chase.',ok:'Claims lead approves'},
+      {t:'Something is missing',src:'Outstanding items',did:'Names the one item, and distinguishes it from the thing members usually send by mistake.',ok:'Claims lead approves'},
+      {t:'Heading toward decline',src:'Claims state',did:'Nothing drafted. A decline is a decision with consequences and it belongs to a person who can explain it and hear the answer.',ok:'Held — a person decides',hold:true}
+    ]},
+  approval:{label:'Prior approval',kind:'Anxious wait · usually before something significant',
+    note:'A member asking for prior approval is often about to have surgery. The wait is short in your terms and very long in theirs.',
+    steps:[
+      {t:'Request submitted',src:'Prior approvals + app',did:'Confirmed with what happens next and what the member can do meanwhile — usually nothing, which is worth saying.',ok:'Auto-acknowledged'},
+      {t:'Provider information needed',src:'Prior approvals + provider network',did:'We ask the provider, not the member. The member is told we are doing it so they do not chase both ends.',ok:'Approvals lead approves'},
+      {t:'Approved',src:'Prior approvals',did:'Told immediately in the app, with what it covers in plain words and what to take to the appointment.',ok:'Approvals lead approves wording'},
+      {t:'Partially approved',src:'Prior approvals',did:'The hardest letter in the set. Prepared, then routed to a person — a partial approval read wrongly can stop someone going.',ok:'Held — a person reviews',hold:true},
+      {t:'Member has called three times',src:'Contact centre',did:'The next message comes from a named person, not the system. Three calls means the system has already failed them.',ok:'Named person contacts'}
+    ]},
+  serious:{label:'A serious diagnosis',kind:'The moment everything else was for',
+    note:'This journey is mostly about restraint. Almost nothing automated is appropriate here, and knowing that is the point.',
+    steps:[
+      {t:'A significant claim opens',src:'Claims state only',did:'The layer reads that a significant claim exists. It does not read what it is for.',ok:'No approval needed — nothing sent'},
+      {t:'All marketing suppressed',src:'Campaign tooling',did:'Every offer, survey, upgrade prompt and satisfaction request stopped for this member. No exceptions, no override.',ok:'Held by design',hold:true},
+      {t:'Named contact assigned',src:'Contact centre',did:'One person, with the file already read, so the member never explains their situation twice.',ok:'Care team assigns'},
+      {t:'Practical questions answered',src:'Policy + benefit balance',did:'What is covered, what a benefit balance means, what happens if treatment runs past the year. Prepared for a person to deliver.',ok:'Named person delivers'},
+      {t:'Renewal falls due',src:'Policy',did:'Nothing automated. A member mid-treatment does not receive a standard renewal letter, whatever the calendar says.',ok:'Held — a person decides',hold:true}
+    ]},
+  renewal:{label:'Renewal',kind:'Annual · where trust is spent or kept',
+    note:'The one journey where the member is deciding about you rather than needing you. What happened all year is the argument.',
+    steps:[
+      {t:'Renewal approaching',src:'Policy + claims history',did:'Prepared with what they actually used this year, so the value is shown rather than asserted.',ok:'Lifecycle owner approves'},
+      {t:'Premium is increasing',src:'Policy',did:'Explains the increase before quoting it. An unexplained number is the biggest driver of a cancellation call.',ok:'Product owner approves'},
+      {t:'Barely claimed this year',src:'Claims history',did:'Honest framing. Not “you did not use it” — a year of not needing us is the outcome everybody wanted.',ok:'Lifecycle owner approves'},
+      {t:'Open complaint on file',src:'Complaints',did:'Nothing drafted. Renewing someone with an unresolved complaint is how a complaint becomes a cancellation.',ok:'Held — a person decides',hold:true},
+      {t:'Cancellation requested',src:'Policy + contact centre',did:'Prepared for a person, with what they will lose stated plainly and no retention pressure written in.',ok:'Named person contacts'}
+    ]}
+};
+var curJ='claiming',jT=[];
+function renderJBar(){
+  document.getElementById('jbar').innerHTML=Object.keys(JOURNEYS).map(function(k){
+    return '<button class="jbtn'+(k===curJ?' on':'')+'" onclick="pickJ(\''+k+'\')">'+JOURNEYS[k].label+'</button>'}).join('');
+}
+function renderJourney(){
+  jT.forEach(clearTimeout);jT=[];
+  var j=JOURNEYS[curJ];
+  document.getElementById('jmeta').innerHTML='<b>'+j.kind+'</b> — '+j.note;
+  document.getElementById('jrail').innerHTML='<div class="fill" id="jfill"></div>'+j.steps.map(function(s,i){
+    return '<div class="jstep'+(s.hold?' hold':'')+'" id="js'+i+'"><span class="dot">'+(s.hold?'!':(i+1))+'</span>'+
+      '<h4>'+s.t+'</h4><div class="src">reads <b>'+s.src+'</b></div>'+
+      '<div class="did">'+s.did+'</div><div class="ok"><span class="p"></span>'+s.ok+'</div></div>'}).join('');
+  var red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  j.steps.forEach(function(s,i){
+    jT.push(setTimeout(function(){
+      var el=document.getElementById('js'+i);if(el)el.classList.add('in');
+      var f=document.getElementById('jfill');if(f)f.style.height=(((i+1)/j.steps.length)*100)+'%';
+    },red?0:180+i*430));
+  });
+  document.getElementById('rArt').textContent='Journey step — '+j.label;
+  document.getElementById('rRead').textContent=j.steps.slice(0,3).map(function(s){return s.src}).join(' · ');
+  stampReceipt();
+}
+function pickJ(k){curJ=k;renderJBar();renderJourney()}
+renderJBar();renderJourney();
+
+var CAMPAIGN=[
+ {n:'01',t:'Research',h:'Before a single word is written',
+  lead:'The letter is the last thing you make, not the first. Almost every remediation that goes badly went badly here — the comms were written from what the business needed to say rather than from what the member would feel.',
+  left:{h:'What we have to understand first',items:[
+    'Who is affected, and in how many materially different ways — one error rarely lands the same on everyone',
+    'What a member feels in the first ten seconds, which is almost never what the letter is about',
+    'The questions they will ask in the first 48 hours, taken from your contact-centre call drivers rather than guessed',
+    'Which cohorts must never receive a bulk send at all',
+    'What went wrong in the last remediation, from the people who took those calls']},
+  right:{h:'Where it comes from',items:[
+    'The remediation scope note',
+    'Contact-centre call drivers from previous programmes',
+    'Field names that flag a deceased or vulnerable member — names only, not records',
+    'Your existing letter templates, and what has been rewritten in them before',
+    'A small number of members, asked directly, before anything is finalised']},
+  note:'<b>Nothing is drafted at this stage.</b> The output of research is a cohort map and a list of the questions the comms have to answer — not a letter.'},
+ {n:'02',t:'Plan',h:'The comms plan the research produces',
+  lead:'Now the cohorts exist and the questions are known, the plan writes itself — and crucially, the plan includes who gets nothing.',
+  left:{h:'The plan',items:[
+    'Cohorts, each with a stated reason it is separate rather than a segment for its own sake',
+    'Sequence: app notice first, letter next day, follow-up only where the first two did not answer it',
+    'Timing staged so the contact centre is never hit by the whole book on one morning',
+    'A contact-centre brief written before the send, not after the calls start',
+    'The cohorts that are held, and who personally decides what happens to them']},
+  right:{h:'What the plan has to answer',items:[
+    'What happened, in the member’s words, not the programme’s',
+    'Whether they have to do anything — including when the answer is no',
+    'When they will have their money, or when they will next hear from us',
+    'How to reach a human quickly, and what that person will already know',
+    'What we are doing so it does not happen again']},
+  note:'<b>The contact-centre brief is part of the campaign, not an afterthought.</b> The people answering the phone should read the letter before the members do.'},
+ {n:'03',t:'Draft',h:'One error, four different letters',
+  lead:'Same underlying mistake, four situations. Length follows the member, not the template — and two cohorts get no letter at all.',
+  left:{h:'Straightforward · single affected claim',items:[
+    'Names what happened in the first two sentences',
+    'States plainly that the member does not need to do anything',
+    'No apology-shaped sentence that avoids saying what went wrong',
+    'The amount is left blank for a person to confirm']},
+  right:{h:'Sensitive · claim relates to a serious event',items:[
+    'Pulled out of the bulk send entirely',
+    'Does not lead with the mechanics of the error',
+    'Offers a conversation before it offers a calculation',
+    'Never assumes which format the member wants']},
+  note:'<b>Two more cohorts exist and neither receives a drafted letter.</b> Members flagged vulnerable, and members whose record carries a date of death — see the guard.'},
+ {n:'04',t:'Check',h:'The checks that stop letters being written',
+  lead:'Every draft in the batch runs through this before a human reads it. The blocks are the valuable part; the passes are hygiene.',
+  left:{h:'Passed',items:[
+    'Plain language — passive constructions that avoided naming the error were rewritten',
+    'Every draft answers “do I have to do anything”, including when the answer is no',
+    'No redress figure invented anywhere in the batch',
+    'Reading age checked against the cohort, not against the writer']},
+  right:{h:'Held — no letter produced',hold:true,items:[
+    'Records carrying a date of death — nothing drafted, routed to a person to decide the approach, which may be no contact at all',
+    'Members flagged vulnerable — removed from the bulk run, a conversation offered before a calculation',
+    'Members with an open complaint on the same matter — the complaint is answered first',
+    'Members mid-treatment on a significant claim — held for a named person']},
+  note:'<b>A remediation letter addressed to someone who has died, arriving at a family home, is harm that no amount of redress repairs.</b> That check runs before drafting, not after.'},
+ {n:'05',t:'Implement',h:'Sent by people, in an order that holds up',
+  lead:'The layer prepares and stages. Every actual send is a person clicking send, and the sequencing exists to protect the members and the contact centre at the same time.',
+  left:{h:'The rollout',items:[
+    'App notice lands first, a day ahead of the letter, so the envelope is expected',
+    'Letters released in waves matched to contact-centre capacity, not all at once',
+    'Held cohorts routed to named individuals with the reason attached',
+    'Call drivers monitored live — if members are asking something the letter did not answer, the next wave is paused and rewritten']},
+  right:{h:'What stays with your people',items:[
+    'Every send, without exception',
+    'Every redress calculation',
+    'Every decision about a held member',
+    'The choice to pause, change or stop the whole programme']},
+  note:'<b>The pause is the important part.</b> A remediation that cannot be stopped halfway through is not a campaign, it is a mail merge.'},
+ {n:'06',t:'Measure',h:'The numbers that actually tell you',
+  lead:'Open rates measure the envelope. These measure whether the member understood, and whether the moment cost you trust or rebuilt it.',
+  left:{h:'What we would report',items:[
+    'Calls the letter caused — the single best measure of whether it worked',
+    'Members who needed a second contact to understand the first',
+    'Complaints arising from the remediation itself',
+    'Held cases a person agreed should have been held',
+    'Drafts accepted without rewrite']},
+  right:{h:'What we would not report',items:[
+    'Open rates, click rates, or anything measuring the envelope rather than the understanding',
+    'Time saved, unless a person who does the work says it is true',
+    'Sentiment scores derived from a model rather than asked of a member',
+    'Anything this concept cannot show its working for']},
+  note:'<b>If calls go up, the letter failed — however good it looked.</b> That is the measure we would sign up to before the pilot starts, not after.'}
+];
+var curC=0;
+function renderCamp(){
+  document.getElementById('cnav').innerHTML=CAMPAIGN.map(function(c,i){
+    return '<button class="cbtn'+(i===curC?' on':'')+'" onclick="pickC('+i+')"><div class="cn">'+c.n+'</div><div class="ct">'+c.t+'</div></button>'}).join('');
+  var c=CAMPAIGN[curC];
+  function boxHtml(b){
+    return '<div class="cbox'+(b.hold?' hold':'')+'"><div class="bh">'+b.h+'</div><ul>'+
+      b.items.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>';
+  }
+  document.getElementById('cpanel').innerHTML=
+    '<div class="ch">Stage '+c.n+' · '+c.h+'</div><h3>'+c.t+'</h3><p class="lead">'+c.lead+'</p>'+
+    '<div class="cwork">'+boxHtml(c.left)+boxHtml(c.right)+'</div><div class="cnote">'+c.note+'</div>';
+}
+function pickC(i){curC=i;renderCamp()}
+renderCamp();
+
+var GUARD=[
+  {ok:true,t:'Plain language, no hedging',d:'The draft says what went wrong in the first two sentences. Passive constructions that avoided naming the error were rewritten.',law:'Fair Trading Act 1986 · CoFI fair-conduct principle'},
+  {ok:true,t:'The member is told whether they must act',d:'Every draft answers “do I have to do anything” explicitly, including when the answer is no.',law:'CoFI · fair, ethical and compliant outcomes'},
+  {ok:false,t:'Held — records carry a date of death',d:'No letter was drafted for any of them. Routed to a named person to decide the approach, which may be no contact at all.',law:'Privacy Act 2020 · harm prevention'},
+  {ok:false,t:'Held — members flagged vulnerable',d:'Removed from the bulk run. A conversation is offered before a calculation, and a person chooses who makes the call.',law:'CoFI · vulnerable-customer obligations'},
+  {ok:false,t:'Held — open complaint on the same matter',d:'Suppressed. A remediation letter arriving while a complaint about the same thing is unanswered makes both worse.',law:'CoFI · judgement'},
+  {ok:true,t:'No redress figure invented',d:'Every draft leaves the amount for a person to confirm. No figure was supplied to this concept and none was guessed.',law:'Fair Trading Act 1986'},
+  {ok:true,t:'No health information read',d:'The layer reads that a claim exists and its state. It does not read what the claim was for in order to write a message.',law:'Health Information Privacy Code 2020'}
+];
+function runGuard(){
+  var out=document.getElementById('guardOut'),btn=document.getElementById('guardBtn');
+  var b=GUARD.filter(function(g){return !g.ok}).length;
+  btn.disabled=true;btn.style.opacity='.5';btn.textContent='Checked — '+b+' held, '+(GUARD.length-b)+' passed';
+  out.innerHTML='';
+  var red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  GUARD.forEach(function(g,i){
+    setTimeout(function(){
+      var d=document.createElement('div');
+      d.className='check '+(g.ok?'pass':'block');
+      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><div class="t">'+g.t+'</div><div class="d">'+g.d+'</div><div class="law">'+g.law+'</div></div>';
+      out.appendChild(d);
+    },red?0:i*400);
+  });
+  setTimeout(function(){
+    var p=document.createElement('p');p.className='kicker';p.style.marginTop='20px';
+    p.innerHTML='Three cohorts received no letter at all. On a remediation that is not a gap in the campaign — it is the campaign working.';
+    out.appendChild(p);
+  },red?0:GUARD.length*400);
+}
+
+var OPS=[
+  ['Single affected claim','—','Letter drafted, redress left blank','Remediation lead','wait','Awaiting approval'],
+  ['Several claims over two years','—','Letter plus itemised working','Remediation lead','wait','Awaiting approval'],
+  ['Claim relates to a serious event','—','Conversation offered first','Named person per member','hot','Held from bulk send'],
+  ['Record shows date of death','—','Nothing drafted','A decision, not a letter','hot','Held — no draft'],
+  ['Flagged vulnerable','—','Nothing drafted','Named person to choose approach','hot','Held — no draft'],
+  ['Open complaint, same matter','—','Nothing drafted','Complaint answered first','hot','Held — no draft'],
+  ['App notice, all sending cohorts','—','Notice staged a day ahead of the post','Digital lead','wait','Awaiting approval'],
+  ['Contact-centre brief','—','Written, ready before the first wave','Contact centre lead','ok','Approved 8:20am']
+];
+document.getElementById('opsBody').innerHTML=OPS.map(function(o){
+  return '<tr><td><b>'+o[0]+'</b></td><td>'+o[1]+'</td><td>'+o[2]+'</td><td>'+o[3]+'</td><td><span class="st '+o[4]+'">'+o[5]+'</span></td></tr>'}).join('');
+
+function stampReceipt(){
+  var d=new Date(),p=function(n){return n<10?'0'+n:''+n};
+  document.getElementById('rWhen').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+' NZST';
+  var seed=curJ+d.toDateString(),h=0;
+  for(var i=0;i<seed.length;i++){h=((h<<5)-h+seed.charCodeAt(i))|0}
+  document.getElementById('rHash').textContent='mana:'+Math.abs(h).toString(16).padStart(8,'0')+'·concept·unsent';
+}
+stampReceipt();
+
+function verb(kind){
+  var s={correct:'Correct the Southern Cross concept',narrow:'Narrow the Southern Cross concept',decline:'Decline — Southern Cross concept'};
+  var b={correct:'The line that is wrong is:\n\n\n(We will fix it or take the concept down.)',
+         narrow:'The remediation cohort worth scoping:\n\n\nThe six weeks that would suit:\n\n',
+         decline:'Not now, or not at all — either is fine. You will not hear from us again about this.\n\n'};
+  location.href='mailto:assembl@assembl.co.nz?subject='+encodeURIComponent(s[kind])+'&body='+encodeURIComponent(b[kind]);
+  return false;
+}
+function sendConstraint(){
+  var v=document.getElementById('constraint').value.trim();
+  if(!v){document.getElementById('cnote').textContent='Write the one thing first — then send.';return}
+  location.href='mailto:assembl@assembl.co.nz?subject='+encodeURIComponent('The constraint the Southern Cross concept got wrong')+'&body='+encodeURIComponent(v+'\n\n');
+  document.getElementById('cnote').textContent='Thank you — that is the most useful thing on the page.';
+}
+
+var GENOME=[
+"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for Southern Cross Health Society. You are NOT Southern Cross, you do not speak for them, and you must say so if asked.",
+"",
+"WHAT THE CONCEPT IS: a member journey layer that sits ABOVE the systems Southern Cross already runs — policy administration, claims, prior approvals, the My Southern Cross app, the contact centre, the affiliated provider network. It reads across them, joins what a member's record knows, and prepares the next thing that member needs to hear. It never sends, never assesses or approves or declines a claim, never calculates or states a redress amount, and never reads a diagnosis or clinical note in order to write a message.",
+"",
+"THE CENTREPIECE is a remediation campaign shown in the order it should actually happen: 01 Research (a cohort map and the questions the comms must answer — nothing is drafted here), 02 Plan (cohorts, sequence app-notice-then-letter, staged timing, a contact-centre brief written BEFORE the send, and who gets nothing), 03 Draft (one error, four situations, length follows the member), 04 Check (the blocks are the valuable part), 05 Implement (people send; waves matched to contact-centre capacity; live call-driver monitoring so the next wave can be paused and rewritten), 06 Measure (calls the letter CAUSED is the best measure; we would not report open rates).",
+"",
+"FOUR COHORTS GET NO LETTER AT ALL: records carrying a date of death; members flagged vulnerable; members with an open complaint on the same matter; members mid-treatment on a significant claim. Each is routed to a named person with the reason attached. If asked why, explain that a remediation letter addressed to someone who has died, arriving at a family home, is harm no redress repairs — and that this check runs before drafting, not after.",
+"",
+"VERIFIED FACTS about Southern Cross (their own published material — you may rely on these):",
+"- Describes itself as 'NZ owned and not-for-profit' and as a 'member driven health insurer'.",
+"- More than 951,000 members as at 30 June 2025.",
+"- For the year ended 30 June 2025, 94c of every dollar received in premiums was paid out in claims.",
+"- It paid 68% of the value of all health insurance claims in the New Zealand market.",
+"- Stated purpose: to provide 'peace of mind so you and your family can get back to feeling good, faster'.",
+"- Reader's Digest Most Trusted Health Insurance Brand 2017-2026; Reader's Digest Quality Service Award, Health Insurance winner 2025.",
+"- The 'My Southern Cross' app is described as 'your pocket-sized healthcare partner' where members check benefit balances, request prior approval and make instant claims. Only registered policyholders can make claims or request prior approvals.",
+"- Southern Cross has advertised for a Customer Engagement Manager in remediation, asking for communications delivered with accuracy, empathy and integrity, driving fair, ethical and compliant customer outcomes under the Conduct of Financial Institutions regime.",
+"",
+"RULES drafts are held against: the Conduct of Financial Institutions (CoFI) regime, the Fair Trading Act 1986, the Privacy Act 2020, and the Health Information Privacy Code 2020.",
+"",
+"HOW TO ANSWER: plain New Zealand English, short sentences, warm and direct. Macrons correct in te reo. Never invent a premium, a redress amount, a member's name, a cohort size, or a Southern Cross staff member. Cohort sizes on the page are deliberately blank because this concept has no member data — say so rather than estimating. If you do not have something, say plainly it was not published. Never claim Southern Cross endorses this concept. Under about 120 words.",
+"Avoid these words entirely: seamless, unlock, empower, elevate, supercharge, cutting-edge, quietly."
+].join("\n");
+
+var SUGG=["Why does research come before the letter?","Which members get no letter at all?","How does it use the app?","What does it never do?","What is the pilot asking for?"];
+document.getElementById('sugg').innerHTML=SUGG.map(function(s){return '<button onclick="ask(this.textContent)">'+s+'</button>'}).join('');
+
+var history=[];
+function openChat(){
+  document.getElementById('chat').classList.add('open');
+  document.getElementById('agentbtn').style.display='none';
+  if(!history.length) push('a',"Kia ora. I am an independent concept assistant built by assembl — I am not Southern Cross and I do not speak for them.<br><br>I can explain how this layer sits over your systems, how the remediation campaign is built research-first, and which members deliberately receive nothing. Ask me the awkward ones.");
+  document.getElementById('agentnote').textContent='Independent concept · it will say plainly when something was not published';
+}
+function closeChat(){document.getElementById('chat').classList.remove('open');document.getElementById('agentbtn').style.display='flex'}
+function push(r,t){var m=document.createElement('div');m.className='msg '+r;m.innerHTML=t;var b=document.getElementById('msgs');b.appendChild(m);b.scrollTop=b.scrollHeight}
+function ask(q){document.getElementById('chatinput').value=q;sendChat()}
+async function sendChat(){
+  var inp=document.getElementById('chatinput'),q=inp.value.trim();if(!q)return;
+  push('u',q.replace(/</g,'&lt;'));inp.value='';history.push({role:'user',content:q});
+  var t=document.createElement('div');t.className='typing';t.textContent='Thinking…';
+  document.getElementById('msgs').appendChild(t);
+  var reply='';
+  try{
+    var res=await fetch('/api/agent',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({system:GENOME,messages:history.slice(-12)})});
+    var d=await res.json();
+    reply=(d.content||[]).filter(function(b){return b.type==='text'}).map(function(b){return b.text}).join('\n');
+  }catch(e){reply=''}
+  t.remove();
+  if(!reply)reply=grounded(q);
+  push('a',reply.replace(/</g,'&lt;').replace(/\n/g,'<br>'));
+  history.push({role:'assistant',content:reply});
+}
+function grounded(q){
+  var s=q.toLowerCase(),has=function(){return [].some.call(arguments,function(w){return s.indexOf(w)>-1})};
+  if(has('research','why first','before the letter','plan'))
+    return "Because almost every remediation that goes badly went badly before a word was written — the comms got built from what the business needed to say rather than what the member would feel. Research produces a cohort map and the list of questions the comms must answer, taken from your own contact-centre call drivers rather than guessed. Nothing is drafted at that stage.";
+  if(has('no letter','nothing','held','refuse','deceased','vulnerable'))
+    return "Four cohorts get nothing drafted at all: records carrying a date of death, members flagged vulnerable, members with an open complaint on the same matter, and members mid-treatment on a significant claim. Each is routed to a named person with the reason attached. A remediation letter addressed to someone who has died, arriving at a family home, is harm no redress repairs — so that check runs before drafting, not after.";
+  if(has('app','my southern cross','notice'))
+    return "You describe the app as a pocket-sized healthcare partner for benefit balances, prior approvals and instant claims. That makes it the best place to say something difficult first. A notice in the app a day ahead of the letter removes the shock of an unexplained envelope, answers the first question immediately, and gives the member a way to ask the second one.";
+  if(has('never','not do','boundary','limit'))
+    return "It does not send — a named person does. It never assesses, approves or declines a claim. It never calculates or states a redress amount. It never reads a diagnosis or clinical note in order to write a message. It does not write back to your systems. No production access is requested by this concept.";
+  if(has('ask','pilot','cost','price','scope'))
+    return "One remediation cohort, research through to a batch ready to send, six weeks. Access is the scope note, your letter templates, your contact-centre call drivers, and the names of the fields that flag a deceased or vulnerable member — no member records, no health information, no claims data. Scored on drafts accepted without rewrite, held cases a person agreed with, and the calls the letter would have caused. No price is published here.";
+  if(has('measure','report','success','metric'))
+    return "Calls the letter caused, members who needed a second contact, complaints arising from the remediation itself, and held cases a person agreed should have been held. We would not report open rates — those measure the envelope, not the understanding. If calls go up, the letter failed, however good it looked.";
+  if(has('data','real','access','member','fictional'))
+    return "None of it is Southern Cross data, and no member data of any kind was accessed. Cohort sizes on the page are deliberately blank because this concept cannot know them and will not estimate. The only real things here are what Southern Cross has published about itself.";
+  return "I can explain why the campaign is built research-first, which members deliberately receive nothing, how the app fits, what the layer refuses to do, or what the pilot asks for. What would be most useful? If I do not have something, I will say so rather than guess.";
+}
+
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+  },{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rise').forEach(function(el){io.observe(el)});
+  setTimeout(function(){document.querySelectorAll('.hero .rise').forEach(function(el){el.classList.add('in')})},60);
+})();
+
+(function(){
+  if(typeof THREE==='undefined'){setTimeout(arguments.callee,120);return}
+  var c=document.getElementById('scene');if(!c)return;
+  var r=new THREE.WebGLRenderer({canvas:c,antialias:true,alpha:true});
+  r.setSize(innerWidth,innerHeight);r.setPixelRatio(Math.min(devicePixelRatio,2));
+  var s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,0.1,120);
+  cam.position.set(0,0.6,11);
+  var pmrem=new THREE.PMREMGenerator(r),env=new THREE.Scene();
+  env.background=new THREE.Color('#0A0C0F');
+  function box(w,h,x,y,z,rx,ry,col,pow){
+    var m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(col).multiplyScalar(pow)}));
+    m.position.set(x,y,z);m.rotation.set(rx,ry,0);env.add(m);
+  }
+  box(16,9,0,9,2,-Math.PI/2,0,'#FFFFFF',5.0);
+  box(11,7,-9,2.5,3,0,Math.PI/2,'#EAF6FF',3.2);
+  box(11,7,9,2.5,1,0,-Math.PI/2,'#FFF3E6',2.4);
+  box(14,5,0,1.5,-9,0,0,'#009ADE',1.9);
+  s.environment=pmrem.fromScene(env,0.02).texture;
+  s.add(new THREE.AmbientLight('#FFFFFF',0.18));
+  var key=new THREE.DirectionalLight('#FFFFFF',1.4);key.position.set(5,9,6);s.add(key);
+
+  var core=new THREE.MeshStandardMaterial({color:'#009ADE',metalness:0,roughness:0.38,envMapIntensity:1.5});
+  var warm=new THREE.MeshStandardMaterial({color:'#FC6014',metalness:0,roughness:0.42,envMapIntensity:1.4});
+  var champ=new THREE.MeshStandardMaterial({color:'#BFA37A',metalness:1,roughness:0.13,envMapIntensity:2.0});
+  var chrome=new THREE.MeshStandardMaterial({color:'#EDEFF2',metalness:1,roughness:0.09,envMapIntensity:2.0});
+
+  var g=new THREE.Group();s.add(g);
+  g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.55,1),core));
+  var shell=new THREE.Mesh(new THREE.IcosahedronGeometry(2.3,1),
+    new THREE.MeshPhysicalMaterial({color:'#009ADE',metalness:0.1,roughness:0.2,transmission:0.74,transparent:true,opacity:0.4,envMapIntensity:1.6}));
+  g.add(shell);
+  var r1=new THREE.Mesh(new THREE.TorusGeometry(4.6,0.035,14,140),champ);r1.rotation.x=Math.PI/2.1;g.add(r1);
+  var r2=new THREE.Mesh(new THREE.TorusGeometry(5.7,0.022,12,140),champ);r2.rotation.x=Math.PI/2.4;r2.rotation.z=Math.PI/7;g.add(r2);
+  var orbs=[];
+  [{geo:new THREE.OctahedronGeometry(0.52,0),m:warm,rad:3.5,sp:0.30,ph:0.4,ya:0.9},
+   {geo:new THREE.TetrahedronGeometry(0.50,0),m:chrome,rad:4.1,sp:0.24,ph:2.1,ya:1.2},
+   {geo:new THREE.IcosahedronGeometry(0.44,0),m:core,rad:3.8,sp:0.34,ph:4.0,ya:0.7},
+   {geo:new THREE.TorusGeometry(0.40,0.13,14,44),m:champ,rad:4.5,sp:0.28,ph:5.4,ya:1.0}
+  ].forEach(function(d){var m=new THREE.Mesh(d.geo,d.m);m.userData=d;g.add(m);orbs.push(m)});
+  var N=80,pg=new THREE.BufferGeometry(),pp=new Float32Array(N*3);
+  for(var i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*22;pp[i*3+1]=(Math.random()-0.5)*13;pp[i*3+2]=(Math.random()-0.5)*16}
+  pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
+  s.add(new THREE.Points(pg,new THREE.PointsMaterial({color:'#BFA37A',size:0.035,transparent:true,opacity:0.40})));
+
+  var KEYS=[{p:0.00,x:4.30,y:-0.10,sc:0.86,ry:-0.4},{p:0.18,x:-2.70,y:0.15,sc:0.74,ry:0.7},
+            {p:0.38,x:2.60,y:0.05,sc:0.76,ry:1.9},{p:0.58,x:-2.55,y:0.15,sc:0.74,ry:3.0},
+            {p:0.78,x:2.50,y:0.05,sc:0.80,ry:4.2},{p:1.00,x:0.00,y:0.00,sc:1.05,ry:5.6}];
+  function ss(a){return a*a*(3-2*a)}
+  function pose(p){var i=0;while(i<KEYS.length-2&&KEYS[i+1].p<p)i++;
+    var a=KEYS[i],b=KEYS[i+1],t=ss(Math.min(1,Math.max(0,(p-a.p)/(b.p-a.p))));
+    return{x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,sc:a.sc+(b.sc-a.sc)*t,ry:a.ry+(b.ry-a.ry)*t}}
+  var sy=0,mx=0,my=0;
+  addEventListener('scroll',function(){sy=scrollY},{passive:true});
+  addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-0.5)*2;my=(e.clientY/innerHeight-0.5)*2},{passive:true});
+  addEventListener('resize',function(){r.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()});
+  var reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,t=0;
+  function anim(){
+    requestAnimationFrame(anim);if(!reduced)t+=0.016;
+    var max=document.body.scrollHeight-innerHeight,prog=max>0?Math.min(1,Math.max(0,sy/max)):0;
+    var k=pose(prog),narrow=innerWidth<820,damp=narrow?0.30:1,sd=narrow?0.60:1;
+    g.position.x=k.x*damp+mx*0.28;g.position.y=k.y+Math.sin(t*0.35)*0.12;
+    g.scale.setScalar(k.sc*sd);g.rotation.y=k.ry+t*0.05;
+    shell.rotation.y=-t*0.08;shell.rotation.x=t*0.04;
+    r1.rotation.z=t*0.05;r2.rotation.z=-t*0.035;
+    orbs.forEach(function(m){var d=m.userData,a=d.ph+t*d.sp+prog*Math.PI;
+      m.position.set(Math.cos(a)*d.rad,Math.sin(t*0.25+d.ph)*d.ya,Math.sin(a)*d.rad);
+      m.rotation.y=t*0.3+d.ph});
+    cam.position.x=mx*0.5;cam.position.y=0.6-my*0.25;
+    cam.lookAt(g.position.x*0.3,g.position.y*0.3,0);
+    r.render(s,cam);
+  }
+  anim();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summerset · assembl / minute one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F4; --surface:#F6F2F7; --ink:#1F1A24; --muted:#7A7280;
+    --line:#E6DFEA; --accent:#470A68; --accent-soft:#F6F2F7; --accent-ink:#470A68; --coral:#E4002B;
+    --dark:#2A0F3C; --serif:"Lato",-apple-system,system-ui,sans-serif; --sans:"Lato",-apple-system,system-ui,sans-serif;
+  }
+  
+  #canvas-3d{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.58}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  button:focus-visible,[tabindex]:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .narrow{max-width:640px;margin:0 auto}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:40;background:rgba(250,249,246,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;white-space:nowrap}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+  .brand small{color:var(--muted);font-weight:400}
+  .navlinks{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:center}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{font-size:13.5px;color:var(--muted);text-decoration:none;white-space:nowrap}
+  .navlinks a:hover{color:var(--ink)}
+  .askbtn{background:var(--dark);color:#fff;font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:999px;white-space:nowrap;display:flex;gap:8px;align-items:center}
+  .askbtn .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  @media(max-width:820px){.navlinks{display:none}}
+
+  section{padding:76px 0}
+  .eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,72px);line-height:1.02;letter-spacing:-.015em}
+  h2.sec{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.5vw,46px);line-height:1.06;letter-spacing:-.01em}
+  .lede{color:var(--muted);font-size:clamp(16px,2vw,19px);margin-top:20px;max-width:44ch}
+  .kicker{color:var(--muted);font-size:15px;margin-top:14px;max-width:52ch}
+
+  /* hero */
+  .hero{background:linear-gradient(180deg,var(--accent-soft),var(--paper) 70%);padding:90px 0 60px}
+  .hero .btns{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+  .btn{padding:15px 26px;border-radius:14px;font-size:15px;font-weight:600;display:inline-flex;gap:10px;align-items:center;text-decoration:none}
+  .btn.dark{background:var(--dark);color:#fff}
+  .btn.dark .arw{color:var(--accent)}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+
+  /* phone */
+  .phonewrap{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .phonecopy{flex:1 1 300px;max-width:420px}
+  .device{flex:0 0 auto;width:340px;max-width:88vw;background:#0e100f;border-radius:42px;padding:9px;box-shadow:0 30px 70px -34px rgba(30,40,35,.45)}
+  .screen{background:#fff;border-radius:34px;overflow:hidden;min-height:600px}
+  .statusbar{background:#0e100f;color:#fff;display:flex;justify-content:space-between;padding:12px 22px 10px;font-size:12.5px;font-weight:500}
+  .statusbar .mid{opacity:.85}
+  .apphead{padding:20px 20px 0;display:flex;justify-content:space-between;align-items:center}
+  .apphead h4{font-size:18px;font-weight:600}
+  .pts{background:var(--accent-soft);color:var(--accent-ink);font-size:12px;font-weight:600;padding:6px 13px;border-radius:999px}
+  .pbody{padding:22px 20px 26px}
+  .pbody .peyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  .pbody h3{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.08}
+  .pbody p.sub{color:var(--muted);font-size:14.5px;margin-top:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .chip{border:1px solid var(--line);border-radius:11px;padding:12px 14px;font-size:13.5px;background:#fff;flex:1 1 auto;text-align:center;min-width:80px}
+  .signal{margin-top:14px;background:var(--accent-soft);border-left:3px solid var(--accent);padding:11px 15px;border-radius:0 10px 10px 0}
+  .signal small{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+  .signal p{font-weight:600;margin-top:3px;font-size:13.5px}
+  .pcta{width:100%;background:var(--dark);color:#fff;border-radius:15px;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;font-size:14.5px;font-weight:600;margin-top:24px}
+  .pcta .arw{color:var(--accent)}
+  .prog{height:3px;background:var(--line);border-radius:2px;margin:24px 0 6px;overflow:hidden}
+  .prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .7s ease}
+  .asm{list-style:none;margin-top:14px}
+  .asm li{display:flex;align-items:center;gap:12px;padding:11px 0;font-size:14px;color:var(--muted);opacity:.35;transform:translateY(4px);transition:.55s}
+  .asm li.in{opacity:1;transform:none;color:var(--ink)}
+  .asm .mk{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:12px;color:transparent}
+  .asm li.in .mk{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  /* generic cards + tools */
+  .tool{border-top:1px solid var(--line)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;gap:28px}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+  .card.soft{background:var(--surface);border-color:transparent}
+
+  /* toggles / pieces */
+  .piece{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}
+  .piece:last-child{border-bottom:none}
+  .piece .info .n{font-weight:600;font-size:15px}
+  .piece .info .m{color:var(--muted);font-size:13px;margin-top:2px}
+  .toggle{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600;color:var(--accent-ink)}
+  .toggle.off{color:var(--muted)}
+  .toggle.keep{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .fitsum{margin-top:20px;background:var(--accent-soft);border-radius:14px;padding:18px 20px;font-size:15px}
+  .fitsum b{font-weight:600}
+  .plan svg{width:100%;height:auto;display:block;border-radius:12px;background:#fff;border:1px solid var(--line)}
+
+  /* money calc */
+  .field{margin-bottom:22px}
+  .field label{font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:10px;letter-spacing:.02em}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .rangeval{font-family:var(--serif);font-size:30px;margin-top:6px}
+  .seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:4px}
+  .seg button{flex:1;padding:13px;font-size:13.5px;font-weight:600;color:var(--muted);background:#fff}
+  .seg button.on{background:var(--accent);color:#fff}
+  .breakdown{list-style:none}
+  .breakdown li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .breakdown li:last-child{border-bottom:none;font-weight:600}
+  .breakdown .k{color:var(--muted)}
+  .breakdown .big{font-family:var(--serif);font-size:22px}
+
+  /* care continuum */
+  .stages{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+  .stage{flex:1 1 auto;min-width:120px;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;background:#fff}
+  .stage.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .stage .sn{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+  .stage .st{font-weight:600;font-size:14.5px;margin-top:5px}
+  .stagedesc{background:var(--surface);border-radius:14px;padding:22px;font-size:15.5px;min-height:96px}
+
+  /* checklist / timeline */
+  .check{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
+  .check:last-child{border-bottom:none}
+  .box{flex:0 0 auto;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center;font-size:13px;color:transparent;margin-top:1px}
+  .check.done .box{background:var(--accent);border-color:var(--accent);color:#fff}
+  .check .ct{font-weight:600;font-size:15px}
+  .check.done .ct{text-decoration:line-through;text-decoration-color:var(--muted)}
+  .check .cd{color:var(--muted);font-size:13px;margin-top:2px}
+  .progbar{height:6px;background:var(--line);border-radius:3px;margin-top:22px;overflow:hidden}
+  .progbar i{display:block;height:100%;background:var(--accent);width:0;transition:.4s}
+
+  /* interests */
+  .selchips{display:flex;flex-wrap:wrap;gap:10px}
+  .selchip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:500}
+  .selchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .matches{margin-top:24px}
+  .match{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .match:last-child{border-bottom:none}
+  .match .day{font-size:12px;color:var(--accent-ink);font-weight:600;background:var(--accent-soft);padding:5px 11px;border-radius:999px;flex:0 0 auto}
+
+  /* family loop */
+  .looprow{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .looprow input{flex:1;min-width:120px;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14.5px;font-family:inherit}
+  .addbtn{background:var(--dark);color:#fff;border-radius:12px;padding:0 22px;font-weight:600;font-size:14px}
+  .member{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .member:last-child{border-bottom:none}
+  .member .who{font-weight:600}
+  .member .where{color:var(--muted);font-size:13.5px}
+
+  /* wellbeing feed */
+  .feeditem{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .feeditem:last-child{border-bottom:none}
+  .fdot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:7px;flex:0 0 auto}
+  .feeditem .ft{font-weight:600;font-size:15px}
+  .feeditem .fm{color:var(--muted);font-size:13.5px;margin-top:2px}
+  .miniact{margin-top:8px;font-size:13px;font-weight:600;color:var(--accent-ink);border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px}
+  .miniact.done{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  /* proof */
+  .proof{background:var(--dark);color:#fff;border-radius:26px;padding:44px 34px}
+  .proof .eyebrow{color:var(--accent)}
+  .proof h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);line-height:1.08;margin-top:6px}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.14);border-radius:16px;overflow:hidden;margin-top:30px}
+  @media(max-width:640px){.metrics{grid-template-columns:1fr 1fr}}
+  .metric{background:var(--dark);padding:22px 18px}
+  .metric .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600}
+  .metric .v{font-family:var(--serif);font-size:30px;margin-top:10px;line-height:1}
+  .metric .v.calm{color:var(--accent)}
+  .tracewrap{background:rgba(255,255,255,.05);border-radius:16px;padding:26px;margin-top:16px}
+  .tracewrap .h{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:14px}
+  .trace{list-style:none}
+  .trace li{display:flex;align-items:center;gap:12px;padding:9px 0;font-size:14.5px;color:rgba(255,255,255,.6)}
+  .trace li.done{color:#fff}
+  .trace .mk{width:24px;height:24px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:12px;border:1px solid rgba(255,255,255,.25)}
+  .trace li.done .mk{background:var(--accent);border-color:var(--accent)}
+  .trace li.guard .mk{background:rgba(255,255,255,.12);color:var(--accent)}
+  .trace li.guard{color:var(--accent)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-size:13px;line-height:1.7}
+  footer b{color:var(--ink)}
+  footer code{background:var(--surface);padding:2px 7px;border-radius:6px;font-size:12px}
+
+  /* agent chat */
+  .agentbtn{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--dark);color:#fff;border-radius:999px;padding:15px 22px;font-weight:600;font-size:14.5px;box-shadow:0 14px 34px -12px rgba(0,0,0,.4);display:flex;gap:10px;align-items:center}
+  .agentbtn .d{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .chat{position:fixed;right:22px;bottom:22px;z-index:70;width:390px;max-width:calc(100vw - 24px);height:600px;max-height:calc(100vh - 24px);background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 80px -20px rgba(0,0,0,.4);display:none;flex-direction:column;overflow:hidden}
+  .chat.open{display:flex}
+  .chathead{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:#fff}
+  .chathead .t{font-weight:600;font-size:15px;display:flex;gap:9px;align-items:center}
+  .chathead .t .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .chathead .t small{color:var(--muted);font-weight:400;font-size:12px}
+  .chathead .x{color:var(--muted);font-size:20px;line-height:1;padding:4px 8px}
+  .msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+  .msg{max-width:85%;padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.5}
+  .msg.a{background:#fff;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px}
+  .msg.u{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+  .msg.a b{font-weight:600}
+  .sugg{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 12px}
+  .sugg button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-size:12.5px;color:var(--accent-ink);font-weight:500}
+  .chatin{border-top:1px solid var(--line);padding:14px;display:flex;gap:10px;background:#fff}
+  .chatin input{flex:1;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14.5px;font-family:inherit}
+  .chatin .send{background:var(--dark);color:#fff;border-radius:12px;padding:0 18px;font-weight:600}
+  .typing{align-self:flex-start;color:var(--muted);font-size:13px;padding:6px 4px}
+  .agentnote{font-size:11px;color:var(--muted);text-align:center;padding:0 20px 12px}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.asm li{opacity:1;transform:none;color:var(--ink)}}
+
+/* uplift: reveal-on-scroll */
+.sec,.card{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.sec.risen,.card.risen{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<canvas id="canvas-3d"></canvas>
+
+<nav class="nav"><div class="wrap">
+  <div class="brand"><span class="dot"></span> assembl / minute one <small>· for Summerset</small></div>
+  <div class="navlinks">
+    <a href="#journey">Journey</a><a href="#fit">Will it fit</a><a href="#money">The money</a>
+    <a href="#care">Care for life</a><a href="#move">The move</a><a href="#life">Village life</a><a href="#proof">Proof</a>
+  </div>
+  <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask anything</button>
+</div></nav>
+
+<!-- HERO -->
+<header class="hero"><div class="wrap narrow" style="text-align:center">
+  <div class="eyebrow">A family decision, made together</div>
+  <h1>The move that felt<br>impossible, assembled.</h1>
+  <p class="lede" style="margin-left:auto;margin-right:auto">One shared space where a family works through Mum's move together — the money in plain words, her armchair fitting by the window, and nothing ever decided for them.</p>
+  <div class="btns" style="justify-content:center">
+    <a class="btn dark" href="#journey">See the journey <span class="arw">→</span></a>
+    <button class="btn ghost" onclick="openChat()">Ask the guide a question</button>
+  </div>
+</div></header>
+
+<!-- JOURNEY (interactive phone) -->
+<section id="journey"><div class="wrap">
+  <div class="phonewrap">
+    <div class="phonecopy">
+      <div class="eyebrow">The customer view</div>
+      <h2 class="sec">One quiet moment does the heavy lifting.</h2>
+      <p class="kicker">Tap through the phone. mySummerset takes what the family knows about Mum's week and life, and quietly prepares everything worth having ready — then hands control straight back. Every full-size tool below is playable too.</p>
+      <p class="kicker" style="margin-top:14px"><b style="color:var(--ink)">Trust wait:</b> the anxious moment is never sold into. The money is only ever explained.</p>
+    </div>
+    <div class="device"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span class="mid">mySummerset · Family</span><span>5G · 84%</span></div>
+      <div class="apphead"><h4>mySummerset</h4><span class="pts">For the family</span></div>
+      <div class="pbody" id="pbody"></div>
+    </div></div>
+  </div>
+</div></section>
+
+<!-- FIT -->
+<section id="pack" class="tool"><div class="wrap">
+  <div class="eyebrow">The information pack they already ask for</div>
+  <h2 class="sec">The wait between &ldquo;send me the pack&rdquo; and knowing what to do.</h2>
+  <p class="kicker">Summerset offers a free information pack. A family enters their details, and what arrives is the same pack every family gets. That is the moment this concept works in &mdash; the same published material, assembled around what this family actually said. Nothing is sold. Nothing sends without their yes.</p>
+  <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px">
+    <div class="card">
+      <div class="chip">01 &middot; what they told you</div>
+      <h4 style="margin:10px 0 6px">Mum, 82, Napier. Wants to stay near her sister. Worried about what she gets back.</h4>
+      <p class="kicker" style="margin:0">Three facts, given freely on the enquiry form. Provenance visible: &ldquo;you told us&rdquo;.</p>
+    </div>
+    <div class="card">
+      <div class="chip">02 &middot; what gets assembled</div>
+      <h4 style="margin:10px 0 6px">The pack, opened at the deferred management fee &mdash; 25% over four years, with her numbers in it.</h4>
+      <p class="kicker" style="margin:0">Villages in Hawke&rsquo;s Bay, not all 38. Summerset Sure explained in plain words.</p>
+    </div>
+    <div class="card">
+      <div class="chip">03 &middot; what Summerset keeps</div>
+      <h4 style="margin:10px 0 6px">The relationship, the record, and every consequential action.</h4>
+      <p class="kicker" style="margin:0">Assembling prepares. A Summerset advisor decides what is sent and when.</p>
+    </div>
+  </div>
+  <p class="kicker" style="margin-top:22px"><b style="color:var(--ink)">Why this moment:</b> the pack is already the most requested thing on the site. Today it arrives identical for every family. Assembled, it arrives already about this one.</p>
+</div></section>
+
+<section id="fit" class="tool"><div class="wrap">
+  <div class="eyebrow">Will Mum's things fit?</div>
+  <h2 class="sec">Her home, before a single box is packed.</h2>
+  <p class="kicker">Downsizing dread is the biggest reason a move stalls for months. Seeing her armchair fit by the morning window turns "where does my life go?" into "it'll still feel like home." Toggle what she keeps.</p>
+  <div class="grid2" style="margin-top:36px">
+    <div class="card">
+      <div class="plan" id="plan"></div>
+    </div>
+    <div class="card">
+      <div id="pieces"></div>
+      <div class="fitsum" id="fitsum"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- MONEY -->
+<section id="money" class="tool"><div class="wrap">
+  <div class="eyebrow">The money, in plain words</div>
+  <h2 class="sec">Financial certainty, not fine print.</h2>
+  <p class="kicker">Summerset's real model, made legible: a one-off licence payment, a capped deferred management fee, a weekly fee that rises only with the pension — and you see exactly what comes back. For clarity — never a sale.</p>
+  <div class="grid2" style="margin-top:36px">
+    <div class="card">
+      <div class="field">
+        <label>Licence payment for the unit (ORA)</label>
+        <input type="range" id="price" min="450000" max="1400000" step="10000" value="850000" oninput="calcMoney()">
+        <div class="rangeval" id="priceval">$850,000</div>
+      </div>
+      <div class="field">
+        <label>Weekly fee</label>
+        <div class="fitsum" style="margin-top:4px">Summerset's deferred management fee is <b>25% of the licence payment</b>, accruing over four years in an independent living home (two in a serviced apartment). Their FAQ is explicit about the ending: the weekly fee stops, and the deferred management fee stops accruing, <b>the day she permanently vacates</b>.</div>
+      </div>
+    </div>
+    <div class="card soft">
+      <ul class="breakdown" id="breakdown"></ul>
+      <div class="fitsum" style="margin-top:18px">The <b>Summerset Sure</b> 90-day money-back guarantee, in their words: a full refund <b>without any deduction for the deferred management fee</b> if, 90 days after taking up permanent residence, she decides Summerset is not for her (some conditions apply). <b>Nothing here is a commitment.</b></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CARE -->
+<section id="care" class="tool"><div class="wrap narrow">
+  <div class="eyebrow">Care for life</div>
+  <h2 class="sec">She won't have to move away again.</h2>
+  <p class="kicker">The deepest family fear — "what if she gets worse and we have to uproot her?" — answered. Care lives on one site, and there is no additional capital to move from independent living to a serviced apartment in the same village.</p>
+  <div class="stages" id="stages" style="margin-top:34px"></div>
+  <div class="stagedesc" id="stagedesc"></div>
+</div></section>
+
+<!-- MOVE -->
+<section id="move" class="tool"><div class="wrap">
+  <div class="eyebrow">The move, coordinated</div>
+  <h2 class="sec">The family home and the new one, in step.</h2>
+  <p class="kicker">The practical tangle that stalls everything: selling the family home without a scary gap before move-in. Tick things off — the timeline keeps itself honest.</p>
+  <div class="grid2" style="margin-top:36px">
+    <div class="card">
+      <div id="movelist"></div>
+      <div class="progbar"><i id="moveprog"></i></div>
+    </div>
+    <div class="card soft">
+      <div class="eyebrow" style="margin-bottom:12px">Before you move · gently</div>
+      <p class="cd" style="color:var(--muted);font-size:14px;margin-bottom:8px">The admin families are always glad they sorted early. No pressure, no alarm — consent and privacy first.</p>
+      <div id="adminlist"></div>
+      <div class="progbar"><i id="adminprog"></i></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- LIFE -->
+<section id="life" class="tool"><div class="wrap">
+  <div class="eyebrow">Life at the village</div>
+  <h2 class="sec">Will she be happy? Show the family, don't tell them.</h2>
+  <p class="kicker">The quiet guilt — "are we abandoning Mum?" — eases when you can see her week filling with things she loves. Pick her interests.</p>
+  <div class="grid2" style="margin-top:36px">
+    <div class="card">
+      <label style="font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:14px">What does Mum love?</label>
+      <div class="selchips" id="interests"></div>
+    </div>
+    <div class="card soft">
+      <div class="eyebrow" style="margin-bottom:8px">Her week could look like</div>
+      <div class="matches" id="matches"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FAMILY LOOP + WELLBEING -->
+<section class="tool"><div class="wrap">
+  <div class="grid2">
+    <div>
+      <div class="eyebrow">Everyone in the loop</div>
+      <h2 class="sec" style="font-size:clamp(26px,3.6vw,34px)">Across siblings and cities.</h2>
+      <p class="kicker">Nobody left out of Mum's decision — same updates, video-join visits, wherever they are.</p>
+      <div class="card" style="margin-top:24px">
+        <div id="members"></div>
+        <div class="looprow">
+          <input id="mname" placeholder="Name" aria-label="Name">
+          <input id="mwhere" placeholder="Where they live" aria-label="Location">
+          <button class="addbtn" onclick="addMember()">Add</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">After the move</div>
+      <h2 class="sec" style="font-size:clamp(26px,3.6vw,34px)">The journey doesn't end at move-in.</h2>
+      <p class="kicker">With consent, a gentle window into Mum's life — the part that earns word of mouth.</p>
+      <div class="card soft" id="wellbeing" style="margin-top:24px"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- PROOF -->
+<section id="proof" class="tool"><div class="wrap">
+  <div class="proof" id="proofpanel"></div>
+</div></section>
+
+<section id="boundary" class="tool"><div class="wrap">
+  <div class="eyebrow">The boundary</div>
+  <h2 class="sec">What this concept does not do.</h2>
+  <p class="kicker">No production access is requested by this concept. No resident record, no care plan and no clinical data is involved or asked for. Everything here is built from what Summerset already publishes, plus what a family types into an enquiry form. Scope, privacy, security and commercial terms would need joint approval before any pilot began.</p>
+  <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px">
+    <div class="card"><div class="chip">01 &middot; the scope</div><p class="kicker" style="margin:10px 0 0">One region&rsquo;s information-pack enquiries. Four weeks. Opt-in only.</p></div>
+    <div class="card"><div class="chip">02 &middot; the access</div><p class="kicker" style="margin:10px 0 0">Read-only public content plus what the family types. Draft-write only to the pack. Nothing written to any Summerset system.</p></div>
+    <div class="card"><div class="chip">03 &middot; the scorecard</div><p class="kicker" style="margin:10px 0 0">Enquiry-to-visit rate up, time to a first useful answer down, zero unapproved sends.</p></div>
+  </div>
+  <p class="kicker" style="margin-top:20px">Fail any line of the scorecard and we change the design or stop.</p>
+</div></section>
+
+<footer><div class="wrap narrow">
+  <p><b>Trust wait.</b> The anxious moment is never monetised — Summerset's money is only ever explained for clarity. Measured on enquiry-to-visit and time-to-decision, never on pressure.</p>
+  <p style="margin-top:14px">Independent concept · not affiliated with or endorsed by Summerset · illustrative figures · no real family or resident data used. Fee model reflects publicly stated Summerset terms (licence payment under an Occupation Right Agreement, deferred management fee of 25% accruing over four years for an independent living home, weekly fee and fee accrual ending the day the resident permanently vacates, and the Summerset Sure 90-day money-back guarantee) and should be confirmed with a Summerset advisor. Brand palette, the information-pack offer and every figure here are taken from Summerset's own public website. No production access is requested and no resident, care-record or clinical data is involved.</p>
+  
+  <p style="margin-top:20px;color:var(--ink);font-weight:600">assembl / minute one</p>
+</div></footer>
+
+<button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask the guide</button>
+<div class="chat" id="chat">
+  <div class="chathead">
+    <div class="t"><span class="d"></span> mySummerset guide <small>· here to help the family</small></div>
+    <button class="x" onclick="closeChat()" aria-label="Close">×</button>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="sugg" id="sugg"></div>
+  <div class="agentnote" id="agentnote"></div>
+  <div class="chatin">
+    <input id="chatinput" placeholder="Ask about cost, care, fit…" onkeydown="if(event.key==='Enter')sendChat()" aria-label="Ask a question">
+    <button class="send" onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<script>
+/* ============ CONFIG ============ */
+const AGENT_ENDPOINT = "/api/agent"; // live guide endpoint
+
+/* ============ STATE ============ */
+const S = {
+  pieces:{armchair:true,bed:true,dresser:true,bookshelf:true,table6:false,piano:false},
+  price:850000, fee:'fixed',
+  care:0,
+  move:{list:false,offer:false,ora:false,movers:false,in:false},
+  admin:{epoa:false,gp:false,meds:false,will:false,mail:false},
+  interests:new Set(['gardening','choir']),
+  members:[{who:'Sarah',where:'Wellington'},{who:'David',where:'Brisbane'}],
+  guestBooked:false, checkedIn:false
+};
+
+/* ============ PHONE JOURNEY ============ */
+const pj = [
+  ()=>`<div class="peyebrow">A family decision</div><h3>A big decision,<br>made together.</h3>
+    <p class="sub">mySummerset can take a single minute to prepare what your family needs. Nothing is decided for you.</p>
+    <div class="chips"><span class="chip">Mum · 82</span><span class="chip">Two children</span><span class="chip">Leaving home</span></div>
+    <div class="signal"><small>What we understand</small><p>Sarah's in Wellington, David's in Brisbane · mobility now matters</p></div>
+    <button class="pcta" onclick="pjGo(1)">Begin — at your pace <span class="arw">→</span></button>`,
+  ()=>`<div class="peyebrow">Minute one</div><h3>Getting things ready<br>for your family.</h3>
+    <div class="prog"><i id="bar"></i></div>
+    <ul class="asm" id="asm">
+      <li><span class="mk">✓</span> Understanding Mum's needs</li>
+      <li><span class="mk">✓</span> Finding a single-level home near her</li>
+      <li><span class="mk">✓</span> Checking which of her things will fit</li>
+      <li><span class="mk">✓</span> Putting the money in plain words</li>
+      <li><span class="mk">✓</span> Gathering the questions families forget</li>
+    </ul>
+    <button class="pcta" id="waitcta" style="opacity:.4;pointer-events:none" onclick="pjGo(2)">Preparing… <span class="arw">→</span></button>`,
+  ()=>`<div class="peyebrow">Ready when you are</div><h3>Everything, in<br>one place.</h3>
+    <p class="sub">Prepared for Mum · nothing booked · your family stays in control.</p>
+    <div class="chips"><span class="chip">A home that fits</span><span class="chip">Her things placed</span><span class="chip">Money explained</span><span class="chip">Care for life</span></div>
+    <div class="signal"><small>What we understand</small><p>Her armchair fits by the window · no pressure to decide</p></div>
+    <button class="pcta" onclick="document.getElementById('fit').scrollIntoView()">Explore it full-size below <span class="arw">→</span></button>`
+];
+let pjStep=0;
+function renderPhone(){ document.getElementById('pbody').innerHTML=pj[pjStep](); if(pjStep===1) playWait(); }
+function pjGo(n){ pjStep=n; renderPhone(); }
+function playWait(){
+  const items=[...document.querySelectorAll('#asm li')], bar=document.getElementById('bar'), cta=document.getElementById('waitcta');
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduced){ items.forEach(i=>i.classList.add('in')); bar.style.width='100%'; wEnable(cta); return; }
+  items.forEach((li,i)=>setTimeout(()=>{ li.classList.add('in'); bar.style.width=((i+1)/items.length*100)+'%'; if(i===items.length-1) setTimeout(()=>wEnable(cta),480); }, 500+i*680));
+}
+function wEnable(cta){ cta.style.opacity='1'; cta.style.pointerEvents='auto'; cta.innerHTML='Ready when you are <span class="arw">→</span>'; }
+
+/* ============ FIT ============ */
+const PIECES=[
+  {id:'armchair',n:'Her reading armchair',keep:'Fits by the north window, in the morning sun',rehome:'The piece she worried about most'},
+  {id:'bed',n:'Bed & bedding',keep:'Fits as-is in the main bedroom',rehome:'Rehomed'},
+  {id:'dresser',n:'Her dresser',keep:'Fits beside the bed',rehome:'Rehomed'},
+  {id:'bookshelf',n:'The bookshelf',keep:'Fits along the study wall',rehome:'Rehomed'},
+  {id:'table6',n:'6-seat dining table',keep:'Fits, but fills the room',rehome:'A 4-seater keeps it open — big dinners move to the village private dining room'},
+  {id:'piano',n:'The piano',keep:'Fits against the long wall',rehome:"Won't fit — but there's a grand in the village lounge she can play any time"}
+];
+function renderPieces(){
+  document.getElementById('pieces').innerHTML=PIECES.map(p=>{
+    const keep=S.pieces[p.id];
+    return `<div class="piece"><div class="info"><div class="n">${p.n}</div><div class="m">${keep?p.keep:p.rehome}</div></div>
+      <button class="toggle ${keep?'keep':'off'}" onclick="togglePiece('${p.id}')">${keep?'Keeping':'Rehome'}</button></div>`;
+  }).join('');
+  const kept=Object.values(S.pieces).filter(Boolean).length;
+  document.getElementById('fitsum').innerHTML=`<b>${kept} of ${PIECES.length} pieces</b> come with her — including the armchair. Nothing's decided; what Mum keeps is entirely hers.`;
+  renderPlan(); renderProof();
+}
+function togglePiece(id){ S.pieces[id]=!S.pieces[id]; renderPieces(); }
+function renderPlan(){
+  const on=(id,c)=>S.pieces[id]?c:'#EFF1EE', st=(id)=>S.pieces[id]?'#5F857D':'#C8D0CA';
+  document.getElementById('plan').innerHTML=`<svg viewBox="0 0 340 250" role="img" aria-label="Floorplan with Mum's furniture">
+    <rect x="4" y="4" width="332" height="242" rx="8" fill="#fff" stroke="#D8DED9" stroke-width="1.5"/>
+    <line x1="200" y1="4" x2="200" y2="150" stroke="#E2E5DF"/><line x1="200" y1="150" x2="336" y2="150" stroke="#E2E5DF"/><line x1="4" y1="170" x2="200" y2="170" stroke="#E2E5DF"/>
+    <text x="16" y="24" font-family="Instrument Sans" font-size="10" fill="#9AA09A" letter-spacing="1">LIVING &amp; DINING</text>
+    <text x="212" y="24" font-family="Instrument Sans" font-size="10" fill="#9AA09A" letter-spacing="1">BEDROOM</text>
+    <text x="212" y="168" font-family="Instrument Sans" font-size="10" fill="#9AA09A" letter-spacing="1">STUDY</text>
+    <text x="16" y="188" font-family="Instrument Sans" font-size="10" fill="#9AA09A" letter-spacing="1">BALCONY</text>
+    <rect x="18" y="40" width="66" height="24" rx="5" fill="#E7EEEB" stroke="#5F857D"/><text x="24" y="56" font-family="Instrument Sans" font-size="9" fill="#3F625A">Sofa</text>
+    <rect x="150" y="44" width="34" height="34" rx="6" fill="${on('armchair','#5F857D')}" stroke="${st('armchair')}"/><text x="146" y="94" font-family="Instrument Sans" font-size="9" fill="#3F625A">Armchair ${S.pieces.armchair?'✓':'—'}</text>
+    <rect x="26" y="118" width="54" height="34" rx="4" fill="${on('table6','#E7EEEB')}" stroke="${st('table6')}" stroke-dasharray="${S.pieces.table6?'0':'3 3'}"/><text x="30" y="139" font-family="Instrument Sans" font-size="8.5" fill="#7F857F">Table</text>
+    <rect x="214" y="40" width="62" height="80" rx="5" fill="${on('bed','#E7EEEB')}" stroke="${st('bed')}"/><text x="222" y="84" font-family="Instrument Sans" font-size="9" fill="#3F625A">Bed ${S.pieces.bed?'✓':'—'}</text>
+    <rect x="292" y="40" width="30" height="50" rx="4" fill="${on('dresser','#E7EEEB')}" stroke="${st('dresser')}"/><text x="288" y="102" font-family="Instrument Sans" font-size="8.5" fill="#7F857F">Dresser</text>
+    <rect x="214" y="188" width="60" height="18" rx="3" fill="${on('bookshelf','#E7EEEB')}" stroke="${st('bookshelf')}"/><text x="220" y="201" font-family="Instrument Sans" font-size="9" fill="#3F625A">Books ${S.pieces.bookshelf?'✓':'—'}</text>
+    <rect x="96" y="182" width="52" height="16" rx="3" fill="${on('piano','#E7EEEB')}" stroke="${st('piano')}"/><text x="100" y="194" font-family="Instrument Sans" font-size="8.5" fill="#7F857F">Piano</text>
+  </svg>`;
+}
+
+/* ============ MONEY ============ */
+function fmt(n){ return '$'+Math.round(n).toLocaleString('en-NZ'); }
+function setFee(f){ S.fee=f; document.getElementById('segF').classList.toggle('on',f==='fixed'); document.getElementById('segI').classList.toggle('on',f==='indexed');
+  document.getElementById('feenote').textContent = f==='fixed' ? 'What Summerset publishes: the fee stops the day she permanently vacates.' : 'Ask a Summerset advisor how the weekly fee is reviewed — their published FAQ does not set it out.'; calcMoney(); }
+function calcMoney(){
+  S.price=+document.getElementById('price').value;
+  document.getElementById('priceval').textContent=fmt(S.price);
+  const dmf=S.price*0.25, back=S.price-dmf;
+  const weekly = 205;
+  document.getElementById('breakdown').innerHTML=`
+    <li><span class="k">One-off licence payment (ORA)</span><span>${fmt(S.price)}</span></li>
+    <li><span class="k">Deferred management fee (capped)</span><span>${fmt(dmf)}</span></li>
+    <li><span class="k">Weekly fee (stops when she leaves)</span><span>~${fmt(weekly)}/wk</span></li>
+    <li><span class="k">Comes back when she leaves</span><span class="big">${fmt(back)}</span></li>`;
+  renderProof();
+}
+
+/* ============ CARE ============ */
+const CARE=[
+  {sn:'Stage 1',st:'Independent living',d:'Her own apartment, her own front door — with the village around her when she wants it, and never when she doesn\'t.'},
+  {sn:'Stage 2',st:'Serviced apartment',d:'A little more help with meals and housekeeping. Crucially: no additional capital to move here from independent living in the same village. Same faces, same home.'},
+  {sn:'Stage 3',st:'Rest home care',d:'Daily care when it\'s needed, from people she already knows — without leaving the place that\'s become home.'},
+  {sn:'Stage 4',st:'Hospital & memory care',d:'Higher-level and specialist memory care on the same site. The whole point: Mum is never uprooted and moved to a stranger\'s facility across town.'}
+];
+function renderCare(){
+  document.getElementById('stages').innerHTML=CARE.map((c,i)=>`<button class="stage ${i===S.care?'on':''}" onclick="S.care=${i};renderCare()"><div class="sn">${c.sn}</div><div class="st">${c.st}</div></button>`).join('');
+  document.getElementById('stagedesc').textContent=CARE[S.care].d;
+}
+
+/* ============ MOVE + ADMIN ============ */
+const MOVE=[
+  {id:'list',t:'List the family home',d:'When you\'re ready — no rush to market'},
+  {id:'offer',t:'Accept an offer',d:'We line the settlement up with move-in'},
+  {id:'ora',t:'Sign the ORA (with 90-day change of mind)',d:'Reviewed by your lawyer first'},
+  {id:'movers',t:'Book vetted downsizing movers',d:'They pack the pieces she\'s keeping'},
+  {id:'in',t:'Move-in day',d:'Utilities and mail already redirected — no gap, no scramble'}
+];
+const ADMIN=[
+  {id:'epoa',t:'Enduring Power of Attorney',d:'The one families most often wish they\'d done sooner'},
+  {id:'gp',t:'Transfer Mum\'s GP records',d:'So care is seamless from day one'},
+  {id:'meds',t:'A current medication list',d:'Shared with the village nurse, with consent'},
+  {id:'will',t:'Check the will is current',d:'A quiet, sensible tidy-up'},
+  {id:'mail',t:'Redirect mail & update contacts',d:'Small, but easily forgotten'}
+];
+function renderMove(){
+  const el=document.getElementById('movelist');
+  el.innerHTML=MOVE.map(m=>`<div class="check ${S.move[m.id]?'done':''}" onclick="S.move['${m.id}']=!S.move['${m.id}'];renderMove()"><div class="box">✓</div><div><div class="ct">${m.t}</div><div class="cd">${m.d}</div></div></div>`).join('');
+  const md=Object.values(S.move).filter(Boolean).length; document.getElementById('moveprog').style.width=(md/MOVE.length*100)+'%';
+  const ad=document.getElementById('adminlist');
+  ad.innerHTML=ADMIN.map(m=>`<div class="check ${S.admin[m.id]?'done':''}" onclick="S.admin['${m.id}']=!S.admin['${m.id}'];renderMove()"><div class="box">✓</div><div><div class="ct">${m.t}</div><div class="cd">${m.d}</div></div></div>`).join('');
+  const adn=Object.values(S.admin).filter(Boolean).length; document.getElementById('adminprog').style.width=(adn/ADMIN.length*100)+'%';
+  renderProof();
+}
+
+/* ============ INTERESTS ============ */
+const INTERESTS=['Gardening','Choir','Lawn bowls','Bridge','Painting','Walking group','Book club','Baking'];
+const ACT={Gardening:['Wed','Raised-bed gardening club'],Choir:['Thu','Village choir & morning tea'],'Lawn bowls':['Tue','Bowls on the green'],Bridge:['Mon','Bridge afternoons'],Painting:['Fri','Watercolour studio'],'Walking group':['Daily','Harbour walking group'],'Book club':['Wed','Library book club'],Baking:['Sat','Community kitchen bake-off']};
+function renderInterests(){
+  document.getElementById('interests').innerHTML=INTERESTS.map(i=>`<button class="selchip ${S.interests.has(i.toLowerCase())?'on':''}" onclick="toggleInt('${i.toLowerCase()}')">${i}</button>`).join('');
+  const chosen=INTERESTS.filter(i=>S.interests.has(i.toLowerCase()));
+  document.getElementById('matches').innerHTML = chosen.length? chosen.map(i=>`<div class="match"><span class="day">${ACT[i][0]}</span><span>${ACT[i][1]}</span></div>`).join('') : `<p style="color:var(--muted);font-size:14px">Pick what Mum loves to see her week fill up.</p>`;
+}
+function toggleInt(i){ S.interests.has(i)?S.interests.delete(i):S.interests.add(i); renderInterests(); }
+
+/* ============ FAMILY LOOP ============ */
+function renderMembers(){
+  document.getElementById('members').innerHTML=S.members.map((m,i)=>`<div class="member"><div><span class="who">${m.who}</span> <span class="where">· ${m.where}</span></div><button class="toggle off" onclick="S.members.splice(${i},1);renderMembers()">Remove</button></div>`).join('');
+  renderProof();
+}
+function addMember(){
+  const n=document.getElementById('mname').value.trim(), w=document.getElementById('mwhere').value.trim();
+  if(!n) return; S.members.push({who:n,where:w||'—'}); document.getElementById('mname').value=''; document.getElementById('mwhere').value=''; renderMembers();
+}
+
+/* ============ WELLBEING ============ */
+function renderWellbeing(){
+  document.getElementById('wellbeing').innerHTML=`
+    <div class="feeditem"><div class="fdot"></div><div><div class="ft">Choir concert, Sunday 2pm</div><div class="fm">Mum has a solo. Family welcome — RSVP for three so far.</div></div></div>
+    <div class="feeditem"><div class="fdot"></div><div><div class="ft">Wellbeing check-in</div><div class="fm">Settled well this week; enjoying the garden club. Shared with consent.</div></div></div>
+    <div class="feeditem"><div class="fdot"></div><div><div class="ft">Staying over when you visit?</div><div class="fm">The village guest suite is free next weekend.</div>
+      <button class="miniact ${S.guestBooked?'done':''}" onclick="S.guestBooked=!S.guestBooked;renderWellbeing()">${S.guestBooked?'Guest suite booked ✓':'Book the guest suite'}</button></div></div>`;
+}
+
+/* ============ PROOF ============ */
+function renderProof(){
+  const kept=Object.values(S.pieces).filter(Boolean).length;
+  const moveDone=Object.values(S.move).filter(Boolean).length, adminDone=Object.values(S.admin).filter(Boolean).length;
+  const signals = kept + S.members.length + S.interests.size + moveDone + adminDone + 3;
+  const back=S.price*0.75;
+  document.getElementById('proofpanel').innerHTML=`
+    <div class="eyebrow">Summerset · family journey control</div>
+    <h2>The journey is understood, and stays<br>in the family's hands.</h2>
+    <div class="metrics">
+      <div class="metric"><div class="k">Family signals</div><div class="v">${signals}</div></div>
+      <div class="metric"><div class="k">Time returned</div><div class="v">45 min</div></div>
+      <div class="metric"><div class="k">Family in the loop</div><div class="v calm">${S.members.length}</div></div>
+      <div class="metric"><div class="k">Decided for you</div><div class="v calm">0</div></div>
+    </div>
+    <div class="tracewrap"><div class="h">Journey trace</div><ul class="trace">
+      <li class="done"><span class="mk">✓</span> Shared space opened</li>
+      <li class="done"><span class="mk">✓</span> Mum's needs understood</li>
+      <li class="${kept?'done':''}"><span class="mk">${kept?'✓':'3'}</span> Her things placed — ${kept} pieces come with her</li>
+      <li class="${S.price?'done':''}"><span class="mk">✓</span> The money explained — ${fmt(back)} comes back</li>
+      <li class="${moveDone?'done':''}"><span class="mk">${moveDone?'✓':'5'}</span> Move coordinated — ${moveDone}/${MOVE.length} steps</li>
+      <li class="${S.members.length>2?'done':''}"><span class="mk">${S.members.length>2?'✓':'6'}</span> Family added to the loop</li>
+      <li class="guard"><span class="mk">♦</span> Nothing actioned without approval</li>
+    </ul></div>`;
+}
+
+/* ============ AGENT ============ */
+const GENOME=`You are the mySummerset family guide, a warm, plain-spoken assistant helping an adult child think through a parent's possible move into a Summerset retirement village in New Zealand. Be brief, kind, never pushy, never pressure a decision. Summerset facts you may use: their line is 'Love the life you choose'. 38 villages across New Zealand, designed for over 70s. Homes are villas, townhouses, apartments and serviced apartments; care includes rest home and hospital level care, plus memory care. Summerset operates a licence-to-occupy model: a licence payment under an Occupation Right Agreement gives the right to live in the home and use village facilities; Summerset retains ownership of the land and building. The deferred management fee is 25 percent of the licence payment, accruing over four years for an independent living home and two years for a serviced apartment. The weekly fee stops, and the deferred management fee stops accruing, from the day the resident permanently vacates. There is a Summerset Sure 90-day money-back guarantee: a full refund without any deduction for the deferred management fee if, 90 days after taking up permanent residence, the resident decides Summerset is not for them (some conditions apply). Summerset offers a free information pack. IMPORTANT: how the weekly fee is reviewed year to year is NOT stated in Summerset's public FAQ &mdash; if asked, say plainly that it isn't published and a Summerset advisor should confirm it. Never invent a price, a percentage or a village name. No production access is requested by this concept and no real resident data is used. This is an independent concept, not affiliated with Summerset.`;
+const SUGG=["How much comes back if she leaves?","What if Mum needs more care later?","Will her armchair fit?","Can she bring a pet?","We're not ready to decide"];
+function renderSugg(){ document.getElementById('sugg').innerHTML=SUGG.map(s=>`<button onclick="ask('${s.replace(/'/g,"\\'")}')">${s}</button>`).join(''); }
+let chatHistory=[];
+function openChat(){ document.getElementById('chat').classList.add('open'); document.getElementById('agentbtn').style.display='none';
+  if(!chatHistory.length){ pushMsg('a',"Kia ora — I'm here to help you and your family think this through, at whatever pace suits. Ask me anything about cost, care, moving, or life in the village. Nothing you do here commits anyone to anything."); }
+  document.getElementById('agentnote').textContent = AGENT_ENDPOINT ? 'Live AI · confirm anything binding with a Summerset advisor' : 'Grounded concept guide · confirm anything binding with a Summerset advisor';
+}
+function closeChat(){ document.getElementById('chat').classList.remove('open'); document.getElementById('agentbtn').style.display='flex'; }
+function pushMsg(role,text){ const m=document.createElement('div'); m.className='msg '+role; m.innerHTML=text; document.getElementById('msgs').appendChild(m); const box=document.getElementById('msgs'); box.scrollTop=box.scrollHeight; }
+function ask(q){ document.getElementById('chatinput').value=q; sendChat(); }
+async function sendChat(){
+  const inp=document.getElementById('chatinput'); const q=inp.value.trim(); if(!q) return;
+  pushMsg('u',q); inp.value=''; chatHistory.push({role:'user',content:q});
+  const t=document.createElement('div'); t.className='typing'; t.textContent='Guide is typing…'; document.getElementById('msgs').appendChild(t);
+  let reply;
+  try{ reply = AGENT_ENDPOINT ? await liveAgent(q) : groundedAgent(q); }
+  catch(e){ reply = groundedAgent(q); }
+  t.remove(); pushMsg('a',reply); chatHistory.push({role:'assistant',content:reply});
+}
+async function liveAgent(q){
+  const res=await fetch(AGENT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system:GENOME, messages:chatHistory})});
+  const data=await res.json();
+  return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n') || groundedAgent(q);
+}
+function groundedAgent(q){
+  const s=q.toLowerCase();
+  const has=(...w)=>w.some(x=>s.includes(x));
+  if(has('back','refund','get back','return','leave','exit')) return `When Mum permanently leaves, she gets her entry payment back <b>minus the capped deferred management fee</b> — so on a ${fmt(S.price)} unit that's about <b>${fmt(S.price*0.75)}</b>. It's paid when a new resident moves in, or within 12 months — whichever comes first. No capital gains or losses. You can model other prices on the calculator above.`;
+  if(has('dmf','deferred','management fee','exit fee','departure')) return `The deferred management fee is Summerset's charge for maintaining and eventually refurbishing the home. It's a <b>capped percentage</b> of the licence payment, deducted just once from the refund when she leaves — and it stops accruing the day she moves out.`;
+  if(has('cost','price','how much','entry','ora','afford','expensive','pay')) return `There's a <b>one-off entry payment</b> for the unit (the ORA), then a <b>weekly fee</b> covering rates, gardens, amenities and activities. That's it — no rates bills, no surprise levies. Try the calculator above to see the numbers for a price that fits your family, including what comes back later.`;
+  if(has('weekly','week fee','ongoing','fixed','indexed')) return `Summerset's FAQ is clear about one part: the weekly fee <b>stops as soon as she permanently vacates</b>, and the deferred management fee stops accruing then too. How the fee is reviewed year to year isn't set out publicly &mdash; that's a question for a Summerset advisor, and I won't guess at it.`;
+  if(has('care','sicker','worse','hospital','dementia','rest home','nursing','move again','uproot')) return `This is the reassuring part: care is a <b>continuum on one site</b> — independent living, serviced apartment, rest home, hospital and memory care. If Mum ever needs more support she stays in the same village among the same faces, and there is <b>no additional capital</b> to move from independent living to a serviced apartment. She won't be uprooted.`;
+  if(has('fit','armchair','furniture','things','stuff','downsize','belongings','piano')) return `Most of her favourites come with her — including the armchair, which fits by the north window in the morning sun. The 6-seat table is the usual trade-off (a 4-seater keeps the room open, and big family dinners move to the village's private dining room). Play with what she keeps in the "Will it fit" section above.`;
+  if(has('pet','dog','cat','animal')) return `Many Summerset villages welcome a small pet in independent living, with a chat first so it suits her home and the community. I'd confirm the specifics for the village you're looking at with a Summerset advisor.`;
+  if(has('meal','food','eat','dining','cook')) return `She can cook in her own kitchen as always, and there's a village restaurant for when she'd rather not. Families often book the private dining room for birthdays and Sunday lunches.`;
+  if(has('visit','tour','look','see it','viewing')) return `A visit is the best next step, and there's no obligation. We can find a time that works across the family — including a video link for anyone overseas — whenever you're ready. Want me to note your preferred weekend for a Summerset advisor to confirm?`;
+  if(has('not ready','pressure','slow','time','think','rush','decide')) return `That's completely okay — there's no clock on this. Everything we've prepared stays exactly here, nothing expires, and nothing happens without your family choosing it. Take the time you need.`;
+  if(has('90','change my mind','changed','regret')) return `There's the <b>Summerset Sure 90-day money-back guarantee</b> — if it isn't right within 90 days, she leaves with a full refund and no deferred management fee deducted. It takes a lot of the fear out of deciding.`;
+  if(has('epoa','power of attorney','will','legal','lawyer')) return `Sensible things to have in order are an Enduring Power of Attorney, an up-to-date will, and transferring her GP records — the admin section above has a gentle checklist. Do these with her own lawyer; I'm just here to help you remember them.`;
+  if(has('start','begin','how do','next step','first')) return `No big first step needed. Play with the tools above to picture it, then — when the <b>family</b> feels ready — a village visit is the natural next move. I can help you prepare the questions worth asking.`;
+  if(has('human','person','advisor','call','contact','talk to')) return `Absolutely — a Summerset advisor can talk any of this through properly. I can note what matters most to your family so the conversation starts where you are, not from scratch. What would you like them to know?`;
+  if(has('hello','hi','kia ora','hey','thanks','thank')) return `Kia ora. I'm glad to help — ask me anything about the money, the care, the move, or what daily life looks like. There's no wrong question.`;
+  return `That's a good question. In this concept I can speak to cost, what comes back, the care continuum, whether her furniture fits, visits, pets, meals and pacing — and for anything binding a Summerset advisor can confirm the detail. What matters most to your family right now?`;
+}
+
+/* ============ INIT ============ */
+renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderInterests(); renderMembers(); renderWellbeing(); renderProof(); renderSugg();
+</script>
+
+<script src="three.min.js"></script>
+<script>
+/* ── 3D — assembl assembly in Summerset heather colours (ambient, behind content) ── */
+(function(){
+  if(typeof THREE==='undefined'){setTimeout(arguments.callee,100);return}
+  const c=document.getElementById('canvas-3d')
+  if(!c)return
+  const r=new THREE.WebGLRenderer({canvas:c,antialias:true,alpha:true})
+  r.setSize(innerWidth,innerHeight)
+  r.setPixelRatio(Math.min(devicePixelRatio,2))
+  const s=new THREE.Scene()
+  const cam=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,0.1,100)
+  cam.position.set(-2,0.3,12);cam.lookAt(0,0,0)
+  const pmrem=new THREE.PMREMGenerator(r)
+  const env=new THREE.Scene()
+  env.background=new THREE.Color('#0A0A0A')
+  let e=new THREE.DirectionalLight('#FFFFFF',40);e.position.set(5,8,5);env.add(e)
+  e=new THREE.DirectionalLight('#FFFFFF',20);e.position.set(-5,3,2);env.add(e)
+  s.environment=pmrem.fromScene(env,0.04).texture
+  s.add(new THREE.AmbientLight('#FFFFFF',0.25))
+  const key=new THREE.DirectionalLight('#FFFFFF',5);key.position.set(5,10,5);s.add(key)
+
+  const main=new THREE.MeshStandardMaterial({color:'#470A68',metalness:1,roughness:0.12,envMapIntensity:25})
+  const bright=new THREE.MeshStandardMaterial({color:'#7E5395',metalness:1,roughness:0.06,envMapIntensity:35})
+  const deep=new THREE.MeshStandardMaterial({color:'#E4002B',metalness:1,roughness:0.03,envMapIntensity:40})
+  const whiteChrome=new THREE.MeshStandardMaterial({color:'#F8F9FA',metalness:1,roughness:0.02,envMapIntensity:35})
+
+  const group=new THREE.Group();s.add(group);group.position.set(4,0,0);group.scale.setScalar(1.22)
+  const core=new THREE.Mesh(new THREE.TorusGeometry(1.8,0.5,32,128),bright);group.add(core)
+  const inner=new THREE.Mesh(new THREE.SphereGeometry(0.9,48,48),new THREE.MeshPhysicalMaterial({color:'#7E5395',metalness:0.95,roughness:0.05,transmission:0.3,transparent:true,opacity:0.9,envMapIntensity:20}));group.add(inner)
+  const tri=new THREE.Mesh(new THREE.ConeGeometry(0.6,1.2,4),deep);tri.position.set(-2.5,0.5,0);tri.rotation.z=Math.PI/4;group.add(tri)
+  const dia=new THREE.Mesh(new THREE.OctahedronGeometry(0.7,0),main);dia.position.set(2.5,-0.3,0);group.add(dia)
+  const smRing=new THREE.Mesh(new THREE.TorusGeometry(0.5,0.15,16,48),bright);smRing.position.set(0,1.8,0);smRing.rotation.x=Math.PI/3;group.add(smRing)
+  const r1=new THREE.Mesh(new THREE.TorusGeometry(5,0.08,16,128),bright);r1.rotation.x=Math.PI/2.3;r1.rotation.z=Math.PI/8;group.add(r1)
+  const r2=new THREE.Mesh(new THREE.TorusGeometry(4,0.05,12,96),main);r2.rotation.x=Math.PI/2.6;r2.rotation.y=Math.PI/5;group.add(r2)
+
+  const orbiters=[]
+  const defs=[
+    {geo:new THREE.TorusGeometry(0.5,0.18,20,60),mat:bright,r:6,speed:0.35,phase:0,yAmp:1.2},
+    {geo:new THREE.OctahedronGeometry(0.6,0),mat:deep,r:6.5,speed:0.28,phase:1.5,yAmp:0.9},
+    {geo:new THREE.ConeGeometry(0.5,1,4),mat:main,r:5.5,speed:0.4,phase:3,yAmp:1},
+    {geo:new THREE.TorusGeometry(0.4,0.12,16,48),mat:main,r:7,speed:0.22,phase:0.8,yAmp:1.3},
+    {geo:new THREE.IcosahedronGeometry(0.55,0),mat:whiteChrome,r:5.2,speed:0.45,phase:4.5,yAmp:0.8},
+    {geo:new THREE.TetrahedronGeometry(0.5,0),mat:whiteChrome,r:5.8,speed:0.38,phase:1,yAmp:1.4},
+  ]
+  defs.forEach(d=>{const m=new THREE.Mesh(d.geo,d.mat);m.userData=d;group.add(m);orbiters.push(m)})
+  const N=120,pGeo=new THREE.BufferGeometry(),pp=new Float32Array(N*3)
+  for(let i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*25;pp[i*3+1]=(Math.random()-0.5)*15;pp[i*3+2]=(Math.random()-0.5)*25}
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pp,3))
+  const parts=new THREE.Points(pGeo,new THREE.PointsMaterial({color:'#470A68',size:0.08,transparent:true,opacity:0.35}));s.add(parts)
+
+  let sy=0
+  addEventListener('scroll',()=>{sy=window.scrollY},{passive:true})
+  let t=0
+  function anim(){
+    requestAnimationFrame(anim);t+=0.016
+    const max=document.body.scrollHeight-innerHeight
+    const prog=max>0?sy/max:0
+    core.rotation.x=t*0.15+prog*Math.PI*0.3;core.rotation.y=t*0.1+prog*Math.PI*0.2
+    core.scale.setScalar(1+Math.sin(t*0.5)*0.03)
+    inner.rotation.y=t*0.3
+    group.rotation.y=t*0.05+prog*Math.PI*0.6
+    group.position.x=4-prog*7
+    group.position.y=Math.sin(prog*Math.PI*1.6)*1.2
+    r1.rotation.z=t*0.04;r2.rotation.z=-t*0.03
+    orbiters.forEach(m=>{const d=m.userData;const a=d.phase+t*d.speed*0.5+prog*Math.PI
+      m.position.set(Math.cos(a)*d.r,Math.sin(t*0.25+d.phase)*d.yAmp,Math.sin(a)*d.r)
+      m.rotation.y=t*0.25+d.phase;m.rotation.x=Math.sin(t*0.2+d.phase)*0.15})
+    cam.position.x=-2+prog*1.5;cam.lookAt(group.position.x*0.4,group.position.y*0.4,0)
+    r.render(s,cam)
+  }
+  anim()
+  addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();r.setSize(innerWidth,innerHeight)})
+})()
+</script>
+
+
+<script>
+/* reveal-on-scroll */
+(function(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('risen');io.unobserve(e.target)}}),{threshold:0.08});
+  document.querySelectorAll('.sec,.card').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>

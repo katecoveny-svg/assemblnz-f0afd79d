@@ -1,0 +1,375 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Me Property · Customer Lifecycle · assembl concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FAFBFB;--surface:#EDF4F4;--ink:#16211F;--muted:#7C8886;--line:#E1EAE9;--accent:#0FA3A3;--accent-soft:#E2F2F1;--accent-ink:#0A6E6E;--dark:#122120;--serif:"Newsreader",Georgia,serif;--sans:"Instrument Sans",-apple-system,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}.narrow{max-width:640px;margin:0 auto}
+.nav{position:sticky;top:0;z-index:40;background:rgba(251,249,245,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;white-space:nowrap}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent)}.brand small{color:var(--muted);font-weight:400}
+.navlinks{display:flex;gap:22px;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:center}.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{font-size:13.5px;color:var(--muted);text-decoration:none;white-space:nowrap}.navlinks a:hover{color:var(--ink)}
+.askbtn{background:var(--dark);color:#fff;font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:999px;white-space:nowrap;display:flex;gap:8px;align-items:center}
+.askbtn .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+@media(max-width:820px){.navlinks{display:none}}
+section{padding:76px 0}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,72px);line-height:1.02;letter-spacing:-.015em}
+h2.sec{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.5vw,46px);line-height:1.06;letter-spacing:-.01em}
+.lede{color:var(--muted);font-size:clamp(16px,2vw,19px);margin-top:20px;max-width:44ch}
+.kicker{color:var(--muted);font-size:15px;margin-top:14px;max-width:54ch}
+.hero{background:linear-gradient(180deg,var(--accent-soft),var(--paper) 70%);padding:90px 0 60px}
+.btns{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.btn{padding:15px 26px;border-radius:14px;font-size:15px;font-weight:600;display:inline-flex;gap:10px;align-items:center;text-decoration:none}
+.btn.dark{background:var(--dark);color:#fff}.btn.dark .arw{color:var(--accent)}.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.phonewrap{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center}
+.phonecopy{flex:1 1 300px;max-width:420px}
+.device{flex:0 0 auto;width:340px;max-width:88vw;background:#0b1615;border-radius:42px;padding:9px;box-shadow:0 30px 70px -34px rgba(30,30,20,.45)}
+.screen{background:#fff;border-radius:34px;overflow:hidden;min-height:600px}
+.statusbar{background:#0b1615;color:#fff;display:flex;justify-content:space-between;padding:12px 22px 10px;font-size:12.5px;font-weight:500}.statusbar .mid{opacity:.85}
+.apphead{padding:20px 20px 0;display:flex;justify-content:space-between;align-items:center}.apphead h4{font-size:18px;font-weight:600}
+.pts{background:var(--accent-soft);color:var(--accent-ink);font-size:12px;font-weight:600;padding:6px 13px;border-radius:999px}
+.pbody{padding:22px 20px 26px}
+.peyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.pbody h3{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.08}.pbody p.sub{color:var(--muted);font-size:14.5px;margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{border:1px solid var(--line);border-radius:11px;padding:12px 14px;font-size:13.5px;background:#fff;flex:1 1 auto;text-align:center;min-width:80px}
+.signal{margin-top:14px;background:var(--accent-soft);border-left:3px solid var(--accent);padding:11px 15px;border-radius:0 10px 10px 0}
+.signal small{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}.signal p{font-weight:600;margin-top:3px;font-size:13.5px}
+.pcta{width:100%;background:var(--dark);color:#fff;border-radius:15px;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;font-size:14.5px;font-weight:600;margin-top:24px}.pcta .arw{color:var(--accent)}
+.prog{height:3px;background:var(--line);border-radius:2px;margin:24px 0 6px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .7s ease}
+.asm{list-style:none;margin-top:14px}.asm li{display:flex;align-items:center;gap:12px;padding:11px 0;font-size:14px;color:var(--muted);opacity:.35;transform:translateY(4px);transition:.55s}
+.asm li.in{opacity:1;transform:none;color:var(--ink)}.asm .mk{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:12px;color:transparent}.asm li.in .mk{background:var(--accent);border-color:var(--accent);color:#fff}
+.tool{border-top:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}@media(max-width:760px){.grid2{grid-template-columns:1fr;gap:28px}}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}.card.soft{background:var(--surface);border-color:transparent}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.daycard{border:1px solid var(--line);border-radius:16px;padding:18px 16px;background:#fff;min-height:140px;display:flex;flex-direction:column}
+.daycard .d{font-family:var(--serif);font-size:24px;line-height:1}.daycard .why{font-size:13px;font-weight:600;margin-top:10px}.daycard .meal{font-size:12.5px;color:var(--muted);margin-top:4px}.daycard .tag{font-size:10px;color:var(--muted);margin-top:auto;padding-top:14px;text-transform:uppercase;letter-spacing:.08em}
+.selchips{display:flex;flex-wrap:wrap;gap:10px}
+.selchip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:500}.selchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.optrow{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fff;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;font-size:14.5px}
+.optrow.on{background:var(--accent-soft);border-color:var(--accent)}.optrow .act{font-weight:600;font-size:13.5px;color:var(--accent-ink)}
+.fitsum{margin-top:18px;background:var(--accent-soft);border-radius:14px;padding:18px 20px;font-size:15px}.fitsum b{font-weight:600}
+.breakdown{list-style:none}.breakdown li{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}.breakdown li:last-child{border-bottom:none;font-weight:600}.breakdown .k{color:var(--muted)}.breakdown .big{font-family:var(--serif);font-size:22px}
+.proof{background:var(--dark);color:#fff;border-radius:26px;padding:44px 34px}.proof .eyebrow{color:var(--accent)}
+.proof h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);line-height:1.08;margin-top:6px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.14);border-radius:16px;overflow:hidden;margin-top:30px}@media(max-width:640px){.metrics{grid-template-columns:1fr 1fr}}
+.metric{background:var(--dark);padding:22px 18px}.metric .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600}.metric .v{font-family:var(--serif);font-size:30px;margin-top:10px;line-height:1}.metric .v.hl{color:var(--accent)}
+.tracewrap{background:rgba(255,255,255,.05);border-radius:16px;padding:26px;margin-top:16px}.tracewrap .h{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:14px}
+.trace{list-style:none}.trace li{display:flex;align-items:center;gap:12px;padding:9px 0;font-size:14.5px;color:rgba(255,255,255,.6)}.trace li.done{color:#fff}.trace .mk{width:24px;height:24px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:12px;border:1px solid rgba(255,255,255,.25)}.trace li.done .mk{background:var(--accent);border-color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-size:13px;line-height:1.7}footer b{color:var(--ink)}footer code{background:var(--surface);padding:2px 7px;border-radius:6px;font-size:12px}
+.agentbtn{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--dark);color:#fff;border-radius:999px;padding:15px 22px;font-weight:600;font-size:14.5px;box-shadow:0 14px 34px -12px rgba(0,0,0,.4);display:flex;gap:10px;align-items:center}
+.agentbtn .d{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.chat{position:fixed;right:22px;bottom:22px;z-index:70;width:390px;max-width:calc(100vw - 24px);height:600px;max-height:calc(100vh - 24px);background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 80px -20px rgba(0,0,0,.4);display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chathead{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:#fff}
+.chathead .t{font-weight:600;font-size:15px;display:flex;gap:9px;align-items:center}.chathead .t .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}.chathead .t small{color:var(--muted);font-weight:400;font-size:12px}.chathead .x{color:var(--muted);font-size:20px;padding:4px 8px}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:85%;padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.5}.msg.a{background:#fff;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px}.msg.u{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}.msg.a b{font-weight:600}
+.sugg{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 12px}.sugg button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-size:12.5px;color:var(--accent-ink);font-weight:500}
+.chatin{border-top:1px solid var(--line);padding:14px;display:flex;gap:10px;background:#fff}.chatin input{flex:1;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14.5px;font-family:inherit}.chatin .send{background:var(--dark);color:#fff;border-radius:12px;padding:0 18px;font-weight:600}
+.typing{align-self:flex-start;color:var(--muted);font-size:13px;padding:6px 4px}.agentnote{font-size:11px;color:var(--muted);text-align:center;padding:0 20px 12px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.asm li{opacity:1;transform:none;color:var(--ink)}}
+
+.jstep{display:flex;gap:12px;padding:9px 0;font-size:14.5px;align-items:flex-start}
+.jstep .n{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.msgline{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.msgline:last-child{border-bottom:none}
+.chan{flex:0 0 auto;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);padding:5px 8px;border-radius:6px;min-width:78px;text-align:center}
+.msgline .mt{font-size:14px}
+.variant{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;margin-top:10px;font-size:14.5px}
+.variant .vh{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+.exprow{margin-top:18px}.exprow .lab{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:7px}
+.bar{height:11px;background:var(--surface);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width 1.1s ease}.bar i.b{background:var(--accent-ink)}
+.pill{display:inline-block;font-size:11px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 13px;border-radius:999px;margin-top:10px}
+.trigger{background:var(--accent-soft);border-radius:12px;padding:14px 16px;font-size:14px;margin-bottom:16px}
+.trigger b{color:var(--accent-ink)}
+select.gen{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14.5px;font-family:inherit;background:#fff;margin-bottom:14px}
+</style></head><body>
+<nav class="nav"><div class="wrap">
+  <div class="brand"><span class="dot"></span> assembl / minute one <small>· Trade Me Property lifecycle</small></div>
+  <div class="navlinks"><a href="#journey">The seeker</a><a href="#lifecycle">Lifecycle</a><a href="#signals">Intent signals</a><a href="#content">GenAI content</a><a href="#exp">Experiment</a><a href="#proof">Proof</a></div>
+  <button class="askbtn" onclick="openChat()"><span class="d"></span> Lifecycle copilot</button>
+</div></nav>
+<header class="hero"><div class="wrap narrow" style="text-align:center">
+  <div class="eyebrow">Customer Lifecycle Lead · Property — a concept</div>
+  <h1>The lifecycle,<br>already assembled.</h1>
+  <p class="lede" style="margin:20px auto 0">A working concept of the intelligent, automated property journey this role is built to create — Acquisition, Activation, Retention and Win-back, orchestrated across email, push, in-app and content cards, with the proof built in.</p>
+  <div class="btns" style="justify-content:center"><a class="btn dark" href="#lifecycle">See the journeys <span class="arw">→</span></a><button class="btn ghost" onclick="openChat()">Ask the lifecycle copilot</button></div>
+  <p style="color:var(--muted);font-size:13px;margin-top:22px">Built on your Braze + data layer — orchestration, not replacement.</p>
+</div></header>
+
+<section id="journey"><div class="wrap"><div class="phonewrap">
+  <div class="phonecopy">
+    <div class="eyebrow">The Kiwi's view</div>
+    <h2 class="sec">Every journey starts with real intent.</h2>
+    <p class="kicker">Tap through the phone: a first-home buyer's search, understood and assembled — not a wall of 200 listings and a spammy alert. This is the experience the lifecycle journeys below actually orchestrate.</p>
+    <p class="kicker" style="margin-top:14px"><b style="color:var(--ink)">The Trade Me promise, delivered:</b> be the place Kiwi look first — by being the place that already gets it.</p>
+  </div>
+  <div class="device"><div class="screen">
+    <div class="statusbar"><span>9:41</span><span class="mid">Trade Me Property</span><span>5G · 84%</span></div>
+    <div class="apphead"><h4>Property</h4><span class="pts">Watching your search</span></div>
+    <div class="pbody" id="pbody"></div>
+  </div></div>
+</div></div></section>
+
+<section id="lifecycle" class="tool"><div class="wrap">
+  <div class="eyebrow">Lifecycle journeys</div>
+  <h2 class="sec">Acquisition. Activation. Retention. Win-back.</h2>
+  <p class="kicker">The four journeys this role owns — each a triggered, agentic ecosystem, not a batch send. Pick one to see its trigger, the journey logic, and the messages that fire across channels.</p>
+  <div class="selchips" id="stagebtns" style="margin-top:30px"></div>
+  <div class="grid2" style="margin-top:24px">
+    <div class="card"><div class="trigger" id="strigger"></div><div class="eyebrow" style="margin-bottom:8px">Journey logic</div><div id="ssteps"></div></div>
+    <div class="card soft"><div class="eyebrow" style="margin-bottom:8px">What the Kiwi receives</div><div id="smsgs"></div></div>
+  </div>
+</div></section>
+
+<section id="signals" class="tool"><div class="wrap">
+  <div class="eyebrow">Intent signals → next best message</div>
+  <h2 class="sec">Segmentation you don't have to hand-build.</h2>
+  <p class="kicker">Real-time intent, not last month's segment. Tap a signal to see the next best action the journey fires — personalisation at scale, driven by behaviour.</p>
+  <div class="grid2" style="margin-top:36px">
+    <div class="card"><div id="signals"></div></div>
+    <div class="card soft"><div class="eyebrow" style="margin-bottom:10px">Next best action</div><div class="fitsum" id="signalout" style="font-size:15.5px"></div>
+      <p style="font-size:14px;color:var(--muted);margin-top:16px">Every signal is a fork in the journey. The agent reads it and picks the message that moves the Kiwi forward — no manual segment build, no batch-and-blast.</p></div>
+  </div>
+</div></section>
+
+<section id="content" class="tool"><div class="wrap">
+  <div class="eyebrow">GenAI content studio</div>
+  <h2 class="sec">Copy for the moment, in seconds.</h2>
+  <p class="kicker">The brief asks for GenAI to cut time-to-market. Here it is: pick a journey moment and a tone, generate on-brand variants ready to test. Days of copywriting become a click.</p>
+  <div class="grid2" style="margin-top:36px">
+    <div class="card">
+      <label style="font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:10px">Journey moment</label>
+      <select class="gen" id="genmoment" onchange="renderGen()"></select>
+      <label style="font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:10px">Tone</label>
+      <div class="selchips" id="gentone"></div>
+      <button class="pcta" style="margin-top:22px" onclick="generate()">Generate variants <span class="arw">→</span></button>
+    </div>
+    <div class="card soft"><div class="eyebrow" style="margin-bottom:8px">Ready to test</div><div id="genout"></div></div>
+  </div>
+</div></section>
+
+<section id="exp" class="tool"><div class="wrap narrow">
+  <div class="eyebrow">Hypothesis-driven experimentation</div>
+  <h2 class="sec">Every journey earns its logic.</h2>
+  <p class="kicker">Not opinions — tests. A live hypothesis, two variants, and the result promoted into the journey automatically.</p>
+  <div class="card" style="margin-top:30px">
+    <div class="trigger"><b>Hypothesis:</b> a price-drop push at 7pm beats the 9am send for return-to-site.</div>
+    <div class="exprow"><div class="lab"><span>Variant A — 9am</span><span id="la">—</span></div><div class="bar"><i id="ba"></i></div></div>
+    <div class="exprow"><div class="lab"><span>Variant B — 7pm</span><span id="lb">—</span></div><div class="bar"><i id="bb" class="b"></i></div></div>
+    <div id="expresult" style="margin-top:20px"></div>
+    <button class="pcta" id="expbtn" style="margin-top:20px" onclick="runExp()">Run the test <span class="arw">→</span></button>
+  </div>
+</div></section>
+
+<section id="proof" class="tool"><div class="wrap"><div class="proof" id="proofpanel"></div></div></section>
+
+
+<section id="pilot" style="padding:76px 0;border-top:1px solid rgba(124,136,134,.22)">
+  <div style="max-width:1080px;margin:0 auto;padding:0 24px">
+    <div style="font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#7C8886;font-weight:700;margin-bottom:22px">What we are actually asking</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px" class="tm-ask">
+      <div style="border:1px solid #0FA3A3;border-radius:20px;padding:30px;background:rgba(15,163,163,.06)">
+        <h3 style="font-size:22px;font-weight:700;margin-bottom:14px">What this will never do</h3>
+        <p style="font-size:15px;line-height:1.6;color:#4a5654">It does not send. It drafts, and a named person sends. It does not publish, write back to Braze, buy media, commit spend, or contact a member directly. It never uses Trade Me data — every figure and journey on this page is illustrative. And where the right answer is to say nothing, it says nothing: a win-back after a listing that did not sell is suppressed, not sent.</p>
+        <p style="font-size:15px;line-height:1.6;color:#4a5654;margin-top:12px"><b>No production access is requested by this concept.</b></p>
+      </div>
+      <div style="border:1px solid rgba(124,136,134,.28);border-radius:20px;padding:30px">
+        <h3 style="font-size:22px;font-weight:700;margin-bottom:14px">The pilot ask</h3>
+        <p style="font-size:15px;line-height:1.6;color:#4a5654"><b>Scope.</b> One lifecycle stage — retention, the vendor conversation — for six weeks. Not acquisition campaigns, not the consumer side, not pricing.</p>
+        <p style="font-size:15px;line-height:1.6;color:#4a5654;margin-top:10px"><b>Access.</b> Listing performance fields and your comparable-set definition. No member records, no enquirer details, no Braze connection.</p>
+        <p style="font-size:15px;line-height:1.6;color:#4a5654;margin-top:10px"><b>Scorecard.</b> Journeys shipped without rewrite. Suppressions a person agreed with. One lifecycle lead's answer to whether they would keep it.</p>
+        <p style="font-size:15px;line-height:1.6;color:#0FA3A3;margin-top:14px;font-weight:600">Fail any line of the scorecard and we change the design or stop.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:56px">
+      <div style="font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#7C8886;font-weight:700;margin-bottom:10px">Three ways to reply</div>
+      <h2 style="font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-.02em">Pick a verb.</h2>
+      <p style="font-size:15px;color:#4a5654;margin-top:10px;max-width:60ch">Not &ldquo;book a demo&rdquo;. Any of these is a real next step, and the third one is a perfectly good answer.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px" class="tm-verbs">
+        <a href="mailto:assembl@assembl.co.nz?subject=Correct%20the%20Trade%20Me%20concept" style="border:1px solid rgba(124,136,134,.28);border-radius:16px;padding:22px;text-decoration:none;color:inherit;display:block">
+          <div style="font-size:17px;font-weight:800;color:#0FA3A3">Correct us</div>
+          <div style="font-size:13px;color:#4a5654;margin-top:7px;line-height:1.5">Something here is wrong about Trade Me or about how the lifecycle actually runs. Tell us which line and we will fix it or take the concept down.</div></a>
+        <a href="mailto:assembl@assembl.co.nz?subject=Narrow%20the%20Trade%20Me%20concept" style="border:1px solid rgba(124,136,134,.28);border-radius:16px;padding:22px;text-decoration:none;color:inherit;display:block">
+          <div style="font-size:17px;font-weight:800;color:#0FA3A3">Narrow it</div>
+          <div style="font-size:13px;color:#4a5654;margin-top:7px;line-height:1.5">One stage, six weeks. Tell us which and we will scope it against how you actually work.</div></a>
+        <a href="mailto:assembl@assembl.co.nz?subject=Decline%20%E2%80%94%20Trade%20Me%20concept" style="border:1px solid rgba(124,136,134,.28);border-radius:16px;padding:22px;text-decoration:none;color:inherit;display:block">
+          <div style="font-size:17px;font-weight:800;color:#0FA3A3">Decline it</div>
+          <div style="font-size:13px;color:#4a5654;margin-top:7px;line-height:1.5">Not now, or not at all. Say so and you will not hear from us again about this.</div></a>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;border:1px solid rgba(124,136,134,.28);border-radius:20px;padding:28px">
+      <div style="font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#0FA3A3;font-weight:700;margin-bottom:10px">The unfinished pane</div>
+      <h3 style="font-size:22px;font-weight:700">What is the one constraint we have got wrong?</h3>
+      <p style="font-size:15px;color:#4a5654;margin-top:10px;max-width:62ch">Every concept is built from the outside. There is always something about how Trade Me actually runs that we could not see. One line is enough.</p>
+      <a href="mailto:assembl@assembl.co.nz?subject=The%20constraint%20the%20Trade%20Me%20concept%20got%20wrong" style="display:inline-block;margin-top:16px;background:#0B1615;color:#fff;border-radius:999px;padding:14px 26px;font-size:14px;font-weight:700;text-decoration:none">Send it &rarr;</a>
+    </div>
+
+    <p style="margin-top:40px;font-size:13px;color:#7C8886;line-height:1.75">
+      Ko t&#257; m&#257;tou he whakarite i te mahi. M&#257; te tangata te whakatau. <span style="opacity:.75">We prepare the work. A person decides.</span><br>
+      assembl NZ Limited &middot; NZBN 9429053514950 &middot; assembl@assembl.co.nz &middot; T&#257;maki Makaurau Auckland, Aotearoa New Zealand
+    </p>
+  </div>
+</section>
+<style>@media(max-width:820px){.tm-ask{grid-template-columns:1fr!important}.tm-verbs{grid-template-columns:1fr!important}}</style>
+<footer><div class="wrap narrow">
+  <p><b>This is a concept of the role, not a critique of the team.</b> It shows what the Customer Lifecycle Lead could ship — the four journeys, orchestrated across email · push · in-app · content cards, with intent-signal personalisation, GenAI content and experimentation — sitting on top of Braze and your data layer, as an orchestration and proof layer.</p>
+  <p style="margin-top:14px">Independent concept · not affiliated with or endorsed by Trade Me · illustrative figures and journeys · no Trade Me data used.</p>
+  <p style="margin-top:14px"><b>Live copilot:</b> runs as a grounded concept out of the box. For full AI, set <code>AGENT_ENDPOINT = "/api/agent"</code> and deploy the Vercel proxy.</p>
+  <p style="margin-top:20px;color:var(--ink);font-weight:600">assembl / minute one</p>
+</div></footer>
+
+<button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Lifecycle copilot</button>
+<div class="chat" id="chat">
+  <div class="chathead"><div class="t"><span class="d"></span> Lifecycle copilot <small>· for the marketer</small></div><button class="x" onclick="closeChat()" aria-label="Close">×</button></div>
+  <div class="msgs" id="msgs"></div><div class="sugg" id="sugg"></div><div class="agentnote" id="agentnote"></div>
+  <div class="chatin"><input id="chatinput" placeholder="Draft a journey, write copy, define a segment…" onkeydown="if(event.key==='Enter')sendChat()"><button class="send" onclick="sendChat()">Send</button></div>
+</div>
+
+<script>
+const AGENT_ENDPOINT="/api/agent";
+const S={stage:"acquisition",signal:0,moment:"pricedrop",tone:"Warm",expRun:false,promoted:false};
+
+const pj=[
+ ()=>`<div class="peyebrow">The search</div><h3>Find your first<br>home, minus the noise.</h3>
+   <p class="sub">Trade Me can use what it already knows to assemble your search — so you look here first, and stay.</p>
+   <div class="chips"><span class="chip">First home</span><span class="chip">~$750k</span><span class="chip">West Auckland</span><span class="chip">3-bed</span></div>
+   <div class="signal"><small>Intent signal</small><p>Used the affordability calculator twice this week</p></div>
+   <button class="pcta" onclick="pjGo(1)">Assemble my search <span class="arw">→</span></button>`,
+ ()=>`<div class="peyebrow">One quiet moment</div><h3>Reading your<br>search, properly.</h3>
+   <div class="prog"><i id="bar"></i></div>
+   <ul class="asm" id="asm">
+     <li><span class="mk">✓</span> Matching new listings to your must-haves</li>
+     <li><span class="mk">✓</span> Checking what changed since Tuesday</li>
+     <li><span class="mk">✓</span> Estimating affordability at today's rates</li>
+     <li><span class="mk">✓</span> Flagging two open homes this weekend</li>
+     <li><span class="mk">✓</span> Watching your saved homes for price drops</li></ul>
+   <button class="pcta" id="waitcta" style="opacity:.4;pointer-events:none" onclick="pjGo(2)">Assembling… <span class="arw">→</span></button>`,
+ ()=>`<div class="peyebrow">Your search, understood</div><h3>3 homes worth<br>your Saturday.</h3>
+   <div class="grid" style="margin-top:18px">
+     <div class="daycard"><span class="d" style="font-size:19px">Massey</span><span class="meal" style="margin-top:8px">3-bed · $739k</span><span class="tag">New — in budget</span></div>
+     <div class="daycard"><span class="d" style="font-size:19px">Te Atatū</span><span class="meal" style="margin-top:8px">3-bed · $755k</span><span class="tag">Open Sat 11am</span></div>
+     <div class="daycard"><span class="d" style="font-size:19px">Henderson</span><span class="meal" style="margin-top:8px">3-bed · $729k · ↓$20k</span><span class="tag">Price drop</span></div>
+     <div class="daycard"><span class="d" style="font-size:19px">Alerts</span><span class="meal" style="margin-top:8px">On — first to know</span><span class="tag">Activated</span></div></div>
+   <button class="pcta" onclick="document.getElementById('lifecycle').scrollIntoView()">See the lifecycle behind this <span class="arw">→</span></button>`
+];
+let pjStep=0;
+function renderPhone(){document.getElementById('pbody').innerHTML=pj[pjStep]();if(pjStep===1)playWait();}
+function pjGo(n){pjStep=n;renderPhone();}
+function playWait(){const items=[...document.querySelectorAll('#asm li')],bar=document.getElementById('bar'),cta=document.getElementById('waitcta');
+ const r=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(r){items.forEach(i=>i.classList.add('in'));bar.style.width='100%';wEnable(cta);return;}
+ items.forEach((li,i)=>setTimeout(()=>{li.classList.add('in');bar.style.width=((i+1)/items.length*100)+'%';if(i===items.length-1)setTimeout(()=>wEnable(cta),460);},500+i*640));}
+function wEnable(cta){cta.style.opacity='1';cta.style.pointerEvents='auto';cta.innerHTML='Your search is ready <span class="arw">→</span>';}
+
+const STAGES={
+ acquisition:{label:"Acquisition",trigger:"New visitor searched Wellington rentals three times — not yet registered.",steps:["Detect repeat intent without an account","Offer to save the search, in-app, in one tap","Confirm by email — no dead ends","Deliver the first new match within 24 hours"],msgs:[["In-app","Save this search? We will watch Wellington rentals for you."],["Email","Your Wellington rental search is ready — 12 live matches"],["Push","New 2-bed in Te Aro just listed — $650/wk"]]},
+ activation:{label:"Activation",trigger:"Registered 7 days ago — still no saved search or watchlist.",steps:["Notice the empty first week before it lapses","Assemble 3 homes from what they have browsed","Nudge one high-value action: turn on alerts","Reward it instantly with a first match"],msgs:[["Content card","3 homes picked from what you have browsed"],["Push","Turn on alerts — be first when your home lists"],["Email","You are one tap from never missing a match"]]},
+ retention:{label:"Retention",trigger:"Active seeker — new matches slowing inside their filters.",steps:["Widen gently: adjacent suburbs, budget +$25k","Weekly what is new near you","Price-drop and open-home alerts as they happen","Open-home prep checklist the night before"],msgs:[["Email","5 new this week in Grey Lynn and nearby"],["Push","Price drop on a home you watched — down $30k"],["In-app","Open home Saturday 11am — here is your checklist"]]},
+ winback:{label:"Win-back",trigger:"No visits for 30 days — the search has gone quiet.",steps:["Spot the lapse before it becomes churn","Assemble what changed: new listings, rates, budget reach","Send one honest, useful message — not a guilt trip","Make returning a single tap"],msgs:[["Email","What changed in Massey since you left — 9 new, rates down"],["Push","Your $750k now reaches 3 more suburbs"],["In-app","Welcome back — your saved search, updated"]]}
+};
+function renderStage(){
+ document.getElementById('stagebtns').innerHTML=Object.keys(STAGES).map(k=>`<button class="selchip ${k===S.stage?'on':''}" onclick="S.stage='${k}';renderStage()">${STAGES[k].label}</button>`).join('');
+ const st=STAGES[S.stage];
+ document.getElementById('strigger').innerHTML="<b>Trigger:</b> "+st.trigger;
+ document.getElementById('ssteps').innerHTML=st.steps.map((s,i)=>`<div class="jstep"><span class="n">${i+1}</span><span>${s}</span></div>`).join('');
+ document.getElementById('smsgs').innerHTML=st.msgs.map(m=>`<div class="msgline"><span class="chan">${m[0]}</span><span class="mt">${m[1]}</span></div>`).join('');
+ renderProof();
+}
+const SIGNALS=[
+ {s:"Used the mortgage calculator twice",a:"Send an affordability-matched shortlist and switch on a homes-you-can-actually-get filter."},
+ {s:"Watchlisted a home, then went quiet",a:"Nudge with a price-drop watch plus three similar homes — before the interest cools."},
+ {s:"Price drop on a watched home",a:"Immediate push: the home you watched just dropped $30k — see it first."},
+ {s:"RSVP'd to an open home",a:"Pre-visit checklist plus two nearby homes to view the same morning."},
+ {s:"Started searching a new suburb",a:"Reframe the whole journey around the new area — fresh matches and local intel."}
+];
+function renderSignals(){
+ document.getElementById('signals').innerHTML=SIGNALS.map((x,i)=>`<button class="optrow ${i===S.signal?'on':''}" onclick="S.signal=${i};renderSignals()"><span>${x.s}</span><span class="act">${i===S.signal?'Selected':'View'}</span></button>`).join('');
+ document.getElementById('signalout').innerHTML="<b>"+SIGNALS[S.signal].a+"</b>";
+}
+const MOMENTS={
+ pricedrop:{label:"Price-drop push",pool:["The home you watched just dropped $30k","Price cut in your suburb — your saved home is now in budget","Down $30k on your watchlisted home. Move fast.","Good news: a home you love just got cheaper","Your saved home slipped under budget — see it first","That home you keep opening? It just dropped."]},
+ winback:{label:"Win-back email subject",pool:["What changed in your suburb since you left","Your $750k reaches 3 more suburbs now","9 new homes in your search — and rates just moved","Still looking? Your area looks different this month","We kept your search warm — here is what is new","Your budget goes further here than it did in June"]},
+ activation:{label:"Activation nudge",pool:["You are one tap from never missing a match","Turn on alerts — be first when your home lists","3 homes picked just for you inside","Set your alert, we will do the watching","Your search works harder with alerts on","Be first, not fortieth — switch on alerts"]}
+};
+const TONES=["Warm","Direct","Playful"];
+function renderGen(){
+ const sel=document.getElementById('genmoment');
+ if(!sel.options.length){sel.innerHTML=Object.keys(MOMENTS).map(k=>`<option value="${k}">${MOMENTS[k].label}</option>`).join('');}
+ S.moment=sel.value||S.moment;
+ document.getElementById('gentone').innerHTML=TONES.map(t=>`<button class="selchip ${t===S.tone?'on':''}" onclick="S.tone='${t}';renderGen()">${t}</button>`).join('');
+}
+function generate(){
+ const pool=[...MOMENTS[S.moment].pool].sort(()=>Math.random()-0.5).slice(0,3);
+ document.getElementById('genout').innerHTML=`<p style="font-size:12px;color:var(--muted);margin-bottom:6px">Tone: ${S.tone} · ${MOMENTS[S.moment].label}</p>`+
+  pool.map((v,i)=>`<div class="variant"><div class="vh">Variant ${String.fromCharCode(65+i)}</div>${v}</div>`).join('')+
+  `<div class="pill">Ready to drop into the journey and A/B test</div>`;
+}
+function runExp(){
+ if(S.expRun)return;S.expRun=true;
+ document.getElementById('ba').style.width="40%";document.getElementById('bb').style.width="62%";
+ setTimeout(()=>{document.getElementById('la').textContent="return-to-site 8.1%";document.getElementById('lb').textContent="return-to-site 11.4%";},300);
+ setTimeout(()=>{document.getElementById('expresult').innerHTML=`<div class="fitsum"><b>Variant B wins (+41% return-to-site).</b> The 7pm price-drop push beats 9am. The winner is promoted into the live journey automatically.</div>`;
+  document.getElementById('expbtn').innerHTML='Winner promoted ✓';document.getElementById('expbtn').style.pointerEvents='none';document.getElementById('expbtn').style.opacity='.7';
+  S.promoted=true;renderProof();},1300);
+}
+function renderProof(){
+ document.getElementById('proofpanel').innerHTML=`
+  <div class="eyebrow">Trade Me Property · lifecycle control</div>
+  <h2>The lifecycle runs itself,<br>and shows its working.</h2>
+  <div class="metrics">
+   <div class="metric"><div class="k">Journeys live</div><div class="v">4</div></div>
+   <div class="metric"><div class="k">Activation lift</div><div class="v hl">+23%</div></div>
+   <div class="metric"><div class="k">Win-back recovered</div><div class="v">1 in 5</div></div>
+   <div class="metric"><div class="k">Content time-to-market</div><div class="v hl">10×</div></div></div>
+  <div class="tracewrap"><div class="h">Journey trace · orchestrated across email · push · in-app · content cards</div><ul class="trace">
+   <li class="done"><span class="mk">✓</span> Intent signals unified</li>
+   <li class="done"><span class="mk">✓</span> Acquisition · Activation · Retention · Win-back live</li>
+   <li class="done"><span class="mk">✓</span> Personalisation driven by real-time behaviour</li>
+   <li class="done"><span class="mk">✓</span> GenAI content generated &amp; on-brand</li>
+   <li class="${S.promoted?'done':''}"><span class="mk">${S.promoted?'✓':'5'}</span> Experiment run &amp; winner promoted</li>
+   <li class="done" style="color:var(--accent)"><span class="mk" style="background:rgba(255,255,255,.12);color:var(--accent)">♦</span> Sits on your Braze + data layer — orchestration, not replacement</li></ul></div>`;
+}
+
+const GENOME="You are the Trade Me Property Lifecycle Copilot — an AI teammate for a customer lifecycle / engagement marketer. Trade Me is New Zealand's marketplace; its Property vertical wants to be where Kiwi look first for homes and rentals. Help the marketer: design triggered lifecycle journeys (Acquisition, Activation, Retention, Win-back), write on-brand email/push/in-app/content-card copy, define behaviour-based segments from intent signals, recommend send timing, and set up hypothesis-driven experiments. You orchestrate on top of Braze and the data layer — you never claim to replace them. Be concrete, brief and practical, and give ready-to-use drafts. This is an independent concept, not affiliated with Trade Me.";
+const SUGG=["Draft a win-back journey for lapsed rental seekers","Write 3 push variants for a price drop","Best send time for open-home reminders?","Define a segment for first-home buyers","Ideas to lift week-1 activation"];
+function renderSugg(){document.getElementById('sugg').innerHTML=SUGG.map(s=>`<button onclick="ask(&quot;${s.replace(/"/g,'&quot;')}&quot;)">${s}</button>`).join('');}
+let chatHistory=[];
+function openChat(){document.getElementById('chat').classList.add('open');document.getElementById('agentbtn').style.display='none';
+ if(!chatHistory.length)pushMsg('a',"Kia ora! I'm your lifecycle copilot for Property. Ask me to draft a journey, write push/email copy, define a segment from intent signals, or set up an experiment. What are we shipping?");
+ document.getElementById('agentnote').textContent=AGENT_ENDPOINT?'Live AI · drafts to review, not auto-send':'Grounded concept copilot · drafts to review, not auto-send';}
+function closeChat(){document.getElementById('chat').classList.remove('open');document.getElementById('agentbtn').style.display='flex';}
+function pushMsg(r,t){const m=document.createElement('div');m.className='msg '+r;m.innerHTML=t;document.getElementById('msgs').appendChild(m);const b=document.getElementById('msgs');b.scrollTop=b.scrollHeight;}
+function ask(q){document.getElementById('chatinput').value=q;sendChat();}
+async function sendChat(){const inp=document.getElementById('chatinput');const q=inp.value.trim();if(!q)return;
+ pushMsg('u',q);inp.value='';chatHistory.push({role:'user',content:q});
+ const t=document.createElement('div');t.className='typing';t.textContent='Copilot is drafting…';document.getElementById('msgs').appendChild(t);
+ let reply;try{reply=AGENT_ENDPOINT?await liveAgent(q):groundedAgent(q);}catch(e){reply=groundedAgent(q);}
+ t.remove();pushMsg('a',reply);chatHistory.push({role:'assistant',content:reply});}
+async function liveAgent(q){const res=await fetch(AGENT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:GENOME,messages:chatHistory})});const d=await res.json();return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n')||groundedAgent(q);}
+function groundedAgent(q){const s=q.toLowerCase();const has=(...w)=>w.some(x=>s.includes(x));
+ if(has('win-back','winback','win back','lapsed','churn','gone quiet','re-engage','reactivat'))return "Here's a win-back journey for lapsed rental seekers (no visit 30 days):<br><br><b>1. Day 30 · Email</b> — What changed in [suburb] since you left: new listings + a rate move.<br><b>2. Day 33 · Push</b> — Your budget now reaches [n] more suburbs.<br><b>3. Day 37 · In-app on return</b> — Welcome back, your saved search is updated.<br><b>Exit:</b> any site visit. <b>Guardrail:</b> useful, not guilt-y. Want me to write the full copy for each?";
+ if(has('push','copy','subject','write','variant','headline','email'))return "Three price-drop push variants:<br><br>A — The home you watched just dropped $30k.<br>B — Down $30k on your saved home. Move fast.<br>C — That home you keep opening? It just got cheaper.<br><br>I'd A/B A vs C first (loss-aversion vs curiosity). Want a warm, direct and playful set for each channel?";
+ if(has('send time','timing','when to send','best time'))return "For open-home reminders: Thursday 6–7pm (planning the weekend) with a Saturday 8am nudge on the day. Price-drop pushes over-index in the evening — our concept test had 7pm beating 9am by ~41% on return-to-site. Always confirm against your own Braze holdout.";
+ if(has('segment','audience','cohort','define'))return "First-home-buyer segment, from intent (not a static list): used the affordability calculator ≥2×, searches filtered under [budget], watchlisted ≥1 home, no auction/agent-tools usage. It refreshes in real time as behaviour changes — so the journey follows the person, not a snapshot.";
+ if(has('activation','week 1','week-1','onboard','first week'))return "Three levers to lift week-1 activation: (1) one clear action — turn on alerts — not five; (2) show value first, a content card of 3 homes from their browsing before you ask; (3) reward instantly with a real match. In our concept that pattern lifts activation ~23%. Want the journey mapped out?";
+ if(has('retention','engage','keep','active'))return "Retention for active seekers: widen gently (adjacent suburbs, +$25k) when matches slow, weekly what's-new, real-time price-drop and open-home alerts, and a prep checklist the night before a viewing. The goal is to be genuinely useful weekly, so Trade Me stays the place they look first.";
+ if(has('acquisition','acquire','new user','sign up','register'))return "Acquisition from anonymous intent: when someone searches the same area 3× without an account, offer to save the search in-app (one tap), confirm by email, and deliver the first new match within 24h. You capture intent at its peak instead of hoping they come back.";
+ if(has('experiment','test','a/b','ab test','hypothesis'))return "Frame it as a hypothesis with one variable and one metric: 'A 7pm price-drop push beats 9am on return-to-site.' Run it on a holdout, promote the winner into the journey automatically, and log it. That's how journey logic earns its place instead of being someone's guess.";
+ if(has('braze','platform','replace','integrate','crm'))return "assembl sits on top of Braze and your data layer — it's the intelligence and orchestration that decides what fires and proves it worked, then executes through Braze. It makes the platform you already run smarter; it doesn't replace it.";
+ if(has('hello','hi','kia ora','hey','thanks','thank'))return "Kia ora! Tell me the journey or the moment and I'll draft it — copy, segment, timing or an experiment. What's first?";
+ return "Happy to help. I can draft any of the four journeys (Acquisition, Activation, Retention, Win-back), write channel copy, define an intent-based segment, recommend send timing, or set up an experiment — all on top of your Braze layer. What would you like to ship?";
+}
+renderPhone();renderStage();renderSignals();renderGen();generate();renderSignals();renderProof();renderSugg();
+</script></body></html>

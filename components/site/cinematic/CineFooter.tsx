@@ -8,6 +8,8 @@ export function CineFooter() {
     <footer>
       <nav className="foot-links" aria-label="legal and account">
         <a href="/concepts">concepts</a>
+        <a href="/ai-ready">ai-ready check</a>
+        <a href="/agent-schema">agent schema</a>
         <a href="/legal/privacy">privacy</a>
         <a href="/legal/terms">terms</a>
         <a href="/legal/disclaimer">disclaimer</a>
@@ -16,7 +18,7 @@ export function CineFooter() {
         {/* Supabase auth lives on the demo host; www /login hard-redirects home. */}
         <a href="https://demo.assembl.co.nz/admin/login">sign in</a>
       </nav>
-      <div>assembl · aotearoa new zealand · assembl@assembl.co.nz · © 2026</div>
+      <div>assembl — intuitive agentic customer journeys · aotearoa new zealand · assembl@assembl.co.nz · © 2026</div>
     </footer>
   );
 }

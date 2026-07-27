@@ -1,0 +1,116 @@
+/* Four directions. Lato only, no grey text, hairline 3D.
+   Everything is driven by the custom properties set on .dir, so a direction is
+   one object literal in DirectionsLab.tsx. */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.dir {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Lato', system-ui, sans-serif;
+  transition: background 0.8s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s ease;
+  overflow-x: hidden;
+}
+.dir-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+/* ── the words ─────────────────────────────────────────────────────────────
+   Full-strength ink on every line. The old page dropped the second line to
+   ~50% and it read as grey mush; hierarchy here comes from weight instead. */
+.dir-main { position: relative; z-index: 1; }
+.dir-hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 96px 6vw 110px;
+}
+.dir-kicker {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 30px;
+}
+.dir-hero h1 {
+  margin: 0;
+  font-family: var(--face);
+  font-weight: var(--wt);
+  font-size: var(--size);
+  letter-spacing: var(--track);
+  line-height: var(--lead);
+  color: var(--ink);
+}
+.dir-hero h1.caps { text-transform: uppercase; }
+.dir-two { font-weight: var(--wt2); color: var(--ink); }
+.dir-sub {
+  margin-top: 26px; max-width: 40ch;
+  font-size: clamp(0.95rem, 1.15vw, 1.12rem); font-weight: 400;
+  line-height: 1.55; color: var(--ink);
+}
+
+.dir-field {
+  margin-top: 38px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  width: min(520px, 100%);
+  border: 1px solid color-mix(in srgb, var(--ink) 26%, transparent);
+  border-radius: 999px; padding: 6px 6px 6px 20px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px);
+}
+.dir-field input {
+  flex: 1 1 180px; min-width: 0; background: transparent; border: 0; outline: 0;
+  font-family: 'Lato', sans-serif; font-size: 1rem; color: var(--ink); padding: 12px 0;
+}
+.dir-field input::placeholder { color: color-mix(in srgb, var(--ink) 52%, transparent); }
+.dir-field > button {
+  cursor: pointer; padding: 13px 24px; border-radius: 999px; border: 0;
+  background: var(--ink); color: var(--bg);
+  font-family: 'Lato', sans-serif; font-size: 0.9rem; font-weight: 700;
+  transition: transform 0.22s ease;
+}
+.dir-field > button:hover { transform: translateY(-1px); }
+
+/* ── the four layouts ── */
+.dir-centre .dir-hero { align-items: center; text-align: center; padding-inline: 8vw; }
+.dir-centre .dir-sub { max-width: 46ch; }
+.dir-split .dir-hero { align-items: flex-start; width: min(52vw, 760px); }
+.dir-low .dir-hero { justify-content: flex-end; padding-bottom: 14vh; }
+.dir-low .dir-hero h1 { max-width: 18ch; }
+.dir-left .dir-hero { align-items: flex-start; width: min(46vw, 640px); }
+
+/* ── the switch, bottom corner, closed by default ── */
+.dir-toggle {
+  position: fixed; bottom: 16px; left: 16px; z-index: 22; cursor: pointer;
+  font-family: var(--mono); font-size: 0.54rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 10px 16px; border-radius: 999px; border: 0;
+  background: var(--ink); color: var(--bg);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.26);
+}
+.dir-panel {
+  position: fixed; bottom: 58px; left: 16px; z-index: 21;
+  width: min(320px, calc(100vw - 32px));
+  display: flex; flex-wrap: wrap; gap: 7px;
+  padding: 14px 15px; border-radius: 18px;
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: blur(20px);
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  box-shadow: 0 14px 44px rgba(0,0,0,0.24);
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+.dir-panel.shut { opacity: 0; transform: translateY(10px) scale(0.98); pointer-events: none; }
+.dir-panel button {
+  font-family: var(--mono); font-size: 0.53rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 6px 11px; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  transition: all 0.22s ease;
+}
+.dir-panel button:hover { border-color: var(--accent); }
+.dir-panel button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.dir-premise {
+  flex: 1 1 100%; margin: 4px 0 0;
+  font-size: 0.66rem; line-height: 1.55; color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .dir-split .dir-hero, .dir-left .dir-hero { width: 100%; }
+  .dir-hero { padding: 88px 22px 130px; }
+  .dir-low .dir-hero h1 { max-width: 100%; }
+}

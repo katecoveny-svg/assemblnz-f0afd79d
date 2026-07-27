@@ -1,0 +1,198 @@
+/* /ai-ready — Instrument-styled: deep navy, Lato, gold metal accents.
+   The report itself is an ivory document — on screen a card, in print the
+   entire page (the classic visibility trick hides everything else). */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.airdy {
+  min-height: 100vh; background: #030B1F; color: #F0EEE9;
+  font-family: 'Lato', system-ui, sans-serif;
+}
+.airdy-main { max-width: 900px; margin: 0 auto; padding: 130px 24px 90px; }
+
+.airdy-kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  letter-spacing: 0.24em; text-transform: uppercase; color: #D4A843;
+  margin: 0 0 26px;
+}
+.airdy h1 {
+  margin: 0; font-family: 'Lato', system-ui, sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;
+  font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.16; color: #F0EEE9;
+}
+.airdy-accent {
+  font-weight: 300;
+  background: linear-gradient(100deg, #6E5722, #B8964F 22%, #F6E7B5 38%, #D4A843 52%, #EDD9A0 72%, #6E5722);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: airdy-sheen 8s linear infinite;
+}
+@keyframes airdy-sheen { to { background-position: 220% 0; } }
+.airdy-sub { max-width: 56ch; font-weight: 300; line-height: 1.65; margin: 22px 0 30px; }
+
+.airdy-form {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  border: 1px solid rgba(240,238,233,0.24); border-radius: 999px;
+  padding: 6px 6px 6px 20px; max-width: 560px;
+  background: rgba(240,238,233,0.05); backdrop-filter: blur(12px);
+}
+.airdy-form input {
+  flex: 1 1 200px; min-width: 0; background: transparent; border: 0; outline: 0;
+  font: 1rem 'Lato', sans-serif; color: #F0EEE9; padding: 12px 0;
+}
+.airdy-form input::placeholder { color: rgba(240,238,233,0.45); }
+.airdy-form button {
+  cursor: pointer; border: 0; border-radius: 999px; padding: 13px 26px;
+  font: 700 0.9rem 'Lato', sans-serif; background: #F0EEE9; color: #030B1F;
+  transition: transform 0.24s ease;
+}
+.airdy-form button:hover:not(:disabled) { transform: translateY(-1px); }
+.airdy-form button:disabled { opacity: 0.6; cursor: wait; }
+.airdy-error { color: #E8A0A0; margin-top: 14px; }
+.airdy-note {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,238,233,0.5);
+  margin-top: 14px;
+}
+
+/* ── the document ── */
+.airdy-doc {
+  margin-top: 64px; background: #FBF8F1; color: #1B1A17;
+  border-radius: 26px; padding: 46px 48px 30px;
+  border: 1px solid rgba(212,168,67,0.5);
+  box-shadow: 0 30px 90px -40px rgba(0,0,0,0.85);
+}
+.airdy-doc-head { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+.airdy-doc-kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #8A6A2E; margin: 0 0 10px;
+}
+.airdy-doc h2 { margin: 0; font-family: 'Lato', system-ui, sans-serif; font-size: clamp(1.4rem, 3vw, 2.1rem); font-weight: 700; line-height: 1.2; }
+.airdy-doc-url { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: rgba(27,26,23,0.6); margin: 6px 0 0; }
+
+.airdy-dial {
+  --p: 0;
+  width: 118px; height: 118px; border-radius: 50%; flex: 0 0 auto;
+  background:
+    radial-gradient(closest-side, #FBF8F1 78%, transparent 79%),
+    conic-gradient(#B8964F calc(var(--p) * 1%), rgba(27,26,23,0.1) 0);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.airdy-score { font-weight: 900; font-size: 2.1rem; line-height: 1; }
+.airdy-of { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; color: rgba(27,26,23,0.55); margin-top: 3px; }
+.airdy-grade {
+  font-weight: 700; font-size: 1.05rem; color: #8A6A2E; margin: 18px 0 26px;
+  text-transform: lowercase;
+}
+
+.airdy-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.airdy-check {
+  border: 1px solid rgba(27,26,23,0.1); border-radius: 16px; padding: 15px 16px;
+  background: #FFFDF8;
+}
+.airdy-check.pass { border-color: rgba(138,106,46,0.4); }
+.airdy-check.fail { border-color: rgba(160,60,50,0.35); }
+.airdy-check-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.airdy-mark {
+  width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 900; color: #FBF8F1; background: #8A6A2E;
+}
+.airdy-check.partial .airdy-mark { background: #B8964F; }
+.airdy-check.fail .airdy-mark { background: #A03C32; }
+.airdy-check p { margin: 0; font-size: 0.82rem; line-height: 1.55; font-weight: 300; }
+.airdy-fix { margin-top: 8px !important; }
+.airdy-fix b { color: #8A6A2E; }
+
+.airdy-drafting {
+  margin: 34px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: #8A6A2E;
+  animation: airdy-pulse 1.4s ease-in-out infinite;
+}
+@keyframes airdy-pulse { 50% { opacity: 0.45; } }
+
+/* the journey */
+.airdy-journey { margin-top: 44px; border-top: 1.5px solid rgba(212,168,67,0.5); padding-top: 34px; }
+.airdy-journey h3 { margin: 0 0 8px; font-family: 'Lato', system-ui, sans-serif; font-size: 1.3rem; font-weight: 700; }
+.airdy-journey-sub { margin: 0 0 20px; font-weight: 300; line-height: 1.6; max-width: 70ch; }
+.airdy-palette { display: flex; align-items: center; gap: 7px; margin-bottom: 24px; }
+.airdy-palette span { width: 26px; height: 26px; border-radius: 8px; border: 1px solid rgba(27,26,23,0.12); }
+.airdy-palette i {
+  font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: 0.55rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.5); margin-left: 6px;
+}
+.airdy-moments { list-style: none; margin: 0; padding: 0; }
+.airdy-moments li { padding: 16px 0; border-bottom: 1px solid rgba(27,26,23,0.08); }
+.airdy-m-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+.airdy-m-n { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: #8A6A2E; }
+.airdy-m-head b { font-size: 1rem; }
+.airdy-m-agent {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: rgba(27,26,23,0.55);
+  border: 1px solid rgba(184,150,79,0.5); border-radius: 999px; padding: 3px 9px;
+}
+.airdy-moments p { margin: 0; font-weight: 300; font-size: 0.88rem; line-height: 1.65; max-width: 74ch; }
+.airdy-blind {
+  margin-top: 26px; border: 1px solid rgba(184,150,79,0.45); border-radius: 16px;
+  padding: 18px 20px; background: rgba(212,168,67,0.06);
+}
+.airdy-blind ul { margin: 10px 0; padding-left: 18px; }
+.airdy-blind li { font-weight: 300; font-size: 0.88rem; line-height: 1.6; }
+.airdy-blind p { margin: 8px 0 0; font-size: 0.82rem; font-weight: 300; color: rgba(27,26,23,0.75); }
+
+.airdy-doc-foot {
+  margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(27,26,23,0.1);
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.55);
+}
+
+.airdy-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+.airdy-actions button, .airdy-actions a {
+  cursor: pointer; border-radius: 999px; padding: 14px 26px; text-decoration: none;
+  font: 700 0.88rem 'Lato', sans-serif; border: 0;
+  background: #F0EEE9; color: #030B1F;
+}
+.airdy-actions .ghost {
+  background: transparent; color: #F0EEE9;
+  border: 1px solid rgba(240,238,233,0.3);
+}
+
+/* ── print: the document IS the page ── */
+@media print {
+  body * { visibility: hidden; }
+  .airdy-doc, .airdy-doc * { visibility: visible; }
+  .airdy { background: #FFFFFF; }
+  .airdy-doc {
+    position: absolute; inset: 0; margin: 0; border-radius: 0; border: 0;
+    box-shadow: none; padding: 28px 34px;
+  }
+  .airdy-checks { grid-template-columns: repeat(2, 1fr); }
+  .airdy-journey { break-inside: avoid; }
+}
+
+@media (max-width: 640px) {
+  .airdy-main { padding: 100px 16px 70px; }
+  .airdy-doc { padding: 28px 22px 20px; }
+}
+
+/* ── the gate: the email moment between the score and the journey ── */
+.airdy-gate {
+  margin-top: 40px; border: 1.5px solid rgba(184,150,79,0.55); border-radius: 18px;
+  padding: 24px 26px; background: linear-gradient(150deg, rgba(212,168,67,0.1), rgba(212,168,67,0.02));
+}
+.airdy-gate b { font-size: 1.08rem; }
+.airdy-gate p { margin: 8px 0 16px; font-weight: 300; font-size: 0.9rem; line-height: 1.6; max-width: 60ch; }
+.airdy-gate-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.airdy-gate-row input {
+  flex: 1 1 220px; min-width: 0; border: 1px solid rgba(27,26,23,0.2); border-radius: 999px;
+  padding: 13px 20px; font: 0.95rem 'Lato', sans-serif; color: #1B1A17; background: #FFFDF8;
+  outline: none;
+}
+.airdy-gate-row input:focus { border-color: #B8964F; }
+.airdy-gate-row button {
+  cursor: pointer; border: 0; border-radius: 999px; padding: 13px 26px;
+  font: 700 0.9rem 'Lato', sans-serif; background: #1B1A17; color: #FBF8F1;
+}
+.airdy-gate-row button:disabled { opacity: 0.6; cursor: wait; }
+.airdy-gate small { display: block; margin-top: 12px; font-size: 0.68rem; color: rgba(27,26,23,0.6); line-height: 1.5; }
+@media print { .airdy-gate { display: none; } }

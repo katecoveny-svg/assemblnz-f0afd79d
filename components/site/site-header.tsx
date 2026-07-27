@@ -16,6 +16,12 @@ function openCommandPalette() {
 
 /** True on the public Assembling microsite routes, which carry their own
  * chrome. /assembling/admin (operator dashboard) keeps the standard site chrome. */
+/** /lab/* are internal design switchboards — the site chrome sits over their
+ *  own controls and makes them unusable. */
+export function isLab(pathname: string | null): boolean {
+  return Boolean(pathname && (pathname === "/lab" || pathname.startsWith("/lab/")));
+}
+
 export function isDashMicrosite(pathname: string | null): boolean {
   if (!pathname) return false;
   if (pathname === "/assembling") return true;
@@ -177,7 +183,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isStudio(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isStudio(pathname) || isLab(pathname) || pathname === "/") return null;
 
   return (
     <header

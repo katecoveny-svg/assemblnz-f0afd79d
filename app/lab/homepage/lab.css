@@ -1,0 +1,147 @@
+/* Homepage lab. Internal switchboard — see HomepageLab.tsx. Every colour comes
+   from the palette variables set on .lab, so a variant is one object literal. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;500;600&family=Lato:wght@300;400;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.lab {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Lato', sans-serif;
+  transition: background 0.9s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s ease;
+  overflow-x: hidden;
+}
+.lab-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+/* ── the switchboard ─────────────────────────────────────────────────────
+   It was pinned across the top and five rows tall, so it became the thing in
+   the way — the same complaint as the site header it replaced. Now it is a
+   panel in the bottom corner that folds away, and it never covers the
+   headline it exists to judge. */
+.lab-toggle {
+  position: fixed; bottom: 16px; left: 16px; z-index: 22; cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.54rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 9px 15px; border-radius: 50px;
+  background: var(--ink); color: var(--bg); border: 0;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.24);
+}
+.lab-bar {
+  position: fixed; bottom: 58px; left: 16px; z-index: 21;
+  width: min(352px, calc(100vw - 32px));
+  max-height: min(52vh, 420px); overflow-y: auto;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+  padding: 14px 15px; border-radius: 18px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(20px);
+  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+  box-shadow: 0 14px 44px rgba(0,0,0,0.26);
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+.lab-bar.shut { opacity: 0; transform: translateY(10px) scale(0.98); pointer-events: none; }
+.lab-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lab-l {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink2); margin-right: 4px;
+}
+.lab-bar button {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 9px; border-radius: 50px; cursor: pointer;
+  background: transparent; color: var(--ink2);
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  transition: all 0.24s ease;
+}
+.lab-bar button:hover { color: var(--ink); border-color: var(--accent); }
+.lab-bar button.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.lab-note { font-size: 0.62rem; line-height: 1.5; color: var(--ink2); }
+.lab-note b { color: var(--ink); font-weight: 700; }
+
+/* ── the stages ── */
+.lab-main { position: relative; z-index: 1; }
+.lab-stage {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 72px 6vw 80px;
+}
+.lab-stage.flip { justify-content: flex-end; }
+.lab-copy {
+  /* 46ch strangled the large scale — "Every step, joined up." broke over three
+     lines. Character-based widths do not survive a poster type scale. */
+  max-width: min(52vw, 900px); position: relative;
+}
+/* the object crosses behind the words, so they get their own surface */
+.lab-copy::before {
+  content: ''; position: absolute; inset: -8% -12%; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse 76% 66% at 40% 50%,
+    color-mix(in srgb, var(--bg) 94%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 72%, transparent) 52%,
+    transparent 84%);
+}
+
+.lab-kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--kicker); margin-bottom: 26px;
+}
+.lab-copy h1 {
+  font-family: 'Inter Tight', sans-serif; font-weight: 600;
+  font-size: var(--h1); line-height: 0.98; letter-spacing: -0.03em;
+  margin: 0;
+  /* explicit: the surrounding site layout sets its own heading colour, which
+     rendered charcoal-on-navy the first time this ran */
+  color: var(--ink);
+}
+.lab-copy h1 span { color: inherit; }
+.lab-copy h1 span.lab-accent { color: var(--accent); }
+.lab-accent { color: var(--accent); }
+.lab-lede {
+  margin-top: 26px; font-size: var(--lede); font-weight: 300;
+  line-height: 1.6; color: var(--ink2);
+}
+
+.lab-field {
+  margin-top: 34px; display: flex; gap: 10px; flex-wrap: wrap;
+  background: var(--panel); color: var(--panelInk);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 22px; padding: 14px;
+}
+.lab-field input {
+  flex: 1 1 200px; min-width: 0;
+  background: transparent; border: 0; outline: 0;
+  font-family: 'Lato', sans-serif; font-size: 0.95rem; color: var(--panelInk);
+  padding: 10px 14px;
+}
+.lab-field input::placeholder { color: color-mix(in srgb, var(--panelInk) 46%, transparent); }
+.lab-field button {
+  cursor: pointer; padding: 12px 22px; border-radius: 50px;
+  background: var(--accent); color: var(--bg); border: 0;
+  font-size: 0.82rem;
+}
+
+.lab-row { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; }
+.lab-row button {
+  cursor: pointer; padding: 14px 26px; border-radius: 50px; font-size: 0.86rem;
+}
+.lab-row .solid { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+.lab-row .ghost {
+  background: transparent; color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink) 34%, transparent);
+}
+
+@media (max-width: 900px) {
+  .lab-stage, .lab-stage.flip { justify-content: flex-start; padding: 64px 22px 120px; }
+  .lab-copy { max-width: 100%; }
+}
+
+/* the phone sits beside the words in the wait stage */
+.lab-phone { margin-top: 34px; }
+.lab-stage:nth-child(2) .lab-copy { max-width: min(64vw, 1100px); }
+@media (min-width: 1100px) {
+  /* wide enough for the phone to sit next to the headline rather than under it */
+  .lab-stage:nth-child(2) .lab-copy {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    gap: 48px; align-items: center;
+  }
+  .lab-stage:nth-child(2) .lab-phone { grid-column: 2; grid-row: 1 / span 4; margin-top: 0; }
+}

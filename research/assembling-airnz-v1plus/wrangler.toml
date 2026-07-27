@@ -1,0 +1,20 @@
+name = "assembling-airnz"
+compatibility_date = "2025-10-01"
+pages_build_output_dir = "."
+
+# Cloudflare Workers AI binding — free tier includes Llama 3.3 70B.
+# Runs the concept + kaimahi agents when no ANTHROPIC_API_KEY is set.
+[ai]
+binding = "AI"
+
+# Optional: uncomment + set your Anthropic key with:
+#   wrangler pages secret put ANTHROPIC_API_KEY --project-name assembling-concept
+# When set, the agent uses Claude Haiku 4.5 instead of Workers AI. Better answers,
+# ~$0.001–0.003 per short reply. Turn off by removing the secret.
+#[vars]
+# (do NOT put keys here — use `wrangler pages secret put`)
+
+# Custom domains are added in Cloudflare Dashboard → Pages → Custom domains.
+# Typical setup for kate:
+#   assembl.co.nz/for-oliver   (via Cloudflare Rule) → assembling-concept.pages.dev
+#   or a subdomain:  concept.assembl.co.nz   →  CNAME assembling-concept.pages.dev

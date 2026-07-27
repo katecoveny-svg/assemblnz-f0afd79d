@@ -9,6 +9,8 @@ const BASE = 'https://www.assembl.co.nz';
 
 const CORE_PATHS = [
   '',
+  '/agent-schema',
+  '/ai-ready',
   // The public agent builder (per-agent share pages are deliberately not
   // listed — they're visitor-made and unreviewed).
   '/a',

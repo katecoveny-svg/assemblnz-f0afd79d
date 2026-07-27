@@ -17,6 +17,7 @@ import {
   isMotionStudio,
   isStudio,
   isBuildAnAgent,
+  isLab,
 } from '@/components/site/site-header';
 
 // Editorial gallery rebuild owns its own wordmark + footer.
@@ -49,6 +50,7 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isMotionStudio(pathname) ||
     isStudio(pathname) ||
     isBuildAnAgent(pathname) ||
+    isLab(pathname) ||
     isEditorialHome(pathname)
   );
 }
