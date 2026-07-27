@@ -64,6 +64,10 @@
     '.wp{',
     '  --wp-paper:#FDFBF7; --wp-ink:#1A1917; --wp-ink-2:#4A4842;',
     '  --wp-accent:#BFA37A; --wp-done:#0C1836; --wp-line:rgba(26,25,23,.09);',
+    /* the live dot's halo. Derived from the accent so a demo only has to set one
+       colour, with a champagne fallback for engines without color-mix(). */
+    '  --wp-glow:rgba(191,163,122,.3);',
+    '  --wp-glow:color-mix(in srgb, var(--wp-accent) 30%, transparent);',
     '  --wp-shell:linear-gradient(160deg,#2b2f33 0%,#14171a 42%,#2b2f33 100%);',
     '  --wp-rim:rgba(191,163,122,.55);',
     "  --wp-sans:'Lato',-apple-system,system-ui,sans-serif;",
@@ -143,19 +147,25 @@
     '  transition:background .4s var(--wp-ease), box-shadow .4s var(--wp-ease)}',
     '.wp-step.now .wp-dot{background:var(--wp-accent); animation:wp-pulse 1.1s ease-in-out infinite}',
     '.wp-step.done .wp-dot{background:var(--wp-done)}',
-    '@keyframes wp-pulse{0%,100%{box-shadow:0 0 0 3px rgba(191,163,122,.28)}50%{box-shadow:0 0 0 9px rgba(191,163,122,0)}}',
+    '@keyframes wp-pulse{0%,100%{box-shadow:0 0 0 3px var(--wp-glow)}50%{box-shadow:0 0 0 9px transparent}}',
     '.wp-who{font-family:var(--wp-mono); font-size:.44rem; letter-spacing:.09em;',
     '  text-transform:uppercase; color:var(--wp-accent); overflow:hidden; text-overflow:ellipsis}',
     '.wp-doing{font-size:.7rem; font-weight:400; color:var(--wp-ink); line-height:1.3}',
     '.wp-earn{font-family:var(--wp-mono); font-size:.52rem; color:var(--wp-ink-2); white-space:nowrap}',
     '.wp-step.done .wp-earn{color:var(--wp-done); font-weight:700}',
 
-    /* ── what the question taught them ─────────────────────────────────── */
+    /* ── what the questions taught them ────────────────────────────────── */
     '.wp-learned{width:100%; margin-top:10px; font-size:.68rem; font-weight:400;',
-    '  color:var(--wp-ink-2); line-height:1.4}',
+    '  color:var(--wp-ink-2); line-height:1.4; flex:0 1 auto; min-height:0;',
+    '  overflow:hidden auto; scrollbar-width:none}',
+    '.wp-learned::-webkit-scrollbar{display:none}',
     '.wp-learned b{font-weight:700; color:var(--wp-done)}',
-    '.wp-learned.muted{opacity:.7}',
     '.wp-learned:empty{display:none}',
+    '.wp-told{margin:0 0 4px; display:flex; gap:5px; align-items:baseline}',
+    '.wp-told:last-child{margin-bottom:0}',
+    '.wp-told.muted{opacity:.6}',
+    /* a marker only earns its keep once there is a list to mark */
+    '.wp-learned.many .wp-told::before{content:"↳"; color:var(--wp-accent); flex-shrink:0}',
 
     '.wp-foot{width:100%; margin-top:8px; font-family:var(--wp-mono); font-size:.42rem;',
     '  letter-spacing:.06em; color:var(--wp-ink-2); opacity:.7; line-height:1.5}',
@@ -262,8 +272,10 @@
     var at = -1;          // -1 = not started, steps.length = finished
     var done = [];
     var credit = 0;
-    var answer = null;    // 0 | 1
-    var skipped = false;
+    /* A scenario may ask more than once — Giltrap's four-month build asks at
+       several stages — so answers are keyed by step index, not held singly. */
+    var answers = {};     // stepIndex -> 0 | 1
+    var skips = {};       // stepIndex -> true
     var finished = false;
     var timer = null;
     var blocking = false;
@@ -349,10 +361,29 @@
       }).join('');
     }
 
-    function askStep() {
-      var st = sc().steps;
-      for (var i = 0; i < st.length; i++) if (st[i].ask) return st[i];
-      return null;
+    /** Is step i still waiting on its answer? This is what holds the line. */
+    function unanswered(i) {
+      var st = sc().steps[i];
+      return Boolean(st && st.ask) && answers[i] == null && !skips[i];
+    }
+
+    /** Everything the questions have returned so far, in the order asked. */
+    function renderLearned(s) {
+      var rows = [];
+      var total = 0;
+      s.steps.forEach(function (st, i) {
+        if (!st.ask) return;
+        total++;
+        if (answers[i] != null) rows.push({ text: st.ask.learn[answers[i]], muted: false });
+        else if (skips[i]) rows.push({ text: s.declined || 'they would rather not say.', muted: true });
+      });
+      elLearned.className = 'wp-learned' + (total > 1 ? ' many' : '');
+      elLearned.innerHTML = rows.map(function (row) {
+        return '<p class="wp-told' + (row.muted ? ' muted' : '') + '">' +
+          (total > 1 ? '' : '<span>' + esc(s.told || 'they told you:') + '</span>') +
+          (row.muted ? esc(row.text) : '<b>' + esc(row.text) + '</b>') +
+        '</p>';
+      }).join('');
     }
 
     function setBlocking(v) {
@@ -364,7 +395,7 @@
     function render() {
       var s = sc();
       var pending = at >= 0 && at < s.steps.length && !finished ? s.steps[at] : null;
-      var asking = Boolean(pending && pending.ask) && answer === null && !skipped;
+      var asking = at >= 0 && !finished && unanswered(at);
       var running = at >= 0 && !finished;
 
       elApp.textContent = s.app || '';
@@ -383,16 +414,7 @@
         lis[i].className = 'wp-step' + (isDone ? ' done' : '') + (isNow ? ' now' : '');
       }
 
-      var a = askStep();
-      if (a && answer !== null) {
-        elLearned.className = 'wp-learned';
-        elLearned.innerHTML = (s.told || 'they told you:') + ' <b>' + esc(a.ask.learn[answer]) + '</b>';
-      } else if (skipped) {
-        elLearned.className = 'wp-learned muted';
-        elLearned.textContent = s.declined || 'they said no. fine.';
-      } else {
-        elLearned.textContent = '';
-      }
+      renderLearned(s);
 
       /* buttons */
       elGoRow.innerHTML = '';
@@ -417,7 +439,9 @@
           b.type = 'button';
           b.className = 'wp-sheet-btn';
           b.textContent = o;
-          b.onclick = function () { answer = i; render(); tick(); };
+          b.onclick = (function (choice, step) {
+            return function () { answers[step] = choice; render(); tick(); };
+          })(i, at);
           elSheetRow.appendChild(b);
         });
         elSkip.textContent = cfg.skipLabel || 'rather not';
@@ -445,8 +469,7 @@
       clear();
       var s = sc();
       if (at < 0 || finished) return;
-      var pending = s.steps[at];
-      if (pending && pending.ask && answer === null && !skipped) return; // blocked, on purpose
+      if (unanswered(at)) return; // blocked, on purpose — it is a question, not a tick
       timer = setTimeout(function () {
         if (done.indexOf(at) < 0) done.push(at);
         if (s.steps[at] && s.steps[at].credit) credit += s.steps[at].credit;
@@ -460,7 +483,7 @@
     function reset(next) {
       clear();
       at = -1; done = []; credit = 0;
-      answer = null; skipped = false; finished = false;
+      answers = {}; skips = {}; finished = false;
       if (next) sid = next;
       Array.prototype.forEach.call(elPick.children, function (b) {
         b.className = 'wp-tab' + (b.dataset.sid === sid ? ' on' : '');
@@ -470,7 +493,7 @@
       render();
     }
 
-    elSkip.onclick = function () { skipped = true; render(); tick(); };
+    elSkip.onclick = function () { skips[at] = true; render(); tick(); };
 
     var ctl = {
       el: root,

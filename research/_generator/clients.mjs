@@ -38,6 +38,35 @@ export const CLIENTS = [
       ['What it costs', 'For a not-for-profit that returns 94c in the dollar, a remediation handled coldly costs more in trust than it ever does in redress.'],
       ['What the concept does', 'Prepares each member’s letter against their actual circumstances, flags the ones a person must read, and stops.'],
     ],
+    /* The wait, live. The credit is TIME — Southern Cross returns 94c of every
+       premium dollar in claims, so a cash sweetener would be the wrong
+       instrument entirely. What the member gets back is the call they no longer
+       have to make. Note the redress step invents no figure: none was supplied. */
+    waitPhone: {
+      chrome: 'phone',
+      note: 'Illustrative concept screen · not a Southern Cross product · no member data was used',
+      skipLabel: 'rather not say',
+      scenarios: [{
+        id: 'letter', label: 'The letter',
+        app: 'About your claim',
+        unit: ['', ' min'],
+        earning: 'on hold, not spent',
+        yours: 'the call they skip',
+        told: 'they told you:',
+        declined: 'they would rather not say. The letter still gets prepared.',
+        steps: [
+          { agent: 'Error', doing: 'What went wrong, in two sentences', credit: 6 },
+          { agent: 'Yours', doing: 'The claim of theirs it touched', credit: 8 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Would you rather talk than read?',
+            options: ['Please call me', 'Writing is fine'],
+            learn: ['wants a call before a calculation', 'happy in writing, so send the full working'],
+          } },
+          { agent: 'Redress', doing: 'Left blank for a person to confirm', credit: 5 },
+          { agent: 'Held', doing: 'Waiting on a named reviewer', credit: 9 },
+        ],
+      }],
+    },
     mirrorTitle: 'One remediation. Every member’s version.',
     mirrorKicker: 'The same underlying error, prepared for four different situations. Every draft stops before it sends, and the ones that need a human say so.',
     variants: [
@@ -150,6 +179,34 @@ export const CLIENTS = [
       ['What it costs', 'Every unanswered tracking check becomes a contact. The cheapest contact is the one the tracking page prevented.'],
       ['What the concept does', 'Turns the status into an answer, in the wait, and hands the hard ones to a person with the file already open.'],
     ],
+    /* Two of these steps deliberately name a rule NZ Post has not published
+       rather than inventing one. That gap is the pitch — the concept cannot
+       answer "is it lost yet" until someone hands over the threshold. */
+    waitPhone: {
+      chrome: 'phone',
+      note: 'Illustrative concept screen · not an NZ Post product · no tracking data was used',
+      skipLabel: 'rather not say',
+      scenarios: [{
+        id: 'parcel', label: 'The parcel',
+        app: 'Where is my parcel?',
+        unit: ['', ' min'],
+        earning: 'on the phone, not spent',
+        yours: 'the call they skip',
+        told: 'they told you:',
+        declined: 'they would rather not say. Tracking still gets assembled.',
+        steps: [
+          { agent: 'Scan', doing: 'Last movement, and where', credit: 4 },
+          { agent: 'Lane', doing: 'How this lane usually runs', credit: 7 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Is there somewhere safe to leave it?',
+            options: ['Yes, behind the gate', 'I need to sign'],
+            learn: ['safe place behind the gate, so no second attempt', 'signature required, so book a window'],
+          } },
+          { agent: 'Rule', doing: 'Your lost-parcel threshold — once you give us it', credit: 6 },
+          { agent: 'Draft', doing: 'Ready for a person to send', credit: 8 },
+        ],
+      }],
+    },
     mirrorTitle: 'One tracking number. Four honest answers.',
     mirrorKicker: 'The same “in transit” status means four different things. Choose a situation and see what the customer could be told instead of a status code.',
     variants: [
@@ -258,6 +315,34 @@ export const CLIENTS = [
       ['What it costs', 'A commercial claim handled opaquely is a renewal lost eleven months later, for reasons nobody writes down.'],
       ['What the concept does', 'Assembles the state of the claim into something a person can send, and flags what is actually blocking it.'],
     ],
+    /* "Are you trading in the meantime?" is the whole argument in one line: it
+       is the single most useful thing an insurer could ask a business on day
+       eleven, and nobody asks it, because nothing is listening during the wait. */
+    waitPhone: {
+      chrome: 'phone',
+      note: 'Illustrative concept screen · not an AIG product · no claim data was used',
+      skipLabel: 'rather not say',
+      scenarios: [{
+        id: 'claim', label: 'The claim',
+        app: 'Claim, day eleven',
+        unit: ['', ' min'],
+        earning: 'chasing, not spent',
+        yours: 'the chase they skip',
+        told: 'they told you:',
+        declined: 'they would rather not say. The update still gets prepared.',
+        steps: [
+          { agent: 'State', doing: 'Where the claim actually sits today', credit: 7 },
+          { agent: 'Docs', doing: 'What landed, what is still missing', credit: 6 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Are you trading in the meantime?',
+            options: ['Reduced capacity', 'Fully stood down'],
+            learn: ['trading at reduced capacity, so cashflow is the pressure', 'fully stood down — this is now urgent'],
+          } },
+          { agent: 'Assessor', doing: 'Assigned, and when they will call', credit: 9 },
+          { agent: 'Draft', doing: 'Ready for a person to send', credit: 8 },
+        ],
+      }],
+    },
     mirrorTitle: 'One claim. Four states of the same wait.',
     mirrorKicker: 'The status is “open” in every case. What the customer needs to hear is different every time.',
     variants: [
@@ -369,6 +454,34 @@ export const CLIENTS = [
       ['What it costs', 'Not the listing — the next one. An agent who could not answer the vendor lists elsewhere next time.'],
       ['What the concept does', 'Prepares the vendor conversation from data you already hold, and stops before it sends.'],
     ],
+    /* The only one of these four where the person waiting is the CUSTOMER of the
+       business (the agent), not a consumer — so the credit is the agent's Sunday
+       night back, and the question is the one the vendor is about to ask anyway. */
+    waitPhone: {
+      chrome: 'phone',
+      note: 'Illustrative concept screen · not a Trade Me product · no listing data was used',
+      skipLabel: 'rather not say',
+      scenarios: [{
+        id: 'listing', label: 'The listing',
+        app: 'Six weeks on market',
+        unit: ['', ' min'],
+        earning: 'of Sunday night, back',
+        yours: 'their Sunday night',
+        told: 'the agent told you:',
+        declined: 'the agent would rather not say. The vendor note still gets drafted.',
+        steps: [
+          { agent: 'Views', doing: 'This listing against comparable ones', credit: 8 },
+          { agent: 'Watchers', doing: 'Who is circling but not enquiring', credit: 7 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Has the vendor moved on price yet?',
+            options: ['Not yet', 'Once already'],
+            learn: ['price untested, so lead with the comparables', 'already moved once — so the note leads with presentation, not price'],
+          } },
+          { agent: 'Renewal', doing: 'What the decision costs either way', credit: 6 },
+          { agent: 'Draft', doing: 'A vendor note, ready for the agent to send', credit: 9 },
+        ],
+      }],
+    },
     mirrorTitle: 'One agent. Four moments in the lifecycle.',
     mirrorKicker: 'Acquisition, activation, retention, win-back — the stages named in your own ad. Same agent, four very different conversations.',
     variants: [

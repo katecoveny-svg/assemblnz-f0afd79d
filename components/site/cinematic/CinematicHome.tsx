@@ -228,10 +228,10 @@ export function CinematicHome() {
     renderer.toneMappingExposure = 1.28;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#030B1F');   // super deep navy — Kate's call: navy, not black
+    scene.background = new THREE.Color('#050F1C');   // super deep navy — Kate's call: navy, not black
     // Atmospheric depth: things further away sink into the navy, which is what
     // sells the page as a space rather than a backdrop.
-    scene.fog = new THREE.FogExp2('#030B1F', 0.016);
+    scene.fog = new THREE.FogExp2('#050F1C', 0.016);
     const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 100);
 
     // Env — studio softboxes baked into the env map (her shiny-chrome recipe).
@@ -285,7 +285,13 @@ export function CinematicHome() {
     // navy"). A chrome thread wound through a gold one, a hairline horizon
     // ring, a gold seed at the centre. Nothing thicker than 0.02 — the old
     // assembly's 0.085 band is precisely what read as clunky.
-    const threadA = new THREE.Mesh(new THREE.TorusKnotGeometry(1.5, 0.028, 700, 24, 2, 3), mats.chrome);
+    // The chrome thread re-winds itself at each stage — the object is being
+    // assembled as you move, not just rotated. Geometries pre-built; the swap
+    // is a pointer assignment.
+    const WINDINGS: [number, number][] = [[2, 3], [3, 4], [2, 5], [3, 5]];
+    const threadGeos = WINDINGS.map(([tp, tq]) => new THREE.TorusKnotGeometry(1.5, 0.028, 700, 24, tp, tq));
+    const threadA = new THREE.Mesh(threadGeos[0], mats.chrome);
+    let wound = 0;
     const threadB = new THREE.Mesh(new THREE.TorusKnotGeometry(1.9, 0.018, 700, 20, 3, 5), mats.brassBright.clone());
     // piano-black third winding — the black taurus of the gallery language;
     // on navy it reads by its highlights, which is what the footlight is for
@@ -299,10 +305,10 @@ export function CinematicHome() {
     group.add(threadA, threadB, threadC, horizon, seed);
 
     // restrained particles
-    const N = 90, pGeo = new THREE.BufferGeometry(), pp = new Float32Array(N * 3);
+    const N = 240, pGeo = new THREE.BufferGeometry(), pp = new Float32Array(N * 3);
     for (let i = 0; i < N; i++) { pp[i * 3] = (Math.random() - 0.5) * 20; pp[i * 3 + 1] = (Math.random() - 0.5) * 14; pp[i * 3 + 2] = (Math.random() - 0.5) * 20; }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pp, 3));
-    const parts = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: '#D4A843', size: 0.04, transparent: true, opacity: 0.5 }));
+    const parts = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: '#D4A843', size: 0.05, transparent: true, opacity: 0.55 }));
     scene.add(parts);
 
     // The filament carries no per-component labels — the parts story lives on
@@ -344,6 +350,8 @@ export function CinematicHome() {
       // Per-part life, so it reads as alive rather than as one spinning still.
       threadA.rotation.y = tt * 0.1;
       threadA.rotation.x = Math.sin(tt * 0.13) * 0.16;
+      const wantWind = Math.min(WINDINGS.length - 1, currentStage);
+      if (wantWind !== wound) { wound = wantWind; threadA.geometry = threadGeos[wound]!; }
       threadB.rotation.y = -tt * 0.07;
       threadB.rotation.z = tt * 0.05 + spin * 2;
       threadC.rotation.y = tt * 0.055;

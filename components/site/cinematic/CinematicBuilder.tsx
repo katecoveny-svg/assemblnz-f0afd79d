@@ -45,6 +45,7 @@ export function CinematicBuilder() {
   const [copied, setCopied] = useState(false);
   const [agentName, setAgentName] = useState('');
   const [pdfBusy, setPdfBusy] = useState(false);
+  const [actionErr, setActionErr] = useState('');
   const [askQ, setAskQ] = useState('');
   const [askA, setAskA] = useState('');
   const [askBusy, setAskBusy] = useState(false);
@@ -338,6 +339,7 @@ export function CinematicBuilder() {
   async function downloadPdf() {
     if (pdfBusy) return;
     setPdfBusy(true);
+    setActionErr('');
     try {
       const { jsPDF } = await import('jspdf');
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -532,6 +534,10 @@ export function CinematicBuilder() {
       mono('assembl@assembl.co.nz  ·  aotearoa new zealand', W - M, H - 13, 7, MUTED, 'right');
 
       doc.save(`${who.replace(/[^\w-]+/g, '-').toLowerCase()}-blueprint.pdf`);
+    } catch {
+      // jsPDF loads on demand; a failed chunk (mid-deploy, offline) used to
+      // strand the button on "assembling…" forever.
+      setActionErr('The PDF could not be assembled just now — refresh and try again.');
     } finally {
       setPdfBusy(false);
     }
@@ -991,6 +997,7 @@ export function CinematicBuilder() {
               <button className="btn btn-glass" onClick={() => shareIntent('x')}>share on X</button>
               <button className="btn btn-glass" onClick={() => shareIntent('li')}>linkedin</button>
             </div>
+            {actionErr ? <div className="sc-keep-err">{actionErr}</div> : null}
           </div>
         </div>
       ) : null}

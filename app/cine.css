@@ -1057,7 +1057,7 @@
    .cine.inst so /pricing keeps the paper look until it is ported deliberately.
    ═══════════════════════════════════════════════════════════════════════════ */
 .cine.inst {
-  --paper: #030B1F;
+  --paper: #050F1C;
   --paper-warm: #060B16;
   --ink: #F0EEE9;
   --ink-2: #F0EEE9;   /* no grey text — hierarchy comes from weight */
@@ -1087,7 +1087,7 @@
 
 /* chrome surfaces onto dark glass */
 .cine.inst .nav {
-  background: rgba(3, 11, 31, 0.82);
+  background: rgba(5, 15, 28, 0.82);
   border-bottom: 1px solid rgba(240, 238, 233, 0.08);
 }
 .cine.inst .wordmark { font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 0.04em; }
@@ -1097,7 +1097,7 @@
   border: 1px solid rgba(240, 238, 233, 0.1);
   box-shadow: 0 12px 44px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(240, 238, 233, 0.06);
 }
-.cine.inst .btn-solid { background: var(--ink); color: #030B1F; box-shadow: 0 6px 22px rgba(0,0,0,0.4); }
+.cine.inst .btn-solid { background: var(--ink); color: #050F1C; box-shadow: 0 6px 22px rgba(0,0,0,0.4); }
 .cine.inst .btn-glass {
   background: rgba(240, 238, 233, 0.06); color: var(--ink);
   border: 1px solid rgba(240, 238, 233, 0.26);
@@ -1113,7 +1113,7 @@
 .cine.inst .progress-hairline { background: var(--brass); }
 
 /* the finale's radial scrim was tuned for paper; on navy it just deepens */
-.cine.inst .finale .btn-solid { background: var(--ink); color: #030B1F; }
+.cine.inst .finale .btn-solid { background: var(--ink); color: #050F1C; }
 .cine.inst .finale .btn-glass { color: var(--ink); border-color: rgba(240,238,233,0.32); }
 
 /* the live-demo input */
@@ -1126,17 +1126,17 @@
 /* Instrument: surfaces that carried hardcoded paper values */
 .cine.inst .hero::before {
   background: linear-gradient(100deg,
-    var(--paper) 0%, rgba(3,11,31,0.96) 44%, rgba(3,11,31,0.72) 66%, rgba(3,11,31,0) 100%);
+    var(--paper) 0%, rgba(5,15,28,0.96) 44%, rgba(5,15,28,0.72) 66%, rgba(5,15,28,0) 100%);
 }
 .cine.inst .section-copy {
-  background: linear-gradient(to right, var(--paper) 0%, var(--paper) 72%, rgba(3,11,31,0) 100%);
+  background: linear-gradient(to right, var(--paper) 0%, var(--paper) 72%, rgba(5,15,28,0) 100%);
 }
 .cine.inst .bp-invite {
   border: 1px solid rgba(212, 168, 67, 0.36);
-  background: linear-gradient(140deg, rgba(8, 13, 26, 0.92), rgba(3, 11, 31, 0.84));
+  background: linear-gradient(140deg, rgba(8, 13, 26, 0.92), rgba(5, 15, 28, 0.84));
   box-shadow: 0 26px 60px -32px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(240, 238, 233, 0.07) inset;
 }
-.cine.inst .nav-cta { background: var(--ink); color: #030B1F; }
+.cine.inst .nav-cta { background: var(--ink); color: #050F1C; }
 
 /* Instrument: the paper glows. On paper these text-shadows kept ink readable
    over the object; on navy a white halo around light type reads as dark
@@ -1199,7 +1199,7 @@
 /* ══ THE SHOWROOM ═══════════════════════════════════════════════════════════
    A 460vh corridor with a sticky viewport: the outer div provides the scroll
    distance, the inner one stays put while the camera rides its path. */
-.cine .shrm { position: relative; height: 460vh; }
+.cine .shrm { position: relative; height: 380vh; }
 .cine .shrm-stick { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .cine .shrm-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .cine .shrm-head { position: absolute; top: 92px; left: 48px; z-index: 2; max-width: 440px; }
@@ -1254,7 +1254,7 @@
 .cine .shrm-canvas { pointer-events: auto; touch-action: none; cursor: grab; }
 .cine .shrm-canvas:active { cursor: grabbing; }
 @media (max-width: 720px) {
-  .cine .shrm { height: 380vh; }
+  .cine .shrm { height: 320vh; }
   .cine .shrm-head { left: 22px; top: 84px; }
   .cine .shrm-door { right: 22px; bottom: 84px; }
 }
@@ -1296,7 +1296,7 @@
   border: 1px solid rgba(212, 168, 67, 0.38);
   border-radius: 26px;
   padding: 46px 48px 22px;
-  background: linear-gradient(160deg, rgba(212,168,67,0.07), rgba(3,11,31,0.94) 42%);
+  background: linear-gradient(160deg, rgba(212,168,67,0.07), rgba(5,15,28,0.94) 42%);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 24px 70px -40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(240,238,233,0.05);
 }

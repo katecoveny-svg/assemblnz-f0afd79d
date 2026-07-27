@@ -103,6 +103,27 @@ em.g{font-style:normal;color:var(--accent)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* ══ THE WAIT, DEMONSTRATED ═══════════════════════════════════════════════
+   A lit phone in a dark room. The screen stays light on purpose — a real app
+   screen is light, and against this near-black page it becomes the one thing
+   in the section your eye goes to. The three cards move alongside it so the
+   section shows before it explains. */
+.waitgrid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-top:44px}
+.waitcards{display:flex;flex-direction:column;gap:16px}
+.waitdemo{position:sticky;top:88px}
+.wp-invite{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;font-weight:700}
+@media(max-width:960px){.waitgrid{grid-template-columns:1fr;gap:36px;justify-items:center}
+  .waitdemo{position:static}.waitcards{width:100%}}
+/* wait-phone.js, driven from this client's palette */
+#wait-mount .wp{
+  --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
+  --wp-accent:var(--accent); --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, var(--accent) 58%, transparent);
+  --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
+  --wp-sans:var(--sans); --wp-app:var(--sans);
+}
 .num{font-size:10.5px;letter-spacing:.24em;color:var(--muted-2);font-weight:700;margin-bottom:14px}
 .marqrow{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:24px}
 .marqbtn{border:1px solid var(--line);border-radius:999px;padding:11px 21px;font-size:13.5px;font-weight:700;color:var(--muted);transition:.22s}
@@ -219,9 +240,22 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <p class="lede">${esc(c.waitBody)}</p>
     <p class="kicker" style="color:var(--accent)">${esc(c.whyNow)}</p>
   </div>
+  ${c.waitPhone ? `
+  <!-- The wait itself, not three paragraphs about it. Same component the
+       assembl homepage runs; see wait-phone.js. -->
+  <div class="waitgrid rise">
+    <div class="waitdemo">
+      <div class="wp-invite">Tap it — this is the wait itself, not a picture of it</div>
+      <div id="wait-mount"></div>
+    </div>
+    <div class="waitcards">
+      ${c.waitCards.map(([t, b]) => `<div class="glass tight"><h3 style="font-size:18px">${esc(t)}</h3><p class="kicker" style="margin-top:10px;font-size:14px">${esc(b)}</p></div>`).join('\n      ')}
+      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
+    </div>
+  </div>` : `
   <div class="grid3" style="margin-top:44px">
     ${c.waitCards.map(([t, b]) => `<div class="glass tight rise"><h3 style="font-size:19px">${esc(t)}</h3><p class="kicker" style="margin-top:11px;font-size:14px">${esc(b)}</p></div>`).join('\n    ')}
-  </div>
+  </div>`}
 </div></section>
 
 <section id="mirror"><div class="wrap">
@@ -578,6 +612,20 @@ function grounded(q){
   anim();
 })();
 </script>
+${c.waitPhone ? `
+<script src="wait-phone.js"></script>
+<script>
+/* ══ THE WAIT, ON A PHONE ═══════════════════════════════════════════════════
+   The same component the assembl homepage runs. The ring is the idea, the
+   number in the middle is the payoff, and the sheet is the one question that
+   genuinely holds the line — a question, not a tick. Everything it says traces
+   to this client's own published material; see \`verified\` in clients.mjs. */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+  WaitPhone.mount(mount,${js(c.waitPhone)});
+})();
+</script>` : ''}
 </body>
 </html>`;
 }
@@ -598,6 +646,11 @@ for (const c of targets) {
     `name = "assembling-${c.slug}"\ncompatibility_date = "2025-10-01"\npages_build_output_dir = "."\n\n[ai]\nbinding = "AI"\n`);
   for (const f of ['three.min.js', 'functions/api/agent.js']) {
     if (!existsSync(resolve(dir, f))) copyFileSync(f === 'functions/api/agent.js' ? resolve(HERE, 'agent.js') : resolve(DONOR, f), resolve(dir, f));
+  }
+  /* wait-phone.js is re-copied EVERY build, unlike the two above — it is our own
+     source and the template is the one place it should ever be edited. */
+  if (c.waitPhone) {
+    copyFileSync(resolve(RESEARCH, 'assembling-template/wait-phone.js'), resolve(dir, 'wait-phone.js'));
   }
   const warn = c.paletteConfidence === 'low' ? '  ⚠️  palette UNVERIFIED — confirm before sending' : '';
   console.log(`✓ assembling-${c.slug}  ${c.primary} / ${c.secondary}${warn}`);

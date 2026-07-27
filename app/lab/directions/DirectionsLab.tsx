@@ -67,7 +67,7 @@ const DIRECTIONS: Direction[] = [
     id: 'instrument',
     label: 'Instrument',
     premise: 'Assembl navy, monospace labels, small bold caps. Chrome thread wound through gold — a precision instrument, not a brochure.',
-    bg: '#030B1F', ink: '#F0EEE9', ink2: '#F0EEE9', accent: '#D4A843', dark: true,
+    bg: '#050F1C', ink: '#F0EEE9', ink2: '#F0EEE9', accent: '#D4A843', dark: true,
     object: 'filament', face: LATO, weight: 700, weight2: 300, size: 'clamp(1.9rem, 3.6vw, 3.6rem)',
     tracking: '0.03em', leading: '1.24', layout: 'split', caps: true,
   },

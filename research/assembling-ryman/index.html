@@ -90,6 +90,20 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
   @media(max-width:760px){.grid2{grid-template-columns:1fr;gap:28px}}
   .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+  /* the wait, demonstrated beside the explanation of it */
+  .waitgrid{display:grid;grid-template-columns:330px 1fr;gap:44px;align-items:start;margin-top:32px}
+  .waitgrid .cards{display:flex;flex-direction:column;gap:16px}
+  .waitdemo{position:sticky;top:96px}
+  @media(max-width:900px){.waitgrid{grid-template-columns:1fr;gap:34px;justify-items:center}
+    .waitdemo{position:static}.waitgrid .cards{width:100%}}
+  /* wait-phone.js, in Ryman's own palette */
+  #wait-mount .wp{
+    --wp-paper:#fff; --wp-ink:var(--ink); --wp-ink-2:var(--muted);
+    --wp-accent:var(--accent-ink); --wp-done:var(--green); --wp-line:var(--line);
+    --wp-rim:rgba(240,96,34,.45);
+    --wp-shell:linear-gradient(160deg,#4a423c 0%,#26221e 44%,#4a423c 100%);
+    --wp-sans:var(--sans); --wp-app:var(--sans);
+  }
   .card.soft{background:var(--surface);border-color:transparent}
 
   /* toggles / pieces */
@@ -266,24 +280,31 @@
   <div class="eyebrow">The guides they already ask for</div>
   <h2 class="sec">The wait between &ldquo;send me the guides&rdquo; and knowing what to do.</h2>
   <p class="kicker">Ryman offers free lifestyle and financial guides &mdash; a family enters their details and an email arrives with the links. That is the moment this concept works in. The same guides, assembled around what the family actually said, so the reading has their situation already in it. Nothing is sold. Nothing sends without their yes.</p>
-  <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px">
-    <div class="card">
-      <div class="chip">01 &middot; what they told you</div>
-      <h4 style="margin:10px 0 6px">Mum, 82, Christchurch. Downsizing from the family home. Worried about the money.</h4>
-      <p class="kicker" style="margin:0">Three facts, given freely on the guide form. Provenance visible: &ldquo;you told us&rdquo;.</p>
+  <div class="waitgrid">
+    <div class="waitdemo">
+      <div class="chip" style="display:inline-block;margin-bottom:14px">Tap it &mdash; this is the wait itself, not a picture of it</div>
+      <div id="wait-mount"></div>
     </div>
-    <div class="card">
-      <div class="chip">02 &middot; what gets assembled</div>
-      <h4 style="margin:10px 0 6px">The costs guide, opened at the page about the deferred management fee &mdash; with her numbers already in it.</h4>
-      <p class="kicker" style="margin:0">Independent living and assisted living compared for her town, not in general.</p>
-    </div>
-    <div class="card">
-      <div class="chip">03 &middot; what Ryman keeps</div>
-      <h4 style="margin:10px 0 6px">The relationship, the record, and every consequential action.</h4>
-      <p class="kicker" style="margin:0">Assembling prepares. A Ryman advisor decides what is sent and when.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="chip">01 &middot; what they told you</div>
+        <h4 style="margin:10px 0 6px">Mum, 82, Christchurch. Downsizing from the family home. Worried about the money.</h4>
+        <p class="kicker" style="margin:0">Three facts, given freely on the guide form. Provenance visible: &ldquo;you told us&rdquo;.</p>
+      </div>
+      <div class="card">
+        <div class="chip">02 &middot; what gets assembled</div>
+        <h4 style="margin:10px 0 6px">The costs guide, opened at the page about the deferred management fee &mdash; with her numbers already in it.</h4>
+        <p class="kicker" style="margin:0">Independent living and assisted living compared for her town, not in general.</p>
+      </div>
+      <div class="card">
+        <div class="chip">03 &middot; what Ryman keeps</div>
+        <h4 style="margin:10px 0 6px">The relationship, the record, and every consequential action.</h4>
+        <p class="kicker" style="margin:0">Assembling prepares. A Ryman advisor decides what is sent and when.</p>
+      </div>
+      <p class="kicker" style="margin:0"><b style="color:var(--ink)">Why this moment:</b> the guides are already the most requested thing on the site. Today they arrive identical for every family. Assembled, they arrive already about this one.</p>
+      <p class="kicker" style="margin:0"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked while she waits, is the only part of this that sends something back the other way. Decline it and the guides still assemble &mdash; just with less of her in them.</p>
     </div>
   </div>
-  <p class="kicker" style="margin-top:22px"><b style="color:var(--ink)">Why this moment:</b> the guides are already the most requested thing on the site. Today they arrive identical for every family. Assembled, they arrive already about this one.</p>
 </div></section>
 
 <section id="fit" class="tool"><div class="wrap">
@@ -776,6 +797,54 @@ renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderIn
 (function(){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('risen');io.unobserve(e.target)}}),{threshold:0.08});
   document.querySelectorAll('.sec,.card').forEach(el=>io.observe(el));
+})();
+</script>
+
+<script src="wait-phone.js"></script>
+<script>
+/* ══ THE WAIT, ON A PHONE ═════════════════════════════════════════════════════
+   The same component the assembl homepage runs, in Ryman's palette and about
+   Ryman's actual wait: a family has asked for the free guides, and right now
+   what arrives is the same set of links every family gets.
+
+   The credit is TIME, not money — a discount aimed at an 82-year-old's family
+   would be the wrong instrument. What the wait returns is an evening of reading
+   they no longer have to do.
+
+   Every fee fact here is one this page already states elsewhere: deferred
+   management fee capped at 20%, base weekly fee fixed for the life of
+   occupancy, the statutory cooling-off period after signing an ORA.
+   ═════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+
+  WaitPhone.mount(mount,{
+    chrome:'phone',
+    note:'Illustrative concept screen · not a Ryman product · nothing sends without an advisor',
+    startLabel:'tap to wait',
+    skipLabel:'rather not say',
+    scenarios:[{
+      id:'guides', label:'The guides',
+      app:'Your free guides',
+      unit:['',' min'],
+      earning:'of reading, skipped',
+      yours:'their evening back',
+      told:'she told you:',
+      declined:'she would rather not say. The guides still assemble.',
+      steps:[
+        {agent:'Town',    doing:'Christchurch villages, not all of them', credit:7},
+        {agent:'Costs',   doing:'Deferred management fee, capped at 20%', credit:9},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Is she thinking about care as well as living?',
+          options:['Yes, eventually','Independent living only'],
+          learn:['the care continuum, on one page','independent living only, so no care pricing'],
+        }},
+        {agent:'Weekly',  doing:'Base weekly fee, fixed for life of occupancy', credit:6},
+        {agent:'Guides',  doing:'Ready for an advisor to send', credit:12}
+      ]
+    }]
+  });
 })();
 </script>
 </body>

@@ -85,6 +85,20 @@
   .tool{border-top:1px solid var(--line)}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
   @media(max-width:760px){.grid2{grid-template-columns:1fr;gap:28px}}
+  /* the wait, demonstrated beside the explanation of it */
+  .waitgrid{display:grid;grid-template-columns:330px 1fr;gap:44px;align-items:start;margin-top:32px}
+  .waitgrid .cards{display:flex;flex-direction:column;gap:16px}
+  .waitdemo{position:sticky;top:96px}
+  @media(max-width:900px){.waitgrid{grid-template-columns:1fr;gap:34px;justify-items:center}
+    .waitdemo{position:static}.waitgrid .cards{width:100%}}
+  /* wait-phone.js, in Summerset's own palette */
+  #wait-mount .wp{
+    --wp-paper:#fff; --wp-ink:var(--ink); --wp-ink-2:var(--muted);
+    --wp-accent:var(--accent); --wp-done:var(--dark); --wp-line:var(--line);
+    --wp-rim:rgba(71,10,104,.42);
+    --wp-shell:linear-gradient(160deg,#4a3255 0%,#241030 44%,#4a3255 100%);
+    --wp-sans:var(--sans); --wp-app:var(--sans);
+  }
   .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
   .card.soft{background:var(--surface);border-color:transparent}
 
@@ -261,24 +275,31 @@
   <div class="eyebrow">The information pack they already ask for</div>
   <h2 class="sec">The wait between &ldquo;send me the pack&rdquo; and knowing what to do.</h2>
   <p class="kicker">Summerset offers a free information pack. A family enters their details, and what arrives is the same pack every family gets. That is the moment this concept works in &mdash; the same published material, assembled around what this family actually said. Nothing is sold. Nothing sends without their yes.</p>
-  <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px">
-    <div class="card">
-      <div class="chip">01 &middot; what they told you</div>
-      <h4 style="margin:10px 0 6px">Mum, 82, Napier. Wants to stay near her sister. Worried about what she gets back.</h4>
-      <p class="kicker" style="margin:0">Three facts, given freely on the enquiry form. Provenance visible: &ldquo;you told us&rdquo;.</p>
+  <div class="waitgrid">
+    <div class="waitdemo">
+      <div class="chip" style="display:inline-block;margin-bottom:14px">Tap it &mdash; this is the wait itself, not a picture of it</div>
+      <div id="wait-mount"></div>
     </div>
-    <div class="card">
-      <div class="chip">02 &middot; what gets assembled</div>
-      <h4 style="margin:10px 0 6px">The pack, opened at the deferred management fee &mdash; 25% over four years, with her numbers in it.</h4>
-      <p class="kicker" style="margin:0">Villages in Hawke&rsquo;s Bay, not all 38. Summerset Sure explained in plain words.</p>
-    </div>
-    <div class="card">
-      <div class="chip">03 &middot; what Summerset keeps</div>
-      <h4 style="margin:10px 0 6px">The relationship, the record, and every consequential action.</h4>
-      <p class="kicker" style="margin:0">Assembling prepares. A Summerset advisor decides what is sent and when.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="chip">01 &middot; what they told you</div>
+        <h4 style="margin:10px 0 6px">Mum, 82, Napier. Wants to stay near her sister. Worried about what she gets back.</h4>
+        <p class="kicker" style="margin:0">Three facts, given freely on the enquiry form. Provenance visible: &ldquo;you told us&rdquo;.</p>
+      </div>
+      <div class="card">
+        <div class="chip">02 &middot; what gets assembled</div>
+        <h4 style="margin:10px 0 6px">The pack, opened at the deferred management fee &mdash; 25% over four years, with her numbers in it.</h4>
+        <p class="kicker" style="margin:0">Villages in Hawke&rsquo;s Bay, not all 38. Summerset Sure explained in plain words.</p>
+      </div>
+      <div class="card">
+        <div class="chip">03 &middot; what Summerset keeps</div>
+        <h4 style="margin:10px 0 6px">The relationship, the record, and every consequential action.</h4>
+        <p class="kicker" style="margin:0">Assembling prepares. A Summerset advisor decides what is sent and when.</p>
+      </div>
+      <p class="kicker" style="margin:0"><b style="color:var(--ink)">Why this moment:</b> the pack is already the most requested thing on the site. Today it arrives identical for every family. Assembled, it arrives already about this one.</p>
+      <p class="kicker" style="margin:0"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked while she waits, is the only part of this that sends something back the other way. Decline it and the pack still assembles &mdash; just with less of her in it.</p>
     </div>
   </div>
-  <p class="kicker" style="margin-top:22px"><b style="color:var(--ink)">Why this moment:</b> the pack is already the most requested thing on the site. Today it arrives identical for every family. Assembled, it arrives already about this one.</p>
 </div></section>
 
 <section id="fit" class="tool"><div class="wrap">
@@ -761,6 +782,54 @@ renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderIn
 (function(){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('risen');io.unobserve(e.target)}}),{threshold:0.08});
   document.querySelectorAll('.sec,.card').forEach(el=>io.observe(el));
+})();
+</script>
+
+<script src="wait-phone.js"></script>
+<script>
+/* ══ THE WAIT, ON A PHONE ═════════════════════════════════════════════════════
+   The same component the assembl homepage runs, in Summerset's palette and
+   about Summerset's actual wait: a family has asked for the free information
+   pack, and right now what arrives is the pack every family gets.
+
+   The credit is TIME, not money — a discount aimed at an 82-year-old's family
+   would be the wrong instrument. What the wait returns is an evening of reading
+   they no longer have to do.
+
+   Facts are the published ones only: 38 villages, deferred management fee 25%
+   over four years, Summerset Sure by name. Nothing about the weekly fee's
+   relationship to NZ Super — Summerset does not publish that, so it is not here.
+   ═════════════════════════════════════════════════════════════════════════════ */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+
+  WaitPhone.mount(mount,{
+    chrome:'phone',
+    note:'Illustrative concept screen · not a Summerset product · nothing sends without an advisor',
+    startLabel:'tap to wait',
+    skipLabel:'rather not say',
+    scenarios:[{
+      id:'pack', label:'The pack',
+      app:'Your information pack',
+      unit:['',' min'],
+      earning:'of reading, skipped',
+      yours:'their evening back',
+      told:'she told you:',
+      declined:'she would rather not say. The pack still assembles.',
+      steps:[
+        {agent:'Villages', doing:'Hawke’s Bay, not all 38', credit:7},
+        {agent:'Numbers',  doing:'Deferred management fee, 25% over four years', credit:9},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Does she need to stay near family?',
+          options:['Yes, near her sister','Open to anywhere'],
+          learn:['staying near her sister in Napier','open on region, so price leads']
+        }},
+        {agent:'Sure',  doing:'Summerset Sure, in plain words', credit:6},
+        {agent:'Pack',  doing:'Ready for an advisor to send', credit:12}
+      ]
+    }]
+  });
 })();
 </script>
 </body>

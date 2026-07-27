@@ -486,7 +486,19 @@ export async function POST(req: NextRequest) {
 
   // Brand palette, counted rather than guessed (see lib/build-an-agent/brand-colours).
   const styles = await fetchStyles(html, u);
-  const brand = extractBrandColours([html, ...styles]);
+  let brand = extractBrandColours([html, ...styles]);
+  // Our own domain is the one case where counting misleads: years of legacy
+  // pages out-vote the current Instrument palette, so the demo-of-ourselves
+  // came back teal and red. The declared brand kit is the truthful answer.
+  if (/(^|\.)assembl\.co\.nz$/i.test(u.hostname)) {
+    brand = {
+      ...brand,
+      primary: '#D4A843',
+      secondary: '#050F1C',
+      ink: '#050F1C',
+      palette: ['#050F1C', '#D4A843', '#B8964F', '#F0EEE9'],
+    } as typeof brand;
+  }
 
   const brief = await runExtraction(u, text);
   if (!brief) return bad(502, "The blueprint didn't come back cleanly. Try again in a moment.");

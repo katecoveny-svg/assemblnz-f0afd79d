@@ -74,6 +74,27 @@ em.g{font-style:normal;color:var(--accent)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* ══ THE WAIT, DEMONSTRATED ═══════════════════════════════════════════════
+   A lit phone in a dark room. The screen stays light on purpose — a real app
+   screen is light, and against this near-black page it becomes the one thing
+   in the section your eye goes to. The three cards move alongside it so the
+   section shows before it explains. */
+.waitgrid{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-top:44px}
+.waitcards{display:flex;flex-direction:column;gap:16px}
+.waitdemo{position:sticky;top:88px}
+.wp-invite{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;font-weight:700}
+@media(max-width:960px){.waitgrid{grid-template-columns:1fr;gap:36px;justify-items:center}
+  .waitdemo{position:static}.waitcards{width:100%}}
+/* wait-phone.js, driven from this client's palette */
+#wait-mount .wp{
+  --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
+  --wp-accent:var(--accent); --wp-done:var(--ink-2); --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, var(--accent) 58%, transparent);
+  --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
+  --wp-sans:var(--sans); --wp-app:var(--sans);
+}
 .num{font-size:10.5px;letter-spacing:.24em;color:var(--muted-2);font-weight:700;margin-bottom:14px}
 .marqrow{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:24px}
 .marqbtn{border:1px solid var(--line);border-radius:999px;padding:11px 21px;font-size:13.5px;font-weight:700;color:var(--muted);transition:.22s}
@@ -190,10 +211,20 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <p class="lede">Someone refreshes a tracking page for the fourth time. The status has not changed. They do not know whether that is normal, whether it is lost, whether anyone is looking, or whether they should buy another one. So they ring you — and the person who answers has to start from nothing.</p>
     <p class="kicker" style="color:var(--accent)">We read your own tracking page. It offers a parcel enquiry and a link to FAQs, and it does not state a delivery timeframe, when a parcel is considered lost, how an investigation works, or what compensation applies.</p>
   </div>
-  <div class="grid3" style="margin-top:44px">
-    <div class="glass tight rise"><h3 style="font-size:19px">What happens now</h3><p class="kicker" style="margin-top:11px;font-size:14px">A status code, a link to an enquiry form, and a call that begins with “can I take your tracking number”.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:19px">What it costs</h3><p class="kicker" style="margin-top:11px;font-size:14px">Every unanswered tracking check becomes a contact. The cheapest contact is the one the tracking page prevented.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:19px">What the concept does</h3><p class="kicker" style="margin-top:11px;font-size:14px">Turns the status into an answer, in the wait, and hands the hard ones to a person with the file already open.</p></div>
+  
+  <!-- The wait itself, not three paragraphs about it. Same component the
+       assembl homepage runs; see wait-phone.js. -->
+  <div class="waitgrid rise">
+    <div class="waitdemo">
+      <div class="wp-invite">Tap it — this is the wait itself, not a picture of it</div>
+      <div id="wait-mount"></div>
+    </div>
+    <div class="waitcards">
+      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A status code, a link to an enquiry form, and a call that begins with “can I take your tracking number”.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every unanswered tracking check becomes a contact. The cheapest contact is the one the tracking page prevented.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Turns the status into an answer, in the wait, and hands the hard ones to a person with the file already open.</p></div>
+      <p class="kicker" style="font-size:14px"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked inside the wait, is the only part of this that sends something back the other way. Decline it and the work still gets prepared — just with less of them in it.</p>
+    </div>
   </div>
 </div></section>
 
@@ -549,6 +580,20 @@ function grounded(q){
     r.render(s,cam);
   }
   anim();
+})();
+</script>
+
+<script src="wait-phone.js"></script>
+<script>
+/* ══ THE WAIT, ON A PHONE ═══════════════════════════════════════════════════
+   The same component the assembl homepage runs. The ring is the idea, the
+   number in the middle is the payoff, and the sheet is the one question that
+   genuinely holds the line — a question, not a tick. Everything it says traces
+   to this client's own published material; see `verified` in clients.mjs. */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative concept screen · not an NZ Post product · no tracking data was used","skipLabel":"rather not say","scenarios":[{"id":"parcel","label":"The parcel","app":"Where is my parcel?","unit":[""," min"],"earning":"on the phone, not spent","yours":"the call they skip","told":"they told you:","declined":"they would rather not say. Tracking still gets assembled.","steps":[{"agent":"Scan","doing":"Last movement, and where","credit":4},{"agent":"Lane","doing":"How this lane usually runs","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Is there somewhere safe to leave it?","options":["Yes, behind the gate","I need to sign"],"learn":["safe place behind the gate, so no second attempt","signature required, so book a window"]}},{"agent":"Rule","doing":"Your lost-parcel threshold — once you give us it","credit":6},{"agent":"Draft","doing":"Ready for a person to send","credit":8}]}]});
 })();
 </script>
 </body>

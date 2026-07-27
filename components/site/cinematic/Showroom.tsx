@@ -395,7 +395,9 @@ export function Showroom() {
         const r = wrap!.getBoundingClientRect();
         p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
       }
-      const e = p * p * (3 - 2 * p);
+      // Linear, not smoothstepped: the old ease held the camera near-still for
+      // the first half-screen of scrolling, which read as "stuck".
+      const e = p;
       camera.position.copy(path.getPointAt(e));
       const seg = Math.min(lookTargets.length - 2, e * (lookTargets.length - 1));
       const si = Math.floor(seg), sf = seg - si;
