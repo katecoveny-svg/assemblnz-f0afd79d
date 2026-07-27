@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>assembl intuitive · team workspace (buzz concept)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF7;
+    --navy: #080D1A;
+    --navy-dark: #05070F;
+    --brass: #B8964F;
+    --brass-bright: #D4A843;
+    --hairline: rgba(255,255,255,0.08);
+    --glass: rgba(255,255,255,0.04);
+    --glass-hover: rgba(255,255,255,0.08);
+    --ease: cubic-bezier(0.22,1,0.36,1);
+    --radius: 16px;
+    --radius-lg: 24px;
+    --text-muted: rgba(255,255,255,0.5);
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy-dark);
+    color: #FFFFFF;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    padding-bottom: 80px;
+  }
+  
+  .private-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: var(--brass);
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav {
+    position: fixed;
+    top: 38px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8, 13, 26, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  
+  .wordmark {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+  }
+  .wordmark span {
+    font-style: italic;
+    color: var(--brass);
+    font-weight: 300;
+  }
+
+  /* SHOWROOM WORKSPACE GRID */
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr 380px;
+    gap: 32px;
+    margin: 140px auto 100px;
+    padding: 0 48px;
+    max-width: 1700px;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* PANEL 1: CLIENT PITCH & CONCEPT */
+  .pitch-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .mono-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .pitch-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.05;
+  }
+  .pitch-title em {
+    font-style: italic;
+    color: var(--brass);
+    font-weight: 300;
+  }
+  .pitch-desc {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  .concept-card {
+    background: var(--glass);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s;
+  }
+  .concept-card:hover {
+    border-color: var(--brass);
+    background: var(--glass-hover);
+  }
+  .concept-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--brass);
+    font-weight: 600;
+  }
+  .concept-head {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .concept-body {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  /* PANEL 2: THE ASSEMBL TEAM ROOM (BUZZ CLIENT) */
+  .workspace-panel {
+    background: rgba(5,7,15,0.72);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    height: 720px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    overflow: hidden;
+    backdrop-filter: blur(24px);
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: rgba(8,13,26,0.5);
+    border-right: 1px solid var(--hairline);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .sidebar-header {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 12px;
+  }
+  .channel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .channel-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .channel-item {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .channel-item::before {
+    content: '#';
+    color: var(--brass);
+    font-weight: 600;
+  }
+  .channel-item.active {
+    color: #fff;
+    font-weight: 600;
+  }
+  .channel-item:hover:not(.active) {
+    color: #fff;
+  }
+
+  /* CHAT STAGE */
+  .chat-stage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 28px;
+  }
+  .chat-header {
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chat-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+  }
+  .chat-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--brass);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .chat-feed {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 24px;
+    scrollbar-width: none;
+  }
+  .chat-feed::-webkit-scrollbar { display: none; }
+
+  .msg {
+    display: flex;
+    gap: 16px;
+    animation: fadeIn 0.4s var(--ease);
+  }
+  .msg-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--brass);
+    color: #fff;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .msg-content {
+    flex: 1;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .msg-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .msg-author {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  .msg-sig {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.48rem;
+    color: var(--brass-bright);
+    letter-spacing: 0.05em;
+  }
+  .msg-text {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* PANEL 3: 3D CORE & SOVEREIGN ACTIONS */
+  .control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .canvas-box {
+    height: 220px;
+    background: var(--glass);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+  }
+  #canvas-3d {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .canvas-overlay {
+    position: absolute;
+    bottom: 16px;
+    left: 20px;
+    z-index: 2;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .action-card {
+    background: var(--glass);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .action-header {
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 12px;
+  }
+  .action-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+  }
+  .action-draft {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.8);
+  }
+  .action-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+  
+  .btn-approve {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--brass);
+    color: #fff;
+    padding: 14px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s var(--ease);
+  }
+  .btn-approve:hover {
+    background: var(--brass-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(184,150,79,0.3);
+  }
+
+  /* BACKGROUND CANVAS DECORATION */
+  #canvas-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="private-banner">Private concept · assembl intuitive buzz integration demonstrator</div>
+
+<nav class="nav">
+  <a href="#" class="wordmark">assembl<span> intuitive.</span></a>
+</nav>
+
+<main class="grid-layout">
+  
+  <!-- PANEL 1: CLIENT PITCH & CONCEPT -->
+  <section class="pitch-panel">
+    <div>
+      <div class="mono-eyebrow">assembl intuitive x buzz</div>
+      <h2 class="pitch-title">Sovereign <em>Team Rooms</em> for Agentic Journeys.</h2>
+    </div>
+    <p class="pitch-desc">
+      Stop managing your AI agents through isolated, black-box pipelines. Buzz integrates a decentralized, Nostr-native collaboration room where humans and agent teams co-exist transparently.
+    </p>
+
+    <!-- CORE BENEFIT CARDS -->
+    <div class="concept-card" onclick="selectScenario('woolworths')">
+      <div class="concept-num">01 · Sovereign Audit Log</div>
+      <div class="concept-head">Cryptographically Signed Actions</div>
+      <div class="concept-body">Every single document read, API query, or email draft generated is signed by the agent’s unique key. It creates a tamper-proof flight log.</div>
+    </div>
+
+    <div class="concept-card" onclick="selectScenario('airnz')">
+      <div class="concept-num">02 · Collaborative Channels</div>
+      <div class="concept-head">Teammates, Not Hidden Bots</div>
+      <div class="concept-body">Agents are added to project-specific channels just like human employees. They talk, delegate, and collaborate in plain, audited text.</div>
+    </div>
+
+    <div class="concept-card" onclick="selectScenario('xero')">
+      <div class="concept-num">03 · Human-In-The-Loop Contracts</div>
+      <div class="concept-head">Sovereign Operator Approvals</div>
+      <div class="concept-body">Agents compile the draft proposals, but they wait for a human operator’s thumbs-up reaction (Nostr signature) before dispatching.</div>
+    </div>
+  </section>
+
+  <!-- PANEL 2: THE TEAM ROOM (BUZZ CLIENT) -->
+  <section class="workspace-panel">
+    <div class="sidebar">
+      <div class="sidebar-header">assembl workspace.</div>
+      
+      <div class="channel-list">
+        <div class="channel-title">Channels</div>
+        <div class="channel-item active" id="chan-woolworths" onclick="selectScenario('woolworths')">woolworths-rewards</div>
+        <div class="channel-item" id="chan-airnz" onclick="selectScenario('airnz')">airnz-standby</div>
+        <div class="channel-item" id="chan-xero" onclick="selectScenario('xero')">xero-billing</div>
+      </div>
+
+      <div class="channel-list" style="margin-top:auto">
+        <div class="channel-title">Relay Node</div>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:0.5rem; color:var(--brass)">ws://localhost:3000</div>
+      </div>
+    </div>
+
+    <div class="chat-stage">
+      <div class="chat-header">
+        <span class="chat-title" id="room-name">#woolworths-rewards</span>
+        <span class="chat-status" id="room-status">active</span>
+      </div>
+
+      <!-- Live Chat Feed -->
+      <div class="chat-feed" id="chat-feed">
+        <!-- Loaded via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL 3: 3D CORE & SOVEREIGN ACTIONS -->
+  <section class="control-panel">
+    
+    <!-- 3D Canvas Box -->
+    <div class="canvas-box">
+      <canvas id="canvas-3d"></canvas>
+      <div class="canvas-overlay">assembl core wireframe active</div>
+    </div>
+
+    <!-- Sovereign Action Draft Card -->
+    <div class="action-card">
+      <div class="action-header">
+        <span class="mono-eyebrow">Awaiting Sovereign Approval</span>
+        <h3 class="action-title" style="margin-top:4px">Pending Draft Sign-off</h3>
+      </div>
+
+      <div class="action-draft" id="draft-content">
+        [Loading current scenario draft...]
+      </div>
+
+      <div class="action-meta">
+        <span>AUTHOR: <strong id="draft-author">Context Agent</strong></span>
+        <span>ID: <strong id="draft-id">NIP34-5892</strong></span>
+      </div>
+
+      <button class="btn-approve" onclick="approveDraft()">👍 Approve & Sign Draft</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- BACKGROUND CANVAS DECORATION -->
+<canvas id="canvas-bg"></canvas>
+
+<!-- Three.js from Local with Fallback -->
+<script src="three.min.js"></script>
+<script>
+  if (typeof THREE === 'undefined') {
+    const s = document.createElement('script');
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js";
+    document.head.appendChild(s);
+  }
+</script>
+
+<script>
+  // SCENARIO DATA
+  const scenarioData = {
+    woolworths: {
+      roomName: "woolworths-rewards",
+      draftAuthor: "Liaison Agent",
+      draftId: "NIP34-9402",
+      draft: "Hi Kate, we flagged that outlier $142.50 Uber charge while you were in Wellington. We’ve credited your Everyday Rewards account with 150 points instantly. Your approval is the only thing left. Click here to confirm.",
+      chat: [
+        { avatar: "CA", author: "Context Agent", sig: "npub1589a...", msg: "Detecting outlier $142.50 transaction on Everyday Rewards profile. Querying Geo-location mismatch... Geo shows Sydney; passenger is currently in Wellington. Flagging." },
+        { avatar: "AS", author: "Audit Specialist", sig: "npub178a9...", msg: "Spend behavior analyzed. Customer averages $22.40 on Uber trips. Geolocation mismatch confirmed. Recommend: full instant credit." },
+        { avatar: "LA", author: "Liaison Agent", sig: "npub18c3b...", msg: "Compiled draft refund of $142.50 and Everyday Rewards points offset. @Operator (Kate Hudson) please approve draft." }
+      ]
+    },
+    airnz: {
+      roomName: "airnz-standby",
+      draftAuthor: "Re-routing Agent",
+      draftId: "NIP34-8021",
+      draft: "Dear Mila, flight NZ102 has been cancelled due to weather. We have secured your standby priority seat on flight NZ104 leaving at 4:15pm. Please confirm to sign your standby boarding pass. No cost applies.",
+      chat: [
+        { avatar: "CA", author: "Context Agent", sig: "npub1589a...", msg: "Flight NZ102 Wellington to Auckland CANCELLED. Scanning manifest for high-priority passengers... Mila Coveny (High Loyalty Member) flagged." },
+        { avatar: "RA", author: "Re-routing Agent", sig: "npub142ab...", msg: "Alternative flights searched. NZ104 has 2 open standby seats. Locking seat 14B under standby priority hold." },
+        { avatar: "LA", author: "Liaison Agent", sig: "npub18c3b...", msg: "Draft re-routing pass compiled. Awaiting operator signature to publish ticket." }
+      ]
+    },
+    xero: {
+      roomName: "xero-billing",
+      draftAuthor: "Billing Specialist",
+      draftId: "NIP34-1153",
+      draft: "Xero Tax Reconciliation Draft: Tax Year 2026. Adjusted gross: $142,500. Total provisional offset: $4,200. Awaiting operator approval to reconcile ledger and submit IRD payload.",
+      chat: [
+        { avatar: "CA", author: "Context Agent", sig: "npub1589a...", msg: "Xero ledger pulled. Scanning outstanding tax reconciliations for Q2... Discovered $4,200 pending provisional tax offset." },
+        { avatar: "BS", author: "Billing Specialist", sig: "npub119fa...", msg: "Validating provisional tax offset against IRD regulations. Company meets low-risk thresholds. Compiling reconciliation payload." }
+      ]
+    }
+  };
+
+  let activeScenario = 'woolworths';
+
+  // SCENARIO SWITCHING
+  function selectScenario(name) {
+    activeScenario = name;
+    const data = scenarioData[name];
+
+    // Highlight sidebar
+    document.querySelectorAll('.channel-item').forEach(el => el.classList.remove('active'));
+    document.getElementById(`chan-${name}`).classList.add('active');
+
+    // Update headers
+    document.getElementById('room-name').innerText = `#${data.roomName}`;
+    document.getElementById('draft-author').innerText = data.draftAuthor;
+    document.getElementById('draft-id').innerText = data.draftId;
+    document.getElementById('draft-content').innerText = data.draft;
+
+    // Load Chat
+    const feed = document.getElementById('chat-feed');
+    feed.innerHTML = '';
+    data.chat.forEach(msg => {
+      feed.innerHTML += `
+        <div class="msg">
+          <div class="msg-avatar">${msg.avatar}</div>
+          <div class="msg-content">
+            <div class="msg-meta">
+              <span class="msg-author">${msg.author}</span>
+              <span class="msg-sig">SIG: ${msg.sig}</span>
+            </div>
+            <div class="msg-text">${msg.msg}</div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // ACTION: APPROVE DRAFT
+  function approveDraft() {
+    const data = scenarioData[activeScenario];
+    const feed = document.getElementById('chat-feed');
+    
+    // Add Operator approval to feed
+    feed.innerHTML += `
+      <div class="msg" style="animation: fadeIn 0.4s">
+        <div class="msg-avatar" style="background:var(--ww-green)">KH</div>
+        <div class="msg-content" style="border-color:var(--ww-green); background:rgba(0,166,81,0.02)">
+          <div class="msg-meta">
+            <span class="msg-author" style="color:var(--ww-green)">Kate Hudson (Operator)</span>
+            <span class="msg-sig">SIG: approved_nsec189b...</span>
+          </div>
+          <div class="msg-text">👍 Approved and cryptographically signed. Dispatching draft immediately.</div>
+        </div>
+      </div>
+    `;
+
+    // Agent response
+    setTimeout(() => {
+      feed.innerHTML += `
+        <div class="msg" style="animation: fadeIn 0.4s">
+          <div class="msg-avatar">${data.avatar || 'LA'}</div>
+          <div class="msg-content">
+            <div class="msg-meta">
+              <span class="msg-author">${data.draftAuthor}</span>
+              <span class="msg-sig">SIG: dispatch_nsec...</span>
+            </div>
+            <div class="msg-text">Signature received and verified. Action dispatched successfully. Wait-state completion triggered.</div>
+          </div>
+        </div>
+      `;
+      feed.scrollTop = feed.scrollHeight;
+    }, 1000);
+
+    feed.scrollTop = feed.scrollHeight;
+  }
+
+  // INITIAL LOAD
+  window.addEventListener('load', () => {
+    selectScenario('woolworths');
+    init3D();
+    initBG3D();
+  });
+
+  // THREE.JS 3D CORE SYSTEM (Small panel)
+  let scene, camera, renderer, group, ring1, ring2;
+  function init3D() {
+    if (typeof THREE === 'undefined') {
+      setTimeout(init3D, 200);
+      return;
+    }
+
+    const container = document.getElementById('canvas-3d');
+    renderer = new THREE.WebGLRenderer({ canvas: container, alpha: true, antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 8);
+
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.35);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xB8964F, 1.2);
+    dirLight1.position.set(5, 5, 5);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0xFFFFFF, 0.8);
+    dirLight2.position.set(-5, -5, 5);
+    scene.add(dirLight2);
+
+    group = new THREE.Group();
+    scene.add(group);
+
+    // Inner gold/brass core
+    const coreGeo = new THREE.IcosahedronGeometry(1.2, 1);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0xB8964F,
+      roughness: 0.1,
+      metalness: 0.9,
+      wireframe: true
+    });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    group.add(core);
+
+    // Tilted thin orbit rings
+    const ringGeo1 = new THREE.TorusGeometry(1.8, 0.04, 8, 80);
+    const ringMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.02, metalness: 1.0 });
+    ring1 = new THREE.Mesh(ringGeo1, ringMat);
+    ring1.rotation.x = Math.PI / 4;
+    group.add(ring1);
+
+    const ringGeo2 = new THREE.TorusGeometry(2.3, 0.02, 8, 80);
+    ring2 = new THREE.Mesh(ringGeo2, ringMat);
+    ring2.rotation.y = Math.PI / 3;
+    group.add(ring2);
+
+    let clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      group.rotation.y = elapsed * 0.15;
+      core.rotation.x = elapsed * 0.1;
+      ring1.rotation.z = elapsed * 0.25;
+      ring2.rotation.x = -elapsed * 0.2;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+    });
+  }
+
+  // BACKGROUND FULL CANVAS DECORATION (Large screen, low opacity)
+  function initBG3D() {
+    const canvas = document.getElementById('canvas-bg');
+    const bgRenderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    bgRenderer.setSize(window.innerWidth, window.innerHeight);
+
+    const bgScene = new THREE.Scene();
+    const bgCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    bgCamera.position.set(0, 0, 15);
+
+    const bgLight = new THREE.DirectionalLight(0xB8964F, 0.8);
+    bgLight.position.set(5, 10, 5);
+    bgScene.add(bgLight);
+
+    const bgGroup = new THREE.Group();
+    bgScene.add(bgGroup);
+
+    // Massive rotating wireframe torus
+    const bgGeo = new THREE.TorusKnotGeometry(4, 1.2, 100, 16);
+    const bgMat = new THREE.MeshStandardMaterial({
+      color: 0xB8964F,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.12
+    });
+    const bgMesh = new THREE.Mesh(bgGeo, bgMat);
+    bgGroup.add(bgMesh);
+
+    let bgClock = new THREE.Clock();
+
+    function animateBG() {
+      requestAnimationFrame(animateBG);
+      const elapsed = bgClock.getElapsedTime();
+
+      bgGroup.rotation.y = elapsed * 0.05;
+      bgMesh.rotation.x = elapsed * 0.03;
+
+      bgRenderer.render(bgScene, bgCamera);
+    }
+
+    animateBG();
+
+    window.addEventListener('resize', () => {
+      bgRenderer.setSize(window.innerWidth, window.innerHeight);
+      bgCamera.aspect = window.innerWidth / window.innerHeight;
+      bgCamera.updateProjectionMatrix();
+    });
+  }
+</script>
+
+</body>
+</html>
