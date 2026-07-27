@@ -109,6 +109,26 @@ em.g{font-style:normal;color:var(--accent)}
   border-radius:16px;padding:18px 22px}
 @media(max-width:960px){.waitgrid{grid-template-columns:1fr;gap:36px;justify-items:center}
   .waitdemo{position:static}.waitcards{width:100%}}
+/* the room — the private space every concept on this page would run in */
+.roomgrid{display:grid;grid-template-columns:1fr 380px;gap:52px;align-items:start;margin-top:44px}
+.room{border:1px solid var(--line);border-radius:18px;background:rgba(13,13,15,.92);overflow:hidden}
+.roomhead{padding:16px 20px;border-bottom:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px}
+.roomhead small{color:var(--muted-2);font-weight:400;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.roommsg{padding:14px 20px;border-bottom:1px solid var(--line-2);display:flex;gap:12px}
+.roommsg:last-child{border-bottom:0}
+.roommsg .av{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;background:var(--champ-soft);color:var(--champ)}
+.roommsg.agent .av{background:rgba(255,255,255,.07);color:var(--accent)}
+.roommsg .b{font-size:13px;line-height:1.55;color:rgba(255,255,255,.88)}
+.roommsg .b b{font-size:12px;display:block;margin-bottom:3px}
+.roommsg .b b small{color:var(--muted-2);font-weight:400;margin-left:6px;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.receipt{margin-top:8px;display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
+.receipt em{font-style:normal;color:var(--champ)}
+.roomrec{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:rgba(13,13,15,.88)}
+.roomrec .rt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:12px}
+.roomrec .rl{display:flex;gap:10px;font-size:12px;color:rgba(255,255,255,.8);padding:7px 0;border-bottom:1px dashed var(--line-2)}
+.roomrec .rl:last-of-type{border-bottom:0}
+.roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
+@media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -203,7 +223,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="mark"><span class="dot"></span>assembl <small>· independent concept</small></div>
   <div class="navlinks">
     <a href="#wait">The wait</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
-    <a href="#board">The board</a><a href="#pilot">The pilot</a>
+    <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
 </div></nav>
@@ -286,8 +306,38 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 </div></section>
 
+<section id="room"><div class="wrap">
+  <div class="num rise">04 — THE ROOM</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Where you watch it work</div>
+    <h2>One room. Your people, your agents, every action on the record.</h2>
+    <p class="kicker">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
+  </div>
+  <div class="roomgrid rise">
+    <div class="room" aria-label="A concept picture of the private pilot room">
+      <div class="roomhead"><span>My Food Bag · pilot room</span><small>private · yours</small></div>
+      <div class="roommsg agent"><span class="av">D</span><div class="b"><b>Drafter <small>agent</small></b>Draft ready for this morning&rsquo;s enquiry — prepared from your own rates and rules. Nothing has been sent.<br><span class="receipt"><em>receipt</em> sources: your rate card · rules: yours · <em>held for approval</em></span></div></div>
+      <div class="roommsg"><span class="av">O</span><div class="b"><b>Operations <small>you</small></b>Approved — send the standard version.</div></div>
+      <div class="roommsg agent"><span class="av">K</span><div class="b"><b>Keeper <small>agent</small></b>Sent and filed. The record shows who asked, what was used, and who said yes.</div></div>
+    </div>
+    <div class="roomrec">
+      <div class="rt">the record — readable, kept</div>
+      <div class="rl"><span>09:02</span> draft prepared from your sources</div>
+      <div class="rl"><span>09:06</span> approved by a named person</div>
+      <div class="rl"><span>09:06</span> sent · receipt filed</div>
+      <p class="kicker" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
+    </div>
+  </div>
+  <div class="grid3" style="margin-top:38px">
+    <div class="glass tight rise"><h3 style="font-size:18px">Yours</h3><p class="kicker" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
+    <div class="glass tight rise"><h3 style="font-size:18px">On the record</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
+    <div class="glass tight rise"><h3 style="font-size:18px">People decide</h3><p class="kicker" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
+  </div>
+  <p class="kicker rise" style="font-size:12.5px;margin-top:22px;color:var(--muted)">This panel is a concept picture, not a live room — a pilot stands up the real one, on infrastructure you approve.</p>
+</div></section>
+
 <section id="board"><div class="wrap">
-  <div class="num rise">04 — ON ONE SCREEN</div>
+  <div class="num rise">05 — ON ONE SCREEN</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing here has been sent</div>
     <h2>The week, before anything reaches a customer</h2>
@@ -303,7 +353,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </div></section>
 
 <section><div class="wrap">
-  <div class="num rise">05 — HOW IT WAS MADE</div>
+  <div class="num rise">06 — HOW IT WAS MADE</div>
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Mana Receipt</div>
@@ -327,7 +377,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </div></section>
 
 <section id="pilot"><div class="wrap">
-  <div class="num rise">06 — WHAT WE ARE ACTUALLY ASKING</div>
+  <div class="num rise">07 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>

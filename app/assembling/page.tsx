@@ -20,7 +20,7 @@ import './birdie.css';
 export const metadata: Metadata = {
   title: 'assembling. by assembl — get paid for the wait',
   description:
-    'While your AI agent works, Assembling turns the wait into a reward you keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, NZ-built, assembl-governed.',
+    'While your AI agent works, Assembling turns the wait into something the person keeps — a donation at launch, with KiwiSaver, power bills and points rails to follow as partners sign. Opt-in, NZ-built, assembl-governed.',
   // Relative urls/images resolve against the assembling layout metadataBase (www host).
   alternates: { canonical: '/assembling' },
   openGraph: {
@@ -102,9 +102,9 @@ export default function DashPage() {
               maxWidth: 408,
             }}
           >
-            Your app makes people wait while it works. Assembling turns that wait into a reward they
-            keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners
-            come on. One line of code to add. You keep 55%.
+            Your app makes people wait while it works. Assembling turns that wait into something the
+            person keeps — a donation at launch, with KiwiSaver, power bills and points rails to
+            follow as partners sign. One line of code to add, and it never reads their prompts.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <Link
@@ -133,7 +133,7 @@ export default function DashPage() {
           </div>
           <div style={{ marginTop: 46, display: 'flex', gap: 40 }}>
             <Stat value="1 line" label="to install" />
-            <Stat value="55%" label="you keep" />
+            <Stat value="55%" label="share to you" />
             <Stat value="NZ" label="data stays here" />
           </div>
 
@@ -354,7 +354,7 @@ export default function DashPage() {
                   sponsored · while you wait
                 </div>
                 <div style={{ fontSize: 13, color: '#56544b' }}>
-                  Whittaker&apos;s — a little something for the wait.
+                  A New Zealand brand you already buy from — while you wait.
                 </div>
               </div>
               <div
@@ -526,12 +526,14 @@ export default function DashPage() {
               color: '#3a3832',
             }}
           >
-            Charity · live
+            Donate it · at launch
           </span>
-          {/* Every other rail is an unsigned partner integration — labelled
-              "planned" so we never present a third-party reward (KiwiSaver,
-              Airpoints, etc.) as already available. Fair Trading Act 1986. */}
-          {['KiwiSaver', 'Airpoints', 'Everyday Rewards', 'Power bill', 'Cash'].map((r) => (
+          {/* Every other rail is an unsigned partner integration, labelled
+              "planned" so nothing reads as already available. 🔴 And the rails
+              are named GENERICALLY — "Airline points", not Airpoints — because
+              naming a real programme asserts a partnership that does not exist,
+              which "planned" does not fix. Fair Trading Act 1986. */}
+          {['KiwiSaver', 'Airline points', 'Supermarket points', 'Power bill', 'Cash'].map((r) => (
             <span
               key={r}
               className="bd-chip"
@@ -550,8 +552,9 @@ export default function DashPage() {
           ))}
         </div>
         <p style={{ margin: '28px auto 0', maxWidth: 560, fontSize: 14.5, lineHeight: 1.6, color: '#8a887e' }}>
-          Charity payouts live at launch. Cash and rewards roll out as partner integrations land —
-          each one subject to partner availability.
+          At launch there is one place the money can go — a donation — because that is the only
+          rail that needs no partner to sign anything. Everything else needs an agreement that does
+          not exist yet, so it is marked planned and stays that way until it is real.
         </p>
       </div>
 
