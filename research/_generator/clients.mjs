@@ -620,7 +620,38 @@ export const CLIENTS = [
       note: 'Illustrative concept screen · not a Nectar product · no rate is predicted and no credit decision is made here',
       startLabel: 'start the seven minutes',
       skipLabel: 'rather not say',
-      scenarios: [{
+      scenarios: [
+      /* ══ BEFORE THEY EVER APPLY ════════════════════════════════════════════
+         The earliest wait, and the one nobody owns: someone on a comparison
+         site who wants to know their rate and is afraid that looking will hurt
+         their score. That fear is why people either apply everywhere at once or
+         nowhere at all.
+
+         🔴 The concept does not perform the soft check and does not indicate a
+         personalised rate — both are the lender's. It explains what a soft
+         check does to a credit file, and makes sure the check runs on complete
+         information so its answer is worth having. */
+      {
+        id: 'before', label: 'Before you apply',
+        app: 'Will looking hurt my score?',
+        unit: ['', '%'],
+        earning: 'of the picture, no footprint',
+        yours: 'and no footprint',
+        told: 'you told us:',
+        declined: 'you would rather not say. The check runs on what we have.',
+        steps: [
+          { agent: 'Footprint', doing: 'What a soft check does to your file — nothing visible', credit: 30 },
+          { agent: 'Published', doing: 'The real range, 7.95% to 29.95% p.a.', credit: 20 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Are you shopping around right now?',
+            options: ['Yes, comparing', 'Just you'],
+            learn: ['comparing, so here is what makes the numbers comparable', 'just us, so nothing to line up against'],
+          } },
+          { agent: 'Yours', doing: 'What we would need to make a check accurate', credit: 30 },
+          { agent: 'Ready', doing: 'Waiting on you — no check run, no record made', credit: 20 },
+        ],
+      },
+      {
         id: 'seven', label: 'The seven minutes',
         app: 'While we work this out',
         /* The credit is a REDUCTION IN THE ESTABLISHMENT FEE, and that is the
@@ -683,6 +714,85 @@ export const CLIENTS = [
           { agent: 'Review', doing: 'Flagged for a human rate review', credit: 3 },
           { agent: 'Free', doing: 'And no penalty if you go faster', credit: 3 },
         ],
+      },
+      /* ══ THE DECLINE, MADE INTO A DATE ═════════════════════════════════════
+         A "no" is currently an endpoint, and an endpoint is where people go to
+         a worse lender. This turns it into a date. The LENDER states the reason
+         — the concept never guesses it and never promises a future yes. What it
+         produces is consent to check back, and a month to do it in. */
+      {
+        id: 'notyet', label: 'Not yet',
+        app: 'Not this time',
+        unit: ['', ' months'],
+        earning: 'until it is worth asking again',
+        yours: 'a date, not a maybe',
+        told: 'you told us:',
+        declined: 'you would rather not be contacted. Then we will not.',
+        steps: [
+          { agent: 'Said', doing: 'The reason, in the lender’s own words', credit: 1 },
+          { agent: 'Changes', doing: 'Which part of it is the kind that changes', credit: 1 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Want us to check back when it might have?',
+            options: ['Yes, get in touch', 'No, leave it'],
+            learn: ['a check-back, with a date they agreed to', 'no contact — and that is the end of it'],
+          } },
+          { agent: 'When', doing: 'A month, not "in the future"', credit: 1 },
+          { agent: 'Nobody', doing: 'Your details went to no one else', credit: 0 },
+        ],
+      },
+      /* ══ THE GRADUATION ════════════════════════════════════════════════════
+         The best-qualified person you will ever have just finished paying, and
+         the relationship ends in silence. Nectar sells Credit Builder and Top
+         Up, which are graduation products with no graduation moment attached.
+
+         🔴 Nothing here pitches new lending. Someone who has just got out of
+         debt is precisely who should not be sold more of it. What they get is
+         the record, which is theirs. */
+      {
+        id: 'paid', label: 'Paid off',
+        app: 'That was the last one',
+        unit: ['', ' payments'],
+        earning: 'payments, all on time',
+        yours: 'and a file to prove it',
+        told: 'you told us:',
+        declined: 'you would rather not say. The record is yours regardless.',
+        steps: [
+          { agent: 'Done', doing: 'Thirty-six payments, every one on time', credit: 30 },
+          { agent: 'Built', doing: 'What we reported for you, and what it is worth', credit: 6 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Want the record sent to you?',
+            options: ['Yes, send it', 'No thanks'],
+            learn: ['sent — it is theirs and it works anywhere', 'not sent, and nothing follows'],
+          } },
+          { agent: 'Nothing', doing: 'No new loan is being offered here', credit: 0 },
+          { agent: 'Door', doing: 'Open, if they ever want it. Not before.', credit: 0 },
+        ],
+      },
+      /* ══ WORD OF MOUTH, UNPAID ═════════════════════════════════════════════
+         Word of mouth is the strongest channel in lending, and a referral fee
+         is the fastest way to poison it — paying for introductions of credit
+         customers also drags you toward the financial advice and intermediary
+         rules. So nothing is paid. What is shareable is the EXPLANATION, because
+         people forward things they understood. */
+      {
+        id: 'word', label: 'Telling a mate',
+        app: 'What did you actually get?',
+        unit: ['', ' min'],
+        earning: 'of your mate’s evening, saved',
+        yours: 'saved, for someone else',
+        told: 'you told us:',
+        declined: 'you would rather not share it. Nothing is sent.',
+        steps: [
+          { agent: 'Plain', doing: 'What you got, in words you would use', credit: 8 },
+          { agent: 'Cost', doing: 'What it cost, with the fees in it', credit: 6 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Strip your numbers out before sharing?',
+            options: ['Yes, take them out', 'Leave them in'],
+            learn: ['numbers removed — the shape without the personal detail', 'left in, because they chose to'],
+          } },
+          { agent: 'Yours', doing: 'Nothing is sent by us — you send it', credit: 5 },
+          { agent: 'Unpaid', doing: 'No referral fee, to you or anyone', credit: 0 },
+        ],
       }],
     },
 
@@ -744,6 +854,10 @@ export const CLIENTS = [
       { ok: true, t: 'The fee credit is cost-reflective, not an inducement', d: 'An establishment fee may be no more than the reasonable cost of processing the application. A file that arrives complete costs less, so a lower fee for that class is pricing. It is earned by preparing, not by borrowing, and it is capped well below anything that could move an affordability decision.', law: 'CCCFA s41 · FMA consumer credit fees guidelines' },
       { ok: true, t: 'The repayment reward pays for repaying, not borrowing', d: 'The second wait rewards twelve on-time payments. That is the inverse of an inducement — it cannot encourage someone to take on credit, because it only pays once they are paying it down.', law: 'CCCFA s9C · Responsible Lending Code' },
       { ok: true, t: 'No rate change is promised', d: 'Twelve on-time payments flag the file for a human rate review. Whether the rate moves is a lender\u2019s decision, and the concept never states or implies the outcome.', law: 'CCCFA · Responsible Lending Code' },
+      { ok: true, t: 'No referral fee is paid, to anyone', d: 'The shareable explanation carries no bounty. Paying for introductions of credit customers poisons word of mouth and pulls the arrangement toward the financial advice and intermediary rules.', law: 'Financial Markets Conduct Act 2013 · advice and intermediary obligations' },
+      { ok: true, t: 'Nothing is sold at the moment someone gets out of debt', d: 'The graduation wait offers the repayment record and no new lending. Someone who has just cleared a loan is exactly who should not be pitched another one.', law: 'CCCFA s9C · Responsible Lending Code' },
+      { ok: true, t: 'No soft check is run and no rate is indicated', d: 'The pre-application wait explains what a check does to a file and makes sure the lender\u2019s own check runs on complete information. It performs no check and shows no personalised number.', law: 'Credit Reporting Privacy Code 2020 · CCCFA' },
+      { ok: false, t: 'Held — a decline reason the lender has not stated', d: 'The concept never guesses why an application failed and never promises a future yes. Without a stated reason there is no check-back date, so nothing is drafted.', law: 'CCCFA · Fair Trading Act 1986' },
       { ok: true, t: 'No interest-free period is offered', d: 'Interest is price, not cost recovery, so a rate concession has no cost-reflective justification and reads far more like an inducement to borrow. Deliberately not in scope.', law: 'CCCFA s9C · Responsible Lending Code' },
       { ok: false, t: 'Held — application reads as hardship', d: 'Nothing drafted. Routed to a named person with the triggering words attached. One right answer here is no loan at all.', law: 'CCCFA · Responsible Lending Code, lender responsibilities' },
       { ok: false, t: 'Held — total cost cannot be shown honestly', d: 'Where term or amount are still moving, no total is displayed. A cost figure that quietly changes is worse than no figure.', law: 'Fair Trading Act 1986 · CCCFA disclosure' },
@@ -818,7 +932,7 @@ export const CLIENTS = [
     quoteCite: 'Instant Finance · instantfinance.co.nz, July 2026',
     whyNow: 'You publish a same-day response and money within 24 hours of approval, and you are rated 4.8 by your own customers. The constraint on that is not the decision, it is how much of each conversation is spent recovering information the person already gave you somewhere else.',
 
-    waitTitle: 'The half hour before they sit down',
+    waitTitle: 'Four moments a branch network owns and nobody uses',
     waitWhen: 'A Thursday, 10:40am',
     waitBody: 'Someone is coming in at eleven. They have already typed some of it online, told part of it to whoever answered the phone, and will tell the rest of it again across the desk. The first ten minutes of that appointment get spent on ground the customer has already covered twice — and it is the ten minutes where the person opposite them is at their most useful.',
     waitCards: [
@@ -850,6 +964,87 @@ export const CLIENTS = [
           } },
           { agent: 'Bring', doing: 'What to bring, so nobody comes back twice', credit: 5 },
           { agent: 'Brief', doing: 'One page, for the person taking the appointment', credit: 3 },
+        ],
+      },
+      /* ══ WHAT ONLY THIS BRANCH KNOWS ═══════════════════════════════════════
+         Twenty-five branches means twenty-five people who know their town, and
+         that is the one thing a website and a call centre structurally cannot
+         do. It is also the thing head office never captures.
+
+         🔴 HARD LINE: local knowledge serves the APPOINTMENT, never the
+         assessment. Which employer issues what payslip, when the freezing works
+         does short shifts, which day the marae has a hui — that is service.
+         Inferring anything about creditworthiness from where someone lives or
+         works is profiling, and it is blocked. */
+      {
+        id: 'local', label: 'What Manukau knows',
+        app: 'Things head office cannot know',
+        unit: ['', ' things'],
+        earning: 'only this branch knows',
+        yours: 'in the brief',
+        told: 'the branch told you:',
+        declined: 'nothing to add this week. The brief goes as it stands.',
+        steps: [
+          { agent: 'Payslips', doing: 'Which local employers issue what, and how', credit: 2 },
+          { agent: 'Season', doing: 'Who is on short shifts this month', credit: 1 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Anything on this week we should work around?',
+            options: ['Yes, there is', 'Normal week'],
+            learn: ['a local commitment, so offer times around it', 'normal week, so the usual slots'],
+          } },
+          { agent: 'Hours', doing: 'What this branch actually opens, this week', credit: 1 },
+          { agent: 'Never', doing: 'None of it touches the assessment', credit: 0 },
+        ],
+      },
+      /* ══ THEY WALK BACK IN ═════════════════════════════════════════════════
+         A branch network lives on repeat custom, and the person who finished
+         paying is the one most likely to come back. Making them start again is
+         the fastest way to waste fifty-five years of relationship.
+
+         🔴 Same rule as Nectar's graduation: nothing is sold at the counter to
+         someone who has just cleared a loan. */
+      {
+        id: 'back', label: 'They come back',
+        app: 'Second time, same branch',
+        unit: ['', ' min'],
+        earning: 'of starting again, skipped',
+        yours: 'they pick up where they left off',
+        told: 'they told you:',
+        declined: 'they would rather not say. The brief goes as it stands.',
+        steps: [
+          { agent: 'History', doing: 'They finished the last one, every payment on time', credit: 4 },
+          { agent: 'Held', doing: 'What you already hold, for them to correct', credit: 5 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Is anything different since last time?',
+            options: ['Yes, a fair bit', 'Much the same'],
+            learn: ['circumstances changed, so an assessor starts fresh', 'much the same, so only confirm what matters'],
+          } },
+          { agent: 'Fresh', doing: 'A new decision, made properly — nothing carries over', credit: 3 },
+          { agent: 'Nothing', doing: 'Nobody is being sold anything at the counter', credit: 0 },
+        ],
+      },
+      /* ══ WORD OF MOUTH, AT TOWN SCALE ══════════════════════════════════════
+         In a branch network the referral IS the marketing, and it already
+         happens — someone tells their cousin which branch to walk into and who
+         to ask for. Unpaid, for the same reasons as Nectar. */
+      {
+        id: 'word', label: 'Who to ask for',
+        app: 'Telling someone where to go',
+        unit: ['', ' min'],
+        earning: 'of someone else’s time, saved',
+        yours: 'saved, for the next person',
+        told: 'they told you:',
+        declined: 'they would rather not share it. Nothing is prepared.',
+        steps: [
+          { agent: 'Where', doing: 'Which branch, and what it opens', credit: 4 },
+          { agent: 'Bring', doing: 'What to take, so nobody comes back twice', credit: 5 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Name the person you dealt with?',
+            options: ['Yes, name them', 'Just the branch'],
+            learn: ['a name to ask for, which is the whole point of a branch', 'the branch only, no person named'],
+          } },
+          { agent: 'Theirs', doing: 'They send it. We send nothing.', credit: 3 },
+          { agent: 'Unpaid', doing: 'No referral fee, to them or to staff', credit: 0 },
         ],
       }],
     },
@@ -912,6 +1107,9 @@ export const CLIENTS = [
       { ok: false, t: 'Held — reads as hardship before the appointment', d: 'No brief prepared. Goes to the branch manager before the customer arrives, so it is not handled as a routine 11am.', law: 'CCCFA · Responsible Lending Code, lender responsibilities' },
       { ok: false, t: 'Held — nothing shared with Nectar, or from it', d: 'Separate company, separate consent. This concept does not bridge the two businesses in either direction, at any point.', law: 'Privacy Act 2020 · IPP 10 and IPP 11' },
       { ok: true, t: 'The board view names nobody', d: 'Governance reporting is aggregate. It counts held appointments and consistency across branches; it never surfaces a customer.', law: 'Privacy Act 2020 · IPP 11' },
+      { ok: false, t: 'Held — local knowledge near the assessment', d: 'Branch knowledge shapes the appointment: employers, payslips, opening hours, what is on in town. Any use of locality or employer that touches creditworthiness is profiling and is blocked outright.', law: 'Human Rights Act 1993 · Privacy Act 2020 · CCCFA' },
+      { ok: true, t: 'No referral fee, to customers or to staff', d: 'Word of mouth is already this network\u2019s best channel. Paying for it — including branch incentives for introductions — corrupts the advice given across the desk.', law: 'Financial Markets Conduct Act 2013 · advice and intermediary obligations' },
+      { ok: true, t: 'Nothing is sold at the counter on the day a loan clears', d: 'A returning customer gets their record and a fresh, properly made decision. Being a good payer does not pre-approve anything and is never used as a prompt to sell.', law: 'CCCFA s9C · Responsible Lending Code' },
       { ok: true, t: 'No script is put in a person\u2019s mouth', d: 'A brief lists what is known and what is usually missed. It never writes the conversation, because the conversation is the thing you actually sell.', law: 'CCCFA · Responsible Lending Code' },
     ],
 
