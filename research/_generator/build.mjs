@@ -242,7 +242,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 <canvas id="scene"></canvas><div class="veil"></div>
 
 <nav class="topbar"><div class="wrap">
-  <div class="mark"><span class="dot"></span>assembl <small>· independent concept</small></div>
+  <div class="mark"><span class="dot"></span>assembl <small>· ${c.generic ? `a demonstrator` : `independent concept`}</small></div>
   <div class="navlinks">
     <a href="#wait">The wait</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#board">The board</a><a href="#pilot">The pilot</a>
@@ -537,7 +537,9 @@ var history=[];
 function openChat(){
   document.getElementById('chat').classList.add('open');
   document.getElementById('agentbtn').style.display='none';
-  if(!history.length) push('a',"Kia ora. I am an independent concept assistant built by assembl — I am not "+CFG.short+" and I do not speak for them.<br><br>I know what they have published about themselves, and what this concept does and refuses to do. Ask me anything, including the awkward questions.");
+  if(!history.length) push('a',CFG.generic
+    ?"Kia ora. This page is a DEMONSTRATOR built by assembl — "+CFG.short+" is not a real company, and I am not pretending otherwise.<br><br>What is real is the mechanic: a rewarded wait state that prepares work and stops before a person decides. Ask me anything about how it works, or about the boundaries."
+    :"Kia ora. I am an independent concept assistant built by assembl — I am not "+CFG.short+" and I do not speak for them.<br><br>I know what they have published about themselves, and what this concept does and refuses to do. Ask me anything, including the awkward questions.");
   document.getElementById('agentnote').textContent='Independent concept · it will say plainly when something was not published';
 }
 function closeChat(){document.getElementById('chat').classList.remove('open');document.getElementById('agentbtn').style.display='flex'}
