@@ -606,12 +606,12 @@ export const CLIENTS = [
     quoteCite: 'Nectar Money · nectar.co.nz, July 2026',
     whyNow: 'Your establishment fee is $240, and under the fees rules that figure has to be no more than what it actually costs you to process an application. A file that arrives complete costs less to process. So the wait can hand part of that fee back and the arithmetic still works — the applicant is paid for reducing your cost, not for borrowing.',
 
-    waitTitle: 'The seven minutes before the number',
+    waitTitle: 'Two waits, and the big one is not the application',
     waitWhen: 'A Tuesday, 9:12pm',
-    waitBody: 'Someone is seven minutes from an answer that will shape their next three years. Right now those seven minutes are a progress bar. At the end of them a rate appears, and whether it is 9% or 27% they have no way to tell what produced it, what would move it, or what the thing actually costs them in total.',
+    waitBody: 'Someone is seven minutes from an answer that will shape their next three years, and right now those seven minutes are a progress bar. But the seven minutes are not the wait. The wait is the three years that follow — up to two hundred and sixty payments during which the only thing you say to them is a direct debit. Tap between the two on the phone.',
     waitCards: [
       ['What happens now', 'Seven minutes of nothing, then a number. The questions that number creates arrive afterwards, by phone or not at all.'],
-      ['What it costs', 'A rate nobody understands is a rate people re-shop. And an incomplete file spends your assessors\u2019 time, not the applicant\u2019s.'],
+      ['What it costs', 'A rate nobody understands is a rate people re-shop. And a three-year silence is three years of a relationship you are paying to keep and choosing not to have.'],
       ['What the concept does', 'Spends the wait making the file complete, hands back part of the establishment fee for the cost that saves, and stops.'],
     ],
 
@@ -649,6 +649,39 @@ export const CLIENTS = [
           } },
           { agent: 'Cost', doing: 'The total, with the fee credit in it', credit: 30 },
           { agent: 'Ready', doing: 'Complete on arrival — cheaper to process', credit: 25 },
+        ],
+      },
+      /* ══ THE SECOND WAIT, AND THE BIGGER ONE ═══════════════════════════════
+         Everyone treats the application as the wait. It is seven minutes. The
+         LOAN TERM is the wait — up to five years, 260 weekly touchpoints, and
+         the lender says nothing across the whole of it except taking money.
+
+         This scenario is the inversion that makes lending work with a reward:
+         it pays for REPAYING, not for borrowing. That is the opposite of an
+         inducement and impossible to characterise as one. It also uses two
+         things Nectar already does and never surfaces — reporting to the credit
+         bureaus, and charging no penalty for early repayment.
+
+         Nothing here promises a rate change. A rate review is a lender's
+         decision; the concept flags the file and stops, as everywhere else. */
+      {
+        id: 'term', label: 'The three years',
+        app: 'Payment twelve, on time',
+        unit: ['', ' on time'],
+        earning: 'payments, on time',
+        yours: 'twelve in a row',
+        told: 'you told us:',
+        declined: 'you would rather not say. The review still gets flagged.',
+        steps: [
+          { agent: 'Record', doing: 'Every payment so far, on time', credit: 3 },
+          { agent: 'Bureaus', doing: 'What we have reported for you, and what it built', credit: 3 },
+          { agent: 'Ask', doing: 'One question', ask: {
+            q: 'Finish sooner, or pay less each week?',
+            options: ['Finish sooner', 'Pay less weekly'],
+            learn: ['finish sooner, so anything extra shortens the end date', 'less weekly, so a person will look at the structure'],
+          } },
+          { agent: 'Review', doing: 'Flagged for a human rate review', credit: 3 },
+          { agent: 'Free', doing: 'And no penalty if you go faster', credit: 3 },
         ],
       }],
     },
@@ -709,6 +742,8 @@ export const CLIENTS = [
       { ok: true, t: 'No rate is predicted or hinted at', d: 'The concept explains what builds a personalised rate using your published factors, and never estimates the number. That is your engine\u2019s output and only its output.', law: 'Credit Contracts and Consumer Finance Act 2003' },
       { ok: true, t: 'No credit decision, anywhere', d: 'No output says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.', law: 'CCCFA · Responsible Lending Code' },
       { ok: true, t: 'The fee credit is cost-reflective, not an inducement', d: 'An establishment fee may be no more than the reasonable cost of processing the application. A file that arrives complete costs less, so a lower fee for that class is pricing. It is earned by preparing, not by borrowing, and it is capped well below anything that could move an affordability decision.', law: 'CCCFA s41 · FMA consumer credit fees guidelines' },
+      { ok: true, t: 'The repayment reward pays for repaying, not borrowing', d: 'The second wait rewards twelve on-time payments. That is the inverse of an inducement — it cannot encourage someone to take on credit, because it only pays once they are paying it down.', law: 'CCCFA s9C · Responsible Lending Code' },
+      { ok: true, t: 'No rate change is promised', d: 'Twelve on-time payments flag the file for a human rate review. Whether the rate moves is a lender\u2019s decision, and the concept never states or implies the outcome.', law: 'CCCFA · Responsible Lending Code' },
       { ok: true, t: 'No interest-free period is offered', d: 'Interest is price, not cost recovery, so a rate concession has no cost-reflective justification and reads far more like an inducement to borrow. Deliberately not in scope.', law: 'CCCFA s9C · Responsible Lending Code' },
       { ok: false, t: 'Held — application reads as hardship', d: 'Nothing drafted. Routed to a named person with the triggering words attached. One right answer here is no loan at all.', law: 'CCCFA · Responsible Lending Code, lender responsibilities' },
       { ok: false, t: 'Held — total cost cannot be shown honestly', d: 'Where term or amount are still moving, no total is displayed. A cost figure that quietly changes is worse than no figure.', law: 'Fair Trading Act 1986 · CCCFA disclosure' },
