@@ -80,6 +80,11 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.12
 
 .wait-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.95);border-radius:34px;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;opacity:0;pointer-events:none;transition:opacity 0.6s ease}
 .wait-overlay.show{opacity:1;pointer-events:auto}
+.wait-overlay{padding:0;justify-content:stretch;align-items:stretch}
+.wait-live{flex:1;min-height:0;display:flex}
+.wait-live .wp{flex:1;min-height:0;width:100%;gap:0}
+.wait-live .wp-screen{padding:16px 18px 16px;background:transparent}
+#wait-mount .wp{--wp-paper:#fff;--wp-ink:#1A1918;--wp-ink-2:#6B6560;--wp-accent:var(--blue);--wp-done:var(--blue-dark);--wp-line:rgba(26,25,24,.11);--wp-sans:var(--app);--wp-app:var(--app)}
 .wait-title{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:6px;text-align:center}
 .wait-sub{font-size:12px;color:rgba(26,25,24,.6);margin-bottom:24px;font-family:var(--mono);letter-spacing:.1em;text-align:center}
 .wait-steps{width:100%;margin-bottom:16px}
@@ -258,18 +263,11 @@ h3{font-weight:400}
           <div class="pdots"><span class="pa" id="pprev">‹</span><span class="d on"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="pa" id="pnext">›</span><span class="pp" id="pp" title="pause">❚❚</span></div>
 
           <div class="wait-overlay" id="wait-overlay">
-            <div class="wait-title">assembling your bill</div>
-            <div class="wait-sub">powered by assembling</div>
-            <div class="wait-steps" id="wait-steps">
-              <div class="wait-step"><div class="wait-dot"></div>Reading your meter data<div class="wait-reward">+$0.18</div></div>
-              <div class="wait-step"><div class="wait-dot"></div>Comparing to last month's usage<div class="wait-reward">+$0.11</div></div>
-              <div class="wait-step"><div class="wait-dot"></div>Checking for unusual spikes<div class="wait-reward">+$0.33</div></div>
-              <div class="wait-step"><div class="wait-dot"></div>Preparing your approval<div class="wait-reward">+$0.52</div></div>
-            </div>
-            <div class="wait-bar"><div class="wait-fill" id="wait-fill"></div></div>
-            <div class="wait-total" id="wait-total">+$1.14</div>
-            <div class="wait-note" id="wait-note">assembling — 0%</div>
-            <div class="wait-sponsor">SPONSORED · WHILE YOU WAIT · Contact Energy — a little something for the wait.</div>
+            <!-- The live wait. Was a linear bar auto-playing four captions with
+                 a SPONSORED line; the sponsor framing was dropped because the
+                 credit comes from the business running the journey. -->
+            <div id="wait-mount" class="wait-live"></div>
+          </div>
           </div>
           <div class="slide">
             <div class="ce-header">
@@ -443,44 +441,68 @@ h3{font-weight:400}
   addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();r.setSize(innerWidth,innerHeight)})
 })()
 </script>
+<script src="wait-phone.js"></script>
 <script>
-let waitTimer=null,waitStep=0
-const waitMsgs=document.querySelectorAll('.wait-step')
+let waitTimer=null
 const waitOverlay=document.getElementById('wait-overlay')
 const chatMsgs=document.getElementById('chat-msgs')
 let scenario='default'
+let waitCtl=null
+
+/* ══ THE WAIT, ON A PHONE ═══════════════════════════════════════════════════
+   Was: a linear bar that auto-played four captions and could not be
+   interrupted. Now the same component the assembl homepage runs, so the bill
+   explanation carries one optional question that genuinely holds — and the
+   answer is the thing Contact could not otherwise know, because nobody is
+   listening during a wait.
+
+   startWait() keeps its old contract: show the overlay, and on completion
+   close it, advance the journey and post the resolution message. */
+if(window.WaitPhone){
+  waitCtl=WaitPhone.mount(document.getElementById('wait-mount'),{
+    chrome:'none', lockup:false,
+    note:'Illustrative concept screen · not a Contact Energy product · nothing is charged or changed without your approval',
+    startLabel:'assemble my bill',
+    skipLabel:'rather not say',
+    finish:{label:'see it \u2192',onDone:function(){finishWait()}},
+    scenarios:[{
+      id:'bill', label:'The bill',
+      app:'Why is my bill up?',
+      unit:['$',''],
+      earning:'earned so far',
+      yours:'yours',
+      told:'you told us:',
+      declined:'you would rather not say. The bill still gets explained.',
+      steps:[
+        {agent:'Meter',  doing:'Thirty days of your actual use', credit:0.18},
+        {agent:'Vs June',doing:'Against last month, and the cold snap', credit:0.11},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Anyone new in the house this month?',
+          options:['Yes, one more','No change'],
+          learn:['the household grew \u2014 so it is people, not weather','no change, so it is the weather doing this'],
+        }},
+        {agent:'Spikes', doing:'Anything unusual, flagged for you', credit:0.33},
+        {agent:'Draft',  doing:'Ready for a person to send', credit:0.52},
+      ],
+    }],
+  })
+}
 
 function startWait(){
   if(waitTimer)return
   waitOverlay.classList.add('show');if(window._setDotsSafe)_setDotsSafe(1)
-  waitStep=0
-  waitMsgs.forEach(s=>{s.classList.remove('on','done')})
-  document.getElementById('wait-fill').style.width='0%'
-  document.getElementById('wait-total').textContent='+$0.00'
-  tickWait()
+  if(waitCtl){waitCtl.reset()}
 }
 
-function tickWait(){
-  let total=0
-  for(let i=0;i<waitStep;i++)total+=parseFloat(waitMsgs[i].querySelector('.wait-reward').textContent.replace('+$',''))
-  document.getElementById('wait-total').textContent='+$'+total.toFixed(2)
-  if(waitStep<waitMsgs.length){
-    waitMsgs.forEach((s,i)=>{s.classList.toggle('on',i===waitStep);s.classList.toggle('done',i<waitStep)})
-    document.getElementById('wait-fill').style.width=Math.round(((waitStep+1)/waitMsgs.length)*100)+'%'
-    document.getElementById('wait-note').textContent='assembling — '+Math.round(((waitStep+1)/waitMsgs.length)*100)+'%'
-    waitStep++
-    waitTimer=setTimeout(tickWait,1400)
-  }else{
-    waitMsgs.forEach(s=>{s.classList.add('done');s.classList.remove('on')})
-    document.getElementById('wait-fill').style.width='100%'
-    document.getElementById('wait-note').textContent='ready — your approval'
-    waitTimer=setTimeout(()=>{
-      waitOverlay.classList.remove('show')
-      waitStep=0;waitTimer=null
-      if(window._journeyAdvance)_journeyAdvance()
-      addChatMsg('agent','RE','Resolution Agent. <span class="champ">Bill assembled.</span> Your July bill is $247.83 — $0.52 credit earned during this session. Would you like me to set up a payment plan?')
-    },2500)
-  }
+function finishWait(){
+  if(waitTimer)return
+  waitTimer=setTimeout(function(){
+    waitOverlay.classList.remove('show')
+    waitTimer=null
+    if(waitCtl)waitCtl.reset()
+    if(window._journeyAdvance)_journeyAdvance()
+    addChatMsg('agent','RE','Resolution Agent. <span class="champ">Bill assembled.</span> Your July bill is $247.83 \u2014 $0.52 credit earned during this session. Would you like me to set up a payment plan?')
+  },700)
 }
 
 function addChatMsg(type,abbr,msg){

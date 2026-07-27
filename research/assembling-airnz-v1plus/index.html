@@ -64,6 +64,11 @@ a:hover{color:var(--champ)}
 .status-bar{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:14px 26px 0;font-size:14px;font-weight:600;color:#0e0e0e;z-index:3;pointer-events:none}
 .slide{position:absolute;inset:0;padding:56px 18px 18px;opacity:0;transition:opacity .55s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden}
 .slide.active{opacity:1}
+/* the live wait fills the slide; .slide already supplies the top padding */
+.wait-live{flex:1;min-height:0;display:flex}
+.wait-live .wp{flex:1;min-height:0;width:100%;gap:0}
+.wait-live .wp-screen{padding:6px 0 0}
+.wait-live .wp-status{display:none}
 
 /* phone home layout — matched to the real client app */
 .er-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
@@ -546,8 +551,16 @@ h3{font-weight:400}
             <div class="assembling-tag">assembling · optional · 30 sec</div>
           </div>
 
-          <!-- SLIDE 4 · Air NZ traveller context -->
+          <!-- SLIDE 4 · THE REWARDED WAIT, live — the same component the assembl
+               homepage runs. Slide 2 is the wait as it is today; this is
+               the wait as it could be. -->
           <div class="slide" data-slide="3">
+            <div class="er-header"><div class="er-logo" style="color:#111">Air<em style="color:var(--er-orange)">NZ</em></div><div class="er-header-r"><div class="er-avatar"></div><div class="er-card-btn" style="background:#111">Pass</div></div></div>
+            <div id="wait-mount" class="wait-live"></div>
+          </div>
+
+          <!-- SLIDE 4 · Air NZ traveller context -->
+          <div class="slide" data-slide="4">
             <div class="er-header"><div class="er-logo" style="color:#111">Air<em style="color:var(--er-orange)">NZ</em></div><div class="er-header-r"><div class="er-avatar"></div><div class="er-card-btn" style="background:#111">Pass</div></div></div>
             <div class="hctx-h">What we know about your trip</div>
             <div class="hctx-sub">6 facts · from your booking, your calendar, and the weather</div>
@@ -561,7 +574,7 @@ h3{font-weight:400}
           </div>
 
           <!-- SLIDE 5 · Air NZ rebook options -->
-          <div class="slide" data-slide="4">
+          <div class="slide" data-slide="5">
             <div class="er-header"><div class="er-logo" style="color:#111">Air<em style="color:var(--er-orange)">NZ</em></div><div class="er-header-r"><div class="er-avatar"></div><div class="er-card-btn" style="background:#111">Pass</div></div></div>
             <div class="basket-h"><div class="bl">Three options · review</div><div class="bt">meeting still made</div></div>
             <div class="basket-list">
@@ -575,7 +588,7 @@ h3{font-weight:400}
           </div>
 
           <!-- SLIDE 6 · approved -->
-          <div class="slide" data-slide="5">
+          <div class="slide" data-slide="6">
             <div class="er-header"><div class="er-logo" style="color:#111">Air<em style="color:var(--er-orange)">NZ</em></div><div class="er-header-r"><div class="er-avatar"></div><div class="er-card-btn" style="background:#111">Pass</div></div></div>
             <div class="approved">
               <div class="ic">✓</div>
@@ -586,7 +599,7 @@ h3{font-weight:400}
           </div>
 
           <!-- SLIDE 7 · LIVE KAIMAHI chat -->
-          <div class="slide" data-slide="6">
+          <div class="slide" data-slide="7">
             <div class="er-header"><div class="er-logo" style="color:#111">Air<em style="color:var(--er-orange)">NZ</em></div><div class="er-header-r"><div class="er-avatar"></div><div class="er-card-btn" style="background:#111">Pass</div></div></div>
             <div class="kaimahi">
               <div class="kaimahi-hd">
@@ -616,7 +629,7 @@ h3{font-weight:400}
         <button class="phone-nav-btn" onclick="nextSlide()" aria-label="next slide">›</button>
       </div>
       <div class="phone-meta">
-        <span class="step" id="stepLabel">01 / 07</span>
+        <span class="step" id="stepLabel">01 / 08</span>
         <span id="stepName">home</span>
         <span class="pause" id="pauseBtn" onclick="togglePause()">⏸ pause</span>
         <span class="kaimahi-cta" onclick="jumpToKaimahi()">name your agent →</span>
@@ -876,8 +889,9 @@ function shortHash(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCo
 
 // ============ PHONE — auto-scroll + OBVIOUS manual nav ============
 const SLIDES=document.querySelectorAll('.phone-wrap .slide[data-slide]');
-const STEP_NAMES=['home','disruption wait','assembling prompt','passenger context','draft options','ready to review','ask kaimahi'];
-const DWELLS=[4200,4600,4800,4600,4800,4000,999999];
+const STEP_NAMES=['home','disruption wait','assembling prompt','the rewarded wait','passenger context','draft options','ready to review','ask kaimahi'];
+/* index 3 is interactive — never auto-advance off the live wait */
+const DWELLS=[4200,4600,4800,999999,4600,4800,4000,999999];
 let currentSlide=0,queueTime=0,queueInterval,scrollTimer,paused=false;
 
 // build dots dynamically
@@ -885,7 +899,7 @@ let currentSlide=0,queueTime=0,queueInterval,scrollTimer,paused=false;
   const wrap=document.getElementById('phoneDots');
   for(let i=0;i<SLIDES.length;i++){
     const b=document.createElement('button');
-    b.className='pnd'+(i===0?' on':'')+(i===6?' kaimahi':'');
+    b.className='pnd'+(i===0?' on':'')+(i===SLIDES.length-1?' kaimahi':'');
     b.setAttribute('aria-label','go to slide '+(i+1));
     b.dataset.i=i;
     b.onclick=()=>{gotoSlide(i,true);};
@@ -895,15 +909,15 @@ let currentSlide=0,queueTime=0,queueInterval,scrollTimer,paused=false;
 
 function showSlide(i){
   SLIDES.forEach((s,idx)=>s.classList.toggle('active',idx===i));
-  document.getElementById('stepLabel').textContent=String(i+1).padStart(2,'0')+' / 07';
+  document.getElementById('stepLabel').textContent=String(i+1).padStart(2,'0')+' / '+String(SLIDES.length).padStart(2,'0');
   document.getElementById('stepName').textContent=STEP_NAMES[i];
   document.querySelectorAll('#phoneDots .pnd').forEach((d,idx)=>{
     d.classList.toggle('on',idx===i);
-    d.classList.toggle('kaimahi',idx===6);
+    d.classList.toggle('kaimahi',idx===SLIDES.length-1);
   });
   clearInterval(queueInterval);
   if(i===1){queueTime=0;document.getElementById('waitTimer').textContent='00:00';queueInterval=setInterval(()=>{queueTime++;document.getElementById('waitTimer').textContent=String(Math.floor(queueTime/60)).padStart(2,'0')+':'+String(queueTime%60).padStart(2,'0');},1000);}
-  if(i===6){setTimeout(()=>document.getElementById('kaimahiInput').focus(),400);}
+  if(i===SLIDES.length-1){setTimeout(()=>document.getElementById('kaimahiInput').focus(),400);}
 }
 function gotoSlide(i,userInitiated){
   currentSlide=((i%SLIDES.length)+SLIDES.length)%SLIDES.length;
@@ -918,7 +932,7 @@ function gotoSlide(i,userInitiated){
 }
 function nextSlide(){gotoSlide(currentSlide+1,true);}
 function prevSlide(){gotoSlide(currentSlide-1,true);}
-function jumpToKaimahi(){gotoSlide(6,true);document.querySelector('#split').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>document.querySelector('.phone-wrap').scrollIntoView({behavior:'smooth',block:'center'}),120);}
+function jumpToKaimahi(){gotoSlide(SLIDES.length-1,true);document.querySelector('#split').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>document.querySelector('.phone-wrap').scrollIntoView({behavior:'smooth',block:'center'}),120);}
 
 function tickSlide(){currentSlide=(currentSlide+1)%SLIDES.length;showSlide(currentSlide);}
 function scheduleNext(){clearTimeout(scrollTimer);if(paused)return;scrollTimer=setTimeout(()=>{tickSlide();scheduleNext();},DWELLS[currentSlide]);}
@@ -1317,6 +1331,59 @@ window.__getAgentName = () => agentName;
   anim()
   addEventListener('resize',function(){cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();r.setSize(innerWidth,innerHeight)})
 })()
+</script>
+
+<script src="wait-phone.js"></script>
+<script>
+/* ══ THE REWARDED WAIT, ON A PHONE ═══════════════════════════════════════════
+   Slide 2 is the wait as it is today: a counter, no signal, no value, no
+   memory. This is the same moment with the specialists visible, the reward
+   accruing, and one optional question that genuinely holds the line.
+
+   The carousel must not walk past that question, so scheduleNext is wrapped
+   rather than the pause flag being flipped — flipping `paused` would relabel
+   the user's own pause button. `function scheduleNext` is var-scoped onto the
+   global object, so bare calls elsewhere resolve to the wrapper. */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+  var held=false;
+  var _sched=window.scheduleNext;
+  window.scheduleNext=function(){if(held)return;return _sched.apply(null,arguments)};
+  WaitPhone.mount(mount,Object.assign({
+    chrome:'none', lockup:false,
+    note:'Illustrative concept screen · not an Air NZ product · nothing is booked without your approval',
+    startLabel:'prepare my options',
+    skipLabel:'rather not say',
+    scenarios:[{
+      id:'disruption', label:'The delay',
+      app:'NZ 616 · delayed',
+      unit:['',' Airpoints'],
+      earning:'Airpoints, staged',
+      yours:'Airpoints, staged',
+      told:'you told us:',
+      declined:'you would rather not say. The options still get prepared.',
+      steps:[
+        {agent:'Flight', doing:'What actually changed at ZQN', credit:100},
+        {agent:'Seats',  doing:'What is genuinely available tonight', credit:100},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Do you need to be in Auckland tonight?',
+          options:['Yes, tonight','Tomorrow is fine'],
+          learn:['must be there tonight — so only tonight’s options','tomorrow is fine, so a morning seat opens up'],
+        }},
+        {agent:'Options', doing:'Three rebook options prepared', credit:100},
+        {agent:'Draft',   doing:'Ready for you to choose — nothing booked', credit:100},
+      ],
+    }],
+  },{
+    onBlock:function(blocking){
+      held=blocking;
+      if(blocking){clearTimeout(scrollTimer)}
+      else if(!paused){scheduleNext()}
+    },
+    finish:{label:'see the draft \u2192',onDone:function(){gotoSlide(4,true)}},
+  }));
+})();
 </script>
 </body>
 </html>
