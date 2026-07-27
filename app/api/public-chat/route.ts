@@ -353,9 +353,9 @@ export async function POST(req: NextRequest) {
   //
   // ── 2026-07-27: Dynamic Environment Toggle (HA Bypass vs Full Compliance) ──
   // We use the environment variable PUBLIC_CHAT_HA_BYPASS to determine the active path.
-  // - PUBLIC_CHAT_HA_BYPASS='true': Runs the high-availability bypass (resolves <2s + direct Gemini failover).
-  // - PUBLIC_CHAT_HA_BYPASS='false' / unset: Runs the strict iho-router compliance pipeline.
-  const useBypass = process.env.PUBLIC_CHAT_HA_BYPASS === 'true';
+  // - PUBLIC_CHAT_HA_BYPASS='false': Turns off the bypass and enforces the strict iho-router compliance pipeline.
+  // - Unset / 'true': Runs the high-availability bypass by default (resolves <2s + direct Gemini failover).
+  const useBypass = process.env.PUBLIC_CHAT_HA_BYPASS !== 'false';
 
   if (imageDataUrl || redactPii || useBypass) {
     // ── Force the high-availability launch-day bypass (public-chat-llm) ──
