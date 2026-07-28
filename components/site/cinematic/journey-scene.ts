@@ -170,7 +170,7 @@ export function mountJourneyScene(opts: Opts): () => void {
   const DPR = Math.min(devicePixelRatio, 2);
   renderer.setPixelRatio(DPR);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.22;
+  renderer.toneMappingExposure = 1.05;
 
   const NAVY = '#050F1C';
   const scene = new THREE.Scene();
@@ -203,7 +203,7 @@ export function mountJourneyScene(opts: Opts): () => void {
   const key = new THREE.DirectionalLight('#FFFFFF', 1.7);
   key.position.set(5, 9, 6);
   scene.add(key);
-  const goldRim = new THREE.PointLight('#D4A843', 60, 34, 1.6);
+  const goldRim = new THREE.PointLight('#D4A843', 38, 34, 1.6);
   goldRim.position.set(-4, -2, 5);
   scene.add(goldRim);
   const coolRim = new THREE.PointLight('#DCE6F2', 36, 30, 1.7);
@@ -323,7 +323,7 @@ export function mountJourneyScene(opts: Opts): () => void {
   const travMat = new THREE.MeshStandardMaterial({
     color: '#F6E7B5',
     emissive: new THREE.Color('#D4A843'),
-    emissiveIntensity: 2.6,
+    emissiveIntensity: 1.6,
     metalness: 0.4,
     roughness: 0.3,
   });
@@ -369,9 +369,10 @@ export function mountJourneyScene(opts: Opts): () => void {
 
   const bloom = new UnrealBloomPass(
     new THREE.Vector2(vw(), vh()),
-    0.44,   // strength — at 0.62 the active node blew out and ate its own label
+    0.26,   // strength — 0.44 was tuned before the scale-up; once every emitter
+            // got bigger the same value washed straight over the headline
     0.68,   // radius
-    0.82,   // threshold: only the travellers and the hottest highlights bloom
+    0.90,   // threshold: only the very hottest highlights bloom, not the whole node
   );
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
@@ -542,7 +543,7 @@ export function mountJourneyScene(opts: Opts): () => void {
           Math.sin(ang) * rr,
         );
         const mm = mo.mesh.material as THREE.MeshStandardMaterial;
-        const wantM = active ? 2.6 + Math.sin(tt * 3 + mo.ph) * 0.7 : 0.5;
+        const wantM = active ? 1.5 + Math.sin(tt * 3 + mo.ph) * 0.4 : 0.35;
         mm.emissiveIntensity += (wantM - mm.emissiveIntensity) * 0.09;
       }
     }
