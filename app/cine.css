@@ -1150,9 +1150,27 @@
 .cine.inst input::placeholder, .cine.inst textarea::placeholder { color: rgba(240, 238, 233, 0.45); }
 
 /* Instrument: surfaces that carried hardcoded paper values */
-.cine.inst .hero::before {
-  background: linear-gradient(100deg,
-    var(--paper) 0%, rgba(5,15,28,0.96) 44%, rgba(5,15,28,0.72) 66%, rgba(5,15,28,0) 100%);
+/* Kate, 2026-07-28: "get rid of the blue glass filter behind the text, it is
+   distorting the image". She is right, and it was worse than a tint — the
+   element is width:min(112%,1180px) with a 100deg gradient, so on a 1440
+   display the wash ended in a visible near-vertical seam straight across the
+   sculpture. A readability scrim that draws its own edge is not doing its job.
+
+   Removed outright. Legibility moves onto the glyphs themselves below, where a
+   shadow has no rectangle to give away. */
+.cine.inst .hero::before { display: none; }
+
+/* Per-glyph legibility instead of a panel. A dark halo, not the paper glow
+   inherited from the light skin — white bloom around white letters on navy
+   just smears them. Wide and soft so it never reads as an outline, tight and
+   dark underneath so the type still holds over the brightest part of the
+   bloom. */
+.cine.inst .hero h1,
+.cine.inst .hero .lede {
+  text-shadow:
+    0 1px 2px rgba(3, 9, 18, 0.55),
+    0 4px 22px rgba(3, 9, 18, 0.5),
+    0 0 60px rgba(3, 9, 18, 0.42);
 }
 /* The readability scrim behind section copy. It faded out to the right but had
    dead-square top and bottom edges, so on navy it read as a grey rectangle
@@ -1181,11 +1199,6 @@
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
   pointer-events: none;
-}
-.cine.inst .bp-invite {
-  border: 1px solid rgba(212, 168, 67, 0.36);
-  background: linear-gradient(140deg, rgba(8, 13, 26, 0.92), rgba(5, 15, 28, 0.84));
-  box-shadow: 0 26px 60px -32px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(240, 238, 233, 0.07) inset;
 }
 .cine.inst .nav-cta { background: var(--ink); color: #050F1C; }
 
@@ -1504,13 +1517,18 @@
   inherits: true;
   initial-value: 0%;
 }
-.cine.inst .journey-intro { position: relative; --wipe: 0%; }
-.cine.inst .journey-intro.in { --wipe: 100%; }
-.cine.inst .wipe-in {
-  clip-path: inset(0 calc(100% - var(--wipe)) 0 0);
+.cine.inst .journey-intro {
+  position: relative;
+  --wipe: 0%;
   transition: --wipe 1.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.cine.inst .journey-intro { transition: --wipe 1.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.cine.inst .journey-intro.in { --wipe: 100%; }
+/* Reads the inherited value; it must NOT declare its own transition on --wipe.
+   When both a parent and its child transition the same inherited property, the
+   child re-targets a fresh 1.6s tween every frame the parent moves — a lagging
+   follower that never lands. The clip then sits part-open and slices the
+   heading through the middle of a letter, which is exactly how it shipped. */
+.cine.inst .wipe-in { clip-path: inset(0 calc(100% - var(--wipe)) 0 0); }
 .cine.inst .journey-intro::after {
   content: '';
   position: absolute; left: var(--wipe); width: 2px;
@@ -1540,20 +1558,23 @@
 
 /* 3 — ghost numerals behind the anatomy cards */
 .cine.inst .journey-step { overflow: hidden; }
+/* The numeral is now inline at the head of the row rather than a giant ghost
+   behind it — the rows are one line tall, so an 7.5rem outline no longer fits
+   behind them and simply overflowed. */
 .cine.inst .journey-step .js-n {
-  position: absolute; right: 14px; bottom: -26px;
+  position: static;
   font-family: 'Lato', sans-serif; font-weight: 700;
-  font-size: clamp(4.5rem, 8vw, 7.5rem); line-height: 1;
-  letter-spacing: -0.04em;
+  font-size: 1.6rem; line-height: 1;
+  letter-spacing: -0.02em;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(212, 168, 67, 0.30);
+  -webkit-text-stroke: 1px rgba(212, 168, 67, 0.42);
   pointer-events: none;
   transition: -webkit-text-stroke-color 0.5s var(--ease-out), transform 0.6s var(--ease-out);
 }
 .cine.inst .journey-step.on .js-n,
 .cine.inst .journey-step:hover .js-n {
-  -webkit-text-stroke-color: rgba(212, 168, 67, 0.62);
-  transform: translateY(-6px);
+  -webkit-text-stroke-color: rgba(212, 168, 67, 0.9);
+  transform: translateY(-2px);
 }
 
 /* All three techniques off for anyone who asked for stillness — and critically
@@ -1774,9 +1795,19 @@
 /* The route sweeps across this whole band, so the copy needs the same navy
    scrim .section-copy carries — without it the rail runs through the headline. */
 .cine .journey-intro {
-  max-width: 460px;
+  /* 460px was fine while this heading inherited a ~46px size. It does not: with
+     no rule of its own the h2 falls through to `.cine h2`, clamp(2.6rem, 6vw,
+     5.5rem), which is 88px on a 2000px display — 88px type in a 460px column
+     wraps to one word per line and reads as a broken sidebar. The column now
+     grows with the viewport instead of staying pinned narrow. */
+  max-width: clamp(460px, 46vw, 780px);
   position: relative;
   padding: 24px 40px 28px 0;
+}
+/* and the heading is sized for its column, not for a full-bleed section */
+.cine .journey-intro h2 {
+  font-size: clamp(2rem, 3.4vw, 3.6rem);
+  line-height: 1.06;
 }
 .cine .journey-intro::before {
   content: ''; position: absolute; z-index: -1;
@@ -1788,9 +1819,40 @@
   margin-top: 22px; font-family: 'Lato', sans-serif; font-weight: 300;
   line-height: 1.7; color: var(--ink);
 }
+/* The anatomy as a rail, not a stack of paragraphs. Each row is one line of
+   type and a progress bar that fills while its stage is the one in frame, so
+   the list reads as an index into the 3D rather than a second article. */
 .cine .journey-steps {
-  display: grid; gap: 20px; max-width: 520px;
+  display: grid; gap: 10px;
+  max-width: clamp(440px, 34vw, 560px);
+  margin: 0; padding: 0; list-style: none;
 }
+.cine.inst .journey-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 0 16px;
+  padding: 16px 22px 18px;
+}
+.cine.inst .journey-step h3 {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700; font-size: 0.95rem;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--ink);
+}
+.cine.inst .journey-step .js-bar {
+  grid-column: 1 / -1;
+  margin-top: 12px; height: 1px;
+  background: rgba(240, 238, 233, 0.14);
+  display: block; overflow: hidden;
+}
+.cine.inst .journey-step .js-bar i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--brass), rgba(246, 231, 181, 0.9));
+  transition: width 0.9s var(--ease-out);
+}
+.cine.inst .journey-step.on .js-bar i { width: 100%; }
 .cine .journey-step {
   position: relative;
   padding: 22px 26px;
@@ -1872,6 +1934,38 @@
   .cine.inst .bp-invite,
   .cine.inst .wsp-hold > * { background: rgba(6, 18, 33, 0.95); }
 }
+
+/* Kate, 2026-07-28: "can the assemble itself out of your business be on more of
+   a transparent glass card?" This one sits directly over the sculpture, so it
+   can go far thinner than the cards further down the page — the artwork reads
+   straight through it and it stops looking like a panel parked on top. Safe to
+   do here because the backdrop is already near-black navy and the type now
+   carries its own shadow. */
+.cine.inst .bp-invite {
+  background: linear-gradient(
+    150deg,
+    rgba(14, 34, 56, 0.26) 0%,
+    rgba(6, 18, 33, 0.17) 60%,
+    rgba(5, 15, 28, 0.28) 100%
+  );
+  backdrop-filter: blur(34px) saturate(1.4);
+  -webkit-backdrop-filter: blur(34px) saturate(1.4);
+  border-color: rgba(212, 168, 67, 0.44);
+}
+.cine.inst .bp-invite .bp-invite-head,
+.cine.inst .bp-invite .bp-invite-sub {
+  text-shadow: 0 1px 12px rgba(3, 9, 18, 0.72);
+}
+/* the field needs its own floor, or it dissolves into the glass */
+.cine.inst .bp-invite .bp-input {
+  background: rgba(5, 15, 28, 0.58);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cine.inst .bp-invite { background: rgba(6, 18, 33, 0.94); }
+}
+
 /* the sheen that reads as a bevelled gold edge catching the softbox */
 .cine.inst .panel::before,
 .cine.inst .stat::before,
