@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import '@/components/site/cinematic/wait-state.css';
 import './ai-ready.css';
 
 /**
@@ -38,6 +39,83 @@ const MOMENTS = [
   { key: 'decade', title: 'Years two through ten', agent: 'The long memory' },
 ];
 
+/**
+ * assembl's own wait — the thing we sell, running on us.
+ *
+ * While the live agent reads the visitor's site, they watch the work happen,
+ * they are asked ONE optional question (the answer travels to Kate with the
+ * lead, so her first reply is already informed), and they leave with a receipt.
+ * Reuses the .wsp-* classes from wait-state.css, which are deliberately
+ * unscoped so any surface can run the same phone.
+ */
+const OUR_STEPS = [
+  { agent: 'Read', doing: 'Your public pages — the ones you choose' },
+  { agent: 'Voice', doing: 'How you already talk about the work' },
+  { agent: 'Ask', doing: 'One question', ask: true },
+  { agent: 'Draft', doing: 'Five moments, in your words' },
+  { agent: 'Held', doing: 'For a named person — nothing sends' },
+];
+
+function AssemblWait({ onAnswer }: { onAnswer: (a: string) => void }) {
+  const [at, setAt] = useState(0);
+  const [answered, setAnswered] = useState(false);
+  const asking = OUR_STEPS[at]?.ask === true && !answered;
+
+  useEffect(() => {
+    if (asking || at >= OUR_STEPS.length) return;
+    const t = setTimeout(() => setAt((n) => n + 1), 1500);
+    return () => clearTimeout(t);
+  }, [at, asking]);
+
+  const pct = Math.round((Math.min(at, OUR_STEPS.length) / OUR_STEPS.length) * 100);
+  const answer = (a: string) => { setAnswered(true); onAnswer(a); setAt((n) => n + 1); };
+
+  return (
+    <div className="wsp" style={{ marginTop: 26 }}>
+      <div className="wsp-phone">
+        <div className="wsp-glare" aria-hidden="true" />
+        <div className="wsp-screen">
+          <div className="wsp-status" aria-hidden="true"><span>9:41</span><span /><span>▮▮▮</span></div>
+          <div className="wsp-app">Your journey, being drafted</div>
+          <div className="wsp-loyal">this is our own wait — you are in it</div>
+          <div className={`wsp-ring${at < OUR_STEPS.length ? ' spin' : ' done'}`}>
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle className="wsp-track" cx="60" cy="60" r="52" />
+              <circle className="wsp-arc" cx="60" cy="60" r="52"
+                strokeDasharray={2 * Math.PI * 52}
+                strokeDashoffset={2 * Math.PI * 52 * (1 - pct / 100)} />
+            </svg>
+            <div className="wsp-mid">
+              <div className="wsp-credit">{Math.min(at, 5)}<span style={{ opacity: 0.4 }}>/5</span></div>
+              <div className="wsp-credit-l">moments drafted</div>
+            </div>
+          </div>
+          <ol className="wsp-steps">
+            {OUR_STEPS.map((st, i) => (
+              <li key={st.agent} className={`wsp-step${i < at ? ' done' : ''}${i === at ? ' now' : ''}`}>
+                <span className="wsp-dot" aria-hidden="true" />
+                <span className="wsp-who">{st.agent}</span>
+                <span className="wsp-doing">{st.doing}</span>
+              </li>
+            ))}
+          </ol>
+          {asking && (
+            <div className="wsp-sheet" aria-live="polite">
+              <div className="wsp-sheet-q">What wait do your customers complain about most?</div>
+              <div className="wsp-sheet-row">
+                {['Getting a quote', 'Waiting on us'].map((o) => (
+                  <button key={o} type="button" className="wsp-sheet-btn" onClick={() => answer(o)}>{o}</button>
+                ))}
+              </div>
+              <button type="button" className="wsp-sheet-skip" onClick={() => answer('')}>rather not say</button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AiReadyClient() {
   const [url, setUrl] = useState('');
   const [busy, setBusy] = useState<'idle' | 'checks' | 'journey'>('idle');
@@ -48,6 +126,7 @@ export function AiReadyClient() {
   const [email, setEmail] = useState('');
   const [gate, setGate] = useState<'closed' | 'sending' | 'open'>('closed');
   const [gateError, setGateError] = useState('');
+  const [waitAnswer, setWaitAnswer] = useState('');
   const ran = useRef(false);
 
   const run = useCallback(async (target: string) => {
@@ -102,14 +181,14 @@ export function AiReadyClient() {
         method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           email: em, toolSlug: 'ai-ready', consentMarketing: true, source: 'ai-ready',
-          payload: { url: ready?.url ?? url, score: ready?.score ?? null },
+          payload: { url: ready?.url ?? url, score: ready?.score ?? null, worstWait: waitAnswer || null },
         }),
       });
     } catch { /* soft failure — carry on */ }
     sessionStorage.setItem('airdy-email', em);
     setGate('open');
     void draftJourney(ready?.url ?? url);
-  }, [email, ready, url, draftJourney]);
+  }, [email, ready, url, draftJourney, waitAnswer]);
 
   useEffect(() => {
     if (ran.current) return;
@@ -233,9 +312,7 @@ export function AiReadyClient() {
                 </small>
               </form>
             )}
-            {busy === 'journey' && (
-              <p className="airdy-drafting">The live agent is reading your site and drafting your journey…</p>
-            )}
+            {busy === 'journey' && <AssemblWait onAnswer={setWaitAnswer} />}
 
             {brief && (
               <section className="airdy-journey">
@@ -271,6 +348,18 @@ export function AiReadyClient() {
                   </div>
                 )}
               </section>
+            )}
+
+            {brief && (
+              <div className="airdy-receipt">
+                <b>The receipt for this</b>
+                <ul>
+                  <li>Read: your public pages at {ready.site} — nothing else, nothing stored.</li>
+                  <li>Drafted: five journey moments, from your own words and colours.</li>
+                  {waitAnswer ? <li>You told us: the wait that hurts is “{waitAnswer.toLowerCase()}”.</li> : null}
+                  <li>Not done: nothing was sent, promised, or priced. A named person reads this before anyone replies to you.</li>
+                </ul>
+              </div>
             )}
 
             <footer className="airdy-doc-foot">
