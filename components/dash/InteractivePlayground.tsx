@@ -11,8 +11,11 @@
  */
 
 import { useEffect, useRef } from 'react';
+import { AssemblingMark } from './AssemblingMark';
 
-const MASCOT = '/assembling/mascot-dog.png';
+// The Birdie dachshund is retired: it was the old assembling identity and
+// survived here after the rest of the microsite moved to the champagne canon.
+// The brass mark is the same object language as the 3D scenes.
 
 interface Coin {
   el: HTMLDivElement;
@@ -31,7 +34,7 @@ export function InteractivePlayground() {
   const winRef = useRef<HTMLDivElement>(null);
   // game refs
   const areaRef = useRef<HTMLDivElement>(null);
-  const dogRef = useRef<HTMLImageElement>(null);
+  const dogRef = useRef<HTMLDivElement>(null);
   const scoreRef = useRef<HTMLDivElement>(null);
   const timeRef = useRef<HTMLDivElement>(null);
   const startRef = useRef<HTMLDivElement>(null);
@@ -335,7 +338,7 @@ export function InteractivePlayground() {
                 fontSize: 11,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
-                color: '#c79b1f',
+                color: '#8A6A2E',
                 marginBottom: 10,
               }}
             >
@@ -396,14 +399,13 @@ export function InteractivePlayground() {
                 overflow: 'hidden',
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={MASCOT}
-                alt=""
+              <div
                 aria-hidden
                 className="bd-float7"
-                style={{ width: 150, height: 'auto', filter: 'drop-shadow(0 10px 12px rgba(180,150,40,.25))' }}
-              />
+                style={{ width: 132, color: '#3a3832', filter: 'drop-shadow(0 10px 12px rgba(191,163,122,.28))' }}
+              >
+                <AssemblingMark pct={100} title="" />
+              </div>
               <div
                 className="bd-mono"
                 style={{
@@ -459,7 +461,7 @@ export function InteractivePlayground() {
                 fontSize: 11,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
-                color: '#c79b1f',
+                color: '#8A6A2E',
                 marginBottom: 10,
               }}
             >
@@ -512,23 +514,22 @@ export function InteractivePlayground() {
             touchAction: 'none',
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <div
             ref={dogRef}
-            src={MASCOT}
-            alt=""
             aria-hidden
             style={{
               position: 'absolute',
               bottom: 8,
               left: 0,
-              width: 78,
-              height: 'auto',
+              width: 64,
+              color: '#3a3832',
               pointerEvents: 'none',
-              filter: 'drop-shadow(0 8px 10px rgba(180,150,40,.3))',
+              filter: 'drop-shadow(0 8px 10px rgba(191,163,122,.32))',
               zIndex: 2,
             }}
-          />
+          >
+            <AssemblingMark pct={100} title="" />
+          </div>
           {/* start overlay */}
           <div
             ref={startRef}

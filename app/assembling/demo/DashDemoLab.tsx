@@ -103,7 +103,10 @@ export function DashDemoLab() {
                   'New: bulk export is live',
                   'Did you know? Drafts auto-save',
                 ],
-                customerLogo: { src: '/images/dash/dash-dog.svg', alt: 'Acme' },
+                // Stand-in mark for the fictional white-label customer. Was
+                // dash-dog.svg, which put the retired Birdie dachshund back on
+                // screen as somebody else's brand.
+                customerLogo: { src: '/images/dash/acme-placeholder.svg', alt: 'Acme' },
               },
             }}
             status={status}

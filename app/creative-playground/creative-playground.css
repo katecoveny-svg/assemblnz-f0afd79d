@@ -1,0 +1,92 @@
+/* ══ CREATIVE PLAYGROUND — Instrument canon ═════════════════════════════════
+   Navy #050F1C, Lato only (never the Cormorant display cut), full-ink text
+   with hierarchy carried by weight rather than opacity, brass for accents.
+   The studio canvas below keeps its own light stage — it is a gallery inside
+   the site, the same way the showroom is on the homepage — but the page it
+   sits in now belongs to the same site as everything else.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cp-root {
+  --cp-navy: #050F1C;
+  --cp-ink: #F0EEE9;
+  --cp-brass: #D4A843;
+  background: var(--cp-navy);
+  color: var(--cp-ink);
+}
+
+.cp-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cp-brass);
+}
+.cp-dot { margin: 0 6px; color: var(--cp-brass); }
+
+.cp-h1 {
+  margin-top: 18px;
+  font-family: 'Lato', system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+  font-size: clamp(2.1rem, 5.2vw, 4rem);
+  color: var(--cp-ink);
+}
+
+.cp-lede {
+  margin-top: 20px;
+  max-width: 560px;
+  font-family: 'Lato', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  line-height: 1.7;
+  color: var(--cp-ink);
+}
+
+.cp-foot {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cp-ink);
+}
+.cp-foot > div { border-top: 1px solid rgba(240, 238, 233, 0.12); }
+.cp-link {
+  color: var(--cp-ink);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212, 168, 67, 0.5);
+  padding-bottom: 2px;
+}
+.cp-link:hover { color: var(--cp-brass); border-bottom-color: var(--cp-brass); }
+
+/* ── the studio controls ────────────────────────────────────────────────────
+   GenerativeArtCanvas paints its chrome from the site tokens (--assembl-paper,
+   --text-primary, --assembl-cloud), which resolve to the paper palette: on
+   navy that gave white tiles, and the SELECTED tile went ink-on-ink and read
+   as switched off. This component renders nowhere else, so remapping the
+   tokens inside .cp-root re-skins every control at once without touching the
+   component or any other surface. */
+.cp-root {
+  --assembl-paper: rgba(8, 13, 26, 0.72);
+  --text-primary: #F0EEE9;
+  --text-secondary: #F0EEE9;
+  --assembl-cloud: rgba(212, 168, 67, 0.34);
+  --assembl-gold-thread: #D4A843;
+}
+
+/* glass + gold rim, the same card treatment as the rest of the site */
+.cp-root button[class*='rounded-'] {
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+/* The selected tile needs no rule of its own: the component sets it to
+   --text-primary on --assembl-paper, which under the remap above is a cream
+   pill with navy type — the same inverted-chip language as the nav CTA. */
+
+/* the artwork stage stays a lit gallery inside the navy room */
+.cp-root canvas,
+.cp-root svg[width] {
+  border-radius: 14px;
+}

@@ -121,7 +121,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 16,
             }}
           >
@@ -183,7 +183,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 24,
             }}
           >
@@ -358,7 +358,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 24,
             }}
           >
@@ -457,7 +457,7 @@ export default function BrandPage() {
                 ["--dash-paper", "#FFFFFF"],
                 ["--dash-cream", "#FFF7EC"],
                 ["--dash-hairline", "#EFEADC"],
-                ["--dash-gold", "#C79B1F"],
+                ["--dash-gold", "#8A6A2E"],
                 ["--dash-muted", "#8A8678"],
               ].map(([name, val]) => (
                 <div
@@ -490,7 +490,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 24,
             }}
           >
@@ -633,7 +633,7 @@ export default function BrandPage() {
                 fontSize: 12,
                 letterSpacing: ".16em",
                 textTransform: "uppercase",
-                color: "#c79b1f",
+                color: "#8A6A2E",
               }}
             >
               Eyebrow — 12px Space Mono, .18em tracking
@@ -654,7 +654,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 24,
             }}
           >
@@ -757,7 +757,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 24,
             }}
           >
@@ -800,13 +800,13 @@ export default function BrandPage() {
             >
               {[
                 { letter: "A", bg: "#BFA37A", lc: "#5a4a00", text: "Get paid for the wait." },
-                { letter: "B", bg: "#FFF7EC", lc: "#c79b1f", text: "Sit. Stay. Get paid." },
-                { letter: "C", bg: "#FFF7EC", lc: "#c79b1f", text: "While it thinks, you earn." },
-                { letter: "D", bg: "#FFF7EC", lc: "#c79b1f", text: "Long dog. Short wait." },
+                { letter: "B", bg: "#FFF7EC", lc: "#8A6A2E", text: "Sit. Stay. Get paid." },
+                { letter: "C", bg: "#FFF7EC", lc: "#8A6A2E", text: "While it thinks, you earn." },
+                { letter: "D", bg: "#FFF7EC", lc: "#8A6A2E", text: "Long dog. Short wait." },
                 {
                   letter: "E",
                   bg: "#FFF7EC",
-                  lc: "#c79b1f",
+                  lc: "#8A6A2E",
                   text: "Your idle minute, finally worth something.",
                 },
               ].map((t) => (
@@ -851,7 +851,7 @@ export default function BrandPage() {
               fontSize: 12,
               letterSpacing: ".18em",
               textTransform: "uppercase",
-              color: "#c79b1f",
+              color: "#8A6A2E",
               marginBottom: 24,
             }}
           >

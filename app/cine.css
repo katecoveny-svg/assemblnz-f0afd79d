@@ -1182,6 +1182,17 @@
     cine-wordIn 1.2s var(--ease-out) forwards,
     inst-sheen 7.5s linear infinite;
 }
+/* The finale's last word had the same bug the hero line-two word once had, and
+   it was live: the metal-type rule above sets `animation: inst-sheen …`, which
+   is a shorthand, so it replaced the cine-finaleIn reveal wholesale and the
+   word stayed at opacity 0 forever. "Build intelligence you can ___" has been
+   rendering with nothing on the end. Declare both animations here. */
+.cine.inst .finale h2 .finale-word.accent { opacity: 0; }
+.cine.inst .finale.in-view h2 .finale-word.accent {
+  animation:
+    cine-finaleIn 1.3s var(--ease-out) forwards,
+    inst-sheen 7.5s linear infinite;
+}
 @keyframes inst-sheen {
   from { background-position: 0% 0; }
   to { background-position: 240% 0; }
@@ -1406,3 +1417,248 @@
   font-size: 0.6rem !important; letter-spacing: 0.16em; text-transform: uppercase;
 }
 .cine .wait-tier a { color: var(--brass-bright); text-decoration: none; border-bottom: 1px solid rgba(212, 168, 67, 0.45); }
+
+/* ══ THE JOURNEY ════════════════════════════════════════════════════════════
+   Kate, 2026-07-28: "make this a literal customer agentic journey" and "make
+   the text come in — Assembl (play on the word Assembl)". The scene lives in
+   components/site/cinematic/journey-scene.ts; everything here is the HTML half
+   of it — the labels it projects onto the route, and the walkthrough panels
+   scrolling past them.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── the word assembles itself ── */
+.cine.inst .hero-assembling { display: inline-block; white-space: nowrap; }
+.cine.inst .hero-char {
+  display: inline-block;
+  opacity: 0;
+  /* each letter starts thrown out of place and lands home */
+  transform: translate(var(--cx, 0), var(--cy, 90%)) rotate(var(--cr, 0deg)) scale(0.86);
+  filter: blur(10px);
+  animation: cine-charDock 1.05s var(--ease-out) forwards;
+}
+.cine.inst .hero-char:nth-child(1) { --cx: -0.5em; --cy: -120%; --cr: -14deg; }
+.cine.inst .hero-char:nth-child(2) { --cx:  0.7em; --cy:  140%; --cr:  11deg; }
+.cine.inst .hero-char:nth-child(3) { --cx: -0.8em; --cy:  110%; --cr:   9deg; }
+.cine.inst .hero-char:nth-child(4) { --cx:  0.4em; --cy: -140%; --cr: -10deg; }
+.cine.inst .hero-char:nth-child(5) { --cx: -0.3em; --cy:  150%; --cr:  13deg; }
+.cine.inst .hero-char:nth-child(6) { --cx:  0.9em; --cy: -100%; --cr:  -8deg; }
+.cine.inst .hero-char:nth-child(7) { --cx: -0.6em; --cy:  130%; --cr:  12deg; }
+@keyframes cine-charDock {
+  60%  { filter: blur(0); }
+  to   { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); filter: blur(0); }
+}
+/* the line the letters dock onto — draws itself under the wordmark */
+.cine.inst .hero-assembling::after {
+  content: ''; display: block; height: 1px; width: 0;
+  background: linear-gradient(90deg, var(--brass), rgba(212,168,67,0));
+  animation: cine-dockLine 1.1s var(--ease-out) 0.62s forwards;
+}
+@keyframes cine-dockLine { to { width: 100%; } }
+/* the rest of the hero now waits for the word to finish assembling */
+.cine.inst .hero-sub-cinema { animation-delay: 2.2s; }
+.cine.inst .hero-cta-cinema { animation-delay: 2.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cine.inst .hero-char {
+    animation: none; opacity: 1; transform: none; filter: none;
+  }
+  .cine.inst .hero-assembling::after { animation: none; width: 100%; }
+}
+
+/* ── stage labels, pinned to their 3D position ── */
+.cine .journey-labels {
+  position: fixed; inset: 0; z-index: 1;
+  pointer-events: none; overflow: hidden;
+}
+.cine .jl {
+  position: absolute; top: 0; left: 0;
+  /* The scene writes translate3d(x,y,0) at the node. Sitting the label on the
+     node put light type straight over the brightest, bloomiest part of the
+     frame and it could not be read. Hang it up and to the right instead, on
+     its own dark scrim. */
+  margin: -58px 0 0 78px;
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 12px 16px 13px;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  background: linear-gradient(140deg, rgba(5, 12, 24, 0.88), rgba(5, 15, 28, 0.72));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 420ms var(--ease-out);
+  will-change: transform, opacity;
+}
+.cine .jl-n {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  letter-spacing: 0.28em; color: var(--brass);
+}
+.cine .jl-label {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 0.06em; text-transform: uppercase; color: #F0EEE9;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.7);
+}
+.cine .jl-note {
+  font-family: 'Lato', sans-serif; font-weight: 300; font-size: 0.72rem;
+  color: #F0EEE9; max-width: 210px; line-height: 1.45;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.8);
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+.cine .jl.jl-on .jl-note { opacity: 1; transform: translateY(0); }
+/* a leader back down to the node the label belongs to */
+.cine .jl::after {
+  content: ''; position: absolute; left: -46px; top: 50%;
+  width: 46px; height: 1px;
+  background: linear-gradient(270deg, var(--brass), rgba(212,168,67,0));
+}
+/* phones: the labels crowd the copy, and the walkthrough panels say the same
+   thing in a form you can actually read */
+@media (max-width: 900px) { .cine .journey-labels { display: none; } }
+
+/* ── the walkthrough ── */
+.cine .journey {
+  position: relative; z-index: 2;
+  min-height: 160vh;
+  padding: 18vh 48px 14vh 12vw;
+  display: flex; flex-direction: column; gap: 8vh;
+}
+/* The route sweeps across this whole band, so the copy needs the same navy
+   scrim .section-copy carries — without it the rail runs through the headline. */
+.cine .journey-intro {
+  max-width: 460px;
+  position: relative;
+  padding: 24px 40px 28px 0;
+}
+.cine .journey-intro::before {
+  content: ''; position: absolute; z-index: -1;
+  inset: -24px -90px -24px -14vw;
+  background: linear-gradient(100deg,
+    #050F1C 0%, rgba(5,15,28,0.97) 54%, rgba(5,15,28,0.76) 76%, rgba(5,15,28,0) 100%);
+}
+.cine .journey-intro p {
+  margin-top: 22px; font-family: 'Lato', sans-serif; font-weight: 300;
+  line-height: 1.7; color: var(--ink);
+}
+.cine .journey-steps {
+  display: grid; gap: 20px; max-width: 520px;
+}
+.cine .journey-step {
+  position: relative;
+  padding: 22px 26px;
+  border-radius: 18px;
+  /* dim until the camera reaches this stage on the route outside */
+  opacity: 0.34;
+  transform: translateX(-8px);
+  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out),
+              border-color 500ms var(--ease-out), box-shadow 500ms var(--ease-out);
+}
+.cine .journey-step.on { opacity: 1; transform: translateX(0); }
+.cine .journey-step .js-n {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  letter-spacing: 0.28em; color: var(--brass);
+}
+.cine .journey-step h3 {
+  margin-top: 8px;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 1.05rem;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink);
+}
+.cine .journey-step p {
+  margin-top: 8px; font-family: 'Lato', sans-serif; font-weight: 300;
+  font-size: 0.92rem; line-height: 1.6; color: var(--ink);
+}
+@media (max-width: 900px) {
+  .cine .journey { padding: 12vh 24px; min-height: auto; }
+  /* no camera to follow on a phone, so nothing should look switched off */
+  .cine .journey-step { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cine .journey-step { opacity: 1; transform: none; }
+}
+
+/* ══ GLASS + GOLD RIM ═══════════════════════════════════════════════════════
+   Kate, 2026-07-28: "can we have all cards glass with gold rim around like the
+   explainer text one". .bp-invite already had it; every other card on the page
+   was a different treatment — flat navy panels, bare stats, a boxed FAQ. One
+   surface now, applied by a shared rule: dark glass, a gold hairline rim, a
+   brass sheen along the top edge, and the rim brightening on hover.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cine.inst .panel,
+.cine.inst .stat,
+.cine.inst .journey-step,
+.cine.inst .faq-item,
+.cine.inst .wsp-hold > * {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 168, 67, 0.36);
+  background: linear-gradient(140deg, rgba(8, 13, 26, 0.90), rgba(5, 15, 28, 0.80));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 26px 60px -32px rgba(0, 0, 0, 0.85),
+    0 1px 0 rgba(240, 238, 233, 0.07) inset;
+}
+/* the sheen that reads as a bevelled gold edge catching the softbox */
+.cine.inst .panel::before,
+.cine.inst .stat::before,
+.cine.inst .journey-step::before,
+.cine.inst .faq-item::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg,
+    rgba(246, 231, 181, 0.55) 0%,
+    rgba(212, 168, 67, 0.18) 26%,
+    rgba(212, 168, 67, 0) 52%,
+    rgba(212, 168, 67, 0.22) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.cine.inst .panel:hover,
+.cine.inst .stat:hover,
+.cine.inst .journey-step.on,
+.cine.inst .faq-item:hover {
+  border-color: rgba(212, 168, 67, 0.62);
+  box-shadow:
+    0 30px 70px -30px rgba(0, 0, 0, 0.9),
+    0 0 34px -12px rgba(212, 168, 67, 0.35),
+    0 1px 0 rgba(240, 238, 233, 0.1) inset;
+}
+
+/* the stats strip becomes three cards rather than three bare numerals */
+.cine.inst .stats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+  padding: 12vh 48px 12vh 12vw;
+  border-top: 1px solid rgba(240, 238, 233, 0.08);
+}
+.cine.inst .stat {
+  padding: 30px 30px 26px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.cine.inst .stat .num {
+  font-family: 'Lato', sans-serif; font-weight: 700;
+  font-size: clamp(3rem, 6vw, 5.4rem); letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.cine.inst .stat .cap { color: var(--ink); opacity: 0.85; margin-top: 12px; }
+
+/* the FAQ was one gold-framed block; each question is now its own card */
+.cine.inst .faq dl { border: none; background: none; padding: 0; display: grid; gap: 16px; }
+.cine.inst .faq-item { margin-bottom: 0; padding: 26px 30px; }
+
+/* the wait module sits in the same glass as everything else */
+.cine.inst .wsp-hold > * { overflow: hidden; }
+
+/* label flipped to the left of its node when the node is near the right edge */
+.cine .jl.jl-flip { margin-left: -300px; }
+.cine .jl.jl-flip::after {
+  left: auto; right: -46px;
+  background: linear-gradient(90deg, var(--brass), rgba(212,168,67,0));
+}
+.cine .jl { width: 250px; }

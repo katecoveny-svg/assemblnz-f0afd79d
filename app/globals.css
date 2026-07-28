@@ -742,3 +742,21 @@
   color: var(--st-charcoal);
 }
 .studio-root ::selection { background: var(--st-sea-glass); }
+
+/* the assembling loader's ring turns while it has no progress to report */
+@keyframes mk-ring-spin { to { transform: rotate(360deg); } }
+
+/* ══ ONE CHROME PER PAGE ════════════════════════════════════════════════════
+   Lives in globals, not cine.css: the page that needs the guard is whichever
+   one rendered, and page-level stylesheets are exactly what you cannot rely on
+   when the pathname and the rendered page disagree.
+   GlobalChrome decides whether to render the site-wide nav from the pathname,
+   which is wrong whenever the pathname is not what actually rendered. The
+   middleware splash gate rewrites unexempted paths to the homepage while
+   keeping the URL, so /ai-ready served this page under a pathname the chrome
+   did not recognise as cinematic — and the visitor got the global grey bar
+   stacked on top of the cinematic nav, covering its links. That specific route
+   is exempted now, but the trap resets every time a route is added and not
+   listed. This makes it structural: if a cinematic root is on the page, the
+   global chrome is not, whatever the pathname says. */
+body:has(.cine) [data-global-chrome] { display: none !important; }

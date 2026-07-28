@@ -120,6 +120,13 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/concept-studio',
   // Creative playground — linked from the cinematic footer (2026-07-24).
   '/creative-playground',
+  // AI-search readiness + journey tool. Missing from this list since it
+  // shipped, which is why "ai ready?" in the homepage nav served the homepage
+  // on the live host: the URL bar said /ai-ready, the page was the splash
+  // rewrite of /, and because that pathname is not a cinematic path the global
+  // grey V2Nav also rendered on top of the cinematic page's own nav. One
+  // missing prefix, two reported bugs. (2026-07-28)
+  '/ai-ready',
   // Public, client-name-free journey walkthrough (2026-07-25).
   '/concepts',
   // Kept Business Blueprints — private links, noindex (2026-07-25).

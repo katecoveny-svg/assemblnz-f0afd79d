@@ -155,7 +155,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
               fontWeight: 700,
               fontSize: 14,
               textDecoration: 'none',
-              boxShadow: '0 6px 20px rgba(255,212,42,.5)',
+              boxShadow: '0 6px 20px rgba(212,168,67,.5)',
             }}
           >
             Join the waitlist

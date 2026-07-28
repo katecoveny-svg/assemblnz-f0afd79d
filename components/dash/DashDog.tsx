@@ -1,19 +1,33 @@
 /**
- * The assembling dachshund mark — the geometric dog whose segmented body doubles as
- * a loading bar. Geometry lifted verbatim from the design handoff (viewBox
- * 1040×470) so it stays pixel-faithful to `assets/dash-dog.svg`.
+ * The assembling mark, wide format.
  *
- * `tone` recolours the body for the brand colourways; `segments` renders the
- * forest division lines (the "loading bar" grooves).
+ * This file used to draw the Birdie dachshund — the geometric dog whose
+ * segmented body doubled as a loading bar. The dog is retired: it was the old
+ * assembling identity, and it kept surfacing on live pages (the "agent
+ * finished" card, the phone mock, the loader demos) long after the rest of the
+ * microsite moved to the champagne canon, so a visitor's first sight of the
+ * product was still a cartoon.
+ *
+ * The replacement says the same thing in the current language: parts docking
+ * onto a brass rail, left to right, closing into a ring — the way the 3D
+ * scenes assemble. It keeps the original 1040×470 viewBox so every existing
+ * call site, which sizes this by width and expects a wide short mark, lays out
+ * unchanged.
+ *
+ * The component name and export stay as they are on purpose: renaming across a
+ * dozen call sites is a separate job from getting the dog off the site.
  */
 type DashDogProps = {
   className?: string;
-  /** Body fill — one of the assembl dog colourways. */
+  /** Part fill — the ink of whatever surface it sits on. */
   tone?: string;
   title?: string;
 };
 
-export function DashDog({ className, tone = '#3a3832', title = 'assembling dachshund' }: DashDogProps) {
+/** where each docking part sits along the rail */
+const PARTS = [196, 330, 464, 598, 732];
+
+export function DashDog({ className, tone = '#3a3832', title = 'assembling' }: DashDogProps) {
   return (
     <svg
       className={className}
@@ -23,23 +37,46 @@ export function DashDog({ className, tone = '#3a3832', title = 'assembling dachs
       aria-label={title}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#3a3832" opacity="0.1" />
-      <path d="M206 250 C 158 252 128 228 120 190" stroke={tone} strokeWidth="26" strokeLinecap="round" />
-      <rect x="214" y="298" width="48" height="118" rx="22" fill={tone} />
-      <rect x="650" y="298" width="48" height="118" rx="22" fill={tone} />
-      <rect x="185" y="206" width="548" height="128" rx="22" fill={tone} />
-      {/* loader fill — one clean hi-vis dash, no hazard seams */}
-      <rect x="185" y="206" width="360" height="128" rx="22" fill="#ffe27a" />
-      <rect x="712" y="156" width="150" height="178" rx="52" fill={tone} />
-      <rect x="842" y="214" width="156" height="84" rx="34" fill={tone} />
-      <path
-        d="M768 166 C 732 168 714 204 718 250 C 720 290 740 320 776 322 C 812 320 822 290 822 248 C 822 202 804 166 768 166 Z"
-        fill={tone}
-        stroke="#fffdf5"
-        strokeWidth="7"
-      />
-      <rect x="962" y="222" width="38" height="48" rx="19" fill="#3a3832" />
-      <circle cx="838" cy="200" r="13" fill="#fffdf5" />
+      {/* contact shadow, so the parts sit on something */}
+      <ellipse cx="520" cy="418" rx="352" ry="16" fill="#3a3832" opacity="0.08" />
+
+      {/* the rail, and how much of the run has been assembled so far */}
+      <rect x="150" y="228" width="700" height="10" rx="5" fill="#BFA37A" opacity="0.32" />
+      <rect x="150" y="228" width="330" height="10" rx="5" fill="#BFA37A" />
+
+      {/* the brass ring the run closes into */}
+      <circle cx="900" cy="233" r="46" stroke="#BFA37A" strokeWidth="10" fill="none" />
+      <circle cx="900" cy="233" r="17" fill="#BFA37A" opacity="0.9" />
+
+      {/* the parts — docked ones solid, still-arriving ones outlined */}
+      {PARTS.map((x, i) => {
+        const docked = i < 3;
+        const y = i % 2 === 0 ? 150 : 266;
+        return (
+          <g key={x}>
+            <line
+              x1={x}
+              y1={i % 2 === 0 ? 208 : 266}
+              x2={x}
+              y2={i % 2 === 0 ? 228 : 238}
+              stroke={tone}
+              strokeWidth="3"
+              opacity="0.28"
+            />
+            <rect
+              x={x - 40}
+              y={y}
+              width="80"
+              height="58"
+              rx="16"
+              fill={docked ? tone : 'none'}
+              stroke={docked ? 'none' : tone}
+              strokeWidth="7"
+              opacity={docked ? 1 : 0.42}
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 }

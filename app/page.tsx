@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { CinematicHome } from '@/components/site/cinematic/CinematicHome';
+import { CONCEPT_SECTOR_COUNT } from '@/components/site/cinematic/CinematicConcepts';
 import { HOME_FAQ } from '@/components/site/cinematic/faq';
+import { PUBLIC_MARKETPLACE_AGENTS } from '@/lib/marketplace/agents';
+import { BUNDLE_ORDER } from '@/lib/marketplace/bundles';
 import './cine.css';
 
 /**
@@ -44,7 +47,13 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
-      <CinematicHome />
+      <CinematicHome
+        stats={{
+          agents: PUBLIC_MARKETPLACE_AGENTS.length,
+          packs: BUNDLE_ORDER.length,
+          sectors: CONCEPT_SECTOR_COUNT,
+        }}
+      />
     </>
   );
 }

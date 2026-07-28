@@ -11,7 +11,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
-import { DashDog } from './DashDog';
+import { AssemblingMark } from './AssemblingMark';
 
 interface AgentWorkingHeroProps {
   task?: string;
@@ -144,8 +144,8 @@ export function AgentWorkingHero({
 
       {/* the Assembling slot */}
       <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-        <div style={{ width: 92, flex: 'none' }}>
-          <DashDog title="Assembling loader" />
+        <div style={{ width: 66, flex: 'none' }}>
+          <AssemblingMark pct={pct} title="Assembling loader" />
         </div>
         <div style={{ minWidth: 0 }}>
           {done ? (

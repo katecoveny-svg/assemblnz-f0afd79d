@@ -78,6 +78,12 @@ const JOURNEYS: Journey[] = [
   },
 ];
 
+/**
+ * How many sectors we have actually mapped end to end. The homepage counts
+ * this rather than quoting a number, so the two can never disagree.
+ */
+export const CONCEPT_SECTOR_COUNT = JOURNEYS.length;
+
 export function CinematicConcepts() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
