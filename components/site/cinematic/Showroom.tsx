@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { BUILDING_WALLS } from './showroom-building';
 
 /**
  * The showroom — a white, high-end gallery you walk through and assemble in.
@@ -285,24 +286,25 @@ export function Showroom() {
     scene.add(floor);
 
     const wallMat = new THREE.MeshStandardMaterial({ color: '#F7F4ED', roughness: 0.94, metalness: 0 });
-    [-1, 1].forEach((side) => {
-      const wall = new THREE.Mesh(new THREE.PlaneGeometry(100, 14), wallMat);
-      wall.rotation.y = side * Math.PI / 2;
-      wall.position.set(-side * 8.5, 7, -20);
-      wall.receiveShadow = true;
-      scene.add(wall);
-    });
-    const backWall = new THREE.Mesh(new THREE.PlaneGeometry(34, 14), wallMat);
-    backWall.position.set(0, 7, -62);
-    scene.add(backWall);
+    // The hall itself — authored in Pascal Editor's engine (see
+    // showroom-building.ts): long walls, entry stubs, the splayed apse
+    // narrowing to the portal, and pilaster pairs marking each bay.
+    for (const w of BUILDING_WALLS) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(w.len, w.h, w.t), wallMat);
+      mesh.position.set(w.cx, w.cy, w.cz);
+      mesh.rotation.y = w.rotY;
+      mesh.receiveShadow = true;
+      mesh.castShadow = false;
+      scene.add(mesh);
+    }
     // brass skirting — the one continuous line of the room
     const skirt = new THREE.Mesh(
-      new THREE.BoxGeometry(0.06, 0.18, 100),
+      new THREE.BoxGeometry(0.06, 0.18, 64),
       new THREE.MeshPhysicalMaterial({ color: GOLD, metalness: 1, roughness: 0.2, envMapIntensity: 1.6 }),
     );
     [-1, 1].forEach((side) => {
       const sk = skirt.clone();
-      sk.position.set(side * 8.44, 0.09, -20);
+      sk.position.set(side * 8.24, 0.09, -26);
       scene.add(sk);
     });
 
@@ -430,7 +432,7 @@ export function Showroom() {
       new THREE.PlaneGeometry(3.6, 7.2),
       new THREE.MeshBasicMaterial({ map: doorTex, transparent: true, opacity: 0.85 }),
     );
-    door.position.set(0, 3.6, -61.8);
+    door.position.set(0, 3.6, -65.8);
     scene.add(door);
 
     // ── the fixed path — ends looking AT the dais, in the light. The old
