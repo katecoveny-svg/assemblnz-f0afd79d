@@ -40,6 +40,7 @@ export function DashLeadForm() {
   const [role, setRole] = useState<Role>('publisher');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [messageLength, setMessageLength] = useState(0);
   const emailId = useId();
   const nameId = useId();
   const orgId = useId();
@@ -52,6 +53,7 @@ export function DashLeadForm() {
     setRole(next);
     setStatus('idle');
     setError(null);
+    setMessageLength(0);
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -83,6 +85,7 @@ export function DashLeadForm() {
         return;
       }
       form.reset();
+      setMessageLength(0);
       setStatus('done');
     } catch {
       setError('Network hiccup. Please try again, or email assembl@assembl.co.nz.');
@@ -113,12 +116,7 @@ export function DashLeadForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchRole(value)}
-              className={active ? 'btn btn--primary btn--sm' : 'btn btn--sm'}
-              style={
-                active
-                  ? undefined
-                  : { background: 'transparent', color: 'var(--muted)', border: '1.5px solid transparent' }
-              }
+              className={active ? 'btn btn--primary btn--sm' : 'btn btn--sm dash-tab'}
             >
               {value === 'publisher' ? "I'm a publisher" : "I'm an advertiser"}
             </button>
@@ -165,10 +163,32 @@ export function DashLeadForm() {
               id={msgId}
               name="message"
               rows={3}
+              maxLength={1000}
               placeholder={copy.msgPlaceholder}
               className="field"
               style={{ resize: 'vertical', minHeight: 92 }}
+              onChange={(e) => setMessageLength(e.target.value.length)}
+              aria-describedby="dash-msg-counter"
             />
+            <div style={{ marginTop: 4, display: 'flex', justifyContent: 'end' }}>
+              <span
+                id="dash-msg-counter"
+                style={{
+                  fontFamily: 'var(--ff-mono)',
+                  fontSize: 11,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  color: messageLength > 900 ? '#9A3412' : 'var(--muted)',
+                  fontWeight: messageLength > 900 ? 600 : 'normal',
+                }}
+                aria-hidden="true"
+              >
+                {messageLength} / 1000 characters
+              </span>
+              <span className="sr-only" aria-live="polite">
+                {messageLength > 900 ? `${messageLength} / 1000 characters` : ''}
+              </span>
+            </div>
           </div>
 
           {error && (
@@ -194,6 +214,22 @@ export function DashLeadForm() {
           assembl@assembl.co.nz
         </a>
       </p>
+      <style>{`
+        .dash-tab {
+          background: transparent !important;
+          color: var(--muted) !important;
+          border: 1.5px solid transparent !important;
+          transition: background 0.18s ease, color 0.18s ease;
+        }
+        .dash-tab:hover {
+          background: rgba(58, 56, 50, 0.05) !important;
+          color: var(--fg) !important;
+        }
+        .dash-tab:focus-visible {
+          outline: none !important;
+          box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px rgba(212, 168, 67, 0.85) !important;
+        }
+      `}</style>
     </div>
   );
 }
@@ -217,12 +253,18 @@ function Field({
     <div className="field-group">
       <label htmlFor={id} className="field-label">
         {label}
+        {required && (
+          <span style={{ marginLeft: 4, color: 'var(--gold-text)' }} aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
+        aria-required={required ? "true" : undefined}
         autoComplete={autoComplete}
         className="field"
       />
