@@ -47,6 +47,7 @@ const KEY_PAGES = [
   ['/trust', 'Trust Centre — data residency, PII masking, evidence packs, compliance posture'],
   ['/mana-receipts', 'How the Mana Receipt provenance layer works'],
   ['/faq', 'Answers to the questions people ask about specialist agents and assembl'],
+  ['/industries', 'The industries assembl works in — each with a live concept demonstrator'],
   ['/data', 'DaaS — New Zealand data feeds API'],
   ['/contact', 'Get in touch'],
 ];
