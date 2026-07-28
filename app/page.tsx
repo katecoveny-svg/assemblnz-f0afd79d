@@ -13,9 +13,9 @@ import './cine.css';
  */
 
 export const metadata: Metadata = {
-  title: 'assembl — agentic customer journeys, assembled | agentic CX for Aotearoa',
+  title: 'assembl — agentic customer journeys, assembled | Aotearoa',
   description:
-    'Agentic customer journeys for New Zealand businesses: specialist agents prepare every step — first enquiry to tenth year — and a named person approves. Agentic CX, built in Aotearoa.',
+    'Agentic customer journeys for NZ businesses: specialist agents prepare each step — enquiry to tenth year — and a named person approves. Agentic CX, built in Aotearoa.',
   keywords: [
     'agentic customer journeys',
     'agentic CX',
