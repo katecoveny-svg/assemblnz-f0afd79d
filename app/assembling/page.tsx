@@ -23,7 +23,7 @@ import './assembling-canon.css';
 export const metadata: Metadata = {
   title: 'assembling. by assembl — the wait state, productive',
   description:
-    'Your application makes customers wait. assembling turns that wait into a loyalty layer: while agents work in the open, the person earns something they keep — a donation at launch, with KiwiSaver, power bills and points rails to follow as partners sign. Opt-in, NZ-built, assembl-governed.',
+    'Your application makes customers wait. assembling turns that wait into a loyalty layer: agents work in the open and the person earns something they keep. Opt-in, NZ-built.',
   alternates: { canonical: '/assembling' },
   openGraph: {
     title: 'assembling — the wait state, productive.',

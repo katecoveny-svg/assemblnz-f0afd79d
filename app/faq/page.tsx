@@ -9,7 +9,7 @@ const PUBLISHED = '2026-07-26';
 export const metadata: Metadata = {
   title: 'Agentic customer journeys, answered — the assembl FAQ',
   description:
-    'Plain answers about agentic customer journeys and agentic CX: what they are, the six parts of an agent, rewarded wait states, human approval, data in New Zealand, and how to get recommended by AI assistants. By assembl — intuitive agentic customer journeys, Aotearoa.',
+    'Plain answers about agentic customer journeys and agentic CX: the six parts of an agent, rewarded wait states, human approval, and being found by AI assistants. By assembl, Aotearoa.',
   alternates: { canonical: '/faq' },
   openGraph: {
     title: 'Agentic customer journeys, answered',

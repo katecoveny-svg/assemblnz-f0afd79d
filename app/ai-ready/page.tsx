@@ -4,7 +4,7 @@ import { AiReadyClient } from './AiReadyClient';
 export const metadata: Metadata = {
   title: 'Assemble your agentic customer journey + check your AI-search readiness — free, by assembl',
   description:
-    'Two tools in one address: a live agent drafts a personalised agentic customer journey from your own website, and eight honest checks score whether assistants like ChatGPT, Claude and Perplexity can find, read and cite you. Free, by assembl — intuitive agentic customer journeys, Aotearoa New Zealand.',
+    'A live agent drafts a personalised agentic customer journey from your own website, and eight honest checks score whether AI assistants can find, read and cite you. Free, by assembl.',
   keywords: [
     'AI search readiness', 'AI SEO check', 'llms.txt', 'agentic customer journeys',
     'agentic CX', 'AI optimised website', 'New Zealand',
