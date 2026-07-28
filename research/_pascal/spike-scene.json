@@ -1,0 +1,469 @@
+{
+  "nodes": {
+    "site_43abnwxtou3kqwqq": {
+      "object": "node",
+      "id": "site_43abnwxtou3kqwqq",
+      "type": "site",
+      "parentId": null,
+      "visible": true,
+      "metadata": {},
+      "polygon": {
+        "type": "polygon",
+        "points": [
+          [
+            -15,
+            -15
+          ],
+          [
+            15,
+            -15
+          ],
+          [
+            15,
+            15
+          ],
+          [
+            -15,
+            15
+          ]
+        ]
+      },
+      "children": [
+        "building_s2vmc62p7nq0ms3f"
+      ]
+    },
+    "building_s2vmc62p7nq0ms3f": {
+      "object": "node",
+      "id": "building_s2vmc62p7nq0ms3f",
+      "type": "building",
+      "parentId": null,
+      "visible": true,
+      "metadata": {},
+      "children": [
+        "level_qv4ufb63mijephu8"
+      ],
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "level_qv4ufb63mijephu8": {
+      "object": "node",
+      "id": "level_qv4ufb63mijephu8",
+      "type": "level",
+      "parentId": null,
+      "visible": true,
+      "metadata": {},
+      "children": [
+        "wall_ly93shuly6136bw3",
+        "wall_wig67o50eqqkfo9u",
+        "wall_n8k5xa21qfc7456x",
+        "wall_kcwgcdb7wc89xg62",
+        "wall_k6vch0fwzbphggb8",
+        "wall_1mlfzr430js69ada",
+        "wall_a248ox9dyj7px4tl",
+        "wall_y1c8lcdelpkx61s9",
+        "wall_xbpg43tlajrz2gf2",
+        "wall_qt297p4rjcshmqlw",
+        "wall_elyjaxezshhnl3bq",
+        "wall_dqibk4xfiucp7e9s",
+        "wall_t8g4c8pug1uq3ekx",
+        "wall_s8wsnm1x5g9h8rd6",
+        "wall_phfk1h73l05nqkzt",
+        "wall_zujm84rjrptco09f",
+        "wall_yowhnnkaulgvj6bx",
+        "wall_c25m0j8gn96iuzgj"
+      ],
+      "level": 0,
+      "height": 2.5
+    },
+    "wall_ly93shuly6136bw3": {
+      "object": "node",
+      "id": "wall_ly93shuly6136bw3",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        -8.5,
+        6
+      ],
+      "end": [
+        -8.5,
+        -58
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_wig67o50eqqkfo9u": {
+      "object": "node",
+      "id": "wall_wig67o50eqqkfo9u",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        8.5,
+        6
+      ],
+      "end": [
+        8.5,
+        -58
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_n8k5xa21qfc7456x": {
+      "object": "node",
+      "id": "wall_n8k5xa21qfc7456x",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        -8.5,
+        6
+      ],
+      "end": [
+        -2.5,
+        6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_kcwgcdb7wc89xg62": {
+      "object": "node",
+      "id": "wall_kcwgcdb7wc89xg62",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        2.5,
+        6
+      ],
+      "end": [
+        8.5,
+        6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_k6vch0fwzbphggb8": {
+      "object": "node",
+      "id": "wall_k6vch0fwzbphggb8",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        -8.5,
+        -58
+      ],
+      "end": [
+        -3.4,
+        -66
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_1mlfzr430js69ada": {
+      "object": "node",
+      "id": "wall_1mlfzr430js69ada",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        8.5,
+        -58
+      ],
+      "end": [
+        3.4,
+        -66
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_a248ox9dyj7px4tl": {
+      "object": "node",
+      "id": "wall_a248ox9dyj7px4tl",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        -3.4,
+        -66
+      ],
+      "end": [
+        -1.9,
+        -66
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_y1c8lcdelpkx61s9": {
+      "object": "node",
+      "id": "wall_y1c8lcdelpkx61s9",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.4,
+      "height": 10,
+      "start": [
+        1.9,
+        -66
+      ],
+      "end": [
+        3.4,
+        -66
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_xbpg43tlajrz2gf2": {
+      "object": "node",
+      "id": "wall_xbpg43tlajrz2gf2",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        -8.5,
+        -4.3
+      ],
+      "end": [
+        -7.6,
+        -4.3
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_qt297p4rjcshmqlw": {
+      "object": "node",
+      "id": "wall_qt297p4rjcshmqlw",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        8.5,
+        -4.3
+      ],
+      "end": [
+        7.6,
+        -4.3
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_elyjaxezshhnl3bq": {
+      "object": "node",
+      "id": "wall_elyjaxezshhnl3bq",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        -8.5,
+        -12.9
+      ],
+      "end": [
+        -7.6,
+        -12.9
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_dqibk4xfiucp7e9s": {
+      "object": "node",
+      "id": "wall_dqibk4xfiucp7e9s",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        8.5,
+        -12.9
+      ],
+      "end": [
+        7.6,
+        -12.9
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_t8g4c8pug1uq3ekx": {
+      "object": "node",
+      "id": "wall_t8g4c8pug1uq3ekx",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        -8.5,
+        -21.5
+      ],
+      "end": [
+        -7.6,
+        -21.5
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_s8wsnm1x5g9h8rd6": {
+      "object": "node",
+      "id": "wall_s8wsnm1x5g9h8rd6",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        8.5,
+        -21.5
+      ],
+      "end": [
+        7.6,
+        -21.5
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_phfk1h73l05nqkzt": {
+      "object": "node",
+      "id": "wall_phfk1h73l05nqkzt",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        -8.5,
+        -30.1
+      ],
+      "end": [
+        -7.6,
+        -30.1
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_zujm84rjrptco09f": {
+      "object": "node",
+      "id": "wall_zujm84rjrptco09f",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        8.5,
+        -30.1
+      ],
+      "end": [
+        7.6,
+        -30.1
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_yowhnnkaulgvj6bx": {
+      "object": "node",
+      "id": "wall_yowhnnkaulgvj6bx",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        -8.5,
+        -38.7
+      ],
+      "end": [
+        -7.6,
+        -38.7
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_c25m0j8gn96iuzgj": {
+      "object": "node",
+      "id": "wall_c25m0j8gn96iuzgj",
+      "type": "wall",
+      "parentId": "level_qv4ufb63mijephu8",
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "thickness": 0.35,
+      "height": 10,
+      "start": [
+        8.5,
+        -38.7
+      ],
+      "end": [
+        7.6,
+        -38.7
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    }
+  },
+  "rootNodeIds": [
+    "site_43abnwxtou3kqwqq"
+  ],
+  "collections": {}
+}
