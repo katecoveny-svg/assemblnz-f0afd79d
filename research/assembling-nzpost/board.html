@@ -10,6 +10,16 @@
   .sheet{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:52px 56px;box-shadow:0 30px 70px -40px rgba(16,20,24,.35)}
   .mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
   .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:3px solid var(--a);padding-bottom:22px}
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center;margin-top:26px;
+    border:1px solid var(--line);border-radius:18px;padding:26px 28px;background:#fff}
+  .hero .big{font-size:56px;line-height:1;font-weight:700;color:var(--a2);letter-spacing:-.02em}
+  .hero .cap{font-size:12.5px;color:var(--soft);margin-top:8px;line-height:1.5}
+  .arc{display:flex;align-items:center;gap:0}
+  .arc .node{flex:1;text-align:center}
+  .arc .dot{width:13px;height:13px;border-radius:50%;background:var(--a);margin:0 auto 8px;box-shadow:0 0 0 4px rgba(0,0,0,.04)}
+  .arc .node:last-child .dot{background:var(--a2)}
+  .arc .lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);line-height:1.35}
+  .arc .bar{height:2px;flex:0 0 auto;width:100%;background:linear-gradient(90deg,var(--a),var(--a2));margin-bottom:20px}
   h1{font-size:34px;line-height:1.12;margin-top:10px}
   h1 em{font-style:normal;color:var(--a2)}
   .who{font-weight:700;font-size:15px}
@@ -47,6 +57,17 @@
       <p class="promise">“Out for delivery” is a six-hour silence at the customer’s door. This concept makes the network visible — the real scans lighting up, delivery credits earned for the wait, and one answer (a safe place) that kills the most expensive failure mode.</p>
     </div>
     <div class="mono" style="text-align:right;color:var(--a2)">the wait itself,<br>not a picture of it<br><br>July 2026</div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="big">2.2m</div>
+      <div class="cap">Parcels a week at the Christmas peak — and every one of them ends in a silent six-hour window at somebody’s door.</div>
+    </div>
+    <div>
+      <div class="arc"><div class="node"><div class="dot"></div><div class="lbl">Ordered</div></div><div class="node"><div class="dot"></div><div class="lbl">In the network</div></div><div class="node"><div class="dot"></div><div class="lbl">Out for delivery</div></div><div class="node"><div class="dot"></div><div class="lbl">Seven stops out</div></div></div>
+      <p style="font-size:12px;color:var(--soft);margin-top:12px">The wait, made visible — and paid.</p>
+    </div>
   </div>
 
   <h2>At a glance — every number carries its source</h2>

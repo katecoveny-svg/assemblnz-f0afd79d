@@ -147,6 +147,15 @@ em.g{font-style:normal;color:var(--accent)}
 .tl i{font-style:normal;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .tl b{display:block;font-size:13.5px;margin:6px 0 4px}
 .tl span{font-size:11.5px;color:var(--muted);line-height:1.5}
+/* the evidence section — the board's facts, living in the demo */
+.evgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:36px}
+.ev{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;
+  padding:18px 20px;background:rgba(13,13,15,.86);transition:transform .3s ease,border-color .3s ease}
+.ev:hover{transform:translateY(-2px);border-left-color:var(--champ)}
+.ev b{display:block;font-size:15px;line-height:1.45;margin-bottom:8px;color:var(--paper)}
+.ev i{font-style:normal;font-size:11px;color:var(--muted-2);letter-spacing:.02em}
+.evnote{margin-top:22px;font-size:12.5px;color:var(--muted)}
+.evnote a{color:var(--champ);text-decoration:none;border-bottom:1px solid rgba(191,163,122,.4)}
 /* the explainer sits on the dark page, so it takes the page's own ink */
 #wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
   --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -413,7 +422,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 </div></section>
 
 <section id="pilot"><div class="wrap">
-  <div class="num rise">07 — WHAT WE ARE ACTUALLY ASKING</div>
+  <div class="num rise">08 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>

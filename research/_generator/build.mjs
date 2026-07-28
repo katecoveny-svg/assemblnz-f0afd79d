@@ -189,6 +189,15 @@ em.g{font-style:normal;color:var(--accent)}
 .tl i{font-style:normal;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .tl b{display:block;font-size:13.5px;margin:6px 0 4px}
 .tl span{font-size:11.5px;color:var(--muted);line-height:1.5}
+/* the evidence section — the board's facts, living in the demo */
+.evgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:36px}
+.ev{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;
+  padding:18px 20px;background:rgba(13,13,15,.86);transition:transform .3s ease,border-color .3s ease}
+.ev:hover{transform:translateY(-2px);border-left-color:var(--champ)}
+.ev b{display:block;font-size:15px;line-height:1.45;margin-bottom:8px;color:var(--paper)}
+.ev i{font-style:normal;font-size:11px;color:var(--muted-2);letter-spacing:.02em}
+.evnote{margin-top:22px;font-size:12.5px;color:var(--muted)}
+.evnote a{color:var(--champ);text-decoration:none;border-bottom:1px solid rgba(191,163,122,.4)}
 /* the explainer sits on the dark page, so it takes the page's own ink */
 #wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
   --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -287,7 +296,7 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="mark"><span class="dot"></span>assembl <small>· ${c.generic ? `a demonstrator` : `independent concept`}</small></div>
   <div class="navlinks">
     <a href="#wait">The wait</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
-    <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a>
+    <a href="#room">The room</a><a href="#board">The board</a>${c.boardFacts ? '<a href="#evidence">The evidence</a>' : ''}<a href="#pilot">The pilot</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
 </div></nav>
@@ -463,8 +472,22 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 </div></section>
 
-<section id="pilot"><div class="wrap">
-  <div class="num rise">07 — WHAT WE ARE ACTUALLY ASKING</div>
+${c.boardFacts ? `
+<section id="evidence"><div class="wrap">
+  <div class="num rise">07 — THE EVIDENCE</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Every number here carries its source</div>
+    <h2>Why this concept, for ${esc(c.short)}, now.</h2>
+    <p class="kicker">Nothing on this page is modelled, projected or borrowed from a slide. These are your own published facts, and the concept above is built on them.</p>
+  </div>
+  <div class="evgrid rise">
+    ${c.boardFacts.map(([f, src]) => `<div class="ev"><b>${esc(f)}</b><i>\u2014 ${esc(src)}</i></div>`).join('\n    ')}
+  </div>
+  <p class="evnote rise">The same evidence, on one page you can print or send: <a href="board.html">the one-pager \u2192</a></p>
+</div></section>
+
+` : ''}<section id="pilot"><div class="wrap">
+  <div class="num rise">08 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
@@ -871,6 +894,16 @@ function boardPage(c) {
   .sheet{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:52px 56px;box-shadow:0 30px 70px -40px rgba(16,20,24,.35)}
   .mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
   .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:3px solid var(--a);padding-bottom:22px}
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center;margin-top:26px;
+    border:1px solid var(--line);border-radius:18px;padding:26px 28px;background:#fff}
+  .hero .big{font-size:56px;line-height:1;font-weight:700;color:var(--a2);letter-spacing:-.02em}
+  .hero .cap{font-size:12.5px;color:var(--soft);margin-top:8px;line-height:1.5}
+  .arc{display:flex;align-items:center;gap:0}
+  .arc .node{flex:1;text-align:center}
+  .arc .dot{width:13px;height:13px;border-radius:50%;background:var(--a);margin:0 auto 8px;box-shadow:0 0 0 4px rgba(0,0,0,.04)}
+  .arc .node:last-child .dot{background:var(--a2)}
+  .arc .lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);line-height:1.35}
+  .arc .bar{height:2px;flex:0 0 auto;width:100%;background:linear-gradient(90deg,var(--a),var(--a2));margin-bottom:20px}
   h1{font-size:34px;line-height:1.12;margin-top:10px}
   h1 em{font-style:normal;color:var(--a2)}
   .who{font-weight:700;font-size:15px}
@@ -909,6 +942,17 @@ function boardPage(c) {
     </div>
     <div class="mono" style="text-align:right;color:var(--a2)">the wait itself,<br>not a picture of it<br><br>${esc(new Date().toLocaleDateString('en-NZ',{month:'long',year:'numeric'}))}</div>
   </div>
+
+  ${c.boardHero ? `<div class="hero">
+    <div>
+      <div class="big">${esc(c.boardHero[0])}</div>
+      <div class="cap">${esc(c.boardHero[1])}</div>
+    </div>
+    <div>
+      ${c.moments ? `<div class="arc">${c.moments.slice(0, 4).map((m) => `<div class="node"><div class="dot"></div><div class="lbl">${esc(m[0])}</div></div>`).join('')}</div>` : ''}
+      <p style="font-size:12px;color:var(--soft);margin-top:12px">The wait, made visible \u2014 and paid.</p>
+    </div>
+  </div>` : ''}
 
   <h2>At a glance \u2014 every number carries its source</h2>
   <div class="facts">
