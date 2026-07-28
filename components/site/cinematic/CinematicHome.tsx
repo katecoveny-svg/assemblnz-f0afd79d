@@ -315,25 +315,43 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
               arrives. Every letter carries BOTH keyframes it needs: setting
               `animation` on a child once silently replaced the inherited
               shorthand and line two never appeared. */}
+          {/* The line was "Assembled intuitive / agentic customer journeys."
+              which is not a sentence — it is the brand descriptor jammed into
+              a headline slot, and it read as word salad. Two short lines
+              instead, so the type can actually be display-sized, and the
+              wordplay lands where it means something: the brand name is
+              already sitting inside the word "assembled", so the seven letters
+              of Assembl fly in and dock, then "ed." arrives and completes it.
+              Every letter carries BOTH keyframes it needs — setting
+              `animation` on a child once silently replaced the inherited
+              shorthand and line two never appeared. */}
           <h1>
             <span className="hero-line">
-              <span className="hero-assembling" aria-label="Assembl">
-                {'Assembl'.split('').map((ch, i) => (
+              <span className="hero-word" style={{ animationDelay: '0.1s' }}>Agentic customer journeys,</span>
+            </span>
+            <span className="hero-line">
+              <span className="hero-assembling" aria-label="assembled.">
+                {'assembl'.split('').map((ch, i) => (
                   <span
                     key={i}
                     className="hero-char"
                     aria-hidden
-                    style={{ animationDelay: `${0.12 + i * 0.075}s` }}
+                    style={{ animationDelay: `${0.42 + i * 0.075}s` }}
                   >
                     {ch}
                   </span>
                 ))}
+                <span className="hero-char hero-char-tail" aria-hidden style={{ animationDelay: '1.02s' }}>e</span>
+                <span className="hero-char hero-char-tail" aria-hidden style={{ animationDelay: '1.08s' }}>d</span>
+                <span className="hero-char hero-char-tail" aria-hidden style={{ animationDelay: '1.14s' }}>.</span>
               </span>
-              <span className="hero-word" style={{ animationDelay: '0.72s' }}>ed intuitive</span>
             </span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.92s' }}>agentic customer journeys.</span></span>
           </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 28 }}>Agentic business solutions for Aotearoa.</p>
+          <p className="lede hero-sub-cinema" style={{ marginTop: 28 }}>
+            Intuitive agentic customer journeys, built in Aotearoa — every enquiry,
+            handover and follow-up designed to earn its keep. Including the waiting,
+            which is the part everybody else writes off.
+          </p>
           {/* The demo is the product, so it leads. The seven sections below
               are the how-it-works for anyone who has to explain this to a
               boss — they earn their place, they just should not be in front
@@ -354,13 +372,23 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
             outside. One panel per stage, each lit by the scene as its own
             node comes into frame. Kate: "scrolling becomes a walkthrough". */}
         <section className="journey" id="journey">
-          <span className="editorial">the journey · six stages · one route</span>
+          <span className="editorial">the monetised wait state · four steps · one loop</span>
           <div className="journey-intro reveal-fade">
-            <div className="kicker">01 — The journey</div>
-            <h2>Scroll it,<br /><span className="accent">and you walk it.</span></h2>
+            <div className="kicker">01 — The monetised wait state</div>
+            {/* Kate's own line, 2026-07-28. "Dead time" was mine and she did not
+                want it — the point is not that the time is dead, it is that the
+                time is designable. The wipe reveal is on-topic on purpose: the
+                line fills like something completing. */}
+            <h2 className="wipe-in">
+              The wait state is<br />no longer idle time.<br />
+              <span className="accent">It&rsquo;s designable, measurable, monetisable.</span>
+            </h2>
             <p>
-              This is one customer relationship, end to end. The route outside is the
-              same route — keep going and the camera travels it with you.
+              Value is created not just by outcomes, but by how intelligently we use
+              the in-between moments. The monetised wait state is the intentional
+              design and orchestration of moments where users are waiting for a
+              process, response or outcome — turning that time into value for both
+              the user and the business, through agentic systems.
             </p>
           </div>
           <div className="journey-steps">
@@ -372,6 +400,21 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
               </article>
             ))}
           </div>
+
+          {/* Kate's own three-beat line and pull-quote, 2026-07-28. The quote
+              is the thesis in one sentence, so it gets the biggest editorial
+              setting on the page and nothing competes with it. */}
+          <figure className="creed reveal-fade" data-delay="200">
+            <blockquote>
+              In the agentic economy, attention is earned <em>in the wait</em>,
+              not just in the win.
+            </blockquote>
+            <div className="creed-beats">
+              <span>Design the wait.</span>
+              <span>Deliver the value.</span>
+              <span>Monetise the moment.</span>
+            </div>
+          </figure>
         </section>
 
         <section className="section" id="wait">
@@ -379,8 +422,12 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
           <span className="editorial">the wait · loyalty earned · one question back</span>
           <div className="section-copy reveal-right">
             <div className="kicker">02 — The Wait</div>
-            <h2>The only part<br /><span className="accent">nobody else builds.</span></h2>
-            <p>Tap through it. Minutes your customer would resent become loyalty they keep.</p>
+            <h2>The wait is everywhere.<br /><span className="accent">The value is unlocked by design.</span></h2>
+            <p>
+              Kiwis wait every day — checkouts, deliveries, hold lines, traffic lights,
+              loading screens. In an agentic future those moments aren&rsquo;t wasted.
+              They&rsquo;re designed, measured and monetised for value.
+            </p>
             <p className="wait-tier">
               Tier one of three, live — <a href="/assembling">the monetisation framework →</a>
             </p>
@@ -444,6 +491,10 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
             <span className="finale-word" style={{ animationDelay: '0.45s' }}>you can</span>{' '}
             <span className="finale-word accent" style={{ animationDelay: '0.6s' }}>see.</span>
           </h2>
+          <p className="finale-creed reveal-fade" data-delay="750">
+            assembl helps New&nbsp;Zealand businesses turn every wait into a win —
+            for customers, communities and Aotearoa.
+          </p>
           <div className="finale-row reveal-fade" data-delay="900">
             <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz">begin a conversation</a>
             <a className="btn btn-glass" href="/pricing">see pricing</a>
