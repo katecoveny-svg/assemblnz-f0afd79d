@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every shop moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>The list</b><span>drafted from what you buy</span></div>
+    <div class="mom"><b>The pick</b><span>watched, aisle by aisle</span></div>
+    <div class="mom"><b>The swap</b><span>a card you approve</span></div>
+    <div class="mom"><b>The window</b><span>tightened, not guessed</span></div>
+    <div class="mom"><b>At the door</b><span>what arrived, and why</span></div>
+    <div class="mom"><b>Next week</b><span>the miss, remembered</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Fernmarket is not a real company · nothing is purchased without your review","startLabel":"draft my week","skipLabel":"rather not say","scenarios":[{"id":"shop","label":"The shop","app":"Your week, being drafted","unit":[""," pts"],"earning":"points, so far","yours":"points, yours","told":"you told us:","declined":"you would rather not say. The basket still gets drafted.","steps":[{"agent":"Basket","doing":"What this house actually buys","credit":3},{"agent":"Shelf","doing":"What is in stock at your store","credit":3},{"agent":"Ask","doing":"One question","ask":{"q":"Anyone avoiding anything this week?","options":["Gluten-free","Nothing"],"learn":["one gluten-free eater, so four items change","no restrictions this week"]}},{"agent":"Gaps","doing":"The thing you always forget","credit":3},{"agent":"Draft","doing":"Ready to review — nothing bought","credit":3}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Fernmarket is not a real company · nothing is purchased without your review","startLabel":"draft my week","skipLabel":"rather not say","scenarios":[{"id":"shop","label":"The shop","app":"Your week, being drafted","unit":[""," pts"],"earning":"points, so far","yours":"points, yours","told":"you told us:","declined":"you would rather not say. The basket still gets drafted.","steps":[{"agent":"Basket","doing":"What this house actually buys","credit":3},{"agent":"Shelf","doing":"What is in stock at your store","credit":3},{"agent":"Ask","doing":"One question","ask":{"q":"Anyone avoiding anything this week?","options":["Gluten-free","Nothing"],"learn":["one gluten-free eater, so four items change","no restrictions this week"]}},{"agent":"Gaps","doing":"The thing you always forget","credit":3},{"agent":"Draft","doing":"Ready to review — nothing bought","credit":3}]},{"id":"pick","label":"The pick","app":"Your trolley, live","unit":[""," pts"],"earning":"points while you watch","yours":"points, toward your voucher","told":"you told us:","declined":"you would rather not say. The pick finishes anyway.","steps":[{"agent":"Aisle 4","doing":"Your usuals, scanned into the crate","credit":4},{"agent":"Swap","doing":"One out of stock — a card, not a surprise","credit":4},{"agent":"Ask","doing":"One question","ask":{"q":"Anything you wanted today and couldn’t find?","options":["Yes — one thing","No, all good"],"learn":["the miss goes to range planning, not a void","nothing missed — the aisle did its job"]}},{"agent":"Chilled","doing":"Packed last, coldest — sealed","credit":5},{"agent":"On the van","doing":"Your window tightened to forty minutes","credit":5}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>

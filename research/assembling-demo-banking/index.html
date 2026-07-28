@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every application moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>Applied</b><span>the file, complete or not</span></div>
+    <div class="mom"><b>Documents</b><span>read, not queued</span></div>
+    <div class="mom"><b>The gates</b><span>opened in the open</span></div>
+    <div class="mom"><b>The desk</b><span>a named assessor</span></div>
+    <div class="mom"><b>The decision</b><span>a person’s, always</span></div>
+    <div class="mom"><b>Drawdown</b><span>the day it lands</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Ledgerline is not a real company · no credit decision is made here","startLabel":"where is my application?","skipLabel":"rather not say","scenarios":[{"id":"assessment","label":"The assessment","app":"Your application, day three","unit":[""," min"],"earning":"of chasing, skipped","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The update still gets prepared.","steps":[{"agent":"State","doing":"Where it honestly sits today","credit":5},{"agent":"Docs","doing":"What landed, what is still missing","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Has anything changed since you applied?","options":["Yes, something has","No, all the same"],"learn":["something changed, so an assessor needs it before deciding","nothing changed, so the file is complete as submitted"]}},{"agent":"Queue","doing":"What happens next, and roughly when","credit":6},{"agent":"Person","doing":"Waiting on an assessor — no decision here","credit":8}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Ledgerline is not a real company · no credit decision is made here","startLabel":"where is my application?","skipLabel":"rather not say","scenarios":[{"id":"assessment","label":"The assessment","app":"Your application, day three","unit":[""," min"],"earning":"of chasing, skipped","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The update still gets prepared.","steps":[{"agent":"State","doing":"Where it honestly sits today","credit":5},{"agent":"Docs","doing":"What landed, what is still missing","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Has anything changed since you applied?","options":["Yes, something has","No, all the same"],"learn":["something changed, so an assessor needs it before deciding","nothing changed, so the file is complete as submitted"]}},{"agent":"Queue","doing":"What happens next, and roughly when","credit":6},{"agent":"Person","doing":"Waiting on an assessor — no decision here","credit":8}]},{"id":"gates","label":"The engine room","app":"Your application, in the open","unit":[""," min"],"earning":"of chasing, skipped","yours":"the chase they skip","told":"they told you:","declined":"they would rather not say. The gates still open in order.","steps":[{"agent":"Gate 1","doing":"Valuation ordered — the diary, not the queue","credit":6},{"agent":"Gate 2","doing":"Serviced at the test rate — shown, not asserted","credit":7},{"agent":"Ask","doing":"One question","ask":{"q":"Is your deadline a tender, or an offer date?","options":["A tender","An offer date"],"learn":["hard deadline — flagged to a human assessor today","a date with room — the queue holds its order"]}},{"agent":"Gate 3","doing":"Policy slots checked — the ones that actually apply","credit":7},{"agent":"The desk","doing":"With a named assessor. No decision made here","credit":8}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>

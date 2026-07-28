@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every village moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>The enquiry</b><span>a pack, not a brochure</span></div>
+    <div class="mom"><b>The visit</b><span>booked around the family</span></div>
+    <div class="mom"><b>Moving in</b><span>the week nobody forgets</span></div>
+    <div class="mom"><b>Care changes</b><span>seen before it is a crisis</span></div>
+    <div class="mom"><b>The exit</b><span>the pipeline, in the open</span></div>
+    <div class="mom"><b>Repayment</b><span>a date, not a silence</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Rosewell Villages is not a real company · nothing sends without an advisor","startLabel":"tap to wait","skipLabel":"rather not say","scenarios":[{"id":"pack","label":"The pack","app":"Your information pack","unit":[""," min"],"earning":"of reading, skipped","yours":"their evening back","told":"she told you:","declined":"she would rather not say. The pack still assembles.","steps":[{"agent":"Region","doing":"Villages near her sister, not all of them","credit":7},{"agent":"Money","doing":"The exit fee, with her numbers in it","credit":9},{"agent":"Ask","doing":"One question","ask":{"q":"Does she need to stay near family?","options":["Yes, near her sister","Open to anywhere"],"learn":["staying near her sister, so two villages, not twelve","open on region, so cost leads instead"]}},{"agent":"Later","doing":"What happens if her care needs change","credit":6},{"agent":"Pack","doing":"Ready for an advisor to send","credit":12}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Rosewell Villages is not a real company · nothing sends without an advisor","startLabel":"tap to wait","skipLabel":"rather not say","scenarios":[{"id":"pack","label":"The pack","app":"Your information pack","unit":[""," min"],"earning":"of reading, skipped","yours":"their evening back","told":"she told you:","declined":"she would rather not say. The pack still assembles.","steps":[{"agent":"Region","doing":"Villages near her sister, not all of them","credit":7},{"agent":"Money","doing":"The exit fee, with her numbers in it","credit":9},{"agent":"Ask","doing":"One question","ask":{"q":"Does she need to stay near family?","options":["Yes, near her sister","Open to anywhere"],"learn":["staying near her sister, so two villages, not twelve","open on region, so cost leads instead"]}},{"agent":"Later","doing":"What happens if her care needs change","credit":6},{"agent":"Pack","doing":"Ready for an advisor to send","credit":12}]},{"id":"exit","label":"The repayment","app":"Mum’s villa, live","unit":[""," days"],"earning":"of fees, credited back","yours":"weekly fees returned to the estate","told":"you told us:","declined":"you would rather not say. The pipeline runs regardless.","steps":[{"agent":"Refurb","doing":"Booked and dated — not “in progress”","credit":4},{"agent":"Listed","doing":"Photographed, priced, live to the market","credit":5},{"agent":"Ask","doing":"One question","ask":{"q":"Does the family need part of this sooner — for care costs?","options":["Yes — care is running","No — we can wait"],"learn":["early partial release drafted for a person to approve","standard path — and every milestone still shown"]}},{"agent":"Viewings","doing":"Three booked this week, two returning","credit":6},{"agent":"Settlement","doing":"A date, not a silence — held for a person","credit":7}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>

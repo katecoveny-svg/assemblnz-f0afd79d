@@ -292,6 +292,19 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   </div>
 
   
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every power moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>The switch</b><span>ten days, visible</span></div>
+    <div class="mom"><b>The bill</b><span>explained, not charted</span></div>
+    <div class="mom"><b>The spike</b><span>flagged before you find it</span></div>
+    <div class="mom"><b>Your free hour</b><span>placed on the real curve</span></div>
+    <div class="mom"><b>Winter</b><span>warned early, not after</span></div>
+    <div class="mom"><b>The record</b><span>every claim checkable</span></div>
+  </div>
   <div class="powgrid rise">
     <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
@@ -793,7 +806,7 @@ function grounded(q){
 (function(){
   var mount=document.getElementById('wait-mount');
   if(!mount||!window.WaitPhone)return;
-  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Tidewatt Energy is not a real company · nothing is charged or changed without approval","startLabel":"assemble my bill","skipLabel":"rather not say","scenarios":[{"id":"bill","label":"The bill","app":"Why is my bill up?","unit":["$",""],"earning":"earned so far","yours":"yours","told":"you told us:","declined":"you would rather not say. The bill still gets explained.","steps":[{"agent":"Meter","doing":"Thirty days of your actual use","credit":0.18},{"agent":"Weather","doing":"Against the cold snap, not last year","credit":0.11},{"agent":"Ask","doing":"One question","ask":{"q":"Anyone new in the house this month?","options":["Yes, one more","No change"],"learn":["the household grew — so it is people, not weather","no change, so the weather explains it"]}},{"agent":"Spikes","doing":"Anything unusual, flagged for you","credit":0.33},{"agent":"Draft","doing":"Ready for a person to send","credit":0.52}]}]});
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Tidewatt Energy is not a real company · nothing is charged or changed without approval","startLabel":"assemble my bill","skipLabel":"rather not say","scenarios":[{"id":"bill","label":"The bill","app":"Why is my bill up?","unit":["$",""],"earning":"earned so far","yours":"yours","told":"you told us:","declined":"you would rather not say. The bill still gets explained.","steps":[{"agent":"Meter","doing":"Thirty days of your actual use","credit":0.18},{"agent":"Weather","doing":"Against the cold snap, not last year","credit":0.11},{"agent":"Ask","doing":"One question","ask":{"q":"Anyone new in the house this month?","options":["Yes, one more","No change"],"learn":["the household grew — so it is people, not weather","no change, so the weather explains it"]}},{"agent":"Spikes","doing":"Anything unusual, flagged for you","credit":0.33},{"agent":"Draft","doing":"Ready for a person to send","credit":0.52}]},{"id":"hour","label":"Your free hour","app":"Tonight’s grid, live","unit":["$",""],"earning":"a week, if you shift it","yours":"a week, yours","told":"you told us:","declined":"you would rather not say. The hour still gets planned.","steps":[{"agent":"Curve","doing":"Tonight’s demand — the real one, not an average","credit":0.4},{"agent":"Your house","doing":"When this home actually draws power","credit":0.5},{"agent":"Ask","doing":"One question","ask":{"q":"EV, heat pump or neither?","options":["One of those","Neither"],"learn":["the hour lands on the charge window","the hour lands on the dryer and the dishes"]}},{"agent":"Placed","doing":"The hour that suits this house — shown on the curve","credit":0.6},{"agent":"Yours to set","doing":"Nothing switched. You choose, we hold it","credit":0.5}]}]});
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
