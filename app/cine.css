@@ -1617,10 +1617,14 @@
   color: var(--ink);
   text-wrap: balance;
 }
+/* Kate marked this phrase specifically, 2026-07-28: "this is yellow again".
+   The emphasis now comes from italic and a brass rule UNDER the words rather
+   than from colouring the words themselves — same lift, none of the yellow. */
 .cine.inst .creed blockquote em {
   font-style: italic;
   font-weight: 300;
-  color: var(--brass);
+  color: var(--ink);
+  box-shadow: inset 0 -1px 0 rgba(212, 168, 67, 0.55);
 }
 /* the three beats, on their own rule — a measure, not a list */
 .cine.inst .creed-beats {
@@ -1960,6 +1964,8 @@
    straight through it and it stops looking like a panel parked on top. Safe to
    do here because the backdrop is already near-black navy and the type now
    carries its own shadow. */
+.cine.inst .ed-col .bp-invite { margin-top: clamp(32px, 4.5vh, 54px); max-width: 100%; }
+.cine.inst .ed-col .hero-cta { margin-top: 20px; }
 .cine.inst .bp-invite {
   background: linear-gradient(
     150deg,
@@ -2040,8 +2046,18 @@
 .cine.inst .faq dl { border: none; background: none; padding: 0; display: grid; gap: 16px; }
 .cine.inst .faq-item { margin-bottom: 0; padding: 26px 30px; }
 
-/* the wait module sits in the same glass as everything else */
-.cine.inst .wsp-hold > * { overflow: hidden; }
+/* The wait module sits in the same glass as everything else — but it had
+   overflow:hidden with zero padding, and the phone inside starts ~4px ABOVE
+   the card's own box. So the card was slicing the phone's top bezel clean off.
+   Kate: "the phone is cut off at the top".
+
+   Padding rather than overflow:visible: the clip is what keeps the glass
+   corners honest, so the fix is to give the phone room inside the box rather
+   than let it hang out of one. */
+.cine.inst .wsp-hold > * {
+  overflow: hidden;
+  padding: 26px 20px 22px;
+}
 
 /* label flipped to the left of its node when the node is near the right edge */
 .cine .jl.jl-flip { margin-left: -300px; }
@@ -2162,11 +2178,18 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0 40px;
   align-items: start;
-  min-height: 74vh;
+  /* No min-height at all. 74vh left 228px of dead space inside the block and
+     the hero ran to 1414px — 1.4 viewports of mostly nothing. With the demo
+     card now inside the column the content sets the height honestly, and any
+     floor would only reintroduce the void it was propping open. */
 }
 .cine.inst .ed-col {
   display: flex; flex-direction: column;
-  max-width: 62ch;
+  /* 62ch resolves to ~630px, which is a third of a 1900px display — the copy
+     read as a narrow strip pinned to one corner with a void beside it. The
+     column now grows with the viewport instead of staying pinned to a
+     character count set for a laptop. */
+  max-width: clamp(560px, 48vw, 900px);
 }
 
 /* masthead */
@@ -2187,9 +2210,9 @@
 /* the headline — deliberately NOT display-scale. In this direction the space
    is the statement, and blowing the type up is exactly what breaks it. */
 .cine.inst .ed-hero .ed-h1 {
-  margin: clamp(46px, 8vh, 96px) 0 0;
+  margin: clamp(38px, 6vh, 72px) 0 0;
   font-weight: 300;
-  font-size: clamp(1.9rem, 4.4vw, 4.1rem);
+  font-size: clamp(1.9rem, 4.4vw, 4.6rem);
   line-height: 1.04;
   letter-spacing: -0.025em;
   text-transform: none;
@@ -2202,7 +2225,7 @@
 
 /* foot: folio, rule, captions */
 .cine.inst .ed-foot {
-  margin-top: auto; padding-top: clamp(40px, 7vh, 88px);
+  padding-top: clamp(34px, 5vh, 64px);
   opacity: 0; animation: cine-edIn 1.1s var(--ease-out) 0.55s forwards;
 }
 .cine.inst .ed-folio {
@@ -2217,13 +2240,13 @@
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
 }
 .cine.inst .ed-cols div {
-  font-size: 0.72rem; line-height: 1.72; font-weight: 300;
+  font-size: clamp(0.72rem, 0.78vw, 0.92rem); line-height: 1.72; font-weight: 300;
   color: var(--ink); opacity: 0.82;
 }
 .cine.inst .ed-cols b {
   display: block; margin-bottom: 8px; opacity: 1;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-size: clamp(0.55rem, 0.6vw, 0.68rem); letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--brass); font-weight: 400;
 }
 

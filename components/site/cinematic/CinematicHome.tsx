@@ -331,11 +331,12 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
               crosses into it. */}
           <div className="ed-hero">
             <div className="ed-col">
-              <div className="ed-mast">
-                assembl
-                <span>Intuitive agentic customer journeys</span>
-              </div>
-
+              {/* No masthead here. The poster in /lab/type carried one because it
+                  was a standalone page with no chrome — on the real site the
+                  fixed nav IS the masthead, and repeating it put "assembl /
+                  intuitive agentic customer journeys" on screen twice, forty
+                  pixels apart. Kate: "this is a double up". The eyebrow above
+                  is the hero's top anchor instead. */}
               <h1 className="ed-h1">
                 Agentic customer journeys, <em>assembled.</em>
               </h1>
@@ -364,28 +365,32 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
                   </div>
                 </div>
               </div>
+
+              {/* The demo lives INSIDE the editorial column, not after it.
+                  Sitting outside, it was marooned at the very bottom of the
+                  hero with ~600px of dead navy between it and the captions
+                  above — the left half read as content, void, content while
+                  the sculpture filled the right. As the last item in the
+                  column the whole left side is one continuous editorial
+                  column, which is what the direction actually is. */}
+              <div className="bp-invite">
+                <div className="bp-invite-tag"><i />live · reads one page · about ten seconds</div>
+                <div className="bp-invite-head">Watch one assemble itself out of your business.</div>
+                <p className="bp-invite-sub">Paste your web address. Then ask it something.</p>
+                <BlueprintStart />
+              </div>
+              <div className="hero-cta hero-cta-cinema">
+                <a className="btn btn-glass" href="/build-an-agent">or assemble one in the gallery →</a>
+              </div>
             </div>
 
             <div className="ed-stamp" aria-hidden="true">
               <span className="ed-pill">NZ</span>
               Aotearoa // 2026
-              <span className="ed-stamp-sub">001 — agentic customer journeys</span>
+              <span className="ed-stamp-sub">the monetised wait state</span>
             </div>
           </div>
 
-          {/* The demo is the product, so it leads. The seven sections below
-              are the how-it-works for anyone who has to explain this to a
-              boss — they earn their place, they just should not be in front
-              of the thing they describe. */}
-          <div className="bp-invite">
-            <div className="bp-invite-tag"><i />live · reads one page · about ten seconds</div>
-            <div className="bp-invite-head">Watch one assemble itself out of your business.</div>
-            <p className="bp-invite-sub">Paste your web address. Then ask it something.</p>
-            <BlueprintStart />
-          </div>
-          <div className="hero-cta hero-cta-cinema">
-            <a className="btn btn-glass" href="/build-an-agent">or assemble one in the gallery →</a>
-          </div>
         </section>
 
         {/* ── THE WALKTHROUGH ──────────────────────────────────────────────

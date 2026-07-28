@@ -203,10 +203,10 @@ export function mountJourneyScene(opts: Opts): () => void {
   const key = new THREE.DirectionalLight('#FFFFFF', 1.7);
   key.position.set(5, 9, 6);
   scene.add(key);
-  const goldRim = new THREE.PointLight('#D4A843', 38, 34, 1.6);
+  const goldRim = new THREE.PointLight('#D4A843', 32, 22, 2.0);
   goldRim.position.set(-4, -2, 5);
   scene.add(goldRim);
-  const coolRim = new THREE.PointLight('#DCE6F2', 36, 30, 1.7);
+  const coolRim = new THREE.PointLight('#DCE6F2', 30, 20, 2.0);
   coolRim.position.set(6, 4, 4);
   scene.add(coolRim);
 
@@ -369,10 +369,13 @@ export function mountJourneyScene(opts: Opts): () => void {
 
   const bloom = new UnrealBloomPass(
     new THREE.Vector2(vw(), vh()),
-    0.26,   // strength — 0.44 was tuned before the scale-up; once every emitter
+    0.24,   // strength — 0.44 was tuned before the scale-up; once every emitter
             // got bigger the same value washed straight over the headline
-    0.68,   // radius
-    0.90,   // threshold: only the very hottest highlights bloom, not the whole node
+    0.34,   // radius — 0.68 threw a wide soft wash left, across the copy column.
+            // Radius is the spill, strength is the brightness: tightening the
+            // radius keeps the object as bright while stopping the bleed, which
+            // is what Kate marked ("this part is giving too much glow").
+    0.92,   // threshold: only the very hottest highlights bloom, not the whole node
   );
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
