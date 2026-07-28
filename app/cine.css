@@ -19,8 +19,12 @@
   --brass: #B8964F;
   --brass-bright: #D4A843;
   --brass-glow: rgba(184, 150, 79, 0.15);
-  --navy: #080D1A;
-  --navy-2: #0C1224;
+  /* Cool navy, deliberately. Purple is what you get when the green channel
+     sits low against red and blue — #0C1224 (r12 g18 b36) read mauve, and it
+     was the biggest single reason the page still looked violet. Canon is
+     #050F1C; both tones now hold that same cool green ratio. */
+  --navy: #050F1C;
+  --navy-2: #08192C;
   --chrome: #C8CCD2;
   --chrome-dark: #9098A0;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -1080,7 +1084,24 @@
   font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
   color: var(--ink);
 }
-.cine.inst .hero h1 { font-size: clamp(2rem, 4.4vw, 4.4rem); line-height: 1.22; }
+/* Display scale. This rule used to cap the headline at 4.4rem, which quietly
+   overrode the 9.5rem in the base sheet — on a 27" display the hero read as
+   body copy with delusions. Big type needs short copy and negative tracking:
+   at this size 0.03em tracking (inherited from .cine.inst h1) opens the word
+   into loose letters, so it is pulled back in. */
+.cine.inst .hero h1 {
+  /* 11.5vw broke the line into four stacked bands of caps, which is shouting
+     rather than confident. 8vw keeps it unmistakably display-scale while
+     letting "agentic customer journeys," hold two lines on a laptop. */
+  font-size: clamp(2.7rem, 8vw, 8.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.012em;
+  margin-top: 0.1em;
+}
+/* Each half of the line owns its baseline, so the accent line can carry the
+   brass sheen at a different weight without shifting the leading. The colour
+   itself is left alone — the metal-type gradient further down owns it. */
+.cine.inst .hero h1 .hero-line { display: block; }
 .cine.inst .hero h1 .accent,
 .cine.inst h2 .accent { color: var(--ink); font-weight: 300; }
 .cine.inst .section-copy h2 { font-size: clamp(1.5rem, 2.6vw, 2.6rem); line-height: 1.3; }
@@ -1098,11 +1119,10 @@
 }
 .cine.inst .wordmark { font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 0.04em; }
 .cine.inst .nav-links a:hover { color: var(--brass); }
-.cine.inst .panel {
-  background: rgba(5, 14, 34, 0.88);
-  border: 1px solid rgba(240, 238, 233, 0.1);
-  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(240, 238, 233, 0.06);
-}
+/* The card treatment — glass with a gold rim — is one shared rule further
+   down this sheet, under "one surface". Do not add a competing .panel
+   background here: an earlier pass did exactly that and the later rule simply
+   won, so the cards never changed. */
 .cine.inst .btn-solid { background: var(--ink); color: #050F1C; box-shadow: 0 6px 22px rgba(0,0,0,0.4); }
 .cine.inst .btn-glass {
   background: rgba(240, 238, 233, 0.06); color: var(--ink);
@@ -1134,8 +1154,33 @@
   background: linear-gradient(100deg,
     var(--paper) 0%, rgba(5,15,28,0.96) 44%, rgba(5,15,28,0.72) 66%, rgba(5,15,28,0) 100%);
 }
+/* The readability scrim behind section copy. It faded out to the right but had
+   dead-square top and bottom edges, so on navy it read as a grey rectangle
+   pasted over the sculpture — visible in every screenshot as a hard box around
+   the text. Same horizontal fade, now feathered vertically by a mask, so the
+   scrim does its job and has no edges at all. */
+/* The readability scrim behind section copy. It faded out to the right but had
+   dead-square top and bottom edges, so on navy it read as a grey rectangle
+   pasted over the sculpture — visible in every screenshot as a hard box around
+   the text.
+
+   The scrim moves to a pseudo-element so it can be feathered on all four sides
+   without touching the text. Masking .section-copy itself would have faded the
+   kicker and the last line along with the background. */
 .cine.inst .section-copy {
-  background: linear-gradient(to right, var(--paper) 0%, var(--paper) 72%, rgba(5,15,28,0) 100%);
+  background: none;
+  position: relative;
+  z-index: 1;
+}
+.cine.inst .section-copy::before {
+  content: '';
+  position: absolute;
+  inset: -34px -12% -30px -8%;
+  z-index: -1;
+  background: linear-gradient(to right, var(--paper) 0%, var(--paper) 66%, rgba(5,15,28,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  pointer-events: none;
 }
 .cine.inst .bp-invite {
   border: 1px solid rgba(212, 168, 67, 0.36);
@@ -1426,15 +1471,219 @@
    scrolling past them.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ══ TYPE TECHNIQUES ════════════════════════════════════════════════════════
+   Kate, 2026-07-28: "some other clever font techniques… wow level visual
+   concepts". Three, and each one earns its place by being about the subject
+   rather than being an effect for its own sake.
+
+   1. WIPE-IN — the heading is revealed by a clip-path travelling left to
+      right, with a brass playhead riding the leading edge. The section is
+      about waits completing, so the headline completes. The playhead is a
+      pseudo-element on the line, not a separate node, so it cannot desync.
+   2. TRACK-IN — kickers open from wide tracking to normal. Reads as a
+      mechanism settling; costs one property.
+   3. GHOST NUMERALS — the step number sits behind its card as outlined type,
+      so the anatomy is numbered at architectural scale without adding ink.
+
+   All three are transform/clip only — no layout thrash — and all three are
+   switched off wholesale under prefers-reduced-motion at the end of the file. */
+
+/* 1 — wipe.
+   One registered custom property drives BOTH the clip and the playhead, so
+   they physically cannot drift apart: --wipe interpolates, and everything that
+   reads it follows for free. Registering it is what makes a percentage
+   animatable at all — an unregistered var flips 0→100 with no tween.
+   Where @property is unsupported the wipe simply snaps open, which is the safe
+   direction to fail: the text ends up visible either way.
+
+   The playhead lives on .journey-intro, not on the heading. clip-path on an
+   element clips its own pseudo-elements too, so a playhead parked exactly at
+   the clip boundary would be the one thing guaranteed to be invisible. */
+@property --wipe {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+.cine.inst .journey-intro { position: relative; --wipe: 0%; }
+.cine.inst .journey-intro.in { --wipe: 100%; }
+.cine.inst .wipe-in {
+  clip-path: inset(0 calc(100% - var(--wipe)) 0 0);
+  transition: --wipe 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cine.inst .journey-intro { transition: --wipe 1.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.cine.inst .journey-intro::after {
+  content: '';
+  position: absolute; left: var(--wipe); width: 2px;
+  top: 2.2rem; height: 42%;
+  background: linear-gradient(180deg, transparent, var(--brass), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+/* lit only while the wipe is actually travelling */
+.cine.inst .journey-intro.in::after { animation: inst-playhead 1.9s ease-out forwards; }
+@keyframes inst-playhead {
+  0%   { opacity: 0; }
+  12%  { opacity: 0.95; }
+  78%  { opacity: 0.95; }
+  100% { opacity: 0; }
+}
+
+/* 2 — tracking settles */
+.cine.inst .kicker {
+  letter-spacing: 0.42em;
+  opacity: 0;
+  transition: letter-spacing 1.3s var(--ease-out), opacity 0.9s var(--ease-out);
+}
+.cine.inst .reveal-fade.in .kicker,
+.cine.inst .reveal-left.in .kicker,
+.cine.inst .reveal-right.in .kicker { letter-spacing: 0.18em; opacity: 1; }
+
+/* 3 — ghost numerals behind the anatomy cards */
+.cine.inst .journey-step { overflow: hidden; }
+.cine.inst .journey-step .js-n {
+  position: absolute; right: 14px; bottom: -26px;
+  font-family: 'Lato', sans-serif; font-weight: 700;
+  font-size: clamp(4.5rem, 8vw, 7.5rem); line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(212, 168, 67, 0.30);
+  pointer-events: none;
+  transition: -webkit-text-stroke-color 0.5s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.cine.inst .journey-step.on .js-n,
+.cine.inst .journey-step:hover .js-n {
+  -webkit-text-stroke-color: rgba(212, 168, 67, 0.62);
+  transform: translateY(-6px);
+}
+
+/* All three techniques off for anyone who asked for stillness — and critically
+   the wipe is opened, never left clipped, so no one loses the heading. */
+@media (prefers-reduced-motion: reduce) {
+  .cine.inst .wipe-in { clip-path: none !important; transition: none !important; }
+  .cine.inst .journey-intro::after { display: none !important; }
+  .cine.inst .kicker {
+    letter-spacing: 0.18em !important; opacity: 1 !important; transition: none !important;
+  }
+  .cine.inst .journey-step .js-n { transition: none !important; }
+}
+
+/* ── the creed: the thesis in one sentence ────────────────────────────────
+   Kate's line, and the largest editorial setting on the page after the hero.
+   Deliberately NOT a card — it sits directly on the navy with the sculpture
+   moving behind it, held only by a brass rule, so it reads as a statement
+   rather than another panel. Cormorant is wrong here (Lato is the instrument
+   face), so the weight contrast does the work: 200 for the sentence, and the
+   one phrase that matters set in italic brass. */
+.cine.inst .creed {
+  margin: clamp(72px, 9vw, 130px) auto 0;
+  max-width: 1020px; padding: 0 clamp(20px, 5vw, 48px);
+  text-align: center;
+}
+.cine.inst .creed blockquote {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-weight: 200;
+  font-size: clamp(1.5rem, 3.5vw, 3.1rem);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.cine.inst .creed blockquote em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--brass);
+}
+/* the three beats, on their own rule — a measure, not a list */
+.cine.inst .creed-beats {
+  margin-top: clamp(26px, 3.4vw, 40px);
+  padding-top: 22px;
+  border-top: 1px solid rgba(212, 168, 67, 0.32);
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 10px clamp(20px, 4vw, 54px);
+}
+.cine.inst .creed-beats span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass);
+  position: relative;
+}
+/* each beat draws its own underline in turn once the block is in view */
+.cine.inst .creed-beats span::after {
+  content: ''; position: absolute; left: 0; bottom: -7px; height: 1px; width: 0;
+  background: var(--brass);
+}
+.cine.inst .creed.in .creed-beats span::after {
+  animation: cine-dockLine 0.9s var(--ease-out) forwards;
+}
+.cine.inst .creed.in .creed-beats span:nth-child(2)::after { animation-delay: 0.28s; }
+.cine.inst .creed.in .creed-beats span:nth-child(3)::after { animation-delay: 0.56s; }
+
+.cine.inst .finale-creed {
+  margin: 26px auto 34px;
+  max-width: 640px;
+  font-weight: 300;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
 /* ── the word assembles itself ── */
 .cine.inst .hero-assembling { display: inline-block; white-space: nowrap; }
+
+/* The assembling word deliberately does NOT take the shared metal-type
+   gradient. Two reasons. First, technical: that effect paints a background on
+   the parent and clips it to the glyphs, but every letter here carries its own
+   transform, and a transformed child composites separately — it loses the
+   parent's clipped background and renders near-black on navy. Second, Kate,
+   2026-07-28: "i hate the yellow text". A gold word at 11vw is a wall of
+   yellow, not an accent.
+
+   So the word is light chrome — the same near-white as the line above it, one
+   weight down, with a cool bevel highlight. Hierarchy by weight, which is the
+   instrument rule anyway. The only warmth is a low brass bloom sitting under
+   the letters, so it still feels lit rather than flat. */
+.cine.inst .hero h1 .hero-assembling {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--ink);
+  font-weight: 200;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.28),
+    0 0 26px rgba(220, 230, 242, 0.16),
+    0 8px 46px rgba(212, 168, 67, 0.10);
+  animation: inst-wordSheen 7s ease-in-out infinite;
+}
+@keyframes inst-wordSheen {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cine.inst .hero h1 .hero-assembling { animation: none; }
+}
 .cine.inst .hero-char {
   display: inline-block;
   opacity: 0;
   /* each letter starts thrown out of place and lands home */
   transform: translate(var(--cx, 0), var(--cy, 90%)) rotate(var(--cr, 0deg)) scale(0.86);
-  filter: blur(10px);
+  /* No filter here, deliberately. The assembling word now carries the brass
+     metal-type gradient, which is painted as a background on the parent and
+     clipped to the glyphs — and a filter on a child composites that child
+     separately, dropping the parent's clipped background and rendering the
+     letter invisible. Transform and opacity alone give the same throw, and
+     they stay on the compositor. */
   animation: cine-charDock 1.05s var(--ease-out) forwards;
+}
+/* "ed." completes the word rather than flying in with it: the brand name docks
+   first, then the suffix settles on and the line resolves into a real word. */
+.cine.inst .hero-char-tail {
+  --cx: 0; --cy: 0; --cr: 0deg;
+  transform: translateY(0) scale(0.4);
+  transform-origin: 0% 60%;
+  animation: cine-charSettle 0.72s var(--ease-spring) forwards;
+}
+@keyframes cine-charSettle {
+  from { opacity: 0; transform: translateY(0) scale(0.4); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .cine.inst .hero-char:nth-child(1) { --cx: -0.5em; --cy: -120%; --cr: -14deg; }
 .cine.inst .hero-char:nth-child(2) { --cx:  0.7em; --cy:  140%; --cr:  11deg; }
@@ -1583,19 +1832,45 @@
    brass sheen along the top edge, and the rim brightening on hover.
    ═══════════════════════════════════════════════════════════════════════════ */
 .cine.inst .panel,
+.cine.inst .glass,
 .cine.inst .stat,
 .cine.inst .journey-step,
 .cine.inst .faq-item,
+.cine.inst .faq dl,
+.cine.inst .bp-invite,
 .cine.inst .wsp-hold > * {
   position: relative;
   border-radius: 20px;
-  border: 1px solid rgba(212, 168, 67, 0.36);
-  background: linear-gradient(140deg, rgba(8, 13, 26, 0.90), rgba(5, 15, 28, 0.80));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* Glass, properly. These were 0.80–0.94 alpha, which is a painted navy box
+     with a gold outline — you could not see the sculpture move behind them, so
+     they read as flat cards on a flat page. Dropping to ~0.5 and doubling the
+     blur is what makes them read as glass: the 3D stays visible and diffuse
+     through the panel, and the saturate() keeps the brass behind them warm
+     instead of going grey under the blur. */
+  border: 1px solid rgba(212, 168, 67, 0.38);
+  background: linear-gradient(
+    145deg,
+    rgba(12, 30, 50, 0.52) 0%,
+    rgba(6, 18, 33, 0.44) 58%,
+    rgba(5, 15, 28, 0.54) 100%
+  );
+  backdrop-filter: blur(26px) saturate(1.35);
+  -webkit-backdrop-filter: blur(26px) saturate(1.35);
   box-shadow:
-    0 26px 60px -32px rgba(0, 0, 0, 0.85),
-    0 1px 0 rgba(240, 238, 233, 0.07) inset;
+    0 26px 62px -30px rgba(0, 0, 0, 0.8),
+    0 1px 0 rgba(246, 231, 181, 0.18) inset;
+}
+/* Without backdrop-filter the low alpha is just a transparent card with the
+   3D punching through the type. Go nearly solid — and stay cool, never violet. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cine.inst .panel,
+  .cine.inst .glass,
+  .cine.inst .stat,
+  .cine.inst .journey-step,
+  .cine.inst .faq-item,
+  .cine.inst .faq dl,
+  .cine.inst .bp-invite,
+  .cine.inst .wsp-hold > * { background: rgba(6, 18, 33, 0.95); }
 }
 /* the sheen that reads as a bevelled gold edge catching the softbox */
 .cine.inst .panel::before,

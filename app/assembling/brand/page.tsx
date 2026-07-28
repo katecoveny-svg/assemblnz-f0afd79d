@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FillDogLoader } from "@/components/dash/FillDogLoader";
+import { AssemblingMark } from "@/components/dash/AssemblingMark";
 import "../birdie.css";
 
 export const metadata: Metadata = {
@@ -95,16 +95,18 @@ export default function BrandPage() {
                 The reward layer for the agentic wait · by assembl
               </div>
             </div>
-            <img
-              src="/assembling/mascot-dog.png"
-              alt="Assembling mascot"
+            {/* Kate, 2026-07-28: "the dachshund isnt the mascot". This page was
+                the last surface still presenting it as one — and it is the
+                brand guidelines, so it was actively teaching the wrong thing. */}
+            <div
               className="bd-floaty"
               style={{
                 width: 300,
-                height: "auto",
                 filter: "drop-shadow(0 20px 24px rgba(150,110,10,.28))",
               }}
-            />
+            >
+              <AssemblingMark pct={100} title="" />
+            </div>
           </div>
         </div>
 
@@ -163,8 +165,7 @@ export default function BrandPage() {
               <p style={{ margin: 0 }}>
                 Assembling is opt-in, NZ-built and assembl-governed. The parent brand,
                 assembl, is calm and quiet. Assembling is its loud, friendly,
-                get-things-done sibling — a long dog that does the waiting for
-                you.
+                get-things-done sibling — the one that does the waiting for you.
               </p>
             </div>
           </div>
@@ -641,7 +642,7 @@ export default function BrandPage() {
           </div>
         </div>
 
-        {/* 05 MASCOT + LOADER */}
+        {/* 05 MARK + LOADER */}
         <div
           style={{
             padding: "64px 72px 56px",
@@ -658,12 +659,12 @@ export default function BrandPage() {
               marginBottom: 24,
             }}
           >
-            05 — Mascot &amp; the loader
+            05 — The mark &amp; the loader
           </div>
           <div style={{ display: "flex", gap: 48, alignItems: "center" }}>
             <div style={{ flex: "none", width: 300, textAlign: "center" }}>
               <div style={{ width: 240, margin: "0 auto" }} className="bd-floaty--demo">
-                <FillDogLoader />
+                <AssemblingMark pct={68} title="" />
               </div>
               <div
                 style={{
@@ -673,7 +674,7 @@ export default function BrandPage() {
                   marginTop: 14,
                 }}
               >
-                the dog IS the loader — it fills bottom-up
+                the mark IS the loader — the ring closes as work completes
               </div>
             </div>
             <div style={{ flex: 1 }}>
@@ -687,7 +688,7 @@ export default function BrandPage() {
                   color: "#3a3832",
                 }}
               >
-                A long dog that does the waiting.
+                A ring that closes as the work completes.
               </h3>
               <p
                 style={{
@@ -697,10 +698,10 @@ export default function BrandPage() {
                   color: "#56544b",
                 }}
               >
-                The mascot is a glossy, designer-toy dachshund in champagne &amp;
-                white. He is the loading state: as an agent works, the colour
-                fills the dog from the feet up. At 100% he&rsquo;s fully charged
-                — the wait paid off.
+                There is no mascot. The mark is the loading state: a brass ring
+                that closes as an agent works, and a core that lights as it
+                lands. At 100% the ring is whole — the wait paid off. It carries
+                progress honestly, at any size, without a character to explain.
               </p>
               <div style={{ display: "flex", gap: 24 }}>
                 <div style={{ flex: 1 }}>
@@ -800,9 +801,9 @@ export default function BrandPage() {
             >
               {[
                 { letter: "A", bg: "#BFA37A", lc: "#5a4a00", text: "Get paid for the wait." },
-                { letter: "B", bg: "#FFF7EC", lc: "#8A6A2E", text: "Sit. Stay. Get paid." },
+                { letter: "B", bg: "#FFF7EC", lc: "#8A6A2E", text: "Design the wait." },
                 { letter: "C", bg: "#FFF7EC", lc: "#8A6A2E", text: "While it thinks, you earn." },
-                { letter: "D", bg: "#FFF7EC", lc: "#8A6A2E", text: "Long dog. Short wait." },
+                { letter: "D", bg: "#FFF7EC", lc: "#8A6A2E", text: "Monetise the moment." },
                 {
                   letter: "E",
                   bg: "#FFF7EC",

@@ -52,23 +52,43 @@ export type JourneyStage = {
   note: string;
 };
 
+/* The monetised wait state — the anatomy, then the loop it feeds.
+ *
+ * This is deliberately NOT a support-ticket flow. An earlier pass shipped
+ * "first enquiry → the wait → assembled → a person approves → loyalty kept",
+ * which is a chatbot answering a question. That is not the thesis. The thesis
+ * is that the in-between moments — the queue, the hold line, the loading
+ * screen, the approval sitting with someone else — are the inventory. Intent
+ * is already known, attention is already held, and today both are thrown away.
+ *
+ * Stages 01–04 are the anatomy of a single wait. 05–06 are why it compounds:
+ * what the customer chose during the wait is the signal that makes the next
+ * wait better, which is what makes this a flywheel rather than an ad slot. */
+/* The anatomy of a monetised wait state — Kate's own four steps, verbatim from
+ * her wait-state card, 2026-07-28.
+ *
+ * This is deliberately NOT a support-ticket flow. An earlier pass shipped
+ * "first enquiry → the wait → assembled → a person approves → loyalty kept",
+ * which is a chatbot answering a question, and it is not the thesis. The
+ * thesis is that value is created not just by outcomes, but by how
+ * intelligently the in-between moments are used.
+ *
+ * Four, not six, and the curve through them is CLOSED — so the route is
+ * literally the value loop from the card: engagement feeds data, data sharpens
+ * the next wait. The flywheel is the shape, not a caption. */
 export const JOURNEY_STAGES: JourneyStage[] = [
-  { key: 'enquiry', n: '01', label: 'first enquiry', note: 'Someone arrives with a question.' },
-  { key: 'wait', n: '02', label: 'the wait', note: 'Agents research, draft and check — in the open.' },
-  { key: 'assembled', n: '03', label: 'assembled', note: 'The answer arrives already prepared.' },
-  { key: 'boundary', n: '04', label: 'the boundary', note: 'What it may do, and what it may never do.' },
-  { key: 'approval', n: '05', label: 'a person approves', note: 'A named human says yes. Nothing sends itself.' },
-  { key: 'loyalty', n: '06', label: 'loyalty kept', note: 'The relationship is worth more than it was.' },
+  { key: 'intent', n: '01', label: 'intent signal', note: 'A user or agent signals a task or request.' },
+  { key: 'predict', n: '02', label: 'wait prediction', note: 'The agent estimates duration and context.' },
+  { key: 'deliver', n: '03', label: 'value delivery', note: 'Relevant content, offers or micro-tasks, delivered.' },
+  { key: 'exchange', n: '04', label: 'value exchange', note: 'The user engages. Value created, revenue realised.' },
 ];
 
 /** Where each stage sits in world space — a route that climbs as it travels. */
 const STAGE_POINTS: [number, number, number][] = [
-  [-9.4, -2.2, 1.6],
-  [-5.6, 1.4, -2.4],
-  [-1.6, -1.6, 2.6],
-  [2.4, 1.8, -2.0],
-  [6.2, -1.2, 1.8],
-  [9.8, 2.0, -1.4],
+  [-8.6, -2.1, 1.8],
+  [-3.0, 1.9, -2.3],
+  [3.0, -1.7, 2.5],
+  [8.6, 1.7, -1.6],
 ];
 
 type Opts = {
@@ -269,10 +289,12 @@ export function mountJourneyScene(opts: Opts): () => void {
     ring2.scale.setScalar(0.72);
     ring2.rotation.x = Math.PI / 2;
 
+    // #0C1836 read violet against the navy — blue 54 against green 24 is a
+    // purple bias, and it was one of the things making the page look mauve.
     const core = new THREE.Mesh(
       coreGeo,
       new THREE.MeshPhysicalMaterial({
-        color: '#0C1836',
+        color: '#071627',
         metalness: 0.9,
         roughness: 0.05,
         envMapIntensity: 2.2,
@@ -282,9 +304,29 @@ export function mountJourneyScene(opts: Opts): () => void {
       }),
     );
 
+    // Value motes: the payout. Each stage carries a little constellation that
+    // rides its own sine wave, and brightens hard when that stage is the one
+    // being read — so "value delivered" is something you watch happen, not a
+    // caption. Cheap: one shared geometry, one instanced cluster per node.
+    const MOTES = reduced ? 3 : 7;
+    const moteGeo = new THREE.SphereGeometry(0.028, 10, 10);
+    const moteMat = new THREE.MeshStandardMaterial({
+      color: '#F6E7B5',
+      emissive: new THREE.Color('#D4A843'),
+      emissiveIntensity: 1.1,
+      metalness: 0.3,
+      roughness: 0.4,
+    });
+    const motes = Array.from({ length: MOTES }, (_, m) => {
+      const mesh = new THREE.Mesh(moteGeo, moteMat.clone());
+      const a = (m / MOTES) * Math.PI * 2;
+      g.add(mesh);
+      return { mesh, a, r: 0.58 + (m % 3) * 0.13, sp: 0.5 + (m % 4) * 0.16, ph: m * 1.7 };
+    });
+
     g.add(ring, ring2, core);
     scene.add(g);
-    return { g, ring, ring2, core, base: stageAt[i].clone() };
+    return { g, ring, ring2, core, motes, base: stageAt[i].clone() };
   });
 
   // ── travellers: the work itself, flowing the route and looping forever ──
@@ -390,6 +432,19 @@ export function mountJourneyScene(opts: Opts): () => void {
     return Math.min(2.4, Math.max(0.9, aspect / 1.6));
   }
 
+  /* A perspective camera at a fixed distance frames by VERTICAL fov, so a tall
+     or narrow window sees far less of the world sideways — and since the route
+     is deliberately parked right of the copy column, the whole sculpture slid
+     off the edge. On a laptop the hero was a navy rectangle with type on it,
+     which is precisely the "drab page of blue with writing" complaint.
+
+     Pull the camera back as the aspect narrows, and ease the route back toward
+     centre at the same time, so there is always something moving in frame. */
+  function narrowness() {
+    const aspect = vw() / vh();
+    return Math.min(1, Math.max(0, (1.55 - aspect) / 0.95));
+  }
+
   function frame() {
     raf = requestAnimationFrame(frame);
     if (lost) return;
@@ -408,12 +463,15 @@ export function mountJourneyScene(opts: Opts): () => void {
     camCurve.getPoint(u % 1, camPos);
     lookCurve.getPoint(u % 1, lookAt);
     const bias = sideBias();
-    lookAt.x -= (bias - 1) * 2.2;
+    const nar = narrowness();
+    // the narrower the window, the less we shove the route off to the side
+    lookAt.x -= (bias - 1) * 2.2 * (1 - nar * 0.82);
 
     camera.position.set(
       camPos.x + ptr.x * 0.8,
       camPos.y - ptr.y * 0.5 + Math.sin(tt * 0.35) * 0.14,
-      camPos.z,
+      // dolly back on narrow windows so the sculpture stays in shot
+      camPos.z + nar * 5.2,
     );
     camera.lookAt(lookAt);
 
@@ -463,6 +521,23 @@ export function mountJourneyScene(opts: Opts): () => void {
       const cm = nd.core.material as THREE.MeshPhysicalMaterial;
       const wantE = active ? 0.85 + Math.sin(tt * 2.2) * 0.18 : 0.05;
       cm.emissiveIntensity += (wantE - cm.emissiveIntensity) * 0.08;
+
+      // value motes orbit on their own sine, and on the active stage they push
+      // out and light up — the wait visibly paying out while you read it
+      for (let m = 0; m < nd.motes.length; m++) {
+        const mo = nd.motes[m];
+        const spread = active ? 1.45 : 1;
+        const ang = mo.a + tt * mo.sp * (active ? 1.5 : 0.6);
+        const rr = mo.r * spread;
+        mo.mesh.position.set(
+          Math.cos(ang) * rr,
+          Math.sin(tt * 1.3 + mo.ph) * 0.22 * spread,
+          Math.sin(ang) * rr,
+        );
+        const mm = mo.mesh.material as THREE.MeshStandardMaterial;
+        const wantM = active ? 2.6 + Math.sin(tt * 3 + mo.ph) * 0.7 : 0.5;
+        mm.emissiveIntensity += (wantM - mm.emissiveIntensity) * 0.09;
+      }
     }
 
     dust.rotation.y = tt * 0.006;
