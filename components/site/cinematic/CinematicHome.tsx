@@ -167,6 +167,42 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
     // anchors additionally leave every reveal unfired. Pulling the body up
     // with a negative margin keeps scrollY at 0, which every capture engine
     // handles. Cost: the 3D reads scroll 0, so stills show the hero pose.
+    // ── THE OVERTURE ──
+    // Arms on the next frame so the tracked-in transition actually runs, holds
+    // briefly, then lifts. Any intent to move — scroll, pointer, key — closes
+    // it immediately: a visitor who wants to read should never wait on a
+    // flourish. Skipped outright for reduced motion and for ?jump= captures.
+    const ov = $('#cine-overture');
+    if (ov) {
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const capturing = new URLSearchParams(location.search).has('jump');
+      if (reduced || capturing) {
+        ov.remove();
+      } else {
+        let closed = false;
+        const close = () => {
+          if (closed) return;
+          closed = true;
+          ov.classList.add('ov-out');
+          // remove rather than leave it stacked over the hero: it is
+          // pointer-events:none anyway, but a fixed layer left in the tree is
+          // exactly the sort of thing that later eats a click.
+          setTimeout(() => ov.remove(), 1300);
+          window.removeEventListener('wheel', close);
+          window.removeEventListener('touchstart', close);
+          window.removeEventListener('keydown', close);
+          window.removeEventListener('pointerdown', close);
+        };
+        requestAnimationFrame(() => ov.classList.add('ov-in'));
+        const hold = setTimeout(close, 2100);
+        window.addEventListener('wheel', close, { passive: true, once: true });
+        window.addEventListener('touchstart', close, { passive: true, once: true });
+        window.addEventListener('keydown', close, { once: true });
+        window.addEventListener('pointerdown', close, { once: true });
+        cleanups.push(() => { clearTimeout(hold); close(); });
+      }
+    }
+
     const jump = new URLSearchParams(location.search).get('jump');
     if (jump) {
       const go = () => {
@@ -306,6 +342,31 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
           </div>
           <a className="nav-cta" href="#begin">begin</a>
         </nav>
+
+        {/* ── THE OVERTURE ───────────────────────────────────────────────
+            Kate, 2026-07-28, having picked direction 02 from /lab/type: "i
+            like the nord one but i still want 3d and visual interest on the
+            landing or this is there for a split second and then the visuals
+            appear."
+
+            So it is a beat, not a splash screen. The sculpture is already
+            running underneath — this only ever adds a wide-tracked wordmark
+            over the top, holds for a moment, then the tracking closes and it
+            lifts away into the hero. Nothing is ever a blank hold.
+
+            Deliberately ADDITIVE: the hero below is fully rendered and
+            readable from the first paint, and this sits over it. If the
+            script never runs, `.ov` is simply never armed and the visitor
+            goes straight to the hero — the failure mode is "no overture",
+            never "no page". That is the opposite of a gate. */}
+        <div className="ov" id="cine-overture" aria-hidden="true">
+          <div className="ov-word">
+            {'ASSEMBL'.split('').map((ch, i) => (
+              <span key={i} style={{ transitionDelay: `${140 + i * 70}ms` }}>{ch}</span>
+            ))}
+          </div>
+          <div className="ov-sub">intuitive agentic customer journeys</div>
+        </div>
 
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
