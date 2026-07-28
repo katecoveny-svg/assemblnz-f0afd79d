@@ -101,9 +101,9 @@ function AssemblWait({ onAnswer }: { onAnswer: (a: string) => void }) {
           </ol>
           {asking && (
             <div className="wsp-sheet" aria-live="polite">
-              <div className="wsp-sheet-q">What wait do your customers complain about most?</div>
+              <div className="wsp-sheet-q">What part of the week would you hand to someone else tomorrow?</div>
               <div className="wsp-sheet-row">
-                {['Getting a quote', 'Waiting on us'].map((o) => (
+                {['Answering the same questions', 'Chasing and following up'].map((o) => (
                   <button key={o} type="button" className="wsp-sheet-btn" onClick={() => answer(o)}>{o}</button>
                 ))}
               </div>
@@ -356,7 +356,14 @@ export function AiReadyClient() {
                 <ul>
                   <li>Read: your public pages at {ready.site} — nothing else, nothing stored.</li>
                   <li>Drafted: five journey moments, from your own words and colours.</li>
-                  {waitAnswer ? <li>You told us: the wait that hurts is “{waitAnswer.toLowerCase()}”.</li> : null}
+                  {waitAnswer ? (
+                    <li>
+                      You told us you&rsquo;d hand off <b>{waitAnswer.toLowerCase()}</b> — so the journey
+                      below leads with {waitAnswer.startsWith('Answering')
+                        ? 'the front door: the enquiry answered from your own words'
+                        : 'the follow-through: the promises kept without anyone remembering'}.
+                    </li>
+                  ) : null}
                   <li>Not done: nothing was sent, promised, or priced. A named person reads this before anyone replies to you.</li>
                 </ul>
               </div>
