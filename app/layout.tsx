@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Lato, Space_Mono, Archivo_Black } from 'next/font/google';
+import { Cormorant_Garamond, Jost, Space_Mono, Archivo_Black } from 'next/font/google';
 import { GlobalNav, GlobalFooter } from '@/components/site/GlobalChrome';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
@@ -36,9 +36,20 @@ const SITE_GRAPH = graph(
 // deploys stay reliable while the public-site rebuild is in flight.
 export const dynamic = 'force-dynamic';
 
-// Site type system (assembl canon, CANON-LOCKED-2026-06-23):
-//   Display / wordmark / headlines → Cormorant Garamond (serif). NOT Lato.
-//   Body / UI / buttons             → Lato.
+// Site type system. Kate, 2026-07-28, replacing Lato site-wide: "i want nord as
+// the font on the site". NORD is the brand in her reference pin, not a
+// typeface, so the face is Jost — a Futura-derived geometric with the same
+// circular O and straight-legged R, and the closest thing to that pin that can
+// be served without a licence question. She chose it and chose "whole site now"
+// over a homepage trial, so this DELIBERATELY supersedes the Lato half of
+// CANON-LOCKED-2026-06-23.
+//
+//   Display / wordmark / logo       → Cormorant Garamond (serif). Unchanged:
+//                                     the logo is not body copy, and Kate
+//                                     flagged the homepage earlier the same day
+//                                     precisely because its wordmark was NOT
+//                                     Cormorant.
+//   Body / UI / headlines           → Jost (was Lato).
 //   Labels / eyebrows / mono        → Space Mono.
 // Exposed as the --font-* tokens so the whole token-driven site adopts them.
 // The /agents marketplace and /dash sibling brand scope their OWN Lato display
@@ -52,9 +63,11 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
 });
 
-const lato = Lato({
+// Jost carries 100–900, so every weight the old Lato rules reached for (400,
+// 700, 900) still resolves — plus the 200/300 the display type wants. Loading
+// the variable range rather than a weight list keeps one file for all of them.
+const jost = Jost({
   subsets: ['latin'],
-  weight: ['400', '700', '900'],
   variable: '--font-body',
   display: 'swap',
 });
@@ -116,7 +129,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NZ" className={`${cormorant.variable} ${lato.variable} ${spaceMono.variable} ${archivoBlack.variable}`}>
+    <html lang="en-NZ" className={`${cormorant.variable} ${jost.variable} ${spaceMono.variable} ${archivoBlack.variable}`}>
 
       <body>
         <JsonLd data={SITE_GRAPH} />

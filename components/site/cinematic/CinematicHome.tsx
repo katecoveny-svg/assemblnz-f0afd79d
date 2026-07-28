@@ -167,42 +167,6 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
     // anchors additionally leave every reveal unfired. Pulling the body up
     // with a negative margin keeps scrollY at 0, which every capture engine
     // handles. Cost: the 3D reads scroll 0, so stills show the hero pose.
-    // ── THE OVERTURE ──
-    // Arms on the next frame so the tracked-in transition actually runs, holds
-    // briefly, then lifts. Any intent to move — scroll, pointer, key — closes
-    // it immediately: a visitor who wants to read should never wait on a
-    // flourish. Skipped outright for reduced motion and for ?jump= captures.
-    const ov = $('#cine-overture');
-    if (ov) {
-      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const capturing = new URLSearchParams(location.search).has('jump');
-      if (reduced || capturing) {
-        ov.remove();
-      } else {
-        let closed = false;
-        const close = () => {
-          if (closed) return;
-          closed = true;
-          ov.classList.add('ov-out');
-          // remove rather than leave it stacked over the hero: it is
-          // pointer-events:none anyway, but a fixed layer left in the tree is
-          // exactly the sort of thing that later eats a click.
-          setTimeout(() => ov.remove(), 1300);
-          window.removeEventListener('wheel', close);
-          window.removeEventListener('touchstart', close);
-          window.removeEventListener('keydown', close);
-          window.removeEventListener('pointerdown', close);
-        };
-        requestAnimationFrame(() => ov.classList.add('ov-in'));
-        const hold = setTimeout(close, 2100);
-        window.addEventListener('wheel', close, { passive: true, once: true });
-        window.addEventListener('touchstart', close, { passive: true, once: true });
-        window.addEventListener('keydown', close, { once: true });
-        window.addEventListener('pointerdown', close, { once: true });
-        cleanups.push(() => { clearTimeout(hold); close(); });
-      }
-    }
-
     const jump = new URLSearchParams(location.search).get('jump');
     if (jump) {
       const go = () => {
@@ -343,31 +307,6 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
           <a className="nav-cta" href="#begin">begin</a>
         </nav>
 
-        {/* ── THE OVERTURE ───────────────────────────────────────────────
-            Kate, 2026-07-28, having picked direction 02 from /lab/type: "i
-            like the nord one but i still want 3d and visual interest on the
-            landing or this is there for a split second and then the visuals
-            appear."
-
-            So it is a beat, not a splash screen. The sculpture is already
-            running underneath — this only ever adds a wide-tracked wordmark
-            over the top, holds for a moment, then the tracking closes and it
-            lifts away into the hero. Nothing is ever a blank hold.
-
-            Deliberately ADDITIVE: the hero below is fully rendered and
-            readable from the first paint, and this sits over it. If the
-            script never runs, `.ov` is simply never armed and the visitor
-            goes straight to the hero — the failure mode is "no overture",
-            never "no page". That is the opposite of a gate. */}
-        <div className="ov" id="cine-overture" aria-hidden="true">
-          <div className="ov-word">
-            {'ASSEMBL'.split('').map((ch, i) => (
-              <span key={i} style={{ transitionDelay: `${140 + i * 70}ms` }}>{ch}</span>
-            ))}
-          </div>
-          <div className="ov-sub">intuitive agentic customer journeys</div>
-        </div>
-
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
           {/* Kate, 2026-07-28: "play on the word Assembl". So the word does the
@@ -376,43 +315,64 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
               arrives. Every letter carries BOTH keyframes it needs: setting
               `animation` on a child once silently replaced the inherited
               shorthand and line two never appeared. */}
-          {/* The line was "Assembled intuitive / agentic customer journeys."
-              which is not a sentence — it is the brand descriptor jammed into
-              a headline slot, and it read as word salad. Two short lines
-              instead, so the type can actually be display-sized, and the
-              wordplay lands where it means something: the brand name is
-              already sitting inside the word "assembled", so the seven letters
-              of Assembl fly in and dock, then "ed." arrives and completes it.
-              Every letter carries BOTH keyframes it needs — setting
-              `animation` on a child once silently replaced the inherited
-              shorthand and line two never appeared. */}
-          <h1>
-            <span className="hero-line">
-              <span className="hero-word" style={{ animationDelay: '0.1s' }}>Agentic customer journeys,</span>
-            </span>
-            <span className="hero-line">
-              <span className="hero-assembling" aria-label="assembled.">
-                {'assembl'.split('').map((ch, i) => (
-                  <span
-                    key={i}
-                    className="hero-char"
-                    aria-hidden
-                    style={{ animationDelay: `${0.42 + i * 0.075}s` }}
-                  >
-                    {ch}
-                  </span>
-                ))}
-                <span className="hero-char hero-char-tail" aria-hidden style={{ animationDelay: '1.02s' }}>e</span>
-                <span className="hero-char hero-char-tail" aria-hidden style={{ animationDelay: '1.08s' }}>d</span>
-                <span className="hero-char hero-char-tail" aria-hidden style={{ animationDelay: '1.14s' }}>.</span>
-              </span>
-            </span>
-          </h1>
-          <p className="lede hero-sub-cinema" style={{ marginTop: 28 }}>
-            Intuitive agentic customer journeys, built in Aotearoa — every enquiry,
-            handover and follow-up designed to earn its keep. Including the waiting,
-            which is the part everybody else writes off.
-          </p>
+          {/* ── THE HERO — direction 01 from /lab/type ─────────────────
+              Kate, 2026-07-28: "ive just seen the actual type labs i love
+              number one but in nord font". So this is the editorial poster:
+              masthead top-left, folio numeral, hairline rules, small justified
+              caption blocks at the foot, and a rotated stamp down the right —
+              with the headline deliberately modest against a lot of space.
+
+              Two earlier attempts are gone: the timed overture that lifted
+              after two seconds, and the centred tracked wordmark. This is a
+              hero that stays. The face is Jost site-wide (see app/layout.tsx).
+
+              The right column is left empty of copy on purpose — that is where
+              the sculpture sits, and the rotated stamp is the only thing that
+              crosses into it. */}
+          <div className="ed-hero">
+            <div className="ed-col">
+              <div className="ed-mast">
+                assembl
+                <span>Intuitive agentic customer journeys</span>
+              </div>
+
+              <h1 className="ed-h1">
+                Agentic customer journeys, <em>assembled.</em>
+              </h1>
+
+              <div className="ed-foot">
+                <div className="ed-folio">01</div>
+                <div className="ed-rule" />
+                <div className="ed-cols">
+                  <div>
+                    <b>The wait</b>
+                    Value is created not just by outcomes, but by how intelligently
+                    we use the in-between moments. The wait state is no longer idle
+                    time — it is designable, measurable, monetisable.
+                  </div>
+                  <div>
+                    <b>The loop</b>
+                    Intent signal, wait prediction, value delivery, value exchange.
+                    What a customer chooses during the wait is what makes the next
+                    one better.
+                  </div>
+                  <div>
+                    <b>The boundary</b>
+                    {stats.agents} specialist agents across {stats.packs} industry
+                    packs, each with a written limit. A named person approves
+                    anything that reaches a customer.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="ed-stamp" aria-hidden="true">
+              <span className="ed-pill">NZ</span>
+              Aotearoa // 2026
+              <span className="ed-stamp-sub">001 — agentic customer journeys</span>
+            </div>
+          </div>
+
           {/* The demo is the product, so it leads. The seven sections below
               are the how-it-works for anyone who has to explain this to a
               boss — they earn their place, they just should not be in front
