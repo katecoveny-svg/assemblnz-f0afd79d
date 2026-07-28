@@ -1117,7 +1117,14 @@
   background: rgba(5, 15, 28, 0.82);
   border-bottom: 1px solid rgba(240, 238, 233, 0.08);
 }
-.cine.inst .wordmark { font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 0.04em; }
+/* The wordmark stays Cormorant. The instrument direction ("Lato only") is about
+   the page's headline and body type — it is not licence to reset the logo. This
+   rule had it in Lato 300, which made the homepage the only surface on the site
+   whose "assembl" did not match components/site/AssemblWordmark.tsx or the
+   display face declared in globals.css. Kate, 2026-07-28: "the assembl logo
+   wordmark is in the wrong font top left." Weight and tracking stay tuned for
+   navy; the family is inherited from .cine .wordmark. */
+.cine.inst .wordmark { font-weight: 500; letter-spacing: 0.01em; }
 .cine.inst .nav-links a:hover { color: var(--brass); }
 /* The card treatment — glass with a gold rim — is one shared rule further
    down this sheet, under "one surface". Do not add a competing .panel
@@ -1809,11 +1816,23 @@
   font-size: clamp(2rem, 3.4vw, 3.6rem);
   line-height: 1.06;
 }
+/* Kate, 2026-07-28: "the blue cast behind the text is still looking like a
+   filter on the wait state is no longer" — the same complaint as the hero
+   scrim, and the same cause. This is a near-solid navy wash with square top and
+   bottom edges sitting over the sculpture, so it reads as a translucent panel
+   laid on the artwork rather than as nothing at all.
+
+   Feathered on every side by a mask, and pulled well back in opacity. It now
+   only takes the edge off directly under the words, and has no boundary
+   anywhere for the eye to catch. */
 .cine .journey-intro::before {
   content: ''; position: absolute; z-index: -1;
-  inset: -24px -90px -24px -14vw;
+  inset: -40px -140px -36px -14vw;
   background: linear-gradient(100deg,
-    #050F1C 0%, rgba(5,15,28,0.97) 54%, rgba(5,15,28,0.76) 76%, rgba(5,15,28,0) 100%);
+    rgba(5,15,28,0.82) 0%, rgba(5,15,28,0.66) 48%, rgba(5,15,28,0.34) 72%, rgba(5,15,28,0) 100%);
+  -webkit-mask-image: radial-gradient(120% 92% at 22% 50%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(120% 92% at 22% 50%, #000 40%, transparent 100%);
+  pointer-events: none;
 }
 .cine .journey-intro p {
   margin-top: 22px; font-family: 'Lato', sans-serif; font-weight: 300;
