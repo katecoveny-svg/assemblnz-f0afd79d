@@ -8,7 +8,7 @@
    Every selector is scoped under .cine so none of these generic class
    names (.nav, .panel, .btn …) can collide with the rest of the app.
    ════════════════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Inter+Tight:wght@200;300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;700&family=Inter+Tight:wght@200;300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
 
 .cine {
   --paper: #FDFBF7;
@@ -30,7 +30,7 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body), 'Jost', sans-serif;
   background: var(--paper);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -130,7 +130,7 @@
 }
 .cine .accent { color: var(--brass); font-style: normal; }
 .cine .lede {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body), 'Jost', sans-serif;
   font-size: clamp(1rem, 1.4vw, 1.2rem);
   font-weight: 300; line-height: 1.7; font-style: normal;
   color: var(--ink-2);
@@ -585,7 +585,7 @@
 /* ── LIVE DEMO ── */
 .cine .demo-input {
   width: 100%; resize: vertical; min-height: 84px;
-  font-family: 'Lato', sans-serif; font-size: 0.9rem; font-weight: 300; line-height: 1.6;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.9rem; font-weight: 300; line-height: 1.6;
   color: var(--ink); background: rgba(255,255,255,0.65);
   border: 1px solid rgba(26,25,23,0.1); border-radius: 16px; padding: 16px 18px;
   outline: none; transition: border-color 0.3s;
@@ -697,7 +697,7 @@
 .cine .sc-name {
   width: 100%; margin: 10px 0 14px; padding: 11px 14px;
   border: 1px solid rgba(26, 25, 23, 0.15); border-radius: 12px;
-  font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--ink);
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.85rem; color: var(--ink);
   background: rgba(255, 255, 255, 0.7); outline: none;
 }
 .cine .sc-name:focus { border-color: var(--brass); }
@@ -722,7 +722,7 @@
 .cine .site-input {
   flex: 1; padding: 13px 16px; border-radius: 12px;
   border: 1px solid rgba(26, 25, 23, 0.15); background: rgba(255, 255, 255, 0.75);
-  font-family: 'Lato', sans-serif; font-size: 0.95rem; color: var(--ink); outline: none;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.95rem; color: var(--ink); outline: none;
 }
 .cine .site-input:focus { border-color: var(--brass); }
 .cine .site-note {
@@ -748,7 +748,7 @@
 .cine .brief-gap .brief-list li { color: var(--ink); }
 .cine .brief-q {
   padding: 8px 14px; border-radius: 30px; background: #fff; cursor: pointer;
-  border: 1px solid rgba(26, 25, 23, 0.15); font-family: 'Lato', sans-serif;
+  border: 1px solid rgba(26, 25, 23, 0.15); font-family: var(--font-body), 'Jost', sans-serif;
   font-size: 0.8rem; color: var(--ink); text-align: left; transition: all 0.25s ease;
 }
 .cine .brief-q:hover { border-color: var(--brass); background: rgba(184, 150, 79, 0.08); }
@@ -774,7 +774,7 @@
   display: flex; align-items: baseline; gap: 8px; cursor: pointer;
   padding: 9px 15px; border-radius: 30px; background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(26, 25, 23, 0.14);
-  font-family: 'Lato', sans-serif; font-size: 0.8rem; color: var(--ink-2);
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.8rem; color: var(--ink-2);
   transition: all 0.28s ease;
 }
 .cine .concept-tab:hover { border-color: var(--brass); color: var(--ink); }
@@ -838,7 +838,7 @@
 @keyframes bpPulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
 @media (max-width: 620px) { .cine .bp-invite { padding: 24px 20px 26px; } }
 .cine .bp-invite-head {
-  font-family: 'Lato', sans-serif; font-weight: 300; font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 300; font-size: clamp(1.35rem, 2.6vw, 1.9rem);
   letter-spacing: -0.012em; color: var(--ink); margin-bottom: 10px;
 }
 .cine .bp-invite-sub {
@@ -850,7 +850,7 @@
 .cine .bp-input {
   flex: 1; padding: 14px 18px; border-radius: 12px;
   border: 1px solid rgba(26, 25, 23, 0.16); background: rgba(255, 255, 255, 0.82);
-  font-family: 'Lato', sans-serif; font-size: 1rem; color: var(--ink); outline: none;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 1rem; color: var(--ink); outline: none;
 }
 .cine .bp-input:focus { border-color: var(--brass); background: #fff; }
 .cine .bp-note {
@@ -894,7 +894,7 @@
 .cine .sc-keep-input {
   flex: 1; min-width: 0; padding: 11px 13px; border-radius: 10px;
   border: 1px solid rgba(26, 25, 23, 0.16); background: #fff;
-  font-family: 'Lato', sans-serif; font-size: 0.86rem; color: var(--ink); outline: none;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.86rem; color: var(--ink); outline: none;
 }
 .cine .sc-keep-input:focus { border-color: var(--brass); }
 .cine .sc-keep-note {
@@ -1080,7 +1080,7 @@
    globals.css paints every h1–h6 slate (#252D31) via --text-primary, which
    passed unseen on paper and turned the headline to mud on navy. */
 .cine.inst h1, .cine.inst h2 {
-  font-family: 'Lato', system-ui, sans-serif;
+  font-family: var(--font-body), 'Jost', system-ui, sans-serif;
   font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
   color: var(--ink);
 }
@@ -1294,12 +1294,12 @@
   font-weight: 300;
 }
 .cine .shrm-sub {
-  margin-top: 12px; font-family: 'Lato', sans-serif; font-weight: 400;
+  margin-top: 12px; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 400;
   font-size: 0.86rem; color: #1B1A17;
 }
 .cine .shrm-count {
   position: absolute; top: 96px; right: 48px; z-index: 2;
-  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 2rem; color: #1B1A17;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700; font-size: 2rem; color: #1B1A17;
   background: rgba(251,248,241,0.85); border: 1.5px solid rgba(184,150,79,0.6);
   border-radius: 20px; padding: 12px 22px; backdrop-filter: blur(8px);
   box-shadow: 0 10px 30px -14px rgba(27,26,23,0.3);
@@ -1326,7 +1326,7 @@
   position: absolute; bottom: 64px; right: 48px; z-index: 2;
   display: inline-flex; align-items: center;
   padding: 15px 30px; border-radius: 999px; text-decoration: none;
-  font-family: 'Lato', sans-serif; font-size: 0.88rem; font-weight: 700;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.88rem; font-weight: 700;
   background: #1B1A17; color: #FBF8F1;
   box-shadow: 0 14px 34px -14px rgba(27,26,23,0.55);
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
@@ -1350,11 +1350,11 @@
   letter-spacing: 0.2em; text-transform: uppercase; color: #8A6A2E; margin-bottom: 8px;
 }
 .cine .shrm-lesson b {
-  display: block; font-family: 'Lato', sans-serif; font-weight: 700;
+  display: block; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700;
   font-size: 1.24rem; color: #1B1A17; margin-bottom: 6px;
 }
 .cine .shrm-lesson p {
-  margin: 0; font-family: 'Lato', sans-serif; font-weight: 400;
+  margin: 0; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 400;
   font-size: 0.85rem; line-height: 1.55; color: rgba(27,26,23,0.86);
 }
 .cine .shrm-lesson-j { margin-top: 10px !important; padding-top: 10px; border-top: 1px solid rgba(184,150,79,0.35); }
@@ -1373,11 +1373,11 @@
   animation: shrm-lesson-in 0.6s var(--ease-out);
 }
 .cine .shrm-finale > b {
-  display: block; font-family: 'Lato', sans-serif; font-weight: 700;
+  display: block; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700;
   font-size: 1.5rem; color: #1B1A17;
 }
 .cine .shrm-finale > span {
-  display: block; margin-top: 6px; font-family: 'Lato', sans-serif; font-weight: 300;
+  display: block; margin-top: 6px; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 300;
   font-size: 0.9rem; color: rgba(27,26,23,0.8);
 }
 .cine .shrm-finale-row {
@@ -1386,7 +1386,7 @@
 }
 .cine .shrm-finale-row button {
   cursor: pointer; border: 0; border-radius: 999px; padding: 15px 30px;
-  font-family: 'Lato', sans-serif; font-size: 0.9rem; font-weight: 700;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.9rem; font-weight: 700;
   background: #1B1A17; color: #FBF8F1;
   box-shadow: 0 14px 34px -14px rgba(27,26,23,0.55);
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
@@ -1394,12 +1394,12 @@
 .cine .shrm-finale-row button:hover { transform: translateY(-2px); }
 .cine .shrm-finale-row button:disabled { opacity: 0.6; cursor: wait; transform: none; }
 .cine .shrm-finale-row a {
-  font-family: 'Lato', sans-serif; font-size: 0.86rem; font-weight: 700;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.86rem; font-weight: 700;
   color: #8A6A2E; text-decoration: none; border-bottom: 1px solid rgba(184,150,79,0.5);
 }
 .cine .shrm-finale-err {
   display: block; margin-top: 10px; font-style: normal;
-  font-family: 'Lato', sans-serif; font-size: 0.78rem; color: #8A2E2E;
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.78rem; color: #8A2E2E;
 }
 
 @media (max-width: 720px) {
@@ -1418,7 +1418,7 @@
 .cine .faq dl { margin: 0; }
 .cine .faq-item { margin-bottom: 34px; }
 .cine .faq dt {
-  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 1.02rem;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700; font-size: 1.02rem;
   letter-spacing: 0.01em; margin-bottom: 10px; color: var(--ink);
 }
 .cine .faq dd {
@@ -1472,7 +1472,7 @@
 .cine .gallery-hand {
   margin: 14px 0 4px; padding: 12px 16px; border-radius: 14px;
   background: rgba(184, 150, 79, 0.08); border: 1px solid rgba(184, 150, 79, 0.35);
-  font-family: 'Lato', sans-serif; font-size: 0.84rem; line-height: 1.55; color: var(--ink);
+  font-family: var(--font-body), 'Jost', sans-serif; font-size: 0.84rem; line-height: 1.55; color: var(--ink);
 }
 .cine .gallery-hand b { font-weight: 700; }
 
@@ -1570,7 +1570,7 @@
    behind them and simply overflowed. */
 .cine.inst .journey-step .js-n {
   position: static;
-  font-family: 'Lato', sans-serif; font-weight: 700;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700;
   font-size: 1.6rem; line-height: 1;
   letter-spacing: -0.02em;
   color: transparent;
@@ -1609,7 +1609,7 @@
 }
 .cine.inst .creed blockquote {
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body), 'Jost', sans-serif;
   font-weight: 200;
   font-size: clamp(1.5rem, 3.5vw, 3.1rem);
   line-height: 1.16;
@@ -1770,12 +1770,12 @@
   letter-spacing: 0.28em; color: var(--brass);
 }
 .cine .jl-label {
-  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.82rem;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700; font-size: 0.82rem;
   letter-spacing: 0.06em; text-transform: uppercase; color: #F0EEE9;
   text-shadow: 0 2px 14px rgba(0,0,0,0.7);
 }
 .cine .jl-note {
-  font-family: 'Lato', sans-serif; font-weight: 300; font-size: 0.72rem;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 300; font-size: 0.72rem;
   color: #F0EEE9; max-width: 210px; line-height: 1.45;
   text-shadow: 0 2px 14px rgba(0,0,0,0.8);
   opacity: 0; transform: translateY(-4px);
@@ -1835,7 +1835,7 @@
   pointer-events: none;
 }
 .cine .journey-intro p {
-  margin-top: 22px; font-family: 'Lato', sans-serif; font-weight: 300;
+  margin-top: 22px; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 300;
   line-height: 1.7; color: var(--ink);
 }
 /* The anatomy as a rail, not a stack of paragraphs. Each row is one line of
@@ -1855,7 +1855,7 @@
 }
 .cine.inst .journey-step h3 {
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body), 'Jost', sans-serif;
   font-weight: 700; font-size: 0.95rem;
   letter-spacing: 0.13em; text-transform: uppercase;
   color: var(--ink);
@@ -1889,11 +1889,11 @@
 }
 .cine .journey-step h3 {
   margin-top: 8px;
-  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 1.05rem;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700; font-size: 1.05rem;
   letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink);
 }
 .cine .journey-step p {
-  margin-top: 8px; font-family: 'Lato', sans-serif; font-weight: 300;
+  margin-top: 8px; font-family: var(--font-body), 'Jost', sans-serif; font-weight: 300;
   font-size: 0.92rem; line-height: 1.6; color: var(--ink);
 }
 @media (max-width: 900px) {
@@ -2030,7 +2030,7 @@
   display: flex; flex-direction: column; justify-content: flex-end;
 }
 .cine.inst .stat .num {
-  font-family: 'Lato', sans-serif; font-weight: 700;
+  font-family: var(--font-body), 'Jost', sans-serif; font-weight: 700;
   font-size: clamp(3rem, 6vw, 5.4rem); letter-spacing: -0.02em;
   color: var(--ink);
 }
@@ -2091,7 +2091,7 @@
 .cine:has(.ov.ov-in:not(.ov-out)) .hero { opacity: 0.08; }
 .cine .ov-word {
   display: flex;
-  font-family: 'Lato', system-ui, sans-serif;
+  font-family: var(--font-body), 'Jost', system-ui, sans-serif;
   font-weight: 300;
   font-size: clamp(1.5rem, 6.4vw, 5.4rem);
   line-height: 1;
@@ -2142,4 +2142,127 @@
   background-size: 200% 100%;
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   animation: inst-sheen 8s linear infinite;
+}
+
+/* ══ THE HERO — direction 01, editorial ═════════════════════════════════════
+   Kate picked study 01 from /lab/type and asked for it in the NORD face:
+   "i love number one but in nord font". The face is Jost, set site-wide in
+   app/layout.tsx; this is the layout.
+
+   The poster logic, kept honest: masthead top-left, headline modest against a
+   lot of space, folio numeral and hairline rule at the foot, three small
+   justified caption blocks below that, and a rotated stamp down the right.
+
+   The copy column is capped and the right side left clear — that is where the
+   sculpture lives. The rotated stamp is the only element that crosses into it,
+   which is what stops the right half reading as empty rather than composed.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cine.inst .ed-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 40px;
+  align-items: start;
+  min-height: 74vh;
+}
+.cine.inst .ed-col {
+  display: flex; flex-direction: column;
+  max-width: 62ch;
+}
+
+/* masthead */
+.cine.inst .ed-mast {
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3.2vw, 2.8rem);
+  letter-spacing: -0.02em; line-height: 1;
+  color: var(--ink);
+  opacity: 0; animation: cine-edIn 1s var(--ease-out) 0.1s forwards;
+}
+.cine.inst .ed-mast span {
+  display: block; margin-top: 9px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.56rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--brass);
+}
+
+/* the headline — deliberately NOT display-scale. In this direction the space
+   is the statement, and blowing the type up is exactly what breaks it. */
+.cine.inst .ed-hero .ed-h1 {
+  margin: clamp(46px, 8vh, 96px) 0 0;
+  font-weight: 300;
+  font-size: clamp(1.9rem, 4.4vw, 4.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-transform: none;
+  color: var(--ink);
+  max-width: 17ch;
+  text-shadow: 0 1px 2px rgba(3,9,18,0.5), 0 4px 26px rgba(3,9,18,0.42);
+  opacity: 0; animation: cine-edIn 1.1s var(--ease-out) 0.3s forwards;
+}
+.cine.inst .ed-hero .ed-h1 em { font-style: normal; font-weight: 700; }
+
+/* foot: folio, rule, captions */
+.cine.inst .ed-foot {
+  margin-top: auto; padding-top: clamp(40px, 7vh, 88px);
+  opacity: 0; animation: cine-edIn 1.1s var(--ease-out) 0.55s forwards;
+}
+.cine.inst .ed-folio {
+  font-weight: 700; font-size: clamp(1.7rem, 3vw, 2.6rem);
+  letter-spacing: -0.03em; color: var(--ink);
+}
+.cine.inst .ed-rule {
+  height: 1px; margin: 16px 0 20px;
+  background: linear-gradient(90deg, rgba(240,238,233,0.5), rgba(240,238,233,0.06));
+}
+.cine.inst .ed-cols {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+}
+.cine.inst .ed-cols div {
+  font-size: 0.72rem; line-height: 1.72; font-weight: 300;
+  color: var(--ink); opacity: 0.82;
+}
+.cine.inst .ed-cols b {
+  display: block; margin-bottom: 8px; opacity: 1;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brass); font-weight: 400;
+}
+
+/* the rotated stamp */
+.cine.inst .ed-stamp {
+  writing-mode: vertical-rl;
+  display: flex; align-items: flex-start; gap: 16px;
+  font-weight: 500; font-size: clamp(1.1rem, 2.1vw, 1.9rem);
+  letter-spacing: -0.01em; line-height: 1;
+  color: var(--ink); opacity: 0;
+  animation: cine-edIn 1.2s var(--ease-out) 0.75s forwards;
+  animation-fill-mode: forwards;
+}
+.cine.inst .ed-stamp .ed-stamp-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); font-weight: 400;
+}
+.cine.inst .ed-pill {
+  writing-mode: horizontal-tb; align-self: flex-start;
+  border: 1px solid rgba(240,238,233,0.4); border-radius: 999px;
+  padding: 3px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 0.2em;
+}
+
+@keyframes cine-edIn { to { opacity: 1; } }
+/* the stamp settles to a lower opacity than the copy — it is a mark, not a
+   heading, and at full strength it competed with the masthead */
+.cine.inst .ed-stamp { --to: 0.42; }
+
+@media (max-width: 880px) {
+  .cine.inst .ed-hero { grid-template-columns: 1fr; }
+  .cine.inst .ed-stamp { display: none; }
+  .cine.inst .ed-cols { grid-template-columns: 1fr; gap: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cine.inst .ed-mast,
+  .cine.inst .ed-hero .ed-h1,
+  .cine.inst .ed-foot,
+  .cine.inst .ed-stamp { animation: none; opacity: 1; }
 }
