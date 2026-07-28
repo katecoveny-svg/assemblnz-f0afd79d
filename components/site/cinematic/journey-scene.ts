@@ -52,18 +52,6 @@ export type JourneyStage = {
   note: string;
 };
 
-/* The monetised wait state — the anatomy, then the loop it feeds.
- *
- * This is deliberately NOT a support-ticket flow. An earlier pass shipped
- * "first enquiry → the wait → assembled → a person approves → loyalty kept",
- * which is a chatbot answering a question. That is not the thesis. The thesis
- * is that the in-between moments — the queue, the hold line, the loading
- * screen, the approval sitting with someone else — are the inventory. Intent
- * is already known, attention is already held, and today both are thrown away.
- *
- * Stages 01–04 are the anatomy of a single wait. 05–06 are why it compounds:
- * what the customer chose during the wait is the signal that makes the next
- * wait better, which is what makes this a flywheel rather than an ad slot. */
 /* The anatomy of a monetised wait state — Kate's own four steps, verbatim from
  * her wait-state card, 2026-07-28.
  *
