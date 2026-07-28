@@ -33,7 +33,7 @@ const eyebrow: CSSProperties = {
   fontSize: 11,
   letterSpacing: "0.16em",
   textTransform: "uppercase",
-  color: "#c79b1f",
+  color: "#8A6A2E",
   margin: "0 0 10px",
 };
 

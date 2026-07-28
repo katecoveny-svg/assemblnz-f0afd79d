@@ -1,13 +1,16 @@
-import Image from 'next/image';
 import { PALETTE } from '@/lib/marketplace/agents';
+import { AssemblingMark } from '@/components/dash/AssemblingMark';
 
 /**
- * The signature fill-the-dog loader. The dog IS the progress bar — a ghosted
- * mascot that charges up with the live canary version bottom-to-top, masked to
- * the silhouette, with a glowing white waterline. Spec: HANDOFF.md §5.
+ * The assembling loader — a brass ring that closes as work is done.
  *
- * - omit `progress`: demo mode, loops via the `fillRise` keyframes.
- * - `progress` (0–100): controlled fill height (bind to real agent progress).
+ * Was the fill-the-dog loader: a ghosted dachshund that charged up bottom-to-
+ * top with a canary fill. The dog is the retired Birdie identity, and this
+ * component renders inside live agent chat, so it was the thing a customer
+ * watched every time an agent thought. Same behaviour, current canon.
+ *
+ * - omit `progress`: demo mode, the ring turns on a loop.
+ * - `progress` (0–100): controlled, bind to real agent progress.
  */
 export function DashLoader({
   label = 'Thinking…',
@@ -21,55 +24,28 @@ export function DashLoader({
   className?: string;
 }) {
   const controlled = typeof progress === 'number';
-  const fillStyle: React.CSSProperties = controlled
-    ? { height: `${Math.max(0, Math.min(100, progress))}%`, transition: 'height .4s var(--ease)' }
-    : {};
+  const pct = controlled ? Math.max(0, Math.min(100, progress)) : 72;
 
   return (
     <div className={`flex items-center gap-3 ${className ?? ''}`} role="status" aria-live="polite">
-      <div className="mk-floaty relative shrink-0" style={{ width, animation: 'floaty 4.6s ease-in-out infinite' }}>
-        {/* ghosted (empty) dog */}
-        <Image
-          src="/images/dash/mascot-dog.png"
-          alt=""
-          width={width}
-          height={Math.round((width * 914) / 984)}
-          priority
-          aria-hidden
-          style={{ display: 'block', width: '100%', height: 'auto', filter: 'grayscale(.75) brightness(1.22) opacity(.28)' }}
-        />
-        {/* coloured dog rises bottom-up to fill as it loads */}
+      <div
+        className="mk-floaty relative shrink-0"
+        style={{
+          width,
+          color: PALETTE.body,
+          animation: 'floaty 4.6s ease-in-out infinite',
+        }}
+      >
+        {/* Uncontrolled, the ring turns rather than sitting at a fixed arc, so
+            it still reads as "working" when there is no progress to report. */}
         <div
-          className={controlled ? undefined : 'mk-fill-anim'}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            bottom: 0,
-            overflow: 'hidden',
-            ...(controlled ? fillStyle : { animation: 'fillRise 5.2s cubic-bezier(.45,0,.2,1) infinite' }),
-          }}
+          style={
+            controlled
+              ? undefined
+              : { animation: 'mk-ring-spin 2.6s linear infinite', transformOrigin: '50% 50%' }
+          }
         >
-          <Image
-            src="/images/dash/mascot-dog.png"
-            alt=""
-            width={width}
-            height={Math.round((width * 914) / 984)}
-            aria-hidden
-            style={{ position: 'absolute', left: 0, bottom: 0, width, height: 'auto', filter: 'drop-shadow(0 0 10px rgba(255,212,42,.5))' }}
-          />
-          {/* glowing waterline */}
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              height: 3,
-              background: 'linear-gradient(90deg,rgba(255,230,128,0),#ffffff,rgba(255,230,128,0))',
-              boxShadow: '0 0 12px rgba(255,212,42,.95)',
-            }}
-          />
+          <AssemblingMark pct={pct} title="" />
         </div>
       </div>
       <span className="text-sm" style={{ color: PALETTE.body }}>

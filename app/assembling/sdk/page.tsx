@@ -87,7 +87,7 @@ function Eyebrow({ children }: { children: string }) {
         fontSize: 11,
         letterSpacing: '.16em',
         textTransform: 'uppercase',
-        color: '#c79b1f',
+        color: '#8A6A2E',
         marginBottom: 12,
       }}
     >

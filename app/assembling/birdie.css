@@ -27,7 +27,7 @@
 .bd-progress {
   position: fixed; top: 0; left: 0; right: 0; height: 3px;
   transform-origin: left; transform: scaleX(0);
-  background: #BFA37A; z-index: 60; box-shadow: 0 0 10px rgba(255,212,42,.7);
+  background: #BFA37A; z-index: 60; box-shadow: 0 0 10px rgba(212, 168, 67,.7);
   pointer-events: none;
 }
 @supports (animation-timeline: scroll()) {
@@ -54,9 +54,9 @@
 
 /* hover lifts */
 .bd-switch { transition: transform .18s, box-shadow .18s }
-.bd-switch:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,212,42,.66) }
+.bd-switch:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(212, 168, 67,.66) }
 .bd-cta-primary { transition: transform .18s, box-shadow .18s }
-.bd-cta-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 34px rgba(255,212,42,.7) }
+.bd-cta-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 34px rgba(212, 168, 67,.7) }
 .bd-cta-dark { transition: transform .18s, box-shadow .18s }
 .bd-cta-dark:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 38px rgba(58,56,50,.4) }
 .bd-door { transition: transform .22s cubic-bezier(.22,.61,.36,1), box-shadow .22s }
@@ -96,13 +96,13 @@
 /* Interactive — scratch card + Dash Dash mini-game */
 @keyframes bdFloat7 { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-7px) } }
 @keyframes bdPop { 0% { transform: scale(.6); opacity: 0 } 60% { transform: scale(1.08) } 100% { transform: scale(1); opacity: 1 } }
-@keyframes bdGlowPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,212,42,.5) } 50% { box-shadow: 0 0 0 14px rgba(255,212,42,0) } }
+@keyframes bdGlowPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(212, 168, 67,.5) } 50% { box-shadow: 0 0 0 14px rgba(212, 168, 67,0) } }
 .bd-float7 { animation: bdFloat7 4s ease-in-out infinite }
 .bd-glowpulse { animation: bdGlowPulse 2s ease-in-out infinite }
 .bd-play { transition: transform .18s }
 .bd-play:hover { transform: translateY(-3px) scale(1.03) }
 .bd-reset { transition: transform .18s, box-shadow .18s }
-.bd-reset:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,212,42,.5), inset 0 1px 0 rgba(255,255,255,.9) }
+.bd-reset:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(212, 168, 67,.5), inset 0 1px 0 rgba(255,255,255,.9) }
 
 /* SDK Reference doc */
 .sdk-cols { display: flex; gap: 20px }

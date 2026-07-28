@@ -5,7 +5,7 @@ import { CineFooter } from './CineFooter';
 import { BlueprintStart } from './BlueprintStart';
 import { WaitState } from './WaitState';
 import { HOME_FAQ } from './faq';
-import * as THREE from 'three';
+import { mountJourneyScene, JOURNEY_STAGES } from './journey-scene';
 
 /**
  * assembl homepage — Kate's cinematic prototype, ported 1:1.
@@ -23,7 +23,16 @@ import * as THREE from 'three';
  *   pricing.html       → /pricing
  *   mailto kiaora@     → assembl@assembl.co.nz (canonical reply inbox)
  */
-export function CinematicHome() {
+export type HomeStats = {
+  /** every agent on the live roster */
+  agents: number;
+  /** industry packs on /agents */
+  packs: number;
+  /** sectors walked end to end on /concepts */
+  sectors: number;
+};
+
+export function CinematicHome({ stats }: { stats: HomeStats }) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   // ── LIVE AGENT DEMO ── a real Claude call via /api/build-agent, streamed.
@@ -192,10 +201,10 @@ export function CinematicHome() {
     cleanups.push(() => finIO.disconnect());
 
     // ── TIMELINE + PROGRESS HAIRLINE ──
-    // Five stages. This array, KEYS below and the timeline dots in the markup
-    // must stay the same length — a mismatch silently renders the next stage's
-    // pose at every step below the gap.
-    const sections = ['#top', '#wait', '#demo', '#begin'].map((s) => $(s)!);
+    // This array and the timeline dots in the markup must stay the same
+    // length. The 3D no longer indexes into it — journey-scene.ts reads scroll
+    // progress directly — so a mismatch now only mis-lights a dot.
+    const sections = ['#top', '#journey', '#wait', '#demo', '#begin'].map((s) => $(s)!);
     const dots = $$('.timeline-dot');
     const progressBar = $('#cine-progress')!;
     let currentStage = 0;
@@ -219,219 +228,52 @@ export function CinematicHome() {
     // is driven by the visitor rather than on a timer, so this ran on for a
     // while throwing on every tick against elements that no longer exist.
 
-    // ════ 3D — THE AGENT, ASSEMBLED (Kate's assembl3d.js, ported) ════
+    // ════ 3D — THE JOURNEY ════════════════════════════════════════════════
+    // The route through six stages of an agentic customer journey. Scroll
+    // drives the camera down it; the scene owns everything else. See
+    // journey-scene.ts for what it is made of.
     const canvas = $('#canvas-3d') as unknown as HTMLCanvasElement;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.28;
+    const labelLayer = $('#journey-labels')!;
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#050F1C');   // super deep navy — Kate's call: navy, not black
-    // Atmospheric depth: things further away sink into the navy, which is what
-    // sells the page as a space rather than a backdrop.
-    scene.fog = new THREE.FogExp2('#050F1C', 0.016);
-    const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 100);
-
-    // Env — studio softboxes baked into the env map (her shiny-chrome recipe).
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    const env = new THREE.Scene();
-    env.background = new THREE.Color('#0A0A0D');
-    // Hairline metal on a near-black page needs a much hotter softbox than the
-    // paper page did, or the threads go to mud — same recipe, boosted.
-    const BOOST = 2.6;
-    const softbox = (color: string, w: number, h: number, x: number, y: number, z: number) => {
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
-        new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(BOOST) }));
-      m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
-    };
-    softbox('#FFFFFF', 14, 5, 0, 9, 0);
-    softbox('#FFF6E8', 8, 12, -10, 2, 4);
-    softbox('#E9EEF4', 8, 10, 10, 1, -3);
-    softbox('#FFFFFF', 3, 14, 5, 2, 8);
-    softbox('#D4A843', 16, 3, 0, -7, 0);
-    scene.environment = pmrem.fromScene(env, 0.02).texture;
-
-    scene.add(new THREE.AmbientLight('#FFFFFF', 0.3));
-    const key = new THREE.DirectionalLight('#FFFFFF', 1.9); key.position.set(5, 8, 5); scene.add(key);
-    // the knot's own footlight — gold from below-left so the dark side of
-    // every thread still carries an edge against the navy
-    const rim = new THREE.PointLight('#D4A843', 55, 28, 1.6); rim.position.set(-4, -2, 5); scene.add(rim);
-    const rim2 = new THREE.PointLight('#DCE6F2', 34, 26, 1.7); rim2.position.set(5, 4, 4); scene.add(rim2);
-
-    const mats = {
-      brassBright: new THREE.MeshPhysicalMaterial({ color: '#D4A843', metalness: 1, roughness: 0.07, envMapIntensity: 2.0, clearcoat: 0.8, clearcoatRoughness: 0.1 }),
-      chrome: new THREE.MeshPhysicalMaterial({ color: '#D6DADF', metalness: 1, roughness: 0.02, envMapIntensity: 2.4, clearcoat: 1, clearcoatRoughness: 0.03 }),
-      navy: new THREE.MeshPhysicalMaterial({ color: '#0C1836', metalness: 0.85, roughness: 0.06, envMapIntensity: 2.0, clearcoat: 1, clearcoatRoughness: 0.05 }),
-      navyDark: new THREE.MeshPhysicalMaterial({ color: '#081026', metalness: 0.9, roughness: 0.04, envMapIntensity: 2.2, clearcoat: 1, clearcoatRoughness: 0.04 }),
-      glass: new THREE.MeshPhysicalMaterial({ color: '#E8EAEC', metalness: 0.1, roughness: 0.02, transmission: 0.95, thickness: 2, transparent: true, opacity: 0.85, envMapIntensity: 1.5 }),
-    };
-
-    let scroll = 0, mx = 0, my = 0;
-    on(window, 'scroll', () => { scroll = window.scrollY; }, { passive: true });
+    let mx = 0, my = 0;
     on(document, 'mousemove', (ev) => {
       const e = ev as MouseEvent;
-      mx = (e.clientX / innerWidth - 0.5) * 2; my = (e.clientY / innerHeight - 0.5) * 2;
+      mx = (e.clientX / innerWidth - 0.5) * 2;
+      my = (e.clientY / innerHeight - 0.5) * 2;
     });
 
-    camera.position.set(0, 0.4, 10);
-    camera.lookAt(0, 0, 0);
+    // ?prog=0…1 pins the camera at a point on the route without scrolling.
+    // Same reason ?jump exists: any scrolled capture of this page composites
+    // as a blank frame, because the canvas is fixed. This is the only way to
+    // photograph a stage other than the first.
+    const progOverride = (() => {
+      const raw = new URLSearchParams(location.search).get('prog');
+      if (raw === null) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) ? Math.min(1, Math.max(0, n)) : null;
+    })();
 
-    const group = new THREE.Group();
-    scene.add(group);
+    const stageEls = $$('[data-journey-stage]');
+    const unmountScene = mountJourneyScene({
+      canvas,
+      labelLayer,
+      getProgress: () => {
+        if (progOverride !== null) return progOverride;
+        const max = document.body.scrollHeight - innerHeight;
+        return max > 0 ? scrollY / max : 0;
+      },
+      getPointer: () => ({ x: mx, y: my }),
+      onStage: (i) => {
+        stageEls.forEach((el, ei) => el.classList.toggle('on', ei === i));
+      },
+    });
+    cleanups.push(unmountScene);
 
-    // ── THE FILAMENT ── Kate's pick from /lab/directions ("Instrument on
-    // navy"). A chrome thread wound through a gold one, a hairline horizon
-    // ring, a gold seed at the centre. Nothing thicker than 0.02 — the old
-    // assembly's 0.085 band is precisely what read as clunky.
-    // The chrome thread re-winds itself at each stage — the object is being
-    // assembled as you move, not just rotated. Geometries pre-built; the swap
-    // is a pointer assignment.
-    const WINDINGS: [number, number][] = [[2, 3], [3, 4], [2, 5], [3, 5]];
-    const threadGeos = WINDINGS.map(([tp, tq]) => new THREE.TorusKnotGeometry(1.5, 0.028, 700, 24, tp, tq));
-    const threadA = new THREE.Mesh(threadGeos[0], mats.chrome);
-    let wound = 0;
-    const threadB = new THREE.Mesh(new THREE.TorusKnotGeometry(1.9, 0.018, 700, 20, 3, 5), mats.brassBright.clone());
-    // piano-black third winding — the black taurus of the gallery language;
-    // on navy it reads by its highlights, which is what the footlight is for
-    const threadC = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(1.2, 0.032, 600, 24, 2, 5),
-      new THREE.MeshPhysicalMaterial({ color: '#050608', metalness: 0.9, roughness: 0.05, envMapIntensity: 2.6, clearcoat: 1, clearcoatRoughness: 0.03 }),
-    );
-    const horizon = new THREE.Mesh(new THREE.TorusGeometry(3.1, 0.008, 10, 300), mats.chrome.clone());
-    horizon.rotation.x = Math.PI / 2.1;
-    const seed = new THREE.Mesh(new THREE.SphereGeometry(0.2, 48, 48), mats.brassBright.clone());
-    group.add(threadA, threadB, threadC, horizon, seed);
-
-    // restrained particles
-    const N = 240, pGeo = new THREE.BufferGeometry(), pp = new Float32Array(N * 3);
-    for (let i = 0; i < N; i++) { pp[i * 3] = (Math.random() - 0.5) * 20; pp[i * 3 + 1] = (Math.random() - 0.5) * 14; pp[i * 3 + 2] = (Math.random() - 0.5) * 20; }
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pp, 3));
-    const parts = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: '#D4A843', size: 0.05, transparent: true, opacity: 0.55 }));
-    scene.add(parts);
-
-    // The filament carries no per-component labels — the parts story lives on
-    // /build-an-agent now, where the parts are actually clickable.
-
-    // One keyframe per section: intro, blueprint, journey, agents, wait,
-    // proof, finale. s=scale, x/y/z=assembly position, ry/rx=rotation,
-    // cz/cy=camera. Alternates sides with the copy, dives near for agents,
-    // rises for wait, pulls wide for proof, lands centre-stage huge for the
-    // finale — one full slow turn across the whole page.
-    // One keyframe per section — intro, blueprint, journey, who, agents, wait,
-    // proof, demo, finale. There must be exactly as many of these as there are
-    // entries in `sections` above: the scroll position indexes straight into
-    // this array, so adding a section without adding a pose silently shifts
-    // every stage after it onto the wrong one.
-    // s=scale, x/y/z=assembly position, ry/rx=rotation, cz/cy=camera.
-    // Sides alternate with the copy, dives near for agents, rises for wait,
-    // pulls wide for proof, lands centre-stage for the finale.
-    const KEYS = [
-      { s: 1.52, x:  4.1, y: -0.1, z:  0.6, ry: 0.15, rx:  0.00, cz:  8.4, cy: 0.4 }, // intro — fills its half, like the lab did
-      { s: 0.85, x: -3.2, y:  0.9, z: -1.2, ry: 2.60, rx:  0.28, cz:  9.0, cy: 0.8 }, // the wait — rises and clears the phone
-      { s: 1.30, x:  3.0, y: -0.1, z:  0.6, ry: 4.30, rx:  0.05, cz:  7.6, cy: 0.4 }, // ask — leans in beside the live panel
-      { s: 1.60, x:  0.0, y:  0.1, z:  1.2, ry: 6.20, rx:  0.00, cz:  7.6, cy: 0.5 }, // finale — centre, massive
-    ];
-
-    let prevScroll = 0, spin = 0, t = 0, raf = 0;
-
-    function tick() {
-      raf = requestAnimationFrame(tick);
-      t += 0.016;
-      const tt = reducedMotion ? 0 : t;
-      const max = document.body.scrollHeight - innerHeight;
-      const prog = max > 0 ? scroll / max : 0;
-
-      spin += (scroll - prevScroll) * 0.00045;
-      prevScroll = scroll;
-      spin *= 0.93;
-
-      // Per-part life, so it reads as alive rather than as one spinning still.
-      threadA.rotation.y = tt * 0.1;
-      threadA.rotation.x = Math.sin(tt * 0.13) * 0.16;
-      const wantWind = Math.min(WINDINGS.length - 1, currentStage);
-      if (wantWind !== wound) { wound = wantWind; threadA.geometry = threadGeos[wound]!; }
-      threadB.rotation.y = -tt * 0.07;
-      threadB.rotation.z = tt * 0.05 + spin * 2;
-      threadC.rotation.y = tt * 0.055;
-      threadC.rotation.x = -tt * 0.04 + Math.sin(tt * 0.2) * 0.1;
-      horizon.rotation.z = tt * 0.04 + spin;
-      const finaleLit = currentStage === KEYS.length - 1;
-      seed.scale.setScalar(1 + Math.sin(tt * 0.9) * 0.05 + prog * 1.4);
-      (seed.material as THREE.MeshPhysicalMaterial).emissive = new THREE.Color('#D4A843');
-      (seed.material as THREE.MeshPhysicalMaterial).emissiveIntensity = finaleLit ? 0.4 + Math.sin(tt * 2) * 0.15 : 0.08;
-
-      parts.rotation.y = tt * 0.008;
-
-      // ── SCROLL CHOREOGRAPHY ──────────────────────────────────────────
-      // The assembly is the co-star of the whole page: FAR larger than the
-      // prototype's drift, and it travels — side to side, toward and away
-      // from the camera, rising and diving, completing a full slow turn —
-      // keyframed per section and eased between them. `stageFloat` is a
-      // continuous section index (2.4 = 40% through section 2), so motion
-      // direction and depth genuinely change as you move down the page.
-      let sf = 0;
-      for (let i = 0; i < sections.length; i++) {
-        const r = sections[i].getBoundingClientRect();
-        const mid = innerHeight * 0.5;
-        if (r.top > mid) break;
-        if (r.bottom <= mid) { sf = i + 1; continue; }
-        sf = i + (mid - r.top) / Math.max(1, r.height);
-      }
-      sf = Math.min(sf, KEYS.length - 1);
-      const i0 = Math.floor(sf), i1 = Math.min(i0 + 1, KEYS.length - 1);
-      const f = sf - i0, e = f * f * (3 - 2 * f); // smoothstep between stages
-      const k = (a: number, b: number) => a + (b - a) * e;
-      const A = KEYS[i0], B = KEYS[i1];
-
-      // Continuous width blend (0 at ≤700px … 1 at ≥1400px) — the old binary
-      // <900px switch left mid-width windows with full desktop placement and
-      // the assembly parked on top of the headline.
-      const wide = Math.min(1, Math.max(0, (innerWidth - 700) / 700));
-
-      // The keyframes place the assembly in world units, but the camera's
-      // vertical FOV is fixed — so a wider window shows more world, and a fixed
-      // x offset drifts the object back over the copy. On a 1750px screen the
-      // intro sat on top of the headline. Push it out in proportion to how much
-      // wider than the reference frame we actually are, and ease the scale back
-      // so it stops overflowing on short, wide windows.
-      const REFERENCE_ASPECT = 1.6;
-      const aspect = innerWidth / Math.max(1, innerHeight);
-      const spread = Math.min(1.9, Math.max(1, aspect / REFERENCE_ASPECT));
-      const roomy = Math.min(1, Math.max(0.78, 1 - (aspect - REFERENCE_ASPECT) * 0.22));
-
-      const baseScale = k(A.s, B.s) * (0.74 + 0.26 * wide) * roomy;
-      group.scale.setScalar(baseScale);
-      // narrower window → pushed further to its side + lifted above the copy
-      group.position.x = k(A.x, B.x) * (1 + (1 - wide) * 0.45) * spread + mx * 0.3;
-      group.position.y = k(A.y, B.y) + (1 - wide) * 1.4 + my * 0.2;
-      group.position.z = k(A.z, B.z);
-      group.rotation.y = k(A.ry, B.ry) + mx * 0.08 + spin * 3;
-      group.rotation.x = k(A.rx, B.rx) + spin * 0.4;
-      group.rotation.z = Math.sin(sf * 1.1) * 0.04 + spin * 0.6;
-      camera.position.x = mx * 0.9;
-      camera.position.y = k(A.cy, B.cy) - my * 0.45;
-      camera.position.z = k(A.cz, B.cz);
-      camera.lookAt(group.position.x * 0.35, group.position.y * 0.4, group.position.z * 0.5);
-
-      renderer.render(scene, camera);
-    }
-    tick();
-    cleanups.push(() => cancelAnimationFrame(raf));
-
-    const onResize = () => {
-      camera.aspect = innerWidth / innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth, innerHeight);
-    };
-    on(window, 'resize', onResize);
-
-    cleanups.push(() => { pmrem.dispose(); renderer.dispose(); });
     updateStage();
 
     return () => { cleanups.forEach((fn) => fn()); };
   }, []);
+
 
   return (
     <div className="cine inst" ref={rootRef}>
@@ -439,9 +281,12 @@ export function CinematicHome() {
       <div className="scene-glow" id="cine-scene-glow" />
       <div className="progress-hairline" id="cine-progress" />
       <canvas id="canvas-3d" />
+      {/* the stage labels the scene projects onto the route, in screen space */}
+      <div className="journey-labels" id="journey-labels" aria-hidden />
 
       <div className="timeline">
         <div className="timeline-dot active" data-label="intro" data-target="#top" />
+        <div className="timeline-dot" data-label="the journey" data-target="#journey" />
         <div className="timeline-dot" data-label="the wait" data-target="#wait" />
         <div className="timeline-dot" data-label="ask it" data-target="#demo" />
         <div className="timeline-dot" data-label="begin" data-target="#begin" />
@@ -464,11 +309,29 @@ export function CinematicHome() {
 
         <section className="hero" id="top">
           <div className="hero-index"><span className="scramble-text" id="cine-scramble-1">001 — agentic customer journeys — aotearoa new zealand</span></div>
-          {/* Kate's, 2026-07-26. Two lines and a subhead — the four-line version
-              took too long to land. */}
+          {/* Kate, 2026-07-28: "play on the word Assembl". So the word does the
+              thing it names — the seven letters fly in from scatter, each on its
+              own delay, and dock into the wordmark. Then the rest of the line
+              arrives. Every letter carries BOTH keyframes it needs: setting
+              `animation` on a child once silently replaced the inherited
+              shorthand and line two never appeared. */}
           <h1>
-            <span className="hero-line"><span className="hero-word" style={{ animationDelay: '0.25s' }}>Assembled intuitive</span></span>
-            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.45s' }}>agentic customer journeys.</span></span>
+            <span className="hero-line">
+              <span className="hero-assembling" aria-label="Assembl">
+                {'Assembl'.split('').map((ch, i) => (
+                  <span
+                    key={i}
+                    className="hero-char"
+                    aria-hidden
+                    style={{ animationDelay: `${0.12 + i * 0.075}s` }}
+                  >
+                    {ch}
+                  </span>
+                ))}
+              </span>
+              <span className="hero-word" style={{ animationDelay: '0.72s' }}>ed intuitive</span>
+            </span>
+            <span className="hero-line"><span className="hero-word accent" style={{ animationDelay: '0.92s' }}>agentic customer journeys.</span></span>
           </h1>
           <p className="lede hero-sub-cinema" style={{ marginTop: 28 }}>Agentic business solutions for Aotearoa.</p>
           {/* The demo is the product, so it leads. The seven sections below
@@ -486,8 +349,30 @@ export function CinematicHome() {
           </div>
         </section>
 
-
-
+        {/* ── THE WALKTHROUGH ──────────────────────────────────────────────
+            Scrolling this section is what moves the camera down the route
+            outside. One panel per stage, each lit by the scene as its own
+            node comes into frame. Kate: "scrolling becomes a walkthrough". */}
+        <section className="journey" id="journey">
+          <span className="editorial">the journey · six stages · one route</span>
+          <div className="journey-intro reveal-fade">
+            <div className="kicker">01 — The journey</div>
+            <h2>Scroll it,<br /><span className="accent">and you walk it.</span></h2>
+            <p>
+              This is one customer relationship, end to end. The route outside is the
+              same route — keep going and the camera travels it with you.
+            </p>
+          </div>
+          <div className="journey-steps">
+            {JOURNEY_STAGES.map((s, i) => (
+              <article className="journey-step" key={s.key} data-journey-stage={i}>
+                <span className="js-n">{s.n}</span>
+                <h3>{s.label}</h3>
+                <p>{s.note}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <section className="section" id="wait">
           <span className="ghost right" aria-hidden="true">03</span>
@@ -531,10 +416,25 @@ export function CinematicHome() {
           </div>
         </section>
 
+        {/* Counted, not claimed. These three read off the actual roster and
+            journey definitions at build time (see app/page.tsx), so they can
+            only ever say what is really in the repo. The numbers that used to
+            sit here — 47 minutes returned, 94% satisfaction, 55% wait revenue
+            — were invented, and we have not run a pilot that measured any of
+            them. Kate, 2026-07-28. */}
         <div className="stats-strip">
-          <div className="stat reveal-fade"><div className="num">47<span className="unit">min</span></div><span className="cap">returned per journey</span></div>
-          <div className="stat reveal-fade" data-delay="150"><div className="num">94<span className="unit">%</span></div><span className="cap">customer satisfaction</span></div>
-          <div className="stat reveal-fade" data-delay="300"><div className="num">55<span className="unit">%</span></div><span className="cap">wait revenue — yours</span></div>
+          <div className="stat reveal-fade">
+            <div className="num">{stats.agents}</div>
+            <span className="cap">specialist agents built</span>
+          </div>
+          <div className="stat reveal-fade" data-delay="150">
+            <div className="num">{stats.packs}</div>
+            <span className="cap">industry packs</span>
+          </div>
+          <div className="stat reveal-fade" data-delay="300">
+            <div className="num">{stats.sectors}</div>
+            <span className="cap">sectors mapped end to end</span>
+          </div>
         </div>
 
         <section className="finale" id="begin">
@@ -542,7 +442,7 @@ export function CinematicHome() {
             <span className="finale-word" style={{ animationDelay: '0.15s' }}>Build</span>{' '}
             <span className="finale-word" style={{ animationDelay: '0.3s' }}>intelligence</span><br />
             <span className="finale-word" style={{ animationDelay: '0.45s' }}>you can</span>{' '}
-            <span className="finale-word accent" style={{ animationDelay: '0.6s' }}>understand.</span>
+            <span className="finale-word accent" style={{ animationDelay: '0.6s' }}>see.</span>
           </h2>
           <div className="finale-row reveal-fade" data-delay="900">
             <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz">begin a conversation</a>

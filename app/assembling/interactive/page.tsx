@@ -53,7 +53,7 @@ export default function DashInteractivePage() {
             fontSize: 12,
             letterSpacing: '.18em',
             textTransform: 'uppercase',
-            color: '#c79b1f',
+            color: '#8A6A2E',
           }}
         >
           Assembling · interactive demo

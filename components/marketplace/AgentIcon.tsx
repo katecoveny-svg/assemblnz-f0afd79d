@@ -10,7 +10,7 @@ import type { ReactElement } from 'react';
 
 const INK = '#3A3832';
 const CAN = '#BFA37A';
-const GOLD = '#C79B1F';
+const GOLD = '#8A6A2E';
 const CREAM = '#FFF7EC';
 
 function paths(name: string, ink: string): ReactElement[] {

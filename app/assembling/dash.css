@@ -18,7 +18,7 @@
   --d-sage-2: #56544b;
   --d-sage-pale: #fff7ec;
   --d-gold: #BFA37A;
-  --d-hivis: #ffe27a;
+  --d-hivis: #E4CFA1;
   --d-mint: #BFA37A;
   --d-ink: #3a3832;
 
@@ -32,7 +32,7 @@
   --accent: #3a3832; /* buttons, ink accents */
   --on-accent: #ffffff;
   --gold: #BFA37A;
-  --hivis: #ffe27a;
+  --hivis: #E4CFA1;
   --mint: #BFA37A;
   --sage: #3a3832;
   --sage-pale: #fff7ec;
@@ -156,7 +156,7 @@
 }
 .dash-scope .d-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 42, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(212, 168, 67, 0.85);
 }
 .dash-scope .d-btn--primary {
   background: var(--accent);
@@ -233,7 +233,7 @@
 .dash-scope .d-field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(255, 212, 42, 0.32);
+  box-shadow: 0 0 0 4px rgba(212, 168, 67, 0.32);
 }
 .dash-scope .d-field-hint {
   font-size: 13px;
@@ -257,8 +257,8 @@
   color: var(--fg);
 }
 .dash-scope .d-pill--gold {
-  background: rgba(255, 212, 42, 0.2);
-  color: #c79b1f;
+  background: rgba(212, 168, 67, 0.2);
+  color: #8A6A2E;
 }
 .dash-scope .d-pill--outline {
   background: transparent;

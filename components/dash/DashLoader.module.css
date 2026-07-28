@@ -67,7 +67,7 @@
 
 /* segment fill — hi-vis yellow loader glowing on the black dog body */
 .seg {
-  fill: var(--d-hivis, #ffe27a);
+  fill: var(--d-hivis, #E4CFA1);
   opacity: 0.16;
   transition: opacity 0.3s var(--d-ease);
 }

@@ -196,3 +196,34 @@
 .airdy-gate-row button:disabled { opacity: 0.6; cursor: wait; }
 .airdy-gate small { display: block; margin-top: 12px; font-size: 0.68rem; color: rgba(27,26,23,0.6); line-height: 1.5; }
 @media print { .airdy-gate { display: none; } }
+
+/* On a phone the pill wraps: the input takes the first row and the button
+   drops onto the second, still inside the rounded border — which reads as a
+   button sitting inside the text field. Below the wrap point, drop the pill
+   and let the two be two controls, with the button full width and thumb-sized. */
+@media (max-width: 560px) {
+  .airdy-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+  .airdy-form input {
+    border: 1px solid rgba(240, 238, 233, 0.24);
+    border-radius: 14px;
+    background: rgba(240, 238, 233, 0.05);
+    padding: 15px 18px;
+    font-size: 16px;   /* iOS zooms the page on focus below 16px */
+  }
+  .airdy-form button {
+    width: 100%;
+    padding: 16px 26px;
+    border-radius: 14px;
+  }
+  /* the report is a document — give it back its margins on a narrow screen */
+  .airdy-doc { padding: 28px 20px 22px; border-radius: 20px; margin-top: 40px; }
+}
