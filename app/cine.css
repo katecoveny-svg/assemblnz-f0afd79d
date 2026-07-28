@@ -2129,3 +2129,17 @@
 .cine .ov.ov-out .ov-sub { opacity: 0; letter-spacing: 0.18em; }
 
 @media (prefers-reduced-motion: reduce) { .cine .ov { display: none; } }
+
+/* /build-an-agent: the builder below the gallery speaks the gallery's language */
+#builder .page-header .kicker { color: #8A6A2E; }
+#builder .page-header h1.builder-h1 {
+  text-transform: uppercase; font-weight: 700; letter-spacing: 0.01em;
+  color: #1B1A17; line-height: 1.06;
+}
+#builder .page-header h1.builder-h1 .accent {
+  font-weight: 300; font-style: normal;
+  background: linear-gradient(100deg, #8A6A2E 0%, #D4A843 38%, #F6E7B5 55%, #B8964F 82%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: inst-sheen 8s linear infinite;
+}

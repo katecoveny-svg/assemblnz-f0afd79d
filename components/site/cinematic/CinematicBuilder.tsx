@@ -566,6 +566,19 @@ export function CinematicBuilder() {
     const canvas = root.querySelector('#builder-canvas') as HTMLCanvasElement;
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    // The canvas lives far below the fold; its mount-time size can be stale by
+    // the time it scrolls into view (Kate's cropped-object screenshot). A
+    // ResizeObserver re-frames it whenever the real dimensions change.
+    const reframe = () => {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (w < 2 || h < 2) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
+    const ro = new ResizeObserver(reframe);
+    ro.observe(canvas);
+    cleanups.push(() => ro.disconnect());
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
@@ -608,7 +621,9 @@ export function CinematicBuilder() {
 
     const core = new THREE.Mesh(new THREE.SphereGeometry(1.2, 64, 64), navy.clone());
     group.add(core);
-    const glowMat = new THREE.MeshStandardMaterial({ color: '#D4A843', metalness: 0.5, roughness: 0.1, emissive: '#D4A843', emissiveIntensity: 0.5, transparent: true, opacity: 0.95 });
+    // Calmed from 0.5/0.95 — the old settings read as 'the super glowing 3d
+    // thing' arriving out of nowhere under the gallery (Kate, 28 Jul).
+    const glowMat = new THREE.MeshStandardMaterial({ color: '#D4A843', metalness: 0.5, roughness: 0.1, emissive: '#D4A843', emissiveIntensity: 0.22, transparent: true, opacity: 0.85 });
     const glow = new THREE.Mesh(new THREE.SphereGeometry(0.7, 32, 32), glowMat);
     group.add(glow);
     const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.2, 0.08, 16, 96), brassBright.clone());
@@ -777,7 +792,7 @@ export function CinematicBuilder() {
 
         <header className="page-header" style={{ paddingBottom: 24 }}>
           <div className="kicker">assemble an agent</div>
-          <h1>Build intelligence<br /><span className="accent">you can see.</span></h1>
+          <h1 className="builder-h1">Build intelligence<br /><span className="accent">you can see.</span></h1>
           <p className="lede" style={{ marginTop: 12 }}>Put your website in. Watch an agent assemble itself out of what your business already says — then ask it the question your customers keep asking. Nothing sends without approval.</p>
         </header>
 
