@@ -227,7 +227,7 @@ export function mountJourneyScene(opts: Opts): () => void {
     clearcoat: 1,
     clearcoatRoughness: 0.06,
   });
-  const rail = new THREE.Mesh(new THREE.TubeGeometry(curve, 900, 0.055, 18, true), railMat);
+  const rail = new THREE.Mesh(new THREE.TubeGeometry(curve, 900, 0.082, 18, true), railMat);
   scene.add(rail);
 
   // a hairline gold thread shadowing the rail — the assembl accent, and the
@@ -240,7 +240,7 @@ export function mountJourneyScene(opts: Opts): () => void {
     emissive: new THREE.Color('#D4A843'),
     emissiveIntensity: 0.16,
   });
-  const thread = new THREE.Mesh(new THREE.TubeGeometry(curve, 900, 0.013, 10, true), threadMat);
+  const thread = new THREE.Mesh(new THREE.TubeGeometry(curve, 900, 0.020, 10, true), threadMat);
   scene.add(thread);
 
   // ── stage nodes: a docking ring + a core at each stop on the route ──
@@ -248,8 +248,8 @@ export function mountJourneyScene(opts: Opts): () => void {
   // arc-length parameterised, so on an irregular route it lands between the
   // stages rather than on them, and the camera ends up looking at empty space.
   const stageAt = STAGE_POINTS.map(([x, y, z]) => new THREE.Vector3(x, y, z));
-  const ringGeo = new THREE.TorusGeometry(0.42, 0.022, 12, 96);
-  const coreGeo = new THREE.SphereGeometry(0.15, 32, 32);
+  const ringGeo = new THREE.TorusGeometry(0.66, 0.032, 12, 96);
+  const coreGeo = new THREE.SphereGeometry(0.24, 32, 32);
 
   const nodes = JOURNEY_STAGES.map((_, i) => {
     const g = new THREE.Group();
@@ -297,7 +297,7 @@ export function mountJourneyScene(opts: Opts): () => void {
     // being read — so "value delivered" is something you watch happen, not a
     // caption. Cheap: one shared geometry, one instanced cluster per node.
     const MOTES = reduced ? 3 : 7;
-    const moteGeo = new THREE.SphereGeometry(0.028, 10, 10);
+    const moteGeo = new THREE.SphereGeometry(0.042, 10, 10);
     const moteMat = new THREE.MeshStandardMaterial({
       color: '#F6E7B5',
       emissive: new THREE.Color('#D4A843'),
@@ -319,7 +319,7 @@ export function mountJourneyScene(opts: Opts): () => void {
 
   // ── travellers: the work itself, flowing the route and looping forever ──
   const TRAVELLERS = reduced ? 4 : 9;
-  const travGeo = new THREE.SphereGeometry(0.062, 20, 20);
+  const travGeo = new THREE.SphereGeometry(0.092, 20, 20);
   const travMat = new THREE.MeshStandardMaterial({
     color: '#F6E7B5',
     emissive: new THREE.Color('#D4A843'),
@@ -452,14 +452,33 @@ export function mountJourneyScene(opts: Opts): () => void {
     lookCurve.getPoint(u % 1, lookAt);
     const bias = sideBias();
     const nar = narrowness();
+
+    /* Landing shot. Kate, 2026-07-28: "the motion 3d item is the smallest on
+       the whole screen at landing, it needs to impress." It was — the travel
+       framing that works mid-scroll is far too wide for a first impression.
+       So the camera opens close on stage 01 and pulls back to the travel
+       distance over the first 20% of scroll: the hero lands big, and the walk
+       still frames the route properly once you are moving. Smoothstep, so
+       there is no hard hand-off at the boundary. */
+    const hp = Math.max(0, Math.min(1, 1 - prog / 0.2));
+    const hero = hp * hp * (3 - 2 * hp);
+
     // the narrower the window, the less we shove the route off to the side
     lookAt.x -= (bias - 1) * 2.2 * (1 - nar * 0.82);
 
+    /* The look target sits 3.1 units left of the stage so the route stays off
+       the copy column. That offset is angular, so dollying in multiplies it —
+       the first pass pulled the camera 3.3 closer and threw stage 01 a full
+       245px off the right edge, leaving nothing on screen but its bloom. Pull
+       the target back toward the node by the same amount we close in, and the
+       framing stays put while the subject gets bigger. */
+    lookAt.x += hero * 1.72;
+
     camera.position.set(
       camPos.x + ptr.x * 0.8,
-      camPos.y - ptr.y * 0.5 + Math.sin(tt * 0.35) * 0.14,
+      camPos.y - ptr.y * 0.5 + Math.sin(tt * 0.35) * 0.14 - hero * 0.42,
       // dolly back on narrow windows so the sculpture stays in shot
-      camPos.z + nar * 5.2,
+      camPos.z + nar * 5.2 - hero * 2.6,
     );
     camera.lookAt(lookAt);
 

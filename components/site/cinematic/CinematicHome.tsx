@@ -391,15 +391,21 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
               the user and the business, through agentic systems.
             </p>
           </div>
-          <div className="journey-steps">
+          {/* Kate, 2026-07-28: "less text heavy and more of a part of the 3d
+              feature". The prose used to be duplicated here and on the floating
+              3D label, which made this a wall of text competing with the thing
+              it describes. The card is now a rail: number, name, and a bar that
+              fills when its stage is the one in frame. The sentence lives on
+              the 3D label only, where it belongs. */}
+          <ol className="journey-steps">
             {JOURNEY_STAGES.map((s, i) => (
-              <article className="journey-step" key={s.key} data-journey-stage={i}>
+              <li className="journey-step" key={s.key} data-journey-stage={i}>
                 <span className="js-n">{s.n}</span>
                 <h3>{s.label}</h3>
-                <p>{s.note}</p>
-              </article>
+                <span className="js-bar" aria-hidden="true"><i /></span>
+              </li>
             ))}
-          </div>
+          </ol>
 
           {/* Kate's own three-beat line and pull-quote, 2026-07-28. The quote
               is the thesis in one sentence, so it gets the biggest editorial
