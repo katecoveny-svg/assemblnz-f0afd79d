@@ -167,7 +167,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
                 <li>The agent re-checked against it</li>
                 <li>Cancel any time — you keep the written record either way</li>
               </ul>
-              <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz?subject=Keeping%20it%20running">talk to us</a>
+              <a className="btn btn-solid" href="/ai-ready">start with your own journey</a>
             </div>
           </div>
 
@@ -189,7 +189,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
                   <li>One complete customer journey</li>
                   <li>Shared drafts your team can see</li>
                 </ul>
-                <a className="btn btn-ghost" href="mailto:assembl@assembl.co.nz?subject=Team">talk to us</a>
+                <a className="btn btn-ghost" href="/ai-ready">start with your own journey</a>
               </div>
               <div className="price-card">
                 <div className="price-tier">outcome</div>
@@ -203,7 +203,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
                   <li>A scorecard agreed before we start</li>
                   <li>Fail a line of it and we change the design or stop</li>
                 </ul>
-                <a className="btn btn-ghost" href="mailto:assembl@assembl.co.nz?subject=Outcome">start a conversation</a>
+                <a className="btn btn-ghost" href="/ai-ready">start with your own journey</a>
               </div>
             </div>
           </div>

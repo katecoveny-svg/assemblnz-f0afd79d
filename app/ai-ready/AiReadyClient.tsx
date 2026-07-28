@@ -169,6 +169,12 @@ export function AiReadyClient() {
           </form>
           {error && <p className="airdy-error" role="alert">{error}</p>}
           <p className="airdy-note">Reads public pages only. Nothing stored, nothing sent to anyone.</p>
+          <p className="airdy-dogfood">
+            This is assembl&rsquo;s own customer journey, running on assembl. Our agents read your
+            site, draft your journey, ask one question — and a named person (Kate) reads what they
+            prepared before anyone replies to you. We would not sell you a wait we don&rsquo;t run
+            ourselves.
+          </p>
         </header>
 
         {ready && (

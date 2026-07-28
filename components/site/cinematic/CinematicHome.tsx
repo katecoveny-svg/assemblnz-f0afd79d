@@ -528,7 +528,7 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
             for customers, communities and Aotearoa.
           </p>
           <div className="finale-row reveal-fade" data-delay="900">
-            <a className="btn btn-solid" href="mailto:assembl@assembl.co.nz">begin a conversation</a>
+            <a className="btn btn-solid" href="/ai-ready">begin — our agents read your site first</a>
             <a className="btn btn-glass" href="/pricing">see pricing</a>
           </div>
         </section>

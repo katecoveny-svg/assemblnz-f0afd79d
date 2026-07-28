@@ -345,7 +345,7 @@ export function CinematicConcepts() {
             </p>
             <div className="concept-cta">
               <a className="btn btn-solid" href="/build-an-agent">assemble one from your website →</a>
-              <a className="btn btn-glass" href="mailto:assembl@assembl.co.nz?subject=A%20concept%20for%20our%20industry">ask about your industry</a>
+              <a className="btn btn-glass" href="/ai-ready">see your industry's journey, drafted</a>
             </div>
           </div>
         </div>

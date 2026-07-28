@@ -227,3 +227,11 @@
   /* the report is a document — give it back its margins on a narrow screen */
   .airdy-doc { padding: 28px 20px 22px; border-radius: 20px; margin-top: 40px; }
 }
+
+/* eating our own cooking, said out loud */
+.airdy-dogfood {
+  margin: 16px 0 0; max-width: 62ch; padding: 14px 18px;
+  border-left: 2px solid rgba(212, 168, 67, 0.6);
+  background: rgba(212, 168, 67, 0.06);
+  font-weight: 300; font-size: 0.86rem; line-height: 1.6; color: var(--airdy-ink, #F0EEE9);
+}

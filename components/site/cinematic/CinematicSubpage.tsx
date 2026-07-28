@@ -181,7 +181,7 @@ export function CinematicSubpage({ spec }: { spec: SubpageSpec }) {
           </div>
           <div className="sub-cta">
             <a className="btn btn-solid" href={spec.cta.href}>{spec.cta.label}</a>
-            <a className="btn btn-glass" href="mailto:assembl@assembl.co.nz">begin a conversation</a>
+            <a className="btn btn-glass" href="/ai-ready">begin — our agents read your site first</a>
           </div>
         </div>
 
