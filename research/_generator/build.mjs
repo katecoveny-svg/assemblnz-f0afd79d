@@ -50,14 +50,14 @@ function page(c) {
 <meta name="description" content="${c.generic ? esc(c.company) + ` — a category demonstrator of an agentic customer journey by assembl. No real company; every name is invented.` : `An independent concept prepared for ` + esc(c.company) + `. Not affiliated with or endorsed by ` + esc(c.company) + `.`}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#0A0A0B; --ink-2:#111114; --paper:#FFFFFF; --muted:#8E9299; --muted-2:#6B6F76;
   --line:rgba(255,255,255,.13); --line-2:rgba(255,255,255,.07);
   --accent:${accent}; --accent-2:${accent2};
   --champ:#BFA37A; --champ-soft:rgba(191,163,122,.13);
-  --sans:"Lato",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --sans:"Jost",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -890,7 +890,7 @@ function boardPage(c) {
 <style>
   :root{--a:${accent};--a2:${accent2};--ink:#101418;--soft:#5A6068;--line:#E3E1DB;--paper:#FCFBF8}
   *{box-sizing:border-box;margin:0}
-  body{background:#EEECE6;color:var(--ink);font:15px/1.55 'Lato',-apple-system,system-ui,sans-serif;padding:34px 14px}
+  body{background:#EEECE6;color:var(--ink);font:15px/1.55 'Jost',-apple-system,system-ui,sans-serif;padding:34px 14px}
   .sheet{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:52px 56px;box-shadow:0 30px 70px -40px rgba(16,20,24,.35)}
   .mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
   .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:3px solid var(--a);padding-bottom:22px}

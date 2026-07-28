@@ -111,11 +111,11 @@ function makeCard(name: string, note: string): THREE.CanvasTexture {
   g.strokeStyle = 'rgba(184,150,79,0.75)';
   g.stroke();
   g.fillStyle = INKD;
-  g.font = '700 46px Lato, sans-serif';
+  g.font = '700 46px Jost, sans-serif';
   g.textAlign = 'center';
   g.fillText(name, 256, 76);
   g.fillStyle = 'rgba(27,26,23,0.72)';
-  g.font = '300 28px Lato, sans-serif';
+  g.font = '300 28px Jost, sans-serif';
   g.fillText(note, 256, 126);
   const t = new THREE.CanvasTexture(c);
   t.anisotropy = 4;

@@ -10,7 +10,7 @@
   width: 100%;
   background: #FBFAF6;
   color: #1A1918;
-  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-family: var(--font-lato, 'Jost', system-ui, sans-serif);
   scroll-behavior: smooth;
 }
 
@@ -189,7 +189,7 @@
   border: none;
   background: #1A1918;
   color: #FBFAF6;
-  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-family: var(--font-lato, 'Jost', system-ui, sans-serif);
   font-weight: 600;
   font-size: 1rem;
   letter-spacing: -0.005em;
@@ -213,7 +213,7 @@
   border-radius: 999px;
   background: rgba(251, 250, 246, 0.7);
   color: #1A1918;
-  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-family: var(--font-lato, 'Jost', system-ui, sans-serif);
   font-weight: 600;
   font-size: 1rem;
   letter-spacing: -0.005em;
@@ -394,7 +394,7 @@
 .closingMailNote {
   display: block;
   margin-top: 0.3rem;
-  font-family: var(--font-lato, 'Lato', system-ui, sans-serif);
+  font-family: var(--font-lato, 'Jost', system-ui, sans-serif);
   font-size: 0.85rem;
   letter-spacing: 0;
   color: #6a6560;

@@ -16,7 +16,7 @@
   --brass: #BFA37A;
   --navy: #0C1836;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --sans: 'Lato', system-ui, sans-serif;
+  --sans: 'Jost', system-ui, sans-serif;
   color: var(--ink);
   display: flex; flex-direction: column; align-items: center; gap: 20px; }
 

@@ -79,7 +79,7 @@
     '  --wp-glow:color-mix(in srgb, var(--wp-accent) 30%, transparent);',
     '  --wp-shell:linear-gradient(160deg,#2b2f33 0%,#14171a 42%,#2b2f33 100%);',
     '  --wp-rim:rgba(191,163,122,.55);',
-    "  --wp-sans:'Lato',-apple-system,system-ui,sans-serif;",
+    "  --wp-sans:'Jost',-apple-system,system-ui,sans-serif;",
     "  --wp-mono:'Space Mono',ui-monospace,monospace;",
     '  --wp-app:var(--wp-sans);',
     '  --wp-ease:cubic-bezier(.22,1,.36,1);',
