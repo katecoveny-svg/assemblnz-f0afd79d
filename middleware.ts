@@ -127,6 +127,13 @@ const SPLASH_EXEMPT_PREFIXES = [
   // grey V2Nav also rendered on top of the cinematic page's own nav. One
   // missing prefix, two reported bugs. (2026-07-28)
   '/ai-ready',
+  // Internal design labs — /lab/directions and /lab/type. Every page under
+  // /lab sets robots noindex in its own metadata, so exempting the prefix
+  // exposes nothing to search; it only stops the splash rewrite serving the
+  // homepage under a /lab URL, which is exactly what it was doing to
+  // /lab/type. Same one-missing-prefix fault as /ai-ready above, caught the
+  // same day — hence the prefix rather than another single route. (2026-07-28)
+  '/lab',
   // Public, client-name-free journey walkthrough (2026-07-25).
   '/concepts',
   // Kept Business Blueprints — private links, noindex (2026-07-25).
