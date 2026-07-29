@@ -8,6 +8,7 @@ import { CHROME_FAMILY } from '@/lib/generative-art/families/chrome';
 import { FLOW_FAMILY } from '@/lib/generative-art/families/flow';
 import { CONSTELLATION_FAMILY } from '@/lib/generative-art/families/constellation';
 import { GRID_FAMILY } from '@/lib/generative-art/families/grid';
+import { ORBIT_FAMILY } from '@/lib/generative-art/families/orbit';
 import { WAVES_FAMILY } from '@/lib/generative-art/families/waves';
 import { REACTION_FAMILY } from '@/lib/generative-art/families/reaction';
 import { BOIDS_FAMILY } from '@/lib/generative-art/families/boids';
@@ -175,6 +176,7 @@ async function compositeOverlay(
 }
 
 const FAMILIES: Family[] = [
+  ORBIT_FAMILY,
   LINE_FAMILY,
   CONSTELLATION_FAMILY,
   GRID_FAMILY,
@@ -198,6 +200,7 @@ const FAMILY_MAP: Record<FamilyId, Family> = {
   chrome: CHROME_FAMILY,
   flow: FLOW_FAMILY,
   constellation: CONSTELLATION_FAMILY,
+  orbit: ORBIT_FAMILY,
   grid: GRID_FAMILY,
   waves: WAVES_FAMILY,
   reaction: REACTION_FAMILY,

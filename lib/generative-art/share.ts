@@ -8,6 +8,7 @@ interface ShareCopy {
 /** One-line share copy per family — a shape a viewer can read at a glance. */
 export function shareCopyFor(family: FamilyId, presetLabel: string): ShareCopy {
   const map: Record<FamilyId, string> = {
+    orbit: `${presetLabel} — rings around a core, from the assembl creative playground`,
     line: `Just made ${presetLabel} in the assembl creative playground — layered translucent line art, entirely in the browser`,
     chrome: `${presetLabel} — real-time chrome + glass in the assembl creative playground`,
     flow: `${presetLabel} — particle flow through curl noise, in the assembl creative playground`,

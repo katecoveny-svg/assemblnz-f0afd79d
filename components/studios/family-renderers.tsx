@@ -24,6 +24,10 @@ const GridCanvas = dynamic(
   () => import('./families/GridCanvas').then((m) => m.GridCanvas),
   { ssr: false }
 );
+const OrbitCanvas = dynamic(
+  () => import('./families/OrbitCanvas').then((m) => m.OrbitCanvas),
+  { ssr: false }
+);
 const WavesCanvas = dynamic(
   () => import('./families/WavesCanvas').then((m) => m.WavesCanvas),
   { ssr: false }
@@ -79,6 +83,7 @@ export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = 
   flow: FlowCanvas,
   constellation: ConstellationCanvas,
   grid: GridCanvas,
+  orbit: OrbitCanvas,
   waves: WavesCanvas,
   reaction: ReactionCanvas,
   boids: BoidsCanvas,
