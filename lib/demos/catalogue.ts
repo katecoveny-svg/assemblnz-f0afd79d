@@ -1,0 +1,217 @@
+/**
+ * The concept-demo catalogue — one canonical entry per lead.
+ *
+ * Kate, 30 July 2026: "research every demo concept you can find that has been
+ * made for each of these leads and then combine the best of all into one sharp
+ * cohesive demo concept that I can easily find and access to stop the double ups."
+ *
+ * The double-ups were real and undocumented. An audit of research/assembling-*
+ * found four Woolworths builds, two Air NZ, two Ryman and two Contact URLs, with
+ * nothing anywhere recording which was current. Nothing listed them either —
+ * /assembling links its own sub-pages, not the concepts — so the only way to find
+ * a demo was to already know its URL.
+ *
+ * So: `canonical` is the one to send. `superseded` records what it replaced and
+ * why, kept rather than deleted because old links are already in inboxes.
+ */
+
+export type Demo = {
+  slug: string;                 // the pages.dev subdomain
+  company: string;
+  sector: string;
+  kind: 'named' | 'demonstrator';
+  /** The one line that opens the conversation. */
+  wedge: string;
+  /** What is genuinely worth looking at on this page. */
+  showpiece: string;
+  /** Anything that must be checked before sending. */
+  caution?: string;
+  /** Older builds this replaces, and what happened to them. */
+  superseded?: { slug: string; note: string }[];
+  /** Does it carry the current fleet standard? */
+  has: { waits: boolean; accept: boolean; scratch: boolean; agent: boolean };
+};
+
+export const url = (slug: string) => `https://assembling-${slug}.pages.dev`;
+
+export const DEMOS: Demo[] = [
+  {
+    slug: 'woolworths-rewards',
+    company: 'Woolworths NZ · Everyday Rewards',
+    sector: 'Grocery + loyalty',
+    kind: 'named',
+    wedge:
+      'Woolworths shipped Olive, Snap & Shop and Smart Baskets in Australia on 29 June 2026 — and the release never mentions Everyday Rewards. New Zealand has neither. The agent and the loyalty programme are separate builds.',
+    showpiece:
+      'The shop assembles itself when you press play: the list arrives already written from purchase history, the missing weekly item is flagged, a substitution is asked rather than decided, a supplier-funded slot appears labelled as funded, and then it stops with nothing ordered. Plus an honest split between what can start Monday and what has to be built.',
+    superseded: [
+      { slug: 'concept', note: 'the "concept for Oliver" build — richer chrome, but no tier split and no researched concepts' },
+      { slug: 'woolworths-cine', note: 'the earliest single-screen version' },
+    ],
+    has: { waits: true, accept: true, scratch: false, agent: false },
+  },
+  {
+    slug: 'ryman-family',
+    company: 'Ryman Healthcare',
+    sector: 'Retirement villages',
+    kind: 'named',
+    wedge:
+      'The answers a family actually wants are already published — in a 42-page statutory disclosure statement on the Companies Office register that no family has ever opened. Nothing needs inventing; it needs reading.',
+    showpiece:
+      'The sibling table. The one decision aid ever trialled for this decision cut a carer’s own conflict significantly and left disagreements between family members unresolved. This takes three siblings’ answers and sorts them into the arguments more information can settle and the arguments it never will.',
+    caution:
+      'Ryman’s standard deferred management fee is now 30%, and current residents keep the terms they signed — so there are two cohorts. Never quote a percentage without asking which agreement first.',
+    superseded: [
+      { slug: 'ryman', note: 'the "minute one" build — has the live agent and wait-phone this one still needs' },
+    ],
+    has: { waits: false, accept: true, scratch: false, agent: false },
+  },
+  {
+    slug: 'tower',
+    company: 'Tower Limited',
+    sector: 'Insurance · house claims',
+    kind: 'named',
+    wedge:
+      'An average of 92 days to fully settle a house claim (Consumer NZ). Most of those days are real work — assessors, schedules, the Natural Hazards portion — and the customer sees none of it, so all of it reads as silence.',
+    showpiece:
+      'The claim runs twice at once. Left column is what a customer receives today; right is the same work with the waiting designed. The headline number counts down stage by stage as the days are earned back.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'summerset',
+    company: 'Summerset',
+    sector: 'Retirement villages',
+    kind: 'named',
+    wedge:
+      'Summerset publishes what families need — to investors, and in statutory disclosure statements. Never to families. Its weekly-fee cap against after-tax NZ Super is in the disclosure statement, not on the website.',
+    showpiece:
+      'The money, in plain words: the licence payment, the deferred management fee at 25% over four years, and fees stopping the day she permanently vacates.',
+    caution:
+      'Summerset Sure is tiered — 90 days for independent living or a serviced apartment, 30 days for a memory care apartment or premium room, and it does not apply on transfer, health-driven exit or death. The DMF is 25% (27.5% for a Care Suite), never 30%.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'airnz',
+    company: 'Air New Zealand',
+    sector: 'Aviation · disruption',
+    kind: 'named',
+    wedge:
+      'A flight that runs on time needs nothing from us. The value is entirely in the hours when the board changes and nobody can say what happens to your connection.',
+    showpiece:
+      'Six waits in a journey that might not go to plan — and the gate moment shows the consequence rather than the cause, because people do not need the reason for a delay, they need to know whether they will make the next thing.',
+    caution: 'Never write “koru points”. Airpoints and Koru are real names; that coinage is not.',
+    superseded: [{ slug: 'airnz-cine', note: 'the earliest single-screen version' }],
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'contact',
+    company: 'Contact Energy',
+    sector: 'Energy retail',
+    kind: 'named',
+    wedge:
+      'The whole relationship happens in the gap between using power and finding out what it cost.',
+    showpiece:
+      'Six waits in a power account, ending on the winter bill that arrives with the options already worked out. The outage moment says plainly that nobody should sponsor an outage.',
+    superseded: [{ slug: 'contact-cine', note: 'same build, second URL — deployed twice historically' }],
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'nzpost', company: 'NZ Post', sector: 'Logistics', kind: 'named',
+    wedge: 'The most repeated question in New Zealand logistics: where is my parcel. The tracking page routes the enquiry rather than answering it.',
+    showpiece: 'Order wait through to the enquiry wait — six moments, including the delivered-but-not-in-hand gap.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'aig', company: 'AIG New Zealand', sector: 'Commercial insurance', kind: 'named',
+    wedge: 'A commercial claim starts on the worst day a business has had in years, and everything after it is a wait they cannot see into.',
+    showpiece: 'The first night before the claim is even lodged, through to the settlement wait.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'southern-cross', company: 'Southern Cross Health Society', sector: 'Health insurance', kind: 'named',
+    wedge: 'The covered question, asked before anyone books anything — and the pre-approval silence that follows it.',
+    showpiece: 'Six waits from “is this covered” to the letter home nobody expected.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'trademe', company: 'Trade Me Property', sector: 'Property', kind: 'named',
+    wedge: 'The listing that has been up for six weeks, and the buyer waiting on a LIM.',
+    showpiece: 'Search wait through to settlement — both sides of the same six weeks.',
+    caution: 'Palette still UNVERIFIED — confirm before sending.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'nectar', company: 'Nectar Money', sector: 'Personal lending', kind: 'named',
+    wedge: 'You already quote fast. The question is what else those same minutes could produce.',
+    showpiece: 'The comparing days through to the last payment.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'instant-finance', company: 'Instant Finance', sector: 'Branch lending', kind: 'named',
+    wedge: 'Fifty-five years and a branch network is not something you automate your way out of. It is the gap before someone sits down with one of your people.',
+    showpiece: 'Before you walk in, through to coming back in.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'myfoodbag', company: 'My Food Bag', sector: 'Meal kits', kind: 'named',
+    wedge: 'You publish more than thirty recipes a week. It lands on a person at the end of a Sunday, and a list is not a decision.',
+    showpiece: 'The Sunday scroll through to the skip week — on sage paper, in a serif, with a queue rather than a knot.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'electrickiwi', company: 'Electric Kiwi', sector: 'Energy retail', kind: 'named',
+    wedge: 'The Hour of Power is the best idea in NZ energy retail, and the one thing that asks the customer to do the work.',
+    showpiece: 'The compare wait through to the winter bill.',
+    caution: 'Palette still UNVERIFIED — confirm before sending.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'hnry', company: 'Hnry', sector: 'Sole-trader tax', kind: 'named',
+    wedge: 'Waiting to be paid, then waiting on IRD. A sole trader’s year is mostly waiting.',
+    showpiece: 'Waiting to be paid through to waiting on IRD.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'sharesies', company: 'Sharesies', sector: 'Retail investing', kind: 'named',
+    wedge: 'The sign-up check, the money in transit, the queued order — an investing journey is a sequence of waits before anything happens.',
+    showpiece: 'Six waits, with “It is down. Here is why.” carrying a not-advice chip.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'giltrap', company: 'Giltrap Group', sector: 'Automotive retail', kind: 'named',
+    wedge: 'Not a car-buyer journey — a retail marketing operating system for a dealer group. The waits are inside the marketing operation.',
+    showpiece: 'The stock wait through to the group meeting, all six experienced by Giltrap’s own people.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'construction', company: 'An architecture + construction practice', sector: 'Construction', kind: 'demonstrator',
+    wedge: 'Concept, consent, pricing, coordination, site, handover — the waits that decide whether a build runs.',
+    showpiece: 'IFC in the browser with no BIM authoring licence.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  { slug: 'demo-retirement', company: 'Rosewell Villages', sector: 'Retirement villages', kind: 'demonstrator',
+    wedge: 'The category shape, with an invented operator so no real brand is borrowed.',
+    showpiece: 'Before anyone asks, through to the wait for repayment. Label chips rather than points — you do not gamify a family deciding about their mother.',
+    has: { waits: true, accept: true, scratch: true, agent: true } },
+  { slug: 'demo-airline', company: 'Southerly Air', sector: 'Aviation', kind: 'demonstrator',
+    wedge: 'The category shape, with an invented carrier.',
+    showpiece: 'Booking wait through to the connection wait.',
+    has: { waits: true, accept: true, scratch: true, agent: true } },
+  { slug: 'demo-grocery', company: 'Fernmarket', sector: 'Grocery', kind: 'demonstrator',
+    wedge: 'The category shape, with an invented supermarket.',
+    showpiece: 'The Sunday list through to the midweek gap.',
+    has: { waits: true, accept: true, scratch: true, agent: true } },
+  { slug: 'demo-energy', company: 'Tidewatt Energy', sector: 'Energy', kind: 'demonstrator',
+    wedge: 'The category shape, with an invented retailer.',
+    showpiece: 'Move-in wait through to the payment plan.',
+    has: { waits: true, accept: true, scratch: true, agent: true } },
+  { slug: 'demo-banking', company: 'Ledgerline', sector: 'Banking', kind: 'demonstrator',
+    wedge: 'The category shape, with an invented bank.',
+    showpiece: 'Pre-approval through to the rate rollover. No personalised financial advice anywhere.',
+    has: { waits: true, accept: true, scratch: true, agent: true } },
+];
+
+/** Every superseded slug, so the page can list what NOT to send. */
+export const SUPERSEDED = DEMOS.flatMap((d) =>
+  (d.superseded ?? []).map((s) => ({ ...s, replacedBy: d.slug, company: d.company })),
+);

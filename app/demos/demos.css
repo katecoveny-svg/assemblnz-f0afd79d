@@ -1,0 +1,86 @@
+/* /demos — the concept fleet's front door. Navy + champagne, per BRAND-CANON. */
+.dm {
+  min-height: 100vh; background: #050F1C; color: #F0EEE9;
+  font-family: 'Jost', system-ui, sans-serif; font-weight: 300;
+  padding: 76px 0 96px;
+}
+.dm-wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+@media (min-width: 1700px) { .dm-wrap { max-width: min(84vw, 1560px); } }
+
+.dm-head { max-width: 74ch; }
+.dm-kick {
+  font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #BFA37A; font-weight: 500; margin-bottom: 18px;
+}
+.dm h1 { font-size: clamp(38px, 5vw, 68px); font-weight: 700; line-height: 1.02; letter-spacing: -0.03em; margin: 0; }
+.dm-metal {
+  background: linear-gradient(100deg, #8A6A2E 0%, #D4A843 38%, #F6E7B5 55%, #B8964F 82%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.dm-lede { margin-top: 22px; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.62; color: rgba(240, 238, 233, 0.82); }
+.dm-note { margin-top: 14px; font-size: 12.5px; line-height: 1.6; color: rgba(240, 238, 233, 0.48); max-width: 66ch; }
+
+.dm-flags {
+  margin-top: 44px; border: 1px solid rgba(226, 160, 160, 0.42);
+  background: rgba(226, 160, 160, 0.07); border-radius: 18px; padding: 24px 26px;
+}
+.dm-flags h2 { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; margin: 0 0 12px; color: #E8B4AE; }
+.dm-flags ul { list-style: none; margin: 0; padding: 0; }
+.dm-flags li {
+  font-size: 13.5px; line-height: 1.6; color: rgba(240, 238, 233, 0.8);
+  padding: 8px 0 8px 16px; position: relative;
+}
+.dm-flags li::before { content: "!"; position: absolute; left: 0; color: #E8B4AE; font-weight: 700; }
+.dm-flags b { color: #fff; font-weight: 500; }
+
+.dm-h2 {
+  margin: 62px 0 6px; font-size: clamp(22px, 2.4vw, 30px); font-weight: 700;
+  letter-spacing: -0.022em;
+}
+.dm-sub { font-size: 14px; color: rgba(240, 238, 233, 0.55); margin: 0 0 22px; max-width: 68ch; line-height: 1.6; }
+
+.dm-list { display: grid; gap: 16px; margin-top: 22px; }
+.dm-list.tight { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.dm-card {
+  border: 1px solid rgba(240, 238, 233, 0.14); border-radius: 18px;
+  padding: 24px 26px; background: rgba(240, 238, 233, 0.035);
+}
+.dm-card:hover { border-color: rgba(212, 168, 67, 0.5); }
+.dm-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+.dm-sector { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #BFA37A; font-weight: 500; }
+.dm-card h3 { font-size: clamp(19px, 2vw, 24px); font-weight: 700; letter-spacing: -0.022em; margin: 5px 0 0; }
+.dm-open {
+  flex: 0 0 auto; background: #D4A843; color: #050F1C; text-decoration: none;
+  border-radius: 999px; padding: 9px 17px; font-size: 13px; font-weight: 500; white-space: nowrap;
+}
+.dm-open:hover { background: #F6E7B5; }
+.dm-wedge, .dm-show { font-size: 14px; line-height: 1.62; color: rgba(240, 238, 233, 0.78); margin-top: 14px; }
+.dm-wedge b, .dm-show b { color: #D4A843; font-weight: 500; }
+.dm-caution {
+  margin-top: 13px; font-size: 13px; line-height: 1.55; color: #E8B4AE;
+  border-left: 2px solid rgba(232, 180, 174, 0.55); padding-left: 12px;
+}
+.dm-meta {
+  margin-top: 16px; padding-top: 13px; border-top: 1px solid rgba(240, 238, 233, 0.1);
+  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: baseline;
+}
+.dm-url { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: rgba(240, 238, 233, 0.5); }
+.dm-has { font-size: 11px; letter-spacing: 0.06em; color: rgba(191, 163, 122, 0.8); text-transform: uppercase; }
+.dm-sup { margin-top: 11px; font-size: 12px; line-height: 1.55; color: rgba(240, 238, 233, 0.42); font-style: italic; }
+.dm-card.small .dm-show { font-size: 13.5px; }
+.dm-card.small .dm-url { display: block; margin-top: 14px; }
+
+.dm-dead { margin-top: 66px; }
+.dm-dead h2 { font-size: clamp(20px, 2.2vw, 27px); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; color: rgba(240, 238, 233, 0.6); }
+.dm-dead ul { list-style: none; margin: 18px 0 0; padding: 0; }
+.dm-dead li {
+  display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline;
+  padding: 13px 0; border-bottom: 1px solid rgba(240, 238, 233, 0.08);
+}
+.dm-dead code { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: rgba(240, 238, 233, 0.38); text-decoration: line-through; }
+.dm-dead span { font-size: 13px; color: rgba(240, 238, 233, 0.6); line-height: 1.55; flex: 1; min-width: 260px; }
+.dm-dead a { color: #D4A843; }
+
+.dm-foot { margin-top: 62px; padding-top: 24px; border-top: 1px solid rgba(240, 238, 233, 0.1); }
+.dm-foot p { font-size: 12.5px; color: rgba(240, 238, 233, 0.42); line-height: 1.7; }
