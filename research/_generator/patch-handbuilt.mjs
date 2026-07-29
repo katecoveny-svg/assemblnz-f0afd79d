@@ -40,6 +40,31 @@ const lum = (hex) => {
 
 const CLIENTS = [
   {
+    /* Air NZ's real palette here is near-black with teal and a deep purple-navy;
+       the band takes the teal, which is the only one that reads as ink on paper.
+       ⚠️ Never use Airpoints or koru language anywhere on this page. */
+    slug: 'airnz', dir: 'assembling-airnz-v1plus', map: 'airnz',
+    accent: '#007A85', surface: '#EEF5F5', line: '#DCE7E7', ink: '#141817', muted: '#6C7574',
+    short: 'Air New Zealand',
+    before: '<footer',
+    pilotScope: 'One disruption type on one route, for six weeks — a delay that puts a domestic connection at risk. Not the whole network, and nothing that rebooks anybody.',
+    pilotAccess: 'Read-only access to the disruption and connection events your systems already emit, and your published fare and carriage conditions. No passenger data leaves your environment and nothing writes to a booking.',
+    pilotScorecard: 'Drafts a service lead sends without rewriting. Contacts during a disruption against a control. Whether passengers said they knew what was happening. And: would that lead be annoyed if you switched it off?',
+    acceptEg: 'e.g. a different disruption type, a single route, a shorter window, no customer-facing output at all in round one\u2026',
+  },
+  {
+    /* Contact's brand is red \u2014 the token in this file is named --blue but
+       carries #E62A32, which is worth knowing before editing anything. */
+    slug: 'contact', dir: 'assembling-contact-cine', map: 'contact',
+    accent: '#E62A32', surface: '#FBF1F1', line: '#EEDCDC', ink: '#181413', muted: '#776C6B',
+    short: 'Contact Energy',
+    before: '<footer',
+    pilotScope: 'One wait on one customer segment, for six weeks \u2014 the first bill after a switch. Not the whole book, and nothing that changes a tariff.',
+    pilotAccess: 'Read-only access to billing and meter-read events already emitted, and your published plan terms. No customer data leaves your environment and nothing writes to an account or a rate.',
+    pilotScorecard: 'Drafts a billing lead sends without rewriting. Contacts about a first bill against a control. Whether the bill needed explaining twice. And: would that lead be annoyed if you switched it off?',
+    acceptEg: 'e.g. the hold queue instead of the first bill, a shorter window, a different approver, nothing customer-facing in round one\u2026',
+  },
+  {
     /* Giltrap is MONOCHROME — black and white, with champagne as the only
        accent the page allows itself. The band therefore sits on warm grey
        rather than a brand tint, and the accent is the champagne already in use. */
