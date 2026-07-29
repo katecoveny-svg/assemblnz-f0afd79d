@@ -40,6 +40,19 @@ const lum = (hex) => {
 
 const CLIENTS = [
   {
+    /* Giltrap is MONOCHROME — black and white, with champagne as the only
+       accent the page allows itself. The band therefore sits on warm grey
+       rather than a brand tint, and the accent is the champagne already in use. */
+    slug: 'giltrap', dir: 'assembling-giltrap', map: 'giltrap',
+    accent: '#BFA37A', surface: '#F5F3EF', line: '#E4E0D8', ink: '#141414', muted: '#6F6B64',
+    short: 'Giltrap',
+    before: '<div class="narrow rise" style="margin-top:62px">',
+    pilotScope: 'Two marques and one dealer principal, for six weeks. Live-inventory campaign ideas, the CI guard, and the meeting loop. Not media buying, and not the whole group.',
+    pilotAccess: 'One scheduled stock export, your group brand guidelines and two distributor CI packs, and read-only Meta and GA4. No DMS write access, no customer data, no spend authority.',
+    pilotScorecard: 'Drafts accepted without rewrite. Campaign ideas a dealer principal actually ran. Compliance flags a person agreed with. Time from a DP asking to the work landing. And the one that matters: would that dealer principal be annoyed if you switched it off?',
+    acceptEg: 'e.g. different marques, a different dealer principal, a shorter window, no Meta or GA4 access at all\u2026',
+  },
+  {
     slug: 'ryman', dir: 'assembling-ryman', map: 'ryman',
     accent: '#F06022', surface: '#FDF5EB', line: '#E7E0D6', ink: '#191919', muted: '#7B736C',
     short: 'Ryman',

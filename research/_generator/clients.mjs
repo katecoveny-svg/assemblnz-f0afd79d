@@ -11,6 +11,7 @@
 export const CLIENTS = [
   {
     slug: 'southern-cross',
+    theme: 'paper', display: 'editorial',
     momentsTitle: 'Every remediation moment, one pattern.',
     moments: [
       ['The error, found', 'named in two sentences'],
@@ -20,7 +21,7 @@ export const CLIENTS = [
       ['The call', 'only if you want one'],
       ['The record', 'kept, readable'],
     ],
-    object: 'shelter',
+    object: 'canopy',
     company: 'Southern Cross Health Society',
     short: 'Southern Cross',
     primary: '#009ADE',
@@ -166,6 +167,7 @@ export const CLIENTS = [
 
   {
     slug: 'nzpost',
+    theme: 'ink', display: 'industrial',
     momentsTitle: 'Every delivery moment, one pattern.',
     moments: [
       ['Ordered', 'the lodgement scan'],
@@ -322,6 +324,7 @@ export const CLIENTS = [
 
   {
     slug: 'aig',
+    theme: 'ink', display: 'editorial',
     momentsTitle: 'Every claim moment, one pattern.',
     moments: [
       ['Lodge', 'the ruined day, told once'],
@@ -331,7 +334,7 @@ export const CLIENTS = [
       ['Decision', 'drafted for a person'],
       ['Payment', 'ten working days, watched'],
     ],
-    object: 'shelter',
+    object: 'ledger',
     company: 'AIG New Zealand',
     short: 'AIG',
     primary: '#1352DE',
@@ -487,7 +490,8 @@ export const CLIENTS = [
 
   {
     slug: 'trademe',
-    object: 'lattice',
+    theme: 'paper', display: 'editorial',
+    object: 'thresholds',
     company: 'Trade Me Property',
     short: 'Trade Me',
     primary: '#006EBD',
@@ -662,7 +666,8 @@ export const CLIENTS = [
      ══════════════════════════════════════════════════════════════════════════ */
   {
     slug: 'nectar',
-    object: 'filament',
+    theme: 'paper', display: 'geometric',
+    object: 'ledger',
     company: 'Nectar Money',
     boardHero: ['7 minutes', 'To a quote \u2014 then the gap to money landing, under pressure. This concept shows the read as it happens, and a person signs before anything moves.'],
     boardPromise: 'Seven minutes to a quote \u2014 then the gap to money landing, under pressure. This concept shows the read as it happens: the statement sorting itself, checks lighting green, and a person signing before anything moves.',
@@ -968,7 +973,8 @@ export const CLIENTS = [
      ══════════════════════════════════════════════════════════════════════════ */
   {
     slug: 'instant-finance',
-    object: 'lattice',
+    theme: 'paper', display: 'industrial',
+    object: 'canopy',
     company: 'Instant Finance',
     short: 'Instant Finance',
     primary: '#47A1A3',
@@ -1199,7 +1205,8 @@ export const CLIENTS = [
      is a chore. */
   {
     slug: 'myfoodbag',
-    object: 'lattice',
+    theme: 'paper', display: 'editorial',
+    object: 'queue',
     company: 'My Food Bag',
     short: 'My Food Bag',
     primary: '#77A222',
@@ -1357,6 +1364,7 @@ export const CLIENTS = [
      leave you to work out when it should be and what to put in it. */
   {
     slug: 'electrickiwi',
+    theme: 'ink', display: 'industrial',
     momentsTitle: 'Every switch moment, one pattern.',
     moments: [
       ['Sign-up', 'two minutes, done'],
@@ -1366,7 +1374,7 @@ export const CLIENTS = [
       ['First bill', 'checked against the promise'],
       ['Winter', 'watched, warned early'],
     ],
-    object: 'helix',
+    object: 'meter',
     company: 'Electric Kiwi',
     short: 'Electric Kiwi',
     primary: '#049DD9',
@@ -1524,6 +1532,7 @@ export const CLIENTS = [
      the gap their automation cannot close on its own. */
   {
     slug: 'hnry',
+    theme: 'paper', display: 'geometric',
     momentsTitle: 'Every tax moment, one pattern.',
     moments: [
       ['Invoice', 'raised, split at source'],
@@ -1533,7 +1542,7 @@ export const CLIENTS = [
       ['EOFY', 'the year, replayed'],
       ['The number', 'no shock \u2014 it was paid all year'],
     ],
-    object: 'filament',
+    object: 'ledger',
     company: 'Hnry',
     short: 'Hnry',
     primary: '#272754',
@@ -1692,6 +1701,7 @@ export const CLIENTS = [
      in that gap nobody explains what will actually happen. */
   {
     slug: 'sharesies',
+    theme: 'paper', display: 'geometric',
     momentsTitle: 'Every investing moment, one pattern.',
     moments: [
       ['Join', 'five minutes'],
@@ -1701,7 +1711,7 @@ export const CLIENTS = [
       ['The dip', 'explained, not soothed'],
       ['The decades', 'watched, kept'],
     ],
-    object: 'arc',
+    object: 'lattice',
     company: 'Sharesies',
     short: 'Sharesies',
     primary: '#E50072',
@@ -1867,7 +1877,8 @@ export const CLIENTS = [
      ══════════════════════════════════════════════════════════════════════════ */
 
   { /* ── RETIREMENT ── */
-    slug: 'demo-retirement', generic: true,
+    slug: 'demo-retirement',
+    theme: 'paper', display: 'editorial', generic: true,
     momentsTitle: 'Every village moment, one pattern.',
     moments: [
       ['The enquiry', 'a pack, not a brochure'],
@@ -1876,7 +1887,7 @@ export const CLIENTS = [
       ['Care changes', 'seen before it is a crisis'],
       ['The exit', 'the pipeline, in the open'],
       ['Repayment', 'a date, not a silence'],
-    ], object: 'shelter',
+    ], object: 'village',
     company: 'Rosewell Villages', short: 'Rosewell',
     primary: '#3F6152', secondary: '#C8785A', paletteConfidence: 'high',
     buyerTitle: 'A category demonstrator', buyerLine: 'Retirement living · an invented example',
@@ -1990,7 +2001,8 @@ export const CLIENTS = [
   },
 
   { /* ── AIRLINE ── */
-    slug: 'demo-airline', generic: true,
+    slug: 'demo-airline',
+    theme: 'ink', display: 'geometric', generic: true,
     momentsTitle: 'Every disruption moment, one pattern.',
     moments: [
       ['The change', 'told before the board says it'],
@@ -2113,7 +2125,8 @@ export const CLIENTS = [
   },
 
   { /* ── GROCERY ── */
-    slug: 'demo-grocery', generic: true,
+    slug: 'demo-grocery',
+    theme: 'paper', display: 'industrial', generic: true,
     momentsTitle: 'Every shop moment, one pattern.',
     moments: [
       ['The list', 'drafted from what you buy'],
@@ -2122,7 +2135,7 @@ export const CLIENTS = [
       ['The window', 'tightened, not guessed'],
       ['At the door', 'what arrived, and why'],
       ['Next week', 'the miss, remembered'],
-    ], object: 'lattice',
+    ], object: 'queue',
     company: 'Fernmarket', short: 'Fernmarket',
     primary: '#1F5133', secondary: '#E8A33D', paletteConfidence: 'high',
     buyerTitle: 'A category demonstrator', buyerLine: 'Grocery and loyalty · an invented example',
@@ -2236,7 +2249,8 @@ export const CLIENTS = [
   },
 
   { /* ── ENERGY ── */
-    slug: 'demo-energy', generic: true,
+    slug: 'demo-energy',
+    theme: 'ink', display: 'industrial', generic: true,
     momentsTitle: 'Every power moment, one pattern.',
     moments: [
       ['The switch', 'ten days, visible'],
@@ -2245,7 +2259,7 @@ export const CLIENTS = [
       ['Your free hour', 'placed on the real curve'],
       ['Winter', 'warned early, not after'],
       ['The record', 'every claim checkable'],
-    ], object: 'helix',
+    ], object: 'meter',
     company: 'Tidewatt Energy', short: 'Tidewatt',
     primary: '#5B2A86', secondary: '#B4D33D', paletteConfidence: 'high',
     buyerTitle: 'A category demonstrator', buyerLine: 'Energy retail · an invented example',
@@ -2359,7 +2373,8 @@ export const CLIENTS = [
   },
 
   { /* ── BANKING ── */
-    slug: 'demo-banking', generic: true,
+    slug: 'demo-banking',
+    theme: 'ink', display: 'editorial', generic: true,
     momentsTitle: 'Every application moment, one pattern.',
     moments: [
       ['Applied', 'the file, complete or not'],
@@ -2368,7 +2383,7 @@ export const CLIENTS = [
       ['The desk', 'a named assessor'],
       ['The decision', 'a person\u2019s, always'],
       ['Drawdown', 'the day it lands'],
-    ], object: 'filament',
+    ], object: 'thresholds',
     company: 'Ledgerline', short: 'Ledgerline',
     primary: '#1E2A38', secondary: '#C9A227', paletteConfidence: 'high',
     buyerTitle: 'A category demonstrator', buyerLine: 'Banking and lending · an invented example',
@@ -2482,6 +2497,7 @@ export const CLIENTS = [
   },
   {
     slug: 'tower',
+    theme: 'ink', display: 'industrial',
     object: 'shelter',
     company: 'Tower Limited',
     momentsTitle: 'Every claim moment, one pattern.',
@@ -2653,6 +2669,7 @@ export const CLIENTS = [
 
   {
     slug: 'construction',
+    theme: 'paper', display: 'industrial',
     generic: true,
     object: 'lattice',
     company: 'A New Zealand architecture and construction practice',
