@@ -1266,25 +1266,44 @@ window.__getAgentName = () => agentName;
   e=new THREE.DirectionalLight('#FFFFFF',20);e.position.set(-5,3,2);env.add(e)
   s.environment=pmrem.fromScene(env,0.04).texture
   s.add(new THREE.AmbientLight('#FFFFFF',0.3))
-  var key=new THREE.DirectionalLight('#FFFFFF',5);key.position.set(5,10,5);s.add(key)
+  var key=new THREE.DirectionalLight('#FFFFFF',1.5);key.position.set(5,10,5);s.add(key)
   var main=new THREE.MeshStandardMaterial({color:'#D95400',metalness:1,roughness:0.1,envMapIntensity:28})
   var bright=new THREE.MeshStandardMaterial({color:'#FD6400',metalness:1,roughness:0.05,envMapIntensity:38})
   var deep=new THREE.MeshStandardMaterial({color:'#0A5C31',metalness:1,roughness:0.03,envMapIntensity:40})
   var wc=new THREE.MeshStandardMaterial({color:'#F8F9FA',metalness:1,roughness:0.02,envMapIntensity:35})
   var g=new THREE.Group();s.add(g)
-  var core=new THREE.Mesh(new THREE.TorusGeometry(1.8,0.5,32,128),bright);g.add(core)
-  var inner=new THREE.Mesh(new THREE.SphereGeometry(0.9,48,48),new THREE.MeshPhysicalMaterial({color:'#FD6400',metalness:0.95,roughness:0.05,transmission:0.3,transparent:true,opacity:0.92,envMapIntensity:22}));g.add(inner)
-  var tri=new THREE.Mesh(new THREE.ConeGeometry(0.6,1.2,4),deep);tri.position.set(-2.3,1.9,-1.2);tri.rotation.z=Math.PI/4;g.add(tri)
-  var dia=new THREE.Mesh(new THREE.OctahedronGeometry(0.7,0),main);dia.position.set(2.5,-0.3,0);g.add(dia)
-  var r1=new THREE.Mesh(new THREE.TorusGeometry(5,0.08,16,128),bright);r1.rotation.x=Math.PI/2.3;r1.rotation.z=Math.PI/8;g.add(r1)
-  var r2=new THREE.Mesh(new THREE.TorusGeometry(4,0.05,12,96),main);r2.rotation.x=Math.PI/2.6;r2.rotation.y=Math.PI/5;g.add(r2)
-  var orbs=[]
-  ;[{geo:new THREE.TorusGeometry(0.5,0.18,20,60),m:bright,r:6,sp:0.35,ph:0,ya:1.2},
-    {geo:new THREE.OctahedronGeometry(0.6,0),m:deep,r:6.5,sp:0.28,ph:1.5,ya:0.9},
-    {geo:new THREE.ConeGeometry(0.5,1,4),m:main,r:5.5,sp:0.4,ph:3,ya:1},
-    {geo:new THREE.IcosahedronGeometry(0.55,0),m:wc,r:5.2,sp:0.45,ph:4.5,ya:0.8},
-    {geo:new THREE.TetrahedronGeometry(0.5,0),m:wc,r:5.8,sp:0.38,ph:1,ya:1.4}
-  ].forEach(function(d){var m=new THREE.Mesh(d.geo,d.m);m.userData=d;g.add(m);orbs.push(m)})
+
+  /* THE QUEUE.
+     Everyday Rewards' wait is always a line — the delivery slot, the checkout,
+     Scan & Go, the spinner in the app. So the object is a queue that keeps
+     moving, and at the head of it each item lifts and becomes something the
+     shopper keeps. The rings this replaced said nothing about a supermarket. */
+  var itemA=new THREE.MeshStandardMaterial({color:'#0A5C31',metalness:0,roughness:0.48,envMapIntensity:0.9})
+  var itemB=new THREE.MeshStandardMaterial({color:'#D95400',metalness:0,roughness:0.44,envMapIntensity:0.9})
+  var itemC=new THREE.MeshStandardMaterial({color:'#FD6400',metalness:0,roughness:0.40,envMapIntensity:1.0})
+  var tillM=new THREE.MeshStandardMaterial({color:'#0A5C31',metalness:0,roughness:0.55,envMapIntensity:0.8})
+  var tokenM=new THREE.MeshStandardMaterial({color:'#FD6400',metalness:0.25,roughness:0.28,envMapIntensity:1.5})
+  var QN=10, queue=[]
+  for(var qi=0;qi<QN;qi++){
+    var it=new THREE.Mesh(new THREE.BoxGeometry(0.60,0.60,0.60), qi%3===0?itemC:(qi%3===1?itemB:itemA))
+    it.userData={i:qi}; g.add(it); queue.push(it)
+  }
+  /* the till — where the wait ends, and the only still thing in the scene */
+  var till=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.16,1.4),tillM)
+  till.position.set(2.9,-0.86,0); g.add(till)
+  var post=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,2.1,16),tillM)
+  post.position.set(2.9,0.24,0); g.add(post)
+  /* the rail the queue runs along */
+  var rail=new THREE.Mesh(new THREE.TorusGeometry(3.4,0.024,10,140,Math.PI*0.92),tillM)
+  rail.rotation.set(Math.PI/2,0,Math.PI*0.04); rail.position.y=-0.88; g.add(rail)
+  /* what the wait pays out — tokens rising off the head of the queue */
+  var TN=6, tokens=[]
+  for(var ti=0;ti<TN;ti++){
+    var tk=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.045,28),tokenM)
+    tk.rotation.x=Math.PI/2.4; tk.userData={ph:ti/TN}; g.add(tk); tokens.push(tk)
+  }
+  var basket=new THREE.Mesh(new THREE.TorusGeometry(1.02,0.026,10,80),tokenM)
+  basket.rotation.x=Math.PI/2; basket.position.set(-2.7,0.45,0); g.add(basket)
   var N=140,pg=new THREE.BufferGeometry(),pp=new Float32Array(N*3)
   for(var i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*26;pp[i*3+1]=(Math.random()-0.5)*16;pp[i*3+2]=(Math.random()-0.5)*26}
   pg.setAttribute('position',new THREE.BufferAttribute(pp,3))
@@ -1311,14 +1330,25 @@ window.__getAgentName = () => agentName;
     var max=document.body.scrollHeight-innerHeight
     var prog=max>0?Math.min(1,sy/max):0
     var k=pose(prog), damp=innerWidth<700?0.45:1, sd=innerWidth<700?0.7:1
-    g.position.x=k.x*damp+mx*0.3; g.position.y=k.y+Math.sin(t*0.4)*0.15
-    g.scale.setScalar(k.sc*sd); g.rotation.y=k.ry+t*0.05
-    core.rotation.x=t*0.15;core.rotation.y=t*0.1
-    inner.rotation.y=t*0.3
-    r1.rotation.z=t*0.04;r2.rotation.z=-t*0.03
-    orbs.forEach(function(m){var d=m.userData,a=d.ph+t*d.sp*0.5+prog*Math.PI
-      m.position.set(Math.cos(a)*d.r,Math.sin(t*0.25+d.ph)*d.ya,Math.sin(a)*d.r)
-      m.rotation.y=t*0.25+d.ph})
+    g.position.x=(k.x+2.1)*damp+mx*0.3; g.position.y=k.y-0.35+Math.sin(t*0.4)*0.15
+    g.scale.setScalar(k.sc*sd*0.70); g.rotation.y=k.ry+t*0.05
+    /* the queue advances, and whatever reaches the till lifts away served */
+    var flow=t*0.40
+    queue.forEach(function(m,i){
+      var u=((i+flow)%QN)/QN
+      var a=(1-u)*Math.PI*0.92-Math.PI*0.04
+      var lift=Math.max(0,(u-0.86)/0.14)
+      m.position.set(Math.cos(a)*3.4,-0.88+0.34+lift*2.3,Math.sin(a)*3.4*0.42)
+      m.rotation.y=t*0.3+i; m.scale.setScalar(Math.max(0.02,1-lift*0.92))
+    })
+    tokens.forEach(function(m){
+      var u=(t*0.20+m.userData.ph)%1
+      m.position.set(2.9-u*0.45,-0.30+u*3.3,Math.sin(u*6.2)*0.32)
+      m.rotation.z=t*0.5+m.userData.ph*6
+      m.scale.setScalar(Math.max(0.001,Math.sin(u*Math.PI)))
+    })
+    basket.rotation.z=t*0.25
+    rail.rotation.z=Math.PI*0.04+Math.sin(t*0.15)*0.02
     cam.position.x=mx*0.6; cam.lookAt(g.position.x*0.35,g.position.y*0.35,0)
     r.render(s,cam)
   }
