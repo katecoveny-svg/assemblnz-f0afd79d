@@ -300,7 +300,7 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
           <div className="nav-links">
             <a href="/concepts">concepts</a>
             <a href="/industries">industries</a>
-            <a href="#wait">the wait</a>
+            <a href="/assembling">the wait state</a>
             <a href="#demo">ask it</a>
             <a href="/build-an-agent">assemble</a>
             <a href="/ai-ready">ai ready?</a>

@@ -37,53 +37,140 @@ const ASPECTS: AspectSpec[] = [
 ];
 
 // --- Text overlay (assembl fonts) ------------------------------------------
-type OverlayFont = 'cormorant' | 'lato' | 'mono';
+type OverlayFont = 'cormorant' | 'jost' | 'mono';
+type OverlayColor = 'ink' | 'navy' | 'paper' | 'champagne' | 'brass' | 'gold';
 interface TextOverlay {
   on: boolean;
   text: string;
   font: OverlayFont;
   weight: number;
   size: number;              // px at live canvas scale
-  color: 'ink' | 'champagne';
+  color: OverlayColor;
   align: 'left' | 'center' | 'right';
   x: number;                 // 0..1 fraction of canvas width
   y: number;                 // 0..1 fraction of canvas height
 }
 const OVERLAY_FONTS: Record<OverlayFont, { label: string; css: string; weights: number[] }> = {
   cormorant: { label: 'Cormorant', css: "'Cormorant Garamond', Georgia, serif", weights: [300, 400, 500, 600, 700] },
-  lato:      { label: 'Lato',      css: "'Lato', system-ui, sans-serif",        weights: [100, 300, 400, 700, 900] },
+  jost:      { label: 'Jost',      css: "'Jost', system-ui, sans-serif",        weights: [200, 300, 400, 500, 700] },
   mono:      { label: 'Space Mono',css: "'Space Mono', ui-monospace, monospace", weights: [400, 700] },
 };
-const OVERLAY_COLORS: Record<'ink' | 'champagne', string> = { ink: '#1A1918', champagne: '#BFA37A' };
+/** BRAND-CANON.md §5 — the only colours type may be set in. */
+const OVERLAY_COLORS: Record<OverlayColor, string> = {
+  ink: '#1C1B18',
+  navy: '#050F1C',
+  paper: '#FAFAF7',
+  champagne: '#BFA37A',
+  brass: '#B8964F',
+  gold: '#D4A843',
+};
 const DEFAULT_OVERLAY: TextOverlay = {
-  on: false, text: '', font: 'cormorant', weight: 600, size: 48,
+  on: false, text: '', font: 'jost', weight: 500, size: 48,
   color: 'ink', align: 'center', x: 0.5, y: 0.5,
 };
 
-/** Composite the overlay text onto an exported PNG blob. Fonts are the
- *  page-loaded webfonts; document.fonts.load warms them before drawing. */
-async function compositeOverlay(blob: Blob, overlay: TextOverlay, scale = 1): Promise<Blob> {
-  if (!overlay.on || !overlay.text.trim()) return blob;
+/** Social export sizes — exact pixels each platform actually wants. */
+const SOCIAL_SIZES: { id: string; label: string; w: number; h: number }[] = [
+  { id: 'native',    label: 'Native',              w: 0,    h: 0 },
+  { id: 'ig-square', label: 'Instagram square',    w: 1080, h: 1080 },
+  { id: 'ig-story',  label: 'Instagram story',     w: 1080, h: 1920 },
+  { id: 'ig-port',   label: 'Instagram portrait',  w: 1080, h: 1350 },
+  { id: 'li-post',   label: 'LinkedIn post',       w: 1200, h: 1200 },
+  { id: 'li-banner', label: 'LinkedIn banner',     w: 1584, h: 396 },
+  { id: 'fb-post',   label: 'Facebook post',       w: 1200, h: 630 },
+  { id: 'tiktok',    label: 'TikTok',              w: 1080, h: 1920 },
+  { id: 'x-post',    label: 'X post',              w: 1600, h: 900 },
+  { id: 'og',        label: 'OG / share card',     w: 1200, h: 630 },
+];
+
+/**
+ * The assembl wordmark, composited onto EVERY export — Kate's rule, 29 July
+ * 2026: "I need the assembl wordmark on ALL generations."
+ *
+ * Drawn at a size proportional to the canvas so it reads on a story and on a
+ * banner alike, and auto-toned: light mark on dark art, ink mark on light art,
+ * decided by sampling the corner it sits in.
+ */
+function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number) {
+  const pad = Math.round(Math.min(w, h) * 0.045);
+  const size = Math.max(13, Math.round(Math.min(w, h) * 0.028));
+
+  // sample the corner to decide the mark's tone
+  let light = false;
+  try {
+    const box = ctx.getImageData(Math.max(0, w - pad * 7), Math.max(0, h - pad * 3), Math.min(pad * 6, w), Math.min(pad * 2, h));
+    let sum = 0;
+    for (let i = 0; i < box.data.length; i += 4) {
+      sum += 0.299 * box.data[i] + 0.587 * box.data[i + 1] + 0.114 * box.data[i + 2];
+    }
+    light = sum / (box.data.length / 4) > 128;
+  } catch { /* tainted or empty — fall back to the light mark */ }
+
+  const ink = light ? 'rgba(28,27,24,0.92)' : 'rgba(250,250,247,0.92)';
+  ctx.save();
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'alphabetic';
+  ctx.font = `500 ${size}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.fillStyle = ink;
+  ctx.fillText('assembl', w - pad, h - pad);
+  // the champagne dot — the mark's tell
+  const tw = ctx.measureText('assembl').width;
+  ctx.beginPath();
+  ctx.arc(w - pad - tw - size * 0.45, h - pad - size * 0.28, size * 0.13, 0, Math.PI * 2);
+  ctx.fillStyle = '#BFA37A';
+  ctx.fill();
+  ctx.restore();
+}
+
+/**
+ * Finish an exported PNG: resize to the chosen social size (cover-cropped so
+ * nothing squashes), composite the text overlay, then stamp the wordmark.
+ * Runs on EVERY png export — there is no path that skips the wordmark.
+ */
+async function compositeOverlay(
+  blob: Blob,
+  overlay: TextOverlay,
+  scale = 1,
+  sizeId = 'native',
+): Promise<Blob> {
   const img = new Image();
   const url = URL.createObjectURL(blob);
   await new Promise<void>((res, rej) => { img.onload = () => res(); img.onerror = () => rej(new Error('decode')); img.src = url; });
   URL.revokeObjectURL(url);
+
+  const target = SOCIAL_SIZES.find((z) => z.id === sizeId);
+  const outW = target && target.w ? target.w : img.width;
+  const outH = target && target.h ? target.h : img.height;
+
   const out = document.createElement('canvas');
-  out.width = img.width;
-  out.height = img.height;
+  out.width = outW;
+  out.height = outH;
   const ctx = out.getContext('2d');
   if (!ctx) return blob;
-  ctx.drawImage(img, 0, 0);
-  const spec = OVERLAY_FONTS[overlay.font];
-  // Scale the on-screen px size to the export's pixel width (the live
-  // canvas is ~720 CSS px wide at classic aspect).
-  const fontPx = Math.max(8, Math.round(overlay.size * (img.width / 720) * scale));
-  try { await document.fonts.load(`${overlay.weight} ${fontPx}px ${spec.css.split(',')[0]}`); } catch { /* fallback stack */ }
-  ctx.font = `${overlay.weight} ${fontPx}px ${spec.css}`;
-  ctx.fillStyle = OVERLAY_COLORS[overlay.color];
-  ctx.textAlign = overlay.align;
-  ctx.textBaseline = 'middle';
-  ctx.fillText(overlay.text, overlay.x * out.width, overlay.y * out.height);
+
+  // cover-crop the art into the target frame
+  const s2 = Math.max(outW / img.width, outH / img.height);
+  const dw = img.width * s2, dh = img.height * s2;
+  ctx.drawImage(img, (outW - dw) / 2, (outH - dh) / 2, dw, dh);
+  scale = scale * (outW / Math.max(1, img.width));
+  if (overlay.on && overlay.text.trim()) {
+    const spec = OVERLAY_FONTS[overlay.font];
+    // Scale the on-screen px size to the export's pixel width (the live
+    // canvas is ~720 CSS px wide at classic aspect).
+    const fontPx = Math.max(8, Math.round(overlay.size * (img.width / 720) * scale));
+    try { await document.fonts.load(`${overlay.weight} ${fontPx}px ${spec.css.split(',')[0]}`); } catch { /* fallback stack */ }
+    ctx.font = `${overlay.weight} ${fontPx}px ${spec.css}`;
+    ctx.fillStyle = OVERLAY_COLORS[overlay.color];
+    ctx.textAlign = overlay.align;
+    ctx.textBaseline = 'middle';
+    // wrap on newlines so a headline can breathe
+    const lines = overlay.text.split('\n');
+    const lh = fontPx * 1.18;
+    lines.forEach((ln, i) => {
+      ctx.fillText(ln, overlay.x * out.width, overlay.y * out.height + (i - (lines.length - 1) / 2) * lh);
+    });
+  }
+  drawWordmark(ctx, outW, outH);
   return await new Promise<Blob>((resolve) => out.toBlob((b) => resolve(b ?? blob), 'image/png'));
 }
 
@@ -248,6 +335,8 @@ export function GenerativeArtCanvas() {
   const initial = useMemo(() => stateFromSearch(searchParams), []);
   const [state, setState] = useState<StudioState>(initial);
   const [copied, setCopied] = useState<string | null>(null);
+  /** Exact platform pixel sizes — Kate, 29 Jul: 'preset size export for all social media'. */
+  const [socialSize, setSocialSize] = useState<string>('native');
 
   const family = FAMILY_MAP[state.family];
   const preset = pickPreset(family, state.presetId);
@@ -346,8 +435,8 @@ export function GenerativeArtCanvas() {
     if (!png) return;
     const blob = await png();
     if (!blob) return;
-    download(await compositeOverlay(blob, state.overlay), 'png');
-  }, [download, state.overlay]);
+    download(await compositeOverlay(blob, state.overlay, 1, socialSize), 'png');
+  }, [download, state.overlay, socialSize]);
 
   const downloadSvg = useCallback(() => {
     const svg = exportersRef.current.svg?.();
@@ -754,13 +843,27 @@ export function GenerativeArtCanvas() {
             {copied === 'link' ? 'copied' : 'copy link'}
           </button>
           {family.supportsPngDownload && (
-            <button
-              type="button"
-              onClick={downloadPng}
-              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
-            >
-              png
-            </button>
+            <>
+              <select
+                value={socialSize}
+                onChange={(e) => setSocialSize(e.target.value)}
+                aria-label="Export size"
+                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em]"
+              >
+                {SOCIAL_SIZES.map((z) => (
+                  <option key={z.id} value={z.id}>
+                    {z.w ? `${z.label} · ${z.w}×${z.h}` : z.label}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={downloadPng}
+                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+              >
+                png
+              </button>
+            </>
           )}
           {family.supportsSvgDownload && (
             <button
