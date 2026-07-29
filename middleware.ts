@@ -157,6 +157,18 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/journeys',
   // Canonical public experience route (the sandbox journey).
   '/experience',
+  // The industries assembl works in — public, in the homepage nav and the
+  // llms map, so it must never be shadowed by the splash rewrite (2026-07-29).
+  '/industries',
+  // The wait-state framework page (tiers, playground, roadmap) — public.
+  '/assembling',
+  // The free tools: readiness score + the context brief people download.
+  '/ai-ready',
+  // The public FAQ and the agent schema, both cited by AI crawlers.
+  '/faq',
+  '/agent-schema',
+  // The generative studio.
+  '/creative-playground',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).
