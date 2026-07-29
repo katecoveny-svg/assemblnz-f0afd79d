@@ -180,6 +180,14 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
     }
 
     // ── SCROLL REVEALS ──
+    /* Opt into the hidden-then-revealed state only now that we know script is
+       running and IntersectionObserver exists. Without this the CSS keeps
+       everything visible, which is the correct failure mode for a page whose
+       own product audits whether machines can read it. */
+    const cineRoot = document.querySelector('.cine');
+    const canObserve = typeof IntersectionObserver !== 'undefined';
+    if (cineRoot && canObserve) cineRoot.classList.add('js-reveal');
+
     const io = new IntersectionObserver((es) => { es.forEach((e) => {
       if (e.isIntersecting) {
         const d = Number((e.target as HTMLElement).dataset.delay || 0);
@@ -187,6 +195,13 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
         io.unobserve(e.target);
       }
     }); }, { threshold: 0.1 });
+    /* Belt and braces: if anything is still unrevealed after six seconds it is
+       not going to be, so show it rather than leave a blank band. */
+    const sweep = setTimeout(() => {
+      $$('.reveal-left,.reveal-right,.reveal-fade').forEach((el) => el.classList.add('in'));
+    }, 6000);
+    cleanups.push(() => clearTimeout(sweep));
+
     $$('.reveal-left,.reveal-right,.reveal-fade').forEach((el) => {
       const d = el.dataset.delay || '';
       if (d) el.style.transitionDelay = d + 'ms';
@@ -303,7 +318,7 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
             <a href="/assembling">the wait state</a>
             <a href="#demo">ask it</a>
             <a href="/build-an-agent">assemble</a>
-            <a href="/ai-ready">ai ready?</a>
+            <a href="/ai-ready">free AI check</a>
           </div>
           <a className="nav-cta" href="#begin">begin</a>
         </nav>
@@ -377,7 +392,13 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
               <div className="bp-invite">
                 <div className="bp-invite-tag"><i />live · reads one page · about ten seconds</div>
                 <div className="bp-invite-head">Watch one assemble itself out of your business.</div>
-                <p className="bp-invite-sub">Paste your web address. Then ask it something.</p>
+                <p className="bp-invite-sub">
+                  Paste your web address and an agent reads one public page. You get two things
+                  back, free: your <b>AI-readiness score</b> &mdash; eight checks on whether AI
+                  assistants can find, read and cite you &mdash; and a <b>context.md</b>, the one
+                  file that lets any AI understand your business properly. Nothing stored, nothing
+                  sent, and a named person reads what the agents prepared.
+                </p>
                 <BlueprintStart />
               </div>
               <div className="hero-cta hero-cta-cinema">

@@ -420,12 +420,20 @@
   color: var(--ink-3); min-height: 1.5em; display: inline-block;
 }
 
-.cine .reveal-left { opacity: 0; transform: translateX(-70px); filter: blur(10px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out), filter 1s var(--ease-out); }
-.cine .reveal-left.in { opacity: 1; transform: translateX(0); filter: blur(0); }
-.cine .reveal-right { opacity: 0; transform: translateX(70px); filter: blur(10px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out), filter 1s var(--ease-out); }
-.cine .reveal-right.in { opacity: 1; transform: translateX(0); filter: blur(0); }
-.cine .reveal-fade { opacity: 0; filter: blur(6px); transition: opacity 1.4s var(--ease-out), filter 1.4s var(--ease-out); }
-.cine .reveal-fade.in { opacity: 1; filter: blur(0); }
+/* Scroll reveals, FAIL-OPEN.
+   These used to set opacity:0 unconditionally, so if the IntersectionObserver
+   never fired — slow device, a JS error earlier in the bundle, a bot that runs
+   no script — whole sections stayed invisible on a page that sells AI-readiness.
+   The copy was always in the server HTML, so crawlers read it; humans saw blank
+   paper. Now the hidden state is scoped behind .js-reveal, which the reveal
+   effect adds only once it is actually about to observe. No JS, no hiding. */
+.cine .reveal-left, .cine .reveal-right, .cine .reveal-fade { opacity: 1; }
+.cine.js-reveal .reveal-left { opacity: 0; transform: translateX(-70px); filter: blur(10px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out), filter 1s var(--ease-out); }
+.cine.js-reveal .reveal-left.in { opacity: 1; transform: translateX(0); filter: blur(0); }
+.cine.js-reveal .reveal-right { opacity: 0; transform: translateX(70px); filter: blur(10px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out), filter 1s var(--ease-out); }
+.cine.js-reveal .reveal-right.in { opacity: 1; transform: translateX(0); filter: blur(0); }
+.cine.js-reveal .reveal-fade { opacity: 0; filter: blur(6px); transition: opacity 1.4s var(--ease-out), filter 1.4s var(--ease-out); }
+.cine.js-reveal .reveal-fade.in { opacity: 1; filter: blur(0); }
 
 .cine .timeline {
   position: fixed; left: 44px; top: 50%; transform: translateY(-50%);
