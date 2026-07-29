@@ -270,6 +270,18 @@
   font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; line-height: 1.7;
   white-space: pre-wrap; color: rgba(240, 238, 233, 0.82);
 }
+/* The preview clipped at 220px with overflow hidden, so the brief looked
+   half-written with no way to reach the rest. Give it a scroll. */
+.airdy-ctx-preview.full { max-height: 480px; overflow-y: auto; overscroll-behavior: contain; }
+.airdy-ctx-preview.full::-webkit-scrollbar { width: 9px; }
+.airdy-ctx-preview.full::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.4); border-radius: 999px;
+}
+.airdy-ctx-preview.full::-webkit-scrollbar-track { background: transparent; }
+.airdy-ctx-count {
+  margin-top: 8px; font-size: 0.7rem; color: rgba(240, 238, 233, 0.5);
+  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.02em;
+}
 .airdy-ctx-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
 .airdy-ctx-row button {
   cursor: pointer; border: 0; border-radius: 999px; padding: 13px 24px;

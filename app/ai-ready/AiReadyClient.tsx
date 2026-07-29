@@ -553,8 +553,13 @@ export function AiReadyClient() {
                   rules any agent working for you has to follow. Paste it into ChatGPT, Claude,
                   Copilot or your own agent.
                 </p>
-                <pre className="airdy-ctx-preview">{contextDoc().split('\n').slice(0, 16).join('\n')}
-…</pre>
+                {/* The whole brief, scrollable. It used to show sixteen lines and an
+                    ellipsis, which read as a broken render rather than a preview —
+                    people could not tell whether the rest existed. */}
+                <pre className="airdy-ctx-preview full">{contextDoc()}</pre>
+                <p className="airdy-ctx-count">
+                  {contextDoc().split('\n').filter(Boolean).length} lines · {contextDoc().length.toLocaleString('en-NZ')} characters · scroll to read it all
+                </p>
                 <div className="airdy-ctx-row">
                   <button type="button" onClick={() => void copyContext()}>
                     {ctxCopied ? 'copied ✓' : 'copy for your AI'}
