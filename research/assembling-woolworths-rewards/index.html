@@ -55,6 +55,7 @@ h2{font-size:clamp(29px,4.3vw,56px);font-weight:800}
 h3{font-size:clamp(20px,2.3vw,29px);font-weight:700;letter-spacing:-.022em;line-height:1.14}
 p{font-size:clamp(15.5px,1.15vw,17.5px);line-height:1.68;color:var(--ink-2)}
 .lede{font-size:clamp(17px,1.5vw,21px);line-height:1.6;color:var(--ink-2);max-width:52ch}
+.shelf.deep .lede{color:rgba(242,246,241,.9)}
 em{font-style:normal;color:var(--green)}
 .kick{font-family:var(--body);font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:11px;margin-bottom:18px}
 .kick::before{content:"";width:26px;height:2px;background:var(--orange);border-radius:2px}
@@ -67,7 +68,7 @@ em{font-style:normal;color:var(--green)}
 .shelf.white{background:var(--white)}
 .shelf.deep{background:var(--green-deep);color:#F2F6F1}
 .shelf.deep h2,.shelf.deep h3{color:#FFF}
-.shelf.deep p{color:rgba(242,246,241,.76)}
+.shelf.deep p{color:rgba(242,246,241,.88)}
 .shelf.deep::before{background:linear-gradient(90deg,var(--orange) 0%,var(--orange) 16%,rgba(255,255,255,.16) 16%)}
 
 /* ── top bar ──────────────────────────────────────────────────────────────── */
@@ -188,6 +189,27 @@ em{font-style:normal;color:var(--green)}
 .beat b{display:block;font-size:15px;font-family:var(--disp);font-weight:700;letter-spacing:-.02em}
 .beat p{font-size:13.5px;margin-top:3px}
 
+
+/* ── what exists vs what gets built ──────────────────────────────────────── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:42px}
+@media(max-width:920px){.split{grid-template-columns:1fr}}
+.half{border-radius:20px;padding:30px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18)}
+.half.next{background:linear-gradient(160deg,rgba(253,100,0,.24),rgba(253,100,0,.09));border-color:#FD6400;border-width:2px;box-shadow:0 26px 60px -34px rgba(253,100,0,.6)}
+.half .tag{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:#9FD3AE;margin-bottom:14px}
+.half.next .tag{color:#FFB37A}
+.half h3{color:#fff;margin-bottom:12px}
+.half p{color:rgba(242,246,241,.9);font-size:15px;line-height:1.66}
+.half ul{list-style:none;margin-top:16px}
+.half li{font-size:14px;color:rgba(242,246,241,.86);padding:8px 0 8px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.1)}
+.half li:last-child{border-bottom:0}
+.half li::before{content:"";position:absolute;left:0;top:15px;width:7px;height:7px;border-radius:50%;background:#7FC894}
+.half.next li::before{background:#FD6400}
+.verdict{display:inline-block;margin-top:18px;font-size:12px;font-weight:500;letter-spacing:.04em;border-radius:999px;padding:8px 15px}
+.verdict.ok{background:#7FC894;color:#053D1F}
+.verdict.build{background:#FD6400;color:#fff}
+.whyorder{margin-top:34px;border-left:3px solid #FD6400;padding:4px 0 4px 20px;max-width:80ch}
+.whyorder b{color:#fff;font-weight:500;font-family:var(--disp);font-size:17px;letter-spacing:-.02em}
+.whyorder p{color:rgba(242,246,241,.9);font-size:15px;line-height:1.66;margin-top:8px}
 /* ── produce, drawn ──────────────────────────────────────────────────────── */
 .prod{display:flex;gap:9px;flex-wrap:wrap;margin-top:26px}
 .prod span{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--white);border:1px solid var(--line)}
@@ -269,6 +291,7 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
   <div class="mark"><i></i>assembl <small>· independent concept</small></div>
   <div class="barnav">
     <a href="#combine">The combination</a>
+    <a href="#build">What exists</a>
     <a href="#shop">The live shop</a>
     <a href="#concepts">Four concepts</a>
     <a href="#waits">The six waits</a>
@@ -379,6 +402,70 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
   </div>
 </div></section>
 
+<!-- ═══ WHAT EXISTS, AND WHAT WE WOULD BUILD ═══ -->
+<section id="build" class="shelf deep"><div class="wrap">
+  <div class="narrow rise">
+    <div class="kick">Being straight about it</div>
+    <h2 style="color:#fff">One half of this can start Monday.<br>The other half does not exist yet.</h2>
+    <p class="lede" style="margin-top:18px;color:rgba(242,246,241,.8)">
+      There is no personalised-shopping API at Woolworths NZ to plug an agent into. We are not
+      going to pretend otherwise, and we are not going to quietly design around it. It is the most
+      interesting thing on this page.
+    </p>
+  </div>
+
+  <div class="split rise">
+    <div class="half now">
+      <div class="tag">Tier one &middot; runs on what you already have</div>
+      <h3>The wait states and the rewards mechanics</h3>
+      <p>
+        The delivery window, the checkout queue, the Scan&amp;Go loading screen, the moment at the
+        terminal &mdash; these already happen, and Everyday Rewards already has the mechanics to
+        pay for them: points, Boosts, Double Points Week. Filling a wait with something worth
+        having needs read access to events your app already emits and rules you already publish.
+        Nothing new has to be invented for this to run.
+      </p>
+      <ul>
+        <li>Six weeks, one wait, one segment</li>
+        <li>Read-only against existing events and points rules</li>
+        <li>No new platform, no new contract, no write access</li>
+        <li>Measurable inside the pilot window</li>
+      </ul>
+      <div class="verdict ok">Could start on a Monday</div>
+    </div>
+
+    <div class="half next">
+      <div class="tag">Tier two &middot; the opportunity, and it is a build</div>
+      <h3>Personalised shopping as an agentic layer</h3>
+      <p>
+        Everything in the live shop above &mdash; the list that writes itself, the missing weekly
+        item, the substitution asked rather than decided &mdash; needs a personalised-shopping layer
+        that nobody in New Zealand grocery has built. Not a feature bolted onto an app: a defined
+        contract between what the card knows and what an agent is allowed to prepare from it.
+        That is design and engineering work, done with you, not a switch we flip.
+      </p>
+      <ul>
+        <li>A data contract: what an agent may read, and what it may never infer</li>
+        <li>A preparation layer that drafts a basket and then stops</li>
+        <li>An approval path, so a named person owns anything customer-facing</li>
+        <li>The first of its kind in NZ grocery &mdash; which is the point</li>
+      </ul>
+      <div class="verdict build">Designed and built with you</div>
+    </div>
+  </div>
+
+  <div class="whyorder rise">
+    <b>Why we would run them in that order.</b>
+    <p>
+      Tier one earns the right to build tier two. Six weeks on a wait moment proves the mechanics,
+      the approval path and the appetite using only what exists &mdash; and produces the evidence
+      that justifies the bigger build. If tier one fails its scorecard, tier two should not happen,
+      and we will say so. If it works, you are not buying a personalised-shopping platform on
+      faith; you are extending something you have already watched run.
+    </p>
+  </div>
+</div></section>
+
 <!-- ═══ THE LIVE SHOP ═══ -->
 <section id="shop" class="shelf white"><div class="wrap">
   <div class="narrow rise">
@@ -388,6 +475,9 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
       Not a picture of a feature. Press play and watch the shop build itself from what the card
       knows &mdash; the list, the swap it asks about, the supplier slot it labels, and the points
       it earns on the way. Every screen here is illustrative and no real customer data was used.
+      <b style="color:var(--ink);font-weight:500">This is tier two &mdash; the part that would be
+      built with you.</b> It runs here because a concept you can press is worth more than a
+      roadmap, not because an API exists to do it today.
     </p>
   </div>
 
@@ -512,7 +602,7 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
   <div class="needs rise">
     <div class="need"><span>01</span><div><b>One named person</b><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. About two hours a week, reading drafts rather than managing a project.</p></div></div>
     <div class="need"><span>02</span><div><b>One wait, one segment</b><p>Six weeks on the online delivery window for a single customer segment. Not the whole loyalty stack, and nothing that touches the trolley.</p></div></div>
-    <div class="need"><span>03</span><div><b>Read-only, nothing that writes</b><p>Read access to the wait events your app already emits and your Everyday Rewards points rules. No customer data leaves your environment and nothing writes to a points balance.</p></div></div>
+    <div class="need"><span>03</span><div><b>Read-only, nothing that writes</b><p>For tier one: read access to wait events your app already emits and the Everyday Rewards rules you already publish. No customer data leaves your environment and nothing writes to a points balance. Tier two needs no access at all in the pilot &mdash; the personalised-shopping layer is designed on paper first, against your rules, before a line of integration is written.</p></div></div>
     <div class="need"><span>04</span><div><b>Your actual rules</b><p>Your brand, legal and retail-media guidelines, so the drafts are held against yours instead of the placeholders on this page. An afternoon with whoever owns them.</p></div></div>
     <div class="need"><span>05</span><div><b>Six weeks, then a real decision</b><p>Scored on drafts a CX lead ships without rewriting, whether the wait felt shorter to the people in it, and points issued that a named person approved. Fail any line and we change the design or stop.</p></div></div>
     <div class="need"><span>06</span><div><b>A fixed fee, agreed in writing first</b><p>No number is published on this page because it depends on which wait you pick. Whatever it is, it is agreed before any work starts and it does not move.</p></div></div>
