@@ -280,3 +280,7 @@
 .airdy-ctx-row button.ghost { background: transparent; color: #F0EEE9; border: 1px solid rgba(240, 238, 233, 0.28); }
 .airdy-ctx-row button:disabled { opacity: 0.6; cursor: wait; transform: none; }
 .airdy-ctx-err { margin-top: 10px; font-size: 0.78rem; color: #E2A0A0; }
+
+/* A brief that never landed says so, rather than leaving the page looking done. */
+.airdy-ctx-failed { border-color: rgba(226, 160, 160, 0.45); background: rgba(226, 160, 160, 0.06); }
+.airdy-ctx-failed .airdy-ctx-badge { opacity: 0.55; }

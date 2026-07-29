@@ -52,7 +52,7 @@ const OUR_STEPS = [
   { agent: 'Read', doing: 'Your public pages — the ones you choose' },
   { agent: 'Voice', doing: 'How you already talk about the work' },
   { agent: 'Ask', doing: 'One question', ask: true },
-  { agent: 'Draft', doing: 'Five moments, in your words' },
+  { agent: 'Draft', doing: 'Your context.md, then five moments' },
   { agent: 'Held', doing: 'For a named person — nothing sends' },
 ];
 
@@ -205,6 +205,10 @@ export function AiReadyClient() {
   const [error, setError] = useState('');
   const [ready, setReady] = useState<Ready | null>(null);
   const [brief, setBrief] = useState<Brief | null>(null);
+  /* The draft either lands or it doesn't, and the visitor has to be able to see
+     which. Before this, a failed brief left the whole context.md section
+     unrendered with nothing said — the page just looked finished. */
+  const [briefState, setBriefState] = useState<'idle' | 'drafting' | 'failed' | 'ready'>('idle');
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState('');
   const [gate, setGate] = useState<'closed' | 'sending' | 'open'>('closed');
@@ -240,18 +244,28 @@ export function AiReadyClient() {
     }
   }, []);
 
+  /**
+   * Draft the journey and the context brief.
+   *
+   * The read takes ~25s against a live model, and a single transport hiccup used
+   * to cost the visitor the whole artefact silently. So: one automatic retry,
+   * then an honest failed state they can act on.
+   */
   const draftJourney = useCallback(async (target: string) => {
-    setBusy('journey');
-    try {
-      const bRes = await fetch('/api/agent-brief', {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ url: target }),
-      });
-      if (bRes.ok) {
+    setBusy('journey'); setBriefState('drafting');
+    const attempt = async (): Promise<Brief | null> => {
+      try {
+        const bRes = await fetch('/api/agent-brief', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ url: target }),
+        });
+        if (!bRes.ok) return null;
         const b = (await bRes.json()) as Brief & { error?: string };
-        if (!b.error && b.business) setBrief(b);
-      }
-    } catch { /* the score stands alone if the agent is busy */ }
+        return !b.error && b.business ? b : null;
+      } catch { return null; }
+    };
+    const b = (await attempt()) ?? (await attempt());
+    if (b) { setBrief(b); setBriefState('ready'); } else { setBriefState('failed'); }
     setBusy('idle');
   }, []);
 
@@ -471,10 +485,12 @@ export function AiReadyClient() {
 
             {gate !== 'open' && (
               <form className="airdy-gate" onSubmit={unlock}>
-                <b>Now assemble your agentic customer journey.</b>
+                <b>Now get your context.md — and your agentic customer journey.</b>
                 <p>
-                  A live agent reads your site and drafts the five moments of your journey —
-                  personalised, printable, yours to keep. Where should we send your copy?
+                  A live agent reads your whole site and writes you two things: a{' '}
+                  <b>context brief</b> you can paste into any AI so it stops guessing about your
+                  business, and the five moments of your journey. Both yours to keep. Takes about
+                  half a minute. Where should we send your copy?
                 </p>
                 <div className="airdy-gate-row">
                   <input
@@ -498,6 +514,59 @@ export function AiReadyClient() {
               </form>
             )}
             {busy === 'journey' && <AssemblWait onAnswer={setWaitAnswer} />}
+
+            {briefState === 'failed' && (
+              <section className="airdy-ctx airdy-ctx-failed" role="alert">
+                <div className="airdy-ctx-head">
+                  <div>
+                    <p className="airdy-ctx-kick">the artefact you keep</p>
+                    <h3>Your context brief didn&rsquo;t come back.</h3>
+                  </div>
+                  <span className="airdy-ctx-badge">context.md</span>
+                </div>
+                <p className="airdy-ctx-lede">
+                  The live agent reads your whole site, which takes about half a minute and
+                  occasionally times out. Your score above is unaffected. Draft it again and it
+                  usually lands second time.
+                </p>
+                <div className="airdy-ctx-row">
+                  <button type="button" onClick={() => void draftJourney(ready.url)}>
+                    draft it again
+                  </button>
+                </div>
+              </section>
+            )}
+
+            {brief && (
+              <section className="airdy-ctx">
+                <div className="airdy-ctx-head">
+                  <div>
+                    <p className="airdy-ctx-kick">the artefact you keep</p>
+                    <h3>Your context brief, for any AI.</h3>
+                  </div>
+                  <span className="airdy-ctx-badge">context.md</span>
+                </div>
+                <p className="airdy-ctx-lede">
+                  AI is only as good as the context it is given, and almost nobody hands their
+                  tools a proper brief. This is yours — who you are, what you sell, how you sound,
+                  the facts an agent may state, what your own site doesn&rsquo;t answer, and the
+                  rules any agent working for you has to follow. Paste it into ChatGPT, Claude,
+                  Copilot or your own agent.
+                </p>
+                <pre className="airdy-ctx-preview">{contextDoc().split('\n').slice(0, 16).join('\n')}
+…</pre>
+                <div className="airdy-ctx-row">
+                  <button type="button" onClick={() => void copyContext()}>
+                    {ctxCopied ? 'copied ✓' : 'copy for your AI'}
+                  </button>
+                  <button type="button" className="ghost" onClick={downloadContextMd}>download .md</button>
+                  <button type="button" className="ghost" onClick={() => void downloadContextPdf()} disabled={ctxBusy}>
+                    {ctxBusy ? 'building…' : 'download .pdf'}
+                  </button>
+                </div>
+                {ctxErr && <p className="airdy-ctx-err">{ctxErr}</p>}
+              </section>
+            )}
 
             {brief && (
               <section className="airdy-journey">
@@ -532,37 +601,6 @@ export function AiReadyClient() {
                     <p>Your agents would ask these for you — and remember the answers.</p>
                   </div>
                 )}
-              </section>
-            )}
-
-            {brief && (
-              <section className="airdy-ctx">
-                <div className="airdy-ctx-head">
-                  <div>
-                    <p className="airdy-ctx-kick">the artefact you keep</p>
-                    <h3>Your context brief, for any AI.</h3>
-                  </div>
-                  <span className="airdy-ctx-badge">context.md</span>
-                </div>
-                <p className="airdy-ctx-lede">
-                  AI is only as good as the context it is given, and almost nobody hands their
-                  tools a proper brief. This is yours — who you are, what you sell, how you sound,
-                  the facts an agent may state, what your own site doesn&rsquo;t answer, and the
-                  rules any agent working for you has to follow. Paste it into ChatGPT, Claude,
-                  Copilot or your own agent.
-                </p>
-                <pre className="airdy-ctx-preview">{contextDoc().split('\n').slice(0, 16).join('\n')}
-…</pre>
-                <div className="airdy-ctx-row">
-                  <button type="button" onClick={() => void copyContext()}>
-                    {ctxCopied ? 'copied ✓' : 'copy for your AI'}
-                  </button>
-                  <button type="button" className="ghost" onClick={downloadContextMd}>download .md</button>
-                  <button type="button" className="ghost" onClick={() => void downloadContextPdf()} disabled={ctxBusy}>
-                    {ctxBusy ? 'building…' : 'download .pdf'}
-                  </button>
-                </div>
-                {ctxErr && <p className="airdy-ctx-err">{ctxErr}</p>}
               </section>
             )}
 
