@@ -28,7 +28,7 @@ function lum(hex) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-function page(c, wm) {
+function page(c, wm, mech) {
   const accent = c.primary;
   const accent2 = c.secondary || c.primary;
   /* The wait-phone screen is light, so a NEAR-BLACK primary turns the champagne
@@ -464,6 +464,49 @@ h1{letter-spacing:-.035em}
 .ac-f{margin-top:16px;font-size:11.5px;color:var(--muted-2);line-height:1.55}
 @media(max-width:820px){.accept{grid-template-columns:1fr;padding:26px}}
 
+
+/* ── the bespoke wait mechanic ────────────────────────────────────────────
+   Kate's sector brief: the wait state is the product surface, so this is the
+   wait itself rather than a picture of one. Per-client, driven by
+   _generator/mechanics/<slug>.mjs. */
+#mech{padding:96px 0 20px}
+.trk{display:grid;grid-template-columns:330px 1fr;gap:34px;margin-top:42px;align-items:start}
+@media(max-width:960px){.trk{grid-template-columns:1fr}}
+.trk-dial{position:sticky;top:86px;background:rgba(var(--panel),.72);border:1px solid var(--line);border-radius:20px;padding:28px;backdrop-filter:blur(8px)}
+.trk-n{display:flex;align-items:baseline;gap:9px}
+.trk-n b{font-family:var(--display);font-weight:${dispWeight};font-size:clamp(58px,7vw,92px);line-height:1;letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums}
+.trk-n i{font-style:normal;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.trk-cap{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.5;min-height:34px}
+.trk-bar{height:6px;border-radius:99px;background:rgba(var(--film),.12);overflow:hidden;margin-top:18px}
+.trk-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--champ));transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.trk-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.trk-btns .btn{padding:12px 20px;font-size:13.5px}
+.trk-note{font-size:11.5px;color:var(--muted-2);margin-top:16px;line-height:1.55}
+.trk-steps{list-style:none;counter-reset:trk}
+.trk-step{padding:20px 0 20px 0;border-bottom:1px solid var(--line-2);opacity:.4;transition:opacity .5s ease,transform .5s ease}
+.trk-step.on{opacity:1}
+.trk-step.done{opacity:.82}
+.trk-when{display:flex;gap:12px;align-items:baseline;margin-bottom:12px}
+.trk-when b{font-family:var(--display);font-weight:${dispWeight};font-size:15px;letter-spacing:-.01em;color:var(--accent)}
+.trk-when span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.trk-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.trk-pair{grid-template-columns:1fr}}
+.trk-now,.trk-with{font-size:14px;line-height:1.6;padding:14px 16px;border-radius:13px}
+.trk-now{background:rgba(var(--film),.04);border:1px solid var(--line-2);color:var(--muted)}
+.trk-with{background:rgba(var(--panel),.7);border:1px solid var(--accent);color:var(--body-1)}
+.trk-now i,.trk-with i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;font-weight:700}
+.trk-now i{color:var(--muted-2)}
+.trk-with i{color:var(--accent)}
+.lay{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px;margin-top:52px}
+.layc{background:rgba(var(--panel),.62);border:1px solid var(--line);border-radius:18px;padding:24px}
+.layc.slot{border-color:var(--champ)}
+.lay-n{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:11px}
+.layc h3{font-size:18px;line-height:1.2;margin-bottom:9px}
+.layc p{font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:300}
+.slotbox{margin-top:16px;border:1px dashed var(--champ);border-radius:13px;padding:14px;background:var(--champ-soft)}
+.slot-tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--champ)}
+.slot-cat{font-size:13px;font-weight:700;color:var(--body-1);margin-top:7px;line-height:1.35}
+.slot-offer{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.55;font-weight:300}
 /* ── the wait map ────────────────────────────────────────────────
    A light band in the middle of a dark page. The whole argument is that a
    wait is a place, so it gets shown as a place — six of them, in order,
@@ -668,6 +711,60 @@ ${wm ? `
     <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
     <p class="mapEvFin">Every figure on this page carries its source. Overseas figures are shown as overseas figures — we have not found a published New Zealand equivalent, and we will not invent one.</p>
   </div>
+</div></section>
+` : ''}
+${mech && mech.kind === 'tracker' ? `
+<section id="mech"><div class="wrap">
+  <div class="num rise">02 — THE WAIT, AS A SURFACE</div>
+  <div class="narrow rise">
+    <h2>${esc(mech.title)}</h2>
+    <p class="lede">${esc(mech.lede)}</p>
+  </div>
+
+  <div class="trk rise">
+    <div class="trk-dial">
+      <div class="trk-n"><b id="trkN">${mech.from.n}</b><i>${esc(mech.from.unit)}</i></div>
+      <div class="trk-cap" id="trkCap">${esc(mech.from.cap)}</div>
+      <div class="trk-bar"><i id="trkBar"></i></div>
+      <div class="trk-btns">
+        <button class="btn solid" id="trkRun" type="button">${esc(mech.runLabel)} <span class="arw">→</span></button>
+        <button class="btn ghost" id="trkReset" type="button">${esc(mech.resetLabel)}</button>
+      </div>
+      <p class="trk-note">Every figure here is illustrative except the ${mech.from.n}, which is ${esc(mech.sources[0].pub)}. This is a concept timeline, not a measurement and not a promise.</p>
+    </div>
+
+    <ol class="trk-steps" id="trkSteps">
+      ${mech.steps.map((st, i) => `
+      <li class="trk-step" data-i="${i}">
+        <div class="trk-when"><b>${esc(st.d)}</b><span>${esc(st.t)}</span></div>
+        <div class="trk-pair">
+          <div class="trk-now"><i>what they get today</i>${esc(st.now)}</div>
+          <div class="trk-with"><i>with the wait designed</i>${esc(st.with)}</div>
+        </div>
+      </li>`).join('')}
+    </ol>
+  </div>
+
+  <div class="lay rise">
+    ${mech.layers.map((l) => `
+    <div class="layc${l.slot ? ' slot' : ''}">
+      <div class="lay-n">${esc(l.n)} · ${esc(l.k)}</div>
+      <h3>${esc(l.t)}</h3>
+      <p>${esc(l.b)}</p>
+      ${l.slot ? `
+      <div class="slotbox">
+        <div class="slot-tag">Sponsor slot · category shown · no partner engaged</div>
+        <div class="slot-cat">${esc(l.slot.category)}</div>
+        <div class="slot-offer">${esc(l.slot.offer)}</div>
+      </div>` : ''}
+    </div>`).join('')}
+  </div>
+
+  <p class="kicker rise" style="margin-top:26px;font-size:12.5px;color:var(--muted-2);max-width:78ch">
+    The funded slot above shows a <b style="color:var(--paper);font-weight:700">category</b>, never a company.
+    assembl has no agreement with any third party named or implied on this page, and would not put a
+    partner's name on a concept before that partner had agreed to it.
+  </p>
 </div></section>
 ` : ''}
 <section id="mirror"><div class="wrap">
@@ -901,6 +998,9 @@ var CFG={
   generic:${js(Boolean(c.generic))},
   theme:${js(theme)},
   object:${js(c.object || 'filament')},
+  ${mech && mech.kind === 'tracker' ? `trkFrom:${mech.from.n}, trkTo:${mech.to.n},
+  trkShave:${js(mech.steps.map((x) => x.shave))},
+  trkCaps:${js({ from: mech.from.cap, to: mech.to.cap, steps: mech.steps.map((x) => x.t) })},` : ''}
   execs:${js(c.execs)}, buyerTitle:${js(c.buyerTitle)}, buyerLine:${js(c.buyerLine)},
   variants:${js(c.variants)}, guard:${js(c.guard)},
   verified:${js(c.verified)}, laws:${js(c.laws)},
@@ -974,6 +1074,56 @@ function verb(kind){
 /* The yes. Everything the page has claimed, written back into the mail so the
    reply is a scope rather than a "sounds good" — and a clipboard fallback,
    because a machine with no mail client should never eat someone's notes. */
+
+/* ── the tracker: the wait collapsing ─────────────────────────────────────
+   Runs the same claim twice at once — the left column is what a customer
+   receives today, the right is the same work with the waiting designed. The
+   headline number counts down as each stage is claimed back. */
+(function(){
+  var run=document.getElementById('trkRun'); if(!run) return;
+  var nEl=document.getElementById('trkN'), capEl=document.getElementById('trkCap');
+  var barEl=document.getElementById('trkBar'), steps=[].slice.call(document.querySelectorAll('.trk-step'));
+  var FROM=CFG.trkFrom, TO=CFG.trkTo, SHAVE=CFG.trkShave, CAPS=CFG.trkCaps;
+  var ts=[], busy=false;
+  function clear(){ ts.forEach(clearTimeout); ts=[]; busy=false; }
+  function at(ms,fn){ ts.push(setTimeout(fn,ms)); }
+  function paint(n){ nEl.textContent=n; }
+  function reset(){
+    clear(); paint(FROM); capEl.textContent=CAPS.from; barEl.style.width='0';
+    steps.forEach(function(s){ s.classList.remove('on','done') });
+  }
+  function go(){
+    if(busy) return; reset(); busy=true;
+    var n=FROM, d=380;
+    steps.forEach(function(st,i){
+      at(d, function(){
+        steps.forEach(function(x){ x.classList.remove('on') });
+        st.classList.add('on');
+        if(i>0) steps[i-1].classList.add('done');
+        capEl.textContent=CAPS.steps[i];
+        /* count the shaved days down rather than jumping, so the number is
+           visibly being earned back one stage at a time */
+        var target=n-SHAVE[i], from=n, t0=Date.now(), dur=520;
+        (function tick(){
+          var p=Math.min(1,(Date.now()-t0)/dur);
+          paint(Math.round(from+(target-from)*p));
+          if(p<1) requestAnimationFrame(tick);
+        })();
+        n=target;
+        barEl.style.width=Math.round((i+1)/steps.length*100)+'%';
+      });
+      d+=980;
+    });
+    at(d, function(){
+      steps[steps.length-1].classList.add('done');
+      paint(TO); capEl.textContent=CAPS.to; busy=false;
+    });
+  }
+  run.addEventListener('click',go);
+  document.getElementById('trkReset').addEventListener('click',reset);
+  reset();
+})();
+
 /* The value exchange, playable.
    Kate's point: the reward layer has to be something you DO on the page, not a
    paragraph describing one. Scratch coat is a canvas composited destination-out;
@@ -1594,6 +1744,15 @@ for (const c of CLIENTS) {
   if (existsSync(f)) WAITMAPS[c.slug] = (await import(`file://${f}`)).default;
 }
 
+/* Bespoke wait mechanics, one file per client. Kate's sector brief: the wait
+   state is the product surface, so each demo gets its own interactive moment
+   rather than a shared loader. A client without one simply omits the section. */
+const MECHANICS = {};
+for (const c of CLIENTS) {
+  const f = resolve(HERE, 'mechanics', `${c.slug}.mjs`);
+  if (existsSync(f)) MECHANICS[c.slug] = (await import(`file://${f}`)).default;
+}
+
 const only = process.argv[2];
 const targets = only ? CLIENTS.filter((c) => c.slug === only) : CLIENTS;
 if (!targets.length) {
@@ -1604,7 +1763,7 @@ if (!targets.length) {
 for (const c of targets) {
   const dir = resolve(RESEARCH, `assembling-${c.slug}`);
   mkdirSync(resolve(dir, 'functions/api'), { recursive: true });
-  writeFileSync(resolve(dir, 'index.html'), page(c, WAITMAPS[c.slug] ?? null));
+  writeFileSync(resolve(dir, 'index.html'), page(c, WAITMAPS[c.slug] ?? null, MECHANICS[c.slug] ?? null));
   if (c.boardFacts) writeFileSync(resolve(dir, 'board.html'), boardPage(c));
   writeFileSync(resolve(dir, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
   writeFileSync(resolve(dir, 'wrangler.toml'),

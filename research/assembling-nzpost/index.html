@@ -362,6 +362,49 @@ h1{letter-spacing:-.035em}
 .ac-f{margin-top:16px;font-size:11.5px;color:var(--muted-2);line-height:1.55}
 @media(max-width:820px){.accept{grid-template-columns:1fr;padding:26px}}
 
+
+/* ── the bespoke wait mechanic ────────────────────────────────────────────
+   Kate's sector brief: the wait state is the product surface, so this is the
+   wait itself rather than a picture of one. Per-client, driven by
+   _generator/mechanics/<slug>.mjs. */
+#mech{padding:96px 0 20px}
+.trk{display:grid;grid-template-columns:330px 1fr;gap:34px;margin-top:42px;align-items:start}
+@media(max-width:960px){.trk{grid-template-columns:1fr}}
+.trk-dial{position:sticky;top:86px;background:rgba(var(--panel),.72);border:1px solid var(--line);border-radius:20px;padding:28px;backdrop-filter:blur(8px)}
+.trk-n{display:flex;align-items:baseline;gap:9px}
+.trk-n b{font-family:var(--display);font-weight:600;font-size:clamp(58px,7vw,92px);line-height:1;letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums}
+.trk-n i{font-style:normal;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.trk-cap{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.5;min-height:34px}
+.trk-bar{height:6px;border-radius:99px;background:rgba(var(--film),.12);overflow:hidden;margin-top:18px}
+.trk-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--champ));transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.trk-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.trk-btns .btn{padding:12px 20px;font-size:13.5px}
+.trk-note{font-size:11.5px;color:var(--muted-2);margin-top:16px;line-height:1.55}
+.trk-steps{list-style:none;counter-reset:trk}
+.trk-step{padding:20px 0 20px 0;border-bottom:1px solid var(--line-2);opacity:.4;transition:opacity .5s ease,transform .5s ease}
+.trk-step.on{opacity:1}
+.trk-step.done{opacity:.82}
+.trk-when{display:flex;gap:12px;align-items:baseline;margin-bottom:12px}
+.trk-when b{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--accent)}
+.trk-when span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.trk-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.trk-pair{grid-template-columns:1fr}}
+.trk-now,.trk-with{font-size:14px;line-height:1.6;padding:14px 16px;border-radius:13px}
+.trk-now{background:rgba(var(--film),.04);border:1px solid var(--line-2);color:var(--muted)}
+.trk-with{background:rgba(var(--panel),.7);border:1px solid var(--accent);color:var(--body-1)}
+.trk-now i,.trk-with i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;font-weight:700}
+.trk-now i{color:var(--muted-2)}
+.trk-with i{color:var(--accent)}
+.lay{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px;margin-top:52px}
+.layc{background:rgba(var(--panel),.62);border:1px solid var(--line);border-radius:18px;padding:24px}
+.layc.slot{border-color:var(--champ)}
+.lay-n{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:11px}
+.layc h3{font-size:18px;line-height:1.2;margin-bottom:9px}
+.layc p{font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:300}
+.slotbox{margin-top:16px;border:1px dashed var(--champ);border-radius:13px;padding:14px;background:var(--champ-soft)}
+.slot-tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--champ)}
+.slot-cat{font-size:13px;font-weight:700;color:var(--body-1);margin-top:7px;line-height:1.35}
+.slot-offer{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.55;font-weight:300}
 /* ── the wait map ────────────────────────────────────────────────
    A light band in the middle of a dark page. The whole argument is that a
    wait is a place, so it gets shown as a place — six of them, in order,
@@ -632,6 +675,7 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
 <section id="mirror"><div class="wrap">
   <div class="num rise">03 — THE WORK, PREPARED</div>
   <div class="narrow rise">
@@ -864,6 +908,7 @@ var CFG={
   generic:false,
   theme:"ink",
   object:"parcel",
+  
   execs:{"cx":"Customer Experience","ops":"Delivery Operations","digital":"Digital"}, buyerTitle:"Customer Experience", buyerLine:"NZ Post · Aotearoa New Zealand",
   variants:[{"key":"normal","label":"Running normally","chan":"Tracking view · parcel moving as expected","body":"Your parcel is on track.\n\nIt was scanned this morning at the Auckland processing centre and is on the network for delivery. Nothing here needs your attention.\n\nIf it has not arrived by the end of the day after the estimated date, we will start looking without you having to ask, and we will tell you we have.","rules":["Says plainly that no action is needed — most people just want permission to stop worrying","Commits to a next step and a date rather than leaving it open","No estimated delivery date is invented here — a pilot would read your real network data"]},{"key":"stalled","label":"Not scanned for three days","chan":"Tracking view · no movement, no exception raised","body":"Your parcel has not been scanned since Thursday.\n\nThat is longer than we would expect, and we have not raised an exception on it — so this is us telling you before you had to chase it.\n\nWe have asked the last site that handled it to look. You do not need to do anything yet. If we have not found it by Wednesday we will contact you about what happens next, including what you are covered for.","rules":["Volunteers the bad news rather than waiting for the enquiry","Distinguishes “we have not looked yet” from “we have looked and cannot find it” — those are very different to a customer","Names a date for the next contact","Cover is mentioned but no amount is stated — that was not published"]},{"key":"failed","label":"Delivery attempted, nobody home","chan":"Tracking view · card left, parcel at a collection point","body":"We tried to deliver on Friday afternoon and nobody was home, so your parcel is waiting at a collection point near you.\n\nYou will need photo ID that matches the name on the parcel. It will be held for a set period before it is returned to sender — we will tell you the exact date rather than leave you guessing.\n\nIf getting there is difficult, you can redirect it. That is a two-minute job and it is free.","rules":["Leads with what happened, not with an instruction","States the requirement (ID) before the customer arrives without it","Holding period is referenced but the exact number is left for real data — store hours and hold periods were not published on the page we read"]},{"key":"damaged","label":"Arrived damaged","chan":"Held — routed to a person","body":"This one is not answered automatically.\n\nA damaged parcel is a claim, and a claim decision belongs to a person with the policy in front of them. What this concept does is prepare the file — the scan history, where the damage most likely occurred, the sender’s cover, and the photographs the customer has already sent.\n\nSo the person who picks it up starts at the decision instead of starting at “can I take your tracking number”.","rules":["Refuses to decide a claim — that is a person’s job","Prepares the file so the person starts further along","No cover amount, excess or eligibility is stated; your own page does not publish them and this concept does not guess"]}], guard:[{"ok":true,"t":"No delivery promise beyond the network data","d":"Where an estimated date exists it is quoted; where it does not, the draft says so instead of producing a comforting guess.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — “your parcel will arrive tomorrow”","d":"The source status did not support it. A missed promise costs more than a vague answer, and generates the call it was meant to prevent.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — compensation amount","d":"A cover figure was drafted from an old template. Your published tracking page does not state what damage cover includes, so nothing was asserted.","law":"Fair Trading Act 1986 · CGA 1993"},{"ok":true,"t":"Claim decisions routed to a person","d":"Damage and loss are prepared, never decided. The file is assembled; the judgement is not.","law":"Consumer Guarantees Act 1993"},{"ok":true,"t":"No personal detail beyond the tracking holder","d":"Nothing about the sender, the contents, or the address is surfaced to anyone but the person entitled to it.","law":"Privacy Act 2020"}],
   verified:["NZ Post’s tracking page offers a parcel enquiry and links to FAQs at support.nzpost.co.nz.","That page does not state a standard delivery timeframe.","It does not state when a parcel is considered lost, or how an investigation proceeds.","It does not state what damage cover includes or how to claim."], laws:"Fair Trading Act 1986, Consumer Guarantees Act 1993, and the Privacy Act 2020.",
@@ -937,6 +982,56 @@ function verb(kind){
 /* The yes. Everything the page has claimed, written back into the mail so the
    reply is a scope rather than a "sounds good" — and a clipboard fallback,
    because a machine with no mail client should never eat someone's notes. */
+
+/* ── the tracker: the wait collapsing ─────────────────────────────────────
+   Runs the same claim twice at once — the left column is what a customer
+   receives today, the right is the same work with the waiting designed. The
+   headline number counts down as each stage is claimed back. */
+(function(){
+  var run=document.getElementById('trkRun'); if(!run) return;
+  var nEl=document.getElementById('trkN'), capEl=document.getElementById('trkCap');
+  var barEl=document.getElementById('trkBar'), steps=[].slice.call(document.querySelectorAll('.trk-step'));
+  var FROM=CFG.trkFrom, TO=CFG.trkTo, SHAVE=CFG.trkShave, CAPS=CFG.trkCaps;
+  var ts=[], busy=false;
+  function clear(){ ts.forEach(clearTimeout); ts=[]; busy=false; }
+  function at(ms,fn){ ts.push(setTimeout(fn,ms)); }
+  function paint(n){ nEl.textContent=n; }
+  function reset(){
+    clear(); paint(FROM); capEl.textContent=CAPS.from; barEl.style.width='0';
+    steps.forEach(function(s){ s.classList.remove('on','done') });
+  }
+  function go(){
+    if(busy) return; reset(); busy=true;
+    var n=FROM, d=380;
+    steps.forEach(function(st,i){
+      at(d, function(){
+        steps.forEach(function(x){ x.classList.remove('on') });
+        st.classList.add('on');
+        if(i>0) steps[i-1].classList.add('done');
+        capEl.textContent=CAPS.steps[i];
+        /* count the shaved days down rather than jumping, so the number is
+           visibly being earned back one stage at a time */
+        var target=n-SHAVE[i], from=n, t0=Date.now(), dur=520;
+        (function tick(){
+          var p=Math.min(1,(Date.now()-t0)/dur);
+          paint(Math.round(from+(target-from)*p));
+          if(p<1) requestAnimationFrame(tick);
+        })();
+        n=target;
+        barEl.style.width=Math.round((i+1)/steps.length*100)+'%';
+      });
+      d+=980;
+    });
+    at(d, function(){
+      steps[steps.length-1].classList.add('done');
+      paint(TO); capEl.textContent=CAPS.to; busy=false;
+    });
+  }
+  run.addEventListener('click',go);
+  document.getElementById('trkReset').addEventListener('click',reset);
+  reset();
+})();
+
 /* The value exchange, playable.
    Kate's point: the reward layer has to be something you DO on the page, not a
    paragraph describing one. Scratch coat is a canvas composited destination-out;
