@@ -14,6 +14,7 @@
   --ink:#0A0A0B; --ink-2:#111114; --paper:#FFFFFF; --muted:#8E9299; --muted-2:#6B6F76;
   --line:rgba(255,255,255,.13); --line-2:rgba(255,255,255,.07);
   --accent:#47A1A3; --accent-2:#CF442D; --accent-lift:#b9dbdc;
+  --map-bg:#f3f6f3; --map-ink:#47A1A3; --map-scr:#17292c; --on-accent:#FFFFFF;
   --champ:#BFA37A; --champ-soft:rgba(191,163,122,.13);
   --sans:"Jost",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
 }
@@ -343,6 +344,73 @@ h1{letter-spacing:-.035em}
 .acceptCard li b{color:var(--paper);font-weight:700}
 .ac-f{margin-top:16px;font-size:11.5px;color:var(--muted-2);line-height:1.55}
 @media(max-width:820px){.accept{grid-template-columns:1fr;padding:26px}}
+
+/* ── the wait map ────────────────────────────────────────────────
+   A light band in the middle of a dark page. The whole argument is that a
+   wait is a place, so it gets shown as a place — six of them, in order,
+   on paper, in their colour. This is also the only section that must be
+   legible in a screenshot pasted into an email. */
+.mapband{position:relative;z-index:3;background:var(--map-bg);color:#141416;
+  padding:82px 0 88px;margin:60px 0;box-shadow:0 -1px 0 rgba(255,255,255,.06),0 1px 0 rgba(255,255,255,.06)}
+.mapband .num.dark{color:#6A6A70}
+.mapband .num.dark::before{background:var(--accent);opacity:1}
+.mapband .num .ghost{-webkit-text-stroke:1px rgba(0,0,0,.06)}
+.mapband .eyebrow.dark{color:var(--map-ink)}
+.mapband .eyebrow.dark::before{background:var(--map-ink)}
+.mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
+.mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+.mapGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:20px;margin-top:44px}
+.mapCard{background:#FFFFFF;border:1px solid rgba(0,0,0,.09);border-radius:18px;padding:20px;
+  display:flex;flex-direction:column;box-shadow:0 22px 44px -30px rgba(0,0,0,.4)}
+.mapTop{display:flex;gap:12px;align-items:flex-start;margin-bottom:15px}
+.mapN{flex:0 0 auto;font-size:11px;font-weight:900;letter-spacing:.1em;color:#FFF;background:var(--map-ink);
+  border-radius:6px;padding:4px 7px;margin-top:2px}
+.mapTop b{display:block;font-size:16px;font-weight:700;color:#111114;line-height:1.2}
+.mapTop i{display:block;font-style:normal;font-size:12px;color:#75757E;margin-top:3px;font-weight:400}
+.mapScreen{background:linear-gradient(170deg,var(--map-scr) 0%,#0D0D10 100%);border-radius:14px;padding:13px 14px 15px;color:#F2F2F0;position:relative}
+.msTop{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:11px}
+.msDot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 9px var(--accent)}
+.msTitle{font-size:14.5px;font-weight:700;line-height:1.25;margin-bottom:8px}
+.msLine{font-size:12px;color:rgba(242,242,240,.72);font-weight:300;line-height:1.45;padding:3px 0 3px 12px;position:relative}
+.msLine::before{content:"";position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.8}
+.msChip{display:inline-block;margin-top:11px;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+  background:var(--accent);color:var(--on-accent);border-radius:999px;padding:5px 11px}
+.mapFeels{margin-top:14px;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:#8A8A93}
+.mapDel{margin-top:8px;font-size:13.5px;color:#3C3C44;font-weight:300;line-height:1.55;flex:1}
+.mapFund{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,.08);font-size:12px;color:#5E5E68;font-weight:300;line-height:1.5}
+.mapFund i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--map-ink);margin-bottom:5px}
+
+.mapHow{display:grid;grid-template-columns:1fr 400px;gap:34px;margin-top:52px;align-items:start}
+.mapHow h3{font-size:clamp(24px,3.2vw,34px);font-weight:900;letter-spacing:-.026em;color:#101012;margin-top:4px}
+.mapSteps{list-style:none;counter-reset:ms;margin-top:22px}
+.mapSteps li{counter-increment:ms;padding:15px 0 15px 46px;border-bottom:1px solid rgba(0,0,0,.08);position:relative}
+.mapSteps li:last-child{border-bottom:none}
+.mapSteps li::before{content:counter(ms,decimal-leading-zero);position:absolute;left:0;top:17px;
+  font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--map-ink)}
+.mapSteps b{display:block;font-size:16px;font-weight:700;color:#111114;margin-bottom:3px}
+.mapSteps span{font-size:14px;color:#4C4C54;font-weight:300;line-height:1.55}
+
+.scratchCard{background:#101012;border-radius:20px;padding:22px;color:#F2F2F0}
+.scK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:14px}
+.scStage{position:relative;height:196px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,var(--map-scr),#0A0A0C)}
+.scWin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px}
+.scWinK{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,242,240,.55);font-weight:700}
+.scWinV{font-size:clamp(26px,5vw,40px);font-weight:900;letter-spacing:-.03em;color:var(--accent);margin:8px 0 6px;line-height:1}
+.scWinS{font-size:12px;color:rgba(242,242,240,.62);font-weight:300;line-height:1.45;max-width:30ch}
+.scCoat{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+.scCoat:active{cursor:grabbing}
+.scNote{font-size:11.5px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.55;margin-top:14px}
+.scAgain{margin-top:12px;background:transparent;border:1px solid rgba(242,242,240,.25);color:#F2F2F0;
+  border-radius:999px;padding:9px 17px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer}
+.scAgain:hover{border-color:var(--accent);color:var(--accent)}
+@keyframes scPop{0%{transform:scale(.9);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+
+.mapEv{margin-top:52px;border-left:3px solid var(--map-ink);padding:4px 0 4px 22px;max-width:74ch}
+.mapEv b{font-weight:700;color:#101012}
+.mapEv p{font-size:14.5px;color:#43434B;font-weight:300;line-height:1.65;margin-top:9px}
+.mapEv i{font-style:normal;color:#75757E}
+.mapEvFin{font-size:12.5px!important;color:#75757E!important;margin-top:12px!important}
+@media(max-width:900px){.mapHow{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -353,7 +421,7 @@ h1{letter-spacing:-.035em}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· independent concept</small></div>
   <div class="navlinks">
-    <a href="#wait">The wait</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -415,8 +483,127 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
+<section id="map" class="mapband"><div class="wrap">
+  <div class="num rise dark">02 — EVERY WAITING MOMENT</div>
+  <div class="narrow rise">
+    <h2 class="mapH">Every waiting moment in a branch lending journey</h2>
+    <p class="mapLede">Six gaps a branch network already owns, from the decision to walk in to the loan you come back for.</p>
+  </div>
+
+  <div class="mapGrid rise">
+    
+    <div class="mapCard">
+      <div class="mapTop"><span class="mapN">01</span><div><b>Before you walk in</b><i>Deciding to go in at all</i></div></div>
+      <div class="mapScreen">
+        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
+        <div class="msTitle">What happens in the room</div>
+        <div class="msLine">Who you sit with, and what they ask.</div><div class="msLine">Bring these, and you will not come back twice.</div>
+        <div class="msChip">no obligation</div>
+      </div>
+      <div class="mapFeels">the wait feels like the reluctance of asking a stranger for money</div>
+      <p class="mapDel">You know what the appointment is actually like before you agree to have one.</p>
+      <div class="mapFund"><i>who funds it</i>Funded by the business — a branch visit that never happens is the most expensive outcome it has.</div>
+    </div>
+    <div class="mapCard">
+      <div class="mapTop"><span class="mapN">02</span><div><b>Before your slot</b><i>From booking to the appointment</i></div></div>
+      <div class="mapScreen">
+        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
+        <div class="msTitle">Your appointment, started</div>
+        <div class="msLine">What you typed online is already there.</div><div class="msLine">You start at minute five, not minute one.</div>
+        <div class="msChip">brief sent ahead</div>
+      </div>
+      <div class="mapFeels">the wait feels like knowing you will tell the same story a third time</div>
+      <p class="mapDel">The person you meet has read your file before you sit down, so the first ten minutes are their judgement, not your admin.</p>
+      <div class="mapFund"><i>who funds it</i>Funded by the business, because a trained lender in a room is the scarcest thing a branch network owns.</div>
+    </div>
+    <div class="mapCard">
+      <div class="mapTop"><span class="mapN">03</span><div><b>The waiting room</b><i>Arrived, waiting to be seen</i></div></div>
+      <div class="mapScreen">
+        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
+        <div class="msTitle">While you wait</div>
+        <div class="msLine">Your documents, checked and ticked off.</div><div class="msLine">One thing missing. Grab it on your phone.</div>
+        <div class="msChip">one to fix</div>
+      </div>
+      <div class="mapFeels">the wait feels like ten minutes with nothing to look at but a poster</div>
+      <p class="mapDel">The gap before you are called gets used to catch the missing document, while you can still fix it.</p>
+      <div class="mapFund"><i>who funds it</i>Funded by the business — a second trip costs the customer a morning and the branch a whole slot.</div>
+    </div>
+    <div class="mapCard">
+      <div class="mapTop"><span class="mapN">04</span><div><b>The desk pause</b><i>While they check something</i></div></div>
+      <div class="mapScreen">
+        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
+        <div class="msTitle">What they are looking at</div>
+        <div class="msLine">The same screen, on your phone.</div><div class="msLine">Fees and repayments, in words you would use.</div>
+        <div class="msChip">nothing hidden</div>
+      </div>
+      <div class="mapFeels">the wait feels like watching someone read a screen you cannot see</div>
+      <p class="mapDel">The customer sees the same working the lender sees, so questions get asked in the room instead of at home.</p>
+      <div class="mapFund"><i>who funds it</i>Funded by the business — a question answered across the desk is a complaint that never gets written.</div>
+    </div>
+    <div class="mapCard">
+      <div class="mapTop"><span class="mapN">05</span><div><b>Waiting on the answer</b><i>After you leave the branch</i></div></div>
+      <div class="mapScreen">
+        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
+        <div class="msTitle">Where your file is up to</div>
+        <div class="msLine">With an assessor. Nothing needed from you.</div><div class="msLine">We will tell you the moment it moves.</div>
+        <div class="msChip">no need to ring</div>
+      </div>
+      <div class="mapFeels">the wait feels like checking your phone on the bus for no reason</div>
+      <p class="mapDel">Silence gets replaced with a position, so nobody has to ring the branch to ask.</p>
+      <div class="mapFund"><i>who funds it</i>Funded by the business, because answering before the customer asks costs less than answering after.</div>
+    </div>
+    <div class="mapCard">
+      <div class="mapTop"><span class="mapN">06</span><div><b>Coming back in</b><i>Months later, next time</i></div></div>
+      <div class="mapScreen">
+        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
+        <div class="msTitle">Second time, same branch</div>
+        <div class="msLine">You finished the last one. That is on file.</div><div class="msLine">Short version of the paperwork this time.</div>
+        <div class="msChip">same person, if in</div>
+      </div>
+      <div class="mapFeels">the wait feels like hoping they remember you and assuming they will not</div>
+      <p class="mapDel">A returning customer gets treated as one, instead of starting again at a blank form.</p>
+      <div class="mapFund"><i>who funds it</i>Funded by the business — the branch relationship is the one thing an online-only lender cannot copy.</div>
+    </div>
+  </div>
+
+  <div class="mapHow rise">
+    <div class="mapHowL">
+      <div class="eyebrow dark">How the moment works</div>
+      <h3>Four steps, every time.</h3>
+      <ol class="mapSteps">
+        <li><b>The signal</b><span>Something in your own systems says a person is now waiting, and roughly how long for.</span></li>
+        <li><b>The prediction</b><span>How long this one will really take — not the average, this one.</span></li>
+        <li><b>The value</b><span>Something worth their attention goes into that window: an answer, a credit, a thing prepared while they wait.</span></li>
+        <li><b>The exchange</b><span>They get value. You get a customer who stayed, and one optional answer you have always wanted.</span></li>
+      </ol>
+    </div>
+    <div class="mapHowR">
+      <div class="scratchCard">
+        <div class="scK">the value exchange, playable</div>
+        <div class="scStage">
+          <div class="scWin" id="scWin">
+            <div class="scWinK">you earned</div>
+            <div class="scWinV" id="scWinV">—</div>
+            <div class="scWinS">for the the reluctance of asking a stranger for money you were going to lose anyway</div>
+          </div>
+          <canvas class="scCoat" id="scCoat"></canvas>
+        </div>
+        <p class="scNote">This is the reward layer, running for real on this page. Drag to scratch it. Nothing is collected, nothing is sent — it is here so the idea is something you do, not something you read.</p>
+        <button class="scAgain" id="scAgain" type="button">scratch another</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mapEv rise">
+    <b>This is not a new idea — it is an unbuilt one.</b>
+    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
+    <p class="mapEvFin">Every figure on this page carries its source. Overseas figures are shown as overseas figures — we have not found a published New Zealand equivalent, and we will not invent one.</p>
+  </div>
+</div></section>
+
 <section id="mirror"><div class="wrap">
-  <div class="num rise">02 — THE WORK, PREPARED</div>
+  <div class="num rise">03 — THE WORK, PREPARED</div>
   <div class="narrow rise">
     <div class="eyebrow">The same situation, four ways</div>
     <h2>One appointment. Four briefs.</h2>
@@ -438,7 +625,7 @@ h1{letter-spacing:-.035em}
 </div></section>
 
 <section id="guard"><div class="wrap">
-  <div class="num rise">03 — THE GUARD</div>
+  <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Before a person ever reads it</div>
@@ -452,7 +639,7 @@ h1{letter-spacing:-.035em}
 </div></section>
 
 <section id="room"><div class="wrap">
-  <div class="num rise">04 — THE ROOM</div>
+  <div class="num rise">05 — THE ROOM</div>
   <div class="narrow rise">
     <div class="eyebrow">Where you watch it work</div>
     <h2>One room. Your people, your agents, every action on the record.</h2>
@@ -482,7 +669,7 @@ h1{letter-spacing:-.035em}
 </div></section>
 
 <section id="board"><div class="wrap">
-  <div class="num rise">05 — ON ONE SCREEN</div>
+  <div class="num rise">06 — ON ONE SCREEN</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing here has been sent</div>
     <h2>This morning, across the network</h2>
@@ -498,7 +685,7 @@ h1{letter-spacing:-.035em}
 </div></section>
 
 <section><div class="wrap">
-  <div class="num rise">06 — HOW IT WAS MADE</div>
+  <div class="num rise">07 — HOW IT WAS MADE</div>
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Mana Receipt</div>
@@ -522,7 +709,7 @@ h1{letter-spacing:-.035em}
 </div></section>
 
 <section id="pilot"><div class="wrap">
-  <div class="num rise">08 — WHAT WE ARE ACTUALLY ASKING</div>
+  <div class="num rise">09 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
@@ -701,6 +888,79 @@ function verb(kind){
 /* The yes. Everything the page has claimed, written back into the mail so the
    reply is a scope rather than a "sounds good" — and a clipboard fallback,
    because a machine with no mail client should never eat someone's notes. */
+/* The value exchange, playable.
+   Kate's point: the reward layer has to be something you DO on the page, not a
+   paragraph describing one. Scratch coat is a canvas composited destination-out;
+   the reveal fires once roughly half the coat is gone, sampled sparsely so the
+   check is cheap enough to run on every pointer move. */
+(function scratch(){
+  var cv=document.getElementById('scCoat'); if(!cv) return;
+  var win=document.getElementById('scWin'), val=document.getElementById('scWinV');
+  var again=document.getElementById('scAgain');
+  var REWARDS=['+3 min','2 credits','a straight answer','one less call','+5 min','the thing prepared'];
+  var ctx=cv.getContext('2d'), W=0, H=0, dpr=1, revealed=false, drawing=false;
+
+  function fit(){
+    var r=cv.getBoundingClientRect();
+    dpr=Math.min(2,window.devicePixelRatio||1);
+    W=r.width; H=r.height;
+    cv.width=Math.max(1,W*dpr); cv.height=Math.max(1,H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    coat();
+  }
+  function coat(){
+    ctx.globalCompositeOperation='source-over';
+    ctx.clearRect(0,0,W,H);
+    var g=ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#C9B48C'); g.addColorStop(.5,'#EBDDBE'); g.addColorStop(1,'#B39A6E');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(58,56,50,.07)';
+    for(var x=-14;x<W;x+=26) ctx.fillRect(x,0,13,H);
+    ctx.fillStyle='#3A3832'; ctx.textAlign='center';
+    ctx.font='700 13px Jost,system-ui,sans-serif';
+    ctx.fillText('SCRATCH TO REVEAL',W/2,H/2-3);
+    ctx.font='300 12px Jost,system-ui,sans-serif';
+    ctx.fillText('drag across the panel',W/2,H/2+17);
+    ctx.globalCompositeOperation='destination-out';
+  }
+  function at(e){
+    var r=cv.getBoundingClientRect();
+    var t=e.touches&&e.touches[0]?e.touches[0]:e;
+    return [t.clientX-r.left,t.clientY-r.top];
+  }
+  function rub(e){
+    if(!drawing||revealed) return;
+    var p=at(e);
+    ctx.beginPath(); ctx.arc(p[0],p[1],23,0,Math.PI*2); ctx.fill();
+    check();
+    if(e.cancelable) e.preventDefault();
+  }
+  function check(){
+    var d=ctx.getImageData(0,0,cv.width,cv.height).data, clear=0, total=0;
+    for(var i=3;i<d.length;i+=4*64){ total++; if(d[i]<40) clear++ }
+    if(total&&clear/total>0.46) reveal();
+  }
+  function reveal(){
+    revealed=true;
+    cv.style.transition='opacity .5s ease'; cv.style.opacity='0'; cv.style.pointerEvents='none';
+    win.style.animation='scPop .5s cubic-bezier(.22,.61,.36,1) both';
+  }
+  function reset(){
+    revealed=false; drawing=false;
+    val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
+    cv.style.transition='none'; cv.style.opacity='1'; cv.style.pointerEvents='auto';
+    win.style.animation='none';
+    coat();
+  }
+  cv.addEventListener('pointerdown',function(e){drawing=true;rub(e)});
+  window.addEventListener('pointerup',function(){drawing=false});
+  cv.addEventListener('pointermove',rub,{passive:false});
+  again.addEventListener('click',reset);
+  window.addEventListener('resize',function(){ if(!revealed) fit() });
+  val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
+  fit();
+})();
+
 /* The room lighting: a rail that says how far through you are, ghosted section
    numerals, and glass that catches the pointer. All progressive — the page is
    complete without any of it, so a failure here costs nothing. */
