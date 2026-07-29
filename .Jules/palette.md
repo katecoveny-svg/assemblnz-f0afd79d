@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-29 - Accessible Character Limit and Interactive Micro-UX in Form Inputs
+**Learning:** When developing public-facing landing waitlist forms (such as `DataWaitlistForm.tsx`), providing explicit feedback such as visual indicators for mandatory fields (`*` with `aria-required`), right-aligned real-time character counters under bounded textareas (e.g. 1000 limit with `aria-describedby`), and keyboard-only focus-visible transitions rather than standard raw input outline styles ensures a premium accessible look and feel.
+**Action:** Always include Pounamu-green visual asterisk required markers, right-aligned counters styled with mono font, and custom focus visible rings for public input waitlist forms.
