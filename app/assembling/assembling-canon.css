@@ -32,6 +32,23 @@ body:has(.asm) { background: var(--asm-paper); }
   overflow-x: clip;
 }
 .asm .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+/* Large displays.
+   Kate, 30 July 2026: "the desktop view of the entire site is looking really
+   bad." She was right and it was this. Every container here stopped at 1180px
+   with nothing handling anything wider, so on a 27-inch screen — or zoomed out —
+   the page became a strip down the middle: measured at a 3400px viewport, the
+   wrap was 35% of the window with 1110px of dead margin either side.
+   The column now grows past 1700px, and the display type grows with it so a
+   wider measure does not just produce longer lines. Nothing below 1700px moves. */
+@media (min-width: 1700px) {
+  .asm .wrap { max-width: min(86vw, 1780px); padding: 0 44px; }
+  .asm-hero { gap: 76px; padding: 130px 0 84px; }
+  .asm-hero h1 { font-size: clamp(4.4rem, 4.4vw, 6.4rem); }
+  .asm-band { padding: 104px 0; }
+  .asm-band h2 { font-size: clamp(2.3rem, 2.5vw, 3.4rem); }
+  .asm-band .sub { max-width: 68ch; font-size: 1.12rem; }
+}
 .asm .mono {
   font-family: 'Space Mono', monospace; font-size: 0.6rem;
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--asm-brass);

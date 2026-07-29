@@ -520,6 +520,16 @@
 .cine .page-header { padding: 160px 48px 48px; max-width: 1080px; margin: 0 auto; }
 .cine .page-body { max-width: 1080px; margin: 0 auto; padding: 0 48px 48px; }
 .cine .page-header h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 1.06; }
+
+/* Large displays. These shells stopped at 1080px — even tighter than the
+   assembling page — so every cinematic page read as a narrow strip on a big
+   monitor. Grows past 1700px only; nothing below that changes. */
+@media (min-width: 1700px) {
+  .cine .page-header { max-width: min(78vw, 1520px); padding: 190px 64px 56px; }
+  .cine .page-body { max-width: min(78vw, 1520px); padding: 0 64px 56px; }
+  .cine .page-header h1 { font-size: clamp(5.5rem, 5vw, 7rem); }
+  .cine.inst .creed { max-width: min(70vw, 1360px); }
+}
 .cine .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 48px 0; }
 @media (max-width: 640px) { .cine .pricing-grid { grid-template-columns: 1fr; } .cine .page-header, .cine .page-body { padding-left: 24px; padding-right: 24px; } }
 .cine .price-card {

@@ -392,6 +392,12 @@
   width: min(1180px, 92vw);
   margin: 0 auto;
 }
+
+/* Large displays — see the note in assembling-canon.css. This wrap had the same
+   hard 1180px ceiling, so it collapsed to a strip on a big screen. */
+@media (min-width: 1700px) {
+  .dash-kit .wrap { width: min(86vw, 1780px); }
+}
 .dash-kit .dashNav {
   display: flex;
   align-items: center;
