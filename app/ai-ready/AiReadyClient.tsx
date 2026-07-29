@@ -116,6 +116,89 @@ function AssemblWait({ onAnswer }: { onAnswer: (a: string) => void }) {
   );
 }
 
+/**
+ * The context brief — the artefact people keep.
+ *
+ * Kate, 29 July 2026: AI is only as good as the context it is given, and
+ * almost nobody hands their agents a proper brief. So the same read that
+ * scores a site also drafts the business a `context.md`: who they are, what
+ * they sell, how they talk, what they must never say, and the rules any agent
+ * working for them has to follow. They paste it into ChatGPT, Claude, Copilot
+ * or their own agent — and assembl's name is on it every time they open it.
+ */
+function contextMarkdown(brief: Brief, site: string, url: string): string {
+  const today = new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+  const L: string[] = [];
+  L.push(`# ${site} — context for AI`);
+  L.push('');
+  L.push(`**Give this file to any AI before you ask it to write, reply or draft for this business.**`);
+  L.push(`Drafted ${today} by an agent reading ${url}. Check it, correct it, keep it.`);
+  L.push('');
+  L.push('---');
+  L.push('');
+  L.push('## Who we are');
+  L.push('');
+  L.push(brief.business);
+  L.push('');
+  if (brief.sells?.length) {
+    L.push('## What we offer');
+    L.push('');
+    brief.sells.forEach((x) => L.push(`- ${x}`));
+    L.push('');
+  }
+  if (brief.voice) {
+    L.push('## How we sound');
+    L.push('');
+    L.push(brief.voice);
+    L.push('');
+    L.push('When writing as us, match that. If a sentence could belong to any business in our industry, rewrite it until it could only be ours.');
+    L.push('');
+  }
+  if (brief.facts?.length) {
+    L.push('## Facts an agent may state');
+    L.push('');
+    L.push('These come from our own published pages. Anything not on this list must be checked with a person before it is said to a customer.');
+    L.push('');
+    brief.facts.forEach((f) => L.push(`- ${f}`));
+    L.push('');
+  }
+  if (brief.blindSpots?.length) {
+    L.push('## What our own site does not answer');
+    L.push('');
+    L.push('If someone asks one of these, an agent must say it does not know and offer a person — never guess.');
+    L.push('');
+    brief.blindSpots.forEach((b) => L.push(`- ${b}`));
+    L.push('');
+  }
+  if (brief.questions?.length) {
+    L.push('## Questions our customers actually ask');
+    L.push('');
+    brief.questions.slice(0, 8).forEach((q) => L.push(`- ${q}`));
+    L.push('');
+  }
+  if (brief.brand?.palette?.length) {
+    L.push('## Our colours');
+    L.push('');
+    L.push(brief.brand.palette.slice(0, 6).map((c) => `\`${c}\``).join(' · '));
+    L.push('');
+    L.push('Read from our own stylesheets. Use these when anything visual is generated for us.');
+    L.push('');
+  }
+  L.push('## Rules for any agent working for us');
+  L.push('');
+  L.push('1. **Never invent a fact, a price, a date or a policy.** If it is not in this file or on our site, say you do not know.');
+  L.push('2. **Nothing sends without a named person approving it** — draft, then stop.');
+  L.push('3. **Say when you are unsure.** A hedge is cheaper than a correction to a customer.');
+  L.push('4. **Use our words**, not the industry\u2019s. See "How we sound".');
+  L.push('5. **Keep a record** of what you used to answer, so anyone can check it later.');
+  L.push('');
+  L.push('---');
+  L.push('');
+  L.push('*Drafted by assembl — intuitive agentic customer journeys · assembl.co.nz*');
+  L.push('*This is a starting point written from public pages. You know your business; edit freely.*');
+  return L.join('\n');
+}
+
 export function AiReadyClient() {
   const [url, setUrl] = useState('');
   const [busy, setBusy] = useState<'idle' | 'checks' | 'journey'>('idle');
@@ -127,6 +210,9 @@ export function AiReadyClient() {
   const [gate, setGate] = useState<'closed' | 'sending' | 'open'>('closed');
   const [gateError, setGateError] = useState('');
   const [waitAnswer, setWaitAnswer] = useState('');
+  const [ctxCopied, setCtxCopied] = useState(false);
+  const [ctxBusy, setCtxBusy] = useState(false);
+  const [ctxErr, setCtxErr] = useState('');
   const ran = useRef(false);
 
   const run = useCallback(async (target: string) => {
@@ -196,6 +282,105 @@ export function AiReadyClient() {
     const u = new URLSearchParams(location.search).get('u');
     if (u) { setUrl(u); void run(u); }
   }, [run]);
+
+  const contextDoc = () =>
+    brief && ready ? contextMarkdown(brief, ready.site, ready.url) : '';
+
+  const copyContext = async () => {
+    try {
+      await navigator.clipboard.writeText(contextDoc());
+      setCtxCopied(true);
+      setTimeout(() => setCtxCopied(false), 2400);
+    } catch { setCtxErr('Copy was blocked — download it instead.'); }
+  };
+
+  const saveFile = (text: string, name: string, type: string) => {
+    const blob = new Blob([text], { type });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(a.href);
+  };
+
+  const downloadContextMd = () => {
+    if (!ready) return;
+    saveFile(contextDoc(), `${ready.site.replace(/[^\w-]+/g, '-').toLowerCase()}-context.md`, 'text/markdown');
+  };
+
+  /** The same brief as a designed PDF — what people forward to a colleague. */
+  const downloadContextPdf = async () => {
+    if (!brief || !ready || ctxBusy) return;
+    setCtxBusy(true); setCtxErr('');
+    try {
+      const { default: JsPDF } = await import('jspdf');
+      const doc = new JsPDF({ unit: 'pt', format: 'a4' });
+      const W = 595, H = 842, M = 58;
+      const NAVY = '#0B1524', GOLD = '#B8964F', SOFT = '#5A5750';
+      let y = 0;
+
+      const newPage = (first = false) => {
+        if (!first) doc.addPage();
+        doc.setFillColor(252, 251, 248); doc.rect(0, 0, W, H, 'F');
+        doc.setDrawColor(184, 150, 79); doc.setLineWidth(1.2);
+        doc.line(M, 92, W - M, 92);
+        doc.setTextColor(NAVY); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+        doc.text('assembl', M, 76);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(SOFT);
+        doc.text('context brief · intuitive agentic customer journeys', M + 48, 76);
+        y = 128;
+      };
+      const need = (h: number) => { if (y + h > H - 70) newPage(); };
+      const heading = (t: string) => {
+        need(46);
+        doc.setTextColor(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5);
+        doc.text(t.toUpperCase(), M, y); y += 18;
+      };
+      const para = (t: string, size = 10.5) => {
+        doc.setTextColor(40, 38, 34); doc.setFont('helvetica', 'normal'); doc.setFontSize(size);
+        const lines = doc.splitTextToSize(t, W - M * 2);
+        need(lines.length * (size * 1.34));
+        doc.text(lines, M, y); y += lines.length * (size * 1.34) + 10;
+      };
+      const bullets = (items: string[]) => {
+        items.forEach((it) => {
+          doc.setTextColor(184, 150, 79); doc.setFont('helvetica', 'bold'); doc.setFontSize(10.5);
+          const lines = doc.splitTextToSize(it, W - M * 2 - 16);
+          need(lines.length * 14 + 4);
+          doc.text('·', M, y);
+          doc.setTextColor(40, 38, 34); doc.setFont('helvetica', 'normal');
+          doc.text(lines, M + 14, y); y += lines.length * 14 + 6;
+        });
+        y += 6;
+      };
+
+      newPage(true);
+      doc.setTextColor(NAVY); doc.setFont('helvetica', 'bold'); doc.setFontSize(30);
+      const title = doc.splitTextToSize(`${ready.site} — context for AI`, W - M * 2);
+      doc.text(title, M, y); y += title.length * 34 + 12;
+      para('Give this to any AI before you ask it to write, reply or draft for this business. Drafted from your own public pages — check it, correct it, keep it.', 11);
+
+      heading('Who we are'); para(brief.business);
+      if (brief.sells?.length) { heading('What we offer'); bullets(brief.sells); }
+      if (brief.voice) { heading('How we sound'); para(brief.voice); }
+      if (brief.facts?.length) { heading('Facts an agent may state'); para('From our own published pages. Anything else is checked with a person first.', 9.5); bullets(brief.facts); }
+      if (brief.blindSpots?.length) { heading('What our site does not answer'); para('If someone asks one of these, say you do not know and offer a person.', 9.5); bullets(brief.blindSpots); }
+      heading('Rules for any agent working for us');
+      bullets([
+        'Never invent a fact, price, date or policy. If it is not here or on our site, say you do not know.',
+        'Nothing sends without a named person approving it — draft, then stop.',
+        'Say when you are unsure. A hedge is cheaper than a correction to a customer.',
+        'Use our words, not the industry\u2019s.',
+        'Keep a record of what you used to answer, so anyone can check it later.',
+      ]);
+
+      doc.setTextColor(SOFT); doc.setFontSize(8);
+      doc.text('Drafted by assembl — intuitive agentic customer journeys · assembl.co.nz', M, H - 46);
+      doc.save(`${ready.site.replace(/[^\w-]+/g, '-').toLowerCase()}-context.pdf`);
+    } catch {
+      setCtxErr('The PDF could not be built just now — the markdown download still works.');
+    } finally { setCtxBusy(false); }
+  };
 
   const share = async () => {
     try {
@@ -347,6 +532,37 @@ export function AiReadyClient() {
                     <p>Your agents would ask these for you — and remember the answers.</p>
                   </div>
                 )}
+              </section>
+            )}
+
+            {brief && (
+              <section className="airdy-ctx">
+                <div className="airdy-ctx-head">
+                  <div>
+                    <p className="airdy-ctx-kick">the artefact you keep</p>
+                    <h3>Your context brief, for any AI.</h3>
+                  </div>
+                  <span className="airdy-ctx-badge">context.md</span>
+                </div>
+                <p className="airdy-ctx-lede">
+                  AI is only as good as the context it is given, and almost nobody hands their
+                  tools a proper brief. This is yours — who you are, what you sell, how you sound,
+                  the facts an agent may state, what your own site doesn&rsquo;t answer, and the
+                  rules any agent working for you has to follow. Paste it into ChatGPT, Claude,
+                  Copilot or your own agent.
+                </p>
+                <pre className="airdy-ctx-preview">{contextDoc().split('\n').slice(0, 16).join('\n')}
+…</pre>
+                <div className="airdy-ctx-row">
+                  <button type="button" onClick={() => void copyContext()}>
+                    {ctxCopied ? 'copied ✓' : 'copy for your AI'}
+                  </button>
+                  <button type="button" className="ghost" onClick={downloadContextMd}>download .md</button>
+                  <button type="button" className="ghost" onClick={() => void downloadContextPdf()} disabled={ctxBusy}>
+                    {ctxBusy ? 'building…' : 'download .pdf'}
+                  </button>
+                </div>
+                {ctxErr && <p className="airdy-ctx-err">{ctxErr}</p>}
               </section>
             )}
 

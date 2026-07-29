@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { AiReadyClient } from './AiReadyClient';
 
 export const metadata: Metadata = {
-  title: 'Assemble your agentic customer journey + check your AI-search readiness — free, by assembl',
+  title: 'Free context brief for your AI + your agentic customer journey — assembl',
   description:
-    'A live agent drafts a personalised agentic customer journey from your own website, and eight honest checks score whether AI assistants can find, read and cite you. Free, by assembl.',
+    'Free: an agent reads your site and writes your context brief for ChatGPT, Claude or Copilot — plus your agentic customer journey and eight AI-search readiness checks. By assembl.',
   keywords: [
     'AI search readiness', 'AI SEO check', 'llms.txt', 'agentic customer journeys',
     'agentic CX', 'AI optimised website', 'New Zealand',
