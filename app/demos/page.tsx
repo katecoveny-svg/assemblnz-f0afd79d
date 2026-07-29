@@ -35,7 +35,7 @@ export default function DemosPage() {
             <span className="dm-metal">One link per lead.</span>
           </h1>
           <p className="dm-lede">
-            {named.length} named concepts and {demos.length} category demonstrators. Each row is
+            {named.length} named concepts and {demos.length}{' '}category demonstrators. Each row is
             the one to send &mdash; the older builds are listed at the bottom so nothing gets
             forwarded twice.
           </p>

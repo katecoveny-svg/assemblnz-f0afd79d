@@ -8,6 +8,7 @@ export function CineFooter() {
     <footer>
       <nav className="foot-links" aria-label="legal and account">
         <a href="/concepts">concepts</a>
+        <a href="/demos">concept demos</a>
         <a href="/ai-ready">ai-ready check</a>
         <a href="/agent-schema">agent schema</a>
         <a href="/legal/privacy">privacy</a>
