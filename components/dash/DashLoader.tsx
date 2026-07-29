@@ -41,7 +41,7 @@ import {
   showsSponsoredLabel,
 } from './logic';
 import { LOCALSTORAGE_KEY } from './types';
-import { Dog } from './Dog';
+import { Mark } from './Mark';
 import { SponsorLine } from './SponsorLine';
 import { PayoutDestinationPicker } from './PayoutDestinationPicker';
 import { HowItWorksModal } from './HowItWorksModal';
@@ -215,7 +215,7 @@ export function DashLoader(props: DashLoaderProps) {
               aria-hidden="true"
             />
           ) : (
-            <Dog />
+            <Mark />
           )}
 
           {/* gold shine sweep (suppressed under reduced motion via CSS) */}
