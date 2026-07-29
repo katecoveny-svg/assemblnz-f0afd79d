@@ -32,7 +32,6 @@ const PUBLIC_KETE_ROOTS = [
 ];
 
 const SPA_PUBLIC_PREFIXES = [
-  '/demos',
   '/aaaip',
   '/embed',
   '/verify',
@@ -88,6 +87,10 @@ const SPLASH_EXEMPT_PREFIXES = [
   // and sitemap promise must actually serve on the apex. Anything NOT listed
   // (old app surfaces: /workflows, /kete, /operator, /dev, /internal, /app…)
   // still falls through to the splash rewrite.
+  // The concept-fleet index. It previously sat in SPA_PUBLIC_PREFIXES, which
+  // proxied it to a legacy SPA that has no such route — so it fell through to
+  // the splash rewrite and served the homepage at 200.
+  '/demos',
   '/about',
   '/agents',
   '/pricing',
