@@ -123,9 +123,9 @@ const INDUSTRIES: Industry[] = [
   },
   {
     name: 'Construction & architecture',
-    wait: 'Model coordination, and the cost of keeping a building current in BIM.',
-    what: 'Bringing real building models onto the web so clients can walk them, and agent-assisted model work aimed squarely at the cost of BIM and 4D.',
-    status: 'coming',
+    wait: 'The gap between a question about the model and someone with a licence to answer it.',
+    what: 'Your IFC export becomes something a client can walk in a browser, quantities counted from the model rather than retyped, and a 4D sequence drafted from your programme — every output held for the practice.',
+    demo: { label: 'walk the construction demonstrator', href: 'https://assembling-construction.pages.dev' },
   },
 ];
 

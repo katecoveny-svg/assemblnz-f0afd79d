@@ -1,0 +1,30 @@
+/**
+ * assembl spike — prove the construction chain: a real IFC (the file an
+ * architect exports from Revit or ArchiCAD) → a scene graph → geometry our own
+ * renderer can walk, with no BIM licence anywhere in the loop.
+ *
+ * Run from packages/ifc-converter:  bun spike-ifc.ts
+ */
+import { convertIfcToPascal } from './src/index'
+import { readFileSync, writeFileSync } from 'node:fs'
+
+const file = process.argv[2] ?? '../../apps/ifc-converter/public/test-ifc-files/04-ifc-open-house.ifc'
+const bytes = new Uint8Array(readFileSync(file))
+console.log(`reading ${file} — ${(bytes.length / 1024).toFixed(0)} KB of IFC`)
+
+const t0 = performance.now()
+const scene = await convertIfcToPascal(bytes, (msg, pct) => {
+  if (pct % 25 < 2) console.log(`  ${pct.toFixed(0)}% ${msg}`)
+})
+const ms = performance.now() - t0
+
+const nodes = Object.values(scene.nodes) as Array<{ type: string }>
+const byType: Record<string, number> = {}
+for (const n of nodes) byType[n.type] = (byType[n.type] ?? 0) + 1
+
+console.log('\n── converted ──')
+console.log(`  ${nodes.length} nodes in ${(ms / 1000).toFixed(1)}s`)
+console.log('  ' + JSON.stringify(byType))
+
+writeFileSync('spike-ifc-scene.json', JSON.stringify(scene, null, 2))
+console.log('  wrote spike-ifc-scene.json')
