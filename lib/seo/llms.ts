@@ -48,6 +48,7 @@ const KEY_PAGES = [
   ['/mana-receipts', 'How the Mana Receipt provenance layer works'],
   ['/faq', 'Answers to the questions people ask about specialist agents and assembl'],
   ['/industries', 'The industries assembl works in — each with a live concept demonstrator'],
+  ['/notes', 'Notes from assembl — plain writing on agentic customer journeys, every number sourced'],
   ['/data', 'DaaS — New Zealand data feeds API'],
   ['/contact', 'Get in touch'],
 ];

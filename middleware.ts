@@ -169,6 +169,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/agent-schema',
   // The generative studio.
   '/creative-playground',
+  // Notes from assembl — the public writing, indexed and cited.
+  '/notes',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).
