@@ -688,7 +688,11 @@ const demoHostRewrite = (request: NextRequest) => {
     pathname.startsWith('/.well-known') ||
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
-    pathname === '/favicon.ico'
+    pathname === '/favicon.ico' ||
+    // machine-readable brand + context files: agents fetch these directly, so
+    // they must never be swallowed by a gate or rewritten into the app shell
+    pathname.endsWith('.md') ||
+    pathname === '/llms.txt'
   ) {
     return null;
   }
