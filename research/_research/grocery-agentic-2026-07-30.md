@@ -28,9 +28,9 @@ And in New Zealand, none of it has shipped yet. See **NZ and Australia** below.
 
 ---
 
-## The six facts to open with
+## What to open with
 
-Each one is sourced in full below. These are the ones that will do the work in the room.
+Each fact below is sourced in full later in the document. These are the ones that will do the work in the room.
 
 1. **Woolworths' agentic release never mentions Everyday Rewards.** The agent and the loyalty programme are separate builds. ([Woolworths Group, 29 June 2026](https://www.woolworthsgroup.com.au/au/en/our-newsroom/latest-news/2026/woolworths-takes-the-hassle-out-of-the-weekly-shop-with-new-digi.html))
 2. **It is Australia only, and Woolworths NZ could not name a date.** "Woolworths New Zealand could not say when it would be launched here, but said it would likely come after Australian customers gained access." ([RNZ, 20 January 2026](https://www.rnz.co.nz/news/business/584510/how-ai-might-help-you-do-your-supermarket-shopping))
