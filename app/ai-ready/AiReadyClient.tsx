@@ -420,42 +420,76 @@ export function AiReadyClient() {
     } finally { setCtxBusy(false); }
   };
 
-  const share = async () => {
-    try {
-      await navigator.clipboard.writeText(location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
-    } catch { /* clipboard denied — the URL bar still has it */ }
+  /**
+   * The share card, rendered server-side by /ai-ready/share (next/og). Nothing
+   * here rasterises the DOM — html2canvas on a page with a live WebGL phone is
+   * exactly the sort of thing that composites blank.
+   */
+  const buildCard = async (): Promise<File> => {
+    if (!ready) throw new Error('no result');
+    const passed = ready.checks.filter((c) => c.status === 'pass').length;
+    const q = new URLSearchParams({
+      site: ready.url,
+      score: String(ready.score),
+      passed: String(passed),
+      of: String(ready.checks.length),
+    });
+    const res = await fetch(`/ai-ready/share?${q}`);
+    if (!res.ok) throw new Error('image failed');
+    const blob = await res.blob();
+    const name = `${ready.url.replace(/^https?:\/\//, '').replace(/[^\w-]+/g, '-').toLowerCase()}-ai-readiness.png`;
+    return new File([blob], name, { type: 'image/png' });
   };
 
   /**
-   * The share image. Kate, 30 July 2026: a PNG for social, alongside the
-   * printable document.
+   * "Share this result." Kate, 30 July 2026: clicking this only copied the link,
+   * so the card "doesn't pop up".
    *
-   * The card is rendered server-side by /ai-ready/share (next/og), so nothing
-   * here has to rasterise the DOM — html2canvas on a page with a live WebGL
-   * phone is exactly the sort of thing that composites blank. Fetch the PNG,
-   * hand it to a download, revoke the object URL.
+   * It now surfaces the actual card. On a phone — where people actually post to
+   * social — navigator.share with a file pops the native share sheet with the
+   * image already attached, which is the thing she expected. Desktop browsers
+   * mostly cannot share a file that way and LinkedIn/X make you upload the image
+   * anyway, so there the fallback saves the PNG and copies the link, and the
+   * label says so rather than pretending it shared.
    */
+  const share = async () => {
+    if (pngBusy) return;
+    setPngBusy(true);
+    try {
+      const file = await buildCard();
+      const text = `${ready!.site} scored ${ready!.score}/100 for AI-readiness. Check yours free:`;
+      const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+      if (nav.canShare?.({ files: [file] })) {
+        await nav.share({ files: [file], title: 'AI-readiness score', text, url: location.href });
+        return; // the native sheet handled it
+      }
+      // desktop: save the card to attach, and copy the link
+      const href = URL.createObjectURL(file);
+      const a = document.createElement('a');
+      a.href = href; a.download = file.name; a.click();
+      URL.revokeObjectURL(href);
+      try { await navigator.clipboard.writeText(location.href); } catch { /* URL bar still has it */ }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3200);
+    } catch (err) {
+      // a user cancelling the native sheet throws AbortError — not an error
+      if (!(err instanceof DOMException && err.name === 'AbortError')) {
+        setCtxErr('The card could not be built just now — the document download still works.');
+      }
+    } finally {
+      setPngBusy(false);
+    }
+  };
+
+  /** The explicit "save the card" path, for anyone who just wants the file. */
   const sharePng = async () => {
     if (!ready || pngBusy) return;
     setPngBusy(true);
     try {
-      const passed = ready.checks.filter((c) => c.status === 'pass').length;
-      const q = new URLSearchParams({
-        site: ready.url,
-        score: String(ready.score),
-        passed: String(passed),
-        of: String(ready.checks.length),
-      });
-      const res = await fetch(`/ai-ready/share?${q}`);
-      if (!res.ok) throw new Error('image failed');
-      const blob = await res.blob();
-      const href = URL.createObjectURL(blob);
+      const file = await buildCard();
+      const href = URL.createObjectURL(file);
       const a = document.createElement('a');
-      a.href = href;
-      a.download = `${ready.url.replace(/^https?:\/\//, '').replace(/[^\w-]+/g, '-').toLowerCase()}-ai-readiness.png`;
-      a.click();
+      a.href = href; a.download = file.name; a.click();
       URL.revokeObjectURL(href);
     } catch {
       setCtxErr('The image could not be built just now — the document download still works.');
@@ -697,18 +731,18 @@ export function AiReadyClient() {
 
         {ready && (
           <div className="airdy-actions">
-            <button type="button" onClick={() => window.print()}>download the document</button>
-            {/* Kate, 30 July 2026: "can the downloaded document be available in
-                png as well so they can share on soacial?" A PNG of the document
-                itself would be a long unreadable strip, so this is a 1200 × 630
-                card built by /ai-ready/share — the ratio LinkedIn and X both
-                want, with the score at a size that survives a phone feed. */}
-            <button type="button" onClick={() => void sharePng()}>
-              {pngBusy ? 'making the image…' : 'download the share image (PNG)'}
+            {/* Kate, 30 July 2026: "share this result" only copied the link and
+                the card never popped up. It now surfaces the actual card — the
+                native share sheet on a phone, save-and-copy on desktop. The PNG
+                is a 1200 × 630 card built by /ai-ready/share, the ratio LinkedIn
+                and X both want. */}
+            <button type="button" onClick={() => void share()}>
+              {pngBusy ? 'building the card…' : copied ? 'card saved + link copied ✓' : 'share this result'}
             </button>
-            <button type="button" className="ghost" onClick={() => void share()}>
-              {copied ? 'link copied ✓' : 'share this result'}
+            <button type="button" className="ghost" onClick={() => void sharePng()}>
+              save the card (PNG)
             </button>
+            <button type="button" className="ghost" onClick={() => window.print()}>download the document</button>
             {/* Kate, 30 July 2026: the readiness flow ended by sending people to
                 /build-an-agent, the old gallery builder. The step after a score
                 and a context PDF is the agentic journey, not a toy that
