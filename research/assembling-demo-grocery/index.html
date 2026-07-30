@@ -419,6 +419,61 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
    the page with visuals like they are on a phone i also like the thin rim
@@ -588,7 +643,7 @@ h1{letter-spacing:-.035em}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· a demonstrator</small></div>
   <div class="navlinks">
-    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#boundary">The boundary</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -791,6 +846,45 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
+<section id="boundary" class="bd"><div class="wrap">
+  <div class="num rise dark">03 — THE BOUNDARY</div>
+  <div class="narrow rise">
+    <h2>It has read three years of your shopping. Where does it stop?</h2>
+    <p class="bdLede">A supermarket already holds the most revealing dataset in retail. A basket says what you eat, who lives with you, what you can afford and sometimes what you are being treated for. These are the five things a grocery agent gets asked to do, and the line runs through the middle of them.</p>
+  </div>
+  <div class="bdGrid rise">
+    <div class="bdList">
+      
+      <button class="bdSw" type="button" data-i="0" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Draft the weekly list from what you buy</b><i>Purchase history you already gave them.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="1" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Work out that someone in the house is diabetic</b><i>A basket makes this easy to infer.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="2" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Ask one question while the basket builds</b><i>Anyone avoiding anything this week?</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="3" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Buy the basket when you run out of time</b><i>The convenience nobody asked for.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="4" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Put a supplier-funded product in the list</b><i>The commercial model behind the whole idea.</i></span>
+      </button>
+    </div>
+    <div class="bdOut">
+      <div class="bdOutK">what happens, and what governs it</div>
+      <div id="bdOut"></div>
+    </div>
+  </div>
+  <p class="bdFoot"><b>Fernmarket is invented. The rules are not.</b> Sources: Privacy Act 2020 IPP1, IPP3A and IPP10; Health Information Privacy Code 2020; Fair Trading Act 1986; Commerce Commission grocery sector work under the Grocery Industry Competition Act 2023.</p>
+</div></section>
+
 <section id="guard"><div class="wrap">
   <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
@@ -984,6 +1078,7 @@ var CFG={
   generic:true,
   theme:"paper",
   waits:[{"key":"list","name":"The Sunday list","when":"Bench, fridge open, planning","feels":"staring into a fridge, writing nothing","screen":{"title":"Next week, already drafted","lines":["Same as most weeks, plus the Thursday gap.","Nothing is bought. Every line can go."],"chip":"+3 pts"},"delivered":"The list writes itself from what this house already buys, so she edits instead of remembering.","funder":"The supermarket itself. A household that plans the week with you does the week with you."},{"key":"aisle","name":"The aisle hunt","when":"In store, one thing missing","feels":"it moved aisles and nobody said","screen":{"title":"It moved. Aisle 6, low shelf.","lines":["Two things on your list are both back there.","Grab them together and you are done."],"chip":"+3 pts"},"delivered":"She finds the thing that moved without walking the store twice.","funder":"The store’s own operations budget — the same money that pays the staff member she is currently trying to flag down."},{"key":"checkout","name":"The checkout queue","when":"Trolley loaded, four ahead","feels":"loaded trolley, nothing to do","screen":{"title":"While you wait to pay","lines":["Tonight is covered. Thursday is not.","One item would fix it. Your call."],"chip":"+4 pts"},"delivered":"The queue answers the question she would have got home and asked herself.","funder":"The store, because a queue that gives something back is cheaper than another checkout lane."},{"key":"pick","name":"The pick","when":"Order placed, someone shopping","feels":"paid for it, no idea what is happening","screen":{"title":"Aisle 4, into your crate","lines":["One thing is out of stock. Here is the swap.","Say no and it comes off. No surprise at the door."],"chip":"swap, your call"},"delivered":"She sees the substitution while it can still be changed, instead of at the door.","funder":"The store’s fulfilment budget. A customer watching the pick does not ring to ask where the order is."},{"key":"window","name":"The delivery window","when":"At home, waiting on a van","feels":"a wide window and no van yet","screen":{"title":"Your van, on the way","lines":["Two drops ahead of you. Chilled goes in last.","Nobody needs to sit by the window."],"chip":"+5 pts"},"delivered":"She gets her afternoon back instead of guarding the front door.","funder":"The store, because a delivery nobody is home for gets paid for twice."},{"key":"midweek","name":"The midweek gap","when":"Thursday, something has run out","feels":"out of the one thing again","screen":{"title":"The Thursday thing, again","lines":["You keep running out of it on a Thursday.","Next week it is on the list before you ask."],"chip":"added next week"},"delivered":"The gap that repeats every week stops repeating.","funder":"A supplier could fund the reminder, but never the basket. Nothing gets added because someone paid for it."}],
+  boundary:[{"label":"Draft the weekly list from what you buy","does":"Purchase history you already gave them.","verdict":"yes","result":"It writes the list you were going to write. The data came from your own transactions, the purpose sits close to why it was collected, and every line shows why it is there.","rule":"Privacy Act 2020, IPP10.","source":"Limits use of personal information to the purpose it was collected for, or a directly related one. Drafting your shop from your shopping qualifies. privacy.org.nz"},{"label":"Work out that someone in the house is diabetic","does":"A basket makes this easy to infer.","verdict":"no","result":"It refuses. An inference about a health condition is health information whether you volunteered it or not, and a supermarket has no business holding it. The basket adapts to what you tell it, and it does not guess at a diagnosis.","rule":"Health Information Privacy Code 2020.","source":"Applies to health information however it is obtained, including by inference. Codes of practice under the Privacy Act 2020. privacy.org.nz"},{"label":"Ask one question while the basket builds","does":"Anyone avoiding anything this week?","verdict":"notice","result":"It asks, and it labels the answer as something you told it rather than something it worked out. You can see it, change it and remove it. That label is the difference between a shop that knows you and one that has profiled you.","rule":"Privacy Act 2020, IPP1 and IPP3A.","source":"Collect only what you need, for a stated purpose, and make the person aware. privacy.org.nz"},{"label":"Buy the basket when you run out of time","does":"The convenience nobody asked for.","verdict":"no","result":"It refuses. It drafts and it stops. A grocery agent that spends your money without a press is a chargeback and a headline, and it removes the only part of the shop you actually wanted control over.","rule":"Fair Trading Act 1986.","source":"A charge without a clear affirmative act by the consumer is the shape of conduct the Commerce Commission pursues."},{"label":"Put a supplier-funded product in the list","does":"The commercial model behind the whole idea.","verdict":"notice","result":"It can, and it says so on the line. Funded placements carry a visible label naming the category that paid, they never displace a cheaper equivalent without showing the swap, and they never appear inside a health-related item.","rule":"Fair Trading Act 1986, and the Commerce Commission’s grocery work.","source":"Paid placement presented as a recommendation is misleading. Labelled placement is not. Grocery Industry Competition Act 2023."}],
   foil:["#163924","#93ab9d","#1c492e"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"queue",
   
@@ -1115,6 +1210,44 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
 
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Six waits, one phone, clicked through. Kate, 30 Jul 2026.

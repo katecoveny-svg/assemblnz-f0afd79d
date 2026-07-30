@@ -286,14 +286,31 @@ async function callAnthropic(apiKey, systemPrompt, userMessage) {
       "anthropic-version": "2023-06-01"
     },
     body: JSON.stringify({
-      model: "claude-haiku-4-5-20251001",
+      model: MODEL,
       max_tokens: 480,
       system: systemPrompt,
       messages: [{ role: "user", content: userMessage }]
     })
   });
   const j = await res.json();
-  return (j.content && j.content[0] && j.content[0].text) || "";
+  // claude-opus-5 returns a `thinking` block before the answer, so content[0]
+  // is empty. Take the first block that is actually text.
+  const blocks = (j && j.content) || [];
+  const text = blocks.filter((b) => b && b.type === "text").map((b) => b.text).join("\n");
+  return text || "";
+}
+
+const MODEL = "claude-opus-5";
+
+/** Health check. Reports which rung of the ladder carries the request. Never the key. */
+export async function onRequestGet(context) {
+  const k = context.env.ANTHROPIC_API_KEY ?? "";
+  return new Response(JSON.stringify({
+    model: MODEL,
+    anthropic_key_present: Boolean(k),
+    key_length: k.length,
+    workers_ai_fallback: Boolean(context.env.AI),
+  }), { headers: { "content-type": "application/json", "cache-control": "no-store" } });
 }
 
 export async function onRequestPost(context) {
@@ -310,7 +327,7 @@ export async function onRequestPost(context) {
   try {
     if (env.ANTHROPIC_API_KEY) {
       text = await callAnthropic(env.ANTHROPIC_API_KEY, systemPrompt, message);
-      backend = "anthropic-haiku-4-5";
+      backend = MODEL;
     } else if (env.AI) {
       text = await callWorkersAI(env, systemPrompt, message);
     } else {

@@ -285,7 +285,11 @@ async function callAnthropic(apiKey, systemPrompt, userMessage) {
     })
   });
   const j = await res.json();
-  return (j.content && j.content[0] && j.content[0].text) || "";
+  // claude-opus-5 returns a `thinking` block before the answer, so content[0]
+  // is empty. Take the first block that is actually text.
+  const blocks = (j && j.content) || [];
+  const text = blocks.filter((b) => b && b.type === "text").map((b) => b.text).join("\n");
+  return text || "";
 }
 
 export async function onRequestPost(context) {

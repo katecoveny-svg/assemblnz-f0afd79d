@@ -419,6 +419,61 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
    the page with visuals like they are on a phone i also like the thin rim
@@ -897,6 +952,7 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
 <section id="guard"><div class="wrap">
   <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
@@ -1109,6 +1165,7 @@ var CFG={
   generic:false,
   theme:"ink",
   waits:[{"key":"the-night","name":"The Two AM Hour","when":"Damage happens, nobody is open","feels":"the longest few hours of the year","screen":{"title":"Tonight, before anyone opens","lines":["Photograph each room before you move a thing.","Water off, power off, then get everyone dry."],"chip":"Saved to claim"},"delivered":"The evidence gets taken at 2am, while the damage is still exactly as it happened.","funder":"Funded by the business, because photos taken on the night settle questions an assessor cannot."},{"key":"lodged","name":"Lodged, Then Nothing","when":"After you press submit","feels":"a week of refreshing an app","screen":{"title":"Your claim has been read","lines":["What we took from your photos, room by room.","A person checks this before it moves."],"chip":"Credit to excess"},"delivered":"The claim shows its working, so a week of real effort stops reading as neglect.","funder":"Funded by the business — the \"any update?\" call is the one every claim generates twice."},{"key":"make-safe","name":"The Make-Safe Wait","when":"Waiting to hear what happens now","feels":"the day you cannot decide anything","screen":{"title":"What you can ask for today","lines":["Say if the house is not safe to sleep in.","Drying and make-safe get asked for here."],"chip":"Priority flag"},"delivered":"The urgent ones stop waiting in the same queue as everything else.","funder":"Funded by the business, because a house dried this week is a smaller repair than one dried next month."},{"key":"assessor","name":"The Assessor Visit","when":"Between booking and the knock","feels":"a fortnight you plan your life around","screen":{"title":"Your assessor, booked","lines":["A time from the diary, not a queue position.","What they will look at, so you can be ready."],"chip":"Credit to excess"},"delivered":"They stop taking days off work for a visit that has not been scheduled.","funder":"Funded by the business — a visit the household is ready for does not need a second one."},{"key":"decision","name":"The Settlement Offer","when":"Waiting on repair or cash","feels":"the question you keep asking friends","screen":{"title":"Repair or cash, explained","lines":["What each option means for your house.","Your excess, and where it comes off."],"chip":"Excess credit"},"delivered":"A choice with two clear consequences, instead of a form with two boxes.","funder":"Funded by the business — a decision the customer understands is a complaint nobody writes."},{"key":"repair","name":"The Repair Months","when":"From yes to actually fixed","feels":"a season nobody warned you about","screen":{"title":"Who is coming, and when","lines":["Trade booked, and what happens on that visit.","The next step after it, and who owns it."],"chip":"Named contact"},"delivered":"The longest part of the claim finally has a schedule the household can see.","funder":"Funded by the business, because the repair phase generates the calls nobody budgets for."}],
+  boundary:null,
   foil:["#b39102","#ffe886","#e6ba03"], foilInk:"#141410", onAccent:"#101012",
   object:"shelter",
   trkFrom:92, trkTo:11,
@@ -1242,6 +1299,44 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
 
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Six waits, one phone, clicked through. Kate, 30 Jul 2026.

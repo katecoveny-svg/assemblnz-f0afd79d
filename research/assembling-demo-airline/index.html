@@ -419,6 +419,61 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
    the page with visuals like they are on a phone i also like the thin rim
@@ -588,7 +643,7 @@ h1{letter-spacing:-.035em}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· a demonstrator</small></div>
   <div class="navlinks">
-    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#boundary">The boundary</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -791,6 +846,45 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
+<section id="boundary" class="bd"><div class="wrap">
+  <div class="num rise dark">03 — THE BOUNDARY</div>
+  <div class="narrow rise">
+    <h2>The board changed. How much may it do without asking?</h2>
+    <p class="bdLede">A disruption is the one hour where a passenger will read anything you send. It is also the hour where an automated system can do real damage. These are the five things a disruption agent gets asked to do, and two of them it should refuse.</p>
+  </div>
+  <div class="bdGrid rise">
+    <div class="bdList">
+      
+      <button class="bdSw" type="button" data-i="0" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Tell them the consequence, not the cause</b><i>Whether they make the connection, in the first line.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="1" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Rebook them onto the next available service</b><i>The thing that would help most.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="2" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Hold a seat while they decide</b><i>Ninety seconds of certainty.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="3" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Sell them a lounge pass during the delay</b><i>The monetisation everyone reaches for first.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="4" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Learn one thing from them for next time</b><i>One question, at the moment they care.</i></span>
+      </button>
+    </div>
+    <div class="bdOut">
+      <div class="bdOutK">what happens, and what governs it</div>
+      <div id="bdOut"></div>
+    </div>
+  </div>
+  <p class="bdFoot"><b>Southerly Air is invented. The rules are not.</b> Sources: Civil Aviation Act 2023; Contract and Commercial Law Act 2017 on carriage conditions; Fair Trading Act 1986 on misleading conduct; Privacy Act 2020 IPP3A; Commerce Commission guidance on unsubstantiated representations.</p>
+</div></section>
+
 <section id="guard"><div class="wrap">
   <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
@@ -984,6 +1078,7 @@ var CFG={
   generic:true,
   theme:"ink",
   waits:[{"key":"booking","name":"The booking wait","when":"Comparing fares, tabs open","feels":"too many tabs, no decision","screen":{"title":"Two dates, one honest answer","lines":["Tuesday is cheaper. Friday gives you a whole day.","Neither is held. Nothing is booked."],"chip":"+20 pts"},"delivered":"She stops guessing which day is the good day.","funder":"A regional tourism organisation, which would rather fund the reason to come than another ad nobody asked for."},{"key":"checkin","name":"The check-in queue","when":"Bag drop, early, shuffling","feels":"a line that moves for everyone but you","screen":{"title":"Your bag, before the desk","lines":["Your allowance covers it. No repack at the scale.","Row 14 window is still free if you want it."],"chip":"+25 pts"},"delivered":"She reaches the desk already knowing the bag is fine and the seat is sorted.","funder":"The airline itself, because a bag repacked on the scale holds up everyone standing behind it."},{"key":"gate","name":"The gate wait","when":"Boarding time, board changing","feels":"the board changed and nobody said why","screen":{"title":"What actually changed","lines":["Fog down south. Your aircraft is still up north.","Three ways home are being prepared. Nothing booked."],"chip":"+100 pts"},"delivered":"She hears the reason before the board shows it, and has options before she has queued.","funder":"Funded by the airline, because the call it prevents costs more than the wait it fills."},{"key":"air","name":"In the air","when":"Cruising, no signal","feels":"hours of it, and nothing useful to do with them","screen":{"title":"Ready for when you land","lines":["Your hire car desk shuts before you get there.","A later pick-up is drafted. You confirm it."],"chip":"+40 pts"},"delivered":"She lands with the next problem already solved instead of standing at a closed counter.","funder":"A hire car or accommodation partner, paying to be useful at the moment it is needed rather than two weeks before."},{"key":"bags","name":"The baggage belt","when":"Carousel, bags not out","feels":"watching the same suitcase go past again","screen":{"title":"Your bag is on belt three","lines":["Loaded late, so it comes out near the end.","Sit down. We will tell you when to stand up."],"chip":"+30 pts"},"delivered":"She knows whether to stand at the belt or sit down with the kids.","funder":"The airline itself, because a mishandled bag reported at the belt is a smaller problem than one reported the next day."},{"key":"connection","name":"The connection wait","when":"Between flights, onward at risk","feels":"doing arithmetic in a corridor","screen":{"title":"Your onward flight, honestly","lines":["It is tight. Right now it still holds.","If it goes, a seat on the next one is held."],"chip":"seat held"},"delivered":"She stops running the numbers herself, because someone already has.","funder":"The airline, and nobody else. This is the moment the relationship is kept or lost, and it should be paid for like it."}],
+  boundary:[{"label":"Tell them the consequence, not the cause","does":"Whether they make the connection, in the first line.","verdict":"yes","result":"A passenger standing at a gate does not need the engineering reason. They need to know whether they will make the next thing. The screen leads with that and puts the cause underneath for anyone who wants it.","rule":"Fair Trading Act 1986.","source":"A statement about a connection has to be capable of substantiation at the time it is made, which means it comes from the live operational feed or it does not go out."},{"label":"Rebook them onto the next available service","does":"The thing that would help most.","verdict":"no","result":"It refuses in round one. It drafts the rebooking, shows the passenger what has been held and for how long, and waits for a service lead to release it. An automated rebooking that strands someone is worse than the delay it was fixing.","rule":"Carriage conditions are a contract.","source":"Varying a contract of carriage is an act with legal consequence, so a named person signs it. Contract and Commercial Law Act 2017."},{"label":"Hold a seat while they decide","does":"Ninety seconds of certainty.","verdict":"yes","result":"It holds the option and says when the hold expires. The passenger gets a real choice instead of a queue position, and the airline gets a decision instead of a phone call.","rule":"No barrier here.","source":"A hold is reversible, visible to the passenger and to operations, and it changes nothing until someone accepts it."},{"label":"Sell them a lounge pass during the delay","does":"The monetisation everyone reaches for first.","verdict":"no","result":"It refuses. Selling into a moment of stress is the fastest way to make a delay memorable for the wrong reason. The wait carries an answer, and the answer is the value.","rule":"Fair Trading Act 1986, and judgement.","source":"Unfair pressure in a moment where a consumer has no practical alternative is the shape of conduct the Commerce Commission examines."},{"label":"Learn one thing from them for next time","does":"One question, at the moment they care.","verdict":"notice","result":"It asks one question and takes an answer. Whatever it learns goes on the record with a note saying the passenger said it, and the passenger can see and correct it later. Nothing gets inferred and stored as fact.","rule":"Privacy Act 2020, IPP1 and IPP3A.","source":"Collect for a stated purpose, tell the person, and keep provenance attached. privacy.org.nz"}],
   foil:["#0d2936","#8da0aa","#103445"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"arc",
   
@@ -1115,6 +1210,44 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
 
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Six waits, one phone, clicked through. Kate, 30 Jul 2026.

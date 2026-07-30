@@ -419,6 +419,61 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
    the page with visuals like they are on a phone i also like the thin rim
@@ -588,7 +643,7 @@ h1{letter-spacing:-.035em}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· a demonstrator</small></div>
   <div class="navlinks">
-    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#boundary">The boundary</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -791,6 +846,45 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
+<section id="boundary" class="bd"><div class="wrap">
+  <div class="num rise dark">03 — THE BOUNDARY</div>
+  <div class="narrow rise">
+    <h2>It can see your meter every half hour. What may it do about it?</h2>
+    <p class="bdLede">Smart meter data is the most granular record any utility holds about a household. It shows when you wake, when you leave, when the house is empty. These are the five things an energy agent gets asked to do with it.</p>
+  </div>
+  <div class="bdGrid rise">
+    <div class="bdList">
+      
+      <button class="bdSw" type="button" data-i="0" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Explain the bill before they open it</b><i>Half-hourly data they already generate.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="1" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Work out when the house is empty</b><i>The load curve gives this away.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="2" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Move them to a cheaper plan</b><i>The thing that would save them money.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="3" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Draft a payment plan when they fall behind</b><i>The moment a retailer usually goes quiet.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="4" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Find a sponsor for the outage window</b><i>The one wait a brand should not sell.</i></span>
+      </button>
+    </div>
+    <div class="bdOut">
+      <div class="bdOutK">what happens, and what governs it</div>
+      <div id="bdOut"></div>
+    </div>
+  </div>
+  <p class="bdFoot"><b>Tidewatt Energy is invented. The rules are not.</b> Sources: Electricity Industry Participation Code 2010; Consumer Care Obligations, mandatory from 1 January 2025; Privacy Act 2020 IPP10 and IPP3A; Fair Trading Act 1986; Electricity Authority guidance on plan switching.</p>
+</div></section>
+
 <section id="guard"><div class="wrap">
   <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
@@ -984,6 +1078,7 @@ var CFG={
   generic:true,
   theme:"ink",
   waits:[{"key":"movein","name":"The move-in wait","when":"New house, is the power on?","feels":"a settlement day and an unlit hallway","screen":{"title":"Power on before you arrive","lines":["Address matched. Meter found. Read booked.","On the day you get the keys, not after."],"chip":"connection set"},"delivered":"The lights are on the night you move in, without a phone call made from a driveway.","funder":"Funded by the retailer, because the move is when households change supplier without meaning to."},{"key":"first-bill","name":"The first bill","when":"A month with no news","feels":"four weeks of using something you cannot see","screen":{"title":"Where this month is heading","lines":["A fortnight in, tracking near last month.","Nothing odd. We will say if that changes."],"chip":"no action needed"},"delivered":"You find out where the month is going while there is still month left to change it.","funder":"Funded by the retailer, because a bill that lands without warning is the one that gets disputed."},{"key":"hold","name":"The hold queue","when":"On hold, asking why","feels":"hold music and an explanation you have to ask for","screen":{"title":"Why your bill went up","lines":["Colder fortnight, heater running longer.","One spike on a Sunday — worth a look."],"chip":"assembled for you"},"delivered":"The reason for the number is ready before the call is answered, and usually instead of it.","funder":"Funded by the retailer, because the same explanation costs far more when a person has to build it live."},{"key":"hour","name":"The free hour","when":"Every day, at your hour","feels":"a good hour spent on nothing in particular","screen":{"title":"Where your hour should sit","lines":["This home draws hardest between five and eight.","The car, the dryer, the dishes — run them then."],"chip":"you choose it"},"delivered":"The best hour on the plan gets used, without anyone rearranging their evening to catch it.","funder":"Funded by the retailer, alongside appliance and EV-charger sellers who want to be useful inside that hour."},{"key":"winter","name":"The winter spike","when":"The first cold week","feels":"a bill you can see coming and cannot guess","screen":{"title":"This week is running hot","lines":["Coldest week so far. The heater shows it.","Told now, not in three weeks with a total."],"chip":"early warning"},"delivered":"The winter bill arrives as something expected rather than something done to you.","funder":"Funded by the retailer, alongside insulation and heat-pump installers who would rather reach a household now."},{"key":"hardship","name":"The payment plan","when":"When it gets hard","feels":"an unanswered email and a growing balance","screen":{"title":"Your plan, where it stands","lines":["Request received. A person is reading it.","You will hear from them, not from a system."],"chip":"a person decides"},"delivered":"The most frightening wait in the category gets a truthful account, and a person still makes the call.","funder":"Funded by the retailer, because a household that stays on a plan is worth more than one written off."}],
+  boundary:[{"label":"Explain the bill before they open it","does":"Half-hourly data they already generate.","verdict":"yes","result":"It says what drove the number, in their own usage, before the shock arrives. Winter bills generate the calls; an explanation that lands first removes most of them.","rule":"Consumer Care Obligations, mandatory since 1 January 2025.","source":"Require retailers to help consumers understand and manage their electricity costs. Electricity Authority."},{"label":"Work out when the house is empty","does":"The load curve gives this away.","verdict":"no","result":"It refuses. Occupancy inferred from a meter is a security matter, not a marketing insight, and a retailer holding a pattern of when a house is empty has taken on a risk it cannot justify to a customer.","rule":"Privacy Act 2020, IPP10.","source":"Use is limited to the purpose of collection. Metering exists for billing and network operation. privacy.org.nz"},{"label":"Move them to a cheaper plan","does":"The thing that would save them money.","verdict":"no","result":"It refuses to switch. It works out the better plan, shows the comparison and the assumptions, and hands it over. A plan change carries a contract and sometimes a break fee, so a person presses the button.","rule":"Electricity Industry Participation Code 2010.","source":"Governs switching and the consumer consent that has to sit behind it. Electricity Authority."},{"label":"Draft a payment plan when they fall behind","does":"The moment a retailer usually goes quiet.","verdict":"notice","result":"It drafts, and it routes to a named person the same day. Financial hardship is the point where an automated system does the most damage, and the obligations here are specific rather than general.","rule":"Consumer Care Obligations, Part 5.","source":"Set out what a retailer must do when a consumer is struggling to pay, including before any disconnection. Electricity Authority."},{"label":"Find a sponsor for the outage window","does":"The one wait a brand should not sell.","verdict":"no","result":"It refuses. An outage is the moment a household has no power, no hot water and possibly no medical equipment. Every other wait on this page can carry value. This one carries an ETA and nothing else.","rule":"Judgement, not statute.","source":"No law forbids it. The concept does, and it says so on the page, because a sponsored outage is the fastest way to lose a customer for good."}],
   foil:["#401d5e","#b099c5","#522679"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"meter",
   
@@ -1115,6 +1210,44 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
 
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Six waits, one phone, clicked through. Kate, 30 Jul 2026.
