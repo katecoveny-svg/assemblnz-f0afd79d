@@ -48,7 +48,7 @@ export const DEMOS: Demo[] = [
       { slug: 'concept', note: 'the "concept for Oliver" build — richer chrome, but no tier split and no researched concepts' },
       { slug: 'woolworths-cine', note: 'the earliest single-screen version' },
     ],
-    has: { waits: true, accept: true, scratch: false, agent: false },
+    has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
     slug: 'ryman-family',
@@ -62,9 +62,11 @@ export const DEMOS: Demo[] = [
     caution:
       'Ryman’s standard deferred management fee is now 30%, and current residents keep the terms they signed — so there are two cohorts. Never quote a percentage without asking which agreement first.',
     superseded: [
-      { slug: 'ryman', note: 'the "minute one" build — has the live agent and wait-phone this one still needs' },
+      { slug: 'ryman', note: 'the "minute one" build — its agent and wait-phone have since been ported across, so this one supersedes it outright' },
     ],
-    has: { waits: false, accept: true, scratch: false, agent: false },
+    // scratch is false on purpose, not by omission: you do not gamify a family
+    // deciding about their mother. The wait counts minutes of reading instead.
+    has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
     slug: 'tower',
