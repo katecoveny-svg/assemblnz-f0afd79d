@@ -2,9 +2,9 @@
   "object": "scene",
   "name": "A showroom",
   "nodes": {
-    "level_8pweky7k07xsapdt": {
+    "level_y8qtpniqwowu1745": {
       "object": "node",
-      "id": "level_8pweky7k07xsapdt",
+      "id": "level_y8qtpniqwowu1745",
       "type": "level",
       "name": "Ground",
       "parentId": null,
@@ -13,11 +13,11 @@
       "children": [],
       "level": 0
     },
-    "slab_apiwmfogoqijbwin": {
+    "slab_0matxh1fa7seqnwa": {
       "object": "node",
-      "id": "slab_apiwmfogoqijbwin",
+      "id": "slab_0matxh1fa7seqnwa",
       "type": "slab",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "floor"
@@ -47,11 +47,11 @@
       "recessed": false,
       "autoFromWalls": false
     },
-    "wall_y2xbcd756xxrc8ye": {
+    "wall_6kiu1m615yf13dfx": {
       "object": "node",
-      "id": "wall_y2xbcd756xxrc8ye",
+      "id": "wall_6kiu1m615yf13dfx",
       "type": "wall",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -70,11 +70,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_t19qqew57wjvqht2": {
+    "wall_vqpwm806zlg4e5oe": {
       "object": "node",
-      "id": "wall_t19qqew57wjvqht2",
+      "id": "wall_vqpwm806zlg4e5oe",
       "type": "wall",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -93,11 +93,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_xdiia2nu5bl8vfef": {
+    "wall_jwjzo0vx53vuz1s6": {
       "object": "node",
-      "id": "wall_xdiia2nu5bl8vfef",
+      "id": "wall_jwjzo0vx53vuz1s6",
       "type": "wall",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -116,11 +116,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_onr8tr58nl3mz2oh": {
+    "wall_fpmjnsymx3297x5h": {
       "object": "node",
-      "id": "wall_onr8tr58nl3mz2oh",
+      "id": "wall_fpmjnsymx3297x5h",
       "type": "wall",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -139,11 +139,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_g9l6imcjgd0n3a3i": {
+    "wall_tudhurqrz17gu0yu": {
       "object": "node",
-      "id": "wall_g9l6imcjgd0n3a3i",
+      "id": "wall_tudhurqrz17gu0yu",
       "type": "wall",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "glass"
@@ -162,11 +162,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_714mzxssfhn5wmp3": {
+    "wall_wi84xbtanw9iwgmm": {
       "object": "node",
-      "id": "wall_714mzxssfhn5wmp3",
+      "id": "wall_wi84xbtanw9iwgmm",
       "type": "wall",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "inner"
@@ -185,11 +185,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "slab_uiahvjyx5kc4xa07": {
+    "slab_lwolxwllegh6jzze": {
       "object": "node",
-      "id": "slab_uiahvjyx5kc4xa07",
+      "id": "slab_lwolxwllegh6jzze",
       "type": "slab",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "plinth"
@@ -219,11 +219,11 @@
       "recessed": false,
       "autoFromWalls": false
     },
-    "slab_ti3mdk9j6mcb79ml": {
+    "slab_1foij32tla4jy95b": {
       "object": "node",
-      "id": "slab_ti3mdk9j6mcb79ml",
+      "id": "slab_1foij32tla4jy95b",
       "type": "slab",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "plinth"
@@ -253,11 +253,11 @@
       "recessed": false,
       "autoFromWalls": false
     },
-    "slab_hntlg9wtsm5qsm6u": {
+    "slab_fir8uer80f3b1a7b": {
       "object": "node",
-      "id": "slab_hntlg9wtsm5qsm6u",
+      "id": "slab_fir8uer80f3b1a7b",
       "type": "slab",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "plinth"
@@ -287,11 +287,11 @@
       "recessed": false,
       "autoFromWalls": false
     },
-    "slab_spbiz6v0re6q4n2b": {
+    "slab_e8h04wn8e2y8azi9": {
       "object": "node",
-      "id": "slab_spbiz6v0re6q4n2b",
+      "id": "slab_e8h04wn8e2y8azi9",
       "type": "slab",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "plinth"
@@ -321,11 +321,11 @@
       "recessed": false,
       "autoFromWalls": false
     },
-    "slab_t39cypgraag5rz31": {
+    "slab_vmzk0pz26p39inpw": {
       "object": "node",
-      "id": "slab_t39cypgraag5rz31",
+      "id": "slab_vmzk0pz26p39inpw",
       "type": "slab",
-      "parentId": "level_8pweky7k07xsapdt",
+      "parentId": "level_y8qtpniqwowu1745",
       "visible": true,
       "metadata": {
         "k": "lit",

@@ -256,6 +256,40 @@ PLACES['airnz'] = () => {
   return s;
 };
 
+
+/* RAY WHITE — a listing, the way a buyer walks it. A three-bedroom house with
+   the deck lit, because the deck is what the photographs sell and what the
+   floorplan never explains. Real domestic dimensions so the measurements the
+   page quotes are the model's own. */
+PLACES['raywhite'] = () => {
+  const s = scene('A listing');
+  s.slab(s.rect(0, 0, 22, 16), 0.1, 0, { k: 'ground' });          // the section
+  s.slab(s.rect(3, 3.5, 13.4, 9.6), 0.12, 0.05, { k: 'floor' });  // the house pad
+  s.room(s.rect(3, 3.5, 13.4, 9.6), 2.55, 0.24, { k: 'shell' });
+  s.wall([10.2, 3.5], [10.2, 9.4], 2.55, 0.11, { k: 'inner' });    // living | beds
+  s.wall([10.2, 9.4], [16.4, 9.4], 2.55, 0.11, { k: 'inner' });    // bed | bath
+  s.wall([3, 9.4], [10.2, 9.4], 2.55, 0.11, { k: 'inner' });       // living | kitchen
+  s.wall([13.4, 3.5], [13.4, 9.4], 2.55, 0.11, { k: 'inner' });    // bed 1 | bed 2
+  // the deck, off the living room, lit
+  s.slab(s.rect(3.4, 0.8, 9.2, 2.5), 0.1, 0.5, { k: 'lit', lit: true, label: 'the deck' });
+  return s;
+};
+
+/* BAYLEYS — a commercial floor plate, since Bayleys is residential, commercial
+   AND rural and the commercial side is where the appraisal question is hardest.
+   A core, a lettable floor, and the vacant tenancy lit. */
+PLACES['bayleys'] = () => {
+  const s = scene('A floor plate');
+  s.slab(s.rect(0, 0, 34, 24), 0.16, 0, { k: 'floor' });
+  s.room(s.rect(0, 0, 34, 24), 3.6, 0.3, { k: 'shell' });
+  s.mass(14.6, 9.4, 5.4, 5.4, 3.6, 'centre');                     // the core
+  s.wall([9, 0.4], [9, 23.6], 3.6, 0.14, { k: 'inner' });
+  s.wall([25, 0.4], [25, 23.6], 3.6, 0.14, { k: 'inner' });
+  // the vacant tenancy, lit: the thing an appraisal has to price
+  s.slab(s.rect(25.4, 0.8, 8.2, 22.4), 0.06, 0.04, { k: 'lit', lit: true, label: 'vacant tenancy' });
+  return s;
+};
+
 /* ── run ──────────────────────────────────────────────────────────────────── */
 mkdirSync(resolve(HERE, 'places'), { recursive: true });
 let total = 0;

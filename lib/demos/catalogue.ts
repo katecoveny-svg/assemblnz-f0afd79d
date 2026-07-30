@@ -69,6 +69,32 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
+    slug: 'raywhite',
+    company: 'Ray White New Zealand',
+    sector: 'Real estate · buyer enquiry',
+    kind: 'named',
+    wedge:
+      'A buyer enquires on Sunday night after an open home and hears nothing until Tuesday. Ray White’s own headline is “We bring the whole team” — and a buyer cannot tell the difference between a big team and a slow one.',
+    showpiece:
+      'The boundary panel. Five things a real estate agent gets asked to do, each answered against the Real Estate Agents Act (Professional Conduct and Client Care) Rules 2012 with the rule quoted. Three come back as a refusal, including generating an appraisal: rule 10.2(a) puts that in a licensee’s hand.',
+    caution:
+      'Palette verified in a real browser on 30 July 2026 (#FFE512, Lato + Playfair Display) because CloudFront 403s headless Chrome, so palette.mjs cannot read this site. Never state a price expectation the vendor has not agreed in writing — rule 9.4.',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
+    slug: 'bayleys',
+    company: 'Bayleys Realty Group',
+    sector: 'Real estate · the vendor side',
+    kind: 'named',
+    wedge:
+      'A vendor hands over their largest asset and then sits through six separate silences. The sharpest is the appraisal: rule 10.2(c) requires comparable sales behind the number, and in a thin commercial market there often are none — which rule 10.3 says you must then explain in writing. Almost nobody does.',
+    showpiece:
+      'The boundary panel, and the one switch that comes back “yes” where everyone expects a refusal: producing the written explanation for when nothing is comparable. It is the most valuable thing on the list and the one the industry skips.',
+    caution:
+      'Gotham is a licensed typeface and is not served by the page; the nearest geometric is used and no match is claimed. Palette verified via palette.mjs on 30 July 2026 (#00234B / #275077).',
+    has: { waits: true, accept: true, scratch: true, agent: true },
+  },
+  {
     slug: 'tower',
     company: 'Tower Limited',
     sector: 'Insurance · house claims',

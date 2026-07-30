@@ -1,10 +1,10 @@
 {
   "object": "scene",
-  "name": "A house, 2am",
+  "name": "A listing",
   "nodes": {
-    "level_z0z3uijroxylj3vt": {
+    "level_pip4jraiwdimzjan": {
       "object": "node",
-      "id": "level_z0z3uijroxylj3vt",
+      "id": "level_pip4jraiwdimzjan",
       "type": "level",
       "name": "Ground",
       "parentId": null,
@@ -13,257 +13,291 @@
       "children": [],
       "level": 0
     },
-    "slab_wnc23o0b8gcrgdlm": {
+    "slab_ji81vqshls3jo365": {
       "object": "node",
-      "id": "slab_wnc23o0b8gcrgdlm",
+      "id": "slab_ji81vqshls3jo365",
       "type": "slab",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
+      "visible": true,
+      "metadata": {
+        "k": "ground"
+      },
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          22,
+          0
+        ],
+        [
+          22,
+          16
+        ],
+        [
+          0,
+          16
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "slab_cc55a9vrnfbal121": {
+      "object": "node",
+      "id": "slab_cc55a9vrnfbal121",
+      "type": "slab",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "floor"
       },
       "polygon": [
         [
-          0,
-          0
+          3,
+          3.5
         ],
         [
-          12.6,
-          0
+          16.4,
+          3.5
         ],
         [
-          12.6,
-          9.4
+          16.4,
+          13.1
         ],
         [
-          0,
-          9.4
+          3,
+          13.1
         ]
       ],
       "holes": [],
       "holeMetadata": [],
-      "elevation": 0,
+      "elevation": 0.05,
       "thickness": 0.12,
       "recessed": false,
       "autoFromWalls": false
     },
-    "wall_c83iva9afsx60uth": {
+    "wall_62h9c9dl5hzbpbdy": {
       "object": "node",
-      "id": "wall_c83iva9afsx60uth",
+      "id": "wall_62h9c9dl5hzbpbdy",
       "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "shell"
       },
       "children": [],
       "thickness": 0.24,
-      "height": 2.5,
+      "height": 2.55,
       "start": [
-        0,
-        0
+        3,
+        3.5
       ],
       "end": [
-        12.6,
-        0
+        16.4,
+        3.5
       ],
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_218x1ojmez1uy215": {
+    "wall_s0bwd94r0k4a6pea": {
       "object": "node",
-      "id": "wall_218x1ojmez1uy215",
+      "id": "wall_s0bwd94r0k4a6pea",
       "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "shell"
       },
       "children": [],
       "thickness": 0.24,
-      "height": 2.5,
+      "height": 2.55,
       "start": [
-        12.6,
-        0
+        16.4,
+        3.5
       ],
       "end": [
-        12.6,
-        9.4
+        16.4,
+        13.1
       ],
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_edrteorifepe7tsd": {
+    "wall_msy0mhksdvut47hm": {
       "object": "node",
-      "id": "wall_edrteorifepe7tsd",
+      "id": "wall_msy0mhksdvut47hm",
       "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "shell"
       },
       "children": [],
       "thickness": 0.24,
-      "height": 2.5,
+      "height": 2.55,
       "start": [
-        12.6,
-        9.4
+        16.4,
+        13.1
       ],
       "end": [
-        0,
-        9.4
+        3,
+        13.1
       ],
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_4dw9qk3wx2eq6nal": {
+    "wall_5y5udqezf03mm9yy": {
       "object": "node",
-      "id": "wall_4dw9qk3wx2eq6nal",
+      "id": "wall_5y5udqezf03mm9yy",
       "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "shell"
       },
       "children": [],
       "thickness": 0.24,
-      "height": 2.5,
+      "height": 2.55,
       "start": [
-        0,
-        9.4
+        3,
+        13.1
       ],
       "end": [
-        0,
-        0
+        3,
+        3.5
       ],
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_79sgs8mjk5dy1l45": {
+    "wall_o4c23wd14hmxch4r": {
       "object": "node",
-      "id": "wall_79sgs8mjk5dy1l45",
+      "id": "wall_o4c23wd14hmxch4r",
       "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "inner"
       },
       "children": [],
-      "thickness": 0.12,
-      "height": 2.5,
+      "thickness": 0.11,
+      "height": 2.55,
       "start": [
-        7.2,
-        0
+        10.2,
+        3.5
       ],
       "end": [
-        7.2,
-        5.6
-      ],
-      "frontSide": "unknown",
-      "backSide": "unknown"
-    },
-    "wall_js7mkj0eivg5ebpx": {
-      "object": "node",
-      "id": "wall_js7mkj0eivg5ebpx",
-      "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
-      "visible": true,
-      "metadata": {
-        "k": "inner"
-      },
-      "children": [],
-      "thickness": 0.12,
-      "height": 2.5,
-      "start": [
-        0,
-        5.6
-      ],
-      "end": [
-        12.6,
-        5.6
-      ],
-      "frontSide": "unknown",
-      "backSide": "unknown"
-    },
-    "wall_tkehgah6m0mfr6xs": {
-      "object": "node",
-      "id": "wall_tkehgah6m0mfr6xs",
-      "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
-      "visible": true,
-      "metadata": {
-        "k": "inner"
-      },
-      "children": [],
-      "thickness": 0.12,
-      "height": 2.5,
-      "start": [
-        3.6,
-        5.6
-      ],
-      "end": [
-        3.6,
+        10.2,
         9.4
       ],
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_aqa3m9byswhw038j": {
+    "wall_nq0zwdt5w79pwmm0": {
       "object": "node",
-      "id": "wall_aqa3m9byswhw038j",
+      "id": "wall_nq0zwdt5w79pwmm0",
       "type": "wall",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "inner"
       },
       "children": [],
-      "thickness": 0.12,
-      "height": 2.5,
+      "thickness": 0.11,
+      "height": 2.55,
       "start": [
-        8.4,
-        5.6
+        10.2,
+        9.4
       ],
       "end": [
-        8.4,
+        16.4,
         9.4
       ],
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "slab_byo6r3ghqofmbjn1": {
+    "wall_vw567ixjrsoybr0i": {
       "object": "node",
-      "id": "slab_byo6r3ghqofmbjn1",
+      "id": "wall_vw567ixjrsoybr0i",
+      "type": "wall",
+      "parentId": "level_pip4jraiwdimzjan",
+      "visible": true,
+      "metadata": {
+        "k": "inner"
+      },
+      "children": [],
+      "thickness": 0.11,
+      "height": 2.55,
+      "start": [
+        3,
+        9.4
+      ],
+      "end": [
+        10.2,
+        9.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_vsxnn7oc4vvu63qy": {
+      "object": "node",
+      "id": "wall_vsxnn7oc4vvu63qy",
+      "type": "wall",
+      "parentId": "level_pip4jraiwdimzjan",
+      "visible": true,
+      "metadata": {
+        "k": "inner"
+      },
+      "children": [],
+      "thickness": 0.11,
+      "height": 2.55,
+      "start": [
+        13.4,
+        3.5
+      ],
+      "end": [
+        13.4,
+        9.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_4koshipc2cpsjhor": {
+      "object": "node",
+      "id": "slab_4koshipc2cpsjhor",
       "type": "slab",
-      "parentId": "level_z0z3uijroxylj3vt",
+      "parentId": "level_pip4jraiwdimzjan",
       "visible": true,
       "metadata": {
         "k": "lit",
         "lit": true,
-        "label": "the lounge"
+        "label": "the deck"
       },
       "polygon": [
         [
-          0.2,
-          0.2
+          3.4,
+          0.8
         ],
         [
-          7,
-          0.2
+          12.6,
+          0.8
         ],
         [
-          7,
-          5.4
+          12.6,
+          3.3
         ],
         [
-          0.2,
-          5.4
+          3.4,
+          3.3
         ]
       ],
       "holes": [],
       "holeMetadata": [],
-      "elevation": 0.02,
-      "thickness": 0.04,
+      "elevation": 0.5,
+      "thickness": 0.1,
       "recessed": false,
       "autoFromWalls": false
     }
