@@ -1043,6 +1043,7 @@ var CFG={
   boundary:null,
   foil:["#036e98","#87d0ed","#048dc3"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"meter",
+  place:null,
   
   execs:{"cx":"Customer Experience","cco":"Chief Customer Officer","ceo":"Chief Executive"}, buyerTitle:"Customer Experience", buyerLine:"Electric Kiwi · Aotearoa New Zealand",
   variants:[{"key":"evening","label":"Everyone home at six","chan":"Suggestion · hour placed after the household lands","body":"Your hour is currently sitting in the middle of the afternoon, when this house is empty.\n\nBased on when you actually use power, it would be worth more between 8pm and 9pm — dishwasher, dryer, and the second half of the car charge.\n\nMoving it is your call and takes one tap. We have not changed anything.\n\nWe are not going to tell you this will save a specific amount, because that depends on what you actually run. The figure we have shown is what shifting your existing usage would have been worth last week.","rules":["The saving shown is backward-looking on real usage, never a forward promise","The hour is suggested, never moved automatically","No appliance is switched on or scheduled by the concept","No plan change is recommended inside a scheduling suggestion"]},{"key":"ev","label":"An EV in the driveway","chan":"Suggestion · hour placed against the charge cycle","body":"You have a charge that takes longer than an hour, so the free hour on its own does not cover it.\n\nWhat it can do is cover the most expensive part. Your hour would be worth most placed at the start of the charge rather than the end, and the off-peak window does the rest.\n\nWe have not looked at your car, and we cannot see your charger. This is based on the shape of your usage, so if we have read it wrong, tell us and it will change.","rules":["Admits the limits of what it can see rather than implying telemetry it does not have","Never claims a full charge is free","Invites correction as the primary path, not a support ticket","No third-party device is accessed or assumed"]},{"key":"hardship","label":"Signs of hardship","chan":"Held — not sent · routed to a person","body":"This suggestion was not drafted.\n\nThe account shows the pattern of someone rationing power — usage dropping in cold weather rather than rising. Sending an optimisation tip into that is the wrong response to the wrong problem.\n\nHeld and routed to a named person, with what triggered it attached.\n\nWhat that person may decide is that the right next step is a payment arrangement, a Winter Energy Payment reminder, or a conversation. This concept will not decide it, and it will not send a cheerful tip in the meantime.","rules":["The most important output is the one that refuses to send a tip","Reduced winter usage is treated as a warning sign, not an efficiency win","Escalated with the trigger attached, never silently dropped","A person decides, and a support pathway is an allowed outcome"]},{"key":"newjoin","label":"Joined last week","chan":"Draft · first hour, before any usage history exists","body":"You joined last week, so we do not know your usage yet — and we are not going to pretend we do.\n\nWhat we can tell you is how the hour works, and the two questions that decide where it should go: whether anyone is home in the afternoon, and whether anything big could move.\n\nAnswer those and we will place it. Answer neither and we will suggest a sensible default and revisit it once there is a fortnight of usage to look at.\n\nNo contract, no notice period, and nothing changes until you set it.","rules":["States plainly that there is no history rather than inventing a baseline","Asks the two facts that matter instead of a survey","Offers a default and says when it will be revisited","Repeats the no-contract fact because it is theirs and it is true"]}], guard:[{"ok":true,"t":"No forward saving is promised","d":"Every figure is what shifting last week’s actual usage would have been worth. No projection, no \"save up to\", no annualised claim.","law":"Fair Trading Act 1986 · misleading representations"},{"ok":true,"t":"Nothing is switched, scheduled or moved","d":"The hour is suggested and the customer sets it. No appliance, plan, billing date or tariff is changed by the concept.","law":"Electricity Authority Consumer Care Obligations"},{"ok":false,"t":"Held — usage falling in cold weather","d":"Nothing drafted for accounts showing the shape of rationing. Routed to a named person; a payment arrangement is an allowed outcome.","law":"Consumer Care Obligations · vulnerable consumers"},{"ok":false,"t":"Held — medically dependent consumer flagged","d":"No optimisation suggestion is sent to an account carrying a medical dependency flag. Load-shifting advice there is a clinical matter.","law":"Electricity Authority Consumer Care Obligations"},{"ok":true,"t":"No plan switch recommended","d":"A scheduling suggestion never becomes an upsell to a different plan. Recommending a tariff is a commercial decision for a person.","law":"Fair Trading Act 1986"}],
@@ -1582,6 +1583,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

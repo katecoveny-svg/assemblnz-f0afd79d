@@ -1081,6 +1081,7 @@ var CFG={
   boundary:[{"label":"Explain why the rate moved","does":"Their own account, in plain words.","verdict":"yes","result":"It explains what changed, when, and what it means for the next payment. Explaining a term of an existing contract is not advice, and it removes the call that otherwise arrives on the day the payment lands.","rule":"Financial Markets Conduct Act 2013.","source":"Factual information about an existing product is distinct from a regulated financial advice service. Financial Markets Authority guidance."},{"label":"Recommend which account suits them","does":"The question customers ask most.","verdict":"no","result":"It refuses. A recommendation about a financial product to a retail client is regulated financial advice, and it needs a licence and a named adviser behind it. The agent lays out the differences and hands over.","rule":"The financial advice regime, in force since 15 March 2021.","source":"A financial advice service requires a licence. Financial Markets Conduct Act 2013, Part 6. fma.govt.nz"},{"label":"Pre-approve a loan while they wait","does":"The wait everyone wants shortened.","verdict":"no","result":"It refuses to approve. It assembles the application, names what is missing, and tells them what happens next and when. Lending requires enquiries a model does not get to skip.","rule":"Credit Contracts and Consumer Finance Act 2003.","source":"Responsible lending principles require the lender to make reasonable enquiries and be satisfied the loan is affordable. Section 9C."},{"label":"Draft a hardship application for them","does":"The form nobody finishes.","verdict":"notice","result":"It drafts and routes to a person the same day. The customer sees what has been written on their behalf before it goes anywhere, and nothing about their circumstances gets stored beyond the application.","rule":"CCCFA hardship provisions, and IPP3A.","source":"A borrower may apply for a variation on grounds of unforeseen hardship. Anything collected about a third party in the household triggers a notice to that person. privacy.org.nz"},{"label":"Score them on spending patterns","does":"The data is right there.","verdict":"no","result":"It refuses. Transaction data collected to run an account does not become a behavioural score without a fresh purpose and a fresh conversation, and a score the customer cannot see or contest has no place in a journey built on receipts.","rule":"Privacy Act 2020, IPP10 and IPP6.","source":"Use is limited to the purpose of collection, and a person has a right of access to information held about them. privacy.org.nz"}],
   foil:["#151d27","#93999f","#1b2632"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"thresholds",
+  place:null,
   
   execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Banking and lending · an invented example",
   variants:[{"key":"waiting","label":"Just genuinely queued","chan":"Update · complete file, in the queue","body":"Your application is complete and it is in the queue. That is the whole truth of it.\n\nNothing is missing, nothing has gone wrong, and nobody has decided anything. An assessor picks it up in the order it arrived.\n\nWe are not going to tell you it looks good, because we do not know and it would not be ours to say.\n\nIf anything changes at your end, tell us — that is the one thing that can slow it down.","rules":["Never says approved, declined, likely or looking good","Says plainly that nothing has been decided","No timeframe is promised, only the ordering","Names the one thing the applicant can usefully do"]},{"key":"missing","label":"Something is missing","chan":"Update · one document outstanding","body":"One thing is holding this up, and it is a document, not a doubt.\n\nWe need the second page of the statement you sent — the one you uploaded stops halfway.\n\nThat is the only thing outstanding. Send it and this goes back into the queue exactly where it was, not to the back.\n\nNothing has been decided either way.","rules":["Names the specific missing item, not \"further information\"","Says explicitly that resubmitting does not lose queue position","Separates a document problem from an assessment concern","No decision stated or implied"]},{"key":"hardship","label":"Signs of hardship","chan":"Held — not sent · routed to a person","body":"This update was not drafted.\n\nThe application contains language that reads as financial hardship, or as borrowing to service existing borrowing. An automated progress note into that moment is how a lender does real harm.\n\nHeld and routed to a named person, with the words that triggered it attached.\n\nWhat they may decide is that the right outcome is not a loan — a budgeting service, a hardship process, or a conversation. This concept will never make that call.","rules":["The most important output refuses to produce a message","Hardship language is checked before anything drafts","Escalated with the trigger words attached","\"Not a loan\" is an outcome this concept must allow for"]},{"key":"joint","label":"A joint application","chan":"Held — not sent · consent per applicant","body":"Nothing was sent to either applicant.\n\nThis is a joint application, and a progress update can reveal what the other person did or did not submit. Consent to apply together is not consent to be told about each other.\n\nHeld until both applicants have agreed what may be shared.\n\nWhat this concept will not do is treat two people as one recipient because they are on one form.","rules":["Joint applications require per-applicant sharing consent","Never reveals one applicant’s submissions to the other","Held rather than genericised into uselessness","Consent is per-action, not implied by the application"]}], guard:[{"ok":true,"t":"No credit decision, anywhere","d":"No update says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.","law":"Credit Contracts and Consumer Finance Act 2003"},{"ok":true,"t":"No rate, amount or term is quoted","d":"Nothing is personalised to an applicant, because personalising a price is a lending decision.","law":"CCCFA · Responsible Lending Code"},{"ok":false,"t":"Held — application reads as hardship","d":"Nothing drafted. Routed to a named person with the triggering words attached. One right answer is no loan at all.","law":"CCCFA · Responsible Lending Code, lender responsibilities"},{"ok":false,"t":"Held — joint application without sharing consent","d":"An update can reveal what a co-applicant submitted. Held until both have agreed what may be shared.","law":"Privacy Act 2020 · IPP 11"},{"ok":true,"t":"No inducement and no urgency","d":"No credit, bonus or deadline is attached to an application update. The wait returns a truthful account and nothing else.","law":"CCCFA · Fair Trading Act 1986"}],
@@ -1620,6 +1621,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

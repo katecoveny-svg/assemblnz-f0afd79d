@@ -1030,6 +1030,7 @@ var CFG={
   boundary:null,
   foil:["#537118","#bed295","#6b921f"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"queue",
+  place:null,
   
   execs:{"cx":"Customer Experience","cco":"Chief Customer Officer","ceo":"Chief Executive"}, buyerTitle:"Customer Experience", buyerLine:"My Food Bag · Aotearoa New Zealand",
   variants:[{"key":"family","label":"Family of four","chan":"Shortlist · 4 people, 5 nights, one gluten-free eater","body":"Five for next week, and why.\n\nTwo are 15-minute recipes, because Tuesday is netball and Thursday you have people over.\n\nThree are gluten free, not because we assume everyone is, but because you told us one person in the house is, and cooking twice on a weeknight is nobody's idea of dinner.\n\nOne of the five is something you have not had before. If that is the wrong week for an experiment, say so and we will swap it for a regular.\n\nNothing is ordered. This is a shortlist, not a basket.","rules":["Every recipe carries the reason it is on the list","A dietary need narrows the whole week, not one plate","Exactly one new thing, and it is named as the new thing","The customer chooses — the concept never places an order"]},{"key":"solo","label":"One person","chan":"Shortlist · 1 person, 3 nights, leftovers matter","body":"Three for next week.\n\nAll three make a second portion that is still good the next day, because for one person the real question is not dinner, it is lunch.\n\nWe have kept one of them under fifteen minutes for the night you will not want to cook at all.\n\nWe have not put anything on this list that needs half a bunch of something you will throw out.\n\nNothing is ordered. Change any of it.","rules":["Solves for the second meal, not just the first","Avoids recipes that waste part of an ingredient at this portion size","One low-effort option every week, unprompted","No upsell to a larger plan inside a shortlist"]},{"key":"medical","label":"Diabetes Plan","chan":"Held — clinical plan · routed to a person","body":"This shortlist was not drafted automatically.\n\nThis household is on the Diabetes Plan, which My Food Bag describes as supported by Diabetes NZ. Narrowing that week on inference is not a personalisation problem, it is a health one.\n\nHeld, with what we know attached, for someone who is allowed to make that call.\n\nWhat this concept will not do is decide which recipes are appropriate for a managed condition, or imply that a shortlist is nutritional advice.","rules":["The most important output is the one that refuses to produce a shortlist","Clinical plans are checked before anything is narrowed, not after","No nutritional or medical claim is made about any recipe","A person decides, and their reasoning is recorded"]},{"key":"paused","label":"About to pause","chan":"Draft · the week after two skipped weeks","body":"You have skipped the last two weeks, so we are not going to pretend this is business as usual.\n\nWe would rather ask than guess: was it the recipes, the timing, or the money?\n\nIf it is the recipes, we can show you a week that looks nothing like your last one. If it is the timing, you can move your delivery day. If it is the money, there is a smaller plan and we will show you what it actually costs.\n\nAnd if it is simply not the season for it, pausing is fine and we will not make it hard.","rules":["Names the skipped weeks instead of pretending not to notice","Asks the reason rather than assuming it is price","Offers pausing as a real option, not a dark pattern","No retention discount is invented — pricing is a person’s decision"]}], guard:[{"ok":true,"t":"Every recipe carries its reason","d":"No item appears on a shortlist without the household fact that put it there, and the customer can see and correct that fact.","law":"Fair Trading Act 1986 · Privacy Act 2020, IPP 6"},{"ok":true,"t":"Surcharge recipes are labelled as such","d":"Gourmet recipes carry a surcharge on their own site. Any that appear are shown with it, never quietly folded into a shortlist.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Held — households on the Diabetes Plan","d":"Nothing narrowed automatically. Routed to a person, because a shortlist for a managed condition is a health decision, not a recommendation engine.","law":"Fair Trading Act 1986 · Medicines Act 1981, therapeutic claims"},{"ok":false,"t":"Held — a child’s dietary need inferred, not stated","d":"Where a restriction looks inferred from purchase history rather than told to us, the shortlist is held and the fact is confirmed first.","law":"Privacy Act 2020 · IPP 1 and IPP 8"},{"ok":true,"t":"No order is ever placed","d":"Every output stops at a shortlist. Nothing is added to a basket, nothing is charged, and no delivery is changed.","law":"Fair Trading Act 1986 · unfair contract terms"}],
@@ -1569,6 +1570,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

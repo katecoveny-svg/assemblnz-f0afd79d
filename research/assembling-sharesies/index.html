@@ -1043,6 +1043,7 @@ var CFG={
   boundary:null,
   foil:["#a00050","#f385bb","#ce0067"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"lattice",
+  place:null,
   
   execs:{"cx":"Customer Experience","cco":"Chief Customer Officer","ceo":"Chief Executive"}, buyerTitle:"Customer Experience", buyerLine:"Sharesies · Aotearoa New Zealand",
   variants:[{"key":"first","label":"Their first ever","chan":"Explanation · first investment, market closed","body":"Your order is in, and nothing has happened yet. That is normal, and here is exactly what happens next.\n\nThe market this is listed on opens at 9:30am your time tomorrow. Your order goes through after that, not tonight.\n\nThe price is not set yet, and we are not going to guess at it. You will see the price you actually got once it is done.\n\nUntil the market opens you can change your mind — here is where. After that it is a completed investment.\n\nWe are not telling you whether this is a good idea. That is genuinely not our job.","rules":["Never recommends, endorses or discourages the investment itself","No price is estimated and no return is projected","States the cancellation window plainly, including when it closes","Explains the mechanic, not the merits"]},{"key":"repeat","label":"Done this before","chan":"Explanation · experienced investor, short form","body":"Queued for open, 9:30am your time.\n\nYou have done this before, so we will skip the explanation of how orders work.\n\nOne thing worth knowing that is specific to tonight: this market has a public holiday tomorrow, so open is a day later than you would expect.\n\nChange it any time before then.","rules":["Length follows the customer — brevity is the feature here","Surfaces only the fact that is non-obvious tonight","No cross-sell into another product inside a status explanation","Still no view on the investment itself"]},{"key":"kids","label":"A Kids Account","chan":"Held — not sent · adult account holder addressed instead","body":"This explanation was not sent to the account it belongs to.\n\nThe investment sits in a Kids Account. Sending an investing explanation to a child’s view of the app is a decision about a child’s relationship with money, and it is not one a concept gets to make.\n\nHeld and routed to the adult on the account.\n\nWhat this concept will not do is address a minor about a financial position, or use a child’s account as a channel for anything at all.","rules":["The most important output is the one that refuses the channel","Kids Accounts are checked before anything is drafted, not after","The adult on the account is the only recipient","No engagement mechanic is ever aimed at a minor"]},{"key":"anxious","label":"Cancelled twice tonight","chan":"Held — not sent · no re-engagement prompt","body":"Nothing was sent.\n\nThis person has placed and cancelled the same order twice this evening. Whatever that is, it is not a case for a prompt encouraging them to try again.\n\nHeld, with no message drafted and no notification queued.\n\nIf anything is warranted here it is access to plain information they can read on their own time, with nobody nudging. Repeatedly changing your mind about money at 9pm is a completely reasonable thing to do, and it is not a conversion problem.","rules":["Hesitation is never treated as a funnel to be optimised","No notification, reminder or prompt is queued","No urgency, scarcity or social proof is introduced anywhere","The absence of a message is recorded as the deliberate outcome"]}], guard:[{"ok":true,"t":"No financial advice, of any kind","d":"No output recommends, endorses or discourages an investment, and none comments on whether something is a good idea.","law":"Financial Markets Conduct Act 2013 · financial advice regime"},{"ok":true,"t":"No price estimated, no return projected","d":"The concept explains why the price is not yet known rather than guessing it, and never shows a forward figure of any sort.","law":"FMC Act 2013 · fair dealing, misleading conduct"},{"ok":false,"t":"Held — investment sits in a Kids Account","d":"Nothing drafted to the child’s view. Routed to the adult on the account; no engagement mechanic is aimed at a minor.","law":"Privacy Act 2020 · FMA fair-outcomes guidance"},{"ok":false,"t":"Held — order placed and cancelled twice tonight","d":"No message drafted and no notification queued. Hesitation about money is not a conversion problem, and it will not be treated as one.","law":"FMC Act 2013 · fair dealing · FMA fair-outcomes guidance"},{"ok":true,"t":"No urgency, scarcity or social proof","d":"Nothing says \"others are buying\", \"closing soon\" or \"don’t miss\". Pressure tactics in an investing wait are the whole thing we are arguing against.","law":"Fair Trading Act 1986 · FMC Act 2013 fair dealing"}],
@@ -1582,6 +1583,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

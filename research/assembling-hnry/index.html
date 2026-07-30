@@ -1043,6 +1043,7 @@ var CFG={
   boundary:null,
   foil:["#1b1b3b","#9797ad","#23234c"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"ledger",
+  place:null,
   
   execs:{"cx":"Customer Experience","cco":"Chief Customer Officer","ceo":"Chief Executive"}, buyerTitle:"Customer Experience", buyerLine:"Hnry · Aotearoa New Zealand",
   variants:[{"key":"clear","label":"Obviously a job","chan":"Draft · charge matched to open work","body":"One question about this afternoon.\n\nThere is a $180 charge at a trade supplier, and you have one job open near there.\n\nIf that is what it was, tap yes and it is filed against that job with the receipt attached. If it was not, tap no and it never enters your tax record at all.\n\nWe are not deciding whether this is claimable — Hnry does that, properly. We are just making sure the thing they look at is right.","rules":["Never states or implies that something is claimable or deductible","Asked the same day, because that is the entire point","\"No\" removes it from the tax record rather than parking it as a maybe","Names explicitly who makes the actual determination"]},{"key":"mixed","label":"Part business, part not","chan":"Draft · split flagged, not apportioned","body":"This one looks like it was both.\n\nA $180 charge where some of it was for the job and some was not is a split, and a split is a judgement about proportion. We are not going to invent that proportion.\n\nSo we have flagged it as mixed, recorded that you said so, and left the apportionment to Hnry.\n\nIf you can remember roughly which part was the job, say so in a sentence and it goes across with the charge. If not, that is fine too.","rules":["Refuses to apportion — proportion is a determination, not a guess","Records the customer’s own words rather than a percentage","Flags rather than resolves, and says why","Never presents a split as settled"]},{"key":"audit","label":"Under review","chan":"Held — not sent · account under IRD review","body":"Nothing was asked about this charge.\n\nThis account is flagged as under review. Prompting for a fresh recollection about a historic charge while a review is open changes the character of the record, and that is not a product decision.\n\nHeld for a named person inside Hnry, with the flag attached.\n\nWhat happens next is a matter for them and, if it matters, for the customer’s own advice. This concept does not participate in it.","rules":["The most important output is the one that refuses to ask a question","Review flags are checked before any prompt is generated, never after","No historic recollection is solicited while a review is open","Escalated with the flag attached, to a named person"]},{"key":"newuser","label":"First month","chan":"Draft · first charges, no pattern yet","body":"This is your first month, so we have no pattern to go on — which means more questions now and far fewer later.\n\nThere are four charges from this week. We are going to ask about each one once, on the day, and then stop asking about that merchant.\n\nThe fee is 1% plus GST of your self-employed income, capped at $1,500 plus GST a year, and none of this changes that.\n\nEvery answer goes to Hnry to decide. We are only making sure they are looking at something you actually remember.","rules":["Explains why there are more questions now, instead of just asking more","Promises to stop asking about a merchant once the pattern is learned","Repeats the published fee and cap rather than being vague about cost","Never implies the concept affects what is owed"]}], guard:[{"ok":true,"t":"No deductibility is determined","d":"No output says claimable, deductible, allowable or eligible. Every one routes the determination to Hnry and says so in the message.","law":"Tax Administration Act 1994 · tax agent obligations"},{"ok":true,"t":"No tax is calculated and no rate is stated","d":"The concept never computes a liability, a rate or a refund, and never implies an answer changes what is owed.","law":"Tax Administration Act 1994"},{"ok":false,"t":"Held — account under review","d":"No prompt is generated for an account flagged as under review. Soliciting fresh recollection about historic charges mid-review is not a product decision.","law":"Tax Administration Act 1994 · Privacy Act 2020"},{"ok":false,"t":"Held — mixed-use charge","d":"Nothing apportioned. A proportion is a judgement, so the charge is flagged as mixed with the customer’s own words attached and left for Hnry.","law":"Tax Administration Act 1994"},{"ok":true,"t":"Asked once, then never again for that merchant","d":"A learned merchant pattern stops the questions. A concept that keeps asking is just admin with better manners.","law":"Privacy Act 2020 · IPP 1, collection limited to purpose"}],
@@ -1582,6 +1583,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

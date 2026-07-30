@@ -9,7 +9,7 @@
  * mark and never swapped for a client colour.
  */
 
-import { mkdirSync, writeFileSync, copyFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CLIENTS } from './clients.mjs';
@@ -1227,6 +1227,7 @@ var CFG={
   boundary:${js(c.boundary ? c.boundary.switches : null)},
   foil:${js([foil1, foil2, foil3])}, foilInk:${js(foilInk)}, onAccent:${js(onAccent)},
   object:${js(c.object || 'filament')},
+  place:${c.place ? JSON.stringify(c.place) : 'null'},
   ${mech && mech.kind === 'tracker' ? `trkFrom:${mech.from.n}, trkTo:${mech.to.n},
   trkShave:${js(mech.steps.map((x) => x.shave))},
   trkCaps:${js({ from: mech.from.cap, to: mech.to.cap, steps: mech.steps.map((x) => x.t) })},` : ''}
@@ -1768,6 +1769,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){
@@ -2107,6 +2164,15 @@ function boardPage(c) {
 
 /* Wait maps live one-per-client so a sector's six moments can be rewritten
    without touching anyone else's. A client without one simply omits the band. */
+/* Places authored in Pascal by research/_pascal/build-places.mjs. A client with
+   `object: 'place'` and a matching places/<slug>.boxes.json gets a real building
+   instead of a primitive. Baked in at build time so the page needs no fetch. */
+const PLACES = {};
+for (const f of readdirSync(resolve(HERE, '..', '_pascal', 'places')).filter((n) => n.endsWith('.boxes.json'))) {
+  PLACES[f.replace('.boxes.json', '')] = JSON.parse(
+    readFileSync(resolve(HERE, '..', '_pascal', 'places', f), 'utf8'));
+}
+
 const WAITMAPS = {};
 for (const c of CLIENTS) {
   const f = resolve(HERE, 'waitmaps', `${c.slug}.mjs`);
@@ -2132,7 +2198,9 @@ if (!targets.length) {
 for (const c of targets) {
   const dir = resolve(RESEARCH, `assembling-${c.slug}`);
   mkdirSync(resolve(dir, 'functions/api'), { recursive: true });
-  writeFileSync(resolve(dir, 'index.html'), page(c, WAITMAPS[c.slug] ?? null, MECHANICS[c.slug] ?? null));
+  writeFileSync(resolve(dir, 'index.html'),
+    page({ ...c, place: PLACES[c.placeKey ?? c.slug] ?? null },
+      WAITMAPS[c.slug] ?? null, MECHANICS[c.slug] ?? null));
   if (c.boardFacts) writeFileSync(resolve(dir, 'board.html'), boardPage(c));
   writeFileSync(resolve(dir, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
   writeFileSync(resolve(dir, 'wrangler.toml'),

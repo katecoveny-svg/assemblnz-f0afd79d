@@ -1043,6 +1043,7 @@ var CFG={
   boundary:null,
   foil:["#0d399b","#8eacef","#114ac8"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"ledger",
+  place:null,
   
   execs:{"customer":"Customer & Lifecycle","claims":"Claims","dist":"Distribution"}, buyerTitle:"Customer & Lifecycle", buyerLine:"AIG New Zealand · Auckland",
   variants:[{"key":"moving","label":"Progressing","chan":"Claim update · nothing required from the customer","body":"Your claim is moving and there is nothing you need to do.\n\nAn assessor has been assigned and has what they need from you. The next step sits with us, not with you.\n\nWe will come back to you when there is a decision or if anything changes — you should not have to chase us to find out where it is.","rules":["Leads with “nothing you need to do” — the most valuable sentence in a claim update","Says where the work currently sits","No settlement figure, no date, no outcome is implied"]},{"key":"blocked","label":"Waiting on the customer","chan":"Claim update · one specific thing is missing","body":"Your claim is waiting on one thing.\n\nWe need the repairer’s written quote — not the invoice, the quote before the work. That is the only item outstanding, and once it arrives the file goes straight to assessment.\n\nIf getting it is difficult, tell us and we will work out another way rather than leaving the claim sitting.","rules":["Names exactly one thing, and distinguishes it from the thing people usually send by mistake","Says what happens the moment it arrives","Offers a route out if the requirement is hard to meet"]},{"key":"complex","label":"Complex, genuinely slow","chan":"Claim update · honest about the delay","body":"Your claim is taking longer than either of us would like, and it is worth explaining why rather than sending another holding note.\n\nIt involves a specialist assessment that only a small number of people in New Zealand can do, and we are in their queue. We are not waiting on you.\n\nWe would rather tell you that plainly than keep saying “still in progress”. If the timing creates a problem for your business, tell us and we will look at what can be done in the meantime.","rules":["Explains the delay instead of restating the status","Explicitly says the customer is not the blocker","Opens a door for interim help without promising any"]},{"key":"declined","label":"Heading toward decline","chan":"Held — not sent · a person must make this call","body":"No update was drafted.\n\nThis claim is heading toward a decline, and a decline is not a status update. It is a decision with consequences for a business, and it belongs to a person who can explain it, answer for it, and hear the response.\n\nWhat this concept prepared instead is the file — the policy wording that applies, the evidence on both sides, and the questions the customer is most likely to ask.\n\nThe conversation is not ours to have.","rules":["The concept refuses to communicate a decline at all","Prepares the person for the conversation rather than replacing it","No coverage position is asserted anywhere in this concept","Escalated with the reason attached"]}], guard:[{"ok":true,"t":"No coverage position stated","d":"Every draft describes where the claim is, never whether it is covered. Coverage is a person’s call, made against the policy.","law":"Fair Trading Act 1986 · FMCA fair-dealing"},{"ok":false,"t":"Blocked — settlement figure","d":"A number appeared in a draft from the file notes. No amount is ever communicated by this concept, at any stage.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — decline communication","d":"The draft was suppressed entirely and the file routed to a named person. A decline is a conversation, not a notification.","law":"FMCA fair-dealing · CoFI"},{"ok":true,"t":"No settlement date promised","d":"Where a timeframe is genuinely known it is given; where it is not, the draft says so rather than reassuring.","law":"Fair Trading Act 1986"},{"ok":true,"t":"Commercially sensitive detail contained","d":"Nothing about the insured’s business, the assessment, or third parties leaves the file.","law":"Privacy Act 2020"}],
@@ -1582,6 +1583,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

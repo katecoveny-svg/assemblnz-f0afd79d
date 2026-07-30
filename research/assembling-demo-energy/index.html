@@ -1081,6 +1081,7 @@ var CFG={
   boundary:[{"label":"Explain the bill before they open it","does":"Half-hourly data they already generate.","verdict":"yes","result":"It says what drove the number, in their own usage, before the shock arrives. Winter bills generate the calls; an explanation that lands first removes most of them.","rule":"Consumer Care Obligations, mandatory since 1 January 2025.","source":"Require retailers to help consumers understand and manage their electricity costs. Electricity Authority."},{"label":"Work out when the house is empty","does":"The load curve gives this away.","verdict":"no","result":"It refuses. Occupancy inferred from a meter is a security matter, not a marketing insight, and a retailer holding a pattern of when a house is empty has taken on a risk it cannot justify to a customer.","rule":"Privacy Act 2020, IPP10.","source":"Use is limited to the purpose of collection. Metering exists for billing and network operation. privacy.org.nz"},{"label":"Move them to a cheaper plan","does":"The thing that would save them money.","verdict":"no","result":"It refuses to switch. It works out the better plan, shows the comparison and the assumptions, and hands it over. A plan change carries a contract and sometimes a break fee, so a person presses the button.","rule":"Electricity Industry Participation Code 2010.","source":"Governs switching and the consumer consent that has to sit behind it. Electricity Authority."},{"label":"Draft a payment plan when they fall behind","does":"The moment a retailer usually goes quiet.","verdict":"notice","result":"It drafts, and it routes to a named person the same day. Financial hardship is the point where an automated system does the most damage, and the obligations here are specific rather than general.","rule":"Consumer Care Obligations, Part 5.","source":"Set out what a retailer must do when a consumer is struggling to pay, including before any disconnection. Electricity Authority."},{"label":"Find a sponsor for the outage window","does":"The one wait a brand should not sell.","verdict":"no","result":"It refuses. An outage is the moment a household has no power, no hot water and possibly no medical equipment. Every other wait on this page can carry value. This one carries an ETA and nothing else.","rule":"Judgement, not statute.","source":"No law forbids it. The concept does, and it says so on the page, because a sponsored outage is the fastest way to lose a customer for good."}],
   foil:["#401d5e","#b099c5","#522679"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"meter",
+  place:null,
   
   execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Energy retail · an invented example",
   variants:[{"key":"weather","label":"It really was the weather","chan":"Explanation · usage tracks temperature","body":"Your bill is up eighteen percent, and the reason is boring: it was cold.\n\nYour usage rose on exactly the days the temperature dropped, and it came back down when it warmed up. That is a heating pattern, not a fault and not a change in your household.\n\nWe have not put you on a different plan. If you want to look at one, a person can talk you through it.","rules":["Gives the boring true answer rather than a saving tip","Shows the correlation, does not just assert it","No plan switch recommended inside an explanation","Rules out a fault explicitly"]},{"key":"fault","label":"Might be a fault","chan":"Draft · flagged for investigation first","body":"Something in your usage does not look like weather or people.\n\nThere is a constant overnight draw that was not there two months ago and does not vary with temperature. That can be a hot water fault, and it can also be nothing.\n\nWe are not going to guess. This has been flagged for someone to look at properly before you pay anything you should not.\n\nIf it is a fault, the bill gets fixed, not explained.","rules":["A possible fault stops the explanation and starts an investigation","Never asks a customer to pay a disputed amount while it is open","Refuses to diagnose the appliance","A person investigates before anything is asserted"]},{"key":"hardship","label":"Signs of hardship","chan":"Held — not sent · routed to a person","body":"No explanation was sent.\n\nThis account shows usage falling as the weather got colder, which is the shape of someone rationing power, and a bill explanation is not what that needs.\n\nHeld and routed to a named person, with what triggered it attached.\n\nA payment arrangement, a reminder about assistance, or simply a phone call may be the right answer. This concept will not choose it.","rules":["The most important output refuses to send an explanation","Falling winter usage is a warning sign, not an efficiency win","Escalated with the trigger attached, to a named person","A support pathway is an allowed outcome"]},{"key":"medical","label":"Medically dependent","chan":"Held — not sent · no efficiency advice","body":"Nothing was drafted for this account.\n\nIt carries a medically dependent consumer flag. Sending usage advice to a household that cannot reduce its usage is at best useless and at worst frightening.\n\nHeld for a person who knows the obligations that apply here.\n\nAn explanation of the amount may still be appropriate. A suggestion to use less is not, and this concept will not produce one.","rules":["Efficiency advice is never sent to a medically dependent account","The flag is checked before anything drafts","Distinguishes explaining a bill from advising on usage","A person decides what is appropriate"]}], guard:[{"ok":true,"t":"No tariff, plan or payment date is changed","d":"Every output stops at an explanation. Nothing about the account is altered by the concept.","law":"Electricity Authority Consumer Care Obligations"},{"ok":true,"t":"No saving is projected","d":"Figures describe what happened, never what might. No \"save up to\", no annualised claim, no forward estimate.","law":"Fair Trading Act 1986 · misleading representations"},{"ok":false,"t":"Held — usage falling in cold weather","d":"Nothing sent. The shape of rationing gets a person, not a chart. A payment arrangement is an allowed outcome.","law":"Consumer Care Obligations · vulnerable consumers"},{"ok":false,"t":"Held — medically dependent consumer","d":"No usage advice drafted. A household that cannot reduce its usage should not be told to.","law":"Electricity Authority Consumer Care Obligations"},{"ok":false,"t":"Held — possible metering or appliance fault","d":"The explanation stops and an investigation starts. Nobody is asked to pay a disputed amount while it is open.","law":"Consumer Guarantees Act 1993 · Electricity Industry Participation Code"}],
@@ -1620,6 +1621,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

@@ -1059,7 +1059,8 @@ var CFG={
   waits:[{"key":"ordered","name":"The Order Wait","when":"From checkout to first scan","feels":"about a day of nothing","screen":{"title":"Your parcel has a number","lines":["The seller has printed the label.","No scan yet. That is normal at this stage."],"chip":"+2 min back"},"delivered":"They stop refreshing, because the page finally says what the silence means.","funder":"The retailer who sold it — these are the \"where is my order\" emails they answer anyway."},{"key":"network","name":"The Depot Silence","when":"Between scans, across the country","feels":"a few days that all look the same","screen":{"title":"Moving, just not scanning","lines":["Scanned twice since it left the sender.","Long gaps between scans are normal here."],"chip":"+3 min back"},"delivered":"The gap gets a reason, so a quiet week stops looking like a lost parcel.","funder":"Funded by the business, because a tracking check that answers itself never becomes a call."},{"key":"out-for-delivery","name":"The Delivery Window","when":"Out for delivery, all day","feels":"the day you cannot leave the house","screen":{"title":"On a van near you","lines":["Your street is later in the run today.","Tell us a safe place and stop waiting."],"chip":"Safe place saved"},"delivered":"They get their afternoon back, and the driver gets somewhere to leave it.","funder":"Funded by the business — a safe place agreed up front is one delivery attempt, not two."},{"key":"missed","name":"The Missed Knock","when":"Card left, parcel redirected","feels":"a detour you did not plan","screen":{"title":"Nobody home, so it moved","lines":["Here is where it went, and what to bring.","Sending someone else? Give us their name."],"chip":"+4 min back"},"delivered":"A card in the letterbox turns into an address, a time and a plan.","funder":"The shop hosting the counter — the pick-up is foot traffic they already want."},{"key":"delivered","name":"The Delivered Gap","when":"Marked delivered, not in hand","feels":"ten minutes of low panic","screen":{"title":"Delivered — here is where","lines":["Photo of the spot it was left in.","Not there? Say so now, not in three days."],"chip":"Report in 1 tap"},"delivered":"The photo settles it, or the problem starts on the day it happened.","funder":"Funded by the business, because a same-day report is far easier to resolve than a week-old one."},{"key":"gone-wrong","name":"The Enquiry Wait","when":"After you report it missing","feels":"most of a week with no name attached","screen":{"title":"Someone is looking for it","lines":["Last scan, last handler, next check.","You will hear from a person, not a form."],"chip":"Named handler"},"delivered":"The search stops being invisible, so they stop ringing to check it is happening.","funder":"Funded by the business — a chase call about an open enquiry costs more than the update does."}],
   boundary:null,
   foil:["#0049b3","#85b7ff","#005ee6"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
-  object:"parcel",
+  object:"place",
+  place:[{"k":"floor","p":[0,-0.005,0],"s":[2.64,0.011,1.56],"ry":0},{"k":"shell","p":[0,0.255,-0.78],"s":[2.64,0.51,0.021],"ry":0},{"k":"shell","p":[1.32,0.255,0],"s":[1.56,0.51,0.021],"ry":1.5708},{"k":"shell","p":[0,0.255,0.78],"s":[2.64,0.51,0.021],"ry":3.1416},{"k":"shell","p":[-1.32,0.255,0],"s":[1.56,0.51,0.021],"ry":-1.5708},{"k":"dock","p":[-1.128,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[-0.828,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[-0.528,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[-0.228,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[0.072,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[0.372,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[0.672,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"dock","p":[0.972,0.096,-0.756],"s":[0.144,0.192,0.03],"ry":0},{"k":"spine","p":[0,0.048,-0.06],"s":[2.4,0.096,0.132],"ry":0},{"k":"spine","p":[0,0.048,0.24],"s":[2.4,0.096,0.132],"ry":0},{"k":"lit","p":[1.05,0,0.57],"s":[0.42,0.003,0.3],"ry":0,"lit":1,"label":"outbound"}],
   
   execs:{"cx":"Customer Experience","ops":"Delivery Operations","digital":"Digital"}, buyerTitle:"Customer Experience", buyerLine:"NZ Post · Aotearoa New Zealand",
   variants:[{"key":"normal","label":"Running normally","chan":"Tracking view · parcel moving as expected","body":"Your parcel is on track.\n\nIt was scanned this morning at the Auckland processing centre and is on the network for delivery. Nothing here needs your attention.\n\nIf it has not arrived by the end of the day after the estimated date, we will start looking without you having to ask, and we will tell you we have.","rules":["Says plainly that no action is needed — most people just want permission to stop worrying","Commits to a next step and a date rather than leaving it open","No estimated delivery date is invented here — a pilot would read your real network data"]},{"key":"stalled","label":"Not scanned for three days","chan":"Tracking view · no movement, no exception raised","body":"Your parcel has not been scanned since Thursday.\n\nThat is longer than we would expect, and we have not raised an exception on it — so this is us telling you before you had to chase it.\n\nWe have asked the last site that handled it to look. You do not need to do anything yet. If we have not found it by Wednesday we will contact you about what happens next, including what you are covered for.","rules":["Volunteers the bad news rather than waiting for the enquiry","Distinguishes “we have not looked yet” from “we have looked and cannot find it” — those are very different to a customer","Names a date for the next contact","Cover is mentioned but no amount is stated — that was not published"]},{"key":"failed","label":"Delivery attempted, nobody home","chan":"Tracking view · card left, parcel at a collection point","body":"We tried to deliver on Friday afternoon and nobody was home, so your parcel is waiting at a collection point near you.\n\nYou will need photo ID that matches the name on the parcel. It will be held for a set period before it is returned to sender — we will tell you the exact date rather than leave you guessing.\n\nIf getting there is difficult, you can redirect it. That is a two-minute job and it is free.","rules":["Leads with what happened, not with an instruction","States the requirement (ID) before the customer arrives without it","Holding period is referenced but the exact number is left for real data — store hours and hold periods were not published on the page we read"]},{"key":"damaged","label":"Arrived damaged","chan":"Held — routed to a person","body":"This one is not answered automatically.\n\nA damaged parcel is a claim, and a claim decision belongs to a person with the policy in front of them. What this concept does is prepare the file — the scan history, where the damage most likely occurred, the sender’s cover, and the photographs the customer has already sent.\n\nSo the person who picks it up starts at the decision instead of starting at “can I take your tracking number”.","rules":["Refuses to decide a claim — that is a person’s job","Prepares the file so the person starts further along","No cover amount, excess or eligibility is stated; your own page does not publish them and this concept does not guess"]}], guard:[{"ok":true,"t":"No delivery promise beyond the network data","d":"Where an estimated date exists it is quoted; where it does not, the draft says so instead of producing a comforting guess.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — “your parcel will arrive tomorrow”","d":"The source status did not support it. A missed promise costs more than a vague answer, and generates the call it was meant to prevent.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Blocked — compensation amount","d":"A cover figure was drafted from an old template. Your published tracking page does not state what damage cover includes, so nothing was asserted.","law":"Fair Trading Act 1986 · CGA 1993"},{"ok":true,"t":"Claim decisions routed to a person","d":"Damage and loss are prepared, never decided. The file is assembled; the judgement is not.","law":"Consumer Guarantees Act 1993"},{"ok":true,"t":"No personal detail beyond the tracking holder","d":"Nothing about the sender, the contents, or the address is surfaced to anyone but the person entitled to it.","law":"Privacy Act 2020"}],
@@ -1599,6 +1600,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

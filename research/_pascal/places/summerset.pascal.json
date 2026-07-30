@@ -1,0 +1,1317 @@
+{
+  "object": "scene",
+  "name": "A village",
+  "nodes": {
+    "level_8fw70pte5hqgxu78": {
+      "object": "node",
+      "id": "level_8fw70pte5hqgxu78",
+      "type": "level",
+      "name": "Ground",
+      "parentId": null,
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "level": 0
+    },
+    "slab_lg2h8zn7dmrw9eiv": {
+      "object": "node",
+      "id": "slab_lg2h8zn7dmrw9eiv",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "ground"
+      },
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          46,
+          0
+        ],
+        [
+          46,
+          34
+        ],
+        [
+          0,
+          34
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "slab_r18kxwzxz8y93jdh": {
+      "object": "node",
+      "id": "slab_r18kxwzxz8y93jdh",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          2,
+          2
+        ],
+        [
+          10.4,
+          2
+        ],
+        [
+          10.4,
+          8.6
+        ],
+        [
+          2,
+          8.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_tgj9b07tv7m0rgiv": {
+      "object": "node",
+      "id": "wall_tgj9b07tv7m0rgiv",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        2,
+        2
+      ],
+      "end": [
+        10.4,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_8kz4b2t2l6r4tcp3": {
+      "object": "node",
+      "id": "wall_8kz4b2t2l6r4tcp3",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        10.4,
+        2
+      ],
+      "end": [
+        10.4,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_l40aobqjxe3bjvke": {
+      "object": "node",
+      "id": "wall_l40aobqjxe3bjvke",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        10.4,
+        8.6
+      ],
+      "end": [
+        2,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_ewjdbpi9gv5n7ozv": {
+      "object": "node",
+      "id": "wall_ewjdbpi9gv5n7ozv",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        2,
+        8.6
+      ],
+      "end": [
+        2,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_i1fojbfdl33oexim": {
+      "object": "node",
+      "id": "slab_i1fojbfdl33oexim",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          12,
+          2
+        ],
+        [
+          20.4,
+          2
+        ],
+        [
+          20.4,
+          8.6
+        ],
+        [
+          12,
+          8.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_y1fpntxg42u0z0s6": {
+      "object": "node",
+      "id": "wall_y1fpntxg42u0z0s6",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        12,
+        2
+      ],
+      "end": [
+        20.4,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_qm2rd5echpmvf0wn": {
+      "object": "node",
+      "id": "wall_qm2rd5echpmvf0wn",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        20.4,
+        2
+      ],
+      "end": [
+        20.4,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_r5ohi9os74zy13ee": {
+      "object": "node",
+      "id": "wall_r5ohi9os74zy13ee",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        20.4,
+        8.6
+      ],
+      "end": [
+        12,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_aj8g03glkkuq0bzv": {
+      "object": "node",
+      "id": "wall_aj8g03glkkuq0bzv",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        12,
+        8.6
+      ],
+      "end": [
+        12,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_2q59saxz8ey180n9": {
+      "object": "node",
+      "id": "slab_2q59saxz8ey180n9",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          24,
+          2
+        ],
+        [
+          32.4,
+          2
+        ],
+        [
+          32.4,
+          8.6
+        ],
+        [
+          24,
+          8.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_wc2bsa6arf5u8fhs": {
+      "object": "node",
+      "id": "wall_wc2bsa6arf5u8fhs",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        24,
+        2
+      ],
+      "end": [
+        32.4,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_ctesf8t1fowalwnu": {
+      "object": "node",
+      "id": "wall_ctesf8t1fowalwnu",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        32.4,
+        2
+      ],
+      "end": [
+        32.4,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_z5uyuvch9ixifny9": {
+      "object": "node",
+      "id": "wall_z5uyuvch9ixifny9",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        32.4,
+        8.6
+      ],
+      "end": [
+        24,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_3g1zqwhbap7ckk7l": {
+      "object": "node",
+      "id": "wall_3g1zqwhbap7ckk7l",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        24,
+        8.6
+      ],
+      "end": [
+        24,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_ku0pmp4orexo1az4": {
+      "object": "node",
+      "id": "slab_ku0pmp4orexo1az4",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          34,
+          2
+        ],
+        [
+          42.4,
+          2
+        ],
+        [
+          42.4,
+          8.6
+        ],
+        [
+          34,
+          8.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_mrbn8ajg564zda32": {
+      "object": "node",
+      "id": "wall_mrbn8ajg564zda32",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        34,
+        2
+      ],
+      "end": [
+        42.4,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_83wm0s2ns9w4gz1p": {
+      "object": "node",
+      "id": "wall_83wm0s2ns9w4gz1p",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        42.4,
+        2
+      ],
+      "end": [
+        42.4,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_i913rij2ip093b8u": {
+      "object": "node",
+      "id": "wall_i913rij2ip093b8u",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        42.4,
+        8.6
+      ],
+      "end": [
+        34,
+        8.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_35xlb2kjns3a5s17": {
+      "object": "node",
+      "id": "wall_35xlb2kjns3a5s17",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        34,
+        8.6
+      ],
+      "end": [
+        34,
+        2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_66c74j4htlj09zls": {
+      "object": "node",
+      "id": "slab_66c74j4htlj09zls",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          2,
+          25
+        ],
+        [
+          10.4,
+          25
+        ],
+        [
+          10.4,
+          31.6
+        ],
+        [
+          2,
+          31.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_x45ao502wcwsnt5x": {
+      "object": "node",
+      "id": "wall_x45ao502wcwsnt5x",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        2,
+        25
+      ],
+      "end": [
+        10.4,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_1nmfb0ebxblm7cwc": {
+      "object": "node",
+      "id": "wall_1nmfb0ebxblm7cwc",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        10.4,
+        25
+      ],
+      "end": [
+        10.4,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_8zy33sa8z2aypsa4": {
+      "object": "node",
+      "id": "wall_8zy33sa8z2aypsa4",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        10.4,
+        31.6
+      ],
+      "end": [
+        2,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_v3uivmxu1qs6en54": {
+      "object": "node",
+      "id": "wall_v3uivmxu1qs6en54",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        2,
+        31.6
+      ],
+      "end": [
+        2,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_hs01c0el1j9p6uk2": {
+      "object": "node",
+      "id": "slab_hs01c0el1j9p6uk2",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          12,
+          25
+        ],
+        [
+          20.4,
+          25
+        ],
+        [
+          20.4,
+          31.6
+        ],
+        [
+          12,
+          31.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_ibipj13l26mm57fc": {
+      "object": "node",
+      "id": "wall_ibipj13l26mm57fc",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        12,
+        25
+      ],
+      "end": [
+        20.4,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_qu3rrjygkg6cf5i8": {
+      "object": "node",
+      "id": "wall_qu3rrjygkg6cf5i8",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        20.4,
+        25
+      ],
+      "end": [
+        20.4,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_caw25g6lxtvt8rvj": {
+      "object": "node",
+      "id": "wall_caw25g6lxtvt8rvj",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        20.4,
+        31.6
+      ],
+      "end": [
+        12,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_ggcf1hy6g713geru": {
+      "object": "node",
+      "id": "wall_ggcf1hy6g713geru",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        12,
+        31.6
+      ],
+      "end": [
+        12,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_st0vj8mygjkcdyao": {
+      "object": "node",
+      "id": "slab_st0vj8mygjkcdyao",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          24,
+          25
+        ],
+        [
+          32.4,
+          25
+        ],
+        [
+          32.4,
+          31.6
+        ],
+        [
+          24,
+          31.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_t7nud2nsquhfribh": {
+      "object": "node",
+      "id": "wall_t7nud2nsquhfribh",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        24,
+        25
+      ],
+      "end": [
+        32.4,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_d6jmxn9hfjv4dcq3": {
+      "object": "node",
+      "id": "wall_d6jmxn9hfjv4dcq3",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        32.4,
+        25
+      ],
+      "end": [
+        32.4,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_4hmut8b6pnb5zfv2": {
+      "object": "node",
+      "id": "wall_4hmut8b6pnb5zfv2",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        32.4,
+        31.6
+      ],
+      "end": [
+        24,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_xjke5hi3whlbcb0e": {
+      "object": "node",
+      "id": "wall_xjke5hi3whlbcb0e",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        24,
+        31.6
+      ],
+      "end": [
+        24,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_dqer2ffzpjje51zf": {
+      "object": "node",
+      "id": "slab_dqer2ffzpjje51zf",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          34,
+          25
+        ],
+        [
+          42.4,
+          25
+        ],
+        [
+          42.4,
+          31.6
+        ],
+        [
+          34,
+          31.6
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.1,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_kepz7pnpi9kur4dc": {
+      "object": "node",
+      "id": "wall_kepz7pnpi9kur4dc",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        34,
+        25
+      ],
+      "end": [
+        42.4,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_szq77ov6uh72u1k0": {
+      "object": "node",
+      "id": "wall_szq77ov6uh72u1k0",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        42.4,
+        25
+      ],
+      "end": [
+        42.4,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_acvoyu0dm3vl0fx4": {
+      "object": "node",
+      "id": "wall_acvoyu0dm3vl0fx4",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        42.4,
+        31.6
+      ],
+      "end": [
+        34,
+        31.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_wk732z2u0osaj8vp": {
+      "object": "node",
+      "id": "wall_wk732z2u0osaj8vp",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "villa"
+      },
+      "children": [],
+      "thickness": 0.22,
+      "height": 2.7,
+      "start": [
+        34,
+        31.6
+      ],
+      "end": [
+        34,
+        25
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_p9wow0lp934awoea": {
+      "object": "node",
+      "id": "slab_p9wow0lp934awoea",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          15,
+          12
+        ],
+        [
+          31,
+          12
+        ],
+        [
+          31,
+          22
+        ],
+        [
+          15,
+          22
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.12,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_0linlocz7k7ehx1n": {
+      "object": "node",
+      "id": "wall_0linlocz7k7ehx1n",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "centre"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.4,
+      "start": [
+        15,
+        12
+      ],
+      "end": [
+        31,
+        12
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_u9qefkhukv3ku4b5": {
+      "object": "node",
+      "id": "wall_u9qefkhukv3ku4b5",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "centre"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.4,
+      "start": [
+        31,
+        12
+      ],
+      "end": [
+        31,
+        22
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_jnx9cynr6viqsq26": {
+      "object": "node",
+      "id": "wall_jnx9cynr6viqsq26",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "centre"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.4,
+      "start": [
+        31,
+        22
+      ],
+      "end": [
+        15,
+        22
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_o8osw46xynlrt73c": {
+      "object": "node",
+      "id": "wall_o8osw46xynlrt73c",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "centre"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.4,
+      "start": [
+        15,
+        22
+      ],
+      "end": [
+        15,
+        12
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_k0nqkkbyhigdoz07": {
+      "object": "node",
+      "id": "slab_k0nqkkbyhigdoz07",
+      "type": "slab",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "lit",
+        "lit": true,
+        "label": "care, same site"
+      },
+      "polygon": [
+        [
+          2,
+          11
+        ],
+        [
+          12,
+          11
+        ],
+        [
+          12,
+          23
+        ],
+        [
+          2,
+          23
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.03,
+      "thickness": 0.12,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_cdxh562xa28vxtn7": {
+      "object": "node",
+      "id": "wall_cdxh562xa28vxtn7",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "care",
+        "lit": true
+      },
+      "children": [],
+      "thickness": 0.26,
+      "height": 3.4,
+      "start": [
+        2,
+        11
+      ],
+      "end": [
+        12,
+        11
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_8d4xr6sfng13q0m5": {
+      "object": "node",
+      "id": "wall_8d4xr6sfng13q0m5",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "care",
+        "lit": true
+      },
+      "children": [],
+      "thickness": 0.26,
+      "height": 3.4,
+      "start": [
+        12,
+        11
+      ],
+      "end": [
+        12,
+        23
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_ooeyyaahli2n7nu5": {
+      "object": "node",
+      "id": "wall_ooeyyaahli2n7nu5",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "care",
+        "lit": true
+      },
+      "children": [],
+      "thickness": 0.26,
+      "height": 3.4,
+      "start": [
+        12,
+        23
+      ],
+      "end": [
+        2,
+        23
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_u3iiqanjob8brvg8": {
+      "object": "node",
+      "id": "wall_u3iiqanjob8brvg8",
+      "type": "wall",
+      "parentId": "level_8fw70pte5hqgxu78",
+      "visible": true,
+      "metadata": {
+        "k": "care",
+        "lit": true
+      },
+      "children": [],
+      "thickness": 0.26,
+      "height": 3.4,
+      "start": [
+        2,
+        23
+      ],
+      "end": [
+        2,
+        11
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    }
+  }
+}

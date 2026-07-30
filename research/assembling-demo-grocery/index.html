@@ -1081,6 +1081,7 @@ var CFG={
   boundary:[{"label":"Draft the weekly list from what you buy","does":"Purchase history you already gave them.","verdict":"yes","result":"It writes the list you were going to write. The data came from your own transactions, the purpose sits close to why it was collected, and every line shows why it is there.","rule":"Privacy Act 2020, IPP10.","source":"Limits use of personal information to the purpose it was collected for, or a directly related one. Drafting your shop from your shopping qualifies. privacy.org.nz"},{"label":"Work out that someone in the house is diabetic","does":"A basket makes this easy to infer.","verdict":"no","result":"It refuses. An inference about a health condition is health information whether you volunteered it or not, and a supermarket has no business holding it. The basket adapts to what you tell it, and it does not guess at a diagnosis.","rule":"Health Information Privacy Code 2020.","source":"Applies to health information however it is obtained, including by inference. Codes of practice under the Privacy Act 2020. privacy.org.nz"},{"label":"Ask one question while the basket builds","does":"Anyone avoiding anything this week?","verdict":"notice","result":"It asks, and it labels the answer as something you told it rather than something it worked out. You can see it, change it and remove it. That label is the difference between a shop that knows you and one that has profiled you.","rule":"Privacy Act 2020, IPP1 and IPP3A.","source":"Collect only what you need, for a stated purpose, and make the person aware. privacy.org.nz"},{"label":"Buy the basket when you run out of time","does":"The convenience nobody asked for.","verdict":"no","result":"It refuses. It drafts and it stops. A grocery agent that spends your money without a press is a chargeback and a headline, and it removes the only part of the shop you actually wanted control over.","rule":"Fair Trading Act 1986.","source":"A charge without a clear affirmative act by the consumer is the shape of conduct the Commerce Commission pursues."},{"label":"Put a supplier-funded product in the list","does":"The commercial model behind the whole idea.","verdict":"notice","result":"It can, and it says so on the line. Funded placements carry a visible label naming the category that paid, they never displace a cheaper equivalent without showing the swap, and they never appear inside a health-related item.","rule":"Fair Trading Act 1986, and the Commerce Commission’s grocery work.","source":"Paid placement presented as a recommendation is misleading. Labelled placement is not. Grocery Industry Competition Act 2023."}],
   foil:["#163924","#93ab9d","#1c492e"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"queue",
+  place:null,
   
   execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Grocery and loyalty · an invented example",
   variants:[{"key":"family","label":"Family of four","chan":"Draft basket · 4 people, one gluten-free","body":"Next week, drafted.\n\nMost of this is what you buy anyway. Four items changed because one person in the house is gluten free and cooking twice on a weeknight is nobody's plan.\n\nTwo things are new: the thing you ran out of on Thursday for the last three weeks, and one substitution because your usual is out of stock at your store.\n\nNothing is bought. Every line can go.","rules":["Substitutions are shown as substitutions, never swapped silently","A dietary need changes the week, not one item","Names the recurring gap instead of leaving it","Nothing purchased without review"]},{"key":"budget","label":"Watching the total","chan":"Draft basket · a stated weekly cap","body":"You told us $180, so this comes to $174.\n\nThat meant three changes, and we have listed which three rather than quietly making the basket cheaper.\n\nOne is a smaller pack size. One is the store brand. One is a thing we dropped, and if it matters, put it back and something else can go.\n\nWe have not recommended anything you do not already buy.","rules":["The cap is honoured and the trade-offs are itemised","Never quietly downgrades to hit a number","No upsell inside a budget-constrained basket","The customer can reverse any single decision"]},{"key":"restricted","label":"A medical restriction","chan":"Held — not sent · a person reviews","body":"This basket was not drafted.\n\nThe household record carries a medical dietary restriction. Assembling food around a clinical need on inference is not personalisation, it is risk.\n\nHeld for a person, with what we hold attached so they can see whether it is right.\n\nNo nutritional or medical claim has been made about any product.","rules":["The most important output refuses to produce a basket","Clinical restrictions are checked before anything drafts","No therapeutic or nutritional claim is made","A person decides, and their reasoning is recorded"]},{"key":"alcohol","label":"Contains restricted items","chan":"Draft · restricted lines separated out","body":"Your usual basket includes restricted items, so they are not in this draft.\n\nThey are listed separately, unpriced and unselected, for you to add yourself if you want them.\n\nThat is not us being cautious for the sake of it. An automated basket that quietly re-adds alcohol every week is a product decision nobody should make on someone else's behalf.","rules":["Restricted lines are never auto-added to a draft","Listed separately, unselected, for a deliberate human choice","No promotion is attached to a restricted item","Age verification remains entirely the retailer’s process"]}], guard:[{"ok":true,"t":"Nothing is purchased or charged","d":"Every output stops at a draft basket. No order is placed, no card is charged, no delivery slot is booked.","law":"Fair Trading Act 1986 · unfair contract terms"},{"ok":true,"t":"Substitutions are visible, never silent","d":"Any change from the household’s usual item is labelled as a change, with the reason, and can be reversed in one action.","law":"Fair Trading Act 1986 · Consumer Guarantees Act 1993"},{"ok":false,"t":"Held — medical dietary restriction on record","d":"Nothing drafted. Assembling food around a clinical need is a person’s decision, not an inference.","law":"Health Information Privacy Code 2020"},{"ok":false,"t":"Held — restricted items in the usual basket","d":"Alcohol and other restricted lines are never auto-added. Listed separately and unselected for a deliberate human choice.","law":"Sale and Supply of Alcohol Act 2012"},{"ok":true,"t":"No promotion is inserted into a draft","d":"A prepared basket is not advertising inventory. Nothing appears in it that the household does not already buy.","law":"Fair Trading Act 1986"}],
@@ -1620,6 +1621,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

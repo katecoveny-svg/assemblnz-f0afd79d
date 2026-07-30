@@ -187,7 +187,7 @@ export const CLIENTS = [
       ['FY24/25 group result: $2m net loss \u2014 a $12m year-on-year improvement', 'NZ Post media centre'],
       ['NZ Post has no consumer loyalty scheme today \u2014 the rewarded wait is an unclaimed, first-mover space', 'assembl analysis · July 2026'],
     ],
-    object: 'parcel',
+    object: 'place', placeKey: 'nzpost',
     company: 'NZ Post',
     short: 'NZ Post',
     primary: '#0068FF',
@@ -2683,7 +2683,7 @@ export const CLIENTS = [
   {
     slug: 'tower',
     theme: 'ink', display: 'industrial',
-    object: 'shelter',
+    object: 'place', placeKey: 'tower',
     company: 'Tower Limited',
     momentsTitle: 'Every claim moment, one pattern.',
     moments: [

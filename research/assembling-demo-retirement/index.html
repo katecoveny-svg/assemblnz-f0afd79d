@@ -1081,6 +1081,7 @@ var CFG={
   boundary:[{"label":"Her age and where she lives","does":"The daughter types it. Her mother never sees the form.","verdict":"notice","result":"The pack assembles. Her mother receives a plain-words notice naming what was collected, why, who holds it, who else sees it, and how she corrects it. It goes out as soon as practicable after collection, not at some later review.","rule":"IPP3A, in force May 2026.","source":"Requires an agency collecting personal information from a source other than the person to make that person aware of the collection and its purpose. privacy.org.nz"},{"label":"Her mobility and her care needs","does":"Two clicks in a triage form.","verdict":"notice","result":"Care needs are health information, so a second code applies on top of IPP3A. The notice to her says so in words she will read. The enquiry also stops being a lifestyle enquiry and routes to a named clinical advisor before any pack goes anywhere.","rule":"Health Information Privacy Code 2020, updated in early 2026 to carry IPP3A.","source":"Codes of practice in force under the Privacy Act 2020. privacy.org.nz"},{"label":"A cost estimate with her numbers in it","does":"The thing every family asks for first.","verdict":"yes","result":"It computes from the village’s own registered disclosure statement, quotes the clause it used, shows its assumptions, and refuses where the document says nothing. It never estimates a figure the operator has not published.","rule":"The Registrar of Retirement Villages is getting new powers over advertising material that could mislead.","source":"A generated cost figure is a representation by the operator, so freehand pricing is off the table. Ministry of Housing and Urban Development, reform page updated 4 December 2025."},{"label":"A recommendation on which village suits her","does":"The obvious next step, and the wrong one.","verdict":"no","result":"It refuses. It assembles what the operator published, opens it at the page this family is worried about, and hands the decision to a person. Ranking villages for a family is advice, and this is not the thing that gives it.","rule":"The Act’s own prescribed disclosure wording names the misunderstanding.","source":"It says misunderstandings are common among residents and their families about the legal interest, the exit, the fees, and the ongoing charges. Answering those four is the job. Companies Office Retirement Villages Register."},{"label":"A camera that watches for falls","does":"Every vendor in this category will pitch it.","verdict":"no","result":"It refuses, and this one is worth saying out loud to a board. Adding vision to a family-facing product engages a separate code that came into force in 2025, and nothing about an information pack justifies opening that door.","rule":"Biometric Processing Privacy Code 2025.","source":"Governs cameras, voice identification and gait analysis. In force under the Privacy Act 2020. privacy.org.nz"}],
   foil:["#2c4439","#a3b3ac","#39574a"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"village",
+  place:null,
   
   execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Retirement living · an invented example",
   variants:[{"key":"money","label":"Worried about cost","chan":"Pack · opened at the exit fee","body":"Kia ora,\n\nYou asked what she gets back, so that is where this starts rather than where it usually sits.\n\nThe deferred fee, in her numbers, on one page. What she pays weekly and what that covers. What is refunded and when.\n\nWe have not put a recommendation in here. An advisor will call, and they will have read this first.","rules":["Leads with the worry, not the brochure order","Her numbers, not a worked example","No recommendation — an advisor decides","Every figure traces to published material"]},{"key":"fit","label":"Will she be happy","chan":"Pack · opened at village life","body":"Kia ora,\n\nYour question was not about money, so this does not lead with money.\n\nWhat a week actually looks like. Who she would live near. What she can bring, and what will not fit.\n\nThere is a page on cost at the back, because you will want it eventually.","rules":["Length and order follow the family","Does not force the financial page first","Honest about what will not fit","Nothing is sold inside an information pack"]},{"key":"care","label":"Care needs already","chan":"Held — not sent · advisor first","body":"This pack was not assembled.\n\nThe enquiry describes current care needs. Sending a lifestyle pack to a family already in a clinical situation answers a question they have stopped asking.\n\nHeld for a named advisor, with what they told us attached.\n\nThe right first step here is a phone call, not a document.","rules":["The most important output refuses to produce a pack","Clinical language is checked before anything assembles","Escalated with the family’s own words attached","A person decides, and a call is an allowed outcome"]},{"key":"bereaved","label":"Recently bereaved","chan":"Held — not sent · no marketing","body":"Nothing was assembled, and nothing was queued.\n\nThe enquiry mentions a recent death. A pack about moving house, arriving now, is the kind of harm no amount of care in the wording repairs.\n\nHeld with no draft. If anything is warranted it is a person, at a time the family chooses.","rules":["Bereavement stops the run entirely","No follow-up, reminder or nurture sequence is queued","The absence of a message is the deliberate outcome","A person decides whether anything is sent at all"]}], guard:[{"ok":true,"t":"Every figure traces to published material","d":"No fee, refund or weekly cost is calculated by the concept. Published numbers, applied to what the family stated.","law":"Fair Trading Act 1986 · Retirement Villages Act 2003"},{"ok":true,"t":"No recommendation is made","d":"The pack is assembled, never argued. Whether this village suits her is an advisor’s conversation and a family’s decision.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Held — enquiry describes current care needs","d":"Nothing assembled. A lifestyle pack is the wrong answer to a clinical question; routed to a named advisor to call.","law":"Health Information Privacy Code 2020"},{"ok":false,"t":"Held — enquiry mentions a bereavement","d":"Nothing drafted and nothing queued. No nurture sequence, no reminder, no follow-up.","law":"Privacy Act 2020 · harm prevention"},{"ok":true,"t":"No pressure of any kind","d":"No availability countdown, no \"only two left\", no price-rise warning. Urgency in this category is predatory.","law":"Fair Trading Act 1986 · unfair practices"}],
@@ -1620,6 +1621,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

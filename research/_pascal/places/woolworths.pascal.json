@@ -1,0 +1,386 @@
+{
+  "object": "scene",
+  "name": "A store floor",
+  "nodes": {
+    "level_hdgcbxr0qwu1q8aa": {
+      "object": "node",
+      "id": "level_hdgcbxr0qwu1q8aa",
+      "type": "level",
+      "name": "Ground",
+      "parentId": null,
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "level": 0
+    },
+    "slab_xa60snz0jighr4sj": {
+      "object": "node",
+      "id": "slab_xa60snz0jighr4sj",
+      "type": "slab",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          34,
+          0
+        ],
+        [
+          34,
+          22
+        ],
+        [
+          0,
+          22
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0,
+      "thickness": 0.15,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_iupya2h8ubuen2ge": {
+      "object": "node",
+      "id": "wall_iupya2h8ubuen2ge",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.2,
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        34,
+        0
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_9f7gw30ibgfavhgq": {
+      "object": "node",
+      "id": "wall_9f7gw30ibgfavhgq",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.2,
+      "start": [
+        34,
+        0
+      ],
+      "end": [
+        34,
+        22
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_yh3dx746pjyv81fc": {
+      "object": "node",
+      "id": "wall_yh3dx746pjyv81fc",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.2,
+      "start": [
+        34,
+        22
+      ],
+      "end": [
+        0,
+        22
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_gk6ttgs7ljugyeex": {
+      "object": "node",
+      "id": "wall_gk6ttgs7ljugyeex",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.3,
+      "height": 4.2,
+      "start": [
+        0,
+        22
+      ],
+      "end": [
+        0,
+        0
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_v0k91ownv1hqjwgo": {
+      "object": "node",
+      "id": "wall_v0k91ownv1hqjwgo",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "aisle"
+      },
+      "children": [],
+      "thickness": 1.1,
+      "height": 1.7,
+      "start": [
+        5,
+        3
+      ],
+      "end": [
+        5,
+        16
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_cnkk6x1mr1cq1s6a": {
+      "object": "node",
+      "id": "wall_cnkk6x1mr1cq1s6a",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "aisle"
+      },
+      "children": [],
+      "thickness": 1.1,
+      "height": 1.7,
+      "start": [
+        9.2,
+        3
+      ],
+      "end": [
+        9.2,
+        16
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_bbbsq7eqtgv98ffn": {
+      "object": "node",
+      "id": "wall_bbbsq7eqtgv98ffn",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "aisle"
+      },
+      "children": [],
+      "thickness": 1.1,
+      "height": 1.7,
+      "start": [
+        13.4,
+        3
+      ],
+      "end": [
+        13.4,
+        16
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_dwzcw2r7ypda484s": {
+      "object": "node",
+      "id": "wall_dwzcw2r7ypda484s",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "aisle"
+      },
+      "children": [],
+      "thickness": 1.1,
+      "height": 1.7,
+      "start": [
+        17.6,
+        3
+      ],
+      "end": [
+        17.6,
+        16
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_6u5nijpegtxs133i": {
+      "object": "node",
+      "id": "wall_6u5nijpegtxs133i",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "aisle"
+      },
+      "children": [],
+      "thickness": 1.1,
+      "height": 1.7,
+      "start": [
+        21.8,
+        3
+      ],
+      "end": [
+        21.8,
+        16
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_sv3493yxev4t2g91": {
+      "object": "node",
+      "id": "wall_sv3493yxev4t2g91",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "aisle"
+      },
+      "children": [],
+      "thickness": 1.1,
+      "height": 1.7,
+      "start": [
+        26,
+        3
+      ],
+      "end": [
+        26,
+        16
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_xre7vb8w5rnsdcss": {
+      "object": "node",
+      "id": "wall_xre7vb8w5rnsdcss",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "chiller"
+      },
+      "children": [],
+      "thickness": 0.9,
+      "height": 2.2,
+      "start": [
+        0.4,
+        19.6
+      ],
+      "end": [
+        33.6,
+        19.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_ga6doe9n8fmn1m9i": {
+      "object": "node",
+      "id": "wall_ga6doe9n8fmn1m9i",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "checkout"
+      },
+      "children": [],
+      "thickness": 0.7,
+      "height": 1.2,
+      "start": [
+        0.4,
+        1.2
+      ],
+      "end": [
+        3.4,
+        1.2
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_7tmjx9fwm61mmrr1": {
+      "object": "node",
+      "id": "wall_7tmjx9fwm61mmrr1",
+      "type": "wall",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "checkout"
+      },
+      "children": [],
+      "thickness": 0.7,
+      "height": 1.2,
+      "start": [
+        0.4,
+        2.4
+      ],
+      "end": [
+        3.4,
+        2.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_ai4tkqigtjsx9w7j": {
+      "object": "node",
+      "id": "slab_ai4tkqigtjsx9w7j",
+      "type": "slab",
+      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "visible": true,
+      "metadata": {
+        "k": "lit",
+        "lit": true,
+        "label": "collect"
+      },
+      "polygon": [
+        [
+          29,
+          0.6
+        ],
+        [
+          33.6,
+          0.6
+        ],
+        [
+          33.6,
+          5
+        ],
+        [
+          29,
+          5
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.03,
+      "thickness": 0.05,
+      "recessed": false,
+      "autoFromWalls": false
+    }
+  }
+}

@@ -1030,6 +1030,7 @@ var CFG={
   boundary:null,
   foil:["#004d84","#85b9df","#0063aa"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"thresholds",
+  place:null,
   
   execs:{"lifecycle":"Customer Lifecycle Lead — Property","property":"Head of Property","crm":"CRM & Lifecycle"}, buyerTitle:"Customer Lifecycle Lead — Property", buyerLine:"Trade Me · Wellington",
   variants:[{"key":"activation","label":"Activation","chan":"Agent prompt · first listing not performing","body":"Your first listing has been live a week.\n\nIt is getting views but very few watchlist adds, which usually points at the photography or the price rather than the audience. Listings in this bracket that added a floor plan saw more enquiries.\n\nThis is the kind of thing worth fixing in week one rather than week six. Want us to show you what the comparable listings did differently?","rules":["Diagnoses rather than reports — a number without an interpretation is not help","Specific and early, while it can still change the outcome","Comparative claims are placeholders; a pilot would compute them from your real data"]},{"key":"retention","label":"Retention","chan":"Agent prompt · the vendor conversation, prepared","body":"Your Karori listing is at six weeks, and the vendor will be asking why.\n\nHere is the conversation, prepared: views are holding steady, watchlist adds have flattened, and enquiries have dropped since week three. Against comparable listings the pattern points at price rather than exposure.\n\nThat is a hard conversation and it is yours to have — but you should not have to build the evidence for it on a Sunday night.","rules":["Prepares a hard conversation instead of avoiding it","Explicitly leaves the conversation with the agent","Names the likely cause rather than presenting neutral charts"]},{"key":"winback","label":"Win-back","chan":"Held — not sent · timing check failed","body":"No win-back was drafted.\n\nThis agent’s last listing did not sell. A message that opens with “we noticed you have not listed recently” lands as a reminder of that, not as an invitation.\n\nHeld for a person to decide whether there is anything worth saying, and when. Sometimes the right lifecycle action is to leave someone alone for another month.\n\nThe restraint is the feature.","rules":["Refuses to send a technically-correct message at the wrong moment","Checks the outcome of the last listing before any win-back is written","Doing nothing is treated as a valid lifecycle action","Routed to a person with the reason attached"]},{"key":"acquisition","label":"Acquisition","chan":"Agent prompt · a new office, no history","body":"A new office has listed for the first time.\n\nThere is no behavioural history to work from, so nothing here is personalised — and pretending otherwise is how first impressions get wasted.\n\nWhat is prepared instead is genuinely useful without being personal: what listings in their area typically do in the first fortnight, and the two setup steps most new offices miss.\n\nPersonalisation starts when there is something real to personalise from.","rules":["Says plainly when there is not enough data to personalise","Refuses to fake familiarity — the most common lifecycle mistake","Offers general value rather than hollow specificity"]}], guard:[{"ok":true,"t":"Frequency cap respected","d":"No agent receives more than the agreed number of prompts in a week, regardless of how many triggers fire.","law":"Unsolicited Electronic Messages Act 2007"},{"ok":false,"t":"Held — win-back after an unsuccessful listing","d":"Technically eligible, humanly wrong. Suppressed and routed to a person to decide whether anything should be said at all.","law":"Fair Trading Act 1986 · judgement"},{"ok":false,"t":"Blocked — personalisation without data","d":"A draft implied familiarity with a brand-new office. Rewritten to say plainly that there is no history yet.","law":"Fair Trading Act 1986"},{"ok":true,"t":"No performance claim without the comparison","d":"Every “listings like yours” statement carries what it was compared against, or it does not ship.","law":"Fair Trading Act 1986"},{"ok":true,"t":"Vendor data stays with the agent","d":"Nothing about a specific vendor or enquirer is surfaced to anyone other than the agent entitled to it.","law":"Privacy Act 2020"}],
@@ -1569,6 +1570,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

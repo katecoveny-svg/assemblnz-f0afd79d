@@ -1081,6 +1081,7 @@ var CFG={
   boundary:[{"label":"Tell them the consequence, not the cause","does":"Whether they make the connection, in the first line.","verdict":"yes","result":"A passenger standing at a gate does not need the engineering reason. They need to know whether they will make the next thing. The screen leads with that and puts the cause underneath for anyone who wants it.","rule":"Fair Trading Act 1986.","source":"A statement about a connection has to be capable of substantiation at the time it is made, which means it comes from the live operational feed or it does not go out."},{"label":"Rebook them onto the next available service","does":"The thing that would help most.","verdict":"no","result":"It refuses in round one. It drafts the rebooking, shows the passenger what has been held and for how long, and waits for a service lead to release it. An automated rebooking that strands someone is worse than the delay it was fixing.","rule":"Carriage conditions are a contract.","source":"Varying a contract of carriage is an act with legal consequence, so a named person signs it. Contract and Commercial Law Act 2017."},{"label":"Hold a seat while they decide","does":"Ninety seconds of certainty.","verdict":"yes","result":"It holds the option and says when the hold expires. The passenger gets a real choice instead of a queue position, and the airline gets a decision instead of a phone call.","rule":"No barrier here.","source":"A hold is reversible, visible to the passenger and to operations, and it changes nothing until someone accepts it."},{"label":"Sell them a lounge pass during the delay","does":"The monetisation everyone reaches for first.","verdict":"no","result":"It refuses. Selling into a moment of stress is the fastest way to make a delay memorable for the wrong reason. The wait carries an answer, and the answer is the value.","rule":"Fair Trading Act 1986, and judgement.","source":"Unfair pressure in a moment where a consumer has no practical alternative is the shape of conduct the Commerce Commission examines."},{"label":"Learn one thing from them for next time","does":"One question, at the moment they care.","verdict":"notice","result":"It asks one question and takes an answer. Whatever it learns goes on the record with a note saying the passenger said it, and the passenger can see and correct it later. Nothing gets inferred and stored as fact.","rule":"Privacy Act 2020, IPP1 and IPP3A.","source":"Collect for a stated purpose, tell the person, and keep provenance attached. privacy.org.nz"}],
   foil:["#0d2936","#8da0aa","#103445"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"arc",
+  place:null,
   
   execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Airline · an invented example",
   variants:[{"key":"connect","label":"Has a connection","chan":"Options · international connection at risk","body":"Your connection tomorrow is the problem, not tonight’s flight.\n\nOn the current delay it does not hold. Two of the three options below protect it; the third gets you home tonight but not onward.\n\nNothing is booked. Choose one and a person confirms it.\n\nWe have not guessed at your hotel or your onward carrier’s rules.","rules":["Names the real problem, not the visible one","Says plainly which options break what","Nothing booked without the passenger choosing","No assumption about a third party’s policy"]},{"key":"family","label":"Travelling with children","chan":"Options · two adults, two children under 5","body":"Four of you, two under five, and it is nearly seven.\n\nThe option that gets you there fastest involves a 5:20am departure with two small children. We have listed it, but we have not put it first.\n\nThe other two get you in later and everyone sleeps.\n\nNothing booked.","rules":["Ranks by what is actually bearable, not by arrival time","Explains the ranking rather than hiding it","Never presents the worst human option as the best one","Nothing booked without a choice"]},{"key":"medical","label":"Medical assistance noted","chan":"Held — not sent · routed to a person","body":"No options were prepared automatically.\n\nThis booking carries a medical assistance requirement. Rebooking around that involves equipment, staffing and timing this concept cannot see.\n\nHeld and routed to a named person, immediately and at the front of the queue.\n\nA generic option list here would be worse than silence.","rules":["The most important output refuses to produce options","Assistance requirements are checked before anything is prepared","Escalated to the front of the queue, not the back","A person decides everything"]},{"key":"unaccompanied","label":"Unaccompanied minor","chan":"Held — not sent · guardian contacted","body":"Nothing was sent to this passenger.\n\nThe booking is an unaccompanied minor. Presenting rebooking choices to a child travelling alone is not a decision a concept gets to make.\n\nHeld, with the guardian on the booking contacted instead, by a person.","rules":["The channel itself is refused, not just the content","Minor bookings are checked before anything drafts","The guardian is the only recipient","No choice is ever presented to a child"]}], guard:[{"ok":true,"t":"Nothing is booked, moved or refunded","d":"Every output stops at options. No seat is held, no fare is changed, no refund is initiated by the concept.","law":"Fair Trading Act 1986 · Civil Aviation Act 2023"},{"ok":true,"t":"No compensation entitlement is asserted","d":"What a passenger is owed depends on cause and carriage terms. The concept states the facts and leaves the entitlement to the airline.","law":"Civil Aviation Act 2023 · Consumer Guarantees Act 1993"},{"ok":false,"t":"Held — medical assistance on the booking","d":"No options prepared. Rebooking around assistance needs involves equipment and staffing the concept cannot see. Front of the queue, to a person.","law":"Human Rights Act 1993 · Civil Aviation Act 2023"},{"ok":false,"t":"Held — unaccompanied minor","d":"Nothing addressed to the passenger. The guardian on the booking is contacted by a person instead.","law":"Privacy Act 2020 · carrier duty of care"},{"ok":true,"t":"No option is ranked by margin","d":"Options are ordered by what is bearable for this passenger. An option list quietly sorted by cost to the airline is not an option list.","law":"Fair Trading Act 1986"}],
@@ -1620,6 +1621,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){
