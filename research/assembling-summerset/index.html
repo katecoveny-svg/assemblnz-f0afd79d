@@ -14,6 +14,48 @@
     --dark:#2A0F3C; --serif:"Lato",-apple-system,system-ui,sans-serif; --sans:"Lato",-apple-system,system-ui,sans-serif;
   }
   
+
+  /* ── the two halves: tenure against DMF accrual ───────────────────────────
+     The chart is the argument. Accrual completes in year four; the tenure
+     marker lands at seven to eight. A family who sees that once cannot unsee
+     it — which is why it has to be a picture rather than a paragraph. */
+  /* The fixed 3D canvas sits behind every section at opacity .72. Everywhere
+     else that reads as texture; through the middle of a cost argument it reads
+     as noise. Solidify the panel rather than fading the canvas — fading it
+     dulls the whole page to fix one section. */
+  #money{background:var(--paper);position:relative;z-index:1}
+  .tw{margin-top:36px}
+  .tw-pick{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+  .tw-pick button{border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:9px 17px;font-size:13.5px;color:var(--muted);transition:.2s}
+  .tw-pick button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .tw-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:22px;align-items:start}
+  @media(max-width:900px){.tw-grid{grid-template-columns:1fr}}
+  .tw-axis-note{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .tw-chart{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;align-items:end;height:150px;
+    padding-bottom:26px;position:relative}
+  .tw-yr{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+  .tw-bar{border-radius:5px 5px 0 0;background:var(--accent);opacity:.34;transition:height .5s cubic-bezier(.16,.72,.14,1)}
+  .tw-yr.full .tw-bar{opacity:1}
+  .tw-yr .tw-lab{position:absolute;bottom:-22px;left:0;right:0;text-align:center;font-size:10.5px;color:var(--muted)}
+  .tw-yr.ten::after{content:"";position:absolute;top:-8px;bottom:-26px;left:50%;width:2px;
+    background:var(--coral);transform:translateX(-1px)}
+  .tw-yr.ten .tw-lab{color:var(--coral);font-weight:600}
+  .tw-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:11.5px;color:var(--muted)}
+  .tw-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .tw-legend .sw-a{background:var(--accent);opacity:.34}
+  .tw-legend .sw-b{background:var(--accent)}
+  .tw-legend .sw-c{background:var(--coral);width:2px;height:13px;border-radius:0}
+  .tw-verdict{margin-top:18px;padding:15px 17px;background:#fff;border:1px solid var(--line);
+    border-left:3px solid var(--coral);border-radius:10px;font-size:14.5px;line-height:1.62;color:var(--ink)}
+  .tw-verdict b{color:var(--accent)}
+  .tw-clauses{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px;margin-top:26px}
+  .tw-cl{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+  .tw-cl b{display:block;font-size:15px;color:var(--accent);margin-bottom:8px}
+  .tw-cl p{font-size:13.5px;line-height:1.66;color:var(--ink)}
+  .tw-cl cite{display:block;margin-top:10px;font-size:11px;font-style:normal;color:var(--muted);line-height:1.5}
+  .tw-hon{margin-top:22px;font-size:12.5px;line-height:1.72;color:var(--muted);max-width:96ch}
+  .tw-hon b{color:var(--ink)}
   #canvas-3d{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.72}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -515,24 +557,78 @@
 <!-- MONEY -->
 <section id="money" class="tool"><div class="wrap">
   <div class="eyebrow">The money, in plain words</div>
-  <h2 class="sec">Financial certainty, not fine print.</h2>
-  <p class="kicker">Summerset's real model, made legible: a one-off licence payment, a deferred management fee of 25% over four years, fees that stop the day she permanently vacates, and a weekly fee whose annual increase will never exceed the rise in the after-tax rate of NZ Superannuation. That last one is published — in the village's statutory disclosure statement on the Retirement Villages Register, not on the website. Which is the whole point. For clarity — never a sale.</p>
-  <div class="grid2" style="margin-top:36px">
-    <div class="card">
-      <div class="field">
-        <label>Licence payment for the unit (ORA)</label>
-        <input type="range" id="price" min="450000" max="1400000" step="10000" value="850000" oninput="calcMoney()">
-        <div class="rangeval" id="priceval">$850,000</div>
+  <h2 class="sec">Summerset publishes both halves of this.<br>Never together.</h2>
+  <p class="kicker">The deferred management fee is <b>25% over four years</b> — published on the website. Expected tenure for a villa is <b>seven to eight years</b> — published in the Annual Report, to investors. Read either one alone and a family imagines a partial fee. Put them side by side and the honest answer appears: for the average villa resident, accrual finished years ago. It is the whole 25%. Nothing here is invented; it is two of your own numbers, in one place, for the first time.</p>
+
+  <div class="tw">
+    <div class="tw-pick" role="group" aria-label="Home type">
+      <button type="button" data-u="villa" aria-pressed="true">Villa</button>
+      <button type="button" data-u="apt" aria-pressed="false">Apartment</button>
+      <button type="button" data-u="serv" aria-pressed="false">Serviced apartment</button>
+      <button type="button" data-u="mem" aria-pressed="false">Memory care</button>
+      <button type="button" data-u="care" aria-pressed="false">Care suite</button>
+    </div>
+
+    <div class="tw-grid">
+      <div class="card">
+        <div class="field">
+          <label>Licence payment for the home (ORA)</label>
+          <input type="range" id="price" min="450000" max="1400000" step="10000" value="850000" oninput="calcMoney()">
+          <div class="rangeval" id="priceval">$850,000</div>
+        </div>
+        <ul class="breakdown" id="breakdown"></ul>
       </div>
-      <div class="field">
-        <label>Weekly fee</label>
-        <div class="fitsum" style="margin-top:4px">Summerset's deferred management fee is <b>25% of the licence payment</b>, accruing over four years in an independent living home (two in a serviced apartment). Their FAQ is explicit about the ending: the weekly fee stops, and the deferred management fee stops accruing, <b>the day she permanently vacates</b>.</div>
+
+      <div class="card soft">
+        <div class="eyebrow" style="margin-bottom:6px">The two halves, on one axis</div>
+        <p class="tw-axis-note" id="twNote"></p>
+        <div class="tw-chart" id="twChart" aria-hidden="true"></div>
+        <div class="tw-legend">
+          <span><i class="sw-a"></i> the fee accruing</span>
+          <span><i class="sw-b"></i> fully accrued, and staying there</span>
+          <span><i class="sw-c"></i> expected tenure</span>
+        </div>
+        <p class="tw-verdict" id="twVerdict"></p>
       </div>
     </div>
-    <div class="card soft">
-      <ul class="breakdown" id="breakdown"></ul>
-      <div class="fitsum" style="margin-top:18px">The <b>Summerset Sure</b> 90-day money-back guarantee, in their words: a full refund <b>without any deduction for the deferred management fee</b> if, 90 days after taking up permanent residence, she decides Summerset is not for her (some conditions apply). <b>Nothing here is a commitment.</b></div>
+
+    <div class="tw-clauses">
+      <div class="tw-cl">
+        <b>It cannot compound across moves</b>
+        <p>&ldquo;Your Deferred Management Fee will not exceed 25% overall (where the standard Deferred
+        Management Fee applies)&rdquo;, with the percentage already accrued carried across. This is the
+        reassuring half, and it is buried.</p>
+        <cite>Statutory disclosure statement, Retirement Villages Register.</cite>
+      </div>
+      <div class="tw-cl">
+        <b>A health-driven move costs nothing upfront</b>
+        <p>&ldquo;If your health needs necessitate a transfer into a Serviced Apartment or Care Suite we
+        will not require you to make any additional upfront payment in order to make the transfer.&rdquo;
+        The 2% transfer administration fee is waived for exactly those moves.</p>
+        <cite>Summerset, published. Transfer fee 2% of the licence payment for the new home.</cite>
+      </div>
+      <div class="tw-cl">
+        <b>If one of a couple moves and one stays</b>
+        <p>The Dual Occupancy Fee is &ldquo;currently capped at 10% of the Licence Payment for the Care
+        Suite, with 5% accruing on the Commencement Date and a further 5% accruing on day 366&rdquo;, and
+        joint residents are never charged more than one fully accrued Dual Occupancy Fee.</p>
+        <cite>Statutory disclosure statement. This question is asked constantly and answered nowhere a family looks.</cite>
+      </div>
+      <div class="tw-cl">
+        <b>The weekly fee is tied to NZ Super</b>
+        <p>It increases annually on 1 July, and the increase &ldquo;will never exceed the percentage
+        increase in the after tax rate of New Zealand Superannuation in that year&rdquo;. It stops when
+        she vacates her home. This is the single most reassuring fact Summerset has, and it is in a
+        42-page PDF on a Companies Office register.</p>
+        <cite>Summerset on the Landing disclosure statement (Summerset Villages (Kenepuru) Ltd, 1 Jan 2026). Village-specific until confirmed estate-wide.</cite>
+      </div>
     </div>
+
+    <p class="tw-hon"><b>Whose arithmetic this is.</b> The 25%, the four-year accrual, the tenure ranges
+    and every clause above are Summerset&rsquo;s own published figures. Putting tenure next to accrual is
+    assembl&rsquo;s arithmetic, not a Summerset statement, and a real version would compute from the
+    specific village&rsquo;s registered disclosure statement and quote the clause. The Care Suite fee is
+    27.5%, not 25%. Nothing on this page is advice, a quote, or an offer.</p>
   </div>
 </div></section>
 
@@ -782,18 +878,79 @@ function renderPlan(){
 function fmt(n){ return '$'+Math.round(n).toLocaleString('en-NZ'); }
 function setFee(f){ S.fee=f; document.getElementById('segF').classList.toggle('on',f==='fixed'); document.getElementById('segI').classList.toggle('on',f==='indexed');
   document.getElementById('feenote').textContent = f==='fixed' ? 'What Summerset publishes: the fee stops the day she permanently vacates.' : 'Ask a Summerset advisor how the weekly fee is reviewed — their published FAQ does not set it out.'; calcMoney(); }
+/* ── the money, and the two halves ────────────────────────────────────────
+   Everything here is a published Summerset figure. `accrual` is the year the
+   DMF finishes accruing; `tenure` is the expected stay for that home type from
+   the Annual Report 2025. The point of the chart is the distance between them.
+   Care suites accrue 27.5%, not 25% — the rate is per unit type, not global. */
+var UNITS = {
+  villa: { name:'Villa',              accrual:4, tenure:[7,8], rate:0.25,
+           tsrc:'seven to eight years' },
+  apt:   { name:'Apartment',          accrual:4, tenure:[5,6], rate:0.25,
+           tsrc:'five to six years' },
+  serv:  { name:'Serviced apartment', accrual:2, tenure:[3,3], rate:0.25,
+           tsrc:'three years' },
+  mem:   { name:'Memory care apartment', accrual:2, tenure:[3,3], rate:0.25,
+           tsrc:'three years' },
+  care:  { name:'Care suite',         accrual:2, tenure:[2,2], rate:0.275,
+           tsrc:'two years' }
+};
+var UNIT = 'villa';
+
 function calcMoney(){
-  S.price=+document.getElementById('price').value;
-  document.getElementById('priceval').textContent=fmt(S.price);
-  const dmf=S.price*0.25, back=S.price-dmf;
-  const weekly = 205;
-  document.getElementById('breakdown').innerHTML=`
-    <li><span class="k">One-off licence payment (ORA)</span><span>${fmt(S.price)}</span></li>
-    <li><span class="k">Deferred management fee (capped)</span><span>${fmt(dmf)}</span></li>
-    <li><span class="k">Weekly fee (stops when she leaves)</span><span>~${fmt(weekly)}/wk</span></li>
-    <li><span class="k">Comes back when she leaves</span><span class="big">${fmt(back)}</span></li>`;
+  var u = UNITS[UNIT];
+  S.price = +document.getElementById('price').value;
+  document.getElementById('priceval').textContent = fmt(S.price);
+
+  var dmf = S.price * u.rate, back = S.price - dmf;
+  document.getElementById('breakdown').innerHTML =
+    '<li><span class="k">One-off licence payment (ORA)</span><span>' + fmt(S.price) + '</span></li>' +
+    '<li><span class="k">Deferred management fee &mdash; ' + Math.round(u.rate*1000)/10 + '%, accrued in full by year ' + u.accrual + '</span><span>' + fmt(dmf) + '</span></li>' +
+    '<li><span class="k">Weekly fee (rises with NZ Super, stops when she leaves)</span><span>~' + fmt(205) + '/wk</span></li>' +
+    '<li><span class="k">Comes back when she leaves</span><span class="big">' + fmt(back) + '</span></li>';
+
+  /* the chart: ten years, accrual ramping then flat, tenure marked */
+  var rows = '';
+  for (var y = 1; y <= 10; y++){
+    var pct  = Math.min(1, y / u.accrual);
+    var full = y >= u.accrual;
+    var ten  = (y >= u.tenure[0] && y <= u.tenure[1]);
+    rows += '<div class="tw-yr' + (full ? ' full' : '') + (ten ? ' ten' : '') + '">' +
+              '<div class="tw-bar" style="height:' + (pct * 100) + '%"></div>' +
+              '<span class="tw-lab">' + y + '</span>' +
+            '</div>';
+  }
+  document.getElementById('twChart').innerHTML = rows;
+
+  var tenLabel = u.tenure[0] === u.tenure[1] ? u.tenure[0] + ' years' : u.tenure[0] + '–' + u.tenure[1] + ' years';
+  document.getElementById('twNote').innerHTML =
+    'Years along the bottom. The fee accrues to ' + Math.round(u.rate*1000)/10 + '% by year <b>' +
+    u.accrual + '</b> and then stops moving. Expected tenure for a ' + u.name.toLowerCase() +
+    ' is <b>' + tenLabel + '</b> — the coral line.';
+
+  var gap = u.tenure[0] - u.accrual;
+  document.getElementById('twVerdict').innerHTML = gap > 0
+    ? 'By the time an average ' + u.name.toLowerCase() + ' resident leaves, the fee finished accruing <b>' +
+      gap + (gap === 1 ? ' year' : ' years') + ' earlier</b>. There is no partial fee to hope for: it is the whole ' +
+      Math.round(u.rate*1000)/10 + '%, or <b>' + fmt(dmf) + '</b> on this licence payment. A family told ' +
+      '&ldquo;' + Math.round(u.rate*1000)/10 + '% over ' + u.accrual + ' years&rdquo; and nothing else will not work that out.'
+    : 'Here the two halves nearly meet: expected tenure of ' + tenLabel + ' against accrual completing at year ' +
+      u.accrual + '. A shorter stay is the one case where the fee genuinely can be partial &mdash; so this is ' +
+      'the home type where the accrual schedule matters most, and it is the one families ask about last.';
+
   renderProof();
 }
+
+function pickUnit(key){
+  UNIT = key;
+  document.querySelectorAll('.tw-pick button').forEach(function(b){
+    b.setAttribute('aria-pressed', String(b.getAttribute('data-u') === key));
+  });
+  calcMoney();
+}
+document.querySelectorAll('.tw-pick button').forEach(function(b){
+  b.addEventListener('click', function(){ pickUnit(b.getAttribute('data-u')) });
+});
 
 /* ============ CARE ============ */
 const CARE=[

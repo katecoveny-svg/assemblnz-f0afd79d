@@ -210,6 +210,76 @@ em{font-style:normal;color:var(--green)}
 .whyorder{margin-top:34px;border-left:3px solid #FD6400;padding:4px 0 4px 20px;max-width:80ch}
 .whyorder b{color:#fff;font-weight:500;font-family:var(--disp);font-size:17px;letter-spacing:-.02em}
 .whyorder p{color:rgba(242,246,241,.9);font-size:15px;line-height:1.66;margin-top:8px}
+
+/* ── the rewarded wait, live (ported from the v1plus build) ─────────────────
+   Kate: "the woolworths one is meant to have the phone the scratch etc." Right —
+   the bespoke rebuild had the live shop but dropped the wait-phone, the scratch
+   card and the live agent that the older build carried. All three are back. */
+.wp-sec{background:var(--green-deep);color:#F2F6F1;padding:92px 0 96px;position:relative}
+.wp-sec::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--orange) 0%,var(--orange) 16%,rgba(255,255,255,.16) 16%)}
+.wp-sec h2{color:#fff}
+.wp-sec .lede{color:rgba(242,246,241,.9)}
+.wp-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;margin-top:44px;align-items:start}
+@media(max-width:1000px){.wp-grid{grid-template-columns:1fr}}
+/* The phone draws its own shell, so this only holds and themes it — a second
+   frame around it reads as a screenshot of a phone rather than a phone. The
+   --wp-* tokens are the whole reason this component is portable: green ring,
+   orange for completed, Woolworths' own type inside the screen. */
+.wp-hold{max-width:392px;margin:0 auto}
+.wp-hold .wp{
+  --wp-paper:#FFFFFF; --wp-ink:var(--ink); --wp-ink-2:var(--ink-2);
+  --wp-accent:var(--green); --wp-done:var(--orange);
+  --wp-line:rgba(20,22,19,.10);
+  --wp-glow:rgba(0,113,60,.30);
+  --wp-rim:rgba(0,113,60,.5);
+  --wp-shell:linear-gradient(160deg,#20261f 0%,#0d100c 44%,#20261f 100%);
+  --wp-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --wp-mono:'Jost',system-ui,sans-serif;
+  --wp-app:'Plus Jakarta Sans',system-ui,sans-serif;
+}
+.wp-side .wp-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:24px;margin-bottom:14px}
+.wp-side .wp-card b{display:block;font-family:var(--disp);font-weight:700;font-size:17px;color:#fff;margin-bottom:7px}
+.wp-side .wp-card p{color:rgba(242,246,241,.86);font-size:14px}
+.wp-note{font-size:11.5px;color:rgba(242,246,241,.55);margin-top:14px;line-height:1.6}
+/* the scratch card */
+.sc{background:#0C0E0C;border-radius:20px;padding:22px;margin-top:14px}
+.sc-k{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--orange);margin-bottom:13px}
+.sc-stage{position:relative;height:190px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#14301F,#0A0A0C)}
+.sc-win{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;color:#F2F6F1}
+.sc-win-k{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,246,241,.55);font-weight:500}
+.sc-win-v{font-family:var(--disp);font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.03em;color:#FFB37A;margin:8px 0 5px;line-height:1}
+.sc-win-s{font-size:12px;color:rgba(242,246,241,.66);line-height:1.45;max-width:30ch}
+.sc-coat{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+.sc-coat:active{cursor:grabbing}
+.sc-note{font-size:11px;color:rgba(242,246,241,.5);margin-top:13px;line-height:1.55}
+.sc-again{margin-top:11px;background:transparent;border:1px solid rgba(242,246,241,.26);color:#F2F6F1;border-radius:999px;padding:8px 16px;font-size:11.5px;font-weight:500;cursor:pointer}
+.sc-again:hover{border-color:var(--orange);color:var(--orange)}
+@keyframes scPop{0%{transform:scale(.9);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+/* the live agent */
+.askbtn{position:fixed;right:22px;bottom:22px;z-index:80;background:var(--ink);color:#fff;border:0;border-radius:999px;
+  padding:15px 24px;font-weight:500;font-size:14.5px;box-shadow:0 18px 46px -14px rgba(0,0,0,.55);display:flex;gap:10px;align-items:center;cursor:pointer;font-family:inherit}
+.askbtn .d{width:8px;height:8px;border-radius:50%;background:#7FC894}
+.chat{position:fixed;right:22px;bottom:22px;z-index:90;width:412px;max-width:calc(100vw - 24px);height:600px;max-height:calc(100vh - 24px);
+  background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 34px 90px -22px rgba(0,0,0,.4);display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chat-h{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line);gap:10px}
+.chat-h .t{font-size:13.5px;font-weight:500;display:flex;gap:8px;align-items:center}
+.chat-h .t small{color:var(--muted);font-weight:300}
+.chat-h .x{background:none;border:0;font-size:22px;line-height:1;color:var(--muted);cursor:pointer}
+.msgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:11px}
+.msg{max-width:86%;font-size:14px;line-height:1.55;padding:11px 14px;border-radius:14px}
+.msg.you{align-self:flex-end;background:var(--green);color:#fff}
+.msg.it{align-self:flex-start;background:var(--green-wash);color:var(--ink)}
+.msg.err{align-self:flex-start;background:#FDF0EC;color:#9C3A2A;font-size:13px}
+.sugg{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px 10px}
+.sugg button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;cursor:pointer;color:var(--ink-2)}
+.sugg button:hover{border-color:var(--green);color:var(--green)}
+.chat-note{font-size:10.5px;color:var(--muted);text-align:center;padding:0 18px 10px;line-height:1.5}
+.chat-in{display:flex;gap:9px;padding:12px 14px;border-top:1px solid var(--line)}
+.chat-in input{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--ink)}
+.chat-in input:focus{outline:none;border-color:var(--green)}
+.chat-in button{background:var(--ink);color:#fff;border:0;border-radius:12px;padding:0 18px;font-weight:500;font-size:14px;cursor:pointer}
 /* ── produce, drawn ──────────────────────────────────────────────────────── */
 .prod{display:flex;gap:9px;flex-wrap:wrap;margin-top:26px}
 .prod span{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--white);border:1px solid var(--line)}
@@ -399,6 +469,54 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
       holding every decision for the customer, and every send for a named person at Woolworths.
       Points stop being a rebate and start being the currency of a service.
     </p>
+  </div>
+</div></section>
+
+<!-- ═══ THE REWARDED WAIT, LIVE ═══ -->
+<section id="wait" class="wp-sec"><div class="wrap">
+  <div class="narrow rise">
+    <div class="kick">The wait itself · live on this page</div>
+    <h2>A wait is the one moment you have someone&rsquo;s whole attention.</h2>
+    <p class="lede" style="margin-top:18px">
+      Right now that moment is a spinner, a queue position, or an email saying you will hear back.
+      Tap the phone and watch what goes there instead. It stops to ask you one thing &mdash; a real
+      question that holds the line, not a tick box &mdash; and then tells you what it learned.
+    </p>
+  </div>
+
+  <div class="wp-grid rise">
+    <div>
+      <div class="wp-hold"><div id="wait-mount"></div></div>
+      <p class="wp-note">Illustrative concept screen. Not a Woolworths product, no real customer data, and nothing is purchased without review.</p>
+    </div>
+    <div class="wp-side">
+      <div class="wp-card">
+        <b>The ring is the point</b>
+        <p>The number in the middle is what the person waiting walks away with, and it goes up while they wait. Not a progress bar for the business &mdash; a balance for them.</p>
+      </div>
+      <div class="wp-card">
+        <b>The specialists work in the open</b>
+        <p>One at a time, each named, each saying what it is doing. Nobody has to take a spinner on trust.</p>
+      </div>
+      <div class="wp-card">
+        <b>The one question is the business case</b>
+        <p>It stops and waits. A question you can scroll past is not a question. Answer it and the screen says what it learned; decline and the basket is still drafted. This is the only part of a customer journey that sends something back the other way.</p>
+      </div>
+
+      <div class="sc">
+        <div class="sc-k">the value exchange, playable</div>
+        <div class="sc-stage">
+          <div class="sc-win" id="scWin">
+            <div class="sc-win-k">you earned</div>
+            <div class="sc-win-v" id="scWinV">&mdash;</div>
+            <div class="sc-win-s">for the minutes you were going to lose anyway</div>
+          </div>
+          <canvas class="sc-coat" id="scCoat"></canvas>
+        </div>
+        <p class="sc-note">The reward layer, running for real. Drag to scratch it. Nothing is collected and nothing is sent &mdash; it is here so the idea is something you do rather than something you read.</p>
+        <button class="sc-again" id="scAgain" type="button">scratch another</button>
+      </div>
+    </div>
   </div>
 </div></section>
 
@@ -658,6 +776,22 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
 
 </main>
 
+<button class="askbtn" id="askbtn" type="button" onclick="openChat()"><span class="d"></span> Ask it anything</button>
+<div class="chat" id="chat">
+  <div class="chat-h">
+    <div class="t"><span class="d" style="width:8px;height:8px;border-radius:50%;background:#7FC894;display:inline-block"></span>
+      Everyday Rewards concept <small>&middot; it will say when it does not know</small></div>
+    <button class="x" onclick="closeChat()" aria-label="Close">&times;</button>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="sugg" id="sugg"></div>
+  <div class="chat-note" id="chatnote"></div>
+  <div class="chat-in">
+    <input id="chatinput" placeholder="Ask about the concept&hellip;" onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+
 <footer><div class="wrap">
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by Woolworths New Zealand, Everyday Rewards or Woolworths Group. Built by assembl from publicly available information. Every screen, list, basket and customer on this page is illustrative and fictional; no real customer, account or purchase data was used, seen or requested.</p>
   <p style="margin-top:16px" id="verified"></p>
@@ -665,6 +799,7 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.4)}
   <p class="fin">assembl NZ Limited &middot; NZBN 9429053514950 &middot; assembl@assembl.co.nz &middot; T&#257;maki Makaurau Auckland, Aotearoa New Zealand &middot; assembl &mdash; intuitive agentic customer journeys</p>
 </div></footer>
 
+<script src="wait-phone.js"></script>
 <script>
 /* ── reveal ───────────────────────────────────────────────────────────────── */
 (function(){
@@ -870,6 +1005,151 @@ var VERIFIED="Everyday Rewards NZ earns 1 point per $1 and pays $15 at 2,000 poi
   var el=document.getElementById('verified');
   if(el&&VERIFIED) el.innerHTML='<b>Verified from Woolworths NZ and Everyday Rewards own published material:</b> '+VERIFIED;
 })();
+
+
+/* ── the rewarded wait, mounted ───────────────────────────────────────────
+   Same component the public site runs (wait-phone.js). The scenario is the
+   Woolworths one from the v1plus build: the basket the card already knows, the
+   shelf at a named store, the one blocking question, then the draft that stops. */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||typeof WaitPhone==='undefined') return;
+  WaitPhone.mount(mount,{
+    chrome:'none', lockup:false,
+    note:'Illustrative concept screen · not a Woolworths product · nothing is purchased without your review',
+    startLabel:'show me my week',
+    skipLabel:'rather not say',
+    scenarios:[{
+      id:'shop', label:'The shop',
+      app:'Your week, being prepared',
+      unit:['',' pts'],
+      earning:'points, so far',
+      yours:'points, yours',
+      told:'you told us:',
+      declined:'you would rather not say. The basket still gets drafted.',
+      steps:[
+        {agent:'Basket', doing:'What you actually buy, most weeks', credit:3},
+        {agent:'Shelf',  doing:'What is in stock at Grey Lynn', credit:3},
+        {agent:'Ask', doing:'One question', ask:{
+          q:'Anyone avoiding anything this week?',
+          options:['Gluten-free','Nothing'],
+          learn:['one gluten-free eater, so the pasta changes','no restrictions this week']
+        }},
+        {agent:'Meals',  doing:'Five dinners around netball and Thursday', credit:3},
+        {agent:'Draft',  doing:'Ready for you to review — nothing bought', credit:3}
+      ]
+    }]
+  });
+})();
+
+/* ── the scratch card ─────────────────────────────────────────────────────
+   Canvas coat composited destination-out; the reveal fires once roughly half is
+   gone, sampled sparsely so the check is cheap on every pointer move. */
+(function(){
+  var cv=document.getElementById('scCoat'); if(!cv) return;
+  var win=document.getElementById('scWin'), val=document.getElementById('scWinV'), again=document.getElementById('scAgain');
+  var REWARDS=['+3 min','120 pts','a straight answer','one less trip','+5 min','the week planned'];
+  var ctx=cv.getContext('2d'), W=0,H=0,dpr=1, revealed=false, drawing=false;
+  function fit(){
+    var r=cv.getBoundingClientRect(); dpr=Math.min(2,window.devicePixelRatio||1);
+    W=r.width; H=r.height; cv.width=Math.max(1,W*dpr); cv.height=Math.max(1,H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0); coat();
+  }
+  function coat(){
+    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,W,H);
+    var g=ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#C9B48C'); g.addColorStop(.5,'#EBDDBE'); g.addColorStop(1,'#B39A6E');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(58,56,50,.07)';
+    for(var x=-14;x<W;x+=26) ctx.fillRect(x,0,13,H);
+    ctx.fillStyle='#3A3832'; ctx.textAlign='center';
+    ctx.font='700 13px "Plus Jakarta Sans",system-ui,sans-serif'; ctx.fillText('SCRATCH TO REVEAL',W/2,H/2-3);
+    ctx.font='300 12px Jost,system-ui,sans-serif'; ctx.fillText('drag across the panel',W/2,H/2+17);
+    ctx.globalCompositeOperation='destination-out';
+  }
+  function at(e){var r=cv.getBoundingClientRect();var t=e.touches&&e.touches[0]?e.touches[0]:e;return [t.clientX-r.left,t.clientY-r.top]}
+  function rub(e){
+    if(!drawing||revealed) return;
+    var p=at(e); ctx.beginPath(); ctx.arc(p[0],p[1],23,0,Math.PI*2); ctx.fill(); check();
+    if(e.cancelable) e.preventDefault();
+  }
+  function check(){
+    var d=ctx.getImageData(0,0,cv.width,cv.height).data, clear=0, total=0;
+    for(var i=3;i<d.length;i+=4*64){total++; if(d[i]<40) clear++}
+    if(total&&clear/total>0.46) reveal();
+  }
+  function reveal(){
+    revealed=true; cv.style.transition='opacity .5s ease'; cv.style.opacity='0'; cv.style.pointerEvents='none';
+    win.style.animation='scPop .5s cubic-bezier(.22,.61,.36,1) both';
+  }
+  function reset(){
+    revealed=false; drawing=false;
+    val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
+    cv.style.transition='none'; cv.style.opacity='1'; cv.style.pointerEvents='auto';
+    win.style.animation='none'; coat();
+  }
+  cv.addEventListener('pointerdown',function(e){drawing=true;rub(e)});
+  window.addEventListener('pointerup',function(){drawing=false});
+  cv.addEventListener('pointermove',rub,{passive:false});
+  if(again) again.addEventListener('click',reset);
+  window.addEventListener('resize',function(){if(!revealed) fit()});
+  val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
+  fit();
+})();
+
+/* ── the live agent ───────────────────────────────────────────────────────
+   POSTs to this project's own /api/agent Pages Function, which carries the
+   Woolworths knowledge base and answers from it. It is told to say when it does
+   not know rather than guess, and it drafts only — it cannot act. */
+var SUGG=['What would a pilot need from us?','What would it never do?','Why is tier two a build?','How do Boosts fit in?','What have you actually verified?'];
+var chatBooted=false;
+function push(role,text){
+  var m=document.createElement('div'); m.className='msg '+role; m.textContent=text;
+  var b=document.getElementById('msgs'); b.appendChild(m); b.scrollTop=b.scrollHeight;
+}
+function renderSugg(){
+  var el=document.getElementById('sugg');
+  el.innerHTML='';
+  SUGG.forEach(function(q){
+    var b=document.createElement('button'); b.type='button'; b.textContent=q;
+    b.addEventListener('click',function(){ document.getElementById('chatinput').value=q; sendChat() });
+    el.appendChild(b);
+  });
+}
+function openChat(){
+  document.getElementById('chat').classList.add('open');
+  document.getElementById('askbtn').style.display='none';
+  if(!chatBooted){
+    chatBooted=true;
+    push('it','Ask me about this concept — what it does, what it refuses to do, what a pilot asks of you, or what has actually been verified about Everyday Rewards. If I do not have something I will say so rather than guess.');
+    renderSugg();
+  }
+  document.getElementById('chatinput').focus();
+}
+function closeChat(){
+  document.getElementById('chat').classList.remove('open');
+  document.getElementById('askbtn').style.display='flex';
+}
+function sendChat(){
+  var input=document.getElementById('chatinput'), q=(input.value||'').trim();
+  if(!q) return;
+  input.value=''; push('you',q);
+  document.getElementById('sugg').innerHTML='';
+  var t=document.createElement('div'); t.className='msg it'; t.textContent='thinking…';
+  document.getElementById('msgs').appendChild(t);
+  fetch('/api/agent',{method:'POST',headers:{'content-type':'application/json'},
+    body:JSON.stringify({agent:'woolworths',message:q})})
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(new Error('http '+r.status)) })
+    .then(function(d){
+      t.remove();
+      push('it', d.reply || d.text || 'That came back empty. Try asking it another way.');
+      if(d.backend) document.getElementById('chatnote').textContent='answered by '+d.backend+' · drafts only, never acts';
+    })
+    .catch(function(){
+      t.remove();
+      push('err','The agent is not reachable from this page right now. Everything else on the page still works, and assembl@assembl.co.nz reaches a person.');
+    });
+}
 
 /* ── the yes ──────────────────────────────────────────────────────────────── */
 function body(){

@@ -210,6 +210,70 @@ nav.bar .wrap{display:flex;align-items:center;justify-content:space-between;heig
 footer{background:var(--ink);color:rgba(246,241,234,.62);padding:52px 0 64px;font-size:13px;line-height:1.75}
 footer b{color:#fff;font-weight:500}
 footer .fin{margin-top:22px;font-size:11.5px;color:rgba(246,241,234,.4)}
+
+/* ── the wait itself, and the agent ─────────────────────────────────────────
+   The phone draws its own shell; this only holds and themes it. Ryman's
+   colours go inside the screen so the family recognises whose journey it is.
+   Note what is deliberately ABSENT: no scratch card, no points. You do not
+   gamify a family deciding about their mother. The unit here is minutes of
+   reading they do not have to do. */
+.wp-sec{background:var(--ink);color:#F6F1EA;padding:90px 0 96px;position:relative}
+.wp-sec::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--or) 0%,var(--or) 14%,rgba(246,241,234,.14) 14%)}
+.wp-sec h2{color:#fff}
+.wp-sec .lede{color:rgba(246,241,234,.88);margin-top:20px;max-width:70ch}
+.wp-sec h2{margin-bottom:0}
+.wp-grid{display:grid;grid-template-columns:.88fr 1.12fr;gap:44px;margin-top:46px;align-items:start}
+@media(max-width:1000px){.wp-grid{grid-template-columns:1fr}}
+.wp-hold{max-width:390px;margin:0 auto}
+.wp-hold .wp{
+  --wp-paper:var(--paper); --wp-ink:var(--ink); --wp-ink-2:var(--ink-2);
+  --wp-accent:var(--or); --wp-done:var(--gr);
+  --wp-line:rgba(35,31,28,.10);
+  --wp-glow:rgba(240,96,34,.28);
+  --wp-rim:rgba(240,96,34,.48);
+  --wp-shell:linear-gradient(160deg,#3a332d 0%,#1b1815 44%,#3a332d 100%);
+  --wp-sans:var(--body);
+  --wp-mono:var(--body);
+  --wp-app:var(--disp);
+}
+.wp-card{background:rgba(246,241,234,.07);border:1px solid rgba(246,241,234,.17);
+  border-radius:18px;padding:24px;margin-bottom:14px}
+.wp-card b{display:block;font-family:var(--disp);font-weight:600;font-size:18px;color:#fff;margin-bottom:7px}
+.wp-card p{color:rgba(246,241,234,.86);font-size:14.5px;line-height:1.68}
+.wp-card cite{display:block;margin-top:11px;font-size:11.5px;font-style:normal;color:rgba(246,241,234,.5)}
+.wp-note{font-size:11.5px;color:rgba(246,241,234,.52);margin-top:15px;line-height:1.62}
+.wp-pick{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+.wp-pick button{background:transparent;border:1px solid rgba(246,241,234,.3);color:rgba(246,241,234,.8);
+  border-radius:999px;padding:8px 17px;font-size:13px;cursor:pointer;transition:.2s}
+.wp-pick button[aria-pressed=true]{background:var(--or);border-color:var(--or);color:#fff}
+
+/* the live agent */
+.askbtn{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--or);color:#fff;border:0;
+  border-radius:999px;padding:15px 25px;font-size:14.5px;font-weight:500;cursor:pointer;display:flex;
+  gap:9px;align-items:center;box-shadow:0 16px 38px -14px rgba(240,96,34,.6);font-family:var(--body)}
+.askbtn:hover{background:var(--or-deep)}
+.chat{position:fixed;right:22px;bottom:22px;z-index:61;width:min(430px,calc(100vw - 44px));
+  background:var(--paper);border:1px solid var(--line);border-radius:22px;display:none;
+  flex-direction:column;overflow:hidden;box-shadow:0 40px 90px -26px rgba(35,31,28,.42)}
+.chat.open{display:flex}
+.chat header{background:var(--ink);color:#fff;padding:16px 19px;display:flex;justify-content:space-between;align-items:center}
+.chat header b{font-family:var(--disp);font-weight:600;font-size:15.5px}
+.chat header button{background:transparent;border:0;color:rgba(255,255,255,.65);font-size:22px;cursor:pointer;line-height:1}
+#msgs{padding:18px 19px;max-height:min(52vh,420px);overflow-y:auto;display:flex;flex-direction:column;gap:11px}
+.msg{font-size:14px;line-height:1.66;padding:12px 15px;border-radius:14px;white-space:pre-wrap}
+.msg.it{background:var(--cream);color:var(--ink);border:1px solid var(--line);align-self:flex-start;max-width:92%}
+.msg.you{background:var(--ink);color:#fff;align-self:flex-end;max-width:88%}
+.msg.err{background:#FBEDE6;color:var(--or-deep);border:1px solid #F3D6C6;font-size:13px}
+#sugg{display:flex;flex-wrap:wrap;gap:7px;padding:0 19px 13px}
+#sugg button{background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:7px 13px;
+  font-size:12.5px;color:var(--ink-2);cursor:pointer;text-align:left}
+#sugg button:hover{border-color:var(--or);color:var(--or-deep)}
+.chatrow{display:flex;gap:9px;padding:13px 19px 15px;border-top:1px solid var(--line)}
+.chatrow input{flex:1;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font-size:14px;background:#fff;color:var(--ink)}
+.chatrow input:focus{outline:none;border-color:var(--or)}
+.chatrow button{background:var(--or);color:#fff;border:0;border-radius:11px;padding:11px 19px;font-size:14px;cursor:pointer}
+#chatnote{padding:0 19px 15px;font-size:11px;color:var(--muted);line-height:1.55}
 .rise{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,.72,.14,1),transform .8s cubic-bezier(.16,.72,.14,1)}
 .rise.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.rise{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
@@ -316,6 +380,62 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(246,241,234,.4)}
         <div class="who">pick a question</div>
         <div class="txt">Each answer below is either read from a published document and cited, or
         it says plainly that the document does not answer it. There is no third option.</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+
+<!-- ═══ THE WAIT ITSELF ═══ -->
+<section id="wait" class="wp-sec"><div class="wrap">
+  <p class="kick rise">The wait itself &middot; running on this page</p>
+  <h2 class="rise">Nobody chooses a village in one sitting.<br>They wait, between every step.</h2>
+  <p class="lede rise">The waiting is where the family is most alone and most anxious &mdash; and it is
+  the only stretch of this decision where you have their whole attention. Right now it holds a
+  brochure request and a callback promise. Press the phone and watch what could go there instead.
+  It stops once to ask one real question, then tells you what that answer changed.</p>
+
+  <div class="wp-grid">
+    <div class="rise wp-hold-col">
+      <div class="wp-pick" role="group" aria-label="Choose a wait">
+        <button type="button" data-sc="pack" aria-pressed="true">The information pack</button>
+        <button type="button" data-sc="siblings" aria-pressed="false">Three siblings, one decision</button>
+      </div>
+      <div class="wp-hold"><div id="wait-mount"></div></div>
+      <p class="wp-note">Illustrative concept screen. Not a Ryman product, no real resident or family
+      data, and nothing is sent, booked or signed without a named person approving it.</p>
+    </div>
+
+    <div>
+      <div class="wp-card rise">
+        <b>The number in the middle is theirs, not yours</b>
+        <p>It counts minutes of reading the family no longer has to do &mdash; not progress through
+        your funnel. There are no points and no scratch card anywhere on this page. You do not gamify
+        a family deciding about their mother, and a family can tell instantly when someone has tried.</p>
+      </div>
+      <div class="wp-card rise">
+        <b>Every step names itself, and names its document</b>
+        <p>One specialist at a time, each saying what it is reading and where that came from. When
+        the honest answer is that Ryman has not published something &mdash; the accrual period for
+        the deferred management fee, for instance &mdash; the screen says exactly that instead of
+        producing a plausible number.</p>
+        <cite>Fee mechanics: Ryman&rsquo;s own published pages. Accrual period: not published anywhere.</cite>
+      </div>
+      <div class="wp-card rise">
+        <b>The one question is the business case</b>
+        <p>It stops and waits. A question you can scroll past is not a question. Answer it and the
+        screen says what it learned; decline and the pack still gets drafted. This is the only part
+        of a customer journey that sends something back the other way &mdash; and in this sector what
+        comes back is the thing no brochure can capture: what this family actually needs.</p>
+      </div>
+      <div class="wp-card rise">
+        <b>Why the second wait is the harder one</b>
+        <p>The one decision aid ever trialled for this exact decision cut a carer&rsquo;s own
+        decisional conflict by 11.96 points. Its authors reported that disagreements between family
+        members were often left unresolved even so. Clarity for one person is not agreement between
+        three. That is the gap, and it is still open.</p>
+        <cite>DECIDE &mdash; Lord, Livingston &amp; Cooper, BJPsych Open 2017 (PMID 28243460), n=41
+        feasibility RCT, &minus;11.96 points, 95% CI &minus;20.10 to &minus;3.83, p=0.005.</cite>
       </div>
     </div>
   </div>
@@ -502,13 +622,180 @@ footer .fin{margin-top:22px;font-size:11.5px;color:rgba(246,241,234,.4)}
 
 </main>
 
+
+<!-- ═══ THE LIVE AGENT ═══ -->
+<button class="askbtn" id="askbtn" type="button" onclick="openChat()">
+  <span>Ask this concept anything</span>
+</button>
+<div class="chat" id="chat" role="dialog" aria-label="Ask the concept agent">
+  <header><b>Ask the concept</b><button type="button" onclick="closeChat()" aria-label="Close">&times;</button></header>
+  <div id="msgs"></div>
+  <div id="sugg"></div>
+  <div class="chatrow">
+    <input id="chatinput" type="text" placeholder="Ask about the pilot, the fees, the boundaries&hellip;"
+      onkeydown="if(event.key==='Enter')sendChat()" aria-label="Your question">
+    <button type="button" onclick="sendChat()">Ask</button>
+  </div>
+  <p id="chatnote">Grounded in the sourced research on this page. It says &ldquo;not published&rdquo;
+  rather than guessing, and it drafts only &mdash; it never acts.</p>
+</div>
+
 <footer><div class="wrap">
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by Ryman Healthcare. Built by assembl from Ryman&rsquo;s own published material and public statutory registers. The family, the siblings and every quoted voice on this page are invented; no resident, family, care record or clinical data was used, seen or requested. Nothing here is financial or legal advice, and it is not a substitute for the independent legal advice the Retirement Villages Act requires.</p>
   <p style="margin-top:16px">Ko t&#257; m&#257;tou he whakarite i te mahi. M&#257; te tangata te whakatau. <span style="color:rgba(246,241,234,.42)">We prepare the work. A person decides.</span></p>
   <p class="fin">assembl NZ Limited &middot; NZBN 9429053514950 &middot; assembl@assembl.co.nz &middot; T&#257;maki Makaurau Auckland, Aotearoa New Zealand &middot; assembl &mdash; intuitive agentic customer journeys</p>
 </div></footer>
 
+<script src="wait-phone.js"></script>
 <script>
+
+/* ── the wait, mounted ────────────────────────────────────────────────────
+   Two scenarios, because the two waits in this decision are different in kind.
+   The first is an information wait — a family who cannot get a straight answer.
+   The second is the sibling wait, which more information does not fix, and
+   which the one trialled decision aid for this decision explicitly did not fix.
+
+   The unit is MINUTES OF READING, not points. See the note in the CSS above:
+   there is no reward mechanic on this page on purpose. */
+var SCENARIOS = {
+  pack: {
+    id:'pack', label:'The information pack',
+    app:'What the register already says',
+    unit:['',' min'],
+    earning:'of reading, done for you',
+    yours:'minutes of a 42-page document, read',
+    told:'you told us:',
+    declined:'you would rather not say. The pack still gets drafted.',
+    steps:[
+      {agent:'Register', doing:'Her village’s disclosure statement, opened', credit:9},
+      {agent:'Money',    doing:'The entry payment and what comes back, in dollars', credit:11},
+      {agent:'Ask', doing:'One question', ask:{
+        q:'Which agreement did she sign — or has she not signed yet?',
+        options:['Not signed yet','She signed years ago'],
+        learn:[
+          'the current 30% terms apply, so that is the number we read',
+          'her own signed terms apply and never change — so we read hers, not today’s'
+        ]
+      }},
+      {agent:'Leaving',  doing:'What happens when she leaves, and when the fees stop', credit:8},
+      {agent:'Gaps',     doing:'Two answers Ryman has not published — named, not guessed', credit:6},
+      {agent:'Pack',     doing:'Ready for a named person to check and send', credit:4}
+    ]
+  },
+  siblings: {
+    id:'siblings', label:'Three siblings, one decision',
+    app:'Where the three of you actually differ',
+    unit:['',' min'],
+    earning:'of argument, retired',
+    yours:'disagreements sorted, not settled for you',
+    told:'you told us:',
+    declined:'you would rather not say. The comparison still runs on facts alone.',
+    steps:[
+      {agent:'Answers', doing:'Three sets, collected separately — nobody performs for the others', credit:7},
+      {agent:'Facts',   doing:'Where you differ on something published, with the clause', credit:9},
+      {agent:'Ask', doing:'One question', ask:{
+        q:'Is anyone carrying more of the day-to-day than the others?',
+        options:['Yes — one of us is','No — fairly even'],
+        learn:[
+          'that person’s constraints lead, and the others can see why',
+          'no weighting applied — the three of you rank equally'
+        ]
+      }},
+      {agent:'Values',  doing:'Where you differ on what matters most — which facts cannot settle', credit:11},
+      {agent:'Sorted',  doing:'Two lists: settle with information, or decide together', credit:8}
+    ]
+  }
+};
+
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||typeof WaitPhone==='undefined') return;
+  var current='pack';
+
+  function mountIt(key){
+    mount.innerHTML='';
+    WaitPhone.mount(mount,{
+      chrome:'phone', lockup:false,
+      note:'',
+      startLabel:'show me',
+      skipLabel:'rather not say',
+      scenarios:[SCENARIOS[key]]
+    });
+  }
+  mountIt(current);
+
+  document.querySelectorAll('.wp-pick button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.getAttribute('data-sc');
+      if(k===current) return;
+      current=k;
+      document.querySelectorAll('.wp-pick button').forEach(function(o){
+        o.setAttribute('aria-pressed', String(o===b));
+      });
+      mountIt(k);
+    });
+  });
+})();
+
+/* ── the live agent ───────────────────────────────────────────────────────
+   Answers from the sourced research only. "Ryman does not publish that" is a
+   correct answer here — the register gap IS the argument, so an agent that
+   filled it with a plausible number would undermine the page it sits on. */
+var SUGG=[
+  'What would a pilot need from us?',
+  'What would this never do?',
+  'What has Ryman not published?',
+  'Why does the DMF question need two answers?',
+  'What did DECIDE fail to fix?'
+];
+var chatBooted=false;
+function push(role,text){
+  var m=document.createElement('div'); m.className='msg '+role; m.textContent=text;
+  var b=document.getElementById('msgs'); b.appendChild(m); b.scrollTop=b.scrollHeight;
+}
+function renderSugg(){
+  var el=document.getElementById('sugg'); el.innerHTML='';
+  SUGG.forEach(function(q){
+    var b=document.createElement('button'); b.type='button'; b.textContent=q;
+    b.addEventListener('click',function(){ document.getElementById('chatinput').value=q; sendChat() });
+    el.appendChild(b);
+  });
+}
+function openChat(){
+  document.getElementById('chat').classList.add('open');
+  document.getElementById('askbtn').style.display='none';
+  if(!chatBooted){
+    chatBooted=true;
+    push('it','Ask me about this concept — what it does, what it refuses to do, what a pilot asks of you, or what is actually published about Ryman’s fees. Where Ryman has not published something I will tell you that rather than produce a number.');
+    renderSugg();
+  }
+  document.getElementById('chatinput').focus();
+}
+function closeChat(){
+  document.getElementById('chat').classList.remove('open');
+  document.getElementById('askbtn').style.display='flex';
+}
+function sendChat(){
+  var input=document.getElementById('chatinput'), q=(input.value||'').trim();
+  if(!q) return;
+  input.value=''; push('you',q);
+  document.getElementById('sugg').innerHTML='';
+  var t=document.createElement('div'); t.className='msg it'; t.textContent='reading…';
+  document.getElementById('msgs').appendChild(t);
+  fetch('/api/agent',{method:'POST',headers:{'content-type':'application/json'},
+    body:JSON.stringify({agent:'concept',message:q})})
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(new Error('http '+r.status)) })
+    .then(function(d){
+      t.remove();
+      push('it', d.text || d.reply || 'That came back empty. Try asking it another way.');
+      if(d.backend) document.getElementById('chatnote').textContent='answered by '+d.backend+' · grounded in the sourced research, drafts only, never acts';
+    })
+    .catch(function(){
+      t.remove();
+      push('err','The agent is not reachable from this page right now. Everything else on the page still works, and assembl@assembl.co.nz reaches a person.');
+    });
+}
+
 (function(){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
   document.querySelectorAll('.rise').forEach(function(e){io.observe(e)});
