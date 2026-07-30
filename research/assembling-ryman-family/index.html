@@ -454,6 +454,57 @@ body.d6-live #waitmap .wm-grid{display:none}
 #place .plMeta{margin-top:22px;padding-top:16px;border-top:1px solid rgba(0,0,0,.1);
   font-size:11.5px;line-height:1.62;color:#75757E}
 #place .plMeta b{color:#141416;font-weight:600}
+
+/* ── WILL HER THINGS FIT · family photo upload ─────────────────────────────
+   Kate, 30 July 2026. The section already asks "will her dining table fit?" and
+   shows the 6.0 × 5.4 m villa; this lets the family answer it with a photo of
+   Mum's actual living room. Warm, honest, held for a person. Namespaced plup-*. */
+.plup{margin-top:34px;border-top:1px solid rgba(0,0,0,.10);padding-top:30px}
+.plup-kick{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#F06022;margin-bottom:10px}
+.plup h3{font-family:var(--disp);font-weight:400;font-size:clamp(21px,2.4vw,28px);letter-spacing:-.01em;color:#231F1C;margin:0}
+.plup .plup-sub{margin-top:9px;font-size:14.5px;line-height:1.62;color:#4A443E;font-weight:300;max-width:62ch}
+.plup-drop{margin-top:20px;border:1.5px dashed rgba(35,31,28,.26);border-radius:16px;
+  padding:28px 22px;text-align:center;transition:.25s;background:rgba(240,96,34,.02);cursor:pointer}
+.plup-drop.over{border-color:#F06022;background:rgba(240,96,34,.06)}
+.plup-drop b{display:block;font-family:var(--disp);font-weight:500;font-size:16px;color:#231F1C}
+.plup-drop span{display:block;margin-top:6px;font-size:13px;color:#7B736C;font-weight:300}
+.plup-thumbs{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.plup-thumb{position:relative;width:82px;height:62px;border-radius:9px;overflow:hidden;border:1px solid rgba(0,0,0,.12)}
+.plup-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.plup-thumb button{position:absolute;top:3px;right:3px;width:19px;height:19px;border-radius:50%;
+  background:rgba(35,31,28,.8);color:#fff;border:0;font-size:12px;line-height:1;cursor:pointer}
+.plup-go{margin-top:18px;background:#F06022;color:#fff;border:0;border-radius:999px;
+  padding:13px 24px;font-size:14.5px;font-weight:500;font-family:inherit;cursor:pointer;transition:.2s}
+.plup-go:hover{background:#C64A16}
+.plup-go[disabled]{opacity:.45;cursor:default}
+.plup-status{margin-top:14px;font-size:13px;color:#7B736C;font-weight:300;min-height:1.3em}
+.plup-status.err{color:#C64A16}
+.plup-res{margin-top:22px;border-radius:18px;overflow:hidden;border:1px solid rgba(0,0,0,.1);
+  animation:plupIn .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes plupIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.plup-verdict{padding:22px 24px;color:#fff}
+.plup-verdict.fits{background:linear-gradient(135deg,#668B69,#4d6b50)}
+.plup-verdict.snug{background:linear-gradient(135deg,#C68A3A,#a06c26)}
+.plup-verdict.tight{background:linear-gradient(135deg,#F06022,#C64A16)}
+.plup-verdict .vk{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;opacity:.85}
+.plup-verdict .vl{font-family:var(--disp);font-weight:400;font-size:clamp(18px,2vw,23px);line-height:1.32;margin-top:9px}
+.plup-body{background:var(--paper);padding:20px 24px}
+.plup-saw{font-size:14.5px;line-height:1.6;color:#231F1C;font-weight:300;font-style:italic}
+.plup-items{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.plup-items span{font-size:12px;background:rgba(240,96,34,.08);border:1px solid rgba(240,96,34,.2);
+  border-radius:7px;padding:5px 10px;color:#8A3D14}
+.plup-conf{margin-top:16px;font-size:12px;letter-spacing:.03em;color:#7B736C;font-weight:300}
+.plup-conf b{color:#231F1C;font-weight:500}
+.plup-cant{margin-top:14px;padding-top:14px;border-top:1px solid rgba(0,0,0,.08)}
+.plup-cant .ck{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#7B736C}
+.plup-cant ul{list-style:none;margin:9px 0 0;padding:0}
+.plup-cant li{font-size:13px;color:#4A443E;font-weight:300;line-height:1.55;padding:4px 0 4px 16px;position:relative}
+.plup-cant li::before{content:"?";position:absolute;left:0;color:#F06022;font-weight:700}
+.plup-fine{margin-top:16px;font-size:12px;line-height:1.6;color:#7B736C;font-weight:300}
+.plup-fine b{color:#231F1C;font-weight:500}
+.plup-again{margin-top:14px;background:transparent;border:1px solid rgba(35,31,28,.22);color:#4A443E;
+  border-radius:999px;padding:9px 18px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer}
+.plup-again:hover{border-color:#F06022;color:#C64A16}
 </style>
 </head>
 <body>
@@ -1342,6 +1393,22 @@ function copyAccept(){
       ArchiCAD, which is what makes this a working method rather than an illustration.</p>
     </div>
   </div>
+
+  <div class="plup">
+    <p class="plup-kick">Will Mum have to leave her things behind?</p>
+    <h3>Show us her living room, and we&rsquo;ll tell you what fits.</h3>
+    <p class="plup-sub">This is the question no floorplan answers: will her sofa, her chair and the sideboard she has had for forty years fit the new room? Upload a photo or two of her living room as it is now. An agent reads the furniture and measures it against the villa&rsquo;s 6.0 &times; 5.4 m room above. It is a starting point for a tape measure, held for a person &mdash; nothing is sent.</p>
+
+    <input type="file" id="plupFile" accept="image/jpeg,image/png,image/webp" multiple hidden>
+    <div class="plup-drop" id="plupDrop">
+      <b>Drop a photo of her living room</b>
+      <span>or tap to choose &middot; one or two clear shots of the whole room work best</span>
+      <div class="plup-thumbs" id="plupThumbs"></div>
+    </div>
+    <button class="plup-go" id="plupGo" type="button" disabled>see what fits</button>
+    <p class="plup-status" id="plupStatus"></p>
+    <div id="plupOut"></div>
+  </div>
 </div></section>
 
 <script src="three.min.js"></script>
@@ -1451,6 +1518,106 @@ function copyAccept(){
     place3();
     ren.render(sc,cam);
   })();
+})();
+</script>
+
+<script>
+/* ── WILL HER THINGS FIT · photo upload → /api/room ─────────────────────────
+   Kate, 30 July 2026. Shrinks the photos client-side (a phone shot is 4 MB and
+   the reader does not need it), posts to the vision endpoint, renders an honest
+   verdict. Warm copy, never a flat no. */
+(function(){
+  var MAX=5, files=[];
+  var el=function(id){return document.getElementById(id)};
+  var esc=function(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML};
+  var drop=el('plupDrop'), input=el('plupFile');
+  if(!drop||!input) return;
+
+  drop.addEventListener('click',function(){input.click()});
+  input.addEventListener('change',function(){add(input.files);input.value=''});
+  ['dragenter','dragover'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.add('over')})});
+  ['dragleave','drop'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove('over')})});
+  drop.addEventListener('drop',function(e){add(e.dataTransfer.files)});
+
+  function add(list){
+    var ok=/^image\/(jpeg|png|webp)$/;
+    for(var i=0;i<list.length&&files.length<MAX;i++){ if(ok.test(list[i].type)) files.push(list[i]) }
+    paint();
+  }
+  function paint(){
+    var t=el('plupThumbs'); t.innerHTML='';
+    files.forEach(function(f,i){
+      var d=document.createElement('div'); d.className='plup-thumb';
+      var im=document.createElement('img'); im.src=URL.createObjectURL(f); im.alt='her room, photo '+(i+1);
+      var x=document.createElement('button'); x.type='button'; x.textContent='×';
+      x.setAttribute('aria-label','remove photo '+(i+1));
+      x.addEventListener('click',function(ev){ev.stopPropagation();files.splice(i,1);paint()});
+      d.appendChild(im); d.appendChild(x); t.appendChild(d);
+    });
+    el('plupGo').disabled=files.length===0;
+  }
+  function say(m,err){ var s=el('plupStatus'); s.textContent=m||''; s.className='plup-status'+(err?' err':'') }
+
+  function shrink(file){
+    return new Promise(function(res,rej){
+      var img=new Image(), url=URL.createObjectURL(file);
+      img.onload=function(){
+        var m=1600,w=img.width,h=img.height;
+        if(Math.max(w,h)>m){var k=m/Math.max(w,h);w=Math.round(w*k);h=Math.round(h*k)}
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0,w,h);
+        URL.revokeObjectURL(url);
+        res({media_type:'image/jpeg',data:c.toDataURL('image/jpeg',0.82).split(',')[1]});
+      };
+      img.onerror=function(){URL.revokeObjectURL(url);rej(new Error('could not read that image'))};
+      img.src=url;
+    });
+  }
+
+  el('plupGo').addEventListener('click',function(){
+    if(!files.length) return;
+    el('plupGo').disabled=true;
+    say('reading her room… this takes a moment.');
+    Promise.all(files.map(shrink))
+      .then(function(images){
+        return fetch('/api/room',{method:'POST',headers:{'content-type':'application/json'},
+          body:JSON.stringify({images:images})});
+      })
+      .then(function(r){ return r.json().then(function(j){return {ok:r.ok,j:j}}) })
+      .then(function(o){
+        if(!o.ok||o.j.error) throw new Error(o.j.error||'that did not come back cleanly');
+        say(''); show(o.j);
+      })
+      .catch(function(e){ say((e&&e.message)?e.message:'That did not work — try one clear photo of the whole room.',true) })
+      .finally(function(){ el('plupGo').disabled=files.length===0 });
+  });
+
+  function show(res){
+    var f=res.fit, e=res.estimate;
+    var items=(e.items||[]).slice(0,6).map(function(it){
+      return '<span>'+esc(it.name)+'</span>';
+    }).join('');
+    var cant=(e.cannot_tell||[]).slice(0,4).map(function(x){return '<li>'+esc(x)+'</li>'}).join('');
+    el('plupOut').innerHTML=
+      '<div class="plup-res">'+
+        '<div class="plup-verdict '+esc(f.verdict)+'">'+
+          '<div class="vk">'+(f.verdict==='fits'?'it fits':f.verdict==='snug'?'it fits, snugly':'worth measuring')+'</div>'+
+          '<div class="vl">'+esc(f.line)+'</div>'+
+        '</div>'+
+        '<div class="plup-body">'+
+          '<p class="plup-saw">'+esc(e.what_i_saw)+'</p>'+
+          (items?'<div class="plup-items">'+items+'</div>':'')+
+          '<p class="plup-conf">How sure this is: <b>'+esc(e.confidence)+'</b>. '+esc(e.reasoning||'')+'</p>'+
+          (cant?'<div class="plup-cant"><div class="ck">what a photo cannot tell you</div><ul>'+cant+'</ul></div>':'')+
+          '<p class="plup-fine"><b>Measure before you move anything.</b> '+esc(f.measure)+'</p>'+
+          '<p class="plup-fine">'+esc(f.held)+'</p>'+
+          '<button class="plup-again" type="button" id="plupAgain">try another room</button>'+
+        '</div>'+
+      '</div>';
+    var again=el('plupAgain');
+    if(again) again.addEventListener('click',function(){ files=[];paint();el('plupOut').innerHTML='';say('') });
+    el('plupOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
 })();
 </script>
 </body>
