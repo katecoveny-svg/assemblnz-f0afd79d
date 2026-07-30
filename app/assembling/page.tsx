@@ -14,7 +14,7 @@ import './assembling-canon.css';
  * the same live WaitState module the homepage and the concept demos run — and
  * the proof section promises measurement, not invented percentages.
  *
- * Product claims (charity at launch, KiwiSaver/points rails to follow, never
+ * Product claims (charity at launch, retirement-fund/points rails to follow, never
  * reads prompts/content/files/code) are carried over unchanged from the
  * previous page — they are product truth until Kate says otherwise.
  */
@@ -71,8 +71,8 @@ export default function AssemblingPage() {
               <ul>
                 <li><b>Points</b><span>toward free delivery, or your own rewards</span></li>
                 <li><b>Bill credit</b><span>off the next power or insurance bill</span></li>
-                <li><b>KiwiSaver</b><span>a small top-up, as partners sign on</span></li>
-                <li><b>A donation</b><span>to SPCA New Zealand, from day one</span></li>
+                <li><b>Retirement fund</b><span>a small top-up, as partners sign on</span></li>
+                <li><b>A donation</b><span>to a charity you choose</span></li>
               </ul>
             </div>
             <div className="asm-cta-row">
@@ -212,9 +212,9 @@ export default function AssemblingPage() {
           <span className="mono">what the wait earns</span>
           <h2>Real value, in rails that exist.</h2>
           <div className="asm-truth">
-            <b>At launch, the wait gives:</b> a donation to charity (SPCA New Zealand) — every
-            completed wait, something real. <b>Rolling out as partners sign:</b> KiwiSaver
-            contributions, power-bill credits and points rails. NZ-only, opt-in, and
+            <b>At launch, the wait gives:</b> a donation to a charity you choose — every
+            completed wait, something real. <b>Rolling out as partners sign:</b> retirement-fund
+            top-ups, power-bill credits and points rails. NZ-only, opt-in, and
             assembl-governed — the reward comes from the business running the journey, never
             from selling the person waiting.
           </div>

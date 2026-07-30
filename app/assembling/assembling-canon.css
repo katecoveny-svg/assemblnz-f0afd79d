@@ -58,7 +58,7 @@ body:has(.asm) { background: var(--asm-paper); }
    narrower so the value column has room for the "what those minutes become"
    proof, and the whole hero fills rather than trailing off into white. */
 .asm-hero { position: relative; padding: 110px 0 70px; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 56px; align-items: center; }
-.asm-scene { position: absolute; inset: -60px 34% -40px -8vw; z-index: 0; pointer-events: none; }
+.asm-scene { position: absolute; inset: -60px 52% -40px -8vw; z-index: 0; pointer-events: none; }
 .asm-scene canvas { width: 100%; height: 100%; display: block; }
 .asm-hero-copy, .asm-hero .asm-stage { position: relative; z-index: 1; }
 .asm-hero h1 {
@@ -97,6 +97,37 @@ body:has(.asm) { background: var(--asm-paper); }
 
 .asm-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
 .asm-stage-note { text-align: center; }
+
+/* Kate, 30 July 2026: "make it bigger". The phone is the star of this hero, so
+   it is scaled up here only — the shared WaitState (homepage, concept demos)
+   keeps its 300×610. The float keyframe writes `transform`, so a static scale
+   is overridden; the scale rides inside a scoped copy of the float instead.
+   transform-origin top-center grows it downward, and the phone's margin-bottom
+   gives its pick tabs + note real layout room so the bigger phone never
+   overlaps them. */
+.asm-hero .wsp-phone {
+  animation: asm-phone-float 7s ease-in-out infinite;
+  transform-origin: top center;
+  margin-bottom: 124px;
+}
+@keyframes asm-phone-float {
+  0%, 100% { transform: scale(1.2) translateY(0); }
+  50% { transform: scale(1.2) translateY(-8px); }
+}
+.asm-hero .wsp-pick { transform: scale(1.12); transform-origin: top center; margin-top: 4px; }
+@media (hover: hover) {
+  .asm-hero .wsp:hover .wsp-phone {
+    animation-play-state: paused;
+    transform: scale(1.2) translateY(-6px) perspective(1100px) rotateY(-3deg) rotateX(1.5deg);
+  }
+}
+@media (max-width: 900px) {
+  .asm-hero .wsp-phone { animation-name: wsp-float; margin-bottom: 0; }
+  .asm-hero .wsp-pick { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .asm-hero .wsp-phone { animation: none; transform: scale(1.2); }
+}
 
 .asm-band { padding: 84px 0; border-top: 1px solid var(--asm-line); position: relative; z-index: 1; }
 .asm-band h2 {
