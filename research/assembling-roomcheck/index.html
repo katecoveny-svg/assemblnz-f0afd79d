@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Check — photos of a room, measured and checked against G4 · assembl</title>
+<meta name="description" content="Drop photos of a room. Get a measured 3D model, the extract ducting it needs, and every ventilation check from the New Zealand Building Code clause G4, with the clause quoted. Free. An estimate, not a compliance determination.">
+<meta property="og:title" content="Room Check — photos in, a measured model out">
+<meta property="og:description" content="Free. Photos of a room become a measured model, checked against NZ Building Code G4 with the clause quoted. Built by assembl.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#050F1C; --navy-2:#0A1728; --paper:#F0EEE9;
+  --champ:#D4A843; --champ-hi:#F6E7B5; --champ-lo:#8A6A2E;
+  --ink:#F0EEE9; --ink-2:rgba(240,238,233,.78); --ink-3:rgba(240,238,233,.5);
+  --line:rgba(240,238,233,.14);
+  --ok:#7FCBA4; --short:#E8A0A0; --unknown:#D9C68A;
+  --sans:'Jost',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--navy);color:var(--ink);font-family:var(--sans);font-weight:300;
+  line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--champ)}
+button,input,textarea{font-family:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+@media(min-width:1700px){.wrap{max-width:min(80vw,1500px)}}
+
+/* ── chrome ─────────────────────────────────────────────────────────────── */
+header.top{position:sticky;top:0;z-index:40;background:rgba(5,15,28,.86);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;padding:16px 28px}
+.mark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.01em}
+.mark .dot{width:8px;height:8px;border-radius:50%;background:var(--champ)}
+.mark small{font-weight:300;font-size:12.5px;color:var(--ink-3);letter-spacing:0}
+.top nav{display:flex;gap:22px;font-size:13.5px;color:var(--ink-2)}
+.top nav a{color:inherit;text-decoration:none}
+.top nav a:hover{color:var(--champ)}
+@media(max-width:820px){.top nav{display:none}}
+
+/* ── hero ───────────────────────────────────────────────────────────────── */
+.hero{padding:76px 0 46px}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--champ);margin-bottom:20px}
+h1{font-size:clamp(34px,5.2vw,66px);font-weight:800;letter-spacing:-.035em;line-height:1.02}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--champ-lo) 0%,var(--champ) 36%,var(--champ-hi) 56%,#B8964F 84%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.lede{margin-top:22px;font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:var(--ink-2);max-width:60ch}
+.hero .free{display:inline-flex;align-items:center;gap:9px;margin-top:26px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--champ);
+  border:1px solid rgba(212,168,67,.4);border-radius:999px;padding:8px 15px}
+
+/* ── the drop ───────────────────────────────────────────────────────────── */
+.drop{margin-top:44px;border:1.5px dashed rgba(240,238,233,.28);border-radius:22px;
+  padding:44px 30px;text-align:center;transition:.3s;background:rgba(240,238,233,.02)}
+.drop.over{border-color:var(--champ);background:rgba(212,168,67,.06)}
+.drop h2{font-size:clamp(19px,2.1vw,25px);font-weight:700;letter-spacing:-.02em}
+.drop p{margin-top:11px;font-size:14.5px;color:var(--ink-3);max-width:56ch;margin-left:auto;margin-right:auto}
+.btn{display:inline-block;border:0;border-radius:999px;padding:14px 26px;font-size:15px;
+  font-weight:500;cursor:pointer;text-decoration:none;transition:.25s}
+.btn.solid{background:var(--champ);color:var(--navy)}
+.btn.solid:hover{background:var(--champ-hi)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--champ);color:var(--champ)}
+.btn[disabled]{opacity:.45;cursor:default}
+.drop .btn{margin-top:22px}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.thumb{position:relative;width:96px;height:72px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;
+  background:rgba(5,15,28,.8);color:var(--ink);border:0;font-size:13px;line-height:1;cursor:pointer}
+.noteRow{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.noteRow input{flex:1;min-width:280px;max-width:520px;background:rgba(240,238,233,.05);
+  border:1px solid var(--line);border-radius:11px;padding:12px 15px;font-size:14.5px;color:var(--ink)}
+.noteRow input:focus{outline:none;border-color:var(--champ)}
+#status{margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--champ);min-height:1.4em}
+#status.err{color:var(--short);text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:14px}
+
+/* ── the result ─────────────────────────────────────────────────────────── */
+#out{display:none;padding:20px 0 90px}
+#out.on{display:block}
+.sec{padding:56px 0 0}
+.secK{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--champ);margin-bottom:14px}
+.sec h2{font-size:clamp(24px,3.2vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.sec .sub{margin-top:14px;font-size:15.5px;color:var(--ink-2);max-width:66ch;line-height:1.62}
+
+.mGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;margin-top:32px;align-items:start}
+@media(max-width:940px){.mGrid{grid-template-columns:1fr}}
+.stage{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/11;cursor:grab;
+  background:radial-gradient(ellipse at 52% 44%,#132238 0%,#070E1A 70%);border:1px solid var(--line)}
+.stage:active{cursor:grabbing}
+.stage canvas{display:block;width:100%;height:100%}
+.stage .hint{position:absolute;left:16px;bottom:14px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);pointer-events:none;transition:.4s}
+.stage .hint.gone{opacity:0}
+
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.num{background:var(--navy-2);padding:17px 19px}
+.num i{display:block;font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.num b{font-size:clamp(20px,2.4vw,28px);font-weight:800;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+.num.pass b{color:var(--ok)}.num.fail b{color:var(--short)}
+.num s{display:block;text-decoration:none;font-size:12px;color:var(--ink-3);margin-top:5px}
+.why{margin-top:18px;border-left:2px solid var(--champ);padding-left:16px;font-size:14px;
+  line-height:1.62;color:var(--ink-2)}
+.why b{color:var(--ink);font-weight:500}
+
+/* clause cards */
+.clauses{display:flex;flex-direction:column;gap:13px;margin-top:30px}
+.cl{border:1px solid var(--line);border-radius:16px;padding:22px 24px;background:rgba(240,238,233,.025)}
+.clTop{display:flex;gap:13px;align-items:center;flex-wrap:wrap;margin-bottom:13px}
+.v{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  border-radius:5px;padding:4px 9px}
+.v.meets{background:var(--ok);color:#08130D}
+.v.short{background:var(--short);color:#2A0F0F}
+.v.unknown{background:var(--unknown);color:#241D06}
+.v.check{background:rgba(240,238,233,.16);color:var(--ink);border:1px solid var(--line)}
+.v.note{background:transparent;color:var(--ink-3);border:1px solid var(--line)}
+.clRef{font-family:var(--mono);font-size:12px;color:var(--champ)}
+.cl blockquote{font-size:14px;line-height:1.6;color:var(--ink-2);font-style:italic;
+  border-left:2px solid var(--line);padding-left:14px;margin-bottom:13px}
+.cl p{font-size:14.5px;line-height:1.64;color:var(--ink)}
+.cl .runs{margin-top:13px;display:flex;gap:9px;flex-wrap:wrap}
+.cl .runs span{font-family:var(--mono);font-size:11.5px;border:1px solid rgba(212,168,67,.35);
+  border-radius:7px;padding:6px 11px;color:var(--champ)}
+
+/* cannot tell */
+.ct{margin-top:30px;border:1px solid rgba(217,198,138,.35);background:rgba(217,198,138,.05);
+  border-radius:16px;padding:24px 26px}
+.ct h3{font-size:17px;font-weight:700;color:var(--unknown);margin-bottom:12px}
+.ct ul{list-style:none}
+.ct li{font-size:14px;line-height:1.6;color:var(--ink-2);padding:6px 0 6px 18px;position:relative}
+.ct li::before{content:"?";position:absolute;left:0;color:var(--unknown);font-weight:700}
+
+.refuse{margin-top:30px;border-left:3px solid var(--short);padding:6px 0 6px 20px;
+  font-size:14.5px;line-height:1.64;color:var(--ink-2);max-width:80ch}
+.refuse b{color:var(--ink);font-weight:500}
+
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+
+/* ── how it works / footer ──────────────────────────────────────────────── */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:30px}
+.how div{border:1px solid var(--line);border-radius:15px;padding:22px}
+.how b{display:block;font-size:15.5px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.how p{font-size:14px;line-height:1.6;color:var(--ink-2)}
+.how code{font-family:var(--mono);font-size:12.5px;color:var(--champ)}
+footer{border-top:1px solid var(--line);margin-top:80px;padding:44px 0 66px}
+footer p{font-size:13px;color:var(--ink-3);line-height:1.75;max-width:88ch}
+footer b{color:var(--ink-2);font-weight:500}
+footer a{color:var(--champ)}
+.src{margin-top:18px;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);line-height:1.9}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <div class="mark"><span class="dot"></span>assembl <small>· free tool</small></div>
+  <nav>
+    <a href="#drop">Try it</a>
+    <a href="#how">How it works</a>
+    <a href="#limits">What it refuses</a>
+    <a href="https://www.assembl.co.nz">assembl.co.nz</a>
+  </nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <p class="kick">Free · no sign-up · nothing stored</p>
+  <h1>Photograph a room.<br><em>Get it measured</em>, ducted,<br>and checked against G4.</h1>
+  <p class="lede">Drop in a few photos. An agent estimates the room from what it can see, builds a
+  measurable model, sizes the extract ducting the fixtures need, and runs every ventilation check in
+  the New Zealand Building Code that a photograph can actually answer. It quotes the clause each time,
+  and it tells you what a photograph cannot establish.</p>
+  <span class="free">an estimate, not a compliance determination</span>
+
+  <div class="drop" id="drop">
+    <h2>Drop photos of one room</h2>
+    <p>Two to six shots work best: one from each corner, and one straight at the window wall. JPEG,
+    PNG or WebP. They go to the model and come back as a model; nothing is kept.</p>
+    <input type="file" id="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+    <button class="btn ghost" type="button" id="pick">choose photos</button>
+    <div class="thumbs" id="thumbs"></div>
+    <div class="noteRow">
+      <input id="note" type="text" placeholder="Optional: anything the photos won't show. &quot;North wall is external&quot;, &quot;ceiling is 2.55&quot;…">
+      <button class="btn solid" type="button" id="go" disabled>measure it</button>
+    </div>
+    <p id="status"></p>
+  </div>
+</div></section>
+
+<div id="out">
+  <section class="sec"><div class="wrap">
+    <p class="secK">The model, from the photographs</p>
+    <h2 id="mTitle">The room, in metres</h2>
+    <p class="sub" id="mReason"></p>
+    <div class="mGrid">
+      <div>
+        <div class="stage" id="stage">
+          <canvas id="cv"></canvas>
+          <span class="hint" id="hint">drag to turn it</span>
+        </div>
+      </div>
+      <div>
+        <div class="nums" id="nums"></div>
+        <p class="why" id="why"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="wrap">
+    <p class="secK">The checks, with the clause quoted</p>
+    <h2 id="cTitle">Against G4/AS1</h2>
+    <p class="sub">Every figure below is arithmetic on the estimate. The wording is quoted from the
+    Acceptable Solution, 5th edition, 28 July 2025.</p>
+    <div class="clauses" id="clauses"></div>
+    <div class="ct" id="ct"></div>
+  </section>
+
+  <section class="sec" id="limits"><div class="wrap">
+    <p class="secK">What it will not do</p>
+    <h2>It estimates. It does not certify.</h2>
+    <p class="refuse" id="refuse"></p>
+    <div class="acts">
+      <button class="btn solid" type="button" id="again">check another room</button>
+      <button class="btn ghost" type="button" id="dl">download the model (JSON)</button>
+      <a class="btn ghost" href="https://www.assembl.co.nz/build-an-agent">build an agent for your practice</a>
+    </div>
+  </section>
+</div>
+
+<section class="sec" id="how"><div class="wrap">
+  <p class="secK">How it works</p>
+  <h2>Four steps, and none of them is a guess dressed as a number.</h2>
+  <div class="how">
+    <div><b>1 · It reads the photos</b><p>An agent estimates the room using objects of known size in
+    frame, and it names which ones it used: a door leaf at about 1.98 m, a light switch at 1.0 to 1.2 m,
+    a benchtop at 0.9 m, a brick course at 86 mm.</p></div>
+    <div><b>2 · It builds a real model</b><p>The estimate becomes walls, a floor plate and openings in
+    the <code>Pascal</code> schema, which is MIT-licensed and open source. The same pipeline reads a
+    real IFC file exported from Revit or ArchiCAD.</p></div>
+    <div><b>3 · It sizes the MEP</b><p>Extract rates come from the Code. Duct diameters come from
+    ordinary practice at about 3 m/s, and the page labels that as practice rather than as a
+    requirement, because it is.</p></div>
+    <div><b>4 · It checks, and it quotes</b><p>Net openable area against 5% of the floor. The 6 m span
+    limit. The extract rate for every moisture fixture it can see. Each with the clause verbatim and
+    the arithmetic shown.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p><b>assembl — intuitive agentic customer journeys.</b> Built in Aotearoa. This tool is free and
+  unaffiliated with the Ministry of Business, Innovation and Employment. Photographs are sent to the
+  model for the length of one request and are not stored by us.</p>
+  <p style="margin-top:14px"><b>It is an estimate.</b> Dimensions read from a photograph carry real
+  error, and the tool reports its own confidence rather than hiding it. Building consent authorities
+  grant consents and issue code compliance certificates. Restricted building work requires a Licensed
+  Building Practitioner. Use this to know what to measure, not instead of measuring.</p>
+  <p class="src">Clause G4 Ventilation · Acceptable Solution G4/AS1, 5th edition, 28 July 2025 ·
+  Ministry of Business, Innovation and Employment · building.govt.nz<br>
+  Quoted: 2.2.1.2 net openable area 5% of floor area · 2.2.2.2(c) under 6 m to the opposing wall ·
+  2.2.1.5 extract 25 L/s showers and baths, 50 L/s cooktops<br>
+  Pascal Editor · MIT · github.com/pascalorg/editor</p>
+</div></footer>
+
+<script src="three.min.js"></script>
+<script>
+/* ══ ROOM CHECK ═══════════════════════════════════════════════════════════
+   Photos in, a measured model and a G4 check out. Kate, 30 July 2026.
+
+   The honest architecture: the model estimates, the arithmetic is exact, the
+   clauses are verbatim, and the page never rounds toward a pass. Everything it
+   cannot establish goes in its own panel rather than being quietly filled in. */
+(function(){
+  'use strict';
+  var MAX = 6;
+  var files = [];
+  var el = function(id){ return document.getElementById(id) };
+  var esc = function(t){ var d=document.createElement('div'); d.textContent = t==null?'':String(t); return d.innerHTML };
+
+  /* ── picking photos ─────────────────────────────────────────────────── */
+  var drop = el('drop'), input = el('file');
+  el('pick').addEventListener('click', function(){ input.click() });
+  input.addEventListener('change', function(){ add(input.files); input.value = '' });
+
+  ['dragenter','dragover'].forEach(function(t){
+    drop.addEventListener(t, function(e){ e.preventDefault(); drop.classList.add('over') });
+  });
+  ['dragleave','drop'].forEach(function(t){
+    drop.addEventListener(t, function(e){ e.preventDefault(); drop.classList.remove('over') });
+  });
+  drop.addEventListener('drop', function(e){ add(e.dataTransfer.files) });
+
+  function add(list){
+    var ok = /^image\/(jpeg|png|webp)$/;
+    for (var i = 0; i < list.length && files.length < MAX; i++){
+      if (ok.test(list[i].type)) files.push(list[i]);
+    }
+    if (list.length && !files.length) say('Those need to be JPEG, PNG or WebP.', true);
+    paint();
+  }
+
+  function paint(){
+    var t = el('thumbs'); t.innerHTML = '';
+    files.forEach(function(f, i){
+      var d = document.createElement('div'); d.className = 'thumb';
+      var im = document.createElement('img'); im.src = URL.createObjectURL(f); im.alt = 'photo ' + (i+1);
+      var x = document.createElement('button'); x.type = 'button'; x.textContent = '×';
+      x.setAttribute('aria-label', 'remove photo ' + (i+1));
+      x.addEventListener('click', function(){ files.splice(i,1); paint() });
+      d.appendChild(im); d.appendChild(x); t.appendChild(d);
+    });
+    el('go').disabled = files.length === 0;
+    if (files.length) say(files.length + (files.length===1?' photo':' photos') + ' ready' + (files.length<2?' · two or more read better':''));
+    else say('');
+  }
+
+  function say(m, isErr){
+    var s = el('status'); s.textContent = m || '';
+    s.className = isErr ? 'err' : '';
+  }
+
+  /* Down-scale before upload. A modern phone photo is 4 MB and the model does
+     not need it; the long edge at 1600 px keeps every reference object legible
+     and keeps the request small enough to be quick on a site connection. */
+  function shrink(file){
+    return new Promise(function(res, rej){
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function(){
+        var m = 1600, w = img.width, h = img.height;
+        if (Math.max(w,h) > m){ var k = m/Math.max(w,h); w = Math.round(w*k); h = Math.round(h*k) }
+        var c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        res({ media_type:'image/jpeg', data: c.toDataURL('image/jpeg', 0.82).split(',')[1] });
+      };
+      img.onerror = function(){ URL.revokeObjectURL(url); rej(new Error('could not read that image')) };
+      img.src = url;
+    });
+  }
+
+  /* ── run it ──────────────────────────────────────────────────────────── */
+  el('go').addEventListener('click', run);
+  function run(){
+    if (!files.length) return;
+    el('go').disabled = true;
+    say('shrinking ' + files.length + (files.length===1?' photo':' photos') + '…');
+    Promise.all(files.map(shrink))
+      .then(function(images){
+        say('reading the room — this takes a moment…');
+        return fetch('/api/plan', {
+          method:'POST', headers:{'content-type':'application/json'},
+          body: JSON.stringify({ images: images, note: el('note').value || '' }),
+        });
+      })
+      .then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j } }) })
+      .then(function(o){
+        if (!o.ok || o.j.error) throw new Error(o.j.error || ('http ' + o.j.status));
+        say('');
+        show(o.j);
+      })
+      .catch(function(e){
+        say((e && e.message) ? ('That did not work: ' + e.message + '. Try fewer or clearer photos.')
+          : 'That did not work. Try again.', true);
+      })
+      .finally(function(){ el('go').disabled = files.length === 0 });
+  }
+
+  /* ── show it ─────────────────────────────────────────────────────────── */
+  var LAST = null;
+  function show(res){
+    LAST = res;
+    var e = res.estimate, c = res.check;
+
+    el('mTitle').textContent = title(e.room) + ' — ' + e.length_m + ' × ' + e.width_m +
+      ' m, ' + e.height_m + ' m to the ceiling';
+    el('mReason').textContent = e.reasoning || '';
+
+    var pass = c.net_openable_m2 >= c.required_m2;
+    el('nums').innerHTML =
+      cell('floor area', c.floor_m2 + ' m²', e.length_m + ' × ' + e.width_m + ' m', '') +
+      cell('net openable', c.net_openable_m2 + ' m²', (e.openings||[]).length +
+        ((e.openings||[]).length===1?' opening':' openings') + ' to the outside', pass?'pass':'fail') +
+      cell('G4 requires', c.required_m2 + ' m²', '5% of the floor area', '') +
+      cell('you have', c.percent + '%', pass ? 'above the 5% floor' : 'below the 5% floor', pass?'pass':'fail');
+
+    el('why').innerHTML = '<b>Confidence, as the model reported it.</b> Dimensions ' +
+      esc(e.confidence.dimensions) + ', openings ' + esc(e.confidence.openings) +
+      ', overall ' + esc(e.confidence.overall) + '. ' +
+      (e.confidence.overall === 'high'
+        ? 'Still worth a tape measure on the window before anything is ordered.'
+        : 'Treat these as a starting point and measure the window face before anything is ordered.');
+
+    el('clauses').innerHTML = (c.items||[]).map(function(it){
+      return '<div class="cl">' +
+        '<div class="clTop"><span class="v ' + esc(it.verdict) + '">' + label(it.verdict) + '</span>' +
+        '<span class="clRef">' + esc(it.clause) + '</span></div>' +
+        '<blockquote>' + esc(it.quote) + '</blockquote>' +
+        '<p>' + esc(it.detail) + '</p>' +
+        (it.runs && it.runs.length
+          ? '<div class="runs">' + it.runs.map(function(r){
+              return '<span>' + esc(r.serves) + ' · ' + r.rate_ls + ' L/s' +
+                (r.duct_mm ? ' · ' + r.duct_mm + ' mm duct' : '') + '</span>';
+            }).join('') + '</div>'
+          : '') +
+        '</div>';
+    }).join('');
+
+    var ct = (e.cannot_tell||[]);
+    el('ct').innerHTML = ct.length
+      ? '<h3>What a photograph cannot tell you</h3><ul>' +
+        ct.map(function(x){ return '<li>' + esc(x) + '</li>' }).join('') + '</ul>'
+      : '<h3>What a photograph cannot tell you</h3><p style="color:var(--ink-2);font-size:14px">' +
+        'The model did not flag anything, which is unusual. Read the confidence above and measure ' +
+        'the window face anyway.</p>';
+
+    el('cTitle').textContent = c.summary;
+    el('refuse').innerHTML = '<b>' + esc(c.refusal.split('.')[0]) + '.</b> ' +
+      esc(c.refusal.split('.').slice(1).join('.').trim());
+
+    el('out').classList.add('on');
+    build3d(e, c);
+    el('out').scrollIntoView({ behavior:'smooth' });
+  }
+
+  function cell(k, v, s, cls){
+    return '<div class="num ' + (cls||'') + '"><i>' + esc(k) + '</i><b>' + esc(v) + '</b><s>' + esc(s) + '</s></div>';
+  }
+  function label(v){
+    return v === 'meets' ? 'meets it' : v === 'short' ? 'falls short'
+      : v === 'unknown' ? 'cannot tell' : v === 'note' ? 'not a code figure' : 'needs checking';
+  }
+  function title(r){
+    var m = { living:'The living room', bedroom:'The bedroom', kitchen:'The kitchen',
+      bathroom:'The bathroom', laundry:'The laundry', toilet:'The toilet',
+      hallway:'The hallway', garage:'The garage', other:'The room' };
+    return m[r] || 'The room';
+  }
+
+  el('again').addEventListener('click', function(){
+    files = []; paint(); el('out').classList.remove('on');
+    el('note').value = ''; drop.scrollIntoView({behavior:'smooth'});
+  });
+
+  el('dl').addEventListener('click', function(){
+    if (!LAST) return;
+    var b = new Blob([JSON.stringify(LAST, null, 2)], { type:'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = 'room-check.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  /* ── the 3D model ────────────────────────────────────────────────────── */
+  var ren, sc, cam, grp, raf;
+  function build3d(e, c){
+    var cv = el('cv'), stage = el('stage');
+    if (typeof THREE === 'undefined') return;
+
+    if (!ren){
+      ren = new THREE.WebGLRenderer({ canvas:cv, antialias:true, alpha:true });
+      ren.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
+      sc = new THREE.Scene();
+      cam = new THREE.PerspectiveCamera(34, 1, 0.1, 200);
+      sc.add(new THREE.HemisphereLight(0xa8bdd6, 0x060B14, 0.85));
+      var key = new THREE.DirectionalLight(0xffffff, 1.55); key.position.set(5, 9, 6); sc.add(key);
+      var f = new THREE.DirectionalLight(0xD4A843, 0.5); f.position.set(-6, 3, -4); sc.add(f);
+    }
+    if (grp) sc.remove(grp);
+    grp = new THREE.Group();
+
+    var L = e.length_m || 4, W = e.width_m || 3, H = e.height_m || 2.4, T = 0.11;
+    var k = 4.6 / Math.max(L, W);                   // fit the frame
+    var wallM  = new THREE.MeshStandardMaterial({ color:0xBFC6D0, metalness:0.05, roughness:0.6 });
+    var floorM = new THREE.MeshStandardMaterial({ color:0x2A3441, metalness:0.03, roughness:0.85 });
+    var openM  = new THREE.MeshStandardMaterial({ color:0xD4A843, emissive:0xD4A843,
+      emissiveIntensity:0.34, metalness:0.05, roughness:0.45 });
+    var ductM  = new THREE.MeshStandardMaterial({ color:0x7FCBA4, metalness:0.25, roughness:0.4 });
+
+    function box(w, h, d, x, y, z, m){
+      var b = new THREE.Mesh(new THREE.BoxGeometry(w*k, h*k, d*k), m);
+      b.position.set(x*k, y*k, z*k); grp.add(b); return b;
+    }
+    box(L, 0.1, W, 0, -0.05, 0, floorM);                       // floor plate
+    box(L, H, T, 0, H/2, -W/2, wallM);                          // the window wall
+    box(T, H, W, -L/2, H/2, 0, wallM);
+    box(T, H, W,  L/2, H/2, 0, wallM);
+    box(L, H, T, 0, H/2,  W/2, wallM);
+
+    /* Openings sit ON the window wall, sized to the NET openable area rather than
+       the whole face, because that is what the check counts. */
+    var ops = (c.openings || []);
+    var run = -L/2 + 0.5;
+    ops.forEach(function(o){
+      var ow = Math.max(0.25, o.width_m || 0.9);
+      var oh = Math.max(0.25, (o.net_m2 || 0.2) / ow);
+      if (run + ow > L/2 - 0.2) run = -L/2 + 0.5;
+      box(ow, oh, T*1.7, run + ow/2, 1.05 + oh/2, -W/2, openM);
+      run += ow + 0.25;
+    });
+
+    /* the MEP run: a duct at ceiling height, out through the nearest wall,
+       drawn at the diameter the required flow needs */
+    var dr = null;
+    (c.items||[]).forEach(function(it){ if (it.runs && it.runs.length && it.runs[0].duct_mm) dr = it.runs[0] });
+    if (dr){
+      var d = (dr.duct_mm/1000);
+      var pipe = new THREE.Mesh(new THREE.CylinderGeometry(d/2*k, d/2*k, (W*0.8)*k, 18), ductM);
+      pipe.rotation.x = Math.PI/2;
+      pipe.position.set(0, (H-0.22)*k, 0);
+      grp.add(pipe);
+      var term = new THREE.Mesh(new THREE.CylinderGeometry(d*0.8*k, d*0.8*k, 0.06*k, 20), ductM);
+      term.rotation.x = Math.PI/2;
+      term.position.set(0, (H-0.22)*k, (-W/2)*k);
+      grp.add(term);
+    }
+    sc.add(grp);
+
+    var yaw = -0.7, pitch = 0.62, dist = 9.2, drag = false, lx = 0, ly = 0, touched = false;
+    function fit(){
+      var r = stage.getBoundingClientRect();
+      if (!r.width) return;
+      ren.setSize(r.width, r.height, false);
+      cam.aspect = r.width / Math.max(1, r.height); cam.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', fit); fit();
+    stage.onpointerdown = function(ev){
+      drag = true; lx = ev.clientX; ly = ev.clientY;
+      if (!touched){ touched = true; el('hint').classList.add('gone') }
+    };
+    window.addEventListener('pointerup', function(){ drag = false });
+    window.addEventListener('pointermove', function(ev){
+      if (!drag) return;
+      yaw -= (ev.clientX - lx) * 0.007;
+      pitch = Math.max(0.1, Math.min(1.4, pitch + (ev.clientY - ly) * 0.005));
+      lx = ev.clientX; ly = ev.clientY;
+    });
+    var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if (raf) cancelAnimationFrame(raf);
+    (function loop(){
+      raf = requestAnimationFrame(loop);
+      if (!drag && !reduce) yaw += 0.0018;
+      cam.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
+      cam.lookAt(0, 0.8, 0);
+      ren.render(sc, cam);
+    })();
+  }
+})();
+</script>
+</body>
+</html>
