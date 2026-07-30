@@ -73,6 +73,17 @@ function scene(name) {
     rect(x, y, w, d) {
       return [[x, y], [x + w, y], [x + w, y + d], [x, y + d]];
     },
+    /**
+     * A whole small building: floor, walls, roof plate. At village scale four
+     * 0.22 m walls scale down to hairlines and eight villas read as scattered
+     * slivers rather than houses, so anything meant to read as a mass gets a
+     * roof plate closing the top.
+     */
+    mass(x, y, w, d, h = 2.7, k = 'villa', meta = {}) {
+      api.slab(api.rect(x, y, w, d), 0.1, 0.02, { k: 'floor', ...meta });
+      api.room(api.rect(x, y, w, d), h, 0.26, { k, ...meta });
+      api.slab(api.rect(x, y, w, d), 0.14, h, { k, ...meta });
+    },
     nodes,
     levelId: level.id,
   };
@@ -173,20 +184,21 @@ PLACES['woolworths'] = () => {
    centre, and the care wing. The point of the shape: care sits on the same
    site, which is the answer to the deepest family fear on that page. */
 PLACES['summerset'] = () => {
+  /* Four villas rather than eight, on a 30 x 22 m site rather than 46 x 34.
+     The first version had a real village footprint, and at a 4.2-unit frame
+     eight 2.9 m villas on 46 m of ground scaled down to pale slivers that
+     disappeared into the lawn. Fewer and bigger reads as buildings, and the
+     argument does not need eight of them: it needs the care wing to be visibly
+     on the same ground. */
   const s = scene('A village');
-  s.slab(s.rect(0, 0, 46, 34), 0.1, 0, { k: 'ground' });
-  const villa = (x, y, w = 8.4, d = 6.6) => {
-    s.slab(s.rect(x, y, w, d), 0.1, 0.02, { k: 'floor' });
-    s.room(s.rect(x, y, w, d), 2.7, 0.22, { k: 'villa' });
-  };
-  villa(2, 2); villa(12, 2); villa(24, 2); villa(34, 2);
-  villa(2, 25); villa(12, 25); villa(24, 25); villa(34, 25);
-  // the community centre, on the green
-  s.slab(s.rect(15, 12, 16, 10), 0.12, 0.02, { k: 'floor' });
-  s.room(s.rect(15, 12, 16, 10), 4.4, 0.3, { k: 'centre' });
-  // the care wing, same site, and lit because that is the argument
-  s.slab(s.rect(2, 11, 10, 12), 0.12, 0.03, { k: 'lit', lit: true, label: 'care, same site' });
-  s.room(s.rect(2, 11, 10, 12), 3.4, 0.26, { k: 'care', lit: true });
+  s.slab(s.rect(0, 0, 30, 22), 0.1, 0, { k: 'ground' });
+  const villa = (x, y) => s.mass(x, y, 8.6, 6.8, 3.4, 'villa');
+  villa(1.6, 1.4); villa(11.6, 1.4);
+  villa(1.6, 14);  villa(11.6, 14);
+  // the community centre, on the green, taller so it reads as the shared building
+  s.mass(21.4, 7.6, 7.4, 7.4, 5.2, 'centre');
+  // the care wing, on the same ground, lit because that IS the argument
+  s.mass(1.6, 8, 12, 4.6, 4.4, 'care', { lit: true, label: 'care, same site' });
   return s;
 };
 

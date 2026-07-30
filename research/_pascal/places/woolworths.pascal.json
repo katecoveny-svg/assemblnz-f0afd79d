@@ -2,9 +2,9 @@
   "object": "scene",
   "name": "A store floor",
   "nodes": {
-    "level_hdgcbxr0qwu1q8aa": {
+    "level_x4c1821t0pogooii": {
       "object": "node",
-      "id": "level_hdgcbxr0qwu1q8aa",
+      "id": "level_x4c1821t0pogooii",
       "type": "level",
       "name": "Ground",
       "parentId": null,
@@ -13,11 +13,11 @@
       "children": [],
       "level": 0
     },
-    "slab_xa60snz0jighr4sj": {
+    "slab_pjug2oangm3oevrg": {
       "object": "node",
-      "id": "slab_xa60snz0jighr4sj",
+      "id": "slab_pjug2oangm3oevrg",
       "type": "slab",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "floor"
@@ -47,11 +47,11 @@
       "recessed": false,
       "autoFromWalls": false
     },
-    "wall_iupya2h8ubuen2ge": {
+    "wall_t7mqje8701pha1gs": {
       "object": "node",
-      "id": "wall_iupya2h8ubuen2ge",
+      "id": "wall_t7mqje8701pha1gs",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -70,11 +70,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_9f7gw30ibgfavhgq": {
+    "wall_zc0n3in9dfcudebj": {
       "object": "node",
-      "id": "wall_9f7gw30ibgfavhgq",
+      "id": "wall_zc0n3in9dfcudebj",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -93,11 +93,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_yh3dx746pjyv81fc": {
+    "wall_5ii73y7n99opukt5": {
       "object": "node",
-      "id": "wall_yh3dx746pjyv81fc",
+      "id": "wall_5ii73y7n99opukt5",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -116,11 +116,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_gk6ttgs7ljugyeex": {
+    "wall_za9ljmapoxcem6dv": {
       "object": "node",
-      "id": "wall_gk6ttgs7ljugyeex",
+      "id": "wall_za9ljmapoxcem6dv",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "shell"
@@ -139,11 +139,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_v0k91ownv1hqjwgo": {
+    "wall_m1d9ycagbkvywodl": {
       "object": "node",
-      "id": "wall_v0k91ownv1hqjwgo",
+      "id": "wall_m1d9ycagbkvywodl",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "aisle"
@@ -162,11 +162,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_cnkk6x1mr1cq1s6a": {
+    "wall_87stv44k9o0q1otr": {
       "object": "node",
-      "id": "wall_cnkk6x1mr1cq1s6a",
+      "id": "wall_87stv44k9o0q1otr",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "aisle"
@@ -185,11 +185,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_bbbsq7eqtgv98ffn": {
+    "wall_rmiatx1l4u6erwmj": {
       "object": "node",
-      "id": "wall_bbbsq7eqtgv98ffn",
+      "id": "wall_rmiatx1l4u6erwmj",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "aisle"
@@ -208,11 +208,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_dwzcw2r7ypda484s": {
+    "wall_af7mhr1r8uotqlig": {
       "object": "node",
-      "id": "wall_dwzcw2r7ypda484s",
+      "id": "wall_af7mhr1r8uotqlig",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "aisle"
@@ -231,11 +231,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_6u5nijpegtxs133i": {
+    "wall_zbpvr4wgvi48woab": {
       "object": "node",
-      "id": "wall_6u5nijpegtxs133i",
+      "id": "wall_zbpvr4wgvi48woab",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "aisle"
@@ -254,11 +254,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_sv3493yxev4t2g91": {
+    "wall_9cfrq5a7pus6w7vn": {
       "object": "node",
-      "id": "wall_sv3493yxev4t2g91",
+      "id": "wall_9cfrq5a7pus6w7vn",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "aisle"
@@ -277,11 +277,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_xre7vb8w5rnsdcss": {
+    "wall_wp7mrgi426ml6c2d": {
       "object": "node",
-      "id": "wall_xre7vb8w5rnsdcss",
+      "id": "wall_wp7mrgi426ml6c2d",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "chiller"
@@ -300,11 +300,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_ga6doe9n8fmn1m9i": {
+    "wall_49xrybc9c8husoql": {
       "object": "node",
-      "id": "wall_ga6doe9n8fmn1m9i",
+      "id": "wall_49xrybc9c8husoql",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "checkout"
@@ -323,11 +323,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "wall_7tmjx9fwm61mmrr1": {
+    "wall_jxnggcn040nb3o2l": {
       "object": "node",
-      "id": "wall_7tmjx9fwm61mmrr1",
+      "id": "wall_jxnggcn040nb3o2l",
       "type": "wall",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "checkout"
@@ -346,11 +346,11 @@
       "frontSide": "unknown",
       "backSide": "unknown"
     },
-    "slab_ai4tkqigtjsx9w7j": {
+    "slab_4iok0vaveci6ywyx": {
       "object": "node",
-      "id": "slab_ai4tkqigtjsx9w7j",
+      "id": "slab_4iok0vaveci6ywyx",
       "type": "slab",
-      "parentId": "level_hdgcbxr0qwu1q8aa",
+      "parentId": "level_x4c1821t0pogooii",
       "visible": true,
       "metadata": {
         "k": "lit",
