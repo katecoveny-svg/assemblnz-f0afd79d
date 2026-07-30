@@ -41,9 +41,9 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
-        {/* The old /a builder is superseded by the cinematic /build-an-agent. */}
-        <Link href="/build-an-agent" className={styles.navCta}>
-          assemble an agent
+        {/* Kate, 30 July 2026: point at the agentic journey, not the builder. */}
+        <Link href="/assembling" className={styles.navCta}>
+          the agentic journey
           <span aria-hidden style={{ fontSize: 14, lineHeight: 1 }}>
             ↗
           </span>

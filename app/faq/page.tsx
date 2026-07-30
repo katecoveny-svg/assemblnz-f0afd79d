@@ -55,7 +55,7 @@ export default function FaqPage() {
 
         <div className="faqpg-cta">
           <a className="solid" href="/ai-ready">assemble your journey + check AI-readiness</a>
-          <a className="ghost" href="/build-an-agent">build an agent from your site</a>
+          <a className="ghost" href="/assembling">see the agentic journey</a>
           <a className="ghost" href="/pricing">pricing</a>
         </div>
       </div>

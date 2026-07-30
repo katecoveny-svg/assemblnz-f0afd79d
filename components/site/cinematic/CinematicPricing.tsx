@@ -114,7 +114,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
           <div className="nav-links">
             <a href="/agents">agents</a>
             <a href="/pricing">pricing</a>
-            <a href="/build-an-agent">build an agent</a>
+            <a href="/assembling">the agentic journey</a>
           </div>
           <a className="nav-cta" href="/">← home</a>
         </nav>
@@ -127,7 +127,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
             not a slide deck. After that it&rsquo;s $250 a month to keep it working.
           </p>
           <p className="lede" style={{ marginTop: 10, opacity: 0.72 }}>
-            <a href="/build-an-agent" style={{ textDecoration: 'underline' }}>Paste your website first</a>
+            <a href="/ai-ready" style={{ textDecoration: 'underline' }}>Paste your website first</a>
             {' '}— it&rsquo;s free, and you&rsquo;ll see what we&rsquo;d be working from.
           </p>
         </header>

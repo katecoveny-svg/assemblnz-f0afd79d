@@ -146,7 +146,7 @@ export function CinematicAgents() {
           <div className="nav-links">
             <a href="/agents">agents</a>
             <a href="/pricing">pricing</a>
-            <a href="/build-an-agent">build an agent</a>
+            <a href="/assembling">the agentic journey</a>
           </div>
           <a className="nav-cta" href="/">← home</a>
         </nav>
@@ -160,7 +160,7 @@ export function CinematicAgents() {
         <div className="page-body">
           <div className="agent-grid">
             {agents.map((a) => (
-              <a className="agent-card" key={a.num} href="/build-an-agent">
+              <a className="agent-card" key={a.num} href="/assembling">
                 <div className="num">{a.num}</div><div className={`m-shape ${a.shape}`}>{a.num}</div>
                 <h3>{a.h}</h3><p>{a.p}</p>
                 <div className="tags">{a.tags.map((tg) => <span className="tag" key={tg}>{tg}</span>)}</div>
@@ -190,7 +190,7 @@ export function CinematicAgents() {
             </div>
           </div>
 
-          <div style={{ marginBottom: 60 }}><a className="btn btn-solid" href="/build-an-agent">build an agent →</a></div>
+          <div style={{ marginBottom: 60 }}><a className="btn btn-solid" href="/assembling">see the agentic journey →</a></div>
         </div>
 
         <CineFooter />

@@ -294,8 +294,31 @@ export function AiReadyClient() {
     if (ran.current) return;
     ran.current = true;
     const u = new URLSearchParams(location.search).get('u');
-    if (u) { setUrl(u); void run(u); }
-  }, [run]);
+    if (!u) return;
+    setUrl(u);
+    /* Kate, 30 July 2026: the homepage box now runs the real check inline, so
+       arriving here with a matching result already in hand means the eight
+       checks do not need running twice on the same site. Any mismatch, or a
+       shape that has moved on, falls straight through to running them. */
+    try {
+      const handed = sessionStorage.getItem('assembl:ai-ready');
+      if (handed) {
+        const cached = JSON.parse(handed) as Ready;
+        sessionStorage.removeItem('assembl:ai-ready');
+        const same = (a?: string, b?: string) =>
+          !!a && !!b && a.replace(/^https?:\/\//, '').replace(/\/$/, '')
+            === b.replace(/^https?:\/\//, '').replace(/\/$/, '');
+        if (same(cached?.url, u) && typeof cached.score === 'number' && Array.isArray(cached.checks)) {
+          setReady(cached);
+          if (sessionStorage.getItem('airdy-email')) { setGate('open'); void draftJourney(u); }
+          return;
+        }
+      }
+    } catch {
+      /* unparseable or blocked — run the checks */
+    }
+    void run(u);
+  }, [run, draftJourney]);
 
   const contextDoc = () =>
     brief && ready ? contextMarkdown(brief, ready.site, ready.url) : '';
@@ -641,7 +664,11 @@ export function AiReadyClient() {
             <button type="button" className="ghost" onClick={() => void share()}>
               {copied ? 'link copied ✓' : 'share this result'}
             </button>
-            <a className="ghost" href="/build-an-agent">assemble the agents →</a>
+            {/* Kate, 30 July 2026: the readiness flow ended by sending people to
+                /build-an-agent, the old gallery builder. The step after a score
+                and a context PDF is the agentic journey, not a toy that
+                assembles parts. */}
+            <a className="ghost" href="/assembling">see the agentic journey →</a>
           </div>
         )}
       </main>

@@ -49,6 +49,103 @@ export type Note = {
 
 export const NOTES: Note[] = [
   {
+    slug: 'power-company-back-billing-rules-nz',
+    title: 'Can a power company back-bill you for years in New Zealand?',
+    kicker: 'energy · the bill nobody can read',
+    answer:
+      'From 30 October 2026, a New Zealand power company can back-bill a household no more than six months. The same Electricity Authority rules require charges in plain language, and require retailers to check once a year that each residential customer is on the best plan they offer — and help them move at no cost.',
+    published: '2026-07-30',
+    readMinutes: 5,
+    sections: [
+      {
+        q: 'Can a power company back-bill you for years in New Zealand?',
+        a: [
+          'From 30 October 2026, most back bills from a New Zealand power company are capped at six months. The Electricity Authority’s better billing rules set that limit, in its own words, to "reduce the risk of unexpected bill shock".',
+          'A back bill is a charge for electricity you have already used but were never billed for at the time — usually because a meter read was estimated, a rate was entered wrongly, or an account was set up against the wrong plan. The power was used months ago. The bill arrives now, as a lump.',
+          'The cap does not change what you owe going forward. It changes how far into the past a retailer can reach.',
+        ],
+      },
+      {
+        q: 'What exactly changes on 30 October 2026?',
+        a: [
+          'Three things, and all three land on the same day. Bills must be clearer, more consistent and easier to compare, with charges explained in plain language. Most back bills must be limited to six months. And retailers must review each residential customer’s plan once a year, tell them if a cheaper plan of the retailer’s own exists, and help them change at no cost.',
+          'Two smaller requirements come with them: prescribed wording pointing customers to Billy, the Authority’s comparison site, and a new set of product identification codes so the same plan can be recognised across retailers.',
+          'The Authority consulted more than 1,500 consumers on this and reported over 90% support. For a retailer, the date is not a policy update — it is a build deadline for billing, comms and the annual review that did not exist before.',
+        ],
+      },
+      {
+        q: 'Why are New Zealanders complaining about power bills more than they used to?',
+        a: [
+          'Utilities Disputes took 13,554 formal complaints in 2025–26, a 62% rise on the year before, and billing featured in 47% of them. That is an average of 55 complaints every working day, on top of 27,045 people who made contact.',
+          'Complaints about affordability specifically went from 90 in 2021 to 1,029 in 2025–26. Commissioner Neil Mallon put the surge down to the pressure households are under rather than a failing by any one company.',
+          'The pattern underneath it is worth naming plainly: a bill you cannot check is a bill you have to ring about. Every unclear line item is a contact centre call waiting to be made.',
+        ],
+      },
+      {
+        q: 'Is the answer just to switch power companies?',
+        a: [
+          'Switching is already the easy part. The Electricity Authority says a switch takes 3–4 days on average, and in March 2026 it launched Billy, a free publicly owned comparison and switching site that models household usage from real data across 27,000 New Zealand homes.',
+          'But switching is something a person does occasionally, and the bill turns up every month. Consumer NZ expects power prices to rise about 5% in 2026, after a 12% increase the year before. The pressure is annual; the act of switching is not.',
+          'That is the shift in the new rules. The check moves inside the retailer’s own journey instead of waiting for the customer to go looking.',
+        ],
+      },
+      {
+        q: 'What will the annual best-plan check actually feel like?',
+        a: [
+          'That is still open, because the rule says the check must happen and says almost nothing about how it should feel. Two very different products satisfy the same clause.',
+          'The compliance version is an email once a year that says you are on the right plan, sent to an inbox, opened by almost nobody. It meets the rule and changes no relationship.',
+          'The designed version shows the customer their own year: usage read, every plan the retailer offers compared against it, the better plan named with the difference in dollars, and the move offered in a single action. Same rule, same data, entirely different feeling — and the second one is a reason to stay.',
+        ],
+      },
+      {
+        q: 'Where do AI agents fit in a check like that, and who decides?',
+        a: [
+          'Agents can do the preparation the check requires, and a named person still approves anything that reaches the customer. Read twelve months of usage, compare it against every plan on the book, draft the recommendation and the plain-language explanation of each charge. That is reading, comparing and drafting — not deciding.',
+          'The comparison takes a moment to run, and that moment is worth designing rather than hiding. Show the work as it happens. Let the customer earn something they keep for the minutes. Ask one question, optional, that changes the answer: has anything changed at your place this year — an EV, a heat pump, another person in the house?',
+          'The discipline that has to hold: nothing sends without a person approving it, the agent works only from the sources it was given, and when it cannot answer it says so. A wrong plan recommendation delivered confidently is worse than the email nobody opened.',
+        ],
+      },
+    ],
+    sources: [
+      {
+        fact: 'From 30 October 2026: bills clearer and in plain language; most back bills limited to a maximum of six months; retailers must check annually that residential customers are on the best plan the retailer offers and help them change at no cost. Consultation drew more than 1,500 consumers with over 90% support.',
+        source: 'Electricity Authority Te Mana Hiko, press release, 3 March 2026',
+        url: 'https://www.ea.govt.nz/news/press-release/new-rules-for-power-companies-to-improve-bills-reduce-bill-shock-and-introduce-product-information-standards/',
+      },
+      {
+        fact: '"Limit most back bills to a maximum of six months to reduce the risk of unexpected bill shock"; annual plan reviews; prescribed wording directing consumers to Billy; new product identification codes.',
+        source: 'Electricity Authority — better billing toolkit for retailers',
+        url: 'https://www.ea.govt.nz/news/general-news/electricity-authority-releases-better-billing-toolkit/',
+      },
+      {
+        fact: '13,554 formal complaints in 2025–26, up 62% on the previous year; 27,045 contacts; an average of 55 complaints per working day; billing in 47% of complaints and customer service in 52%.',
+        source: 'Utilities Disputes annual report 2025–26',
+        url: 'https://www.udl.co.nz/en/our-publications-and-schemes/annual-reports/',
+      },
+      {
+        fact: 'Affordability complaints rose from 90 in 2021 to 1,029 in 2025–26; Commissioner Neil Mallon attributed the rise to household pressure rather than one company’s failing.',
+        source: 'Utilities Disputes annual report 2025–26, reported by NEWS WIRE, 10 July 2026',
+        url: 'https://newswire.co.nz/2026/07/utility-complaints-record-high-2026/',
+      },
+      {
+        fact: '"On average, it takes just 3-4 days for the switch to take place."',
+        source: 'Electricity Authority — compare and switch',
+        url: 'https://www.ea.govt.nz/your-power/compare-and-switch/',
+      },
+      {
+        fact: 'Billy, a free publicly owned comparison and switching site, launched 26 March 2026 and models usage using real data from 27,000 New Zealand households.',
+        source: 'Electricity Authority Te Mana Hiko, press release, 26 March 2026',
+        url: 'https://www.ea.govt.nz/news/press-release/electricity-authority-launches-free-power-comparison-and-switching-site-billy/',
+      },
+      {
+        fact: 'Consumer NZ expects power prices to rise about 5% in 2026, after a 12% increase the year before.',
+        source: 'Consumer NZ, 11 February 2026',
+        url: 'https://www.consumer.org.nz/articles/power-prices-predicted-to-surge',
+      },
+    ],
+    next: { label: 'Walk the energy concept', href: '/demos' },
+  },
+  {
     slug: 'what-is-a-rewarded-wait-state',
     title: 'What is a rewarded wait state?',
     kicker: 'the idea, defined',

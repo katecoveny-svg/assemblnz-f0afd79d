@@ -419,6 +419,61 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
    the page with visuals like they are on a phone i also like the thin rim
@@ -588,7 +643,7 @@ h1{letter-spacing:-.035em}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· a demonstrator</small></div>
   <div class="navlinks">
-    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#boundary">The boundary</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -791,6 +846,45 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+
+<section id="boundary" class="bd"><div class="wrap">
+  <div class="num rise dark">03 — THE BOUNDARY</div>
+  <div class="narrow rise">
+    <h2>It has read the model. What may it certify?</h2>
+    <p class="bdLede">A building model carries quantities, clashes and consent risk. An agent can read all of it. The line sits at the point where reading becomes certifying, and in construction that line has a statute behind it.</p>
+  </div>
+  <div class="bdGrid rise">
+    <div class="bdList">
+      
+      <button class="bdSw" type="button" data-i="0" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Read the IFC and count what is in it</b><i>A real file, exported from Revit or ArchiCAD.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="1" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Find the clashes before the site meeting</b><i>Services against structure, across two models.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="2" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Sign off that the design meets the Building Code</b><i>The thing that would save the most time.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="3" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Certify restricted building work</b><i>Someone will ask.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="4" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Draft the payment claim from progress on site</b><i>The administration that delays everyone.</i></span>
+      </button>
+    </div>
+    <div class="bdOut">
+      <div class="bdOutK">what happens, and what governs it</div>
+      <div id="bdOut"></div>
+    </div>
+  </div>
+  <p class="bdFoot"><b>A New Zealand architecture and construction practice is invented. The rules are not.</b> Sources: Building Act 2004 and the building consent regime; Licensed Building Practitioners scheme and restricted building work; Health and Safety at Work Act 2015; Construction Contracts Act 2002 on payment claims. Every figure a model produces is checkable against the model.</p>
+</div></section>
+
 <section id="guard"><div class="wrap">
   <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
@@ -984,8 +1078,10 @@ var CFG={
   generic:true,
   theme:"paper",
   waits:[{"key":"concept","name":"The concept wait","when":"From brief to seeing it","feels":"weeks of imagining a house from a floor plan","screen":{"title":"Walk it before it exists","lines":["Your levels, walls and openings, from the model.","Opens in a browser. No licence, no plugin."],"chip":"practice approves"},"delivered":"The client understands the design in the room, instead of nodding along to a floor plan.","funder":"Funded by the practice, out of the fee it already spends re-explaining a model that is already right."},{"key":"consent","name":"The consent wait","when":"Lodged, waiting on council","feels":"silence, then a list of questions","screen":{"title":"Your consent, and what is asked","lines":["Lodged. Clock running. Nothing needed from you.","An RFI arrived — here is what it points at."],"chip":"RFI drafted"},"delivered":"The RFI comes back with the model evidence already gathered, not a fortnight later.","funder":"Funded by the practice, because every RFI answered slowly is programme the client ends up paying for."},{"key":"pricing","name":"The pricing wait","when":"Out for price, waiting","feels":"a design you love and no idea of the number","screen":{"title":"What the model counts","lines":["Quantities read from the model, not retyped.","Where the cost sits, before the tender lands."],"chip":"QS to confirm"},"delivered":"The client sees roughly where the money goes while the design can still be changed.","funder":"Funded by the practice and the main contractor, both of whom re-price the same job when it comes back over."},{"key":"coordination","name":"The coordination wait","when":"Between model issues","feels":"nobody sure what changed since Tuesday","screen":{"title":"What changed since Tuesday","lines":["Each discipline’s changes, in one list.","Clashes flagged where they actually collide."],"chip":"nothing issued"},"delivered":"Everyone works off the same answer, and the clash is found on a screen rather than on site.","funder":"Funded by the practice and the contractor together, because a clash found on site is paid for twice."},{"key":"site","name":"The site wait","when":"Work stopped, awaiting an answer","feels":"a crew standing around for one detail","screen":{"title":"The RFI, answered from the model","lines":["The detail, the level, the exact opening.","Sent to the practice to confirm, not to site."],"chip":"awaiting sign-off"},"delivered":"The question gets an answer the same day, and a person still signs it off before it reaches the crew.","funder":"Funded from the contractor’s preliminaries, where standing time is already being paid for."},{"key":"handover","name":"The handover wait","when":"From final inspection to keys","feels":"a finished house you are not allowed into yet","screen":{"title":"What is left before handover","lines":["Defects, sign-offs and statements, in one list.","What the council still holds, and who chases it."],"chip":"as-built kept"},"delivered":"The last stretch is visible to everyone, so the keys are not held up by one missing piece of paper.","funder":"Funded by the practice, because handover is the part the client describes to everyone they know."}],
+  boundary:[{"label":"Read the IFC and count what is in it","does":"A real file, exported from Revit or ArchiCAD.","verdict":"yes","result":"It reads the model in a browser and returns quantities: wall lengths, floor areas, openings, counts by type. No authoring licence sits in that loop, which is where most of the cost currently goes.","rule":"No barrier.","source":"IFC is an open standard. Reading a file the practice already exported changes nothing about who is responsible for it."},{"label":"Find the clashes before the site meeting","does":"Services against structure, across two models.","verdict":"yes","result":"It lists them with locations and severity, and it says which ones it is unsure about. A clash list a coordinator can walk into a meeting with beats a clash found on site by several thousand dollars.","rule":"No barrier.","source":"Detection is analysis. The resolution stays with the coordinator, and the list carries what the agent could not judge."},{"label":"Sign off that the design meets the Building Code","does":"The thing that would save the most time.","verdict":"no","result":"It refuses. It can flag where a dimension looks outside an acceptable solution and point at the clause, and it never issues a determination. Compliance is a decision a person holds.","rule":"Building Act 2004.","source":"Building consent authorities grant consents and issue code compliance certificates. No software substitutes for that function."},{"label":"Certify restricted building work","does":"Someone will ask.","verdict":"no","result":"It refuses. Restricted building work requires a Licensed Building Practitioner to design, carry out or supervise it, and to give a memorandum. A licence attaches to a person.","rule":"Licensed Building Practitioners scheme, Building Act 2004.","source":"Restricted building work is defined by regulation and requires an LBP record of work. lbp.govt.nz"},{"label":"Draft the payment claim from progress on site","does":"The administration that delays everyone.","verdict":"notice","result":"It drafts the claim against the schedule and the model, and a person issues it. Payment claims have statutory timing and content requirements, and a defective one loses its effect.","rule":"Construction Contracts Act 2002.","source":"Sets out what a payment claim must contain and the timeframes for a payment schedule in response. A claim issued by the wrong party or in the wrong form is not a payment claim."}],
   foil:["#204d63","#9bb9c9","#296380"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
   object:"lattice",
+  place:null,
   
   execs:{"lead":"Practice principal","bim":"BIM / digital lead","pm":"Project lead"}, buyerTitle:"Practice leadership · digital delivery", buyerLine:"A demonstrator — no client named",
   variants:[{"key":"client","label":"The client","chan":"Walkthrough · living space, bifolds open","body":"Here is the living space as the model has it, with the bifolds open.\n\nYou can walk it in your browser — no software, no plugin, on your phone if that is easier.\n\nWhat you are seeing is the coordinated model, not an artist's impression: the ceiling height, the opening width and the sill line are the real ones. Finishes are indicative, and everything is subject to consent and the final documentation.\n\nIf something feels wrong when you walk it, that is exactly the feedback that is cheap now and expensive later.","rules":["Says plainly what is real and what is indicative","No render dressed up as a decision","Invites the feedback while it is still cheap","Consent and documentation caveat kept, never buried"]},{"key":"site","label":"The site","chan":"Coordination view · what changed since Tuesday","body":"Since Tuesday's issue, three things moved in the model.\n\nThe level-two slab edge, the east curtain-wall head height, and two door openings on the ground floor.\n\nThis view is filtered to those three, with grids and levels on, so you are not hunting a whole model for a change note.\n\nThis is a coordination aid drafted from the model. It is not an issued drawing and does not supersede the documentation — if it disagrees with the issued set, the issued set wins.","rules":["Names exactly what changed rather than reissuing everything","Filtered to the delta — the thing a site actually needs","Explicitly not an issued drawing","Names which document wins in a conflict"]},{"key":"qs","label":"The QS","chan":"Quantities · counted from the model","body":"Quantities as the model has them, for the elements that are modelled.\n\nWall areas by type, opening counts, slab areas by level. Each line says which model elements it came from, so you can check any number in a minute rather than trusting it.\n\nWhat is not here: anything not modelled yet, and anything that needs a rate. This is a count, not an estimate, and it does not replace your measure — it just means you are not retyping what the model already knows.","rules":["Every number traceable to the elements it came from","States plainly what is missing from the model","A count, never an estimate","Explicitly does not replace the QS"]},{"key":"consent","label":"Consent","chan":"Held — not drafted · compliance judgement required","body":"This one was not drafted.\n\nThe request is for a schedule supporting a building consent application. A schedule assembled from a model can be wrong in ways that matter to a consenting authority, and the person who signs it carries that.\n\nWhat has been prepared instead: the underlying counts, with every element listed, ready for the person who will put their name to the application.\n\nThe compliance judgement is theirs. It should not be a by-product of a conversion.","rules":["The most important output is the one that refuses to produce","Compliance judgement never automated","Prepares the inputs for the named person instead","Names why: someone signs, and carries it"]}], guard:[{"ok":true,"t":"Every quantity traces to elements","d":"Each line names the model elements it was counted from, so any number can be checked in a minute.","law":"Practice quality assurance"},{"ok":true,"t":"Indicative is labelled indicative","d":"Finishes and lighting in a client walkthrough are marked as indicative; dimensions come from the model or are omitted.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Held — consent schedule requested","d":"Nothing drafted. The counts are prepared for the person who signs the application; the compliance judgement stays with them.","law":"Building Act 2004 · producer statements"},{"ok":false,"t":"Held — elements missing from the model","d":"Where a set is incomplete, no total is produced. A confident subtotal presented as a total is the failure mode here.","law":"Practice quality assurance"},{"ok":true,"t":"Never supersedes the issued set","d":"Every coordination view says so, and names which document wins in a conflict.","law":"Contract documentation"}],
@@ -1115,6 +1211,44 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
 
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Six waits, one phone, clicked through. Kate, 30 Jul 2026.
@@ -1487,6 +1621,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){

@@ -1,0 +1,271 @@
+{
+  "object": "scene",
+  "name": "A house, 2am",
+  "nodes": {
+    "level_z0z3uijroxylj3vt": {
+      "object": "node",
+      "id": "level_z0z3uijroxylj3vt",
+      "type": "level",
+      "name": "Ground",
+      "parentId": null,
+      "visible": true,
+      "metadata": {},
+      "children": [],
+      "level": 0
+    },
+    "slab_wnc23o0b8gcrgdlm": {
+      "object": "node",
+      "id": "slab_wnc23o0b8gcrgdlm",
+      "type": "slab",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "floor"
+      },
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          12.6,
+          0
+        ],
+        [
+          12.6,
+          9.4
+        ],
+        [
+          0,
+          9.4
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0,
+      "thickness": 0.12,
+      "recessed": false,
+      "autoFromWalls": false
+    },
+    "wall_c83iva9afsx60uth": {
+      "object": "node",
+      "id": "wall_c83iva9afsx60uth",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.24,
+      "height": 2.5,
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        12.6,
+        0
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_218x1ojmez1uy215": {
+      "object": "node",
+      "id": "wall_218x1ojmez1uy215",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.24,
+      "height": 2.5,
+      "start": [
+        12.6,
+        0
+      ],
+      "end": [
+        12.6,
+        9.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_edrteorifepe7tsd": {
+      "object": "node",
+      "id": "wall_edrteorifepe7tsd",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.24,
+      "height": 2.5,
+      "start": [
+        12.6,
+        9.4
+      ],
+      "end": [
+        0,
+        9.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_4dw9qk3wx2eq6nal": {
+      "object": "node",
+      "id": "wall_4dw9qk3wx2eq6nal",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "shell"
+      },
+      "children": [],
+      "thickness": 0.24,
+      "height": 2.5,
+      "start": [
+        0,
+        9.4
+      ],
+      "end": [
+        0,
+        0
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_79sgs8mjk5dy1l45": {
+      "object": "node",
+      "id": "wall_79sgs8mjk5dy1l45",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "inner"
+      },
+      "children": [],
+      "thickness": 0.12,
+      "height": 2.5,
+      "start": [
+        7.2,
+        0
+      ],
+      "end": [
+        7.2,
+        5.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_js7mkj0eivg5ebpx": {
+      "object": "node",
+      "id": "wall_js7mkj0eivg5ebpx",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "inner"
+      },
+      "children": [],
+      "thickness": 0.12,
+      "height": 2.5,
+      "start": [
+        0,
+        5.6
+      ],
+      "end": [
+        12.6,
+        5.6
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_tkehgah6m0mfr6xs": {
+      "object": "node",
+      "id": "wall_tkehgah6m0mfr6xs",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "inner"
+      },
+      "children": [],
+      "thickness": 0.12,
+      "height": 2.5,
+      "start": [
+        3.6,
+        5.6
+      ],
+      "end": [
+        3.6,
+        9.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "wall_aqa3m9byswhw038j": {
+      "object": "node",
+      "id": "wall_aqa3m9byswhw038j",
+      "type": "wall",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "inner"
+      },
+      "children": [],
+      "thickness": 0.12,
+      "height": 2.5,
+      "start": [
+        8.4,
+        5.6
+      ],
+      "end": [
+        8.4,
+        9.4
+      ],
+      "frontSide": "unknown",
+      "backSide": "unknown"
+    },
+    "slab_byo6r3ghqofmbjn1": {
+      "object": "node",
+      "id": "slab_byo6r3ghqofmbjn1",
+      "type": "slab",
+      "parentId": "level_z0z3uijroxylj3vt",
+      "visible": true,
+      "metadata": {
+        "k": "lit",
+        "lit": true,
+        "label": "the lounge"
+      },
+      "polygon": [
+        [
+          0.2,
+          0.2
+        ],
+        [
+          7,
+          0.2
+        ],
+        [
+          7,
+          5.4
+        ],
+        [
+          0.2,
+          5.4
+        ]
+      ],
+      "holes": [],
+      "holeMetadata": [],
+      "elevation": 0.02,
+      "thickness": 0.04,
+      "recessed": false,
+      "autoFromWalls": false
+    }
+  }
+}

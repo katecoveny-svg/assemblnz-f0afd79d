@@ -9,7 +9,7 @@
  * mark and never swapped for a client colour.
  */
 
-import { mkdirSync, writeFileSync, copyFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CLIENTS } from './clients.mjs';
@@ -541,6 +541,61 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
    the page with visuals like they are on a phone i also like the thin rim
@@ -710,7 +765,7 @@ h1{letter-spacing:-.035em}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· ${c.generic ? `a demonstrator` : `independent concept`}</small></div>
   <div class="navlinks">
-    <a href="#wait">The wait</a>${wm ? '<a href="#map">The six waits</a>' : ''}<a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#wait">The wait</a>${wm ? '<a href="#map">The six waits</a>' : ''}${c.boundary ? '<a href="#boundary">The boundary</a>' : ''}<a href="#mirror">The work</a><a href="#guard">The guard</a>
     <a href="#room">The room</a><a href="#board">The board</a>${c.boardFacts ? '<a href="#evidence">The evidence</a>' : ''}<a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -937,6 +992,32 @@ ${mech && mech.kind === 'tracker' ? `
   </div>
 </div></section>
 
+${c.boundary ? `
+<section id="boundary" class="bd"><div class="wrap">
+  <div class="num rise dark">03 — THE BOUNDARY</div>
+  <div class="narrow rise">
+    <h2>${esc(c.boundary.title)}</h2>
+    <p class="bdLede">${esc(c.boundary.lede)}</p>
+  </div>
+  <div class="bdGrid rise">
+    <div class="bdList">
+      ${c.boundary.switches.map((w, i) => `
+      <button class="bdSw" type="button" data-i="${i}" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>${esc(w.label)}</b><i>${esc(w.does)}</i></span>
+      </button>`).join('')}
+    </div>
+    <div class="bdOut">
+      <div class="bdOutK">what happens, and what governs it</div>
+      <div id="bdOut"></div>
+    </div>
+  </div>
+  <p class="bdFoot"><b>${c.generic
+    ? esc(c.company) + ' is invented. The rules are not.'
+    : 'These are real rules, and this is an independent concept.'}</b> ${c.generic
+    ? '' : esc(c.company) + ' has not commissioned, reviewed or endorsed it. '}${esc(c.boundary.foot)}</p>
+</div></section>
+` : ''}
 <section id="guard"><div class="wrap">
   <div class="num rise">04 — THE GUARD</div>
   <div class="grid2">
@@ -1146,8 +1227,10 @@ var CFG={
   generic:${js(Boolean(c.generic))},
   theme:${js(theme)},
   waits:${wm ? js(wm.moments) : 'null'},
+  boundary:${js(c.boundary ? c.boundary.switches : null)},
   foil:${js([foil1, foil2, foil3])}, foilInk:${js(foilInk)}, onAccent:${js(onAccent)},
   object:${js(c.object || 'filament')},
+  place:${c.place ? JSON.stringify(c.place) : 'null'},
   ${mech && mech.kind === 'tracker' ? `trkFrom:${mech.from.n}, trkTo:${mech.to.n},
   trkShave:${js(mech.steps.map((x) => x.shave))},
   trkCaps:${js({ from: mech.from.cap, to: mech.to.cap, steps: mech.steps.map((x) => x.t) })},` : ''}
@@ -1279,6 +1362,44 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
 
 /* ── THE WAIT DECK ─────────────────────────────────────────────────────────
    Six waits, one phone, clicked through. Kate, 30 Jul 2026.
@@ -1651,6 +1772,62 @@ function grounded(q){
   function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
 
   var OBJECTS={
+    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
+       Kate, 30 July 2026: use Pascal for the demos too.
+
+       Every other entry in this map is a primitive that stands for something.
+       This one IS the thing: a house, a store floor, a village, a depot, drawn
+       from walls and slabs authored in the Pascal editor's own schemas by
+       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
+
+       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
+       the rest of the fleet uses needs no change. One box per wall, one per
+       floor plate, and whichever room the argument is about carries lit:1 and
+       gets the brand colour with a glow. */
+    place:function(){
+      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
+
+      /* Walls read as architecture rather than sculpture, so they get a matte
+         near-white and the LIT room gets the accent. Chrome on a wall makes a
+         house look like a fridge. */
+      var wallM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
+        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
+      var floorM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
+        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
+      var fitM=new THREE.MeshStandardMaterial({
+        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
+        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
+      var litM=new THREE.MeshStandardMaterial({
+        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
+        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
+
+      var shell=new THREE.Group();
+      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
+
+      for(var i=0;i<P.length;i++){
+        var b=P[i];
+        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+          b.lit?litM:(pick[b.k]||wallM));
+        m.position.set(b.p[0],b.p[1],b.p[2]);
+        m.rotation.y=b.ry||0;
+        shell.add(m);
+      }
+
+      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
+         y and the plan lies in x/z, so a horizontal camera sees only elevation
+         and the place reads as a fence. Positive x rotation lays the plan open. */
+      shell.rotation.x=0.88;
+      shell.rotation.z=0.04;
+      part(shell,0,0.012,0);
+
+      /* one hairline ring under it, so the place sits on something */
+      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
+      r.rotation.x=Math.PI/2; r.position.y=-1.9;
+    },
     /* one continuous path through the whole thing — one application, one journey.
        Kate's chosen homepage direction, so it is the right default. */
     filament:function(){
@@ -1990,6 +2167,15 @@ function boardPage(c) {
 
 /* Wait maps live one-per-client so a sector's six moments can be rewritten
    without touching anyone else's. A client without one simply omits the band. */
+/* Places authored in Pascal by research/_pascal/build-places.mjs. A client with
+   `object: 'place'` and a matching places/<slug>.boxes.json gets a real building
+   instead of a primitive. Baked in at build time so the page needs no fetch. */
+const PLACES = {};
+for (const f of readdirSync(resolve(HERE, '..', '_pascal', 'places')).filter((n) => n.endsWith('.boxes.json'))) {
+  PLACES[f.replace('.boxes.json', '')] = JSON.parse(
+    readFileSync(resolve(HERE, '..', '_pascal', 'places', f), 'utf8'));
+}
+
 const WAITMAPS = {};
 for (const c of CLIENTS) {
   const f = resolve(HERE, 'waitmaps', `${c.slug}.mjs`);
@@ -2015,7 +2201,9 @@ if (!targets.length) {
 for (const c of targets) {
   const dir = resolve(RESEARCH, `assembling-${c.slug}`);
   mkdirSync(resolve(dir, 'functions/api'), { recursive: true });
-  writeFileSync(resolve(dir, 'index.html'), page(c, WAITMAPS[c.slug] ?? null, MECHANICS[c.slug] ?? null));
+  writeFileSync(resolve(dir, 'index.html'),
+    page({ ...c, place: PLACES[c.placeKey ?? c.slug] ?? null },
+      WAITMAPS[c.slug] ?? null, MECHANICS[c.slug] ?? null));
   if (c.boardFacts) writeFileSync(resolve(dir, 'board.html'), boardPage(c));
   writeFileSync(resolve(dir, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
   writeFileSync(resolve(dir, 'wrangler.toml'),

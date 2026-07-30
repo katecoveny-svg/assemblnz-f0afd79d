@@ -69,6 +69,7 @@ if [[ $# -gt 0 ]]; then
   PROJECTS=("$@")
 else
   PROJECTS=(
+    assembling-roomcheck
     assembling-woolworths-rewards
     assembling-ryman-family
     assembling-summerset
@@ -118,7 +119,9 @@ echo
 echo "── verifying (the health endpoint reports presence and length, never the key) ──"
 for p in "${PROJECTS[@]}"; do
   printf '%-34s ' "$p"
-  curl -s -m 15 "https://$p.pages.dev/api/agent" \
+  EP=/api/agent
+  [[ "$p" == "assembling-roomcheck" ]] && EP=/api/plan
+  curl -s -m 15 "https://$p.pages.dev$EP" \
     | python3 -c "
 import sys, json
 try:
@@ -140,7 +143,21 @@ if [[ ${#FAILED[@]} -gt 0 ]]; then
 fi
 
 echo
-echo "Done. A secret change takes effect on the next request — no redeploy needed."
+echo "Secrets set. NOW REDEPLOY — this part is not optional."
+echo
+echo "A Pages secret binds to a DEPLOYMENT, not to the project. Running this script"
+echo "alone left 20 of 25 projects still answering on the Workers AI fallback until"
+echo "each one was redeployed. To bind them all:"
+echo
+echo "  cd ~/assembl-web/research"
+echo "  for d in assembling-*/; do (cd \"\$d\" && npx wrangler pages deploy . \\"
+echo "    --project-name \"\${d%/}\" --branch main --commit-dirty=true >/dev/null 2>&1 \\"
+echo "    && echo \"\${d%/} ok\"); done"
+echo
+echo "Three projects have a production branch that is NOT main — assembling-airnz,"
+echo "assembling-contact and assembling-concept use the project name as the branch."
+echo "Deploying those with --branch main reports success and changes nothing."
+echo
 echo "Older builds without the GET handler will still work; they just cannot"
 echo "report their own health. To confirm one of those, POST to it:"
 echo "  curl -s -X POST https://<proj>.pages.dev/api/agent \\"

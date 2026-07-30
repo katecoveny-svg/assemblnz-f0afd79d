@@ -661,6 +661,43 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 /* the flat six-card band this replaces stays in the DOM as the no-JS fallback,
    hidden only once the deck has actually mounted */
 body.d6-live #waitmap .wm-grid{display:none}
+
+
+
+
+/* ═══ THE PLACE · authored in Pascal, injected by _generator/patch-place.mjs ═══
+   Its own canvas, camera and lights, namespaced pl* so it cannot collide with
+   whatever three.js scene this page already runs. Kate, 30 July 2026. */
+#place{background:#101012;color:#F2F2F0;padding:88px 0 94px;position:relative;z-index:3;overflow:hidden}
+#place .plWrap{max-width:1200px;margin:0 auto;padding:0 30px}
+@media(min-width:1700px){#place .plWrap{max-width:min(82vw,1560px)}}
+#place .plKick{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:#898989;margin-bottom:16px}
+#place h2{font-size:clamp(27px,3.7vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.07;
+  color:#F2F2F0;margin:0;max-width:26ch}
+#place .plLede{margin-top:18px;font-size:clamp(15px,1.35vw,17.5px);line-height:1.62;color:rgba(242,242,240,.8);
+  font-weight:300;max-width:64ch}
+#place .plGrid{display:grid;grid-template-columns:1.25fr .85fr;gap:38px;margin-top:44px;align-items:center}
+@media(max-width:960px){#place .plGrid{grid-template-columns:1fr;gap:26px}}
+#place .plStage{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/11;
+  background:radial-gradient(ellipse at 52% 44%,#0d0d0d 0%,#040404 68%);
+  border:1px solid rgba(242,242,240,.14);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  cursor:grab;touch-action:none}
+#place .plStage:active{cursor:grabbing}
+#place canvas.plCanvas{display:block;width:100%;height:100%}
+#place .plHint{position:absolute;left:18px;bottom:16px;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:700;color:rgba(242,242,240,.5);
+  pointer-events:none;transition:opacity .4s}
+#place .plHint.gone{opacity:0}
+#place .plCard{border-left:3px solid #3A3A3A;padding:2px 0 2px 22px}
+#place .plCardK{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#898989}
+#place .plCard b{display:block;font-size:clamp(19px,2.1vw,25px);font-weight:800;letter-spacing:-.025em;
+  color:#F2F2F0;margin:9px 0 11px;line-height:1.18}
+#place .plCard p{font-size:14.5px;line-height:1.66;color:rgba(242,242,240,.8);font-weight:300}
+#place .plMeta{margin-top:22px;padding-top:16px;border-top:1px solid rgba(242,242,240,.14);
+  font-size:11.5px;line-height:1.62;color:rgba(242,242,240,.5)}
+#place .plMeta b{color:#F2F2F0;font-weight:600}
 </style>
 </head>
 <body>
@@ -2677,6 +2714,143 @@ function wmCopy(){
   window.addEventListener('resize',function(){if(!revealed) fit()});
   val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
   fit();
+})();
+</script>
+
+
+
+
+<!-- ═══ THE PLACE · injected by _generator/patch-place.mjs ═══ -->
+<section id="place"><div class="plWrap">
+  <p class="plKick">The showroom, and the wait inside it</p>
+  <h2>Four plinths, one glass frontage, and a delivery bay that decides the week.</h2>
+  <p class="plLede">A showroom authored as real architecture. The delivery bay is lit, because the wait this concept is about happens there: between a car arriving on site and a customer being told it has. Drag it around.</p>
+  <div class="plGrid">
+    <div class="plStage" id="plStage">
+      <canvas class="plCanvas" id="plCanvas"></canvas>
+      <span class="plHint" id="plHint">drag to turn it</span>
+    </div>
+    <div>
+      <div class="plCard">
+        <div class="plCardK">the part that matters</div>
+        <b>The delivery bay</b>
+        <p>Seven by five and a half metres, behind the service wall. Stock lands here and the marketing operation finds out later. The concept flips that order, and the campaign starts from what is physically on the floor.</p>
+      </div>
+      <p class="plMeta"><b>Where this geometry came from.</b> 5 walls and the floor plates were
+      authored in the Pascal Editor&rsquo;s own schemas and measured in metres, not sketched. Pascal is
+      MIT-licensed and open source. The same pipeline reads a real IFC file exported from Revit or
+      ArchiCAD, which is what makes this a working method rather than an illustration.</p>
+    </div>
+  </div>
+</div></section>
+
+<script src="three.min.js"></script>
+<script>
+/* ═══ THE PLACE ════════════════════════════════════════════════════════════
+   A self-contained renderer for the Pascal-authored building. Own scene, own
+   camera, own lights, so nothing here touches whatever 3D this page already
+   runs. Drag to orbit; it idles slowly until you do.
+
+   Materials: matte on a light ground. Mirror metal on paper blows flat faces to
+   white and the whole building vanishes, which is a trap this fleet has already
+   fallen into once. */
+(function place(){
+  var BOXES=[{"k":"floor","p":[0,-0.006,0],"s":[2.52,0.013,1.68],"ry":0},{"k":"shell","p":[0,0.26,-0.84],"s":[2.52,0.521,0.024],"ry":0},{"k":"shell","p":[1.26,0.26,0],"s":[1.68,0.521,0.024],"ry":1.5708},{"k":"shell","p":[0,0.26,0.84],"s":[2.52,0.521,0.024],"ry":3.1416},{"k":"shell","p":[-1.26,0.26,0],"s":[1.68,0.521,0.024],"ry":-1.5708},{"k":"glass","p":[0,0.26,-0.815],"s":[2.47,0.521,0.007],"ry":0},{"k":"inner","p":[0.42,0.176,0],"s":[1.63,0.353,0.02],"ry":1.5708},{"k":"plinth","p":[-0.949,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"plinth","p":[-0.58,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"plinth","p":[-0.21,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"plinth","p":[0.16,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"lit","p":[0.882,0,0.563],"s":[0.588,0.004,0.454],"ry":0,"lit":1,"label":"delivery bay"}];
+  var ACCENT="#3A3A3A", PAPER=false;
+  var cv=document.getElementById('plCanvas'), stage=document.getElementById('plStage');
+  if(!cv||!stage||typeof THREE==='undefined') return;
+
+  var ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+  ren.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  var sc=new THREE.Scene();
+  var cam=new THREE.PerspectiveCamera(34,1,0.1,200);
+
+  sc.add(new THREE.HemisphereLight(PAPER?0xffffff:0x9fb0c4, PAPER?0xd8d4cc:0x0a0c10, PAPER?0.95:0.7));
+  var key=new THREE.DirectionalLight(0xffffff, PAPER?1.05:1.7);
+  key.position.set(5,9,6); sc.add(key);
+  var fill=new THREE.DirectionalLight(new THREE.Color(ACCENT), PAPER?0.35:0.6);
+  fill.position.set(-6,3,-4); sc.add(fill);
+
+  var wallM=new THREE.MeshStandardMaterial({color:PAPER?0xEDEBE6:0xC2C7CE,
+    metalness:0.05,roughness:PAPER?0.68:0.55,envMapIntensity:PAPER?0.8:1.1});
+  var floorM=new THREE.MeshStandardMaterial({color:PAPER?0xDCD8D1:0x2E3238,
+    metalness:0.03,roughness:0.82});
+  /* The site ground needs its OWN value. On the village it was within a few
+     percent of the wall colour, the key light blew both to white, and eight
+     villas disappeared into the lawn. A darker ground makes the buildings read. */
+  var groundM=new THREE.MeshStandardMaterial({color:PAPER?0xB8B2A8:0x1C2026,
+    metalness:0.02,roughness:0.9});
+  var fitM=new THREE.MeshStandardMaterial({color:PAPER?0xD2CEC6:0x828992,
+    metalness:0.08,roughness:0.6});
+  /* Emissive fights the key light and washes a saturated accent toward yellow,
+     which is what happened to Ryman's orange. Keep the colour, drop the glow to
+     a hint, and let the surface be lit rather than lighting itself. */
+  var litM=new THREE.MeshStandardMaterial({color:new THREE.Color(ACCENT),
+    emissive:new THREE.Color(ACCENT),emissiveIntensity:PAPER?0.10:0.34,
+    metalness:0.02,roughness:0.55});
+  var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
+    glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
+    plinth:fitM,floor:floorM,ground:groundM,slab:floorM,lit:litM};
+
+  var g=new THREE.Group();
+  for(var i=0;i<BOXES.length;i++){
+    var b=BOXES[i];
+    var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
+      b.lit?litM:(pick[b.k]||wallM));
+    m.position.set(b.p[0],b.p[1],b.p[2]);
+    m.rotation.y=b.ry||0;
+    g.add(m);
+  }
+  sc.add(g);
+
+  /* Look DOWN onto the plan. The walls stand in y and the plan lies in x/z, so a
+     camera at eye level sees a fence. This sits above and swings around. */
+  var yaw=-0.62, pitch=0.82, dist=7.4;
+  function place3(){
+    cam.position.set(
+      Math.sin(yaw)*Math.cos(pitch)*dist,
+      Math.sin(pitch)*dist,
+      Math.cos(yaw)*Math.cos(pitch)*dist);
+    cam.lookAt(0,0.5,0);
+  }
+
+  function fit(){
+    var r=stage.getBoundingClientRect();
+    if(!r.width) return;
+    ren.setSize(r.width,r.height,false);
+    cam.aspect=r.width/Math.max(1,r.height); cam.updateProjectionMatrix();
+  }
+  window.addEventListener('resize',fit); fit();
+
+  /* drag to orbit */
+  var drag=false, lx=0, ly=0, touched=false;
+  var hint=document.getElementById('plHint');
+  stage.addEventListener('pointerdown',function(e){
+    drag=true; lx=e.clientX; ly=e.clientY;
+    if(!touched){touched=true; if(hint) hint.classList.add('gone')}
+  });
+  window.addEventListener('pointerup',function(){drag=false});
+  window.addEventListener('pointermove',function(e){
+    if(!drag) return;
+    yaw-=(e.clientX-lx)*0.007;
+    pitch=Math.max(0.16,Math.min(1.44,pitch+(e.clientY-ly)*0.005));
+    lx=e.clientX; ly=e.clientY;
+  });
+
+  var running=false;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){ running=en.isIntersecting });
+  },{threshold:0.05});
+  io.observe(stage);
+
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(!running) return;
+    if(!drag && !reduce) yaw+=0.0016;
+    place3();
+    ren.render(sc,cam);
+  })();
 })();
 </script>
 </body>

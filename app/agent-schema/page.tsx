@@ -40,7 +40,7 @@ export default function AgentSchemaPage() {
       <p>{AGENT_SCHEMA.description}</p>
       <p>
         Machine-readable version: <a href="/agent.schema.json">/agent.schema.json</a>. Walk it in 3D on the{' '}
-        <a href="/#showroom">homepage gallery</a>, or <a href="/build-an-agent">assemble one from your own website</a>.
+        <a href="/#showroom">homepage gallery</a>, or <a href="/ai-ready">see what AI makes of your own website</a>.
       </p>
 
       <h2 style={{ fontWeight: 700, marginTop: 44 }}>The six parts</h2>
