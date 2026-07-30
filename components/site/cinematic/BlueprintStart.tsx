@@ -1,75 +1,87 @@
 'use client';
 
 import { useState } from 'react';
-import { assembleBlueprint, type Brief as SharedBrief, type BriefBrand } from '@/lib/build-an-agent/assemble-client';
 
 /**
- * The Blueprint invitation — the first thing a visitor does on the homepage.
+ * The homepage box — the first thing a visitor does.
  *
- * It asks for the one thing they already have. The full experience (the agent
- * wearing their colours, the live questions, the PDF) lives at /build-an-agent;
- * this hands the finished blueprint over in sessionStorage so the model isn't
- * asked to read the same page twice.
+ * Kate, 30 July 2026: "its the home page box tghat doesnt give you the ai check
+ * it gives you a business blueptint".
+ *
+ * She was right, and it was the wrong thing in the most damaging possible place.
+ * The card's own copy promises an AI-readiness score and a context.md. The box
+ * underneath it called `assembleBlueprint` — the old agent-builder pipeline —
+ * showed "what it understood", and finished on a button reading "open the full
+ * blueprint →" that sent people to /build-an-agent. So the one thing the
+ * homepage asks a stranger to do delivered neither of the two things it had just
+ * offered them.
+ *
+ * It now runs the real check. POST /api/ai-ready is deterministic, makes no model
+ * call, and comes back in about a second with a score out of 100 and eight
+ * checks, so the score can land inline rather than after a page load. Pressing
+ * through goes to /ai-ready?u=…, where the same result reopens with the journey,
+ * the context.md and the context PDF.
  */
 
-type Brief = SharedBrief;
-
-/** What has actually finished, shown while the model reads. */
-interface Progress {
-  fetched?: string;
-  styles?: number;
-  brand?: BriefBrand | null;
-  reading?: boolean;
-}
+type Check = {
+  id: string;
+  label: string;
+  status: 'pass' | 'partial' | 'fail';
+  detail: string;
+  fix: string;
+  weight: number;
+};
+type Ready = { url: string; site: string; score: number; checks: Check[]; checkedAt: string };
 
 export function BlueprintStart() {
   const [url, setUrl] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [brief, setBrief] = useState<Brief | null>(null);
-  const [progress, setProgress] = useState<Progress>({});
+  const [ready, setReady] = useState<Ready | null>(null);
 
-  async function assemble() {
+  async function check() {
     const value = url.trim();
     if (!value || busy) return;
     setBusy(true);
     setError('');
-    setBrief(null);
-    setProgress({});
+    setReady(null);
     try {
-      const result = await assembleBlueprint(value, (evt) => {
-        if (evt.stage === 'fetched') setProgress((p) => ({ ...p, fetched: evt.source }));
-        else if (evt.stage === 'styles') setProgress((p) => ({ ...p, styles: evt.count }));
-        else if (evt.stage === 'colours') setProgress((p) => ({ ...p, brand: evt.brand }));
-        else if (evt.stage === 'reading') setProgress((p) => ({ ...p, reading: true }));
+      const res = await fetch('/api/ai-ready', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ url: value }),
       });
-      setBrief(result);
-      // Announce it so anything else on the page can wear this business —
-      // the assembler in particular. sessionStorage as well as the event, so
-      // a reload keeps it. They sit far apart in the tree and threading a
-      // prop through the whole page component to reach one of them is worse.
-      try {
-        sessionStorage.setItem('assembl:brief', JSON.stringify(result));
-      } catch {
-        /* private mode — nothing downstream depends on this succeeding */
+      const data = (await res.json()) as Ready & { error?: string };
+      if (!res.ok || data.error) {
+        setError(data.error ?? 'That did not come back cleanly — try the public https:// address.');
+        return;
       }
-      window.dispatchEvent(new CustomEvent('assembl:brief', { detail: result }));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'The blueprint service is resting — try again in a moment.');
+      setReady(data);
+      /* Hand the result to /ai-ready so pressing through does not re-run the
+         same eight checks on the same site. */
+      try {
+        sessionStorage.setItem('assembl:ai-ready', JSON.stringify(data));
+      } catch {
+        /* private mode — /ai-ready simply runs the checks again, which is cheap */
+      }
+    } catch {
+      setError('That did not come back cleanly — check the address and try again.');
     } finally {
       setBusy(false);
     }
   }
 
   function openFull() {
-    if (!brief) return;
-    try {
-      sessionStorage.setItem('assembl:brief', JSON.stringify(brief));
-    } catch {
-      /* private mode — the builder will just read the site again */
-    }
-    window.location.href = `/build-an-agent?site=${encodeURIComponent(brief.source)}`;
+    if (!ready) return;
+    /* `url` is the address and `site` is the page title — the API returns both,
+       and passing the title here silently broke the handover the first time. */
+    window.location.href = `/ai-ready?u=${encodeURIComponent(ready.url)}`;
   }
+
+  /* Lead with what is wrong, because that is the useful part and it is the
+     reason to press through. A perfect score falls back to the passes. */
+  const failed = ready ? ready.checks.filter((c) => c.status !== 'pass') : [];
+  const shown = ready ? (failed.length ? failed : ready.checks).slice(0, 3) : [];
 
   return (
     <div className="bp-start">
@@ -83,65 +95,46 @@ export function BlueprintStart() {
           placeholder="yourbusiness.co.nz"
           aria-label="your website address"
           onChange={(e) => setUrl(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') assemble(); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') void check(); }}
         />
-        <button className="btn btn-solid" onClick={assemble} disabled={busy || !url.trim()}>
-          {busy ? 'reading…' : 'assemble mine'}
+        <button className="btn btn-solid" onClick={() => void check()} disabled={busy || !url.trim()}>
+          {busy ? 'checking…' : 'check my site — free'}
         </button>
       </div>
       <div className="bp-note">
-        One public page, about ten seconds. Nothing is stored and nothing is sent.
+        Eight checks on one public page, about a second. Nothing is stored and nothing is sent.
       </div>
       {error ? <div className="bp-error">{error}</div> : null}
 
       {busy ? (
         <div className="bp-progress">
-          {progress.fetched ? <div className="bp-step done">read {progress.fetched}</div> : <div className="bp-step">fetching the page…</div>}
-          {progress.styles !== undefined ? (
-            <div className="bp-step done">{progress.styles} stylesheet{progress.styles === 1 ? '' : 's'} read</div>
-          ) : null}
-          {progress.brand !== undefined ? (
-            <div className="bp-step done">
-              <span>your colours</span>
-              <span className="bp-live-sw">
-                {progress.brand ? (
-                  [progress.brand.primary, progress.brand.secondary, progress.brand.accent]
-                    .filter(Boolean)
-                    .map((hex) => <i key={hex as string} className="bp-sw" style={{ background: hex as string }} />)
-                ) : (
-                  <em>no clear palette — your agent will wear assembl&rsquo;s</em>
-                )}
-              </span>
-            </div>
-          ) : null}
-          {progress.reading ? <div className="bp-step">reading what your business does…</div> : null}
+          <div className="bp-step">reading the page…</div>
+          <div className="bp-step">can AI assistants get in, and can they read you…</div>
         </div>
       ) : null}
 
-      {brief ? (
+      {ready ? (
         <div className="bp-result">
           <div className="bp-res-head">
-            <span className="bp-lab">what it understood</span>
-            {brief.brand ? (
-              <span className="bp-sw-row">
-                <i className="bp-sw" style={{ background: brief.brand.primary }} />
-                {brief.brand.secondary ? <i className="bp-sw" style={{ background: brief.brand.secondary }} /> : null}
-                {brief.brand.accent ? <i className="bp-sw" style={{ background: brief.brand.accent }} /> : null}
-                <em>your colours, off your own stylesheet</em>
-              </span>
-            ) : null}
+            <span className="bp-lab">your AI-readiness score</span>
+            <span className="bp-score">{ready.score}<em>/100</em></span>
           </div>
-          <p className="bp-business">{brief.business}</p>
+          <p className="bp-business">
+            {ready.checks.filter((c) => c.status === 'pass').length} of {ready.checks.length}{' '}
+            checks passed on <b>{ready.url.replace(/^https?:\/\//, '')}</b>.
+          </p>
 
-          {brief.blindSpots.length ? (
+          {shown.length ? (
             <div className="bp-gaps">
-              <span className="bp-lab">and what your site doesn&rsquo;t answer</span>
-              <ul>{brief.blindSpots.slice(0, 3).map((b) => <li key={b}>{b}</li>)}</ul>
+              <span className="bp-lab">
+                {failed.length ? 'what is holding you back' : 'what is already working'}
+              </span>
+              <ul>{shown.map((c) => <li key={c.id}>{c.label} — {c.detail}</li>)}</ul>
             </div>
           ) : null}
 
           <button className="btn btn-solid bp-open" onClick={openFull}>
-            open the full blueprint →
+            open the full result + context PDF →
           </button>
         </div>
       ) : null}

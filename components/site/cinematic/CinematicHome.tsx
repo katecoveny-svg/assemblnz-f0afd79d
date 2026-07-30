@@ -315,10 +315,17 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
           <div className="nav-links">
             <a href="/concepts">concepts</a>
             <a href="/industries">industries</a>
-            <a href="/assembling">the wait state</a>
+            {/* Kate, 30 July 2026: "ensure the home page goes to the actual
+                agentic journey and ai readiness pdf not the old agent builder".
+                /build-an-agent is the old gallery builder and it was sitting in
+                the nav as "assemble", competing with the two things that
+                actually matter: the agentic journey at /assembling and the
+                readiness score plus context PDF at /ai-ready. Both were already
+                in this nav, so the builder link is gone rather than repointed —
+                a third link to the same two places is not a fix. */}
+            <a href="/assembling">the agentic journey</a>
             <a href="#demo">ask it</a>
-            <a href="/build-an-agent">assemble</a>
-            <a href="/ai-ready">free AI check</a>
+            <a href="/ai-ready">free AI check + PDF</a>
           </div>
           <a className="nav-cta" href="#begin">begin</a>
         </nav>
@@ -390,8 +397,10 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
                   column the whole left side is one continuous editorial
                   column, which is what the direction actually is. */}
               <div className="bp-invite">
-                <div className="bp-invite-tag"><i />live · reads one page · about ten seconds</div>
-                <div className="bp-invite-head">Watch one assemble itself out of your business.</div>
+                <div className="bp-invite-tag"><i />live · eight checks · about a second</div>
+                {/* Was "Watch one assemble itself out of your business." — blueprint
+                    language on a box that now runs the AI-readiness check. */}
+                <div className="bp-invite-head">See what AI assistants make of your business.</div>
                 <p className="bp-invite-sub">
                   Paste your web address and an agent reads one public page. You get two things
                   back, free: your <b>AI-readiness score</b> &mdash; eight checks on whether AI
@@ -401,8 +410,12 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
                 </p>
                 <BlueprintStart />
               </div>
+              {/* Was "or assemble one in the gallery →" pointing at
+                  /build-an-agent. The secondary action beside the readiness
+                  check should be the agentic journey itself, which is the thing
+                  the score and the context PDF are in service of. */}
               <div className="hero-cta hero-cta-cinema">
-                <a className="btn btn-glass" href="/build-an-agent">or assemble one in the gallery →</a>
+                <a className="btn btn-glass" href="/assembling">or see the agentic journey →</a>
               </div>
             </div>
 
@@ -550,7 +563,9 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
             for customers, communities and Aotearoa.
           </p>
           <div className="finale-row reveal-fade" data-delay="900">
-            <a className="btn btn-solid" href="/ai-ready">begin — our agents read your site first</a>
+            {/* Names the artefact rather than the process. What arrives is a
+                score and a context PDF, so the button says so. */}
+            <a className="btn btn-solid" href="/ai-ready">get your AI-readiness score + context PDF</a>
             <a className="btn btn-glass" href="/pricing">see pricing</a>
           </div>
         </section>
