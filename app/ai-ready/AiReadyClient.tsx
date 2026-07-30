@@ -210,6 +210,7 @@ export function AiReadyClient() {
      unrendered with nothing said — the page just looked finished. */
   const [briefState, setBriefState] = useState<'idle' | 'drafting' | 'failed' | 'ready'>('idle');
   const [copied, setCopied] = useState(false);
+  const [pngBusy, setPngBusy] = useState(false);
   const [email, setEmail] = useState('');
   const [gate, setGate] = useState<'closed' | 'sending' | 'open'>('closed');
   const [gateError, setGateError] = useState('');
@@ -425,6 +426,42 @@ export function AiReadyClient() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch { /* clipboard denied — the URL bar still has it */ }
+  };
+
+  /**
+   * The share image. Kate, 30 July 2026: a PNG for social, alongside the
+   * printable document.
+   *
+   * The card is rendered server-side by /ai-ready/share (next/og), so nothing
+   * here has to rasterise the DOM — html2canvas on a page with a live WebGL
+   * phone is exactly the sort of thing that composites blank. Fetch the PNG,
+   * hand it to a download, revoke the object URL.
+   */
+  const sharePng = async () => {
+    if (!ready || pngBusy) return;
+    setPngBusy(true);
+    try {
+      const passed = ready.checks.filter((c) => c.status === 'pass').length;
+      const q = new URLSearchParams({
+        site: ready.url,
+        score: String(ready.score),
+        passed: String(passed),
+        of: String(ready.checks.length),
+      });
+      const res = await fetch(`/ai-ready/share?${q}`);
+      if (!res.ok) throw new Error('image failed');
+      const blob = await res.blob();
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = `${ready.url.replace(/^https?:\/\//, '').replace(/[^\w-]+/g, '-').toLowerCase()}-ai-readiness.png`;
+      a.click();
+      URL.revokeObjectURL(href);
+    } catch {
+      setCtxErr('The image could not be built just now — the document download still works.');
+    } finally {
+      setPngBusy(false);
+    }
   };
 
   const grade = ready ? (ready.score >= 85 ? 'ready for the agentic era' : ready.score >= 60 ? 'findable, with gaps' : ready.score >= 35 ? 'mostly invisible to AI' : 'AI cannot see this site') : '';
@@ -661,6 +698,14 @@ export function AiReadyClient() {
         {ready && (
           <div className="airdy-actions">
             <button type="button" onClick={() => window.print()}>download the document</button>
+            {/* Kate, 30 July 2026: "can the downloaded document be available in
+                png as well so they can share on soacial?" A PNG of the document
+                itself would be a long unreadable strip, so this is a 1200 × 630
+                card built by /ai-ready/share — the ratio LinkedIn and X both
+                want, with the score at a size that survives a phone feed. */}
+            <button type="button" onClick={() => void sharePng()}>
+              {pngBusy ? 'making the image…' : 'download the share image (PNG)'}
+            </button>
             <button type="button" className="ghost" onClick={() => void share()}>
               {copied ? 'link copied ✓' : 'share this result'}
             </button>
