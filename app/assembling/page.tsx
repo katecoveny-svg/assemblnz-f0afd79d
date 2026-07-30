@@ -45,8 +45,15 @@ export default function AssemblingPage() {
     <div className="asm">
       <div className="wrap">
         {/* ── hero: the claim on the left, the product itself on the right ── */}
+        {/* Kate, 30 July 2026: "Phone left, value right." The phone is the star
+            on the left, playing its points up on its own; the right names what
+            those points become, so the hero fills and the value is legible. */}
         <section className="asm-hero">
           <AssemblingScene />
+          <div className="asm-stage">
+            <WaitState />
+            <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
+          </div>
           <div className="asm-hero-copy">
             <span className="mono">assembling · the loyalty layer for the agentic wait</span>
             <h1>
@@ -56,18 +63,22 @@ export default function AssemblingPage() {
             </h1>
             <p className="lede">
               Every agentic journey has a pause — the minutes while agents research, draft and
-              check. Today that pause is a spinner. assembling makes it the most generous moment
-              in your customer journey: the work shown as it happens, value earned for the
-              minutes, and one optional question answered back. One line of code to add it.
+              check. Today that pause is a spinner. assembling turns it into the most generous
+              moment in the journey: the customer watches the work happen and earns as they wait.
             </p>
+            <div className="asm-earns">
+              <div className="asm-earns-k mono">what those minutes become</div>
+              <ul>
+                <li><b>Points</b><span>toward free delivery, or your own rewards</span></li>
+                <li><b>Bill credit</b><span>off the next power or insurance bill</span></li>
+                <li><b>KiwiSaver</b><span>a small top-up, as partners sign on</span></li>
+                <li><b>A donation</b><span>to SPCA New Zealand, from day one</span></li>
+              </ul>
+            </div>
             <div className="asm-cta-row">
               <a className="asm-cta" href="#waitlist">put one in your product</a>
               <a className="asm-cta ghost" href="#flagship">see how it works →</a>
             </div>
-          </div>
-          <div className="asm-stage">
-            <WaitState />
-            <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
           </div>
         </section>
 
