@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-24 - Inclusive Input Validation & Interactive Form Character Limits
+**Learning:** User forms that capture loose text input (such as waitlist use cases or customized API needs) benefit heavily from soft limits (1000 characters) paired with silent, polite screen reader announcements (under `aria-live="polite"`). Adding visual green asterisks matching the brand and explicit label associations with programmatically verified `aria-required` tags ensures screen readers and keyboard-only users receive perfect validation cues.
+**Action:** When designing a public lead-capture waitlist form, implement programmatic `aria-required` alongside visual asterisks and use `focus-visible` selectors to ensure click-only mouse users do not get unneeded focus outlines while keyboard navigation users retain clear indicators.
