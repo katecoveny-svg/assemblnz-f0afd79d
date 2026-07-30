@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { WaitState } from '@/components/site/cinematic/WaitState';
-import { DashWaitlistForm } from './DashWaitlistForm';
 import { TierPlayground } from './TierPlayground';
 import { AssemblingScene } from './AssemblingScene';
 import './assembling-canon.css';
@@ -36,6 +35,11 @@ export const metadata: Metadata = {
   },
 };
 
+/** A direct line to Kate. The body pre-fills the three things she otherwise
+ *  has to ask for, so the first reply can be a real answer. */
+const CONTACT =
+  'mailto:assembl@assembl.co.nz?subject=A%20productive%20wait%20in%20our%20product&body=Kia%20ora%20Kate%2C%0A%0AOur%20product%3A%20%0AWhere%20our%20customers%20currently%20wait%3A%20%0AWhat%20we%20would%20want%20them%20to%20earn%3A%20%0A%0A';
+
 export default function AssemblingPage() {
   return (
     <div className="asm">
@@ -57,7 +61,7 @@ export default function AssemblingPage() {
               minutes, and one optional question answered back. One line of code to add it.
             </p>
             <div className="asm-cta-row">
-              <a className="asm-cta" href="#waitlist">join the waitlist</a>
+              <a className="asm-cta" href="#waitlist">put one in your product</a>
               <Link className="asm-cta ghost" href="/assembling/for-ai-builders">for AI builders →</Link>
             </div>
           </div>
@@ -225,19 +229,39 @@ export default function AssemblingPage() {
           </div>
         </section>
 
-        {/* ── waitlist ── */}
+        {/* ── talk to Kate ──────────────────────────────────────────────
+            Kate, 30 July 2026: "the wait list i want to come direct ot me not
+            through brevo".
+
+            This was a waitlist form whose notification travelled through the
+            Brevo edge function and which also added the person to a Brevo
+            mailing list. Two problems with that. The list subscription was
+            never what she wanted, and the notification leg has form: Brevo's
+            "Authorised IPs" allowlist silently ate sends during the 17 June
+            outage, so a lead could submit successfully and never arrive.
+
+            It is now a direct email. Their own mail client, their own address,
+            straight to assembl@assembl.co.nz, with the three things she always
+            has to ask for already in the body. No provider in the path, nothing
+            to misconfigure, nothing to go quietly missing — and she gets a real
+            reply-able thread rather than a notification about a form.
+
+            "Early access" and "waitlist" also had to go. The whole site now
+            points here as the agentic journey; a waitlist on the destination
+            reads as "we are not ready yet". */}
         <section className="asm-band asm-wait" id="waitlist">
-          <span className="mono">early access</span>
+          <span className="mono">talk to a person</span>
           <h2>Put a productive wait in your product.</h2>
           <p className="sub">
-            We are onboarding NZ builders and businesses in small groups, so every integration
-            gets looked at properly.
+            Tell me where your customers currently wait and what you would want them to earn for
+            it. I read these myself and I answer them myself.
           </p>
           <div className="panel" style={{ marginTop: 34 }}>
-            <DashWaitlistForm />
+            <a className="asm-cta" href={CONTACT}>email me directly &rarr;</a>
             <p className="fine">
-              assembling is part of assembl — intuitive agentic customer journeys. Your email is
-              used for the waitlist and nothing else.
+              Straight to assembl@assembl.co.nz from your own mail client. No form, no list, and
+              nothing in between. assembling is part of assembl &mdash; intuitive agentic customer
+              journeys.
             </p>
           </div>
         </section>

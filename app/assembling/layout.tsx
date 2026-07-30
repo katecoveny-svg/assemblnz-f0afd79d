@@ -158,7 +158,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
               boxShadow: '0 6px 20px rgba(212,168,67,.5)',
             }}
           >
-            Join the waitlist
+            Talk to us
           </Link>
         </div>
       </div>
