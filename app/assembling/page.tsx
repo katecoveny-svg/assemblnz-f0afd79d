@@ -45,8 +45,15 @@ export default function AssemblingPage() {
     <div className="asm">
       <div className="wrap">
         {/* ── hero: the claim on the left, the product itself on the right ── */}
+        {/* Kate, 30 July 2026: "Phone left, value right." The phone is the star
+            on the left, playing its points up on its own; the right names what
+            those points become, so the hero fills and the value is legible. */}
         <section className="asm-hero">
           <AssemblingScene />
+          <div className="asm-stage">
+            <WaitState />
+            <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
+          </div>
           <div className="asm-hero-copy">
             <span className="mono">assembling · the loyalty layer for the agentic wait</span>
             <h1>
@@ -56,18 +63,22 @@ export default function AssemblingPage() {
             </h1>
             <p className="lede">
               Every agentic journey has a pause — the minutes while agents research, draft and
-              check. Today that pause is a spinner. assembling makes it the most generous moment
-              in your customer journey: the work shown as it happens, value earned for the
-              minutes, and one optional question answered back. One line of code to add it.
+              check. Today that pause is a spinner. assembling turns it into the most generous
+              moment in the journey: the customer watches the work happen and earns as they wait.
             </p>
+            <div className="asm-earns">
+              <div className="asm-earns-k mono">what those minutes become</div>
+              <ul>
+                <li><b>Points</b><span>toward free delivery, or your own rewards</span></li>
+                <li><b>Bill credit</b><span>off the next power or insurance bill</span></li>
+                <li><b>KiwiSaver</b><span>a small top-up, as partners sign on</span></li>
+                <li><b>A donation</b><span>to SPCA New Zealand, from day one</span></li>
+              </ul>
+            </div>
             <div className="asm-cta-row">
               <a className="asm-cta" href="#waitlist">put one in your product</a>
-              <Link className="asm-cta ghost" href="/assembling/for-ai-builders">for AI builders →</Link>
+              <a className="asm-cta ghost" href="#flagship">see how it works →</a>
             </div>
-          </div>
-          <div className="asm-stage">
-            <WaitState />
-            <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
           </div>
         </section>
 
@@ -167,19 +178,15 @@ export default function AssemblingPage() {
           </div>
         </section>
 
-        {/* ── three doors ── */}
+        {/* ── two doors ──────────────────────────────────────────────────────
+            Kate, 30 July 2026: "it talks about ai builders or developers which
+            is irrelevant". The builder/SDK door is gone; this page is for the
+            business running the journey and the person waiting, not the people
+            wiring it in. */}
         <section className="asm-band">
           <span className="mono">one wait · everyone wins</span>
-          <h2>Three doors into the same moment.</h2>
+          <h2>Two doors into the same moment.</h2>
           <div className="asm-doors">
-            <Link className="asm-door" href="/assembling/for-ai-builders">
-              <div>
-                <b>For AI builders</b>
-                <p>One line of code and your wait states start giving something back. Fully
-                asynchronous, degrades to nothing if it ever fails — your app never waits for us.</p>
-              </div>
-              <span className="go">the loader SDK →</span>
-            </Link>
             <a className="asm-door" href="#waitlist">
               <div>
                 <b>For businesses</b>

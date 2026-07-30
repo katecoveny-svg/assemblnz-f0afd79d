@@ -54,8 +54,11 @@ body:has(.asm) { background: var(--asm-paper); }
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--asm-brass);
 }
 
-.asm-hero { position: relative; padding: 110px 0 70px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
-.asm-scene { position: absolute; inset: -60px -8vw -40px 30%; z-index: 0; pointer-events: none; }
+/* Kate, 30 July 2026: phone left, value right. The phone column is a touch
+   narrower so the value column has room for the "what those minutes become"
+   proof, and the whole hero fills rather than trailing off into white. */
+.asm-hero { position: relative; padding: 110px 0 70px; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 56px; align-items: center; }
+.asm-scene { position: absolute; inset: -60px 34% -40px -8vw; z-index: 0; pointer-events: none; }
 .asm-scene canvas { width: 100%; height: 100%; display: block; }
 .asm-hero-copy, .asm-hero .asm-stage { position: relative; z-index: 1; }
 .asm-hero h1 {
@@ -81,6 +84,16 @@ body:has(.asm) { background: var(--asm-paper); }
 }
 .asm-cta:hover { transform: translateY(-2px); }
 .asm-cta.ghost { background: transparent; color: var(--asm-ink); border: 1px solid var(--asm-line); box-shadow: none; }
+
+/* what those minutes become — the value the phone's climbing points convert to,
+   so the right of the hero is full and the payoff is legible. Kate, 30 Jul 2026. */
+.asm-earns { margin-top: 28px; }
+.asm-earns-k { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #B08D4E; margin-bottom: 14px; }
+.asm-earns ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+.asm-earns li { display: flex; flex-direction: column; padding-left: 15px; border-left: 2px solid rgba(191, 163, 122, 0.45); }
+.asm-earns li b { font-size: 1rem; font-weight: 700; color: var(--asm-ink); letter-spacing: -0.01em; }
+.asm-earns li span { font-size: 0.82rem; font-weight: 300; color: var(--asm-ink-dim); line-height: 1.5; margin-top: 3px; }
+@media (max-width: 560px) { .asm-earns ul { grid-template-columns: 1fr; } }
 
 .asm-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; }
 .asm-stage-note { text-align: center; }

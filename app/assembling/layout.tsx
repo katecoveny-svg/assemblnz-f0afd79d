@@ -134,9 +134,9 @@ export default function DashLayout({ children }: { children: ReactNode }) {
             <Link href="/assembling#rewards" className="bd-nav-link">
               Rewards
             </Link>
-            <Link href="/assembling/for-ai-builders" className="bd-nav-link">
-              For builders
-            </Link>
+            {/* Kate, 30 July 2026: builders/developers are irrelevant to this
+                page — nav link removed. The /assembling/for-ai-builders route
+                still exists; it is just no longer surfaced here. */}
             <Link href="/assembling/interactive" className="bd-nav-link">
               Play
             </Link>
