@@ -58,6 +58,26 @@ function page(c, wm, mech) {
   const mapBg = mix(accent, '#FBFAF7', 0.955);
   const mapScr = mix(accent, '#0B0B0E', 0.80);
   const onAccent = lum(accent) > 0.42 ? '#101012' : '#FFFFFF';
+  /* The thin rim around the phone screen — Kate liked it, so it is now a real
+     token rather than a hardcoded champagne. Two stops: a soft outer ring in
+     the brand's colour, and a brighter inner hairline for the machined edge. */
+  /* Inside the phone the ground is near-black, so a dark brand accent vanishes:
+     Summerset's #470A68 eyebrow on a #08080B screen is invisible, and so are
+     Hnry's navy, Sharesies' plum and the banking demonstrator's slate. Lift the
+     accent for on-screen use only — the chip background and the glow pool
+     outside the phone keep the real colour, because those read fine. */
+  const screenAccent = lum(accent) < 0.14 ? mix(accent, '#FFFFFF', 0.58)
+                     : lum(accent) < 0.24 ? mix(accent, '#FFFFFF', 0.34) : accent;
+  const dkRim = mix(accent, '#000000', 0.42) + 'cc';
+  const dkRim2 = mix(accent, '#FFFFFF', 0.30);
+  /* The scratch foil. It was hardcoded champagne on every demo, which is why the
+     one playable thing on the page looked like it belonged to assembl rather
+     than to them. Three stops off their own colour: a shadowed edge, a lifted
+     middle where the light catches, and a mid tone. */
+  const foil1 = mix(accent, '#000000', 0.30);
+  const foil2 = mix(accent, '#FFFFFF', 0.52);
+  const foil3 = mix(accent, '#000000', 0.10);
+  const foilInk = lum(accent) > 0.42 ? '#141410' : '#FFFFFF';
 
   /* ── THE VARIANT ────────────────────────────────────────────────────────────
      A generator makes the same page every time; that is what a generator IS,
@@ -130,7 +150,7 @@ function page(c, wm, mech) {
   --muted-3:${theme === 'paper' ? paperMuted2 : '#5A5E65'};
   --line:rgba(var(--film),.13); --line-2:rgba(var(--film),.07);
   --accent:${accent}; --accent-2:${accent2}; --accent-lift:${accentLift};
-  --map-bg:${mapBg}; --map-ink:${mapInk}; --map-scr:${mapScr}; --on-accent:${onAccent};
+  --map-bg:${mapBg}; --map-ink:${mapInk}; --map-scr:${mapScr}; --on-accent:${onAccent};--dk-rim:${dkRim};--dk-rim2:${dkRim2};--dk-sa:${screenAccent};
   --champ:#BFA37A; --champ-soft:rgba(191,163,122,.13);
   --sans:${bodyFamily};
   --display:${displayFamily};
@@ -521,26 +541,133 @@ h1{letter-spacing:-.035em}
 .mapband .eyebrow.dark::before{background:var(--map-ink)}
 .mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
 .mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
-.mapGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:20px;margin-top:44px}
-.mapCard{background:#FFFFFF;border:1px solid rgba(0,0,0,.09);border-radius:18px;padding:20px;
-  display:flex;flex-direction:column;box-shadow:0 22px 44px -30px rgba(0,0,0,.4)}
-.mapTop{display:flex;gap:12px;align-items:flex-start;margin-bottom:15px}
-.mapN{flex:0 0 auto;font-size:11px;font-weight:900;letter-spacing:.1em;color:#FFF;background:var(--map-ink);
-  border-radius:6px;padding:4px 7px;margin-top:2px}
-.mapTop b{display:block;font-size:16px;font-weight:700;color:#111114;line-height:1.2}
-.mapTop i{display:block;font-style:normal;font-size:12px;color:#75757E;margin-top:3px;font-weight:400}
-.mapScreen{background:linear-gradient(170deg,var(--map-scr) 0%,#0D0D10 100%);border-radius:14px;padding:13px 14px 15px;color:var(--body-1);position:relative}
-.msTop{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.1em;color:rgba(var(--film),.5);margin-bottom:11px}
-.msDot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 9px var(--accent)}
-.msTitle{font-size:14.5px;font-weight:700;line-height:1.25;margin-bottom:8px}
-.msLine{font-size:12px;color:rgba(242,242,240,.72);font-weight:300;line-height:1.45;padding:3px 0 3px 12px;position:relative}
-.msLine::before{content:"";position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.8}
-.msChip{display:inline-block;margin-top:11px;font-size:10.5px;font-weight:700;letter-spacing:.06em;
-  background:var(--accent);color:var(--on-accent);border-radius:999px;padding:5px 11px}
-.mapFeels{margin-top:14px;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:#8A8A93}
-.mapDel{margin-top:8px;font-size:13.5px;color:#3C3C44;font-weight:300;line-height:1.55;flex:1}
-.mapFund{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,.08);font-size:12px;color:#5E5E68;font-weight:300;line-height:1.5}
-.mapFund i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--map-ink);margin-bottom:5px}
+/* ── THE WAIT DECK ─────────────────────────────────────────────────────────
+   Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
+   the page with visuals like they are on a phone i also like the thin rim
+   around the phone screen and a phone they can click through".
+
+   So the six moments are no longer six flat cards read left to right. They are
+   six SCREENS on one phone, and you walk them. The rail on the left is the
+   journey; the phone is where the moment actually happens; the caption under it
+   changes with the screen. The phone sits on a pool of the brand's own colour
+   and tilts toward the pointer, because a thing that responds reads as an
+   object rather than a picture of one. */
+.deck{display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:46px;align-items:start}
+@media(max-width:980px){.deck{grid-template-columns:1fr;gap:28px}}
+
+/* the journey, as a rail you can click */
+.dkRail{display:flex;flex-direction:column;gap:2px;position:relative}
+.dkRail::before{content:"";position:absolute;left:16px;top:22px;bottom:22px;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.16) 12%,rgba(0,0,0,.16) 88%,transparent)}
+.dkR{display:flex;gap:14px;align-items:flex-start;background:transparent;border:0;padding:11px 12px 11px 0;
+  text-align:left;cursor:pointer;font-family:inherit;position:relative;border-radius:12px;transition:background .3s}
+.dkR:hover{background:rgba(0,0,0,.035)}
+.dkRn{flex:0 0 auto;width:33px;height:33px;border-radius:50%;display:grid;place-items:center;
+  font-size:11px;font-weight:900;letter-spacing:.04em;background:#FFF;color:#8A8A93;
+  border:1px solid rgba(0,0,0,.14);position:relative;z-index:2;transition:.36s cubic-bezier(.2,.7,.2,1)}
+.dkR b{display:block;font-size:14.5px;font-weight:700;color:#3C3C44;line-height:1.25;transition:color .3s}
+.dkR i{display:block;font-style:normal;font-size:11.5px;color:#8A8A93;margin-top:3px;font-weight:400;line-height:1.4}
+.dkR.on .dkRn{background:var(--map-ink);color:#FFF;border-color:var(--map-ink);
+  box-shadow:0 0 0 5px rgba(0,0,0,.05),0 8px 18px -8px var(--map-ink)}
+.dkR.on b{color:#101012}
+.dkR.done .dkRn{background:var(--map-ink);color:#FFF;border-color:var(--map-ink);opacity:.32}
+
+/* the stage: glow pool, phone, caption */
+.dkStage{position:relative;padding:10px 0 0;perspective:1500px}
+.dkGlow{position:absolute;left:50%;top:44%;width:min(560px,86%);height:340px;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at center,var(--accent) 0%,transparent 68%);
+  opacity:.24;filter:blur(48px);pointer-events:none;animation:dkPulse 6.5s ease-in-out infinite}
+@keyframes dkPulse{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:.32;transform:translate(-50%,-50%) scale(1.07)}}
+
+.dkPhone{position:relative;width:min(330px,82vw);margin:0 auto;
+  transform-style:preserve-3d;
+  transform:rotateY(var(--dky,-13deg)) rotateX(var(--dkx,7deg));
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  animation:dkFloat 7s ease-in-out infinite}
+@keyframes dkFloat{0%,100%{translate:0 0}50%{translate:0 -11px}}
+.dkPhone.grab{transition:transform .12s linear;animation-play-state:paused}
+
+/* the shell, and the thin rim Kate asked for: a hairline of light between the
+   body and the glass, which is what makes a rendered phone look machined. */
+.dkShell{position:relative;border-radius:44px;padding:11px;
+  background:linear-gradient(155deg,#3b3f45 0%,#14171a 46%,#2b2f33 74%,#0e1013 100%);
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.14) inset,
+    0 0 0 1px rgba(0,0,0,.7),
+    0 0 0 2.5px var(--dk-rim),
+    0 44px 90px -30px rgba(0,0,0,.72),
+    0 90px 130px -50px var(--accent)}
+.dkRim{border-radius:34px;padding:1.5px;
+  background:linear-gradient(160deg,var(--dk-rim2),rgba(255,255,255,.06) 40%,var(--dk-rim2))}
+.dkScreen{border-radius:33px;overflow:hidden;background:linear-gradient(172deg,var(--map-scr) 0%,#08080B 100%);
+  min-height:452px;display:flex;flex-direction:column;cursor:pointer;position:relative}
+.dkScreen::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:33px;
+  background:linear-gradient(122deg,rgba(255,255,255,.09) 0%,transparent 34%,transparent 66%,rgba(255,255,255,.045) 100%)}
+
+.dkBar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px 6px;
+  font-size:10px;letter-spacing:.06em;color:rgba(var(--film),.62);font-weight:500}
+.dkNotch{width:52px;height:15px;border-radius:99px;background:#050507}
+.dkSig{display:flex;gap:2.5px;align-items:flex-end}
+.dkSig i{display:block;width:2.5px;background:rgba(var(--film),.6);border-radius:1px}
+.dkSig i:nth-child(1){height:4px}.dkSig i:nth-child(2){height:6px}
+.dkSig i:nth-child(3){height:8px}.dkSig i:nth-child(4){height:10px}
+
+.dkBody{flex:1;padding:20px 22px 14px;display:flex;flex-direction:column}
+.dkWhen{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;font-weight:800;color:var(--dk-sa);margin-bottom:11px}
+.dkTitle{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1.2;color:var(--body-1);margin-bottom:16px}
+.dkLines{display:flex;flex-direction:column;gap:2px}
+.dkLine{font-size:13px;color:rgba(242,242,240,.8);font-weight:300;line-height:1.5;
+  padding:7px 0 7px 16px;position:relative;opacity:0;animation:dkLineIn .5s cubic-bezier(.2,.7,.2,1) forwards}
+.dkLine::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;
+  background:var(--dk-sa);box-shadow:0 0 8px var(--dk-sa)}
+@keyframes dkLineIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.dkChip{align-self:flex-start;margin-top:20px;font-size:10.5px;font-weight:800;letter-spacing:.05em;
+  background:var(--accent);color:var(--on-accent);border-radius:999px;padding:7px 14px;
+  opacity:0;animation:dkLineIn .5s cubic-bezier(.2,.7,.2,1) .34s forwards}
+/* The base of the screen. Two lines with a pinned chip left a void in a very
+   tall frame; this fills it with the thing that belongs on every screen anyway —
+   that the screen drafted something and a person still has to approve it. */
+.dkFoot{margin-top:auto;padding-top:18px;border-top:1px solid rgba(var(--film),.1);
+  display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:rgba(var(--film),.42)}
+.dkFoot span{width:5px;height:5px;border-radius:50%;background:var(--dk-sa);flex:0 0 auto;
+  box-shadow:0 0 7px var(--dk-sa);animation:dkBlink 2.6s ease-in-out infinite}
+@keyframes dkBlink{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* the controls live on the glass, so clicking through feels like using a phone */
+.dkNav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 20px}
+.dkArrow{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:var(--body-1);
+  width:36px;height:36px;border-radius:50%;font-size:15px;cursor:pointer;font-family:inherit;
+  display:grid;place-items:center;transition:.25s;padding:0}
+.dkArrow:hover{background:var(--dk-sa);border-color:var(--dk-sa);color:#0B0B0E}
+.dkArrow[disabled]{opacity:.26;cursor:default}
+.dkArrow[disabled]:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);color:var(--body-1)}
+.dkDots{display:flex;gap:7px}
+.dkDot{width:7px;height:7px;border-radius:50%;background:rgba(var(--film),.26);cursor:pointer;
+  border:0;padding:0;transition:.3s}
+.dkDot.on{background:var(--dk-sa);box-shadow:0 0 10px var(--dk-sa);transform:scale(1.35)}
+
+/* the hint: it has to be obvious the thing is tappable, once, then gone */
+.dkHint{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);white-space:nowrap;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--map-ink);
+  opacity:.72;animation:dkHint 2.4s ease-in-out infinite;pointer-events:none}
+@keyframes dkHint{0%,100%{opacity:.34;transform:translateX(-50%) translateY(0)}
+  50%{opacity:.85;transform:translateX(-50%) translateY(4px)}}
+.dkHint.gone{display:none}
+
+.dkCap{margin:58px auto 0;max-width:62ch;text-align:center}
+.dkFeels{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#8A8A93}
+.dkDel{margin-top:9px;font-size:16px;color:#25252C;font-weight:300;line-height:1.62}
+.dkFund{margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);font-size:12.5px;
+  color:#5E5E68;font-weight:300;line-height:1.5}
+.dkFund i{font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;
+  color:var(--map-ink);margin-right:8px}
+@media(prefers-reduced-motion:reduce){
+  .dkPhone,.dkGlow,.dkHint{animation:none}
+  .dkPhone{transform:none}
+  .dkLine,.dkChip{animation:none;opacity:1}
+}
 
 .mapHow{display:grid;grid-template-columns:1fr 400px;gap:34px;margin-top:52px;align-items:start}
 .mapHow h3{font-size:clamp(24px,3.2vw,34px);font-weight:900;letter-spacing:-.026em;color:#101012;margin-top:4px}
@@ -662,20 +789,41 @@ ${wm ? `
     <p class="mapLede">${esc(wm.lede)}</p>
   </div>
 
-  <div class="mapGrid rise">
-    ${wm.moments.map((m, i) => `
-    <div class="mapCard">
-      <div class="mapTop"><span class="mapN">${String(i + 1).padStart(2, '0')}</span><div><b>${esc(m.name)}</b><i>${esc(m.when)}</i></div></div>
-      <div class="mapScreen">
-        <div class="msTop"><span>9:41</span><span class="msDot"></span></div>
-        <div class="msTitle">${esc(m.screen.title)}</div>
-        ${m.screen.lines.map((l) => `<div class="msLine">${esc(l)}</div>`).join('')}
-        <div class="msChip">${esc(m.screen.chip)}</div>
+  <div class="deck rise">
+    <div class="dkRail" role="tablist" aria-label="The six waits">
+      ${wm.moments.map((m, i) => `
+      <button class="dkR${i === 0 ? ' on' : ''}" type="button" role="tab" data-i="${i}"
+        aria-selected="${i === 0 ? 'true' : 'false'}">
+        <span class="dkRn">${String(i + 1).padStart(2, '0')}</span>
+        <span><b>${esc(m.name)}</b><i>${esc(m.when)}</i></span>
+      </button>`).join('')}
+    </div>
+
+    <div class="dkStage">
+      <div class="dkGlow" aria-hidden="true"></div>
+      <div class="dkPhone" id="dkPhone">
+        <div class="dkShell">
+          <div class="dkRim">
+            <div class="dkScreen" id="dkScreen" role="button" tabindex="0"
+              aria-label="The wait screens — click to see the next moment">
+              <div class="dkBar">
+                <span>9:41</span>
+                <span class="dkNotch" aria-hidden="true"></span>
+                <span class="dkSig" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              </div>
+              <div class="dkBody" id="dkBody"></div>
+              <div class="dkNav">
+                <button class="dkArrow" id="dkPrev" type="button" aria-label="Previous wait">←</button>
+                <div class="dkDots" id="dkDots"></div>
+                <button class="dkArrow" id="dkNext" type="button" aria-label="Next wait">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dkHint" id="dkHint">tap the screen — six waits</div>
       </div>
-      <div class="mapFeels">the wait feels like ${esc(m.feels)}</div>
-      <p class="mapDel">${esc(m.delivered)}</p>
-      <div class="mapFund"><i>who funds it</i>${esc(m.funder)}</div>
-    </div>`).join('')}
+      <div class="dkCap" id="dkCap"></div>
+    </div>
   </div>
 
   <div class="mapHow rise">
@@ -997,6 +1145,8 @@ var CFG={
   accent:${js(accent)}, accent2:${js(accent2)},
   generic:${js(Boolean(c.generic))},
   theme:${js(theme)},
+  waits:${wm ? js(wm.moments) : 'null'},
+  foil:${js([foil1, foil2, foil3])}, foilInk:${js(foilInk)}, onAccent:${js(onAccent)},
   object:${js(c.object || 'filament')},
   ${mech && mech.kind === 'tracker' ? `trkFrom:${mech.from.n}, trkTo:${mech.to.n},
   trkShave:${js(mech.steps.map((x) => x.shave))},
@@ -1129,6 +1279,106 @@ function verb(kind){
    paragraph describing one. Scratch coat is a canvas composited destination-out;
    the reveal fires once roughly half the coat is gone, sampled sparsely so the
    check is cheap enough to run on every pointer move. */
+
+/* ── THE WAIT DECK ─────────────────────────────────────────────────────────
+   Six waits, one phone, clicked through. Kate, 30 Jul 2026.
+
+   Why client-side rather than six baked cards: the caption under the phone and
+   the rail on the left both have to move with the screen, and a screen that
+   re-renders can animate its lines in one at a time — which is the whole
+   difference between a picture of a phone and a phone.
+
+   The tilt follows the pointer across the STAGE, not the phone, so the phone
+   does not run away from the cursor as it rotates. */
+(function deck(){
+  var W=CFG.waits; if(!W||!W.length) return;
+  var body=document.getElementById('dkBody'), cap=document.getElementById('dkCap'),
+      dots=document.getElementById('dkDots'), screen=document.getElementById('dkScreen'),
+      phone=document.getElementById('dkPhone'), hint=document.getElementById('dkHint'),
+      prev=document.getElementById('dkPrev'), next=document.getElementById('dkNext'),
+      rail=[].slice.call(document.querySelectorAll('.dkR'));
+  if(!body||!screen) return;
+  var i=0, touched=false;
+
+  function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':String(t); return d.innerHTML }
+
+  dots.innerHTML = W.map(function(m,n){
+    return '<button class="dkDot'+(n?'':' on')+'" type="button" data-i="'+n+'" aria-label="Wait '+(n+1)+': '+esc(m.name)+'"></button>';
+  }).join('');
+
+  function render(){
+    var m=W[i];
+    /* rebuilt rather than mutated, so the line-in animation replays each time */
+    body.innerHTML =
+      '<div class="dkWhen">'+esc(m.when)+'</div>' +
+      '<div class="dkTitle">'+esc(m.screen.title)+'</div>' +
+      '<div class="dkLines">' + m.screen.lines.map(function(l,n){
+        return '<div class="dkLine" style="animation-delay:'+(0.06+n*0.09).toFixed(2)+'s">'+esc(l)+'</div>';
+      }).join('') + '</div>' +
+      '<div class="dkChip">'+esc(m.screen.chip)+'</div>' +
+      '<div class="dkFoot"><span></span>drafted \u00b7 held for a person</div>';
+
+    cap.innerHTML =
+      '<div class="dkFeels">the wait feels like '+esc(m.feels)+'</div>' +
+      '<p class="dkDel">'+esc(m.delivered)+'</p>' +
+      '<div class="dkFund"><i>who funds it</i>'+esc(m.funder)+'</div>';
+
+    rail.forEach(function(b,n){
+      b.classList.toggle('on', n===i);
+      b.classList.toggle('done', n<i);
+      b.setAttribute('aria-selected', n===i ? 'true' : 'false');
+    });
+    [].forEach.call(dots.children,function(d,n){ d.classList.toggle('on', n===i) });
+    prev.disabled = i===0;
+    next.disabled = i===W.length-1;
+  }
+
+  function go(n, human){
+    i = (n+W.length) % W.length;
+    if(human && !touched){ touched=true; hint.classList.add('gone') }
+    render();
+  }
+
+  /* click the glass to advance — the interaction Kate asked for. The arrows and
+     the rail are there for anyone who wants to go back or jump. */
+  screen.addEventListener('click', function(e){
+    if(e.target.closest('.dkArrow, .dkDot')) return;
+    go(i+1 >= W.length ? 0 : i+1, true);
+  });
+  screen.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(i+1>=W.length?0:i+1,true) }
+    if(e.key==='ArrowRight'){ e.preventDefault(); go(i+1,true) }
+    if(e.key==='ArrowLeft'){ e.preventDefault(); go(i-1,true) }
+  });
+  prev.addEventListener('click',function(e){ e.stopPropagation(); go(i-1,true) });
+  next.addEventListener('click',function(e){ e.stopPropagation(); go(i+1,true) });
+  [].forEach.call(dots.children,function(d){
+    d.addEventListener('click',function(e){ e.stopPropagation(); go(+d.dataset.i,true) });
+  });
+  rail.forEach(function(b){ b.addEventListener('click',function(){ go(+b.dataset.i,true) }) });
+
+  /* the tilt. Read off the stage so the target does not move as it rotates, and
+     rest at a three-quarter view rather than flat-on — a phone photographed
+     square to the lens reads as a screenshot. */
+  var stage=phone.closest('.dkStage');
+  if(stage && matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+    stage.addEventListener('pointermove',function(e){
+      var r=stage.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width - .5, py=(e.clientY-r.top)/r.height - .5;
+      phone.classList.add('grab');
+      phone.style.setProperty('--dky', (-13 + px*22).toFixed(2)+'deg');
+      phone.style.setProperty('--dkx', (7 - py*14).toFixed(2)+'deg');
+    });
+    stage.addEventListener('pointerleave',function(){
+      phone.classList.remove('grab');
+      phone.style.removeProperty('--dky');
+      phone.style.removeProperty('--dkx');
+    });
+  }
+
+  render();
+})();
+
 (function scratch(){
   var cv=document.getElementById('scCoat'); if(!cv) return;
   var win=document.getElementById('scWin'), val=document.getElementById('scWinV');
@@ -1147,12 +1397,14 @@ function verb(kind){
   function coat(){
     ctx.globalCompositeOperation='source-over';
     ctx.clearRect(0,0,W,H);
+    /* the brand's own colour as brushed foil — see foil1/2/3 in the builder */
+    var F=CFG.foil||['#C9B48C','#EBDDBE','#B39A6E'];
     var g=ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#C9B48C'); g.addColorStop(.5,'#EBDDBE'); g.addColorStop(1,'#B39A6E');
+    g.addColorStop(0,F[0]); g.addColorStop(.5,F[1]); g.addColorStop(1,F[2]);
     ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(58,56,50,.07)';
+    ctx.fillStyle='rgba(0,0,0,.07)';
     for(var x=-14;x<W;x+=26) ctx.fillRect(x,0,13,H);
-    ctx.fillStyle='#3A3832'; ctx.textAlign='center';
+    ctx.fillStyle=CFG.foilInk||'#3A3832'; ctx.textAlign='center';
     ctx.font='700 13px Jost,system-ui,sans-serif';
     ctx.fillText('SCRATCH TO REVEAL',W/2,H/2-3);
     ctx.font='300 12px Jost,system-ui,sans-serif';
