@@ -62,7 +62,7 @@ export default function AssemblingPage() {
             </p>
             <div className="asm-cta-row">
               <a className="asm-cta" href="#waitlist">put one in your product</a>
-              <Link className="asm-cta ghost" href="/assembling/for-ai-builders">for AI builders →</Link>
+              <a className="asm-cta ghost" href="#flagship">see how it works →</a>
             </div>
           </div>
           <div className="asm-stage">
@@ -167,19 +167,15 @@ export default function AssemblingPage() {
           </div>
         </section>
 
-        {/* ── three doors ── */}
+        {/* ── two doors ──────────────────────────────────────────────────────
+            Kate, 30 July 2026: "it talks about ai builders or developers which
+            is irrelevant". The builder/SDK door is gone; this page is for the
+            business running the journey and the person waiting, not the people
+            wiring it in. */}
         <section className="asm-band">
           <span className="mono">one wait · everyone wins</span>
-          <h2>Three doors into the same moment.</h2>
+          <h2>Two doors into the same moment.</h2>
           <div className="asm-doors">
-            <Link className="asm-door" href="/assembling/for-ai-builders">
-              <div>
-                <b>For AI builders</b>
-                <p>One line of code and your wait states start giving something back. Fully
-                asynchronous, degrades to nothing if it ever fails — your app never waits for us.</p>
-              </div>
-              <span className="go">the loader SDK →</span>
-            </Link>
             <a className="asm-door" href="#waitlist">
               <div>
                 <b>For businesses</b>

@@ -91,7 +91,10 @@ const SCENARIOS: Scenario[] = [
 const BEAT = 1150;
 
 export function WaitState() {
-  const [sid, setSid] = useState(SCENARIOS[0]!.id);
+  // Kate, 30 July 2026: lead with points, not the power scenario's small $
+  // amount — the whole idea is "get paid to wait", and points climbing to 300
+  // reads as that instantly where $0.90 does not.
+  const [sid, setSid] = useState('shop');
   const [at, setAt] = useState(-1);
   const [done, setDone] = useState<number[]>([]);
   const [credit, setCredit] = useState(0);
@@ -99,6 +102,7 @@ export function WaitState() {
   const [skipped, setSkipped] = useState(false);
   const [finished, setFinished] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const sc = SCENARIOS.find((s) => s.id === sid)!;
   const running = at >= 0 && !finished;
@@ -129,6 +133,42 @@ export function WaitState() {
     return clear;
   }, [at, finished, asking, sc]);
 
+  /* ── auto-play, so the hero sells itself ──────────────────────────────────
+     Kate, 30 July 2026: it used to sit at $0.00 behind a "tap to wait" button,
+     so the one thing meant to show "get paid to wait" showed nothing until a
+     click nobody made. It now starts when it scrolls into view, answers its own
+     question after a beat, and loops — the credit visibly climbs on its own. */
+  const reduceMotion = typeof matchMedia !== 'undefined'
+    && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  useEffect(() => {
+    const el = rootRef.current;
+    const begin = () => setAt((a) => (a < 0 ? 0 : a));
+    if (!el || typeof IntersectionObserver === 'undefined') { begin(); return; }
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) begin(); },
+      { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // answer the one question itself if a person doesn't, so the loop completes
+  useEffect(() => {
+    if (!asking) return;
+    const t = setTimeout(() => setAnswer(1), 1900);
+    return () => clearTimeout(t);
+  }, [asking]);
+
+  // loop, unless the visitor prefers reduced motion (then it plays through once)
+  useEffect(() => {
+    if (!finished || reduceMotion) return;
+    const t = setTimeout(() => {
+      clear();
+      setDone([]); setCredit(0); setAnswer(null); setSkipped(false); setFinished(false);
+      setAt(0);
+    }, 3400);
+    return () => clearTimeout(t);
+  }, [finished, reduceMotion]);
+
   const pct = Math.round((done.length / sc.steps.length) * 100);
   const money = (n: number) =>
     `${sc.unit[0]}${sc.unit[0] === '$' ? n.toFixed(2) : Math.round(n)}${sc.unit[1]}`;
@@ -136,7 +176,7 @@ export function WaitState() {
   const learned = askStep?.ask && answer !== null ? askStep.ask.learn[answer] : null;
 
   return (
-    <div className="wsp">
+    <div className="wsp" ref={rootRef}>
       <div className="wsp-phone">
         <div className="wsp-glare" aria-hidden="true" />
         <div className="wsp-screen">
