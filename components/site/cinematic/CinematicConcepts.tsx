@@ -284,7 +284,7 @@ export function CinematicConcepts() {
             <a href="/concepts">concepts</a>
             <a href="/agents">agents</a>
             <a href="/pricing">pricing</a>
-            <a href="/build-an-agent">build an agent</a>
+            <a href="/assembling">the agentic journey</a>
           </div>
           <a className="nav-cta" href="/">← home</a>
         </nav>
@@ -344,7 +344,7 @@ export function CinematicConcepts() {
               written for. The versions here are stripped of every client name on purpose.
             </p>
             <div className="concept-cta">
-              <a className="btn btn-solid" href="/build-an-agent">assemble one from your website →</a>
+              <a className="btn btn-solid" href="/assembling">see the agentic journey →</a>
               <a className="btn btn-glass" href="/ai-ready">see your industry's journey, drafted</a>
             </div>
           </div>

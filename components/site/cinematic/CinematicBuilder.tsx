@@ -785,7 +785,7 @@ export function CinematicBuilder() {
           <div className="nav-links">
             <a href="/agents">agents</a>
             <a href="/pricing">pricing</a>
-            <a href="/build-an-agent">build an agent</a>
+            <a href="/assembling">the agentic journey</a>
           </div>
           <a className="nav-cta" href="/">← home</a>
         </nav>
