@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { DEMOS, SUPERSEDED, url } from '@/lib/demos/catalogue';
+import { DemosGate } from './DemosGate';
+import { DEMOS_COOKIE } from './gate-shared';
 import './demos.css';
 
 export const metadata: Metadata = {
@@ -20,7 +23,12 @@ export const metadata: Metadata = {
  * open with, the caution to check, and an explicit list of the URLs that are
  * superseded and should not be sent.
  */
-export default function DemosPage() {
+export default async function DemosPage() {
+  // Kate, 1 Aug 2026: the index is the playbook — hers, not the public's. The
+  // concept links stay open for clients; only this page sits behind the word.
+  const jar = await cookies();
+  if (jar.get(DEMOS_COOKIE)?.value !== '1') return <DemosGate />;
+
   const named = DEMOS.filter((d) => d.kind === 'named');
   const demos = DEMOS.filter((d) => d.kind === 'demonstrator');
   const flagged = DEMOS.filter((d) => d.caution);
@@ -120,6 +128,49 @@ export default function DemosPage() {
                 <code className="dm-url">{url(d.slug)}</code>
               </article>
             ))}
+          </div>
+        </section>
+
+        {/* Kate, 1 Aug 2026: "put the receipts in there and also the team rooms
+            and that I use Hermes' agent and Claude agent." The rest of the kit
+            a pitch leans on, listed beside the fleet so nothing lives only in
+            her head. The teamroom has no public URL on purpose — it runs on the
+            studio's own BUZZ stack. */}
+        <section>
+          <h2 className="dm-h2">The rest of the kit</h2>
+          <div className="dm-list tight">
+            <article className="dm-card small">
+              <div className="dm-card-top">
+                <div>
+                  <p className="dm-sector">trust · every demo</p>
+                  <h3>Mana Receipts</h3>
+                </div>
+                <a className="dm-open" href="/mana-receipts" target="_blank" rel="noopener">
+                  open &rarr;
+                </a>
+              </div>
+              <p className="dm-show">
+                The audit artefact behind the fleet: what an agent did, what it refused, and who
+                approved it &mdash; itemised, on the record. The Everyday Rewards demonstrator ends
+                on one; pilots issue them from the teamroom.
+              </p>
+              <code className="dm-url">assembl.co.nz/mana-receipts</code>
+            </article>
+            <article className="dm-card small">
+              <div className="dm-card-top">
+                <div>
+                  <p className="dm-sector">pilot workspace · studio-run</p>
+                  <h3>The teamroom</h3>
+                </div>
+              </div>
+              <p className="dm-show">
+                Where pilots actually run: a shared room on the studio&rsquo;s BUZZ stack where the
+                client, Kate, and the agents work side by side &mdash; staffed by Hermes&rsquo; agent
+                and the Claude agent as named teammates, with Mana Receipts issued from the room.
+                No public URL by design; clients are invited in per pilot.
+              </p>
+              <code className="dm-url">private &mdash; invitation per pilot</code>
+            </article>
           </div>
         </section>
 
