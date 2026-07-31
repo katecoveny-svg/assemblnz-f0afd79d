@@ -93,6 +93,18 @@ const PAGES = [
     ],
   },
   {
+    dir: 'assembling-southbase', A: '#78BE37',
+    clauseK: 'the regulatory spine · CCA 2002',
+    clause: 'The Construction Contracts Act 2002 gives payment claims, certification and adjudication their statutory clock — the journey is traceable because the law already makes it so.',
+    trace: 'Every claim event, decision and consent status on the client view carries its timestamp and its author. The client sees the fortnight; the record satisfies the contract.',
+    metrics: [
+      ['client-decision latency', 'conversion'],
+      ['status-enquiry volume', 'cost'],
+      ['sponsor effort score', 'experience'],
+      ['PCG-prep hours saved', 'value'],
+    ],
+  },
+  {
     dir: 'assembling-everyday-rewards', A: '#fd6400',
     clauseK: 'the regulatory spine · Privacy Act 2020',
     clause: 'The one-question exchange collects from the person, with purpose stated, under the Privacy Act 2020 (IPP 2 and IPP 3) — answered or declined, the draft still finishes.',

@@ -185,6 +185,16 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
+    slug: 'southbase', tier: 'now', company: 'Southbase Group', sector: 'Construction · major projects', kind: 'named',
+    wedge:
+      'Between monthly PCG meetings, a school board or Crown sponsor mostly waits and worries. Nobody sells Southbase the client\u2019s experience of the build \u2014 and client experience is a scored non-price attribute in Crown procurement.',
+    showpiece:
+      'Built 2 Aug, ungated: play the fortnight on a fictional school project with three stakeholder lenses (board chair / sponsor / community re-draft the same note live); the tender-to-bid assembler drafts the non-price attribute from the journey itself; the six HANGA agents (KAUPAPA, WHAKAA\u0112, \u0100RAI, PAI, RAWA, ATA) shown as the crew behind the glass. Real Southbase photography, credited. Verified #78BE37.',
+    caution:
+      'Run set-agent-key.sh (project appended) to wake the live agent + bid assembler \u2014 canned drafts play until then. Group-scale figures: re-verify against Companies Office before a room. Door: Benny Huang \u2014 coffee, not a pitch.',
+    has: { waits: false, accept: true, scratch: false, agent: true },
+  },
+  {
     slug: 'nectar', tier: 'now', company: 'Nectar Money', sector: 'Personal lending', kind: 'named',
     wedge: 'Get paid for the wait — the seven minutes shown working, without breaking the law with finance incentives.',
     showpiece:
