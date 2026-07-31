@@ -530,17 +530,191 @@ body.d6-live #waitmap .wm-grid{display:none}
 #place .plMeta{margin-top:22px;padding-top:16px;border-top:1px solid rgba(0,0,0,.1);
   font-size:11.5px;line-height:1.62;color:#75757E}
 #place .plMeta b{color:#141416;font-weight:600}
+
+
+
+
+
+
+
+/* wow:start — the demonstrator, on the clarity spine */
+/* Everyday Rewards retheme — verified tokens (lib/customers/everyday-rewards/config.ts):
+   primary #fd6400, dark #c65100, wash #ffe6d1, charcoal #3a474e, navy #22303c.
+   The page's green vars are remapped so ALL chrome follows the loyalty brand. */
+:root{--green:#c65100;--green-deep:#a34300;--green-wash:#ffe6d1;}
+
+.wowRibbon{background:var(--ink);color:rgba(255,255,255,.78);font:500 10px var(--body);
+  letter-spacing:.18em;text-transform:uppercase;text-align:center;padding:8px 14px}
+.wowTrio{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 26px}
+.wowTrioC{background:var(--paper);padding:14px 18px}
+.wowTrioK{font:700 9.5px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+.wowTrioT{font:400 13px/1.45 var(--body);color:var(--ink);margin-top:4px}
+.wowIdea{font:500 12px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  text-align:center;margin:18px 0 0}
+.wowIdea b{color:var(--green);font-weight:700}
+@media(max-width:760px){.wowTrio{grid-template-columns:1fr}}
+
+.wowWrap{padding:34px 0 8px}
+.wowStage{position:relative;border-radius:24px;overflow:hidden;
+  background:radial-gradient(120% 90% at 72% 18%,#FFFFFF 0%,#FFF7EC 46%,#FBE9D2 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 26px 70px -28px rgba(20,50,30,.42),0 3px 14px rgba(20,50,30,.07);
+  aspect-ratio:16/9;min-height:430px;isolation:isolate}
+.wowStage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.wowGrain{position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;
+  background:radial-gradient(90% 70% at 30% 100%,rgba(198,81,0,.10),transparent 60%)}
+
+/* the fridge chip — the one interaction */
+.wowSnap{position:absolute;top:18px;right:18px;z-index:5;display:flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.66);border:1px solid rgba(20,60,35,.14);border-radius:999px;
+  padding:10px 16px 10px 12px;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 10px 26px -12px rgba(20,60,35,.5);transition:transform .2s ease,box-shadow .2s ease;
+  font:700 12.5px var(--disp);color:var(--ink)}
+.wowSnap:hover{transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(20,60,35,.55)}
+.wowSnap i{width:26px;height:26px;border-radius:50%;background:var(--green);flex:none;position:relative;font-style:normal}
+.wowSnap i::before{content:"";position:absolute;inset:7px;border-radius:4px;border:1.8px solid #fff}
+.wowSnap i::after{content:"";position:absolute;top:4px;left:50%;transform:translateX(-50%);
+  width:8px;height:3.5px;border-radius:2px 2px 0 0;background:#fff}
+.wowSnap small{display:block;font:500 9.5px var(--body);color:var(--muted);margin-top:1px;letter-spacing:.02em}
+.wowSnap input{display:none}
+@keyframes wowSnapPulse{0%,100%{box-shadow:0 10px 26px -12px rgba(20,60,35,.5)}50%{box-shadow:0 10px 26px -12px rgba(20,60,35,.5),0 0 0 7px rgba(0,113,60,.12)}}
+.wowSnap.pulse{animation:wowSnapPulse 2.6s ease-in-out infinite}
+
+/* the phone */
+.wowPhone{position:absolute;left:6.5%;top:50%;width:255px;height:520px;z-index:3;
+  transform:translateY(-50%) perspective(1500px) rotateY(15deg) rotateX(3deg) rotateZ(-1.2deg);
+  transform-style:preserve-3d;animation:wowFloat 8s ease-in-out infinite}
+@keyframes wowFloat{0%,100%{transform:translateY(-50%) perspective(1500px) rotateY(15deg) rotateX(3deg) rotateZ(-1.2deg)}
+  50%{transform:translateY(calc(-50% - 11px)) perspective(1500px) rotateY(12deg) rotateX(2deg) rotateZ(-.6deg)}}
+.wowBody{position:absolute;inset:0;border-radius:44px;padding:11px;
+  background:linear-gradient(148deg,#5d6470 0%,#20252c 26%,#171b21 54%,#3d444e 78%,#12161b 100%);
+  box-shadow:0 0 0 1.5px rgba(255,255,255,.16) inset,0 2px 3px rgba(255,255,255,.35) inset,
+    0 42px 70px -22px rgba(12,30,18,.6),0 14px 26px -10px rgba(12,30,18,.42)}
+.wowScr{position:absolute;inset:11px;border-radius:34px;overflow:hidden;background:#FBFCFA;display:flex;flex-direction:column}
+.wowIsland{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:78px;height:23px;border-radius:14px;background:#0a0c0e;z-index:6}
+.wowGlare{position:absolute;inset:0;z-index:7;pointer-events:none;border-radius:34px;
+  background:linear-gradient(128deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.1) 22%,transparent 42%,transparent 72%,rgba(255,255,255,.12) 100%)}
+.wowSt{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 4px;font:600 11px var(--body);color:#141613}
+.wowSt b{font-weight:700}
+.wowBars{display:flex;gap:2.5px;align-items:flex-end}
+.wowBars i{display:block;width:3px;background:#141613;border-radius:1px}
+.wowBatt{width:20px;height:10px;border:1.3px solid #141613;border-radius:3px;position:relative;opacity:.85}
+.wowBatt::after{content:"";position:absolute;inset:1.5px;width:62%;background:#141613;border-radius:1px}
+.wowTop{padding:8px 18px 12px;background:linear-gradient(180deg,#fd6400 0%,#c65100 100%);color:#fff;
+  border-radius:0 0 20px 20px;box-shadow:0 6px 18px -8px rgba(198,81,0,.55)}
+.wowBrand{display:flex;align-items:center;justify-content:space-between;font:700 12.5px var(--disp)}
+.wowBrand span{font:600 9px var(--body);letter-spacing:.16em;text-transform:uppercase;opacity:.72}
+.wowPtsRow{display:flex;align-items:baseline;gap:7px;margin-top:9px}
+.wowPts{font:800 34px/1 var(--disp);letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.18)}
+.wowPtsL{font:600 10px var(--body);letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.wowMeter{height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin-top:10px;overflow:hidden}
+.wowMeterF{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,#BFE6C8,var(--orange));transition:width .8s cubic-bezier(.4,0,.2,1)}
+.wowDoing{display:flex;align-items:center;gap:8px;padding:11px 18px 6px}
+.wowSpin{width:15px;height:15px;border-radius:50%;border:2px solid var(--green-wash);border-top-color:var(--orange);animation:wowSpin .85s linear infinite;flex:none}
+@keyframes wowSpin{to{transform:rotate(360deg)}}
+.wowDoingT{font:600 12px var(--body);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wowList{flex:1;overflow:hidden;padding:2px 14px 0;display:flex;flex-direction:column;gap:8px}
+.wowItem{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:16px;
+  background:rgba(255,255,255,.72);border:1px solid rgba(20,60,35,.09);
+  box-shadow:0 6px 16px -10px rgba(20,60,35,.5);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
+  opacity:0;transform:translateY(14px) scale(.97);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.9,.3,1)}
+.wowItem.in{opacity:1;transform:none}
+.wowThumb{width:38px;height:38px;border-radius:12px;flex:none;position:relative;overflow:hidden;
+  box-shadow:0 3px 8px -3px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.5) inset}
+.wowThumb::after{content:"";position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.6),transparent 55%)}
+.wowIn{min-width:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
+.wowInT{display:block;font:700 12px var(--disp);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.wowInS{display:block;font:500 10px var(--body);color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.wowTag{font:800 8.5px var(--body);letter-spacing:.05em;text-transform:uppercase;padding:4px 7px;border-radius:8px;flex:none}
+.wowTag.mp{background:var(--green-wash);color:var(--green)}
+.wowTag.bo{background:#FFEDE0;color:var(--orange-deep)}
+.wowTag.oo{background:linear-gradient(120deg,#FFF3D6,#FFE3B8);color:#8a5a12}
+.wowFoot{padding:9px 16px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid rgba(20,60,35,.08)}
+.wowFootT{font:600 10px var(--body);color:var(--muted)}
+.wowCta{font:800 11px var(--disp);color:#fff;background:var(--ink);padding:8px 13px;border-radius:11px}
+
+/* the one question — a bottom sheet in the phone */
+.wowSheet{position:absolute;left:8px;right:8px;bottom:8px;z-index:8;border-radius:22px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(20,60,35,.12);box-shadow:0 -14px 40px -18px rgba(20,60,35,.55);
+  padding:16px 15px 12px;transform:translateY(112%);transition:transform .5s cubic-bezier(.2,.9,.25,1)}
+.wowSheet.up{transform:none}
+.wowSheetK{font:700 9px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+.wowSheetQ{font:700 14px/1.3 var(--disp);color:var(--ink)}
+.wowSheetRow{display:flex;gap:8px;margin-top:12px}
+.wowSheetB{flex:1;font:700 12px var(--disp);color:#fff;background:var(--ink);border:0;border-radius:12px;padding:11px 8px;cursor:pointer}
+.wowSheetB:active{transform:scale(.98)}
+.wowSheetSkip{display:block;margin:9px auto 0;background:none;border:0;font:600 10.5px var(--body);color:var(--muted);text-decoration:underline;cursor:pointer}
+
+.wowCap{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:11px 20px;
+  font:500 11.5px var(--body);color:rgba(20,40,25,.62);text-align:right;
+  background:linear-gradient(0deg,rgba(255,255,255,.82),transparent)}
+@media(max-width:900px){
+  .wowStage{aspect-ratio:auto;min-height:0;padding:64px 0 16px}
+  .wowPhone{position:relative;left:auto;top:auto;margin:0 auto;transform:none;animation:none;width:236px;height:482px}
+  .wowBody{border-radius:40px}.wowScr{border-radius:31px;inset:10px}
+  .wowSnap{top:12px;right:12px}
+  .wowCap{position:static;background:none;text-align:center;padding:14px 18px 0}
+}
+/* wow:end */
+
+
+
+
+/* mz:start — the assembling mosaic band */
+.mzBand{padding:36px 22px 26px;position:relative}
+.mzIn{max-width:1080px;margin:0 auto}
+.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
+.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
+  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
+.mzT.mzLit{opacity:1;filter:none;transform:none}
+.mzT.mzPulse{animation:mzP .9s ease}
+@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
+.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
+.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
+@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
+/* mz:end */
+
+/* pf:start — proof furniture: regulatory spine + pilot metrics */
+.pfSec{padding:34px 22px;position:relative}
+.pfIn{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+@media(max-width:860px){.pfIn{grid-template-columns:1fr}}
+.pfCard{background:var(--pfCard,#fff);border:1.5px solid var(--pfLine,rgba(30,27,20,.12));border-radius:20px;padding:18px 20px}
+.pfK{font:800 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--pfA);margin-bottom:9px}
+.pfQ{font:600 13.5px/1.6 -apple-system,sans-serif;color:var(--pfInk,#221f18);border-left:3px solid var(--pfA);
+  padding-left:13px;margin:0 0 10px}
+.pfT{font:500 12px/1.65 -apple-system,sans-serif;color:var(--pfInk,#221f18);opacity:.75;margin:0}
+.pfMets{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pfM{border:1.5px solid var(--pfLine,rgba(30,27,20,.12));border-radius:14px;padding:11px 13px}
+.pfM b{display:block;font:700 12px/1.35 -apple-system,sans-serif;color:var(--pfInk,#221f18)}
+.pfM span{display:block;font:800 8.5px -apple-system,sans-serif;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--pfA);margin-top:5px}
+.pfNote{grid-column:1 / -1;font:600 10.5px -apple-system,sans-serif;letter-spacing:.06em;color:var(--pfInk,#221f18);
+  opacity:.55;text-align:center;margin:2px 0 0}
+/* the reform clock — retirement pages only */
+.pfClock{grid-column:1 / -1;background:var(--pfCard,#fff);border:1.5px solid var(--pfLine,rgba(30,27,20,.12));
+  border-radius:20px;padding:18px 20px}
+.pfBar{position:relative;height:10px;border-radius:6px;background:var(--pfLine,rgba(30,27,20,.12));margin:22px 6px 8px}
+.pfBar i{position:absolute;top:0;bottom:0;left:0;width:50%;border-radius:6px;background:var(--pfA);opacity:.28}
+.pfBar em{position:absolute;top:0;bottom:0;left:50%;width:50%;border-radius:0 6px 6px 0;background:var(--pfA)}
+.pfStops{display:flex;justify-content:space-between;margin:0 6px}
+.pfStop{flex:1;font:600 11px/1.5 -apple-system,sans-serif;color:var(--pfInk,#221f18)}
+.pfStop b{display:block;font:800 12.5px -apple-system,sans-serif;color:var(--pfA)}
+.pfStop:nth-child(2){text-align:center}
+.pfStop:last-child{text-align:right}
+/* pf:end */
 </style>
 </head>
 <body>
+<!-- wow:start -->
+<div class="wowRibbon">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
+<!-- wow:end -->
 
 <nav class="bar"><div class="wrap">
   <div class="mark"><i></i>assembl <small>· independent concept</small></div>
   <div class="barnav">
-    <a href="#combine">The combination</a>
-    <a href="#build">What exists</a>
-    <a href="#shop">The live shop</a>
-    <a href="#concepts">Four concepts</a>
     <a href="#waits">The six waits</a>
     <a href="#guard">The guard</a>
   </div>
@@ -548,7 +722,7 @@ body.d6-live #waitmap .wm-grid{display:none}
 </div></nav>
 
 <div class="signed"><div class="wrap">
-  <span>Prepared for</span> <b>Customer &amp; Loyalty, Woolworths New Zealand</b>
+  <span>Prepared for</span> <b>Customer &amp; Loyalty, Everyday Rewards</b> · Woolworths NZ
   <span>· an independent concept · not commissioned</span>
 </div></div>
 
@@ -569,9 +743,8 @@ body.d6-live #waitmap .wm-grid{display:none}
       personal shopper that acts on what it knows &mdash; and stops before it decides anything.
     </p>
     <div class="btns">
-      <a class="btn solid" href="#shop">Watch a shop assemble <span>&rarr;</span></a>
-      <a class="btn ghost" href="#concepts">Four things to pilot</a>
-    </div>
+      <a class="btn solid" href="#wowStage">Watch the wait earn <span>&rarr;</span></a>
+      </div>
     <p class="honest">
       An independent concept. Not affiliated with, endorsed by or commissioned by Woolworths NZ
       or Everyday Rewards. Every figure on this page carries its source.
@@ -594,60 +767,70 @@ body.d6-live #waitmap .wm-grid{display:none}
     <div class="know k5">Switched to <b>click &amp; collect</b> in March</div>
   </div>
 </div></div></header>
+<!-- mz:start -->
+<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
+  <div class="mzIn"><div id="mzHost"></div>
+  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+</section>
+<!-- mz:end -->
+
+<!-- wow:start -->
+<section class="wowWrap"><div class="wrap">
+  <div class="wowTrio rise">
+    <div class="wowTrioC"><div class="wowTrioK">the shopper</div><div class="wowTrioT">nothing to sit through — the wait itself earns</div></div>
+    <div class="wowTrioC"><div class="wowTrioK">everyday rewards</div><div class="wowTrioT">every point lands in the existing balance</div></div>
+    <div class="wowTrioC"><div class="wowTrioK">assembl</div><div class="wowTrioT">paid on completed moments</div></div>
+  </div>
+
+  <div class="wowStage rise" id="wowStage">
+    <canvas id="wowCanvas" aria-hidden="true"></canvas>
+    <div class="wowGrain" aria-hidden="true"></div>
+
+    <label class="wowSnap pulse" id="wowSnap">
+      <i aria-hidden="true"></i>
+      <span>Show it your fridge<small>the pantry read &middot; one photo &middot; never stored</small></span>
+      <input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" id="wowFile" />
+    </label>
+
+    <div class="wowPhone" role="img" aria-label="A concept rewards app assembling a shopping list during the wait">
+      <div class="wowBody">
+        <div class="wowScr">
+          <div class="wowIsland" aria-hidden="true"></div>
+          <div class="wowGlare" aria-hidden="true"></div>
+          <div class="wowSt"><b>9:41</b>
+            <span class="wowBars" aria-hidden="true"><i style="height:5px"></i><i style="height:7px"></i><i style="height:9px"></i><i style="height:11px"></i></span>
+            <span class="wowBatt" aria-hidden="true"></span></div>
+          <div class="wowTop">
+            <div class="wowBrand">everyday rewards<span>concept &middot; pending</span></div>
+            <div class="wowPtsRow"><div class="wowPts" id="wowPts">1,517</div><div class="wowPtsL">balance &middot; +<span id="wowSess">0</span> this visit</div></div>
+            <div class="wowMeter"><div class="wowMeterF" id="wowMeter"></div></div>
+          </div>
+          <div class="wowDoing"><span class="wowSpin" id="wowSpinEl" aria-hidden="true"></span><span class="wowDoingT" id="wowDoing">reading your basket&hellip;</span></div>
+          <div class="wowList" id="wowList"></div>
+          <div class="wowFoot"><span class="wowFootT">a person approves before anything is bought</span><span class="wowCta">Review</span></div>
+
+          <div class="wowSheet" id="wowSheet" aria-live="polite">
+            <div class="wowSheetK">one question &middot; worth answering</div>
+            <div class="wowSheetQ" id="wowSheetQ"></div>
+            <div class="wowSheetRow" id="wowSheetRow"></div>
+            <button type="button" class="wowSheetSkip" id="wowSheetSkip">rather not say</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="wowCap">Illustrative concept &middot; not a Woolworths product &middot; photo read once, never stored</p>
+  </div>
+
+  <p class="wowIdea rise">Six real waits &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
+</div></section>
+<!-- wow:end -->
+
+
+
 
 <!-- ═══ THE COMBINATION ═══ -->
-<section id="combine" class="shelf"><div class="wrap">
-  <div class="narrow rise">
-    <div class="kick g">The combination</div>
-    <h2>One of these is running. The other one isn&rsquo;t.</h2>
-    <p class="lede" style="margin-top:16px">
-      Everyday Rewards is a knowledge engine that pays out in points. Personal shopping is an
-      action engine with no knowledge behind it. Neither is missing technology. What is missing
-      is the join.
-    </p>
-  </div>
 
-  <div class="conv rise">
-    <div class="convcol have">
-      <div class="sub">Already running</div>
-      <h4>What the card knows</h4>
-      <ul>
-        <li>Every basket, going back years</li>
-        <li>The shop that repeats, and the week it didn&rsquo;t</li>
-        <li>Which Boosts get activated and which get ignored</li>
-        <li>Online, in-store, Scan&amp;Go &mdash; the same person</li>
-        <li>What a household looks like from its trolley</li>
-      </ul>
-    </div>
-    <div class="convmid" aria-hidden="true">
-      <svg viewBox="0 0 84 260" preserveAspectRatio="none">
-        <path d="M0 46 C 44 46, 40 130, 84 130" fill="none" stroke="#00713C" stroke-width="2" stroke-linecap="round"/>
-        <path d="M0 214 C 44 214, 40 130, 84 130" fill="none" stroke="#FD6400" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5"/>
-        <circle cx="84" cy="130" r="6" fill="#00713C"/>
-      </svg>
-    </div>
-    <div class="convcol missing">
-      <div class="sub">Not running</div>
-      <h4>What nothing does with it</h4>
-      <ul>
-        <li>Write the list before she opens the app</li>
-        <li>Notice the usual thing missing from the basket</li>
-        <li>Offer the swap she would have accepted anyway</li>
-        <li>Fill the delivery window with something worth having</li>
-        <li>Ask the one question a survey never gets an answer to</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="convout rise">
-    <b>The join is the product.</b>
-    <p>
-      An agent that reads what the card already knows, prepares the shop, and then stops &mdash;
-      holding every decision for the customer, and every send for a named person at Woolworths.
-      Points stop being a rebate and start being the currency of a service.
-    </p>
-  </div>
-</div></section>
 
 <!-- ═══ THE REWARDED WAIT, LIVE ═══ -->
 <section id="wait" class="wp-sec"><div class="wrap">
@@ -661,7 +844,17 @@ body.d6-live #waitmap .wm-grid{display:none}
     </p>
   </div>
 
-  <div class="wp-grid rise">
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    <div class="wp-grid rise">
     <div>
       <div class="wp-hold"><div id="wait-mount"></div></div>
       <p class="wp-note">Illustrative concept screen. Not a Woolworths product, no real customer data, and nothing is purchased without review.</p>
@@ -698,139 +891,13 @@ body.d6-live #waitmap .wm-grid{display:none}
 </div></section>
 
 <!-- ═══ WHAT EXISTS, AND WHAT WE WOULD BUILD ═══ -->
-<section id="build" class="shelf deep"><div class="wrap">
-  <div class="narrow rise">
-    <div class="kick">Being straight about it</div>
-    <h2 style="color:#fff">One half of this can start Monday.<br>The other half does not exist yet.</h2>
-    <p class="lede" style="margin-top:18px;color:rgba(242,246,241,.8)">
-      There is no personalised-shopping API at Woolworths NZ to plug an agent into. We are not
-      going to pretend otherwise, and we are not going to quietly design around it. It is the most
-      interesting thing on this page.
-    </p>
-  </div>
 
-  <div class="split rise">
-    <div class="half now">
-      <div class="tag">Tier one &middot; runs on what you already have</div>
-      <h3>The wait states and the rewards mechanics</h3>
-      <p>
-        The delivery window, the checkout queue, the Scan&amp;Go loading screen, the moment at the
-        terminal &mdash; these already happen, and Everyday Rewards already has the mechanics to
-        pay for them: points, Boosts, Double Points Week. Filling a wait with something worth
-        having needs read access to events your app already emits and rules you already publish.
-        Nothing new has to be invented for this to run.
-      </p>
-      <ul>
-        <li>Six weeks, one wait, one segment</li>
-        <li>Read-only against existing events and points rules</li>
-        <li>No new platform, no new contract, no write access</li>
-        <li>Measurable inside the pilot window</li>
-      </ul>
-      <div class="verdict ok">Could start on a Monday</div>
-    </div>
-
-    <div class="half next">
-      <div class="tag">Tier two &middot; the opportunity, and it is a build</div>
-      <h3>Personalised shopping as an agentic layer</h3>
-      <p>
-        Everything in the live shop above &mdash; the list that writes itself, the missing weekly
-        item, the substitution asked rather than decided &mdash; needs a personalised-shopping layer
-        that nobody in New Zealand grocery has built. Not a feature bolted onto an app: a defined
-        contract between what the card knows and what an agent is allowed to prepare from it.
-        That is design and engineering work, done with you, not a switch we flip.
-      </p>
-      <ul>
-        <li>A data contract: what an agent may read, and what it may never infer</li>
-        <li>A preparation layer that drafts a basket and then stops</li>
-        <li>An approval path, so a named person owns anything customer-facing</li>
-        <li>The first of its kind in NZ grocery &mdash; which is the point</li>
-      </ul>
-      <div class="verdict build">Designed and built with you</div>
-    </div>
-  </div>
-
-  <div class="whyorder rise">
-    <b>Why we would run them in that order.</b>
-    <p>
-      Tier one earns the right to build tier two. Six weeks on a wait moment proves the mechanics,
-      the approval path and the appetite using only what exists &mdash; and produces the evidence
-      that justifies the bigger build. If tier one fails its scorecard, tier two should not happen,
-      and we will say so. If it works, you are not buying a personalised-shopping platform on
-      faith; you are extending something you have already watched run.
-    </p>
-  </div>
-</div></section>
 
 <!-- ═══ THE LIVE SHOP ═══ -->
-<section id="shop" class="shelf white"><div class="wrap">
-  <div class="narrow rise">
-    <div class="kick">The live shop · running on this page</div>
-    <h2>One week, assembling.</h2>
-    <p class="lede" style="margin-top:16px">
-      Not a picture of a feature. Press play and watch the shop build itself from what the card
-      knows &mdash; the list, the swap it asks about, the supplier slot it labels, and the points
-      it earns on the way. Every screen here is illustrative and no real customer data was used.
-      <b style="color:var(--ink);font-weight:500">This is tier two &mdash; the part that would be
-      built with you.</b> It runs here because a concept you can press is worth more than a
-      roadmap, not because an API exists to do it today.
-    </p>
-  </div>
 
-  <div class="shopgrid rise">
-    <div>
-      <div class="phone">
-        <div class="screen">
-          <div class="stat"><span>9:41</span><span>5G · 84%</span></div>
-          <div class="aphead">
-            <div class="who">Your Sunday shop<span>assembling</span></div>
-            <div class="pts" id="pts">0 pts</div>
-          </div>
-          <div class="aplist" id="aplist"></div>
-          <div class="apfoot">
-            <div class="bar2"><i id="bar"></i></div>
-            <div class="cap"><span id="capL">ready when you are</span><span id="capR">0 / 7</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="playrow">
-        <button class="go" id="play" type="button">Assemble the shop</button>
-        <button id="again" type="button">Start again</button>
-      </div>
-    </div>
-
-    <div class="beats" id="beats">
-      <div class="beat" data-b="0"><span class="n">01</span><div><b>It starts from the card, not a blank list</b><p>The seven things this household buys every week are already on the list before the app is opened. Nothing was guessed &mdash; it is their own purchase history, read back to them.</p></div></div>
-      <div class="beat" data-b="1"><span class="n">02</span><div><b>It notices what is missing</b><p>The thing bought fifty weeks out of fifty-two, absent this week. Not upsold &mdash; flagged, because forgetting it means a second trip.</p></div></div>
-      <div class="beat" data-b="2"><span class="n">03</span><div><b>It asks before it substitutes</b><p>The swap a customer would probably accept is still a question, not a decision. Answer it and the answer is remembered. Ignore it and the shop still completes.</p></div></div>
-      <div class="beat" data-b="3"><span class="n">04</span><div><b>The supplier slot is labelled, and it is a real offer</b><p>Funded by a supplier&rsquo;s retail media budget, marked as funded, and relevant because of the basket rather than the highest bid. It never enters the trolley on its own.</p></div></div>
-      <div class="beat" data-b="4"><span class="n">05</span><div><b>Points are earned for the work, not the spend</b><p>The wait paid for itself: points for answering the one question, for the swap accepted, for the shop completed early. Loyalty stops being a rebate on money and becomes a return on attention.</p></div></div>
-      <div class="beat" data-b="5"><span class="n">06</span><div><b>Then it stops</b><p>Nothing is ordered, nothing is charged, nothing is sent. A prepared shop waits for one tap from the customer &mdash; and anything that would reach a customer waits for a named person at Woolworths.</p></div></div>
-    </div>
-  </div>
-
-  <div class="prod rise" aria-hidden="true">
-    <span><svg viewBox="0 0 24 24" fill="none"><path d="M12 7c0-2 1.5-3.5 3.5-3.5" stroke="#00713C" stroke-width="1.6" stroke-linecap="round"/><path d="M12 21c-4 0-6.5-3.2-6.5-7.2C5.5 10 8 7.5 12 7.5s6.5 2.5 6.5 6.3C18.5 17.8 16 21 12 21Z" fill="#D24E00"/></svg></span>
-    <span><svg viewBox="0 0 24 24" fill="none"><path d="M6 20 18 8" stroke="#FD6400" stroke-width="4" stroke-linecap="round"/><path d="M17 7c1-2 3-2.5 4-2-.5 2-1.5 3.5-4 4Z" fill="#00713C"/></svg></span>
-    <span><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="8" width="10" height="13" rx="2" fill="#00713C"/><rect x="10" y="3" width="4" height="5" rx="1" fill="#8CC647"/></svg></span>
-    <span><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="18" height="10" rx="4" fill="#C8783C"/><path d="M6 9c0-2 1.5-3 3-3s3 1 3 3" stroke="#A85F26" stroke-width="1.4"/></svg></span>
-    <span><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="13" r="7" fill="#8CC647"/><path d="M12 6V3" stroke="#00713C" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-    <span><svg viewBox="0 0 24 24" fill="none"><path d="M5 19h14l-2-9H7l-2 9Z" fill="#FD6400"/><path d="M9 10V7a3 3 0 0 1 6 0v3" stroke="#00713C" stroke-width="1.6"/></svg></span>
-  </div>
-</div></section>
 
 <!-- ═══ FOUR CONCEPTS (filled from research) ═══ -->
-<section id="concepts" class="shelf"><div class="wrap">
-  <div class="narrow rise">
-    <div class="kick g">Four concepts</div>
-    <h2>Four things you could actually pilot in six weeks.</h2>
-    <p class="lede" style="margin-top:16px">
-      Each one lives inside a wait that already happens, uses a mechanic Everyday Rewards already
-      has, and has a precedent somewhere in the world. None of them is a platform rebuild.
-    </p>
-  </div>
-  <div class="cons rise" id="cons"></div>
-  <div class="src rise" id="srcs"></div>
-</div></section>
+
 
 <!-- ═══ THE SIX WAITS ═══ -->
 <section id="waits" class="shelf deep"><div class="wrap">
@@ -884,6 +951,24 @@ body.d6-live #waitmap .wm-grid{display:none}
 </div></section>
 
 <!-- ═══ THE PILOT ═══ -->
+
+
+<!-- pf:start -->
+<section class="pfSec" aria-label="Regulatory spine and pilot metrics" style="--pfA:#fd6400">
+  <div class="pfIn">
+    <div class="pfCard">
+      <div class="pfK">the regulatory spine · Fair Trading Act 1986</div>
+      <p class="pfQ">Substitution and price claims sit under the Fair Trading Act 1986. A promise made at order is kept or declared — substitutions are surfaced before the box lands, never discovered at the door.</p>
+      <p class="pfT">Every price lock, substitution and answer is receipted with its timestamp. The trace is the difference between a promise and a hope.</p>
+    </div>
+    <div class="pfCard">
+      <div class="pfK">what a 90-day pilot would measure</div>
+      <div class="pfMets"><div class="pfM"><b>order completion</b><span>conversion metric</span></div><div class="pfM"><b>substitution and “where is my order” contacts deflected</b><span>cost metric</span></div><div class="pfM"><b>substitution acceptance rate</b><span>experience metric</span></div><div class="pfM"><b>basket size</b><span>value metric</span></div></div>
+    </div>
+    <p class="pfNote">simulated journey &middot; illustrative concept &middot; the numbers above are the pilot&rsquo;s to earn, not ours to claim</p>
+  </div>
+</section>
+<!-- pf:end -->
 <section id="pilot" class="shelf"><div class="wrap">
   <div class="narrow rise">
     <div class="kick g">Before you decide</div>
@@ -1530,28 +1615,7 @@ function copyAccept(){
 
 
 <!-- ═══ THE PLACE · injected by _generator/patch-place.mjs ═══ -->
-<section id="place"><div class="plWrap">
-  <p class="plKick">The floor, and where the draft lands</p>
-  <h2>Everything the concept drafts ends up in one 4.6-metre bay.</h2>
-  <p class="plLede">A store floor authored as real architecture: the perimeter, six aisle runs, the chiller wall, and the collect bay lit in green. The draft basket the phone above builds has to physically arrive somewhere, and this is the somewhere. Drag it around.</p>
-  <div class="plGrid">
-    <div class="plStage" id="plStage">
-      <canvas class="plCanvas" id="plCanvas"></canvas>
-      <span class="plHint" id="plHint">drag to turn it</span>
-    </div>
-    <div>
-      <div class="plCard">
-        <div class="plCardK">the part that matters</div>
-        <b>The collect bay</b>
-        <p>Roughly 4.6 by 4.4 metres. A drafted basket becomes a real pick, in a real bay, at a real store. Nothing about the concept works if that bay is already the bottleneck, which is the first thing a pilot would measure.</p>
-      </div>
-      <p class="plMeta"><b>Where this geometry came from.</b> 4 walls and the floor plates were
-      authored in the Pascal Editor&rsquo;s own schemas and measured in metres, not sketched. Pascal is
-      MIT-licensed and open source. The same pipeline reads a real IFC file exported from Revit or
-      ArchiCAD, which is what makes this a working method rather than an illustration.</p>
-    </div>
-  </div>
-</div></section>
+
 
 <script src="three.min.js"></script>
 <script>
@@ -1662,5 +1726,422 @@ function copyAccept(){
   })();
 })();
 </script>
+
+
+
+
+
+
+
+<!-- wow:start -->
+<script>
+(function(){
+  var stage=document.getElementById('wowStage'); if(!stage||!window.THREE) return;
+  var cv=document.getElementById('wowCanvas');
+  var G='#c65100', O='#fd6400';
+  /* The six REAL wait moments in the Everyday Rewards app — from the pilot
+     config (lib/customers/everyday-rewards/config.ts). Partner slots stay
+     unnamed on this public page. */
+  var ITEMS=[
+    {t:'Offers refresh',s:'Home \u00b7 member offers \u00b7 ~3s',tag:'+8 pts',cls:'bo',c1:'#FFB36B',c2:'#E06A00',pts:8},
+    {t:'Points balance sync',s:'Wallet \u00b7 balance \u00b7 ~2s',tag:'+6 pts',cls:'bo',c1:'#FFD34D',c2:'#E0A21B',pts:6},
+    {t:'Checkout scan companion',s:'Scan&Go queue \u00b7 ~40s',tag:'+12 pts',cls:'bo',c1:'#FD6400',c2:'#A34300',pts:12},
+    {t:'Digital card load',s:'Wallet \u00b7 digital card \u00b7 ~2s',tag:'+5 pts',cls:'bo',c1:'#8fb6c9',c2:'#3a474e',pts:5},
+    {t:'Voucher redemption',s:'Rewards \u00b7 redeem \u00b7 ~4s',tag:'+10 pts',cls:'bo',c1:'#C9A2E0',c2:'#7E56A8',pts:10},
+    {t:'Order status',s:'Delivery \u00b7 ETA tracker \u00b7 ~6s',tag:'+9 pts',cls:'bo',c1:'#9BD39B',c2:'#2E7D32',pts:9}
+  ];
+  var DOING=['offers refreshing \u2014 a partner slot rides the wait','balance syncing \u2014 points on the house','40s in the queue \u2014 turned into points','card loading \u2014 partner topped you up','voucher processing \u2014 a few more','tracking delivery \u2014 points for the wait'];
+  var PALETTE=[['#79A83A','#3F6B22'],['#FFD34D','#E0A21B'],['#D9534B','#9C2F2A'],['#E8722C','#B24B12'],['#7EC8D8','#3E86A0'],['#C9A2E0','#7E56A8']];
+
+  var listEl=document.getElementById('wowList'), ptsEl=document.getElementById('wowPts'),
+      meterEl=document.getElementById('wowMeter'), doingEl=document.getElementById('wowDoing'),
+      spinEl=document.getElementById('wowSpinEl');
+  var pts=0, mode='auto', BASE=1517;
+  var sessEl=document.getElementById('wowSess');
+  function setPts(v){ pts=v; ptsEl.textContent=(BASE+v).toLocaleString('en-NZ');
+    if(sessEl) sessEl.textContent=v;
+    meterEl.style.width=Math.min(100,Math.round(v*2))+'%'; }
+  function spin(on){ if(!spinEl) return;
+    spinEl.style.animation=on?'':'none';
+    spinEl.style.borderColor=on?'':G; spinEl.style.borderTopColor=on?'':G; }
+  function row(title,sub,tag,cls,c1,c2){
+    var el=document.createElement('div'); el.className='wowItem';
+    el.innerHTML='<span class="wowThumb"></span>'+
+      '<span class="wowIn"><span class="wowInT"></span><span class="wowInS"></span></span>'+
+      '<span class="wowTag"></span>';
+    el.querySelector('.wowThumb').style.background='linear-gradient(145deg,'+c1+','+c2+')';
+    el.querySelector('.wowInT').textContent=title;
+    el.querySelector('.wowInS').textContent=sub;
+    var tg=el.querySelector('.wowTag'); tg.textContent=tag; tg.className='wowTag '+cls;
+    listEl.appendChild(el);
+    requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+    while(listEl.children.length>4) listEl.removeChild(listEl.firstChild);
+  }
+
+  /* ── 3D: basket, produce, glass ── */
+  var ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+  ren.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  if(ren.outputColorSpace!==undefined) ren.outputColorSpace=THREE.SRGBColorSpace;
+  ren.toneMapping=THREE.ACESFilmicToneMapping; ren.toneMappingExposure=1.08;
+  var sc=new THREE.Scene();
+  var cam=new THREE.PerspectiveCamera(32,16/9,.1,120);
+  sc.add(new THREE.HemisphereLight(0xffffff,0xd9e4da,1.0));
+  var key=new THREE.DirectionalLight(0xffffff,1.5); key.position.set(4.5,7.5,5.5); sc.add(key);
+  var rim=new THREE.DirectionalLight(new THREE.Color(G),.55); rim.position.set(-5,2.5,-3.5); sc.add(rim);
+  var warm=new THREE.PointLight(new THREE.Color(O),18,16); warm.position.set(3.2,1.4,2.6); sc.add(warm);
+  var pm=new THREE.PMREMGenerator(ren), envScene=new THREE.Scene();
+  (function(){
+    envScene.add(new THREE.Mesh(new THREE.SphereGeometry(12,16,12),new THREE.MeshBasicMaterial({color:0xf3f7f2,side:THREE.BackSide})));
+    function panel(c,x,y,z,sx,sy){var m=new THREE.Mesh(new THREE.PlaneGeometry(sx,sy),new THREE.MeshBasicMaterial({color:c}));m.position.set(x,y,z);m.lookAt(0,0,0);envScene.add(m);}
+    panel(0xffffff,0,7,2,10,7);panel(0xe9f0e8,-7,2,-3,9,8);panel(0xfff3e8,6,2,3,8,7);
+  })();
+  sc.environment=pm.fromScene(envScene,.04).texture;
+  var group=new THREE.Group(); group.position.set(1.55,-.15,0); sc.add(group);
+  var basket=new THREE.Group(); basket.scale.setScalar(.82); group.add(basket);
+  var wire=new THREE.MeshPhysicalMaterial({color:0x3a474e,metalness:.35,roughness:.28,clearcoat:.7,clearcoatRoughness:.25});
+  var body=new THREE.Mesh(new THREE.CylinderGeometry(1.16,.86,1.06,4,1,true),wire);
+  body.rotation.y=Math.PI/4; body.position.y=.53; basket.add(body);
+  var base=new THREE.Mesh(new THREE.CylinderGeometry(.86,.86,.06,4),wire); base.rotation.y=Math.PI/4; basket.add(base);
+  var rimM=new THREE.Mesh(new THREE.TorusGeometry(1.5,.055,10,4),new THREE.MeshPhysicalMaterial({color:0x22303c,metalness:.55,roughness:.2,clearcoat:1}));
+  rimM.rotation.x=Math.PI/2; rimM.rotation.z=Math.PI/4; rimM.position.y=1.06; basket.add(rimM);
+  var handle=new THREE.Mesh(new THREE.TorusGeometry(.62,.045,10,26,Math.PI),new THREE.MeshPhysicalMaterial({color:0x22303c,metalness:.6,roughness:.22,clearcoat:1}));
+  handle.position.y=1.07; handle.rotation.y=Math.PI/2; basket.add(handle);
+  for(var r=0;r<4;r++){var f=r/3.5,rad=.90+f*.30;
+    var ring=new THREE.Mesh(new THREE.TorusGeometry(rad,.021,8,4),wire);
+    ring.rotation.x=Math.PI/2; ring.rotation.z=Math.PI/4; ring.position.y=.16+r*.29; basket.add(ring);}
+  var slope=Math.atan((1.16-.86)/1.06);
+  for(var v=0;v<8;v++){var a2=(v/8)*Math.PI*2+Math.PI/8;
+    var rib=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,1.09,6),wire);
+    rib.position.set(Math.cos(a2)*1.0,.53,Math.sin(a2)*1.0);
+    rib.rotation.z=-Math.cos(a2)*slope; rib.rotation.x=Math.sin(a2)*slope; basket.add(rib);}
+  var PROD=[
+    {g:new THREE.SphereGeometry(.30,26,20),c:0x7CB342},
+    {g:new THREE.SphereGeometry(.26,26,20),c:0xF08C1E},
+    {g:new THREE.BoxGeometry(.44,.56,.20),c:0xF6D14B},
+    {g:new THREE.SphereGeometry(.27,26,20),c:0xCF4A3E},
+    {g:new THREE.CapsuleGeometry(.13,.34,8,16),c:0xF3EBDA},
+    {g:new THREE.CylinderGeometry(.20,.20,.46,22),c:0xE2662A}
+  ];
+  var drops=[];
+  for(var i=0;i<PROD.length;i++){
+    var m=new THREE.Mesh(PROD[i].g,new THREE.MeshPhysicalMaterial({color:PROD[i].c,roughness:.34,metalness:.02,clearcoat:.85,clearcoatRoughness:.28,envMapIntensity:.9}));
+    var a=(i/PROD.length)*Math.PI*2;
+    m.userData={rest:new THREE.Vector3(Math.cos(a)*.36,.26+(i%3)*.20,Math.sin(a)*.36),
+      spin:new THREE.Vector3((Math.random()-.5)*.6,(Math.random()-.5)*.9,(Math.random()-.5)*.6),t:-1,home:4.4+i*.7};
+    m.position.set(m.userData.rest.x,m.userData.home,m.userData.rest.z);
+    m.visible=false; basket.add(m); drops.push(m);
+  }
+  var landed=0;
+  function landNext(){ if(landed>=drops.length) return;
+    var m=drops[landed++]; m.visible=true; m.userData.t=0; }
+  function liftAll(){ landed=0; drops.forEach(function(m){ m.visible=false; m.userData.t=-1;
+    m.position.set(m.userData.rest.x,m.userData.home,m.userData.rest.z); m.rotation.set(0,0,0);}); }
+  function cardTex(big,small){
+    var c=document.createElement('canvas'); c.width=512; c.height=320; var x=c.getContext('2d');
+    x.fillStyle='rgba(255,255,255,.06)'; x.fillRect(0,0,512,320);
+    x.fillStyle=G; x.font='800 128px Plus Jakarta Sans, system-ui, sans-serif'; x.textBaseline='top';
+    x.fillText(big,38,74);
+    x.fillStyle='rgba(20,40,25,.62)'; x.font='600 34px Jost, system-ui, sans-serif'; x.fillText(small,40,212);
+    x.fillStyle=O; x.fillRect(38,44,72,9);
+    x.strokeStyle='rgba(255,255,255,.85)'; x.lineWidth=6; x.strokeRect(3,3,506,314);
+    var t=new THREE.CanvasTexture(c); if(t.colorSpace!==undefined) t.colorSpace=THREE.SRGBColorSpace;
+    t.anisotropy=4; return t;
+  }
+  var glassBase={transmission:.92,thickness:.55,roughness:.09,metalness:0,ior:1.42,clearcoat:1,clearcoatRoughness:.1,transparent:true,envMapIntensity:1.5,specularIntensity:1,attenuationColor:new THREE.Color(0xffe9d4),attenuationDistance:2.2};
+  var cards=[];
+  function makeCard(big,small,x,y,z,ry){
+    var g=new THREE.Group();
+    var pane=new THREE.Mesh(new THREE.BoxGeometry(1.34,.84,.05),new THREE.MeshPhysicalMaterial(Object.assign({color:0xffffff},glassBase)));
+    var face=new THREE.Mesh(new THREE.PlaneGeometry(1.34,.84),new THREE.MeshBasicMaterial({map:cardTex(big,small),transparent:true,depthWrite:false}));
+    face.position.z=.029; g.add(pane); g.add(face);
+    g.position.set(x,y,z); g.rotation.y=ry; g.userData.y0=y; g.userData.ph=Math.random()*6.28;
+    g.scale.setScalar(.001); g.visible=false; sc.add(g); cards.push(g); return g;
+  }
+  makeCard('+8','offers refresh',3.00,1.34,.55,-.34);
+  makeCard('40s','queue → points',3.34,.16,-.10,-.42);
+  makeCard('+50','points · this visit',2.86,-1.00,.50,-.28);
+  function showCard(i,big,small){ var c=cards[i]; if(!c) return;
+    if(big){ c.children[1].material.map=cardTex(big,small); c.children[1].material.needsUpdate=true; }
+    c.visible=true; c.userData.t=0; }
+  function hideCards(){ cards.forEach(function(c){c.visible=false;c.scale.setScalar(.001);c.userData.t=-1;}); }
+  var shadow=new THREE.Mesh(new THREE.CircleGeometry(1.9,40),new THREE.MeshBasicMaterial({color:0x6b4a2e,transparent:true,opacity:.16}));
+  shadow.rotation.x=-Math.PI/2; shadow.position.y=-.04; shadow.scale.setScalar(.92); group.add(shadow);
+  function size(){ var r=stage.getBoundingClientRect();
+    ren.setSize(r.width,r.height,false); cam.aspect=r.width/Math.max(1,r.height);
+    var narrow=r.width<900;
+    cam.position.set(narrow?.2:2.05,narrow?1.6:1.72,narrow?8.2:7.35);
+    group.position.x=narrow?0:1.55;
+    cam.lookAt(narrow?0:1.45,.40,0); cam.updateProjectionMatrix(); }
+  size(); addEventListener('resize',size);
+
+  /* ── question sheet ── */
+  var sheet=document.getElementById('wowSheet'),sheetQ=document.getElementById('wowSheetQ'),
+      sheetRow=document.getElementById('wowSheetRow'),sheetSkip=document.getElementById('wowSheetSkip');
+  var sheetCb=null;
+  function askSheet(q,options,cb){
+    sheetQ.textContent=q; sheetRow.innerHTML=''; sheetCb=cb;
+    function close(ans){ sheet.classList.remove('up'); var c2=sheetCb; sheetCb=null; if(c2) c2(ans); }
+    options.forEach(function(o){ var b=document.createElement('button');
+      b.type='button'; b.className='wowSheetB'; b.textContent=o;
+      b.onclick=function(){ close(o); }; sheetRow.appendChild(b); });
+    sheetSkip.onclick=function(){ close(null); };
+    sheet.classList.add('up');
+  }
+
+  /* ── scripted loop (first impression + fallback) ── */
+  var step=-1, clock=new THREE.Clock(), running=false, loopTimer=null;
+  function advance(){
+    if(mode!=='auto') return;
+    step++;
+    if(step>=6){
+      spin(false); doingEl.textContent='all six seen — receipt itemises the lot';
+      row('Mana Receipt','every moment, itemised · concept','Receipt','oo','#FFD98A','#E8A83C');
+      showCard(2,'+50','points · this visit');
+      loopTimer=setTimeout(reset,4200); return;
+    }
+    doingEl.textContent=DOING[step];
+    var it=ITEMS[step]; row(it.t,it.s,it.tag,it.cls,it.c1,it.c2); setPts(pts+it.pts);
+    landNext();
+    if(step===0) showCard(0,'+8','offers refresh');
+    if(step===2) showCard(1,'40s','queue → points');
+    loopTimer=setTimeout(advance, step===2?2300:1500);
+  }
+  function reset(){
+    if(mode!=='auto') return;
+    spin(true); step=-1; setPts(0); listEl.innerHTML=''; liftAll(); hideCards();
+    loopTimer=setTimeout(advance,700);
+  }
+
+  /* ── the real thing: photograph the fridge ── */
+  var fileEl=document.getElementById('wowFile'), snapEl=document.getElementById('wowSnap');
+  if(fileEl) fileEl.addEventListener('change',function(){
+    var f=fileEl.files&&fileEl.files[0]; if(!f) return;
+    if(!/^image\/(jpeg|png|webp)$/.test(f.type)){ doingEl.textContent='that needs to be a photo (jpeg or png)'; return; }
+    mode='live'; if(loopTimer) clearTimeout(loopTimer);
+    snapEl.classList.remove('pulse');
+    spin(true); setPts(0); listEl.innerHTML=''; liftAll(); hideCards();
+    doingEl.textContent='reading your fridge\u2026';
+    var rd=new FileReader();
+    rd.onload=function(){
+      var data=String(rd.result).split(',')[1]||'';
+      fetch('/api/fridge',{method:'POST',headers:{'content-type':'application/json'},
+        body:JSON.stringify({images:[{media_type:f.type,data:data}]})})
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }).catch(function(){ return {ok:false,j:{}}; }); })
+      .then(function(res){
+        if(!res.ok||!res.j.read){ fallback(res.j&&res.j.error); return; }
+        play(res.j.read);
+      }).catch(function(){ fallback(); });
+    };
+    rd.readAsDataURL(f);
+  });
+  function fallback(err){
+    doingEl.textContent=(err==='no vision backend configured')
+      ? 'vision runs on the live site \u2014 playing the concept instead'
+      : 'could not read that photo \u2014 playing the concept instead';
+    setTimeout(function(){ mode='auto'; reset(); },1600);
+  }
+  function cap(str){ return str? str.charAt(0).toUpperCase()+str.slice(1):str; }
+  function play(read){
+    var low=(read.low_or_out||[]).slice(0,4);
+    var seenN=(read.seen||[]).length;
+    var qd=(read.one_question&&read.one_question.q&&Array.isArray(read.one_question.options))?read.one_question:null;
+    var t=0, gained=0;
+    doingEl.textContent=seenN? 'saw '+seenN+' things \u2014 drafting what\u2019s missing\u2026' : 'drafting from what it could see\u2026';
+    if(!low.length){
+      setTimeout(function(){
+        spin(false);
+        doingEl.textContent='fridge looks stocked \u2014 nothing urgent \u00b7 '+(read.confidence||'low')+' confidence';
+        row('Nothing urgent to add','a good week to use things up','Read','mp','#79A83A','#3F6B22');
+        if(read.cannot_tell&&read.cannot_tell.length)
+          row('Couldn\u2019t see',String(read.cannot_tell[0]).slice(0,44),'Honest','bo','#7EC8D8','#3E86A0');
+      },900);
+      return;
+    }
+    low.forEach(function(it,i){
+      t+=900;
+      setTimeout(function(){
+        var pal=PALETTE[i%PALETTE.length];
+        row(cap(it.name),it.why||'running low','Low','bo',pal[0],pal[1]);
+        gained+=40; setPts(gained); landNext();
+        if(i===0) showCard(0,'+40','points, fridge read');
+        if(i===1) showCard(1,String(low.length),'to restock');
+      },t);
+    });
+    t+=1100;
+    setTimeout(function(){
+      if(!qd){ finish(gained,read); return; }
+      doingEl.textContent='one quick question\u2026';
+      askSheet(qd.q,qd.options.slice(0,2),function(ans){
+        if(ans!==null){ gained+=60; setPts(gained);
+          row('You told us',ans,'+60 pts','mp','#79A83A','#3F6B22'); }
+        finish(gained,read);
+      });
+    },t);
+  }
+  function finish(gained,read){
+    spin(false);
+    doingEl.textContent='drafted \u00b7 '+(read.confidence||'low')+' confidence \u00b7 held for a person';
+    showCard(2,String(gained),'points \u00b7 this wait');
+    setTimeout(function(){
+      row('Collector drop unlocked','illustrative \u2014 the Ooshies mechanic','Drop','oo','#FFD98A','#E8A83C');
+    },700);
+  }
+
+  /* ── render loop ── */
+  var t=0;
+  (function loop(){ requestAnimationFrame(loop);
+    var d=Math.min(.05,clock.getDelta()); t+=d;
+    basket.rotation.y=Math.sin(t*.22)*.16+.24;
+    group.position.y=-.15+Math.sin(t*.7)*.045;
+    drops.forEach(function(m){ if(m.userData.t<0) return;
+      m.userData.t=Math.min(1,m.userData.t+d*1.5);
+      var e=1-Math.pow(1-m.userData.t,3);
+      m.position.y=m.userData.home+(m.userData.rest.y-m.userData.home)*e+Math.sin(m.userData.t*Math.PI)*.22;
+      m.rotation.x+=m.userData.spin.x*d*(1.6-e); m.rotation.y+=m.userData.spin.y*d*(1.6-e); });
+    cards.forEach(function(c){ if(c.userData.t<0) return;
+      c.userData.t=Math.min(1,c.userData.t+d*1.9);
+      var e=1-Math.pow(1-c.userData.t,3);
+      c.scale.setScalar(.001+e*1);
+      c.position.y=c.userData.y0+Math.sin(t*.75+c.userData.ph)*.075;
+      c.rotation.z=Math.sin(t*.5+c.userData.ph)*.035; });
+    ren.render(sc,cam);
+  })();
+
+  function begin(){ if(running) return; running=true; reset(); }
+  function vis(){ var r=stage.getBoundingClientRect(); return r.top<innerHeight&&r.bottom>0; }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){begin();io.disconnect();}})},{threshold:.15});
+    io.observe(stage);
+  }
+  if(vis()) begin();
+  var os=function(){ if(vis()){ begin(); removeEventListener('scroll',os,true);} };
+  addEventListener('scroll',os,true); setTimeout(function(){ if(vis()) begin(); },1200);
+})();
+</script>
+<!-- wow:end -->
+
+<script></script>
+
+<script></script>
+
+<script>/* mz:start — the assembling mosaic */
+(function(){
+var host=document.getElementById('mzHost'); if(!host) return;
+var NS='http://www.w3.org/2000/svg';
+function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
+var U=84;
+function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
+var KIND={
+quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
+semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
+dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
+stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
+ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
+tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
+sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
+hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
+tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
+umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
+moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
+key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
+cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
+shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
+crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
+heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
+leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
+clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
+parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
+van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
+envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
+globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
+plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
+sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
+ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
+case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
+coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
+card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
+chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
+percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
+bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
+bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
+plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
+door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
+tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
+crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
+brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
+pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
+drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
+flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
+car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
+wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
+flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
+road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
+apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
+milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
+egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
+carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
+wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
+tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
+};
+var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
+var TILES=[["quarter","#fd6400",0,1],["apple","#EFE8D9","#fd6400"],["semi","#FFE6D1","#fd6400"],["milk","#1d1a15","#FFFFFF"],["quarter","#1E5B2A",0,3],["egg","#1E5B2A","#FFFFFF"],["dots","#1E5B2A","#FFE6D1"],["carrot","#1E5B2A","#fd6400"],["sparkle","#1d1a15","#fd6400"],["wheat","#fd6400","#FFE6D1"],["stripes","#fd6400","#FFE6D1"],["tomato","#EFE8D9","#fd6400"],["hills","#FFE6D1","#1E5B2A"],["ringT","#FFE6D1","#1E5B2A"],["tick","#1E5B2A","#FFFFFF"],["quarter","#FFE6D1",0,2]];
+var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
+var layer=el('g',{}); svg.appendChild(layer);
+var tiles=[];
+SLOTS.forEach(function(s,i){
+  var t=TILES[i]; if(!t) return;
+  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
+  var g=el('g',{'class':'mzT'});
+  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
+  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
+});
+host.appendChild(svg);
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var started=false;
+function ignite(){
+  if(started) return; started=true;
+  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
+  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
+    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
+  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
+  var next=6, iv=setInterval(function(){
+    if(next>=order.length){clearInterval(iv);return;}
+    tiles[order[next++]].classList.add('mzLit');
+  },1500);
+}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
+  io.observe(host);
+  setTimeout(ignite,9000);
+}else ignite();
+document.addEventListener('click',function(){
+  if(reduce) return;
+  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
+  if(!lit.length) return;
+  var t=lit[Math.floor(Math.random()*lit.length)];
+  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
+  setTimeout(function(){t.classList.remove('mzPulse')},950);
+});
+var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
+if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
+  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
+  if(bgc&&bgc.length>=3){
+    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
+    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
+      band.style.setProperty('--mzDorm','.12');}
+  }
+}
+if(band&&!reduce){
+  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
+    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
+  band.addEventListener('pointerleave',function(){bx=0;by=0});
+  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
+    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
+}
+})();/* mz:end */</script>
 </body>
 </html>

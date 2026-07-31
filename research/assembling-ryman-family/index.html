@@ -505,16 +505,209 @@ body.d6-live #waitmap .wm-grid{display:none}
 .plup-again{margin-top:14px;background:transparent;border:1px solid rgba(35,31,28,.22);color:#4A443E;
   border-radius:999px;padding:9px 18px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer}
 .plup-again:hover{border-color:#F06022;color:#C64A16}
+
+/* sp4:start — clarity spine, hand-built demos */
+.sp4Rib{background:#141310;color:rgba(255,255,255,.78);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;text-align:center;padding:8px 14px;position:relative;z-index:80;
+  font-family:inherit}
+.sp4{position:relative;z-index:8;background:var(--sp4paper);font-family:inherit}
+.sp4 .sp4In{max-width:1180px;margin:0 auto;padding:0 24px}
+.sp4Trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(20,19,16,.14);
+  border-top:1px solid rgba(20,19,16,.14);border-bottom:1px solid rgba(20,19,16,.14)}
+.sp4C{background:var(--sp4paper);padding:13px 18px;border-left:2px solid var(--sp4a)}
+.sp4K{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--sp4a)}
+.sp4T{font-size:13px;line-height:1.45;color:var(--sp4ink);margin-top:4px;font-weight:400}
+.sp4Idea{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(20,19,16,.55);
+  text-align:center;margin:0;padding:14px 18px}
+.sp4Idea b{color:var(--sp4a);font-weight:700}
+@media(max-width:760px){.sp4Trio{grid-template-columns:1fr}}
+/* sp4:end */
+
+
+
+
+
+
+
+
+
+/* vr:start — the vision read, scan-panel treatment */
+.vrSec{padding:44px 22px 40px;position:relative}
+.vrIn{max-width:1080px;margin:0 auto}
+.vrK{font:800 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--vrA)}
+.vrH{margin:8px 0 8px;font-size:clamp(24px,3.2vw,34px);line-height:1.1;letter-spacing:-.02em;font-weight:800;color:var(--vrInk)}
+.vrSub{margin:0 0 16px;font:500 14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--vrInk);opacity:.82;max-width:640px}
+.vrBtns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.vrBtn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;
+  font:800 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--vrBtnInk,#fff);
+  background:var(--vrA);border:1.5px solid var(--vrA);border-radius:14px;padding:11px 16px;cursor:pointer}
+.vrBtn small{font:600 10px -apple-system,sans-serif;opacity:.75;letter-spacing:.04em}
+.vrBtn.ghost{background:transparent;color:var(--vrInk);border-color:var(--vrLine)}
+.vrBtn:active{transform:scale(.98)}
+.vrBtn input{display:none}
+.vrGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:900px){.vrGrid{grid-template-columns:1fr}}
+.vrPanel{display:none;position:relative}
+.vrPanel.on{display:block}
+.vrFrame{position:relative;border-radius:18px;overflow:hidden;background:#101010;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.55),0 0 0 1.5px var(--vrLine)}
+.vrFrame img{display:block;width:100%;height:auto}
+.vrFx i{position:absolute;width:24px;height:24px;border:2.5px solid var(--vrAcc2,#FF8A3D);z-index:4}
+.vrFx i.tl{top:9px;left:9px;border-right:0;border-bottom:0;border-top-left-radius:7px}
+.vrFx i.tr{top:9px;right:9px;border-left:0;border-bottom:0;border-top-right-radius:7px}
+.vrFx i.bl{bottom:9px;left:9px;border-right:0;border-top:0;border-bottom-left-radius:7px}
+.vrFx i.br{bottom:9px;right:9px;border-left:0;border-top:0;border-bottom-right-radius:7px}
+.vrSweep{position:absolute;left:0;right:0;top:-14%;height:12%;z-index:3;opacity:0;
+  background:linear-gradient(180deg,transparent,var(--vrSweepC,rgba(255,138,61,.4)) 50%,transparent);
+  box-shadow:0 0 26px var(--vrSweepC,rgba(255,138,61,.35))}
+.vrPanel.scanning .vrSweep{opacity:1;animation:vrSw 2.4s linear infinite}
+@keyframes vrSw{from{top:-14%}to{top:102%}}
+.vrBox{position:absolute;z-index:5;border:2px solid #fff;border-radius:9px;
+  box-shadow:0 0 0 1.5px rgba(0,0,0,.3),0 8px 22px -8px rgba(0,0,0,.5);
+  opacity:0;transform:scale(1.22);transition:opacity .45s ease,transform .45s cubic-bezier(.2,.9,.3,1.3)}
+.vrBox.in{opacity:1;transform:none}
+.vrBox.item{border-color:var(--vrAcc2,#FF8A3D)}
+.vrBox.clear{border-color:#7DBB42}
+.vrBox.care{border-color:var(--vrAcc2,#FF8A3D);border-style:dashed}
+.vrLab{position:absolute;left:-2px;bottom:calc(100% + 5px);white-space:nowrap;
+  font:800 9px -apple-system,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#fff;
+  padding:3.5px 7px;border-radius:7px;background:var(--vrLabBg,#E85F00)}
+.vrBox.clear .vrLab{background:#37823A}
+.vrBox.flip .vrLab{bottom:auto;top:calc(100% + 5px)}
+.vrBox.rt .vrLab{left:auto;right:-2px}
+.vrTag{margin:12px auto 0;width:fit-content;max-width:100%;
+  font:700 10px -apple-system,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--vrInk);
+  background:var(--vrCard);border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 15px}
+.vrTag b{color:var(--vrA)}
+.vrSec[data-dark] .vrTag b{color:#fff}
+.vrOut{display:none}
+.vrOut.on{display:block}
+.vrCard{background:var(--vrCard);border:1.5px solid var(--vrLine);border-radius:16px;padding:15px 17px;margin-bottom:12px}
+.vrCard h4{margin:0 0 8px;font:800 10px -apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--vrA)}
+.vrSec[data-dark] .vrCard h4{color:#fff}
+.vrRow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--vrLine);
+  font:600 12.5px -apple-system,sans-serif;color:var(--vrInk)}
+.vrRow:last-child{border-bottom:0}
+.vrRow span:last-child{font-variant-numeric:tabular-nums;opacity:.75;white-space:nowrap}
+.vrChips{display:flex;flex-direction:column;gap:6px}
+.vrChip{font:600 12px/1.5 -apple-system,sans-serif;color:var(--vrInk);padding:7px 11px;border-radius:10px;
+  border:1.5px solid var(--vrLine);background:transparent}
+.vrChip.clear{border-color:rgba(55,130,58,.45)}
+.vrChip.care{border-style:dashed}
+.vrBig{font:700 13.5px/1.6 -apple-system,sans-serif;color:var(--vrInk);margin:0 0 8px}
+.vrDim{font:500 11.5px/1.6 -apple-system,sans-serif;color:var(--vrInk);opacity:.62;margin:6px 0 0}
+.vrDraft{position:relative;border:1.5px solid var(--vrLine);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.vrDraft b{display:block;font:800 14px -apple-system,sans-serif;color:var(--vrInk);letter-spacing:-.01em}
+.vrDraft p{margin:4px 0 0;font:500 12.5px/1.55 -apple-system,sans-serif;color:var(--vrInk);opacity:.8}
+.vrDraft em{position:absolute;top:9px;right:11px;font:700 8.5px -apple-system,sans-serif;letter-spacing:.14em;
+  text-transform:uppercase;font-style:normal;color:var(--vrInk);opacity:.5;border:1px solid var(--vrLine);
+  border-radius:6px;padding:2.5px 6px}
+.vrFoot{margin:16px 0 0;font:500 11.5px/1.7 -apple-system,sans-serif;color:var(--vrInk);opacity:.62;max-width:720px}
+/* the lot thumbs — pick a real car */
+.vrThumbs{display:flex;gap:9px;flex-wrap:wrap;margin:-6px 0 18px}
+.vrTh{appearance:none;border:1.5px solid var(--vrLine);background:none;border-radius:12px;padding:4px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px}
+.vrTh img{display:block;width:74px;height:44px;object-fit:cover;border-radius:8px}
+.vrTh span{font:700 8.5px -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--vrInk);opacity:.65}
+.vrTh:hover,.vrTh.on{border-color:var(--vrA)}
+/* the drafted offer card — the giltrap.com artefact, faithful and light */
+.vrOffer{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.65);margin-bottom:12px}
+.vrOfferImg{position:relative}
+.vrOfferImg img{display:block;width:100%;height:170px;object-fit:cover}
+.vrRound{position:absolute;left:16px;bottom:-20px;width:46px;height:46px;border-radius:50%;background:#fff;
+  box-shadow:0 4px 14px rgba(20,30,45,.18);display:flex;align-items:center;justify-content:center}
+.vrRound svg{width:26px;height:26px}
+.vrStamp{position:absolute;top:12px;right:12px;font:800 9px -apple-system,sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;font-style:normal;color:#1B2430;background:rgba(255,255,255,.92);
+  border:1.5px dashed #1B2430;border-radius:8px;padding:5px 9px;transform:rotate(3deg)}
+.vrStamp.signed{border-style:solid;background:#1B2430;color:#fff;transform:none}
+.vrOfferBody{padding:26px 18px 16px}
+.vrOfferBody h3{margin:0 0 6px;font:800 18px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  color:#1B2430;letter-spacing:-.01em}
+.vrOfferBody>p{margin:0 0 10px;font:500 13px/1.6 -apple-system,sans-serif;color:#5A6472}
+.vrOfferChips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.vrOfferChips i{font:700 10.5px -apple-system,sans-serif;font-style:normal;color:#33404E;background:#EEF1F5;
+  border-radius:99px;padding:5px 11px}
+.vrTCs{text-align:center;font:600 11px -apple-system,sans-serif;color:#5A6472;margin-bottom:10px}
+.vrPill{display:block;width:100%;text-align:center;font:700 14px -apple-system,sans-serif;color:#1B2430;
+  background:#fff;border:1.5px solid #94A0AE;border-radius:99px;padding:12px;cursor:pointer}
+.vrPill:active{transform:scale(.99)}
+.vrPill[disabled]{opacity:.55;cursor:default}
+/* the signing queue — wired to the desk */
+.vrQ{margin-top:20px;border:1.5px solid var(--vrLine);border-radius:16px;padding:14px 16px}
+.vrQK{font:800 10px -apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--vrInk);margin-bottom:10px}
+.vrQK b{color:var(--vrInk)}
+.vrQItem{display:flex;gap:11px;align-items:center;padding:9px 0;border-top:1px solid var(--vrLine)}
+.vrQItem img{width:64px;height:40px;object-fit:cover;border-radius:8px;flex:none}
+.vrQT{flex:1;min-width:0}
+.vrQT b{display:block;font:800 12.5px -apple-system,sans-serif;color:var(--vrInk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vrQT span{display:block;font:600 10px -apple-system,sans-serif;color:var(--vrInk);opacity:.6;margin-top:2px}
+.vrQSign{font:800 11px -apple-system,sans-serif;color:#0d0d0d;background:var(--vrA);border:0;border-radius:10px;
+  padding:8px 12px;cursor:pointer;flex:none}
+.vrQSign[disabled]{background:transparent;border:1.5px solid var(--vrLine);color:var(--vrInk);opacity:.7;cursor:default}
+.vrQGuard{margin-top:11px;font:700 11px -apple-system,sans-serif;color:var(--vrInk);background:none;
+  border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 14px;cursor:pointer}
+/* vr:end */
+
+
+/* mz:start — the assembling mosaic band */
+.mzBand{padding:36px 22px 26px;position:relative}
+.mzIn{max-width:1080px;margin:0 auto}
+.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
+.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
+  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
+.mzT.mzLit{opacity:1;filter:none;transform:none}
+.mzT.mzPulse{animation:mzP .9s ease}
+@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
+.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
+.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
+@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
+/* mz:end */
+
+/* pf:start — proof furniture: regulatory spine + pilot metrics */
+.pfSec{padding:34px 22px;position:relative}
+.pfIn{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+@media(max-width:860px){.pfIn{grid-template-columns:1fr}}
+.pfCard{background:var(--pfCard,#fff);border:1.5px solid var(--pfLine,rgba(30,27,20,.12));border-radius:20px;padding:18px 20px}
+.pfK{font:800 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--pfA);margin-bottom:9px}
+.pfQ{font:600 13.5px/1.6 -apple-system,sans-serif;color:var(--pfInk,#221f18);border-left:3px solid var(--pfA);
+  padding-left:13px;margin:0 0 10px}
+.pfT{font:500 12px/1.65 -apple-system,sans-serif;color:var(--pfInk,#221f18);opacity:.75;margin:0}
+.pfMets{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pfM{border:1.5px solid var(--pfLine,rgba(30,27,20,.12));border-radius:14px;padding:11px 13px}
+.pfM b{display:block;font:700 12px/1.35 -apple-system,sans-serif;color:var(--pfInk,#221f18)}
+.pfM span{display:block;font:800 8.5px -apple-system,sans-serif;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--pfA);margin-top:5px}
+.pfNote{grid-column:1 / -1;font:600 10.5px -apple-system,sans-serif;letter-spacing:.06em;color:var(--pfInk,#221f18);
+  opacity:.55;text-align:center;margin:2px 0 0}
+/* the reform clock — retirement pages only */
+.pfClock{grid-column:1 / -1;background:var(--pfCard,#fff);border:1.5px solid var(--pfLine,rgba(30,27,20,.12));
+  border-radius:20px;padding:18px 20px}
+.pfBar{position:relative;height:10px;border-radius:6px;background:var(--pfLine,rgba(30,27,20,.12));margin:22px 6px 8px}
+.pfBar i{position:absolute;top:0;bottom:0;left:0;width:50%;border-radius:6px;background:var(--pfA);opacity:.28}
+.pfBar em{position:absolute;top:0;bottom:0;left:50%;width:50%;border-radius:0 6px 6px 0;background:var(--pfA)}
+.pfStops{display:flex;justify-content:space-between;margin:0 6px}
+.pfStop{flex:1;font:600 11px/1.5 -apple-system,sans-serif;color:var(--pfInk,#221f18)}
+.pfStop b{display:block;font:800 12.5px -apple-system,sans-serif;color:var(--pfA)}
+.pfStop:nth-child(2){text-align:center}
+.pfStop:last-child{text-align:right}
+/* pf:end */
 </style>
 </head>
 <body>
+<!-- sp4:start -->
+<div class="sp4Rib">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
+<!-- sp4:end -->
 
 <nav class="bar"><div class="wrap">
   <div class="mark"><i></i>assembl <small>· independent concept</small></div>
   <div class="bn">
     <a href="#register">The register</a>
     <a href="#same">Same page</a>
-    <a href="#cohorts">Which terms</a>
+    
     <a href="#guard">The guard</a>
   </div>
   <a class="cta" href="#pilot">Run a pilot</a>
@@ -560,6 +753,26 @@ body.d6-live #waitmap .wm-grid{display:none}
       <p>&ldquo;I find out on Sunday what was decided on Thursday. I&rsquo;m not against it. I&rsquo;m just never in the room.&rdquo;</p></div></div>
   </div>
 </div></div></header>
+<!-- mz:start -->
+<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
+  <div class="mzIn"><div id="mzHost"></div>
+  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+</section>
+<!-- mz:end -->
+
+<!-- sp4:start -->
+<div class="sp4" style="--sp4a:#F06022;--sp4ink:#1A1917;--sp4paper:#FDF5EB">
+  <div class="sp4In">
+    <div class="sp4Trio">
+      <div class="sp4C"><div class="sp4K">the family</div><div class="sp4T">the question they actually have, answered in the wait</div></div>
+      <div class="sp4C"><div class="sp4K">the operator</div><div class="sp4T">nothing reaches a family unsigned</div></div>
+      <div class="sp4C"><div class="sp4K">assembl</div><div class="sp4T">paid on completed moments</div></div>
+    </div>
+    <p class="sp4Idea">the 42-page answer, read for them &middot; <b>while they wait</b> &middot; a person signs the reply</p>
+  </div>
+</div>
+<!-- sp4:end -->
+
 
 <!-- ═══ THE REGISTER ═══ -->
 <section id="register" class="band cream"><div class="wrap">
@@ -645,7 +858,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <b>Every step names itself, and names its document</b>
         <p>One specialist at a time, each saying what it is reading and where that came from. When
         the honest answer is that Ryman has not published something &mdash; the accrual period for
-        the deferred management fee, for instance &mdash; the screen says exactly that instead of
+        a fee it does not yet have the answer to, for instance &mdash; the screen says exactly that instead of
         producing a plausible number.</p>
         <cite>Fee mechanics: Ryman&rsquo;s own published pages. Accrual period: not published anywhere.</cite>
       </div>
@@ -723,44 +936,7 @@ body.d6-live #waitmap .wm-grid{display:none}
 </div></section>
 
 <!-- ═══ WHICH TERMS ARE OURS ═══ -->
-<section id="cohorts" class="band deep"><div class="wrap">
-  <div class="narrow rise">
-    <div class="kick">The question that gets answered wrongly</div>
-    <h2 style="color:#fff">&ldquo;What&rsquo;s the deferred management fee?&rdquo;<br>Depends who you are.</h2>
-    <p class="lede" style="margin-top:18px;color:rgba(246,241,234,.86)">
-      Ryman moved its standard deferred management fee, and said existing residents keep the terms
-      they signed. That means two populations on different terms &mdash; so a single answer to this
-      question is wrong for one of them. Any tool that quotes a percentage without first asking
-      which cohort the family is in is not being helpful, it is being confidently wrong.
-    </p>
-  </div>
-  <div class="coh rise">
-    <div class="cc">
-      <div class="t">If a resident is already in</div>
-      <h3>The terms they signed are the terms they keep</h3>
-      <ul>
-        <li>Ryman has said current residents&rsquo; deferred management fees and fixed weekly fees will not change</li>
-        <li>So the number in the original agreement is the number that matters, not today&rsquo;s published rate</li>
-        <li>The agreement is the source of truth, and the family may not have a copy</li>
-        <li>First job of any agent here: find out which agreement, and say so before quoting anything</li>
-      </ul>
-    </div>
-    <div class="cc b">
-      <div class="t">If the family is deciding now</div>
-      <h3>Ryman&rsquo;s published standard is 30%</h3>
-      <ul>
-        <li>Ryman states on its own site that its standard deferred management fee is calculated at 30% of the entry price</li>
-        <li>It is payable when the resident permanently vacates, and it does not increase on a transfer to another unit or another Ryman village</li>
-        <li>Ryman does not publish the accrual period, and that is a fair thing for a family to ask</li>
-        <li>Reported separately: a move from 20% to &ldquo;25 or 30 percent, depending on the initial entry price paid&rdquo;</li>
-      </ul>
-    </div>
-  </div>
-  <p class="lede rise" style="margin-top:30px;color:rgba(246,241,234,.7);max-width:82ch;font-size:14px">
-    This section exists because it is the fastest way to lose a family&rsquo;s trust. A number that
-    is right for the brochure and wrong for their mother is worse than no number.
-  </p>
-</div></section>
+
 
 <!-- ═══ THE GUARD ═══ -->
 <section id="guard" class="band cream"><div class="wrap">
@@ -800,6 +976,35 @@ body.d6-live #waitmap .wm-grid{display:none}
 </div></section>
 
 <!-- ═══ THE PILOT ═══ -->
+
+
+<!-- pf:start -->
+<section class="pfSec" aria-label="Regulatory spine and pilot metrics" style="--pfA:#F06022">
+  <div class="pfIn">
+    <div class="pfCard">
+      <div class="pfK">the regulatory spine · RV Amendment package</div>
+      <p class="pfQ">The Retirement Villages Act amendment package (announced 4 December 2025) mandates capital repayment within 12 months of vacating, interest accruing from month 6, weekly fees stopping immediately, and plain-language ORAs.</p>
+      <p class="pfT">The journey timestamps every stage from vacate to repayment. The family sees the clock; the operator proves compliance with it — the same trace serves both.</p>
+    </div>
+    <div class="pfCard">
+      <div class="pfK">what a 90-day pilot would measure</div>
+      <div class="pfMets"><div class="pfM"><b>enquiry-to-tour conversion</b><span>conversion metric</span></div><div class="pfM"><b>status contacts deflected</b><span>cost metric</span></div><div class="pfM"><b>family effort score</b><span>experience metric</span></div><div class="pfM"><b>days-to-settle</b><span>value metric</span></div></div>
+    </div>
+    <div class="pfClock">
+      <div class="pfK">the reform clock &middot; repayment, legislated</div>
+      <p class="pfQ">From the day a resident vacates: weekly fees stop immediately &middot; interest accrues to the resident from month 6 &middot; capital repaid by month 12.</p>
+      <div class="pfBar"><i></i><em></em></div>
+      <div class="pfStops">
+        <div class="pfStop"><b>Day 0 — vacate</b>weekly fees stop</div>
+        <div class="pfStop"><b>Month 6</b>interest starts accruing</div>
+        <div class="pfStop"><b>Month 12</b>capital repaid</div>
+      </div>
+      <p class="pfT" style="margin-top:12px">The family sees this clock; the operator proves compliance with it. Announced policy (4 December 2025, per MinterEllison&rsquo;s summary) &mdash; not yet law; introduction imminent. Nothing here is legal advice.</p>
+    </div>
+    <p class="pfNote">simulated journey &middot; illustrative concept &middot; the numbers above are the pilot&rsquo;s to earn, not ours to claim</p>
+  </div>
+</section>
+<!-- pf:end -->
 <section id="pilot" class="band"><div class="wrap">
   <div class="narrow rise">
     <div class="kick">Before you decide</div>
@@ -1037,16 +1242,12 @@ var QS=[
  {q:'What happens to the weekly fee each year?',
   a:'For the Summerset village whose statement we read, the weekly fee rises once a year on 1 July, and the increase will never exceed the rise in the after-tax rate of New Zealand Superannuation. That is a cap, in writing, in a statutory document — and it is not on the company website.',
   cite:'Disclosure Statement, Summerset on the Landing (Summerset Villages (Kenepuru) Limited), disclosure date 1 January 2026, Retirement Villages Register, NZ Companies Office. Disclosure statements are per village and per operator — this is verified for one village, not the whole estate.'},
- {q:'What is the deferred management fee?',
-  a:'Ryman publishes that its standard deferred management fee is calculated at 30% of the entry price, payable when the resident permanently vacates, and that it does not increase if the resident transfers to another unit or another Ryman village. Before quoting that to a family, an agent must ask whether their mother is already a resident — because Ryman has said current residents keep the terms they signed.',
-  cite:'rymanhealthcare.co.nz, deferred management fee and financial certainty pages. The move from 20% was reported by RNZ, 2 September 2024.'},
+ 
  {q:'Over how many years does that fee build up?',
   a:'Ryman does not publish the accrual period. We are not going to estimate it, infer it from a competitor, or quietly leave the question out. It is a reasonable thing to ask an adviser, and it belongs on the list of questions this hands a family.',
   cite:'Checked against Ryman’s published fee pages. Absence confirmed, not assumed.',
   dunno:true},
- {q:'What comes back at the end, and when?',
-  a:'Ryman publishes that the entry payment less the deferred management fee is refunded either when a new resident settles the purchase of the unit or within 12 months of leaving, whichever comes first — and that if a new resident has not settled within six months, Ryman pays interest on the balance.',
-  cite:'rymanhealthcare.co.nz, deferred management fee page.'},
+ 
  {q:'Can she change her mind after moving in?',
   a:'Ryman publishes 90 days to change your mind and receive your money back, with conditions. Where an operator tiers that guarantee, the tiers matter: Summerset’s equivalent runs 90 days for independent living or a serviced apartment but 30 days for a memory care apartment or premium room, and does not apply on a transfer, a health-driven exit, or death. A family looking at memory care needs the tier, not the headline.',
   cite:'rymanhealthcare.co.nz; and for the tiering comparison, the Summerset statutory disclosure statement cited above.'},
@@ -1078,14 +1279,15 @@ var QS=[
    of information settles them, and treating them as factual is what turns a
    decision into a rift. That split is the whole product. */
 var ROWS=[
- {k:'dmf', kind:'fact', q:'What percentage is the deferred management fee?',
-  hint:'There is a published answer to this.',
-  opts:['20%','30%','No idea'],
-  truth:'Ryman publishes 30% as its standard — but a current resident keeps the terms they signed, so the honest first answer is “it depends which agreement”.'},
+ 
  {k:'back', kind:'fact', q:'Does anything come back to the estate?',
   hint:'There is a published answer to this.',
-  opts:['Nothing','Entry payment less the fee','No idea'],
-  truth:'Ryman publishes that the entry payment less the deferred management fee is refunded, with interest if a new resident has not settled within six months.'},
+  opts:['Nothing','Entry payment less published fees','No idea'],
+  truth:'Ryman publishes that the entry payment, less its published fees, is refunded — with interest if a new resident has not settled within six months. The exact fee terms live in the ORA, which is why a person walks the family through it.'},
+ {k:'clock', kind:'fact', q:'How long can repayment take after she leaves?',
+  hint:'There is an announced answer to this.',
+  opts:['No time limit','12 months is the announced rule','No idea'],
+  truth:'The Government announced (4 December 2025) that capital must be repaid within 12 months of vacating, with interest accruing from month 6 and weekly fees stopping immediately. Announced policy, not yet law — today the answer sits in the ORA. The reform clock on this page shows the announced shape.'},
  {k:'mind', kind:'fact', q:'Can she change her mind after moving in?',
   hint:'There is a published answer to this.',
   opts:['No','Yes, 90 days','No idea'],
@@ -1153,9 +1355,9 @@ function tally(){
 /* ── sources ─────────────────────────────────────────────────────────────── */
 var SRC=[
  ['Ryman: 47 integrated retirement villages, over 15,500 residents, 7,800 team members; “It’s all taken care of”','rymanhealthcare.co.nz and its investors page'],
- ['Ryman: standard deferred management fee calculated at 30% of the entry price; refund and interest terms; no increase on transfer; 90 days to change your mind','rymanhealthcare.co.nz, deferred management fee and financial certainty pages'],
- ['Ryman: the move from a 20% deferred management fee to “25 or 30 percent, depending on the initial entry price paid”, and that current residents keep their terms','RNZ, 2 September 2024, and trade press — reported, not published by Ryman'],
- ['Ryman does not publish the deferred management fee accrual period','absence confirmed against Ryman’s published fee pages'],
+ 
+ 
+ 
  ['Weekly fee increase capped at the rise in the after-tax NZ Superannuation rate','Disclosure Statement, Summerset on the Landing (Summerset Villages (Kenepuru) Limited), 1 January 2026, Retirement Villages Register, NZ Companies Office — one village, not the estate'],
  ['Summerset Sure tiering: 90 days independent living or serviced apartment, 30 days memory care apartment or premium room; not on transfer, health-driven exit or death','the same statutory disclosure statement'],
  ['The Act’s prescribed disclosure wording naming misunderstandings “by residents and their families”','Retirement Villages Act 2003 prescribed disclosure wording'],
@@ -1372,6 +1574,38 @@ function copyAccept(){
 
 
 <!-- ═══ THE PLACE · injected by _generator/patch-place.mjs ═══ -->
+
+
+
+
+
+
+
+<!-- vr:start -->
+<section class="vrSec" id="vrSec" style="--vrA:#F06022;--vrInk:#1A1917;--vrCard:#FFFFFF;--vrLine:rgba(26,25,23,.12);">
+  <div class="vrIn">
+    <div class="vrK">the lounge, read</div>
+    <h2 class="vrH">Watch a lounge being read.</h2>
+    <p class="vrSub">The same reader the family uses below, on a demonstration lounge — every piece found, sized roughly, and set against the villa&rsquo;s 6.0 &times; 5.4 m room. A photo is a starting point for a tape measure, held for a person.</p>
+    <div class="vrBtns">
+      <button type="button" class="vrBtn" id="vrDemo">Read the demo lounge<small>an illustration &middot; the real reader runs on it</small></button>
+      <label class="vrBtn ghost">Use your own photo<small>read once &middot; never stored</small><input type="file" id="vrOwn" accept="image/*" /></label>
+    </div>
+    <div class="vrGrid">
+      <div class="vrPanel" id="vrPanel">
+        <div class="vrFrame"><img id="vrImg" alt="The photo being read" />
+          <div class="vrFx"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+            <div class="vrSweep"></div></div>
+          <div id="vrBoxes"></div>
+        </div>
+        <div class="vrTag" id="vrTag">reading&hellip;</div>
+      </div>
+      <div class="vrOut" id="vrOut"></div>
+    </div>
+    <p class="vrFoot">One guidance figure, once: a wheelchair turning circle is 1.5 m (NZS 4121). Everything else here is observation from the photo — never care advice. For her real lounge, the multi-photo upload below does the full read.</p>
+  </div>
+</section>
+<!-- vr:end -->
 <section id="place"><div class="plWrap">
   <p class="plKick">The villa, in metres</p>
   <h2>Will her dining table fit? Nobody in this category answers that.</h2>
@@ -1620,5 +1854,331 @@ function copyAccept(){
   }
 })();
 </script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script>/* vr:start — the vision read */
+(function(){
+var CFG={"api":"/api/room","demoSrc":"demo-lounge.jpg","demoType":"image/jpeg","mode":"room","canned":{"estimate":{"items":[{"name":"Three-seater sofa","footprint_m2":1.8,"box":{"x":7,"y":43,"w":39,"h":28}},{"name":"Armchair","footprint_m2":0.6,"box":{"x":52,"y":50,"w":17,"h":21}},{"name":"Coffee table","footprint_m2":0.5,"box":{"x":30,"y":66,"w":22,"h":15}},{"name":"Sideboard","footprint_m2":0.8,"box":{"x":74,"y":37,"w":22,"h":27}},{"name":"Floor lamp","footprint_m2":0.1,"box":{"x":47,"y":27,"w":6,"h":27}}],"flags":[{"note":"doorway on the right — clear","kind":"clear","box":{"x":88,"y":8,"w":11,"h":60}},{"note":"rug corner by the table sits lifted","kind":"care","box":{"x":62,"y":84,"w":9,"h":10}},{"note":"lane between sofa and table is narrow","kind":"care","box":{"x":46,"y":63,"w":8,"h":15}}],"total_footprint_m2":3.8,"what_i_saw":"A warm, well-loved lounge — the three-seater facing the window, the armchair beside it, and a sideboard that has clearly been in the family a long time.","confidence":"medium","reasoning":"Sized against the doorway on the right (about 0.8 m) and the sofa seat depth (about 0.5 m).","cannot_tell":["the doorway width in millimetres","whether anything sits behind the camera","how that rug corner behaves underfoot"]},"fit":{"verdict":"fits","line":"Her things come to roughly 3.8 m² of floor, and the villa living room is 32.4 m². That is room to spare — the sofa, the chair and the sideboard, with space to move around them.","total_m2":3.8,"room_m2":32.4,"measure":"This is a read from a photo, not a measurement. Before anything is moved, measure the two seats and the sideboard, and — the thing that catches people out — the width of the doorways they have to pass through.","held":"Nothing here is sent, saved or booked. It is a draft for the family, and for an advisor to check with you."}},"thumbs":null,"queue":false};
+function $(id){return document.getElementById(id)}
+/* fresh lookups every time — the page's own boot code may re-render this
+   region after load, which orphans cached refs and bound listeners */
+function P(){return $('vrPanel')} function IMG(){return $('vrImg')}
+function BX(){return $('vrBoxes')} function TAG(){return $('vrTag')} function OUT(){return $('vrOut')}
+if(!P()) return;
+var busy=false,token=0,curSrc=CFG.demoSrc,curType=CFG.demoType,thumbI=0;
+function esc(s){var d=document.createElement('div');d.textContent=String(s==null?'':s);return d.innerHTML}
+function b64Of(blob){
+  if(blob.arrayBuffer){ return blob.arrayBuffer().then(function(ab){
+    var u=new Uint8Array(ab),s='',CH=32768;
+    for(var i=0;i<u.length;i+=CH){ s+=String.fromCharCode.apply(null,u.subarray(i,i+CH)); }
+    return btoa(s); }); }
+  return new Promise(function(res,rej){var r=new FileReader();
+    r.onload=function(){res(String(r.result).split(',')[1]||'')};r.onerror=rej;r.readAsDataURL(blob)});
+}
+function shrink(f){return new Promise(function(res,rej){
+  var url=URL.createObjectURL(f),im=new Image();
+  im.onload=function(){try{
+    var mx=1600,w=im.naturalWidth||1,h=im.naturalHeight||1,k=Math.min(1,mx/Math.max(w,h));
+    var c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*k));c.height=Math.max(1,Math.round(h*k));
+    c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(url);
+    var d=c.toDataURL('image/jpeg',.82);res({b64:d.split(',')[1]||'',preview:d,type:'image/jpeg'});
+  }catch(e){rej(e)}};
+  im.onerror=function(){URL.revokeObjectURL(url);rej(new Error('decode'))};
+  im.src=url;})}
+function addBox(b,label,cls,delay){
+  if(!b) return;
+  var d=document.createElement('div');
+  d.className='vrBox '+cls+(b.y<9?' flip':'')+(b.x>55?' rt':'');
+  d.style.left=b.x+'%';d.style.top=b.y+'%';d.style.width=b.w+'%';d.style.height=b.h+'%';
+  var l=document.createElement('div');l.className='vrLab';l.textContent=label;d.appendChild(l);
+  BX().appendChild(d);
+  setTimeout(function(){d.classList.add('in')},delay||30);
+}
+function startRead(src,b64,type){
+  if(busy) return; busy=true; var my=++token;
+  curSrc=src; curType=type;
+  BX().innerHTML='';OUT().classList.remove('on');OUT().innerHTML='';
+  IMG().src=src;P().classList.add('on','scanning');
+  TAG().innerHTML='reading&hellip; <b>held for a person</b>';
+  var done=false;
+  function finish(payload,note){
+    if(done||my!==token){busy=false;return} done=true;busy=false;
+    P().classList.remove('scanning');
+    render(payload,note);
+  }
+  /* a careful low-confidence vision read genuinely takes ~20 s — give it 30 */
+  var to=setTimeout(function(){finish(CFG.canned,'the live read took too long — showing the concept read')},30000);
+  fetch(CFG.api,{method:'POST',headers:{'content-type':'application/json'},
+    body:JSON.stringify({images:[{media_type:type,data:b64}]})})
+  .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
+  .then(function(res){clearTimeout(to);
+    if(res.ok&&(res.j.estimate||res.j.read)) finish(res.j,null);
+    else finish(CFG.canned,'showing the concept read — '+((res.j&&res.j.error)?'the live reader said: '+res.j.error:'the live reader is waking'));})
+  .catch(function(){clearTimeout(to);finish(CFG.canned,'offline here — showing the concept read')});
+}
+function readAsset(src,type){
+  fetch(src).then(function(r){return r.blob()}).then(function(b){
+    return b64Of(b).then(function(d){startRead(src,d,type)});
+  }).catch(function(){render(CFG.canned,'showing the concept read')});
+}
+function markThumb(src){
+  document.querySelectorAll('.vrTh').forEach(function(b){
+    b.classList.toggle('on',(CFG.thumbs[+b.dataset.i]||{}).src===src)});
+}
+/* DELEGATED bindings — survive any boot-time re-render of the section */
+document.addEventListener('click',function(e){
+  if(e.target.closest('#vrDemo')){
+    if(CFG.thumbs&&CFG.thumbs.length){
+      var t=CFG.thumbs[thumbI%CFG.thumbs.length]; thumbI++;
+      markThumb(t.src); readAsset(t.src,t.type||'image/jpeg');
+    } else readAsset(CFG.demoSrc,CFG.demoType);
+    return;
+  }
+  var th=e.target.closest('.vrTh');
+  if(th&&CFG.thumbs){
+    var tt=CFG.thumbs[+th.dataset.i]; if(!tt) return;
+    thumbI=+th.dataset.i+1; markThumb(tt.src); readAsset(tt.src,tt.type||'image/jpeg');
+    return;
+  }
+  if(e.target.closest('#vrGuardGo')){
+    location.hash='#guard';
+    var g=document.getElementById('guardBtn'); if(g) g.click();
+  }
+},true); /* CAPTURE phase — the page's own handlers stopPropagation on bubbled clicks */
+document.addEventListener('change',function(e){
+  if(!e.target||e.target.id!=='vrOwn') return;
+  var f=e.target.files&&e.target.files[0]; e.target.value=''; if(!f) return;
+  TAG().textContent='preparing your photo\u2026';P().classList.add('on');
+  shrink(f).then(function(o){startRead(o.preview,o.b64,o.type)})
+  .catch(function(){TAG().textContent='could not open that image — try a different photo'});
+},true);
+function render(p,note){
+  var t=0,step=560;
+  if(CFG.mode==='lot'){
+    var r=p.read||{},s=r.silhouette||{};
+    if(s.box){setTimeout(function(){addBox(s.box,s.body||'vehicle','item')},t+=step)}
+    (s.detail_boxes||[]).slice(0,3).forEach(function(db){
+      setTimeout(function(){addBox(db,db.label||'detail','clear')},t+=step);
+      setTimeout(function(){TAG().innerHTML='<b>'+esc((db.label||'detail'))+'</b> &middot; noted'},t);
+    });
+    setTimeout(function(){
+      TAG().innerHTML=esc(r.read_source||'read')+' &middot; <b>'+esc(r.confidence||'honest')+' confidence</b> &middot; drafts unsigned';
+      var c0=(r.campaign||[])[0]||{headline:'A car worth photographing properly.',line:String(s.reads_as||'')};
+      var CARSVG='<svg viewBox="0 0 84 84" aria-hidden="true"><path d="M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z" fill="#1B2430"/><circle cx="28" cy="58" r="7" fill="#fff" stroke="#1B2430" stroke-width="4"/><circle cx="56" cy="58" r="7" fill="#fff" stroke="#1B2430" stroke-width="4"/></svg>';
+      var h='<div class="vrOffer"><div class="vrOfferImg"><img src="'+esc(curSrc)+'" alt="" />'
+        +'<span class="vrRound">'+CARSVG+'</span><em class="vrStamp" id="vrStamp">draft &middot; unsigned</em></div>'
+        +'<div class="vrOfferBody"><h3>'+esc(c0.headline||'')+'</h3><p>'+esc(c0.line||'')+'</p>'
+        +'<div class="vrOfferChips"><i>'+esc(s.body||'vehicle')+'</i><i>'+esc(r.read_source||'photo')+'</i><i>'+esc(r.confidence||'honest')+' confidence</i></div>'
+        +'<div class="vrTCs">every line a draft &middot; a person prices &middot; a person signs</div>'
+        +(CFG.queue?'<button type="button" class="vrPill" id="vrQueueBtn">Queue for signing &#8599;</button>':'')
+        +'</div></div>';
+      var alts=(r.campaign||[]).slice(1);
+      if(alts.length){h+='<div class="vrCard"><h4>alternate lines</h4>';
+        alts.forEach(function(c){h+='<div class="vrDraft"><em>draft &middot; unsigned</em><b>'+esc(c.headline||'')+'</b><p>'+esc(c.line||'')+'</p></div>'});
+        h+='</div>';}
+      h+='<div class="vrCard"><h4>the read</h4><p class="vrBig">'+esc(s.body||'')+' &middot; '+esc(s.reads_as||'')+'</p>'
+        +'<div class="vrDim">'+esc(s.finish||'')+((s.notable&&s.notable.length)?' &middot; '+esc(s.notable.join(' · ')):'')+'</div></div>';
+      if(r.cannot_tell&&r.cannot_tell.length)
+        h+='<div class="vrCard"><h4>what a photo cannot settle</h4><div class="vrDim">'+esc(r.cannot_tell.join(' · '))+'</div></div>';
+      if(note) h+='<p class="vrDim">'+esc(note)+'</p>';
+      OUT().innerHTML=h;OUT().classList.add('on');
+      var qb=document.getElementById('vrQueueBtn');
+      if(qb) qb.addEventListener('click',function(){
+        qb.disabled=true; qb.textContent='In the queue \u2713';
+        addToQueue(curSrc,c0.headline||'',document.getElementById('vrStamp'));
+      });
+    },t+=step+300);
+    return;
+  }
+  var e=p.estimate||{};
+  (e.items||[]).forEach(function(it){
+    setTimeout(function(){
+      addBox(it.box,it.name+(it.footprint_m2?' · ~'+it.footprint_m2+' m²':''),'item');
+      TAG().innerHTML='<b>'+esc(String(it.name||'').toLowerCase())+'</b> &middot; roughly '+esc(it.footprint_m2)+' m²';
+    },t+=step);
+  });
+  (e.flags||[]).forEach(function(f){
+    setTimeout(function(){addBox(f.box,f.note,f.kind==='clear'?'clear':'care')},t+=step);
+  });
+  setTimeout(function(){
+    TAG().innerHTML='read once, never stored &middot; <b>'+esc(e.confidence||'honest')+' confidence</b>';
+    var h='';
+    if(e.what_i_saw) h+='<div class="vrCard"><h4>what it saw</h4><p class="vrBig">'+esc(e.what_i_saw)+'</p>'
+      +(e.reasoning?'<div class="vrDim">'+esc(e.reasoning)+'</div>':'')+'</div>';
+    h+='<div class="vrCard"><h4>the pieces &middot; rough floor area</h4>';
+    (e.items||[]).forEach(function(it){h+='<div class="vrRow"><span>'+esc(it.name)+'</span><span>~'+esc(it.footprint_m2)+' m²</span></div>'});
+    h+='<div class="vrRow"><span><b>together</b></span><span><b>~'+esc(e.total_footprint_m2)+' m²</b></span></div></div>';
+    if(e.flags&&e.flags.length){h+='<div class="vrCard"><h4>worth a look</h4><div class="vrChips">';
+      e.flags.forEach(function(f){h+='<div class="vrChip '+(f.kind==='clear'?'clear':'care')+'">'+esc(f.note)+'</div>'});
+      h+='</div></div>';}
+    var g=p.fit||p.guide;
+    if(g) h+='<div class="vrCard"><h4>'+(p.fit?'against the villa room':'to the plan, with a person')+'</h4>'
+      +'<p class="vrBig">'+esc(g.line||'')+'</p>'
+      +(g.measure?'<div class="vrDim">'+esc(g.measure)+'</div>':'')
+      +(g.held?'<div class="vrDim">'+esc(g.held)+'</div>':'')+'</div>';
+    if(e.cannot_tell&&e.cannot_tell.length)
+      h+='<div class="vrCard"><h4>what a photo cannot tell</h4><div class="vrDim">'+esc(e.cannot_tell.join(' · '))+'</div></div>';
+    if(note) h+='<p class="vrDim">'+esc(note)+'</p>';
+    OUT().innerHTML=h;OUT().classList.add('on');
+  },t+=step+300);
+}
+/* ── the signing queue — drafts held for a person, then the guard ── */
+var qN=0;
+function addToQueue(src,headline,stampEl){
+  var q=document.getElementById('vrQ'),list=document.getElementById('vrQList');
+  if(!q||!list) return;
+  q.style.display='block';
+  var row=document.createElement('div');row.className='vrQItem';
+  row.innerHTML='<img alt="" /><div class="vrQT"><b></b><span>held &middot; nothing publishes from this page</span></div>'
+    +'<button type="button" class="vrQSign">Sign &mdash; as the DP</button>';
+  row.querySelector('img').src=src;
+  row.querySelector('b').textContent=headline;
+  var btn=row.querySelector('.vrQSign'),st=row.querySelector('span');
+  btn.addEventListener('click',function(){
+    var when=new Date().toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
+    st.textContent='signed '+when+' \u00b7 ready for giltrap.com \u2014 publishes from the console';
+    btn.disabled=true; btn.textContent='Signed \u2713';
+    if(stampEl){stampEl.classList.add('signed');stampEl.textContent='signed \u00b7 ready';}
+  });
+  list.appendChild(row);
+  qN++; var n=document.getElementById('vrQN'); if(n) n.textContent=qN;
+}
+
+})();/* vr:end */</script>
+
+<script>/* mz:start — the assembling mosaic */
+(function(){
+var host=document.getElementById('mzHost'); if(!host) return;
+var NS='http://www.w3.org/2000/svg';
+function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
+var U=84;
+function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
+var KIND={
+quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
+semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
+dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
+stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
+ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
+tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
+sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
+hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
+tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
+umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
+moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
+key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
+cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
+shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
+crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
+heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
+leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
+clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
+parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
+van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
+envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
+globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
+plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
+sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
+ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
+case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
+coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
+card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
+chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
+percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
+bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
+bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
+plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
+door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
+tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
+crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
+brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
+pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
+drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
+flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
+car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
+wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
+flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
+road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
+apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
+milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
+egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
+carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
+wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
+tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
+};
+var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
+var TILES=[["quarter","#F06022",0,1],["house","#F06022","#FFFFFF"],["semi","#FDF5EB","#F06022"],["tree","#EFE8D9","#1A1917"],["quarter","#1A1917",0,3],["teacup","#1A1917","#FDF5EB"],["dots","#1A1917","#FDF5EB"],["heart","#FDF5EB","#F06022"],["sparkle","#1d1a15","#F06022"],["envelope","#EFE8D9","#1A1917"],["stripes","#F06022","#FDF5EB"],["sun","#1A1917","#FDF5EB"],["hills","#FDF5EB","#1A1917"],["ringT","#FDF5EB","#1A1917"],["tick","#1A1917","#FFFFFF"],["quarter","#FDF5EB",0,2]];
+var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
+var layer=el('g',{}); svg.appendChild(layer);
+var tiles=[];
+SLOTS.forEach(function(s,i){
+  var t=TILES[i]; if(!t) return;
+  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
+  var g=el('g',{'class':'mzT'});
+  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
+  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
+});
+host.appendChild(svg);
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var started=false;
+function ignite(){
+  if(started) return; started=true;
+  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
+  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
+    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
+  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
+  var next=6, iv=setInterval(function(){
+    if(next>=order.length){clearInterval(iv);return;}
+    tiles[order[next++]].classList.add('mzLit');
+  },1500);
+}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
+  io.observe(host);
+  setTimeout(ignite,9000);
+}else ignite();
+document.addEventListener('click',function(){
+  if(reduce) return;
+  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
+  if(!lit.length) return;
+  var t=lit[Math.floor(Math.random()*lit.length)];
+  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
+  setTimeout(function(){t.classList.remove('mzPulse')},950);
+});
+var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
+if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
+  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
+  if(bgc&&bgc.length>=3){
+    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
+    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
+      band.style.setProperty('--mzDorm','.12');}
+  }
+}
+if(band&&!reduce){
+  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
+    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
+  band.addEventListener('pointerleave',function(){bx=0;by=0});
+  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
+    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
+}
+})();/* mz:end */</script>
 </body>
 </html>
