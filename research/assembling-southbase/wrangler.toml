@@ -1,0 +1,5 @@
+name = "assembling-southbase"
+compatibility_date = "2026-07-01"
+
+[ai]
+binding = "AI"

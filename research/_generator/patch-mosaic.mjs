@@ -60,7 +60,8 @@ function tilesFor(slug, P) {
     'assembling-demo-retirement': 'retirement', 'assembling-ryman-family': 'retirement', 'assembling-summerset': 'retirement',
     'assembling-bayleys': 'property', 'assembling-raywhite': 'property', 'assembling-trademe': 'marketplace',
     'assembling-construction': 'construction', 'assembling-hnry': 'tax', 'assembling-instant-finance': 'lending',
-    'assembling-myfoodbag': 'foodbag', 'assembling-nectar': 'money', 'assembling-giltrap': 'auto',
+    'assembling-myfoodbag': 'foodbag',
+    'assembling-southbase': 'construction', 'assembling-nectar': 'money', 'assembling-giltrap': 'auto',
   };
   const icons = by[SECTOR[slug] || 'banking'];
   /* 16 slots: icons in the strong seats, geometry between */
@@ -268,7 +269,7 @@ const FLEET = [
   'assembling-electrickiwi', 'assembling-hnry', 'assembling-instant-finance', 'assembling-myfoodbag',
   'assembling-nectar', 'assembling-nzpost', 'assembling-raywhite', 'assembling-sharesies',
   'assembling-southern-cross', 'assembling-tower', 'assembling-trademe', 'assembling-woolworths-rewards',
-  'assembling-giltrap',
+  'assembling-giltrap', 'assembling-southbase',
 ];
 let n = 0;
 for (const d of FLEET) if (patch(d)) n++;
