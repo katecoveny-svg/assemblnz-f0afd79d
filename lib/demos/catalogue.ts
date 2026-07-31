@@ -36,6 +36,19 @@ export const url = (slug: string) => `https://assembling-${slug}.pages.dev`;
 
 export const DEMOS: Demo[] = [
   {
+    slug: 'everyday-rewards',
+    company: 'Everyday Rewards (flagship)',
+    sector: 'loyalty · grocery',
+    kind: 'named',
+    wedge:
+      'One connected journey: photograph the fridge, the wait drafts the week, a person signs the send — every spinner a place to earn.',
+    showpiece:
+      'The interactive phone. Use the demo fridge (real opus-5 vision on a bundled photo) or your own; the 3D fridge hands items to the basket as the app reads; remove a basket row and it flies back; sign and the Mana Receipt itemises the visit.',
+    caution:
+      'Vision + live agent wake when set-agent-key.sh runs for this project — until then the identical scripted journey plays.',
+    has: { waits: true, accept: true, scratch: false, agent: true },
+  },
+  {
     slug: 'woolworths-rewards',
     company: 'Woolworths NZ · Everyday Rewards',
     sector: 'Grocery + loyalty',

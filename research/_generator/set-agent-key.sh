@@ -72,6 +72,7 @@ else
     assembling-roomcheck
     assembling-woolworths-rewards
     assembling-ryman-family
+    assembling-everyday-rewards
     assembling-summerset
     assembling-tower
     assembling-airnz
