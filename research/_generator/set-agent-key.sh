@@ -73,6 +73,7 @@ else
     assembling-woolworths-rewards
     assembling-ryman-family
     assembling-everyday-rewards
+    assembling-southbase
     assembling-summerset
     assembling-tower
     assembling-airnz
