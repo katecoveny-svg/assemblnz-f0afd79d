@@ -144,7 +144,7 @@ async function callWorkersAI(env, systemPrompt, userMessage) {
   ];
   const resp = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {
     messages,
-    max_tokens: 480,
+    max_tokens: 1200,
     temperature: 0.4
   });
   return resp.response || resp.text || "";
@@ -160,7 +160,7 @@ async function callAnthropic(apiKey, systemPrompt, userMessage) {
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 480,
+      max_tokens: 1200,
       system: systemPrompt,
       messages: [{ role: "user", content: userMessage }]
     })

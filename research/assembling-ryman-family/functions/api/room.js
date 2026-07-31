@@ -56,6 +56,28 @@ const TOOL = {
           properties: {
             name: { type: "string", description: "Plain name — 'three-seater sofa', 'sideboard', 'armchair', 'dining table for four'." },
             footprint_m2: { type: "number", description: "Rough floor area it occupies, m². A three-seater sofa is ~1.8, an armchair ~0.6, a dining table for four ~1.6, a sideboard ~0.8." },
+            box: {
+              type: "object",
+              description: "Rough bounding box of the piece as PERCENTAGES of the whole image: x/y top-left, w/h size, integers 0-100. Omit if you cannot place it.",
+              required: ["x", "y", "w", "h"],
+              properties: { x: { type: "integer" }, y: { type: "integer" }, w: { type: "integer" }, h: { type: "integer" } },
+            },
+          },
+        },
+      },
+      flags: {
+        type: "array",
+        description: "Movement observations a family would want pointed out, from the photo only: a clear doorway, a lifted rug corner, a tight lane between pieces, a trailing cord. Plain observations — never medical or care advice. Include a box where you can.",
+        items: {
+          type: "object",
+          required: ["note", "kind"],
+          properties: {
+            note: { type: "string", description: "Short and plain — 'rug corner by the table sits lifted', 'doorway on the right is clear'." },
+            kind: { type: "string", enum: ["clear", "care"], description: "'clear' for reassurance, 'care' for something worth a look." },
+            box: {
+              type: "object", required: ["x", "y", "w", "h"],
+              properties: { x: { type: "integer" }, y: { type: "integer" }, w: { type: "integer" }, h: { type: "integer" } },
+            },
           },
         },
       },
@@ -88,7 +110,12 @@ the doorways the furniture has to travel through to get into the villa.
 
 You are producing a starting point for a tape measure, not a ruling. Never tell a
 family their mother's things definitely will not fit. If the furniture is a lot
-for the room, say it is worth measuring and that a villa has more than one room.`;
+for the room, say it is worth measuring and that a villa has more than one room.
+
+For each piece include a rough box as percentages of the whole image where you
+can place it. Add flags for movement observations only — a clear doorway, a
+lifted rug corner, a tight lane between pieces. Observations from the photo,
+never medical or care advice.`;
 
 export async function onRequestPost(context) {
   const { request, env } = context;

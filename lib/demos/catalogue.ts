@@ -30,13 +30,16 @@ export type Demo = {
   superseded?: { slug: string; note: string }[];
   /** Does it carry the current fleet standard? */
   has: { waits: boolean; accept: boolean; scratch: boolean; agent: boolean };
+  /** 1 Aug 2026 demo-framework stack: now = send this week; next = this month;
+   *  exhibit = evidence only, no further build; parked = not for outreach. */
+  tier: 'now' | 'next' | 'exhibit' | 'parked';
 };
 
 export const url = (slug: string) => `https://assembling-${slug}.pages.dev`;
 
 export const DEMOS: Demo[] = [
   {
-    slug: 'everyday-rewards',
+    slug: 'everyday-rewards', tier: 'now',
     company: 'Everyday Rewards (flagship)',
     sector: 'loyalty · grocery',
     kind: 'named',
@@ -44,12 +47,10 @@ export const DEMOS: Demo[] = [
       'One connected journey: photograph the fridge, the wait drafts the week, a person signs the send — every spinner a place to earn.',
     showpiece:
       'The interactive phone. Use the demo fridge (real opus-5 vision on a bundled photo) or your own; the 3D fridge hands items to the basket as the app reads; remove a basket row and it flies back; sign and the Mana Receipt itemises the visit.',
-    caution:
-      'Vision + live agent wake when set-agent-key.sh runs for this project — until then the identical scripted journey plays.',
     has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
-    slug: 'woolworths-rewards',
+    slug: 'woolworths-rewards', tier: 'next',
     company: 'Woolworths NZ · Everyday Rewards',
     sector: 'Grocery + loyalty',
     kind: 'named',
@@ -64,7 +65,7 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'ryman-family',
+    slug: 'ryman-family', tier: 'next',
     company: 'Ryman Healthcare',
     sector: 'Retirement villages',
     kind: 'named',
@@ -73,6 +74,7 @@ export const DEMOS: Demo[] = [
     showpiece:
       'The sibling table. The one decision aid ever trialled for this decision cut a carer’s own conflict significantly and left disagreements between family members unresolved. This takes three siblings’ answers and sorts them into the arguments more information can settle and the arguments it never will.',
     caution:
+      // door order updated 1 Aug 2026 —
       'Ryman’s standard deferred management fee is now 30%, and current residents keep the terms they signed — so there are two cohorts. Never quote a percentage without asking which agreement first.',
     superseded: [
       { slug: 'ryman', note: 'the "minute one" build — its agent and wait-phone have since been ported across, so this one supersedes it outright' },
@@ -82,7 +84,7 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
-    slug: 'raywhite',
+    slug: 'raywhite', tier: 'parked',
     company: 'Ray White New Zealand',
     sector: 'Real estate · buyer enquiry',
     kind: 'named',
@@ -95,7 +97,7 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'bayleys',
+    slug: 'bayleys', tier: 'parked',
     company: 'Bayleys Realty Group',
     sector: 'Real estate · the vendor side',
     kind: 'named',
@@ -108,7 +110,7 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'tower',
+    slug: 'tower', tier: 'parked',
     company: 'Tower Limited',
     sector: 'Insurance · house claims',
     kind: 'named',
@@ -119,7 +121,7 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'summerset',
+    slug: 'summerset', tier: 'next',
     company: 'Summerset',
     sector: 'Retirement villages',
     kind: 'named',
@@ -128,11 +130,12 @@ export const DEMOS: Demo[] = [
     showpiece:
       'The money, in plain words: the licence payment, the deferred management fee at 25% over four years, and fees stopping the day she permanently vacates.',
     caution:
+      // door order updated 1 Aug 2026 —
       'Summerset Sure is tiered — 90 days for independent living or a serviced apartment, 30 days for a memory care apartment or premium room, and it does not apply on transfer, health-driven exit or death. The DMF is 25% (27.5% for a Care Suite), never 30%.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'airnz',
+    slug: 'airnz', tier: 'exhibit',
     company: 'Air New Zealand',
     sector: 'Aviation · disruption',
     kind: 'named',
@@ -145,7 +148,7 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'contact',
+    slug: 'contact', tier: 'parked',
     company: 'Contact Energy',
     sector: 'Energy retail',
     kind: 'named',
@@ -157,96 +160,101 @@ export const DEMOS: Demo[] = [
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'nzpost', company: 'NZ Post', sector: 'Logistics', kind: 'named',
+    slug: 'nzpost', tier: 'parked', company: 'NZ Post', sector: 'Logistics', kind: 'named',
     wedge: 'The most repeated question in New Zealand logistics: where is my parcel. The tracking page routes the enquiry rather than answering it.',
     showpiece: 'Order wait through to the enquiry wait — six moments, including the delivered-but-not-in-hand gap.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'aig', company: 'AIG New Zealand', sector: 'Commercial insurance', kind: 'named',
+    slug: 'aig', tier: 'parked', company: 'AIG New Zealand', sector: 'Commercial insurance', kind: 'named',
     wedge: 'A commercial claim starts on the worst day a business has had in years, and everything after it is a wait they cannot see into.',
     showpiece: 'The first night before the claim is even lodged, through to the settlement wait.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'southern-cross', company: 'Southern Cross Health Society', sector: 'Health insurance', kind: 'named',
+    slug: 'southern-cross', tier: 'exhibit', company: 'Southern Cross Health Society', sector: 'Health insurance', kind: 'named',
     wedge: 'The covered question, asked before anyone books anything — and the pre-approval silence that follows it.',
     showpiece: 'Six waits from “is this covered” to the letter home nobody expected.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'trademe', company: 'Trade Me Property', sector: 'Property', kind: 'named',
+    slug: 'trademe', tier: 'parked', company: 'Trade Me Property', sector: 'Property', kind: 'named',
     wedge: 'The listing that has been up for six weeks, and the buyer waiting on a LIM.',
     showpiece: 'Search wait through to settlement — both sides of the same six weeks.',
     caution: 'Palette still UNVERIFIED — confirm before sending.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'nectar', company: 'Nectar Money', sector: 'Personal lending', kind: 'named',
-    wedge: 'You already quote fast. The question is what else those same minutes could produce.',
-    showpiece: 'The comparing days through to the last payment.',
-    has: { waits: true, accept: true, scratch: true, agent: true },
+    slug: 'nectar', tier: 'now', company: 'Nectar Money', sector: 'Personal lending', kind: 'named',
+    wedge: 'Get paid for the wait — the seven minutes shown working, without breaking the law with finance incentives.',
+    showpiece:
+      'The application wait shown working, the FMA-ready evidence pane (CCCFA consumer-credit supervision moved to the FMA on 1 July 2026), and the receipt. No scratch cards in lending — the reward is certainty, and the page now says so.',
+    has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
-    slug: 'instant-finance', company: 'Instant Finance', sector: 'Branch lending', kind: 'named',
+    slug: 'instant-finance', tier: 'parked', company: 'Instant Finance', sector: 'Branch lending', kind: 'named',
     wedge: 'Fifty-five years and a branch network is not something you automate your way out of. It is the gap before someone sits down with one of your people.',
     showpiece: 'Before you walk in, through to coming back in.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'myfoodbag', company: 'My Food Bag', sector: 'Meal kits', kind: 'named',
-    wedge: 'You publish more than thirty recipes a week. It lands on a person at the end of a Sunday, and a list is not a decision.',
-    showpiece: 'The Sunday scroll through to the skip week — on sage paper, in a serif, with a queue rather than a knot.',
+    slug: 'myfoodbag', tier: 'next', company: 'My Food Bag', sector: 'Meal kits', kind: 'named',
+    wedge:
+      'You told the market your FY26 result was retention and order frequency. Both are decided in one moment — the Sunday night the customer skips. Here is that moment, assembled.',
+    showpiece:
+      'The skip moment, inverted: tap skip and the adjusted week (smaller box, cheaper week, one fewer meal) is offered before the exit — skip itself always honoured first tap. Plus the Sunday scroll, and the two refusals as switches: no health inference, nothing charged unconfirmed. Door: Mark Winter.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'electrickiwi', company: 'Electric Kiwi', sector: 'Energy retail', kind: 'named',
+    slug: 'electrickiwi', tier: 'parked', company: 'Electric Kiwi', sector: 'Energy retail', kind: 'named',
     wedge: 'The Hour of Power is the best idea in NZ energy retail, and the one thing that asks the customer to do the work.',
     showpiece: 'The compare wait through to the winter bill.',
     caution: 'Palette still UNVERIFIED — confirm before sending.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'hnry', company: 'Hnry', sector: 'Sole-trader tax', kind: 'named',
+    slug: 'hnry', tier: 'next', company: 'Hnry', sector: 'Sole-trader tax', kind: 'named',
     wedge: 'Waiting to be paid, then waiting on IRD. A sole trader’s year is mostly waiting.',
     showpiece: 'Waiting to be paid through to waiting on IRD.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'sharesies', company: 'Sharesies', sector: 'Retail investing', kind: 'named',
-    wedge: 'The sign-up check, the money in transit, the queued order — an investing journey is a sequence of waits before anything happens.',
-    showpiece: 'Six waits, with “It is down. Here is why.” carrying a not-advice chip.',
-    has: { waits: true, accept: true, scratch: true, agent: true },
+    slug: 'sharesies', tier: 'now', company: 'Sharesies', sector: 'Retail investing', kind: 'named',
+    wedge:
+      'Your published KiwiSaver transfer window is ten business days out of market — the exact window a losing provider uses to win the customer back. Here is what those ten days could do instead.',
+    showpiece:
+      'Rebuilt 2 Aug to the framework spec: play the five-beat transfer machine (stages from their published help centre), three moments in the wait — allocation held for confirmation — and the receipt vs the published window. Verified #E50072. Door: Sonya Williams; precedent: they shipped AI Search with Telescope AI.',
+    has: { waits: false, accept: true, scratch: false, agent: true },
   },
   {
-    slug: 'giltrap', company: 'Giltrap Group', sector: 'Automotive retail', kind: 'named',
+    slug: 'giltrap', tier: 'next', company: 'Giltrap Group', sector: 'Automotive retail', kind: 'named',
     wedge: 'Not a car-buyer journey — a retail marketing operating system for a dealer group. The waits are inside the marketing operation.',
     showpiece: 'The stock wait through to the group meeting, all six experienced by Giltrap’s own people.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
   {
-    slug: 'construction', company: 'An architecture + construction practice', sector: 'Construction', kind: 'demonstrator',
+    slug: 'construction', tier: 'exhibit', company: 'An architecture + construction practice', sector: 'Construction', kind: 'demonstrator',
     wedge: 'Concept, consent, pricing, coordination, site, handover — the waits that decide whether a build runs.',
     showpiece: 'IFC in the browser with no BIM authoring licence.',
     has: { waits: true, accept: true, scratch: true, agent: true },
   },
-  { slug: 'demo-retirement', company: 'Rosewell Villages', sector: 'Retirement villages', kind: 'demonstrator',
+  { slug: 'demo-retirement', tier: 'next', company: 'Rosewell Villages', sector: 'Retirement villages', kind: 'demonstrator',
     wedge: 'The category shape, with an invented operator so no real brand is borrowed.',
     showpiece: 'Before anyone asks, through to the wait for repayment. Label chips rather than points — you do not gamify a family deciding about their mother.',
     has: { waits: true, accept: true, scratch: true, agent: true } },
-  { slug: 'demo-airline', company: 'Southerly Air', sector: 'Aviation', kind: 'demonstrator',
+  { slug: 'demo-airline', tier: 'parked', company: 'Southerly Air', sector: 'Aviation', kind: 'demonstrator',
     wedge: 'The category shape, with an invented carrier.',
     showpiece: 'Booking wait through to the connection wait.',
     has: { waits: true, accept: true, scratch: true, agent: true } },
-  { slug: 'demo-grocery', company: 'Fernmarket', sector: 'Grocery', kind: 'demonstrator',
+  { slug: 'demo-grocery', tier: 'exhibit', company: 'Fernmarket', sector: 'Grocery', kind: 'demonstrator',
     wedge: 'The category shape, with an invented supermarket.',
     showpiece: 'The Sunday list through to the midweek gap.',
     has: { waits: true, accept: true, scratch: true, agent: true } },
-  { slug: 'demo-energy', company: 'Tidewatt Energy', sector: 'Energy', kind: 'demonstrator',
+  { slug: 'demo-energy', tier: 'parked', company: 'Tidewatt Energy', sector: 'Energy', kind: 'demonstrator',
     wedge: 'The category shape, with an invented retailer.',
     showpiece: 'Move-in wait through to the payment plan.',
     has: { waits: true, accept: true, scratch: true, agent: true } },
-  { slug: 'demo-banking', company: 'Ledgerline', sector: 'Banking', kind: 'demonstrator',
+  { slug: 'demo-banking', tier: 'exhibit', company: 'Ledgerline', sector: 'Banking', kind: 'demonstrator',
     wedge: 'The category shape, with an invented bank.',
     showpiece: 'Pre-approval through to the rate rollover. No personalised financial advice anywhere.',
     has: { waits: true, accept: true, scratch: true, agent: true } },
