@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-25 - Standardized Form Fields with Custom Required Indicators & Polite counters
+**Learning:** For highly structured early-access forms (such as `DataWaitlistForm`), programmatically identifying required fields using standard elements combined with a clear high-intent Pounamu green visual asterisk dramatically increases WCAG compliance and input focus clarity. Furthermore, incorporating polite real-time character constraints prevents visual clutter for screen-reader users, remaining silent until reaching critical limit thresholds.
+**Action:** Ensure all form input field groupings programmatically define `aria-required` attributes and clear visual intent cues (*). Restrict limit textareas with polite real-time counters.
