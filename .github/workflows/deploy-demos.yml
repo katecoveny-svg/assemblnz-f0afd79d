@@ -1,0 +1,78 @@
+# Deploys changed demo folders to Cloudflare Pages on every push to main.
+# Inert until two repo secrets exist (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   — a token with Pages:Edit on the account
+#   CLOUDFLARE_ACCOUNT_ID  — the account id from the Cloudflare dashboard
+# Project-name and production-branch quirks from the handoff are encoded below:
+# four projects use their own name as the production branch, and the two cine
+# folders deploy to differently named projects.
+name: deploy-demos
+
+on:
+  push:
+    branches: [main]
+    paths: ['research/assembling-*/**']
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ vars.DEMOS_AUTODEPLOY != 'off' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Which demos changed
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            DIRS=$(ls -d research/assembling-*/ | xargs -n1 basename)
+          else
+            DIRS=$(git diff --name-only HEAD^ HEAD -- 'research/assembling-*/' | cut -d/ -f2 | sort -u)
+          fi
+          echo "dirs<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$DIRS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "changed: $DIRS"
+
+      - name: Deploy changed demos
+        if: ${{ steps.changed.outputs.dirs != '' }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN secret not set — skipping deploys."
+            exit 0
+          fi
+          project_for() {
+            case "$1" in
+              assembling-contact-cine) echo "assembling-contact" ;;
+              assembling-airnz-cine)   echo "assembling-airnz" ;;
+              *)                       echo "$1" ;;
+            esac
+          }
+          branch_for() {
+            case "$1" in
+              assembling-contact) echo "assembling-contact" ;;
+              assembling-airnz)   echo "assembling-airnz" ;;
+              assembling-concept) echo "assembling-concept" ;;
+              assembling-lab)     echo "assembling-lab" ;;
+              *)                  echo "main" ;;
+            esac
+          }
+          FAILED=""
+          while IFS= read -r d; do
+            [ -z "$d" ] && continue
+            [ -d "research/$d" ] || continue
+            P=$(project_for "$d"); B=$(branch_for "$P")
+            echo "── $d → project=$P branch=$B"
+            if (cd "research/$d" && npx wrangler@4 pages deploy . --project-name "$P" --branch "$B" --commit-dirty=true); then
+              echo "$d ✓"
+            else
+              echo "$d ✗"; FAILED="$FAILED $d"
+            fi
+          done <<< "${{ steps.changed.outputs.dirs }}"
+          if [ -n "$FAILED" ]; then
+            echo "failed:$FAILED"; exit 1
+          fi

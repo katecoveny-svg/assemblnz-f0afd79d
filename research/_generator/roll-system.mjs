@@ -160,7 +160,26 @@ const EV_SHARED = {
 };
 
 /* per-demo overrides — researched and verified before they land here */
+const EV_RETIREMENT = {
+  kick: 'the evidence &middot; retirement, measured',
+  head: 'The demand is certain. The wait between enquiry and answer is not.',
+  foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of enquiry response times in retirement living, or of what a family’s decision wait costs an operator.',
+  cards: [
+    EV_SHARED.cards[0],
+    { to: '130', dur: 1600, em: 'a week', flag: 'NZ',
+      text: 'Roughly <b>130 people move into a New Zealand retirement village every week</b>, and more than 53,000 live in one now. The enquiries behind those moves are happening today.',
+      src: 'Retirement Villages Association, sector statistics, 2025' },
+    EV_SHARED.cards[2],
+    { to: '23000', dur: 1900, em: 'units short', flag: 'NZ',
+      text: 'A projected shortfall of <b>more than 23,000 village units by 2048</b>, with the 75+ growth peak arriving from 2028. Every enquiry an operator answers slowly is one another operator answers first.',
+      src: 'JLL, New Zealand Retirement Village Database review, 2025' },
+  ],
+};
+
 const EV_FIGURES = {
+  'assembling-demo-retirement': EV_RETIREMENT,
+  'assembling-ryman-family': EV_RETIREMENT,
+  'assembling-summerset': EV_RETIREMENT,
   'assembling-nectar': {
     kick: 'the evidence &middot; lending, measured',
     head: 'Lending got faster. Waiting did not.',
@@ -376,7 +395,11 @@ for (const [folder, cfg] of Object.entries(DEMOS)) {
   /* 4d. the closing beat — the same form, fully assembled, before the ask.
      Three moments across a page reads as a journey; one reads as a widget. */
   if (!s.includes('ab:close:start')) {
-    const closeAnchor = s.search(/<section[^>]*id="(pilot|accept)"/);
+    let closeAnchor = s.search(/<section[^>]*id="(pilot|accept)"/);
+    /* pages without a pilot/accept section (the cine pages) close before the
+       evidence band, or failing that before the footer — never nowhere */
+    if (closeAnchor === -1) closeAnchor = s.indexOf('<!-- ab:ev:start');
+    if (closeAnchor === -1) closeAnchor = s.lastIndexOf('<footer');
     if (closeAnchor > -1) {
       s = s.slice(0, closeAnchor) + `<!-- ab:close:start -->
 <section class="abClose" style="--abA:${accent}" aria-hidden="true">
