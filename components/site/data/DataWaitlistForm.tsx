@@ -43,6 +43,7 @@ export function DataWaitlistForm() {
   const [intent, setIntent] = useState<Intent>('api-key');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [useCase, setUseCase] = useState('');
   const emailId = useId();
   const orgId = useId();
   const useCaseId = useId();
@@ -54,6 +55,7 @@ export function DataWaitlistForm() {
     setIntent(next);
     setStatus('idle');
     setError(null);
+    setUseCase('');
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -86,6 +88,7 @@ export function DataWaitlistForm() {
       }
 
       form.reset();
+      setUseCase('');
       setStatus('done');
     } catch {
       setError('Network hiccup. Please try again, or email assembl@assembl.co.nz.');
@@ -113,10 +116,10 @@ export function DataWaitlistForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchIntent(value)}
-              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/40 focus-visible:ring-offset-2 ${
+              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/40 focus-visible:ring-offset-2 ${
                 active
                   ? 'bg-[color:var(--assembl-pounamu)] text-white'
-                  : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]'
+                  : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] focus-visible:text-[color:var(--text-primary)]'
               }`}
             >
               {value === 'api-key' ? 'Free API key' : 'Talk to Kate'}
@@ -161,9 +164,25 @@ export function DataWaitlistForm() {
               id={useCaseId}
               name="useCase"
               rows={2}
+              maxLength={1000}
               placeholder={copy.useCasePlaceholder}
-              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+              value={useCase}
+              onChange={(e) => setUseCase(e.target.value)}
+              aria-describedby="usecase-counter"
+              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/40 focus-visible:ring-offset-2 transition-all"
             />
+            <div className="mt-2 flex justify-end">
+              <span
+                id="usecase-counter"
+                className="font-mono text-[10px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]"
+                aria-hidden="true"
+              >
+                {useCase.length} / 1000 characters
+              </span>
+              <span className="sr-only" aria-live="polite">
+                {useCase.length >= 900 ? `${useCase.length} of 1000 characters used` : ''}
+              </span>
+            </div>
           </div>
 
           {status === 'error' && error ? (
@@ -175,7 +194,7 @@ export function DataWaitlistForm() {
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--assembl-pounamu)] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--assembl-pounamu)] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-60"
           >
             {status === 'submitting' ? 'Sending…' : copy.cta}
             {status !== 'submitting' ? <ArrowRight className="h-4 w-4" aria-hidden /> : null}
@@ -211,15 +230,21 @@ function Field({
     <div>
       <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         {label}
+        {required && (
+          <span className="ml-1 text-[color:var(--assembl-pounamu)]" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
+        aria-required={required ? 'true' : undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/40 focus-visible:ring-offset-2 transition-all"
       />
     </div>
   );

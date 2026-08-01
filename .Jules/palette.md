@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-08-01 - Accessible Required Indicators and Interactive Character Counters
+**Learning:** To satisfy high accessibility standards and avoid screen-reader verbosity, visual required indicators should be coupled with programmatic `aria-required` properties, and real-time character counters should be paired with screen-reader-only polite live regions (`aria-live="polite"`) that only activate when crossing a critical threshold (e.g. 90%).
+**Action:** Always programmatically apply `aria-required` on required form fields alongside visual required indicators, and use scoped/gated `aria-live` polite live regions for character counters to provide clean, silent default typing experiences.
