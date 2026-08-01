@@ -592,3 +592,42 @@
   document.head.appendChild(st);
 })();
 /* wp-prem:end */
+
+
+/* ── wp-shader: premium animated screen backdrop (static module, no injector).
+   Aurora drift built from each site's own --wp-accent tokens; sits behind the
+   screen content, pointer-transparent, honours prefers-reduced-motion. ── */
+(function(){
+  if(typeof WaitPhone==='undefined'||WaitPhone.__shader) return; WaitPhone.__shader=1;
+  var css=[
+    '.wp-screen>.wp-shader{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:inherit}',
+    '.wp-screen>*:not(.wp-shader){position:relative;z-index:1}',
+    '.wp-shader::before{content:"";position:absolute;inset:-42%;',
+    ' background:',
+    '  radial-gradient(42% 38% at 26% 22%, color-mix(in srgb, var(--wp-accent,#888) 34%, transparent), transparent 70%),',
+    '  radial-gradient(46% 42% at 76% 14%, color-mix(in srgb, var(--wp-accent2, var(--wp-accent,#888)) 26%, transparent), transparent 72%),',
+    '  radial-gradient(52% 48% at 64% 84%, color-mix(in srgb, var(--wp-accent,#888) 18%, transparent), transparent 75%);',
+    ' filter:blur(26px) saturate(1.15);',
+    ' animation:wpShaderDrift 16s ease-in-out infinite alternate}',
+    '@keyframes wpShaderDrift{',
+    ' 0%{transform:translate3d(-4%,-3%,0) rotate(0deg) scale(1)}',
+    ' 50%{transform:translate3d(3%,4%,0) rotate(8deg) scale(1.06)}',
+    ' 100%{transform:translate3d(-2%,2%,0) rotate(-6deg) scale(1.03)}}',
+    '@media (prefers-reduced-motion: reduce){.wp-shader::before{animation:none}}'
+  ].join('');
+  var st=document.createElement('style'); st.id='wp-shader-css'; st.textContent=css;
+  document.head.appendChild(st);
+  var _m=WaitPhone.mount;
+  WaitPhone.mount=function(el,opts){
+    var r=_m.apply(this,arguments);
+    try{
+      el.querySelectorAll('.wp-screen').forEach(function(sc){
+        if(!sc.querySelector('.wp-shader')){
+          var d=document.createElement('div'); d.className='wp-shader';
+          sc.insertBefore(d,sc.firstChild);
+        }
+      });
+    }catch(e){}
+    return r;
+  };
+})();
