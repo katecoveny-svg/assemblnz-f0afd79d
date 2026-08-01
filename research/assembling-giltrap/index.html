@@ -51,6 +51,7 @@ main{position:relative;z-index:2}
 .signed .v{font-size:13px;color:var(--muted)}
 .signed .v b{color:var(--paper);font-weight:700}
 section{padding:98px 0;position:relative}
+section[id]{scroll-margin-top:74px}
 .eyebrow{font-size:10.5px;font-weight:900;letter-spacing:.26em;text-transform:uppercase;color:var(--champ);margin-bottom:22px;display:flex;align-items:center;gap:12px}
 .eyebrow::before{content:"";width:30px;height:1px;background:var(--champ);opacity:.6}
 h1{font-weight:900;font-size:clamp(42px,6.8vw,84px);line-height:.99;letter-spacing:-.032em}
@@ -125,6 +126,18 @@ em.g{font-style:normal;color:var(--champ)}
 .deckcover .line div{min-width:150px}
 .deckcover .line .l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);font-weight:900}
 .deckcover .line .v{font-size:14.5px;font-weight:700;margin-top:6px;line-height:1.35}
+
+/* three ideas from one morning — the flagship worked through below */
+.decks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+@media(max-width:880px){.decks{grid-template-columns:1fr}}
+.decks .dk{border:1px solid var(--line);border-radius:16px;padding:22px;position:relative;background:rgba(255,255,255,.028)}
+.decks .dk.on{border-color:var(--champ);background:var(--champ-soft)}
+.decks .dk .dh{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);font-weight:900}
+.decks .dk.on .dh{color:var(--champ)}
+.decks .dk .dn{font-size:19px;font-weight:900;margin-top:9px;letter-spacing:-.018em;line-height:1.15}
+.decks .dk .dn em{font-style:normal;color:var(--champ)}
+.decks .dk .ds{font-size:12.5px;color:var(--muted);font-weight:300;margin-top:7px;line-height:1.5}
+.decks .dk .dt{position:absolute;top:16px;right:16px;font-size:9px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--champ)}
 
 .strat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
 @media(max-width:880px){.strat{grid-template-columns:1fr}}
@@ -313,15 +326,15 @@ em.g{font-style:normal;color:var(--champ)}
 }
 .eng{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
 @media(max-width:900px){.eng{grid-template-columns:1fr}}
-.feed{border:1px solid var(--line);border-radius:18px;padding:24px;background:rgba(255,255,255,.03)}
-.feed .fh{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:9px}
-.feed .fh .live{width:7px;height:7px;border-radius:50%;background:var(--live);animation:pulse 1.8s infinite}
-.frow{padding:13px 0;border-bottom:1px solid var(--line-2);opacity:0;transform:translateX(-8px);transition:.5s}
-.frow.in{opacity:1;transform:none}
-.frow:last-child{border-bottom:none}
-.frow .ft{font-size:11px;color:var(--muted-2);letter-spacing:.04em}
-.frow .fv{font-size:14.5px;font-weight:700;margin-top:3px}
-.frow .fs{font-size:12.5px;color:var(--muted);font-weight:300;margin-top:2px}
+.epanel{border:1px solid var(--line);border-radius:18px;padding:24px;background:rgba(255,255,255,.03)}
+.epanel .fh{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.epanel .fh .live{width:7px;height:7px;border-radius:50%;background:var(--live);animation:pulse 1.8s infinite}
+.erow{padding:13px 0;border-bottom:1px solid var(--line-2);opacity:0;transform:translateX(-8px);transition:.5s}
+.erow.in{opacity:1;transform:none}
+.erow:last-child{border-bottom:none}
+.erow .ft{font-size:11px;color:var(--muted-2);letter-spacing:.04em}
+.erow .fv{font-size:14.5px;font-weight:700;margin-top:3px}
+.erow .fs{font-size:12.5px;color:var(--muted);font-weight:300;margin-top:2px}
 .idea{padding:15px 0;border-bottom:1px solid var(--line-2);opacity:0;transform:translateY(8px);transition:.55s}
 .idea.in{opacity:1;transform:none}
 .idea:last-child{border-bottom:none}
@@ -407,12 +420,12 @@ em.g{font-style:normal;color:var(--champ)}
 .chatin .send{background:var(--paper);color:var(--ink);border-radius:12px;padding:0 18px;font-weight:700;font-size:14px}
 .agentnote{font-size:11px;color:var(--muted-2);text-align:center;padding:0 20px 12px}
 .typing{align-self:flex-start;color:var(--muted-2);font-size:13px;padding:5px 4px;font-weight:300}
-footer{border-top:1px solid var(--line-2);padding:56px 0 70px;color:var(--muted-2);font-size:13px;line-height:1.75;font-weight:300;background:var(--ink-2)}
+footer{border-top:1px solid var(--line-2);padding:56px 0 70px;color:var(--muted-2);font-size:13px;line-height:1.75;font-weight:300;background:var(--ink-2);position:relative;z-index:2}
 footer b{color:var(--muted);font-weight:700}
 footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 .rise{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
 .rise.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.rise,.frow,.idea,.tline{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(prefers-reduced-motion:reduce){.rise,.erow,.idea,.tline{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* What a pilot needs from you, and the yes. */
 .needs{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:0 34px;margin-top:30px}
@@ -449,53 +462,11 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
    the band is a tinted surface rather than the dark-page inversion the
    generated demos use — the contrast lives in the phone screens. All classes
    are wm- prefixed because this page already owns .card, .chip and .step. */
-.wm-band{background:#f3f0eb;border-top:1px solid #E4E0D8;border-bottom:1px solid #E4E0D8;padding:76px 0 82px;margin:56px 0}
+.wm-band{background:#f3f0eb;border-top:1px solid #E4E0D8;border-bottom:1px solid #E4E0D8;padding:76px 0 82px;margin:56px 0;position:relative;z-index:2}
 .wm-kick{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:#BFA37A;margin-bottom:16px;display:flex;align-items:center;gap:12px}
 .wm-kick::before{content:"";width:30px;height:1px;background:#BFA37A;opacity:.7}
 .wm-h{font-size:clamp(29px,4.4vw,50px);font-weight:800;letter-spacing:-.03em;line-height:1.04;color:#141414;margin:0}
 .wm-lede{margin-top:15px;font-size:clamp(16px,1.9vw,19px);color:#6F6B64;font-weight:300;line-height:1.55;max-width:56ch}
-.wm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(266px,1fr));gap:18px;margin-top:42px}
-.wm-card{background:#FFF;border:1px solid #E4E0D8;border-radius:18px;padding:19px;display:flex;flex-direction:column;box-shadow:0 20px 40px -34px rgba(0,0,0,.45)}
-.wm-top{display:flex;gap:11px;align-items:flex-start;margin-bottom:14px}
-.wm-n{flex:0 0 auto;font-size:10.5px;font-weight:800;letter-spacing:.1em;color:#FFFFFF;background:#BFA37A;border-radius:6px;padding:4px 7px;margin-top:2px}
-.wm-top b{display:block;font-size:15.5px;font-weight:700;color:#141414;line-height:1.22}
-.wm-top i{display:block;font-style:normal;font-size:12px;color:#6F6B64;margin-top:3px}
-.wm-scr{background:linear-gradient(170deg,#332c26 0%,#0C0C0F 100%);border-radius:13px;padding:12px 13px 14px;color:#F2F2F0}
-.wm-scr-top{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.5);margin-bottom:10px}
-.wm-dot{width:6px;height:6px;border-radius:50%;background:#BFA37A;box-shadow:0 0 8px #BFA37A}
-.wm-scr-t{font-size:14px;font-weight:700;line-height:1.25;margin-bottom:7px}
-.wm-line{font-size:11.5px;color:rgba(242,242,240,.72);font-weight:300;line-height:1.45;padding:3px 0 3px 12px;position:relative}
-.wm-line::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:#BFA37A;opacity:.85}
-.wm-chip{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.05em;background:#BFA37A;color:#FFFFFF;border-radius:999px;padding:5px 10px}
-.wm-feels{margin-top:13px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:#93908b}
-.wm-del{margin-top:7px;font-size:13px;color:#484848;font-weight:300;line-height:1.55;flex:1}
-.wm-fund{margin-top:13px;padding-top:11px;border-top:1px solid #E4E0D8;font-size:11.5px;color:#6F6B64;font-weight:300;line-height:1.5}
-.wm-fund i{display:block;font-style:normal;font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#BFA37A;margin-bottom:4px}
-.wm-how{display:grid;grid-template-columns:1fr 380px;gap:32px;margin-top:48px;align-items:start}
-.wm-how h3{font-size:clamp(23px,3vw,32px);font-weight:800;letter-spacing:-.025em;color:#141414;margin:4px 0 0}
-.wm-steps{list-style:none;counter-reset:wms;margin:20px 0 0;padding:0}
-.wm-steps li{counter-increment:wms;padding:14px 0 14px 44px;border-bottom:1px solid #E4E0D8;position:relative}
-.wm-steps li:last-child{border-bottom:none}
-.wm-steps li::before{content:counter(wms,decimal-leading-zero);position:absolute;left:0;top:16px;font-size:10.5px;font-weight:800;letter-spacing:.1em;color:#BFA37A}
-.wm-steps b{display:block;font-size:15.5px;font-weight:700;color:#141414;margin-bottom:3px}
-.wm-steps span{font-size:13.5px;color:#6F6B64;font-weight:300;line-height:1.55}
-.wm-sc{background:#101012;border-radius:19px;padding:21px;color:#F2F2F0}
-.wm-sc-k{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#BFA37A;margin-bottom:13px}
-.wm-stage{position:relative;height:188px;border-radius:13px;overflow:hidden;background:linear-gradient(160deg,#332c26,#0A0A0C)}
-.wm-win{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px}
-.wm-win-k{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,242,240,.55);font-weight:700}
-.wm-win-v{font-size:clamp(24px,4.6vw,36px);font-weight:800;letter-spacing:-.03em;color:#BFA37A;margin:7px 0 5px;line-height:1;filter:brightness(1.6)}
-.wm-win-s{font-size:11.5px;color:rgba(242,242,240,.62);font-weight:300;line-height:1.45;max-width:30ch}
-.wm-coat{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
-.wm-coat:active{cursor:grabbing}
-.wm-note{font-size:11px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.55;margin-top:13px}
-.wm-again{margin-top:11px;background:transparent;border:1px solid rgba(242,242,240,.25);color:#F2F2F0;border-radius:999px;padding:8px 16px;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer}
-.wm-again:hover{border-color:#BFA37A;color:#BFA37A}
-@keyframes wmPop{0%{transform:scale(.9);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
-.wm-ev{margin-top:46px;border-left:3px solid #BFA37A;padding:3px 0 3px 20px;max-width:74ch}
-.wm-ev b{font-weight:700;color:#141414}
-.wm-ev p{font-size:14px;color:#6F6B64;font-weight:300;line-height:1.65;margin-top:8px}
-.wm-ev i{font-style:normal;opacity:.8}
 /* the yes */
 .wm-needs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 32px;margin-top:28px}
 .wm-need{display:flex;gap:15px;padding:17px 0;border-bottom:1px solid #E4E0D8}
@@ -521,184 +492,9 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 .wm-yes li::before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;border-radius:50%;background:#BFA37A}
 .wm-yes li b{color:#141414;font-weight:700}
 .wm-yes-f{margin-top:14px;font-size:11px;color:#6F6B64;line-height:1.55}
-@media(max-width:900px){.wm-how,.wm-accept{grid-template-columns:1fr}}
+@media(max-width:900px){.wm-accept{grid-template-columns:1fr}}
 
 
-/* ═══ THE WAIT DECK + THE BRAND-COLOURED SCRATCH ═══════════════════════════
-   Injected by _generator/patch-deck-scratch.mjs. Kate, 30 July 2026. Namespaced
-   under #deck6 so it cannot collide with anything this page already ships. */
-#deck6{--d6a:#3A3A3A;--d6on:#FFFFFF;--d6ink:#3A3A3A;--d6scr:#131316;
-  --d6rim:#222222cc;--d6rim2:#757575;--d6sa:#acacac;
-  background:#f2f1ee;color:#141416;
-  padding:86px 0 92px;position:relative;overflow:hidden}
-#deck6 .d6wrap{max-width:1200px;margin:0 auto;padding:0 30px}
-@media(min-width:1700px){#deck6 .d6wrap{max-width:min(82vw,1560px)}}
-#deck6 .d6kick{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
-  color:var(--d6ink);margin-bottom:16px}
-#deck6 h2{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.06;
-  color:#101012;margin:0;max-width:22ch}
-#deck6 .d6lede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
-  font-weight:300;max-width:62ch}
-
-#deck6 .d6grid{display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:46px;align-items:start}
-@media(max-width:980px){#deck6 .d6grid{grid-template-columns:1fr;gap:28px}}
-
-#deck6 .d6rail{display:flex;flex-direction:column;gap:2px;position:relative}
-#deck6 .d6rail::before{content:"";position:absolute;left:16px;top:22px;bottom:22px;width:1px;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,.16) 12%,rgba(0,0,0,.16) 88%,transparent)}
-#deck6 .d6r{display:flex;gap:14px;align-items:flex-start;background:transparent;border:0;
-  padding:11px 12px 11px 0;text-align:left;cursor:pointer;font-family:inherit;position:relative;
-  border-radius:12px;transition:background .3s}
-#deck6 .d6r:hover{background:rgba(0,0,0,.035)}
-#deck6 .d6rn{flex:0 0 auto;width:33px;height:33px;border-radius:50%;display:grid;place-items:center;
-  font-size:11px;font-weight:900;background:#FFF;color:#8A8A93;border:1px solid rgba(0,0,0,.14);
-  position:relative;z-index:2;transition:.36s cubic-bezier(.2,.7,.2,1)}
-#deck6 .d6r b{display:block;font-size:14.5px;font-weight:700;color:#3C3C44;line-height:1.25;transition:color .3s}
-#deck6 .d6r i{display:block;font-style:normal;font-size:11.5px;color:#8A8A93;margin-top:3px;line-height:1.4}
-#deck6 .d6r.on .d6rn{background:var(--d6ink);color:#FFF;border-color:var(--d6ink);
-  box-shadow:0 0 0 5px rgba(0,0,0,.05),0 8px 18px -8px var(--d6ink)}
-#deck6 .d6r.on b{color:#101012}
-#deck6 .d6r.done .d6rn{background:var(--d6ink);color:#FFF;border-color:var(--d6ink);opacity:.32}
-
-#deck6 .d6stage{position:relative;padding:10px 0 0;perspective:1500px}
-#deck6 .d6glow{position:absolute;left:50%;top:44%;width:min(560px,86%);height:340px;
-  transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,var(--d6a) 0%,transparent 68%);
-  opacity:.24;filter:blur(48px);pointer-events:none;animation:d6pulse 6.5s ease-in-out infinite}
-@keyframes d6pulse{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:.32;transform:translate(-50%,-50%) scale(1.07)}}
-
-#deck6 .d6phone{position:relative;width:min(330px,82vw);margin:0 auto;transform-style:preserve-3d;
-  transform:rotateY(var(--d6y,-13deg)) rotateX(var(--d6x,7deg));
-  transition:transform .5s cubic-bezier(.2,.7,.2,1);animation:d6float 7s ease-in-out infinite}
-@keyframes d6float{0%,100%{translate:0 0}50%{translate:0 -11px}}
-#deck6 .d6phone.grab{transition:transform .12s linear;animation-play-state:paused}
-#deck6 .d6shell{position:relative;border-radius:44px;padding:11px;
-  background:linear-gradient(155deg,#3b3f45 0%,#14171a 46%,#2b2f33 74%,#0e1013 100%);
-  box-shadow:0 2px 0 rgba(255,255,255,.14) inset,0 0 0 1px rgba(0,0,0,.7),
-    0 0 0 2.5px var(--d6rim),0 44px 90px -30px rgba(0,0,0,.72),0 90px 130px -50px var(--d6a)}
-/* the thin rim between body and glass — the machined edge */
-#deck6 .d6rim{border-radius:34px;padding:1.5px;
-  background:linear-gradient(160deg,var(--d6rim2),rgba(255,255,255,.06) 40%,var(--d6rim2))}
-#deck6 .d6screen{border-radius:33px;overflow:hidden;min-height:452px;display:flex;flex-direction:column;
-  cursor:pointer;position:relative;background:linear-gradient(172deg,var(--d6scr) 0%,#08080B 100%)}
-#deck6 .d6screen::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:33px;
-  background:linear-gradient(122deg,rgba(255,255,255,.09) 0%,transparent 34%,transparent 66%,rgba(255,255,255,.045) 100%)}
-#deck6 .d6bar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px 6px;
-  font-size:10px;letter-spacing:.06em;color:rgba(242,242,240,.62);font-weight:500}
-#deck6 .d6notch{width:52px;height:15px;border-radius:99px;background:#050507}
-#deck6 .d6sig{display:flex;gap:2.5px;align-items:flex-end}
-#deck6 .d6sig i{display:block;width:2.5px;background:rgba(242,242,240,.6);border-radius:1px}
-#deck6 .d6sig i:nth-child(1){height:4px}#deck6 .d6sig i:nth-child(2){height:6px}
-#deck6 .d6sig i:nth-child(3){height:8px}#deck6 .d6sig i:nth-child(4){height:10px}
-#deck6 .d6body{flex:1;padding:20px 22px 14px;display:flex;flex-direction:column}
-#deck6 .d6when{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;font-weight:800;
-  color:var(--d6sa);margin-bottom:11px}
-#deck6 .d6title{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1.2;
-  color:#F2F2F0;margin-bottom:16px}
-#deck6 .d6line{font-size:13px;color:rgba(242,242,240,.8);font-weight:300;line-height:1.5;
-  padding:7px 0 7px 16px;position:relative;opacity:0;animation:d6in .5s cubic-bezier(.2,.7,.2,1) forwards}
-#deck6 .d6line::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;
-  background:var(--d6sa);box-shadow:0 0 8px var(--d6sa)}
-@keyframes d6in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-#deck6 .d6chip{align-self:flex-start;margin-top:20px;font-size:10.5px;font-weight:800;letter-spacing:.05em;
-  background:var(--d6a);color:var(--d6on);border-radius:999px;padding:7px 14px;
-  opacity:0;animation:d6in .5s cubic-bezier(.2,.7,.2,1) .34s forwards}
-#deck6 .d6foot{margin-top:auto;padding-top:18px;border-top:1px solid rgba(242,242,240,.1);
-  display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  font-weight:700;color:rgba(242,242,240,.42)}
-#deck6 .d6foot span{width:5px;height:5px;border-radius:50%;background:var(--d6sa);flex:0 0 auto;
-  box-shadow:0 0 7px var(--d6sa);animation:d6blink 2.6s ease-in-out infinite}
-@keyframes d6blink{0%,100%{opacity:.35}50%{opacity:1}}
-#deck6 .d6nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 20px}
-#deck6 .d6arrow{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#F2F2F0;
-  width:36px;height:36px;border-radius:50%;font-size:15px;cursor:pointer;font-family:inherit;
-  display:grid;place-items:center;transition:.25s;padding:0}
-#deck6 .d6arrow:hover{background:var(--d6sa);border-color:var(--d6sa);color:#0B0B0E}
-#deck6 .d6arrow[disabled]{opacity:.26;cursor:default}
-#deck6 .d6dots{display:flex;gap:7px}
-#deck6 .d6dot{width:7px;height:7px;border-radius:50%;background:rgba(242,242,240,.26);cursor:pointer;
-  border:0;padding:0;transition:.3s}
-#deck6 .d6dot.on{background:var(--d6sa);box-shadow:0 0 10px var(--d6sa);transform:scale(1.35)}
-#deck6 .d6hint{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);white-space:nowrap;
-  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--d6ink);
-  opacity:.72;animation:d6hint 2.4s ease-in-out infinite;pointer-events:none}
-@keyframes d6hint{0%,100%{opacity:.34;transform:translateX(-50%) translateY(0)}
-  50%{opacity:.85;transform:translateX(-50%) translateY(4px)}}
-#deck6 .d6hint.gone{display:none}
-#deck6 .d6cap{margin:58px auto 0;max-width:62ch;text-align:center}
-#deck6 .d6feels{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#8A8A93}
-#deck6 .d6del{margin-top:9px;font-size:16px;color:#25252C;font-weight:300;line-height:1.62}
-#deck6 .d6fund{margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);
-  font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.5}
-#deck6 .d6fund i{font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
-  font-weight:800;color:var(--d6ink);margin-right:8px}
-
-/* the scratch, in their colour */
-#deck6 .d6sc{background:#0D0D0F;border-radius:22px;padding:26px;margin-top:56px;
-  max-width:520px;margin-left:auto;margin-right:auto}
-#deck6 .d6sck{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
-  color:var(--d6sa);margin-bottom:15px}
-#deck6 .d6scStage{position:relative;height:200px;border-radius:15px;overflow:hidden;
-  background:linear-gradient(160deg,var(--d6scr),#08080A)}
-#deck6 .d6scWin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;text-align:center;padding:20px}
-#deck6 .d6scK{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,242,240,.55);font-weight:800}
-#deck6 .d6scV{font-size:clamp(24px,4.4vw,36px);font-weight:900;letter-spacing:-.03em;color:var(--d6sa);
-  margin:9px 0 7px;line-height:1.05}
-#deck6 .d6scS{font-size:12px;color:rgba(242,242,240,.62);font-weight:300;line-height:1.45;max-width:32ch}
-#deck6 .d6coat{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
-#deck6 .d6coat:active{cursor:grabbing}
-#deck6 .d6scNote{font-size:11.5px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.55;margin-top:15px}
-#deck6 .d6again{margin-top:13px;background:transparent;border:1px solid rgba(242,242,240,.25);
-  color:#F2F2F0;border-radius:999px;padding:9px 18px;font-size:12px;font-weight:700;
-  font-family:inherit;cursor:pointer}
-#deck6 .d6again:hover{border-color:var(--d6a);color:var(--d6a)}
-@keyframes d6pop{0%{transform:scale(.9);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
-@media(prefers-reduced-motion:reduce){
-  #deck6 .d6phone,#deck6 .d6glow,#deck6 .d6hint{animation:none}
-  #deck6 .d6phone{transform:none}
-  #deck6 .d6line,#deck6 .d6chip{animation:none;opacity:1}
-}
-/* the flat six-card band this replaces stays in the DOM as the no-JS fallback,
-   hidden only once the deck has actually mounted */
-body.d6-live #waitmap .wm-grid{display:none}
-
-
-
-
-/* ═══ THE PLACE · authored in Pascal, injected by _generator/patch-place.mjs ═══
-   Its own canvas, camera and lights, namespaced pl* so it cannot collide with
-   whatever three.js scene this page already runs. Kate, 30 July 2026. */
-#place{background:#101012;color:#F2F2F0;padding:88px 0 94px;position:relative;z-index:3;overflow:hidden}
-#place .plWrap{max-width:1200px;margin:0 auto;padding:0 30px}
-@media(min-width:1700px){#place .plWrap{max-width:min(82vw,1560px)}}
-#place .plKick{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
-  color:#898989;margin-bottom:16px}
-#place h2{font-size:clamp(27px,3.7vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.07;
-  color:#F2F2F0;margin:0;max-width:26ch}
-#place .plLede{margin-top:18px;font-size:clamp(15px,1.35vw,17.5px);line-height:1.62;color:rgba(242,242,240,.8);
-  font-weight:300;max-width:64ch}
-#place .plGrid{display:grid;grid-template-columns:1.25fr .85fr;gap:38px;margin-top:44px;align-items:center}
-@media(max-width:960px){#place .plGrid{grid-template-columns:1fr;gap:26px}}
-#place .plStage{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/11;
-  background:radial-gradient(ellipse at 52% 44%,#0d0d0d 0%,#040404 68%);
-  border:1px solid rgba(242,242,240,.14);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
-  cursor:grab;touch-action:none}
-#place .plStage:active{cursor:grabbing}
-#place canvas.plCanvas{display:block;width:100%;height:100%}
-#place .plHint{position:absolute;left:18px;bottom:16px;font-size:10.5px;letter-spacing:.14em;
-  text-transform:uppercase;font-weight:700;color:rgba(242,242,240,.5);
-  pointer-events:none;transition:opacity .4s}
-#place .plHint.gone{opacity:0}
-#place .plCard{border-left:3px solid #3A3A3A;padding:2px 0 2px 22px}
-#place .plCardK{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#898989}
-#place .plCard b{display:block;font-size:clamp(19px,2.1vw,25px);font-weight:800;letter-spacing:-.025em;
-  color:#F2F2F0;margin:9px 0 11px;line-height:1.18}
-#place .plCard p{font-size:14.5px;line-height:1.66;color:rgba(242,242,240,.8);font-weight:300}
-#place .plMeta{margin-top:22px;padding-top:16px;border-top:1px solid rgba(242,242,240,.14);
-  font-size:11.5px;line-height:1.62;color:rgba(242,242,240,.5)}
-#place .plMeta b{color:#F2F2F0;font-weight:600}
 </style>
 </head>
 <body>
@@ -708,8 +504,8 @@ body.d6-live #waitmap .wm-grid{display:none}
 <nav class="topbar"><div class="wrap">
   <div class="mark"><span class="dot"></span>assembl <small>· independent concept</small></div>
   <div class="navlinks">
-    <a href="#runs">What it runs</a><a href="#campaigns">Today</a><a href="#campaign">The campaign</a><a href="#wait">The wait</a><a href="#engine">Live engine</a><a href="#liveguard">The guard</a>
-    <a href="#meetings">DP meetings</a><a href="#liveevents">Events</a><a href="#install">How it goes in</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
+    <a href="#runs">What it runs</a><a href="#campaigns">Today</a><a href="#campaign">The campaign</a><a href="#engine">Live engine</a><a href="#liveguard">The guard</a>
+    <a href="#meetings">DP meetings</a><a href="#liveevents">Events</a><a href="#wait">The wait</a><a href="#install">How it goes in</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
   </div>
   <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
 </div></nav>
@@ -724,20 +520,14 @@ body.d6-live #waitmap .wm-grid{display:none}
 <header class="hero"><div class="wrap"><div class="narrow">
   <div class="eyebrow rise">Retail marketing · an operating system · a concept</div>
   <h1 class="rise">Twenty-four marques.<br>Every dealer principal<br><em class="g">wants it yesterday.</em></h1>
-  <p class="lede rise">A marketing operating system for the whole group. It reads live inventory and turns it into campaigns, holds every marque's CI, runs the creative queue, watches Meta and GA4 and moves before you ask, records the DP meetings and comes back with ideas, and plans the events. It drafts everything. A person approves everything.</p>
-  <p class="lede rise" style="margin-top:18px;font-size:16px;color:var(--live)"><b style="font-weight:700">Four of the eight run on this page right now.</b> <span style="color:var(--muted)">Paste your own stock list, your own ad copy, your own meeting notes. It is the real model, not a recording.</span></p>
+  <p class="lede rise">One intelligence layer over the DMS the group already runs. It reads live stock and turns it into campaigns, holds every marque's CI, watches the media, keeps the DP meetings honest, and plans the events. It drafts everything. A person approves everything.</p>
+  <p class="lede rise" style="margin-top:18px;font-size:16px;color:var(--live)"><b style="font-weight:700">Four of the eight jobs run on this page right now.</b> <span style="color:var(--muted)">Paste your own stock list, your own ad copy, your own meeting notes. It is the real model, not a recording.</span></p>
   <div class="btns rise">
     <a class="btn solid" href="#campaign">See the campaign it built <span class="arw">→</span></a>
     <a class="btn ghost" href="#runs">See all eight</a>
   </div>
-  <div class="carnod rise"><p>Two scans, rendered live. Scroll, and the 1958 Porsche 356 &mdash; like the one Colin Giltrap co-owned &mdash; becomes an Audi sixty years newer. Both marques the group carries. Neither model is a Giltrap vehicle. A nod, nothing more.</p></div>
+  <div class="carnod rise"><p>The car is a real scan, rendered live &mdash; a 1958 Porsche 356, like the one Colin Giltrap co-owned. Not a Giltrap vehicle. A nod, nothing more.</p></div>
 </div></div></header>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.12;--mzCapC:rgba(255,255,255,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
-</section>
-<!-- mz:end -->
 <!-- vr:start -->
 <section class="vrSec" id="vrSec" data-dark style="--vrA:#FFFFFF;--vrInk:#F2F2F2;--vrCard:#141414;--vrLine:rgba(255,255,255,.14);--vrBtnInk:#0d0d0d;--vrAcc2:#FFFFFF;--vrSweepC:rgba(255,255,255,.35);--vrLabBg:#2b2b2b;">
   <div class="vrIn">
@@ -773,13 +563,54 @@ body.d6-live #waitmap .wm-grid{display:none}
 
 <div class="marques"><div class="mq" id="mq"></div></div>
 
+<!-- gp:start -->
+<section id="pressure" class="gpSec"><div class="wrap">
+  <div class="gpHead rise">
+    <div>
+      <div class="gpK"><i></i>stock pressure · live</div>
+      <h2 class="gpH">Stock arrives whether it <b>sells</b> or not.</h2>
+    </div>
+    <p class="gpSub">Allocation is agreed months out. Interest starts the day it lands. The list is already a brief &mdash; nobody reads it as one.</p>
+  </div>
+
+  <div class="gpNums rise">
+    <div class="gpNum"><div class="gpNumV" data-to="3">0</div><div class="gpNumL">units past 90 days</div></div>
+    <div class="gpNum"><div class="gpNumV" data-to="11">0</div><div class="gpNumL">arriving on allocation</div></div>
+    <div class="gpNum"><div class="gpNumV" data-to="8" data-pre="$" data-suf="k"><span></span>0</div><div class="gpNumL">floorplan, per month</div></div>
+  </div>
+
+  <div class="gpGrid">
+    <div class="gpBoard rise">
+      <div class="gpBHead"><span>on the lot</span><span style="text-align:right">days</span><span style="text-align:right">cost / mo</span></div>
+      <div class="gpRow" data-d="118" data-hot="1"><div class="gpCar"><div class="gpCarN">911 Carrera GTS</div><div class="gpCarM">Porsche</div></div><div class="gpDays">118<u>d</u></div><div class="gpCost">$2,140</div><span class="gpBar"></span></div>
+      <div class="gpRow" data-d="96" data-hot="1"><div class="gpCar"><div class="gpCarN">RS 6 Avant</div><div class="gpCarM">Audi</div></div><div class="gpDays">96<u>d</u></div><div class="gpCost">$1,880</div><span class="gpBar"></span></div>
+      <div class="gpRow" data-d="74"><div class="gpCar"><div class="gpCarN">Taycan 4S</div><div class="gpCarM">Porsche</div></div><div class="gpDays">74<u>d</u></div><div class="gpCost">$1,960</div><span class="gpBar"></span></div>
+      <div class="gpRow" data-d="61"><div class="gpCar"><div class="gpCarN">Macan</div><div class="gpCarM">Porsche</div></div><div class="gpDays">61<u>d</u></div><div class="gpCost">$1,240</div><span class="gpBar"></span></div>
+      <div class="gpRow" data-d="43"><div class="gpCar"><div class="gpCarN">Golf R</div><div class="gpCarM">Volkswagen</div></div><div class="gpDays">43<u>d</u></div><div class="gpCost">$780</div><span class="gpBar"></span></div>
+    </div>
+
+    <div class="gpOut rise">
+      <div class="gpOutK">what the desk does with it</div>
+      <h3 class="gpOutH" id="gpOutH">&nbsp;</h3>
+      <ul class="gpSteps" id="gpSteps">
+        <li class="gpStep"><i>01</i><span>Reads the stock list at 6am, before anyone is in.</span></li>
+        <li class="gpStep"><i>02</i><span>Ranks by days on lot against next month&rsquo;s allocation.</span></li>
+        <li class="gpStep"><i>03</i><span>Checks the marque&rsquo;s CI, then drafts to it.</span></li>
+        <li class="gpStep"><i>04</i><span>Holds it for a person. Nothing goes out unsigned.</span></li>
+      </ul>
+      <p class="gpFoot">Illustrative stock, days and costs &mdash; an independent concept, not Giltrap data. The mechanic is the point: the list you already own, read every morning.</p>
+    </div>
+  </div>
+</div></section>
+<!-- gp:end -->
+
 <!-- ── §01 WHAT IT RUNS ── -->
 <section id="runs"><div class="wrap">
   <div class="num rise">01 — WHAT IT RUNS</div>
   <div class="narrow rise">
     <div class="eyebrow">Eight jobs, one system</div>
     <h2>Not a chatbot. The desk that runs group retail marketing.</h2>
-    <p class="kicker">Industry reporting for 2026 puts the dividing line between dealers who use AI sporadically and those who embed it in the core workflow. This is the second thing. Every capability below reads real sources, drafts real work, and stops for a named person.</p>
+    <p class="kicker">Every capability below reads real sources, drafts real work, and stops for a named person.</p>
   </div>
   <div class="caps rise">
     <div class="caplist" id="caplist"></div>
@@ -794,10 +625,10 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="narrow rise">
     <div class="eyebrow">Six campaigns · one Thursday · across the portfolio</div>
     <h2>This is what came out of the stock list this morning.</h2>
-    <p class="kicker">Every one of these was triggered by something that changed in inventory, not by a marketing calendar. Note what each one deliberately does not say — and that two of them are campaigns the system refused to run.</p>
+    <p class="kicker">Each one was triggered by inventory, not by a marketing calendar — and two of them are campaigns the system refused to run.</p>
   </div>
   <div class="ccgrid rise" id="ccgrid"></div>
-  <p class="ccnote rise">The 356 assets are rendered from a real photogrammetry scan supplied by assembl. Where another body type is needed the silhouette is drawn, because a concept should not ship photography it does not own — and generic shapes avoid any marque's trade dress. In a pilot both render against your own approved library.</p>
+  <p class="ccnote rise">Vehicle art is rendered from real photogrammetry scans supplied by assembl, or drawn — a concept should not ship photography it does not own. In a pilot both render against your own approved library.</p>
 </div></section>
 
 <!-- ── THE CAMPAIGN ── -->
@@ -806,7 +637,19 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="narrow rise">
     <div class="eyebrow">Not six posts · one idea, worked all the way through</div>
     <h2>Here is the campaign, presented the way a campaign is presented.</h2>
-    <p class="kicker">Built from what Giltrap has actually published about itself: 1966, Monaco Motors, sixty years, twenty-four marques, and an objective written in your own position description — to be a great New Zealand company driven by the love of cars.</p>
+    <p class="kicker">Three platform ideas came out of the same morning, built from what Giltrap has actually published about itself. The first is worked all the way through below.</p>
+  </div>
+
+  <div class="decks rise">
+    <div class="dk on"><div class="dt">worked through ↓</div><div class="dh">Idea 01 · heritage</div>
+      <div class="dn">The one you <em>never sold.</em></div>
+      <div class="ds">Sixty years of owners and the cars they kept. The group positioned as where cars are kept, not where they are sold.</div></div>
+    <div class="dk"><div class="dh">Idea 02 · electric</div>
+      <div class="dn">Charged where <em>it sleeps.</em></div>
+      <div class="ds">The electric marques told from the driveway, not the spec sheet — the habit of home charging, photographed mid-life.</div></div>
+    <div class="dk"><div class="dh">Idea 03 · retention</div>
+      <div class="dn">The <em>second key.</em></div>
+      <div class="ds">Every household that owns one Giltrap car is the next one's best prospect. Service, handover and the family's next driver.</div></div>
   </div>
 
   <div class="deckcover rise">
@@ -880,94 +723,26 @@ body.d6-live #waitmap .wm-grid{display:none}
   </div>
 </div></section>
 
-<!-- ── THE WAIT ── -->
-<section id="wait"><div class="wrap">
-  <div class="num rise">04 — THE WAIT</div>
-  <div class="narrow rise">
-    <div class="eyebrow">Four months of nothing, currently</div>
-    <h2>The longest wait in retail, and nobody is using it.</h2>
-    <p class="lede">Order a car and you wait months. Right now that wait is an occasional email and a lot of silence — and silence is where cancellations and buyer's remorse live. It is also the single best window you will ever get to learn what this customer actually needs.</p>
-    <p class="kicker">So the wait earns them something real, and it prepares their car at the same time. Nothing here is a discount, and nothing here is a survey.</p>
-  </div>
 
-  <div class="appwrap rise" style="margin-top:40px">
-    <div class="appcopy">
-      <div class="eyebrow">What the customer gets</div>
-      <h3>A credit, not a countdown.</h3>
-      <p class="kicker">Every stage the car passes through releases a credit toward their ownership — first service, ceramic coating, a towbar, a home charger assessment. Real value, chosen by them, redeemable at the site that sold them the car.</p>
-      <p class="kicker">It costs the group far less than the discount it replaces, and unlike a discount it brings them back through the door.</p>
-      <div class="eyebrow" style="margin-top:30px">What the group gets</div>
-      <h3>A car that arrives already right.</h3>
-      <p class="kicker">Each stage asks one optional question. By delivery the site knows whether they tow, whether they ski, who else drives it, whether they can charge at home, and when their current registration expires. Accessories are pre-fitted, the handover is built around them, and the first service is already booked.</p>
-      <div class="check pass" style="margin-top:22px"><span class="ic">✓</span>
-        <div><div class="t">One question at a time, all of them optional</div>
-        <div class="d">No finance data is ever requested. Nothing is passed to a third party. A person confirms every fitting and every booking before it happens.</div></div></div>
-    </div>
-    <div class="device"><div id="wait-mount"></div></div>
-  </div>
-</div></section>
-
-<!-- ── §02 LIVE INVENTORY ENGINE ── -->
-
-<!-- gp:start -->
-<section id="pressure" class="gpSec"><div class="wrap">
-  <div class="gpHead rise">
-    <div>
-      <div class="gpK"><i></i>stock pressure · live</div>
-      <h2 class="gpH">Stock arrives whether it <b>sells</b> or not.</h2>
-    </div>
-    <p class="gpSub">Allocation is agreed months out. Interest starts the day it lands. The list is already a brief &mdash; nobody reads it as one.</p>
-  </div>
-
-  <div class="gpNums rise">
-    <div class="gpNum"><div class="gpNumV" data-to="3">0</div><div class="gpNumL">units past 90 days</div></div>
-    <div class="gpNum"><div class="gpNumV" data-to="11">0</div><div class="gpNumL">arriving on allocation</div></div>
-    <div class="gpNum"><div class="gpNumV" data-to="8" data-pre="$" data-suf="k"><span></span>0</div><div class="gpNumL">floorplan, per month</div></div>
-  </div>
-
-  <div class="gpGrid">
-    <div class="gpBoard rise">
-      <div class="gpBHead"><span>on the lot</span><span style="text-align:right">days</span><span style="text-align:right">cost / mo</span></div>
-      <div class="gpRow" data-d="118" data-hot="1"><div class="gpCar"><div class="gpCarN">911 Carrera GTS</div><div class="gpCarM">Porsche</div></div><div class="gpDays">118<u>d</u></div><div class="gpCost">$2,140</div><span class="gpBar"></span></div>
-      <div class="gpRow" data-d="96" data-hot="1"><div class="gpCar"><div class="gpCarN">RS 6 Avant</div><div class="gpCarM">Audi</div></div><div class="gpDays">96<u>d</u></div><div class="gpCost">$1,880</div><span class="gpBar"></span></div>
-      <div class="gpRow" data-d="74"><div class="gpCar"><div class="gpCarN">Taycan 4S</div><div class="gpCarM">Porsche</div></div><div class="gpDays">74<u>d</u></div><div class="gpCost">$1,960</div><span class="gpBar"></span></div>
-      <div class="gpRow" data-d="61"><div class="gpCar"><div class="gpCarN">Macan</div><div class="gpCarM">Porsche</div></div><div class="gpDays">61<u>d</u></div><div class="gpCost">$1,240</div><span class="gpBar"></span></div>
-      <div class="gpRow" data-d="43"><div class="gpCar"><div class="gpCarN">Golf R</div><div class="gpCarM">Volkswagen</div></div><div class="gpDays">43<u>d</u></div><div class="gpCost">$780</div><span class="gpBar"></span></div>
-    </div>
-
-    <div class="gpOut rise">
-      <div class="gpOutK">what the desk does with it</div>
-      <h3 class="gpOutH" id="gpOutH">&nbsp;</h3>
-      <ul class="gpSteps" id="gpSteps">
-        <li class="gpStep"><i>01</i><span>Reads the stock list at 6am, before anyone is in.</span></li>
-        <li class="gpStep"><i>02</i><span>Ranks by days on lot against next month&rsquo;s allocation.</span></li>
-        <li class="gpStep"><i>03</i><span>Checks the marque&rsquo;s CI, then drafts to it.</span></li>
-        <li class="gpStep"><i>04</i><span>Holds it for a person. Nothing goes out unsigned.</span></li>
-      </ul>
-      <p class="gpFoot">Illustrative stock, days and costs &mdash; an independent concept, not Giltrap data. The mechanic is the point: the list you already own, read every morning.</p>
-    </div>
-  </div>
-</div></section>
-<!-- gp:end -->
-
+<!-- ── §04 LIVE INVENTORY ENGINE ── -->
 <section id="engine"><div class="wrap">
-  <div class="num rise">05 — THE ENGINE, LIVE</div>
+  <div class="num rise">04 — THE ENGINE, LIVE</div>
   <div class="narrow rise">
     <div class="eyebrow">Live inventory in · campaigns out</div>
     <h2>The stock list is the best campaign brief you own.</h2>
-    <p class="kicker">Every campaign idea below came from something that changed in inventory this morning. Nothing was invented, and no idea outlives the car it was about — when the vehicle sells, the campaign retires itself.</p>
+    <p class="kicker">Every idea below came from something that changed in inventory this morning. When the vehicle sells, the campaign retires itself.</p>
   </div>
   <div class="eng">
-    <div class="feed rise">
+    <div class="epanel rise">
       <div class="fh" style="color:var(--live)"><span class="live"></span>Inventory, this morning</div>
       <div id="feedRows"></div>
     </div>
-    <div class="feed rise">
+    <div class="epanel rise">
       <div class="fh" style="color:var(--champ)">Campaign ideas, prepared</div>
       <div id="ideaRows"></div>
     </div>
   </div>
-  <p class="kicker rise" style="margin-top:24px">Dealer investment in Google Performance Max rose roughly 47% year-on-year to April 2026, with reported conversions up 119% and cost per lead down over a third — <span style="color:var(--muted-2)">industry reporting, not a Giltrap figure.</span> Those gains go to whoever feeds the platforms the freshest inventory signal. That is a data-plumbing problem before it is a media problem.</p>
+  <p class="kicker rise" style="margin-top:24px">Dealer investment in Google Performance Max rose roughly 47% year-on-year to April 2026 — <span style="color:var(--muted-2)">industry reporting, not a Giltrap figure.</span> Those gains go to whoever feeds the platforms the freshest inventory signal.</p>
 
   <div class="tool rise">
     <div class="th">Try it <span class="livebadge"><span class="d"></span>Live · not a mock-up</span></div>
@@ -993,13 +768,13 @@ body.d6-live #waitmap .wm-grid{display:none}
   </div>
 </div></section>
 
-<!-- ── §02b LIVE GUARD ── -->
+<!-- ── §05 THE GUARD ── -->
 <section id="liveguard"><div class="wrap">
-  <div class="num rise">06 — THE GUARD, RUNNING</div>
+  <div class="num rise">05 — THE GUARD, RUNNING</div>
   <div class="narrow rise">
     <div class="eyebrow">Paste anything · it names the rule</div>
-    <h2>Give it copy you would actually send.</h2>
-    <p class="kicker">The sample below has four real problems in it, of the kind that survive a copy-paste at 4pm. Replace it with your own draft if you would rather test it properly.</p>
+    <h2>A general model will write you a Fair Trading breach and not mention it.</h2>
+    <p class="kicker">Every draft is checked before a person sees it, and every check names the Act it is holding — not a risk score. Under the Fair Trading Act 1986 a company faces penalties of up to <b style="color:var(--paper);font-weight:700">$600,000 per breach</b>. The sample below has four real problems in it, of the kind that survive a copy-paste at 4pm.</p>
   </div>
   <div class="tool rise">
     <div class="th">Try it <span class="livebadge"><span class="d"></span>Live · not a mock-up</span></div>
@@ -1013,7 +788,10 @@ Brand new Kia Sportage from just $189 per week. Guaranteed finance approval for 
 Plus claim your Clean Car Discount rebate of up to $7,015 on selected EVs.
 
 Trade in your old car and we'll give you $12,000 minimum, no questions asked. This weekend only!</textarea>
-        <button class="trun" id="gdBtn" onclick="runGuardLive()">Check it against NZ law <span class="arw">→</span></button>
+        <div style="display:flex;gap:11px;flex-wrap:wrap;align-items:center">
+          <button class="trun" id="gdBtn" onclick="runGuardLive()">Check it against NZ law <span class="arw">→</span></button>
+          <button class="btn ghost" id="gdBtn2" style="margin-top:14px;font-size:13.5px;padding:13px 22px" onclick="runGuardScripted()">Or run it on today's drafts →</button>
+        </div>
         <p class="tnote">Indicative only, and not legal advice. A real deployment loads your own claim register and distributor packs.</p>
       </div>
       <div>
@@ -1026,11 +804,11 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
 
 <!-- ── §03 DP MEETINGS ── -->
 <section id="meetings"><div class="wrap">
-  <div class="num rise">07 — THE DEALER PRINCIPAL MEETING</div>
+  <div class="num rise">06 — THE DEALER PRINCIPAL MEETING</div>
   <div class="narrow rise">
     <div class="eyebrow">Recorded, with consent · turned into work</div>
     <h2>Every DP meeting ends with a promise. This is what keeps it.</h2>
-    <p class="kicker">Twenty-plus principals, each rightly focused on their own marque, each wanting it done now. The failure is never goodwill — it is that a Tuesday conversation becomes a note nobody actions, and by the next meeting you are both starting again.</p>
+    <p class="kicker">The failure is never goodwill — it is that a Tuesday conversation becomes a note nobody actions, and by the next meeting you are both starting again.</p>
   </div>
   <div class="mrec">
     <div class="transcript rise">
@@ -1039,7 +817,7 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
       <button class="btn ghost" style="margin-top:16px;font-size:13px;padding:11px 20px" onclick="playMeeting()" id="mbtn">Play the meeting →</button>
     </div>
     <div class="outbox rise">
-      <div class="oh">What lands before he gets back to his desk</div>
+      <div class="oh">What lands before they are back at their desk</div>
       <div id="outItems"><p class="kicker" style="margin-top:0;font-size:14px">Press play to see what the meeting turns into.</p></div>
     </div>
   </div>
@@ -1057,7 +835,7 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
 - pushing for october launch evening not november, says nov is dead
 - asked about last year's invite approach, said it worked
 - wants to know why kia got more social than him last quarter
-- mentioned his BDM is leaving, handover risk</textarea>
+- mentioned their BDM is leaving, handover risk</textarea>
         <button class="trun" id="mtBtn" onclick="runMeeting()">Turn it into work <span class="arw">→</span></button>
         <p class="tnote">Nothing is stored and nothing is sent. In a deployment this is consent-gated and the follow-up still waits for a person.</p>
       </div>
@@ -1071,7 +849,7 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
 
 <!-- ── §03b LIVE EVENTS ── -->
 <section id="liveevents"><div class="wrap">
-  <div class="num rise">08 — EVENTS, ON DEMAND</div>
+  <div class="num rise">07 — EVENTS, ON DEMAND</div>
   <div class="narrow rise">
     <div class="eyebrow">The part that lives in somebody's head</div>
     <h2>Ask it for an activation. It will give you three and a run sheet.</h2>
@@ -1096,14 +874,38 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
   </div>
 </div></section>
 
-<!-- ── §04 HOW IT GOES IN ── -->
+<!-- ── THE WAIT ── -->
+<section id="wait"><div class="wrap">
+  <div class="num rise">08 — THE WAIT</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Four months of nothing, currently</div>
+    <h2>The longest wait in retail, and nobody is using it.</h2>
+    <p class="lede">Order a car and you wait months of silence — and silence is where cancellations live. It is also the best window you will ever get to learn what this customer actually needs.</p>
+  </div>
+
+  <div class="appwrap rise" style="margin-top:40px">
+    <div class="appcopy">
+      <div class="eyebrow">What the customer gets</div>
+      <h3>A credit, not a countdown.</h3>
+      <p class="kicker">Every stage the car passes through releases a credit toward their ownership — first service, ceramic coating, a towbar, a home charger assessment. Chosen by them, redeemable at the site that sold them the car. It costs less than the discount it replaces, and unlike a discount it brings them back through the door.</p>
+      <div class="eyebrow" style="margin-top:30px">What the group gets</div>
+      <h3>A car that arrives already right.</h3>
+      <p class="kicker">Each stage asks one optional question. By delivery the site knows whether they tow, who else drives it, and whether they can charge at home. Accessories are pre-fitted, the handover is built around them, and the first service is already booked.</p>
+      <div class="check pass" style="margin-top:22px"><span class="ic">✓</span>
+        <div><div class="t">One question at a time, all of them optional</div>
+        <div class="d">No finance data is ever requested. Nothing is passed to a third party. A person confirms every fitting and every booking before it happens.</div></div></div>
+    </div>
+    <div class="device"><div id="wait-mount"></div></div>
+  </div>
+</div></section>
+
+<!-- ── §09 HOW IT GOES IN ── -->
 <section id="install"><div class="wrap">
   <div class="num rise">09 — HOW IT GOES IN</div>
   <div class="narrow rise">
     <div class="eyebrow">The part most vendors skip</div>
     <h2>No migration. No new system for anybody to learn.</h2>
-<p style="font-size:13.5px;line-height:1.65;opacity:.85;max-width:680px;margin:10px 0 0">It sits on top of the group&rsquo;s existing <b>Microsoft Dynamics 365 CE</b> &mdash; read-only, beside it, never instead of it. Nothing migrates, and IT keeps every key.</p>
-    <p class="kicker">The reason group marketing tools fail is not capability, it is installation. This one is deliberately designed to be switched on beside what you already run, and to be switched off again without leaving a hole.</p>
+    <p class="kicker">It sits over the DMS and the systems around it — read-only, beside them, never instead of them. Nothing migrates, IT keeps every key, and it can be switched off again without leaving a hole.</p>
   </div>
   <div class="impl">
     <div class="istep rise"><div class="ino">01</div><h4>A scheduled export</h4>
@@ -1119,24 +921,9 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
   <p class="kicker rise" style="margin-top:26px">Everything else — the creative queue, the meeting notes, the events calendar, the campaign ideas — needs nothing from IT at all. If it is not earning its place in six weeks, the export stops and nothing else changes.</p>
 </div></section>
 
-<!-- ── §05 GUARD ── -->
-<section id="guard"><div class="wrap">
-  <div class="num rise">10 — COMPLIANCE, IN PRINCIPLE</div>
-  <div class="grid2">
-    <div class="rise">
-      <div class="eyebrow">Before a person ever sees it</div>
-      <h2>A general model will write you a Fair Trading breach and not mention it.</h2>
-      <p class="kicker">A system drafting across twenty-four marques, on live inventory, into paid media, is exactly where a compliance problem enters unnoticed. Every draft is checked, and each check names the rule it holds.</p>
-      <p class="kicker">Under the Fair Trading Act 1986 a company faces penalties of up to <b style="color:var(--paper);font-weight:700">$600,000 per breach</b>, and an individual up to $200,000. <span style="color:var(--muted-2)">(Motor Trade Association, dealer legal guidance.)</span></p>
-      <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the guard on today's drafts →</button>
-    </div>
-    <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to check today's drafts against the rules that actually bite in New Zealand motor retail.</p></div></div>
-  </div>
-</div></section>
-
-<!-- ── §06 BOARD ── -->
+<!-- ── §10 BOARD ── -->
 <section id="board"><div class="wrap">
-  <div class="num rise">11 — THIS MORNING</div>
+  <div class="num rise">10 — THIS MORNING</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing on this board has been sent</div>
     <h2>The screen the group does not currently have.</h2>
@@ -1156,146 +943,9 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
   </div>
 </div></section>
 
-<!-- ── §07 PILOT ── -->
-<section id="waitmap" class="wm-band"><div class="wrap">
-  <div class="wm-kick">Every waiting moment</div>
-  <h2 class="wm-h">Every wait inside a group marketing operation</h2>
-<p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin:6px 0 0">simulated journey &middot; illustrative data &middot; independent concept</p>
-  <p class="wm-lede">Six waits inside the group’s own marketing operation. Not a car buyer’s waits — the ones Giltrap’s own people sit through.</p>
-
-  <div class="wm-grid">
-    <div class="wm-card">
-      <div class="wm-top"><span class="wm-n">01</span><div><b>The stock wait</b><i>Stock moved, marketing last to know</i></div></div>
-      <div class="wm-scr">
-        <div class="wm-scr-top"><span>9:41</span><span class="wm-dot"></span></div>
-        <div class="wm-scr-t">Today, from your own stock list</div>
-        <div class="wm-line">Six ideas. Each one names the actual car.</div><div class="wm-line">When it sells, the idea retires itself.</div>
-        <div class="wm-chip">from this morning</div>
-      </div>
-      <div class="wm-feels">the wait feels like a fortnight where the car sits and nobody writes a word</div>
-      <p class="wm-del">The day opens with campaign ideas tied to real vehicles, instead of a calendar somebody wrote in March.</p>
-      <div class="wm-fund"><i>who funds it</i>Giltrap itself. A prestige car discounted because nobody wrote about it in time costs the group far more than the writing would have.</div>
-    </div>
-    <div class="wm-card">
-      <div class="wm-top"><span class="wm-n">02</span><div><b>After a principal asks</b><i>Asked Tuesday, nothing back yet</i></div></div>
-      <div class="wm-scr">
-        <div class="wm-scr-top"><span>9:41</span><span class="wm-dot"></span></div>
-        <div class="wm-scr-t">Your Tuesday ask, already a brief</div>
-        <div class="wm-line">Marque rules, deadline and the CI notes in it.</div><div class="wm-line">Three assets in the library can be adapted.</div><div class="wm-line">Third in a queue that clears Thursday.</div>
-        <div class="wm-chip">you can see it</div>
-      </div>
-      <div class="wm-feels">the wait feels like ringing someone to find out where your own job sits</div>
-      <p class="wm-del">A dealer principal can see where his job actually sits without ringing anyone, and the brief reaches the team with the detail already in it.</p>
-      <div class="wm-fund"><i>who funds it</i>Giltrap itself. No sponsor belongs anywhere near this one — it is the group paying once for a brief instead of three times for chasing it.</div>
-    </div>
-    <div class="wm-card">
-      <div class="wm-top"><span class="wm-n">03</span><div><b>The rulebook wait</b><i>Draft done, pack unclear</i></div></div>
-      <div class="wm-scr">
-        <div class="wm-scr-top"><span>9:41</span><span class="wm-dot"></span></div>
-        <div class="wm-scr-t">Held, and here is the clause</div>
-        <div class="wm-line">Nine marques pass. Two are held.</div><div class="wm-line">Each names the rule, not a risk score.</div>
-        <div class="wm-chip">rule named</div>
-      </div>
-      <div class="wm-feels">the wait feels like nobody being certain which distributor pack is the current one</div>
-      <p class="wm-del">A held draft comes back with the clause attached, so the fix takes a minute instead of an email chain and a guess.</p>
-      <div class="wm-fund"><i>who funds it</i>Giltrap itself. The Fair Trading Act carries penalties of up to $600,000 per breach (Motor Trade Association dealer guidance) — naming the rule before a draft leaves is the cheap version of that.</div>
-    </div>
-    <div class="wm-card">
-      <div class="wm-top"><span class="wm-n">04</span><div><b>Spend running blind</b><i>Live since Monday, reported at month-end</i></div></div>
-      <div class="wm-scr">
-        <div class="wm-scr-top"><span>9:41</span><span class="wm-dot"></span></div>
-        <div class="wm-scr-t">A variant sold out on Friday</div>
-        <div class="wm-line">Spend is still running behind it.</div><div class="wm-line">Here is what that costs, and the source.</div>
-        <div class="wm-chip">never spends</div>
-      </div>
-      <div class="wm-feels">the wait feels like learning at month-end what Tuesday already knew</div>
-      <p class="wm-del">The person who runs media hears it on Monday, in their own platform, while the move is still worth making.</p>
-      <div class="wm-fund"><i>who funds it</i>Distributor co-op marketing funds already set aside for that marque’s retail activity can carry this, because the reconciliation is exactly what a co-op claim needs. A person still files it, and no marque is named as a sponsor here.</div>
-    </div>
-    <div class="wm-card">
-      <div class="wm-top"><span class="wm-n">05</span><div><b>After the room empties</b><i>Event over, follow-up unsent</i></div></div>
-      <div class="wm-scr">
-        <div class="wm-scr-top"><span>9:41</span><span class="wm-dot"></span></div>
-        <div class="wm-scr-t">The follow-up was written first</div>
-        <div class="wm-line">Who came, who did not, who is not a customer.</div><div class="wm-line">Drafted before the doors opened. Still unsent.</div>
-        <div class="wm-chip">waiting on you</div>
-      </div>
-      <div class="wm-feels">the wait feels like a good night going cold before anyone follows it up</div>
-      <p class="wm-del">The follow-up exists before the event does, so the week after an event stops being the week it goes quiet.</p>
-      <div class="wm-fund"><i>who funds it</i>Mostly Giltrap itself — the run sheet and the follow-up are the group’s own work. Where a distributor already co-funds that activation, its co-op budget reasonably covers this part too.</div>
-    </div>
-    <div class="wm-card">
-      <div class="wm-top"><span class="wm-n">06</span><div><b>Before the group meeting</b><i>Quarter done, opinions differ</i></div></div>
-      <div class="wm-scr">
-        <div class="wm-scr-top"><span>9:41</span><span class="wm-dot"></span></div>
-        <div class="wm-scr-t">Where the attention went</div>
-        <div class="wm-line">Eleven pieces here, two there, reasons attached.</div><div class="wm-line">Both principals read the same screen.</div>
-        <div class="wm-chip">not a ranking</div>
-      </div>
-      <div class="wm-feels">the wait feels like arguing about attention with nobody holding the record</div>
-      <p class="wm-del">The uncomfortable difference is on the table with its reasons, before it arrives at a group meeting as a grievance.</p>
-      <div class="wm-fund"><i>who funds it</i>Giltrap itself. A fairness record should never be sponsored and this one is not. It costs less than the relationship it protects.</div>
-    </div>
-  </div>
-
-  <div class="wm-how">
-    <div>
-      <div class="wm-kick">How the moment works</div>
-      <h3>Four steps, every time.</h3>
-      <ol class="wm-steps">
-        <li><b>The signal</b><span>Something you already record says a person is now waiting, and roughly how long for.</span></li>
-        <li><b>The prediction</b><span>How long this one will really take &mdash; not the average, this one.</span></li>
-        <li><b>The value</b><span>Something worth their attention goes into that window: an answer, a credit, a thing prepared while they wait.</span></li>
-        <li><b>The exchange</b><span>They get value. You get someone who stayed, and one optional answer you have always wanted.</span></li>
-      </ol>
-    </div>
-    <div>
-      <div class="wm-sc">
-        <div class="wm-sc-k">the value exchange, playable</div>
-        <div class="wm-stage">
-          <div class="wm-win" id="wmWin">
-            <div class="wm-win-k">you earned</div>
-            <div class="wm-win-v" id="wmWinV">&mdash;</div>
-            <div class="wm-win-s">for a fortnight where the car sits and nobody writes a word, which you were going to lose anyway</div>
-          </div>
-          <canvas class="wm-coat" id="wmCoat"></canvas>
-        </div>
-        <p class="wm-note">This is the reward layer, running for real on this page. Drag to scratch it. Nothing is collected and nothing is sent &mdash; it is here so the idea is something you do, not something you read.</p>
-        <button class="wm-again" id="wmAgain" type="button">scratch another</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="wm-ev">
-    <b>This is not a new idea &mdash; it is an unbuilt one.</b>
-    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
-    <p><i>Every figure here carries its source, and overseas figures are shown as overseas figures. We have not found a published New Zealand equivalent and we will not invent one.</i></p>
-  </div>
-</div></section>
-<section id="place"><div class="plWrap">
-  <p class="plKick">The showroom, and the wait inside it</p>
-  <h2>Four plinths, one glass frontage, and a delivery bay that decides the week.</h2>
-  <p class="plLede">A showroom authored as real architecture. The delivery bay is lit, because the wait this concept is about happens there: between a car arriving on site and a customer being told it has. Drag it around.</p>
-  <div class="plGrid">
-    <div class="plStage" id="plStage">
-      <canvas class="plCanvas" id="plCanvas"></canvas>
-      <span class="plHint" id="plHint">drag to turn it</span>
-    </div>
-    <div>
-      <div class="plCard">
-        <div class="plCardK">the part that matters</div>
-        <b>The delivery bay</b>
-        <p>Seven by five and a half metres, behind the service wall. Stock lands here and the marketing operation finds out later. The concept flips that order, and the campaign starts from what is physically on the floor.</p>
-      </div>
-      <p class="plMeta"><b>Where this geometry came from.</b> 5 walls and the floor plates were
-      authored in the Pascal Editor&rsquo;s own schemas and measured in metres, not sketched. Pascal is
-      MIT-licensed and open source. The same pipeline reads a real IFC file exported from Revit or
-      ArchiCAD, which is what makes this a working method rather than an illustration.</p>
-    </div>
-  </div>
-</div></section>
+<!-- ── §11 PILOT ── -->
 <section id="pilot"><div class="wrap">
-  <div class="num rise">12 — WHAT WE ARE ACTUALLY ASKING</div>
+  <div class="num rise">11 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
@@ -1305,10 +955,10 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
     </div></div>
     <div class="rise"><div class="glass pilot">
       <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
-      <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>Two marques and one dealer principal, for six weeks. Live-inventory campaign ideas, the CI guard, and the meeting loop. Not media buying, not the whole group.</p></div></div>
-      <div class="step"><span class="n">2</span><div><h4>Access</h4><p>One scheduled stock export, your group brand guidelines and two distributor CI packs, and read-only Meta and GA4. No DMS write access. No customer data. No spend authority.</p></div></div>
-      <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Drafts accepted without rewrite. Campaign ideas a DP actually ran. Compliance flags a person agreed with. Time from a DP asking to the work landing. And the one that matters: would that dealer principal be annoyed if you switched it off?</p></div></div>
-      <p class="kicker" style="margin-top:20px;color:var(--champ)">Fail any line of the scorecard and we change the design or stop.</p>
+      <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>Two marques, one dealer principal, six weeks. Not media buying, not the whole group.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h4>Access</h4><p>One stock export, two distributor CI packs, and read-only Meta and GA4. Nothing that writes.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Drafts accepted without rewrite, ideas a DP actually ran, and whether that principal would be annoyed if you switched it off.</p></div></div>
+      <p class="kicker" style="margin-top:20px;color:var(--champ)">Fail any line of the scorecard and we change the design or stop. The full version is written out below.</p>
     </div></div>
   </div>
 
@@ -1403,8 +1053,6 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
 </div></footer>
 
 
-
-
 <script src="three.min.js"></script>
 <script src="wait-phone.js"></script>
 <script>
@@ -1423,105 +1071,97 @@ document.getElementById('mq').innerHTML=(function(){var r=MARQUES.map(function(m
 var CAPS=[
 {k:'inventory',i:'01',n:'Live-inventory campaigns',s:'Ideas from what is actually on the ground',
  h:'Campaigns that cannot outlive the car',
- lead:'The stock list changes every day and almost none of that change reaches marketing in time to matter. This watches it continuously and produces campaign ideas tied to specific vehicles — then retires them automatically the moment the car sells, so nothing runs on stock you no longer have.',
+ lead:'The stock list changes every day and almost none of it reaches marketing in time to matter. This watches it continuously, ties every idea to a specific vehicle, and retires the idea the moment the car sells.',
  does:['Watches arrivals, ageing stock, allocation confirmations and demo conversions across every rooftop',
    'Produces a campaign idea per real event, with the vehicle, the marque register and the channel already chosen',
    'Retires an idea the instant the vehicle is sold or committed — no orphaned creative, no embarrassing live ad',
-   'Ranks the day\'s ideas by what is genuinely urgent: ageing stock first, allocation news second, evergreen last',
    'Feeds vehicle-level detail to the platforms so dynamic ads carry real spec, not a generic model page'],
  never:['Never prices a vehicle or invents availability','Never publishes an ad or changes a live campaign',
-   'Never states a figure that is not in the source export','Never runs an idea past the life of the car'],
+   'Never states a figure that is not in the source export'],
  ex:'A Cayenne has been on the floor 74 days. Nobody has written anything about it since it landed. This morning the system noticed, checked what comparable stock did, and drafted a used-car narrative that leads on specification and service history rather than discount — because dropping the price on a prestige car is the most expensive way to sell it.',
  conn:['DMS stock export','Distributor allocation','Demo register','Used-car listings']},
 
 {k:'brand',i:'02',n:'Brand &amp; CI, per marque',s:'Group rules and every distributor pack',
  h:'One coordinator, twenty-four rulebooks',
- lead:'Your own position description asks one person to hold group brand guidelines and adhere to manufacturer brand guidelines as required. That is not one job — it is twenty-four rulebooks that contradict each other and change without warning. The system holds them as versioned rules and checks every draft against the right one.',
+ lead:'Twenty-four rulebooks that contradict each other and change without warning, currently held by one person. The system holds them as versioned rules and checks every draft against the right one.',
  does:['Reads your group guidelines and each distributor CI pack as rules, not as PDFs somebody remembers',
    'Versions them, so the pack in use is always the current one and you can see when it changed',
    'Checks every draft against the correct marque before a human reads it — register, claims, logo usage, mandatory wording',
-   'Keeps prestige and volume voices genuinely separate rather than swapping a name in a template',
    'Flags where a group campaign cannot run for a marque, and says which rule stops it'],
  never:['Never edits your brand assets or guidelines','Never submits anything to a distributor portal',
-   'Never invents a CI rule it has not been given','Never overrides a marque rule with a group one'],
+   'Never invents a CI rule it has not been given'],
  ex:'A group summer campaign is drafted for eleven marques. Nine pass. One fails because the offer construction is not permitted in that distributor\'s current pack, and one fails because the pack changed eleven days ago and the old logo lockup is still in the folder. Both come back with the specific clause attached, not a generic warning.',
  conn:['Group brand guidelines','Distributor CI packs','Asset library','Version history']},
 
 {k:'creative',i:'03',n:'The creative queue',s:'Briefs, versions, approvals, who is waiting',
  h:'The team stops being a bottleneck it never asked to be',
- lead:'The creative team is usually the last to hear and the first to be blamed. Every request arrives as a message with half the information, and nobody outside the team can see the queue. This gives the work a shape before it reaches them.',
+ lead:'Every request reaches the creative team as a message with half the information, and nobody outside the team can see the queue. This gives the work a shape before it arrives.',
  does:['Turns a request into a proper brief — marque, audience, channel, CI constraints, deadline, and what already exists',
    'Checks the asset library first and says plainly when something can be adapted instead of made',
    'Shows the queue to everyone, so a DP can see where their job actually sits without ringing anyone',
-   'Tracks versions and approvals so the file that goes live is the one that was signed off',
    'Warns when the week is overcommitted, before the promises are made rather than after'],
- never:['Never approves creative','Never publishes a file','Never reassigns anybody\'s work',
+ never:['Never approves creative','Never publishes a file',
    'Never replaces a designer — it removes the admin around them'],
  ex:'A dealer principal asks for launch assets on Tuesday. Instead of a message with no detail, the team receives a brief that already names the marque\'s CI constraints, points at three assets in the library that can be adapted, and shows the request sitting third in a queue that clears Thursday. The DP can see the same screen.',
  conn:['Asset library','Brief templates','Approval log','Team capacity']},
 
 {k:'media',i:'04',n:'Meta &amp; GA4, pre-emptive',s:'Watches, warns and recommends — never spends',
  h:'It tells you on Tuesday, not in the month-end report',
- lead:'Media reporting arrives too late to change anything. This watches performance continuously against inventory and surfaces the move while it is still worth making — as a recommendation, for the person who actually runs media.',
+ lead:'Media reporting arrives too late to change anything. This watches performance against live inventory and surfaces the move while it is still worth making — for the person who actually runs media.',
  does:['Watches campaign performance against live inventory, so spend behind a sold-out model is caught in hours',
    'Flags creative fatigue by marque before the cost per lead climbs, rather than explaining it afterwards',
    'Recommends where budget would work harder, with the reasoning and the numbers attached',
-   'Notices when a landing page is out of step with the campaign that is feeding it',
    'Reconciles what ran against what the co-op claim will need, so the claim is not rebuilt from memory'],
  never:['Never spends, buys, pauses or changes a live campaign','Never claims co-op funds',
-   'Never touches a payment method','Never reports a figure it cannot show the source for'],
+   'Never reports a figure it cannot show the source for'],
  ex:'Spend is still running behind a variant that sold out on Friday. The system catches it Monday morning, quantifies what it is costing, and puts a recommendation in front of the person who runs media — who makes the call, in their own platform, in about a minute.',
  conn:['Meta (read-only)','GA4 (read-only)','Live inventory','Co-op reconciliation']},
 
 {k:'meetings',i:'05',n:'Dealer principal meetings',s:'Recorded with consent, turned into work',
  h:'The promise you made on Tuesday, kept by Thursday',
- lead:'Twenty-plus principals, each deeply invested in their own marque, each wanting things done quickly. The failure is never goodwill — it is that a good conversation becomes a note nobody actions. This records the meeting with everyone\'s consent and turns it into work before the DP is back at their desk.',
+ lead:'A good conversation becomes a note nobody actions. This records the meeting with everyone\'s consent and turns it into work before the DP is back at their desk.',
  does:['Records and transcribes only with consent, and any participant can stop it at any point',
    'Separates decisions from actions from ideas, and gives every action an owner and a date',
    'Drafts the follow-up while the meeting is still fresh, for the marketing lead to send',
-   'Comes to the next meeting with what was promised, what landed, and what did not — visible to both sides',
-   'Brings two or three proactive ideas grounded in that marque\'s actual numbers since you last met'],
+   'Comes to the next meeting with what was promised, what landed, and what did not — visible to both sides'],
  never:['Never records without consent','Never shares one DP\'s commercial detail with another',
-   'Never sends the follow-up itself','Never keeps a recording longer than the retention you set'],
- ex:'A principal asks for three things in a monthly review. By the time he is back at his desk the follow-up is drafted with owners and dates, one request is flagged as blocked by his distributor\'s current CI pack with the clause attached, and the creative brief for the other two is already in the queue where he can see it.',
+   'Never sends the follow-up itself'],
+ ex:'A principal asks for three things in a monthly review. By the time they are back at their desk the follow-up is drafted with owners and dates, one request is flagged as blocked by their distributor\'s current CI pack with the clause attached, and the creative brief for the other two is already in the queue where they can see it.',
  conn:['Meeting recorder','Actions register','Creative queue','Marque performance']},
 
 {k:'events',i:'06',n:'Events &amp; activations',s:'Ideas, logistics, and what actually worked',
  h:'The part of the job that lives in somebody\'s head',
- lead:'Launches, customer evenings, exhibitions, drive days. Your position description makes one person responsible for all of it across the group. Most of what makes an event work is undocumented experience — this writes it down and keeps proposing.',
+ lead:'Most of what makes an event work is undocumented experience. This writes it down and keeps proposing.',
  does:['Proposes activations grounded in the marque, the season, the stock on hand and what the group has run before',
-   'Builds the run sheet, the supplier list, the invitation waves and the follow-up sequence as a reusable pattern',
+   'Builds the run sheet, the invitation waves and the follow-up sequence as a reusable pattern',
    'Watches for clashes across the group — two marques, one weekend, the same customer list',
-   'Keeps a memory of what worked, so the tenth event starts from the ninth rather than from nothing',
    'Prepares the post-event follow-up before the event, because that is the bit that always slips'],
- never:['Never books a venue, supplier or spend','Never sends an invitation',
-   'Never contacts a customer directly','Never commits the group to a date'],
+ never:['Never books a venue, supplier or spend','Never contacts a customer directly',
+   'Never commits the group to a date'],
  ex:'Two marques have events proposed on the same October weekend, drawing from overlapping owner lists. The system flags it in September with two alternative dates that avoid a distributor\'s own national activity, and a note that last year the same clash halved attendance at both.',
  conn:['Events calendar','Owner registers','Group activity','Supplier history']},
 
 {k:'culture',i:'07',n:'Group culture &amp; fairness',s:'Where the attention has actually gone',
  h:'Being fair is easy. Being seen to be fair is the hard part',
- lead:'Every DP believes their marque deserves more attention, and some of them are right. Without a shared record it is a matter of opinion, and opinion is what makes these relationships difficult. This keeps the record.',
+ lead:'Every DP believes their marque deserves more attention, and some of them are right. Without a shared record it is a matter of opinion. This keeps the record.',
  does:['Shows where creative time, campaign output and spend actually went, by marque and by site',
-   'Surfaces the marque that has quietly had least attention this quarter, before its principal raises it',
+   'Surfaces the marque that has had least attention this quarter, before its principal raises it',
    'Tracks response time to each DP\'s requests, because how fast you come back is most of the relationship',
-   'Records what was promised and what was delivered, so nobody has to rely on memory',
    'Shares the group picture with the principals rather than keeping it at head office'],
  never:['Never ranks or scores people','Never shares one site\'s commercial performance with another',
-   'Never writes a performance assessment','Never used as a management stick — it is a fairness record'],
+   'Never used as a management stick — it is a fairness record'],
  ex:'One marque has had eleven pieces of creative this quarter and another has had two, for reasons that are entirely defensible. The difference is surfaced with the reasons attached, in front of both principals, before it becomes a grievance at a group meeting.',
  conn:['Creative queue','Campaign output','Request response times','Actions register']},
 
 {k:'group',i:'08',n:'One morning screen',s:'The whole group, before nine',
  h:'The picture nobody currently owns',
- lead:'Your position description asks for collaboration, planning and performance reporting for all retail sites. That is the line with no owner right now. This is what it looks like when one thing holds it.',
+ lead:'Planning and performance reporting for all retail sites is the line with no owner right now. This is what it looks like when one thing holds it.',
  does:['One screen: today\'s drafts, what is waiting on a person, what is held and why',
    'Per site, per marque, and across the group, with the same numbers everybody else is looking at',
    'A plain-English morning brief that names the three things worth doing first',
-   'Every item links to the work itself, not to a dashboard about the work',
    'Nothing on it has been sent — the screen is a queue of decisions, not a report of activity'],
  never:['Never acts on anything on the screen by itself','Never hides an item to make the board look better',
-   'Never reports a number without the source','Never replaces the conversation it is meant to start'],
+   'Never reports a number without the source'],
  ex:'At 8:40 the group marketing lead opens one screen. Six drafts await approval, two are held on compliance with the clause shown, one DP request is at risk of missing its date, and the morning brief names the three that matter. Nothing has gone out.',
  conn:['Everything above','Audit log','Actions register','Mana Receipts']}
 ];
@@ -1568,7 +1208,7 @@ var IDEAS=[
 ];
 (function(){
   var f=document.getElementById('feedRows'),i2=document.getElementById('ideaRows');
-  f.innerHTML=FEED.map(function(r,i){return '<div class="frow" id="fr'+i+'"><div class="ft">'+r.t+'</div><div class="fv">'+r.v+'</div><div class="fs">'+r.s+'</div></div>'}).join('');
+  f.innerHTML=FEED.map(function(r,i){return '<div class="erow" id="fr'+i+'"><div class="ft">'+r.t+'</div><div class="fv">'+r.v+'</div><div class="fs">'+r.s+'</div></div>'}).join('');
   i2.innerHTML=IDEAS.map(function(r,i){return '<div class="idea" id="id'+i+'"><div class="im">'+r.m+'</div><div class="iv">'+r.v+'</div><div class="is">'+r.s+'</div><div class="ib">'+r.b+'</div></div>'}).join('');
   var red=matchMedia('(prefers-reduced-motion:reduce)').matches;
   var io=new IntersectionObserver(function(es){es.forEach(function(e){ if(!e.isIntersecting)return; io.disconnect();
@@ -1619,8 +1259,8 @@ var GUARD=[
   {ok:true,t:'Used listing carries its notice',d:'Every used-vehicle listing the system touches has a Consumer Information Notice drafted alongside it.',law:'CIS (Used Motor Vehicles) Regulations 2008'},
   {ok:true,t:'No customer data left the group',d:'Owner registers are read to select an audience and never exported, shared between marques, or sent to a platform.',law:'Privacy Act 2020'}
 ];
-function runGuard(){
-  var out=document.getElementById('guardOut'),btn=document.getElementById('guardBtn');
+function runGuardScripted(){
+  var out=document.getElementById('gdOut'),btn=document.getElementById('gdBtn2');
   var b=GUARD.filter(function(g){return !g.ok}).length;
   btn.disabled=true;btn.style.opacity='.5';btn.textContent='Checked — '+b+' blocked, '+(GUARD.length-b)+' passed';
   out.innerHTML='';
@@ -1631,7 +1271,7 @@ function runGuard(){
     out.appendChild(d)},red?0:i*400)});
   setTimeout(function(){var p=document.createElement('p');p.className='kicker';p.style.marginTop='20px';
     p.innerHTML='All three blocks came from assets a person had already approved once. None would have been obvious at 4pm on a Thursday.';
-    out.appendChild(p)},red?0:GUARD.length*400);
+    out.appendChild(p);btn.disabled=false;btn.style.opacity='';btn.innerHTML='Or run it on today\'s drafts →'},red?0:GUARD.length*400);
 }
 
 /* ── board ── */
@@ -2572,14 +2212,6 @@ function grounded(q){
 /* gp:end */
 
 
-
-
-
-
-
-
-
-
 /* vr:start — the vision read, scan-panel treatment */
 .vrSec{padding:44px 22px 40px;position:relative}
 .vrIn{max-width:1080px;margin:0 auto}
@@ -2700,22 +2332,6 @@ function grounded(q){
 /* vr:end */
 
 
-
-
-/* mz:start — the assembling mosaic band */
-.mzBand{padding:36px 22px 26px;position:relative}
-.mzIn{max-width:1080px;margin:0 auto}
-.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
-.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
-  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
-.mzT.mzLit{opacity:1;filter:none;transform:none}
-.mzT.mzPulse{animation:mzP .9s ease}
-@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
-.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
-.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
-@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
-/* mz:end */
 </style>
 <script>
 (function(){
@@ -2729,59 +2345,6 @@ function grounded(q){
 </script>
 
 <script>
-/* The value exchange, playable, plus the yes. Injected by patch-handbuilt.mjs. */
-(function(){
-  var cv=document.getElementById('wmCoat'); if(!cv) return;
-  var win=document.getElementById('wmWin'), val=document.getElementById('wmWinV'), again=document.getElementById('wmAgain');
-  var REWARDS=['+3 min','2 credits','a straight answer','one less call','+5 min','the thing prepared'];
-  var ctx=cv.getContext('2d'), W=0,H=0,dpr=1, revealed=false, drawing=false;
-  function fit(){
-    var r=cv.getBoundingClientRect(); dpr=Math.min(2,window.devicePixelRatio||1);
-    W=r.width; H=r.height; cv.width=Math.max(1,W*dpr); cv.height=Math.max(1,H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0); coat();
-  }
-  function coat(){
-    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,W,H);
-    var g=ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#C9B48C'); g.addColorStop(.5,'#EBDDBE'); g.addColorStop(1,'#B39A6E');
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(58,56,50,.07)';
-    for(var x=-14;x<W;x+=26) ctx.fillRect(x,0,13,H);
-    ctx.fillStyle='#3A3832'; ctx.textAlign='center';
-    ctx.font='700 13px system-ui,sans-serif'; ctx.fillText('SCRATCH TO REVEAL',W/2,H/2-3);
-    ctx.font='300 12px system-ui,sans-serif'; ctx.fillText('drag across the panel',W/2,H/2+17);
-    ctx.globalCompositeOperation='destination-out';
-  }
-  function at(e){var r=cv.getBoundingClientRect();var t=e.touches&&e.touches[0]?e.touches[0]:e;return [t.clientX-r.left,t.clientY-r.top]}
-  function rub(e){
-    if(!drawing||revealed) return;
-    var p=at(e); ctx.beginPath(); ctx.arc(p[0],p[1],23,0,Math.PI*2); ctx.fill(); check();
-    if(e.cancelable) e.preventDefault();
-  }
-  function check(){
-    var d=ctx.getImageData(0,0,cv.width,cv.height).data, clear=0, total=0;
-    for(var i=3;i<d.length;i+=4*64){total++; if(d[i]<40) clear++}
-    if(total&&clear/total>0.46) reveal();
-  }
-  function reveal(){
-    revealed=true; cv.style.transition='opacity .5s ease'; cv.style.opacity='0'; cv.style.pointerEvents='none';
-    win.style.animation='wmPop .5s cubic-bezier(.22,.61,.36,1) both';
-  }
-  function reset(){
-    revealed=false; drawing=false;
-    val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
-    cv.style.transition='none'; cv.style.opacity='1'; cv.style.pointerEvents='auto';
-    win.style.animation='none'; coat();
-  }
-  cv.addEventListener('pointerdown',function(e){drawing=true;rub(e)});
-  window.addEventListener('pointerup',function(){drawing=false});
-  cv.addEventListener('pointermove',rub,{passive:false});
-  if(again) again.addEventListener('click',reset);
-  window.addEventListener('resize',function(){if(!revealed) fit()});
-  val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
-  fit();
-})();
-
 function wmBody(){
   var n=(document.getElementById('wmAdjust').value||'').trim();
   return 'Yes \u2014 run the Giltrap pilot.\n\n'+
@@ -2816,264 +2379,6 @@ function wmCopy(){
 }
 </script>
 
-
-<!-- ═══ THE WAIT DECK + THE SCRATCH · injected by patch-deck-scratch.mjs ═══ -->
-
-
-<script>
-/* ═══ THE WAIT DECK + THE BRAND SCRATCH ═══════════════════════════════════
-   Injected by _generator/patch-deck-scratch.mjs — the same two modules the
-   generated fleet gets from build.mjs, namespaced d6* for these hand-built
-   pages. Kate, 30 July 2026. */
-(function(){
-  var WAITS=[{"key":"stock","name":"The stock wait","when":"Stock moved, marketing last to know","feels":"a fortnight where the car sits and nobody writes a word","screen":{"title":"Today, from your own stock list","lines":["Six ideas. Each one names the actual car.","When it sells, the idea retires itself."],"chip":"from this morning"},"delivered":"The day opens with campaign ideas tied to real vehicles, instead of a calendar somebody wrote in March.","funder":"Giltrap itself. A prestige car discounted because nobody wrote about it in time costs the group far more than the writing would have."},{"key":"ask","name":"After a principal asks","when":"Asked Tuesday, nothing back yet","feels":"ringing someone to find out where your own job sits","screen":{"title":"Your Tuesday ask, already a brief","lines":["Marque rules, deadline and the CI notes in it.","Three assets in the library can be adapted.","Third in a queue that clears Thursday."],"chip":"you can see it"},"delivered":"A dealer principal can see where his job actually sits without ringing anyone, and the brief reaches the team with the detail already in it.","funder":"Giltrap itself. No sponsor belongs anywhere near this one — it is the group paying once for a brief instead of three times for chasing it."},{"key":"rulebook","name":"The rulebook wait","when":"Draft done, pack unclear","feels":"nobody being certain which distributor pack is the current one","screen":{"title":"Held, and here is the clause","lines":["Nine marques pass. Two are held.","Each names the rule, not a risk score."],"chip":"rule named"},"delivered":"A held draft comes back with the clause attached, so the fix takes a minute instead of an email chain and a guess.","funder":"Giltrap itself. The Fair Trading Act carries penalties of up to $600,000 per breach (Motor Trade Association dealer guidance) — naming the rule before a draft leaves is the cheap version of that."},{"key":"market","name":"Spend running blind","when":"Live since Monday, reported at month-end","feels":"learning at month-end what Tuesday already knew","screen":{"title":"A variant sold out on Friday","lines":["Spend is still running behind it.","Here is what that costs, and the source."],"chip":"never spends"},"delivered":"The person who runs media hears it on Monday, in their own platform, while the move is still worth making.","funder":"Distributor co-op marketing funds already set aside for that marque’s retail activity can carry this, because the reconciliation is exactly what a co-op claim needs. A person still files it, and no marque is named as a sponsor here."},{"key":"event","name":"After the room empties","when":"Event over, follow-up unsent","feels":"a good night going cold before anyone follows it up","screen":{"title":"The follow-up was written first","lines":["Who came, who did not, who is not a customer.","Drafted before the doors opened. Still unsent."],"chip":"waiting on you"},"delivered":"The follow-up exists before the event does, so the week after an event stops being the week it goes quiet.","funder":"Mostly Giltrap itself — the run sheet and the follow-up are the group’s own work. Where a distributor already co-funds that activation, its co-op budget reasonably covers this part too."},{"key":"review","name":"Before the group meeting","when":"Quarter done, opinions differ","feels":"arguing about attention with nobody holding the record","screen":{"title":"Where the attention went","lines":["Eleven pieces here, two there, reasons attached.","Both principals read the same screen."],"chip":"not a ranking"},"delivered":"The uncomfortable difference is on the table with its reasons, before it arrives at a group meeting as a grievance.","funder":"Giltrap itself. A fairness record should never be sponsored and this one is not. It costs less than the relationship it protects."}];
-  var FOIL=["#292929","#a0a0a0","#343434"], FOILINK="#FFFFFF";
-  var REWARDS=["+4 min","the brief, drafted","a straight answer","one less meeting","+7 min","the stock list, ready"];
-  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
-
-  /* ── the deck ─────────────────────────────────────────────────────────── */
-  if(WAITS && WAITS.length){
-    var body=document.getElementById('d6body'), cap=document.getElementById('d6cap'),
-        dots=document.getElementById('d6dots'), screen=document.getElementById('d6screen'),
-        phone=document.getElementById('d6phone'), hint=document.getElementById('d6hint'),
-        prev=document.getElementById('d6prev'), next=document.getElementById('d6next'),
-        rail=[].slice.call(document.querySelectorAll('#deck6 .d6r'));
-    if(body && screen){
-      /* only hide the flat fallback band once the deck is genuinely running */
-      document.body.classList.add('d6-live');
-      var i=0, touched=false;
-      dots.innerHTML=WAITS.map(function(m,n){
-        return '<button class="d6dot'+(n?'':' on')+'" type="button" data-i="'+n+'" aria-label="Wait '+(n+1)+'"></button>';
-      }).join('');
-
-      function render(){
-        var m=WAITS[i];
-        body.innerHTML='<div class="d6when">'+esc(m.when)+'</div>'+
-          '<div class="d6title">'+esc(m.screen.title)+'</div>'+
-          '<div>'+m.screen.lines.map(function(l,n){
-            return '<div class="d6line" style="animation-delay:'+(0.06+n*0.09).toFixed(2)+'s">'+esc(l)+'</div>';
-          }).join('')+'</div>'+
-          '<div class="d6chip">'+esc(m.screen.chip)+'</div>'+
-          '<div class="d6foot"><span></span>drafted \u00b7 held for a person</div>';
-        cap.innerHTML='<div class="d6feels">the wait feels like '+esc(m.feels)+'</div>'+
-          '<p class="d6del">'+esc(m.delivered)+'</p>'+
-          '<div class="d6fund"><i>who funds it</i>'+esc(m.funder)+'</div>';
-        rail.forEach(function(b,n){
-          b.classList.toggle('on',n===i); b.classList.toggle('done',n<i);
-          b.setAttribute('aria-selected', n===i?'true':'false');
-        });
-        [].forEach.call(dots.children,function(d,n){d.classList.toggle('on',n===i)});
-        prev.disabled=i===0; next.disabled=i===WAITS.length-1;
-      }
-      function go(n,human){
-        i=(n+WAITS.length)%WAITS.length;
-        if(human&&!touched){touched=true;hint.classList.add('gone')}
-        render();
-      }
-      screen.addEventListener('click',function(e){
-        if(e.target.closest('.d6arrow, .d6dot')) return;
-        go(i+1>=WAITS.length?0:i+1,true);
-      });
-      screen.addEventListener('keydown',function(e){
-        if(e.key==='Enter'||e.key===' '){e.preventDefault();go(i+1>=WAITS.length?0:i+1,true)}
-        if(e.key==='ArrowRight'){e.preventDefault();go(i+1,true)}
-        if(e.key==='ArrowLeft'){e.preventDefault();go(i-1,true)}
-      });
-      prev.addEventListener('click',function(e){e.stopPropagation();go(i-1,true)});
-      next.addEventListener('click',function(e){e.stopPropagation();go(i+1,true)});
-      [].forEach.call(dots.children,function(d){
-        d.addEventListener('click',function(e){e.stopPropagation();go(+d.dataset.i,true)});
-      });
-      rail.forEach(function(b){b.addEventListener('click',function(){go(+b.dataset.i,true)})});
-
-      /* the tilt reads off the STAGE, so the phone does not run from the cursor */
-      var stage=phone.closest('.d6stage');
-      if(stage && matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches){
-        stage.addEventListener('pointermove',function(e){
-          var r=stage.getBoundingClientRect();
-          var px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
-          phone.classList.add('grab');
-          phone.style.setProperty('--d6y',(-13+px*22).toFixed(2)+'deg');
-          phone.style.setProperty('--d6x',(7-py*14).toFixed(2)+'deg');
-        });
-        stage.addEventListener('pointerleave',function(){
-          phone.classList.remove('grab');
-          phone.style.removeProperty('--d6y'); phone.style.removeProperty('--d6x');
-        });
-      }
-      render();
-    }
-  }
-
-  /* ── the scratch, in their own colour ─────────────────────────────────── */
-  var cv=document.getElementById('d6coat'); if(!cv) return;
-  var win=document.getElementById('d6scWin'), val=document.getElementById('d6scV'),
-      again=document.getElementById('d6again');
-  var ctx=cv.getContext('2d'), W=0,H=0,dpr=1, revealed=false, drawing=false;
-  function fit(){
-    var r=cv.getBoundingClientRect(); dpr=Math.min(2,window.devicePixelRatio||1);
-    W=r.width; H=r.height; cv.width=Math.max(1,W*dpr); cv.height=Math.max(1,H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0); coat();
-  }
-  function coat(){
-    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,W,H);
-    var g=ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,FOIL[0]); g.addColorStop(.5,FOIL[1]); g.addColorStop(1,FOIL[2]);
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(0,0,0,.07)';
-    for(var x=-14;x<W;x+=26) ctx.fillRect(x,0,13,H);
-    ctx.fillStyle=FOILINK; ctx.textAlign='center';
-    ctx.font='700 13px system-ui,sans-serif'; ctx.fillText('SCRATCH TO REVEAL',W/2,H/2-3);
-    ctx.font='300 12px system-ui,sans-serif'; ctx.fillText('drag across the panel',W/2,H/2+17);
-    ctx.globalCompositeOperation='destination-out';
-  }
-  function at(e){var r=cv.getBoundingClientRect();var t=e.touches&&e.touches[0]?e.touches[0]:e;
-    return [t.clientX-r.left,t.clientY-r.top]}
-  function rub(e){
-    if(!drawing||revealed) return;
-    var p=at(e); ctx.beginPath(); ctx.arc(p[0],p[1],23,0,Math.PI*2); ctx.fill(); check();
-    if(e.cancelable) e.preventDefault();
-  }
-  function check(){
-    var d=ctx.getImageData(0,0,cv.width,cv.height).data, clear=0, total=0;
-    for(var i2=3;i2<d.length;i2+=4*64){total++; if(d[i2]<40) clear++}
-    if(total && clear/total>0.46) reveal();
-  }
-  function reveal(){
-    revealed=true; cv.style.transition='opacity .5s ease'; cv.style.opacity='0';
-    cv.style.pointerEvents='none'; win.style.animation='d6pop .5s cubic-bezier(.22,.61,.36,1) both';
-  }
-  function reset(){
-    revealed=false; drawing=false;
-    val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
-    cv.style.transition='none'; cv.style.opacity='1'; cv.style.pointerEvents='auto';
-    win.style.animation='none'; coat();
-  }
-  cv.addEventListener('pointerdown',function(e){drawing=true;rub(e)});
-  window.addEventListener('pointerup',function(){drawing=false});
-  cv.addEventListener('pointermove',rub,{passive:false});
-  if(again) again.addEventListener('click',reset);
-  window.addEventListener('resize',function(){if(!revealed) fit()});
-  val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
-  fit();
-})();
-</script>
-
-
-
-
-<!-- ═══ THE PLACE · injected by _generator/patch-place.mjs ═══ -->
-
-
-<script src="three.min.js"></script>
-<script>
-/* ═══ THE PLACE ════════════════════════════════════════════════════════════
-   A self-contained renderer for the Pascal-authored building. Own scene, own
-   camera, own lights, so nothing here touches whatever 3D this page already
-   runs. Drag to orbit; it idles slowly until you do.
-
-   Materials: matte on a light ground. Mirror metal on paper blows flat faces to
-   white and the whole building vanishes, which is a trap this fleet has already
-   fallen into once. */
-(function place(){
-  var BOXES=[{"k":"floor","p":[0,-0.006,0],"s":[2.52,0.013,1.68],"ry":0},{"k":"shell","p":[0,0.26,-0.84],"s":[2.52,0.521,0.024],"ry":0},{"k":"shell","p":[1.26,0.26,0],"s":[1.68,0.521,0.024],"ry":1.5708},{"k":"shell","p":[0,0.26,0.84],"s":[2.52,0.521,0.024],"ry":3.1416},{"k":"shell","p":[-1.26,0.26,0],"s":[1.68,0.521,0.024],"ry":-1.5708},{"k":"glass","p":[0,0.26,-0.815],"s":[2.47,0.521,0.007],"ry":0},{"k":"inner","p":[0.42,0.176,0],"s":[1.63,0.353,0.02],"ry":1.5708},{"k":"plinth","p":[-0.949,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"plinth","p":[-0.58,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"plinth","p":[-0.21,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"plinth","p":[0.16,0,-0.076],"s":[0.286,0.003,0.521],"ry":0},{"k":"lit","p":[0.882,0,0.563],"s":[0.588,0.004,0.454],"ry":0,"lit":1,"label":"delivery bay"}];
-  var ACCENT="#3A3A3A", PAPER=false;
-  var cv=document.getElementById('plCanvas'), stage=document.getElementById('plStage');
-  if(!cv||!stage||typeof THREE==='undefined') return;
-
-  var ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
-  ren.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
-  var sc=new THREE.Scene();
-  var cam=new THREE.PerspectiveCamera(34,1,0.1,200);
-
-  sc.add(new THREE.HemisphereLight(PAPER?0xffffff:0x9fb0c4, PAPER?0xd8d4cc:0x0a0c10, PAPER?0.95:0.7));
-  var key=new THREE.DirectionalLight(0xffffff, PAPER?1.05:1.7);
-  key.position.set(5,9,6); sc.add(key);
-  var fill=new THREE.DirectionalLight(new THREE.Color(ACCENT), PAPER?0.35:0.6);
-  fill.position.set(-6,3,-4); sc.add(fill);
-
-  var wallM=new THREE.MeshStandardMaterial({color:PAPER?0xEDEBE6:0xC2C7CE,
-    metalness:0.05,roughness:PAPER?0.68:0.55,envMapIntensity:PAPER?0.8:1.1});
-  var floorM=new THREE.MeshStandardMaterial({color:PAPER?0xDCD8D1:0x2E3238,
-    metalness:0.03,roughness:0.82});
-  /* The site ground needs its OWN value. On the village it was within a few
-     percent of the wall colour, the key light blew both to white, and eight
-     villas disappeared into the lawn. A darker ground makes the buildings read. */
-  var groundM=new THREE.MeshStandardMaterial({color:PAPER?0xB8B2A8:0x1C2026,
-    metalness:0.02,roughness:0.9});
-  var fitM=new THREE.MeshStandardMaterial({color:PAPER?0xD2CEC6:0x828992,
-    metalness:0.08,roughness:0.6});
-  /* Emissive fights the key light and washes a saturated accent toward yellow,
-     which is what happened to Ryman's orange. Keep the colour, drop the glow to
-     a hint, and let the surface be lit rather than lighting itself. */
-  var litM=new THREE.MeshStandardMaterial({color:new THREE.Color(ACCENT),
-    emissive:new THREE.Color(ACCENT),emissiveIntensity:PAPER?0.10:0.34,
-    metalness:0.02,roughness:0.55});
-  var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
-    glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
-    plinth:fitM,floor:floorM,ground:groundM,slab:floorM,lit:litM};
-
-  var g=new THREE.Group();
-  for(var i=0;i<BOXES.length;i++){
-    var b=BOXES[i];
-    var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
-      b.lit?litM:(pick[b.k]||wallM));
-    m.position.set(b.p[0],b.p[1],b.p[2]);
-    m.rotation.y=b.ry||0;
-    g.add(m);
-  }
-  sc.add(g);
-
-  /* Look DOWN onto the plan. The walls stand in y and the plan lies in x/z, so a
-     camera at eye level sees a fence. This sits above and swings around. */
-  var yaw=-0.62, pitch=0.82, dist=7.4;
-  function place3(){
-    cam.position.set(
-      Math.sin(yaw)*Math.cos(pitch)*dist,
-      Math.sin(pitch)*dist,
-      Math.cos(yaw)*Math.cos(pitch)*dist);
-    cam.lookAt(0,0.5,0);
-  }
-
-  function fit(){
-    var r=stage.getBoundingClientRect();
-    if(!r.width) return;
-    ren.setSize(r.width,r.height,false);
-    cam.aspect=r.width/Math.max(1,r.height); cam.updateProjectionMatrix();
-  }
-  window.addEventListener('resize',fit); fit();
-
-  /* drag to orbit */
-  var drag=false, lx=0, ly=0, touched=false;
-  var hint=document.getElementById('plHint');
-  stage.addEventListener('pointerdown',function(e){
-    drag=true; lx=e.clientX; ly=e.clientY;
-    if(!touched){touched=true; if(hint) hint.classList.add('gone')}
-  });
-  window.addEventListener('pointerup',function(){drag=false});
-  window.addEventListener('pointermove',function(e){
-    if(!drag) return;
-    yaw-=(e.clientX-lx)*0.007;
-    pitch=Math.max(0.16,Math.min(1.44,pitch+(e.clientY-ly)*0.005));
-    lx=e.clientX; ly=e.clientY;
-  });
-
-  var running=false;
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(en){ running=en.isIntersecting });
-  },{threshold:0.05});
-  io.observe(stage);
-
-  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  (function loop(){
-    requestAnimationFrame(loop);
-    if(!running) return;
-    if(!drag && !reduce) yaw+=0.0016;
-    place3();
-    ren.render(sc,cam);
-  })();
-})();
-</script>
 
 <!-- gp:start -->
 <script>
@@ -3127,151 +2432,7 @@ function wmCopy(){
 </script>
 <!-- gp:end -->
 
-<script></script>
 
-<script></script>
-
-<script></script>
-
-<script></script>
-
-<script></script>
-
-<script></script>
-
-<script></script>
-
-<script></script>
-
-<script></script>
-
-
-
-<script></script>
-
-<script></script>
-
-<script></script>
-
-<script>/* mz:start — the assembling mosaic */
-(function(){
-var host=document.getElementById('mzHost'); if(!host) return;
-var NS='http://www.w3.org/2000/svg';
-function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
-var U=84;
-function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
-var KIND={
-quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
-semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
-dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
-stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
-ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
-tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
-sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
-hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
-tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
-umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
-house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
-moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
-key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
-cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
-shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
-crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
-heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
-leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
-clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
-teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
-parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
-van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
-envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
-globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
-plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
-sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
-ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
-case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
-coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
-card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
-chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
-percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
-receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
-bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
-bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
-plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
-tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
-door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
-tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
-crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
-brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
-pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
-drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
-flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
-car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
-wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
-flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
-road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
-apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
-milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
-egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
-carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
-wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
-tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
-};
-var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
-var TILES=[["quarter","#FFFFFF",0,1],["car","#101010","#F2F2F2"],["semi","#6E6E6E","#FFFFFF"],["wheel","#2A2A2A","#C9C9C9"],["quarter","#C9C9C9",0,3],["key","#C9C9C9","#F2F2F2"],["dots","#C9C9C9","#6E6E6E"],["flag","#6E6E6E","#C9C9C9"],["sparkle","#101010","#FFFFFF"],["stripes","#C9C9C9","#6E6E6E"],["stripes","#FFFFFF","#6E6E6E"],["road","#101010","#2A2A2A"],["hills","#6E6E6E","#C9C9C9"],["ringT","#6E6E6E","#C9C9C9"],["tick","#C9C9C9","#F2F2F2"],["quarter","#6E6E6E",0,2]];
-var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
-var layer=el('g',{}); svg.appendChild(layer);
-var tiles=[];
-SLOTS.forEach(function(s,i){
-  var t=TILES[i]; if(!t) return;
-  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
-  var g=el('g',{'class':'mzT'});
-  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
-  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
-});
-host.appendChild(svg);
-var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-var started=false;
-function ignite(){
-  if(started) return; started=true;
-  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
-  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
-    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
-  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
-  var next=6, iv=setInterval(function(){
-    if(next>=order.length){clearInterval(iv);return;}
-    tiles[order[next++]].classList.add('mzLit');
-  },1500);
-}
-if('IntersectionObserver' in window){
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
-  io.observe(host);
-  setTimeout(ignite,9000);
-}else ignite();
-document.addEventListener('click',function(){
-  if(reduce) return;
-  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
-  if(!lit.length) return;
-  var t=lit[Math.floor(Math.random()*lit.length)];
-  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
-  setTimeout(function(){t.classList.remove('mzPulse')},950);
-});
-var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
-if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
-  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
-  if(bgc&&bgc.length>=3){
-    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
-    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
-      band.style.setProperty('--mzDorm','.12');}
-  }
-}
-if(band&&!reduce){
-  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
-    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
-  band.addEventListener('pointerleave',function(){bx=0;by=0});
-  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
-    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
-}
-})();/* mz:end */</script>
 <script>window.VR_CONFIG={"api": "/api/lot", "demoSrc": "lot-tasman.jpg", "demoType": "image/jpeg", "mode": "lot", "canned": {"read": {"silhouette": {"body": "Dual-cab ute", "reads_as": "reads as a current Kia Tasman dual-cab", "finish": "matte grey, photographed in open tussock country", "notable": ["upright grille", "flat deck line", "all-terrain stance"], "box": {"x": 27, "y": 22, "w": 50, "h": 58}, "detail_boxes": [{"label": "grille", "x": 30, "y": 40, "w": 12, "h": 22}, {"label": "deck", "x": 58, "y": 30, "w": 18, "h": 26}]}, "read_source": "photo", "campaign": [{"headline": "Built for the week that works.", "line": "A dual-cab that carries the job and the weekend in the same tray."}, {"headline": "Read straight off the lot.", "line": "Photographed once, drafted in the house voice — a person signs before anything publishes."}], "confidence": "medium", "cannot_tell": ["trim level and badging from this angle", "interior", "odometer and provenance"]}}, "thumbs": [{"src": "lot-tasman.jpg", "l": "the ute"}, {"src": "lot-lbx.jpg", "l": "the pair"}, {"src": "lot-discovery.jpg", "l": "the tourer"}, {"src": "lot-macan.jpg", "l": "the EV"}, {"src": "car-wide.png", "l": "the scan", "type": "image/png"}], "queue": true, "cannedBySrc": {"lot-tasman.jpg": {"read": {"silhouette": {"body": "Dual-cab ute", "reads_as": "reads as a current Kia Tasman dual-cab", "finish": "matte grey, photographed in open tussock country", "notable": ["upright grille", "flat deck line", "all-terrain stance"], "box": {"x": 27, "y": 22, "w": 50, "h": 58}, "detail_boxes": [{"label": "grille", "x": 30, "y": 40, "w": 12, "h": 22}, {"label": "deck", "x": 58, "y": 30, "w": 18, "h": 26}]}, "read_source": "photo", "campaign": [{"headline": "Built for the week that works.", "line": "A dual-cab that carries the job and the weekend in the same tray."}, {"headline": "Read straight off the lot.", "line": "Photographed once, drafted in the house voice — a person signs before anything publishes."}], "confidence": "medium", "cannot_tell": ["trim level and badging from this angle", "interior", "odometer and provenance"]}}, "lot-lbx.jpg": {"read": {"silhouette": {"body": "Compact premium crossover pair", "reads_as": "reads as two current compact luxury crossovers, studio-lit", "finish": "one warm bronze, one dark grey, dark studio floor", "notable": ["paired composition", "LED signature front", "short overhangs"], "box": {"x": 8, "y": 28, "w": 52, "h": 58}, "detail_boxes": [{"label": "near car", "x": 10, "y": 36, "w": 46, "h": 48}, {"label": "far car", "x": 52, "y": 22, "w": 40, "h": 40}]}, "read_source": "photo", "campaign": [{"headline": "Two of a kind, priced apart.", "line": "The same silhouette in two moods — photographed together so the choice is visible."}, {"headline": "Read as a pair.", "line": "One frame, two drafts — each held for a person before anything publishes."}], "confidence": "medium", "cannot_tell": ["exact trim from this angle", "interior", "odometer and provenance"]}}, "lot-discovery.jpg": {"read": {"silhouette": {"body": "Large SUV", "reads_as": "reads as a current large luxury SUV at speed", "finish": "warm silver on an alpine road, mountains behind", "notable": ["upright glasshouse", "full-width tail", "roof rails"], "box": {"x": 24, "y": 30, "w": 50, "h": 52}, "detail_boxes": [{"label": "glasshouse", "x": 30, "y": 34, "w": 34, "h": 20}]}, "read_source": "photo", "campaign": [{"headline": "Built for the long way south.", "line": "A tourer photographed where it belongs — moving, loaded, unbothered."}, {"headline": "The family truck, grown up.", "line": "Space read from the silhouette; the rest is a person's to sell."}], "confidence": "medium", "cannot_tell": ["engine and drivetrain from a photo", "interior", "towing spec"]}}, "lot-macan.jpg": {"read": {"silhouette": {"body": "Electric performance SUV", "reads_as": "reads as a current electric performance SUV on a home charger", "finish": "matte grey-green at a residential charger, dusk", "notable": ["charge port open", "low stance", "staggered wheels"], "box": {"x": 20, "y": 30, "w": 58, "h": 52}, "detail_boxes": [{"label": "charge port", "x": 22, "y": 44, "w": 10, "h": 14}]}, "read_source": "photo", "campaign": [{"headline": "Charged where it sleeps.", "line": "An EV photographed mid-habit — the charger, the driveway, the routine."}, {"headline": "Performance, plugged in.", "line": "The stance says quick; the cable says quiet. Both true, neither claimed."}], "confidence": "medium", "cannot_tell": ["battery state and range", "interior", "service history"]}}, "car-wide.png": {"read": {"silhouette": {"body": "Two-door coupé", "reads_as": "reads as a classic 356-era coupé, from the scan", "finish": "gold point-cloud render on black", "notable": ["long bonnet", "fastback tail", "wheels resolved from the scan"], "box": {"x": 19, "y": 26, "w": 60, "h": 50}, "detail_boxes": [{"label": "glasshouse", "x": 41, "y": 28, "w": 23, "h": 17}]}, "read_source": "photo", "campaign": [{"headline": "Scanned before it is listed.", "line": "Every car on this lot exists as a model before it exists as an ad."}, {"headline": "The shape sells itself.", "line": "One scan, every angle — and a person signs before anything publishes."}], "confidence": "medium", "cannot_tell": ["paint and panel condition from a point cloud", "interior", "odometer and provenance"]}}}, "guardRules": [{"re": "best|cheapest|guarantee|number one|#1", "rule": "unverifiable superlative (FTA 1986)"}, {"re": "\\\\$|per week|% off|save ", "rule": "price claim needs substantiation (FTA 1986)"}, {"re": "today only|hurry|last chance|don.t miss", "rule": "urgency pressure (FTA 1986 register)"}]};</script>
 <script src="visionread.js"></script>
 </body>
