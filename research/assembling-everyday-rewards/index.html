@@ -294,6 +294,28 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 @media (max-width:860px){.con{grid-template-columns:1fr}}
 
 
+/* the bp variant — the same spine at the charger */
+.bpv{max-width:1240px;margin:26px auto 0;padding:0 24px}
+.bpvIn{border:1.5px solid rgba(32,29,21,.1);border-radius:24px;background:var(--card);
+  display:grid;grid-template-columns:1.15fr .85fr;gap:20px;padding:22px 24px;align-items:center;
+  box-shadow:0 24px 50px -34px rgba(40,30,10,.4)}
+@media(max-width:880px){.bpvIn{grid-template-columns:1fr}}
+.bpv .k{font:800 10px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--or-d);margin-bottom:7px}
+.bpv h3{margin:0 0 8px;font-size:clamp(20px,2.6vw,27px);font-weight:800;letter-spacing:-.02em;text-transform:lowercase}
+.bpv h3 em{font-style:normal;color:var(--or)}
+.bpv p{margin:0 0 10px;font:500 13px/1.65 var(--sans);color:var(--char)}
+.bpv p b{color:var(--ink)}
+.bpvSpine{display:flex;gap:6px;flex-wrap:wrap}
+.bpvSpine i{font-style:normal;font:700 10.5px var(--sans);color:var(--ink);background:var(--paper);
+  border:1.5px solid rgba(32,29,21,.12);border-radius:99px;padding:6px 11px}
+.bpvSpine i.hot{border-color:var(--or);color:var(--or-d)}
+.bpvNote{font:600 9.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-top:10px}
+.bpvDial{display:flex;gap:12px;align-items:center;justify-content:center}
+.bpvDial svg{width:120px;height:120px}
+.bpvTiles{display:flex;flex-direction:column;gap:10px}
+.bpvTile{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.bpvCap{text-align:center;font:700 9px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-top:8px}
+
 /* the shape of it — explainer · money picker · acceptance */
 .shape{max-width:1240px;margin:26px auto 0;padding:0 24px;display:grid;grid-template-columns:1fr;gap:14px}
 .glassB{border-radius:22px;padding:18px 20px;position:relative;
@@ -332,6 +354,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 
 
+
+
 /* pf:start — proof furniture: regulatory spine + pilot metrics */
 .pfSec{padding:34px 22px;position:relative}
 .pfIn{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
@@ -365,7 +389,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 </head>
 <body>
 
-<div class="hair">independent concept &middot; illustrative data &middot; not affiliated with or endorsed by Woolworths NZ or Everyday Rewards &mdash; prepared by assembl</div>
+<div class="hair">independent concept &middot; illustrative data &middot; not affiliated with or endorsed by Woolworths NZ, Everyday Rewards or bp &mdash; prepared by assembl</div>
 
 <header class="head">
   <div>
@@ -510,6 +534,42 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 </div>
 
 
+<section class="bpv" aria-label="The bp variant — the same spine at the charger">
+  <div class="bpvIn">
+    <div>
+      <div class="k">the same spine at the charger &middot; the bp variant</div>
+      <h3>thirty-five minutes, <em>plugged in.</em></h3>
+      <p>An EV fast-charge session averages <b>~35 minutes</b> (Driivz) — the forecourt wait with intent, standing right next to the shop. The same machine runs there unchanged: the charge shown working instead of a percentage in silence, one question over the coffee it just bought time for, points for the answer, and a receipt when the cable comes off.</p>
+      <div class="bpvSpine">
+        <i>plugged in</i>
+        <i class="hot">the charge, shown working</i>
+        <i>one question &middot; over coffee</i>
+        <i class="hot">points on completion</i>
+        <i>the receipt</i>
+      </div>
+      <div class="bpvNote">illustrative &middot; the prize track&rsquo;s second forecourt &middot; same rules: decline still charges, a person signs the programme</div>
+    </div>
+    <div>
+      <div class="bpvDial">
+        <div>
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#EFE8D9" stroke-width="14"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#E85F00" stroke-width="14"
+              stroke-linecap="round" stroke-dasharray="168 289" transform="rotate(-90 60 60)"/>
+            <text x="60" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="#201d15">~35</text>
+            <text x="60" y="74" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="2" fill="#8b8577">MINUTES</text>
+          </svg>
+          <div class="bpvCap">the session dial &middot; driivz</div>
+        </div>
+        <div class="bpvTiles">
+          <div class="bpvTile" style="background:#201d15"><svg viewBox="0 0 84 84" width="40" height="40"><path d="M46 14 L24 46 H38 L34 70 L60 36 H44 Z" fill="#FF8A3D"/></svg></div>
+          <div class="bpvTile" style="background:#F1E6CC"><svg viewBox="0 0 84 84" width="40" height="40"><path d="M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z" fill="#E85F00"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="shape" aria-label="The shape of it">
   <div class="glassB">
     <h3>how it works &middot; that&rsquo;s it</h3>
@@ -555,6 +615,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 
 
+
+
 <!-- pf:start -->
 <section class="pfSec" aria-label="Regulatory spine and pilot metrics" style="--pfA:#fd6400">
   <div class="pfIn">
@@ -574,7 +636,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 <footer class="foot">
   An independent concept by assembl &mdash; intuitive agentic customer journeys. Not affiliated with, endorsed by or commissioned by
   Woolworths New Zealand or Everyday Rewards. Every price, point, product and person is illustrative; the six wait moments and the
-  2,000-point / $15 voucher rail mirror the public programme shape. A photo you upload is read once in the request and never stored.
+  2,000-point / $15 voucher rail mirror the public programme shape. The bp variant panel is illustrative in the same way — not
+  affiliated with or endorsed by bp; the ~35-minute session figure is Driivz&rsquo;s published industry average. A photo you upload is read once in the request and never stored.
   Nothing is bought: the journey ends where the real one would begin &mdash; with a person signing.
 </footer>
 
