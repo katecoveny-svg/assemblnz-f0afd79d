@@ -198,23 +198,125 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .pfStop:nth-child(2){text-align:center}
 .pfStop:last-child{text-align:right}
 /* pf:end */
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
 
 <div class="hair">independent concept &middot; simulated journey &middot; not affiliated with or endorsed by Nectar Money &mdash; prepared by assembl</div>
 
 <header class="head">
   <div class="who">nectar money &times; <b>assembling</b> &middot; the rewarded wait</div>
-  <h1>the seven minutes,<br /><em>assembled.</em></h1>
-  <p class="sub">Get paid for the wait — <b>without breaking the law with finance incentives</b>. In lending, the reward is not points or prizes. It is <b>certainty</b>: what a rate is built from, what the total honestly costs, where your file actually is — and a refusal that fires exactly when it should.</p>
+  <h1 data-m="type">the seven minutes,<br /><em>assembled.</em></h1>
+  <p class="sub" data-m="rise">Get paid for the wait — <b>without breaking the law with finance incentives</b>. In lending, the reward is not points or prizes. It is <b>certainty</b>: what a rate is built from, what the total honestly costs, where your file actually is — and a refusal that fires exactly when it should.</p>
 </header>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--dark" data-m-scrub aria-label="the seven minutes" style="--abA:#056268">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--dark" id="abCloud"></div>
+    <div class="abStage__copy">
+      <!-- mStage__* aliases are load-bearing: assembl-motion's scrub() drives
+           .mStage__step/.mStage__fill — without them the copy never advances -->
+      <div class="abStage__step mStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill mStage__fill"></div></div>
+  </div>
 </section>
-<!-- mz:end -->
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
 
 <div class="opener">
   <div class="op">Most online loan applications are abandoned in the wait &mdash; <b>68%</b> of them. Applicants quoted within 36 hours close at <b>85%</b>. The seven minutes are not dead time. They are the whole game.</div>
@@ -223,8 +325,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="machine">
   <div class="secK">the five-beat spine &middot; application &rarr; the checks, working &rarr; three moments &rarr; certainty &rarr; the trace</div>
-  <h2 class="secH">Play the seven minutes.</h2>
-  <p class="secS">Pick a file. The left side is the engine working — every inquiry named and timestamped. The right side is what the applicant gets in the wait. One of these files ends in a refusal to draft anything at all — <b>that one is the product</b>.</p>
+  <h2 data-m="type" class="secH">Play the seven minutes.</h2>
+  <p class="secS" data-m="rise">Pick a file. The left side is the engine working — every inquiry named and timestamped. The right side is what the applicant gets in the wait. One of these files ends in a refusal to draft anything at all — <b>that one is the product</b>.</p>
   <div class="machine">
     <div class="mTop">
       <div class="t">A simulated application &middot; the clock compressed<small>no rate predicted &middot; no decision made &middot; every inquiry logged for the trace</small></div>
@@ -257,8 +359,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="evidence">
   <div class="secK">the evidence pane &middot; built for the regulator</div>
-  <h2 class="secH">Show the FMA the whole journey.</h2>
-  <p class="secS">From 1 July 2026, consumer-credit supervision under the CCCFA sits with the FMA. This journey is built so the regulator can be shown all of it — every inquiry, every refusal, timestamped.</p>
+  <h2 data-m="type" class="secH">Show the FMA the whole journey.</h2>
+  <p class="secS" data-m="rise">From 1 July 2026, consumer-credit supervision under the CCCFA sits with the FMA. This journey is built so the regulator can be shown all of it — every inquiry, every refusal, timestamped.</p>
   <div class="evid">
     <div class="evCard"><b>CCCFA consumer-credit supervision moved to the FMA on 1 July 2026 — one conduct regulator across lending.</b><i>&mdash; the licensing shift this journey is built for</i></div>
     <div class="evCard"><b>Prescriptive affordability regulations scrapped from 31 July 2024 — judgment returned to lenders.</b><i>&mdash; beehive.govt.nz &middot; judgment needs a trace, and the trace is this page&rsquo;s receipt</i></div>
@@ -267,8 +369,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="guard">
   <div class="secK">the boundary panel &middot; every rule real</div>
-  <h2 class="secH">What this journey refuses to do.</h2>
-  <p class="secS">Ported unchanged from the concept&rsquo;s rulebook — the refusals are the product, and the strongest output is the one that declines to produce a message.</p>
+  <h2 data-m="type" class="secH">What this journey refuses to do.</h2>
+  <p class="secS" data-m="rise">Ported unchanged from the concept&rsquo;s rulebook — the refusals are the product, and the strongest output is the one that declines to produce a message.</p>
   <div class="gGrid">
     <div class="g"><b><i>&times;</i>No rate predicted, ever</b><p>It explains what builds a personalised rate using published factors, and never estimates the number. That is the engine&rsquo;s output and only its output.</p><div class="law">CCCFA 2003</div></div>
     <div class="g"><b><i>&times;</i>No credit decision, anywhere</b><p>No output says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.</p><div class="law">CCCFA &middot; Responsible Lending Code</div></div>
@@ -280,7 +382,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="ask">
   <div class="secK">ask this concept &middot; live</div>
-  <h2 class="secH">Ask how it works.</h2>
+  <h2 data-m="type" class="secH">Ask how it works.</h2>
   <div class="askBox">
     <div class="chat" id="chat">
       <div class="m ai">Kia ora — I&rsquo;m this concept&rsquo;s own agent. Ask how the seven minutes work, why the hardship file refuses, or what a pilot needs.</div>
@@ -299,7 +401,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
     <div class="pfCard">
       <div class="pfK">the regulatory spine · CCCFA → FMA</div>
       <p class="pfQ">Lender responsibilities under the Credit Contracts and Consumer Finance Act 2003 — and from 1 July 2026, consumer-credit supervision sits with the FMA.</p>
-      <p class="pfT">Every affordability inquiry, every decision and every refusal on this page is timestamped into the receipt. The journey is built to be shown to the regulator whole.</p>
+      <p class="pfT" data-m="rise">Every affordability inquiry, every decision and every refusal on this page is timestamped into the receipt. The journey is built to be shown to the regulator whole.</p>
     </div>
     <div class="pfCard">
       <div class="pfK">what a 90-day pilot would measure</div>
@@ -309,9 +411,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   </div>
 </section>
 <!-- pf:end -->
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#056268" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section class="sec" id="pilot">
   <div class="secK">run the pilot &middot; the acceptance</div>
-  <h2 class="secH">One wait, six weeks.</h2>
+  <h2 data-m="type" class="secH">One wait, six weeks.</h2>
   <div class="accGrid">
     <div>
       <p><b>The application wait, instrumented against the current silence.</b> Real stages, the three moments, the refusal switches on, the trace built for the FMA — measured on the four numbers below. Every send held for a person; the numbers you quote afterwards are your own.</p>
@@ -326,6 +433,37 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   </div>
 </section>
 
+<!-- ab:ev:start — the evidence, per industry -->
+<section class="abEv" style="--abA:#056268" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; lending, measured</div>
+    <h2 class="abEv__h" data-m="type">Lending got faster. Waiting did not.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="13.5" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Personal loan enquiries were up <b>13.5% year-on-year</b> in February 2026. The demand is already online &mdash; it arrives at all hours, and it does not queue politely.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Centrix Credit Indicator, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="10.2" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Personal loan arrears reached <b>10.2% in January 2026</b>, the highest in a decade. Careful lending is not optional &mdash; and careful does not have to mean slow.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Centrix Credit Indicator, January 2026</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of online loan-application abandonment or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer class="foot">
   An independent concept by assembl &mdash; intuitive agentic customer journeys. Not affiliated with, endorsed by or commissioned by
   Nectar Money. Every application, figure and timestamp on this page is simulated; no rate is predicted and no credit decision is
@@ -629,5 +767,30 @@ if(band&&!reduce){
     layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
 }
 })();/* mz:end */</script>
+<script src="three.min.js"></script>
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  /* each mount isolated: a machine without WebGL still gets the mosaic,
+     the step copy and the scrub rail — the page degrades, never dies */
+  try{
+    if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+      {form:'ring',material:'brass',colour:'#056268',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  }catch(e){}
+  try{
+    var c2=document.getElementById('abCloud2');
+    if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+      {form:'ring',material:'brass',colour:'#056268',count:1800,mode:'auto',size:.045});
+  }catch(e){}
+  try{
+    if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+      {colour:'#056268',ink:'#14161A',brass:'#BFA37A',seed:'nectar-money',density:14,mode:'enter'});
+  }catch(e){}
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>
