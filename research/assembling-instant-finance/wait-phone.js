@@ -588,3 +588,20 @@
 
   global.WaitPhone = { mount: mount, explain: explain, BEAT: BEAT };
 })(typeof window !== 'undefined' ? window : this);
+
+/* wp-prem:start — premium device chrome, fleet-wide (flagship register):
+   machined bezel gradient, layered shadows, deeper glare, warmer contact
+   shadow. Pure overrides on the vars wait-phone.js already themes. */
+(function(){
+  if (document.getElementById('wp-prem')) return;
+  var st = document.createElement('style'); st.id = 'wp-prem';
+  st.textContent = [
+    '.wp-phone{background:linear-gradient(148deg,#5d6470 0%,#20252c 26%,#171b21 54%,#3d444e 78%,#12161b 100%)!important;',
+    ' box-shadow:0 0 0 1.5px rgba(255,255,255,.16) inset,0 2px 3px rgba(255,255,255,.35) inset,',
+    ' 0 42px 70px -22px rgba(10,16,12,.55),0 14px 26px -10px rgba(10,16,12,.4)!important}',
+    '.wp-glare{background:linear-gradient(128deg,rgba(255,255,255,.40) 0%,rgba(255,255,255,.10) 22%,transparent 42%,transparent 72%,rgba(255,255,255,.12) 100%)!important}',
+    '.wp-phone::after{background:radial-gradient(ellipse at 50% 0%,rgba(20,30,24,.30),rgba(20,30,24,.06) 55%,transparent 75%)!important}'
+  ].join('');
+  document.head.appendChild(st);
+})();
+/* wp-prem:end */

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Kia ora — help with a power bill you can't pay</title>
+<meta name="description" content="A free, calm walk-through for when the power bill is too much. What's driving it, your rights, and the real New Zealand help you can get today — with the actual phone numbers. No login. No catch." />
+<meta name="theme-color" content="#F7EFE2" />
+<meta property="og:title" content="Help with a power bill you can't pay" />
+<meta property="og:description" content="Free and calm. Why it's high, your rights, and the real NZ help you can get today — with the phone numbers." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%95%AF%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+<style>
+  :root{
+    --paper:#F7EFE2; --card:#FFFDF9; --ink:#2A2118; --ink-2:#6B5E4E;
+    --amber:#C6772F; --amber-soft:#F3E2CC; --green:#3E6B4E; --green-soft:#E3EDE3;
+    --line:#E9DcC7; --shadow:0 2px 4px rgba(42,33,24,.05),0 10px 30px rgba(42,33,24,.07);
+    --r:18px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.62; font-size:17px; letter-spacing:.002em;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .wrap{max-width:640px; margin:0 auto; padding:0 20px 64px}
+  h1,h2,h3{line-height:1.22; letter-spacing:-.012em; font-weight:750}
+  h1{font-size:clamp(28px,7.5vw,40px); margin:0 0 12px}
+  h2{font-size:clamp(21px,5vw,26px); margin:0 0 4px}
+  p{margin:0 0 14px}
+  b,strong{font-weight:700}
+  a{color:var(--amber); text-underline-offset:3px}
+  .soft{color:var(--ink-2)}
+  .tel{font-weight:750; color:var(--ink); white-space:nowrap; text-decoration:none; border-bottom:2px solid var(--amber)}
+
+  /* hero */
+  header{padding:38px 0 8px; text-align:left}
+  .flame{font-size:34px; line-height:1; margin-bottom:14px}
+  .lede{font-size:clamp(17px,4.4vw,19px); color:var(--ink-2); max-width:34ch}
+  .reassure{
+    margin:22px 0 8px; padding:16px 18px; background:var(--green-soft);
+    border-radius:14px; font-size:15.5px; color:#2c4a37;
+  }
+  .reassure b{color:#213a2b}
+
+  /* section shell */
+  section{margin-top:30px}
+  .eyebrow{font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); font-weight:750; margin-bottom:9px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow); padding:20px 20px 6px}
+  .card + .card{margin-top:14px}
+
+  /* rights list */
+  .rights li{margin:0 0 13px; padding-left:2px}
+  .rights b{display:block; margin-bottom:1px}
+  ul.clean{list-style:none; margin:6px 0 16px; padding:0}
+  ul.clean li{position:relative; padding-left:26px; margin:0 0 12px}
+  ul.clean li::before{content:"✓"; position:absolute; left:0; top:0; color:var(--green); font-weight:800}
+
+  /* diagnostic chips */
+  .chips{display:flex; flex-wrap:wrap; gap:9px; margin:4px 0 16px}
+  .chip{
+    appearance:none; border:1.5px solid var(--line); background:var(--card); color:var(--ink);
+    font:inherit; font-size:15px; font-weight:600; padding:9px 15px; border-radius:99px; cursor:pointer;
+    transition:.15s;
+  }
+  .chip[aria-pressed="true"]{background:var(--amber); border-color:var(--amber); color:#fff}
+  .why{margin-top:6px}
+  .why .find{display:none; padding:14px 16px; margin:0 0 10px; background:var(--amber-soft); border-radius:13px; font-size:15.5px}
+  .why .find.on{display:block}
+  .why .find b{color:#7a4a1c}
+  .why-empty{color:var(--ink-2); font-size:15.5px; font-style:italic; margin:2px 0 8px}
+
+  /* help cards */
+  .help h3{font-size:18px; margin:0 0 3px}
+  .help .who{font-size:13px; color:var(--amber); font-weight:750; letter-spacing:.04em; text-transform:uppercase; margin-bottom:7px}
+  .help p{font-size:15.5px; margin-bottom:12px}
+  .cta{
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    background:var(--ink); color:#fff; font-weight:700; font-size:16px;
+    padding:12px 18px; border-radius:12px; margin:0 8px 12px 0;
+  }
+  .cta.ghost{background:transparent; color:var(--ink); border:1.5px solid var(--line)}
+  .cta.green{background:var(--green)}
+
+  /* chat */
+  #chat{margin-top:14px}
+  .log{display:flex; flex-direction:column; gap:10px; margin:4px 0 14px}
+  .msg{max-width:88%; padding:12px 15px; border-radius:16px; font-size:15.5px; line-height:1.55; white-space:pre-wrap}
+  .msg.me{align-self:flex-end; background:var(--ink); color:#fff; border-bottom-right-radius:5px}
+  .msg.ai{align-self:flex-start; background:#fff; border:1px solid var(--line); border-bottom-left-radius:5px}
+  .msg.ai a{color:var(--amber)}
+  .starters{display:flex; flex-wrap:wrap; gap:8px; margin:2px 0 12px}
+  .starter{appearance:none; border:1.5px solid var(--line); background:#fff; color:var(--ink); font:inherit; font-size:14.5px; padding:8px 13px; border-radius:99px; cursor:pointer; text-align:left}
+  .composer{display:flex; gap:8px; align-items:flex-end}
+  .composer textarea{flex:1; resize:none; font:inherit; font-size:16px; padding:12px 14px; border:1.5px solid var(--line); border-radius:13px; background:#fff; color:var(--ink); min-height:48px; max-height:140px}
+  .send{appearance:none; border:0; background:var(--amber); color:#fff; font:inherit; font-weight:750; padding:0 18px; height:48px; border-radius:13px; cursor:pointer}
+  .send:disabled{opacity:.5}
+  .typing{align-self:flex-start; color:var(--ink-2); font-size:14px; font-style:italic; padding:2px 4px}
+
+  footer{margin-top:34px; padding-top:20px; border-top:1px solid var(--line); font-size:13.5px; color:var(--ink-2)}
+  footer p{margin:0 0 10px; font-size:13.5px}
+  footer a{color:var(--ink-2)}
+  .sources{font-size:12px; line-height:1.7}
+  .crisis{background:#fff; border:1px solid var(--line); border-radius:13px; padding:14px 16px; margin:0 0 16px; font-size:14.5px}
+  .crisis b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="flame" aria-hidden="true">🕯️</div>
+    <h1>A power bill you can't pay is frightening. Let's take it in three calm steps.</h1>
+    <p class="lede">You're not the only one — not by a long way. This is a free walk-through: what's driving the bill, what you're actually owed by law, and the real help you can get today. No login, no catch, nothing collected.</p>
+    <div class="reassure"><b>Asking for help isn't a black mark.</b> Since 2025, your power company has to work with you if you're struggling. Ringing them early is the strong move, not the weak one.</div>
+  </header>
+
+  <!-- 1. RIGHTS -->
+  <section>
+    <div class="eyebrow">Step one · what you're owed</div>
+    <div class="card">
+      <h2>You have rights, and they're new.</h2>
+      <p class="soft" style="font-size:15.5px">New Zealand's Consumer Care Obligations became law in 2025. Your retailer must:</p>
+      <ul class="rights clean">
+        <li><b>Work out a payment plan with you.</b> Ring them and say the exact words: <i>"I'm having trouble paying my bill."</i> They have to help you find a way through, not just demand it all at once.</li>
+        <li><b>Keep fees and charges reasonable.</b> Late fees and the like can't be punishing.</li>
+        <li><b>Never cut off a medically dependent home.</b> If someone there relies on electricity for their health — a device like an oxygen machine or dialysis, or a condition where losing power would put them at serious risk — you can register as a <b>medically dependent consumer</b>. Your doctor signs a short form, you give it to your retailer, and then they can't disconnect you (you still owe the bill, but they can't cut you off). It carries over if you switch companies. It's not automatic for a cold house alone — but if anyone's health depends on power, it's worth asking your GP.</li>
+      </ul>
+      <p class="soft" style="font-size:14.5px">If they won't help or treat you unfairly, you don't have to accept it — see Utilities Disputes below. It's free.</p>
+    </div>
+  </section>
+
+  <!-- 2. WHY -->
+  <section>
+    <div class="eyebrow">Step two · why it's so high</div>
+    <div class="card">
+      <h2>What's in your home right now?</h2>
+      <p class="soft" style="font-size:15.5px">Tap what's true. It'll point to the likely culprits — the same things a good electrician or energy coach would check first.</p>
+      <div class="chips" id="chips">
+        <button class="chip" data-k="hotwater" aria-pressed="false" type="button">Electric hot water</button>
+        <button class="chip" data-k="heatpump" aria-pressed="false" type="button">Heat pump on a lot</button>
+        <button class="chip" data-k="cold" aria-pressed="false" type="button">Old, cold house</button>
+        <button class="chip" data-k="baby" aria-pressed="false" type="button">Baby or young kids</button>
+        <button class="chip" data-k="freezer" aria-pressed="false" type="button">Chest freezer / 2nd fridge</button>
+        <button class="chip" data-k="heaters" aria-pressed="false" type="button">Plug-in bar/fan heaters</button>
+        <button class="chip" data-k="prepay" aria-pressed="false" type="button">Prepay / pay-as-you-go</button>
+        <button class="chip" data-k="spike" aria-pressed="false" type="button">Suddenly way higher</button>
+      </div>
+      <div class="why" id="why">
+        <p class="why-empty" id="whyEmpty">Tap a few above and I'll show what's most likely.</p>
+        <div class="find" data-k="hotwater"><b>Hot water is usually the biggest single cost</b> — often around a third of a power bill. If it feels scalding, turn the cylinder thermostat down to about 60°C (still safe, still kills bugs). A thermostat stuck on, or a slow leak on the hot tap, can quietly double it.</div>
+        <div class="find" data-k="heatpump"><b>The heat pump itself is cheap to run — the heat leaking out is the cost.</b> Heat one room, shut its door, set it to about 20°C and leave it (it's cheaper than blasting then off). Clean the filters. On an uninsulated house it'll run flat-out in a cold snap, which is the usual winter jump.</div>
+        <div class="find" data-k="cold"><b>An old cold house loses heat as fast as you make it.</b> That's not you using too much — it's the house. Draught-stop doors and windows, close curtains at dusk. And you may get insulation + a heat pump 80–90% paid for through Warmer Kiwi Homes (below).</div>
+        <div class="find" data-k="baby"><b>A warm home for a baby isn't a luxury, it's health.</b> Please don't cut heating to a cold room for a little one — use the help below instead. Cold, damp homes are linked to childhood illness, and that's a fair, strong reason to ask for support. If a child relies on any electrical medical equipment, ask your doctor about medically dependent status too.</div>
+        <div class="find" data-k="freezer"><b>An old chest freezer or second fridge can cost a surprising amount</b> — more if the seal's gone or it sits in a warm spot. Check the door seal grips a sheet of paper; defrost thick ice; make sure it's not jammed against a wall or the oven.</div>
+        <div class="find" data-k="heaters"><b>Plug-in bar and fan heaters are the most expensive heat there is.</b> One running a few hours a day adds up fast. A single heat pump, or even an electric blanket for bed, costs a fraction. This is often the hidden spike.</div>
+        <div class="find" data-k="prepay"><b>Prepay can cost more per unit, and it cuts off the moment credit runs out — that's not a fault in you.</b> Two things worth knowing: the <b>Winter Energy Payment</b> and <b>Work and Income</b> grants below still apply on prepay, and you can switch to a retailer with a proper hardship policy. Ask yours what happens if you fall behind.</div>
+        <div class="find" data-k="spike"><b>A sudden jump usually has one cause, not ten.</b> The common ones: a cold snap (you used more and it was colder), a hot water thermostat or element fault, an estimated reading catching up, or a new appliance. Ask your retailer for the actual meter reads for the last few months — you're allowed to see them.</div>
+      </div>
+      <p class="soft" style="font-size:14.5px; margin-top:2px">Want a real person to look with you? <b>EnergyMate</b> gives free energy advice — <a href="https://www.energymate.nz" target="_blank" rel="noopener">energymate.nz</a>.</p>
+    </div>
+  </section>
+
+  <!-- 3. HELP -->
+  <section class="help">
+    <div class="eyebrow">Step three · help you can get today</div>
+
+    <div class="card">
+      <div class="who">Work and Income</div>
+      <h3>You don't have to be on a benefit.</h3>
+      <p>A <b>Special Needs Grant</b> can help pay an urgent power bill, and you usually don't pay it back. There's also an <b>Advance</b>, <b>Temporary Additional Support</b>, and — if a health condition means you need more heating — a <b>Disability Allowance</b>. From 1 May to 1 October the <b>Winter Energy Payment</b> ($20.46/week on your own, $31.82 with children) is paid automatically if you're on a benefit or NZ Super.</p>
+      <a class="cta" href="tel:0800559009">Call 0800 559 009</a>
+      <a class="cta ghost" href="https://www.workandincome.govt.nz/eligibility/living-expenses/heating-and-power-bills.html" target="_blank" rel="noopener">See what you can get →</a>
+    </div>
+
+    <div class="card">
+      <div class="who">MoneyTalks · free &amp; confidential</div>
+      <h3>Someone in your corner with the numbers.</h3>
+      <p>Free financial mentors who'll go through it all with you — no judgement, and they can talk to the power company on your behalf. Phone, text or chat.</p>
+      <a class="cta green" href="tel:0800345123">Call 0800 345 123</a>
+      <a class="cta ghost" href="sms:4029">Free text 4029</a>
+    </div>
+
+    <div class="card">
+      <div class="who">Utilities Disputes · free</div>
+      <h3>If your power company won't help.</h3>
+      <p>Independent, free, and on your side. If a retailer won't set up a fair payment plan or is treating you unfairly, they'll step in.</p>
+      <a class="cta ghost" href="tel:0800223340">Call 0800 22 33 40</a>
+    </div>
+
+    <div class="card">
+      <div class="who">Warmer Kiwi Homes</div>
+      <h3>Fix the cold house, for 80–90% off.</h3>
+      <p>Grants cover most of the cost of ceiling and underfloor insulation, and a heat pump, for older homes — if you have a Community Services Card or live in a lower-income area. It's the thing that lowers the bill for good.</p>
+      <a class="cta ghost" href="https://www.warmerkiwihomes.govt.nz" target="_blank" rel="noopener">Check if you qualify →</a>
+    </div>
+  </section>
+
+  <!-- 4. CHAT -->
+  <section>
+    <div class="eyebrow">Talk it through</div>
+    <div class="card" id="chat">
+      <h2>Tell me what's happening.</h2>
+      <p class="soft" style="font-size:15.5px">In your own words. I'll help you work out the next step and point you to the right help. Nothing you type is saved or sent anywhere.</p>
+      <div class="log" id="log" aria-live="polite"></div>
+      <div class="starters" id="starters">
+        <button class="starter" type="button">I've had a disconnection notice</button>
+        <button class="starter" type="button">I'm on prepay and it keeps running out</button>
+        <button class="starter" type="button">My bill doubled and I don't know why</button>
+        <button class="starter" type="button">What do I say when I ring them?</button>
+      </div>
+      <div class="composer">
+        <textarea id="input" rows="1" placeholder="Type here…" aria-label="Your message"></textarea>
+        <button class="send" id="send" type="button">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="crisis">
+      <b>If you're in crisis right now</b> — no power and a baby or unwell person at home, or you're not safe — please call <a class="tel" href="tel:0800611116">Healthline 0800 611 116</a> or <b>111</b>. You will not be in trouble for asking.
+    </div>
+    <p>This is a free, independent tool. It isn't a power company and doesn't take a cut from anyone. It's information and a bit of help thinking it through, not financial or legal advice, and not a substitute for talking to the services above. Nothing you type is stored, and no account is needed. Made with care in Aotearoa.</p>
+    <p class="sources">Sources, current 2026:
+      <a href="https://www.workandincome.govt.nz/products/a-z-benefits/winter-energy-payment.html" target="_blank" rel="noopener">Winter Energy Payment</a> ·
+      <a href="https://www.workandincome.govt.nz/eligibility/living-expenses/heating-and-power-bills.html" target="_blank" rel="noopener">Work and Income — power &amp; heating help</a> ·
+      <a href="https://www.ea.govt.nz/your-power/consumer-care-obligations/" target="_blank" rel="noopener">Electricity Authority — Consumer Care Obligations</a> ·
+      <a href="https://fincap.org.nz/moneytalks" target="_blank" rel="noopener">MoneyTalks</a> ·
+      <a href="https://www.udl.co.nz/" target="_blank" rel="noopener">Utilities Disputes</a> ·
+      <a href="https://www.eeca.govt.nz/co-funding-and-support/products/warmer-kiwi-homes-programme/information/" target="_blank" rel="noopener">Warmer Kiwi Homes</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // ── diagnostic chips ──────────────────────────────────────────────
+  var chips = document.getElementById('chips');
+  var why = document.getElementById('why');
+  var whyEmpty = document.getElementById('whyEmpty');
+  chips.addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if(!b) return;
+    var on = b.getAttribute('aria-pressed') === 'true';
+    b.setAttribute('aria-pressed', on ? 'false' : 'true');
+    var any = false;
+    chips.querySelectorAll('.chip').forEach(function(c){
+      var k = c.getAttribute('data-k');
+      var pressed = c.getAttribute('aria-pressed') === 'true';
+      if(pressed) any = true;
+      var f = why.querySelector('.find[data-k="'+k+'"]');
+      if(f) f.classList.toggle('on', pressed);
+    });
+    whyEmpty.style.display = any ? 'none' : 'block';
+  });
+
+  // ── chat ──────────────────────────────────────────────────────────
+  var log = document.getElementById('log');
+  var input = document.getElementById('input');
+  var send = document.getElementById('send');
+  var starters = document.getElementById('starters');
+  var history = [];
+  var busy = false;
+
+  var SYSTEM = "You are a warm, calm, plain-speaking helper on a free New Zealand website for people who cannot afford their power bill. Many are stressed, some are parents, some are on prepay/pay-as-you-go power that self-disconnects. Your job is to steady them and point them to real, specific help. Rules: Be kind and never judgemental — asking for help is the strong move. Keep replies short (2–5 short sentences), NZ English, no jargon. NEVER invent a phone number, dollar figure, rule or service — only use the verified facts below, and if you don't know, say so and point them to the service. Do not give financial or legal advice; point to the real services. If someone is in crisis (no power with a baby/unwell person, or unsafe), gently tell them to call Healthline 0800 611 116 or 111. VERIFIED HELP (NZ, 2026): (1) Their power retailer must, by law since 2025, offer a payment plan — tell them to ring and say 'I'm having trouble paying my bill'; retailers cannot disconnect a registered medically dependent consumer — that means someone in the home relies on electricity to prevent serious harm to health (e.g. an oxygen machine, dialysis, or a condition made dangerous by loss of power); a doctor confirms it on an official form the person gives their retailer; it is NOT automatic just for a cold house or having a baby, but if anyone's health genuinely depends on power, encourage a GP conversation; fees must be reasonable. (2) Work and Income 0800 559 009 — a Special Needs Grant can pay an urgent power bill and usually isn't paid back; also Advance, Temporary Additional Support, Disability Allowance for health-related heating; you do NOT have to be on a benefit. Winter Energy Payment 1 May–1 Oct is $20.46/week single, $31.82/week with children, automatic if on a benefit or NZ Super, and it still applies on prepay. (3) MoneyTalks free & confidential financial mentors — 0800 345 123, free text 4029, help@moneytalks.co.nz — they can even talk to the power company for you. (4) Utilities Disputes free & independent 0800 22 33 40 — if the retailer won't help or is unfair. (5) Warmer Kiwi Homes — 80–90% off insulation and a heat pump for older homes with a Community Services Card or in lower-income areas. (6) EnergyMate energymate.nz — free energy advice. Practical bill tips you may share: hot water is often a third of the bill (set cylinder ~60°C); plug-in bar/fan heaters are the most expensive heat; one heat pump in one closed room at ~20°C is cheap; draught-stop an old house; check freezer seals; ask the retailer for the actual recent meter reads. Prepay note: it can cost more per unit and cuts off at zero — the grants and Winter Energy Payment above still apply, and they can switch to a retailer with a hardship policy. Always end by naming one concrete next step (usually a specific call to make).";
+
+  function esc(s){ return s.replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function linkify(s){
+    // turn 0800 numbers into tap-to-call, keep it simple + safe
+    return esc(s)
+      .replace(/(0800\s?\d{3}\s?\d{3}|0800\s?\d{2}\s?\d{2}\s?\d{2})/g, function(m){ return '<a href="tel:'+m.replace(/\s/g,'')+'">'+m+'</a>'; })
+      .replace(/\n/g,'<br>');
+  }
+  function add(role, text){
+    var d = document.createElement('div');
+    d.className = 'msg ' + (role === 'user' ? 'me' : 'ai');
+    d.innerHTML = role === 'user' ? esc(text) : linkify(text);
+    log.appendChild(d); d.scrollIntoView({behavior:'smooth', block:'end'});
+    return d;
+  }
+
+  function ask(text){
+    if(busy || !text.trim()) return;
+    busy = true; send.disabled = true; starters.style.display='none';
+    add('user', text);
+    history.push({role:'user', content:text});
+    input.value=''; input.style.height='auto';
+    var t = document.createElement('div'); t.className='typing'; t.textContent='thinking with you…';
+    log.appendChild(t); t.scrollIntoView({behavior:'smooth', block:'end'});
+
+    fetch('/api/agent', {
+      method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({ system: SYSTEM, messages: history.slice(-10) })
+    }).then(function(r){ return r.json(); }).then(function(j){
+      t.remove();
+      var reply = '';
+      if(j && Array.isArray(j.content)) reply = j.content.filter(function(b){return b && b.type==='text';}).map(function(b){return b.text||'';}).join('').trim();
+      if(!reply) reply = "Sorry — I couldn't get a reply just then. Please don't wait on me: ring MoneyTalks free on 0800 345 123, or Work and Income on 0800 559 009. They'll help you today.";
+      add('ai', reply);
+      history.push({role:'assistant', content:reply});
+      busy=false; send.disabled=false;
+    }).catch(function(){
+      t.remove();
+      add('ai', "Something went wrong on my end. Please ring MoneyTalks free on 0800 345 123 — they're kind and they'll help you work it out today.");
+      busy=false; send.disabled=false;
+    });
+  }
+
+  send.addEventListener('click', function(){ ask(input.value); });
+  input.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); ask(input.value); }});
+  input.addEventListener('input', function(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,140)+'px'; });
+  starters.addEventListener('click', function(e){ var b=e.target.closest('.starter'); if(b) ask(b.textContent); });
+})();
+</script>
+</body>
+</html>

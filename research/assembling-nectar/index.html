@@ -154,20 +154,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   font:500 11px/1.7 var(--sans);color:var(--grey)}
 @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
 
-/* mz:start — the assembling mosaic band */
-.mzBand{padding:36px 22px 26px;position:relative}
-.mzIn{max-width:1080px;margin:0 auto}
-.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
-.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
-  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
-.mzT.mzLit{opacity:1;filter:none;transform:none}
-.mzT.mzPulse{animation:mzP .9s ease}
-@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
-.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
-.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
-@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
-/* mz:end */
+
 
 /* pf:start — proof furniture: regulatory spine + pilot metrics */
 .pfSec{padding:34px 22px;position:relative}
@@ -198,33 +185,214 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .pfStop:nth-child(2){text-align:center}
 .pfStop:last-child{text-align:right}
 /* pf:end */
+.wpWrap{display:flex;justify-content:center;margin-top:36px}
+
+/* ── the hero, to the Swiss brief ─────────────────────────────────────── */
+.nHero{background:var(--sys-paper);min-height:100vh;display:grid;
+  grid-template-columns:1.25fr .75fr;align-items:center;gap:clamp(28px,4vw,64px);
+  padding:clamp(80px,11vh,130px) clamp(24px,5vw,72px) clamp(50px,8vh,90px);position:relative}
+@media(max-width:960px){.nHero{grid-template-columns:1fr;min-height:auto;gap:38px}}
+.nHero__in{max-width:none;min-width:0}
+
+.nHero .mDisplay{margin-top:26px;font-size:clamp(38px,6.6vw,104px);line-height:.94;
+  white-space:nowrap}
+@media(max-width:700px){.nHero .mDisplay{white-space:normal;font-size:clamp(38px,10vw,64px)}}
+.nHero__foot{margin-top:clamp(30px,5vh,54px);max-width:44ch}
+.nHero__foot p{font-size:16.5px;line-height:1.62;font-weight:300;color:var(--sys-body)}
+.nHero__meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;padding-top:18px;
+  border-top:1px solid var(--sys-line);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--sys-mute);font-weight:700}
+.nHero__art{position:relative}
+.nHero__cloud{position:relative;width:100%;aspect-ratio:4/5;border-radius:24px;overflow:hidden;
+  background:radial-gradient(ellipse 90% 70% at 50% 40%,#15171C 0%,#0A0B0E 100%);
+  box-shadow:0 60px 120px -60px rgba(20,22,26,.6)}
+@media(max-width:960px){.nHero__cloud{aspect-ratio:16/11}}
+.nHero__tag{position:absolute;left:-20px;bottom:38px;background:#fff;border-radius:14px;
+  padding:16px 20px;border:1px solid var(--sys-line);
+  box-shadow:0 30px 60px -34px rgba(20,22,26,.5)}
+.nHero__tag b{display:block;font-family:var(--sys-display);font-size:30px;line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.nHero__tag span{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sys-mute);margin-top:6px;font-weight:700}
+
+.nMos{background:var(--sys-paper);padding:clamp(40px,7vh,90px) clamp(24px,5vw,72px) clamp(24px,4vh,50px)}
+.nMos__in{max-width:1240px;margin:0 auto}
+.nMos__host{position:relative;height:clamp(150px,22vh,230px);border-radius:20px;overflow:hidden;
+  background:#fff;border:1px solid var(--sys-line)}
+.nMos__cap{max-width:1240px;margin:14px auto 0;font-size:10.5px;letter-spacing:.24em;
+  text-transform:uppercase;font-weight:700;color:var(--sys-mute)}
+.nMos__cap b{color:var(--sys-ink)}
+
+
+
+
+
+
+
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
 
 <div class="hair">independent concept &middot; simulated journey &middot; not affiliated with or endorsed by Nectar Money &mdash; prepared by assembl</div>
 
-<header class="head">
-  <div class="who">nectar money &times; <b>assembling</b> &middot; the rewarded wait</div>
-  <h1>the seven minutes,<br /><em>assembled.</em></h1>
-  <p class="sub">Get paid for the wait — <b>without breaking the law with finance incentives</b>. In lending, the reward is not points or prizes. It is <b>certainty</b>: what a rate is built from, what the total honestly costs, where your file actually is — and a refusal that fires exactly when it should.</p>
-</header>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+<header class="nHero">
+  <div class="nHero__in">
+    <div class="mLabel">nectar money &times; assembl &middot; independent concept</div>
+    <h1 data-m="type" class="mDisplay">Seven minutes<br />she doesn&rsquo;t spend<br /><em>wondering.</em></h1>
+    <div class="nHero__foot">
+      <p data-m-delay="500">Nectar already quotes in seven minutes. This is what those
+      minutes could hand back &mdash; and what happens in the hours after, before the money lands.</p>
+      <div class="nHero__meta" data-m-delay="700">
+        <span>simulated journey</span><span>no rate predicted</span><span>a person signs</span>
+      </div>
+    </div>
+  </div>
+  <div class="nHero__art">
+    <div class="nHero__cloud" id="heroCloud"></div>
+    <div class="nHero__tag"><b>00:41</b><span>into the seven</span></div>
+  </div>
+  </header>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--dark" data-m-scrub aria-label="the seven minutes" style="--abA:#056268">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--dark" id="abCloud"></div>
+    <div class="abStage__copy">
+      <div class="abStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill"></div></div>
+  </div>
 </section>
-<!-- mz:end -->
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
 
-<div class="opener">
-  <div class="op">Most online loan applications are abandoned in the wait &mdash; <b>68%</b> of them. Applicants quoted within 36 hours close at <b>85%</b>. The seven minutes are not dead time. They are the whole game.</div>
-  <div class="src">figures: ResolvePay, industry benchmark &middot; carried for the room, not claimed as Nectar&rsquo;s</div>
-</div>
+<section class="sysSay" style="--sysA:#056268">
+  <div class="sysSay__in">
+    <p>Sixty-eight percent of online loan applications are abandoned <em>in the wait.</em></p>
+    <p class="sysSay__note">Applicants quoted within thirty-six hours close at eighty-five percent. The minutes between applying and knowing are not dead time &mdash; they are the whole game. <b style="color:var(--sys-ink);font-weight:600">Figures: ResolvePay industry benchmark, carried for the room and not claimed as Nectar&rsquo;s.</b></p>
+  </div>
+</section>
+
+<section class="nMos" aria-hidden="true">
+  <div class="nMos__in"><div class="nMos__host" id="mosHost"></div></div>
+</section>
+<section class="sysStage sysStage--phone" id="phone" style="--sysA:#056268">
+  <div class="sysStage__in">
+    <div class="sysStage__head">
+      <div>
+        <div class="sysStage__kick">live on this page &middot; tap it</div>
+        <h2 data-m="type">What she holds while it works.</h2>
+      </div>
+      <p class="sysStage__sub">Every minute is earned by a named check. It stops once, to ask one real question &mdash; and waits for her answer.</p>
+    </div>
+    <div class="sysStage__floor" style="--wpx-accent:#056268;--wpx-ink:#15201F;--wpx-sans:var(--sans)">
+      <div id="wait-mount"></div>
+    </div>
+  </div>
+</section>
+
+
+
+
 
 <section class="sec" id="machine">
   <div class="secK">the five-beat spine &middot; application &rarr; the checks, working &rarr; three moments &rarr; certainty &rarr; the trace</div>
-  <h2 class="secH">Play the seven minutes.</h2>
-  <p class="secS">Pick a file. The left side is the engine working — every inquiry named and timestamped. The right side is what the applicant gets in the wait. One of these files ends in a refusal to draft anything at all — <b>that one is the product</b>.</p>
+  <h2 data-m="type" class="secH">Play the seven minutes.</h2>
+  <p class="secS" data-m="rise">Pick a file. The left side is the engine working — every inquiry named and timestamped. The right side is what the applicant gets in the wait. One of these files ends in a refusal to draft anything at all — <b>that one is the product</b>.</p>
   <div class="machine">
     <div class="mTop">
       <div class="t">A simulated application &middot; the clock compressed<small>no rate predicted &middot; no decision made &middot; every inquiry logged for the trace</small></div>
@@ -257,8 +425,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="evidence">
   <div class="secK">the evidence pane &middot; built for the regulator</div>
-  <h2 class="secH">Show the FMA the whole journey.</h2>
-  <p class="secS">From 1 July 2026, consumer-credit supervision under the CCCFA sits with the FMA. This journey is built so the regulator can be shown all of it — every inquiry, every refusal, timestamped.</p>
+  <h2 data-m="type" class="secH">Show the FMA the whole journey.</h2>
+  <p class="secS" data-m="rise">From 1 July 2026, consumer-credit supervision under the CCCFA sits with the FMA. This journey is built so the regulator can be shown all of it — every inquiry, every refusal, timestamped.</p>
   <div class="evid">
     <div class="evCard"><b>CCCFA consumer-credit supervision moved to the FMA on 1 July 2026 — one conduct regulator across lending.</b><i>&mdash; the licensing shift this journey is built for</i></div>
     <div class="evCard"><b>Prescriptive affordability regulations scrapped from 31 July 2024 — judgment returned to lenders.</b><i>&mdash; beehive.govt.nz &middot; judgment needs a trace, and the trace is this page&rsquo;s receipt</i></div>
@@ -267,8 +435,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="guard">
   <div class="secK">the boundary panel &middot; every rule real</div>
-  <h2 class="secH">What this journey refuses to do.</h2>
-  <p class="secS">Ported unchanged from the concept&rsquo;s rulebook — the refusals are the product, and the strongest output is the one that declines to produce a message.</p>
+  <h2 data-m="type" class="secH">What this journey refuses to do.</h2>
+  <p class="secS" data-m="rise">Ported unchanged from the concept&rsquo;s rulebook — the refusals are the product, and the strongest output is the one that declines to produce a message.</p>
   <div class="gGrid">
     <div class="g"><b><i>&times;</i>No rate predicted, ever</b><p>It explains what builds a personalised rate using published factors, and never estimates the number. That is the engine&rsquo;s output and only its output.</p><div class="law">CCCFA 2003</div></div>
     <div class="g"><b><i>&times;</i>No credit decision, anywhere</b><p>No output says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.</p><div class="law">CCCFA &middot; Responsible Lending Code</div></div>
@@ -280,7 +448,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec" id="ask">
   <div class="secK">ask this concept &middot; live</div>
-  <h2 class="secH">Ask how it works.</h2>
+  <h2 data-m="type" class="secH">Ask how it works.</h2>
   <div class="askBox">
     <div class="chat" id="chat">
       <div class="m ai">Kia ora — I&rsquo;m this concept&rsquo;s own agent. Ask how the seven minutes work, why the hardship file refuses, or what a pilot needs.</div>
@@ -299,7 +467,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
     <div class="pfCard">
       <div class="pfK">the regulatory spine · CCCFA → FMA</div>
       <p class="pfQ">Lender responsibilities under the Credit Contracts and Consumer Finance Act 2003 — and from 1 July 2026, consumer-credit supervision sits with the FMA.</p>
-      <p class="pfT">Every affordability inquiry, every decision and every refusal on this page is timestamped into the receipt. The journey is built to be shown to the regulator whole.</p>
+      <p class="pfT" data-m="rise">Every affordability inquiry, every decision and every refusal on this page is timestamped into the receipt. The journey is built to be shown to the regulator whole.</p>
     </div>
     <div class="pfCard">
       <div class="pfK">what a 90-day pilot would measure</div>
@@ -309,9 +477,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   </div>
 </section>
 <!-- pf:end -->
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#056268" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section class="sec" id="pilot">
   <div class="secK">run the pilot &middot; the acceptance</div>
-  <h2 class="secH">One wait, six weeks.</h2>
+  <h2 data-m="type" class="secH">One wait, six weeks.</h2>
   <div class="accGrid">
     <div>
       <p><b>The application wait, instrumented against the current silence.</b> Real stages, the three moments, the refusal switches on, the trace built for the FMA — measured on the four numbers below. Every send held for a person; the numbers you quote afterwards are your own.</p>
@@ -326,6 +499,37 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   </div>
 </section>
 
+<!-- ab:ev:start — the evidence, ANZ -->
+<section class="abEv" style="--abA:#056268" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer class="foot">
   An independent concept by assembl &mdash; intuitive agentic customer journeys. Not affiliated with, endorsed by or commissioned by
   Nectar Money. Every application, figure and timestamp on this page is simulated; no rate is predicted and no credit decision is
@@ -510,124 +714,63 @@ $('askIn').addEventListener('keydown',function(e){if(e.key==='Enter')ask()});
 })();
 </script>
 
-<script>/* mz:start — the assembling mosaic */
+
+<script src="three.min.js"></script>
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script src="wait-phone.js"></script>
+<script>
 (function(){
-var host=document.getElementById('mzHost'); if(!host) return;
-var NS='http://www.w3.org/2000/svg';
-function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
-var U=84;
-function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
-var KIND={
-quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
-semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
-dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
-stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
-ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
-tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
-sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
-hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
-tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
-umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
-house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
-moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
-key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
-cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
-shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
-crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
-heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
-leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
-clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
-teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
-parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
-van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
-envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
-globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
-plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
-sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
-ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
-case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
-coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
-card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
-chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
-percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
-receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
-bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
-bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
-plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
-tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
-door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
-tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
-crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
-brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
-pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
-drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
-flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
-car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
-wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
-flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
-road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
-apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
-milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
-egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
-carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
-wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
-tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
-};
-var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
-var TILES=[["quarter","#056268",0,1],["coin","#EFE8D9","#056268"],["semi","#CDEBE6","#056268"],["drop","#009C8F","#FFFFFF"],["quarter","#009C8F",0,3],["flower","#CDEBE6","#056268"],["dots","#009C8F","#CDEBE6"],["chart","#056268","#FFFFFF"],["sparkle","#1d1a15","#056268"],["percent","#EFE8D9","#009C8F"],["stripes","#056268","#CDEBE6"],["tick","#009C8F","#CDEBE6"],["hills","#CDEBE6","#009C8F"],["ringT","#CDEBE6","#009C8F"],["tick","#009C8F","#FFFFFF"],["quarter","#CDEBE6",0,2]];
-var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
-var layer=el('g',{}); svg.appendChild(layer);
-var tiles=[];
-SLOTS.forEach(function(s,i){
-  var t=TILES[i]; if(!t) return;
-  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
-  var g=el('g',{'class':'mzT'});
-  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
-  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
-});
-host.appendChild(svg);
-var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-var started=false;
-function ignite(){
-  if(started) return; started=true;
-  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
-  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
-    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
-  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
-  var next=6, iv=setInterval(function(){
-    if(next>=order.length){clearInterval(iv);return;}
-    tiles[order[next++]].classList.add('mzLit');
-  },1500);
-}
-if('IntersectionObserver' in window){
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
-  io.observe(host);
-  setTimeout(ignite,9000);
-}else ignite();
-document.addEventListener('click',function(){
-  if(reduce) return;
-  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
-  if(!lit.length) return;
-  var t=lit[Math.floor(Math.random()*lit.length)];
-  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
-  setTimeout(function(){t.classList.remove('mzPulse')},950);
-});
-var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
-if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
-  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
-  if(bgc&&bgc.length>=3){
-    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
-    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
-      band.style.setProperty('--mzDorm','.12');}
-  }
-}
-if(band&&!reduce){
-  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
-    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
-  band.addEventListener('pointerleave',function(){bx=0;by=0});
-  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
-    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
-}
-})();/* mz:end */</script>
+  var m=document.getElementById('wait-mount'); if(!m||!window.WaitPhone) return;
+  WaitPhone.mount(m,{"chrome":"phone",
+    "note":"Illustrative concept screen \u00b7 not a Nectar product \u00b7 no rate shown, no decision made \u2014 a person and an engine decide",
+    "startLabel":"tap to wait","skipLabel":"rather not say",
+    "scenarios":[
+      {"id":"quote","label":"The quote","app":"Your quote, assembling","unit":["","\u00a0min"],
+       "earning":"of the seven, used honestly","yours":"a quote built from your file, not an average",
+       "told":"you told us:","declined":"you would rather not say. The checks run on the file as given.",
+       "steps":[
+        {"agent":"Identity","doing":"Confirmed from what you gave \u2014 nothing re-asked","credit":1},
+        {"agent":"Credit file","doing":"Read once, with the trace kept","credit":2},
+        {"agent":"Ask","doing":"One question","ask":{"q":"Is this loan replacing one you already have?","options":["Yes \u2014 refinancing","No \u2014 it\u2019s new"],"learn":["the old repayment comes out of the affordability sums","affordability runs on your week as it is"]}},
+        {"agent":"Affordability","doing":"Your actual week, not an average household\u2019s","credit":2},
+        {"agent":"The rate","doing":"Built from your factors \u2014 shown, never predicted","credit":1},
+        {"agent":"Quote","doing":"Ready \u2014 fixed for life, no early-repayment penalty","credit":1}]},
+      {"id":"money","label":"To the money","app":"Quote accepted \u00b7 funding","unit":["","\u00a0min"],
+       "earning":"of chasing, never needed","yours":"the money\u2019s path, visible the whole way",
+       "told":"you told us:","declined":"you would rather not say. The path stays visible regardless.",
+       "steps":[
+        {"agent":"Documents","doing":"Signed once, filed with the trace","credit":6},
+        {"agent":"Payout","doing":"Queued \u2014 the time it lands, not \u201ctoday\u201d","credit":9},
+        {"agent":"Ask","doing":"One question","ask":{"q":"Does the payout need to reach a seller directly?","options":["Yes \u2014 pay the seller","No \u2014 my account"],"learn":["the seller\u2019s details verified before anything moves","your account, with the landing time shown"]}},
+        {"agent":"Landed","doing":"Confirmed \u2014 and the receipt filed","credit":8}]}
+    ]});
+})();
+</script>
+<script>
+(function(){
+  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('heroCloud'),
+    {form:'ring',material:'brass',colour:'#056268',count:2600,mode:'auto',size:.05});
+  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('mosHost'),
+    {colour:'#056268',ink:'#15201F',brass:'#BFA37A',seed:'nectar-money',density:26,mode:'enter'});
+})();
+</script>
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+    {form:'ring',material:'brass',colour:'#056268',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  var c2=document.getElementById('abCloud2');
+  if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+    {form:'ring',material:'brass',colour:'#056268',count:1800,mode:'auto',size:.045});
+  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+    {colour:'#056268',ink:'#14161A',brass:'#BFA37A',seed:'nectar-money',density:14,mode:'enter'});
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>

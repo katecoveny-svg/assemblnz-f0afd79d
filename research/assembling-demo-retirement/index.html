@@ -41,12 +41,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 26px}
 .narrow{max-width:720px}
-#scene{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse 120% 70% at 50% 42%,transparent 0%,rgba(var(--scrim),.30) 55%,rgba(var(--scrim),.86) 100%)}
-.veil::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(100deg,rgba(var(--scrim),.94) 0%,rgba(var(--scrim),.86) 34%,rgba(var(--scrim),.30) 58%,transparent 76%)}
-@media(max-width:820px){.veil::after{background:linear-gradient(180deg,rgba(var(--scrim),.80) 0%,rgba(var(--scrim),.90) 100%)}}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 90% 55% at 78% -6%, rgba(63,97,82,.10) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 48% at 6% 30%, rgba(200,120,90,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 108%, rgba(191,163,122,.09) 0%, transparent 55%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(24,29,24,.028) 1px,transparent 1px);
+  background-size:100% 56px}
 main{position:relative;z-index:2}
 .topbar{position:sticky;top:0;z-index:60;background:rgba(var(--scrim),.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-2)}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:18px}
@@ -87,7 +89,7 @@ em.g{font-style:normal;color:var(--accent)}
 .btn.solid .arw{color:var(--accent)}
 .btn.ghost{border:1px solid var(--line)}
 .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
-.glass{background:rgba(var(--film),.045);border:1px solid var(--line);border-radius:20px;padding:30px;backdrop-filter:blur(10px)}
+.glass{background:rgba(var(--panel),.8);border:1px solid var(--line);border-radius:20px;padding:30px;backdrop-filter:blur(10px);box-shadow:0 18px 50px -30px rgba(24,29,24,.25)}
 .glass.tight{padding:22px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -122,14 +124,14 @@ em.g{font-style:normal;color:var(--accent)}
 /* The sculpture is a FIXED full-screen canvas, so a 4%-white panel reads straight
    through it and the copy becomes unreadable. Solidify the panel — never fade the
    canvas to win legibility. */
-.waitcards .glass{background:rgba(13,13,15,.88);border-color:rgba(var(--film),.10)}
-.waitcards .kicker{background:rgba(13,13,15,.88);border:1px solid rgba(var(--film),.08);
+.waitcards .glass{background:rgba(255,255,255,.93);border-color:rgba(var(--film),.10)}
+.waitcards .kicker{background:rgba(255,255,255,.93);border:1px solid rgba(var(--film),.08);
   border-radius:16px;padding:18px 22px}
 @media(max-width:960px){.waitgrid{grid-template-columns:1fr;gap:36px;justify-items:center}
   .waitdemo{position:static}.waitcards{width:100%}}
 /* the room — the private space every concept on this page would run in */
 .roomgrid{display:grid;grid-template-columns:1fr 380px;gap:52px;align-items:start;margin-top:44px}
-.room{border:1px solid var(--line);border-radius:18px;background:rgba(13,13,15,.92);overflow:hidden}
+.room{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.96);overflow:hidden}
 .roomhead{padding:16px 20px;border-bottom:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px}
 .roomhead small{color:var(--muted-2);font-weight:400;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 .roommsg{padding:14px 20px;border-bottom:1px solid var(--line-2);display:flex;gap:12px}
@@ -141,7 +143,7 @@ em.g{font-style:normal;color:var(--accent)}
 .roommsg .b b small{color:var(--muted-2);font-weight:400;margin-left:6px;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
 .receipt{margin-top:8px;display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
 .receipt em{font-style:normal;color:var(--champ)}
-.roomrec{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:rgba(13,13,15,.88)}
+.roomrec{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:rgba(255,255,255,.93)}
 .roomrec .rt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:12px}
 .roomrec .rl{display:flex;gap:10px;font-size:12px;color:rgba(var(--film),.8);padding:7px 0;border-bottom:1px dashed var(--line-2)}
 .roomrec .rl:last-of-type{border-bottom:0}
@@ -149,11 +151,11 @@ em.g{font-style:normal;color:var(--accent)}
 @media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
 /* the family of waits + how the wait is powered */
 .momgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:34px}
-.mom{border:1px solid var(--line);border-radius:14px;padding:14px 15px;background:rgba(13,13,15,.82)}
+.mom{border:1px solid var(--line);border-radius:14px;padding:14px 15px;background:rgba(255,255,255,.9)}
 .mom b{display:block;font-size:13.5px;margin-bottom:4px}
 .mom span{font-size:11.5px;color:var(--muted);letter-spacing:.02em}
 .powgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));grid-auto-rows:1fr;gap:12px;margin-top:30px}
-.pow{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:16px;padding:16px 17px;background:rgba(13,13,15,.7)}
+.pow{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:16px;padding:16px 17px;background:rgba(255,255,255,.86)}
 .pow i{font-style:normal;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .pow b{display:block;font-size:13.5px;margin:6px 0 4px}
 .pow span{font-size:12px;color:var(--muted);line-height:1.5}
@@ -161,8 +163,8 @@ em.g{font-style:normal;color:var(--accent)}
 .prinline em{font-style:normal;color:var(--champ)}
 /* the evidence section — the board's facts, living in the demo */
 .evgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:36px}
-.ev{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;
-  padding:18px 20px;background:rgba(13,13,15,.86);transition:transform .3s ease,border-color .3s ease}
+.ev{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;box-shadow:0 14px 40px -28px rgba(24,29,24,.3);
+  padding:18px 20px;background:rgba(255,255,255,.93);transition:transform .3s ease,border-color .3s ease}
 .ev:hover{transform:translateY(-2px);border-left-color:var(--champ)}
 .ev b{display:block;font-size:15px;line-height:1.45;margin-bottom:8px;color:var(--paper)}
 .ev i{font-style:normal;font-size:11px;color:var(--muted-2);letter-spacing:.02em}
@@ -171,7 +173,7 @@ em.g{font-style:normal;color:var(--accent)}
 /* the explainer sits on the dark page, so it takes the page's own ink */
 #wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
   --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
-  background:rgba(13,13,15,.88); border-color:rgba(var(--film),.10)}
+  background:rgba(255,255,255,.93); border-color:rgba(var(--film),.10)}
 /* wait-phone.js, driven from this client's palette */
 #wait-mount .wp{
   --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
@@ -658,13 +660,225 @@ h1{letter-spacing:-.035em}
 .mzCap b{color:var(--mzCapB,inherit);font-weight:700}
 @media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
 /* mz:end */
+
+/* vr:start — the vision read, scan-panel treatment */
+.vrSec{padding:44px 22px 40px;position:relative}
+.vrIn{max-width:1080px;margin:0 auto}
+.vrK{font:800 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--vrA)}
+.vrH{margin:8px 0 8px;font-size:clamp(24px,3.2vw,34px);line-height:1.1;letter-spacing:-.02em;font-weight:800;color:var(--vrInk)}
+.vrSub{margin:0 0 16px;font:500 14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--vrInk);opacity:.82;max-width:640px}
+.vrBtns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.vrBtn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;
+  font:800 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--vrBtnInk,#fff);
+  background:var(--vrA);border:1.5px solid var(--vrA);border-radius:14px;padding:11px 16px;cursor:pointer}
+.vrBtn small{font:600 10px -apple-system,sans-serif;opacity:.75;letter-spacing:.04em}
+.vrBtn.ghost{background:transparent;color:var(--vrInk);border-color:var(--vrLine)}
+.vrBtn:active{transform:scale(.98)}
+.vrBtn input{display:none}
+.vrGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:900px){.vrGrid{grid-template-columns:1fr}}
+.vrPanel{display:none;position:relative}
+.vrPanel.on{display:block}
+.vrFrame{position:relative;border-radius:18px;overflow:hidden;background:#101010;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.55),0 0 0 1.5px var(--vrLine)}
+.vrFrame img{display:block;width:100%;height:auto}
+.vrFx i{position:absolute;width:24px;height:24px;border:2.5px solid var(--vrAcc2,#FF8A3D);z-index:4}
+.vrFx i.tl{top:9px;left:9px;border-right:0;border-bottom:0;border-top-left-radius:7px}
+.vrFx i.tr{top:9px;right:9px;border-left:0;border-bottom:0;border-top-right-radius:7px}
+.vrFx i.bl{bottom:9px;left:9px;border-right:0;border-top:0;border-bottom-left-radius:7px}
+.vrFx i.br{bottom:9px;right:9px;border-left:0;border-top:0;border-bottom-right-radius:7px}
+.vrSweep{position:absolute;left:0;right:0;top:-14%;height:12%;z-index:3;opacity:0;
+  background:linear-gradient(180deg,transparent,var(--vrSweepC,rgba(255,138,61,.4)) 50%,transparent);
+  box-shadow:0 0 26px var(--vrSweepC,rgba(255,138,61,.35))}
+.vrPanel.scanning .vrSweep{opacity:1;animation:vrSw 2.4s linear infinite}
+@keyframes vrSw{from{top:-14%}to{top:102%}}
+.vrBox{position:absolute;z-index:5;border:2px solid #fff;border-radius:9px;
+  box-shadow:0 0 0 1.5px rgba(0,0,0,.3),0 8px 22px -8px rgba(0,0,0,.5);
+  opacity:0;transform:scale(1.22);transition:opacity .45s ease,transform .45s cubic-bezier(.2,.9,.3,1.3)}
+.vrBox.in{opacity:1;transform:none}
+.vrBox.item{border-color:var(--vrAcc2,#FF8A3D)}
+.vrBox.clear{border-color:#7DBB42}
+.vrBox.care{border-color:var(--vrAcc2,#FF8A3D);border-style:dashed}
+.vrLab{position:absolute;left:-2px;bottom:calc(100% + 5px);white-space:nowrap;
+  font:800 9px -apple-system,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#fff;
+  padding:3.5px 7px;border-radius:7px;background:var(--vrLabBg,#E85F00)}
+.vrBox.clear .vrLab{background:#37823A}
+.vrBox.flip .vrLab{bottom:auto;top:calc(100% + 5px)}
+.vrBox.rt .vrLab{left:auto;right:-2px}
+.vrTag{margin:12px auto 0;width:fit-content;max-width:100%;
+  font:700 10px -apple-system,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--vrInk);
+  background:var(--vrCard);border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 15px}
+.vrTag b{color:var(--vrA)}
+.vrSec[data-dark] .vrTag b{color:#fff}
+.vrOut{display:none}
+.vrOut.on{display:block}
+.vrCard{background:var(--vrCard);border:1.5px solid var(--vrLine);border-radius:16px;padding:15px 17px;margin-bottom:12px}
+.vrCard h4{margin:0 0 8px;font:800 10px -apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--vrA)}
+.vrSec[data-dark] .vrCard h4{color:#fff}
+.vrRow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--vrLine);
+  font:600 12.5px -apple-system,sans-serif;color:var(--vrInk)}
+.vrRow:last-child{border-bottom:0}
+.vrRow span:last-child{font-variant-numeric:tabular-nums;opacity:.75;white-space:nowrap}
+.vrChips{display:flex;flex-direction:column;gap:6px}
+.vrChip{font:600 12px/1.5 -apple-system,sans-serif;color:var(--vrInk);padding:7px 11px;border-radius:10px;
+  border:1.5px solid var(--vrLine);background:transparent}
+.vrChip.clear{border-color:rgba(55,130,58,.45)}
+.vrChip.care{border-style:dashed}
+.vrBig{font:700 13.5px/1.6 -apple-system,sans-serif;color:var(--vrInk);margin:0 0 8px}
+.vrDim{font:500 11.5px/1.6 -apple-system,sans-serif;color:var(--vrInk);opacity:.62;margin:6px 0 0}
+.vrDraft{position:relative;border:1.5px solid var(--vrLine);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.vrDraft b{display:block;font:800 14px -apple-system,sans-serif;color:var(--vrInk);letter-spacing:-.01em}
+.vrDraft p{margin:4px 0 0;font:500 12.5px/1.55 -apple-system,sans-serif;color:var(--vrInk);opacity:.8}
+.vrDraft em{position:absolute;top:9px;right:11px;font:700 8.5px -apple-system,sans-serif;letter-spacing:.14em;
+  text-transform:uppercase;font-style:normal;color:var(--vrInk);opacity:.5;border:1px solid var(--vrLine);
+  border-radius:6px;padding:2.5px 6px}
+.vrFoot{margin:16px 0 0;font:500 11.5px/1.7 -apple-system,sans-serif;color:var(--vrInk);opacity:.62;max-width:720px}
+/* the lot thumbs — pick a real car */
+.vrThumbs{display:flex;gap:9px;flex-wrap:wrap;margin:-6px 0 18px}
+.vrTh{appearance:none;border:1.5px solid var(--vrLine);background:none;border-radius:12px;padding:4px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px}
+.vrTh img{display:block;width:74px;height:44px;object-fit:cover;border-radius:8px}
+.vrTh span{font:700 8.5px -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--vrInk);opacity:.65}
+.vrTh:hover,.vrTh.on{border-color:var(--vrA)}
+/* the drafted offer card — the giltrap.com artefact, faithful and light */
+.vrOffer{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.65);margin-bottom:12px}
+.vrOfferImg{position:relative}
+.vrOfferImg img{display:block;width:100%;height:170px;object-fit:cover}
+.vrRound{position:absolute;left:16px;bottom:-20px;width:46px;height:46px;border-radius:50%;background:#fff;
+  box-shadow:0 4px 14px rgba(20,30,45,.18);display:flex;align-items:center;justify-content:center}
+.vrRound svg{width:26px;height:26px}
+.vrStamp{position:absolute;top:12px;right:12px;font:800 9px -apple-system,sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;font-style:normal;color:#1B2430;background:rgba(255,255,255,.92);
+  border:1.5px dashed #1B2430;border-radius:8px;padding:5px 9px;transform:rotate(3deg)}
+.vrStamp.signed{border-style:solid;background:#1B2430;color:#fff;transform:none}
+.vrOfferBody{padding:26px 18px 16px}
+.vrOfferBody h3{margin:0 0 6px;font:800 18px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  color:#1B2430;letter-spacing:-.01em}
+.vrOfferBody>p{margin:0 0 10px;font:500 13px/1.6 -apple-system,sans-serif;color:#5A6472}
+.vrOfferChips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.vrOfferChips i{font:700 10.5px -apple-system,sans-serif;font-style:normal;color:#33404E;background:#EEF1F5;
+  border-radius:99px;padding:5px 11px}
+.vrTCs{text-align:center;font:600 11px -apple-system,sans-serif;color:#5A6472;margin-bottom:10px}
+.vrPill{display:block;width:100%;text-align:center;font:700 14px -apple-system,sans-serif;color:#1B2430;
+  background:#fff;border:1.5px solid #94A0AE;border-radius:99px;padding:12px;cursor:pointer}
+.vrPill:active{transform:scale(.99)}
+.vrPill[disabled]{opacity:.55;cursor:default}
+/* the signing queue — wired to the desk */
+.vrQ{margin-top:20px;border:1.5px solid var(--vrLine);border-radius:16px;padding:14px 16px}
+.vrQK{font:800 10px -apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--vrInk);margin-bottom:10px}
+.vrQK b{color:var(--vrInk)}
+.vrQItem{display:flex;gap:11px;align-items:center;padding:9px 0;border-top:1px solid var(--vrLine)}
+.vrQItem img{width:64px;height:40px;object-fit:cover;border-radius:8px;flex:none}
+.vrQT{flex:1;min-width:0}
+.vrQT b{display:block;font:800 12.5px -apple-system,sans-serif;color:var(--vrInk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vrQT span{display:block;font:600 10px -apple-system,sans-serif;color:var(--vrInk);opacity:.6;margin-top:2px}
+.vrQSign{font:800 11px -apple-system,sans-serif;color:#0d0d0d;background:var(--vrA);border:0;border-radius:10px;
+  padding:8px 12px;cursor:pointer;flex:none}
+.vrQSign[disabled]{background:transparent;border:1.5px solid var(--vrLine);color:var(--vrInk);opacity:.7;cursor:default}
+.vrQGuard{margin-top:11px;font:700 11px -apple-system,sans-serif;color:var(--vrInk);background:none;
+  border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 14px;cursor:pointer}
+/* vr:end */
+
+
+
+
+
+
+
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
 <!-- spine:start -->
 <div class="spRibbon">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
 <!-- spine:end -->
-<canvas id="scene"></canvas><div class="veil"></div>
+
 <div class="grain" aria-hidden="true"></div>
 <div class="rail" aria-hidden="true"><i id="railfill"></i></div><div class="railn" id="railn" aria-hidden="true"></div>
 
@@ -684,7 +898,7 @@ h1{letter-spacing:-.035em}
 <main>
 <header class="hero"><div class="wrap"><div class="narrow">
   <div class="eyebrow rise">Retirement living · a demonstrator</div>
-  <h1 class="rise">She asked for a brochure.<br><em class="g">She needs an answer.</em><br>Those are not the same.</h1>
+  <h1 data-m="type" class="rise">She asked for a brochure.<br><em class="g">She needs an answer.</em><br>Those are not the same.</h1>
   <p class="lede rise">A family enquires about a village for their mother. What arrives is the pack every family gets. This demonstrates the alternative: the same published material, assembled around the three things this family actually said, with one question going back the other way.</p>
   <div class="quote rise"><p>“The pack is already the most requested thing on the site. Today it arrives identical for everyone.”</p><cite>Rosewell Villages · an invented example</cite></div>
   <div class="btns rise">
@@ -692,12 +906,51 @@ h1{letter-spacing:-.035em}
     <button class="btn ghost" onclick="openChat()">Ask it about this</button>
   </div>
 </div></div></header>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--dark" data-m-scrub aria-label="the decision, assembling" style="--abA:#3F6152">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--dark" id="abCloud"></div>
+    <div class="abStage__copy">
+      <div class="abStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill"></div></div>
+  </div>
 </section>
-<!-- mz:end -->
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
+<section class="vrSec" id="vrSec" style="--vrA:#3F6152;--vrInk:#1A1917;--vrCard:#FFFFFF;--vrLine:rgba(26,25,23,.12);">
+  <div class="vrIn">
+    <div class="vrK">the lounge, read</div>
+    <h2 data-m="type" class="vrH">Will her things fit? Watch a lounge being read.</h2>
+    <p class="vrSub">Photograph the lounge as it is. The reader finds every piece, sizes it roughly, and totals the floor it wants &mdash; then the total goes to the plan of the home the family is considering, with a person. No room dimensions are invented here.</p>
+    <div class="vrBtns">
+      <button type="button" class="vrBtn" id="vrDemo">Read the demo lounge<small>a real lounge &middot; the real reader runs on it</small></button>
+      <label class="vrBtn ghost">Use your own photo<small>read once &middot; never stored</small><input type="file" id="vrOwn" accept="image/*" /></label>
+    </div>
+    <div class="vrGrid">
+      <div class="vrPanel" id="vrPanel">
+        <div class="vrFrame"><img id="vrImg" alt="The photo being read" />
+          <div class="vrFx"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+            <div class="vrSweep"></div></div>
+          <div id="vrBoxes"></div>
+        </div>
+        <div class="vrTag" id="vrTag">reading&hellip;</div>
+      </div>
+      <div class="vrOut" id="vrOut"></div>
+    </div>
+    <p class="vrFoot">One guidance figure, once: a wheelchair turning circle is 1.5 m (NZS 4121). Everything else here is observation from the photo — never care advice.</p>
+  </div>
+</section>
+
 
 <!-- spine:start -->
 <div class="spWrap"><div class="wrap">
@@ -706,7 +959,7 @@ h1{letter-spacing:-.035em}
     <div class="spC"><div class="spK">the business</div><div class="spT">nothing sends without a person signing</div></div>
     <div class="spC"><div class="spK">assembl</div><div class="spT">paid on completed moments</div></div>
   </div>
-  <p class="spIdea">the wait, working &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
+  <p class="spIdea" data-m="rise">the wait, working &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
 </div></div>
 <!-- spine:end -->
 
@@ -715,9 +968,9 @@ h1{letter-spacing:-.035em}
   <div class="num rise">01 — THE WAIT</div>
   <div class="narrow rise">
     <div class="eyebrow">A Sunday, 7:30pm</div>
-    <h2>The wait between asking and knowing</h2>
-    <p class="lede">Three siblings in three cities are trying to work out whether their mother can afford this, whether she would be happy, and whether she would have to move again later. The pack answers all of it, somewhere, in eighty pages. Nobody reads eighty pages on a Sunday.</p>
-    <p class="kicker" style="color:var(--accent)">Every retirement group in the country already publishes the material a worried family needs. The gap is never the information. It is that the information arrives in the order the brochure was written in, not the order this family is worried in.</p>
+    <h2 data-m="type">The wait between asking and knowing</h2>
+    <p class="lede" data-m="rise">Three siblings in three cities are trying to work out whether their mother can afford this, whether she would be happy, and whether she would have to move again later. The pack answers all of it, somewhere, in eighty pages. Nobody reads eighty pages on a Sunday.</p>
+    <p class="kicker" data-m="rise" style="color:var(--accent)">Every retirement group in the country already publishes the material a worried family needs. The gap is never the information. It is that the information arrives in the order the brochure was written in, not the order this family is worried in.</p>
   </div>
   
   <!-- The wait itself, not three paragraphs about it. Same component the
@@ -728,38 +981,38 @@ h1{letter-spacing:-.035em}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
-      <div class="glass" id="wait-explain"></div>
-      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">One pack for every family. The questions it did not answer arrive by phone, one at a time, to whoever picks up.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">The most emotionally loaded decision a family makes, handled with a document that does not know their situation.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Opens the pack at the page that answers their worry, in their numbers, and stops. An advisor sends it.</p></div>
+      <div class="glass" data-m="rise" id="wait-explain"></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What happens now</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">One pack for every family. The questions it did not answer arrive by phone, one at a time, to whoever picks up.</p></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What it costs</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">The most emotionally loaded decision a family makes, handled with a document that does not know their situation.</p></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What the concept does</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Opens the pack at the page that answers their worry, in their numbers, and stops. An advisor sends it.</p></div>
     </div>
   </div>
 
   
   <div class="narrow rise" style="margin-top:64px">
     <div class="eyebrow">The principles it runs on</div>
-    <h2 style="font-size:clamp(22px,3vw,30px)">Four rules, every moment.</h2>
+    <h2 data-m="type" style="font-size:clamp(22px,3vw,30px)">Four rules, every moment.</h2>
   </div>
   <div class="powgrid rise">
-    <div class="pow"><i>01 — intent signal</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
-    <div class="pow"><i>02 — honest duration</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
-    <div class="pow"><i>03 — value delivery</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
-    <div class="pow"><i>04 — value exchange</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
+    <div class="pow" data-m="rise"><i>01 — intent signal</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
+    <div class="pow" data-m="rise"><i>02 — honest duration</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
+    <div class="pow" data-m="rise"><i>03 — value delivery</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
+    <div class="pow" data-m="rise"><i>04 — value exchange</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
   </div>
   <p class="prinline rise"><em>Opt-in, skippable, honest.</em> The reward comes from the business running the journey, never from selling the person waiting. Every decision still ends with a person.</p>
 
   <div class="narrow rise" style="margin-top:64px">
     <div class="eyebrow">Not one wait — a family of them</div>
-    <h2 style="font-size:clamp(22px,3vw,30px)">Every village moment, one pattern.</h2>
-    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+    <h2 data-m="type" style="font-size:clamp(22px,3vw,30px)">Every village moment, one pattern.</h2>
+    <p class="kicker" data-m="rise">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
   </div>
   <div class="momgrid rise">
-    <div class="mom"><b>The enquiry</b><span>a pack, not a brochure</span></div>
-    <div class="mom"><b>The visit</b><span>booked around the family</span></div>
-    <div class="mom"><b>Moving in</b><span>the week nobody forgets</span></div>
-    <div class="mom"><b>Care changes</b><span>seen before it is a crisis</span></div>
-    <div class="mom"><b>The exit</b><span>the pipeline, in the open</span></div>
-    <div class="mom"><b>Repayment</b><span>a date, not a silence</span></div>
+    <div class="mom" data-m="rise"><b>The enquiry</b><span>a pack, not a brochure</span></div>
+    <div class="mom" data-m="rise"><b>The visit</b><span>booked around the family</span></div>
+    <div class="mom" data-m="rise"><b>Moving in</b><span>the week nobody forgets</span></div>
+    <div class="mom" data-m="rise"><b>Care changes</b><span>seen before it is a crisis</span></div>
+    <div class="mom" data-m="rise"><b>The exit</b><span>the pipeline, in the open</span></div>
+    <div class="mom" data-m="rise"><b>Repayment</b><span>a date, not a silence</span></div>
   </div>
 </div></section>
 
@@ -767,8 +1020,8 @@ h1{letter-spacing:-.035em}
 <section id="map" class="mapband"><div class="wrap">
   <div class="num rise dark">02 — EVERY WAITING MOMENT</div>
   <div class="narrow rise">
-    <h2 class="mapH">Every wait in a retirement village decision</h2>
-    <p class="mapLede">Six moments in a village decision where a family is waiting. Most of them are emotional before they are administrative.</p>
+    <h2 data-m="type" class="mapH">Every wait in a retirement village decision</h2>
+    <p class="mapLede" data-m="rise">Six moments in a village decision where a family is waiting. Most of them are emotional before they are administrative.</p>
   </div>
 
   <div class="deck rise">
@@ -836,7 +1089,7 @@ h1{letter-spacing:-.035em}
   <div class="mapHow rise">
     <div class="mapHowL">
       <div class="eyebrow dark">How the moment works</div>
-      <h3>Four steps, every time.</h3>
+      <h3 data-m="rise">Four steps, every time.</h3>
       <ol class="mapSteps">
         <li><b>The signal</b><span>Something in your own systems says a person is now waiting, and roughly how long for.</span></li>
         <li><b>The prediction</b><span>How long this one will really take — not the average, this one.</span></li>
@@ -857,20 +1110,16 @@ h1{letter-spacing:-.035em}
     </div>
   </div>
 
-  <div class="mapEv rise">
-    <b>This is not a new idea — it is an unbuilt one.</b>
-    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
-    <p class="mapEvFin">Every figure on this page carries its source. Overseas figures are shown as overseas figures — we have not found a published New Zealand equivalent, and we will not invent one.</p>
-  </div>
-</div></section>
+  
+</section>
 
 
 <section id="mirror"><div class="wrap">
   <div class="num rise">03 — THE WORK, PREPARED</div>
   <div class="narrow rise">
     <div class="eyebrow">The same situation, four ways</div>
-    <h2>One enquiry. Four families.</h2>
-    <p class="kicker">The same published pack, assembled four ways. Nothing sends without an advisor, and the situations that need a person say so.</p>
+    <h2 data-m="type">One enquiry. Four families.</h2>
+    <p class="kicker" data-m="rise">The same published pack, assembled four ways. Nothing sends without an advisor, and the situations that need a person say so.</p>
   </div>
   <div style="margin-top:38px" class="rise">
     <div class="marqrow" id="marqrow"></div>
@@ -878,8 +1127,8 @@ h1{letter-spacing:-.035em}
       <div class="glass draft" id="draftBox"></div>
       <div class="glass tight">
         <div class="num" style="margin-bottom:16px">WHY THIS ISN'T A TEMPLATE</div>
-        <p class="kicker" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
-        <p class="kicker" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
+        <p class="kicker" data-m="rise" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
+        <p class="kicker" data-m="rise" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
         <div class="check pass" style="margin-top:20px"><span class="ic">✓</span>
           <div><div class="t">Nothing here sends</div><div class="d">Every draft goes to a named person. No channel is connected by this concept.</div></div></div>
       </div>
@@ -891,7 +1140,7 @@ h1{letter-spacing:-.035em}
 <section id="boundary" class="bd"><div class="wrap">
   <div class="num rise dark">04 — THE BOUNDARY</div>
   <div class="narrow rise">
-    <h2>Her daughter fills in the form. What does she get told?</h2>
+    <h2 data-m="type">Her daughter fills in the form. What does she get told?</h2>
     <p class="bdLede">IPP3A came into force in May 2026. An adult child who types their mother’s age, health and finances into an operator’s tool is collecting her personal information from someone other than her, so she has to be told. Most concepts in this category will miss that. Turn these on and watch what she receives.</p>
   </div>
   <div class="bdGrid rise">
@@ -931,12 +1180,12 @@ h1{letter-spacing:-.035em}
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Before a person ever reads it</div>
-      <h2>The checks that run before a family reads anything</h2>
-      <p class="kicker">This is the most emotionally loaded category assembl builds in, so the guards are the interesting part, not the assembly.</p>
-      <p class="kicker">Drafts are held against the Retirement Villages Act 2003, the Fair Trading Act 1986, the Privacy Act 2020, and the Health Information Privacy Code 2020.</p>
+      <h2 data-m="type">The checks that run before a family reads anything</h2>
+      <p class="kicker" data-m="rise">This is the most emotionally loaded category assembl builds in, so the guards are the interesting part, not the assembly.</p>
+      <p class="kicker" data-m="rise">Drafts are held against the Retirement Villages Act 2003, the Fair Trading Act 1986, the Privacy Act 2020, and the Health Information Privacy Code 2020.</p>
       <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the batch →</button>
     </div>
-    <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
+    <div class="rise"><div id="guardOut"><p class="kicker" data-m="rise" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
   </div>
 </div></section>
 
@@ -944,8 +1193,8 @@ h1{letter-spacing:-.035em}
   <div class="num rise">06 — THE ROOM</div>
   <div class="narrow rise">
     <div class="eyebrow">Where you watch it work</div>
-    <h2>One room. Your people, your agents, every action on the record.</h2>
-    <p class="kicker">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
+    <h2 data-m="type">One room. Your people, your agents, every action on the record.</h2>
+    <p class="kicker" data-m="rise">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
   </div>
   <div class="roomgrid rise">
     <div class="room" aria-label="A concept picture of the private pilot room">
@@ -959,13 +1208,13 @@ h1{letter-spacing:-.035em}
       <div class="rl"><span>09:02</span> draft prepared from your sources</div>
       <div class="rl"><span>09:06</span> approved by a named person</div>
       <div class="rl"><span>09:06</span> sent · receipt filed</div>
-      <p class="kicker" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
+      <p class="kicker" data-m="rise" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
     </div>
   </div>
   <div class="grid3" style="margin-top:38px">
-    <div class="glass tight rise"><h3 style="font-size:18px">Yours</h3><p class="kicker" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:18px">On the record</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:18px">People decide</h3><p class="kicker" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">Yours</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">On the record</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">People decide</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
   </div>
   <p class="kicker rise" style="font-size:12.5px;margin-top:22px;color:var(--muted)">This panel is a concept picture, not a live room — a pilot stands up the real one, on infrastructure you approve.</p>
 </div></section>
@@ -974,8 +1223,8 @@ h1{letter-spacing:-.035em}
   <div class="num rise">07 — ON ONE SCREEN</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing here has been sent</div>
-    <h2>The enquiries, before anything sends</h2>
-    <p class="kicker">Illustrative and fictional. No production access is requested by this concept.</p>
+    <h2 data-m="type">The enquiries, before anything sends</h2>
+    <p class="kicker" data-m="rise">Illustrative and fictional. No production access is requested by this concept.</p>
   </div>
   <div class="glass rise" style="margin-top:34px;overflow-x:auto">
     <table class="ops">
@@ -991,9 +1240,9 @@ h1{letter-spacing:-.035em}
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Mana Receipt</div>
-      <h2>Every draft carries its own working.</h2>
-      <p class="kicker">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
-      <p class="kicker">This matters most on the day someone asks why it said what it said.</p>
+      <h2 data-m="type">Every draft carries its own working.</h2>
+      <p class="kicker" data-m="rise">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
+      <p class="kicker" data-m="rise">This matters most on the day someone asks why it said what it said.</p>
     </div>
     <div class="rise"><div class="receipt">
       <div class="rh">Mana Receipt · draft</div>
@@ -1010,27 +1259,32 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#3F6152" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section id="pilot"><div class="wrap">
   <div class="num rise">09 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
-      <h3>What this will never do</h3>
-      <p class="kicker" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
-      <p class="kicker">No production access is requested by this concept.</p>
+      <h3 data-m="rise">What this will never do</h3>
+      <p class="kicker" data-m="rise" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
+      <p class="kicker" data-m="rise">No production access is requested by this concept.</p>
     </div></div>
     <div class="rise"><div class="glass pilot">
       <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
       <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>In a real engagement: one enquiry type, start to finish, six weeks. Not the sales conversation, not pricing, not the care assessment.</p></div></div>
       <div class="step"><span class="n">2</span><div><h4>Access</h4><p>Published pack material and the field names that mark stated worry, region preference and any care or bereavement language. No health information. No resident records.</p></div></div>
       <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Packs an advisor sent without rewriting. Held cases an advisor agreed should have been held. Calls the pack avoided. And whether an advisor would put their name to what arrived.</p></div></div>
-      <p class="kicker" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
+      <p class="kicker" data-m="rise" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
     </div></div>
   </div>
 
   <div class="narrow rise" style="margin-top:76px">
-    <div class="eyebrow">Before you decide</div><h2>What a pilot actually asks of you.</h2>
-    <p class="kicker">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
+    <div class="eyebrow">Before you decide</div><h2 data-m="type">What a pilot actually asks of you.</h2>
+    <p class="kicker" data-m="rise">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
   </div>
   <div class="needs rise">
     <div class="need"><span class="nn">01</span><div><h4>One named person</h4><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. Expect about two hours a week — reading drafts, not managing a project.</p></div></div>
@@ -1044,8 +1298,8 @@ h1{letter-spacing:-.035em}
   <div class="rise accept" id="accept">
     <div class="acceptL">
       <div class="eyebrow" style="margin-bottom:14px">The straight yes</div>
-      <h3>Run the pilot.</h3>
-      <p class="kicker" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
+      <h3 data-m="rise">Run the pilot.</h3>
+      <p class="kicker" data-m="rise" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
       <label class="acceptLbl" for="adjust">Anything you would adjust? <small>optional</small></label>
       <textarea id="adjust" rows="4" placeholder="e.g. start with a different situation, a shorter window, a different approver, no access to X…"></textarea>
       <div class="acceptRow">
@@ -1070,8 +1324,8 @@ h1{letter-spacing:-.035em}
   </div>
 
   <div class="narrow rise" style="margin-top:62px">
-    <div class="eyebrow">Or three other honest answers</div><h2>Pick a verb.</h2>
-    <p class="kicker">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
+    <div class="eyebrow">Or three other honest answers</div><h2 data-m="type">Pick a verb.</h2>
+    <p class="kicker" data-m="rise">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
   </div>
   <div class="verbs rise">
     <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about Rosewell. Tell us which line and we will fix it or take the concept down.</div></a>
@@ -1081,8 +1335,8 @@ h1{letter-spacing:-.035em}
 
   <div class="glass unfin rise" style="margin-top:44px">
     <div class="eyebrow" style="margin-bottom:12px">The unfinished pane</div>
-    <h3>What is the one constraint we have got wrong?</h3>
-    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how Rosewell actually runs that we could not see. One line is enough.</p>
+    <h3 data-m="rise">What is the one constraint we have got wrong?</h3>
+    <p class="kicker" data-m="rise" style="margin-top:10px">Every concept is built from the outside. There is always something about how Rosewell actually runs that we could not see. One line is enough.</p>
     <div class="row">
       <input id="constraint" placeholder="The thing we clearly don't understand about your business…" onkeydown="if(event.key==='Enter')sendConstraint()">
       <button class="btn solid" onclick="sendConstraint()">Send it <span class="arw">→</span></button>
@@ -1092,12 +1346,43 @@ h1{letter-spacing:-.035em}
 </div></section>
 </main>
 
+<!-- ab:ev:start — the evidence, ANZ -->
+<section class="abEv" style="--abA:#3F6152" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer><div class="wrap narrow">
   
   <p><b>A category demonstrator.</b> Rosewell Villages is not a real company. The name, the palette, the cast, the figures and every draft on this page were invented by assembl to show the shape of an agentic customer journey in this category, without borrowing anyone's brand to do it.</p>
   <p style="margin-top:16px">What is real: This is a demonstrator by assembl, a New Zealand agentic-AI studio, and Rosewell Villages does not exist. The mechanic shown is real and is the one assembl builds: a rewarded wait state that assembles published material around what a person actually said, and stops before a person decides. The regulatory boundaries named on this page are real ones that apply to the retirement-living category in Aotearoa.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
-  <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
+  <p class="fin" data-m="rise">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
 </div></footer>
 
 <button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -1111,7 +1396,6 @@ h1{letter-spacing:-.035em}
   <div class="chatin"><input id="chatinput" placeholder="Ask about the concept…" onkeydown="if(event.key==='Enter')sendChat()"><button class="send" onclick="sendChat()">Send</button></div>
 </div>
 
-<script src="three.min.js"></script>
 <script>
 var CFG={
   company:"Rosewell Villages", short:"Rosewell",
@@ -1330,7 +1614,7 @@ function verb(kind){
 
     cap.innerHTML =
       '<div class="dkFeels">the wait feels like '+esc(m.feels)+'</div>' +
-      '<p class="dkDel">'+esc(m.delivered)+'</p>' +
+      '<p class="dkDel" data-m="rise">'+esc(m.delivered)+'</p>' +
       '<div class="dkFund"><i>who funds it</i>'+esc(m.funder)+'</div>';
 
     rail.forEach(function(b,n){
@@ -1563,313 +1847,6 @@ function grounded(q){
   setTimeout(function(){document.querySelectorAll('.hero .rise').forEach(function(el){el.classList.add('in')})},60);
 })();
 
-/* the assembly — client primary as the core, assembl's champagne as the rings */
-(function(){
-  if(typeof THREE==='undefined'){setTimeout(arguments.callee,120);return}
-  var c=document.getElementById('scene');if(!c)return;
-  var r=new THREE.WebGLRenderer({canvas:c,antialias:true,alpha:true});
-  r.setSize(innerWidth,innerHeight);r.setPixelRatio(Math.min(devicePixelRatio,2));
-  var s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,0.1,120);
-  cam.position.set(0,0.6,11);
-  /* softbox env — emissive planes on near-black. Directional lights alone bake to nothing. */
-  var pmrem=new THREE.PMREMGenerator(r),env=new THREE.Scene();
-  env.background=new THREE.Color('#0A0A0D');
-  function box(w,h,x,y,z,rx,ry,col,pow){
-    var m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(col).multiplyScalar(pow)}));
-    m.position.set(x,y,z);m.rotation.set(rx,ry,0);env.add(m);
-  }
-  box(16,9,0,9,2,-Math.PI/2,0,'#FFFFFF',5.0);
-  box(11,7,-9,2.5,3,0,Math.PI/2,'#FFF3E2',3.2);
-  box(11,7,9,2.5,1,0,-Math.PI/2,'#E8EEF6',2.6);
-  box(14,5,0,1.5,-9,0,0,CFG.accent,1.8);
-  s.environment=pmrem.fromScene(env,0.02).texture;
-  s.add(new THREE.AmbientLight('#FFFFFF',0.18));
-  var key=new THREE.DirectionalLight('#FFFFFF',1.4);key.position.set(5,9,6);s.add(key);
-
-  /* matte ceramic for volumes — large flat metal faces mirror the dark studio and read as black */
-  var core =new THREE.MeshStandardMaterial({color:CFG.accent,metalness:0,roughness:0.38,envMapIntensity:1.5});
-  var sec  =new THREE.MeshStandardMaterial({color:CFG.accent2,metalness:0,roughness:0.40,envMapIntensity:1.4});
-  var champ=new THREE.MeshStandardMaterial({color:'#BFA37A',metalness:1,roughness:0.13,envMapIntensity:2.0});
-  var chrome=new THREE.MeshStandardMaterial({color:'#EDEFF2',metalness:1,roughness:0.09,envMapIntensity:2.0});
-
-  var g=new THREE.Group();s.add(g);
-
-  /* ══ THE INSTRUMENT ═══════════════════════════════════════════════════════
-     Every object here has to MEAN something for the category it sits in — a
-     generic faceted ball says nothing about a parcel, a claim or a loan. Each
-     builder returns its moving parts, and each part gets its own axis and
-     speed: one group spin reads as a screensaver, per-part motion reads as a
-     mechanism. Linear members stay hairline (tube radius <= 0.035); anything
-     thicker reads as plumbing.
-     ═════════════════════════════════════════════════════════════════════════ */
-  /* On a paper ground the mirror-metal recipe blows flat faces to white and they
-     vanish, exactly as it did on the Ryman village. Paper variants get matte
-     materials and a tamed key; ink variants keep the chrome. */
-  if(CFG.theme==='paper'){
-    core.metalness=0; core.roughness=0.46; core.envMapIntensity=0.9;
-    sec.metalness=0;  sec.roughness=0.48;  sec.envMapIntensity=0.9;
-    champ.metalness=0.25; champ.roughness=0.34; champ.envMapIntensity=1.1;
-    chrome.color.set('#6E7178'); chrome.metalness=0.2; chrome.roughness=0.4; chrome.envMapIntensity=1.0;
-  }
-  var glass=new THREE.MeshPhysicalMaterial({color:CFG.accent,metalness:0.1,roughness:0.22,
-    transmission:0.72,transparent:true,opacity:0.42,envMapIntensity:1.6});
-  var parts=[];
-  function part(m,sx,sy2,sz){m.userData.spin={x:sx||0,y:sy2||0,z:sz||0};parts.push(m);g.add(m);return m}
-
-  var OBJECTS={
-    /* ── A REAL PLACE, AUTHORED IN PASCAL ────────────────────────────────
-       Kate, 30 July 2026: use Pascal for the demos too.
-
-       Every other entry in this map is a primitive that stands for something.
-       This one IS the thing: a house, a store floor, a village, a depot, drawn
-       from walls and slabs authored in the Pascal editor's own schemas by
-       research/_pascal/build-places.mjs and baked into CFG.place as box specs.
-
-       Metres, y-up, recentred and scaled to a 9-unit span so the camera framing
-       the rest of the fleet uses needs no change. One box per wall, one per
-       floor plate, and whichever room the argument is about carries lit:1 and
-       gets the brand colour with a glow. */
-    place:function(){
-      var P=CFG.place; if(!P||!P.length) return OBJECTS.filament();
-
-      /* Walls read as architecture rather than sculpture, so they get a matte
-         near-white and the LIT room gets the accent. Chrome on a wall makes a
-         house look like a fridge. */
-      var wallM=new THREE.MeshStandardMaterial({
-        color:CFG.theme==='paper'?'#E8E6E1':'#C9CDD3',
-        metalness:0.06,roughness:0.62,envMapIntensity:CFG.theme==='paper'?0.8:1.1});
-      var floorM=new THREE.MeshStandardMaterial({
-        color:CFG.theme==='paper'?'#D8D5CE':'#33373D',
-        metalness:0.04,roughness:0.78,envMapIntensity:0.7});
-      var fitM=new THREE.MeshStandardMaterial({
-        color:CFG.theme==='paper'?'#CFCBC3':'#8A9099',
-        metalness:0.1,roughness:0.55,envMapIntensity:1.0});
-      var litM=new THREE.MeshStandardMaterial({
-        color:CFG.accent,emissive:CFG.accent,emissiveIntensity:0.55,
-        metalness:0.1,roughness:0.4,envMapIntensity:1.4});
-
-      var shell=new THREE.Group();
-      var pick={wall:wallM,shell:wallM,inner:wallM,villa:wallM,centre:wallM,care:wallM,
-        glass:fitM,aisle:fitM,chiller:fitM,checkout:fitM,dock:fitM,spine:fitM,bridge:fitM,
-        floor:floorM,ground:floorM,slab:floorM,plinth:fitM,lit:litM};
-
-      for(var i=0;i<P.length;i++){
-        var b=P[i];
-        var m=new THREE.Mesh(new THREE.BoxGeometry(b.s[0],b.s[1],b.s[2]),
-          b.lit?litM:(pick[b.k]||wallM));
-        m.position.set(b.p[0],b.p[1],b.p[2]);
-        m.rotation.y=b.ry||0;
-        shell.add(m);
-      }
-
-      /* Tip it back so the camera looks DOWN onto the plan. The walls stand in
-         y and the plan lies in x/z, so a horizontal camera sees only elevation
-         and the place reads as a fence. Positive x rotation lays the plan open. */
-      shell.rotation.x=0.88;
-      shell.rotation.z=0.04;
-      part(shell,0,0.012,0);
-
-      /* one hairline ring under it, so the place sits on something */
-      var r=part(new THREE.Mesh(new THREE.TorusGeometry(3.5,0.014,10,200),champ),0,-0.018,0);
-      r.rotation.x=Math.PI/2; r.position.y=-1.9;
-    },
-    /* one continuous path through the whole thing — one application, one journey.
-       Kate's chosen homepage direction, so it is the right default. */
-    filament:function(){
-      part(new THREE.Mesh(new THREE.TorusKnotGeometry(1.75,0.028,560,10,2,3),chrome),0.012,0.05,0);
-      part(new THREE.Mesh(new THREE.TorusKnotGeometry(1.42,0.018,480,8,3,5),champ),-0.03,-0.035,0.01);
-      part(new THREE.Mesh(new THREE.TorusKnotGeometry(2.05,0.020,420,8,2,5),core),0.02,0.022,0);
-      part(new THREE.Mesh(new THREE.SphereGeometry(0.30,40,32),champ),0,0.09,0);
-    },
-    /* a great circle with a bead running it — a route, and someone on it */
-    arc:function(){
-      part(new THREE.Mesh(new THREE.SphereGeometry(1.30,44,36),glass),0,0.03,0);
-      var a=part(new THREE.Mesh(new THREE.TorusGeometry(2.30,0.030,12,180,Math.PI*1.45),champ),0,0.04,0);
-      a.rotation.set(Math.PI/2.6,0,Math.PI/9);
-      var b=part(new THREE.Mesh(new THREE.TorusGeometry(2.85,0.020,10,180,Math.PI*1.1),chrome),0,-0.03,0);
-      b.rotation.set(Math.PI/2.1,0.5,-Math.PI/6);
-      /* the bead is parented to the arc, so the arc's own spin carries it along
-         the route rather than leaving it parked at one point on the circle */
-      var bead=new THREE.Mesh(new THREE.SphereGeometry(0.17,26,20),core);
-      bead.position.set(2.30,0,0);a.add(bead);
-    },
-    /* a basket, assembled: small volumes finding their places on a lattice */
-    lattice:function(){
-      for(var i=0;i<26;i++){
-        var sc=0.20+Math.random()*0.30;
-        var m=part(new THREE.Mesh(new THREE.BoxGeometry(sc,sc,sc),
-          i%3===0?champ:(i%3===1?core:sec)),
-          (Math.random()-0.5)*0.06,(Math.random()-0.5)*0.06,(Math.random()-0.5)*0.06);
-        var t=i/26*Math.PI*2, ring=1.15+(i%3)*0.52;
-        m.position.set(Math.cos(t)*ring,(i%5-2)*0.42,Math.sin(t)*ring);
-      }
-      part(new THREE.Mesh(new THREE.IcosahedronGeometry(0.72,1),glass),0,0.05,0);
-    },
-    /* concentric arcs over one small volume — something kept safe, not enclosed */
-    shelter:function(){
-      [[1.55,0.030,champ,0],[1.95,0.024,chrome,0.22],[2.35,0.020,champ,0.44]].forEach(function(d,i){
-        var m=part(new THREE.Mesh(new THREE.TorusGeometry(d[0],d[1],12,150,Math.PI*0.92),d[2]),
-          0,0,(i%2?1:-1)*0.02);
-        m.rotation.set(0,d[3],Math.PI);
-      });
-      part(new THREE.Mesh(new THREE.SphereGeometry(0.60,40,32),core),0,0.04,0).position.y=-0.30;
-      part(new THREE.Mesh(new THREE.TorusGeometry(0.95,0.016,10,120),chrome),0.03,0,0).rotation.x=Math.PI/2;
-    },
-    /* an element in a coil — the thing that actually costs money to run */
-    helix:function(){
-      var pts=[];for(var i=0;i<=440;i++){var t=i/440*Math.PI*9;
-        pts.push(new THREE.Vector3(Math.cos(t)*1.15,(i/440-0.5)*3.3,Math.sin(t)*1.15))}
-      part(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),440,0.030,8,false),champ),0,0.05,0);
-      part(new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.13,3.5,24),chrome),0,0.02,0);
-      part(new THREE.Mesh(new THREE.TorusGeometry(1.85,0.020,10,150),core),0.02,0,0.03).rotation.x=Math.PI/2;
-      part(new THREE.Mesh(new THREE.SphereGeometry(0.26,32,24),glass),0,0.06,0);
-    },
-    /* A QUEUE — a line advancing to a counter, the head one served and lifting
-       away. For anything where the wait is literally a line. */
-    queue:function(){
-      var items=[];
-      for(var i=0;i<9;i++){
-        var m=part(new THREE.Mesh(new THREE.BoxGeometry(0.44,0.44,0.44),i%3===0?champ:(i%3===1?core:sec)),0,0.02,0);
-        m.userData.q=i; items.push(m);
-      }
-      var counter=part(new THREE.Mesh(new THREE.BoxGeometry(1.1,0.12,1.0),chrome),0,0,0);
-      counter.position.set(2.0,-0.75,0);
-      var rail=part(new THREE.Mesh(new THREE.TorusGeometry(2.4,0.016,10,140,Math.PI*0.9),chrome),0,0,0);
-      rail.rotation.set(Math.PI/2,0,Math.PI*0.05); rail.position.y=-0.78;
-      g.userData.queue=items;
-    },
-    /* A VILLAGE — homes on a crescent under one open arc. Care, place, keeping. */
-    village:function(){
-      for(var i=0;i<7;i++){
-        var a=-0.6+i/6*1.2;
-        var b=part(new THREE.Mesh(new THREE.BoxGeometry(0.50,0.42,0.50),sec),0,0,0);
-        b.position.set(Math.sin(a)*2.3,-0.55,Math.cos(a)*0.9-0.4);
-        var r=part(new THREE.Mesh(new THREE.ConeGeometry(0.44,0.30,4),core),0,0,0);
-        r.position.set(b.position.x,-0.20,b.position.z); r.rotation.y=Math.PI/4;
-      }
-      var arc=part(new THREE.Mesh(new THREE.TorusGeometry(2.6,0.026,12,150,Math.PI*1.05),champ),0,0,0);
-      arc.rotation.set(Math.PI/2,0,Math.PI*0.97); arc.position.y=0.55;
-      part(new THREE.Mesh(new THREE.SphereGeometry(0.18,28,22),champ),0,0.05,0).position.set(0,0.35,-0.1);
-    },
-    /* THRESHOLDS — frames standing open in a line, and one thing moving through.
-       For a decision made in stages. */
-    thresholds:function(){
-      for(var i=0;i<5;i++){
-        var w=1.9-i*0.11, hh=2.5-i*0.14, th=0.055;
-        var mat=i%2?champ:core;
-        [[-w/2,0,th,hh],[w/2,0,th,hh],[0,hh/2,w,th],[0,-hh/2,w,th]].forEach(function(d){
-          var m=part(new THREE.Mesh(new THREE.BoxGeometry(d[2],d[3],th),mat),0,0,0);
-          m.position.set(d[0],d[1],-i*1.5);
-        });
-      }
-      part(new THREE.Mesh(new THREE.SphereGeometry(0.22,32,24),chrome),0,0.04,0).position.set(0,-0.9,1.0);
-    },
-    /* A LEDGER — stacked plates, one lit, the rest waiting to be reconciled. */
-    ledger:function(){
-      for(var i=0;i<7;i++){
-        var m=part(new THREE.Mesh(new THREE.BoxGeometry(2.1-i*0.06,0.055,1.35-i*0.04),i===2?champ:(i%2?core:sec)),0,0.006*(i%2?1:-1),0);
-        m.position.y=-1.0+i*0.30; m.rotation.y=(i-3)*0.055;
-      }
-      part(new THREE.Mesh(new THREE.TorusGeometry(1.55,0.014,10,120),chrome),0,0.03,0).rotation.x=Math.PI/2;
-    },
-    /* A CANOPY — a wide shelter over a small volume, held up on two legs. */
-    canopy:function(){
-      var top=part(new THREE.Mesh(new THREE.BoxGeometry(3.0,0.075,1.7),champ),0,0.004,0);
-      top.position.y=1.05; top.rotation.z=-0.02;
-      [-1.25,1.25].forEach(function(x){
-        part(new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.045,2.1,18),chrome),0,0,0).position.set(x,0.0,0);
-      });
-      part(new THREE.Mesh(new THREE.SphereGeometry(0.46,40,32),core),0,0.05,0).position.y=-0.62;
-      part(new THREE.Mesh(new THREE.TorusGeometry(0.80,0.014,10,110),sec),0.02,0,0).rotation.x=Math.PI/2.2;
-    },
-    /* A METER — a dial and a stack of readings behind it. Consumption, tariffs. */
-    meter:function(){
-      var face2=part(new THREE.Mesh(new THREE.CylinderGeometry(1.15,1.15,0.13,48),core),0,0.03,0);
-      face2.rotation.x=Math.PI/2;
-      var needle=part(new THREE.Mesh(new THREE.BoxGeometry(0.045,0.95,0.045),champ),0,0,0.02);
-      needle.position.set(0,0.42,0.10);
-      part(new THREE.Mesh(new THREE.TorusGeometry(1.42,0.020,10,130),chrome),0,0.02,0).rotation.x=Math.PI/2;
-      for(var i=0;i<5;i++){
-        var b=part(new THREE.Mesh(new THREE.BoxGeometry(0.16,0.30+i*0.24,0.16),i===4?champ:sec),0,0,0);
-        b.position.set(-1.9+i*0.28,-1.1+(0.30+i*0.24)/2,0.5);
-      }
-    },
-    /* a box, and the path a thing takes through it */
-    parcel:function(){
-      var e=new THREE.EdgesGeometry(new THREE.BoxGeometry(2.0,2.0,2.0));
-      var box2=new THREE.LineSegments(e,new THREE.LineBasicMaterial({color:'#BFA37A',transparent:true,opacity:0.85}));
-      part(box2,0.010,0.035,0.006);
-      part(new THREE.Mesh(new THREE.BoxGeometry(1.02,1.02,1.02),core),0.02,0.05,0.01);
-      var pts=[];for(var i=0;i<=180;i++){var t=i/180*Math.PI*3.2;
-        pts.push(new THREE.Vector3(Math.cos(t)*(2.6-i/180*1.2),(i/180-0.5)*2.4,Math.sin(t)*(2.6-i/180*1.2)))}
-      part(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),180,0.017,7,false),chrome),0,-0.03,0);
-    },
-  };
-  (OBJECTS[CFG.object]||OBJECTS.filament)();
-  /* the queue is the one object with a flow rather than a spin */
-  var QUEUE=g.userData.queue||null;
-  /* The horizon rings were 4.6/5.7 — wide enough that the assembly spilled left
-     across the headline column even with the hero pose hard right. Compact. */
-  /* The two horizon rings are gone. They sat over EVERY object regardless of
-     which one it was, which is why fifteen different instruments all read as
-     "rings" — Kate's "the knot still". Whatever the object is now carries the
-     composition on its own. */
-  function tickQueue(t){
-    if(!QUEUE) return;
-    var n=QUEUE.length, flow=t*0.42;
-    for(var i=0;i<n;i++){
-      var u=((i+flow)%n)/n, a=(1-u)*Math.PI*0.9-Math.PI*0.05;
-      var lift=Math.max(0,(u-0.85)/0.15);
-      QUEUE[i].position.set(Math.cos(a)*2.4,-0.78+0.26+lift*1.7,Math.sin(a)*2.4*0.42);
-      QUEUE[i].scale.setScalar(Math.max(0.02,1-lift*0.92));
-    }
-  }
-  var orbs=[];
-  [{geo:new THREE.OctahedronGeometry(0.38,0),m:sec,rad:2.55,sp:0.30,ph:0.4,ya:0.7},
-   {geo:new THREE.TetrahedronGeometry(0.36,0),m:chrome,rad:2.95,sp:0.24,ph:2.1,ya:0.9},
-   {geo:new THREE.IcosahedronGeometry(0.32,0),m:core,rad:2.75,sp:0.34,ph:4.0,ya:0.55},
-   {geo:new THREE.TorusGeometry(0.30,0.10,14,44),m:champ,rad:3.20,sp:0.28,ph:5.4,ya:0.8}
-  ].forEach(function(d){var m=new THREE.Mesh(d.geo,d.m);m.userData=d;g.add(m);orbs.push(m)});
-  var N=80,pg=new THREE.BufferGeometry(),pp=new Float32Array(N*3);
-  for(var i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*22;pp[i*3+1]=(Math.random()-0.5)*13;pp[i*3+2]=(Math.random()-0.5)*16}
-  pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
-  s.add(new THREE.Points(pg,new THREE.PointsMaterial({color:'#BFA37A',size:0.035,transparent:true,opacity:0.40})));
-
-  /* hero pose sits hard right — the headline column owns the left half */
-  var KEYS=[{p:0.00,x:5.70,y:-0.10,sc:0.72,ry:-0.4},{p:0.18,x:-2.70,y:0.15,sc:0.74,ry:0.7},
-            {p:0.38,x:2.60,y:0.05,sc:0.76,ry:1.9},{p:0.58,x:-2.55,y:0.15,sc:0.74,ry:3.0},
-            {p:0.78,x:2.50,y:0.05,sc:0.80,ry:4.2},{p:1.00,x:0.00,y:0.00,sc:1.05,ry:5.6}];
-  function ss(a){return a*a*(3-2*a)}
-  function pose(p){var i=0;while(i<KEYS.length-2&&KEYS[i+1].p<p)i++;
-    var a=KEYS[i],b=KEYS[i+1],t=ss(Math.min(1,Math.max(0,(p-a.p)/(b.p-a.p))));
-    return{x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,sc:a.sc+(b.sc-a.sc)*t,ry:a.ry+(b.ry-a.ry)*t}}
-  var sy=0,mx=0,my=0;
-  addEventListener('scroll',function(){sy=scrollY},{passive:true});
-  addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-0.5)*2;my=(e.clientY/innerHeight-0.5)*2},{passive:true});
-  addEventListener('resize',function(){r.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()});
-  var reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,t=0;
-  function anim(){
-    requestAnimationFrame(anim);if(!reduced)t+=0.016;
-    var max=document.body.scrollHeight-innerHeight,prog=max>0?Math.min(1,Math.max(0,sy/max)):0;
-    var k=pose(prog),narrow=innerWidth<820,damp=narrow?0.30:1,sd=narrow?0.60:1;
-    g.position.x=k.x*damp+mx*0.28;g.position.y=k.y+Math.sin(t*0.35)*0.12;
-    g.scale.setScalar(k.sc*sd);g.rotation.y=k.ry+t*0.05;
-    /* per-part motion — one group spin reads as a screensaver. Deltas are scaled
-       by the same 0.016 step the clock uses, so spin 0.05 means 0.05 rad/sec. */
-    if(!reduced)parts.forEach(function(m){var sp=m.userData.spin;if(!sp)return;
-      m.rotation.x+=sp.x*0.016;m.rotation.y+=sp.y*0.016;m.rotation.z+=sp.z*0.016});
-    /* the queue advances rather than spins — its parts have their positions
-       written every frame, so it must run after the generic spin pass */
-    if(!reduced)tickQueue(t);
-    orbs.forEach(function(m){var d=m.userData,a=d.ph+t*d.sp+prog*Math.PI;
-      m.position.set(Math.cos(a)*d.rad,Math.sin(t*0.25+d.ph)*d.ya,Math.sin(a)*d.rad);
-      m.rotation.y=t*0.3+d.ph});
-    cam.position.x=mx*0.5;cam.position.y=0.6-my*0.25;
-    cam.lookAt(g.position.x*0.3,g.position.y*0.3,0);
-    r.render(s,cam);
-  }
-  anim();
-})();
 </script>
 
 <script src="wait-phone.js"></script>
@@ -2016,5 +1993,36 @@ if(band&&!reduce){
     layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
 }
 })();/* mz:end */</script>
+<script>window.VR_CONFIG={"api": "/api/room", "demoSrc": "demo-lounge.jpg", "demoType": "image/jpeg", "mode": "room-guide", "canned": {"estimate": {"items": [{"name": "Three-seater sofa", "footprint_m2": 1.8, "box": {"x": 2, "y": 44, "w": 46, "h": 44}}, {"name": "Armchair", "footprint_m2": 0.6, "box": {"x": 56, "y": 49, "w": 30, "h": 42}}, {"name": "Sideboard", "footprint_m2": 0.8, "box": {"x": 51, "y": 44, "w": 35, "h": 20}}, {"name": "Wooden dining chair", "footprint_m2": 0.25, "box": {"x": 84, "y": 40, "w": 13, "h": 32}}, {"name": "Floor lamp", "footprint_m2": 0.1, "box": {"x": 34, "y": 21, "w": 9, "h": 29}}], "flags": [{"note": "rug corner by the armchair sits lifted", "kind": "care", "box": {"x": 55, "y": 86, "w": 20, "h": 12}}, {"note": "a cord runs along the floor by the sideboard", "kind": "care", "box": {"x": 46, "y": 60, "w": 11, "h": 7}}, {"note": "floor in front of the sofa is clear", "kind": "clear", "box": {"x": 6, "y": 86, "w": 34, "h": 12}}], "total_footprint_m2": 3.6, "what_i_saw": "A warm, well-loved lounge — the three-seater under the window, the armchair angled toward it, and a sideboard of family photographs that has clearly been there a long time.", "confidence": "medium", "reasoning": "Sized against the sofa seat depth (about 0.5 m) and the sideboard height (about 0.75 m).", "cannot_tell": ["the room’s dimensions in metres", "whether anything sits behind the camera", "how that rug corner behaves underfoot"]}, "guide": {"total_m2": 3.6, "line": "Their things come to roughly 3.6 m² of floor. Take that number to the plan of the home you are considering — a person walks it with you, room by room.", "measure": "This is a read from a photo, not a measurement. Before anything moves, measure the two biggest pieces and the width of every doorway they travel through.", "held": "Nothing here is sent, saved or booked. It is a draft for the family, and for a person to check with you."}}, "thumbs": null, "queue": false, "noRoomDims": true};</script>
+<script src="visionread.js"></script>
+<script src="three.min.js"></script>
+<!-- ab:auto:start -->
+<script>
+(function(){
+  var b=document.getElementById('vrDemo'), sec=document.getElementById('vrSec');
+  if(!b||!sec||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var done=false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting&&!done){done=true;setTimeout(function(){b.click()},420);} });
+  },{threshold:.35}).observe(sec);
+})();
+</script>
+<!-- ab:auto:end -->
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+    {form:'villa',material:'brass',colour:'#3F6152',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  var c2=document.getElementById('abCloud2');
+  if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+    {form:'villa',material:'brass',colour:'#3F6152',count:1800,mode:'auto',size:.045});
+  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+    {colour:'#3F6152',ink:'#14161A',brass:'#BFA37A',seed:'rosewell',density:14,mode:'enter'});
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>

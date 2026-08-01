@@ -633,9 +633,141 @@ h1{letter-spacing:-.035em}
 .mapEv i{font-style:normal;color:#75757E}
 .mapEvFin{font-size:12.5px!important;color:#75757E!important;margin-top:12px!important}
 @media(max-width:900px){.mapHow{grid-template-columns:1fr}}
+
+/* spine:start — clarity spine, self-themed from page tokens */
+.spRibbon{background:var(--ink);color:rgba(255,255,255,.78);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;text-align:center;padding:8px 14px;position:relative;z-index:60;font-family:inherit}
+.spWrap{position:relative;z-index:5;padding:0 0 6px}
+.spTrio{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(127,127,127,.22);
+  border-top:1px solid rgba(127,127,127,.22);border-bottom:1px solid rgba(127,127,127,.22)}
+.spC{background:var(--paper);padding:13px 18px;border-left:2px solid var(--accent)}
+.spK{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  color:var(--accent-2,var(--ink))}
+.spT{font-size:13px;line-height:1.45;color:var(--ink);margin-top:4px;font-weight:400}
+.spIdea{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#777);
+  text-align:center;margin:16px auto 0;max-width:920px;padding:0 18px}
+.spIdea b{color:var(--accent-2,var(--ink));font-weight:700}
+@media(max-width:760px){.spTrio{grid-template-columns:1fr}}
+/* spine:end */
+
+
+
+
+
+
+/* mz:start — the assembling mosaic band */
+.mzBand{padding:36px 22px 26px;position:relative}
+.mzIn{max-width:1080px;margin:0 auto}
+.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
+.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
+  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
+.mzT.mzLit{opacity:1;filter:none;transform:none}
+.mzT.mzPulse{animation:mzP .9s ease}
+@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
+.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
+.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
+@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
+/* mz:end */
+
+
+
+
+
+
+
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
+<!-- spine:start -->
+<div class="spRibbon">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
+<!-- spine:end -->
 <canvas id="scene"></canvas><div class="veil"></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="rail" aria-hidden="true"><i id="railfill"></i></div><div class="railn" id="railn" aria-hidden="true"></div>
@@ -657,7 +789,7 @@ h1{letter-spacing:-.035em}
 <main>
 <header class="hero"><div class="wrap"><div class="narrow">
   <div class="eyebrow rise">The application wait · a demonstrator</div>
-  <h1 class="rise">They applied on Tuesday.<br><em class="g">It is Friday.</em><br>Nobody has said anything.</h1>
+  <h1 data-m="type" class="rise">They applied on Tuesday.<br><em class="g">It is Friday.</em><br>Nobody has said anything.</h1>
   <p class="lede rise">A lending application sits in assessment for days, and the applicant hears nothing because there is nothing definite to say. This demonstrates the alternative: honest progress, no decision implied, and the one question that shortens the assessment for everyone.</p>
   <div class="quote rise"><p>“Silence during an assessment is not neutral. People read it as a no.”</p><cite>Ledgerline · an invented example</cite></div>
   <div class="btns rise">
@@ -665,14 +797,47 @@ h1{letter-spacing:-.035em}
     <button class="btn ghost" onclick="openChat()">Ask it about this</button>
   </div>
 </div></div></header>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--paper" data-m-scrub aria-label="the decision, traced" style="--abA:#1E2A38">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--paper" id="abCloud"></div>
+    <div class="abStage__copy">
+      <div class="abStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill"></div></div>
+  </div>
+</section>
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
+
+<!-- spine:start -->
+<div class="spWrap"><div class="wrap">
+  <div class="spTrio">
+    <div class="spC"><div class="spK">the customer</div><div class="spT">the wait itself gives something back</div></div>
+    <div class="spC"><div class="spK">the business</div><div class="spT">nothing sends without a person signing</div></div>
+    <div class="spC"><div class="spK">assembl</div><div class="spT">paid on completed moments</div></div>
+  </div>
+  <p class="spIdea" data-m="rise">the wait, working &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
+</div></div>
+<!-- spine:end -->
+
 
 <section id="wait"><div class="wrap">
   <div class="num rise">01 — THE WAIT</div>
   <div class="narrow rise">
     <div class="eyebrow">A Friday, 11:30am</div>
-    <h2>The three days of nothing</h2>
-    <p class="lede">An application went in on Tuesday. Since then: an acknowledgement email and silence. The applicant does not know whether their documents were enough, whether a person has looked at it, or whether they should be applying somewhere else at the same time. So some of them do.</p>
-    <p class="kicker" style="color:var(--accent)">Assessment queues are slow for good reasons — verification, affordability, human review. The applicant is not owed a faster answer. They are owed a truthful account of where it is, and nobody sends one because the only template says "approved" or "declined".</p>
+    <h2 data-m="type">The three days of nothing</h2>
+    <p class="lede" data-m="rise">An application went in on Tuesday. Since then: an acknowledgement email and silence. The applicant does not know whether their documents were enough, whether a person has looked at it, or whether they should be applying somewhere else at the same time. So some of them do.</p>
+    <p class="kicker" data-m="rise" style="color:var(--accent)">Assessment queues are slow for good reasons — verification, affordability, human review. The applicant is not owed a faster answer. They are owed a truthful account of where it is, and nobody sends one because the only template says "approved" or "declined".</p>
   </div>
   
   <!-- The wait itself, not three paragraphs about it. Same component the
@@ -683,47 +848,42 @@ h1{letter-spacing:-.035em}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
-      <div class="glass" id="wait-explain"></div>
-      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">An acknowledgement, then nothing until an outcome. The wait reads as a decision that has already gone badly.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Applicants apply elsewhere in parallel, and the ones you would have said yes to are gone by the time you say it.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Says truthfully where it is, asks the one thing that unblocks it, and stops. It never decides.</p></div>
+      <div class="glass" data-m="rise" id="wait-explain"></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What happens now</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">An acknowledgement, then nothing until an outcome. The wait reads as a decision that has already gone badly.</p></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What it costs</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Applicants apply elsewhere in parallel, and the ones you would have said yes to are gone by the time you say it.</p></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What the concept does</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Says truthfully where it is, asks the one thing that unblocks it, and stops. It never decides.</p></div>
     </div>
   </div>
 
   
   <div class="narrow rise" style="margin-top:64px">
     <div class="eyebrow">Not one wait — a family of them</div>
-    <h2 style="font-size:clamp(22px,3vw,30px)">Every application moment, one pattern.</h2>
-    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+    <h2 data-m="type" style="font-size:clamp(22px,3vw,30px)">Every application moment, one pattern.</h2>
+    <p class="kicker" data-m="rise">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
   </div>
   <div class="momgrid rise">
-    <div class="mom"><b>Applied</b><span>the file, complete or not</span></div>
-    <div class="mom"><b>Documents</b><span>read, not queued</span></div>
-    <div class="mom"><b>The gates</b><span>opened in the open</span></div>
-    <div class="mom"><b>The desk</b><span>a named assessor</span></div>
-    <div class="mom"><b>The decision</b><span>a person’s, always</span></div>
-    <div class="mom"><b>Drawdown</b><span>the day it lands</span></div>
+    <div class="mom" data-m="rise"><b>Applied</b><span>the file, complete or not</span></div>
+    <div class="mom" data-m="rise"><b>Documents</b><span>read, not queued</span></div>
+    <div class="mom" data-m="rise"><b>The gates</b><span>opened in the open</span></div>
+    <div class="mom" data-m="rise"><b>The desk</b><span>a named assessor</span></div>
+    <div class="mom" data-m="rise"><b>The decision</b><span>a person’s, always</span></div>
+    <div class="mom" data-m="rise"><b>Drawdown</b><span>the day it lands</span></div>
   </div>
   <div class="powgrid rise">
-    <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
-    <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
-    <div class="pow"><i>03 — VALUE DELIVERY</i><b>Something worth the minutes</b><span>The work shown as it happens — useful, short, skippable.</span></div>
-    <div class="pow"><i>04 — VALUE EXCHANGE</i><b>The wait pays</b><span>The customer earns as they watch, and one optional question comes back the other way.</span></div>
+    <div class="pow" data-m="rise"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
+    <div class="pow" data-m="rise"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
+    <div class="pow" data-m="rise"><i>03 — VALUE DELIVERY</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
+    <div class="pow" data-m="rise"><i>04 — VALUE EXCHANGE</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
   </div>
-  <p class="prinline rise"><em>Be relevant</em> — right thing, right moment · <em>Be respectful</em> — short, skippable, quiet by design · <em>Be measurable</em> — real impact, on the record · <em>Be Aotearoa</em> — built here, for how Kiwis actually wait</p>
-  <div class="tiersline rise">
-    <div class="tl on"><i>tier 01 · this concept, live</i><b>The assembling loader</b><span>The wait shown, the wait paid — what this page runs.</span></div>
-    <div class="tl"><i>tier 02 · the path</i><b>The sponsored chat line</b><span>A labelled co-pilot behind this journey, stepping forward only with found value.</span></div>
-    <div class="tl"><i>tier 03 · the path</i><b>The joint-venture UI</b><span>A shared surface with your partners — every action still ends in a human approval.</span></div>
-  </div>
+  <p class="prinline rise"><em>Opt-in, skippable, honest.</em> The reward comes from the business running the journey, never from selling the person waiting. Every decision still ends with a person.</p>
 </div></section>
 
 
 <section id="map" class="mapband"><div class="wrap">
   <div class="num rise dark">02 — EVERY WAITING MOMENT</div>
   <div class="narrow rise">
-    <h2 class="mapH">Every wait in a home loan</h2>
-    <p class="mapLede">Six moments where an applicant is waiting on a decision they cannot see, and what each wait could hand back.</p>
+    <h2 data-m="type" class="mapH">Every wait in a home loan</h2>
+    <p class="mapLede" data-m="rise">Six moments where an applicant is waiting on a decision they cannot see, and what each wait could hand back.</p>
   </div>
 
   <div class="deck rise">
@@ -791,7 +951,7 @@ h1{letter-spacing:-.035em}
   <div class="mapHow rise">
     <div class="mapHowL">
       <div class="eyebrow dark">How the moment works</div>
-      <h3>Four steps, every time.</h3>
+      <h3 data-m="rise">Four steps, every time.</h3>
       <ol class="mapSteps">
         <li><b>The signal</b><span>Something in your own systems says a person is now waiting, and roughly how long for.</span></li>
         <li><b>The prediction</b><span>How long this one will really take — not the average, this one.</span></li>
@@ -816,20 +976,16 @@ h1{letter-spacing:-.035em}
     </div>
   </div>
 
-  <div class="mapEv rise">
-    <b>This is not a new idea — it is an unbuilt one.</b>
-    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
-    <p class="mapEvFin">Every figure on this page carries its source. Overseas figures are shown as overseas figures — we have not found a published New Zealand equivalent, and we will not invent one.</p>
-  </div>
-</div></section>
+  
+</section>
 
 
 <section id="mirror"><div class="wrap">
   <div class="num rise">03 — THE WORK, PREPARED</div>
   <div class="narrow rise">
     <div class="eyebrow">The same situation, four ways</div>
-    <h2>One application. Four honest updates.</h2>
-    <p class="kicker">The same three days, four situations. Not one of these says approved, declined or likely — that is a lender’s decision under the CCCFA, and this concept does not touch it.</p>
+    <h2 data-m="type">One application. Four honest updates.</h2>
+    <p class="kicker" data-m="rise">The same three days, four situations. Not one of these says approved, declined or likely — that is a lender’s decision under the CCCFA, and this concept does not touch it.</p>
   </div>
   <div style="margin-top:38px" class="rise">
     <div class="marqrow" id="marqrow"></div>
@@ -837,8 +993,8 @@ h1{letter-spacing:-.035em}
       <div class="glass draft" id="draftBox"></div>
       <div class="glass tight">
         <div class="num" style="margin-bottom:16px">WHY THIS ISN'T A TEMPLATE</div>
-        <p class="kicker" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
-        <p class="kicker" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
+        <p class="kicker" data-m="rise" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
+        <p class="kicker" data-m="rise" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
         <div class="check pass" style="margin-top:20px"><span class="ic">✓</span>
           <div><div class="t">Nothing here sends</div><div class="d">Every draft goes to a named person. No channel is connected by this concept.</div></div></div>
       </div>
@@ -850,7 +1006,7 @@ h1{letter-spacing:-.035em}
 <section id="boundary" class="bd"><div class="wrap">
   <div class="num rise dark">03 — THE BOUNDARY</div>
   <div class="narrow rise">
-    <h2>It knows the balance, the salary and the spending. What may it say?</h2>
+    <h2 data-m="type">It knows the balance, the salary and the spending. What may it say?</h2>
     <p class="bdLede">Banking has the tightest boundary of any category here, and it is the one where an agent gets asked to cross it constantly. Financial advice in New Zealand is a licensed activity. These are the five things a banking agent gets asked to do, and three of them it refuses.</p>
   </div>
   <div class="bdGrid rise">
@@ -890,12 +1046,12 @@ h1{letter-spacing:-.035em}
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Before a person ever reads it</div>
-      <h2>The checks that run before an update is sent</h2>
-      <p class="kicker">Lending is the most boundaried category assembl builds in. The guards are the reason this is sendable at all.</p>
-      <p class="kicker">Drafts are held against the Credit Contracts and Consumer Finance Act 2003 and the Responsible Lending Code, the Privacy Act 2020, and the Fair Trading Act 1986.</p>
+      <h2 data-m="type">The checks that run before an update is sent</h2>
+      <p class="kicker" data-m="rise">Lending is the most boundaried category assembl builds in. The guards are the reason this is sendable at all.</p>
+      <p class="kicker" data-m="rise">Drafts are held against the Credit Contracts and Consumer Finance Act 2003 and the Responsible Lending Code, the Privacy Act 2020, and the Fair Trading Act 1986.</p>
       <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the queue →</button>
     </div>
-    <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
+    <div class="rise"><div id="guardOut"><p class="kicker" data-m="rise" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
   </div>
 </div></section>
 
@@ -903,8 +1059,8 @@ h1{letter-spacing:-.035em}
   <div class="num rise">05 — THE ROOM</div>
   <div class="narrow rise">
     <div class="eyebrow">Where you watch it work</div>
-    <h2>One room. Your people, your agents, every action on the record.</h2>
-    <p class="kicker">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
+    <h2 data-m="type">One room. Your people, your agents, every action on the record.</h2>
+    <p class="kicker" data-m="rise">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
   </div>
   <div class="roomgrid rise">
     <div class="room" aria-label="A concept picture of the private pilot room">
@@ -918,13 +1074,13 @@ h1{letter-spacing:-.035em}
       <div class="rl"><span>09:02</span> draft prepared from your sources</div>
       <div class="rl"><span>09:06</span> approved by a named person</div>
       <div class="rl"><span>09:06</span> sent · receipt filed</div>
-      <p class="kicker" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
+      <p class="kicker" data-m="rise" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
     </div>
   </div>
   <div class="grid3" style="margin-top:38px">
-    <div class="glass tight rise"><h3 style="font-size:18px">Yours</h3><p class="kicker" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:18px">On the record</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:18px">People decide</h3><p class="kicker" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">Yours</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">On the record</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">People decide</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
   </div>
   <p class="kicker rise" style="font-size:12.5px;margin-top:22px;color:var(--muted)">This panel is a concept picture, not a live room — a pilot stands up the real one, on infrastructure you approve.</p>
 </div></section>
@@ -933,8 +1089,8 @@ h1{letter-spacing:-.035em}
   <div class="num rise">06 — ON ONE SCREEN</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing here has been sent</div>
-    <h2>The queue, before anything sends</h2>
-    <p class="kicker">Illustrative and fictional. No production access is requested by this concept.</p>
+    <h2 data-m="type">The queue, before anything sends</h2>
+    <p class="kicker" data-m="rise">Illustrative and fictional. No production access is requested by this concept.</p>
   </div>
   <div class="glass rise" style="margin-top:34px;overflow-x:auto">
     <table class="ops">
@@ -950,9 +1106,9 @@ h1{letter-spacing:-.035em}
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Mana Receipt</div>
-      <h2>Every draft carries its own working.</h2>
-      <p class="kicker">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
-      <p class="kicker">This matters most on the day someone asks why it said what it said.</p>
+      <h2 data-m="type">Every draft carries its own working.</h2>
+      <p class="kicker" data-m="rise">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
+      <p class="kicker" data-m="rise">This matters most on the day someone asks why it said what it said.</p>
     </div>
     <div class="rise"><div class="receipt">
       <div class="rh">Mana Receipt · draft</div>
@@ -969,27 +1125,32 @@ h1{letter-spacing:-.035em}
   </div>
 </div></section>
 
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#1E2A38" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section id="pilot"><div class="wrap">
   <div class="num rise">09 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
-      <h3>What this will never do</h3>
-      <p class="kicker" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
-      <p class="kicker">No production access is requested by this concept.</p>
+      <h3 data-m="rise">What this will never do</h3>
+      <p class="kicker" data-m="rise" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
+      <p class="kicker" data-m="rise">No production access is requested by this concept.</p>
     </div></div>
     <div class="rise"><div class="glass pilot">
       <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
       <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>In a real engagement: progress updates for opted-in applicants on one product, six weeks. Not the credit model, not pricing, not affordability, not the decision.</p></div></div>
       <div class="step"><span class="n">2</span><div><h4>Access</h4><p>Published product facts and the field names for submitted documents, outstanding items, queue position, hardship flags and joint-consent status. No credit files. No bank statements.</p></div></div>
       <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Applicants who stopped chasing. Documents supplied faster because the ask was specific. Held cases a person agreed should have been held. And whether an assessor would put their name to every update that went out.</p></div></div>
-      <p class="kicker" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
+      <p class="kicker" data-m="rise" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
     </div></div>
   </div>
 
   <div class="narrow rise" style="margin-top:76px">
-    <div class="eyebrow">Before you decide</div><h2>What a pilot actually asks of you.</h2>
-    <p class="kicker">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
+    <div class="eyebrow">Before you decide</div><h2 data-m="type">What a pilot actually asks of you.</h2>
+    <p class="kicker" data-m="rise">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
   </div>
   <div class="needs rise">
     <div class="need"><span class="nn">01</span><div><h4>One named person</h4><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. Expect about two hours a week — reading drafts, not managing a project.</p></div></div>
@@ -1003,8 +1164,8 @@ h1{letter-spacing:-.035em}
   <div class="rise accept" id="accept">
     <div class="acceptL">
       <div class="eyebrow" style="margin-bottom:14px">The straight yes</div>
-      <h3>Run the pilot.</h3>
-      <p class="kicker" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
+      <h3 data-m="rise">Run the pilot.</h3>
+      <p class="kicker" data-m="rise" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
       <label class="acceptLbl" for="adjust">Anything you would adjust? <small>optional</small></label>
       <textarea id="adjust" rows="4" placeholder="e.g. start with a different situation, a shorter window, a different approver, no access to X…"></textarea>
       <div class="acceptRow">
@@ -1029,8 +1190,8 @@ h1{letter-spacing:-.035em}
   </div>
 
   <div class="narrow rise" style="margin-top:62px">
-    <div class="eyebrow">Or three other honest answers</div><h2>Pick a verb.</h2>
-    <p class="kicker">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
+    <div class="eyebrow">Or three other honest answers</div><h2 data-m="type">Pick a verb.</h2>
+    <p class="kicker" data-m="rise">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
   </div>
   <div class="verbs rise">
     <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about Ledgerline. Tell us which line and we will fix it or take the concept down.</div></a>
@@ -1040,8 +1201,8 @@ h1{letter-spacing:-.035em}
 
   <div class="glass unfin rise" style="margin-top:44px">
     <div class="eyebrow" style="margin-bottom:12px">The unfinished pane</div>
-    <h3>What is the one constraint we have got wrong?</h3>
-    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how Ledgerline actually runs that we could not see. One line is enough.</p>
+    <h3 data-m="rise">What is the one constraint we have got wrong?</h3>
+    <p class="kicker" data-m="rise" style="margin-top:10px">Every concept is built from the outside. There is always something about how Ledgerline actually runs that we could not see. One line is enough.</p>
     <div class="row">
       <input id="constraint" placeholder="The thing we clearly don't understand about your business…" onkeydown="if(event.key==='Enter')sendConstraint()">
       <button class="btn solid" onclick="sendConstraint()">Send it <span class="arw">→</span></button>
@@ -1051,12 +1212,43 @@ h1{letter-spacing:-.035em}
 </div></section>
 </main>
 
+<!-- ab:ev:start — the evidence, ANZ -->
+<section class="abEv" style="--abA:#1E2A38" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer><div class="wrap narrow">
   
   <p><b>A category demonstrator.</b> Ledgerline is not a real company. The name, the palette, the cast, the figures and every draft on this page were invented by assembl to show the shape of an agentic customer journey in this category, without borrowing anyone's brand to do it.</p>
   <p style="margin-top:16px">What is real: This is a demonstrator by assembl, a New Zealand agentic-AI studio, and Ledgerline does not exist. The mechanic shown is real and is the one assembl builds: a rewarded wait state that gives a truthful account of where work sits, asks the one question that unblocks it, and stops before a person decides. The regulatory boundaries named on this page are real ones that apply to consumer lending in Aotearoa.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
-  <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
+  <p class="fin" data-m="rise">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
 </div></footer>
 
 <button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -1290,7 +1482,7 @@ function verb(kind){
 
     cap.innerHTML =
       '<div class="dkFeels">the wait feels like '+esc(m.feels)+'</div>' +
-      '<p class="dkDel">'+esc(m.delivered)+'</p>' +
+      '<p class="dkDel" data-m="rise">'+esc(m.delivered)+'</p>' +
       '<div class="dkFund"><i>who funds it</i>'+esc(m.funder)+'</div>';
 
     rail.forEach(function(b,n){
@@ -1890,5 +2082,151 @@ function grounded(q){
   WaitPhone.explain(document.getElementById('wait-explain'));
 })();
 </script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script>/* mz:start — the assembling mosaic */
+(function(){
+var host=document.getElementById('mzHost'); if(!host) return;
+var NS='http://www.w3.org/2000/svg';
+function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
+var U=84;
+function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
+var KIND={
+quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
+semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
+dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
+stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
+ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
+tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
+sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
+hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
+tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
+umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
+moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
+key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
+cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
+shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
+crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
+heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
+leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
+clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
+parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
+van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
+envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
+globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
+plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
+sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
+ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
+case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
+coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
+card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
+chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
+percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
+bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
+bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
+plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
+door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
+tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
+crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
+brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
+pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
+drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
+flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
+car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
+wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
+flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
+road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
+apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
+milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
+egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
+carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
+wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
+tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
+};
+var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
+var TILES=[["quarter","#1E2A38",0,1],["coin","#EFE8D9","#1E2A38"],["semi","#aaaeb3","#1E2A38"],["card","#C9A227","#FFFFFF"],["quarter","#C9A227",0,3],["chart","#aaaeb3","#C9A227"],["dots","#C9A227","#aaaeb3"],["percent","#1E2A38","#FFFFFF"],["sparkle","#1d1a15","#1E2A38"],["clock","#EFE8D9","#C9A227"],["stripes","#1E2A38","#aaaeb3"],["shield","#C9A227","#aaaeb3"],["hills","#aaaeb3","#C9A227"],["ringT","#aaaeb3","#C9A227"],["tick","#C9A227","#FFFFFF"],["quarter","#aaaeb3",0,2]];
+var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
+var layer=el('g',{}); svg.appendChild(layer);
+var tiles=[];
+SLOTS.forEach(function(s,i){
+  var t=TILES[i]; if(!t) return;
+  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
+  var g=el('g',{'class':'mzT'});
+  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
+  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
+});
+host.appendChild(svg);
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var started=false;
+function ignite(){
+  if(started) return; started=true;
+  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
+  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
+    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
+  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
+  var next=6, iv=setInterval(function(){
+    if(next>=order.length){clearInterval(iv);return;}
+    tiles[order[next++]].classList.add('mzLit');
+  },1500);
+}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
+  io.observe(host);
+  setTimeout(ignite,9000);
+}else ignite();
+document.addEventListener('click',function(){
+  if(reduce) return;
+  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
+  if(!lit.length) return;
+  var t=lit[Math.floor(Math.random()*lit.length)];
+  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
+  setTimeout(function(){t.classList.remove('mzPulse')},950);
+});
+var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
+if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
+  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
+  if(bgc&&bgc.length>=3){
+    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
+    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
+      band.style.setProperty('--mzDorm','.12');}
+  }
+}
+if(band&&!reduce){
+  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
+    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
+  band.addEventListener('pointerleave',function(){bx=0;by=0});
+  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
+    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
+}
+})();/* mz:end */</script>
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+    {form:'ledger',material:'ink',colour:'#1E2A38',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  var c2=document.getElementById('abCloud2');
+  if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+    {form:'ledger',material:'ink',colour:'#1E2A38',count:1800,mode:'auto',size:.045});
+  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+    {colour:'#1E2A38',ink:'#14161A',brass:'#BFA37A',seed:'ledgerline',density:14,mode:'enter'});
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>

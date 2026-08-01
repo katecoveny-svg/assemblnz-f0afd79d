@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>a concept for contact energy · assembling · contact energy NZ</title>
-<meta name="description" content="Independent concept prepared for Contact Energy. Rewarded wait states powered by assembling.">
+<title>a concept for contact energy · an independent concept by assembl</title>
+<meta name="description" content="Independent concept prepared for Contact Energy. An independent concept by assembl.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -287,147 +287,53 @@ h3{font-weight:400}
 @media(max-width:900px){.wm-how,.wm-accept{grid-template-columns:1fr}}
 
 
-/* ═══ THE WAIT DECK + THE BRAND-COLOURED SCRATCH ═══════════════════════════
-   Injected by _generator/patch-deck-scratch.mjs. Kate, 30 July 2026. Namespaced
-   under #deck6 so it cannot collide with anything this page already ships. */
-#deck6{--d6a:#E62A32;--d6on:#FFFFFF;--d6ink:#E62A32;--d6scr:#321114;
-  --d6rim:#85181dcc;--d6rim2:#ee6a70;--d6sa:#ef7278;
-  background:#faf1ee;color:#141416;
-  padding:86px 0 92px;position:relative;overflow:hidden}
-#deck6 .d6wrap{max-width:1200px;margin:0 auto;padding:0 30px}
-@media(min-width:1700px){#deck6 .d6wrap{max-width:min(82vw,1560px)}}
-#deck6 .d6kick{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
-  color:var(--d6ink);margin-bottom:16px}
-#deck6 h2{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.06;
-  color:#101012;margin:0;max-width:22ch}
-#deck6 .d6lede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
-  font-weight:300;max-width:62ch}
 
-#deck6 .d6grid{display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:46px;align-items:start}
-@media(max-width:980px){#deck6 .d6grid{grid-template-columns:1fr;gap:28px}}
-
-#deck6 .d6rail{display:flex;flex-direction:column;gap:2px;position:relative}
-#deck6 .d6rail::before{content:"";position:absolute;left:16px;top:22px;bottom:22px;width:1px;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,.16) 12%,rgba(0,0,0,.16) 88%,transparent)}
-#deck6 .d6r{display:flex;gap:14px;align-items:flex-start;background:transparent;border:0;
-  padding:11px 12px 11px 0;text-align:left;cursor:pointer;font-family:inherit;position:relative;
-  border-radius:12px;transition:background .3s}
-#deck6 .d6r:hover{background:rgba(0,0,0,.035)}
-#deck6 .d6rn{flex:0 0 auto;width:33px;height:33px;border-radius:50%;display:grid;place-items:center;
-  font-size:11px;font-weight:900;background:#FFF;color:#8A8A93;border:1px solid rgba(0,0,0,.14);
-  position:relative;z-index:2;transition:.36s cubic-bezier(.2,.7,.2,1)}
-#deck6 .d6r b{display:block;font-size:14.5px;font-weight:700;color:#3C3C44;line-height:1.25;transition:color .3s}
-#deck6 .d6r i{display:block;font-style:normal;font-size:11.5px;color:#8A8A93;margin-top:3px;line-height:1.4}
-#deck6 .d6r.on .d6rn{background:var(--d6ink);color:#FFF;border-color:var(--d6ink);
-  box-shadow:0 0 0 5px rgba(0,0,0,.05),0 8px 18px -8px var(--d6ink)}
-#deck6 .d6r.on b{color:#101012}
-#deck6 .d6r.done .d6rn{background:var(--d6ink);color:#FFF;border-color:var(--d6ink);opacity:.32}
-
-#deck6 .d6stage{position:relative;padding:10px 0 0;perspective:1500px}
-#deck6 .d6glow{position:absolute;left:50%;top:44%;width:min(560px,86%);height:340px;
-  transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,var(--d6a) 0%,transparent 68%);
-  opacity:.24;filter:blur(48px);pointer-events:none;animation:d6pulse 6.5s ease-in-out infinite}
-@keyframes d6pulse{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(1)}
-  50%{opacity:.32;transform:translate(-50%,-50%) scale(1.07)}}
-
-#deck6 .d6phone{position:relative;width:min(330px,82vw);margin:0 auto;transform-style:preserve-3d;
-  transform:rotateY(var(--d6y,-13deg)) rotateX(var(--d6x,7deg));
-  transition:transform .5s cubic-bezier(.2,.7,.2,1);animation:d6float 7s ease-in-out infinite}
-@keyframes d6float{0%,100%{translate:0 0}50%{translate:0 -11px}}
-#deck6 .d6phone.grab{transition:transform .12s linear;animation-play-state:paused}
-#deck6 .d6shell{position:relative;border-radius:44px;padding:11px;
-  background:linear-gradient(155deg,#3b3f45 0%,#14171a 46%,#2b2f33 74%,#0e1013 100%);
-  box-shadow:0 2px 0 rgba(255,255,255,.14) inset,0 0 0 1px rgba(0,0,0,.7),
-    0 0 0 2.5px var(--d6rim),0 44px 90px -30px rgba(0,0,0,.72),0 90px 130px -50px var(--d6a)}
-/* the thin rim between body and glass — the machined edge */
-#deck6 .d6rim{border-radius:34px;padding:1.5px;
-  background:linear-gradient(160deg,var(--d6rim2),rgba(255,255,255,.06) 40%,var(--d6rim2))}
-#deck6 .d6screen{border-radius:33px;overflow:hidden;min-height:452px;display:flex;flex-direction:column;
-  cursor:pointer;position:relative;background:linear-gradient(172deg,var(--d6scr) 0%,#08080B 100%)}
-#deck6 .d6screen::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:33px;
-  background:linear-gradient(122deg,rgba(255,255,255,.09) 0%,transparent 34%,transparent 66%,rgba(255,255,255,.045) 100%)}
-#deck6 .d6bar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px 6px;
-  font-size:10px;letter-spacing:.06em;color:rgba(242,242,240,.62);font-weight:500}
-#deck6 .d6notch{width:52px;height:15px;border-radius:99px;background:#050507}
-#deck6 .d6sig{display:flex;gap:2.5px;align-items:flex-end}
-#deck6 .d6sig i{display:block;width:2.5px;background:rgba(242,242,240,.6);border-radius:1px}
-#deck6 .d6sig i:nth-child(1){height:4px}#deck6 .d6sig i:nth-child(2){height:6px}
-#deck6 .d6sig i:nth-child(3){height:8px}#deck6 .d6sig i:nth-child(4){height:10px}
-#deck6 .d6body{flex:1;padding:20px 22px 14px;display:flex;flex-direction:column}
-#deck6 .d6when{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;font-weight:800;
-  color:var(--d6sa);margin-bottom:11px}
-#deck6 .d6title{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1.2;
-  color:#F2F2F0;margin-bottom:16px}
-#deck6 .d6line{font-size:13px;color:rgba(242,242,240,.8);font-weight:300;line-height:1.5;
-  padding:7px 0 7px 16px;position:relative;opacity:0;animation:d6in .5s cubic-bezier(.2,.7,.2,1) forwards}
-#deck6 .d6line::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;
-  background:var(--d6sa);box-shadow:0 0 8px var(--d6sa)}
-@keyframes d6in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-#deck6 .d6chip{align-self:flex-start;margin-top:20px;font-size:10.5px;font-weight:800;letter-spacing:.05em;
-  background:var(--d6a);color:var(--d6on);border-radius:999px;padding:7px 14px;
-  opacity:0;animation:d6in .5s cubic-bezier(.2,.7,.2,1) .34s forwards}
-#deck6 .d6foot{margin-top:auto;padding-top:18px;border-top:1px solid rgba(242,242,240,.1);
-  display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  font-weight:700;color:rgba(242,242,240,.42)}
-#deck6 .d6foot span{width:5px;height:5px;border-radius:50%;background:var(--d6sa);flex:0 0 auto;
-  box-shadow:0 0 7px var(--d6sa);animation:d6blink 2.6s ease-in-out infinite}
-@keyframes d6blink{0%,100%{opacity:.35}50%{opacity:1}}
-#deck6 .d6nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 20px}
-#deck6 .d6arrow{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#F2F2F0;
-  width:36px;height:36px;border-radius:50%;font-size:15px;cursor:pointer;font-family:inherit;
-  display:grid;place-items:center;transition:.25s;padding:0}
-#deck6 .d6arrow:hover{background:var(--d6sa);border-color:var(--d6sa);color:#0B0B0E}
-#deck6 .d6arrow[disabled]{opacity:.26;cursor:default}
-#deck6 .d6dots{display:flex;gap:7px}
-#deck6 .d6dot{width:7px;height:7px;border-radius:50%;background:rgba(242,242,240,.26);cursor:pointer;
-  border:0;padding:0;transition:.3s}
-#deck6 .d6dot.on{background:var(--d6sa);box-shadow:0 0 10px var(--d6sa);transform:scale(1.35)}
-#deck6 .d6hint{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);white-space:nowrap;
-  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--d6ink);
-  opacity:.72;animation:d6hint 2.4s ease-in-out infinite;pointer-events:none}
-@keyframes d6hint{0%,100%{opacity:.34;transform:translateX(-50%) translateY(0)}
-  50%{opacity:.85;transform:translateX(-50%) translateY(4px)}}
-#deck6 .d6hint.gone{display:none}
-#deck6 .d6cap{margin:58px auto 0;max-width:62ch;text-align:center}
-#deck6 .d6feels{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#8A8A93}
-#deck6 .d6del{margin-top:9px;font-size:16px;color:#25252C;font-weight:300;line-height:1.62}
-#deck6 .d6fund{margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);
-  font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.5}
-#deck6 .d6fund i{font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
-  font-weight:800;color:var(--d6ink);margin-right:8px}
-
-/* the scratch, in their colour */
-#deck6 .d6sc{background:#0D0D0F;border-radius:22px;padding:26px;margin-top:56px;
-  max-width:520px;margin-left:auto;margin-right:auto}
-#deck6 .d6sck{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
-  color:var(--d6sa);margin-bottom:15px}
-#deck6 .d6scStage{position:relative;height:200px;border-radius:15px;overflow:hidden;
-  background:linear-gradient(160deg,var(--d6scr),#08080A)}
-#deck6 .d6scWin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;text-align:center;padding:20px}
-#deck6 .d6scK{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,242,240,.55);font-weight:800}
-#deck6 .d6scV{font-size:clamp(24px,4.4vw,36px);font-weight:900;letter-spacing:-.03em;color:var(--d6sa);
-  margin:9px 0 7px;line-height:1.05}
-#deck6 .d6scS{font-size:12px;color:rgba(242,242,240,.62);font-weight:300;line-height:1.45;max-width:32ch}
-#deck6 .d6coat{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
-#deck6 .d6coat:active{cursor:grabbing}
-#deck6 .d6scNote{font-size:11.5px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.55;margin-top:15px}
-#deck6 .d6again{margin-top:13px;background:transparent;border:1px solid rgba(242,242,240,.25);
-  color:#F2F2F0;border-radius:999px;padding:9px 18px;font-size:12px;font-weight:700;
-  font-family:inherit;cursor:pointer}
-#deck6 .d6again:hover{border-color:var(--d6a);color:var(--d6a)}
-@keyframes d6pop{0%{transform:scale(.9);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
-@media(prefers-reduced-motion:reduce){
-  #deck6 .d6phone,#deck6 .d6glow,#deck6 .d6hint{animation:none}
-  #deck6 .d6phone{transform:none}
-  #deck6 .d6line,#deck6 .d6chip{animation:none;opacity:1}
-}
 /* the flat six-card band this replaces stays in the DOM as the no-JS fallback,
    hidden only once the deck has actually mounted */
 body.d6-live #waitmap .wm-grid{display:none}
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body 
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--paper" data-m-scrub aria-label="the bill, explaining itself" style="--abA:#E62A32">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--paper" id="abCloud"></div>
+    <div class="abStage__copy">
+      <div class="abStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill"></div></div>
+  </div>
+</section>
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
+class="mGrain">
+<!-- sp4:start -->
+<div class="sp4Rib">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
+<!-- sp4:end -->
+<!-- sp4:start -->
+<div class="sp4" style="--sp4a:#E62A32;--sp4ink:#1A1917;--sp4paper:#FFFFFF">
+  <div class="sp4In">
+    <div class="sp4Trio">
+      <div class="sp4C"><div class="sp4K">the customer</div><div class="sp4T">the bill explains itself while they watch</div></div>
+      <div class="sp4C"><div class="sp4K">the retailer</div><div class="sp4T">nothing sends without a person signing</div></div>
+      <div class="sp4C"><div class="sp4K">assembl</div><div class="sp4T">paid on completed moments</div></div>
+    </div>
+    <p class="sp4Idea">the bill-shock wait &middot; <b>the reason found in the open</b> &middot; a person signs the send</p>
+  </div>
+</div>
+<!-- sp4:end -->
 <div class="meta-strip">shared in confidence · independent concept · simulated data · not affiliated with contact energy</div>
 <canvas id="canvas-3d"></canvas>
 <div class="content">
@@ -444,15 +350,15 @@ body.d6-live #waitmap .wm-grid{display:none}
 
   <div class="hero">
     <div>
-      <div class="eyebrow">Rewarded wait states <strong>powered by assembling</strong></div>
-      <h1>Turn every <em>bill shock</em> into a trusted moment.</h1>
-      <div class="name-line">Contact Energy, <strong>reimagined</strong></div>
-      <p class="hero-sub">
-        <strong>Your app makes households wait while bills are assembled.</strong> Assembling turns that wait into a reward they keep — power bill credit at launch, with more rewards rolling out. One line of code. <strong>You keep 55%.</strong>
+      <div class="eyebrow">Agentic customer journeys · an independent concept <strong>by assembl</strong></div>
+      <h1 data-m="type">Turn every <em>bill shock</em> into a trusted moment.</h1>
+      <div class="name-line">An independent concept for <strong>Contact Energy</strong></div>
+      <p class="hero-sub" data-m="rise">
+        A household’s whole relationship with power happens in the waits — the switch, the first bill, the outage, the winter spike. This concept makes each one explain itself while the customer watches, gives something real back for the time, and holds every send for <strong>a named person’s yes</strong>.
       </p>
       <div class="pill-row">
-        <span class="chip dark">1 line to install</span>
-        <span class="chip dark">55% you keep</span>
+        <span class="chip dark">six waits, working</span>
+        <span class="chip dark">draft-only · a person signs</span>
         <span class="chip blue">NZ only</span>
         <span class="chip dark">opt-in</span>
       </div>
@@ -464,7 +370,7 @@ body.d6-live #waitmap .wm-grid{display:none}
           <div class="status-bar"><span>9:41</span><span>⚡</span></div>
           
           <div class="jslide" id="jslide-1">
-            <div class="js-badge">optional · rewarded · +$1.14</div>
+            <div class="js-badge">optional · rewarded · explained</div>
             <div class="js-h">Your bill, explained before it arrives.</div>
             <div class="js-p">30 seconds. One Good Nights adjustment staged. Nothing switched without your say-so.</div>
             <div class="js-chips"><span class="js-chip">18% rise explained</span><span class="js-chip">1 adjustment staged</span><span class="js-chip">no surprises</span></div>
@@ -474,10 +380,10 @@ body.d6-live #waitmap .wm-grid{display:none}
             <div class="js-lab">mana receipt · simulated</div>
             <div class="js-h">Approved by you.</div>
             <div class="js-row"><span>moment completed</span><b>✓</b></div>
-            <div class="js-row"><span>reward minted</span><b>+$1.14</b></div>
+            <div class="js-row"><span>credit prepared</span><b>held for your yes</b></div>
             <div class="js-row"><span>record kept by</span><b>Contact Energy</b></div>
             <div class="js-row" id="js-name-row"><span>assembl sees</span><b>nothing personal</b></div>
-            <div class="js-name"><input type="text" id="agent-name" placeholder="name your agent…" maxlength="24"><div class="nb">whatever you call it stays on the mana receipt forever.</div></div>
+            <div class="js-name"><input type="text" id="agent-name" placeholder="name your agent…" maxlength="24"><div class="nb">the name you choose sits on every receipt it prepares.</div></div>
           </div>
           <div class="pdots"><span class="pa" id="pprev">‹</span><span class="d on"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="pa" id="pnext">›</span><span class="pp" id="pp" title="pause">❚❚</span></div>
 
@@ -528,19 +434,19 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="chat-panel">
     <div class="metrics-grid">
       <div class="metric-card">
-        <div class="metric-label">Wait time</div>
-        <div class="metric-value" id="m-wait">52s</div>
-        <div class="metric-sub">avg per session</div>
+        <div class="metric-label">what the pilot measures</div>
+        <div class="metric-value" id="m-wait">opt-in</div>
+        <div class="metric-sub">of invited households</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">Reward value</div>
-        <div class="metric-value brass" id="m-reward">+$1.14</div>
-        <div class="metric-sub">per wait state</div>
+        <div class="metric-label">cost metric</div>
+        <div class="metric-value brass" id="m-reward">calls avoided</div>
+        <div class="metric-sub">“why is my bill this?”</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">Monthly revenue</div>
-        <div class="metric-value brass" id="m-monthly">$38K</div>
-        <div class="metric-sub">55% to Contact</div>
+        <div class="metric-label">experience metric</div>
+        <div class="metric-value brass" id="m-monthly">understood</div>
+        <div class="metric-sub">the bill, first reading · vs control</div>
       </div>
     </div>
   </div>
@@ -550,11 +456,11 @@ body.d6-live #waitmap .wm-grid{display:none}
   <!-- ── the pilot ask ── -->
   <div class="pilot-ask">
     <div class="gt">the pilot ask</div>
-    <p class="sub">the smallest credible next step.</p>
+    <p class="sub" data-m="rise">the smallest credible next step.</p>
     <div class="pcells">
-      <div class="pcell"><div class="pn">01 · the scope</div><div class="pt">One billing cycle · 500–1,000 opted-in Good Nights customers in Auckland · a 4-week sandbox.</div></div>
-      <div class="pcell"><div class="pn">02 · the access</div><div class="pt">Read-only meter, weather and tariff data. Draft-write only for the bill-explanation card. No writes to the billing ledger in phase 1 — staged credit for phase-2 review.</div></div>
-      <div class="pcell"><div class="pn">03 · the scorecard</div><div class="pt">≥15pt uplift in bill understanding · ≥40% call deflection for "why is my bill this?" · ≥30% opt-in rate · 0 unapproved actions.</div></div>
+      <div class="pcell" data-m="rise"><div class="pn">01 · the scope</div><div class="pt">One billing cycle · 500–1,000 opted-in Good Nights customers in Auckland · a 4-week sandbox.</div></div>
+      <div class="pcell" data-m="rise"><div class="pn">02 · the access</div><div class="pt">Read-only meter, weather and tariff data. Draft-write only for the bill-explanation card. No writes to the billing ledger in phase 1 — staged credit for phase-2 review.</div></div>
+      <div class="pcell" data-m="rise"><div class="pn">03 · the scorecard</div><div class="pt">≥15pt uplift in bill understanding · ≥40% call deflection for "why is my bill this?" · ≥30% opt-in rate · 0 unapproved actions.</div></div>
     </div>
     <p class="pfail">fail any line of the scorecard and we change the design or stop.</p>
   </div>
@@ -564,23 +470,23 @@ body.d6-live #waitmap .wm-grid{display:none}
     <div class="gt">the boundary</div>
     <p>No production access is requested by this concept. No live customer, price, reward or purchase is involved. Scope, privacy, security and commercial terms require joint approval before any pilot begins.</p>
     <div class="verbs">
-      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=contact%20energy%20·%20assembling%20concept%20·%20we%20got%20this%20wrong&body=Kate%20—%0A%0AWhere%20the%20concept%20got%20it%20wrong:%0A%0A—"><div class="vl">verb one</div><div class="vt">"tell us which household we got wrong."</div></a>
-      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=contact%20energy%20·%20assembling%20concept%20·%20one%20constraint%20we%20missed&body=Kate%20—%0A%0AOne%20constraint%20you%20haven%27t%20accounted%20for:%0A%0A—"><div class="vl">verb two</div><div class="vt">"send us one constraint we haven't accounted for."</div></a>
-      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=contact%20energy%20·%20assembling%20concept%20·%20a%20sceptic%27s%20read&body=Kate%20—%0A%0AForwarding%20to%20the%20sharpest%20sceptic%20on%20the%20team:%0A%0A—"><div class="vl">verb three</div><div class="vt">"share this with the sharpest sceptic on your team — we want their read."</div></a>
+      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=contact%20energy%20·%20assembl%20concept%20·%20we%20got%20this%20wrong&body=Kate%20—%0A%0AWhere%20the%20concept%20got%20it%20wrong:%0A%0A—"><div class="vl">correct us</div><div class="vt">"tell us which household we got wrong."</div></a>
+      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=contact%20energy%20·%20assembl%20concept%20·%20one%20constraint%20we%20missed&body=Kate%20—%0A%0AOne%20constraint%20you%20haven%27t%20accounted%20for:%0A%0A—"><div class="vl">narrow it</div><div class="vt">"send us one constraint we haven't accounted for."</div></a>
+      <a class="verb" href="mailto:assembl@assembl.co.nz?subject=contact%20energy%20·%20assembl%20concept%20·%20a%20sceptic%27s%20read&body=Kate%20—%0A%0AForwarding%20to%20the%20sharpest%20sceptic%20on%20the%20team:%0A%0A—"><div class="vl">the sceptic’s read</div><div class="vt">"share this with the sharpest sceptic on your team — we want their read."</div></a>
     </div>
     <div class="unf">
       <div class="lab">unfinished · awaiting the contact energy constraint</div>
       <p>"the concept looks right except for one thing — <em>[your constraint here]</em>."</p>
       <div class="field"><input type="text" id="constraint" placeholder="type one sentence · e.g. the retail billing ledger can't stage credits without executive sign-off"><button onclick="sendConstraint()">send it</button></div>
     </div>
-    <div class="tik">tikanga governance panel · signed off 21 jul 2026 · ref TIK-2026-07-21-C001</div>
+    
   </div>
 
   
 <section id="waitmap" class="wm-band"><div class="wrap">
   <div class="wm-kick">Every waiting moment</div>
-  <h2 class="wm-h">Every wait in a power account</h2>
-  <p class="wm-lede">Six moments between choosing a plan and opening a winter bill — the whole relationship happens in the gap between using power and finding out what it cost.</p>
+  <h2 data-m="type" class="wm-h">Every wait in a power account</h2>
+  <p class="wm-lede" data-m="rise">Six moments between choosing a plan and opening a winter bill — the whole relationship happens in the gap between using power and finding out what it cost.</p>
 
   <div class="wm-grid">
     <div class="wm-card">
@@ -592,7 +498,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">your usage</div>
       </div>
       <div class="wm-feels">the wait feels like four plans that cannot be laid side by side</div>
-      <p class="wm-del">The comparison gets made against this household’s actual use rather than an average nobody lives in.</p>
+      <p class="wm-del" data-m="rise">The comparison gets made against this household’s actual use rather than an average nobody lives in.</p>
       <div class="wm-fund"><i>who funds it</i>Contact. A switch that happens for the wrong reason churns back out within a year.</div>
     </div>
     <div class="wm-card">
@@ -604,7 +510,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">on track</div>
       </div>
       <div class="wm-feels">the wait feels like a fortnight where nothing appears to happen</div>
-      <p class="wm-del">The silence gets named, so it stops reading as something gone wrong.</p>
+      <p class="wm-del" data-m="rise">The silence gets named, so it stops reading as something gone wrong.</p>
       <div class="wm-fund"><i>who funds it</i>Contact. Every one of these silences currently produces a “has it gone through?” contact.</div>
     </div>
     <div class="wm-card">
@@ -616,7 +522,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">explained</div>
       </div>
       <div class="wm-feels">the wait feels like the moment the plan stops being theoretical</div>
-      <p class="wm-del">The bill explains itself in the order a person actually asks — what changed, why, and what happens next.</p>
+      <p class="wm-del" data-m="rise">The bill explains itself in the order a person actually asks — what changed, why, and what happens next.</p>
       <div class="wm-fund"><i>who funds it</i>Contact. A bill that explains itself is a bill that does not need explaining on the phone.</div>
     </div>
     <div class="wm-card">
@@ -628,7 +534,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">answered</div>
       </div>
       <div class="wm-feels">the wait feels like eleven minutes of a recorded voice</div>
-      <p class="wm-del">Most hold calls are one fact. Putting the fact in the wait ends the call before it starts.</p>
+      <p class="wm-del" data-m="rise">Most hold calls are one fact. Putting the fact in the wait ends the call before it starts.</p>
       <div class="wm-fund"><i>who funds it</i>Contact. This is a contact-centre cost line before it is anything else.</div>
     </div>
     <div class="wm-card">
@@ -640,7 +546,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">street-wide</div>
       </div>
       <div class="wm-feels">the wait feels like not knowing whether it is your house or the street</div>
-      <p class="wm-del">The first question in an outage is whether it is only you. Answering that stops a call and stops a worry.</p>
+      <p class="wm-del" data-m="rise">The first question in an outage is whether it is only you. Answering that stops a call and stops a worry.</p>
       <div class="wm-fund"><i>who funds it</i>Contact, and honestly nobody should sponsor an outage. Nothing is sold in this moment.</div>
     </div>
     <div class="wm-card">
@@ -652,7 +558,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">options first</div>
       </div>
       <div class="wm-feels">the wait feels like the bill you were dreading arriving anyway</div>
-      <p class="wm-del">The hard bill arrives with the options already worked out, before anyone has to ask for help.</p>
+      <p class="wm-del" data-m="rise">The hard bill arrives with the options already worked out, before anyone has to ask for help.</p>
       <div class="wm-fund"><i>who funds it</i>Contact. A household that arranges something is a household that stays; the alternative is arrears.</div>
     </div>
   </div>
@@ -660,7 +566,7 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="wm-how">
     <div>
       <div class="wm-kick">How the moment works</div>
-      <h3>Four steps, every time.</h3>
+      <h3 data-m="rise">Four steps, every time.</h3>
       <ol class="wm-steps">
         <li><b>The signal</b><span>Something you already record says a person is now waiting, and roughly how long for.</span></li>
         <li><b>The prediction</b><span>How long this one will really take &mdash; not the average, this one.</span></li>
@@ -675,7 +581,7 @@ body.d6-live #waitmap .wm-grid{display:none}
           <div class="wm-win" id="wmWin">
             <div class="wm-win-k">you earned</div>
             <div class="wm-win-v" id="wmWinV">&mdash;</div>
-            <div class="wm-win-s">for four plans that cannot be laid side by side, which you were going to lose anyway</div>
+            <div class="wm-win-s">for the minutes between using the power and knowing the cost — the minutes you were losing anyway</div>
           </div>
           <canvas class="wm-coat" id="wmCoat"></canvas>
         </div>
@@ -685,18 +591,19 @@ body.d6-live #waitmap .wm-grid{display:none}
     </div>
   </div>
 
-  <div class="wm-ev">
-    <b>This is not a new idea &mdash; it is an unbuilt one.</b>
-    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
-    <p><i>Every figure here carries its source, and overseas figures are shown as overseas figures. We have not found a published New Zealand equivalent and we will not invent one.</i></p>
-  </div>
-</div></section>
+  
+</section>
 
 
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#E62A32" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section id="accept" class="wm-band"><div class="wrap">
   <div class="wm-kick">Before you decide</div>
-  <h2 class="wm-h">What a pilot actually asks of you.</h2>
-  <p class="wm-lede">Written out in full, because the honest version is short and most of it is your time, not your money.</p>
+  <h2 data-m="type" class="wm-h">What a pilot actually asks of you.</h2>
+  <p class="wm-lede" data-m="rise">Written out in full, because the honest version is short and most of it is your time, not your money.</p>
 
   <div class="wm-needs">
     <div class="wm-need"><span>01</span><div><h4>One named person</h4><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. About two hours a week, reading drafts rather than managing a project.</p></div></div>
@@ -710,8 +617,8 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="wm-accept">
     <div>
       <div class="wm-kick">The straight yes</div>
-      <h3>Run the pilot.</h3>
-      <p class="wm-lede" style="margin-top:11px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed &mdash; most pilots move a line or two before they start, and the notes below are how that happens.</p>
+      <h3 data-m="rise">Run the pilot.</h3>
+      <p class="wm-lede" data-m="rise" style="margin-top:11px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed &mdash; most pilots move a line or two before they start, and the notes below are how that happens.</p>
       <label class="wm-lbl" for="wmAdjust">Anything you would adjust? <small>optional</small></label>
       <textarea id="wmAdjust" rows="4" placeholder="e.g. the hold queue instead of the first bill, a shorter window, a different approver, nothing customer-facing in round one…"></textarea>
       <div class="wm-row">
@@ -736,6 +643,37 @@ body.d6-live #waitmap .wm-grid{display:none}
   </div>
 </div></section>
 
+<!-- ab:ev:start — the evidence, ANZ -->
+<section class="abEv" style="--abA:#E62A32" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer>assembl · aotearoa new zealand · © 2026</footer>
 </div>
 </div>
@@ -894,12 +832,12 @@ function addChatMsg(type,abbr,msg){
 }
 
 const scenarioData={
-  default:{wait:'52s',reward:'+$1.14',monthly:'$38K'},
-  move:{wait:'68s',reward:'+$1.85',monthly:'$46K'},
-  spike:{wait:'47s',reward:'+$0.95',monthly:'$32K'},
-  outage:{wait:'84s',reward:'+$2.65',monthly:'$59K'},
-  vulnerable:{wait:'62s',reward:'+$1.55',monthly:'$42K'},
-  solar:{wait:'44s',reward:'+$0.88',monthly:'$30K'},
+  default:{focus:'the first bill, explained before it lands'},
+  move:{focus:'both addresses, one journey — nothing dropped in the move'},
+  spike:{focus:'the rise named and explained, options staged'},
+  outage:{focus:'it is the street, not you — nothing is sold in an outage'},
+  vulnerable:{focus:'options first, arrears never assumed'},
+  solar:{focus:'the new tariff explained against real usage'},
 }
 
 function changeScenario(name,btn){
@@ -907,12 +845,9 @@ function changeScenario(name,btn){
   btn.classList.add('active')
   scenario=name
   const d=scenarioData[name]
-  document.getElementById('m-wait').textContent=d.wait
-  document.getElementById('m-reward').textContent=d.reward
-  document.getElementById('m-monthly').textContent=d.monthly
   chatMsgs.innerHTML=''
   addChatMsg('agent','CA','Context Agent — recalibrating for <span class="champ">'+name+'</span> scenario.')
-  addChatMsg('agent','BA','Billing Agent — plan recomputed. '+d.reward+' earned per wait state. Usage data recalculated.')
+  addChatMsg('agent','BA','Billing Agent — '+d.focus+'. Draft held for a named person.')
   addChatMsg('agent','OA','Outage Agent — checking network status for your address. Supply conditions updated.')
   if(waitTimer){clearTimeout(waitTimer);waitTimer=null;waitStep=0}
   waitOverlay.classList.remove('show')
@@ -921,7 +856,7 @@ function changeScenario(name,btn){
 setTimeout(startWait,2000)
 </script>
 
-<!-- ══ LIVE AGENT — assembling concept Q&A (added 2026-07-24) ══
+<!-- ══ LIVE AGENT — assembl concept Q&A (added 2026-07-24) ══
      Self-contained bottom-right widget wired to /api/agent (Cloudflare Pages
      Function, Workers AI free tier / Anthropic when keyed). Kate's scripted
      journey chat above stays untouched — this adds the REAL agent. -->
@@ -963,9 +898,9 @@ setTimeout(startWait,2000)
 .pdots .d.on{opacity:1;background:var(--blue);transform:scale(1.25)}
 .pdots .pp{font-family:var(--mono);font-size:9px;color:#999;cursor:pointer;margin-left:6px;letter-spacing:.08em;opacity:.8;user-select:none}
 </style>
-<button id="alw-pill"><span class="d"></span>ask assembling — live</button>
-<div id="alw-panel" role="dialog" aria-label="ask assembling — live agent">
-  <div id="alw-head">assembling concept agent · live · draft-only</div>
+<button id="alw-pill"><span class="d"></span>ask assembl — live</button>
+<div id="alw-panel" role="dialog" aria-label="ask assembl — live agent">
+  <div id="alw-head">assembl concept agent · live · draft-only</div>
   <div id="alw-log"><div class="a">Kia ora — ask me anything about this concept. Nothing here touches production systems; nothing sends without a person's yes.</div></div>
   <div id="alw-row"><input id="alw-in" placeholder="ask about this concept…" maxlength="400"><button id="alw-go">ask</button></div>
 </div>
@@ -1068,6 +1003,133 @@ function sendConstraint(){
   --wp-mono:'Space Mono',ui-monospace,monospace;
   max-width:640px; margin:34px auto 0; padding:26px 28px; border-radius:18px;
   background:#fff; border:1px solid rgba(0,0,0,.09); box-shadow:0 6px 26px rgba(0,0,0,.05)}
+
+/* sp4:start — clarity spine, hand-built demos */
+.sp4Rib{background:#141310;color:rgba(255,255,255,.78);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;text-align:center;padding:8px 14px;position:relative;z-index:80;
+  font-family:inherit}
+.sp4{position:relative;z-index:8;background:var(--sp4paper);font-family:inherit}
+.sp4 .sp4In{max-width:1180px;margin:0 auto;padding:0 24px}
+.sp4Trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(20,19,16,.14);
+  border-top:1px solid rgba(20,19,16,.14);border-bottom:1px solid rgba(20,19,16,.14)}
+.sp4C{background:var(--sp4paper);padding:13px 18px;border-left:2px solid var(--sp4a)}
+.sp4K{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--sp4a)}
+.sp4T{font-size:13px;line-height:1.45;color:var(--sp4ink);margin-top:4px;font-weight:400}
+.sp4Idea{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(20,19,16,.55);
+  text-align:center;margin:0;padding:14px 18px}
+.sp4Idea b{color:var(--sp4a);font-weight:700}
+@media(max-width:760px){.sp4Trio{grid-template-columns:1fr}}
+/* sp4:end */
+
+
+
+
+
+
+/* mz:start — the assembling mosaic band */
+.mzBand{padding:36px 22px 26px;position:relative}
+.mzIn{max-width:1080px;margin:0 auto}
+.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
+.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
+  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
+.mzT.mzLit{opacity:1;filter:none;transform:none}
+.mzT.mzPulse{animation:mzP .9s ease}
+@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
+.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
+.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
+@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
+/* mz:end */
+
+
+
+
+
+
+
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
 <script>
 (function(){
@@ -1169,222 +1231,152 @@ function wmCopy(){
 </script>
 
 
-<!-- ═══ THE WAIT DECK + THE SCRATCH · injected by patch-deck-scratch.mjs ═══ -->
-<section id="deck6"><div class="d6wrap">
-  <div class="d6kick">Every waiting moment</div>
-     <h2>Every wait in a power account</h2>
-     <p class="d6lede">Six moments between choosing a plan and opening a winter bill — the whole relationship happens in the gap between using power and finding out what it cost.</p>
-  
-    <div class="d6grid">
-      <div class="d6rail" role="tablist" aria-label="The six waits">
-        
-        <button class="d6r on" type="button" role="tab" data-i="0"
-          aria-selected="true">
-          <span class="d6rn">01</span>
-          <span><b>Before you switch</b><i>Comparing, none of it comparable</i></span>
-        </button>
-        <button class="d6r" type="button" role="tab" data-i="1"
-          aria-selected="false">
-          <span class="d6rn">02</span>
-          <span><b>The switch wait</b><i>Signed up, nothing visible</i></span>
-        </button>
-        <button class="d6r" type="button" role="tab" data-i="2"
-          aria-selected="false">
-          <span class="d6rn">03</span>
-          <span><b>The first bill</b><i>Opened, and it is higher</i></span>
-        </button>
-        <button class="d6r" type="button" role="tab" data-i="3"
-          aria-selected="false">
-          <span class="d6rn">04</span>
-          <span><b>The hold queue</b><i>On hold, position eleven</i></span>
-        </button>
-        <button class="d6r" type="button" role="tab" data-i="4"
-          aria-selected="false">
-          <span class="d6rn">05</span>
-          <span><b>The dark hour</b><i>Power out, no information</i></span>
-        </button>
-        <button class="d6r" type="button" role="tab" data-i="5"
-          aria-selected="false">
-          <span class="d6rn">06</span>
-          <span><b>The winter bill</b><i>July, and it doubled</i></span>
-        </button>
-      </div>
-      <div class="d6stage">
-        <div class="d6glow" aria-hidden="true"></div>
-        <div class="d6phone" id="d6phone">
-          <div class="d6shell"><div class="d6rim">
-            <div class="d6screen" id="d6screen" role="button" tabindex="0"
-              aria-label="The wait screens — click for the next moment">
-              <div class="d6bar">
-                <span>9:41</span><span class="d6notch" aria-hidden="true"></span>
-                <span class="d6sig" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-              </div>
-              <div class="d6body" id="d6body"></div>
-              <div class="d6nav">
-                <button class="d6arrow" id="d6prev" type="button" aria-label="Previous wait">&larr;</button>
-                <div class="d6dots" id="d6dots"></div>
-                <button class="d6arrow" id="d6next" type="button" aria-label="Next wait">&rarr;</button>
-              </div>
-            </div>
-          </div></div>
-          <div class="d6hint" id="d6hint">tap the screen &mdash; six waits</div>
-        </div>
-        <div class="d6cap" id="d6cap"></div>
-      </div>
-    </div>
-  <div class="d6sc">
-    <div class="d6sck">the value exchange, playable</div>
-    <div class="d6scStage">
-      <div class="d6scWin" id="d6scWin">
-        <div class="d6scK">you earned</div>
-        <div class="d6scV" id="d6scV">&mdash;</div>
-        <div class="d6scS">for the minutes between using the power and knowing the cost</div>
-      </div>
-      <canvas class="d6coat" id="d6coat"></canvas>
-    </div>
-    <p class="d6scNote">Running for real on this page. Drag to scratch it. Nothing is collected and
-    nothing is sent &mdash; it is here so the idea is something you do rather than something you read.</p>
-    <button class="d6again" id="d6again" type="button">scratch another</button>
-  </div>
-</div></section>
 
-<script>
-/* ═══ THE WAIT DECK + THE BRAND SCRATCH ═══════════════════════════════════
-   Injected by _generator/patch-deck-scratch.mjs — the same two modules the
-   generated fleet gets from build.mjs, namespaced d6* for these hand-built
-   pages. Kate, 30 July 2026. */
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script>/* mz:start — the assembling mosaic */
 (function(){
-  var WAITS=[{"key":"compare","name":"Before you switch","when":"Comparing, none of it comparable","feels":"four plans that cannot be laid side by side","screen":{"title":"Your house, on each plan","lines":["Same twelve months of use, four different answers.","The one that suits you may not be the cheapest headline."],"chip":"your usage"},"delivered":"The comparison gets made against this household’s actual use rather than an average nobody lives in.","funder":"Contact. A switch that happens for the wrong reason churns back out within a year."},{"key":"switching","name":"The switch wait","when":"Signed up, nothing visible","feels":"a fortnight where nothing appears to happen","screen":{"title":"Nothing needs you this week","lines":["Meter read booked. First bill lands after that.","You do not have to ring anyone."],"chip":"on track"},"delivered":"The silence gets named, so it stops reading as something gone wrong.","funder":"Contact. Every one of these silences currently produces a “has it gone through?” contact."},{"key":"firstbill","name":"The first bill","when":"Opened, and it is higher","feels":"the moment the plan stops being theoretical","screen":{"title":"Why this one is higher","lines":["Part billing period, part the cold week in June.","Here is what next month looks like."],"chip":"explained"},"delivered":"The bill explains itself in the order a person actually asks — what changed, why, and what happens next.","funder":"Contact. A bill that explains itself is a bill that does not need explaining on the phone."},{"key":"hold","name":"The hold queue","when":"On hold, position eleven","feels":"eleven minutes of a recorded voice","screen":{"title":"While you wait, this is your account","lines":["Your balance, your last read, your plan.","If this answers it, hang up and nothing is lost."],"chip":"answered"},"delivered":"Most hold calls are one fact. Putting the fact in the wait ends the call before it starts.","funder":"Contact. This is a contact-centre cost line before it is anything else."},{"key":"outage","name":"The dark hour","when":"Power out, no information","feels":"not knowing whether it is your house or the street","screen":{"title":"It is the street, not you","lines":["Crew assigned. Estimate updates here, not on a phone tree.","Nothing you can do at the switchboard."],"chip":"street-wide"},"delivered":"The first question in an outage is whether it is only you. Answering that stops a call and stops a worry.","funder":"Contact, and honestly nobody should sponsor an outage. Nothing is sold in this moment."},{"key":"winter","name":"The winter bill","when":"July, and it doubled","feels":"the bill you were dreading arriving anyway","screen":{"title":"This was coming. Here are the options","lines":["Smoothed payments, or a plan that fits winter use.","No credit check to look at either."],"chip":"options first"},"delivered":"The hard bill arrives with the options already worked out, before anyone has to ask for help.","funder":"Contact. A household that arranges something is a household that stays; the alternative is arrears."}];
-  var FOIL=["#a11d23","#f3999d","#cf262d"], FOILINK="#FFFFFF";
-  var REWARDS=["+5 min","the bill, explained","a straight answer","one less call","+9 min","the plan, worked out"];
-  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
-
-  /* ── the deck ─────────────────────────────────────────────────────────── */
-  if(WAITS && WAITS.length){
-    var body=document.getElementById('d6body'), cap=document.getElementById('d6cap'),
-        dots=document.getElementById('d6dots'), screen=document.getElementById('d6screen'),
-        phone=document.getElementById('d6phone'), hint=document.getElementById('d6hint'),
-        prev=document.getElementById('d6prev'), next=document.getElementById('d6next'),
-        rail=[].slice.call(document.querySelectorAll('#deck6 .d6r'));
-    if(body && screen){
-      /* only hide the flat fallback band once the deck is genuinely running */
-      document.body.classList.add('d6-live');
-      var i=0, touched=false;
-      dots.innerHTML=WAITS.map(function(m,n){
-        return '<button class="d6dot'+(n?'':' on')+'" type="button" data-i="'+n+'" aria-label="Wait '+(n+1)+'"></button>';
-      }).join('');
-
-      function render(){
-        var m=WAITS[i];
-        body.innerHTML='<div class="d6when">'+esc(m.when)+'</div>'+
-          '<div class="d6title">'+esc(m.screen.title)+'</div>'+
-          '<div>'+m.screen.lines.map(function(l,n){
-            return '<div class="d6line" style="animation-delay:'+(0.06+n*0.09).toFixed(2)+'s">'+esc(l)+'</div>';
-          }).join('')+'</div>'+
-          '<div class="d6chip">'+esc(m.screen.chip)+'</div>'+
-          '<div class="d6foot"><span></span>drafted \u00b7 held for a person</div>';
-        cap.innerHTML='<div class="d6feels">the wait feels like '+esc(m.feels)+'</div>'+
-          '<p class="d6del">'+esc(m.delivered)+'</p>'+
-          '<div class="d6fund"><i>who funds it</i>'+esc(m.funder)+'</div>';
-        rail.forEach(function(b,n){
-          b.classList.toggle('on',n===i); b.classList.toggle('done',n<i);
-          b.setAttribute('aria-selected', n===i?'true':'false');
-        });
-        [].forEach.call(dots.children,function(d,n){d.classList.toggle('on',n===i)});
-        prev.disabled=i===0; next.disabled=i===WAITS.length-1;
-      }
-      function go(n,human){
-        i=(n+WAITS.length)%WAITS.length;
-        if(human&&!touched){touched=true;hint.classList.add('gone')}
-        render();
-      }
-      screen.addEventListener('click',function(e){
-        if(e.target.closest('.d6arrow, .d6dot')) return;
-        go(i+1>=WAITS.length?0:i+1,true);
-      });
-      screen.addEventListener('keydown',function(e){
-        if(e.key==='Enter'||e.key===' '){e.preventDefault();go(i+1>=WAITS.length?0:i+1,true)}
-        if(e.key==='ArrowRight'){e.preventDefault();go(i+1,true)}
-        if(e.key==='ArrowLeft'){e.preventDefault();go(i-1,true)}
-      });
-      prev.addEventListener('click',function(e){e.stopPropagation();go(i-1,true)});
-      next.addEventListener('click',function(e){e.stopPropagation();go(i+1,true)});
-      [].forEach.call(dots.children,function(d){
-        d.addEventListener('click',function(e){e.stopPropagation();go(+d.dataset.i,true)});
-      });
-      rail.forEach(function(b){b.addEventListener('click',function(){go(+b.dataset.i,true)})});
-
-      /* the tilt reads off the STAGE, so the phone does not run from the cursor */
-      var stage=phone.closest('.d6stage');
-      if(stage && matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches){
-        stage.addEventListener('pointermove',function(e){
-          var r=stage.getBoundingClientRect();
-          var px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
-          phone.classList.add('grab');
-          phone.style.setProperty('--d6y',(-13+px*22).toFixed(2)+'deg');
-          phone.style.setProperty('--d6x',(7-py*14).toFixed(2)+'deg');
-        });
-        stage.addEventListener('pointerleave',function(){
-          phone.classList.remove('grab');
-          phone.style.removeProperty('--d6y'); phone.style.removeProperty('--d6x');
-        });
-      }
-      render();
-    }
+var host=document.getElementById('mzHost'); if(!host) return;
+var NS='http://www.w3.org/2000/svg';
+function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
+var U=84;
+function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
+var KIND={
+quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
+semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
+dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
+stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
+ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
+tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
+sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
+hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
+tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
+umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
+moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
+key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
+cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
+shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
+crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
+heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
+leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
+clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
+parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
+van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
+envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
+globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
+plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
+sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
+ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
+case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
+coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
+card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
+chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
+percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
+bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
+bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
+plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
+door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
+tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
+crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
+brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
+pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
+drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
+flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
+car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
+wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
+flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
+road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
+apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
+milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
+egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
+carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
+wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
+tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
+};
+var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
+var TILES=[["quarter","#E62A32",0,1],["bolt","#1d1a15","#E62A32"],["semi","#FADDDE","#E62A32"],["bulb","#EFE8D9","#E62A32"],["quarter","#1A1917",0,3],["plug","#1A1917","#FFFFFF"],["dots","#1A1917","#FADDDE"],["house","#FADDDE","#1A1917"],["sparkle","#1d1a15","#E62A32"],["sun","#E62A32","#FFFFFF"],["stripes","#E62A32","#FADDDE"],["clock","#EFE8D9","#1A1917"],["hills","#FADDDE","#1A1917"],["ringT","#FADDDE","#1A1917"],["tick","#1A1917","#FFFFFF"],["quarter","#FADDDE",0,2]];
+var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
+var layer=el('g',{}); svg.appendChild(layer);
+var tiles=[];
+SLOTS.forEach(function(s,i){
+  var t=TILES[i]; if(!t) return;
+  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
+  var g=el('g',{'class':'mzT'});
+  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
+  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
+});
+host.appendChild(svg);
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var started=false;
+function ignite(){
+  if(started) return; started=true;
+  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
+  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
+    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
+  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
+  var next=6, iv=setInterval(function(){
+    if(next>=order.length){clearInterval(iv);return;}
+    tiles[order[next++]].classList.add('mzLit');
+  },1500);
+}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
+  io.observe(host);
+  setTimeout(ignite,9000);
+}else ignite();
+document.addEventListener('click',function(){
+  if(reduce) return;
+  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
+  if(!lit.length) return;
+  var t=lit[Math.floor(Math.random()*lit.length)];
+  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
+  setTimeout(function(){t.classList.remove('mzPulse')},950);
+});
+var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
+if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
+  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
+  if(bgc&&bgc.length>=3){
+    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
+    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
+      band.style.setProperty('--mzDorm','.12');}
   }
-
-  /* ── the scratch, in their own colour ─────────────────────────────────── */
-  var cv=document.getElementById('d6coat'); if(!cv) return;
-  var win=document.getElementById('d6scWin'), val=document.getElementById('d6scV'),
-      again=document.getElementById('d6again');
-  var ctx=cv.getContext('2d'), W=0,H=0,dpr=1, revealed=false, drawing=false;
-  function fit(){
-    var r=cv.getBoundingClientRect(); dpr=Math.min(2,window.devicePixelRatio||1);
-    W=r.width; H=r.height; cv.width=Math.max(1,W*dpr); cv.height=Math.max(1,H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0); coat();
-  }
-  function coat(){
-    ctx.globalCompositeOperation='source-over'; ctx.clearRect(0,0,W,H);
-    var g=ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,FOIL[0]); g.addColorStop(.5,FOIL[1]); g.addColorStop(1,FOIL[2]);
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='rgba(0,0,0,.07)';
-    for(var x=-14;x<W;x+=26) ctx.fillRect(x,0,13,H);
-    ctx.fillStyle=FOILINK; ctx.textAlign='center';
-    ctx.font='700 13px system-ui,sans-serif'; ctx.fillText('SCRATCH TO REVEAL',W/2,H/2-3);
-    ctx.font='300 12px system-ui,sans-serif'; ctx.fillText('drag across the panel',W/2,H/2+17);
-    ctx.globalCompositeOperation='destination-out';
-  }
-  function at(e){var r=cv.getBoundingClientRect();var t=e.touches&&e.touches[0]?e.touches[0]:e;
-    return [t.clientX-r.left,t.clientY-r.top]}
-  function rub(e){
-    if(!drawing||revealed) return;
-    var p=at(e); ctx.beginPath(); ctx.arc(p[0],p[1],23,0,Math.PI*2); ctx.fill(); check();
-    if(e.cancelable) e.preventDefault();
-  }
-  function check(){
-    var d=ctx.getImageData(0,0,cv.width,cv.height).data, clear=0, total=0;
-    for(var i2=3;i2<d.length;i2+=4*64){total++; if(d[i2]<40) clear++}
-    if(total && clear/total>0.46) reveal();
-  }
-  function reveal(){
-    revealed=true; cv.style.transition='opacity .5s ease'; cv.style.opacity='0';
-    cv.style.pointerEvents='none'; win.style.animation='d6pop .5s cubic-bezier(.22,.61,.36,1) both';
-  }
-  function reset(){
-    revealed=false; drawing=false;
-    val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
-    cv.style.transition='none'; cv.style.opacity='1'; cv.style.pointerEvents='auto';
-    win.style.animation='none'; coat();
-  }
-  cv.addEventListener('pointerdown',function(e){drawing=true;rub(e)});
-  window.addEventListener('pointerup',function(){drawing=false});
-  cv.addEventListener('pointermove',rub,{passive:false});
-  if(again) again.addEventListener('click',reset);
-  window.addEventListener('resize',function(){if(!revealed) fit()});
-  val.textContent=REWARDS[Math.floor(Math.random()*REWARDS.length)];
-  fit();
+}
+if(band&&!reduce){
+  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
+    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
+  band.addEventListener('pointerleave',function(){bx=0;by=0});
+  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
+    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
+}
+})();/* mz:end */</script>
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+    {form:'leaf',material:'ink',colour:'#E62A32',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  var c2=document.getElementById('abCloud2');
+  if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+    {form:'leaf',material:'ink',colour:'#E62A32',count:1800,mode:'auto',size:.045});
+  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+    {colour:'#E62A32',ink:'#14161A',brass:'#BFA37A',seed:'contact-energy',density:14,mode:'enter'});
 })();
 </script>
+<!-- ab:js:end -->
 </body>
 </html>

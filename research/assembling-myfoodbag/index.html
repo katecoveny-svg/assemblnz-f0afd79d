@@ -653,6 +653,11 @@ h1{letter-spacing:-.035em}
 
 
 
+
+
+
+
+
 /* mz:start — the assembling mosaic band */
 .mzBand{padding:36px 22px 26px;position:relative}
 .mzIn{max-width:1080px;margin:0 auto}
@@ -697,9 +702,102 @@ h1{letter-spacing:-.035em}
 .pfStop:nth-child(2){text-align:center}
 .pfStop:last-child{text-align:right}
 /* pf:end */
+
+
+
+
+
+
+
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
 <!-- spine:start -->
 <div class="spRibbon">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
 <!-- spine:end -->
@@ -724,7 +822,7 @@ h1{letter-spacing:-.035em}
 <main>
 <header class="hero"><div class="wrap"><div class="narrow">
   <div class="eyebrow rise">The weekly choose · a concept</div>
-  <h1 class="rise">The week,<br><em class="g">assembled.</em></h1>
+  <h1 data-m="type" class="rise">The week,<br><em class="g">assembled.</em></h1>
   <p class="lede rise">You publish more than thirty recipes every week, and that generosity is real. But it lands on a person at the end of a Sunday, and a list is not a decision. The week between deliveries is the real wait state — and the Sunday night someone taps skip is where retention is decided. This concept assembles that moment.</p>
   <div class="quote rise"><p>You told the market your FY26 result was retention and order frequency. Both are decided in one moment — the Sunday night the customer skips. Here’s that moment, assembled.</p><cite>FY26: revenue $170.2m (+5.0%), ~61,300 active customers, result credited to “higher retention and increased order frequency” · NZX, 20 May 2026</cite></div>
   <div class="btns rise">
@@ -732,12 +830,27 @@ h1{letter-spacing:-.035em}
     <button class="btn ghost" onclick="openChat()">Ask it about this</button>
   </div>
 </div></div></header>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--dark" data-m-scrub aria-label="the week, assembling" style="--abA:#77A222">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--dark" id="abCloud"></div>
+    <div class="abStage__copy">
+      <div class="abStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill"></div></div>
+  </div>
 </section>
-<!-- mz:end -->
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
 
 <!-- spine:start -->
 <div class="spWrap"><div class="wrap">
@@ -746,7 +859,7 @@ h1{letter-spacing:-.035em}
     <div class="spC"><div class="spK">the business</div><div class="spT">nothing sends without a person signing</div></div>
     <div class="spC"><div class="spK">assembl</div><div class="spT">paid on completed moments</div></div>
   </div>
-  <p class="spIdea">the wait, working &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
+  <p class="spIdea" data-m="rise">the wait, working &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
 </div></div>
 <!-- spine:end -->
 
@@ -755,9 +868,9 @@ h1{letter-spacing:-.035em}
   <div class="num rise">01 — THE WAIT</div>
   <div class="narrow rise">
     <div class="eyebrow">A Sunday, 8:50pm</div>
-    <h2>The Sunday-night scroll</h2>
-    <p class="lede">Someone opens the app to choose next week. There are thirty-plus recipes, a gluten-free kid, netball on Tuesday, someone home late on Wednesday, and about four minutes of patience left. So they pick the same familiar things, and the interesting half of your range never gets seen.</p>
-    <p class="kicker" style="color:var(--accent)">Your own site offers nine plan types — including a Gluten Free plan supported by Coeliac New Zealand and a Diabetes Plan supported by Diabetes NZ. You already hold the facts that would narrow thirty recipes to five. They are just not being used to do it.</p>
+    <h2 data-m="type">The Sunday-night scroll</h2>
+    <p class="lede" data-m="rise">Someone opens the app to choose next week. There are thirty-plus recipes, a gluten-free kid, netball on Tuesday, someone home late on Wednesday, and about four minutes of patience left. So they pick the same familiar things, and the interesting half of your range never gets seen.</p>
+    <p class="kicker" data-m="rise" style="color:var(--accent)">Your own site offers nine plan types — including a Gluten Free plan supported by Coeliac New Zealand and a Diabetes Plan supported by Diabetes NZ. You already hold the facts that would narrow thirty recipes to five. They are just not being used to do it.</p>
   </div>
   
   <!-- The wait itself, not three paragraphs about it. Same component the
@@ -768,34 +881,29 @@ h1{letter-spacing:-.035em}
       <div id="wait-mount"></div>
     </div>
     <div class="waitcards">
-      <div class="glass" id="wait-explain"></div>
-      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">A grid of thirty. The customer does the filtering you could have done, and defaults to what they chose last week.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">Your best new recipes go unseen, and a week that felt like homework is the week before someone pauses.</p></div>
-      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Narrows thirty to five against what this household actually said, and stops. They still choose.</p></div>
+      <div class="glass" data-m="rise" id="wait-explain"></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What happens now</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">A grid of thirty. The customer does the filtering you could have done, and defaults to what they chose last week.</p></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What it costs</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Your best new recipes go unseen, and a week that felt like homework is the week before someone pauses.</p></div>
+      <div class="glass tight"><h3 data-m="rise" style="font-size:18px">What the concept does</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Narrows thirty to five against what this household actually said, and stops. They still choose.</p></div>
     </div>
   </div>
 
   
   <div class="powgrid rise">
-    <div class="pow"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
-    <div class="pow"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
-    <div class="pow"><i>03 — VALUE DELIVERY</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
-    <div class="pow"><i>04 — VALUE EXCHANGE</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
+    <div class="pow" data-m="rise"><i>01 — INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
+    <div class="pow" data-m="rise"><i>02 — HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
+    <div class="pow" data-m="rise"><i>03 — VALUE DELIVERY</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
+    <div class="pow" data-m="rise"><i>04 — VALUE EXCHANGE</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
   </div>
   <p class="prinline rise"><em>Opt-in, skippable, honest.</em> The reward comes from the business running the journey, never from selling the person waiting. Every decision still ends with a person.</p>
-  <div class="tiersline rise">
-    <div class="tl on"><i>tier 01 · this concept, live</i><b>The assembling loader</b><span>The wait shown, the wait paid — what this page runs.</span></div>
-    <div class="tl"><i>tier 02 · the path</i><b>The sponsored chat line</b><span>A labelled co-pilot behind this journey, stepping forward only with found value.</span></div>
-    <div class="tl"><i>tier 03 · the path</i><b>The joint-venture UI</b><span>A shared surface with your partners — every action still ends in a human approval.</span></div>
-  </div>
 </div></section>
 
 
 <section id="map" class="mapband"><div class="wrap">
   <div class="num rise dark">02 — EVERY WAITING MOMENT</div>
   <div class="narrow rise">
-    <h2 class="mapH">Every waiting moment in a meal kit week</h2>
-    <p class="mapLede">Six waits in a household week. Choosing, the days before, the van, the bench, and the week you nearly pause.</p>
+    <h2 data-m="type" class="mapH">Every waiting moment in a meal kit week</h2>
+    <p class="mapLede" data-m="rise">Six waits in a household week. Choosing, the days before, the van, the bench, and the week you nearly pause.</p>
   </div>
 
   <div class="deck rise">
@@ -863,7 +971,7 @@ h1{letter-spacing:-.035em}
   <div class="mapHow rise">
     <div class="mapHowL">
       <div class="eyebrow dark">How the moment works</div>
-      <h3>Four steps, every time.</h3>
+      <h3 data-m="rise">Four steps, every time.</h3>
       <ol class="mapSteps">
         <li><b>The signal</b><span>Something in your own systems says a person is now waiting, and roughly how long for.</span></li>
         <li><b>The prediction</b><span>How long this one will really take — not the average, this one.</span></li>
@@ -888,20 +996,16 @@ h1{letter-spacing:-.035em}
     </div>
   </div>
 
-  <div class="mapEv rise">
-    <b>This is not a new idea — it is an unbuilt one.</b>
-    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
-    <p class="mapEvFin">Every figure on this page carries its source. Overseas figures are shown as overseas figures — we have not found a published New Zealand equivalent, and we will not invent one.</p>
-  </div>
-</div></section>
+  
+</section>
 
 
 <section id="mirror"><div class="wrap">
   <div class="num rise">03 — THE WORK, PREPARED</div>
   <div class="narrow rise">
     <div class="eyebrow">The same situation, four ways</div>
-    <h2>One week. Four different households.</h2>
-    <p class="kicker">The same thirty recipes, narrowed four ways. Nothing here orders anything, and nothing swaps a recipe the customer chose — the shortlist is a suggestion with its reasoning attached.</p>
+    <h2 data-m="type">One week. Four different households.</h2>
+    <p class="kicker" data-m="rise">The same thirty recipes, narrowed four ways. Nothing here orders anything, and nothing swaps a recipe the customer chose — the shortlist is a suggestion with its reasoning attached.</p>
   </div>
   <div style="margin-top:38px" class="rise">
     <div class="marqrow" id="marqrow"></div>
@@ -909,8 +1013,8 @@ h1{letter-spacing:-.035em}
       <div class="glass draft" id="draftBox"></div>
       <div class="glass tight">
         <div class="num" style="margin-bottom:16px">WHY THIS ISN'T A TEMPLATE</div>
-        <p class="kicker" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
-        <p class="kicker" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
+        <p class="kicker" data-m="rise" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
+        <p class="kicker" data-m="rise" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
         <div class="check pass" style="margin-top:20px"><span class="ic">✓</span>
           <div><div class="t">Nothing here sends</div><div class="d">Every draft goes to a named person. No channel is connected by this concept.</div></div></div>
       </div>
@@ -926,9 +1030,9 @@ h1{letter-spacing:-.035em}
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">The canonical churn moment</div>
-      <h2>Skip is not the exit. It is the moment to offer a smaller yes.</h2>
-      <p class="kicker">Meal kits churn at the skip. Today the choices are the full box or nothing — so nothing wins. This concept puts three adjusted weeks in front of the skip button, before it is ever tapped.</p>
-      <p class="kicker">Tap skip and see what the journey offers instead. Skipping still works — one tap, no guilt, no dark pattern. The offer is simply allowed to exist first.</p>
+      <h2 data-m="type">Skip is not the exit. It is the moment to offer a smaller yes.</h2>
+      <p class="kicker" data-m="rise">Meal kits churn at the skip. Today the choices are the full box or nothing — so nothing wins. This concept puts three adjusted weeks in front of the skip button, before it is ever tapped.</p>
+      <p class="kicker" data-m="rise">Tap skip and see what the journey offers instead. Skipping still works — one tap, no guilt, no dark pattern. The offer is simply allowed to exist first.</p>
     </div>
     <div class="rise">
       <div id="skipBox" style="border:1.5px solid rgba(0,0,0,.14);border-radius:20px;padding:18px">
@@ -964,13 +1068,13 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Before a person ever reads it</div>
-      <h2>The checks that run before a shortlist reaches anyone</h2>
-      <p class="kicker">Food is where personalisation touches health, money and children in the same breath, so the guards matter more than the cleverness.</p>
-      <p class="kicker">Drafts are held against the Fair Trading Act 1986, the Privacy Act 2020, the therapeutic-claim provisions of the Medicines Act 1981, and the Unsolicited Electronic Messages Act 2007.</p>
-      <p class="kicker"><b>Two refusals ship as switches:</b> the journey never infers a health condition from what a household orders — health-aware journeys are opt-in in plain words, or they do not exist — and no adjusted week is ever charged without an explicit yes.</p>
+      <h2 data-m="type">The checks that run before a shortlist reaches anyone</h2>
+      <p class="kicker" data-m="rise">Food is where personalisation touches health, money and children in the same breath, so the guards matter more than the cleverness.</p>
+      <p class="kicker" data-m="rise">Drafts are held against the Fair Trading Act 1986, the Privacy Act 2020, the therapeutic-claim provisions of the Medicines Act 1981, and the Unsolicited Electronic Messages Act 2007.</p>
+      <p class="kicker" data-m="rise"><b>Two refusals ship as switches:</b> the journey never infers a health condition from what a household orders — health-aware journeys are opt-in in plain words, or they do not exist — and no adjusted week is ever charged without an explicit yes.</p>
       <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the week →</button>
     </div>
-    <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
+    <div class="rise"><div id="guardOut"><p class="kicker" data-m="rise" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
   </div>
 </div></section>
 
@@ -978,8 +1082,8 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   <div class="num rise">05 — THE ROOM</div>
   <div class="narrow rise">
     <div class="eyebrow">Where you watch it work</div>
-    <h2>One room. Your people, your agents, every action on the record.</h2>
-    <p class="kicker">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
+    <h2 data-m="type">One room. Your people, your agents, every action on the record.</h2>
+    <p class="kicker" data-m="rise">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
   </div>
   <div class="roomgrid rise">
     <div class="room" aria-label="A concept picture of the private pilot room">
@@ -993,13 +1097,13 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
       <div class="rl"><span>09:02</span> draft prepared from your sources</div>
       <div class="rl"><span>09:06</span> approved by a named person</div>
       <div class="rl"><span>09:06</span> sent · receipt filed</div>
-      <p class="kicker" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
+      <p class="kicker" data-m="rise" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
     </div>
   </div>
   <div class="grid3" style="margin-top:38px">
-    <div class="glass tight rise"><h3 style="font-size:18px">Yours</h3><p class="kicker" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:18px">On the record</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
-    <div class="glass tight rise"><h3 style="font-size:18px">People decide</h3><p class="kicker" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">Yours</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">On the record</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
+    <div class="glass tight rise"><h3 data-m="rise" style="font-size:18px">People decide</h3><p class="kicker" data-m="rise" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
   </div>
   <p class="kicker rise" style="font-size:12.5px;margin-top:22px;color:var(--muted)">This panel is a concept picture, not a live room — a pilot stands up the real one, on infrastructure you approve.</p>
 </div></section>
@@ -1008,8 +1112,8 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   <div class="num rise">06 — ON ONE SCREEN</div>
   <div class="narrow rise">
     <div class="eyebrow">Nothing here has been sent</div>
-    <h2>The week, before anything reaches a customer</h2>
-    <p class="kicker">Illustrative and fictional. No production access is requested by this concept.</p>
+    <h2 data-m="type">The week, before anything reaches a customer</h2>
+    <p class="kicker" data-m="rise">Illustrative and fictional. No production access is requested by this concept.</p>
   </div>
   <div class="glass rise" style="margin-top:34px;overflow-x:auto">
     <table class="ops">
@@ -1025,9 +1129,9 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   <div class="grid2">
     <div class="rise">
       <div class="eyebrow">Mana Receipt</div>
-      <h2>Every draft carries its own working.</h2>
-      <p class="kicker">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
-      <p class="kicker">This matters most on the day someone asks why it said what it said.</p>
+      <h2 data-m="type">Every draft carries its own working.</h2>
+      <p class="kicker" data-m="rise">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
+      <p class="kicker" data-m="rise">This matters most on the day someone asks why it said what it said.</p>
     </div>
     <div class="rise"><div class="receipt">
       <div class="rh">Mana Receipt · draft</div>
@@ -1046,13 +1150,15 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
 
 
 
+
+
 <!-- pf:start -->
 <section class="pfSec" aria-label="Regulatory spine and pilot metrics" style="--pfA:#77A222">
   <div class="pfIn">
     <div class="pfCard">
       <div class="pfK">the regulatory spine · Privacy Act 2020</div>
       <p class="pfQ">Collection limits under the Privacy Act 2020 (IPP 1 and IPP 4): this journey never infers a health condition from what a household orders. Health-aware journeys are opt-in, stated in plain words, or they do not exist.</p>
-      <p class="pfT">Every question the journey asks is logged with its purpose. The trace shows what was asked, what was never asked, and why.</p>
+      <p class="pfT" data-m="rise">Every question the journey asks is logged with its purpose. The trace shows what was asked, what was never asked, and why.</p>
     </div>
     <div class="pfCard">
       <div class="pfK">what a 90-day pilot would measure</div>
@@ -1062,27 +1168,32 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   </div>
 </section>
 <!-- pf:end -->
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#77A222" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section id="pilot"><div class="wrap">
   <div class="num rise">09 — WHAT WE ARE ACTUALLY ASKING</div>
   <div class="grid2">
     <div class="rise"><div class="boundary">
       <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
-      <h3>What this will never do</h3>
-      <p class="kicker" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
-      <p class="kicker">No production access is requested by this concept.</p>
+      <h3 data-m="rise">What this will never do</h3>
+      <p class="kicker" data-m="rise" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
+      <p class="kicker" data-m="rise">No production access is requested by this concept.</p>
     </div></div>
     <div class="rise"><div class="glass pilot">
       <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
       <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>One moment: the weekly choose, narrowed for opted-in households on the standard plans. Six weeks. Not the Diabetes Plan, not pricing, not the recipe range itself, not delivery.</p></div></div>
       <div class="step"><span class="n">2</span><div><h4>Access</h4><p>Your published recipe metadata and plan definitions, plus the field names for stated dietary needs, household size, nights per week and skipped weeks. No payment data. No health information. No customer records leave your systems.</p></div></div>
       <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Shortlists where the customer chose at least one of the five. New recipes tried that would not otherwise have been seen. Held cases a person agreed should have been held. And whether a CX lead would put their name to the reason attached to each recipe.</p></div></div>
-      <p class="kicker" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
+      <p class="kicker" data-m="rise" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
     </div></div>
   </div>
 
   <div class="narrow rise" style="margin-top:76px">
-    <div class="eyebrow">Before you decide</div><h2>What a pilot actually asks of you.</h2>
-    <p class="kicker">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
+    <div class="eyebrow">Before you decide</div><h2 data-m="type">What a pilot actually asks of you.</h2>
+    <p class="kicker" data-m="rise">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
   </div>
   <div class="needs rise">
     <div class="need"><span class="nn">01</span><div><h4>One named person</h4><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. Expect about two hours a week — reading drafts, not managing a project.</p></div></div>
@@ -1096,8 +1207,8 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   <div class="rise accept" id="accept">
     <div class="acceptL">
       <div class="eyebrow" style="margin-bottom:14px">The straight yes</div>
-      <h3>Run the pilot.</h3>
-      <p class="kicker" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
+      <h3 data-m="rise">Run the pilot.</h3>
+      <p class="kicker" data-m="rise" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
       <label class="acceptLbl" for="adjust">Anything you would adjust? <small>optional</small></label>
       <textarea id="adjust" rows="4" placeholder="e.g. start with a different situation, a shorter window, a different approver, no access to X…"></textarea>
       <div class="acceptRow">
@@ -1122,8 +1233,8 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
   </div>
 
   <div class="narrow rise" style="margin-top:62px">
-    <div class="eyebrow">Or three other honest answers</div><h2>Pick a verb.</h2>
-    <p class="kicker">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
+    <div class="eyebrow">Or three other honest answers</div><h2 data-m="type">Pick a verb.</h2>
+    <p class="kicker" data-m="rise">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
   </div>
   <div class="verbs rise">
     <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about My Food Bag. Tell us which line and we will fix it or take the concept down.</div></a>
@@ -1133,8 +1244,8 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
 
   <div class="glass unfin rise" style="margin-top:44px">
     <div class="eyebrow" style="margin-bottom:12px">The unfinished pane</div>
-    <h3>What is the one constraint we have got wrong?</h3>
-    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how My Food Bag actually runs that we could not see. One line is enough.</p>
+    <h3 data-m="rise">What is the one constraint we have got wrong?</h3>
+    <p class="kicker" data-m="rise" style="margin-top:10px">Every concept is built from the outside. There is always something about how My Food Bag actually runs that we could not see. One line is enough.</p>
     <div class="row">
       <input id="constraint" placeholder="The thing we clearly don't understand about your business…" onkeydown="if(event.key==='Enter')sendConstraint()">
       <button class="btn solid" onclick="sendConstraint()">Send it <span class="arw">→</span></button>
@@ -1144,12 +1255,43 @@ function skipAnyway(){document.getElementById('skipOffers').style.display='none'
 </div></section>
 </main>
 
+<!-- ab:ev:start — the evidence, ANZ -->
+<section class="abEv" style="--abA:#77A222" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer><div class="wrap narrow">
   
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by My Food Bag. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
   <p style="margin-top:16px">Verified from My Food Bag's own published material: My Food Bag describes itself as "NZ’s Simple, Healthy & Delicious Meal Kit" and offers "30+ recipes to choose from every week". Its published plan types include I Like Everything, High Protein (40g or more per serve), Quick & Easy (15 mins), Kid-Friendly, Low Carb & Healthier, Vegan & Veggie, Gourmet (+$3.99 per plate), Gluten Free and a Diabetes Plan. The Gluten Free plan is described as supported by Coeliac New Zealand, and the Diabetes Plan as supported by Diabetes NZ. Plans are configurable by number of people (1, 2, 4 or 6) and meals per week (3, 4 or 5), and its recipes are described as "locally sourced and inspired by Nadia Lim". Its brands include My Food Bag, Fresh Start, Bargain Box and Ready Made Meals.</p>
   <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
-  <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
+  <p class="fin" data-m="rise">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
 </div></footer>
 
 <button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
@@ -1383,7 +1525,7 @@ function verb(kind){
 
     cap.innerHTML =
       '<div class="dkFeels">the wait feels like '+esc(m.feels)+'</div>' +
-      '<p class="dkDel">'+esc(m.delivered)+'</p>' +
+      '<p class="dkDel" data-m="rise">'+esc(m.delivered)+'</p>' +
       '<div class="dkFund"><i>who funds it</i>'+esc(m.funder)+'</div>';
 
     rail.forEach(function(b,n){
@@ -1988,6 +2130,12 @@ function grounded(q){
 
 <script></script>
 
+<script></script>
+
+<script></script>
+
+<script></script>
+
 <script>/* mz:start — the assembling mosaic */
 (function(){
 var host=document.getElementById('mzHost'); if(!host) return;
@@ -2107,5 +2255,21 @@ if(band&&!reduce){
     layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
 }
 })();/* mz:end */</script>
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+    {form:'basket',material:'chrome',colour:'#77A222',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  var c2=document.getElementById('abCloud2');
+  if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+    {form:'basket',material:'chrome',colour:'#77A222',count:1800,mode:'auto',size:.045});
+  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+    {colour:'#77A222',ink:'#14161A',brass:'#BFA37A',seed:'my-food-bag',density:14,mode:'enter'});
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>

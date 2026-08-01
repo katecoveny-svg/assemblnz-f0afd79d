@@ -6,6 +6,7 @@ import { BlueprintStart } from './BlueprintStart';
 import { WaitState } from './WaitState';
 import { HOME_FAQ } from './faq';
 import { mountJourneyScene, JOURNEY_STAGES } from './journey-scene';
+import { AssembleType } from '../motion/AssembleType';
 
 /**
  * assembl homepage — Kate's cinematic prototype, ported 1:1.
@@ -360,9 +361,9 @@ export function CinematicHome({ stats }: { stats: HomeStats }) {
                   intuitive agentic customer journeys" on screen twice, forty
                   pixels apart. Kate: "this is a double up". The eyebrow above
                   is the hero's top anchor instead. */}
-              <h1 className="ed-h1">
+              <AssembleType as="h1" className="ed-h1" delay={260}>
                 Agentic customer journeys, <em>assembled.</em>
-              </h1>
+              </AssembleType>
 
               <div className="ed-foot">
                 <div className="ed-folio">01</div>

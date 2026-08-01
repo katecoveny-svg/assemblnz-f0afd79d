@@ -825,10 +825,10 @@ h1{letter-spacing:-.035em}
   <div class="powgrid rise">
     <div class="pow"><i>01 \u2014 INTENT SIGNAL</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
     <div class="pow"><i>02 \u2014 HONEST DURATION</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
-    <div class="pow"><i>03 \u2014 VALUE DELIVERY</i><b>Something worth the minutes</b><span>The work shown as it happens \u2014 useful, short, skippable.</span></div>
-    <div class="pow"><i>04 \u2014 VALUE EXCHANGE</i><b>The wait pays</b><span>The customer earns as they watch, and one optional question comes back the other way.</span></div>
+    <div class="pow"><i>03 \u2014 VALUE DELIVERY</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
+    <div class="pow"><i>04 \u2014 VALUE EXCHANGE</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
   </div>
-  <p class="prinline rise"><em>Be relevant</em> \u2014 right thing, right moment \u00b7 <em>Be respectful</em> \u2014 short, skippable, quiet by design \u00b7 <em>Be measurable</em> \u2014 real impact, on the record \u00b7 <em>Be Aotearoa</em> \u2014 built here, for how Kiwis actually wait</p>
+  <p class="prinline rise"><em>Opt-in, skippable, honest.</em> The reward comes from the business running the journey, never from selling the person waiting. Every decision still ends with a person.</p>
   <div class="tiersline rise">
     <div class="tl on"><i>tier 01 \u00b7 this concept, live</i><b>The assembling loader</b><span>The wait shown, the wait paid \u2014 what this page runs.</span></div>
     <div class="tl"><i>tier 02 \u00b7 the path</i><b>The sponsored chat line</b><span>A labelled co-pilot behind this journey, stepping forward only with found value.</span></div>

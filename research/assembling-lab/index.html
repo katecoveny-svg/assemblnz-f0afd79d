@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>the motion system · assembl</title>
+<meta name="description" content="The assembl motion and interaction system — every primitive, running." />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assembl-system.css" />
+<link rel="stylesheet" href="assembl-motion.css" />
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--sys-paper);color:var(--sys-ink);font-family:var(--sys-sans);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;--sysA:#2F4F44}
+  .hair{background:var(--sys-ink);color:rgba(255,255,255,.72);font-size:10px;letter-spacing:.2em;
+    text-transform:uppercase;padding:11px clamp(24px,5vw,64px);font-weight:700}
+  .lab{max-width:1240px;margin:0 auto;padding:0 clamp(24px,5vw,64px)}
+  .labK{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;
+    color:var(--sysA);margin-bottom:14px}
+  .labN{font-family:var(--sys-display);font-size:clamp(30px,4.4vw,58px);line-height:1.04;
+    letter-spacing:-.02em;font-weight:400;margin-bottom:16px}
+  .labP{font-size:16px;line-height:1.62;font-weight:300;color:var(--sys-body);max-width:52ch}
+  .labP b{color:var(--sys-ink);font-weight:600}
+  .rule{height:1px;background:var(--sys-line);margin:0 auto;max-width:1240px}
+  .sec{padding:clamp(72px,13vh,150px) 0}
+  .why{margin-top:22px;font-size:12.5px;letter-spacing:.03em;color:var(--sys-mute);
+    border-left:2px solid var(--sysA);padding-left:14px;max-width:46ch;line-height:1.6}
+  .cloudHost{position:relative;height:min(72vh,680px);border:1px solid var(--sys-line);
+    border-radius:24px;overflow:hidden;background:#fff;
+    box-shadow:0 40px 100px -60px rgba(20,22,26,.4)}
+  .cloudHost--sm{height:min(52vh,440px)}
+  .formBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+  .formBtn{font:700 11px/1 var(--sys-sans);letter-spacing:.13em;text-transform:uppercase;
+    padding:12px 18px;border:1px solid var(--sys-line);border-radius:999px;background:#fff;
+    color:var(--sys-body);cursor:pointer;transition:all .3s cubic-bezier(.16,.84,.28,1)}
+  .formBtn:hover,.formBtn.on,.matBtn:hover,.matBtn.on{border-color:var(--sysA);color:var(--sysA)}
+  .matBtn{font:700 11px/1 var(--sys-sans);letter-spacing:.13em;text-transform:uppercase;
+    padding:12px 18px;border:1px solid var(--sys-line);border-radius:999px;background:#fff;
+    color:var(--sys-body);cursor:pointer;transition:all .3s cubic-bezier(.16,.84,.28,1)}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:999px;
+    background:var(--sys-ink);color:#fff;font-size:14px;font-weight:600;text-decoration:none;
+    border:0;cursor:pointer}
+  .stageCopy{position:relative;z-index:2;text-align:center;max-width:760px;
+    margin:0 auto;padding:0 24px}
+  .stageCopy .n{font-family:var(--sys-display);font-size:clamp(38px,6vw,86px);line-height:1;
+    letter-spacing:-.02em;color:var(--sys-ink)}
+  .stageCopy .l{font-size:15px;color:var(--sys-body);margin-top:16px;font-weight:300}
+  .grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:34px}
+  .card{border:1px solid var(--sys-line);border-radius:16px;padding:22px;background:#fff}
+  .card b{display:block;font-size:14px;margin-bottom:6px}
+  .card span{font-size:12.5px;color:var(--sys-body);line-height:1.5;font-weight:300}
+  code{font:600 12px ui-monospace,Menlo,monospace;background:rgba(20,22,26,.05);
+    padding:3px 7px;border-radius:5px;color:var(--sysA)}
+  footer{padding:70px clamp(24px,5vw,64px);border-top:1px solid var(--sys-line);
+    font-size:12.5px;color:var(--sys-mute);line-height:1.7}
+</style>
+</head>
+<body class="mGrain" data-m-cursor-on>
+
+<div class="hair">the motion system &middot; every primitive, running &middot; assembl</div>
+
+<!-- ══ 1. THE HERO — point cloud assembling behind editorial type ══ -->
+<header class="sysHero" style="--sysA:#2F4F44;background:#FCFCFA">
+  <div id="heroCloud" style="position:absolute;inset:0"></div>
+  <div class="sysHero__in" style="padding-bottom:clamp(56px,9vh,110px)">
+    <div class="sysHero__kick" style="color:var(--sysA)">the assembl motion system</div>
+    <h1 data-m="type" style="color:var(--sys-ink);max-width:14ch">Nothing fades in. Everything <em>assembles.</em></h1>
+    <p class="sysHero__sub" data-m="rise" data-m-delay="600" style="color:var(--sys-body)">
+      Six motion primitives and one 3D module. Every one of them answers the same question:
+      <b style="color:var(--sys-ink);font-weight:600">is this becoming more complete?</b>
+      If it isn&rsquo;t, it doesn&rsquo;t ship.
+    </p>
+    <div class="sysHero__meta" data-m="rise" data-m-delay="900"
+      style="color:var(--sys-mute);border-color:var(--sys-line)">
+      <span>scroll &mdash; the form resolves</span><span>pointer &mdash; it holds depth</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══ 2. THE SCRUBBED STAGE — the wait, driven by the reader ══ -->
+<section class="mStage" data-m-scrub style="height:340vh;--sysA:#2F4F44">
+  <div class="mStage__pin">
+    <div id="stageCloud" style="position:absolute;inset:0"></div>
+    <div class="mStage__steps">
+      <div class="mStage__step on"><div class="stageCopy"><div class="n">Dispersed.</div>
+        <div class="l">Everything the business knows, in the places it already lives.</div></div></div>
+      <div class="mStage__step"><div class="stageCopy"><div class="n">Selected.</div>
+        <div class="l">Only what this stage of this journey needs. Never the whole genome.</div></div></div>
+      <div class="mStage__step"><div class="stageCopy"><div class="n">Assembling.</div>
+        <div class="l">The work happening in the open, named, while the customer watches.</div></div></div>
+      <div class="mStage__step"><div class="stageCopy"><div class="n">Held.</div>
+        <div class="l">Complete, and waiting for a named person to say yes.</div></div></div>
+    </div>
+    <div class="mStage__rail"><div class="mStage__fill"></div></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══ 3. THE FORMS — 3D that means something per category ══ -->
+<section class="sec">
+  <div class="lab">
+    <div class="labK">the 3D module &middot; five forms</div>
+    <h2 class="labN" data-m="rise">A shape that means something,<br />not a shape that spins.</h2>
+    <p class="labP" data-m="rise" data-m-delay="90">Each form belongs to a kind of work. Pick one &mdash;
+      it disperses and resolves. <b>Drag it.</b></p>
+    <div class="formBar" data-m="rise" data-m-delay="140">
+      <button class="formBtn on" data-form="grid" data-m-cursor="grid">records aligning</button>
+      <button class="formBtn" data-form="ring" data-m-cursor="ring">a wait completing</button>
+      <button class="formBtn" data-form="column" data-m-cursor="queue">a queue resolving</button>
+      <button class="formBtn" data-form="house" data-m-cursor="place">a place</button>
+      <button class="formBtn" data-form="ledger" data-m-cursor="file">documents into one file</button>
+      <button class="formBtn" data-form="car" data-m-cursor="motor">motor</button>
+      <button class="formBtn" data-form="shield" data-m-cursor="claims">insurance</button>
+      <button class="formBtn" data-form="parcel" data-m-cursor="freight">logistics</button>
+      <button class="formBtn" data-form="tower" data-m-cursor="build">construction</button>
+    </div>
+    <div class="cloudHost" id="formHost" style="margin-top:26px"></div>
+    <p class="why">Constitution §12: 3D is abstract, manufacturable, never a literal robot or brain.
+      Each of these is a real object in the work &mdash; a ledger, a queue, a place.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══ 4. TYPE + PHOTOGRAPH ══ -->
+<section class="sec">
+  <div class="lab">
+    <div class="labK">primitives &middot; type and image</div>
+    <h2 class="labN" data-m="type">Type assembles word by word. Photographs resolve behind an edge.</h2>
+    <p class="labP" data-m="rise">No fades. A word rises out of its own mask; an image arrives from
+      behind a wipe while its scale settles. Both read as <b>material</b>, not slideshow.</p>
+    <div style="margin-top:44px" data-m="wipe">
+      <img src="lab-photo.jpg" alt="An interior, resolving" style="width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:20px;display:block" />
+    </div>
+    <div class="grid6">
+      <div class="card" data-m="rise"><b><code>data-m="type"</code></b><span>Headlines assemble word by word, each in its own mask.</span></div>
+      <div class="card" data-m="rise" data-m-delay="80"><b><code>data-m="wipe"</code></b><span>Photographs resolve behind a moving edge, scale settling.</span></div>
+      <div class="card" data-m="rise" data-m-delay="160"><b><code>data-m="rise"</code></b><span>Anything assembles into place on entry. Never a fade.</span></div>
+      <div class="card" data-m="rise" data-m-delay="240"><b><code>data-m="depth"</code></b><span>An image holds depth against the pointer. 14px maximum.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+
+<div class="rule"></div>
+<section class="sec">
+  <div class="lab">
+    <div class="labK">the materials</div>
+    <h2 class="labN" data-m="rise">Dark liquid ink. Brushed chrome. Brass.</h2>
+    <p class="labP" data-m="rise" data-m-delay="80">The same assembly, in four materials. Ink flows on a
+      curl field until it settles; the metals are lit by a softbox so they read as
+      <b>manufactured objects</b>, never glowing dots. Switch and watch it re-form.</p>
+    <div class="formBar" data-m="rise" data-m-delay="140">
+      <button class="matBtn on" data-mat="brass" data-m-cursor="brass">brass</button>
+      <button class="matBtn" data-mat="chrome" data-m-cursor="chrome">chrome</button>
+      <button class="matBtn" data-mat="ink" data-m-cursor="ink">liquid ink</button>
+      <button class="matBtn" data-mat="points" data-m-cursor="quiet">points</button>
+    </div>
+    <div class="cloudHost" id="matHost" style="margin-top:26px;background:radial-gradient(ellipse 90% 70% at 50% 40%,#15171C 0%,#0A0B0E 100%)"></div>
+    <p class="why">Constitution §6: brushed silver, never polished mirror chrome. Brass is assembl&rsquo;s
+      own metal &mdash; used for proof and receipts, sparingly.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+<section class="sec">
+  <div class="lab">
+    <div class="labK">the brand pattern</div>
+    <h2 class="labN" data-m="type">A mosaic that assembles, and then stops.</h2>
+    <p class="labP" data-m="rise">Seeded per client, so the pattern is theirs and identical on every
+      load. Tiles land on a diagonal wave in the brand colour, with ink and brass through it. Once
+      settled, <b>one tile turns over every few seconds</b> &mdash; and nothing else moves.</p>
+    <div class="cloudHost cloudHost--sm" id="mosHost" style="margin-top:28px"></div>
+    <div class="formBar" style="margin-top:16px">
+      <button class="seedBtn formBtn on" data-seed="nectar-money">nectar</button>
+      <button class="seedBtn formBtn" data-seed="summerset">summerset</button>
+      <button class="seedBtn formBtn" data-seed="giltrap-group">giltrap</button>
+      <button class="seedBtn formBtn" data-seed="rosewell">rosewell</button>
+    </div>
+  </div>
+</section>
+<!-- ══ 5. PROOF — counters as certificate ══ -->
+<section class="sysFig" style="--sysA:#2F4F44">
+  <div class="sysFig__in">
+    <div>
+      <div class="sysFig__n"><span data-m="count" data-m-to="68" data-m-suffix="%">0</span></div>
+      <div class="sysFig__l">of online loan applications are abandoned in the wait.</div>
+      <div class="sysFig__src">ResolvePay industry benchmark</div>
+    </div>
+    <div>
+      <div class="sysFig__n"><span data-m="count" data-m-to="44" data-m-dur="1800">0</span></div>
+      <div class="sysFig__l">days, the record US property-claim cycle time &mdash; against an eleven-day fairness threshold.</div>
+      <div class="sysFig__src">J.D. Power 2025 Property Claims Study</div>
+    </div>
+    <div>
+      <div class="sysFig__n">+<span data-m="count" data-m-to="25" data-m-dur="1400">0</span></div>
+      <div class="sysFig__l">NPS points, Delta&rsquo;s AI concierge during irregular operations.</div>
+      <div class="sysFig__src">Delta earnings commentary, 2026</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══ 6. CONTROLS ══ -->
+<section class="sec">
+  <div class="lab">
+    <div class="labK">primitives &middot; interaction</div>
+    <h2 class="labN" data-m="rise">Controls that lean toward you.</h2>
+    <p class="labP" data-m="rise" data-m-delay="80">Six pixels of movement, and a cursor that widens on
+      anything that answers. Felt rather than seen &mdash; which is the whole difference between
+      premium and busy.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:36px">
+      <button class="btn" data-m="magnet" data-m-cursor="press">Run the journey</button>
+      <button class="formBtn" data-m="magnet" data-m-cursor="open">See the evidence</button>
+      <button class="formBtn" data-m="magnet" data-m-cursor="hold">Hold for signing</button>
+    </div>
+    <p class="why">Constitution §11: avoid spinning loaders, bouncing, parallax, dramatic easing.
+      Motion should feel inevitable.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══ 7. WHAT THIS REPLACES ══ -->
+<section class="sec">
+  <div class="lab">
+    <div class="labK">the point</div>
+    <h2 class="labN" data-m="type">Every spinner is a place where work could be shown.</h2>
+    <p class="labP" data-m="rise">This system exists so an assembl page never has to explain itself in a
+      paragraph. The reader scrolls, and the thing <b>does what the paragraph would have said</b>.</p>
+    <div style="margin-top:40px"><a class="btn" href="#top" data-m="magnet" data-m-cursor="top">Back to the top</a></div>
+  </div>
+</section>
+
+<footer>
+  <p><b>The assembl motion system.</b> assembl-system.css (layout and scale) &middot;
+  assembl-motion.css + assembl-motion.js (six primitives) &middot; assembl-cloud.js (the 3D assembly,
+  three.js r144). Every primitive degrades to its finished state under
+  <code>prefers-reduced-motion</code>, and the 3D stops rendering when off-screen.</p>
+  <p style="margin-top:14px">assembl NZ Limited &middot; NZBN 9429053514950 &middot; assembl@assembl.co.nz</p>
+</footer>
+
+<script src="three.min.js"></script>
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  if(!window.AssemblCloud) return;
+  AssemblCloud.mount(document.getElementById('heroCloud'),
+    {form:'grid',colour:'#2F4F44',count:2200,mode:'auto',size:.05});
+  AssemblCloud.mount(document.getElementById('stageCloud'),
+    {form:'ring',colour:'#2F4F44',count:2600,mode:'scrub',stage:'[data-m-scrub]',size:.055});
+
+  /* the materials */
+  var mHost=document.getElementById('matHost'), mInst=null, curMat='brass';
+  function buildMat(m){
+    if(mInst){mInst.destroy(); mHost.innerHTML='';}
+    curMat=m;
+    mInst=AssemblCloud.mount(mHost,{form:'ring',material:m,colour:'#2F4F44',count:2600,mode:'auto',size:.052});
+  }
+  buildMat('brass');
+  [].forEach.call(document.querySelectorAll('.matBtn'),function(b){
+    b.addEventListener('click',function(){
+      [].forEach.call(document.querySelectorAll('.matBtn'),function(x){x.classList.remove('on')});
+      b.classList.add('on'); buildMat(b.dataset.mat);
+    });
+  });
+
+  /* the mosaic */
+  var mosHost=document.getElementById('mosHost'), mos=null;
+  function buildMos(seed){
+    if(mos){mos.destroy();}
+    mos=AssemblMosaic.mount(mosHost,{colour:'#2F4F44',ink:'#14161A',brass:'#BFA37A',
+      seed:seed,density:30,mode:'enter'});
+  }
+  buildMos('nectar-money');
+  [].forEach.call(document.querySelectorAll('.seedBtn'),function(b){
+    b.addEventListener('click',function(){
+      [].forEach.call(document.querySelectorAll('.seedBtn'),function(x){x.classList.remove('on')});
+      b.classList.add('on'); buildMos(b.dataset.seed);
+    });
+  });
+
+  var host=document.getElementById('formHost'), inst=null;
+  function build(form){
+    if(inst){inst.destroy(); host.innerHTML='';}
+    inst=AssemblCloud.mount(host,{form:form,colour:'#2F4F44',count:2600,mode:'auto',size:.06});
+  }
+  build('grid');
+  [].forEach.call(document.querySelectorAll('.formBtn[data-form]'),function(b){
+    b.addEventListener('click',function(){
+      [].forEach.call(document.querySelectorAll('.formBtn[data-form]'),function(x){x.classList.remove('on')});
+      b.classList.add('on'); build(b.dataset.form);
+    });
+  });
+})();
+</script>
+</body>
+</html>

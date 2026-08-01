@@ -130,7 +130,13 @@ export async function onRequestPost(context) {
         body: JSON.stringify({ model: MODEL, max_tokens: MAX_TOKENS, system, messages: trimmed }),
       });
       const j = await r.json();
-      if (j && Array.isArray(j.content)) { lastFailure = null; return Response.json(j, { headers: { 'cache-control': 'no-store' } }); }
+      if (j && Array.isArray(j.content)) {
+        // opus-5 emits a leading empty `thinking` block, so the answer is not
+        // content[0]. Pull the text block(s) out and hand the page the clean
+        // shape it reads — otherwise it shows the empty thinking block as blank.
+        const answer = j.content.filter((b) => b && b.type === 'text').map((b) => b.text || '').join('').trim();
+        if (answer) { lastFailure = null; return Response.json({ content: [{ type: 'text', text: answer }] }, { headers: { 'cache-control': 'no-store' } }); }
+      }
       const t = (j && j.error && j.error.type) || String(r.status);
       lastFailure = r.status + ':' + t;
       console.error('[agent] anthropic returned no content:', t);

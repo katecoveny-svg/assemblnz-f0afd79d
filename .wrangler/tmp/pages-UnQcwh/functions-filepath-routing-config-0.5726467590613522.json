@@ -1,0 +1,37 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/agent",
+      "mountPath": "/api",
+      "method": "GET",
+      "module": [
+        "api/agent.js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/api/agent",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/agent.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/lot",
+      "mountPath": "/api",
+      "method": "GET",
+      "module": [
+        "api/lot.js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/api/lot",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/lot.js:onRequestPost"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}

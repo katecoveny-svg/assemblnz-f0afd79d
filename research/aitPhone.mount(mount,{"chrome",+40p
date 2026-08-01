@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Rosewell Villages · a category demonstrator by assembl</title>
+<meta name="description" content="Rosewell Villages — a category demonstrator of an agentic customer journey by assembl. No real company; every name is invented.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* THEME. Kate, 30 July 2026: "all the demos are looking the same with the
+     black (way too dark)... I just want them to be individualised, not the same
+     with a different colour." She is right, and one template recoloured will
+     always read as one template. So the ground itself is now per-client.
+     Note the inherited naming: --ink is the PAGE, --paper is the TEXT. */
+  
+  --ink:#f0f1ec; --ink-2:#fafbfb; --paper:#181d18; --muted:#797c79; --muted-2:#9ea09e;
+  --film:18,18,22; --scrim:240,241,236; --panel:255,255,255;
+  
+  --sweep-end:#C8785A;
+  --sweep-mid-a:#2c4439;
+  --sweep-peak:#1c2c25;
+  --body-1:#181d18;
+  --body-2:#797c79;
+  --muted-3:#9ea09e;
+  --line:rgba(var(--film),.13); --line-2:rgba(var(--film),.07);
+  --accent:#3F6152; --accent-2:#C8785A; --accent-lift:#b6c3bd;
+  --map-bg:#f3f3f0; --map-ink:#3F6152; --map-scr:#151c1c; --on-accent:#FFFFFF;--dk-rim:#253830cc;--dk-rim2:#799086;--dk-sa:#aebdb6;
+  --champ:#BFA37A; --champ-soft:rgba(191,163,122,.13);
+  --sans:"Jost",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --display:"Instrument Serif",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+a{color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 26px}
+.narrow{max-width:720px}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 90% 55% at 78% -6%, rgba(63,97,82,.10) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 48% at 6% 30%, rgba(200,120,90,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 108%, rgba(191,163,122,.09) 0%, transparent 55%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(24,29,24,.028) 1px,transparent 1px);
+  background-size:100% 56px}
+main{position:relative;z-index:2}
+.topbar{position:sticky;top:0;z-index:60;background:rgba(var(--scrim),.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-2)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:18px}
+.mark{display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;white-space:nowrap}
+.mark .dot{width:10px;height:10px;border-radius:50%;background:var(--champ);box-shadow:0 0 14px rgba(191,163,122,.7)}
+.mark small{color:var(--muted-2);font-weight:400}
+.navlinks{display:flex;gap:26px;flex:1;justify-content:center}
+.navlinks a{font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s}
+.navlinks a:hover{color:var(--accent)}
+@media(max-width:900px){.navlinks{display:none}}
+.askbtn{background:var(--paper);color:var(--ink);font-size:13px;font-weight:700;padding:10px 20px;border-radius:999px;display:flex;gap:9px;align-items:center;white-space:nowrap}
+.askbtn .d{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.signed{background:var(--ink-2);border-bottom:1px solid var(--line-2);position:relative;z-index:59}
+.signed .wrap{padding:11px 26px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.signed .k{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.signed .v{font-size:13px;color:var(--muted)}
+.signed .v b{color:var(--paper);font-weight:700}
+section{padding:104px 0;position:relative}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--accent);opacity:.6}
+/* Weight and case are per-client too — 900 uppercase everywhere was the "thick
+   text" Kate flagged, and it flattened fifteen different brands into one voice. */
+h1{font-family:var(--display);font-weight:400;font-size:clamp(42px,7.6vw,92px);line-height:1.02;letter-spacing:-.016em;text-transform:none}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.4vw,57px);line-height:1.06;letter-spacing:-.016em;text-transform:none}
+h3{font-weight:700;font-size:clamp(20px,2.4vw,27px);line-height:1.18;letter-spacing:-.012em}
+.lede{color:var(--body-2);font-size:clamp(17px,2.05vw,21px);line-height:1.55;margin-top:24px;max-width:50ch;font-weight:300}
+.kicker{color:var(--muted);font-size:16px;margin-top:16px;max-width:62ch;font-weight:300}
+em.g{font-style:normal;color:var(--accent)}
+.hero{min-height:clamp(560px,88vh,860px);display:flex;align-items:center;padding:70px 0 90px}
+.hero .quote{margin-top:34px;padding-left:20px;border-left:2px solid var(--accent);max-width:46ch}
+.hero .quote p{font-size:clamp(17px,2.1vw,21px);font-weight:300;line-height:1.45;color:var(--body-2);font-style:italic}
+.hero .quote cite{display:block;margin-top:11px;font-style:normal;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2)}
+.btns{display:flex;gap:13px;margin-top:40px;flex-wrap:wrap}
+.btn{padding:15px 28px;border-radius:999px;font-size:14.5px;font-weight:700;display:inline-flex;gap:10px;align-items:center;text-decoration:none;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:var(--paper);color:var(--ink)}
+.btn.solid .arw{color:var(--accent)}
+.btn.ghost{border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.glass{background:rgba(var(--panel),.8);border:1px solid var(--line);border-radius:20px;padding:30px;backdrop-filter:blur(10px);box-shadow:0 18px 50px -30px rgba(24,29,24,.25)}
+.glass.tight{padding:22px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* ══ THE WAIT, DEMONSTRATED ═══════════════════════════════════════════════
+   A lit phone in a dark room. The screen stays light on purpose — a real app
+   screen is light, and against this near-black page it becomes the one thing
+   in the section your eye goes to. The three cards move alongside it so the
+   section shows before it explains. */
+/* ══ DENSITY ══════════════════════════════════════════════════════════════
+   Kate: the demos read "text heavy and boring". The substance stays; what
+   changes is that the REASONING is one line you can open, and the verdict is
+   what you scan. Held checks open themselves, because those are the ones worth
+   reading. */
+.check .t{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font-weight:700;font-size:15.5px;color:var(--paper);padding:0;cursor:pointer}
+.check .t .more{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);border:1px solid var(--line);border-radius:99px;padding:3px 9px;flex-shrink:0}
+.check .t:hover .more{border-color:var(--accent);color:var(--accent)}
+.check .d[hidden]{display:none}
+.ruletoggle{display:flex;align-items:center;gap:10px;margin-top:18px;padding:0;cursor:pointer;
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ruletoggle:hover{color:var(--accent)}
+.ruletoggle .more{font-size:9.5px;border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+.rules[hidden]{display:none}
+.waitgrid{display:grid;grid-template-columns:390px 1fr;gap:52px;align-items:start;margin-top:44px}
+.waitcards{display:flex;flex-direction:column;gap:16px}
+.waitdemo{position:sticky;top:88px}
+.wp-invite{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;font-weight:700}
+/* The sculpture is a FIXED full-screen canvas, so a 4%-white panel reads straight
+   through it and the copy becomes unreadable. Solidify the panel — never fade the
+   canvas to win legibility. */
+.waitcards .glass{background:rgba(255,255,255,.93);border-color:rgba(var(--film),.10)}
+.waitcards .kicker{background:rgba(255,255,255,.93);border:1px solid rgba(var(--film),.08);
+  border-radius:16px;padding:18px 22px}
+@media(max-width:960px){.waitgrid{grid-template-columns:1fr;gap:36px;justify-items:center}
+  .waitdemo{position:static}.waitcards{width:100%}}
+/* the room — the private space every concept on this page would run in */
+.roomgrid{display:grid;grid-template-columns:1fr 380px;gap:52px;align-items:start;margin-top:44px}
+.room{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.96);overflow:hidden}
+.roomhead{padding:16px 20px;border-bottom:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px}
+.roomhead small{color:var(--muted-2);font-weight:400;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.roommsg{padding:14px 20px;border-bottom:1px solid var(--line-2);display:flex;gap:12px}
+.roommsg:last-child{border-bottom:0}
+.roommsg .av{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;background:var(--champ-soft);color:var(--champ)}
+.roommsg.agent .av{background:rgba(var(--film),.07);color:var(--accent)}
+.roommsg .b{font-size:13px;line-height:1.55;color:rgba(var(--film),.88)}
+.roommsg .b b{font-size:12px;display:block;margin-bottom:3px}
+.roommsg .b b small{color:var(--muted-2);font-weight:400;margin-left:6px;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.receipt{margin-top:8px;display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
+.receipt em{font-style:normal;color:var(--champ)}
+.roomrec{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:rgba(255,255,255,.93)}
+.roomrec .rt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:12px}
+.roomrec .rl{display:flex;gap:10px;font-size:12px;color:rgba(var(--film),.8);padding:7px 0;border-bottom:1px dashed var(--line-2)}
+.roomrec .rl:last-of-type{border-bottom:0}
+.roomrec .rl span{color:var(--muted-2);font-variant-numeric:tabular-nums}
+@media(max-width:960px){.roomgrid{grid-template-columns:1fr}}
+/* the family of waits + how the wait is powered */
+.momgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:34px}
+.mom{border:1px solid var(--line);border-radius:14px;padding:14px 15px;background:rgba(255,255,255,.9)}
+.mom b{display:block;font-size:13.5px;margin-bottom:4px}
+.mom span{font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+.powgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));grid-auto-rows:1fr;gap:12px;margin-top:30px}
+.pow{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:16px;padding:16px 17px;background:rgba(255,255,255,.86)}
+.pow i{font-style:normal;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.pow b{display:block;font-size:13.5px;margin:6px 0 4px}
+.pow span{font-size:12px;color:var(--muted);line-height:1.5}
+.prinline{margin-top:16px;font-size:11px;letter-spacing:.06em;color:var(--muted-2);line-height:1.7}
+.prinline em{font-style:normal;color:var(--champ)}
+/* the evidence section — the board's facts, living in the demo */
+.evgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:36px}
+.ev{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;box-shadow:0 14px 40px -28px rgba(24,29,24,.3);
+  padding:18px 20px;background:rgba(255,255,255,.93);transition:transform .3s ease,border-color .3s ease}
+.ev:hover{transform:translateY(-2px);border-left-color:var(--champ)}
+.ev b{display:block;font-size:15px;line-height:1.45;margin-bottom:8px;color:var(--paper)}
+.ev i{font-style:normal;font-size:11px;color:var(--muted-2);letter-spacing:.02em}
+.evnote{margin-top:22px;font-size:12.5px;color:var(--muted)}
+.evnote a{color:var(--champ);text-decoration:none;border-bottom:1px solid rgba(191,163,122,.4)}
+/* the explainer sits on the dark page, so it takes the page's own ink */
+#wait-explain{--wpx-sans:var(--sans); --wpx-ink:var(--paper); --wpx-accent:var(--accent);
+  --wp-mono:'IBM Plex Mono',ui-monospace,monospace;
+  background:rgba(255,255,255,.93); border-color:rgba(var(--film),.10)}
+/* wait-phone.js, driven from this client's palette */
+#wait-mount .wp{
+  --wp-paper:#FAFAF8; --wp-ink:#111114; --wp-ink-2:#5C6066;
+  --wp-accent:#3F6152; --wp-done:#2E4A3C; --wp-line:rgba(17,17,20,.11);
+  --wp-rim:color-mix(in srgb, #3F6152 58%, transparent);
+  --wp-shell:linear-gradient(160deg,#2c3034 0%,#13161a 44%,#2c3034 100%);
+  --wp-sans:var(--sans); --wp-app:var(--sans);
+}
+.num{font-size:10.5px;letter-spacing:.24em;color:var(--muted-2);font-weight:700;margin-bottom:14px}
+.marqrow{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:24px}
+.marqbtn{border:1px solid var(--line);border-radius:999px;padding:11px 21px;font-size:13.5px;font-weight:700;color:var(--muted);transition:.22s}
+.marqbtn:hover{border-color:var(--accent);color:var(--paper)}
+.marqbtn.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.draft{min-height:280px}
+.draft .chan{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px}
+.draft .body{font-size:15.5px;line-height:1.62;color:var(--body-2);font-weight:300;white-space:pre-line}
+.draft .rules{margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);display:flex;flex-direction:column;gap:8px}
+.draft .rules div{font-size:12.5px;color:var(--muted);display:flex;gap:10px;align-items:flex-start}
+.draft .rules .tick{color:var(--accent);flex:0 0 auto;font-weight:700}
+.fade{animation:fadein .42s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.check{border:1px solid var(--line);border-radius:14px;padding:17px 19px;margin-top:11px;display:flex;gap:14px;align-items:flex-start;background:rgba(var(--film),.028)}
+.check .ic{width:24px;height:24px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}
+.check.pass .ic{background:rgba(var(--film),.10);color:var(--accent)}
+.check.block .ic{background:rgba(226,117,107,.16);color:#E2756B}
+.check .t{font-size:14.5px;font-weight:700;line-height:1.35}
+.check .d{font-size:13px;color:var(--muted);margin-top:5px;font-weight:300;line-height:1.5}
+.check .law{font-size:11px;color:var(--muted-2);margin-top:7px}
+.ops{width:100%;border-collapse:collapse}
+.ops th{text-align:left;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);font-weight:700;padding:0 12px 13px 0;border-bottom:1px solid var(--line)}
+.ops td{padding:15px 12px;border-bottom:1px solid var(--line-2);font-size:14px;font-weight:300;color:var(--body-2);vertical-align:top;padding-left:0}
+.ops td b{font-weight:700;color:var(--paper)}
+.ops .st{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px;white-space:nowrap;display:inline-block}
+.ops .st.wait{background:rgba(var(--film),.09);color:var(--accent)}
+.ops .st.ok{background:rgba(var(--film),.07);color:var(--muted)}
+.ops .st.hot{background:rgba(226,117,107,.14);color:#E2756B}
+@media(max-width:760px){.ops thead{display:none}.ops td{display:block;padding:6px 0;border:none}.ops tr{display:block;padding:16px 0;border-bottom:1px solid var(--line-2)}}
+.receipt{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:28px;font-size:13.5px}
+.receipt .rh{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:18px}
+.receipt dl{display:grid;grid-template-columns:auto 1fr;gap:11px 22px}
+.receipt dt{color:var(--muted-2);font-size:12px}
+.receipt dd{color:var(--body-2);font-weight:300;word-break:break-word}
+.receipt .hash{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--accent)}
+.boundary{border:1px solid var(--accent);border-radius:20px;padding:34px;background:rgba(var(--film),.04)}
+.pilot .step{display:flex;gap:18px;padding:17px 0;border-bottom:1px solid var(--line-2)}
+.pilot .step:last-child{border-bottom:none}
+.pilot .n{flex:0 0 auto;width:27px;height:27px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);font-size:12px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.pilot .step h4{font-size:15.5px;font-weight:700;margin-bottom:5px}
+.pilot .step p{font-size:14px;color:var(--muted);font-weight:300;line-height:1.55}
+.verbs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.verbs{grid-template-columns:1fr}}
+.verb{border:1px solid var(--line);border-radius:16px;padding:22px;text-decoration:none;display:block;transition:.22s}
+.verb:hover{border-color:var(--accent);background:rgba(var(--film),.05);transform:translateY(-2px)}
+.verb .w{font-size:17px;font-weight:900;color:var(--accent)}
+.verb .s{font-size:13px;color:var(--muted);margin-top:7px;font-weight:300;line-height:1.5}
+.unfin input{width:100%;background:rgba(var(--film),.05);border:1px solid var(--line);border-radius:12px;padding:15px 17px;font-size:15px;color:var(--paper);font-family:inherit;font-weight:300}
+.unfin input::placeholder{color:var(--muted-2)}
+.unfin .row{display:flex;gap:11px;margin-top:13px;flex-wrap:wrap}
+.agentbtn{position:fixed;right:22px;bottom:22px;z-index:80;background:var(--paper);color:var(--ink);border-radius:999px;padding:15px 24px;font-weight:700;font-size:14.5px;box-shadow:0 18px 46px -14px rgba(0,0,0,.75);display:flex;gap:10px;align-items:center}
+.agentbtn .d{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.4s infinite}
+.chat{position:fixed;right:22px;bottom:22px;z-index:90;width:410px;max-width:calc(100vw - 24px);height:620px;max-height:calc(100vh - 24px);background:var(--ink-2);border:1px solid var(--line);border-radius:22px;box-shadow:0 34px 90px -22px rgba(0,0,0,.85);display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chathead{padding:18px 20px;border-bottom:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center}
+.chathead .t{font-weight:700;font-size:14.5px;display:flex;gap:10px;align-items:center}
+.chathead .t .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.chathead .t small{color:var(--muted-2);font-weight:400;font-size:11.5px}
+.chathead .x{color:var(--muted);font-size:22px;padding:2px 8px;line-height:1}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:13px}
+.msg{max-width:88%;padding:13px 16px;border-radius:16px;font-size:14.5px;line-height:1.55;font-weight:300}
+.msg.a{background:rgba(var(--film),.06);border:1px solid var(--line-2);align-self:flex-start;border-bottom-left-radius:5px}
+.msg.u{background:var(--paper);color:var(--ink);align-self:flex-end;border-bottom-right-radius:5px;font-weight:400}
+.sugg{display:flex;flex-wrap:wrap;gap:7px;padding:0 20px 12px}
+.sugg button{border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:12px;color:var(--muted)}
+.sugg button:hover{border-color:var(--accent);color:var(--accent)}
+.chatin{border-top:1px solid var(--line-2);padding:14px;display:flex;gap:10px}
+.chatin input{flex:1;background:rgba(var(--film),.05);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14.5px;color:var(--paper);font-family:inherit;font-weight:300}
+.chatin .send{background:var(--paper);color:var(--ink);border-radius:12px;padding:0 18px;font-weight:700;font-size:14px}
+.agentnote{font-size:11px;color:var(--muted-2);text-align:center;padding:0 20px 12px}
+.typing{align-self:flex-start;color:var(--muted-2);font-size:13px;padding:5px 4px;font-weight:300}
+footer{border-top:1px solid var(--line-2);padding:56px 0 70px;color:var(--muted-2);font-size:13px;line-height:1.75;font-weight:300;background:var(--ink-2)}
+footer b{color:var(--muted);font-weight:700}
+footer .fin{margin-top:26px;font-size:12px;color:var(--muted-3)}
+.rise{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.rise.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rise{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ───────────────────────── the makeover ─────────────────────────
+   Appended on purpose: in a single stylesheet the later rule wins, and these
+   are meant to beat the base above rather than fight it inline. */
+
+/* hidden makes the page a scroll container in Blink and kills position:sticky —
+   which is what the top bar is. clip crops without that side effect. */
+body{overflow-x:hidden;overflow-x:clip}
+
+/* The accent line, behaving like metal: their own colour lifted toward white
+   and swept, instead of a flat fill. Guarded so text can never vanish. */
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  em.g{
+    background:linear-gradient(100deg,var(--accent) 0%,var(--sweep-mid-a) 42%,var(--sweep-peak) 52%,var(--sweep-mid-a) 62%,var(--sweep-end) 100%);
+    background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;animation:sweep 11s ease-in-out infinite}
+}
+@keyframes sweep{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* Grain and vignette in ONE fixed layer. They were two, and every extra
+   full-viewport layer over the pinned WebGL canvas costs a full recomposite —
+   four of them was enough to stall a software rasteriser outright. */
+.grain{position:fixed;inset:0;z-index:40;pointer-events:none;
+  background-image:radial-gradient(128% 92% at 50% 40%,transparent 46%,rgba(0,0,0,.5) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E")}
+
+/* The scroll rail — how far through the argument you are. */
+.rail{position:fixed;left:0;top:0;bottom:0;width:2px;z-index:55;background:var(--line-2);pointer-events:none}
+.rail i{position:absolute;left:0;top:0;width:100%;height:0;
+  background:linear-gradient(180deg,var(--accent),var(--champ));box-shadow:0 0 14px -2px var(--accent)}
+.railn{position:fixed;left:12px;bottom:20px;z-index:55;font-size:10px;letter-spacing:.22em;
+  color:var(--muted-2);font-weight:700;pointer-events:none;writing-mode:vertical-rl;text-orientation:mixed}
+@media(max-width:900px){.rail,.railn{display:none}}
+
+/* Section numerals as an architectural mark, not a caption. */
+.num{position:relative;padding-top:22px;margin-bottom:22px;font-size:11px;letter-spacing:.26em;color:var(--muted)}
+.num::before{content:"";position:absolute;left:0;top:0;width:64px;height:1px;background:var(--accent);opacity:.75}
+.num .ghost{position:absolute;right:0;top:-30px;font-size:clamp(56px,9vw,116px);font-weight:900;
+  line-height:1;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(var(--film),.075);
+  pointer-events:none;user-select:none}
+
+/* Panels sit on their own darkness. At 4–6% alpha the pinned WebGL canvas
+   reads straight through them and copy in the right-hand column — where the
+   veil's scrim has run out — ends up printed over moving rings. Solidify the
+   panel; never fade the canvas. */
+.glass{position:relative;overflow:hidden;background:rgba(var(--panel),.72)}
+.verb{background:rgba(var(--panel),.66);backdrop-filter:blur(6px)}
+.accept{background:linear-gradient(150deg,rgba(var(--panel),.90),rgba(var(--panel),.74))!important;backdrop-filter:blur(8px)}
+.boundary,.unfin{background:rgba(var(--panel),.72)}
+.glass::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s ease;
+  background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),rgba(var(--film),.10),transparent 62%)}
+.glass:hover::after{opacity:1}
+
+/* Reveals with depth — a focus pull rather than a nudge. */
+.rise{opacity:0;transform:translateY(28px) scale(.992);
+  transition:opacity .9s cubic-bezier(.16,.72,.14,1),transform .9s cubic-bezier(.16,.72,.14,1)}
+.rise.in{opacity:1;transform:none}
+
+/* The hero, sequenced. */
+.hero .eyebrow.in{transition-delay:.05s}
+.hero h1.in{transition-delay:.16s}
+.hero .lede.in{transition-delay:.30s}
+.hero .quote.in{transition-delay:.42s}
+.hero .btns.in{transition-delay:.54s}
+h1{letter-spacing:-.035em}
+.navyes{color:var(--accent)!important;font-weight:700}
+
+/* What a pilot needs from you. */
+.needs{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:0 34px;margin-top:30px}
+.need{display:flex;gap:16px;padding:19px 0;border-bottom:1px solid var(--line-2)}
+.need .nn{flex:0 0 auto;font-size:11px;font-weight:900;letter-spacing:.14em;color:var(--accent);margin-top:4px}
+.need h4{font-size:16px;font-weight:700;margin-bottom:5px}
+.need p{font-size:14px;color:var(--muted);font-weight:300;line-height:1.58}
+
+/* The yes. */
+.accept{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;margin-top:52px;
+  border:1px solid var(--accent);border-radius:22px;padding:34px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(var(--film),.06),rgba(var(--film),.02))}
+.accept::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(70% 120% at 100% 0%,var(--champ-soft),transparent 62%)}
+.accept>*{position:relative}
+.accept h3{font-size:clamp(26px,3.4vw,38px);font-weight:900;letter-spacing:-.028em;line-height:1.02}
+.acceptLbl{display:block;margin:22px 0 9px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--paper)}
+.acceptLbl small{text-transform:none;letter-spacing:0;color:var(--muted-2);font-weight:300;margin-left:6px}
+.accept textarea{width:100%;background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;font-size:14.5px;color:var(--paper);font-family:inherit;font-weight:300;line-height:1.55;resize:vertical}
+.accept textarea:focus{outline:none;border-color:var(--accent)}
+.acceptRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.acceptNote{font-size:12px;color:var(--muted-2);margin-top:13px;line-height:1.55}
+.acceptCard{border:1px solid var(--line);border-radius:16px;padding:22px;background:rgba(0,0,0,.3);height:100%}
+.ac-k{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px}
+.acceptCard ul{list-style:none}
+.acceptCard li{font-size:13.5px;color:var(--muted);font-weight:300;line-height:1.5;padding:9px 0 9px 18px;position:relative;border-bottom:1px solid var(--line-2)}
+.acceptCard li:last-child{border-bottom:none}
+.acceptCard li::before{content:"";position:absolute;left:0;top:16px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.acceptCard li b{color:var(--paper);font-weight:700}
+.ac-f{margin-top:16px;font-size:11.5px;color:var(--muted-2);line-height:1.55}
+@media(max-width:820px){.accept{grid-template-columns:1fr;padding:26px}}
+
+
+/* ── the bespoke wait mechanic ────────────────────────────────────────────
+   Kate's sector brief: the wait state is the product surface, so this is the
+   wait itself rather than a picture of one. Per-client, driven by
+   _generator/mechanics/<slug>.mjs. */
+#mech{padding:96px 0 20px}
+.trk{display:grid;grid-template-columns:330px 1fr;gap:34px;margin-top:42px;align-items:start}
+@media(max-width:960px){.trk{grid-template-columns:1fr}}
+.trk-dial{position:sticky;top:86px;background:rgba(var(--panel),.72);border:1px solid var(--line);border-radius:20px;padding:28px;backdrop-filter:blur(8px)}
+.trk-n{display:flex;align-items:baseline;gap:9px}
+.trk-n b{font-family:var(--display);font-weight:400;font-size:clamp(58px,7vw,92px);line-height:1;letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums}
+.trk-n i{font-style:normal;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.trk-cap{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.5;min-height:34px}
+.trk-bar{height:6px;border-radius:99px;background:rgba(var(--film),.12);overflow:hidden;margin-top:18px}
+.trk-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--champ));transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.trk-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.trk-btns .btn{padding:12px 20px;font-size:13.5px}
+.trk-note{font-size:11.5px;color:var(--muted-2);margin-top:16px;line-height:1.55}
+.trk-steps{list-style:none;counter-reset:trk}
+.trk-step{padding:20px 0 20px 0;border-bottom:1px solid var(--line-2);opacity:.4;transition:opacity .5s ease,transform .5s ease}
+.trk-step.on{opacity:1}
+.trk-step.done{opacity:.82}
+.trk-when{display:flex;gap:12px;align-items:baseline;margin-bottom:12px}
+.trk-when b{font-family:var(--display);font-weight:400;font-size:15px;letter-spacing:-.01em;color:var(--accent)}
+.trk-when span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.trk-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.trk-pair{grid-template-columns:1fr}}
+.trk-now,.trk-with{font-size:14px;line-height:1.6;padding:14px 16px;border-radius:13px}
+.trk-now{background:rgba(var(--film),.04);border:1px solid var(--line-2);color:var(--muted)}
+.trk-with{background:rgba(var(--panel),.7);border:1px solid var(--accent);color:var(--body-1)}
+.trk-now i,.trk-with i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;font-weight:700}
+.trk-now i{color:var(--muted-2)}
+.trk-with i{color:var(--accent)}
+.lay{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px;margin-top:52px}
+.layc{background:rgba(var(--panel),.62);border:1px solid var(--line);border-radius:18px;padding:24px}
+.layc.slot{border-color:var(--champ)}
+.lay-n{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:11px}
+.layc h3{font-size:18px;line-height:1.2;margin-bottom:9px}
+.layc p{font-size:13.5px;color:var(--muted);line-height:1.6;font-weight:300}
+.slotbox{margin-top:16px;border:1px dashed var(--champ);border-radius:13px;padding:14px;background:var(--champ-soft)}
+.slot-tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--champ)}
+.slot-cat{font-size:13px;font-weight:700;color:var(--body-1);margin-top:7px;line-height:1.35}
+.slot-offer{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.55;font-weight:300}
+/* ── the wait map ────────────────────────────────────────────────
+   A light band in the middle of a dark page. The whole argument is that a
+   wait is a place, so it gets shown as a place — six of them, in order,
+   on paper, in their colour. This is also the only section that must be
+   legible in a screenshot pasted into an email. */
+.mapband{position:relative;z-index:3;background:var(--map-bg);color:#141416;
+  padding:82px 0 88px;margin:60px 0;box-shadow:0 -1px 0 rgba(var(--film),.06),0 1px 0 rgba(var(--film),.06)}
+.mapband .num.dark{color:#6A6A70}
+.mapband .num.dark::before{background:var(--accent);opacity:1}
+.mapband .num .ghost{-webkit-text-stroke:1px rgba(0,0,0,.06)}
+.mapband .eyebrow.dark{color:var(--map-ink)}
+.mapband .eyebrow.dark::before{background:var(--map-ink)}
+.mapH{font-size:clamp(30px,4.6vw,54px);font-weight:900;letter-spacing:-.032em;line-height:1.02;color:#101012}
+.mapLede{margin-top:16px;font-size:clamp(16px,1.9vw,19px);color:#4C4C54;font-weight:300;line-height:1.55;max-width:56ch}
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Kate, 30 July 2026: make the category demonstrators as strong as the named
+   concepts. The named ones each carry a bespoke centrepiece grounded in real
+   research; the demonstrators carried the template and a disclaimer.
+
+   This is the centrepiece they get, and it answers the question every buyer asks
+   in the first ten minutes: what would it refuse to do. Flip a switch, read the
+   rule that governs it, see the verdict. The rules are real law and real
+   standards even where the company is invented, which is what earns a
+   demonstrator the right to be looked at. */
+.bd{background:var(--map-bg);color:#141416;padding:88px 0 94px;position:relative;z-index:3}
+.bd .num.dark{color:#6A6A70}
+.bd .num.dark::before{background:var(--accent);opacity:1}
+.bd h2{font-size:clamp(28px,4vw,46px);font-weight:var(--h2w,800);letter-spacing:-.03em;
+  line-height:1.06;color:#101012;max-width:24ch}
+.bd .bdLede{margin-top:18px;font-size:clamp(15px,1.35vw,18px);line-height:1.62;color:#43434B;
+  font-weight:300;max-width:64ch}
+.bdGrid{display:grid;grid-template-columns:1fr 1.08fr;gap:38px;margin-top:46px;align-items:start}
+@media(max-width:940px){.bdGrid{grid-template-columns:1fr;gap:26px}}
+.bdList{display:flex;flex-direction:column;gap:11px}
+.bdSw{display:flex;gap:15px;align-items:flex-start;background:#FFF;border:1px solid rgba(0,0,0,.1);
+  border-radius:15px;padding:17px 19px;cursor:pointer;font-family:inherit;text-align:left;
+  transition:border-color .3s,box-shadow .3s,transform .3s}
+.bdSw:hover{border-color:var(--map-ink);transform:translateY(-2px);box-shadow:0 16px 32px -22px rgba(0,0,0,.4)}
+.bdSw[aria-pressed=true]{border-color:var(--map-ink);box-shadow:0 0 0 1px var(--map-ink)}
+.bdTog{flex:0 0 auto;width:40px;height:23px;border-radius:99px;background:rgba(0,0,0,.14);
+  position:relative;margin-top:2px;transition:background .3s}
+.bdTog::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.bdSw[aria-pressed=true] .bdTog{background:var(--map-ink)}
+.bdSw[aria-pressed=true] .bdTog::after{transform:translateX(17px)}
+.bdSw b{display:block;font-size:15.5px;font-weight:700;color:#101012;line-height:1.3}
+.bdSw i{display:block;font-style:normal;font-size:12.5px;color:#75757E;margin-top:4px;line-height:1.45}
+.bdOut{background:#0D0D0F;border-radius:20px;padding:28px 30px;position:sticky;top:24px}
+@media(max-width:940px){.bdOut{position:static}}
+.bdOutK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;
+  color:var(--dk-sa);margin-bottom:18px}
+.bdRow{padding:17px 0;border-bottom:1px solid rgba(242,242,240,.1);
+  opacity:0;animation:bdIn .45s cubic-bezier(.2,.7,.2,1) forwards}
+.bdRow:last-child{border-bottom:none}
+@keyframes bdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bdV{display:inline-block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+  border-radius:5px;padding:4px 8px;margin-bottom:9px}
+.bdV.yes{background:var(--dk-sa);color:#0B0B0E}
+.bdV.notice{background:rgba(242,242,240,.16);color:#F2F2F0;border:1px solid rgba(242,242,240,.3)}
+.bdV.no{background:#E2A0A0;color:#2A0F0F}
+.bdRow p{font-size:14px;color:rgba(242,242,240,.86);font-weight:300;line-height:1.6}
+.bdRow cite{display:block;margin-top:10px;font-style:normal;font-size:11.5px;line-height:1.5;
+  color:rgba(242,242,240,.5)}
+.bdRow cite b{color:rgba(242,242,240,.74);font-weight:600}
+.bdEmpty{font-size:14px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.62}
+.bdFoot{margin-top:26px;font-size:12.5px;color:#5E5E68;font-weight:300;line-height:1.65;max-width:80ch}
+.bdFoot b{color:#101012;font-weight:600}
+@media(prefers-reduced-motion:reduce){.bdRow{animation:none;opacity:1}.bdSw:hover{transform:none}}
+
+/* ── THE WAIT DECK ─────────────────────────────────────────────────────────
+   Kate, 30 July 2026: "the six step wait i want these 3d glow and to pop from
+   the page with visuals like they are on a phone i also like the thin rim
+   around the phone screen and a phone they can click through".
+
+   So the six moments are no longer six flat cards read left to right. They are
+   six SCREENS on one phone, and you walk them. The rail on the left is the
+   journey; the phone is where the moment actually happens; the caption under it
+   changes with the screen. The phone sits on a pool of the brand's own colour
+   and tilts toward the pointer, because a thing that responds reads as an
+   object rather than a picture of one. */
+.deck{display:grid;grid-template-columns:280px 1fr;gap:40px;margin-top:46px;align-items:start}
+@media(max-width:980px){.deck{grid-template-columns:1fr;gap:28px}}
+
+/* the journey, as a rail you can click */
+.dkRail{display:flex;flex-direction:column;gap:2px;position:relative}
+.dkRail::before{content:"";position:absolute;left:16px;top:22px;bottom:22px;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.16) 12%,rgba(0,0,0,.16) 88%,transparent)}
+.dkR{display:flex;gap:14px;align-items:flex-start;background:transparent;border:0;padding:11px 12px 11px 0;
+  text-align:left;cursor:pointer;font-family:inherit;position:relative;border-radius:12px;transition:background .3s}
+.dkR:hover{background:rgba(0,0,0,.035)}
+.dkRn{flex:0 0 auto;width:33px;height:33px;border-radius:50%;display:grid;place-items:center;
+  font-size:11px;font-weight:900;letter-spacing:.04em;background:#FFF;color:#8A8A93;
+  border:1px solid rgba(0,0,0,.14);position:relative;z-index:2;transition:.36s cubic-bezier(.2,.7,.2,1)}
+.dkR b{display:block;font-size:14.5px;font-weight:700;color:#3C3C44;line-height:1.25;transition:color .3s}
+.dkR i{display:block;font-style:normal;font-size:11.5px;color:#8A8A93;margin-top:3px;font-weight:400;line-height:1.4}
+.dkR.on .dkRn{background:var(--map-ink);color:#FFF;border-color:var(--map-ink);
+  box-shadow:0 0 0 5px rgba(0,0,0,.05),0 8px 18px -8px var(--map-ink)}
+.dkR.on b{color:#101012}
+.dkR.done .dkRn{background:var(--map-ink);color:#FFF;border-color:var(--map-ink);opacity:.32}
+
+/* the stage: glow pool, phone, caption */
+.dkStage{position:relative;padding:10px 0 0;perspective:1500px}
+.dkGlow{position:absolute;left:50%;top:44%;width:min(560px,86%);height:340px;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at center,var(--accent) 0%,transparent 68%);
+  opacity:.24;filter:blur(48px);pointer-events:none;animation:dkPulse 6.5s ease-in-out infinite}
+@keyframes dkPulse{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:.32;transform:translate(-50%,-50%) scale(1.07)}}
+
+.dkPhone{position:relative;width:min(330px,82vw);margin:0 auto;
+  transform-style:preserve-3d;
+  transform:rotateY(var(--dky,-13deg)) rotateX(var(--dkx,7deg));
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  animation:dkFloat 7s ease-in-out infinite}
+@keyframes dkFloat{0%,100%{translate:0 0}50%{translate:0 -11px}}
+.dkPhone.grab{transition:transform .12s linear;animation-play-state:paused}
+
+/* the shell, and the thin rim Kate asked for: a hairline of light between the
+   body and the glass, which is what makes a rendered phone look machined. */
+.dkShell{position:relative;border-radius:44px;padding:11px;
+  background:linear-gradient(155deg,#3b3f45 0%,#14171a 46%,#2b2f33 74%,#0e1013 100%);
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.14) inset,
+    0 0 0 1px rgba(0,0,0,.7),
+    0 0 0 2.5px var(--dk-rim),
+    0 44px 90px -30px rgba(0,0,0,.72),
+    0 90px 130px -50px var(--accent)}
+.dkRim{border-radius:34px;padding:1.5px;
+  background:linear-gradient(160deg,var(--dk-rim2),rgba(255,255,255,.06) 40%,var(--dk-rim2))}
+.dkScreen{border-radius:33px;overflow:hidden;background:linear-gradient(172deg,var(--map-scr) 0%,#08080B 100%);
+  min-height:452px;display:flex;flex-direction:column;cursor:pointer;position:relative}
+.dkScreen::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:33px;
+  background:linear-gradient(122deg,rgba(255,255,255,.09) 0%,transparent 34%,transparent 66%,rgba(255,255,255,.045) 100%)}
+
+.dkBar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px 6px;
+  font-size:10px;letter-spacing:.06em;color:rgba(var(--film),.62);font-weight:500}
+.dkNotch{width:52px;height:15px;border-radius:99px;background:#050507}
+.dkSig{display:flex;gap:2.5px;align-items:flex-end}
+.dkSig i{display:block;width:2.5px;background:rgba(var(--film),.6);border-radius:1px}
+.dkSig i:nth-child(1){height:4px}.dkSig i:nth-child(2){height:6px}
+.dkSig i:nth-child(3){height:8px}.dkSig i:nth-child(4){height:10px}
+
+.dkBody{flex:1;padding:20px 22px 14px;display:flex;flex-direction:column}
+.dkWhen{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;font-weight:800;color:var(--dk-sa);margin-bottom:11px}
+.dkTitle{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1.2;color:var(--body-1);margin-bottom:16px}
+.dkLines{display:flex;flex-direction:column;gap:2px}
+.dkLine{font-size:13px;color:rgba(242,242,240,.8);font-weight:300;line-height:1.5;
+  padding:7px 0 7px 16px;position:relative;opacity:0;animation:dkLineIn .5s cubic-bezier(.2,.7,.2,1) forwards}
+.dkLine::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;
+  background:var(--dk-sa);box-shadow:0 0 8px var(--dk-sa)}
+@keyframes dkLineIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.dkChip{align-self:flex-start;margin-top:20px;font-size:10.5px;font-weight:800;letter-spacing:.05em;
+  background:var(--accent);color:var(--on-accent);border-radius:999px;padding:7px 14px;
+  opacity:0;animation:dkLineIn .5s cubic-bezier(.2,.7,.2,1) .34s forwards}
+/* The base of the screen. Two lines with a pinned chip left a void in a very
+   tall frame; this fills it with the thing that belongs on every screen anyway —
+   that the screen drafted something and a person still has to approve it. */
+.dkFoot{margin-top:auto;padding-top:18px;border-top:1px solid rgba(var(--film),.1);
+  display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:rgba(var(--film),.42)}
+.dkFoot span{width:5px;height:5px;border-radius:50%;background:var(--dk-sa);flex:0 0 auto;
+  box-shadow:0 0 7px var(--dk-sa);animation:dkBlink 2.6s ease-in-out infinite}
+@keyframes dkBlink{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* the controls live on the glass, so clicking through feels like using a phone */
+.dkNav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 20px}
+.dkArrow{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:var(--body-1);
+  width:36px;height:36px;border-radius:50%;font-size:15px;cursor:pointer;font-family:inherit;
+  display:grid;place-items:center;transition:.25s;padding:0}
+.dkArrow:hover{background:var(--dk-sa);border-color:var(--dk-sa);color:#0B0B0E}
+.dkArrow[disabled]{opacity:.26;cursor:default}
+.dkArrow[disabled]:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);color:var(--body-1)}
+.dkDots{display:flex;gap:7px}
+.dkDot{width:7px;height:7px;border-radius:50%;background:rgba(var(--film),.26);cursor:pointer;
+  border:0;padding:0;transition:.3s}
+.dkDot.on{background:var(--dk-sa);box-shadow:0 0 10px var(--dk-sa);transform:scale(1.35)}
+
+/* the hint: it has to be obvious the thing is tappable, once, then gone */
+.dkHint{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);white-space:nowrap;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--map-ink);
+  opacity:.72;animation:dkHint 2.4s ease-in-out infinite;pointer-events:none}
+@keyframes dkHint{0%,100%{opacity:.34;transform:translateX(-50%) translateY(0)}
+  50%{opacity:.85;transform:translateX(-50%) translateY(4px)}}
+.dkHint.gone{display:none}
+
+.dkCap{margin:58px auto 0;max-width:62ch;text-align:center}
+.dkFeels{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#8A8A93}
+.dkDel{margin-top:9px;font-size:16px;color:#25252C;font-weight:300;line-height:1.62}
+.dkFund{margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);font-size:12.5px;
+  color:#5E5E68;font-weight:300;line-height:1.5}
+.dkFund i{font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;
+  color:var(--map-ink);margin-right:8px}
+@media(prefers-reduced-motion:reduce){
+  .dkPhone,.dkGlow,.dkHint{animation:none}
+  .dkPhone{transform:none}
+  .dkLine,.dkChip{animation:none;opacity:1}
+}
+
+.mapHow{display:grid;grid-template-columns:1fr 400px;gap:34px;margin-top:52px;align-items:start}
+.mapHow h3{font-size:clamp(24px,3.2vw,34px);font-weight:900;letter-spacing:-.026em;color:#101012;margin-top:4px}
+.mapSteps{list-style:none;counter-reset:ms;margin-top:22px}
+.mapSteps li{counter-increment:ms;padding:15px 0 15px 46px;border-bottom:1px solid rgba(0,0,0,.08);position:relative}
+.mapSteps li:last-child{border-bottom:none}
+.mapSteps li::before{content:counter(ms,decimal-leading-zero);position:absolute;left:0;top:17px;
+  font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--map-ink)}
+.mapSteps b{display:block;font-size:16px;font-weight:700;color:#111114;margin-bottom:3px}
+.mapSteps span{font-size:14px;color:#4C4C54;font-weight:300;line-height:1.55}
+
+.mcCard{background:#101012;border-radius:20px;padding:22px;color:var(--body-1)}
+.mcK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:14px}
+.mcStage{position:relative;height:196px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,var(--map-scr),#0A0A0C);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px}
+.mcWinK{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(242,242,240,.55);font-weight:700}
+.mcV{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-.03em;color:var(--accent);margin:8px 0 6px;line-height:1;font-variant-numeric:tabular-nums}
+.mcV em{font-style:normal;font-size:15px;font-weight:700;letter-spacing:.01em;margin-left:8px;color:rgba(242,242,240,.78)}
+.mcWinS{font-size:12px;color:rgba(242,242,240,.62);font-weight:300;line-height:1.45;max-width:30ch}
+.mcNote{font-size:11.5px;color:rgba(242,242,240,.5);font-weight:300;line-height:1.55;margin-top:14px}
+
+.mapEv{margin-top:52px;border-left:3px solid var(--map-ink);padding:4px 0 4px 22px;max-width:74ch}
+.mapEv b{font-weight:700;color:#101012}
+.mapEv p{font-size:14.5px;color:#43434B;font-weight:300;line-height:1.65;margin-top:9px}
+.mapEv i{font-style:normal;color:#75757E}
+.mapEvFin{font-size:12.5px!important;color:#75757E!important;margin-top:12px!important}
+@media(max-width:900px){.mapHow{grid-template-columns:1fr}}
+
+/* spine:start — clarity spine, self-themed from page tokens */
+.spRibbon{background:var(--ink);color:rgba(255,255,255,.78);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;text-align:center;padding:8px 14px;position:relative;z-index:60;font-family:inherit}
+.spWrap{position:relative;z-index:5;padding:0 0 6px}
+.spTrio{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(127,127,127,.22);
+  border-top:1px solid rgba(127,127,127,.22);border-bottom:1px solid rgba(127,127,127,.22)}
+.spC{background:var(--paper);padding:13px 18px;border-left:2px solid var(--accent)}
+.spK{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  color:var(--accent-2,var(--ink))}
+.spT{font-size:13px;line-height:1.45;color:var(--ink);margin-top:4px;font-weight:400}
+.spIdea{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#777);
+  text-align:center;margin:16px auto 0;max-width:920px;padding:0 18px}
+.spIdea b{color:var(--accent-2,var(--ink));font-weight:700}
+@media(max-width:760px){.spTrio{grid-template-columns:1fr}}
+/* spine:end */
+
+
+
+
+
+
+/* mz:start — the assembling mosaic band */
+.mzBand{padding:36px 22px 26px;position:relative}
+.mzIn{max-width:1080px;margin:0 auto}
+.mzIn svg{display:block;width:min(660px,100%);height:auto;margin:0 auto;font-family:inherit}
+.mzT{opacity:var(--mzDorm,.16);filter:saturate(.15) brightness(1.05);transform-box:fill-box;transform-origin:center;transform:scale(.94);
+  transition:opacity .55s ease,filter .55s ease,transform .55s cubic-bezier(.2,.9,.3,1.25)}
+.mzT.mzLit{opacity:1;filter:none;transform:none}
+.mzT.mzPulse{animation:mzP .9s ease}
+@keyframes mzP{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
+.mzCap{text-align:center;margin-top:14px;font:700 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--mzCapC,rgba(30,27,20,.55))}
+.mzCap b{color:var(--mzCapB,inherit);font-weight:700}
+@media (prefers-reduced-motion: reduce){.mzT{transition:none;animation:none}}
+/* mz:end */
+
+/* vr:start — the vision read, scan-panel treatment */
+.vrSec{padding:44px 22px 40px;position:relative}
+.vrIn{max-width:1080px;margin:0 auto}
+.vrK{font:800 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--vrA)}
+.vrH{margin:8px 0 8px;font-size:clamp(24px,3.2vw,34px);line-height:1.1;letter-spacing:-.02em;font-weight:800;color:var(--vrInk)}
+.vrSub{margin:0 0 16px;font:500 14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--vrInk);opacity:.82;max-width:640px}
+.vrBtns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.vrBtn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;
+  font:800 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--vrBtnInk,#fff);
+  background:var(--vrA);border:1.5px solid var(--vrA);border-radius:14px;padding:11px 16px;cursor:pointer}
+.vrBtn small{font:600 10px -apple-system,sans-serif;opacity:.75;letter-spacing:.04em}
+.vrBtn.ghost{background:transparent;color:var(--vrInk);border-color:var(--vrLine)}
+.vrBtn:active{transform:scale(.98)}
+.vrBtn input{display:none}
+.vrGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:900px){.vrGrid{grid-template-columns:1fr}}
+.vrPanel{display:none;position:relative}
+.vrPanel.on{display:block}
+.vrFrame{position:relative;border-radius:18px;overflow:hidden;background:#101010;
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.55),0 0 0 1.5px var(--vrLine)}
+.vrFrame img{display:block;width:100%;height:auto}
+.vrFx i{position:absolute;width:24px;height:24px;border:2.5px solid var(--vrAcc2,#FF8A3D);z-index:4}
+.vrFx i.tl{top:9px;left:9px;border-right:0;border-bottom:0;border-top-left-radius:7px}
+.vrFx i.tr{top:9px;right:9px;border-left:0;border-bottom:0;border-top-right-radius:7px}
+.vrFx i.bl{bottom:9px;left:9px;border-right:0;border-top:0;border-bottom-left-radius:7px}
+.vrFx i.br{bottom:9px;right:9px;border-left:0;border-top:0;border-bottom-right-radius:7px}
+.vrSweep{position:absolute;left:0;right:0;top:-14%;height:12%;z-index:3;opacity:0;
+  background:linear-gradient(180deg,transparent,var(--vrSweepC,rgba(255,138,61,.4)) 50%,transparent);
+  box-shadow:0 0 26px var(--vrSweepC,rgba(255,138,61,.35))}
+.vrPanel.scanning .vrSweep{opacity:1;animation:vrSw 2.4s linear infinite}
+@keyframes vrSw{from{top:-14%}to{top:102%}}
+.vrBox{position:absolute;z-index:5;border:2px solid #fff;border-radius:9px;
+  box-shadow:0 0 0 1.5px rgba(0,0,0,.3),0 8px 22px -8px rgba(0,0,0,.5);
+  opacity:0;transform:scale(1.22);transition:opacity .45s ease,transform .45s cubic-bezier(.2,.9,.3,1.3)}
+.vrBox.in{opacity:1;transform:none}
+.vrBox.item{border-color:var(--vrAcc2,#FF8A3D)}
+.vrBox.clear{border-color:#7DBB42}
+.vrBox.care{border-color:var(--vrAcc2,#FF8A3D);border-style:dashed}
+.vrLab{position:absolute;left:-2px;bottom:calc(100% + 5px);white-space:nowrap;
+  font:800 9px -apple-system,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#fff;
+  padding:3.5px 7px;border-radius:7px;background:var(--vrLabBg,#E85F00)}
+.vrBox.clear .vrLab{background:#37823A}
+.vrBox.flip .vrLab{bottom:auto;top:calc(100% + 5px)}
+.vrBox.rt .vrLab{left:auto;right:-2px}
+.vrTag{margin:12px auto 0;width:fit-content;max-width:100%;
+  font:700 10px -apple-system,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--vrInk);
+  background:var(--vrCard);border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 15px}
+.vrTag b{color:var(--vrA)}
+.vrSec[data-dark] .vrTag b{color:#fff}
+.vrOut{display:none}
+.vrOut.on{display:block}
+.vrCard{background:var(--vrCard);border:1.5px solid var(--vrLine);border-radius:16px;padding:15px 17px;margin-bottom:12px}
+.vrCard h4{margin:0 0 8px;font:800 10px -apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--vrA)}
+.vrSec[data-dark] .vrCard h4{color:#fff}
+.vrRow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--vrLine);
+  font:600 12.5px -apple-system,sans-serif;color:var(--vrInk)}
+.vrRow:last-child{border-bottom:0}
+.vrRow span:last-child{font-variant-numeric:tabular-nums;opacity:.75;white-space:nowrap}
+.vrChips{display:flex;flex-direction:column;gap:6px}
+.vrChip{font:600 12px/1.5 -apple-system,sans-serif;color:var(--vrInk);padding:7px 11px;border-radius:10px;
+  border:1.5px solid var(--vrLine);background:transparent}
+.vrChip.clear{border-color:rgba(55,130,58,.45)}
+.vrChip.care{border-style:dashed}
+.vrBig{font:700 13.5px/1.6 -apple-system,sans-serif;color:var(--vrInk);margin:0 0 8px}
+.vrDim{font:500 11.5px/1.6 -apple-system,sans-serif;color:var(--vrInk);opacity:.62;margin:6px 0 0}
+.vrDraft{position:relative;border:1.5px solid var(--vrLine);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.vrDraft b{display:block;font:800 14px -apple-system,sans-serif;color:var(--vrInk);letter-spacing:-.01em}
+.vrDraft p{margin:4px 0 0;font:500 12.5px/1.55 -apple-system,sans-serif;color:var(--vrInk);opacity:.8}
+.vrDraft em{position:absolute;top:9px;right:11px;font:700 8.5px -apple-system,sans-serif;letter-spacing:.14em;
+  text-transform:uppercase;font-style:normal;color:var(--vrInk);opacity:.5;border:1px solid var(--vrLine);
+  border-radius:6px;padding:2.5px 6px}
+.vrFoot{margin:16px 0 0;font:500 11.5px/1.7 -apple-system,sans-serif;color:var(--vrInk);opacity:.62;max-width:720px}
+/* the lot thumbs — pick a real car */
+.vrThumbs{display:flex;gap:9px;flex-wrap:wrap;margin:-6px 0 18px}
+.vrTh{appearance:none;border:1.5px solid var(--vrLine);background:none;border-radius:12px;padding:4px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px}
+.vrTh img{display:block;width:74px;height:44px;object-fit:cover;border-radius:8px}
+.vrTh span{font:700 8.5px -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--vrInk);opacity:.65}
+.vrTh:hover,.vrTh.on{border-color:var(--vrA)}
+/* the drafted offer card — the giltrap.com artefact, faithful and light */
+.vrOffer{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.65);margin-bottom:12px}
+.vrOfferImg{position:relative}
+.vrOfferImg img{display:block;width:100%;height:170px;object-fit:cover}
+.vrRound{position:absolute;left:16px;bottom:-20px;width:46px;height:46px;border-radius:50%;background:#fff;
+  box-shadow:0 4px 14px rgba(20,30,45,.18);display:flex;align-items:center;justify-content:center}
+.vrRound svg{width:26px;height:26px}
+.vrStamp{position:absolute;top:12px;right:12px;font:800 9px -apple-system,sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;font-style:normal;color:#1B2430;background:rgba(255,255,255,.92);
+  border:1.5px dashed #1B2430;border-radius:8px;padding:5px 9px;transform:rotate(3deg)}
+.vrStamp.signed{border-style:solid;background:#1B2430;color:#fff;transform:none}
+.vrOfferBody{padding:26px 18px 16px}
+.vrOfferBody h3{margin:0 0 6px;font:800 18px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  color:#1B2430;letter-spacing:-.01em}
+.vrOfferBody>p{margin:0 0 10px;font:500 13px/1.6 -apple-system,sans-serif;color:#5A6472}
+.vrOfferChips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.vrOfferChips i{font:700 10.5px -apple-system,sans-serif;font-style:normal;color:#33404E;background:#EEF1F5;
+  border-radius:99px;padding:5px 11px}
+.vrTCs{text-align:center;font:600 11px -apple-system,sans-serif;color:#5A6472;margin-bottom:10px}
+.vrPill{display:block;width:100%;text-align:center;font:700 14px -apple-system,sans-serif;color:#1B2430;
+  background:#fff;border:1.5px solid #94A0AE;border-radius:99px;padding:12px;cursor:pointer}
+.vrPill:active{transform:scale(.99)}
+.vrPill[disabled]{opacity:.55;cursor:default}
+/* the signing queue — wired to the desk */
+.vrQ{margin-top:20px;border:1.5px solid var(--vrLine);border-radius:16px;padding:14px 16px}
+.vrQK{font:800 10px -apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--vrInk);margin-bottom:10px}
+.vrQK b{color:var(--vrInk)}
+.vrQItem{display:flex;gap:11px;align-items:center;padding:9px 0;border-top:1px solid var(--vrLine)}
+.vrQItem img{width:64px;height:40px;object-fit:cover;border-radius:8px;flex:none}
+.vrQT{flex:1;min-width:0}
+.vrQT b{display:block;font:800 12.5px -apple-system,sans-serif;color:var(--vrInk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vrQT span{display:block;font:600 10px -apple-system,sans-serif;color:var(--vrInk);opacity:.6;margin-top:2px}
+.vrQSign{font:800 11px -apple-system,sans-serif;color:#0d0d0d;background:var(--vrA);border:0;border-radius:10px;
+  padding:8px 12px;cursor:pointer;flex:none}
+.vrQSign[disabled]{background:transparent;border:1.5px solid var(--vrLine);color:var(--vrInk);opacity:.7;cursor:default}
+.vrQGuard{margin-top:11px;font:700 11px -apple-system,sans-serif;color:var(--vrInk);background:none;
+  border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 14px;cursor:pointer}
+/* vr:end */
+</style>
+</head>
+<body>
+<!-- spine:start -->
+<div class="spRibbon">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
+<!-- spine:end -->
+
+<div class="grain" aria-hidden="true"></div>
+<div class="rail" aria-hidden="true"><i id="railfill"></i></div><div class="railn" id="railn" aria-hidden="true"></div>
+
+<nav class="topbar"><div class="wrap">
+  <div class="mark"><span class="dot"></span>assembl <small>· a demonstrator</small></div>
+  <div class="navlinks">
+    <a href="#wait">The wait</a><a href="#map">The six waits</a><a href="#boundary">The boundary</a><a href="#mirror">The work</a><a href="#guard">The guard</a>
+    <a href="#room">The room</a><a href="#board">The board</a><a href="#pilot">The pilot</a><a class="navyes" href="#accept">Accept it</a>
+  </div>
+  <button class="askbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
+</div></nav>
+
+<div class="signed"><div class="wrap">
+  <span class="v" id="signedFor"><b>A category demonstrator</b> · retirement living · every name on this page is invented</span>
+</div></div>
+
+<main>
+<header class="hero"><div class="wrap"><div class="narrow">
+  <div class="eyebrow rise">Retirement living · a demonstrator</div>
+  <h1 class="rise">She asked for a brochure.<br><em class="g">She needs an answer.</em><br>Those are not the same.</h1>
+  <p class="lede rise">A family enquires about a village for their mother. What arrives is the pack every family gets. This demonstrates the alternative: the same published material, assembled around the three things this family actually said, with one question going back the other way.</p>
+  <div class="quote rise"><p>“The pack is already the most requested thing on the site. Today it arrives identical for everyone.”</p><cite>Rosewell Villages · an invented example</cite></div>
+  <div class="btns rise">
+    <a class="btn solid" href="#wait">See the moment <span class="arw">→</span></a>
+    <button class="btn ghost" onclick="openChat()">Ask it about this</button>
+  </div>
+</div></div></header>
+<section class="vrSec" id="vrSec" style="--vrA:#3F6152;--vrInk:#1A1917;--vrCard:#FFFFFF;--vrLine:rgba(26,25,23,.12);">
+  <div class="vrIn">
+    <div class="vrK">the lounge, read</div>
+    <h2 class="vrH">Will her things fit? Watch a lounge being read.</h2>
+    <p class="vrSub">Photograph the lounge as it is. The reader finds every piece, sizes it roughly, and totals the floor it wants &mdash; then the total goes to the plan of the home the family is considering, with a person. No room dimensions are invented here.</p>
+    <div class="vrBtns">
+      <button type="button" class="vrBtn" id="vrDemo">Read the demo lounge<small>a real lounge &middot; the real reader runs on it</small></button>
+      <label class="vrBtn ghost">Use your own photo<small>read once &middot; never stored</small><input type="file" id="vrOwn" accept="image/*" /></label>
+    </div>
+    <div class="vrGrid">
+      <div class="vrPanel" id="vrPanel">
+        <div class="vrFrame"><img id="vrImg" alt="The photo being read" />
+          <div class="vrFx"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+            <div class="vrSweep"></div></div>
+          <div id="vrBoxes"></div>
+        </div>
+        <div class="vrTag" id="vrTag">reading&hellip;</div>
+      </div>
+      <div class="vrOut" id="vrOut"></div>
+    </div>
+    <p class="vrFoot">One guidance figure, once: a wheelchair turning circle is 1.5 m (NZS 4121). Everything else here is observation from the photo — never care advice.</p>
+  </div>
+</section>
+
+<!-- mz:start -->
+<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
+  <div class="mzIn"><div id="mzHost"></div>
+  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+</section>
+<!-- mz:end -->
+
+<!-- spine:start -->
+<div class="spWrap"><div class="wrap">
+  <div class="spTrio">
+    <div class="spC"><div class="spK">the customer</div><div class="spT">the wait itself gives something back</div></div>
+    <div class="spC"><div class="spK">the business</div><div class="spT">nothing sends without a person signing</div></div>
+    <div class="spC"><div class="spK">assembl</div><div class="spT">paid on completed moments</div></div>
+  </div>
+  <p class="spIdea">the wait, working &middot; <b>every spinner is a place to earn</b> &middot; a person signs the send</p>
+</div></div>
+<!-- spine:end -->
+
+
+<section id="wait"><div class="wrap">
+  <div class="num rise">01 — THE WAIT</div>
+  <div class="narrow rise">
+    <div class="eyebrow">A Sunday, 7:30pm</div>
+    <h2>The wait between asking and knowing</h2>
+    <p class="lede">Three siblings in three cities are trying to work out whether their mother can afford this, whether she would be happy, and whether she would have to move again later. The pack answers all of it, somewhere, in eighty pages. Nobody reads eighty pages on a Sunday.</p>
+    <p class="kicker" style="color:var(--accent)">Every retirement group in the country already publishes the material a worried family needs. The gap is never the information. It is that the information arrives in the order the brochure was written in, not the order this family is worried in.</p>
+  </div>
+  
+  <!-- The wait itself, not three paragraphs about it. Same component the
+       assembl homepage runs; see wait-phone.js. -->
+  <div class="waitgrid rise">
+    <div class="waitdemo">
+      <div class="wp-invite">Live — the wait itself, not a picture of it. It stops to ask you one thing.</div>
+      <div id="wait-mount"></div>
+    </div>
+    <div class="waitcards">
+      <div class="glass" id="wait-explain"></div>
+      <div class="glass tight"><h3 style="font-size:18px">What happens now</h3><p class="kicker" style="margin-top:10px;font-size:14px">One pack for every family. The questions it did not answer arrive by phone, one at a time, to whoever picks up.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What it costs</h3><p class="kicker" style="margin-top:10px;font-size:14px">The most emotionally loaded decision a family makes, handled with a document that does not know their situation.</p></div>
+      <div class="glass tight"><h3 style="font-size:18px">What the concept does</h3><p class="kicker" style="margin-top:10px;font-size:14px">Opens the pack at the page that answers their worry, in their numbers, and stops. An advisor sends it.</p></div>
+    </div>
+  </div>
+
+  
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">The principles it runs on</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Four rules, every moment.</h2>
+  </div>
+  <div class="powgrid rise">
+    <div class="pow"><i>01 — intent signal</i><b>The agent detects the wait</b><span>What the customer is waiting for, and why it matters right now.</span></div>
+    <div class="pow"><i>02 — honest duration</i><b>How long, truthfully</b><span>Real steps, real progress. No fake bars, and never a wait stretched to fill.</span></div>
+    <div class="pow"><i>03 — value delivery</i><b>Real work, done while they watch</b><span>The actual thing drafted and checked in front of the person, not a bar that fills.</span></div>
+    <div class="pow"><i>04 — value exchange</i><b>The wait gives something back</b><span>Something real and theirs to keep, funded by the business, never by selling the person. One question comes back the other way.</span></div>
+  </div>
+  <p class="prinline rise"><em>Opt-in, skippable, honest.</em> The reward comes from the business running the journey, never from selling the person waiting. Every decision still ends with a person.</p>
+
+  <div class="narrow rise" style="margin-top:64px">
+    <div class="eyebrow">Not one wait — a family of them</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">Every village moment, one pattern.</h2>
+    <p class="kicker">Each of these is a moment your customer already spends with you. Each can carry what the phone above shows: watch the work, earn the wait, answer one thing.</p>
+  </div>
+  <div class="momgrid rise">
+    <div class="mom"><b>The enquiry</b><span>a pack, not a brochure</span></div>
+    <div class="mom"><b>The visit</b><span>booked around the family</span></div>
+    <div class="mom"><b>Moving in</b><span>the week nobody forgets</span></div>
+    <div class="mom"><b>Care changes</b><span>seen before it is a crisis</span></div>
+    <div class="mom"><b>The exit</b><span>the pipeline, in the open</span></div>
+    <div class="mom"><b>Repayment</b><span>a date, not a silence</span></div>
+  </div>
+</div></section>
+
+
+<section id="map" class="mapband"><div class="wrap">
+  <div class="num rise dark">02 — EVERY WAITING MOMENT</div>
+  <div class="narrow rise">
+    <h2 class="mapH">Every wait in a retirement village decision</h2>
+    <p class="mapLede">Six moments in a village decision where a family is waiting. Most of them are emotional before they are administrative.</p>
+  </div>
+
+  <div class="deck rise">
+    <div class="dkRail" role="tablist" aria-label="The six waits">
+      
+      <button class="dkR on" type="button" role="tab" data-i="0"
+        aria-selected="true">
+        <span class="dkRn">01</span>
+        <span><b>Before anyone asks</b><i>Months of circling the subject</i></span>
+      </button>
+      <button class="dkR" type="button" role="tab" data-i="1"
+        aria-selected="false">
+        <span class="dkRn">02</span>
+        <span><b>After the enquiry</b><i>Form sent, nothing back yet</i></span>
+      </button>
+      <button class="dkR" type="button" role="tab" data-i="2"
+        aria-selected="false">
+        <span class="dkRn">03</span>
+        <span><b>Waiting for a villa</b><i>On a list, position unknown</i></span>
+      </button>
+      <button class="dkR" type="button" role="tab" data-i="3"
+        aria-selected="false">
+        <span class="dkRn">04</span>
+        <span><b>The moving week</b><i>Keys soon, house not packed</i></span>
+      </button>
+      <button class="dkR" type="button" role="tab" data-i="4"
+        aria-selected="false">
+        <span class="dkRn">05</span>
+        <span><b>When care changes</b><i>Something is different, no answer yet</i></span>
+      </button>
+      <button class="dkR" type="button" role="tab" data-i="5"
+        aria-selected="false">
+        <span class="dkRn">06</span>
+        <span><b>The wait for repayment</b><i>After she leaves, before it settles</i></span>
+      </button>
+    </div>
+
+    <div class="dkStage">
+      <div class="dkGlow" aria-hidden="true"></div>
+      <div class="dkPhone" id="dkPhone">
+        <div class="dkShell">
+          <div class="dkRim">
+            <div class="dkScreen" id="dkScreen" role="button" tabindex="0"
+              aria-label="The wait screens — click to see the next moment">
+              <div class="dkBar">
+                <span>9:41</span>
+                <span class="dkNotch" aria-hidden="true"></span>
+                <span class="dkSig" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              </div>
+              <div class="dkBody" id="dkBody"></div>
+              <div class="dkNav">
+                <button class="dkArrow" id="dkPrev" type="button" aria-label="Previous wait">←</button>
+                <div class="dkDots" id="dkDots"></div>
+                <button class="dkArrow" id="dkNext" type="button" aria-label="Next wait">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dkHint" id="dkHint">tap the screen — six waits</div>
+      </div>
+      <div class="dkCap" id="dkCap"></div>
+    </div>
+  </div>
+
+  <div class="mapHow rise">
+    <div class="mapHowL">
+      <div class="eyebrow dark">How the moment works</div>
+      <h3>Four steps, every time.</h3>
+      <ol class="mapSteps">
+        <li><b>The signal</b><span>Something in your own systems says a person is now waiting, and roughly how long for.</span></li>
+        <li><b>The prediction</b><span>How long this one will really take — not the average, this one.</span></li>
+        <li><b>The value</b><span>Something worth their attention goes into that window: an answer, a credit, a thing prepared while they wait.</span></li>
+        <li><b>The exchange</b><span>They get value. You get a customer who stayed, and one optional answer you have always wanted.</span></li>
+      </ol>
+    </div>
+    <div class="mapHowR">
+      <div class="mcCard">
+        <div class="mcK">the value exchange, honestly</div>
+        <div class="mcStage">
+          <div class="mcWinK">you earned</div>
+          <div class="mcV"><span id="mcN">0</span><em>minutes</em></div>
+          <div class="mcWinS">of an eighty-page pack you no longer have to read</div>
+        </div>
+        <p class="mcNote">This is the reward layer for this category: time handed back, not points. The count is illustrative. Nothing is collected, nothing is sent.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mapEv rise">
+    <b>This is not a new idea — it is an unbuilt one.</b>
+    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
+    <p class="mapEvFin">Every figure on this page carries its source. Overseas figures are shown as overseas figures — we have not found a published New Zealand equivalent, and we will not invent one.</p>
+  </div>
+</div></section>
+
+
+<section id="mirror"><div class="wrap">
+  <div class="num rise">03 — THE WORK, PREPARED</div>
+  <div class="narrow rise">
+    <div class="eyebrow">The same situation, four ways</div>
+    <h2>One enquiry. Four families.</h2>
+    <p class="kicker">The same published pack, assembled four ways. Nothing sends without an advisor, and the situations that need a person say so.</p>
+  </div>
+  <div style="margin-top:38px" class="rise">
+    <div class="marqrow" id="marqrow"></div>
+    <div class="grid2">
+      <div class="glass draft" id="draftBox"></div>
+      <div class="glass tight">
+        <div class="num" style="margin-bottom:16px">WHY THIS ISN'T A TEMPLATE</div>
+        <p class="kicker" style="font-size:14.5px;margin-top:0">A template sends the same thing to everyone and changes the name. What matters here is the case that should get something different — or nothing at all.</p>
+        <p class="kicker" style="font-size:14.5px">The rules beside each draft are <b style="color:var(--paper);font-weight:700">placeholders</b>. A pilot replaces them with your actual policies. We have not seen those, and this concept does not guess at them.</p>
+        <div class="check pass" style="margin-top:20px"><span class="ic">✓</span>
+          <div><div class="t">Nothing here sends</div><div class="d">Every draft goes to a named person. No channel is connected by this concept.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+
+<section id="boundary" class="bd"><div class="wrap">
+  <div class="num rise dark">04 — THE BOUNDARY</div>
+  <div class="narrow rise">
+    <h2>Her daughter fills in the form. What does she get told?</h2>
+    <p class="bdLede">IPP3A came into force in May 2026. An adult child who types their mother’s age, health and finances into an operator’s tool is collecting her personal information from someone other than her, so she has to be told. Most concepts in this category will miss that. Turn these on and watch what she receives.</p>
+  </div>
+  <div class="bdGrid rise">
+    <div class="bdList">
+      
+      <button class="bdSw" type="button" data-i="0" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Her age and where she lives</b><i>The daughter types it. Her mother never sees the form.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="1" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>Her mobility and her care needs</b><i>Two clicks in a triage form.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="2" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>A cost estimate with her numbers in it</b><i>The thing every family asks for first.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="3" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>A recommendation on which village suits her</b><i>The obvious next step, and the wrong one.</i></span>
+      </button>
+      <button class="bdSw" type="button" data-i="4" aria-pressed="false">
+        <span class="bdTog" aria-hidden="true"></span>
+        <span><b>A camera that watches for falls</b><i>Every vendor in this category will pitch it.</i></span>
+      </button>
+    </div>
+    <div class="bdOut">
+      <div class="bdOutK">what happens, and what governs it</div>
+      <div id="bdOut"></div>
+    </div>
+  </div>
+  <p class="bdFoot"><b>Rosewell Villages is invented. The rules are not.</b> Sources: Privacy Act 2020 IPP3A (privacy.org.nz); Health Information Privacy Code 2020; Retirement Villages Act 2003 prescribed disclosure wording; Ministry of Housing and Urban Development reform page, 4 December 2025; Retirement Commission tool list at sorted.org.nz.</p>
+</div></section>
+
+<section id="guard"><div class="wrap">
+  <div class="num rise">05 — THE GUARD</div>
+  <div class="grid2">
+    <div class="rise">
+      <div class="eyebrow">Before a person ever reads it</div>
+      <h2>The checks that run before a family reads anything</h2>
+      <p class="kicker">This is the most emotionally loaded category assembl builds in, so the guards are the interesting part, not the assembly.</p>
+      <p class="kicker">Drafts are held against the Retirement Villages Act 2003, the Fair Trading Act 1986, the Privacy Act 2020, and the Health Information Privacy Code 2020.</p>
+      <button class="btn ghost" style="margin-top:24px" onclick="runGuard()" id="guardBtn">Run the checks on the batch →</button>
+    </div>
+    <div class="rise"><div id="guardOut"><p class="kicker" style="margin-top:0">Press run to see what it catches — and what it refuses to produce at all.</p></div></div>
+  </div>
+</div></section>
+
+<section id="room"><div class="wrap">
+  <div class="num rise">06 — THE ROOM</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Where you watch it work</div>
+    <h2>One room. Your people, your agents, every action on the record.</h2>
+    <p class="kicker">Every concept on this page would run inside a private room like this: your team and the agents in the same space, drafts appearing with receipts, a named person saying yes. It runs on infrastructure you approve — and what is said in the room stays in it.</p>
+  </div>
+  <div class="roomgrid rise">
+    <div class="room" aria-label="A concept picture of the private pilot room">
+      <div class="roomhead"><span>Rosewell · pilot room</span><small>private · yours</small></div>
+      <div class="roommsg agent"><span class="av">D</span><div class="b"><b>Drafter <small>agent</small></b>Draft ready for this morning&rsquo;s enquiry — prepared from your own rates and rules. Nothing has been sent.<br><span class="receipt"><em>receipt</em> sources: your rate card · rules: yours · <em>held for approval</em></span></div></div>
+      <div class="roommsg"><span class="av">O</span><div class="b"><b>Operations <small>you</small></b>Approved — send the standard version.</div></div>
+      <div class="roommsg agent"><span class="av">K</span><div class="b"><b>Keeper <small>agent</small></b>Sent and filed. The record shows who asked, what was used, and who said yes.</div></div>
+    </div>
+    <div class="roomrec">
+      <div class="rt">the record — readable, kept</div>
+      <div class="rl"><span>09:02</span> draft prepared from your sources</div>
+      <div class="rl"><span>09:06</span> approved by a named person</div>
+      <div class="rl"><span>09:06</span> sent · receipt filed</div>
+      <p class="kicker" style="font-size:13px;margin:14px 0 0">Client information stays in your room. Six months later, &ldquo;where did this come from?&rdquo; is one line, not a search.</p>
+    </div>
+  </div>
+  <div class="grid3" style="margin-top:38px">
+    <div class="glass tight rise"><h3 style="font-size:18px">Yours</h3><p class="kicker" style="margin-top:10px;font-size:14px">Runs where you approve — your own room, your own record. Nothing in it leaves it.</p></div>
+    <div class="glass tight rise"><h3 style="font-size:18px">On the record</h3><p class="kicker" style="margin-top:10px;font-size:14px">Every agent action lands as a line a person can read — not a log only a vendor can open.</p></div>
+    <div class="glass tight rise"><h3 style="font-size:18px">People decide</h3><p class="kicker" style="margin-top:10px;font-size:14px">Drafts wait for a named person. The room shows who said yes, and when.</p></div>
+  </div>
+  <p class="kicker rise" style="font-size:12.5px;margin-top:22px;color:var(--muted)">This panel is a concept picture, not a live room — a pilot stands up the real one, on infrastructure you approve.</p>
+</div></section>
+
+<section id="board"><div class="wrap">
+  <div class="num rise">07 — ON ONE SCREEN</div>
+  <div class="narrow rise">
+    <div class="eyebrow">Nothing here has been sent</div>
+    <h2>The enquiries, before anything sends</h2>
+    <p class="kicker">Illustrative and fictional. No production access is requested by this concept.</p>
+  </div>
+  <div class="glass rise" style="margin-top:34px;overflow-x:auto">
+    <table class="ops">
+      <thead><tr><th>Enquiry</th><th>Count</th><th>Prepared</th><th>Waiting on</th><th>Status</th></tr></thead>
+      <tbody><tr><td><b>Worried about cost</b></td><td>—</td><td>Pack opened at the exit fee</td><td>Advisor sign-off</td><td><span class="st wait">Awaiting approval</span></td></tr><tr><td><b>Worried she will not settle</b></td><td>—</td><td>Pack opened at village life</td><td>Advisor sign-off</td><td><span class="st wait">Awaiting approval</span></td></tr><tr><td><b>Siblings in three cities</b></td><td>—</td><td>One pack, three covering notes</td><td>Advisor sign-off</td><td><span class="st wait">Awaiting approval</span></td></tr><tr><td><b>Describes current care needs</b></td><td>—</td><td>Nothing assembled</td><td>A named advisor</td><td><span class="st hot">Held — no pack</span></td></tr><tr><td><b>Mentions a bereavement</b></td><td>—</td><td>Nothing assembled</td><td>Nobody — deliberately</td><td><span class="st hot">Held — no pack</span></td></tr><tr><td><b>Contact details incomplete</b></td><td>—</td><td>Pack held</td><td>Verification</td><td><span class="st ok">Parked</span></td></tr></tbody>
+    </table>
+    <p style="font-size:12.5px;color:var(--muted-2);margin-top:18px;font-weight:300">Counts are blank because this is a demonstrator. There is no Rosewell, and therefore no data.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="num rise">08 — HOW IT WAS MADE</div>
+  <div class="grid2">
+    <div class="rise">
+      <div class="eyebrow">Mana Receipt</div>
+      <h2>Every draft carries its own working.</h2>
+      <p class="kicker">Not a log somebody has to go and find. The provenance travels with the work — what it read, which rules it held, who must approve it, and what it refused to do.</p>
+      <p class="kicker">This matters most on the day someone asks why it said what it said.</p>
+    </div>
+    <div class="rise"><div class="receipt">
+      <div class="rh">Mana Receipt · draft</div>
+      <dl>
+        <dt>Artefact</dt><dd id="rArt">Information pack — family worried about cost</dd>
+        <dt>Read</dt><dd>Invented published material for an invented village group · enquiry fields: region preference, stated worry, care-needs language, bereavement language. No health records.</dd>
+        <dt>Rules held</dt><dd>Retirement Villages Act 2003 · Fair Trading Act 1986 · Privacy Act 2020 · Health Information Privacy Code 2020</dd>
+        <dt>Refused</dt><dd>No fee was calculated. No recommendation was made. No pack was assembled where the enquiry described current care needs or mentioned a bereavement. No urgency was used.</dd>
+        <dt>Approver</dt><dd>A named person. Unsent until then.</dd>
+        <dt>Prepared</dt><dd id="rWhen">—</dd>
+        <dt>Reference</dt><dd class="hash" id="rHash">—</dd>
+      </dl>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="pilot"><div class="wrap">
+  <div class="num rise">09 — WHAT WE ARE ACTUALLY ASKING</div>
+  <div class="grid2">
+    <div class="rise"><div class="boundary">
+      <div class="eyebrow" style="margin-bottom:16px">The boundary</div>
+      <h3>What this will never do</h3>
+      <p class="kicker" style="margin-top:14px">It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. It does not pretend to be a person — every draft says it was prepared by a machine and approved by a human.</p>
+      <p class="kicker">No production access is requested by this concept.</p>
+    </div></div>
+    <div class="rise"><div class="glass pilot">
+      <div class="eyebrow" style="margin-bottom:8px">The pilot ask</div>
+      <div class="step"><span class="n">1</span><div><h4>Scope</h4><p>In a real engagement: one enquiry type, start to finish, six weeks. Not the sales conversation, not pricing, not the care assessment.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h4>Access</h4><p>Published pack material and the field names that mark stated worry, region preference and any care or bereavement language. No health information. No resident records.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h4>Scorecard</h4><p>Packs an advisor sent without rewriting. Held cases an advisor agreed should have been held. Calls the pack avoided. And whether an advisor would put their name to what arrived.</p></div></div>
+      <p class="kicker" style="margin-top:20px;color:var(--accent)">Fail any line of the scorecard and we change the design or stop.</p>
+    </div></div>
+  </div>
+
+  <div class="narrow rise" style="margin-top:76px">
+    <div class="eyebrow">Before you decide</div><h2>What a pilot actually asks of you.</h2>
+    <p class="kicker">Written out in full, because the honest version of this is short and most of it is your time, not your money.</p>
+  </div>
+  <div class="needs rise">
+    <div class="need"><span class="nn">01</span><div><h4>One named person</h4><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. Expect about two hours a week — reading drafts, not managing a project.</p></div></div>
+    <div class="need"><span class="nn">02</span><div><h4>One situation, not the business</h4><p>In a real engagement: one enquiry type, start to finish, six weeks. Not the sales conversation, not pricing, not the care assessment.</p></div></div>
+    <div class="need"><span class="nn">03</span><div><h4>Read-only access, nothing that writes</h4><p>Published pack material and the field names that mark stated worry, region preference and any care or bereavement language. No health information. No resident records. No production credentials, no write permissions, no access to anything the pilot does not need.</p></div></div>
+    <div class="need"><span class="nn">04</span><div><h4>Your actual rules</h4><p>The policies, limits and words the drafts must be held against. Every rule on this page is a placeholder standing in for yours. An afternoon with whoever owns them is usually enough.</p></div></div>
+    <div class="need"><span class="nn">05</span><div><h4>Six weeks, then a real decision</h4><p>Scored on: Packs an advisor sent without rewriting. Held cases an advisor agreed should have been held. Calls the pack avoided. And whether an advisor would put their name to what arrived. Fail any line of that and we change the design or stop. You keep everything drafted either way.</p></div></div>
+    <div class="need"><span class="nn">06</span><div><h4>A fixed fee, agreed in writing first</h4><p>No number is published on this page, because it depends on which situation you pick. Whatever it is, it is agreed before any work starts and it does not move.</p></div></div>
+  </div>
+
+  <div class="rise accept" id="accept">
+    <div class="acceptL">
+      <div class="eyebrow" style="margin-bottom:14px">The straight yes</div>
+      <h3>Run the pilot.</h3>
+      <p class="kicker" style="margin-top:12px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed — most pilots move a line or two before they start, and the notes below are how that happens.</p>
+      <label class="acceptLbl" for="adjust">Anything you would adjust? <small>optional</small></label>
+      <textarea id="adjust" rows="4" placeholder="e.g. start with a different situation, a shorter window, a different approver, no access to X…"></textarea>
+      <div class="acceptRow">
+        <button class="btn solid" onclick="acceptPilot()">Accept the pilot <span class="arw">→</span></button>
+        <button class="btn ghost" onclick="copyAccept()" id="copyBtn">Copy it instead</button>
+      </div>
+      <p class="acceptNote" id="anote">Opens your mail app to assembl@assembl.co.nz with your notes in it. Nothing is collected by this page.</p>
+    </div>
+    <div class="acceptR">
+      <div class="acceptCard">
+        <div class="ac-k">You would be accepting</div>
+        <ul>
+          <li><b>Six weeks</b>, one situation, scored against a written line</li>
+          <li><b>Read-only</b> access, nothing production</li>
+          <li><b>A named approver</b> — nothing sends without them</li>
+          <li><b>A fixed fee</b>, agreed in writing before anything starts</li>
+          <li><b>Stop any time.</b> You keep what was drafted</li>
+        </ul>
+        <div class="ac-f">This is a concept page. Accepting it starts a conversation and a written scope — not a charge, not an obligation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="narrow rise" style="margin-top:62px">
+    <div class="eyebrow">Or three other honest answers</div><h2>Pick a verb.</h2>
+    <p class="kicker">Not “book a demo”. Any of these is a real next step, and the last one is a perfectly good answer.</p>
+  </div>
+  <div class="verbs rise">
+    <a class="verb" href="#" onclick="return verb('correct')"><div class="w">Correct us</div><div class="s">Something here is wrong about Rosewell. Tell us which line and we will fix it or take the concept down.</div></a>
+    <a class="verb" href="#" onclick="return verb('narrow')"><div class="w">Narrow it</div><div class="s">One situation, six weeks. Tell us which and we will scope it against how you actually work.</div></a>
+    <a class="verb" href="#" onclick="return verb('decline')"><div class="w">Decline it</div><div class="s">Not now, or not at all. Say so and you will not hear from us again about this.</div></a>
+  </div>
+
+  <div class="glass unfin rise" style="margin-top:44px">
+    <div class="eyebrow" style="margin-bottom:12px">The unfinished pane</div>
+    <h3>What is the one constraint we have got wrong?</h3>
+    <p class="kicker" style="margin-top:10px">Every concept is built from the outside. There is always something about how Rosewell actually runs that we could not see. One line is enough.</p>
+    <div class="row">
+      <input id="constraint" placeholder="The thing we clearly don't understand about your business…" onkeydown="if(event.key==='Enter')sendConstraint()">
+      <button class="btn solid" onclick="sendConstraint()">Send it <span class="arw">→</span></button>
+    </div>
+    <p style="font-size:12px;color:var(--muted-2);margin-top:12px" id="cnote">Opens your mail app to assembl@assembl.co.nz. Nothing is collected by this page.</p>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap narrow">
+  
+  <p><b>A category demonstrator.</b> Rosewell Villages is not a real company. The name, the palette, the cast, the figures and every draft on this page were invented by assembl to show the shape of an agentic customer journey in this category, without borrowing anyone's brand to do it.</p>
+  <p style="margin-top:16px">What is real: This is a demonstrator by assembl, a New Zealand agentic-AI studio, and Rosewell Villages does not exist. The mechanic shown is real and is the one assembl builds: a rewarded wait state that assembles published material around what a person actually said, and stops before a person decides. The regulatory boundaries named on this page are real ones that apply to the retirement-living category in Aotearoa.</p>
+  <p style="margin-top:16px">Ko tā mātou he whakarite i te mahi. Mā te tangata te whakatau. <span style="color:var(--muted-2)">We prepare the work. A person decides.</span></p>
+  <p class="fin">assembl NZ Limited · NZBN 9429053514950 · assembl@assembl.co.nz · Tāmaki Makaurau Auckland, Aotearoa New Zealand</p>
+</div></footer>
+
+<button class="agentbtn" id="agentbtn" onclick="openChat()"><span class="d"></span> Ask it anything</button>
+<div class="chat" id="chat">
+  <div class="chathead">
+    <div class="t"><span class="d"></span> Rosewell concept <small>· it will say when it doesn't know</small></div>
+    <button class="x" onclick="closeChat()" aria-label="Close">×</button>
+  </div>
+  <div class="msgs" id="msgs"></div><div class="sugg" id="sugg"></div>
+  <div class="agentnote" id="agentnote"></div>
+  <div class="chatin"><input id="chatinput" placeholder="Ask about the concept…" onkeydown="if(event.key==='Enter')sendChat()"><button class="send" onclick="sendChat()">Send</button></div>
+</div>
+
+<script>
+var CFG={
+  company:"Rosewell Villages", short:"Rosewell",
+  accent:"#3F6152", accent2:"#C8785A",
+  generic:true,
+  theme:"paper",
+  waits:[{"key":"before","name":"Before anyone asks","when":"Months of circling the subject","feels":"nobody wants to raise it first","screen":{"title":"No forms. Just the questions.","lines":["What it costs. What she gets back. Who decides.","Read it without telling us who you are."],"chip":"no contact"},"delivered":"A family can read the honest version before anyone has to make a phone call.","funder":"The operator, and only the operator. A family circling this decision is not an advertising slot."},{"key":"enquiry","name":"After the enquiry","when":"Form sent, nothing back yet","feels":"sent on Sunday, silence until Tuesday","screen":{"title":"Opened at the page you asked for","lines":["You asked what she gets back, so that is first.","An advisor reads it before you do."],"chip":"advisor first"},"delivered":"Their actual worry is answered on the first page, not somewhere in eighty.","funder":"The operator. Eighty pages that answer everything and nothing get read by no one and asked about by everyone."},{"key":"waitlist","name":"Waiting for a villa","when":"On a list, position unknown","feels":"on a list with no visible place in it","screen":{"title":"Where things actually are","lines":["You are on the list for the two-bedroom block.","Nothing has moved yet. We will say when it does."],"chip":"no pressure"},"delivered":"A family stops ringing to check, because the checking comes to them.","funder":"The operator. A monthly call that produces no news is a cost to both sides of it."},{"key":"moving","name":"The moving week","when":"Keys soon, house not packed","feels":"forty years of house, one week to do it","screen":{"title":"The week, laid out","lines":["Power on Tuesday. Keys Thursday. Van Friday.","Her post gets changed the same day."],"chip":"checklist ready"},"delivered":"Nobody in the family has to hold the whole week in their head.","funder":"A downsizing or moving service could fund this one honestly. It is the week a family actually needs one."},{"key":"care","name":"When care changes","when":"Something is different, no answer yet","feels":"you noticed, and now you wait","screen":{"title":"We noticed too","lines":["A nurse is calling you today, not next week.","Nothing about her care has been decided."],"chip":"a person, today"},"delivered":"The family hears from a person before the worry has time to grow.","funder":"The operator, out of its own budget. Nobody sponsors a health worry, and nobody should."},{"key":"repayment","name":"The wait for repayment","when":"After she leaves, before it settles","feels":"a settlement with no date on it","screen":{"title":"Where her villa is up to","lines":["Refurbished, photographed, two viewings booked.","You will get a date, not a silence."],"chip":"dated, not vague"},"delivered":"The family can see the villa moving instead of ringing to find out that it is not.","funder":"The operator, because a family chasing a date by phone costs more than simply showing them the date."}],
+  boundary:[{"label":"Her age and where she lives","does":"The daughter types it. Her mother never sees the form.","verdict":"notice","result":"The pack assembles. Her mother receives a plain-words notice naming what was collected, why, who holds it, who else sees it, and how she corrects it. It goes out as soon as practicable after collection, not at some later review.","rule":"IPP3A, in force May 2026.","source":"Requires an agency collecting personal information from a source other than the person to make that person aware of the collection and its purpose. privacy.org.nz"},{"label":"Her mobility and her care needs","does":"Two clicks in a triage form.","verdict":"notice","result":"Care needs are health information, so a second code applies on top of IPP3A. The notice to her says so in words she will read. The enquiry also stops being a lifestyle enquiry and routes to a named clinical advisor before any pack goes anywhere.","rule":"Health Information Privacy Code 2020, updated in early 2026 to carry IPP3A.","source":"Codes of practice in force under the Privacy Act 2020. privacy.org.nz"},{"label":"A cost estimate with her numbers in it","does":"The thing every family asks for first.","verdict":"yes","result":"It computes from the village’s own registered disclosure statement, quotes the clause it used, shows its assumptions, and refuses where the document says nothing. It never estimates a figure the operator has not published.","rule":"The Registrar of Retirement Villages is getting new powers over advertising material that could mislead.","source":"A generated cost figure is a representation by the operator, so freehand pricing is off the table. Ministry of Housing and Urban Development, reform page updated 4 December 2025."},{"label":"A recommendation on which village suits her","does":"The obvious next step, and the wrong one.","verdict":"no","result":"It refuses. It assembles what the operator published, opens it at the page this family is worried about, and hands the decision to a person. Ranking villages for a family is advice, and this is not the thing that gives it.","rule":"The Act’s own prescribed disclosure wording names the misunderstanding.","source":"It says misunderstandings are common among residents and their families about the legal interest, the exit, the fees, and the ongoing charges. Answering those four is the job. Companies Office Retirement Villages Register."},{"label":"A camera that watches for falls","does":"Every vendor in this category will pitch it.","verdict":"no","result":"It refuses, and this one is worth saying out loud to a board. Adding vision to a family-facing product engages a separate code that came into force in 2025, and nothing about an information pack justifies opening that door.","rule":"Biometric Processing Privacy Code 2025.","source":"Governs cameras, voice identification and gait analysis. In force under the Privacy Act 2020. privacy.org.nz"}],
+  foil:["#2c4439","#a3b3ac","#39574a"], foilInk:"#FFFFFF", onAccent:"#FFFFFF",
+  object:"village",
+  place:null,
+  
+  execs:{"demo":"A category demonstrator","cx":"Customer Experience","ceo":"Chief Executive"}, buyerTitle:"A category demonstrator", buyerLine:"Retirement living · an invented example",
+  variants:[{"key":"money","label":"Worried about cost","chan":"Pack · opened at the exit fee","body":"Kia ora,\n\nYou asked what she gets back, so that is where this starts rather than where it usually sits.\n\nThe deferred fee, in her numbers, on one page. What she pays weekly and what that covers. What is refunded and when.\n\nWe have not put a recommendation in here. An advisor will call, and they will have read this first.","rules":["Leads with the worry, not the brochure order","Her numbers, not a worked example","No recommendation — an advisor decides","Every figure traces to published material"]},{"key":"fit","label":"Will she be happy","chan":"Pack · opened at village life","body":"Kia ora,\n\nYour question was not about money, so this does not lead with money.\n\nWhat a week actually looks like. Who she would live near. What she can bring, and what will not fit.\n\nThere is a page on cost at the back, because you will want it eventually.","rules":["Length and order follow the family","Does not force the financial page first","Honest about what will not fit","Nothing is sold inside an information pack"]},{"key":"care","label":"Care needs already","chan":"Held — not sent · advisor first","body":"This pack was not assembled.\n\nThe enquiry describes current care needs. Sending a lifestyle pack to a family already in a clinical situation answers a question they have stopped asking.\n\nHeld for a named advisor, with what they told us attached.\n\nThe right first step here is a phone call, not a document.","rules":["The most important output refuses to produce a pack","Clinical language is checked before anything assembles","Escalated with the family’s own words attached","A person decides, and a call is an allowed outcome"]},{"key":"bereaved","label":"Recently bereaved","chan":"Held — not sent · no marketing","body":"Nothing was assembled, and nothing was queued.\n\nThe enquiry mentions a recent death. A pack about moving house, arriving now, is the kind of harm no amount of care in the wording repairs.\n\nHeld with no draft. If anything is warranted it is a person, at a time the family chooses.","rules":["Bereavement stops the run entirely","No follow-up, reminder or nurture sequence is queued","The absence of a message is the deliberate outcome","A person decides whether anything is sent at all"]}], guard:[{"ok":true,"t":"Every figure traces to published material","d":"No fee, refund or weekly cost is calculated by the concept. Published numbers, applied to what the family stated.","law":"Fair Trading Act 1986 · Retirement Villages Act 2003"},{"ok":true,"t":"No recommendation is made","d":"The pack is assembled, never argued. Whether this village suits her is an advisor’s conversation and a family’s decision.","law":"Fair Trading Act 1986"},{"ok":false,"t":"Held — enquiry describes current care needs","d":"Nothing assembled. A lifestyle pack is the wrong answer to a clinical question; routed to a named advisor to call.","law":"Health Information Privacy Code 2020"},{"ok":false,"t":"Held — enquiry mentions a bereavement","d":"Nothing drafted and nothing queued. No nurture sequence, no reminder, no follow-up.","law":"Privacy Act 2020 · harm prevention"},{"ok":true,"t":"No pressure of any kind","d":"No availability countdown, no \"only two left\", no price-rise warning. Urgency in this category is predatory.","law":"Fair Trading Act 1986 · unfair practices"}],
+  verified:["This is a demonstrator by assembl, a New Zealand agentic-AI studio, and Rosewell Villages does not exist.","The mechanic shown is real and is the one assembl builds: a rewarded wait state that assembles published material around what a person actually said, and stops before a person decides.","The regulatory boundaries named on this page are real ones that apply to the retirement-living category in Aotearoa."], laws:"the Retirement Villages Act 2003, the Fair Trading Act 1986, the Privacy Act 2020, and the Health Information Privacy Code 2020.",
+  pilotScope:"In a real engagement: one enquiry type, start to finish, six weeks. Not the sales conversation, not pricing, not the care assessment.", pilotAccess:"Published pack material and the field names that mark stated worry, region preference and any care or bereavement language. No health information. No resident records.", pilotScorecard:"Packs an advisor sent without rewriting. Held cases an advisor agreed should have been held. Calls the pack avoided. And whether an advisor would put their name to what arrived.",
+  verbNoun:"category demonstrator", receiptArtefact:"Information pack — family worried about cost"
+};
+
+(function(){
+  var k=new URLSearchParams(location.search).get('for');
+  if(k&&CFG.execs[k]) document.getElementById('signedFor').innerHTML='<b>'+CFG.execs[k]+'</b> · '+CFG.buyerLine;
+})();
+
+var cur=CFG.variants[0].key;
+function byKey(k){return CFG.variants.filter(function(v){return v.key===k})[0]}
+function renderTabs(){
+  document.getElementById('marqrow').innerHTML=CFG.variants.map(function(v){
+    return '<button class="marqbtn'+(v.key===cur?' on':'')+'" onclick="pick(\''+v.key+'\')">'+v.label+'</button>'}).join('');
+}
+function renderDraft(){
+  var v=byKey(cur);
+  document.getElementById('draftBox').innerHTML='<div class="fade"><div class="chan">'+v.chan+'</div><div class="body">'+v.body+'</div>'+
+    '<button class="ruletoggle" type="button" aria-expanded="false">Why it is written this way<span class="more">'+v.rules.length+'</span></button>'+
+    '<div class="rules" hidden>'+v.rules.map(function(r){return '<div><span class="tick">✓</span><span>'+r+'</span></div>'}).join('')+'</div></div>';
+  var rt=document.getElementById('draftBox').querySelector('.ruletoggle'),rl=document.getElementById('draftBox').querySelector('.rules');
+  rt.onclick=function(){var open=rl.hidden;rl.hidden=!open;rt.setAttribute('aria-expanded',String(open))};
+  stamp();
+}
+function pick(k){cur=k;renderTabs();renderDraft()}
+renderTabs();renderDraft();
+
+function runGuard(){
+  var out=document.getElementById('guardOut'),btn=document.getElementById('guardBtn');
+  var blocked=CFG.guard.filter(function(g){return !g.ok}).length;
+  btn.disabled=true;btn.style.opacity='.5';
+  btn.textContent='Checked — '+blocked+' held, '+(CFG.guard.length-blocked)+' passed';
+  out.innerHTML='';
+  var red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  CFG.guard.forEach(function(g,i){
+    setTimeout(function(){
+      var d=document.createElement('div');
+      d.className='check '+(g.ok?'pass':'block')+' fade';
+      d.innerHTML='<span class="ic">'+(g.ok?'✓':'!')+'</span><div><button class="t" type="button" aria-expanded="false">'+g.t+
+        '<span class="more">why</span></button><div class="d" hidden>'+g.d+'<div class="law">'+g.law+'</div></div></div>';
+      var head=d.querySelector('.t'),body=d.querySelector('.d');
+      head.onclick=function(){var open=body.hidden;body.hidden=!open;head.setAttribute('aria-expanded',String(open));
+        head.querySelector('.more').textContent=open?'close':'why'};
+      /* A held check is the interesting one, so it opens itself. */
+      if(!g.ok){body.hidden=false;head.setAttribute('aria-expanded','true');head.querySelector('.more').textContent='close'}
+      out.appendChild(d);
+    },red?0:i*420);
+  });
+}
+
+function stamp(){
+  var d=new Date(),p=function(n){return n<10?'0'+n:''+n};
+  document.getElementById('rWhen').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+' NZST';
+  var seed=cur+d.toDateString(),h=0;
+  for(var i=0;i<seed.length;i++){h=((h<<5)-h+seed.charCodeAt(i))|0}
+  document.getElementById('rHash').textContent='mana:'+Math.abs(h).toString(16).padStart(8,'0')+'·concept·unsent';
+}
+stamp();
+
+function verb(kind){
+  var s={correct:'Correct the '+CFG.short+' concept',narrow:'Narrow the '+CFG.short+' concept',decline:'Decline — '+CFG.short+' concept'};
+  var b={correct:'The line that is wrong is:\n\n\n(We will fix it or take the concept down.)',
+         narrow:'The one situation worth scoping:\n\n\nThe six weeks that would suit:\n\n',
+         decline:'Not now, or not at all — either is fine. You will not hear from us again about this.\n\n'};
+  location.href='mailto:assembl@assembl.co.nz?subject='+encodeURIComponent(s[kind])+'&body='+encodeURIComponent(b[kind]);
+  return false;
+}
+/* The yes. Everything the page has claimed, written back into the mail so the
+   reply is a scope rather than a "sounds good" — and a clipboard fallback,
+   because a machine with no mail client should never eat someone's notes. */
+
+/* ── the tracker: the wait collapsing ─────────────────────────────────────
+   Runs the same claim twice at once — the left column is what a customer
+   receives today, the right is the same work with the waiting designed. The
+   headline number counts down as each stage is claimed back. */
+(function(){
+  var run=document.getElementById('trkRun'); if(!run) return;
+  var nEl=document.getElementById('trkN'), capEl=document.getElementById('trkCap');
+  var barEl=document.getElementById('trkBar'), steps=[].slice.call(document.querySelectorAll('.trk-step'));
+  var FROM=CFG.trkFrom, TO=CFG.trkTo, SHAVE=CFG.trkShave, CAPS=CFG.trkCaps;
+  var ts=[], busy=false;
+  function clear(){ ts.forEach(clearTimeout); ts=[]; busy=false; }
+  function at(ms,fn){ ts.push(setTimeout(fn,ms)); }
+  function paint(n){ nEl.textContent=n; }
+  function reset(){
+    clear(); paint(FROM); capEl.textContent=CAPS.from; barEl.style.width='0';
+    steps.forEach(function(s){ s.classList.remove('on','done') });
+  }
+  function go(){
+    if(busy) return; reset(); busy=true;
+    var n=FROM, d=380;
+    steps.forEach(function(st,i){
+      at(d, function(){
+        steps.forEach(function(x){ x.classList.remove('on') });
+        st.classList.add('on');
+        if(i>0) steps[i-1].classList.add('done');
+        capEl.textContent=CAPS.steps[i];
+        /* count the shaved days down rather than jumping, so the number is
+           visibly being earned back one stage at a time */
+        var target=n-SHAVE[i], from=n, t0=Date.now(), dur=520;
+        (function tick(){
+          var p=Math.min(1,(Date.now()-t0)/dur);
+          paint(Math.round(from+(target-from)*p));
+          if(p<1) requestAnimationFrame(tick);
+        })();
+        n=target;
+        barEl.style.width=Math.round((i+1)/steps.length*100)+'%';
+      });
+      d+=980;
+    });
+    at(d, function(){
+      steps[steps.length-1].classList.add('done');
+      paint(TO); capEl.textContent=CAPS.to; busy=false;
+    });
+  }
+  run.addEventListener('click',go);
+  document.getElementById('trkReset').addEventListener('click',reset);
+  reset();
+})();
+
+/* The value exchange, counted.
+   Retirement rule (same as Ryman): no games on a page about somebody's mother.
+   The reward layer here is time handed back — a counter that fills once the
+   card is genuinely on screen. Illustrative, collects nothing. */
+
+
+/* ── THE BOUNDARY, PLAYABLE ────────────────────────────────────────────────
+   Flip a switch, get the verdict and the rule behind it. Rows render newest
+   first so the thing you touched appears where you are looking, and the empty
+   state tells you what to do rather than sitting blank. */
+(function boundary(){
+  var SW=CFG.boundary; if(!SW||!SW.length) return;
+  var out=document.getElementById('bdOut'); if(!out) return;
+  var btns=[].slice.call(document.querySelectorAll('.bdSw'));
+  var on=[];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+  function paint(){
+    if(!on.length){
+      out.innerHTML='<p class="bdEmpty">Turn one on. Every answer names the law or the standard it '+
+        'comes from, and some of them come back as a refusal.</p>';
+      return;
+    }
+    out.innerHTML=on.slice().reverse().map(function(i,n){
+      var w=SW[i];
+      var cls=w.verdict==='no'?'no':(w.verdict==='notice'?'notice':'yes');
+      var label=w.verdict==='no'?'it refuses':(w.verdict==='notice'?'yes, with a notice':'yes');
+      return '<div class="bdRow" style="animation-delay:'+(n*0.05).toFixed(2)+'s">'+
+        '<span class="bdV '+cls+'">'+label+'</span>'+
+        '<p>'+esc(w.result)+'</p>'+
+        '<cite><b>'+esc(w.rule)+'</b> '+esc(w.source)+'</cite></div>';
+    }).join('');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.dataset.i, at=on.indexOf(i);
+      if(at>=0){ on.splice(at,1); b.setAttribute('aria-pressed','false') }
+      else { on.push(i); b.setAttribute('aria-pressed','true') }
+      paint();
+    });
+  });
+  paint();
+})();
+
+/* ── THE WAIT DECK ─────────────────────────────────────────────────────────
+   Six waits, one phone, clicked through. Kate, 30 Jul 2026.
+
+   Why client-side rather than six baked cards: the caption under the phone and
+   the rail on the left both have to move with the screen, and a screen that
+   re-renders can animate its lines in one at a time — which is the whole
+   difference between a picture of a phone and a phone.
+
+   The tilt follows the pointer across the STAGE, not the phone, so the phone
+   does not run away from the cursor as it rotates. */
+(function deck(){
+  var W=CFG.waits; if(!W||!W.length) return;
+  var body=document.getElementById('dkBody'), cap=document.getElementById('dkCap'),
+      dots=document.getElementById('dkDots'), screen=document.getElementById('dkScreen'),
+      phone=document.getElementById('dkPhone'), hint=document.getElementById('dkHint'),
+      prev=document.getElementById('dkPrev'), next=document.getElementById('dkNext'),
+      rail=[].slice.call(document.querySelectorAll('.dkR'));
+  if(!body||!screen) return;
+  var i=0, touched=false;
+
+  function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':String(t); return d.innerHTML }
+
+  dots.innerHTML = W.map(function(m,n){
+    return '<button class="dkDot'+(n?'':' on')+'" type="button" data-i="'+n+'" aria-label="Wait '+(n+1)+': '+esc(m.name)+'"></button>';
+  }).join('');
+
+  function render(){
+    var m=W[i];
+    /* rebuilt rather than mutated, so the line-in animation replays each time */
+    body.innerHTML =
+      '<div class="dkWhen">'+esc(m.when)+'</div>' +
+      '<div class="dkTitle">'+esc(m.screen.title)+'</div>' +
+      '<div class="dkLines">' + m.screen.lines.map(function(l,n){
+        return '<div class="dkLine" style="animation-delay:'+(0.06+n*0.09).toFixed(2)+'s">'+esc(l)+'</div>';
+      }).join('') + '</div>' +
+      '<div class="dkChip">'+esc(m.screen.chip)+'</div>' +
+      '<div class="dkFoot"><span></span>drafted · held for a person</div>';
+
+    cap.innerHTML =
+      '<div class="dkFeels">the wait feels like '+esc(m.feels)+'</div>' +
+      '<p class="dkDel">'+esc(m.delivered)+'</p>' +
+      '<div class="dkFund"><i>who funds it</i>'+esc(m.funder)+'</div>';
+
+    rail.forEach(function(b,n){
+      b.classList.toggle('on', n===i);
+      b.classList.toggle('done', n<i);
+      b.setAttribute('aria-selected', n===i ? 'true' : 'false');
+    });
+    [].forEach.call(dots.children,function(d,n){ d.classList.toggle('on', n===i) });
+    prev.disabled = i===0;
+    next.disabled = i===W.length-1;
+  }
+
+  function go(n, human){
+    i = (n+W.length) % W.length;
+    if(human && !touched){ touched=true; hint.classList.add('gone') }
+    render();
+  }
+
+  /* click the glass to advance — the interaction Kate asked for. The arrows and
+     the rail are there for anyone who wants to go back or jump. */
+  screen.addEventListener('click', function(e){
+    if(e.target.closest('.dkArrow, .dkDot')) return;
+    go(i+1 >= W.length ? 0 : i+1, true);
+  });
+  screen.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(i+1>=W.length?0:i+1,true) }
+    if(e.key==='ArrowRight'){ e.preventDefault(); go(i+1,true) }
+    if(e.key==='ArrowLeft'){ e.preventDefault(); go(i-1,true) }
+  });
+  prev.addEventListener('click',function(e){ e.stopPropagation(); go(i-1,true) });
+  next.addEventListener('click',function(e){ e.stopPropagation(); go(i+1,true) });
+  [].forEach.call(dots.children,function(d){
+    d.addEventListener('click',function(e){ e.stopPropagation(); go(+d.dataset.i,true) });
+  });
+  rail.forEach(function(b){ b.addEventListener('click',function(){ go(+b.dataset.i,true) }) });
+
+  /* the tilt. Read off the stage so the target does not move as it rotates, and
+     rest at a three-quarter view rather than flat-on — a phone photographed
+     square to the lens reads as a screenshot. */
+  var stage=phone.closest('.dkStage');
+  if(stage && matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+    stage.addEventListener('pointermove',function(e){
+      var r=stage.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width - .5, py=(e.clientY-r.top)/r.height - .5;
+      phone.classList.add('grab');
+      phone.style.setProperty('--dky', (-13 + px*22).toFixed(2)+'deg');
+      phone.style.setProperty('--dkx', (7 - py*14).toFixed(2)+'deg');
+    });
+    stage.addEventListener('pointerleave',function(){
+      phone.classList.remove('grab');
+      phone.style.removeProperty('--dky');
+      phone.style.removeProperty('--dkx');
+    });
+  }
+
+  render();
+})();
+
+(function minutesBack(){
+  var n=document.getElementById('mcN'); if(!n) return;
+  var TARGET=38, ran=false;
+  function run(){
+    if(ran) return; ran=true;
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      n.textContent=String(TARGET); return;
+    }
+    var t0=null;
+    function step(t){
+      if(t0===null) t0=t;
+      var p=Math.min(1,(t-t0)/1800);
+      var e=1-Math.pow(1-p,3);
+      n.textContent=String(Math.round(TARGET*e));
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      if(es[0]&&es[0].isIntersecting){ io.disconnect(); run(); }
+    },{threshold:.5});
+    io.observe(n);
+  } else run();
+})();
+
+/* The room lighting: a rail that says how far through you are, ghosted section
+   numerals, and glass that catches the pointer. All progressive — the page is
+   complete without any of it, so a failure here costs nothing. */
+(function dress(){
+  var fill=document.getElementById('railfill'), n=document.getElementById('railn'), t=false;
+  function onScroll(){
+    if(t) return; t=true;
+    requestAnimationFrame(function(){
+      t=false;
+      var h=document.documentElement.scrollHeight-window.innerHeight;
+      var p=h>0?Math.min(1,Math.max(0,window.pageYOffset/h)):0;
+      fill.style.height=(p*100).toFixed(2)+'%';
+      var secs=document.querySelectorAll('main section[id], main header');
+      var here='';
+      for(var i=0;i<secs.length;i++){
+        if(secs[i].getBoundingClientRect().top<=window.innerHeight*0.42) here=secs[i].id||'';
+      }
+      n.textContent=p>0.02&&here?here.toUpperCase()+' · '+Math.round(p*100)+'%':'';
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  document.querySelectorAll('.num').forEach(function(el){
+    var m=/^\s*(\d{2})/.exec(el.textContent);
+    if(!m) return;
+    var g=document.createElement('span'); g.className='ghost'; g.textContent=m[1];
+    el.appendChild(g);
+  });
+
+  if(!window.matchMedia('(hover:hover)').matches) return;
+  document.querySelectorAll('.glass').forEach(function(el){
+    el.addEventListener('pointermove',function(e){
+      var r=el.getBoundingClientRect();
+      el.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      el.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    },{passive:true});
+  });
+})();
+
+function acceptBody(){
+  var n=(document.getElementById('adjust').value||'').trim();
+  return 'Yes — run the '+CFG.short+' pilot.\n\n'+
+    'What I am accepting, as written on the concept page:\n'+
+    '- Six weeks, one situation: '+CFG.pilotScope+'\n'+
+    '- Read-only access: '+CFG.pilotAccess+'\n'+
+    '- Scored on: '+CFG.pilotScorecard+'\n'+
+    '- A named approver — nothing sends without them\n'+
+    '- A fixed fee, agreed in writing before any work starts\n\n'+
+    'What I would adjust first:\n'+(n||'(nothing — start as written)')+'\n\n'+
+    'My name and role:\n\n\nBest way to reach me:\n\n';
+}
+function acceptPilot(){
+  location.href='mailto:assembl@assembl.co.nz?subject='+encodeURIComponent('Yes — run the '+CFG.short+' pilot')+'&body='+encodeURIComponent(acceptBody());
+  document.getElementById('anote').textContent='Your mail app should be opening. If it did not, use “Copy it instead” and paste it into an email to assembl@assembl.co.nz.';
+}
+function copyAccept(){
+  var t=acceptBody(),done=function(){
+    document.getElementById('copyBtn').textContent='Copied ✓';
+    document.getElementById('anote').textContent='Copied. Paste it into an email to assembl@assembl.co.nz — that is the whole next step.';
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){fallback(t,done)})}
+  else{fallback(t,done)}
+  function fallback(v,ok){
+    var a=document.createElement('textarea');a.value=v;a.style.position='fixed';a.style.opacity='0';
+    document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){
+      document.getElementById('anote').textContent='Copying was blocked — email assembl@assembl.co.nz and we will send the scope.';
+    }a.remove();
+  }
+}
+function sendConstraint(){
+  var v=document.getElementById('constraint').value.trim();
+  if(!v){document.getElementById('cnote').textContent='Write the one thing first — then send.';return}
+  location.href='mailto:assembl@assembl.co.nz?subject='+encodeURIComponent('The constraint the '+CFG.short+' concept got wrong')+'&body='+encodeURIComponent(v+'\n\n');
+  document.getElementById('cnote').textContent='Thank you — that is the most useful thing on the page.';
+}
+
+var GENOME=[
+(CFG.generic?"You are an assistant on a CATEGORY DEMONSTRATOR built by assembl (a New Zealand agentic-AI studio). "+CFG.company+" is NOT a real company — it is an invented example for this category. Never claim it exists, never invent facts about a real competitor, and say plainly that this page demonstrates a shape rather than describing a real client.":"You are an independent concept assistant built by assembl (a New Zealand agentic-AI studio) for a concept microsite prepared for "+CFG.company+"."),
+"You are NOT "+CFG.company+", you do not speak for them, and you must say so if asked.",
+"",
+"VERIFIED FACTS you may rely on (from "+CFG.company+"'s own published material):",
+CFG.verified.map(function(v){return "- "+v}).join("\n"),
+"",
+"WHAT THE CONCEPT IS: a layer that prepares work and then stops. Every draft goes to a named person. It never sends, publishes, commits spend, moves money, or makes a decision that belongs to a person.",
+"The pilot asks for: scope — "+CFG.pilotScope+" Access — "+CFG.pilotAccess+" Scorecard — "+CFG.pilotScorecard+" Fail any line and we change the design or stop.",
+"WHAT A PILOT NEEDS FROM THEM (say this plainly if asked what is involved): one named approver, about two hours a week; one situation rather than the whole business; read-only access only, nothing production and nothing that writes; their actual policies to replace the placeholder rules; six weeks then a real decision, and they keep everything drafted either way; and a fixed fee agreed in writing before any work starts. No fee figure is published on this page and you must never invent one.",
+"THEY CAN SAY YES ON THE PAGE. The pilot section has an Accept panel with a notes box: they accept the six weeks as written and add anything they would adjust first — a different situation, a shorter window, a different approver, less access. Point them at it if they ask how to start. Accepting starts a conversation and a written scope; it is not a charge and not an obligation.",
+"",
+"RULES drafts are held against: "+CFG.laws,
+"",
+"HOW TO ANSWER: plain New Zealand English, short sentences, warm and direct. Macrons correct in te reo. Never invent a price, a statistic, a person's name, a figure or a policy detail — if you do not have it, say plainly that it was not published. It is much better to say 'I do not know that' than to guess. Never claim "+CFG.company+" endorses this concept. Keep answers under about 120 words.",
+"Avoid these words entirely: seamless, unlock, empower, elevate, supercharge, cutting-edge, quietly."
+].join("\n");
+
+var SUGG=["What would a pilot need from us?","What would it never do?","How do we actually start?","What have you verified about "+CFG.short+"?","Why does it refuse to draft some of these?"];
+document.getElementById('sugg').innerHTML=SUGG.map(function(s){return '<button onclick="ask(this.textContent)">'+s+'</button>'}).join('');
+
+var history=[];
+function openChat(){
+  document.getElementById('chat').classList.add('open');
+  document.getElementById('agentbtn').style.display='none';
+  if(!history.length) push('a',CFG.generic
+    ?"Kia ora. This page is a DEMONSTRATOR built by assembl — "+CFG.short+" is not a real company, and I am not pretending otherwise.<br><br>What is real is the mechanic: a rewarded wait state that prepares work and stops before a person decides. Ask me anything about how it works, or about the boundaries."
+    :"Kia ora. I am an independent concept assistant built by assembl — I am not "+CFG.short+" and I do not speak for them.<br><br>I know what they have published about themselves, and what this concept does and refuses to do. Ask me anything, including the awkward questions.");
+  document.getElementById('agentnote').textContent='Independent concept · it will say plainly when something was not published';
+}
+function closeChat(){document.getElementById('chat').classList.remove('open');document.getElementById('agentbtn').style.display='flex'}
+function push(r,t){var m=document.createElement('div');m.className='msg '+r;m.innerHTML=t;var b=document.getElementById('msgs');b.appendChild(m);b.scrollTop=b.scrollHeight}
+function ask(q){document.getElementById('chatinput').value=q;sendChat()}
+async function sendChat(){
+  var inp=document.getElementById('chatinput'),q=inp.value.trim();if(!q)return;
+  push('u',q.replace(/</g,'&lt;'));inp.value='';history.push({role:'user',content:q});
+  var t=document.createElement('div');t.className='typing';t.textContent='Thinking…';
+  document.getElementById('msgs').appendChild(t);
+  var reply='';
+  try{
+    var res=await fetch('/api/agent',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({system:GENOME,messages:history.slice(-12)})});
+    var d=await res.json();
+    reply=(d.content||[]).filter(function(b){return b.type==='text'}).map(function(b){return b.text}).join('\n');
+  }catch(e){reply=''}
+  t.remove();
+  if(!reply)reply=grounded(q);
+  push('a',reply.replace(/</g,'&lt;').replace(/\n/g,'<br>'));
+  history.push({role:'assistant',content:reply});
+}
+function grounded(q){
+  var s=q.toLowerCase(),has=function(){return [].some.call(arguments,function(w){return s.indexOf(w)>-1})};
+  if(has('never','not do','boundary','limit','refuse'))
+    return "It does not send. It prepares, and a named person sends. It does not publish to any channel, commit spend, move money, or make a decision that belongs to a person. Where the right answer is to produce nothing at all, it produces nothing and says why. No production access is requested by this concept.";
+  if(has('ask','pilot','cost','price','how much','scope'))
+    return "Scope: "+CFG.pilotScope+" Access: "+CFG.pilotAccess+" It is scored on: "+CFG.pilotScorecard+" From you it needs one named approver (about two hours a week), read-only access, your actual policies in place of the placeholder rules, and six weeks. The fee is fixed and agreed in writing before anything starts — no figure is published here. If you want to start, the Accept panel in the pilot section takes a yes plus anything you would change first.";
+  if(has('verified','true','real','fact','know about'))
+    return "From "+CFG.short+"'s own published material: "+CFG.verified.join(' ')+" Everything else on the page — the cast, the figures, the drafts — is illustrative and fictional.";
+  if(has('law','legal','rule','compliance','comply'))
+    return "Drafts are held against "+CFG.laws+" The checks that matter most are the ones that stop a draft being written at all.";
+  if(has('who','for','buyer','audience'))
+    return "It is prepared for whoever owns this work at "+CFG.short+" — the page is signed to "+CFG.buyerTitle+". If that is the wrong person, telling us so is genuinely useful.";
+  if(has('data','access','production'))
+    return "None of it is "+CFG.short+" data. The figures and drafts on this page are illustrative and fictional. The only real things here are what "+CFG.short+" has published about itself. No production access is requested by this concept.";
+  return "I can tell you what this concept does, what it refuses to do, what we have actually verified about "+CFG.short+", or what the pilot asks for. What would be most useful? If I do not have something, I will say so rather than guess.";
+}
+
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rise').forEach(function(el){io.observe(el)});
+  setTimeout(function(){document.querySelectorAll('.hero .rise').forEach(function(el){el.classList.add('in')})},60);
+})();
+
+</script>
+
+<script src="wait-phone.js"></script>
+<script>
+/* ══ THE WAIT, ON A PHONE ═══════════════════════════════════════════════════
+   The same component the assembl homepage runs. The ring is the idea, the
+   number in the middle is the payoff, and the sheet is the one question that
+   genuinely holds the line — a question, not a tick. Everything it says traces
+   to this client's own published material; see `verified` in clients.mjs. */
+(function(){
+  var mount=document.getElementById('wait-mount');
+  if(!mount||!window.WaitPhone)return;
+  WaitPhone.mount(mount,{"chrome":"phone","note":"Illustrative demonstrator screen · Rosewell Villages is not a real company · nothing sends without an advisor","startLabel":"tap to wait","skipLabel":"rather not say","scenarios":[{"id":"pack","label":"The pack","app":"Your information pack","unit":[""," min"],"earning":"of reading, skipped","yours":"their evening back","told":"she told you:","declined":"she would rather not say. The pack still assembles.","steps":[{"agent":"Region","doing":"Villages near her sister, not all of them","credit":7},{"agent":"Money","doing":"The exit fee, with her numbers in it","credit":9},{"agent":"Ask","doing":"One question","ask":{"q":"Does she need to stay near family?","options":["Yes, near her sister","Open to anywhere"],"learn":["staying near her sister, so two villages, not twelve","open on region, so cost leads instead"]}},{"agent":"Later","doing":"What happens if her care needs change","credit":6},{"agent":"Pack","doing":"Ready for an advisor to send","credit":12}]},{"id":"exit","label":"The repayment","app":"Mum’s villa, live","unit":[""," days"],"earning":"of fees, credited back","yours":"weekly fees returned to the estate","told":"you told us:","declined":"you would rather not say. The pipeline runs regardless.","steps":[{"agent":"Refurb","doing":"Booked and dated — not “in progress”","credit":4},{"agent":"Listed","doing":"Photographed, priced, live to the market","credit":5},{"agent":"Ask","doing":"One question","ask":{"q":"Does the family need part of this sooner — for care costs?","options":["Yes — care is running","No — we can wait"],"learn":["early partial release drafted for a person to approve","standard path — and every milestone still shown"]}},{"agent":"Viewings","doing":"Three booked this week, two returning","credit":6},{"agent":"Settlement","doing":"A date, not a silence — held for a person","credit":7}]}]});
+  WaitPhone.explain(document.getElementById('wait-explain'));
+})();
+</script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script></script>
+
+<script>/* mz:start — the assembling mosaic */
+(function(){
+var host=document.getElementById('mzHost'); if(!host) return;
+var NS='http://www.w3.org/2000/svg';
+function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e}
+var U=84;
+function rect(g,c){g.appendChild(el('rect',{width:U,height:U,rx:16,fill:c}))}
+var KIND={
+quarter:function(g,c1,c2,v){g.appendChild(el('path',{d:'M0 0 H84 A84 84 0 0 1 0 84 Z',fill:c1,transform:'rotate('+(90*(v||0))+' 42 42)'}))},
+semi:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 62 A30 30 0 0 1 72 62 Z',fill:c2}))},
+dots:function(g,c1,c2){rect(g,c1);for(var y=0;y<3;y++)for(var x=0;x<3;x++)g.appendChild(el('circle',{cx:21+x*21,cy:21+y*21,r:6,fill:c2}))},
+stripes:function(g,c1,c2){rect(g,c1);for(var i=0;i<3;i++)g.appendChild(el('rect',{x:14,y:19+i*17,width:56,height:9,rx:4.5,fill:c2}))},
+ringT:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:'none',stroke:c2,'stroke-width':10}))},
+tri:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 15 L73 66 H11 Z',fill:c2}))},
+sparkle:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 6 C46 27 57 38 78 42 C57 46 46 57 42 78 C38 57 27 46 6 42 C27 38 38 27 42 6 Z',fill:c2}))},
+hills:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M4 74 A26 26 0 0 1 56 74 Z',fill:c2}));g.appendChild(el('path',{d:'M40 74 A20 20 0 0 1 80 74 Z',fill:c2,opacity:.55}))},
+tick:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 44 L37 59 L63 27',stroke:c2,'stroke-width':11,fill:'none','stroke-linecap':'round','stroke-linejoin':'round'}))},
+umbrella:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M12 42 A30 30 0 0 1 72 42 Z',fill:c2}));g.appendChild(el('path',{d:'M42 42 V64 a7 7 0 0 1 -14 0',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+house:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 44 L42 24 L64 44 V66 H20 Z',fill:c2}));g.appendChild(el('rect',{x:37,y:50,width:10,height:16,fill:c1}))},
+moon:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M52 16 A26 26 0 1 0 68 58 A21 21 0 0 1 52 16 Z',fill:c2}))},
+key:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:34,r:12,fill:'none',stroke:c2,'stroke-width':8}));g.appendChild(el('path',{d:'M40 42 L60 62 M52 54 L60 46',stroke:c2,'stroke-width':8,'stroke-linecap':'round'}))},
+cloud:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:32,cy:46,r:13,fill:c2}));g.appendChild(el('circle',{cx:48,cy:40,r:16,fill:c2}));g.appendChild(el('rect',{x:20,y:46,width:44,height:13,rx:6.5,fill:c2}))},
+shield:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 16 L64 24 V44 C64 56 54 64 42 68 C30 64 20 56 20 44 V24 Z',fill:c2}))},
+crossmed:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M34 18 H50 V34 H66 V50 H50 V66 H34 V50 H18 V34 H34 Z',fill:c2}))},
+heart:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 64 C20 50 16 34 26 26 C33 21 40 24 42 30 C44 24 51 21 58 26 C68 34 64 50 42 64 Z',fill:c2}))},
+leaf:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 62 C22 34 40 20 64 20 C64 48 46 62 22 62 Z',fill:c2}));g.appendChild(el('path',{d:'M26 58 L58 26',stroke:c1,'stroke-width':4}))},
+clock:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':7}));g.appendChild(el('path',{d:'M42 30 V42 L52 48',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}))},
+teacup:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 34 H56 V48 A16 16 0 0 1 24 48 Z',fill:c2}));g.appendChild(el('path',{d:'M56 36 h8 a6 6 0 0 1 0 14 h-6',stroke:c2,'stroke-width':5,fill:'none'}))},
+parcel:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:26,width:44,height:36,rx:5,fill:c2}));g.appendChild(el('rect',{x:38,y:26,width:8,height:36,fill:c1,opacity:.55}))},
+van:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M16 34 H46 V54 H16 Z M46 40 H60 L66 48 V54 H46 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:54,cy:57,r:6,fill:c1,stroke:c2,'stroke-width':4}))},
+envelope:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:18,y:28,width:48,height:32,rx:5,fill:c2}));g.appendChild(el('path',{d:'M20 32 L42 48 L64 32',stroke:c1,'stroke-width':4,fill:'none'}))},
+globe:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('ellipse',{cx:42,cy:42,rx:10,ry:22,fill:'none',stroke:c2,'stroke-width':4}));g.appendChild(el('path',{d:'M20 42 H64',stroke:c2,'stroke-width':4}))},
+plane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 50 L70 22 L54 52 L44 48 L34 62 L32 50 Z',fill:c2}))},
+sun:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:14,fill:c2}));for(var i=0;i<8;i++){var a=i*Math.PI/4;g.appendChild(el('path',{d:'M'+(42+Math.cos(a)*21)+' '+(42+Math.sin(a)*21)+' L'+(42+Math.cos(a)*28)+' '+(42+Math.sin(a)*28),stroke:c2,'stroke-width':5,'stroke-linecap':'round'}))}},
+ticket:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M18 32 H66 V40 a6 6 0 0 0 0 12 V60 H18 V52 a6 6 0 0 0 0 -12 Z',fill:c2}));g.appendChild(el('path',{d:'M50 32 V60',stroke:c1,'stroke-width':3,'stroke-dasharray':'4 5'}))},
+case:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:20,y:32,width:44,height:30,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 32 V26 a4 4 0 0 1 4 -4 h8 a4 4 0 0 1 4 4 V32',stroke:c2,'stroke-width':5,fill:'none'}))},
+coin:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:21,fill:c2}));var t=el('text',{x:42,y:53,'text-anchor':'middle','font-size':30,'font-weight':800,fill:c1});t.textContent='$';g.appendChild(t)},
+card:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:16,y:28,width:52,height:32,rx:6,fill:c2}));g.appendChild(el('rect',{x:16,y:36,width:52,height:7,fill:c1,opacity:.6}))},
+chart:function(g,c1,c2){rect(g,c1);[[20,46,16],[36,36,26],[52,24,38]].forEach(function(b){g.appendChild(el('rect',{x:b[0],y:b[1]+18,width:12,height:b[2],rx:3,fill:c2}))})},
+percent:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:30,cy:30,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('circle',{cx:54,cy:54,r:8,fill:'none',stroke:c2,'stroke-width':6}));g.appendChild(el('path',{d:'M24 60 L60 24',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+receipt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 16 H60 V60 L54 66 L48 60 L42 66 L36 60 L30 66 L24 60 Z',fill:c2}));[26,36,46].forEach(function(y){g.appendChild(el('rect',{x:30,y:y,width:24,height:4,rx:2,fill:c1,opacity:.6}))})},
+bolt:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M46 14 L24 46 H38 L34 70 L60 36 H44 Z',fill:c2}))},
+bulb:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:38,r:16,fill:c2}));g.appendChild(el('rect',{x:35,y:54,width:14,height:12,rx:4,fill:c2}))},
+plug:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:28,y:30,width:28,height:22,rx:6,fill:c2}));g.appendChild(el('path',{d:'M34 30 V18 M50 30 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 52 V66',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}))},
+tree:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:36,r:17,fill:c2}));g.appendChild(el('rect',{x:38,y:48,width:8,height:18,rx:3,fill:c2}))},
+door:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:26,y:20,width:32,height:46,rx:5,fill:c2}));g.appendChild(el('circle',{cx:51,cy:44,r:3.5,fill:c1}))},
+tag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M24 24 H46 L64 42 L46 60 H24 Z',fill:c2,transform:'rotate(-8 42 42)'}));g.appendChild(el('circle',{cx:33,cy:33,r:4,fill:c1}))},
+crane:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V22 H60 M60 22 V32 M40 22 V30',stroke:c2,'stroke-width':6,fill:'none','stroke-linecap':'round'}));g.appendChild(el('rect',{x:54,y:36,width:12,height:10,rx:2,fill:c2}))},
+brick:function(g,c1,c2){rect(g,c1);[[18,26],[46,26],[32,40],[18,54],[46,54]].forEach(function(p){g.appendChild(el('rect',{x:p[0],y:p[1],width:22,height:11,rx:2.5,fill:c2}))})},
+pot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M22 36 H62 V48 A18 14 0 0 1 22 48 Z',fill:c2}));g.appendChild(el('path',{d:'M16 36 h52 M30 28 c4 -6 20 -6 24 0',stroke:c2,'stroke-width':5,fill:'none','stroke-linecap':'round'}))},
+drop:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 14 C52 30 60 40 60 50 A18 18 0 0 1 24 50 C24 40 32 30 42 14 Z',fill:c2}))},
+flower:function(g,c1,c2){rect(g,c1);for(var i=0;i<5;i++){var a=i*2*Math.PI/5-Math.PI/2;g.appendChild(el('circle',{cx:42+Math.cos(a)*13,cy:42+Math.sin(a)*13,r:9,fill:c2}))}g.appendChild(el('circle',{cx:42,cy:42,r:7,fill:c1}))},
+car:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M14 52 L20 40 C24 32 32 28 42 28 C52 28 60 32 66 40 L70 52 V58 H14 Z',fill:c2}));g.appendChild(el('circle',{cx:28,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}));g.appendChild(el('circle',{cx:56,cy:58,r:7,fill:c1,stroke:c2,'stroke-width':4}))},
+wheel:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:42,r:22,fill:'none',stroke:c2,'stroke-width':9}));g.appendChild(el('circle',{cx:42,cy:42,r:5,fill:c2}));for(var i=0;i<5;i++){var a=i*2*Math.PI/5;g.appendChild(el('path',{d:'M42 42 L'+(42+Math.cos(a)*16)+' '+(42+Math.sin(a)*16),stroke:c2,'stroke-width':4}))}},
+flag:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M26 66 V18',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M30 20 H60 L52 30 L60 40 H30 Z',fill:c2}))},
+road:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M20 70 L36 14 M64 70 L48 14',stroke:c2,'stroke-width':6,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 62 V50 M42 40 V28',stroke:c2,'stroke-width':5,'stroke-dasharray':'8 8'}))},
+apple:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:49,r:21,fill:c2}));g.appendChild(el('rect',{x:40,y:19,width:4,height:11,rx:2,fill:c2}));g.appendChild(el('ellipse',{cx:53,cy:24,rx:9,ry:4.5,fill:c2,opacity:.7,transform:'rotate(-28 53 24)'}))},
+milk:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M28 34 L35 19 H49 L56 34 V64 A5 5 0 0 1 51 69 H33 A5 5 0 0 1 28 64 Z',fill:c2}))},
+egg:function(g,c1,c2){rect(g,c1);g.appendChild(el('ellipse',{cx:42,cy:38,rx:15,ry:19,fill:c2}));g.appendChild(el('path',{d:'M20 50 A22 20 0 0 0 64 50 Z',fill:c2,opacity:.55}))},
+carrot:function(g,c1,c2){rect(g,c1);g.appendChild(el('path',{d:'M42 74 L29 30 H55 Z',fill:c2}));g.appendChild(el('path',{d:'M34 24 L42 12 M42 26 L42 10 M50 24 L42 12',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.75}))},
+wheat:function(g,c1,c2){rect(g,c1);g.appendChild(el('rect',{x:40,y:14,width:4,height:57,rx:2,fill:c2}));[24,38,52].forEach(function(y){g.appendChild(el('path',{d:'M42 '+y+' L28 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}));g.appendChild(el('path',{d:'M42 '+y+' L56 '+(y-9),stroke:c2,'stroke-width':7,'stroke-linecap':'round'}))})},
+tomato:function(g,c1,c2){rect(g,c1);g.appendChild(el('circle',{cx:42,cy:47,r:20,fill:c2}));g.appendChild(el('path',{d:'M42 20 L37 30 M42 20 L42 31 M42 20 L47 30',stroke:c2,'stroke-width':5,'stroke-linecap':'round',fill:'none',opacity:.7}))}
+};
+var SLOTS=[[1,0],[2,0],[3,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[4,2],[5,2]];
+var TILES=[["quarter","#3F6152",0,1],["house","#3F6152","#FFFFFF"],["semi","#b6c3bd","#3F6152"],["tree","#EFE8D9","#C8785A"],["quarter","#C8785A",0,3],["teacup","#C8785A","#b6c3bd"],["dots","#C8785A","#b6c3bd"],["heart","#b6c3bd","#3F6152"],["sparkle","#1d1a15","#3F6152"],["envelope","#EFE8D9","#C8785A"],["stripes","#3F6152","#b6c3bd"],["sun","#C8785A","#b6c3bd"],["hills","#b6c3bd","#C8785A"],["ringT","#b6c3bd","#C8785A"],["tick","#C8785A","#FFFFFF"],["quarter","#b6c3bd",0,2]];
+var svg=el('svg',{viewBox:'0 0 678 302','aria-hidden':'true'});
+var layer=el('g',{}); svg.appendChild(layer);
+var tiles=[];
+SLOTS.forEach(function(s,i){
+  var t=TILES[i]; if(!t) return;
+  var pos=el('g',{transform:'translate('+(s[0]*94+10)+' '+(s[1]*94+10)+')'});
+  var g=el('g',{'class':'mzT'});
+  (KIND[t[0]]||KIND.quarter)(g,t[1],t[2],t[3]);
+  pos.appendChild(g); layer.appendChild(pos); tiles.push(g);
+});
+host.appendChild(svg);
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var started=false;
+function ignite(){
+  if(started) return; started=true;
+  if(reduce){ tiles.forEach(function(t){t.classList.add('mzLit')}); return; }
+  var order=tiles.map(function(t,i){return i}).sort(function(a,b){
+    return Math.abs(a-tiles.length/2)-Math.abs(b-tiles.length/2)});
+  order.slice(0,6).forEach(function(i,k){ setTimeout(function(){tiles[i].classList.add('mzLit')},250+k*140); });
+  var next=6, iv=setInterval(function(){
+    if(next>=order.length){clearInterval(iv);return;}
+    tiles[order[next++]].classList.add('mzLit');
+  },1500);
+}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){ignite();io.disconnect();}})},{threshold:.25});
+  io.observe(host);
+  setTimeout(ignite,9000);
+}else ignite();
+document.addEventListener('click',function(){
+  if(reduce) return;
+  var lit=tiles.filter(function(t){return t.classList.contains('mzLit')});
+  if(!lit.length) return;
+  var t=lit[Math.floor(Math.random()*lit.length)];
+  t.classList.remove('mzPulse'); requestAnimationFrame(function(){t.classList.add('mzPulse')});
+  setTimeout(function(){t.classList.remove('mzPulse')},950);
+});
+var band=host.closest('.mzBand'),bx=0,by=0,px=0,py=0;
+if(band){ /* dark pages get the light caption + fainter ghosts, computed not guessed */
+  var bgc=(getComputedStyle(document.body).backgroundColor||'').match(/\d+/g);
+  if(bgc&&bgc.length>=3){
+    var lum=(bgc[0]*.299+bgc[1]*.587+bgc[2]*.114)/255;
+    if(lum<.45){band.style.setProperty('--mzCapC','rgba(255,255,255,.6)');
+      band.style.setProperty('--mzDorm','.12');}
+  }
+}
+if(band&&!reduce){
+  band.addEventListener('pointermove',function(e){var r=band.getBoundingClientRect();
+    bx=((e.clientX-r.left)/r.width-.5)*10; by=((e.clientY-r.top)/r.height-.5)*6;});
+  band.addEventListener('pointerleave',function(){bx=0;by=0});
+  (function drift(){requestAnimationFrame(drift);px+=(bx-px)*.07;py+=(by-py)*.07;
+    layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
+}
+})();/* mz:end */</script>
+<script>window.VR_CONFIG={"api": "/api/room", "demoSrc": "demo-lounge.jpg", "demoType": "image/jpeg", "mode": "room-guide", "canned": {"estimate": {"items": [{"name": "Three-seater sofa", "footprint_m2": 1.8, "box": {"x": 2, "y": 44, "w": 46, "h": 44}}, {"name": "Armchair", "footprint_m2": 0.6, "box": {"x": 56, "y": 49, "w": 30, "h": 42}}, {"name": "Sideboard", "footprint_m2": 0.8, "box": {"x": 51, "y": 44, "w": 35, "h": 20}}, {"name": "Wooden dining chair", "footprint_m2": 0.25, "box": {"x": 84, "y": 40, "w": 13, "h": 32}}, {"name": "Floor lamp", "footprint_m2": 0.1, "box": {"x": 34, "y": 21, "w": 9, "h": 29}}], "flags": [{"note": "rug corner by the armchair sits lifted", "kind": "care", "box": {"x": 55, "y": 86, "w": 20, "h": 12}}, {"note": "a cord runs along the floor by the sideboard", "kind": "care", "box": {"x": 46, "y": 60, "w": 11, "h": 7}}, {"note": "floor in front of the sofa is clear", "kind": "clear", "box": {"x": 6, "y": 86, "w": 34, "h": 12}}], "total_footprint_m2": 3.6, "what_i_saw": "A warm, well-loved lounge — the three-seater under the window, the armchair angled toward it, and a sideboard of family photographs that has clearly been there a long time.", "confidence": "medium", "reasoning": "Sized against the sofa seat depth (about 0.5 m) and the sideboard height (about 0.75 m).", "cannot_tell": ["the room’s dimensions in metres", "whether anything sits behind the camera", "how that rug corner behaves underfoot"]}, "guide": {"total_m2": 3.6, "line": "Their things come to roughly 3.6 m² of floor. Take that number to the plan of the home you are considering — a person walks it with you, room by room.", "measure": "This is a read from a photo, not a measurement. Before anything moves, measure the two biggest pieces and the width of every doorway they travel through.", "held": "Nothing here is sent, saved or booked. It is a draft for the family, and for a person to check with you."}}, "thumbs": null, "queue": false, "noRoomDims": true};</script>
+<script src="visionread.js"></script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>assembl — The Agentic Pantry · Woolworths NZ & Everyday Rewards</title>
+  <meta name="description" content="An independent pilot demonstrator by assembl showing how assembl intuitive agentic customer journeys convert dead wait time into active Everyday Rewards value during personal grocery shopping in Aotearoa New Zealand.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:wght@300;400;500;600&family=Lato:wght@300;400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #FD6400;
+      --orange-dark: #FF5200;
+      --orange-light: #FF7A00;
+      --mint: #CFE2D8;
+      --charcoal: #38454F;
+      --paper: #FAFAF7;
+      --ink: #1C1B18;
+      --brass: #B8964F;
+      --wool-green: #00713C;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter Tight', -apple-system, sans-serif;
+      --font-body: 'Lato', -apple-system, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #0a0e12;
+      color: #fff;
+      font-family: var(--font-body);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #webgl-container {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+
+    /* ── UI Layer ────────────────────────────────────────────────────────── */
+    .ui-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2rem;
+    }
+    .interactive { pointer-events: auto; }
+
+    /* Top Navigation */
+    .ui-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .brand {
+      background: rgba(8, 13, 26, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(207, 226, 216, 0.15);
+      border-radius: 1rem;
+      padding: 0.875rem 1.25rem;
+    }
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand h1 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--paper);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--brass);
+      box-shadow: 0 0 10px rgba(184, 150, 79, 0.5);
+    }
+    .brand p {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(207, 226, 216, 0.7);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 0.35rem;
+    }
+
+    /* Everyday Rewards Badge */
+    .rewards-badge {
+      background: rgba(56, 69, 79, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(253, 100, 0, 0.3);
+      border-radius: 1.25rem;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s var(--ease);
+    }
+    .rewards-badge:hover { transform: scale(1.02); }
+    .rewards-badge .label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .rewards-badge .points {
+      font-family: var(--font-sans);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #FFF;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .rewards-badge .sub {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 0.35rem;
+    }
+
+    /* Center Agent Status Banner */
+    .ui-center {
+      position: absolute;
+      top: 22%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+      width: 90%;
+      max-width: 580px;
+    }
+    .agent-status-box {
+      background: rgba(8, 13, 26, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 1.5rem;
+      padding: 1.25rem 2rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .agent-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mint);
+      margin-bottom: 0.4rem;
+      display: inline-block;
+    }
+    .agent-status {
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.4;
+    }
+
+    /* Bottom Controls & Progress */
+    .ui-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .boost-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .boost-pill {
+      background: rgba(253, 100, 0, 0.12);
+      border: 1px solid rgba(253, 100, 0, 0.35);
+      color: var(--orange);
+      padding: 0.6rem 1.25rem;
+      border-radius: 2rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .boost-pill:hover {
+      background: rgba(253, 100, 0, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(253, 100, 0, 0.25);
+    }
+    .boost-pill.active {
+      background: var(--orange);
+      color: #fff;
+      border-color: var(--orange);
+    }
+    .boost-pill .multiplier {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      max-width: 520px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--orange), var(--orange-light));
+      border-radius: 2px;
+      transition: width 0.6s var(--ease);
+      box-shadow: 0 0 20px rgba(253, 100, 0, 0.5);
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 520px;
+      margin-top: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Floating Recommendation Card */
+    .recommendation-card {
+      position: fixed;
+      top: 180px;
+      left: 2rem;
+      background: rgba(8, 13, 26, 0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(207, 226, 216, 0.2);
+      border-radius: 1.25rem;
+      padding: 1.25rem 1.5rem;
+      max-width: 300px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.5s var(--ease);
+      z-index: 20;
+    }
+    .recommendation-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .recommendation-card .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 0.35rem;
+      margin-bottom: 0.6rem;
+    }
+    .tag.member-price {
+      background: rgba(0, 113, 60, 0.2);
+      color: #4FA887;
+      border: 1px solid rgba(0, 113, 60, 0.4);
+    }
+    .tag.boost {
+      background: rgba(253, 100, 0, 0.2);
+      color: var(--orange);
+      border: 1px solid rgba(253, 100, 0, 0.4);
+    }
+    .recommendation-card h3 {
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #fff;
+    }
+    .recommendation-card p {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.45;
+    }
+    .recommendation-card .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-top: 0.85rem;
+      padding-top: 0.6rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+    .price-row .price {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--orange);
+    }
+    .price-row .was {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: line-through;
+    }
+    .price-row .save {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--mint);
+      font-weight: 500;
+    }
+
+    /* Voucher Toast */
+    .voucher-toast {
+      position: fixed;
+      top: 2rem;
+      right: 22rem;
+      background: rgba(8, 13, 26, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(207, 226, 216, 0.25);
+      border-radius: 1.25rem;
+      padding: 1rem 1.25rem;
+      width: 240px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.5s var(--ease);
+      z-index: 20;
+    }
+    .voucher-toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .voucher-toast .voucher-progress {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 0.6rem;
+      overflow: hidden;
+    }
+    .voucher-toast .voucher-progress-fill {
+      height: 100%;
+      width: 92.3%;
+      background: var(--mint);
+      border-radius: 2px;
+      transition: width 0.8s var(--ease);
+    }
+
+    /* Action & Footer Buttons */
+    .action-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--wool-green);
+      color: #FFF;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 113, 60, 0.3);
+      z-index: 20;
+    }
+    .action-btn:hover {
+      background: #008f4c;
+      transform: translateY(-2px);
+    }
+
+    .seo-ribbon {
+      position: fixed;
+      bottom: 0;
+      left: 0; right: 0;
+      background: rgba(8, 13, 26, 0.95);
+      color: rgba(255, 255, 255, 0.6);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 4px 16px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 5;
+    }
+    .seo-ribbon b { color: var(--brass); font-weight: 400; }
+
+    /* Loading Fallback */
+    .loading-fallback {
+      position: fixed;
+      inset: 0;
+      background: #0a0e12;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.8s var(--ease);
+    }
+    .loading-fallback.hidden { opacity: 0; pointer-events: none; }
+    .loading-fallback h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: var(--mint);
+      margin-bottom: 1.5rem;
+    }
+    .loading-fallback .fallback-bar {
+      width: 140px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .loading-fallback .fallback-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--orange);
+      animation: fallbackLoad 2s var(--ease) forwards;
+    }
+    @keyframes fallbackLoad { to { width: 100%; } }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div class="loading-fallback" id="loadingFallback">
+    <h2>assembl</h2>
+    <div class="fallback-bar"><div class="fallback-bar-fill"></div></div>
+  </div>
+
+  <!-- 3D Canvas Container -->
+  <div id="webgl-container">
+    <canvas id="webgl-canvas"></canvas>
+  </div>
+
+  <!-- UI Overlay -->
+  <div class="ui-layer">
+    <div class="ui-top">
+      <div class="brand interactive">
+        <div class="brand-title">
+          <h1>assembl</h1>
+          <span class="brand-dot"></span>
+        </div>
+        <p>The Agentic Pantry · Woolworths NZ</p>
+      </div>
+
+      <div class="rewards-badge interactive">
+        <div class="label">
+          <span>Everyday Rewards</span>
+          <span>NZ</span>
+        </div>
+        <div class="points" id="pointsDisplay">1,847</div>
+        <div class="sub" id="pointsSub">153 pts away from your next $15 voucher</div>
+      </div>
+    </div>
+
+    <div class="ui-center">
+      <div class="agent-status-box">
+        <span class="agent-tag" id="agentTag">Mahi Live · Whānau Context Agent</span>
+        <div class="agent-status" id="agentStatus">Scanning household dietary preferences for 4 Whānau members...</div>
+      </div>
+    </div>
+
+    <div class="ui-bottom">
+      <div class="boost-row interactive" id="boostRow">
+        <button class="boost-pill" onclick="triggerBoost('fresh', this)">
+          <span class="multiplier">10x</span> Woolworths Fresh
+        </button>
+        <button class="boost-pill" onclick="triggerBoost('pantry', this)">
+          <span class="multiplier">5x</span> Wattie's & Anchor
+        </button>
+        <button class="boost-pill" onclick="triggerBoost('dairy', this)">
+          <span class="multiplier">3x</span> Meadow Fresh Dairy
+        </button>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-labels">
+        <span>Cart Assembly & Monetised Wait State</span>
+        <span id="progressPercent">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation Card -->
+  <div class="recommendation-card interactive" id="recCard">
+    <div class="tag member-price" id="recTag">Member Price</div>
+    <h3 id="recTitle">Fresh NZ Avocados</h3>
+    <p id="recDesc">Matched Thursday Whānau recipe pattern. 2 for $5.00 this week.</p>
+    <div class="price-row">
+      <span class="price" id="recPrice">$5.00</span>
+      <span class="was" id="recWas">$7.98</span>
+      <span class="save" id="recSave">Save $2.98</span>
+    </div>
+  </div>
+
+  <!-- Voucher Progress Toast -->
+  <div class="voucher-toast interactive" id="voucherToast">
+    <div style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; color: var(--mint); text-transform: uppercase;">
+      Voucher Goal Reached!
+    </div>
+    <div style="font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 0.2rem;">
+      2,000 Everyday Rewards points accumulated $\rightarrow$ $15 voucher earned!
+    </div>
+    <div class="voucher-progress">
+      <div class="voucher-progress-fill" id="voucherProgressFill"></div>
+    </div>
+  </div>
+
+  <!-- Action Button -->
+  <button class="action-btn interactive" id="actionBtn" onclick="runMonetisedWait()">
+    <span>Assemble Basket & Start Wait</span>
+  </button>
+
+  <!-- SEO Footer Ribbon -->
+  <div class="seo-ribbon">
+    Independent pilot concept by <b>assembl</b> · <span>assembl intuitive agentic customer journeys</span> · Aotearoa New Zealand
+  </div>
+
+  <!-- Three.js Module Import -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js"
+    }
+  }
+  </script>
+  <script type="module" src="main.js"></script>
+
+</body>
+</html>

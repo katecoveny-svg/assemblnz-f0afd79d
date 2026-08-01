@@ -1,0 +1,40 @@
+/* AssembleType — the hero headline assembles word by word.
+ *
+ * Kate, 1 August 2026. The one piece of the motion system that belongs on the
+ * live homepage: the wordmark already flies in and docks, so the line beneath
+ * it should arrive the same way — built, not faded.
+ *
+ * Scoped to a module so it cannot touch anything else in cine.css.
+ */
+
+.host {
+  --at-ease: cubic-bezier(.16, .84, .28, 1);
+}
+
+/* each word gets its own mask, so the line builds out of the page rather than
+   sliding over it */
+.host :global(.at-w) {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.host :global(.at-w) > i {
+  display: inline-block;
+  font-style: inherit;
+  transform: translate3d(0, 108%, 0);
+  transition: transform 1.05s var(--at-ease);
+}
+
+.host.in :global(.at-w) > i {
+  transform: none;
+}
+
+/* Reduced motion keeps the headline exactly as authored, instantly. The words
+   are already in the DOM — this only removes the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .host :global(.at-w) > i {
+    transform: none;
+    transition: none;
+  }
+}

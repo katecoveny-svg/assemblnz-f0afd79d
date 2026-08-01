@@ -51,7 +51,10 @@ export async function onRequestPost(context) {
     try {
       if (env.ANTHROPIC_API_KEY) {
         const j = await callAnthropic(env.ANTHROPIC_API_KEY, body.system, trimmed);
-        if (j && j.content) return Response.json(j);
+        if (j && j.content) {
+        const answer = (Array.isArray(j.content) ? j.content : []).filter((b) => b && b.type === "text").map((b) => b.text || "").join("").trim();
+        if (answer) return Response.json({ content: [{ type: "text", text: answer }] }, { headers: { "cache-control": "no-store" } });
+      }
       } else if (env.AI) {
         const res = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {
           messages: [{ role: "system", content: body.system }, ...trimmed], max_tokens: 400
