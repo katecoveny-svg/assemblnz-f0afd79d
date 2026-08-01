@@ -466,7 +466,7 @@ for (const [folder, cfg] of Object.entries(DEMOS)) {
   s = s.replace(/<h3(?![^>]*data-m)([^>]*)>/g, '<h3 data-m="rise"$1>');
   s = s.replace(/<p class="(lede|secS|kicker|sub|labP|wm-lede|wm-del|mapLede|dkDel|fin|spIdea|pfT|hero-sub|sT|st)"(?![^>]*data-m)/g,
     '<p class="$1" data-m="rise"');
-  s = s.replace(/<div class="(glass|card|cc|ev|pcell|tool|mom|pow)"(?![^>]*data-m)/g,
+  s = s.replace(/<div class="(glass|card|cc|ev|pcell|tool|mom|pow|g)"(?![^>]*data-m)/g,
     '<div class="$1" data-m="rise"');
   /* the vision-read section, if the page has one, opens itself on arrival —
      an empty frame under a heading that says "watch a lounge being read" is
