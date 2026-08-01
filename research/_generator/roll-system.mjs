@@ -176,10 +176,37 @@ const EV_RETIREMENT = {
   ],
 };
 
+const EV_INSURANCE = {
+  kick: 'the evidence &middot; insurance, measured',
+  head: 'Delay is the complaint.',
+  foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ insurer-level claim-time benchmark, and this page will not invent one.',
+  cards: [ EV_SHARED.cards[1], EV_SHARED.cards[0], EV_SHARED.cards[2], EV_SHARED.cards[3] ],
+};
+
+const EV_CONSTRUCTION = {
+  kick: 'the evidence &middot; consenting, measured',
+  head: 'The consent clock is not the wait. The file is.',
+  foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of what a request-for-information cycle costs a build programme.',
+  cards: [
+    { to: '16', dur: 1500, em: 'working days', flag: 'NZ',
+      text: 'Median elapsed time to a building consent &mdash; against a median statutory clock of <b>nine</b>. The difference is the file waiting on information a complete application would have carried.',
+      src: 'MBIE Building Consent System Performance Monitoring, Q1 2026' },
+    { to: '95.4', dur: 1700, em: 'per cent', flag: 'NZ',
+      text: 'Of building consent applications were processed inside the statutory 20 working days. <b>The system is keeping its clock</b> &mdash; the wait that remains belongs to the file.',
+      src: 'MBIE Building Consent System Performance Monitoring, Q4 2025' },
+    EV_SHARED.cards[0],
+    EV_SHARED.cards[2],
+  ],
+};
+
 const EV_FIGURES = {
   'assembling-demo-retirement': EV_RETIREMENT,
   'assembling-ryman-family': EV_RETIREMENT,
   'assembling-summerset': EV_RETIREMENT,
+  'assembling-tower': EV_INSURANCE,
+  'assembling-southern-cross': EV_INSURANCE,
+  'assembling-southbase': EV_CONSTRUCTION,
+  'assembling-construction': EV_CONSTRUCTION,
   'assembling-nectar': {
     kick: 'the evidence &middot; lending, measured',
     head: 'Lending got faster. Waiting did not.',
