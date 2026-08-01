@@ -529,6 +529,19 @@
     host.appendChild(root);
     reset();
     if (cfg.autostart) ctl.start();
+    /* Default: the wait announces itself the moment it is genuinely on screen.
+       Tap-to-start read as a static mock — clients never tapped, so the
+       product never showed (Kate, 27 Jul). Restarting stays manual. */
+    else if (cfg.autoplayOnView !== false && 'IntersectionObserver' in window) {
+      var seen = false;
+      var io = new IntersectionObserver(function (es) {
+        if (seen || !es[0] || !es[0].isIntersecting) return;
+        seen = true;
+        io.disconnect();
+        setTimeout(function () { ctl.start(); }, 500);
+      }, { threshold: 0.5 });
+      io.observe(root);
+    }
     return ctl;
   }
 
@@ -575,3 +588,59 @@
 
   global.WaitPhone = { mount: mount, explain: explain, BEAT: BEAT };
 })(typeof window !== 'undefined' ? window : this);
+
+/* wp-prem:start — premium device chrome, fleet-wide (flagship register):
+   machined bezel gradient, layered shadows, deeper glare, warmer contact
+   shadow. Pure overrides on the vars wait-phone.js already themes. */
+(function(){
+  if (document.getElementById('wp-prem')) return;
+  var st = document.createElement('style'); st.id = 'wp-prem';
+  st.textContent = [
+    '.wp-phone{background:linear-gradient(148deg,#5d6470 0%,#20252c 26%,#171b21 54%,#3d444e 78%,#12161b 100%)!important;',
+    ' box-shadow:0 0 0 1.5px rgba(255,255,255,.16) inset,0 2px 3px rgba(255,255,255,.35) inset,',
+    ' 0 42px 70px -22px rgba(10,16,12,.55),0 14px 26px -10px rgba(10,16,12,.4)!important}',
+    '.wp-glare{background:linear-gradient(128deg,rgba(255,255,255,.40) 0%,rgba(255,255,255,.10) 22%,transparent 42%,transparent 72%,rgba(255,255,255,.12) 100%)!important}',
+    '.wp-phone::after{background:radial-gradient(ellipse at 50% 0%,rgba(20,30,24,.30),rgba(20,30,24,.06) 55%,transparent 75%)!important}'
+  ].join('');
+  document.head.appendChild(st);
+})();
+/* wp-prem:end */
+
+
+/* ── wp-shader: premium animated screen backdrop (static module, no injector).
+   Aurora drift built from each site's own --wp-accent tokens; sits behind the
+   screen content, pointer-transparent, honours prefers-reduced-motion. ── */
+(function(){
+  if(typeof WaitPhone==='undefined'||WaitPhone.__shader) return; WaitPhone.__shader=1;
+  var css=[
+    '.wp-screen>.wp-shader{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:inherit}',
+    '.wp-screen>*:not(.wp-shader){position:relative;z-index:1}',
+    '.wp-shader::before{content:"";position:absolute;inset:-42%;',
+    ' background:',
+    '  radial-gradient(42% 38% at 26% 22%, color-mix(in srgb, var(--wp-accent,#888) 34%, transparent), transparent 70%),',
+    '  radial-gradient(46% 42% at 76% 14%, color-mix(in srgb, var(--wp-accent2, var(--wp-accent,#888)) 26%, transparent), transparent 72%),',
+    '  radial-gradient(52% 48% at 64% 84%, color-mix(in srgb, var(--wp-accent,#888) 18%, transparent), transparent 75%);',
+    ' filter:blur(26px) saturate(1.15);',
+    ' animation:wpShaderDrift 16s ease-in-out infinite alternate}',
+    '@keyframes wpShaderDrift{',
+    ' 0%{transform:translate3d(-4%,-3%,0) rotate(0deg) scale(1)}',
+    ' 50%{transform:translate3d(3%,4%,0) rotate(8deg) scale(1.06)}',
+    ' 100%{transform:translate3d(-2%,2%,0) rotate(-6deg) scale(1.03)}}',
+    '@media (prefers-reduced-motion: reduce){.wp-shader::before{animation:none}}'
+  ].join('');
+  var st=document.createElement('style'); st.id='wp-shader-css'; st.textContent=css;
+  document.head.appendChild(st);
+  var _m=WaitPhone.mount;
+  WaitPhone.mount=function(el,opts){
+    var r=_m.apply(this,arguments);
+    try{
+      el.querySelectorAll('.wp-screen').forEach(function(sc){
+        if(!sc.querySelector('.wp-shader')){
+          var d=document.createElement('div'); d.className='wp-shader';
+          sc.insertBefore(d,sc.firstChild);
+        }
+      });
+    }catch(e){}
+    return r;
+  };
+})();
