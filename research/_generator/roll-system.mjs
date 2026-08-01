@@ -161,6 +161,21 @@ const EV_SHARED = {
 
 /* per-demo overrides — researched and verified before they land here */
 const EV_FIGURES = {
+  'assembling-nectar': {
+    kick: 'the evidence &middot; lending, measured',
+    head: 'Lending got faster. Waiting did not.',
+    foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of online loan-application abandonment or the economics of waiting.',
+    cards: [
+      EV_SHARED.cards[0],
+      { to: '13.5', dur: 1600, em: 'per cent', flag: 'NZ',
+        text: 'Personal loan enquiries were up <b>13.5% year-on-year</b> in February 2026. The demand is already online &mdash; it arrives at all hours, and it does not queue politely.',
+        src: 'Centrix Credit Indicator, February 2026' },
+      EV_SHARED.cards[2],
+      { to: '10.2', dur: 1600, em: 'per cent', flag: 'NZ',
+        text: 'Personal loan arrears reached <b>10.2% in January 2026</b>, the highest in a decade. Careful lending is not optional &mdash; and careful does not have to mean slow.',
+        src: 'Centrix Credit Indicator, January 2026' },
+    ],
+  },
   'assembling-giltrap': {
     kick: 'the evidence &middot; the wait, on the phone and online',
     head: 'The wait did not go away when it went online.',
