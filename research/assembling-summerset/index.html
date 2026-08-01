@@ -530,8 +530,11 @@ body.d6-live #waitmap .wm-grid{display:none}
   font-size:11.5px;line-height:1.62;color:#75757E}
 #place .plMeta b{color:#141416;font-weight:600}
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
 <!-- sp4:start -->
 <div class="sp4Rib">independent concept &middot; simulated data &middot; not an active partnership &mdash; prepared by assembl</div>
 <!-- sp4:end -->
@@ -549,17 +552,40 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- HERO -->
 <header class="hero"><div class="wrap narrow" style="text-align:center">
   <div class="eyebrow">A family decision, made together</div>
-  <h1>The move that felt<br>impossible, assembled.</h1>
-  <p class="lede" style="margin-left:auto;margin-right:auto">One shared space where a family works through Mum's move together — the money in plain words, her armchair fitting by the window, and nothing ever decided for them.</p>
+  <h1 data-m="type">The move that felt<br>impossible, assembled.</h1>
+  <p class="lede" data-m="rise" style="margin-left:auto;margin-right:auto">One shared space where a family works through Mum's move together — the money in plain words, her armchair fitting by the window, and nothing ever decided for them.</p>
   <div class="btns" style="justify-content:center">
     <a class="btn dark" href="#journey">See the journey <span class="arw">→</span></a>
     <button class="btn ghost" onclick="openChat()">Ask the guide a question</button>
   </div>
 </div></header>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--dark" data-m-scrub aria-label="the money, in plain words" style="--abA:#470A68">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--dark" id="abCloud"></div>
+    <div class="abStage__copy">
+      <!-- mStage__* aliases are load-bearing: assembl-motion's scrub() drives
+           .mStage__step/.mStage__fill — without them the copy never advances -->
+      <div class="abStage__step mStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill mStage__fill"></div></div>
+  </div>
+</section>
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
 <section class="vrSec" id="vrSec" style="--vrA:#470A68;--vrInk:#1A1917;--vrCard:#FFFFFF;--vrLine:rgba(26,25,23,.12);">
   <div class="vrIn">
     <div class="vrK">the lounge, read</div>
-    <h2 class="vrH">Will it fit the apartment?</h2>
+    <h2 data-m="type" class="vrH">Will it fit the apartment?</h2>
     <p class="vrSub">Photograph the lounge as it is. The reader lists what is there and how much floor it wants &mdash; then the total goes against the plan of the apartment you are considering, with a person. No apartment dimensions are guessed here.</p>
     <div class="vrBtns">
       <button type="button" class="vrBtn" id="vrDemo">Read the demo lounge<small>an illustration &middot; the real reader runs on it</small></button>
@@ -579,12 +605,6 @@ body.d6-live #waitmap .wm-grid{display:none}
     <p class="vrFoot">One guidance figure, once: a wheelchair turning circle is 1.5 m (NZS 4121). Everything else here is observation from the photo — never care advice.</p>
   </div>
 </section>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
-</section>
-<!-- mz:end -->
 <!-- vr:start -->
 
 <!-- vr:end -->
@@ -608,9 +628,9 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="phonewrap">
     <div class="phonecopy">
       <div class="eyebrow">The customer view</div>
-      <h2 class="sec">One quiet moment does the heavy lifting.</h2>
-      <p class="kicker">Tap through the phone. mySummerset takes what the family knows about Mum's week and life, and quietly prepares everything worth having ready — then hands control straight back. Every full-size tool below is playable too.</p>
-      <p class="kicker" style="margin-top:14px"><b style="color:var(--ink)">Trust wait:</b> the anxious moment is never sold into. The money is only ever explained.</p>
+      <h2 data-m="type" class="sec">One quiet moment does the heavy lifting.</h2>
+      <p class="kicker" data-m="rise">Tap through the phone. mySummerset takes what the family knows about Mum's week and life, and quietly prepares everything worth having ready — then hands control straight back. Every full-size tool below is playable too.</p>
+      <p class="kicker" data-m="rise" style="margin-top:14px"><b style="color:var(--ink)">Trust wait:</b> the anxious moment is never sold into. The money is only ever explained.</p>
     </div>
     <div class="device"><div class="screen">
       <div class="statusbar"><span>9:41</span><span class="mid">mySummerset · Family</span><span>5G · 84%</span></div>
@@ -623,31 +643,31 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- FIT -->
 <section id="pack" class="tool"><div class="wrap">
   <div class="eyebrow">The information pack they already ask for</div>
-  <h2 class="sec">The wait between &ldquo;send me the pack&rdquo; and knowing what to do.</h2>
-  <p class="kicker">Summerset offers a free information pack. A family enters their details, and what arrives is the same pack every family gets. That is the moment this concept works in &mdash; the same published material, assembled around what this family actually said. Nothing is sold. Nothing sends without their yes.</p>
+  <h2 data-m="type" class="sec">The wait between &ldquo;send me the pack&rdquo; and knowing what to do.</h2>
+  <p class="kicker" data-m="rise">Summerset offers a free information pack. A family enters their details, and what arrives is the same pack every family gets. That is the moment this concept works in &mdash; the same published material, assembled around what this family actually said. Nothing is sold. Nothing sends without their yes.</p>
   <div class="waitgrid">
     <div class="waitdemo">
       <div class="chip" style="display:inline-block;margin-bottom:14px">Tap it &mdash; this is the wait itself, not a picture of it</div>
       <div id="wait-mount"></div>
     </div>
     <div class="cards">
-      <div class="card">
+      <div class="card" data-m="rise">
         <div class="chip">01 &middot; what they told you</div>
         <h4 style="margin:10px 0 6px">Mum, 82, Napier. Wants to stay near her sister. Worried about what she gets back.</h4>
-        <p class="kicker" style="margin:0">Three facts, given freely on the enquiry form. Provenance visible: &ldquo;you told us&rdquo;.</p>
+        <p class="kicker" data-m="rise" style="margin:0">Three facts, given freely on the enquiry form. Provenance visible: &ldquo;you told us&rdquo;.</p>
       </div>
-      <div class="card">
+      <div class="card" data-m="rise">
         <div class="chip">02 &middot; what gets assembled</div>
         <h4 style="margin:10px 0 6px">The pack, opened at the deferred management fee &mdash; 25% over four years, with her numbers in it.</h4>
-        <p class="kicker" style="margin:0">Villages in Hawke&rsquo;s Bay, not all 38. Summerset Sure explained in plain words.</p>
+        <p class="kicker" data-m="rise" style="margin:0">Villages in Hawke&rsquo;s Bay, not all 38. Summerset Sure explained in plain words.</p>
       </div>
-      <div class="card">
+      <div class="card" data-m="rise">
         <div class="chip">03 &middot; what Summerset keeps</div>
         <h4 style="margin:10px 0 6px">The relationship, the record, and every consequential action.</h4>
-        <p class="kicker" style="margin:0">Assembling prepares. A Summerset advisor decides what is sent and when.</p>
+        <p class="kicker" data-m="rise" style="margin:0">Assembling prepares. A Summerset advisor decides what is sent and when.</p>
       </div>
-      <p class="kicker" style="margin:0"><b style="color:var(--ink)">Why this moment:</b> the pack is already the most requested thing on the site. Today it arrives identical for every family. Assembled, it arrives already about this one.</p>
-      <p class="kicker" style="margin:0"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked while she waits, is the only part of this that sends something back the other way. Decline it and the pack still assembles &mdash; just with less of her in it.</p>
+      <p class="kicker" data-m="rise" style="margin:0"><b style="color:var(--ink)">Why this moment:</b> the pack is already the most requested thing on the site. Today it arrives identical for every family. Assembled, it arrives already about this one.</p>
+      <p class="kicker" data-m="rise" style="margin:0"><b style="color:var(--ink)">And the question is the point.</b> One optional question, asked while she waits, is the only part of this that sends something back the other way. Decline it and the pack still assembles &mdash; just with less of her in it.</p>
     </div>
   </div>
 </div></section>
@@ -655,9 +675,9 @@ body.d6-live #waitmap .wm-grid{display:none}
 
 <section id="waitmap" class="wm-band"><div class="wrap">
   <div class="wm-kick">Every waiting moment</div>
-  <h2 class="wm-h">Every wait in deciding, signing and settling in</h2>
+  <h2 data-m="type" class="wm-h">Every wait in deciding, signing and settling in</h2>
 <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin:6px 0 0">simulated journey &middot; illustrative data &middot; independent concept</p>
-  <p class="wm-lede">Six moments where the person moving is the one waiting — on a pack, on her family, on a lawyer, on herself.</p>
+  <p class="wm-lede" data-m="rise">Six moments where the person moving is the one waiting — on a pack, on her family, on a lawyer, on herself.</p>
 
   <div class="wm-grid">
     <div class="wm-card">
@@ -669,7 +689,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">your town</div>
       </div>
       <div class="wm-feels">the wait feels like you handed over your details and got a form letter</div>
-      <p class="wm-del">The information pack arrives about her region and her question instead of about everywhere at once.</p>
+      <p class="wm-del" data-m="rise">The information pack arrives about her region and her question instead of about everywhere at once.</p>
       <div class="wm-fund"><i>who funds it</i>Summerset itself. The identical pack is cheap to send and expensive to follow up.</div>
     </div>
     <div class="wm-card">
@@ -681,7 +701,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">plain numbers</div>
       </div>
       <div class="wm-feels">the wait feels like arithmetic you have never had to do before</div>
-      <p class="wm-del">She sees the deferred management fee against her own figure — 25% over four years in an independent living home — rather than someone else’s example.</p>
+      <p class="wm-del" data-m="rise">She sees the deferred management fee against her own figure — 25% over four years in an independent living home — rather than someone else’s example.</p>
       <div class="wm-fund"><i>who funds it</i>Summerset itself. This is explanation, never selling. No sponsor goes anywhere near a person’s money.</div>
     </div>
     <div class="wm-card">
@@ -693,7 +713,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">she decides</div>
       </div>
       <div class="wm-feels">the wait feels like wanting your children to be pleased for you</div>
-      <p class="wm-del">She hands her family the reasoning instead of defending the decision at Sunday lunch.</p>
+      <p class="wm-del" data-m="rise">She hands her family the reasoning instead of defending the decision at Sunday lunch.</p>
       <div class="wm-fund"><i>who funds it</i>Summerset itself. A family that has not seen the numbers is why a settled decision goes quiet again.</div>
     </div>
     <div class="wm-card">
@@ -705,7 +725,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">sign nothing</div>
       </div>
       <div class="wm-feels">the wait feels like a document your solicitor has and you do not</div>
-      <p class="wm-del">She can follow her own agreement while it is being checked, instead of waiting to be told what it says.</p>
+      <p class="wm-del" data-m="rise">She can follow her own agreement while it is being checked, instead of waiting to be told what it says.</p>
       <div class="wm-fund"><i>who funds it</i>Summerset itself. Explaining the agreement early is cheaper than a signing that stalls at the solicitor.</div>
     </div>
     <div class="wm-card">
@@ -717,7 +737,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">one page</div>
       </div>
       <div class="wm-feels">the wait feels like two settlement dates that do not line up</div>
-      <p class="wm-del">The gap between selling one home and getting the keys to the next stops being a guess.</p>
+      <p class="wm-del" data-m="rise">The gap between selling one home and getting the keys to the next stops being a guess.</p>
       <div class="wm-fund"><i>who funds it</i>A conveyancer or a moving service could fund this one honestly. It is the fortnight she actually needs both.</div>
     </div>
     <div class="wm-card">
@@ -729,7 +749,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="wm-chip">still your choice</div>
       </div>
       <div class="wm-feels">the wait feels like settling in while still allowed to change your mind</div>
-      <p class="wm-del">The published ninety-day money-back guarantee gets said out loud during the ninety days, not buried in the pack.</p>
+      <p class="wm-del" data-m="rise">The published ninety-day money-back guarantee gets said out loud during the ninety days, not buried in the pack.</p>
       <div class="wm-fund"><i>who funds it</i>Summerset itself. A guarantee nobody mentions after move-in is a guarantee doing none of its job.</div>
     </div>
   </div>
@@ -737,7 +757,7 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="wm-how">
     <div>
       <div class="wm-kick">How the moment works</div>
-      <h3>Four steps, every time.</h3>
+      <h3 data-m="rise">Four steps, every time.</h3>
       <ol class="wm-steps">
         <li><b>The signal</b><span>Something you already record says a person is now waiting, and roughly how long for.</span></li>
         <li><b>The prediction</b><span>How long this one will really take &mdash; not the average, this one.</span></li>
@@ -762,22 +782,18 @@ body.d6-live #waitmap .wm-grid{display:none}
     </div>
   </div>
 
-  <div class="wm-ev">
-    <b>This is not a new idea &mdash; it is an unbuilt one.</b>
-    <p>US retailers lose an estimated <b>$37.7 billion a year</b> to customers who abandon because of long queues, split roughly $15.8b to competitors and $21.9b abandoned outright <i>(Adyen with 451 Research)</i>. The New York State Department of Labor reported a <b>48% reduction in hang-ups</b> after introducing virtual queuing. Theme parks moving to virtual queues reported a <b>36% lift in per-capita spending</b>, because guests spent the wait somewhere that sold something. A Seattle-Tacoma Airport study found <b>63% of passengers</b> said they shopped or ate more because they saved time in the security queue.</p>
-    <p><i>Every figure here carries its source, and overseas figures are shown as overseas figures. We have not found a published New Zealand equivalent and we will not invent one.</i></p>
-  </div>
-</div></section>
+  
+</section>
 
 <section id="fit" class="tool"><div class="wrap">
   <div class="eyebrow">Will Mum's things fit?</div>
-  <h2 class="sec">Her home, before a single box is packed.</h2>
-  <p class="kicker">Downsizing dread is the biggest reason a move stalls for months. Seeing her armchair fit by the morning window turns "where does my life go?" into "it'll still feel like home." Toggle what she keeps.</p>
+  <h2 data-m="type" class="sec">Her home, before a single box is packed.</h2>
+  <p class="kicker" data-m="rise">Downsizing dread is the biggest reason a move stalls for months. Seeing her armchair fit by the morning window turns "where does my life go?" into "it'll still feel like home." Toggle what she keeps.</p>
   <div class="grid2" style="margin-top:36px">
-    <div class="card">
+    <div class="card" data-m="rise">
       <div class="plan" id="plan"></div>
     </div>
-    <div class="card">
+    <div class="card" data-m="rise">
       <div id="pieces"></div>
       <div class="fitsum" id="fitsum"></div>
     </div>
@@ -787,8 +803,8 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- MONEY -->
 <section id="money" class="tool"><div class="wrap">
   <div class="eyebrow">The money, in plain words</div>
-  <h2 class="sec">Summerset publishes both halves of this.<br>Never together.</h2>
-  <p class="kicker">The deferred management fee is <b>25% over four years</b> — published on the website. Expected tenure for a villa is <b>seven to eight years</b> — published in the Annual Report, to investors. Read either one alone and a family imagines a partial fee. Put them side by side and the honest answer appears: for the average villa resident, accrual finished years ago. It is the whole 25%. Nothing here is invented; it is two of your own numbers, in one place, for the first time.</p>
+  <h2 data-m="type" class="sec">Summerset publishes both halves of this.<br>Never together.</h2>
+  <p class="kicker" data-m="rise">The deferred management fee is <b>25% over four years</b> — published on the website. Expected tenure for a villa is <b>seven to eight years</b> — published in the Annual Report, to investors. Read either one alone and a family imagines a partial fee. Put them side by side and the honest answer appears: for the average villa resident, accrual finished years ago. It is the whole 25%. Nothing here is invented; it is two of your own numbers, in one place, for the first time.</p>
 
   <div class="tw">
     <div class="tw-pick" role="group" aria-label="Home type">
@@ -800,7 +816,7 @@ body.d6-live #waitmap .wm-grid{display:none}
     </div>
 
     <div class="tw-grid">
-      <div class="card">
+      <div class="card" data-m="rise">
         <div class="field">
           <label>Licence payment for the home (ORA)</label>
           <input type="range" id="price" min="450000" max="1400000" step="10000" value="850000" oninput="calcMoney()">
@@ -865,8 +881,8 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- CARE -->
 <section id="care" class="tool"><div class="wrap narrow">
   <div class="eyebrow">Care for life</div>
-  <h2 class="sec">She won't have to move away again.</h2>
-  <p class="kicker">The deepest family fear — "what if she gets worse and we have to uproot her?" — answered. Care lives on one site, and there is no additional capital to move from independent living to a serviced apartment in the same village.</p>
+  <h2 data-m="type" class="sec">She won't have to move away again.</h2>
+  <p class="kicker" data-m="rise">The deepest family fear — "what if she gets worse and we have to uproot her?" — answered. Care lives on one site, and there is no additional capital to move from independent living to a serviced apartment in the same village.</p>
   <div class="stages" id="stages" style="margin-top:34px"></div>
   <div class="stagedesc" id="stagedesc"></div>
 </div></section>
@@ -874,10 +890,10 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- MOVE -->
 <section id="move" class="tool"><div class="wrap">
   <div class="eyebrow">The move, coordinated</div>
-  <h2 class="sec">The family home and the new one, in step.</h2>
-  <p class="kicker">The practical tangle that stalls everything: selling the family home without a scary gap before move-in. Tick things off — the timeline keeps itself honest.</p>
+  <h2 data-m="type" class="sec">The family home and the new one, in step.</h2>
+  <p class="kicker" data-m="rise">The practical tangle that stalls everything: selling the family home without a scary gap before move-in. Tick things off — the timeline keeps itself honest.</p>
   <div class="grid2" style="margin-top:36px">
-    <div class="card">
+    <div class="card" data-m="rise">
       <div id="movelist"></div>
       <div class="progbar"><i id="moveprog"></i></div>
     </div>
@@ -893,10 +909,10 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- LIFE -->
 <section id="life" class="tool"><div class="wrap">
   <div class="eyebrow">Life at the village</div>
-  <h2 class="sec">Will she be happy? Show the family, don't tell them.</h2>
-  <p class="kicker">The quiet guilt — "are we abandoning Mum?" — eases when you can see her week filling with things she loves. Pick her interests.</p>
+  <h2 data-m="type" class="sec">Will she be happy? Show the family, don't tell them.</h2>
+  <p class="kicker" data-m="rise">The quiet guilt — "are we abandoning Mum?" — eases when you can see her week filling with things she loves. Pick her interests.</p>
   <div class="grid2" style="margin-top:36px">
-    <div class="card">
+    <div class="card" data-m="rise">
       <label style="font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:14px">What does Mum love?</label>
       <div class="selchips" id="interests"></div>
     </div>
@@ -912,9 +928,9 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="grid2">
     <div>
       <div class="eyebrow">Everyone in the loop</div>
-      <h2 class="sec" style="font-size:clamp(26px,3.6vw,34px)">Across siblings and cities.</h2>
-      <p class="kicker">Nobody left out of Mum's decision — same updates, video-join visits, wherever they are.</p>
-      <div class="card" style="margin-top:24px">
+      <h2 data-m="type" class="sec" style="font-size:clamp(26px,3.6vw,34px)">Across siblings and cities.</h2>
+      <p class="kicker" data-m="rise">Nobody left out of Mum's decision — same updates, video-join visits, wherever they are.</p>
+      <div class="card" data-m="rise" style="margin-top:24px">
         <div id="members"></div>
         <div class="looprow">
           <input id="mname" placeholder="Name" aria-label="Name">
@@ -925,8 +941,8 @@ body.d6-live #waitmap .wm-grid{display:none}
     </div>
     <div>
       <div class="eyebrow">After the move</div>
-      <h2 class="sec" style="font-size:clamp(26px,3.6vw,34px)">The journey doesn't end at move-in.</h2>
-      <p class="kicker">With consent, a gentle window into Mum's life — the part that earns word of mouth.</p>
+      <h2 data-m="type" class="sec" style="font-size:clamp(26px,3.6vw,34px)">The journey doesn't end at move-in.</h2>
+      <p class="kicker" data-m="rise">With consent, a gentle window into Mum's life — the part that earns word of mouth.</p>
       <div class="card soft" id="wellbeing" style="margin-top:24px"></div>
     </div>
   </div>
@@ -939,7 +955,7 @@ body.d6-live #waitmap .wm-grid{display:none}
 
 <section id="place"><div class="plWrap">
   <p class="plKick">The site, and the answer to the deepest fear</p>
-  <h2>The care wing is on the same ground as her villa.</h2>
+  <h2 data-m="type">The care wing is on the same ground as her villa.</h2>
   <p class="plLede">Four villas, a community centre, and the care wing lit in purple. The shape carries the argument: the question “what if she gets worse and we have to move her again” is answered by a site plan, and a paragraph cannot do it. Drag it around and look at the distance.</p>
   <div class="plGrid">
     <div class="plStage" id="plStage">
@@ -961,21 +977,26 @@ body.d6-live #waitmap .wm-grid{display:none}
 </div></section>
 <section id="boundary" class="tool"><div class="wrap">
   <div class="eyebrow">The boundary</div>
-  <h2 class="sec">What this concept does not do.</h2>
-  <p class="kicker">No production access is requested by this concept. No resident record, no care plan and no clinical data is involved or asked for. Everything here is built from what Summerset already publishes, plus what a family types into an enquiry form. Scope, privacy, security and commercial terms would need joint approval before any pilot began.</p>
+  <h2 data-m="type" class="sec">What this concept does not do.</h2>
+  <p class="kicker" data-m="rise">No production access is requested by this concept. No resident record, no care plan and no clinical data is involved or asked for. Everything here is built from what Summerset already publishes, plus what a family types into an enquiry form. Scope, privacy, security and commercial terms would need joint approval before any pilot began.</p>
   <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px">
-    <div class="card"><div class="chip">01 &middot; the scope</div><p class="kicker" style="margin:10px 0 0">One region&rsquo;s information-pack enquiries. Four weeks. Opt-in only.</p></div>
-    <div class="card"><div class="chip">02 &middot; the access</div><p class="kicker" style="margin:10px 0 0">Read-only public content plus what the family types. Draft-write only to the pack. Nothing written to any Summerset system.</p></div>
-    <div class="card"><div class="chip">03 &middot; the scorecard</div><p class="kicker" style="margin:10px 0 0">Enquiry-to-visit rate up, time to a first useful answer down, zero unapproved sends.</p></div>
+    <div class="card" data-m="rise"><div class="chip">01 &middot; the scope</div><p class="kicker" data-m="rise" style="margin:10px 0 0">One region&rsquo;s information-pack enquiries. Four weeks. Opt-in only.</p></div>
+    <div class="card" data-m="rise"><div class="chip">02 &middot; the access</div><p class="kicker" data-m="rise" style="margin:10px 0 0">Read-only public content plus what the family types. Draft-write only to the pack. Nothing written to any Summerset system.</p></div>
+    <div class="card" data-m="rise"><div class="chip">03 &middot; the scorecard</div><p class="kicker" data-m="rise" style="margin:10px 0 0">Enquiry-to-visit rate up, time to a first useful answer down, zero unapproved sends.</p></div>
   </div>
-  <p class="kicker" style="margin-top:20px">Fail any line of the scorecard and we change the design or stop.</p>
+  <p class="kicker" data-m="rise" style="margin-top:20px">Fail any line of the scorecard and we change the design or stop.</p>
 </div></section>
 
 
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#470A68" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section id="accept" class="wm-band"><div class="wrap">
   <div class="wm-kick">Before you decide</div>
-  <h2 class="wm-h">What a pilot actually asks of you.</h2>
-  <p class="wm-lede">Written out in full, because the honest version is short and most of it is your time, not your money.</p>
+  <h2 data-m="type" class="wm-h">What a pilot actually asks of you.</h2>
+  <p class="wm-lede" data-m="rise">Written out in full, because the honest version is short and most of it is your time, not your money.</p>
 
   <div class="wm-needs">
     <div class="wm-need"><span>01</span><div><h4>One named person</h4><p>The approver. Every draft stops with them and nothing reaches a customer until they say so. About two hours a week, reading drafts rather than managing a project.</p></div></div>
@@ -989,8 +1010,8 @@ body.d6-live #waitmap .wm-grid{display:none}
   <div class="wm-accept">
     <div>
       <div class="wm-kick">The straight yes</div>
-      <h3>Run the pilot.</h3>
-      <p class="wm-lede" style="margin-top:11px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed &mdash; most pilots move a line or two before they start, and the notes below are how that happens.</p>
+      <h3 data-m="rise">Run the pilot.</h3>
+      <p class="wm-lede" data-m="rise" style="margin-top:11px">Say yes to the six weeks above, and add anything you would change first. Nothing here is fixed &mdash; most pilots move a line or two before they start, and the notes below are how that happens.</p>
       <label class="wm-lbl" for="wmAdjust">Anything you would adjust? <small>optional</small></label>
       <textarea id="wmAdjust" rows="4" placeholder="e.g. a different village, a shorter window, start at the pack and stop at settlement, a different approver…"></textarea>
       <div class="wm-row">
@@ -1025,7 +1046,7 @@ body.d6-live #waitmap .wm-grid{display:none}
     <div class="pfCard">
       <div class="pfK">the regulatory spine · RV Amendment package</div>
       <p class="pfQ">The Retirement Villages Act amendment package (announced 4 December 2025) mandates capital repayment within 12 months of vacating, interest accruing from month 6, weekly fees stopping immediately, and plain-language ORAs.</p>
-      <p class="pfT">The journey timestamps every stage from vacate to repayment. The family sees the clock; the operator proves compliance with it — the same trace serves both.</p>
+      <p class="pfT" data-m="rise">The journey timestamps every stage from vacate to repayment. The family sees the clock; the operator proves compliance with it — the same trace serves both.</p>
     </div>
     <div class="pfCard">
       <div class="pfK">what a 90-day pilot would measure</div>
@@ -1040,7 +1061,7 @@ body.d6-live #waitmap .wm-grid{display:none}
         <div class="pfStop"><b>Month 6</b>interest starts accruing</div>
         <div class="pfStop"><b>Month 12</b>capital repaid</div>
       </div>
-      <p class="pfT" style="margin-top:12px">The family sees this clock; the operator proves compliance with it. Announced policy (4 December 2025, per MinterEllison&rsquo;s summary) &mdash; not yet law; introduction imminent. Nothing here is legal advice.</p>
+      <p class="pfT" data-m="rise" style="margin-top:12px">The family sees this clock; the operator proves compliance with it. Announced policy (4 December 2025, per MinterEllison&rsquo;s summary) &mdash; not yet law; introduction imminent. Nothing here is legal advice.</p>
     </div>
     <p class="pfNote">simulated journey &middot; illustrative concept &middot; the numbers above are the pilot&rsquo;s to earn, not ours to claim</p>
   </div>
@@ -1060,6 +1081,37 @@ body.d6-live #waitmap .wm-grid{display:none}
     <button class="send" onclick="sendChat()">Send</button>
   </div>
 </div>
+<!-- ab:ev:start — the evidence, per industry -->
+<section class="abEv" style="--abA:#470A68" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer><div class="wrap narrow">
   <p><b>Trust wait.</b> The anxious moment is never monetised — Summerset's money is only ever explained for clarity. Measured on enquiry-to-visit and time-to-decision, never on pressure.</p>
   <p style="margin-top:14px">Independent concept · not affiliated with or endorsed by Summerset · illustrative figures · no real family or resident data used. Fee model reflects publicly stated Summerset terms (licence payment under an Occupation Right Agreement, deferred management fee of 25% accruing over four years for an independent living home, weekly fee and fee accrual ending the day the resident permanently vacates, and the Summerset Sure 90-day money-back guarantee) and should be confirmed with a Summerset advisor. Brand palette, the information-pack offer and every figure here are taken from Summerset's own public website. No production access is requested and no resident, care-record or clinical data is involved.</p>
@@ -1088,12 +1140,12 @@ const S = {
 
 /* ============ PHONE JOURNEY ============ */
 const pj = [
-  ()=>`<div class="peyebrow">A family decision</div><h3>A big decision,<br>made together.</h3>
-    <p class="sub">mySummerset can take a single minute to prepare what your family needs. Nothing is decided for you.</p>
+  ()=>`<div class="peyebrow">A family decision</div><h3 data-m="rise">A big decision,<br>made together.</h3>
+    <p class="sub" data-m="rise">mySummerset can take a single minute to prepare what your family needs. Nothing is decided for you.</p>
     <div class="chips"><span class="chip">Mum · 82</span><span class="chip">Two children</span><span class="chip">Leaving home</span></div>
     <div class="signal"><small>What we understand</small><p>Sarah's in Wellington, David's in Brisbane · mobility now matters</p></div>
     <button class="pcta" onclick="pjGo(1)">Begin — at your pace <span class="arw">→</span></button>`,
-  ()=>`<div class="peyebrow">Minute one</div><h3>Getting things ready<br>for your family.</h3>
+  ()=>`<div class="peyebrow">Minute one</div><h3 data-m="rise">Getting things ready<br>for your family.</h3>
     <div class="prog"><i id="bar"></i></div>
     <ul class="asm" id="asm">
       <li><span class="mk">✓</span> Understanding Mum's needs</li>
@@ -1103,8 +1155,8 @@ const pj = [
       <li><span class="mk">✓</span> Gathering the questions families forget</li>
     </ul>
     <button class="pcta" id="waitcta" style="opacity:.4;pointer-events:none" onclick="pjGo(2)">Preparing… <span class="arw">→</span></button>`,
-  ()=>`<div class="peyebrow">Ready when you are</div><h3>Everything, in<br>one place.</h3>
-    <p class="sub">Prepared for Mum · nothing booked · your family stays in control.</p>
+  ()=>`<div class="peyebrow">Ready when you are</div><h3 data-m="rise">Everything, in<br>one place.</h3>
+    <p class="sub" data-m="rise">Prepared for Mum · nothing booked · your family stays in control.</p>
     <div class="chips"><span class="chip">A home that fits</span><span class="chip">Her things placed</span><span class="chip">Money explained</span><span class="chip">Care for life</span></div>
     <div class="signal"><small>What we understand</small><p>Her armchair fits by the window · no pressure to decide</p></div>
     <button class="pcta" onclick="document.getElementById('fit').scrollIntoView()">Explore it full-size below <span class="arw">→</span></button>`
@@ -1311,7 +1363,7 @@ function renderProof(){
   const back=S.price*0.75;
   document.getElementById('proofpanel').innerHTML=`
     <div class="eyebrow">Summerset · family journey control</div>
-    <h2>The journey is understood, and stays<br>in the family's hands.</h2>
+    <h2 data-m="type">The journey is understood, and stays<br>in the family's hands.</h2>
     <div class="metrics">
       <div class="metric"><div class="k">Family signals</div><div class="v">${signals}</div></div>
       <div class="metric"><div class="k">Time returned</div><div class="v">45 min</div></div>
@@ -1760,6 +1812,89 @@ renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderIn
 .pfStop:nth-child(2){text-align:center}
 .pfStop:last-child{text-align:right}
 /* pf:end */
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
 <script>
 (function(){
@@ -2268,5 +2403,41 @@ if(band&&!reduce){
 })();/* mz:end */</script>
 <script>window.VR_CONFIG={"api": "/api/room", "demoSrc": "demo-lounge.jpg", "demoType": "image/jpeg", "mode": "room-guide", "canned": {"estimate": {"items": [{"name": "Three-seater sofa", "footprint_m2": 1.8, "box": {"x": 7, "y": 43, "w": 39, "h": 28}}, {"name": "Armchair", "footprint_m2": 0.6, "box": {"x": 52, "y": 50, "w": 17, "h": 21}}, {"name": "Coffee table", "footprint_m2": 0.5, "box": {"x": 30, "y": 66, "w": 22, "h": 15}}, {"name": "Sideboard", "footprint_m2": 0.8, "box": {"x": 74, "y": 37, "w": 22, "h": 27}}, {"name": "Floor lamp", "footprint_m2": 0.1, "box": {"x": 47, "y": 27, "w": 6, "h": 27}}], "flags": [{"note": "doorway on the right — clear", "kind": "clear", "box": {"x": 88, "y": 8, "w": 11, "h": 60}}, {"note": "rug corner by the table sits lifted", "kind": "care", "box": {"x": 62, "y": 84, "w": 9, "h": 10}}, {"note": "lane between sofa and table is narrow", "kind": "care", "box": {"x": 46, "y": 63, "w": 8, "h": 15}}], "total_footprint_m2": 3.8, "what_i_saw": "A warm, well-loved lounge — the three-seater facing the window, the armchair beside it, and a sideboard that has clearly been in the family a long time.", "confidence": "medium", "reasoning": "Sized against the doorway on the right (about 0.8 m) and the sofa seat depth (about 0.5 m).", "cannot_tell": ["the doorway width in millimetres", "whether anything sits behind the camera", "how that rug corner behaves underfoot"]}, "guide": {"total_m2": 3.8, "line": "Their things come to roughly 3.8 m² of floor. Take that number to the plan of the apartment you are considering — a person walks it with you, room by room.", "measure": "This is a read from a photo, not a measurement. Before anything moves, measure the two biggest pieces and the width of every doorway they travel through.", "held": "Nothing here is sent, saved or booked. It is a draft for the family, and for a person to check with you."}}, "thumbs": null, "queue": false, "noRoomDims": true};</script>
 <script src="visionread.js"></script>
+<!-- ab:auto:start -->
+<script>
+(function(){
+  var b=document.getElementById('vrDemo'), sec=document.getElementById('vrSec');
+  if(!b||!sec||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var done=false;
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting&&!done){done=true;setTimeout(function(){b.click()},420);} });
+  },{threshold:.35}).observe(sec);
+})();
+</script>
+<!-- ab:auto:end -->
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  /* each mount isolated: a machine without WebGL still gets the mosaic,
+     the step copy and the scrub rail — the page degrades, never dies */
+  try{
+    if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+      {form:'villa',material:'brass',colour:'#470A68',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  }catch(e){}
+  try{
+    var c2=document.getElementById('abCloud2');
+    if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+      {form:'villa',material:'brass',colour:'#470A68',count:1800,mode:'auto',size:.045});
+  }catch(e){}
+  try{
+    if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+      {colour:'#470A68',ink:'#14161A',brass:'#BFA37A',seed:'summerset',density:14,mode:'enter'});
+  }catch(e){}
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>

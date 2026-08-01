@@ -2151,7 +2151,17 @@ function grounded(q){
     old356.position.set(-2.05,-0.62,0.6);
     old356.rotation.y=0.06;
     carGroup.add(old356);
-    if(!red356) asm={at:g356.getAttribute('position'),tgt:pos,off:off,ph:ph,start:performance.now()+400,dur:2600,done:false};
+    if(!red356){
+      asm={at:g356.getAttribute('position'),tgt:pos,off:off,ph:ph,start:performance.now()+400,dur:2600,done:false};
+      /* the entrance replays when the hero returns to view — a repeatable
+         moment, not a one-shot missed while the assets were still loading */
+      var heroEl=document.querySelector('.hero'), wasAway=false;
+      if(heroEl) new IntersectionObserver(function(es){es.forEach(function(en){
+        if(!en.isIntersecting){wasAway=true}
+        else if(wasAway&&asm&&asm.done){wasAway=false;asm.start=performance.now()+250;asm.done=false}
+        else{wasAway=false}
+      })},{threshold:.3}).observe(heroEl);
+    }
   }).catch(function(e){ console.error('[356] could not load:',e); });
 
   /* assembl's mark — champagne rings, never a client colour */
@@ -2444,6 +2454,8 @@ function grounded(q){
 .vrQGuard{margin-top:11px;font:700 11px -apple-system,sans-serif;color:var(--vrInk);background:none;
   border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 14px;cursor:pointer}
 /* vr:end */
+
+
 
 
 

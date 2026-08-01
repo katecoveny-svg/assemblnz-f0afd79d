@@ -172,17 +172,24 @@
     return tex;
   }
 
-  function materialFor(kind, colour, env) {
+  function materialFor(kind, colour, env, mix) {
+    /* Kate, 1 Aug 2026: "can it not be in the brand colours?" — every finish
+       is now TINTED with the client's colour. The material keeps its character
+       (metal, liquid); the hue is theirs. `mix` (0..1, opt.brandMix) sets how
+       far the finish leans into the brand — default .7, tune per page if a
+       colour blows out under the softbox. */
+    var m = (mix == null ? .7 : mix);
+    function tint(base, k) { return new THREE.Color(base).lerp(new THREE.Color(colour || base), k); }
     switch (kind) {
       case 'chrome':
-        return new THREE.MeshStandardMaterial({ color: '#E9ECF1', metalness: 1,
+        return new THREE.MeshStandardMaterial({ color: tint('#E9ECF1', m), metalness: 1,
           roughness: .17, envMap: env, envMapIntensity: 1.9 });       // brushed, not mirror
       case 'brass':
-        return new THREE.MeshStandardMaterial({ color: '#BFA37A', metalness: 1,
+        return new THREE.MeshStandardMaterial({ color: tint('#BFA37A', m), metalness: 1,
           roughness: .21, envMap: env, envMapIntensity: 2.0 });
       case 'ink':
-        return new THREE.MeshStandardMaterial({ color: '#0C0D10', metalness: .55,
-          roughness: .13, envMap: env, envMapIntensity: 1.35 });      // wet, not glossy plastic
+        return new THREE.MeshStandardMaterial({ color: tint('#16171B', m * .8), metalness: .4,
+          roughness: .16, envMap: env, envMapIntensity: 1.1 });       // wet, dark, in their hue
       case 'brand':
         return new THREE.MeshStandardMaterial({ color: colour, metalness: .82,
           roughness: .26, envMap: env, envMapIntensity: 1.5 });
@@ -231,7 +238,7 @@
     if (isMetal) {
       env = envMap(ren, KIND === 'brass' || KIND === 'ink');
       scene.environment = env;
-      mat = materialFor(KIND, COL, env);
+      mat = materialFor(KIND, COL, env, opt.brandMix);
       geo = new THREE.SphereGeometry(SZ * 1.25, 8, 6);
       obj = new THREE.InstancedMesh(geo, mat, N);
       obj.instanceMatrix.setUsage(THREE.DynamicDrawUsage);

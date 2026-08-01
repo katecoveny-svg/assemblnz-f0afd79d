@@ -250,9 +250,95 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .pfStop:nth-child(2){text-align:center}
 .pfStop:last-child{text-align:right}
 /* pf:end */
+
+
+/* ab:css:start */
+/* ── the assembly stage · assembl system ───────────────────────────────────
+   Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
+   the lab's pinned stage, not a band that sits there: the section is tall, the
+   view pins, and the form assembles under the reader's own scrolling. */
+.abStage{position:relative;height:300vh;background:#FCFCFA}
+.abStage__pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  display:grid;grid-template-columns:1fr;align-items:center}
+.abStage__art{position:absolute;inset:0;z-index:1}
+.abStage__pin::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none}
+.abStage--dark .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(8,9,12,.72) 0%,transparent 72%)}
+.abStage--paper .abStage__pin::after{background:radial-gradient(ellipse 70% 46% at 50% 50%,rgba(252,252,250,.78) 0%,transparent 72%)}
+.abStage__art--dark{background:radial-gradient(ellipse 92% 74% at 50% 40%,#16181D 0%,#0A0B0E 100%)}
+.abStage__art--paper{background:#FCFCFA}
+.abStage__copy{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  text-align:center;pointer-events:none}
+.abStage__step{grid-area:1/1;max-width:820px;padding:0 26px;
+  opacity:0;transition:opacity .5s cubic-bezier(.16,.84,.28,1)}
+.abStage__step.on{opacity:1}
+.abStage__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(34px,6vw,84px);line-height:1;letter-spacing:-.02em}
+.abStage__l{font:300 15px/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  margin-top:14px}
+.abStage--dark .abStage__n{color:#F6F7F8}
+.abStage--dark .abStage__l{color:rgba(246,247,248,.7)}
+.abStage--paper .abStage__n{color:#14161A}
+.abStage--paper .abStage__l{color:#4A4F57}
+.abStage__rail{position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(128,128,136,.22)}
+.abStage__fill{height:100%;width:0;background:var(--abA,#2F4F44);transition:width .18s linear}
+.abStage__cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:rgba(128,128,136,.75)}
+
+/* the pattern, on its own quiet band under the stage */
+.abMosBand{background:#FCFCFA;padding:clamp(40px,7vh,92px) clamp(22px,5vw,64px)}
+.abMosBand__in{max-width:1240px;margin:0 auto}
+.abMosBand__host{position:relative;height:clamp(180px,28vh,300px);border-radius:20px;
+  overflow:hidden;background:#fff;border:1px solid rgba(20,22,26,.09)}
+.abMosBand__cap{max-width:1240px;margin:14px auto 0;
+  font:700 9.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#989CA2}
+
+/* ── the evidence · verified Aotearoa and Australia figures ────────────────
+   Kate, 1 Aug 2026: "find more relevant figures for NZ and AUS". The page used
+   to carry four US numbers in a grey paragraph. These are the ANZ replacements,
+   each from a primary source dated 2024-2026, set at a size that says the
+   number IS the argument. */
+.abEv{background:#0A0B0E;color:#F6F7F8;padding:clamp(70px,13vh,150px) clamp(22px,5vw,64px);
+  position:relative;overflow:hidden}
+.abEv__in{max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.abEv__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#BFA37A);display:flex;align-items:center;gap:14px}
+.abEv__k::after{content:"";flex:1;height:1px;background:rgba(246,247,248,.16);max-width:220px}
+.abEv__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.6vw,62px);line-height:1.04;letter-spacing:-.02em;
+  margin:22px 0 clamp(38px,6vh,72px);max-width:19ch}
+.abEv__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(246,247,248,.13);border:1px solid rgba(246,247,248,.13)}
+@media(max-width:860px){.abEv__grid{grid-template-columns:1fr}}
+.abEv__c{background:#0A0B0E;padding:clamp(26px,3.4vw,44px)}
+.abEv__n{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(50px,7.4vw,112px);line-height:.9;letter-spacing:-.035em;
+  color:#F6F7F8;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:4px}
+.abEv__n em{font-style:normal;font-size:.42em;letter-spacing:-.01em;color:var(--abA,#BFA37A)}
+.abEv__t{font:300 16px/1.55 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.86);
+  margin-top:20px;max-width:34ch}
+.abEv__t b{color:#F6F7F8;font-weight:600}
+.abEv__s{font:400 11.5px/1.5 -apple-system,system-ui,sans-serif;color:rgba(246,247,248,.44);
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,247,248,.13)}
+.abEv__flag{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;padding:5px 8px;border:1px solid rgba(246,247,248,.28);
+  border-radius:4px;margin-right:10px;color:rgba(246,247,248,.72);vertical-align:middle}
+.abEv__foot{margin-top:clamp(28px,4vh,52px);font:300 13.5px/1.7 -apple-system,system-ui,sans-serif;
+  color:rgba(246,247,248,.55);max-width:76ch}
+.abEv__foot b{color:rgba(246,247,248,.86);font-weight:600}
+
+/* the closing beat — the form, resolved, just before the ask */
+.abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
+  background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
+.abClose__art{position:absolute;inset:0}
+/* ab:css:end */
 </style>
+<link rel="stylesheet" href="assembl-system.css">
+<link rel="stylesheet" href="assembl-motion.css">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="mGrain">
 
 <div class="hair">independent concept &middot; simulated project &middot; not affiliated with or endorsed by Southbase &mdash; prepared by assembl &middot; photography from southbase.co.nz, used for this concept only</div>
 
@@ -261,17 +347,34 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   <div class="scrim" aria-hidden="true"></div>
   <div class="in">
     <div class="who">southbase &times; <b>assembling</b> &middot; client journey for major projects</div>
-    <h1>the client always<br /><em>knows what happens next.</em></h1>
-    <p class="sub">Between monthly PCG meetings, a school board or a Crown sponsor mostly waits and worries. Southbase already runs the build. Nobody sells them the <b>client&rsquo;s experience of it</b> &mdash; a living, plain-language view of where the project is, what happens next, and what needs deciding. This page is that layer, working.</p>
+    <h1 data-m="type">the client always<br /><em>knows what happens next.</em></h1>
+    <p class="sub" data-m="rise">Between monthly PCG meetings, a school board or a Crown sponsor mostly waits and worries. Southbase already runs the build. Nobody sells them the <b>client&rsquo;s experience of it</b> &mdash; a living, plain-language view of where the project is, what happens next, and what needs deciding. This page is that layer, working.</p>
   </div>
   <div class="credit">photography: southbase.co.nz</div>
 </header>
-<!-- mz:start -->
-<section class="mzBand" aria-hidden="true" style="--mzDorm:.16;--mzCapC:rgba(30,27,20,.55)">
-  <div class="mzIn"><div id="mzHost"></div>
-  <div class="mzCap">watch it assemble &middot; <b>every piece connected</b></div></div>
+<!-- ab:start — the assembly stage, assembl system -->
+<section class="abStage abStage--dark" data-m-scrub aria-label="the build, in the open" style="--abA:#78BE37">
+  <div class="abStage__pin">
+    <div class="abStage__art abStage__art--dark" id="abCloud"></div>
+    <div class="abStage__copy">
+      <!-- mStage__* aliases are load-bearing: assembl-motion's scrub() drives
+           .mStage__step/.mStage__fill — without them the copy never advances -->
+      <div class="abStage__step mStage__step on"><div class="abStage__n">Dispersed.</div>
+        <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Selected.</div>
+        <div class="abStage__l">Only what this stage of this journey needs.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Assembling.</div>
+        <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Held.</div>
+        <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
+    </div>
+    <div class="abStage__rail"><div class="abStage__fill mStage__fill"></div></div>
+  </div>
 </section>
-<!-- mz:end -->
+<section class="abMosBand" aria-hidden="true">
+  <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
+</section>
+<!-- ab:end -->
 
 <div class="win rise">
   <div class="winCard">
@@ -286,8 +389,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec rise" id="machine">
   <div class="secK">the five-beat spine &middot; a fortnight between PCG meetings</div>
-  <h2 class="secH">Play the fortnight.</h2>
-  <p class="secS">A fictional school project &mdash; <b>Te Awa Primary, stage 2 rebuild</b> (invented, so no real job is borrowed). The left side is what the site produces. The right side is what the client sees — in their own language, per stakeholder. Switch the lens and watch the same fortnight change register.</p>
+  <h2 data-m="type" class="secH">Play the fortnight.</h2>
+  <p class="secS" data-m="rise">A fictional school project &mdash; <b>Te Awa Primary, stage 2 rebuild</b> (invented, so no real job is borrowed). The left side is what the site produces. The right side is what the client sees — in their own language, per stakeholder. Switch the lens and watch the same fortnight change register.</p>
   <div class="machine">
     <div class="mTop">
       <div class="t">Te Awa Primary &middot; fictional &middot; simulated fortnight<small>milestone &rarr; plain-language note &rarr; a decision with a deadline &rarr; logged &rarr; the proof pack</small></div>
@@ -300,7 +403,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
     </div>
     <div class="mBody">
       <div class="feed">
-        <div class="ev" id="ev1">
+        <div class="ev" data-m="rise" id="ev1">
           <div class="k">site event &middot; day 2 <span>captured on site</span></div>
           <p><b>Milestone confirmed:</b> block B roof structure complete — with photo evidence from the capture walk, not a sentence in a report.</p>
           <div class="photo"><img src="sb-projects.jpg" alt="Construction progress photography" /><em>evidence &middot; capture walk &middot; simulated</em></div>
@@ -315,7 +418,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
           <span class="deadline">programme needs this by day 9</span>
           <div class="held">Logged with who decided and when — <b>the #1 cause of client-side delay, closed on time</b>.</div>
         </div>
-        <div class="ev" id="ev3">
+        <div class="ev" data-m="rise" id="ev3">
           <div class="k">the smallest question &middot; day 8 <span>one tap</span></div>
           <p>The one thing the contractor needs from the client this fortnight: <b>confirm the site access window for the open day</b>. Nothing else is asked.</p>
         </div>
@@ -342,12 +445,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec rise" id="tender">
   <div class="secK">the tender, tied to the bid &middot; agentically</div>
-  <h2 class="secH">From the notice to the non-price attribute.</h2>
-  <p class="secS">Crown tenders score more than price. When the RFP asks how the consortium will keep the client informed, the answer shouldn&rsquo;t be written from scratch at 11pm — it should be assembled from the journey you already run. Press the button: the agent drafts the attribute response from this page&rsquo;s own machinery, and it arrives as a draft, unsigned.</p>
+  <h2 data-m="type" class="secH">From the notice to the non-price attribute.</h2>
+  <p class="secS" data-m="rise">Crown tenders score more than price. When the RFP asks how the consortium will keep the client informed, the answer shouldn&rsquo;t be written from scratch at 11pm — it should be assembled from the journey you already run. Press the button: the agent drafts the attribute response from this page&rsquo;s own machinery, and it arrives as a draft, unsigned.</p>
   <div class="tb">
     <div class="gets">
       <span class="tag">simulated notice &middot; in the shape of a GETS RFP</span>
-      <h3>Regional Learning Environments Programme &mdash; Stage 2</h3>
+      <h3 data-m="rise">Regional Learning Environments Programme &mdash; Stage 2</h3>
       <div class="meta">Request for Proposal &middot; fictional &middot; closes day 28</div>
       <p>Respondents must demonstrate their approach to <b>sponsor and stakeholder communication</b>, decision management, and reporting across the delivery phase.</p>
       <div class="attr">
@@ -373,8 +476,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec rise" id="crew">
   <div class="secK">the crew behind the glass &middot; already built</div>
-  <h2 class="secH">Six agents. One client view.</h2>
-  <p class="secS">The client sees one calm pane. Behind it, assembl&rsquo;s HANGA construction crew — six agents that already exist in the assembl marketplace — each working its own regulated lane and feeding the journey. Wiring them to a Southbase project is the proposed pilot; the agents themselves are built.</p>
+  <h2 data-m="type" class="secH">Six agents. One client view.</h2>
+  <p class="secS" data-m="rise">The client sees one calm pane. Behind it, assembl&rsquo;s HANGA construction crew — six agents that already exist in the assembl marketplace — each working its own regulated lane and feeding the journey. Wiring them to a Southbase project is the proposed pilot; the agents themselves are built.</p>
   <div class="crewGrid">
     <div class="cw"><b>KAUPAPA</b><div class="role">programme &amp; contract</div><p>Critical path, milestones, payment claims and variations — the programme truths the client view draws from.</p><div class="law">Construction Contracts Act 2002</div></div>
     <div class="cw"><b>WHAKAAĒ</b><div class="role">consenting &amp; compliance</div><p>Building consent status, inspections, producer statements, CCC — the consent trail, traceable in plain language.</p><div class="law">Building Act 2004</div></div>
@@ -393,7 +496,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec rise" id="guard">
   <div class="secK">the boundary panel &middot; every rule real</div>
-  <h2 class="secH">What this journey refuses to do.</h2>
+  <h2 data-m="type" class="secH">What this journey refuses to do.</h2>
   <div class="gGrid">
     <div class="g"><b><i>&times;</i>Never certifies claims</b><p>Payment claims are certified by the QS and the engine of the contract — never by this layer. It reports certification; it does not perform it.</p><div class="law">CCA 2002 &middot; the QS&rsquo;s job</div></div>
     <div class="g"><b><i>&times;</i>No consent advice</b><p>Consent status is reported from the record. What the council will decide, and how to satisfy a condition, stays with the council and the professionals.</p><div class="law">Building Act 2004 &middot; the council&rsquo;s job</div></div>
@@ -405,7 +508,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 <section class="sec rise" id="ask">
   <div class="secK">ask this concept &middot; live</div>
-  <h2 class="secH">Ask how it works.</h2>
+  <h2 data-m="type" class="secH">Ask how it works.</h2>
   <div class="askBox">
     <div class="chat" id="chat">
       <div class="m ai">Kia ora — I&rsquo;m this concept&rsquo;s own agent. Ask how the client view works, what the crew does, what it refuses, or what a pilot needs.</div>
@@ -424,7 +527,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
     <div class="pfCard">
       <div class="pfK">the regulatory spine · CCA 2002</div>
       <p class="pfQ">The Construction Contracts Act 2002 gives payment claims, certification and adjudication their statutory clock — the journey is traceable because the law already makes it so.</p>
-      <p class="pfT">Every claim event, decision and consent status on the client view carries its timestamp and its author. The client sees the fortnight; the record satisfies the contract.</p>
+      <p class="pfT" data-m="rise">Every claim event, decision and consent status on the client view carries its timestamp and its author. The client sees the fortnight; the record satisfies the contract.</p>
     </div>
     <div class="pfCard">
       <div class="pfK">what a 90-day pilot would measure</div>
@@ -434,9 +537,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   </div>
 </section>
 <!-- pf:end -->
+<!-- ab:close:start -->
+<section class="abClose" style="--abA:#78BE37" aria-hidden="true">
+  <div class="abClose__art" id="abCloud2"></div>
+</section>
+<!-- ab:close:end -->
 <section class="sec rise" id="pilot">
   <div class="secK">run the pilot &middot; the acceptance</div>
-  <h2 class="secH">One project, one PCG cycle.</h2>
+  <h2 data-m="type" class="secH">One project, one PCG cycle.</h2>
   <div class="accGrid">
     <div>
       <p><b>One live project, one full PCG cycle, instrumented against the current fortnight of silence.</b> Read-only feeds from what already runs; every client note drafted by the journey and signed by your PM; the proof pack lands in the next PCG report. The numbers you quote afterwards are your own.</p>
@@ -451,6 +559,37 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   </div>
 </section>
 
+<!-- ab:ev:start — the evidence, per industry -->
+<section class="abEv" style="--abA:#78BE37" aria-label="the evidence">
+  <div class="abEv__in">
+    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
+    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__grid">
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
+        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
+        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
+        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
+        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
+      </div>
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
+        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+      </div>
+    </div>
+    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+  </div>
+</section>
+<!-- ab:ev:end -->
 <footer class="foot">
   An independent concept by assembl &mdash; intuitive agentic customer journeys. Not affiliated with, endorsed by or commissioned by
   Southbase Group. The Te Awa Primary project, its events, figures and tender notice are fictional and simulated; the six HANGA
@@ -744,5 +883,30 @@ if(band&&!reduce){
     layer.setAttribute('transform','translate('+px.toFixed(2)+' '+py.toFixed(2)+')');})();
 }
 })();/* mz:end */</script>
+<script src="three.min.js"></script>
+<!-- ab:js:start -->
+<script src="assembl-motion.js"></script>
+<script src="assembl-cloud.js"></script>
+<script src="assembl-mosaic.js"></script>
+<script>
+(function(){
+  /* each mount isolated: a machine without WebGL still gets the mosaic,
+     the step copy and the scrub rail — the page degrades, never dies */
+  try{
+    if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+      {form:'tower',material:'chrome',colour:'#78BE37',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  }catch(e){}
+  try{
+    var c2=document.getElementById('abCloud2');
+    if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+      {form:'tower',material:'chrome',colour:'#78BE37',count:1800,mode:'auto',size:.045});
+  }catch(e){}
+  try{
+    if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+      {colour:'#78BE37',ink:'#14161A',brass:'#BFA37A',seed:'southbase',density:14,mode:'enter'});
+  }catch(e){}
+})();
+</script>
+<!-- ab:js:end -->
 </body>
 </html>
