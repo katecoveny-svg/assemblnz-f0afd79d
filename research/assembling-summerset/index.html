@@ -1396,9 +1396,11 @@ renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderIn
   cam.position.set(-2,0.3,12);cam.lookAt(0,0,0)
   const pmrem=new THREE.PMREMGenerator(r)
   const env=new THREE.Scene()
-  env.background=new THREE.Color('#0A0A0A')
+  env.background=new THREE.Color('#1A1022')
   let e=new THREE.DirectionalLight('#FFFFFF',40);e.position.set(5,8,5);env.add(e)
-  e=new THREE.DirectionalLight('#FFFFFF',20);e.position.set(-5,3,2);env.add(e)
+  e=new THREE.DirectionalLight('#FFF4E8',22);e.position.set(-5,3,2);env.add(e)
+  const pan=(col,x,y,z,w,h)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:col}));m.position.set(x,y,z);m.lookAt(0,0,0);env.add(m)}
+  pan('#F6E7F1',-6,2,4,8,5); pan('#B98BD6',6,4,-3,7,6); pan('#FFFFFF',0,7,2,9,4)
   s.environment=pmrem.fromScene(env,0.04).texture
   s.add(new THREE.AmbientLight('#FFFFFF',0.62))
   const key=new THREE.DirectionalLight('#FFFFFF',1.5);key.position.set(5,10,5);s.add(key)
@@ -1408,17 +1410,16 @@ renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderIn
   const deep=new THREE.MeshStandardMaterial({color:'#E4002B',metalness:1,roughness:0.03,envMapIntensity:40})
   const whiteChrome=new THREE.MeshStandardMaterial({color:'#F8F9FA',metalness:1,roughness:0.02,envMapIntensity:35})
 
-  const group=new THREE.Group();s.add(group);group.position.set(4,0,0);group.scale.setScalar(1.05)
+  const group=new THREE.Group();s.add(group);group.position.set(6.0,-0.5,0);group.scale.setScalar(0.96);group.rotation.y=-0.26
 
   /* THE THRESHOLDS.
      A Summerset decision is a sequence of doors, not one: the first look, the
      visit, the home you choose, the paperwork, the move, the day care changes.
      So the object is five frames in a line, standing open, and one person
      moving through them at their own pace — pausing, which is the point. */
-  const frameA=new THREE.MeshStandardMaterial({color:'#470A68',metalness:0.15,roughness:0.40,envMapIntensity:1.0})
-  const frameB=new THREE.MeshStandardMaterial({color:'#7E5395',metalness:0.15,roughness:0.42,envMapIntensity:1.0})
-  const walkM =new THREE.MeshStandardMaterial({color:'#E4002B',metalness:0,roughness:0.32,envMapIntensity:1.2})
-  const floorM=new THREE.MeshStandardMaterial({color:'#7E5395',metalness:0,roughness:0.7,envMapIntensity:0.6})
+  const frameA=new THREE.MeshStandardMaterial({color:'#470A68',metalness:0.92,roughness:0.16,envMapIntensity:1.6})
+  const frameB=new THREE.MeshStandardMaterial({color:'#9B6FB8',metalness:0.95,roughness:0.10,envMapIntensity:1.9})
+  const walkM =new THREE.MeshStandardMaterial({color:'#E4002B',metalness:0.6,roughness:0.18,envMapIntensity:1.6})
   const frames=[]
   for(let i=0;i<5;i++){
     const w=2.5-i*0.13, hh=3.3-i*0.18, th=0.070
@@ -1435,18 +1436,34 @@ renderPhone(); renderPieces(); calcMoney(); renderCare(); renderMove(); renderIn
   const ring=new THREE.Mesh(new THREE.TorusGeometry(0.52,0.020,10,60),walkM)
   ring.rotation.y=Math.PI/2; group.add(ring)
   /* the floor they walk */
-  const floor=new THREE.Mesh(new THREE.BoxGeometry(2.8,0.025,9.0),floorM)
-  floor.position.set(0,-1.60,-3.2); group.add(floor)
+  /* soft ground: a radial shadow that fades, and a whisper of sheen — no slab */
+  const shCv=document.createElement('canvas');shCv.width=shCv.height=256
+  const sg=shCv.getContext('2d');const grd=sg.createRadialGradient(128,128,10,128,128,126)
+  grd.addColorStop(0,'rgba(71,10,104,0.34)');grd.addColorStop(1,'rgba(71,10,104,0)')
+  sg.fillStyle=grd;sg.fillRect(0,0,256,256)
+  const shTex=new THREE.CanvasTexture(shCv)
+  const floor=new THREE.Mesh(new THREE.PlaneGeometry(4.6,11.5),
+    new THREE.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false}))
+  floor.rotation.x=-Math.PI/2;floor.position.set(0,-1.62,-3.2);group.add(floor)
+  const sheen=new THREE.Mesh(new THREE.PlaneGeometry(2.6,9.0),
+    new THREE.MeshStandardMaterial({color:'#F3E8F8',metalness:1,roughness:0.35,envMapIntensity:0.9,transparent:true,opacity:0.16}))
+  sheen.rotation.x=-Math.PI/2;sheen.position.set(0,-1.615,-3.2);group.add(sheen)
   const N=120,pGeo=new THREE.BufferGeometry(),pp=new Float32Array(N*3)
   for(let i=0;i<N;i++){pp[i*3]=(Math.random()-0.5)*25;pp[i*3+1]=(Math.random()-0.5)*15;pp[i*3+2]=(Math.random()-0.5)*25}
   pGeo.setAttribute('position',new THREE.BufferAttribute(pp,3))
-  const parts=new THREE.Points(pGeo,new THREE.PointsMaterial({color:'#470A68',size:0.08,transparent:true,opacity:0.35}));s.add(parts)
+  const parts=new THREE.Points(pGeo,new THREE.PointsMaterial({color:'#470A68',size:0.05,transparent:true,opacity:0.22}));s.add(parts)
+  s.fog=new THREE.Fog('#FAF7F4',13,27)
 
   let sy=0
   addEventListener('scroll',()=>{sy=window.scrollY},{passive:true})
+  let mx=0,my=0,pmx=0,pmy=0
+  addEventListener('pointermove',e=>{mx=(e.clientX/innerWidth-0.5);my=(e.clientY/innerHeight-0.5)},{passive:true})
   let t=0
   function anim(){
     requestAnimationFrame(anim);t+=0.016
+    pmx+=(mx-pmx)*0.05;pmy+=(my-pmy)*0.05
+    group.rotation.y=-0.26+pmx*0.14;group.rotation.x=pmy*0.07
+    parts.rotation.y+=0.0004
     const max=document.body.scrollHeight-innerHeight
     const prog=max>0?sy/max:0
     /* the walker moves through the frames and pauses at each — the pause is the
