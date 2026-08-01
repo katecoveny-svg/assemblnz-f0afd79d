@@ -48,8 +48,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 /* section chrome */
 .sec{max-width:1140px;margin:36px auto 0;padding:0 24px}
-.secK{font:800 10px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--teal-b)}
-.secH{margin:6px 0 6px;font-size:clamp(21px,2.8vw,29px);font-weight:800;letter-spacing:-.02em}
+.secK{font:800 10px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--teal-b)}
+/* the editorial register from the stage and evidence bands, carried through
+   the page's own headings — the body pass, 1 Aug 2026 */
+.secH{margin:10px 0 12px;font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,4.4vw,52px);letter-spacing:-.02em;line-height:1.06}
 .secS{margin:0 0 14px;font:500 13.5px/1.6 var(--sans);color:var(--char);max-width:700px}
 
 /* ── the machine — the seven minutes, five beats ─────────────────────────── */
@@ -120,22 +123,26 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .evCard i{display:block;font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--grey);margin-top:8px;font-style:normal}
 
 /* boundary */
-.gGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin-top:14px}
-.g{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:13px 15px}
-.g b{display:flex;align-items:center;gap:7px;font:800 12px var(--sans)}
+.gGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px;margin-top:18px}
+.g{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:18px 20px;
+  transition:border-color .25s,transform .25s,box-shadow .25s}
+.g:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 14px 30px -22px rgba(5,98,104,.45)}
+.g b{display:flex;align-items:center;gap:8px;font:800 13px var(--sans)}
 .g b i{font-style:normal;width:16px;height:16px;border-radius:50%;background:var(--ink);color:#fff;
   display:inline-flex;align-items:center;justify-content:center;font:800 9px var(--mono);flex:none}
-.g p{margin:6px 0 0;font:500 11.5px/1.55 var(--sans);color:var(--char)}
+.g p{margin:7px 0 0;font:500 12.5px/1.58 var(--sans);color:var(--char)}
 .g .law{font:600 9px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-top:7px}
 
 /* ask */
-.askBox{border:1.5px solid var(--line);border-radius:20px;padding:16px 18px;max-width:760px}
+.askBox{border:1.5px solid var(--line);border-radius:22px;padding:20px 22px;max-width:760px;
+  background:var(--card);box-shadow:0 18px 40px -32px rgba(5,98,104,.35)}
 .chat{display:flex;flex-direction:column;gap:7px;min-height:60px;margin-top:10px}
 .m{max-width:88%;padding:9px 12px;border-radius:14px;font:500 12.5px/1.55 var(--sans);white-space:pre-wrap}
 .m.me{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
 .m.ai{align-self:flex-start;background:var(--warm);border:1px solid var(--line);border-bottom-left-radius:4px}
 .askRow{display:flex;gap:7px;margin-top:10px}
-.askRow input{flex:1;font:600 13px var(--sans);padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;outline:none;min-width:0}
+.askRow input{flex:1;font:600 13px var(--sans);padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;outline:none;min-width:0;transition:border-color .2s}
+.askRow input:focus{border-color:var(--teal)}
 .askRow button{font:800 12px var(--sans);color:#fff;background:var(--teal);border:0;border-radius:12px;padding:0 16px;cursor:pointer}
 
 /* accept */
@@ -198,6 +205,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .pfStop:nth-child(2){text-align:center}
 .pfStop:last-child{text-align:right}
 /* pf:end */
+
 
 
 
@@ -378,12 +386,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
   <h2 data-m="type" class="secH">What this journey refuses to do.</h2>
   <p class="secS" data-m="rise">Ported unchanged from the concept&rsquo;s rulebook — the refusals are the product, and the strongest output is the one that declines to produce a message.</p>
   <div class="gGrid">
-    <div class="g"><b><i>&times;</i>No rate predicted, ever</b><p>It explains what builds a personalised rate using published factors, and never estimates the number. That is the engine&rsquo;s output and only its output.</p><div class="law">CCCFA 2003</div></div>
-    <div class="g"><b><i>&times;</i>No credit decision, anywhere</b><p>No output says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.</p><div class="law">CCCFA &middot; Responsible Lending Code</div></div>
-    <div class="g"><b><i>&times;</i>Hardship stops everything</b><p>Language that reads as hardship means nothing is drafted at all. Routed to a named person with the triggering words attached. One right answer is no loan.</p><div class="law">CCCFA &middot; lender responsibilities</div></div>
-    <div class="g"><b><i>&times;</i>The fee credit is pricing, not bait</b><p>A complete file costs less to process, so it can cost less — capped well below anything that could move an affordability decision.</p><div class="law">CCCFA s41 &middot; FMA fee guidance</div></div>
-    <div class="g"><b><i>&times;</i>No third party sees anything</b><p>Nothing is passed to anyone else. Separate businesses need separate consent, and this concept does not bridge them.</p><div class="law">Privacy Act 2020 &middot; IPP 11</div></div>
-    <div class="g"><b><i>&rarr;</i>Where the credit lands is the customer&rsquo;s call</b><p>The same capped credit, redirected only by the customer: off the establishment fee at settlement, or into their KiwiSaver if they opt in. Same cap, same disclosure, and never part of the affordability decision.</p><div class="law">CCCFA s41 &middot; KiwiSaver Act 2006 &middot; opt-in, disclosed</div></div>
+    <div class="g" data-m="rise"><b><i>&times;</i>No rate predicted, ever</b><p>It explains what builds a personalised rate using published factors, and never estimates the number. That is the engine&rsquo;s output and only its output.</p><div class="law">CCCFA 2003</div></div>
+    <div class="g" data-m="rise"><b><i>&times;</i>No credit decision, anywhere</b><p>No output says approved, declined, pre-approved, eligible or likely. Every one ends with a person, not an outcome.</p><div class="law">CCCFA &middot; Responsible Lending Code</div></div>
+    <div class="g" data-m="rise"><b><i>&times;</i>Hardship stops everything</b><p>Language that reads as hardship means nothing is drafted at all. Routed to a named person with the triggering words attached. One right answer is no loan.</p><div class="law">CCCFA &middot; lender responsibilities</div></div>
+    <div class="g" data-m="rise"><b><i>&times;</i>The fee credit is pricing, not bait</b><p>A complete file costs less to process, so it can cost less — capped well below anything that could move an affordability decision.</p><div class="law">CCCFA s41 &middot; FMA fee guidance</div></div>
+    <div class="g" data-m="rise"><b><i>&times;</i>No third party sees anything</b><p>Nothing is passed to anyone else. Separate businesses need separate consent, and this concept does not bridge them.</p><div class="law">Privacy Act 2020 &middot; IPP 11</div></div>
+    <div class="g" data-m="rise"><b><i>&rarr;</i>Where the credit lands is the customer&rsquo;s call</b><p>The same capped credit, redirected only by the customer: off the establishment fee at settlement, or into their KiwiSaver if they opt in. Same cap, same disclosure, and never part of the affordability decision.</p><div class="law">CCCFA s41 &middot; KiwiSaver Act 2006 &middot; opt-in, disclosed</div></div>
   </div>
 </section>
 
