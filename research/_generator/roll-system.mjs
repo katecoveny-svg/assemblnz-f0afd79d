@@ -199,6 +199,11 @@ const EV_CONSTRUCTION = {
   ],
 };
 
+/* the agentic-arrival card, shared by retail-adjacent verticals */
+const CARD_AI = { to: '393', dur: 1900, em: 'per cent', flag: 'US',
+  text: '<b>AI-referred traffic to retail sites grew 393% in a year</b>, and it converts better than any other channel. The buyer&rsquo;s agent is already shopping.',
+  src: 'Adobe Digital Insights, quarterly AI traffic report, April 2026' };
+
 const EV_FIGURES = {
   'assembling-demo-retirement': EV_RETIREMENT,
   'assembling-ryman-family': EV_RETIREMENT,
@@ -207,6 +212,49 @@ const EV_FIGURES = {
   'assembling-southern-cross': EV_INSURANCE,
   'assembling-southbase': EV_CONSTRUCTION,
   'assembling-construction': EV_CONSTRUCTION,
+  'assembling-nzpost': {
+    kick: 'the evidence &middot; parcels, measured',
+    head: 'Every parcel is somebody waiting.',
+    foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of what a &ldquo;where is it&rdquo; contact costs a carrier.',
+    cards: [
+      { to: '88', dur: 1600, em: 'million parcels', flag: 'NZ',
+        text: 'Delivered by NZ Post in FY2025, up from 84 million the year before. Behind each one is somebody watching a tracking page.',
+        src: 'NZ Post, annual results, FY2025' },
+      CARD_AI,
+      EV_SHARED.cards[0],
+      EV_SHARED.cards[2],
+    ],
+  },
+  'assembling-woolworths-rewards': {
+    kick: 'the evidence &middot; the shop, measured',
+    head: 'The shop already knows who is waiting.',
+    foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of what a queue or an out-of-stock wait costs a supermarket relationship.',
+    cards: [
+      { to: '73.2', dur: 1700, em: 'per cent', flag: 'AU',
+        text: 'Of Woolworths Group sales carry an Everyday Rewards tag. <b>The relationship already exists</b> &mdash; what it earns a member during a wait is the open question.',
+        src: 'Woolworths Group, F25 full-year results, August 2025' },
+      { to: '1.8', dur: 1500, em: 'million', flag: 'NZ',
+        text: 'Active Everyday Rewards members in New Zealand &mdash; scanning at the checkout, identifiable in the moment the wait happens.',
+        src: 'Woolworths Group reporting, November 2024' },
+      EV_SHARED.cards[0],
+      EV_SHARED.cards[2],
+    ],
+  },
+  'assembling-contact-cine': {
+    kick: 'the evidence &middot; energy, measured',
+    head: 'The wait is why they switch.',
+    foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study tying hold time to churn in energy retail.',
+    cards: [
+      { to: '409', dur: 1700, em: 'dollars a year', flag: 'NZ',
+        text: 'The average saving a Powerswitch user found by switching. The cost of a wait handled badly is not the call &mdash; it is the customer who leaves at the end of it.',
+        src: 'Consumer NZ, Powerswitch media release, February 2024' },
+      { to: '6', dur: 1400, em: 'million dollars', flag: 'NZ',
+        text: 'Saved collectively in one year by Powerswitch users who switched. The door out of an energy relationship is well signposted and well used.',
+        src: 'Consumer NZ, Powerswitch media release, February 2024' },
+      EV_SHARED.cards[0],
+      EV_SHARED.cards[2],
+    ],
+  },
   'assembling-nectar': {
     kick: 'the evidence &middot; lending, measured',
     head: 'Lending got faster. Waiting did not.',
