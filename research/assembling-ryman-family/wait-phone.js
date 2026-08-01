@@ -529,6 +529,19 @@
     host.appendChild(root);
     reset();
     if (cfg.autostart) ctl.start();
+    /* Default: the wait announces itself the moment it is genuinely on screen.
+       Tap-to-start read as a static mock — clients never tapped, so the
+       product never showed (Kate, 27 Jul). Restarting stays manual. */
+    else if (cfg.autoplayOnView !== false && 'IntersectionObserver' in window) {
+      var seen = false;
+      var io = new IntersectionObserver(function (es) {
+        if (seen || !es[0] || !es[0].isIntersecting) return;
+        seen = true;
+        io.disconnect();
+        setTimeout(function () { ctl.start(); }, 500);
+      }, { threshold: 0.5 });
+      io.observe(root);
+    }
     return ctl;
   }
 
