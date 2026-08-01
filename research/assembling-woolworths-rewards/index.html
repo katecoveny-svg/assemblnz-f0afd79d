@@ -661,6 +661,11 @@ body.d6-live #waitmap .wm-grid{display:none}
 
 
 
+
+
+
+
+
 /* mz:start — the assembling mosaic band */
 .mzBand{padding:36px 22px 26px;position:relative}
 .mzIn{max-width:1080px;margin:0 auto}
@@ -953,6 +958,8 @@ body.d6-live #waitmap .wm-grid{display:none}
 <!-- ═══ THE PILOT ═══ -->
 
 
+
+
 <!-- pf:start -->
 <section class="pfSec" aria-label="Regulatory spine and pilot metrics" style="--pfA:#fd6400">
   <div class="pfIn">
@@ -1068,127 +1075,6 @@ body.d6-live #waitmap .wm-grid{display:none}
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
   document.querySelectorAll('.rise').forEach(function(e){io.observe(e)});
 })();
-
-/* ── THE LIVE SHOP ────────────────────────────────────────────────────────────
-   The centrepiece. Kate's ask was "a very visual show of how their Everyday
-   Rewards and personal shopping can be combined", so the combination is not
-   described — it runs. Every item, price and point value below is invented for
-   the demonstration and the page says so.
-   ─────────────────────────────────────────────────────────────────────────── */
-var LIST=[
-  {n:'Blue top milk, 2L',       w:'you buy this most weeks',            p:6, done:true},
-  {n:'Wholegrain sandwich loaf', w:'the one you switched to in March',   p:4, done:true},
-  {n:'Bananas, loose',           w:'every shop for the last year',       p:3, done:true},
-  {n:'Free-range eggs, dozen',   w:'usually fortnightly — due now', p:5, done:true},
-  {n:'Chicken thighs, 1kg',      w:'Wednesday dinner, four weeks running', p:6, done:true},
-  {n:'Nappies, walker size',     w:'you moved up a size last month',     p:8, done:true},
-  {n:'Coffee beans, 1kg',        w:'MISSING — bought 50 of the last 52 weeks', p:9, flag:true}
-];
-var beats=document.querySelectorAll('.beat');
-var listEl=document.getElementById('aplist'), ptsEl=document.getElementById('pts');
-var barEl=document.getElementById('bar'), capL=document.getElementById('capL'), capR=document.getElementById('capR');
-var timers=[], pts=0, running=false;
-
-function clearRun(){ timers.forEach(clearTimeout); timers=[]; running=false; }
-function lit(i){ beats.forEach(function(b,n){ b.classList.toggle('on', n===i) }); }
-function at(ms,fn){ timers.push(setTimeout(fn,ms)); }
-function addPts(n){
-  pts+=n; ptsEl.textContent=pts+' pts';
-  ptsEl.style.transform='scale(1.1)';
-  setTimeout(function(){ptsEl.style.transform='scale(1)'},180);
-}
-function row(item){
-  var d=document.createElement('div');
-  d.className='aprow'+(item.done?' done':'');
-  d.innerHTML='<span class="tick"></span><span class="nm">'+item.n+'<i>'+item.w+'</i></span>'+
-              '<span class="amt">+'+item.p+'</span>';
-  listEl.appendChild(d);
-  requestAnimationFrame(function(){ d.classList.add('in') });
-  return d;
-}
-function reset(){
-  clearRun(); listEl.innerHTML=''; pts=0; ptsEl.textContent='0 pts';
-  barEl.style.width='0'; capL.textContent='ready when you are'; capR.textContent='0 / 7';
-  beats.forEach(function(b){b.classList.remove('on')});
-}
-function run(){
-  if(running) return; reset(); running=true;
-  var step=0, delay=0;
-
-  /* 01 — the list arrives already written, from the card */
-  at(delay+=220, function(){ lit(0); capL.textContent='reading the card'; });
-  LIST.slice(0,6).forEach(function(item,i){
-    at(delay+=520, function(){
-      row(item); addPts(item.p); step++;
-      barEl.style.width=(step/7*100)+'%'; capR.textContent=step+' / 7';
-    });
-  });
-
-  /* 02 — the missing thing */
-  at(delay+=700, function(){
-    lit(1); capL.textContent='checking what is not here';
-    var d=row(LIST[6]);
-    d.querySelector('.nm i').style.color='#D24E00';
-    d.querySelector('.nm i').style.fontWeight='500';
-    addPts(LIST[6].p); step++;
-    barEl.style.width=(step/7*100)+'%'; capR.textContent=step+' / 7';
-  });
-
-  /* 03 — the swap, asked not decided */
-  at(delay+=900, function(){
-    lit(2); capL.textContent='one question';
-    var s=document.createElement('div');
-    s.className='swap';
-    s.innerHTML='<div class="q">Your usual beans are out at Mt Roskill. The single-origin is the same price this week — want that instead?</div>'+
-      '<div class="row"><button type="button" data-a="yes">Yes, swap it</button>'+
-      '<button type="button" data-a="no">No, leave it off</button>'+
-      '<button type="button" data-a="skip">Ask me later</button></div>';
-    listEl.appendChild(s);
-    s.querySelectorAll('button').forEach(function(b){
-      b.addEventListener('click', function(){
-        s.querySelectorAll('button').forEach(function(x){x.classList.remove('pick')});
-        b.classList.add('pick');
-        s.querySelector('.q').textContent = b.dataset.a==='yes'
-          ? 'Swapped, and remembered. You will not be asked again unless it changes.'
-          : b.dataset.a==='no'
-          ? 'Left off, and remembered. It will not be suggested again.'
-          : 'Held. It will wait in the basket until you decide.';
-        addPts(4);
-      });
-    });
-  });
-
-  /* 04 — the labelled supplier slot */
-  at(delay+=1100, function(){
-    lit(3); capL.textContent='one funded slot, labelled';
-    var s=document.createElement('div');
-    s.className='spon';
-    s.innerHTML='<div class="tag">Funded by a supplier &middot; not in your trolley</div>'+
-      '<div class="txt">A NZ dairy co-op is funding 100 bonus points on any 2L milk this week. '+
-      'It is here because milk is already on your list &mdash; not because they paid the most. Tap to take it or ignore it.</div>';
-    listEl.appendChild(s);
-  });
-
-  /* 05 — points for attention, not spend */
-  at(delay+=1000, function(){
-    lit(4); capL.textContent='the wait paid for itself'; addPts(12);
-  });
-
-  /* 06 — and then it stops */
-  at(delay+=1000, function(){
-    lit(5); capL.textContent='prepared — waiting for you';
-    barEl.style.width='100%';
-    var s=document.createElement('div');
-    s.className='swap';
-    s.style.background='#141613'; s.style.borderColor='#141613';
-    s.innerHTML='<div class="q" style="color:#fff">Nothing has been ordered and nothing has been charged. '+
-      'Seven items are prepared and one question is answered. Your shop is waiting for one tap — yours.</div>';
-    listEl.appendChild(s);
-    running=false;
-  });
-}
-document.getElementById('play').addEventListener('click',run);
-document.getElementById('again').addEventListener('click',reset);
 
 /* ── the six waits, rendered from the authored map ───────────────────────── */
 var WAITS=[
@@ -2019,6 +1905,12 @@ function copyAccept(){
 })();
 </script>
 <!-- wow:end -->
+
+<script></script>
+
+<script></script>
+
+<script></script>
 
 <script></script>
 
