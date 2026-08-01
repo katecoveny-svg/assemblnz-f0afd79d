@@ -243,8 +243,8 @@ function vrRunGuard(){
       if(c&&hit){c.textContent='held \u00b7 '+hit;}
       else if(c&&c.textContent.indexOf('guard')<0){c.textContent=c.textContent+' \u00b7 guard: pass';}}
   });
-  location.hash='#guard';
-  var g=document.getElementById('guardBtn'); if(g) g.click();
+  location.hash='#liveguard';
+  var g=document.getElementById('gdBtn2'); if(g) g.click();
 }
 
 
