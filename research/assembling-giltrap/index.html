@@ -130,8 +130,11 @@ em.g{font-style:normal;color:var(--champ)}
 /* three ideas from one morning — the flagship worked through below */
 .decks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
 @media(max-width:880px){.decks{grid-template-columns:1fr}}
-.decks .dk{border:1px solid var(--line);border-radius:16px;padding:22px;position:relative;background:rgba(255,255,255,.028)}
+.decks .dk{border:1px solid var(--line);border-radius:16px;padding:22px;position:relative;background:rgba(255,255,255,.028);
+  cursor:pointer;text-align:left;font-family:inherit;color:inherit;width:100%;transition:border-color .25s,background .25s,transform .25s}
+.decks .dk:hover{border-color:var(--champ);transform:translateY(-2px)}
 .decks .dk.on{border-color:var(--champ);background:var(--champ-soft)}
+.dknote{margin-top:20px;font-size:12px;color:var(--champ);font-weight:400;letter-spacing:.02em}
 .decks .dk .dh{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);font-weight:900}
 .decks .dk.on .dh{color:var(--champ)}
 .decks .dk .dn{font-size:19px;font-weight:900;margin-top:9px;letter-spacing:-.018em;line-height:1.15}
@@ -425,6 +428,22 @@ footer b{color:var(--muted);font-weight:700}
 footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
 .rise{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
 .rise.in{opacity:1;transform:none}
+
+/* the headline assembles word by word — same move as the homepage hero */
+.aw{display:inline-block;opacity:0;transform:translateY(.45em);filter:blur(8px);
+  transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1),filter .7s ease}
+.aw.in{opacity:1;transform:none;filter:none}
+@media(prefers-reduced-motion:reduce){.aw{opacity:1;transform:none;filter:none;transition:none}}
+
+/* the wait, measured — the evidence band */
+.evb{margin-top:46px;border-top:1px solid rgba(191,163,122,.35);border-bottom:1px solid rgba(191,163,122,.35);padding:36px 0 32px}
+.evbK{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);font-weight:900;margin-bottom:24px}
+.evbGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:860px){.evbGrid{grid-template-columns:1fr;gap:30px}}
+.evbN{font-weight:200;font-size:clamp(42px,5.6vw,76px);line-height:1;letter-spacing:-.04em;color:var(--paper);font-variant-numeric:tabular-nums}
+.evbN span{font-size:.34em;color:var(--champ);font-weight:400;letter-spacing:0;margin-left:6px}
+.evbL{font-size:13.5px;color:#C7CBD1;font-weight:300;margin-top:11px;line-height:1.5;max-width:32ch}
+.evbS{font-size:11px;color:var(--muted-2);margin-top:7px}
 @media(prefers-reduced-motion:reduce){.rise,.erow,.idea,.tline{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* What a pilot needs from you, and the yes. */
@@ -640,29 +659,9 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
     <p class="kicker">Three platform ideas came out of the same morning, built from what Giltrap has actually published about itself. The first is worked all the way through below.</p>
   </div>
 
-  <div class="decks rise">
-    <div class="dk on"><div class="dt">worked through ↓</div><div class="dh">Idea 01 · heritage</div>
-      <div class="dn">The one you <em>never sold.</em></div>
-      <div class="ds">Sixty years of owners and the cars they kept. The group positioned as where cars are kept, not where they are sold.</div></div>
-    <div class="dk"><div class="dh">Idea 02 · electric</div>
-      <div class="dn">Charged where <em>it sleeps.</em></div>
-      <div class="ds">The electric marques told from the driveway, not the spec sheet — the habit of home charging, photographed mid-life.</div></div>
-    <div class="dk"><div class="dh">Idea 03 · retention</div>
-      <div class="dn">The <em>second key.</em></div>
-      <div class="ds">Every household that owns one Giltrap car is the next one's best prospect. Service, handover and the family's next driver.</div></div>
-  </div>
+  <div class="decks rise" id="decks"></div>
 
-  <div class="deckcover rise">
-    <div class="kick">The idea</div>
-    <div class="bigidea">The one you<br><em>never sold.</em></div>
-    <p class="say">Ask anyone who loves cars and they will name the one they let go — or the one they never will. Giltrap has been in the room for sixty years of those decisions. So the group is not positioned as where cars are sold. It is positioned as where they are kept.</p>
-    <div class="line">
-      <div><div class="l">The insight</div><div class="v">Everybody has one</div></div>
-      <div><div class="l">The idea</div><div class="v">Where cars are kept</div></div>
-      <div><div class="l">Why it holds 24 marques</div><div class="v">It is about the owner, not the badge</div></div>
-      <div><div class="l">The proof</div><div class="v">1966 · Monaco Motors · still here</div></div>
-    </div>
-  </div>
+  <div class="deckcover rise" id="deckcover"></div>
 
   <div class="strat">
     <div class="s rise"><div class="h">Why this and not a sale</div>
@@ -881,6 +880,21 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
     <div class="eyebrow">Four months of nothing, currently</div>
     <h2>The longest wait in retail, and nobody is using it.</h2>
     <p class="lede">Order a car and you wait months of silence — and silence is where cancellations live. It is also the best window you will ever get to learn what this customer actually needs.</p>
+  </div>
+
+  <div class="evb rise">
+    <div class="evbK">The wait, measured · published figures · Australia &amp; New Zealand</div>
+    <div class="evbGrid">
+      <div><div class="evbN"><b data-ev="22">0</b><span>million hours</span></div>
+        <div class="evbL">New Zealanders spent on hold in 2025 — 8.7 hours each</div>
+        <div class="evbS">ServiceNow Customer Experience Report, March 2026</div></div>
+      <div><div class="evbN"><b data-ev="58">0</b><span>%</span></div>
+        <div class="evbL">took a callback when offered one instead of holding</div>
+        <div class="evbS">Services Australia Annual Report 2024–25</div></div>
+      <div><div class="evbN"><b data-ev="48">0</b><span>%</span></div>
+        <div class="evbL">would switch over slow service</div>
+        <div class="evbS">ServiceNow, the same report</div></div>
+    </div>
   </div>
 
   <div class="appwrap rise" style="margin-top:40px">
@@ -1556,6 +1570,90 @@ function renderCI(){
 function pickCI(k){curCI=k;renderCI()}
 renderCI();
 
+/* ── three campaign ideas, one deck cover ── */
+var DECKS=[
+ {dh:'Idea 01 · heritage',tag:'worked through below ↓',dn:'The one you <em>never sold.</em>',
+  ds:'Sixty years of owners and the cars they kept. The group positioned as where cars are kept, not where they are sold.',
+  big:'The one you<br><em>never sold.</em>',
+  say:'Ask anyone who loves cars and they will name the one they let go — or the one they never will. Giltrap has been in the room for sixty years of those decisions. So the group is not positioned as where cars are sold. It is positioned as where they are kept.',
+  line:[['The insight','Everybody has one'],['The idea','Where cars are kept'],
+        ['Why it holds 24 marques','It is about the owner, not the badge'],['The proof','1966 · Monaco Motors · still here']],
+  note:''},
+ {dh:'Idea 02 · electric',tag:'',dn:'Charged where <em>it sleeps.</em>',
+  ds:'The electric marques told from the driveway, not the spec sheet — the habit of home charging, photographed mid-life.',
+  big:'Charged where<br><em>it sleeps.</em>',
+  say:'Every electric ad shows a car on a road. The thing that actually sells one is the habit at home — the cable over the fence, the driveway at dusk, the overnight routine. The electric marques get told from the driveway, because that is where an EV lives.',
+  line:[['The insight','The driveway, not the road'],['The idea','The habit is the hero'],
+        ['Why it holds the marques','Polestar, Zeekr and the electric Porsches share the habit, not the badge'],['The proof','A test drive ends. Charging is nightly.']],
+  note:'A cover, not the campaign — the worked example below stays with idea 01.'},
+ {dh:'Idea 03 · retention',tag:'',dn:'The <em>second key.</em>',
+  ds:'Every household that owns one Giltrap car is the next one\'s best prospect. Service, handover and the family\'s next driver.',
+  big:'The<br><em>second key.</em>',
+  say:'Every car the group delivers goes home to a household, and the household holds the next decision — the partner\'s car, the next service booking. The second key invites the family back, instead of buying a stranger\'s click.',
+  line:[['The insight','Households, not leads'],['The idea','Invite the family back'],
+        ['Why it holds the marques','Service and nearly-new stock carry it across the portfolio'],['The proof','The owner register already knows the household']],
+  note:'A cover, not the campaign — the worked example below stays with idea 01.'}
+];
+var curDeck=0;
+function renderDecks(){
+  document.getElementById('decks').innerHTML=DECKS.map(function(d,i){
+    return '<button type="button" class="dk'+(i===curDeck?' on':'')+'" onclick="pickDeck('+i+')">'+
+      (d.tag?'<div class="dt">'+d.tag+'</div>':'')+
+      '<div class="dh">'+d.dh+'</div><div class="dn">'+d.dn+'</div><div class="ds">'+d.ds+'</div></button>'}).join('');
+  var d=DECKS[curDeck];
+  document.getElementById('deckcover').innerHTML=
+    '<div class="kick">The idea</div><div class="bigidea">'+d.big+'</div>'+
+    '<p class="say">'+d.say+'</p>'+
+    '<div class="line">'+d.line.map(function(l){
+      return '<div><div class="l">'+l[0]+'</div><div class="v">'+l[1]+'</div></div>'}).join('')+'</div>'+
+    (d.note?'<div class="dknote">'+d.note+'</div>':'');
+}
+function pickDeck(i){curDeck=i;renderDecks()}
+renderDecks();
+
+/* ── the hero headline assembles word by word ── */
+(function(){
+  var h=document.querySelector('.hero h1'); if(!h) return;
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  function wrap(node){
+    var out=document.createDocumentFragment();
+    [].slice.call(node.childNodes).forEach(function(ch){
+      if(ch.nodeType===3){
+        ch.textContent.split(/(\s+)/).forEach(function(p){
+          if(!p) return;
+          if(/^\s+$/.test(p)){out.appendChild(document.createTextNode(p));return}
+          var s=document.createElement('span');s.className='aw';s.textContent=p;out.appendChild(s);
+        });
+      } else if(ch.nodeName==='BR'){ out.appendChild(document.createElement('br')); }
+      else { var c=ch.cloneNode(false); c.appendChild(wrap(ch)); out.appendChild(c); }
+    });
+    return out;
+  }
+  var f=wrap(h); h.innerHTML=''; h.appendChild(f);
+  h.classList.remove('rise'); h.classList.add('in');
+  h.querySelectorAll('.aw').forEach(function(w,i){
+    setTimeout(function(){w.classList.add('in')},190+i*105);
+  });
+})();
+
+/* ── the evidence band counts up once, on sight ── */
+(function(){
+  var band=document.querySelector('.evb'); if(!band) return;
+  var red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function count(el){
+    var to=+el.getAttribute('data-ev'), t0=null;
+    if(red){el.textContent=to;return}
+    function tick(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/1100), e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(to*e); if(p<1) requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting) return; io.disconnect();
+    band.querySelectorAll('[data-ev]').forEach(count);
+  })},{threshold:.3});
+  io.observe(band);
+})();
+
 /* flighting */
 var FLIGHT=[
  ['Platform film','group, all channels',[1,1,1,0,0,0,0,0,0,1,1,0]],
@@ -2025,7 +2123,7 @@ function grounded(q){
   /* the 356 — the one Colin Giltrap co-owned the like of. Points, because a
      Gaussian splat converts to points cleanly; it sits ahead of the modern
      car so the pair reads as sixty years, which is Giltrap's own line. */
-  var old356=null;
+  var old356=null,asm=null;
   fetch('car356.bin').then(function(res){
     if(!res.ok)throw new Error('car356.bin '+res.status);
     return res.arrayBuffer();
@@ -2043,7 +2141,19 @@ function grounded(q){
       cl[i*3]=col[k*3]/255; cl[i*3+1]=col[k*3+1]/255; cl[i*3+2]=col[k*3+2]/255;
     }
     var g356=new THREE.BufferGeometry();
-    g356.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    /* the assembly entrance: the scan arrives dispersed and resolves into the
+       car, each point on its own slight delay. The scan itself is the target. */
+    var m3=m*3, cur=new Float32Array(m3), off=new Float32Array(m3), ph=new Float32Array(m);
+    for(var j=0;j<m;j++){
+      var a2=Math.random()*Math.PI*2, b2=Math.acos(2*Math.random()-1), rr=3.5+Math.random()*6.5;
+      off[j*3  ]=Math.sin(b2)*Math.cos(a2)*rr;
+      off[j*3+1]=Math.abs(Math.cos(b2))*rr*0.55+0.4;
+      off[j*3+2]=Math.sin(b2)*Math.sin(a2)*rr;
+      ph[j]=Math.random()*0.35;
+    }
+    var red356=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    for(var j2=0;j2<m3;j2++) cur[j2]=red356?pos[j2]:pos[j2]+off[j2];
+    g356.setAttribute('position',new THREE.BufferAttribute(cur,3));
     g356.setAttribute('color',new THREE.BufferAttribute(cl,3));
     old356=new THREE.Points(g356,new THREE.PointsMaterial({
       size:innerWidth<820?0.046:0.036, vertexColors:true, sizeAttenuation:true,
@@ -2052,6 +2162,7 @@ function grounded(q){
     old356.position.set(-2.05,-0.62,0.6);
     old356.rotation.y=0.06;
     carGroup.add(old356);
+    if(!red356) asm={at:g356.getAttribute('position'),tgt:pos,off:off,ph:ph,start:performance.now()+400,dur:2600,done:false};
   }).catch(function(e){ console.error('[356] could not load:',e); });
 
   /* assembl's mark — champagne rings, never a client colour */
@@ -2127,6 +2238,20 @@ function grounded(q){
        campaign section arrives it has become the Audi. Two cars in frame at
        once just read as one broken one, so they never share it. */
 
+    /* the entrance: dust resolving into the 356 */
+    if(asm&&!asm.done){
+      var kk=(performance.now()-asm.start)/asm.dur;
+      if(kk>=1){asm.done=true;kk=1}
+      if(kk>=0){
+        var A=asm.at.array,T=asm.tgt,O=asm.off,PH=asm.ph;
+        for(var q=0,qc=PH.length;q<qc;q++){
+          var ki=Math.min(1,Math.max(0,kk*1.35-PH[q]));
+          ki=ki*ki*(3-2*ki); var inv=1-ki, q3=q*3;
+          A[q3]=T[q3]+O[q3]*inv; A[q3+1]=T[q3+1]+O[q3+1]*inv; A[q3+2]=T[q3+2]+O[q3+2]*inv;
+        }
+        asm.at.needsUpdate=true;
+      }
+    }
     r1.rotation.z=t*0.05;r2.rotation.z=-t*0.034;
     marks.forEach(function(m){
       var d=m.userData,a=d.ph+t*d.sp;
