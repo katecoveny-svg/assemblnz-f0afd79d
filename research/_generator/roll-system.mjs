@@ -134,36 +134,67 @@ const BAND_CSS = `
 `;
 
 
-function evidence(accent) {
+/* ── the evidence, per industry ─────────────────────────────────────────────
+   Each demo can carry its own verified figure set. RULES (non-negotiable):
+   primary source, dated, country-flagged; overseas figures shown as overseas;
+   never a figure that cannot be traced past a vendor blog; never invent a
+   local number. A vertical with no researched set yet gets the shared four. */
+const EV_SHARED = {
+  kick: 'the evidence &middot; aotearoa and australia',
+  head: 'The wait is not a soft problem. It is the most complained-about thing in the country.',
+  foot: 'Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.',
+  cards: [
+    { to: '22', dur: 1700, em: 'million hours', flag: 'NZ',
+      text: 'New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.',
+      src: 'ServiceNow Customer Experience Report, March 2026' },
+    { to: '9274', dur: 1900, em: '', flag: 'AU',
+      text: '<b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.',
+      src: 'Australian Financial Complaints Authority, 2025 complaints data, February 2026' },
+    { to: '58', dur: 1500, em: 'per cent', flag: 'AU',
+      text: 'Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.',
+      src: 'Services Australia Annual Report 2024&ndash;25, October 2025' },
+    { to: '68.9', dur: 1600, em: 'per cent', flag: 'NZ',
+      text: 'Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.',
+      src: 'Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025' },
+  ],
+};
+
+/* per-demo overrides — researched and verified before they land here */
+const EV_FIGURES = {
+  'assembling-giltrap': {
+    kick: 'the evidence &middot; the wait, on the phone and online',
+    head: 'The wait did not go away when it went online.',
+    foot: 'Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of queue abandonment, agentic-commerce behaviour, or the economics of waiting.',
+    cards: [
+      EV_SHARED.cards[0],
+      { to: '393', dur: 1900, em: 'per cent', flag: 'US',
+        text: '<b>AI-referred traffic to retail sites grew 393% in a year</b>, and it converts better than any other channel. The buyer’s agent is already shopping &mdash; the lot has to be readable to it.',
+        src: 'Adobe Digital Insights, quarterly AI traffic report, April 2026' },
+      EV_SHARED.cards[2],
+      { to: '47', dur: 1600, em: 'per cent', flag: 'US',
+        text: 'Dealer investment in Performance Max rose <b>roughly 47% year-on-year</b> to April 2026, with reported conversions up 119%. The gains go to whoever feeds the platforms the freshest inventory signal.',
+        src: 'Automotive-retail industry reporting, April 2026 &mdash; not a Giltrap figure' },
+    ],
+  },
+};
+
+function evidence(accent, folder) {
+  const ev = EV_FIGURES[folder] || EV_SHARED;
+  const cards = ev.cards.map(c => `
+      <div class="abEv__c">
+        <div class="abEv__n"><span data-m="count" data-m-to="${c.to}" data-m-dur="${c.dur}">0</span>${c.em ? '<em>' + c.em + '</em>' : ''}</div>
+        <p class="abEv__t">${c.text}</p>
+        <div class="abEv__s"><span class="abEv__flag">${c.flag}</span>${c.src}</div>
+      </div>`).join('');
   return `
-<!-- ab:ev:start — the evidence, ANZ -->
+<!-- ab:ev:start — the evidence, per industry -->
 <section class="abEv" style="--abA:${accent}" aria-label="the evidence">
   <div class="abEv__in">
-    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
-    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
-    <div class="abEv__grid">
-      <div class="abEv__c">
-        <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
-        <p class="abEv__t">New Zealanders spent <b>22 million hours on hold</b> in 2025 &mdash; 8.7 hours each. Nearly half say slow service is reason enough to switch.</p>
-        <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
-      </div>
-      <div class="abEv__c">
-        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
-        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
-        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
-      </div>
-      <div class="abEv__c">
-        <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
-        <p class="abEv__t">Offered a callback instead of holding, <b>58% took it</b>. People do not object to waiting. They object to waiting with nothing.</p>
-        <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
-      </div>
-      <div class="abEv__c">
-        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
-        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
-        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
-      </div>
+    <div class="abEv__k">${ev.kick}</div>
+    <h2 class="abEv__h" data-m="type">${ev.head}</h2>
+    <div class="abEv__grid">${cards}
     </div>
-    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+    <p class="abEv__foot">${ev.foot}</p>
   </div>
 </section>
 <!-- ab:ev:end -->
@@ -177,16 +208,18 @@ function band(label, ground, accent) {
   <div class="abStage__pin">
     <div class="abStage__art abStage__art--${ground}" id="abCloud"></div>
     <div class="abStage__copy">
-      <div class="abStage__step on"><div class="abStage__n">Dispersed.</div>
+      <!-- mStage__* aliases are load-bearing: assembl-motion's scrub() drives
+           .mStage__step/.mStage__fill — without them the copy never advances -->
+      <div class="abStage__step mStage__step on"><div class="abStage__n">Dispersed.</div>
         <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
-      <div class="abStage__step"><div class="abStage__n">Selected.</div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Selected.</div>
         <div class="abStage__l">Only what this stage of this journey needs.</div></div>
-      <div class="abStage__step"><div class="abStage__n">Assembling.</div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Assembling.</div>
         <div class="abStage__l">The work happening in the open, named, while the customer watches.</div></div>
-      <div class="abStage__step"><div class="abStage__n">Held.</div>
+      <div class="abStage__step mStage__step"><div class="abStage__n">Held.</div>
         <div class="abStage__l">Complete, and waiting for a named person to say yes.</div></div>
     </div>
-    <div class="abStage__rail"><div class="abStage__fill"></div></div>
+    <div class="abStage__rail"><div class="abStage__fill mStage__fill"></div></div>
   </div>
 </section>
 <section class="abMosBand" aria-hidden="true">
@@ -204,13 +237,21 @@ function mount(accent, form, material, seed) {
 <script src="assembl-mosaic.js"></script>
 <script>
 (function(){
-  if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
-    {form:'${form}',material:'${material}',colour:'${accent}',count:2600,mode:'scrub',stage:'.abStage',size:.052});
-  var c2=document.getElementById('abCloud2');
-  if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
-    {form:'${form}',material:'${material}',colour:'${accent}',count:1800,mode:'auto',size:.045});
-  if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
-    {colour:'${accent}',ink:'#14161A',brass:'#BFA37A',seed:'${seed}',density:14,mode:'enter'});
+  /* each mount isolated: a machine without WebGL still gets the mosaic,
+     the step copy and the scrub rail — the page degrades, never dies */
+  try{
+    if(window.AssemblCloud) AssemblCloud.mount(document.getElementById('abCloud'),
+      {form:'${form}',material:'${material}',colour:'${accent}',count:2600,mode:'scrub',stage:'.abStage',size:.052});
+  }catch(e){}
+  try{
+    var c2=document.getElementById('abCloud2');
+    if(window.AssemblCloud && c2) AssemblCloud.mount(c2,
+      {form:'${form}',material:'${material}',colour:'${accent}',count:1800,mode:'auto',size:.045});
+  }catch(e){}
+  try{
+    if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
+      {colour:'${accent}',ink:'#14161A',brass:'#BFA37A',seed:'${seed}',density:14,mode:'enter'});
+  }catch(e){}
 })();
 </script>
 <!-- ab:js:end -->
@@ -311,10 +352,10 @@ for (const [folder, cfg] of Object.entries(DEMOS)) {
   /* the old US paragraph ships under two class names across the fleet */
   const evM = s.match(/<div class="(mapEv|wm-ev|ev)[^"]*">[\s\S]*?This is not a new idea[\s\S]*?<\/div>\s*<\/div>/);
   if (evM) {
-    s = s.replace(evM[0], evidence(accent).trim());
+    s = s.replace(evM[0], evidence(accent, folder).trim());
   } else if (!s.includes('ab:ev:start')) {
     const anchor = s.lastIndexOf('<footer');
-    if (anchor > -1) s = s.slice(0, anchor) + evidence(accent).trim() + '\n' + s.slice(anchor);
+    if (anchor > -1) s = s.slice(0, anchor) + evidence(accent, folder).trim() + '\n' + s.slice(anchor);
   }
 
   /* 4d. the closing beat — the same form, fully assembled, before the ask.

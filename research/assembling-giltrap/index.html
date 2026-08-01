@@ -540,6 +540,8 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
   <div class="abStage__pin">
     <div class="abStage__art abStage__art--dark" id="abCloud"></div>
     <div class="abStage__copy">
+      <!-- mStage__* aliases are load-bearing: assembl-motion's scrub() drives
+           .mStage__step/.mStage__fill — without them the copy never advances -->
       <div class="abStage__step mStage__step on"><div class="abStage__n">Dispersed.</div>
         <div class="abStage__l">Everything the business already knows, in the places it already lives.</div></div>
       <div class="abStage__step mStage__step"><div class="abStage__n">Selected.</div>
@@ -750,7 +752,6 @@ footer .fin{margin-top:26px;font-size:12px;color:#5A5E65}
       <div id="ideaRows"></div>
     </div>
   </div>
-  <p class="kicker rise" style="margin-top:24px">Dealer investment in Google Performance Max rose roughly 47% year-on-year to April 2026 — <span style="color:var(--muted-2)">industry reporting, not a Giltrap figure.</span> Those gains go to whoever feeds the platforms the freshest inventory signal.</p>
 
   <div class="tool rise">
     <div class="th">Try it <span class="livebadge"><span class="d"></span>Live · not a mock-up</span></div>
@@ -1057,11 +1058,11 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
   <div class="agentnote" id="agentnote"></div>
   <div class="chatin"><input id="chatinput" placeholder="Ask about any of the eight, or the pilot…" onkeydown="if(event.key==='Enter')sendChat()"><button class="send" onclick="sendChat()">Send</button></div>
 </div>
-<!-- ab:ev:start — the evidence, ANZ -->
+<!-- ab:ev:start — the evidence, per industry -->
 <section class="abEv" style="--abA:#9E8049" aria-label="the evidence">
   <div class="abEv__in">
-    <div class="abEv__k">the evidence &middot; aotearoa and australia</div>
-    <h2 class="abEv__h" data-m="type">The wait is not a soft problem. It is the most complained-about thing in the country.</h2>
+    <div class="abEv__k">the evidence &middot; the wait, on the phone and online</div>
+    <h2 class="abEv__h" data-m="type">The wait did not go away when it went online.</h2>
     <div class="abEv__grid">
       <div class="abEv__c">
         <div class="abEv__n"><span data-m="count" data-m-to="22" data-m-dur="1700">0</span><em>million hours</em></div>
@@ -1069,9 +1070,9 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
         <div class="abEv__s"><span class="abEv__flag">NZ</span>ServiceNow Customer Experience Report, March 2026</div>
       </div>
       <div class="abEv__c">
-        <div class="abEv__n"><span data-m="count" data-m-to="9274" data-m-dur="1900">0</span></div>
-        <p class="abEv__t"><b>Delay in claim handling</b> is the single most complained-about issue across the whole Australian financial system &mdash; ahead of misleading conduct and outright denial.</p>
-        <div class="abEv__s"><span class="abEv__flag">AU</span>Australian Financial Complaints Authority, 2025 complaints data, February 2026</div>
+        <div class="abEv__n"><span data-m="count" data-m-to="393" data-m-dur="1900">0</span><em>per cent</em></div>
+        <p class="abEv__t"><b>AI-referred traffic to retail sites grew 393% in a year</b>, and it converts better than any other channel. The buyer’s agent is already shopping &mdash; the lot has to be readable to it.</p>
+        <div class="abEv__s"><span class="abEv__flag">US</span>Adobe Digital Insights, quarterly AI traffic report, April 2026</div>
       </div>
       <div class="abEv__c">
         <div class="abEv__n"><span data-m="count" data-m-to="58" data-m-dur="1500">0</span><em>per cent</em></div>
@@ -1079,12 +1080,12 @@ Trade in your old car and we'll give you $12,000 minimum, no questions asked. Th
         <div class="abEv__s"><span class="abEv__flag">AU</span>Services Australia Annual Report 2024&ndash;25, October 2025</div>
       </div>
       <div class="abEv__c">
-        <div class="abEv__n"><span data-m="count" data-m-to="68.9" data-m-dur="1600">0</span><em>per cent</em></div>
-        <p class="abEv__t">Of emergency department patients seen within six hours, against a <b>95% target</b>. One New Zealander in three waits longer than the country says they should.</p>
-        <div class="abEv__s"><span class="abEv__flag">NZ</span>Dept of the Prime Minister and Cabinet, Government Target 1, quarter to December 2025</div>
+        <div class="abEv__n"><span data-m="count" data-m-to="47" data-m-dur="1600">0</span><em>per cent</em></div>
+        <p class="abEv__t">Dealer investment in Performance Max rose <b>roughly 47% year-on-year</b> to April 2026, with reported conversions up 119%. The gains go to whoever feeds the platforms the freshest inventory signal.</p>
+        <div class="abEv__s"><span class="abEv__flag">US</span>Automotive-retail industry reporting, April 2026 &mdash; not a Giltrap figure</div>
       </div>
     </div>
-    <p class="abEv__foot">Every figure here is New Zealand or Australian, from a primary source, dated 2025 or 2026. <b>Where no local number exists we say so rather than borrowing an overseas one</b> &mdash; there is still no published NZ study of queue abandonment, contact-centre benchmarks, or the economics of waiting.</p>
+    <p class="abEv__foot">Every figure carries its source and its country, and overseas figures are flagged as overseas. <b>Where no local number exists we say so rather than inventing one</b> &mdash; there is still no published NZ study of queue abandonment, agentic-commerce behaviour, or the economics of waiting.</p>
   </div>
 </section>
 <!-- ab:ev:end -->
@@ -2443,6 +2444,7 @@ function grounded(q){
 .vrQGuard{margin-top:11px;font:700 11px -apple-system,sans-serif;color:var(--vrInk);background:none;
   border:1.5px solid var(--vrLine);border-radius:99px;padding:8px 14px;cursor:pointer}
 /* vr:end */
+
 
 
 
