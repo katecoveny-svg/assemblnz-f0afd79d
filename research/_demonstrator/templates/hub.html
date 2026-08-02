@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>assembling — agentic wait states for New Zealand</title>
+<meta name="description" content="assembl turns waiting into work. Pick an industry to see what assembling would do inside that customer journey.">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/demo.css">
+</head>
+<body data-sheet>
+<a class="skip" href="#verticals">skip to the industries</a>
+
+<header class="site-head">
+  <span class="wordmark">assembl<span>.</span></span>
+  <span class="status">demonstrator suite</span>
+</header>
+
+<main>
+  <!-- ── the knolling assembly · every part of a chronograph, then the watch ── -->
+  <section class="hero-intro grid" aria-labelledby="h">
+    <div class="col-main">
+      <p class="label hero__eyebrow" data-enter style="--i:0">assembling</p>
+      <h1 class="h-kinetic" id="h" data-enter style="--i:1">waiting is the part<br>nobody designed</h1>
+      <p class="lead" data-enter style="--i:2">
+        Every customer journey has a wait in it. A credit assessment. A claim decision.
+        Fifteen working days to change your mind about where you will live. Today that
+        time produces nothing.
+      </p>
+      <p class="small caption" data-enter style="--i:3">Scroll to assemble.</p>
+    </div>
+  </section>
+
+  <!-- the knolling board gets the whole canvas — it is a poster, not a backdrop -->
+  <section class="hero-stage" aria-label="Every part of a chronograph, assembling">
+    <div class="hero__scene" aria-hidden="true">
+      <canvas id="scene" aria-hidden="true"></canvas>
+    </div>
+    <p class="scene-caption label" data-scene-caption aria-hidden="true"><span></span></p>
+  </section>
+
+  <section class="grid module" aria-labelledby="def-h">
+    <h2 class="visually-hidden" id="def-h" hidden>what assembl is</h2>
+    <div class="col-main definition" data-enter>
+      <p><strong>assembl</strong> designs and runs agentic customer journeys.</p>
+      <p><strong>assembling</strong> is the wait-state layer: it turns a natural waiting
+         moment into useful, permissioned, rewarded work that improves the customer's next
+         step — while a named human stays in control.</p>
+    </div>
+    <div class="col-main" style="margin-top: var(--s-6)">
+      <p class="label">what you just watched assemble</p>
+      <ul class="parts-legend" data-parts-legend></ul>
+    </div>
+  </section>
+
+  <section class="grid module" id="verticals" aria-labelledby="v-h">
+    <h2 class="col-main h-kinetic" id="v-h" data-enter>pick an industry</h2>
+    <div class="col-bleed hub-grid" style="padding-inline: var(--margin-outer); margin-top: var(--s-6)">
+
+      <a class="hub-card" href="verticals/lending/index.html" data-enter style="--i:0">
+        <h3>personal lending</h3>
+        <p class="metaphor">alignment — every part of a vault lock, assembling. Nectar teal.</p>
+        <p class="small">The wait: while your affordability assessment runs. Nectar Money.</p>
+        <p class="state" style="color: var(--verified)">reference implementation · complete</p>
+      </a>
+
+      <div class="hub-card" aria-disabled="true" data-enter style="--i:1">
+        <h3>investing and wealth</h3>
+        <p class="metaphor">constellation — signals collect into a transparent portfolio constellation.</p>
+        <p class="small">The wait: settlement, withdrawal, a KiwiSaver transfer. Sharesies, Kernel.</p>
+        <p class="state">scaffold · not built</p>
+      </div>
+
+      <a class="hub-card" href="verticals/retirement/index.html" data-enter style="--i:2">
+        <h3>retirement living</h3>
+        <p class="metaphor">landscape — every part of a villa, assembling. Summerset purple.</p>
+        <p class="small">The wait: the 15 working days after you sign the ORA. Summerset Group.</p>
+        <p class="state" style="color: var(--verified)">complete</p>
+      </a>
+
+      <a class="hub-card" href="verticals/automotive/index.html" data-enter style="--i:3">
+        <h3>automotive retail</h3>
+        <p class="metaphor">assembly — every part of a car, assembling. Giltrap steel blue.</p>
+        <p class="small">The wait: your car is in for service and you have heard nothing. Giltrap Group.</p>
+        <p class="state" style="color: var(--verified)">complete</p>
+      </a>
+
+      <div class="hub-card" aria-disabled="true" data-enter style="--i:3">
+        <h3>insurance claims</h3>
+        <p class="metaphor">triage — a claim separates into lanes, each resolving at its regulated cadence.</p>
+        <p class="small">The wait: the Fair Insurance Code's 5 / 10 / 20 business days. AA Insurance, Tower.</p>
+        <p class="state">scaffold · not built</p>
+      </div>
+
+      <div class="hub-card" aria-disabled="true" data-enter style="--i:4">
+        <h3>energy</h3>
+        <p class="metaphor">continuity — an unbroken line the agent's work keeps intact.</p>
+        <p class="small">The wait: a switch, a move, the five contacts before disconnection. Mercury, Contact.</p>
+        <p class="state">scaffold · not built</p>
+      </div>
+
+      <div class="hub-card" aria-disabled="true" data-enter style="--i:5">
+        <h3>airline and travel</h3>
+        <p class="metaphor">checkpoints — the journey moves through space while the agent resolves the next stage ahead.</p>
+        <p class="small">The wait: disruption, rebooking, a refund that takes two weeks. Air New Zealand.</p>
+        <p class="state">scaffold · not built</p>
+      </div>
+
+      <div class="hub-card" aria-disabled="true" data-enter style="--i:6">
+        <h3>grocery and loyalty</h3>
+        <p class="metaphor">signal to shop — a natural wait becomes a rewarded household signal and a prepared shop.</p>
+        <p class="small">The wait: the pick, the substitution, the points that post later. Foodstuffs, Woolworths.</p>
+        <p class="state">scaffold · not built</p>
+      </div>
+
+    </div>
+    <p class="col-main small caption" style="margin-top: var(--s-6)" data-enter>
+      Three are built. The rest are honestly labelled scaffolds — one finished demonstrator
+      is worth more than seven half-built ones.
+    </p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p class="small caption">
+    Mahi that earns its proof. — Every demonstrator in this suite is a <strong>proposal</strong>.
+    Figures are either cited on the page or badged <strong>simulated</strong>.
+  </p>
+</footer>
+
+<script type="module">
+import { createAssembly } from './scripts/parts.js';
+import { watch } from './scripts/parts/watch.js';
+
+const scene = createAssembly(document.getElementById("scene"), watch);
+window.__scene = scene;
+
+document.querySelector('[data-parts-legend]').innerHTML = watch.families
+  .map(([name, why]) => `<li><strong>${name}</strong> — ${why}</li>`).join('');
+
+/* one normalised progress value across the sticky stage, one rAF, one caption */
+const stage = document.querySelector('.hero-stage');
+const caption = document.querySelector('[data-scene-caption]');
+const capText = caption.querySelector('span');
+
+const BEATS = [
+  { at: 0.00, beat: 'gather',  text: 'every part, laid out' },
+  { at: 0.16, beat: 'gather',  text: 'the caseback first — everything is built onto it' },
+  { at: 0.34, beat: 'prepare', text: 'the mechanism — the part that does the actual work' },
+  { at: 0.56, beat: 'reveal',  text: 'the face, and the hands your eye follows' },
+  { at: 0.76, beat: 'hold',    text: 'held — the crown is turned by a person' },
+  { at: 0.88, beat: 'resolve', text: 'assembled' },
+];
+
+let lastBeat = null, ticking = false;
+function onScroll() {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    ticking = false;
+    const r = stage.getBoundingClientRect();
+    const travel = Math.max(1, r.height - innerHeight);
+    const p = Math.max(0, Math.min(1, -r.top / travel));
+    const b = BEATS.reduce((acc, x) => (p >= x.at ? x : acc), BEATS[0]);
+    if (b !== lastBeat) {
+      lastBeat = b;
+      caption.dataset.beat = b.beat;
+      capText.style.opacity = '0';
+      setTimeout(() => { capText.textContent = b.text; capText.style.opacity = '1'; },
+        matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180);
+    }
+    /* the hold beat parks the assembly, so set progress before the beat */
+    scene.setProgress(p);
+    scene.setBeat(b.beat);
+  });
+}
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('[data-enter], .h-kinetic').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

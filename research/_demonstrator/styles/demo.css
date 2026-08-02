@@ -1,0 +1,409 @@
+/* assembl · demonstrator layout
+   Everything here is composed from tokens.css. No stray hex values.
+   Motion follows references/motion.md — gather · reveal · prepare · hold · resolve. */
+
+[hidden] { display: none !important; }
+
+/* ── shell ──────────────────────────────────────────────── */
+.site-head {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-5);
+  padding: var(--s-4) var(--margin-outer);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.wordmark { font-size: var(--type-body); font-weight: var(--w-medium); color: var(--ink); letter-spacing: -0.02em; }
+.wordmark span { color: var(--seaglass-deep); }
+.site-head .status {
+  font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--ink-3);
+  border: 1px solid var(--rule); border-radius: 999px; padding: var(--s-1) var(--s-3);
+}
+
+/* ── hero — one dominant kinetic idea, played out over a sticky scroll stage.
+   The assembly needs room to happen. A hero the height of one viewport means the
+   structure finishes forming after it has scrolled away, which is the same as not
+   animating at all. Two-and-a-bit viewports of stage, one viewport of sticky canvas. */
+/* the copy gets its own screen, then the board gets the whole canvas. A knolling
+   composition is a poster — parts fighting a headline for the same pixels ruins both. */
+.hero-intro { min-height: 78vh; display: grid; align-content: center; padding-block: var(--s-8); }
+.hero-stage { position: relative; height: 250vh; }
+.hero__scene {
+  position: sticky; top: 0; height: 100vh; z-index: 0;
+}
+.hero__scene canvas { width: 100%; height: 100%; display: block; }
+.hero {
+  position: absolute; inset: 0 0 auto; height: 100vh;
+  display: grid; align-items: center; z-index: 1; pointer-events: none;
+}
+.hero__copy { pointer-events: none; }
+.hero__copy > * { pointer-events: auto; }
+
+/* the scene narrates itself — one line, changing with the beat, so a prospect
+   watching without reading still knows what the agent is doing */
+.scene-caption {
+  position: sticky; top: calc(100vh - var(--s-8)); z-index: 2;
+  margin-top: -100vh; padding-inline: var(--margin-outer);
+  pointer-events: none;
+}
+.scene-caption span {
+  display: inline-block;
+  transition: opacity var(--dur-reveal) var(--ease-reveal);
+}
+.scene-caption[data-beat="hold"] span { color: var(--signal); }
+
+@media (max-width: 768px) {
+  .hero-stage { height: 190vh; }
+  .hero { position: sticky; top: 0; height: 100vh; }
+  .hero__scene { position: absolute; inset: 0; height: 100%; }
+}
+.hero__eyebrow { color: var(--seaglass-deep); margin-bottom: var(--s-4); }
+.hero h1 { margin-bottom: var(--s-5); }
+.hero .lead { max-width: 46ch; }
+.hero__meta { margin-top: var(--s-6); display: flex; flex-wrap: wrap; gap: var(--s-3); }
+
+/* the definition — above the fold, two sentences, never more */
+.definition {
+  border-left: 2px solid var(--seaglass-line);
+  padding-left: var(--s-5);
+  background: var(--seaglass-wash);
+  padding: var(--s-5);
+  border-radius: var(--radius-2);
+  max-width: 62ch;
+}
+.definition p { margin-bottom: var(--s-2); }
+.definition p:last-child { margin-bottom: 0; }
+
+/* ── scroll-reactive type · dynamic, not templated ──────── */
+[data-enter] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--dur-gather) var(--ease-gather),
+              transform var(--dur-gather) var(--ease-gather);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+[data-enter].is-in { opacity: 1; transform: none; }
+
+.h-kinetic { font-weight: var(--w-light); transition: font-weight 600ms var(--ease-reveal); }
+.h-kinetic.is-in { font-weight: var(--w-regular); }
+
+/* ── before / while / after ─────────────────────────────── */
+.bwa { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-6); }
+.bwa__col { padding: var(--s-6); border-radius: var(--radius-3); }
+.bwa__col[data-col="before"] { background: var(--paper-sunk); }
+.bwa__col[data-col="while"]  { background: var(--seaglass-wash); box-shadow: var(--lift-1); }
+.bwa__col[data-col="after"]  { background: var(--paper-raised); box-shadow: var(--lift-1); }
+.bwa__col h3 { margin-bottom: var(--s-4); }
+.bwa__col[data-col="while"] h3 { color: var(--seaglass-deep); }
+.bwa__col[data-col="after"] h3 { color: var(--verified); }
+@media (max-width: 900px) { .bwa { grid-template-columns: 1fr; gap: var(--s-4); } }
+
+/* ── journey simulator — the centrepiece ────────────────── */
+.journey {
+  display: grid; grid-template-columns: 200px 1fr; gap: var(--s-7);
+  background: var(--paper-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius-3); padding: var(--s-7);
+  box-shadow: var(--lift-2);
+}
+@media (max-width: 900px) { .journey { grid-template-columns: 1fr; gap: var(--s-5); padding: var(--s-5); } }
+
+.rail { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); align-content: start; }
+@media (max-width: 900px) {
+  .rail { grid-auto-flow: column; grid-auto-columns: 1fr; gap: var(--s-1); }
+  .rail-label { display: none; }
+}
+.rail-step { display: flex; align-items: center; gap: var(--s-3); }
+.rail-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1px solid var(--chrome-deep); background: transparent;
+  transition: background var(--dur-resolve) var(--ease-resolve),
+              border-color var(--dur-resolve) var(--ease-resolve),
+              transform var(--dur-resolve) var(--ease-resolve);
+  flex: 0 0 auto;
+}
+@media (max-width: 900px) { .rail-dot { width: 100%; height: 3px; border-radius: 2px; } }
+.rail-step[data-state="done"] .rail-dot { background: var(--verified); border-color: var(--verified); }
+.rail-step[data-state="now"]  .rail-dot { background: var(--seaglass-line); border-color: var(--seaglass-line); transform: scale(1.35); }
+.rail-step[data-state="now"] .rail-dot[data-beat="hold"] { background: var(--signal-line); border-color: var(--signal-line); }
+.rail-label { font-size: var(--type-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+.rail-step[data-state="now"] .rail-label { color: var(--ink); }
+
+.journey__stage { min-height: 340px; }
+.journey__stage[data-transitioning="true"] .step { opacity: .25; transform: translateY(-6px); }
+
+.step {
+  transition: opacity var(--dur-reveal) var(--ease-reveal), transform var(--dur-reveal) var(--ease-reveal);
+  animation: step-in var(--dur-gather) var(--ease-gather) both;
+}
+@keyframes step-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+.step__head { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; margin-bottom: var(--s-5); }
+.step__says { font-size: var(--type-lead); line-height: var(--lh-lead); color: var(--ink); font-weight: var(--w-light); max-width: 44ch; }
+.step__behind { margin: var(--s-5) 0; border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+.step__behind summary {
+  cursor: pointer; font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--seaglass-deep); list-style: none;
+}
+.step__behind summary::marker, .step__behind summary::-webkit-details-marker { display: none; }
+.step__behind summary::before { content: "+ "; }
+.step__behind[open] summary::before { content: "− "; }
+
+.step__ask { border: 0; padding: 0; margin: var(--s-5) 0 0; }
+.step__q { font-size: var(--type-body); color: var(--ink); margin-bottom: var(--s-4); }
+.step__options { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+
+/* magnetic, tactile controls — weight, not bounce */
+.opt {
+  font: var(--w-regular) var(--type-body)/1.2 var(--font);
+  color: var(--ink); background: var(--paper);
+  border: 1px solid var(--chrome); border-radius: var(--radius-2);
+  padding: var(--s-3) var(--s-5); cursor: pointer;
+  transition: border-color var(--dur-micro) var(--ease-micro),
+              box-shadow var(--dur-micro) var(--ease-micro),
+              transform var(--dur-micro) var(--ease-micro),
+              background var(--dur-micro) var(--ease-micro);
+}
+.opt:hover { border-color: var(--seaglass-line); background: var(--paper-raised); }
+.step--gate .opt { border-color: var(--signal-line); color: var(--signal); }
+
+/* ── the hold beat — the page stops ─────────────────────── */
+.step--gate { border-top: 1px solid var(--signal-line); border-bottom: 1px solid var(--signal-line); padding: var(--s-6) 0; }
+.gate-note { display: flex; gap: var(--s-4); align-items: flex-start; margin-top: var(--s-5); }
+.gate-note .pulse {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--signal-line);
+  flex: 0 0 auto; margin-top: 7px;
+  animation: hold-pulse 2.4s var(--ease-prepare) infinite;
+}
+.gate-note p { margin-bottom: var(--s-2); }
+[data-beat="hold"] .rail-dot[data-beat] { animation: none; }
+
+/* ── proof ──────────────────────────────────────────────── */
+.proof-list { list-style: none; margin: var(--s-5) 0; padding: 0; }
+.proof-row:last-child { border-bottom: 0; }
+@media (max-width: 620px) { .proof-row { grid-template-columns: 1fr; gap: var(--s-1); } }
+
+/* ── permission panel ───────────────────────────────────── */
+.permission { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); }
+@media (max-width: 900px) { .permission { grid-template-columns: 1fr; } }
+.permission__card { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: var(--radius-3); padding: var(--s-6); }
+.permission ul { margin: 0 0 var(--s-4); padding-left: var(--s-5); }
+.permission li { margin-bottom: var(--s-2); }
+.stop-list li::marker { color: var(--signal-line); }
+.ipp {
+  border-left: 2px solid var(--signal-line); padding-left: var(--s-4);
+  margin-top: var(--s-5); font-size: var(--type-small); color: var(--ink-2);
+}
+
+/* ── evidence ───────────────────────────────────────────── */
+.evidence { display: grid; gap: var(--s-5); }
+.evidence__item { border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+.evidence__claim { color: var(--ink); font-size: var(--type-body); margin-bottom: var(--s-2); max-width: 62ch; }
+.evidence__so { color: var(--ink-2); font-size: var(--type-small); max-width: 62ch; }
+.evidence__src { font-size: var(--type-small); color: var(--ink-3); }
+.evidence__src a { color: var(--seaglass-deep); }
+
+/* ── outcome ────────────────────────────────────────────── */
+.outcome { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); }
+@media (max-width: 900px) { .outcome { grid-template-columns: 1fr; } }
+.outcome__card { border: 1px solid var(--rule); border-radius: var(--radius-3); padding: var(--s-6); }
+.outcome__metric { font-size: var(--type-h2); color: var(--ink); font-weight: var(--w-light); margin-bottom: var(--s-3); text-transform: lowercase; }
+
+/* ── hub ────────────────────────────────────────────────── */
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-5); }
+.hub-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--rule); border-radius: var(--radius-3);
+  padding: var(--s-6); background: var(--paper-raised);
+  transition: box-shadow var(--dur-micro) var(--ease-micro), transform var(--dur-micro) var(--ease-micro), border-color var(--dur-micro) var(--ease-micro);
+}
+.hub-card:hover { box-shadow: var(--lift-3); transform: translateY(-2px); border-color: var(--seaglass-line); }
+.hub-card[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+.hub-card h3 { margin-bottom: var(--s-2); }
+.hub-card .metaphor { color: var(--seaglass-deep); font-size: var(--type-small); margin-bottom: var(--s-3); }
+.hub-card .state { font-size: var(--type-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--ink-3); }
+
+/* ── foot ───────────────────────────────────────────────── */
+.site-foot { border-top: 1px solid var(--rule); margin-top: var(--s-9); padding: var(--s-7) var(--margin-outer) var(--s-8); }
+.refs { list-style: none; padding: 0; margin: var(--s-4) 0 0; font-size: var(--type-small); color: var(--ink-3); }
+.refs li { margin-bottom: var(--s-2); }
+.refs a { color: var(--seaglass-deep); }
+
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--paper-raised); border: 1px solid var(--seaglass-deep);
+  padding: var(--s-3) var(--s-4); border-radius: var(--radius-2);
+}
+.skip:focus { left: var(--margin-outer); top: var(--s-3); z-index: 50; }
+
+/* ── the blueprint explainer ─────────────────────────────
+   Deep blue ink on paper white. Whiteboard mini-videos drawn from code.
+   Spec: references/blueprint-explainer.md */
+.bp {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-3);
+  padding: var(--s-7);
+}
+.bp-board { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7); margin-top: var(--s-6); }
+@media (max-width: 900px) { .bp-board { grid-template-columns: 1fr; gap: var(--s-6); } .bp { padding: var(--s-5); } }
+
+.bp-panel { margin: 0; }
+.bp-num { color: var(--bp-ink-2); margin-bottom: var(--s-3); }
+.bp-panel figcaption {
+  margin-top: var(--s-4);
+  font-size: var(--type-body); line-height: 1.5;
+  color: var(--ink-2); max-width: 42ch;
+}
+
+.bp-svg {
+  display: block; width: 100%; height: auto;
+  background: var(--paper);
+  border: 1px solid var(--bp-grid);
+  border-radius: var(--radius-2);
+  color: var(--bp-ink);
+}
+.bp-grid line { stroke: var(--bp-grid); stroke-width: 0.5; }
+
+.bp-p { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.bp-p--ink    { stroke: var(--bp-ink);   stroke-width: var(--bp-stroke); }
+.bp-p--thin   { stroke: var(--bp-ink-3); stroke-width: var(--bp-hairline); }
+.bp-p--accent { stroke: var(--signal);   stroke-width: var(--bp-stroke); }
+.bp-p.is-dashed { stroke-dasharray: 4 5 !important; stroke-dashoffset: 0 !important; }
+
+.bp-t { font: var(--w-regular) 13px var(--font); letter-spacing: 0.02em; }
+.bp-t--ink    { fill: var(--bp-ink); }
+.bp-t--faint  { fill: var(--bp-ink-2); font-style: italic; }
+.bp-t--accent { fill: var(--signal); letter-spacing: 0.06em; }
+
+/* the drawing itself — stroke-dashoffset, no library, no video file */
+.bp-p:not(.is-dashed) { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); }
+.bp-p.is-drawing { animation: bp-draw var(--bp-draw) var(--ease-gather) both; }
+@keyframes bp-draw { to { stroke-dashoffset: 0; } }
+
+/* labels arrive after the line that carries them — the hold where the viewer catches up */
+.bp-t { opacity: 0; }
+.bp-t.is-drawing { animation: bp-fade var(--dur-reveal) var(--ease-reveal) both; animation-delay: inherit; }
+@keyframes bp-fade { to { opacity: 1; } }
+
+/* reduced motion → the completed plate, immediately. a designed state, not a frozen frame. */
+.bp-panel.is-complete .bp-p { stroke-dashoffset: 0; }
+.bp-panel.is-complete .bp-t { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .bp-p { stroke-dashoffset: 0 !important; }
+  .bp-t { opacity: 1 !important; }
+}
+
+.bp-replay {
+  margin-top: var(--s-6);
+  background: none; border: 0; padding: var(--s-2) 0; cursor: pointer;
+  font: var(--w-medium) var(--type-label)/1 var(--font);
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--bp-ink-2); border-bottom: 1px solid var(--bp-ink-3);
+}
+.bp-replay:hover { color: var(--bp-ink); border-bottom-color: var(--bp-ink); }
+
+/* the text equivalent lives in the DOM, not behind a toggle */
+.bp-text { margin-top: var(--s-7); border-top: 1px solid var(--rule); padding-top: var(--s-5); }
+.bp-text ol { margin: 0; padding-left: var(--s-5); }
+.bp-text li { margin-bottom: var(--s-3); max-width: 62ch; }
+
+@media print {
+  .bp-p { stroke-dashoffset: 0 !important; }
+  .bp-t { opacity: 1 !important; }
+  .bp-replay { display: none; }
+}
+
+/* the knolling parts legend — the text equivalent of the canvas */
+.parts-legend { list-style: none; margin: var(--s-3) 0 0; padding: 0; }
+.parts-legend li { margin-bottom: var(--s-2); font-size: var(--type-small); color: var(--ink-2); max-width: 62ch; }
+.parts-legend strong { color: var(--ink); font-weight: var(--w-medium); }
+
+/* ── the drawing sheet ───────────────────────────────────
+   Every page is framed as a technical drawing. A prospect's engineering, risk or
+   compliance people read drawings for a living; a page that behaves like one says
+   this was specified rather than styled. Spec: references/knolling-assembly.md */
+
+body { background-image:
+  linear-gradient(to right, var(--sheet-grid) 1px, transparent 1px),
+  linear-gradient(to bottom, var(--sheet-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+[data-sheet] { position: relative; }
+.sheet__tick {
+  position: absolute; width: 14px; height: 14px; pointer-events: none;
+  border-color: var(--bp-ink-3); border-style: solid; border-width: 0;
+}
+.sheet__tick--tl { top: 10px; left: 10px; border-top-width: 1px; border-left-width: 1px; }
+.sheet__tick--tr { top: 10px; right: 10px; border-top-width: 1px; border-right-width: 1px; }
+.sheet__tick--bl { bottom: 10px; left: 10px; border-bottom-width: 1px; border-left-width: 1px; }
+.sheet__tick--br { bottom: 10px; right: 10px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* title block — bottom right, where a draughtsman puts it */
+.title-block {
+  position: fixed; right: var(--s-4); bottom: var(--s-4); z-index: 30;
+  width: 292px; background: var(--paper-raised);
+  border: 1px solid var(--bp-ink); border-radius: 1px;
+  font-size: 10.5px; line-height: 1.35;
+  box-shadow: var(--lift-2);
+}
+@media (max-width: 900px) { .title-block { display: none; } }
+.tb__row { display: flex; gap: var(--s-3); padding: 6px var(--s-3); border-bottom: 1px solid var(--rule); }
+.tb__row--head { background: var(--bp-wash); }
+.tb__row--foot { border-bottom: 0; }
+.tb__grid { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--rule); }
+.tb__grid > div { padding: 6px var(--s-3); border-right: 1px solid var(--rule); }
+.tb__grid > div:nth-child(3n) { border-right: 0; }
+.tb__grid > div:nth-child(-n+3) { border-bottom: 1px solid var(--rule); }
+.tb__k {
+  display: block; font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bp-ink-2); margin-bottom: 1px;
+}
+.tb__row .tb__k { flex: 0 0 44px; margin: 0; padding-top: 2px; }
+.tb__v { color: var(--bp-ink); font-weight: var(--w-medium); }
+.tb__v--status { color: var(--signal); text-transform: uppercase; letter-spacing: 0.08em; font-size: 9.5px; }
+
+/* balloon part numbers — the bill of materials, as a drawing numbers it */
+.balloon-list { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-3); }
+.balloon-item { display: grid; grid-template-columns: 26px 1fr; gap: var(--s-3) var(--s-4); align-items: start; }
+.balloon {
+  grid-row: span 2;
+  display: grid; place-items: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1px solid var(--bp-ink); color: var(--bp-ink);
+  font-size: 11px; font-variant-numeric: tabular-nums;
+  position: relative;
+}
+.balloon::after {
+  content: ""; position: absolute; left: 100%; top: 50%;
+  width: var(--s-3); height: 1px; background: var(--bp-ink-3);
+}
+.balloon-name { color: var(--ink); font-weight: var(--w-medium); }
+.balloon-why { grid-column: 2; color: var(--ink-2); font-size: var(--type-small); }
+
+/* dimension line — how a drawing states a measurement */
+.dim { display: grid; gap: var(--s-2); margin: var(--s-5) 0; max-width: 46ch; }
+.dim__line { display: flex; align-items: center; gap: 0; }
+.dim__tick { width: 1px; height: 12px; background: var(--bp-ink-3); flex: 0 0 auto; }
+.dim__rule { flex: 1 1 auto; height: 1px; background: var(--bp-ink-3); position: relative; }
+.dim__rule::before, .dim__rule::after {
+  content: ""; position: absolute; top: -3px; width: 0; height: 0;
+  border-block: 3.5px solid transparent;
+}
+.dim__rule::before { left: 0; border-right: 7px solid var(--bp-ink-3); }
+.dim__rule::after { right: 0; border-left: 7px solid var(--bp-ink-3); }
+.dim__value { color: var(--bp-ink); font-size: var(--type-lead); font-weight: var(--w-light); }
+.dim__note { color: var(--ink-3); font-size: var(--type-small); }
+
+/* revision strip — the honest changelog, in the drawing's own language */
+.rev-strip {
+  display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5);
+  border-top: 1px solid var(--bp-ink); border-bottom: 1px solid var(--rule);
+  padding: var(--s-3) 0; margin-top: var(--s-6);
+  font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bp-ink-2);
+}
+.rev-strip b { color: var(--bp-ink); font-weight: var(--w-medium); }
+
+@media print { .title-block { position: static; width: auto; margin-top: 24px; } }

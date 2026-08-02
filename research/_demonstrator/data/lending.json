@@ -1,0 +1,326 @@
+{
+  "id": "lending",
+  "client": {
+    "name": "Nectar Money",
+    "sector": "personal lending",
+    "accent": "#056268",
+    "status": "proposed"
+  },
+  "brand": {
+    "primary": "#002A42",
+    "secondary": "#056268",
+    "peach": "#DFA092",
+    "sage": "#73BBA5",
+    "teal": "#00A9AB",
+    "typeface": "Museo Sans / Pluto",
+    "source": "nectar.co.nz nectar-2025.css, verified Aug 2026"
+  },
+  "sheet": {
+    "title": "personal lending — assembling",
+    "drawing": "ASM-LEND-001",
+    "rev": "B",
+    "scale": "NTS",
+    "material": "agentic wait state"
+  },
+  "metaphor": {
+    "word": "alignment",
+    "sentence": "Three wheels must line up before the lock will open — income, obligations and evidence."
+  },
+  "proposition": "While the affordability assessment runs, assembling turns the wait into the assessment — so the customer answers once and the assessor gets a complete file.",
+  "wait": {
+    "moment": "while your affordability assessment runs",
+    "duration": {
+      "value": "same day",
+      "source": "Nectar Money published claim",
+      "url": "https://www.nectar.co.nz/",
+      "simulated": false,
+      "note": "Nectar's own marketing states a 7-minute application and 97% same-day funding."
+    },
+    "whyItExists": "Before it can lend, the lender must form a view on suitability and affordability. That view needs evidence, and gathering evidence takes time.",
+    "todayItFeelsLike": "A form. Then silence. Then a decision you cannot interrogate."
+  },
+  "agentWork": {
+    "asks": [
+      "One question at a time, sized for a tap — never an eighteen-field form.",
+      "“Is the $9,400 card the only balance you're consolidating?”",
+      "“Did your hours change in the last three months?”"
+    ],
+    "learns": [
+      "Which of the declared expenses are fixed and which are seasonal.",
+      "Where stated income and bank-feed income disagree, and why.",
+      "Whether consolidation actually reduces total cost, or just moves it."
+    ],
+    "prepares": [
+      "A structured affordability file the assessor would otherwise assemble by hand.",
+      "The suitability rationale, written against the Responsible Lending Code.",
+      "The two questions the assessor would have had to email back and ask."
+    ],
+    "resolves": [
+      "Discrepancies the customer can clear in the moment, instead of a day later.",
+      "The document chase — nothing is requested that has already been supplied."
+    ]
+  },
+  "reward": {
+    "headline": "A decision you can read, not just receive.",
+    "detail": "At the end of the wait the customer gets the assessor's actual reasoning — what was counted as income, what was treated as a fixed cost, and what would need to change for a different answer. If the answer is no, they leave knowing exactly what would make it yes.",
+    "immediate": true
+  },
+  "permission": {
+    "consent": "You agreed to a bank feed and a credit check for this application.",
+    "reads": [
+      "Your bank feed, for 90 days",
+      "Your credit file",
+      "What you told us in the application"
+    ],
+    "authority": "act with approval",
+    "hardStops": [
+      "It never makes or communicates a credit decision.",
+      "It never contacts a third party on your behalf.",
+      "It never keeps the bank feed after the application closes."
+    ],
+    "thirdPartyData": true,
+    "ipp3aNotice": "Your credit file comes from a credit reporter, not from you. Under the Privacy Act 2020 we tell you that we collected it, why, who sees it, and how to correct it — on this screen, not in a policy page.",
+    "retention": "The bank feed is deleted when the application closes. The assessment record is kept for seven years, as lending records must be."
+  },
+  "human": {
+    "role": "Lending Assessor",
+    "gateAt": "before any credit decision is formed or communicated",
+    "whyStatutory": "CCCFA lender responsibility principles — the lender, not a tool, must be satisfied the loan is suitable and affordable."
+  },
+  "outcome": {
+    "primary": {
+      "metric": "application completion",
+      "mechanism": "The customer answers a handful of short questions during a wait they were already having, instead of an eighteen-field form before it."
+    },
+    "secondary": {
+      "metric": "quality of the file at decision",
+      "mechanism": "Discrepancies are resolved while the customer is still present, so the assessor opens a complete file instead of starting an email thread."
+    },
+    "hypothesis": true
+  },
+  "proof": {
+    "evidencePack": [
+      {
+        "what": "sources used",
+        "example": "bank feed (90 days), credit file, stated income"
+      },
+      {
+        "what": "assumptions made",
+        "example": "childcare treated as a fixed cost; overtime excluded from income"
+      },
+      {
+        "what": "what changed in review",
+        "example": "assessor reinstated $180/wk overtime after Mere confirmed it is contracted"
+      },
+      {
+        "what": "who signed it off",
+        "example": "R. Ngātai, Lending Assessor — 14:32, 2 Aug"
+      }
+    ]
+  },
+  "scenario": {
+    "persona": {
+      "name": "Mere",
+      "context": "Consolidating a $9,400 credit card balance. Hamilton. Applied at 9:14am."
+    },
+    "steps": [
+      {
+        "id": "entry",
+        "stage": "entry",
+        "beat": "gather",
+        "agent": "Intent Agent",
+        "authority": "observe",
+        "showsCustomer": "Your assessment has started. It usually finishes today. While it runs, three short questions will make the answer better.",
+        "doesBehind": "Reads the application already submitted. Does not re-ask anything it can already see.",
+        "question": "Happy to answer a few questions while this runs?",
+        "options": [
+          "Yes, go ahead",
+          "Not right now"
+        ]
+      },
+      {
+        "id": "context",
+        "stage": "context",
+        "beat": "gather",
+        "agent": "Context Agent",
+        "authority": "observe",
+        "showsCustomer": "Your bank feed shows $412 a fortnight going to a card. Is the $9,400 the only balance you're consolidating?",
+        "doesBehind": "Reconciles declared debts against the bank feed. A mismatch here is the single most common reason an assessor sends an application back.",
+        "question": "Is that the only balance?",
+        "options": [
+          "Yes, just that one",
+          "There's also a $2,100 store card"
+        ]
+      },
+      {
+        "id": "income",
+        "stage": "context",
+        "beat": "reveal",
+        "agent": "Context Agent",
+        "authority": "draft",
+        "showsCustomer": "Your payslips and your bank feed disagree by about $180 a week. That's usually overtime. Is it regular?",
+        "doesBehind": "Flags the variance rather than silently choosing one figure. Which number is used changes the outcome, so the customer gets to explain it now instead of the assessor guessing later.",
+        "question": "Is the extra $180 regular?",
+        "options": [
+          "Yes — it's contracted",
+          "No — it comes and goes"
+        ]
+      },
+      {
+        "id": "prepare",
+        "stage": "recommendation",
+        "beat": "prepare",
+        "agent": "Planning Agent",
+        "authority": "draft",
+        "showsCustomer": "Putting your file together. Nothing is decided yet.",
+        "doesBehind": "Drafts the affordability position and the suitability rationale against the Responsible Lending Code, with every figure traced to its source.",
+        "question": null,
+        "options": []
+      },
+      {
+        "id": "approval",
+        "stage": "commitment",
+        "beat": "hold",
+        "agent": null,
+        "human": "Lending Assessor",
+        "authority": "act with approval",
+        "approving": "the affordability file and the suitability rationale, before any decision is formed",
+        "showsCustomer": "Your file is with a lending assessor. A person makes this call — that is not a formality, it is the law.",
+        "doesBehind": "Everything stops. The agent has no authority past this line.",
+        "blocking": true,
+        "question": "Release the file to the assessor?",
+        "options": [
+          "Send it through"
+        ]
+      },
+      {
+        "id": "resolution",
+        "stage": "resolution",
+        "beat": "resolve",
+        "agent": "Resolution Agent",
+        "authority": "recommend",
+        "showsCustomer": "Approved — $9,400 over 3 years. Here is what was counted, what was assumed, and who signed it.",
+        "doesBehind": "Writes the evidence pack: sources, assumptions, what the assessor changed, and the signature. One file the customer can keep or forward.",
+        "question": null,
+        "options": []
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "claim": "26% of shoppers abandon a checkout solely because the process was too long or complicated.",
+      "source": "Baymard Institute",
+      "url": "https://baymard.com/lists/cart-abandonment-rate",
+      "year": 2025,
+      "simulated": false,
+      "soWhat": "The form is the friction. Moving the questions into a wait the customer is already having removes the form without removing the evidence."
+    },
+    {
+      "claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.",
+      "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)",
+      "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376",
+      "year": 2011,
+      "simulated": false,
+      "soWhat": "A wait that shows its working is worth more than a wait that hides it. This is the whole argument for assembling."
+    },
+    {
+      "claim": "Compliance with the Responsible Lending Code is evidence of compliance with the lender responsibility principles.",
+      "source": "Responsible Lending Code, MBIE, July 2024",
+      "url": "https://www.mbie.govt.nz/dmsdocument/28548-responsible-lending-code-july-2024",
+      "year": 2024,
+      "simulated": false,
+      "soWhat": "The rationale the agent drafts is written against the Code, so the file the assessor signs is already in the shape a regulator expects."
+    },
+    {
+      "claim": "Oversight of the CCCFA transferred to the Financial Markets Authority on 1 July 2026; certification was replaced by market-services licensing.",
+      "source": "Financial Markets Authority",
+      "url": "https://www.fma.govt.nz/business/legislation/cccfa/cccfa-transfer-faq/",
+      "year": 2026,
+      "simulated": false,
+      "soWhat": "A new regulator will ask how decisions were reached. An evidence pack per application is the cheapest possible answer."
+    },
+    {
+      "claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.",
+      "source": "Moffatt v. Air Canada, 2024 BCCRT 149",
+      "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/",
+      "year": 2024,
+      "simulated": false,
+      "soWhat": "This is why the assessor gate exists. An agent that could decide would be a liability, not a feature."
+    }
+  ],
+  "copy": {
+    "heroEyebrow": "assembling · personal lending",
+    "beforeWhileAfter": {
+      "beforeLabel": "before",
+      "before": "An eighteen-field form, submitted into silence. The assessor opens it, finds two gaps, and emails. Two days pass over a question that would have taken eight seconds to answer.",
+      "whileLabel": "while",
+      "while": "The wait becomes the assessment. Three short questions, asked one at a time, while the customer is still here and still interested. Every answer is traced to its source.",
+      "afterLabel": "after",
+      "after": "The assessor opens a complete file and signs it. The customer gets the reasoning, not just the verdict — and if the answer is no, they know exactly what would make it yes."
+    },
+    "headline": "the wait is the assessment",
+    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Nectar Money's journey.",
+    "assemblyBeats": [
+      {
+        "at": 0.0,
+        "beat": "gather",
+        "text": "every part, laid out"
+      },
+      {
+        "at": 0.16,
+        "beat": "gather",
+        "text": "the lock body — everything is built onto it"
+      },
+      {
+        "at": 0.36,
+        "beat": "prepare",
+        "text": "three wheels turning, looking for the line"
+      },
+      {
+        "at": 0.58,
+        "beat": "reveal",
+        "text": "the gates line up"
+      },
+      {
+        "at": 0.76,
+        "beat": "hold",
+        "text": "held — a lending assessor drops the lever"
+      },
+      {
+        "at": 0.9,
+        "beat": "resolve",
+        "text": "open"
+      }
+    ]
+  },
+  "explainer": {
+    "heading": "what a monetised wait state actually is",
+    "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
+    "waitLabel": "same day",
+    "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
+    "panels": [
+      {
+        "title": "the wait you already have",
+        "caption": "Every business makes people wait somewhere. Here it's the affordability check. Right now that time produces nothing for either side."
+      },
+      {
+        "title": "what the gap costs",
+        "caption": "Some people give up while they wait. The same question gets asked twice. The work still happens later, and by then it costs more to do."
+      },
+      {
+        "title": "what fills it",
+        "caption": "assembling puts useful work into the gap. One short question in, a complete file out — and something worth having handed back to you."
+      },
+      {
+        "title": "who is better off",
+        "caption": "You finish sooner and can read the reasoning. The lender loses fewer applications and stops chasing by email. A lending assessor still signs it off."
+      }
+    ],
+    "textEquivalent": [
+      "Start with the wait you already have. When you apply for a loan, there's a gap between sending the form and hearing back. Today nothing happens in that gap.",
+      "That gap costs money. Some people give up part-way. The same question gets asked twice, days apart. The work still gets done — later, by someone paid more to do it.",
+      "assembling fills the gap with useful work. It asks the smallest question that would improve the answer, and prepares the file while you wait.",
+      "By the end, both sides are better off: you get a decision you can read on the same day, and the lender gets a complete file instead of an email thread. A lending assessor signs it off, every time."
+    ]
+  }
+}
