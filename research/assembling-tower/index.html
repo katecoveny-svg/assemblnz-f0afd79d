@@ -640,6 +640,9 @@ h1{letter-spacing:-.035em}
 
 
 
+
+
+
 /* ab:css:start */
 /* ── the assembly stage · assembl system ───────────────────────────────────
    Kate, 1 Aug 2026: "i want the scroll factor like the motion lab". So this is
@@ -720,6 +723,130 @@ h1{letter-spacing:-.035em}
 .abClose{position:relative;height:clamp(280px,46vh,460px);overflow:hidden;
   background:radial-gradient(ellipse 92% 74% at 50% 45%,#16181D 0%,#0A0B0E 100%)}
 .abClose__art{position:absolute;inset:0}
+
+/* ── the demonstrator modules · assembling-demonstrator skill, Aug 2026 ─────
+   Five sections every demonstrator carries: the definition above the fold,
+   the wait moment as before/while/after, the blueprint explainer, permission
+   and proof, and the commercial outcome as a hypothesis. Paper ground on
+   every one — the skill's register — so they read as the same document
+   whatever the page's own studio does around them. */
+.abDef{background:#FCFCFA;border-top:1px solid rgba(20,22,26,.08);
+  border-bottom:1px solid rgba(20,22,26,.08);
+  padding:clamp(30px,5vh,54px) clamp(22px,5vw,64px)}
+.abDef__in{max-width:1240px;margin:0 auto;display:grid;gap:10px}
+.abDef__in p{font:300 clamp(16px,1.6vw,19px)/1.6 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  color:#3A3F46;max-width:74ch;margin:0}
+.abDef__in b{font-weight:650;color:#14161A}
+
+.abSec{background:#FCFCFA;padding:clamp(64px,11vh,130px) clamp(22px,5vw,64px)}
+.abSec--rule{border-top:1px solid rgba(20,22,26,.08)}
+.abSec__in{max-width:1240px;margin:0 auto}
+.abSec__k{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--abA,#2F4F44);display:flex;align-items:center;gap:14px}
+.abSec__k::after{content:"";flex:1;height:1px;background:rgba(20,22,26,.12);max-width:220px}
+.abSec__h{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(28px,4vw,52px);line-height:1.08;letter-spacing:-.02em;
+  color:#14161A;margin:20px 0 0;max-width:24ch}
+.abSec__sf{font:300 15.5px/1.65 -apple-system,system-ui,sans-serif;color:#4A4F57;
+  margin:16px 0 0;max-width:64ch}
+.abSim{display:inline-block;font:700 9px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;padding:5px 8px;border-radius:4px;
+  border:1px solid rgba(20,22,26,.3);color:#4A4F57;margin-left:10px;vertical-align:middle}
+
+.abBwa__dim{font:400 13px/1.6 -apple-system,system-ui,sans-serif;color:#6A6F76;
+  margin:14px 0 0;padding-left:14px;border-left:2px solid var(--abA,#2F4F44)}
+.abBwa__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:rgba(20,22,26,.1);border:1px solid rgba(20,22,26,.1);
+  margin-top:clamp(30px,5vh,52px)}
+@media(max-width:860px){.abBwa__grid{grid-template-columns:1fr}}
+.abBwa__col{background:#FCFCFA;padding:clamp(22px,3vw,38px)}
+.abBwa__col h3{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--abA,#2F4F44);margin:0 0 14px}
+.abBwa__col p{font:300 15px/1.65 -apple-system,system-ui,sans-serif;color:#3A3F46;margin:0}
+
+/* the blueprint — deep blue ink on paper, tokens from the skill */
+.abBp{--bp-ink:#16305C;--bp-ink2:#3A5788;--bp-ink3:#7489B1;--bp-grid:#DDE4EF;
+  --bp-accent:#A44A18}
+.abBp__def{font:300 clamp(16px,1.7vw,20px)/1.6 -apple-system,system-ui,sans-serif;
+  color:#3A3F46;max-width:56ch;margin:22px 0 0}
+.abBp__board{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3.4vw,46px);
+  margin-top:clamp(30px,5vh,52px)}
+@media(max-width:900px){.abBp__board{grid-template-columns:1fr}}
+.abBp__panel{margin:0}
+.abBp__num{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--bp-ink2);margin:0 0 10px}
+.abBp__panel figcaption{font:300 14px/1.6 -apple-system,system-ui,sans-serif;
+  color:#4A4F57;margin-top:12px;max-width:52ch}
+.abBp__svg{display:block;width:100%;height:auto;background:#FFF;
+  border:1px solid var(--bp-grid);border-radius:10px;color:var(--bp-ink)}
+.abBp__grid line{stroke:var(--bp-grid);stroke-width:.5}
+.abBp__p{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.abBp__p--ink{stroke:var(--bp-ink);stroke-width:1.5}
+.abBp__p--thin{stroke:var(--bp-ink3);stroke-width:.75}
+.abBp__p--accent{stroke:var(--bp-accent);stroke-width:1.5}
+.abBp__p.is-dashed{stroke-dasharray:4 5!important;stroke-dashoffset:0!important}
+.abBp__t{font:400 13px -apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  letter-spacing:.02em;fill:var(--bp-ink)}
+.abBp__t--small{font-size:11.5px}
+.abBp__t--faint{fill:var(--bp-ink2);font-style:italic}
+.abBp__t--accent{fill:var(--bp-accent);letter-spacing:.06em}
+.abBp__p:not(.is-dashed){stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+.abBp__p.is-drawing{animation:abBpDraw .9s cubic-bezier(.16,.84,.44,1) both}
+@keyframes abBpDraw{to{stroke-dashoffset:0}}
+.abBp__t{opacity:0}
+.abBp__t.is-drawing{animation:abBpFade .48s cubic-bezier(.22,.61,.36,1) both;animation-delay:inherit}
+@keyframes abBpFade{to{opacity:1}}
+.abBp__panel.is-complete .abBp__p{stroke-dashoffset:0}
+.abBp__panel.is-complete .abBp__t{opacity:1}
+@media(prefers-reduced-motion:reduce){
+  .abBp__p{stroke-dashoffset:0!important}.abBp__t{opacity:1!important}}
+.abBp__replay{margin-top:clamp(24px,4vh,40px);appearance:none;background:none;border:none;
+  padding:0 0 2px;cursor:pointer;font:400 13px/1 -apple-system,system-ui,sans-serif;
+  color:var(--bp-ink2);border-bottom:1px solid var(--bp-ink3)}
+.abBp__replay:hover{color:var(--bp-ink);border-bottom-color:var(--bp-ink)}
+.abBp__text{margin-top:clamp(28px,4vh,46px);border-top:1px solid rgba(20,22,26,.1);
+  padding-top:clamp(20px,3vh,32px)}
+.abBp__text>p{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:#6A6F76;margin:0 0 14px}
+.abBp__text ol{margin:0;padding-left:22px}
+.abBp__text li{font:300 14.5px/1.65 -apple-system,system-ui,sans-serif;color:#3A3F46;
+  margin-bottom:10px;max-width:66ch}
+@media print{.abBp__p{stroke-dashoffset:0!important}.abBp__t{opacity:1!important}
+  .abBp__replay{display:none}}
+
+/* permission and proof — two cards, plain language */
+.abPerm__grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(20,22,26,.1);border:1px solid rgba(20,22,26,.1);
+  margin-top:clamp(30px,5vh,52px)}
+@media(max-width:860px){.abPerm__grid{grid-template-columns:1fr}}
+.abPerm__card{background:#FCFCFA;padding:clamp(24px,3.2vw,42px)}
+.abPerm__l{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--abA,#2F4F44);margin:0 0 10px}
+.abPerm__l:not(:first-child){margin-top:26px}
+.abPerm__card p{font:300 15px/1.65 -apple-system,system-ui,sans-serif;color:#3A3F46;margin:0}
+.abPerm__card ul{margin:0;padding-left:20px}
+.abPerm__card li{font:300 14.5px/1.65 -apple-system,system-ui,sans-serif;color:#3A3F46;
+  margin-bottom:6px}
+.abPerm__chip{display:inline-block;font:700 11px/1 -apple-system,system-ui,sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:6px;
+  border:1px solid var(--abA,#2F4F44);color:var(--abA,#2F4F44)}
+.abPerm__ipp{margin-top:26px;padding:16px 18px;border-left:2px solid var(--abA,#2F4F44);
+  background:rgba(20,22,26,.03);font:300 13.5px/1.65 -apple-system,system-ui,sans-serif;
+  color:#3A3F46}
+.abPerm__ipp b{font-weight:650;color:#14161A}
+
+/* the commercial outcome — hypothesis, never a promised number */
+.abOut__grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(20,22,26,.1);border:1px solid rgba(20,22,26,.1);
+  margin-top:clamp(30px,5vh,52px)}
+@media(max-width:860px){.abOut__grid{grid-template-columns:1fr}}
+.abOut__card{background:#FCFCFA;padding:clamp(24px,3.2vw,42px)}
+.abOut__card>span{font:700 10px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--abA,#2F4F44)}
+.abOut__m{font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(22px,2.6vw,32px);line-height:1.15;letter-spacing:-.01em;
+  color:#14161A;margin:12px 0 12px}
+.abOut__card p{font:300 14.5px/1.65 -apple-system,system-ui,sans-serif;color:#3A3F46;margin:0}
 /* ab:css:end */
 </style>
 <link rel="stylesheet" href="assembl-system.css">
@@ -756,6 +883,15 @@ h1{letter-spacing:-.035em}
     <button class="btn ghost" onclick="openChat()">Ask it about this</button>
   </div>
 </div></div></header>
+<!-- ab:def:start — what assembl is, above the fold -->
+<section class="abDef" aria-label="what assembl is">
+  <div class="abDef__in">
+    <p><b>assembl</b> designs and runs agentic customer journeys.</p>
+    <p><b>assembling</b> is the wait-state layer: it turns a natural waiting moment into useful, permissioned, rewarded work that improves the customer&rsquo;s next step &mdash; while a named human stays in control.</p>
+  </div>
+</section>
+<!-- ab:def:end -->
+
 <!-- ab:start — the assembly stage, assembl system -->
 <section class="abStage abStage--dark" data-m-scrub aria-label="the claim, assembling" style="--abA:#FFCF03">
   <div class="abStage__pin">
@@ -779,6 +915,25 @@ h1{letter-spacing:-.035em}
   <div class="abMosBand__in"><div class="abMosBand__host" id="abMos"></div></div>
 </section>
 <!-- ab:end -->
+<!-- ab:bwa:start — the wait moment, before / while / after -->
+<section class="abSec abSec--rule" style="--abA:#FFCF03" aria-label="the wait moment">
+  <div class="abSec__in">
+    <div class="abSec__k">the wait moment</div>
+    <h2 class="abSec__h" data-m="type">the ten business days the Fair Insurance Code allows once your claim has all its information.</h2>
+    <p class="abBwa__dim">Fair Insurance Code 2020 — acknowledge in 5, decide in 10, update at least every 20 business days</p>
+    <div class="abBwa__grid">
+      <div class="abBwa__col" data-m="rise"><h3>before</h3><p>You lodge the claim, and the clock you cannot see starts and stops every time something is missing.</p></div>
+      <div class="abBwa__col" data-m="rise"><h3>while</h3><p>The agent gets the file complete before the decision clock starts — photos, the repairer’s quote, your excess confirmed — and shows you which day the Code’s clock is actually on.</p></div>
+      <div class="abBwa__col" data-m="rise"><h3>after</h3><p>A decision inside the published cadence, from a named claims manager, with the timeline it took attached.</p></div>
+    </div>
+  </div>
+</section>
+<!-- ab:bwa:end -->
+
+
+
+
+
 
 <section id="wait"><div class="wrap">
   <div class="num rise">01 — THE WAIT</div>
@@ -1253,6 +1408,50 @@ h1{letter-spacing:-.035em}
 </div></section>
 </main>
 
+
+
+<!-- ab:bp:start — the blueprint explainer -->
+<section class="abSec abSec--rule abBp" style="--abA:#FFCF03" aria-label="the idea, from scratch" id="abBp">
+  <div class="abSec__in">
+    <div class="abSec__k">the idea, from scratch</div>
+    <h2 class="abSec__h" data-m="type">what a monetised wait state is</h2>
+    <p class="abBp__def">A monetised wait state is a wait that pays for itself &mdash; the customer gets something useful out of it, and the business gets work done that would otherwise cost it money later.</p>
+    <div class="abBp__board" data-bp-board></div>
+    <button class="abBp__replay" type="button" data-bp-replay>draw it again</button>
+    <div class="abBp__text">
+      <p>the same thing, in words</p>
+      <ol>
+      <li>Every business makes people wait somewhere. Here it is the ten business days the Fair Insurance Code allows once your claim has all its information.</li>
+      <li>Today that time produces nothing — some people give up, and the work still happens later, when it costs more.</li>
+      <li>assembling fills it: one small question in, prepared work out, and something back for the customer.</li>
+      <li>Who is better off: the customer gets a clock you can see, a complete file, once, a named decision; the insurer gets the Code kept, provably, fewer progress calls, clean files at decision.</li>
+      <li>A claims manager stays in charge — before any decision is communicated.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+<!-- ab:bp:end -->
+<!-- ab:perm:start — permission and proof -->
+<section class="abSec abSec--rule" style="--abA:#FFCF03" aria-label="permission and proof">
+  <div class="abSec__in">
+    <div class="abSec__k">permission and proof</div>
+    <h2 class="abSec__h" data-m="type">what it may do, and where it stops</h2>
+    <div class="abPerm__grid">
+      <div class="abPerm__card" data-m="rise">
+        <p class="abPerm__l">consent</p><p>You claimed on your policy. The agent works that claim, and its clock is visible to you the whole way.</p>
+        <p class="abPerm__l">what it reads</p><ul><li>your policy and excess</li><li>what you lodged, as you lodged it</li><li>quotes and reports as they arrive</li></ul>
+        <p class="abPerm__l">retention</p><p>Claims files keep their statutory life, and the timeline stays readable after settlement.</p>
+        <div class="abPerm__ipp"><b>Privacy Act 2020, IPP 3A.</b> Assessor reports and repairer quotes arrive from third parties, not from you. The agent tells you when they land and what they say — Privacy Act 2020, IPP 3A.</div>
+      </div>
+      <div class="abPerm__card" data-m="rise">
+        <p class="abPerm__l">authority</p><p><span class="abPerm__chip">act with approval</span></p>
+        <p class="abPerm__l">it never</p><ul><li>never accepts or declines a claim</li><li>never appoints a repairer without your yes</li><li>never restarts the clock without telling you why</li></ul>
+        <p class="abPerm__l">the human gate</p><p>A claims manager, before any decision is communicated. Fair Insurance Code 2020 — decide within 10 business days of complete information; a claim unsettled after 12 months is a reportable breach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ab:perm:end -->
 <!-- ab:ev:start — the evidence, per industry -->
 <section class="abEv" style="--abA:#FFCF03" aria-label="the evidence">
   <div class="abEv__in">
@@ -1284,6 +1483,22 @@ h1{letter-spacing:-.035em}
   </div>
 </section>
 <!-- ab:ev:end -->
+<!-- ab:out:start — the commercial outcome, as a hypothesis -->
+<section class="abSec abSec--rule" style="--abA:#FFCF03" aria-label="the commercial outcome">
+  <div class="abSec__in">
+    <div class="abSec__k">the commercial outcome</div>
+    <h2 class="abSec__h" data-m="type">what it should move</h2>
+    <p class="abSec__sf">Stated as a hypothesis and a mechanism. We are not going to put a number on it before we have run it.</p>
+    <div class="abOut__grid">
+      <div class="abOut__card" data-m="rise"><span>primary</span>
+        <p class="abOut__m">claims decided inside the Code’s ten days</p><p>The file is complete before the clock starts, so the ten days hold a decision, not a hunt.</p></div>
+      <div class="abOut__card" data-m="rise"><span>secondary</span>
+        <p class="abOut__m">progress complaints</p><p>A visible clock removes the question that becomes the complaint.</p></div>
+    </div>
+  </div>
+</section>
+<!-- ab:out:end -->
+
 <footer><div class="wrap narrow">
   
   <p><b>An independent concept.</b> Not affiliated with, endorsed by, or commissioned by Tower Limited. Built by assembl from publicly available information. Cast, figures and drafts in this concept are illustrative and fictional.</p>
@@ -2129,6 +2344,7 @@ function grounded(q){
 <script src="assembl-motion.js"></script>
 <script src="assembl-cloud.js"></script>
 <script src="assembl-mosaic.js"></script>
+<script src="assembl-blueprint.js"></script>
 <script>
 (function(){
   /* each mount isolated: a machine without WebGL still gets the mosaic,
@@ -2145,6 +2361,10 @@ function grounded(q){
   try{
     if(window.AssemblMosaic) AssemblMosaic.mount(document.getElementById('abMos'),
       {colour:'#FFCF03',ink:'#14161A',brass:'#BFA37A',seed:'tower-insurance',density:14,mode:'enter'});
+  }catch(e){}
+  try{
+    var bp=document.getElementById('abBp'), bpCfg={"waitLabel":"the claim wait","party":"the insurer","humanRole":"a claims manager","youGet":["a clock you can see","a complete file, once","a named decision"],"theyGet":["the Code kept, provably","fewer progress calls","clean files at decision"],"captions":["The Code gives the insurer ten business days — but only once the file is complete, and you cannot see which day it is on.","Every missing photo stops a clock nobody told you had stopped.","The agent completes the file first, then shows you the clock actually running.","You see the day; the insurer keeps its Code, provably. A claims manager signs every decision."]};
+    if(window.AssemblBlueprint && bp && bpCfg) AssemblBlueprint.mount(bp, bpCfg);
   }catch(e){}
 })();
 </script>
