@@ -17,6 +17,7 @@ VERTICALS = [
     ('lending',        'lending',     'vault',         'vault'),
     ('retirement',     'retirement',  'villa',         'villa'),
     ('automotive',     'automotive',  'motorcar',      'motorcar'),
+    ('airline',        'airline',     'aircraft',      'aircraft'),
 ]
 
 

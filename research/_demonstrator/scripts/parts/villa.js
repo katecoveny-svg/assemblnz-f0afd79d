@@ -382,6 +382,53 @@ parts.forEach(p => { p.to.y += LIFT; });
 })();
 
 export const villa = {
+  /* "the actual place" — the villa's own floor plan, drawn on the sheet the way
+     an architect's plan sits beside the elevation. Room names, wall lines, door
+     swings, a dimension string. It fades as the parts leave the paper. */
+  underlay(c, ink) {
+    const X = -30, Y = -320;              /* plan block, above the flat lay */
+    const W2 = 380, H2 = 210;             /* exterior envelope */
+    c.strokeStyle = ink; c.fillStyle = ink;
+    c.lineJoin = 'round'; c.lineCap = 'round';
+    /* exterior walls, double line */
+    c.lineWidth = 2.2; c.strokeRect(X - W2 / 2, Y - H2 / 2, W2, H2);
+    c.lineWidth = 0.7; c.strokeRect(X - W2 / 2 + 4, Y - H2 / 2 + 4, W2 - 8, H2 - 8);
+    /* internal walls: living left, two bedrooms right, bath between */
+    c.lineWidth = 1.4;
+    c.beginPath();
+    c.moveTo(X + 10, Y - H2 / 2 + 4); c.lineTo(X + 10, Y + H2 / 2 - 60);   /* hall spine */
+    c.moveTo(X + 10, Y - 10); c.lineTo(X + W2 / 2 - 4, Y - 10);            /* bed split */
+    c.moveTo(X + 96, Y - 10); c.lineTo(X + 96, Y - H2 / 2 + 4);            /* bath wall */
+    c.moveTo(X - W2 / 2 + 4, Y + 40); c.lineTo(X - 60, Y + 40);            /* kitchen return */
+    c.stroke();
+    /* door swings */
+    c.lineWidth = 0.6;
+    [[X + 10, Y + H2 / 2 - 60, 0], [X + 96, Y - 32, 1]].forEach(([dx, dy, k]) => {
+      c.beginPath(); c.arc(dx, dy, 22, k ? Math.PI : -Math.PI / 2, k ? Math.PI * 1.5 : 0);
+      c.stroke();
+    });
+    /* the deck, dashed */
+    c.setLineDash([5, 4]); c.lineWidth = 0.8;
+    c.strokeRect(X - W2 / 2, Y + H2 / 2, 150, 34);
+    c.setLineDash([]);
+    /* room names — the body face, small caps spacing, never a handwriting font */
+    c.font = '400 11px Jost, Futura, system-ui, sans-serif';
+    c.globalAlpha *= 0.9;
+    c.fillText('living', X - W2 / 2 + 22, Y + 14);
+    c.fillText('kitchen', X - W2 / 2 + 22, Y + 66);
+    c.fillText('bed 1', X + 118, Y - 62);
+    c.fillText('bed 2', X + 118, Y + 44);
+    c.fillText('bath', X + 26, Y - 62);
+    c.fillText('deck', X - W2 / 2 + 22, Y + H2 / 2 + 22);
+    /* dimension string across the width */
+    c.lineWidth = 0.65;
+    const dy2 = Y - H2 / 2 - 16;
+    c.beginPath();
+    c.moveTo(X - W2 / 2, dy2); c.lineTo(X + W2 / 2, dy2);
+    c.moveTo(X - W2 / 2, dy2 - 5); c.lineTo(X - W2 / 2, dy2 + 5);
+    c.moveTo(X + W2 / 2, dy2 - 5); c.lineTo(X + W2 / 2, dy2 + 5);
+    c.stroke();
+  },
   name: 'single-storey retirement villa',
   board: { w: 1180, h: 800 },
   zoom: 1.55,

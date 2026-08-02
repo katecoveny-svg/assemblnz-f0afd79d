@@ -128,7 +128,10 @@
         "showsCustomer": "Got your message about the wagon. The showroom is closed — a person will reply in the morning. While you wait, two quick questions will make their answer better.",
         "doesBehind": "Reads the enquiry and pulls the exact vehicle's record from the DMS: history, location, availability. Nothing is sent to anyone yet.",
         "question": "Happy to answer two quick questions?",
-        "options": ["Go ahead", "No thanks, just the reply"]
+        "options": [
+          "Go ahead",
+          "No thanks, just the reply"
+        ]
       },
       {
         "id": "tradein",
@@ -139,7 +142,10 @@
         "showsCustomer": "Is there a car you'd trade in? If there is, its valuation can start tonight instead of after your first visit.",
         "doesBehind": "A declared trade-in goes to the right marque team's queue now. This is the single question that most often saves a second visit.",
         "question": "Trading something in?",
-        "options": ["Yes — a 2019 SUV", "No trade-in"]
+        "options": [
+          "Yes — a 2019 SUV",
+          "No trade-in"
+        ]
       },
       {
         "id": "viewing",
@@ -150,7 +156,10 @@
         "showsCustomer": "The wagon is at the Grey Lynn site and available. Weekday or weekend, if you wanted to see it?",
         "doesBehind": "Availability is checked against the DMS, not somebody's memory of the lot. The answer is written down so nobody asks it again.",
         "question": "When suits a look?",
-        "options": ["Weekend", "Weekday evening"]
+        "options": [
+          "Weekend",
+          "Weekday evening"
+        ]
       },
       {
         "id": "prepare",
@@ -175,7 +184,9 @@
         "doesBehind": "Everything stops. The agent has no authority past this line.",
         "blocking": true,
         "question": "It's 8:40am. Release the drafts to the dealer principal?",
-        "options": ["Send them through"]
+        "options": [
+          "Send them through"
+        ]
       },
       {
         "id": "resolution",
@@ -235,12 +246,36 @@
     "headline": "the overnight enquiry, assembled by morning",
     "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Giltrap Group's journey, and no marque trade dress appears on this page.",
     "assemblyBeats": [
-      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
-      { "at": 0.14, "beat": "gather", "text": "the chassis rails arrive first" },
-      { "at": 0.34, "beat": "prepare", "text": "the drivetrain settles in" },
-      { "at": 0.55, "beat": "reveal", "text": "the body closes over" },
-      { "at": 0.76, "beat": "hold", "text": "held — the dealer principal signs before it moves" },
-      { "at": 0.9, "beat": "resolve", "text": "ready for the road" }
+      {
+        "at": 0.0,
+        "beat": "gather",
+        "text": "every part, laid out"
+      },
+      {
+        "at": 0.14,
+        "beat": "gather",
+        "text": "the chassis rails arrive first"
+      },
+      {
+        "at": 0.34,
+        "beat": "prepare",
+        "text": "the drivetrain settles in"
+      },
+      {
+        "at": 0.55,
+        "beat": "reveal",
+        "text": "the body closes over"
+      },
+      {
+        "at": 0.76,
+        "beat": "hold",
+        "text": "held — the dealer principal signs before it moves"
+      },
+      {
+        "at": 0.9,
+        "beat": "resolve",
+        "text": "ready for the road"
+      }
     ]
   },
   "explainer": {
@@ -272,5 +307,9 @@
       "assembling fills the gap with useful work. It answers two tap-sized questions, drafts the reply from live stock, and starts the valuation — as drafts.",
       "By morning, both sides are better off: the buyer gets an answer about the actual car with a viewing slot, and the group gets an enquiry handled once, completely. The dealer principal signs it, every time."
     ]
+  },
+  "drawing": {
+    "ink": "#12294F",
+    "paper": "#F8F5EE"
   }
 }

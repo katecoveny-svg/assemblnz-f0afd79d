@@ -6,8 +6,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>assembling · __SECTOR__ — assembl</title>
-<meta name="description" content="__DESCRIPTION__">
+<title>assembling · airline — assembl</title>
+<meta name="description" content="When a flight is disrupted, assembling does the re-planning during the announcement — so the traveller chooses from finished options on their phone while the queue is still forming at the counter.">
 <link rel="stylesheet" href="../../styles/tokens.css">
 <link rel="stylesheet" href="../../styles/demo.css">
 </head>
@@ -166,14 +166,14 @@
 
 <script type="module">
 import { createAssembly } from '../../scripts/parts.js';
-import { __MANIFEST_EXPORT__ } from '../../scripts/parts/__MANIFEST_MODULE__.js';
+import { aircraft } from '../../scripts/parts/aircraft.js';
 import { createJourney } from '../../scripts/journey.js';
 import { createBlueprint } from '../../scripts/blueprint.js';
 import { applyBrand } from '../../scripts/brand.js';
 import { mountSheet, mountBalloons, dimension } from '../../scripts/sheet.js';
 
-const data = await fetch('../../data/__DATA__.json').then(r => r.json());
-const manifest = __MANIFEST_EXPORT__;
+const data = await fetch('../../data/airline.json').then(r => r.json());
+const manifest = aircraft;
 
 const $ = s => document.querySelector(s);
 const set = (sel, text) => { const el = $(sel); if (el) el.textContent = text; };

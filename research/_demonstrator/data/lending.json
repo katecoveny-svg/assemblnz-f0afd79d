@@ -322,5 +322,9 @@
       "assembling fills the gap with useful work. It asks the smallest question that would improve the answer, and prepares the file while you wait.",
       "By the end, both sides are better off: you get a decision you can read on the same day, and the lender gets a complete file instead of an email thread. A lending assessor signs it off, every time."
     ]
+  },
+  "drawing": {
+    "ink": "#12294F",
+    "paper": "#F8F5EE"
   }
 }

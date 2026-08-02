@@ -1373,6 +1373,13 @@ function createAssembly(canvas, manifest, opts = {}) {
   const board = manifest.board || { w: 960, h: 640 };
   const parts = manifest.parts;
 
+  /* The blueprint direction, Aug 2026: the resting state is a technical
+     drawing — deep ink linework on off-white graph paper — and the parts
+     come OFF the plans as their wave lifts: ink crossfades to material in
+     flight. The still (reduced motion, low power) is the drawing plate. */
+  const INK = opts.ink || manifest.ink || '#12294F';
+  const PAPER = opts.paper || manifest.paper || '#F8F5EE';
+
   const state = {
     progress: 0, target: 0, beat: 'gather', t: 0,
     pointer: { x: 0, y: 0 }, pointerTarget: { x: 0, y: 0 },
@@ -1390,14 +1397,83 @@ function createAssembly(canvas, manifest, opts = {}) {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     mobile = W < 760;
     sprites.clear();
+    inkSprites.clear();
     /* fit the board with a margin; the flat lay is the wider of the two states */
     scale = Math.min(W / (board.w * 1.06), H / (board.h * 1.06));
+    bakeSheet();
     draw();
   }
 
   /* Mobile drops the fastener families rather than shrinking everything —
      a knolling composition squeezed to 390px stops being one. */
   const visibleParts = () => (mobile ? parts.filter(p => !p.small) : parts);
+
+  /* ── the drawing sheet, baked once per resize ─────────────────
+     Off-white paper, a faint graph grid, a border frame, corner ticks and
+     two dimension lines around the board extent. The quality bar is a
+     draughtsman's plate, not a background texture — everything is placed. */
+  let sheetLayer = null;
+  function bakeSheet() {
+    const off = document.createElement('canvas');
+    off.width = Math.max(1, Math.round(W * DPR));
+    off.height = Math.max(1, Math.round(H * DPR));
+    const c = off.getContext('2d');
+    c.setTransform(DPR, 0, 0, DPR, 0, 0);
+    c.fillStyle = PAPER;
+    c.fillRect(0, 0, W, H);
+
+    /* graph grid in board units, centred with the board */
+    const step = 24 * scale;
+    if (step > 4) {
+      c.strokeStyle = INK;
+      for (let gx = (W / 2) % step, i = Math.round(-(W / 2) / step); gx <= W; gx += step, i++) {
+        c.globalAlpha = i % 5 === 0 ? 0.10 : 0.045;
+        c.beginPath(); c.moveTo(gx, 0); c.lineTo(gx, H); c.stroke();
+      }
+      for (let gy = (H / 2) % step, j = Math.round(-(H / 2) / step); gy <= H; gy += step, j++) {
+        c.globalAlpha = j % 5 === 0 ? 0.10 : 0.045;
+        c.beginPath(); c.moveTo(0, gy); c.lineTo(W, gy); c.stroke();
+      }
+    }
+
+    /* border frame and corner registration ticks */
+    c.globalAlpha = 0.32; c.lineWidth = 1;
+    const m = 16;
+    c.strokeRect(m, m, W - m * 2, H - m * 2);
+    c.globalAlpha = 0.5;
+    const t = 9;
+    [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]].forEach(([x, y, sx, sy]) => {
+      c.beginPath(); c.moveTo(x + sx * 3, y); c.lineTo(x + sx * (3 + t), y);
+      c.moveTo(x, y + sy * 3); c.lineTo(x, y + sy * (3 + t)); c.stroke();
+    });
+
+    /* dimension lines on the board extent — ticks and arrows, no numbers:
+       the honesty rule is easier kept when the drawing doesn't invent them */
+    const bw = board.w * scale / 2, bh = board.h * scale / 2;
+    const dimY = Math.min(H - m - 10, H / 2 + bh + 18);
+    const dimX = Math.max(m + 10, W / 2 - bw - 18);
+    c.globalAlpha = 0.40; c.lineWidth = 0.8;
+    const arrow = (x, y, dx, dy) => {
+      c.beginPath(); c.moveTo(x, y);
+      c.lineTo(x + dx * 7 - dy * 2.4, y + dy * 7 + dx * 2.4);
+      c.lineTo(x + dx * 7 + dy * 2.4, y + dy * 7 - dx * 2.4);
+      c.closePath(); c.fillStyle = INK; c.fill();
+    };
+    c.beginPath();
+    c.moveTo(W / 2 - bw, dimY); c.lineTo(W / 2 + bw, dimY);
+    c.moveTo(W / 2 - bw, dimY - 6); c.lineTo(W / 2 - bw, dimY + 6);
+    c.moveTo(W / 2 + bw, dimY - 6); c.lineTo(W / 2 + bw, dimY + 6);
+    c.stroke();
+    arrow(W / 2 - bw, dimY, 1, 0); arrow(W / 2 + bw, dimY, -1, 0);
+    c.beginPath();
+    c.moveTo(dimX, H / 2 - bh); c.lineTo(dimX, H / 2 + bh);
+    c.moveTo(dimX - 6, H / 2 - bh); c.lineTo(dimX + 6, H / 2 - bh);
+    c.moveTo(dimX - 6, H / 2 + bh); c.lineTo(dimX + 6, H / 2 + bh);
+    c.stroke();
+    arrow(dimX, H / 2 - bh, 0, 1); arrow(dimX, H / 2 + bh, 0, -1);
+    c.globalAlpha = 1;
+    sheetLayer = off;
+  }
 
   function poseOf(p, prog) {
     const { start, len } = waveWindow(p.wave || 4);
@@ -1418,6 +1494,54 @@ function createAssembly(canvas, manifest, opts = {}) {
      low-performance guard and fall back to the still on a perfectly capable machine. */
   const SS = 2.6;                    /* supersample, so the push-in stays crisp */
   const sprites = new Map();
+  const inkSprites = new Map();
+
+  /* The part as its own working drawing: outline in ink, a centreline or a
+     crosshair the way a draughtsman would mark it, nothing filled. This is
+     what every part looks like before its wave lifts it off the paper. */
+  function inkSprite(p) {
+    const cached = inkSprites.get(p.id);
+    if (cached) return cached;
+    const w = p.w || (p.r || 5) * 2, h = p.h || (p.r || 5) * 2;
+    const pad = 12;
+    const cw = Math.ceil((w + pad * 2) * SS), ch = Math.ceil((h + pad * 2) * SS);
+    const off = document.createElement('canvas');
+    off.width = cw; off.height = ch;
+    const c = off.getContext('2d');
+    c.setTransform(SS, 0, 0, SS, cw / 2, ch / 2);
+    const path = pathOf(p, c);
+
+    c.strokeStyle = INK; c.lineJoin = 'round'; c.lineCap = 'round';
+    c.globalAlpha = 0.92; c.lineWidth = 1.05;
+    path(); c.stroke();
+
+    const round = p.shape === 'disc' || p.shape === 'ring' || p.shape === 'gear'
+      || p.shape === 'tyre' || p.shape === 'screw' || p.shape === 'coil';
+    c.lineWidth = 0.5;
+    if (round) {
+      const r = (p.r || Math.max(w, h) / 2);
+      c.globalAlpha = 0.55;
+      c.setLineDash([6, 3.5, 1.2, 3.5]);
+      c.beginPath();
+      c.moveTo(-r - 5, 0); c.lineTo(r + 5, 0);
+      c.moveTo(0, -r - 5); c.lineTo(0, r + 5);
+      c.stroke(); c.setLineDash([]);
+      c.globalAlpha = 0.7;
+      c.beginPath(); c.arc(0, 0, 1.4, 0, 6.2832); c.stroke();
+    } else if (Math.max(w, h) > 30) {
+      c.globalAlpha = 0.42;
+      c.setLineDash([7, 4, 1.5, 4]);
+      c.beginPath();
+      if (w >= h) { c.moveTo(-w / 2 - 4, 0); c.lineTo(w / 2 + 4, 0); }
+      else { c.moveTo(0, -h / 2 - 4); c.lineTo(0, h / 2 + 4); }
+      c.stroke(); c.setLineDash([]);
+    }
+    c.globalAlpha = 1;
+
+    const rec = { canvas: off, w: cw / SS, h: ch / SS };
+    inkSprites.set(p.id, rec);
+    return rec;
+  }
 
   /* Shapes register their path so the material layer can clip, bevel and
      occlude against the real silhouette rather than a bounding box. */
@@ -1501,13 +1625,24 @@ function createAssembly(canvas, manifest, opts = {}) {
   }
 
   function drawPart(p, pose, zoom) {
-    const sp = sprite(p);
-    const s = scale * pose.sc * zoom;
+    /* ink at rest; the part materialises as its wave lifts it off the paper */
+    const lift = ease(clamp01(pose.t / 0.32));
     ctx.save();
     ctx.translate(pose.x * scale, pose.y * scale);
     ctx.rotate(pose.rot);
-    ctx.drawImage(sp.canvas, (-sp.w / 2) * pose.sc * scale, (-sp.h / 2) * pose.sc * scale,
-                  sp.w * pose.sc * scale, sp.h * pose.sc * scale);
+    if (lift < 0.999) {
+      const ip = inkSprite(p);
+      ctx.globalAlpha = 1 - lift;
+      ctx.drawImage(ip.canvas, (-ip.w / 2) * pose.sc * scale, (-ip.h / 2) * pose.sc * scale,
+                    ip.w * pose.sc * scale, ip.h * pose.sc * scale);
+    }
+    if (lift > 0.001) {
+      const sp = sprite(p);
+      ctx.globalAlpha = lift;
+      ctx.drawImage(sp.canvas, (-sp.w / 2) * pose.sc * scale, (-sp.h / 2) * pose.sc * scale,
+                    sp.w * pose.sc * scale, sp.h * pose.sc * scale);
+    }
+    ctx.globalAlpha = 1;
     ctx.restore();
 
     /* knolling labels: flat lay only, gone by 25% */
@@ -1529,6 +1664,21 @@ function createAssembly(canvas, manifest, opts = {}) {
   function draw() {
     ctx.clearRect(0, 0, W, H);
     const prog = state.progress;
+
+    /* the paper first: grid, frame, ticks and dimension lines */
+    if (sheetLayer) ctx.drawImage(sheetLayer, 0, 0, W, H);
+
+    /* the object's own working drawing — a floor plan, a ghost elevation —
+       fading as the parts leave the paper for the air */
+    const ua = (1 - ease(clamp01(prog / 0.55))) * 0.55;
+    if (manifest.underlay && ua > 0.015) {
+      ctx.save();
+      ctx.translate(W / 2, H / 2);
+      ctx.scale(scale, scale);
+      ctx.globalAlpha = ua;
+      try { manifest.underlay(ctx, INK); } catch (e) {}
+      ctx.restore();
+    }
 
     /* damped pointer parallax, never more than ~10px. the camera never rotates. */
     const px = state.degraded || mobile ? 0 : state.pointer.x * 9;
@@ -2287,6 +2437,7 @@ Object.assign(__M, { sheetMeta, mountSheet, mountBalloons, dimension });
 
 /* ── motorcar.js ─────────────────────────────── */
 ;(function () {
+const { dimension } = __M;
 /* Sports car, side elevation — the automotive retail object.
  *
  * The prospect sells the object, so nothing else will do. Every part of one car,
@@ -2378,10 +2529,15 @@ function archBand(cx, cy, rIn, rOut, a0, a1, steps = 16) {
 }
 
 /* The finished car, set once so the panels and the running gear cannot drift apart.
-   Ground line is y = 140. Nose sits at x = -422, tail at x = 414. */
-const FW = { x: -268, y: 78 };   /* front wheel centre */
-const RW = { x: 256, y: 78 };    /* rear wheel centre  */
-const TYRE_R = 62, RIM_R = 40;
+   Ground line is y = 140. Nose sits at x = -422, tail at x = 414.
+
+   Kate, 2 Aug 2026: the car is a 356 — the group's founding story, drawn as a
+   side elevation in homage. Rounded wings, an upright screen, one long fastback
+   line to the tail, and the flat-four where it belongs: behind the rear axle.
+   No badges, no scripts, no marque trade dress — the silhouette carries it. */
+const FW = { x: -258, y: 78 };   /* front wheel centre */
+const RW = { x: 238, y: 78 };    /* rear wheel centre  */
+const TYRE_R = 60, RIM_R = 38;
 
 /* ── 1 · chassis ─────────────────────────────────────────────────
    The floorpan, the firewall and the roll hoop. What everything else bolts to, and
@@ -2405,105 +2561,115 @@ panel(chassis, 'subframe-rear',
 chassis({ id: 'bulkhead', shape: 'rect', w: 88, h: 78, rad: 5, seed: 8,
   to: { x: 10, y: 24, rot: 0 }, wave: 1, z: 2, finish: 'brushed' });
 
-panel(chassis, 'roll-hoop',
-  [[164, -84], [170, -104], [186, -112], [214, -108], [226, -84], [226, -24],
-   [210, -24], [210, -80], [198, -94], [184, -92], [180, -24], [164, -24]],
+/* the windscreen frame — a 356 coupé has no hoop, but the screen surround is
+   structure, and it is the one upright in the whole profile */
+panel(chassis, 'screen-frame',
+  [[-142, -34], [-136, -98], [-130, -104], [-82, -102], [-78, -94], [-124, -96],
+   [-128, -34]],
   { wave: 1, z: 3, finish: 'polished' });
+
+chassis({ id: 'torsion-tube', shape: 'bar', w: 96, h: 12,
+  to: { x: RW.x - 58, y: 92, rot: 0 }, wave: 1, z: 2, finish: 'cast', small: true });
 
 chassis({ id: 'crash-front', shape: 'trap', w: 62, h: 36, topW: 40, seed: 2,
   to: { x: -386, y: 56, rot: 0 }, wave: 1, z: 1, finish: 'cast', small: true });
 
 chassis({ id: 'crash-rear', shape: 'trap', w: 62, h: 36, topW: 40, seed: 4,
-  to: { x: 378, y: 30, rot: 0 }, wave: 1, z: 1, finish: 'cast', small: true });
+  to: { x: 378, y: 44, rot: 0 }, wave: 1, z: 1, finish: 'cast', small: true });
 
 for (let i = 0; i < 2; i++) {
   chassis({ id: `seat-rail-${i}`, shape: 'bar', w: 86, h: 8,
-    to: { x: 124, y: 58 + i * 16, rot: 0 },
+    to: { x: -20, y: 58 + i * 16, rot: 0 },
     wave: 1, z: 3, finish: 'brushed', small: true });
 }
 
 /* ── 2 · drivetrain ──────────────────────────────────────────────
-   Flat-six under the long bonnet, driving the rear wheels through a shaft in the
-   tunnel. None of it shows on the finished car, which is rather the point. */
+   The flat-four, air-cooled, hung behind the rear axle with the gearbox ahead
+   of it — the layout that makes a 356 a 356. None of it shows on the finished
+   car, which is rather the point. */
 const drive = group('drivetrain');
 
-drive({ id: 'block', shape: 'rect', w: 128, h: 74, rad: 6, seed: 11,
-  to: { x: -190, y: 40, rot: 0 }, wave: 2, z: 4, finish: 'cast', label: 'flat-six block' });
+drive({ id: 'block', shape: 'rect', w: 96, h: 56, rad: 6, seed: 11,
+  to: { x: 290, y: 56, rot: 0 }, wave: 2, z: 4, finish: 'cast', label: 'flat-four block' });
 
-drive({ id: 'sump', shape: 'trap', w: 116, h: 30, topW: 128, seed: 12,
-  to: { x: -190, y: 88, rot: 0 }, wave: 2, z: 3, finish: 'cast' });
+drive({ id: 'sump', shape: 'trap', w: 88, h: 22, topW: 96, seed: 12,
+  to: { x: 290, y: 92, rot: 0 }, wave: 2, z: 3, finish: 'cast' });
 
 for (let i = 0; i < 2; i++) {
-  drive({ id: `cam-cover-${i}`, shape: 'rect', w: 60, h: 20, rad: 5, grooves: 5,
-    to: { x: -240 + i * 100, y: 12, rot: 0 },
+  drive({ id: `cam-cover-${i}`, shape: 'rect', w: 40, h: 16, rad: 5, grooves: 4,
+    to: { x: 252 + i * 76, y: 58, rot: 0 },
     wave: 2, z: 5, finish: 'brushed' });
 }
 
-drive({ id: 'plenum', shape: 'rect', w: 82, h: 26, rad: 8, seed: 14,
-  to: { x: -190, y: -4, rot: 0 }, wave: 2, z: 6, finish: 'brushed' });
+/* the fan shroud on top — the air-cooled signature, and the bit that spins */
+drive({ id: 'plenum', shape: 'ring', r: 26, r2: 18, seed: 14,
+  to: { x: 290, y: 16, rot: 0 }, wave: 2, z: 6, finish: 'brushed' });
 
-drive({ id: 'throttle', shape: 'disc', r: 12, hole: 5,
-  to: { x: -138, y: -2, rot: 0 }, wave: 2, z: 6, finish: 'polished', small: true });
+drive({ id: 'throttle', shape: 'disc', r: 10, hole: 4,
+  to: { x: 322, y: 8, rot: 0 }, wave: 2, z: 6, finish: 'polished', small: true });
 
-drive({ id: 'crank', shape: 'bar', w: 124, h: 12,
-  to: { x: -190, y: 54, rot: 0 }, wave: 2, z: 5, finish: 'polished', label: 'crankshaft' });
+drive({ id: 'crank', shape: 'bar', w: 84, h: 11,
+  to: { x: 290, y: 62, rot: 0 }, wave: 2, z: 5, finish: 'polished', label: 'crankshaft' });
 
-drive({ id: 'flywheel', shape: 'gear', r: 29, teeth: 36, spokes: 5,
-  to: { x: -98, y: 54, rot: 0 }, wave: 2, z: 5, finish: 'brushed', spin: 1.4 });
+drive({ id: 'flywheel', shape: 'gear', r: 26, teeth: 32, spokes: 5,
+  to: { x: 236, y: 62, rot: 0 }, wave: 2, z: 5, finish: 'brushed', spin: 1.4 });
 
-drive({ id: 'clutch', shape: 'disc', r: 26, hole: 7,
-  to: { x: -84, y: 54, rot: 0 }, wave: 2, z: 4, finish: 'brushed' });
+drive({ id: 'clutch', shape: 'disc', r: 23, hole: 6,
+  to: { x: 222, y: 62, rot: 0 }, wave: 2, z: 4, finish: 'brushed' });
 
-drive({ id: 'gearbox', shape: 'trap', w: 92, h: 70, topW: 60, seed: 15,
-  to: { x: -30, y: 60, rot: 0 }, wave: 2, z: 3, finish: 'cast', label: 'gearbox' });
+/* the transaxle, forward of the axle line — gears first, engine behind */
+drive({ id: 'gearbox', shape: 'trap', w: 84, h: 60, topW: 54, seed: 15,
+  to: { x: 158, y: 66, rot: 1.5708 }, wave: 2, z: 3, finish: 'cast', label: 'gearbox' });
 
 for (let i = 0; i < 2; i++) {
-  drive({ id: `driveshaft-${i}`, shape: 'bar', w: 88, h: 9,
-    to: { x: 66 + i * 92, y: 84, rot: 0 },
+  drive({ id: `driveshaft-${i}`, shape: 'bar', w: 46, h: 9,
+    to: { x: RW.x - 44 + i * 18, y: 82 + i * 6, rot: 0.1 },
     wave: 2, z: 3, finish: 'polished', small: true });
 }
 
-drive({ id: 'radiator', shape: 'rect', w: 84, h: 50, rad: 3, grooves: 12,
-  to: { x: -376, y: 44, rot: 0 }, wave: 2, z: 2, finish: 'brushed' });
+/* air-cooled: no radiator anywhere — the heater boxes and the oil cooler
+   do the thermal work */
+drive({ id: 'radiator', shape: 'rect', w: 54, h: 26, rad: 3, grooves: 8,
+  to: { x: 336, y: 90, rot: 0 }, wave: 2, z: 2, finish: 'brushed' });
 
-drive({ id: 'oil-cooler', shape: 'rect', w: 50, h: 30, rad: 3, grooves: 8,
-  to: { x: -334, y: 66, rot: 0 }, wave: 2, z: 2, finish: 'brushed', small: true });
+drive({ id: 'oil-cooler', shape: 'rect', w: 34, h: 26, rad: 3, grooves: 6,
+  to: { x: 254, y: 26, rot: 0 }, wave: 2, z: 2, finish: 'brushed', small: true });
 
-drive({ id: 'alternator', shape: 'disc', r: 16, hole: 5,
-  to: { x: -138, y: 70, rot: 0 }, wave: 2, z: 6, finish: 'brushed', spin: -1.8, small: true });
+drive({ id: 'alternator', shape: 'disc', r: 13, hole: 4,
+  to: { x: 290, y: 2, rot: 0 }, wave: 2, z: 7, finish: 'brushed', spin: -1.8, small: true });
 
-drive({ id: 'starter', shape: 'disc', r: 12,
-  to: { x: -108, y: 78, rot: 0 }, wave: 2, z: 5, finish: 'brushed', small: true });
+drive({ id: 'starter', shape: 'disc', r: 10,
+  to: { x: 196, y: 74, rot: 0 }, wave: 2, z: 5, finish: 'brushed', small: true });
 
-drive({ id: 'water-pump', shape: 'disc', r: 13, hole: 4,
-  to: { x: -244, y: 68, rot: 0 }, wave: 2, z: 6, finish: 'brushed', spin: 2.2, small: true });
+drive({ id: 'water-pump', shape: 'disc', r: 10, hole: 3,
+  to: { x: 318, y: 22, rot: 0 }, wave: 2, z: 6, finish: 'brushed', spin: 2.2, small: true });
 
-/* six pistons and six rods — two opposed banks of three, as a flat-six is */
+/* four pistons and four rods — two opposed pairs, laid flat, as a flat-four is */
 const ROD = [[-22, -3], [-12, -5], [12, -4], [21, -6], [24, 0],
              [21, 6], [12, 4], [-12, 5], [-22, 3]];
-for (let i = 0; i < 6; i++) {
-  const bank = i < 3 ? 0 : 1, n = i % 3;
-  drive({ id: `piston-${i}`, shape: 'rect', w: 22, h: 24, rad: 3, grooves: 4,
-    to: { x: -228 + n * 38, y: bank ? 68 : 16, rot: 0 },
+for (let i = 0; i < 4; i++) {
+  const bank = i < 2 ? 0 : 1, n = i % 2;
+  drive({ id: `piston-${i}`, shape: 'rect', w: 20, h: 22, rad: 3, grooves: 4,
+    to: { x: 266 + n * 48, y: bank ? 78 : 36, rot: 1.5708 },
     wave: 2, z: 5, finish: 'polished', small: true });
   drive({ id: `conrod-${i}`, shape: 'poly', points: ROD, w: 46, h: 12,
-    to: { x: -228 + n * 38, y: bank ? 58 : 30, rot: bank ? -1.35 : 1.35 },
+    to: { x: 276 + n * 34, y: bank ? 70 : 46, rot: bank ? -0.3 : 0.3 },
     wave: 2, z: 4, finish: 'polished', small: true });
 }
 
-/* six exhaust primaries, gathering into one collector under the floor */
-for (let i = 0; i < 6; i++) {
-  drive({ id: `primary-${i}`, shape: 'bar', w: 96 - (i % 3) * 8, h: 11,
-    to: { x: -128 + (i % 3) * 6, y: 46 + i * 8, rot: 0.14 + i * 0.03 },
+/* four exhaust primaries into the heater boxes, then one quiet transverse box */
+for (let i = 0; i < 4; i++) {
+  drive({ id: `primary-${i}`, shape: 'bar', w: 60 - (i % 2) * 8, h: 10,
+    to: { x: 262 + (i % 2) * 40, y: 96 + i * 4, rot: 0.1 + i * 0.04 },
     wave: 2, z: 2, finish: 'brushed', small: true,
     label: i === 0 ? 'exhaust primaries' : undefined });
 }
 
-drive({ id: 'collector', shape: 'trap', w: 48, h: 36, topW: 24, seed: 17,
-  to: { x: -34, y: 94, rot: 0 }, wave: 2, z: 3, finish: 'brushed', small: true });
+drive({ id: 'collector', shape: 'trap', w: 40, h: 28, topW: 20, seed: 17,
+  to: { x: 322, y: 104, rot: 0 }, wave: 2, z: 3, finish: 'brushed', small: true });
 
-drive({ id: 'muffler', shape: 'rect', w: 92, h: 32, rad: 15, seed: 18,
-  to: { x: 354, y: 72, rot: 0 }, wave: 2, z: 3, finish: 'brushed' });
+drive({ id: 'muffler', shape: 'rect', w: 78, h: 26, rad: 13, seed: 18,
+  to: { x: 348, y: 92, rot: 0 }, wave: 2, z: 2, finish: 'brushed' });
 
 /* ── 3 · fixings ─────────────────────────────────────────────────
    The parts nobody photographs, and the line on the invoice people query. Many,
@@ -2643,144 +2809,155 @@ WHEEL_POS.forEach((w, i) => {
 const body = group('body');
 const PAINT = { finish: 'painted', colour: CHARCOAL };
 
+/* the front valance under the bumper — 356s carry their chin low and round */
 panel(body, 'splitter',
-  [[-418, 80], [-346, 74], [-334, 84], [-336, 98], [-412, 98]],
+  [[-408, 76], [-336, 72], [-326, 82], [-330, 98], [-402, 98], [-410, 86]],
   { wave: 6, z: 19, ...PAINT, small: true });
 
+/* the blade bumper, riding clear of the body on its brackets */
 panel(body, 'bumper-front',
-  [[-422, 40], [-410, 16], [-386, 4], [-344, 2], [-330, 26], [-332, 70],
-   [-352, 86], [-414, 88], [-422, 64]],
-  { wave: 6, z: 18, ...PAINT });
+  [[-420, 42], [-402, 36], [-336, 34], [-324, 44], [-326, 58], [-344, 64],
+   [-406, 62], [-420, 54]],
+  { wave: 6, z: 21, finish: 'polished' });
 
+/* the front lid — luggage under it, engine at the other end */
 panel(body, 'bonnet',
-  [[-390, 16], [-330, -2], [-236, -16], [-120, -26], [-20, -32], [26, -34],
-   [28, -6], [-30, -2], [-130, 4], [-240, 14], [-334, 26], [-390, 42]],
-  { wave: 6, z: 17, ...PAINT, label: 'bonnet' });
+  [[-398, 8], [-340, -16], [-260, -32], [-186, -40], [-150, -42], [-148, -26],
+   [-188, -24], [-262, -16], [-340, 0], [-394, 24]],
+  { wave: 6, z: 17, ...PAINT, label: 'front lid' });
 
-/* The front guard is a filled panel with the wheel opening bitten out of it, not a
-   strip. Everything between the bonnet shut line and the sill is metal. */
+/* The front guard is a filled panel with the wheel opening bitten out of it —
+   the 356 wing crowns high over the wheel and carries the headlight. */
 panel(body, 'front-wing',
-  [[-338, 18], [-240, 6], [-148, -6], [-144, 96], [-198, 96]]
-    .concat(archNotch(FW.x, FW.y, 64))
-    .concat([[-338, 96]]),
-  { wave: 6, z: 17, ...PAINT });
+  [[-414, 12], [-360, -14], [-310, -22], [-266, -20], [-222, -14], [-190, -18],
+   [-152, -22], [-148, -32], [-146, 96], [-192, 96]]
+    .concat(archNotch(FW.x, FW.y, 62))
+    .concat([[-368, 96], [-412, 60]]),
+  { wave: 6, z: 16, ...PAINT });
 
+/* a 356 door is small and upright, cut high over the sill */
 panel(body, 'door',
-  [[-150, -6], [-60, -20], [40, -30], [140, -36], [162, -34], [166, 86],
-   [80, 98], [-40, 102], [-130, 98], [-152, 86]],
-  { wave: 6, z: 16, ...PAINT, label: 'door' });
+  [[-126, -36], [-40, -40], [34, -38], [40, 84], [-30, 92], [-120, 90], [-128, 30]],
+  { wave: 6, z: 15, ...PAINT, label: 'door' });
 
-/* Same treatment at the back: one quarter panel from the door shut to the tail,
-   with the rear opening cut out of it. */
+/* One panel from the door shut to the tail: the haunch over the rear wheel and
+   the long fastback surface, with the wheel opening bitten out. */
 panel(body, 'rear-quarter',
-  [[158, -32], [240, -94], [300, -58], [368, -42], [372, 20], [358, 74], [338, 96]]
-    .concat(archNotch(RW.x, RW.y, 64))
-    .concat([[172, 96], [160, 60]]),
+  [[38, -32], [104, -36], [114, -66], [176, -56], [230, -32], [290, -8], [340, 12],
+   [382, 34], [398, 52], [394, 76], [366, 92]]
+    .concat(archNotch(RW.x, RW.y, 62))
+    .concat([[44, 92]]),
   { wave: 6, z: 16, ...PAINT });
 
 panel(body, 'rear-haunch',
-  archBand(RW.x, RW.y, 62, 86, Math.PI * 0.95, Math.PI * 2.05),
+  archBand(RW.x, RW.y, 62, 84, Math.PI * 0.98, Math.PI * 2.02),
   { wave: 6, z: 17, ...PAINT });
 
 panel(body, 'a-pillar',
-  [[24, -30], [42, -40], [124, -114], [104, -112], [32, -24]],
+  [[-138, -34], [-128, -40], [-86, -98], [-98, -100], [-142, -40]],
   { wave: 6, z: 25, ...PAINT });
 
+/* the roofline is the whole car: one arc from the screen header, over the peak,
+   down the fastback to the engine lid */
 panel(body, 'roof-skin',
-  [[102, -112], [140, -120], [210, -120], [252, -108], [244, -94],
-   [206, -106], [140, -106], [96, -98]],
+  [[-96, -100], [-52, -112], [8, -116], [64, -108], [122, -88], [176, -62],
+   [228, -36], [222, -24], [172, -50], [112, -70], [58, -92], [8, -102],
+   [-48, -98], [-90, -88]],
   { wave: 6, z: 25, ...PAINT, label: 'roof' });
 
-panel(body, 'c-pillar',
-  [[246, -110], [266, -104], [340, -62], [392, -42], [390, -26],
-   [330, -46], [268, -78], [238, -94]],
-  { wave: 6, z: 25, ...PAINT });
-
 panel(body, 'sill',
-  [[-160, 80], [174, 76], [176, 104], [-158, 108]],
-  { wave: 6, z: 15, ...PAINT, label: 'sill' });
+  [[-148, 80], [168, 78], [170, 104], [-146, 106]],
+  { wave: 6, z: 14, ...PAINT, label: 'sill' });
 
+/* the rear blade bumper, matching the front */
 panel(body, 'bumper-rear',
-  [[356, -42], [396, -30], [414, 2], [410, 46], [390, 74], [356, 76],
-   [348, 28], [352, -12]],
-  { wave: 6, z: 18, ...PAINT });
+  [[330, 40], [400, 44], [412, 54], [408, 68], [388, 72], [328, 62], [322, 50]],
+  { wave: 6, z: 21, finish: 'polished' });
 
 panel(body, 'diffuser',
-  [[346, 72], [404, 68], [408, 94], [344, 98]],
+  [[330, 76], [396, 78], [400, 96], [332, 98]],
   { wave: 6, z: 19, finish: 'dark', small: true });
 
+/* the engine lid, set into the fastback, with its louvred grille */
 panel(body, 'rear-wing',
-  [[300, -52], [376, -40], [378, -54], [306, -66]],
-  { wave: 6, z: 20, ...PAINT });
+  [[228, -34], [290, -14], [344, 8], [352, 22], [292, 2], [230, -20]],
+  { wave: 6, z: 20, ...PAINT, label: 'engine lid' });
 
-panel(body, 'side-intake',
-  [[176, 10], [202, 15], [205, 52], [178, 47]],
-  { wave: 6, z: 19, finish: 'dark', small: true });
+body({ id: 'side-intake', shape: 'rect', w: 36, h: 12, rad: 5, grooves: 7,
+  to: { x: 296, y: -4, rot: 0.36 }, wave: 6, z: 22, finish: 'dark', small: true });
 
-body({ id: 'front-vent', shape: 'rect', w: 40, h: 16, rad: 4, grooves: 5,
-  to: { x: -190, y: -14, rot: 0 }, wave: 6, z: 19, finish: 'dark', small: true });
+body({ id: 'front-vent', shape: 'rect', w: 26, h: 10, rad: 5, grooves: 4,
+  to: { x: -354, y: 34, rot: 0 }, wave: 6, z: 19, finish: 'dark', small: true });
 
 /* ── 7 · finishing ───────────────────────────────────────────────
    Glass, lights, mirrors, and the seats you can see through the side window. Last
    parts on, first parts anyone notices. */
 const finish = group('finishing');
 
+/* the upright vee screen — early 356s split it down the middle, so it gets a
+   visible centre join rather than one clean sheet */
 panel(finish, 'windscreen',
-  [[36, -24], [54, -36], [126, -112], [110, -108], [46, -20], [34, -14]],
+  [[-136, -38], [-128, -44], [-88, -96], [-100, -96], [-138, -44]],
   { wave: 7, z: 23, finish: 'glass', label: 'windscreen' });
 
 panel(finish, 'side-glass',
-  [[50, -34], [134, -104], [208, -106], [240, -96], [238, -42], [150, -36], [62, -30]],
+  [[-84, -94], [-30, -104], [30, -98], [26, -38], [-40, -36], [-78, -40]],
   { wave: 7, z: 23, finish: 'glass' });
 
 panel(finish, 'quarter-glass',
-  [[238, -44], [242, -96], [290, -62], [288, -44]],
+  [[36, -96], [86, -84], [112, -68], [106, -40], [40, -38]],
   { wave: 7, z: 23, finish: 'glass', small: true });
 
-panel(finish, 'headlight',
-  [[-380, 0], [-342, -6], [-334, 12], [-348, 24], [-382, 22]],
-  { wave: 7, z: 20, finish: 'glass', label: 'headlight' });
+/* round headlights, standing high and proud on the wing crowns */
+finish({ id: 'headlight', shape: 'disc', r: 16,
+  to: { x: -356, y: -2, rot: 0 }, wave: 7, z: 20, finish: 'glass', label: 'headlight' });
+finish({ id: 'headlight-ring', shape: 'ring', r: 18, r2: 15,
+  to: { x: -356, y: -2, rot: 0 }, wave: 7, z: 21, finish: 'polished', small: true });
 
-panel(finish, 'tail-light',
-  [[356, -30], [402, -22], [404, -4], [354, -12]],
-  { wave: 7, z: 20, finish: 'glass' });
+finish({ id: 'tail-light', shape: 'disc', r: 7,
+  to: { x: 388, y: 26, rot: 0 }, wave: 7, z: 22, finish: 'glass', small: true });
 
-panel(finish, 'mirror',
-  [[-2, -42], [22, -48], [28, -36], [6, -32]],
-  { wave: 7, z: 26, ...PAINT, small: true });
+/* the little round door mirror on its stalk */
+finish({ id: 'mirror', shape: 'disc', r: 8,
+  to: { x: -134, y: -52, rot: 0 }, wave: 7, z: 26, finish: 'polished', small: true });
+finish({ id: 'mirror-stem', shape: 'bar', w: 16, h: 4,
+  to: { x: -128, y: -42, rot: -0.9 }, wave: 7, z: 25, finish: 'polished', small: true });
 
-finish({ id: 'door-handle', shape: 'bar', w: 32, h: 8,
-  to: { x: 96, y: -18, rot: 0 }, wave: 7, z: 21, finish: 'polished', small: true });
+finish({ id: 'door-handle', shape: 'bar', w: 26, h: 7,
+  to: { x: -18, y: -12, rot: 0 }, wave: 7, z: 21, finish: 'polished', small: true });
 
-finish({ id: 'badge', shape: 'disc', r: 8,
-  to: { x: -404, y: 34, rot: 0 }, wave: 7, z: 21, finish: 'polished', small: true });
+finish({ id: 'badge', shape: 'disc', r: 7,
+  to: { x: -406, y: 22, rot: 0 }, wave: 7, z: 21, finish: 'polished', small: true });
 
 /* seats, read through the side glass — the near one, and the one behind it */
 const SEAT = [[-24, -36], [-8, -40], [6, -34], [10, 0], [16, 26], [24, 34],
               [-6, 36], [-22, 30], [-26, 0]];
 finish({ id: 'seat-near', shape: 'poly', points: SEAT, w: 50, h: 76,
-  to: { x: 126, y: -62, rot: 0 }, wave: 7, z: 19, finish: 'dark', label: 'seats' });
+  to: { x: -14, y: -56, rot: 0 }, wave: 7, z: 19, finish: 'dark', label: 'seats' });
 finish({ id: 'seat-far', shape: 'poly', points: SEAT, w: 50, h: 76,
-  to: { x: 156, y: -58, rot: 0 }, wave: 7, z: 18, finish: 'dark', small: true });
+  to: { x: 14, y: -52, rot: 0 }, wave: 7, z: 18, finish: 'dark', small: true });
 
-finish({ id: 'steering-wheel', shape: 'ring', r: 19, r2: 15,
-  to: { x: 64, y: -52, rot: 0 }, wave: 7, z: 19, finish: 'dark', small: true });
+/* the big thin-rimmed wheel a 356 actually has */
+finish({ id: 'steering-wheel', shape: 'ring', r: 22, r2: 19,
+  to: { x: -76, y: -52, rot: 0 }, wave: 7, z: 19, finish: 'dark', small: true });
 
 finish({ id: 'dash', shape: 'poly',
-  points: [[-40, -8], [24, -12], [40, -4], [38, 10], [-20, 12], [-40, 6]], w: 80, h: 24,
-  to: { x: 78, y: -38, rot: 0 }, wave: 7, z: 19, finish: 'dark', small: true });
+  points: [[-36, -8], [22, -11], [36, -4], [34, 9], [-18, 11], [-36, 6]], w: 72, h: 22,
+  to: { x: -96, y: -34, rot: 0 }, wave: 7, z: 19, finish: 'dark', small: true });
 
-finish({ id: 'wiper', shape: 'hand', w: 22, h: 4,
-  to: { x: 14, y: -24, rot: -0.34 }, wave: 7, z: 22, finish: 'dark', small: true });
+finish({ id: 'wiper', shape: 'hand', w: 20, h: 4,
+  to: { x: -118, y: -46, rot: -0.55 }, wave: 7, z: 24, finish: 'dark', small: true });
 
+/* twin tailpipes, small and low under the rear valance */
 for (let i = 0; i < 2; i++) {
-  finish({ id: `exhaust-tip-${i}`, shape: 'disc', r: 10, hole: 6,
-    to: { x: 366 + i * 28, y: 86, rot: 0 },
+  finish({ id: `exhaust-tip-${i}`, shape: 'disc', r: 8, hole: 5,
+    to: { x: 372 + i * 22, y: 92, rot: 0 },
     wave: 7, z: 22, finish: 'polished', small: true });
 }
 
-finish({ id: 'fuel-cap', shape: 'disc', r: 10,
-  to: { x: 286, y: -54, rot: 0 }, wave: 7, z: 21, finish: 'brushed', small: true });
+/* the fuel filler sits on the cowl, ahead of the screen */
+finish({ id: 'fuel-cap', shape: 'disc', r: 9,
+  to: { x: -170, y: -34, rot: 0 }, wave: 7, z: 21, finish: 'brushed', small: true });
 
 /* ── the flat lay ────────────────────────────────────────────────
    Shelves, left to right, families in the order declared above. Within a family the
@@ -2833,11 +3010,50 @@ const motorcar = {
   board: { w: BOARD_W, h: BOARD_H },
   zoom: 1.55,
   parts,
+  /* the finished elevation, ghosted on the sheet the way a general-arrangement
+     drawing sits behind a parts plate — with the wheelbase dimensioned. It fades
+     as the parts leave the paper. Board units, centred on the assembled car. */
+  underlay(c, ink) {
+    c.strokeStyle = ink; c.lineJoin = 'round'; c.lineCap = 'round';
+    c.lineWidth = 1.2; c.globalAlpha *= 0.9;
+    /* the one continuous 356 line: nose, screen, peak, fastback, tail */
+    c.beginPath();
+    c.moveTo(-414, 44);
+    c.quadraticCurveTo(-420, 8, -366, -12);
+    c.quadraticCurveTo(-300, -30, -190, -40);
+    c.quadraticCurveTo(-160, -44, -138, -38);
+    c.lineTo(-92, -98);
+    c.quadraticCurveTo(-40, -118, 20, -114);
+    c.quadraticCurveTo(90, -102, 176, -60);
+    c.quadraticCurveTo(300, -6, 392, 46);
+    c.quadraticCurveTo(410, 58, 402, 76);
+    c.stroke();
+    /* wheels and their centres */
+    [[-258, 78, 60], [238, 78, 60]].forEach(([x, y, r]) => {
+      c.lineWidth = 0.9;
+      c.beginPath(); c.arc(x, y, r, 0, 6.2832); c.stroke();
+      c.beginPath(); c.arc(x, y, r * 0.63, 0, 6.2832); c.stroke();
+      c.lineWidth = 0.55;
+      c.beginPath();
+      c.moveTo(x - r - 8, y); c.lineTo(x + r + 8, y);
+      c.moveTo(x, y - r - 8); c.lineTo(x, y + r + 8);
+      c.stroke();
+    });
+    /* ground line and the wheelbase dimension */
+    c.lineWidth = 0.8;
+    c.beginPath(); c.moveTo(-430, 140); c.lineTo(430, 140); c.stroke();
+    c.lineWidth = 0.65;
+    c.beginPath();
+    c.moveTo(-258, 150); c.lineTo(238, 150);
+    c.moveTo(-258, 144); c.lineTo(-258, 156);
+    c.moveTo(238, 144); c.lineTo(238, 156);
+    c.stroke();
+  },
   /* the text equivalent — the canvas is aria-hidden, so this carries the meaning */
   families: [
     ['floorpan, subframes and roll hoop',
      'the structure everything else bolts to, and the parts that have to hold if the day goes badly'],
-    ['flat-six block, crank, pistons and gearbox',
+    ['flat-four block, crank, pistons and gearbox',
      'the machinery that does the work — the reason someone bought this car and not a cheaper one'],
     ['bolts, washers and clips',
      'the small parts nobody photographs, and the line on the invoice people query'],
@@ -2865,7 +3081,7 @@ const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBluepri
 
 
 
-const data = {"id": "automotive", "client": {"name": "Giltrap Group", "sector": "automotive retail", "accent": "#76A6BD", "status": "proposed"}, "brand": {"primary": "#76A6BD", "secondary": "#2C3037", "typeface": "marque-neutral house style", "source": "Giltrap house steel blue and charcoal; the group's identity is deliberately marque-neutral, so no marque trade dress appears anywhere on this page"}, "sheet": {"title": "automotive retail — assembling", "drawing": "ASM-AUTO-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "metaphor": {"word": "assembly line", "sentence": "A car is a thousand parts that only mean something in order — and so is a reply about one."}, "proposition": "While the customer waits for a human to reply, assembling does the work the reply needs — so the person who answers is saying yes to a finished thing, not starting one.", "wait": {"moment": "the gap between an online enquiry and a human reply", "duration": {"value": "unmeasured", "source": "no NZ dealer group publishes its enquiry reply time", "simulated": true, "note": "The wait is real — enquiries arrive at 9pm, showrooms answer at 9am. No published NZ figure exists, so this page does not invent one."}, "whyItExists": "An enquiry needs a person who knows the car, and the car is one of thousands across twenty-four marques. Finding the right person with the right stock takes time the customer spends in silence.", "todayItFeelsLike": "You ask about a specific car at 9pm. Somebody opens the inbox tomorrow. By then you are three tabs further down the road."}, "agentWork": {"asks": ["One question, sized for a tap — “Is there a trade-in?”", "“Weekday or weekend for a look in person?”"], "learns": ["Which car, exactly — not the model line, the VIN on the lot.", "Whether the enquiry is tonight-serious or someday-curious, from what was asked.", "What the trade-in is, if there is one, so the valuation can start now."], "prepares": ["The reply, drafted from live stock — the car's actual history, actual location, actual availability.", "The trade-in valuation request, queued for the buyer's own marque team.", "The follow-up if this car sells first: the two closest cars actually on the lot."], "resolves": ["The availability question — checked against the DMS, not memory.", "The double-handling — the enquiry reaches one person, once, with everything attached."]}, "reward": {"headline": "An answer about the actual car, while you still care.", "detail": "The reply that arrives is about the car you asked about — its real history, whether it is really available, what a look at it would take — with a person's name on it. If there is a trade-in, its valuation is already moving.", "immediate": true}, "permission": {"consent": "The customer asked about a car. That is the whole basis — the agent works that enquiry and nothing else.", "reads": ["The group stock file, via the DMS", "The enquired vehicle's history and media", "The enquiry exactly as the customer wrote it"], "authority": "draft", "hardStops": ["It never sends anything a person has not approved.", "It never changes a price or lists a vehicle.", "It never contacts a customer on its own."], "thirdPartyData": false, "retention": "Drafts live in the DMS like any other note. Deleting the enquiry deletes the work.", "ipp3aNotice": null}, "human": {"role": "Dealer Principal", "gateAt": "before anything is sent or published", "whyStatutory": null}, "outcome": {"primary": {"metric": "enquiries answered while the customer is still looking", "mechanism": "The reply is drafted from live stock the moment the enquiry lands, so the wait for a person is the wait for a yes — not for the work."}, "secondary": {"metric": "campaign freshness against the lot", "mechanism": "Campaigns assemble from what is actually in stock, so nothing advertises a car that sold on Tuesday."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "DMS stock record, vehicle history file, the enquiry as written"}, {"what": "assumptions made", "example": "trade-in valuation is indicative until sighted; availability held for 48 hours"}, {"what": "what changed in review", "example": "the dealer principal added a Saturday viewing slot before approving"}, {"what": "who signed it off", "example": "S. Kenchington, Dealer Principal — 8:41am, before the reply went out"}]}, "scenario": {"persona": {"name": "Tom", "context": "Asked about a specific used wagon at 9:12pm on a Sunday. Trade-in undeclared."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Enquiry Agent", "authority": "observe", "showsCustomer": "Got your message about the wagon. The showroom is closed — a person will reply in the morning. While you wait, two quick questions will make their answer better.", "doesBehind": "Reads the enquiry and pulls the exact vehicle's record from the DMS: history, location, availability. Nothing is sent to anyone yet.", "question": "Happy to answer two quick questions?", "options": ["Go ahead", "No thanks, just the reply"]}, {"id": "tradein", "stage": "context", "beat": "gather", "agent": "Context Agent", "authority": "observe", "showsCustomer": "Is there a car you'd trade in? If there is, its valuation can start tonight instead of after your first visit.", "doesBehind": "A declared trade-in goes to the right marque team's queue now. This is the single question that most often saves a second visit.", "question": "Trading something in?", "options": ["Yes — a 2019 SUV", "No trade-in"]}, {"id": "viewing", "stage": "context", "beat": "reveal", "agent": "Context Agent", "authority": "observe", "showsCustomer": "The wagon is at the Grey Lynn site and available. Weekday or weekend, if you wanted to see it?", "doesBehind": "Availability is checked against the DMS, not somebody's memory of the lot. The answer is written down so nobody asks it again.", "question": "When suits a look?", "options": ["Weekend", "Weekday evening"]}, {"id": "prepare", "stage": "recommendation", "beat": "prepare", "agent": "Drafting Agent", "authority": "draft", "showsCustomer": "Putting the morning's reply together. Nothing sends without a person.", "doesBehind": "Drafts the reply from the vehicle's real record, attaches the viewing options, and queues the trade-in valuation request. All of it sits as drafts in the DMS.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "Dealer Principal", "authority": "act with approval", "approving": "the reply, the viewing offer and the valuation request — before anything reaches the customer", "showsCustomer": "Your reply is drafted and waiting for the morning's sign-off. A person sends it — that is the house rule, not a formality.", "doesBehind": "Everything stops. The agent has no authority past this line.", "blocking": true, "question": "It's 8:40am. Release the drafts to the dealer principal?", "options": ["Send them through"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Resolution Agent", "authority": "recommend", "showsCustomer": "Reply sent, 8:41am — the actual car, a Saturday slot, and your trade-in's indicative range. Here is everything that was done overnight, and who signed it.", "doesBehind": "Writes the evidence pack: what was read, what was drafted, what the dealer principal changed, and the signature.", "question": null, "options": []}]}, "evidence": [{"claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.", "source": "ServiceNow Customer Experience Report, March 2026", "year": 2026, "simulated": false, "soWhat": "The enquiry wait is the same wait in another channel. The customer who hears back first is the customer who visits."}, {"claim": "AI-referred traffic to retail sites grew 393% in a year, and it converts better than any other channel.", "source": "Adobe Digital Insights, quarterly AI traffic report, April 2026 — a US figure, flagged as such", "year": 2026, "simulated": false, "soWhat": "The buyer's agent is already shopping. A lot whose stock is current and readable is a lot that agents can recommend."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "An overnight wait that shows its overnight work is worth more than a fast reply that shows nothing."}, {"claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.", "source": "Moffatt v. Air Canada, 2024 BCCRT 149", "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/", "year": 2024, "simulated": false, "soWhat": "This is why the dealer principal gate exists. Nothing reaches a customer without a person who answers for it."}], "copy": {"heroEyebrow": "assembling · automotive retail", "beforeWhileAfter": {"beforeLabel": "before", "before": "An enquiry lands in a shared inbox at 9pm. It reaches a salesperson when somebody sees it. The customer hears nothing until then, and some of them keep scrolling.", "whileLabel": "while", "while": "The agent reads the DMS, checks the car is really available, drafts the reply and starts the trade-in valuation — overnight, in the open, as drafts.", "afterLabel": "after", "after": "The dealer principal signs at 8:41am. The customer hears back about the actual car with a viewing slot attached — while they are still looking."}, "headline": "the overnight enquiry, assembled by morning", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Giltrap Group's journey, and no marque trade dress appears on this page.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.14, "beat": "gather", "text": "the chassis rails arrive first"}, {"at": 0.34, "beat": "prepare", "text": "the drivetrain settles in"}, {"at": 0.55, "beat": "reveal", "text": "the body closes over"}, {"at": 0.76, "beat": "hold", "text": "held — the dealer principal signs before it moves"}, {"at": 0.9, "beat": "resolve", "text": "ready for the road"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "overnight", "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every dealer makes buyers wait somewhere. Here it is the overnight gap between an enquiry and a reply. Right now that gap produces nothing."}, {"title": "what the gap costs", "caption": "Some buyers keep scrolling. The ones who stay get asked the same questions twice. The valuation starts after the visit instead of before it."}, {"title": "what fills it", "caption": "assembling works the gap: two tap-sized questions in, a drafted reply and a moving valuation out — all of it sitting as drafts for the morning."}, {"title": "who is better off", "caption": "The buyer hears back about the actual car while they still care. The group answers once, with everything attached. The dealer principal signs every send."}], "textEquivalent": ["Start with the wait you already have. An enquiry about a car arrives at night; a person replies in the morning. Today, nothing happens in between.", "That gap costs sales. Some buyers keep scrolling. The same questions get asked twice. The trade-in valuation starts a visit later than it could.", "assembling fills the gap with useful work. It answers two tap-sized questions, drafts the reply from live stock, and starts the valuation — as drafts.", "By morning, both sides are better off: the buyer gets an answer about the actual car with a viewing slot, and the group gets an enquiry handled once, completely. The dealer principal signs it, every time."]}};
+const data = {"id": "automotive", "client": {"name": "Giltrap Group", "sector": "automotive retail", "accent": "#76A6BD", "status": "proposed"}, "brand": {"primary": "#76A6BD", "secondary": "#2C3037", "typeface": "marque-neutral house style", "source": "Giltrap house steel blue and charcoal; the group's identity is deliberately marque-neutral, so no marque trade dress appears anywhere on this page"}, "sheet": {"title": "automotive retail — assembling", "drawing": "ASM-AUTO-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "metaphor": {"word": "assembly line", "sentence": "A car is a thousand parts that only mean something in order — and so is a reply about one."}, "proposition": "While the customer waits for a human to reply, assembling does the work the reply needs — so the person who answers is saying yes to a finished thing, not starting one.", "wait": {"moment": "the gap between an online enquiry and a human reply", "duration": {"value": "unmeasured", "source": "no NZ dealer group publishes its enquiry reply time", "simulated": true, "note": "The wait is real — enquiries arrive at 9pm, showrooms answer at 9am. No published NZ figure exists, so this page does not invent one."}, "whyItExists": "An enquiry needs a person who knows the car, and the car is one of thousands across twenty-four marques. Finding the right person with the right stock takes time the customer spends in silence.", "todayItFeelsLike": "You ask about a specific car at 9pm. Somebody opens the inbox tomorrow. By then you are three tabs further down the road."}, "agentWork": {"asks": ["One question, sized for a tap — “Is there a trade-in?”", "“Weekday or weekend for a look in person?”"], "learns": ["Which car, exactly — not the model line, the VIN on the lot.", "Whether the enquiry is tonight-serious or someday-curious, from what was asked.", "What the trade-in is, if there is one, so the valuation can start now."], "prepares": ["The reply, drafted from live stock — the car's actual history, actual location, actual availability.", "The trade-in valuation request, queued for the buyer's own marque team.", "The follow-up if this car sells first: the two closest cars actually on the lot."], "resolves": ["The availability question — checked against the DMS, not memory.", "The double-handling — the enquiry reaches one person, once, with everything attached."]}, "reward": {"headline": "An answer about the actual car, while you still care.", "detail": "The reply that arrives is about the car you asked about — its real history, whether it is really available, what a look at it would take — with a person's name on it. If there is a trade-in, its valuation is already moving.", "immediate": true}, "permission": {"consent": "The customer asked about a car. That is the whole basis — the agent works that enquiry and nothing else.", "reads": ["The group stock file, via the DMS", "The enquired vehicle's history and media", "The enquiry exactly as the customer wrote it"], "authority": "draft", "hardStops": ["It never sends anything a person has not approved.", "It never changes a price or lists a vehicle.", "It never contacts a customer on its own."], "thirdPartyData": false, "retention": "Drafts live in the DMS like any other note. Deleting the enquiry deletes the work.", "ipp3aNotice": null}, "human": {"role": "Dealer Principal", "gateAt": "before anything is sent or published", "whyStatutory": null}, "outcome": {"primary": {"metric": "enquiries answered while the customer is still looking", "mechanism": "The reply is drafted from live stock the moment the enquiry lands, so the wait for a person is the wait for a yes — not for the work."}, "secondary": {"metric": "campaign freshness against the lot", "mechanism": "Campaigns assemble from what is actually in stock, so nothing advertises a car that sold on Tuesday."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "DMS stock record, vehicle history file, the enquiry as written"}, {"what": "assumptions made", "example": "trade-in valuation is indicative until sighted; availability held for 48 hours"}, {"what": "what changed in review", "example": "the dealer principal added a Saturday viewing slot before approving"}, {"what": "who signed it off", "example": "S. Kenchington, Dealer Principal — 8:41am, before the reply went out"}]}, "scenario": {"persona": {"name": "Tom", "context": "Asked about a specific used wagon at 9:12pm on a Sunday. Trade-in undeclared."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Enquiry Agent", "authority": "observe", "showsCustomer": "Got your message about the wagon. The showroom is closed — a person will reply in the morning. While you wait, two quick questions will make their answer better.", "doesBehind": "Reads the enquiry and pulls the exact vehicle's record from the DMS: history, location, availability. Nothing is sent to anyone yet.", "question": "Happy to answer two quick questions?", "options": ["Go ahead", "No thanks, just the reply"]}, {"id": "tradein", "stage": "context", "beat": "gather", "agent": "Context Agent", "authority": "observe", "showsCustomer": "Is there a car you'd trade in? If there is, its valuation can start tonight instead of after your first visit.", "doesBehind": "A declared trade-in goes to the right marque team's queue now. This is the single question that most often saves a second visit.", "question": "Trading something in?", "options": ["Yes — a 2019 SUV", "No trade-in"]}, {"id": "viewing", "stage": "context", "beat": "reveal", "agent": "Context Agent", "authority": "observe", "showsCustomer": "The wagon is at the Grey Lynn site and available. Weekday or weekend, if you wanted to see it?", "doesBehind": "Availability is checked against the DMS, not somebody's memory of the lot. The answer is written down so nobody asks it again.", "question": "When suits a look?", "options": ["Weekend", "Weekday evening"]}, {"id": "prepare", "stage": "recommendation", "beat": "prepare", "agent": "Drafting Agent", "authority": "draft", "showsCustomer": "Putting the morning's reply together. Nothing sends without a person.", "doesBehind": "Drafts the reply from the vehicle's real record, attaches the viewing options, and queues the trade-in valuation request. All of it sits as drafts in the DMS.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "Dealer Principal", "authority": "act with approval", "approving": "the reply, the viewing offer and the valuation request — before anything reaches the customer", "showsCustomer": "Your reply is drafted and waiting for the morning's sign-off. A person sends it — that is the house rule, not a formality.", "doesBehind": "Everything stops. The agent has no authority past this line.", "blocking": true, "question": "It's 8:40am. Release the drafts to the dealer principal?", "options": ["Send them through"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Resolution Agent", "authority": "recommend", "showsCustomer": "Reply sent, 8:41am — the actual car, a Saturday slot, and your trade-in's indicative range. Here is everything that was done overnight, and who signed it.", "doesBehind": "Writes the evidence pack: what was read, what was drafted, what the dealer principal changed, and the signature.", "question": null, "options": []}]}, "evidence": [{"claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.", "source": "ServiceNow Customer Experience Report, March 2026", "year": 2026, "simulated": false, "soWhat": "The enquiry wait is the same wait in another channel. The customer who hears back first is the customer who visits."}, {"claim": "AI-referred traffic to retail sites grew 393% in a year, and it converts better than any other channel.", "source": "Adobe Digital Insights, quarterly AI traffic report, April 2026 — a US figure, flagged as such", "year": 2026, "simulated": false, "soWhat": "The buyer's agent is already shopping. A lot whose stock is current and readable is a lot that agents can recommend."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "An overnight wait that shows its overnight work is worth more than a fast reply that shows nothing."}, {"claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.", "source": "Moffatt v. Air Canada, 2024 BCCRT 149", "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/", "year": 2024, "simulated": false, "soWhat": "This is why the dealer principal gate exists. Nothing reaches a customer without a person who answers for it."}], "copy": {"heroEyebrow": "assembling · automotive retail", "beforeWhileAfter": {"beforeLabel": "before", "before": "An enquiry lands in a shared inbox at 9pm. It reaches a salesperson when somebody sees it. The customer hears nothing until then, and some of them keep scrolling.", "whileLabel": "while", "while": "The agent reads the DMS, checks the car is really available, drafts the reply and starts the trade-in valuation — overnight, in the open, as drafts.", "afterLabel": "after", "after": "The dealer principal signs at 8:41am. The customer hears back about the actual car with a viewing slot attached — while they are still looking."}, "headline": "the overnight enquiry, assembled by morning", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Giltrap Group's journey, and no marque trade dress appears on this page.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.14, "beat": "gather", "text": "the chassis rails arrive first"}, {"at": 0.34, "beat": "prepare", "text": "the drivetrain settles in"}, {"at": 0.55, "beat": "reveal", "text": "the body closes over"}, {"at": 0.76, "beat": "hold", "text": "held — the dealer principal signs before it moves"}, {"at": 0.9, "beat": "resolve", "text": "ready for the road"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "overnight", "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every dealer makes buyers wait somewhere. Here it is the overnight gap between an enquiry and a reply. Right now that gap produces nothing."}, {"title": "what the gap costs", "caption": "Some buyers keep scrolling. The ones who stay get asked the same questions twice. The valuation starts after the visit instead of before it."}, {"title": "what fills it", "caption": "assembling works the gap: two tap-sized questions in, a drafted reply and a moving valuation out — all of it sitting as drafts for the morning."}, {"title": "who is better off", "caption": "The buyer hears back about the actual car while they still care. The group answers once, with everything attached. The dealer principal signs every send."}], "textEquivalent": ["Start with the wait you already have. An enquiry about a car arrives at night; a person replies in the morning. Today, nothing happens in between.", "That gap costs sales. Some buyers keep scrolling. The same questions get asked twice. The trade-in valuation starts a visit later than it could.", "assembling fills the gap with useful work. It answers two tap-sized questions, drafts the reply from live stock, and starts the valuation — as drafts.", "By morning, both sides are better off: the buyer gets an answer about the actual car with a viewing slot, and the group gets an enquiry handled once, completely. The dealer principal signs it, every time."]}, "drawing": {"ink": "#12294F", "paper": "#F8F5EE"}};
 const manifest = motorcar;
 
 const $ = s => document.querySelector(s);
@@ -2937,8 +3153,8 @@ set('[data-bp-definition]', data.explainer.definition);
 $('[data-bp-text]').innerHTML = data.explainer.textEquivalent.map(t => `<li>${t}</li>`).join('');
 createBlueprint($('[data-blueprint]'), data);
 
-/* ── the knolling assembly ───────────────────────────── */
-const scene = createAssembly(document.getElementById('scene'), manifest);
+/* ── the knolling assembly, off the plans ────────────── */
+const scene = createAssembly(document.getElementById('scene'), manifest, data.drawing || {});
 mountBalloons($('[data-parts-legend]'), manifest.families);
 
 const stage = $('.hero-stage');

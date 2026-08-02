@@ -289,6 +289,13 @@ export function createAssembly(canvas, manifest, opts = {}) {
   const board = manifest.board || { w: 960, h: 640 };
   const parts = manifest.parts;
 
+  /* The blueprint direction, Aug 2026: the resting state is a technical
+     drawing — deep ink linework on off-white graph paper — and the parts
+     come OFF the plans as their wave lifts: ink crossfades to material in
+     flight. The still (reduced motion, low power) is the drawing plate. */
+  const INK = opts.ink || manifest.ink || '#12294F';
+  const PAPER = opts.paper || manifest.paper || '#F8F5EE';
+
   const state = {
     progress: 0, target: 0, beat: 'gather', t: 0,
     pointer: { x: 0, y: 0 }, pointerTarget: { x: 0, y: 0 },
@@ -306,14 +313,83 @@ export function createAssembly(canvas, manifest, opts = {}) {
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     mobile = W < 760;
     sprites.clear();
+    inkSprites.clear();
     /* fit the board with a margin; the flat lay is the wider of the two states */
     scale = Math.min(W / (board.w * 1.06), H / (board.h * 1.06));
+    bakeSheet();
     draw();
   }
 
   /* Mobile drops the fastener families rather than shrinking everything —
      a knolling composition squeezed to 390px stops being one. */
   const visibleParts = () => (mobile ? parts.filter(p => !p.small) : parts);
+
+  /* ── the drawing sheet, baked once per resize ─────────────────
+     Off-white paper, a faint graph grid, a border frame, corner ticks and
+     two dimension lines around the board extent. The quality bar is a
+     draughtsman's plate, not a background texture — everything is placed. */
+  let sheetLayer = null;
+  function bakeSheet() {
+    const off = document.createElement('canvas');
+    off.width = Math.max(1, Math.round(W * DPR));
+    off.height = Math.max(1, Math.round(H * DPR));
+    const c = off.getContext('2d');
+    c.setTransform(DPR, 0, 0, DPR, 0, 0);
+    c.fillStyle = PAPER;
+    c.fillRect(0, 0, W, H);
+
+    /* graph grid in board units, centred with the board */
+    const step = 24 * scale;
+    if (step > 4) {
+      c.strokeStyle = INK;
+      for (let gx = (W / 2) % step, i = Math.round(-(W / 2) / step); gx <= W; gx += step, i++) {
+        c.globalAlpha = i % 5 === 0 ? 0.10 : 0.045;
+        c.beginPath(); c.moveTo(gx, 0); c.lineTo(gx, H); c.stroke();
+      }
+      for (let gy = (H / 2) % step, j = Math.round(-(H / 2) / step); gy <= H; gy += step, j++) {
+        c.globalAlpha = j % 5 === 0 ? 0.10 : 0.045;
+        c.beginPath(); c.moveTo(0, gy); c.lineTo(W, gy); c.stroke();
+      }
+    }
+
+    /* border frame and corner registration ticks */
+    c.globalAlpha = 0.32; c.lineWidth = 1;
+    const m = 16;
+    c.strokeRect(m, m, W - m * 2, H - m * 2);
+    c.globalAlpha = 0.5;
+    const t = 9;
+    [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]].forEach(([x, y, sx, sy]) => {
+      c.beginPath(); c.moveTo(x + sx * 3, y); c.lineTo(x + sx * (3 + t), y);
+      c.moveTo(x, y + sy * 3); c.lineTo(x, y + sy * (3 + t)); c.stroke();
+    });
+
+    /* dimension lines on the board extent — ticks and arrows, no numbers:
+       the honesty rule is easier kept when the drawing doesn't invent them */
+    const bw = board.w * scale / 2, bh = board.h * scale / 2;
+    const dimY = Math.min(H - m - 10, H / 2 + bh + 18);
+    const dimX = Math.max(m + 10, W / 2 - bw - 18);
+    c.globalAlpha = 0.40; c.lineWidth = 0.8;
+    const arrow = (x, y, dx, dy) => {
+      c.beginPath(); c.moveTo(x, y);
+      c.lineTo(x + dx * 7 - dy * 2.4, y + dy * 7 + dx * 2.4);
+      c.lineTo(x + dx * 7 + dy * 2.4, y + dy * 7 - dx * 2.4);
+      c.closePath(); c.fillStyle = INK; c.fill();
+    };
+    c.beginPath();
+    c.moveTo(W / 2 - bw, dimY); c.lineTo(W / 2 + bw, dimY);
+    c.moveTo(W / 2 - bw, dimY - 6); c.lineTo(W / 2 - bw, dimY + 6);
+    c.moveTo(W / 2 + bw, dimY - 6); c.lineTo(W / 2 + bw, dimY + 6);
+    c.stroke();
+    arrow(W / 2 - bw, dimY, 1, 0); arrow(W / 2 + bw, dimY, -1, 0);
+    c.beginPath();
+    c.moveTo(dimX, H / 2 - bh); c.lineTo(dimX, H / 2 + bh);
+    c.moveTo(dimX - 6, H / 2 - bh); c.lineTo(dimX + 6, H / 2 - bh);
+    c.moveTo(dimX - 6, H / 2 + bh); c.lineTo(dimX + 6, H / 2 + bh);
+    c.stroke();
+    arrow(dimX, H / 2 - bh, 0, 1); arrow(dimX, H / 2 + bh, 0, -1);
+    c.globalAlpha = 1;
+    sheetLayer = off;
+  }
 
   function poseOf(p, prog) {
     const { start, len } = waveWindow(p.wave || 4);
@@ -334,6 +410,54 @@ export function createAssembly(canvas, manifest, opts = {}) {
      low-performance guard and fall back to the still on a perfectly capable machine. */
   const SS = 2.6;                    /* supersample, so the push-in stays crisp */
   const sprites = new Map();
+  const inkSprites = new Map();
+
+  /* The part as its own working drawing: outline in ink, a centreline or a
+     crosshair the way a draughtsman would mark it, nothing filled. This is
+     what every part looks like before its wave lifts it off the paper. */
+  function inkSprite(p) {
+    const cached = inkSprites.get(p.id);
+    if (cached) return cached;
+    const w = p.w || (p.r || 5) * 2, h = p.h || (p.r || 5) * 2;
+    const pad = 12;
+    const cw = Math.ceil((w + pad * 2) * SS), ch = Math.ceil((h + pad * 2) * SS);
+    const off = document.createElement('canvas');
+    off.width = cw; off.height = ch;
+    const c = off.getContext('2d');
+    c.setTransform(SS, 0, 0, SS, cw / 2, ch / 2);
+    const path = pathOf(p, c);
+
+    c.strokeStyle = INK; c.lineJoin = 'round'; c.lineCap = 'round';
+    c.globalAlpha = 0.92; c.lineWidth = 1.05;
+    path(); c.stroke();
+
+    const round = p.shape === 'disc' || p.shape === 'ring' || p.shape === 'gear'
+      || p.shape === 'tyre' || p.shape === 'screw' || p.shape === 'coil';
+    c.lineWidth = 0.5;
+    if (round) {
+      const r = (p.r || Math.max(w, h) / 2);
+      c.globalAlpha = 0.55;
+      c.setLineDash([6, 3.5, 1.2, 3.5]);
+      c.beginPath();
+      c.moveTo(-r - 5, 0); c.lineTo(r + 5, 0);
+      c.moveTo(0, -r - 5); c.lineTo(0, r + 5);
+      c.stroke(); c.setLineDash([]);
+      c.globalAlpha = 0.7;
+      c.beginPath(); c.arc(0, 0, 1.4, 0, 6.2832); c.stroke();
+    } else if (Math.max(w, h) > 30) {
+      c.globalAlpha = 0.42;
+      c.setLineDash([7, 4, 1.5, 4]);
+      c.beginPath();
+      if (w >= h) { c.moveTo(-w / 2 - 4, 0); c.lineTo(w / 2 + 4, 0); }
+      else { c.moveTo(0, -h / 2 - 4); c.lineTo(0, h / 2 + 4); }
+      c.stroke(); c.setLineDash([]);
+    }
+    c.globalAlpha = 1;
+
+    const rec = { canvas: off, w: cw / SS, h: ch / SS };
+    inkSprites.set(p.id, rec);
+    return rec;
+  }
 
   /* Shapes register their path so the material layer can clip, bevel and
      occlude against the real silhouette rather than a bounding box. */
@@ -417,13 +541,24 @@ export function createAssembly(canvas, manifest, opts = {}) {
   }
 
   function drawPart(p, pose, zoom) {
-    const sp = sprite(p);
-    const s = scale * pose.sc * zoom;
+    /* ink at rest; the part materialises as its wave lifts it off the paper */
+    const lift = ease(clamp01(pose.t / 0.32));
     ctx.save();
     ctx.translate(pose.x * scale, pose.y * scale);
     ctx.rotate(pose.rot);
-    ctx.drawImage(sp.canvas, (-sp.w / 2) * pose.sc * scale, (-sp.h / 2) * pose.sc * scale,
-                  sp.w * pose.sc * scale, sp.h * pose.sc * scale);
+    if (lift < 0.999) {
+      const ip = inkSprite(p);
+      ctx.globalAlpha = 1 - lift;
+      ctx.drawImage(ip.canvas, (-ip.w / 2) * pose.sc * scale, (-ip.h / 2) * pose.sc * scale,
+                    ip.w * pose.sc * scale, ip.h * pose.sc * scale);
+    }
+    if (lift > 0.001) {
+      const sp = sprite(p);
+      ctx.globalAlpha = lift;
+      ctx.drawImage(sp.canvas, (-sp.w / 2) * pose.sc * scale, (-sp.h / 2) * pose.sc * scale,
+                    sp.w * pose.sc * scale, sp.h * pose.sc * scale);
+    }
+    ctx.globalAlpha = 1;
     ctx.restore();
 
     /* knolling labels: flat lay only, gone by 25% */
@@ -445,6 +580,21 @@ export function createAssembly(canvas, manifest, opts = {}) {
   function draw() {
     ctx.clearRect(0, 0, W, H);
     const prog = state.progress;
+
+    /* the paper first: grid, frame, ticks and dimension lines */
+    if (sheetLayer) ctx.drawImage(sheetLayer, 0, 0, W, H);
+
+    /* the object's own working drawing — a floor plan, a ghost elevation —
+       fading as the parts leave the paper for the air */
+    const ua = (1 - ease(clamp01(prog / 0.55))) * 0.55;
+    if (manifest.underlay && ua > 0.015) {
+      ctx.save();
+      ctx.translate(W / 2, H / 2);
+      ctx.scale(scale, scale);
+      ctx.globalAlpha = ua;
+      try { manifest.underlay(ctx, INK); } catch (e) {}
+      ctx.restore();
+    }
 
     /* damped pointer parallax, never more than ~10px. the camera never rotates. */
     const px = state.degraded || mobile ? 0 : state.pointer.x * 9;
