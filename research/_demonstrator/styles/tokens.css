@@ -1,0 +1,253 @@
+/* assembl · assembling demonstrators — design tokens
+   Link this file. Do not retype values. If you're writing a hex, you're off-system.
+   Full spec: references/design-system.md · Motion spec: references/motion.md */
+
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap");
+
+:root {
+  /* ── surface ───────────────────────────────────────────── */
+  --paper:            #FCFCFA;   /* page. warm, not blue-white */
+  --paper-raised:     #FFFFFF;   /* cards above the page */
+  --paper-sunk:       #F4F4F1;   /* wells, the "before" column */
+
+  /* ── ink ───────────────────────────────────────────────────
+     Every value below is AA-safe as normal text on --paper.
+     Measured ratios in comments — re-measure if you change one. */
+  --ink:              #14171A;   /* 17.5:1 · headings. never pure black */
+  --ink-2:            #4A5257;   /* 7.76:1 · body */
+  --ink-3:            #646D73;   /* 5.14:1 · captions, labels, metadata */
+  --rule:             #E3E5E1;   /* hairlines, fine-line illustration. NOT text. */
+
+  /* ── assembl register ──────────────────────────────────────
+     Pale palettes on paper fail contrast quietly, so the naming does the
+     enforcing: -deep is the only sea glass you may set text in. Anything
+     ending -line or -wash is for strokes, fills and 3D — never type. */
+  --seaglass:         #A9C7C4;   /* 1.9:1 · decorative fills only */
+  --seaglass-line:    #5B8480;   /* 4.04:1 · strokes, dots, 3D edges. NOT text. */
+  --seaglass-deep:    #456B67;   /* 5.76:1 · the text-safe sea glass */
+  --seaglass-wash:    #EDF3F2;   /* the assembling region */
+  --chrome:           #C9CDD1;   /* 3D and borders only */
+  --chrome-deep:      #7E868C;   /* 3.36:1 · 3D shadow side, dot borders. NOT text. */
+
+  /* ── blueprint explainer · deep blue ink on paper white ────
+     A draughtsman's plate, drawn by hand. See references/blueprint-explainer.md.
+     One line weight, one accent, no fill except a single wash. */
+  --bp-ink:           #16305C;   /* 11.9:1 · every stroke and label */
+  --bp-ink-2:         #3A5788;   /* 6.4:1  · secondary strokes, annotation */
+  --bp-ink-3:         #7489B1;   /* 3.4:1  · construction and dimension lines. NOT text. */
+  --sheet-grid:       rgba(22, 48, 92, 0.045);  /* the drawing sheet grid, 48px */
+  --bp-grid:          #DDE4EF;   /* the 24px graph grid, barely there */
+  --bp-wash:          #EAF0F9;   /* one emphasis fill per panel, maximum */
+
+  --bp-stroke:        1.5px;     /* structure */
+  --bp-hairline:      0.75px;    /* construction */
+  --bp-draw:          1200ms;    /* per panel */
+  --bp-stagger:       90ms;      /* between strokes */
+  --bp-hold:          600ms;     /* the beat where the viewer catches up */
+
+  /* ── state ─────────────────────────────────────────────── */
+  --signal-line:      #C4602A;   /* 4.05:1 · gate rules, dots, pulses. NOT text. */
+  --signal:           #A44A18;   /* 5.72:1 · approval required · human gate · hold */
+  --verified:         #3F6B4A;   /* 5.99:1 · completed · verified · proof */
+
+  /* ── client accent — set per vertical from data/<vertical>.json.
+        Max three uses per page: client product moment, primary CTA, one highlight.
+        Never body text. Never a large fill. ─────────────────── */
+  --accent:           var(--seaglass-deep);
+
+  /* ── type ──────────────────────────────────────────────── */
+  --font: "Jost", Futura, "Century Gothic", system-ui, sans-serif;
+
+  --type-display:     clamp(2.75rem, 6vw, 5.25rem);
+  --lh-display:       1.02;
+  --type-h1:          clamp(2rem, 3.6vw, 3rem);
+  --lh-h1:            1.1;
+  --type-h2:          clamp(1.375rem, 2.2vw, 1.875rem);
+  --lh-h2:            1.2;
+  --type-lead:        clamp(1.125rem, 1.5vw, 1.375rem);
+  --lh-lead:          1.5;
+  --type-body:        1.0625rem;
+  --lh-body:          1.65;
+  --type-small:       0.9375rem;
+  --lh-small:         1.55;
+  --type-label:       0.75rem;
+  --track-label:      0.16em;
+
+  /* weights 300/400/500 only — 600+ reads as generic SaaS */
+  --w-light: 300;  --w-regular: 400;  --w-medium: 500;
+
+  --measure-body:     68ch;
+  --measure-display:  26ch;
+
+  /* ── space · 8px base, 4px half-step ───────────────────── */
+  --s-1: 4px;   --s-2: 8px;   --s-3: 12px;  --s-4: 16px;  --s-5: 24px;
+  --s-6: 32px;  --s-7: 48px;  --s-8: 80px;  --s-9: 128px;
+
+  --gutter:           var(--s-5);
+  --margin-outer:     clamp(var(--s-5), 6vw, var(--s-9));
+
+  /* ── motion · see references/motion.md ─────────────────── */
+  --ease-gather:      cubic-bezier(.16, .84, .44, 1);
+  --dur-gather:       620ms;
+  --ease-reveal:      cubic-bezier(.22, .61, .36, 1);
+  --dur-reveal:       480ms;
+  --ease-prepare:     cubic-bezier(.45, 0, .55, 1);
+  --dur-prepare:      900ms;
+  --ease-resolve:     cubic-bezier(.4, 0, .2, 1);
+  --dur-resolve:      340ms;
+  --ease-micro:       ease-out;
+  --dur-micro:        160ms;
+  --stagger:          60ms;      /* cap at 8 siblings, then animate the group */
+  --pause-short:      400ms;     /* deliberate stillness between beats */
+  --pause-long:       900ms;
+
+  --lerp:             0.1;       /* pointer damping — raw values feel cheap */
+
+  /* ── elevation · shadows land on paper, they don't glow ── */
+  --lift-1: 0 1px 2px rgba(20, 23, 26, .04), 0 2px 8px rgba(20, 23, 26, .03);
+  --lift-2: 0 2px 4px rgba(20, 23, 26, .05), 0 8px 24px rgba(20, 23, 26, .05);
+  --lift-3: 0 4px 8px rgba(20, 23, 26, .06), 0 20px 48px rgba(20, 23, 26, .07);
+
+  --radius-1: 2px;  --radius-2: 4px;  --radius-3: 10px;
+}
+
+/* ── intentional reduced motion ─────────────────────────────
+   Not "animations off". Branch to the designed static composition:
+   check this at the source and never start the loop. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-gather: 1ms; --dur-reveal: 1ms; --dur-prepare: 1ms;
+    --dur-resolve: 1ms; --dur-micro: 1ms; --stagger: 0ms;
+  }
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── base ───────────────────────────────────────────────── */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-2);
+  font: var(--w-regular) var(--type-body)/var(--lh-body) var(--font);
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* headings are lower case — this is an assembl signature, not an error */
+h1, h2, h3 {
+  color: var(--ink);
+  font-weight: var(--w-light);
+  text-transform: lowercase;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+h1 { font-size: var(--type-display); line-height: var(--lh-display); max-width: var(--measure-display); }
+h2 { font-size: var(--type-h1);      line-height: var(--lh-h1); }
+h3 { font-size: var(--type-h2);      line-height: var(--lh-h2); }
+
+p { max-width: var(--measure-body); margin: 0 0 var(--s-4); }
+
+.lead    { font-size: var(--type-lead); line-height: var(--lh-lead); color: var(--ink); font-weight: var(--w-light); }
+.small   { font-size: var(--type-small); line-height: var(--lh-small); }
+.caption { font-size: var(--type-small); color: var(--ink-3); }
+
+.label {
+  font-size: var(--type-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: var(--w-medium);
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ── grid · editorial, asymmetric. default column is 7/12 offset 1 ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+  padding-inline: var(--margin-outer);
+}
+.col-main  { grid-column: 2 / span 7; }
+.col-side  { grid-column: 9 / span 3; }
+.col-bleed { grid-column: 1 / -1; }   /* 3D hero + one pull-quote per page only */
+
+.module + .module { margin-top: var(--s-9); }
+
+@media (max-width: 768px) {
+  .col-main, .col-side, .col-bleed { grid-column: 1 / -1; }
+  .module + .module { margin-top: var(--s-7); }
+}
+
+/* ── focus · visible, always ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--seaglass-deep);
+  outline-offset: 3px;
+  border-radius: var(--radius-1);
+}
+
+/* ── components ─────────────────────────────────────────── */
+
+/* authority levels — the assembl vocabulary */
+.authority-chip {
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  padding: var(--s-1) var(--s-3);
+  border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--paper-raised);
+  font-size: var(--type-label); letter-spacing: var(--track-label);
+  text-transform: uppercase; color: var(--ink-3);
+}
+.authority-chip[data-level="act with approval"] { border-color: var(--signal-line); color: var(--signal); }
+.authority-chip[data-level="autonomous with audit"],
+.authority-chip[data-level="act within limits"]  { border-color: var(--verified); color: var(--verified); }
+
+/* any figure that is illustrative rather than sourced */
+.simulated-badge {
+  display: inline-flex; align-items: center;
+  margin-left: var(--s-2); padding: 1px var(--s-2);
+  border: 1px solid var(--signal-line); border-radius: var(--radius-1);
+  color: var(--signal); background: transparent;
+  font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* the page stops here. stillness is the product argument. */
+.approval-gate {
+  border-top: 1px solid var(--signal-line);
+  border-bottom: 1px solid var(--signal-line);
+  background: var(--paper-raised);
+  padding: var(--s-7) var(--s-5);
+}
+/* the pulse is a shape, not type — the line variant is correct here */
+.approval-gate .pulse {
+  animation: hold-pulse 2.4s var(--ease-prepare) infinite;
+}
+@keyframes hold-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+
+/* one line of the evidence pack */
+.proof-row {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: var(--s-4); align-items: baseline;
+  padding: var(--s-3) 0; border-bottom: 1px solid var(--rule);
+  font-size: var(--type-small);
+}
+
+/* micro-interaction with weight — depth, not a jump */
+.tactile {
+  transition: box-shadow var(--dur-micro) var(--ease-micro),
+              transform  var(--dur-micro) var(--ease-micro);
+  will-change: transform;
+}
+.tactile:hover  { box-shadow: var(--lift-2); transform: translateY(-1px); }
+.tactile:active { box-shadow: var(--lift-1); transform: translateY(0); }
+
+/* touch targets */
+button, [role="button"], a.cta { min-height: 44px; min-width: 44px; }
+
+/* the 3D canvas is decorative; its meaning lives in text nearby */
+canvas[aria-hidden="true"] { display: block; width: 100%; height: 100%; }
