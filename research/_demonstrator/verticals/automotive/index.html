@@ -244,8 +244,8 @@ set('[data-bp-definition]', data.explainer.definition);
 $('[data-bp-text]').innerHTML = data.explainer.textEquivalent.map(t => `<li>${t}</li>`).join('');
 createBlueprint($('[data-blueprint]'), data);
 
-/* ── the knolling assembly ───────────────────────────── */
-const scene = createAssembly(document.getElementById('scene'), manifest);
+/* ── the knolling assembly, off the plans ────────────── */
+const scene = createAssembly(document.getElementById('scene'), manifest, data.drawing || {});
 mountBalloons($('[data-parts-legend]'), manifest.families);
 
 const stage = $('.hero-stage');

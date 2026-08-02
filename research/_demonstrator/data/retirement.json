@@ -129,7 +129,10 @@
         "showsCustomer": "It is day 2 of your 15 working days. Nothing is final until your own lawyer certifies it — that is the law, and this window is yours. Shall we get the questions out of everyone's heads and into one place?",
         "doesBehind": "Opens the family file and starts the window calendar. Reads the ORA as issued. Contacts nobody.",
         "question": "Start gathering the questions?",
-        "options": ["Yes — include Sue", "Just me for now"]
+        "options": [
+          "Yes — include Sue",
+          "Just me for now"
+        ]
       },
       {
         "id": "family",
@@ -140,7 +143,10 @@
         "showsCustomer": "Sue asked three questions overnight. Two are answered in the documents you already have — here they are in plain words. One is for the village: can the garden bed come with you?",
         "doesBehind": "Deduplicates the family's questions, answers what the ORA and fee schedule already answer, and routes only the genuine unknowns — once.",
         "question": "Send the garden question to the village?",
-        "options": ["Yes, ask them", "Leave it for the visit"]
+        "options": [
+          "Yes, ask them",
+          "Leave it for the visit"
+        ]
       },
       {
         "id": "money",
@@ -151,7 +157,10 @@
         "showsCustomer": "The money, in dollars on this villa: the deferred management fee builds to 25% over four years. The weekly fee can only rise with the after-tax NZ Super increase. The $3,000 deposit sits with the statutory supervisor, not the village. What leaving costs is the honest hard part — repayment happens on relicensing, and no law sets its deadline today.",
         "doesBehind": "Turns every defined term into a worked example on the actual price. States the exit uncertainty plainly instead of rounding it away — the reform debate is public and unfinished.",
         "question": "Anything here you want worked through again?",
-        "options": ["The exit numbers", "All clear so far"]
+        "options": [
+          "The exit numbers",
+          "All clear so far"
+        ]
       },
       {
         "id": "prepare",
@@ -176,7 +185,9 @@
         "doesBehind": "Nothing. The hold is the point. The page itself goes still.",
         "blocking": true,
         "question": "Take the brief to your lawyer's appointment?",
-        "options": ["Yes — day 9 of 15"]
+        "options": [
+          "Yes — day 9 of 15"
+        ]
       },
       {
         "id": "resolution",
@@ -245,12 +256,36 @@
     "headline": "fifteen working days, well spent",
     "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Summerset's journey. Worked examples use published prices and fee structures; they are illustrations, not quotes.",
     "assemblyBeats": [
-      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
-      { "at": 0.14, "beat": "gather", "text": "the floor goes down first" },
-      { "at": 0.36, "beat": "prepare", "text": "the frames stand, without hurry" },
-      { "at": 0.58, "beat": "reveal", "text": "the roof closes over" },
-      { "at": 0.76, "beat": "hold", "text": "held — your own lawyer reads before you sign" },
-      { "at": 0.9, "beat": "resolve", "text": "home" }
+      {
+        "at": 0.0,
+        "beat": "gather",
+        "text": "every part, laid out"
+      },
+      {
+        "at": 0.14,
+        "beat": "gather",
+        "text": "the floor goes down first"
+      },
+      {
+        "at": 0.36,
+        "beat": "prepare",
+        "text": "the frames stand, without hurry"
+      },
+      {
+        "at": 0.58,
+        "beat": "reveal",
+        "text": "the roof closes over"
+      },
+      {
+        "at": 0.76,
+        "beat": "hold",
+        "text": "held — your own lawyer reads before you sign"
+      },
+      {
+        "at": 0.9,
+        "beat": "resolve",
+        "text": "home"
+      }
     ]
   },
   "explainer": {
@@ -282,5 +317,9 @@
       "assembling fills the window with preparation: the money in dollars on the actual villa, every family question answered once, and one brief for the lawyer's appointment.",
       "By the end, both sides are better off: the resident signs — or walks away — understanding the money, and the village gains residents whose decisions hold. The resident's own lawyer certifies it, as the law requires."
     ]
+  },
+  "drawing": {
+    "ink": "#3B0B57",
+    "paper": "#F8F5EE"
   }
 }

@@ -6,8 +6,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>assembling · retirement living — assembl</title>
-<meta name="description" content="The law gives a resident 15 working days to be sure. assembling turns that window into preparation — the money in plain words, the family's questions answered once, the lawyer briefed — so the decision is made inside the window, not despite it.">
+<title>assembling · airline — assembl</title>
+<meta name="description" content="When a flight is disrupted, assembling does the re-planning during the announcement — so the traveller chooses from finished options on their phone while the queue is still forming at the counter.">
 <style>
 /* assembl · assembling demonstrators — design tokens
    Link this file. Do not retype values. If you're writing a hex, you're off-system.
@@ -2435,461 +2435,330 @@ function dimension(el, value, note, simulated) {
 Object.assign(__M, { sheetMeta, mountSheet, mountBalloons, dimension });
 })();
 
-/* ── villa.js ─────────────────────────────── */
+/* ── aircraft.js ─────────────────────────────── */
 ;(function () {
 const { dimension } = __M;
-/* Single-storey retirement villa — the Summerset object.
+/* Narrow-body airliner, side elevation — the airline object.
  *
- * A villa is what an Occupation Right Agreement is actually about. Not a contract,
- * not a brochure: a floor, four walls, a roof, and a front door you open yourself.
- * Every part of one, knolled on paper, then assembled into a side elevation.
+ * The traveller's day runs through this machine, so the demonstrator assembles it:
+ * keel first, frames along the keel, skins closing over, the wing taking the
+ * weight, the tail standing last before the doors open. Waves inside out, the
+ * order an airframe actually comes together on the line.
  *
- * Flat-lay positions are art-directed by hand: axis-aligned, even gutters, grouped
- * by family, nothing overlapping. The whole appeal of knolling is that a person
- * decided where everything goes — auto-flow it and it becomes a chart.
+ * Livery discipline: white over grey, the fin in the airline's near-black — and
+ * no koru, no titles, no registration. The silhouette carries it; trade dress
+ * stays off the drawing. The one colour on the board is the forward boarding
+ * door — the part where a person decides who gets on.
  *
- * Waves, inside out, in the order a house actually goes up:
- * 1 foundation · 2 framing · 3 fixings · 4 cladding · 5 openings · 6 roof · 7 finishing.
- *
- * Board is 1180 × 800, origin at centre. Spec: references/knolling-assembly.md
+ * Same architecture as the motorcar: absolute elevation coordinates, recentred by
+ * panel(); the packer owns the flat lay. Spec: references/knolling-assembly.md.
  */
 
+const WHITE = '#EDEFF2';      /* upper fuselage */
+const BELLY = '#B9BEC4';      /* lower fuselage and fairings */
+const NEARBLACK = '#1E2126';  /* the fin — the airline's black, unbadged */
+const DOOR = '#C4602A';       /* the forward door: the human's threshold */
+
 const parts = [];
-const add = p => (parts.push(p), p);
+const GROUPS = [];
 
-/* ── the elevation, in numbers ──────────────────────────────────
-   Every `to` position is measured against this side elevation. The whole object
-   is lifted by LIFT at the very end so it sits centred in the frame rather than
-   sagging toward the ground line. */
-const PLATE_Y = 12;                  /* top plate, wall runs −222 … 222 */
-const FLOOR_Y = 148;                 /* bottom plate, floor level */
-const GROUND_Y = 210;                /* the line the piles land on */
-const EAVE_L = -268, EAVE_R = 268, EAVE_Y = 6;
-const APEX_Y = -118;
-/* Roof pitch as an ANGLE OF ROTATION, which is not the same thing as the angle
-   between two points and is where this went wrong the first time. Screen y grows
-   downward, so a plane running up to the right is a NEGATIVE rotation. The left
-   plane therefore takes -PITCH and the right plane +PITCH; getting the two the
-   wrong way round splays the roof into an X instead of a gable. */
-const PITCH = Math.atan2(APEX_Y - EAVE_Y, 0 - EAVE_L);
-const SLOPE = Math.hypot(EAVE_R, EAVE_Y - APEX_Y);       /* ≈ 295, eave to apex */
-const LIFT = -45;
+function group(name) {
+  const items = [];
+  GROUPS.push({ name, items });
+  return p => { parts.push(p); items.push(p); return p; };
+}
 
-/* paint for the weatherboards — a villa is painted, not raw timber */
-const PAINT = '#E9E3D9', TRIM = '#F3EEE7';
-
-/* ── 1 · foundation ─────────────────────────────────────────────
-   Piles, footings, bearers, floor. The bit nobody looks at and everybody asks
-   about. */
-
-/* ground line — three slabs, so no single part is half the board wide */
-[-215, 0, 215].forEach((gx, i) => add({
-  id: `ground-${i}`, shape: 'rect', w: 240, h: 8, rad: 1, seed: 11 + i,
-  lay: { x: -450, y: 50 + i * 24 },
-  to: { x: gx, y: GROUND_Y, rot: 0 },
-  wave: 1, z: 0, finish: 'cast',
-  label: i === 0 ? 'ground' : undefined,
-}));
-
-/* concrete piles and their footing pads */
-for (let i = 0; i < 7; i++) {
-  const px = -195 + i * 65;
-  add({
-    id: `pile-${i}`, shape: 'rect', w: 18, h: 34, rad: 2, seed: 20 + i,
-    lay: { x: 445 + (i % 4) * 34, y: 60 + Math.floor(i / 4) * 44 },
-    to: { x: px, y: 190, rot: 0 },
-    wave: 1, z: 2, finish: 'cast',
-    label: i === 0 ? 'piles' : undefined,
-  });
-  add({
-    id: `footing-${i}`, shape: 'rect', w: 26, h: 8, rad: 1, seed: 30 + i,
-    lay: { x: 300 + (i % 4) * 34, y: -85 + Math.floor(i / 4) * 22 },
-    to: { x: px, y: 208, rot: 0 },
-    wave: 1, z: 1, finish: 'cast', small: true,
+function panel(g, id, pts, opts = {}) {
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs);
+  const y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  return g({
+    id, shape: 'poly',
+    points: pts.map(([x, y]) => [+(x - cx).toFixed(1), +(y - cy).toFixed(1)]),
+    w: +(x1 - x0).toFixed(1), h: +(y1 - y0).toFixed(1),
+    to: { x: +cx.toFixed(1), y: +cy.toFixed(1), rot: 0 },
+    ...opts,
   });
 }
 
-/* bearers — the timber the floor sits on */
-[-150, 0, 150].forEach((bx, i) => add({
-  id: `bearer-${i}`, shape: 'bar', w: 150, h: 10, seed: 40 + i,
-  lay: { x: 180, y: -85 + i * 22 },
-  to: { x: bx, y: 176, rot: 0 },
-  wave: 1, z: 3, finish: 'timber',
-  label: i === 0 ? 'floor bearers' : undefined,
-}));
+/* The finished aeroplane. Nose at x = -560, tail cone at x = 552; the fuselage
+   centreline sits at y = -6 with a radius of 52, so the crown runs at -58 and
+   the belly at 46. Ground line y = 150; the gear holds the belly off it. */
+const CL = -6, R = 52;
 
-/* the floor itself, in two sheets */
-[-113, 113].forEach((fx, i) => add({
-  id: `floor-${i}`, shape: 'rect', w: 228, h: 15, rad: 1, seed: 50 + i,
-  lay: { x: -200, y: 55 + i * 37 },
-  to: { x: fx, y: 162, rot: 0 },
-  wave: 1, z: 4, finish: 'timber',
-  label: i === 0 ? 'floor' : undefined,
-}));
+/* ── 1 · keel and frames ────────────────────────────────────────── */
+const structure = group('keel and frames');
 
-/* ── 2 · framing ────────────────────────────────────────────────
-   Studs, plates, truss. The shape of the house before it looks like one. */
+structure({ id: 'keel', shape: 'bar', w: 760, h: 14,
+  to: { x: -20, y: CL + R - 14, rot: 0 }, wave: 1, z: 1, finish: 'brushed',
+  label: 'keel beam' });
 
-[-114, 114].forEach((tx, i) => {
-  add({
-    id: `topplate-${i}`, shape: 'rect', w: 228, h: 11, rad: 1, seed: 60 + i,
-    lay: { x: 50, y: 55 + i * 37 },
-    to: { x: tx, y: PLATE_Y, rot: 0 },
-    wave: 2, z: 6, finish: 'timber',
-    label: i === 0 ? 'top plate' : undefined,
-  });
-  add({
-    id: `botplate-${i}`, shape: 'rect', w: 228, h: 11, rad: 1, seed: 70 + i,
-    lay: { x: 300, y: 55 + i * 37 },
-    to: { x: tx, y: FLOOR_Y, rot: 0 },
-    wave: 2, z: 5, finish: 'timber',
-  });
+structure({ id: 'floor-beam', shape: 'bar', w: 720, h: 10,
+  to: { x: -20, y: CL + 6, rot: 0 }, wave: 1, z: 1, finish: 'brushed' });
+
+for (let i = 0; i < 11; i++) {
+  structure({ id: `frame-${i}`, shape: 'rect', w: 10, h: 96, rad: 5, seed: 20 + i,
+    to: { x: -350 + i * 68, y: CL, rot: 0 },
+    wave: 1, z: 2, finish: 'brushed', small: i % 2 === 1,
+    label: i === 0 ? 'fuselage frames' : undefined });
+}
+
+panel(structure, 'wing-box',
+  [[-96, 8], [96, 8], [110, 46], [-110, 46]],
+  { wave: 1, z: 3, finish: 'brushed', seed: 33 });
+
+/* ── 2 · skins ──────────────────────────────────────────────────── */
+const skins = group('skins');
+const TOP = { finish: 'painted', colour: WHITE };
+const LOW = { finish: 'painted', colour: BELLY };
+
+panel(skins, 'radome',
+  [[-560, -8], [-538, -34], [-506, -50], [-500, 30], [-522, 22], [-548, 6]],
+  { wave: 2, z: 6, ...LOW, label: 'radome' });
+
+panel(skins, 'crown',
+  [[-506, -50], [-380, -58], [200, -58], [420, -50], [430, -22], [200, -30],
+   [-380, -30], [-506, -22]],
+  { wave: 2, z: 5, ...TOP, label: 'fuselage crown' });
+
+panel(skins, 'side-mid',
+  [[-506, -26], [420, -26], [436, 6], [420, 18], [-506, 18]],
+  { wave: 2, z: 4, ...TOP });
+
+panel(skins, 'belly',
+  [[-506, 16], [430, 16], [402, 46], [140, 52], [-120, 52], [-460, 40]],
+  { wave: 2, z: 5, ...LOW, label: 'belly skin' });
+
+/* the tail cone lifts with the rear fuselage taper */
+panel(skins, 'tail-cone',
+  [[420, -50], [500, -40], [552, -22], [540, -6], [478, 6], [424, 16]],
+  { wave: 2, z: 5, ...TOP });
+
+/* ── 3 · fasteners ─────────────────────────────────────────────── */
+const fasteners = group('fasteners');
+
+for (let i = 0; i < 22; i++) {
+  fasteners({ id: `rivet-${i}`, shape: 'screw', r: 2.6 + (i % 3) * 0.5, cross: i % 4 === 0,
+    to: { x: -480 + i * 44, y: i % 2 ? -34 : 24, rot: (i % 5) * 0.3 },
+    wave: 3, z: 7, finish: 'polished', small: true,
+    label: i === 0 ? 'rivets' : undefined });
+}
+
+for (let i = 0; i < 4; i++) {
+  fasteners({ id: `strap-${i}`, shape: 'ring', r: 7, r2: 3.4,
+    to: { x: -300 + i * 180, y: -46, rot: 0 },
+    wave: 3, z: 7, finish: 'brushed', small: true });
+}
+
+/* ── 4 · landing gear ──────────────────────────────────────────── */
+const gear = group('landing gear');
+
+gear({ id: 'nose-strut', shape: 'rect', w: 12, h: 64, rad: 5, grooves: 2,
+  to: { x: -448, y: 88, rot: 0 }, wave: 4, z: 3, finish: 'polished',
+  label: 'nose gear' });
+gear({ id: 'nose-wheel', shape: 'tyre', r: 24, r2: 13,
+  to: { x: -448, y: 126, rot: 0 }, wave: 4, z: 4, finish: 'rubber', spin: -0.6 });
+gear({ id: 'nose-hub', shape: 'disc', r: 12,
+  to: { x: -448, y: 126, rot: 0 }, wave: 4, z: 5, finish: 'brushed', small: true });
+
+[[-6, 0], [30, 1]].forEach(([x, i]) => {
+  gear({ id: `main-strut-${i}`, shape: 'rect', w: 14, h: 78, rad: 6, grooves: 3,
+    to: { x, y: 92, rot: i ? 0.08 : 0 }, wave: 4, z: 3 - i, finish: 'polished',
+    small: !!i, label: i === 0 ? 'main gear' : undefined });
+  gear({ id: `main-wheel-${i}`, shape: 'tyre', r: 30, r2: 16,
+    to: { x: x + (i ? 6 : 0), y: 120, rot: 0 }, wave: 4, z: 4 - i,
+    finish: 'rubber', spin: -0.6, small: !!i });
+  gear({ id: `main-hub-${i}`, shape: 'disc', r: 14,
+    to: { x: x + (i ? 6 : 0), y: 120, rot: 0 }, wave: 4, z: 5 - i,
+    finish: 'brushed', small: true });
 });
 
-for (let i = 0; i < 9; i++) {
-  add({
-    id: `stud-${i}`, shape: 'rect', w: 9, h: 132, rad: 1, seed: 80 + i,
-    lay: { x: -560 + i * 22, y: -90 },
-    to: { x: -200 + i * 50, y: 80, rot: 0 },
-    wave: 2, z: 6, finish: 'timber',
-    label: i === 0 ? 'wall studs' : undefined,
-  });
-}
+panel(gear, 'gear-door',
+  [[-490, 40], [-430, 42], [-432, 60], [-488, 58]],
+  { wave: 4, z: 6, ...LOW, small: true });
 
-/* truss — bottom chord, two rafters, king post, two web struts */
-[-111, 111].forEach((cx, i) => add({
-  id: `chord-${i}`, shape: 'rect', w: 222, h: 9, rad: 1, seed: 90 + i,
-  lay: { x: -450, y: 185 + i * 30 },
-  to: { x: cx, y: 2, rot: 0 },
-  wave: 2, z: 7, finish: 'timber',
-  label: i === 0 ? 'truss chord' : undefined,
-}));
+/* ── 5 · wing and engines ──────────────────────────────────────── */
+const wing = group('wing and engines');
 
-[-1, 1].forEach((s, i) => add({
-  id: `rafter-${i}`, shape: 'bar', w: 290, h: 9, seed: 100 + i,
-  lay: { x: 245, y: -140 + i * 25 },
-  to: { x: s * 134, y: -56, rot: -s * PITCH },
-  wave: 2, z: 7, finish: 'timber',
-  label: i === 0 ? 'rafters' : undefined,
-}));
+/* the wing in elevation: a blade sweeping forward-down from the root fairing */
+panel(wing, 'wing-blade',
+  [[-150, 26], [-96, 20], [96, 30], [10, 44], [-96, 46], [-210, 42], [-226, 34]],
+  { wave: 5, z: 8, ...LOW, label: 'wing' });
 
-add({ id: 'kingpost', shape: 'rect', w: 8, h: 114, rad: 1, seed: 110,
-  lay: { x: -350, y: -90 }, to: { x: 0, y: -55, rot: 0 },
-  wave: 2, z: 6, finish: 'timber' });
+panel(wing, 'root-fairing',
+  [[-130, 12], [110, 12], [150, 40], [100, 56], [-100, 56], [-150, 40]],
+  { wave: 5, z: 7, ...LOW });
 
-[-1, 1].forEach((s, i) => add({
-  id: `strut-${i}`, shape: 'bar', w: 100, h: 7, seed: 112 + i,
-  lay: { x: 460, y: -140 + i * 25 },
-  to: { x: s * 72, y: -30, rot: s * 0.78 },
-  wave: 2, z: 6, finish: 'timber', small: true,
-}));
+panel(wing, 'winglet',
+  [[-226, 34], [-244, 6], [-238, 2], [-218, 26], [-212, 40]],
+  { wave: 5, z: 9, ...TOP, small: true });
 
-/* ── 3 · fixings ────────────────────────────────────────────────
-   Bolts, brackets, nail plates. Small steel, all of it hidden once the cladding
-   goes on, all of it the reason the house stays where it was put. */
+panel(wing, 'pylon',
+  [[-190, 42], [-142, 42], [-136, 62], [-186, 64]],
+  { wave: 5, z: 9, finish: 'brushed', small: true });
 
+/* the engine: inlet ring, core, fan — the fan spins on the prepare beat */
+wing({ id: 'nacelle', shape: 'ring', r: 40, r2: 30, seed: 41,
+  to: { x: -196, y: 86, rot: 0 }, wave: 5, z: 10, finish: 'polished',
+  label: 'engine' });
+wing({ id: 'fan', shape: 'gear', r: 27, teeth: 22, spokes: 8,
+  to: { x: -196, y: 86, rot: 0 }, wave: 5, z: 9, finish: 'brushed', spin: 2.4 });
+wing({ id: 'core', shape: 'trap', w: 34, h: 26, topW: 22,
+  to: { x: -152, y: 90, rot: -1.5708 }, wave: 5, z: 8, finish: 'brushed', small: true });
+
+/* ── 6 · empennage ─────────────────────────────────────────────── */
+const tail = group('empennage');
+
+panel(tail, 'fin',
+  [[428, -46], [472, -160], [516, -186], [536, -182], [520, -120], [492, -40]],
+  { wave: 6, z: 6, finish: 'painted', colour: NEARBLACK, label: 'fin' });
+
+panel(tail, 'rudder',
+  [[518, -180], [540, -184], [548, -120], [536, -50], [516, -48], [520, -120]],
+  { wave: 6, z: 5, finish: 'painted', colour: NEARBLACK, small: true });
+
+panel(tail, 'tailplane',
+  [[430, -30], [548, -18], [552, -8], [502, -2], [430, -10]],
+  { wave: 6, z: 7, ...TOP });
+
+panel(tail, 'elevator',
+  [[500, -4], [552, -8], [554, 0], [506, 6]],
+  { wave: 6, z: 6, ...TOP, small: true });
+
+/* ── 7 · doors, windows and lights ─────────────────────────────── */
+const finish = group('doors, windows and lights');
+
+/* the cabin window line — one row, evenly set, the airliner signature */
 for (let i = 0; i < 16; i++) {
-  const onTop = i < 8, k = i % 8;
-  add({
-    id: `bolt-${i}`, shape: 'screw', r: 3.6, cross: k % 2 === 0,
-    lay: { x: -280 + (i % 4) * 26, y: 180 + Math.floor(i / 4) * 20 },
-    to: { x: -196 + k * 56, y: onTop ? PLATE_Y : FLOOR_Y, rot: k * 0.4 },
-    wave: 3, z: 7, finish: 'brushed', small: true,
-    label: i === 0 ? 'bolts' : undefined,
-  });
+  finish({ id: `window-${i}`, shape: 'rect', w: 10, h: 14, rad: 5, seed: 60 + i,
+    to: { x: -380 + i * 46, y: -20, rot: 0 },
+    wave: 7, z: 11, finish: 'dark', small: true,
+    label: i === 0 ? 'cabin windows' : undefined });
 }
 
-for (let i = 0; i < 12; i++) {
-  const s = i < 6 ? -1 : 1, k = i % 6;
-  add({
-    id: `nailplate-${i}`, shape: 'rect', w: 14, h: 9, rad: 1, grooves: 3, seed: 120 + i,
-    lay: { x: -140 + (i % 4) * 32, y: 182 + Math.floor(i / 4) * 26 },
-    to: { x: s * (230 - k * 40), y: -8 - k * 18.4, rot: -s * PITCH },
-    wave: 3, z: 7, finish: 'brushed', small: true,
-    label: i === 0 ? 'nail plates' : undefined,
-  });
+panel(finish, 'windscreen',
+  [[-520, -34], [-484, -42], [-460, -40], [-462, -26], [-516, -24]],
+  { wave: 7, z: 12, finish: 'dark', label: 'flight deck' });
+
+/* the forward boarding door — the one colour on the aeroplane */
+finish({ id: 'door-fwd', shape: 'rect', w: 22, h: 44, rad: 8, seed: 71,
+  to: { x: -430, y: -8, rot: 0 }, wave: 7, z: 12,
+  finish: 'anodised', colour: DOOR, label: 'forward door' });
+
+finish({ id: 'door-aft', shape: 'rect', w: 20, h: 40, rad: 8, seed: 72,
+  to: { x: 396, y: -10, rot: 0 }, wave: 7, z: 12, finish: 'dark', small: true });
+
+finish({ id: 'beacon', shape: 'disc', r: 4,
+  to: { x: -40, y: -62, rot: 0 }, wave: 7, z: 12, finish: 'polished', small: true });
+
+finish({ id: 'nav-light', shape: 'disc', r: 4,
+  to: { x: -242, y: 2, rot: 0 }, wave: 7, z: 12, finish: 'glass', small: true });
+
+for (let i = 0; i < 3; i++) {
+  finish({ id: `antenna-${i}`, shape: 'hand', w: 16, h: 3,
+    to: { x: -120 + i * 160, y: -62, rot: -1.2 },
+    wave: 7, z: 12, finish: 'dark', small: true });
 }
 
-/* galvanised angle brackets — pile head to bearer */
-const BRACKET = [[-9, -9], [-2, -9], [-2, 2], [9, 2], [9, 9], [-9, 9]];
-for (let i = 0; i < 8; i++) {
-  add({
-    id: `bracket-${i}`, shape: 'poly', points: BRACKET, w: 18, h: 18, seed: 130 + i,
-    lay: { x: 20 + (i % 4) * 34, y: 186 + Math.floor(i / 4) * 34 },
-    to: { x: -175 + i * 50, y: 170, rot: i % 2 ? 0 : Math.PI / 2 },
-    wave: 3, z: 7, finish: 'brushed', small: true,
-    label: i === 0 ? 'brackets' : undefined,
-  });
-}
+finish({ id: 'pitot', shape: 'hand', w: 14, h: 3,
+  to: { x: -540, y: -18, rot: 0 }, wave: 7, z: 12, finish: 'polished', small: true });
 
-/* ── 4 · cladding ───────────────────────────────────────────────
-   Twelve courses of weatherboard, each in two lengths, the way they are actually
-   run and butt-joined. Plus the soffits and corner boards that finish the edges. */
+/* ── the flat lay ──────────────────────────────────────────────── */
+const BOARD_W = 1460, MARGIN = 22, GUTTER = 13, SHELF_GAP = 14;
+const size = p => [p.w ?? (p.r || 5) * 2, p.h ?? (p.r || 5) * 2];
 
-const WB_COLS = [-455, -212, 31];
-for (let j = 0; j < 24; j++) {
-  const course = Math.floor(j / 2), side = j % 2;
-  add({
-    id: `board-${j}`, shape: 'rect', w: 226, h: 14, rad: 1, seed: 140 + j,
-    lay: { x: WB_COLS[j % 3], y: -368 + Math.floor(j / 3) * 26 },
-    to: { x: side ? 111 : -111, y: 20 + course * 11.5, rot: 0 },
-    wave: 4, z: 10, finish: 'painted', colour: PAINT,
-    label: j === 0 ? 'weatherboards' : undefined,
-  });
-}
-
-[-1, 1].forEach((s, i) => add({
-  id: `soffit-${i}`, shape: 'rect', w: 48, h: 9, rad: 1, seed: 170 + i,
-  lay: { x: 545, y: -140 + i * 25 },
-  to: { x: s * 245, y: PLATE_Y, rot: 0 },
-  wave: 4, z: 11, finish: 'painted', colour: TRIM,
-  label: i === 0 ? 'soffits' : undefined,
-}));
-
-[-1, 1].forEach((s, i) => add({
-  id: `cornerboard-${i}`, shape: 'rect', w: 12, h: 142, rad: 1, seed: 172 + i,
-  lay: { x: -315 + i * 25, y: -90 },
-  to: { x: s * 217, y: 80, rot: 0 },
-  wave: 4, z: 11, finish: 'painted', colour: TRIM,
-}));
-
-/* ── 5 · openings ───────────────────────────────────────────────
-   Windows, joinery, and the front door. The door is the only colour on the
-   board, because it is the one part the resident opens. */
-
-const WIN_X = [-158, -72, 118];
-WIN_X.forEach((wx, i) => {
-  add({
-    id: `window-${i}`, shape: 'rect', w: 64, h: 86, rad: 2, mullions: [2, 3],
-    lay: { x: -130 + i * 78, y: -90 },
-    to: { x: wx, y: 62, rot: 0 },
-    wave: 5, z: 14, finish: 'glass',
-    label: i === 0 ? 'windows' : undefined,
-  });
-  add({
-    id: `sill-${i}`, shape: 'rect', w: 72, h: 7, rad: 1, seed: 180 + i,
-    lay: { x: 490, y: -268 + i * 18 },
-    to: { x: wx, y: 109, rot: 0 },
-    wave: 5, z: 15, finish: 'painted', colour: TRIM, small: true,
-    label: i === 0 ? 'sills' : undefined,
-  });
-  add({
-    id: `head-${i}`, shape: 'rect', w: 72, h: 7, rad: 1, seed: 190 + i,
-    lay: { x: 490, y: -210 + i * 18 },
-    to: { x: wx, y: 15, rot: 0 },
-    wave: 5, z: 15, finish: 'painted', colour: TRIM, small: true,
-  });
-});
-
-add({ id: 'window-bath', shape: 'rect', w: 40, h: 44, rad: 2, mullions: [2, 2],
-  lay: { x: 310, y: -252 }, to: { x: 186, y: 44, rot: 0 },
-  wave: 5, z: 14, finish: 'glass' });
-
-/* the one accent in the composition */
-add({ id: 'front-door', shape: 'rect', w: 46, h: 106, rad: 2, grooves: 3, seed: 200,
-  lay: { x: -210, y: -90 }, to: { x: 16, y: 95, rot: 0 },
-  wave: 5, z: 15, finish: 'anodised', colour: '#E4002B', label: 'front door' });
-
-add({ id: 'fanlight', shape: 'rect', w: 46, h: 16, rad: 1, mullions: [3, 1],
-  lay: { x: 390, y: -262 }, to: { x: 16, y: 30, rot: 0 },
-  wave: 5, z: 14, finish: 'glass', small: true });
-
-add({ id: 'door-handle', shape: 'disc', r: 5,
-  lay: { x: 490, y: -296 }, to: { x: 33, y: 100, rot: 0 },
-  wave: 5, z: 16, finish: 'brushed', small: true });
-
-add({ id: 'door-step', shape: 'rect', w: 56, h: 9, rad: 1, seed: 202,
-  lay: { x: 230, y: -268 }, to: { x: 16, y: 154, rot: 0 },
-  wave: 5, z: 13, finish: 'cast', small: true });
-
-/* ── 6 · roof ───────────────────────────────────────────────────
-   Six sheets of long-run per plane, laid up the pitch, then the ridge, the
-   spouting and the chimney. */
-
-const UX = Math.cos(PITCH), UY = Math.sin(PITCH);   /* unit vector up the left slope */
-for (let i = 0; i < 12; i++) {
-  const s = i < 6 ? -1 : 1, k = i % 6;
-  const d = (k + 0.5) * (SLOPE / 6);                /* how far up the pitch this sheet lands */
-  add({
-    id: `roofsheet-${i}`, shape: 'rect', w: 52, h: 22, rad: 1, grooves: 5, seed: 210 + i,
-    lay: { x: 220 + (i % 4) * 66, y: -368 + Math.floor(i / 4) * 36 },
-    to: { x: s * (EAVE_R - d * UX), y: EAVE_Y + d * UY, rot: -s * PITCH },
-    wave: 6, z: 18, finish: 'dark',
-    label: i === 0 ? 'roofing' : undefined,
-  });
-}
-
-add({ id: 'ridge', shape: 'rect', w: 44, h: 12, rad: 2, seed: 230,
-  lay: { x: 545, y: -345 }, to: { x: 0, y: -124, rot: 0 },
-  wave: 6, z: 19, finish: 'dark', label: 'ridge' });
-
-[-1, 1].forEach((s, i) => add({
-  id: `spouting-${i}`, shape: 'bar', w: 54, h: 11, seed: 232 + i,
-  lay: { x: 545, y: -320 + i * 22 },
-  to: { x: s * 243, y: 20, rot: 0 },
-  wave: 6, z: 17, finish: 'brushed',
-  label: i === 0 ? 'spouting' : undefined,
-}));
-
-add({ id: 'downpipe', shape: 'rect', w: 9, h: 134, rad: 4, seed: 234,
-  lay: { x: -255, y: -90 }, to: { x: -228, y: 82, rot: 0 },
-  wave: 6, z: 17, finish: 'brushed' });
-
-add({ id: 'chimney', shape: 'rect', w: 30, h: 64, rad: 1, seed: 236,
-  lay: { x: 490, y: -345 }, to: { x: -120, y: -94, rot: 0 },
-  wave: 6, z: 20, finish: 'cast', label: 'chimney' });
-
-add({ id: 'chimney-cap', shape: 'rect', w: 38, h: 10, rad: 1, seed: 238,
-  lay: { x: 545, y: -370 }, to: { x: -120, y: -131, rot: 0 },
-  wave: 6, z: 21, finish: 'cast', small: true });
-
-/* ── 7 · finishing ──────────────────────────────────────────────
-   Deck, handrail, path, planter, letterbox. None of it structural. All of it the
-   difference between a building and somewhere a person lives. */
-
-add({ id: 'deck', shape: 'rect', w: 112, h: 12, rad: 1, seed: 240,
-  lay: { x: 230, y: 185 }, to: { x: 278, y: 152, rot: 0 },
-  wave: 7, z: 9, finish: 'timber', label: 'deck' });
-
-add({ id: 'deck-joist', shape: 'rect', w: 112, h: 8, rad: 1, seed: 242,
-  lay: { x: 230, y: 207 }, to: { x: 278, y: 166, rot: 0 },
-  wave: 7, z: 8, finish: 'timber' });
-
-[232, 278, 324].forEach((dx, i) => add({
-  id: `deckpile-${i}`, shape: 'rect', w: 12, h: 36, rad: 1, seed: 244 + i,
-  lay: { x: 330 + i * 30, y: 200 },
-  to: { x: dx, y: 188, rot: 0 },
-  wave: 7, z: 7, finish: 'cast', small: true,
-}));
-
-[232, 278, 324].forEach((rx, i) => add({
-  id: `railpost-${i}`, shape: 'rect', w: 9, h: 54, rad: 1, seed: 248 + i,
-  lay: { x: 440 + i * 24, y: 205 },
-  to: { x: rx, y: 120, rot: 0 },
-  wave: 7, z: 9, finish: 'timber',
-}));
-
-add({ id: 'handrail', shape: 'bar', w: 116, h: 9, seed: 252,
-  lay: { x: 230, y: 229 }, to: { x: 278, y: 92, rot: 0 },
-  wave: 7, z: 10, finish: 'timber', label: 'handrail' });
-
-for (let i = 0; i < 6; i++) {
-  add({
-    id: `baluster-${i}`, shape: 'rect', w: 5, h: 44, rad: 1, seed: 254 + i,
-    lay: { x: -280 + i * 18, y: 300 },
-    to: { x: 243 + i * 14, y: 124, rot: 0 },
-    wave: 7, z: 9, finish: 'timber', small: true,
-  });
-}
-
-add({ id: 'letterbox-post', shape: 'rect', w: 8, h: 54, rad: 1, seed: 260,
-  lay: { x: 530, y: 205 }, to: { x: -306, y: 178, rot: 0 },
-  wave: 7, z: 9, finish: 'timber' });
-
-add({ id: 'letterbox', shape: 'rect', w: 34, h: 22, rad: 2, seed: 262,
-  lay: { x: 530, y: -75 }, to: { x: -306, y: 140, rot: 0 },
-  wave: 7, z: 10, finish: 'brushed', label: 'letterbox' });
-
-add({ id: 'planter', shape: 'trap', w: 56, topW: 42, h: 30, seed: 264,
-  lay: { x: 460, y: -75 }, to: { x: -250, y: 194, rot: 0 },
-  wave: 7, z: 9, finish: 'cast', label: 'planter' });
-
-add({ id: 'path', shape: 'rect', w: 200, h: 9, rad: 1, seed: 266,
-  lay: { x: -450, y: 290 }, to: { x: -180, y: 222, rot: 0 },
-  wave: 7, z: 1, finish: 'cast', label: 'path' });
-
-add({ id: 'number-plate', shape: 'rect', w: 14, h: 22, rad: 1, seed: 268,
-  lay: { x: 562, y: 205 }, to: { x: -16, y: 62, rot: 0 },
-  wave: 7, z: 16, finish: 'brass', small: true });
-
-/* ── two housekeeping passes ────────────────────────────────────
-   The elevation above is measured off the ground line, which leaves the finished
-   house sitting low in the frame; LIFT raises it so the push-in centres on the
-   building rather than the lawn. The flat lay is art-directed relative to itself,
-   so it is slid as one piece until its margins match. Neither pass moves any part
-   relative to another. */
-parts.forEach(p => { p.to.y += LIFT; });
-
-(() => {
-  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-  parts.forEach(p => {
-    const w = p.w ?? (p.r ?? 5) * 2, h = p.h ?? (p.r ?? 5) * 2;
-    x0 = Math.min(x0, p.lay.x - w / 2); x1 = Math.max(x1, p.lay.x + w / 2);
-    y0 = Math.min(y0, p.lay.y - h / 2); y1 = Math.max(y1, p.lay.y + h / 2);
-  });
-  const dx = -(x0 + x1) / 2, dy = -(y0 + y1) / 2;
-  parts.forEach(p => { p.lay.x += dx; p.lay.y += dy; });
-})();
-
-const villa = {
-  /* "the actual place" — the villa's own floor plan, drawn on the sheet the way
-     an architect's plan sits beside the elevation. Room names, wall lines, door
-     swings, a dimension string. It fades as the parts leave the paper. */
-  underlay(c, ink) {
-    const X = -30, Y = -320;              /* plan block, above the flat lay */
-    const W2 = 380, H2 = 210;             /* exterior envelope */
-    c.strokeStyle = ink; c.fillStyle = ink;
-    c.lineJoin = 'round'; c.lineCap = 'round';
-    /* exterior walls, double line */
-    c.lineWidth = 2.2; c.strokeRect(X - W2 / 2, Y - H2 / 2, W2, H2);
-    c.lineWidth = 0.7; c.strokeRect(X - W2 / 2 + 4, Y - H2 / 2 + 4, W2 - 8, H2 - 8);
-    /* internal walls: living left, two bedrooms right, bath between */
-    c.lineWidth = 1.4;
-    c.beginPath();
-    c.moveTo(X + 10, Y - H2 / 2 + 4); c.lineTo(X + 10, Y + H2 / 2 - 60);   /* hall spine */
-    c.moveTo(X + 10, Y - 10); c.lineTo(X + W2 / 2 - 4, Y - 10);            /* bed split */
-    c.moveTo(X + 96, Y - 10); c.lineTo(X + 96, Y - H2 / 2 + 4);            /* bath wall */
-    c.moveTo(X - W2 / 2 + 4, Y + 40); c.lineTo(X - 60, Y + 40);            /* kitchen return */
-    c.stroke();
-    /* door swings */
-    c.lineWidth = 0.6;
-    [[X + 10, Y + H2 / 2 - 60, 0], [X + 96, Y - 32, 1]].forEach(([dx, dy, k]) => {
-      c.beginPath(); c.arc(dx, dy, 22, k ? Math.PI : -Math.PI / 2, k ? Math.PI * 1.5 : 0);
-      c.stroke();
+function packFlatLay() {
+  const run = BOARD_W - MARGIN * 2;
+  const shelves = [];
+  let cur = { items: [], w: 0, h: 0 };
+  const close = () => { if (cur.items.length) shelves.push(cur); cur = { items: [], w: 0, h: 0 }; };
+  GROUPS.forEach(g => {
+    g.items.slice().sort((a, b) => size(b)[1] - size(a)[1]).forEach(p => {
+      const [w, h] = size(p);
+      if (cur.w + (cur.items.length ? GUTTER + w : w) > run) close();
+      cur.w += cur.items.length ? GUTTER + w : w;
+      cur.h = Math.max(cur.h, h);
+      cur.items.push(p);
     });
-    /* the deck, dashed */
-    c.setLineDash([5, 4]); c.lineWidth = 0.8;
-    c.strokeRect(X - W2 / 2, Y + H2 / 2, 150, 34);
-    c.setLineDash([]);
-    /* room names — the body face, small caps spacing, never a handwriting font */
-    c.font = '400 11px Jost, Futura, system-ui, sans-serif';
-    c.globalAlpha *= 0.9;
-    c.fillText('living', X - W2 / 2 + 22, Y + 14);
-    c.fillText('kitchen', X - W2 / 2 + 22, Y + 66);
-    c.fillText('bed 1', X + 118, Y - 62);
-    c.fillText('bed 2', X + 118, Y + 44);
-    c.fillText('bath', X + 26, Y - 62);
-    c.fillText('deck', X - W2 / 2 + 22, Y + H2 / 2 + 22);
-    /* dimension string across the width */
-    c.lineWidth = 0.65;
-    const dy2 = Y - H2 / 2 - 16;
+  });
+  close();
+  const total = shelves.reduce((s, sh) => s + sh.h, 0) + (shelves.length - 1) * SHELF_GAP;
+  let y = -total / 2;
+  shelves.forEach(sh => {
+    let x = -sh.w / 2;
+    sh.items.forEach(p => {
+      const [w, h] = size(p);
+      p.lay = { x: +(x + w / 2).toFixed(1), y: +(y + sh.h / 2).toFixed(1) };
+      x += w + GUTTER;
+    });
+    y += sh.h + SHELF_GAP;
+  });
+  return total + MARGIN * 2;
+}
+
+const BOARD_H = Math.ceil(packFlatLay() / 10) * 10;
+
+const aircraft = {
+  name: 'narrow-body airliner, side elevation',
+  board: { w: BOARD_W, h: BOARD_H },
+  zoom: 1.45,
+  parts,
+  /* the general-arrangement ghost: the finished aeroplane and its gear line,
+     dimensioned between the wheels, fading as the parts lift */
+  underlay(c, ink) {
+    c.strokeStyle = ink; c.lineJoin = 'round'; c.lineCap = 'round';
+    c.lineWidth = 1.1; c.globalAlpha *= 0.9;
     c.beginPath();
-    c.moveTo(X - W2 / 2, dy2); c.lineTo(X + W2 / 2, dy2);
-    c.moveTo(X - W2 / 2, dy2 - 5); c.lineTo(X - W2 / 2, dy2 + 5);
-    c.moveTo(X + W2 / 2, dy2 - 5); c.lineTo(X + W2 / 2, dy2 + 5);
+    c.moveTo(-560, -8);
+    c.quadraticCurveTo(-540, -46, -480, -54);
+    c.lineTo(300, -56);
+    c.quadraticCurveTo(430, -52, 470, -158);   /* up the fin */
+    c.lineTo(538, -184);
+    c.lineTo(496, -40);
+    c.quadraticCurveTo(540, -24, 552, -12);
+    c.lineTo(430, 18);
+    c.lineTo(140, 50);
+    c.lineTo(-120, 50);
+    c.quadraticCurveTo(-460, 40, -522, 20);
+    c.closePath();
+    c.stroke();
+    /* wing chord and nacelle */
+    c.lineWidth = 0.8;
+    c.beginPath(); c.moveTo(-226, 34); c.lineTo(96, 30); c.stroke();
+    c.beginPath(); c.arc(-196, 86, 40, 0, 6.2832); c.stroke();
+    /* ground line, gear ticks, wheel-to-wheel dimension */
+    c.beginPath(); c.moveTo(-580, 150); c.lineTo(580, 150); c.stroke();
+    c.lineWidth = 0.6;
+    c.beginPath();
+    c.moveTo(-448, 158); c.lineTo(-6, 158);
+    c.moveTo(-448, 152); c.lineTo(-448, 164);
+    c.moveTo(-6, 152); c.lineTo(-6, 164);
     c.stroke();
   },
-  name: 'single-storey retirement villa',
-  board: { w: 1180, h: 800 },
-  zoom: 1.55,
-  parts,
-  /* the text equivalent — the canvas is aria-hidden, so this carries the meaning */
   families: [
-    ['piles, footings, bearers and floor', 'what the house stands on — the part a buyer never sees and always asks about'],
-    ['studs, plates, rafters and the truss', 'the frame: the shape of the house before it looks like one'],
-    ['bolts, brackets and nail plates', 'the small steel at every joint, hidden the moment the cladding goes on'],
-    ['weatherboards, soffits and corner boards', 'the skin that keeps the weather out and the warmth in'],
-    ['windows, sills and the front door', 'the openings — and the door is the one the resident opens themselves'],
-    ['roofing, ridge, spouting and chimney', 'the lid, and where the rain goes when it comes off it'],
-    ['deck, handrail, path, planter and letterbox', 'the parts that turn a building into somewhere someone lives'],
+    ['keel and frames',
+     'the structure the whole day hangs off — nothing else fits until this is true'],
+    ['skins',
+     'the pressure vessel: the part of the machine the traveller actually touches'],
+    ['rivets and straps',
+     'thousands of small holds nobody boasts about, doing all of the holding'],
+    ['landing gear',
+     'the only parts that ever meet the ground, and the first to know the plan changed'],
+    ['wing and engines',
+     'the reason it flies, hung on one pylon each side — precision on a schedule'],
+    ['empennage',
+     'the tail that keeps everything pointed where the plan says'],
+    ['doors, windows and lights',
+     'the last parts on — and the forward door is where a person decides who boards'],
   ],
 };
 
-Object.assign(__M, { villa });
+Object.assign(__M, { aircraft });
 })();
 
 (function () {
-const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBlueprint, createJourney, darkenTo, dimension, finishFill, finishStroke, grain, hexToRgb, lap, mountBalloons, mountSheet, rimAO, shade, sheetMeta, specular, villa } = __M;
+const { LIGHT, aircraft, applyBrand, bevel, brush, contrast, createAssembly, createBlueprint, createJourney, darkenTo, dimension, finishFill, finishStroke, grain, hexToRgb, lap, mountBalloons, mountSheet, rimAO, shade, sheetMeta, specular } = __M;
 
 
 
@@ -2898,8 +2767,8 @@ const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBluepri
 
 
 
-const data = {"id": "retirement", "client": {"name": "Summerset", "sector": "retirement living", "accent": "#470A68", "status": "proposed"}, "brand": {"primary": "#470A68", "secondary": "#3F6152", "typeface": "Summerset house style", "source": "Summerset house purple; verified against summerset.co.nz, August 2026"}, "sheet": {"title": "retirement living — assembling", "drawing": "ASM-RETI-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "metaphor": {"word": "landscape", "sentence": "Questions, family needs and the money assemble into a calm decision landscape — at the gentlest pace on this site, because this is the decision that deserves it."}, "proposition": "The law gives a resident 15 working days to be sure. assembling turns that window into preparation — the money in plain words, the family's questions answered once, the lawyer briefed — so the decision is made inside the window, not despite it.", "wait": {"moment": "the 15 working days after you sign the Occupation Right Agreement", "duration": {"value": "15 working days", "source": "Retirement Villages Act 2003, s 28(1)(a)", "url": "https://www.legislation.govt.nz/act/public/2003/0112/latest/whole.html", "simulated": false, "note": "An ORA must allow cancellation without reason for 15 working days after signing. Independent legal advice is mandatory under s 27 and must be certified."}, "whyItExists": "Parliament decided this decision is too big to be rushed: a licence to occupy, a deferred management fee, a family's next chapter. The window exists so a resident can be sure — with their own lawyer, by law.", "todayItFeelsLike": "A tour, a brochure, a legal document — then a fortnight in which the biggest questions finally surface, after everyone has gone home."}, "agentWork": {"asks": ["One question at a time, at conversation pace — “What matters most about the move: the garden, the dog, or being near Kāpiti Health Centre?”", "“Who else should see the answers — just Sue, or the whole family?”"], "learns": ["Which questions the family actually has, gathered from everyone allowed in.", "Which of those the documents already answer, and which need the village.", "What the money means in dollars on this villa, not in defined terms."], "prepares": ["The money in plain words: the deferred management fee in dollars, the weekly fee and its cap, the deposit and who holds it.", "One brief for the independent lawyer, with the family's open questions attached.", "The calendar: which working day of the window it is, and what remains open."], "resolves": ["The repeat questions — each one answered once, visibly, for everyone the resident allowed.", "The scattered paperwork — one file, and it belongs to the resident."]}, "reward": {"headline": "A decision made with your eyes open, inside the window.", "detail": "By the lawyer's appointment, the resident and their family hold one plain-words sheet: what this villa costs to live in, what leaving costs, what the law protects, and which questions are still open. The certificate the law requires gets signed over understanding, not over trust.", "immediate": true}, "permission": {"consent": "You enquired, and you chose to be walked through the decision. The agent prepares; it never persuades.", "reads": ["The Occupation Right Agreement you were given", "The village's published fees for this villa", "The questions you and your whānau raise"], "authority": "draft", "hardStops": ["It never advises on the ORA — the law reserves that for your own lawyer.", "It never contacts the village on your behalf without your yes.", "It never treats silence as a decision — the window closes by your word or not at all."], "thirdPartyData": false, "retention": "The working file belongs to the resident and leaves with them, whichever way they decide.", "ipp3aNotice": null}, "human": {"role": "the independent lawyer you choose", "gateAt": "before signing means anything — their certificate is required by law", "whyStatutory": "Retirement Villages Act 2003, s 27(3)–(6) — independent legal advice is mandatory, and the lawyer must witness the signature and certify on the prescribed form."}, "outcome": {"primary": {"metric": "decisions settled inside the statutory window", "mechanism": "Families reach the lawyer prepared, so the 15 working days hold a decision instead of a scramble — and fewer settled decisions unravel later."}, "secondary": {"metric": "repeat questions to village staff", "mechanism": "Each question is answered once, visibly, for everyone the resident allowed to see it."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "the ORA as issued, Summerset's published fee schedule, the family's questions"}, {"what": "assumptions made", "example": "worked examples use the villa's listed price; resale timing is stated as unknown, because no statutory deadline exists today"}, {"what": "what changed in review", "example": "the lawyer added two questions about the weekly fee after termination"}, {"what": "who signed it off", "example": "the resident's own lawyer — certificate under s 27, witnessed, day 9 of 15"}]}, "scenario": {"persona": {"name": "Margaret", "context": "78, deciding on a two-bedroom villa with her daughter Sue. ORA signed Tuesday — the 15 working days are running."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Window Agent", "authority": "observe", "showsCustomer": "It is day 2 of your 15 working days. Nothing is final until your own lawyer certifies it — that is the law, and this window is yours. Shall we get the questions out of everyone's heads and into one place?", "doesBehind": "Opens the family file and starts the window calendar. Reads the ORA as issued. Contacts nobody.", "question": "Start gathering the questions?", "options": ["Yes — include Sue", "Just me for now"]}, {"id": "family", "stage": "context", "beat": "gather", "agent": "Family Agent", "authority": "observe", "showsCustomer": "Sue asked three questions overnight. Two are answered in the documents you already have — here they are in plain words. One is for the village: can the garden bed come with you?", "doesBehind": "Deduplicates the family's questions, answers what the ORA and fee schedule already answer, and routes only the genuine unknowns — once.", "question": "Send the garden question to the village?", "options": ["Yes, ask them", "Leave it for the visit"]}, {"id": "money", "stage": "context", "beat": "reveal", "agent": "Plain Words Agent", "authority": "draft", "showsCustomer": "The money, in dollars on this villa: the deferred management fee builds to 25% over four years. The weekly fee can only rise with the after-tax NZ Super increase. The $3,000 deposit sits with the statutory supervisor, not the village. What leaving costs is the honest hard part — repayment happens on relicensing, and no law sets its deadline today.", "doesBehind": "Turns every defined term into a worked example on the actual price. States the exit uncertainty plainly instead of rounding it away — the reform debate is public and unfinished.", "question": "Anything here you want worked through again?", "options": ["The exit numbers", "All clear so far"]}, {"id": "prepare", "stage": "recommendation", "beat": "prepare", "agent": "Brief Agent", "authority": "draft", "showsCustomer": "Putting the lawyer's brief together — the plain-words money sheet, the family's open questions, and the village's answers so far. Slowly is fine. The window has thirteen days left.", "doesBehind": "Assembles one brief. The pace is deliberate: this vertical gets the longest pauses on the site, because the decision deserves them.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "your own lawyer", "authority": "act with approval", "approving": "the whole decision — the law requires independent legal advice, witnessed and certified, before the signature stands", "showsCustomer": "Everything stops here, by law. Your lawyer — yours, not the village's — reads the brief, advises you alone, and certifies on the prescribed form. Nothing any agent did can substitute for this.", "doesBehind": "Nothing. The hold is the point. The page itself goes still.", "blocking": true, "question": "Take the brief to your lawyer's appointment?", "options": ["Yes — day 9 of 15"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Record Agent", "authority": "recommend", "showsCustomer": "Decided inside the window, with six days to spare — and everything that informed it is in one file that belongs to you, whichever way you had decided.", "doesBehind": "Writes the evidence pack: what was read, what was asked, what the village answered, what the lawyer changed, and the certificate reference.", "question": null, "options": []}]}, "evidence": [{"claim": "An Occupation Right Agreement must allow cancellation without reason for 15 working days after signing.", "source": "Retirement Villages Act 2003, s 28(1)(a)", "url": "https://www.legislation.govt.nz/act/public/2003/0112/latest/whole.html", "year": 2003, "simulated": false, "soWhat": "The window this page is built on is not a design choice. It is the statute, and the design's job is to fill it with preparation instead of anxiety."}, {"claim": "Independent legal advice on an ORA is mandatory — the lawyer must witness the signature and certify on the prescribed form.", "source": "Retirement Villages Act 2003, s 27(3)–(6)", "url": "https://www.legislation.govt.nz/act/public/2003/0112/latest/whole.html", "year": 2003, "simulated": false, "soWhat": "The human gate here is not assembl's policy. It is Parliament's. The agent prepares the brief; only the resident's own lawyer can carry the decision."}, {"claim": "Roughly 130 people move into a New Zealand retirement village every week, and more than 53,000 live in one now.", "source": "Retirement Villages Association, sector statistics", "year": 2025, "simulated": false, "soWhat": "The window is running for dozens of families every week. Whoever fills it with the best preparation earns the confident decisions."}, {"claim": "Average capital repayment after leaving a village runs about 5.5 months, and reform announced in December 2025 — repayment within 12 months, interest after 6 — would not apply retrospectively.", "source": "1News reporting; Retirement Commission on the announced reform", "url": "https://retirement.govt.nz/news/latest-news/retirement-commission-welcomes-reform-of-retirement-villages-act", "year": 2025, "simulated": false, "soWhat": "The exit is the hard conversation. This page has it before signing, in plain words — because honesty now prevents grief later."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "A fortnight that shows its preparation is a fortnight a family trusts. The pace of this page is the argument."}], "copy": {"heroEyebrow": "assembling · retirement living", "beforeWhileAfter": {"beforeLabel": "before", "before": "A tour, a brochure, then a legal document — and a fortnight in which the biggest questions finally surface, after everyone has gone home. Some families let the window close undecided.", "whileLabel": "while", "while": "The window becomes preparation: the money in dollars on the actual villa, every family question answered once, the lawyer's brief assembling at conversation pace.", "afterLabel": "after", "after": "The resident reaches the lawyer the law requires with one plain-words brief. The certificate is signed over understanding — and the decision holds, because it was truly made."}, "headline": "fifteen working days, well spent", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Summerset's journey. Worked examples use published prices and fee structures; they are illustrations, not quotes.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.14, "beat": "gather", "text": "the floor goes down first"}, {"at": 0.36, "beat": "prepare", "text": "the frames stand, without hurry"}, {"at": 0.58, "beat": "reveal", "text": "the roof closes over"}, {"at": 0.76, "beat": "hold", "text": "held — your own lawyer reads before you sign"}, {"at": 0.9, "beat": "resolve", "text": "home"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "15 working days", "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "The law holds this window open on purpose: 15 working days to be sure. Today most of it passes in worry, not preparation."}, {"title": "what the gap costs", "caption": "Questions surface after everyone has gone home. The same one gets asked four ways. Some families let the window close undecided."}, {"title": "what fills it", "caption": "assembling turns the window into preparation — the money in dollars, the questions answered once, the lawyer's brief assembled at the family's pace."}, {"title": "who is better off", "caption": "The resident decides with their eyes open and the decision holds. The village welcomes residents who stay decided. The resident's own lawyer certifies it — that is the law."}], "textEquivalent": ["Start with the wait you already have. After signing an Occupation Right Agreement, the law gives the resident 15 working days to cancel without reason. Today that window mostly holds worry.", "The window costs decisions. Questions surface late, get asked four ways, and some families let the fortnight close without truly deciding either way.", "assembling fills the window with preparation: the money in dollars on the actual villa, every family question answered once, and one brief for the lawyer's appointment.", "By the end, both sides are better off: the resident signs — or walks away — understanding the money, and the village gains residents whose decisions hold. The resident's own lawyer certifies it, as the law requires."]}, "drawing": {"ink": "#3B0B57", "paper": "#F8F5EE"}};
-const manifest = villa;
+const data = {"id": "airline", "client": {"name": "Air New Zealand", "sector": "airline", "accent": "#2D2A26", "status": "proposed"}, "brand": {"primary": "#2D2A26", "secondary": "#5B8480", "typeface": "Air NZ house style", "source": "near-black and white, unbadged — no koru, no titles, no registration appears on this page"}, "sheet": {"title": "airline — assembling", "drawing": "ASM-AIRL-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "drawing": {"ink": "#12294F", "paper": "#F8F5EE"}, "metaphor": {"word": "checkpoints", "sentence": "The traveller moves through space; the agent's work appears ahead of them, already done, at the next checkpoint."}, "proposition": "When a flight is disrupted, assembling does the re-planning during the announcement — so the traveller chooses from finished options on their phone while the queue is still forming at the counter.", "wait": {"moment": "the minutes between “your flight is disrupted” and “here is your plan”", "duration": {"value": "under 30 minutes", "source": "Air New Zealand commits to notifying delays over 30 minutes within 30 minutes", "url": "https://www.airnewzealand.co.nz/domestic-passenger-rights", "simulated": false, "note": "The notification is committed. What fills the minutes after it is the open question this page answers."}, "whyItExists": "A disruption re-plans hundreds of journeys at once. Seats, crew, bags and connections all move together, and every traveller needs their own answer.", "todayItFeelsLike": "The board changes. The queue forms. Everyone in it is waiting to ask one person the same question."}, "agentWork": {"asks": ["One choice, sized for a thumb — “Earliest seat, or later tonight?”", "“Is the connection the part that matters, or the arrival time?”"], "learns": ["Which travellers are connecting, and how tight each connection really is.", "Who has checked bags moving with them.", "Whether this disruption is within the airline's control — because the law treats that differently."], "prepares": ["Real rebooking options from live seats, per traveller, before the counter opens its queue.", "The published rights position for this kind of disruption, stated plainly.", "The bag's re-route, so the suitcase follows the new plan without being asked."], "resolves": ["The queue itself — most travellers choose from their phone and never join it.", "The same-question-asked-two-hundred-times problem the counter otherwise absorbs."]}, "reward": {"headline": "A plan you chose, before the queue moved.", "detail": "Real options on your phone while the announcement is still echoing — the next seats, what your fare allows, what this disruption owes you under the Civil Aviation Act 2023 if it was within the airline's control. Anything outside policy waits for a person.", "immediate": true}, "permission": {"consent": "You are booked on the disrupted flight. The agent works your booking and tells you what it prepared.", "reads": ["Your booking and its fare rules", "Live seat availability on the routes that fit", "The disruption's cause and status"], "authority": "act within limits", "hardStops": ["It never rebooks outside fare rules without a person.", "It never decides what a disruption legally owes you — it shows you the published position.", "It never contacts anyone but you about your trip."], "thirdPartyData": false, "retention": "Rebooking records live with the booking. The prepared options expire with the disruption.", "ipp3aNotice": null}, "human": {"role": "Customer Care Agent", "gateAt": "for anything outside the fare's own rules", "whyStatutory": "Civil Aviation Act 2023 — for delay or cancellation within the airline's control, damages can reach ten times the ticket price. What is owed is a legal position, and a person stands behind it."}, "outcome": {"primary": {"metric": "disruptions resolved without joining a queue", "mechanism": "The options arrive on the phone before the counter can form a line."}, "secondary": {"metric": "time from disruption to a confirmed plan", "mechanism": "The work happens during the announcement, not after the queue."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "the booking, live seat maps, the disruption's cause code"}, {"what": "assumptions made", "example": "the 6:40pm connection treated as the constraint; aisle preference carried over"}, {"what": "what changed in review", "example": "the care agent waived the fare difference — engineering delay, airline's call"}, {"what": "who signed it off", "example": "M. Tereora, Customer Care — 5:12pm, before the exception was confirmed"}]}, "scenario": {"persona": {"name": "Aroha", "context": "Wellington to Auckland, Friday 5pm. Flight disrupted by an engineering issue — within the airline's control."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Disruption Agent", "authority": "observe", "showsCustomer": "Your 5pm to Auckland is disrupted — engineering, our side. You'll have real options here in a few minutes. You don't need to join the queue.", "doesBehind": "Reads the booking, the cause code, and every affected connection. Because the cause is within the airline's control, the Civil Aviation Act position is flagged for the record from the start.", "question": "Want your options here as they're ready?", "options": ["Yes — on my phone", "I'll go to the counter"]}, {"id": "context", "stage": "context", "beat": "gather", "agent": "Journey Agent", "authority": "observe", "showsCustomer": "You're not connecting tonight, so it's a straight choice: earliest available seat, or a later flight with a calmer airport?", "doesBehind": "Checks connections and checked bags before asking anything — a traveller with a tight connection gets a different first question.", "question": "Which matters more?", "options": ["Earliest seat", "Later is fine"]}, {"id": "options", "stage": "recommendation", "beat": "reveal", "agent": "Journey Agent", "authority": "draft", "showsCustomer": "Two real options, held for you: 6:10pm middle seat, or 7:30pm aisle. Both inside your fare. Because this one was our fault, the published position on what a within-control disruption owes you is attached — in plain words.", "doesBehind": "Holds both seats against live inventory. States the Civil Aviation Act 2023 position as published information, not as advice — deciding what is owed stays with a person.", "question": "Which one?", "options": ["6:10pm — get me home", "7:30pm aisle"]}, {"id": "prepare", "stage": "action", "beat": "prepare", "agent": "Rebooking Agent", "authority": "act within limits", "showsCustomer": "Rebooking you now. Your bag is being re-tagged to the new flight — you don't need to do anything.", "doesBehind": "Executes inside fare rules: the seat, the bag re-route, the updated boarding pass. Everything within limits happens without a queue; anything outside them is drafted and stops at the next step.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "Customer Care Agent", "authority": "act with approval", "approving": "the fare-difference waiver — an exception outside the fare's rules, because the delay was the airline's", "showsCustomer": "One thing needs a person: waiving the fare difference. A customer care agent is looking at it now. The page waits with you.", "doesBehind": "Everything stops. The agent has no authority past this line — exceptions belong to people.", "blocking": true, "question": "Send the waiver request through?", "options": ["Send it through"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Record Agent", "authority": "recommend", "showsCustomer": "Confirmed — 6:10pm, bag following, waiver approved at 5:12pm. Here is everything that happened, and who approved what.", "doesBehind": "Writes the evidence pack: the options offered, the choice made, the legal position stated, the exception and its approver. One record, kept with the booking.", "question": null, "options": []}]}, "evidence": [{"claim": "For delay or cancellation within the airline's control, damages under the Civil Aviation Act 2023 can reach ten times the ticket price.", "source": "Civil Aviation Act 2023; Air New Zealand domestic passenger rights", "url": "https://www.airnewzealand.co.nz/domestic-passenger-rights", "year": 2025, "simulated": false, "soWhat": "What a disruption owes a traveller is law, not goodwill. A journey that states the position plainly — and routes the exception to a person — is the compliant journey."}, {"claim": "79.3% of Air New Zealand arrivals were on time in 2025 — second in Asia Pacific, and improving through 2026.", "source": "Air New Zealand newsroom · Cirium On-Time Performance Review, January 2026", "year": 2026, "simulated": false, "soWhat": "The other one flight in five is where the day of travel is won or lost. Disruption is a daily operating condition, not an event."}, {"claim": "Refunds for new applications take approximately two weeks.", "source": "Air New Zealand, credit and refund information, updated 30 June 2026", "url": "https://www.airnewzealand.co.nz/credit-and-refund-information", "year": 2026, "simulated": false, "soWhat": "The disruption's paperwork has its own wait. A journey that assembles the claim during the disruption shortens the second wait with the first."}, {"claim": "The Commerce Commission is investigating how disruption rights are communicated to passengers, under the Fair Trading Act.", "source": "Consumer NZ, flight complaints campaign", "url": "https://campaigns.consumer.org.nz/flight-complaints", "year": 2026, "simulated": false, "soWhat": "Making the invisible visible is no longer just good design in this industry — it is the live regulatory question."}, {"claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.", "source": "Moffatt v. Air Canada, 2024 BCCRT 149", "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/", "year": 2024, "simulated": false, "soWhat": "This is why the care-agent gate exists — in aviation of all industries, what the system tells a customer is the airline speaking."}], "copy": {"heroEyebrow": "assembling · airline", "beforeWhileAfter": {"beforeLabel": "before", "before": "The board changes, the queue forms, and a plane-load of people waits to ask one person the same question. Every minute in that line is a customer deciding how they feel about the airline.", "whileLabel": "while", "while": "The agent re-plans during the announcement: real seats held per traveller, bags re-routed, the legal position stated plainly — and the one exception drafted for a person to approve.", "afterLabel": "after", "after": "Most travellers choose from their phone and never join the queue. The one who needed an exception got it from a named person — and the whole day is on the record."}, "headline": "the disruption, re-planned before the queue", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Air New Zealand's journey, and no airline trade dress appears on this page.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.14, "beat": "gather", "text": "the keel goes down first"}, {"at": 0.34, "beat": "prepare", "text": "frames stand along the keel"}, {"at": 0.55, "beat": "reveal", "text": "the wing takes the weight"}, {"at": 0.76, "beat": "hold", "text": "held — a care agent approves the exception"}, {"at": 0.9, "beat": "resolve", "text": "cleared to board"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "the disruption wait", "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every airline makes people wait somewhere. Here it is the minutes after “disrupted” — a plane-load of them, all at once."}, {"title": "what the gap costs", "caption": "The queue absorbs the same question two hundred times. Some travellers give up on the airline before they reach the front of it."}, {"title": "what fills it", "caption": "assembling re-plans each journey during the announcement: real options in, a chosen plan out, the bag following without being asked."}, {"title": "who is better off", "caption": "The traveller leaves with a plan they chose; the airline keeps the day and the record. A customer care agent approves every exception."}], "textEquivalent": ["Start with the wait you already have. When a flight is disrupted, there is a gap between the announcement and each traveller's new plan. Today that gap is a queue.", "The gap costs the airline the day. The counter answers the same question two hundred times, and some travellers decide how they feel about the airline while standing in line.", "assembling fills the gap with the re-planning itself: real seats held per traveller, the bag re-routed, the legal position stated plainly.", "By the end, both sides are better off: the traveller chose a plan on their phone, and the airline handled a plane-load with one person approving the exceptions. A customer care agent signs each one."]}};
+const manifest = aircraft;
 
 const $ = s => document.querySelector(s);
 const set = (sel, text) => { const el = $(sel); if (el) el.textContent = text; };
