@@ -78,7 +78,7 @@ def build(vertical: str, out: Path | None) -> Path:
     html = inline_css(html)
     data_id = vertical
 
-    manifest_file = {'lending': 'vault', 'retirement': 'villa', 'automotive': 'motorcar', 'airline': 'aircraft'}[vertical]
+    manifest_file = {'lending': 'vault', 'retirement': 'villa', 'automotive': 'motorcar', 'airline': 'aircraft', 'mealkit': 'scale'}[vertical]
     mods = [ROOT / 'scripts' / f'{n}.js' for n in
             ('material', 'parts', 'journey', 'blueprint', 'brand', 'sheet')]
     mods.append(ROOT / 'scripts' / 'parts' / f'{manifest_file}.js')

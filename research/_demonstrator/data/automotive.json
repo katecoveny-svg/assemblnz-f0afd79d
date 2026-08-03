@@ -282,6 +282,19 @@
     "heading": "what a monetised wait state actually is",
     "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
     "waitLabel": "overnight",
+    "figures": {
+      "business": "the dealership",
+      "out": "an answer about the car",
+      "youGet": [
+        "an answer while you care",
+        "no form to fill in twice",
+        "the actual car, answered"
+      ],
+      "businessGets": [
+        "fewer enquiries gone cold",
+        "no chasing by email"
+      ]
+    },
     "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
     "panels": [
       {

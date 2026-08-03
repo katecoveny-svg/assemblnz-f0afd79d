@@ -19,7 +19,10 @@
     "scale": "NTS",
     "material": "agentic wait state"
   },
-  "drawing": { "ink": "#12294F", "paper": "#F8F5EE" },
+  "drawing": {
+    "ink": "#12294F",
+    "paper": "#F8F5EE"
+  },
   "metaphor": {
     "word": "checkpoints",
     "sentence": "The traveller moves through space; the agent's work appears ahead of them, already done, at the next checkpoint."
@@ -130,7 +133,10 @@
         "showsCustomer": "Your 5pm to Auckland is disrupted — engineering, our side. You'll have real options here in a few minutes. You don't need to join the queue.",
         "doesBehind": "Reads the booking, the cause code, and every affected connection. Because the cause is within the airline's control, the Civil Aviation Act position is flagged for the record from the start.",
         "question": "Want your options here as they're ready?",
-        "options": ["Yes — on my phone", "I'll go to the counter"]
+        "options": [
+          "Yes — on my phone",
+          "I'll go to the counter"
+        ]
       },
       {
         "id": "context",
@@ -141,7 +147,10 @@
         "showsCustomer": "You're not connecting tonight, so it's a straight choice: earliest available seat, or a later flight with a calmer airport?",
         "doesBehind": "Checks connections and checked bags before asking anything — a traveller with a tight connection gets a different first question.",
         "question": "Which matters more?",
-        "options": ["Earliest seat", "Later is fine"]
+        "options": [
+          "Earliest seat",
+          "Later is fine"
+        ]
       },
       {
         "id": "options",
@@ -152,7 +161,10 @@
         "showsCustomer": "Two real options, held for you: 6:10pm middle seat, or 7:30pm aisle. Both inside your fare. Because this one was our fault, the published position on what a within-control disruption owes you is attached — in plain words.",
         "doesBehind": "Holds both seats against live inventory. States the Civil Aviation Act 2023 position as published information, not as advice — deciding what is owed stays with a person.",
         "question": "Which one?",
-        "options": ["6:10pm — get me home", "7:30pm aisle"]
+        "options": [
+          "6:10pm — get me home",
+          "7:30pm aisle"
+        ]
       },
       {
         "id": "prepare",
@@ -177,7 +189,9 @@
         "doesBehind": "Everything stops. The agent has no authority past this line — exceptions belong to people.",
         "blocking": true,
         "question": "Send the waiver request through?",
-        "options": ["Send it through"]
+        "options": [
+          "Send it through"
+        ]
       },
       {
         "id": "resolution",
@@ -246,18 +260,55 @@
     "headline": "the disruption, re-planned before the queue",
     "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Air New Zealand's journey, and no airline trade dress appears on this page.",
     "assemblyBeats": [
-      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
-      { "at": 0.14, "beat": "gather", "text": "the keel goes down first" },
-      { "at": 0.34, "beat": "prepare", "text": "frames stand along the keel" },
-      { "at": 0.55, "beat": "reveal", "text": "the wing takes the weight" },
-      { "at": 0.76, "beat": "hold", "text": "held — a care agent approves the exception" },
-      { "at": 0.9, "beat": "resolve", "text": "cleared to board" }
+      {
+        "at": 0.0,
+        "beat": "gather",
+        "text": "every part, laid out"
+      },
+      {
+        "at": 0.14,
+        "beat": "gather",
+        "text": "the keel goes down first"
+      },
+      {
+        "at": 0.34,
+        "beat": "prepare",
+        "text": "frames stand along the keel"
+      },
+      {
+        "at": 0.55,
+        "beat": "reveal",
+        "text": "the wing takes the weight"
+      },
+      {
+        "at": 0.76,
+        "beat": "hold",
+        "text": "held — a care agent approves the exception"
+      },
+      {
+        "at": 0.9,
+        "beat": "resolve",
+        "text": "cleared to board"
+      }
     ]
   },
   "explainer": {
     "heading": "what a monetised wait state actually is",
     "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
     "waitLabel": "the disruption wait",
+    "figures": {
+      "business": "the airline",
+      "out": "your next best option",
+      "youGet": [
+        "a plan you can read",
+        "your group kept together",
+        "no queue to stand in"
+      ],
+      "businessGets": [
+        "fewer calls mid-disruption",
+        "shorter desk queues"
+      ]
+    },
     "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
     "panels": [
       {
