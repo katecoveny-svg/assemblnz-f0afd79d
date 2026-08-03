@@ -1,0 +1,283 @@
+{
+  "id": "energy",
+  "client": {
+    "name": "Contact Energy",
+    "sector": "energy",
+    "accent": "#E62A32",
+    "status": "proposed"
+  },
+  "brand": {
+    "primary": "#E62A32",
+    "secondary": "#2C3037",
+    "typeface": "Contact house style",
+    "source": "brand-adjacent red per the fleet map; no Contact trade dress beyond the name"
+  },
+  "sheet": {
+    "title": "energy — assembling",
+    "drawing": "ASM-ENER-001",
+    "rev": "A",
+    "scale": "NTS",
+    "material": "agentic wait state"
+  },
+  "drawing": { "ink": "#4E1216", "paper": "#F8F5EE" },
+  "metaphor": {
+    "word": "reading",
+    "sentence": "A bill is only a reading. The wait while it loads is the moment it can become an explanation."
+  },
+  "proposition": "Between opening the app and the bill appearing, there is a wait — short, and wasted. assembling uses it to load the detail behind the number: what increased, what it compares to, what would change on a different plan. Understanding is free; the customer chooses everything else.",
+  "wait": {
+    "moment": "the seconds while the app loads the detail behind your bill",
+    "duration": {
+      "value": "while the bill loads",
+      "source": "the moment is real; its length varies by connection and app, so this page does not put a number on it",
+      "simulated": true,
+      "note": "Contact customers see their usage and bills in the app, and winter bills genuinely rise with heating. Those are the real mechanics this journey works inside."
+    },
+    "whyItExists": "A bill is assembled from meter reads, plan rates and daily charges. Loading and itemising that takes real seconds — and a bill that arrives as one number arrives unexplained.",
+    "todayItFeelsLike": "The number is 18% higher than last month, the screen says nothing about why, and the phone queue is the only place to ask."
+  },
+  "agentWork": {
+    "asks": [
+      "One question, sized for a tap — “While this loads, what would help most?”",
+      "“Want the winter comparison alongside the number?”"
+    ],
+    "learns": [
+      "Which nights the house actually heats, from usage the account already holds.",
+      "Whether this household watches the total or the daily pattern.",
+      "That “I just need help paying” means a person, straight away — and nothing else."
+    ],
+    "prepares": [
+      "The rise, itemised: which days, which hours, roughly which appliances.",
+      "The same July priced on the other plans — as a draft, switching nothing.",
+      "The five-minute home energy check, ready if the household wants the $5 credit."
+    ],
+    "resolves": [
+      "The bill-shock call that never needs making — the answer is on the bill.",
+      "The wrong-plan drift: the draft comparison surfaces it while anyone still cares."
+    ]
+  },
+  "reward": {
+    "headline": "A bill that explains itself, and credit for helping it fit.",
+    "detail": "Understanding is free — the itemised rise and the winter comparison cost nothing and sell nothing. Completing the five-minute home energy check earns a $5 bill credit, because it helps the plan fit the house. A heating partner can fund a $10 credit for a heating assessment — labelled as funded, and the credit is yours even if you never take their offer.",
+    "immediate": true
+  },
+  "permission": {
+    "consent": "You opened the bill; the agent works only inside that moment. It explains first and asks before anything else.",
+    "reads": [
+      "Your bills and daily usage, which your account already holds",
+      "Your plan and its rates",
+      "Your answers to the one question it asks"
+    ],
+    "authority": "act with approval",
+    "hardStops": [
+      "It never changes your plan without your yes — silence leaves everything exactly as it is.",
+      "“I just need help paying” goes straight to a person at Contact — support is never a commercial surface.",
+      "Partner-funded rewards are always labelled, and the credit is yours whether or not you take the partner's offer."
+    ],
+    "thirdPartyData": false,
+    "retention": "Usage and bills stay in your account, where they already were.",
+    "ipp3aNotice": null
+  },
+  "human": {
+    "role": "you",
+    "gateAt": "before anything about your plan changes — a draft is only ever a draft until you say so",
+    "whyStatutory": null
+  },
+  "outcome": {
+    "primary": {
+      "metric": "bill-shock calls",
+      "mechanism": "A bill that arrives explained is a bill nobody has to ring about. The question is answered before it is asked."
+    },
+    "secondary": {
+      "metric": "plan fit",
+      "mechanism": "The draft comparison surfaces the wrong-plan drift at the moment of attention, so plan changes happen with eyes open rather than at exit."
+    },
+    "hypothesis": true
+  },
+  "proof": {
+    "evidencePack": [
+      {
+        "what": "sources used",
+        "example": "your July bill, daily usage from your own meter, your plan's rates"
+      },
+      {
+        "what": "assumptions made",
+        "example": "the six coldest nights treated as heating-driven; hot water estimated from the morning pattern"
+      },
+      {
+        "what": "what changed in review",
+        "example": "you asked for the winter comparison before deciding anything"
+      },
+      {
+        "what": "who signed it off",
+        "example": "you — the plan stayed exactly as it was until you said otherwise"
+      }
+    ]
+  },
+  "scenario": {
+    "persona": {
+      "name": "Hannah",
+      "context": "July bill $247.83, up 18% on June. Cold month, heat pump running, teenagers home. All figures simulated."
+    },
+    "steps": [
+      {
+        "id": "entry",
+        "stage": "entry",
+        "beat": "gather",
+        "agent": "Bill Agent",
+        "authority": "observe",
+        "showsCustomer": "We're loading the detail behind your bill. While that happens — what would help most?",
+        "doesBehind": "Reads the bill and daily usage the account already holds. Changes nothing. Choosing “I just need help paying” goes straight to a person at Contact — support, never a commercial surface.",
+        "question": "While it loads — what would help most?",
+        "options": ["What increased?", "Compare with last winter", "Check my plan", "Find easy savings", "I just need help paying"]
+      },
+      {
+        "id": "itemise",
+        "stage": "context",
+        "beat": "gather",
+        "agent": "Usage Agent",
+        "authority": "observe",
+        "showsCustomer": "Here's the rise, itemised: $247.83, up 18% on June. About two-thirds of the increase sits on the six coldest nights — heating, mostly after 9pm. Hot water is steady. (Figures simulated.)",
+        "doesBehind": "Breaks the month's usage into days and hours from the meter data. No new data is collected — this is the account explaining what it already knows.",
+        "question": "Want the winter comparison too?",
+        "options": ["Compare with last July", "That explains it"]
+      },
+      {
+        "id": "check",
+        "stage": "context",
+        "beat": "reveal",
+        "agent": "Home Agent",
+        "authority": "observe",
+        "showsCustomer": "Five minutes on the home energy check — heating type, insulation, who's home when — earns a $5 bill credit, because it helps your plan fit the house. A heating partner also funds a $10 credit for a heating assessment: that one is labelled as funded, and the credit is yours even if you never take their offer.",
+        "doesBehind": "The reward is for information that makes the account fit better — never for using more power, and never a condition of help.",
+        "question": "Worth five minutes?",
+        "options": ["Do the energy check", "Not this month"]
+      },
+      {
+        "id": "draft",
+        "stage": "recommendation",
+        "beat": "prepare",
+        "agent": "Plan Agent",
+        "authority": "draft",
+        "showsCustomer": "I've priced this same July on your other plan options. On the plan with cheaper nights, this month would have been about $19 less — because the heating already runs after 9pm. That's a draft: nothing about your plan has changed.",
+        "doesBehind": "Reprices the month against the published plans using the same usage. The draft waits — it cannot switch anything.",
+        "question": null,
+        "options": []
+      },
+      {
+        "id": "approval",
+        "stage": "commitment",
+        "beat": "hold",
+        "agent": null,
+        "human": "you",
+        "authority": "act with approval",
+        "approving": "the plan change — priced on your own month, before anything switches",
+        "showsCustomer": "Everything waits here for you. If you close the app, your plan stays exactly as it is — silence never means yes.",
+        "doesBehind": "The draft holds. The plan changes only on your word.",
+        "blocking": true,
+        "question": "Switch to the cheaper-nights plan?",
+        "options": ["Yes — switch my plan"]
+      },
+      {
+        "id": "resolution",
+        "stage": "resolution",
+        "beat": "resolve",
+        "agent": "Record Agent",
+        "authority": "recommend",
+        "showsCustomer": "Done, and written down: what increased, what you compared, what you switched and why. The $5 credit lands on your next bill in plain words — or you can gift it to a household in hardship, and the bill will say that too.",
+        "doesBehind": "Writes the record: what was read, what was asked, what you approved. The gifted-credit option goes to Contact's existing hardship support — the agent never chooses for you.",
+        "question": null,
+        "options": []
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.",
+      "source": "ServiceNow Customer Experience Report, March 2026",
+      "year": 2026,
+      "simulated": false,
+      "soWhat": "The bill-shock call is the most avoidable call in the book: the answer already exists in the account. Explaining it in the load wait deletes the queue."
+    },
+    {
+      "claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.",
+      "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)",
+      "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376",
+      "year": 2011,
+      "simulated": false,
+      "soWhat": "A bill that visibly itemises itself — the rise resolving into nights and hours — is trusted in a way a bare total never is."
+    },
+    {
+      "claim": "Visible progress toward a goal accelerates completion — 34% versus 19% completion for identical real effort in the endowed-progress field experiment.",
+      "source": "Nunes & Drèze, “The Endowed Progress Effect”, Journal of Consumer Research 32(5)",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=991962",
+      "year": 2006,
+      "simulated": false,
+      "soWhat": "A home energy check that shows itself half-done gets finished — and a finished check is what makes the $5 credit honest work."
+    },
+    {
+      "claim": "No NZ retailer publishes bill-shock call volumes or app-load timings — every operational number in this journey is therefore labelled simulated.",
+      "source": "assembl research note",
+      "year": 2026,
+      "simulated": true,
+      "soWhat": "The honesty rule holds: the wait and the winter rise are real, and the page does not invent numbers for them."
+    }
+  ],
+  "copy": {
+    "heroEyebrow": "assembling · energy",
+    "beforeWhileAfter": {
+      "beforeLabel": "before",
+      "before": "The July bill lands 18% up. The app shows one number and no reasons, so the choice is swallow it, ring the queue, or start googling other retailers.",
+      "whileLabel": "while",
+      "while": "In the seconds the bill takes to load, the agent itemises the rise, offers the winter comparison, and drafts what the month would have cost on your other plan options. Asking for help routes to a person, immediately.",
+      "afterLabel": "after",
+      "after": "The bill arrives already explained. If you switched plans, it was priced on your own month and waited for your yes — and any credit you earned is on the bill in plain words."
+    },
+    "headline": "we're loading the detail behind your bill",
+    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Contact Energy's journey; rewards and partner mechanics shown are proposed concepts, not current offers.",
+    "assemblyBeats": [
+      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
+      { "at": 0.14, "beat": "gather", "text": "the case goes up first" },
+      { "at": 0.34, "beat": "prepare", "text": "the coils find their field" },
+      { "at": 0.55, "beat": "reveal", "text": "the register counts true" },
+      { "at": 0.76, "beat": "hold", "text": "held — nothing changes on your bill without your yes" },
+      { "at": 0.9, "beat": "resolve", "text": "read, and explained" }
+    ]
+  },
+  "explainer": {
+    "heading": "what a monetised wait state actually is",
+    "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
+    "waitLabel": "while the bill loads",
+    "figures": {
+      "business": "the retailer",
+      "out": "a bill that explains itself",
+      "youGet": ["a bill you can read", "the rise, itemised", "help without a queue"],
+      "businessGets": ["fewer bill-shock calls", "plans that actually fit"]
+    },
+    "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
+    "panels": [
+      {
+        "title": "the wait you already have",
+        "caption": "Every app makes people wait somewhere. Here it is the seconds while the bill loads — with a customer already braced for the number."
+      },
+      {
+        "title": "what the gap costs",
+        "caption": "An unexplained rise becomes a call, a complaint, or a switch to another retailer. The queue answers questions the bill could have answered itself."
+      },
+      {
+        "title": "what fills it",
+        "caption": "assembling itemises the rise while it loads, offers the winter comparison, and drafts the plan check — with $5 for the home energy check if you want it."
+      },
+      {
+        "title": "who is better off",
+        "caption": "The household understands the bill and keeps the credit; the retailer keeps the customer and loses the call. Asking for help always reaches a person."
+      }
+    ],
+    "textEquivalent": [
+      "Start with the wait you already have. A bill is assembled from meter reads and plan rates, and the app takes real seconds to load the detail. Today those seconds produce nothing.",
+      "The gap costs both sides. An unexplained 18% rise becomes a call to the queue, a complaint, or a switch — all more expensive than an explanation.",
+      "assembling fills the gap: the rise itemised into nights and hours, the winter comparison, a draft of the month priced on other plans. The home energy check earns a $5 credit; a labelled partner can fund a heating assessment credit that is yours regardless.",
+      "By the time the bill is on screen, both sides are better off: the household can read it, and the retailer never takes the call. Nothing switched without a yes — and help was always a person, never a pitch."
+    ]
+  }
+}
