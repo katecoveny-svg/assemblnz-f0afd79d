@@ -1,0 +1,284 @@
+{
+  "id": "invest",
+  "client": {
+    "name": "Sharesies",
+    "sector": "investing",
+    "accent": "#E50072",
+    "status": "proposed"
+  },
+  "brand": {
+    "primary": "#E50072",
+    "secondary": "#2C3037",
+    "typeface": "Sharesies house style",
+    "source": "brand-adjacent pink per the fleet map; no Sharesies trade dress beyond the name"
+  },
+  "sheet": {
+    "title": "investing — assembling",
+    "drawing": "ASM-INVS-001",
+    "rev": "A",
+    "scale": "NTS",
+    "material": "agentic wait state"
+  },
+  "drawing": { "ink": "#4A0D2B", "paper": "#F8F5EE" },
+  "metaphor": {
+    "word": "counting",
+    "sentence": "Money in motion is just machinery you cannot see. The wait is the one moment a person is watching closely enough to finally understand it."
+  },
+  "proposition": "When money is processing, understanding should not pause. Orders settle, funds take days, and a KiwiSaver first-home withdrawal takes ten to fifteen business days at exactly the moment the stakes are highest. assembling uses those waits to make the money arrive understood — and every reward in this journey is for comprehension, never for trading.",
+  "wait": {
+    "moment": "the ten to fifteen business days a KiwiSaver first-home withdrawal takes to process",
+    "duration": {
+      "value": "10–15 business days",
+      "source": "standard provider guidance for KiwiSaver first-home withdrawal processing; the exact figure varies by provider and application",
+      "simulated": false,
+      "note": "Order processing and managed-fund settlement (one to three working days) are the everyday versions of the same wait. The withdrawal is the big one — it sits inside a house purchase, with a solicitor and a pre-approval clock attached."
+    },
+    "whyItExists": "A withdrawal application is verified by the provider and supervisor, units are sold, and the money moves to a solicitor's trust account. Each step is real work with real checks — and none of it is visible from the outside.",
+    "todayItFeelsLike": "The biggest transaction of your life so far goes into a hole for two weeks, while your pre-approval clock keeps running and the only update is “processing”."
+  },
+  "agentWork": {
+    "asks": [
+      "One question, sized for a tap — “Want the timeline drawn out, day by day?”",
+      "“Five questions on how your money actually moved while you saved — worth doing?”"
+    ],
+    "learns": [
+      "Where this application actually is, from the stages the provider already reports.",
+      "The dates that matter around it: settlement day, pre-approval expiry, the solicitor's deadline.",
+      "What the investor already understands — so the learning starts where they are, not at zero."
+    ],
+    "prepares": [
+      "The day-by-day timeline, with what happens if a step slips.",
+      "The confirmation letter routed to the solicitor the moment it exists.",
+      "The investing confidence check — five questions that make the statement readable for life."
+    ],
+    "resolves": [
+      "The where-is-it ticket — the answer is on screen before the question forms.",
+      "The panic-refresh fortnight: a visible timeline replaces a silent one."
+    ]
+  },
+  "reward": {
+    "headline": "Money that arrives understood.",
+    "detail": "The withdrawal lands on time and explained — and the wait itself pays a return in comprehension. Completing the investing confidence check adds 1 Airpoint; a first Sharesies plan carries a month of plan-fee credit. Every reward here is for understanding, never for trading — and none of it is a current offer: these are proposed concepts.",
+    "immediate": true
+  },
+  "permission": {
+    "consent": "You applied for the withdrawal and chose to watch it closely. The agent reads the application's progress and teaches only what you opt into.",
+    "reads": [
+      "Your application's stage, as the provider reports it",
+      "The dates you gave it: settlement, pre-approval expiry, your solicitor's details",
+      "Your answers in the confidence check"
+    ],
+    "authority": "observe",
+    "hardStops": [
+      "It never gives investment advice and never recommends a security, a fund or a timing decision.",
+      "Rewards are for comprehension, never for trading — no reward in this journey ever depends on buying, selling or investing more.",
+      "Sponsors fund education, never recommendations — and sponsored content can never touch how anything is ranked or shown.",
+      "The money's destination never changes without your signature — and anything unclear comes back as a question, never a change."
+    ],
+    "thirdPartyData": false,
+    "retention": "Your application and its record stay with your provider and your account, where they already were.",
+    "ipp3aNotice": null
+  },
+  "human": {
+    "role": "you",
+    "gateAt": "the withdrawal was your signature, and the money's destination only ever changes with it",
+    "whyStatutory": "KiwiSaver first-home withdrawals run under the KiwiSaver Act's own checks — provider and supervisor verify eligibility, and the funds move only to a solicitor's trust account. The agent watches that process; it never touches it."
+  },
+  "outcome": {
+    "primary": {
+      "metric": "where-is-it contacts per withdrawal",
+      "mechanism": "A visible day-by-day timeline answers the question before it is asked, across the exact fortnight investors contact support most."
+    },
+    "secondary": {
+      "metric": "confidence-check completion",
+      "mechanism": "The wait is the one window an investor watches closely; learning offered inside it gets finished, and an investor who understands their statement stays."
+    },
+    "hypothesis": true
+  },
+  "proof": {
+    "evidencePack": [
+      {
+        "what": "sources used",
+        "example": "the application's provider-reported stage, your settlement date, your solicitor's details"
+      },
+      {
+        "what": "assumptions made",
+        "example": "business days counted NZ-only; the supervisor check shown at its usual position in the sequence"
+      },
+      {
+        "what": "what changed in review",
+        "example": "you asked for the slip scenario — what happens if day 12 becomes day 16"
+      },
+      {
+        "what": "who signed it off",
+        "example": "you — the destination never moved, and the letter went to your solicitor the moment it existed"
+      }
+    ]
+  },
+  "scenario": {
+    "persona": {
+      "name": "Ruby",
+      "context": "First home. KiwiSaver first-home withdrawal submitted Monday; settlement in four weeks; pre-approval expires in three. All figures simulated."
+    },
+    "steps": [
+      {
+        "id": "entry",
+        "stage": "entry",
+        "beat": "gather",
+        "agent": "Processing Agent",
+        "authority": "observe",
+        "showsCustomer": "Your withdrawal is with the provider — ten to fifteen business days is normal, and today is day one. While it processes, I can make the money arrive understood.",
+        "doesBehind": "Reads the application's stage as the provider reports it. Changes nothing, touches nothing — the process belongs to the provider and supervisor.",
+        "question": "While it processes?",
+        "options": ["Draw me the timeline", "Just tell me when it moves"]
+      },
+      {
+        "id": "timeline",
+        "stage": "context",
+        "beat": "gather",
+        "agent": "Processing Agent",
+        "authority": "observe",
+        "showsCustomer": "Here's the fortnight, day by day: verification first, the supervisor's check near the middle, units sold after that, and the money to your solicitor's trust account at the end. Your pre-approval expires on day 21 — this timeline fits, and here is what happens if a step slips.",
+        "doesBehind": "Maps the provider's stages onto Ruby's actual dates. The slip scenario is drawn from the same stages — no invented precision, and business days counted honestly.",
+        "question": "Anything else while it runs?",
+        "options": ["Keep my solicitor in the loop", "That's enough"]
+      },
+      {
+        "id": "learn",
+        "stage": "context",
+        "beat": "reveal",
+        "agent": "Learning Agent",
+        "authority": "observe",
+        "showsCustomer": "Five questions while you wait: how your balance actually moved while you saved — contributions, returns, fees, the dip you rode through. Completing the confidence check adds 1 Airpoint. The reward is for understanding, never for trading. (Proposed concept — not a current offer.)",
+        "doesBehind": "The check teaches reading your own statement, nothing else. This learning experience is funded by a partner — and it does not recommend their shares, products or services. Sponsored content never touches how anything is ranked or shown.",
+        "question": "Five questions?",
+        "options": ["Do the confidence check", "Not right now"]
+      },
+      {
+        "id": "prepare",
+        "stage": "recommendation",
+        "beat": "prepare",
+        "agent": "Settlement Agent",
+        "authority": "draft",
+        "showsCustomer": "Day 9: units sold, money in transit to the trust account. Your solicitor's confirmation letter is drafted and will send the moment the provider issues it — you'll both know inside the same minute.",
+        "doesBehind": "Drafts the notification, addressed to the solicitor Ruby named. Nothing sends until the provider's confirmation actually exists — the draft waits on the real event.",
+        "question": null,
+        "options": []
+      },
+      {
+        "id": "approval",
+        "stage": "commitment",
+        "beat": "hold",
+        "agent": null,
+        "human": "you",
+        "authority": "observe",
+        "approving": "nothing — and that is the point. The withdrawal was your signature, and the money's destination cannot change without it",
+        "showsCustomer": "Nothing in this journey moves your money — your signature already did that, and the destination is locked to your solicitor's trust account. If the provider queries anything, it comes to you as a question. Silence never means yes.",
+        "doesBehind": "The agent holds its place as a watcher. Any provider query routes to Ruby untouched; the agent can explain the question but never answer it for her.",
+        "blocking": true,
+        "question": "Keep watching with you?",
+        "options": ["Keep watching"]
+      },
+      {
+        "id": "resolution",
+        "stage": "resolution",
+        "beat": "resolve",
+        "agent": "Record Agent",
+        "authority": "recommend",
+        "showsCustomer": "Day 12: the money is in your solicitor's trust account, and the letter arrived before their morning coffee. Here's the record — every stage, every date, and the confidence check you finished on day 4. If this becomes your first Sharesies plan, the first month's plan fee is credited. (Proposed concept — not a current offer.)",
+        "doesBehind": "Writes the record: the stages as they happened, the dates as they fell, what was learned along the way. The plan-fee credit rewards starting a habit — never trading.",
+        "question": null,
+        "options": []
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.",
+      "source": "ServiceNow Customer Experience Report, March 2026",
+      "year": 2026,
+      "simulated": false,
+      "soWhat": "The where-is-my-withdrawal call is the most predictable contact in the book: it arrives in the same fortnight, every time. A visible timeline deletes it."
+    },
+    {
+      "claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.",
+      "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)",
+      "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376",
+      "year": 2011,
+      "simulated": false,
+      "soWhat": "A withdrawal that shows its stages — verification, supervisor, units sold, money moving — is trusted through the exact days a silent one breeds panic."
+    },
+    {
+      "claim": "Visible progress toward a goal accelerates completion — 34% versus 19% completion for identical real effort in the endowed-progress field experiment.",
+      "source": "Nunes & Drèze, “The Endowed Progress Effect”, Journal of Consumer Research 32(5)",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=991962",
+      "year": 2006,
+      "simulated": false,
+      "soWhat": "A confidence check that shows itself three-fifths done gets finished — and finishing it is what turns a fortnight of waiting into a decade of readable statements."
+    },
+    {
+      "claim": "No NZ platform publishes withdrawal-processing distributions or where-is-it contact rates — every operational number in this journey is therefore labelled simulated.",
+      "source": "assembl research note",
+      "year": 2026,
+      "simulated": true,
+      "soWhat": "The honesty rule holds: the 10–15 day window is real provider guidance, and the page does not invent precision inside it."
+    }
+  ],
+  "copy": {
+    "heroEyebrow": "assembling · investing",
+    "beforeWhileAfter": {
+      "beforeLabel": "before",
+      "before": "The biggest transaction of your life goes into a hole for a fortnight. The screen says “processing”, the pre-approval clock keeps running, and every refresh teaches you nothing.",
+      "whileLabel": "while",
+      "while": "The agent draws the fortnight day by day, keeps your solicitor a minute behind the provider, and offers five questions that make your own statement readable — with rewards for understanding, never for trading.",
+      "afterLabel": "after",
+      "after": "The money lands in the trust account understood: every stage on the record, the letter already with your solicitor, and a confidence check that outlives the purchase."
+    },
+    "headline": "when money is processing, understanding should not pause",
+    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Sharesies' journey; the Airpoint and plan-fee mechanics shown are proposed concepts, not current offers.",
+    "assemblyBeats": [
+      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
+      { "at": 0.14, "beat": "gather", "text": "the vault body goes down first" },
+      { "at": 0.34, "beat": "prepare", "text": "the mechanism learns to count" },
+      { "at": 0.55, "beat": "reveal", "text": "the counter reads true" },
+      { "at": 0.76, "beat": "hold", "text": "held — your money moves only on your signature" },
+      { "at": 0.9, "beat": "resolve", "text": "counted, and understood" }
+    ]
+  },
+  "explainer": {
+    "heading": "what a monetised wait state actually is",
+    "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
+    "waitLabel": "10–15 business days",
+    "figures": {
+      "business": "the platform",
+      "out": "money that arrives understood",
+      "youGet": ["a timeline you can trust", "your solicitor, already told", "a statement you can read"],
+      "businessGets": ["fewer where-is-it tickets", "investors who stay"]
+    },
+    "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
+    "panels": [
+      {
+        "title": "the wait you already have",
+        "caption": "Every platform makes money wait somewhere: orders settle, funds take days, and a KiwiSaver first-home withdrawal takes two working weeks."
+      },
+      {
+        "title": "what the gap costs",
+        "caption": "A silent fortnight becomes where-is-it tickets, panicked refreshing, and investors who arrive at the biggest moment understanding the least."
+      },
+      {
+        "title": "what fills it",
+        "caption": "assembling draws the timeline day by day, routes the confirmation to the solicitor, and teaches five questions' worth of confidence — rewarded with 1 Airpoint."
+      },
+      {
+        "title": "who is better off",
+        "caption": "The investor lands the deposit understood; the platform loses the ticket and keeps the investor. Every reward was for comprehension, never for trading."
+      }
+    ],
+    "textEquivalent": [
+      "Start with the wait you already have. Orders process, managed funds settle in one to three working days, and a KiwiSaver first-home withdrawal takes ten to fifteen business days at the highest-stakes moment an investor has.",
+      "The gap costs both sides. A silent fortnight produces support tickets on a schedule, and an investor who never understands their own statement is an investor who eventually leaves.",
+      "assembling fills the gap: the timeline drawn day by day with the slip scenario included, the solicitor's letter sent the minute the provider confirms, and the investing confidence check — five questions, 1 Airpoint, funded by a partner that gets no recommendation in return.",
+      "By day twelve, both sides are better off: the money arrived understood, the ticket was never raised, and the rewards only ever paid for understanding. Nothing in the journey could move the money — that stayed with your signature and the law."
+    ]
+  }
+}

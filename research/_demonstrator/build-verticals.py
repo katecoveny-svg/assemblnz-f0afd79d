@@ -21,6 +21,7 @@ VERTICALS = [
     ('mealkit',        'mealkit',     'scale',         'scale'),
     ('energy',         'energy',      'meter',         'meter'),
     ('branch',         'branch',      'phone',         'phone'),
+    ('invest',         'invest',      'coinbank',      'coinbank'),
 ]
 
 
