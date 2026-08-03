@@ -62,7 +62,7 @@
   },
   "reward": {
     "headline": "A plan you chose, before the queue moved.",
-    "detail": "Real options on your phone while the announcement is still echoing — the next seats, what your fare allows, what this disruption owes you under the Civil Aviation Act 2023 if it was within the airline's control. Anything outside policy waits for a person.",
+    "detail": "Real options on your phone while the announcement is still echoing — the next seats, what your fare allows, what this disruption owes you under the Civil Aviation Act 2023 if it was within the airline's control. Anything outside policy waits for a person. Preparing your preferences can earn a small Airpoints thank-you — for the useful work, never for the disruption, and never as a condition of help. (Proposed concept — not a current Air New Zealand offer.)",
     "immediate": true
   },
   "permission": {
@@ -76,7 +76,8 @@
     "hardStops": [
       "It never rebooks outside fare rules without a person.",
       "It never decides what a disruption legally owes you — it shows you the published position.",
-      "It never contacts anyone but you about your trip."
+      "It never contacts anyone but you about your trip.",
+      "It never monetises distress: resolution always comes first, sponsored tools are labelled and disclose their coverage, and no reward is ever a condition of help."
     ],
     "thirdPartyData": false,
     "retention": "Rebooking records live with the booking. The prepared options expire with the disruption.",
@@ -144,12 +145,15 @@
         "beat": "gather",
         "agent": "Journey Agent",
         "authority": "observe",
-        "showsCustomer": "You're not connecting tonight, so it's a straight choice: earliest available seat, or a later flight with a calmer airport?",
-        "doesBehind": "Checks connections and checked bags before asking anything — a traveller with a tight connection gets a different first question.",
-        "question": "Which matters more?",
+        "showsCustomer": "We're working on your flight. Let's prepare your next best option — what matters most tonight?",
+        "doesBehind": "Each choice routes differently: connections get protected first, groups are held together on the same flight, and “I may need accommodation” prepares a stay option — sponsor-funded tools are labelled, and must say whether they compare the whole market or only participating providers. “Just keep me updated” is always respected: updates only, nothing sold. Resolution stays primary — help is never conditional on anything.",
+        "question": "What matters most?",
         "options": [
-          "Earliest seat",
-          "Later is fine"
+          "Protect my connection",
+          "Keep our group together",
+          "Earliest arrival",
+          "I may need accommodation",
+          "Just keep me updated"
         ]
       },
       {
@@ -199,8 +203,8 @@
         "beat": "resolve",
         "agent": "Record Agent",
         "authority": "recommend",
-        "showsCustomer": "Confirmed — 6:10pm, bag following, waiver approved at 5:12pm. Here is everything that happened, and who approved what.",
-        "doesBehind": "Writes the evidence pack: the options offered, the choice made, the legal position stated, the exception and its approver. One record, kept with the booking.",
+        "showsCustomer": "Confirmed — 6:10pm, bag following, waiver approved at 5:12pm. Here is everything that happened, and who approved what. Thank you for preparing your preferences — we've added 2 Airpoints to your account for helping us resolve your journey faster. (This wording is a proposed assembl concept — not a current Air New Zealand offer.)",
+        "doesBehind": "Writes the evidence pack: the options offered, the choice made, the legal position stated, the exception and its approver. One record, kept with the booking. The Airpoints thank-you rewards preparing preferences — useful work — never the disruption itself, and never as a condition of help.",
         "question": null,
         "options": []
       }
@@ -258,7 +262,7 @@
       "after": "Most travellers choose from their phone and never join the queue. The one who needed an exception got it from a named person — and the whole day is on the record."
     },
     "headline": "the disruption, re-planned before the queue",
-    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Air New Zealand's journey, and no airline trade dress appears on this page.",
+    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Air New Zealand's journey, no airline trade dress appears on this page, and the Airpoints wording is a proposed concept — not a current Air New Zealand offer.",
     "assemblyBeats": [
       {
         "at": 0.0,
