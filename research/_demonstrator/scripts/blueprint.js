@@ -30,8 +30,8 @@ const PANELS = [
   {
     id: 'gap',
     title: 'the wait you already have',
-    aria: 'A customer on the left and a lender on the right, with an empty gap between them measured as one working day.',
-    build: ({ waitLabel }) => [
+    aria: 'A customer on the left and the business on the right, with an empty gap between them.',
+    build: ({ waitLabel, fig }) => [
       /* customer — head, shoulders, and a base line to stand on */
       { d: 'M40 92 a15 15 0 1 1 0.1 0 Z', kind: 'ink' },
       { d: `M18 132 q22 -30 44 0`, kind: 'ink' },
@@ -40,7 +40,7 @@ const PANELS = [
       /* the business */
       { d: 'M392 84 h72 v96 h-72 Z', kind: 'ink' },
       { d: 'M406 104 h20 M406 124 h20 M438 104 h14 M438 124 h14', kind: 'thin' },
-      { t: 'the lender', x: 428, y: 205, kind: 'ink', anchor: 'middle' },
+      { t: fig.business, x: 428, y: 205, kind: 'ink', anchor: 'middle' },
       /* the gap — deliberately empty. that is the whole point. */
       { d: 'M104 132 h256', kind: 'thin', dashed: true },
       { d: 'M104 122 v20 M360 122 v20', kind: 'thin' },
@@ -76,14 +76,14 @@ const PANELS = [
   {
     id: 'fill',
     title: 'what fills it',
-    aria: 'One short question goes into the gap and a prepared file comes out, with a small reward handed back to the customer.',
-    build: () => [
+    aria: 'One short question goes into the gap and a prepared result comes out, with a small reward handed back to the customer.',
+    build: ({ fig }) => [
       { d: 'M64 40 h352 v150 h-352 Z', kind: 'thin', dashed: true },
       { t: 'the same wait', x: 240, y: 30, kind: 'faint', anchor: 'middle' },
       /* one question in */
       { d: 'M92 80 h96', kind: 'ink' },
       { d: 'M188 80 l-12 -6 v12 Z', kind: 'ink', fill: true },
-      { t: 'one short question', x: 138, y: 68, kind: 'ink', anchor: 'middle' },
+      { t: fig.in, x: 138, y: 68, kind: 'ink', anchor: 'middle' },
       /* the agent's work, drawn as a stack assembling */
       { d: 'M200 62 h80 v14 h-80 Z', kind: 'ink' },
       { d: `M200 84 h80 v14 h-80 Z`, kind: 'ink' },
@@ -93,7 +93,7 @@ const PANELS = [
       /* a prepared file out */
       { d: 'M292 80 h96', kind: 'ink' },
       { d: 'M388 80 l-12 -6 v12 Z', kind: 'ink', fill: true },
-      { t: 'a complete file', x: 340, y: 68, kind: 'ink', anchor: 'middle' },
+      { t: fig.out, x: 340, y: 68, kind: 'ink', anchor: 'middle' },
       /* the reward handed back */
       { d: 'M340 112 a14 14 0 1 1 0.1 0 Z', kind: 'ink' },
       { d: 'M340 100 v20 M332 110 h16', kind: 'thin' },
@@ -105,33 +105,53 @@ const PANELS = [
   {
     id: 'money',
     title: 'who is better off',
-    aria: 'A two-column ledger. The customer column lists finishing sooner and a decision they can read. The lender column lists fewer abandoned applications and less rework, with the human sign-off named underneath.',
-    build: ({ humanRole }) => [
-      /* the ledger T */
-      { d: 'M60 44 h360', kind: 'ink' },
-      { d: `M240 44 v${132 + jitter(5)}`, kind: 'ink' },
-      { t: 'you get', x: 150, y: 34, kind: 'ink', anchor: 'middle' },
-      { t: 'the lender gets', x: 330, y: 34, kind: 'ink', anchor: 'middle' },
-      /* customer side */
-      { d: 'M78 70 h12 M78 100 h12 M78 130 h12', kind: 'thin' },
-      { t: 'a decision you can read', x: 100, y: 74, kind: 'ink', anchor: 'start' },
-      { t: 'no form to fill in twice', x: 100, y: 104, kind: 'ink', anchor: 'start' },
-      { t: 'an answer the same day', x: 100, y: 134, kind: 'ink', anchor: 'start' },
-      /* lender side */
-      { d: 'M258 70 h12 M258 100 h12 M258 130 h12', kind: 'thin' },
-      { t: 'fewer half-finished', x: 280, y: 74, kind: 'ink', anchor: 'start' },
-      { t: 'applications', x: 280, y: 92, kind: 'ink', anchor: 'start' },
-      { t: 'no chasing by email', x: 280, y: 122, kind: 'ink', anchor: 'start' },
-      /* the money moment — the only accent in the whole set */
-      { d: 'M240 176 h180', kind: 'accent' },
-      { t: 'that is the money bit', x: 330, y: 198, kind: 'accent', anchor: 'middle' },
-      /* the human */
-      { d: 'M60 176 h160', kind: 'thin' },
-      { t: `signed off by a ${humanRole}`, x: 140, y: 198, kind: 'ink', anchor: 'middle' },
-      { t: 'every time', x: 140, y: 216, kind: 'faint', anchor: 'middle' },
-    ],
+    aria: 'A two-column ledger. The customer column lists what they get; the business column lists what the business gets, with the human sign-off named underneath.',
+    build: ({ humanRole, fig }) => {
+      /* both columns are lists of short lines; an entry with a \n wraps onto a
+         second line 18 units down, and the next entry drops further to clear it */
+      const column = (x, entries) => {
+        const items = [];
+        let y = 74;
+        entries.slice(0, 3).forEach(entry => {
+          const lines = String(entry).split('\n');
+          items.push({ d: `M${x - 22} ${y - 4} h12`, kind: 'thin' });
+          lines.forEach((line, k) =>
+            items.push({ t: line, x, y: y + k * 18, kind: 'ink', anchor: 'start' }));
+          y += lines.length > 1 ? 48 : 30;
+        });
+        return items;
+      };
+      return [
+        /* the ledger T */
+        { d: 'M60 44 h360', kind: 'ink' },
+        { d: `M240 44 v${132 + jitter(5)}`, kind: 'ink' },
+        { t: 'you get', x: 150, y: 34, kind: 'ink', anchor: 'middle' },
+        { t: `${fig.business} gets`, x: 330, y: 34, kind: 'ink', anchor: 'middle' },
+        ...column(100, fig.youGet),
+        ...column(280, fig.businessGets),
+        /* the money moment — the only accent in the whole set */
+        { d: 'M240 176 h180', kind: 'accent' },
+        { t: 'that is the money bit', x: 330, y: 198, kind: 'accent', anchor: 'middle' },
+        /* the human — "you", "the …" and named roles all have to read as English */
+        { d: 'M60 176 h160', kind: 'thin' },
+        { t: humanRole === 'you' ? 'signed off by you'
+          : humanRole.startsWith('the ') ? `signed off by ${humanRole}`
+          : `signed off by a ${humanRole}`, x: 140, y: 198, kind: 'ink', anchor: 'middle' },
+        { t: 'every time', x: 140, y: 216, kind: 'faint', anchor: 'middle' },
+      ];
+    },
   },
 ];
+
+/* Figure labels default to the lending journey the explainer was first drawn
+   for; a vertical overrides them in data.explainer.figures. */
+const FIG_DEFAULTS = {
+  business: 'the lender',
+  in: 'one short question',
+  out: 'a complete file',
+  youGet: ['a decision you can read', 'no form to fill in twice', 'an answer the same day'],
+  businessGets: ['fewer half-finished\napplications', 'no chasing by email'],
+};
 
 const NS = 'http://www.w3.org/2000/svg';
 
@@ -184,6 +204,7 @@ export function createBlueprint(root, data) {
   const ctxData = {
     waitLabel: spec.waitLabel,
     humanRole: (data.human?.role || 'named person').toLowerCase(),
+    fig: { ...FIG_DEFAULTS, ...(spec.figures || {}) },
   };
 
   const board = root.querySelector('[data-bp-board]');

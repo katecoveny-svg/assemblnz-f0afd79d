@@ -1,0 +1,283 @@
+{
+  "id": "mealkit",
+  "client": {
+    "name": "My Food Bag",
+    "sector": "meal kits",
+    "accent": "#77A222",
+    "status": "proposed"
+  },
+  "brand": {
+    "primary": "#77A222",
+    "secondary": "#2C3037",
+    "typeface": "My Food Bag house style",
+    "source": "fresh green accent per the fleet map; no MFB trade dress beyond the name"
+  },
+  "sheet": {
+    "title": "meal kits — assembling",
+    "drawing": "ASM-MEAL-001",
+    "rev": "A",
+    "scale": "NTS",
+    "material": "agentic wait state"
+  },
+  "drawing": { "ink": "#12294F", "paper": "#F8F5EE" },
+  "metaphor": {
+    "word": "rhythm",
+    "sentence": "A household week has a rhythm — the box should assemble around it, not the other way round."
+  },
+  "proposition": "Between choosing meals and the box arriving, the week changes. assembling uses the order-lock, packing and delivery waits to fit the box to the week the household is actually having — and nothing changes without the customer's yes.",
+  "wait": {
+    "moment": "the days between choosing your meals and the box on the doorstep",
+    "duration": {
+      "value": "order lock to delivery",
+      "source": "the window is real; its hours vary by region and plan, so this page does not put a number on it",
+      "simulated": true,
+      "note": "My Food Bag customers choose recipes, add extras and can skip, pause or cancel deliveries; Ready Made menus rotate weekly and lock before packing. Those are the real mechanics this journey works inside."
+    },
+    "whyItExists": "Meals are picked days before they are cooked. Packing, picking and delivery each take real time — and in that time, someone travels, a plan changes, a fridge fills or empties.",
+    "todayItFeelsLike": "You choose on Sunday. By Thursday the week has changed, and the box no longer fits the week it was picked for."
+  },
+  "agentWork": {
+    "asks": [
+      "One question, sized for a tap — “What does this week actually look like?”",
+      "“Anything already in the fridge I should plan around?”"
+    ],
+    "learns": [
+      "The household's real rhythm: busy nights, activities, who is home.",
+      "Genuine dislikes and tolerated ingredients — taught once, remembered.",
+      "What went unused last week, so portions and picks improve."
+    ],
+    "prepares": [
+      "The week's cooking order — quickest meal on the busiest night.",
+      "The use-first plan for what is already in the fridge.",
+      "Tomorrow's lunch from tonight's leftovers, if the household wants it."
+    ],
+    "resolves": [
+      "The missing-lunches problem — spotted at order lock, while there is still time.",
+      "The skipped-box spiral — a box that fits the week is a box that does not get skipped."
+    ]
+  },
+  "reward": {
+    "headline": "A box that fits the week you are actually having.",
+    "detail": "The box that arrives matches the week: the fast meal on the busy night, nothing swapped without a yes, lunches spotted before the order locked. Teaching the agent one household preference earns $5 off the next box — the reward is for making the box better, not for watching anything.",
+    "immediate": true
+  },
+  "permission": {
+    "consent": "You subscribed and chose to be asked. The agent checks in once before packing; it never decides alone.",
+    "reads": [
+      "Your order and delivery day",
+      "Your saved household preferences",
+      "Your answers to the one check-in"
+    ],
+    "authority": "act with approval",
+    "hardStops": [
+      "It never changes an order without your yes — silence means the original order stands.",
+      "It never adds a sponsored item you did not approve, and sponsored items are always labelled.",
+      "It never shares household patterns with a partner."
+    ],
+    "thirdPartyData": false,
+    "retention": "Order history and preferences stay in your account, deletable by you.",
+    "ipp3aNotice": null
+  },
+  "human": {
+    "role": "you",
+    "gateAt": "before the box is packed — the box changes only when you say so",
+    "whyStatutory": null
+  },
+  "outcome": {
+    "primary": {
+      "metric": "skipped weeks",
+      "mechanism": "A box that adapts to the week is a box that does not get skipped — and skipped has a way of becoming cancelled."
+    },
+    "secondary": {
+      "metric": "extras added at order lock",
+      "mechanism": "Missing lunches and essentials are spotted while there is still time to add them, so the addition is useful rather than impulsive."
+    },
+    "hypothesis": true
+  },
+  "proof": {
+    "evidencePack": [
+      {
+        "what": "sources used",
+        "example": "this week's order, saved preferences, the one check-in answer"
+      },
+      {
+        "what": "assumptions made",
+        "example": "Thursday treated as the busiest night; leftovers portioned for one lunch"
+      },
+      {
+        "what": "what changed in review",
+        "example": "you swapped the slow meal to Saturday before the box was packed"
+      },
+      {
+        "what": "who signed it off",
+        "example": "you — nothing changed without your yes, 8:12pm Wednesday"
+      }
+    ]
+  },
+  "scenario": {
+    "persona": {
+      "name": "Priya",
+      "context": "Two adults, two kids, netball on Wednesdays. Box chosen Sunday; the week has already changed twice."
+    },
+    "steps": [
+      {
+        "id": "entry",
+        "stage": "entry",
+        "beat": "gather",
+        "agent": "Week Agent",
+        "authority": "observe",
+        "showsCustomer": "Your menu locks tomorrow night. Tell me what this week actually looks like, and I'll fit the box to it.",
+        "doesBehind": "Reads the order as chosen and the saved household rhythm. Changes nothing.",
+        "question": "What does the week look like?",
+        "options": ["Three busy nights", "Use what I already have"]
+      },
+      {
+        "id": "lock",
+        "stage": "context",
+        "beat": "gather",
+        "agent": "Order Agent",
+        "authority": "observe",
+        "showsCustomer": "Before the order locks: school lunches aren't covered this week, and you're low on the breakfast staples you usually add. Want either in the box?",
+        "doesBehind": "Compares the chosen order against the household's usual pattern. The breakfast planner is supported by a breakfast partner — sponsored items are labelled, and you can remove them before confirming.",
+        "question": "Add anything before it locks?",
+        "options": ["Add lunches", "Just the dinners"]
+      },
+      {
+        "id": "teach",
+        "stage": "context",
+        "beat": "reveal",
+        "agent": "Household Agent",
+        "authority": "observe",
+        "showsCustomer": "One question that makes every future box better: how much time do you really have on a weeknight? Teaching me one household preference earns $5 off your next box.",
+        "doesBehind": "The reward is for making the box fit better — a preference the kitchen can actually pack to — never for watching anything.",
+        "question": "Weeknight cooking time?",
+        "options": ["30 minutes, tops", "Depends on the night"]
+      },
+      {
+        "id": "packing",
+        "stage": "recommendation",
+        "beat": "prepare",
+        "agent": "Packing Agent",
+        "authority": "draft",
+        "showsCustomer": "Your bag is being packed. I've drafted the week: the 20-minute stir-fry on netball night, the slow braise for Saturday, and a use-first note for the broccoli already in your fridge.",
+        "doesBehind": "Drafts the cooking order and the use-first plan. Nothing about the order itself changes — the draft waits for a yes.",
+        "question": null,
+        "options": []
+      },
+      {
+        "id": "approval",
+        "stage": "commitment",
+        "beat": "hold",
+        "agent": null,
+        "human": "you",
+        "authority": "act with approval",
+        "approving": "the adjusted week — lunches added, the fast meal moved to netball night — before the box is packed",
+        "showsCustomer": "Everything waits here for you. If you say nothing, the original order stands exactly as you chose it — silence never means yes.",
+        "doesBehind": "The draft holds. The box changes only on your word.",
+        "blocking": true,
+        "question": "Pack the adjusted week?",
+        "options": ["Yes — pack it"]
+      },
+      {
+        "id": "resolution",
+        "stage": "resolution",
+        "beat": "resolve",
+        "agent": "Record Agent",
+        "authority": "recommend",
+        "showsCustomer": "Packed to your week. Dinner's on the way — tonight's meal is the quick one, tomorrow's lunch comes from the leftovers, and here is everything that changed and why.",
+        "doesBehind": "Writes the record: what was asked, what you approved, what the kitchen packed to. Eligible deliveries can carry a Garden to Table donation — purpose-funded, not sponsored.",
+        "question": null,
+        "options": []
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.",
+      "source": "ServiceNow Customer Experience Report, March 2026",
+      "year": 2026,
+      "simulated": false,
+      "soWhat": "The wait between choosing and receiving is the same dead time in another shape. A box that uses it earns the week's loyalty."
+    },
+    {
+      "claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.",
+      "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)",
+      "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376",
+      "year": 2011,
+      "simulated": false,
+      "soWhat": "A bag being packed in the open — cooking order forming, use-first notes appearing — is worth more than the same bag arriving silently."
+    },
+    {
+      "claim": "Visible progress toward a goal accelerates completion — 34% versus 19% completion for identical real effort in the endowed-progress field experiment.",
+      "source": "Nunes & Drèze, “The Endowed Progress Effect”, Journal of Consumer Research 32(5)",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=991962",
+      "year": 2006,
+      "simulated": false,
+      "soWhat": "A week that is visibly half-assembled gets finished. That is the argument for showing the box forming rather than announcing it done."
+    },
+    {
+      "claim": "No NZ meal-kit company publishes picking, packing or substitution figures — every operational number in this journey is therefore labelled simulated.",
+      "source": "assembl research note",
+      "year": 2026,
+      "simulated": true,
+      "soWhat": "The honesty rule holds even here: the waits are real, and the page does not invent numbers for them."
+    }
+  ],
+  "copy": {
+    "heroEyebrow": "assembling · meal kits",
+    "beforeWhileAfter": {
+      "beforeLabel": "before",
+      "before": "You choose meals on Sunday. By Thursday someone is away, netball ran late, and the box no longer fits the week — so it gets skipped, and skipped has a way of becoming cancelled.",
+      "whileLabel": "while",
+      "while": "The agent checks in once before packing: what the week actually looks like, what is already in the fridge, whether lunches are covered. The box adapts — with your yes, never without it.",
+      "afterLabel": "after",
+      "after": "The box that arrives fits the week you are having. The fast meal lands on the busy night, tomorrow's lunch comes from tonight's leftovers, and every change carries your name, not the agent's."
+    },
+    "headline": "your bag is being packed. let's assemble the week",
+    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside My Food Bag's journey; rewards and sponsor mechanics shown are proposed concepts, not current offers.",
+    "assemblyBeats": [
+      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
+      { "at": 0.14, "beat": "gather", "text": "the base goes down first" },
+      { "at": 0.34, "beat": "prepare", "text": "the mechanism finds its balance" },
+      { "at": 0.55, "beat": "reveal", "text": "the dial reads true" },
+      { "at": 0.76, "beat": "hold", "text": "held — nothing is packed without your yes" },
+      { "at": 0.9, "beat": "resolve", "text": "weighed, and ready" }
+    ]
+  },
+  "explainer": {
+    "heading": "what a monetised wait state actually is",
+    "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
+    "waitLabel": "lock to doorstep",
+    "figures": {
+      "business": "the kitchen",
+      "out": "a week that fits",
+      "youGet": ["a box that fits the week", "lunches spotted in time", "the fast meal, sorted"],
+      "businessGets": ["fewer skipped boxes", "packing to certainty"]
+    },
+    "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
+    "panels": [
+      {
+        "title": "the wait you already have",
+        "caption": "Every subscription makes households wait somewhere. Here it is the days between choosing meals and the box arriving — and the week changes inside them."
+      },
+      {
+        "title": "what the gap costs",
+        "caption": "Boxes that no longer fit get skipped. Lunches get forgotten. Skipped weeks turn into cancelled subscriptions."
+      },
+      {
+        "title": "what fills it",
+        "caption": "assembling checks in once: the week's shape in, an adapted box out — lunches spotted, the fast meal on the busy night, a $5 thank-you for teaching one preference."
+      },
+      {
+        "title": "who is better off",
+        "caption": "The household cooks the week it is actually in; the kitchen packs to certainty and keeps the subscriber. You approve every change — silence never means yes."
+      }
+    ],
+    "textEquivalent": [
+      "Start with the wait you already have. Meals are chosen days before they are cooked, and the box is packed and delivered inside that gap. Today the gap produces nothing.",
+      "The gap costs both sides. The week changes, the box stops fitting, and boxes that do not fit get skipped — the first step toward cancelling.",
+      "assembling fills the gap with one check-in: what the week looks like, what is already in the fridge, whether lunches are covered. The box adapts, and teaching one preference earns $5 off.",
+      "By delivery day, both sides are better off: the household gets a week that fits, and the kitchen packs to certainty. Every change waited for your yes — silence never meant agreement."
+    ]
+  }
+}

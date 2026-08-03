@@ -292,6 +292,19 @@
     "heading": "what a monetised wait state actually is",
     "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
     "waitLabel": "15 working days",
+    "figures": {
+      "business": "the village",
+      "out": "a decision made ready",
+      "youGet": [
+        "the contract, explained",
+        "your questions, listed",
+        "family in the loop"
+      ],
+      "businessGets": [
+        "families who arrive sure",
+        "fewer late withdrawals"
+      ]
+    },
     "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
     "panels": [
       {

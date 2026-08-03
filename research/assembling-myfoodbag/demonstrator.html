@@ -6,8 +6,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>assembling · personal lending — assembl</title>
-<meta name="description" content="While the affordability assessment runs, assembling turns the wait into the assessment — so the customer answers once and the assessor gets a complete file.">
+<title>assembling · meal kits — assembl</title>
+<meta name="description" content="Between choosing meals and the box arriving, the week changes. assembling uses the order-lock, packing and delivery waits to fit the box to the week the household is actually having — and nothing changes without the customer's yes.">
 <style>
 /* assembl · assembling demonstrators — design tokens
    Link this file. Do not retype values. If you're writing a hex, you're off-system.
@@ -2511,28 +2511,27 @@ function dimension(el, value, note, simulated) {
 Object.assign(__M, { sheetMeta, mountSheet, mountBalloons, dimension });
 })();
 
-/* ── vault.js ─────────────────────────────── */
+/* ── scale.js ─────────────────────────────── */
 ;(function () {
-/* Bank vault combination lock and bolt work — personal lending.
+const { dimension } = __M;
+/* Mechanical kitchen scale — meal kits.
  *
- * A decision that has to be right, made of wheels that have to line up. Three
- * combination wheels, three gates. Only when all three gates come round together
- * does the fence drop into them, and only then can the lever fall and the bolts
- * throw. That is an affordability assessment drawn as a mechanism: income,
- * obligations and evidence all have to agree before anyone can say yes.
+ * A household week, weighed. The box is chosen days before it is cooked, and in
+ * between the week changes — so the object is the thing every kitchen trusts to
+ * tell it what it actually has: a spring-and-rack dial scale. The mechanism has
+ * to balance before the dial can read true, the needle only settles when the
+ * weight is real, and the tare knob starts every week back at zero. That is the
+ * meal-kit journey drawn as a machine: what the household is really carrying,
+ * read honestly, before anything is packed.
  *
  * Flat-lay positions are art-directed by hand: axis-aligned, even gutters, grouped
- * by family, nothing overlapping. That deliberateness is the whole appeal of
- * knolling — auto-flow it and it stops being a photograph and becomes a chart.
+ * by family, nothing overlapping. Assembled, the face reads as bands around the
+ * dial centre (0, 15) so nothing important hides:
+ *   0–13 hub · 13–74 needle throw · 94–96 graduations · 112 dial face edge
+ *   · 112–126 bezel · 134 bezel screws · body 340 × 310 behind it all.
  *
- * Assembled, the part radii are laid out as bands that do not collide, so the
- * finished lock reads face-on as a set of concentric rings around the dial:
- *   14–39 dial · 39–53 dial ring · 54–60 escutcheon · 61–73, 76–88, 92–104 wheels
- *   · 108–119 bolt carrier · 126–138 cover plate · 116–221 bolts · 230 bolt tips.
- * Get those bands wrong and the wheel pack disappears behind the cover.
- *
- * Waves, inside out: 1 case · 2 wheel pack · 3 fixings · 4 fence and lever
- * · 5 bolt work · 6 cover and dial · 7 mounting.
+ * Waves, base up: 1 body and feet · 2 mechanism · 3 fixings · 4 dial face
+ * · 5 needle, bezel and crystal · 6 platform and bowl · 7 tare and badge.
  *
  * Board is 1180 × 800, origin at centre. Spec: references/knolling-assembly.md
  */
@@ -2542,250 +2541,343 @@ const add = p => (parts.push(p), p);
 
 const TAU = Math.PI * 2;
 
-/* Almost every part of a lock lands somewhere on a circle, so assembled positions
-   are given as a radius, an angle, and an offset square to that angle. */
+/* dial-centred placement — most of the face lands on a circle around (0, 15) */
+const DIAL = { x: 0, y: 15 };
 const at = (rad, a, off = 0) => ({
-  x: Math.cos(a) * rad - Math.sin(a) * off,
-  y: Math.sin(a) * rad + Math.cos(a) * off,
+  x: DIAL.x + Math.cos(a) * rad - Math.sin(a) * off,
+  y: DIAL.y + Math.sin(a) * rad + Math.cos(a) * off,
 });
 
-/* ── 7 · mounting · the door the lock is bolted to ─────────────── */
-add({ id: 'door-plate', shape: 'rect', w: 332, h: 332, rad: 18, seed: 5,
-  lay: { x: -414, y: -222 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 7, z: 0, finish: 'cast', label: 'door plate' });
+/* ── 1 · body and feet · the base goes down first ──────────────── */
+add({ id: 'back-plate', shape: 'rect', w: 300, h: 270, rad: 22, seed: 4,
+  lay: { x: -40, y: -235 }, to: { x: 0, y: 50, rot: 0 },
+  wave: 1, z: 0, finish: 'dark', label: 'back plate' });
 
-/* three hinges, down the shut edge, just outside the plate */
-for (let i = 0; i < 3; i++) {
-  add({ id: `hinge-${i}`, shape: 'rect', w: 26, h: 48, rad: 4, grooves: 3,
-    lay: { x: 318, y: 8 + i * 58 },
-    to: { x: -184, y: -94 + i * 94, rot: 0 },
-    wave: 7, z: 1, finish: 'brushed', small: true });
-}
-
-/* the escutcheon rides with the dial, so it is knolled with the dial family */
-add({ id: 'escutcheon', shape: 'ring', r: 60, r2: 54,
-  lay: { x: 110, y: -70 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 7, z: 12, finish: 'polished', label: 'escutcheon' });
-
-/* corner anchor bolts — through the door plate, outside the cover */
-[[136, 136], [-136, 136], [-136, -136], [136, -136]].forEach(([x, y], i) =>
-  add({ id: `anchor-${i}`, shape: 'screw', r: 6, cross: true,
-    lay: { x: 364, y: 8 + i * 30 }, to: { x, y, rot: 0.4 },
-    wave: 7, z: 2, finish: 'brushed', small: true }));
-
-/* ── 1 · case · what everything else is built onto ─────────────── */
-add({ id: 'lock-body', shape: 'rect', w: 284, h: 284, rad: 12, seed: 2,
-  lay: { x: 438, y: -246 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 1, z: 1, finish: 'cast', label: 'lock body' });
-
-add({ id: 'boss', shape: 'disc', r: 24,
-  lay: { x: 322, y: -68 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 1, z: 2, finish: 'brass', label: 'mounting boss' });
+add({ id: 'body-casting', shape: 'rect', w: 340, h: 310, rad: 34, seed: 2,
+  lay: { x: 365, y: -195 }, to: { x: 0, y: 55, rot: 0 },
+  wave: 1, z: 1, finish: 'cast', label: 'scale body' });
 
 for (let i = 0; i < 2; i++) {
-  add({ id: `rib-${i}`, shape: 'rect', w: 86, h: 13, rad: 3,
-    lay: { x: 420, y: -80 + i * 20 },
-    to: { x: 0, y: i ? 112 : -112, rot: 0 },
+  add({ id: `cheek-${i}`, shape: 'rect', w: 22, h: 260, rad: 10,
+    lay: { x: 137 + i * 29, y: -180 },
+    to: { x: i ? 152 : -152, y: 55, rot: 0 },
     wave: 1, z: 2, finish: 'brushed', small: true });
 }
 
-/* ── 2 · wheel pack · the three that have to agree ─────────────── */
-/* Different radii, different gate positions, different speeds. If they all looked
-   and turned the same there would be no story in them. */
-const WHEELS = [
-  { r: 104, r2: 92, mid: 98, gate: -1.00, spin: 0.90,  finish: 'brass',    lay: { x: -476, y: 60 } },
-  { r: 88,  r2: 76, mid: 82, gate: 2.70,  spin: -1.35, finish: 'polished', lay: { x: -492, y: 262 } },
-  { r: 73,  r2: 61, mid: 67, gate: 0.90,  spin: 1.80,  finish: 'brushed',  lay: { x: -322, y: 260 } },
-];
+add({ id: 'base-plate', shape: 'rect', w: 360, h: 26, rad: 6, grooves: 4, seed: 6,
+  lay: { x: 330, y: 268 }, to: { x: 0, y: 218, rot: 0 },
+  wave: 1, z: 2, finish: 'brushed', label: 'base plate' });
 
-WHEELS.forEach((w, i) => {
-  add({ id: `wheel-${i}`, shape: 'tyre', r: w.r, r2: w.r2, seed: 3 + i,
-    lay: w.lay, to: { x: 0, y: 0, rot: 0 },
-    wave: 2, z: 4 + i, finish: w.finish, spin: w.spin,
-    label: i === 0 ? 'combination wheels' : undefined });
+/* four rubber feet — the part that meets the bench */
+[-135, -45, 45, 135].forEach((x, i) =>
+  add({ id: `foot-${i}`, shape: 'rect', w: 30, h: 16, rad: 6,
+    lay: { x: -535 + i * 44, y: 358 },
+    to: { x, y: 240, rot: 0 },
+    wave: 1, z: 2, finish: 'rubber', small: true,
+    label: i === 0 ? 'feet' : undefined }));
 
-  /* the gate — the notch the fence has to find */
-  add({ id: `gate-${i}`, shape: 'trap', w: 16, h: 12, topW: 9,
-    lay: { x: -350 + i * 28, y: 132 },
-    to: { ...at(w.mid, w.gate), rot: w.gate + Math.PI / 2 },
-    wave: 2, z: 7, finish: 'dark', small: true });
-});
-
-add({ id: 'drive-cam', shape: 'plate', r: 28, seed: 7,
-  holes: [[-9, -5, 4], [8, 7, 4]],
-  lay: { x: -322, y: 0 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 2, z: 7, finish: 'brass', spin: 0.6, label: 'drive cam' });
-
-add({ id: 'cam-follower', shape: 'hand', w: 26, h: 5,
-  lay: { x: -322, y: 162 }, to: { x: 0, y: 0, rot: -0.6 },
-  wave: 2, z: 8, finish: 'polished', small: true });
-
-add({ id: 'spindle', shape: 'disc', r: 11,
-  lay: { x: -322, y: 48 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 2, z: 8, finish: 'polished' });
-
-add({ id: 'spindle-collar', shape: 'ring', r: 15, r2: 10,
-  lay: { x: -322, y: 90 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 2, z: 9, finish: 'brushed', small: true });
-
-/* ── 4 · fence and lever · the parts that fall when the wheels agree ── */
-/* The lever is a poly rather than a hand so the full length survives the sprite
-   bounds. It is the one part in this composition that carries colour. */
-add({ id: 'lever', shape: 'poly', w: 132, h: 22,
-  points: [[-66, -8], [-51, -11], [40, -6], [66, -3], [66, 3], [40, 6], [-51, 11], [-66, 8]],
-  lay: { x: -170, y: 110 }, to: { x: -26, y: -96, rot: 0.16 },
-  wave: 4, z: 11, finish: 'anodised', colour: '#056268', label: 'lever' });
-
-add({ id: 'fence', shape: 'bar', w: 110, h: 8,
-  lay: { x: -180, y: 142 }, to: { x: -26, y: -82, rot: 0.16 },
-  wave: 4, z: 9, finish: 'polished', label: 'fence' });
-
-add({ id: 'lever-spring', shape: 'coil', r: 13, turns: 5,
-  lay: { x: -222, y: 176 }, to: { x: -86, y: -118, rot: 0 },
-  wave: 4, z: 11, finish: 'brushed', small: true });
-
-add({ id: 'lever-pivot', shape: 'screw', r: 7,
-  lay: { x: -186, y: 176 }, to: { x: -92, y: -104, rot: 0.3 },
-  wave: 4, z: 12, finish: 'polished', small: true });
-
-add({ id: 'fence-pin', shape: 'screw', r: 6,
-  lay: { x: -158, y: 176 }, to: { x: -26, y: -82, rot: -0.4 },
-  wave: 4, z: 12, finish: 'polished', small: true });
-
-add({ id: 'lever-nose', shape: 'trap', w: 18, h: 12, topW: 10,
-  lay: { x: -128, y: 176 }, to: { x: 36, y: -84, rot: 0.16 },
-  wave: 4, z: 12, finish: 'brushed', small: true });
-
-add({ id: 'detent', shape: 'hand', w: 28, h: 5,
-  lay: { x: -86, y: 176 }, to: { x: 52, y: -116, rot: 0.8 },
-  wave: 4, z: 12, finish: 'brushed', small: true });
-
-/* ── 5 · bolt work · what actually moves ───────────────────────── */
-add({ id: 'bolt-carrier', shape: 'ring', r: 119, r2: 108,
-  lay: { x: 167, y: -269 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 5, z: 3, finish: 'cast', label: 'bolt carrier' });
-
-/* four bolts, thrown out at 90° — right, bottom, left, top */
-const THROW = [0, Math.PI / 2, Math.PI, -Math.PI / 2];
-
-THROW.forEach((a, i) => {
-  add({ id: `bolt-${i}`, shape: 'rect', w: 105, h: 28, rad: 4, grooves: 5, seed: 8 + i,
-    lay: { x: -181, y: -80 + i * 44 },
-    to: { ...at(168, a), rot: a },
-    wave: 5, z: 4, finish: 'polished',
-    label: i === 0 ? 'bolts' : undefined });
-
-  add({ id: `bolt-tip-${i}`, shape: 'trap', w: 28, h: 24, topW: 14,
-    lay: { x: -100, y: -80 + i * 44 },
-    to: { ...at(230, a), rot: a + Math.PI / 2 },
-    wave: 5, z: 4, finish: 'brushed', small: true });
-
-  add({ id: `bolt-guide-${i}`, shape: 'rect', w: 40, h: 20, rad: 3,
-    lay: { x: -46, y: -80 + i * 44 },
-    to: { ...at(119, a), rot: a },
-    wave: 5, z: 3, finish: 'dark', small: true });
-});
-
-/* rack teeth along each bolt — the carrier drives all four together */
-for (let i = 0; i < 20; i++) {
-  const b = Math.floor(i / 5), k = i % 5, a = THROW[b];
-  add({ id: `tooth-${i}`, shape: 'rect', w: 14, h: 9, rad: 1.5,
-    lay: { x: -226 + (i % 5) * 40, y: 230 + Math.floor(i / 5) * 26 },
-    to: { ...at(130 + k * 18, a, -21), rot: a },
-    wave: 5, z: 5, finish: 'brushed', small: true,
-    label: i === 0 ? 'bolt teeth' : undefined });
+/* ── 2 · mechanism · what has to balance before the dial can read ── */
+for (let i = 0; i < 2; i++) {
+  add({ id: `frame-rail-${i}`, shape: 'rect', w: 12, h: 180, rad: 3,
+    lay: { x: -546 + i * 31, y: 190 },
+    to: { x: i ? 118 : -118, y: 30, rot: 0 },
+    wave: 2, z: 2, finish: 'cast', small: true });
 }
 
-/* ── 6 · cover and dial · the face the customer reads ──────────── */
-add({ id: 'cover-plate', shape: 'ring', r: 138, r2: 126, seed: 6,
-  lay: { x: -100, y: -250 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 6, z: 10, finish: 'brushed', label: 'cover plate' });
+add({ id: 'main-spring', shape: 'coil', r: 26, turns: 6,
+  lay: { x: -480, y: 130 }, to: { x: 0, y: -40, rot: 0 },
+  wave: 2, z: 3, finish: 'brushed', label: 'main spring' });
 
-add({ id: 'dial-ring', shape: 'ring', r: 53, r2: 39,
-  lay: { x: 231, y: -77 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 6, z: 12, finish: 'brass', label: 'dial ring' });
-
-add({ id: 'dial', shape: 'tyre', r: 39, r2: 14,
-  lay: { x: 91, y: 40 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 6, z: 13, finish: 'polished', label: 'knurled dial' });
-
-add({ id: 'index-mark', shape: 'rect', w: 7, h: 17, rad: 2,
-  lay: { x: 152, y: 40 }, to: { x: 0, y: -58, rot: 0 },
-  wave: 6, z: 14, finish: 'brass', small: true });
-
-add({ id: 'spindle-cap', shape: 'disc', r: 10,
-  lay: { x: 180, y: 40 }, to: { x: 0, y: 0, rot: 0 },
-  wave: 6, z: 15, finish: 'polished', small: true });
-
-/* knurling on the dial edge */
-for (let i = 0; i < 12; i++) {
-  const a = (i / 12) * TAU;
-  add({ id: `knurl-${i}`, shape: 'rect', w: 3, h: 12, rad: 0.8,
-    lay: { x: 56 + i * 18, y: 140 },
-    to: { ...at(27, a), rot: a + Math.PI / 2 },
-    wave: 6, z: 14, finish: 'polished', small: true });
+for (let i = 0; i < 2; i++) {
+  add({ id: `spring-${i}`, shape: 'coil', r: 14, turns: 4,
+    lay: { x: -480, y: 190 + i * 40 },
+    to: { x: i ? 70 : -70, y: -15, rot: 0 },
+    wave: 2, z: 3, finish: 'brushed', small: true });
 }
 
-/* dial graduations — every sixth one long, the way a dial is actually numbered */
-for (let i = 0; i < 24; i++) {
-  const a = (i / 24) * TAU - Math.PI / 2;
-  const major = i % 6 === 0;
-  add({ id: `grad-${i}`, shape: 'rect', w: major ? 7 : 4, h: major ? 12 : 10, rad: 0.8,
-    lay: { x: 56 + (i % 6) * 38, y: 190 + Math.floor(i / 6) * 30 },
-    to: { ...at(46, a), rot: a + Math.PI / 2 },
-    wave: 6, z: 13, finish: 'dark', small: true });
-}
-
-/* ── 3 · fixings · the small parts nobody sees ─────────────────── */
-for (let i = 0; i < 20; i++) {
-  const a = (i / 20) * TAU;
-  add({ id: `screw-${i}`, shape: 'screw', r: 3.4 + (i % 3) * 0.7,
-    lay: { x: 310 + (i % 7) * 36, y: 188 + Math.floor(i / 7) * 36 },
-    to: { ...at(132, a), rot: a },
-    wave: 3, z: 12, finish: 'polished', small: true,
-    label: i === 0 ? 'screws' : undefined });
-}
+add({ id: 'rack', shape: 'rect', w: 16, h: 88, rad: 3, grooves: 5, seed: 8,
+  lay: { x: -445, y: 150 }, to: { x: 34, y: -52, rot: 0 },
+  wave: 2, z: 3, finish: 'polished', label: 'rack and pinion' });
 
 for (let i = 0; i < 8; i++) {
-  const a = (i / 8) * TAU + 0.4;
-  add({ id: `pin-${i}`, shape: 'bar', w: 22, h: 4,
-    lay: { x: 316 + (i % 4) * 60, y: 296 + Math.floor(i / 4) * 24 },
-    to: { ...at(113, a), rot: a },
-    wave: 3, z: 9, finish: 'brushed', small: true });
+  add({ id: `rack-tooth-${i}`, shape: 'rect', w: 10, h: 7, rad: 1.5,
+    lay: { x: -420, y: 105 + i * 13 },
+    to: { x: 22, y: -88 + i * 11, rot: 0 },
+    wave: 2, z: 4, finish: 'brushed', small: true });
 }
 
-for (let i = 0; i < 10; i++) {
-  const a = (i / 10) * TAU + TAU / 40;
-  add({ id: `washer-${i}`, shape: 'ring', r: 6, r2: 3.4,
-    lay: { x: 310 + i * 26, y: 356 },
-    to: { ...at(132, a), rot: 0 },
-    wave: 3, z: 11, finish: 'dark', small: true });
+add({ id: 'pinion', shape: 'gear', r: 24, teeth: 14, seed: 7,
+  lay: { x: -435, y: 255 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 2, z: 4, finish: 'brushed', spin: 1.4, label: 'pinion' });
+
+add({ id: 'arbor', shape: 'disc', r: 7,
+  lay: { x: -445, y: 292 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 2, z: 5, finish: 'polished', small: true });
+
+/* three levers carry the platform load down to the rack. Polys rather than
+   hands so the full length survives the sprite bounds. */
+const leverPts = (L, t) => [[-L / 2, -t / 2], [L * 0.4, -t * 0.35], [L / 2, 0],
+  [L * 0.4, t * 0.35], [-L / 2, t / 2]];
+const LEVERS = [
+  { w: 88, h: 6, lay: { x: -345, y: 295 }, to: { x: -46, y: -52, rot: 0.55 } },
+  { w: 70, h: 6, lay: { x: -345, y: 320 }, to: { x: 52, y: 42, rot: -2.6 } },
+  { w: 62, h: 5, lay: { x: -345, y: 345 }, to: { x: -52, y: 52, rot: 2.7 } },
+];
+LEVERS.forEach((l, i) =>
+  add({ id: `lever-${i}`, shape: 'poly', w: l.w, h: l.h, points: leverPts(l.w, l.h),
+    lay: l.lay, to: l.to,
+    wave: 2, z: 3, finish: 'brushed', small: true,
+    label: i === 0 ? 'levers' : undefined }));
+
+[[-90, -75], [95, 55], [-95, 68]].forEach(([x, y], i) =>
+  add({ id: `pivot-${i}`, shape: 'screw', r: 5.5,
+    lay: { x: -282, y: 295 + i * 25 },
+    to: { x, y, rot: 0.3 + i },
+    wave: 2, z: 4, finish: 'polished', small: true }));
+
+/* the damper — the part that stops the needle swinging past the truth */
+add({ id: 'damper-cylinder', shape: 'rect', w: 24, h: 56, rad: 9,
+  lay: { x: -250, y: 300 }, to: { x: -86, y: 60, rot: 0.15 },
+  wave: 2, z: 2, finish: 'brushed', small: true });
+
+add({ id: 'damper-piston', shape: 'bar', w: 8, h: 38,
+  lay: { x: -222, y: 300 }, to: { x: -86, y: 18, rot: 0.15 },
+  wave: 2, z: 2, finish: 'polished', small: true });
+
+add({ id: 'stem', shape: 'rect', w: 18, h: 95, rad: 4, seed: 5,
+  lay: { x: -440, y: -140 }, to: { x: 0, y: -148, rot: 0 },
+  wave: 2, z: 3, finish: 'brushed', label: 'platform stem' });
+
+add({ id: 'stem-guide', shape: 'ring', r: 16, r2: 10,
+  lay: { x: -398, y: -145 }, to: { x: 0, y: -100, rot: 0 },
+  wave: 2, z: 4, finish: 'polished', small: true });
+
+add({ id: 'calibration-screw', shape: 'screw', r: 6, cross: true,
+  lay: { x: -95, y: 332 }, to: { x: 108, y: 174, rot: 0.6 },
+  wave: 2, z: 9, finish: 'polished', small: true });
+
+/* ── 3 · fixings · the small checks nobody sees ────────────────── */
+/* ten around the bezel — none across the top, where the stem passes through */
+const BEZEL_SCREWS = [0, 0.524, 1.047, 1.31, 1.83, 2.094, 2.618, 3.142, 3.665, 5.76];
+BEZEL_SCREWS.forEach((a, i) =>
+  add({ id: `screw-${i}`, shape: 'screw', r: 4,
+    lay: { x: 415 + (i % 4) * 36, y: 300 + Math.floor(i / 4) * 22 },
+    to: { ...at(134, a), rot: a },
+    wave: 3, z: 9, finish: 'polished', small: true,
+    label: i === 0 ? 'screws' : undefined }));
+
+/* four at the body corners, two through the base plate */
+[[-150, -85], [150, -85], [-150, 192], [150, 192]].forEach(([x, y], i) =>
+  add({ id: `screw-c-${i}`, shape: 'screw', r: 4.4, cross: true,
+    lay: i < 2 ? { x: 487 + i * 36, y: 344 } : { x: 415 + (i - 2) * 36, y: 366 },
+    to: { x, y, rot: 0.5 * i },
+    wave: 3, z: 3, finish: 'polished', small: true }));
+
+for (let i = 0; i < 2; i++) {
+  add({ id: `screw-b-${i}`, shape: 'screw', r: 4,
+    lay: { x: 487 + i * 36, y: 366 },
+    to: { x: i ? 60 : -60, y: 218, rot: 0.9 },
+    wave: 3, z: 3, finish: 'polished', small: true });
 }
 
-const vault = {
-  name: 'vault lock and bolt work',
+/* washers behind the corner screws, and inside the movement */
+const WASHERS = [[-150, -85], [150, -85], [-150, 192], [150, 192],
+  [-40, -80], [40, -80], [-80, 55], [80, 55]];
+WASHERS.forEach(([x, y], i) =>
+  add({ id: `washer-${i}`, shape: 'ring', r: 6, r2: 3.5,
+    lay: { x: 225 + i * 22, y: 310 },
+    to: { x, y, rot: 0 },
+    wave: 3, z: 2, finish: 'dark', small: true }));
+
+const PINS = [
+  [-20, -70, 0.4], [30, -30, -0.3], [-30, 40, 0.2],
+  [40, 70, -0.5], [-60, 90, 0.3], [60, 90, -0.3],
+];
+PINS.forEach(([x, y, rot], i) =>
+  add({ id: `pin-${i}`, shape: 'bar', w: 20, h: 4,
+    lay: { x: 225 + i * 26, y: 340 },
+    to: { x, y, rot },
+    wave: 3, z: 4, finish: 'brushed', small: true }));
+
+/* ── 4 · dial face · the week laid out where it can be read ────── */
+add({ id: 'dial-face', shape: 'disc', r: 112, seed: 3,
+  lay: { x: -10, y: 40 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 4, z: 8, finish: 'brushed', label: 'dial face' });
+
+/* 32 graduations — every fourth one major, the way a scale is actually printed */
+let minor = 0;
+for (let i = 0; i < 32; i++) {
+  const a = (i / 32) * TAU - Math.PI / 2;
+  const major = i % 4 === 0;
+  const lay = major
+    ? { x: -64 + (i / 4) * 26, y: 240 }
+    : { x: -60 + (minor % 8) * 26, y: 275 + Math.floor(minor / 8) * 25 };
+  if (!major) minor++;
+  add({ id: `grad-${i}`, shape: 'rect', w: major ? 7 : 3.5, h: major ? 16 : 9, rad: 0.8,
+    lay,
+    to: { ...at(major ? 94 : 96, a), rot: a + Math.PI / 2 },
+    wave: 4, z: 9, finish: 'dark', small: true,
+    label: i === 0 ? 'graduations' : undefined });
+}
+
+add({ id: 'zero-index', shape: 'trap', w: 12, h: 14, topW: 6,
+  lay: { x: -100, y: 240 }, to: { x: 0, y: -59, rot: 0 },
+  wave: 4, z: 10, finish: 'brass', small: true });
+
+/* ── 5 · needle, bezel and crystal · the yes that packs the box ── */
+/* the one part in this composition that carries colour. A poly with its pivot
+   at the origin, so it swings around the hub and never clips its tip. */
+add({ id: 'needle', shape: 'poly', w: 150, h: 12,
+  points: [[-46, 0], [-40, -5], [-30, -6], [60, -2.6], [75, 0], [60, 2.6], [-30, 6], [-40, 5]],
+  lay: { x: -315, y: 250 }, to: { x: 0, y: 15, rot: -1.05 },
+  wave: 5, z: 11, finish: 'anodised', colour: '#77A222', spin: 2.2, label: 'needle' });
+
+add({ id: 'needle-tail', shape: 'bar', w: 26, h: 7,
+  lay: { x: -222, y: 250 }, to: { x: -15, y: 41, rot: -1.05 },
+  wave: 5, z: 11, finish: 'dark', small: true });
+
+add({ id: 'hub', shape: 'disc', r: 13,
+  lay: { x: -170, y: 110 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 5, z: 12, finish: 'polished', small: true });
+
+add({ id: 'hub-cap', shape: 'disc', r: 5.5,
+  lay: { x: -170, y: 145 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 5, z: 13, finish: 'polished', small: true });
+
+add({ id: 'bezel', shape: 'ring', r: 126, r2: 112, seed: 9,
+  lay: { x: 330, y: 120 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 5, z: 10, finish: 'polished', label: 'bezel' });
+
+for (let i = 0; i < 4; i++) {
+  const a = Math.PI / 4 + i * (Math.PI / 2);
+  add({ id: `clip-${i}`, shape: 'trap', w: 14, h: 10, topW: 8,
+    lay: { x: -60 + i * 26, y: 200 },
+    to: { ...at(119, a), rot: a + Math.PI / 2 },
+    wave: 5, z: 11, finish: 'brushed', small: true });
+}
+
+add({ id: 'crystal', shape: 'disc', r: 108,
+  lay: { x: -300, y: 110 }, to: { x: 0, y: 15, rot: 0 },
+  wave: 5, z: 14, finish: 'glass', label: 'crystal' });
+
+/* ── 6 · platform and bowl · what the box carries ──────────────── */
+add({ id: 'platform-boss', shape: 'disc', r: 20,
+  lay: { x: -505, y: -160 }, to: { x: 0, y: -178, rot: 0 },
+  wave: 6, z: 5, finish: 'brushed', small: true });
+
+add({ id: 'platform', shape: 'rect', w: 260, h: 18, rad: 8, seed: 10,
+  lay: { x: -390, y: -205 }, to: { x: 0, y: -192, rot: 0 },
+  wave: 6, z: 6, finish: 'polished', label: 'platform' });
+
+add({ id: 'bowl-base', shape: 'bar', w: 120, h: 7,
+  lay: { x: -390, y: -238 }, to: { x: 0, y: -205, rot: 0 },
+  wave: 6, z: 6, finish: 'brushed', small: true });
+
+add({ id: 'bowl', shape: 'poly', w: 300, h: 66, seed: 11,
+  points: [[-150, -33], [-150, -29], [-132, -14], [-104, 6], [-66, 22], [-20, 30],
+    [20, 30], [66, 22], [104, 6], [132, -14], [150, -29], [150, -33]],
+  lay: { x: -390, y: -320 }, to: { x: 0, y: -240, rot: 0 },
+  wave: 6, z: 7, finish: 'brushed', label: 'the bowl' });
+
+add({ id: 'bowl-rim', shape: 'bar', w: 306, h: 9,
+  lay: { x: -390, y: -262 }, to: { x: 0, y: -274, rot: 0 },
+  wave: 6, z: 8, finish: 'polished', small: true });
+
+/* ── 7 · tare and badge · back to zero each week ───────────────── */
+add({ id: 'tare-knob', shape: 'tyre', r: 26, r2: 10,
+  lay: { x: -150, y: 255 }, to: { x: 0, y: 178, rot: 0 },
+  wave: 7, z: 9, finish: 'polished', spin: 0.8, label: 'tare knob' });
+
+add({ id: 'badge', shape: 'rect', w: 84, h: 20, rad: 5, seed: 12,
+  lay: { x: -150, y: 300 }, to: { x: -104, y: 178, rot: 0 },
+  wave: 7, z: 9, finish: 'brushed', small: true });
+
+for (let i = 0; i < 2; i++) {
+  add({ id: `rivet-${i}`, shape: 'screw', r: 2.5,
+    lay: { x: -165 + i * 30, y: 330 },
+    to: { x: i ? -74 : -134, y: 178, rot: 0 },
+    wave: 7, z: 10, finish: 'polished', small: true });
+}
+
+const scale = {
+  /* "the actual thing" — the scale's own front elevation, drawn on the sheet the
+     way a maker's drawing sits behind the parts. It fades as the parts leave
+     the paper. */
+  underlay(c, ink) {
+    const X = 30, Y = 20;                  /* elevation block, centre of sheet */
+    c.strokeStyle = ink; c.fillStyle = ink;
+    c.lineJoin = 'round'; c.lineCap = 'round';
+    /* body outline */
+    c.lineWidth = 1.6;
+    const bw = 260, bh = 240, r = 26;
+    c.beginPath();
+    c.moveTo(X - bw / 2 + r, Y - bh / 2 + 45);
+    c.arcTo(X + bw / 2, Y - bh / 2 + 45, X + bw / 2, Y + bh / 2 + 45, r);
+    c.arcTo(X + bw / 2, Y + bh / 2 + 45, X - bw / 2, Y + bh / 2 + 45, r);
+    c.arcTo(X - bw / 2, Y + bh / 2 + 45, X - bw / 2, Y - bh / 2 + 45, r);
+    c.arcTo(X - bw / 2, Y - bh / 2 + 45, X + bw / 2, Y - bh / 2 + 45, r);
+    c.closePath(); c.stroke();
+    /* dial with crosshair, and the resting needle */
+    c.lineWidth = 1.1;
+    c.beginPath(); c.arc(X, Y + 12, 90, 0, TAU); c.stroke();
+    c.lineWidth = 0.6;
+    c.beginPath();
+    c.moveTo(X - 102, Y + 12); c.lineTo(X + 102, Y + 12);
+    c.moveTo(X, Y - 90); c.lineTo(X, Y + 114);
+    c.stroke();
+    c.lineWidth = 1.2;
+    c.beginPath(); c.moveTo(X, Y + 12); c.lineTo(X + 40, Y - 52); c.stroke();
+    /* stem, platform and bowl */
+    c.lineWidth = 1.1;
+    c.beginPath();
+    c.moveTo(X - 7, Y - 75); c.lineTo(X - 7, Y - 132);
+    c.moveTo(X + 7, Y - 75); c.lineTo(X + 7, Y - 132);
+    c.moveTo(X - 100, Y - 138); c.lineTo(X + 100, Y - 138);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(X - 115, Y - 172);
+    c.quadraticCurveTo(X, Y - 128, X + 115, Y - 172);
+    c.stroke();
+    /* feet and the bench line */
+    c.lineWidth = 1.3;
+    c.beginPath();
+    c.moveTo(X - 105, Y + 165); c.lineTo(X - 75, Y + 165);
+    c.moveTo(X + 75, Y + 165); c.lineTo(X + 105, Y + 165);
+    c.stroke();
+    c.lineWidth = 0.7;
+    c.beginPath(); c.moveTo(X - 165, Y + 172); c.lineTo(X + 165, Y + 172); c.stroke();
+    /* overall-height dimension string, the way a maker would check it */
+    c.lineWidth = 0.65;
+    const dx = X - 185;
+    c.beginPath();
+    c.moveTo(dx, Y - 172); c.lineTo(dx, Y + 172);
+    c.moveTo(dx - 5, Y - 172); c.lineTo(dx + 5, Y - 172);
+    c.moveTo(dx - 5, Y + 172); c.lineTo(dx + 5, Y + 172);
+    c.stroke();
+  },
+  name: 'mechanical kitchen scale',
   board: { w: 1180, h: 800 },
-  /* the bolts throw almost to the edge of the frame at this zoom, which is the
-     point of them — a lock that opens by moving metal a long way */
-  zoom: 1.6,
+  /* a tall object: the bowl rim and the feet both have to clear the frame, so
+     the zoom stays modest — the presence comes from the height, not the crop */
+  zoom: 0.98,
   parts,
   /* the text equivalent — the canvas is aria-hidden, so this carries the meaning */
   families: [
-    ['lock body and mounting boss', 'the application already submitted — everything else is built onto it'],
-    ['three combination wheels, drive cam and spindle', 'income, obligations and evidence. all three have to line up before anyone can say yes'],
-    ['screws, pins and washers', 'the small checks nobody sees, which are the ones that stop a file being sent back'],
-    ['fence and lever', 'the moment the wheels agree and a person can finally make the call'],
-    ['four bolts and the bolt carrier', 'what actually moves — money released, or not'],
-    ['knurled dial, index mark and cover plate', 'the face the customer reads: what was counted, and what it was measured against'],
-    ['door plate, hinges and escutcheon', 'the lender systems all of this has to bolt onto'],
+    ['body casting, base plate and feet', 'the order as you chose it — everything else fits to this'],
+    ['main spring, rack and pinion, levers and damper', 'the week’s moving parts: busy nights, activities, what is already in the fridge — all balancing before anything is packed'],
+    ['screws, pins and washers', 'the small checks nobody sees — lunches counted, staples noticed, before the order locks'],
+    ['dial face and graduations', 'the week laid out where the household can actually read it'],
+    ['needle, bezel and crystal', 'the needle settles only when the weight is real — and the box changes only on your yes'],
+    ['platform and bowl', 'what the box carries: the fast meal on the busy night, tomorrow’s lunch from tonight’s leftovers'],
+    ['tare knob and maker’s badge', 'back to zero each week — the record of what changed, and why, with your name on the yes'],
   ],
 };
 
-Object.assign(__M, { vault });
+Object.assign(__M, { scale });
 })();
 
 (function () {
-const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBlueprint, createJourney, darkenTo, dimension, finishFill, finishStroke, grain, hexToRgb, lap, mountBalloons, mountSheet, rimAO, shade, sheetMeta, specular, vault } = __M;
+const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBlueprint, createJourney, darkenTo, dimension, finishFill, finishStroke, grain, hexToRgb, lap, mountBalloons, mountSheet, rimAO, scale, shade, sheetMeta, specular } = __M;
 
 
 
@@ -2794,8 +2886,8 @@ const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBluepri
 
 
 
-const data = {"id": "lending", "client": {"name": "Nectar Money", "sector": "personal lending", "accent": "#056268", "status": "proposed"}, "brand": {"primary": "#002A42", "secondary": "#056268", "peach": "#DFA092", "sage": "#73BBA5", "teal": "#00A9AB", "typeface": "Museo Sans / Pluto", "source": "nectar.co.nz nectar-2025.css, verified Aug 2026"}, "sheet": {"title": "personal lending — assembling", "drawing": "ASM-LEND-001", "rev": "B", "scale": "NTS", "material": "agentic wait state"}, "metaphor": {"word": "alignment", "sentence": "Three wheels must line up before the lock will open — income, obligations and evidence."}, "proposition": "While the affordability assessment runs, assembling turns the wait into the assessment — so the customer answers once and the assessor gets a complete file.", "wait": {"moment": "while your affordability assessment runs", "duration": {"value": "same day", "source": "Nectar Money published claim", "url": "https://www.nectar.co.nz/", "simulated": false, "note": "Nectar's own marketing states a 7-minute application and 97% same-day funding."}, "whyItExists": "Before it can lend, the lender must form a view on suitability and affordability. That view needs evidence, and gathering evidence takes time.", "todayItFeelsLike": "A form. Then silence. Then a decision you cannot interrogate."}, "agentWork": {"asks": ["One question at a time, sized for a tap — never an eighteen-field form.", "“Is the $9,400 card the only balance you're consolidating?”", "“Did your hours change in the last three months?”"], "learns": ["Which of the declared expenses are fixed and which are seasonal.", "Where stated income and bank-feed income disagree, and why.", "Whether consolidation actually reduces total cost, or just moves it."], "prepares": ["A structured affordability file the assessor would otherwise assemble by hand.", "The suitability rationale, written against the Responsible Lending Code.", "The two questions the assessor would have had to email back and ask."], "resolves": ["Discrepancies the customer can clear in the moment, instead of a day later.", "The document chase — nothing is requested that has already been supplied."]}, "reward": {"headline": "A decision you can read, not just receive.", "detail": "At the end of the wait the customer gets the assessor's actual reasoning — what was counted as income, what was treated as a fixed cost, and what would need to change for a different answer. If the answer is no, they leave knowing exactly what would make it yes.", "immediate": true}, "permission": {"consent": "You agreed to a bank feed and a credit check for this application.", "reads": ["Your bank feed, for 90 days", "Your credit file", "What you told us in the application"], "authority": "act with approval", "hardStops": ["It never makes or communicates a credit decision.", "It never contacts a third party on your behalf.", "It never keeps the bank feed after the application closes."], "thirdPartyData": true, "ipp3aNotice": "Your credit file comes from a credit reporter, not from you. Under the Privacy Act 2020 we tell you that we collected it, why, who sees it, and how to correct it — on this screen, not in a policy page.", "retention": "The bank feed is deleted when the application closes. The assessment record is kept for seven years, as lending records must be."}, "human": {"role": "Lending Assessor", "gateAt": "before any credit decision is formed or communicated", "whyStatutory": "CCCFA lender responsibility principles — the lender, not a tool, must be satisfied the loan is suitable and affordable."}, "outcome": {"primary": {"metric": "application completion", "mechanism": "The customer answers a handful of short questions during a wait they were already having, instead of an eighteen-field form before it."}, "secondary": {"metric": "quality of the file at decision", "mechanism": "Discrepancies are resolved while the customer is still present, so the assessor opens a complete file instead of starting an email thread."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "bank feed (90 days), credit file, stated income"}, {"what": "assumptions made", "example": "childcare treated as a fixed cost; overtime excluded from income"}, {"what": "what changed in review", "example": "assessor reinstated $180/wk overtime after Mere confirmed it is contracted"}, {"what": "who signed it off", "example": "R. Ngātai, Lending Assessor — 14:32, 2 Aug"}]}, "scenario": {"persona": {"name": "Mere", "context": "Consolidating a $9,400 credit card balance. Hamilton. Applied at 9:14am."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Intent Agent", "authority": "observe", "showsCustomer": "Your assessment has started. It usually finishes today. While it runs, three short questions will make the answer better.", "doesBehind": "Reads the application already submitted. Does not re-ask anything it can already see.", "question": "Happy to answer a few questions while this runs?", "options": ["Yes, go ahead", "Not right now"]}, {"id": "context", "stage": "context", "beat": "gather", "agent": "Context Agent", "authority": "observe", "showsCustomer": "Your bank feed shows $412 a fortnight going to a card. Is the $9,400 the only balance you're consolidating?", "doesBehind": "Reconciles declared debts against the bank feed. A mismatch here is the single most common reason an assessor sends an application back.", "question": "Is that the only balance?", "options": ["Yes, just that one", "There's also a $2,100 store card"]}, {"id": "income", "stage": "context", "beat": "reveal", "agent": "Context Agent", "authority": "draft", "showsCustomer": "Your payslips and your bank feed disagree by about $180 a week. That's usually overtime. Is it regular?", "doesBehind": "Flags the variance rather than silently choosing one figure. Which number is used changes the outcome, so the customer gets to explain it now instead of the assessor guessing later.", "question": "Is the extra $180 regular?", "options": ["Yes — it's contracted", "No — it comes and goes"]}, {"id": "prepare", "stage": "recommendation", "beat": "prepare", "agent": "Planning Agent", "authority": "draft", "showsCustomer": "Putting your file together. Nothing is decided yet.", "doesBehind": "Drafts the affordability position and the suitability rationale against the Responsible Lending Code, with every figure traced to its source.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "Lending Assessor", "authority": "act with approval", "approving": "the affordability file and the suitability rationale, before any decision is formed", "showsCustomer": "Your file is with a lending assessor. A person makes this call — that is not a formality, it is the law.", "doesBehind": "Everything stops. The agent has no authority past this line.", "blocking": true, "question": "Release the file to the assessor?", "options": ["Send it through"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Resolution Agent", "authority": "recommend", "showsCustomer": "Approved — $9,400 over 3 years. Here is what was counted, what was assumed, and who signed it.", "doesBehind": "Writes the evidence pack: sources, assumptions, what the assessor changed, and the signature. One file the customer can keep or forward.", "question": null, "options": []}]}, "evidence": [{"claim": "26% of shoppers abandon a checkout solely because the process was too long or complicated.", "source": "Baymard Institute", "url": "https://baymard.com/lists/cart-abandonment-rate", "year": 2025, "simulated": false, "soWhat": "The form is the friction. Moving the questions into a wait the customer is already having removes the form without removing the evidence."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "A wait that shows its working is worth more than a wait that hides it. This is the whole argument for assembling."}, {"claim": "Compliance with the Responsible Lending Code is evidence of compliance with the lender responsibility principles.", "source": "Responsible Lending Code, MBIE, July 2024", "url": "https://www.mbie.govt.nz/dmsdocument/28548-responsible-lending-code-july-2024", "year": 2024, "simulated": false, "soWhat": "The rationale the agent drafts is written against the Code, so the file the assessor signs is already in the shape a regulator expects."}, {"claim": "Oversight of the CCCFA transferred to the Financial Markets Authority on 1 July 2026; certification was replaced by market-services licensing.", "source": "Financial Markets Authority", "url": "https://www.fma.govt.nz/business/legislation/cccfa/cccfa-transfer-faq/", "year": 2026, "simulated": false, "soWhat": "A new regulator will ask how decisions were reached. An evidence pack per application is the cheapest possible answer."}, {"claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.", "source": "Moffatt v. Air Canada, 2024 BCCRT 149", "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/", "year": 2024, "simulated": false, "soWhat": "This is why the assessor gate exists. An agent that could decide would be a liability, not a feature."}], "copy": {"heroEyebrow": "assembling · personal lending", "beforeWhileAfter": {"beforeLabel": "before", "before": "An eighteen-field form, submitted into silence. The assessor opens it, finds two gaps, and emails. Two days pass over a question that would have taken eight seconds to answer.", "whileLabel": "while", "while": "The wait becomes the assessment. Three short questions, asked one at a time, while the customer is still here and still interested. Every answer is traced to its source.", "afterLabel": "after", "after": "The assessor opens a complete file and signs it. The customer gets the reasoning, not just the verdict — and if the answer is no, they know exactly what would make it yes."}, "headline": "the wait is the assessment", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Nectar Money's journey.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.16, "beat": "gather", "text": "the lock body — everything is built onto it"}, {"at": 0.36, "beat": "prepare", "text": "three wheels turning, looking for the line"}, {"at": 0.58, "beat": "reveal", "text": "the gates line up"}, {"at": 0.76, "beat": "hold", "text": "held — a lending assessor drops the lever"}, {"at": 0.9, "beat": "resolve", "text": "open"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "same day", "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every business makes people wait somewhere. Here it's the affordability check. Right now that time produces nothing for either side."}, {"title": "what the gap costs", "caption": "Some people give up while they wait. The same question gets asked twice. The work still happens later, and by then it costs more to do."}, {"title": "what fills it", "caption": "assembling puts useful work into the gap. One short question in, a complete file out — and something worth having handed back to you."}, {"title": "who is better off", "caption": "You finish sooner and can read the reasoning. The lender loses fewer applications and stops chasing by email. A lending assessor still signs it off."}], "textEquivalent": ["Start with the wait you already have. When you apply for a loan, there's a gap between sending the form and hearing back. Today nothing happens in that gap.", "That gap costs money. Some people give up part-way. The same question gets asked twice, days apart. The work still gets done — later, by someone paid more to do it.", "assembling fills the gap with useful work. It asks the smallest question that would improve the answer, and prepares the file while you wait.", "By the end, both sides are better off: you get a decision you can read on the same day, and the lender gets a complete file instead of an email thread. A lending assessor signs it off, every time."]}, "drawing": {"ink": "#12294F", "paper": "#F8F5EE"}};
-const manifest = vault;
+const data = {"id": "mealkit", "client": {"name": "My Food Bag", "sector": "meal kits", "accent": "#77A222", "status": "proposed"}, "brand": {"primary": "#77A222", "secondary": "#2C3037", "typeface": "My Food Bag house style", "source": "fresh green accent per the fleet map; no MFB trade dress beyond the name"}, "sheet": {"title": "meal kits — assembling", "drawing": "ASM-MEAL-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "drawing": {"ink": "#12294F", "paper": "#F8F5EE"}, "metaphor": {"word": "rhythm", "sentence": "A household week has a rhythm — the box should assemble around it, not the other way round."}, "proposition": "Between choosing meals and the box arriving, the week changes. assembling uses the order-lock, packing and delivery waits to fit the box to the week the household is actually having — and nothing changes without the customer's yes.", "wait": {"moment": "the days between choosing your meals and the box on the doorstep", "duration": {"value": "order lock to delivery", "source": "the window is real; its hours vary by region and plan, so this page does not put a number on it", "simulated": true, "note": "My Food Bag customers choose recipes, add extras and can skip, pause or cancel deliveries; Ready Made menus rotate weekly and lock before packing. Those are the real mechanics this journey works inside."}, "whyItExists": "Meals are picked days before they are cooked. Packing, picking and delivery each take real time — and in that time, someone travels, a plan changes, a fridge fills or empties.", "todayItFeelsLike": "You choose on Sunday. By Thursday the week has changed, and the box no longer fits the week it was picked for."}, "agentWork": {"asks": ["One question, sized for a tap — “What does this week actually look like?”", "“Anything already in the fridge I should plan around?”"], "learns": ["The household's real rhythm: busy nights, activities, who is home.", "Genuine dislikes and tolerated ingredients — taught once, remembered.", "What went unused last week, so portions and picks improve."], "prepares": ["The week's cooking order — quickest meal on the busiest night.", "The use-first plan for what is already in the fridge.", "Tomorrow's lunch from tonight's leftovers, if the household wants it."], "resolves": ["The missing-lunches problem — spotted at order lock, while there is still time.", "The skipped-box spiral — a box that fits the week is a box that does not get skipped."]}, "reward": {"headline": "A box that fits the week you are actually having.", "detail": "The box that arrives matches the week: the fast meal on the busy night, nothing swapped without a yes, lunches spotted before the order locked. Teaching the agent one household preference earns $5 off the next box — the reward is for making the box better, not for watching anything.", "immediate": true}, "permission": {"consent": "You subscribed and chose to be asked. The agent checks in once before packing; it never decides alone.", "reads": ["Your order and delivery day", "Your saved household preferences", "Your answers to the one check-in"], "authority": "act with approval", "hardStops": ["It never changes an order without your yes — silence means the original order stands.", "It never adds a sponsored item you did not approve, and sponsored items are always labelled.", "It never shares household patterns with a partner."], "thirdPartyData": false, "retention": "Order history and preferences stay in your account, deletable by you.", "ipp3aNotice": null}, "human": {"role": "you", "gateAt": "before the box is packed — the box changes only when you say so", "whyStatutory": null}, "outcome": {"primary": {"metric": "skipped weeks", "mechanism": "A box that adapts to the week is a box that does not get skipped — and skipped has a way of becoming cancelled."}, "secondary": {"metric": "extras added at order lock", "mechanism": "Missing lunches and essentials are spotted while there is still time to add them, so the addition is useful rather than impulsive."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "this week's order, saved preferences, the one check-in answer"}, {"what": "assumptions made", "example": "Thursday treated as the busiest night; leftovers portioned for one lunch"}, {"what": "what changed in review", "example": "you swapped the slow meal to Saturday before the box was packed"}, {"what": "who signed it off", "example": "you — nothing changed without your yes, 8:12pm Wednesday"}]}, "scenario": {"persona": {"name": "Priya", "context": "Two adults, two kids, netball on Wednesdays. Box chosen Sunday; the week has already changed twice."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Week Agent", "authority": "observe", "showsCustomer": "Your menu locks tomorrow night. Tell me what this week actually looks like, and I'll fit the box to it.", "doesBehind": "Reads the order as chosen and the saved household rhythm. Changes nothing.", "question": "What does the week look like?", "options": ["Three busy nights", "Use what I already have"]}, {"id": "lock", "stage": "context", "beat": "gather", "agent": "Order Agent", "authority": "observe", "showsCustomer": "Before the order locks: school lunches aren't covered this week, and you're low on the breakfast staples you usually add. Want either in the box?", "doesBehind": "Compares the chosen order against the household's usual pattern. The breakfast planner is supported by a breakfast partner — sponsored items are labelled, and you can remove them before confirming.", "question": "Add anything before it locks?", "options": ["Add lunches", "Just the dinners"]}, {"id": "teach", "stage": "context", "beat": "reveal", "agent": "Household Agent", "authority": "observe", "showsCustomer": "One question that makes every future box better: how much time do you really have on a weeknight? Teaching me one household preference earns $5 off your next box.", "doesBehind": "The reward is for making the box fit better — a preference the kitchen can actually pack to — never for watching anything.", "question": "Weeknight cooking time?", "options": ["30 minutes, tops", "Depends on the night"]}, {"id": "packing", "stage": "recommendation", "beat": "prepare", "agent": "Packing Agent", "authority": "draft", "showsCustomer": "Your bag is being packed. I've drafted the week: the 20-minute stir-fry on netball night, the slow braise for Saturday, and a use-first note for the broccoli already in your fridge.", "doesBehind": "Drafts the cooking order and the use-first plan. Nothing about the order itself changes — the draft waits for a yes.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "you", "authority": "act with approval", "approving": "the adjusted week — lunches added, the fast meal moved to netball night — before the box is packed", "showsCustomer": "Everything waits here for you. If you say nothing, the original order stands exactly as you chose it — silence never means yes.", "doesBehind": "The draft holds. The box changes only on your word.", "blocking": true, "question": "Pack the adjusted week?", "options": ["Yes — pack it"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Record Agent", "authority": "recommend", "showsCustomer": "Packed to your week. Dinner's on the way — tonight's meal is the quick one, tomorrow's lunch comes from the leftovers, and here is everything that changed and why.", "doesBehind": "Writes the record: what was asked, what you approved, what the kitchen packed to. Eligible deliveries can carry a Garden to Table donation — purpose-funded, not sponsored.", "question": null, "options": []}]}, "evidence": [{"claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.", "source": "ServiceNow Customer Experience Report, March 2026", "year": 2026, "simulated": false, "soWhat": "The wait between choosing and receiving is the same dead time in another shape. A box that uses it earns the week's loyalty."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "A bag being packed in the open — cooking order forming, use-first notes appearing — is worth more than the same bag arriving silently."}, {"claim": "Visible progress toward a goal accelerates completion — 34% versus 19% completion for identical real effort in the endowed-progress field experiment.", "source": "Nunes & Drèze, “The Endowed Progress Effect”, Journal of Consumer Research 32(5)", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=991962", "year": 2006, "simulated": false, "soWhat": "A week that is visibly half-assembled gets finished. That is the argument for showing the box forming rather than announcing it done."}, {"claim": "No NZ meal-kit company publishes picking, packing or substitution figures — every operational number in this journey is therefore labelled simulated.", "source": "assembl research note", "year": 2026, "simulated": true, "soWhat": "The honesty rule holds even here: the waits are real, and the page does not invent numbers for them."}], "copy": {"heroEyebrow": "assembling · meal kits", "beforeWhileAfter": {"beforeLabel": "before", "before": "You choose meals on Sunday. By Thursday someone is away, netball ran late, and the box no longer fits the week — so it gets skipped, and skipped has a way of becoming cancelled.", "whileLabel": "while", "while": "The agent checks in once before packing: what the week actually looks like, what is already in the fridge, whether lunches are covered. The box adapts — with your yes, never without it.", "afterLabel": "after", "after": "The box that arrives fits the week you are having. The fast meal lands on the busy night, tomorrow's lunch comes from tonight's leftovers, and every change carries your name, not the agent's."}, "headline": "your bag is being packed. let's assemble the week", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside My Food Bag's journey; rewards and sponsor mechanics shown are proposed concepts, not current offers.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.14, "beat": "gather", "text": "the base goes down first"}, {"at": 0.34, "beat": "prepare", "text": "the mechanism finds its balance"}, {"at": 0.55, "beat": "reveal", "text": "the dial reads true"}, {"at": 0.76, "beat": "hold", "text": "held — nothing is packed without your yes"}, {"at": 0.9, "beat": "resolve", "text": "weighed, and ready"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "lock to doorstep", "figures": {"business": "the kitchen", "out": "a week that fits", "youGet": ["a box that fits the week", "lunches spotted in time", "the fast meal, sorted"], "businessGets": ["fewer skipped boxes", "packing to certainty"]}, "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every subscription makes households wait somewhere. Here it is the days between choosing meals and the box arriving — and the week changes inside them."}, {"title": "what the gap costs", "caption": "Boxes that no longer fit get skipped. Lunches get forgotten. Skipped weeks turn into cancelled subscriptions."}, {"title": "what fills it", "caption": "assembling checks in once: the week's shape in, an adapted box out — lunches spotted, the fast meal on the busy night, a $5 thank-you for teaching one preference."}, {"title": "who is better off", "caption": "The household cooks the week it is actually in; the kitchen packs to certainty and keeps the subscriber. You approve every change — silence never means yes."}], "textEquivalent": ["Start with the wait you already have. Meals are chosen days before they are cooked, and the box is packed and delivered inside that gap. Today the gap produces nothing.", "The gap costs both sides. The week changes, the box stops fitting, and boxes that do not fit get skipped — the first step toward cancelling.", "assembling fills the gap with one check-in: what the week looks like, what is already in the fridge, whether lunches are covered. The box adapts, and teaching one preference earns $5 off.", "By delivery day, both sides are better off: the household gets a week that fits, and the kitchen packs to certainty. Every change waited for your yes — silence never meant agreement."]}};
+const manifest = scale;
 
 const $ = s => document.querySelector(s);
 const set = (sel, text) => { const el = $(sel); if (el) el.textContent = text; };
