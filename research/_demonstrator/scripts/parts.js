@@ -315,7 +315,7 @@ export function createAssembly(canvas, manifest, opts = {}) {
     sprites.clear();
     inkSprites.clear();
     /* fit the board with a margin; the flat lay is the wider of the two states */
-    scale = Math.min(W / (board.w * 1.06), H / (board.h * 1.06));
+    scale = Math.min(W / (board.w * 0.94), H / (board.h * 0.94));
     bakeSheet();
     draw();
   }
@@ -540,92 +540,147 @@ export function createAssembly(canvas, manifest, opts = {}) {
     return rec;
   }
 
-  function drawPart(p, pose, zoom) {
-    /* ink at rest; the part materialises as its wave lifts it off the paper */
-    const lift = ease(clamp01(pose.t / 0.32));
-    ctx.save();
-    ctx.translate(pose.x * scale, pose.y * scale);
-    ctx.rotate(pose.rot);
-    if (lift < 0.999) {
-      const ip = inkSprite(p);
-      ctx.globalAlpha = 1 - lift;
-      ctx.drawImage(ip.canvas, (-ip.w / 2) * pose.sc * scale, (-ip.h / 2) * pose.sc * scale,
-                    ip.w * pose.sc * scale, ip.h * pose.sc * scale);
-    }
-    if (lift > 0.001) {
-      const sp = sprite(p);
-      ctx.globalAlpha = lift;
-      ctx.drawImage(sp.canvas, (-sp.w / 2) * pose.sc * scale, (-sp.h / 2) * pose.sc * scale,
-                    sp.w * pose.sc * scale, sp.h * pose.sc * scale);
-    }
-    ctx.globalAlpha = 1;
-    ctx.restore();
+  /* v2, Kate 3 Aug: no crossfades. The scene renders twice — line and
+     material — and a hard-edged light sweep converts one to the other. */
+  function drawPartLayer(c, p, pose, layer) {
+    const sp = layer === 'ink' ? inkSprite(p) : sprite(p);
+    c.save();
+    c.translate(pose.x * scale, pose.y * scale);
+    c.rotate(pose.rot);
+    c.drawImage(sp.canvas, (-sp.w / 2) * pose.sc * scale, (-sp.h / 2) * pose.sc * scale,
+                sp.w * pose.sc * scale, sp.h * pose.sc * scale);
+    c.restore();
 
-    /* knolling labels: flat lay only, gone by 25% */
-    if (p.label && !mobile) {
-      const a = clamp01(1 - state.progress / 0.25) * 0.55;
+    if (layer === 'mat') {
+      /* weight: a contact shadow blooms and a specular streak runs as a part seats */
+      if (pose.t >= 0.999 && seated[p.id] === undefined) seated[p.id] = state.t;
+      const dt = seated[p.id] !== undefined ? state.t - seated[p.id] : 1e9;
+      if (dt < 460) {
+        const k = 1 - dt / 460;
+        const w = (p.w || (p.r || 5) * 2) * pose.sc * scale;
+        const h = (p.h || (p.r || 5) * 2) * pose.sc * scale;
+        c.save();
+        c.translate(pose.x * scale, pose.y * scale);
+        c.globalAlpha = 0.26 * k;
+        c.fillStyle = '#14171A';
+        c.beginPath();
+        c.ellipse(0, h / 2 + 4, w * 0.52, Math.max(3, h * 0.09), 0, 0, 6.2832);
+        c.fill();
+        c.globalAlpha = 0.5 * k;
+        const g = c.createLinearGradient(-w / 2, 0, w / 2, 0);
+        g.addColorStop(0, 'rgba(255,255,255,0)');
+        g.addColorStop(Math.min(0.95, Math.max(0.05, 1 - k)), 'rgba(255,255,255,0.9)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        c.fillStyle = g;
+        c.fillRect(-w / 2, -h / 2, w, Math.max(2, h * 0.16));
+        c.restore();
+      }
+    }
+    if (layer === 'ink' && p.label && !mobile) {
+      const a = clamp01(1 - state.progress / 0.25) * 0.6;
       if (a > 0.02) {
-        ctx.save();
-        ctx.globalAlpha = a;
-        ctx.fillStyle = INK;
-        ctx.font = `400 ${Math.max(8, 9.5 * scale)}px Jost, Futura, system-ui, sans-serif`;
-        ctx.textAlign = 'center';
+        c.save();
+        c.globalAlpha = a;
+        c.fillStyle = INK;
+        c.font = `400 ${Math.max(8, 9.5 * scale)}px Jost, Futura, system-ui, sans-serif`;
+        c.textAlign = 'center';
         const below = (p.h || (p.r || 5) * 2) / 2 + 11;
-        ctx.fillText(p.label, p.lay.x * scale, (p.lay.y + below) * scale);
-        ctx.restore();
+        c.fillText(p.label, p.lay.x * scale, (p.lay.y + below) * scale);
+        c.restore();
       }
     }
   }
 
+  let layerA = null, layerB = null;
+  const seated = {};
+  function ensureLayers() {
+    if (layerA && layerA.width === canvas.width) return;
+    layerA = document.createElement('canvas'); layerB = document.createElement('canvas');
+    layerA.width = layerB.width = canvas.width;
+    layerA.height = layerB.height = canvas.height;
+  }
+
+  function renderScene(c, layer, prog) {
+    c.setTransform(DPR, 0, 0, DPR, 0, 0);
+    c.clearRect(0, 0, W, H);
+    const px = state.degraded || mobile ? 0 : state.pointer.x * 9;
+    const py = state.degraded || mobile ? 0 : state.pointer.y * 6;
+    c.save();
+    c.translate(W / 2 + px, H / 2 + py);
+    const zoom = lerp(1, (manifest.zoom || 1.75) * 1.12, ease(clamp01((prog - 0.62) / 0.38)));
+    c.scale(zoom, zoom);
+    const spin = (state.degraded || state.beat !== 'prepare') ? 0 : state.t / 5200;
+    visibleParts()
+      .map(p => ({ p, pose: poseOf(p, prog) }))
+      .sort((a, b) => (a.p.z || 0) - (b.p.z || 0))
+      .forEach(({ p, pose }) => {
+        if (p.spin && spin) pose.rot += spin * (p.spin || 1);
+        drawPartLayer(c, p, pose, layer);
+      });
+    c.restore();
+  }
+
   function draw() {
-    ctx.clearRect(0, 0, W, H);
     const prog = state.progress;
-
-    /* the paper first: grid, frame, ticks and dimension lines */
-    if (sheetLayer) ctx.drawImage(sheetLayer, 0, 0, W, H);
-
-    /* the object's own working drawing — a floor plan, a ghost elevation —
-       fading as the parts leave the paper for the air */
-    const ua = (1 - ease(clamp01(prog / 0.55))) * 0.55;
+    ensureLayers();
+    /* the ground is part of the assembly: cyanotype navy drains to bone */
+    const drain = ease(clamp01((prog - 0.10) / 0.35));
+    const sweep = ease(clamp01((prog - 0.55) / 0.42));
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#10254F';
+    ctx.fillRect(0, 0, W, H);
+    if (drain > 0.001) {
+      ctx.globalAlpha = drain; ctx.fillStyle = '#F4F1EA';
+      ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+    }
+    if (sheetLayer) {
+      ctx.globalAlpha = Math.max(0, drain * (1 - sweep * 0.92));
+      ctx.drawImage(sheetLayer, 0, 0, W, H);
+      ctx.globalAlpha = 1;
+    }
+    const ua = (1 - ease(clamp01(prog / 0.55))) * 0.55 * Math.max(drain, 0.25);
     if (manifest.underlay && ua > 0.015) {
       ctx.save();
       ctx.translate(W / 2, H / 2);
       ctx.scale(scale, scale);
       ctx.globalAlpha = ua;
-      try { manifest.underlay(ctx, INK); } catch (e) {}
+      ctx.strokeStyle = drain < 0.5 ? '#E8EEF7' : INK;
+      try { manifest.underlay(ctx, drain < 0.5 ? '#E8EEF7' : INK); } catch (e) {}
       ctx.restore();
     }
 
-    /* damped pointer parallax, never more than ~10px. the camera never rotates. */
-    const px = state.degraded || mobile ? 0 : state.pointer.x * 9;
-    const py = state.degraded || mobile ? 0 : state.pointer.y * 6;
-
+    const A = layerA.getContext('2d'), B = layerB.getContext('2d');
+    renderScene(A, 'ink', prog);
+    renderScene(B, 'mat', prog);
+    /* line work reads chalk on navy, graphite on bone */
+    if (drain < 0.98) {
+      A.save();
+      A.setTransform(DPR, 0, 0, DPR, 0, 0);
+      A.globalCompositeOperation = 'source-atop';
+      A.globalAlpha = 1 - drain;
+      A.fillStyle = '#E8EEF7';
+      A.fillRect(0, 0, W, H);
+      A.restore();
+    }
+    /* the conversion front: matter behind the sweep, line ahead of it */
+    const sweepY = -40 + (H + 80) * sweep;
     ctx.save();
-    /* the flat lay sits on the board origin; the assembled object centres itself */
-    ctx.translate(W / 2 + px, H / 2 + py);
-
-    /* a slow push-in as the object comes together. The flat lay needs the whole
-       board; the finished object needs to fill the frame, or it reads as a small
-       thing on a large page instead of the point of the page. */
-    /* Hold the push-in until the object is nearly together. Zooming from the start
-       throws the parts that haven't moved yet off the edges of the board. */
-    const zoom = lerp(1, manifest.zoom || 1.75, ease(clamp01((prog - 0.62) / 0.38)));
-    ctx.scale(zoom, zoom);
-
-
-    /* prepare beat: the mechanism turns slowly before enclosure. patient, never urgent. */
-    const spin = (state.degraded || state.beat !== 'prepare') ? 0 : state.t / 5200;
-
-    const list = visibleParts()
-      .map(p => ({ p, pose: poseOf(p, prog) }))
-      .sort((a, b) => (a.p.z || 0) - (b.p.z || 0));
-
-    list.forEach(({ p, pose }) => {
-      if (p.spin && spin) pose.rot += spin * (p.spin || 1);
-      drawPart(p, pose, zoom);
-    });
-
+    ctx.beginPath(); ctx.rect(0, 0, W, Math.max(0, sweepY)); ctx.clip();
+    ctx.drawImage(layerB, 0, 0, W, H);
     ctx.restore();
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, Math.max(0, sweepY), W, H + 4); ctx.clip();
+    ctx.drawImage(layerA, 0, 0, W, H);
+    ctx.restore();
+    if (sweep > 0.002 && sweep < 0.998) {
+      const g = ctx.createLinearGradient(0, sweepY - 16, 0, sweepY + 8);
+      g.addColorStop(0, 'rgba(255,255,255,0)');
+      g.addColorStop(0.7, 'rgba(255,255,255,0.8)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, sweepY - 16, W, 24);
+    }
   }
 
   /* ── loop ─────────────────────────────────────────────────── */
