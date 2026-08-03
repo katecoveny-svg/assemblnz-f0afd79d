@@ -20,6 +20,7 @@ VERTICALS = [
     ('airline',        'airline',     'aircraft',      'aircraft'),
     ('mealkit',        'mealkit',     'scale',         'scale'),
     ('energy',         'energy',      'meter',         'meter'),
+    ('branch',         'branch',      'phone',         'phone'),
 ]
 
 
