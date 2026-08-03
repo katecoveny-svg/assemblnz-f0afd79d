@@ -1,0 +1,283 @@
+{
+  "id": "branch",
+  "client": {
+    "name": "Instant Finance",
+    "sector": "branch lending",
+    "accent": "#47A1A3",
+    "status": "proposed"
+  },
+  "brand": {
+    "primary": "#47A1A3",
+    "secondary": "#101012",
+    "typeface": "Instant Finance house style",
+    "source": "brand-adjacent teal per the fleet page; no Instant Finance trade dress beyond the name"
+  },
+  "sheet": {
+    "title": "branch lending — assembling",
+    "drawing": "ASM-BRCH-001",
+    "rev": "A",
+    "scale": "NTS",
+    "material": "agentic wait state"
+  },
+  "drawing": { "ink": "#0F3E40", "paper": "#F8F5EE" },
+  "metaphor": {
+    "word": "before",
+    "sentence": "Twenty-five rooms with people in them. The work is everything that can be true before someone sits down in one."
+  },
+  "proposition": "Between booking a branch appointment and sitting down in it, the customer has already told the business half their story — online, and to whoever answered the phone. assembling carries that story to the desk, prepares the adviser as carefully as the customer, and lets the conversation start at minute one instead of minute ten. A person makes every decision that matters; the agent just makes sure they never start from zero.",
+  "wait": {
+    "moment": "the gap between booking the branch appointment and sitting down in it",
+    "duration": {
+      "value": "overnight, usually",
+      "source": "appointments are typically booked a day or so ahead; the exact gap varies by branch, so this page does not put a number on it",
+      "simulated": true,
+      "note": "Instant Finance publishes a same-day response, money within 24 hours of approval, 25 branches and a 4.8 customer rating (instantfinance.co.nz, July 2026). Those are the real mechanics this journey works inside."
+    },
+    "whyItExists": "A branch appointment needs a room, a person and a file. The customer books today and sits down tomorrow — and everything they typed online or said on the phone waits in three different places.",
+    "todayItFeelsLike": "You tell the website. You tell the person who answers the phone. Then you sit down and tell the same story a third time, while the ten most useful minutes of the appointment go past."
+  },
+  "agentWork": {
+    "asks": [
+      "One question, sized for a tap — “Shall I carry across what you've already told us?”",
+      "“Two documents will matter tomorrow. Photograph them now, or bring them?”"
+    ],
+    "learns": [
+      "What the customer has already said, across web and phone, so nobody asks twice.",
+      "Which documents exist and which are missing — before the desk, not at it.",
+      "Anything that needs extra care, flagged for a person and never acted on alone."
+    ],
+    "prepares": [
+      "The customer: a short checklist of what to bring, and nothing to repeat.",
+      "The adviser: a one-page brief — purpose, channel history, documents present and missing, the affordability questions that matter, any care flags.",
+      "The record: who prepared what, and who read it, before hello."
+    ],
+    "resolves": [
+      "The tell-it-three-times problem — the first question at the desk is about the loan, not the address.",
+      "The file-sent-back problem — missing pieces are found the day before, while there is still time."
+    ]
+  },
+  "reward": {
+    "headline": "A conversation that starts at minute one.",
+    "detail": "The appointment begins where the customer already got to — nothing repeated, nothing missing. Arriving with the checklist complete earns $10 off the establishment fee, because a ready file is real work. The reward is for readiness, never for borrowing more — and it is compliance-reviewed before it is ever shown.",
+    "immediate": true
+  },
+  "permission": {
+    "consent": "You booked the appointment and chose to be prepared for it. The agent carries only what you already told the business, and shows you exactly what the adviser will see.",
+    "reads": [
+      "What you entered online and said on the phone",
+      "Your appointment time and branch",
+      "The documents you choose to photograph or list"
+    ],
+    "authority": "draft",
+    "hardStops": [
+      "It never decides anything about the loan — affordability and approval belong to people, entirely.",
+      "No third-party offers appear anywhere inside a credit assessment, ever.",
+      "The reward is for readiness, never for borrowing — and never a condition of fair treatment.",
+      "Anything suggesting vulnerability goes to a person with care, and is never handled by the agent alone."
+    ],
+    "thirdPartyData": false,
+    "retention": "Your file stays with the branch, where it already was. The brief expires with the appointment.",
+    "ipp3aNotice": null
+  },
+  "human": {
+    "role": "the branch adviser",
+    "gateAt": "before anything reaches the desk — the adviser reads and signs the brief, and every lending decision is theirs",
+    "whyStatutory": "Lender responsibility principles under the CCCFA: affordability and suitability assessments are the lender's obligations, made by people. The agent prepares; it never assesses."
+  },
+  "outcome": {
+    "primary": {
+      "metric": "minutes to the first useful question",
+      "mechanism": "The first ten minutes of an appointment currently re-cover known ground. A carried file and a read brief start the conversation at the loan itself."
+    },
+    "secondary": {
+      "metric": "files complete on first sitting",
+      "mechanism": "Missing documents surface the day before the appointment, so approvals stop waiting on a second visit."
+    },
+    "hypothesis": true
+  },
+  "proof": {
+    "evidencePack": [
+      {
+        "what": "sources used",
+        "example": "what you typed online, what you told the phone, your appointment booking"
+      },
+      {
+        "what": "assumptions made",
+        "example": "the repair quote treated as the second document; income shown as payslips"
+      },
+      {
+        "what": "what changed in review",
+        "example": "the adviser added one affordability question before signing the brief"
+      },
+      {
+        "what": "who signed it off",
+        "example": "Moana, branch adviser — 4:50pm, the day before you sat down"
+      }
+    ]
+  },
+  "scenario": {
+    "persona": {
+      "name": "Tama",
+      "context": "Needs $4,000 for car repairs. Booked 11am tomorrow at the local branch, with Moana. Started the form online, finished on the phone. All figures simulated."
+    },
+    "steps": [
+      {
+        "id": "entry",
+        "stage": "entry",
+        "beat": "gather",
+        "agent": "Appointment Agent",
+        "authority": "observe",
+        "showsCustomer": "You're booked with Moana at 11 tomorrow. You've already told us most of this online and on the phone — I can carry it to the desk so you never repeat it.",
+        "doesBehind": "Reads only what Tama already gave the business, across both channels. Changes nothing, contacts no one.",
+        "question": "Carry it across?",
+        "options": ["Yes — carry it", "I'd rather start fresh"]
+      },
+      {
+        "id": "documents",
+        "stage": "context",
+        "beat": "gather",
+        "agent": "Preparation Agent",
+        "authority": "observe",
+        "showsCustomer": "Two documents will matter tomorrow: proof of income and the repair quote. Photograph them now or bring them — either way, the desk will know exactly what's present and what's missing.",
+        "doesBehind": "Builds the checklist from the application's actual shape. Nothing is submitted anywhere — the photographs wait in the file Tama can see.",
+        "question": "The documents?",
+        "options": ["Photograph them now", "I'll bring them"]
+      },
+      {
+        "id": "briefing",
+        "stage": "recommendation",
+        "beat": "prepare",
+        "agent": "Briefing Agent",
+        "authority": "draft",
+        "showsCustomer": "Meanwhile, Moana gets a one-page brief: why you're coming in, what you've already told us, which documents are ready, and the questions that will matter. You can read every word of it — nothing about you travels unseen.",
+        "doesBehind": "Drafts the adviser's brief: purpose, channel history, documents present and missing, the affordability questions a person will ask, and any care flags — which route to a person and are never acted on by the agent. No third-party offer appears anywhere in this journey; assessments carry no advertising, ever.",
+        "question": null,
+        "options": []
+      },
+      {
+        "id": "readiness",
+        "stage": "context",
+        "beat": "reveal",
+        "agent": "Preparation Agent",
+        "authority": "observe",
+        "showsCustomer": "Your checklist is one item from complete. Finishing it earns $10 off the establishment fee — a reward for arriving ready, never for borrowing more. (Simulated figure; the mechanic is compliance-reviewed.)",
+        "doesBehind": "The credit rewards a complete file — work that genuinely saves the branch time. It is never conditional on loan size, never offered mid-assessment as an inducement, and never a condition of fair treatment.",
+        "question": "Finish the checklist?",
+        "options": ["Finish it now", "Later tonight"]
+      },
+      {
+        "id": "approval",
+        "stage": "commitment",
+        "beat": "hold",
+        "agent": null,
+        "human": "the branch adviser",
+        "authority": "act with approval",
+        "approving": "the brief itself — nothing reaches the desk unread, and every lending judgement stays with the person behind it",
+        "showsCustomer": "Everything waits here for Moana. She reads and signs the brief before you arrive — so the conversation starts before the phone rings, and it starts with a person.",
+        "doesBehind": "The brief holds until the adviser signs it. If she questions anything, it comes back as a question to Tama — never a silent change.",
+        "blocking": true,
+        "question": "Send the brief to Moana?",
+        "options": ["Send it"]
+      },
+      {
+        "id": "resolution",
+        "stage": "resolution",
+        "beat": "resolve",
+        "agent": "Record Agent",
+        "authority": "recommend",
+        "showsCustomer": "11:02 the next morning: the first question was about the car, not your address. The record shows what was prepared, what Moana read, and the $10 readiness credit against the fee. The decision — and the same-day response — stay the branch's promise, made by people.",
+        "doesBehind": "Writes the record: what was carried, who read it, what was asked and answered. The lending decision itself never touched the agent.",
+        "question": null,
+        "options": []
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.",
+      "source": "ServiceNow Customer Experience Report, March 2026",
+      "year": 2026,
+      "simulated": false,
+      "soWhat": "The tell-it-three-times appointment is the same waste, sitting down. Carrying the story once is the branch's version of deleting the queue."
+    },
+    {
+      "claim": "Instant Finance publishes a same-day response, money within 24 hours of approval, 25 branches and a 4.8 rating from its own customers.",
+      "source": "instantfinance.co.nz, July 2026",
+      "year": 2026,
+      "simulated": false,
+      "soWhat": "The constraint on a fast promise is not the decision — it is how much of each conversation is spent recovering information the customer already gave somewhere else."
+    },
+    {
+      "claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.",
+      "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)",
+      "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376",
+      "year": 2011,
+      "simulated": false,
+      "soWhat": "A brief the customer can read — every word the adviser will see — is trust built the night before the appointment."
+    },
+    {
+      "claim": "No NZ lender publishes appointment-length or file-completeness figures — every operational number in this journey is therefore labelled simulated.",
+      "source": "assembl research note",
+      "year": 2026,
+      "simulated": true,
+      "soWhat": "The honesty rule holds: the repeated story and the sent-back file are real, and the page does not invent numbers for them."
+    }
+  ],
+  "copy": {
+    "heroEyebrow": "assembling · branch lending",
+    "beforeWhileAfter": {
+      "beforeLabel": "before",
+      "before": "You type it into the website, say it again to whoever answers the phone, then sit down at the branch and tell it a third time — while the ten most useful minutes of the appointment go past.",
+      "whileLabel": "while",
+      "while": "Overnight, the agent carries your story to the desk, builds your checklist, and drafts a one-page brief the adviser reads and signs before you arrive. You can read every word of it too.",
+      "afterLabel": "after",
+      "after": "The first question at the desk is about the loan, not your address. The file is complete on the first sitting, the readiness credit is on the fee, and every decision was a person's."
+    },
+    "headline": "the branch conversation starts before the phone rings",
+    "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Instant Finance's journey; the readiness credit shown is a proposed concept, not a current offer.",
+    "assemblyBeats": [
+      { "at": 0.0, "beat": "gather", "text": "every part, laid out" },
+      { "at": 0.14, "beat": "gather", "text": "the base lands on the desk" },
+      { "at": 0.34, "beat": "prepare", "text": "the bells find their voice" },
+      { "at": 0.55, "beat": "reveal", "text": "the dial comes round" },
+      { "at": 0.76, "beat": "hold", "text": "held — the adviser reads the brief before it rings" },
+      { "at": 0.9, "beat": "resolve", "text": "ready before it rings" }
+    ]
+  },
+  "explainer": {
+    "heading": "what a monetised wait state actually is",
+    "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.",
+    "waitLabel": "booking to desk",
+    "figures": {
+      "business": "the branch",
+      "out": "a conversation, prepared",
+      "youGet": ["nothing to tell twice", "the fee, $10 lighter", "a person from minute one"],
+      "businessGets": ["appointments that start ready", "fewer files sent back"]
+    },
+    "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.",
+    "panels": [
+      {
+        "title": "the wait you already have",
+        "caption": "Every branch network makes people wait somewhere. Here it is the gap between booking the appointment and sitting down in it."
+      },
+      {
+        "title": "what the gap costs",
+        "caption": "The first ten minutes re-cover ground the customer covered twice already. Files arrive incomplete and get sent back for a second visit."
+      },
+      {
+        "title": "what fills it",
+        "caption": "assembling carries the story once, finds the missing document the day before, and briefs the adviser — who reads and signs before hello."
+      },
+      {
+        "title": "who is better off",
+        "caption": "The customer never repeats themselves and keeps the readiness credit; the branch starts every appointment at the loan itself. People decide everything."
+      }
+    ],
+    "textEquivalent": [
+      "Start with the wait you already have. A branch appointment is booked today and happens tomorrow, and everything the customer already said waits in three different places.",
+      "The gap costs both sides. The first ten minutes of the appointment re-cover known ground, and incomplete files turn one visit into two.",
+      "assembling fills the gap: the story carried once, the checklist built, the adviser briefed — with the customer able to read every word. Arriving ready earns $10 off the establishment fee.",
+      "By 11am, both sides are better off: the conversation starts at the loan, the file is complete, and every judgement belonged to the adviser. No third-party offer appeared anywhere — assessments carry no advertising, ever."
+    ]
+  }
+}
