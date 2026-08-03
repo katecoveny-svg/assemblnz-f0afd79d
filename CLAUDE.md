@@ -16,6 +16,8 @@ carries a "sample business — details fictional" strip. Keep it that way.
 **Read `docs/LIVING-SITE-HANDOVER.md` before touching Living Site work** —
 it carries the full state, database details, PR history, and the open list.
 
+**Agentic wait states roadmap (locked 2026-08-03): `docs/agentic-wait-states-roadmap.md`** — the three products (live / rewarded / sponsored waits), sponsorship models A–E, per-company scope and exact wording for the demonstrator family (Air NZ, Contact, Nectar, Instant Finance, Sharesies, My Food Bag, Summerset, Ryman). Build demos to this.
+
 **Strategic direction — agentic customer journeys.** assembl creates agentic
 customer journeys that understand what people need, complete the work around
 them, and prove the experience is improving. "Find the friction. Assemble the
