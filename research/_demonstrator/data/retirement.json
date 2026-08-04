@@ -23,7 +23,7 @@
     "word": "landscape",
     "sentence": "Questions, family needs and the money assemble into a calm decision landscape — at the gentlest pace on this site, because this is the decision that deserves it."
   },
-  "proposition": "The law gives a resident 15 working days to be sure. assembling turns that window into preparation — the money in plain words, the family's questions answered once, the lawyer briefed — so the decision is made inside the window, not despite it.",
+  "proposition": "A retirement decision is a family journey — assemble it before the tour. From the enquiry onward, assembling prepares each wait in the journey: the info-pack days become the family's questions gathered once, the tour is planned around what matters to each person, and the statutory 15 working days after signing become preparation — the money in plain words, the lawyer briefed — so the decision is made inside the window, not despite it.",
   "wait": {
     "moment": "the 15 working days after you sign the Occupation Right Agreement",
     "duration": {
@@ -31,7 +31,7 @@
       "source": "Retirement Villages Act 2003, s 28(1)(a)",
       "url": "https://www.legislation.govt.nz/act/public/2003/0112/latest/whole.html",
       "simulated": false,
-      "note": "An ORA must allow cancellation without reason for 15 working days after signing. Independent legal advice is mandatory under s 27 and must be certified."
+      "note": "An ORA must allow cancellation without reason for 15 working days after signing. Independent legal advice is mandatory under s 27 and must be certified. The journey starts earlier — the info-pack wait and the tour are prepared the same way, so the family arrives at the window already understood."
     },
     "whyItExists": "Parliament decided this decision is too big to be rushed: a licence to occupy, a deferred management fee, a family's next chapter. The window exists so a resident can be sure — with their own lawyer, by law.",
     "todayItFeelsLike": "A tour, a brochure, a legal document — then a fortnight in which the biggest questions finally surface, after everyone has gone home."
@@ -47,9 +47,9 @@
       "What the money means in dollars on this villa, not in defined terms."
     ],
     "prepares": [
+      "The tour, around what matters: the pet policy in writing, the north-facing villa first, and a family readiness summary the village team reads — every word visible to the family before it goes.",
       "The money in plain words: the deferred management fee in dollars, the weekly fee and its cap, the deposit and who holds it.",
-      "One brief for the independent lawyer, with the family's open questions attached.",
-      "The calendar: which working day of the window it is, and what remains open."
+      "One brief for the independent lawyer, with the family's open questions attached — and a printed comparison pack, made from the family's own questions, to take home."
     ],
     "resolves": [
       "The repeat questions — each one answered once, visibly, for everyone the resident allowed.",
@@ -58,7 +58,7 @@
   },
   "reward": {
     "headline": "A decision made with your eyes open, inside the window.",
-    "detail": "By the lawyer's appointment, the resident and their family hold one plain-words sheet: what this villa costs to live in, what leaving costs, what the law protects, and which questions are still open. The certificate the law requires gets signed over understanding, not over trust.",
+    "detail": "By the lawyer's appointment, the resident and their family hold one plain-words sheet: what this villa costs to live in, what leaving costs, what the law protects, and which questions are still open. The certificate the law requires gets signed over understanding, not over trust. Along the way the rewards are respect, never discounts: lunch for the family after the tour, transport if the drive is hard, a moving consultation, and the printed comparison pack — a decision like this is not for sale.",
     "immediate": true
   },
   "permission": {
@@ -117,35 +117,49 @@
   "scenario": {
     "persona": {
       "name": "Margaret",
-      "context": "78, deciding on a two-bedroom villa with her daughter Sue. ORA signed Tuesday — the 15 working days are running."
+      "context": "78, looking at a two-bedroom villa with her daughter Sue. Enquiry sent, information pack on its way, tour on Saturday — and later, an ORA and its 15 working days."
     },
     "steps": [
       {
         "id": "entry",
         "stage": "entry",
         "beat": "gather",
-        "agent": "Window Agent",
+        "agent": "Enquiry Agent",
         "authority": "observe",
-        "showsCustomer": "It is day 2 of your 15 working days. Nothing is final until your own lawyer certifies it — that is the law, and this window is yours. Shall we get the questions out of everyone's heads and into one place?",
-        "doesBehind": "Opens the family file and starts the window calendar. Reads the ORA as issued. Contacts nobody.",
-        "question": "Start gathering the questions?",
+        "showsCustomer": "Your information pack is on its way and Saturday's tour is booked. A retirement decision is a family journey — tell me who is part of this one, and everyone can arrive prepared.",
+        "doesBehind": "Opens the family file. Reads only the enquiry as sent. Contacts nobody.",
+        "question": "Who is part of the decision?",
         "options": [
-          "Yes — include Sue",
+          "Me and my daughter Sue",
           "Just me for now"
         ]
       },
       {
-        "id": "family",
+        "id": "tour",
         "stage": "context",
         "beat": "gather",
         "agent": "Family Agent",
+        "authority": "draft",
+        "showsCustomer": "Sue's questions and yours travel together — care escalation and money-back terms from her, the garden and the dog from you. Saturday is drafted around them: the pet policy in writing, the north-facing villa first. The village team gets a family readiness summary — you can read every word before it goes. And the visit comes with lunch for you both, transport if the drive is hard, and a printed comparison pack made from your own questions. Never a discount: this decision is not for sale.",
+        "doesBehind": "The readiness summary holds only what the family said — who is coming, and what matters to each person. Nothing inferred, nothing about health, and it goes nowhere without a yes. The tour happens the same either way.",
+        "question": "Send the readiness summary to the village?",
+        "options": [
+          "Send it",
+          "Tour without it"
+        ]
+      },
+      {
+        "id": "window",
+        "stage": "context",
+        "beat": "gather",
+        "agent": "Window Agent",
         "authority": "observe",
-        "showsCustomer": "Sue asked three questions overnight. Two are answered in the documents you already have — here they are in plain words. One is for the village: can the garden bed come with you?",
-        "doesBehind": "Deduplicates the family's questions, answers what the ORA and fee schedule already answer, and routes only the genuine unknowns — once.",
+        "showsCustomer": "The tour was Saturday; the ORA was signed Tuesday. It is day 2 of your 15 working days, and nothing is final until your own lawyer certifies it — that is the law, and this window is yours. Sue asked three questions overnight: two are answered in the documents you already have, in plain words here. One is for the village — can the garden bed come with you?",
+        "doesBehind": "Starts the window calendar and reads the ORA as issued. Deduplicates the family's questions, answers what the documents already answer, and routes only the genuine unknowns — once.",
         "question": "Send the garden question to the village?",
         "options": [
           "Yes, ask them",
-          "Leave it for the visit"
+          "Leave it for now"
         ]
       },
       {
