@@ -15,6 +15,7 @@
 
 import { useId, useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type Intent = 'api-key' | 'talk-to-kate';
 type Status = 'idle' | 'submitting' | 'done' | 'error';
@@ -43,6 +44,7 @@ export function DataWaitlistForm() {
   const [intent, setIntent] = useState<Intent>('api-key');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [useCaseLength, setUseCaseLength] = useState(0);
   const emailId = useId();
   const orgId = useId();
   const useCaseId = useId();
@@ -86,6 +88,7 @@ export function DataWaitlistForm() {
       }
 
       form.reset();
+      setUseCaseLength(0);
       setStatus('done');
     } catch {
       setError('Network hiccup. Please try again, or email assembl@assembl.co.nz.');
@@ -161,9 +164,29 @@ export function DataWaitlistForm() {
               id={useCaseId}
               name="useCase"
               rows={2}
+              maxLength={1000}
               placeholder={copy.useCasePlaceholder}
-              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+              onChange={(e) => setUseCaseLength(e.target.value.length)}
+              aria-describedby="usecase-counter"
+              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/30"
             />
+            <div className="mt-2 flex justify-end">
+              <span
+                id="usecase-counter"
+                className={cn(
+                  "font-mono text-[10px] uppercase tracking-[0.1em]",
+                  useCaseLength > 900
+                    ? "text-destructive font-medium"
+                    : "text-[color:var(--text-secondary)]",
+                )}
+                aria-hidden="true"
+              >
+                {useCaseLength} / 1000 characters
+              </span>
+              <span className="sr-only" aria-live="polite">
+                {useCaseLength > 900 ? `${useCaseLength} / 1000 characters` : ""}
+              </span>
+            </div>
           </div>
 
           {status === 'error' && error ? (
@@ -211,15 +234,21 @@ function Field({
     <div>
       <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         {label}
+        {required && (
+          <span className="ml-1 text-[color:var(--assembl-pounamu)]" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
+        aria-required={required ? "true" : undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/30"
       />
     </div>
   );
