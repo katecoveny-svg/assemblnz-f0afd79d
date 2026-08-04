@@ -289,11 +289,38 @@ export function createAssembly(canvas, manifest, opts = {}) {
   const board = manifest.board || { w: 960, h: 640 };
   const parts = manifest.parts;
 
+  /* Convergence — the signature's mechanism for Giltrap. The centre is fixed
+     from frame one; every other part starts off-stage and arrives along its
+     own radial, seating centre-out. The renderer is untouched: this is only
+     a different answer to where a part starts and when it moves. */
+  if (manifest.mechanism === 'convergence') {
+    const R = Math.hypot(manifest.board.w, manifest.board.h) / 2 + 160;
+    const ranked = [...parts].sort((a, b) =>
+      Math.hypot(a.to.x, a.to.y) - Math.hypot(b.to.x, b.to.y));
+    const bandSize = Math.ceil(ranked.length / 7);
+    ranked.forEach((part, i) => {
+      const band = Math.min(7, Math.floor(i / bandSize) + 1);
+      part.wave = band;
+      part.labelAt = { x: part.to.x, y: part.to.y };
+      if (band === 1) {
+        part.lay = { x: part.to.x, y: part.to.y };   /* the fixed centre */
+        part.layRot = part.to.rot || 0;
+      } else {
+        const d = Math.hypot(part.to.x, part.to.y);
+        const a = d > 1 ? Math.atan2(part.to.y, part.to.x)
+          : (i / ranked.length) * 6.2832;
+        part.lay = { x: Math.cos(a) * R, y: Math.sin(a) * R };
+        part.layRot = (part.to.rot || 0) + (i % 2 ? 0.55 : -0.55);
+      }
+    });
+  }
+
   /* The blueprint direction, Aug 2026: the resting state is a technical
      drawing — deep ink linework on off-white graph paper — and the parts
      come OFF the plans as their wave lifts: ink crossfades to material in
      flight. The still (reduced motion, low power) is the drawing plate. */
   const INK = opts.ink || manifest.ink || '#12294F';
+  const NIGHT = opts.unresolved || manifest.unresolved || '#10254F';
   const PAPER = opts.paper || manifest.paper || '#F8F5EE';
 
   const state = {
@@ -577,15 +604,22 @@ export function createAssembly(canvas, manifest, opts = {}) {
       }
     }
     if (layer === 'ink' && p.label && !mobile) {
-      const a = clamp01(1 - state.progress / 0.25) * 0.6;
+      /* accretion: flat-lay labels that fade as assembly begins. convergence:
+         a label belongs at the seat, appears when its part lands, and clears
+         before the sweep so the beauty shot stays clean. */
+      const conv = manifest.mechanism === 'convergence';
+      const a = conv
+        ? (pose.t >= 0.98 ? clamp01(1 - (state.progress - 0.5) / 0.1) * 0.6 : 0)
+        : clamp01(1 - state.progress / 0.25) * 0.6;
       if (a > 0.02) {
+        const at = conv ? p.labelAt : p.lay;
         c.save();
         c.globalAlpha = a;
         c.fillStyle = INK;
         c.font = `400 ${Math.max(8, 9.5 * scale)}px Jost, Futura, system-ui, sans-serif`;
         c.textAlign = 'center';
         const below = (p.h || (p.r || 5) * 2) / 2 + 11;
-        c.fillText(p.label, p.lay.x * scale, (p.lay.y + below) * scale);
+        c.fillText(p.label, at.x * scale, (at.y + below) * scale);
         c.restore();
       }
     }
@@ -628,7 +662,7 @@ export function createAssembly(canvas, manifest, opts = {}) {
     const sweep = ease(clamp01((prog - 0.55) / 0.42));
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#10254F';
+    ctx.fillStyle = NIGHT;
     ctx.fillRect(0, 0, W, H);
     if (drain > 0.001) {
       ctx.globalAlpha = drain; ctx.fillStyle = '#F4F1EA';

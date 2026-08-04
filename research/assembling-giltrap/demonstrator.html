@@ -697,7 +697,7 @@ body { background-image:
         <span class="authority-chip" data-level="act with approval" data-authority-chip></span>
         <span class="authority-chip" data-metaphor-chip></span>
       </div>
-      <p class="small caption" data-enter style="--i:4">Scroll to assemble.</p>
+      <p class="small caption" data-enter data-cue-line style="--i:4">Scroll to assemble.</p>
     </div>
   </section>
 
@@ -1373,11 +1373,38 @@ function createAssembly(canvas, manifest, opts = {}) {
   const board = manifest.board || { w: 960, h: 640 };
   const parts = manifest.parts;
 
+  /* Convergence — the signature's mechanism for Giltrap. The centre is fixed
+     from frame one; every other part starts off-stage and arrives along its
+     own radial, seating centre-out. The renderer is untouched: this is only
+     a different answer to where a part starts and when it moves. */
+  if (manifest.mechanism === 'convergence') {
+    const R = Math.hypot(manifest.board.w, manifest.board.h) / 2 + 160;
+    const ranked = [...parts].sort((a, b) =>
+      Math.hypot(a.to.x, a.to.y) - Math.hypot(b.to.x, b.to.y));
+    const bandSize = Math.ceil(ranked.length / 7);
+    ranked.forEach((part, i) => {
+      const band = Math.min(7, Math.floor(i / bandSize) + 1);
+      part.wave = band;
+      part.labelAt = { x: part.to.x, y: part.to.y };
+      if (band === 1) {
+        part.lay = { x: part.to.x, y: part.to.y };   /* the fixed centre */
+        part.layRot = part.to.rot || 0;
+      } else {
+        const d = Math.hypot(part.to.x, part.to.y);
+        const a = d > 1 ? Math.atan2(part.to.y, part.to.x)
+          : (i / ranked.length) * 6.2832;
+        part.lay = { x: Math.cos(a) * R, y: Math.sin(a) * R };
+        part.layRot = (part.to.rot || 0) + (i % 2 ? 0.55 : -0.55);
+      }
+    });
+  }
+
   /* The blueprint direction, Aug 2026: the resting state is a technical
      drawing — deep ink linework on off-white graph paper — and the parts
      come OFF the plans as their wave lifts: ink crossfades to material in
      flight. The still (reduced motion, low power) is the drawing plate. */
   const INK = opts.ink || manifest.ink || '#12294F';
+  const NIGHT = opts.unresolved || manifest.unresolved || '#10254F';
   const PAPER = opts.paper || manifest.paper || '#F8F5EE';
 
   const state = {
@@ -1661,15 +1688,22 @@ function createAssembly(canvas, manifest, opts = {}) {
       }
     }
     if (layer === 'ink' && p.label && !mobile) {
-      const a = clamp01(1 - state.progress / 0.25) * 0.6;
+      /* accretion: flat-lay labels that fade as assembly begins. convergence:
+         a label belongs at the seat, appears when its part lands, and clears
+         before the sweep so the beauty shot stays clean. */
+      const conv = manifest.mechanism === 'convergence';
+      const a = conv
+        ? (pose.t >= 0.98 ? clamp01(1 - (state.progress - 0.5) / 0.1) * 0.6 : 0)
+        : clamp01(1 - state.progress / 0.25) * 0.6;
       if (a > 0.02) {
+        const at = conv ? p.labelAt : p.lay;
         c.save();
         c.globalAlpha = a;
         c.fillStyle = INK;
         c.font = `400 ${Math.max(8, 9.5 * scale)}px Jost, Futura, system-ui, sans-serif`;
         c.textAlign = 'center';
         const below = (p.h || (p.r || 5) * 2) / 2 + 11;
-        c.fillText(p.label, p.lay.x * scale, (p.lay.y + below) * scale);
+        c.fillText(p.label, at.x * scale, (at.y + below) * scale);
         c.restore();
       }
     }
@@ -1712,7 +1746,7 @@ function createAssembly(canvas, manifest, opts = {}) {
     const sweep = ease(clamp01((prog - 0.55) / 0.42));
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#10254F';
+    ctx.fillStyle = NIGHT;
     ctx.fillRect(0, 0, W, H);
     if (drain > 0.001) {
       ctx.globalAlpha = drain; ctx.fillStyle = '#F4F1EA';
@@ -3157,7 +3191,7 @@ const { LIGHT, applyBrand, bevel, brush, contrast, createAssembly, createBluepri
 
 
 
-const data = {"id": "automotive", "client": {"name": "Giltrap Group", "sector": "automotive retail", "accent": "#76A6BD", "status": "proposed"}, "brand": {"primary": "#76A6BD", "secondary": "#2C3037", "typeface": "marque-neutral house style", "source": "Giltrap house steel blue and charcoal; the group's identity is deliberately marque-neutral, so no marque trade dress appears anywhere on this page"}, "sheet": {"title": "automotive retail — assembling", "drawing": "ASM-AUTO-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "metaphor": {"word": "assembly line", "sentence": "A car is a thousand parts that only mean something in order — and so is a reply about one."}, "proposition": "While the customer waits for a human to reply, assembling does the work the reply needs — so the person who answers is saying yes to a finished thing, not starting one.", "wait": {"moment": "the gap between an online enquiry and a human reply", "duration": {"value": "unmeasured", "source": "no NZ dealer group publishes its enquiry reply time", "simulated": true, "note": "The wait is real — enquiries arrive at 9pm, showrooms answer at 9am. No published NZ figure exists, so this page does not invent one."}, "whyItExists": "An enquiry needs a person who knows the car, and the car is one of thousands across twenty-four marques. Finding the right person with the right stock takes time the customer spends in silence.", "todayItFeelsLike": "You ask about a specific car at 9pm. Somebody opens the inbox tomorrow. By then you are three tabs further down the road."}, "agentWork": {"asks": ["One question, sized for a tap — “Is there a trade-in?”", "“Weekday or weekend for a look in person?”"], "learns": ["Which car, exactly — not the model line, the VIN on the lot.", "Whether the enquiry is tonight-serious or someday-curious, from what was asked.", "What the trade-in is, if there is one, so the valuation can start now."], "prepares": ["The reply, drafted from live stock — the car's actual history, actual location, actual availability.", "The trade-in valuation request, queued for the buyer's own marque team.", "The follow-up if this car sells first: the two closest cars actually on the lot."], "resolves": ["The availability question — checked against the DMS, not memory.", "The double-handling — the enquiry reaches one person, once, with everything attached."]}, "reward": {"headline": "An answer about the actual car, while you still care.", "detail": "The reply that arrives is about the car you asked about — its real history, whether it is really available, what a look at it would take — with a person's name on it. If there is a trade-in, its valuation is already moving.", "immediate": true}, "permission": {"consent": "The customer asked about a car. That is the whole basis — the agent works that enquiry and nothing else.", "reads": ["The group stock file, via the DMS", "The enquired vehicle's history and media", "The enquiry exactly as the customer wrote it"], "authority": "draft", "hardStops": ["It never sends anything a person has not approved.", "It never changes a price or lists a vehicle.", "It never contacts a customer on its own."], "thirdPartyData": false, "retention": "Drafts live in the DMS like any other note. Deleting the enquiry deletes the work.", "ipp3aNotice": null}, "human": {"role": "Dealer Principal", "gateAt": "before anything is sent or published", "whyStatutory": null}, "outcome": {"primary": {"metric": "enquiries answered while the customer is still looking", "mechanism": "The reply is drafted from live stock the moment the enquiry lands, so the wait for a person is the wait for a yes — not for the work."}, "secondary": {"metric": "campaign freshness against the lot", "mechanism": "Campaigns assemble from what is actually in stock, so nothing advertises a car that sold on Tuesday."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "DMS stock record, vehicle history file, the enquiry as written"}, {"what": "assumptions made", "example": "trade-in valuation is indicative until sighted; availability held for 48 hours"}, {"what": "what changed in review", "example": "the dealer principal added a Saturday viewing slot before approving"}, {"what": "who signed it off", "example": "S. Kenchington, Dealer Principal — 8:41am, before the reply went out"}]}, "scenario": {"persona": {"name": "Tom", "context": "Asked about a specific used wagon at 9:12pm on a Sunday. Trade-in undeclared."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Enquiry Agent", "authority": "observe", "showsCustomer": "Got your message about the wagon. The showroom is closed — a person will reply in the morning. While you wait, two quick questions will make their answer better.", "doesBehind": "Reads the enquiry and pulls the exact vehicle's record from the DMS: history, location, availability. Nothing is sent to anyone yet.", "question": "Happy to answer two quick questions?", "options": ["Go ahead", "No thanks, just the reply"]}, {"id": "tradein", "stage": "context", "beat": "gather", "agent": "Context Agent", "authority": "observe", "showsCustomer": "Is there a car you'd trade in? If there is, its valuation can start tonight instead of after your first visit.", "doesBehind": "A declared trade-in goes to the right marque team's queue now. This is the single question that most often saves a second visit.", "question": "Trading something in?", "options": ["Yes — a 2019 SUV", "No trade-in"]}, {"id": "viewing", "stage": "context", "beat": "reveal", "agent": "Context Agent", "authority": "observe", "showsCustomer": "The wagon is at the Grey Lynn site and available. Weekday or weekend, if you wanted to see it?", "doesBehind": "Availability is checked against the DMS, not somebody's memory of the lot. The answer is written down so nobody asks it again.", "question": "When suits a look?", "options": ["Weekend", "Weekday evening"]}, {"id": "prepare", "stage": "recommendation", "beat": "prepare", "agent": "Drafting Agent", "authority": "draft", "showsCustomer": "Putting the morning's reply together. Nothing sends without a person.", "doesBehind": "Drafts the reply from the vehicle's real record, attaches the viewing options, and queues the trade-in valuation request. All of it sits as drafts in the DMS.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "Dealer Principal", "authority": "act with approval", "approving": "the reply, the viewing offer and the valuation request — before anything reaches the customer", "showsCustomer": "Your reply is drafted and waiting for the morning's sign-off. A person sends it — that is the house rule, not a formality.", "doesBehind": "Everything stops. The agent has no authority past this line.", "blocking": true, "question": "It's 8:40am. Release the drafts to the dealer principal?", "options": ["Send them through"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Resolution Agent", "authority": "recommend", "showsCustomer": "Reply sent, 8:41am — the actual car, a Saturday slot, and your trade-in's indicative range. Here is everything that was done overnight, and who signed it.", "doesBehind": "Writes the evidence pack: what was read, what was drafted, what the dealer principal changed, and the signature.", "question": null, "options": []}]}, "evidence": [{"claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.", "source": "ServiceNow Customer Experience Report, March 2026", "year": 2026, "simulated": false, "soWhat": "The enquiry wait is the same wait in another channel. The customer who hears back first is the customer who visits."}, {"claim": "AI-referred traffic to retail sites grew 393% in a year, and it converts better than any other channel.", "source": "Adobe Digital Insights, quarterly AI traffic report, April 2026 — a US figure, flagged as such", "year": 2026, "simulated": false, "soWhat": "The buyer's agent is already shopping. A lot whose stock is current and readable is a lot that agents can recommend."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "An overnight wait that shows its overnight work is worth more than a fast reply that shows nothing."}, {"claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.", "source": "Moffatt v. Air Canada, 2024 BCCRT 149", "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/", "year": 2024, "simulated": false, "soWhat": "This is why the dealer principal gate exists. Nothing reaches a customer without a person who answers for it."}], "copy": {"heroEyebrow": "assembling · automotive retail", "beforeWhileAfter": {"beforeLabel": "before", "before": "An enquiry lands in a shared inbox at 9pm. It reaches a salesperson when somebody sees it. The customer hears nothing until then, and some of them keep scrolling.", "whileLabel": "while", "while": "The agent reads the DMS, checks the car is really available, drafts the reply and starts the trade-in valuation — overnight, in the open, as drafts.", "afterLabel": "after", "after": "The dealer principal signs at 8:41am. The customer hears back about the actual car with a viewing slot attached — while they are still looking."}, "headline": "the overnight enquiry, assembled by morning", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Giltrap Group's journey, and no marque trade dress appears on this page.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "every part, laid out"}, {"at": 0.14, "beat": "gather", "text": "the chassis rails arrive first"}, {"at": 0.34, "beat": "prepare", "text": "the drivetrain settles in"}, {"at": 0.55, "beat": "reveal", "text": "the body closes over"}, {"at": 0.76, "beat": "hold", "text": "held — the dealer principal signs before it moves"}, {"at": 0.9, "beat": "resolve", "text": "ready for the road"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "overnight", "figures": {"business": "the dealership", "out": "an answer about the car", "youGet": ["an answer while you care", "no form to fill in twice", "the actual car, answered"], "businessGets": ["fewer enquiries gone cold", "no chasing by email"]}, "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every dealer makes buyers wait somewhere. Here it is the overnight gap between an enquiry and a reply. Right now that gap produces nothing."}, {"title": "what the gap costs", "caption": "Some buyers keep scrolling. The ones who stay get asked the same questions twice. The valuation starts after the visit instead of before it."}, {"title": "what fills it", "caption": "assembling works the gap: two tap-sized questions in, a drafted reply and a moving valuation out — all of it sitting as drafts for the morning."}, {"title": "who is better off", "caption": "The buyer hears back about the actual car while they still care. The group answers once, with everything attached. The dealer principal signs every send."}], "textEquivalent": ["Start with the wait you already have. An enquiry about a car arrives at night; a person replies in the morning. Today, nothing happens in between.", "That gap costs sales. Some buyers keep scrolling. The same questions get asked twice. The trade-in valuation starts a visit later than it could.", "assembling fills the gap with useful work. It answers two tap-sized questions, drafts the reply from live stock, and starts the valuation — as drafts.", "By morning, both sides are better off: the buyer gets an answer about the actual car with a viewing slot, and the group gets an enquiry handled once, completely. The dealer principal signs it, every time."]}, "drawing": {"ink": "#12294F", "paper": "#F8F5EE"}};
+const data = {"id": "automotive", "client": {"name": "Giltrap Group", "sector": "automotive retail", "accent": "#76A6BD", "status": "proposed"}, "brand": {"primary": "#76A6BD", "secondary": "#2C3037", "typeface": "marque-neutral house style", "source": "Giltrap house steel blue and charcoal; the group's identity is deliberately marque-neutral, so no marque trade dress appears anywhere on this page"}, "sheet": {"title": "automotive retail — assembling", "drawing": "ASM-AUTO-001", "rev": "A", "scale": "NTS", "material": "agentic wait state"}, "metaphor": {"word": "assembly line", "sentence": "A car is a thousand parts that only mean something in order — and so is a reply about one."}, "proposition": "While the customer waits for a human to reply, assembling does the work the reply needs — so the person who answers is saying yes to a finished thing, not starting one.", "wait": {"moment": "the gap between an online enquiry and a human reply", "duration": {"value": "unmeasured", "source": "no NZ dealer group publishes its enquiry reply time", "simulated": true, "note": "The wait is real — enquiries arrive at 9pm, showrooms answer at 9am. No published NZ figure exists, so this page does not invent one."}, "whyItExists": "An enquiry needs a person who knows the car, and the car is one of thousands across twenty-four marques. Finding the right person with the right stock takes time the customer spends in silence.", "todayItFeelsLike": "You ask about a specific car at 9pm. Somebody opens the inbox tomorrow. By then you are three tabs further down the road."}, "agentWork": {"asks": ["One question, sized for a tap — “Is there a trade-in?”", "“Weekday or weekend for a look in person?”"], "learns": ["Which car, exactly — not the model line, the VIN on the lot.", "Whether the enquiry is tonight-serious or someday-curious, from what was asked.", "What the trade-in is, if there is one, so the valuation can start now."], "prepares": ["The reply, drafted from live stock — the car's actual history, actual location, actual availability.", "The trade-in valuation request, queued for the buyer's own marque team.", "The follow-up if this car sells first: the two closest cars actually on the lot."], "resolves": ["The availability question — checked against the DMS, not memory.", "The double-handling — the enquiry reaches one person, once, with everything attached."]}, "reward": {"headline": "An answer about the actual car, while you still care.", "detail": "The reply that arrives is about the car you asked about — its real history, whether it is really available, what a look at it would take — with a person's name on it. If there is a trade-in, its valuation is already moving.", "immediate": true}, "permission": {"consent": "The customer asked about a car. That is the whole basis — the agent works that enquiry and nothing else.", "reads": ["The group stock file, via the DMS", "The enquired vehicle's history and media", "The enquiry exactly as the customer wrote it"], "authority": "draft", "hardStops": ["It never sends anything a person has not approved.", "It never changes a price or lists a vehicle.", "It never contacts a customer on its own."], "thirdPartyData": false, "retention": "Drafts live in the DMS like any other note. Deleting the enquiry deletes the work.", "ipp3aNotice": null}, "human": {"role": "Dealer Principal", "gateAt": "before anything is sent or published", "whyStatutory": null}, "outcome": {"primary": {"metric": "enquiries answered while the customer is still looking", "mechanism": "The reply is drafted from live stock the moment the enquiry lands, so the wait for a person is the wait for a yes — not for the work."}, "secondary": {"metric": "campaign freshness against the lot", "mechanism": "Campaigns assemble from what is actually in stock, so nothing advertises a car that sold on Tuesday."}, "hypothesis": true}, "proof": {"evidencePack": [{"what": "sources used", "example": "DMS stock record, vehicle history file, the enquiry as written"}, {"what": "assumptions made", "example": "trade-in valuation is indicative until sighted; availability held for 48 hours"}, {"what": "what changed in review", "example": "the dealer principal added a Saturday viewing slot before approving"}, {"what": "who signed it off", "example": "S. Kenchington, Dealer Principal — 8:41am, before the reply went out"}]}, "scenario": {"persona": {"name": "Tom", "context": "Asked about a specific used wagon at 9:12pm on a Sunday. Trade-in undeclared."}, "steps": [{"id": "entry", "stage": "entry", "beat": "gather", "agent": "Enquiry Agent", "authority": "observe", "showsCustomer": "Got your message about the wagon. The showroom is closed — a person will reply in the morning. While you wait, two quick questions will make their answer better.", "doesBehind": "Reads the enquiry and pulls the exact vehicle's record from the DMS: history, location, availability. Nothing is sent to anyone yet.", "question": "Happy to answer two quick questions?", "options": ["Go ahead", "No thanks, just the reply"]}, {"id": "tradein", "stage": "context", "beat": "gather", "agent": "Context Agent", "authority": "observe", "showsCustomer": "Is there a car you'd trade in? If there is, its valuation can start tonight instead of after your first visit.", "doesBehind": "A declared trade-in goes to the right marque team's queue now. This is the single question that most often saves a second visit.", "question": "Trading something in?", "options": ["Yes — a 2019 SUV", "No trade-in"]}, {"id": "viewing", "stage": "context", "beat": "reveal", "agent": "Context Agent", "authority": "observe", "showsCustomer": "The wagon is at the Grey Lynn site and available. Weekday or weekend, if you wanted to see it?", "doesBehind": "Availability is checked against the DMS, not somebody's memory of the lot. The answer is written down so nobody asks it again.", "question": "When suits a look?", "options": ["Weekend", "Weekday evening"]}, {"id": "prepare", "stage": "recommendation", "beat": "prepare", "agent": "Drafting Agent", "authority": "draft", "showsCustomer": "Putting the morning's reply together. Nothing sends without a person.", "doesBehind": "Drafts the reply from the vehicle's real record, attaches the viewing options, and queues the trade-in valuation request. All of it sits as drafts in the DMS.", "question": null, "options": []}, {"id": "approval", "stage": "commitment", "beat": "hold", "agent": null, "human": "Dealer Principal", "authority": "act with approval", "approving": "the reply, the viewing offer and the valuation request — before anything reaches the customer", "showsCustomer": "Your reply is drafted and waiting for the morning's sign-off. A person sends it — that is the house rule, not a formality.", "doesBehind": "Everything stops. The agent has no authority past this line.", "blocking": true, "question": "It's 8:40am. Release the drafts to the dealer principal?", "options": ["Send them through"]}, {"id": "resolution", "stage": "resolution", "beat": "resolve", "agent": "Resolution Agent", "authority": "recommend", "showsCustomer": "Reply sent, 8:41am — the actual car, a Saturday slot, and your trade-in's indicative range. Here is everything that was done overnight, and who signed it.", "doesBehind": "Writes the evidence pack: what was read, what was drafted, what the dealer principal changed, and the signature.", "question": null, "options": []}]}, "evidence": [{"claim": "New Zealanders spent 22 million hours on hold in 2025 — 8.7 hours each. Nearly half say slow service is reason enough to switch.", "source": "ServiceNow Customer Experience Report, March 2026", "year": 2026, "simulated": false, "soWhat": "The enquiry wait is the same wait in another channel. The customer who hears back first is the customer who visits."}, {"claim": "AI-referred traffic to retail sites grew 393% in a year, and it converts better than any other channel.", "source": "Adobe Digital Insights, quarterly AI traffic report, April 2026 — a US figure, flagged as such", "year": 2026, "simulated": false, "soWhat": "The buyer's agent is already shopping. A lot whose stock is current and readable is a lot that agents can recommend."}, {"claim": "Making the work visible increases how much people value the result — across five experiments, users preferred a slower service that showed its effort.", "source": "Buell & Norton, “The Labor Illusion”, Management Science 57(9)", "url": "https://pubsonline.informs.org/doi/10.1287/mnsc.1110.1376", "year": 2011, "simulated": false, "soWhat": "An overnight wait that shows its overnight work is worth more than a fast reply that shows nothing."}, {"claim": "A tribunal held an airline liable for what its chatbot told a customer, rejecting the argument that the chatbot was a separate legal entity.", "source": "Moffatt v. Air Canada, 2024 BCCRT 149", "url": "https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/", "year": 2024, "simulated": false, "soWhat": "This is why the dealer principal gate exists. Nothing reaches a customer without a person who answers for it."}], "copy": {"heroEyebrow": "assembling · automotive retail", "beforeWhileAfter": {"beforeLabel": "before", "before": "An enquiry lands in a shared inbox at 9pm. It reaches a salesperson when somebody sees it. The customer hears nothing until then, and some of them keep scrolling.", "whileLabel": "while", "while": "The agent reads the DMS, checks the car is really available, drafts the reply and starts the trade-in valuation — overnight, in the open, as drafts.", "afterLabel": "after", "after": "The dealer principal signs at 8:41am. The customer hears back about the actual car with a viewing slot attached — while they are still looking."}, "headline": "the overnight enquiry, assembled by morning", "closing": "Mahi that earns its proof. — This demonstrator is a proposal. assembl does not currently operate inside Giltrap Group's journey, and no marque trade dress appears on this page.", "assemblyBeats": [{"at": 0.0, "beat": "gather", "text": "the chassis holds the centre"}, {"at": 0.14, "beat": "gather", "text": "components arrive from the workshop’s edges"}, {"at": 0.34, "beat": "prepare", "text": "the drivetrain settles in"}, {"at": 0.55, "beat": "reveal", "text": "the body closes over"}, {"at": 0.76, "beat": "hold", "text": "held — the dealer principal signs before it moves"}, {"at": 0.9, "beat": "resolve", "text": "ready for the road"}]}, "explainer": {"heading": "what a monetised wait state actually is", "standfirst": "Nobody has a word for this yet, so here it is drawn out. Four panels, about a minute.", "waitLabel": "overnight", "figures": {"business": "the dealership", "out": "an answer about the car", "youGet": ["an answer while you care", "no form to fill in twice", "the actual car, answered"], "businessGets": ["fewer enquiries gone cold", "no chasing by email"]}, "definition": "A monetised wait state is a wait that pays for itself — you get something useful out of it, and the business gets work done that would otherwise cost it money later.", "panels": [{"title": "the wait you already have", "caption": "Every dealer makes buyers wait somewhere. Here it is the overnight gap between an enquiry and a reply. Right now that gap produces nothing."}, {"title": "what the gap costs", "caption": "Some buyers keep scrolling. The ones who stay get asked the same questions twice. The valuation starts after the visit instead of before it."}, {"title": "what fills it", "caption": "assembling works the gap: two tap-sized questions in, a drafted reply and a moving valuation out — all of it sitting as drafts for the morning."}, {"title": "who is better off", "caption": "The buyer hears back about the actual car while they still care. The group answers once, with everything attached. The dealer principal signs every send."}], "textEquivalent": ["Start with the wait you already have. An enquiry about a car arrives at night; a person replies in the morning. Today, nothing happens in between.", "That gap costs sales. Some buyers keep scrolling. The same questions get asked twice. The trade-in valuation starts a visit later than it could.", "assembling fills the gap with useful work. It answers two tap-sized questions, drafts the reply from live stock, and starts the valuation — as drafts.", "By morning, both sides are better off: the buyer gets an answer about the actual car with a viewing slot, and the group gets an enquiry handled once, completely. The dealer principal signs it, every time."]}, "drawing": {"ink": "#241D14", "paper": "#EADFCD", "unresolved": "#0B0A09"}, "mechanism": "convergence"};
 const manifest = motorcar;
 
 const $ = s => document.querySelector(s);
@@ -3230,6 +3264,7 @@ $('[data-bp-text]').innerHTML = data.explainer.textEquivalent.map(t => `<li>${t}
 createBlueprint($('[data-blueprint]'), data);
 
 /* ── the knolling assembly, off the plans ────────────── */
+manifest.mechanism = data.mechanism;
 const scene = createAssembly(document.getElementById('scene'), manifest, data.drawing || {});
 mountBalloons($('[data-parts-legend]'), manifest.families);
 
@@ -3239,28 +3274,124 @@ const capText = caption.querySelector('span');
 const BEATS = data.copy.assemblyBeats;
 
 let lastBeat = null, ticking = false, journeyEngaged = false;
-function onScroll() {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    ticking = false;
-    if (journeyEngaged) return;
-    const r = stage.getBoundingClientRect();
-    const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
-    const b = BEATS.reduce((acc, x) => (p >= x.at ? x : acc), BEATS[0]);
-    if (b !== lastBeat) {
-      lastBeat = b;
-      caption.dataset.beat = b.beat;
-      capText.style.opacity = '0';
-      setTimeout(() => { capText.textContent = b.text; capText.style.opacity = '1'; },
-        matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180);
-    }
-    scene.setProgress(p);
-    scene.setBeat(b.beat);
-  });
+function applyProgress(p) {
+  const b = BEATS.reduce((acc, x) => (p >= x.at ? x : acc), BEATS[0]);
+  if (b !== lastBeat) {
+    lastBeat = b;
+    caption.dataset.beat = b.beat;
+    capText.style.opacity = '0';
+    setTimeout(() => { capText.textContent = b.text; capText.style.opacity = '1'; },
+      matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180);
+  }
+  scene.setProgress(p);
+  scene.setBeat(b.beat);
 }
-addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+
+if (data.mechanism === 'convergence') {
+  /* the dial drives the build — convergence is turned, never scrolled.
+     Signature §4: components arrive from off-stage and seat around a fixed
+     centre, and the visitor commissions that with their own hand. */
+  stage.classList.add('stage--dial');
+  const cue = document.querySelector('[data-cue-line]');
+  if (cue) cue.textContent = 'Turn the dial to assemble.';
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .hero-stage.stage--dial { height: 100vh; }
+    .atelier-dial {
+      position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%);
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 1.5px solid currentColor; color: inherit;
+      display: flex; align-items: center; justify-content: center;
+      cursor: grab; touch-action: none; user-select: none;
+      background: transparent;
+    }
+    .atelier-dial:active { cursor: grabbing; }
+    .atelier-dial:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    .atelier-dial .tick {
+      position: absolute; left: 50%; top: 3px; width: 1.5px; height: 12px;
+      background: currentColor; transform-origin: 50% 45px;
+    }
+    .atelier-dial .pct {
+      font: 500 13px/1 "JetBrains Mono", ui-monospace, monospace;
+      letter-spacing: .08em;
+    }
+    .atelier-dial + .dial-hint {
+      position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+      font: 400 9px/1 "JetBrains Mono", ui-monospace, monospace;
+      letter-spacing: .12em; text-transform: uppercase; opacity: .55;
+    }`;
+  document.head.appendChild(style);
+
+  const dial = document.createElement('div');
+  dial.className = 'atelier-dial';
+  dial.setAttribute('role', 'slider');
+  dial.setAttribute('tabindex', '0');
+  dial.setAttribute('aria-label', 'Assembly dial — turn to assemble the car');
+  dial.setAttribute('aria-valuemin', '0');
+  dial.setAttribute('aria-valuemax', '100');
+  for (let i = 0; i < 12; i++) {
+    const t = document.createElement('span');
+    t.className = 'tick';
+    t.style.transform = `rotate(${i * 30}deg)`;
+    dial.appendChild(t);
+  }
+  const pct = document.createElement('span');
+  pct.className = 'pct';
+  dial.appendChild(pct);
+  const hint = document.createElement('p');
+  hint.className = 'dial-hint';
+  hint.textContent = 'drag · scroll wheel · arrow keys';
+  stage.appendChild(dial);
+  stage.appendChild(hint);
+
+  let v = 0;
+  const setV = nv => {
+    v = Math.max(0, Math.min(1, nv));
+    pct.textContent = Math.round(v * 100) + '%';
+    dial.setAttribute('aria-valuenow', String(Math.round(v * 100)));
+    dial.style.rotate = (v * 300) + 'deg';
+    pct.style.rotate = (-v * 300) + 'deg';
+    applyProgress(v);
+  };
+  dial.addEventListener('keydown', e => {
+    const step = { ArrowRight: .02, ArrowUp: .02, ArrowLeft: -.02, ArrowDown: -.02,
+      PageUp: .1, PageDown: -.1 }[e.key];
+    if (step !== undefined) { e.preventDefault(); setV(v + step); }
+    if (e.key === 'Home') { e.preventDefault(); setV(0); }
+    if (e.key === 'End') { e.preventDefault(); setV(1); }
+  });
+  dial.addEventListener('wheel', e => {
+    e.preventDefault();
+    setV(v + (e.deltaY > 0 ? .02 : -.02));
+  }, { passive: false });
+  let drag = null;
+  dial.addEventListener('pointerdown', e => {
+    drag = { x: e.clientX, y: e.clientY, v };
+    dial.setPointerCapture(e.pointerId);
+  });
+  dial.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const d = (e.clientX - drag.x) - (e.clientY - drag.y);
+    setV(drag.v + d / 420);
+  });
+  dial.addEventListener('pointerup', () => { drag = null; });
+  setV(0);
+} else {
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      if (journeyEngaged) return;
+      const r = stage.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+      applyProgress(p);
+    });
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
 
 const journeyRoot = $('[data-journey]');
 createJourney(journeyRoot, data, { scene });

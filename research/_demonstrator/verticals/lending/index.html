@@ -31,7 +31,7 @@
         <span class="authority-chip" data-level="act with approval" data-authority-chip></span>
         <span class="authority-chip" data-metaphor-chip></span>
       </div>
-      <p class="small caption" data-enter style="--i:4">Scroll to assemble.</p>
+      <p class="small caption" data-enter data-cue-line style="--i:4">Scroll to assemble.</p>
     </div>
   </section>
 
@@ -245,6 +245,7 @@ $('[data-bp-text]').innerHTML = data.explainer.textEquivalent.map(t => `<li>${t}
 createBlueprint($('[data-blueprint]'), data);
 
 /* ── the knolling assembly, off the plans ────────────── */
+manifest.mechanism = data.mechanism;
 const scene = createAssembly(document.getElementById('scene'), manifest, data.drawing || {});
 mountBalloons($('[data-parts-legend]'), manifest.families);
 
@@ -254,28 +255,124 @@ const capText = caption.querySelector('span');
 const BEATS = data.copy.assemblyBeats;
 
 let lastBeat = null, ticking = false, journeyEngaged = false;
-function onScroll() {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    ticking = false;
-    if (journeyEngaged) return;
-    const r = stage.getBoundingClientRect();
-    const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
-    const b = BEATS.reduce((acc, x) => (p >= x.at ? x : acc), BEATS[0]);
-    if (b !== lastBeat) {
-      lastBeat = b;
-      caption.dataset.beat = b.beat;
-      capText.style.opacity = '0';
-      setTimeout(() => { capText.textContent = b.text; capText.style.opacity = '1'; },
-        matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180);
-    }
-    scene.setProgress(p);
-    scene.setBeat(b.beat);
-  });
+function applyProgress(p) {
+  const b = BEATS.reduce((acc, x) => (p >= x.at ? x : acc), BEATS[0]);
+  if (b !== lastBeat) {
+    lastBeat = b;
+    caption.dataset.beat = b.beat;
+    capText.style.opacity = '0';
+    setTimeout(() => { capText.textContent = b.text; capText.style.opacity = '1'; },
+      matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180);
+  }
+  scene.setProgress(p);
+  scene.setBeat(b.beat);
 }
-addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+
+if (data.mechanism === 'convergence') {
+  /* the dial drives the build — convergence is turned, never scrolled.
+     Signature §4: components arrive from off-stage and seat around a fixed
+     centre, and the visitor commissions that with their own hand. */
+  stage.classList.add('stage--dial');
+  const cue = document.querySelector('[data-cue-line]');
+  if (cue) cue.textContent = 'Turn the dial to assemble.';
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .hero-stage.stage--dial { height: 100vh; }
+    .atelier-dial {
+      position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%);
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 1.5px solid currentColor; color: inherit;
+      display: flex; align-items: center; justify-content: center;
+      cursor: grab; touch-action: none; user-select: none;
+      background: transparent;
+    }
+    .atelier-dial:active { cursor: grabbing; }
+    .atelier-dial:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    .atelier-dial .tick {
+      position: absolute; left: 50%; top: 3px; width: 1.5px; height: 12px;
+      background: currentColor; transform-origin: 50% 45px;
+    }
+    .atelier-dial .pct {
+      font: 500 13px/1 "JetBrains Mono", ui-monospace, monospace;
+      letter-spacing: .08em;
+    }
+    .atelier-dial + .dial-hint {
+      position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+      font: 400 9px/1 "JetBrains Mono", ui-monospace, monospace;
+      letter-spacing: .12em; text-transform: uppercase; opacity: .55;
+    }`;
+  document.head.appendChild(style);
+
+  const dial = document.createElement('div');
+  dial.className = 'atelier-dial';
+  dial.setAttribute('role', 'slider');
+  dial.setAttribute('tabindex', '0');
+  dial.setAttribute('aria-label', 'Assembly dial — turn to assemble the car');
+  dial.setAttribute('aria-valuemin', '0');
+  dial.setAttribute('aria-valuemax', '100');
+  for (let i = 0; i < 12; i++) {
+    const t = document.createElement('span');
+    t.className = 'tick';
+    t.style.transform = `rotate(${i * 30}deg)`;
+    dial.appendChild(t);
+  }
+  const pct = document.createElement('span');
+  pct.className = 'pct';
+  dial.appendChild(pct);
+  const hint = document.createElement('p');
+  hint.className = 'dial-hint';
+  hint.textContent = 'drag · scroll wheel · arrow keys';
+  stage.appendChild(dial);
+  stage.appendChild(hint);
+
+  let v = 0;
+  const setV = nv => {
+    v = Math.max(0, Math.min(1, nv));
+    pct.textContent = Math.round(v * 100) + '%';
+    dial.setAttribute('aria-valuenow', String(Math.round(v * 100)));
+    dial.style.rotate = (v * 300) + 'deg';
+    pct.style.rotate = (-v * 300) + 'deg';
+    applyProgress(v);
+  };
+  dial.addEventListener('keydown', e => {
+    const step = { ArrowRight: .02, ArrowUp: .02, ArrowLeft: -.02, ArrowDown: -.02,
+      PageUp: .1, PageDown: -.1 }[e.key];
+    if (step !== undefined) { e.preventDefault(); setV(v + step); }
+    if (e.key === 'Home') { e.preventDefault(); setV(0); }
+    if (e.key === 'End') { e.preventDefault(); setV(1); }
+  });
+  dial.addEventListener('wheel', e => {
+    e.preventDefault();
+    setV(v + (e.deltaY > 0 ? .02 : -.02));
+  }, { passive: false });
+  let drag = null;
+  dial.addEventListener('pointerdown', e => {
+    drag = { x: e.clientX, y: e.clientY, v };
+    dial.setPointerCapture(e.pointerId);
+  });
+  dial.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const d = (e.clientX - drag.x) - (e.clientY - drag.y);
+    setV(drag.v + d / 420);
+  });
+  dial.addEventListener('pointerup', () => { drag = null; });
+  setV(0);
+} else {
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      if (journeyEngaged) return;
+      const r = stage.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+      applyProgress(p);
+    });
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
 
 const journeyRoot = $('[data-journey]');
 createJourney(journeyRoot, data, { scene });
