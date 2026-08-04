@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the story, told once · a concept for Ryman Healthcare</title>
+<meta name="description" content="When a resident's needs change, the family should not have to tell the story again — to anyone, ever. An independent concept for Ryman Healthcare by assembl.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,380..480&family=Mulish:wght@400;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- the first act: the thread draws itself while the page readies -->
+<div id="loader" aria-hidden="true">
+  <svg viewBox="0 0 420 80"><path d="M4 60 C 90 10, 150 74, 220 38 S 350 8, 416 44"/></svg>
+</div>
+
+<!-- the scene: full-bleed, fixed, frameless. Decorative — everything it
+     conveys exists as text below. -->
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<!-- designed still for browsers without WebGL: the same thread, drawn -->
+<svg id="scene-fallback" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <path d="M-40 620 C 240 480, 420 720, 640 560 S 1020 380, 1180 470 S 1420 560, 1500 480"
+        fill="none" stroke="#E95E2C" stroke-width="5"/>
+  <path d="M760 520 C 860 460, 940 430, 1010 415" fill="none" stroke="#68445D" stroke-width="3"/>
+  <g stroke="#E8C7C4" stroke-width="10" fill="none">
+    <path d="M300 420 v 190 M380 420 v 190 M295 420 h 90"/>
+    <path d="M880 350 v 190 M960 350 v 190 M875 350 h 90"/>
+  </g>
+</svg>
+
+<div id="cursor" aria-hidden="true"></div>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<!-- the disclosure is legal text — it sits above the scene, never occluded -->
+<p class="disclosure over-scene" data-disclosure
+   style="position:fixed;top:22px;left:0;right:0;text-align:center;z-index:4"></p>
+
+<noscript>
+  <div style="max-width:44em;margin:8vh auto;padding:0 24px;font-family:Georgia,serif;line-height:1.6">
+    <p style="font-size:11px;letter-spacing:.09em;text-transform:uppercase">an independent concept for Ryman Healthcare · by assembl</p>
+    <h1 style="margin:1rem 0">the story, told once</h1>
+    <p>assembl designs and runs agentic customer journeys. assembling is the wait-state layer: it turns a natural waiting moment into useful, permissioned, rewarded work that improves the customer's next step — while a named human stays in control.</p>
+    <p style="margin-top:1rem">When a Ryman resident's needs change, a referral starts a published clock — the NASC makes contact within 2 weeks, 2 working days if urgent — and an interRAI assessment follows. This concept proposes one unbroken thread that carries what the family has already said through every room and every handover, so nobody retells the story. Clinical details travel only to the assessor and clinical team; the family strand carries routines and practicalities. A named person — the Village Care Manager — reviews the transition brief before anything moves, and the journey ends in a six-row receipt including what the agent chose not to do. Everything here is a proposed assembl concept; the personas are simulated; nothing is built, endorsed or run by Ryman Healthcare.</p>
+    <p style="margin-top:1rem">This page's interactive journey needs JavaScript. The full story above is the same one it tells.</p>
+  </div>
+</noscript>
+
+<main>
+  <!-- ── hero · three things: the disclosure, the idea, the way on ── -->
+  <header class="hero under-scene wrap">
+    <h1 data-headline></h1>
+    <p class="lead" data-heroline style="margin-top:1.6rem"></p>
+    <button class="cue" type="button" data-cue></button>
+  </header>
+
+  <div class="over-scene">
+
+    <!-- ── what assembl is · two sentences, no more ── -->
+    <section class="wrap" style="padding-top:0">
+      <p class="define" data-define></p>
+    </section>
+
+    <!-- ── the trigger ── -->
+    <section class="wrap" id="trigger">
+      <p class="eyebrow">the real moment</p>
+      <h2 data-trigger-h></h2>
+      <div class="on-thread">
+        <p class="lead" data-trigger-b></p>
+        <p class="chip" style="margin-top:1.2rem" data-persona></p>
+        <p style="margin-top:2rem"><strong data-wait-moment></strong></p>
+        <p class="muted" style="margin-top:.4rem">The clock that starts is published:
+          <strong data-wait-clock></strong> <sup class="ref"><a href="#refs">1</a></sup></p>
+        <p class="muted" style="margin-top:1rem" data-wait-why></p>
+        <p style="margin-top:1rem"><em data-wait-today></em></p>
+      </div>
+
+      <h3 style="margin-top:3.4rem" data-modes-h></h3>
+      <div class="mode-toggle" role="group" aria-label="Choose which family this journey shows">
+        <button type="button" data-mode="existing" aria-pressed="true">an existing resident's family</button>
+        <button type="button" data-mode="prospective" aria-pressed="false">a family enquiring for the first time</button>
+      </div>
+      <p class="muted" style="max-width:44em" data-mode-copy></p>
+    </section>
+
+    <!-- ── the phone vessel ── -->
+    <section class="wrap">
+      <div class="vessel-wrap">
+        <div>
+          <p class="eyebrow">on joan's phone</p>
+          <h2>the village companion</h2>
+          <p class="muted" style="max-width:36em">A bounded agent with a visible job. It says what it can touch and what it never will, offers four useful choices before any conversation, and one of them is always a person. <span class="chip chip--build">demonstration</span></p>
+          <p class="muted" style="max-width:36em;margin-top:1rem" data-choice-note></p>
+        </div>
+        <div class="vessel" role="group" aria-label="The village companion — a demonstration phone agent">
+          <span class="v-status" data-v-status></span>
+          <span class="v-status-note" data-v-status-note></span>
+          <p class="v-scope" data-v-scope></p>
+          <div class="v-choices" data-v-choices></div>
+          <p class="v-answer" data-v-answer aria-live="polite"></p>
+          <span class="v-conn" data-v-conn></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── the journey room · five rooms, one thread ── -->
+    <section class="journey wrap" aria-label="The journey, room by room">
+      <div class="journey-head">
+        <div>
+          <p class="eyebrow">the journey room</p>
+          <h2>five rooms, one thread</h2>
+        </div>
+        <p class="journey-progress" data-journey-progress role="status"></p>
+      </div>
+      <div class="rooms hold-veil" data-rooms tabindex="0"
+           aria-label="Journey rooms — use the arrow keys or the buttons to move between rooms"></div>
+      <div class="journey-nav">
+        <button type="button" data-prev aria-label="Previous room">←</button>
+        <button type="button" data-next aria-label="Next room">→</button>
+      </div>
+    </section>
+
+    <!-- ── value of the wait ── -->
+    <section class="wrap">
+      <p class="eyebrow">what the interval produced</p>
+      <h2 data-value-h></h2>
+      <div class="on-thread" data-value></div>
+      <p class="muted" style="max-width:44em;margin-top:1.4rem" data-threshold></p>
+    </section>
+
+    <!-- ── the receipt ── -->
+    <section class="wrap">
+      <div class="receipt">
+        <p class="eyebrow" style="color:#E8C7C4">proof, as an artefact</p>
+        <h2 data-receipt-h></h2>
+        <p class="intro" data-receipt-i></p>
+        <table>
+          <tbody data-receipt-rows></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── pilot ── -->
+    <section class="wrap pilot">
+      <p class="eyebrow">the smallest credible start</p>
+      <h2 data-pilot-h></h2>
+      <p class="lead" data-pilot-b></p>
+      <p style="margin:1rem 0 2rem"><span class="chip" data-pilot-label></span></p>
+      <div data-measures></div>
+    </section>
+
+    <!-- ── boundary ── -->
+    <section class="wrap boundary">
+      <p class="eyebrow">the honest line</p>
+      <h2 data-boundary-h></h2>
+      <div class="cols">
+        <div>
+          <h3>published, and cited</h3>
+          <ul class="published" data-published></ul>
+        </div>
+        <div>
+          <h3>proposed, and labelled</h3>
+          <ul data-proposed></ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="wrap">
+      <ul class="disclaimers" data-disclaimers></ul>
+      <ul class="refs" id="refs" data-refs></ul>
+      <p class="mark" data-mark></p>
+    </footer>
+
+  </div>
+</main>
+
+<script src="three.min.js"></script>
+<script type="module" src="journey.js"></script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+/* Ryman · the unbroken thread — client-native grammar.
+   Palette from the guidelines' Ryman direction. Clay is the thread and only
+   the thread: strokes and large display, never body text (3.13:1 on cream).
+   Clay-deep is the text-safe variant (5.79:1). No plates, no card grids,
+   no dark/light banding — the page is one continuous cream surface the
+   thread travels through. */
+
+:root {
+  --rosewood: #32142C;
+  --clay: #E95E2C;
+  --clay-deep: #A93A10;
+  --blush: #E8C7C4;
+  --cream: #FFF2E8;
+  --cream-raised: #FFF9F3;
+  --plum: #68445D;
+  --thread-w: 3px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans: 'Mulish', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'Spline Sans Mono', ui-monospace, 'Courier New', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--cream);
+  color: var(--rosewood);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── the scene ──────────────────────────────────────────────────
+   Full-bleed, fixed, frameless. The hero heading sits UNDER it so the
+   thread crosses in front of type; interactive content sits over it. */
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+}
+.under-scene { position: relative; }
+.over-scene  { position: relative; z-index: 3; }
+
+/* ── type roles ─────────────────────────────────────────────── */
+h1, h2, h3 { font-family: var(--serif); font-weight: 420; letter-spacing: -0.015em; }
+h1 { font-size: clamp(2.6rem, 7.5vw, 6.4rem); line-height: 1.02; }
+h2 { font-size: clamp(1.7rem, 3.6vw, 3rem); line-height: 1.12; margin-bottom: 1.2rem; }
+h3 { font-size: 1.25rem; line-height: 1.3; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--plum);
+}
+
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-width: 34em; color: var(--rosewood); }
+.muted { color: var(--plum); }
+
+.chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--plum);
+  border: 1px solid var(--blush);
+  border-radius: 999px;
+  padding: 3px 11px;
+  background: var(--cream-raised);
+}
+.chip--build { border-color: var(--plum); }
+
+sup.ref a { color: var(--clay-deep); text-decoration: none; font-family: var(--mono); font-size: 0.65em; }
+
+/* ── layout ─────────────────────────────────────────────────── */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px); }
+section { padding: clamp(80px, 14vh, 160px) 0; }
+
+/* the hero: three things only */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.disclosure {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  color: var(--plum);
+  opacity: 0.85;
+  padding: 0 18px;
+}
+.hero h1 { max-width: 9.5em; }
+.hero .cue {
+  position: relative;
+  z-index: 3;
+  margin-top: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clay-deep);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px 0;
+}
+.hero .cue::after {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: var(--clay);
+  display: inline-block;
+}
+
+/* definition strip — required above the fold-adjacent, quiet */
+.define {
+  border-left: var(--thread-w) solid var(--clay);
+  padding: 10px 0 10px 22px;
+  max-width: 41em;
+  font-size: 0.98rem;
+  color: var(--plum);
+}
+.define b { color: var(--rosewood); font-weight: 700; }
+
+/* ── the journey room · horizontal, bounded ─────────────────── */
+.journey { padding-bottom: clamp(40px, 6vh, 80px); }
+.journey-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.journey-progress {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--plum);
+}
+.rooms {
+  display: flex;
+  gap: clamp(18px, 3vw, 40px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 34px 6px 26px;
+  scrollbar-width: none;
+}
+.rooms::-webkit-scrollbar { display: none; }
+.room {
+  scroll-snap-align: center;
+  flex: 0 0 min(560px, 86vw);
+  background: var(--cream-raised);
+  border: 1px solid var(--blush);
+  border-radius: 22px;
+  padding: clamp(24px, 3vw, 40px);
+  position: relative;
+}
+.room h3 { font-size: clamp(1.35rem, 2.2vw, 1.8rem); margin-bottom: 1rem; }
+.room dl { display: grid; gap: 12px; }
+.room dt {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--clay-deep);
+}
+.room dd { font-size: 0.96rem; color: var(--rosewood); }
+.room .room-n {
+  position: absolute;
+  top: 22px;
+  right: 26px;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--blush);
+}
+.journey-nav { display: flex; gap: 10px; margin-top: 6px; }
+.journey-nav button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--plum);
+  background: var(--cream-raised);
+  color: var(--rosewood);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 200ms var(--ease), transform 200ms var(--ease);
+}
+.journey-nav button:hover { background: var(--blush); }
+.journey-nav button:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.journey-nav button:disabled { opacity: 0.35; cursor: default; }
+
+/* the hold state — room four stops the page */
+.hold-veil .room { transition: opacity 600ms var(--ease); }
+body.is-held .room:not(.room--held) { opacity: 0.35; }
+body.is-held .journey-nav button { opacity: 0.35; pointer-events: none; }
+.gate {
+  margin-top: 26px;
+  border-top: 1px solid var(--blush);
+  padding-top: 20px;
+  display: none;
+}
+.room--held .gate { display: block; }
+.gate .who { font-family: var(--serif); font-size: 1.15rem; }
+.gate .rule { font-size: 0.92rem; color: var(--plum); margin: 10px 0 16px; }
+.gate button {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: var(--rosewood);
+  border: none;
+  border-radius: 999px;
+  padding: 13px 26px;
+  cursor: pointer;
+  min-height: 46px;
+  transition: opacity 300ms var(--ease);
+}
+.gate button:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+.gate button[disabled] { opacity: 0.4; cursor: wait; }
+.gate .signed { display: none; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--clay-deep); }
+.gate.is-signed button { display: none; }
+.gate.is-signed .signed { display: inline; }
+
+/* handoff mark — P5, thin connective line, mono label */
+.handoff {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clay-deep);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  opacity: 0;
+  transition: opacity 900ms var(--ease);
+}
+.handoff.is-live { opacity: 1; }
+.handoff .line { flex: 0 0 60px; height: 1px; background: var(--clay); position: relative; overflow: hidden; }
+.handoff .line::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 1px;
+  background: var(--rosewood);
+  animation: travel 900ms var(--ease) forwards;
+}
+@keyframes travel { from { left: -14px; } to { left: 60px; } }
+@media (prefers-reduced-motion: reduce) {
+  .handoff .line::after { animation: none; left: 46px; }
+}
+
+/* ── the phone vessel ───────────────────────────────────────── */
+.vessel-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 5vw, 70px); align-items: center; }
+.vessel {
+  width: min(330px, 88vw);
+  margin: 0 auto;
+  background: linear-gradient(168deg, var(--cream-raised), #F6E6DB);
+  border: 1px solid var(--blush);
+  border-radius: 42px;
+  box-shadow:
+    0 2px 3px rgba(50, 20, 44, 0.06),
+    0 14px 34px rgba(50, 20, 44, 0.14),
+    inset 0 1px 0 #FFFDFA;
+  padding: 26px 22px 30px;
+}
+.vessel .v-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--clay-deep);
+  border: 1px solid var(--blush);
+  border-radius: 999px;
+  padding: 7px 12px;
+  display: block;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.vessel .v-status-note {
+  display: block;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--plum);
+  margin-bottom: 18px;
+}
+.vessel .v-scope {
+  font-size: 0.9rem;
+  color: var(--rosewood);
+  background: var(--cream);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.vessel .v-choices { display: grid; gap: 9px; }
+.vessel .v-choices button {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--rosewood);
+  background: var(--cream-raised);
+  border: 1px solid var(--plum);
+  border-radius: 999px;
+  padding: 12px 18px;
+  min-height: 44px;
+  cursor: pointer;
+  transition: border-color 200ms var(--ease), background 200ms var(--ease);
+}
+.vessel .v-choices button:hover { border-color: var(--clay-deep); background: var(--cream); }
+.vessel .v-choices button:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
+.vessel .v-choices button.is-picked { border-color: var(--clay-deep); background: var(--blush); }
+.vessel .v-answer {
+  font-size: 0.88rem;
+  color: var(--plum);
+  border-left: 2px solid var(--clay);
+  padding-left: 12px;
+  margin-top: 14px;
+  min-height: 3.2em;
+}
+.vessel .v-conn {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--plum);
+  text-align: center;
+}
+.mode-toggle { display: flex; gap: 8px; margin: 18px 0 8px; }
+.mode-toggle button {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: 1px solid var(--plum);
+  background: none;
+  color: var(--plum);
+  border-radius: 999px;
+  padding: 8px 16px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.mode-toggle button[aria-pressed="true"] { background: var(--rosewood); color: var(--cream); border-color: var(--rosewood); }
+.mode-toggle button:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 2px; }
+
+/* ── prose sections on the thread ───────────────────────────── */
+.on-thread { border-left: var(--thread-w) solid var(--clay); padding-left: clamp(22px, 4vw, 46px); max-width: 46em; }
+.value-item { margin: 26px 0; }
+.value-item h3 { color: var(--rosewood); margin-bottom: 6px; }
+.value-item p { color: var(--plum); max-width: 38em; }
+
+/* ── the receipt ────────────────────────────────────────────── */
+.receipt {
+  background: var(--rosewood);
+  color: var(--cream);
+  border-radius: 26px;
+  padding: clamp(28px, 4vw, 54px);
+}
+.receipt h2 { color: var(--cream); }
+.receipt .intro { color: var(--blush); max-width: 36em; margin-bottom: 2rem; }
+.receipt table { width: 100%; border-collapse: collapse; }
+.receipt th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clay);
+  text-align: left;
+  vertical-align: top;
+  padding: 14px 18px 14px 0;
+  width: 11em;
+  border-top: 1px solid rgba(232, 199, 196, 0.25);
+}
+.receipt td {
+  font-size: 0.95rem;
+  color: var(--cream);
+  padding: 14px 0;
+  border-top: 1px solid rgba(232, 199, 196, 0.25);
+}
+.receipt tr:first-child th, .receipt tr:first-child td { border-top: none; }
+
+/* ── pilot & boundary ───────────────────────────────────────── */
+.pilot .measure { display: grid; grid-template-columns: 15em 1fr; gap: 14px; padding: 16px 0; border-top: 1px solid var(--blush); }
+.pilot .measure:first-of-type { border-top: none; }
+.pilot .metric { font-family: var(--serif); font-size: 1.1rem; }
+.boundary ul { list-style: none; max-width: 44em; }
+.boundary li { padding: 10px 0 10px 26px; position: relative; }
+.boundary li::before { content: ''; position: absolute; left: 0; top: 1.2em; width: 14px; height: 1px; background: var(--plum); }
+.boundary .published li::before { background: var(--clay); }
+.boundary .cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 60px); }
+
+/* ── footer ─────────────────────────────────────────────────── */
+footer { padding: 60px 0 40px; border-top: 1px solid var(--blush); }
+footer .disclaimers { font-size: 0.85rem; color: var(--plum); max-width: 46em; }
+footer .disclaimers li { list-style: none; padding: 3px 0; }
+footer .refs { margin: 26px 0; font-family: var(--mono); font-size: 11.5px; }
+footer .refs a { color: var(--clay-deep); }
+footer .mark { font-family: var(--serif); font-size: 0.95rem; color: var(--rosewood); margin-top: 30px; }
+
+/* ── preloader — the first act ──────────────────────────────── */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 700ms var(--ease);
+}
+#loader.is-done { opacity: 0; pointer-events: none; }
+#loader svg { width: min(420px, 70vw); overflow: visible; }
+#loader path {
+  stroke: var(--clay);
+  stroke-width: 2.5;
+  fill: none;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  transition: stroke-dashoffset 400ms linear;
+}
+
+/* ── cursor instrument ──────────────────────────────────────── */
+#cursor {
+  position: fixed;
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--clay-deep);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 60;
+  transform: translate(-50%, -50%);
+  transition: width 200ms var(--ease), height 200ms var(--ease), border-color 200ms var(--ease);
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) { #cursor { display: block; } }
+#cursor.is-on { width: 14px; height: 14px; border-color: var(--rosewood); }
+@media (prefers-reduced-motion: reduce) { #cursor { display: none !important; } }
+
+/* ── static fallback (no WebGL) ─────────────────────────────── */
+#scene-fallback { display: none; position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+body.no-webgl #scene-fallback { display: block; }
+body.no-webgl #scene { display: none; }
+
+/* ── responsive ─────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .vessel-wrap, .boundary .cols { grid-template-columns: 1fr; }
+  .pilot .measure { grid-template-columns: 1fr; gap: 4px; }
+  body { font-size: 16px; }
+}
+
+:focus-visible { outline: 2px solid var(--clay-deep); outline-offset: 3px; }
+
+/* live region for simulator state */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
