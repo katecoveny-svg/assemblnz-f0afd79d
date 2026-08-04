@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the interval · assembl</title>
+<meta name="description" content="assembl's signature object: six parts — context, permission, runtime, specialists, active wait, proof — assembling around an open centre. The centre is the customer, and the named person responsible.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@320;420;550&family=Cormorant+Garamond:ital,wght@1,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+
+<main>
+  <!-- ── hero ── -->
+  <header class="hero wrap">
+    <p class="eyebrow">assembl · the signature object</p>
+    <h1>the interval</h1>
+    <p class="lead">Six parts assemble around a centre that stays open on purpose. The open centre is the customer, and the named person responsible for what happens next — assembl coordinates the system, and never swallows the person.</p>
+    <p class="define"><b>assembl</b> designs and runs agentic customer journeys. <b>assembling</b> is the wait-state layer: it turns a natural waiting moment into useful, permissioned, rewarded work that improves the customer's next step — while a named human stays in control.</p>
+  </header>
+
+  <!-- ── the stage · five beats on one scroll ── -->
+  <section class="stage-track" id="stage-track" aria-label="The Interval, assembling">
+    <div class="stage" data-stage>
+      <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="callouts" data-callouts aria-hidden="true"></div>
+      <div class="readout">
+        <span class="beat" data-beat>reveal</span>
+        <span class="pct" data-pct>0%</span>
+      </div>
+      <p class="hold-line" data-hold-line>The centre was never filled. That is the point.</p>
+    </div>
+  </section>
+
+  <!-- reduced motion / no WebGL: the three stable states -->
+  <section class="states wrap" data-states hidden aria-label="The Interval in three states">
+    <figure><canvas data-state-canvas="0" aria-hidden="true"></canvas><figcaption>the parts, laid out</figcaption></figure>
+    <figure><canvas data-state-canvas="1" aria-hidden="true"></canvas><figcaption>assembling, one part at a time</figcaption></figure>
+    <figure><canvas data-state-canvas="2" aria-hidden="true"></canvas><figcaption>locked — proof lands last, and the centre stays open</figcaption></figure>
+  </section>
+
+  <!-- ── the six parts, in words ── -->
+  <section class="legend wrap">
+    <h2>the six parts</h2>
+    <ol class="parts-list">
+      <li><b>context</b><span>what is already true — gathered once, carried forward.</span></li>
+      <li><b>permission</b><span>what the customer agreed to, at the point of use, revocable in one action.</span></li>
+      <li><b>runtime</b><span>the bounded machinery that runs the journey.</span></li>
+      <li><b>specialists</b><span>narrow agents with named jobs, visible only at handover.</span></li>
+      <li><b>active wait</b><span>the interval itself — a real delay, made useful.</span></li>
+      <li><b>proof</b><span>the receipt. It lands last, and the system reaches 100% only when it does.</span></li>
+    </ol>
+    <p class="centre-line">The seventh part is not a part. The open centre is the customer and the named human decision owner — the one thing The Interval never contains.</p>
+  </section>
+
+  <footer class="wrap">
+    <p class="mark">assembled by assembl · Mahi that earns its proof.</p>
+  </footer>
+</main>
+
+<script src="three.min.js"></script>
+<script type="module" src="interval.js"></script>
+</body>
+</html>
