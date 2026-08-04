@@ -249,12 +249,12 @@
       {
         "at": 0.0,
         "beat": "gather",
-        "text": "every part, laid out"
+        "text": "the chassis holds the centre"
       },
       {
         "at": 0.14,
         "beat": "gather",
-        "text": "the chassis rails arrive first"
+        "text": "components arrive from the workshop’s edges"
       },
       {
         "at": 0.34,
@@ -322,7 +322,9 @@
     ]
   },
   "drawing": {
-    "ink": "#12294F",
-    "paper": "#F8F5EE"
-  }
+    "ink": "#241D14",
+    "paper": "#EADFCD",
+    "unresolved": "#0B0A09"
+  },
+  "mechanism": "convergence"
 }
