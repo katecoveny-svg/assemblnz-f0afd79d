@@ -2,7 +2,8 @@
 
 _Written 25 July 2026. The single place to catch up on what exists, what's
 decided, and what will bite you. Design and voice rules live in
-[BRAND-AND-DESIGN.md](./BRAND-AND-DESIGN.md)._
+[`assembl-brand-system.md`](./assembl-brand-system.md) and
+[`assembl-copy-standard.md`](./assembl-copy-standard.md)._
 
 ---
 

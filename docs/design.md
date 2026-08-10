@@ -1,6 +1,8 @@
 # assembl design system
 
-This document is the locked single source of truth for the assembl visual and voice system. Hex values, font loading, and kete slugs are sourced from code (`tailwind.config.ts`, `app/layout.tsx`, `lib/kete.ts`); this doc describes intent and rules. When code and doc disagree, fix the one that is wrong — do not silently drift.
+> **Canonical update:** palette, typography, imagery and motion now live in [`assembl-brand-system.md`](./assembl-brand-system.md). That document overrides older colour and type directions below wherever they conflict.
+
+This document preserves the earlier detailed system for migration reference. Hex values, font loading, and kete slugs are sourced from code (`tailwind.config.ts`, `app/layout.tsx`, `lib/kete.ts`). When current code and the canonical brand system disagree, fix the drift deliberately.
 
 ## wordmark
 

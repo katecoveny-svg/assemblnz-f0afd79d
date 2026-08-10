@@ -1,5 +1,7 @@
 # assembl — brand and design
 
+> **Canonical update:** use [`assembl-brand-system.md`](./assembl-brand-system.md) for the current palette, typography, imagery and motion system. It overrides older colour and type directions below wherever they conflict.
+
 _Written 25 July 2026. Covers the cinematic system now live across
 www.assembl.co.nz and the concept demos. For product state see
 [CONTEXT.md](./CONTEXT.md); `docs/DESIGN-SYSTEM-VNEXT.md` remains the older

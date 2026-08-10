@@ -80,8 +80,7 @@ premium and highly visual.
 Motion should communicate work happening — never decorative animation.
 Everything should feel like information assembling.
 
-_(Full design canon: `plugins/assembl-core/skills/assembl-design/SKILL.md` and
-`docs/DESIGN-SYSTEM-VNEXT.md`.)_
+_(Current design canon: [`assembl-brand-system.md`](./assembl-brand-system.md).)_
 
 ## Visual language
 

@@ -1,11 +1,10 @@
 /**
- * assembl — pearl canon design system (2026-07-17: legacy tokens remapped)
- * Palette: gold #b8964f · ink #313c42 · body #68766f · pearl white #ffffff
- *          teal accent #3f7373 · hairline #e8ecea · gold eyebrows #b8964f
- * Type: Cormorant Garamond (display/wordmark/headlines) + Lato (body/UI) +
- *       Space Mono (labels). Lowercase assembl wordmark. (dash brand = Lato.)
- * Light theme only.
- * Updated: 2026-07-17 — warm cream/champagne layer remapped to the pearl canon
+ * assembl canonical company palette and type.
+ * Deep plum #240B21 · muted plum #654A4E · dusty rose #916A70
+ * chalk #F5F1F2 · paper #FFFDFB
+ * Instrument Sans for headlines/body/navigation; IBM Plex Mono for proof.
+ * Client and legacy kete tokens below remain scoped until those surfaces are
+ * migrated deliberately. See docs/assembl-brand-system.md.
  */
 
 @tailwind base;
@@ -14,6 +13,12 @@
 
 @layer base {
   :root {
+    --assembl-deep-plum: #240B21;
+    --assembl-muted-plum: #654A4E;
+    --assembl-dusty-rose: #916A70;
+    --assembl-chalk: #F5F1F2;
+    --assembl-paper: #FFFDFB;
+
     /* Homepage hero (locked canon, #520) reads --font-cormorant/--font-lato/
        --font-space-mono. The sitewide canon type system now backs the same
        faces via --font-display/--font-body/--font-mono (see layout.tsx), so
@@ -47,9 +52,8 @@
        the homepage palette — teal + gold on white — so every surface still
        reading these tokens (the free tools, the warm interior cohort) lands
        on the one canon without per-page rewrites. */
-    --assembl-paper: #ffffff;           /* base canvas — pearl white */
-    --assembl-mist: #f7f9f8;
-    --assembl-cloud: #FFFFFF;           /* cards — paper white */
+    --assembl-mist: #F5F1F2;
+    --assembl-cloud: #FFFDFB;           /* cards — paper white */
     --assembl-cloud-legacy: #e8ecea;
     --assembl-sand: #e8ecea;            /* hairline / dividers */
     --assembl-taupe: #e8ecea;

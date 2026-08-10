@@ -1,7 +1,7 @@
 # assembl design system vNext
 
-_Kate's brief, locked 2026-07-10. This is the standing design canon — read it
-before touching any surface. When it conflicts with older docs, this wins._
+_Historical design canon. Use [`assembl-brand-system.md`](./assembl-brand-system.md)
+for the current palette, typography, imagery and motion rules._
 
 ## The single prompt
 
