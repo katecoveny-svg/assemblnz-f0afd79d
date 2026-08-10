@@ -73,19 +73,19 @@ const archivoBlack = Archivo_Black({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — less admin, more mahi',
+    default: 'assembl · make the wait useful',
     template: '%s · assembl',
   },
   description:
-    'Agents that prepare the repetitive work behind your business, using your rules and waiting for your approval.',
+    'While an application, order or claim is processed, assembl checks what is missing and prepares a clear brief for the person handling it.',
   metadataBase: new URL('https://www.assembl.co.nz'),
   alternates: { canonical: '/' },
   // og:image comes from the file-convention opengraph-image.tsx per route
   // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl — less admin, more mahi',
+    title: 'assembl · make the wait useful',
     description:
-      'Agents that prepare repetitive work using your business rules. Your team stays in control.',
+      'Turn one real customer wait into a prepared handoff, with customer approval and a named person responsible.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -93,9 +93,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — less admin, more mahi',
+    title: 'assembl · make the wait useful',
     description:
-      'Agents that prepare repetitive work using your business rules. Built in Aotearoa.',
+      'While a process runs, assembl prepares the customer’s next step for human review.',
   },
   icons: {
     icon: [
