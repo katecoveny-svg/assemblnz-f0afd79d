@@ -1,5 +1,7 @@
 # assembl · context
 
+> Public website and demonstrator copy must follow [the assembl copy standard](./assembl-copy-standard.md). Where older positioning in this document conflicts with that standard, the copy standard wins.
+
 ## Project overview
 
 assembl is building a new category of software.

@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 const architecture = [
-  ['01', 'Business Genome', 'The approved rules, services, language and evidence this journey may use.'],
-  ['02', 'Journey Composer', 'The trigger, useful work, permission boundaries and human gates.'],
-  ['03', 'Runtime', 'The live state and clock of the process underneath.'],
-  ['04', 'Specialist agents', 'Small, bounded jobs with visible scope and clear limits.'],
-  ['05', 'Active wait state', 'The customer-facing moment for choice, progress and preparation.'],
-  ['06', 'Evidence pack', 'Sources, actions, approvals, ownership and the resulting handoff.'],
+  ['01', 'Approved context', 'The organisation’s confirmed rules, services, language and sources.'],
+  ['02', 'Journey rules', 'The event that opens the wait, the useful action, permissions and handoff.'],
+  ['03', 'Process status', 'The state and timing of the real process.'],
+  ['04', 'Specialist task', 'One bounded job with a stated purpose and limit.'],
+  ['05', 'Customer moment', 'Status, an optional choice, review and control.'],
+  ['06', 'Evidence pack', 'A record of sources, permissions, changes, approval and handoff.'],
 ];
 
 const destinations = [
@@ -24,10 +24,10 @@ const destinations = [
 const assemblyParts = [
   ['context', -220, -130, -32],
   ['permission', 220, -128, 35],
-  ['runtime', -255, 40, 24],
-  ['specialists', 255, 42, -28],
-  ['active wait', -170, 185, 36],
-  ['proof', 175, 188, -34],
+  ['status', -255, 40, 24],
+  ['task', 255, 42, -28],
+  ['customer', -170, 185, 36],
+  ['evidence', 175, 188, -34],
 ] as const;
 
 export function ActiveJourneyHome() {
@@ -117,7 +117,7 @@ export function ActiveJourneyHome() {
       <header className="aj-header">
         <button className="aj-wordmark" onClick={() => goTo('start')} aria-label="Return to the start">assembl<span>·</span></button>
         <p>MAHI THAT EARNS ITS PROOF.</p>
-        <a href="mailto:assembl@assembl.co.nz?subject=An%20active%20customer%20journey">Build one journey <i>↗</i></a>
+        <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
       </header>
 
       <div
@@ -131,94 +131,94 @@ export function ActiveJourneyHome() {
         aria-label="assembl horizontal story. Scroll, drag, or use the arrow keys."
       >
         <section className="aj-panel aj-opening" id="start">
-          <div className="aj-opening-label"><span>THE ORCHESTRATION LAYER FOR</span><strong>ACTIVE CUSTOMER JOURNEYS</strong></div>
-          <div className="aj-opening-signal"><span>ASSEMBL / 01</span><i /><p>The business is working.<br />The customer should feel it.</p></div>
+          <div className="aj-opening-label"><span>ACTIVE CUSTOMER JOURNEYS</span><strong>THE WAIT BECOMES USEFUL</strong></div>
+          <div className="aj-opening-signal"><span>A REAL PROCESS IS UNDERWAY</span><i /><p>The customer can use the wait.</p></div>
           <figure className="aj-photo aj-photo-opening" data-parallax>
             <Image src="https://journeys.assembl.co.nz/assembl-car-flatlay.png" alt="Precisely arranged classic car components" width={1600} height={1000} unoptimized />
-            <figcaption>ONE SYSTEM / EVERY PART VISIBLE</figcaption>
+            <figcaption>TRIGGER / PERMISSION / PREPARATION / REVIEW / PROOF</figcaption>
           </figure>
-          <h1><span>Every customer journey</span><span>has moments in between.</span></h1>
-          <div className="aj-opening-note"><span>SCROLL / DRAG</span><p>Turn a real delay into useful, permissioned progress.</p><i>→</i></div>
+          <h1><span>Put necessary waiting</span><span>to work.</span></h1>
+          <div className="aj-opening-note"><span>SCROLL / DRAG</span><p>assembl helps organisations turn necessary customer waiting into useful, permissioned preparation—with a named person in control and evidence of what happened.</p><i>→</i></div>
         </section>
 
         <section className="aj-panel aj-product" id="product">
           <div className="aj-plum-cell"><span>THIS IS</span><strong>assembl</strong><i>·</i></div>
           <article className="aj-product-copy">
-            <span>01 / THE PRODUCT</span>
-            <h2>The moment between intent and outcome becomes a working surface.</h2>
-            <p>assembl appears when something real is underway: an assessment, search, service, claim, transition or handoff. It explains the clock, prepares useful work and carries an approved object into the next step.</p>
+            <span>01 / WHY IT EXISTS</span>
+            <h2>Most digital journeys stop when the work begins.</h2>
+            <p>An application is being assessed. An order is being packed. A claim is under review. assembl uses that natural wait to explain what is happening, collect one useful input and prepare a reviewable next step.</p>
           </article>
           <figure className="aj-photo aj-photo-detail" data-parallax>
             <Image src="https://journeys.assembl.co.nz/assembl-car-flatlay.png" alt="A close crop of an ordered mechanical flat-lay" width={1600} height={1000} unoptimized />
-            <figcaption>CONTEXT / PARTS / DEPENDENCIES</figcaption>
+            <figcaption>APPROVED CONTEXT / PERMISSIONS / HANDOFF</figcaption>
           </figure>
-          <div className="aj-boundary"><span>NOT A CHATBOT</span><strong>Not a better spinner.</strong><p>A bounded product moment with a real trigger, customer control and a named human owner.</p></div>
-          <div className="aj-proof-strip"><span>CONTEXT</span><i>→</i><span>PERMISSION</span><i>→</i><span>USEFUL WORK</span><i>→</i><span>HUMAN REVIEW</span><i>→</i><span>PROOF</span></div>
+          <div className="aj-boundary"><span>WHAT ASSEMBL DOES</span><strong>It prepares what comes next.</strong><p>The visible loader is only the interface. Behind it sit the trigger, permission, task, human review, handoff and evidence.</p></div>
+          <div className="aj-proof-strip"><span>REAL EVENT</span><i>→</i><span>PERMISSION</span><i>→</i><span>PREPARATION</span><i>→</i><span>REVIEW</span><i>→</i><span>EVIDENCE</span></div>
         </section>
 
         <section className="aj-panel aj-live">
           <article className="aj-live-copy">
             <span>02 / AN ACTIVE WAIT STATE</span>
-            <h2>Useful work inside a real wait.</h2>
-            <p>Not a general assistant. Each agent receives one organisation’s approved language, evidence and decision boundaries. It prepares. The named person remains responsible.</p>
-            <div><b>01</b> Ask what is useful now</div><div><b>02</b> Shape a reviewable object</div><div><b>03</b> Hand it to the right person</div>
+            <h2>Useful work during a real wait.</h2>
+            <p>The customer chooses a useful task. assembl prepares the work using approved information. The customer can review it, change it or leave it. A named person owns the next step.</p>
+            <div><b>01</b> Choose one useful action</div><div><b>02</b> Prepare a clear output</div><div><b>03</b> Review before it moves</div>
           </article>
           <div className="aj-phone-wrap">
             <div className="aj-phone" aria-label="Proposed simulated active wait interaction">
-              <i /><span>PROPOSED / SIMULATED</span><small>ASSESSMENT IN PROGRESS</small>
-              <h3>While the serious work happens</h3>
-              <p>I can explain the open question, prepare your next conversation, or simply keep you updated.</p>
-              <div className="aj-phone-choice">Prepare my questions <i>↗</i></div>
-              <div className="aj-phone-choice">Explain what happens next <i>↗</i></div>
-              <div className="aj-phone-input">Ask what can happen while you wait… <b>↑</b></div>
+              <i /><span>SIMULATED EXAMPLE</span><small>APPLICATION REVIEW / IN PROGRESS</small>
+              <h3>Your application is with the team.</h3>
+              <p>While they review it, I can check what is missing, prepare your questions or keep you updated.</p>
+              <div className="aj-phone-choice">Check my documents <i>↗</i></div>
+              <div className="aj-phone-choice">Prepare questions for my adviser <i>↗</i></div>
+              <div className="aj-phone-input">Ask about this application… <b>↑</b></div>
             </div>
           </div>
-          <figure className="aj-photo aj-photo-parts" data-parallax><Image src="https://journeys.assembl.co.nz/assembl-car-flatlay.png" alt="Classic car parts arranged as a complete system" width={1600} height={1000} unoptimized /><figcaption>SCATTERED INPUTS / ONE REVIEWABLE OBJECT</figcaption></figure>
-          <blockquote><span>THE CUSTOMER PROMISE</span><p>“Do something useful with this moment, without taking the moment away from me.”</p></blockquote>
+          <figure className="aj-photo aj-photo-parts" data-parallax><Image src="https://journeys.assembl.co.nz/assembl-car-flatlay.png" alt="Classic car parts arranged as a complete system" width={1600} height={1000} unoptimized /><figcaption>APPROVED CONTEXT / REVIEWABLE OUTPUT</figcaption></figure>
+          <blockquote><span>CUSTOMER VALUE</span><p>Less uncertainty. Less repetition. A better-prepared next step.</p></blockquote>
         </section>
 
         <section className="aj-panel aj-signature" aria-label="The assembl interval signature object">
-          <article className="aj-signature-copy"><span>THE ASSEMBL SIGNATURE / INTERVAL 01</span><h2>The<br />interval<span>·</span></h2><p>Context, permission, runtime, specialists and the active wait assemble around an intentionally open human centre. Proof lands last.</p><div><i />THE SYSTEM MOVES / THE PERSON REMAINS IN CONTROL</div></article>
+          <article className="aj-signature-copy"><span>THE SIX PARTS OF A USEFUL WAIT</span><h2>The wait,<br />assembled<span>·</span></h2><p>A real event opens the moment. The customer gives permission. assembl prepares one bounded piece of work. A named person reviews it. The result and evidence move into the next step.</p><div><i />ASSEMBL PREPARES / A PERSON DECIDES</div></article>
           <div className="aj-assembly-stage">
             <div className="aj-assembly-grid" />
             <div className="aj-assembly-orbits"><i /><i /><i /></div>
             {assemblyParts.map(([label, x, y, rotation], index) => {
-              const lock = label === 'proof' ? Math.max(0, Math.min(1, (assemblyProgress - 0.66) / 0.34)) : Math.max(0, Math.min(1, assemblyProgress / 0.78));
+              const lock = label === 'evidence' ? Math.max(0, Math.min(1, (assemblyProgress - 0.66) / 0.34)) : Math.max(0, Math.min(1, assemblyProgress / 0.78));
               return <div key={label} className={`aj-assembly-part part-${index + 1}`} style={{ transform: `translate3d(${x * (1 - lock)}px, ${y * (1 - lock)}px, ${index * 7}px) rotate(${rotation * (1 - lock)}deg)` }}><span>{label}</span><i /></div>;
             })}
-            <div className="aj-assembly-core"><span>CUSTOMER</span><b>OPEN</b></div>
-            <div className="aj-assembly-state"><span>{assemblyProgress > 0.95 ? 'PROOF LOCKED / HUMAN CENTRE OPEN' : assemblyProgress > 0.66 ? 'PROOF ARRIVING LAST' : assemblyProgress > 0.12 ? 'ASSEMBLING THE INTERVAL' : 'SIX COMPONENTS LAID OUT'}</span><strong>{Math.round(assemblyProgress * 100).toString().padStart(2, '0')}%</strong></div>
+            <div className="aj-assembly-core"><span>PERSON</span><b>IN CONTROL</b></div>
+            <div className="aj-assembly-state"><span>{assemblyProgress > 0.95 ? 'READY FOR HUMAN REVIEW' : assemblyProgress > 0.66 ? 'ADDING THE EVIDENCE RECORD' : assemblyProgress > 0.12 ? 'PREPARING THE NEXT STEP' : 'SIX PARTS / ONE USEFUL WAIT'}</span><strong>{Math.round(assemblyProgress * 100).toString().padStart(2, '0')}%</strong></div>
           </div>
-          <div className="aj-signature-marquee"><span>CONTEXT</span><span>PERMISSION</span><span>RUNTIME</span><span>SPECIALISTS</span><span>ACTIVE WAIT</span><span>PROOF</span></div>
+          <div className="aj-signature-marquee"><span>CONTEXT</span><span>PERMISSION</span><span>STATUS</span><span>TASK</span><span>CUSTOMER</span><span>EVIDENCE</span></div>
         </section>
 
         <section className="aj-panel aj-system" id="system">
-          <article className="aj-system-copy"><span>03 / THE WORKING SYSTEM</span><h2>Everything needed.<br />Nothing magical.</h2><p>One reusable architecture underneath. A distinctly client-native product on the surface.</p></article>
+          <article className="aj-system-copy"><span>03 / HOW IT WORKS</span><h2>The same controls beneath every customer experience.</h2><p>The language and interface change for each organisation. The safeguards do not: approved context, clear permission, bounded work, named review and a visible evidence record.</p></article>
           <div className="aj-architecture">{architecture.map(([number, title, body]) => <article key={title}><span>{number}</span><h3>{title}</h3><p>{body}</p><i /></article>)}</div>
-          <div className="aj-system-marquee"><span>ASSEMBLE</span><span>EXPLAIN</span><span>PREPARE</span><span>PROVE</span></div>
+          <div className="aj-system-marquee"><span>EVENT</span><span>PERMISSION</span><span>PREPARATION</span><span>REVIEW</span><span>HANDOFF</span><span>EVIDENCE</span></div>
         </section>
 
         <section className="aj-panel aj-modes">
-          <div className="aj-modes-title"><span>04 / THREE MODES</span><h2>Value inside a real wait.</h2></div>
-          <article><span>01 / LIVE</span><h3>Useful work while the process runs.</h3><p>Explain, gather, compare and prepare. No reward required.</p><b>COMPLETION / CLARITY / LOWER SERVICE LOAD</b></article>
-          <article><span>02 / REWARDED</span><h3>Value back for useful participation.</h3><p>Reward comprehension or readiness, never pressured attention or disclosure.</p><b>OPTIONAL / PROPORTIONATE / DECISION-NEUTRAL</b></article>
-          <article><span>03 / SPONSORED</span><h3>A partner funds the help, never the answer.</h3><p>Labelled utility, structurally separated from the customer outcome.</p><b>GOVERNED / RELEVANT / CUSTOMER-CONTROLLED</b></article>
-          <div className="aj-mode-signal"><i /><span>THE WAIT IS REAL</span><strong>THE VALUE SHOULD BE TOO</strong></div>
+          <div className="aj-modes-title"><span>04 / THREE MODES</span><h2>Three ways to make a real wait useful.</h2></div>
+          <article><span>01 / LIVE</span><h3>Prepare the next step while the process runs.</h3><p>Explain status, collect missing information or prepare a reviewable output. No reward or sponsor is needed.</p><b>CLEARER STATUS / BETTER HANDOFF / LESS REWORK</b></article>
+          <article><span>02 / REWARDED</span><h3>Recognise useful, optional participation.</h3><p>The organisation may provide value when a customer completes something that helps their own next step.</p><b>OPTIONAL / FAIR / EASY TO DECLINE</b></article>
+          <article><span>03 / SPONSORED</span><h3>A partner may fund the help, not the outcome.</h3><p>The sponsor is named, sharing is optional and the primary service does not change.</p><b>DISCLOSED / USEFUL / CUSTOMER-CONTROLLED</b></article>
+          <div className="aj-mode-signal"><i /><span>THE WAIT IS REAL</span><strong>THE WORK MUST BE USEFUL</strong></div>
         </section>
 
         <section className="aj-panel aj-pilot" id="pilot">
           <figure className="aj-photo aj-photo-pilot" data-parallax><Image src="https://journeys.assembl.co.nz/assembl-car-flatlay.png" alt="An ordered field of mechanical parts ready to become a whole" width={1600} height={1000} unoptimized /><figcaption>START WITH ONE COMPLETE SYSTEM</figcaption></figure>
-          <article className="aj-pilot-copy"><span>05 / ACTIVE JOURNEY SPRINT</span><h2>Begin with one wait that matters.</h2><p>Build the smallest emotionally complete journey. Use demonstration data, put named people at every consequential gate and measure whether the next step becomes faster, clearer and better evidenced.</p></article>
-          <ol><li><span>01</span><strong>Find the moment</strong><p>One trigger, owner, clock and customer harm.</p></li><li><span>02</span><strong>Compose the work</strong><p>Permitted context, bounded jobs and human gates.</p></li><li><span>03</span><strong>Run in shadow</strong><p>Compare prepared work with real team decisions.</p></li><li><span>04</span><strong>Prove the change</strong><p>Time, clarity, completion, trust and evidence quality.</p></li></ol>
-          <div className="aj-commercial"><span>FIRST OFFER</span><strong>A branded demonstrator and evidence-backed pilot plan</strong><small>Two to four weeks / fixed scope / fixed price</small></div>
+          <article className="aj-pilot-copy"><span>05 / ACTIVE JOURNEY SPRINT</span><h2>Start with one customer wait worth improving.</h2><p>Choose one real wait, one useful task and one named reviewer. We build a branded demonstrator with simulated data, then define how a safe pilot would measure clarity, completion, team effort and customer control.</p></article>
+          <ol><li><span>01</span><strong>Choose the wait</strong><p>Name the trigger, usual duration, customer problem and human owner.</p></li><li><span>02</span><strong>Define the task</strong><p>Set the approved context, permissions, limits, output and review point.</p></li><li><span>03</span><strong>Test safely</strong><p>Use simulated or approved data before the journey affects a live customer.</p></li><li><span>04</span><strong>Measure the result</strong><p>Compare time, comprehension, completion, corrections and trust.</p></li></ol>
+          <div className="aj-commercial"><span>FIRST ENGAGEMENT</span><strong>A working demonstrator and an evidence-backed pilot plan</strong><small>Two to four weeks / fixed scope / fixed price</small></div>
         </section>
 
         <section className="aj-panel aj-contact" id="contact">
           <div className="aj-contact-dot">·</div><span>ASSEMBL / AOTEAROA NEW ZEALAND</span>
-          <h2>Choose the journey your customer should not have to endure.</h2>
-          <p>We will turn one real interval into a working, permissioned product demonstrator and a measurable enterprise pilot.</p>
-          <a href="mailto:assembl@assembl.co.nz?subject=An%20active%20customer%20journey%20pilot">Start with one journey <i>↗</i></a>
-          <small>Client concepts remain separate, direct-link proposals until implemented and verified.</small>
+          <h2>Where are your customers waiting today?</h2>
+          <p>We will map the wait, write the customer interaction, build a branded demonstrator and define a safe, measurable pilot. Your team keeps approval over every consequential step.</p>
+          <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
+          <small>Demonstrators use simulated data. Production work requires agreed sources, permissions, security and human review.</small>
         </section>
       </div>
 
