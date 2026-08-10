@@ -43,6 +43,7 @@ export function DataWaitlistForm() {
   const [intent, setIntent] = useState<Intent>('api-key');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [useCase, setUseCase] = useState('');
   const emailId = useId();
   const orgId = useId();
   const useCaseId = useId();
@@ -54,6 +55,7 @@ export function DataWaitlistForm() {
     setIntent(next);
     setStatus('idle');
     setError(null);
+    setUseCase('');
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -86,6 +88,7 @@ export function DataWaitlistForm() {
       }
 
       form.reset();
+      setUseCase('');
       setStatus('done');
     } catch {
       setError('Network hiccup. Please try again, or email assembl@assembl.co.nz.');
@@ -96,13 +99,13 @@ export function DataWaitlistForm() {
   return (
     <div
       id="get-access"
-      className="rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-6 md:p-8"
+      className="rounded-[10px] border border-[rgba(36,11,33,0.16)] bg-[color:var(--assembl-paper)] p-6 md:p-8"
     >
       {/* Intent toggle */}
       <div
         role="tablist"
         aria-label="Choose how to get started"
-        className="inline-flex rounded-full border border-[rgba(35,33,31,0.14)] bg-[#FFF7EC] p-1"
+        className="inline-flex rounded-full border border-[rgba(36,11,33,0.16)] bg-[color:var(--assembl-chalk)] p-1"
       >
         {(['api-key', 'talk-to-kate'] as const).map((value) => {
           const active = intent === value;
@@ -113,10 +116,10 @@ export function DataWaitlistForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchIntent(value)}
-              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]/40 focus-visible:ring-offset-2 ${
+              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-dusty-rose)]/40 focus-visible:ring-offset-2 ${
                 active
-                  ? 'bg-[color:var(--assembl-pounamu)] text-white'
-                  : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]'
+                  ? 'bg-[color:var(--assembl-deep-plum)] text-[color:var(--assembl-paper)]'
+                  : 'text-[color:var(--assembl-muted-plum)] hover:text-[color:var(--assembl-deep-plum)]'
               }`}
             >
               {value === 'api-key' ? 'Free API key' : 'Talk to Kate'}
@@ -125,21 +128,21 @@ export function DataWaitlistForm() {
         })}
       </div>
 
-      <h3 className="mt-6 font-display text-[clamp(1.6rem,3vw,2.2rem)] font-light leading-tight text-[color:var(--text-primary)]">
+      <h3 className="mt-6 font-display text-[clamp(1.6rem,3vw,2.2rem)] font-light leading-tight text-[color:var(--assembl-deep-plum)]">
         {copy.heading}
       </h3>
-      <p className="mt-2 max-w-md text-sm leading-relaxed text-[color:var(--text-body)]">
+      <p className="mt-2 max-w-md text-sm leading-relaxed text-[color:var(--assembl-muted-plum)]">
         {copy.sub}
       </p>
 
       {status === 'done' ? (
-        <div className="mt-6 flex items-start gap-3 rounded-[8px] border border-[rgba(58,56,50,0.3)] bg-[color:var(--assembl-pounamu-paper)] p-5">
-          <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--assembl-pounamu)]" aria-hidden />
+        <div className="mt-6 flex items-start gap-3 rounded-[8px] border border-[rgba(36,11,33,0.20)] bg-[color:var(--assembl-chalk)] p-5">
+          <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--assembl-dusty-rose)]" aria-hidden />
           <div>
-            <p className="text-sm font-medium text-[color:var(--text-primary)]">
+            <p className="text-sm font-medium text-[color:var(--assembl-deep-plum)]">
               {intent === 'api-key' ? "You're on the list." : 'Sent to Kate.'}
             </p>
-            <p className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">
+            <p className="mt-1 text-sm leading-relaxed text-[color:var(--assembl-muted-plum)]">
               {intent === 'api-key'
                 ? 'We email your Pulse key the moment the endpoint opens. Watch your inbox.'
                 : 'Kate has it and will reply herself, usually within a working day.'}
@@ -154,16 +157,34 @@ export function DataWaitlistForm() {
             <Field id={orgId} name="organisation" label="Organisation (optional)" placeholder="Firm or company" autoComplete="organization" />
           </div>
           <div>
-            <label htmlFor={useCaseId} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+            <label htmlFor={useCaseId} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-muted-plum)]">
               {copy.useCaseLabel}
             </label>
             <textarea
               id={useCaseId}
               name="useCase"
               rows={2}
+              maxLength={1000}
+              value={useCase}
+              onChange={(event) => setUseCase(event.target.value)}
               placeholder={copy.useCasePlaceholder}
-              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+              className="mt-2 w-full rounded-[8px] border border-[rgba(36,11,33,0.18)] bg-[color:var(--assembl-chalk)] px-4 py-3 text-sm text-[color:var(--assembl-deep-plum)] placeholder:text-[color:var(--assembl-muted-plum)]/70 focus-visible:border-[color:var(--assembl-dusty-rose)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-dusty-rose)]/65 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--assembl-paper)]"
             />
+            <div className="mt-2 flex justify-end">
+              <span
+                className={
+                  useCase.length >= 900
+                    ? 'font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-[color:var(--assembl-dusty-rose)]'
+                    : 'font-mono text-[10px] uppercase tracking-[0.1em] text-[color:var(--assembl-muted-plum)]'
+                }
+                aria-hidden="true"
+              >
+                {useCase.length} / 1000 characters
+              </span>
+              <span className="sr-only" aria-live="polite">
+                {useCase.length >= 900 ? String(useCase.length) + ' of 1000 characters used' : ''}
+              </span>
+            </div>
           </div>
 
           {status === 'error' && error ? (
@@ -175,13 +196,13 @@ export function DataWaitlistForm() {
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--assembl-pounamu)] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--assembl-deep-plum)] px-6 py-3 text-sm font-medium text-[color:var(--assembl-paper)] transition-all hover:bg-[color:var(--assembl-muted-plum)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-dusty-rose)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--assembl-paper)] active:scale-[0.98] disabled:opacity-60"
           >
             {status === 'submitting' ? 'Sending…' : copy.cta}
             {status !== 'submitting' ? <ArrowRight className="h-4 w-4" aria-hidden /> : null}
           </button>
 
-          <p className="text-xs leading-relaxed text-[color:var(--text-secondary)]">
+          <p className="text-xs leading-relaxed text-[color:var(--assembl-muted-plum)]">
             Your details reach a named human in Aotearoa. No spam, no resale — just your key and the occasional product note.
           </p>
         </form>
@@ -209,17 +230,23 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+      <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-muted-plum)]">
         {label}
+        {required ? (
+          <span className="ml-1 text-[color:var(--assembl-dusty-rose)]" aria-hidden="true">
+            *
+          </span>
+        ) : null}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
+        aria-required={required || undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+        className="mt-2 w-full rounded-[8px] border border-[rgba(36,11,33,0.18)] bg-[color:var(--assembl-chalk)] px-4 py-3 text-sm text-[color:var(--assembl-deep-plum)] placeholder:text-[color:var(--assembl-muted-plum)]/70 focus-visible:border-[color:var(--assembl-dusty-rose)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-dusty-rose)]/65 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--assembl-paper)]"
       />
     </div>
   );
