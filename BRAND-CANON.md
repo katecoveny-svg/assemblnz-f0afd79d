@@ -1,8 +1,8 @@
 # assembl — brand canon
 
-**Source of truth. Last updated 29 July 2026.**
-This file supersedes CANON-LOCKED-2026-06-23 (which specified Lato) and every
-earlier brand note. If another document disagrees with this one, this one wins.
+**Historical canon. Last updated 29 July 2026.**
+The current palette, typography, imagery and motion source of truth is
+[`docs/assembl-brand-system.md`](./docs/assembl-brand-system.md). It wins wherever the two conflict.
 
 Written to be read by people *and* by AI agents. An agent asked to make anything
 for assembl — a page, a post, a deck, a demo — should be able to follow this file

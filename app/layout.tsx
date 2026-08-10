@@ -117,7 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={SITE_GRAPH} />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-pounamu)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#FFF7EC] focus:shadow-brand focus:outline focus:outline-2 focus:outline-ring focus:outline-offset-2"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-deep-plum)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[color:var(--assembl-paper)] focus:shadow-brand focus:outline focus:outline-2 focus:outline-ring focus:outline-offset-2"
         >
           Skip to main content
         </a>

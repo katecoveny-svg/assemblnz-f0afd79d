@@ -9,20 +9,17 @@ Verify with: `git remote -v` → must show `origin → katecoveny-svg/assemblnz-
 ## Canonical brand
 
 Tokens:
-- Warm cream: `#FAF7F2`
-- Pounamu green: `#2B6B57`
-- Pounamu deep: `#1A4D3D`
-- Pounamu bright: `#4FA887` for hover only
-- Arataki amber: `#D9A85A`
-- Brass: `#B8964F`
-- Ink: `#3D4250`
-- Ink-soft: `#5C6273`
-- Taupe: `#9D8C7D`
+- Deep plum: `#240B21`
+- Muted plum: `#654A4E`
+- Dusty rose: `#916A70`
+- Chalk: `#F5F1F2`
+- Paper: `#FFFDFB`
 
 Typography:
-- Cormorant Garamond for headings
-- Inter for body
-- IBM Plex Mono for labels, eyebrows, plates, audit refs
+- Instrument Sans for headlines, body, navigation and controls
+- IBM Plex Mono only for wait-state labels, evidence, timestamps and proof
+
+The complete visual source of truth is `docs/assembl-brand-system.md`. It overrides older brass, amber, pounamu, cobalt, pearl and Cormorant-led directions wherever they conflict. Verified client colours remain scoped to their named demonstrators.
 
 Wordmark: always lowercase `assembl`. Never `Assembl`, never `ASSEMBL`.
 
