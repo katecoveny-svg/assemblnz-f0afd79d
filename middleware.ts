@@ -72,6 +72,7 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/brand/',
   '/.well-known',
   '/assets/',
+  '/media/',
   // 3D assets (tui gaussian splat etc.) — .splat/.ply aren't in the static
   // extension regex, so without this the fetch gets the splash HTML back.
   '/3d/',
