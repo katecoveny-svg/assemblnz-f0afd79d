@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { Cormorant_Garamond, Lato, Space_Mono } from 'next/font/google';
+import type { CSSProperties, ReactNode } from 'react';
+import { Lato, Space_Mono } from 'next/font/google';
 
 /**
  * Mana Receipts — the honest trust page. Self-contained CANON type system
@@ -9,14 +9,6 @@ import { Cormorant_Garamond, Lato, Space_Mono } from 'next/font/google';
  * The global SiteHeader/Footer stay; this page carries the champagne-gold + cream
  * palette inline (see mana-receipts.module.css).
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--mana-display',
-  display: 'swap',
-});
-
 const lato = Lato({
   subsets: ['latin'],
   weight: ['400', '700', '900'],
@@ -33,6 +25,11 @@ const spaceMono = Space_Mono({
 
 export default function ManaReceiptsLayout({ children }: { children: ReactNode }) {
   return (
-    <div className={`${cormorant.variable} ${lato.variable} ${spaceMono.variable}`}>{children}</div>
+    <div
+      className={`${lato.variable} ${spaceMono.variable}`}
+      style={{ '--mana-display': 'var(--font-display), Georgia, serif' } as CSSProperties}
+    >
+      {children}
+    </div>
   );
 }

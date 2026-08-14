@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MatarikiCluster } from "@/components/assembl/chrome";
-import { isAdminHub, isAgentMarketplace, isAlphassembl, isAssemblBills, isAtlas, isAuthSurface, isCustomerWorkspace, isDashMicrosite, isEcho, isLab, isStandaloneHealth, isStudio } from "@/components/site/site-header";
+import { isAdminHub, isAgentMarketplace, isAlphassembl, isAssemblBills, isAtlas, isAuthSurface, isCreativeStudio, isCustomerWorkspace, isDashMicrosite, isEcho, isLab, isStandaloneHealth, isStudio } from "@/components/site/site-header";
 
 /**
  * Global footer — DIRECTION-LOCKED-2026-07-01 (palette correction 2026-07-02).
@@ -70,7 +70,7 @@ export function SiteFooter() {
   // white-labelled — suppress the assembl footer across the whole subtree.
   // pathname === "/" — the root is the coming-soon splash until the fresh
   // marketing site cuts over; the splash carries no chrome at all.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isStudio(pathname) || isLab(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isLab(pathname) || pathname === "/") return null;
 
   return (
     <footer

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode, CSSProperties } from 'react';
-import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from '@/lib/font-fallbacks';
 import { themeVars } from './theme';
 import { BillsAtmosphere } from '@/components/bills/BillsAtmosphere';
 import { OsParallaxPattern } from '@/components/ops/shared/OsMotion';

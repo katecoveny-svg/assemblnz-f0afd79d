@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Montserrat, Cormorant_Garamond } from 'next/font/google';
+import { Montserrat, Cormorant_Garamond } from '@/lib/font-fallbacks';
 import styles from './contact.module.css';
 import { CreditsProvider } from '@/components/customers/contact-energy/CreditsProvider';
 import {

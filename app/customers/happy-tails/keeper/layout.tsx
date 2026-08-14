@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Cormorant_Garamond, Inter, Space_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Inter, Space_Mono } from '@/lib/font-fallbacks';
 import './keeper.css';
 
 /**

@@ -123,6 +123,11 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/concept-studio',
   // Creative playground — linked from the cinematic footer (2026-07-24).
   '/creative-playground',
+  // The public, browser-local assembl Creative Studio and its bundled tool.
+  // Both routes are deliberately exposed on the marketing domain; the tool
+  // does not upload customer files or require an account.
+  '/creative-studio',
+  '/tools/',
   // AI-search readiness + journey tool. Missing from this list since it
   // shipped, which is why "ai ready?" in the homepage nav served the homepage
   // on the live host: the URL bar said /ai-ready, the page was the splash

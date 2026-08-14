@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Cormorant_Garamond } from 'next/font/google';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { Cormorant_Garamond } from '@/lib/font-fallbacks';
 
 /**
  * DrawingsToLife — "drawings rise. sun turns. rooms come to life."
@@ -105,19 +105,19 @@ function ScannedPlan() {
   );
 }
 
+const subscribeReducedMotion = (onChange: () => void) => {
+  const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+  query.addEventListener('change', onChange);
+  return () => query.removeEventListener('change', onChange);
+};
+
+const getReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export function DrawingsToLife() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0); // scroll progress 0..1 through the tall stage
-  const [reduced, setReduced] = useState(false);
+  const reduced = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, () => false);
   const [mount, setMount] = useState(false); // lazy-load the heavy viewer
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduced(mq.matches);
-    const onMq = () => setReduced(mq.matches);
-    mq.addEventListener('change', onMq);
-    return () => mq.removeEventListener('change', onMq);
-  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;

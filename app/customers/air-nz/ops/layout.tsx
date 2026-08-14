@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Inter_Tight, Fraunces, Cormorant_Garamond } from 'next/font/google';
+import { Inter_Tight, Fraunces, Cormorant_Garamond } from '@/lib/font-fallbacks';
 import rootStyles from '../dash/airnz.module.css';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/air-nz/ops-chrome';

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Cormorant_Garamond, Zilla_Slab } from 'next/font/google';
+import { Zilla_Slab } from 'next/font/google';
 import type { BrandConfig } from '@/lib/brand/brand-config';
 
 /**
@@ -15,11 +15,6 @@ import type { BrandConfig } from '@/lib/brand/brand-config';
  * Concept framing is structural, not small print: the eyebrow says this is
  * a concept, and nothing in the band claims a partnership.
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  display: 'swap',
-});
 // Stand-in for TOA's Archer slab (licensed) — used only for the italic
 // tone-contract line, mirroring the italic serif quotes on toa.nz.
 const zilla = Zilla_Slab({
@@ -101,8 +96,8 @@ export function ArcHeroBand({
 
           {/* Personal greeting — the demo is built for Nick Dalton. */}
           <p
-            className={`${cormorant.className} -mb-2 text-2xl italic`}
-            style={{ color: 'rgba(255,255,255,0.85)' }}
+            className="-mb-2 text-2xl italic"
+            style={{ color: 'rgba(255,255,255,0.85)', fontFamily: "var(--font-display), Georgia, serif" }}
           >
             Kia ora Nick —
           </p>
@@ -111,7 +106,8 @@ export function ArcHeroBand({
             <ArcMark size={44} />
             <div>
               <h1
-                className={`${cormorant.className} text-4xl leading-tight text-white md:text-5xl`}
+                className="text-4xl leading-tight text-white md:text-5xl"
+                style={{ fontFamily: "var(--font-display), Georgia, serif" }}
               >
                 ARC — your practice&apos;s operating brain
               </h1>

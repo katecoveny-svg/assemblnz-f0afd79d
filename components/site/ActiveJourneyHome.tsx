@@ -37,6 +37,21 @@ export function ActiveJourneyHome() {
   const [progress, setProgress] = useState(0);
   const [assemblyProgress, setAssemblyProgress] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [artMotionAllowed, setArtMotionAllowed] = useState(false);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const compactScreen = window.matchMedia('(max-width: 760px)');
+    const update = () => setArtMotionAllowed(!reducedMotion.matches && !compactScreen.matches);
+
+    update();
+    reducedMotion.addEventListener('change', update);
+    compactScreen.addEventListener('change', update);
+    return () => {
+      reducedMotion.removeEventListener('change', update);
+      compactScreen.removeEventListener('change', update);
+    };
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -127,7 +142,10 @@ export function ActiveJourneyHome() {
       <header className="aj-header">
         <button className="aj-wordmark" onClick={() => goTo('start')} aria-label="Return to the start">assembl<span>·</span></button>
         <p>MAHI THAT EARNS ITS PROOF.</p>
-        <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
+        <div className="aj-header-links">
+          <Link href="/creative-studio">Creative studio <i>↗</i></Link>
+          <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
+        </div>
       </header>
 
       <div
@@ -202,6 +220,44 @@ export function ActiveJourneyHome() {
             <div className="aj-assembly-state"><span>{assemblyProgress > 0.95 ? 'READY FOR HUMAN REVIEW' : assemblyProgress > 0.66 ? 'ADDING THE EVIDENCE RECORD' : assemblyProgress > 0.12 ? 'PREPARING THE NEXT STEP' : 'SIX PARTS / ONE USEFUL WAIT'}</span><strong>{Math.round(assemblyProgress * 100).toString().padStart(2, '0')}%</strong></div>
           </div>
           <div className="aj-signature-marquee"><span>wait</span><span>permission</span><span>task</span><span>customer review</span><span>named owner</span><span>record</span></div>
+        </section>
+
+        <section className="aj-panel aj-studio" aria-label="assembl generative visual studies">
+          <article className="aj-studio-copy">
+            <span>VISUAL STUDY / ASSEMBLING</span>
+            <h2>The wait,<br />made visible<span>·</span></h2>
+            <p>Two studies from the assembl creative system show an interval changing state: a live field continues to assemble, while the still holds the same material language when motion is reduced. They are visual language, not a live customer record.</p>
+            <small>GENERATIVE STUDY / NO CUSTOMER DATA / REDUCED-MOTION FALLBACK INCLUDED</small>
+          </article>
+          <div className="aj-studio-live">
+            {artMotionAllowed ? (
+              <iframe
+                src="/media/assembl-print-embed.html"
+                title="Live assembl plum press generative study"
+                loading="lazy"
+                sandbox="allow-scripts"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <Image
+                src="/images/site/assembl-shader-8471.png"
+                alt="Plum, rose and paper tones flowing through an assembl generative field"
+                width={1200}
+                height={627}
+              />
+            )}
+            <div><span>{artMotionAllowed ? 'LIVE CANVAS / POINTER RESPONSIVE' : 'MOTION RESTING STATE'}</span><b>Plum press / assembling field</b></div>
+          </div>
+          <figure className="aj-studio-still">
+            <Image
+              src="/images/site/assembl-shader-8471.png"
+              alt="A still generative study in deep plum, mulberry, rose and warm paper"
+              width={1200}
+              height={627}
+              sizes="(min-width: 761px) 42vw, 100vw"
+            />
+            <figcaption>STATIC STUDY / DEEP PLUM / MULBERRY / PAPER</figcaption>
+          </figure>
         </section>
 
         <section className="aj-panel aj-system" id="system">

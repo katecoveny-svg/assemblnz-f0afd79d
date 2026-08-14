@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Fraunces, Inter, Space_Mono } from 'next/font/google';
+import { Fraunces, Inter, Space_Mono } from '@/lib/font-fallbacks';
 import { HospoShell } from '@/components/customers/lula-inn/HospoShell';
 
 // The Lula Inn side uses Fraunces (warm editorial serif — the elevated-casual

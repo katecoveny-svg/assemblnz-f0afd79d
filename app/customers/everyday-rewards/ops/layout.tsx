@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Roboto, Cormorant_Garamond, Space_Mono } from 'next/font/google';
+import { Roboto, Cormorant_Garamond, Space_Mono } from '@/lib/font-fallbacks';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/everyday-rewards/ops-chrome';
 import { InviteGreeting } from '@/components/ops/InviteGreeting';

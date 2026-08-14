@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Roboto, Cormorant_Garamond, Space_Mono } from 'next/font/google';
+import { Roboto, Cormorant_Garamond, Space_Mono } from '@/lib/font-fallbacks';
 import { EdrShell } from '@/components/customers/everyday-rewards/EdrShell';
 
 // Everyday Rewards uses Roboto. assembl side of the lockup uses Cormorant

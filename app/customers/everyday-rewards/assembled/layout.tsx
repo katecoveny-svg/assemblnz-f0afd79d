@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Roboto, Cormorant_Garamond, Space_Mono } from 'next/font/google';
+import { Roboto, Cormorant_Garamond, Space_Mono } from '@/lib/font-fallbacks';
 
 // The "assembled" grocery journey concept runs the shared lib/journey engine
 // under the Everyday Rewards brand. Fonts mirror the dash lockup; the pilot

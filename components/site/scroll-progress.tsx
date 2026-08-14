@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useSpring } from 'framer-motion';
+import { isCreativeStudio } from '@/components/site/site-header';
 
 /**
  * Thin scroll-progress bar pinned to the top of the page.
@@ -17,7 +18,7 @@ export function ScrollProgress() {
   });
 
   // the "/" coming-soon splash carries no chrome at all
-  if (pathname === '/') return null;
+  if (pathname === '/' || isCreativeStudio(pathname)) return null;
 
   return (
     <motion.div

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Cormorant_Garamond, Lato } from 'next/font/google';
+import { Lato } from 'next/font/google';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { FilmHero } from '@/components/ops/toa/FilmHero';
@@ -32,11 +32,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  display: 'swap',
-});
 const lato = Lato({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
 
 const CHAMPAGNE = '#bfa37a';
@@ -70,7 +65,7 @@ export default function ToaArchitectsDemoHub() {
 
         {/* title band */}
         <div className="max-w-3xl">
-          <h1 className={`${cormorant.className} lowercase text-4xl leading-tight md:text-5xl`}>
+          <h1 className="lowercase text-4xl leading-tight md:text-5xl" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
             16A hubert henderson place · remuera
           </h1>
           <p className={`${lato.className} mt-3 max-w-2xl text-sm leading-relaxed`} style={{ color: '#363a35' }}>
