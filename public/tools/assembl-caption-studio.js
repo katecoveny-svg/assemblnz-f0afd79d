@@ -680,19 +680,8 @@
   function mount() {
     if (typeof document === "undefined" || !document.body) return false;
     if (document.getElementById("assembl-caption-studio")) return true;
-    const routeMode =
-      typeof window !== "undefined"
-        ? String(window.location.hash || "").replace(/^#/, "")
-        : "";
-    if (routeMode === "studio") return true;
-
-    const pageText = clean(document.body.textContent);
-    if (
-      pageText.indexOf("CREATIVE STUDIO") === -1 ||
-      pageText.indexOf("PNG STILL") === -1
-    ) {
-      return false;
-    }
+    const mountPoint = document.getElementById("assembl-caption-root");
+    if (!mountPoint) return false;
 
     const section = document.createElement("section");
     section.id = "assembl-caption-studio";
@@ -722,17 +711,7 @@
         </div>
       `;
 
-    document.body.appendChild(section);
-
-    if (routeMode === "captions") {
-      Array.from(document.body.children).forEach(function (child) {
-        if (child !== section) child.style.display = "none";
-      });
-      document.body.style.margin = "0";
-      document.body.style.minHeight = "100vh";
-      document.body.style.background = "#120510";
-      section.style.paddingTop = "28px";
-    }
+    mountPoint.appendChild(section);
 
     const moment = section.querySelector('[data-caption-input="moment"]');
     const outcome = section.querySelector('[data-caption-input="outcome"]');

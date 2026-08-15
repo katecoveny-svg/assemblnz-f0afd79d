@@ -273,6 +273,35 @@ function blobToDataUrl(blob: Blob) {
   });
 }
 
+function looksLikePhoto(file: File) {
+  return (
+    file.type.startsWith("image/") ||
+    /\.(?:avif|heic|heif|jpe?g|png|webp)$/i.test(file.name)
+  );
+}
+
+function looksLikeHeic(file: File) {
+  return (
+    /heic|heif/i.test(file.type) || /\.(?:heic|heif)$/i.test(file.name)
+  );
+}
+
+async function browserReadyPhoto(file: File) {
+  if (!looksLikeHeic(file)) return file;
+
+  const { heicTo } = await import("heic-to/csp");
+  const converted = await heicTo({
+    blob: file,
+    type: "image/jpeg",
+    quality: 0.9,
+  });
+
+  if (!(converted instanceof Blob)) {
+    throw new Error("That HEIC photo could not be converted.");
+  }
+  return converted;
+}
+
 async function prepareReferenceDataUrl(src: string) {
   const image = await loadImage(src);
   const longest = Math.max(image.naturalWidth, image.naturalHeight);
@@ -388,7 +417,7 @@ export function CreativeStudioShell() {
       {visited.has("design") && (
         <section hidden={activeTab !== "design"} className="bg-[#120510]">
           <iframe
-            src="/tools/assembl-creative-studio.html#studio"
+            src="/tools/assembl-creative-studio.html?v=2"
             title="assembl graphic and motion studio"
             className="h-[calc(100svh-120px)] min-h-[720px] w-full border-0 bg-[#120510]"
             sandbox="allow-scripts allow-downloads"
@@ -400,7 +429,7 @@ export function CreativeStudioShell() {
       {visited.has("captions") && (
         <section hidden={activeTab !== "captions"} className="bg-[#120510]">
           <iframe
-            src="/tools/assembl-creative-studio.html#captions"
+            src="/tools/assembl-caption-studio.html?v=2"
             title="assembl caption studio"
             className="h-[calc(100svh-120px)] min-h-[760px] w-full border-0 bg-[#120510]"
             sandbox="allow-scripts allow-downloads"
@@ -423,6 +452,7 @@ function AssemblImageMaker() {
   const [imageSrc, setImageSrc] = useState(BRAND_ASSETS[0].src);
   const [sourceLabel, setSourceLabel] = useState(BRAND_ASSETS[0].label);
   const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState(
     "Start from this assembl asset, upload your own, or generate a new image.",
@@ -483,16 +513,21 @@ function AssemblImageMaker() {
 
   const upload = async (file: File | null) => {
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
+    if (!looksLikePhoto(file)) {
       setError("Please choose an image file.");
       return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      setError("Please choose an image smaller than 10MB.");
+    if (file.size > 25 * 1024 * 1024) {
+      setError("Please choose a photo smaller than 25MB.");
       return;
     }
+    setUploading(true);
+    setError("");
+    setNotice("Opening your photo in this browser…");
     try {
-      const dataUrl = await blobToDataUrl(file);
+      const photo = await browserReadyPhoto(file);
+      const dataUrl = await blobToDataUrl(photo);
+      await loadImage(dataUrl);
       setSelectedAssetId("upload");
       setReferenceSrc(dataUrl);
       setImageSrc(dataUrl);
@@ -503,7 +538,12 @@ function AssemblImageMaker() {
         "Your upload stays in this browser unless you choose generate. Plum treatment is ready now.",
       );
     } catch {
-      setError("The upload could not be opened.");
+      setError(
+        "That photo could not be opened. Try a JPEG, PNG, WebP or HEIC photo smaller than 25MB.",
+      );
+      setNotice("Your photo has not left your device.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -627,7 +667,7 @@ function AssemblImageMaker() {
       <div className="grid gap-7 xl:grid-cols-[0.88fr_1.12fr]">
         <div className="space-y-6">
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <div className="mb-4 flex items-end justify-between gap-4">
+            <div className="mb-4">
               <div>
                 <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
                   01 · Starting point
@@ -636,16 +676,43 @@ function AssemblImageMaker() {
                   assembl assets
                 </h2>
               </div>
-              <label className="cursor-pointer border border-[#E9BCA9]/45 px-3 py-2 font-mono text-[8px] uppercase tracking-[0.1em] text-[#F5F1F2] hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9]">
-                upload image
+            </div>
+            <div className="mb-4 grid gap-2 sm:grid-cols-2">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 text-center font-mono text-[9px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#F1CCBD] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+                {uploading ? "opening photo…" : "choose a photo"}
+                <input
+                  type="file"
+                  accept="image/*,.heic,.heif"
+                  className="sr-only"
+                  disabled={uploading}
+                  onChange={(event) => {
+                    const input = event.currentTarget;
+                    void upload(input.files?.[0] ?? null).finally(() => {
+                      input.value = "";
+                    });
+                  }}
+                />
+              </label>
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9]/55 px-4 py-3 text-center font-mono text-[9px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+                take a photo
                 <input
                   type="file"
                   accept="image/*"
+                  capture="environment"
                   className="sr-only"
-                  onChange={(event) => void upload(event.target.files?.[0] ?? null)}
+                  disabled={uploading}
+                  onChange={(event) => {
+                    const input = event.currentTarget;
+                    void upload(input.files?.[0] ?? null).finally(() => {
+                      input.value = "";
+                    });
+                  }}
                 />
               </label>
             </div>
+            <p className="mb-4 font-mono text-[8px] leading-4 uppercase tracking-[0.08em] text-[#B6ACB3]">
+              Camera roll, files or camera · JPEG, PNG, WebP and HEIC · up to 25MB
+            </p>
             <div className="grid grid-cols-2 gap-3">
               {BRAND_ASSETS.map((asset) => {
                 const selected = selectedAssetId === asset.id;
