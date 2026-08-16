@@ -137,6 +137,11 @@ export function isMotionStudio(pathname: string | null): boolean {
   return pathname === "/motion-studio" || Boolean(pathname?.startsWith("/motion-studio/"));
 }
 
+/** Creative Studio is a full-viewport browser tool with its own chrome. */
+export function isCreativeStudio(pathname: string | null): boolean {
+  return pathname === "/creative-studio" || Boolean(pathname?.startsWith("/creative-studio/"));
+}
+
 /** assembl studio — the agent workbench is a full-viewport tool with its own
  *  compact top bar; the global chrome would push its lower panel off-screen. */
 export function isStudio(pathname: string | null): boolean {
@@ -183,7 +188,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isStudio(pathname) || isLab(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isLab(pathname) || pathname === "/") return null;
 
   return (
     <header

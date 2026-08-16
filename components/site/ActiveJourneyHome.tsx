@@ -8,7 +8,7 @@ import Link from 'next/link';
 const architecture = [
   { number: '01', title: 'Approved sources', body: 'Only the organisation’s approved rules, service information and sources.', href: '/genome', link: 'See approved context' },
   { number: '02', title: 'Real wait', body: 'The event and live status that open the customer moment.', href: '/journeys', link: 'See example waits' },
-  { number: '03', title: 'Customer permission', body: 'What the customer lets assembl use, save or share.', href: '/experience', link: 'See customer controls' },
+  { number: '03', title: 'Customer permission', body: 'What the customer lets assembl use now, remember for later, save or share.', href: '/experience', link: 'See customer controls' },
   { number: '04', title: 'Prepared task', body: 'One limited job, such as checking a document or preparing questions.', href: '/agents', link: 'See prepared tasks' },
   { number: '05', title: 'Named reviewer', body: 'The person who receives the brief and remains responsible.', href: '/how-it-works', link: 'See the human handoff' },
   { number: '06', title: 'Evidence record', body: 'Sources, permissions, customer changes, reviewer and outcome.', href: '/evidence-pack', link: 'Open an evidence pack' },
@@ -26,7 +26,7 @@ const assemblyParts = [
   { key: 'trigger', label: 'Trigger', value: 'Application submitted', meta: '09:42 / confirmed', x: -330, y: -160, rotation: -12, left: 35, top: 29 },
   { key: 'permission', label: 'Permission', value: 'Check approved documents', meta: 'customer approved', x: 320, y: -170, rotation: 11, left: 65, top: 29 },
   { key: 'task', label: 'Prepared work', value: 'Missing item identified', meta: 'bounded task', x: -360, y: 45, rotation: 8, left: 35, top: 49 },
-  { key: 'customer', label: 'Customer choice', value: 'Questions added', meta: 'editable', x: 355, y: 30, rotation: -9, left: 65, top: 49 },
+  { key: 'customer', label: 'Customer choice', value: 'Preference and questions added', meta: 'approved and editable', x: 355, y: 30, rotation: -9, left: 65, top: 49 },
   { key: 'review', label: 'Named review', value: 'Lending specialist', meta: 'person responsible', x: -280, y: 230, rotation: 13, left: 35, top: 69 },
   { key: 'evidence', label: 'Evidence', value: 'Sources and edits recorded', meta: 'proof attached', x: 290, y: 225, rotation: -14, left: 65, top: 69 },
 ] as const;
@@ -132,7 +132,10 @@ export function ActiveJourneyHome() {
       <header className="aj-header">
         <button className="aj-wordmark" onClick={() => goTo('start')} aria-label="Return to the start">assembl<span>·</span></button>
         <p>MAHI THAT EARNS ITS PROOF.</p>
-        <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
+        <nav aria-label="assembl tools and contact">
+          <Link href="/creative-studio">Creative studio <i>↗</i></Link>
+          <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
+        </nav>
       </header>
 
       <div
@@ -146,28 +149,28 @@ export function ActiveJourneyHome() {
         aria-label="assembl horizontal story. Scroll, drag, or use the arrow keys."
       >
         <section className="aj-panel aj-opening" id="start">
-          <div className="aj-opening-label"><span>CUSTOMER WAITING, PUT TO WORK</span><strong>APPLICATIONS / ORDERS / CLAIMS</strong></div>
+          <div className="aj-opening-label"><span>AGENTIC CUSTOMER JOURNEYS</span><strong>APPLICATIONS / ORDERS / CLAIMS</strong></div>
           <div className="aj-opening-signal"><span>A CUSTOMER IS WAITING</span><i /><p>Their next step can be prepared now.</p></div>
           <figure className="aj-photo aj-photo-opening" data-parallax>
             <Image src="/img/home/assembl-journey-folio-flatlay.png" alt="Customer-approved journey pieces arranged beside one complete review folio" width={1536} height={960} priority />
             <figcaption>TRIGGER / PERMISSION / PREPARATION / REVIEW / PROOF</figcaption>
           </figure>
           <h1><span>Make the wait</span><span>useful.</span></h1>
-          <div className="aj-opening-note"><span>SCROLL / DRAG</span><p>While an application, order or claim is processed, assembl checks what is missing and prepares a clear brief. The customer approves it. A named person takes the next step.</p><i>→</i></div>
+          <div className="aj-opening-note"><span>SCROLL / DRAG</span><p>assembl turns a real wait into a useful part of the customer journey. The customer can complete one helpful action, receive agreed value where appropriate and approve what the service team uses next.</p><i>→</i></div>
         </section>
 
         <section className="aj-panel aj-product" id="product">
           <div className="aj-plum-cell"><span>THIS IS</span><strong>assembl</strong><i>·</i></div>
           <article className="aj-product-copy">
-            <span>01 / WHAT ASSEMBL DOES</span>
-            <h2>While the process runs, assembl prepares one brief.</h2>
-            <p>The customer can check a document, add a preference or prepare questions. assembl turns the approved information into one brief for the adviser or service team.</p>
+            <span>01 / USEFUL AGENTIC CUSTOMER JOURNEYS</span>
+            <h2>A useful wait can prepare better service.</h2>
+            <p>The customer can check a document, add a preference or prepare questions. assembl turns that approved information into one brief and, where the customer agrees, knowledge the team can use to make future service more relevant.</p>
           </article>
           <figure className="aj-photo aj-photo-detail" data-parallax>
             <Image src="/img/home/assembl-journey-folio-flatlay.png" alt="A prepared customer brief held inside its evidence folio" width={1536} height={960} />
             <figcaption>APPROVED CONTEXT / PERMISSIONS / HANDOFF</figcaption>
           </figure>
-          <div className="aj-boundary"><span>THE OUTPUT</span><strong>One brief. Ready for review.</strong><p>The customer sees what was used and can change or remove it before anything is shared.</p></div>
+          <div className="aj-boundary"><span>THE RESULT</span><strong>Relevant service. Ready for review.</strong><p>The customer sees what was used and can change, remove or limit what is remembered before anything is shared.</p></div>
           <div className="aj-proof-strip"><span>REAL WAIT</span><i>→</i><span>CUSTOMER CHOICE</span><i>→</i><span>PREPARED BRIEF</span><i>→</i><span>NAMED REVIEW</span><i>→</i><span>RECORD</span></div>
         </section>
 
@@ -216,11 +219,11 @@ export function ActiveJourneyHome() {
         </section>
 
         <section className="aj-panel aj-modes">
-          <div className="aj-modes-title"><span>04 / THREE OPTIONS</span><h2>Three choices for a real wait.</h2></div>
-          <article><span>01 / LIVE</span><h3>Help the customer prepare.</h3><p>Explain the status, check missing information or prepare the next conversation. No reward or sponsor is needed.</p><b>CLEAR STATUS / ONE TASK / NAMED HANDOFF</b></article>
-          <article><span>02 / REWARDED</span><h3>Thank the customer for useful input.</h3><p>Offer value for an optional action that helps the customer prepare. Never reward pressure or sensitive disclosure.</p><b>OPTIONAL / FAIR / EASY TO DECLINE</b></article>
+          <div className="aj-modes-title"><span>04 / THREE OPTIONS</span><h2>Three ways to make a wait useful.</h2></div>
+          <article><span>01 / LIVE</span><h3>Help the customer prepare.</h3><p>Explain the status, check missing information or learn one useful preference. Approved input helps the team provide a more personalised and relevant next step.</p><b>CLEAR STATUS / ONE TASK / NAMED HANDOFF</b></article>
+          <article><span>02 / REWARDED</span><h3>Return value for useful input.</h3><p>With an agreed programme, an optional action can earn loyalty points, a credit on a bill or another clear benefit. Declining does not change the primary service.</p><b>OPTIONAL / AGREED VALUE / EASY TO DECLINE</b></article>
           <article><span>03 / SPONSORED</span><h3>Let a partner fund practical help.</h3><p>Name the partner and what it funds. Sharing is optional. The sponsor never controls the customer’s outcome.</p><b>DISCLOSED / USEFUL / CUSTOMER-CONTROLLED</b></article>
-          <div className="aj-mode-signal"><i /><span>THE WAIT IS REAL</span><strong>THE WORK MUST BE USEFUL</strong></div>
+          <div className="aj-mode-signal"><i /><span>THE WAIT IS REAL</span><strong>VALUE FOR THE CUSTOMER / RELEVANCE FOR THE BUSINESS</strong></div>
         </section>
 
         <section className="aj-panel aj-pilot" id="pilot">
@@ -233,7 +236,7 @@ export function ActiveJourneyHome() {
         <section className="aj-panel aj-contact" id="contact">
           <div className="aj-contact-dot">·</div><span>ASSEMBL / AOTEAROA NEW ZEALAND</span>
           <h2>Show us where customers wait.</h2>
-          <p>We will turn one real wait into a working customer interaction, a prepared handoff and a clear record of what happened.</p>
+          <p>We will turn one real wait into a useful agentic customer journey, with an optional value exchange, a prepared human handoff and a clear record of what happened.</p>
           <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
           <small>Demonstrators use simulated data. Production work requires agreed sources, permissions, security and human review.</small>
         </section>
