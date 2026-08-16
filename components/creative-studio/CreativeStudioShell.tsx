@@ -3,8 +3,9 @@
 import NextImage from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { BrandImageMaker } from "./BrandImageMaker";
 
-type StudioTab = "image" | "design" | "captions";
+type StudioTab = "brand" | "image" | "design" | "captions";
 type FilterMode = "original" | "plum" | "night";
 type AspectId = "1:1" | "4:5" | "9:16" | "16:9";
 
@@ -31,6 +32,11 @@ const TABS: Array<{
     id: "design",
     label: "full creative studio",
     note: "shaders, liquid chrome, materials, motion and exports",
+  },
+  {
+    id: "brand",
+    label: "brand image maker",
+    note: "add your colours, logo and message, then download or share",
   },
   {
     id: "image",
@@ -339,16 +345,21 @@ function generationBrief(
     .join("\n");
 }
 
-export function CreativeStudioShell() {
-  const [activeTab, setActiveTab] = useState<StudioTab>("design");
+export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
+  const initialTab: StudioTab = initialTool === "brand-maker" ? "brand" : "design";
+  const [activeTab, setActiveTab] = useState<StudioTab>(initialTab);
   const [visited, setVisited] = useState<Set<StudioTab>>(
-    () => new Set<StudioTab>(["design"]),
+    () => new Set<StudioTab>([initialTab]),
   );
   const toolsRef = useRef<HTMLElement | null>(null);
 
   const chooseTab = (tab: StudioTab) => {
     setActiveTab(tab);
     setVisited((current) => new Set(current).add(tab));
+    const url = new URL(window.location.href);
+    if (tab === "brand") url.searchParams.set("tool", "brand-maker");
+    else url.searchParams.delete("tool");
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   };
 
   const openTool = (tab: StudioTab) => {
@@ -393,7 +404,7 @@ export function CreativeStudioShell() {
         <div className="mx-auto grid min-h-[520px] max-w-[1480px] md:grid-cols-[1.04fr_0.96fr] min-[1920px]:min-h-[760px] min-[1920px]:max-w-[2200px]">
           <div className="relative z-10 flex flex-col justify-center px-5 py-14 md:px-10 lg:px-16 min-[1920px]:px-24 min-[1920px]:py-24">
             <p className="font-mono text-[9px] font-medium uppercase tracking-[0.16em] text-[#E9BCA9] min-[1920px]:text-[12px]">
-              Shader · image · motion · caption
+              Shader · brand · image · motion · caption
             </p>
             <h1 className="mt-5 max-w-[880px] font-sans text-[clamp(52px,7.2vw,112px)] font-medium leading-[0.82] tracking-[-0.075em] text-[#FFFDFB] min-[1920px]:mt-8 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(100px,6vw,168px)]">
               make something worth sharing.
@@ -401,11 +412,11 @@ export function CreativeStudioShell() {
             <p className="mt-7 max-w-[690px] text-[15px] leading-6 text-[#C8BDC4] md:text-[17px] min-[1920px]:mt-10 min-[1920px]:max-w-[880px] min-[1920px]:text-[22px] min-[1920px]:leading-8">
               Open the complete assembl generator library: shader fields,
               liquid chrome, word sculpture, materials, client worlds, stills,
-              loops and web embeds. Or generate and upload imagery, apply the
-              plum filter and prepare the caption. Every result stays a draft
-              until you download it.
+              loops and web embeds. Or add your own brand, create a correctly
+              sized social image and share it from your device. Every result
+              stays a draft until you choose what happens next.
             </p>
-            <div className="mt-8 grid max-w-[780px] gap-2 sm:grid-cols-3 min-[1920px]:mt-12 min-[1920px]:max-w-[1120px] min-[1920px]:gap-4">
+            <div className="mt-8 grid max-w-[900px] grid-cols-2 gap-2 min-[1920px]:mt-12 min-[1920px]:max-w-[1320px] min-[1920px]:gap-4">
               {TABS.map((tab, index) => (
                 <button
                   key={tab.id}
@@ -462,11 +473,12 @@ export function CreativeStudioShell() {
       </section>
 
       <nav
+        id="studio-tools"
         ref={toolsRef}
         aria-label="Creative studio tools"
         className="sticky top-0 z-30 scroll-mt-0 border-b border-white/10 bg-[#120510]/95 px-3 py-3 backdrop-blur md:px-7 min-[1920px]:px-12 min-[1920px]:py-5"
       >
-        <div className="mx-auto grid max-w-[1480px] grid-cols-3 gap-2 min-[1920px]:max-w-[2200px] min-[1920px]:gap-4">
+        <div className="mx-auto grid max-w-[1480px] grid-cols-2 gap-2 sm:grid-cols-4 min-[1920px]:max-w-[2200px] min-[1920px]:gap-4">
           {TABS.map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -500,6 +512,12 @@ export function CreativeStudioShell() {
       <section hidden={activeTab !== "image"}>
         <AssemblImageMaker />
       </section>
+
+      {visited.has("brand") && (
+        <section hidden={activeTab !== "brand"} className="bg-[#120510]">
+          <BrandImageMaker />
+        </section>
+      )}
 
       {visited.has("design") && (
         <section hidden={activeTab !== "design"} className="bg-[#120510]">
