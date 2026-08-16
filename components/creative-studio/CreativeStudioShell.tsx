@@ -28,14 +28,14 @@ const TABS: Array<{
   note: string;
 }> = [
   {
-    id: "image",
-    label: "create an image",
-    note: "generate, upload or start from an assembl asset",
+    id: "design",
+    label: "full creative studio",
+    note: "shaders, liquid chrome, materials, motion and exports",
   },
   {
-    id: "design",
-    label: "style a graphic",
-    note: "materials, motion, social sizes and exports",
+    id: "image",
+    label: "image maker",
+    note: "generate, upload or start from an assembl asset",
   },
   {
     id: "captions",
@@ -340,9 +340,9 @@ function generationBrief(
 }
 
 export function CreativeStudioShell() {
-  const [activeTab, setActiveTab] = useState<StudioTab>("image");
+  const [activeTab, setActiveTab] = useState<StudioTab>("design");
   const [visited, setVisited] = useState<Set<StudioTab>>(
-    () => new Set<StudioTab>(["image"]),
+    () => new Set<StudioTab>(["design"]),
   );
   const toolsRef = useRef<HTMLElement | null>(null);
 
@@ -393,15 +393,17 @@ export function CreativeStudioShell() {
         <div className="mx-auto grid min-h-[520px] max-w-[1480px] md:grid-cols-[1.04fr_0.96fr] min-[1920px]:min-h-[760px] min-[1920px]:max-w-[2200px]">
           <div className="relative z-10 flex flex-col justify-center px-5 py-14 md:px-10 lg:px-16 min-[1920px]:px-24 min-[1920px]:py-24">
             <p className="font-mono text-[9px] font-medium uppercase tracking-[0.16em] text-[#E9BCA9] min-[1920px]:text-[12px]">
-              Image · format · caption
+              Shader · image · motion · caption
             </p>
             <h1 className="mt-5 max-w-[880px] font-sans text-[clamp(52px,7.2vw,112px)] font-medium leading-[0.82] tracking-[-0.075em] text-[#FFFDFB] min-[1920px]:mt-8 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(100px,6vw,168px)]">
               make something worth sharing.
             </h1>
             <p className="mt-7 max-w-[690px] text-[15px] leading-6 text-[#C8BDC4] md:text-[17px] min-[1920px]:mt-10 min-[1920px]:max-w-[880px] min-[1920px]:text-[22px] min-[1920px]:leading-8">
-              Create an on-brand image, adapt it for each social format and
-              prepare the caption. Start with an assembl asset or upload your
-              own photograph. Every result stays a draft until you download it.
+              Open the complete assembl generator library: shader fields,
+              liquid chrome, word sculpture, materials, client worlds, stills,
+              loops and web embeds. Or generate and upload imagery, apply the
+              plum filter and prepare the caption. Every result stays a draft
+              until you download it.
             </p>
             <div className="mt-8 grid max-w-[780px] gap-2 sm:grid-cols-3 min-[1920px]:mt-12 min-[1920px]:max-w-[1120px] min-[1920px]:gap-4">
               {TABS.map((tab, index) => (
@@ -502,9 +504,9 @@ export function CreativeStudioShell() {
       {visited.has("design") && (
         <section hidden={activeTab !== "design"} className="bg-[#120510]">
           <iframe
-            src="/tools/assembl-creative-studio.html?v=2"
-            title="assembl graphic and motion studio"
-            className="h-[calc(100svh-120px)] min-h-[720px] w-full border-0 bg-[#120510]"
+            src="/tools/assembl-creative-studio.html?v=4"
+            title="assembl full creative generator studio"
+            className="h-[calc(100svh-88px)] min-h-[820px] w-full border-0 bg-[#120510]"
             sandbox="allow-scripts allow-downloads"
             referrerPolicy="no-referrer"
           />
