@@ -156,7 +156,15 @@ export function ActiveJourneyHome() {
             <figcaption>TRIGGER / PERMISSION / PREPARATION / REVIEW / PROOF</figcaption>
           </figure>
           <h1><span>Make the wait</span><span>useful.</span></h1>
-          <div className="aj-opening-note"><span>SCROLL / DRAG</span><p>assembl turns a real wait into a useful part of the customer journey. The customer can complete one helpful action, receive agreed value where appropriate and approve what the service team uses next.</p><i>→</i></div>
+          <div className="aj-opening-note">
+            <span>SCROLL / DRAG</span>
+            <p>assembl turns a real wait into a useful part of the customer journey. The customer can complete one helpful action, receive agreed value where appropriate and approve what the service team uses next.</p>
+            <Link className="aj-studio-promo" href="/creative-studio">
+              <strong>Open Creative Studio</strong>
+              <small>image · graphic · caption</small>
+              <i aria-hidden="true">↗</i>
+            </Link>
+          </div>
         </section>
 
         <section className="aj-panel aj-product" id="product">

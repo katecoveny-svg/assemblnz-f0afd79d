@@ -65,6 +65,14 @@
 .aj-header nav a{margin:0;display:flex;gap:12px;align-items:center;color:var(--aj-ink);font:500 7px/1 var(--font-mono),monospace;letter-spacing:.12em;text-decoration:none;white-space:nowrap}
 .aj-header nav a i{color:var(--aj-rose);font-style:normal}
 
+/* A clear homepage doorway into the share-asset workflow. */
+.aj-studio-promo{min-width:250px;padding:11px 15px!important;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:3px 18px;align-items:center;color:var(--aj-paper);border-radius:999px;background:var(--aj-plum);box-shadow:0 12px 30px rgba(36,11,33,.18);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.aj-studio-promo:hover{transform:translateY(-2px);box-shadow:0 17px 38px rgba(36,11,33,.24)}
+.aj-studio-promo:focus-visible{outline:3px solid var(--aj-rose);outline-offset:3px}
+.aj-studio-promo strong{font-size:12px;font-weight:500;line-height:1.05;letter-spacing:-.01em}
+.aj-studio-promo small{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.09em;text-transform:uppercase}
+.aj-studio-promo i{grid-column:2;grid-row:1/3;align-self:center;color:var(--aj-rose);font-size:20px;font-style:normal}
+
 /* Keep the opening composition intentional on very wide desktop displays. */
 @media(min-width:1920px){
   .aj-opening{width:1920px}
@@ -75,6 +83,10 @@
   .aj-opening-label span,.aj-opening-signal>span,.aj-opening-note span,.aj-product-copy>span,.aj-boundary>span,.aj-live-copy>span,.aj-signature-copy>span,.aj-system-copy>span,.aj-modes-title>span,.aj-modes article>span,.aj-pilot-copy>span,.aj-commercial span,.aj-contact>span{font-size:8px}
   .aj-opening-signal p{font-size:26px}
   .aj-opening-note p{max-width:1040px;justify-self:center;font-size:15px}
+  .aj-studio-promo{min-width:340px;padding:16px 21px!important}
+  .aj-studio-promo strong{font-size:17px}
+  .aj-studio-promo small{font-size:8px}
+  .aj-studio-promo i{font-size:28px}
 }
 
 @media(min-width:1920px) and (min-height:1200px){
@@ -84,4 +96,6 @@
 @media(max-width:760px){
   .aj-header nav{gap:10px}
   .aj-header nav a{gap:4px;font-size:6px}
+  .aj-opening-note{grid-template-columns:auto 1fr}
+  .aj-studio-promo{grid-column:1/3;width:100%;min-width:0;margin-top:4px}
 }

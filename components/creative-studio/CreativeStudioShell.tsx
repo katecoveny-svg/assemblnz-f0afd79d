@@ -1,5 +1,6 @@
 "use client";
 
+import NextImage from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -343,43 +344,127 @@ export function CreativeStudioShell() {
   const [visited, setVisited] = useState<Set<StudioTab>>(
     () => new Set<StudioTab>(["image"]),
   );
+  const toolsRef = useRef<HTMLElement | null>(null);
 
   const chooseTab = (tab: StudioTab) => {
     setActiveTab(tab);
     setVisited((current) => new Set(current).add(tab));
   };
 
+  const openTool = (tab: StudioTab) => {
+    chooseTab(tab);
+    window.requestAnimationFrame(() => {
+      toolsRef.current?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start",
+      });
+    });
+  };
+
   return (
     <div className="min-h-[100svh] bg-[#120510] text-[#F5F1F2]">
-      <header className="flex min-h-14 items-center justify-between gap-5 border-b border-white/10 bg-[#240B21] px-4 py-3 md:min-h-16 md:px-7">
+      <header className="flex min-h-14 items-center justify-between gap-5 border-b border-white/10 bg-[#240B21] px-4 py-3 md:min-h-16 md:px-7 min-[1920px]:min-h-24 min-[1920px]:px-16">
         <Link
           href="/"
           aria-label="assembl home"
-          className="rounded-sm text-[22px] font-medium tracking-[-0.055em] text-[#FFFDFB] outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21]"
+          className="rounded-sm text-[22px] font-medium tracking-[-0.055em] text-[#FFFDFB] outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] min-[1920px]:text-[36px]"
         >
           assembl<span className="text-[#E9BCA9]">·</span>
         </Link>
         <div className="min-w-0 text-center">
-          <p className="font-mono text-[8px] font-medium uppercase tracking-[0.16em] text-[#FFFDFB] md:text-[10px]">
+          <p className="font-mono text-[8px] font-medium uppercase tracking-[0.16em] text-[#FFFDFB] md:text-[10px] min-[1920px]:text-[13px]">
             Creative studio
           </p>
-          <p className="mt-1 hidden font-mono text-[7px] uppercase tracking-[0.12em] text-[#B6ACB3] sm:block md:text-[8px]">
+          <p className="mt-1 hidden font-mono text-[7px] uppercase tracking-[0.12em] text-[#B6ACB3] sm:block md:text-[8px] min-[1920px]:mt-2 min-[1920px]:text-[10px]">
             Generate securely · edit in your browser · download to your device
           </p>
         </div>
         <Link
           href="/"
-          className="rounded-sm font-mono text-[8px] font-medium uppercase tracking-[0.12em] text-[#F5F1F2] outline-none hover:text-[#E9BCA9] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] md:text-[9px]"
+          className="rounded-sm font-mono text-[8px] font-medium uppercase tracking-[0.12em] text-[#F5F1F2] outline-none hover:text-[#E9BCA9] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] md:text-[9px] min-[1920px]:text-[12px]"
         >
           Back to site <span aria-hidden="true">↙</span>
         </Link>
       </header>
 
+      <section className="relative overflow-hidden border-b border-white/10 bg-[#120510]">
+        <div className="mx-auto grid min-h-[520px] max-w-[1480px] md:grid-cols-[1.04fr_0.96fr] min-[1920px]:min-h-[760px] min-[1920px]:max-w-[2200px]">
+          <div className="relative z-10 flex flex-col justify-center px-5 py-14 md:px-10 lg:px-16 min-[1920px]:px-24 min-[1920px]:py-24">
+            <p className="font-mono text-[9px] font-medium uppercase tracking-[0.16em] text-[#E9BCA9] min-[1920px]:text-[12px]">
+              Image · format · caption
+            </p>
+            <h1 className="mt-5 max-w-[880px] font-sans text-[clamp(52px,7.2vw,112px)] font-medium leading-[0.82] tracking-[-0.075em] text-[#FFFDFB] min-[1920px]:mt-8 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(100px,6vw,168px)]">
+              make something worth sharing.
+            </h1>
+            <p className="mt-7 max-w-[690px] text-[15px] leading-6 text-[#C8BDC4] md:text-[17px] min-[1920px]:mt-10 min-[1920px]:max-w-[880px] min-[1920px]:text-[22px] min-[1920px]:leading-8">
+              Create an on-brand image, adapt it for each social format and
+              prepare the caption. Start with an assembl asset or upload your
+              own photograph. Every result stays a draft until you download it.
+            </p>
+            <div className="mt-8 grid max-w-[780px] gap-2 sm:grid-cols-3 min-[1920px]:mt-12 min-[1920px]:max-w-[1120px] min-[1920px]:gap-4">
+              {TABS.map((tab, index) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => openTool(tab.id)}
+                  className={`group min-h-14 border px-4 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-4 focus-visible:ring-offset-[#120510] min-[1920px]:min-h-20 min-[1920px]:px-6 min-[1920px]:py-5 ${
+                    index === 0
+                      ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21] hover:bg-[#FFFDFB]"
+                      : "border-white/25 bg-[#240B21]/70 text-[#FFFDFB] hover:border-[#E9BCA9]"
+                  }`}
+                >
+                  <span className="block text-[14px] font-medium tracking-[-0.02em] min-[1920px]:text-[20px]">
+                    {tab.label}
+                  </span>
+                  <span
+                    className={`mt-1 block font-mono text-[7px] uppercase leading-3 tracking-[0.08em] min-[1920px]:mt-2 min-[1920px]:text-[9px] ${
+                      index === 0 ? "text-[#654A4E]" : "text-[#B6ACB3]"
+                    }`}
+                  >
+                    {tab.note}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <figure className="relative min-h-[420px] overflow-hidden border-t border-white/10 md:min-h-0 md:border-l md:border-t-0">
+            <NextImage
+              src="/images/site/assembl-shader-8471.png"
+              alt="A flowing assembl plum material prepared for a social image"
+              fill
+              priority
+              sizes="(min-width: 768px) 48vw, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(18,5,16,0.08),rgba(18,5,16,0.02)_55%,rgba(18,5,16,0.32))]" />
+            <div className="absolute inset-x-5 bottom-5 grid grid-cols-3 gap-2 md:inset-x-8 md:bottom-8 min-[1920px]:inset-x-12 min-[1920px]:bottom-12 min-[1920px]:gap-4">
+              {["LinkedIn · 1200×627", "Portrait · 1080×1350", "Story · 1080×1920"].map(
+                (format) => (
+                  <span
+                    key={format}
+                    className="border border-white/35 bg-[#120510]/80 px-3 py-3 text-center font-mono text-[7px] uppercase tracking-[0.08em] text-[#FFFDFB] backdrop-blur-md min-[1920px]:px-5 min-[1920px]:py-5 min-[1920px]:text-[10px]"
+                  >
+                    {format}
+                  </span>
+                ),
+              )}
+            </div>
+            <figcaption className="absolute right-5 top-5 bg-[#FFFDFB] px-4 py-2 font-mono text-[8px] font-medium uppercase tracking-[0.1em] text-[#240B21] md:right-8 md:top-8 min-[1920px]:right-12 min-[1920px]:top-12 min-[1920px]:px-6 min-[1920px]:py-3 min-[1920px]:text-[11px]">
+              assembl brand field · ready to shape
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       <nav
+        ref={toolsRef}
         aria-label="Creative studio tools"
-        className="sticky top-0 z-30 border-b border-white/10 bg-[#120510]/95 px-3 py-3 backdrop-blur md:px-7"
+        className="sticky top-0 z-30 scroll-mt-0 border-b border-white/10 bg-[#120510]/95 px-3 py-3 backdrop-blur md:px-7 min-[1920px]:px-12 min-[1920px]:py-5"
       >
-        <div className="mx-auto grid max-w-[1180px] grid-cols-3 gap-2">
+        <div className="mx-auto grid max-w-[1480px] grid-cols-3 gap-2 min-[1920px]:max-w-[2200px] min-[1920px]:gap-4">
           {TABS.map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -388,17 +473,17 @@ export function CreativeStudioShell() {
                 type="button"
                 onClick={() => chooseTab(tab.id)}
                 aria-pressed={active}
-                className={`min-w-0 border px-3 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-2 focus-visible:ring-offset-[#120510] md:px-5 ${
+                className={`min-w-0 border px-3 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-2 focus-visible:ring-offset-[#120510] md:px-5 min-[1920px]:px-8 min-[1920px]:py-5 ${
                   active
                     ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21]"
                     : "border-white/15 bg-[#240B21] text-[#F5F1F2] hover:border-[#E9BCA9]/70"
                 }`}
               >
-                <span className="block text-[12px] font-medium leading-tight tracking-[-0.01em] md:text-[15px]">
+                <span className="block text-[12px] font-medium leading-tight tracking-[-0.01em] md:text-[15px] min-[1920px]:text-[21px]">
                   {tab.label}
                 </span>
                 <span
-                  className={`mt-1 hidden font-mono text-[7px] uppercase tracking-[0.08em] md:block md:text-[8px] ${
+                  className={`mt-1 hidden font-mono text-[7px] uppercase tracking-[0.08em] md:block md:text-[8px] min-[1920px]:mt-2 min-[1920px]:text-[10px] ${
                     active ? "text-[#654A4E]" : "text-[#B6ACB3]"
                   }`}
                 >
@@ -647,25 +732,25 @@ function AssemblImageMaker() {
   };
 
   return (
-    <div className="mx-auto max-w-[1180px] px-4 py-8 md:px-7 md:py-12">
-      <div className="mb-8 grid gap-5 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+    <div className="mx-auto max-w-[1480px] px-4 py-8 md:px-7 md:py-12 min-[1920px]:max-w-[2200px] min-[1920px]:px-12 min-[1920px]:py-20">
+      <div className="mb-8 grid gap-5 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end min-[1920px]:mb-12 min-[1920px]:gap-12 min-[1920px]:pb-12">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#E9BCA9] min-[1920px]:text-[12px]">
             Image maker · draft then review
           </p>
-          <h1 className="mt-4 max-w-[760px] font-sans text-[clamp(36px,6vw,74px)] font-medium leading-[0.94] tracking-[-0.055em] text-[#FFFDFB]">
+          <h2 className="mt-4 max-w-[900px] font-sans text-[clamp(36px,6vw,82px)] font-medium leading-[0.94] tracking-[-0.055em] text-[#FFFDFB] min-[1920px]:mt-7 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(88px,5.2vw,144px)]">
             create the image. grade it plum.
-          </h1>
+          </h2>
         </div>
-        <p className="max-w-[560px] text-[14px] leading-6 text-[#B6ACB3] md:text-[16px]">
+        <p className="max-w-[660px] text-[14px] leading-6 text-[#B6ACB3] md:text-[16px] min-[1920px]:max-w-[880px] min-[1920px]:text-[21px] min-[1920px]:leading-8">
           Begin with an assembl asset, upload a photograph or describe a new
           image. The plum filter, social crop and wordmark are applied here
           before you download. Nothing publishes automatically.
         </p>
       </div>
 
-      <div className="grid gap-7 xl:grid-cols-[0.88fr_1.12fr]">
-        <div className="space-y-6">
+      <div className="grid gap-7 xl:grid-cols-[0.82fr_1.18fr] min-[1920px]:gap-10">
+        <div className="space-y-6 min-[1920px]:space-y-10">
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
             <div className="mb-4">
               <div>
