@@ -35,20 +35,25 @@ export function ActiveJourneyHome() {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({ active: false, x: 0, left: 0 });
   const [progress, setProgress] = useState(0);
-  const [assemblyProgress, setAssemblyProgress] = useState(0);
+  // A completed proof is the truthful SSR/no-JavaScript baseline. Capable clients
+  // progressively enhance it into the scroll-led assembly below.
+  const [assemblyProgress, setAssemblyProgress] = useState(1);
   const [dragging, setDragging] = useState(false);
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
     const desktop = window.matchMedia('(min-width: 761px)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const update = () => {
       const distance = track.scrollWidth - track.clientWidth;
       setProgress(distance > 0 ? track.scrollLeft / distance : 0);
       const signature = track.querySelector<HTMLElement>('.aj-signature');
       if (signature) {
-        if (desktop.matches) {
+        if (reducedMotion.matches) {
+          setAssemblyProgress(1);
+        } else if (desktop.matches) {
           const start = signature.offsetLeft - track.clientWidth * 0.62;
           const end = signature.offsetLeft + signature.offsetWidth * 0.48;
           setAssemblyProgress(Math.max(0, Math.min(1, (track.scrollLeft - start) / Math.max(1, end - start))));
@@ -84,12 +89,14 @@ export function ActiveJourneyHome() {
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('keydown', keyboard);
     window.addEventListener('resize', update, { passive: true });
+    reducedMotion.addEventListener('change', update);
     return () => {
       track.removeEventListener('scroll', update);
       track.removeEventListener('wheel', wheel);
       window.removeEventListener('scroll', update);
       window.removeEventListener('keydown', keyboard);
       window.removeEventListener('resize', update);
+      reducedMotion.removeEventListener('change', update);
     };
   }, []);
 
