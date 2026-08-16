@@ -89,14 +89,12 @@ export function ActiveJourneyHome() {
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('keydown', keyboard);
     window.addEventListener('resize', update, { passive: true });
-    reducedMotion.addEventListener('change', update);
     return () => {
       track.removeEventListener('scroll', update);
       track.removeEventListener('wheel', wheel);
       window.removeEventListener('scroll', update);
       window.removeEventListener('keydown', keyboard);
       window.removeEventListener('resize', update);
-      reducedMotion.removeEventListener('change', update);
     };
   }, []);
 
