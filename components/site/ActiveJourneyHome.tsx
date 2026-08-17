@@ -133,7 +133,7 @@ export function ActiveJourneyHome() {
         <button className="aj-wordmark" onClick={() => goTo('start')} aria-label="Return to the start">assembl<span>·</span></button>
         <p>MAHI THAT EARNS ITS PROOF.</p>
         <nav aria-label="assembl tools and contact">
-          <Link href="/creative-studio">Creative studio <i>↗</i></Link>
+          <a href="https://make-with-assembl.katecoveny.chatgpt.site">assembl with assembl <i>↗</i></a>
           <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
         </nav>
       </header>
@@ -159,11 +159,11 @@ export function ActiveJourneyHome() {
           <div className="aj-opening-note">
             <span>SCROLL / DRAG</span>
             <p>assembl turns a real wait into a useful part of the customer journey. The customer can complete one helpful action, receive agreed value where appropriate and approve what the service team uses next.</p>
-            <Link className="aj-studio-promo" href="/creative-studio">
-              <strong>Open Creative Studio</strong>
-              <small>image · graphic · caption</small>
+            <a className="aj-studio-promo" href="https://make-with-assembl.katecoveny.chatgpt.site">
+              <strong>Describe it. Watch it assembl.</strong>
+              <small>one direction · living field · remix</small>
               <i aria-hidden="true">↗</i>
-            </Link>
+            </a>
           </div>
         </section>
 
