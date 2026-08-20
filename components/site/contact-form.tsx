@@ -200,7 +200,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="inline-flex h-12 items-center bg-[#252d31] px-7 font-mono text-xs uppercase tracking-[0.12em] text-white disabled:opacity-60"
+            className="inline-flex h-12 items-center rounded-full bg-[#252d31] px-7 font-mono text-xs uppercase tracking-[0.12em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#1a2023] focus-visible:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
             {isPending ? (
               <>
