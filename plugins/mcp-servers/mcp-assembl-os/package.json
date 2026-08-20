@@ -1,0 +1,26 @@
+{
+  "name": "@assembl/mcp-assembl-os",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Remote Streamable HTTP MCP server for governed Assembl work, proof, and approval requests.",
+  "type": "module",
+  "main": "dist/http.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/http.js",
+    "dev": "tsx src/http.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "tsx": "^4.22.0",
+    "typescript": "^5.8.3"
+  }
+}
