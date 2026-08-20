@@ -3,14 +3,14 @@ import { ActiveJourneyHome } from '@/components/site/ActiveJourneyHome';
 import './active-journey-home.css';
 
 export const metadata: Metadata = {
-  title: 'active customer journeys',
+  title: 'agentic customer journeys that make waiting useful',
   description:
-    'assembl helps organisations turn necessary customer waiting into useful, permissioned preparation—with a named person in control and evidence of what happened.',
+    'assembl turns real customer waits into useful, permissioned preparation. Optional rewards and customer-approved knowledge help teams provide more relevant service, with a named person in control.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'assembl | active customer journeys',
+    title: 'assembl | useful agentic customer journeys',
     description:
-      'assembl helps organisations turn necessary customer waiting into useful, permissioned preparation—with a named person in control and evidence of what happened.',
+      'Turn real customer waits into useful preparation, optional value and more relevant service, with the customer and a named person in control.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl | active customer journeys',
+    title: 'assembl | useful agentic customer journeys',
     description:
-      'assembl helps organisations turn necessary customer waiting into useful, permissioned preparation—with a named person in control and evidence of what happened.',
+      'Turn real customer waits into useful preparation, optional value and more relevant service, with the customer and a named person in control.',
   },
 };
 

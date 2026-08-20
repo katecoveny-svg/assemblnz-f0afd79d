@@ -15,6 +15,7 @@ import {
   isAssemblBills,
   isStandaloneHealth,
   isMotionStudio,
+  isCreativeStudio,
   isStudio,
   isBuildAnAgent,
   isLab,
@@ -48,6 +49,7 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isAssemblBills(pathname) ||
     isStandaloneHealth(pathname) ||
     isMotionStudio(pathname) ||
+    isCreativeStudio(pathname) ||
     isStudio(pathname) ||
     isBuildAnAgent(pathname) ||
     isLab(pathname) ||
