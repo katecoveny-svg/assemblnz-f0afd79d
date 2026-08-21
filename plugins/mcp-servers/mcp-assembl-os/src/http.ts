@@ -24,17 +24,11 @@ function authMode(): 'oauth' | 'dev-token' {
 function accessTokenForRequest(req: IncomingMessage): string | null {
   const token = bearer(req);
   if (!token) return null;
-
   if (authMode() === 'dev-token') {
     const expected = process.env.ASSEMBL_MCP_CLIENT_TOKEN;
     if (!expected || !safeEqual(token, expected)) return null;
-    // The app bridge has its own service token. Keeping these separate means a
-    // leaked Inspector/client token cannot call /api/mcp-bridge directly.
     return process.env.ASSEMBL_MCP_BRIDGE_TOKEN ?? null;
   }
-
-  // OAuth tokens are intentionally not decoded/trusted here. The Assembl app
-  // bridge verifies the token with Supabase Auth and resolves tenant access.
   return token;
 }
 
@@ -51,26 +45,40 @@ function authServer(): string {
   const explicit = process.env.ASSEMBL_MCP_AUTHORIZATION_SERVER?.replace(/\/$/, '');
   if (explicit) return explicit;
   const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, '');
-  if (supabase) return `${supabase}/auth/v1`;
-  return '';
+  return supabase ? `${supabase}/auth/v1` : '';
 }
 
 function resourceMetadata(req: IncomingMessage) {
-  const resource = publicUrl(req);
   const authorizationServer = authServer();
   return {
-    resource,
+    resource: publicUrl(req),
     ...(authorizationServer ? { authorization_servers: [authorizationServer] } : {}),
-    // Supabase OAuth Server currently supports standard OIDC scopes only.
-    // Assembl business permissions are resolved independently at the bridge.
     scopes_supported: ['openid', 'email', 'profile'],
     bearer_methods_supported: ['header'],
     resource_documentation: `${process.env.ASSEMBL_BASE_URL?.replace(/\/$/, '') ?? 'https://assembl.co.nz'}/docs/mcp`,
   };
 }
 
-function challenge(req: IncomingMessage): string {
-  return `Bearer resource_metadata="${publicUrl(req)}/.well-known/oauth-protected-resource", scope="openid email profile"`;
+function challenge(req: IncomingMessage, error?: string): string {
+  const suffix = error ? `, error="invalid_token", error_description="${error.replace(/["\\]/g, '')}"` : '';
+  return `Bearer resource_metadata="${publicUrl(req)}/.well-known/oauth-protected-resource", scope="openid email profile"${suffix}`;
+}
+
+async function preflightOAuth(accessToken: string): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
+  if (authMode() === 'dev-token') return { ok: true };
+  const baseUrl = process.env.ASSEMBL_BASE_URL?.replace(/\/$/, '');
+  if (!baseUrl) return { ok: false, status: 503, error: 'ASSEMBL_BASE_URL is not configured' };
+  try {
+    const response = await fetch(`${baseUrl}/api/mcp-auth`, {
+      headers: { authorization: `Bearer ${accessToken}` },
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (response.ok) return { ok: true };
+    const body = await response.json().catch(() => ({})) as { error?: string };
+    return { ok: false, status: response.status, error: body.error ?? `auth_preflight_${response.status}` };
+  } catch {
+    return { ok: false, status: 503, error: 'auth_preflight_unavailable' };
+  }
 }
 
 function allowedHost(req: IncomingMessage): boolean {
@@ -146,6 +154,17 @@ const server = createServer(async (req, res) => {
     if (!accessToken) {
       res.writeHead(401, { 'content-type': 'application/json', 'www-authenticate': challenge(req) });
       res.end(JSON.stringify({ error: 'unauthorised' }));
+      return;
+    }
+
+    const auth = await preflightOAuth(accessToken);
+    if (!auth.ok) {
+      const status = auth.status === 401 ? 401 : auth.status === 403 || auth.status === 409 ? auth.status : 503;
+      res.writeHead(status, {
+        'content-type': 'application/json',
+        ...(status === 401 ? { 'www-authenticate': challenge(req, auth.error) } : {}),
+      });
+      res.end(JSON.stringify({ error: auth.error }));
       return;
     }
 
