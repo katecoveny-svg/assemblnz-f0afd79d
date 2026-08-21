@@ -53,7 +53,10 @@ function resourceMetadata(req: IncomingMessage) {
   return {
     resource: publicUrl(req),
     ...(authorizationServer ? { authorization_servers: [authorizationServer] } : {}),
-    scopes_supported: ['openid', 'email', 'profile'],
+    // We only need an authenticated Supabase access token, not an OIDC ID token.
+    // Avoiding `openid` keeps this compatible before a project migrates from a
+    // symmetric JWT signing key. Business permissions are still Assembl-owned.
+    scopes_supported: ['email', 'profile'],
     bearer_methods_supported: ['header'],
     resource_documentation: `${process.env.ASSEMBL_BASE_URL?.replace(/\/$/, '') ?? 'https://assembl.co.nz'}/docs/mcp`,
   };
@@ -61,7 +64,7 @@ function resourceMetadata(req: IncomingMessage) {
 
 function challenge(req: IncomingMessage, error?: string): string {
   const suffix = error ? `, error="invalid_token", error_description="${error.replace(/["\\]/g, '')}"` : '';
-  return `Bearer resource_metadata="${publicUrl(req)}/.well-known/oauth-protected-resource", scope="openid email profile"${suffix}`;
+  return `Bearer resource_metadata="${publicUrl(req)}/.well-known/oauth-protected-resource", scope="email profile"${suffix}`;
 }
 
 async function preflightOAuth(accessToken: string): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
