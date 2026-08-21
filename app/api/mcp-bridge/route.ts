@@ -1,6 +1,6 @@
-import { timingSafeEqual } from 'node:crypto';
 import { z } from 'zod';
 import { createActionRequest } from '@/lib/agents/action-requests';
+import { authenticateMcpRequest, hasMcpPermission, type McpPermission } from '@/lib/mcp/auth';
 import { addEvidence, listEvidenceForTask, listRecentEvidence } from '@/lib/os/evidence';
 import { createTask, getTask, listTasks, updateTaskFields } from '@/lib/os/tasks';
 
@@ -8,8 +8,6 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const baseSchema = z.object({
-  tenant: z.string().min(1).max(120),
-  actor: z.string().min(1).max(120).default('mcp'),
   operation: z.enum([
     'list_work',
     'get_work_item',
@@ -24,9 +22,7 @@ const listWorkSchema = z.object({
   limit: z.number().int().min(1).max(50).default(20),
 });
 
-const getWorkSchema = z.object({
-  taskId: z.string().uuid(),
-});
+const getWorkSchema = z.object({ taskId: z.string().uuid() });
 
 const readProofSchema = z.object({
   taskId: z.string().uuid().optional(),
@@ -47,22 +43,20 @@ const requestApprovalSchema = z.object({
   reason: z.string().min(1).max(1000),
 });
 
+const REQUIRED_PERMISSION: Record<z.infer<typeof baseSchema>['operation'], McpPermission> = {
+  list_work: 'work.read',
+  get_work_item: 'work.read',
+  read_proof: 'proof.read',
+  create_work_item: 'work.create',
+  request_action_approval: 'approval.request',
+};
+
 function json(status: number, body: unknown): Response {
   return Response.json(body, { status });
 }
 
-function safeEqual(actual: string, expected: string): boolean {
-  const a = Buffer.from(actual);
-  const b = Buffer.from(expected);
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-function authorised(request: Request): boolean {
-  const expected = process.env.ASSEMBL_MCP_BRIDGE_TOKEN;
-  if (!expected) return false;
-  const header = request.headers.get('authorization') ?? '';
-  if (!header.startsWith('Bearer ')) return false;
-  return safeEqual(header.slice('Bearer '.length), expected);
+function writesEnabled(): boolean {
+  return process.env.ASSEMBL_MCP_WRITES_ENABLED === 'true';
 }
 
 async function requireTenantTask(taskId: string, tenant: string) {
@@ -72,7 +66,8 @@ async function requireTenantTask(taskId: string, tenant: string) {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  if (!authorised(request)) return json(401, { ok: false, error: 'unauthorised' });
+  const auth = await authenticateMcpRequest(request);
+  if (!auth.ok) return json(auth.status, { ok: false, error: auth.error });
 
   let raw: unknown;
   try {
@@ -86,8 +81,27 @@ export async function POST(request: Request): Promise<Response> {
     return json(400, { ok: false, error: 'invalid_request', issues: parsed.error.issues });
   }
 
-  const { tenant, actor, operation, input } = parsed.data;
-  const initiatedBy = `mcp:${actor}`;
+  const { operation, input } = parsed.data;
+  const principal = auth.principal;
+  const requiredPermission = REQUIRED_PERMISSION[operation];
+  if (!hasMcpPermission(principal, requiredPermission)) {
+    return json(403, { ok: false, error: 'mcp_permission_denied', requiredPermission });
+  }
+
+  if ((operation === 'create_work_item' || operation === 'request_action_approval') && !writesEnabled()) {
+    return json(403, { ok: false, error: 'mcp_writes_disabled' });
+  }
+
+  const tenant = principal.tenant;
+  const actor = principal.actor;
+  const initiatedBy = `mcp:${principal.userId}`;
+  const auditRefs = {
+    source: 'mcp',
+    actor,
+    userId: principal.userId,
+    clientId: principal.clientId,
+    authMode: principal.authMode,
+  };
 
   try {
     switch (operation) {
@@ -97,6 +111,7 @@ export async function POST(request: Request): Promise<Response> {
         return json(200, {
           ok: true,
           data: {
+            workspace: tenant,
             tasks: tasks.map((task) => ({
               id: task.id,
               title: task.title,
@@ -138,7 +153,7 @@ export async function POST(request: Request): Promise<Response> {
           initiatedBy,
           priority: args.priority,
           status: 'proposed',
-          linked: { source: 'mcp' },
+          linked: { ...auditRefs },
         });
         if (!taskId) return json(503, { ok: false, error: 'work_item_unavailable' });
         await addEvidence({
@@ -146,7 +161,7 @@ export async function POST(request: Request): Promise<Response> {
           taskId,
           kind: 'note',
           summary: `Work item created through the Assembl MCP by ${actor}`,
-          refs: { source: 'mcp', actor },
+          refs: auditRefs,
         });
         return json(200, { ok: true, data: { taskId, status: 'proposed' } });
       }
@@ -160,7 +175,7 @@ export async function POST(request: Request): Promise<Response> {
 
         const requestRow = await createActionRequest({
           agentSlug: 'chief',
-          requestedBy: `mcp:${tenant}:${actor}`,
+          requestedBy: `mcp:${tenant}:${principal.userId}`,
           kind: 'email_draft',
           payload: {
             to: args.to,
@@ -171,15 +186,13 @@ export async function POST(request: Request): Promise<Response> {
         });
         if (!requestRow) return json(503, { ok: false, error: 'approval_request_unavailable' });
 
-        if (args.taskId) {
-          await updateTaskFields(args.taskId, { actionRequestId: requestRow.id });
-        }
+        if (args.taskId) await updateTaskFields(args.taskId, { actionRequestId: requestRow.id });
         await addEvidence({
           tenant,
           taskId: args.taskId,
           kind: 'draft',
           summary: `Approval requested for email draft: ${args.subject}`,
-          refs: { actionRequestId: requestRow.id, source: 'mcp', actor },
+          refs: { ...auditRefs, actionRequestId: requestRow.id },
         });
 
         return json(200, {
