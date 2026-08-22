@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Nectar × assembl — the whole journey, assembled</title>
+<meta name="description" content="Independent Assembl concept for Nectar Money: a live agent across the journey from application to funded outcome. Simulated demo only; no lending decision is made here." />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="theme-color" content="#f5fbf9" />
+<style>
+:root{
+  --ink:#112322;--muted:#607372;--paper:#f7fbfa;--white:#fff;--teal:#056268;--teal2:#00a99b;--mint:#dff4ef;--line:rgba(17,35,34,.14);--shadow:0 24px 70px rgba(0,54,51,.14);
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+button,input{font:inherit}
+#world{position:fixed;inset:0;z-index:0;display:block;width:100%;height:100%;pointer-events:none}
+.shell{position:relative;z-index:2;min-height:100vh}
+.top{position:fixed;top:0;left:0;right:0;z-index:9;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(180deg,rgba(247,251,250,.96),rgba(247,251,250,.72),transparent);backdrop-filter:blur(8px)}
+.brand{font-weight:800;letter-spacing:-.02em}.brand b{color:var(--teal2)}
+.prepared{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:right}
+.hero{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);align-items:center;gap:32px;max-width:1280px;margin:0 auto;padding:110px 34px 70px}
+.copy{max-width:650px}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--teal2);margin-bottom:14px}
+h1{font-size:clamp(48px,7.2vw,106px);line-height:.9;letter-spacing:-.06em;margin:0;font-weight:780;max-width:780px}h1 em{font-style:normal;color:var(--teal)}
+.lede{font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:#415453;max-width:620px;margin:24px 0 0}
+.lede b{color:var(--ink)}
+.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.btn{border:0;border-radius:999px;padding:13px 18px;font-weight:800;cursor:pointer;transition:.2s ease}.btn.primary{background:var(--ink);color:#fff}.btn.secondary{background:rgba(255,255,255,.72);color:var(--ink);border:1px solid var(--line);backdrop-filter:blur(14px)}.btn:hover{transform:translateY(-1px)}
+.stageCard{justify-self:end;width:min(460px,100%);background:rgba(255,255,255,.7);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow);border-radius:30px;padding:22px}
+.stageTop{display:flex;justify-content:space-between;gap:12px;align-items:start}.stageLabel{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}.live{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--teal)}.dot{width:8px;height:8px;border-radius:50%;background:var(--teal2);box-shadow:0 0 0 6px rgba(0,169,155,.12);animation:pulse 1.8s infinite}@keyframes pulse{50%{box-shadow:0 0 0 11px rgba(0,169,155,0)}}
+.stageTitle{font-size:30px;line-height:1.05;letter-spacing:-.035em;margin:14px 0 8px}.stageText{font-size:14px;line-height:1.6;color:#4d615f;margin:0}
+.progress{height:7px;background:#e5efed;border-radius:99px;margin:20px 0 10px;overflow:hidden}.progress i{display:block;height:100%;width:14%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:99px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.stageNav{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:18px}.stageNav button{border:1px solid var(--line);background:rgba(255,255,255,.64);border-radius:12px;height:44px;font-size:11px;font-weight:800;color:var(--muted);cursor:pointer;padding:0}.stageNav button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.moment{margin-top:16px;border-radius:18px;padding:14px;background:rgba(223,244,239,.65);border:1px solid rgba(5,98,104,.12)}.moment b{display:block;font-size:12px;margin-bottom:5px}.moment p{margin:0;font-size:13px;line-height:1.55;color:#405352}
+.agentAction{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}.agentAction button{border:0;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:800;cursor:pointer;background:var(--teal);color:white}.agentAction button.alt{background:white;color:var(--ink);border:1px solid var(--line)}
+.section{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:80px 32px}.section h2{font-size:clamp(36px,5vw,72px);line-height:.96;letter-spacing:-.05em;margin:0 0 18px}.section h2 em{font-style:normal;color:var(--teal)}.section .intro{max-width:720px;color:#4a5d5b;line-height:1.7;font-size:17px}
+.rail{margin-top:34px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.rail .r{border-top:1px solid var(--line);padding:14px 0}.rail .r b{display:block;font-size:12px;color:var(--teal);margin-bottom:6px}.rail .r span{font-size:13px;line-height:1.5;color:#516563}
+.under{background:#102321;color:white;border-radius:34px;padding:28px;margin-top:38px;box-shadow:var(--shadow)}.underGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}.under h3{font-size:30px;letter-spacing:-.04em;margin:0 0 10px}.under p{color:#c6d4d1;line-height:1.65;margin:0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.chip{border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 10px;font-size:11px;color:#d5e3e0}.boundary{display:grid;gap:9px}.boundary div{border-top:1px solid rgba(255,255,255,.12);padding-top:10px;font-size:12px;line-height:1.5;color:#c7d6d3}.boundary b{color:white}
+.agentDock{position:fixed;right:18px;bottom:18px;z-index:15;width:min(430px,calc(100vw - 36px));background:rgba(255,255,255,.92);backdrop-filter:blur(26px);border:1px solid rgba(255,255,255,.9);box-shadow:0 24px 80px rgba(0,40,38,.22);border-radius:24px;overflow:hidden;transform:translateY(calc(100% - 64px));transition:transform .35s cubic-bezier(.2,.8,.2,1)}.agentDock.open{transform:none}
+.agentHead{height:64px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer}.agentName{display:flex;align-items:center;gap:10px}.orb{width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8bf4e4,#00a99b 48%,#03595f 100%);box-shadow:0 0 0 7px rgba(0,169,155,.08)}.agentName b{font-size:13px}.agentName small{display:block;font-size:10px;color:var(--muted);margin-top:2px}.chev{font-size:20px;color:var(--muted)}
+.agentBody{padding:0 14px 14px}.chat{height:220px;overflow:auto;display:flex;flex-direction:column;gap:7px;padding:4px 2px 10px}.msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:12.5px;line-height:1.5;white-space:pre-wrap}.msg.ai{align-self:flex-start;background:#eef7f5;border-bottom-left-radius:4px}.msg.me{align-self:flex-end;background:var(--ink);color:white;border-bottom-right-radius:4px}.ask{display:flex;gap:8px}.ask input{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px;outline:none;background:white}.ask button{border:0;border-radius:12px;background:var(--teal);color:white;padding:0 14px;font-weight:800;cursor:pointer}
+.fine{font-size:10px;line-height:1.5;color:var(--muted);margin-top:8px}
+footer{position:relative;z-index:2;padding:40px 32px 90px;max-width:1180px;margin:0 auto;color:var(--muted);font-size:11px;line-height:1.6}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:104px 20px 80px}.stageCard{justify-self:stretch}.section{padding:64px 20px}.rail{grid-template-columns:1fr 1fr}.underGrid{grid-template-columns:1fr}.prepared{display:none}}
+@media(max-width:560px){h1{font-size:52px}.stageNav{grid-template-columns:repeat(4,1fr)}.rail{grid-template-columns:1fr}.agentDock{right:10px;bottom:10px;width:calc(100vw - 20px)}.stageCard{border-radius:24px}.top{padding:12px 14px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="shell">
+<header class="top"><div class="brand">Nectar <b>× assembl</b></div><div class="prepared" id="prepared">independent concept · simulated</div></header>
+<section class="hero">
+  <div class="copy">
+    <div class="kicker">the whole journey, assembled</div>
+    <h1>seven minutes is fast.<br><em>what happens next?</em></h1>
+    <p class="lede">Nectar has already compressed the application. This concept explores the layer around it: a <b>live agent</b> that explains, resolves, prepares and keeps the customer moving from application to funded outcome — without making Nectar's lending decision.</p>
+    <div class="heroActions"><button class="btn primary" id="start">enter the journey</button><button class="btn secondary" id="openAgent">ask the live agent</button></div>
+  </div>
+  <aside class="stageCard" aria-live="polite">
+    <div class="stageTop"><div class="stageLabel">current journey state</div><div class="live"><span class="dot"></span> live agent</div></div>
+    <div class="stageTitle" id="stageTitle">application started</div>
+    <p class="stageText" id="stageText">The customer has arrived from paid search. Their job is not to understand Nectar's systems. Their job is to answer only what is genuinely needed.</p>
+    <div class="progress"><i id="progressBar"></i></div>
+    <div class="stageNav" id="stageNav"></div>
+    <div class="moment" id="moment"><b>agent</b><p id="momentText">I can keep the application moving, explain why something is needed and stop when the lending decision belongs to Nectar.</p><div class="agentAction" id="agentActions"></div></div>
+  </aside>
+</section>
+<section class="section">
+  <div class="kicker">one journey · seven states</div>
+  <h2>performance marketing gets the person in.<br><em>the agent works on the gaps after.</em></h2>
+  <p class="intro">The useful commercial frame is not “AI chat”. It is what happens between acquisition and funded outcome: application completion, quote understanding, assessable files, clarification, approval, signing and funding. Each state is observable. Each wait can become actionable.</p>
+  <div class="rail">
+    <div class="r"><b>1 · acquire</b><span>Paid media, SEO/GEO and landing-page optimisation create the visit.</span></div>
+    <div class="r"><b>2 · understand</b><span>The agent explains the quote and the customer's next step in plain language.</span></div>
+    <div class="r"><b>3 · resolve</b><span>When assessment pauses for clarification, the agent finds the exact issue and prepares the response.</span></div>
+    <div class="r"><b>4 · fund</b><span>The journey records where customers stall, recover, sign and reach funded outcome.</span></div>
+  </div>
+  <div class="under">
+    <div class="underGrid">
+      <div>
+        <div class="kicker" style="color:#7de4d5">look underneath</div>
+        <h3>start with one wait, not the whole data warehouse.</h3>
+        <p>A pilot can work from a bounded state model: application ID, current stage, customer-approved context, required clarification, quote/contract state and permitted next actions. Deeper integrations come later only where an action genuinely needs them.</p>
+        <div class="chips"><span class="chip">application state</span><span class="chip">quote state</span><span class="chip">clarification reason</span><span class="chip">customer permission</span><span class="chip">document status</span><span class="chip">funded outcome</span></div>
+      </div>
+      <div class="boundary">
+        <div><b>Agent can:</b> retrieve, explain, ask, prepare, route, monitor and escalate.</div>
+        <div><b>Agent cannot:</b> invent a rate, override policy, make the credit decision or conceal uncertainty.</div>
+        <div><b>Human authority:</b> stays where Nectar's policy, compliance and lending controls require it.</div>
+        <div><b>Measurement:</b> completion → assessable → clarified → approved → signed → funded.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>Independent concept by assembl. Simulated customer, figures and workflow. No lending decision is made by this page. No personal financial advice is provided.</footer>
+</div>
+<div class="agentDock" id="agentDock" aria-live="polite">
+  <div class="agentHead" id="agentHead"><div class="agentName"><span class="orb"></span><div><b>Nectar journey agent</b><small>live · grounded to this concept</small></div></div><div class="chev">⌃</div></div>
+  <div class="agentBody">
+    <div class="chat" id="chat"><div class="msg ai">I'm the live agent inside this concept. Ask me what I know, what I need, what I can act on, or where I must stop.</div></div>
+    <div class="ask"><input id="askInput" placeholder="e.g. what data would you need for a pilot?" /><button id="send">send</button></div>
+    <div class="fine">This demo can answer concept questions. In production, tool permissions and lending controls would be explicitly scoped by Nectar.</div>
+  </div>
+</div>
+<script src="./three.min.js"></script>
+<script>
+(function(){
+  const stages=[
+    {key:'apply',short:'apply',title:'application started',text:'The customer has arrived from paid search. Their job is not to understand Nectar\'s systems. Their job is to answer only what is genuinely needed.',agent:'I can keep the application moving, explain why something is needed and stop when the lending decision belongs to Nectar.',actions:['continue application']},
+    {key:'quote',short:'quote',title:'personalised quote ready',text:'The quote exists. The useful next step is not another marketing message — it is understanding what the numbers mean before the customer chooses.',agent:'I can explain the repayment and total-cost difference between the options shown by Nectar. I will not predict a different rate or tell the customer what they must choose.',actions:['explain this quote','show total cost']},
+    {key:'explain',short:'explain',title:'customer understands the choice',text:'The agent translates the quote into the customer\'s own pay-cycle context and checks understanding before anything progresses.',agent:'You are paid fortnightly. I can re-express the repayment that way and show the total cost already contained in Nectar\'s quote. Want that?',actions:['yes, show me','not now']},
+    {key:'assess',short:'assess',title:'assessment in progress',text:'A genuine wait. Nothing is required from the customer right now, so the agent waits on the system instead of making the customer refresh it.',agent:'Nothing needs you yet. I\'m watching the state. If the assessment needs clarification, I\'ll tell you exactly what changed and why.',actions:['simulate clarification']},
+    {key:'clarify',short:'clarify',title:'one item needs clarification',text:'A regular transaction has been classified ambiguously. The agent does not re-score the file — it isolates the issue and prepares the smallest possible question.',agent:'I found the likely hold: one recurring payment is ambiguous. I can show you the line Nectar needs clarified and prepare your answer. The lending engine stays untouched.',actions:['show the item','prepare response']},
+    {key:'approve',short:'sign',title:'approved · contract ready',text:'Approval is Nectar\'s decision. Now the agent shifts jobs: explain the contract state, highlight what still needs the customer, and prepare signing.',agent:'Nectar has approved this simulated application. I can explain the contract fields, show the first-repayment timing already stated, and take you to the authorised signing step.',actions:['explain before I sign','continue to signing']},
+    {key:'fund',short:'funded',title:'funded outcome',text:'The journey does not vanish after conversion. The agent closes the loop: confirmation, first repayment readiness, support path and consented context retention.',agent:'Funding is complete in this simulation. I can confirm what happens next and ask whether you want me to retain any useful preferences for servicing — or forget them.',actions:['what happens next?','forget my preferences']}
+  ];
+  let current=0;
+  const nav=document.getElementById('stageNav'), title=document.getElementById('stageTitle'), text=document.getElementById('stageText'), moment=document.getElementById('momentText'), acts=document.getElementById('agentActions'), bar=document.getElementById('progressBar');
+  stages.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.short;b.addEventListener('click',()=>setStage(i,true));nav.appendChild(b)});
+  function setStage(i,move){current=i;const s=stages[i];title.textContent=s.title;text.textContent=s.text;moment.textContent=s.agent;bar.style.width=((i+1)/stages.length*100)+'%';[...nav.children].forEach((b,j)=>b.classList.toggle('on',j===i));acts.innerHTML='';s.actions.forEach((a,idx)=>{const b=document.createElement('button');b.textContent=a;if(idx>0)b.className='alt';b.addEventListener('click',()=>agentAction(a));acts.appendChild(b)});if(move)cameraTo(i)}
+  function agentAction(label){
+    if(label==='simulate clarification'){setStage(4,true);addMsg('ai','Assessment paused. I isolated the ambiguous item rather than asking the customer to restart anything.');return}
+    if(label==='prepare response'){addMsg('ai','Prepared. I would send only the clarified fact back to the authorised Nectar workflow, with the customer\'s approval and an audit receipt.');flashNode();return}
+    if(label==='continue to signing'){addMsg('ai','I can route to the authorised signing step, but I cannot sign on the customer\'s behalf.');flashNode();return}
+    if(label==='forget my preferences'){addMsg('ai','Done in this simulation. In production that would be an explicit data-retention action with a recorded receipt.');return}
+    addMsg('ai',stages[current].agent);flashNode();
+  }
+  setStage(0,false);
+
+  const dock=document.getElementById('agentDock'), head=document.getElementById('agentHead');
+  head.addEventListener('click',()=>dock.classList.toggle('open'));
+  document.getElementById('openAgent').addEventListener('click',()=>dock.classList.add('open'));
+  document.getElementById('start').addEventListener('click',()=>{setStage(1,true);dock.classList.add('open');addMsg('ai','I\'ve moved us to the first useful handoff: the quote exists. Ask me what I can do from here.');});
+  const chat=document.getElementById('chat'), input=document.getElementById('askInput');
+  function addMsg(cls,txt){const d=document.createElement('div');d.className='msg '+cls;d.textContent=txt;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
+  async function send(){const q=input.value.trim();if(!q)return;input.value='';addMsg('me',q);const wait=document.createElement('div');wait.className='msg ai';wait.textContent='thinking…';chat.appendChild(wait);chat.scrollTop=chat.scrollHeight;
+    const system=`You are the live agent inside an independent Assembl concept for Nectar Money. This is a simulated demonstration, not Nectar's production system. The current journey state is: ${stages[current].title}. Your job is to explain the concept clearly and concretely. You may describe how an agent could retrieve application state, explain quote fields already supplied by Nectar, identify a clarification request, prepare a response, monitor state, route to authorised signing/funding steps, and record provenance. Never claim access to real customer data. Never invent a rate, credit score, approval, policy or regulatory fact. Never give personal financial advice. Never imply the agent makes Nectar's lending decision. When asked what data is needed for a pilot, emphasise minimum bounded data: application/session ID, current stage, quote/contract state, clarification reason/status, customer permission, authorised next actions, and outcome state. Keep answers short, specific and commercially literate.`;
+    try{const r=await fetch('./api/agent',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({system,messages:[{role:'user',content:q}]})});const j=await r.json();const out=j&&j.content&&j.content[0]&&j.content[0].text;wait.textContent=out||fallback(q)}catch(e){wait.textContent=fallback(q)}chat.scrollTop=chat.scrollHeight
+  }
+  function fallback(q){const z=q.toLowerCase();if(z.includes('data')||z.includes('pilot'))return 'Start with the smallest useful state: application/session ID, current stage, quote or contract state, any clarification reason, the customer\'s permission and the actions the agent is allowed to prepare or trigger. You do not need the whole data warehouse to prove the journey.';if(z.includes('decision')||z.includes('approve'))return 'The lending decision stays with Nectar\'s authorised engine and controls. This agent can explain, prepare, monitor and route — not invent or override a credit decision.';if(z.includes('marketing')||z.includes('cac'))return 'The commercial bridge is acquisition → assessable application → approval → signed → funded. Assembl would not replace paid media execution; it can help reduce leakage after the click and expose where qualified customers stall.';return 'In this concept I work on the gaps around the lending decision: explain what Nectar has already produced, resolve missing context, prepare authorised next steps, monitor state and escalate when a human or policy decision is required.'}
+  document.getElementById('send').addEventListener('click',send);input.addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+
+  // Recipient personalisation
+  const p=new URLSearchParams(location.search).get('for');if(p){document.getElementById('prepared').textContent='prepared for '+p+' · independent concept · simulated'}
+
+  // Three.js spatial journey — intentionally abstract because the underlying subject is an invisible financial process.
+  const canvas=document.getElementById('world');if(!window.THREE)return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0xf7fbfa,1);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+  const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0xf7fbfa,.045);
+  const camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,100);camera.position.set(0,2.7,10.5);
+  const rig=new THREE.Group();scene.add(rig);
+  const hemi=new THREE.HemisphereLight(0xffffff,0x4a7771,2.0);scene.add(hemi);const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(5,8,5);scene.add(key);const fill=new THREE.DirectionalLight(0x68d7c7,2);fill.position.set(-5,2,-4);scene.add(fill);
+  const curvePts=[new THREE.Vector3(-6,-1.3,-1),new THREE.Vector3(-4,1,-.5),new THREE.Vector3(-2,-.3,0),new THREE.Vector3(0,1.2,.2),new THREE.Vector3(2,-.4,0),new THREE.Vector3(4,.9,-.3),new THREE.Vector3(6,-.2,-.6)];
+  const curve=new THREE.CatmullRomCurve3(curvePts);const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,240,.065,12,false),new THREE.MeshPhysicalMaterial({color:0x00a99b,metalness:.1,roughness:.22,transparent:true,opacity:.66,emissive:0x005d57,emissiveIntensity:.22}));rig.add(tube);
+  const nodeMats=[];const nodes=[];curvePts.forEach((p,i)=>{const g=i===6?new THREE.IcosahedronGeometry(.48,3):new THREE.SphereGeometry(.34,48,48);const m=new THREE.MeshPhysicalMaterial({color:i===0?0x056268:0xffffff,roughness:.16,metalness:.05,transmission:i===0?0:.35,thickness:1,transparent:true,opacity:.96});const mesh=new THREE.Mesh(g,m);mesh.position.copy(p);rig.add(mesh);nodes.push(mesh);nodeMats.push(m);const halo=new THREE.Mesh(new THREE.TorusGeometry(.52,.018,12,80),new THREE.MeshBasicMaterial({color:0x00a99b,transparent:true,opacity:.26}));halo.rotation.x=Math.PI/2;halo.position.copy(p);rig.add(halo)});
+  const particlesGeo=new THREE.BufferGeometry(), n=520, arr=new Float32Array(n*3);for(let i=0;i<n;i++){arr[i*3]=(Math.random()-.5)*15;arr[i*3+1]=(Math.random()-.5)*8;arr[i*3+2]=(Math.random()-.5)*8-1}particlesGeo.setAttribute('position',new THREE.BufferAttribute(arr,3));const particles=new THREE.Points(particlesGeo,new THREE.PointsMaterial({color:0x85cfc4,size:.018,transparent:true,opacity:.48}));scene.add(particles);
+  let targetX=0,targetY=2.7,targetZ=10.5;function cameraTo(i){targetX=(i-3)*.68;targetY=2.1+(i%2)*.25;targetZ=8.6-Math.min(i,5)*.08;nodes.forEach((n,j)=>{n.scale.setScalar(j===i?1.55:1);n.material.color.setHex(j===i?0x056268:0xffffff)});flashNode()}
+  function flashNode(){const n=nodes[current];n.scale.setScalar(1.75);setTimeout(()=>n.scale.setScalar(1.55),260)}
+  let mx=0,my=0;addEventListener('pointermove',e=>{mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5)});
+  function animate(t){requestAnimationFrame(animate);const tt=t*.001;rig.rotation.y+=(mx*.08-rig.rotation.y)*.025;rig.rotation.x+=(-my*.035-rig.rotation.x)*.02;rig.position.y=Math.sin(tt*.35)*.06;particles.rotation.y=tt*.018;nodes.forEach((n,i)=>{n.rotation.x=tt*(.08+i*.008);n.rotation.y=tt*(.1+i*.01)});camera.position.x+=(targetX-camera.position.x)*.025;camera.position.y+=(targetY-camera.position.y)*.025;camera.position.z+=(targetZ-camera.position.z)*.025;camera.lookAt(0,0,0);renderer.render(scene,camera)}requestAnimationFrame(animate);
+  addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7))});
+})();
+</script>
+</body>
+</html>
