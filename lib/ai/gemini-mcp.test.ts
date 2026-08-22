@@ -26,7 +26,7 @@ describe('runGeminiWithAssemblMcp', () => {
   });
 
   it('calls Gemini 3.7 through Interactions with only the read-only Assembl MCP tools', async () => {
-    const fetchImpl = vi.fn(async () =>
+    const fetchImpl = vi.fn<typeof fetch>(async () =>
       jsonResponse({
         id: 'int_123',
         model: 'gemini-3.7-flash',
@@ -42,7 +42,7 @@ describe('runGeminiWithAssemblMcp', () => {
 
     const result = await runGeminiWithAssemblMcp({
       input: 'Summarise my recent Assembl work.',
-      fetchImpl: fetchImpl as unknown as typeof fetch,
+      fetchImpl,
     });
 
     expect(result.text).toBe('There are three recent work items.');
@@ -74,24 +74,26 @@ describe('runGeminiWithAssemblMcp', () => {
   });
 
   it('requires the public MCP endpoint to use HTTPS and end in /mcp', async () => {
+    const fetchImpl = vi.fn<typeof fetch>();
+
     process.env.ASSEMBL_MCP_URL = 'http://localhost:8787/mcp';
-    await expect(
-      runGeminiWithAssemblMcp({ input: 'List work', fetchImpl: vi.fn() as unknown as typeof fetch }),
-    ).rejects.toThrow('ASSEMBL_MCP_URL must use HTTPS');
+    await expect(runGeminiWithAssemblMcp({ input: 'List work', fetchImpl })).rejects.toThrow(
+      'ASSEMBL_MCP_URL must use HTTPS',
+    );
 
     process.env.ASSEMBL_MCP_URL = 'https://mcp.assembl.example/health';
-    await expect(
-      runGeminiWithAssemblMcp({ input: 'List work', fetchImpl: vi.fn() as unknown as typeof fetch }),
-    ).rejects.toThrow('must point to the Streamable HTTP /mcp endpoint');
+    await expect(runGeminiWithAssemblMcp({ input: 'List work', fetchImpl })).rejects.toThrow(
+      'must point to the Streamable HTTP /mcp endpoint',
+    );
   });
 
   it('does not leak the MCP bearer token when Gemini returns an error', async () => {
-    const fetchImpl = vi.fn(async () =>
+    const fetchImpl = vi.fn<typeof fetch>(async () =>
       jsonResponse({ error: { message: 'Remote MCP could not be reached.' } }, 400),
     );
 
-    await expect(
-      runGeminiWithAssemblMcp({ input: 'List work', fetchImpl: fetchImpl as unknown as typeof fetch }),
-    ).rejects.toThrow('Gemini Interactions API failed: Remote MCP could not be reached.');
+    await expect(runGeminiWithAssemblMcp({ input: 'List work', fetchImpl })).rejects.toThrow(
+      'Gemini Interactions API failed: Remote MCP could not be reached.',
+    );
   });
 });
