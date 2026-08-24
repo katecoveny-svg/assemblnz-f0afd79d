@@ -1,8 +1,8 @@
 {
   "name": "@assembl/mcp-assembl-os",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Remote Streamable HTTP MCP server for governed Assembl work, proof, and approval requests.",
+  "description": "Remote Streamable HTTP MCP server for authenticated, tenant-governed Assembl work, proof, and approval requests.",
   "type": "module",
   "main": "dist/http.js",
   "scripts": {
