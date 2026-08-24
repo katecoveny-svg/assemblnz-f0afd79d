@@ -53,15 +53,10 @@ export function ActiveJourneyHome() {
       if (signature) {
         if (reducedMotion.matches) {
           setAssemblyProgress(1);
-        } else if (desktop.matches) {
+        } else {
           const start = signature.offsetLeft - track.clientWidth * 0.62;
           const end = signature.offsetLeft + signature.offsetWidth * 0.48;
           setAssemblyProgress(Math.max(0, Math.min(1, (track.scrollLeft - start) / Math.max(1, end - start))));
-        } else {
-          const rect = signature.getBoundingClientRect();
-          const start = window.innerHeight * 0.82;
-          const end = window.innerHeight * 0.08;
-          setAssemblyProgress(Math.max(0, Math.min(1, (start - rect.top) / Math.max(1, start - end))));
         }
       }
       const centre = track.clientWidth / 2;
@@ -102,8 +97,7 @@ export function ActiveJourneyHome() {
     const track = trackRef.current;
     const target = document.getElementById(id);
     if (!track || !target) return;
-    if (window.matchMedia('(min-width: 761px)').matches) track.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
-    else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    track.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
   };
 
   const pointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -253,7 +247,7 @@ export function ActiveJourneyHome() {
       <footer className="aj-footer">
         <nav aria-label="assembl story navigation">{destinations.map(([id, label], index) => <button key={id} onClick={() => goTo(id)}><span>0{index + 1}</span>{label}</button>)}</nav>
         <div className="aj-progress"><i style={{ transform: `scaleX(${progress})` }} /></div>
-        <button className="aj-next" onClick={() => trackRef.current?.scrollBy({ left: Math.min(720, window.innerWidth * 0.65), behavior: 'smooth' })}>SIDE SCROLL <i>→</i></button>
+        <button className="aj-next" onClick={() => trackRef.current?.scrollBy({ left: window.matchMedia('(min-width: 761px)').matches ? Math.min(720, window.innerWidth * 0.65) : (trackRef.current?.clientWidth ?? window.innerWidth), behavior: 'smooth' })}>SIDE SCROLL <i>→</i></button>
       </footer>
     </div>
   );
