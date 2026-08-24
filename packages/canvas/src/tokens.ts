@@ -41,6 +41,36 @@ export const palette = {
   hairline: '#e8ecea',
 } as const;
 
+/**
+ * The current assembl canon — plum, dusty rose, chalk.
+ *
+ * This is the palette the homepage ships (app/active-journey-home.css) and the
+ * one the rest of the site is migrating onto. `palette` above is the earlier
+ * champagne/navy system and is kept only so existing consumers keep rendering
+ * while they move across; new work should read from here.
+ *
+ * Typography is Instrument Sans for display and body, IBM Plex Mono for labels,
+ * evidence and timestamps — already wired in app/layout.tsx as --font-display,
+ * --font-body and --font-mono, so components should use those variables rather
+ * than naming a family.
+ */
+export const canon = {
+  /** warm paper — the ground of every light surface */
+  paper: '#FFFDFB',
+  /** chalk — panels, message grounds, type on plum */
+  chalk: '#F5F1F2',
+  /** plum — ink on paper, and the ground of every dark surface */
+  plum: '#240B21',
+  /** muted plum — body copy, secondary type */
+  plumMuted: '#654A4E',
+  /** dusty rose — the accent, used sparingly */
+  rose: '#916A70',
+  /** hairline on paper */
+  hairline: 'rgba(36, 11, 33, 0.18)',
+  /** hairline on plum */
+  hairlineInverse: 'rgba(255, 255, 255, 0.15)',
+} as const;
+
 export const typography = {
   /** Display + headings: Cormorant Garamond, lowercase, tracked slightly loose, weight 400–500. */
   display: {
@@ -104,6 +134,7 @@ export const motto = 'Less admin. More mahi.';
 
 export const tokens = {
   palette,
+  canon,
   typography,
   motion: motionTokens,
   motto,
