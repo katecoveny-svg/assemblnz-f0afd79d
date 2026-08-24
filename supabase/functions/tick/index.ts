@@ -22,6 +22,7 @@ const ADAPTER_FOR: Record<string, string> = {
 
 function adapterForSource(source: { type: string; config?: Record<string, unknown> | null }) {
   if (source.config?.adapter === "pco") return "adapter-pco";
+  if (source.config?.adapter === "parliament") return "adapter-parliament";
   return ADAPTER_FOR[source.type];
 }
 
