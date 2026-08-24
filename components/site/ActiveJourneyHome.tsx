@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const architecture = [
-  { number: '01', title: 'Approved sources', body: 'Only the organisation’s approved rules, service information and sources.', href: '/genome', link: 'See approved context' },
+  { number: '01', title: 'Approved sources', body: 'Official rules, legislation and Parliament records, with their current status kept attached.', href: '/regulatory-pulse', link: 'Open live legislation watch' },
   { number: '02', title: 'Real wait', body: 'The event and live status that open the customer moment.', href: '/journeys', link: 'See example waits' },
   { number: '03', title: 'Customer permission', body: 'What the customer lets assembl use now, remember for later, save or share.', href: '/experience', link: 'See customer controls' },
   { number: '04', title: 'Prepared task', body: 'One limited job, such as checking a document or preparing questions.', href: '/agents', link: 'See prepared tasks' },

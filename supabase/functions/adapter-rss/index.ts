@@ -53,17 +53,37 @@ Deno.serve(async (req) => {
     if (!resp.ok) throw new Error(`HTTP ${resp.status} fetching feed`);
     const xml = await resp.text();
     const feed = await parser.parseString(xml);
-    let added = 0, updated = 0;
+    const config = (source.config ?? {}) as Record<string, unknown>;
+    const allowTitleOnly = config.allow_title_only === true;
+    const trackRemoved = config.track_removed === true;
+    const configuredMaxItems = Number(config.max_items ?? 50);
+    const maxItems = Number.isFinite(configuredMaxItems)
+      ? Math.min(Math.max(Math.trunc(configuredMaxItems), 1), 250)
+      : 50;
+    if (trackRemoved && feed.items.length === 0) {
+      throw new Error("Feed returned no items; refusing to mark lifecycle records as removed");
+    }
+    const activeExternalIds = new Set<string>();
+    let added = 0, updated = 0, removed = 0;
 
-    for (const item of feed.items.slice(0, 50)) {
+    for (const item of feed.items.slice(0, maxItems)) {
       const externalId = item.guid ?? item.link ?? item.title ?? "";
       if (!externalId) continue;
-      const content = (item.contentSnippet ?? item.content ?? item.summary ?? "").toString().trim();
+      const feedContent = (item.contentSnippet ?? item.content ?? item.summary ?? "").toString().trim();
+      const content = feedContent || (allowTitleOnly ? (item.title ?? "").trim() : "");
       if (!content) continue;
+      activeExternalIds.add(externalId);
       const hash = await sha256(content);
+      const lifecycleMetadata = {
+        source_kind: config.source_kind ?? "rss",
+        lifecycle_stage: config.lifecycle_stage ?? null,
+        lifecycle_status: "active",
+        official_record_id: externalId,
+        source_page: config.source_page ?? source.url,
+      };
 
       const { data: existing } = await admin.from("kb_documents")
-        .select("id, content_hash")
+        .select("id, content_hash, metadata")
         .eq("source_id", sourceId).eq("external_id", externalId).maybeSingle();
 
       if (!existing) {
@@ -71,6 +91,7 @@ Deno.serve(async (req) => {
           source_id: sourceId, external_id: externalId,
           title: item.title ?? "Untitled", url: item.link, content, content_hash: hash,
           published_at: item.isoDate ?? null,
+          metadata: lifecycleMetadata,
         }).select("id").single();
         if (doc) {
           await admin.from("kb_changes").insert({
@@ -79,9 +100,18 @@ Deno.serve(async (req) => {
           });
           added++;
         }
-      } else if (existing.content_hash !== hash) {
+      } else if (
+        existing.content_hash !== hash ||
+        existing.metadata?.lifecycle_status !== "active" ||
+        existing.metadata?.lifecycle_stage !== config.lifecycle_stage
+      ) {
         await admin.from("kb_documents").update({
-          content, content_hash: hash, published_at: item.isoDate ?? null,
+          title: item.title ?? "Untitled",
+          url: item.link,
+          content,
+          content_hash: hash,
+          published_at: item.isoDate ?? null,
+          metadata: { ...(existing.metadata ?? {}), ...lifecycleMetadata },
         }).eq("id", existing.id);
         await admin.from("kb_changes").insert({
           document_id: existing.id, source_id: sourceId, change_type: "updated",
@@ -91,10 +121,39 @@ Deno.serve(async (req) => {
       }
     }
 
+    if (trackRemoved) {
+      const { data: knownDocuments } = await admin.from("kb_documents")
+        .select("id, external_id, title, metadata")
+        .eq("source_id", sourceId);
+
+      for (const document of knownDocuments ?? []) {
+        if (
+          !document.external_id ||
+          activeExternalIds.has(document.external_id) ||
+          document.metadata?.lifecycle_status === "removed"
+        ) continue;
+
+        await admin.from("kb_documents").update({
+          metadata: {
+            ...(document.metadata ?? {}),
+            lifecycle_status: "removed",
+            removed_at: new Date().toISOString(),
+          },
+        }).eq("id", document.id);
+        await admin.from("kb_changes").insert({
+          document_id: document.id,
+          source_id: sourceId,
+          change_type: "removed",
+          diff_summary: document.title ?? null,
+        });
+        removed++;
+      }
+    }
+
     const nowIso = new Date().toISOString();
     await admin.from("kb_sources").update({
       last_checked_at: nowIso,
-      last_updated_at: added + updated > 0 ? nowIso : source.last_updated_at,
+      last_updated_at: added + updated + removed > 0 ? nowIso : source.last_updated_at,
       status: "ok", consecutive_failures: 0,
     }).eq("id", sourceId);
 
@@ -105,7 +164,7 @@ Deno.serve(async (req) => {
       }).eq("id", runId);
     }
 
-    return new Response(JSON.stringify({ ok: true, added, updated }), {
+    return new Response(JSON.stringify({ ok: true, added, updated, removed }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
