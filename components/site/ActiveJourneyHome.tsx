@@ -4,6 +4,8 @@ import type { PointerEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
+import { HomeLiveData } from '@/components/site/HomeLiveData';
 
 const architecture = [
   { number: '01', title: 'Approved sources', body: 'Only the organisation’s approved rules, service information and sources.', href: '/genome', link: 'See approved context' },
@@ -19,6 +21,8 @@ const destinations = [
   ['product', 'Product'],
   ['system', 'System'],
   ['pilot', 'Pilot'],
+  ['tools', 'Tools'],
+  ['live-data', 'Live data'],
   ['contact', 'Contact'],
 ] as const;
 
@@ -129,6 +133,7 @@ export function ActiveJourneyHome() {
         <nav aria-label="assembl tools and contact">
           <a href="https://make-with-assembl.katecoveny.chatgpt.site">assembl with assembl <i>↗</i></a>
           <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
+          <a className="aj-operator" href="/admin/login" rel="nofollow">Operator <i>↗</i></a>
         </nav>
       </header>
 
@@ -184,14 +189,7 @@ export function ActiveJourneyHome() {
             <div><b>01</b> Check what is missing</div><div><b>02</b> Add the customer’s questions</div><div><b>03</b> Review and share one brief</div>
           </article>
           <div className="aj-phone-wrap">
-            <div className="aj-phone" aria-label="Proposed simulated active wait interaction">
-              <i /><span>SIMULATED EXAMPLE</span><small>APPLICATION REVIEW / IN PROGRESS</small>
-              <h3>Your application is with the team.</h3>
-              <p>While they review it, I can check what is missing, prepare your questions or keep you updated.</p>
-              <div className="aj-phone-choice">Check my documents <i>↗</i></div>
-              <div className="aj-phone-choice">Prepare questions for my adviser <i>↗</i></div>
-              <div className="aj-phone-input">Ask about this application… <b>↑</b></div>
-            </div>
+            <HomeGuidePhone />
           </div>
           <figure className="aj-review-flatlay" aria-label="A customer-approved application is assembled into a reviewable brief">
             <Image src="/img/home/assembl-phone-journey-aperture.png" alt="Approved journey pieces move through one customer choice on a phone and emerge as a review folio" width={1536} height={960} />
@@ -234,6 +232,52 @@ export function ActiveJourneyHome() {
           <ol><li><span>01</span><strong>Name the wait</strong><p>Choose the process, trigger and usual duration.</p></li><li><span>02</span><strong>Choose the task</strong><p>Decide what assembl prepares and what it cannot do.</p></li><li><span>03</span><strong>Name the reviewer</strong><p>Choose the person responsible for the next step.</p></li><li><span>04</span><strong>Measure the result</strong><p>Compare clarity, completion, team effort and customer control.</p></li></ol>
           <div className="aj-commercial"><span>FIRST ENGAGEMENT</span><strong>A working customer interaction and pilot plan</strong><small>Two to four weeks / fixed scope / fixed price</small></div>
         </section>
+
+        <section className="aj-panel aj-tools" id="tools">
+          <div className="aj-tools-head">
+            <span>06 / USE SOMETHING TODAY</span>
+            <h2>Two you can use right now.</h2>
+            <p>
+              Both are free to try and neither needs a sales call. They exist because AI should be
+              worth something to a business before anyone signs anything.
+            </p>
+          </div>
+
+          <a className="aj-tool" href="/ai-ready">
+            <span>FREE / FOR YOUR BUSINESS</span>
+            <h3>AI-ready audit</h3>
+            <p>
+              A live agent reads your public website and drafts the customer journey it would build
+              for you — your words, your colours, your gaps. It also scores whether the assistants
+              people now ask can actually find, read and cite you.
+            </p>
+            <b>Check your site <i aria-hidden="true">↗</i></b>
+          </a>
+
+          <a className="aj-tool" href="/bills">
+            <span>FREE / FOR YOUR HOUSEHOLD</span>
+            <h3>assembl bills</h3>
+            <p>
+              It reads your power, broadband and insurance bills from your inbox, tracks what they
+              actually cost, and finds cheaper NZ plans matched to your real usage. It recommends.
+              You decide whether to switch.
+            </p>
+            <b>Open assembl bills <i aria-hidden="true">↗</i></b>
+          </a>
+
+          <div className="aj-tools-ask">
+            <span>OR JUST TELL US</span>
+            <a
+              className="aj-ask-btn"
+              href="mailto:assembl@assembl.co.nz?subject=What%20problem%20I%27d%20like%20solved&body=The%20problem%3A%0A%0AWhere%20my%20customers%20wait%3A%0A%0AMy%20name%20and%20organisation%3A%0A"
+            >
+              What problem would you like solved? <i aria-hidden="true">↗</i>
+            </a>
+            <small>Goes straight to Kate at assembl@assembl.co.nz. A person reads every one.</small>
+          </div>
+        </section>
+
+        <HomeLiveData />
 
         <section className="aj-panel aj-contact" id="contact">
           <div className="aj-contact-dot">·</div><span>ASSEMBL / AOTEAROA NEW ZEALAND</span>

@@ -99,3 +99,120 @@
   .aj-opening-note{grid-template-columns:auto 1fr}
   .aj-studio-promo{grid-column:1/3;width:100%;min-width:0;margin-top:4px}
 }
+
+/* ─── Home guide phone ─── two honest modes inside the existing phone shell.
+   Everything here inherits .aj-phone's frame (rose border, plum ground, 44px
+   radius, 2deg tilt); these rules only add the conversation surface. ─── */
+.hg-phone{padding:30px 14px 13px;gap:0}
+.hg-modes{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:12px;padding:3px;border:1px solid rgba(36,11,33,.14);border-radius:99px;background:var(--aj-chalk)}
+.hg-modes button{padding:6px 4px;border:0;border-radius:99px;background:transparent;color:var(--aj-plum-muted);font:500 6px/1 var(--font-mono),monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.hg-modes button.is-on{color:var(--aj-paper);background:var(--aj-plum)}
+.hg-modes button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+.hg-status{display:flex;gap:6px;align-items:center;margin-top:12px!important;color:var(--aj-plum-muted)}
+.hg-dot{width:5px;height:5px;border-radius:50%;background:var(--aj-rose);flex:0 0 auto}
+.hg-dot-live{background:#2F6B4F;box-shadow:0 0 0 0 rgba(47,107,79,.55);animation:hg-pulse 2s ease-out infinite}
+@keyframes hg-pulse{70%{box-shadow:0 0 0 7px rgba(47,107,79,0)}100%{box-shadow:0 0 0 0 rgba(47,107,79,0)}}
+
+.hg-stream{flex:1 1 auto;min-height:0;margin-top:11px;padding-right:2px;display:flex;flex-direction:column;gap:7px;overflow-y:auto;scrollbar-width:none}
+.hg-stream::-webkit-scrollbar{display:none}
+.hg-phone .hg-msg{margin:0;padding:8px 10px;max-width:88%;font-size:9px;line-height:1.45;border-radius:13px;animation:hg-in .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes hg-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.hg-phone .hg-assistant{align-self:flex-start;color:var(--aj-ink);background:var(--aj-chalk);border-bottom-left-radius:4px}
+.hg-phone .hg-user{align-self:flex-end;color:var(--aj-paper);background:var(--aj-plum);border-bottom-right-radius:4px}
+.hg-phone .hg-error{align-self:flex-start;color:#8E2F3A;background:rgba(142,47,58,.09);border-bottom-left-radius:4px}
+.hg-phone .hg-typing{display:flex;gap:4px;align-items:center;padding:10px}
+.hg-typing span{width:4px;height:4px;border-radius:50%;background:var(--aj-rose);animation:hg-bounce 1.1s ease-in-out infinite}
+.hg-typing span:nth-child(2){animation-delay:.16s}
+.hg-typing span:nth-child(3){animation-delay:.32s}
+@keyframes hg-bounce{0%,60%,100%{opacity:.32;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+.hg-foot{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.hg-suggest{flex-direction:column;align-items:flex-start}
+.hg-hint{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--aj-plum-muted)}
+.hg-chip{padding:6px 10px;color:var(--aj-ink);border:1px solid rgba(36,11,33,.18);border-radius:99px;background:transparent;font-size:8px;text-align:left;cursor:pointer;transition:background .2s ease,color .2s ease}
+.hg-chip:hover{color:var(--aj-paper);background:var(--aj-plum-muted)}
+.hg-chip:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+.hg-chip-go{color:var(--aj-paper);background:var(--aj-plum);border-color:var(--aj-plum)}
+.hg-chip i{color:var(--aj-rose);font-style:normal}
+.hg-chip-go i{color:var(--aj-paper)}
+
+.hg-input{gap:6px}
+.hg-input input{flex:1 1 auto;min-width:0;border:0;background:transparent;color:var(--aj-ink);font:inherit;font-size:8px}
+.hg-input input:focus{outline:none}
+.hg-input input::placeholder{color:rgba(36,11,33,.45)}
+.hg-input button{flex:0 0 auto;width:28px;aspect-ratio:1;display:grid;place-items:center;border:0;border-radius:50%;background:var(--aj-plum);color:var(--aj-chalk);cursor:pointer}
+.hg-input button:disabled{opacity:.42;cursor:default}
+.hg-input button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+@media(prefers-reduced-motion:reduce){
+  .hg-msg{animation:none}
+  .hg-dot-live{animation:none}
+  .hg-typing span{animation:none;opacity:.55}
+}
+
+/* ─── Live data panel ─── the credibility claim, as countable figures. ─── */
+.aj-livedata{width:max(1080px,90vw);display:grid;grid-template-columns:1fr .92fr;background:var(--aj-paper)}
+.aj-livedata-copy{padding:32px 38px;display:flex;flex-direction:column;border-right:1px solid rgba(36,11,33,.18)}
+.aj-livedata-copy>span{color:var(--aj-rose)}
+.aj-livedata-copy h2{margin:auto 0 20px;font-size:clamp(44px,4.4vw,68px);font-weight:500;line-height:.86;letter-spacing:-.07em}
+.aj-livedata-copy p{margin:0 0 16px;max-width:52ch;color:var(--aj-plum-muted);font-size:12px;line-height:1.6}
+.aj-livedata-note{margin-top:auto;padding-top:14px;display:flex;gap:10px;align-items:center;border-top:1px solid rgba(36,11,33,.18)}
+.aj-livedata-note i{width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:var(--aj-rose)}
+.aj-livedata-note span{font:500 6px/1.5 var(--font-mono),monospace;letter-spacing:.11em;color:var(--aj-ink)}
+
+.aj-livedata-figures{padding:32px 34px;display:flex;flex-direction:column;justify-content:center;gap:0;color:var(--aj-chalk);background:var(--aj-plum)}
+.aj-figure{padding:19px 0;display:flex;flex-direction:column;gap:3px;border-bottom:1px solid rgba(255,255,255,.15)}
+.aj-figure:first-child{padding-top:0}
+.aj-figure strong{font-size:clamp(38px,4.2vw,58px);font-weight:500;line-height:.92;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--aj-paper)}
+.aj-figure>span{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--aj-rose)}
+.aj-figure small{color:rgba(255,253,251,.66);font-size:10px;line-height:1.45}
+.aj-figure-wait strong{opacity:.5}
+.aj-livedata-fresh{margin:17px 0 0;color:rgba(255,253,251,.62);font-size:10px;line-height:1.45}
+.aj-livedata-fresh b{color:var(--aj-paper);font-weight:500}
+
+@media(max-width:760px){
+  .aj-livedata{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto}
+  .aj-livedata-copy{padding:46px 22px;border-right:0;border-bottom:1px solid rgba(36,11,33,.18)}
+  .aj-livedata-copy h2{margin:34px 0 18px;font-size:50px}
+  .aj-livedata-figures{padding:40px 22px}
+}
+
+/* Operator entry — staff furniture, not a product signup. Quiet by default so
+   it never competes with the two visitor links beside it. */
+.aj-operator{color:var(--aj-plum-muted)!important;opacity:.62;transition:opacity .2s ease}
+.aj-operator:hover,.aj-operator:focus-visible{opacity:1}
+@media(max-width:760px){.aj-operator{display:none}}
+
+/* ─── Tools panel ─── the two things a visitor can use before talking to anyone.
+   Sits in homepage canon; the destinations carry their own identity. ─── */
+.aj-tools{width:max(1180px,92vw);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;background:var(--aj-paper)}
+.aj-tools-head{grid-column:1/3;padding:30px 34px 24px;border-bottom:1px solid rgba(36,11,33,.18)}
+.aj-tools-head>span{color:var(--aj-rose)}
+.aj-tools-head h2{margin:12px 0 12px;font-size:clamp(40px,4.2vw,64px);font-weight:500;line-height:.88;letter-spacing:-.07em}
+.aj-tools-head p{margin:0;max-width:56ch;color:var(--aj-plum-muted);font-size:12px;line-height:1.6}
+.aj-tool{padding:28px 34px;display:flex;flex-direction:column;color:var(--aj-ink);text-decoration:none;border-right:1px solid rgba(36,11,33,.18);border-bottom:1px solid rgba(36,11,33,.18);transition:background .25s ease}
+.aj-tool:last-of-type{border-right:0}
+.aj-tool:hover,.aj-tool:focus-visible{background:var(--aj-chalk)}
+.aj-tool:focus-visible{outline:2px solid var(--aj-rose);outline-offset:-4px}
+.aj-tool>span{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.12em;color:var(--aj-rose)}
+.aj-tool h3{margin:14px 0 12px;font-size:33px;font-weight:500;line-height:.94;letter-spacing:-.05em}
+.aj-tool p{margin:0 0 22px;max-width:44ch;color:var(--aj-plum-muted);font-size:11.5px;line-height:1.6}
+.aj-tool b{margin-top:auto;padding-top:13px;display:flex;gap:8px;align-items:center;border-top:1px solid rgba(36,11,33,.18);font:500 7px/1 var(--font-mono),monospace;letter-spacing:.12em;text-transform:uppercase}
+.aj-tool b i{color:var(--aj-rose);font-style:normal}
+
+.aj-tools-ask{grid-column:1/3;padding:24px 34px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;color:var(--aj-chalk);background:var(--aj-plum)}
+.aj-tools-ask>span{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.12em;color:var(--aj-rose)}
+.aj-ask-btn{padding:13px 22px;display:inline-flex;gap:10px;align-items:center;color:var(--aj-plum);background:var(--aj-paper);border-radius:99px;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:-.02em;transition:transform .2s ease}
+.aj-ask-btn:hover{transform:translateY(-1px)}
+.aj-ask-btn:focus-visible{outline:2px solid var(--aj-rose);outline-offset:3px}
+.aj-ask-btn i{color:var(--aj-rose);font-style:normal}
+.aj-tools-ask small{flex:1 1 240px;color:rgba(255,253,251,.66);font-size:10px;line-height:1.45}
+
+@media(max-width:760px){
+  .aj-tools{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto auto}
+  .aj-tools-head{grid-column:1;padding:44px 22px 24px}
+  .aj-tool{border-right:0;padding:30px 22px}
+  .aj-tools-ask{grid-column:1;padding:30px 22px;flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){.aj-ask-btn:hover{transform:none}}
