@@ -5,7 +5,10 @@
 // - Parliament tells us what is being proposed and where a Bill is in the House.
 // - PCO remains the authoritative source for legislation text / versions.
 //
-// Source rows use kb_sources.type = "json_api" plus config.adapter = "parliament".
+// The adapter self-normalises the historical May Parliament source row and
+// creates the official Proposed Members' Bills SIGNAL source. This means the
+// horizon can start working as soon as edge functions deploy, even if a later
+// database migration has not yet been applied.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
@@ -17,7 +20,12 @@ const corsHeaders = {
 const BASE = "https://bills.parliament.nz";
 const SEARCH_URL = `${BASE}/api/data/search`;
 const BILL_URL = `${BASE}/api/data/Bill`;
+const PROPOSED_URL = `${BASE}/proposed-members-bills`;
 const UA = "assembl-regulatory-horizon/1.0 (+https://www.assembl.co.nz)";
+const ALL_PACKS = [
+  "cross", "waihanga", "manaaki", "pikau", "arataki",
+  "auaha", "ako", "matauranga", "hoko", "toro",
+];
 
 type SourceConfig = {
   adapter?: string;
@@ -176,6 +184,43 @@ function canonicalContent(detail: BillDetail, summary: BillSummary) {
   return { record, content: JSON.stringify(record, null, 2) };
 }
 
+async function ensureSignalSource(admin: ReturnType<typeof createClient>) {
+  const { data: existing } = await admin.from("kb_sources")
+    .select("id")
+    .eq("name", "NZ Parliament — Proposed Members Bills")
+    .maybeSingle();
+
+  const values = {
+    type: "html_scrape",
+    url: PROPOSED_URL,
+    category: "regulatory_signal",
+    agent_packs: ALL_PACKS,
+    cadence_minutes: 120,
+    active: true,
+    status: "idle",
+    consecutive_failures: 0,
+    authority_tier: 1,
+    authority_weight: 1.00,
+    config: {
+      horizon_stage: "SIGNAL",
+      source_kind: "proposed_members_bills",
+      topic_tags: ["regulatory-horizon", "signal", "members-bills"],
+    },
+  };
+
+  if (existing?.id) {
+    await admin.from("kb_sources").update(values).eq("id", existing.id);
+    return existing.id;
+  }
+
+  const { data: created, error } = await admin.from("kb_sources")
+    .insert({ name: "NZ Parliament — Proposed Members Bills", ...values })
+    .select("id")
+    .single();
+  if (error) console.warn("Could not create proposed-members signal source:", error.message);
+  return created?.id ?? null;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -200,7 +245,35 @@ Deno.serve(async (req) => {
       .single();
     if (sourceError || !source) throw new Error(sourceError?.message ?? "source not found");
 
-    const config = (source.config ?? {}) as SourceConfig;
+    const config: SourceConfig = {
+      ...(source.config ?? {}),
+      adapter: "parliament",
+      bill_tab: (source.config?.bill_tab as "Current" | "All" | undefined) ?? "All",
+      page_size: Number(source.config?.page_size ?? 50),
+      max_pages: Number(source.config?.max_pages ?? 3),
+      topic_tags: (source.config?.topic_tags as string[] | undefined) ?? ["regulatory-horizon", "parliament", "bills"],
+    };
+
+    // Normalise the historical May source in place. This is intentionally
+    // idempotent and removes the need to wait for a schema migration before the
+    // production scheduler can begin using the real Bills API.
+    await admin.from("kb_sources").update({
+      name: "NZ Parliament — Bills API",
+      type: "json_api",
+      url: SEARCH_URL,
+      category: "regulatory_horizon",
+      agent_packs: ALL_PACKS,
+      cadence_minutes: 120,
+      active: true,
+      authority_tier: 1,
+      authority_weight: 1.00,
+      config,
+    }).eq("id", sourceId);
+
+    // Create the official pre-introduction watch. On the next normal scheduler
+    // cycle adapter-html will scrape it and changes will land in the same KB.
+    await ensureSignalSource(admin);
+
     const { data: run } = await admin.from("kb_source_runs")
       .insert({ source_id: sourceId, status: "running" })
       .select("id")
@@ -247,7 +320,7 @@ Deno.serve(async (req) => {
         horizon_stage: record.horizon_stage,
         members: record.members,
         select_committee: record.select_committee,
-        topic_tags: config.topic_tags ?? ["regulatory-horizon", "parliament", "bills"],
+        topic_tags: config.topic_tags,
       };
 
       const payload = {
@@ -259,7 +332,7 @@ Deno.serve(async (req) => {
         content_hash: contentHash,
         published_at: record.last_activity ?? record.introduced ?? new Date().toISOString(),
         jurisdiction: "NZ",
-        topic_tags: config.topic_tags ?? ["regulatory-horizon", "parliament", "bills"],
+        topic_tags: config.topic_tags,
         metadata,
       };
 
