@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import type { CSSProperties } from 'react';
 import type { PitchDemo } from '@/lib/pitch-demos';
 import styles from './pitch.module.css';
 
@@ -18,7 +19,7 @@ export function PitchDemoView({ demo }: Props) {
   }, [choice, isKeepWaiting, demo]);
 
   return (
-    <main className={styles.page} style={{ '--client': demo.accent } as React.CSSProperties}>
+    <main className={styles.page} style={{ '--client': demo.accent } as CSSProperties}>
       <header className={styles.nav}>
         <a href="/" className={styles.wordmark}>assembl</a>
         <div className={styles.brandlock}><span>{demo.company}</span><i>×</i><span>assembl</span></div>
