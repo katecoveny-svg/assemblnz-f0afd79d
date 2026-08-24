@@ -30,6 +30,7 @@ const CORE_PATHS = [
   '/ai-use',
   '/contact',
   '/data',
+  '/regulatory-pulse',
   '/faq',
   '/how-it-works',
   '/hui',

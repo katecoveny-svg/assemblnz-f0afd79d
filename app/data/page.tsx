@@ -125,6 +125,13 @@ export default async function DataApiPage() {
                 >
                   See pricing
                 </Link>
+                <Link
+                  href="/regulatory-pulse"
+                  className="inline-flex items-center gap-2 px-2 py-3.5 text-sm font-medium text-[color:var(--assembl-pounamu)] transition-colors hover:text-[color:var(--assembl-pounamu-deep)]"
+                >
+                  Open live legislation watch
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
               </div>
             </div>
 

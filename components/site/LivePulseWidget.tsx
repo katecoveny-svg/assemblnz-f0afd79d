@@ -86,10 +86,10 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
             : ' All active sources are fresh.'}
         </p>
         <Link
-          href="/how-it-works"
+          href="/regulatory-pulse"
           className="inline-flex h-9 w-fit items-center justify-center rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/58 px-4 font-mono text-[9px] uppercase tracking-[0.13em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
         >
-          how it works
+          open live watch
           <ArrowRight className="ml-2 h-3.5 w-3.5" aria-hidden />
         </Link>
       </div>
