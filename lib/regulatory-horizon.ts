@@ -53,7 +53,13 @@ function sourceKindFor(source: SourceRow): RegulatoryHorizonItem['sourceKind'] {
 }
 
 function cleanQuery(value: string | undefined) {
-  return (value ?? '').trim().replace(/[,%()]/g, ' ').replace(/\s+/g, ' ').slice(0, 120);
+  return (value ?? '').trim().replace(/\s+/g, ' ').slice(0, 120);
+}
+
+function isHorizonSource(source: SourceRow) {
+  return source.category === 'regulatory_horizon' ||
+    source.category === 'regulatory_signal' ||
+    source.name.startsWith('PCO —');
 }
 
 export async function getRegulatoryHorizon(query?: string): Promise<{
@@ -69,32 +75,27 @@ export async function getRegulatoryHorizon(query?: string): Promise<{
     const supa = await createClient();
     const { data: sources, error: sourceError } = await supa
       .from('kb_sources')
-      .select('id,name,category,config')
-      .or('category.in.(regulatory_horizon,regulatory_signal),name.ilike.PCO —%');
+      .select('id,name,category,config');
 
     if (sourceError) throw sourceError;
-    const sourceRows = (sources ?? []) as SourceRow[];
+    const sourceRows = ((sources ?? []) as SourceRow[]).filter(isHorizonSource);
     if (!sourceRows.length) return { query: q || null, items: [], capturedAt, degraded: false };
 
     const sourceById = new Map(sourceRows.map((row) => [row.id, row]));
-    let docs = supa
+    const { data, error } = await supa
       .from('kb_documents')
       .select('id,source_id,title,url,content,published_at,inserted_at,metadata')
       .in('source_id', sourceRows.map((row) => row.id))
       .order('published_at', { ascending: false, nullsFirst: false })
-      .limit(q ? 120 : 60);
+      .limit(q ? 250 : 80);
 
-    if (q) {
-      const like = `%${q}%`;
-      docs = docs.or(`title.ilike.${like},content.ilike.${like}`);
-    }
-
-    const { data, error } = await docs;
     if (error) throw error;
 
+    const needle = q.toLowerCase();
     const items = ((data ?? []) as DocumentRow[]).flatMap((doc) => {
       const source = sourceById.get(doc.source_id);
       if (!source) return [];
+      if (needle && !`${doc.title}\n${doc.content}`.toLowerCase().includes(needle)) return [];
       const metadata = doc.metadata ?? {};
       return [{
         id: doc.id,
