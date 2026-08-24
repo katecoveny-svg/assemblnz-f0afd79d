@@ -20,6 +20,8 @@ export interface WatchedSource {
 
 export const WATCHED_SOURCES: readonly WatchedSource[] = [
   { name: 'Parliamentary Counsel Office — NZ Legislation', url: 'https://www.legislation.govt.nz/subscribe/recent' },
+  { name: 'New Zealand Parliament — Bills API', url: 'https://bills.parliament.nz/' },
+  { name: 'New Zealand Parliament — Proposed Members Bills', url: 'https://bills.parliament.nz/proposed-members-bills' },
   { name: 'New Zealand Gazette', url: 'https://gazette.govt.nz/' },
   { name: 'Beehive — Government releases', url: 'https://www.beehive.govt.nz/releases' },
   { name: 'WorkSafe New Zealand', url: 'https://www.worksafe.govt.nz/about-us/news-and-media/' },
