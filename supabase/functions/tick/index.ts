@@ -28,12 +28,14 @@ function adapterForSource(source: {
 }) {
   if (source.config?.adapter === "pco") return "adapter-pco";
   if (source.config?.adapter === "parliament") return "adapter-parliament";
+  if (source.config?.adapter === "parliament-proposals") return "adapter-parliament-proposals";
 
-  // Bootstrap the May source row without waiting for a new migration. The
-  // Parliament adapter normalises this historical row on its first successful
-  // run. The old source name pointed at committee advice, not a Bills feed.
+  // Bootstrap historical/source rows without waiting for a migration.
   if (source.name === "NZ Parliament — Bills RSS" || source.name === "NZ Parliament — Bills API") {
     return "adapter-parliament";
+  }
+  if (source.name === "NZ Parliament — Proposed Members Bills") {
+    return "adapter-parliament-proposals";
   }
 
   return ADAPTER_FOR[source.type];
