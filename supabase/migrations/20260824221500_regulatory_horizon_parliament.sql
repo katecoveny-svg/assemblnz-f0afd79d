@@ -17,6 +17,7 @@ set
   agent_packs = array['cross','waihanga','manaaki','pikau','arataki','auaha','ako','matauranga','hoko','toro']::text[],
   cadence_minutes = 120,
   active = true,
+  last_checked_at = null,
   status = 'idle',
   consecutive_failures = 0,
   authority_tier = 1,
@@ -62,6 +63,26 @@ where not exists (
 -- Official pre-introduction horizon. Firecrawl renders the Parliament page when
 -- available; adapter-html records changes and the resulting page is embedded for
 -- retrieval. This catches proposals before they exist as Bills in the JSON API.
+update public.kb_sources
+set
+  type = 'html_scrape',
+  url = 'https://bills.parliament.nz/proposed-members-bills',
+  category = 'regulatory_signal',
+  cadence_minutes = 120,
+  active = true,
+  last_checked_at = null,
+  status = 'idle',
+  consecutive_failures = 0,
+  authority_tier = 1,
+  authority_weight = 1.00,
+  config = jsonb_build_object(
+    'horizon_stage', 'SIGNAL',
+    'source_kind', 'proposed_members_bills',
+    'topic_tags', array['regulatory-horizon','signal','members-bills']::text[]
+  ),
+  updated_at = now()
+where name = 'NZ Parliament — Proposed Members Bills';
+
 insert into public.kb_sources (
   name, type, url, category, agent_packs, cadence_minutes, active, status,
   consecutive_failures, authority_tier, authority_weight, config
