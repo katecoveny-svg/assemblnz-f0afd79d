@@ -183,3 +183,36 @@
 .aj-operator{color:var(--aj-plum-muted)!important;opacity:.62;transition:opacity .2s ease}
 .aj-operator:hover,.aj-operator:focus-visible{opacity:1}
 @media(max-width:760px){.aj-operator{display:none}}
+
+/* ─── Tools panel ─── the two things a visitor can use before talking to anyone.
+   Sits in homepage canon; the destinations carry their own identity. ─── */
+.aj-tools{width:max(1180px,92vw);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;background:var(--aj-paper)}
+.aj-tools-head{grid-column:1/3;padding:30px 34px 24px;border-bottom:1px solid rgba(36,11,33,.18)}
+.aj-tools-head>span{color:var(--aj-rose)}
+.aj-tools-head h2{margin:12px 0 12px;font-size:clamp(40px,4.2vw,64px);font-weight:500;line-height:.88;letter-spacing:-.07em}
+.aj-tools-head p{margin:0;max-width:56ch;color:var(--aj-plum-muted);font-size:12px;line-height:1.6}
+.aj-tool{padding:28px 34px;display:flex;flex-direction:column;color:var(--aj-ink);text-decoration:none;border-right:1px solid rgba(36,11,33,.18);border-bottom:1px solid rgba(36,11,33,.18);transition:background .25s ease}
+.aj-tool:last-of-type{border-right:0}
+.aj-tool:hover,.aj-tool:focus-visible{background:var(--aj-chalk)}
+.aj-tool:focus-visible{outline:2px solid var(--aj-rose);outline-offset:-4px}
+.aj-tool>span{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.12em;color:var(--aj-rose)}
+.aj-tool h3{margin:14px 0 12px;font-size:33px;font-weight:500;line-height:.94;letter-spacing:-.05em}
+.aj-tool p{margin:0 0 22px;max-width:44ch;color:var(--aj-plum-muted);font-size:11.5px;line-height:1.6}
+.aj-tool b{margin-top:auto;padding-top:13px;display:flex;gap:8px;align-items:center;border-top:1px solid rgba(36,11,33,.18);font:500 7px/1 var(--font-mono),monospace;letter-spacing:.12em;text-transform:uppercase}
+.aj-tool b i{color:var(--aj-rose);font-style:normal}
+
+.aj-tools-ask{grid-column:1/3;padding:24px 34px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;color:var(--aj-chalk);background:var(--aj-plum)}
+.aj-tools-ask>span{font:500 6px/1 var(--font-mono),monospace;letter-spacing:.12em;color:var(--aj-rose)}
+.aj-ask-btn{padding:13px 22px;display:inline-flex;gap:10px;align-items:center;color:var(--aj-plum);background:var(--aj-paper);border-radius:99px;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:-.02em;transition:transform .2s ease}
+.aj-ask-btn:hover{transform:translateY(-1px)}
+.aj-ask-btn:focus-visible{outline:2px solid var(--aj-rose);outline-offset:3px}
+.aj-ask-btn i{color:var(--aj-rose);font-style:normal}
+.aj-tools-ask small{flex:1 1 240px;color:rgba(255,253,251,.66);font-size:10px;line-height:1.45}
+
+@media(max-width:760px){
+  .aj-tools{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto auto}
+  .aj-tools-head{grid-column:1;padding:44px 22px 24px}
+  .aj-tool{border-right:0;padding:30px 22px}
+  .aj-tools-ask{grid-column:1;padding:30px 22px;flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){.aj-ask-btn:hover{transform:none}}

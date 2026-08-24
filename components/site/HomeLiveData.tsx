@@ -49,7 +49,7 @@ export function HomeLiveData() {
   return (
     <section className="aj-panel aj-livedata" id="live-data">
       <article className="aj-livedata-copy">
-        <span>06 / WHERE THE ANSWERS COME FROM</span>
+        <span>07 / WHERE THE ANSWERS COME FROM</span>
         <h2>Nothing here is typed in by hand.</h2>
         <p>
           An agent is only worth trusting if it is reading something real. assembl keeps a Knowledge
