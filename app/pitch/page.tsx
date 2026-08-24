@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PITCH_DEMOS, PITCH_SLUGS } from '@/lib/pitch-demos';
@@ -20,7 +21,7 @@ export default function PitchHub() {
           {PITCH_SLUGS.map((slug, index) => {
             const demo = PITCH_DEMOS[slug];
             return (
-              <Link key={slug} href={`/pitch/${slug}`} className={styles.card} style={{ '--client': demo.accent } as React.CSSProperties}>
+              <Link key={slug} href={`/pitch/${slug}`} className={styles.card} style={{ '--client': demo.accent } as CSSProperties}>
                 <span>0{index + 1} · {demo.sector}</span>
                 <h2>{demo.company}</h2>
                 <p>{demo.headline}</p>
