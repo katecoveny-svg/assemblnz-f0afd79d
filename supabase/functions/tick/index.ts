@@ -20,9 +20,22 @@ const ADAPTER_FOR: Record<string, string> = {
   arcgis: "adapter-jsonapi",
 };
 
-function adapterForSource(source: { type: string; config?: Record<string, unknown> | null }) {
+function adapterForSource(source: {
+  name?: string;
+  type: string;
+  url?: string;
+  config?: Record<string, unknown> | null;
+}) {
   if (source.config?.adapter === "pco") return "adapter-pco";
   if (source.config?.adapter === "parliament") return "adapter-parliament";
+
+  // Bootstrap the May source row without waiting for a new migration. The
+  // Parliament adapter normalises this historical row on its first successful
+  // run. The old source name pointed at committee advice, not a Bills feed.
+  if (source.name === "NZ Parliament — Bills RSS" || source.name === "NZ Parliament — Bills API") {
+    return "adapter-parliament";
+  }
+
   return ADAPTER_FOR[source.type];
 }
 
@@ -51,7 +64,12 @@ Deno.serve(async (req) => {
       const dueAt = last + src.cadence_minutes * 60_000;
       if (last && dueAt > now) continue;
 
-      const adapter = adapterForSource(src as { type: string; config?: Record<string, unknown> | null });
+      const adapter = adapterForSource(src as {
+        name?: string;
+        type: string;
+        url?: string;
+        config?: Record<string, unknown> | null;
+      });
       if (!adapter) continue;
 
       dispatches.push(
