@@ -27,7 +27,7 @@ const TOOL_LINKS: Array<[string, string]> = [
 ];
 
 const linkStyle = {
-  color: '#4c504c',
+  color: '#240B21',
   fontFamily: 'var(--font-mono), Space Mono, monospace',
   fontSize: 9,
   fontWeight: 700,
@@ -47,13 +47,13 @@ export function V2Footer() {
         gap: 34,
         padding: '34px clamp(18px, 3.3vw, 52px) 44px',
         borderTop: '1px solid rgba(17, 19, 17, 0.18)',
-        background: '#f0f0eb',
+        background: '#F5F1F2',
         fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
       }}
     >
       <div>
-        <AssemblWordmark className="text-[24px] leading-none" style={{ letterSpacing: '0.12em', color: '#252d31' }} />
-        <p style={{ margin: '5px 0 0', color: '#686d68', fontSize: 10, letterSpacing: '0.06em' }}>
+        <AssemblWordmark className="text-[24px] leading-none" style={{ letterSpacing: '0.12em', color: '#240B21' }} />
+        <p style={{ margin: '5px 0 0', color: '#654A4E', fontSize: 10, letterSpacing: '0.06em' }}>
           See what your agent is made of. Built in Aotearoa.
         </p>
       </div>
@@ -75,7 +75,7 @@ export function V2Footer() {
               fontSize: 9,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: '#777c77',
+              color: '#654A4E',
             }}
           >
             Free tools

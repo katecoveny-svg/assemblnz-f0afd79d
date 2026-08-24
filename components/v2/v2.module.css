@@ -17,8 +17,10 @@
    Was a cream/grey bar with a Cormorant wordmark: the old branding, and on
    every navy surface (/ai-ready, /creative-playground, the cinematic pages in
    production) it landed as a foreign grey slab across the top of the page.
-   Now the same navy glass + Lato + brass the cinematic nav uses, so the frame
-   stops changing as you move around. Kate, 2026-07-28.                      */
+   Now the plum canon the homepage ships — plum glass, Instrument Sans, dusty
+   rose — so the frame stops changing as you move around. Colour values track
+   `canon` in packages/canvas/src/tokens.ts. Kate, 2026-07-28; migrated to canon
+   2026-08-24.                                                                */
 .nav {
   position: sticky;
   top: 0;
@@ -29,10 +31,10 @@
   gap: 16px;
   min-height: 65px;
   padding: 10px clamp(18px, 2.4vw, 38px);
-  background: rgba(5, 15, 28, 0.82);
+  background: rgba(36, 11, 33, 0.86);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(240, 238, 233, 0.1);
+  border-bottom: 1px solid rgba(245, 241, 242, 0.14);
 }
 .navWordmark {
   display: flex;
@@ -40,14 +42,15 @@
   gap: 12px;
   min-width: 0;
   text-decoration: none;
-  color: #F0EEE9;
+  color: #F5F1F2;
 }
 .navWordmarkText {
-  font-family: 'Lato', system-ui, sans-serif;
-  font-weight: 300;
-  font-size: 25px;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 26px;
   line-height: 1;
-  letter-spacing: 0.04em;
+  /* canon wordmark is tight, not tracked out */
+  letter-spacing: -0.055em;
 }
 /* the locked brand phrase rides the wordmark on every surface */
 .navTag {
@@ -56,7 +59,7 @@
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #D4A843;
+  color: #916A70;
   white-space: nowrap;
 }
 @media (max-width: 900px) {
@@ -81,14 +84,14 @@
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .1em;
-  color: #F0EEE9;
+  color: #F5F1F2;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
   transition: color 200ms ease;
 }
 .navLink:hover {
-  color: #D4A843;
+  color: #916A70;
 }
 .navUtilities {
   display: flex;
@@ -102,22 +105,22 @@
   gap: 13px;
   min-height: 38px;
   padding: 0 18px;
-  border: 1px solid #F0EEE9;
+  border: 1px solid #F5F1F2;
   border-radius: 999px;
-  background: #F0EEE9;
+  background: #F5F1F2;
   font-family: var(--font-mono), monospace;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .08em;
-  color: #050F1C;
+  color: #240B21;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
   transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
 .navCta:hover {
-  border-color: #D4A843;
-  box-shadow: 0 8px 26px -10px rgba(212, 168, 67, 0.7);
+  border-color: #916A70;
+  box-shadow: 0 8px 26px -10px rgba(145, 106, 112, 0.7);
   transform: translateY(-1px);
 }
 

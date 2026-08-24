@@ -354,15 +354,15 @@ export function AiReadyClient() {
       const { default: JsPDF } = await import('jspdf');
       const doc = new JsPDF({ unit: 'pt', format: 'a4' });
       const W = 595, H = 842, M = 58;
-      const NAVY = '#0B1524', GOLD = '#B8964F', SOFT = '#5A5750';
+      const PLUM = '#240B21', ROSE = '#916A70', SOFT = '#654A4E';
       let y = 0;
 
       const newPage = (first = false) => {
         if (!first) doc.addPage();
-        doc.setFillColor(252, 251, 248); doc.rect(0, 0, W, H, 'F');
-        doc.setDrawColor(184, 150, 79); doc.setLineWidth(1.2);
+        doc.setFillColor(255, 253, 251); doc.rect(0, 0, W, H, 'F');
+        doc.setDrawColor(145, 106, 112); doc.setLineWidth(1.2);
         doc.line(M, 92, W - M, 92);
-        doc.setTextColor(NAVY); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+        doc.setTextColor(PLUM); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
         doc.text('assembl', M, 76);
         doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(SOFT);
         doc.text('context brief · intuitive agentic customer journeys', M + 48, 76);
@@ -371,7 +371,7 @@ export function AiReadyClient() {
       const need = (h: number) => { if (y + h > H - 70) newPage(); };
       const heading = (t: string) => {
         need(46);
-        doc.setTextColor(GOLD); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5);
+        doc.setTextColor(ROSE); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5);
         doc.text(t.toUpperCase(), M, y); y += 18;
       };
       const para = (t: string, size = 10.5) => {
@@ -393,7 +393,7 @@ export function AiReadyClient() {
       };
 
       newPage(true);
-      doc.setTextColor(NAVY); doc.setFont('helvetica', 'bold'); doc.setFontSize(30);
+      doc.setTextColor(PLUM); doc.setFont('helvetica', 'bold'); doc.setFontSize(30);
       const title = doc.splitTextToSize(`${ready.site} — context for AI`, W - M * 2);
       doc.text(title, M, y); y += title.length * 34 + 12;
       para('Give this to any AI before you ask it to write, reply or draft for this business. Drafted from your own public pages — check it, correct it, keep it.', 11);
