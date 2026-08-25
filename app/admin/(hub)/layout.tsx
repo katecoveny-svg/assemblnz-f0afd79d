@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 // Server-safe canvas tokens — the paper-white admin shell rides on the
 // DIRECTION-LOCKED-2026-07-01 palette from @assembl/canvas.
-import { palette } from '@assembl/canvas/tokens';
 import { ensureAdmin } from '@/lib/admin/ensureAdmin';
 import { AdminNav } from '@/components/admin/AdminNav';
 
@@ -27,9 +26,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <div
       style={{
         minHeight: '100vh',
-        background: palette.paper,
-        fontFamily: 'var(--font-body), Lato, system-ui, sans-serif',
-        color: palette.ink,
+        background: '#FFFDFB',
+        fontFamily: 'var(--font-body), system-ui, sans-serif',
+        color: '#240B21',
       }}
     >
       <AdminNav email={admin.email} />

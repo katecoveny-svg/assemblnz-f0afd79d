@@ -6,6 +6,7 @@
 // Falls back to flattening top-level array when no path.
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { documentEnvelope } from "../_shared/opportunity-envelope.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -75,6 +76,9 @@ Deno.serve(async (req) => {
       const contentRaw = pickString(item, [cfg.content_field ?? "description", "summary", "abstract", "body"]) ?? JSON.stringify(item);
       const content = contentRaw.slice(0, 5000);
       const hash = await sha256(content);
+      const envelope = documentEnvelope(source, "adapter-jsonapi", {
+        raw_keys: Object.keys(item).slice(0, 20),
+      });
 
       const { data: existing } = await admin.from("kb_documents")
         .select("id, content_hash").eq("source_id", sourceId).eq("external_id", externalId).maybeSingle();
@@ -83,16 +87,30 @@ Deno.serve(async (req) => {
         const { data: doc } = await admin.from("kb_documents").insert({
           source_id: sourceId, external_id: externalId, title, url, content, content_hash: hash,
           published_at: dateStr ? new Date(dateStr).toISOString() : null,
-          metadata: { raw_keys: Object.keys(item).slice(0, 20) },
+          metadata: envelope.metadata,
+          topic_tags: envelope.topic_tags,
         }).select("id").single();
         if (doc) {
           await admin.from("kb_changes").insert({ document_id: doc.id, source_id: sourceId, change_type: "new", diff_summary: title });
           added++;
         }
       } else if (existing.content_hash !== hash) {
-        await admin.from("kb_documents").update({ content, content_hash: hash, published_at: dateStr ? new Date(dateStr).toISOString() : null }).eq("id", existing.id);
+        await admin.from("kb_documents").update({
+          title,
+          url,
+          content,
+          content_hash: hash,
+          published_at: dateStr ? new Date(dateStr).toISOString() : null,
+          metadata: envelope.metadata,
+          topic_tags: envelope.topic_tags,
+        }).eq("id", existing.id);
         await admin.from("kb_changes").insert({ document_id: existing.id, source_id: sourceId, change_type: "updated", diff_summary: title });
         updated++;
+      } else {
+        await admin.from("kb_documents").update({
+          metadata: envelope.metadata,
+          topic_tags: envelope.topic_tags,
+        }).eq("id", existing.id);
       }
     }
 
@@ -115,7 +133,14 @@ Deno.serve(async (req) => {
   } catch (err) {
     const msg = err instanceof Error ? err.message : "unknown";
     console.error("adapter-jsonapi error:", msg);
-    if (sourceId) await admin.from("kb_sources").update({ last_checked_at: new Date().toISOString(), status: "error" }).eq("id", sourceId);
+    if (sourceId) {
+      await admin.from("kb_sources").update({ last_checked_at: new Date().toISOString(), status: "error" }).eq("id", sourceId);
+      try {
+        await admin.rpc("kb_inc_failures" as never, { p_source: sourceId } as never);
+      } catch {
+        // Source status remains visible even if the optional counter RPC is absent.
+      }
+    }
     if (runId) await admin.from("kb_source_runs").update({ finished_at: new Date().toISOString(), status: "error", error: { message: msg }, duration_ms: Date.now() - t0 }).eq("id", runId);
     return new Response(JSON.stringify({ ok: false, error: msg }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -6,6 +6,7 @@
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import Parser from "https://esm.sh/rss-parser@3.13.0";
+import { documentEnvelope } from "../_shared/opportunity-envelope.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -61,6 +62,9 @@ Deno.serve(async (req) => {
       const content = (item.contentSnippet ?? item.content ?? item.summary ?? "").toString().trim();
       if (!content) continue;
       const hash = await sha256(content);
+      const envelope = documentEnvelope(source, "adapter-rss", {
+        feed_title: feed.title ?? null,
+      });
 
       const { data: existing } = await admin.from("kb_documents")
         .select("id, content_hash")
@@ -71,6 +75,8 @@ Deno.serve(async (req) => {
           source_id: sourceId, external_id: externalId,
           title: item.title ?? "Untitled", url: item.link, content, content_hash: hash,
           published_at: item.isoDate ?? null,
+          metadata: envelope.metadata,
+          topic_tags: envelope.topic_tags,
         }).select("id").single();
         if (doc) {
           await admin.from("kb_changes").insert({
@@ -81,13 +87,22 @@ Deno.serve(async (req) => {
         }
       } else if (existing.content_hash !== hash) {
         await admin.from("kb_documents").update({
-          content, content_hash: hash, published_at: item.isoDate ?? null,
+          title: item.title ?? "Untitled", url: item.link, content, content_hash: hash,
+          published_at: item.isoDate ?? null,
+          metadata: envelope.metadata,
+          topic_tags: envelope.topic_tags,
         }).eq("id", existing.id);
         await admin.from("kb_changes").insert({
           document_id: existing.id, source_id: sourceId, change_type: "updated",
           diff_summary: item.title ?? null,
         });
         updated++;
+      } else {
+        // Config and authority can change independently of feed content.
+        await admin.from("kb_documents").update({
+          metadata: envelope.metadata,
+          topic_tags: envelope.topic_tags,
+        }).eq("id", existing.id);
       }
     }
 

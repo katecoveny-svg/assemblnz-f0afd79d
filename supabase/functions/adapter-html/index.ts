@@ -5,6 +5,7 @@
 // Commissioner, Building Performance — anything without an RSS.
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { documentEnvelope } from "../_shared/opportunity-envelope.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -94,6 +95,9 @@ Deno.serve(async (req) => {
 
     const markdown = await scrapeMarkdown(source.url, firecrawlKey);
     const hash = await sha256(markdown);
+    const envelope = documentEnvelope(source, "adapter-html", {
+      extraction_scope: "source_page",
+    });
 
     const externalId = source.url;
     const { data: existing } = await admin.from("kb_documents")
@@ -104,15 +108,28 @@ Deno.serve(async (req) => {
       const { data: doc } = await admin.from("kb_documents").insert({
         source_id: sourceId, external_id: externalId, title: source.name, url: source.url,
         content: markdown, content_hash: hash, published_at: new Date().toISOString(),
+        metadata: envelope.metadata,
+        topic_tags: envelope.topic_tags,
       }).select("id").single();
       if (doc) {
         await admin.from("kb_changes").insert({ document_id: doc.id, source_id: sourceId, change_type: "new", diff_summary: source.name });
         added++;
       }
     } else if (existing.content_hash !== hash) {
-      await admin.from("kb_documents").update({ content: markdown, content_hash: hash, published_at: new Date().toISOString() }).eq("id", existing.id);
+      await admin.from("kb_documents").update({
+        content: markdown,
+        content_hash: hash,
+        published_at: new Date().toISOString(),
+        metadata: envelope.metadata,
+        topic_tags: envelope.topic_tags,
+      }).eq("id", existing.id);
       await admin.from("kb_changes").insert({ document_id: existing.id, source_id: sourceId, change_type: "updated", diff_summary: source.name });
       updated++;
+    } else {
+      await admin.from("kb_documents").update({
+        metadata: envelope.metadata,
+        topic_tags: envelope.topic_tags,
+      }).eq("id", existing.id);
     }
 
     const nowIso = new Date().toISOString();
@@ -132,7 +149,14 @@ Deno.serve(async (req) => {
   } catch (err) {
     const msg = err instanceof Error ? err.message : "unknown";
     console.error("adapter-html error:", msg);
-    if (sourceId) await admin.from("kb_sources").update({ last_checked_at: new Date().toISOString(), status: "error" }).eq("id", sourceId);
+    if (sourceId) {
+      await admin.from("kb_sources").update({ last_checked_at: new Date().toISOString(), status: "error" }).eq("id", sourceId);
+      try {
+        await admin.rpc("kb_inc_failures" as never, { p_source: sourceId } as never);
+      } catch {
+        // Source status remains visible even if the optional counter RPC is absent.
+      }
+    }
     if (runId) await admin.from("kb_source_runs").update({ finished_at: new Date().toISOString(), status: "error", error: { message: msg }, duration_ms: Date.now() - t0 }).eq("id", runId);
     return new Response(JSON.stringify({ ok: false, error: msg }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
