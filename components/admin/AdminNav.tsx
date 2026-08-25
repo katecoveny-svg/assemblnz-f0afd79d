@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 /**
  * Admin top nav — the marketplace-era operator surface.
  *
- * Lowercase `assembl` wordmark (Cormorant 600) + gold pill-dash, logo links
- * to `/`. Ten real sections. Space Mono labels, gold highlight on the active
- * route. Self-contained chrome: the global SiteHeader/Footer are suppressed on
+ * Lowercase `assembl` wordmark + rose state mark, logo links to `/`.
+ * Instrument Sans labels and the canonical plum/rose active state. Self-contained
+ * chrome: the global SiteHeader/Footer are suppressed on
  * /admin (see components/site/site-header.tsx).
  */
 
@@ -19,6 +19,7 @@ const NAV: { label: string; href: string }[] = [
   { label: 'Agents', href: '/admin/agents' },
   { label: 'Bundles', href: '/admin/bundles' },
   { label: 'Knowledge', href: '/admin/knowledge' },
+  { label: 'Opportunities', href: '/admin/opportunities' },
   { label: 'Tenants', href: '/admin/tenants' },
   { label: 'Invites', href: '/admin/invites' },
   { label: 'Approvals', href: '/admin/approvals' },
@@ -33,12 +34,13 @@ const NAV: { label: string; href: string }[] = [
   { label: 'Settings', href: '/admin/settings' },
 ];
 
-const INK = '#3A3832';
-const BODY = '#56544B';
-const GOLD_ACCENT = '#BFA37A';
-const HAIRLINE = '#EFEADC';
-const DISPLAY = 'var(--font-display), "Cormorant Garamond", Georgia, serif';
-const FONT_BODY = 'var(--font-body), Lato, system-ui, sans-serif';
+const INK = '#240B21';
+const BODY = '#654A4E';
+const STATE = '#916A70';
+const PAPER = '#FFFDFB';
+const HAIRLINE = '#F5F1F2';
+const DISPLAY = 'var(--font-display), system-ui, sans-serif';
+const FONT_BODY = 'var(--font-body), system-ui, sans-serif';
 
 function isActive(pathname: string | null, href: string): boolean {
   if (!pathname) return false;
@@ -55,7 +57,7 @@ export function AdminNav({ email }: { email: string }) {
         position: 'sticky',
         top: 0,
         zIndex: 40,
-        background: 'rgba(251,248,241,0.86)',
+        background: 'rgba(255,253,251,0.9)',
         backdropFilter: 'blur(16px)',
         borderBottom: `1px solid ${HAIRLINE}`,
       }}
@@ -91,7 +93,7 @@ export function AdminNav({ email }: { email: string }) {
           </span>
           <span
             aria-hidden
-            style={{ width: 22, height: 7, borderRadius: 4, background: GOLD_ACCENT, marginBottom: 5 }}
+            style={{ width: 22, height: 7, borderRadius: 4, background: STATE, marginBottom: 5 }}
           />
         </Link>
 
@@ -116,8 +118,8 @@ export function AdminNav({ email }: { email: string }) {
                   fontFamily: FONT_BODY,
                   fontWeight: active ? 700 : 500,
                   fontSize: 14,
-                  color: active ? INK : BODY,
-                  background: active ? GOLD_ACCENT : 'transparent',
+                  color: active ? PAPER : BODY,
+                  background: active ? STATE : 'transparent',
                   padding: '7px 13px',
                   borderRadius: 999,
                   textDecoration: 'none',
@@ -134,10 +136,10 @@ export function AdminNav({ email }: { email: string }) {
         <span
           title={email}
           style={{
-            fontFamily: 'var(--font-mono), "Space Mono", ui-monospace, monospace',
+            fontFamily: 'var(--font-mono), ui-monospace, monospace',
             fontSize: 12,
             letterSpacing: '0.08em',
-            color: '#8A8678',
+            color: BODY,
             flexShrink: 0,
             whiteSpace: 'nowrap',
           }}
