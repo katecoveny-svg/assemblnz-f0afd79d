@@ -44,7 +44,7 @@ export default function AlertsPage() {
             </span>
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-teal-deep)' }}>Government subsidy · {WKH_HEADLINE}</p>
-              <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>You may qualify for Warmer Kiwi Homes</p>
+              <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>You may qualify for Warmer Kiwi Homes</p>
             </div>
           </div>
           <LiveState state="live" note="EECA" />
@@ -88,7 +88,7 @@ export default function AlertsPage() {
                       <span className="text-sm font-bold" style={{ color: m.accent }}>{a.amount}</span>
                     )}
                   </div>
-                  <p className="mt-1.5 font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{a.title}</p>
+                  <p className="mt-1.5 font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>{a.title}</p>
                   <p className="mt-1 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{a.body}</p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                     {a.source && <span className="text-[12px]" style={{ color: 'var(--b-faint)' }}>Source: {a.source}</span>}

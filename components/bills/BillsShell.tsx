@@ -36,9 +36,9 @@ export function BillsShell({ children }: { children: ReactNode }) {
       {/* Demo ribbon */}
       <div
         className="flex items-center justify-center gap-2 px-4 py-1.5 text-[12px] font-medium"
-        style={{ background: 'rgba(43,107,87,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
+        style={{ background: 'rgba(47,107,79,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
       >
-        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(43,107,87,0.9)' }} />
+        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(47,107,79,0.9)' }} />
         Live console · sample household — real bill parsing, real provider prices, no real accounts connected
       </div>
 
@@ -57,7 +57,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
                     className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition"
                     style={
                       active
-                        ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: 'inset 0 0 20px -8px rgba(43,107,87,0.6)' }
+                        ? { background: 'var(--b-brand)', color: 'var(--b-paper)', border: '1px solid var(--b-brand)' }
                         : { color: 'var(--b-muted)', border: '1px solid transparent' }
                     }
                   >
@@ -76,7 +76,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
           <div className="lg:hidden">
             <div className="flex items-center justify-between">
               <WordMark size={15} />
-              <Link href="/bills" className="text-xs font-semibold" style={{ color: 'var(--b-teal)' }}>Landing →</Link>
+              <Link href="/bills" className="text-xs font-semibold" style={{ color: 'var(--b-brand)' }}>Landing →</Link>
             </div>
             <nav className="mt-4 -mx-4 flex gap-1.5 overflow-x-auto px-4 pb-1">
               {NAV.map(({ href, label, Icon }) => {
@@ -88,7 +88,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
                     className="flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition"
                     style={
                       active
-                        ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }
+                        ? { background: 'var(--b-brand)', color: 'var(--b-paper)', border: '1px solid var(--b-brand)' }
                         : { background: 'rgba(26,25,24,0.04)', color: 'var(--b-muted)', border: '1px solid var(--b-line)' }
                     }
                   >
@@ -115,7 +115,7 @@ function ViewLanding() {
       <p className="text-xs leading-relaxed" style={{ color: 'var(--b-muted)' }}>
         The household console. See the product story and join the waitlist on the landing page.
       </p>
-      <Link href="/bills" className="mt-2 inline-block text-xs font-semibold" style={{ color: 'var(--b-teal)' }}>
+      <Link href="/bills" className="mt-2 inline-block text-xs font-semibold" style={{ color: 'var(--b-brand)' }}>
         View landing →
       </Link>
     </div>

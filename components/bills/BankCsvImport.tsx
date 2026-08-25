@@ -84,7 +84,7 @@ export function BankCsvImport() {
         >
           <Upload size={22} />
         </span>
-        <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+        <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
           Drop a bank CSV here, or click to browse
         </p>
         <p className="mt-1 text-xs" style={{ color: 'var(--b-muted)' }}>

@@ -73,9 +73,9 @@ export function BillsAdvisor() {
         onClick={() => setOpen(true)}
         className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:scale-105"
         style={{
-          background: 'linear-gradient(135deg, #2B6B57, #1A4D3D)',
-          boxShadow: '0 0 20px rgba(43,107,87,0.55), 0 0 44px rgba(43,107,87,0.3)',
-          fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif",
+          background: 'linear-gradient(135deg, #240B21, #3A1435)',
+          boxShadow: '0 0 20px rgba(47,107,79,0.55), 0 0 44px rgba(47,107,79,0.3)',
+          fontFamily: "var(--font-bills-display), system-ui, sans-serif",
         }}
       >
         <Sparkles size={16} className="transition group-hover:rotate-12" /> Ask the advisor
@@ -91,11 +91,11 @@ export function BillsAdvisor() {
             {/* Header */}
             <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: 'var(--b-line)' }}>
               <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg text-white" style={{ background: 'var(--b-teal)' }}>
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg text-white" style={{ background: 'var(--b-brand)' }}>
                   <Sparkles size={16} />
                 </span>
                 <div>
-                  <p className="text-sm font-bold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+                  <p className="text-sm font-bold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
                     Bills advisor
                   </p>
                   <p className="text-[12px]" style={{ color: 'var(--b-faint)' }}>
@@ -116,7 +116,7 @@ export function BillsAdvisor() {
                     className="max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed"
                     style={
                       m.role === 'user'
-                        ? { background: 'var(--b-teal)', color: '#fff' }
+                        ? { background: 'var(--b-brand)', color: '#fff' }
                         : { background: 'var(--b-surface)', border: '1px solid var(--b-line)', color: 'var(--b-ink)' }
                     }
                   >
@@ -124,7 +124,7 @@ export function BillsAdvisor() {
                     {m.sources && m.sources.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {m.sources.map((s) => (
-                          <span key={s} className="rounded-md px-1.5 py-0.5 text-[12px] font-medium" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
+                          <span key={s} className="rounded-md px-1.5 py-0.5 text-[12px] font-medium" style={{ background: 'var(--b-ochre-soft)', color: 'var(--b-gold-deep)' }}>
                             {s}
                           </span>
                         ))}
@@ -136,7 +136,7 @@ export function BillsAdvisor() {
               {busy && (
                 <div className="flex justify-start">
                   <div className="rounded-2xl px-3.5 py-2.5" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
-                    <Loader2 size={16} className="animate-spin" style={{ color: 'var(--b-teal)' }} />
+                    <Loader2 size={16} className="animate-spin" style={{ color: 'var(--b-gold)' }} />
                   </div>
                 </div>
               )}
@@ -151,7 +151,7 @@ export function BillsAdvisor() {
                     type="button"
                     onClick={() => send(s)}
                     className="rounded-full px-3 py-1.5 text-xs font-medium transition hover:opacity-80"
-                    style={{ background: 'var(--b-surface)', border: '1px solid var(--b-teal-line)', color: 'var(--b-teal-deep)' }}
+                    style={{ background: 'var(--b-surface)', border: '1px solid var(--b-brand-line)', color: 'var(--b-brand)' }}
                   >
                     {s}
                   </button>
@@ -176,7 +176,7 @@ export function BillsAdvisor() {
                   className="flex-1 bg-transparent text-sm outline-none"
                   style={{ color: 'var(--b-ink)' }}
                 />
-                <button type="submit" disabled={busy || !input.trim()} className="rounded-lg p-1.5 text-white transition disabled:opacity-40" style={{ background: 'var(--b-teal)' }} aria-label="Send">
+                <button type="submit" disabled={busy || !input.trim()} className="rounded-lg p-1.5 text-white transition disabled:opacity-40" style={{ background: 'var(--b-brand)' }} aria-label="Send">
                   <Send size={15} />
                 </button>
               </div>

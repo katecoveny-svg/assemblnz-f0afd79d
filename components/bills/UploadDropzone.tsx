@@ -100,7 +100,7 @@ export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string 
         <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
           <UploadCloud size={22} />
         </span>
-        <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+        <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
           Drop a bill here, or click to browse
         </p>
         <p className="mt-1 flex items-center gap-1.5 text-xs" style={{ color: 'var(--b-muted)' }}>

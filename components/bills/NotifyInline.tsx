@@ -61,7 +61,7 @@ export function NotifyInline({
         type="submit"
         disabled={state === 'sending'}
         className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold disabled:opacity-60"
-        style={{ background: 'var(--b-ochre-soft)', color: 'var(--b-ochre)', border: '1px solid rgba(191,163,122,0.3)' }}
+        style={{ background: 'var(--b-ochre-soft)', color: 'var(--b-ochre)', border: '1px solid rgba(145,106,112,0.3)' }}
       >
         {state === 'sending' ? <Loader2 size={12} className="animate-spin" /> : <Bell size={12} />}
         {state === 'error' ? 'Try again' : 'Notify me'}

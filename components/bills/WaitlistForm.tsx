@@ -58,7 +58,7 @@ export function WaitlistForm() {
         <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full text-white" style={{ background: 'var(--b-teal)' }} aria-hidden>
           <Check size={20} />
         </div>
-        <p className="text-lg font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+        <p className="text-lg font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
           {status === 'already' ? 'You’re already on the list' : 'You’re on the waitlist'}
         </p>
         <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>
@@ -110,7 +110,7 @@ export function WaitlistForm() {
         type="submit"
         disabled={status === 'submitting'}
         className="w-full rounded-xl px-5 py-3.5 text-sm font-semibold text-white transition disabled:opacity-60"
-        style={{ background: 'var(--b-teal)', fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}
+        style={{ background: 'var(--b-teal)', fontFamily: "var(--font-bills-display), system-ui, sans-serif" }}
       >
         {status === 'submitting' ? 'Joining…' : 'Join the waitlist'}
       </button>

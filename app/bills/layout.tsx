@@ -1,30 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactNode, CSSProperties } from 'react';
-import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { themeVars } from './theme';
 import { BillsAtmosphere } from '@/components/bills/BillsAtmosphere';
 import { OsParallaxPattern } from '@/components/ops/shared/OsMotion';
-
-// assembl canon typography: Cormorant Garamond display, Inter body,
-// IBM Plex Mono labels/plates.
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  variable: '--font-bills-display',
-  display: 'swap',
-  weight: ['500', '600', '700'],
-});
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-bills-body',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-});
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  variable: '--font-bills-mono',
-  display: 'swap',
-  weight: ['400', '600'],
-});
 
 export const metadata: Metadata = {
   title: 'assembl bills — the agentic operating system for your household bills.',
@@ -43,7 +21,7 @@ export const metadata: Metadata = {
 export default function BillsLayout({ children }: { children: ReactNode }) {
   return (
     <div
-      className={`${cormorant.variable} ${inter.variable} ${plexMono.variable} relative min-h-screen overflow-hidden`}
+      className="relative min-h-screen overflow-hidden"
       style={{
         ...(themeVars as CSSProperties),
         background: 'var(--b-paper)',
@@ -63,7 +41,7 @@ export default function BillsLayout({ children }: { children: ReactNode }) {
         @keyframes bills-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         .bills-rise { animation: bills-rise .6s cubic-bezier(.16,1,.3,1) both; }
         @media (prefers-reduced-motion: reduce) { .bills-rise { animation: none; } }
-        [data-assembl-bills] ::selection { background: rgba(43,107,87,0.18); }
+        [data-assembl-bills] ::selection { background: rgba(145,106,112,0.22); }
       `}</style>
     </div>
   );
