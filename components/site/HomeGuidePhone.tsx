@@ -8,7 +8,7 @@ import {
   homeAgentBySlug,
   type HomeAgent,
 } from '@/lib/home/agent-roster';
-import { HOME_AGENT_EVENT } from '@/components/site/HomeAgentGallery';
+import { HOME_AGENT_EVENT } from '@/lib/home/agent-handoff';
 
 /**
  * The homepage phone — a live agent you can talk to, and swap.
