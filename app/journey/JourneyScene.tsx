@@ -117,7 +117,7 @@ export function JourneyScene() {
       <main className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-5 py-8 md:px-8 lg:grid-cols-[1.2fr_1fr]">
         {/* ── The map ──────────────────────────────────────────────────── */}
         <section>
-          <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.2em', color: PALETTE.gold }}>
+          <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.2em', color: PALETTE.gold }}>
             Your journey
           </p>
           <h1 className="mt-1 text-4xl md:text-5xl" style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 0.98 }}>
@@ -164,11 +164,11 @@ export function JourneyScene() {
                       color: PALETTE.ink,
                     }}
                   >
-                    <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 11, fontWeight: 700 }}>{i + 1}</span>
+                    <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, fontWeight: 700 }}>{i + 1}</span>
                   </span>
                   <span
                     className="mt-1 block whitespace-nowrap"
-                    style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 8.5, letterSpacing: '0.06em', color: reached ? PALETTE.ink : PALETTE.muted, fontWeight: 700 }}
+                    style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.06em', color: reached ? PALETTE.ink : PALETTE.muted, fontWeight: 700 }}
                   >
                     {lvl.label.toUpperCase()}
                   </span>
@@ -223,7 +223,7 @@ export function JourneyScene() {
           <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
             <div className="flex items-baseline justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+                <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
                   Level {levelIndex + 1} of 6
                 </p>
                 <p className="text-3xl" style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600 }}>
@@ -232,14 +232,14 @@ export function JourneyScene() {
               </div>
               <p className="text-right text-3xl font-black" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.ink }}>
                 {s ? s.points.toLocaleString('en-NZ') : '—'}
-                <span className="block text-[11px] font-bold uppercase" style={{ color: PALETTE.muted, letterSpacing: '0.1em' }}>points</span>
+                <span className="block text-[12px] font-bold uppercase" style={{ color: PALETTE.muted, letterSpacing: '0.1em' }}>points</span>
               </p>
             </div>
             <p className="mt-2 text-sm" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.body }}>{current?.note}</p>
             <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full" style={{ backgroundColor: PALETTE.cream }}>
               <div className="h-full rounded-full" style={{ width: `${Math.round((s?.levelProgress ?? 0) * 100)}%`, backgroundColor: PALETTE.accentGold }} />
             </div>
-            <p className="mt-1.5 text-[11px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
+            <p className="mt-1.5 text-[12px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
               {s?.nextLevel ? `${(s.nextLevel.at - s.points).toLocaleString('en-NZ')} pts to ${s.nextLevel.label}` : 'Top level — kaitiaki.'}
             </p>
           </div>
@@ -254,7 +254,7 @@ export function JourneyScene() {
           {/* Today's mission */}
           {s?.mission ? (
             <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}>
-              <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+              <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
                 Today’s mission · +{s.mission.points}
               </p>
               <h3 className="mt-1 text-2xl" style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600, letterSpacing: '-0.01em' }}>
@@ -276,7 +276,7 @@ export function JourneyScene() {
                 {s.mission.completed ? 'Done today ✓' : busy ? 'Marking…' : 'Mark done'}
               </button>
               {!s.signedIn ? (
-                <p className="mt-2 text-[11px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
+                <p className="mt-2 text-[12px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
                   Sign in to save progress and earn points.
                 </p>
               ) : null}
@@ -285,7 +285,7 @@ export function JourneyScene() {
 
           {/* Badges */}
           <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-            <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+            <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
               Badges {s ? `· ${s.badges.length}/${Object.keys(BADGES).length}` : ''}
             </p>
             {s && s.badges.length > 0 ? (
@@ -306,7 +306,7 @@ export function JourneyScene() {
           {/* Activity */}
           {s && s.activity.length > 0 ? (
             <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-              <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+              <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
                 Recent
               </p>
               <ul className="mt-3 flex flex-col gap-2">
@@ -341,7 +341,7 @@ function Stat({ label, value, suffix, icon }: { label: string; value: string; su
       <p className="flex items-center justify-center gap-1 text-2xl font-black" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.ink }}>
         {icon} {value}
       </p>
-      <p className="text-[10px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.1em', color: PALETTE.muted }}>
+      <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.1em', color: PALETTE.muted }}>
         {label}
         {suffix ? ` (${suffix})` : ''}
       </p>

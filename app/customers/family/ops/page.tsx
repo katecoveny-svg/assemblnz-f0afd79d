@@ -57,7 +57,7 @@ const glass: CSSProperties = {
   background: 'linear-gradient(180deg, #ffffff, #fbfcfb)',
   boxShadow: '0 12px 34px rgba(49,60,66,0.08), inset 0 1px 0 rgba(255,255,255,0.8)',
 };
-const eyebrow: CSSProperties = { fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED };
+const eyebrow: CSSProperties = { fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED };
 const display = 'var(--font-brand-display)';
 
 function btn(bg: string, filled = true): CSSProperties {
@@ -67,7 +67,7 @@ function btn(bg: string, filled = true): CSSProperties {
   };
 }
 function linkPill(color: string): CSSProperties {
-  return { fontSize: 11.5, fontWeight: 600, color, textDecoration: 'none', border: `1px solid ${color}66`, borderRadius: 999, padding: '5px 11px', background: `${color}12` };
+  return { fontSize: 12, fontWeight: 600, color, textDecoration: 'none', border: `1px solid ${color}66`, borderRadius: 999, padding: '5px 11px', background: `${color}12` };
 }
 const kindTone: Record<string, string> = { money: CORAL, transport: BLUE, shopping: SAGE, messaging: GOLD, other: MUTED };
 
@@ -247,7 +247,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                       const k = a.detail as { kind?: string; reason?: string };
                       return (
                         <div key={a.id} style={{ ...glass, padding: 15 }}>
-                          <span style={{ ...eyebrow, fontSize: 9.5, color: kindTone[k.kind ?? 'other'] }}>{k.kind ?? 'other'}</span>
+                          <span style={{ ...eyebrow, fontSize: 12, color: kindTone[k.kind ?? 'other'] }}>{k.kind ?? 'other'}</span>
                           <div style={{ fontSize: 14, fontWeight: 600, marginTop: 4 }}>{a.title}</div>
                           <div style={{ fontSize: 12, color: MUTED, marginTop: 3 }}>{k.reason}</div>
                           <ApproveDismiss id={a.id} />
@@ -300,7 +300,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                     <Row key={p.id} item={p}>
                       <div style={{ fontSize: 14, fontWeight: 600 }}>{p.person}</div>
                       <div style={{ fontSize: 12, color: MUTED }}>from {p.location} · {p.when_label}</div>
-                      {d.note ? <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>{d.note}</div> : null}
+                      {d.note ? <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{d.note}</div> : null}
                       <div style={{ fontSize: 12, marginTop: 6 }}>
                         {d.assigned ? <span style={{ color: SAGE, fontWeight: 600 }}>✓ {d.assigned}</span> : <span style={{ color: CORAL }}>unassigned</span>}
                         {d.backup ? <span style={{ color: MUTED }}> · backup {d.backup}</span> : null}
@@ -370,7 +370,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                 return (
                   <Row key={s.id} item={s}>
                     <div style={{ fontSize: 14, fontWeight: 600 }}>{s.title}</div>
-                    {d.reason ? <div style={{ fontSize: 11.5, color: MUTED }}>{d.reason}</div> : null}
+                    {d.reason ? <div style={{ fontSize: 12, color: MUTED }}>{d.reason}</div> : null}
                     <ul style={{ margin: '8px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 3 }}>
                       {(d.items ?? []).map((it) => (
                         <li key={it} style={{ fontSize: 12.5 }}>
@@ -379,7 +379,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                       ))}
                     </ul>
                     {s.status === 'proposed' ? <ApproveDismiss id={s.id} /> : (
-                      <div style={{ ...body, fontSize: 11, color: MUTED, marginTop: 8 }}>Tap an item to open Woolworths · budget / healthy / easiest, just ask</div>
+                      <div style={{ ...body, fontSize: 12, color: MUTED, marginTop: 8 }}>Tap an item to open Woolworths · budget / healthy / easiest, just ask</div>
                     )}
                   </Row>
                 );
@@ -410,7 +410,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                     <li style={{ fontSize: 12.5, color: MUTED }}>Cites the trainer + book; shows both sides where they disagree.</li>
                     <li style={{ fontSize: 12.5, color: MUTED }}>Guidance only — refers you to a certified behaviourist for any biting or aggression.</li>
                   </ul>
-                  <p style={{ fontSize: 11, color: MUTED, marginTop: 12 }}>
+                  <p style={{ fontSize: 12, color: MUTED, marginTop: 12 }}>
                     Draft-only · nothing books a vet, orders gear or messages a trainer.
                   </p>
                 </div>
@@ -457,7 +457,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
             {/* ── The family genome — one set of facts, every helper reads it ── */}
             <Section id="genome" title="The family genome" accent={GOLD} empty={false}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span style={{ ...eyebrow, fontSize: 9.5, color: genome.live ? SAGE : MUTED, border: `1px solid ${(genome.live ? SAGE : MUTED)}55`, borderRadius: 999, padding: '3px 9px' }}>
+                <span style={{ ...eyebrow, fontSize: 12, color: genome.live ? SAGE : MUTED, border: `1px solid ${(genome.live ? SAGE : MUTED)}55`, borderRadius: 999, padding: '3px 9px' }}>
                   {genome.live ? 'live' : 'mirror'}
                 </span>
                 <p style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.6 }}>
@@ -477,16 +477,16 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
                           <span style={{ fontSize: 13.5, fontWeight: 600 }}>{f.label}</span>
                           {f.verification && f.verification !== 'confirmed' ? (
-                            <span style={{ ...eyebrow, fontSize: 9, color: CORAL }}>{f.verification}</span>
+                            <span style={{ ...eyebrow, fontSize: 12, color: CORAL }}>{f.verification}</span>
                           ) : null}
                         </div>
                         <div style={{ fontSize: 13, marginTop: 3, lineHeight: 1.55 }}>{f.value}</div>
                         {f.readBy.length > 0 ? (
-                          <div style={{ fontSize: 10.5, color: MUTED, marginTop: 4 }}>read by {f.readBy.join(' · ')}</div>
+                          <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>read by {f.readBy.join(' · ')}</div>
                         ) : null}
                         {genome.live ? (
                           <details style={{ marginTop: 6 }}>
-                            <summary style={{ fontSize: 11, color: MUTED, cursor: 'pointer' }}>edit</summary>
+                            <summary style={{ fontSize: 12, color: MUTED, cursor: 'pointer' }}>edit</summary>
                             <form action={updateGenomeFactFormAction} style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
                               <input type="hidden" name="factId" value={f.id} />
                               <input
@@ -505,7 +505,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
                   </div>
                 );
               })}
-              <p style={{ fontSize: 11, color: MUTED, marginTop: 14 }}>
+              <p style={{ fontSize: 12, color: MUTED, marginTop: 14 }}>
                 Sample household — details fictional. Edits land in the genome with a history trail; the mirror in the code never changes.
               </p>
             </Section>
@@ -514,7 +514,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
 
       </div>
 
-      <p style={{ ...body, fontSize: 11, color: MUTED, textAlign: 'center' }}>
+      <p style={{ ...body, fontSize: 12, color: MUTED, textAlign: 'center' }}>
         Concept demo · the agent proposes, you approve, the app executes (calendar / maps / Uber / Woolworths handoffs).
         Nothing books, pays or sends on its own. Real dates &amp; rules always your call.
       </p>
@@ -526,7 +526,7 @@ function Done({ id }: { id: string }) {
   return (
     <form action={approveAction}>
       <input type="hidden" name="id" value={id} />
-      <button type="submit" style={{ fontSize: 11, color: MUTED, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }} title="mark handled">done</button>
+      <button type="submit" style={{ fontSize: 12, color: MUTED, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }} title="mark handled">done</button>
     </form>
   );
 }
@@ -564,7 +564,7 @@ function Row({ item, children }: { item: FamilyItem; children: React.ReactNode }
     <div style={{ padding: '10px 0', borderBottom: `1px solid ${GOLD}22`, opacity: item.status === 'proposed' ? 1 : 0.92 }}>
       {children}
       {from ? (
-        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 6 }}>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 6 }}>
           {d?.channel === 'voice' ? '🎙 ' : ''}from <strong style={{ color: INK }}>{from}</strong> · {relTime(d?.dropped_at)}
         </div>
       ) : null}

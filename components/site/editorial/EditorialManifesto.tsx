@@ -21,7 +21,7 @@ export function EditorialManifesto() {
     >
       <div className="mx-auto w-full max-w-[1200px]">
         <p
-          className="mb-8 text-[10px] uppercase tracking-[0.34em] text-[#1A1918]/55 sm:mb-12 sm:text-[11px]"
+          className="mb-8 text-[12px] uppercase tracking-[0.34em] text-[#1A1918]/55 sm:mb-12 sm:text-[12px]"
           style={{ fontFamily: 'var(--font-mono)' }}
         >
           {EDITORIAL_MANIFESTO_EYEBROW}

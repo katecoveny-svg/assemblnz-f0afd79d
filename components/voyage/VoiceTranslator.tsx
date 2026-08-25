@@ -265,14 +265,14 @@ export function VoiceTranslator() {
           <h3 className="font-display text-xl font-light text-[color:var(--text-primary)]">
             Translator
           </h3>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             press &amp; hold the mic · {fromFlag} → {toFlag}
           </p>
         </div>
         <button
           type="button"
           onClick={swapDirection}
-          className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white/85"
+          className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white/85"
           aria-label="Swap translation direction"
         >
           swap ↔
@@ -288,7 +288,7 @@ export function VoiceTranslator() {
           onTouchEnd={recognitionAvailable ? endRecording : undefined}
           onMouseLeave={isRecording ? endRecording : undefined}
           disabled={!recognitionAvailable}
-          className={`flex min-h-[88px] w-full select-none items-center justify-center gap-2 rounded-card border px-4 py-5 text-center font-mono text-[11px] uppercase tracking-[0.22em] transition ${
+          className={`flex min-h-[88px] w-full select-none items-center justify-center gap-2 rounded-card border px-4 py-5 text-center font-mono text-[12px] uppercase tracking-[0.22em] transition ${
             isRecording
               ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-white'
               : 'border-[rgba(35,33,31,0.15)] bg-white/75 text-[color:var(--text-primary)] hover:bg-white'
@@ -325,13 +325,13 @@ export function VoiceTranslator() {
           <button
             type="submit"
             disabled={pending || !fallbackText.trim()}
-            className="rounded-card bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-85 disabled:opacity-50"
+            className="rounded-card bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-85 disabled:opacity-50"
           >
             translate
           </button>
         </form>
 
-        <label className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+        <label className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
           <input
             type="checkbox"
             checked={autoSpeak}
@@ -359,7 +359,7 @@ export function VoiceTranslator() {
             className="space-y-3 rounded-card border border-[rgba(35,33,31,0.10)] bg-white/85 p-4"
           >
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 {translation.fromLang === 'en-NZ' ? '🇳🇿 English' : '🇮🇹 Italian'}
               </p>
               <p className="mt-1 text-base text-[color:var(--text-primary)]">
@@ -367,7 +367,7 @@ export function VoiceTranslator() {
               </p>
             </div>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 {translation.toLang === 'en-NZ' ? '🇳🇿 English' : '🇮🇹 Italian'}
               </p>
               <p className="mt-1 font-display text-xl font-light text-[color:var(--text-primary)]">
@@ -378,7 +378,7 @@ export function VoiceTranslator() {
               <button
                 type="button"
                 onClick={() => speak(translation.translated, translation.toLang)}
-                className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white"
+                className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white"
               >
                 🔊 play
               </button>
@@ -396,7 +396,7 @@ export function VoiceTranslator() {
                         : translation.sourceText,
                   })
                 }
-                className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white"
+                className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white"
               >
                 ☆ save phrase
               </button>
@@ -406,7 +406,7 @@ export function VoiceTranslator() {
       </div>
 
       <section aria-label="Phrasebook" className="mt-6">
-        <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+        <h4 className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
           Phrasebook (offline)
         </h4>
         <p className="mt-1 text-xs text-[color:var(--text-body)]">
@@ -418,7 +418,7 @@ export function VoiceTranslator() {
               key={group.category}
               className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 px-3 py-2"
             >
-              <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
+              <summary className="cursor-pointer font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
                 {PHRASEBOOK_CATEGORY_LABELS[group.category]} ({group.entries.length})
               </summary>
               <ul className="mt-3 space-y-2">
@@ -437,7 +437,7 @@ export function VoiceTranslator() {
                         <p className="text-sm text-[color:var(--text-primary)]">
                           {entry.it}
                         </p>
-                        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                           {entry.en}
                           {entry.pronounce ? ` · ${entry.pronounce}` : ''}
                         </p>
@@ -447,7 +447,7 @@ export function VoiceTranslator() {
                           type="button"
                           onClick={() => removeSaved(entry as SavedPhrase)}
                           aria-label="Remove saved phrase"
-                          className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:bg-white"
+                          className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:bg-white"
                         >
                           remove
                         </button>

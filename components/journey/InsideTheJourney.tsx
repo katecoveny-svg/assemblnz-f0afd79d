@@ -141,7 +141,7 @@ export function InsideTheJourney({
               <div style={{ margin: '0.3rem 0' }}>
                 <StatusChip status={resolveCapabilityStatus(c.id)} title={c.disclosure} />
               </div>
-              <p className={styles.agentRole} style={{ fontSize: '0.72rem' }}>{c.disclosure}</p>
+              <p className={styles.agentRole} style={{ fontSize: '0.75rem' }}>{c.disclosure}</p>
             </div>
           ))}
         </div>

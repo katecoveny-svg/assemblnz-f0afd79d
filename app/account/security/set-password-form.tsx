@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 import { setPasswordAction } from './actions';
 
 const labelClass =
-  'font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
+  'font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
 const inputClass =
   'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--assembl-gold,#BFA37A)] focus:ring-2 focus:ring-[rgba(191,163,122,0.45)]';
 
@@ -39,7 +39,7 @@ export function SetPasswordForm({ hasPassword }: { hasPassword: boolean }) {
   if (done) {
     return (
       <div className="rounded-card border border-[rgba(58,56,50,0.18)] bg-white/60 p-6">
-        <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-gold,#BFA37A)]">
+        <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-gold,#BFA37A)]">
           <Check className="h-4 w-4" aria-hidden /> Password saved
         </p>
         <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -49,7 +49,7 @@ export function SetPasswordForm({ hasPassword }: { hasPassword: boolean }) {
         <button
           type="button"
           onClick={() => setDone(false)}
-          className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+          className="mt-5 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
         >
           Change it again
         </button>

@@ -63,7 +63,7 @@ export default async function StandaloneWorkflowPage({
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_8%,rgba(217,168,90,0.20),transparent_28%),linear-gradient(135deg,rgba(58,56,50,0.08),transparent_42%)]" aria-hidden />
           <div className="relative grid gap-7 lg:grid-cols-[minmax(0,0.72fr)_minmax(420px,0.58fr)] lg:items-end">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
                 Shared workflow · {kete.englishName}
               </p>
               <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.8rem,7vw,7.8rem)] font-light leading-[0.86] text-[#23211F]">
@@ -74,7 +74,7 @@ export default async function StandaloneWorkflowPage({
               </p>
             </div>
             <div className="rounded-[18px] border border-white/80 bg-[#FFF7EC]/72 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_22px_70px_rgba(35,33,31,0.08)] md:p-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                 Send this to another parent
               </p>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-secondary)]">

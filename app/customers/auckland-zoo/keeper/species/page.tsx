@@ -53,7 +53,7 @@ export default function SpeciesPage() {
 
                 <dl className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
                   <div>
-                    <dt className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
+                    <dt className="font-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
                       Recovery programme
                     </dt>
                     <dd className="mt-0.5 text-[13.5px]" style={{ color: 'var(--tenant-ink)' }}>
@@ -61,7 +61,7 @@ export default function SpeciesPage() {
                     </dd>
                   </div>
                   <div>
-                    <dt className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
+                    <dt className="font-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
                       Breeding plan
                     </dt>
                     <dd className="mt-0.5 text-[13.5px]" style={{ color: 'var(--tenant-ink)' }}>
@@ -86,7 +86,7 @@ export default function SpeciesPage() {
 
                 {/* Animals */}
                 <div className="mt-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
                     Individual animals
                   </p>
                   <ul className="mt-2 space-y-2">

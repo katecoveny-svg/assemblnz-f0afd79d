@@ -144,7 +144,7 @@ export function BundleCard({
               key={t}
               style={{
                 fontFamily: typography.body.fontFamily,
-                fontSize: 11,
+                fontSize: 12,
                 lineHeight: 1,
                 padding: '5px 9px',
                 borderRadius: 999,

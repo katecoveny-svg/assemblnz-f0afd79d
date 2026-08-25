@@ -259,7 +259,7 @@ export default function HuiStudio() {
 
       {/* Template picker */}
       <div className="mt-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Meeting output</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Meeting output</p>
         <div className="mt-3 grid gap-3 md:grid-cols-3">
           {HUI_TEMPLATES.map((t) => (
             <button
@@ -274,7 +274,7 @@ export default function HuiStudio() {
             >
               <p className="text-sm font-medium text-[#313c42]">{t.label}</p>
               <p className="mt-1 text-xs leading-relaxed text-[#5A5550]">{t.blurb}</p>
-              <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[#313c42]">{t.framework}</p>
+              <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.14em] text-[#313c42]">{t.framework}</p>
             </button>
           ))}
         </div>
@@ -283,7 +283,7 @@ export default function HuiStudio() {
       {/* Title + attendees */}
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <label>
-          <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Meeting title</span>
+          <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Meeting title</span>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -292,7 +292,7 @@ export default function HuiStudio() {
           />
         </label>
         <label>
-          <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Attendees</span>
+          <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Attendees</span>
           <input
             value={attendees}
             onChange={(e) => setAttendees(e.target.value)}
@@ -321,7 +321,7 @@ export default function HuiStudio() {
       <div className="mt-5">
         {mode === "paste" && (
           <label className="block">
-            <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">
+            <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">
               Transcript or rough notes
             </span>
             <textarea
@@ -351,7 +351,7 @@ export default function HuiStudio() {
                 />
               </label>
             )}
-            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B6661]">MP3 · M4A · WAV · MP4 · up to 40MB</p>
+            <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.14em] text-[#6B6661]">MP3 · M4A · WAV · MP4 · up to 40MB</p>
           </div>
         )}
 
@@ -404,7 +404,7 @@ export default function HuiStudio() {
           <Trash2 className="h-4 w-4" /> Delete everything
         </button>
         {!unlocked && (
-          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">
             {freeRunUsed ? "Free run used — add your email to keep going" : "1 free run, no sign-up"}
           </span>
         )}
@@ -447,10 +447,10 @@ export default function HuiStudio() {
       {html && (
         <section className="mt-6 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white p-6 md:p-8">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f3f5f3] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f3f5f3] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">
               <CheckCircle2 className="h-3.5 w-3.5" /> {template.label}
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B6661]">{template.framework}</span>
+            <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#6B6661]">{template.framework}</span>
           </div>
           <div
             className="prose prose-neutral max-w-none [&_h2]:mt-6 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#313c42] [&_h2:first-child]:mt-0"

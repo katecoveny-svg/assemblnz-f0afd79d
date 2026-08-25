@@ -103,7 +103,7 @@ export function EconomicsModel() {
         <div
           style={{
             fontFamily: 'var(--edr-mono), monospace',
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
             color: EDR_BRAND.greyMid,
@@ -207,7 +207,7 @@ export function EconomicsModel() {
           <div
             style={{
               fontFamily: 'var(--edr-mono), monospace',
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.85)',
@@ -238,7 +238,7 @@ export function EconomicsModel() {
           <div
             style={{
               fontFamily: 'var(--edr-mono), monospace',
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: EDR_BRAND.greyMid,

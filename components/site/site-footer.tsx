@@ -56,7 +56,7 @@ const monoSmall: React.CSSProperties = {
 const microLabel: React.CSSProperties = {
   margin: 0,
   fontFamily: "var(--font-mono), 'Space Mono', monospace",
-  fontSize: 11,
+  fontSize: 12,
   letterSpacing: "0.16em",
   textTransform: "uppercase",
   color: BODY_GREY,
@@ -80,7 +80,7 @@ export function SiteFooter() {
       <div className="container" style={{ paddingTop: 64, paddingBottom: 28 }}>
         {/* motto — the only uppercase text in the footer */}
         <p style={{ ...microLabel, display: "flex", alignItems: "center", gap: 10 }}>
-          <span aria-hidden style={{ color: GOLD, fontSize: 10, lineHeight: 1 }}>
+          <span aria-hidden style={{ color: GOLD, fontSize: 12, lineHeight: 1 }}>
             •
           </span>
           less admin. more mahi.
@@ -135,7 +135,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <p style={{ ...monoSmall, margin: 0, paddingTop: 24, fontSize: 11.5, color: BODY_GREY }}>
+        <p style={{ ...monoSmall, margin: 0, paddingTop: 24, fontSize: 12, color: BODY_GREY }}>
           © 2026 assembl — built in aotearoa
         </p>
       </div>

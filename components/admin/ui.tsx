@@ -43,7 +43,7 @@ export function Eyebrow({ children, style }: { children: ReactNode; style?: CSSP
     <div
       style={{
         fontFamily: MONO,
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 700,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
@@ -176,7 +176,7 @@ export function StatCard({
       <div
         style={{
           fontFamily: MONO,
-          fontSize: 10.5,
+          fontSize: 12,
           fontWeight: 700,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
@@ -254,7 +254,7 @@ export function Pill({
         background: t.bg,
         color: t.fg,
         fontFamily: MONO,
-        fontSize: 10.5,
+        fontSize: 12,
         fontWeight: 700,
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
@@ -292,7 +292,7 @@ export function Table({ head, children }: { head: ReactNode[]; children: ReactNo
                   padding: '12px 16px',
                   borderBottom: `1px solid ${C.hairline}`,
                   fontFamily: MONO,
-                  fontSize: 10.5,
+                  fontSize: 12,
                   fontWeight: 700,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',

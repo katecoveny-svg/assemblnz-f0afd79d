@@ -54,12 +54,12 @@ export function CrossSurface({ data }: { data: ScenarioRun }) {
         {surfaces.map((s, i) => (
           <li key={s.id} className={`${styles.tEvent} ${styles.assemble}`} data-muted={i === surfaces.length - 1} style={{ width: 232 }}>
             <div className={styles.tDot} />
-            <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: ORANGE, marginBottom: 6 }}>
+            <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: ORANGE, marginBottom: 6 }}>
               {i + 1} · {s.surface}
             </div>
             <div style={{ fontSize: 13.5, fontWeight: 700, color: NAVY }}>{s.actor}</div>
             <p style={{ fontSize: 13, lineHeight: 1.5, color: CHARCOAL, margin: '6px 0 10px' }}>{s.moment}</p>
-            <div style={{ fontSize: 11, color: GREY, borderTop: '1px solid rgba(34,48,60,0.1)', paddingTop: 8 }}>
+            <div style={{ fontSize: 12, color: GREY, borderTop: '1px solid rgba(34,48,60,0.1)', paddingTop: 8 }}>
               carries → <span style={{ color: CHARCOAL }}>{s.carried}</span>
             </div>
           </li>

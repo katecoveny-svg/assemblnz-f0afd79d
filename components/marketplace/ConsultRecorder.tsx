@@ -193,7 +193,7 @@ export function ConsultRecorder({
       {/* Status bubble floats above the button so it never widens the composer row. */}
       {(recording || transcribing || requesting || phase === 'error') && (
         <div
-          className="mk-mono absolute bottom-[52px] right-0 z-10 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] shadow-sm"
+          className="mk-mono absolute bottom-[52px] right-0 z-10 whitespace-nowrap rounded-full border px-3 py-1 text-[12px] shadow-sm"
           style={{
             borderColor: phase === 'error' ? 'rgba(180,60,40,0.35)' : '#C0392B',
             backgroundColor: phase === 'error' ? 'rgba(180,60,40,0.06)' : 'rgba(255,255,255,0.96)',

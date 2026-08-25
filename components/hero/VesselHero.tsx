@@ -278,7 +278,7 @@ export function VesselHero() {
         <>
           <canvas ref={canvasRef} className="absolute inset-0 h-full w-full cursor-grab touch-none active:cursor-grabbing" />
           <span
-            className={`pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)] transition-opacity duration-700 ${hintGone ? "opacity-0" : "opacity-70"}`}
+            className={`pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[12px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)] transition-opacity duration-700 ${hintGone ? "opacity-0" : "opacity-70"}`}
             aria-hidden
           >
             Drag to turn

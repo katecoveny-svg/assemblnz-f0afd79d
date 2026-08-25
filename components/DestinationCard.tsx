@@ -67,7 +67,7 @@ export function DestinationCard({
 
         {/* Text block — bottom */}
         <div className="relative z-10 mt-8">
-          <p className={`font-mono text-[11px] uppercase tracking-[0.32em] ${eyebrowClass}`}>
+          <p className={`font-mono text-[12px] uppercase tracking-[0.32em] ${eyebrowClass}`}>
             {eyebrow}
           </p>
           <h3

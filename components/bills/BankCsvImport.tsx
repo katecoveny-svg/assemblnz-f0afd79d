@@ -130,7 +130,7 @@ export function BankCsvImport() {
               Read {result.transactions.length.toLocaleString('en-NZ')} transactions
             </span>
             <span
-              className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+              className="rounded-md px-1.5 py-0.5 text-[12px] font-semibold uppercase tracking-wide"
               style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}
             >
               {result.bank}
@@ -139,7 +139,7 @@ export function BankCsvImport() {
 
           {result.recurring.length > 0 ? (
             <div className="mt-3">
-              <p className="mb-2 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>
+              <p className="mb-2 flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>
                 <Repeat size={12} style={{ color: 'var(--b-teal-deep)' }} />
                 {result.recurring.length} recurring {result.recurring.length === 1 ? 'charge' : 'charges'} found
               </p>
@@ -154,7 +154,7 @@ export function BankCsvImport() {
                       <p className="truncate text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>
                         {toTitle(g.merchant)}
                       </p>
-                      <p className="text-[11px]" style={{ color: 'var(--b-muted)' }}>
+                      <p className="text-[12px]" style={{ color: 'var(--b-muted)' }}>
                         {CADENCE_LABEL[g.cadence]} · {g.occurrences}× · last {g.lastDate}
                       </p>
                     </div>
@@ -171,7 +171,7 @@ export function BankCsvImport() {
             </p>
           )}
 
-          <p className="mt-3 text-[11px]" style={{ color: 'var(--b-faint)' }}>
+          <p className="mt-3 text-[12px]" style={{ color: 'var(--b-faint)' }}>
             Parsed entirely on your device — nothing was uploaded.
           </p>
         </div>

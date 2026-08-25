@@ -23,7 +23,7 @@ export function Eyebrow({ children }: { children: React.ReactNode }) {
     <div
       style={{
         fontFamily: 'var(--lula-mono), monospace',
-        fontSize: 10.5,
+        fontSize: 12,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
         color: B.coral,
@@ -163,7 +163,7 @@ export function Section({
             <span
               style={{
                 fontFamily: 'var(--lula-mono), monospace',
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: '0.08em',
                 color: B.brassDark,
                 textTransform: 'uppercase',
@@ -294,7 +294,7 @@ export function Table({
                   padding: '9px 12px',
                   borderBottom: `1.5px solid ${B.line}`,
                   fontFamily: 'var(--lula-mono), monospace',
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   color: B.inkSoft,

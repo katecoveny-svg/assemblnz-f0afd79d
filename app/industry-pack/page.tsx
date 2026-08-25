@@ -178,7 +178,7 @@ export default function IndustryPackPage() {
               <article key={addon.title} className="bg-[color:var(--assembl-paper)] p-7">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-display text-display-md font-light leading-none">{addon.title}</h3>
-                  <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+                  <span className="whitespace-nowrap font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                     {addon.price}
                   </span>
                 </div>

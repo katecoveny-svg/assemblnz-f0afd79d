@@ -135,7 +135,7 @@ export function JourneyPlayer() {
           <div
             style={{
               fontFamily: 'var(--edr-mono), monospace',
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: EDR_BRAND.greyMid,

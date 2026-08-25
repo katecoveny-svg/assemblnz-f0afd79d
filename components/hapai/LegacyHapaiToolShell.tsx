@@ -47,7 +47,7 @@ export function LegacyHapaiToolShell({
       ]}
       aside={
         <>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#b8964f]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#b8964f]">
             focused workspace
           </p>
           <p className="mt-3 font-display text-4xl font-light leading-none text-[#ffffff]">
@@ -73,7 +73,7 @@ export function LegacyHapaiToolShell({
       <div className="overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[#f3f5f3]">
         <div className="flex flex-col gap-3 border-b border-[rgba(35,33,31,0.10)] bg-[#313c42] px-4 py-4 text-[#ffffff] md:flex-row md:items-center md:justify-between md:px-5">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#b8964f]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#b8964f]">
               SPARK workspace
             </p>
             <p className="mt-1 text-sm text-[#ffffff]/78">
@@ -85,7 +85,7 @@ export function LegacyHapaiToolShell({
             href={legacyPath}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-9 w-fit items-center justify-center rounded-[8px] border border-[#ffffff]/30 bg-[#ffffff]/10 px-4 font-mono text-[9px] uppercase tracking-[0.13em] text-[#ffffff] transition hover:bg-[#ffffff]/18"
+            className="inline-flex h-9 w-fit items-center justify-center rounded-[8px] border border-[#ffffff]/30 bg-[#ffffff]/10 px-4 font-mono text-[12px] uppercase tracking-[0.13em] text-[#ffffff] transition hover:bg-[#ffffff]/18"
           >
             Full-screen
           </Link>

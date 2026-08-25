@@ -27,7 +27,7 @@ export function EdrShell({ children }: { children: React.ReactNode }) {
           background: EDR_BRAND.navy,
           color: 'rgba(255,255,255,0.82)',
           fontFamily: 'var(--edr-mono), monospace',
-          fontSize: 10,
+          fontSize: 12,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
           textAlign: 'center',
@@ -85,7 +85,7 @@ export function EdrShell({ children }: { children: React.ReactNode }) {
                 style={{
                   display: 'block',
                   fontFamily: 'var(--edr-mono), monospace',
-                  fontSize: 9,
+                  fontSize: 12,
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
                   color: EDR_BRAND.greyMid,

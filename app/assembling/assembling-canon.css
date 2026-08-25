@@ -50,7 +50,7 @@ body:has(.asm) { background: var(--asm-paper); }
   .asm-band .sub { max-width: 68ch; font-size: 1.12rem; }
 }
 .asm .mono {
-  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--asm-brass);
 }
 
@@ -88,7 +88,7 @@ body:has(.asm) { background: var(--asm-paper); }
 /* what those minutes become — the value the phone's climbing points convert to,
    so the right of the hero is full and the payoff is legible. Kate, 30 Jul 2026. */
 .asm-earns { margin-top: 28px; }
-.asm-earns-k { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #B08D4E; margin-bottom: 14px; }
+.asm-earns-k { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: #B08D4E; margin-bottom: 14px; }
 .asm-earns ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
 .asm-earns li { display: flex; flex-direction: column; padding-left: 15px; border-left: 2px solid rgba(191, 163, 122, 0.45); }
 .asm-earns li b { font-size: 1rem; font-weight: 700; color: var(--asm-ink); letter-spacing: -0.01em; }
@@ -198,7 +198,7 @@ body:has(.asm) { background: var(--asm-paper); }
 }
 .tp-stage-head { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: baseline; border-bottom: 1px solid var(--asm-line); padding-bottom: 14px; margin-bottom: 20px; }
 .tp-stage-head b { font-size: 1.1rem; }
-.tp-stage-head span { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--asm-brass); }
+.tp-stage-head span { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--asm-brass); }
 .tp-loader b { display: block; margin-bottom: 14px; font-size: 1rem; }
 .tp-step { display: flex; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px dashed var(--asm-line); }
 .tp-step i { width: 9px; height: 9px; border-radius: 50%; background: var(--asm-hi); flex: 0 0 auto; animation: tp-pulse 1.6s ease-in-out infinite; }
@@ -209,7 +209,7 @@ body:has(.asm) { background: var(--asm-paper); }
 .tp-partner {
   margin-top: 18px; display: inline-block; border: 1px dashed rgba(184, 150, 79, 0.7);
   border-radius: 999px; padding: 8px 16px;
-  font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
+  font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--asm-brass);
 }
 .tp-chat { display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
@@ -219,7 +219,7 @@ body:has(.asm) { background: var(--asm-paper); }
   background: var(--asm-paper-2);
 }
 .tp-bubble.copilot { border-color: rgba(184, 150, 79, 0.6); background: rgba(184, 150, 79, 0.1); border-radius: 16px 16px 4px 16px; margin-left: 34px; }
-.tp-bubble.copilot i { display: block; margin-top: 10px; font-style: normal; font-family: 'Space Mono', monospace; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asm-brass); }
+.tp-bubble.copilot i { display: block; margin-top: 10px; font-style: normal; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--asm-brass); }
 .tp-jv-head { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1rem; margin-bottom: 14px; }
 .tp-jv-head i { font-style: normal; color: var(--asm-brass); }
 .tp-jv-row { display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--asm-line); }

@@ -147,10 +147,10 @@ export default function PrivacyActPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#313c42] md:px-12 md:py-16">
       <div className="mx-auto max-w-[920px]">
-        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]">
+        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]">
           <ArrowLeft className="h-3.5 w-3.5" /> SPARK library
         </Link>
-        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">SPARK · Privacy Act 2020 one-pager</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#6B6661]">SPARK · Privacy Act 2020 one-pager</p>
         <h1 className="mt-3 font-display text-[38px] font-normal leading-tight md:text-[52px]">Know which rules apply. Hand it to your team.</h1>
         <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">Generate a one-page Privacy Act 2020 summary for your organisation. Maps your data flows to the 13 Information Privacy Principles. Includes the new IPP 3A.</p>
 
@@ -220,20 +220,20 @@ export default function PrivacyActPage() {
         .privacy-output h3 { margin-top: 18px; font-weight: 600; color: #313c42; }
         .privacy-output p, .privacy-output li { margin-top: 8px; font-size: 14.5px; line-height: 1.65; color: #2A2825; }
         .privacy-output ul { margin-left: 22px; }
-        .privacy-output .ipp-pill { display: inline-block; border-radius: 999px; background: rgba(58,56,50,0.10); padding: 2px 8px; font-family: var(--font-mono), monospace; font-size: 11px; color: #313c42; }
+        .privacy-output .ipp-pill { display: inline-block; border-radius: 999px; background: rgba(58,56,50,0.10); padding: 2px 8px; font-family: var(--font-mono), monospace; font-size: 12px; color: #313c42; }
       `}</style>
     </main>
   );
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <label><span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>{children}</label>;
+  return <label><span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>{children}</label>;
 }
 
 function ShareTile({ title, canvasRef, onDownload }: { title: string; canvasRef: React.RefObject<HTMLCanvasElement | null>; onDownload: () => void }) {
   return (
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-white p-4 text-center">
-      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">{title}</p>
+      <p className="mb-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">{title}</p>
       <canvas ref={canvasRef} className="w-full rounded-[6px] border border-[rgba(35,33,31,0.08)]" />
       <button type="button" onClick={onDownload} className="mt-3 inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-4 py-2 text-sm text-[#5A5550] hover:text-[#313c42]"><Download className="h-4 w-4" /> Download PNG</button>
     </div>
@@ -243,7 +243,7 @@ function ShareTile({ title, canvasRef, onDownload }: { title: string; canvasRef:
 function CaptionBox({ title, text }: { title: string; text: string }) {
   return (
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-white p-4">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">{title}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">{title}</p>
       <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-[#2A2825]">{text}</p>
       <button type="button" onClick={() => navigator.clipboard.writeText(text)} className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#313c42] px-4 py-2 text-sm text-white hover:bg-[#313c42]"><Copy className="h-4 w-4" /> Copy caption</button>
     </div>

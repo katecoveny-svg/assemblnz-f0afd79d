@@ -100,7 +100,7 @@ export function PilotSimulator() {
         </Card>
 
         <Card style={{ background: '#fbfaf7' }}>
-          <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, marginBottom: 12 }}>
+          <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, marginBottom: 12 }}>
             Draft pilot architecture
           </div>
           <Line label="Scope" value={`${cfg.eligibleCustomers.toLocaleString('en-NZ')} customers · ${cfg.journeyType.toLowerCase()} · ${cfg.weeks} weeks`} />
@@ -134,7 +134,7 @@ function labelFor(k: string): string {
 function Line({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
     <div style={{ padding: '10px 0', borderBottom: last ? 'none' : '1px solid rgba(34,48,60,0.08)' }}>
-      <div style={{ fontSize: 11.5, color: GREY }}>{label}</div>
+      <div style={{ fontSize: 12, color: GREY }}>{label}</div>
       <div style={{ fontSize: 14, color: NAVY, marginTop: 2, lineHeight: 1.5 }}>{value}</div>
     </div>
   );

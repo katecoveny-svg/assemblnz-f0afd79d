@@ -239,11 +239,11 @@ export function LineCanvas({ presetId, values, seed, onAdjust, onExportersReady 
         onPointerCancel={handlePointerUp}
       />
       {!ready && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
           assembling…
         </div>
       )}
-      <div className="mt-2 text-center font-mono text-[9.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+      <div className="mt-2 text-center font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
         drag to reshape · shift+drag to move
       </div>
     </div>

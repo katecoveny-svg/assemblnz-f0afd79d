@@ -76,7 +76,7 @@ export function KiwiSaverKidsCalculator() {
       <div className="mx-auto max-w-[1120px]">
         <Link
           href="/hapai"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#B8956A]"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#B8956A]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> SPARK library
         </Link>
@@ -84,7 +84,7 @@ export function KiwiSaverKidsCalculator() {
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           {/* ── LEFT — eyebrow + headline + context ─────────────────── */}
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#B8956A]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#B8956A]">
               SPARK · kiwisaver for kids
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3rem,7vw,5.5rem)] font-light leading-[0.92]">
@@ -127,7 +127,7 @@ export function KiwiSaverKidsCalculator() {
                     : "border-[rgba(35,33,31,0.10)] bg-white/56 hover:border-[#B8956A]/40",
                 ].join(" ")}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#B8956A]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#B8956A]">
                   Scenario 1
                 </p>
                 <p className="mt-1 font-display text-xl leading-tight">
@@ -147,7 +147,7 @@ export function KiwiSaverKidsCalculator() {
                     : "border-[rgba(35,33,31,0.10)] bg-white/56 hover:border-[#B8956A]/40",
                 ].join(" ")}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#B8956A]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#B8956A]">
                   Scenario 2
                 </p>
                 <p className="mt-1 font-display text-xl leading-tight">
@@ -167,7 +167,7 @@ export function KiwiSaverKidsCalculator() {
                     : "border-[rgba(35,33,31,0.10)] bg-white/56 hover:border-[#B8956A]/40",
                 ].join(" ")}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#B8956A]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#B8956A]">
                   Scenario 3
                 </p>
                 <p className="mt-1 font-display text-xl leading-tight">
@@ -187,7 +187,7 @@ export function KiwiSaverKidsCalculator() {
                     : "border-[rgba(35,33,31,0.10)] bg-white/56 hover:border-[#B8956A]/40",
                 ].join(" ")}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#B8956A]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#B8956A]">
                   Scenario 4
                 </p>
                 <p className="mt-1 font-display text-xl leading-tight">
@@ -286,7 +286,7 @@ export function KiwiSaverKidsCalculator() {
 
             {/* ── HERO RESULT ───────────────────────────────────── */}
             <div className="mt-7 rounded-[14px] border border-[rgba(184, 150, 79,0.32)] bg-gradient-to-br from-[#ffffff] to-[#f3f5f3] p-6">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#B8956A]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#B8956A]">
                 Projected balance at age {retirementAge}
               </p>
               <p className="mt-2 font-display text-[clamp(2.8rem,5.5vw,4.6rem)] font-light leading-[1] text-[#313c42]">
@@ -335,7 +335,7 @@ export function KiwiSaverKidsCalculator() {
             {/* ── COMPARE ──────────────────────────────────────── */}
             {monthlyContribution > 0 && (
               <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.22)] bg-[#F0F5F1] p-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#313c42]">
                   <Sparkles className="-mt-1 mr-1 inline h-3.5 w-3.5" aria-hidden />
                   Top-ups vs policy alone
                 </p>
@@ -359,7 +359,7 @@ export function KiwiSaverKidsCalculator() {
 
             {/* ── SCHEDULE ─────────────────────────────────────── */}
             <details className="mt-5 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-white/56">
-              <summary className="cursor-pointer p-4 font-mono text-[10px] uppercase tracking-[0.22em] text-[#5A5550]">
+              <summary className="cursor-pointer p-4 font-mono text-[12px] uppercase tracking-[0.22em] text-[#5A5550]">
                 Year-by-year schedule ({projection.schedule.length} years)
               </summary>
               <div className="max-h-[360px] overflow-y-auto px-4 pb-4">
@@ -394,7 +394,7 @@ export function KiwiSaverKidsCalculator() {
               </div>
             </details>
 
-            <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+            <p className="mt-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
               Built in Aotearoa · Indicative only · Not financial advice ·
               Privacy Act 2020 compliant. assembl.co.nz
             </p>
@@ -417,7 +417,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">
+      <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">
         {label}
       </span>
       {children}
@@ -436,11 +436,11 @@ function Stat({
 }) {
   return (
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#f7f9f8] p-3">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
         {label}
       </p>
       <p className="mt-1 font-display text-xl font-normal tabular-nums">{value}</p>
-      <p className="mt-1 text-[11px] text-[#5A5550]">{sub}</p>
+      <p className="mt-1 text-[12px] text-[#5A5550]">{sub}</p>
     </div>
   );
 }

@@ -230,7 +230,7 @@ export function BoidsCanvas({ presetId, values, seed, background, onAdjust, onEx
         style={{ background: palette.ground }}
       />
       {!ready && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
           assembling…
         </div>
       )}

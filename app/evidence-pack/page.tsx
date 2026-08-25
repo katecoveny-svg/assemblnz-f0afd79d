@@ -57,7 +57,7 @@ export default function EvidencePackPage() {
             <dl className="mt-6 divide-y divide-[rgba(35,33,31,0.08)]">
               {EXAMPLE.map(([label, value]) => (
                 <div key={label} className="py-4">
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]">
+                  <dt className="font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]">
                     {label}
                   </dt>
                   <dd className="mt-2 text-body-md text-[color:var(--text-body)]">{value}</dd>

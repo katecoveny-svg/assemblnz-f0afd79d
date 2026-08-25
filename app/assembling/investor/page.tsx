@@ -30,7 +30,7 @@ const MONO = "var(--font-dash-mono), 'Space Mono', monospace";
 // Shared eyebrow ("h" class in the prototype).
 const eyebrow: CSSProperties = {
   fontFamily: MONO,
-  fontSize: 11,
+  fontSize: 12,
   letterSpacing: "0.16em",
   textTransform: "uppercase",
   color: "#8A6A2E",
@@ -46,7 +46,7 @@ const tile: CSSProperties = {
 
 const tileLabel: CSSProperties = {
   fontFamily: MONO,
-  fontSize: 10,
+  fontSize: 12,
   color: "#b89a2e",
   marginBottom: 6,
 };
@@ -114,7 +114,7 @@ const modelMeta: CSSProperties = {
 
 const rmEyebrow: CSSProperties = {
   fontFamily: MONO,
-  fontSize: 11,
+  fontSize: 12,
   color: "#8a887e",
   marginBottom: 5,
 };
@@ -212,7 +212,7 @@ function InvestorPage() {
             style={{
               textAlign: "right",
               fontFamily: MONO,
-              fontSize: 11,
+              fontSize: 12,
               color: "#5a4a00",
               lineHeight: 1.8,
             }}
@@ -566,7 +566,7 @@ function InvestorPage() {
           <div
             style={{
               fontFamily: MONO,
-              fontSize: 11,
+              fontSize: 12,
               letterSpacing: "0.08em",
               color: "#8a8678",
             }}

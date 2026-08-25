@@ -162,7 +162,7 @@ export function BundleChatPreview({
           borderBottom: `1px solid ${palette.hairline}`,
         }}
       >
-        <span aria-hidden style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1 }}>
+        <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
           •
         </span>
         <span
@@ -249,7 +249,7 @@ export function BundleChatPreview({
                           title={TIER_LABEL[s.tier]}
                           style={{
                             ...bodyFont,
-                            fontSize: 10.5,
+                            fontSize: 12,
                             textDecoration: 'none',
                             color: palette.bodyGrey,
                             padding: '3px 9px',
@@ -290,7 +290,7 @@ export function BundleChatPreview({
                 disabled={busy}
                 style={{
                   ...bodyFont,
-                  fontSize: 11.5,
+                  fontSize: 12,
                   textAlign: 'left',
                   padding: '5px 11px',
                   borderRadius: 999,
@@ -353,7 +353,7 @@ export function BundleChatPreview({
             send
           </button>
         </form>
-        <p style={{ ...bodyFont, fontSize: 10.5, color: palette.bodyGrey, marginTop: 8, marginBottom: 0 }}>
+        <p style={{ ...bodyFont, fontSize: 12, color: palette.bodyGrey, marginTop: 8, marginBottom: 0 }}>
           three messages free, no login. every reply is a draft for a person to check.
         </p>
       </div>

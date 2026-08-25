@@ -114,7 +114,7 @@ export default async function TenantFleetPage({
           <div>
             <Link
               href="/app"
-              className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
             >
               assembl / {(tenant as Tenant).slug}
             </Link>
@@ -128,7 +128,7 @@ export default async function TenantFleetPage({
             </p>
           </div>
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 px-4 py-3 text-right">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Active agents
             </p>
             <p className="mt-1 font-display text-4xl font-light leading-none">
@@ -149,7 +149,7 @@ export default async function TenantFleetPage({
             {grouped.map((group) => (
               <section key={group.phase}>
                 <div className="mb-3 flex items-center gap-3">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     {PHASE_LABELS[group.phase]}
                   </p>
                   <div className="h-px flex-1 bg-[rgba(35,33,31,0.10)]" />
@@ -197,12 +197,12 @@ function AgentFleetCard({
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="font-display text-3xl font-light leading-none">{agent.name}</h2>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+          <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
             {agent.role}
           </p>
         </div>
         <span
-          className="rounded-full border border-[rgba(43,107,87,0.25)] bg-[rgba(43,107,87,0.08)] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]"
+          className="rounded-full border border-[rgba(43,107,87,0.25)] bg-[rgba(43,107,87,0.08)] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]"
         >
           Live
         </span>
@@ -211,10 +211,10 @@ function AgentFleetCard({
         {description}
       </p>
       <div className="mt-5 flex items-center justify-between border-t border-[rgba(35,33,31,0.08)] pt-4">
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
           {activityCount} recent {activityCount === 1 ? 'activity' : 'activities'}
         </span>
-        <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+        <span className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
           Open chat
           <MessageCircle className="h-4 w-4" aria-hidden />
         </span>

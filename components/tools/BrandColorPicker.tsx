@@ -67,7 +67,7 @@ export function BrandColorPicker({ value, onChange, id = 'brand-color' }: Props)
         />
       </div>
       <fieldset className="flex flex-wrap gap-2">
-        <legend className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+        <legend className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
           Or pick a kete colour
         </legend>
         {KETE_CHIPS.map((chip) => (

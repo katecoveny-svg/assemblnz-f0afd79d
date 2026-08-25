@@ -65,7 +65,7 @@ export function PageHeading({ title, lead }: { title: string; lead?: string }) {
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: 'var(--b-faint)' }}>
+    <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.14em]" style={{ color: 'var(--b-faint)' }}>
       {children}
     </p>
   );
@@ -86,7 +86,7 @@ const CATEGORY_TINT: Record<string, { bg: string; fg: string }> = {
 export function CategoryTag({ category }: { category: string }) {
   const t = CATEGORY_TINT[category] ?? { bg: 'rgba(26,25,24,0.06)', fg: 'var(--b-muted)' };
   return (
-    <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style={{ background: t.bg, color: t.fg }}>
+    <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[12px] font-semibold" style={{ background: t.bg, color: t.fg }}>
       {category}
     </span>
   );
@@ -94,7 +94,7 @@ export function CategoryTag({ category }: { category: string }) {
 
 export function SourceBadge({ source }: { source: string }) {
   return (
-    <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-medium" style={{ background: 'rgba(26,25,24,0.05)', color: 'var(--b-faint)' }}>
+    <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[12px] font-medium" style={{ background: 'rgba(26,25,24,0.05)', color: 'var(--b-faint)' }}>
       {source}
     </span>
   );
@@ -109,7 +109,7 @@ export function TrendChip({ trend, note }: { trend?: 'up' | 'down' | 'flat'; not
   }[trend];
   const { Icon } = map;
   return (
-    <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium" style={{ background: map.bg, color: map.color }}>
+    <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-medium" style={{ background: map.bg, color: map.color }}>
       <Icon size={12} />
       {note ?? (trend === 'flat' ? 'Steady' : trend === 'up' ? 'Up' : 'Down')}
     </span>
@@ -118,7 +118,7 @@ export function TrendChip({ trend, note }: { trend?: 'up' | 'down' | 'flat'; not
 
 export function Cite({ children }: { children: ReactNode }) {
   return (
-    <span className="text-[11px]" style={{ color: 'var(--b-faint)' }}>
+    <span className="text-[12px]" style={{ color: 'var(--b-faint)' }}>
       {children}
     </span>
   );

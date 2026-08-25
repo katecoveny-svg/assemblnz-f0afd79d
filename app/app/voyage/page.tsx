@@ -78,7 +78,7 @@ export default async function VoyagePage() {
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-16">
       <div className="mx-auto max-w-3xl">
         <header className="mb-12 text-center">
-          <p className="font-mono text-[11px] lowercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] lowercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             assembl · tōro · whānau
           </p>
           <h1
@@ -121,7 +121,7 @@ export default async function VoyagePage() {
                         <h3 className="font-display text-xl font-light text-[color:var(--text-primary)]">
                           {trip.name}
                         </h3>
-                        <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                        <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                           {trip.departure_date} → {trip.return_date} ·{' '}
                           {trip.dayCount} days · {trip.destinationCount}{' '}
                           destinations · {trip.status} · {trip.currency}
@@ -129,7 +129,7 @@ export default async function VoyagePage() {
                       </div>
                       <Link
                         href={`/app/chat?kete=toro&agent=VOYAGE&trip=${trip.id}`}
-                        className="shrink-0 rounded-full bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-80"
+                        className="shrink-0 rounded-full bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-80"
                       >
                         Open in chat
                       </Link>
@@ -155,7 +155,7 @@ export default async function VoyagePage() {
         </section>
 
         <footer className="mt-16 border-t border-[rgba(35,33,31,0.08)] pt-6 text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
             voyage · part of the tōro whānau kete · every plan is a draft
           </p>
         </footer>

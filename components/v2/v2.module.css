@@ -55,7 +55,7 @@
 /* the locked brand phrase rides the wordmark on every surface */
 .navTag {
   font-family: var(--font-mono), monospace;
-  font-size: 8.5px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -81,7 +81,7 @@
 .navLinks::-webkit-scrollbar { display: none; }
 .navLink {
   font-family: var(--font-mono), monospace;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .1em;
   color: #F5F1F2;
@@ -109,7 +109,7 @@
   border-radius: 999px;
   background: #F5F1F2;
   font-family: var(--font-mono), monospace;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .08em;
   color: #240B21;
@@ -157,7 +157,7 @@
   .navUtilities { flex: 0 0 auto; }
   .navCta {
     padding: 8px 14px !important;
-    font-size: 9px;
+    font-size: 12px;
   }
   .navSignIn {
     display: none;

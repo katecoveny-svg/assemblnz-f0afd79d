@@ -45,7 +45,7 @@ export function OpsShell({
   ];
 
   const densityMap = {
-    quiet: 'opacity-50 text-[10px]',
+    quiet: 'opacity-50 text-[12px]',
     medium: 'opacity-80 text-xs',
     bold: 'opacity-100 text-sm font-medium',
   } as const;
@@ -138,7 +138,7 @@ export function OpsShell({
               href={config.siteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-[11px] font-semibold lowercase tracking-[0.06em] text-[color:var(--brand-ink)] transition-colors hover:bg-black/10"
+              className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-[12px] font-semibold lowercase tracking-[0.06em] text-[color:var(--brand-ink)] transition-colors hover:bg-black/10"
             >
               {config.siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')} ↗
             </a>
@@ -191,7 +191,7 @@ export function OpsShell({
               <span style={{ color: ASSEMBL_GOLD }}>.</span>
             </p>
             <AssemblMotto />
-            <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               ops surface by <AssemblWordmark /> · Aotearoa
             </span>
           </div>

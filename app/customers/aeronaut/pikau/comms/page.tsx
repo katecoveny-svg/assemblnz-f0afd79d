@@ -32,7 +32,7 @@ export default async function CommsPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Pill tone={c.status === 'sent' ? 'ok' : c.status === 'approved' ? 'brass' : 'warn'}>{c.status}</Pill>
-                <span className="text-[0.68rem] text-[color:var(--air-slate)]">{formatNzDateTime(c.createdIso)}</span>
+                <span className="text-[0.75rem] text-[color:var(--air-slate)]">{formatNzDateTime(c.createdIso)}</span>
               </div>
             </div>
             <p className="mb-2 text-xs text-[color:var(--air-slate)]">To: {c.to}</p>

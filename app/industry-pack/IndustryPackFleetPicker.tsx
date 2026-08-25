@@ -49,14 +49,14 @@ export function IndustryPackFleetPicker() {
       >
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--kete-accent)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--kete-accent)]">
               {kete.industry}
             </p>
             <h3 className="mt-2 font-display text-4xl font-light leading-none">
               {kete.name}
             </h3>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
             {groups.reduce((sum, group) => sum + group.agents.length, 0)} agents
           </p>
         </div>
@@ -65,7 +65,7 @@ export function IndustryPackFleetPicker() {
           {groups.map((group) => (
             <div key={group.phase}>
               <div className="mb-3 flex items-center gap-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   {group.label}
                 </p>
                 <div className="h-px flex-1 bg-[rgba(35,33,31,0.10)]" />
@@ -81,18 +81,18 @@ export function IndustryPackFleetPicker() {
                         <h4 className="font-display text-2xl font-light leading-none">
                           {agent.name}
                         </h4>
-                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                        <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                           {agent.role}
                         </p>
                       </div>
-                      <span className="rounded-full border border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                      <span className="rounded-full border border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                         Live
                       </span>
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
                       {agent.oneLiner}
                     </p>
-                    <div className="mt-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--kete-accent)]">
+                    <div className="mt-4 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--kete-accent)]">
                       <MessageCircle className="h-3.5 w-3.5" aria-hidden />
                       Live
                     </div>

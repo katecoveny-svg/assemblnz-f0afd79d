@@ -130,7 +130,7 @@ export function KeteAgentWidget({
         <section className="w-[min(calc(100vw-2rem),420px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[#FFF7EC] shadow-[0_24px_80px_rgba(35,33,31,0.24)]">
           <header className="flex items-start justify-between gap-4 border-b border-[rgba(35,33,31,0.10)] bg-white/70 p-4">
             <div className="min-w-0">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--kete-widget-accent)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--kete-widget-accent)]">
                 {copy.eyebrow}
               </p>
               <h2 className="mt-1 font-display text-2xl font-light leading-none text-[#3D4250]">
@@ -212,7 +212,7 @@ export function KeteAgentWidget({
               </span>
               <Link
                 href={fullUrl}
-                className="inline-flex items-center font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--kete-widget-accent)]"
+                className="inline-flex items-center font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--kete-widget-accent)]"
               >
                 Full chat
                 <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />

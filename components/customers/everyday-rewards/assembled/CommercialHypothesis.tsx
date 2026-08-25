@@ -94,7 +94,7 @@ export function CommercialHypothesis({ data }: { data: ScenarioRun }) {
           <ul style={{ listStyle: 'none', margin: '8px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
             {h.measures.map((m, i) => (
               <li key={m} style={{ fontSize: 14.5, color: NAVY, display: 'flex', gap: 10, alignItems: 'baseline' }}>
-                <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 11, color: ORANGE_DARK }}>{String(i + 1).padStart(2, '0')}</span>
+                <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, color: ORANGE_DARK }}>{String(i + 1).padStart(2, '0')}</span>
                 {m}
               </li>
             ))}
@@ -108,7 +108,7 @@ export function CommercialHypothesis({ data }: { data: ScenarioRun }) {
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: GREY }}>
+    <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: GREY }}>
       {children}
     </div>
   );

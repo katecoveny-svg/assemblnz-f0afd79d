@@ -176,7 +176,7 @@
 }
 .footerNote {
   font-family: var(--font-mono), 'Space Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   color: var(--dash-muted, #8a8678);
 }

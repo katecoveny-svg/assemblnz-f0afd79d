@@ -101,7 +101,7 @@ function InlineBadge({ hash, verifierUrl }: VerifierBadgeProps) {
         alignItems: 'center',
         gap: 4,
         fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-        fontSize: '0.72rem',
+        fontSize: '0.75rem',
         color: C.pounamu,
         textDecoration: 'none',
         letterSpacing: '0.04em',
@@ -157,7 +157,7 @@ function CompactBadge({
           style={{
             margin: '2px 0 0',
             fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-            fontSize: '0.62rem',
+            fontSize: '0.75rem',
             color: C.inkTertiary,
             letterSpacing: '0.08em',
             overflow: 'hidden',
@@ -204,7 +204,7 @@ function CardBadge({
           style={{
             margin: 0,
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.68rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: C.pounamu,
@@ -248,7 +248,7 @@ function CardBadge({
         style={{
           margin: '14px 0 0',
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '0.6rem',
+          fontSize: '0.75rem',
           color: C.inkTertiary,
           letterSpacing: '0.08em',
           wordBreak: 'break-all',
@@ -265,7 +265,7 @@ function Term({ children }: { children: React.ReactNode }) {
     <dt
       style={{
         fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: '0.6rem',
+        fontSize: '0.75rem',
         color: C.inkTertiary,
         letterSpacing: '0.18em',
         textTransform: 'uppercase',
@@ -284,7 +284,7 @@ function Val({ children, mono }: { children: React.ReactNode; mono?: boolean }) 
         fontFamily: mono
           ? "'IBM Plex Mono', monospace"
           : "'Inter', system-ui, sans-serif",
-        fontSize: '0.72rem',
+        fontSize: '0.75rem',
         color: C.ink,
         wordBreak: 'break-all',
       }}

@@ -123,7 +123,7 @@ export function ReferenceUpload({
               className="block max-h-60 max-w-[240px] rounded-[2px] border border-[color:var(--assembl-cloud)]"
             />
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-col font-mono text-[10.5px] tracking-[0.08em] text-[color:var(--text-secondary)]">
+              <div className="flex flex-col font-mono text-[12px] tracking-[0.08em] text-[color:var(--text-secondary)]">
                 <span className="break-all text-[color:var(--text-secondary)]">
                   {reference.filename}
                 </span>
@@ -135,7 +135,7 @@ export function ReferenceUpload({
                   e.stopPropagation();
                   onClear();
                 }}
-                className="bg-transparent p-0 font-mono text-[10.5px] lowercase tracking-[0.16em] text-[color:var(--text-primary)] hover:underline"
+                className="bg-transparent p-0 font-mono text-[12px] lowercase tracking-[0.16em] text-[color:var(--text-primary)] hover:underline"
               >
                 remove
               </button>
@@ -160,13 +160,13 @@ export function ReferenceUpload({
         }}
       />
 
-      <p className="font-mono text-[10px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
         kept in this browser. up to ~5 MB before storage may complain — reduce file size if so.
       </p>
 
       {reference && (
         <div className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-cloud)]/40 p-3.5">
-          <div className="mb-2 font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <div className="mb-2 font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             anchor to reference:{' '}
             <span className="text-[color:var(--text-primary)]">
               {strength.toFixed(2)}
@@ -182,7 +182,7 @@ export function ReferenceUpload({
             aria-label="image prompt strength"
             className="h-[2px] w-full cursor-pointer appearance-none rounded-[2px] bg-[color:var(--assembl-cloud)] outline-none [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-[color:var(--assembl-paper)] [&::-moz-range-thumb]:bg-[color:var(--text-primary)] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-[color:var(--assembl-paper)] [&::-webkit-slider-thumb]:bg-[color:var(--text-primary)]"
           />
-          <div className="mt-2 flex justify-between font-mono text-[9.5px] tracking-[0.14em] text-[color:var(--text-secondary)]">
+          <div className="mt-2 flex justify-between font-mono text-[12px] tracking-[0.14em] text-[color:var(--text-secondary)]">
             <span>loose</span>
             <span>← anchor →</span>
             <span>tight</span>

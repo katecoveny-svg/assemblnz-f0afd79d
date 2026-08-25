@@ -45,7 +45,7 @@ export default async function ImporterDetail({ params }: { params: Promise<{ id:
             <Row label="Entries YTD" value={String(importer.entriesThisYear)} />
           </dl>
           <div className="mt-4">
-            <p className="text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Contacts</p>
+            <p className="text-[0.75rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Contacts</p>
             {importer.contacts.map((c) => (
               <p key={c.email} className="mt-1 text-sm">
                 {c.name} · <span className="text-[color:var(--air-slate)]">{c.role}</span> · {c.email}
@@ -67,7 +67,7 @@ export default async function ImporterDetail({ params }: { params: Promise<{ id:
             <p className="text-sm text-[color:var(--air-slate)]">None recorded.</p>
           )}
           <div className="mt-4">
-            <p className="text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Common HS codes</p>
+            <p className="text-[0.75rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Common HS codes</p>
             <div className="mt-1.5 flex flex-wrap gap-2">
               {importer.commonHsCodes.length ? (
                 importer.commonHsCodes.map((c) => <Pill key={c} tone="navy">{c}</Pill>)

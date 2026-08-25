@@ -36,7 +36,7 @@ export default function EvidencePackPreviewPage() {
   return (
     <div className="bg-[color:var(--assembl-paper)] py-12">
       <header className="container py-8" data-print-hide>
-        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
           Internal · voyage-evidence-craft.md
         </p>
         <h1
@@ -80,7 +80,7 @@ function PackPreview({ pack }: { pack: typeof waihangaPack }) {
     <section id={pack.id} className="container scroll-mt-24">
       <header className="mx-auto mb-10 max-w-[640px]" data-print-hide>
         <p
-          className="font-mono text-[10px] uppercase tracking-[0.22em]"
+          className="font-mono text-[12px] uppercase tracking-[0.22em]"
           style={{ color: '#2B6B57' }}
         >
           {blurb?.lede}

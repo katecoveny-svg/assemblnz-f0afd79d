@@ -54,7 +54,7 @@ export function DirectorsCut({ data }: { data: ScenarioRun }) {
               }}
             >
               <div className={styles.tDot} />
-              <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, color: GREY }}>
+              <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, color: GREY }}>
                 {clockLabel(e.timestamp)}
               </div>
               <div style={{ fontWeight: 600, fontSize: 13.5, color: muted ? GREY : NAVY, marginTop: 4, lineHeight: 1.35 }}>

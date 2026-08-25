@@ -44,11 +44,11 @@ export default function DangerousGoodsPage() {
             <ul className="mb-2 list-disc pl-4 text-xs text-[color:var(--air-warn)]">{result.errors.map((e, i) => <li key={i}>{e}</li>)}</ul>
           ) : null}
           {result.declaration ? (
-            <pre className="whitespace-pre-wrap rounded-lg border border-[color:var(--air-line)] bg-white p-3 font-mono text-[0.72rem] text-[color:var(--air-ink)]">{result.declaration}</pre>
+            <pre className="whitespace-pre-wrap rounded-lg border border-[color:var(--air-line)] bg-white p-3 font-mono text-[0.75rem] text-[color:var(--air-ink)]">{result.declaration}</pre>
           ) : (
             <p className="text-sm text-[color:var(--air-slate)]">Complete the fields above to generate a draft.</p>
           )}
-          <p className="mt-2 flex items-center gap-2 text-[0.7rem] text-[color:var(--air-slate)]"><Pill tone="navy">basis</Pill>{result.citation}</p>
+          <p className="mt-2 flex items-center gap-2 text-[0.75rem] text-[color:var(--air-slate)]"><Pill tone="navy">basis</Pill>{result.citation}</p>
         </Card>
       </div>
     </div>

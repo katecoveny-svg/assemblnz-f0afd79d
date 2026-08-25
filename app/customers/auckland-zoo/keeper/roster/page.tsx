@@ -44,7 +44,7 @@ export default function RosterPage() {
             <thead>
               <tr style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
                 {['Staff', 'Role', 'Area', 'Shift', 'Rate'].map((h) => (
-                  <th key={h} className="px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-[0.12em]">{h}</th>
+                  <th key={h} className="px-4 py-2.5 text-left font-mono text-[12px] uppercase tracking-[0.12em]">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -55,7 +55,7 @@ export default function RosterPage() {
                   <tr key={s.id} className="border-t" style={{ borderColor: 'var(--tenant-line)', background: 'var(--tenant-surface)' }}>
                     <td className="px-4 py-2.5 font-medium" style={{ color: 'var(--tenant-ink)' }}>
                       {s.staff}
-                      {s.onCall ? <span className="ml-1.5 rounded px-1.5 py-0.5 text-[9px] font-semibold uppercase" style={{ background: 'var(--tenant-accent)', color: '#fff' }}>on call</span> : null}
+                      {s.onCall ? <span className="ml-1.5 rounded px-1.5 py-0.5 text-[12px] font-semibold uppercase" style={{ background: 'var(--tenant-accent)', color: '#fff' }}>on call</span> : null}
                     </td>
                     <td className="px-4 py-2.5" style={{ color: 'var(--tenant-muted)' }}>{s.role}</td>
                     <td className="px-4 py-2.5" style={{ color: 'var(--tenant-ink)' }}>{s.area}</td>

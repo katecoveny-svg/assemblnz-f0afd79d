@@ -170,7 +170,7 @@ export function AgentWorkingHero({
               <span
                 style={{
                   fontFamily: 'var(--ff-mono)',
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   color: 'var(--muted)',

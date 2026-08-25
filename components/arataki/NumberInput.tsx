@@ -21,7 +21,7 @@ export function NumberInput({
 }: NumberInputProps) {
   return (
     <label className="block">
-      <span className="mb-2 block max-w-[16rem] break-words font-mono text-[10px] uppercase tracking-[0.16em] text-[#5C6273] [overflow-wrap:anywhere] md:max-w-none md:tracking-[0.22em]">
+      <span className="mb-2 block max-w-[16rem] break-words font-mono text-[12px] uppercase tracking-[0.16em] text-[#5C6273] [overflow-wrap:anywhere] md:max-w-none md:tracking-[0.22em]">
         {label}
       </span>
       <span className="flex h-12 items-center rounded-[8px] border border-[#C8BBA9]/70 bg-white/78 px-3 focus-within:border-[#3A3832]">

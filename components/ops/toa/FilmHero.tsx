@@ -48,7 +48,7 @@ export function FilmHero() {
         />
       )}
       <span
-        className="absolute bottom-3 right-4 rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.18em]"
+        className="absolute bottom-3 right-4 rounded-full px-3 py-1 text-[12px] uppercase tracking-[0.18em]"
         style={{ backgroundColor: 'rgba(22,21,22,0.65)', color: '#bfa37a' }}
       >
         16A · brand film · concept

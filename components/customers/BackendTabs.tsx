@@ -36,7 +36,7 @@ const TABS = ["the agent's brain", "today's activity", 'mana receipts', 'draft q
 function MicroLabel({ children }: { children: ReactNode }) {
   return (
     <span
-      className="text-[9px] uppercase"
+      className="text-[12px] uppercase"
       style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
     >
       {children}
@@ -71,7 +71,7 @@ export function BackendTabs({
             key={t}
             type="button"
             onClick={() => setTab(t)}
-            className={`rounded-t-lg px-3 py-2 text-[11px] transition-colors ${
+            className={`rounded-t-lg px-3 py-2 text-[12px] transition-colors ${
               tab === t ? 'bg-black/5 font-semibold' : 'hover:bg-black/[0.03]'
             }`}
           >
@@ -85,7 +85,7 @@ export function BackendTabs({
           <div className="grid gap-5 md:grid-cols-2">
             <div>
               <MicroLabel>system prompt · redacted</MicroLabel>
-              <pre className="mt-2 max-h-64 overflow-y-auto whitespace-pre-wrap rounded-lg bg-black/[0.04] p-3 font-mono text-[11px] leading-relaxed">
+              <pre className="mt-2 max-h-64 overflow-y-auto whitespace-pre-wrap rounded-lg bg-black/[0.04] p-3 font-mono text-[12px] leading-relaxed">
                 {brain.promptExcerpt}
               </pre>
               <p className="mt-3 text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
@@ -98,12 +98,12 @@ export function BackendTabs({
               <ul className="mt-2 space-y-2">
                 {brain.sources.map((s) => (
                   <li key={s.label} className="flex items-start gap-2">
-                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-black/5 text-[10px] font-bold">
+                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-black/5 text-[12px] font-bold">
                       {s.tier}
                     </span>
                     <span>
                       <span className="text-[13px]">{s.label}</span>
-                      <span className="block text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+                      <span className="block text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
                         {s.note}
                       </span>
                     </span>
@@ -120,10 +120,10 @@ export function BackendTabs({
             <ul className="mt-3 space-y-2.5">
               {activity.map((a, i) => (
                 <li key={i} className="flex items-baseline gap-3">
-                  <span className="w-12 shrink-0 font-mono text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+                  <span className="w-12 shrink-0 font-mono text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
                     {a.at}
                   </span>
-                  <span className="w-20 shrink-0 rounded-full bg-black/5 px-2 py-0.5 text-center text-[10px] uppercase" style={{ letterSpacing: '0.08em' }}>
+                  <span className="w-20 shrink-0 rounded-full bg-black/5 px-2 py-0.5 text-center text-[12px] uppercase" style={{ letterSpacing: '0.08em' }}>
                     {a.kind}
                   </span>
                   <span className="text-[13px]">{a.note}</span>
@@ -141,21 +141,21 @@ export function BackendTabs({
                 <li key={r.id} className="rounded-xl border border-black/5 bg-white p-3">
                   <div className="flex flex-wrap items-baseline gap-2">
                     <span className="font-mono text-xs font-semibold">{r.id}</span>
-                    <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+                    <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
                       {r.createdAt}
                     </span>
                     {r.hitlStatus ? (
-                      <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] uppercase tracking-wider text-amber-900">
+                      <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[12px] uppercase tracking-wider text-amber-900">
                         {r.hitlStatus.replace(/_/g, ' ')}
                       </span>
                     ) : null}
                   </div>
                   {r.citations.length > 0 && (
-                    <p className="mt-1.5 text-[11px]" style={{ color: '#3E3C36' }}>
+                    <p className="mt-1.5 text-[12px]" style={{ color: '#3E3C36' }}>
                       cites: {r.citations.map((c) => `${c.source}${c.ref ? ` (${c.ref})` : ''}`).join(' · ')}
                     </p>
                   )}
-                  <p className="mt-1.5 break-all font-mono text-[10px]" style={{ color: ASSEMBL_WARM_GREY }}>
+                  <p className="mt-1.5 break-all font-mono text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
                     {r.receiptHash}
                     {r.prevHash ? ` ← ${r.prevHash.slice(0, 24)}…` : ' · chain head'}
                   </p>
@@ -177,10 +177,10 @@ export function BackendTabs({
                 {drafts.map((d, i) => (
                   <li key={i} className="rounded-xl border border-black/5 bg-white p-3">
                     <div className="flex items-baseline gap-2">
-                      <span className="rounded-full bg-black/5 px-2 py-0.5 text-[10px] uppercase" style={{ letterSpacing: '0.08em' }}>
+                      <span className="rounded-full bg-black/5 px-2 py-0.5 text-[12px] uppercase" style={{ letterSpacing: '0.08em' }}>
                         {d.channel}
                       </span>
-                      <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+                      <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
                         {d.audience}
                       </span>
                     </div>

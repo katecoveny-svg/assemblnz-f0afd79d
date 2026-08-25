@@ -35,6 +35,18 @@ const assemblyParts = [
   { key: 'evidence', label: 'Evidence', value: 'Sources and edits recorded', meta: 'proof attached', x: 290, y: 225, rotation: -14, left: 65, top: 69 },
 ] as const;
 
+/**
+ * Where a panel sits along the track, in the track's own scroll coordinates.
+ *
+ * The panels carry a viewport-driven `zoom` (app/active-journey-home.css) so the
+ * fixed-pixel artboards scale up on large displays. `offsetLeft` and
+ * `offsetWidth` report a zoomed element's geometry in its own scaled-up
+ * coordinate space, not the track's, so they under-report position by the zoom
+ * factor. Rendered rectangles do not — measure with those instead.
+ */
+const trackOffset = (track: HTMLElement, target: HTMLElement) =>
+  track.scrollLeft + target.getBoundingClientRect().left - track.getBoundingClientRect().left;
+
 export function ActiveJourneyHome() {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({ active: false, x: 0, left: 0 });
@@ -58,8 +70,10 @@ export function ActiveJourneyHome() {
         if (reducedMotion.matches) {
           setAssemblyProgress(1);
         } else {
-          const start = signature.offsetLeft - track.clientWidth * 0.62;
-          const end = signature.offsetLeft + signature.offsetWidth * 0.48;
+          const rect = signature.getBoundingClientRect();
+          const left = trackOffset(track, signature);
+          const start = left - track.clientWidth * 0.62;
+          const end = left + rect.width * 0.48;
           setAssemblyProgress(Math.max(0, Math.min(1, (track.scrollLeft - start) / Math.max(1, end - start))));
         }
       }
@@ -78,8 +92,8 @@ export function ActiveJourneyHome() {
     };
     const keyboard = (event: KeyboardEvent) => {
       if (!desktop.matches) return;
-      if (event.key === 'ArrowRight') track.scrollBy({ left: Math.min(620, window.innerWidth * 0.58), behavior: 'smooth' });
-      if (event.key === 'ArrowLeft') track.scrollBy({ left: -Math.min(620, window.innerWidth * 0.58), behavior: 'smooth' });
+      if (event.key === 'ArrowRight') track.scrollBy({ left: track.clientWidth * 0.6, behavior: 'smooth' });
+      if (event.key === 'ArrowLeft') track.scrollBy({ left: -track.clientWidth * 0.6, behavior: 'smooth' });
     };
 
     update();
@@ -101,7 +115,7 @@ export function ActiveJourneyHome() {
     const track = trackRef.current;
     const target = document.getElementById(id);
     if (!track || !target) return;
-    track.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    track.scrollTo({ left: trackOffset(track, target), behavior: 'smooth' });
   };
 
   const pointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -291,7 +305,7 @@ export function ActiveJourneyHome() {
       <footer className="aj-footer">
         <nav aria-label="assembl story navigation">{destinations.map(([id, label], index) => <button key={id} onClick={() => goTo(id)}><span>0{index + 1}</span>{label}</button>)}</nav>
         <div className="aj-progress"><i style={{ transform: `scaleX(${progress})` }} /></div>
-        <button className="aj-next" onClick={() => trackRef.current?.scrollBy({ left: window.matchMedia('(min-width: 761px)').matches ? Math.min(720, window.innerWidth * 0.65) : (trackRef.current?.clientWidth ?? window.innerWidth), behavior: 'smooth' })}>SIDE SCROLL <i>→</i></button>
+        <button className="aj-next" onClick={() => trackRef.current?.scrollBy({ left: (trackRef.current?.clientWidth ?? window.innerWidth) * (window.matchMedia('(min-width: 761px)').matches ? 0.7 : 1), behavior: 'smooth' })}>SIDE SCROLL <i>→</i></button>
       </footer>
     </div>
   );

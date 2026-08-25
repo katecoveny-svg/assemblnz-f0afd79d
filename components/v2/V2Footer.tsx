@@ -29,7 +29,7 @@ const TOOL_LINKS: Array<[string, string]> = [
 const linkStyle = {
   color: '#240B21',
   fontFamily: 'var(--font-mono), Space Mono, monospace',
-  fontSize: 9,
+  fontSize: 12,
   fontWeight: 700,
   letterSpacing: '0.08em',
   textDecoration: 'none',
@@ -53,7 +53,7 @@ export function V2Footer() {
     >
       <div>
         <AssemblWordmark className="text-[24px] leading-none" style={{ letterSpacing: '0.12em', color: '#240B21' }} />
-        <p style={{ margin: '5px 0 0', color: '#654A4E', fontSize: 10, letterSpacing: '0.06em' }}>
+        <p style={{ margin: '5px 0 0', color: '#654A4E', fontSize: 12, letterSpacing: '0.06em' }}>
           See what your agent is made of. Built in Aotearoa.
         </p>
       </div>
@@ -72,7 +72,7 @@ export function V2Footer() {
           <span
             style={{
               fontFamily: 'var(--font-mono), Space Mono, monospace',
-              fontSize: 9,
+              fontSize: 12,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
               color: '#654A4E',

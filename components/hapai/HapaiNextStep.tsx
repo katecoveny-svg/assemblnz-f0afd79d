@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 export default function HapaiNextStep() {
   return (
     <section className="rounded-[8px] border border-[rgba(199,155,31,0.42)] bg-white/60 p-6">
-      <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
         Next step
       </p>
       <h2 className="mt-3 font-display text-3xl leading-none text-[color:var(--assembl-pounamu)]">

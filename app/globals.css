@@ -678,7 +678,7 @@
   font-family: var(--font-mono), ui-monospace, monospace;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   color: var(--air-brass-deep);
 }
 .air-card {
@@ -693,7 +693,7 @@
 .air-pill {
   display: inline-flex; align-items: center; gap: 0.4rem;
   font-family: var(--font-mono), monospace;
-  font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 0.2rem 0.6rem; border-radius: 999px; white-space: nowrap;
 }
 .air-pill-ok    { background: rgba(47,122,85,0.12);  color: var(--air-ok); }

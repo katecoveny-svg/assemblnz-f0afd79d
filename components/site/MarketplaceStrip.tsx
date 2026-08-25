@@ -12,7 +12,7 @@ export function MarketplaceStrip() {
   return (
     <div id="marketplace" className="mx-auto max-w-[1500px]">
       <div className="max-w-4xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
           WORKFLOW PREVIEW
         </p>
         <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">

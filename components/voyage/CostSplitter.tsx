@@ -389,19 +389,19 @@ export function CostSplitter({
         <h3 className="font-display text-xl font-light text-[color:var(--text-primary)]">
           Cost splitter
         </h3>
-        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+        <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
           local only · nothing leaves this device
         </p>
       </header>
 
       {/* Setup */}
       <details className="mb-4 rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 px-3 py-2">
-        <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
+        <summary className="cursor-pointer font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
           Setup · {state.tripCurrency} → {state.homeCurrency} @ {state.exchangeRate}
         </summary>
         <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
           <label className="flex flex-col gap-1">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Trip currency
             </span>
             <select
@@ -419,7 +419,7 @@ export function CostSplitter({
             </select>
           </label>
           <label className="flex flex-col gap-1">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Home currency
             </span>
             <select
@@ -437,7 +437,7 @@ export function CostSplitter({
             </select>
           </label>
           <label className="flex flex-col gap-1">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               FX rate (1 {state.tripCurrency} → {state.homeCurrency})
             </span>
             <input
@@ -455,7 +455,7 @@ export function CostSplitter({
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Budget ({state.budgetCurrency})
             </span>
             <input
@@ -479,7 +479,7 @@ export function CostSplitter({
       {/* Totals */}
       <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
         <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/85 p-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Spent
           </p>
           <p className="mt-1 font-display text-lg font-light text-[color:var(--text-primary)]">
@@ -487,7 +487,7 @@ export function CostSplitter({
           </p>
         </div>
         <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/85 p-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Remaining
           </p>
           <p
@@ -504,7 +504,7 @@ export function CostSplitter({
 
       {balances.length > 0 ? (
         <div className="mb-4 rounded-card border border-[rgba(35,33,31,0.10)] bg-white/85 p-3">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Balances
           </p>
           <ul className="mt-2 space-y-1 text-sm">
@@ -513,7 +513,7 @@ export function CostSplitter({
                 {b.from.name} owes {b.to.name}{' '}
                 <strong>{fmtMoney(b.tripAmount, state.tripCurrency)}</strong>
                 {state.tripCurrency !== state.homeCurrency ? (
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                     {' '}
                     · ≈ {fmtMoney(b.homeAmount, state.homeCurrency)}
                   </span>
@@ -528,7 +528,7 @@ export function CostSplitter({
       <form onSubmit={submit} className="mb-4 space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Date
             </span>
             <input
@@ -539,7 +539,7 @@ export function CostSplitter({
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Category
             </span>
             <select
@@ -558,7 +558,7 @@ export function CostSplitter({
           </label>
         </div>
         <label className="flex flex-col gap-1 text-sm">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Description
           </span>
           <input
@@ -573,7 +573,7 @@ export function CostSplitter({
         </label>
         <div className="grid grid-cols-2 gap-3">
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Amount
             </span>
             <input
@@ -588,7 +588,7 @@ export function CostSplitter({
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Currency
             </span>
             <select
@@ -607,7 +607,7 @@ export function CostSplitter({
           </label>
         </div>
         <label className="flex flex-col gap-1 text-sm">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Paid by
           </span>
           <select
@@ -623,7 +623,7 @@ export function CostSplitter({
           </select>
         </label>
         <fieldset className="flex flex-col gap-1 text-sm">
-          <legend className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <legend className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Shared with
           </legend>
           <div className="flex flex-wrap gap-2">
@@ -644,7 +644,7 @@ export function CostSplitter({
                     onChange={() => toggleSharedWith(t.id)}
                     className="h-3 w-3"
                   />
-                  <span className="font-mono text-[10px] uppercase tracking-[0.18em]">
+                  <span className="font-mono text-[12px] uppercase tracking-[0.18em]">
                     {t.name}
                   </span>
                 </label>
@@ -655,7 +655,7 @@ export function CostSplitter({
         <div className="flex flex-wrap gap-2">
           <button
             type="submit"
-            className="rounded-card bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-85"
+            className="rounded-card bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-85"
           >
             {editingId ? 'save changes' : 'add expense'}
           </button>
@@ -675,7 +675,7 @@ export function CostSplitter({
                   sharedWith: travellers.map((t) => t.id),
                 });
               }}
-              className="rounded-card border border-[rgba(35,33,31,0.15)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--text-primary)] transition hover:bg-white"
+              className="rounded-card border border-[rgba(35,33,31,0.15)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-primary)] transition hover:bg-white"
             >
               cancel
             </button>
@@ -686,7 +686,7 @@ export function CostSplitter({
       {/* Expense list */}
       <section aria-label="Expenses">
         <header className="mb-2 flex items-center justify-between">
-          <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <h4 className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Expenses ({state.expenses.length})
           </h4>
           <div className="flex gap-2">
@@ -694,7 +694,7 @@ export function CostSplitter({
               type="button"
               onClick={exportCsv}
               disabled={state.expenses.length === 0}
-              className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white disabled:opacity-50"
+              className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)] transition hover:bg-white disabled:opacity-50"
             >
               export csv
             </button>
@@ -702,7 +702,7 @@ export function CostSplitter({
               type="button"
               onClick={clearAll}
               disabled={state.expenses.length === 0}
-              className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition hover:bg-white disabled:opacity-50"
+              className="rounded-full border border-[rgba(35,33,31,0.15)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition hover:bg-white disabled:opacity-50"
             >
               clear all
             </button>
@@ -726,7 +726,7 @@ export function CostSplitter({
                       <p className="text-sm text-[color:var(--text-primary)]">
                         {e.description || '(no description)'}
                       </p>
-                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                      <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                         {e.date} · {e.category} · paid by {payer?.name ?? '?'}
                       </p>
                     </div>
@@ -738,14 +738,14 @@ export function CostSplitter({
                     <button
                       type="button"
                       onClick={() => startEdit(e)}
-                      className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] transition hover:bg-white"
+                      className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] transition hover:bg-white"
                     >
                       edit
                     </button>
                     <button
                       type="button"
                       onClick={() => removeExpense(e.id)}
-                      className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:bg-white"
+                      className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:bg-white"
                     >
                       delete
                     </button>

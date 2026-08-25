@@ -67,7 +67,7 @@ const card: CSSProperties = {
   padding: 14,
 };
 function pill(color: string): CSSProperties {
-  return { fontSize: 11.5, fontWeight: 600, color, textDecoration: 'none', border: `1px solid ${color}66`, borderRadius: 999, padding: '5px 11px', background: `${color}12`, display: 'inline-block' };
+  return { fontSize: 12, fontWeight: 600, color, textDecoration: 'none', border: `1px solid ${color}66`, borderRadius: 999, padding: '5px 11px', background: `${color}12`, display: 'inline-block' };
 }
 
 export function FamilyRides() {
@@ -77,19 +77,19 @@ export function FamilyRides() {
         <div key={r.who + r.trip} style={card}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
             <div style={{ fontSize: 14.5, fontWeight: 600, color: INK }}>{r.who} · {r.trip}</div>
-            {r.teens ? <span style={{ fontSize: 9.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE, border: `1px solid ${BLUE}55`, borderRadius: 999, padding: '2px 7px' }}>Uber Teens</span> : null}
+            {r.teens ? <span style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: BLUE, border: `1px solid ${BLUE}55`, borderRadius: 999, padding: '2px 7px' }}>Uber Teens</span> : null}
           </div>
           <div style={{ fontSize: 12, color: MUTED, marginTop: 3 }}>{r.when} · {r.from} → home</div>
 
           <div style={{ display: 'flex', gap: 14, marginTop: 10, alignItems: 'baseline' }}>
             <div>
               <div style={{ fontSize: 18, fontWeight: 700, color: INK }}>{r.est}</div>
-              <div style={{ fontSize: 10.5, color: MUTED, letterSpacing: '0.06em', textTransform: 'uppercase' }}>est. fare</div>
+              <div style={{ fontSize: 12, color: MUTED, letterSpacing: '0.06em', textTransform: 'uppercase' }}>est. fare</div>
             </div>
             <div style={{ fontSize: 12, color: SAGE, fontWeight: 600 }}>{r.eta}</div>
           </div>
 
-          {r.note ? <div style={{ fontSize: 11.5, color: MUTED, marginTop: 8, lineHeight: 1.5 }}>{r.note}</div> : null}
+          {r.note ? <div style={{ fontSize: 12, color: MUTED, marginTop: 8, lineHeight: 1.5 }}>{r.note}</div> : null}
 
           <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
             <a href={uberDeepLink(r.to, r.from)} target="_blank" rel="noreferrer" style={pill(CORAL)}>Request in Uber (needs approval) ↗</a>
@@ -100,7 +100,7 @@ export function FamilyRides() {
 
       <div style={{ ...card, borderStyle: 'dashed', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontSize: 12.5, color: INK, fontWeight: 600 }}>Confirm-and-tap only</div>
-        <p style={{ fontSize: 11.5, color: MUTED, lineHeight: 1.55, marginTop: 6 }}>
+        <p style={{ fontSize: 12, color: MUTED, lineHeight: 1.55, marginTop: 6 }}>
           I never book a ride for you. Tapping opens Uber with the trip pre-filled — you check the fare and confirm.
           Estimates are indicative (live per-trip quotes need Uber’s Developer API — the estimate tool doesn’t cover NZ). Uber Connect, the parcel courier, covers Auckland. For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
         </p>
@@ -115,12 +115,12 @@ export function FamilyRides() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(230px,1fr))', gap: 10, marginTop: 10 }}>
           <div style={{ border: `1px solid ${GOLD}33`, borderRadius: 10, padding: '10px 11px' }}>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: INK }}>Uber Connect</div>
-            <div style={{ fontSize: 10.5, color: MUTED, margin: '3px 0 8px' }}>Uber’s send-a-parcel courier — <strong style={{ color: SAGE }}>live in Auckland &amp; metro</strong>, up to 20&nbsp;kg. Choose “Uber Connect” in the app.</div>
+            <div style={{ fontSize: 12, color: MUTED, margin: '3px 0 8px' }}>Uber’s send-a-parcel courier — <strong style={{ color: SAGE }}>live in Auckland &amp; metro</strong>, up to 20&nbsp;kg. Choose “Uber Connect” in the app.</div>
             <a href={uberConnectSend('Kohimarama, Auckland', 'Sacred Heart College, Glendowie')} target="_blank" rel="noreferrer" style={pill(CORAL)}>Send with Uber Connect ↗</a>
           </div>
           <div style={{ border: `1px solid ${GOLD}33`, borderRadius: 10, padding: '10px 11px' }}>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: INK }}>Delivereasy</div>
-            <div style={{ fontSize: 10.5, color: MUTED, margin: '3px 0 8px' }}>NZ-owned courier — Auckland / Wellington / Christchurch. Their API is <strong style={{ color: GOLD }}>partner-gated</strong>, so it’s booked by hand today.</div>
+            <div style={{ fontSize: 12, color: MUTED, margin: '3px 0 8px' }}>NZ-owned courier — Auckland / Wellington / Christchurch. Their API is <strong style={{ color: GOLD }}>partner-gated</strong>, so it’s booked by hand today.</div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <a href={delivereasyHome()} target="_blank" rel="noreferrer" style={pill(SAGE)}>Send with Delivereasy ↗</a>
               <form action={draftDelivereasyIntakeAction}>
@@ -129,12 +129,12 @@ export function FamilyRides() {
             </div>
           </div>
         </div>
-        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 8 }}>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 8 }}>
           You tap and confirm the fare — we never dispatch. Rural coverage varies; where neither courier runs, it’s a manual drop. We’ve drafted a Delivereasy partner outreach — it’s waiting in your approvals.
         </div>
       </div>
 
-      <div style={{ gridColumn: '1 / -1', fontSize: 10.5, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
+      <div style={{ gridColumn: '1 / -1', fontSize: 12, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
         <strong style={{ color: INK }}>Coming next: Uber Direct + Delivereasy partner API.</strong> Books couriers, tracks delivery, and closes the loop end-to-end. Requires commercial accounts (Kate’s pitching both).
       </div>
     </div>

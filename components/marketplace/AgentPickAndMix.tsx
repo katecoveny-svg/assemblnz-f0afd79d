@@ -167,7 +167,7 @@ export function AgentPickAndMix({ agents }: { agents: AgentCard[] }) {
               <span
                 style={{
                   ...body,
-                  fontSize: 9.5,
+                  fontSize: 12,
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
                   whiteSpace: 'nowrap',
@@ -186,7 +186,7 @@ export function AgentPickAndMix({ agents }: { agents: AgentCard[] }) {
                     key={b}
                     style={{
                       ...body,
-                      fontSize: 10.5,
+                      fontSize: 12,
                       padding: '3px 9px',
                       borderRadius: 999,
                       border: `1px solid rgba(191,163,122,0.4)`,

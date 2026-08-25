@@ -62,7 +62,7 @@ export function EvidencePackCitations({ citations }: CitationsProps) {
             <span
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '0.7rem',
+                fontSize: '0.75rem',
                 color: '#3A3832',
                 fontWeight: 500,
                 letterSpacing: '0.12em',
@@ -99,7 +99,7 @@ export function EvidencePackCitations({ citations }: CitationsProps) {
                   className="mt-1"
                   style={{
                     fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: '0.62rem',
+                    fontSize: '0.75rem',
                     color: '#8E8A82',
                     letterSpacing: '0.08em',
                     wordBreak: 'break-all',

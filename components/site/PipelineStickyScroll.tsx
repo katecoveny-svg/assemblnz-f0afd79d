@@ -51,7 +51,7 @@ function DemoPanel({ phase }: { phase: number }) {
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
       className="rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#1f211f] p-5 text-[#FFF7EC] shadow-[0_28px_80px_rgba(35,33,31,0.22)]"
     >
-      <div className="flex items-center gap-2 border-b border-white/10 pb-4 font-mono text-[11px] uppercase tracking-[0.08em] text-white/60">
+      <div className="flex items-center gap-2 border-b border-white/10 pb-4 font-mono text-[12px] uppercase tracking-[0.08em] text-white/60">
         <span className="h-2 w-2 rounded-full bg-[#C79B1F]" />
         assembl run terminal
       </div>
@@ -60,7 +60,7 @@ function DemoPanel({ phase }: { phase: number }) {
           <Icon className="h-5 w-5" aria-hidden />
         </span>
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-white/55">Phase {String(phase + 1).padStart(2, '0')}</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-white/55">Phase {String(phase + 1).padStart(2, '0')}</p>
           <h3 className="mt-1 font-display text-3xl leading-none text-[#FFF7EC]">{content[0]}</h3>
         </div>
       </div>
@@ -69,7 +69,7 @@ function DemoPanel({ phase }: { phase: number }) {
         <p className="rounded-[6px] bg-white/8 p-3 text-[#C79B1F]">{content[2]}</p>
       </div>
       <div className="mt-8 rounded-[6px] border border-white/10 bg-[#FFF7EC] p-4 text-[#23211F]">
-        <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#6F6158]">Visible output</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-[#6F6158]">Visible output</p>
         <div className="mt-4 h-28 border-l-4 border-[#3A3832] bg-white p-4">
           <p className="font-display text-2xl leading-none">{content[0]}</p>
           <p className="mt-3 text-sm leading-relaxed text-[#6F6158]">{content[1]}</p>

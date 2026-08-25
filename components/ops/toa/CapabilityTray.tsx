@@ -74,7 +74,7 @@ export function CapabilityTray() {
           className="flex flex-col gap-2 rounded-xl border border-black/5 bg-white p-4 transition hover:border-[#bfa37a]/60"
         >
           <span className="text-[#161516]">{j.icon}</span>
-          <h3 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#161516]">
+          <h3 className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#161516]">
             {j.name}
           </h3>
           <p className="text-[12px] leading-snug text-[#6f6f64]">{j.line}</p>
@@ -84,14 +84,14 @@ export function CapabilityTray() {
               href={j.href}
               target="_blank"
               rel="noreferrer"
-              className="mt-auto text-[11px] font-medium text-[#1a1918] underline decoration-[#bfa37a] decoration-2 underline-offset-2 transition hover:text-[#8a744f]"
+              className="mt-auto text-[12px] font-medium text-[#1a1918] underline decoration-[#bfa37a] decoration-2 underline-offset-2 transition hover:text-[#8a744f]"
             >
               {j.cta} →
             </a>
           ) : (
             <Link
               href={j.href}
-              className="mt-auto text-[11px] font-medium text-[#1a1918] underline decoration-[#bfa37a] decoration-2 underline-offset-2 transition hover:text-[#8a744f]"
+              className="mt-auto text-[12px] font-medium text-[#1a1918] underline decoration-[#bfa37a] decoration-2 underline-offset-2 transition hover:text-[#8a744f]"
             >
               {j.cta} →
             </Link>

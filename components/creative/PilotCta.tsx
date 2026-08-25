@@ -59,7 +59,7 @@ export function PilotCta() {
         style={{ padding: "11px 22px", borderRadius: 999, border: "none", background: INK, color: PAPER, fontSize: 14, fontWeight: 600, cursor: busy ? "default" : "pointer" }}>
         {busy ? "Sending…" : "Book a pilot"}
       </button>
-      <p style={{ fontSize: 11.5, color: GREY, marginTop: 8 }}>Draft-only demo · action dispatch is off · nothing is emailed automatically.</p>
+      <p style={{ fontSize: 12, color: GREY, marginTop: 8 }}>Draft-only demo · action dispatch is off · nothing is emailed automatically.</p>
     </form>
   );
 }

@@ -94,7 +94,7 @@
   margin: 0;
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   color: #6a6560;
   max-width: 22ch;
@@ -243,7 +243,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.13em;
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   color: #8b857e;
 }
 /* Middot separators instead of six pill outlines — the words carry the same
@@ -258,7 +258,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: #8b857e;
 }
 .hintDot {
@@ -281,7 +281,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
   text-decoration: none;
   padding: 0.45rem 0.75rem;
@@ -326,7 +326,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 
@@ -421,7 +421,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 
@@ -432,7 +432,7 @@
   }
   .eyebrow {
     max-width: 14ch;
-    font-size: 0.6rem;
+    font-size: 0.75rem;
   }
   .headline {
     font-size: clamp(2rem, 9vw, 2.6rem);

@@ -65,7 +65,7 @@ export function PilotGateView({
       <div style={{ width: '100%', maxWidth: 430, position: 'relative' }}>
         <div
           style={{
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
             color: ASSEMBL_WARM_GREY,
@@ -164,7 +164,7 @@ export function PilotGateView({
           }}
         >
           <AssemblMotto />
-          <span style={{ fontSize: 11, color: ASSEMBL_WARM_GREY }}>
+          <span style={{ fontSize: 12, color: ASSEMBL_WARM_GREY }}>
             built by <AssemblWordmark /> · Aotearoa
           </span>
         </div>

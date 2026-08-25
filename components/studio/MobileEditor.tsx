@@ -43,7 +43,7 @@ export function MobileEditor() {
         <div className="flex items-center gap-4">
           <AgentAvatar slug="assembl" size={72} round />
           <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">koro · sample agent</div>
+            <div className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">koro · sample agent</div>
             <div className="mt-0.5 font-display text-[22px] font-light lowercase text-[color:var(--text-primary)]">{agent.name}</div>
             <div className="mt-0.5 text-[12px] text-[color:var(--text-secondary)]">{agent.role}</div>
           </div>
@@ -51,21 +51,21 @@ export function MobileEditor() {
       </div>
 
       <div className="rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
-        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">components in this agent</div>
+        <div className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">components in this agent</div>
         {(['essentials', 'knowledge', 'abilities', 'connected-apps', 'boundaries', 'approvals', 'tests'] as const).map((cat) => {
           const items = byCategory.get(cat) ?? [];
           return (
             <div key={cat} className="mt-3 flex flex-col gap-1">
-              <div className="font-mono text-[9.5px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">{CATEGORY_LABEL[cat]}</div>
+              <div className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">{CATEGORY_LABEL[cat]}</div>
               {items.length === 0 ? (
-                <p className="font-mono text-[11px] text-[color:var(--text-secondary)]">none</p>
+                <p className="font-mono text-[12px] text-[color:var(--text-secondary)]">none</p>
               ) : items.map((it) => (
                 <button
                   key={it.id}
                   type="button"
                   onClick={() => select(it.id)}
                   className={[
-                    'rounded-[2px] border px-3 py-1.5 text-left font-mono text-[11.5px]',
+                    'rounded-[2px] border px-3 py-1.5 text-left font-mono text-[12px]',
                     selectedId === it.id
                       ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                       : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]',

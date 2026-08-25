@@ -42,7 +42,7 @@ export function HubTenantCard({ tenant }: { tenant: Tenant }) {
           {tenant.blurb}
         </p>
         <p
-          className="mt-4 text-[10px] uppercase transition-colors group-hover:text-[color:var(--hover)]"
+          className="mt-4 text-[12px] uppercase transition-colors group-hover:text-[color:var(--hover)]"
           style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY, ['--hover' as string]: ASSEMBL_GOLD }}
         >
           open ops console →

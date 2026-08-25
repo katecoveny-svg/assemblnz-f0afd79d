@@ -75,12 +75,12 @@ export function LiveArcChat({ compact = false }: { compact?: boolean }) {
         <ArcMark size={compact ? 28 : 34} />
         <div className="flex-1">
           <p className="text-sm font-semibold text-[color:var(--brand-ink)]">ARC</p>
-          <p className="text-[11px] text-[color:var(--brand-muted)]">
+          <p className="text-[12px] text-[color:var(--brand-muted)]">
             live · draft-only · cites its sources
           </p>
         </div>
         <span
-          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium"
+          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-medium"
           style={{ background: 'rgba(191,163,122,0.14)', color: 'var(--brand-ink)' }}
         >
           <span
@@ -131,7 +131,7 @@ export function LiveArcChat({ compact = false }: { compact?: boolean }) {
               key={q}
               type="button"
               onClick={() => send(q)}
-              className="rounded-full px-3 py-1.5 text-[11.5px] transition"
+              className="rounded-full px-3 py-1.5 text-[12px] transition"
               style={{
                 background: 'rgba(255,255,255,0.6)',
                 border: '1px solid rgba(191,163,122,0.4)',

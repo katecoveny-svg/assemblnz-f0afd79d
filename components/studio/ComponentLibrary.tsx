@@ -56,7 +56,7 @@ export function ComponentLibrary() {
     <aside className="flex h-full flex-col gap-4 overflow-y-auto border-r border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
       <div className="flex items-baseline justify-between">
         <h2 className="font-display text-[18px] font-light text-[color:var(--text-primary)]">Components</h2>
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
           library
         </span>
       </div>
@@ -65,7 +65,7 @@ export function ComponentLibrary() {
         const entries = COMPONENT_LIBRARY.filter((e) => e.category === cat);
         return (
           <section key={cat} className="flex flex-col gap-1.5">
-            <div className="font-mono text-[9.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+            <div className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
               {CATEGORY_LABEL[cat]}
             </div>
             {entries.map((entry) => {
@@ -80,18 +80,18 @@ export function ComponentLibrary() {
                   title={entry.multiInstance ? 'Add a new instance' : inAgent ? 'Already in the agent' : 'Add to the agent'}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                    <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                       {entry.label}
                     </span>
                     <span className="flex items-center gap-1.5">
                       {inAgent ? (
                         <span className={`h-2 w-2 rounded-full ${statusDot(s.worstStatus)}`} aria-hidden />
                       ) : (
-                        <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] opacity-0 transition group-hover:opacity-100">+ add</span>
+                        <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] opacity-0 transition group-hover:opacity-100">+ add</span>
                       )}
                     </span>
                   </div>
-                  <p className="font-mono text-[10px] leading-[1.5] tracking-[0.02em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] leading-[1.5] tracking-[0.02em] text-[color:var(--text-secondary)]">
                     {entry.description}
                   </p>
                 </button>

@@ -33,7 +33,7 @@
   padding: 0 max(20px, calc((100vw - 1240px) / 2));
   color: var(--muted);
   background: rgba(240, 240, 235, 0.88);
-  font: 600 0.62rem/1 var(--font-mono), monospace;
+  font: 600 0.75rem/1 var(--font-mono), monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -57,7 +57,7 @@
 .eyebrow {
   margin: 0;
   color: #4f544f;
-  font: 700 0.66rem/1.4 var(--font-mono), monospace;
+  font: 700 0.75rem/1.4 var(--font-mono), monospace;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -95,7 +95,7 @@
   display: block;
   margin-bottom: 8px;
   color: var(--ink);
-  font: 600 0.67rem/1.4 var(--font-mono), monospace;
+  font: 600 0.75rem/1.4 var(--font-mono), monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -138,7 +138,7 @@
   color: var(--body);
   background: rgba(255, 254, 250, 0.64);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   transition: background 160ms ease, border-color 160ms ease;
 }
 
@@ -187,7 +187,7 @@
   display: inline-block;
   margin-left: 13px;
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
 }
 
 .heroVisual {
@@ -224,7 +224,7 @@
   display: flex;
   justify-content: space-between;
   color: rgba(38, 51, 57, 0.58);
-  font: 600 0.57rem/1 var(--font-mono), monospace;
+  font: 600 0.75rem/1 var(--font-mono), monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -249,7 +249,7 @@
 .visualFacts span {
   padding: 12px;
   color: var(--body);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
 }
 
 .visualFacts span + span {
@@ -259,7 +259,7 @@
 .visualFacts b {
   margin-right: 7px;
   color: var(--brass);
-  font: 700 0.58rem var(--font-mono), monospace;
+  font: 700 0.75rem var(--font-mono), monospace;
 }
 
 .movements {
@@ -279,7 +279,7 @@
 
 .movements span {
   color: var(--brass);
-  font: 700 0.58rem var(--font-mono), monospace;
+  font: 700 0.75rem var(--font-mono), monospace;
 }
 
 .movements strong {
@@ -321,7 +321,7 @@
 
 .formingCopy > span {
   color: var(--brass);
-  font: 700 0.66rem var(--font-mono), monospace;
+  font: 700 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.16em;
 }
 
@@ -398,7 +398,7 @@
   color: var(--ink);
   background: var(--white);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 
 .resultGrid {
@@ -439,7 +439,7 @@
 
 .profileCard > div:last-child > span {
   color: var(--muted);
-  font: 600 0.57rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -451,7 +451,7 @@
   align-items: center;
   gap: 9px;
   color: #3d6f68;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-decoration: none;
 }
@@ -466,7 +466,7 @@
   align-items: center;
   justify-content: space-between;
   color: var(--muted);
-  font: 600 0.57rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -479,7 +479,7 @@
   padding: 5px 8px;
   color: #3d6f68;
   background: var(--sea);
-  font-size: 0.54rem;
+  font-size: 0.75rem;
 }
 
 .cardHead b svg {
@@ -519,7 +519,7 @@
 
 .genomeCard dt {
   color: var(--muted);
-  font: 600 0.58rem/1.45 var(--font-mono), monospace;
+  font: 600 0.75rem/1.45 var(--font-mono), monospace;
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
@@ -581,7 +581,7 @@
 
 .agentRow article > span {
   color: var(--brass);
-  font: 700 0.58rem var(--font-mono), monospace;
+  font: 700 0.75rem var(--font-mono), monospace;
 }
 
 .agentRow article > i {
@@ -606,13 +606,13 @@
   display: block;
   margin-top: 9px;
   color: #4c766f;
-  font-size: 0.67rem;
+  font-size: 0.75rem;
 }
 
 .agentRow p {
   margin: 17px 0 0;
   color: var(--body);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
 }
 
 .workGrid {
@@ -656,7 +656,7 @@
   display: block;
   margin-top: 13px;
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
 }
 
 .publicCard {
@@ -676,7 +676,7 @@
 .publicCard > p:nth-of-type(1) {
   margin: 70px 0 0;
   color: #a9c9c2;
-  font: 600 0.62rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -718,7 +718,7 @@
 
 .resultFooter span {
   color: #54736e;
-  font: 600 0.57rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.1em;
 }
 
@@ -737,7 +737,7 @@
   padding: 0 18px;
   color: var(--white);
   background: var(--ink);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-decoration: none;
 }
@@ -951,7 +951,7 @@
   padding: 15px 20px;
   border-bottom: 1px solid rgba(38, 51, 57, 0.1);
   color: rgba(38, 51, 57, 0.55);
-  font: 600 0.57rem/1 var(--font-mono), monospace;
+  font: 600 0.75rem/1 var(--font-mono), monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -975,7 +975,7 @@
   box-shadow: 0 6px 18px rgba(38, 51, 57, 0.22);
 }
 .agentHead strong { display: block; color: var(--ink); font: 500 1.15rem var(--font-display), Georgia, serif; }
-.agentHead em { color: var(--body); font-size: 0.72rem; font-style: normal; letter-spacing: 0.02em; }
+.agentHead em { color: var(--body); font-size: 0.75rem; font-style: normal; letter-spacing: 0.02em; }
 
 .agentIntro p { color: var(--body); font-size: 0.9rem; line-height: 1.5; }
 .agentSuggest {
@@ -1013,7 +1013,7 @@
   align-items: center;
   gap: 8px;
   color: var(--muted);
-  font: 600 0.65rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1034,7 +1034,7 @@
   align-items: center;
   gap: 6px;
   color: #426d67;
-  font: 600 0.6rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -1064,7 +1064,7 @@
 .agentCardBrand {
   margin-top: 12px;
   color: var(--muted);
-  font: 600 0.56rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -1137,7 +1137,7 @@
 .agentNameStep > label { display: flex; flex-direction: column; gap: 6px; }
 .agentNameStep > label span {
   color: var(--muted);
-  font: 600 0.58rem var(--font-mono), monospace;
+  font: 600 0.75rem var(--font-mono), monospace;
   letter-spacing: 0.12em; text-transform: uppercase;
 }
 .agentNameStep > label input {
@@ -1154,7 +1154,7 @@
   box-shadow: 0 3px 10px rgba(38, 51, 57, 0.18);
 }
 .agentLooks button[aria-pressed='true'] { border-color: var(--ink); }
-.agentFoot { color: var(--muted); font-size: 0.68rem; }
+.agentFoot { color: var(--muted); font-size: 0.75rem; }
 
 .spin { animation: agentSpin 0.9s linear infinite; }
 @keyframes agentSpin { to { transform: rotate(360deg); } }

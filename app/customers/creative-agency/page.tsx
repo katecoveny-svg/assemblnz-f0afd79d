@@ -36,7 +36,7 @@ export default function CreativeAgencyLanding() {
       <section style={{ maxWidth: 1120, margin: "0 auto", padding: "64px 26px 34px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.15fr) minmax(0,0.85fr)", gap: 40, alignItems: "center" }} className="ca-hero">
           <div>
-            <p style={{ fontFamily: mono, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_DEEP }}>
+            <p style={{ fontFamily: mono, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_DEEP }}>
               assembl · the AUAHA creative kete
             </p>
             <h1 style={{ fontFamily: serif, fontWeight: 500, fontSize: "clamp(2.6rem, 6vw, 4.4rem)", lineHeight: 1.02, letterSpacing: "-0.02em", margin: "14px 0 0" }}>
@@ -72,7 +72,7 @@ export default function CreativeAgencyLanding() {
                 <h3 style={{ fontFamily: serif, fontWeight: 600, fontSize: 24, margin: 0 }}>{c.name}</h3>
                 <span style={{ width: 7, height: 7, borderRadius: 999, background: GOLD }} />
               </div>
-              <p style={{ fontFamily: mono, fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD_DEEP, margin: "2px 0 8px" }}>{c.role}</p>
+              <p style={{ fontFamily: mono, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: GOLD_DEEP, margin: "2px 0 8px" }}>{c.role}</p>
               <p style={{ fontSize: 13.5, color: GREY, lineHeight: 1.55, margin: 0 }}>{c.copy}</p>
             </div>
           ))}
@@ -108,7 +108,7 @@ export default function CreativeAgencyLanding() {
           </p>
           <PilotCta />
         </div>
-        <p style={{ fontFamily: mono, fontSize: 11, color: GREY, textAlign: "center", marginTop: 34 }}>
+        <p style={{ fontFamily: mono, fontSize: 12, color: GREY, textAlign: "center", marginTop: 34 }}>
           made in Aotearoa · draft-only demo · a person approves before anything is published
         </p>
       </section>
@@ -160,7 +160,7 @@ function Cap({ agent, note }: { agent: string; note: string }) {
   return (
     <figcaption style={{ padding: "9px 12px", borderTop: `1px solid ${SAND}` }}>
       <span style={{ fontFamily: serif, fontWeight: 600, fontSize: 15 }}>{agent}</span>
-      <span style={{ fontFamily: mono, fontSize: 10, color: GOLD_DEEP, display: "block", marginTop: 1 }}>◆ {note} · original generation</span>
+      <span style={{ fontFamily: mono, fontSize: 12, color: GOLD_DEEP, display: "block", marginTop: 1 }}>◆ {note} · original generation</span>
     </figcaption>
   );
 }

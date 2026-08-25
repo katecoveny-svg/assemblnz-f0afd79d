@@ -59,7 +59,7 @@ export default function HowItWorksPage() {
             padding: '72px clamp(20px, 5vw, 40px) 64px',
           }}
         >
-          <p style={{ margin: 0, color: '#8b7447', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          <p style={{ margin: 0, color: '#8b7447', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
             understand · prepare · approve
           </p>
           <h1
@@ -95,7 +95,7 @@ export default function HowItWorksPage() {
                 background: '#fafaf7',
               }}
             >
-              <p style={{ margin: 0, color: TEAL, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              <p style={{ margin: 0, color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
                 {step.n} · {step.label}
               </p>
               <h2

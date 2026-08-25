@@ -25,14 +25,14 @@ export function StudioTopBar() {
         >
           assembl<span className="text-[color:var(--assembl-gold-thread)]">.</span>
         </Link>
-        <span className="hidden font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)] md:inline">
+        <span className="hidden font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)] md:inline">
           studio
         </span>
         <span className="mx-2 hidden text-[color:var(--assembl-cloud)] md:inline">·</span>
         <span className="font-display text-[18px] font-light lowercase text-[color:var(--text-primary)]">
           {agent.name}
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
           {saveStatus === 'saved' ? 'saved' : saveStatus === 'saving' ? 'saving…' : 'unsaved'}
         </span>
       </div>
@@ -48,7 +48,7 @@ export function StudioTopBar() {
               aria-selected={active}
               onClick={() => setViewMode(m.id)}
               className={[
-                'rounded-[2px] border px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] transition',
+                'rounded-[2px] border px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] transition',
                 active
                   ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                   : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -64,20 +64,20 @@ export function StudioTopBar() {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+          className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
         >
           Preview
         </button>
         <button
           type="button"
           onClick={runTest}
-          className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)]"
+          className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)]"
         >
           Test agent
         </button>
         <button
           type="button"
-          className="rounded-[2px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] hover:bg-[color:var(--assembl-pounamu-deep)]"
+          className="rounded-[2px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] hover:bg-[color:var(--assembl-pounamu-deep)]"
         >
           Deploy
         </button>

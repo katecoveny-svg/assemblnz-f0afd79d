@@ -46,7 +46,7 @@ export default async function TurfResultPage({ params }: Params) {
         <div className="mx-auto max-w-3xl">
           <Link
             href="/hapai/turf-maintenance"
-            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
+            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> Create another record
           </Link>
@@ -72,14 +72,14 @@ export default async function TurfResultPage({ params }: Params) {
         <div className="mb-6 flex items-center justify-between gap-3">
           <Link
             href="/hapai/turf-maintenance"
-            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
+            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> Create another record
           </Link>
         </div>
 
         <section className="rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/78 p-6 shadow-[0_18px_60px_rgba(35,33,31,0.08)] md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#313c42]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#313c42]">
             HSWA 2015 · daily ground record
           </p>
           <h1 className="mt-4 font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-[1.05]">
@@ -95,7 +95,7 @@ export default async function TurfResultPage({ params }: Params) {
 
           {record.failed_checks.length > 0 && (
             <div className="mt-7 rounded-[12px] border border-[#B36A2A]/35 bg-[#FCEEDD] p-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#7A3F1F]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#7A3F1F]">
                 ⚠️ Action required ({record.failed_checks.length})
               </p>
               <ul className="mt-3 space-y-3 text-sm leading-relaxed text-[#3F2A1B]">
@@ -103,7 +103,7 @@ export default async function TurfResultPage({ params }: Params) {
                   <li key={i}>
                     <p className="font-medium">{f.detail}</p>
                     <p className="mt-1">{f.correctiveAction}</p>
-                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#7A3F1F]">
+                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[#7A3F1F]">
                       {f.regulation}
                     </p>
                   </li>
@@ -117,7 +117,7 @@ export default async function TurfResultPage({ params }: Params) {
               <h2 className="font-display text-2xl font-normal">
                 Chemical applications
               </h2>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
                 HSNO 1996 record
               </p>
               <ul className="mt-3 space-y-2 text-sm">
@@ -172,7 +172,7 @@ export default async function TurfResultPage({ params }: Params) {
             </section>
           )}
 
-          <p className="mt-10 font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+          <p className="mt-10 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
             Built in Aotearoa · built on HSWA 2015 + HSNO 1996 · Privacy Act
             2020 compliant. assembl.co.nz
           </p>
@@ -185,7 +185,7 @@ export default async function TurfResultPage({ params }: Params) {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#f7f9f8] p-3">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
         {label}
       </p>
       <p className="mt-1 text-sm font-medium">{value}</p>

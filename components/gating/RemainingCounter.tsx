@@ -22,7 +22,7 @@ export function RemainingCounter({
       : 'text-[color:var(--text-secondary)] border-[rgba(35,33,31,0.14)] bg-white/55';
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] ${tone}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.12em] ${tone}`}
       aria-live="polite"
     >
       {remaining === 0 ? 'Limit reached' : `${remaining} ${plural} remaining`}

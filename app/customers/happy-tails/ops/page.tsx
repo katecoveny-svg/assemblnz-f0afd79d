@@ -42,7 +42,7 @@ const MUTED = '#68766f';
 const GOLD = '#b8964f';
 const TEAL = '#3f7373';
 
-const eyebrow: CSSProperties = { fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED };
+const eyebrow: CSSProperties = { fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED };
 
 /**
  * Happy Tails — the AI operating system for the doggy daycare.
@@ -185,7 +185,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
-            className="mt-4 text-[10px] uppercase"
+            className="mt-4 text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             the daycare that runs itself · concept pilot · draft-only
@@ -219,7 +219,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
               <span
                 style={{
                   ...eyebrow,
-                  fontSize: 9.5,
+                  fontSize: 12,
                   color: genome.live ? TEAL : MUTED,
                   border: `1px solid ${(genome.live ? TEAL : MUTED)}55`,
                   borderRadius: 999,
@@ -245,16 +245,16 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
                         <span style={{ fontSize: 13.5, fontWeight: 600, color: INK }}>{f.label}</span>
                         {f.verification && f.verification !== 'confirmed' ? (
-                          <span style={{ ...eyebrow, fontSize: 9, color: TEAL }}>{f.verification}</span>
+                          <span style={{ ...eyebrow, fontSize: 12, color: TEAL }}>{f.verification}</span>
                         ) : null}
                       </div>
                       <div style={{ fontSize: 13, marginTop: 3, lineHeight: 1.55, color: INK }}>{f.value}</div>
                       {f.readBy.length > 0 ? (
-                        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 4 }}>read by {f.readBy.join(' · ')}</div>
+                        <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>read by {f.readBy.join(' · ')}</div>
                       ) : null}
                       {genome.live ? (
                         <details style={{ marginTop: 6 }}>
-                          <summary style={{ fontSize: 11, color: MUTED, cursor: 'pointer' }}>edit</summary>
+                          <summary style={{ fontSize: 12, color: MUTED, cursor: 'pointer' }}>edit</summary>
                           <form action={updateGenomeFactFormAction} style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
                             <input type="hidden" name="factId" value={f.id} />
                             <input
@@ -278,7 +278,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
                 </div>
               );
             })}
-            <p style={{ fontSize: 11, color: MUTED, marginTop: 14 }}>
+            <p style={{ fontSize: 12, color: MUTED, marginTop: 14 }}>
               Edits land in the genome with a history trail; the mirror in the code never changes.
             </p>
           </section>
@@ -290,7 +290,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
           style={{ borderLeft: `4px solid ${accent}` }}
         >
           <p
-            className="text-[10px] uppercase"
+            className="text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             daycare operating system
@@ -306,7 +306,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
           </p>
           <Link
             href="/customers/happy-tails/ops/os"
-            className="mt-4 inline-flex text-[10px] uppercase"
+            className="mt-4 inline-flex text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: accent }}
           >
             open the daycare OS →
@@ -365,7 +365,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
             },
           ].map((p) => (
             <div key={p.label} className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+              <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                 {p.label}
               </p>
               <div className="mt-3">{p.live}</div>
@@ -402,7 +402,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
               />
             </div>
             <div className="rounded-2xl border border-black/10 bg-white/85 p-4 text-sm backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+              <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                 the two-voice rule
               </p>
               <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#313c42' }}>
@@ -450,7 +450,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
             className="rounded-2xl border border-black/10 bg-white/85 p-6 backdrop-blur-sm"
             style={{ borderLeft: `4px solid ${accent}` }}
           >
-            <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+            <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
               now under keeper
             </p>
             <h2 className="mt-2 text-2xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
@@ -467,7 +467,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
               {['LIMA', 'Force-free only', 'Refer when in doubt'].map((b) => (
                 <span
                   key={b}
-                  className="rounded-full px-3 py-1 text-[11px] font-semibold"
+                  className="rounded-full px-3 py-1 text-[12px] font-semibold"
                   style={{ backgroundColor: '#eef1ef', color: '#313c42' }}
                 >
                   {b}
@@ -512,7 +512,7 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
                 drafted by {latest.draftedBy} · {latest.draftedAt} · voice: {latest.voice} · signed {latest.signedBy}
               </span>
               <span
-                className="ml-auto rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-wider"
+                className="ml-auto rounded-full px-2.5 py-0.5 text-[12px] uppercase tracking-wider"
                 style={{ backgroundColor: 'rgba(184,150,79,0.16)', color: '#7a6434' }}
               >
                 {latest.sentAt ? 'sent after approval' : latest.approvedBy ? 'approved' : 'pending review'}
@@ -520,15 +520,15 @@ export default async function HappyTailsOpsHome({ searchParams }: { searchParams
             </div>
             <div className="mt-4 grid gap-x-8 gap-y-3 text-[12px] md:grid-cols-2">
               <div>
-                <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>sources</p>
+                <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>sources</p>
                 <p className="mt-1">{latest.sources.join(' · ')}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>hard rules held</p>
+                <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>hard rules held</p>
                 <p className="mt-1">{latest.hardRules.join(' · ')}</p>
               </div>
             </div>
-            <p className="mt-4 break-all font-mono text-[10px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <p className="mt-4 break-all font-mono text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               {latest.hash}
             </p>
           </div>

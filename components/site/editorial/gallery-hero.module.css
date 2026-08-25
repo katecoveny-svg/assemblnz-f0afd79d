@@ -56,7 +56,7 @@
 
 .navLinks a {
   color: var(--soft);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   text-decoration: none;
 }
 
@@ -69,7 +69,7 @@
   border-radius: 999px;
   color: var(--ink);
   background: rgba(255, 255, 255, 0.7);
-  font-size: 0.59rem;
+  font-size: 0.75rem;
   text-decoration: none;
 }
 
@@ -99,7 +99,7 @@
   gap: 0.8rem;
   margin: 0 0 1.4rem;
   color: var(--soft);
-  font-size: 0.59rem;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
@@ -173,7 +173,7 @@
   gap: 0.7rem 1rem;
   margin-top: 1.8rem;
   color: #7a8383;
-  font-size: 0.49rem;
+  font-size: 0.75rem;
 }
 
 .proof span + span::before {
@@ -229,7 +229,7 @@
   gap: 0.45rem;
   width: max-content;
   color: var(--ink);
-  font-size: 0.69rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-align: center;
   transform: translateX(-50%);
@@ -237,7 +237,7 @@
 
 .galleryTitle small {
   color: var(--soft);
-  font-size: 0.45rem;
+  font-size: 0.75rem;
   font-weight: 400;
 }
 
@@ -249,7 +249,7 @@
   background: rgba(248, 247, 243, .9);
   border: 1px solid rgba(49, 60, 66, .14);
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: .52rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: .14em;
   line-height: 1;
@@ -296,7 +296,7 @@
 .galleryReadout > span {
   padding-top: 0.13rem;
   color: var(--gold);
-  font-size: 0.47rem;
+  font-size: 0.75rem;
 }
 
 .galleryReadout strong {
@@ -314,7 +314,7 @@
   max-width: 38ch;
   margin: 0.24rem 0 0;
   color: var(--soft);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   line-height: 1.35;
 }
 
@@ -329,7 +329,7 @@
   border: 1px solid transparent;
   color: #6a7373;
   background: transparent;
-  font-size: 0.42rem;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 
@@ -354,7 +354,7 @@
   padding: 0.75rem 0.8rem;
   color: #fff;
   background: var(--ink);
-  font-size: 0.47rem;
+  font-size: 0.75rem;
   text-decoration: none;
 }
 
@@ -494,7 +494,7 @@
 @media (max-width: 620px) {
   .nav { height: 70px; }
   .wordmark { font-size: 2rem; }
-  .navAction { padding: 0.58rem 0.72rem; font-size: 0.52rem; }
+  .navAction { padding: 0.58rem 0.72rem; font-size: 0.75rem; }
   .heroGrid { padding-top: 3.2rem; }
   .heading { font-size: clamp(3.6rem, 18vw, 5.6rem); }
   .lede { margin-top: 2rem; }
@@ -502,8 +502,8 @@
   .proof { display: grid; }
   .proof span + span::before { content: none; }
   .galleryShell { height: 680px; min-height: 680px; }
-  .galleryTitle { top: 1.4rem; font-size: 0.58rem; }
-  .exhibitLabel { min-width: 5.6rem; font-size: .44rem; }
+  .galleryTitle { top: 1.4rem; font-size: 0.75rem; }
+  .exhibitLabel { min-width: 5.6rem; font-size: 0.75rem; }
   .galleryControls {
     right: 0.65rem;
     bottom: 0.65rem;

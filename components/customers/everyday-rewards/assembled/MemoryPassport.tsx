@@ -80,7 +80,7 @@ export function MemoryPassport({ data }: { data: ScenarioRun }) {
             <Card key={mem.id} className={styles.assemble} style={{ opacity: muted ? 0.55 : 1 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
                 <div style={{ minWidth: 240, flex: 1 }}>
-                  <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY }}>
+                  <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY }}>
                     {mem.key} · {mem.source}
                   </div>
                   {editing === mem.id ? (
@@ -101,7 +101,7 @@ export function MemoryPassport({ data }: { data: ScenarioRun }) {
                     </div>
                   )}
                 </div>
-                <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: mode === 'stored' ? ORANGE_DARK : GREY }}>
+                <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: mode === 'stored' ? ORANGE_DARK : GREY }}>
                   {MODE_LABEL[mode]}
                 </span>
               </div>

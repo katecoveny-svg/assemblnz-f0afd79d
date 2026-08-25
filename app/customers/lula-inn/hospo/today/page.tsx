@@ -98,7 +98,7 @@ export default function TodayPage() {
                     <div key={s.id} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                       <span style={{ fontWeight: 700, fontSize: 14, color: B.ink }}>{p.name}</span>
                       <span style={{ fontSize: 12.5, color: B.inkSoft }}>{p.title} · {p.role}</span>
-                      <span style={{ fontFamily: 'var(--lula-mono), monospace', fontSize: 11, color: B.brassDark }}>
+                      <span style={{ fontFamily: 'var(--lula-mono), monospace', fontSize: 12, color: B.brassDark }}>
                         {s.start}–{s.end}
                       </span>
                     </div>

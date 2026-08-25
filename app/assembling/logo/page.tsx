@@ -100,7 +100,7 @@ export default function LogoPage() {
             <div
               style={{
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
                 color: "#a8a698",
@@ -149,7 +149,7 @@ export default function LogoPage() {
               <div
                 style={{
                   fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: ".12em",
                   textTransform: "uppercase",
                   color: "#8a8678",
@@ -196,7 +196,7 @@ export default function LogoPage() {
               <div
                 style={{
                   fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: ".12em",
                   textTransform: "uppercase",
                   color: "#5a4a00",
@@ -248,7 +248,7 @@ export default function LogoPage() {
             <div
               style={{
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
                 color: "#a8a698",
@@ -270,7 +270,7 @@ export default function LogoPage() {
             <div
               style={{
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
                 color: "#a8a698",
@@ -329,7 +329,7 @@ export default function LogoPage() {
             <div
               style={{
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
                 color: "#a8a698",
@@ -426,7 +426,7 @@ export default function LogoPage() {
                 textAlign: "center",
                 marginTop: 18,
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 11,
+                fontSize: 12,
                 color: "#bdb592",
               }}
             >
@@ -477,7 +477,7 @@ export default function LogoPage() {
             <div
               style={{
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: ".12em",
                 textTransform: "uppercase",
                 color: "#a8a698",
@@ -499,7 +499,7 @@ export default function LogoPage() {
             <div
               style={{
                 fontFamily: "var(--font-dash-mono), 'Space Mono', monospace",
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
                 color: "#BFA37A",

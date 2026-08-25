@@ -39,12 +39,12 @@ export function CitationCoverageBar({ snapshot }: Props) {
         <CartesianGrid stroke="#E8E4DE" vertical={false} />
         <XAxis
           dataKey="name"
-          tick={{ fontFamily: 'ui-monospace', fontSize: 11, fill: '#23211F' }}
+          tick={{ fontFamily: 'ui-monospace', fontSize: 12, fill: '#23211F' }}
           axisLine={{ stroke: '#E8E4DE' }}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontFamily: 'ui-monospace', fontSize: 11, fill: '#B8B2A8' }}
+          tick={{ fontFamily: 'ui-monospace', fontSize: 12, fill: '#B8B2A8' }}
           axisLine={{ stroke: '#E8E4DE' }}
           tickLine={false}
         />
@@ -54,7 +54,7 @@ export function CitationCoverageBar({ snapshot }: Props) {
             border: '1px solid #E8E4DE',
             borderRadius: 2,
             fontFamily: 'ui-monospace',
-            fontSize: 11,
+            fontSize: 12,
           }}
         />
         <Bar dataKey="total" fill="#E8E4DE" radius={[2, 2, 0, 0]} />
@@ -84,12 +84,12 @@ export function ReversalSpark({ snapshot }: Props) {
         <CartesianGrid stroke="#E8E4DE" vertical={false} />
         <XAxis
           dataKey="day"
-          tick={{ fontFamily: 'ui-monospace', fontSize: 11, fill: '#23211F' }}
+          tick={{ fontFamily: 'ui-monospace', fontSize: 12, fill: '#23211F' }}
           axisLine={{ stroke: '#E8E4DE' }}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontFamily: 'ui-monospace', fontSize: 11, fill: '#B8B2A8' }}
+          tick={{ fontFamily: 'ui-monospace', fontSize: 12, fill: '#B8B2A8' }}
           axisLine={{ stroke: '#E8E4DE' }}
           tickLine={false}
         />
@@ -99,7 +99,7 @@ export function ReversalSpark({ snapshot }: Props) {
             border: '1px solid #E8E4DE',
             borderRadius: 2,
             fontFamily: 'ui-monospace',
-            fontSize: 11,
+            fontSize: 12,
           }}
         />
         <Line

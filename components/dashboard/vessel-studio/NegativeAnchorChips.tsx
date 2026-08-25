@@ -25,10 +25,10 @@ export function NegativeAnchorChips({ keteId }: NegativeAnchorChipsProps) {
   return (
     <div className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-cloud)]/40 px-4 py-3.5">
       <div className="mb-2.5 flex items-baseline justify-between">
-        <span className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           negative anchors · always pinned
         </span>
-        <span className="font-mono text-[10.5px] tracking-[0.12em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] tracking-[0.12em] text-[color:var(--text-secondary)]">
           {chips.length} pinned
         </span>
       </div>
@@ -36,7 +36,7 @@ export function NegativeAnchorChips({ keteId }: NegativeAnchorChipsProps) {
         {chips.map(({ token, isFlag }) => (
           <span
             key={token}
-            className="inline-flex items-center rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1 font-mono text-[10.5px] font-light lowercase tracking-[0.06em] text-[color:var(--text-secondary)]"
+            className="inline-flex items-center rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1 font-mono text-[12px] font-light lowercase tracking-[0.06em] text-[color:var(--text-secondary)]"
             title={isFlag ? `--no ${token}` : `body inline: no ${token}`}
           >
             <span className="mr-1.5 text-[color:#B85C38]">−</span>
@@ -44,7 +44,7 @@ export function NegativeAnchorChips({ keteId }: NegativeAnchorChipsProps) {
           </span>
         ))}
       </div>
-      <p className="mt-3 font-mono text-[10.5px] leading-[1.65] tracking-[0.02em] text-[color:var(--text-secondary)]">
+      <p className="mt-3 font-mono text-[12px] leading-[1.65] tracking-[0.02em] text-[color:var(--text-secondary)]">
         these are doing work. each one keeps midjourney (and flux) from drifting toward something
         off-brand — text overlays, kōwhaiwhai patterns, carvings, neon/sci-fi tropes, and the
         architectural caged look (armature, cage, rails, spine, metal frame).

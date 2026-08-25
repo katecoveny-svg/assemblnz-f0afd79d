@@ -16,7 +16,7 @@ function StateChip({ state }: { state: string }) {
   const meta = STATE_META[state] ?? STATE_META.not_connected;
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] uppercase"
+      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[12px] uppercase"
       style={{ letterSpacing: '0.12em', color: meta.tone, borderColor: `${meta.tone}33` }}
     >
       <i aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ background: meta.tone }} />
@@ -29,7 +29,7 @@ export function ConnectionsTab({ connections }: { connections: ConnectionsView }
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
-        <p className="mb-3 text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
+        <p className="mb-3 text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
           connected systems
         </p>
         <ul className="flex flex-col divide-y divide-[#1B2A4A]/8">
@@ -60,7 +60,7 @@ export function ConnectionsTab({ connections }: { connections: ConnectionsView }
       </section>
 
       <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
-        <p className="mb-3 text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
+        <p className="mb-3 text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
           what agents may ask for
         </p>
         <ul className="flex flex-col divide-y divide-[#1B2A4A]/8">

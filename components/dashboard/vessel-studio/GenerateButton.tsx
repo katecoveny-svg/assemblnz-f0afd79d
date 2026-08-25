@@ -45,7 +45,7 @@ export function GenerateButton({
         )}
       </button>
 
-      <div className="text-right font-mono text-[10.5px] tracking-[0.1em] text-[color:var(--text-secondary)]">
+      <div className="text-right font-mono text-[12px] tracking-[0.1em] text-[color:var(--text-secondary)]">
         ~${costPreviewUsd.toFixed(2)} usd at flux pro pricing
       </div>
 

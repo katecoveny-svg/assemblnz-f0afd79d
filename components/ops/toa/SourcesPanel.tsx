@@ -66,7 +66,7 @@ export function SourcesPanel() {
 
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-xl border border-black/5 bg-[#f6f4ee] px-4 py-3">
         <span
-          className="font-[family-name:var(--font-brand-mono)] text-[10px] uppercase tracking-[0.2em]"
+          className="font-[family-name:var(--font-brand-mono)] text-[12px] uppercase tracking-[0.2em]"
           style={{ color: '#8a744f' }}
         >
           trust legend

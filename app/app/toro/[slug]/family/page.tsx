@@ -46,7 +46,7 @@ export default async function ToroFamilyPage({
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto max-w-[1040px]">
         {/* breadcrumb */}
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           <Link href={`/app/toro/${slug}`} className="hover:text-[color:var(--assembl-pounamu)]">
             assembl
           </Link>
@@ -64,7 +64,7 @@ export default async function ToroFamilyPage({
         >
           whānau
         </h1>
-        <p className="mt-3 max-w-2xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+        <p className="mt-3 max-w-2xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
           per-child routines, gear, activities, consent · Tōro never touches a child entity without an explicit grant
         </p>
 
@@ -91,15 +91,15 @@ export default async function ToroFamilyPage({
                   >
                     {child.name}
                   </h2>
-                  <p className="font-mono text-[11px] lowercase tracking-[0.1em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] lowercase tracking-[0.1em] text-[color:var(--text-secondary)]">
                     age {child.age} · year {child.year} · {child.school}
                   </p>
                 </div>
                 <span
                   className={
                     child.consentStatus === 'all_granted'
-                      ? 'rounded-[1px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]'
-                      : 'rounded-[1px] bg-[#FBF2DD] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-gold-thread)]'
+                      ? 'rounded-[1px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]'
+                      : 'rounded-[1px] bg-[#FBF2DD] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-gold-thread)]'
                   }
                 >
                   {child.consentStatus === 'all_granted' ? 'consents ok' : 'review consents'}
@@ -108,7 +108,7 @@ export default async function ToroFamilyPage({
 
               {/* today */}
               <section className="mt-4">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   today · bus
                 </p>
                 <p className="mt-1 font-display text-[15px] text-[color:var(--text-primary)]">
@@ -117,14 +117,14 @@ export default async function ToroFamilyPage({
               </section>
 
               <section className="mt-4">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   today · gear
                 </p>
                 <ul className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5">
                   {child.todaysGear.map((item) => (
                     <li
                       key={item}
-                      className="rounded-[1px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1 font-mono text-[10.5px] lowercase tracking-[0.06em] text-[color:var(--text-primary)]"
+                      className="rounded-[1px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1 font-mono text-[12px] lowercase tracking-[0.06em] text-[color:var(--text-primary)]"
                     >
                       {item}
                     </li>
@@ -133,7 +133,7 @@ export default async function ToroFamilyPage({
               </section>
 
               <section className="mt-4">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   this week
                 </p>
                 <ul className="mt-1 space-y-1 font-display text-[14.5px] text-[color:var(--text-primary)]">
@@ -145,7 +145,7 @@ export default async function ToroFamilyPage({
 
               {/* consent grants */}
               <section className="mt-5 border-t border-[color:var(--assembl-cloud)] pt-4">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   consent grants · per-skill
                 </p>
                 <ul className="mt-2 space-y-1.5">
@@ -154,17 +154,17 @@ export default async function ToroFamilyPage({
                       key={`${c.skill}-${c.entity}`}
                       className="flex items-baseline justify-between gap-3"
                     >
-                      <span className="font-mono text-[11.5px] lowercase tracking-[0.04em] text-[color:var(--text-primary)]">
+                      <span className="font-mono text-[12px] lowercase tracking-[0.04em] text-[color:var(--text-primary)]">
                         {c.skill}
                       </span>
-                      <span className="flex-1 truncate font-mono text-[10.5px] lowercase tracking-[0.04em] text-[color:var(--text-secondary)]">
+                      <span className="flex-1 truncate font-mono text-[12px] lowercase tracking-[0.04em] text-[color:var(--text-secondary)]">
                         → {c.entity}
                       </span>
                       <span
                         className={
                           c.status === 'granted'
-                            ? 'rounded-[1px] bg-[color:var(--assembl-pounamu-paper)] px-1.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]'
-                            : 'rounded-[1px] bg-[#FBE6E6] px-1.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#A0322B]'
+                            ? 'rounded-[1px] bg-[color:var(--assembl-pounamu-paper)] px-1.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]'
+                            : 'rounded-[1px] bg-[#FBE6E6] px-1.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[#A0322B]'
                         }
                       >
                         {c.status}
@@ -178,7 +178,7 @@ export default async function ToroFamilyPage({
               <footer className="mt-5 flex items-center gap-3 border-t border-[color:var(--assembl-cloud)] pt-4">
                 <button
                   type="button"
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-3 py-1.5 font-mono text-[11px] lowercase tracking-[0.06em] text-[color:var(--text-primary)] hover:border-[color:var(--assembl-pounamu)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-3 py-1.5 font-mono text-[12px] lowercase tracking-[0.06em] text-[color:var(--text-primary)] hover:border-[color:var(--assembl-pounamu)]"
                   disabled
                   title="Wire to /api/toro/children PATCH in follow-up"
                 >
@@ -186,7 +186,7 @@ export default async function ToroFamilyPage({
                 </button>
                 <Link
                   href={`/app/toro/${slug}/consent?child=${encodeURIComponent(child.name)}`}
-                  className="font-mono text-[11px] lowercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] hover:underline"
+                  className="font-mono text-[12px] lowercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] hover:underline"
                 >
                   manage consent →
                 </Link>
@@ -201,14 +201,14 @@ export default async function ToroFamilyPage({
             type="button"
             disabled
             title="Wire to /api/toro/children POST in follow-up"
-            className="rounded-[2px] border border-dashed border-[color:var(--assembl-cloud)] bg-transparent px-5 py-4 font-mono text-[11.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)] hover:border-[color:var(--assembl-pounamu)]"
+            className="rounded-[2px] border border-dashed border-[color:var(--assembl-cloud)] bg-transparent px-5 py-4 font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)] hover:border-[color:var(--assembl-pounamu)]"
           >
             + add tamaiti to whānau (stub · phase 2)
           </button>
         </div>
 
         {/* footer nav */}
-        <nav className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-[color:var(--assembl-cloud)] pt-5 font-mono text-[11px] lowercase tracking-[0.12em]">
+        <nav className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-[color:var(--assembl-cloud)] pt-5 font-mono text-[12px] lowercase tracking-[0.12em]">
           <Link href={`/app/toro/${slug}`} className="text-[color:var(--assembl-pounamu)] hover:underline">← dashboard</Link>
           <Link href={`/app/toro/${slug}/inbox`} className="text-[color:var(--assembl-pounamu)] hover:underline">inbox</Link>
           <Link href={`/app/toro/${slug}/consent`} className="text-[color:var(--assembl-pounamu)] hover:underline">consent</Link>

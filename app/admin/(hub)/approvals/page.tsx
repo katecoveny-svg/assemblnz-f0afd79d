@@ -124,7 +124,7 @@ export default async function ApprovalsPage({
             <p style={{ fontFamily: BODY, fontWeight: 700, fontSize: 14, color: C.ink, margin: '0 0 3px' }}>
               SPARK “Build One Thing” winter series
             </p>
-            <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 10px' }}>
+            <p style={{ fontFamily: MONO, fontSize: 12, color: C.body, margin: '0 0 10px' }}>
               Pull a Tuesday episode&apos;s four platform posts in as pending drafts. Draft-only — approving records a
               yes; nothing posts (ACTION_DISPATCH_ENABLED stays off). Re-pulling a date is safe.
             </p>
@@ -155,17 +155,17 @@ export default async function ApprovalsPage({
                     <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 15, color: C.ink }}>
                       {r.title ?? `${r.kind} for ${r.surface}`}
                     </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginLeft: 'auto' }}>
                       {nzDate(r.created_at)}
                     </span>
                   </div>
-                  <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 4px' }}>
+                  <p style={{ fontFamily: MONO, fontSize: 12, color: C.body, margin: '0 0 4px' }}>
                     {r.kind} · surface: {r.surface}
                     {r.tenant_slug ? ` · tenant: ${r.tenant_slug}` : ''}
                     {r.created_by ? ` · by ${r.created_by}` : ''}
                   </p>
                   {r.storage_path && (
-                    <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 4px' }}>
+                    <p style={{ fontFamily: MONO, fontSize: 12, color: C.body, margin: '0 0 4px' }}>
                       {r.storage_path}
                     </p>
                   )}
@@ -176,7 +176,7 @@ export default async function ApprovalsPage({
                   {typeof r.payload?.body === 'string' && (
                     <details style={{ marginTop: 8 }}>
                       <summary
-                        style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, cursor: 'pointer' }}
+                        style={{ fontFamily: MONO, fontSize: 12, color: C.muted, cursor: 'pointer' }}
                       >
                         full post{r.payload?.postTime ? ` · ${String(r.payload.postTime)}` : ''}
                         {typeof r.payload?.imageConcept === 'string' && r.payload.imageConcept ? ' · + image concept' : ''}
@@ -202,7 +202,7 @@ export default async function ApprovalsPage({
                         <pre
                           style={{
                             fontFamily: MONO,
-                            fontSize: 11.5,
+                            fontSize: 12,
                             lineHeight: 1.5,
                             color: C.body,
                             background: 'transparent',
@@ -238,7 +238,7 @@ export default async function ApprovalsPage({
                     </div>
                   ) : (
                     <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginTop: 12 }}>
-                      <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted }}>
+                      <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>
                         {r.status} by {r.reviewed_by ?? '—'} · {nzDate(r.reviewed_at)}
                         {r.review_note ? ` · "${r.review_note}"` : ''}
                       </span>
@@ -300,11 +300,11 @@ export default async function ApprovalsPage({
                             ? `webhook — ${hook?.url ?? ''}`
                             : `${conn?.action?.replace(/_/g, ' ') ?? 'business action'} → ${conn?.app ?? 'connected tool'}`}
                       </span>
-                      <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
+                      <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginLeft: 'auto' }}>
                         {nzDate(a.created_at)}
                       </span>
                     </div>
-                    <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 4px' }}>
+                    <p style={{ fontFamily: MONO, fontSize: 12, color: C.body, margin: '0 0 4px' }}>
                       agent: {a.agent_slug} · from: {a.requested_by}
                       {email?.to ? ` · to: ${email.to}` : a.kind === 'email_draft' ? ' · to: (not provided)' : ''}
                     </p>
@@ -312,7 +312,7 @@ export default async function ApprovalsPage({
                       {(email?.reason ?? hook?.reason ?? conn?.reason) || ''}
                     </p>
                     {conn?.data ? (
-                      <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, whiteSpace: 'pre-wrap', margin: '8px 0 0', borderLeft: `2px solid ${C.hairline}`, paddingLeft: 12 }}>
+                      <p style={{ fontFamily: MONO, fontSize: 12, color: C.body, whiteSpace: 'pre-wrap', margin: '8px 0 0', borderLeft: `2px solid ${C.hairline}`, paddingLeft: 12 }}>
                         {JSON.stringify(conn.data, null, 2).slice(0, 700)}
                       </p>
                     ) : null}
@@ -339,7 +339,7 @@ export default async function ApprovalsPage({
                         </form>
                       </div>
                     ) : (
-                      <p style={{ fontFamily: MONO, fontSize: 11, color: C.muted, margin: '12px 0 0' }}>
+                      <p style={{ fontFamily: MONO, fontSize: 12, color: C.muted, margin: '12px 0 0' }}>
                         {a.status} by {a.reviewer ?? '—'} · {nzDate(a.decided_at ?? a.created_at)}
                         {a.review_note ? ` · "${a.review_note}"` : ''}
                       </p>
@@ -368,17 +368,17 @@ export default async function ApprovalsPage({
                     <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 15, color: C.ink }}>{t.title}</span>
                     <Link
                       href={`/spark/tool/${t.slug}`}
-                      style={{ fontFamily: MONO, fontSize: 11.5, color: C.body }}
+                      style={{ fontFamily: MONO, fontSize: 12, color: C.body }}
                       target="_blank"
                     >
                       /spark/tool/{t.slug} ↗
                     </Link>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginLeft: 'auto' }}>
                       {nzDate(t.created_at)}
                     </span>
                   </div>
                   <p style={{ fontFamily: BODY, fontSize: 13.5, color: C.body, margin: '0 0 4px' }}>{t.summary}</p>
-                  <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 4px' }}>
+                  <p style={{ fontFamily: MONO, fontSize: 12, color: C.body, margin: '0 0 4px' }}>
                     asked: &ldquo;{t.prompt.slice(0, 160)}{t.prompt.length > 160 ? '…' : ''}&rdquo;
                     {t.requested_by ? ` · ${t.requested_by}` : ''}
                   </p>

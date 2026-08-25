@@ -45,7 +45,7 @@ export default async function ToroConsentPage({
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto max-w-[1040px]">
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           <Link href={`/app/toro/${slug}`} className="hover:text-[color:var(--assembl-pounamu)]">assembl</Link>
           <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span>
           <Link href={`/app/toro/${slug}`} className="hover:text-[color:var(--assembl-pounamu)]">tōro</Link>
@@ -61,7 +61,7 @@ export default async function ToroConsentPage({
         >
           consent
         </h1>
-        <p className="mt-3 max-w-2xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+        <p className="mt-3 max-w-2xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
           per-entity grants · Home Assistant pattern · revoke any time
         </p>
 
@@ -69,13 +69,13 @@ export default async function ToroConsentPage({
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)]">
-                <th className="px-4 py-3 text-left font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">skill</th>
-                <th className="px-4 py-3 text-left font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">entity</th>
-                <th className="px-4 py-3 text-left font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">status</th>
-                <th className="hidden px-4 py-3 text-left font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] md:table-cell">granted by</th>
-                <th className="hidden px-4 py-3 text-left font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] md:table-cell">granted at</th>
-                <th className="hidden px-4 py-3 text-left font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] md:table-cell">expires</th>
-                <th className="px-4 py-3 text-right font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">action</th>
+                <th className="px-4 py-3 text-left font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">skill</th>
+                <th className="px-4 py-3 text-left font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">entity</th>
+                <th className="px-4 py-3 text-left font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">status</th>
+                <th className="hidden px-4 py-3 text-left font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] md:table-cell">granted by</th>
+                <th className="hidden px-4 py-3 text-left font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] md:table-cell">granted at</th>
+                <th className="hidden px-4 py-3 text-left font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] md:table-cell">expires</th>
+                <th className="px-4 py-3 text-right font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">action</th>
               </tr>
             </thead>
             <tbody>
@@ -88,7 +88,7 @@ export default async function ToroConsentPage({
                     {r.skill}
                   </td>
                   <td className="px-4 py-3 font-display text-[14px] text-[color:var(--text-primary)]">
-                    <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]">
                       {r.entityType} →
                     </span>{' '}
                     {r.entityId}
@@ -97,20 +97,20 @@ export default async function ToroConsentPage({
                     <span
                       className={
                         r.status === 'granted'
-                          ? 'rounded-[1px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]'
-                          : 'rounded-[1px] bg-[#FBE6E6] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#A0322B]'
+                          ? 'rounded-[1px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]'
+                          : 'rounded-[1px] bg-[#FBE6E6] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[#A0322B]'
                       }
                     >
                       {r.status}
                     </span>
                   </td>
-                  <td className="hidden px-4 py-3 font-mono text-[11.5px] text-[color:var(--text-primary)] md:table-cell">
+                  <td className="hidden px-4 py-3 font-mono text-[12px] text-[color:var(--text-primary)] md:table-cell">
                     {r.grantedBy}
                   </td>
-                  <td className="hidden px-4 py-3 font-mono text-[11.5px] text-[color:var(--text-secondary)] md:table-cell">
+                  <td className="hidden px-4 py-3 font-mono text-[12px] text-[color:var(--text-secondary)] md:table-cell">
                     {r.grantedAt}
                   </td>
-                  <td className="hidden px-4 py-3 font-mono text-[11.5px] text-[color:var(--text-secondary)] md:table-cell">
+                  <td className="hidden px-4 py-3 font-mono text-[12px] text-[color:var(--text-secondary)] md:table-cell">
                     {r.expiresAt ?? '—'}
                   </td>
                   <td className="px-4 py-3 text-right">
@@ -118,7 +118,7 @@ export default async function ToroConsentPage({
                       type="button"
                       disabled
                       title="Wire to /api/toro/consent revoke/grant in follow-up"
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-2.5 py-1 font-mono text-[10.5px] lowercase tracking-[0.08em] text-[color:var(--text-primary)] hover:border-[color:var(--assembl-pounamu)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-2.5 py-1 font-mono text-[12px] lowercase tracking-[0.08em] text-[color:var(--text-primary)] hover:border-[color:var(--assembl-pounamu)]"
                     >
                       {r.status === 'granted' ? 'revoke' : 'grant'}
                     </button>
@@ -129,13 +129,13 @@ export default async function ToroConsentPage({
           </table>
         </div>
 
-        <p className="mt-4 font-mono text-[10.5px] lowercase tracking-[0.08em] text-[color:var(--text-secondary)]">
+        <p className="mt-4 font-mono text-[12px] lowercase tracking-[0.08em] text-[color:var(--text-secondary)]">
           backend: <code>public.toro_consent_grants</code> · migration{' '}
           <code>20260511093000_toro_memory_and_consent.sql</code> · enforced by{' '}
           <code>lib/toro/filters/consent-before-draft.ts</code>
         </p>
 
-        <nav className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-[color:var(--assembl-cloud)] pt-5 font-mono text-[11px] lowercase tracking-[0.12em]">
+        <nav className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-[color:var(--assembl-cloud)] pt-5 font-mono text-[12px] lowercase tracking-[0.12em]">
           <Link href={`/app/toro/${slug}`} className="text-[color:var(--assembl-pounamu)] hover:underline">← dashboard</Link>
           <Link href={`/app/toro/${slug}/inbox`} className="text-[color:var(--assembl-pounamu)] hover:underline">inbox</Link>
           <Link href={`/app/toro/${slug}/family`} className="text-[color:var(--assembl-pounamu)] hover:underline">family</Link>

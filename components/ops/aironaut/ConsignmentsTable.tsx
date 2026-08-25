@@ -21,7 +21,7 @@ export function ConsignmentsTable({
         <h3 className="text-lg font-semibold text-[color:var(--brand-ink)]">
           {title ?? 'Consignments'}
         </h3>
-        <span className="text-[11px] text-[color:var(--brand-muted)]">
+        <span className="text-[12px] text-[color:var(--brand-muted)]">
           sample data
         </span>
       </div>

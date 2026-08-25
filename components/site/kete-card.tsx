@@ -122,7 +122,7 @@ export function KeteCard({
         <div className={`relative ${featured ? 'grid items-center gap-8 md:grid-cols-[1fr_auto] md:gap-12' : ''}`}>
           <div>
             <div className="flex items-baseline justify-between">
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 {kete.industry} · {kete.meaning}
               </span>
               <ArrowUpRight
@@ -138,7 +138,7 @@ export function KeteCard({
             >
               {kete.name}
             </h3>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+            <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
               {kete.englishName}
             </p>
 
@@ -182,7 +182,7 @@ export function KeteCard({
         <div className="relative">
 
           <div className="mt-7 flex items-center justify-between">
-            <span className="flex items-center gap-2 font-mono text-[11px] text-[color:var(--text-secondary)]">
+            <span className="flex items-center gap-2 font-mono text-[12px] text-[color:var(--text-secondary)]">
               <span
                 aria-hidden
                 className="h-2.5 w-2.5 rounded-full transition-transform duration-500 group-hover:scale-150 group-focus-visible:scale-150"
@@ -194,7 +194,7 @@ export function KeteCard({
             {/* "+ N agents" chip — appears on hover */}
             {agentCount > 0 && (
               <span
-                className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
+                className="rounded-full border px-3 py-1 font-mono text-[12px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
                 style={{
                   color: kete.accent,
                   borderColor: kete.accent + '55',

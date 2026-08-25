@@ -250,7 +250,7 @@ export function AgentCheckout({
                       </span>
                       {proStack ? (
                         <span
-                          className="mt-0.5 block text-[10.5px] font-bold uppercase tracking-[0.12em]"
+                          className="mt-0.5 block text-[12px] font-bold uppercase tracking-[0.12em]"
                           style={{
                             fontFamily: 'var(--font-space-mono), ui-monospace, monospace',
                             color: PALETTE.muted,

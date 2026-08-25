@@ -60,7 +60,7 @@ export default function WelfarePage() {
                       </p>
                       <WelfarePill status={r.status} />
                     </div>
-                    <p className="mt-1 font-mono text-[10.5px] uppercase tracking-[0.1em]" style={{ color: 'var(--tenant-muted)' }}>
+                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em]" style={{ color: 'var(--tenant-muted)' }}>
                       {r.code}
                     </p>
                     <p className="mt-2 text-[13.5px] leading-relaxed" style={{ color: 'var(--tenant-ink)' }}>
@@ -69,7 +69,7 @@ export default function WelfarePage() {
                     <p className="mt-2 text-[12.5px] leading-relaxed" style={{ color: 'var(--tenant-muted)' }}>
                       {r.note}
                     </p>
-                    <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: 'var(--tenant-muted)' }}>
+                    <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.12em]" style={{ color: 'var(--tenant-muted)' }}>
                       Last checked {r.lastChecked}
                     </p>
                   </li>

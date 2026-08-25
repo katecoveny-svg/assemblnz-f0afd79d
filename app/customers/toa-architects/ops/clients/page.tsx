@@ -52,7 +52,7 @@ export default function ClientsPage() {
                   </dd>
                 </div>
               </dl>
-              <p className="mt-3 border-t border-black/5 pt-2 text-[11px] text-[color:var(--brand-muted)]">
+              <p className="mt-3 border-t border-black/5 pt-2 text-[12px] text-[color:var(--brand-muted)]">
                 draft — saves the principal 3–4 hours of Friday writing, goes
                 nowhere without approval (demo)
               </p>

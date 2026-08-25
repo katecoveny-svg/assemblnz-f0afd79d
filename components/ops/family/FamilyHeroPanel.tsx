@@ -53,7 +53,7 @@ export function FamilyHeroPanel({ parsed }: { parsed: boolean }) {
       <div style={{ position: 'absolute', inset: 0 }}><FamilyHeroIllustrated /></div>
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${CREAM}f4 0%, ${CREAM}cc 46%, transparent 74%)`, pointerEvents: 'none' }} />
       <div style={{ position: 'relative', padding: 'clamp(24px,3.5vw,40px)', maxWidth: 620 }}>
-        <p style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: CORAL }}>family os · concept</p>
+        <p style={{ fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: CORAL }}>family os · concept</p>
         <h1 style={{ fontFamily: 'var(--font-brand-display)', fontSize: 'clamp(2.1rem,4.4vw,3.3rem)', fontWeight: 600, color: INK, margin: '8px 0 0', lineHeight: 1.04 }}>
           Life admin, handled<span style={{ color: CORAL }}>.</span>
         </h1>
@@ -70,7 +70,7 @@ export function FamilyHeroPanel({ parsed }: { parsed: boolean }) {
             {parsed
               ? <MiniButton action={clearAllProposedAction} label="Clear" tone={MUTED} />
               : <MiniButton action={loadSampleAction} label="Use the sample" tone={GOLD} />}
-            <span style={{ fontSize: 11.5, color: MUTED }}>real agent · claude reads it · hand-drawn, always yours</span>
+            <span style={{ fontSize: 12, color: MUTED }}>real agent · claude reads it · hand-drawn, always yours</span>
           </div>
         </form>
       </div>

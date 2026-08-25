@@ -191,7 +191,7 @@ export function DrawingsToLife() {
                   loading="lazy"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center text-[11px] uppercase tracking-[0.3em]" style={{ color: `${CHAMPAGNE}aa` }}>
+                <div className="flex h-full items-center justify-center text-[12px] uppercase tracking-[0.3em]" style={{ color: `${CHAMPAGNE}aa` }}>
                   loading the 16A model
                 </div>
               )}
@@ -221,7 +221,7 @@ export function DrawingsToLife() {
                 href={VIEWER}
                 target="_blank"
                 rel="noreferrer"
-                className="pointer-events-auto shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition hover:opacity-90"
+                className="pointer-events-auto shrink-0 rounded-full px-3 py-1.5 text-[12px] font-semibold transition hover:opacity-90"
                 style={{ backgroundColor: CHAMPAGNE, color: '#1a1918' }}
               >
                 open the model →
@@ -231,7 +231,7 @@ export function DrawingsToLife() {
         </div>
       </div>
 
-      <p className="-mt-2 text-[11px]" style={{ color: '#6f6f64' }}>
+      <p className="-mt-2 text-[12px]" style={{ color: '#6f6f64' }}>
         stand-in model — 16A-style typology, not Nick&apos;s actual drawings.
       </p>
 
@@ -256,7 +256,7 @@ export function DrawingsToLife() {
         ].map((m) => (
           <div key={m.k} className="flex flex-col gap-2 rounded-xl border border-black/5 bg-white p-4">
             <span
-              className="font-[family-name:var(--font-brand-mono)] text-[10px] uppercase tracking-[0.2em]"
+              className="font-[family-name:var(--font-brand-mono)] text-[12px] uppercase tracking-[0.2em]"
               style={{ color: '#8a744f' }}
             >
               {m.k}

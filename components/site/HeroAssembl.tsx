@@ -29,7 +29,7 @@ export function HeroAssembl() {
 
           {/* TEXT — right column, headline + lede + CTAs all above the fold. */}
           <div className="md:col-span-6 lg:col-span-5">
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               assembl evidence vessel · Built in Aotearoa
             </p>
 
@@ -76,7 +76,7 @@ export function HeroAssembl() {
                 className="block h-px w-full"
                 style={{ backgroundColor: 'var(--assembl-pounamu)', opacity: 0.55 }}
               />
-              <span className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-primary)]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-primary)]">
                 {label}
               </span>
             </li>

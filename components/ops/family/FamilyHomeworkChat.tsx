@@ -76,9 +76,9 @@ export function FamilyHomeworkChat({ child }: { child: Child }) {
         <span style={{ width: 34, height: 34, borderRadius: 10, background: `linear-gradient(135deg, ${CORAL}, ${GOLD})`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 15 }} aria-hidden>✎</span>
         <div className="flex-1">
           <p className="text-sm font-semibold" style={{ color: INK }}>Homework help · {name}</p>
-          <p className="text-[11px]" style={{ color: '#68766f' }}>Year {year} · {school} · draft-only</p>
+          <p className="text-[12px]" style={{ color: '#68766f' }}>Year {year} · {school} · draft-only</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium" style={{ background: `${GOLD}22`, color: INK }}>
+        <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-medium" style={{ background: `${GOLD}22`, color: INK }}>
           <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: busy ? CORAL : SAGE }} />
           {busy ? 'thinking' : 'online'}
         </span>
@@ -103,7 +103,7 @@ export function FamilyHomeworkChat({ child }: { child: Child }) {
       {messages.length === 0 ? (
         <div className="flex flex-wrap gap-1.5 px-4 pb-2">
           {OPENERS.map((q) => (
-            <button key={q} type="button" onClick={() => send(q)} className="rounded-full px-3 py-1.5 text-left text-[11.5px] transition"
+            <button key={q} type="button" onClick={() => send(q)} className="rounded-full px-3 py-1.5 text-left text-[12px] transition"
               style={{ background: 'rgba(255,255,255,0.7)', border: `1px solid ${CORAL}66`, color: INK }}>
               {q}
             </button>

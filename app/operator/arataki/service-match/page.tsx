@@ -67,7 +67,7 @@ export default async function ServiceMatchPage({
       <div className="mx-auto max-w-7xl">
         <header className="grid gap-7 border-b border-[rgba(61,66,80,0.12)] pb-7 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#C79B1F]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#C79B1F]">
               assembl · Arataki · Service-to-Sales Matcher
             </p>
             <h1 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,6rem)] font-light leading-[0.9] text-[color:var(--text-primary)]">
@@ -81,7 +81,7 @@ export default async function ServiceMatchPage({
             <div className="flex items-start gap-3">
               <Sparkles className="mt-1 h-5 w-5 text-[#C79B1F]" aria-hidden />
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">
                   Matcher brief
                 </p>
                 <p className="mt-2 text-sm leading-relaxed">
@@ -104,7 +104,7 @@ export default async function ServiceMatchPage({
           <ServiceMatchWorkspace tenant={tenant} matches={visibleMatches} />
         ) : (
           <section className="mt-8 rounded-[8px] border border-[rgba(217,168,90,0.38)] bg-[rgba(217,168,90,0.10)] p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">Tenant required</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">Tenant required</p>
             <h2 className="mt-2 font-display text-3xl font-light text-[color:var(--text-primary)]">No dealership membership found.</h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed">
               The overlay needs a tenant row before service and sales CSVs can be matched to a rooftop.
@@ -128,7 +128,7 @@ function MetricCard({
   return (
     <div className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/70 p-4">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9D8C7D]">{label}</span>
+        <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#9D8C7D]">{label}</span>
         <Icon className="h-4 w-4 text-[#C79B1F]" aria-hidden />
       </div>
       <p className="mt-3 font-mono text-3xl leading-none">{value}</p>

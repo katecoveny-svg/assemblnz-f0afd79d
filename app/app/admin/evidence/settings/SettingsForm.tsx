@@ -26,7 +26,7 @@ export function SettingsForm({ initial }: Props) {
   return (
     <form action={handle} className="mt-8 space-y-7">
       <fieldset className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white p-6">
-        <legend className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <legend className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           retention
         </legend>
         <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -57,7 +57,7 @@ export function SettingsForm({ initial }: Props) {
       </fieldset>
 
       <fieldset className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white p-6">
-        <legend className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <legend className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           public verifier
         </legend>
         <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -76,7 +76,7 @@ export function SettingsForm({ initial }: Props) {
       </fieldset>
 
       <fieldset className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white p-6">
-        <legend className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <legend className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           cite-when-tikanga-uncertain
         </legend>
         <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -97,17 +97,17 @@ export function SettingsForm({ initial }: Props) {
         <button
           type="submit"
           disabled={isPending}
-          className="inline-flex h-11 items-center rounded-[2px] bg-[color:var(--text-primary)] px-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
+          className="inline-flex h-11 items-center rounded-[2px] bg-[color:var(--text-primary)] px-6 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? 'saving…' : 'save settings'}
         </button>
         {feedback?.ok ? (
-          <span className="font-mono text-[11px] tracking-[0.04em] text-[color:#2a7a3e]">
+          <span className="font-mono text-[12px] tracking-[0.04em] text-[color:#2a7a3e]">
             ✓ saved
           </span>
         ) : null}
         {feedback && !feedback.ok ? (
-          <span className="font-mono text-[11px] tracking-[0.04em] text-[color:#b3261e]">
+          <span className="font-mono text-[12px] tracking-[0.04em] text-[color:#b3261e]">
             · {feedback.reason ?? 'save failed'}
           </span>
         ) : null}
@@ -133,7 +133,7 @@ function NumberField({
 }) {
   return (
     <label htmlFor={id} className="block">
-      <span className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+      <span className="block font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
         {label}
       </span>
       <input

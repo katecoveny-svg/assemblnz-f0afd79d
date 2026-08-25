@@ -52,7 +52,7 @@ const card: CSSProperties = {
   background: 'linear-gradient(180deg,#ffffff,#fbfcfb)',
   padding: 14,
 };
-const label: CSSProperties = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
+const label: CSSProperties = { fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
 
 function Bar({ pct, color }: { pct: number; color: string }) {
   return (
@@ -72,18 +72,18 @@ export function FamilyMoney({ readOnly = false }: { readOnly?: boolean }) {
           return (
             <div key={k.name} style={card}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <div style={{ fontSize: 14.5, fontWeight: 700, color: INK }}>{k.name} <span style={{ fontSize: 11.5, color: MUTED, fontWeight: 400 }}>· {k.age}</span></div>
+                <div style={{ fontSize: 14.5, fontWeight: 700, color: INK }}>{k.name} <span style={{ fontSize: 12, color: MUTED, fontWeight: 400 }}>· {k.age}</span></div>
                 <div style={{ fontSize: 15, fontWeight: 800, color: SAGE }}>${k.balance.toFixed(2)}</div>
               </div>
-              <div style={{ fontSize: 11, color: MUTED }}>${k.allowance}/week allowance · balance</div>
+              <div style={{ fontSize: 12, color: MUTED }}>${k.allowance}/week allowance · balance</div>
 
               <p style={{ ...label, marginTop: 12 }}>this week’s chores</p>
               <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {k.chores.map((c) => (
                   <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5 }}>
-                    <span style={{ width: 14, height: 14, borderRadius: 4, border: `1.5px solid ${c.done ? SAGE : GOLD}66`, background: c.done ? SAGE : 'transparent', color: '#fff', fontSize: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{c.done ? '✓' : ''}</span>
+                    <span style={{ width: 14, height: 14, borderRadius: 4, border: `1.5px solid ${c.done ? SAGE : GOLD}66`, background: c.done ? SAGE : 'transparent', color: '#fff', fontSize: 12, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{c.done ? '✓' : ''}</span>
                     <span style={{ color: c.done ? MUTED : INK, textDecoration: c.done ? 'line-through' : 'none' }}>{c.label}</span>
-                    {c.bonus ? <span style={{ fontSize: 10.5, color: CORAL, fontWeight: 600 }}>+${c.bonus}</span> : null}
+                    {c.bonus ? <span style={{ fontSize: 12, color: CORAL, fontWeight: 600 }}>+${c.bonus}</span> : null}
                   </div>
                 ))}
               </div>
@@ -91,7 +91,7 @@ export function FamilyMoney({ readOnly = false }: { readOnly?: boolean }) {
               <div style={{ marginTop: 12, borderTop: `1px solid ${GOLD}22`, paddingTop: 10, display: 'flex', gap: 10, alignItems: 'center' }}>
                 <InkJar size={34} level={pct / 100} title={`${k.name}'s savings jar`} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
                     <span style={{ color: INK, fontWeight: 600 }}>Saving for {k.goal.label}</span>
                     <span style={{ color: MUTED }}>${k.goal.saved} / ${k.goal.target} · {pct}%</span>
                   </div>
@@ -106,10 +106,10 @@ export function FamilyMoney({ readOnly = false }: { readOnly?: boolean }) {
       <div style={{ ...card, marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
         <div>
           <div style={{ fontSize: 13, fontWeight: 700, color: INK }}>Sunday payout ready · ${payout.toFixed(2)}</div>
-          <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>Allowances for the chores marked done. {readOnly ? 'A parent releases it' : 'You release it'} — Tōro never moves real money.</div>
+          <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>Allowances for the chores marked done. {readOnly ? 'A parent releases it' : 'You release it'} — Tōro never moves real money.</div>
         </div>
         {readOnly ? (
-          <span style={{ fontSize: 11.5, color: MUTED, fontStyle: 'italic' }}>waiting on a parent</span>
+          <span style={{ fontSize: 12, color: MUTED, fontStyle: 'italic' }}>waiting on a parent</span>
         ) : (
           <form action={draftAllowanceAction}>
             <input type="hidden" name="amount" value={payout.toFixed(2)} />

@@ -74,7 +74,7 @@ export function MotionDevPanel({
         bottom: 10,
         zIndex: 500,
         fontFamily: 'ui-monospace, monospace',
-        fontSize: 11,
+        fontSize: 12,
         background: 'rgba(255,255,255,0.95)',
         border: '1px solid #ddd',
         borderRadius: 10,

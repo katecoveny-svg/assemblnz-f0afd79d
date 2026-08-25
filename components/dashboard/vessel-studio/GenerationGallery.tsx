@@ -66,21 +66,21 @@ export function GenerationGallery({
     <div className="flex flex-col gap-3">
       <div className="flex items-baseline justify-between">
         <div>
-          <div className="font-mono text-[10.5px] lowercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          <div className="font-mono text-[12px] lowercase tracking-[0.2em] text-[color:var(--text-secondary)]">
             results
           </div>
           <h2 className="mt-0.5 font-display text-[28px] font-light text-[color:var(--text-primary)]">
             generations
           </h2>
         </div>
-        <div className="font-mono text-[10.5px] text-[color:var(--text-secondary)]">
+        <div className="font-mono text-[12px] text-[color:var(--text-secondary)]">
           <span>{cards.length} saved</span>
           <span className="mx-2 text-[color:var(--text-secondary)]">·</span>
           <button
             type="button"
             onClick={onSizePrep}
             title="open the size-export panel for an image you didn't generate here"
-            className="cursor-pointer bg-transparent p-0 font-mono text-[10.5px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)] underline underline-offset-[3px] hover:text-[color:var(--text-primary)]"
+            className="cursor-pointer bg-transparent p-0 font-mono text-[12px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)] underline underline-offset-[3px] hover:text-[color:var(--text-primary)]"
           >
             size-prep an image
           </button>
@@ -89,7 +89,7 @@ export function GenerationGallery({
 
       <div className="flex flex-col gap-4">
         {cards.length === 0 ? (
-          <div className="rounded-[2px] border border-dashed border-[color:var(--assembl-cloud)] px-4 py-7 text-center font-mono text-[11px] lowercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+          <div className="rounded-[2px] border border-dashed border-[color:var(--assembl-cloud)] px-4 py-7 text-center font-mono text-[12px] lowercase tracking-[0.14em] text-[color:var(--text-secondary)]">
             no generations yet · choose a kete, hit generate
           </div>
         ) : (
@@ -107,7 +107,7 @@ export function GenerationGallery({
                   loading="lazy"
                   className="block h-auto w-full max-w-[480px] rounded-[2px] border border-[color:var(--assembl-cloud)]"
                 />
-                <div className="flex flex-wrap items-center justify-between gap-2.5 font-mono text-[10.5px] tracking-[0.1em] text-[color:var(--text-secondary)]">
+                <div className="flex flex-wrap items-center justify-between gap-2.5 font-mono text-[12px] tracking-[0.1em] text-[color:var(--text-secondary)]">
                   <span>
                     {stamp} · {k.name} · {gen.aspect_ratio}
                   </span>
@@ -120,7 +120,7 @@ export function GenerationGallery({
                           `assembl-${k.id}-${Date.parse(gen.generated_at) || Date.now()}.jpg`
                         )
                       }
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[10.5px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[12px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
                     >
                       download
                     </button>
@@ -128,7 +128,7 @@ export function GenerationGallery({
                       type="button"
                       onClick={() => onUseSref(imageUrl)}
                       title="pipe url into the midjourney --sref field"
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[10.5px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[12px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
                     >
                       use as sref
                     </button>
@@ -136,7 +136,7 @@ export function GenerationGallery({
                       type="button"
                       onClick={() => onUseReference(gen, imageUrl)}
                       title="load this image into the fal redux reference field"
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[10.5px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[12px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
                     >
                       use as reference
                     </button>
@@ -144,14 +144,14 @@ export function GenerationGallery({
                       type="button"
                       onClick={() => onExportSizes(gen, imageUrl)}
                       title="open the size-export panel for this image"
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[10.5px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[12px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]"
                     >
                       export sizes
                     </button>
                     <button
                       type="button"
                       onClick={() => onDelete(gen)}
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[10.5px] lowercase tracking-[0.14em] text-[color:#B85C38] hover:bg-[#F4E9E4]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1.5 font-mono text-[12px] lowercase tracking-[0.14em] text-[color:#B85C38] hover:bg-[#F4E9E4]"
                     >
                       delete
                     </button>

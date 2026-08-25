@@ -38,7 +38,7 @@ export default async function HapaiRecipePage({ params }: { params: Promise<{ sl
             <ArrowLeft className="mr-2 h-4 w-4" aria-hidden />
             Back to project picker
           </Link>
-          <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+          <p className="mt-8 font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
             hapai · one-page recipe
           </p>
           <h1
@@ -92,7 +92,7 @@ export default async function HapaiRecipePage({ params }: { params: Promise<{ sl
               </li>
             </ol>
 
-            <h3 className="mt-8 font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+            <h3 className="mt-8 font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
               Prompt to copy
             </h3>
             <div className="mt-3 space-y-3">
@@ -138,7 +138,7 @@ function Pill({ icon: Icon, label }: { icon: typeof Clock; label: string }) {
 function RecipeCard({ title, items }: { title: string; items: string[] }) {
   return (
     <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
-      <h2 className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+      <h2 className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
         {title}
       </h2>
       <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[color:var(--text-body)]">

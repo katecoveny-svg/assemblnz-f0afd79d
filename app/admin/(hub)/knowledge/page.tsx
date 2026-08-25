@@ -100,7 +100,7 @@ export default async function KnowledgePage() {
                   <td style={{ ...td, fontFamily: MONO, fontSize: 12 }}>{a.alert_type.replace('_', ' ')}</td>
                   <td style={{ ...td, fontFamily: MONO, fontSize: 12 }}>{a.source_slug ?? '—'}</td>
                   <td style={{ ...td, fontFamily: BODY, fontSize: 13, color: C.body, maxWidth: 380 }}>{a.message}</td>
-                  <td style={{ ...td, fontFamily: MONO, fontSize: 11.5, color: C.body }}>
+                  <td style={{ ...td, fontFamily: MONO, fontSize: 12, color: C.body }}>
                     {a.dependent_agents.length ? a.dependent_agents.join(', ') : '—'}
                   </td>
                   <td style={{ ...td, fontFamily: MONO, fontSize: 12, color: C.body }}>{nzDate(a.created_at)}</td>
@@ -151,12 +151,12 @@ export default async function KnowledgePage() {
                         {!s.blocked && staleHere && <Pill tone="warn">stale</Pill>}
                         {!s.active && <Pill tone="neutral">inactive</Pill>}
                       </div>
-                      <div style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginTop: 4 }}>
+                      <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginTop: 4 }}>
                         {s.source_slug} · {s.source_type ?? '—'} ·{' '}
                         {d === null ? 'never fetched' : `fetched ${d}d ago`} · {s.last_status ?? '—'}
                       </div>
                       {s.dependent_agents.length > 0 && (
-                        <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.body, marginTop: 4 }}>
+                        <div style={{ fontFamily: MONO, fontSize: 12, color: C.body, marginTop: 4 }}>
                           agents: {s.dependent_agents.join(', ')}
                         </div>
                       )}

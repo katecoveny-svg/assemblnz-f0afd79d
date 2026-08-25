@@ -40,7 +40,7 @@ export function HapaiToolShell({
       <div className="mx-auto max-w-[1500px]">
         <Link
           href="/hapai"
-          className="inline-flex items-center gap-2 rounded-sm font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] transition hover:text-[#313c42] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#313c42] focus-visible:ring-offset-2"
+          className="inline-flex items-center gap-2 rounded-sm font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] transition hover:text-[#313c42] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#313c42] focus-visible:ring-offset-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           SPARK library
@@ -52,7 +52,7 @@ export function HapaiToolShell({
           <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/62 p-6 shadow-[0_28px_90px_rgba(35,33,31,0.08)] md:p-8">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(58,56,50,0.08),transparent_38%),radial-gradient(circle_at_86%_8%,rgba(184, 150, 79,0.16),transparent_30%)]" aria-hidden />
             <div className="relative">
-              <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#313c42]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#313c42]">
                 {kicker}
               </p>
               <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.4rem,7vw,7.2rem)] font-light leading-[0.88] text-[#313c42]">
@@ -70,7 +70,7 @@ export function HapaiToolShell({
                       className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#ffffff]/72 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.05)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(58,56,50,0.26)] hover:shadow-[0_24px_70px_rgba(58,56,50,0.12)]"
                     >
                       <div className="text-[#313c42]">{item.icon ?? <Sparkles className="h-5 w-5" aria-hidden />}</div>
-                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">
+                      <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">
                         {item.title}
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">{item.body}</p>
@@ -86,12 +86,12 @@ export function HapaiToolShell({
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(58,56,50,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(58,56,50,0.06)_1px,transparent_1px)] bg-[size:42px_42px] opacity-40" aria-hidden />
               <div className="relative flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">how it works</p>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#313c42]">how it works</p>
                   <p className="mt-2 max-w-[14rem] text-sm leading-relaxed text-[#5A5550]">
                     One task. One share link. A draft you check before you use it.
                   </p>
                 </div>
-                <div className="rounded-full border border-[rgba(58,56,50,0.16)] bg-white/74 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#313c42] shadow-[0_14px_40px_rgba(35,33,31,0.08)]">
+                <div className="rounded-full border border-[rgba(58,56,50,0.16)] bg-white/74 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42] shadow-[0_14px_40px_rgba(35,33,31,0.08)]">
                   SPARK
                 </div>
               </div>
@@ -112,7 +112,7 @@ export function HapaiToolShell({
                     className="flex items-center justify-between rounded-[6px] border border-white/70 bg-white/66 px-3 py-2 text-xs text-[#3D4250] shadow-[0_14px_32px_rgba(35,33,31,0.08)] backdrop-blur"
                   >
                     <span>{label}</span>
-                    <span className="font-mono text-[10px] text-[#313c42]">0{index + 1}</span>
+                    <span className="font-mono text-[12px] text-[#313c42]">0{index + 1}</span>
                   </div>
                 ))}
               </div>
@@ -123,7 +123,7 @@ export function HapaiToolShell({
               <div className="relative">
               {aside}
               <div className={aside ? "mt-6" : ""}>
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#b8964f]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#b8964f]">
                   share this
                 </p>
                 <div className="mt-4">
@@ -141,7 +141,7 @@ export function HapaiToolShell({
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#b8964f]" aria-hidden />
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#b8964f]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#b8964f]">
                       draft-only posture
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-[#ffffff]/82">{posture}</p>
@@ -150,12 +150,12 @@ export function HapaiToolShell({
               </div>
               <Link
                 href="/hapai#workflow-request"
-                className="mt-5 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#ffffff]/82 transition hover:text-[#ffffff]"
+                className="mt-5 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-[#ffffff]/82 transition hover:text-[#ffffff]"
               >
                 Suggest a better workflow
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
-              <p className="mt-5 flex flex-wrap gap-x-3 gap-y-1 text-[11px] leading-relaxed text-[#ffffff]/58">
+              <p className="mt-5 flex flex-wrap gap-x-3 gap-y-1 text-[12px] leading-relaxed text-[#ffffff]/58">
                 <Link href="/privacy" className="hover:text-[#ffffff]">
                   Privacy
                 </Link>

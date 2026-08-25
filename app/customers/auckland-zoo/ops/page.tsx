@@ -92,7 +92,7 @@ export default function AucklandZooOpsHome() {
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
-            className="mt-4 text-[10px] uppercase text-white/90"
+            className="mt-4 text-[12px] uppercase text-white/90"
             style={{ letterSpacing: '0.16em' }}
           >
             keeper ops concept · not affiliated with or endorsed by auckland zoo · draft-only
@@ -160,7 +160,7 @@ export default function AucklandZooOpsHome() {
             },
           ].map((p) => (
             <div key={p.label} className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+              <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                 {p.label}
               </p>
               <div className="mt-3">{p.live}</div>
@@ -194,7 +194,7 @@ export default function AucklandZooOpsHome() {
               />
             </div>
             <div className="rounded-2xl border border-black/10 bg-white/85 p-4 text-sm backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+              <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                 the kaumātua-hold
               </p>
               <p className="mt-2 text-[13px] leading-relaxed" style={{ color: '#3E3C36' }}>
@@ -259,14 +259,14 @@ export default function AucklandZooOpsHome() {
               <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
                 {ZOO_RECEIPTS[0].createdAt} · drafted by {ZOO_AGENT_NAME}
               </span>
-              <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-amber-900">
+              <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[12px] uppercase tracking-wider text-amber-900">
                 pending review
               </span>
             </div>
             <p className="mt-3 text-[12px]">
               cites: {ZOO_RECEIPTS[0].citations.map((c) => `${c.source}${c.ref ? ` · ${c.ref}` : ''}`).join(' — ')}
             </p>
-            <p className="mt-3 break-all font-mono text-[10px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <p className="mt-3 break-all font-mono text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               {ZOO_RECEIPTS[0].receiptHash}
             </p>
           </div>

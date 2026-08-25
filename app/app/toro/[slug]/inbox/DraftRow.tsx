@@ -220,7 +220,7 @@ export function DraftRow({
           <p className="font-display text-[20px] font-light text-[color:var(--text-primary)]">
             {contactLabel}
           </p>
-          <p className="mt-0.5 font-mono text-[10.5px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+          <p className="mt-0.5 font-mono text-[12px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)]">
             received {formatTime(draft.created_at)}
             {draft.confidence !== null
               ? ` · confidence ${draft.confidence.toFixed(2)}`
@@ -228,7 +228,7 @@ export function DraftRow({
           </p>
         </div>
         <span
-          className={`font-mono text-[10.5px] lowercase tracking-[0.16em] ${pill.tone}`}
+          className={`font-mono text-[12px] lowercase tracking-[0.16em] ${pill.tone}`}
         >
           {pill.label}
         </span>
@@ -236,10 +236,10 @@ export function DraftRow({
 
       {expiringSoon ? (
         <div className="mt-3 rounded-[2px] border border-[color:var(--assembl-gold-thread)]/40 bg-[color:var(--assembl-gold-thread)]/[0.07] px-3 py-2">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">
             auto-expires in {Math.ceil(hoursToExpiry ?? 0)} hours
           </p>
-          <p className="mt-1 font-mono text-[10.5px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+          <p className="mt-1 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
             drafts that sit longer than {AUTO_EXPIRE_HOURS} hours auto-close so they don&apos;t haunt the inbox.
           </p>
         </div>
@@ -250,7 +250,7 @@ export function DraftRow({
           type="button"
           onClick={handleMarkReviewing}
           disabled={isPending}
-          className="mt-3 inline-flex items-center font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] disabled:opacity-50"
+          className="mt-3 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] disabled:opacity-50"
         >
           mark as reviewing
         </button>
@@ -258,7 +258,7 @@ export function DraftRow({
 
       {draft.incoming_body ? (
         <section className="mt-4">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             they said
           </p>
           <p className="mt-1.5 whitespace-pre-wrap text-[15px] leading-relaxed text-[color:var(--text-primary)]">
@@ -268,7 +268,7 @@ export function DraftRow({
       ) : null}
 
       <section className="mt-5">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           tōro suggests
         </p>
         {editing ? (
@@ -287,30 +287,30 @@ export function DraftRow({
       </section>
 
       {draft.status === 'send_failed' && draft.send_error ? (
-        <p className="mt-3 font-mono text-[11px] tracking-[0.04em] text-red-700">
+        <p className="mt-3 font-mono text-[12px] tracking-[0.04em] text-red-700">
           send error · {draft.send_error}
         </p>
       ) : null}
 
       {draft.paymentIntent && draft.paymentIntent.status === 'requires_capture' ? (
         <section className="mt-4 rounded-[2px] border border-[color:var(--assembl-gold-thread)]/40 bg-[color:var(--assembl-gold-thread)]/[0.07] px-4 py-3">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">
             payment authorisation pending
           </p>
           <p className="mt-1.5 font-display text-[20px] font-light text-[color:var(--text-primary)]">
             {formatCurrency(draft.paymentIntent.amount_cents, draft.paymentIntent.currency)}
           </p>
-          <p className="mt-1 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+          <p className="mt-1 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
             {draft.paymentIntent.description ?? 'tōro-initiated charge — awaiting your tap'}
           </p>
-          <p className="mt-2 font-mono text-[10.5px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+          <p className="mt-2 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
             canon hard rule #34: your card is authorised but not captured until you confirm.
           </p>
         </section>
       ) : null}
 
       {error ? (
-        <p className="mt-3 font-mono text-[11px] tracking-[0.06em] text-red-700">
+        <p className="mt-3 font-mono text-[12px] tracking-[0.06em] text-red-700">
           · {error}
         </p>
       ) : null}
@@ -322,7 +322,7 @@ export function DraftRow({
               type="button"
               onClick={handleSaveEdit}
               disabled={isPending}
-              className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--text-primary)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
+              className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--text-primary)] px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
             >
               save & send
             </button>
@@ -334,7 +334,7 @@ export function DraftRow({
                 setError(null);
               }}
               disabled={isPending}
-              className="inline-flex h-10 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] disabled:opacity-50"
+              className="inline-flex h-10 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] disabled:opacity-50"
             >
               cancel
             </button>
@@ -348,7 +348,7 @@ export function DraftRow({
                 type="button"
                 onClick={handleConfirmPayment}
                 disabled={isPending}
-                className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--assembl-gold-thread)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:opacity-90 disabled:opacity-50"
+                className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--assembl-gold-thread)] px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:opacity-90 disabled:opacity-50"
               >
                 confirm payment & send
               </button>
@@ -357,7 +357,7 @@ export function DraftRow({
                 type="button"
                 onClick={handleApprove}
                 disabled={isPending}
-                className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--text-primary)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
+                className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--text-primary)] px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
               >
                 approve & send
               </button>
@@ -366,7 +366,7 @@ export function DraftRow({
               type="button"
               onClick={() => setEditing(true)}
               disabled={isPending}
-              className="inline-flex h-10 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:bg-white disabled:opacity-50"
+              className="inline-flex h-10 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:bg-white disabled:opacity-50"
             >
               edit
             </button>
@@ -374,7 +374,7 @@ export function DraftRow({
               type="button"
               onClick={handleReject}
               disabled={isPending}
-              className="inline-flex h-10 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] disabled:opacity-50"
+              className="inline-flex h-10 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] disabled:opacity-50"
             >
               reject
             </button>
@@ -386,7 +386,7 @@ export function DraftRow({
             type="button"
             onClick={handleRetry}
             disabled={isPending}
-            className="inline-flex h-10 items-center rounded-[2px] border border-red-600 px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-red-700 hover:bg-red-50 disabled:opacity-50"
+            className="inline-flex h-10 items-center rounded-[2px] border border-red-600 px-5 font-mono text-[12px] uppercase tracking-[0.18em] text-red-700 hover:bg-red-50 disabled:opacity-50"
           >
             retry send
           </button>
@@ -395,7 +395,7 @@ export function DraftRow({
         <button
           type="button"
           onClick={() => setHistoryOpen((v) => !v)}
-          className="ml-auto inline-flex h-10 items-center font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+          className="ml-auto inline-flex h-10 items-center font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
         >
           {historyOpen ? 'hide history' : `history (${transitions.length})`}
         </button>
@@ -403,11 +403,11 @@ export function DraftRow({
 
       {historyOpen ? (
         <section className="mt-4 border-t border-[color:var(--assembl-cloud)] pt-4">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             transition log
           </p>
           {transitions.length === 0 ? (
-            <p className="mt-2 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            <p className="mt-2 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
               no transitions recorded yet — the draft is in its initial state.
             </p>
           ) : (
@@ -415,7 +415,7 @@ export function DraftRow({
               {transitions.map((t, i) => (
                 <li
                   key={`${t.transitioned_at}-${i}`}
-                  className="font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]"
+                  className="font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]"
                 >
                   <span className="text-[color:var(--text-primary)]">
                     {t.from_state ?? '∅'} → {t.to_state}

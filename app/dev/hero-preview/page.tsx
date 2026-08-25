@@ -30,7 +30,7 @@ export default function HeroPreviewPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
           dev · hero-preview
         </p>
         <h1
@@ -67,10 +67,10 @@ export default function HeroPreviewPage() {
                 )}
               </div>
               <div className="border-t border-[rgba(35,33,31,0.08)] p-4">
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
                   {key}
                 </p>
-                <p className="mt-1 font-mono text-[10px] text-[color:var(--text-secondary)]">
+                <p className="mt-1 font-mono text-[12px] text-[color:var(--text-secondary)]">
                   src: {entry.src ? '✓ MP4' : '— (poster only)'}
                 </p>
               </div>

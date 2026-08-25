@@ -108,16 +108,16 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#313c42] md:px-12 md:py-16">
       <div className="mx-auto max-w-[920px]">
-        <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]">
+        <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]">
           <ArrowLeft className="h-3.5 w-3.5" /> {copy.backLabel}
         </Link>
-        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">{copy.eyebrow}</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#6B6661]">{copy.eyebrow}</p>
         <h1 className="mt-3 font-display text-[38px] font-normal leading-tight md:text-[52px]">{copy.h1}</h1>
         <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">{copy.body}</p>
 
         <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
           <label className="block">
-            <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Fridge / pantry photo</span>
+            <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Fridge / pantry photo</span>
             <input type="file" accept="image/*" capture="environment" onChange={(event) => handleFile(event.target.files?.[0])} className="sr-only" id="fridge-photo" />
             <span className="flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-[12px] border border-dashed border-[rgba(35,33,31,0.22)] bg-[#f7f9f8] p-5 text-center">
               {imageBase64 ? (
@@ -137,11 +137,11 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
             <Slider label="Days to cover" value={daysToCover} min={1} max={14} onChange={setDaysToCover} />
           </div>
           <label className="mt-5 block">
-            <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Dietary notes</span>
+            <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Dietary notes</span>
             <textarea value={dietaryNotes} onChange={(event) => setDietaryNotes(event.target.value)} className="min-h-[96px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#f7f9f8] p-3 outline-none focus:border-[#313c42] focus:bg-white" placeholder="vegetarian, no dairy, kid-friendly, school lunches..." />
           </label>
           <fieldset className="mt-5">
-            <legend className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Budget</legend>
+            <legend className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Budget</legend>
             <div className="flex flex-wrap gap-2">
               {(["tight", "normal", "generous"] as const).map((option) => (
                 <label key={option} className={`cursor-pointer rounded-full border px-4 py-2 text-sm ${budget === option ? "border-[#313c42] bg-[#313c42] text-white" : "border-[rgba(35,33,31,0.16)] text-[#5A5550]"}`}>
@@ -200,7 +200,7 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
 function Slider({ label, value, min, max, onChange }: { label: string; value: number; min: number; max: number; onChange: (value: number) => void }) {
   return (
     <label>
-      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{label}: {value}</span>
+      <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">{label}: {value}</span>
       <input type="range" min={min} max={max} value={value} onChange={(event) => onChange(Number(event.target.value))} className="w-full accent-[#313c42]" />
     </label>
   );

@@ -70,7 +70,7 @@ export default function AucklandZooOpsLayout({ children }: { children: ReactNode
           <div className="relative flex flex-col items-center gap-4">
             <MatarikiCluster size={30} gold />
             <AssemblMotto />
-            <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               <AssemblWordmark /> × Auckland Zoo · concept · not affiliated with
               or endorsed by Auckland Zoo · Aotearoa
             </span>

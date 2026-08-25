@@ -24,7 +24,7 @@ export default function ConsentsPage() {
                 {c.project}
               </h2>
               <span
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] text-white"
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] text-white"
                 style={{ backgroundColor: STATUS_COLOUR[c.status] }}
               >
                 {c.stage}

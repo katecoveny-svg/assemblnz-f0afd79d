@@ -37,7 +37,7 @@ export default function WelcomePage() {
               >
                 <span>
                   <span className="block font-display text-xl font-light">{kete.industry}</span>
-                  <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                  <span className="block font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                     {kete.name}
                   </span>
                 </span>

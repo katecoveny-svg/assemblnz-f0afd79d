@@ -82,11 +82,11 @@ export default function MoanaOpsLayout({ children }: { children: ReactNode }) {
               Moana
             </span>
           </Link>
-          <span className="text-[11px] lowercase tracking-[0.08em] text-[color:var(--brand-muted)]">
+          <span className="text-[12px] lowercase tracking-[0.08em] text-[color:var(--brand-muted)]">
             {config.taglines?.primary}
           </span>
           <span
-            className="ml-auto rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.16em]"
+            className="ml-auto rounded-full px-2.5 py-1 text-[12px] uppercase tracking-[0.16em]"
             style={{ background: 'rgba(225,98,47,0.16)', color: '#F2EFE6' }}
           >
             concept demo
@@ -132,7 +132,7 @@ export default function MoanaOpsLayout({ children }: { children: ReactNode }) {
           <div className="relative flex flex-col items-center gap-4">
             <MatarikiCluster size={30} gold />
             <AssemblMotto />
-            <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               <AssemblWordmark /> × Moana · concept pilot · Aotearoa
               <span style={{ color: ASSEMBL_GOLD }}> ·</span>
             </span>

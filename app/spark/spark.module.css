@@ -46,7 +46,7 @@
 }
 .eyebrow {
   display: inline-block;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--spark-teal-deep);
@@ -199,7 +199,7 @@
 .previewTitle { font-weight: 700; font-size: 1rem; }
 .previewSummary { font-size: 0.85rem; color: var(--spark-ink-soft); margin-top: 0.1rem; }
 .draftBadge {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--spark-teal-deep);

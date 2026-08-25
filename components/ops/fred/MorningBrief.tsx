@@ -18,7 +18,7 @@ const glass = (C: TonePalette): CSSProperties => ({
 });
 
 const eyebrow = (C: TonePalette): CSSProperties => ({
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: C.muted,
@@ -28,7 +28,7 @@ const eyebrow = (C: TonePalette): CSSProperties => ({
 const display = 'var(--font-brand-display), Georgia, serif';
 
 const pill = (bg: string, color: string): CSSProperties => ({
-  fontSize: 11,
+  fontSize: 12,
   fontWeight: 700,
   letterSpacing: '0.06em',
   textTransform: 'uppercase',
@@ -226,16 +226,16 @@ function Queue() {
               </div>
             </div>
             <p style={{ margin: '8px 0 0', fontSize: 13, color: C.muted, lineHeight: 1.5 }}>
-              <span style={{ ...eyebrow(C), fontSize: 10 }}>noticed · </span>
+              <span style={{ ...eyebrow(C), fontSize: 12 }}>noticed · </span>
               {item.noticed}
             </p>
             <p style={{ margin: '6px 0 0', fontSize: 13.5, color: C.ink, lineHeight: 1.5 }}>
-              <span style={{ ...eyebrow(C), fontSize: 10, color: C.accentDeep }}>already done · </span>
+              <span style={{ ...eyebrow(C), fontSize: 12, color: C.accentDeep }}>already done · </span>
               {item.done}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10, alignItems: 'center' }}>
               {item.surfaces.map((s) => (
-                <span key={s} style={{ fontSize: 11, color: C.accentDeep }}>
+                <span key={s} style={{ fontSize: 12, color: C.accentDeep }}>
                   {surfaceName(s).toLowerCase()}
                 </span>
               ))}

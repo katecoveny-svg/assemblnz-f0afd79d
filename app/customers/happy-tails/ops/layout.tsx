@@ -78,12 +78,12 @@ export default function HappyTailsOpsLayout({ children }: { children: ReactNode 
           <div className="relative flex flex-col items-center gap-4">
             <MatarikiCluster size={30} gold />
             <AssemblMotto />
-            <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               <AssemblWordmark /> × Happy Tails · concept pilot · Aotearoa
             </span>
             <Link
               href="/alphassembl"
-              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10.5px] font-medium"
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-medium"
               style={{ background: '#1a2e4a', color: '#f8f9fa', letterSpacing: '0.02em' }}
             >
               <span style={{ width: 6, height: 6, borderRadius: 999, background: '#f59e0b' }} />

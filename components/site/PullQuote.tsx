@@ -17,7 +17,7 @@ export function PullQuote({
         {children}
       </blockquote>
       {cite && (
-        <figcaption className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+        <figcaption className="mt-5 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
           {cite}
         </figcaption>
       )}

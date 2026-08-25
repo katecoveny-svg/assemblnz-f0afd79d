@@ -24,7 +24,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .heading {
@@ -73,7 +73,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .textarea {
@@ -105,7 +105,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .suggestionRow {
@@ -201,7 +201,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .answerBadge {

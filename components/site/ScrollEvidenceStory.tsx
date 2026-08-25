@@ -108,7 +108,7 @@ export function ScrollEvidenceStory() {
       {/* Active-scene caption — top-right, small, like nav-step in the prototype */}
       <div
         aria-live="polite"
-        className="pointer-events-none absolute right-12 top-8 z-30 hidden font-mono text-[11px] uppercase tracking-[0.18em] md:block"
+        className="pointer-events-none absolute right-12 top-8 z-30 hidden font-mono text-[12px] uppercase tracking-[0.18em] md:block"
         style={{ color: 'var(--text-body)', opacity: 0.6 }}
       >
         <span
@@ -160,7 +160,7 @@ function SceneShell({
     >
       <div className="lg:sticky lg:top-[28vh] lg:self-start lg:max-w-md">
         <p
-          className="mb-7 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em]"
+          className="mb-7 flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.18em]"
           style={{ color: 'var(--assembl-pounamu)' }}
         >
           <span
@@ -283,7 +283,7 @@ function Scene1() {
               }}
             />
             <div
-              className="mb-1.5 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em]"
+              className="mb-1.5 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em]"
               style={{ color: 'var(--text-secondary)' }}
             >
               <PulseDot size={5} />
@@ -443,7 +443,7 @@ function Scene2() {
             transition={{ duration: 0.55, delay: ri * 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
             <span
-              className="absolute left-0 top-[-16px] font-mono text-[9px] uppercase tracking-[0.16em]"
+              className="absolute left-0 top-[-16px] font-mono text-[12px] uppercase tracking-[0.16em]"
               style={{ color: 'var(--assembl-pounamu)' }}
             >
               <span
@@ -456,7 +456,7 @@ function Scene2() {
             {row.notes.map((n, ni) => (
               <div
                 key={ni}
-                className="flex items-center gap-2 whitespace-nowrap rounded-[2px] px-3 py-2 font-mono text-[9px] uppercase tracking-[0.14em]"
+                className="flex items-center gap-2 whitespace-nowrap rounded-[2px] px-3 py-2 font-mono text-[12px] uppercase tracking-[0.14em]"
                 style={{
                   backgroundColor: 'var(--assembl-paper)',
                   border: '0.5px solid rgba(199,155,31,0.32)',
@@ -710,7 +710,7 @@ function Scene5() {
 
           {/* head */}
           <div
-            className="flex items-center justify-between border-b pb-[18px] font-mono text-[10px] uppercase tracking-[0.16em]"
+            className="flex items-center justify-between border-b pb-[18px] font-mono text-[12px] uppercase tracking-[0.16em]"
             style={{
               color: 'var(--text-secondary)',
               borderColor: 'rgba(35,33,31,0.08)',
@@ -728,7 +728,7 @@ function Scene5() {
 
           {/* eyebrow */}
           <p
-            className="mt-[22px] mb-3 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em]"
+            className="mt-[22px] mb-3 flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.18em]"
             style={{ color: 'var(--assembl-pounamu)' }}
           >
             <span
@@ -777,7 +777,7 @@ function Scene5() {
             style={{ borderColor: 'rgba(35,33,31,0.08)' }}
           >
             <div
-              className="mb-3.5 flex justify-between font-mono text-[10px] uppercase tracking-[0.16em]"
+              className="mb-3.5 flex justify-between font-mono text-[12px] uppercase tracking-[0.16em]"
               style={{ color: 'var(--text-secondary)' }}
             >
               <span>workflow trail</span>
@@ -815,7 +815,7 @@ function Scene5() {
               />
             </div>
             <div
-              className="mt-2.5 flex justify-between font-mono text-[9px] uppercase tracking-[0.14em]"
+              className="mt-2.5 flex justify-between font-mono text-[12px] uppercase tracking-[0.14em]"
               style={{ color: 'var(--text-secondary)' }}
             >
               <span>intake</span>
@@ -856,7 +856,7 @@ function Scene5() {
             ].map((cell, i) => (
               <div key={i}>
                 <dt
-                  className="mb-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em]"
+                  className="mb-1.5 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em]"
                   style={{ color: 'var(--text-secondary)' }}
                 >
                   <span
@@ -1030,7 +1030,7 @@ function VesselLabel({
 
   return (
     <span
-      className="absolute z-10 flex items-center gap-2.5 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.14em]"
+      className="absolute z-10 flex items-center gap-2.5 whitespace-nowrap font-mono text-[12px] uppercase tracking-[0.14em]"
       style={{ ...corner, color: 'var(--text-body)', opacity: 0.75 }}
     >
       {!isRight && (

@@ -35,7 +35,7 @@ export function PhoneMock({
           display: 'flex',
           justifyContent: 'space-between',
           fontFamily: 'var(--ff-mono)',
-          fontSize: 11,
+          fontSize: 12,
           color: 'var(--muted)',
           padding: '2px 8px 12px',
         }}
@@ -83,7 +83,7 @@ export function PhoneMock({
         <span
           style={{
             fontFamily: 'var(--ff-mono)',
-            fontSize: 9,
+            fontSize: 12,
             letterSpacing: '0.12em',
             textTransform: 'uppercase',
             color: 'var(--muted)',

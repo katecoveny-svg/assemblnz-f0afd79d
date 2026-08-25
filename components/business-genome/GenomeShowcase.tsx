@@ -100,7 +100,7 @@ export function GenomeShowcase({
             padding: '68px clamp(20px, 5vw, 40px) 56px',
           }}
         >
-          <p style={{ margin: 0, color: '#8b7447', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          <p style={{ margin: 0, color: '#8b7447', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
             assembl&rsquo;s own Business Genome
           </p>
           <h1
@@ -159,7 +159,7 @@ export function GenomeShowcase({
                 style={{
                   margin: 0,
                   color: MUTED,
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 700,
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
@@ -191,7 +191,7 @@ export function GenomeShowcase({
                     <p style={{ margin: 0, color: TEAL, fontSize: 12, fontWeight: 700 }}>{fact.label}</p>
                     <p style={{ margin: 0, color: INK, fontSize: 14, lineHeight: 1.55 }}>{fact.value}</p>
                     {fact.readBy.length > 0 && (
-                      <p style={{ margin: 'auto 0 0', color: MUTED, fontSize: 11, lineHeight: 1.5 }}>
+                      <p style={{ margin: 'auto 0 0', color: MUTED, fontSize: 12, lineHeight: 1.5 }}>
                         read by {fact.readBy.join(' · ')}
                       </p>
                     )}

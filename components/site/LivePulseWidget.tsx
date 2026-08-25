@@ -52,11 +52,11 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
                 style={{ background: active ? 'var(--assembl-pounamu)' : 'var(--text-secondary)' }}
               />
             </span>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
               source status
             </p>
           </div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
             {formatTime(stats.capturedAt)}
           </p>
         </div>
@@ -87,7 +87,7 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
         </p>
         <Link
           href="/how-it-works"
-          className="inline-flex h-9 w-fit items-center justify-center rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/58 px-4 font-mono text-[9px] uppercase tracking-[0.13em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
+          className="inline-flex h-9 w-fit items-center justify-center rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/58 px-4 font-mono text-[12px] uppercase tracking-[0.13em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
         >
           how it works
           <ArrowRight className="ml-2 h-3.5 w-3.5" aria-hidden />
@@ -112,7 +112,7 @@ function PulseMetric({
       <p className="mt-4 font-display text-4xl font-light leading-none tabular-nums text-[color:var(--assembl-pounamu)]">
         {value === 0 ? '-' : value.toLocaleString('en-NZ')}
       </p>
-      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+      <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         {label}
       </p>
     </div>

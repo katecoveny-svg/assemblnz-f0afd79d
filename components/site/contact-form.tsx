@@ -168,7 +168,7 @@ export function ContactForm() {
             <span
               id="message-counter"
               className={cn(
-                "font-mono text-[10px] uppercase tracking-[0.1em]",
+                "font-mono text-[12px] uppercase tracking-[0.1em]",
                 messageLength > 3600
                   ? "text-destructive font-medium"
                   : "text-[color:var(--text-secondary)]"
@@ -194,7 +194,7 @@ export function ContactForm() {
         )}
 
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             One working-day response · NZ-hosted intake
           </p>
           <button
@@ -261,7 +261,7 @@ function Field({
     <div className="block">
       <label
         htmlFor={name}
-        className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+        className="mb-2 block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
       >
         {label}
         {required && (

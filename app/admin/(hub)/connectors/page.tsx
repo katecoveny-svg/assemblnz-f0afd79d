@@ -116,7 +116,7 @@ export default async function ConnectorsPage() {
 
       {!cfg ? (
         <Card tone="cream" style={{ maxWidth: 640 }}>
-          <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.bad, marginBottom: 10 }}>
+          <div style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.bad, marginBottom: 10 }}>
             not configured
           </div>
           <p style={{ fontFamily: BODY, fontSize: 14.5, color: C.body, margin: '0 0 14px' }}>
@@ -180,7 +180,7 @@ export default async function ConnectorsPage() {
           )}
 
           <p style={{ fontFamily: BODY, fontSize: 12.5, color: C.muted, marginTop: 18, maxWidth: 640 }}>
-            Every mint and revoke writes a mana receipt (issuer <code style={{ fontFamily: MONO, fontSize: 11.5 }}>action-path</code>).
+            Every mint and revoke writes a mana receipt (issuer <code style={{ fontFamily: MONO, fontSize: 12 }}>action-path</code>).
             Email drafts queue on /admin/approvals — nothing sends until you approve, and dispatch stays off until
             ACTION_DISPATCH_ENABLED is deliberately switched on.
           </p>

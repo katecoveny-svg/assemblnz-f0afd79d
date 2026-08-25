@@ -134,7 +134,7 @@ export default function KitchenPage() {
                 <div
                   style={{
                     fontFamily: 'var(--lula-mono), monospace',
-                    fontSize: 10.5,
+                    fontSize: 12,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     color: B.brassDark,

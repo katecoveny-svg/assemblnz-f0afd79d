@@ -57,7 +57,7 @@ export function ProviderGrid({ plans }: { plans: LivePlan[] }) {
               </div>
               <div className="text-right">
                 <div className="text-sm font-bold" style={{ color: 'var(--b-teal-deep)' }}>{money(p.monthlyCost)}</div>
-                <div className="text-[10px]" style={{ color: 'var(--b-faint)' }}>/mo indicative</div>
+                <div className="text-[12px]" style={{ color: 'var(--b-faint)' }}>/mo indicative</div>
               </div>
             </div>
 
@@ -74,14 +74,14 @@ export function ProviderGrid({ plans }: { plans: LivePlan[] }) {
             {/* Provenance — the trust line */}
             <div className="mt-3 flex items-center justify-between border-t pt-2.5" style={{ borderColor: 'var(--b-line)' }}>
               <div className="min-w-0">
-                <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 truncate text-[11px] font-medium" style={{ color: 'var(--b-teal-deep)' }}>
+                <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 truncate text-[12px] font-medium" style={{ color: 'var(--b-teal-deep)' }}>
                   {p.sourceHost} <ExternalLink size={10} />
                 </a>
-                <p className="text-[10px]" style={{ color: 'var(--b-faint)' }}>
+                <p className="text-[12px]" style={{ color: 'var(--b-faint)' }}>
                   verified {verifiedFmt(p.lastVerified)}
                 </p>
               </div>
-              <span className="inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-bold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }} title="Source trust tier">
+              <span className="inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[12px] font-bold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }} title="Source trust tier">
                 <ShieldCheck size={10} /> {p.trustTier}
               </span>
             </div>

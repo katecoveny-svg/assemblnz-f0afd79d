@@ -15,7 +15,7 @@ export function FounderGateForm({ configured }: FounderGateFormProps) {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       <label className="flex flex-col gap-2">
-        <span className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           founder passphrase
         </span>
         <input
@@ -31,7 +31,7 @@ export function FounderGateForm({ configured }: FounderGateFormProps) {
       <button
         type="submit"
         disabled={!configured || pending}
-        className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--assembl-paper)] px-4 py-3 font-mono text-[11.5px] lowercase tracking-[0.22em] text-[color:var(--text-primary)] transition-colors enabled:hover:bg-[color:var(--assembl-cloud)] disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--assembl-paper)] px-4 py-3 font-mono text-[12px] lowercase tracking-[0.22em] text-[color:var(--text-primary)] transition-colors enabled:hover:bg-[color:var(--assembl-cloud)] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {pending ? 'checking…' : 'enter studio'}
       </button>
@@ -44,7 +44,7 @@ export function FounderGateForm({ configured }: FounderGateFormProps) {
         </div>
       )}
       {!configured && (
-        <p className="font-mono text-[10.5px] leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
           set <code>FOUNDER_GATE_SECRET</code> in the env to enable the gate.
         </p>
       )}

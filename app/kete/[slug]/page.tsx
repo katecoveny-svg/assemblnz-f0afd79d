@@ -120,7 +120,7 @@ function IndustryKetePage({
                   style={{ backgroundColor: kete.accent }}
                   aria-hidden
                 />
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                   {kete.industry} · {kete.meaning}
                 </span>
               </div>
@@ -210,7 +210,7 @@ function IndustryKetePage({
                       style={{ backgroundColor: kete.accent }}
                       aria-hidden
                     />
-                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Coming soon
                     </span>
                     <span className="text-sm text-[color:var(--text-primary)]">
@@ -237,7 +237,7 @@ function IndustryKetePage({
                       style={{ backgroundColor: kete.accent }}
                       aria-hidden
                     />
-                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Free tool
                     </span>
                     <span className="text-sm text-[color:var(--text-primary)]">
@@ -253,7 +253,7 @@ function IndustryKetePage({
                     className="mt-10 rounded-card border border-[rgba(35,33,31,0.10)] bg-white/50 p-5"
                     style={{ borderColor: `${kete.accent}40` }}
                   >
-                    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Dealer demo path
                     </p>
                     <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -269,7 +269,7 @@ function IndustryKetePage({
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="inline-flex h-10 items-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white/55 px-4 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
+                          className="inline-flex h-10 items-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white/55 px-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
                         >
                           {item.label}
                           <ArrowRight className="ml-2 h-3.5 w-3.5" aria-hidden />
@@ -284,7 +284,7 @@ function IndustryKetePage({
             <aside className="space-y-8">
               <SectionReveal delay={0.1}>
                 <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Built on
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
@@ -308,7 +308,7 @@ function IndustryKetePage({
                   className="rounded-card border bg-white/55 p-6"
                   style={{ borderColor: `${kete.accent}33` }}
                 >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Typical workflows
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
@@ -344,7 +344,7 @@ function IndustryKetePage({
               <p className="mt-5 text-body-md text-[color:var(--text-body)]">
                 Pick the task you need: prepare a draft, check the evidence, review the rules, or package the record. The internal agent names stay visible, but the work comes first.
               </p>
-              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 Every assistant drafts for a named reviewer, with an evidence-pack trail.
               </p>
             </SectionReveal>
@@ -365,7 +365,7 @@ function IndustryKetePage({
                         style={{ backgroundColor: kete.accent }}
                         aria-hidden
                       />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                      <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                         Assistant
                       </span>
                     </div>
@@ -374,11 +374,11 @@ function IndustryKetePage({
                   <h3 className="mt-3 font-display text-2xl text-[color:var(--text-primary)]">
                     {agent.role}
                   </h3>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                     Agent: {agent.name}
                   </p>
                   <span
-                    className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+                    className="mt-5 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em]"
                     style={{ color: kete.accent }}
                   >
                     Start draft
@@ -389,7 +389,7 @@ function IndustryKetePage({
             ))}
           </div>
           {platformAgents.length > 0 ? (
-            <p className="mx-auto mt-8 max-w-7xl font-mono text-[11px] leading-relaxed text-[color:var(--text-secondary)]">
+            <p className="mx-auto mt-8 max-w-7xl font-mono text-[12px] leading-relaxed text-[color:var(--text-secondary)]">
               Platform agents, available across all kete:{' '}
               {platformAgents.map((agent, i) => (
                 <span key={agent.slug}>
@@ -426,7 +426,7 @@ function IndustryKetePage({
                 />
                 <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
                   <div>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#5B4FA0]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#5B4FA0]">
                       AUAHA · TOOL
                     </p>
                     <h2 className="mt-4 font-display text-display-md text-[color:var(--text-primary)]">
@@ -468,7 +468,7 @@ function IndustryKetePage({
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                      <p className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                         Workflow {String(i + 1).padStart(2, '0')}
                       </p>
                       <h3 className="mt-2 font-display text-2xl text-[color:var(--text-primary)]">
@@ -490,7 +490,7 @@ function IndustryKetePage({
                     {wf.compliance.map((c) => (
                       <span
                         key={c}
-                        className="rounded-chip border border-[rgba(35,33,31,0.14)] bg-white/40 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]"
+                        className="rounded-chip border border-[rgba(35,33,31,0.14)] bg-white/40 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]"
                       >
                         {c}
                       </span>
@@ -517,9 +517,9 @@ function IndustryKetePage({
               <table className="w-full min-w-[640px] border-separate border-spacing-0 text-sm">
                 <thead>
                   <tr className="text-left">
-                    <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">Capability</th>
-                    <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">{kete.name}</th>
-                    <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">{detail.comparisonLegacyLabel}</th>
+                    <th className="px-4 py-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">Capability</th>
+                    <th className="px-4 py-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">{kete.name}</th>
+                    <th className="px-4 py-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">{detail.comparisonLegacyLabel}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -562,7 +562,7 @@ function IndustryKetePage({
             >
               <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
                 <div className="lg:w-1/3">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Pilot Sprint for {kete.name} · {kete.englishName}
                   </p>
                   <p
@@ -574,7 +574,7 @@ function IndustryKetePage({
                       + GST
                     </span>
                   </p>
-                  <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Two weeks · One workflow · Money-back if no time saved
                   </p>
                 </div>
@@ -687,7 +687,7 @@ function ToroPage({
                 style={{ backgroundColor: kete.accent }}
                 aria-hidden
               />
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 Family pack · Tōro means to reach out or explore
               </span>
             </div>
@@ -713,7 +713,7 @@ function ToroPage({
                 / month
               </span>
             </div>
-            <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               No setup · GST excl. · Cancel any time
             </p>
 
@@ -744,7 +744,7 @@ function ToroPage({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/40 via-transparent to-white/12" />
               <div className="absolute bottom-5 left-5 right-5 rounded-[18px] border border-white/32 bg-[#FAF7F2]/74 p-4 shadow-[0_18px_48px_rgba(35,33,31,0.14)] backdrop-blur-xl">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   family landing
                 </p>
                 <p className="mt-2 font-display text-3xl leading-none text-[color:var(--text-primary)]">
@@ -780,7 +780,7 @@ function ToroPage({
             <aside>
               <SectionReveal delay={0.1}>
                 <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Built on
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
@@ -830,7 +830,7 @@ function ToroPage({
                 }}
               >
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]">
                     <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-pounamu)]" aria-hidden />
                     Live now
                   </span>
@@ -844,7 +844,7 @@ function ToroPage({
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
                   Get a week&apos;s meal plan and a supermarket-aisle list for the household.
                 </p>
-                <span className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: kete.accent }}>
+                <span className="mt-5 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em]" style={{ color: kete.accent }}>
                   Open kai planner
                   <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
                 </span>
@@ -863,8 +863,8 @@ function ToroPage({
                     <span
                       className={
                         sub.status === 'live'
-                          ? 'inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]'
-                          : 'inline-flex items-center gap-1.5 rounded-full border border-[color:var(--assembl-cloud)] bg-white/40 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]'
+                          ? 'inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]'
+                          : 'inline-flex items-center gap-1.5 rounded-full border border-[color:var(--assembl-cloud)] bg-white/40 px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]'
                       }
                     >
                       <span
@@ -922,7 +922,7 @@ function ToroPage({
                   style={{ ['--kete-accent' as string]: kete.accent }}
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Assistant
                     </span>
                     <MessageCircle className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
@@ -930,11 +930,11 @@ function ToroPage({
                   <h3 className="mt-3 font-display text-2xl text-[color:var(--text-primary)]">
                     {agent.role}
                   </h3>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                     Agent: {agent.name}
                   </p>
                   <span
-                    className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+                    className="mt-5 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em]"
                     style={{ color: kete.accent }}
                   >
                     Start draft
@@ -945,7 +945,7 @@ function ToroPage({
             ))}
           </div>
           {platformAgents.length > 0 ? (
-            <p className="mx-auto mt-8 max-w-5xl text-center font-mono text-[11px] leading-relaxed text-[color:var(--text-secondary)]">
+            <p className="mx-auto mt-8 max-w-5xl text-center font-mono text-[12px] leading-relaxed text-[color:var(--text-secondary)]">
               Platform agents, available across all kete:{' '}
               {platformAgents.map((agent, i) => (
                 <span key={agent.slug}>

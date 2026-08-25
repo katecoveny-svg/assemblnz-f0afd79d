@@ -66,7 +66,7 @@ export function HeroSavingsCard({ found }: { found: number }) {
           backdropFilter: 'blur(8px)',
         }}
       >
-        <span className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--b-teal)' }}>
+        <span className="flex items-center gap-1 text-[12px] font-semibold uppercase tracking-[0.16em]" style={{ color: 'var(--b-teal)' }}>
           <TrendingDown size={13} /> found / yr
         </span>
         <CountUp
@@ -75,7 +75,7 @@ export function HeroSavingsCard({ found }: { found: number }) {
           className="mt-1 text-4xl font-semibold sm:text-5xl"
           style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)', letterSpacing: '0.01em' }}
         />
-        <span className="mt-1 text-[11px]" style={{ color: 'var(--b-faint)' }}>across power, broadband, subs…</span>
+        <span className="mt-1 text-[12px]" style={{ color: 'var(--b-faint)' }}>across power, broadband, subs…</span>
       </div>
 
       {/* floating provider chips — visible by default; framer only floats them */}

@@ -18,7 +18,7 @@ export default function DocsPage() {
       <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,1fr)_420px]">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               assembl docs
             </p>
             <h1 className="mt-5 max-w-[11ch] font-display text-[clamp(3.2rem,8vw,7rem)] font-light leading-[0.9]">
@@ -49,7 +49,7 @@ export default function DocsPage() {
               key={group}
               className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5"
             >
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                 {group}
               </p>
               <div className="mt-4 space-y-3">

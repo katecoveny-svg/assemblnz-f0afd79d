@@ -65,7 +65,7 @@ export default async function SettingsPage() {
           founder mailboxes can&apos;t be deactivated.
         </p>
         {!admins.available ? (
-          <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, margin: 0 }}>
+          <p style={{ fontFamily: MONO, fontSize: 12, color: C.muted, margin: 0 }}>
             Table not migrated in this environment yet (20260703100000) — the code allowlist in ensureAdmin still
             covers the founder mailboxes.
           </p>
@@ -81,7 +81,7 @@ export default async function SettingsPage() {
                   )}
                   <Pill tone={a.active ? 'ok' : 'neutral'}>{a.active ? 'active' : 'inactive'}</Pill>
                   {founder && <Pill tone="gold">founder</Pill>}
-                  <span style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted, marginLeft: 'auto' }}>
+                  <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginLeft: 'auto' }}>
                     added {nzDate(a.created_at, false)}
                     {a.added_by ? ` by ${a.added_by}` : ''}
                   </span>
@@ -182,7 +182,7 @@ export default async function SettingsPage() {
               <div key={f.key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                 <div>
                   <div style={{ fontFamily: BODY, fontWeight: 700, color: C.ink, fontSize: 14 }}>{f.label}</div>
-                  <code style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted }}>{f.key}</code>
+                  <code style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>{f.key}</code>
                 </div>
                 <Pill tone={on ? 'ok' : 'neutral'}>{on ? 'on' : 'off'}</Pill>
               </div>
@@ -209,7 +209,7 @@ export default async function SettingsPage() {
               />
               <div>
                 <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 13, color: C.ink }}>{t.name}</div>
-                <code style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted }}>{t.hex}</code>
+                <code style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>{t.hex}</code>
               </div>
             </div>
           ))}

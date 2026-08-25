@@ -158,7 +158,7 @@ export function EmailDropzone() {
               <span className="text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>Extracted from email — review before it’s added</span>
             </div>
             {parsed.confidence && (
-              <span className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
+              <span className="rounded-md px-1.5 py-0.5 text-[12px] font-semibold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
                 {parsed.confidence} confidence
               </span>
             )}
@@ -169,7 +169,7 @@ export function EmailDropzone() {
             <Field label="Amount" value={money(parsed.total_amount)} />
             <Field label="Due" value={parsed.due_date ?? '—'} />
           </div>
-          <p className="mt-2 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--b-faint)' }}>
+          <p className="mt-2 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--b-faint)' }}>
             <FileText size={12} /> Saved to your bill log. Nothing is paid or actioned.
           </p>
         </div>
@@ -181,7 +181,7 @@ export function EmailDropzone() {
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>{label}</p>
+      <p className="text-[12px] uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>{label}</p>
       <p className="truncate font-semibold" style={{ color: 'var(--b-ink)' }}>{value}</p>
     </div>
   );

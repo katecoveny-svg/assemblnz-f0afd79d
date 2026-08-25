@@ -75,7 +75,7 @@ export default async function VesselOutputPage({
       <div className="mx-auto max-w-5xl px-6 pb-20 pt-12 md:px-10 md:pt-16">
         <header className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               assembl · vessel
             </p>
             <h1 className="font-display mt-2 text-3xl leading-tight text-[color:var(--text-primary)] md:text-4xl">
@@ -102,7 +102,7 @@ export default async function VesselOutputPage({
                 className="inline-block h-3 w-3 rounded-full"
                 style={{ backgroundColor: row.brand_color }}
               />
-              <span className="font-mono text-[10px] uppercase tracking-[0.28em]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.28em]">
                 {row.brand_color}
               </span>
             </span>

@@ -31,7 +31,7 @@ const card: CSSProperties = {
   background: 'linear-gradient(180deg,#ffffff,#fbfcfb)',
   padding: 14,
 };
-const label: CSSProperties = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
+const label: CSSProperties = { fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
 
 function DraftButton({ mode, label: text }: { mode: string; label: string }) {
   return (
@@ -61,15 +61,15 @@ export function FamilyKitchen() {
             <div style={label}>fuel offer ready</div>
           </div>
         </div>
-        <div style={{ fontSize: 11, color: MUTED, marginTop: 6 }}>Member •••• 4821 · Woolworths St Heliers</div>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 6 }}>Member •••• 4821 · Woolworths St Heliers</div>
 
         <p style={{ ...label, marginTop: 14 }}>your family’s usual</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
           {USUAL.map((it) => (
-            <a key={it} href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ fontSize: 11.5, color: INK, textDecoration: 'none', border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 9px', background: '#fbfcfb' }}>{it}</a>
+            <a key={it} href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: INK, textDecoration: 'none', border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 9px', background: '#fbfcfb' }}>{it}</a>
           ))}
         </div>
-        <div style={{ fontSize: 11, color: MUTED, marginTop: 8 }}>Built from your last few shops · tap any item to open Woolworths</div>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 8 }}>Built from your last few shops · tap any item to open Woolworths</div>
       </div>
 
       {/* Dinner tonight — ARC-style suggestion */}
@@ -84,15 +84,15 @@ export function FamilyKitchen() {
           <p style={label}>missing from your kitchen</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
             {['Onion', 'Carrot', 'Broccoli', 'Tomato paste', 'Parmesan'].map((it) => (
-              <a key={it} href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ fontSize: 11.5, color: WOOLIES, textDecoration: 'none', border: `1px solid ${WOOLIES}44`, borderRadius: 999, padding: '4px 9px', background: `${WOOLIES}0d` }}>{it}</a>
+              <a key={it} href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: WOOLIES, textDecoration: 'none', border: `1px solid ${WOOLIES}44`, borderRadius: 999, padding: '4px 9px', background: `${WOOLIES}0d` }}>{it}</a>
             ))}
           </div>
         </div>
-        <div style={{ fontSize: 11, color: MUTED, marginTop: 10 }}>Ask the assistant for “budget”, “no cook” or “use what’s in the fridge”.</div>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 10 }}>Ask the assistant for “budget”, “no cook” or “use what’s in the fridge”.</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
           <a href={uberEatsSearch('spaghetti bolognese', 'Kohimarama')} target="_blank" rel="noreferrer"
             style={{ fontSize: 12, fontWeight: 600, color: '#fff', background: INK, textDecoration: 'none', borderRadius: 999, padding: '7px 13px' }}>Order it in via Uber Eats ↗</a>
-          <span style={{ fontSize: 10.5, color: MUTED }}>Uber Eats opens where you finish. Assembl helps you decide.</span>
+          <span style={{ fontSize: 12, color: MUTED }}>Uber Eats opens where you finish. Assembl helps you decide.</span>
         </div>
       </div>
 
@@ -105,18 +105,18 @@ export function FamilyKitchen() {
           <DraftButton mode="pickup" label="Queue for pickup (draft)" />
           <DraftButton mode="delivery" label="Queue Uber Direct delivery (draft)" />
         </div>
-        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 8 }}>“Queue” files a draft in your approvals — nothing is bought, paid or sent.</div>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 8 }}>“Queue” files a draft in your approvals — nothing is bought, paid or sent.</div>
 
         <div style={{ marginTop: 14, background: `${WOOLIES}0d`, border: `1px solid ${WOOLIES}33`, borderRadius: 12, padding: '10px 12px' }}>
           <p style={{ ...label, color: WOOLIES }}>delivery leg · uber direct</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, flexWrap: 'wrap', fontSize: 11.5, color: INK }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, flexWrap: 'wrap', fontSize: 12, color: INK }}>
             <span style={{ fontWeight: 600 }}>Your list</span>
             <span style={{ color: MUTED }}>→</span>
             <span style={{ fontWeight: 600 }}>Uber courier collects from Countdown St Heliers</span>
             <span style={{ color: MUTED }}>→</span>
             <span style={{ fontWeight: 600, color: WOOLIES }}>delivered to the door</span>
           </div>
-          <p style={{ fontSize: 10.5, color: MUTED, marginTop: 8, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12, color: MUTED, marginTop: 8, lineHeight: 1.5 }}>
             Uber Direct is live in NZ and needs no Woolworths deal for the drive. Live pricing, inventory and points
             need a Woolworths partnership — that’s the flagship (see the integration brief).
           </p>
@@ -126,7 +126,7 @@ export function FamilyKitchen() {
       {/* Snap it in — receipts, fridge, product photos → the vision agent reads them */}
       <div style={card}>
         <p style={label}>snap it in</p>
-        <div style={{ fontSize: 11.5, color: MUTED, margin: '6px 0 10px', lineHeight: 1.5 }}>A receipt, a fridge photo, or a product — the vision agent reads it and drops what it finds into your week, with a trust score to check.</div>
+        <div style={{ fontSize: 12, color: MUTED, margin: '6px 0 10px', lineHeight: 1.5 }}>A receipt, a fridge photo, or a product — the vision agent reads it and drops what it finds into your week, with a trust score to check.</div>
         <FamilyDropzone
           kinds={[{ key: 'receipt', label: 'Receipt' }, { key: 'fridge', label: 'Fridge / pantry' }, { key: 'product', label: 'Product' }]}
           defaultKind="receipt"
@@ -134,7 +134,7 @@ export function FamilyKitchen() {
         />
       </div>
 
-      <div style={{ gridColumn: '1 / -1', fontSize: 10.5, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
+      <div style={{ gridColumn: '1 / -1', fontSize: 12, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
         <strong style={{ color: INK }}>Coming next: Uber Direct + Delivereasy partner API.</strong> Books couriers, tracks delivery, and closes the loop end-to-end. Requires commercial accounts (Kate’s pitching both).
       </div>
     </div>

@@ -245,7 +245,7 @@ function ResultCard({
           ))}
         </div>
         {/* sessions-scale annotation row */}
-        <div className="flex justify-between text-[10px] uppercase tracking-widest text-taupe-500 mt-2">
+        <div className="flex justify-between text-[12px] uppercase tracking-widest text-taupe-500 mt-2">
           <span>0</span><span>5</span><span>25</span><span>75</span><span>200+</span>
         </div>
       </div>

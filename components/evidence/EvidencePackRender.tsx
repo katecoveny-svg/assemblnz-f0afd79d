@@ -156,7 +156,7 @@ function PageFoot({
       className="absolute inset-x-0 bottom-0 flex items-center justify-between px-12 pb-5"
       style={{
         fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: '0.58rem',
+        fontSize: '0.75rem',
         color: '#8E8A82',
         letterSpacing: '0.12em',
       }}

@@ -49,11 +49,11 @@ const input: CSSProperties = {
   width: '100%',
 };
 
-const smallMono: CSSProperties = { fontFamily: MONO, fontSize: 10.5, color: C.muted };
+const smallMono: CSSProperties = { fontFamily: MONO, fontSize: 12, color: C.muted };
 
 const ghostButton: CSSProperties = {
   fontFamily: MONO,
-  fontSize: 11,
+  fontSize: 12,
   letterSpacing: '0.04em',
   color: C.bad,
   background: 'transparent',
@@ -224,7 +224,7 @@ export default async function InvitesPage({
                   <div style={{ fontWeight: 700 }}>{i.recipient_name}</div>
                   <div style={{ ...smallMono, wordBreak: 'break-all' }}>/for/{i.slug}</div>
                   {i.notes && (
-                    <div style={{ fontFamily: BODY, fontSize: 11.5, color: C.muted, marginTop: 2 }}>
+                    <div style={{ fontFamily: BODY, fontSize: 12, color: C.muted, marginTop: 2 }}>
                       {i.notes}
                     </div>
                   )}
@@ -287,7 +287,7 @@ function FilterPill({
       href={href}
       style={{
         fontFamily: MONO,
-        fontSize: 11,
+        fontSize: 12,
         letterSpacing: '0.05em',
         color: active ? C.paper : C.body,
         background: active ? C.ink : C.paper,

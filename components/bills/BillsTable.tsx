@@ -77,11 +77,11 @@ export function BillsTable() {
                       /{b.cycle === 'monthly' ? 'mo' : b.cycle === 'quarterly' ? 'qtr' : 'yr'}
                     </span>
                   </div>
-                  <div className="text-[11px]" style={{ color: 'var(--b-faint)' }}>
+                  <div className="text-[12px]" style={{ color: 'var(--b-faint)' }}>
                     due {dueFmt(b.due)}
                   </div>
                 </div>
-                <span className="rounded-full px-2.5 py-1 text-[11px] font-semibold" style={{ background: st.bg, color: st.fg }}>
+                <span className="rounded-full px-2.5 py-1 text-[12px] font-semibold" style={{ background: st.bg, color: st.fg }}>
                   {b.status}
                 </span>
               </div>

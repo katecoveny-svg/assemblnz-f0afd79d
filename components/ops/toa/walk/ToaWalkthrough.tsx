@@ -26,7 +26,7 @@ const WalkCanvas = dynamic(() => import('./WalkCanvas').then((m) => m.WalkCanvas
   ssr: false,
   loading: () => (
     <div className="grid h-full w-full place-items-center" style={{ background: '#efeee7' }}>
-      <span className="text-[11px] uppercase tracking-[0.3em]" style={{ color: '#8a744f' }}>
+      <span className="text-[12px] uppercase tracking-[0.3em]" style={{ color: '#8a744f' }}>
         building 16A…
       </span>
     </div>
@@ -107,7 +107,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
 
       {/* header */}
       <div className="flex flex-col gap-2">
-        <p className="text-[11px] uppercase tracking-[0.28em]" style={{ color: '#6f6f64' }}>
+        <p className="text-[12px] uppercase tracking-[0.28em]" style={{ color: '#6f6f64' }}>
           walk-through · 16A hubert henderson place
         </p>
         <h2
@@ -142,7 +142,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
                 }}
               >
                 <span
-                  className="text-[10px] font-semibold tracking-wider"
+                  className="text-[12px] font-semibold tracking-wider"
                   style={{ color: active ? CHAMPAGNE : '#8a744f', fontFamily: 'var(--font-brand-mono, monospace)' }}
                 >
                   {m.n}
@@ -151,7 +151,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
                   <span className="text-[12.5px] font-semibold" style={{ color: active ? '#fff' : INK }}>
                     {m.label}
                   </span>
-                  <span className="hidden text-[10.5px] sm:block" style={{ color: active ? 'rgba(255,255,255,0.7)' : '#6f6f64' }}>
+                  <span className="hidden text-[12px] sm:block" style={{ color: active ? 'rgba(255,255,255,0.7)' : '#6f6f64' }}>
                     {m.tag}
                   </span>
                 </span>
@@ -168,7 +168,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
       >
         {!mounted ? (
           <div className="grid h-full w-full place-items-center">
-            <span className="text-[11px] uppercase tracking-[0.3em]" style={{ color: '#8a744f' }}>
+            <span className="text-[12px] uppercase tracking-[0.3em]" style={{ color: '#8a744f' }}>
               building 16A…
             </span>
           </div>
@@ -187,7 +187,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
         {/* phase label — top-left */}
         <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2">
           <span
-            className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]"
+            className="rounded-full px-2.5 py-1 text-[12px] font-semibold uppercase tracking-[0.16em]"
             style={{ background: 'rgba(22,21,22,0.85)', color: CHAMPAGNE, fontFamily: 'var(--font-brand-mono, monospace)' }}
           >
             {PHASE_META[phase].n} · {PHASE_META[phase].label}
@@ -197,7 +197,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
         {/* controls hint — bottom-left */}
         <div className="absolute bottom-4 left-4 flex flex-wrap items-center gap-2">
           <span
-            className="rounded-full px-2.5 py-1 text-[10.5px]"
+            className="rounded-full px-2.5 py-1 text-[12px]"
             style={{ background: 'rgba(255,255,255,0.82)', color: '#363a35', backdropFilter: 'blur(4px)' }}
           >
             {!use3D
@@ -210,7 +210,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
 
         {/* honest attribution — bottom-right, quiet */}
         <span
-          className="pointer-events-none absolute bottom-4 right-4 max-w-[46%] text-right text-[10px] leading-tight"
+          className="pointer-events-none absolute bottom-4 right-4 max-w-[46%] text-right text-[12px] leading-tight"
           style={{ color: '#8a8578' }}
         >
           the proposed 16C unit · assembl-built 3D model (Blender) from the draft RC
@@ -266,7 +266,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
                 <circle cx="12" cy="12" r="2.6" fill={CHAMPAGNE} />
               </svg>
             </span>
-            <span className="text-[11px] font-medium leading-tight" style={{ color: INK }}>
+            <span className="text-[12px] font-medium leading-tight" style={{ color: INK }}>
               {p.label}
             </span>
           </button>

@@ -47,7 +47,7 @@ export default async function BillingPage() {
             <div className="mt-8 rounded-[8px] border border-[color:var(--assembl-pounamu)] bg-white/70 p-8 shadow-card">
               <div className="flex items-baseline justify-between gap-4">
                 <h2 className="font-display text-display-md font-light">{tier.name}</h2>
-                <span className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#E8EFE9] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57]">
+                <span className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#E8EFE9] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[#2B6B57]">
                   {subscription.status}
                 </span>
               </div>

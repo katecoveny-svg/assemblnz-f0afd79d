@@ -54,7 +54,7 @@ export function NzListingComplianceChecker() {
 function Select({ label, value, onChange, options }: { label: string; value: string; onChange: (value: string) => void; options: Array<[string, string]> }) {
   return (
     <label className="block">
-      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#5C6273]">{label}</span>
+      <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#5C6273]">{label}</span>
       <select value={value} onChange={(event) => onChange(event.target.value)} className="h-12 w-full rounded-[8px] border border-[#C8BBA9]/70 bg-white/78 px-3 text-[#3D4250] outline-none focus:border-[#3A3832]">
         {options.map(([optionValue, optionLabel]) => <option key={optionValue} value={optionValue}>{optionLabel}</option>)}
       </select>

@@ -45,7 +45,7 @@ export default function CompliancePage() {
         <div
           style={{
             fontFamily: 'var(--lula-mono), monospace',
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
             color: B.brassDark,

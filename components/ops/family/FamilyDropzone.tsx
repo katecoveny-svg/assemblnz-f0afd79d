@@ -59,7 +59,7 @@ export function FamilyDropzone({
         <div style={{ display: 'flex', gap: 5, marginBottom: 8, flexWrap: 'wrap' }}>
           {kinds.map((k) => (
             <button key={k.key} type="button" onClick={() => setKind(k.key)} style={{
-              fontSize: 11, fontWeight: 600, borderRadius: 999, padding: '3px 9px', cursor: 'pointer',
+              fontSize: 12, fontWeight: 600, borderRadius: 999, padding: '3px 9px', cursor: 'pointer',
               border: `1px solid ${kind === k.key ? SAGE : GOLD}55`, color: kind === k.key ? '#fff' : INK,
               background: kind === k.key ? SAGE : 'transparent',
             }}>{k.label}</button>
@@ -81,7 +81,7 @@ export function FamilyDropzone({
           <div style={{ fontSize: 12.5, fontWeight: 600, color: INK }}>
             <Submitting>{name ? `${name} — tap to replace` : 'Drag a photo/PDF here, or tap to choose'}</Submitting>
           </div>
-          <div style={{ fontSize: 10.5, color: MUTED, marginTop: 2 }}>{hint ?? 'Read on-device by the vision agent · draft-only · auto-deleted after 30 days'}</div>
+          <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{hint ?? 'Read on-device by the vision agent · draft-only · auto-deleted after 30 days'}</div>
         </div>
         <input ref={inputRef} type="file" name="file" accept={accept} capture="environment"
           onChange={(e) => submitFiles(e.target.files)} style={{ display: 'none' }} />
@@ -96,7 +96,7 @@ export function TrustBadge({ trust }: { trust: 'A' | 'B' | 'C' | null }) {
   const tone = trust === 'A' ? SAGE : trust === 'B' ? GOLD : '#C4342B';
   const label = trust === 'A' ? 'clear read' : trust === 'B' ? 'check it' : 'unclear';
   return (
-    <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', color: tone, border: `1px solid ${tone}66`, borderRadius: 999, padding: '2px 7px' }}>
+    <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', color: tone, border: `1px solid ${tone}66`, borderRadius: 999, padding: '2px 7px' }}>
       Trust {trust} · {label}
     </span>
   );

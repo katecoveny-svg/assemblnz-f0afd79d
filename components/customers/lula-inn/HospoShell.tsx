@@ -39,7 +39,7 @@ export function HospoShell({ children }: { children: React.ReactNode }) {
           background: B.ocean,
           color: 'rgba(251,246,236,0.86)',
           fontFamily: 'var(--lula-mono), monospace',
-          fontSize: 10,
+          fontSize: 12,
           letterSpacing: '0.14em',
           textTransform: 'uppercase',
           textAlign: 'center',
@@ -88,7 +88,7 @@ export function HospoShell({ children }: { children: React.ReactNode }) {
                 style={{
                   display: 'block',
                   fontFamily: 'var(--lula-mono), monospace',
-                  fontSize: 9,
+                  fontSize: 12,
                   letterSpacing: '0.13em',
                   textTransform: 'uppercase',
                   color: B.inkSoft,

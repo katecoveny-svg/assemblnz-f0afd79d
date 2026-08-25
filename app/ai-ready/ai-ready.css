@@ -11,7 +11,7 @@
 .airdy-main { max-width: 900px; margin: 0 auto; padding: 130px 24px 90px; }
 
 .airdy-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.24em; text-transform: uppercase; color: #C08E96;
   margin: 0 0 26px;
 }
@@ -49,7 +49,7 @@
 .airdy-form button:disabled { opacity: 0.6; cursor: wait; }
 .airdy-error { color: #E8A0A0; margin-top: 14px; }
 .airdy-note {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,238,233,0.5);
   margin-top: 14px;
 }
@@ -63,11 +63,11 @@
 }
 .airdy-doc-head { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
 .airdy-doc-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.2em; text-transform: uppercase; color: #916A70; margin: 0 0 10px;
 }
 .airdy-doc h2 { margin: 0; font-family: 'Jost', system-ui, sans-serif; font-size: clamp(1.4rem, 3vw, 2.1rem); font-weight: 700; line-height: 1.2; }
-.airdy-doc-url { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: rgba(27,26,23,0.6); margin: 6px 0 0; }
+.airdy-doc-url { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: rgba(27,26,23,0.6); margin: 6px 0 0; }
 
 .airdy-dial {
   --p: 0;
@@ -78,7 +78,7 @@
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
 .airdy-score { font-weight: 900; font-size: 2.1rem; line-height: 1; }
-.airdy-of { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; color: rgba(27,26,23,0.55); margin-top: 3px; }
+.airdy-of { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: rgba(27,26,23,0.55); margin-top: 3px; }
 .airdy-grade {
   font-weight: 700; font-size: 1.05rem; color: #916A70; margin: 18px 0 26px;
   text-transform: lowercase;
@@ -95,7 +95,7 @@
 .airdy-mark {
   width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 0.7rem; font-weight: 900; color: #FFFDFB; background: #916A70;
+  font-size: 0.75rem; font-weight: 900; color: #FFFDFB; background: #916A70;
 }
 .airdy-check.partial .airdy-mark { background: #A07C82; }
 .airdy-check.fail .airdy-mark { background: #A03C32; }
@@ -104,7 +104,7 @@
 .airdy-fix b { color: #916A70; }
 
 .airdy-drafting {
-  margin: 34px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+  margin: 34px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.14em; text-transform: uppercase; color: #916A70;
   animation: airdy-pulse 1.4s ease-in-out infinite;
 }
@@ -117,16 +117,16 @@
 .airdy-palette { display: flex; align-items: center; gap: 7px; margin-bottom: 24px; }
 .airdy-palette span { width: 26px; height: 26px; border-radius: 8px; border: 1px solid rgba(27,26,23,0.12); }
 .airdy-palette i {
-  font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: 0.55rem;
+  font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: 0.75rem;
   letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.5); margin-left: 6px;
 }
 .airdy-moments { list-style: none; margin: 0; padding: 0; }
 .airdy-moments li { padding: 16px 0; border-bottom: 1px solid rgba(27,26,23,0.08); }
 .airdy-m-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
-.airdy-m-n { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: #916A70; }
+.airdy-m-n { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: #916A70; }
 .airdy-m-head b { font-size: 1rem; }
 .airdy-m-agent {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.12em; text-transform: uppercase; color: rgba(27,26,23,0.55);
   border: 1px solid rgba(184,150,79,0.5); border-radius: 999px; padding: 3px 9px;
 }
@@ -142,7 +142,7 @@
 .airdy-doc-foot {
   margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(27,26,23,0.1);
   display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.55);
 }
 
@@ -194,7 +194,7 @@
   font: 700 0.9rem 'Jost', sans-serif; background: #240B21; color: #FFFDFB;
 }
 .airdy-gate-row button:disabled { opacity: 0.6; cursor: wait; }
-.airdy-gate small { display: block; margin-top: 12px; font-size: 0.68rem; color: rgba(27,26,23,0.6); line-height: 1.5; }
+.airdy-gate small { display: block; margin-top: 12px; font-size: 0.75rem; color: rgba(27,26,23,0.6); line-height: 1.5; }
 @media print { .airdy-gate { display: none; } }
 
 /* On a phone the pill wraps: the input takes the first row and the button
@@ -252,12 +252,12 @@
 }
 .airdy-ctx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
 .airdy-ctx-kick {
-  margin: 0 0 4px; font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  margin: 0 0 4px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.2em; text-transform: uppercase; color: #C08E96;
 }
 .airdy-ctx h3 { margin: 0; font-size: 1.35rem; font-weight: 700; }
 .airdy-ctx-badge {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em;
   padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(145, 106, 112, 0.55); color: #C08E96;
 }
 .airdy-ctx-lede {
@@ -267,7 +267,7 @@
   margin: 18px 0 0; padding: 16px 18px; max-height: 220px; overflow: hidden;
   border-radius: 14px; border: 1px solid rgba(240, 238, 233, 0.12);
   background: rgba(5, 15, 28, 0.5);
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; line-height: 1.7;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; line-height: 1.7;
   white-space: pre-wrap; color: rgba(240, 238, 233, 0.82);
 }
 /* The preview clipped at 220px with overflow hidden, so the brief looked
@@ -279,7 +279,7 @@
 }
 .airdy-ctx-preview.full::-webkit-scrollbar-track { background: transparent; }
 .airdy-ctx-count {
-  margin-top: 8px; font-size: 0.7rem; color: rgba(240, 238, 233, 0.5);
+  margin-top: 8px; font-size: 0.75rem; color: rgba(240, 238, 233, 0.5);
   font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.02em;
 }
 .airdy-ctx-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }

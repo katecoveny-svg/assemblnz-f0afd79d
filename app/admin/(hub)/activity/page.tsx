@@ -41,7 +41,7 @@ function issuerLabel(issuer: string | null): string {
   return issuer ?? '—';
 }
 
-const dim: CSSProperties = { color: C.muted, fontSize: 11, fontFamily: MONO };
+const dim: CSSProperties = { color: C.muted, fontSize: 12, fontFamily: MONO };
 
 export default async function ActivityPage() {
   const [data, token] = await Promise.all([getAgentActivity(), hubToken()]);
@@ -78,7 +78,7 @@ export default async function ActivityPage() {
           </p>
           <a
             href={hubLink}
-            style={{ ...dim, fontSize: 11.5, color: C.ink, wordBreak: 'break-all', display: 'block', marginTop: 6 }}
+            style={{ ...dim, fontSize: 12, color: C.ink, wordBreak: 'break-all', display: 'block', marginTop: 6 }}
           >
             {hubLink}
           </a>

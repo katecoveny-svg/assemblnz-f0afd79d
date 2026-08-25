@@ -118,7 +118,7 @@ function KeteScene({
     >
       {/* Scene number — top-left metadata */}
       <div className="absolute left-6 top-24 z-10 md:left-12 md:top-28">
-        <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
           {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
         </p>
       </div>
@@ -177,7 +177,7 @@ function KeteScene({
 
               {count > 0 && (
                 <span
-                  className="font-mono text-[11px] uppercase tracking-[0.22em]"
+                  className="font-mono text-[12px] uppercase tracking-[0.22em]"
                   style={{ color: kete.accent }}
                 >
                   ◆ {count} {count === 1 ? 'agent' : 'agents'}
@@ -220,7 +220,7 @@ function KeteScene({
         {!isLast ? (
           <a
             href={`#scene-${KETES[index + 1].slug}`}
-            className="group flex flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--text-primary)]"
+            className="group flex flex-col items-center gap-2 font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--text-primary)]"
             aria-label={`Scroll to ${KETES[index + 1].name}`}
           >
             <span>Next: {KETES[index + 1].name}</span>
@@ -232,7 +232,7 @@ function KeteScene({
         ) : (
           <Link
             href="/agents"
-            className="group inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-primary)]"
+            className="group inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-primary)]"
           >
             <span className="border-b border-[color:var(--text-primary)] pb-1">
               Browse all agents
@@ -262,7 +262,7 @@ function SceneDots({ activeIndex, ketes }: { activeIndex: number; ketes: typeof 
               initial={{ opacity: 0.6, x: 8 }}
               animate={{ opacity: i === activeIndex ? 1 : 0, x: 0 }}
               transition={{ duration: 0.3 }}
-              className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] group-hover:opacity-100"
+              className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] group-hover:opacity-100"
             >
               {k.name}
             </motion.span>

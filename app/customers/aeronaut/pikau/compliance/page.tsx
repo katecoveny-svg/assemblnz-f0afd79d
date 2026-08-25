@@ -29,7 +29,7 @@ export default async function CompliancePage() {
                 </div>
                 <p className="mt-1 text-sm text-[color:var(--air-slate)]">{e.detail}</p>
                 {e.citation ? (
-                  <p className="mt-1 text-[0.7rem] text-[color:var(--air-brass-deep)]">
+                  <p className="mt-1 text-[0.75rem] text-[color:var(--air-brass-deep)]">
                     {e.citation.source}{e.citation.ref ? ` — ${e.citation.ref}` : ''}
                   </p>
                 ) : null}

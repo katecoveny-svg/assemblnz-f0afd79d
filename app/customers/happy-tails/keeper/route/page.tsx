@@ -52,8 +52,8 @@ export default function RoutePage() {
             <div key={s.dog} className="card" style={{ marginBottom: 13, padding: '14px 16px', opacity: s.status === 'sent' ? 0.85 : 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 10 }}>
                 <div className="av" style={{ width: 30, height: 30 }}><DogAvatar /></div>
-                <div><div style={{ fontWeight: 600, fontSize: 13.5 }}>{s.dog}</div><div style={{ color: 'var(--mute)', fontSize: 11.5 }}>to {s.to} · 021 •••</div></div>
-                <span style={{ marginLeft: 'auto', fontSize: 10.5, fontWeight: 600, padding: '3px 9px', borderRadius: 999, ...(s.status === 'sent' ? { color: 'var(--good)', background: '#eef4ef' } : { color: 'var(--warn)', background: '#fdf3dd' }) }}>
+                <div><div style={{ fontWeight: 600, fontSize: 13.5 }}>{s.dog}</div><div style={{ color: 'var(--mute)', fontSize: 12 }}>to {s.to} · 021 •••</div></div>
+                <span style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 600, padding: '3px 9px', borderRadius: 999, ...(s.status === 'sent' ? { color: 'var(--good)', background: '#eef4ef' } : { color: 'var(--warn)', background: '#fdf3dd' }) }}>
                   {s.status === 'sent' ? 'sent 7:41pm ✓' : 'draft · awaiting Mathis'}
                 </span>
               </div>

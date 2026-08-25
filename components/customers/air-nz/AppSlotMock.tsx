@@ -33,14 +33,14 @@ export function AirNzAppSlotMock() {
     >
       {/* app header */}
       <div style={{ background: TEAL_DEEP, color: '#fff', padding: '14px 16px 12px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, opacity: 0.75 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, opacity: 0.75 }}>
           <span>11:04</span>
           <span>•••</span>
         </div>
         <div style={{ marginTop: 8, fontWeight: 700, fontSize: 14, letterSpacing: '0.02em' }}>
           Air New Zealand
         </div>
-        <div style={{ fontSize: 11, opacity: 0.8, marginTop: 2 }}>Kia ora, Alex</div>
+        <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>Kia ora, Alex</div>
       </div>
 
       {/* boarding card */}
@@ -56,12 +56,12 @@ export function AirNzAppSlotMock() {
           }}
         >
           <div>
-            <div style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6B6E71' }}>
+            <div style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6B6E71' }}>
               today · NZ 645
             </div>
             <div style={{ fontWeight: 700, fontSize: 15, marginTop: 2, color: INK }}>WLG → ZQN</div>
           </div>
-          <div style={{ textAlign: 'right', fontSize: 11, color: '#3E3C36' }}>
+          <div style={{ textAlign: 'right', fontSize: 12, color: '#3E3C36' }}>
             boards 10:05
             <br />
             seat 14C
@@ -90,14 +90,14 @@ export function AirNzAppSlotMock() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
             }}
           >
             O
           </div>
           <div style={{ fontWeight: 700, fontSize: 12, marginTop: 6, color: INK }}>Oscar</div>
-          <div style={{ fontSize: 10, color: '#6B6E71', marginTop: 2, lineHeight: 1.35 }}>
+          <div style={{ fontSize: 12, color: '#6B6E71', marginTop: 2, lineHeight: 1.35 }}>
             Ask a travel question
           </div>
         </div>
@@ -121,14 +121,14 @@ export function AirNzAppSlotMock() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
             }}
           >
             a
           </div>
           <div style={{ fontWeight: 700, fontSize: 12, marginTop: 6, color: INK }}>Assembling</div>
-          <div style={{ fontSize: 10, color: '#046A70', marginTop: 2, lineHeight: 1.35 }}>
+          <div style={{ fontSize: 12, color: '#046A70', marginTop: 2, lineHeight: 1.35 }}>
             Earning in the wait · +A$1.20 today
           </div>
         </div>
@@ -148,16 +148,16 @@ export function AirNzAppSlotMock() {
             }}
           >
             <div>
-              <div style={{ fontSize: 8.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9AA0A0' }}>
+              <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9AA0A0' }}>
                 {r.at}
               </div>
-              <div style={{ fontSize: 11.5, fontWeight: 600, color: INK, marginTop: 1 }}>{r.label}</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: INK, marginTop: 1 }}>{r.label}</div>
             </div>
             <div style={{ fontSize: 12, fontWeight: 700, color: '#046A70' }}>{r.earn}</div>
           </div>
         ))}
         <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 9 }}>
-          <span style={{ fontSize: 10.5, color: '#6B6E71' }}>Total earned today</span>
+          <span style={{ fontSize: 12, color: '#6B6E71' }}>Total earned today</span>
           <span style={{ fontSize: 14, fontWeight: 800, color: '#046A70' }}>+A$4.20</span>
         </div>
       </div>

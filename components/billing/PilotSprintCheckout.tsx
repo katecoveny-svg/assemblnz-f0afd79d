@@ -82,7 +82,7 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
         <div>
           <label
             htmlFor="pilot-name"
-            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+            className="mb-2 block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
           >
             Your name
             <span
@@ -106,7 +106,7 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
         <div>
           <label
             htmlFor="pilot-business"
-            className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+            className="mb-2 block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
           >
             Business
             <span
@@ -131,7 +131,7 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
       <div>
         <label
           htmlFor="pilot-email"
-          className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+          className="mb-2 block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
         >
           Invoice email
           <span
@@ -156,7 +156,7 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
       <div>
         <label
           htmlFor="pilot-workflow"
-          className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+          className="mb-2 block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
         >
           Agreed workflow
           <span
@@ -182,7 +182,7 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
           <span
             id="workflow-counter"
             className={cn(
-              "font-mono text-[10px] uppercase tracking-[0.1em]",
+              "font-mono text-[12px] uppercase tracking-[0.1em]",
               workflowLength > 450
                 ? "text-destructive font-medium"
                 : "text-[color:var(--text-secondary)]",

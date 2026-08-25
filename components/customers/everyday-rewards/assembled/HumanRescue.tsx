@@ -109,7 +109,7 @@ function Row({ label, value, emphasise }: { label: string; value: string; emphas
 
 function RowLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: GREY }}>
+    <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: GREY }}>
       {children}
     </div>
   );

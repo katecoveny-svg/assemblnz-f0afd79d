@@ -47,7 +47,7 @@ const glass: CSSProperties = {
 };
 
 const eyebrow: CSSProperties = {
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: MUTED,
@@ -273,10 +273,10 @@ function LeadsTab() {
               </p>
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: `${INK}10`, color: INK }}>
+              <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: `${INK}10`, color: INK }}>
                 {lead.urgency}
               </span>
-              <span style={{ fontSize: 11, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${ACCENT}22`, color: INK }}>
+              <span style={{ fontSize: 12, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${ACCENT}22`, color: INK }}>
                 → {DAYCARE_PATHS[lead.recommended].short}
               </span>
             </div>

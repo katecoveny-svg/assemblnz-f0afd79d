@@ -153,7 +153,7 @@ export default async function LiveFeedsPage() {
       <div className="overflow-x-auto rounded-[14px] border border-[rgba(35,33,31,0.10)]">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-paper)] font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+            <tr className="border-b border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-paper)] font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
               <th className="px-4 py-3 font-normal">Source</th>
               <th className="px-4 py-3 font-normal">Base URL</th>
               <th className="px-4 py-3 font-normal">Last successful poll</th>
@@ -169,7 +169,7 @@ export default async function LiveFeedsPage() {
                 <tr key={s.id} className="border-b border-[rgba(35,33,31,0.07)] align-top last:border-0">
                   <td className="px-4 py-3">
                     <div className="font-medium text-[color:var(--text-primary)]">{s.name ?? '(unnamed)'}</div>
-                    <div className="font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                    <div className="font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                       {s.category ?? '—'}{!s.active && ' · inactive'}
                     </div>
                   </td>
@@ -177,7 +177,7 @@ export default async function LiveFeedsPage() {
                   <td className="px-4 py-3 whitespace-nowrap text-[color:var(--text-body)]">{fmt(s.last_successful_fetch)}</td>
                   <td className="px-4 py-3">
                     <span
-                      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+                      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
                       style={{
                         background: stale ? 'rgba(172,88,56,0.10)' : 'rgba(43,107,87,0.10)',
                         color: stale ? 'var(--assembl-clay)' : 'var(--assembl-pounamu)',
@@ -192,7 +192,7 @@ export default async function LiveFeedsPage() {
                         <span className="text-[color:var(--text-secondary)]">—</span>
                       ) : (
                         kete.map((k) => (
-                          <span key={k} className="rounded-full border border-[rgba(35,33,31,0.14)] px-2 py-0.5 font-mono text-[10px] lowercase tracking-[0.08em] text-[color:var(--text-body)]">
+                          <span key={k} className="rounded-full border border-[rgba(35,33,31,0.14)] px-2 py-0.5 font-mono text-[12px] lowercase tracking-[0.08em] text-[color:var(--text-body)]">
                             {k}
                           </span>
                         ))

@@ -140,7 +140,7 @@ export function EvidencePackCover({ pack, mode = 'screen' }: EvidencePackCoverPr
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
             fontWeight: 500,
-            fontSize: '0.72rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#5C5852',
@@ -199,7 +199,7 @@ export function EvidencePackCover({ pack, mode = 'screen' }: EvidencePackCoverPr
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontWeight: 500,
-                fontSize: '0.7rem',
+                fontSize: '0.75rem',
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 color: '#5C5852',
@@ -233,7 +233,7 @@ export function EvidencePackCover({ pack, mode = 'screen' }: EvidencePackCoverPr
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
             fontWeight: 500,
-            fontSize: '0.62rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.14em',
             color: '#8E8A82',
             wordBreak: 'break-all',

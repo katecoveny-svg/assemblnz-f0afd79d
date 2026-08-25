@@ -45,7 +45,7 @@ export function PackPicker({ packs }: PackPickerProps) {
               }}
             >
               <span
-                className="font-mono text-[10px] uppercase tracking-[0.22em]"
+                className="font-mono text-[12px] uppercase tracking-[0.22em]"
                 style={{ color: pack.accent }}
               >
                 {pack.industry}
@@ -63,7 +63,7 @@ export function PackPicker({ packs }: PackPickerProps) {
         style={{ borderColor: `${activePack.accent}55` }}
       >
         <p
-          className="font-mono text-[10px] uppercase tracking-[0.28em]"
+          className="font-mono text-[12px] uppercase tracking-[0.28em]"
           style={{ color: activePack.accent }}
         >
           {activePack.name} · Pack preview
@@ -73,7 +73,7 @@ export function PackPicker({ packs }: PackPickerProps) {
         </h3>
         <div className="mt-8 grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               Named agents
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -89,7 +89,7 @@ export function PackPicker({ packs }: PackPickerProps) {
             </div>
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               First workflow
             </p>
             <p className="mt-4 text-base leading-relaxed text-[color:var(--text-body)]">

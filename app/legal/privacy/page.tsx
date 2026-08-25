@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       <div className="container py-24 md:py-32">
         <div className="mx-auto max-w-3xl">
           <SectionReveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               Legal · Privacy Policy
             </p>
           </SectionReveal>
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
             >
               Privacy Policy.
             </h1>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               Last reviewed · {LAST_REVIEWED} · Privacy Act 2020 (incl. IPP 3A from 1 May 2026)
             </p>
           </SectionReveal>
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
 
             <SectionReveal delay={0.22}>
               <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6 md:p-8">
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
                 <ul className="mt-4 space-y-2 text-[color:var(--text-body)]">
                   <li>We collect only what we need to run assembl for you, and we tell you when we do.</li>
                   <li>Your data stays inside your tenant — we never sell it, and human review sits in front of every action.</li>

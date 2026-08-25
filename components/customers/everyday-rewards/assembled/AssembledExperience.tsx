@@ -54,7 +54,7 @@ export function AssembledExperience() {
             gap: 12,
             flexWrap: 'wrap',
             fontFamily: 'var(--edr-mono), monospace',
-            fontSize: 10.5,
+            fontSize: 12,
             letterSpacing: '0.12em',
             textTransform: 'uppercase',
             color: '#8a959c',
@@ -76,7 +76,7 @@ export function AssembledExperience() {
       <Container style={{ paddingTop: 'clamp(40px, 8vh, 96px)', paddingBottom: 'clamp(40px, 8vh, 96px)' }}>
         {/* purpose, first */}
         <div style={{ maxWidth: 760, marginBottom: 'clamp(32px, 5vw, 56px)' }}>
-          <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c65100', marginBottom: 16 }}>
+          <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c65100', marginBottom: 16 }}>
             {recipient.personalised ? `${recipient.firstName} — ${HERO_COPY.eyebrow}` : HERO_COPY.eyebrow}
           </div>
           <h1 style={{ fontFamily: 'var(--edr-display), Georgia, serif', fontWeight: 500, fontSize: 'clamp(2.6rem, 6vw, 4rem)', lineHeight: 1.02, letterSpacing: '-0.02em', color: '#22303c', margin: 0 }}>

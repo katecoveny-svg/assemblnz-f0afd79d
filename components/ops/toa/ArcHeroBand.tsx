@@ -84,7 +84,7 @@ export function ArcHeroBand({
             priority
           />
           <span
-            className="hidden rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.22em] sm:inline-block"
+            className="hidden rounded-full border px-3 py-1 text-[12px] uppercase tracking-[0.22em] sm:inline-block"
             style={{ borderColor: `${CHAMPAGNE}66`, color: CHAMPAGNE }}
           >
             concept · not affiliated with TOA Architects Ltd
@@ -93,7 +93,7 @@ export function ArcHeroBand({
 
         <div className="flex flex-col gap-4 md:max-w-2xl">
           <p
-            className="text-[11px] uppercase tracking-[0.3em]"
+            className="text-[12px] uppercase tracking-[0.3em]"
             style={{ color: 'rgba(255,255,255,0.55)' }}
           >
             what a TOA × assembl operating system could look like
@@ -132,7 +132,7 @@ export function ArcHeroBand({
             &ldquo;A tool that drafts, never decides; that flags, never claims.&rdquo;
           </p>
 
-          <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-[12px]">
             <span
               className="rounded-full border px-3 py-1 tracking-wide"
               style={{ borderColor: CHAMPAGNE, color: CHAMPAGNE }}

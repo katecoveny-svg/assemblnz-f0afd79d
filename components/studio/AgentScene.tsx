@@ -384,7 +384,7 @@ function OverlayLabel({ position, text, active, selected, onSelect }: {
         type="button"
         onClick={onSelect}
         className={[
-          'select-none rounded-[2px] border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] backdrop-blur-sm transition',
+          'select-none rounded-[2px] border px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] backdrop-blur-sm transition',
           selected
             ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)]'
             : active
@@ -587,7 +587,7 @@ export function AgentScene({ onWebGLFailed }: Props) {
     return (
       <div className="flex h-full items-center justify-center bg-[color:var(--assembl-paper)] p-8">
         <div className="max-w-[420px] rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-6 text-center">
-          <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">3d unavailable</div>
+          <div className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">3d unavailable</div>
           <h3 className="mt-2 font-display text-[24px] font-light lowercase text-[color:var(--text-primary)]">the scene needs webgl.</h3>
           <p className="mt-2 text-[13px] text-[color:var(--text-secondary)]">
             The build view can&rsquo;t render without WebGL, but the whole agent is still editable in the panels on either side. Try the x-ray view for a text-first tour of the wiring.
@@ -616,7 +616,7 @@ export function AgentScene({ onWebGLFailed }: Props) {
         <button
           type="button"
           onClick={() => resetRef.current?.reset?.()}
-          className="pointer-events-auto rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)]/85 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] backdrop-blur-sm hover:border-[color:var(--text-primary)]"
+          className="pointer-events-auto rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)]/85 px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] backdrop-blur-sm hover:border-[color:var(--text-primary)]"
         >
           reset camera
         </button>

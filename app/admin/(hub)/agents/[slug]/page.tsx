@@ -96,7 +96,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
     <>
       <Link
         href="/admin/agents"
-        style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: C.muted, textDecoration: 'none' }}
+        style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.1em', color: C.muted, textDecoration: 'none' }}
       >
         ← AGENTS
       </Link>
@@ -227,7 +227,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
                             <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 13.5, color: C.ink }}>
                               {s.source_name}
                             </div>
-                            <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted, marginTop: 2 }}>
+                            <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginTop: 2 }}>
                               Tier {s.tier} · synced {nzDate(s.last_fetched_at)} ·{' '}
                               <span style={{ color: s.last_status === 'ok' || s.last_status === 'unchanged' ? C.ok : C.bad }}>
                                 {s.last_status ?? 'never'}
@@ -302,7 +302,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
               {stagedOverride ? 'Staged edit — not live yet' : 'Stage an edit'}
             </Eyebrow>
             {stagedOverride && (
-              <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.warn, margin: '0 0 10px' }}>
+              <p style={{ fontFamily: MONO, fontSize: 12, color: C.warn, margin: '0 0 10px' }}>
                 staged by {stagedOverride.updated_by ?? 'unknown'} · {nzDate(stagedOverride.updated_at)}
               </p>
             )}
@@ -332,12 +332,12 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
                       <input type="hidden" name="slug" value={slug} />
                       <GoldButton>Apply to live chat</GoldButton>
                     </form>
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted }}>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>
                       writes agent_prompts v{(livePrompt?.version ?? 0) + 1} · live in ~5 min
                     </span>
                   </>
                 ) : (
-                  <span style={{ fontFamily: MONO, fontSize: 11, color: C.warn }}>
+                  <span style={{ fontFamily: MONO, fontSize: 12, color: C.warn }}>
                     too short to apply — the runtime ignores prompts under 200 characters
                   </span>
                 )}
@@ -376,7 +376,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {audit.map((a) => (
                   <div key={a.id} style={{ borderBottom: `1px solid ${C.hairline}`, paddingBottom: 10 }}>
-                    <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted, marginBottom: 4 }}>
+                    <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginBottom: 4 }}>
                       {nzDate(a.created_at)} · {a.tool_name ?? 'exchange'}
                       {a.decision && (
                         <span style={{ color: a.decision === 'kaumatua_hold' ? C.warn : C.goldDeep }}>
@@ -502,7 +502,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
               </div>
             </form>
             {!dbRow && (
-              <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, margin: '14px 0 0' }}>
+              <p style={{ fontFamily: MONO, fontSize: 12, color: C.muted, margin: '14px 0 0' }}>
                 No DB mirror row in this environment yet — saving is a no-op until the roster seed has run.
               </p>
             )}
@@ -545,7 +545,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
 function miniBtn(gold: boolean): CSSProperties {
   return {
     fontFamily: MONO,
-    fontSize: 10.5,
+    fontSize: 12,
     fontWeight: 700,
     letterSpacing: '0.08em',
     textTransform: 'uppercase',

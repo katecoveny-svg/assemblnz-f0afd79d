@@ -68,7 +68,7 @@ function StatusPill({ status }: { status: CallStatus }) {
   const s = STATUS_STYLE[status] ?? STATUS_STYLE.completed;
   return (
     <span
-      className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+      className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
       style={{ background: s.bg, color: s.fg }}
     >
       {status.replace('_', ' ')}
@@ -159,7 +159,7 @@ export default async function VoiceCallsPage({
   const inputClass =
     'w-full rounded-[10px] border border-[rgba(35,33,31,0.16)] bg-[color:var(--assembl-paper)] px-3 py-2 text-sm text-[color:var(--text-primary)] focus:border-[rgba(43,107,87,0.45)] focus:outline-none';
   const labelClass =
-    'font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]';
+    'font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]';
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-12 text-[color:var(--text-primary)] lg:py-16">
@@ -269,7 +269,7 @@ export default async function VoiceCallsPage({
         <div className="overflow-x-auto rounded-[14px] border border-[rgba(35,33,31,0.10)]">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-paper)] font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <tr className="border-b border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-paper)] font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 <th className="px-4 py-3 font-normal">Started</th>
                 <th className="px-4 py-3 font-normal">Call SID</th>
                 <th className="px-4 py-3 font-normal">Status</th>

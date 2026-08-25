@@ -42,7 +42,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
         </Link>
         <Link
           href={`/kete/${kete.slug}`}
-          className="hidden shrink-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] sm:inline-flex"
+          className="hidden shrink-0 items-center gap-2 font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] sm:inline-flex"
         >
           View this pack
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -62,7 +62,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
           >
             <span className="absolute left-0 top-0 h-1.5 w-16" style={{ backgroundColor: kete.accent }} />
             <div className="p-4">
-              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)]">
                 {agent.phase ?? 'fleet'}
               </p>
               <h3 className="mt-3 line-clamp-2 font-display text-3xl leading-none text-[color:var(--text-primary)]">
@@ -80,7 +80,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
                 sizes="220px"
                 className="object-cover transition duration-300 group-hover:scale-105 group-focus-visible:scale-105"
               />
-              <span className="absolute inset-x-3 bottom-3 translate-y-2 rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-2 text-center font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--assembl-paper)] opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+              <span className="absolute inset-x-3 bottom-3 translate-y-2 rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-2 text-center font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--assembl-paper)] opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
                 Run a demo
               </span>
             </div>

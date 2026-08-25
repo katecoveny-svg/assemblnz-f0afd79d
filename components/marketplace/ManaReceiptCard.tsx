@@ -55,7 +55,7 @@ export function ManaReceiptCard({ noteMarkdown }: { noteMarkdown: string }) {
       <p className="whitespace-pre-wrap text-[13px] leading-relaxed" style={{ color: PALETTE.body }}>
         {receipt}
       </p>
-      <p className="mk-mono mt-3 text-[10px]" style={{ color: PALETTE.muted }}>
+      <p className="mk-mono mt-3 text-[12px]" style={{ color: PALETTE.muted }}>
         Privacy Act 2020 · IPP 3A · reviewed and signed by a registered clinician
       </p>
     </section>

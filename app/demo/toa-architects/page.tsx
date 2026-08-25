@@ -53,11 +53,11 @@ export default function ToaArchitectsDemoHub() {
       {/* assembl chrome */}
       <header className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 md:px-10">
         {/* the global SiteHeader already carries the assembl wordmark */}
-        <span className="text-[11px] uppercase tracking-[0.24em]" style={{ color: '#6f6f64' }}>
+        <span className="text-[12px] uppercase tracking-[0.24em]" style={{ color: '#6f6f64' }}>
           toa architects × arc · concept demo
         </span>
         <span
-          className="rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.18em]"
+          className="rounded-full border px-3 py-1 text-[12px] uppercase tracking-[0.18em]"
           style={{ borderColor: CHAMPAGNE, color: '#8a744f' }}
         >
           concept · not affiliated with TOA Architects Ltd
@@ -125,7 +125,7 @@ export default function ToaArchitectsDemoHub() {
         </div>
       </main>
 
-      <footer className="border-t border-black/10 px-6 py-4 text-center text-[11px] md:px-10" style={{ color: '#6f6f64' }}>
+      <footer className="border-t border-black/10 px-6 py-4 text-center text-[12px] md:px-10" style={{ color: '#6f6f64' }}>
         what a TOA × assembl operating system could look like · 16A facts from
         the draft RC + April pre-checks · activity and figures are demo ·
         draft-mode enforced — nothing lodges, nothing sends ·{' '}

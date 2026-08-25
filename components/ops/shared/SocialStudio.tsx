@@ -57,7 +57,7 @@ export function SocialStudio({ pilot }: { pilot: SocialPilot }) {
   );
 
   const eyebrow: CSSProperties = {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: '0.16em',
     textTransform: 'uppercase',
     color: preset.muted,
@@ -332,7 +332,7 @@ export function SocialStudio({ pilot }: { pilot: SocialPilot }) {
                 <span
                   style={{
                     marginLeft: 8,
-                    fontSize: 10,
+                    fontSize: 12,
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     opacity: 0.75,
@@ -407,7 +407,7 @@ export function SocialStudio({ pilot }: { pilot: SocialPilot }) {
                 onClick={() => void onPickFile(null)}
                 style={{
                   marginTop: 8,
-                  fontSize: 11,
+                  fontSize: 12,
                   color: preset.muted,
                   background: 'none',
                   border: 'none',
@@ -449,7 +449,7 @@ export function SocialStudio({ pilot }: { pilot: SocialPilot }) {
                 type="button"
                 onClick={() => setBrief(s)}
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   padding: '6px 10px',
                   borderRadius: 999,
                   border: `1px solid ${preset.ink}18`,
@@ -543,7 +543,7 @@ export function SocialStudio({ pilot }: { pilot: SocialPilot }) {
               )}
             </div>
           ) : null}
-          <p style={{ margin: '12px 0 0', fontSize: 11, color: preset.muted }}>
+          <p style={{ margin: '12px 0 0', fontSize: 12, color: preset.muted }}>
             Draft-only. Approve in the queue before anything reaches {preset.handle}.
           </p>
         </section>

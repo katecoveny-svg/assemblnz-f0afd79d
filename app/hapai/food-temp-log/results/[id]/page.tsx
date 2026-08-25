@@ -49,14 +49,14 @@ export default async function FoodAuditResultPage({ params }: { params: Promise<
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-10 text-[#313c42] print:bg-white md:px-12 md:py-14">
       <div className="mx-auto max-w-[980px]">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4 print:hidden">
-          <Link href="/hapai/food-temp-log" className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3f7373]">
+          <Link href="/hapai/food-temp-log" className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3f7373]">
             Create another record
           </Link>
           <FoodAuditResultActions venueName={record.venue_name} resultUrl={resultUrl} />
         </div>
 
         <article className="rounded-[16px] border border-[rgba(35,33,31,0.10)] bg-white p-6 shadow-[0_24px_80px_rgba(35,33,31,0.08)] print:border-0 print:shadow-none md:p-9">
-          <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3f7373]">Food Act 2014 · daily record</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#3f7373]">Food Act 2014 · daily record</p>
           <h1 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-light leading-none">
             Food safety record — {record.venue_name} · {formatDate(record.recorded_date)}
           </h1>
@@ -149,7 +149,7 @@ function formatDate(value: string) {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#ffffff] p-3">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">{label}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">{label}</p>
       <p className="mt-1 text-sm font-medium">{value}</p>
     </div>
   );
@@ -159,7 +159,7 @@ function ReadingTable({ title, target, readings, pass }: { title: string; target
   return (
     <section>
       <h2 className="font-display text-3xl font-light leading-none">{title}</h2>
-      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">Target {target}</p>
+      <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">Target {target}</p>
       <div className="mt-3 divide-y divide-[rgba(35,33,31,0.08)] overflow-hidden rounded-[10px] border border-[rgba(35,33,31,0.10)]">
         {readings.length ? readings.map((reading) => (
           <div key={`${reading.label}-${reading.tempC}`} className="flex items-center justify-between gap-3 bg-white px-4 py-3 text-sm">
@@ -178,7 +178,7 @@ function CookingTable({ readings }: { readings: Array<{ dish: string; tempC: num
   return (
     <section>
       <h2 className="font-display text-3xl font-light leading-none">Cooking final temps</h2>
-      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">Target ≥75°C for 30 sec</p>
+      <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">Target ≥75°C for 30 sec</p>
       <div className="mt-3 divide-y divide-[rgba(35,33,31,0.08)] overflow-hidden rounded-[10px] border border-[rgba(35,33,31,0.10)]">
         {readings.length ? readings.map((reading) => {
           const pass = reading.tempC >= 75;

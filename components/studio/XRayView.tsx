@@ -36,7 +36,7 @@ export function XRayView() {
     <div className="flex h-full flex-col overflow-y-auto bg-[color:var(--assembl-paper)] p-6 md:p-10">
       <div className="mx-auto flex w-full max-w-[900px] flex-col gap-8">
         <header>
-          <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
             {agent.name} · x-ray
           </p>
           <h2 className="mt-2 font-display text-[38px] font-light lowercase leading-[1.05] text-[color:var(--text-primary)]">
@@ -49,12 +49,12 @@ export function XRayView() {
 
         {kinds.map((section) => (
           <section key={section.kind} className="flex flex-col gap-2">
-            <h3 className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <h3 className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               {section.label}
             </h3>
             <div className="flex flex-wrap gap-2">
               {section.items.length === 0 ? (
-                <p className="font-mono text-[11px] text-[color:var(--text-secondary)]">none configured yet</p>
+                <p className="font-mono text-[12px] text-[color:var(--text-secondary)]">none configured yet</p>
               ) : section.items.map((c) => {
                 const d = c.data as { title?: string; displayName?: string; provider?: string; role?: string; scope?: string; model?: string };
                 const label = d.title ?? d.displayName ?? d.provider ?? d.role ?? d.model ?? d.scope ?? c.id;
@@ -63,7 +63,7 @@ export function XRayView() {
                     key={c.id}
                     type="button"
                     onClick={() => select(c.id)}
-                    className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[11px] text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]"
+                    className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]"
                     title={c.kind}
                   >
                     {label}
@@ -75,7 +75,7 @@ export function XRayView() {
         ))}
 
         <section className="flex flex-col gap-3">
-          <h3 className="font-mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <h3 className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Relationships
           </h3>
           <ul className="flex flex-col gap-1.5">
@@ -92,7 +92,7 @@ export function XRayView() {
                 ?? dst?.id ?? '?';
               return (
                 <li key={edge.id} className="rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-3">
-                  <div className="flex flex-wrap items-baseline gap-1.5 font-mono text-[11px]">
+                  <div className="flex flex-wrap items-baseline gap-1.5 font-mono text-[12px]">
                     <button type="button" onClick={() => src && select(src.id)} className="underline decoration-[color:var(--assembl-cloud)] underline-offset-4 hover:decoration-[color:var(--text-primary)]">
                       {srcLabel}
                     </button>

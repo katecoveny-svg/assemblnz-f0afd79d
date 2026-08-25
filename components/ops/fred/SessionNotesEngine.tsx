@@ -22,7 +22,7 @@ const glass: CSSProperties = {
 };
 
 const eyebrow: CSSProperties = {
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: MUTED,
@@ -279,7 +279,7 @@ export function SessionNotesEngine({ initialNote = DEFAULT_NOTE }: { initialNote
           >
             Reset Bruno sample
           </button>
-          <span style={{ fontSize: 11.5, color: MUTED }}>draft-only · nothing sends without your yes</span>
+          <span style={{ fontSize: 12, color: MUTED }}>draft-only · nothing sends without your yes</span>
         </div>
         {notice ? (
           <p style={{ margin: '10px 0 0', fontSize: 12.5, color: PINK_DEEP, lineHeight: 1.5 }}>{notice}</p>

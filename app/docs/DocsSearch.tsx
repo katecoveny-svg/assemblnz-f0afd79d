@@ -21,7 +21,7 @@ export function DocsSearch({ docs }: { docs: SearchDoc[] }) {
     <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4">
       <label
         htmlFor="docs-search"
-        className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+        className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
       >
         Search docs
       </label>

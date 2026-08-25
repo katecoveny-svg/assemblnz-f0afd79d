@@ -347,13 +347,13 @@ function naturalPngBlob(img: HTMLImageElement): Promise<Blob> {
 
 // ─── shared style tokens (pearl canon) ──────────────────────────────────────
 const hairline = "border-[rgba(49,60,66,0.12)]";
-const labelClass = "font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]";
+const labelClass = "font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]";
 const cardClass = `rounded-[10px] border ${hairline} bg-white/70 p-5`;
 const inputClass = `mt-1.5 h-11 w-full rounded-[10px] border ${hairline} bg-white px-3 font-mono text-[12.5px] text-[#313c42] outline-none focus:border-[#3f7373]`;
 const chipOff = `border ${hairline} bg-white text-[#313c42] hover:bg-[#f3f5f3]`;
 const chipOn = "border-[#313c42] bg-[#313c42] text-white";
 const chipClass = "min-h-[36px] rounded-[8px] px-3 py-1.5 font-mono text-[12px] lowercase tracking-[0.06em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b8964f]";
-const smallBtn = `rounded-[8px] border ${hairline} bg-white px-3 py-1.5 font-mono text-[10.5px] lowercase tracking-[0.14em] text-[#313c42] transition hover:bg-[#f3f5f3]`;
+const smallBtn = `rounded-[8px] border ${hairline} bg-white px-3 py-1.5 font-mono text-[12px] lowercase tracking-[0.14em] text-[#313c42] transition hover:bg-[#f3f5f3]`;
 
 function ChipRow<T extends string>({
   options,
@@ -589,7 +589,7 @@ function ExportModal({
             <h2 id="vessel-export-title" className="mt-1 font-display text-[28px] font-light leading-tight text-[#313c42]">
               compose for the surface
             </h2>
-            <p className="mt-1 font-mono text-[10.5px] tracking-[0.06em] text-[#68766f]">
+            <p className="mt-1 font-mono text-[12px] tracking-[0.06em] text-[#68766f]">
               drag the focal point — every size below updates live
             </p>
           </div>
@@ -601,7 +601,7 @@ function ExportModal({
               type="button"
               onClick={downloadAllZip}
               disabled={zipping}
-              className="rounded-[8px] border border-[#b8964f] bg-white px-4 py-2 font-mono text-[11px] lowercase tracking-[0.18em] text-[#313c42] transition enabled:hover:bg-[#f3f5f3] disabled:cursor-not-allowed disabled:opacity-55"
+              className="rounded-[8px] border border-[#b8964f] bg-white px-4 py-2 font-mono text-[12px] lowercase tracking-[0.18em] text-[#313c42] transition enabled:hover:bg-[#f3f5f3] disabled:cursor-not-allowed disabled:opacity-55"
             >
               {zipping ? "building zip…" : "download all as zip"}
             </button>
@@ -664,7 +664,7 @@ function ExportModal({
                 <span aria-hidden className="absolute left-1 right-1 top-1/2 h-px -translate-y-1/2 bg-[#313c42]" />
               </div>
             </div>
-            <p className="font-mono text-[10.5px] leading-[1.6] tracking-[0.04em] text-[#68766f]">
+            <p className="font-mono text-[12px] leading-[1.6] tracking-[0.04em] text-[#68766f]">
               drag the <b className="font-normal text-[#313c42]">gold dot</b> to set the focal point. previews
               update live. {sourceLabel ? `· ${sourceLabel}` : ""}
             </p>
@@ -700,7 +700,7 @@ function ExportModal({
                             className={`block rounded-[2px] border ${hairline} bg-white`}
                           />
                         </div>
-                        <div className="text-center font-mono text-[10px] leading-tight tracking-[0.08em]">
+                        <div className="text-center font-mono text-[12px] leading-tight tracking-[0.08em]">
                           <div className="text-[#313c42]">{sz.name}</div>
                           <div className="text-[#68766f]">
                             {sz.w}×{sz.h}
@@ -1289,7 +1289,7 @@ export function VesselStudioTool() {
             <p className={labelClass}>
               kete <span className="normal-case tracking-[0.12em] text-[#68766f]/80">· vessel form for the pillar</span>
             </p>
-            <p className="mt-2 font-mono text-[10.5px] italic leading-relaxed tracking-[0.04em] text-[#68766f]">
+            <p className="mt-2 font-mono text-[12px] italic leading-relaxed tracking-[0.04em] text-[#68766f]">
               {keteNote}
             </p>
             <div className="mt-3 grid gap-1.5" role="radiogroup" aria-label="kete form">
@@ -1316,7 +1316,7 @@ export function VesselStudioTool() {
                     <span className="font-display text-[20px] font-normal leading-tight text-[#313c42]">
                       {k.label}
                     </span>
-                    <span className="font-mono text-[10px] lowercase tracking-[0.12em] text-[#68766f]">
+                    <span className="font-mono text-[12px] lowercase tracking-[0.12em] text-[#68766f]">
                       {k.pillar}
                       {disabledInVideo ? " · image mode only" : ""}
                     </span>
@@ -1342,7 +1342,7 @@ export function VesselStudioTool() {
                       spellCheck={false}
                       placeholder={placeholder}
                       onChange={(e) => setter(e.target.value)}
-                      className={`mt-1 w-full resize-y rounded-[8px] border ${hairline} bg-white px-2.5 py-2 font-mono text-[11.5px] leading-relaxed text-[#313c42] outline-none focus:border-[#3f7373]`}
+                      className={`mt-1 w-full resize-y rounded-[8px] border ${hairline} bg-white px-2.5 py-2 font-mono text-[12px] leading-relaxed text-[#313c42] outline-none focus:border-[#3f7373]`}
                     />
                   </label>
                 ))}
@@ -1350,14 +1350,14 @@ export function VesselStudioTool() {
             ) : grammarPreview ? (
               <div className={`mt-3 rounded-[10px] border ${hairline} bg-[#f3f5f3] p-3.5`}>
                 <p className={labelClass}>{mode === "video" ? "video grammar · locked" : "material grammar · locked"}</p>
-                <p className="mt-1.5 font-mono text-[11.5px] leading-[1.6] tracking-[0.02em] text-[#68766f]">
+                <p className="mt-1.5 font-mono text-[12px] leading-[1.6] tracking-[0.02em] text-[#68766f]">
                   {grammarPreview}
                 </p>
               </div>
             ) : null}
 
             {isPortrait ? (
-              <p className="mt-3 border-l-2 border-[#b8964f] py-1 pl-3 font-mono text-[11px] italic leading-[1.6] tracking-[0.04em] text-[#68766f]">
+              <p className="mt-3 border-l-2 border-[#b8964f] py-1 pl-3 font-mono text-[12px] italic leading-[1.6] tracking-[0.04em] text-[#68766f]">
                 tip: upload one of your existing brand portraits as a reference image for style consistency.
                 anchor strength 0.45–0.6 works well for founder content.
               </p>
@@ -1418,7 +1418,7 @@ export function VesselStudioTool() {
                 >
                   +
                 </button>
-                <span className="ml-1 font-mono text-[10.5px] tracking-[0.12em] text-[#68766f]">
+                <span className="ml-1 font-mono text-[12px] tracking-[0.12em] text-[#68766f]">
                   images per run · 1–4
                 </span>
               </div>
@@ -1438,8 +1438,8 @@ export function VesselStudioTool() {
               <p className={`mt-5 ${labelClass}`}>aspect ratio</p>
               <ChipRow options={VIDEO_AR_OPTIONS} value={videoAR} onChange={setVideoAR} ariaLabel="video aspect ratio" />
               <p className={`mt-5 ${labelClass}`}>resolution</p>
-              <p className={`mt-2 inline-flex items-center gap-2 rounded-[8px] border ${hairline} bg-[#f3f5f3] px-3 py-1.5 font-mono text-[11px] tracking-[0.06em] text-[#313c42]`}>
-                1080p <span className="text-[9.5px] lowercase tracking-[0.16em] text-[#68766f]">pinned</span>
+              <p className={`mt-2 inline-flex items-center gap-2 rounded-[8px] border ${hairline} bg-[#f3f5f3] px-3 py-1.5 font-mono text-[12px] tracking-[0.06em] text-[#313c42]`}>
+                1080p <span className="text-[12px] lowercase tracking-[0.16em] text-[#68766f]">pinned</span>
               </p>
               <p className={`mt-5 ${labelClass}`}>model</p>
               <div className="mt-2 grid gap-1.5" role="radiogroup" aria-label="video model">
@@ -1458,7 +1458,7 @@ export function VesselStudioTool() {
                       }`}
                     >
                       <span className="font-mono text-[12px] text-[#313c42]">{m.display}</span>
-                      <span className="font-mono text-[10.5px] tracking-[0.06em] text-[#68766f]">{m.blurb}</span>
+                      <span className="font-mono text-[12px] tracking-[0.06em] text-[#68766f]">{m.blurb}</span>
                     </button>
                   );
                 })}
@@ -1480,19 +1480,19 @@ export function VesselStudioTool() {
                   className={`block max-h-[240px] max-w-[240px] rounded-[8px] border ${hairline}`}
                 />
                 <div className="mt-2.5 flex flex-wrap items-center justify-between gap-3">
-                  <span className="break-all font-mono text-[10.5px] tracking-[0.08em] text-[#68766f]">
+                  <span className="break-all font-mono text-[12px] tracking-[0.08em] text-[#68766f]">
                     {reference.filename} · {humanBytes(reference.sizeBytes)}
                   </span>
                   <button
                     type="button"
                     onClick={() => saveReference(null)}
-                    className="font-mono text-[10.5px] lowercase tracking-[0.16em] text-[#313c42] underline-offset-2 hover:underline"
+                    className="font-mono text-[12px] lowercase tracking-[0.16em] text-[#313c42] underline-offset-2 hover:underline"
                   >
                     remove
                   </button>
                 </div>
                 <div className="mt-3">
-                  <p className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[#68766f]">
+                  <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[#68766f]">
                     anchor to reference: <span className="text-[#313c42]">{imagePromptStrength.toFixed(2)}</span>
                   </p>
                   <input
@@ -1505,7 +1505,7 @@ export function VesselStudioTool() {
                     onChange={(e) => setImagePromptStrength(parseFloat(e.target.value))}
                     className="mt-2 h-1 w-full cursor-pointer accent-[#3f7373]"
                   />
-                  <div className="mt-1.5 flex justify-between font-mono text-[9.5px] tracking-[0.14em] text-[#68766f]">
+                  <div className="mt-1.5 flex justify-between font-mono text-[12px] tracking-[0.14em] text-[#68766f]">
                     <span>loose</span>
                     <span>← anchor →</span>
                     <span>tight</span>
@@ -1560,7 +1560,7 @@ export function VesselStudioTool() {
                 e.target.value = "";
               }}
             />
-            <p className="mt-2 font-mono text-[10px] leading-[1.5] tracking-[0.04em] text-[#68766f]">
+            <p className="mt-2 font-mono text-[12px] leading-[1.5] tracking-[0.04em] text-[#68766f]">
               saved in this browser. up to ~5MB before localStorage may complain — reduce file size if so.
             </p>
           </div>
@@ -1575,14 +1575,14 @@ export function VesselStudioTool() {
             } bg-[#f3f5f3]`}
           >
             <div className="flex items-baseline justify-between gap-3">
-              <h3 className="font-mono text-[11px] lowercase tracking-[0.18em] text-[#313c42]">fal.ai api key</h3>
+              <h3 className="font-mono text-[12px] lowercase tracking-[0.18em] text-[#313c42]">fal.ai api key</h3>
               <span
-                className={`font-mono text-[10.5px] tracking-[0.12em] ${falKey ? "text-[#2e5a58]" : "text-[#68766f]"}`}
+                className={`font-mono text-[12px] tracking-[0.12em] ${falKey ? "text-[#2e5a58]" : "text-[#68766f]"}`}
               >
                 {falKey ? `saved · ${falKey.slice(0, 4)}…${falKey.slice(-4)}` : "not set"}
               </span>
             </div>
-            <p className="mt-2.5 font-mono text-[10.5px] leading-[1.5] tracking-[0.04em] text-[#68766f]">
+            <p className="mt-2.5 font-mono text-[12px] leading-[1.5] tracking-[0.04em] text-[#68766f]">
               image generation works with assembl&apos;s shared launch balance. save your own key here to bypass
               shared limits or generate video. get a key at{" "}
               <a
@@ -1623,12 +1623,12 @@ export function VesselStudioTool() {
               <button
                 type="button"
                 onClick={() => saveKey(keyInput)}
-                className="rounded-[8px] border border-[#313c42] bg-[#313c42] px-3.5 py-1.5 font-mono text-[11px] lowercase tracking-[0.12em] text-white transition hover:opacity-90"
+                className="rounded-[8px] border border-[#313c42] bg-[#313c42] px-3.5 py-1.5 font-mono text-[12px] lowercase tracking-[0.12em] text-white transition hover:opacity-90"
               >
                 save
               </button>
             </div>
-            <p className="mt-2 font-mono text-[9.5px] tracking-[0.04em] text-[#68766f]">
+            <p className="mt-2 font-mono text-[12px] tracking-[0.04em] text-[#68766f]">
               cost: ~$0.04 / image (flux pro v1.1) · ~$0.05 / image (ultra/redux i2i) · ~$0.30–$3.00 / clip (video)
               <button
                 type="button"
@@ -1642,7 +1642,7 @@ export function VesselStudioTool() {
               </button>
             </p>
             <div
-              className={`mt-3 rounded-[8px] border px-2.5 py-2 font-mono text-[10px] lowercase leading-[1.45] tracking-[0.08em] ${
+              className={`mt-3 rounded-[8px] border px-2.5 py-2 font-mono text-[12px] lowercase leading-[1.45] tracking-[0.08em] ${
                 sharedStatus.tone === "error"
                   ? "border-[rgba(159,74,54,0.28)] text-[#B85C38]"
                   : "border-[rgba(63,115,115,0.18)] text-[#2e5a58]"
@@ -1671,7 +1671,7 @@ export function VesselStudioTool() {
                 role="tab"
                 aria-selected={mode === m}
                 onClick={() => switchMode(m)}
-                className={`rounded-full px-4.5 py-1.5 font-mono text-[11px] capitalize tracking-[0.18em] transition ${
+                className={`rounded-full px-4.5 py-1.5 font-mono text-[12px] capitalize tracking-[0.18em] transition ${
                   mode === m ? "bg-[#313c42] text-white" : "text-[#68766f] hover:text-[#313c42]"
                 }`}
               >
@@ -1688,7 +1688,7 @@ export function VesselStudioTool() {
                   {freePromptOn ? "free · custom" : "composed"}
                 </h2>
               </div>
-              <span className="font-mono text-[10.5px] text-[#68766f]">
+              <span className="font-mono text-[12px] text-[#68766f]">
                 {freePromptOn ? `free prompt mode · ${freePromptText.trim().length} chars` : promptMeta}
               </span>
             </div>
@@ -1699,8 +1699,8 @@ export function VesselStudioTool() {
                 onChange={(e) => toggleFreePrompt(e.target.checked)}
                 className="h-4 w-4 cursor-pointer accent-[#3f7373]"
               />
-              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#313c42]">free prompt mode</span>
-              <span className="ml-auto font-mono text-[9.5px] tracking-[0.04em] text-[#68766f]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[#313c42]">free prompt mode</span>
+              <span className="ml-auto font-mono text-[12px] tracking-[0.04em] text-[#68766f]">
                 bypass kete grammar · type whatever you want
               </span>
             </label>
@@ -1723,10 +1723,10 @@ export function VesselStudioTool() {
 
             <div className={`mt-4 rounded-[8px] border ${hairline} bg-[#f3f5f3] p-3.5`}>
               <div className="flex items-baseline justify-between">
-                <span className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[#68766f]">
+                <span className="font-mono text-[12px] lowercase tracking-[0.18em] text-[#68766f]">
                   negative anchors · always pinned
                 </span>
-                <span className="font-mono text-[10.5px] tracking-[0.12em] text-[#68766f]">
+                <span className="font-mono text-[12px] tracking-[0.12em] text-[#68766f]">
                   {anchors.length} pinned
                 </span>
               </div>
@@ -1735,7 +1735,7 @@ export function VesselStudioTool() {
                   <span
                     key={token}
                     title={isFlag ? `--no ${token}` : `body inline: no ${token}`}
-                    className={`rounded-[6px] border ${hairline} bg-white px-2 py-1 font-mono text-[10.5px] lowercase tracking-[0.06em] text-[#68766f]`}
+                    className={`rounded-[6px] border ${hairline} bg-white px-2 py-1 font-mono text-[12px] lowercase tracking-[0.06em] text-[#68766f]`}
                   >
                     <span aria-hidden className="mr-1 text-[#B85C38]">
                       −
@@ -1744,18 +1744,18 @@ export function VesselStudioTool() {
                   </span>
                 ))}
               </div>
-              <p className="mt-3 font-mono text-[10.5px] leading-[1.65] tracking-[0.02em] text-[#68766f]">
+              <p className="mt-3 font-mono text-[12px] leading-[1.65] tracking-[0.02em] text-[#68766f]">
                 these are doing work. each one keeps midjourney (and flux) from drifting toward something
                 off-brand — text overlays, kōwhaiwhai patterns, carvings, neon/sci-fi tropes, and the
                 architectural caged look (armature, cage, rails, spine, metal frame).
               </p>
             </div>
 
-            <p className="mt-4 text-center font-mono text-[10px] lowercase tracking-[0.16em] text-[#68766f]">
+            <p className="mt-4 text-center font-mono text-[12px] lowercase tracking-[0.16em] text-[#68766f]">
               {modeIndicator}
             </p>
             {mode === "video" ? (
-              <p className="mt-2 border-l-2 border-[#b8964f] bg-[#f3f5f3] px-3 py-2 font-mono text-[11px] leading-[1.55] tracking-[0.04em] text-[#68766f]">
+              <p className="mt-2 border-l-2 border-[#b8964f] bg-[#f3f5f3] px-3 py-2 font-mono text-[12px] leading-[1.55] tracking-[0.04em] text-[#68766f]">
                 video generation costs ~<b className="font-normal text-[#313c42]">${modelInfo.price.toFixed(2)}</b> per
                 clip · slow (60–180s) · confirm before generating · runs on your own fal.ai key only
               </p>
@@ -1793,7 +1793,7 @@ export function VesselStudioTool() {
               <button
                 type="button"
                 onClick={copyPrompt}
-                className={`flex-1 rounded-[10px] border px-3.5 py-2.5 font-mono text-[11px] lowercase tracking-[0.18em] transition ${
+                className={`flex-1 rounded-[10px] border px-3.5 py-2.5 font-mono text-[12px] lowercase tracking-[0.18em] transition ${
                   copied ? "border-[#313c42] bg-[#313c42] text-white" : `${hairline} bg-white text-[#313c42] hover:bg-[#f3f5f3]`
                 }`}
               >
@@ -1802,7 +1802,7 @@ export function VesselStudioTool() {
               <button
                 type="button"
                 onClick={resetAll}
-                className={`flex-1 rounded-[10px] border ${hairline} bg-white px-3.5 py-2.5 font-mono text-[11px] lowercase tracking-[0.18em] text-[#313c42] transition hover:bg-[#f3f5f3]`}
+                className={`flex-1 rounded-[10px] border ${hairline} bg-white px-3.5 py-2.5 font-mono text-[12px] lowercase tracking-[0.18em] text-[#313c42] transition hover:bg-[#f3f5f3]`}
               >
                 reset
               </button>
@@ -1815,7 +1815,7 @@ export function VesselStudioTool() {
                 <p className={labelClass}>results</p>
                 <h2 className="mt-0.5 font-display text-[24px] font-light text-[#313c42]">generations</h2>
               </div>
-              <span className="font-mono text-[10.5px] text-[#68766f]">
+              <span className="font-mono text-[12px] text-[#68766f]">
                 {history.length} saved
                 <span className="mx-2 text-[#68766f]/60">·</span>
                 <button
@@ -1841,7 +1841,7 @@ export function VesselStudioTool() {
 
             <div className="mt-4 grid gap-4">
               {history.length === 0 ? (
-                <p className={`rounded-[10px] border border-dashed ${hairline} px-4 py-7 text-center font-mono text-[11px] lowercase tracking-[0.14em] text-[#68766f]`}>
+                <p className={`rounded-[10px] border border-dashed ${hairline} px-4 py-7 text-center font-mono text-[12px] lowercase tracking-[0.14em] text-[#68766f]`}>
                   no generations yet · choose a kete, hit generate
                 </p>
               ) : (
@@ -1876,7 +1876,7 @@ export function VesselStudioTool() {
                         />
                       )}
                       <div className="flex flex-wrap items-center justify-between gap-2.5">
-                        <span className="font-mono text-[10.5px] tracking-[0.1em] text-[#68766f]">
+                        <span className="font-mono text-[12px] tracking-[0.1em] text-[#68766f]">
                           {stamp} · {keteDisplay} · {card.ar}
                           {isVideo
                             ? ` · ${VIDEO_MODELS[card.model as VideoModelKey]?.display ?? card.model ?? "video"} · ${card.duration ?? ""} · ${card.camera ?? ""}`
@@ -1922,7 +1922,7 @@ export function VesselStudioTool() {
               )}
             </div>
 
-            <p className="mt-4 text-right font-mono text-[10.5px] tracking-[0.1em] text-[#68766f]">
+            <p className="mt-4 text-right font-mono text-[12px] tracking-[0.1em] text-[#68766f]">
               this session: {sessionGenerations} generation{sessionGenerations === 1 ? "" : "s"} · ~$
               {sessionCost.toFixed(2)} usd at fal.ai flux pro pricing
             </p>

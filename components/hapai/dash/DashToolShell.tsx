@@ -43,7 +43,7 @@ export function DashToolShell({
       <div className="mx-auto max-w-[1320px]">
         <Link
           href="/hapai"
-          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] transition hover:text-[#313c42]"
+          className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] transition hover:text-[#313c42]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           SPARK library
@@ -58,7 +58,7 @@ export function DashToolShell({
               aria-hidden
             />
             <div className="relative">
-              <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#313c42]">{eyebrow}</p>
+              <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#313c42]">{eyebrow}</p>
               <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.4rem,7vw,7.2rem)] font-light leading-[0.88] text-[#313c42]">
                 {title}
               </h1>
@@ -68,7 +68,7 @@ export function DashToolShell({
                 <div className="mt-8 grid gap-3 sm:grid-cols-3">
                   {highlights.map((item) => (
                     <div key={item.title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#ffffff] p-4">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">{item.title}</p>
+                      <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">{item.title}</p>
                       <p className="mt-2 text-sm leading-relaxed text-[#56544B]">{item.body}</p>
                     </div>
                   ))}
@@ -80,7 +80,7 @@ export function DashToolShell({
           {/* aside — share + posture, charcoal panel */}
           <aside className="flex flex-col gap-4 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white p-4 shadow-[0_24px_70px_rgba(58,56,50,0.08)]">
             <div className="rounded-[8px] bg-[#313c42] p-6 text-white">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#b8964f]">share this</p>
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#b8964f]">share this</p>
               <p className="mt-3 text-sm leading-relaxed text-white/80">{shareText}</p>
               <div className="mt-5">
                 <ShareableToolActions title={shareTitle} text={shareText} path={toolPath} />
@@ -90,12 +90,12 @@ export function DashToolShell({
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#b8964f]" aria-hidden />
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#b8964f]">draft-only posture</p>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#b8964f]">draft-only posture</p>
                   <p className="mt-2 text-sm leading-relaxed text-[#56544B]">{posture}</p>
                 </div>
               </div>
             </div>
-            <p className="flex flex-wrap gap-x-3 gap-y-1 px-1 font-mono text-[11px] text-[#6B6661]">
+            <p className="flex flex-wrap gap-x-3 gap-y-1 px-1 font-mono text-[12px] text-[#6B6661]">
               <Link href="/privacy" className="hover:text-[#313c42]">Privacy</Link>
               <span aria-hidden>·</span>
               <Link href="/legal/terms" className="hover:text-[#313c42]">Terms</Link>

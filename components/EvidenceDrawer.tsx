@@ -94,7 +94,7 @@ export function EvidenceDrawer({
       >
         <header className="flex items-start justify-between gap-4 border-b border-[color:var(--assembl-cloud)] px-7 pb-4 pt-7">
           <div>
-            <p className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               evidence ledger <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> mana receipt
             </p>
             <h2
@@ -107,7 +107,7 @@ export function EvidenceDrawer({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
           >
             close
           </button>
@@ -132,7 +132,7 @@ export function EvidenceDrawer({
 function ScaffoldBanner() {
   return (
     <div className="mb-6 rounded-[2px] border border-dashed border-[color:var(--assembl-gold-thread)] bg-white px-4 py-3">
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-gold-thread)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-gold-thread)]">
         scaffold mode
       </p>
       <p className="mt-1 text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -149,7 +149,7 @@ function EmptyState({ reason }: { reason?: string }) {
       <p className="font-display text-[20px] font-light text-[color:var(--text-primary)]">
         kāore he tūtohu — receipt unavailable
       </p>
-      <p className="mt-2 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+      <p className="mt-2 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
         {reason ?? 'No mana receipt is associated with this output yet.'}
       </p>
     </div>
@@ -184,7 +184,7 @@ function Header({
 }) {
   return (
     <section>
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         issued by
       </p>
       <p className="mt-1 text-[15px] leading-relaxed text-[color:var(--text-primary)]">
@@ -227,7 +227,7 @@ function Citations({ citations }: { citations: ReceiptCitation[] }) {
             key={i}
             className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-4 py-3"
           >
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
               {String(c.type ?? 'citation')}
             </p>
             <p className="mt-1 text-[14px] leading-relaxed text-[color:var(--text-primary)]">
@@ -328,7 +328,7 @@ function ThreeGates({ gates }: { gates: ManaReceipt['gates'] }) {
               >
                 {passed === true ? '✓' : passed === false ? '✗' : '·'}
               </p>
-              <p className="mt-1 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-primary)]">
+              <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-primary)]">
                 {GATE_LABELS[g]}
               </p>
             </li>
@@ -376,7 +376,7 @@ function SignatureBlock({
 }) {
   return (
     <Section title="Signature & chain">
-      <dl className="grid grid-cols-[140px_1fr] gap-x-4 gap-y-1.5 font-mono text-[11.5px] tracking-[0.02em]">
+      <dl className="grid grid-cols-[140px_1fr] gap-x-4 gap-y-1.5 font-mono text-[12px] tracking-[0.02em]">
         <dt className="text-[color:var(--text-secondary)]">Status</dt>
         <dd className={signatureLooksReal ? 'text-[color:#2a7a3e]' : 'text-[color:#b3261e]'}>
           {signatureLooksReal ? '✓ Verified' : '✗ Unverified'}
@@ -391,7 +391,7 @@ function SignatureBlock({
         </dd>
       </dl>
       {receipt.verifier_url ? (
-        <p className="mt-3 font-mono text-[11px] tracking-[0.02em]">
+        <p className="mt-3 font-mono text-[12px] tracking-[0.02em]">
           <a
             href={receipt.verifier_url}
             className="text-[color:var(--assembl-gold-thread)] underline"
@@ -410,10 +410,10 @@ function RawJson({ receipt }: { receipt: ManaReceipt }) {
   return (
     <Section title="Raw receipt">
       <details>
-        <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
+        <summary className="cursor-pointer font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
           show JSON
         </summary>
-        <pre className="mt-3 max-h-[260px] overflow-auto rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white p-3 font-mono text-[11px] leading-relaxed text-[color:var(--text-primary)]">
+        <pre className="mt-3 max-h-[260px] overflow-auto rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white p-3 font-mono text-[12px] leading-relaxed text-[color:var(--text-primary)]">
           {JSON.stringify(receipt, null, 2)}
         </pre>
       </details>
@@ -424,7 +424,7 @@ function RawJson({ receipt }: { receipt: ManaReceipt }) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h3 className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {title}
       </h3>
       <div className="mt-2.5">{children}</div>

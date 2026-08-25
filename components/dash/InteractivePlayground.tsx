@@ -335,7 +335,7 @@ export function InteractivePlayground() {
             <div
               className="bd-mono"
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
                 color: '#8A6A2E',
@@ -409,7 +409,7 @@ export function InteractivePlayground() {
               <div
                 className="bd-mono"
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   letterSpacing: '.12em',
                   textTransform: 'uppercase',
                   color: '#b89a2e',
@@ -458,7 +458,7 @@ export function InteractivePlayground() {
             <div
               className="bd-mono"
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
                 color: '#8A6A2E',
@@ -482,7 +482,7 @@ export function InteractivePlayground() {
               </div>
               <div
                 className="bd-mono"
-                style={{ fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', color: '#bdb592' }}
+                style={{ fontSize: 12, letterSpacing: '.1em', textTransform: 'uppercase', color: '#bdb592' }}
               >
                 coins
               </div>
@@ -493,7 +493,7 @@ export function InteractivePlayground() {
               </div>
               <div
                 className="bd-mono"
-                style={{ fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', color: '#bdb592' }}
+                style={{ fontSize: 12, letterSpacing: '.1em', textTransform: 'uppercase', color: '#bdb592' }}
               >
                 left
               </div>
@@ -617,7 +617,7 @@ export function InteractivePlayground() {
             </button>
           </div>
         </div>
-        <div className="bd-mono" style={{ marginTop: 14, fontSize: 11, color: '#bdb592', textAlign: 'center' }}>
+        <div className="bd-mono" style={{ marginTop: 14, fontSize: 12, color: '#bdb592', textAlign: 'center' }}>
           a real, idle-time-worthy distraction · every coin = $0.01 to your reward
         </div>
       </div>

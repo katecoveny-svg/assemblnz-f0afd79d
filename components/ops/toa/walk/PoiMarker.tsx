@@ -72,7 +72,7 @@ export function PoiMarker({
         </span>
         {/* label chip on hover */}
         <span
-          className="pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.16em] opacity-0 transition-opacity group-hover:opacity-100"
+          className="pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-full px-2 py-0.5 text-[12px] font-medium uppercase tracking-[0.16em] opacity-0 transition-opacity group-hover:opacity-100"
           style={{ background: '#161516', color: '#f2ead9', fontFamily: 'var(--font-brand-mono, monospace)' }}
         >
           {label}

@@ -34,7 +34,7 @@
   gap: 26px;
   color: #6f7d81;
   font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -59,7 +59,7 @@
   margin: 0;
   color: #768c45;
   font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 0.17em;
   text-transform: uppercase;
 }
@@ -97,7 +97,7 @@
   border-radius: 999px;
   color: #fff;
   background: #3f7373;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-decoration: none;
   transition: transform 180ms ease, background 180ms ease;
@@ -115,7 +115,7 @@
   padding-top: 18px;
   border-top: 1px solid rgba(49, 60, 66, 0.1);
 }
-.proofLine span { display: flex; align-items: center; gap: 6px; color: #78858a; font-size: 9px; }
+.proofLine span { display: flex; align-items: center; gap: 6px; color: #78858a; font-size: 12px; }
 .proofLine svg { width: 13px; color: var(--gold); }
 
 .heroCanvas {
@@ -180,7 +180,7 @@
   gap: 8px;
   color: #647378;
   font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }

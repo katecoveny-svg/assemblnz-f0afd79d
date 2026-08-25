@@ -57,7 +57,7 @@ export default function EverydayRewardsOverview() {
               <div
                 style={{
                   fontFamily: 'var(--edr-mono), monospace',
-                  fontSize: 10.5,
+                  fontSize: 12,
                   letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: 'rgba(255,255,255,0.85)',
@@ -149,7 +149,7 @@ export default function EverydayRewardsOverview() {
                 <div
                   style={{
                     fontFamily: 'var(--edr-mono), monospace',
-                    fontSize: 10,
+                    fontSize: 12,
                     letterSpacing: '0.18em',
                     textTransform: 'uppercase',
                     color: EDR_BRAND.greyMid,

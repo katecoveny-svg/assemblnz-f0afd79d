@@ -29,7 +29,7 @@ export default function RecognitionPage() {
                 <span className="text-[14px]" style={{ color: 'var(--tenant-ink)' }}>{m.name}</span>
                 <span className="flex items-center gap-2">
                   <span className="font-[family-name:var(--font-display)] text-[17px]" style={{ color: 'var(--tenant-primary)' }}>{m.milestone}</span>
-                  <span className="text-[11px]" style={{ color: 'var(--tenant-muted)' }}>{m.when}</span>
+                  <span className="text-[12px]" style={{ color: 'var(--tenant-muted)' }}>{m.when}</span>
                 </span>
               </li>
             ))}

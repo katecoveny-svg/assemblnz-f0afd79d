@@ -18,7 +18,7 @@ function StatusChip({ status, label }: { status: string; label: string }) {
   const tone = STATUS_TONE[status] ?? '#5c6a70';
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] uppercase"
+      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[12px] uppercase"
       style={{ letterSpacing: '0.12em', color: tone, borderColor: `${tone}33` }}
     >
       <i aria-hidden className="h-1.5 w-1.5 rounded-full" style={{ background: tone }} />
@@ -31,7 +31,7 @@ export function WorkProofTab({ work }: { work: WorkView }) {
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
-        <p className="mb-1 text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
+        <p className="mb-1 text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
           work · what the system is carrying
         </p>
         {work.tasks.length === 0 ? (
@@ -55,7 +55,7 @@ export function WorkProofTab({ work }: { work: WorkView }) {
                     {t.description ? (
                       <p className="text-xs" style={{ color: 'var(--brand-muted)' }}>{t.description}</p>
                     ) : null}
-                    <div className="flex flex-wrap gap-x-5 gap-y-1 text-[11px]" style={{ color: 'var(--brand-muted)' }}>
+                    <div className="flex flex-wrap gap-x-5 gap-y-1 text-[12px]" style={{ color: 'var(--brand-muted)' }}>
                       {t.agent ? <span>looked after by the {t.agent} agent</span> : null}
                       {t.risk ? <span>risk: {t.risk} — {t.risk === 'high' ? 'never sends without you' : 'handled carefully'}</span> : null}
                     </div>
@@ -71,7 +71,7 @@ export function WorkProofTab({ work }: { work: WorkView }) {
                     ) : null}
                     {t.evidence.length > 0 ? (
                       <div className="rounded-2xl border border-[#1B2A4A]/10 p-3">
-                        <p className="mb-2 text-[10px] uppercase" style={{ letterSpacing: '0.14em', color: 'var(--brand-muted)' }}>
+                        <p className="mb-2 text-[12px] uppercase" style={{ letterSpacing: '0.14em', color: 'var(--brand-muted)' }}>
                           the proof
                         </p>
                         <ul className="flex flex-col gap-2">
@@ -96,7 +96,7 @@ export function WorkProofTab({ work }: { work: WorkView }) {
       </section>
 
       <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
-        <p className="mb-1 text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
+        <p className="mb-1 text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
           proof · the ledger of what actually happened
         </p>
         {work.proof.length === 0 ? (

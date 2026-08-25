@@ -44,7 +44,7 @@ export default async function AccountSecurityPage() {
       <div className="w-full max-w-md">
         <div className="glass-card p-8 sm:p-10">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-gold,#BFA37A)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-gold,#BFA37A)]">
               Account · Security
             </p>
             <h1

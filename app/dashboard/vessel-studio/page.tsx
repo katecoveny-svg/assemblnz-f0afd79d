@@ -24,13 +24,13 @@ export default async function VesselStudioPage() {
   if (!authed) {
     return (
       <main className="mx-auto flex min-h-screen max-w-[480px] flex-col justify-center px-6 py-16">
-        <div className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> dashboard
         </div>
         <h1 className="mt-2 font-display text-[36px] font-light leading-tight text-[color:var(--text-primary)]">
           vessel studio
         </h1>
-        <p className="mt-2 font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+        <p className="mt-2 font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
           founder tool · gated
         </p>
         <div className="mt-8 rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-6">
@@ -56,7 +56,7 @@ export default async function VesselStudioPage() {
             <form action={clearFounderGate}>
               <button
                 type="submit"
-                className="font-mono text-[10.5px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                className="font-mono text-[12px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
               >
                 sign out
               </button>
@@ -65,16 +65,16 @@ export default async function VesselStudioPage() {
           <h1 className="mt-1 font-display text-[38px] font-light leading-[1.1] tracking-[0.005em] text-[color:var(--text-primary)]">
             vessel studio
           </h1>
-          <p className="mt-1.5 font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+          <p className="mt-1.5 font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
             a quiet prompt builder for hero imagery · flux 1.1 pro via fal.ai
           </p>
           {!edgeConfigured && (
-            <p className="mt-2 font-mono text-[10.5px] tracking-[0.06em] text-[color:var(--text-secondary)]">
+            <p className="mt-2 font-mono text-[12px] tracking-[0.06em] text-[color:var(--text-secondary)]">
               · edge function not configured — using direct fal.ai with a browser-supplied key
             </p>
           )}
           {!persistenceConfigured && (
-            <p className="mt-1 font-mono text-[10.5px] tracking-[0.06em] text-[color:var(--text-secondary)]">
+            <p className="mt-1 font-mono text-[12px] tracking-[0.06em] text-[color:var(--text-secondary)]">
               · supabase persistence not configured — gallery is local to this browser
             </p>
           )}
@@ -86,7 +86,7 @@ export default async function VesselStudioPage() {
         persistenceConfigured={persistenceConfigured}
       />
 
-      <footer className="mx-auto max-w-[1280px] px-8 pb-10 pt-2 text-right font-mono text-[10.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)] md:px-10">
+      <footer className="mx-auto max-w-[1280px] px-8 pb-10 pt-2 text-right font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)] md:px-10">
         assembl · vessel studio · founder tool
       </footer>
     </main>

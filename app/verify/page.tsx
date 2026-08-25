@@ -11,7 +11,7 @@ export default function VerifyPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-16 md:px-10 md:py-24">
       <div className="mx-auto max-w-[760px]">
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> evidence ledger
         </p>
         <h1
@@ -29,7 +29,7 @@ export default function VerifyPage() {
 
         <VerifyClient />
 
-        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-center font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-center font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
           public key{' '}
           <a
             href="/.well-known/assembl-agent-keys.json"

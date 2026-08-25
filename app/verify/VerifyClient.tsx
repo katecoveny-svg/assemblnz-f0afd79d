@@ -43,7 +43,7 @@ export function VerifyClient() {
     <section className="mt-10">
       <label
         htmlFor="receipt-input"
-        className="block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+        className="block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
       >
         receipt JSON
       </label>
@@ -61,7 +61,7 @@ export function VerifyClient() {
           type="button"
           onClick={handleVerify}
           disabled={state.status === 'verifying' || raw.trim().length === 0}
-          className="inline-flex h-11 items-center rounded-[2px] bg-[color:var(--text-primary)] px-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
+          className="inline-flex h-11 items-center rounded-[2px] bg-[color:var(--text-primary)] px-6 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
         >
           {state.status === 'verifying' ? 'verifying…' : 'verify'}
         </button>
@@ -69,7 +69,7 @@ export function VerifyClient() {
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
-            className="inline-flex h-11 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:bg-white"
+            className="inline-flex h-11 items-center rounded-[2px] border border-[color:var(--assembl-cloud)] px-6 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:bg-white"
           >
             view receipt details →
           </button>
@@ -142,7 +142,7 @@ function ResultBlock({ state }: { state: VerifyState }) {
         ) : null}
       </dl>
       {r.key_inactive ? (
-        <p className="mt-4 rounded-[2px] border border-dashed border-[color:var(--assembl-gold-thread)] bg-[color:var(--assembl-paper)] px-3 py-2 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+        <p className="mt-4 rounded-[2px] border border-dashed border-[color:var(--assembl-gold-thread)] bg-[color:var(--assembl-paper)] px-3 py-2 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
           The published public key is currently a placeholder. Production keys
           are minted by Kaihanga at Day 7.5; until then signature verification
           will always fail.

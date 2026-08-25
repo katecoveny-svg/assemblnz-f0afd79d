@@ -32,7 +32,7 @@ const R3FCanvas = dynamic(() => import('./Brand3DCanvas').then((m) => m.Brand3DC
     >
       <ParticulateBackdrop className="opacity-70" />
       <span
-        className="absolute inset-x-0 bottom-4 text-center text-[10px] uppercase"
+        className="absolute inset-x-0 bottom-4 text-center text-[12px] uppercase"
         style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
       >
         <span className="lowercase font-mono">assembl</span> · loading

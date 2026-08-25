@@ -166,7 +166,7 @@ export function OutputsBrowser() {
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[rgba(35,33,31,0.10)] pt-5">
             <p
-              className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+              className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
               aria-live="polite"
             >
               {filtered.length} {filtered.length === 1 ? 'output' : 'outputs'}
@@ -176,7 +176,7 @@ export function OutputsBrowser() {
               <button
                 type="button"
                 onClick={clearAll}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/55 px-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
+                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/55 px-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
               >
                 <X className="h-3.5 w-3.5" aria-hidden />
                 Clear filters
@@ -221,7 +221,7 @@ export function OutputsBrowser() {
                     >
                       {meta.label}
                     </h2>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                       {meta.sublabel} · {items.length}
                     </span>
                   </div>
@@ -259,7 +259,7 @@ function FilterGroup({
 }) {
   return (
     <fieldset className="border-0 p-0 [&+&]:mt-5">
-      <legend className="mb-2.5 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <legend className="mb-2.5 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {legend}
         {hint ? (
           <span className="text-[color:var(--text-secondary)]/70">· {hint}</span>
@@ -295,7 +295,7 @@ function ComingSoonCard({ label, accent }: { label: string; accent: string }) {
       className="flex h-full flex-col justify-center rounded-card border border-dashed bg-white/30 p-6 text-left"
       style={{ borderColor: `${accent}55` }}
     >
-      <span className="inline-flex w-fit items-center gap-1.5 rounded-chip border border-[rgba(35,33,31,0.12)] bg-white/50 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+      <span className="inline-flex w-fit items-center gap-1.5 rounded-chip border border-[rgba(35,33,31,0.12)] bg-white/50 px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         <span
           className="h-1.5 w-1.5 rounded-full"
           style={{ backgroundColor: accent }}
@@ -312,7 +312,7 @@ function ComingSoonCard({ label, accent }: { label: string; accent: string }) {
       </p>
       <Link
         href="/pilot-sprint"
-        className="mt-5 inline-flex w-fit items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+        className="mt-5 inline-flex w-fit items-center font-mono text-[12px] uppercase tracking-[0.18em]"
         style={{ color: accent }}
       >
         Start a Pilot Sprint
@@ -337,7 +337,7 @@ function OutputCard({
     >
       <div className="flex items-center justify-between gap-3">
         <span
-          className="inline-flex items-center gap-1.5 rounded-chip border border-[rgba(35,33,31,0.14)] bg-white/50 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]"
+          className="inline-flex items-center gap-1.5 rounded-chip border border-[rgba(35,33,31,0.14)] bg-white/50 px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]"
         >
           <span
             className="h-1.5 w-1.5 rounded-full"
@@ -347,7 +347,7 @@ function OutputCard({
           {output.type}
         </span>
         {output.toolHref ? (
-          <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
             Live tool
           </span>
         ) : null}
@@ -361,7 +361,7 @@ function OutputCard({
       </p>
 
       <span
-        className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+        className="mt-5 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em]"
         style={{ color: accent }}
       >
         See the output

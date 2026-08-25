@@ -84,7 +84,7 @@ function Eyebrow({ children }: { children: string }) {
     <div
       style={{
         ...mono,
-        fontSize: 11,
+        fontSize: 12,
         letterSpacing: '.16em',
         textTransform: 'uppercase',
         color: '#8A6A2E',
@@ -154,7 +154,7 @@ export default function DashSdkPage() {
                 marginTop: 12,
                 background: '#3a3832',
                 color: '#BFA37A',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: '.12em',
                 textTransform: 'uppercase',
@@ -165,7 +165,7 @@ export default function DashSdkPage() {
               Early access — request a key
             </div>
           </div>
-          <div style={{ ...mono, fontSize: 11, color: '#5a4a00', textAlign: 'right', lineHeight: 1.7 }}>
+          <div style={{ ...mono, fontSize: 12, color: '#5a4a00', textAlign: 'right', lineHeight: 1.7 }}>
             for AI builders &amp; hosts
             <br />
             v0.1 preview · @assembl/dash
@@ -223,7 +223,7 @@ export default function DashSdkPage() {
           <div
             style={{
               ...mono,
-              fontSize: 11,
+              fontSize: 12,
               letterSpacing: '.14em',
               textTransform: 'uppercase',
               color: '#bdb592',
@@ -351,7 +351,7 @@ export default function DashSdkPage() {
             <div style={{ fontWeight: 900, fontSize: 20, letterSpacing: '-.05em', color: '#BFA37A' }}>assembling</div>
             <div style={{ width: 18, height: 6, borderRadius: 4, background: '#BFA37A', marginBottom: 4 }} />
           </div>
-          <div style={{ ...mono, fontSize: 11, letterSpacing: '.08em', color: '#8a8678' }}>
+          <div style={{ ...mono, fontSize: 12, letterSpacing: '.08em', color: '#8a8678' }}>
             SDK v0.1 · docs.dash.assembl.co.nz
           </div>
         </div>

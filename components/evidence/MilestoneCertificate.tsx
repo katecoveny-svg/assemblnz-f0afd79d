@@ -87,7 +87,7 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
         <p
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             color: '#5C5852',
             letterSpacing: '0.32em',
             textTransform: 'uppercase',
@@ -149,7 +149,7 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
         <p
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.65rem',
+            fontSize: '0.75rem',
             color: '#8E8A82',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -208,7 +208,7 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
           className="mt-4"
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             color: '#5C5852',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -220,7 +220,7 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
           className="mt-6"
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.58rem',
+            fontSize: '0.75rem',
             color: '#8E8A82',
             letterSpacing: '0.14em',
             wordBreak: 'break-all',
@@ -235,7 +235,7 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
           className="mt-1"
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.55rem',
+            fontSize: '0.75rem',
             color: '#8E8A82',
             letterSpacing: '0.12em',
             wordBreak: 'break-all',

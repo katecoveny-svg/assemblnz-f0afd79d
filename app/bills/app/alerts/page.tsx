@@ -43,7 +43,7 @@ export default function AlertsPage() {
               <Home size={18} />
             </span>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-teal-deep)' }}>Government subsidy · {WKH_HEADLINE}</p>
+              <p className="text-[12px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-teal-deep)' }}>Government subsidy · {WKH_HEADLINE}</p>
               <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>You may qualify for Warmer Kiwi Homes</p>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default function AlertsPage() {
           <WkhCol title="Heat pump grant" items={warmerKiwiHomes.heatPump} />
         </div>
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t pt-3" style={{ borderColor: 'var(--b-teal-line)' }}>
-          <span className="text-[11px]" style={{ color: 'var(--b-faint)' }}>
+          <span className="text-[12px]" style={{ color: 'var(--b-faint)' }}>
             Source: eeca.govt.nz · verified {new Date(WKH_VERIFIED_AT).toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' })}
           </span>
           <a href={WKH_CHECK_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-white" style={{ background: 'var(--b-teal)' }}>
@@ -81,7 +81,7 @@ export default function AlertsPage() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide" style={{ background: m.soft, color: m.accent }}>
+                    <span className="rounded-full px-2 py-0.5 text-[12px] font-semibold uppercase tracking-wide" style={{ background: m.soft, color: m.accent }}>
                       {TYPE_LABEL[a.type]}
                     </span>
                     {a.amount && (
@@ -91,7 +91,7 @@ export default function AlertsPage() {
                   <p className="mt-1.5 font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{a.title}</p>
                   <p className="mt-1 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{a.body}</p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                    {a.source && <span className="text-[11px]" style={{ color: 'var(--b-faint)' }}>Source: {a.source}</span>}
+                    {a.source && <span className="text-[12px]" style={{ color: 'var(--b-faint)' }}>Source: {a.source}</span>}
                     <ActionButton
                       kind={m.actionKind}
                       label={a.cta}
@@ -114,7 +114,7 @@ export default function AlertsPage() {
 function WkhCol({ title, items }: { title: string; items: readonly string[] }) {
   return (
     <div className="rounded-xl p-3" style={{ background: 'var(--b-surface)' }}>
-      <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>{title}</p>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>{title}</p>
       <ul className="space-y-1.5">
         {items.map((it) => (
           <li key={it} className="flex items-start gap-1.5 text-[12px] leading-snug" style={{ color: 'var(--b-muted)' }}>

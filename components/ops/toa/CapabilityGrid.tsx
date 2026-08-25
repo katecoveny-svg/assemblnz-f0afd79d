@@ -124,8 +124,8 @@ function Tile({
 
 function ConsentPortalCard({ consents }: { consents: ConsentApplication[] }) {
   return (
-    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[11px]">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
+    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[12px]">
+      <div className="mb-2 flex items-center justify-between text-[12px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
         <span>council portals</span>
         <span>demo</span>
       </div>
@@ -143,7 +143,7 @@ function ConsentPortalCard({ consents }: { consents: ConsentApplication[] }) {
             <span className="min-w-0 flex-1 truncate text-[color:var(--brand-ink)]">
               {c.project}
             </span>
-            <span className="shrink-0 text-[10px] text-[color:var(--brand-muted)]">
+            <span className="shrink-0 text-[12px] text-[color:var(--brand-muted)]">
               {c.portal} · {c.daysInStage}d
             </span>
           </li>
@@ -164,10 +164,10 @@ function UpdatePdfPreview({
     <div className="relative rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3">
       {/* the mock page */}
       <div className="mx-auto w-full max-w-[240px] rounded-sm border border-black/10 bg-white px-3 py-2.5 shadow-sm">
-        <p className="text-[8px] uppercase tracking-[0.18em] text-black/40">
+        <p className="text-[12px] uppercase tracking-[0.18em] text-black/40">
           weekly update · wk ending {update.weekEnding.slice(8, 10)}/{update.weekEnding.slice(5, 7)}
         </p>
-        <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-black">
+        <p className="mt-0.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-black">
           {update.project}
         </p>
         {/* photo strip — the project's actual massing + interior studies */}
@@ -179,22 +179,22 @@ function UpdatePdfPreview({
             </div>
           ))}
         </div>
-        <p className="mt-1 text-[7px] text-black/45">
+        <p className="mt-1 text-[12px] text-black/45">
           {update.photosThisWeek} project images this week
         </p>
-        <p className="mt-1.5 text-[8px] font-semibold text-black/70">Decisions</p>
+        <p className="mt-1.5 text-[12px] font-semibold text-black/70">Decisions</p>
         {update.decisionsMade.slice(0, 2).map((d) => (
-          <p key={d} className="truncate text-[8px] leading-tight text-black/55">
+          <p key={d} className="truncate text-[12px] leading-tight text-black/55">
             · {d}
           </p>
         ))}
-        <p className="mt-1.5 text-[8px] font-semibold text-black/70">Next week</p>
-        <p className="text-[8px] leading-tight text-black/55">{update.nextWeek}</p>
-        <p className="mt-1.5 text-[7px] italic text-black/40">
+        <p className="mt-1.5 text-[12px] font-semibold text-black/70">Next week</p>
+        <p className="text-[12px] leading-tight text-black/55">{update.nextWeek}</p>
+        <p className="mt-1.5 text-[12px] italic text-black/40">
           draft — reviewed by your architect before it goes anywhere
         </p>
       </div>
-      <span className="absolute right-2 top-2 rounded bg-black/5 px-1.5 py-0.5 text-[9px] uppercase tracking-wide text-[color:var(--brand-muted)]">
+      <span className="absolute right-2 top-2 rounded bg-black/5 px-1.5 py-0.5 text-[12px] uppercase tracking-wide text-[color:var(--brand-muted)]">
         pdf draft
       </span>
     </div>
@@ -208,8 +208,8 @@ function ConsultantWeb({ consultants }: { consultants: Consultant[] }) {
     overdue: RED,
   };
   return (
-    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[11px]">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
+    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[12px]">
+      <div className="mb-2 flex items-center justify-between text-[12px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
         <span>who owes what</span>
         <span>demo</span>
       </div>
@@ -228,7 +228,7 @@ function ConsultantWeb({ consultants }: { consultants: Consultant[] }) {
               <span className="text-[color:var(--brand-ink)]">{k.firm}</span>
               <span className="text-[color:var(--brand-muted)]"> · {k.discipline}</span>
             </span>
-            <span className="shrink-0 text-[10px] text-[color:var(--brand-muted)]">
+            <span className="shrink-0 text-[12px] text-[color:var(--brand-muted)]">
               {k.outstanding ? 'chase drafted' : 'up to date'}
             </span>
           </li>
@@ -241,8 +241,8 @@ function ConsultantWeb({ consultants }: { consultants: Consultant[] }) {
 function FeeBreakdownChart({ proposal }: { proposal: FeeProposal }) {
   const max = Math.max(...proposal.phases.map((p) => p.fee));
   return (
-    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[11px]">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
+    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[12px]">
+      <div className="mb-2 flex items-center justify-between text-[12px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
         <span>
           {proposal.project} · ${proposal.total.toLocaleString('en-NZ')} (demo)
         </span>
@@ -251,7 +251,7 @@ function FeeBreakdownChart({ proposal }: { proposal: FeeProposal }) {
       <div className="flex flex-col gap-1.5">
         {proposal.phases.map((p) => (
           <div key={p.phase} className="flex items-center gap-2">
-            <span className="w-24 shrink-0 truncate text-[10px] text-[color:var(--brand-muted)]">
+            <span className="w-24 shrink-0 truncate text-[12px] text-[color:var(--brand-muted)]">
               {p.phase}
             </span>
             <span className="relative h-3.5 flex-1 overflow-hidden rounded-sm bg-black/5">
@@ -264,13 +264,13 @@ function FeeBreakdownChart({ proposal }: { proposal: FeeProposal }) {
                 }}
               />
             </span>
-            <span className="w-14 shrink-0 text-right text-[10px] text-[color:var(--brand-ink)]">
+            <span className="w-14 shrink-0 text-right text-[12px] text-[color:var(--brand-ink)]">
               ${(p.fee / 1000).toFixed(1)}k
             </span>
           </div>
         ))}
       </div>
-      <p className="mt-2 text-[10px] text-[color:var(--brand-muted)]">
+      <p className="mt-2 text-[12px] text-[color:var(--brand-muted)]">
         letter + spreadsheet drafted in the practice&apos;s own template
       </p>
     </div>
@@ -284,8 +284,8 @@ function PsTrack({ statements }: { statements: ProducerStatement[] }) {
     'not yet due': '#9aa096',
   };
   return (
-    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[11px]">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
+    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[12px]">
+      <div className="mb-2 flex items-center justify-between text-[12px] uppercase tracking-[0.14em] text-[color:var(--brand-muted)]">
         <span>on the path to CCC</span>
         <span>demo</span>
       </div>
@@ -296,7 +296,7 @@ function PsTrack({ statements }: { statements: ProducerStatement[] }) {
             className="flex items-center gap-2 rounded-lg bg-[color:var(--brand-surface)] px-2.5 py-1.5"
           >
             <span
-              className="w-9 shrink-0 rounded border border-black/10 px-1 text-center text-[9px] font-semibold text-[color:var(--brand-ink)]"
+              className="w-9 shrink-0 rounded border border-black/10 px-1 text-center text-[12px] font-semibold text-[color:var(--brand-ink)]"
             >
               {ps.kind}
             </span>
@@ -309,7 +309,7 @@ function PsTrack({ statements }: { statements: ProducerStatement[] }) {
               className="h-2 w-2 shrink-0 rounded-full"
               style={{ backgroundColor: DOT[ps.status] }}
             />
-            <span className="w-16 shrink-0 text-right text-[10px] text-[color:var(--brand-muted)]">
+            <span className="w-16 shrink-0 text-right text-[12px] text-[color:var(--brand-muted)]">
               {ps.status}
             </span>
           </li>
@@ -323,7 +323,7 @@ function VoiceToReport({ visit }: { visit: SiteVisitReport }) {
   // Static waveform — heights hand-picked so it reads as speech, not noise.
   const wave = [4, 9, 14, 8, 16, 11, 6, 13, 17, 9, 5, 12, 15, 7, 10, 14, 6, 11, 8, 4];
   return (
-    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[11px]">
+    <div className="rounded-xl border border-black/10 bg-[color:var(--brand-bg)] p-3 text-[12px]">
       <div className="flex items-center gap-2">
         <span className="flex h-8 flex-1 items-center gap-[2px] overflow-hidden rounded-lg bg-[color:var(--brand-surface)] px-2">
           {wave.map((h, i) => (
@@ -335,25 +335,25 @@ function VoiceToReport({ visit }: { visit: SiteVisitReport }) {
             />
           ))}
         </span>
-        <span className="shrink-0 text-[10px] text-[color:var(--brand-muted)]">
+        <span className="shrink-0 text-[12px] text-[color:var(--brand-muted)]">
           {Math.floor(visit.memoSeconds / 60)}:{String(visit.memoSeconds % 60).padStart(2, '0')} memo
         </span>
         <span aria-hidden className="shrink-0 text-[color:var(--brand-muted)]">→</span>
       </div>
       <div className="mt-2 rounded-lg bg-[color:var(--brand-surface)] px-2.5 py-2">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[color:var(--brand-ink)]">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[color:var(--brand-ink)]">
           Site visit report · {visit.project}
         </p>
-        <p className="mt-0.5 text-[10px] text-[color:var(--brand-muted)]">
+        <p className="mt-0.5 text-[12px] text-[color:var(--brand-muted)]">
           {visit.date} · {visit.weather} · photos attached
         </p>
-        <p className="mt-1 truncate text-[10px] text-[color:var(--brand-ink)]">
+        <p className="mt-1 truncate text-[12px] text-[color:var(--brand-ink)]">
           Defect: {visit.defects[0].item} — {visit.defects[0].action}
         </p>
-        <p className="truncate text-[10px] text-[color:var(--brand-ink)]">
+        <p className="truncate text-[12px] text-[color:var(--brand-ink)]">
           Decision: {visit.decisions[0]}
         </p>
-        <p className="mt-1 text-[9px] text-[color:var(--brand-muted)]">
+        <p className="mt-1 text-[12px] text-[color:var(--brand-muted)]">
           drafted for review · goes to {visit.distribution.join(', ').toLowerCase()}
         </p>
       </div>

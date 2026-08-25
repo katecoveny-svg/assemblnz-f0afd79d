@@ -128,7 +128,7 @@ export function AgentDemoPanel({
         </div>
 
         <div className="p-6">
-          <label htmlFor="agent-demo-message" className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <label htmlFor="agent-demo-message" className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Demo prompt
           </label>
           <textarea
@@ -177,7 +177,7 @@ export function AgentDemoPanel({
             <div className="glass-card mt-5 p-5">
               <div className="flex flex-wrap items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   {response.agentUsed?.name ?? agentName} · {response.modelUsed ?? response.agentUsed?.model ?? 'live model'}
                 </p>
               </div>
@@ -195,7 +195,7 @@ export function AgentDemoPanel({
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-3">
-      <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">{label}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">{label}</p>
       <p className="mt-1 text-[color:var(--text-primary)]">{value}</p>
     </div>
   );

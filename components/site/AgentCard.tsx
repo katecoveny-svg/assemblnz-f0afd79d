@@ -60,7 +60,7 @@ export function AgentCard({
         <span className="h-2 w-2 rounded-full" style={{ backgroundColor: kete.accent }} aria-hidden />
         <Link
           href={`/kete/${kete.slug}`}
-          className="rounded-sm font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-2"
+          className="rounded-sm font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-2"
         >
           {kete.name} · {kete.industry}
         </Link>
@@ -72,7 +72,7 @@ export function AgentCard({
             {agent.name}
           </h3>
         </Link>
-        <span className="rounded-full border border-[rgba(58,56,50,0.28)] bg-[rgba(58,56,50,0.08)] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+        <span className="rounded-full border border-[rgba(58,56,50,0.28)] bg-[rgba(58,56,50,0.08)] px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
           {agent.status ?? 'live'}
         </span>
       </div>
@@ -89,7 +89,7 @@ export function AgentCard({
           {agent.legislation.slice(0, 3).map((law) => (
             <span
               key={law}
-              className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-2.5 py-1 font-mono text-[10px] text-[color:var(--text-secondary)]"
+              className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-2.5 py-1 font-mono text-[12px] text-[color:var(--text-secondary)]"
             >
               § {law}
             </span>
@@ -100,19 +100,19 @@ export function AgentCard({
       <div className="mt-5 grid gap-1.5 border-t border-[rgba(35,33,31,0.08)] pt-4 text-xs text-[color:var(--text-body)]">
         {agent.buyingOptions.subscribe && (
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">Subscribe</span>
+            <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">Subscribe</span>
             <Check className="h-3.5 w-3.5 text-[color:var(--assembl-sage-mist)]" aria-hidden />
           </div>
         )}
         {agent.buyingOptions.perOutput !== null && (
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">Per output</span>
+            <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">Per output</span>
             <span className="font-mono text-xs">from NZ${agent.buyingOptions.perOutput}</span>
           </div>
         )}
         {agent.buyingOptions.perResolution !== null && (
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">Per resolution</span>
+            <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">Per resolution</span>
             <span className="font-mono text-xs">NZ${agent.buyingOptions.perResolution}</span>
           </div>
         )}

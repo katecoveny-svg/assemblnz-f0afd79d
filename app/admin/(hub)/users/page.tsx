@@ -39,7 +39,7 @@ export default async function UsersPage({
               href={r === 'all' ? '/admin/users' : `/admin/users?role=${r}`}
               style={{
                 fontFamily: MONO,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',

@@ -41,7 +41,7 @@ export default async function TasksPage() {
                     <div className="mt-2 flex flex-wrap items-center gap-1.5">
                       {t.priority === 'high' ? <Pill tone="hold">high</Pill> : null}
                       {t.assigneeId ? <Pill tone="navy">{staffById.get(t.assigneeId)?.name.split(' ')[0]}</Pill> : null}
-                      {t.dueIso ? <span className="text-[0.68rem] text-[color:var(--air-slate)]">{formatNzDate(t.dueIso)}</span> : null}
+                      {t.dueIso ? <span className="text-[0.75rem] text-[color:var(--air-slate)]">{formatNzDate(t.dueIso)}</span> : null}
                     </div>
                   </div>
                 ))}

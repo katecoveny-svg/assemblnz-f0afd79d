@@ -31,7 +31,7 @@ export default function BiosecurityPage() {
               <div className="max-w-xl">
                 <p className="font-medium text-[color:var(--air-ink)]">{item.label}</p>
                 <p className="mt-0.5 text-xs text-[color:var(--air-slate)]">{item.detail}</p>
-                <p className="mt-1 text-[0.7rem] text-[color:var(--air-brass-deep)]">{item.citation}</p>
+                <p className="mt-1 text-[0.75rem] text-[color:var(--air-brass-deep)]">{item.citation}</p>
               </div>
               <div className="flex gap-1.5">
                 {OPTIONS.map((opt) => (

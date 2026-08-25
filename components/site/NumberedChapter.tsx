@@ -17,7 +17,7 @@ export function NumberedChapter({
 
   return (
     <section className={`grid gap-6 border-t border-[rgba(35,33,31,0.10)] pt-8 md:grid-cols-[10rem_1fr] ${className}`}>
-      <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <div className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {eyebrow} {padded}
       </div>
       <div>

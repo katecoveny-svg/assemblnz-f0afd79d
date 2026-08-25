@@ -15,7 +15,7 @@ export function AironautGate() {
             <AironautMark size={40} />
             <div>
               <div className="air-display text-2xl leading-none">Aironaut</div>
-              <div className="text-[0.7rem] uppercase tracking-[0.18em] text-[color:var(--air-slate)]">
+              <div className="text-[0.75rem] uppercase tracking-[0.18em] text-[color:var(--air-slate)]">
                 Customs Brokers · workspace
               </div>
             </div>
@@ -46,7 +46,7 @@ export function AironautGate() {
             </button>
           </form>
         </div>
-        <p className="mt-4 text-center text-[0.7rem] text-[color:var(--air-slate)]">
+        <p className="mt-4 text-center text-[0.75rem] text-[color:var(--air-slate)]">
           Powered by assembl · concept pilot, not a live customs system
         </p>
       </div>

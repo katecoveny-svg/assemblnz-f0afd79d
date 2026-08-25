@@ -33,7 +33,7 @@ export function CustomerExperience({ data }: { data: ScenarioRun }) {
     <Card>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
         <Eyebrow>The prepared shop</Eyebrow>
-        <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10, color: GREY }}>
+        <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, color: GREY }}>
           run {run.id}
         </span>
       </div>
@@ -77,7 +77,7 @@ export function CustomerExperience({ data }: { data: ScenarioRun }) {
       <div className={styles.assemble} key={run.id}>
         {groupByCategory(plan.basket).map(([category, items]) => (
           <div key={category} style={{ marginBottom: 12 }}>
-            <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, marginBottom: 4 }}>
+            <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, marginBottom: 4 }}>
               {category}
             </div>
             {items.map((i) => (
@@ -116,7 +116,7 @@ export function PhoneCustomerView({ data }: { data: ScenarioRun }) {
           <div
             style={{
               fontFamily: 'var(--edr-mono), monospace',
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
               color: GREY,
@@ -152,7 +152,7 @@ export function PhoneCustomerView({ data }: { data: ScenarioRun }) {
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '12px 0' }}>
             {plan.meals.slice(0, 5).map((m) => (
-              <span key={m.id} style={{ fontSize: 11.5, padding: '4px 9px', borderRadius: 999, background: '#ffe6d1', color: '#c65100' }}>
+              <span key={m.id} style={{ fontSize: 12, padding: '4px 9px', borderRadius: 999, background: '#ffe6d1', color: '#c65100' }}>
                 {m.name}
               </span>
             ))}
@@ -184,7 +184,7 @@ export function PhoneCustomerView({ data }: { data: ScenarioRun }) {
           >
             Approve this shop
           </button>
-          <div style={{ textAlign: 'center', fontSize: 11, color: GREY, marginTop: 8 }}>
+          <div style={{ textAlign: 'center', fontSize: 12, color: GREY, marginTop: 8 }}>
             nothing is ordered until you approve
           </div>
         </div>
@@ -216,7 +216,7 @@ export function JourneyInside({ data }: { data: ScenarioRun }) {
     <Card style={{ background: '#fbfaf7' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
         <Eyebrow>Inside the journey</Eyebrow>
-        <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10, color: GREY }}>
+        <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, color: GREY }}>
           run {run.id}
         </span>
       </div>
@@ -269,7 +269,7 @@ export function JourneyInside({ data }: { data: ScenarioRun }) {
         <Metric label="Actions proposed" value={String(proof.proposedActionCount)} />
         <Metric label="Policy checks passed" value={String(proof.policyChecksPassed)} />
       </div>
-      <p style={{ fontSize: 11.5, color: GREY, marginTop: 12 }}>
+      <p style={{ fontSize: 12, color: GREY, marginTop: 12 }}>
         {proof.estimatedOnly ? 'Every figure here is estimated or simulated for this concept — not measured.' : ''}
       </p>
     </Card>
@@ -280,14 +280,14 @@ function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div style={{ fontSize: 18, fontWeight: 700, color: NAVY, textTransform: 'capitalize' }}>{value}</div>
-      <div style={{ fontSize: 11.5, color: GREY, marginTop: 2 }}>{label}</div>
+      <div style={{ fontSize: 12, color: GREY, marginTop: 2 }}>{label}</div>
     </div>
   );
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, margin: '2px 0 8px' }}>
+    <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, margin: '2px 0 8px' }}>
       {children}
     </div>
   );

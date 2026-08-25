@@ -120,7 +120,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
         />
         <div className="relative mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               SPARK travel tool · Voyage
             </p>
             <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7.4rem)] font-light leading-[0.88] tracking-tight text-[#23211F]">
@@ -133,18 +133,18 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               {isTemplate ? (
-                <span className="rounded-full border border-[rgba(35,33,31,0.10)] bg-white/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur">
+                <span className="rounded-full border border-[rgba(35,33,31,0.10)] bg-white/60 px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur">
                   sample template · no real traveller data
                 </span>
               ) : null}
-              <span className="rounded-full border border-[rgba(58,56,50,0.18)] bg-white/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#3A3832] shadow-sm backdrop-blur">
+              <span className="rounded-full border border-[rgba(58,56,50,0.18)] bg-white/60 px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#3A3832] shadow-sm backdrop-blur">
                 draft travel assistant
               </span>
             </div>
           </header>
 
           <aside className="rounded-[28px] border border-white/60 bg-white/42 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_28px_90px_rgba(35,33,31,0.10)] backdrop-blur-2xl md:p-7">
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
               Trip snapshot
             </p>
             <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-none">
@@ -170,7 +170,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             className="mb-10 grid overflow-hidden rounded-[24px] border border-[rgba(35,33,31,0.10)] bg-white/52 shadow-[0_20px_70px_rgba(35,33,31,0.06)] backdrop-blur-xl md:grid-cols-[0.9fr_1.1fr]"
           >
             <div className="border-b border-[rgba(35,33,31,0.08)] p-6 md:border-b-0 md:border-r">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 Budget rollup
               </p>
               <h2 className="mt-3 font-display text-4xl font-light leading-none text-[#23211F]">
@@ -188,7 +188,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
         <section aria-label="Itinerary" className="mb-12">
           <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
                 Itinerary
               </p>
               <h2 className="mt-3 font-display text-[clamp(2.8rem,6vw,5rem)] font-light leading-none">
@@ -211,13 +211,13 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                       <h3 className="font-display text-3xl font-light leading-none text-[#23211F]">
                         {idx + 1}. {stop.label}
                       </h3>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                      <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                         {stop.checkIn} → {stop.checkOut} · {stop.nights}{' '}
                         {stop.nights === 1 ? 'night' : 'nights'}
                       </p>
                     </header>
                     <p className="mt-5 text-sm text-[color:var(--text-primary)]">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                      <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                         Hotel ·{' '}
                       </span>
                       {hotelIsTodo ? (
@@ -229,7 +229,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                       )}
                     </p>
                     {stop.driveFromPrevious ? (
-                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                      <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                         Drive from {stop.driveFromPrevious.from} ·{' '}
                         {stop.driveFromPrevious.approxHours}h
                       </p>
@@ -239,7 +239,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                         {stop.highlights.map((h) => (
                           <li
                             key={h}
-                            className="rounded-full border border-[rgba(58,56,50,0.12)] bg-[#FBF3DF]/70 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#23211F]"
+                            className="rounded-full border border-[rgba(58,56,50,0.12)] bg-[#FBF3DF]/70 px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#23211F]"
                           >
                             {h}
                           </li>
@@ -254,7 +254,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                               {a.label}
                             </p>
                             {a.note ? (
-                              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                                 {a.note}
                                 {typeof a.costEur === 'number'
                                   ? ` · €${a.costEur}`
@@ -274,7 +274,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
 
         <section aria-label="Travel tools" className="mb-12">
           <div className="mb-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               Travel tools
             </p>
             <h2 className="mt-3 font-display text-[clamp(2.6rem,5vw,4.6rem)] font-light leading-none">
@@ -311,7 +311,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             </p>
             <Link
               href="/app/chat?kete=toro&amp;agent=VOYAGE"
-              className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(232,239,233,0.64))] px-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(58,56,50,0.13)] backdrop-blur-xl transition hover:-translate-y-0.5"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(232,239,233,0.64))] px-5 font-mono text-[12px] uppercase tracking-[0.16em] text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(58,56,50,0.13)] backdrop-blur-xl transition hover:-translate-y-0.5"
             >
               Open voyage in chat
             </Link>
@@ -319,7 +319,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
         ) : null}
 
         <footer className="mt-12 border-t border-[rgba(35,33,31,0.08)] pt-6 text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
             assembl · hāpai · every plan is a draft
           </p>
         </footer>
@@ -340,7 +340,7 @@ function TripFact({
   return (
     <div className="rounded-[18px] border border-white/62 bg-white/42 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.74)]">
       <Icon className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
-      <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </p>
       <p className="mt-1 text-sm font-medium text-[color:var(--text-primary)]">
@@ -361,7 +361,7 @@ function BudgetItem({
 }) {
   return (
     <div className="bg-white/54 p-5">
-      <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <dt className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </dt>
       <dd className={strong ? 'mt-3 font-mono text-2xl font-medium text-[#23211F]' : 'mt-3 font-mono text-xl text-[color:var(--text-primary)]'}>

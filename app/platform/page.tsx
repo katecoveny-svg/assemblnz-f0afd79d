@@ -40,7 +40,7 @@ export default function PlatformPage() {
         <div className="relative z-10 container py-28 md:py-40">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 Operator-as-platform
               </p>
             </SectionReveal>
@@ -81,7 +81,7 @@ export default function PlatformPage() {
               </div>
             </SectionReveal>
             <SectionReveal delay={0.4}>
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 NZ$1,490 / month + $590 setup · 50 outputs / month · {PRICING_NOTE}
               </p>
             </SectionReveal>
@@ -94,7 +94,7 @@ export default function PlatformPage() {
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 What’s included
               </p>
               <h2
@@ -131,7 +131,7 @@ export default function PlatformPage() {
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 Honest framing
               </p>
               <h2

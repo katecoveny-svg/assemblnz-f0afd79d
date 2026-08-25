@@ -57,7 +57,7 @@ function Group({ title, items, pathname }: { title: string; items: NavItem[]; pa
   const isActive = (href: string) => (href === BASE ? pathname === BASE : pathname.startsWith(href));
   return (
     <>
-      <p className="mt-4 px-3 pb-1 text-[0.58rem] uppercase tracking-[0.18em] text-[rgba(201,163,78,0.85)]">{title}</p>
+      <p className="mt-4 px-3 pb-1 text-[0.75rem] uppercase tracking-[0.18em] text-[rgba(201,163,78,0.85)]">{title}</p>
       {items.map((item) => (
         <Link key={item.href} href={item.href} className="air-nav-link" data-active={isActive(item.href)}>
           <Icon d={item.icon} />
@@ -80,7 +80,7 @@ export function AironautSidebar() {
         <AironautMark size={34} />
         <span>
           <span className="air-display block text-xl leading-none text-white">Aironaut</span>
-          <span className="text-[0.62rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.55)]">
+          <span className="text-[0.75rem] uppercase tracking-[0.18em] text-[rgba(255,255,255,0.55)]">
             Customs Brokers
           </span>
         </span>
@@ -90,7 +90,7 @@ export function AironautSidebar() {
       <Group title="Tools" items={TOOLS} pathname={pathname} />
       <Group title="Operations" items={OPS} pathname={pathname} />
 
-      <div className="mt-6 px-2 pt-4 text-[0.66rem] leading-relaxed text-[rgba(255,255,255,0.5)]">
+      <div className="mt-6 px-2 pt-4 text-[0.75rem] leading-relaxed text-[rgba(255,255,255,0.5)]">
         <p className="mb-1 text-[rgba(201,163,78,0.9)]">Pilot · draft mode</p>
         <p>No entry here is lodged with NZ Customs. Powered by assembl.</p>
       </div>

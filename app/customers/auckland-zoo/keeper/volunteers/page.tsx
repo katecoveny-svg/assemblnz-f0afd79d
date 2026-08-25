@@ -28,7 +28,7 @@ export default function VolunteersPage() {
                 <TonePill tone={vet.tone}>{vet.label}</TonePill>
               </div>
               <p className="mt-3 text-[12.5px]" style={{ color: 'var(--tenant-muted)' }}>
-                <span className="font-mono text-[10px] uppercase tracking-[0.1em]">Available</span> · {v.availability}
+                <span className="font-mono text-[12px] uppercase tracking-[0.1em]">Available</span> · {v.availability}
               </p>
             </Card>
           );

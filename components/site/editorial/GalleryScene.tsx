@@ -103,7 +103,7 @@ function Installation({
         >
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               color: '#1A1918',
               letterSpacing: '0.18em',
@@ -115,7 +115,7 @@ function Installation({
           <div
             style={{
               marginTop: 4,
-              fontSize: 8,
+              fontSize: 12,
               lineHeight: 1.45,
               color: 'rgba(26,25,24,0.6)',
               letterSpacing: '0.01em',
@@ -295,13 +295,13 @@ export function GalleryScene() {
 
       <div className="pointer-events-none absolute inset-x-6 top-6 flex items-start justify-between text-[#1A1918]/75 sm:inset-x-10 lg:inset-x-16">
         <span
-          className="text-[10px] uppercase tracking-[0.32em] sm:text-[11px]"
+          className="text-[12px] uppercase tracking-[0.32em] sm:text-[12px]"
           style={{ fontFamily: 'var(--font-mono)' }}
         >
           {GALLERY_CAPTION.left}
         </span>
         <span
-          className="hidden text-[10px] uppercase tracking-[0.32em] sm:inline sm:text-[11px]"
+          className="hidden text-[12px] uppercase tracking-[0.32em] sm:inline sm:text-[12px]"
           style={{ fontFamily: 'var(--font-mono)' }}
         >
           {GALLERY_CAPTION.right}

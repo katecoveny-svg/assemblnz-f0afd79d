@@ -147,7 +147,7 @@ export function TestChatPanel({
           style={{
             marginTop: 8,
             fontFamily: MONO,
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 700,
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
@@ -165,7 +165,7 @@ export function TestChatPanel({
             style={{
               marginTop: 6,
               fontFamily: MONO,
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -202,7 +202,7 @@ export function TestChatPanel({
             >
               {mine ? text : <AgentMarkdown text={text} />}
               {!mine && m.id !== 'greeting' && (
-                <div style={{ fontFamily: MONO, fontSize: 9, color: C.muted, marginTop: 6, letterSpacing: '0.08em' }}>
+                <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginTop: 6, letterSpacing: '0.08em' }}>
                   DRAFT · not sent
                 </div>
               )}
@@ -229,10 +229,10 @@ export function TestChatPanel({
           </div>
         ))}
         {busy && (
-          <div style={{ fontFamily: MONO, fontSize: 11, color: C.muted }}>…thinking</div>
+          <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>…thinking</div>
         )}
         {error && !paywalled && (
-          <div style={{ fontFamily: MONO, fontSize: 11.5, color: C.bad }}>
+          <div style={{ fontFamily: MONO, fontSize: 12, color: C.bad }}>
             endpoint error: {error.message || 'request failed'} — this is what a user would hit right now.
           </div>
         )}

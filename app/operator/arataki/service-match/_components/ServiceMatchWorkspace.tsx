@@ -101,10 +101,10 @@ export function ServiceMatchWorkspace({ tenant, matches }: Props) {
       <div className="min-w-0">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">Rooftop</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">Rooftop</p>
             <h2 className="mt-1 font-display text-3xl font-light text-[color:var(--text-primary)]">{tenant.name}</h2>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9D8C7D]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9D8C7D]">
             {matches.length} opportunity{matches.length === 1 ? '' : 'ies'}
           </p>
         </div>
@@ -136,7 +136,7 @@ function ImportBox({
 }) {
   return (
     <div className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/70 p-4">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">{label}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">{label}</p>
       <input
         ref={inputRef}
         type="file"
@@ -185,11 +185,11 @@ function MatchCard({ match, tenantId }: { match: ServiceSalesMatch; tenantId: st
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="font-display text-3xl font-light leading-none text-[color:var(--text-primary)]">{match.appointment.customer_name}</h3>
-          <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[#9D8C7D]">
+          <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[#9D8C7D]">
             {vehicle} · {formatNzDateTime(match.appointment.appointment_at) ?? 'time not recorded'}
           </p>
         </div>
-        <span className={`rounded-full border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] ${
+        <span className={`rounded-full border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] ${
           match.tier === 'strong'
             ? 'border-[rgba(43,107,87,0.30)] bg-[rgba(43,107,87,0.10)] text-[#C79B1F]'
             : 'border-[rgba(217,168,90,0.45)] bg-[rgba(217,168,90,0.16)] text-[#8A6324]'
@@ -218,7 +218,7 @@ function MatchCard({ match, tenantId }: { match: ServiceSalesMatch; tenantId: st
       )}
       <ul className="mt-4 grid gap-1.5">
         {match.signals.map((signal) => (
-          <li key={signal.label} className="flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#9D8C7D]">
+          <li key={signal.label} className="flex items-center justify-between gap-3 font-mono text-[12px] uppercase tracking-[0.12em] text-[#9D8C7D]">
             <span>{signal.label}</span>
             <span className="text-[#C79B1F]">+{signal.points}</span>
           </li>

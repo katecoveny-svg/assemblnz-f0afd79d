@@ -61,7 +61,7 @@ export default async function InsuranceResultsPage({
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="border-b border-[rgba(35,33,31,0.10)] px-6 py-14 lg:px-10 lg:py-20">
         <div className="mx-auto max-w-7xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
             insurance gap analysis
           </p>
           <h1
@@ -87,7 +87,7 @@ export default async function InsuranceResultsPage({
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
-                    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       {category.label}
                     </p>
                     <h2 className="mt-2 font-display text-4xl text-[color:var(--assembl-pounamu)]">
@@ -95,7 +95,7 @@ export default async function InsuranceResultsPage({
                     </h2>
                   </div>
                   <span
-                    className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] ${
+                    className={`rounded-full px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] ${
                       category.status === "green"
                         ? "bg-pounamu-100 text-pounamu-900"
                         : category.status === "amber"
@@ -140,7 +140,7 @@ export default async function InsuranceResultsPage({
           <h2 className="font-display text-3xl text-[color:var(--assembl-pounamu)]">
             Sources and assumptions.
           </h2>
-          <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Version {result.assumptionsVersion}
           </p>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -148,7 +148,7 @@ export default async function InsuranceResultsPage({
               <article key={source.url} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/45 p-4">
                 <h3 className="font-medium text-[color:var(--text-primary)]">{source.label}</h3>
                 <p className="mt-2 text-xs leading-relaxed text-[color:var(--text-body)]">{source.note}</p>
-                <a href={source.url} className="mt-3 block break-words font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)]">
+                <a href={source.url} className="mt-3 block break-words font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)]">
                   Source
                 </a>
               </article>
@@ -163,7 +163,7 @@ export default async function InsuranceResultsPage({
 function MiniMetric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[6px] bg-mist-50 p-3">
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
         {label}
       </p>
       <p className="mt-1 font-medium">{value}</p>

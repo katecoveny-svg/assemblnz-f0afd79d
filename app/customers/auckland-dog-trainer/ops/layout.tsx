@@ -46,7 +46,7 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
       rightRail={
         <div className="flex flex-col gap-4">
           <div className="rounded-2xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)] p-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--brand-muted)]">
+            <p className="text-[12px] uppercase tracking-[0.18em] text-[color:var(--brand-muted)]">
               command centre
             </p>
             <ol className="mt-3 flex flex-col gap-2.5 text-[12.5px] leading-relaxed text-[color:var(--brand-ink)]">
@@ -63,12 +63,12 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
                 <strong>4. Morning brief</strong> suggests one improvement a day — you say yes.
               </li>
             </ol>
-            <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
+            <p className="mt-3 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">
               Draft-only. Nothing emails a client or books a session without your yes.
             </p>
           </div>
           <div className="rounded-2xl border border-[#D4A5B0]/50 bg-[#F7EEF1] p-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--brand-muted)]">
+            <p className="text-[12px] uppercase tracking-[0.18em] text-[color:var(--brand-muted)]">
               the promise
             </p>
             <p

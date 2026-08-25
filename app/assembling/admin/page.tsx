@@ -147,7 +147,7 @@ export default async function DashAdminPage() {
   return (
     <main style={page}>
       <header style={{ marginBottom: 28 }}>
-        <span style={{ color: DASH_AMBER, fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase' }}>
+        <span style={{ color: DASH_AMBER, fontFamily: 'monospace', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase' }}>
           Assembling by assembl · operator
         </span>
         <h1 style={h1}>Network dashboard</h1>

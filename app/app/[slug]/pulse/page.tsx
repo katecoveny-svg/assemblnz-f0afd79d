@@ -77,7 +77,7 @@ export default async function BusinessPulsePage({
       <div className="mx-auto max-w-6xl">
         <Link
           href={`/app/${tenant.slug}/inbox`}
-          className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+          className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           Back to inbox
@@ -85,7 +85,7 @@ export default async function BusinessPulsePage({
 
         <header className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
               ARATAKI · Business Pulse
             </p>
             <h1 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-light leading-[0.9]">
@@ -102,7 +102,7 @@ export default async function BusinessPulsePage({
         <section className="mt-8 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5 md:p-7">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 Markdown record
               </p>
               <h2 className="mt-2 font-display text-3xl font-light">

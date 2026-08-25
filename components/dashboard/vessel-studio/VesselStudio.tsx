@@ -342,18 +342,18 @@ export function VesselStudio({
           <div className="flex flex-col gap-5 rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4.5">
             {/* Kete picker */}
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 kete{' '}
                 <span className="ml-2 tracking-[0.12em] text-[color:var(--text-secondary)]/80">
                   vessel form for the pillar
                 </span>
               </div>
-              <p className="font-mono text-[10.5px] font-light tracking-[0.04em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] font-light tracking-[0.04em] text-[color:var(--text-secondary)]">
                 {k.portrait
                   ? 'founder portrait — warm cream interior, soft natural light, calm editorial portrait, dachshund optional'
                   : 'each kete is a stacked still-life — cream stoneware top + base, kete-coloured translucent glass plates between them, on a small brass wire display stand. cream paper backdrop only.'}
               </p>
-              <p className="font-mono text-[9.5px] tracking-[0.04em] leading-[1.5] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] tracking-[0.04em] leading-[1.5] text-[color:var(--text-secondary)]">
                 canonical reference renders are saved at{' '}
                 <code className="rounded-[1px] bg-[color:var(--assembl-cloud)]/40 px-1 py-px text-[color:var(--text-secondary)]">
                   outputs/locked-vessels/canonical/&lt;kete&gt;.png
@@ -383,7 +383,7 @@ export function VesselStudio({
                     ] as const
                   ).map(([key, label, ph]) => (
                     <div key={key} className="flex flex-col gap-1">
-                      <div className="font-mono text-[9.5px] tracking-[0.2em] text-[color:var(--text-secondary)]">
+                      <div className="font-mono text-[12px] tracking-[0.2em] text-[color:var(--text-secondary)]">
                         {label}
                       </div>
                       <textarea
@@ -392,17 +392,17 @@ export function VesselStudio({
                         spellCheck={false}
                         placeholder={ph}
                         onChange={(e) => updateState({ [key]: e.target.value })}
-                        className="min-h-[44px] resize-y rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-2.5 font-mono text-[11.5px] font-light leading-[1.55] text-[color:var(--text-primary)] focus:border-[color:var(--text-primary)] focus:outline-none"
+                        className="min-h-[44px] resize-y rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-2.5 font-mono text-[12px] font-light leading-[1.55] text-[color:var(--text-primary)] focus:border-[color:var(--text-primary)] focus:outline-none"
                       />
                     </div>
                   ))}
                 </div>
               ) : (
                 <div className="mt-2 rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-cloud)]/40 p-3">
-                  <div className="mb-1.5 font-mono text-[9.5px] tracking-[0.2em] text-[color:var(--text-secondary)]">
+                  <div className="mb-1.5 font-mono text-[12px] tracking-[0.2em] text-[color:var(--text-secondary)]">
                     material grammar · locked
                   </div>
-                  <p className="font-mono text-[11.5px] leading-[1.6] tracking-[0.02em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] leading-[1.6] tracking-[0.02em] text-[color:var(--text-secondary)]">
                     {k.grammar}
                   </p>
                 </div>
@@ -410,7 +410,7 @@ export function VesselStudio({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 aspect ratio
               </div>
               <ChipRow
@@ -422,7 +422,7 @@ export function VesselStudio({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 motion
               </div>
               <ChipRow
@@ -434,7 +434,7 @@ export function VesselStudio({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 style reference (sref){' '}
                 <span className="ml-2 tracking-[0.12em] text-[color:var(--text-secondary)]/80">
                   optional url · midjourney only
@@ -452,7 +452,7 @@ export function VesselStudio({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 reference image{' '}
                 <span className="ml-2 tracking-[0.12em] text-[color:var(--text-secondary)]/80">
                   visual anchor for fal redux
@@ -471,7 +471,7 @@ export function VesselStudio({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 lighting
               </div>
               <select
@@ -490,7 +490,7 @@ export function VesselStudio({
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10.5px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 variants
               </div>
               <div className="flex items-center gap-2.5">
@@ -513,7 +513,7 @@ export function VesselStudio({
                 >
                   +
                 </button>
-                <span className="ml-2 font-mono text-[10.5px] tracking-[0.12em] text-[color:var(--text-secondary)]">
+                <span className="ml-2 font-mono text-[12px] tracking-[0.12em] text-[color:var(--text-secondary)]">
                   images per run · 1–4
                 </span>
               </div>
@@ -532,12 +532,12 @@ export function VesselStudio({
                 className="flex w-full items-center justify-between px-4 py-3 text-left"
                 aria-expanded={keyPanelOpen}
               >
-                <span className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                   fal.ai api key
                 </span>
                 <span
                   className={[
-                    'font-mono text-[10.5px] tracking-[0.12em]',
+                    'font-mono text-[12px] tracking-[0.12em]',
                     falKey ? 'text-[color:var(--assembl-gold-thread)]' : 'text-[color:var(--text-secondary)]',
                   ].join(' ')}
                 >
@@ -559,7 +559,7 @@ export function VesselStudio({
                     <button
                       type="button"
                       onClick={() => setShowFalKey((s) => !s)}
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3.5 font-mono text-[11px] lowercase tracking-[0.1em] hover:bg-[color:var(--assembl-cloud)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3.5 font-mono text-[12px] lowercase tracking-[0.1em] hover:bg-[color:var(--assembl-cloud)]"
                     >
                       {showFalKey ? 'hide' : 'show'}
                     </button>
@@ -573,12 +573,12 @@ export function VesselStudio({
                           // ignore
                         }
                       }}
-                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3.5 font-mono text-[11px] lowercase tracking-[0.1em] hover:bg-[color:var(--assembl-cloud)]"
+                      className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3.5 font-mono text-[12px] lowercase tracking-[0.1em] hover:bg-[color:var(--assembl-cloud)]"
                     >
                       save
                     </button>
                   </div>
-                  <p className="mt-2.5 font-mono text-[10.5px] leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
+                  <p className="mt-2.5 font-mono text-[12px] leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
                     edge function not configured (set{' '}
                     <code>NEXT_PUBLIC_VESSEL_STUDIO_SHARED_SECRET</code>) — falling back to
                     direct fal.ai. your key stays in this browser. get a key at{' '}
@@ -635,7 +635,7 @@ export function VesselStudio({
             }}
           />
 
-          <div className="text-right font-mono text-[10.5px] tracking-[0.1em] text-[color:var(--text-secondary)]">
+          <div className="text-right font-mono text-[12px] tracking-[0.1em] text-[color:var(--text-secondary)]">
             this session: {sessionGenerations} generation
             {sessionGenerations === 1 ? '' : 's'} · ~${sessionCost.toFixed(2)} usd at flux pro pricing
           </div>

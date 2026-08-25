@@ -25,7 +25,7 @@ export default function PatternStudioPage() {
           style={{
             margin: 0,
             fontFamily: 'var(--font-mono), Space Mono, monospace',
-            fontSize: 11,
+            fontSize: 12,
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
             color: '#3f7373',

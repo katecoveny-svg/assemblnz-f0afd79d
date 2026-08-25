@@ -182,7 +182,7 @@ export function AdStudioClient() {
   const label: React.CSSProperties = {
     display: 'block',
     fontFamily: 'var(--font-mono), Space Mono, monospace',
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: '0.14em',
     textTransform: 'uppercase',
     color: '#6b7581',
@@ -313,7 +313,7 @@ export function AdStudioClient() {
                     <span style={{ ...label, margin: 0 }}>What the page said</span>
                     {dna.facts.map((f, i) => (
                       <div key={`${f.label}-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        <span style={{ fontSize: 11, color: '#6b7581', minWidth: 88, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                        <span style={{ fontSize: 12, color: '#6b7581', minWidth: 88, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                           {f.label}
                         </span>
                         <input

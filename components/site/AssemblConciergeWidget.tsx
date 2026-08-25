@@ -189,7 +189,7 @@ export function AssemblConciergeWidget() {
           <div className="flex items-start justify-between gap-4 border-b border-[rgba(26,25,24,0.08)] p-4">
             <div>
               <p
-                className="font-mono text-[10px] uppercase tracking-[0.22em]"
+                className="font-mono text-[12px] uppercase tracking-[0.22em]"
                 style={{ color: GOLD }}
               >
                 your guide
@@ -260,7 +260,7 @@ export function AssemblConciergeWidget() {
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isTyping}
-                  className="border border-[rgba(17,19,17,0.18)] bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-[0.04em] text-[#4f544f] transition-all hover:border-[#111311] hover:text-[#111311] focus-visible:border-[#111311] focus-visible:text-[#111311] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
+                  className="border border-[rgba(17,19,17,0.18)] bg-white px-3 py-1 font-mono text-[12px] uppercase tracking-[0.04em] text-[#4f544f] transition-all hover:border-[#111311] hover:text-[#111311] focus-visible:border-[#111311] focus-visible:text-[#111311] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                 >
                   {prompt}
                 </button>
@@ -301,7 +301,7 @@ export function AssemblConciergeWidget() {
                 <span
                   id="concierge-counter"
                   className={cn(
-                    'font-mono text-[10px] uppercase tracking-[0.1em]',
+                    'font-mono text-[12px] uppercase tracking-[0.1em]',
                     draft.length > MAX_CHARS * 0.9
                       ? 'font-medium text-destructive'
                       : 'text-[rgba(26,25,24,0.45)]',
@@ -317,7 +317,7 @@ export function AssemblConciergeWidget() {
             </form>
             <Link
               href={latestMatch.href}
-              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+              className="mt-1 inline-flex items-center rounded-sm font-mono text-[12px] uppercase tracking-[0.18em] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
               style={{ color: GOLD }}
             >
               {latestMatch.cta}
@@ -336,7 +336,7 @@ export function AssemblConciergeWidget() {
         aria-expanded={open}
         aria-haspopup="dialog"
       >
-        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] leading-none">
+        <span className="font-mono text-[12px] font-bold uppercase tracking-[0.1em] leading-none">
           ask assembl
         </span>
       </button>

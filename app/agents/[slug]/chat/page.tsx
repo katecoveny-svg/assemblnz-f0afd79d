@@ -29,7 +29,7 @@ export default async function AgentChatPage({ params }: { params: Promise<{ slug
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#f4f2ec] px-6 text-[#252b2e]">
         <section className="w-full max-w-xl border border-black/15 bg-[#faf9f5] p-8 md:p-12">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em]">Agent review boundary</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.2em]">Agent review boundary</p>
           <h1 className="mt-5 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">{agent.name} is paused.</h1>
           <p className="mt-6 max-w-lg text-base leading-7 text-[#5e6260]">{KAUMATUA_HOLD_MESSAGE}</p>
           <div className="mt-8 flex flex-wrap gap-3">

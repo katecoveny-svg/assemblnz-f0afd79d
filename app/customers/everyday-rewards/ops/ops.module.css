@@ -43,7 +43,7 @@
   letter-spacing: 0.01em;
 }
 .brandSub {
-  font-size: 10px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -81,7 +81,7 @@
   margin-top: auto;
   padding: 12px 8px 4px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 10.5px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.6;
 }
@@ -99,7 +99,7 @@
   background: #22303c;
   color: rgba(255, 255, 255, 0.82);
   font-family: var(--edr-mono), monospace;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-align: center;
@@ -121,7 +121,7 @@
 .eyebrow {
   font-family: var(--edr-mono), monospace;
   font-weight: 700;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #6b6e71;
@@ -142,7 +142,7 @@
   border: 1px solid #d8d6ce;
   border-radius: 999px;
   padding: 5px 11px;
-  font-size: 10px;
+  font-size: 12px;
   font-family: var(--edr-mono), monospace;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -195,7 +195,7 @@
 .label {
   font-family: var(--edr-mono), monospace;
   font-weight: 700;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #6b6e71;
@@ -229,7 +229,7 @@
 }
 .table th {
   text-align: left;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #6b6e71;
@@ -253,7 +253,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   padding: 3px 9px;
   border-radius: 999px;
@@ -270,7 +270,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   padding: 3px 9px;
   border-radius: 6px;
@@ -303,8 +303,8 @@
   border-radius: 6px 6px 0 0;
   min-height: 4px;
 }
-.barColLabel { font-size: 10.5px; color: #6b6e71; text-align: center; }
-.barColVal { font-size: 10.5px; font-weight: 700; color: #22303c; font-variant-numeric: tabular-nums; }
+.barColLabel { font-size: 12px; color: #6b6e71; text-align: center; }
+.barColVal { font-size: 12px; font-weight: 700; color: #22303c; font-variant-numeric: tabular-nums; }
 
 /* --- split ledger ------------------------------------------------------- */
 .ledgerRow {
@@ -318,7 +318,7 @@
 .ledgerRow:last-child { border-bottom: 0; }
 .ledgerRow.total { font-weight: 700; border-top: 2px solid #22303c; }
 .ledgerName { color: #22303c; }
-.ledgerNote { font-size: 11.5px; color: #6b6e71; }
+.ledgerNote { font-size: 12px; color: #6b6e71; }
 .ledgerVal { font-variant-numeric: tabular-nums; font-weight: 600; }
 
 /* --- comms + notices ---------------------------------------------------- */

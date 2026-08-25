@@ -23,7 +23,7 @@ export function ThreeSteps() {
   return (
     <div className="mx-auto max-w-[1500px]">
       <div className="max-w-4xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
           HOW IT WORKS
         </p>
         <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
@@ -36,7 +36,7 @@ export function ThreeSteps() {
             key={step.number}
             className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-6 backdrop-blur"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               {step.number}
             </p>
             <h3 className="mt-5 font-display text-4xl font-light leading-none">

@@ -123,7 +123,7 @@ export function BusinessPulseWidget() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]"
+              className="inline-flex items-center gap-1 font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]"
             >
               Full brief <ArrowRight className="h-3 w-3" aria-hidden />
             </a>
@@ -136,13 +136,13 @@ export function BusinessPulseWidget() {
       <ol className="mt-5 space-y-4">
         {brief.three_things.map((thing, index) => (
           <li key={`${thing.source}-${index}`} className="border-l-2 border-[color:var(--assembl-pounamu)] pl-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               {thing.source}
             </p>
             <p className="mt-1 text-body-md text-[color:var(--text-primary)]">{thing.headline}</p>
             <p className="mt-1 text-body-md text-[color:var(--text-body)]">{thing.recommended_action}</p>
             {thing.staged_action != null && (
-              <p className="mt-2 inline-flex rounded-full bg-[color:var(--assembl-paper)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]">
+              <p className="mt-2 inline-flex rounded-full bg-[color:var(--assembl-paper)] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]">
                 Action staged — review to send
               </p>
             )}

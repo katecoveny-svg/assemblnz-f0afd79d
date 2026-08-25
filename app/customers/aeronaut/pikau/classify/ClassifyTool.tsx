@@ -76,7 +76,7 @@ export function ClassifyTool() {
           </button>
 
           <div className="mt-4">
-            <p className="mb-2 text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Try an example</p>
+            <p className="mb-2 text-[0.75rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Try an example</p>
             <div className="flex flex-wrap gap-2">
               {EXAMPLES.map((ex) => (
                 <button

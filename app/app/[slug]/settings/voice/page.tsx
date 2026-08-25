@@ -87,7 +87,7 @@ export default async function OperatorVoicePage({
           <div>
             <Link
               href={`/app/${slug}/inbox`}
-              className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
             >
               assembl / {(tenant as Tenant).slug} / settings
             </Link>
@@ -139,7 +139,7 @@ export default async function OperatorVoicePage({
             </label>
 
             <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 5-10 examples required
               </p>
               <button
@@ -153,7 +153,7 @@ export default async function OperatorVoicePage({
 
           <aside className="space-y-4">
             <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 Current profile
               </p>
               {profile ? (
@@ -161,7 +161,7 @@ export default async function OperatorVoicePage({
                   <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
                     {profile.content}
                   </p>
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                  <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                     Updated {new Date(profile.created_at).toLocaleDateString('en-NZ')}
                   </p>
                 </>
@@ -184,7 +184,7 @@ export default async function OperatorVoicePage({
 function ProfileList({ title, items }: { title: string; items: string[] }) {
   return (
     <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {title}
       </p>
       {items.length > 0 ? (
