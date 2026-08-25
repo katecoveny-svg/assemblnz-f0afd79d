@@ -195,7 +195,7 @@ export const EDITORIAL_FOOTER = {
   contactEmail: 'assembl@assembl.co.nz',
   links: [
     { label: 'field-notes', href: '/field-notes' },
-    { label: 'concept-studio', href: 'https://assembl-concept-studio.katecoveny.chatgpt.site' },
+    { label: 'generative-studio', href: '/generative-studio' },
     { label: 'about', href: '/about' },
     { label: 'pilots', href: '/pilots' },
   ],

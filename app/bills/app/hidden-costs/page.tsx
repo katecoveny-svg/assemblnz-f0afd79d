@@ -27,7 +27,7 @@ export default function HiddenCostsPage() {
             <EyeOff size={22} />
           </span>
           <div>
-            <p className="text-3xl font-bold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-coral-deep)' }}>
+            <p className="text-3xl font-bold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-coral-deep)' }}>
               {money(hiddenCostsTotal)}<span className="text-lg font-normal" style={{ color: 'var(--b-faint)' }}> /yr</span>
             </p>
             <p className="text-sm" style={{ color: 'var(--b-muted)' }}>detected across {hiddenCosts.length} items, ready for your review</p>
@@ -43,7 +43,7 @@ export default function HiddenCostsPage() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{h.name}</span>
+                    <span className="font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>{h.name}</span>
                     <CategoryTag category={h.category} />
                   </div>
                   <p className="mt-1.5 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{h.detail}</p>

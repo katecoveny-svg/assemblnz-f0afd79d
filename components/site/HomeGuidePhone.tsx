@@ -1,22 +1,46 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  HOME_AGENTS,
+  HOME_AGENTS_FEATURED,
+  HOME_AGENT_CATEGORIES,
+  homeAgentBySlug,
+  type HomeAgent,
+} from '@/lib/home/agent-roster';
+import { HOME_AGENT_EVENT } from '@/components/site/HomeAgentGallery';
 
 /**
- * The homepage phone, in two honest modes.
+ * The homepage phone — a live agent you can talk to, and swap.
  *
- * DEMO   — the simulated customer wait that the panel exists to show, now played
- *          out over time instead of sitting still. Labelled as simulated.
- * GUIDE  — a real agent on /api/home/agent, answering about assembl. Labelled as
- *          AI, because the house rule is that we never hide that drafting is
- *          agent-assisted.
+ * LIVE  — the default, and the thing the panel is actually for. A real model
+ *         call to /api/home/agent. The house guide answers about assembl; pick
+ *         any of the specialists and that agent answers as itself, grounded in
+ *         its own registry record. Labelled as AI, because the house rule is
+ *         that we never hide that drafting is agent-assisted.
+ * WAIT  — the simulated customer wait, kept as a second tab and labelled as
+ *         simulated.
  *
- * The two are kept visibly separate. Mixing a simulated customer application
- * with a live guide in one thread would leave a visitor unsure which parts were
- * real, which is the opposite of what this panel is arguing for.
+ * The two stay visibly separate. Mixing a simulated application with a live
+ * agent in one thread would leave a visitor unsure which parts were real, which
+ * is the opposite of what this panel is arguing for.
  */
 
 type Msg = { role: 'user' | 'assistant'; content: string };
+
+/** The house guide, presented in the picker as one option among the agents. */
+const GUIDE: HomeAgent = {
+  slug: 'assembl',
+  name: 'assembl',
+  teReo: '',
+  description: 'The guide to assembl itself — what it is, what it does, and what it will not do.',
+  category: 'start-here',
+  categoryLabel: 'Start here',
+  icon: 'assembl',
+  does: [],
+  samples: [],
+  grounding: [],
+};
 
 /** The demo beat sheet. Timings are gaps before each line lands. */
 const DEMO_SCRIPT: ReadonlyArray<{ role: 'user' | 'assistant'; content: string; after: number }> = [
@@ -39,11 +63,9 @@ const DEMO_SCRIPT: ReadonlyArray<{ role: 'user' | 'assistant'; content: string; 
   },
 ];
 
-const SUGGESTIONS = [
-  'What is assembl?',
-  'What will it not do?',
-  'How would we start?',
-];
+const GUIDE_SUGGESTIONS = ['What is assembl?', 'What will it not do?', 'How would we start?'];
+/** Honest for any specialist — none of these assume a capability. */
+const AGENT_SUGGESTIONS = ['What can you do?', 'Show me an example', 'What won’t you do?'];
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -57,16 +79,32 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
+const openingLine = (agent: HomeAgent) =>
+  agent.slug === 'assembl'
+    ? 'Ask me what assembl is, what it does, or what it will not do.'
+    : `${agent.description} Ask me what I do — or pick another agent above.`;
+
 export function HomeGuidePhone() {
-  const [mode, setMode] = useState<'demo' | 'guide'>('demo');
+  const [mode, setMode] = useState<'live' | 'wait'>('live');
   const reduced = usePrefersReducedMotion();
 
-  // ── demo mode ──────────────────────────────────────────────────────────────
+  // ── who is answering ───────────────────────────────────────────────────────
+  const [agent, setAgent] = useState<HomeAgent>(GUIDE);
+  const [browsing, setBrowsing] = useState(false);
+  const [category, setCategory] = useState<string | null>(null);
+
+  const rail = useMemo(() => [GUIDE, ...HOME_AGENTS_FEATURED], []);
+  const browseList = useMemo(
+    () => (category ? HOME_AGENTS.filter((a) => a.category === category) : HOME_AGENTS),
+    [category],
+  );
+
+  // ── simulated wait ─────────────────────────────────────────────────────────
   const [shown, setShown] = useState(0);
   const [demoTyping, setDemoTyping] = useState(false);
 
   useEffect(() => {
-    if (mode !== 'demo') return;
+    if (mode !== 'wait') return;
     // Reduced motion gets the finished conversation, not a performance of it.
     if (reduced) {
       setShown(DEMO_SCRIPT.length);
@@ -98,9 +136,9 @@ export function HomeGuidePhone() {
     setDemoTyping(false);
   };
 
-  // ── guide mode ─────────────────────────────────────────────────────────────
+  // ── live agent ─────────────────────────────────────────────────────────────
   const [messages, setMessages] = useState<Msg[]>([
-    { role: 'assistant', content: 'Ask me what assembl is, what it does, or what it will not do.' },
+    { role: 'assistant', content: openingLine(GUIDE) },
   ]);
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
@@ -119,6 +157,31 @@ export function HomeGuidePhone() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, busy, shown, demoTyping, mode]);
 
+  /** Switching agent starts a fresh thread — one voice per conversation. */
+  const pickAgent = useCallback((next: HomeAgent) => {
+    setAgent(next);
+    setBrowsing(false);
+    setMode('live');
+    setError(null);
+    setDraft('');
+    setMessages([{ role: 'assistant', content: openingLine(next) }]);
+  }, []);
+
+  // The agent gallery panel hands an agent over by event rather than by threading
+  // state through the whole page. Picking one there switches the phone and brings
+  // the visitor back to it.
+  useEffect(() => {
+    const onPick = (event: Event) => {
+      const slug = (event as CustomEvent<{ slug?: string }>).detail?.slug;
+      const next = slug ? homeAgentBySlug(slug) : undefined;
+      if (!next) return;
+      pickAgent(next);
+      document.getElementById('live-agent')?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    };
+    window.addEventListener(HOME_AGENT_EVENT, onPick);
+    return () => window.removeEventListener(HOME_AGENT_EVENT, onPick);
+  }, [pickAgent]);
+
   const send = useCallback(
     async (text: string) => {
       const clean = text.trim();
@@ -132,7 +195,12 @@ export function HomeGuidePhone() {
         const res = await fetch('/api/home/agent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: clean, sessionId: sessionRef.current, history }),
+          body: JSON.stringify({
+            message: clean,
+            sessionId: sessionRef.current,
+            history,
+            agent: agent.slug,
+          }),
         });
         const data = await res.json().catch(() => null);
         if (!res.ok || !data?.reply) {
@@ -146,11 +214,12 @@ export function HomeGuidePhone() {
         setBusy(false);
       }
     },
-    [busy, messages],
+    [busy, messages, agent.slug],
   );
 
   const visible = reduced ? DEMO_SCRIPT.length : shown;
   const demoDone = visible >= DEMO_SCRIPT.length;
+  const suggestions = agent.slug === 'assembl' ? GUIDE_SUGGESTIONS : AGENT_SUGGESTIONS;
 
   return (
     <div className="aj-phone hg-phone">
@@ -160,37 +229,102 @@ export function HomeGuidePhone() {
         <button
           type="button"
           role="tab"
-          aria-selected={mode === 'demo'}
-          className={mode === 'demo' ? 'is-on' : undefined}
-          onClick={() => setMode('demo')}
+          aria-selected={mode === 'live'}
+          className={mode === 'live' ? 'is-on' : undefined}
+          onClick={() => setMode('live')}
         >
-          simulated wait
+          live agent
         </button>
         <button
           type="button"
           role="tab"
-          aria-selected={mode === 'guide'}
-          className={mode === 'guide' ? 'is-on' : undefined}
-          onClick={() => setMode('guide')}
+          aria-selected={mode === 'wait'}
+          className={mode === 'wait' ? 'is-on' : undefined}
+          onClick={() => setMode('wait')}
         >
-          ask assembl
+          simulated wait
         </button>
       </div>
 
+      {mode === 'live' && (
+        <div className="hg-pick">
+          <div className="hg-rail" role="tablist" aria-label="Choose an agent">
+            {rail.map((a) => (
+              <button
+                key={a.slug}
+                type="button"
+                role="tab"
+                aria-selected={agent.slug === a.slug}
+                className={agent.slug === a.slug ? 'is-on' : undefined}
+                onClick={() => pickAgent(a)}
+              >
+                {a.name}
+              </button>
+            ))}
+            <button
+              type="button"
+              className={browsing ? 'hg-more is-on' : 'hg-more'}
+              aria-expanded={browsing}
+              onClick={() => setBrowsing((b) => !b)}
+            >
+              all {HOME_AGENTS.length} <i aria-hidden="true">{browsing ? '↑' : '↓'}</i>
+            </button>
+          </div>
+
+          {browsing && (
+            <div className="hg-browse">
+              <div className="hg-cats">
+                <button
+                  type="button"
+                  className={category === null ? 'is-on' : undefined}
+                  onClick={() => setCategory(null)}
+                >
+                  everything
+                </button>
+                {HOME_AGENT_CATEGORIES.map((c) => (
+                  <button
+                    key={c.category}
+                    type="button"
+                    className={category === c.category ? 'is-on' : undefined}
+                    onClick={() => setCategory(c.category)}
+                  >
+                    {c.label} <b>{c.count}</b>
+                  </button>
+                ))}
+              </div>
+              <ul className="hg-list">
+                {browseList.map((a) => (
+                  <li key={a.slug}>
+                    <button type="button" onClick={() => pickAgent(a)}>
+                      <strong>
+                        {a.name}
+                        {a.teReo ? <em>{a.teReo}</em> : null}
+                      </strong>
+                      <span>{a.description}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
       <small className="hg-status">
-        {mode === 'demo' ? (
+        {mode === 'wait' ? (
           <>
             <b className="hg-dot" aria-hidden="true" /> SIMULATED EXAMPLE / APPLICATION REVIEW
           </>
         ) : (
           <>
-            <b className="hg-dot hg-dot-live" aria-hidden="true" /> LIVE AI GUIDE / ANSWERS ABOUT ASSEMBL
+            <b className="hg-dot hg-dot-live" aria-hidden="true" /> LIVE AI ·{' '}
+            {agent.slug === 'assembl' ? 'ANSWERS ABOUT ASSEMBL' : agent.name.toUpperCase()}
           </>
         )}
       </small>
 
       <div className="hg-stream" ref={streamRef} aria-live="polite">
-        {mode === 'demo'
+        {mode === 'wait'
           ? DEMO_SCRIPT.slice(0, visible).map((m, i) => (
               <p key={i} className={`hg-msg hg-${m.role}`}>
                 {m.content}
@@ -202,7 +336,7 @@ export function HomeGuidePhone() {
               </p>
             ))}
 
-        {(mode === 'demo' ? demoTyping : busy) && (
+        {(mode === 'wait' ? demoTyping : busy) && (
           <p className="hg-msg hg-assistant hg-typing" aria-label="Preparing a reply">
             <span />
             <span />
@@ -210,18 +344,18 @@ export function HomeGuidePhone() {
           </p>
         )}
 
-        {mode === 'guide' && error && <p className="hg-msg hg-error">{error}</p>}
+        {mode === 'live' && error && <p className="hg-msg hg-error">{error}</p>}
       </div>
 
-      {mode === 'demo' ? (
+      {mode === 'wait' ? (
         <div className="hg-foot">
           {demoDone ? (
             <>
               <button type="button" className="hg-chip" onClick={replayDemo}>
                 Replay
               </button>
-              <button type="button" className="hg-chip hg-chip-go" onClick={() => setMode('guide')}>
-                Ask the real one <i aria-hidden="true">↗</i>
+              <button type="button" className="hg-chip hg-chip-go" onClick={() => setMode('live')}>
+                Talk to a real one <i aria-hidden="true">↗</i>
               </button>
             </>
           ) : (
@@ -232,7 +366,7 @@ export function HomeGuidePhone() {
         <>
           {messages.length <= 1 && !busy && (
             <div className="hg-foot hg-suggest">
-              {SUGGESTIONS.map((s) => (
+              {suggestions.map((s) => (
                 <button key={s} type="button" className="hg-chip" onClick={() => send(s)}>
                   {s}
                 </button>
@@ -247,13 +381,13 @@ export function HomeGuidePhone() {
             }}
           >
             <label className="sr-only" htmlFor="hg-ask">
-              Ask about assembl
+              Ask {agent.name}
             </label>
             <input
               id="hg-ask"
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder="Ask about assembl…"
+              placeholder={agent.slug === 'assembl' ? 'Ask about assembl…' : `Ask ${agent.name}…`}
               maxLength={1000}
               autoComplete="off"
               disabled={busy}

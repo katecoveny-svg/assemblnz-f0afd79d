@@ -40,7 +40,7 @@ export default function BankPage() {
               <Landmark size={18} />
             </span>
             <div>
-              <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+              <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
                 Akahu — all 5 major NZ banks
               </p>
               <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>

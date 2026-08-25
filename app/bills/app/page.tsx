@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { EyeOff, PiggyBank, ReceiptText, Search, ArrowRight } from 'lucide-react';
 import { Card, PageHeading, SectionLabel, CategoryTag, TrendChip, money } from '@/components/bills/kit';
 import { LiveState } from '@/components/bills/LiveState';
+import { YourBills } from '@/components/bills/YourBills';
 import { CountUp } from '@/components/bills/motion';
 import { SpendTrendChart, CategoryDonut, CategoryLegend } from '@/components/bills/charts';
 import { stats, bills, hiddenCostsTotal, savingsTotal, household } from '@/lib/bills/data';
@@ -14,8 +15,8 @@ const quickActions = [
 ];
 
 const toneStyle: Record<string, { fg: string; glow: string }> = {
-  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(43,107,87,0.4))' },
-  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(184,92,62,0.4))' },
+  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(47,107,79,0.4))' },
+  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(142,47,58,0.4))' },
   neutral: { fg: 'var(--b-ink)', glow: 'none' },
 };
 
@@ -38,6 +39,9 @@ export default function OverviewPage() {
         <LiveState state="sample" note="demo household" />
       </div>
 
+      {/* Real uploads first, when there are any. Everything under it is sample. */}
+      <YourBills />
+
       {/* 5-stat row */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
         {stats.map((s) => {
@@ -50,7 +54,7 @@ export default function OverviewPage() {
                 to={value}
                 prefix={prefix}
                 className="mt-1 block text-2xl font-semibold"
-                style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: t.fg, filter: t.glow }}
+                style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: t.fg, filter: t.glow }}
               />
               <p className="mt-0.5 text-[12px] leading-snug" style={{ color: 'var(--b-muted)' }}>{s.sub}</p>
             </Card>
@@ -84,7 +88,7 @@ export default function OverviewPage() {
               <EyeOff size={18} />
             </span>
             <div>
-              <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+              <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
                 {money(hiddenCostsTotal)}/yr in hidden costs detected
               </p>
               <p className="mt-0.5 text-sm" style={{ color: 'var(--b-muted)' }}>
@@ -126,7 +130,7 @@ export default function OverviewPage() {
                 <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
                   <a.Icon size={17} />
                 </span>
-                <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{a.title}</p>
+                <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>{a.title}</p>
                 <p className="mt-1 text-[12px] leading-snug" style={{ color: 'var(--b-muted)' }}>{a.body}</p>
               </Card>
             </Link>

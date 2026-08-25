@@ -97,6 +97,32 @@
 .hg-modes button{padding:6px 4px;border:0;border-radius:99px;background:transparent;color:var(--aj-plum-muted);font:500 12px/1 var(--font-mono),monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .hg-modes button.is-on{color:var(--aj-paper);background:var(--aj-plum)}
 .hg-modes button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+
+/* Who is answering. The rail carries the house guide plus a spread of
+   specialists; "all N" opens the rest of the live registry by category. */
+.hg-pick{margin-top:9px}
+.hg-rail{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.hg-rail::-webkit-scrollbar{display:none}
+.hg-rail button{flex:0 0 auto;padding:5px 9px;color:var(--aj-plum-muted);border:1px solid rgba(36,11,33,.16);border-radius:99px;background:transparent;font-size:12px;line-height:1;white-space:nowrap;cursor:pointer;transition:background .18s ease,color .18s ease}
+.hg-rail button.is-on{color:var(--aj-paper);background:var(--aj-plum);border-color:var(--aj-plum)}
+.hg-rail button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+.hg-more i{margin-left:3px;color:var(--aj-rose);font-style:normal}
+.hg-more.is-on i{color:var(--aj-paper)}
+
+.hg-browse{margin-top:7px;padding:8px;border:1px solid rgba(36,11,33,.14);border-radius:12px;background:var(--aj-chalk)}
+.hg-cats{display:flex;flex-wrap:wrap;gap:3px}
+.hg-cats button{padding:4px 7px;color:var(--aj-plum-muted);border:0;border-radius:99px;background:rgba(36,11,33,.06);font:500 12px/1 var(--font-mono),monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.hg-cats button.is-on{color:var(--aj-paper);background:var(--aj-plum-muted)}
+.hg-cats button b{font-weight:500;opacity:.6}
+.hg-cats button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+
+.hg-list{max-height:180px;margin:7px 0 0;padding:0;display:flex;flex-direction:column;gap:2px;overflow-y:auto;list-style:none;scrollbar-width:none}
+.hg-list::-webkit-scrollbar{display:none}
+.hg-list button{width:100%;padding:6px 8px;display:flex;flex-direction:column;gap:2px;text-align:left;border:0;border-radius:8px;background:transparent;cursor:pointer}
+.hg-list button:hover,.hg-list button:focus-visible{background:var(--aj-paper);outline:none}
+.hg-list strong{display:flex;gap:5px;align-items:baseline;color:var(--aj-ink);font-size:13px;font-weight:500;letter-spacing:-.01em}
+.hg-list em{color:var(--aj-rose);font-size:12px;font-style:normal}
+.hg-list span{color:var(--aj-plum-muted);font-size:12px;line-height:1.35}
 .hg-status{display:flex;gap:6px;align-items:center;margin-top:12px!important;color:var(--aj-plum-muted)}
 .hg-dot{width:5px;height:5px;border-radius:50%;background:var(--aj-rose);flex:0 0 auto}
 .hg-dot-live{background:#2F6B4F;box-shadow:0 0 0 0 rgba(47,107,79,.55);animation:hg-pulse 2s ease-out infinite}
@@ -261,4 +287,58 @@
    stack them rather than shrink them back under the floor. */
 @media(max-width:760px){
   .aj-header nav{flex-direction:column;align-items:flex-end;gap:3px}
+}
+
+/* ── The agent gallery ───────────────────────────────────────────────────
+   Every live agent assembl runs, pickable. The grid is the flick surface;
+   the detail column is drawn entirely from the agent's registry record, so
+   nothing on this panel can drift from what the agent actually does. */
+.aj-agents{width:1460px;display:grid;grid-template-columns:400px 1fr 430px;grid-template-rows:1fr;background:var(--aj-chalk)}
+.aj-agents-head{padding:27px 30px;display:flex;flex-direction:column;border-right:1px solid rgba(36,11,33,.18)}
+.aj-agents-head>span{color:var(--aj-plum-muted);font:500 12px/1 var(--font-mono),monospace;letter-spacing:.12em}
+.aj-agents-head h2{margin:auto 0 14px;font-size:clamp(46px,3.6vw,58px);font-weight:500;line-height:.88;letter-spacing:-.06em}
+.aj-agents-head>p{margin:0 0 18px;max-width:330px;color:rgba(36,11,33,.62);font-size:12px;line-height:1.5}
+.aj-agents-cats{display:flex;flex-wrap:wrap;gap:4px}
+.aj-agents-cats button{padding:5px 9px;color:var(--aj-plum-muted);border:1px solid rgba(36,11,33,.16);border-radius:99px;background:transparent;font:500 12px/1 var(--font-mono),monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .18s ease,color .18s ease}
+.aj-agents-cats button.is-on{color:var(--aj-paper);background:var(--aj-plum);border-color:var(--aj-plum)}
+.aj-agents-cats button b{font-weight:500;opacity:.55}
+.aj-agents-cats button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+
+.aj-agents-grid{margin:0;padding:14px;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:max-content;gap:5px;overflow-y:auto;list-style:none;border-right:1px solid rgba(36,11,33,.18);scrollbar-width:none}
+.aj-agents-grid::-webkit-scrollbar{display:none}
+.aj-agents-grid button{width:100%;height:100%;padding:10px 9px;display:flex;flex-direction:column;gap:3px;text-align:left;color:var(--aj-ink);border:1px solid rgba(36,11,33,.14);border-radius:10px;background:var(--aj-paper);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease}
+.aj-agents-grid button:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(36,11,33,.12)}
+.aj-agents-grid button.is-on{color:var(--aj-paper);background:var(--aj-plum);border-color:var(--aj-plum)}
+.aj-agents-grid button:focus-visible{outline:2px solid var(--aj-rose);outline-offset:2px}
+.aj-agents-grid strong{font-size:13px;font-weight:500;line-height:1.05;letter-spacing:-.02em}
+.aj-agents-grid em{color:var(--aj-plum-muted);font:500 12px/1.15 var(--font-mono),monospace;font-style:normal;letter-spacing:.04em}
+.aj-agents-grid button.is-on em{color:rgba(255,253,251,.66)}
+
+.aj-agents-detail{padding:27px 30px;display:flex;flex-direction:column;color:var(--aj-chalk);background:var(--aj-plum)}
+.aj-agents-detail>span{color:var(--aj-rose);font:500 12px/1 var(--font-mono),monospace;letter-spacing:.12em;text-transform:uppercase}
+.aj-agents-detail h3{margin:12px 0 9px;display:flex;gap:9px;align-items:baseline;color:var(--aj-paper);font-size:40px;font-weight:500;line-height:.95;letter-spacing:-.05em}
+.aj-agents-detail h3 i{color:var(--aj-rose);font-size:15px;font-style:normal;letter-spacing:0}
+.aj-agents-detail>p{margin:0 0 16px;color:rgba(255,253,251,.74);font-size:13px;line-height:1.5}
+.aj-agents-does{margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:7px;list-style:none}
+.aj-agents-does li{display:flex;gap:9px;color:rgba(255,253,251,.8);font-size:12px;line-height:1.45}
+.aj-agents-does b{flex:0 0 auto;color:var(--aj-rose);font:500 12px/1.45 var(--font-mono),monospace}
+.aj-agents-sample{margin:0 0 14px;padding:12px 13px;border:1px solid rgba(255,253,251,.2);border-radius:12px;background:rgba(255,253,251,.06)}
+.aj-agents-sample figcaption{color:var(--aj-rose);font:500 12px/1 var(--font-mono),monospace;letter-spacing:.1em}
+.aj-agents-sample blockquote{margin:9px 0 0;color:var(--aj-paper);font-size:13px;line-height:1.45}
+.aj-agents-grounding{margin-top:auto;color:rgba(255,253,251,.5);font:500 12px/1.5 var(--font-mono),monospace;letter-spacing:.06em}
+.aj-agents-grounding b{color:rgba(255,253,251,.78);font-weight:500}
+.aj-agents-ask{margin-top:14px;padding:11px 15px;width:max-content;display:flex;gap:32px;align-items:center;color:var(--aj-plum);border:0;border-radius:99px;background:var(--aj-chalk);font:500 12px/1 var(--font-mono),monospace;letter-spacing:.1em;cursor:pointer;transition:transform .18s ease}
+.aj-agents-ask:hover{transform:translateY(-1px)}
+.aj-agents-ask:focus-visible{outline:2px solid var(--aj-rose);outline-offset:3px}
+.aj-agents-ask i{color:var(--aj-rose);font-style:normal}
+
+@media(max-width:760px){
+  .aj-agents{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto}
+  .aj-agents-head{border-right:0;padding:44px 22px 24px}
+  .aj-agents-head h2{margin:24px 0 14px}
+  .aj-agents-grid{grid-template-columns:repeat(2,1fr);border-right:0;max-height:340px}
+  .aj-agents-detail{padding:30px 22px}
+}
+@media(prefers-reduced-motion:reduce){
+  .aj-agents-grid button:hover,.aj-agents-ask:hover{transform:none}
 }

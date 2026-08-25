@@ -69,7 +69,7 @@ export function ActionButton({
       onClick={queue}
       disabled={state === 'sending'}
       className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition hover:opacity-90 disabled:opacity-60"
-      style={{ ...styles, fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}
+      style={{ ...styles, fontFamily: "var(--font-bills-display), system-ui, sans-serif" }}
       title="Prepares a draft for your approval — nothing is switched automatically"
     >
       {state === 'sending' ? <Loader2 size={14} className="animate-spin" /> : state === 'error' ? <ShieldCheck size={14} /> : null}

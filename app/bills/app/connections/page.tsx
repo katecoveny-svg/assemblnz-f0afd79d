@@ -24,7 +24,7 @@ export default function ConnectionsPage() {
                     <Mail size={18} />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{p.name}</p>
+                    <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>{p.name}</p>
                     <p className="text-[12px]" style={{ color: 'var(--b-muted)' }}>{p.note}</p>
                   </div>
                 </div>

@@ -50,7 +50,7 @@ export function PageHeading({ title, lead }: { title: string; lead?: string }) {
     <div className="mb-6">
       <h1
         className="text-2xl font-semibold tracking-tight sm:text-[30px]"
-        style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)', letterSpacing: '0.01em' }}
+        style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)', letterSpacing: '0.01em' }}
       >
         {title}
       </h1>
@@ -72,15 +72,15 @@ export function SectionLabel({ children }: { children: ReactNode }) {
 }
 
 const CATEGORY_TINT: Record<string, { bg: string; fg: string }> = {
-  Electricity: { bg: 'rgba(43,107,87,0.15)', fg: '#2B6B57' },
+  Electricity: { bg: 'rgba(36,11,33,0.10)', fg: '#240B21' },
   Broadband: { bg: 'rgba(74,107,140,0.15)', fg: '#4A6B8C' },
   Insurance: { bg: 'rgba(122,95,168,0.16)', fg: '#7A5FA8' },
-  Council: { bg: 'rgba(191,163,122,0.15)', fg: '#8F7434' },
-  Subscriptions: { bg: 'rgba(184,92,62,0.16)', fg: '#B85C3E' },
-  Mobile: { bg: 'rgba(62,125,87,0.15)', fg: '#3E7D57' },
+  Council: { bg: 'rgba(145,106,112,0.15)', fg: '#7A555B' },
+  Subscriptions: { bg: 'rgba(142,47,58,0.16)', fg: '#8E2F3A' },
+  Mobile: { bg: 'rgba(101,74,78,0.14)', fg: '#654A4E' },
   Gas: { bg: 'rgba(138,107,78,0.16)', fg: '#8A6B4E' },
-  KiwiSaver: { bg: 'rgba(43,107,87,0.15)', fg: '#2B6B57' },
-  ACC: { bg: 'rgba(191,163,122,0.15)', fg: '#8F7434' },
+  KiwiSaver: { bg: 'rgba(47,107,79,0.15)', fg: '#2F6B4F' },
+  ACC: { bg: 'rgba(145,106,112,0.15)', fg: '#7A555B' },
 };
 
 export function CategoryTag({ category }: { category: string }) {
@@ -103,8 +103,8 @@ export function SourceBadge({ source }: { source: string }) {
 export function TrendChip({ trend, note }: { trend?: 'up' | 'down' | 'flat'; note?: string }) {
   if (!trend) return null;
   const map = {
-    up: { Icon: ArrowUpRight, color: '#B85C3E', bg: 'rgba(184,92,62,0.16)' },
-    down: { Icon: ArrowDownRight, color: '#2B6B57', bg: 'rgba(43,107,87,0.16)' },
+    up: { Icon: ArrowUpRight, color: '#8E2F3A', bg: 'rgba(142,47,58,0.16)' },
+    down: { Icon: ArrowDownRight, color: '#2F6B4F', bg: 'rgba(47,107,79,0.16)' },
     flat: { Icon: Minus, color: 'var(--b-faint)', bg: 'rgba(26,25,24,0.05)' },
   }[trend];
   const { Icon } = map;

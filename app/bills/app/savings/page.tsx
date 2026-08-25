@@ -15,7 +15,7 @@ export default function SavingsPage() {
       <div className="grid gap-4 lg:grid-cols-[1fr_1.3fr]">
         <Card>
           <SectionLabel>Found for you</SectionLabel>
-          <p className="text-4xl font-bold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-teal-deep)' }}>
+          <p className="text-4xl font-bold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-teal-deep)' }}>
             {money(savingsTotal)}<span className="text-lg font-normal" style={{ color: 'var(--b-faint)' }}> /yr</span>
           </p>
           <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>across {savings.length} alternatives</p>
@@ -36,7 +36,7 @@ export default function SavingsPage() {
                       <CategoryTag category={s.category} />
                       <span className="text-xs" style={{ color: 'var(--b-faint)' }}>{s.fromProvider}</span>
                     </div>
-                    <p className="mt-1.5 font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
+                    <p className="mt-1.5 font-semibold" style={{ fontFamily: "var(--font-bills-display), system-ui, sans-serif", color: 'var(--b-ink)' }}>
                       → {s.toProvider} · {s.toPlan}
                     </p>
                   </div>
