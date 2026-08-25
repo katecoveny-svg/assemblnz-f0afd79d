@@ -89,7 +89,7 @@ export default async function ToroBillingPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto max-w-[920px]">
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> tōro <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> {tenantName.toLowerCase()}
         </p>
         <h1
@@ -98,30 +98,30 @@ export default async function ToroBillingPage({ params }: PageProps) {
         >
           billing
         </h1>
-        <p className="mt-3 max-w-2xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+        <p className="mt-3 max-w-2xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
           subscription · saved card · spend history · no auto-charge ever
         </p>
 
         <section className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
           <article className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-5 py-5">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               subscription
             </p>
             <p className="mt-2 font-display text-[28px] font-light leading-tight text-[color:var(--text-primary)]">
               {prettyStatus(cust?.subscription_status)}
             </p>
-            <p className="mt-1.5 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            <p className="mt-1.5 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
               {cust?.subscription_current_period_end
                 ? `renews ${formatDate(cust.subscription_current_period_end)}`
                 : 'no active subscription'}
             </p>
-            <p className="mt-3 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            <p className="mt-3 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
               tōro family plan · $29 NZD / month
             </p>
           </article>
 
           <article className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-5 py-5">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               saved card
             </p>
             <p className="mt-2 font-display text-[28px] font-light leading-tight text-[color:var(--text-primary)]">
@@ -136,7 +136,7 @@ export default async function ToroBillingPage({ params }: PageProps) {
         </section>
 
         <section className="mt-10">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             spend history
           </p>
           {rows.length === 0 ? (
@@ -144,14 +144,14 @@ export default async function ToroBillingPage({ params }: PageProps) {
               <p className="font-display text-[18px] font-light text-[color:var(--text-primary)]">
                 no charges yet
               </p>
-              <p className="mt-1 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+              <p className="mt-1 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
                 any Tōro-initiated payment will appear here once you approve it from the inbox.
               </p>
             </div>
           ) : (
             <table className="mt-3 w-full border-collapse rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white text-left">
               <thead>
-                <tr className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                <tr className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                   <th className="px-4 py-3">created</th>
                   <th className="px-4 py-3">description</th>
                   <th className="px-4 py-3 text-right">amount</th>
@@ -170,7 +170,7 @@ export default async function ToroBillingPage({ params }: PageProps) {
                     <td className="px-4 py-3 text-right font-mono text-[12px] text-[color:var(--text-primary)]">
                       {formatAmount(r.amount_cents, r.currency)}
                     </td>
-                    <td className="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.12em]">
+                    <td className="px-4 py-3 font-mono text-[12px] uppercase tracking-[0.12em]">
                       <span className={statusTone(r.status)}>{r.status.replace(/_/g, ' ')}</span>
                     </td>
                   </tr>
@@ -180,7 +180,7 @@ export default async function ToroBillingPage({ params }: PageProps) {
           )}
         </section>
 
-        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[10.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
           canon hard rule #34 · no auto-charge · capture only on explicit whānau approval
         </footer>
       </div>

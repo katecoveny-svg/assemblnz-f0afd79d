@@ -75,7 +75,7 @@ export default async function FleetAdminPage({
           <div>
             <Link
               href="/app/admin"
-              className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
             >
               assembl / admin
             </Link>
@@ -89,7 +89,7 @@ export default async function FleetAdminPage({
           </div>
 
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 px-4 py-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Selected kete
             </p>
             <p className="mt-1 font-display text-2xl font-light">{selectedKete.name}</p>
@@ -111,7 +111,7 @@ export default async function FleetAdminPage({
               key={kete.slug}
               href={`/app/admin/fleet?kete=${kete.slug}&sort=${sort}&dir=${dir}`}
               className={[
-                'inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em]',
+                'inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em]',
                 selectedKete.slug === kete.slug
                   ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                   : 'border-[rgba(35,33,31,0.14)] bg-white/50 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',
@@ -128,7 +128,7 @@ export default async function FleetAdminPage({
         </section>
 
         <section className="mt-6 overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/70">
-          <div className="grid grid-cols-[minmax(220px,1.2fr)_minmax(160px,0.8fr)_minmax(240px,1.4fr)_minmax(220px,0.9fr)] border-b border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.86)] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+          <div className="grid grid-cols-[minmax(220px,1.2fr)_minmax(160px,0.8fr)_minmax(240px,1.4fr)_minmax(220px,0.9fr)] border-b border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.86)] px-4 py-3 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
             <SortHeader label="Tenant" field="name" selectedKete={selectedKete.slug} sort={sort} dir={dir} />
             <SortHeader label="Plan" field="plan" selectedKete={selectedKete.slug} sort={sort} dir={dir} />
             <span>Activated kete</span>
@@ -145,13 +145,13 @@ export default async function FleetAdminPage({
                 >
                   <div>
                     <p className="font-display text-2xl font-light leading-none">{tenant.name}</p>
-                    <p className="mt-1 font-mono text-[10px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                    <p className="mt-1 font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                       {tenant.slug || tenant.billing_email || tenant.id}
                     </p>
                   </div>
                   <div className="text-sm text-[color:var(--text-body)]">
                     <p>{tenant.plan}</p>
-                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                       {tenant.status}
                     </p>
                   </div>
@@ -176,7 +176,7 @@ export default async function FleetAdminPage({
                       <button
                         type="submit"
                         className={[
-                          'inline-flex h-10 items-center gap-2 rounded-[8px] border px-4 font-mono text-[10px] uppercase tracking-[0.16em]',
+                          'inline-flex h-10 items-center gap-2 rounded-[8px] border px-4 font-mono text-[12px] uppercase tracking-[0.16em]',
                           active
                             ? 'border-[rgba(163,59,44,0.35)] bg-white text-[color:#A33B2C]'
                             : 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)]',

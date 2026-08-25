@@ -71,7 +71,7 @@ export default async function AironautDashboard() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Readiness</p>
+                        <p className="text-[0.75rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Readiness</p>
                         <p className="air-display text-2xl" style={{ color: e.plan.readinessScore >= 80 ? 'var(--air-ok)' : e.plan.readinessScore >= 50 ? 'var(--air-warn)' : 'var(--air-hold)' }}>
                           {e.plan.readinessScore}
                         </p>

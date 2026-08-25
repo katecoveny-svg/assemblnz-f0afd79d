@@ -567,7 +567,7 @@ export function BrandImageMaker() {
     <div className="mx-auto max-w-[1480px] px-4 py-8 md:px-7 md:py-12 min-[1920px]:max-w-[2200px] min-[1920px]:px-12 min-[1920px]:py-20">
       <div className="mb-8 grid gap-5 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end min-[1920px]:mb-12 min-[1920px]:gap-12 min-[1920px]:pb-12">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#E9BCA9] min-[1920px]:text-[12px]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9] min-[1920px]:text-[12px]">
             Free brand image maker · no account needed
           </p>
           <h2 className="mt-4 max-w-[940px] font-sans text-[clamp(42px,6vw,92px)] font-medium leading-[0.9] tracking-[-0.06em] text-[#FFFDFB] min-[1920px]:mt-7 min-[1920px]:max-w-[1320px] min-[1920px]:text-[clamp(92px,5.4vw,152px)]">
@@ -580,7 +580,7 @@ export function BrandImageMaker() {
             finished social image at the correct size. Download it or open your
             device’s share menu when you are ready.
           </p>
-          <p className="mt-3 font-mono text-[8px] uppercase leading-4 tracking-[0.08em] text-[#8F7F89] min-[1920px]:text-[10px]">
+          <p className="mt-3 font-mono text-[12px] uppercase leading-4 tracking-[0.08em] text-[#8F7F89] min-[1920px]:text-[12px]">
             Your logo and photograph stay in this browser. Nothing publishes
             automatically.
           </p>
@@ -590,11 +590,11 @@ export function BrandImageMaker() {
       <div className="grid gap-7 xl:grid-cols-[0.86fr_1.14fr] min-[1920px]:gap-10">
         <div className="space-y-5 min-[1920px]:space-y-8">
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
               01 · Your brand
             </p>
             <label className="mt-4 block">
-              <span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
                 brand name
               </span>
               <input
@@ -629,7 +629,7 @@ export function BrandImageMaker() {
                       />
                     ))}
                   </span>
-                  <span className="mt-2 block font-mono text-[7px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+                  <span className="mt-2 block font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
                     {preset.label}
                   </span>
                 </button>
@@ -645,7 +645,7 @@ export function BrandImageMaker() {
                 ] as const
               ).map(([key, label]) => (
                 <label key={key} className="min-w-0">
-                  <span className="mb-2 block truncate font-mono text-[7px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+                  <span className="mb-2 block truncate font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
                     {label}
                   </span>
                   <span className="flex min-h-10 items-center gap-2 border border-white/15 bg-[#120510] px-2">
@@ -655,7 +655,7 @@ export function BrandImageMaker() {
                       onChange={(event) => updateKit(key, event.target.value)}
                       className="h-7 w-7 shrink-0 cursor-pointer border-0 bg-transparent p-0"
                     />
-                    <span className="min-w-0 truncate font-mono text-[7px] uppercase text-[#B6ACB3]">
+                    <span className="min-w-0 truncate font-mono text-[12px] uppercase text-[#B6ACB3]">
                       {kit[key]}
                     </span>
                   </span>
@@ -664,7 +664,7 @@ export function BrandImageMaker() {
             </div>
 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 text-center font-mono text-[8px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB]">
                 {logoSrc ? "replace logo" : "add logo"}
                 <input
                   type="file"
@@ -687,22 +687,22 @@ export function BrandImageMaker() {
                   setNotice("Logo removed. The brand name will be typeset instead.");
                 }}
                 disabled={!logoSrc}
-                className="min-h-12 border border-white/15 px-4 py-3 font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] disabled:cursor-not-allowed disabled:opacity-35"
+                className="min-h-12 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] disabled:cursor-not-allowed disabled:opacity-35"
               >
                 use brand name
               </button>
             </div>
-            <p className="mt-3 truncate font-mono text-[7px] uppercase tracking-[0.06em] text-[#8A7B85]">
+            <p className="mt-3 truncate font-mono text-[12px] uppercase tracking-[0.06em] text-[#8A7B85]">
               {logoLabel}
             </p>
           </section>
 
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
               02 · Message and image
             </p>
             <label className="mt-4 block">
-              <span className="mb-2 flex justify-between font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+              <span className="mb-2 flex justify-between font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
                 headline <span>{kit.headline.length}/90</span>
               </span>
               <textarea
@@ -714,7 +714,7 @@ export function BrandImageMaker() {
               />
             </label>
             <label className="mt-4 block">
-              <span className="mb-2 flex justify-between font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+              <span className="mb-2 flex justify-between font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
                 supporting line <span>{kit.supporting.length}/180</span>
               </span>
               <textarea
@@ -727,7 +727,7 @@ export function BrandImageMaker() {
             </label>
 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9]/60 px-4 py-3 text-center font-mono text-[8px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9]/60 px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9]">
                 {backgroundSrc ? "replace photograph" : "add photograph"}
                 <input
                   type="file"
@@ -751,12 +751,12 @@ export function BrandImageMaker() {
                   setBackgroundLabel("brand colour field");
                   setNotice("Photograph removed. Your colours now form the background.");
                 }}
-                className="min-h-12 border border-white/15 px-4 py-3 font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                className="min-h-12 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
               >
                 use colour field
               </button>
             </div>
-            <p className="mt-3 truncate font-mono text-[7px] uppercase tracking-[0.06em] text-[#8A7B85]">
+            <p className="mt-3 truncate font-mono text-[12px] uppercase tracking-[0.06em] text-[#8A7B85]">
               {backgroundLabel}
             </p>
 
@@ -773,7 +773,7 @@ export function BrandImageMaker() {
                   type="button"
                   onClick={() => updateKit("layout", id)}
                   aria-pressed={kit.layout === id}
-                  className={`min-h-11 border px-2 py-2 font-mono text-[7px] uppercase tracking-[0.07em] outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] ${
+                  className={`min-h-11 border px-2 py-2 font-mono text-[12px] uppercase tracking-[0.07em] outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] ${
                     kit.layout === id
                       ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21]"
                       : "border-white/15 bg-[#120510] text-[#B6ACB3]"
@@ -790,14 +790,14 @@ export function BrandImageMaker() {
           <section className="border border-[#E9BCA9]/25 bg-[#240B21] p-4 md:p-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
                   03 · Ready to shape and share
                 </p>
                 <h3 className="mt-2 font-sans text-[26px] font-medium tracking-[-0.035em] text-[#FFFDFB]">
                   {kit.brandName || "your brand"}
                 </h3>
               </div>
-              <p className="font-mono text-[7px] uppercase tracking-[0.07em] text-[#B6ACB3]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.07em] text-[#B6ACB3]">
                 {format.label} · {format.note}
               </p>
             </div>
@@ -823,15 +823,15 @@ export function BrandImageMaker() {
                       : "border-white/15 bg-[#120510] text-[#F5F1F2]"
                   }`}
                 >
-                  <span className="block text-[11px] font-medium">{item.label}</span>
-                  <span className="mt-1 block font-mono text-[7px] uppercase tracking-[0.06em] opacity-65">
+                  <span className="block text-[12px] font-medium">{item.label}</span>
+                  <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.06em] opacity-65">
                     {item.note}
                   </span>
                 </button>
               ))}
             </div>
 
-            <label className="mt-5 flex min-h-11 items-center gap-3 border border-white/15 px-3 font-mono text-[8px] uppercase leading-4 tracking-[0.08em] text-[#B6ACB3]">
+            <label className="mt-5 flex min-h-11 items-center gap-3 border border-white/15 px-3 font-mono text-[12px] uppercase leading-4 tracking-[0.08em] text-[#B6ACB3]">
               <input
                 type="checkbox"
                 checked={kit.creditAssembl}
@@ -846,7 +846,7 @@ export function BrandImageMaker() {
                 type="button"
                 onClick={() => void download()}
                 disabled={busy}
-                className="min-h-12 border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 font-mono text-[9px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] disabled:cursor-wait disabled:opacity-60"
+                className="min-h-12 border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] disabled:cursor-wait disabled:opacity-60"
               >
                 {busy ? "preparing…" : "download PNG"}
               </button>
@@ -854,28 +854,28 @@ export function BrandImageMaker() {
                 type="button"
                 onClick={() => void shareImage()}
                 disabled={busy}
-                className="min-h-12 border border-[#E9BCA9]/70 px-4 py-3 font-mono text-[9px] font-medium uppercase tracking-[0.1em] text-[#FFFDFB] outline-none hover:border-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] disabled:cursor-wait disabled:opacity-60"
+                className="min-h-12 border border-[#E9BCA9]/70 px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#FFFDFB] outline-none hover:border-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] disabled:cursor-wait disabled:opacity-60"
               >
                 share image
               </button>
               <button
                 type="button"
                 onClick={saveKit}
-                className="min-h-11 border border-white/15 px-4 py-3 font-mono text-[8px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                className="min-h-11 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
               >
                 save kit on this device
               </button>
               <button
                 type="button"
                 onClick={() => void copyMakerLink()}
-                className="min-h-11 border border-white/15 px-4 py-3 font-mono text-[8px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                className="min-h-11 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
               >
                 copy maker link
               </button>
             </div>
 
             <p
-              className="mt-4 min-h-5 font-mono text-[8px] uppercase leading-4 tracking-[0.07em] text-[#B6ACB3]"
+              className="mt-4 min-h-5 font-mono text-[12px] uppercase leading-4 tracking-[0.07em] text-[#B6ACB3]"
               aria-live="polite"
             >
               {notice}

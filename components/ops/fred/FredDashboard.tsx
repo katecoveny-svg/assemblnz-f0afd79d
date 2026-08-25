@@ -52,7 +52,7 @@ const glass: CSSProperties = {
 };
 
 const eyebrow: CSSProperties = {
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: MUTED,
@@ -149,7 +149,7 @@ function LandingTab() {
             <OsHoverLift accent={PINK} style={{ ...glass, padding: 14, minHeight: 120 }}>
               <h3 style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>{c.title}</h3>
               <p style={{ margin: '8px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{c.blurb}</p>
-              <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: PINK_DEEP }}>
+              <p style={{ margin: '10px 0 0', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: PINK_DEEP }}>
                 → {OFFERS[c.mapsTo].short}
               </p>
             </OsHoverLift>
@@ -289,7 +289,7 @@ function LeadsTab({ liveEnquiries = [] }: { liveEnquiries?: LiveEnquiry[] }) {
                   <span
                     style={{
                       marginLeft: 8,
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: 700,
                       letterSpacing: '0.08em',
                       textTransform: 'uppercase',
@@ -309,13 +309,13 @@ function LeadsTab({ liveEnquiries = [] }: { liveEnquiries?: LiveEnquiry[] }) {
               </p>
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: `${urgencyTone(lead.urgency)}18`, color: urgencyTone(lead.urgency) }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: `${urgencyTone(lead.urgency)}18`, color: urgencyTone(lead.urgency) }}>
                 {lead.urgency}
               </span>
-              <span style={{ fontSize: 11, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${NAVY}10`, color: NAVY }}>
+              <span style={{ fontSize: 12, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${NAVY}10`, color: NAVY }}>
                 risk {lead.riskLevel}
               </span>
-              <span style={{ fontSize: 11, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${PINK}33`, color: NAVY }}>
+              <span style={{ fontSize: 12, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${PINK}33`, color: NAVY }}>
                 → {offerLabel(lead.recommended)}
               </span>
             </div>
@@ -452,7 +452,7 @@ function CourseTab() {
               {m.scriptReady ? ' · script ready for Vids' : ''}
             </p>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: m.status === 'live' ? `${GOLD}33` : m.status === 'draft' ? `${PINK}33` : `${NAVY}10`, color: NAVY }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: m.status === 'live' ? `${GOLD}33` : m.status === 'draft' ? `${PINK}33` : `${NAVY}10`, color: NAVY }}>
             {m.status}
           </span>
         </article>
@@ -483,7 +483,7 @@ function SupportTab() {
             <p style={{ margin: 0, fontSize: 13, color: MUTED }}>
               {m.from} · {m.dog} · {m.at}
             </p>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: bucketColor[m.bucket] }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: bucketColor[m.bucket] }}>
               {bucketLabel[m.bucket]}
             </span>
           </div>

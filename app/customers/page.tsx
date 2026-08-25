@@ -43,7 +43,7 @@ export default function CustomersHub() {
       <div className="relative mx-auto max-w-5xl px-6 py-20">
         <header className="mb-14">
           <p
-            className="text-[10px] uppercase"
+            className="text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             <span className="lowercase">assembl</span> · demo
@@ -67,7 +67,7 @@ export default function CustomersHub() {
         {/* The flagship — the one complete end-to-end Living Site. */}
         <section className="mb-14">
           <h2
-            className="mb-5 text-[10px] uppercase"
+            className="mb-5 text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             the living site · flagship
@@ -98,21 +98,21 @@ export default function CustomersHub() {
             <div className="mt-4 flex flex-wrap gap-4">
               <Link
                 href="/customers/auckland-dog-trainer/ops"
-                className="text-[10px] uppercase"
+                className="text-[12px] uppercase"
                 style={{ letterSpacing: '0.16em', color: '#fff' }}
               >
                 open the console →
               </Link>
               <Link
                 href="/customers/auckland-dog-trainer/ops?tab=genome"
-                className="text-[10px] uppercase"
+                className="text-[12px] uppercase"
                 style={{ letterSpacing: '0.16em', color: '#D4A5B0' }}
               >
                 edit the genome →
               </Link>
               <Link
                 href="/living-site/dog-training"
-                className="text-[10px] uppercase"
+                className="text-[12px] uppercase"
                 style={{ letterSpacing: '0.16em', color: '#D4A5B0' }}
               >
                 the website it writes →
@@ -125,7 +125,7 @@ export default function CustomersHub() {
             run on (Alphassembl) or that sit beside the partner demos (Bills). */}
         <section className="mb-14">
           <h2
-            className="mb-5 text-[10px] uppercase"
+            className="mb-5 text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             products (2)
@@ -156,14 +156,14 @@ export default function CustomersHub() {
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link
                   href="/alphassembl"
-                  className="text-[10px] uppercase"
+                  className="text-[12px] uppercase"
                   style={{ letterSpacing: '0.16em', color: '#fff' }}
                 >
                   open the landing →
                 </Link>
                 <Link
                   href="/alphassembl/chat"
-                  className="text-[10px] uppercase"
+                  className="text-[12px] uppercase"
                   style={{ letterSpacing: '0.16em', color: '#f59e0b' }}
                 >
                   ask Kaiako →
@@ -196,14 +196,14 @@ export default function CustomersHub() {
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link
                   href="/bills"
-                  className="text-[10px] uppercase"
+                  className="text-[12px] uppercase"
                   style={{ letterSpacing: '0.16em', color: '#fff' }}
                 >
                   open the landing →
                 </Link>
                 <Link
                   href="/bills/app"
-                  className="text-[10px] uppercase"
+                  className="text-[12px] uppercase"
                   style={{ letterSpacing: '0.16em', color: '#9FE0D2' }}
                 >
                   open the console →
@@ -216,7 +216,7 @@ export default function CustomersHub() {
         {live.length > 0 && (
           <section className="mb-14">
             <h2
-              className="mb-5 text-[10px] uppercase"
+              className="mb-5 text-[12px] uppercase"
               style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
             >
               live pilots ({live.length})
@@ -231,7 +231,7 @@ export default function CustomersHub() {
 
         <section>
           <h2
-            className="mb-5 text-[10px] uppercase"
+            className="mb-5 text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             concept pilots ({concepts.length})
@@ -248,7 +248,7 @@ export default function CustomersHub() {
           style={{ borderColor: '#E7E4DA' }}
         >
           <AssemblMotto />
-          <p className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+          <p className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
             powered by <AssemblWordmark /> · {new Date().getFullYear()} · not
             for public distribution
           </p>

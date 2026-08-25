@@ -58,7 +58,7 @@ export default async function OAuthConsentPage({
   return (
     <main className="min-h-screen bg-[#fffdfb] px-6 py-14 text-[#313c42]">
       <section className="mx-auto max-w-xl rounded-[28px] border border-black/10 bg-white p-7 shadow-sm md:p-9">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#916A70]">assembl · connect</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#916A70]">assembl · connect</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">Allow {clientName} to use assembl?</h1>
         <p className="mt-3 text-sm leading-6 text-[#667176]">
           You stay in control. The client can only use the Assembl workspace and permissions listed below. Sending, publishing, spending and destructive external actions are not granted by this connection.
@@ -67,7 +67,7 @@ export default async function OAuthConsentPage({
         {membership ? (
           <>
             <div className="mt-7 rounded-2xl border border-black/10 bg-[#f8f7f5] p-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#7a7770]">Workspace</p>
+              <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#7a7770]">Workspace</p>
               <p className="mt-1 text-lg font-semibold">{membership.tenant}</p>
               <div className="mt-5 space-y-2">
                 {(membership.permissions ?? []).map((permission) => (

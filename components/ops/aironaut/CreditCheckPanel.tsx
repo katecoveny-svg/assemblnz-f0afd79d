@@ -60,7 +60,7 @@ export function CreditCheckPanel({ accent }: { accent: string }) {
 
   return (
     <div className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-      <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+      <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
         New customer check — 30 seconds
       </p>
       <p className="mt-2 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
@@ -96,7 +96,7 @@ export function CreditCheckPanel({ accent }: { accent: string }) {
             key={s.company}
             type="button"
             onClick={() => run(s.company)}
-            className="rounded-full border border-black/10 bg-white px-2 py-0.5 text-[10px] transition hover:border-black/30"
+            className="rounded-full border border-black/10 bg-white px-2 py-0.5 text-[12px] transition hover:border-black/30"
             style={{ color: ASSEMBL_WARM_GREY }}
           >
             {s.company}
@@ -107,7 +107,7 @@ export function CreditCheckPanel({ accent }: { accent: string }) {
       {running ? (
         <ol className="mt-3 space-y-1" aria-live="polite">
           {creditCheckSteps.map((step, i) => (
-            <li key={step} className="flex items-center gap-2 text-[11px]">
+            <li key={step} className="flex items-center gap-2 text-[12px]">
               {i < stepIndex ? (
                 <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full" style={{ backgroundColor: '#2E6B34' }}>
                   <svg width="8" height="8" viewBox="0 0 12 12" fill="none" aria-hidden>
@@ -132,7 +132,7 @@ export function CreditCheckPanel({ accent }: { accent: string }) {
             <span className="h-3 w-3 rounded-full" style={{ backgroundColor: VERDICT[result.verdict].dot }} aria-hidden />
             <p className="text-sm font-semibold">{result.recommendation}</p>
           </div>
-          <p className="mt-1 text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+          <p className="mt-1 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
             {result.company} · NZBN {result.nzbn} · sample lookup · {VERDICT[result.verdict].label}
           </p>
           <ul className="mt-2 space-y-1">

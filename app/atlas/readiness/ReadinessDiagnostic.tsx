@@ -479,7 +479,7 @@ function WelcomeScreen({
 }) {
   return (
     <div className="mx-auto max-w-xl text-center">
-      <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
+      <p className="text-[12px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
         Start here · free · 5 minutes
       </p>
       <h1 className="mt-3 text-5xl md:text-6xl" style={{ fontFamily: D, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 0.98 }}>
@@ -526,7 +526,7 @@ function WelcomeScreen({
         >
           Start the check <ArrowRight size={17} aria-hidden />
         </button>
-        <p className="mt-1 text-center text-[11px] leading-relaxed" style={{ fontFamily: M, color: PALETTE.muted }}>
+        <p className="mt-1 text-center text-[12px] leading-relaxed" style={{ fontFamily: M, color: PALETTE.muted }}>
           {leadError ? 'Pop in a valid email, or skip below.' : 'We’ll save your progress and send you the report.'}
           {' '}No spam · unsubscribe any time · your data lives in Sydney.
         </p>
@@ -570,7 +570,7 @@ function QuizScreen({
     <div className="mx-auto max-w-xl">
       {/* Progress */}
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.muted }}>
+        <span className="text-[12px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.muted }}>
           Question {index + 1} of {TOTAL_QUESTIONS}
         </span>
         {index > 0 ? (
@@ -595,7 +595,7 @@ function QuizScreen({
       </div>
 
       {/* Question */}
-      <p className="mt-9 text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
+      <p className="mt-9 text-[12px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
         {question.eyebrow}
       </p>
       <h2 className="mt-2 text-3xl md:text-4xl" style={{ fontFamily: D, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.05 }}>
@@ -634,7 +634,7 @@ function QuizScreen({
               <span className="min-w-0">
                 <span className="block text-base font-bold leading-snug">{o.label}</span>
                 {o.hint ? (
-                  <span className="mt-0.5 block text-[11px]" style={{ fontFamily: M, color: isSel ? PALETTE.ink : PALETTE.muted }}>
+                  <span className="mt-0.5 block text-[12px]" style={{ fontFamily: M, color: isSel ? PALETTE.ink : PALETTE.muted }}>
                     {o.hint}
                   </span>
                 ) : null}
@@ -663,7 +663,7 @@ function QuizScreen({
             {listening ? 'Listening… say your answer' : 'Answer by voice'}
           </button>
           {voiceOn ? (
-            <span className="text-[11px]" style={{ fontFamily: M, color: PALETTE.muted }}>
+            <span className="text-[12px]" style={{ fontFamily: M, color: PALETTE.muted }}>
               Atlas reads each question aloud.
             </span>
           ) : null}
@@ -735,7 +735,7 @@ function ReportScreen({
   return (
     <div className="mx-auto max-w-2xl">
       {/* Archetype header (primary axis) */}
-      <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
+      <p className="text-[12px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
         Your situation
       </p>
       <div className="mt-2 flex flex-wrap items-baseline gap-3">
@@ -743,7 +743,7 @@ function ReportScreen({
           {archetype.label}
         </h1>
         <span
-          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase"
+          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-bold uppercase"
           style={{ fontFamily: M, letterSpacing: '0.08em', backgroundColor: PALETTE.cream, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}` }}
           title={band.blurb}
         >
@@ -793,11 +793,11 @@ function ReportScreen({
                   {rec.name}
                 </span>
                 {rec.teReo ? (
-                  <span className="text-[10px]" style={{ fontFamily: M, color: PALETTE.muted }}>
+                  <span className="text-[12px]" style={{ fontFamily: M, color: PALETTE.muted }}>
                     {rec.teReo}
                   </span>
                 ) : null}
-                <span className="ml-auto text-[11px] font-bold" style={{ fontFamily: M, color: PALETTE.gold }}>
+                <span className="ml-auto text-[12px] font-bold" style={{ fontFamily: M, color: PALETTE.gold }}>
                   {rec.price}
                 </span>
               </span>
@@ -812,7 +812,7 @@ function ReportScreen({
       {/* Privacy & compliance (framed by the archetype) */}
       {notes.length > 0 ? (
         <div className="mt-8 rounded-[18px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-          <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
+          <p className="text-[12px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
             Before you start — the NZ rules
           </p>
           <p className="mt-2 text-sm leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
@@ -838,7 +838,7 @@ function ReportScreen({
         className="mt-8 rounded-[18px] border p-5"
         style={{ borderColor: archetype.primaryCta === 'pilot' ? PALETTE.accentGold : PALETTE.hairline, backgroundColor: PALETTE.cream }}
       >
-        <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
+        <p className="text-[12px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
           {firstBuild ? 'Your suggested first build' : 'Your first move'}
         </p>
         <p className="mt-2 text-base leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
@@ -925,11 +925,11 @@ function ReportScreen({
                 </button>
               </form>
               {leadStatus === 'error' ? (
-                <p className="mt-2 text-[11px]" style={{ fontFamily: M, color: '#7a2a1a' }}>
+                <p className="mt-2 text-[12px]" style={{ fontFamily: M, color: '#7a2a1a' }}>
                   That didn’t go through — check the email and try again.
                 </p>
               ) : (
-                <p className="mt-2 text-[11px]" style={{ fontFamily: M, color: PALETTE.muted }}>
+                <p className="mt-2 text-[12px]" style={{ fontFamily: M, color: PALETTE.muted }}>
                   One email, a week from now. Your data lives in Sydney.
                 </p>
               )}

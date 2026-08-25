@@ -60,7 +60,7 @@ function Section({
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
-      <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+      <dt className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         {label}
       </dt>
       <dd className="mt-1 text-body-md text-[color:var(--text-body)]">{value}</dd>
@@ -70,7 +70,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.10em] text-[color:var(--text-body)]">
+    <span className="inline-flex items-center rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.10em] text-[color:var(--text-body)]">
       {children}
     </span>
   );
@@ -109,7 +109,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
           >
             {pdf_uri ? 'Download PDF' : 'PDF not generated yet'}
           </a>
-          <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
             {fmt(receipt.created_at)}
           </span>
         </div>
@@ -142,7 +142,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-3">
                 <span
-                  className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+                  className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
                   style={
                     consent.granted
                       ? { background: 'rgba(58,56,50,0.10)', color: 'var(--assembl-pounamu)' }
@@ -151,12 +151,12 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                 >
                   {consent.granted ? 'granted ✓' : 'declined'}
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                   captured via {consent.captured_method}
                 </span>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                   Prompt
                 </p>
                 <p className="mt-1 text-body-md text-[color:var(--text-body)]">
@@ -164,7 +164,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                 </p>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                   Verbatim response
                 </p>
                 <p className="mt-1 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[rgba(35,33,31,0.02)] p-3 font-display text-lg italic text-[color:var(--text-primary)]">
@@ -173,7 +173,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
               </div>
               {/* Consent timestamp is the load-bearing fact — highlight it. */}
               <div className="inline-flex items-center gap-2 rounded-[10px] border border-[rgba(58,56,50,0.30)] bg-[color:var(--assembl-pounamu-paper)] px-3 py-2">
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   Consent captured
                 </span>
                 <span className="font-mono text-sm text-[color:var(--assembl-pounamu)]">
@@ -245,7 +245,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                     <span className="font-mono text-sm font-medium text-[color:var(--text-primary)]">
                       {tc.tool}
                     </span>
-                    <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                       {fmt(tc.ts)}
                     </span>
                   </div>
@@ -253,7 +253,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                     {tc.result_summary}
                   </p>
                   <span
-                    className="mt-1 inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]"
+                    className="mt-1 inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
                     style={
                       tc.ok
                         ? { background: 'rgba(58,56,50,0.10)', color: 'var(--assembl-pounamu)' }
@@ -290,7 +290,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
           <dl className="grid grid-cols-1 gap-5">
             <Field label="Retention class" value={payload.privacy.retention_class} />
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+              <dt className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                 IPPs satisfied
               </dt>
               <dd className="mt-2 flex flex-wrap gap-1.5">

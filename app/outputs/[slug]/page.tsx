@@ -104,7 +104,7 @@ export default async function OutputDetailPage({
         />
         <div className="container py-16 lg:py-20">
           <div className="mx-auto max-w-4xl">
-            <nav className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <nav className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               <Link href="/outputs" className="transition hover:text-[color:var(--assembl-pounamu)]">
                 Outputs
               </Link>
@@ -119,7 +119,7 @@ export default async function OutputDetailPage({
 
             <div className="mt-6 flex flex-wrap items-center gap-2.5">
               <span
-                className="inline-flex items-center gap-1.5 rounded-chip border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em]"
+                className="inline-flex items-center gap-1.5 rounded-chip border px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em]"
                 style={{ borderColor: `${accent}55`, color: accent }}
               >
                 <span
@@ -130,7 +130,7 @@ export default async function OutputDetailPage({
                 {output.type}
               </span>
               {output.toolHref ? (
-                <span className="inline-flex items-center gap-1.5 rounded-chip bg-[color:var(--assembl-pounamu-paper)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]">
+                <span className="inline-flex items-center gap-1.5 rounded-chip bg-[color:var(--assembl-pounamu-paper)] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu-deep)]">
                   <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-pounamu)]" aria-hidden />
                   Live tool
                 </span>
@@ -144,7 +144,7 @@ export default async function OutputDetailPage({
               {output.oneLiner}
             </p>
 
-            <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Produced by{' '}
               <Link
                 href={isKete ? keteHref : '/hapai'}
@@ -215,7 +215,7 @@ export default async function OutputDetailPage({
                   className="rounded-card border bg-white/55 p-6 md:p-7"
                   style={{ borderColor: `${accent}33` }}
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     What&apos;s in the output
                   </span>
                   <ul className="mt-4 space-y-3 text-sm text-[color:var(--text-body)] md:text-[15px]">
@@ -243,7 +243,7 @@ export default async function OutputDetailPage({
               {output.frameworks.length > 0 ? (
                 <SectionReveal delay={0.1}>
                   <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Built on
                     </p>
                     <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
@@ -265,7 +265,7 @@ export default async function OutputDetailPage({
 
               <SectionReveal delay={0.15}>
                 <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Where it lands
                   </p>
                   <ul className="mt-3 space-y-2 text-sm">
@@ -324,14 +324,14 @@ export default async function OutputDetailPage({
                     className="kete-card group flex h-full flex-col p-5 transition-transform hover:-translate-y-0.5"
                     style={{ ['--kete-accent' as string]: `${accent}59` }}
                   >
-                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                       {r.type}
                     </span>
                     <h3 className="mt-2 font-display text-xl leading-tight text-[color:var(--text-primary)]">
                       {r.name}
                     </h3>
                     <span
-                      className="mt-4 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+                      className="mt-4 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em]"
                       style={{ color: accent }}
                     >
                       View

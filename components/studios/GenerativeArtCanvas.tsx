@@ -314,7 +314,7 @@ interface SliderRowProps {
 function SliderRow({ label, value, min, max, step, display, onChange }: SliderRowProps) {
   return (
     <label className="flex flex-col gap-1.5">
-      <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         <span>{label}</span>
         <span className="text-[color:var(--text-primary)]">{display}</span>
       </div>
@@ -591,10 +591,10 @@ export function GenerativeArtCanvas() {
                   : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]',
               ].join(' ')}
             >
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em]">{f.label}</span>
+              <span className="font-mono text-[12px] uppercase tracking-[0.24em]">{f.label}</span>
               <span
                 className={[
-                  'mt-0.5 font-mono text-[9.5px] tracking-[0.06em]',
+                  'mt-0.5 font-mono text-[12px] tracking-[0.06em]',
                   active ? 'text-[color:var(--assembl-paper)]/70' : 'text-[color:var(--text-secondary)]',
                 ].join(' ')}
               >
@@ -609,7 +609,7 @@ export function GenerativeArtCanvas() {
           above the built-in chips so Kate's own looks are one tap away. */}
       {myPresets.length > 0 && (
         <div className="flex flex-col gap-1.5">
-          <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <div className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             my presets · saved to this browser
           </div>
           <div className="flex flex-wrap gap-2">
@@ -618,7 +618,7 @@ export function GenerativeArtCanvas() {
                 <button
                   type="button"
                   onClick={() => applyMyPreset(sp)}
-                  className="px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                  className="px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
                   title={`seeded from ${sp.parentPresetId}`}
                 >
                   {sp.label}
@@ -627,7 +627,7 @@ export function GenerativeArtCanvas() {
                   type="button"
                   onClick={() => removeMyPreset(sp.id)}
                   aria-label="remove"
-                  className="border-l border-[color:var(--assembl-cloud)] px-2 font-mono text-[10.5px] text-[color:var(--text-secondary)] hover:bg-[color:var(--assembl-cloud)]/60 hover:text-[color:var(--text-primary)]"
+                  className="border-l border-[color:var(--assembl-cloud)] px-2 font-mono text-[12px] text-[color:var(--text-secondary)] hover:bg-[color:var(--assembl-cloud)]/60 hover:text-[color:var(--text-primary)]"
                 >
                   ×
                 </button>
@@ -649,7 +649,7 @@ export function GenerativeArtCanvas() {
               aria-selected={active}
               onClick={() => selectPreset(p.id)}
               className={[
-                'rounded-[2px] border px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] transition',
+                'rounded-[2px] border px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] transition',
                 active
                   ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                   : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -664,14 +664,14 @@ export function GenerativeArtCanvas() {
       {/* Drag hint — every family responds to pointer drag (Chrome uses
           orbit instead; Line adds shift+drag move via its own chip). */}
       {family.id !== 'chrome' && family.id !== 'line' && (
-        <div className="text-center font-mono text-[9.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+        <div className="text-center font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
           drag the canvas to shape it · sliders follow
         </div>
       )}
 
       {/* Aspect chips — universal control for the live canvas shape */}
       <div className="flex flex-wrap items-center gap-1.5">
-        <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+        <span className="mr-1 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
           canvas
         </span>
         {ASPECTS.map((a) => {
@@ -682,7 +682,7 @@ export function GenerativeArtCanvas() {
               type="button"
               onClick={() => setAspect(a.id)}
               className={[
-                'rounded-[2px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] transition',
+                'rounded-[2px] border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] transition',
                 active
                   ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                   : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -759,7 +759,7 @@ export function GenerativeArtCanvas() {
         <div className="flex flex-col gap-3 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
           {family.supportsBackground && (
             <div className="flex flex-col gap-2">
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <div className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 background
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -767,7 +767,7 @@ export function GenerativeArtCanvas() {
                   type="button"
                   onClick={() => setBackground(null)}
                   className={[
-                    'rounded-[2px] border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] transition',
+                    'rounded-[2px] border px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] transition',
                     state.background === null
                       ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                       : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -783,7 +783,7 @@ export function GenerativeArtCanvas() {
                       type="button"
                       onClick={() => setBackground(b.id)}
                       className={[
-                        'rounded-[2px] border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] transition',
+                        'rounded-[2px] border px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] transition',
                         active
                           ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                           : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -799,9 +799,9 @@ export function GenerativeArtCanvas() {
 
           {family.supportsText && (
             <div className="flex flex-col gap-2">
-              <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 <span>text</span>
-                <span className="text-[9.5px] tracking-[0.06em]">cormorant garamond · woven into the piece</span>
+                <span className="text-[12px] tracking-[0.06em]">cormorant garamond · woven into the piece</span>
               </div>
               <input
                 type="text"
@@ -819,21 +819,21 @@ export function GenerativeArtCanvas() {
 
       {/* Actions */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <div className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           {preset.blurb}
         </div>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={reseed}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
           >
             new seed
           </button>
           <button
             type="button"
             onClick={saveCurrent}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
             title="save this exact state to your browser"
           >
             save
@@ -841,7 +841,7 @@ export function GenerativeArtCanvas() {
           <button
             type="button"
             onClick={copyShareUrl}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
           >
             {copied === 'link' ? 'copied' : 'copy link'}
           </button>
@@ -851,7 +851,7 @@ export function GenerativeArtCanvas() {
                 value={socialSize}
                 onChange={(e) => setSocialSize(e.target.value)}
                 aria-label="Export size"
-                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em]"
+                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em]"
               >
                 {SOCIAL_SIZES.map((z) => (
                   <option key={z.id} value={z.id}>
@@ -862,7 +862,7 @@ export function GenerativeArtCanvas() {
               <button
                 type="button"
                 onClick={downloadPng}
-                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
               >
                 png
               </button>
@@ -872,7 +872,7 @@ export function GenerativeArtCanvas() {
             <button
               type="button"
               onClick={downloadSvg}
-              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
             >
               svg
             </button>
@@ -881,7 +881,7 @@ export function GenerativeArtCanvas() {
             <button
               type="button"
               onClick={downloadCode}
-              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
               title="download a self-contained html file that reproduces this piece offline"
             >
               code
@@ -891,7 +891,7 @@ export function GenerativeArtCanvas() {
             <button
               type="button"
               onClick={() => setExportOpen((v) => !v)}
-              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+              className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
               title="download at a preset social / print / wallpaper size"
             >
               export ▾
@@ -910,7 +910,7 @@ export function GenerativeArtCanvas() {
                         type="button"
                         onClick={() => setExportGroup(g.id)}
                         className={[
-                          'flex-1 px-2 py-2 font-mono text-[9.5px] uppercase tracking-[0.16em]',
+                          'flex-1 px-2 py-2 font-mono text-[12px] uppercase tracking-[0.16em]',
                           active
                             ? 'bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                             : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',
@@ -933,15 +933,15 @@ export function GenerativeArtCanvas() {
                         className="flex items-baseline justify-between gap-3 px-3 py-2 text-left hover:bg-[color:var(--assembl-cloud)]/60 disabled:opacity-60"
                       >
                         <div>
-                          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-primary)]">
+                          <div className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-primary)]">
                             {size.label}
                           </div>
-                          <div className="font-mono text-[9.5px] tracking-[0.06em] text-[color:var(--text-secondary)]">
+                          <div className="font-mono text-[12px] tracking-[0.06em] text-[color:var(--text-secondary)]">
                             {size.hint}
                           </div>
                         </div>
                         {busy && (
-                          <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                          <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                             rendering…
                           </span>
                         )}
@@ -958,7 +958,7 @@ export function GenerativeArtCanvas() {
               type="button"
               onClick={openShare}
               disabled={sharing}
-              className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] disabled:opacity-60"
+              className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] disabled:opacity-60"
             >
               {sharing ? 'sharing…' : 'share'}
             </button>
@@ -975,7 +975,7 @@ export function GenerativeArtCanvas() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setShareOpen(false)}
-                    className="px-3 py-2 text-left font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                    className="px-3 py-2 text-left font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
                   >
                     {intent.label}
                   </a>
@@ -986,7 +986,7 @@ export function GenerativeArtCanvas() {
                     copyShareUrl();
                     setShareOpen(false);
                   }}
-                  className="border-t border-[color:var(--assembl-cloud)] px-3 py-2 text-left font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
+                  className="border-t border-[color:var(--assembl-cloud)] px-3 py-2 text-left font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/60"
                 >
                   {copied === 'link' ? 'copied' : 'copy link'}
                 </button>
@@ -999,13 +999,13 @@ export function GenerativeArtCanvas() {
       {/* Text overlay controls */}
       <div className="flex flex-col gap-3 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
         <div className="flex items-center justify-between">
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">text</span>
+          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">text</span>
           <button
             type="button"
             aria-pressed={state.overlay.on}
             onClick={() => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, on: !prev.overlay.on } }))}
             className={[
-              'rounded-[2px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition',
+              'rounded-[2px] border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.16em] transition',
               state.overlay.on
                 ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                 : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
@@ -1025,7 +1025,7 @@ export function GenerativeArtCanvas() {
               style={{ fontFamily: OVERLAY_FONTS[state.overlay.font].css, fontWeight: state.overlay.weight }}
             />
             <div className="grid gap-3 sm:grid-cols-2">
-              <label className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <label className="flex flex-col gap-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 font
                 <select
                   value={state.overlay.font}
@@ -1042,26 +1042,26 @@ export function GenerativeArtCanvas() {
                       },
                     }));
                   }}
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[11px] normal-case text-[color:var(--text-primary)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[12px] normal-case text-[color:var(--text-primary)]"
                 >
                   {(Object.keys(OVERLAY_FONTS) as OverlayFont[]).map((f) => (
                     <option key={f} value={f}>{OVERLAY_FONTS[f].label}</option>
                   ))}
                 </select>
               </label>
-              <label className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <label className="flex flex-col gap-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 weight
                 <select
                   value={state.overlay.weight}
                   onChange={(e) => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, weight: Number(e.target.value) } }))}
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[11px] text-[color:var(--text-primary)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[12px] text-[color:var(--text-primary)]"
                 >
                   {OVERLAY_FONTS[state.overlay.font].weights.map((w) => (
                     <option key={w} value={w}>{w}</option>
                   ))}
                 </select>
               </label>
-              <label className="flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <label className="flex flex-col gap-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 size · {Math.round(state.overlay.size)}px
                 <input
                   type="range" min={12} max={200} step={1}
@@ -1077,7 +1077,7 @@ export function GenerativeArtCanvas() {
                     onClick={() => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, color: c } }))}
                     aria-pressed={state.overlay.color === c}
                     className={[
-                      'rounded-[2px] border px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]',
+                      'rounded-[2px] border px-2.5 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em]',
                       state.overlay.color === c
                         ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                         : 'border-[color:var(--assembl-cloud)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
@@ -1093,7 +1093,7 @@ export function GenerativeArtCanvas() {
                     onClick={() => setState((prev) => ({ ...prev, overlay: { ...prev.overlay, align: a } }))}
                     aria-pressed={state.overlay.align === a}
                     className={[
-                      'rounded-[2px] border px-2 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em]',
+                      'rounded-[2px] border px-2 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em]',
                       state.overlay.align === a
                         ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                         : 'border-[color:var(--assembl-cloud)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
@@ -1104,7 +1104,7 @@ export function GenerativeArtCanvas() {
                 ))}
               </div>
             </div>
-            <p className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               drag the text on the canvas to position it · baked into png exports
             </p>
           </>

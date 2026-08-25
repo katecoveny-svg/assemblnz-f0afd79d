@@ -86,7 +86,7 @@ export function AssemblMotto({ className = '' }: { className?: string }) {
     <span
       className={className}
       style={{
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: '0.16em',
         textTransform: 'uppercase',
         color: ASSEMBL_WARM_GREY,

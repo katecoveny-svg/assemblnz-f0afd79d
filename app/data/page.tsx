@@ -198,7 +198,7 @@ export default async function DataApiPage() {
                 }`}
               >
                 {tier.featured ? (
-                  <span className="mb-3 inline-flex w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-white">
+                  <span className="mb-3 inline-flex w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.18em] text-white">
                     Most watched
                   </span>
                 ) : null}
@@ -210,7 +210,7 @@ export default async function DataApiPage() {
                     {tier.price}
                   </span>
                   {tier.cadence ? (
-                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                       {tier.cadence}
                     </span>
                   ) : null}
@@ -229,7 +229,7 @@ export default async function DataApiPage() {
               </div>
             ))}
           </div>
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+          <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
             All prices NZD, GST exclusive · webhooks deliver as changes land
           </p>
         </div>
@@ -250,7 +250,7 @@ export default async function DataApiPage() {
               </p>
               <dl className="mt-8 space-y-5">
                 <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                  <dt className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                     Where your data lives
                   </dt>
                   <dd className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -259,7 +259,7 @@ export default async function DataApiPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                  <dt className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                     What you can build on it
                   </dt>
                   <dd className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">

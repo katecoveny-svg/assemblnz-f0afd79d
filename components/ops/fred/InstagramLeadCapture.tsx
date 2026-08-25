@@ -29,7 +29,7 @@ const glass: CSSProperties = {
 };
 
 const eyebrow: CSSProperties = {
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: MUTED,
@@ -179,9 +179,9 @@ export function InstagramLeadCapture({ onCaptured }: { onCaptured: (lead: Lead) 
             </span>
             <div>
               <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: '#111' }}>{IG_DM.handle}</p>
-              <p style={{ margin: 0, fontSize: 11, color: '#8E8E8E' }}>{IG_DM.when}</p>
+              <p style={{ margin: 0, fontSize: 12, color: '#8E8E8E' }}>{IG_DM.when}</p>
             </div>
-            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8E8E8E' }}>
+            <span style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8E8E8E' }}>
               direct
             </span>
           </div>
@@ -204,7 +204,7 @@ export function InstagramLeadCapture({ onCaptured }: { onCaptured: (lead: Lead) 
                 setRunning(true);
               }}
               style={{
-                fontSize: 11.5,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',

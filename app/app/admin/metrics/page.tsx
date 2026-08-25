@@ -35,7 +35,7 @@ export default async function MetricsPage() {
       <div className="mx-auto max-w-[1100px]">
         <header className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> evidence ledger
             </p>
             <h1
@@ -44,7 +44,7 @@ export default async function MetricsPage() {
             >
               metrics
             </h1>
-            <p className="mt-3 max-w-2xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+            <p className="mt-3 max-w-2xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
               brutally simple · six KPIs · tenant-wide · no per-vertical breakdown yet
             </p>
           </div>
@@ -53,7 +53,7 @@ export default async function MetricsPage() {
 
         {source === 'mock' ? (
           <div className="mt-7 rounded-[2px] border border-dashed border-[color:var(--assembl-gold-thread)] bg-white px-5 py-4">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-gold-thread)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-gold-thread)]">
               scaffold mode
             </p>
             <p className="mt-1 text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -65,7 +65,7 @@ export default async function MetricsPage() {
         ) : null}
         {error ? (
           <div className="mt-7 rounded-[2px] border border-[color:#b3261e]/30 bg-white px-5 py-4">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:#b3261e]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:#b3261e]">
               query error
             </p>
             <p className="mt-1 text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -86,7 +86,7 @@ export default async function MetricsPage() {
           </section>
         ) : null}
 
-        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[10.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
           {snapshot
             ? `last computed ${formatDate(snapshot.computed_at)}`
             : 'no snapshot available'}
@@ -140,13 +140,13 @@ function KpiGrid({ snapshot }: { snapshot: KpiSnapshot }) {
           key={c.label}
           className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-5 py-5"
         >
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             {c.label}
           </p>
           <p className="mt-2 font-display text-[32px] font-light leading-tight text-[color:var(--text-primary)]">
             {c.value}
           </p>
-          <p className="mt-1.5 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+          <p className="mt-1.5 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
             {c.hint}
           </p>
         </article>
@@ -166,10 +166,10 @@ function ChartCard({
 }) {
   return (
     <article className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white px-5 py-5">
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {title}
       </p>
-      <p className="mt-1 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+      <p className="mt-1 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
         {subtitle}
       </p>
       <div className="mt-3">{children}</div>

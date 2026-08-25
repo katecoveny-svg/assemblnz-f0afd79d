@@ -298,12 +298,12 @@ export default async function AgentStudioPage({ params }: { params: Promise<{ sl
                   {actions.map((t) => (
                     <li key={t.id} style={body}>
                       <span style={{ color: palette.ink }}>{t.name}</span>
-                      <span style={{ fontSize: 11.5 }}> · {TOOL_STATUS_LABELS[t.status]}</span>
+                      <span style={{ fontSize: 12 }}> · {TOOL_STATUS_LABELS[t.status]}</span>
                       <div style={{ ...body, fontSize: 12 }}>{t.description}</div>
                     </li>
                   ))}
                 </ul>
-                <p style={{ ...body, fontSize: 11.5, marginTop: 10 }}>
+                <p style={{ ...body, fontSize: 12, marginTop: 10 }}>
                   One connector layer for the apps you already run — scoped and connected during
                   a pilot, never behind your back.
                 </p>
@@ -330,7 +330,7 @@ export default async function AgentStudioPage({ params }: { params: Promise<{ sl
                   <span style={{ color: palette.ink }}>fits: </span>
                   {TIER_LABELS[profile.recommendedTier]}
                 </p>
-                <p style={{ ...body, fontSize: 11.5, marginTop: 8 }}>
+                <p style={{ ...body, fontSize: 12, marginTop: 8 }}>
                   Usage costs (voice minutes, SMS, premium models, third-party tools) are
                   separate and approved before launch.
                 </p>

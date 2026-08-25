@@ -63,7 +63,7 @@ export default function JackFishingPage() {
 
         <div className="flex flex-col gap-4">
           <GlassCard>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">gear right now</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">gear right now</p>
             <div className="mt-3 flex flex-col gap-2.5">
               {GEAR.map(([h, b]) => (
                 <div key={h} className="border-b border-[#bfa37a]/25 pb-2.5 last:border-0">
@@ -72,19 +72,19 @@ export default function JackFishingPage() {
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
+            <p className="mt-3 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">
               Braid + fluoro leader on a light 7ft spin rod (2500–4000 reel) covers most of it. Cheap and effective beats expensive.
             </p>
           </GlassCard>
 
           <GlassCard>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#C97B63]">rock &amp; wharf safety</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[#C97B63]">rock &amp; wharf safety</p>
             <ul className="mt-2 flex flex-col gap-1.5 text-[12px] leading-relaxed text-[color:var(--brand-ink)]">
               <li>Rock fishing is the highest-risk fishing in NZ — never alone, lifejacket on.</li>
               <li>Watch the swell for several sets, never turn your back, know your exit.</li>
               <li>Phone in a dry bag, helmet on the scooter, and tell a parent your plan.</li>
             </ul>
-            <a href="https://www.maritimenz.govt.nz/recreational" target="_blank" rel="noreferrer" className="mt-2 inline-block text-[11px] text-[#2E7D74] underline">
+            <a href="https://www.maritimenz.govt.nz/recreational" target="_blank" rel="noreferrer" className="mt-2 inline-block text-[12px] text-[#2E7D74] underline">
               Boating &amp; land-based safety ↗
             </a>
           </GlassCard>
@@ -96,16 +96,16 @@ export default function JackFishingPage() {
           <GlassCard key={a.name}>
             <div className="flex items-baseline justify-between gap-2">
               <p className="text-[13.5px] font-semibold text-[color:var(--brand-ink)]">{a.name}</p>
-              <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#9A7B3A]">on foot / scooter</span>
+              <span className="text-[12px] uppercase tracking-[0.14em] text-[#9A7B3A]">on foot / scooter</span>
             </div>
             <p className="mt-2 text-[12px] leading-relaxed text-[color:var(--brand-ink)]">{a.spots}</p>
             <p className="mt-2 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">{a.biting}</p>
-            <p className="mt-2 text-[10.5px] text-[color:var(--brand-muted)]">{a.access}</p>
+            <p className="mt-2 text-[12px] text-[color:var(--brand-muted)]">{a.access}</p>
           </GlassCard>
         ))}
       </div>
 
-      <p className="text-[11px] text-center text-[color:var(--brand-muted)]">
+      <p className="text-[12px] text-center text-[color:var(--brand-muted)]">
         Concept demo · well-known public spots + sample seasonal patterns. Check the real tide on{' '}
         <a href="https://www.linz.govt.nz/sea/tides" target="_blank" rel="noreferrer" className="text-[#2E7D74] underline">LINZ</a> and current size &amp; bag limits on{' '}
         <a href="https://www.fisheries.govt.nz/travel-and-recreation/fishing/fishing-rules/" target="_blank" rel="noreferrer" className="text-[#2E7D74] underline">MPI&rsquo;s NZ Fishing Rules</a>. Respect rāhui, reserves &amp; access, and use your own judgement on the water.

@@ -93,7 +93,7 @@ export function WaitStatesDemo() {
             <div
               style={{
                 fontFamily: 'var(--edr-mono), monospace',
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: '0.16em',
                 textTransform: 'uppercase',
                 color: 'rgba(255,255,255,0.7)',
@@ -117,7 +117,7 @@ export function WaitStatesDemo() {
             <div
               style={{
                 fontFamily: 'var(--edr-mono), monospace',
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: '0.16em',
                 textTransform: 'uppercase',
                 color: 'rgba(255,255,255,0.7)',
@@ -162,7 +162,7 @@ export function WaitStatesDemo() {
                   <span
                     style={{
                       fontFamily: 'var(--edr-mono), monospace',
-                      fontSize: 10,
+                      fontSize: 12,
                       color: EDR_BRAND.greyMid,
                     }}
                   >
@@ -172,7 +172,7 @@ export function WaitStatesDemo() {
                     <span
                       style={{
                         fontFamily: 'var(--edr-mono), monospace',
-                        fontSize: 9,
+                        fontSize: 12,
                         color: EDR_BRAND.successGreen,
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',
@@ -229,7 +229,7 @@ export function WaitStatesDemo() {
             <div
               style={{
                 fontFamily: 'var(--edr-mono), monospace',
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: '0.16em',
                 textTransform: 'uppercase',
                 color: EDR_BRAND.greyMid,
@@ -286,7 +286,7 @@ export function WaitStatesDemo() {
                 <div
                   style={{
                     fontFamily: 'var(--edr-mono), monospace',
-                    fontSize: 11,
+                    fontSize: 12,
                     color: EDR_BRAND.greyMid,
                     letterSpacing: '0.08em',
                   }}
@@ -311,7 +311,7 @@ export function WaitStatesDemo() {
                   <div
                     style={{
                       fontFamily: 'var(--edr-mono), monospace',
-                      fontSize: 9.5,
+                      fontSize: 12,
                       letterSpacing: '0.16em',
                       textTransform: 'uppercase',
                       color: 'rgba(255,255,255,0.85)',
@@ -396,7 +396,7 @@ function ReceiptView({
         <div
           style={{
             fontFamily: 'var(--edr-mono), monospace',
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
             color: 'rgba(255,255,255,0.85)',
@@ -427,7 +427,7 @@ function ReceiptView({
           >
             <span style={{ color: EDR_BRAND.charcoal }}>
               {m.label}
-              <span style={{ color: EDR_BRAND.greyMid, fontSize: 11 }}> · {m.sponsor}</span>
+              <span style={{ color: EDR_BRAND.greyMid, fontSize: 12 }}> · {m.sponsor}</span>
             </span>
             <span style={{ fontWeight: 700, color: EDR_BRAND.orange, fontVariantNumeric: 'tabular-nums' }}>
               +{m.pointsEarned}
@@ -448,7 +448,7 @@ function ReceiptView({
         <span
           style={{
             fontFamily: 'var(--edr-mono), monospace',
-            fontSize: 11,
+            fontSize: 12,
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
             color: EDR_BRAND.orange,
@@ -501,7 +501,7 @@ function ReceiptView({
           padding: '12px 14px',
           borderRadius: 12,
           background: EDR_BRAND.greyLight,
-          fontSize: 11.5,
+          fontSize: 12,
           lineHeight: 1.5,
           color: EDR_BRAND.greyMid,
         }}

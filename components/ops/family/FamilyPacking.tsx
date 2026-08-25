@@ -28,7 +28,7 @@ const KITS: Kit[] = [
 ];
 
 const chip = (active: boolean, color: string) => ({
-  fontSize: 11.5, fontWeight: 600, borderRadius: 999, padding: '5px 11px', cursor: 'pointer',
+  fontSize: 12, fontWeight: 600, borderRadius: 999, padding: '5px 11px', cursor: 'pointer',
   border: `1px solid ${active ? color : GOLD}55`, color: active ? '#fff' : INK, background: active ? color : 'transparent',
 });
 
@@ -48,7 +48,7 @@ export function FamilyPacking() {
       <div style={{ marginTop: 12, borderRadius: 12, border: `1px solid ${GOLD}33`, background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: 14 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
           <div style={{ fontSize: 14.5, fontWeight: 700, color: INK, fontFamily: 'var(--font-brand-display)' }}>{sel.label}</div>
-          <div style={{ fontSize: 11, color: MUTED }}>for {sel.who} · {sel.items.length} things</div>
+          <div style={{ fontSize: 12, color: MUTED }}>for {sel.who} · {sel.items.length} things</div>
         </div>
         <ul style={{ margin: '10px 0 0', paddingLeft: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: '3px 16px' }}>
           {sel.items.map((it) => <li key={it} style={{ fontSize: 12.5, color: INK }}>{it}</li>)}
@@ -62,7 +62,7 @@ export function FamilyPacking() {
             <button type="submit" style={{ fontSize: 12, fontWeight: 600, color: CORAL, background: 'transparent', border: `1.5px solid ${CORAL}`, borderRadius: 999, padding: '7px 13px', cursor: 'pointer' }}>Add a gear reminder to the week</button>
           </form>
         </div>
-        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 8 }}>“Text it” opens Messages with the list ready — you hit send. The reminder lands in the week as a draft for you to approve.</div>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 8 }}>“Text it” opens Messages with the list ready — you hit send. The reminder lands in the week as a draft for you to approve.</div>
       </div>
     </div>
   );

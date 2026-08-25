@@ -70,11 +70,11 @@ export default function MoanaCatchLog() {
           <h2 className="text-sm font-semibold text-[color:var(--brand-surface)]">
             Sample logbook (placeholder)
           </h2>
-          <p className="mt-1 text-[11.5px] leading-relaxed text-[color:var(--brand-muted)]">
+          <p className="mt-1 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">
             Illustrative entries — not real catches, spots or limits.
           </p>
           <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[520px] border-collapse text-[11.5px]">
+            <table className="w-full min-w-[520px] border-collapse text-[12px]">
               <thead>
                 <tr className="text-left text-[color:var(--brand-muted)]">
                   <th className="border-b border-white/10 py-2 pr-3 font-medium">Date</th>
@@ -101,7 +101,7 @@ export default function MoanaCatchLog() {
               </tbody>
             </table>
           </div>
-          <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
+          <p className="mt-3 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">
             Size and bag limits are set by MPI and differ by area (e.g. SNA1 vs SNA7). Always check
             the current rules — this table is not a limits reference.
           </p>

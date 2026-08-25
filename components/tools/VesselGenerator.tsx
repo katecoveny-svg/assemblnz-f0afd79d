@@ -107,7 +107,7 @@ export function VesselGenerator({ initialPreset }: Props) {
       {/* Left pane — controls */}
       <section className="space-y-7">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             Brand
           </p>
           <label htmlFor="brand-name" className="sr-only">
@@ -125,7 +125,7 @@ export function VesselGenerator({ initialPreset }: Props) {
         </div>
 
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             Brand colour
           </p>
           <div className="mt-2">
@@ -134,7 +134,7 @@ export function VesselGenerator({ initialPreset }: Props) {
         </div>
 
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             Subject (what should the vessel hold?)
           </p>
           <label htmlFor="vessel-prompt" className="sr-only">
@@ -190,7 +190,7 @@ export function VesselGenerator({ initialPreset }: Props) {
       {/* Right pane — preview */}
       <section className="relative">
         <div className="sticky top-8 space-y-4">
-          <div className="font-mono flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <div className="font-mono flex items-center justify-between text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             <span>Vessel preview</span>
             <span className="text-[color:var(--text-secondary)]">assembl covers generation</span>
           </div>
@@ -241,7 +241,7 @@ export function VesselGenerator({ initialPreset }: Props) {
               {shareToast && (
                 <span
                   role="status"
-                  className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#2B6B57]"
+                  className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#2B6B57]"
                 >
                   Link copied
                 </span>

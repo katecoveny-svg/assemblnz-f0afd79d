@@ -14,7 +14,7 @@ export function ScorecardResult({ scores, encoded }: { scores: Record<ScoreCateg
   return (
     <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
       <aside className="rounded-[8px] border border-[#3A3832]/45 bg-white/72 p-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#3A3832]">Total score</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#3A3832]">Total score</p>
         <p className="mt-4 font-display text-[clamp(4rem,10vw,7rem)] font-light leading-none text-[#3D4250]">
           {total} / 80
         </p>
@@ -35,17 +35,17 @@ export function ScorecardResult({ scores, encoded }: { scores: Record<ScoreCateg
           <article key={category} className="rounded-[8px] border border-[#C8BBA9]/70 bg-white/62 p-5">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3A3832]">Category {category}</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#3A3832]">Category {category}</p>
                 <h2 className="mt-2 font-display text-4xl font-light leading-none">{categoryLabels[category]}</h2>
               </div>
-              <span className="rounded-full border border-[#C8BBA9]/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[#5C6273]">
+              <span className="rounded-full border border-[#C8BBA9]/70 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[#5C6273]">
                 {categoryBand(scores[category])}
               </span>
             </div>
             <div className="mt-4 h-3 rounded-full bg-[#C8BBA9]/45">
               <div className="h-full rounded-full bg-[#3A3832]" style={{ width: `${(scores[category] / 16) * 100}%` }} />
             </div>
-            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[#5C6273]">{scores[category]} / 16</p>
+            <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.16em] text-[#5C6273]">{scores[category]} / 16</p>
             <ul className="mt-4 space-y-2 text-sm text-[#3D4250]">
               {categoryRecommendations(category, scores[category]).map((item) => (
                 <li key={item} className="flex gap-2">
@@ -57,7 +57,7 @@ export function ScorecardResult({ scores, encoded }: { scores: Record<ScoreCateg
           </article>
         ))}
         <article className="rounded-[8px] border border-[#D9A85A]/55 bg-[#D9A85A]/10 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#3D4250]">Top 3 recommendations</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#3D4250]">Top 3 recommendations</p>
           <ol className="mt-4 space-y-3 text-sm text-[#3D4250]">
             {topRecommendations(scores).map((item, index) => (
               <li key={`${item.category}-${item.text}`} className="flex gap-3">

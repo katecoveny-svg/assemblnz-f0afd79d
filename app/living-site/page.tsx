@@ -194,7 +194,7 @@ export default async function LivingSitePage() {
                     <p
                       style={{
                         margin: 'auto 0 0',
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 700,
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',

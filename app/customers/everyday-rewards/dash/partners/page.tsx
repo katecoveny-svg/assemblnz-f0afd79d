@@ -102,7 +102,7 @@ function PartnerRow({ p }: { p: (typeof PARTNERS)[number] }) {
             <span
               style={{
                 fontFamily: 'var(--edr-mono), monospace',
-                fontSize: 8,
+                fontSize: 12,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 color: EDR_BRAND.orangeDark,
@@ -224,7 +224,7 @@ export default function PartnersPage() {
             <div
               style={{
                 fontFamily: 'var(--edr-mono), monospace',
-                fontSize: 10,
+                fontSize: 12,
                 letterSpacing: '0.16em',
                 textTransform: 'uppercase',
                 color: EDR_BRAND.canary,

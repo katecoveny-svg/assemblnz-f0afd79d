@@ -25,7 +25,7 @@ const glass = (C: TonePalette): CSSProperties => ({
 });
 
 const eyebrow = (C: TonePalette): CSSProperties => ({
-  fontSize: 10,
+  fontSize: 12,
   letterSpacing: '0.16em',
   textTransform: 'uppercase',
   color: C.muted,
@@ -48,7 +48,7 @@ function SurfaceChip({ label, inverse }: { label: string; inverse?: boolean }) {
   return (
     <span
       style={{
-        fontSize: 10.5,
+        fontSize: 12,
         fontWeight: 700,
         letterSpacing: '0.04em',
         padding: '3px 8px',
@@ -256,7 +256,7 @@ function FactRow({
   };
 
   const chipBtn: CSSProperties = {
-    fontSize: 10.5,
+    fontSize: 12,
     fontWeight: 700,
     letterSpacing: '0.06em',
     textTransform: 'uppercase',
@@ -283,7 +283,7 @@ function FactRow({
             <span
               style={{
                 marginLeft: 8,
-                fontSize: 9.5,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
@@ -344,7 +344,7 @@ function FactRow({
 
       {saved ? (
         <div style={{ marginTop: 8 }}>
-          <p style={{ margin: 0, fontSize: 11.5, color: C.gold, fontWeight: 700 }}>
+          <p style={{ margin: 0, fontSize: 12, color: C.gold, fontWeight: 700 }}>
             ✓ saved — {fact.readBy.length} surface{fact.readBy.length === 1 ? '' : 's'} re-read this
             fact on their next load:
           </p>
@@ -355,7 +355,7 @@ function FactRow({
           </div>
         </div>
       ) : (
-        <p style={{ margin: '4px 0 0', fontSize: 11, color: updated ? C.gold : C.accentDeep, fontWeight: updated ? 700 : undefined }}>
+        <p style={{ margin: '4px 0 0', fontSize: 12, color: updated ? C.gold : C.accentDeep, fontWeight: updated ? 700 : undefined }}>
           {updated ? '✓ updated just now · ' : ''}
           read by {fact.readBy.length} surface{fact.readBy.length === 1 ? '' : 's'}
         </p>

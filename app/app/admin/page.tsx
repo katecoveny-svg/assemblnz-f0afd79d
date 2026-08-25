@@ -104,7 +104,7 @@ export default async function AdminHubPage() {
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[color:var(--text-primary)] md:px-10 md:py-16">
       <div className="mx-auto max-w-7xl">
         <header className="max-w-3xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             assembl / admin hub
           </p>
           <h1 className="mt-4 font-display text-[clamp(2.7rem,7vw,6rem)] font-light leading-[0.92]">
@@ -114,7 +114,7 @@ export default async function AdminHubPage() {
             This is the operator map. Chat lives here. Evidence lives here. Tōro drafts,
             routing logs, metrics, and imagery tools live here too.
           </p>
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             signed in as {email}
           </p>
         </header>
@@ -132,7 +132,7 @@ export default async function AdminHubPage() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)]">
                     <Icon className="h-4 w-4" aria-hidden />
                   </span>
-                  <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                     {item.label}
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export default async function AdminHubPage() {
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-secondary)]">
                   {item.body}
                 </p>
-                <span className="mt-auto inline-flex items-center pt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+                <span className="mt-auto inline-flex items-center pt-5 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   Open
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </span>
@@ -159,7 +159,7 @@ function NotAuthorised({ email }: { email: string }) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[color:var(--assembl-paper)] px-6">
       <div className="max-w-md rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
           not authorised
         </p>
         <h1 className="mt-3 font-display text-4xl font-light leading-none">

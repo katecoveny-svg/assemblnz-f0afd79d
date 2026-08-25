@@ -64,11 +64,11 @@ export function DataLiveCounter({ initial }: DataLiveCounterProps) {
               }}
             />
           </span>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
             {healthy ? 'live ingest' : 'source registry'}
           </p>
         </div>
-        <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
           checked {formatTime(stats.capturedAt)}
         </p>
       </div>
@@ -121,7 +121,7 @@ function Metric({
       <dd className="mt-3 font-display text-[clamp(1.8rem,4vw,2.8rem)] font-light leading-none text-[color:var(--text-primary)] tabular-nums">
         {value === null ? '—' : value.toLocaleString('en-NZ')}
       </dd>
-      <dt className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+      <dt className="mt-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
         {label}
       </dt>
     </div>

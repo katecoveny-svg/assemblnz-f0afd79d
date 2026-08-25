@@ -179,7 +179,7 @@ export default function HybridServicesPage() {
         <div className="relative container py-24 md:py-36">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 Operator-as-platform · Hybrid services
               </p>
             </SectionReveal>
@@ -228,7 +228,7 @@ export default function HybridServicesPage() {
               </div>
             </SectionReveal>
             <SectionReveal delay={0.5}>
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 NZ$1,490 / month + $590 setup · 50 outputs / month · {PRICING_NOTE}
               </p>
             </SectionReveal>
@@ -241,7 +241,7 @@ export default function HybridServicesPage() {
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 Pick your operator shape
               </p>
               <h2
@@ -269,7 +269,7 @@ export default function HybridServicesPage() {
                         className="h-5 w-5 text-[color:var(--assembl-pounamu)]"
                         aria-hidden
                       />
-                      <span className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+                      <span className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
                         {role.label}
                       </span>
                     </div>
@@ -283,7 +283,7 @@ export default function HybridServicesPage() {
                       {role.body}
                     </p>
                     <div className="mt-6 border-t border-[rgba(35,33,31,0.10)] pt-4">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                      <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                         Fits
                       </p>
                       <p className="mt-2 text-sm text-[color:var(--text-body)]">{role.fit}</p>
@@ -301,7 +301,7 @@ export default function HybridServicesPage() {
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 Five hybrid-service archetypes
               </p>
               <h2
@@ -330,7 +330,7 @@ export default function HybridServicesPage() {
                     <div className="flex items-center gap-3">
                       <Icon className="h-5 w-5" style={{ color: a.accent }} aria-hidden />
                       <span
-                        className="font-mono text-[11px] uppercase tracking-[0.22em]"
+                        className="font-mono text-[12px] uppercase tracking-[0.22em]"
                         style={{ color: a.accent }}
                       >
                         {a.domain}
@@ -346,7 +346,7 @@ export default function HybridServicesPage() {
 
                     <div className="mt-8 grid gap-6 md:grid-cols-2">
                       <div>
-                        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                           What the agent does
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -354,7 +354,7 @@ export default function HybridServicesPage() {
                         </p>
                       </div>
                       <div>
-                        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                           What the human does
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -362,7 +362,7 @@ export default function HybridServicesPage() {
                         </p>
                       </div>
                       <div>
-                        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                           Evidence pack
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -370,7 +370,7 @@ export default function HybridServicesPage() {
                         </p>
                       </div>
                       <div>
-                        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                           assembl primitives
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -397,7 +397,7 @@ export default function HybridServicesPage() {
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 Why this works on assembl
               </p>
               <h2

@@ -93,7 +93,7 @@ export function InboxExperience({
         <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-4 md:p-5">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                 {dateLabel} · {tenantName}
               </p>
               <h1 className="mt-2 font-display text-[clamp(2.4rem,6vw,5rem)] font-light leading-[0.9]">
@@ -113,7 +113,7 @@ export function InboxExperience({
                 type="button"
                 onClick={() => setFilter(item.id)}
                 className={[
-                  'whitespace-nowrap rounded-full border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors',
+                  'whitespace-nowrap rounded-full border px-3 py-2 font-mono text-[12px] uppercase tracking-[0.14em] transition-colors',
                   filter === item.id
                     ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-white'
                     : 'border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:bg-white',
@@ -176,7 +176,7 @@ export function InboxExperience({
                     <span className="font-display text-3xl font-light leading-none">
                       {group.agentName}
                     </span>
-                    <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                    <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                       {group.role} · {group.draftCount} drafts
                     </span>
                   </span>
@@ -192,7 +192,7 @@ export function InboxExperience({
                     {group.phaseGroups.map((phaseGroup) => (
                       <div key={phaseGroup.phase} className="mb-6 last:mb-0">
                         <div className="mb-3 flex items-center gap-3">
-                          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                             {phaseGroup.label}
                           </p>
                           <div className="h-px flex-1 bg-[rgba(35,33,31,0.08)]" />
@@ -272,10 +272,10 @@ function DraftCard({
         />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
               {draft.agentName} · {draft.phaseLabel}
             </span>
-            <span className="rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+            <span className="rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
               {draft.confidence == null ? 'confidence n/a' : `${Math.round(draft.confidence * 100)}%`}
             </span>
           </div>
@@ -291,7 +291,7 @@ function DraftCard({
               {draft.citations.map((citation) => (
                 <span
                   key={citation}
-                  className="whitespace-nowrap rounded-full border border-[rgba(212,168,83,0.35)] bg-white px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#7A5C1E]"
+                  className="whitespace-nowrap rounded-full border border-[rgba(212,168,83,0.35)] bg-white px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[#7A5C1E]"
                 >
                   {citation}
                 </span>
@@ -433,7 +433,7 @@ function BatchBar({
   return (
     <div className="sticky top-3 z-10 mt-4 rounded-[8px] border border-[rgba(43,107,87,0.22)] bg-white/95 p-3 shadow-[0_14px_44px_rgba(35,33,31,0.10)] backdrop-blur">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
           {selectedCount} selected
         </p>
         <div className="flex flex-wrap gap-2">
@@ -477,7 +477,7 @@ function BriefingSidebar({
       <BusinessPulseWidget brief={businessPulse} tenantSlug={tenantSlug} />
 
       <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           Today's briefing
         </p>
         <div className="mt-4 grid grid-cols-2 gap-3">
@@ -507,7 +507,7 @@ function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] p-3">
       <p className="font-display text-3xl font-light leading-none">{value}</p>
-      <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+      <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         {label}
       </p>
     </div>
@@ -517,7 +517,7 @@ function Metric({ label, value }: { label: string; value: number }) {
 function SidebarBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {title}
       </p>
       <div className="mt-4">{children}</div>

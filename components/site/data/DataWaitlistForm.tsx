@@ -116,7 +116,7 @@ export function DataWaitlistForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchIntent(value)}
-              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-dusty-rose)]/40 focus-visible:ring-offset-2 ${
+              className={`rounded-full px-4 py-2 font-mono text-[12px] uppercase tracking-[0.14em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-dusty-rose)]/40 focus-visible:ring-offset-2 ${
                 active
                   ? 'bg-[color:var(--assembl-deep-plum)] text-[color:var(--assembl-paper)]'
                   : 'text-[color:var(--assembl-muted-plum)] hover:text-[color:var(--assembl-deep-plum)]'
@@ -157,7 +157,7 @@ export function DataWaitlistForm() {
             <Field id={orgId} name="organisation" label="Organisation (optional)" placeholder="Firm or company" autoComplete="organization" />
           </div>
           <div>
-            <label htmlFor={useCaseId} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-muted-plum)]">
+            <label htmlFor={useCaseId} className="block font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-muted-plum)]">
               {copy.useCaseLabel}
             </label>
             <textarea
@@ -174,8 +174,8 @@ export function DataWaitlistForm() {
               <span
                 className={
                   useCase.length >= 900
-                    ? 'font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-[color:var(--assembl-dusty-rose)]'
-                    : 'font-mono text-[10px] uppercase tracking-[0.1em] text-[color:var(--assembl-muted-plum)]'
+                    ? 'font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[color:var(--assembl-dusty-rose)]'
+                    : 'font-mono text-[12px] uppercase tracking-[0.1em] text-[color:var(--assembl-muted-plum)]'
                 }
                 aria-hidden="true"
               >
@@ -230,7 +230,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-muted-plum)]">
+      <label htmlFor={id} className="block font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-muted-plum)]">
         {label}
         {required ? (
           <span className="ml-1 text-[color:var(--assembl-dusty-rose)]" aria-hidden="true">

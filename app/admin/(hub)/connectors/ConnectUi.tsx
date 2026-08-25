@@ -54,7 +54,7 @@ const goldButton: CSSProperties = {
 
 const ghostButton = (color: string): CSSProperties => ({
   fontFamily: MONO,
-  fontSize: 11,
+  fontSize: 12,
   letterSpacing: '0.04em',
   color,
   background: 'transparent',
@@ -136,7 +136,7 @@ function LinkModal({
           width: '100%',
         }}
       >
-        <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.gold }}>
+        <div style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.gold }}>
           connect link · {externalUserId}
         </div>
         <h3 style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 27, letterSpacing: '-0.01em', color: C.ink, margin: '8px 0 6px' }}>
@@ -150,7 +150,7 @@ function LinkModal({
         <div
           style={{
             fontFamily: MONO,
-            fontSize: 11.5,
+            fontSize: 12,
             color: C.ink,
             background: C.cream,
             border: `1px solid ${C.hairline}`,
@@ -211,7 +211,7 @@ export function MintForm({ apps }: { apps: AppOption[] }) {
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap' }}>
       <label style={{ flex: '1 1 260px' }}>
-        <span style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.muted, display: 'block', marginBottom: 6 }}>
+        <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.muted, display: 'block', marginBottom: 6 }}>
           external user id
         </span>
         <input
@@ -222,13 +222,13 @@ export function MintForm({ apps }: { apps: AppOption[] }) {
           style={input}
         />
         <span style={{ fontFamily: BODY, fontSize: 12, color: C.muted, display: 'block', marginTop: 5 }}>
-          <code style={{ fontFamily: MONO, fontSize: 11 }}>agent:&lt;slug&gt;</code> for a single agent&apos;s account ·{' '}
-          <code style={{ fontFamily: MONO, fontSize: 11 }}>tenant:&lt;slug&gt;</code> for a workspace
+          <code style={{ fontFamily: MONO, fontSize: 12 }}>agent:&lt;slug&gt;</code> for a single agent&apos;s account ·{' '}
+          <code style={{ fontFamily: MONO, fontSize: 12 }}>tenant:&lt;slug&gt;</code> for a workspace
         </span>
       </label>
 
       <label style={{ flex: '0 1 200px' }}>
-        <span style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.muted, display: 'block', marginBottom: 6 }}>
+        <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.muted, display: 'block', marginBottom: 6 }}>
           app (optional)
         </span>
         <select value={app} onChange={(e) => setApp(e.target.value)} style={{ ...input, cursor: 'pointer' }}>

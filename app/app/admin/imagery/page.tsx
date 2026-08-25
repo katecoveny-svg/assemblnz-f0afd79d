@@ -67,13 +67,13 @@ export default async function ImageryGuidePage() {
       <div className="mx-auto max-w-6xl">
         <Link
           href="/app/admin"
-          className="inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+          className="inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
         >
           Back to admin
         </Link>
 
         <header className="mt-8 max-w-3xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             imagery / source of truth
           </p>
           <h1 className="mt-4 font-display text-[clamp(2.6rem,7vw,5.8rem)] font-light leading-[0.92]">
@@ -101,7 +101,7 @@ export default async function ImageryGuidePage() {
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-secondary)]">
                   {item.body}
                 </p>
-                <span className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+                <span className="mt-5 inline-flex items-center font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   {item.cta}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </span>
@@ -111,7 +111,7 @@ export default async function ImageryGuidePage() {
         </section>
 
         <section id="source-map" className="mt-10 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[rgba(255,255,255,0.56)] p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
             Practical rule
           </p>
           <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">

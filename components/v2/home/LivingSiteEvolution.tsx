@@ -47,7 +47,7 @@ function SurfaceTile({ surface, index }: { surface: (typeof SURFACES)[number]; i
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
         <span
           aria-hidden
-          style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1, translate: '0 -2px' }}
+          style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1, translate: '0 -2px' }}
         >
           ●
         </span>
@@ -188,7 +188,7 @@ export function LivingSiteEvolution() {
             aria-hidden
             animate={reduced ? undefined : { opacity: [0.35, 1, 0.35] }}
             transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ color: palette.accentGold, fontSize: 11 }}
+            style={{ color: palette.accentGold, fontSize: 12 }}
           >
             ●
           </motion.span>

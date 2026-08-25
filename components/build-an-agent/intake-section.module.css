@@ -25,7 +25,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 
@@ -81,7 +81,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 
@@ -113,7 +113,7 @@
   right: 0.35rem;
   bottom: -1.4rem;
   font-family: var(--font-space-mono, 'Space Mono', monospace);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #a09b95;
   letter-spacing: 0.06em;
 }
@@ -132,7 +132,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .sampleRow {
@@ -232,7 +232,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .answerBadge {
@@ -261,7 +261,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .answerBusyDots {
@@ -325,7 +325,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: #6a6560;
 }
 .nameInput {
@@ -399,7 +399,7 @@
   font-family: var(--font-space-mono, 'Space Mono', monospace);
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   cursor: pointer;
   align-self: flex-start;
   padding: 0.2rem 0;

@@ -34,7 +34,7 @@ function Section({ title, rows }: { title: string; rows: typeof TRANSFERS }) {
               {t.from} → {t.to}
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="rounded-full px-3 py-1 text-[11px] font-medium" style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
+              <span className="rounded-full px-3 py-1 text-[12px] font-medium" style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
                 {t.compliance}
               </span>
               <DraftChip />

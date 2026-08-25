@@ -209,7 +209,7 @@ export default function TrustPage() {
                   aria-hidden
                   style={{
                     color: item.is ? palette.accentGold : palette.silverDeep,
-                    fontSize: 11,
+                    fontSize: 12,
                     lineHeight: '21px',
                   }}
                 >

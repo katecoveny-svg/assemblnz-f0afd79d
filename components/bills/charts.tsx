@@ -59,7 +59,7 @@ export function SpendTrendChart() {
           tickLine={false}
           axisLine={false}
           width={54}
-          tick={{ fill: BILLS.faint, fontSize: 11 }}
+          tick={{ fill: BILLS.faint, fontSize: 12 }}
           tickFormatter={(v) => `$${v}`}
         />
         <Tooltip contentStyle={tooltipStyle} formatter={(v, name) => [money(Number(v)), name === 'spend' ? 'Total bills' : 'Electricity']} />
@@ -95,7 +95,7 @@ export function CategoryDonut({ data = categorySplit }: { data?: CategorySlice[]
         </PieChart>
       </ResponsiveContainer>
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[11px] uppercase tracking-wide" style={{ color: BILLS.faint }}>
+        <span className="text-[12px] uppercase tracking-wide" style={{ color: BILLS.faint }}>
           per month
         </span>
         <span className="text-2xl font-bold" style={{ color: BILLS.ink, fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}>
@@ -136,7 +136,7 @@ export function SavingsBarChart() {
   return (
     <ResponsiveContainer width="100%" height={260}>
       <BarChart data={data} layout="vertical" margin={{ top: 4, right: 16, left: 8, bottom: 4 }}>
-        <XAxis type="number" tickLine={false} axisLine={false} tick={{ fill: BILLS.faint, fontSize: 11 }} tickFormatter={(v) => `$${v}`} />
+        <XAxis type="number" tickLine={false} axisLine={false} tick={{ fill: BILLS.faint, fontSize: 12 }} tickFormatter={(v) => `$${v}`} />
         <YAxis
           type="category"
           dataKey="name"

@@ -38,7 +38,7 @@ export function ArcHeroPanel({ waiting }: { waiting?: number }) {
       </div>
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${PALE}f2 0%, ${PALE}99 38%, transparent 66%)`, pointerEvents: 'none' }} />
       <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 clamp(24px,4vw,52px)', maxWidth: 580, pointerEvents: 'none' }}>
-        <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD }}>
+        <p style={{ fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD }}>
           toa architects × arc · concept
         </p>
         <h1 style={{ fontFamily: 'var(--font-brand-display)', fontSize: 'clamp(2rem,4.2vw,3.2rem)', fontWeight: 700, color: INK, margin: '10px 0 0', lineHeight: 1.04 }}>
@@ -48,7 +48,7 @@ export function ArcHeroPanel({ waiting }: { waiting?: number }) {
           ARC reads your projects, consents and consultants and answers with its sources — a live
           draft, held for you to approve.{typeof waiting === 'number' ? ` ${waiting} waiting this morning.` : ''}
         </p>
-        <p style={{ fontSize: 11, color: '#8a8a7e', marginTop: 16 }}>drag the model · concept demo</p>
+        <p style={{ fontSize: 12, color: '#8a8a7e', marginTop: 16 }}>drag the model · concept demo</p>
       </div>
     </div>
   );

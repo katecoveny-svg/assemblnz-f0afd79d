@@ -112,7 +112,7 @@ export function CustomsEntryTool() {
           }}
           className="rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3f7373]">Commercial invoice</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#3f7373]">Commercial invoice</p>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <Field label="Supplier / consignor">
@@ -154,8 +154,8 @@ export function CustomsEntryTool() {
           </div>
 
           <div className="mt-6 flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3f7373]">Line items</p>
-            <button type="button" onClick={addLine} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,125,110,0.3)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#3f7373] transition hover:bg-[#3f7373]/8">
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#3f7373]">Line items</p>
+            <button type="button" onClick={addLine} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,125,110,0.3)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-[#3f7373] transition hover:bg-[#3f7373]/8">
               <Plus className="h-3.5 w-3.5" aria-hidden /> Add line
             </button>
           </div>
@@ -194,7 +194,7 @@ export function CustomsEntryTool() {
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="flex flex-wrap items-center gap-2">
             {TRUST_BADGES.map((badge) => (
-              <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#313c42]">
+              <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[#313c42]">
                 <ShieldCheck className="h-3 w-3" aria-hidden /> {badge}
               </span>
             ))}
@@ -206,7 +206,7 @@ export function CustomsEntryTool() {
             </p>
           ) : (
             <div className="mt-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3f7373]">Customs entry draft</p>
+              <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#3f7373]">Customs entry draft</p>
 
               <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                 <Meta label="Supplier" value={`${draft.header.supplierName} · ${draft.header.supplierCountry}`} />
@@ -247,7 +247,7 @@ export function CustomsEntryTool() {
               </dl>
 
               <div className="mt-4 rounded-[8px] border border-[rgba(58,125,110,0.22)] bg-[#E7F1ED] p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3f7373]">Before your broker lodges</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#3f7373]">Before your broker lodges</p>
                 <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-[#3D4250]">
                   {draft.brokerChecklist.map((item) => (
                     <li key={item} className="flex gap-2">
@@ -258,7 +258,7 @@ export function CustomsEntryTool() {
                 </ul>
               </div>
 
-              <div className="mt-4 space-y-1.5 text-[11px] leading-relaxed text-[#6B6661]">
+              <div className="mt-4 space-y-1.5 text-[12px] leading-relaxed text-[#6B6661]">
                 {draft.notes.map((note) => (
                   <p key={note}>{note}</p>
                 ))}
@@ -294,7 +294,7 @@ const inputClass =
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">{label}</span>
+      <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">{label}</span>
       <div className="mt-1.5">{children}</div>
     </label>
   );
@@ -303,7 +303,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Meta({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
     <div>
-      <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B6661]">{label}</dt>
+      <dt className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#6B6661]">{label}</dt>
       <dd className={["mt-0.5", strong ? "font-medium text-[#313c42]" : "text-[#313c42]"].join(" ")}>{value}</dd>
     </div>
   );

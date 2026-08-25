@@ -25,7 +25,7 @@ export default function ConnectionsPage() {
                   </span>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{p.name}</p>
-                    <p className="text-[11px]" style={{ color: 'var(--b-muted)' }}>{p.note}</p>
+                    <p className="text-[12px]" style={{ color: 'var(--b-muted)' }}>{p.note}</p>
                   </div>
                 </div>
                 <div className="mt-2.5">
@@ -34,7 +34,7 @@ export default function ConnectionsPage() {
               </div>
             ))}
           </div>
-          <p className="mt-3 flex items-start gap-2 text-[11px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
+          <p className="mt-3 flex items-start gap-2 text-[12px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
             <ShieldCheck size={13} className="mt-0.5 shrink-0" />
             Secure OAuth (Gmail / Microsoft) isn’t wired for Bills yet — no `GMAIL_OAUTH` credentials on this environment, so we show an honest coming-next state rather than a dead button. When live it’s read-only; no email is stored beyond the bill details.
           </p>
@@ -59,7 +59,7 @@ export default function ConnectionsPage() {
               </div>
             ))}
           </div>
-          <p className="mt-3 text-[11px]" style={{ color: 'var(--b-faint)' }}>
+          <p className="mt-3 text-[12px]" style={{ color: 'var(--b-faint)' }}>
             On a real connect, assembl bills recognises NZ providers automatically and files each bill to the right category — the same extraction the Bills-tab upload already runs live.
           </p>
         </Card>

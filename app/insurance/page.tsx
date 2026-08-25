@@ -37,7 +37,7 @@ export default function InsurancePage() {
         />
         <div className="relative z-[1] mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               insurance gap analysis
             </p>
             <h1
@@ -177,7 +177,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="block font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+      <span className="block font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
         {label}
       </span>
       <span className="mt-2 block">{children}</span>

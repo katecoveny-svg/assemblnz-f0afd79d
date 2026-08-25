@@ -178,7 +178,7 @@ export function AdminLoginForm({ redirectTo }: { redirectTo: string }) {
             padding: 0,
             cursor: 'pointer',
             fontFamily: MONO,
-            fontSize: 11.5,
+            fontSize: 12,
             letterSpacing: '0.08em',
             color: palette.bodyGrey,
             textDecoration: 'underline',

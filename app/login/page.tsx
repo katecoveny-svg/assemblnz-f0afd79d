@@ -52,7 +52,7 @@ export default async function LoginPage({
           <div className="mt-8">
             {!envConfigured ? (
               <div className="rounded-[14px] border border-[rgba(172,88,56,0.30)] bg-[rgba(172,88,56,0.06)] p-5">
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-clay)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-clay)]">
                   Configuration missing
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">

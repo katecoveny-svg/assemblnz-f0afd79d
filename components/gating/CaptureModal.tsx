@@ -80,7 +80,7 @@ export function CaptureModal({
         >
           <X className="h-5 w-5" aria-hidden />
         </button>
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
           Keep going — free
         </p>
         <h2 id="capture-title" className="mt-3 font-display text-display-md font-light">

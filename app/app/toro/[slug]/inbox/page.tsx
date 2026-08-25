@@ -103,7 +103,7 @@ export default async function ToroInboxPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto max-w-[860px]">
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> tōro
         </p>
         <h1
@@ -112,19 +112,19 @@ export default async function ToroInboxPage() {
         >
           inbox
         </h1>
-        <p className="mt-3 max-w-xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+        <p className="mt-3 max-w-xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
           pending whānau approval · no reply ships without an explicit human click
         </p>
 
         {error ? (
           <div className="mt-10 rounded-[2px] border border-[color:var(--assembl-cloud)] bg-white p-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-red-700">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-red-700">
               could not load drafts
             </p>
             <p className="mt-2 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
               {error.message}
             </p>
-            <p className="mt-2 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            <p className="mt-2 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
               this usually means a recent toro_drafts or toro_draft_transitions
               migration hasn&apos;t been applied yet — run the migrations in
               supabase/migrations and refresh.
@@ -137,7 +137,7 @@ export default async function ToroInboxPage() {
             <p className="font-display text-[22px] font-light text-[color:var(--text-primary)]">
               kāore he karere — no pending drafts
             </p>
-            <p className="mt-2 font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+            <p className="mt-2 font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
               when a message comes in, tōro will draft a reply for you to review here
             </p>
           </div>
@@ -156,7 +156,7 @@ export default async function ToroInboxPage() {
           </ul>
         ) : null}
 
-        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[10.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
           tōro · hudson whānau pilot · single-tenant scaffold (multi-tenant follow-up)
         </footer>
       </div>

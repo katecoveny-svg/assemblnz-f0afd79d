@@ -114,7 +114,7 @@ export default function HapaiPage() {
         />
         <div className="relative z-[1] mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               built in aotearoa · SPARK
             </p>
             <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.2rem,6vw,5.8rem)] font-light leading-[0.92]">
@@ -157,7 +157,7 @@ export default function HapaiPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff]/8 via-transparent to-[#ffffff]/46" />
               <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#ffffff]/88 p-4 backdrop-blur">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   public tool library
                 </p>
                 <p className="mt-2 font-display text-2xl font-light leading-tight md:text-3xl">
@@ -172,7 +172,7 @@ export default function HapaiPage() {
       {/* Lede examples — lead with four ordinary jobs so the idea is concrete. */}
       <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             four ordinary jobs
           </p>
           <h2 className="mt-4 max-w-3xl font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-[0.96]">
@@ -191,7 +191,7 @@ export default function HapaiPage() {
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
                   {tool.job}
                 </p>
-                <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
+                <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
                   Open tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </span>
               </Link>
@@ -215,7 +215,7 @@ export default function HapaiPage() {
       <section className="border-b border-[rgba(35,33,31,0.10)] bg-[#f3f5f3] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               practical adoption
             </p>
             <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-light leading-[0.94]">
@@ -243,7 +243,7 @@ export default function HapaiPage() {
       <section id="tools" className="px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               public library
             </p>
             <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,4.8rem)] font-light leading-[0.94]">
@@ -267,14 +267,14 @@ export default function HapaiPage() {
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                       {tool.category}
                     </p>
                     <span
                       className={
                         tool.status === 'live'
-                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#313c42]'
-                          : 'rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]'
+                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[#313c42]'
+                          : 'rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]'
                       }
                     >
                       {tool.status}
@@ -318,7 +318,7 @@ export default function HapaiPage() {
                       </div>
                     </div>
                   ) : (
-                    <p className="mt-auto pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                    <p className="mt-auto pt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                       shipping soon
                     </p>
                   )}
@@ -338,7 +338,7 @@ export default function HapaiPage() {
       <section className="border-y border-[rgba(199,155,31,0.36)] bg-white/45 px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1fr] lg:items-center">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               industry pack
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.5rem)] font-light leading-[0.9]">

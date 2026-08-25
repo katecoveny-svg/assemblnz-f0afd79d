@@ -209,7 +209,7 @@ export default function AlphassemblLanding() {
                 'Ian Dunbar — Before/After You Get Your Puppy',
               ].map((s) => (
                 <li key={s} className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex h-5 shrink-0 items-center rounded px-1.5 text-[10px] font-bold text-white" style={{ background: 'var(--a-success)' }}>
+                  <span className="mt-0.5 inline-flex h-5 shrink-0 items-center rounded px-1.5 text-[12px] font-bold text-white" style={{ background: 'var(--a-success)' }}>
                     Trust A
                   </span>
                   <span>{s}</span>
@@ -251,7 +251,7 @@ export default function AlphassemblLanding() {
             >
               <span className="text-sm font-semibold" style={{ ...display, color: 'var(--a-navy)' }}>{i.name}</span>
               <span
-                className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide"
+                className="rounded-full px-2 py-0.5 text-[12px] font-bold uppercase tracking-wide"
                 style={
                   i.status === 'live'
                     ? { background: '#ecfdf3', color: '#17663a' }

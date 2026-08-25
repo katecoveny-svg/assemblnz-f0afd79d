@@ -76,7 +76,7 @@ export function Card({
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <p
-      className="font-mono text-[11px] uppercase tracking-[0.22em]"
+      className="font-mono text-[12px] uppercase tracking-[0.22em]"
       style={{ color: 'var(--tenant-muted)' }}
     >
       {children}
@@ -126,7 +126,7 @@ export function WelfarePill({ status }: { status: WelfareStatus }) {
   const s = styles[status];
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium"
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-medium"
       style={{ background: s.bg, color: s.fg }}
     >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.fg }} />
@@ -149,7 +149,7 @@ export function TonePill({ tone, children }: { tone: 'ok' | 'watch' | 'urgent'; 
   }[tone];
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium"
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-medium"
       style={{ background: styles.bg, color: styles.fg }}
     >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: styles.fg }} />
@@ -162,7 +162,7 @@ export function TonePill({ tone, children }: { tone: 'ok' | 'watch' | 'urgent'; 
 export function DraftChip({ children = 'Draft for review' }: { children?: ReactNode }) {
   return (
     <span
-      className="inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+      className="inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
       style={{ background: 'rgba(181,115,46,0.14)', color: '#8A5418' }}
     >
       {children}
@@ -174,7 +174,7 @@ export function DraftChip({ children = 'Draft for review' }: { children?: ReactN
 export function DemoTag({ children }: { children: ReactNode }) {
   return (
     <span
-      className="inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+      className="inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
       style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}
     >
       {children}
@@ -185,7 +185,7 @@ export function DemoTag({ children }: { children: ReactNode }) {
 export function TaongaBadge() {
   return (
     <span
-      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium"
+      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[12px] font-medium"
       style={{ background: 'rgba(181,115,46,0.14)', color: '#8A5418' }}
     >
       Taonga species · kaumātua-gated
@@ -201,7 +201,7 @@ export function KaumatuaHold({ note }: { note: string }) {
       className="rounded-xl border-l-4 p-4 text-[13px] leading-relaxed"
       style={{ borderColor: 'var(--tenant-accent)', background: 'rgba(181,115,46,0.07)', color: 'var(--tenant-ink)' }}
     >
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: '#8A5418' }}>
+      <p className="mb-1 font-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: '#8A5418' }}>
         Kaumātua hold · whakapapa held for iwi
       </p>
       {note}

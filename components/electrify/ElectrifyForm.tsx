@@ -106,7 +106,7 @@ export function ElectrifyForm() {
       <input type="hidden" name="routeType" value={routeType} />
 
       <div className="border-b border-[rgba(35,33,31,0.10)] pb-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
           {copy.eyebrow}
         </p>
         <h2 className="mt-2 font-display text-4xl font-light leading-none">{copy.title}</h2>
@@ -143,7 +143,7 @@ export function ElectrifyForm() {
                     className="mt-1"
                   />
                   <span className="min-w-0 flex-1">
-                    <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+                    <span className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
                       <Icon className="h-3.5 w-3.5" aria-hidden />
                       {route.label}
                     </span>

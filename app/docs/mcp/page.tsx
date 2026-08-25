@@ -9,7 +9,7 @@ export default function McpDocsPage() {
   return (
     <main className="min-h-screen bg-[#fffdfb] px-6 py-16 text-[#313c42]">
       <article className="mx-auto max-w-3xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#916A70]">assembl · mcp</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#916A70]">assembl · mcp</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em]">A governed doorway into Assembl.</h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-[#667176]">
           Assembl MCP lets authorised tools such as ChatGPT or Codex read work and proof, create proposed internal work, and place drafts into the human approval queue. MCP does not bypass the Assembl runtime, permissions, approvals or evidence ledger.

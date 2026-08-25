@@ -97,7 +97,7 @@ export function LoanCarsWorkspace({ cars, tenant }: Props) {
     <section className="mt-8 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside className="space-y-4">
         <div className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/70 p-4">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">CSV import</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">CSV import</p>
           <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">
             Paste-first pilot path. Export from the dealer system, import here, then review before any external action.
           </p>
@@ -119,14 +119,14 @@ export function LoanCarsWorkspace({ cars, tenant }: Props) {
         </div>
 
         <div className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/70 p-4">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">Filters</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">Filters</p>
           <div className="mt-3 grid gap-2">
             {FILTERS.map((item) => (
               <button
                 key={item}
                 type="button"
                 onClick={() => setFilter(item)}
-                className={`min-h-10 rounded-[8px] border px-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] transition ${
+                className={`min-h-10 rounded-[8px] border px-3 text-left font-mono text-[12px] uppercase tracking-[0.16em] transition ${
                   filter === item
                     ? 'border-[#C79B1F] bg-[rgba(43,107,87,0.10)] text-[#C79B1F]'
                     : 'border-[rgba(61,66,80,0.12)] bg-[#FAF7F2] text-[#9D8C7D] hover:text-[#3D4250]'
@@ -154,10 +154,10 @@ export function LoanCarsWorkspace({ cars, tenant }: Props) {
       <div className="min-w-0">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">Rooftop</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">Rooftop</p>
             <h2 className="mt-1 font-display text-3xl font-light">{tenant.name}</h2>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9D8C7D]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9D8C7D]">
             {filtered.length} showing · {cars.length} total
           </p>
         </div>
@@ -199,10 +199,10 @@ function LoanCarCard({
           <h3 className="font-display text-3xl font-light leading-none">
             {car.make} {car.model}
           </h3>
-          <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#9D8C7D]">{car.rego}</p>
+          <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#9D8C7D]">{car.rego}</p>
         </div>
         <span
-          className={`rounded-full border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] ${
+          className={`rounded-full border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.14em] ${
             overdue
               ? 'border-[rgba(217,168,90,0.45)] bg-[rgba(217,168,90,0.16)] text-[#8A6324]'
               : 'border-[rgba(43,107,87,0.26)] bg-[rgba(43,107,87,0.08)] text-[#C79B1F]'
@@ -214,11 +214,11 @@ function LoanCarCard({
 
       <dl className="mt-5 grid gap-3 text-sm">
         <div>
-          <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9D8C7D]">Borrower</dt>
+          <dt className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9D8C7D]">Borrower</dt>
           <dd className="mt-1 text-[#3D4250]">{car.borrower_name || 'Not assigned'}</dd>
         </div>
         <div>
-          <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9D8C7D]">Expected return</dt>
+          <dt className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9D8C7D]">Expected return</dt>
           <dd className="mt-1 text-[#3D4250]">{due ?? 'Not recorded'}</dd>
         </div>
       </dl>

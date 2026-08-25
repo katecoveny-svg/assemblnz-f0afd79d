@@ -25,7 +25,7 @@ export default async function EntriesQueue() {
       <div className="overflow-hidden air-card">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[color:var(--air-line)] bg-[color:var(--air-mist)] text-left text-[0.68rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">
+            <tr className="border-b border-[color:var(--air-line)] bg-[color:var(--air-mist)] text-left text-[0.75rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">
               <th className="px-4 py-3">Shipment</th>
               <th className="px-4 py-3">Importer / goods</th>
               <th className="hidden px-4 py-3 md:table-cell">Customs value</th>
@@ -41,13 +41,13 @@ export default async function EntriesQueue() {
                   <Link href={`/customers/aeronaut/pikau/entries/${e.id}`} className="font-mono text-xs font-semibold text-[color:var(--air-navy)] hover:underline">
                     {e.shipmentRef}
                   </Link>
-                  <p className="mt-0.5 text-[0.68rem] text-[color:var(--air-slate)]">{e.originCountry} → NZ</p>
+                  <p className="mt-0.5 text-[0.75rem] text-[color:var(--air-slate)]">{e.originCountry} → NZ</p>
                 </td>
                 <td className="px-4 py-3 align-top">
                   <Link href={`/customers/aeronaut/pikau/entries/${e.id}`} className="font-medium text-[color:var(--air-ink)] hover:underline">
                     {e.goods}
                   </Link>
-                  <p className="text-[0.72rem] text-[color:var(--air-slate)]">{e.importerName}</p>
+                  <p className="text-[0.75rem] text-[color:var(--air-slate)]">{e.importerName}</p>
                 </td>
                 <td className="hidden px-4 py-3 align-top md:table-cell">{formatMoney(e.plan.duty.customsValueNzd)}</td>
                 <td className="hidden px-4 py-3 align-top sm:table-cell">

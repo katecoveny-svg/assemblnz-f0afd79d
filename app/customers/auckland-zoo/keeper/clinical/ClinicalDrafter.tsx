@@ -88,7 +88,7 @@ export function ClinicalDrafter() {
                 <span className="block text-[13.5px] font-medium" style={{ color: 'var(--tenant-ink)' }}>
                   {t.label}
                 </span>
-                <span className="block text-[11.5px]" style={{ color: 'var(--tenant-muted)' }}>
+                <span className="block text-[12px]" style={{ color: 'var(--tenant-muted)' }}>
                   {t.hint}
                 </span>
               </span>
@@ -104,7 +104,7 @@ export function ClinicalDrafter() {
         >
           Keeper — draft the note
         </button>
-        <p className="mt-2 text-[11.5px] leading-snug" style={{ color: 'var(--tenant-muted)' }}>
+        <p className="mt-2 text-[12px] leading-snug" style={{ color: 'var(--tenant-muted)' }}>
           Keeper routes to the Zoo Vet specialist and drafts an unsigned SOAP note. A registered NZCCM
           veterinarian reviews and signs. assembl never examines an animal.
         </p>
@@ -188,7 +188,7 @@ function SoapNote({ note }: { note: ClinicalNote }) {
 
       {/* Mana Receipt stamps */}
       <div className="mt-5 rounded-xl p-4" style={{ background: 'var(--tenant-cream)' }}>
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: 'var(--tenant-primary-deep)' }}>
+        <p className="font-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: 'var(--tenant-primary-deep)' }}>
           Mana Receipt · Kaitiaki stamps
         </p>
         <p className="mt-2 text-[12.5px] leading-relaxed" style={{ color: 'var(--tenant-ink)' }}>
@@ -218,7 +218,7 @@ function SoapNote({ note }: { note: ClinicalNote }) {
 function StampField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="font-mono text-[9.5px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
+      <p className="font-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>
         {label}
       </p>
       <div className="mt-1 text-[12px] leading-relaxed" style={{ color: 'var(--tenant-ink)' }}>

@@ -36,7 +36,7 @@ function DraftCard({ draft }: { draft: CommsDraft }) {
       <div
         style={{
           fontFamily: 'var(--lula-mono), monospace',
-          fontSize: 11,
+          fontSize: 12,
           letterSpacing: '0.03em',
           color: B.inkSoft,
           marginBottom: 10,
@@ -94,7 +94,7 @@ function DraftCard({ draft }: { draft: CommsDraft }) {
             marginLeft: 'auto',
             alignSelf: 'center',
             fontFamily: 'var(--lula-mono), monospace',
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             color: B.inkSoft,

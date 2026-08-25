@@ -12,7 +12,7 @@ export default function ToroWelcomePage() {
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-16 text-[color:var(--text-primary)] md:px-12 md:py-24">
       <section className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             Tōro · family plan
           </p>
           <h1 className="mt-5 font-display text-[clamp(3.4rem,9vw,6.8rem)] font-normal leading-[0.92]">

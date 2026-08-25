@@ -19,7 +19,7 @@ export default function AratakiOperatorLayout({ children }: { children: React.Re
           >
             <ArrowLeft size={15} aria-hidden /> Back to the marketplace
           </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#9D8C7D]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#9D8C7D]">
             assembl · Arataki operator
           </span>
         </div>

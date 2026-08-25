@@ -27,7 +27,7 @@ export default async function WorkflowsPage({
         aria-hidden
       />
       <div className="relative mx-auto max-w-[1280px]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
           KETE WORKFLOWS · SPECIALIST PACKS
         </p>
         <h1 className="mt-5 max-w-5xl font-display text-[clamp(3.6rem,8vw,7.8rem)] font-light leading-none">

@@ -64,7 +64,7 @@ export function ConceptBadge() {
         background: EDR_BRAND.orangeLight,
         color: EDR_BRAND.orangeDark,
         fontFamily: 'var(--edr-mono), monospace',
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: '0.14em',
         textTransform: 'uppercase',
         fontWeight: 700,
@@ -91,7 +91,7 @@ export function Watermark({
         bottom: 14,
         right: 16,
         fontFamily: 'var(--edr-mono), monospace',
-        fontSize: 8,
+        fontSize: 12,
         letterSpacing: '0.16em',
         textTransform: 'uppercase',
         color: onDark ? 'rgba(255,255,255,0.7)' : 'rgba(58,71,78,0.5)',
@@ -150,7 +150,7 @@ export function CrossBrandLockup() {
       <span
         style={{
           fontFamily: 'var(--edr-mono), monospace',
-          fontSize: 9,
+          fontSize: 12,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
           color: '#8A8678',

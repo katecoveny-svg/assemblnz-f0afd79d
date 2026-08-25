@@ -44,7 +44,7 @@ export function KeteSpotlight({
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               {kete.industry} · {kete.meaning}
             </span>
             <h2
@@ -53,7 +53,7 @@ export function KeteSpotlight({
             >
               {kete.name}
             </h2>
-            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               {kete.englishName}
             </p>
             <p
@@ -79,7 +79,7 @@ export function KeteSpotlight({
 
               {count > 0 && (
                 <span
-                  className="font-mono text-[11px] uppercase tracking-[0.22em]"
+                  className="font-mono text-[12px] uppercase tracking-[0.22em]"
                   style={{ color: kete.accent }}
                 >
                   ◆ {count} {count === 1 ? 'agent' : 'agents'}

@@ -106,7 +106,7 @@ export function AskThisJourney({ data }: { data: ScenarioRun }) {
         <Card className={styles.assemble} style={{ maxWidth: 720 }} key={live.question}>
           <div style={{ fontWeight: 700, color: NAVY, fontSize: 16, marginBottom: 8 }}>{live.question}</div>
           <p style={{ fontSize: 14.5, lineHeight: 1.65, color: CHARCOAL, margin: 0, whiteSpace: 'pre-wrap' }}>{live.answer}</p>
-          <div style={{ fontSize: 11, color: GREY, marginTop: 12 }}>live agent · grounded in the concept knowledge base</div>
+          <div style={{ fontSize: 12, color: GREY, marginTop: 12 }}>live agent · grounded in the concept knowledge base</div>
         </Card>
       ) : null}
 
@@ -114,7 +114,7 @@ export function AskThisJourney({ data }: { data: ScenarioRun }) {
         <Card className={styles.assemble} style={{ maxWidth: 720 }} key={active.id}>
           <div style={{ fontWeight: 700, color: NAVY, fontSize: 16, marginBottom: 8 }}>{active.question}</div>
           <p style={{ fontSize: 14.5, lineHeight: 1.65, color: CHARCOAL, margin: 0 }}>{active.answer}</p>
-          <div style={{ fontSize: 11, color: GREY, marginTop: 12 }}>answered from this run&rsquo;s evidence</div>
+          <div style={{ fontSize: 12, color: GREY, marginTop: 12 }}>answered from this run&rsquo;s evidence</div>
         </Card>
       ) : null}
 

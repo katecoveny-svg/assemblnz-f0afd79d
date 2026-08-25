@@ -63,7 +63,7 @@ export default function OutputsPage() {
         />
         <div className="container py-20 lg:py-28">
           <div className="mx-auto max-w-3xl">
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               The catalogue · {OUTPUTS.length} named outputs
             </span>
             <h1 className="mt-5 font-display text-display-xl">
@@ -73,7 +73,7 @@ export default function OutputsPage() {
             <p className="mt-7 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Every assembl tool ends in a signed evidence pack.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               <span>9 kete + cross-cutting</span>
               <span aria-hidden>·</span>
               <span>{liveToolCount} runnable right now</span>
@@ -111,7 +111,7 @@ export default function OutputsPage() {
       <Suspense
         fallback={
           <div className="container pb-24">
-            <p className="mx-auto max-w-7xl font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="mx-auto max-w-7xl font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Loading the catalogue…
             </p>
           </div>

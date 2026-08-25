@@ -7,7 +7,7 @@ import { passwordSignInAction, sendMagicLinkAction } from './actions';
 const REMEMBER_STORAGE_KEY = 'assembl-remember-device';
 
 const labelClass =
-  'font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
+  'font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
 const inputClass =
   'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--assembl-gold,#BFA37A)] focus:ring-2 focus:ring-[rgba(191,163,122,0.35)]';
 const quietLinkClass =
@@ -92,7 +92,7 @@ export function LoginForm({
   if (sent) {
     return (
       <div className="rounded-card border border-[rgba(58,56,50,0.18)] bg-white/60 p-6 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-gold,#BFA37A)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-gold,#BFA37A)]">
           Check your inbox
         </p>
         <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">

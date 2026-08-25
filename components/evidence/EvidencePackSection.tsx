@@ -35,7 +35,7 @@ export function EvidencePackSection({ section, index }: SectionProps) {
           className="absolute -left-10 top-2"
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             color: '#8E8A82',
             letterSpacing: '0.18em',
           }}
@@ -84,7 +84,7 @@ export function EvidencePackSection({ section, index }: SectionProps) {
         className="mt-8"
         style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '0.62rem',
+          fontSize: '0.75rem',
           color: '#8E8A82',
           letterSpacing: '0.18em',
           textTransform: 'uppercase',
@@ -170,7 +170,7 @@ function BlockRenderer({ block }: { block: Block }) {
               className="mt-3 block"
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '0.7rem',
+                fontSize: '0.75rem',
                 color: '#5C5852',
                 fontStyle: 'normal',
                 letterSpacing: '0.18em',
@@ -224,7 +224,7 @@ function BlockRenderer({ block }: { block: Block }) {
                     className="px-3 py-2 text-left"
                     style={{
                       fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: '0.68rem',
+                      fontSize: '0.75rem',
                       letterSpacing: '0.18em',
                       textTransform: 'uppercase',
                       color: '#5C5852',
@@ -261,7 +261,7 @@ function BlockRenderer({ block }: { block: Block }) {
               className="mt-2"
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '0.65rem',
+                fontSize: '0.75rem',
                 color: '#8E8A82',
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
@@ -295,7 +295,7 @@ function BlockRenderer({ block }: { block: Block }) {
               className="mt-1"
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: '0.65rem',
+                fontSize: '0.75rem',
                 color: '#8E8A82',
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',

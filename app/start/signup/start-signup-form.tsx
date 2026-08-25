@@ -228,7 +228,7 @@ export function StartSignupForm({ initialKete }: { initialKete: KeteSlug }) {
             >
               <span
                 className={[
-                  'flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[10px]',
+                  'flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[12px]',
                   index < stepIndex
                     ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-white'
                     : 'border-[rgba(35,33,31,0.14)] text-[color:var(--text-secondary)]',
@@ -236,7 +236,7 @@ export function StartSignupForm({ initialKete }: { initialKete: KeteSlug }) {
               >
                 {index < stepIndex ? <Check className="h-3.5 w-3.5" aria-hidden /> : index + 1}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.16em]">
                 {step.label}
               </span>
             </div>
@@ -476,7 +476,7 @@ function KeteStep({
             <span className="mt-4 block font-display text-3xl font-light leading-none">
               {item.name}
             </span>
-            <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+            <span className="mt-2 block font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
               {item.industry}
             </span>
           </button>
@@ -520,7 +520,7 @@ function CheckoutStep({
               key={label}
               className="grid gap-1 border-b border-[rgba(35,33,31,0.08)] py-3 last:border-0 md:grid-cols-[130px_1fr]"
             >
-              <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <dt className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 {label}
               </dt>
               <dd className="text-sm text-[color:var(--text-primary)]">{value}</dd>
@@ -528,7 +528,7 @@ function CheckoutStep({
           ))}
         </dl>
         <div className="rounded-[8px] border border-[rgba(58,56,50,0.22)] bg-[rgba(58,56,50,0.08)] p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
             Monthly subscription
           </p>
           <p className="mt-4 font-display text-5xl font-light leading-none">
@@ -546,7 +546,7 @@ function CheckoutStep({
 function StepTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div>
-      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
         {eyebrow}
       </p>
       <h2 className="mt-3 font-display text-4xl font-light leading-none md:text-5xl">
@@ -579,7 +579,7 @@ function ModeButton({
       ].join(' ')}
     >
       <Icon className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
-      <span className="font-mono text-[11px] uppercase tracking-[0.14em]">{label}</span>
+      <span className="font-mono text-[12px] uppercase tracking-[0.14em]">{label}</span>
     </button>
   );
 }
@@ -603,12 +603,12 @@ function TextField({
 }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </span>
       <span className="mt-2 flex overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white focus-within:border-[color:var(--assembl-pounamu)] focus-within:ring-2 focus-within:ring-[rgba(58,56,50,0.20)]">
         {prefix ? (
-          <span className="flex items-center bg-[color:var(--assembl-paper)] px-3 font-mono text-[11px] text-[color:var(--text-secondary)]">
+          <span className="flex items-center bg-[color:var(--assembl-paper)] px-3 font-mono text-[12px] text-[color:var(--text-secondary)]">
             {prefix}
           </span>
         ) : null}

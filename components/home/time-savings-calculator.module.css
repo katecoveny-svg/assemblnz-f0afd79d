@@ -16,7 +16,7 @@
 .eyebrow {
   margin: 0;
   color: var(--muted);
-  font: 700 0.68rem/1.4 var(--font-mono), monospace;
+  font: 700 0.75rem/1.4 var(--font-mono), monospace;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -61,7 +61,7 @@
   border-radius: 50%;
   color: var(--deep);
   background: rgba(191, 163, 122, 0.16);
-  font: 700 0.7rem var(--font-mono), monospace;
+  font: 700 0.75rem var(--font-mono), monospace;
 }
 .rangeQuestion output { color: var(--deep); font: 500 1.55rem var(--font-display), Georgia, serif; }
 .rangeQuestion input { grid-column: 1 / -1; width: 100%; accent-color: var(--green); cursor: pointer; }
@@ -78,7 +78,7 @@
 .shareQuestion button strong,
 .shareQuestion button span { display: block; }
 .shareQuestion button strong { color: var(--deep); font: 500 1.35rem var(--font-display), Georgia, serif; }
-.shareQuestion button span { margin-top: 4px; font-size: 0.7rem; }
+.shareQuestion button span { margin-top: 4px; font-size: 0.75rem; }
 .shareQuestion button[aria-pressed='true'] { border-color: var(--green); background: rgba(191, 163, 122, 0.16); box-shadow: inset 0 -3px var(--green); }
 
 .result {
@@ -108,13 +108,13 @@
 .resultInner { position: relative; z-index: 1; display: flex; flex-direction: column; }
 .result > svg,
 .resultInner > svg { width: 28px; height: 28px; color: var(--gold); }
-.resultInner > p { margin: 24px 0 0; color: var(--muted); font: 700 0.65rem var(--font-mono), monospace; letter-spacing: 0.13em; text-transform: uppercase; }
+.resultInner > p { margin: 24px 0 0; color: var(--muted); font: 700 0.75rem var(--font-mono), monospace; letter-spacing: 0.13em; text-transform: uppercase; }
 .resultInner > strong { margin-top: 18px; font: 500 clamp(5rem, 10vw, 8.5rem)/0.72 var(--font-display), Georgia, serif; color: var(--deep); }
 .resultInner h3 { margin: 24px 0 0; font: 500 1.7rem/1 var(--font-display), Georgia, serif; color: var(--deep); }
 .resultFacts { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(26, 25, 24, 0.14); }
 .resultFacts span { color: var(--muted); font-size: 0.78rem; }
 .resultFacts b { color: var(--deep); }
-.resultInner small { margin-top: 18px; color: var(--muted); font-size: 0.69rem; line-height: 1.55; }
+.resultInner small { margin-top: 18px; color: var(--muted); font-size: 0.75rem; line-height: 1.55; }
 .resultActions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
 .resultActions a,
 .resultActions button {

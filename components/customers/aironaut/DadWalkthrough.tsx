@@ -61,7 +61,7 @@ export function DadWalkthrough({
       <div className="w-full max-w-xl rounded-2xl bg-white p-6 shadow-xl" style={{ backgroundColor: '#FBFAF6' }}>
         <div className="flex items-center justify-between">
           <span
-            className="text-[10px] uppercase"
+            className="text-[12px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
             step {i + 1} of {steps.length}
@@ -88,14 +88,14 @@ export function DadWalkthrough({
         <dl className="mt-4 space-y-1.5 rounded-xl border border-black/5 bg-white p-4">
           {step.rows.map((r) => (
             <div key={r.label} className="flex items-baseline justify-between gap-4">
-              <dt className="text-[11px] uppercase" style={{ letterSpacing: '0.08em', color: ASSEMBL_WARM_GREY }}>
+              <dt className="text-[12px] uppercase" style={{ letterSpacing: '0.08em', color: ASSEMBL_WARM_GREY }}>
                 {r.label}
               </dt>
               <dd className="text-right font-mono text-[12px]">{r.value}</dd>
             </div>
           ))}
         </dl>
-        <p className="mt-3 text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+        <p className="mt-3 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
           {step.footnote}
         </p>
 

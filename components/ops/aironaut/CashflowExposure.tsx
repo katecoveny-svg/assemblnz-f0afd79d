@@ -59,7 +59,7 @@ export function CashflowExposure({ accent }: { accent: string }) {
                 aria-pressed={isSel}
                 aria-label={`${w.label}: ${w.netK >= 0 ? 'plus' : 'minus'} $${Math.abs(w.netK)}k`}
               >
-                <span className="text-[11px] font-semibold" style={{ color: STATUS_COLOURS[w.status] }}>
+                <span className="text-[12px] font-semibold" style={{ color: STATUS_COLOURS[w.status] }}>
                   {w.netK >= 0 ? '+' : '−'}${Math.abs(w.netK)}k
                 </span>
                 <span
@@ -77,12 +77,12 @@ export function CashflowExposure({ accent }: { accent: string }) {
         </div>
         <div className="mt-1.5 grid grid-cols-6 gap-2">
           {cashflowWeeks.map((w) => (
-            <span key={w.label} className="text-center text-[10px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <span key={w.label} className="text-center text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               {w.label}
             </span>
           ))}
         </div>
-        <p className="mt-2 text-center text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+        <p className="mt-2 text-center text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
           click a bar to see what’s driving it
         </p>
       </div>
@@ -102,7 +102,7 @@ export function CashflowExposure({ accent }: { accent: string }) {
       ) : null}
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
         <span className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: STATUS_COLOURS.positive }} />
           ahead
@@ -116,7 +116,7 @@ export function CashflowExposure({ accent }: { accent: string }) {
           exposed
         </span>
       </div>
-      <p className="mt-3 text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+      <p className="mt-3 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
         {cashflowHeadline.out} · {cashflowHeadline.back} · sample month
       </p>
     </div>

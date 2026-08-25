@@ -42,7 +42,7 @@
 .eyebrow {
   margin: 0;
   color: #535853;
-  font: 700 .6rem/1.45 var(--font-mono), monospace;
+  font: 700 0.75rem/1.45 var(--font-mono), monospace;
   letter-spacing: .15em;
   text-transform: uppercase;
 }
@@ -96,9 +96,9 @@
   padding: 24px;
   border-top: 1px solid var(--line);
 }
-.heroFact span { color: #5d625d; font: 700 .58rem var(--font-mono), monospace; }
+.heroFact span { color: #5d625d; font: 700 0.75rem var(--font-mono), monospace; }
 .heroFact strong { display: block; font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; }
-.heroFact p { margin: 7px 0 0; color: #626762; font-size: .73rem; line-height: 1.55; }
+.heroFact p { margin: 7px 0 0; color: #626762; font-size: 0.75rem; line-height: 1.55; }
 
 .actions,
 .cardActions {
@@ -121,7 +121,7 @@
   border-radius: 12px;
   color: var(--ink);
   background: transparent;
-  font: 700 .6rem/1 var(--font-mono), monospace;
+  font: 700 0.75rem/1 var(--font-mono), monospace;
   letter-spacing: .08em;
   text-decoration: none;
   text-transform: uppercase;
@@ -182,14 +182,14 @@
   padding: 6px 8px;
   color: #505550;
   background: transparent;
-  font: 700 .52rem var(--font-mono), monospace;
+  font: 700 0.75rem var(--font-mono), monospace;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
 .status::before { width: 6px; height: 6px; border-radius: 50%; background: #848984; content: ''; }
 .live::before { background: #4a936e; box-shadow: 0 0 0 3px rgba(74,147,110,.13); }
 .concept::before { background: #777; }
-.number { color: #5e635e; font: 700 .58rem var(--font-mono), monospace; }
+.number { color: #5e635e; font: 700 0.75rem var(--font-mono), monospace; }
 
 .demoCard h3,.agentCard h3,.stepCard h3 {
   margin: 42px 0 0;
@@ -198,12 +198,12 @@
   letter-spacing: -.03em;
   text-transform: uppercase;
 }
-.label { margin: 11px 0 0; color: #58605a; font: 700 .55rem var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; }
+.label { margin: 11px 0 0; color: #58605a; font: 700 0.75rem var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; }
 .summary { margin: 22px 0 0; color: #4f544f; font-size: .84rem; line-height: 1.65; }
-.proof { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: #292c29; font-size: .72rem; line-height: 1.55; }
-.boundary { margin: 12px 0 0; color: #747974; font-size: .67rem; line-height: 1.55; }
+.proof { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: #292c29; font-size: 0.75rem; line-height: 1.55; }
+.boundary { margin: 12px 0 0; color: #747974; font-size: 0.75rem; line-height: 1.55; }
 .cardActions { margin-top: auto; padding-top: 26px; }
-.cardLink { min-height: 40px; padding-inline: 13px; font-size: .54rem; }
+.cardLink { min-height: 40px; padding-inline: 13px; font-size: 0.75rem; }
 
 .darkWrap { margin: 24px; overflow: hidden; color: #f2f2ed; background: #252d31; border-radius: 24px; }
 .darkSection { border-color: rgba(255,255,255,.2); }
@@ -229,8 +229,8 @@
   gap: 1px;
 }
 .truthBar div { padding: 22px; background: #f4f4ef; }
-.truthBar strong { display: block; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
-.truthBar span { display: block; margin-top: 7px; color: #676c67; font-size: .68rem; line-height: 1.5; }
+.truthBar strong { display: block; font-size: 0.75rem; letter-spacing: .04em; text-transform: uppercase; }
+.truthBar span { display: block; margin-top: 7px; color: #676c67; font-size: 0.75rem; line-height: 1.5; }
 
 @media (max-width: 900px) {
   .hero,.sectionHeader { grid-template-columns: 1fr; }

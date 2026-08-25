@@ -64,13 +64,13 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span
-                className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+                className="mk-mono rounded-full px-2.5 py-1 text-[12px] font-bold uppercase tracking-wide"
                 style={{ backgroundColor: PALETTE.cream, color: PALETTE.body }}
               >
                 {CATEGORY_LABELS[agent.category]}
               </span>
               <span
-                className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+                className="mk-mono rounded-full px-2.5 py-1 text-[12px] font-bold uppercase tracking-wide"
                 style={{ backgroundColor: `${PALETTE.accentGold}66`, color: PALETTE.ink }}
               >
                 {agentPriceLabel(agent)}
@@ -168,7 +168,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
         {agent.vertical ? (
           <div className="mt-6">
             <section className="rounded-[26px] p-6 md:p-8" style={SURFACE}>
-              <p className="mk-mono text-[11px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
+              <p className="mk-mono text-[12px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
                 For groups
               </p>
               <h2 className="mt-2 text-2xl" style={{ ...HEADLINE, color: PALETTE.ink }}>
@@ -264,7 +264,7 @@ function BulletList({ items }: { items: string[] }) {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl px-4 py-3" style={SURFACE}>
-      <p className="mk-mono text-[11px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
+      <p className="mk-mono text-[12px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
         {label}
       </p>
       <p className="mt-1 text-base font-bold" style={{ color: PALETTE.ink }}>

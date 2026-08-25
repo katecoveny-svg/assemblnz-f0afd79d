@@ -77,7 +77,7 @@ export default function RewardsPage() {
                 <div
                   style={{
                     fontFamily: 'var(--lula-mono), monospace',
-                    fontSize: 10.5,
+                    fontSize: 12,
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     color: B.brassDark,
@@ -123,7 +123,7 @@ export default function RewardsPage() {
           <div
             style={{
               fontFamily: 'var(--lula-mono), monospace',
-              fontSize: 10.5,
+              fontSize: 12,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
               color: B.brassDark,

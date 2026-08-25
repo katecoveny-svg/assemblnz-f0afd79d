@@ -8,7 +8,7 @@
 }
 .faqpg-main { max-width: 820px; margin: 0 auto; padding: 130px 24px 90px; }
 .faqpg-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.24em; text-transform: uppercase; color: #D4A843; margin: 0 0 26px;
 }
 .faqpg h1 {
@@ -29,7 +29,7 @@
 .faqt { margin-top: 44px; }
 .faqt-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
 .faqt-chips button {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.1em; text-transform: uppercase;
   padding: 8px 15px; border-radius: 999px; cursor: pointer;
   background: transparent; color: rgba(240,238,233,0.75);
@@ -67,13 +67,13 @@
 .faqt-a-row { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
 .faqt-copy {
   cursor: pointer; border-radius: 999px; padding: 8px 16px;
-  font: 700 0.72rem 'Jost', sans-serif;
+  font: 700 0.75rem 'Jost', sans-serif;
   background: transparent; color: #D4A843; border: 1px solid rgba(212,168,67,0.5);
   transition: all 0.24s ease;
 }
 .faqt-copy:hover { background: rgba(212,168,67,0.12); }
 .faqt-cat {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,238,233,0.45);
 }
 

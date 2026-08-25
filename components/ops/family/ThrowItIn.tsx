@@ -101,11 +101,11 @@ export function ThrowItIn() {
       <input type="hidden" name="from" value={from} />
       <input type="hidden" name="channel" value={channel} />
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED }}>throw it in</span>
+        <span style={{ fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED }}>throw it in</span>
         <div style={{ display: 'flex', gap: 4 }}>
           {FAMILY.map((p) => (
             <button key={p} type="button" onClick={() => setFrom(p)} style={{
-              fontSize: 11, fontWeight: 600, borderRadius: 999, padding: '3px 9px', cursor: 'pointer',
+              fontSize: 12, fontWeight: 600, borderRadius: 999, padding: '3px 9px', cursor: 'pointer',
               border: `1px solid ${from === p ? CORAL : GOLD}55`, color: from === p ? '#fff' : INK,
               background: from === p ? CORAL : 'transparent',
             }}>{p}</button>
@@ -116,7 +116,7 @@ export function ThrowItIn() {
           placeholder="“Mila’s netball moved to Saturday 10am” · anyone, any device"
           style={{ flex: 1, minWidth: 180, fontSize: 13, color: INK, border: 'none', outline: 'none', background: 'transparent', padding: '6px 2px' }} />
         <button type="button" onClick={toggleRecord} aria-label={rec ? 'stop recording' : 'record a voice note'} style={{
-          display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11.5, fontWeight: 600, cursor: 'pointer',
+          display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 600, cursor: 'pointer',
           borderRadius: 999, padding: '6px 10px', border: `1px solid ${rec ? CORAL : GOLD}66`,
           color: rec ? '#fff' : INK, background: rec ? CORAL : 'transparent',
         }}>
@@ -124,7 +124,7 @@ export function ThrowItIn() {
         </button>
         <DropButton />
       </div>
-      <div style={{ fontSize: 10.5, color: landed ? SAGE : note ? CORAL : MUTED, marginTop: 6 }} aria-live="polite">
+      <div style={{ fontSize: 12, color: landed ? SAGE : note ? CORAL : MUTED, marginTop: 6 }} aria-live="polite">
         {landed
           ? <><strong style={{ color: SAGE }}>landed</strong> — “{landed.text}” routed to the right tab · waiting for <strong style={{ color: SAGE }}>Kate</strong> in Approvals</>
           : note ?? <>routes to the right tab · lands for <strong style={{ color: SAGE }}>Kate</strong> to approve · nothing sent</>}

@@ -46,7 +46,7 @@ export default function SavingsPage() {
                 </div>
                 <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{s.note}</p>
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-[11px]" style={{ color: 'var(--b-faint)' }}>Source: {s.source}</span>
+                  <span className="text-[12px]" style={{ color: 'var(--b-faint)' }}>Source: {s.source}</span>
                   <ActionButton
                     kind="switch"
                     label="Switch"
@@ -58,7 +58,7 @@ export default function SavingsPage() {
               </div>
             ))}
           </div>
-          <p className="mt-4 text-[11px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
+          <p className="mt-4 text-[12px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
             “Switch” prepares a draft switching request for your approval at /admin/approvals. Nothing is switched automatically — always confirm current rates on the provider’s site or Powerswitch first.
           </p>
         </Card>

@@ -51,7 +51,7 @@ export function PipelineStickyScroll() {
           <div className="grid items-center gap-16 lg:grid-cols-2">
             {/* Left: pinned section heading + pipeline glyph visual */}
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 How it works
               </p>
               <h2
@@ -65,7 +65,7 @@ export function PipelineStickyScroll() {
 
               {/* Five-stage pipeline glyph row — always visible */}
               <div className="mt-12 hidden lg:block">
-                <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+                <p className="mb-4 font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                   Five-stage pipeline
                 </p>
                 <div className="flex items-center gap-4">
@@ -75,10 +75,10 @@ export function PipelineStickyScroll() {
                         <span className="font-display text-2xl text-[color:var(--assembl-soft-gold)]">
                           {stage.glyph}
                         </span>
-                        <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
+                        <span className="mt-1 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
                           {stage.name}
                         </span>
-                        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                           {stage.sub}
                         </span>
                       </div>

@@ -158,7 +158,7 @@ export default async function TenderDetailPage({
                 {kete.map(({ kete: k, score }) => (
                   <span
                     key={k.slug}
-                    className="text-[11px] font-mono px-2 py-0.5 rounded border"
+                    className="text-[12px] font-mono px-2 py-0.5 rounded border"
                     style={{ borderColor: k.accent, color: k.accent }}
                   >
                     {k.name} {score}

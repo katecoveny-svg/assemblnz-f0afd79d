@@ -158,19 +158,19 @@ export default async function BundlesPage() {
                             {agentNames.get(mem.slug) ?? mem.name ?? mem.slug}
                           </span>
                           {mem.is_bundle_lead && (
-                            <span style={{ fontFamily: MONO, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: C.goldEyebrow }}>
+                            <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', color: C.goldEyebrow }}>
                               LEAD
                             </span>
                           )}
                           {mem.status && mem.status !== 'live' && (
-                            <span style={{ fontFamily: MONO, fontSize: 9.5, color: C.muted }}>{mem.status}</span>
+                            <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>{mem.status}</span>
                           )}
                           <button
                             type="submit"
                             title={`Remove ${mem.slug} from ${b.slug}`}
                             style={{
                               fontFamily: MONO,
-                              fontSize: 11,
+                              fontSize: 12,
                               color: C.bad,
                               background: 'transparent',
                               border: 'none',

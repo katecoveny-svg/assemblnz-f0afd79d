@@ -21,7 +21,7 @@ export default function BankPage() {
           <BankCsvImport />
           <div className="mt-3 flex flex-wrap gap-1.5">
             {bankFormats.map((b) => (
-              <span key={b.bank} className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-muted)' }}>
+              <span key={b.bank} className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-medium" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-muted)' }}>
                 <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)' }} />
                 {b.bank}
               </span>
@@ -50,7 +50,7 @@ export default function BankPage() {
           </div>
           <div className="mt-3 grid grid-cols-5 gap-1.5">
             {bankFormats.map((b) => (
-              <span key={b.bank} className="rounded-lg px-1 py-2 text-center text-[10px] font-semibold" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-muted)' }}>
+              <span key={b.bank} className="rounded-lg px-1 py-2 text-center text-[12px] font-semibold" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-muted)' }}>
                 {b.short}
               </span>
             ))}
@@ -58,7 +58,7 @@ export default function BankPage() {
           <div className="mt-3">
             <NotifyInline kind="notify" target="Akahu open banking" label="Notify me when Akahu bank connection is live" />
           </div>
-          <p className="mt-2 text-[11px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
+          <p className="mt-2 text-[12px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
             Real Akahu access needs a commercial account + accredited-app registration under NZ’s Consumer Data Right. Not faked as working — this files a request for Kate to action.
           </p>
         </Card>
@@ -82,11 +82,11 @@ export default function BankPage() {
                     <span className="truncate text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>{r.merchant}</span>
                     <CategoryTag category={r.category} />
                   </div>
-                  <p className="text-[11px]" style={{ color: 'var(--b-muted)' }}>{r.note}</p>
+                  <p className="text-[12px]" style={{ color: 'var(--b-muted)' }}>{r.note}</p>
                 </div>
               </div>
               <span className="shrink-0 text-sm font-bold" style={{ color: 'var(--b-ink)' }}>
-                {money(r.amount)}<span className="text-[11px] font-normal" style={{ color: 'var(--b-faint)' }}> /{r.cadence === 'fortnightly' ? 'fn' : 'mo'}</span>
+                {money(r.amount)}<span className="text-[12px] font-normal" style={{ color: 'var(--b-faint)' }}> /{r.cadence === 'fortnightly' ? 'fn' : 'mo'}</span>
               </span>
             </div>
           ))}

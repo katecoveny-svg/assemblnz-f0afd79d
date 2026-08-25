@@ -34,7 +34,7 @@ export function CinematicMoment({
       >
         <div className="max-w-3xl border-l pl-6" style={{ borderColor: accent }}>
           {eyebrow && (
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               {eyebrow}
             </p>
           )}

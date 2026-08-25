@@ -15,7 +15,7 @@ export default function AratakiToolsPage() {
       <KeteAgentWidget kete="arataki" accent="#2B6B57" />
       <div className="mx-auto max-w-[1280px]">
         <header className="max-w-5xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#2B6B57]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[#2B6B57]">
             Arataki · dealer toolkit
           </p>
           <h1 className="mt-5 font-display text-[clamp(3.8rem,8vw,7rem)] font-light leading-none text-[#3D4250]">
@@ -31,7 +31,7 @@ export default function AratakiToolsPage() {
         <section className="mt-14 rounded-[8px] border border-[#C8BBA9]/70 bg-white/62 p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#2B6B57]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#2B6B57]">
                 Operator surface
               </p>
               <h2 className="mt-2 font-display text-4xl font-light leading-none">

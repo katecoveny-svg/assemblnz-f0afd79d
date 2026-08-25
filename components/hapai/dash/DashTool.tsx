@@ -106,7 +106,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
   body { margin: 0; background: #ffffff; color: #313c42; font: 16px/1.6 "Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 40px; }
   .mark { font-weight: 900; letter-spacing: -0.02em; color: #313c42; font-size: 22px; }
-  .eyebrow { font: 700 11px/1 "Space Mono",ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #b8964f; }
+  .eyebrow { font: 700 12px/1 "Space Mono",ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #b8964f; }
   h1 { font: 500 34px/1.05 'Cormorant Garamond', Georgia, serif; letter-spacing: -0.02em; margin: 12px 0 4px; color: #313c42; }
   .dash { width: 120px; height: 9px; background: #b8964f; border-radius: 999px; margin: 14px 0 18px; }
   .meta { color: #8A8678; font-size: 13px; margin-bottom: 24px; }
@@ -155,7 +155,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             <button
               type="button"
               onClick={loadSample}
-              className="font-mono rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-4 py-2 text-[10px] uppercase tracking-[0.12em] text-[#8A8678] transition hover:text-[#313c42]"
+              className="font-mono rounded-full border border-[rgba(35,33,31,0.10)] bg-white px-4 py-2 text-[12px] uppercase tracking-[0.12em] text-[#8A8678] transition hover:text-[#313c42]"
             >
               Load an example
             </button>
@@ -165,7 +165,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
         <div className="grid gap-4 md:grid-cols-2">
           {config.allowImage ? (
             <label className="md:col-span-2">
-              <span className="font-mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-[#8A8678]">
+              <span className="font-mono mb-2 block text-[12px] uppercase tracking-[0.22em] text-[#8A8678]">
                 {config.imageLabel ?? 'Upload a photo'}
               </span>
               <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[#D8CEB4] bg-white p-4">
@@ -213,7 +213,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
             const full = field.full || field.type === 'textarea';
             return (
               <label key={field.name} className={full ? 'md:col-span-2' : 'block'}>
-                <span className="font-mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-[#8A8678]">{field.label}</span>
+                <span className="font-mono mb-2 block text-[12px] uppercase tracking-[0.22em] text-[#8A8678]">{field.label}</span>
                 {field.type === 'textarea' ? (
                   <textarea
                     value={values[field.name] ?? ''}

@@ -100,13 +100,13 @@ export function UberDispatchCard({ spec }: { spec: UberDispatchSpec }) {
     >
       <div className="flex items-center gap-2">
         <span
-          className="mk-mono text-[10px] uppercase tracking-[0.18em]"
+          className="mk-mono text-[12px] uppercase tracking-[0.18em]"
           style={{ color: PALETTE.muted }}
         >
           {label}
         </span>
         {spec.pickup && spec.dropoff ? (
-          <span className="text-[11px]" style={{ color: PALETTE.body }}>
+          <span className="text-[12px]" style={{ color: PALETTE.body }}>
             {spec.pickup} → {spec.dropoff}
           </span>
         ) : null}
@@ -147,7 +147,7 @@ export function UberDispatchCard({ spec }: { spec: UberDispatchSpec }) {
               </p>
             </div>
           )}
-          <p className="mk-mono mt-2 text-[10px]" style={{ color: PALETTE.muted }}>
+          <p className="mk-mono mt-2 text-[12px]" style={{ color: PALETTE.muted }}>
             Draft only · no delivery is dispatched · you confirm every drop · Privacy Act 2020 IPP 3A
           </p>
         </div>

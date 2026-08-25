@@ -86,8 +86,8 @@ export function FamilyInbox({ status, connectState = null }: { status: InboxStat
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', border: `1px solid ${GOLD}44`, background: '#fbfcfb', borderRadius: 12, padding: '9px 13px' }}>
         <Dot on={connected} />
         <span style={{ fontSize: 12.5, fontWeight: 600, color: INK }}>Echo · always-on inbox</span>
-        <span style={{ fontSize: 11.5, color: MUTED }}>scans every 15 min · draft-only</span>
-        <span style={{ marginLeft: 'auto', fontSize: 11, color: MUTED }}>
+        <span style={{ fontSize: 12, color: MUTED }}>scans every 15 min · draft-only</span>
+        <span style={{ marginLeft: 'auto', fontSize: 12, color: MUTED }}>
           {connected
             ? `Connected${status?.provider ? ` · ${status.provider}` : ''}${status?.lastSyncLabel ? ` · last synced ${status.lastSyncLabel}` : ''}`
             : 'Not connected yet — showing a sample. Connect your inbox to go live.'}
@@ -96,10 +96,10 @@ export function FamilyInbox({ status, connectState = null }: { status: InboxStat
 
       {!connected ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
-          <span style={{ fontSize: 11, color: MUTED }}>Connect your inbox so newsletters + bills parse automatically:</span>
-          <a href="/api/family/inbox/connect/outlook" style={{ fontSize: 11.5, fontWeight: 600, color: '#fff', background: '#0F6CBD', textDecoration: 'none', borderRadius: 999, padding: '6px 12px' }}>Connect Outlook</a>
-          <a href="/api/family/inbox/connect/gmail" style={{ fontSize: 11.5, fontWeight: 600, color: INK, background: 'transparent', textDecoration: 'none', border: `1px solid ${GOLD}66`, borderRadius: 999, padding: '6px 12px' }}>Connect Gmail</a>
-          <span style={{ fontSize: 10, color: MUTED }}>authorise once — the sync’s deployed &amp; waiting</span>
+          <span style={{ fontSize: 12, color: MUTED }}>Connect your inbox so newsletters + bills parse automatically:</span>
+          <a href="/api/family/inbox/connect/outlook" style={{ fontSize: 12, fontWeight: 600, color: '#fff', background: '#0F6CBD', textDecoration: 'none', borderRadius: 999, padding: '6px 12px' }}>Connect Outlook</a>
+          <a href="/api/family/inbox/connect/gmail" style={{ fontSize: 12, fontWeight: 600, color: INK, background: 'transparent', textDecoration: 'none', border: `1px solid ${GOLD}66`, borderRadius: 999, padding: '6px 12px' }}>Connect Gmail</a>
+          <span style={{ fontSize: 12, color: MUTED }}>authorise once — the sync’s deployed &amp; waiting</span>
         </div>
       ) : null}
 
@@ -112,7 +112,7 @@ export function FamilyInbox({ status, connectState = null }: { status: InboxStat
         />
       </div>
 
-      <p style={{ fontSize: 11, color: MUTED, marginTop: 12 }}>
+      <p style={{ fontSize: 12, color: MUTED, marginTop: 12 }}>
         {connected ? 'Latest from your inbox' : '4 new · 1 newsletter · 1 sports · 1 bill · 1 enrolment'}
       </p>
 
@@ -120,17 +120,17 @@ export function FamilyInbox({ status, connectState = null }: { status: InboxStat
         {SAMPLE.map((it) => (
           <div key={it.subject} style={card}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-              <span style={{ fontSize: 9.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: CATEGORY_TONE[it.category] ?? MUTED, fontWeight: 700 }}>{it.category}</span>
+              <span style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: CATEGORY_TONE[it.category] ?? MUTED, fontWeight: 700 }}>{it.category}</span>
               <span style={{ fontSize: 13, fontWeight: 600, color: INK }}>{it.sender}</span>
-              {it.person ? <span style={{ fontSize: 11, color: MUTED }}>· {it.person}</span> : null}
+              {it.person ? <span style={{ fontSize: 12, color: MUTED }}>· {it.person}</span> : null}
             </div>
             <div style={{ fontSize: 12.5, color: INK, marginTop: 3 }}>{it.subject}</div>
-            <div style={{ fontSize: 11.5, color: MUTED, marginTop: 4, lineHeight: 1.5 }}>{it.note}</div>
+            <div style={{ fontSize: 12, color: MUTED, marginTop: 4, lineHeight: 1.5 }}>{it.note}</div>
           </div>
         ))}
       </div>
 
-      <p style={{ fontSize: 11, color: MUTED, marginTop: 10, lineHeight: 1.5 }}>
+      <p style={{ fontSize: 12, color: MUTED, marginTop: 10, lineHeight: 1.5 }}>
         Echo reads, sorts and drafts. Anything with money, transport, messaging or shopping lands in
         <strong style={{ color: INK }}> Approvals</strong> — it never replies, RSVPs or pays on its own.
       </p>

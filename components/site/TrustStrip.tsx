@@ -27,7 +27,7 @@ export function TrustStrip({ items }: { items: readonly string[] }) {
           {items.map((item) => (
             <li
               key={item}
-              className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] md:text-[11px]"
+              className="flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] md:text-[12px]"
             >
               <span
                 aria-hidden

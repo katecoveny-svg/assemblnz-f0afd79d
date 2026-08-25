@@ -44,15 +44,15 @@ export default async function DeadlinesPage() {
                   </div>
                   <div className="flex flex-wrap items-center gap-4 text-sm">
                     <div className="text-center">
-                      <p className="text-[0.62rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">ETA</p>
+                      <p className="text-[0.75rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">ETA</p>
                       <p>{e.input.etaIso ? formatNzDate(e.input.etaIso) : '—'}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[0.62rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">Cut-off</p>
+                      <p className="text-[0.75rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">Cut-off</p>
                       <p><Pill tone={tone}>{relativeDeadline(e.input.cutoffIso!, DEMO_NOW)}</Pill></p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[0.62rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">Missing</p>
+                      <p className="text-[0.75rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">Missing</p>
                       <p>{e.plan.missingDocuments.length === 0 ? <span className="text-[color:var(--air-ok)]">nothing</span> : <span className="text-[color:var(--air-warn)]">{e.plan.missingDocuments.length} doc{e.plan.missingDocuments.length === 1 ? '' : 's'}</span>}</p>
                     </div>
                   </div>

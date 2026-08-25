@@ -28,11 +28,11 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
       <div className="relative mb-5 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--workflow-accent)] shadow-[0_0_18px_rgba(58,56,50,0.22)]" aria-hidden />
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
             {kete.name} · {kete.englishName}
           </span>
         </div>
-        <span className="rounded-full border border-white/68 bg-white/48 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.13em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
+        <span className="rounded-full border border-white/68 bg-white/48 px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.13em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
           {workflow.live ? 'live' : 'preview'}
         </span>
       </div>
@@ -43,7 +43,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
         {workflow.description}
       </p>
       <div className="relative mt-5 flex flex-wrap items-center gap-2 text-[12.5px]">
-        <span className="rounded-full border border-white/64 bg-white/42 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--workflow-accent)] backdrop-blur-md">
+        <span className="rounded-full border border-white/64 bg-white/42 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--workflow-accent)] backdrop-blur-md">
           {workflow.priceLabel === 'Industry Pack' ? 'Kete pack' : workflow.priceLabel}
         </span>
       </div>

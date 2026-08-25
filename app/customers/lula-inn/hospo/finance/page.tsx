@@ -45,7 +45,7 @@ export default function FinancePage() {
           <span
             style={{
               fontFamily: 'var(--lula-mono), monospace',
-              fontSize: 10.5,
+              fontSize: 12,
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
               color: B.brassDark,

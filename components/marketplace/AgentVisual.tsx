@@ -92,7 +92,7 @@ function Frame({ title, children }: { title?: string; children: React.ReactNode 
       style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}
     >
       {title ? (
-        <p className="mk-mono mb-2 text-[10px] uppercase tracking-[0.18em]" style={{ color: PALETTE.muted }}>
+        <p className="mk-mono mb-2 text-[12px] uppercase tracking-[0.18em]" style={{ color: PALETTE.muted }}>
           {title}
         </p>
       ) : null}
@@ -111,7 +111,7 @@ export function AgentVisual({ spec }: { spec: VisualSpec }) {
               <p className="text-lg font-black leading-none" style={{ color: PALETTE.ink }}>
                 {it.value}
               </p>
-              <p className="mt-1 text-[11px]" style={{ color: PALETTE.body }}>
+              <p className="mt-1 text-[12px]" style={{ color: PALETTE.body }}>
                 {it.label}
               </p>
             </div>
@@ -154,16 +154,16 @@ export function AgentVisual({ spec }: { spec: VisualSpec }) {
           {spec.type === 'bar' ? (
             <BarChart data={spec.data} margin={{ top: 4, right: 8, bottom: 4, left: -16 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={PALETTE.hairline} />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: PALETTE.muted }} />
-              <YAxis tick={{ fontSize: 10, fill: PALETTE.muted }} />
+              <XAxis dataKey="name" tick={{ fontSize: 12, fill: PALETTE.muted }} />
+              <YAxis tick={{ fontSize: 12, fill: PALETTE.muted }} />
               <Tooltip />
               <Bar dataKey="value" fill={PALETTE.accentGold} radius={[4, 4, 0, 0]} />
             </BarChart>
           ) : (
             <LineChart data={spec.data} margin={{ top: 4, right: 8, bottom: 4, left: -16 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={PALETTE.hairline} />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: PALETTE.muted }} />
-              <YAxis tick={{ fontSize: 10, fill: PALETTE.muted }} />
+              <XAxis dataKey="name" tick={{ fontSize: 12, fill: PALETTE.muted }} />
+              <YAxis tick={{ fontSize: 12, fill: PALETTE.muted }} />
               <Tooltip />
               <Line type="monotone" dataKey="value" stroke={PALETTE.gold} strokeWidth={2} dot={false} />
             </LineChart>
@@ -223,7 +223,7 @@ function VideoBlock({ url, requestId }: { url?: string; requestId?: string }) {
       <div>
         <video src={videoUrl} controls playsInline className="w-full rounded-[12px]" />
         <div className="mt-2 text-right">
-          <a href={videoUrl} download className="mk-mono text-[11px] underline" style={{ color: PALETTE.gold }}>
+          <a href={videoUrl} download className="mk-mono text-[12px] underline" style={{ color: PALETTE.gold }}>
             Download
           </a>
         </div>
@@ -272,7 +272,7 @@ function AudioBlock({ script, voice }: { script: string; voice?: string }) {
 
   return (
     <div>
-      <p className="mk-mono mb-2 text-[10px] uppercase tracking-[0.18em]" style={{ color: PALETTE.muted }}>
+      <p className="mk-mono mb-2 text-[12px] uppercase tracking-[0.18em]" style={{ color: PALETTE.muted }}>
         {voice ?? 'assembl NZ voice'}
       </p>
       {phase === 'loading' ? <DashLoader label="Voicing the script…" width={64} /> : null}

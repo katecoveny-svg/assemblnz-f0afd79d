@@ -25,7 +25,7 @@ export default function ToaWalkPage() {
         <PersonalOpener />
         <Link
           href="/customers/toa-architects/ops"
-          className="shrink-0 rounded-full border px-3.5 py-1.5 text-[11px] font-semibold transition hover:bg-black/[0.03]"
+          className="shrink-0 rounded-full border px-3.5 py-1.5 text-[12px] font-semibold transition hover:bg-black/[0.03]"
           style={{ borderColor: 'rgba(0,0,0,0.15)', color: '#161516' }}
         >
           ← back to the workspace

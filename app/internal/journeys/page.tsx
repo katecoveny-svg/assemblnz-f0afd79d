@@ -42,7 +42,7 @@ export default async function JourneyOpsPage() {
   return (
     <main style={{ minHeight: '100dvh', background: '#f4f2ec', color: '#252d31', padding: 'clamp(1.5rem,4vw,3rem)', fontFamily: 'var(--font-body, system-ui, sans-serif)' }}>
       <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <p style={{ fontFamily: mono, fontSize: '0.66rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3f7373', margin: 0 }}>
+        <p style={{ fontFamily: mono, fontSize: '0.75rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#3f7373', margin: 0 }}>
           assembl · internal
         </p>
         <h1 style={{ fontFamily: 'var(--font-display, Georgia, serif)', fontSize: 'clamp(1.8rem,4vw,2.6rem)', margin: '0.4rem 0 1.5rem' }}>
@@ -143,10 +143,10 @@ function card(): CSSProperties {
   return { background: '#fff', border: '1px solid rgba(17,19,17,0.12)', borderRadius: 16, padding: 'clamp(1rem,3vw,1.75rem)', marginBottom: '1.25rem' };
 }
 function h2(): CSSProperties {
-  return { fontFamily: 'var(--font-mono, monospace)', fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3f7373', margin: '0 0 0.9rem' };
+  return { fontFamily: 'var(--font-mono, monospace)', fontSize: '0.75rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#3f7373', margin: '0 0 0.9rem' };
 }
 function th(): CSSProperties {
-  return { fontFamily: 'var(--font-mono, monospace)', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0 0.5rem 0.5rem 0' };
+  return { fontFamily: 'var(--font-mono, monospace)', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0 0.5rem 0.5rem 0' };
 }
 function td(): CSSProperties {
   return { padding: '0.5rem 0.5rem 0.5rem 0' };

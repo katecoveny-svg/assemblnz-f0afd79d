@@ -25,7 +25,7 @@ function TrustBadge({ trust }: { trust: 'A' | 'B' | 'C' }) {
   const s = map[trust];
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold uppercase tracking-[0.14em]"
       style={{
         background: s.bg,
         color: s.fg,
@@ -41,7 +41,7 @@ function SlideBody({ slide }: { slide: PoiSlide }) {
   return (
     <div className="flex flex-col gap-3">
       <h4
-        className="text-[11px] font-semibold uppercase tracking-[0.16em]"
+        className="text-[12px] font-semibold uppercase tracking-[0.16em]"
         style={{ color: '#8a744f', fontFamily: 'var(--font-brand-mono, monospace)' }}
       >
         {slide.heading}
@@ -64,7 +64,7 @@ function SlideBody({ slide }: { slide: PoiSlide }) {
                 </span>
                 {r.cite ? (
                   <span
-                    className="hidden shrink-0 text-[9.5px] uppercase tracking-wide sm:inline"
+                    className="hidden shrink-0 text-[12px] uppercase tracking-wide sm:inline"
                     style={{ color: CHAMPAGNE, fontFamily: 'var(--font-brand-mono, monospace)' }}
                   >
                     {r.cite}
@@ -87,7 +87,7 @@ function SlideBody({ slide }: { slide: PoiSlide }) {
       ) : null}
       {slide.note ? (
         <p
-          className="rounded-lg px-3 py-2 text-[11.5px] leading-relaxed"
+          className="rounded-lg px-3 py-2 text-[12px] leading-relaxed"
           style={{ background: 'rgba(191,163,122,0.1)', color: '#5c5240' }}
         >
           {slide.note}
@@ -150,7 +150,7 @@ export function PoiCard({ poi, onClose }: { poi: Poi; onClose: () => void }) {
           </span>
           <div className="flex-1">
             <p
-              className="text-[10px] uppercase tracking-[0.2em]"
+              className="text-[12px] uppercase tracking-[0.2em]"
               style={{ color: MUTED, fontFamily: 'var(--font-brand-mono, monospace)' }}
             >
               {poi.eyebrow}
@@ -181,13 +181,13 @@ export function PoiCard({ poi, onClose }: { poi: Poi; onClose: () => void }) {
             <TrustBadge trust={poi.trust} />
             {poi.draft ? (
               <span
-                className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+                className="rounded-full px-2.5 py-1 text-[12px] font-semibold uppercase tracking-[0.14em]"
                 style={{ background: 'rgba(22,21,22,0.06)', color: '#363a35' }}
               >
                 draft-only · nothing sends
               </span>
             ) : null}
-            <span className="text-[11px]" style={{ color: MUTED }}>
+            <span className="text-[12px]" style={{ color: MUTED }}>
               {poi.where}
             </span>
           </div>
@@ -246,7 +246,7 @@ export function PoiCard({ poi, onClose }: { poi: Poi; onClose: () => void }) {
             </div>
           ) : null}
           <p
-            className="text-[10.5px] leading-relaxed"
+            className="text-[12px] leading-relaxed"
             style={{ color: MUTED, fontFamily: 'var(--font-brand-mono, monospace)' }}
           >
             source · {poi.citation}

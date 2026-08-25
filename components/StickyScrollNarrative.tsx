@@ -93,7 +93,7 @@ export function StickyScrollNarrative({
                 className="flex min-h-[64vh] flex-col justify-center py-14 md:min-h-[72vh] md:py-10 xl:min-h-[76vh]"
               >
                 <p
-                  className="font-mono text-[11px] uppercase tracking-[0.32em]"
+                  className="font-mono text-[12px] uppercase tracking-[0.32em]"
                   style={{ color: accent }}
                 >
                   Stage {stage.number}
@@ -118,7 +118,7 @@ export function StickyScrollNarrative({
                     className="mt-6 max-w-md border-l-2 pl-4"
                     style={{ borderColor: accent }}
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Example
                     </p>
                     <p className="mt-1 font-display text-lg leading-snug text-[color:var(--text-primary)]">
@@ -191,7 +191,7 @@ export function StickyScrollNarrative({
                         key={stages[active].id}
                         className="absolute bottom-8 left-8 right-8 text-[#FFF7EC] transition-opacity duration-500 ease-out"
                       >
-                        <p className="font-mono text-[11px] uppercase tracking-[0.32em] opacity-70">
+                        <p className="font-mono text-[12px] uppercase tracking-[0.32em] opacity-70">
                           {stages[active].number}
                         </p>
                         <p className="mt-2 font-display text-3xl leading-tight">

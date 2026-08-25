@@ -40,7 +40,7 @@ export function ResultCard({
 
   return (
     <aside className="min-w-0 rounded-[8px] border bg-white/78 p-5 shadow-[0_20px_70px_rgba(61,66,80,0.08)]" style={{ borderColor: `${accent}66` }}>
-      <p className="font-mono text-[10px] uppercase tracking-[0.24em]" style={{ color: accent }}>
+      <p className="font-mono text-[12px] uppercase tracking-[0.24em]" style={{ color: accent }}>
         {eyebrow}
       </p>
       <p className="mt-4 break-words font-display text-[2rem] font-light leading-none text-[#3D4250] [overflow-wrap:anywhere] md:text-[clamp(3rem,8vw,5rem)]">

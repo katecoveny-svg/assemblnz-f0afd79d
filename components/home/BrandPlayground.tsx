@@ -271,7 +271,7 @@ export function BrandPlayground() {
           pointerEvents: 'none',
         }}
       >
-        <p style={{ margin: 0, color: '#8b7447', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, color: '#8b7447', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
           {PLAYGROUND.eyebrow}
         </p>
         <h2
@@ -440,7 +440,7 @@ export function BrandPlayground() {
                   left: 12,
                   bottom: 10,
                   color: MUTED,
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}
@@ -534,7 +534,7 @@ export function BrandPlayground() {
                 <figcaption
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 6 }}
                 >
-                  <span style={{ fontSize: 11, color: MUTED }}>{card.label}</span>
+                  <span style={{ fontSize: 12, color: MUTED }}>{card.label}</span>
                   <span style={{ display: 'inline-flex', gap: 10 }}>
                     <button
                       type="button"

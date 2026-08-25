@@ -98,7 +98,7 @@ export function BillsAdvisor() {
                   <p className="text-sm font-bold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
                     Bills advisor
                   </p>
-                  <p className="text-[11px]" style={{ color: 'var(--b-faint)' }}>
+                  <p className="text-[12px]" style={{ color: 'var(--b-faint)' }}>
                     Grounded in your NZ provider list · draft-mode
                   </p>
                 </div>
@@ -124,7 +124,7 @@ export function BillsAdvisor() {
                     {m.sources && m.sources.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {m.sources.map((s) => (
-                          <span key={s} className="rounded-md px-1.5 py-0.5 text-[10px] font-medium" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
+                          <span key={s} className="rounded-md px-1.5 py-0.5 text-[12px] font-medium" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
                             {s}
                           </span>
                         ))}
@@ -180,7 +180,7 @@ export function BillsAdvisor() {
                   <Send size={15} />
                 </button>
               </div>
-              <p className="mt-2 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--b-faint)' }}>
+              <p className="mt-2 flex items-center gap-1.5 text-[12px]" style={{ color: 'var(--b-faint)' }}>
                 <ShieldCheck size={12} /> Advice only. assembl bills never switches or cancels on its own — you approve every action.
               </p>
             </form>

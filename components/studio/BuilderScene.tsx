@@ -213,7 +213,7 @@ export function BuilderScene({ picks }: { picks: BuilderPicks }) {
   if (!webglOk) {
     return (
       <div className="flex h-full items-center justify-center rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[#FBFAF6] p-6 text-center">
-        <p className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] text-[color:var(--text-secondary)]">
           3D preview needs WebGL — your picks below still build the agent.
         </p>
       </div>
@@ -248,14 +248,14 @@ export function BuilderScene({ picks }: { picks: BuilderPicks }) {
 
       {!empty && (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between px-3 py-2.5">
-          <span className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
             drag a piece to move it · drag the background to orbit
           </span>
           {moved && (
             <button
               type="button"
               onClick={reset}
-              className="pointer-events-auto rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]"
+              className="pointer-events-auto rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]"
             >
               reset layout
             </button>
@@ -265,7 +265,7 @@ export function BuilderScene({ picks }: { picks: BuilderPicks }) {
 
       {empty && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
             your agent appears here
           </p>
         </div>

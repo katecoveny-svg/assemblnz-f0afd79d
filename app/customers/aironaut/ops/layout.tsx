@@ -98,7 +98,7 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
           <div className="relative flex flex-col items-center gap-4">
             <MatarikiCluster size={30} gold />
             <AssemblMotto />
-            <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            <span className="text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
               <AssemblWordmark /> × AIRONAUT · concept pilot · Aotearoa
             </span>
           </div>

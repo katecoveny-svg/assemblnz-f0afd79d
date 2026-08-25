@@ -179,7 +179,7 @@ export default async function AdminDashboardPage() {
           <PaperworkChecklist />
         </section>
 
-        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[10.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
           loaded {formatDateTime(new Date().toISOString())} · {email}
         </footer>
       </div>
@@ -221,7 +221,7 @@ async function loadAuditRowsSafe(): Promise<{ rows: AuditRow[]; error: string | 
 function Header({ email }: { email: string }) {
   return (
     <header>
-      <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> admin
       </p>
       <h1
@@ -230,7 +230,7 @@ function Header({ email }: { email: string }) {
       >
         dashboard
       </h1>
-      <p className="mt-3 max-w-2xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+      <p className="mt-3 max-w-2xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
         what is live · what is queued · what is next · signed in as {email.toLowerCase()}
       </p>
     </header>
@@ -248,13 +248,13 @@ function SectionHeading({
 }) {
   return (
     <div className="mb-4">
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--assembl-gold-thread)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-gold-thread)]">
         {label}
       </p>
       <h2 className="mt-1 font-display text-[24px] font-light leading-tight text-[color:var(--text-primary)]">
         {title}
       </h2>
-      <p className="mt-1 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+      <p className="mt-1 font-mono text-[12px] tracking-[0.04em] text-[color:var(--text-secondary)]">
         {subtitle}
       </p>
     </div>
@@ -312,13 +312,13 @@ function KeteAgentsTable({
                         {keteMeta?.name ?? pack}
                       </span>
                       {keteMeta?.industry ? (
-                        <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                        <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                           {keteMeta.industry}
                         </span>
                       ) : null}
                     </div>
                   ) : (
-                    <span className="font-mono text-[10.5px] text-[color:var(--text-secondary)]">
+                    <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                       ↳
                     </span>
                   )}
@@ -337,7 +337,7 @@ function KeteAgentsTable({
                   <StatusPill active={Boolean(a.is_active)} />
                 </Td>
                 <Td className="hidden md:table-cell">
-                  <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                     {formatDateTime(a.updated_at)}
                   </span>
                 </Td>
@@ -353,14 +353,14 @@ function KeteAgentsTable({
 function StatusPill({ active }: { active: boolean }) {
   if (active) {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-[2px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu-deep)]">
+      <span className="inline-flex items-center gap-1.5 rounded-[2px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu-deep)]">
         <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-pounamu)]" aria-hidden />
         active
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-[2px] bg-[color:var(--assembl-cloud)] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+    <span className="inline-flex items-center gap-1.5 rounded-[2px] bg-[color:var(--assembl-cloud)] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
       <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-sand)]" aria-hidden />
       inactive
     </span>
@@ -396,7 +396,7 @@ function DraftsTable({
               className="border-b border-[color:var(--assembl-cloud)] last:border-b-0"
             >
               <Td>
-                <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                   {formatDateTime(d.created_at)}
                 </span>
               </Td>
@@ -414,7 +414,7 @@ function DraftsTable({
                 </span>
               </Td>
               <Td className="hidden sm:table-cell">
-                <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                   {formatConfidence(d.confidence)}
                 </span>
               </Td>
@@ -422,7 +422,7 @@ function DraftsTable({
                 {/* Stub link — detail page is a separate ticket. */}
                 <Link
                   href={`/app/admin/dashboard/drafts/${d.id}`}
-                  className="font-mono text-[11px] text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
+                  className="font-mono text-[12px] text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
                 >
                   view →
                 </Link>
@@ -449,7 +449,7 @@ function DraftStatusPill({ status }: { status: string }) {
   const pal = palette[status] ?? { bg: 'var(--assembl-cloud)', fg: 'var(--text-secondary)' };
   return (
     <span
-      className="inline-flex rounded-[2px] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.1em]"
+      className="inline-flex rounded-[2px] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.1em]"
       style={{ backgroundColor: pal.bg, color: pal.fg }}
     >
       {status.replace(/_/g, ' ')}
@@ -490,7 +490,7 @@ function RoutingTable({
                 }`}
               >
                 <Td>
-                  <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                     {formatDateTime(r.created_at)}
                   </span>
                 </Td>
@@ -500,26 +500,26 @@ function RoutingTable({
                   </span>
                 </Td>
                 <Td>
-                  <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                     {r.selected_kete}
                   </span>
                 </Td>
                 <Td>
                   {failed ? (
-                    <span className="font-mono text-[11px] text-[#b3261e]">— failed</span>
+                    <span className="font-mono text-[12px] text-[#b3261e]">— failed</span>
                   ) : (
-                    <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                    <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                       {r.selected_agent}
                     </span>
                   )}
                 </Td>
                 <Td className="hidden sm:table-cell">
-                  <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                     {formatConfidence(r.confidence_score)}
                   </span>
                 </Td>
                 <Td className="hidden md:table-cell">
-                  <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                     {r.routing_time_ms ?? '—'}
                   </span>
                 </Td>
@@ -565,38 +565,38 @@ function AuditTable({ rows, error }: { rows: AuditRow[]; error: string | null })
                 }`}
               >
                 <Td>
-                  <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                     {formatDateTime(a.created_at)}
                   </span>
                 </Td>
                 <Td>
-                  <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                     {a.agent_name}
                   </span>
                   {a.pack_id ? (
-                    <span className="ml-2 font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]">
+                    <span className="ml-2 font-mono text-[12px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]">
                       {a.pack_id}
                     </span>
                   ) : null}
                 </Td>
                 <Td>
-                  <span className="font-mono text-[11px] text-[color:var(--text-primary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-primary)]">
                     {truncate(a.model_used, 32)}
                   </span>
                 </Td>
                 <Td>
                   {failed ? (
-                    <span className="inline-flex rounded-[2px] bg-[#fbe9e7] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#b3261e]">
+                    <span className="inline-flex rounded-[2px] bg-[#fbe9e7] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.1em] text-[#b3261e]">
                       {a.error_message ? 'error' : 'blocked'}
                     </span>
                   ) : (
-                    <span className="inline-flex rounded-[2px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-[color:var(--assembl-pounamu-deep)]">
+                    <span className="inline-flex rounded-[2px] bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.1em] text-[color:var(--assembl-pounamu-deep)]">
                       ok
                     </span>
                   )}
                 </Td>
                 <Td className="hidden md:table-cell">
-                  <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] text-[color:var(--text-secondary)]">
                     {a.duration_ms ?? '—'}
                   </span>
                 </Td>
@@ -605,7 +605,7 @@ function AuditTable({ rows, error }: { rows: AuditRow[]; error: string | null })
           })}
         </tbody>
       </table>
-      <p className="border-t border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] tracking-[0.08em] text-[color:var(--text-secondary)]">
+      <p className="border-t border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[12px] tracking-[0.08em] text-[color:var(--text-secondary)]">
         proxy view via audit_log · true edge-function logs (across all functions) needs a follow-up logs endpoint.
       </p>
     </div>
@@ -616,7 +616,7 @@ function NotAuthorised({ email }: { email: string }) {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-24">
       <div className="mx-auto max-w-md">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-gold-thread)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-gold-thread)]">
           not authorised
         </p>
         <h1
@@ -640,7 +640,7 @@ function NotAuthorised({ email }: { email: string }) {
 function Th({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <th
-      className={`px-4 py-3 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] ${className}`}
+      className={`px-4 py-3 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] ${className}`}
     >
       {children}
     </th>
@@ -654,7 +654,7 @@ function Td({ children, className = '' }: { children: React.ReactNode; className
 function EmptyPanel({ label }: { label: string }) {
   return (
     <div className="rounded-[2px] border border-dashed border-[color:var(--assembl-cloud)] bg-white px-5 py-6">
-      <p className="font-mono text-[11px] tracking-[0.08em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] tracking-[0.08em] text-[color:var(--text-secondary)]">
         {label}
       </p>
     </div>
@@ -664,14 +664,14 @@ function EmptyPanel({ label }: { label: string }) {
 function ErrorPanel({ message, hint }: { message: string; hint?: string }) {
   return (
     <div className="rounded-[2px] border border-[#b3261e]/30 bg-white px-5 py-4">
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#b3261e]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#b3261e]">
         query error
       </p>
       <p className="mt-1 text-[13px] leading-relaxed text-[color:var(--text-primary)]">
         {message}
       </p>
       {hint ? (
-        <p className="mt-2 font-mono text-[11px] text-[color:var(--text-secondary)]">{hint}</p>
+        <p className="mt-2 font-mono text-[12px] text-[color:var(--text-secondary)]">{hint}</p>
       ) : null}
     </div>
   );

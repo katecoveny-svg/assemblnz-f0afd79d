@@ -31,7 +31,7 @@ export default function AgentSchemaPage() {
   return (
     <main style={{ maxWidth: 780, margin: '0 auto', padding: '120px 24px 90px', fontFamily: "'Jost', sans-serif", lineHeight: 1.7 }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <p style={{ fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#B8964F' }}>
+      <p style={{ fontFamily: 'monospace', fontSize: 12, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#B8964F' }}>
         assembl · intuitive agentic customer journeys
       </p>
       <h1 style={{ fontWeight: 700, fontSize: 'clamp(1.8rem,4vw,2.8rem)', lineHeight: 1.15 }}>

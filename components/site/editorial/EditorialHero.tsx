@@ -33,7 +33,7 @@ export function EditorialHero() {
           {EDITORIAL_WORDMARK}
         </a>
         <nav
-          className="hidden items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-[#1A1918]/70 sm:flex"
+          className="hidden items-center gap-6 text-[12px] uppercase tracking-[0.22em] text-[#1A1918]/70 sm:flex"
           style={{ fontFamily: 'var(--font-mono)' }}
         >
           <a href="#gallery" className="transition-colors hover:text-[#1A1918]">Gallery</a>
@@ -48,7 +48,7 @@ export function EditorialHero() {
 
       <footer className="relative z-10 mt-10 flex flex-col gap-6 sm:mt-14 sm:flex-row sm:items-end sm:justify-between">
         <p
-          className="max-w-[36ch] text-[10px] uppercase leading-[1.6] tracking-[0.32em] text-[#1A1918]/70 sm:text-[11px]"
+          className="max-w-[36ch] text-[12px] uppercase leading-[1.6] tracking-[0.32em] text-[#1A1918]/70 sm:text-[12px]"
           style={{ fontFamily: 'var(--font-mono)' }}
         >
           {EDITORIAL_SUBLINE}

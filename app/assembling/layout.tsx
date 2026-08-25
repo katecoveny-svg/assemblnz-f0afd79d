@@ -62,7 +62,7 @@ function Wordmark({ size = 28 }: { size?: number }) {
       <span
         style={{
           fontFamily: 'var(--font-space-mono, monospace)',
-          fontSize: Math.max(9, Math.round(size * 0.34)),
+          fontSize: Math.max(12, Math.round(size * 0.34)),
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
           color: '#B8964F',
@@ -84,7 +84,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
       <div style={{ background: '#0A1626', overflow: 'hidden', whiteSpace: 'nowrap', padding: '9px 0', borderBottom: '1px solid rgba(240,238,233,.1)' }}>
         <div
           className="bd-marquee-track bd-mono"
-          style={{ fontSize: 11.5, letterSpacing: '.1em', color: '#BFA37A', textTransform: 'uppercase' }}
+          style={{ fontSize: 12, letterSpacing: '.1em', color: '#BFA37A', textTransform: 'uppercase' }}
         >
           {[0, 1].map((dup) =>
             MARQUEE_ITEMS.map((item, i) => (
@@ -187,7 +187,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
           <div
             className="bd-mono"
             style={{
-              fontSize: 11.5,
+              fontSize: 12,
               letterSpacing: '.1em',
               color: '#bdb592',
               textTransform: 'uppercase',

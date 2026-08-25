@@ -56,7 +56,7 @@ export function KnowledgeSyncPill({
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[12px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm ${className}`}
       title={
         fresh
           ? 'NZ Customs Working Tariff — synced daily (HS 2022 codes + section effective dates) · Trust: A'

@@ -48,7 +48,7 @@ export function PilotGate({ next }: { next?: string }) {
           </span>
           <div style={{ lineHeight: 1.2 }}>
             <div style={{ fontFamily: 'Georgia, serif', fontSize: 20, color: '#22271F' }}>Auckland Zoo × Keeper</div>
-            <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#5E655A' }}>
+            <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#5E655A' }}>
               Concept · pending — private preview
             </div>
           </div>
@@ -112,7 +112,7 @@ export function PilotGate({ next }: { next?: string }) {
           </form>
         </div>
 
-        <p style={{ marginTop: 16, textAlign: 'center', fontSize: 11, color: '#5E655A' }}>
+        <p style={{ marginTop: 16, textAlign: 'center', fontSize: 12, color: '#5E655A' }}>
           Built by assembl · Aotearoa. Not affiliated with or endorsed by Auckland Zoo.
         </p>
       </div>

@@ -49,7 +49,7 @@ function KeteOptionButton({
       <span className="font-display text-[22px] font-normal leading-tight text-[color:var(--text-primary)]">
         {option.label}
       </span>
-      <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+      <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
         {option.pillar}
       </span>
     </button>

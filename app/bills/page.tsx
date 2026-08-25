@@ -47,7 +47,7 @@ export default function BillsLanding() {
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 pb-8 pt-6 md:grid-cols-[1.05fr_0.95fr] md:pt-12">
         <div>
           <Reveal>
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }}>
+            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.14em]" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }}>
               <Sparkles size={12} /> Built in Aotearoa · beta waitlist open
             </span>
           </Reveal>
@@ -89,7 +89,7 @@ export default function BillsLanding() {
 
       {/* Provider marquee */}
       <div className="mx-auto max-w-6xl px-6 pb-14">
-        <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-faint)' }}>Knows every NZ provider</p>
+        <p className="mb-2 text-center text-[12px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-faint)' }}>Knows every NZ provider</p>
         <ProviderMarquee />
       </div>
 
@@ -101,7 +101,7 @@ export default function BillsLanding() {
               <div className="rounded-2xl p-5" style={{ background: '#FFFFFF', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
                 <div className="text-3xl font-semibold" style={{ ...display, color: 'var(--b-teal)', filter: 'drop-shadow(0 0 14px rgba(43,107,87,0.35))' }}>{c.stat}</div>
                 <div className="mt-1.5 text-xs leading-snug" style={{ color: 'var(--b-muted)' }}>{c.body}</div>
-                <div className="mt-1.5 text-[10px]" style={{ color: 'var(--b-faint)' }}>{c.source}</div>
+                <div className="mt-1.5 text-[12px]" style={{ color: 'var(--b-faint)' }}>{c.source}</div>
               </div>
             </Reveal>
           ))}
@@ -138,7 +138,7 @@ export default function BillsLanding() {
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-teal)' }}>Why it’s different</span>
+              <span className="text-[12px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-teal)' }}>Why it’s different</span>
               <span className="h-px flex-1" style={{ background: 'linear-gradient(90deg, var(--b-teal-line), transparent)' }} />
             </div>
             <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '0.01em' }}>

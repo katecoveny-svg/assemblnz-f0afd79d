@@ -26,7 +26,7 @@ export function Flagship16A() {
             sizes="(max-width: 768px) 90vw, 380px"
             className="object-cover"
           />
-          <span className="absolute left-3 top-3 rounded bg-black/70 px-2 py-0.5 text-[10px] uppercase tracking-wide text-white">
+          <span className="absolute left-3 top-3 rounded bg-black/70 px-2 py-0.5 text-[12px] uppercase tracking-wide text-white">
             16C · concept render
           </span>
         </div>
@@ -45,7 +45,7 @@ export function Flagship16A() {
             {toa16A.facts.map((f) => (
               <span
                 key={f}
-                className="rounded-full bg-[color:var(--brand-bg)] px-2.5 py-1 text-[11px] text-[color:var(--brand-muted)]"
+                className="rounded-full bg-[color:var(--brand-bg)] px-2.5 py-1 text-[12px] text-[color:var(--brand-muted)]"
               >
                 {f}
               </span>
@@ -65,7 +65,7 @@ export function Flagship16A() {
             ))}
           </ul>
 
-          <p className="mt-auto text-[11px] text-[color:var(--brand-muted)]">
+          <p className="mt-auto text-[12px] text-[color:var(--brand-muted)]">
             real project, real April pre-checks · week-by-week activity is demo
             · Te Aranga audit held for review with mana whenua
           </p>

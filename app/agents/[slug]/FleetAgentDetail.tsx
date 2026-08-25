@@ -28,7 +28,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
           <div>
             <Link
               href={`/kete/${kete.slug}`}
-              className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--text-primary)]"
+              className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--text-primary)]"
             >
               {kete.name} · {kete.industry}
             </Link>
@@ -49,7 +49,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
           </div>
 
           <aside className="glass-card p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               {workflow ? 'Shared workflow' : 'Demo status'}
             </p>
             {workflow ? (
@@ -62,11 +62,11 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
                   <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
                     {workflow.outcome}
                   </p>
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                  <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                     Evidence pack
                   </p>
                   <p className="mt-1 text-sm text-[color:var(--text-primary)]">{workflow.evidencePack}</p>
-                  <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                  <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                     Reviewer
                   </p>
                   <p className="mt-1 text-sm text-[color:var(--text-primary)]">{workflow.reviewerRole}</p>
@@ -121,7 +121,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
             <h2 className="font-display text-4xl font-light">Proof inputs.</h2>
             <div className="mt-5 space-y-5">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   Legislation / standards
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -133,7 +133,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
                 </div>
               </div>
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
                   Capabilities
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
           <section className="glass-card mx-auto mt-8 max-w-7xl p-6">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
                   Premade workflows
                 </p>
                 <h2 className="mt-2 font-display text-4xl font-light">Client-shareable starting points.</h2>
@@ -179,7 +179,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
                   <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
                     {option.clientUse}
                   </p>
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                  <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                     {option.agentSequence.join(' → ')}
                   </p>
                 </Link>
@@ -195,7 +195,7 @@ export function FleetAgentDetail({ agent, workflowParam }: { agent: Agent; workf
 function Panel({ title, body }: { title: string; body: string }) {
   return (
     <div className="glass-card p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">{title}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">{title}</p>
       <p className="mt-3 font-display text-3xl font-light capitalize">{body}</p>
     </div>
   );

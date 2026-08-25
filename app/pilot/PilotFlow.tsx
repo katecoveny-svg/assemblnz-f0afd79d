@@ -216,17 +216,17 @@ export function PilotFlow({ voiceConfigured, signedIn }: { voiceConfigured: bool
           </span>
           <div>
             <p className="text-lg leading-none" style={{ fontWeight: 900, color: C.ink }}>Pilot</p>
-            <p className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Agent maker</p>
+            <p className="mk-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Agent maker</p>
           </div>
         </div>
 
         {/* Points pill */}
         <div className="relative mt-4 flex items-center justify-between rounded-full border px-3 py-2"
              style={{ borderColor: C.hairline, backgroundColor: C.paper }}>
-          <span className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Points</span>
+          <span className="mk-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Points</span>
           <span className="text-sm" style={{ fontWeight: 900, color: C.ink }}>{points}</span>
           {flash !== null && (
-            <span className="absolute -right-1 -top-3 rounded-full px-2 py-0.5 text-[11px]"
+            <span className="absolute -right-1 -top-3 rounded-full px-2 py-0.5 text-[12px]"
                   style={{ backgroundColor: C.canary, color: C.ink, fontWeight: 900 }}>+{flash}</span>
           )}
         </div>
@@ -240,7 +240,7 @@ export function PilotFlow({ voiceConfigured, signedIn }: { voiceConfigured: bool
                   className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left text-[13px] transition"
                   style={{ backgroundColor: active ? C.paper : 'transparent', border: active ? `1px solid ${C.hairline}` : '1px solid transparent',
                     color: active ? C.ink : done ? C.body : C.muted, fontWeight: active ? 700 : 400, cursor: i <= step ? 'pointer' : 'default' }}>
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px]"
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[12px]"
                     style={{ backgroundColor: done ? C.canary : active ? C.ink : C.hairline, color: done ? C.ink : active ? C.canary : C.muted, fontWeight: 700 }}>
                     {done ? <Check size={11} /> : i + 1}
                   </span>
@@ -272,7 +272,7 @@ export function PilotFlow({ voiceConfigured, signedIn }: { voiceConfigured: bool
       {/* ── Main panel ── */}
       <section>
         <div className="mb-6 rounded-[22px] border p-5" style={{ borderColor: C.hairline, backgroundColor: C.paper }}>
-          <p className="mk-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: C.gold }}>
+          <p className="mk-mono text-[12px] uppercase tracking-[0.18em]" style={{ color: C.gold }}>
             Step {step + 1} of {STEPS.length} — {STEPS[step]}
           </p>
           <p className="mt-2 text-lg leading-relaxed" style={{ color: C.ink }}>{PILOT_LINES[step]}</p>
@@ -316,7 +316,7 @@ const inputStyle = { borderColor: C.hairline, color: C.ink, backgroundColor: C.p
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>{label}</span>
+      <span className="mk-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>{label}</span>
       <div className="mt-1.5">{children}</div>
     </label>
   );
@@ -441,7 +441,7 @@ function StepAgentType({ draft, setSpec }: { draft: PilotDraft; setSpec: (p: Par
             style={{ borderColor: on ? C.canary : C.hairline, backgroundColor: on ? `${C.canary}22` : C.paper }}>
             <span className="flex items-center justify-between">
               <span className="text-sm" style={{ color: C.ink, fontWeight: 700 }}>{agentTypeLabel(t)}</span>
-              {t !== 'agent' && <span className="mk-mono text-[9px] uppercase tracking-[0.14em] rounded-full px-2 py-0.5" style={{ backgroundColor: C.cream, color: C.gold }}>recommended</span>}
+              {t !== 'agent' && <span className="mk-mono text-[12px] uppercase tracking-[0.14em] rounded-full px-2 py-0.5" style={{ backgroundColor: C.cream, color: C.gold }}>recommended</span>}
             </span>
             {autonomous && on && (
               <span className="mt-2 flex items-start gap-2 rounded-xl p-2.5 text-xs" style={{ backgroundColor: `${C.canary}22`, color: C.ink }}>
@@ -485,7 +485,7 @@ function StepKnowledge({ draft, setSpec }: { draft: PilotDraft; setSpec: (p: Par
     <div className="space-y-6">
       {kinds.map((kind) => (
         <div key={kind}>
-          <p className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>{KNOWLEDGE_KIND_LABEL[kind]}</p>
+          <p className="mk-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>{KNOWLEDGE_KIND_LABEL[kind]}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {KNOWLEDGE_BY_KIND[kind].map((s) => <Chip key={s.id} active={draft.spec.knowledge.includes(s.id)} onClick={() => toggle(s.id)}>{s.label}</Chip>)}
           </div>
@@ -503,7 +503,7 @@ function StepTools({ draft, setSpec }: { draft: PilotDraft; setSpec: (p: Partial
     <div className="space-y-5">
       {cats.map((cat) => (
         <div key={cat}>
-          <p className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: cat === 'action' || cat === 'automation' ? C.gold : C.muted }}>{TOOL_CATEGORY_LABEL[cat]}</p>
+          <p className="mk-mono text-[12px] uppercase tracking-[0.16em]" style={{ color: cat === 'action' || cat === 'automation' ? C.gold : C.muted }}>{TOOL_CATEGORY_LABEL[cat]}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {TOOLS_BY_CATEGORY[cat].map((t) => <Chip key={t.id} active={draft.spec.tools.includes(t.id)} onClick={() => toggle(t.id)}>{t.label}</Chip>)}
           </div>
@@ -544,7 +544,7 @@ function StepPack({ draft }: { draft: PilotDraft }) {
       {BRAINS.map((brain) => (
         <div key={brain.id} className="rounded-[20px] border p-4" style={{ borderColor: C.hairline, backgroundColor: C.paper }}>
           <p className="text-sm" style={{ color: C.ink, fontWeight: 900 }}>{brain.label}</p>
-          <p className="mk-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: C.muted }}>{brain.blurb}</p>
+          <p className="mk-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: C.muted }}>{brain.blurb}</p>
           <div className="mt-3 space-y-2">
             {brain.items.map((key) => <PackRow key={key} label={PACK_ITEM_LABELS[key]} value={pack[key]} />)}
           </div>
@@ -563,7 +563,7 @@ function PackRow({ label, value }: { label: string; value: unknown }) {
   return (
     <div className="flex items-start gap-2 text-sm">
       <Check size={14} className="mt-0.5 shrink-0" style={{ color: tbd ? C.hairline : C.canary }} />
-      <span style={{ color: C.muted, minWidth: 130 }} className="mk-mono text-[10px] uppercase tracking-[0.12em]">{label}</span>
+      <span style={{ color: C.muted, minWidth: 130 }} className="mk-mono text-[12px] uppercase tracking-[0.12em]">{label}</span>
       <span style={{ color: tbd ? C.muted : C.body }}>{text}</span>
     </div>
   );
@@ -606,7 +606,7 @@ function StepTestCases({ draft, set }: { draft: PilotDraft; set: (p: Partial<Pil
     <div className="space-y-3">
       {pack.testCases.map((t: TestCase, i: number) => (
         <div key={i} className="rounded-2xl border p-4" style={{ borderColor: C.hairline, backgroundColor: C.paper }}>
-          <p className="mk-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: C.gold }}>{t.title}</p>
+          <p className="mk-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: C.gold }}>{t.title}</p>
           <p className="mt-1.5 text-sm" style={{ color: C.ink }}><strong>Try:</strong> {t.prompt}</p>
           <p className="mt-1 text-sm" style={{ color: C.body }}><strong>Expect:</strong> {t.expected}</p>
         </div>
@@ -679,7 +679,7 @@ function StepLaunch({ draft }: { draft: PilotDraft }) {
     <div className="space-y-3">
       {plan.map((item, i) => (
         <div key={i} className="flex items-start gap-3 rounded-2xl border p-4" style={{ borderColor: C.hairline, backgroundColor: C.paper }}>
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px]" style={{ backgroundColor: C.canary, color: C.ink, fontWeight: 700 }}>{i + 1}</span>
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px]" style={{ backgroundColor: C.canary, color: C.ink, fontWeight: 700 }}>{i + 1}</span>
           <p className="text-sm" style={{ color: C.body }}>{item}</p>
         </div>
       ))}
@@ -700,7 +700,7 @@ function StepShip({ draft, set, busy, signedIn, result, onShip }: {
         <p className="mt-3 text-lg" style={{ color: C.ink, fontWeight: 900 }}>{draft.name} is saved.</p>
         <p className="mt-1 text-sm" style={{ color: C.body }}>{result.message}</p>
         {result.pointsAwarded > 0 && <p className="mt-2 text-sm" style={{ color: C.gold, fontWeight: 700 }}>+{result.pointsAwarded} points</p>}
-        {result.receipt && <p className="mk-mono mt-2 text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Mana Receipt #{result.receipt.number} · {result.receipt.chainHash?.slice(0, 12)}…</p>}
+        {result.receipt && <p className="mk-mono mt-2 text-[12px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Mana Receipt #{result.receipt.number} · {result.receipt.chainHash?.slice(0, 12)}…</p>}
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <Link href="/agents/mine" className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold" style={{ backgroundColor: C.ink, color: C.canary }}>My Agents <ArrowRight size={15} /></Link>
           <Link href="/journey" className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-bold" style={{ borderColor: C.ink, color: C.ink }}><Map size={15} /> Your journey</Link>
@@ -716,7 +716,7 @@ function StepShip({ draft, set, busy, signedIn, result, onShip }: {
         <div className="flex-1">
           <p className="text-xl leading-tight" style={{ color: C.ink, fontWeight: 900 }}>{draft.name || 'Untitled agent'}</p>
           <p className="mt-1 text-sm" style={{ color: C.body }}>{draft.description}</p>
-          <p className="mk-mono mt-2 text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>
+          <p className="mk-mono mt-2 text-[12px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>
             19-item pack · {draft.spec.tools.length} tools · {pack?.testCases.length ?? 6} tests · {MODEL_CHOICES.find((m) => m.id === draft.modelPreference)?.label}
           </p>
         </div>

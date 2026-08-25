@@ -352,7 +352,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
           {/* Hero */}
           <div className="mb-6">
             <p
-              className="text-[11px] font-bold uppercase"
+              className="text-[12px] font-bold uppercase"
               style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.2em', color: PALETTE.gold }}
             >
               Start here · free
@@ -523,7 +523,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
               <ArrowUp size={18} aria-hidden />
             </button>
           </form>
-          <p className="mt-2 text-[11px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
+          <p className="mt-2 text-[12px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
             Free, no message cap. A coach, not advice. Your data lives in Sydney.
           </p>
         </section>
@@ -534,7 +534,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
 
           {/* Roadmap */}
           <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-            <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+            <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
               Your roadmap
             </p>
             <p className="mt-2 text-sm" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.body }}>
@@ -550,7 +550,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
               <Download size={15} aria-hidden /> Save my roadmap
             </button>
             {!canSaveRoadmap ? (
-              <p className="mt-2 text-[11px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
+              <p className="mt-2 text-[12px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
                 Tell Atlas a little about your week to unlock it.
               </p>
             ) : null}
@@ -558,7 +558,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
 
           {/* Pilot handoff */}
           <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}>
-            <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+            <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
               Nothing fits?
             </p>
             <h3 className="mt-2 text-2xl" style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em' }}>
@@ -585,7 +585,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
           {/* Badges */}
           {profile.badges.length > 0 ? (
             <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-              <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+              <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
                 Your badges
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -644,7 +644,7 @@ function LevelPill({ level, points, badgeCount }: { level: Level; points: number
 function RecommendationRail({ recommendations }: { recommendations: AgentMatch[] }) {
   return (
     <div className="rounded-[22px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-      <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
+      <p className="text-[12px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.18em', color: PALETTE.gold }}>
         Agents that might fit
       </p>
       {recommendations.length === 0 ? (
@@ -668,7 +668,7 @@ function RecommendationRail({ recommendations }: { recommendations: AgentMatch[]
                   <span className="text-base font-bold" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.ink }}>
                     {rec.name}
                   </span>
-                  <span className="ml-auto text-[11px] font-bold" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.gold }}>
+                  <span className="ml-auto text-[12px] font-bold" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.gold }}>
                     {rec.price}
                   </span>
                 </span>

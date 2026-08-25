@@ -32,7 +32,7 @@ export default function HuiPage() {
         />
         <div className="relative z-10 container grid items-center gap-10 py-16 md:grid-cols-2 md:py-20">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               Hui · the meeting agent
             </p>
             <h1 className="mt-5 font-display text-4xl font-light leading-[1.05] text-[color:var(--text-primary)] md:text-6xl">

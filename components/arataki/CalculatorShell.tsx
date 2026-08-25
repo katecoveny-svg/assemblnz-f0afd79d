@@ -23,12 +23,12 @@ export function CalculatorShell({
       <div className="mx-auto w-full max-w-[calc(100vw-3rem)] md:max-w-[1180px]">
         <Link
           href="/kete/arataki/tools"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#5C6273] hover:text-[#3A3832]"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#5C6273] hover:text-[#3A3832]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> Arataki tools
         </Link>
         <header className="max-w-4xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#3A3832]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.3em] text-[#3A3832]">
             Arataki · calculator
           </p>
           <h1 className="mt-4 max-w-[19rem] break-words font-display text-[2.25rem] font-light leading-[0.92] text-[#3D4250] [overflow-wrap:anywhere] md:max-w-full md:text-[clamp(3.2rem,8vw,6rem)]">
@@ -38,13 +38,13 @@ export function CalculatorShell({
             {description}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <span className="rounded-full border border-[#C8BBA9]/70 bg-white/58 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#5C6273]">
+            <span className="rounded-full border border-[#C8BBA9]/70 bg-white/58 px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#5C6273]">
               {timeToRun}
             </span>
             {legislationCites.map((cite) => (
               <span
                 key={cite}
-                className="rounded-full border border-[#D9A85A]/45 bg-[#D9A85A]/10 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#3D4250]"
+                className="rounded-full border border-[#D9A85A]/45 bg-[#D9A85A]/10 px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#3D4250]"
               >
                 {cite}
               </span>

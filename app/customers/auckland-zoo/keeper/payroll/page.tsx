@@ -12,10 +12,10 @@ export default function PayrollPage() {
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <DraftChip>Draft for council payroll approval</DraftChip>
-        <span className="rounded-full px-3 py-1 text-[11px] font-medium" style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
+        <span className="rounded-full px-3 py-1 text-[12px] font-medium" style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
           {PAYROLL.provider}
         </span>
-        <span className="rounded-full px-3 py-1 text-[11px] font-medium" style={{ background: 'rgba(181,115,46,0.16)', color: '#8A5418' }}>
+        <span className="rounded-full px-3 py-1 text-[12px] font-medium" style={{ background: 'rgba(181,115,46,0.16)', color: '#8A5418' }}>
           Read-only integration
         </span>
       </div>
@@ -27,7 +27,7 @@ export default function PayrollPage() {
             <thead>
               <tr style={{ color: 'var(--tenant-muted)' }}>
                 {['Staff', 'Ordinary', 'Sunday', 'Public hol.', 'Alt days', 'Flag'].map((h) => (
-                  <th key={h} className="px-3 py-2 text-left font-mono text-[10px] uppercase tracking-[0.12em]">{h}</th>
+                  <th key={h} className="px-3 py-2 text-left font-mono text-[12px] uppercase tracking-[0.12em]">{h}</th>
                 ))}
               </tr>
             </thead>

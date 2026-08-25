@@ -164,7 +164,7 @@
 }
 .demoCard .label {
   font-family: var(--dash-body), sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(250, 247, 242, 0.5);
@@ -223,7 +223,7 @@
 .installFlag {
   background: var(--amber);
   color: var(--ink);
-  font-size: 10px;
+  font-size: 12px;
   padding: 2px 7px;
   border-radius: 4px;
   font-weight: 600;
@@ -384,7 +384,7 @@
 }
 .bulletinBox li .date {
   font-family: var(--dash-mono), monospace;
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(27, 31, 29, 0.55);
   margin-right: 10px;
 }
@@ -481,7 +481,7 @@ footer.foot,
 .fieldLabel {
   display: block;
   font-family: var(--dash-mono), monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);

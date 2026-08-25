@@ -20,7 +20,7 @@ const card: CSSProperties = {
   borderRadius: 14, border: `1px solid ${GOLD}33`,
   background: 'linear-gradient(180deg,#ffffff,#fbfcfb)', padding: 14,
 };
-const label: CSSProperties = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
+const label: CSSProperties = { fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED };
 
 function Mark({ letter, color }: { letter: string; color: string }) {
   return (
@@ -38,8 +38,8 @@ export function FamilyProfiles({ people, custody, demoMode }: { people: Person[]
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', borderRadius: 12, border: `1px solid ${(custody.withAaron ? '#8E7BA6' : SAGE)}44`, background: '#fbfcfb', padding: '9px 13px', marginBottom: 12 }}>
         <span style={{ width: 8, height: 8, borderRadius: 999, background: custody.withAaron ? '#8E7BA6' : SAGE }} />
         <span style={{ fontSize: 13, fontWeight: 700, color: INK }}>{custody.label}</span>
-        <span style={{ fontSize: 11.5, color: MUTED }}>{custody.range} · {custody.homeThisWeek}</span>
-        <span style={{ marginLeft: 'auto', fontSize: 11, color: MUTED }}>week-on / week-off with Aaron</span>
+        <span style={{ fontSize: 12, color: MUTED }}>{custody.range} · {custody.homeThisWeek}</span>
+        <span style={{ marginLeft: 'auto', fontSize: 12, color: MUTED }}>week-on / week-off with Aaron</span>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 12, alignItems: 'start' }}>
@@ -49,11 +49,11 @@ export function FamilyProfiles({ people, custody, demoMode }: { people: Person[]
               <Mark letter={p.mark} color={p.accent} />
               <div>
                 <div style={{ fontSize: 15, fontWeight: 700, color: INK }}>{p.name}</div>
-                <div style={{ fontSize: 11.5, color: MUTED }}>{p.role}</div>
+                <div style={{ fontSize: 12, color: MUTED }}>{p.role}</div>
               </div>
             </div>
             {(p.school || p.home) ? (
-              <div style={{ fontSize: 11.5, color: MUTED, marginTop: 8 }}>
+              <div style={{ fontSize: 12, color: MUTED, marginTop: 8 }}>
                 {p.school ? <span>{p.school}{p.year ? ` · Yr ${p.year}` : ''}</span> : null}
                 {p.school && p.home ? <br /> : null}
                 {p.home ? <span>{p.home}</span> : null}
@@ -61,13 +61,13 @@ export function FamilyProfiles({ people, custody, demoMode }: { people: Person[]
             ) : null}
             <p style={{ ...label, marginTop: 10 }}>their file</p>
             <ul style={{ margin: '6px 0 0', paddingLeft: 14, display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {p.details.map((d) => <li key={d} style={{ fontSize: 11.5, color: INK }}>{d}</li>)}
+              {p.details.map((d) => <li key={d} style={{ fontSize: 12, color: INK }}>{d}</li>)}
             </ul>
             {p.medical?.length ? (
               <div style={{ marginTop: 8, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
                 <p style={{ ...label, color: CORAL }}>health · reminders</p>
                 <ul style={{ margin: '5px 0 0', paddingLeft: 14, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {p.medical.map((m) => <li key={m} style={{ fontSize: 11.5, color: INK }}>{m}</li>)}
+                  {p.medical.map((m) => <li key={m} style={{ fontSize: 12, color: INK }}>{m}</li>)}
                 </ul>
               </div>
             ) : null}
@@ -86,11 +86,11 @@ export function FamilyProfiles({ people, custody, demoMode }: { people: Person[]
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 }}>
         <form action={toggleDemoModeAction}>
-          <button type="submit" style={{ fontSize: 10.5, fontWeight: 600, color: MUTED, background: 'transparent', border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '5px 11px', cursor: 'pointer' }}>
+          <button type="submit" style={{ fontSize: 12, fontWeight: 600, color: MUTED, background: 'transparent', border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '5px 11px', cursor: 'pointer' }}>
             {demoMode ? '● demo mode on — showing placeholders' : '○ switch to demo mode (placeholder names)'}
           </button>
         </form>
-        <span style={{ fontSize: 10.5, color: MUTED }}>{demoMode ? 'Safe to show prospects — no real whānau details.' : 'Showing your real whānau.'}</span>
+        <span style={{ fontSize: 12, color: MUTED }}>{demoMode ? 'Safe to show prospects — no real whānau details.' : 'Showing your real whānau.'}</span>
       </div>
     </div>
   );

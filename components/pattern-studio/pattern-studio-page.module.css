@@ -35,7 +35,7 @@
   border-radius: var(--a-radius-chip);
   border: 1px solid var(--a-glass-border);
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -60,7 +60,7 @@
 .group h3 {
   margin: 0 0 12px;
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--a-accent);
@@ -81,7 +81,7 @@
 }
 .field b {
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--a-text);
 }
@@ -152,7 +152,7 @@
   background: var(--a-glass);
   color: var(--a-text-dim);
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 10px;
+  font-size: 12px;
   cursor: pointer;
 }
 .preset:hover {
@@ -169,7 +169,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--a-text-faint);
 }
 .swatches input[type='color'] {
@@ -211,7 +211,7 @@
   border-radius: var(--a-radius-chip);
   border: 1px solid var(--a-glass-border);
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
 }
 .codeTab {
@@ -228,7 +228,7 @@
   min-height: 16px;
   margin: 8px 0 0;
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--a-text-faint);
 }
 

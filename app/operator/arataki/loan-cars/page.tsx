@@ -49,7 +49,7 @@ export default async function LoanCarsPage({
       <div className="mx-auto max-w-7xl">
         <header className="grid gap-7 border-b border-[rgba(61,66,80,0.12)] pb-7 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#C79B1F]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#C79B1F]">
               assembl · Arataki · Loan Car Warden
             </p>
             <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.2rem,7vw,6.4rem)] font-light leading-[0.9]">
@@ -63,7 +63,7 @@ export default async function LoanCarsPage({
             <div className="flex items-start gap-3">
               <ShieldCheck className="mt-1 h-5 w-5 text-[#C79B1F]" aria-hidden />
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">
                   Warden draft
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">{summary.wardenDraft}</p>
@@ -83,7 +83,7 @@ export default async function LoanCarsPage({
           <LoanCarsWorkspace cars={cars} tenant={tenant} summary={summary} />
         ) : (
           <section className="mt-8 rounded-[8px] border border-[rgba(217,168,90,0.38)] bg-[rgba(217,168,90,0.10)] p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#9D8C7D]">
               Tenant required
             </p>
             <h2 className="mt-2 font-display text-3xl font-light">No dealership membership found.</h2>
@@ -112,7 +112,7 @@ function MetricCard({
   return (
     <div className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/70 p-4">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#9D8C7D]">{label}</span>
+        <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#9D8C7D]">{label}</span>
         <Icon className="h-4 w-4" style={{ color }} aria-hidden />
       </div>
       <p className="mt-3 font-mono text-3xl leading-none text-[#3D4250]">{value}</p>

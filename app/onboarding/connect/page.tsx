@@ -136,7 +136,7 @@ export default async function ConnectOnboardingPage(): Promise<React.ReactElemen
               borderRadius: '999px',
               background: copy.tone,
               color: '#fff',
-              fontSize: '0.72rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
               whiteSpace: 'nowrap',
             }}

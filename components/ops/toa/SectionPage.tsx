@@ -16,7 +16,7 @@ export function SectionPage({
 }) {
   return (
     <div className="flex flex-col gap-5">
-      <div className="rounded-md border border-dashed border-[color:var(--brand-accent)]/40 bg-[color:var(--brand-canary)]/25 px-3 py-1.5 text-[11px] text-[color:var(--brand-ink)]">
+      <div className="rounded-md border border-dashed border-[color:var(--brand-accent)]/40 bg-[color:var(--brand-canary)]/25 px-3 py-1.5 text-[12px] text-[color:var(--brand-ink)]">
         concept demo · fictional data — what a TOA × assembl operating system
         could look like.
       </div>

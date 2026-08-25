@@ -137,7 +137,7 @@ function MobileCardList({
               {c.name}
             </p>
             <p
-              className="text-[10px] uppercase leading-[1.4]"
+              className="text-[12px] uppercase leading-[1.4]"
               style={{ fontFamily: MONO, letterSpacing: '0.16em', color: '#BFA37A' }}
             >
               {c.sub}
@@ -152,7 +152,7 @@ function MobileCardList({
 export function IntegrationMap() {
   return (
     <div className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-      <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+      <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
         the wiring — what it reads, what it writes
       </p>
 
@@ -172,7 +172,7 @@ export function IntegrationMap() {
         </div>
 
         <p
-          className="mt-5 text-[10px] font-bold uppercase"
+          className="mt-5 text-[12px] font-bold uppercase"
           style={{ fontFamily: MONO, letterSpacing: '0.2em', color: NAVY }}
         >
           READS + WRITES DAILY
@@ -182,7 +182,7 @@ export function IntegrationMap() {
         </div>
 
         <p
-          className="mt-6 text-[10px] font-bold uppercase"
+          className="mt-6 text-[12px] font-bold uppercase"
           style={{ fontFamily: MONO, letterSpacing: '0.2em', color: STEEL }}
         >
           SIGNAL SOURCES · READ ONLY
@@ -335,7 +335,7 @@ export function IntegrationMap() {
             </span>
           ))}
         </div>
-        <p className="mt-1.5 text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+        <p className="mt-1.5 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
           {integrationRolloutNote}
         </p>
       </div>

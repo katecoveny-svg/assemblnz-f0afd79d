@@ -77,7 +77,7 @@ export default async function AuditPage() {
 
                   <div>
                     <SectionTitle>Integrity</SectionTitle>
-                    <dl className="space-y-1 text-[0.7rem]">
+                    <dl className="space-y-1 text-[0.75rem]">
                       <HashRow label="Receipt" value={receipt.receipt_hash} />
                       <HashRow label="Prev" value={receipt.prev_hash ?? 'genesis (first in chain)'} />
                       <HashRow label="Input" value={receipt.input_hash} />

@@ -97,7 +97,7 @@ export function EvidenceVessel() {
           className="mx-auto mb-20 max-w-3xl text-center md:mb-32"
         >
           <p
-            className="font-mono text-[11px] uppercase tracking-[0.32em]"
+            className="font-mono text-[12px] uppercase tracking-[0.32em]"
             style={{ color: COLORS.pounamu }}
           >
             Evidence Vessel
@@ -485,7 +485,7 @@ function FacetCard({
     >
       <div className="flex items-baseline gap-4">
         <span
-          className="font-mono text-[11px] uppercase tracking-[0.32em]"
+          className="font-mono text-[12px] uppercase tracking-[0.32em]"
           style={{ color: isActive ? COLORS.pounamu : 'rgba(35,33,31, 0.45)' }}
         >
           {facet.number}

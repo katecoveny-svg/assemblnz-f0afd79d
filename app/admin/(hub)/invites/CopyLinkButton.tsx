@@ -26,7 +26,7 @@ export function CopyLinkButton({ url, label = 'copy link' }: { url: string; labe
       onClick={copy}
       style={{
         fontFamily: MONO,
-        fontSize: 11,
+        fontSize: 12,
         letterSpacing: '0.04em',
         color: copied ? '#3f7d4e' : GOLD,
         background: 'transparent',

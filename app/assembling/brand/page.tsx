@@ -243,7 +243,7 @@ export default function BrandPage() {
                   />
                 </div>
               </div>
-              <div style={{ fontFamily: mono, fontSize: 11, color: "#a8a698" }}>
+              <div style={{ fontFamily: mono, fontSize: 12, color: "#a8a698" }}>
                 Primary lockup — wordmark + loading bar
               </div>
             </div>
@@ -271,7 +271,7 @@ export default function BrandPage() {
               >
                 assembling
               </div>
-              <div style={{ fontFamily: mono, fontSize: 11, color: "#8a8678" }}>
+              <div style={{ fontFamily: mono, fontSize: 12, color: "#8a8678" }}>
                 Reversed — charcoal background
               </div>
             </div>
@@ -432,7 +432,7 @@ export default function BrandPage() {
             <div
               style={{
                 fontFamily: mono,
-                fontSize: 11,
+                fontSize: 12,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
                 color: "#BFA37A",
@@ -669,7 +669,7 @@ export default function BrandPage() {
               <div
                 style={{
                   fontFamily: mono,
-                  fontSize: 11,
+                  fontSize: 12,
                   color: "#a8a698",
                   marginTop: 14,
                 }}
@@ -987,7 +987,7 @@ export default function BrandPage() {
                 style={{
                   marginTop: 12,
                   fontFamily: mono,
-                  fontSize: 11,
+                  fontSize: 12,
                   color: "#bdb592",
                 }}
               >
@@ -1047,7 +1047,7 @@ export default function BrandPage() {
           <div
             style={{
               fontFamily: mono,
-              fontSize: 11,
+              fontSize: 12,
               letterSpacing: ".1em",
               textTransform: "uppercase",
               color: "#8a8678",

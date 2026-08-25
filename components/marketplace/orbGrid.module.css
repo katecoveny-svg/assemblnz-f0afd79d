@@ -192,7 +192,7 @@
 .tag {
   display: block;
   font-family: var(--font-space-mono), var(--mk-mono), 'Space Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #9a8e72;

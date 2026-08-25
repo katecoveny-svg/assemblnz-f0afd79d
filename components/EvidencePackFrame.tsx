@@ -50,11 +50,11 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
             <p className="font-display text-xl font-medium lowercase text-[color:var(--text-primary)]">
               assembl
             </p>
-            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               Evidence pack · v1
             </p>
           </div>
-          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Variation pack · 14 King St, Auckland
           </p>
           <div className="mt-3 h-px bg-[rgba(199,155,31,0.45)]" />
@@ -82,10 +82,10 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
               : 'rgba(58,56,50,0)',
           }}
         >
-          <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
             Attribution
           </p>
-          <dl className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-[10px]">
+          <dl className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-[12px]">
             <dt className="font-mono text-[color:var(--text-secondary)]">Agent</dt>
             <dd className="text-[color:var(--text-primary)]">Whakaaē</dd>
             <dt className="font-mono text-[color:var(--text-secondary)]">Reviewer</dt>
@@ -103,10 +103,10 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
             transform: showCitations ? 'translateY(0)' : 'translateY(8px)',
           }}
         >
-          <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Citations
           </p>
-          <ul className="mt-1.5 space-y-1 text-[10px]">
+          <ul className="mt-1.5 space-y-1 text-[12px]">
             {[
               'Building Act 2004 · s 14B',
               'NZS 3910:2013 · cl 9.5',
@@ -130,10 +130,10 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
           }}
         >
           <div className="flex flex-col items-center justify-center rounded-full border-[2px] border-[color:var(--assembl-pounamu)] bg-[rgba(232,239,233,0.85)] px-4 py-2">
-            <p className="font-mono text-[8px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               Sealed
             </p>
-            <p className="mt-0.5 font-mono text-[7px] tracking-wider text-[color:var(--assembl-pounamu)]">
+            <p className="mt-0.5 font-mono text-[12px] tracking-wider text-[color:var(--assembl-pounamu)]">
               SHA-256 · a3f9…0c8b
             </p>
           </div>
@@ -141,7 +141,7 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
 
         {/* Pou stamp footer — appears with Sealed */}
         <div
-          className="absolute inset-x-6 bottom-5 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition-opacity duration-700"
+          className="absolute inset-x-6 bottom-5 flex items-center justify-between font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition-opacity duration-700"
           style={{ opacity: sealed ? 1 : 0 }}
         >
           <span>Rangatiratanga</span>

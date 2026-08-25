@@ -33,7 +33,7 @@ export default async function AdminGenomePage() {
   return (
     <div style={{ margin: '0 auto', maxWidth: 980, padding: '36px 20px 90px', color: INK }}>
       <header style={{ paddingBottom: 22, borderBottom: `1px solid ${HAIRLINE}` }}>
-        <p style={{ margin: 0, color: '#8b7447', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, color: '#8b7447', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
           assembl · Business Genome
         </p>
         <h1
@@ -61,7 +61,7 @@ export default async function AdminGenomePage() {
               borderRadius: 999,
               border: `1px solid ${HAIRLINE}`,
               color: TEAL,
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -85,7 +85,7 @@ export default async function AdminGenomePage() {
           style={{
             margin: 0,
             color: MUTED,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: 700,
             letterSpacing: '0.14em',
             textTransform: 'uppercase',

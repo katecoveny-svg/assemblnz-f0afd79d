@@ -33,7 +33,7 @@ export default async function EvidenceSettingsPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto max-w-[860px]">
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> evidence ledger
         </p>
         <h1
@@ -42,13 +42,13 @@ export default async function EvidenceSettingsPage() {
         >
           settings
         </h1>
-        <p className="mt-3 max-w-2xl font-mono text-[11px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
+        <p className="mt-3 max-w-2xl font-mono text-[12px] lowercase tracking-[0.15em] text-[color:var(--text-secondary)]">
           retention · public verifier · cite-when-uncertain
         </p>
 
         {isScaffold ? (
           <div className="mt-7 rounded-[2px] border border-dashed border-[color:var(--assembl-gold-thread)] bg-white px-5 py-4">
-            <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-gold-thread)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-gold-thread)]">
               scaffold mode
             </p>
             <p className="mt-1 text-[13px] leading-relaxed text-[color:var(--text-primary)]">
@@ -63,7 +63,7 @@ export default async function EvidenceSettingsPage() {
 
         <SettingsForm initial={loaded.settings} />
 
-        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[10.5px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+        <footer className="mt-16 border-t border-[color:var(--assembl-cloud)] pt-4 text-right font-mono text-[12px] lowercase tracking-[0.12em] text-[color:var(--text-secondary)]">
           evidence ledger settings · phase 1 · per-tenant scope
         </footer>
       </div>

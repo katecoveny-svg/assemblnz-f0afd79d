@@ -27,7 +27,7 @@ export function EdrAppSlotMock() {
     >
       {/* app header — white, orange accent only on the r-leaf */}
       <div style={{ padding: '14px 16px 10px', borderBottom: '1px solid #F0F0F0' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#9AA0A0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#9AA0A0' }}>
           <span>11:04</span>
           <span>•••</span>
         </div>
@@ -43,7 +43,7 @@ export function EdrAppSlotMock() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 800,
             }}
           >
@@ -66,14 +66,14 @@ export function EdrAppSlotMock() {
           }}
         >
           <div>
-            <div style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6B6E71' }}>
+            <div style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6B6E71' }}>
               your points
             </div>
             <div style={{ fontWeight: 800, fontSize: 18, marginTop: 2, color: INK }}>
-              1,847 <span style={{ fontSize: 11, fontWeight: 600, color: '#6B6E71' }}>pts</span>
+              1,847 <span style={{ fontSize: 12, fontWeight: 600, color: '#6B6E71' }}>pts</span>
             </div>
           </div>
-          <div style={{ fontSize: 10.5, color: '#6B6E71', textAlign: 'right' }}>
+          <div style={{ fontSize: 12, color: '#6B6E71', textAlign: 'right' }}>
             153 to your next
             <br />
             $15 reward
@@ -104,7 +104,7 @@ export function EdrAppSlotMock() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
             }}
           >
@@ -112,14 +112,14 @@ export function EdrAppSlotMock() {
           </span>
           <div>
             <div style={{ fontWeight: 700, fontSize: 12, color: INK }}>Ask Olive</div>
-            <div style={{ fontSize: 10, color: '#6B6E71' }}>Meal plans, swaps, specials</div>
+            <div style={{ fontSize: 12, color: '#6B6E71' }}>Meal plans, swaps, specials</div>
           </div>
         </div>
       </div>
 
       {/* partner slots — ASB and assembl side by side */}
       <div style={{ padding: '10px 12px 14px' }}>
-        <div style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9AA0A0', margin: '0 2px 6px' }}>
+        <div style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9AA0A0', margin: '0 2px 6px' }}>
           partners
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -135,14 +135,14 @@ export function EdrAppSlotMock() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 9,
+                fontSize: 12,
                 fontWeight: 800,
               }}
             >
               ASB
             </div>
             <div style={{ fontWeight: 700, fontSize: 12, marginTop: 6, color: INK }}>ASB</div>
-            <div style={{ fontSize: 10, color: '#6B6E71', marginTop: 2, lineHeight: 1.35 }}>
+            <div style={{ fontSize: 12, color: '#6B6E71', marginTop: 2, lineHeight: 1.35 }}>
               Everyday banking rewards
             </div>
           </div>
@@ -166,14 +166,14 @@ export function EdrAppSlotMock() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
               }}
             >
               a
             </div>
             <div style={{ fontWeight: 700, fontSize: 12, marginTop: 6, color: INK }}>Assembling</div>
-            <div style={{ fontSize: 10, color: '#c65100', marginTop: 2, lineHeight: 1.35 }}>
+            <div style={{ fontSize: 12, color: '#c65100', marginTop: 2, lineHeight: 1.35 }}>
               Earn in the wait · +12 pts this hour
             </div>
           </div>

@@ -106,7 +106,7 @@ export function NineAmBriefTool() {
   body { margin: 0; background: #ffffff; color: #313c42; font: 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 40px; }
   .mark { font-weight: 600; letter-spacing: -0.01em; color: #313c42; font-size: 20px; }
-  .eyebrow { font: 600 11px/1 ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #313c42; }
+  .eyebrow { font: 600 12px/1 ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #313c42; }
   h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 10px 0 4px; color: #313c42; }
   .meta { color: #6B6661; font-size: 13px; margin-bottom: 28px; }
   .rule { border: 0; border-top: 1px solid rgba(35,33,31,0.12); margin: 24px 0; }
@@ -189,7 +189,7 @@ export function NineAmBriefTool() {
       }))}
       aside={
         <>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#b8964f]">free vs connected</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#b8964f]">free vs connected</p>
           <p className="mt-3 font-display text-4xl font-light leading-none text-[#ffffff]">
             The connected version reads your day for you.
           </p>
@@ -204,16 +204,16 @@ export function NineAmBriefTool() {
         <div className="grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap gap-3">
-              <button type="button" onClick={loadFounderSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
+              <button type="button" onClick={loadFounderSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
                 Load founder day
               </button>
-              <button type="button" onClick={loadSchoolSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
+              <button type="button" onClick={loadSchoolSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
                 Load school bag brief
               </button>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <label className="md:col-span-2">
-                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Upload a timetable, note, or screenshot</span>
+                <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Upload a timetable, note, or screenshot</span>
                 <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(58,56,50,0.32)] bg-[#f7f9f8] p-4">
                   <input
                     type="file"
@@ -260,7 +260,7 @@ export function NineAmBriefTool() {
                 </div>
               </label>
               <label className="md:col-span-2">
-                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">What today feels like</span>
+                <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">What today feels like</span>
                 <input
                   value={today}
                   onChange={(event) => setToday(event.target.value)}
@@ -329,7 +329,7 @@ export function NineAmBriefTool() {
           </div>
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">who it's for</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#313c42]">who it's for</p>
             <h2 className="mt-3 font-display text-4xl font-light leading-none">One tool, every kind of morning.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>For founders:</strong> screenshots, inbox scraps, and loose follow-ups become a calm action queue.</li>
@@ -374,7 +374,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>
+      <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}

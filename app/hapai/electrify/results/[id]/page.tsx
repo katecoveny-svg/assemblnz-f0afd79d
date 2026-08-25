@@ -175,7 +175,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
         </div>
 
         <div className="relative mx-auto max-w-5xl text-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-taupe-600">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-taupe-600">
             {routeFraming.eyebrow}
           </p>
           <h1 className="mt-6 font-cormorant text-[clamp(3rem,9vw,7rem)] leading-[0.92] text-pounamu-900">
@@ -201,7 +201,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
           {heroStep ? (
             <div className="mx-auto mt-8 inline-flex max-w-3xl items-center gap-3 rounded-full border border-pounamu-200 bg-white/65 px-5 py-3 text-sm backdrop-blur">
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-pounamu-700">First switch</span>
+              <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-pounamu-700">First switch</span>
               <span className="font-medium text-taupe-900">{heroStep.machine}</span>
             </div>
           ) : null}
@@ -396,7 +396,7 @@ function Metric({ icon: Icon, label, value }: { icon: typeof PlugZap; label: str
   return (
     <div className="rounded-[20px] border border-white/55 bg-white/65 p-5 shadow-[0_18px_52px_rgba(35,33,31,0.08)] backdrop-blur-xl lg:p-6">
       <Icon className="mb-4 h-6 w-6 text-pounamu-700" aria-hidden />
-      <span className="block font-mono text-[10px] uppercase tracking-[0.22em] text-taupe-600 mb-2">
+      <span className="block font-mono text-[12px] uppercase tracking-[0.22em] text-taupe-600 mb-2">
         {label}
       </span>
       <span className="block font-cormorant text-[clamp(2rem,4vw,2.75rem)] leading-none text-pounamu-900">{value}</span>

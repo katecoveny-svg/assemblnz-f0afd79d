@@ -101,7 +101,7 @@ export default function LaunchReadinessPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-14 text-[color:var(--text-primary)] md:px-10 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
           Internal launch readiness
         </p>
         <h1 className="mt-5 max-w-4xl font-display text-[clamp(4rem,10vw,8rem)] font-light leading-[0.85]">
@@ -126,13 +126,13 @@ export default function LaunchReadinessPage() {
             return (
               <article key={check.area} className="grid gap-5 border-b border-[rgba(35,33,31,0.08)] p-5 last:border-b-0 lg:grid-cols-[0.72fr_0.52fr_1fr]">
                 <div>
-                  <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] ${status.className}`}>
+                  <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em] ${status.className}`}>
                     <Icon className="h-3.5 w-3.5" aria-hidden />
                     {status.label}
                   </div>
                   <h2 className="mt-3 font-display text-3xl font-light">{check.area}</h2>
                 </div>
-                <Link href={check.route} className="inline-flex items-center gap-2 self-start font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+                <Link href={check.route} className="inline-flex items-center gap-2 self-start font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
                   {check.route}
                   <ExternalLink className="h-3.5 w-3.5" aria-hidden />
                 </Link>
@@ -152,7 +152,7 @@ export default function LaunchReadinessPage() {
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 p-5">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">{label}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">{label}</p>
       <p className="mt-3 font-display text-5xl font-light">{value}</p>
     </div>
   );

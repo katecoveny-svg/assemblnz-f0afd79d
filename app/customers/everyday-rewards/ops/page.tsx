@@ -116,7 +116,7 @@ export default function OpsOverview() {
               <p
                 style={{
                   margin: '10px 0 0',
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: '0.16em',
                   textTransform: 'uppercase',
                   color: '#5A5850',

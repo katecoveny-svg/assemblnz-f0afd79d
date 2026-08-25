@@ -67,7 +67,7 @@ export function KeteVesselCard({
           />
         </div>
         <div className="p-6">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             {kete.industry} · {kete.accentName}
           </p>
           <h3 className="mt-2 font-display text-3xl text-[color:var(--text-primary)]">

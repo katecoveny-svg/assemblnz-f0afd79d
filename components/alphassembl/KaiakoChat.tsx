@@ -150,7 +150,7 @@ export function KaiakoChat() {
                       <li key={j} className="text-sm" style={{ color: 'var(--a-ink)' }}>
                         <div className="font-medium">
                           {v.name}
-                          {v.placeholder && <span className="ml-1 text-[10px] uppercase tracking-wide" style={{ color: 'var(--a-muted)' }}>(placeholder)</span>}
+                          {v.placeholder && <span className="ml-1 text-[12px] uppercase tracking-wide" style={{ color: 'var(--a-muted)' }}>(placeholder)</span>}
                         </div>
                         <div className="flex flex-wrap gap-3 text-xs" style={{ color: 'var(--a-muted)' }}>
                           {v.service && <span>{v.service} · {v.region}</span>}
@@ -176,7 +176,7 @@ export function KaiakoChat() {
                   <ul className="mt-2 space-y-1.5">
                     {m.sources.map((s, j) => (
                       <li key={j} className="flex items-center gap-2 text-xs">
-                        <span className="inline-flex h-4 items-center rounded px-1 text-[9px] font-bold text-white" style={{ background: s.tier === 'A' ? 'var(--a-success)' : s.tier === 'B' ? 'var(--a-amber)' : '#9ca3af' }}>
+                        <span className="inline-flex h-4 items-center rounded px-1 text-[12px] font-bold text-white" style={{ background: s.tier === 'A' ? 'var(--a-success)' : s.tier === 'B' ? 'var(--a-amber)' : '#9ca3af' }}>
                           Trust {s.tier}
                         </span>
                         {s.url ? (
@@ -236,7 +236,7 @@ export function KaiakoChat() {
           <Send size={17} />
         </button>
       </form>
-      <p className="pb-3 text-center text-[11px]" style={{ color: 'var(--a-muted)' }}>
+      <p className="pb-3 text-center text-[12px]" style={{ color: 'var(--a-muted)' }}>
         Kaiako gives force-free guidance, not veterinary treatment. Anything urgent, see your vet.
       </p>
     </div>

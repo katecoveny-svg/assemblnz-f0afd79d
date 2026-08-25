@@ -16,7 +16,7 @@ export default function TermsPage() {
       <div className="container py-24 md:py-32">
         <div className="mx-auto max-w-3xl">
           <SectionReveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               Legal · Terms of Use
             </p>
           </SectionReveal>
@@ -27,7 +27,7 @@ export default function TermsPage() {
             >
               Terms of Use.
             </h1>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               Last reviewed · {LAST_REVIEWED}
             </p>
           </SectionReveal>
@@ -41,7 +41,7 @@ export default function TermsPage() {
 
             <SectionReveal delay={0.22}>
               <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6 md:p-8">
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
                 <ul className="mt-4 space-y-2 text-[color:var(--text-body)]">
                   <li>Use assembl to draft work and build evidence packs — the public chats and SPARK tools are free to try.</li>
                   <li>Outputs are drafts: a named human on your team reviews and signs off before anything leaves your organisation.</li>

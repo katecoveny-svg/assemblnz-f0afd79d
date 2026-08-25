@@ -272,7 +272,7 @@ export function MultiSizeExport({
       >
         <header className="mb-5 flex items-start justify-between gap-6 border-b border-[color:var(--assembl-cloud)] pb-4.5">
           <div>
-            <div className="font-mono text-[10.5px] lowercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+            <div className="font-mono text-[12px] lowercase tracking-[0.2em] text-[color:var(--text-secondary)]">
               surface
             </div>
             <h2
@@ -281,7 +281,7 @@ export function MultiSizeExport({
             >
               compose for the surface
             </h2>
-            <div className="mt-1 font-mono text-[10.5px] tracking-[0.06em] text-[color:var(--text-secondary)]">
+            <div className="mt-1 font-mono text-[12px] tracking-[0.06em] text-[color:var(--text-secondary)]">
               drag the focal point — every size below updates live
             </div>
           </div>
@@ -290,7 +290,7 @@ export function MultiSizeExport({
               type="button"
               onClick={downloadAllZip}
               disabled={zipping || !image}
-              className="rounded-[2px] border border-[color:var(--assembl-gold-thread)] bg-[color:var(--assembl-paper)] px-4.5 py-2.5 font-mono text-[11px] lowercase tracking-[0.2em] text-[color:var(--text-primary)] transition-colors enabled:hover:bg-[color:var(--assembl-cloud)] disabled:cursor-not-allowed disabled:opacity-55"
+              className="rounded-[2px] border border-[color:var(--assembl-gold-thread)] bg-[color:var(--assembl-paper)] px-4.5 py-2.5 font-mono text-[12px] lowercase tracking-[0.2em] text-[color:var(--text-primary)] transition-colors enabled:hover:bg-[color:var(--assembl-cloud)] disabled:cursor-not-allowed disabled:opacity-55"
             >
               {zipping ? 'building zip…' : 'download all as zip'}
             </button>
@@ -377,7 +377,7 @@ export function MultiSizeExport({
                 </div>
               )}
             </div>
-            <p className="font-mono text-[10.5px] leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
               drag the <b className="font-normal text-[color:var(--text-primary)]">gold dot</b> to
               set the focal point. previews update live.{' '}
               {sourceLabel ? `· ${sourceLabel}` : ''}
@@ -420,7 +420,7 @@ export function MultiSizeExport({
                             className="block rounded-[1px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)]"
                           />
                         </div>
-                        <div className="text-center font-mono text-[10px] leading-tight tracking-[0.08em]">
+                        <div className="text-center font-mono text-[12px] leading-tight tracking-[0.08em]">
                           <div className="text-[color:var(--text-primary)]">{sz.name}</div>
                           <div className="text-[color:var(--text-secondary)]">
                             {sz.w}×{sz.h}
@@ -429,7 +429,7 @@ export function MultiSizeExport({
                         <button
                           type="button"
                           onClick={() => downloadOne(sz)}
-                          className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1 font-mono text-[10px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/40"
+                          className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2.5 py-1 font-mono text-[12px] lowercase tracking-[0.14em] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]/40"
                         >
                           download
                         </button>

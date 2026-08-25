@@ -89,7 +89,7 @@ export default async function ReceiptsPage({
             {(q || agent) && (
               <Link
                 href="/admin/receipts"
-                style={{ alignSelf: 'center', fontFamily: MONO, fontSize: 11.5, color: C.body, textDecoration: 'underline', textUnderlineOffset: 3 }}
+                style={{ alignSelf: 'center', fontFamily: MONO, fontSize: 12, color: C.body, textDecoration: 'underline', textUnderlineOffset: 3 }}
               >
                 clear
               </Link>
@@ -148,7 +148,7 @@ export default async function ReceiptsPage({
 function chip(active: boolean) {
   return {
     fontFamily: MONO,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 700,
     letterSpacing: '0.08em',
     color: active ? C.ink : C.body,

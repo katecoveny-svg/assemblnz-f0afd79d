@@ -11,7 +11,7 @@ import {
   type BriefType,
 } from "@/lib/hapai/brief-fields";
 
-const labelClass = "font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]";
+const labelClass = "font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]";
 
 function wrap(text: string, max: number): string[] {
   const words = String(text || "").replace(/\s+/g, " ").trim().split(" ");
@@ -245,7 +245,7 @@ export function BriefGeneratorTool() {
             <span className="flex items-center">{gate.counter}</span>
           </div>
           {error ? <p className="mt-3 text-xs text-[#9A3412]">{error}</p> : null}
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]">
+          <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]">
             Fill at least four fields · draft only
           </p>
         </div>
@@ -253,7 +253,7 @@ export function BriefGeneratorTool() {
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="font-display text-2xl font-light text-[#313c42]">Preview</h2>
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#68766f]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#68766f]">
               {loading ? "generating…" : brief ? `${briefType} brief · ready for PDF` : "waiting for brief context"}
             </p>
           </div>
@@ -264,7 +264,7 @@ export function BriefGeneratorTool() {
             </p>
           ) : (
             <article className="mt-4 rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white p-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3f7373]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#3f7373]">
                 {brief.eyebrow}
               </p>
               <h3 className="mt-2 font-display text-3xl font-light leading-tight text-[#313c42]">
@@ -273,7 +273,7 @@ export function BriefGeneratorTool() {
               <div className="mt-4 grid gap-4 border-t border-[#b8964f]/40 pt-4">
                 {brief.sections.map((section) => (
                   <div key={section.heading}>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#3f7373]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#3f7373]">
                       {section.heading}
                     </p>
                     <p className="mt-1 text-sm leading-relaxed text-[#313c42]">{section.body}</p>

@@ -100,7 +100,7 @@ export function WaitAssembly({ data }: { data: ScenarioRun }) {
       <div className={styles.stagePhone}>
         <PhoneFrame width={330} balance={JOURNEY_START_BALANCE}>
           <div style={{ padding: '4px 20px 20px', minHeight: 452, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: GREY }}>
+            <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: GREY }}>
               weekly online shop · planning
             </div>
 
@@ -115,7 +115,7 @@ export function WaitAssembly({ data }: { data: ScenarioRun }) {
                 <button type="button" onClick={assemble} style={primaryBtn}>
                   Assemble my week
                 </button>
-                <div style={{ textAlign: 'center', fontSize: 11, color: GREY, marginTop: 8 }}>optional · rewarded · about 40 sec</div>
+                <div style={{ textAlign: 'center', fontSize: 12, color: GREY, marginTop: 8 }}>optional · rewarded · about 40 sec</div>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -147,7 +147,7 @@ export function WaitAssembly({ data }: { data: ScenarioRun }) {
                     <button type="button" style={secondaryBtn}>Skip</button>
                   </div>
                 ) : (
-                  <div style={{ fontSize: 11, color: GREY, textAlign: 'center', marginTop: 10 }}>nothing is ordered — preparing for your review</div>
+                  <div style={{ fontSize: 12, color: GREY, textAlign: 'center', marginTop: 10 }}>nothing is ordered — preparing for your review</div>
                 )}
               </div>
             )}
@@ -170,11 +170,11 @@ export function WaitAssembly({ data }: { data: ScenarioRun }) {
               <Meter label="confidence" value={`${confidence}%`} fill={confidence / 100} />
               <div>
                 <div style={{ fontSize: 24, fontWeight: 700, color: ORANGE_DARK, fontVariantNumeric: 'tabular-nums' }}>+{points}</div>
-                <div style={{ fontSize: 11.5, color: GREY, marginTop: 2 }}>points for the wait</div>
+                <div style={{ fontSize: 12, color: GREY, marginTop: 2 }}>points for the wait</div>
               </div>
               <div>
                 <div style={{ fontSize: 24, fontWeight: 700, color: NAVY, fontVariantNumeric: 'tabular-nums' }}>{Math.min(step, STEPS.length)}/{STEPS.length}</div>
-                <div style={{ fontSize: 11.5, color: GREY, marginTop: 2 }}>steps assembled</div>
+                <div style={{ fontSize: 12, color: GREY, marginTop: 2 }}>steps assembled</div>
               </div>
             </div>
 
@@ -202,7 +202,7 @@ export function WaitAssembly({ data }: { data: ScenarioRun }) {
                       <div style={{ fontSize: 15, color: NAVY, fontWeight: state === 'pending' ? 400 : 600 }}>{s.label}</div>
                       <div style={{ fontSize: 13, color: GREY, marginTop: 2 }}>{s.detail}</div>
                     </div>
-                    <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY }}>{s.agentRoleId}</span>
+                    <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY }}>{s.agentRoleId}</span>
                   </li>
                 );
               })}
@@ -210,7 +210,7 @@ export function WaitAssembly({ data }: { data: ScenarioRun }) {
 
             {phase === 'done' ? (
               <div className={styles.assemble} style={{ marginTop: 20, padding: '16px 18px', borderRadius: 14, border: '1px solid rgba(34,48,60,0.12)', background: '#fbfaf7' }}>
-                <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: ORANGE_DARK, marginBottom: 8 }}>proof</div>
+                <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: ORANGE_DARK, marginBottom: 8 }}>proof</div>
                 <p style={{ fontSize: 14.5, lineHeight: 1.55, color: CHARCOAL, margin: 0 }}>
                   {run.verifications.filter((v) => v.status === 'passed').length}/{run.verifications.length} checks passed ·
                   {' '}{[...new Set(run.timeline.map((e) => e.agentId).filter(Boolean))].length} agents acted · run {run.id}
@@ -231,7 +231,7 @@ function Meter({ label, value, fill }: { label: string; value: string; fill: num
   return (
     <div style={{ minWidth: 150 }}>
       <div style={{ fontSize: 24, fontWeight: 700, color: NAVY, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
-      <div style={{ fontSize: 11.5, color: GREY, margin: '2px 0 8px' }}>{label}</div>
+      <div style={{ fontSize: 12, color: GREY, margin: '2px 0 8px' }}>{label}</div>
       <div style={{ height: 4, borderRadius: 2, background: 'rgba(34,48,60,0.1)', overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${Math.round(fill * 100)}%`, background: ORANGE, transition: 'width 500ms cubic-bezier(0.22,0.61,0.36,1)' }} />
       </div>

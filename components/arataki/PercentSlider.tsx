@@ -13,7 +13,7 @@ type PercentSliderProps = {
 export function PercentSlider({ label, value, onChange, min = 0, max = 100 }: PercentSliderProps) {
   return (
     <label className="block">
-      <span className="mb-2 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#5C6273] md:tracking-[0.22em]">
+      <span className="mb-2 flex items-center justify-between gap-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#5C6273] md:tracking-[0.22em]">
         <span className="max-w-[16rem] break-words [overflow-wrap:anywhere] md:max-w-none">{label}</span>
         <span className="text-[#3A3832]">{formatPct(value)}</span>
       </span>

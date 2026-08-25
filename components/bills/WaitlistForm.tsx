@@ -116,7 +116,7 @@ export function WaitlistForm() {
       </button>
 
       {/* Privacy Act 2020 collection notice (IPP 3 / 3A). */}
-      <p className="flex items-start gap-2 text-[11px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
+      <p className="flex items-start gap-2 text-[12px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
         <Lock size={13} className="mt-0.5 shrink-0" />
         <span>
           <strong style={{ color: 'var(--b-muted)' }}>Privacy (NZ Privacy Act 2020).</strong>{' '}

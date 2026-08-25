@@ -202,7 +202,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
 
       <RevealSection id="product-map" className="scroll-mt-24 border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-28 md:px-12 md:py-36" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             WHAT TO USE
           </p>
           <div className="mt-4 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
@@ -232,7 +232,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 <span className="mt-4 block min-h-[96px] text-sm leading-relaxed text-[color:var(--text-body)]">
                   {body}
                 </span>
-                <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                <span className="mt-5 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   {cta} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </span>
               </Link>
@@ -244,7 +244,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto grid max-w-[1500px] gap-8 md:px-2 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               WHAT WE DO
             </p>
             <h2 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
@@ -294,7 +294,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/38 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-3xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               SPARK · PUBLIC TOOLS
             </p>
             <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-normal leading-tight">
@@ -335,10 +335,10 @@ export function HomePortal({ ketes }: HomePortalProps) {
                   </span>
                   <span className="flex flex-1 flex-col px-4 pb-4 pt-5">
                     <span className="flex items-center justify-between gap-3">
-                      <span className="w-fit rounded-full border border-white/70 bg-white/58 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57] shadow-sm backdrop-blur-md">
+                      <span className="w-fit rounded-full border border-white/70 bg-white/58 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#2B6B57] shadow-sm backdrop-blur-md">
                         {HAPAI_CARD_STYLES[index % HAPAI_CARD_STYLES.length].label}
                       </span>
-                      <span className="rounded-full border border-[rgba(43,107,87,0.16)] bg-white/50 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57] backdrop-blur-md">
+                      <span className="rounded-full border border-[rgba(43,107,87,0.16)] bg-white/50 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#2B6B57] backdrop-blur-md">
                         live
                       </span>
                     </span>
@@ -349,7 +349,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                       {tool.description}
                     </span>
                     <span className="mt-auto flex items-center justify-between gap-4 pt-7">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+                      <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
                         shareable · draft only
                       </span>
                       <span className="inline-flex h-11 items-center gap-2 rounded-full border border-white/70 bg-white/60 px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(43,107,87,0.10)] backdrop-blur-md transition-colors group-hover:bg-white">
@@ -374,7 +374,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
               >
                 <span className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/14" aria-hidden />
                 <span className="pointer-events-none absolute bottom-0 left-0 h-44 w-full bg-[linear-gradient(0deg,rgba(255,255,255,0.16),transparent)]" aria-hidden />
-                <span className="relative font-mono text-[10px] uppercase tracking-[0.20em] text-[#D9A85A]">
+                <span className="relative font-mono text-[12px] uppercase tracking-[0.20em] text-[#D9A85A]">
                   full SPARK library
                 </span>
                 <span>
@@ -397,7 +397,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
       <RevealSection id="kete-workflows" className="scroll-mt-24 border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-4xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               KETE PACKS · SPECIALIST INDUSTRY KITS
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
@@ -423,7 +423,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               EVIDENCE PACK
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
@@ -450,7 +450,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             />
             <div className="relative grid gap-4">
               <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2]/88 p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                   sealed example
                 </p>
                 <h3 className="mt-3 max-w-lg font-display text-[clamp(2.2rem,4vw,4.2rem)] font-light leading-[0.94]">
@@ -475,7 +475,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 {['inputs logged', 'citations inline', 'human signed off'].map((label) => (
                   <div
                     key={label}
-                    className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]"
+                    className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]"
                   >
                     {label}
                   </div>
@@ -488,7 +488,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
 
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/42 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             START HERE
           </p>
           <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -525,7 +525,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
                   {body}
                 </p>
-                <Link href={href} className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                <Link href={href} className="mt-6 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   {cta} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </Link>
               </motion.article>
@@ -654,13 +654,13 @@ function KeteCardGrid({
                 />
               </span>
               <span className="flex flex-1 flex-col p-7">
-                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                   {kete.industry} · {kete.meaning}
                 </span>
                 <span className="block font-display text-[28px] font-medium leading-none text-[color:var(--tile-accent)]">
                   {kete.name}
                 </span>
-                <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                <span className="mt-2 block font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                   {kete.englishName}
                 </span>
                 <span className="mt-4 block min-h-[74px] text-[14.5px] leading-relaxed text-[#2A2825]">

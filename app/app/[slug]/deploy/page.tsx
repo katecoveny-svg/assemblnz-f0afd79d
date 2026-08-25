@@ -88,7 +88,7 @@ export default async function TenantDeployPage({
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-wrap items-end justify-between gap-5">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               {tenant.slug} · deployment
             </p>
             <h1 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-light leading-[0.9]">
@@ -137,7 +137,7 @@ export default async function TenantDeployPage({
 
           <aside className="space-y-5">
             <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 Mobile QR
               </p>
               <img

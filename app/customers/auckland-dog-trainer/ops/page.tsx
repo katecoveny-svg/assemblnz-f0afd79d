@@ -176,7 +176,7 @@ export default async function AucklandDogTrainerOpsHome({
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
             <p
-              className="mb-3 text-[10px] uppercase"
+              className="mb-3 text-[12px] uppercase"
               style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}
             >
               live agent · {FRED_AGENT_NAME}

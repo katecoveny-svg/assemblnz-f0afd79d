@@ -375,7 +375,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
             <h1 className="truncate font-display text-2xl font-light leading-none sm:text-3xl">
               {tenant.name}
             </h1>
-            <p className="mt-1 truncate font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="mt-1 truncate font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               {tenant.keteName} · {tenant.keteDomain}
             </p>
           </div>
@@ -550,7 +550,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
           <aside className="flex flex-col justify-center py-4">
             <Link
               href={`/kete/${tenant.kete}`}
-              className="mb-8 inline-flex w-fit items-center gap-2 rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="mb-8 inline-flex w-fit items-center gap-2 rounded-sm font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
             >
               <span>View {tenant.keteName} kete</span>
               <ArrowRight className="h-3.5 w-3.5" aria-hidden />

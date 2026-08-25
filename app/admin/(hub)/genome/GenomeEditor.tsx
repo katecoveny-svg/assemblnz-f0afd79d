@@ -117,7 +117,7 @@ export function GenomeEditor({ facts, live }: { facts: GenomeFact[]; live: boole
               style={{
                 margin: 0,
                 color: MUTED,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
@@ -147,7 +147,7 @@ export function GenomeEditor({ facts, live }: { facts: GenomeFact[]; live: boole
                           borderRadius: 999,
                           border: `1px solid ${HAIRLINE}`,
                           color: GOLD,
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 700,
                           letterSpacing: '0.08em',
                           textTransform: 'uppercase',
@@ -225,7 +225,7 @@ export function GenomeEditor({ facts, live }: { facts: GenomeFact[]; live: boole
                   )}
 
                   {fact.readBy.length > 0 && (
-                    <p style={{ margin: 0, color: MUTED, fontSize: 11 }}>read by {fact.readBy.join(' · ')}</p>
+                    <p style={{ margin: 0, color: MUTED, fontSize: 12 }}>read by {fact.readBy.join(' · ')}</p>
                   )}
                 </article>
               ))}

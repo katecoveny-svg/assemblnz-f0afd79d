@@ -77,7 +77,7 @@ export function PearlLive({ initial }: PearlLiveProps) {
       <div className="container py-10 md:py-14">
         <div className="mb-6 flex items-center gap-3 md:mb-8">
           <PulseDot active={!stats.degraded && hasAnyActivity(stats)} />
-          <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             Pearl Live · activity across Aotearoa · captured {formatTime(stats.capturedAt)}
           </p>
         </div>
@@ -89,7 +89,7 @@ export function PearlLive({ initial }: PearlLiveProps) {
         </div>
 
         {stats.degraded && (
-          <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="mt-8 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Live ledger warming up — counters return as tenants come online
           </p>
         )}
@@ -107,7 +107,7 @@ function CounterCell({ spec, delay }: { spec: CountSpec; delay: number }) {
     >
       <CountUp value={spec.value} />
       <p
-        className="mt-3 font-mono text-[10px] uppercase tracking-[0.22em]"
+        className="mt-3 font-mono text-[12px] uppercase tracking-[0.22em]"
         style={{ color: 'var(--assembl-pounamu, #3A3832)' }}
       >
         {spec.label}

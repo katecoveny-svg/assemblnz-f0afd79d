@@ -295,7 +295,7 @@ export function KeteRotator({
                 immersive ? 'md:bg-[#FFF7EC]/42 md:shadow-[0_16px_42px_rgba(35,33,31,0.08)]' : '',
               ].join(' ')}
             >
-              <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              <span className="block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 {label}
               </span>
               <span className="mt-1 block truncate font-display text-lg leading-none md:text-2xl">

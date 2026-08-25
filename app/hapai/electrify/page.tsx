@@ -117,7 +117,7 @@ export default function ElectrifyFormPage() {
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-[linear-gradient(180deg,rgba(255,255,255,0.68),transparent)]" />
         <div className="mx-auto grid max-w-[1500px] gap-8 xl:grid-cols-[minmax(0,0.92fr)_minmax(460px,0.78fr)] xl:items-start">
           <div className="min-w-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               electrify · machine count for aotearoa
             </p>
             <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,0.84fr)_minmax(280px,0.52fr)] lg:items-end">
@@ -164,7 +164,7 @@ export default function ElectrifyFormPage() {
             aria-hidden
           >
             <div className="border-b border-[rgba(35,33,31,0.10)] pb-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
                 route board · live calculator
               </p>
               <h2 className="mt-2 font-display text-4xl font-light leading-none">
@@ -208,11 +208,11 @@ export default function ElectrifyFormPage() {
                           className="mt-1"
                         />
                         <span className="min-w-0 flex-1">
-                          <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+                          <span className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
                             <Icon className="h-3.5 w-3.5" aria-hidden />
                             {route.label}
                             {!isLive && (
-                              <span className="ml-auto rounded-full bg-[rgba(199,155,31,0.18)] px-2 py-0.5 text-[9px] tracking-[0.18em] text-[#8A6E2E]">
+                              <span className="ml-auto rounded-full bg-[rgba(199,155,31,0.18)] px-2 py-0.5 text-[12px] tracking-[0.18em] text-[#8A6E2E]">
                                 COMING SOON
                               </span>
                             )}
@@ -446,7 +446,7 @@ function RoutePill({ id, label, title, status, body, icon: Icon }: (typeof ROUTE
     >
       <Icon className="mt-0.5 h-5 w-5 flex-none text-[color:var(--assembl-pounamu)]" aria-hidden />
       <span>
-        <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+        <span className="block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           {label} · live
         </span>
         <span className="mt-2 block font-display text-2xl leading-none">{title}</span>
@@ -461,7 +461,7 @@ function RoutePill({ id, label, title, status, body, icon: Icon }: (typeof ROUTE
 function Proof({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </p>
       <p className="mt-1 font-display text-2xl leading-none text-[color:var(--text-primary)]">
@@ -475,7 +475,7 @@ function HeroChip({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
     <div className="rounded-[12px] border border-white/24 bg-white/16 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur">
       <Icon className="h-4 w-4" aria-hidden />
-      <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.12em]">{label}</span>
+      <span className="mt-2 block font-mono text-[12px] uppercase tracking-[0.12em]">{label}</span>
     </div>
   );
 }

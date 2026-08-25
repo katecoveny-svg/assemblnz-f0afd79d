@@ -16,7 +16,7 @@
 
 .cp-kicker {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--cp-brass);
@@ -46,7 +46,7 @@
 
 .cp-foot {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--cp-ink);

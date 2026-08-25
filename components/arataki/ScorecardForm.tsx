@@ -33,7 +33,7 @@ export function ScorecardForm() {
   return (
     <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
       <aside className="rounded-[8px] border border-[#C8BBA9]/70 bg-white/62 p-5 lg:sticky lg:top-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#3A3832]">Live score</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[#3A3832]">Live score</p>
         <div className="mt-5 space-y-4">
           {(Object.keys(categoryLabels) as ScoreCategory[]).map((category) => (
             <div key={category}>

@@ -50,7 +50,7 @@ function Header({ sub }: { sub?: string }) {
         lazyMount={false}
       />
       <div style={{ position: 'relative', zIndex: 1, margin: '0 auto', maxWidth: 1100 }}>
-        <p style={{ margin: 0, color: '#8b7447', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        <p style={{ margin: 0, color: '#8b7447', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
           Pilot
         </p>
         <h1
@@ -210,7 +210,7 @@ export default async function MyAgentsPage() {
                           borderRadius: 999,
                           border: `1px solid ${HAIRLINE}`,
                           color: TEAL,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 700,
                           letterSpacing: '0.06em',
                           textTransform: 'uppercase',

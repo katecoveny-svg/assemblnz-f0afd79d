@@ -21,7 +21,7 @@ export default function EventsPage() {
         {EVENTS.map((e) => (
           <Card key={e.id} as="article">
             <div className="flex items-center justify-between gap-2">
-              <span className="rounded-full px-2.5 py-1 text-[10.5px] font-medium" style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
+              <span className="rounded-full px-2.5 py-1 text-[12px] font-medium" style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}>
                 {TYPE_LABEL[e.type]}
               </span>
               <TonePill tone={e.status}>{e.status === 'ok' ? 'Set' : 'Watch'}</TonePill>

@@ -164,7 +164,7 @@ export default function DashRewardsPage() {
                     position: 'absolute',
                     top: 18,
                     right: 18,
-                    fontSize: 11,
+                    fontSize: 12,
                     color: tag === 'Live' ? 'var(--accent)' : 'var(--muted)',
                   }}
                 >

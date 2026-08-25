@@ -68,7 +68,7 @@ export function DashWaitlistForm() {
 
   return (
     <form id="waitlist" onSubmit={onSubmit} style={{ maxWidth: 460 }}>
-      <div className="bd-mono" style={{ fontSize: 11.5, letterSpacing: '.14em', textTransform: 'uppercase', color: '#8A6A2E', marginBottom: 10 }}>
+      <div className="bd-mono" style={{ fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', color: '#8A6A2E', marginBottom: 10 }}>
         Join the waitlist
       </div>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>

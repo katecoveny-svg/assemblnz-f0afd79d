@@ -11,7 +11,7 @@ export function CitationChip({
   href?: string;
 }) {
   const baseClasses =
-    'inline-flex max-w-full items-center gap-2 rounded-full border bg-white/55 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] transition-all';
+    'inline-flex max-w-full items-center gap-2 rounded-full border bg-white/55 px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] transition-all';
 
   if (href) {
     return (

@@ -17,7 +17,7 @@ export function LiveState({ state, note }: { state: State; note?: string }) {
   const m = MAP[state];
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold"
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold"
       style={{ background: m.bg, color: m.fg }}
       title={note}
     >

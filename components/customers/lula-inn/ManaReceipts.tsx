@@ -54,7 +54,7 @@ export function ManaReceiptRow({ r }: { r: ManaReceipt }) {
           <span
             style={{
               fontFamily: 'var(--lula-mono), monospace',
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: '0.06em',
               color: B.brassDark,
               textTransform: 'uppercase',
@@ -65,7 +65,7 @@ export function ManaReceiptRow({ r }: { r: ManaReceipt }) {
           <span
             style={{
               fontFamily: 'var(--lula-mono), monospace',
-              fontSize: 10.5,
+              fontSize: 12,
               color: B.inkSoft,
               background: B.sand,
               border: `1px solid ${B.line}`,
@@ -104,7 +104,7 @@ export function ManaReceiptsPanel({
         <h2 style={{ fontFamily: 'var(--lula-display), Georgia, serif', fontWeight: 600, fontSize: 22, color: B.ocean, margin: 0 }}>
           Mana Receipts
         </h2>
-        <span style={{ fontFamily: 'var(--lula-mono), monospace', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: B.inkSoft }}>
+        <span style={{ fontFamily: 'var(--lula-mono), monospace', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: B.inkSoft }}>
           tamper-evident audit trail
         </span>
       </div>

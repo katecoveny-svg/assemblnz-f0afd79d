@@ -122,7 +122,7 @@ export function StatTile({
           : 'var(--air-navy)';
   return (
     <div className="air-card p-5">
-      <p className="text-[0.68rem] uppercase tracking-[0.14em] text-[color:var(--air-slate)]">{label}</p>
+      <p className="text-[0.75rem] uppercase tracking-[0.14em] text-[color:var(--air-slate)]">{label}</p>
       <p className="air-display mt-1 text-3xl" style={{ color: accent }}>
         {value}
       </p>
@@ -165,7 +165,7 @@ export function CitationList({
           {c.ref ? <span> — {c.ref}</span> : null}
           {c.note ? <span className="block">{c.note}</span> : null}
           {c.retrievedAt ? (
-            <span className="block text-[0.68rem] opacity-80">Retrieved {c.retrievedAt}</span>
+            <span className="block text-[0.75rem] opacity-80">Retrieved {c.retrievedAt}</span>
           ) : null}
         </li>
       ))}

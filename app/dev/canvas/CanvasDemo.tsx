@@ -156,7 +156,7 @@ export function CanvasDemo() {
                         display: 'inline-block',
                       }}
                     />
-                    <span style={{ fontSize: 11, color: palette.bodyGrey }}>
+                    <span style={{ fontSize: 12, color: palette.bodyGrey }}>
                       {name} {hex}
                     </span>
                   </div>

@@ -226,7 +226,7 @@ export default function AironautOsHome() {
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
-            className="mt-4 text-[10px] uppercase text-white/85"
+            className="mt-4 text-[12px] uppercase text-white/85"
             style={{ letterSpacing: '0.16em' }}
           >
             global trade. made simple.
@@ -276,7 +276,7 @@ export default function AironautOsHome() {
             <div className="flex flex-col gap-4">
               <DadWalkthrough steps={walkthroughSteps} accent={accent} />
               <div className="rounded-2xl border border-black/10 bg-white/85 p-4 text-sm backdrop-blur-sm">
-                <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+                <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                   service lines
                 </p>
                 <ul className="mt-2 space-y-1.5">
@@ -343,7 +343,7 @@ export default function AironautOsHome() {
 
             {/* Cashflow exposure — glance tile → the full page */}
             <div className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+              <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                 cashflow exposure
               </p>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
@@ -408,25 +408,25 @@ export default function AironautOsHome() {
                 <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
                   {nzDate(latestReceipt.created_at)} · issuer {latestReceipt.issuer} · agent {latestReceipt.agent}
                 </span>
-                <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] uppercase tracking-wider text-amber-900">
+                <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[12px] uppercase tracking-wider text-amber-900">
                   {(latestReceipt.hitl?.status ?? 'pending_review').replace(/_/g, ' ')}
                 </span>
               </div>
               <dl className="mt-4 grid gap-x-8 gap-y-2 text-[12px] md:grid-cols-2">
                 <div>
-                  <dt className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>input hash</dt>
+                  <dt className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>input hash</dt>
                   <dd className="break-all font-mono">{latestReceipt.input_hash}</dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>output hash</dt>
+                  <dt className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>output hash</dt>
                   <dd className="break-all font-mono">{latestReceipt.output_hash}</dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>receipt hash</dt>
+                  <dt className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>receipt hash</dt>
                   <dd className="break-all font-mono">{latestReceipt.receipt_hash}</dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>chained to</dt>
+                  <dt className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>chained to</dt>
                   <dd className="break-all font-mono">{latestReceipt.prev_hash ?? 'chain head'}</dd>
                 </div>
               </dl>

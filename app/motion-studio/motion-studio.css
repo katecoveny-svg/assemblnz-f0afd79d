@@ -50,7 +50,7 @@
   border-left: 1px solid var(--line);
   padding-left: 15px;
   color: var(--body);
-  font-size: 11px;
+  font-size: 12px;
 }
 .brand-lockup i {
   margin-left: 5px;
@@ -59,7 +59,7 @@
   background: #e8deca;
   color: #795f31;
   font-family: var(--font-mono), monospace;
-  font-size: 7px;
+  font-size: 12px;
   font-style: normal;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -67,7 +67,7 @@
 .header-note {
   color: var(--muted);
   font-family: var(--font-mono), monospace;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: .19em;
 }
 .header-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
@@ -76,7 +76,7 @@
   padding: 11px 15px;
   background: transparent;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 12px;
   transition: transform .2s ease, background .2s ease;
 }
 .quiet-button:hover { background: var(--white); }
@@ -92,7 +92,7 @@
   padding: 10px 28px;
   background: #f2e8d5;
   color: #6f5b36;
-  font-size: 10px;
+  font-size: 12px;
 }
 .remix-note strong { font-weight: 600; }
 .remix-note button { position: absolute; right: 28px; border: 0; background: transparent; cursor: pointer; font-size: 16px; }
@@ -118,7 +118,7 @@
   margin: 0;
   color: var(--brass);
   font-family: var(--font-mono), monospace;
-  font-size: 7px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: .17em;
 }
@@ -132,12 +132,12 @@
   line-height: .87;
 }
 .rail-intro h1 em { color: var(--brass); font-weight: 400; }
-.rail-intro > span { display: block; max-width: 290px; color: var(--body); font-size: 11px; line-height: 1.6; }
+.rail-intro > span { display: block; max-width: 290px; color: var(--body); font-size: 12px; line-height: 1.6; }
 
 .control-section { padding: 22px 30px 24px; border-bottom: 1px solid var(--line); }
 .control-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.control-heading span { color: var(--ink); font-family: var(--font-mono), monospace; font-size: 8px; font-weight: 600; letter-spacing: .15em; }
-.control-heading small { color: var(--muted); font-size: 8px; }
+.control-heading span { color: var(--ink); font-family: var(--font-mono), monospace; font-size: 12px; font-weight: 600; letter-spacing: .15em; }
+.control-heading small { color: var(--muted); font-size: 12px; }
 .shape-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .shape-option {
   min-height: 58px;
@@ -155,8 +155,8 @@
 .shape-option.selected { border-color: var(--ink); background: var(--ink); color: white; }
 .shape-option > b { width: 28px; color: var(--brass); font-family: Georgia, serif; font-size: 22px; font-weight: 400; text-align: center; }
 .shape-option span { min-width: 0; }
-.shape-option strong { display: block; font-size: 9px; font-weight: 600; }
-.shape-option small { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+.shape-option strong { display: block; font-size: 12px; font-weight: 600; }
+.shape-option small { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .shape-option.selected small { color: rgba(255,255,255,.53); }
 .hidden-file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
 .image-upload {
@@ -167,11 +167,11 @@
   padding: 11px;
   background: rgba(255,255,252,.44);
 }
-.image-upload button { justify-self: start; border: 0; padding: 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 9px; font-weight: 600; }
-.image-upload span { overflow: hidden; color: var(--muted); font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
-.image-upload small { color: #9a4a36; font-size: 7px; line-height: 1.45; }
+.image-upload button { justify-self: start; border: 0; padding: 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 600; }
+.image-upload span { overflow: hidden; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.image-upload small { color: #9a4a36; font-size: 12px; line-height: 1.45; }
 
-.mini-label { display: block; margin: 16px 0 9px; color: var(--body); font-size: 8px; }
+.mini-label { display: block; margin: 16px 0 9px; color: var(--body); font-size: 12px; }
 .swatch-row { display: flex; gap: 9px; }
 .swatch {
   width: 27px;
@@ -193,7 +193,7 @@
   background: transparent;
   cursor: pointer;
   color: var(--body);
-  font-size: 8px;
+  font-size: 12px;
   text-align: left;
 }
 .background-chip i { width: 14px; height: 14px; border: 1px solid rgba(38,51,57,.1); border-radius: 50%; }
@@ -201,11 +201,11 @@
 .pattern-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
 .pattern-chip { min-width: 0; display: grid; justify-items: center; gap: 4px; border: 1px solid var(--line); padding: 9px 3px 7px; background: transparent; color: var(--muted); cursor: pointer; }
 .pattern-chip b { color: var(--ink); font-family: Georgia, serif; font-size: 13px; font-weight: 400; }
-.pattern-chip span { font-size: 7px; }
+.pattern-chip span { font-size: 12px; }
 .pattern-chip.selected { border-color: var(--ink); background: var(--ink); color: rgba(255,255,255,.6); }
 .pattern-chip.selected b { color: white; }
 .text-control { display: block; margin-top: 12px; }
-.text-control span { display: block; margin-bottom: 6px; color: var(--body); font-size: 8px; }
+.text-control span { display: block; margin-bottom: 6px; color: var(--body); font-size: 12px; }
 .text-control input {
   width: 100%;
   height: 37px;
@@ -215,14 +215,14 @@
   outline: none;
   background: rgba(255,255,252,.75);
   color: var(--ink);
-  font-size: 10px;
+  font-size: 12px;
 }
 .text-control input:focus { border-color: var(--ink); background: white; }
 
 .range-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 18px; }
 .range-control > span { display: flex; justify-content: space-between; margin-bottom: 7px; }
-.range-control b { color: var(--body); font-size: 8px; font-weight: 500; }
-.range-control i { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 7px; font-style: normal; }
+.range-control b { color: var(--body); font-size: 12px; font-weight: 500; }
+.range-control i { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; font-style: normal; }
 .range-control input {
   width: 100%;
   height: 2px;
@@ -241,7 +241,7 @@
   cursor: grab;
 }
 .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 18px; }
-.toggle { display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); padding: 9px; background: transparent; cursor: pointer; color: var(--body); font-size: 8px; text-align: left; }
+.toggle { display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); padding: 9px; background: transparent; cursor: pointer; color: var(--body); font-size: 12px; text-align: left; }
 .toggle i { width: 12px; height: 7px; border-radius: 99px; background: rgba(38,51,57,.16); }
 .toggle.active { border-color: rgba(70,111,98,.33); background: var(--sage); color: var(--ink); }
 .toggle.active i { background: #557a6c; box-shadow: inset 5px 0 0 white; }
@@ -293,7 +293,7 @@
   justify-content: space-between;
   color: rgba(38,51,57,.45);
   font-family: var(--font-mono), monospace;
-  font-size: 7px;
+  font-size: 12px;
   letter-spacing: .15em;
   pointer-events: none;
   mix-blend-mode: multiply;
@@ -304,7 +304,7 @@
   right: 14px;
   color: rgba(38,51,57,.34);
   font-family: var(--font-mono), monospace;
-  font-size: 7px;
+  font-size: 12px;
   letter-spacing: .12em;
   text-transform: uppercase;
   writing-mode: vertical-rl;
@@ -320,7 +320,7 @@
   background: rgba(255,254,250,.86);
   backdrop-filter: blur(10px);
 }
-.format-switch button { border: 0; padding: 7px 9px; background: transparent; cursor: pointer; color: var(--muted); font-family: var(--font-mono), monospace; font-size: 7px; }
+.format-switch button { border: 0; padding: 7px 9px; background: transparent; cursor: pointer; color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; }
 .format-switch button.selected { background: var(--ink); color: white; }
 
 .export-dock {
@@ -336,9 +336,9 @@
 }
 .study-id { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: start; gap: 0 7px; }
 .study-id > i { grid-row: span 2; width: 7px; height: 7px; border-radius: 50%; background: #648575; box-shadow: 0 0 0 4px rgba(100,133,117,.09); }
-.study-id span { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 6px; letter-spacing: .12em; }
-.study-id strong { font-size: 9px; font-weight: 500; }
-.export-dock > p { margin: 0; color: var(--muted); font-size: 8px; }
+.study-id span { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: .12em; }
+.study-id strong { font-size: 12px; font-weight: 500; }
+.export-dock > p { margin: 0; color: var(--muted); font-size: 12px; }
 .export-actions { justify-self: end; display: flex; gap: 7px; }
 .export-actions button {
   position: relative;
@@ -351,11 +351,11 @@
   background: transparent;
   cursor: pointer;
   color: var(--ink);
-  font-size: 9px;
+  font-size: 12px;
 }
 .export-actions button:last-child { min-width: 170px; border-color: var(--ink); background: var(--ink); color: white; }
 .export-actions button:disabled { cursor: wait; }
-.export-actions small { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 6px; }
+.export-actions small { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; }
 .export-actions button:last-child small { color: rgba(255,255,255,.45); }
 .export-actions .recording > i { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--brass); transition: width .1s linear; }
 
@@ -398,7 +398,7 @@
     background: rgba(255,254,250,.94);
     backdrop-filter: blur(12px);
   }
-  .mobile-tabs button { border: 0; border-right: 1px solid var(--line); padding: 12px 5px; background: transparent; color: var(--muted); font-family: var(--font-mono), monospace; font-size: 7px; letter-spacing: .08em; text-transform: uppercase; }
+  .mobile-tabs button { border: 0; border-right: 1px solid var(--line); padding: 12px 5px; background: transparent; color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
   .mobile-tabs button[aria-selected="true"] { background: var(--ink); color: white; }
   .control-section { order: 3; display: none; padding: 22px 19px 28px; background: var(--paper); }
   .control-section.active { display: block; }

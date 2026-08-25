@@ -40,7 +40,7 @@ export function SectionHead({
 }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">
+      <p className="text-[12px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">
         {eyebrow}
       </p>
       <h1
@@ -84,7 +84,7 @@ export function SourceLink({
         {label} <span className="text-[#2E7D74]">↗ check the live source</span>
       </span>
       {note ? (
-        <span className="mt-0.5 text-[11.5px] leading-relaxed text-[color:var(--brand-muted)]">
+        <span className="mt-0.5 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">
           {note}
         </span>
       ) : null}

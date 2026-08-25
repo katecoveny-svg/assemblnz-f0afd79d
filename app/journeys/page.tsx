@@ -30,7 +30,7 @@ export default async function JourneysIndex() {
         <p
           style={{
             fontFamily: 'var(--font-mono, monospace)',
-            fontSize: '0.66rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
             color: 'var(--a-accent, #3f7373)',
@@ -84,7 +84,7 @@ export default async function JourneysIndex() {
                 <span
                   style={{
                     fontFamily: 'var(--font-mono, monospace)',
-                    fontSize: '0.6rem',
+                    fontSize: '0.75rem',
                     letterSpacing: '0.14em',
                     textTransform: 'uppercase',
                     color: 'var(--a-gold, #b8964f)',
@@ -104,7 +104,7 @@ export default async function JourneysIndex() {
         <p
           style={{
             fontFamily: 'var(--font-mono, monospace)',
-            fontSize: '0.62rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
             color: 'var(--a-text-faint, #889)',

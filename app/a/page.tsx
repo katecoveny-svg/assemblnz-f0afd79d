@@ -45,7 +45,7 @@ export default async function BuilderPage({
       }}
     >
       <main style={{ margin: '0 auto', maxWidth: 1380, padding: 'clamp(64px, 9vw, 132px) clamp(20px, 5vw, 64px) 120px' }}>
-        <p style={{ margin: '0 0 28px', fontFamily: 'var(--font-mono), monospace', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED }}>
+        <p style={{ margin: '0 0 28px', fontFamily: 'var(--font-mono), monospace', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: MUTED }}>
           Agent builder · public trial · drafts only
         </p>
         <h1

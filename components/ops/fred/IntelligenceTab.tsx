@@ -10,7 +10,7 @@ export function IntelligenceTab({ intel }: { intel: IntelligenceView }) {
   return (
     <div className="flex flex-col gap-5">
       <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
-        <p className="mb-3 text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
+        <p className="mb-3 text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
           signals · from real activity
         </p>
         {intel.signals.length === 0 ? (
@@ -22,7 +22,7 @@ export function IntelligenceTab({ intel }: { intel: IntelligenceView }) {
             {intel.signals.map((s) => (
               <div key={s.label} className="rounded-2xl border border-[#1B2A4A]/10 p-4">
                 <p className="text-2xl font-semibold">{s.value}</p>
-                <p className="mt-1 text-[11px] uppercase" style={{ letterSpacing: '0.1em', color: 'var(--brand-muted)' }}>
+                <p className="mt-1 text-[12px] uppercase" style={{ letterSpacing: '0.1em', color: 'var(--brand-muted)' }}>
                   {s.label}
                 </p>
                 <p className="mt-1 text-xs" style={{ color: 'var(--brand-muted)' }}>{s.hint}</p>
@@ -33,7 +33,7 @@ export function IntelligenceTab({ intel }: { intel: IntelligenceView }) {
       </section>
 
       <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
-        <p className="mb-3 text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
+        <p className="mb-3 text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}>
           what deserves attention
         </p>
         <ul className="flex flex-col divide-y divide-[#1B2A4A]/8">

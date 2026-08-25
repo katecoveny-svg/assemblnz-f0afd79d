@@ -97,7 +97,7 @@ function StepDots({ step }: { step: Step }) {
         <span
           key={s}
           style={{
-            fontSize: 11,
+            fontSize: 12,
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
             color: i <= idx ? palette.ink : palette.silverDeep,
@@ -271,7 +271,7 @@ export function InstallerFlow() {
                     </span>
                     <span
                       style={{
-                        fontSize: 10.5,
+                        fontSize: 12,
                         letterSpacing: '0.14em',
                         textTransform: 'uppercase',
                         marginTop: 10,
@@ -314,7 +314,7 @@ export function InstallerFlow() {
             transition={{ duration: 0.45, ease: EASE }}
           >
             {/* One question at a time — a conversation, not a form. */}
-            <p style={{ fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: palette.bodyGrey, margin: 0 }}>
+            <p style={{ fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: palette.bodyGrey, margin: 0 }}>
               {qIndex + 1} of {QUESTIONS.length}
             </p>
             <label

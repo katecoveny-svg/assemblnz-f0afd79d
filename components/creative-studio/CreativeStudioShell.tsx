@@ -385,16 +385,16 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
           assembl<span className="text-[#E9BCA9]">·</span>
         </Link>
         <div className="min-w-0 text-center">
-          <p className="font-mono text-[8px] font-medium uppercase tracking-[0.16em] text-[#FFFDFB] md:text-[10px] min-[1920px]:text-[13px]">
+          <p className="font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-[#FFFDFB] md:text-[12px] min-[1920px]:text-[13px]">
             Creative studio
           </p>
-          <p className="mt-1 hidden font-mono text-[7px] uppercase tracking-[0.12em] text-[#B6ACB3] sm:block md:text-[8px] min-[1920px]:mt-2 min-[1920px]:text-[10px]">
+          <p className="mt-1 hidden font-mono text-[12px] uppercase tracking-[0.12em] text-[#B6ACB3] sm:block md:text-[12px] min-[1920px]:mt-2 min-[1920px]:text-[12px]">
             Generate securely · edit in your browser · download to your device
           </p>
         </div>
         <Link
           href="/"
-          className="rounded-sm font-mono text-[8px] font-medium uppercase tracking-[0.12em] text-[#F5F1F2] outline-none hover:text-[#E9BCA9] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] md:text-[9px] min-[1920px]:text-[12px]"
+          className="rounded-sm font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#F5F1F2] outline-none hover:text-[#E9BCA9] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] md:text-[12px] min-[1920px]:text-[12px]"
         >
           Back to site <span aria-hidden="true">↙</span>
         </Link>
@@ -403,7 +403,7 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
       <section className="relative overflow-hidden border-b border-white/10 bg-[#120510]">
         <div className="mx-auto grid min-h-[520px] max-w-[1480px] md:grid-cols-[1.04fr_0.96fr] min-[1920px]:min-h-[760px] min-[1920px]:max-w-[2200px]">
           <div className="relative z-10 flex flex-col justify-center px-5 py-14 md:px-10 lg:px-16 min-[1920px]:px-24 min-[1920px]:py-24">
-            <p className="font-mono text-[9px] font-medium uppercase tracking-[0.16em] text-[#E9BCA9] min-[1920px]:text-[12px]">
+            <p className="font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-[#E9BCA9] min-[1920px]:text-[12px]">
               Shader · brand · image · motion · caption
             </p>
             <h1 className="mt-5 max-w-[880px] font-sans text-[clamp(52px,7.2vw,112px)] font-medium leading-[0.82] tracking-[-0.075em] text-[#FFFDFB] min-[1920px]:mt-8 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(100px,6vw,168px)]">
@@ -432,7 +432,7 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
                     {tab.label}
                   </span>
                   <span
-                    className={`mt-1 block font-mono text-[7px] uppercase leading-3 tracking-[0.08em] min-[1920px]:mt-2 min-[1920px]:text-[9px] ${
+                    className={`mt-1 block font-mono text-[12px] uppercase leading-3 tracking-[0.08em] min-[1920px]:mt-2 min-[1920px]:text-[12px] ${
                       index === 0 ? "text-[#654A4E]" : "text-[#B6ACB3]"
                     }`}
                   >
@@ -458,14 +458,14 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
                 (format) => (
                   <span
                     key={format}
-                    className="border border-white/35 bg-[#120510]/80 px-3 py-3 text-center font-mono text-[7px] uppercase tracking-[0.08em] text-[#FFFDFB] backdrop-blur-md min-[1920px]:px-5 min-[1920px]:py-5 min-[1920px]:text-[10px]"
+                    className="border border-white/35 bg-[#120510]/80 px-3 py-3 text-center font-mono text-[12px] uppercase tracking-[0.08em] text-[#FFFDFB] backdrop-blur-md min-[1920px]:px-5 min-[1920px]:py-5 min-[1920px]:text-[12px]"
                   >
                     {format}
                   </span>
                 ),
               )}
             </div>
-            <figcaption className="absolute right-5 top-5 bg-[#FFFDFB] px-4 py-2 font-mono text-[8px] font-medium uppercase tracking-[0.1em] text-[#240B21] md:right-8 md:top-8 min-[1920px]:right-12 min-[1920px]:top-12 min-[1920px]:px-6 min-[1920px]:py-3 min-[1920px]:text-[11px]">
+            <figcaption className="absolute right-5 top-5 bg-[#FFFDFB] px-4 py-2 font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] md:right-8 md:top-8 min-[1920px]:right-12 min-[1920px]:top-12 min-[1920px]:px-6 min-[1920px]:py-3 min-[1920px]:text-[12px]">
               assembl brand field · ready to shape
             </figcaption>
           </figure>
@@ -497,7 +497,7 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
                   {tab.label}
                 </span>
                 <span
-                  className={`mt-1 hidden font-mono text-[7px] uppercase tracking-[0.08em] md:block md:text-[8px] min-[1920px]:mt-2 min-[1920px]:text-[10px] ${
+                  className={`mt-1 hidden font-mono text-[12px] uppercase tracking-[0.08em] md:block md:text-[12px] min-[1920px]:mt-2 min-[1920px]:text-[12px] ${
                     active ? "text-[#654A4E]" : "text-[#B6ACB3]"
                   }`}
                 >
@@ -755,7 +755,7 @@ function AssemblImageMaker() {
     <div className="mx-auto max-w-[1480px] px-4 py-8 md:px-7 md:py-12 min-[1920px]:max-w-[2200px] min-[1920px]:px-12 min-[1920px]:py-20">
       <div className="mb-8 grid gap-5 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end min-[1920px]:mb-12 min-[1920px]:gap-12 min-[1920px]:pb-12">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#E9BCA9] min-[1920px]:text-[12px]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9] min-[1920px]:text-[12px]">
             Image maker · draft then review
           </p>
           <h2 className="mt-4 max-w-[900px] font-sans text-[clamp(36px,6vw,82px)] font-medium leading-[0.94] tracking-[-0.055em] text-[#FFFDFB] min-[1920px]:mt-7 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(88px,5.2vw,144px)]">
@@ -774,7 +774,7 @@ function AssemblImageMaker() {
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
             <div className="mb-4">
               <div>
-                <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
                   01 · Starting point
                 </p>
                 <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#FFFDFB]">
@@ -783,7 +783,7 @@ function AssemblImageMaker() {
               </div>
             </div>
             <div className="mb-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 text-center font-mono text-[9px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#F1CCBD] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#F1CCBD] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
                 {uploading ? "opening photo…" : "choose a photo"}
                 <input
                   type="file"
@@ -798,7 +798,7 @@ function AssemblImageMaker() {
                   }}
                 />
               </label>
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9]/55 px-4 py-3 text-center font-mono text-[9px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9]/55 px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
                 take a photo
                 <input
                   type="file"
@@ -815,7 +815,7 @@ function AssemblImageMaker() {
                 />
               </label>
             </div>
-            <p className="mb-4 font-mono text-[8px] leading-4 uppercase tracking-[0.08em] text-[#B6ACB3]">
+            <p className="mb-4 font-mono text-[12px] leading-4 uppercase tracking-[0.08em] text-[#B6ACB3]">
               Camera roll, files or camera · JPEG, PNG, WebP and HEIC · up to 25MB
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -843,7 +843,7 @@ function AssemblImageMaker() {
                       <span className="block text-[12px] font-medium text-[#FFFDFB]">
                         {asset.label}
                       </span>
-                      <span className="mt-1 block font-mono text-[7px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+                      <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
                         {asset.note}
                       </span>
                     </span>
@@ -854,11 +854,11 @@ function AssemblImageMaker() {
           </section>
 
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
               02 · Image brief
             </p>
             <label className="mt-4 block">
-              <span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.1em] text-[#B6ACB3]">
+              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.1em] text-[#B6ACB3]">
                 what should the image show?
               </span>
               <textarea
@@ -874,7 +874,7 @@ function AssemblImageMaker() {
                   type="button"
                   key={starter.label}
                   onClick={() => setBrief(starter.brief)}
-                  className="border border-white/15 px-3 py-2 font-mono text-[8px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                  className="border border-white/15 px-3 py-2 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
                 >
                   {starter.label}
                 </button>
@@ -882,7 +882,7 @@ function AssemblImageMaker() {
             </div>
 
             <div className="mt-5">
-              <span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.1em] text-[#B6ACB3]">
+              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.1em] text-[#B6ACB3]">
                 social format
               </span>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -898,10 +898,10 @@ function AssemblImageMaker() {
                         : "border-white/15 bg-[#120510] text-[#F5F1F2]"
                     }`}
                   >
-                    <span className="block text-[11px] font-medium">
+                    <span className="block text-[12px] font-medium">
                       {item.label}
                     </span>
-                    <span className="mt-1 block font-mono text-[7px] uppercase tracking-[0.06em] opacity-70">
+                    <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.06em] opacity-70">
                       {item.note}
                     </span>
                   </button>
@@ -913,11 +913,11 @@ function AssemblImageMaker() {
               type="button"
               onClick={() => void generate()}
               disabled={busy}
-              className="mt-5 min-h-12 w-full border border-[#E9BCA9] bg-[#E9BCA9] px-5 py-3 font-mono text-[9px] font-medium uppercase tracking-[0.12em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#240B21] disabled:cursor-wait disabled:opacity-60"
+              className="mt-5 min-h-12 w-full border border-[#E9BCA9] bg-[#E9BCA9] px-5 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#240B21] disabled:cursor-wait disabled:opacity-60"
             >
               {busy ? "preparing one draft…" : "generate on-brand image"}
             </button>
-            <p className="mt-3 font-mono text-[7px] uppercase leading-4 tracking-[0.06em] text-[#8A7B85]">
+            <p className="mt-3 font-mono text-[12px] uppercase leading-4 tracking-[0.06em] text-[#8A7B85]">
               Your brief and chosen reference are sent securely to the
               generation provider when you press generate. Review every draft
               before use.
@@ -929,7 +929,7 @@ function AssemblImageMaker() {
           <section className="border border-[#E9BCA9]/25 bg-[#240B21] p-4 md:p-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
                   03 · Plum treatment
                 </p>
                 <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#FFFDFB]">
@@ -937,7 +937,7 @@ function AssemblImageMaker() {
                 </h2>
               </div>
               {receipt?.provider && (
-                <p className="font-mono text-[7px] uppercase tracking-[0.07em] text-[#B6ACB3]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.07em] text-[#B6ACB3]">
                   {receipt.provider} · {receipt.model}
                 </p>
               )}
@@ -964,10 +964,10 @@ function AssemblImageMaker() {
                       : "border-white/15 bg-[#120510] text-[#F5F1F2]"
                   }`}
                 >
-                  <span className="block text-[11px] font-medium">
+                  <span className="block text-[12px] font-medium">
                     {item.label}
                   </span>
-                  <span className="mt-1 hidden font-mono text-[7px] uppercase tracking-[0.06em] opacity-65 sm:block">
+                  <span className="mt-1 hidden font-mono text-[12px] uppercase tracking-[0.06em] opacity-65 sm:block">
                     {item.note}
                   </span>
                 </button>
@@ -976,7 +976,7 @@ function AssemblImageMaker() {
 
             <div className="mt-5 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
               <label>
-                <span className="mb-2 flex items-center justify-between font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+                <span className="mb-2 flex items-center justify-between font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
                   filter strength <span>{intensity}%</span>
                 </span>
                 <input
@@ -989,7 +989,7 @@ function AssemblImageMaker() {
                   className="h-2 w-full cursor-pointer accent-[#E9BCA9] disabled:opacity-35"
                 />
               </label>
-              <label className="flex min-h-10 items-center gap-2 border border-white/15 px-3 font-mono text-[8px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+              <label className="flex min-h-10 items-center gap-2 border border-white/15 px-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
                 <input
                   type="checkbox"
                   checked={wordmark}
@@ -1004,7 +1004,7 @@ function AssemblImageMaker() {
               <button
                 type="button"
                 onClick={() => void download()}
-                className="min-h-11 flex-1 border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 font-mono text-[9px] font-medium uppercase tracking-[0.11em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB]"
+                className="min-h-11 flex-1 border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.11em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB]"
               >
                 download full-size PNG
               </button>
@@ -1017,14 +1017,14 @@ function AssemblImageMaker() {
                     "Reference cleared. The current preview remains available to filter and download.",
                   );
                 }}
-                className="border border-white/15 px-4 py-3 font-mono text-[8px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                className="border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
               >
                 clear reference
               </button>
             </div>
 
             <p
-              className="mt-4 min-h-5 font-mono text-[8px] uppercase leading-4 tracking-[0.07em] text-[#B6ACB3]"
+              className="mt-4 min-h-5 font-mono text-[12px] uppercase leading-4 tracking-[0.07em] text-[#B6ACB3]"
               aria-live="polite"
             >
               {notice}

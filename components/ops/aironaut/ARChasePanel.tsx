@@ -22,7 +22,7 @@ export function ARChasePanel({ accent }: { accent: string }) {
       id="ar-chase"
       className="scroll-mt-8 rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm"
     >
-      <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+      <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
         AR chase — 3 invoices due
       </p>
 
@@ -42,13 +42,13 @@ export function ARChasePanel({ accent }: { accent: string }) {
                   <span className="block truncate text-sm font-semibold">
                     {inv.customer}
                   </span>
-                  <span className="block truncate text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+                  <span className="block truncate text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
                     {inv.id} · {inv.jobSummary}
                   </span>
                 </span>
                 <span className="text-right">
                   <span className="block text-sm font-semibold">{inv.amount}</span>
-                  <span className="block text-[11px]" style={{ color: accent }}>
+                  <span className="block text-[12px]" style={{ color: accent }}>
                     {inv.daysOverdue} days overdue
                   </span>
                 </span>
@@ -67,7 +67,7 @@ export function ARChasePanel({ accent }: { accent: string }) {
 
               {isOpen ? (
                 <div className="border-t border-black/5 px-3 py-3">
-                  <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+                  <p className="text-[12px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
                     draft · {inv.cadenceStage}
                   </p>
                   <blockquote
@@ -81,7 +81,7 @@ export function ARChasePanel({ accent }: { accent: string }) {
                       {(['Outlook email', 'WhatsApp', 'SMS'] as const).map((ch) => (
                         <span
                           key={ch}
-                          className="rounded-full border px-2 py-0.5 text-[10px]"
+                          className="rounded-full border px-2 py-0.5 text-[12px]"
                           style={
                             ch === inv.channel
                               ? { borderColor: '#0B1F3A', backgroundColor: '#0B1F3A', color: '#fff' }
@@ -118,7 +118,7 @@ export function ARChasePanel({ accent }: { accent: string }) {
       </ul>
 
       {/* Cadence — how the chase escalates */}
-      <p className="mt-3 text-[11px] leading-relaxed" style={{ color: ASSEMBL_WARM_GREY }}>
+      <p className="mt-3 text-[12px] leading-relaxed" style={{ color: ASSEMBL_WARM_GREY }}>
         {chaseCadence.map((c, i) => (
           <span key={c.day}>
             {i > 0 ? ' · ' : ''}
@@ -126,7 +126,7 @@ export function ARChasePanel({ accent }: { accent: string }) {
           </span>
         ))}
       </p>
-      <p className="mt-2 text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+      <p className="mt-2 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
         {chaseStats}
       </p>
     </div>

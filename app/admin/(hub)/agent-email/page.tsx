@@ -187,7 +187,7 @@ const S: Record<string, React.CSSProperties> = {
   cardHead: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 },
   agentTag: {
     fontFamily: "'Space Mono', monospace",
-    fontSize: 11,
+    fontSize: 12,
     textTransform: 'uppercase',
     letterSpacing: '0.1em',
     color: '#C79B1F',
@@ -196,7 +196,7 @@ const S: Record<string, React.CSSProperties> = {
   quarTag: {
     marginLeft: 8,
     fontFamily: "'Space Mono', monospace",
-    fontSize: 10,
+    fontSize: 12,
     textTransform: 'uppercase',
     letterSpacing: '0.08em',
     color: '#E0A800',
@@ -209,6 +209,6 @@ const S: Record<string, React.CSSProperties> = {
   subject: { margin: '8px 0 0', fontSize: 15, fontWeight: 700, color: '#3A3832' },
   addr: { margin: '2px 0 0', fontSize: 12, color: '#8A8678', fontFamily: "'Space Mono', monospace" },
   bubble: { maxWidth: '88%', border: '1px solid #EFEADC', borderRadius: 14, padding: '9px 13px' },
-  bubbleMeta: { display: 'block', fontSize: 11, color: '#8A8678', marginBottom: 3 },
+  bubbleMeta: { display: 'block', fontSize: 12, color: '#8A8678', marginBottom: 3 },
   bubbleBody: { margin: 0, fontSize: 14, lineHeight: 1.5, color: '#3A3832', whiteSpace: 'pre-wrap' },
 };

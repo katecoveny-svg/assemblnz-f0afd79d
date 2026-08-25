@@ -44,12 +44,12 @@ const glass = (): React.CSSProperties => ({
   boxShadow: '0 16px 44px rgba(154,123,58,0.12), inset 0 1px 0 rgba(255,255,255,0.7)',
 });
 
-const eyebrow: React.CSSProperties = { fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: MUTED };
+const eyebrow: React.CSSProperties = { fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: MUTED };
 const tag = (label: string, color = GOLD_DEEP) => (
-  <span style={{ ...eyebrow, fontSize: 9.5, color, letterSpacing: '0.14em' }}>{label}</span>
+  <span style={{ ...eyebrow, fontSize: 12, color, letterSpacing: '0.14em' }}>{label}</span>
 );
 const Source = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <a href={href} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: PAUA, textDecoration: 'none' }}>
+  <a href={href} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: PAUA, textDecoration: 'none' }}>
     {children} ↗
   </a>
 );
@@ -131,7 +131,7 @@ export function MoanaDashboard() {
             </p>
             <div style={{ marginTop: 20, pointerEvents: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
               <MagneticButton onClick={toChat} animate={animate}>Ask Moana →</MagneticButton>
-              <span style={{ fontSize: 11, color: MUTED }}>drag the sea · concept demo</span>
+              <span style={{ fontSize: 12, color: MUTED }}>drag the sea · concept demo</span>
             </div>
           </motion.div>
         </div>
@@ -167,14 +167,14 @@ export function MoanaDashboard() {
               { k: 'Gear now', v: 'soft baits · sabikis', s: 'micro-jigs · stickbaits' },
             ].map((c) => (
               <div key={c.k} style={{ borderRadius: 14, border: `1px solid ${GOLD}44`, background: 'rgba(255,255,255,0.55)', padding: '10px 12px' }}>
-                <div style={{ ...eyebrow, fontSize: 9 }}>{c.k}</div>
+                <div style={{ ...eyebrow, fontSize: 12 }}>{c.k}</div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: INK, marginTop: 3 }}>{c.v}</div>
-                <div style={{ fontSize: 11, color: MUTED, marginTop: 2 }}>{c.s}</div>
+                <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{c.s}</div>
               </div>
             ))}
           </div>
         </div>
-        <p style={{ fontSize: 11, color: MUTED, margin: '14px 0 0' }}>
+        <p style={{ fontSize: 12, color: MUTED, margin: '14px 0 0' }}>
           Sample local guidance — check the real tide on <Source href="https://www.linz.govt.nz/sea/tides">LINZ</Source>,
           limits on <Source href="https://www.fisheries.govt.nz/travel-and-recreation/fishing/fishing-rules/">MPI&rsquo;s NZ Fishing Rules</Source>, and respect rāhui &amp; the estuary.
         </p>
@@ -194,11 +194,11 @@ export function MoanaDashboard() {
             {[{ label: 'wind kt', to: 12, d: 0 }, { label: 'swell m', to: 0.8, d: 1 }, { label: 'gust kt', to: 18, d: 0 }].map((s) => (
               <div key={s.label}>
                 <div style={{ fontFamily: 'var(--font-brand-display)', fontSize: 30, fontWeight: 600, color: INK }}><CountUp to={s.to} decimals={s.d} animate={animate} /></div>
-                <div style={{ ...eyebrow, fontSize: 9.5 }}>{s.label}</div>
+                <div style={{ ...eyebrow, fontSize: 12 }}>{s.label}</div>
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 11.5, color: MUTED, margin: '14px 0 0' }}>SSW, good visibility. <Source href="https://www.metservice.com/marine">MetService Marine</Source></p>
+          <p style={{ fontSize: 12, color: MUTED, margin: '14px 0 0' }}>SSW, good visibility. <Source href="https://www.metservice.com/marine">MetService Marine</Source></p>
         </Cell>
 
         <Cell animate={animate}>
@@ -209,10 +209,10 @@ export function MoanaDashboard() {
             <path d="M0,45 C30,45 40,12 70,12 C100,12 110,48 140,48 C170,48 180,18 200,18" fill="none" stroke={PAUA} strokeWidth="2.5" />
             <circle cx="70" cy="12" r="3.5" fill={GOLD} /><circle cx="140" cy="48" r="3.5" fill={CORAL} />
           </svg>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, color: INK, marginTop: 6 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: INK, marginTop: 6 }}>
             <span>high 1:12p · 2.9m</span><span>low 7:20p · 0.5m</span>
           </div>
-          <p style={{ fontSize: 11, color: MUTED, margin: '10px 0 0' }}><Source href="https://www.linz.govt.nz/sea/tides">LINZ tide predictions</Source></p>
+          <p style={{ fontSize: 12, color: MUTED, margin: '10px 0 0' }}><Source href="https://www.linz.govt.nz/sea/tides">LINZ tide predictions</Source></p>
         </Cell>
 
         <Cell animate={animate}>
@@ -220,11 +220,11 @@ export function MoanaDashboard() {
           <ul style={{ listStyle: 'none', margin: '12px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {['Lifejackets for everyone', 'Two waterproof forms of comms', 'Log a trip report (Coastguard)', 'Fuel + weather checked'].map((s) => (
               <li key={s} style={{ display: 'flex', gap: 9, alignItems: 'center', fontSize: 12.5, color: INK }}>
-                <span style={{ width: 15, height: 15, borderRadius: 5, background: PAUA, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 10 }}>✓</span>{s}
+                <span style={{ width: 15, height: 15, borderRadius: 5, background: PAUA, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12 }}>✓</span>{s}
               </li>
             ))}
           </ul>
-          <p style={{ fontSize: 11, color: MUTED, margin: '12px 0 0' }}><Source href="https://www.maritimenz.govt.nz/recreational">Boating Safety Code</Source></p>
+          <p style={{ fontSize: 12, color: MUTED, margin: '12px 0 0' }}><Source href="https://www.maritimenz.govt.nz/recreational">Boating Safety Code</Source></p>
         </Cell>
 
         <Cell animate={animate}>
@@ -238,7 +238,7 @@ export function MoanaDashboard() {
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 11, color: MUTED, margin: '12px 0 0' }}>Limits vary &amp; change — <Source href="https://www.fisheries.govt.nz/travel-and-recreation/fishing/fishing-rules/">check MPI</Source>. Respect rāhui.</p>
+          <p style={{ fontSize: 12, color: MUTED, margin: '12px 0 0' }}>Limits vary &amp; change — <Source href="https://www.fisheries.govt.nz/travel-and-recreation/fishing/fishing-rules/">check MPI</Source>. Respect rāhui.</p>
         </Cell>
 
         {/* Kids lessons teaser → dedicated motion-lessons page */}
@@ -256,7 +256,7 @@ export function MoanaDashboard() {
         </Cell>
       </motion.div>
 
-      <p style={{ fontSize: 11, color: MUTED, textAlign: 'center', margin: '4px 0 0' }}>
+      <p style={{ fontSize: 12, color: MUTED, textAlign: 'center', margin: '4px 0 0' }}>
         Concept demo · not a real product or customer · sample figures. For real decisions on the water,
         check the official source and use your own judgement.
       </p>

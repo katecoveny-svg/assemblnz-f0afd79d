@@ -38,14 +38,14 @@
 .keeper-root .brand { display: flex; align-items: center; gap: 10px; padding: 2px 4px 18px; }
 .keeper-root .brand svg { width: 44px; height: 26px; flex: none; }
 .keeper-root .brand .wm { font-family: var(--serif); font-weight: 600; font-size: 19px; line-height: 1; letter-spacing: -.01em; }
-.keeper-root .brand .wm small { display: block; font-family: var(--sans); font-weight: 600; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); margin-top: 3px; }
+.keeper-root .brand .wm small { display: block; font-family: var(--sans); font-weight: 600; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); margin-top: 3px; }
 .keeper-root .nav { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; }
 .keeper-root .nav a { display: flex; align-items: center; gap: 10px; padding: 9px 11px; border-radius: 9px; color: var(--ink2); font-weight: 500; font-size: 13.5px; }
-.keeper-root .nav a .n { font-size: 10px; font-weight: 700; color: var(--mute); width: 15px; }
+.keeper-root .nav a .n { font-size: 12px; font-weight: 700; color: var(--mute); width: 15px; }
 .keeper-root .nav a:hover { background: #eef1ef; }
 .keeper-root .nav a.on { background: var(--ink); color: #fff; }
 .keeper-root .nav a.on .n { color: var(--canary); }
-.keeper-root .sidefoot { position: absolute; bottom: 18px; left: 16px; right: 16px; font-size: 10.5px; color: var(--mute); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 12px; }
+.keeper-root .sidefoot { position: absolute; bottom: 18px; left: 16px; right: 16px; font-size: 12px; color: var(--mute); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 12px; }
 .keeper-root .sidefoot b { color: var(--ink2); }
 .keeper-root .powered { color: #9aa49e; }
 
@@ -56,7 +56,7 @@
 .keeper-root .h1 { font-family: var(--serif); font-weight: 600; font-size: 34px; line-height: 1.05; letter-spacing: -.02em; margin: 0; }
 .keeper-root .h1.big { font-size: 38px; }
 .keeper-root .sub { color: var(--mute); font-size: 13.5px; margin-top: 6px; }
-.keeper-root .pill { display: inline-flex; align-items: center; gap: 7px; background: var(--canary-soft); border: 1px solid rgba(184, 150, 79, 0.38); color: #7a6434; font-size: 11px; font-weight: 600; padding: 6px 11px; border-radius: 999px; white-space: nowrap; }
+.keeper-root .pill { display: inline-flex; align-items: center; gap: 7px; background: var(--canary-soft); border: 1px solid rgba(184, 150, 79, 0.38); color: #7a6434; font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 999px; white-space: nowrap; }
 .keeper-root .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--warn); }
 
 .keeper-root .qa { display: flex; gap: 10px; flex-wrap: wrap; margin: 22px 0 26px; }
@@ -69,7 +69,7 @@
 .keeper-root .colstack { display: flex; flex-direction: column; gap: 20px; }
 .keeper-root .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
 .keeper-root .card h3 { font-family: var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); margin: 0 0 14px; display: flex; align-items: center; justify-content: space-between; }
-.keeper-root .card h3 .cnt { background: #eef1ef; color: var(--ink2); border-radius: 999px; padding: 2px 9px; font-size: 11px; letter-spacing: 0; }
+.keeper-root .card h3 .cnt { background: #eef1ef; color: var(--ink2); border-radius: 999px; padding: 2px 9px; font-size: 12px; letter-spacing: 0; }
 
 .keeper-root .dog { display: flex; align-items: center; gap: 13px; padding: 11px 0; border-top: 1px solid var(--line); }
 .keeper-root .dog:first-of-type { border-top: none; }
@@ -77,21 +77,21 @@
 .keeper-root .av svg { width: 26px; height: 16px; }
 .keeper-root .dog .nm { font-weight: 600; font-size: 14px; }
 .keeper-root .dog .meta { color: var(--mute); font-size: 12px; margin-top: 1px; }
-.keeper-root .dog .tag { margin-left: auto; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #eef4ef; color: var(--good); }
+.keeper-root .dog .tag { margin-left: auto; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #eef4ef; color: var(--good); }
 .keeper-root .dog .tag.b { background: #fdf0e8; color: var(--warn); }
 .keeper-root a.nmlink:hover .nm { text-decoration: underline; }
 
 .keeper-root .task { display: flex; gap: 11px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 13px; }
 .keeper-root .task:first-of-type { border-top: none; }
-.keeper-root .task .ic { width: 20px; height: 20px; border-radius: 6px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.keeper-root .task .ic { width: 20px; height: 20px; border-radius: 6px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
 .keeper-root .task .ic.r { background: #fdeae3; color: var(--bad); }
 .keeper-root .task .ic.y { background: #fdf3dd; color: var(--warn); }
-.keeper-root .task .who { color: var(--mute); font-size: 11.5px; margin-top: 2px; }
+.keeper-root .task .who { color: var(--mute); font-size: 12px; margin-top: 2px; }
 
 .keeper-root .route { display: flex; flex-direction: column; }
 .keeper-root .stop { display: flex; gap: 12px; align-items: flex-start; position: relative; padding: 8px 0; }
 .keeper-root .stop .rail { display: flex; flex-direction: column; align-items: center; flex: none; width: 22px; }
-.keeper-root .stop .node { width: 16px; height: 16px; border-radius: 50%; background: var(--canary); border: 2.5px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: var(--ink); margin-top: 2px; }
+.keeper-root .stop .node { width: 16px; height: 16px; border-radius: 50%; background: var(--canary); border: 2.5px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--ink); margin-top: 2px; }
 .keeper-root .stop .node.origin { background: var(--ink); color: #fff; }
 .keeper-root .stop .line { width: 2px; flex: 1; background: var(--line2); min-height: 20px; }
 .keeper-root .stop:last-child .line { display: none; }
@@ -99,7 +99,7 @@
 .keeper-root .stop .sub1 { font-weight: 600; font-size: 14px; }
 .keeper-root .stop .sub2 { color: var(--mute); font-size: 12px; margin-top: 2px; }
 .keeper-root .stop .win { color: var(--brown); font-weight: 600; font-size: 12.5px; font-variant-numeric: tabular-nums; background: #f4eee0; padding: 2px 8px; border-radius: 6px; display: inline-block; margin-top: 5px; }
-.keeper-root .stop .ov { font-size: 11px; font-weight: 600; color: var(--warn); background: #fdf3dd; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
+.keeper-root .stop .ov { font-size: 12px; font-weight: 600; color: var(--warn); background: #fdf3dd; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
 .keeper-root .summ { background: #f4eee0; border-radius: 11px; padding: 12px 14px; font-size: 12.5px; color: var(--ink2); margin-top: 6px; line-height: 1.55; }
 
 .keeper-root .recon { display: flex; align-items: center; gap: 14px; }
@@ -114,7 +114,7 @@
 .keeper-root .bigav { width: 74px; height: 74px; border-radius: 50%; background: var(--canary-soft); border: 1.5px solid rgba(184, 150, 79, 0.38); display: flex; align-items: center; justify-content: center; flex: none; }
 .keeper-root .bigav svg { width: 52px; height: 32px; }
 .keeper-root .chips { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 9px; }
-.keeper-root .chip { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #eef1ef; color: var(--ink2); }
+.keeper-root .chip { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #eef1ef; color: var(--ink2); }
 .keeper-root .chip.y { background: var(--canary-soft); color: #7a6434; border: 1px solid rgba(184, 150, 79, 0.38); }
 .keeper-root .chip.g { background: #eef4ef; color: var(--good); }
 .keeper-root .kv { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; }
@@ -131,21 +131,21 @@
 .keeper-root .vax .exp.warn { color: var(--warn); font-weight: 600; }
 .keeper-root .addr { padding: 10px 0; border-top: 1px solid var(--line); }
 .keeper-root .addr:first-of-type { border-top: none; }
-.keeper-root .addr .lb { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); }
+.keeper-root .addr .lb { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); }
 .keeper-root .addr .lb.def { color: var(--brown); }
 .keeper-root .addr .a { font-weight: 500; margin-top: 3px; }
 .keeper-root .wk { display: flex; gap: 6px; margin-top: 6px; }
-.keeper-root .wk span { flex: 1; text-align: center; font-size: 11px; font-weight: 600; padding: 7px 0; border-radius: 8px; background: #eef1ef; color: var(--mute); }
+.keeper-root .wk span { flex: 1; text-align: center; font-size: 12px; font-weight: 600; padding: 7px 0; border-radius: 8px; background: #eef1ef; color: var(--mute); }
 .keeper-root .wk span.inn { background: var(--canary); color: var(--ink); }
 .keeper-root .wk span.outt { background: var(--ink); color: #fff; }
 
 /* SMS thread */
-.keeper-root .chan { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--mute); margin-bottom: 12px; background: #eef1ef; padding: 5px 11px; border-radius: 999px; }
+.keeper-root .chan { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--mute); margin-bottom: 12px; background: #eef1ef; padding: 5px 11px; border-radius: 999px; }
 .keeper-root .thread { display: flex; flex-direction: column; gap: 10px; padding: 4px 2px; }
 .keeper-root .sms { max-width: 82%; padding: 9px 13px; border-radius: 15px; font-size: 13px; line-height: 1.4; }
 .keeper-root .sms.inb { align-self: flex-start; background: #eaeeec; border-bottom-left-radius: 5px; }
 .keeper-root .sms.outb { align-self: flex-end; background: var(--ink); color: #fff; border-bottom-right-radius: 5px; }
-.keeper-root .sms .t { display: block; font-size: 10px; color: var(--mute); margin-top: 5px; }
+.keeper-root .sms .t { display: block; font-size: 12px; color: var(--mute); margin-top: 5px; }
 .keeper-root .sms.outb .t { color: #c3cbc7; }
 .keeper-root .xero { display: flex; align-items: center; gap: 12px; background: #f5f8ff; border: 1px solid #dbe6fb; border-radius: 12px; padding: 12px 14px; font-size: 13px; }
 .keeper-root .xero .lg { width: 30px; height: 30px; border-radius: 8px; background: var(--xero); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex: none; }
@@ -156,7 +156,7 @@
 .keeper-root .toggle button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
 .keeper-root .draftbox { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
 .keeper-root .draftbox .dhd { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: #fbfcfb; }
-.keeper-root .draftbox .voicelbl { font-size: 11px; font-weight: 600; color: var(--mute); }
+.keeper-root .draftbox .voicelbl { font-size: 12px; font-weight: 600; color: var(--mute); }
 .keeper-root .draftbody { padding: 18px 20px; }
 .keeper-root .draftbody .subj { font-weight: 600; margin-bottom: 8px; }
 .keeper-root .draftbody p { font-size: 13.5px; line-height: 1.6; color: var(--ink2); margin: 0 0 11px; }
@@ -167,24 +167,24 @@
 .keeper-root .btn.p { background: var(--canary); color: var(--ink); }
 .keeper-root .btn.x { background: var(--xero); color: #fff; }
 .keeper-root .btn.g { background: #fff; border: 1px solid var(--line2); color: var(--ink2); }
-.keeper-root .note { font-size: 11.5px; color: var(--mute); line-height: 1.5; }
+.keeper-root .note { font-size: 12px; color: var(--mute); line-height: 1.5; }
 
 /* invoice table */
 .keeper-root .invtable { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-.keeper-root .invtable th { text-align: left; background: var(--ink); color: #fff; font-weight: 600; font-size: 10.5px; letter-spacing: .03em; padding: 7px 12px; }
+.keeper-root .invtable th { text-align: left; background: var(--ink); color: #fff; font-weight: 600; font-size: 12px; letter-spacing: .03em; padding: 7px 12px; }
 .keeper-root .invtable th.r, .keeper-root .invtable td.r { text-align: right; font-variant-numeric: tabular-nums; }
 .keeper-root .invtable td { padding: 8px 12px; border-bottom: 1px solid var(--line); color: var(--ink2); vertical-align: top; }
 .keeper-root .invtable tr:nth-child(even) td { background: #f7f9f8; }
 .keeper-root .invtable td .svc { font-weight: 600; color: var(--ink); }
 .keeper-root .invtable .totrow td { font-weight: 700; background: #f4eee0 !important; font-size: 13.5px; }
-.keeper-root .recnote { font-size: 11.5px; color: var(--ink2); background: #eef4ef; border-radius: 9px; padding: 10px 12px; margin-top: 12px; line-height: 1.5; }
+.keeper-root .recnote { font-size: 12px; color: var(--ink2); background: #eef4ef; border-radius: 9px; padding: 10px 12px; margin-top: 12px; line-height: 1.5; }
 .keeper-root .recnote b { color: var(--good); }
-.keeper-root .stamp { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line2); font-size: 10.5px; color: var(--mute); line-height: 1.5; }
+.keeper-root .stamp { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line2); font-size: 12px; color: var(--mute); line-height: 1.5; }
 .keeper-root .stamp b { color: var(--ink2); }
 
 /* mana receipts */
 .keeper-root .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 20px; align-items: center; }
-.keeper-root .filters .lbl { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); margin-right: 2px; }
+.keeper-root .filters .lbl { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); margin-right: 2px; }
 .keeper-root .chipf { font-size: 12px; font-weight: 600; padding: 7px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--line2); color: var(--ink2); cursor: pointer; }
 .keeper-root .chipf.on { background: var(--ink); color: #fff; border-color: var(--ink); }
 .keeper-root .rcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 13px; }
@@ -195,26 +195,26 @@
 .keeper-root .rhd .who.system { background: var(--ink); }
 .keeper-root .rhd .t { font-weight: 600; font-size: 14px; }
 .keeper-root .rhd .sub2 { color: var(--mute); font-size: 12px; margin-top: 1px; }
-.keeper-root .rhd .cchan { margin-left: auto; font-size: 10.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+.keeper-root .rhd .cchan { margin-left: auto; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
 .keeper-root .rhd .cchan.sms { background: #e9f1f0; color: #3f7373; }
 .keeper-root .rhd .cchan.email { background: #f4eee0; color: var(--brown); }
 .keeper-root .rhd .cchan.xero { background: #f5fbff; color: #0f7fb0; }
 .keeper-root .rbody { margin-top: 12px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
 .keeper-root .excerpt { background: #f7f9f8; border-radius: 10px; padding: 11px 13px; font-size: 12.5px; line-height: 1.5; color: var(--ink2); }
 .keeper-root .excerpt .q { font-family: var(--serif); font-size: 14px; color: #313c42; }
-.keeper-root .rmeta { font-size: 11.5px; line-height: 1.7; color: var(--ink2); }
+.keeper-root .rmeta { font-size: 12px; line-height: 1.7; color: var(--ink2); }
 .keeper-root .rmeta .row { display: flex; gap: 8px; }
 .keeper-root .rmeta .k { color: var(--mute); min-width: 74px; flex: none; }
 .keeper-root .rmeta .approved { color: var(--good); font-weight: 600; }
 .keeper-root .rmeta .pending { color: var(--warn); font-weight: 600; }
-.keeper-root .hashrow { margin-top: 11px; padding-top: 10px; border-top: 1px dashed var(--line2); font-size: 10.5px; color: var(--mute); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-.keeper-root .hashrow code { font-family: var(--font-keeper-mono, ui-monospace), monospace; background: #e8ecea; padding: 2px 6px; border-radius: 4px; color: var(--ink2); font-size: 10px; }
+.keeper-root .hashrow { margin-top: 11px; padding-top: 10px; border-top: 1px dashed var(--line2); font-size: 12px; color: var(--mute); display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.keeper-root .hashrow code { font-family: var(--font-keeper-mono, ui-monospace), monospace; background: #e8ecea; padding: 2px 6px; border-radius: 4px; color: var(--ink2); font-size: 12px; }
 .keeper-root .hashrow .lead { background: var(--canary-soft); border: 1px solid rgba(184, 150, 79, 0.38); color: #7a6434; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
 
 .keeper-root .nextnav { margin-top: 26px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
 .keeper-root .nextnav a.next { background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 13px; }
 .keeper-root .nextnav a.prev, .keeper-root .nextnav .prev { color: var(--brown); font-weight: 600; font-size: 13px; }
-.keeper-root .footattr { margin-top: 40px; padding: 16px 0 8px; text-align: center; font-size: 11px; color: #9aa49e; }
+.keeper-root .footattr { margin-top: 40px; padding: 16px 0 8px; text-align: center; font-size: 12px; color: #9aa49e; }
 
 /* team page */
 .keeper-root .teamgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
@@ -224,20 +224,20 @@
 .keeper-root .tav { width: 40px; height: 40px; border-radius: 50%; background: var(--canary-soft); border: 1px solid rgba(184, 150, 79, 0.38); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 600; font-size: 19px; flex: none; }
 .keeper-root .tname { font-family: var(--serif); font-weight: 600; font-size: 19px; line-height: 1; }
 .keeper-root .troles { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-.keeper-root .permbadge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 999px; }
+.keeper-root .permbadge { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; }
 .keeper-root .permbadge.approve { background: #eef4ef; color: var(--good); }
 .keeper-root .permbadge.draft { background: var(--canary-soft); color: #7a6434; }
 .keeper-root .permbadge.ro { background: #eef1ef; color: var(--mute); }
-.keeper-root .teamsub { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); margin: 14px 0 8px; display: flex; align-items: center; justify-content: space-between; }
-.keeper-root .vchan { background: #eef1ef; color: var(--ink2); border-radius: 999px; padding: 2px 9px; letter-spacing: 0; font-size: 10.5px; }
+.keeper-root .teamsub { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); margin: 14px 0 8px; display: flex; align-items: center; justify-content: space-between; }
+.keeper-root .vchan { background: #eef1ef; color: var(--ink2); border-radius: 999px; padding: 2px 9px; letter-spacing: 0; font-size: 12px; }
 .keeper-root .shiftgrid { display: flex; flex-direction: column; gap: 4px; }
 .keeper-root .shiftrow { display: flex; gap: 4px; align-items: center; }
-.keeper-root .slabel { width: 24px; font-size: 10px; font-weight: 700; color: var(--mute); flex: none; }
-.keeper-root .sday { flex: 1; text-align: center; font-size: 10px; font-weight: 700; color: var(--mute); }
+.keeper-root .slabel { width: 24px; font-size: 12px; font-weight: 700; color: var(--mute); flex: none; }
+.keeper-root .sday { flex: 1; text-align: center; font-size: 12px; font-weight: 700; color: var(--mute); }
 .keeper-root .scell { flex: 1; height: 16px; border-radius: 4px; background: #eaeeec; }
 .keeper-root .scell.on { background: var(--canary); }
 .keeper-root .voicesample { background: #f7f9f8; border-left: 3px solid var(--brown); border-radius: 0 8px 8px 0; padding: 8px 11px; font-family: var(--serif); font-size: 13px; color: #313c42; margin-bottom: 6px; }
-.keeper-root .phnote { font-size: 11px; color: var(--mute); font-style: italic; margin-top: 4px; }
+.keeper-root .phnote { font-size: 12px; color: var(--mute); font-style: italic; margin-top: 4px; }
 
 /* dog CRM */
 .keeper-root .crmhead { display: flex; align-items: flex-start; gap: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 20px; }
@@ -261,29 +261,29 @@
 .keeper-root .tlbody { padding-bottom: 16px; flex: 1; }
 .keeper-root .tltitle { font-weight: 600; font-size: 13.5px; }
 .keeper-root .tldetail { color: var(--ink2); font-size: 12.5px; margin-top: 2px; }
-.keeper-root .tlmeta { color: var(--mute); font-size: 11px; margin-top: 3px; }
+.keeper-root .tlmeta { color: var(--mute); font-size: 12px; margin-top: 3px; }
 .keeper-root .editrow { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13px; align-items: center; }
 .keeper-root .editrow:first-of-type { border-top: none; }
 .keeper-root .editrow .k { color: var(--mute); }
 .keeper-root .editrow input, .keeper-root .editrow select { font-family: var(--sans); font-size: 13px; border: 1px solid var(--line2); border-radius: 7px; padding: 6px 9px; background: #fff; color: var(--ink); text-align: right; max-width: 58%; }
 .keeper-root .editrow input:focus, .keeper-root .editrow select:focus { outline: none; box-shadow: 0 0 0 2px rgba(184, 150, 79, 0.38); }
-.keeper-root .savedtoast { font-size: 11.5px; color: var(--good); background: #eef4ef; border-radius: 8px; padding: 8px 11px; margin-top: 10px; }
+.keeper-root .savedtoast { font-size: 12px; color: var(--good); background: #eef4ef; border-radius: 8px; padding: 8px 11px; margin-top: 10px; }
 
 /* welcome-pack walkthrough */
 .keeper-root .steps { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 .keeper-root .stepchip { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--mute); padding: 8px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--line2); }
-.keeper-root .stepchip .sn { width: 18px; height: 18px; border-radius: 50%; background: #eef1ef; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+.keeper-root .stepchip .sn { width: 18px; height: 18px; border-radius: 50%; background: #eef1ef; display: flex; align-items: center; justify-content: center; font-size: 12px; }
 .keeper-root .stepchip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
 .keeper-root .stepchip.on .sn { background: var(--canary); color: var(--ink); }
 .keeper-root .stepchip.done { background: #eef4ef; color: var(--good); border-color: #cfe4d5; }
 .keeper-root .stepchip.done .sn { background: var(--good); color: #fff; }
 .keeper-root .fld { margin-bottom: 12px; }
-.keeper-root .fld label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--mute); margin-bottom: 5px; }
+.keeper-root .fld label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--mute); margin-bottom: 5px; }
 .keeper-root .fld input, .keeper-root .fld select { width: 100%; font-family: var(--sans); font-size: 13.5px; border: 1px solid var(--line2); border-radius: 9px; padding: 9px 12px; background: #fff; color: var(--ink); }
 .keeper-root .fld input:focus, .keeper-root .fld select:focus { outline: none; box-shadow: 0 0 0 2px rgba(184, 150, 79, 0.38); }
 .keeper-root .fld2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .keeper-root .packtabs { display: flex; gap: 5px; flex-wrap: wrap; }
-.keeper-root .packtab { font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 7px; background: #eef1ef; color: var(--mute); cursor: pointer; border: none; font-family: var(--sans); }
+.keeper-root .packtab { font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 7px; background: #eef1ef; color: var(--mute); cursor: pointer; border: none; font-family: var(--sans); }
 .keeper-root .packtab.on { background: var(--ink); color: #fff; }
 .keeper-root .packpage { min-height: 300px; }
 .keeper-root .packpage.coverp { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 340px; background: linear-gradient(160deg, #ffffff, #f4eee0); }
@@ -293,7 +293,7 @@
 .keeper-root .packpage .edit:focus { background: rgba(184, 150, 79, 0.18); box-shadow: 0 0 0 2px rgba(184, 150, 79, 0.38); }
 .keeper-root .packstep { display: flex; gap: 11px; padding: 9px 0; border-top: 1px solid var(--line); }
 .keeper-root .packstep:first-of-type { border-top: none; }
-.keeper-root .packstep .num { width: 22px; height: 22px; border-radius: 50%; background: var(--canary); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+.keeper-root .packstep .num { width: 22px; height: 22px; border-radius: 50%; background: var(--canary); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; }
 
 /* Franklin photos (real branded pup) */
 .keeper-root .avimg { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(184, 150, 79, 0.38); flex: none; background: #fff; }
@@ -302,7 +302,7 @@
 .keeper-root .herofran .hfimg { width: 132px; height: 108px; object-fit: cover; border-radius: 12px; flex: none; background: #fff; border: 1px solid var(--line); }
 .keeper-root .herofran .hft { font-family: var(--serif); font-weight: 600; font-size: 23px; line-height: 1.1; letter-spacing: -.01em; }
 .keeper-root .herofran .hfs { color: var(--ink2); font-size: 13px; margin-top: 6px; }
-.keeper-root .herofran .hfpaw { margin-left: auto; align-self: flex-start; font-size: 11px; font-weight: 600; color: var(--brown); background: #fff; border: 1px solid var(--line2); border-radius: 999px; padding: 5px 11px; }
+.keeper-root .herofran .hfpaw { margin-left: auto; align-self: flex-start; font-size: 12px; font-weight: 600; color: var(--brown); background: #fff; border: 1px solid var(--line2); border-radius: 999px; padding: 5px 11px; }
 .keeper-root .emailprev { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .keeper-root .emailprev .eh { padding: 12px 15px; background: #fbfcfb; border-bottom: 1px solid var(--line); font-size: 12.5px; }
 .keeper-root .emailprev .eh .er { display: flex; gap: 8px; margin-top: 3px; }

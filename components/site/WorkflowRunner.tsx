@@ -162,14 +162,14 @@ export function WorkflowRunner({
       >
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--workflow-accent)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--workflow-accent)]">
               Live sandbox
             </p>
             <h2 className="mt-2 font-display text-4xl font-light leading-none">
               {isSchoolNoticeTool ? 'Turn the notice into a plan.' : 'Try the workflow.'}
             </h2>
           </div>
-          <span className="rounded-full border border-[rgba(35,33,31,0.10)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+          <span className="rounded-full border border-[rgba(35,33,31,0.10)] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
             Draft only
           </span>
         </div>
@@ -178,7 +178,7 @@ export function WorkflowRunner({
             <section className="rounded-[18px] border border-white/70 bg-[linear-gradient(145deg,rgba(255,255,255,0.78),rgba(250,247,242,0.62))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_18px_48px_rgba(35,33,31,0.06)]">
               <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--workflow-accent)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--workflow-accent)]">
                     Photo, timetable, or voice
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-[color:var(--text-secondary)]">
@@ -347,7 +347,7 @@ export function WorkflowRunner({
       {!minimal && (
         <aside className="space-y-5">
           <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5 backdrop-blur">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--workflow-accent)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--workflow-accent)]">
               Install
             </p>
             <h2 className="mt-2 font-display text-4xl font-light leading-none">
@@ -414,7 +414,7 @@ function InstallOption({
         {title}
       </div>
       <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-secondary)]">{body}</p>
-      <code className="mt-3 block overflow-x-auto rounded-[8px] bg-white/75 p-3 text-[11px] text-[color:var(--text-primary)]">
+      <code className="mt-3 block overflow-x-auto rounded-[8px] bg-white/75 p-3 text-[12px] text-[color:var(--text-primary)]">
         {value}
       </code>
       <button

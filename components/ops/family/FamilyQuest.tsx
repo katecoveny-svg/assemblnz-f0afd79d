@@ -81,13 +81,13 @@ function KidQuest({ kid }: { kid: Kid }) {
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
             <span style={{ fontSize: 16, fontWeight: 800, color: INK, fontFamily: 'var(--font-brand-display)' }}>{kid.name}</span>
-            <span style={{ fontSize: 11, color: MUTED }}>Level {level} · {xp} XP</span>
+            <span style={{ fontSize: 12, color: MUTED }}>Level {level} · {xp} XP</span>
             <span style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 700, color: CORAL }}>🔥 {kid.streak}-day streak</span>
           </div>
           <div style={{ height: 9, borderRadius: 999, background: `${kid.accent}22`, overflow: 'hidden', marginTop: 6 }}>
             <div style={{ width: `${pct}%`, height: '100%', background: `linear-gradient(90deg, ${kid.accent}, ${GOLD})`, borderRadius: 999, transition: 'width .5s cubic-bezier(.2,.8,.2,1)' }} />
           </div>
-          <div style={{ fontSize: 10, color: MUTED, marginTop: 3 }}>{LEVEL_STEP - intoLevel} XP to level {level + 1}</div>
+          <div style={{ fontSize: 12, color: MUTED, marginTop: 3 }}>{LEVEL_STEP - intoLevel} XP to level {level + 1}</div>
         </div>
       </div>
 
@@ -104,21 +104,21 @@ function KidQuest({ kid }: { kid: Kid }) {
             }}>
               <span style={{ width: 18, height: 18, flex: 'none', borderRadius: 6, border: `1.5px solid ${on ? kid.accent : GOLD}77`, background: on ? kid.accent : 'transparent', color: '#fff', fontSize: 12, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{on ? '✓' : ''}</span>
               <span style={{ flex: 1, fontSize: 12.5, color: on ? MUTED : INK, textDecoration: on ? 'line-through' : 'none' }}>{q.label}</span>
-              <span style={{ fontSize: 11, fontWeight: 800, color: popping ? CORAL : kid.accent }}>{popping ? `+${q.xp}!` : `${q.xp}`}</span>
+              <span style={{ fontSize: 12, fontWeight: 800, color: popping ? CORAL : kid.accent }}>{popping ? `+${q.xp}!` : `${q.xp}`}</span>
             </button>
           );
         })}
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: MUTED }}>badges</span>
+        <span style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', color: MUTED }}>badges</span>
         {BADGES.map((b) => {
           const got = level >= b.at;
           return <span key={b.name} title={b.name} style={{ fontSize: 16, opacity: got ? 1 : 0.25, filter: got ? 'none' : 'grayscale(1)' }}>{b.icon}</span>;
         })}
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
           <InkJar size={22} level={pct / 100} />
-          <span style={{ fontSize: 11, fontWeight: 700, color: earned > 0 ? SAGE : MUTED }}>{earned > 0 ? `+${earned} XP today` : 'tap a quest'}</span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: earned > 0 ? SAGE : MUTED }}>{earned > 0 ? `+${earned} XP today` : 'tap a quest'}</span>
         </span>
       </div>
     </div>
@@ -130,7 +130,7 @@ export function FamilyQuest({ only }: { only?: string } = {}) {
   const kids = filtered.length ? filtered : KIDS;
   return (
     <div>
-      <p style={{ fontSize: 11.5, color: MUTED, marginBottom: 10 }}>
+      <p style={{ fontSize: 12, color: MUTED, marginBottom: 10 }}>
         Tap what you’ve done — earn XP, fill the bar, level up and keep your streak. Points &amp; pride, not real money (that’s in Kids’ money, and a parent releases it).
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 14 }}>

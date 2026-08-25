@@ -53,11 +53,11 @@ export function MondayStrip({ queue }: { queue: MondayQueueItem[] }) {
               {q.label}
             </span>
             <span className="flex shrink-0 items-center gap-3">
-              <span className="text-[11px] text-[color:var(--brand-muted)]">
+              <span className="text-[12px] text-[color:var(--brand-muted)]">
                 {q.minutesToReview} min
               </span>
               <span
-                className="rounded-full border px-2.5 py-0.5 text-[10px] uppercase tracking-wide"
+                className="rounded-full border px-2.5 py-0.5 text-[12px] uppercase tracking-wide"
                 style={{ borderColor: 'var(--brand-canary)', color: 'var(--brand-canary)' }}
               >
                 awaiting your yes

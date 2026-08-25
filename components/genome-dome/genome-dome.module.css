@@ -41,7 +41,7 @@
 
 .samplenote {
   margin: 8px 0 0;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   color: #3f7373;
   opacity: 0.65;
@@ -89,7 +89,7 @@
   color: #3f7373;
   background: rgba(255, 255, 255, 0.66);
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .surfaceTray button span {
@@ -151,7 +151,7 @@
 .drawerLabel {
   margin: 0;
   font-family: var(--font-mono), 'Space Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #768c45;

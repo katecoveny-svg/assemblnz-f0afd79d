@@ -88,7 +88,7 @@ export default async function TenantsPage() {
                 {row && !row.demo_seed_enabled && <Pill tone="neutral">seed off</Pill>}
                 <Link
                   href={`/customers/${t.slug}`}
-                  style={{ fontFamily: MONO, fontSize: 11, color: C.gold, textDecoration: 'none', marginLeft: 'auto' }}
+                  style={{ fontFamily: MONO, fontSize: 12, color: C.gold, textDecoration: 'none', marginLeft: 'auto' }}
                 >
                   /customers/{t.slug} →
                 </Link>
@@ -98,17 +98,17 @@ export default async function TenantsPage() {
                 {t.parentBrand ? ` · ${t.parentBrand}` : ''}
               </p>
               {row?.updated_at && (
-                <p style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted, margin: '0 0 12px' }}>
+                <p style={{ fontFamily: MONO, fontSize: 12, color: C.muted, margin: '0 0 12px' }}>
                   updated {nzDate(row.updated_at)}
                 </p>
               )}
 
               {!db.available ? (
-                <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, margin: 0 }}>
+                <p style={{ fontFamily: MONO, fontSize: 12, color: C.muted, margin: 0 }}>
                   tenant_customers isn&apos;t live in this environment — read-only registry view.
                 </p>
               ) : !row ? (
-                <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, margin: 0 }}>
+                <p style={{ fontFamily: MONO, fontSize: 12, color: C.muted, margin: 0 }}>
                   No DB row yet — this pilot&apos;s seed migration hasn&apos;t run here. Registry entry is read-only.
                 </p>
               ) : (

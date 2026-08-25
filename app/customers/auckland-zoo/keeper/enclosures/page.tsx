@@ -45,7 +45,7 @@ export default function EnclosuresPage() {
 function Check({ label, tone }: { label: string; tone: Tone }) {
   return (
     <div className="rounded-xl border px-3 py-2.5 text-center" style={{ borderColor: 'var(--tenant-line)', background: 'var(--tenant-cream)' }}>
-      <p className="font-mono text-[9.5px] uppercase tracking-[0.1em]" style={{ color: 'var(--tenant-muted)' }}>{label}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.1em]" style={{ color: 'var(--tenant-muted)' }}>{label}</p>
       <div className="mt-1.5 flex justify-center">
         <TonePill tone={tone}>{CELL_LABEL[tone]}</TonePill>
       </div>

@@ -41,7 +41,7 @@ export function SampleEnquiryForm({
   };
 
   const label: CSSProperties = {
-    fontSize: 10,
+    fontSize: 12,
     letterSpacing: '0.14em',
     textTransform: 'uppercase',
     color: palette.muted,

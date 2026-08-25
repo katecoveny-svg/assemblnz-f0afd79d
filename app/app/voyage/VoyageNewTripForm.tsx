@@ -94,11 +94,11 @@ export function VoyageNewTripForm({ ownerId }: Props) {
         <button
           type="submit"
           disabled={pending || !prompt.trim()}
-          className="rounded-full bg-[color:var(--assembl-pounamu)] px-5 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full bg-[color:var(--assembl-pounamu)] px-5 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {pending ? 'Drafting trip…' : 'Draft trip'}
         </button>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
           ~10–30 seconds · Gemini 2.5 Flash · always a draft
         </span>
       </div>

@@ -55,7 +55,7 @@ function MatarikiLoader() {
         ))}
       </div>
       <p
-        className="absolute bottom-10 text-[11px] uppercase tracking-[0.3em]"
+        className="absolute bottom-10 text-[12px] uppercase tracking-[0.3em]"
         style={{ color: `${CHAMPAGNE}aa` }}
       >
         loading the 16A model
@@ -98,7 +98,7 @@ export function ViewerFrame() {
           href={WALKTHROUGH}
           target="_blank"
           rel="noreferrer"
-          className="rounded-full px-3 py-1.5 text-[11px] font-semibold transition hover:opacity-90"
+          className="rounded-full px-3 py-1.5 text-[12px] font-semibold transition hover:opacity-90"
           style={{ backgroundColor: CHAMPAGNE, color: '#1a1918' }}
         >
           walk the site →
@@ -107,7 +107,7 @@ export function ViewerFrame() {
           href={VIEWER}
           target="_blank"
           rel="noreferrer"
-          className="rounded-full px-3 py-1.5 text-[11px] text-white/90 transition hover:opacity-90"
+          className="rounded-full px-3 py-1.5 text-[12px] text-white/90 transition hover:opacity-90"
           style={{ backgroundColor: 'rgba(22,21,22,0.75)' }}
         >
           full screen ↗

@@ -110,13 +110,13 @@ export function TurfMaintenanceLog() {
       <div className="mx-auto max-w-[1120px]">
         <Link
           href="/hapai"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> SPARK library
         </Link>
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#313c42]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#313c42]">
               SPARK · turf maintenance log
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3.2rem,7vw,6rem)] font-light leading-[0.9]">
@@ -191,7 +191,7 @@ export function TurfMaintenanceLog() {
             </div>
 
             <fieldset className="mt-7">
-              <legend className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">
+              <legend className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">
                 Weekly checks
               </legend>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -243,7 +243,7 @@ export function TurfMaintenanceLog() {
                   <h2 className="font-display text-2xl font-normal text-[#313c42]">
                     Chemical applications
                   </h2>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
                     Herbicide, fertiliser, line-marking paint — HSNO record
                   </p>
                 </div>
@@ -351,7 +351,7 @@ export function TurfMaintenanceLog() {
               <h2 className="font-display text-2xl font-normal text-[#313c42]">
                 Hazard inspection
               </h2>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661]">
                 Walk-around log under HSWA 2015
               </p>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
@@ -423,7 +423,7 @@ function Field({
 }) {
   return (
     <label className="mt-5 block first:mt-0">
-      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">
+      <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">
         {label}
       </span>
       {children}

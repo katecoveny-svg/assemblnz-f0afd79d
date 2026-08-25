@@ -62,7 +62,7 @@ function isActive(pathname: string, href: string) {
 export function ConceptBanner() {
   return (
     <div
-      className="w-full px-5 py-2 text-center font-mono text-[10.5px] uppercase tracking-[0.16em] md:px-8"
+      className="w-full px-5 py-2 text-center font-mono text-[12px] uppercase tracking-[0.16em] md:px-8"
       style={{ background: 'var(--tenant-primary-deep)', color: 'rgba(255,255,255,0.86)' }}
     >
       Concept · pending — demo workspace, not a live Auckland Zoo partnership. Every output is an unsigned draft.
@@ -84,7 +84,7 @@ function Wordmark() {
         <span className="font-[family-name:var(--font-display)] text-[18px] tracking-[-0.01em]" style={{ color: 'var(--tenant-ink)' }}>
           Auckland Zoo
         </span>
-        <span className="mt-0.5 font-mono text-[9.5px] uppercase tracking-[0.18em]" style={{ color: 'var(--tenant-muted)' }}>
+        <span className="mt-0.5 font-mono text-[12px] uppercase tracking-[0.18em]" style={{ color: 'var(--tenant-muted)' }}>
           Keeper · ops console
         </span>
       </span>
@@ -106,7 +106,7 @@ export function WorkspaceSidebar() {
       <nav className="mt-6 flex-1 space-y-5" aria-label="Keeper workspace">
         {NAV.map((group) => (
           <div key={group.title}>
-            <p className="px-2 font-mono text-[9.5px] uppercase tracking-[0.18em]" style={{ color: 'var(--tenant-muted)' }}>
+            <p className="px-2 font-mono text-[12px] uppercase tracking-[0.18em]" style={{ color: 'var(--tenant-muted)' }}>
               {group.title}
             </p>
             <ul className="mt-1.5 space-y-0.5">
@@ -134,7 +134,7 @@ export function WorkspaceSidebar() {
         ))}
       </nav>
       <span
-        className="mt-5 rounded-full px-3 py-1 text-center text-[10.5px] font-medium"
+        className="mt-5 rounded-full px-3 py-1 text-center text-[12px] font-medium"
         style={{ background: 'var(--tenant-primary-soft)', color: 'var(--tenant-primary-deep)' }}
       >
         Kaitiaki bundle · Keeper lead
@@ -188,7 +188,7 @@ export function WorkspaceFooter() {
           fabricated clinical, welfare, staffing or financial data. Staff and volunteers are demo roster entries.
           Whakapapa and cultural content for taonga species is held for iwi consultation and never model-generated.
         </p>
-        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em]">
+        <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.16em]">
           Keeper is an assembl agent · Mana Receipt on every output
         </p>
       </div>

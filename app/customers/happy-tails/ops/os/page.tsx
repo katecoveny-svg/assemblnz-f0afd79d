@@ -51,7 +51,7 @@ export default async function HappyTailsDaycareOsPage({
           <OsScrollReveal delay={0.1}>
             <section className="rounded-3xl border border-black/10 bg-white/90 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-xl">
               <p
-                className="mb-3 text-[10px] uppercase"
+                className="mb-3 text-[12px] uppercase"
                 style={{ letterSpacing: '0.16em', color: 'var(--brand-muted)' }}
               >
                 live agent · {HAPPY_TAILS_AGENT_NAME}

@@ -124,7 +124,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
           padding: '12px 14px',
           borderBottom: `1px solid ${C.hairline}`,
           fontFamily: MONO,
-          fontSize: 10.5,
+          fontSize: 12,
           fontWeight: 700,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
@@ -147,7 +147,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
   const chip = (active: boolean) =>
     ({
       fontFamily: MONO,
-      fontSize: 10.5,
+      fontSize: 12,
       fontWeight: 700,
       letterSpacing: '0.06em',
       textTransform: 'uppercase' as const,
@@ -180,7 +180,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
           background: m.bg,
           color: m.fg,
           fontFamily: MONO,
-          fontSize: 10.5,
+          fontSize: 12,
           fontWeight: 700,
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
@@ -214,11 +214,11 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
           <span style={{ fontFamily: BODY, fontSize: 12, color: C.muted, marginLeft: 8 }}>{r.teReo}</span>
         )}
         {r.isBundleLead && (
-          <span style={{ fontFamily: MONO, fontSize: 9.5, color: C.goldDeep, marginLeft: 8, letterSpacing: '0.08em' }}>
+          <span style={{ fontFamily: MONO, fontSize: 12, color: C.goldDeep, marginLeft: 8, letterSpacing: '0.08em' }}>
             LEAD
           </span>
         )}
-        <div style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted }}>{r.slug}</div>
+        <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>{r.slug}</div>
       </>
     );
     if (r.status === 'not_started') return <div>{inner}</div>;
@@ -237,7 +237,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
           <span key={s.slug}>
             {i > 0 && ' · '}
             {s.name.replace(/\s*\(.*\)$/, '')}
-            <span style={{ fontFamily: MONO, fontSize: 9.5, color: C.goldDeep }}> {s.tier}</span>
+            <span style={{ fontFamily: MONO, fontSize: 12, color: C.goldDeep }}> {s.tier}</span>
           </span>
         ))}
       </span>
@@ -256,7 +256,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
             rel="noopener noreferrer"
             style={{
               fontFamily: MONO,
-              fontSize: 10.5,
+              fontSize: 12,
               color: C.goldDeep,
               background: C.cream,
               border: `1px solid ${C.hairline}`,
@@ -311,7 +311,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
         <button type="button" onClick={() => setMissingKnowledge(!missingKnowledge)} style={chip(missingKnowledge)}>
           missing knowledge source
         </button>
-        <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
+        <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, marginLeft: 'auto' }}>
           {filtered.length} / {rows.length} agents
         </span>
       </div>
@@ -348,28 +348,28 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
                 <td style={{ ...tdBase, whiteSpace: 'nowrap' }}>
                   {r.bundleName}
                   {r.kaumatuaHold && (
-                    <div style={{ fontFamily: MONO, fontSize: 9.5, color: C.goldDeep, marginTop: 2 }}>
+                    <div style={{ fontFamily: MONO, fontSize: 12, color: C.goldDeep, marginTop: 2 }}>
                       KAUMĀTUA-HOLD
                     </div>
                   )}
                 </td>
                 <td style={{ ...tdBase, whiteSpace: 'nowrap' }}>{statusPill(r.status)}</td>
                 <td style={{ ...tdBase, whiteSpace: 'nowrap' }}>
-                  <span style={{ fontFamily: MONO, fontSize: 11.5, color: r.promptSource === 'missing' ? C.bad : C.body }}>
+                  <span style={{ fontFamily: MONO, fontSize: 12, color: r.promptSource === 'missing' ? C.bad : C.body }}>
                     {PROMPT_LABELS[r.promptSource]}
                   </span>
                   {r.inSqlCorpus && (
-                    <div style={{ fontFamily: MONO, fontSize: 9.5, color: C.muted }}>+ SQL corpus</div>
+                    <div style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>+ SQL corpus</div>
                   )}
                 </td>
                 <td style={{ ...tdBase, maxWidth: 260 }}>{knowledgeCell(r)}</td>
                 <td style={{ ...tdBase, maxWidth: 300 }}>{surfacesCell(r)}</td>
-                <td style={{ ...tdBase, fontFamily: MONO, fontSize: 11.5, whiteSpace: 'nowrap', color: r.lastSyncedAt ? C.body : C.muted }}>
+                <td style={{ ...tdBase, fontFamily: MONO, fontSize: 12, whiteSpace: 'nowrap', color: r.lastSyncedAt ? C.body : C.muted }}>
                   {nzDateTime(r.lastSyncedAt)}
                 </td>
                 <td style={{ ...tdBase, whiteSpace: 'nowrap' }}>
                   {r.status === 'not_started' ? (
-                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted }}>—</span>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted }}>—</span>
                   ) : (
                     <Link
                       href={`/admin/agents/${r.slug}`}
@@ -437,7 +437,7 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
                   <span style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 20, color: C.ink, textTransform: 'lowercase' }}>
                     {r.name}
                   </span>
-                  <span style={{ display: 'block', fontFamily: MONO, fontSize: 10, color: C.muted }}>
+                  <span style={{ display: 'block', fontFamily: MONO, fontSize: 12, color: C.muted }}>
                     {r.bundleName} · {r.slug}
                   </span>
                 </span>
@@ -449,17 +449,17 @@ export function AgentsDashboardTable({ rows }: { rows: DashboardRow[] }) {
               {isOpen && (
                 <div style={{ padding: '0 16px 16px', fontFamily: BODY, fontSize: 13, color: C.body }}>
                   <div style={{ marginBottom: 8 }}>
-                    <span style={{ fontFamily: MONO, fontSize: 10, color: C.muted, letterSpacing: '0.1em' }}>PROMPT </span>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, letterSpacing: '0.1em' }}>PROMPT </span>
                     {PROMPT_LABELS[r.promptSource]}
                     {r.inSqlCorpus ? ' · + SQL corpus' : ''}
                   </div>
                   <div style={{ marginBottom: 8 }}>
-                    <span style={{ fontFamily: MONO, fontSize: 10, color: C.muted, letterSpacing: '0.1em' }}>KNOWLEDGE </span>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, letterSpacing: '0.1em' }}>KNOWLEDGE </span>
                     {knowledgeCell(r)}
                   </div>
                   <div style={{ marginBottom: 8 }}>
-                    <span style={{ fontFamily: MONO, fontSize: 10, color: C.muted, letterSpacing: '0.1em' }}>SYNCED </span>
-                    <span style={{ fontFamily: MONO, fontSize: 11.5 }}>{nzDateTime(r.lastSyncedAt)}</span>
+                    <span style={{ fontFamily: MONO, fontSize: 12, color: C.muted, letterSpacing: '0.1em' }}>SYNCED </span>
+                    <span style={{ fontFamily: MONO, fontSize: 12 }}>{nzDateTime(r.lastSyncedAt)}</span>
                   </div>
                   <div style={{ marginBottom: 12 }}>{surfacesCell(r)}</div>
                   {r.status !== 'not_started' && (

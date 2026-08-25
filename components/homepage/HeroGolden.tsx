@@ -138,7 +138,7 @@ export function HeroGolden() {
         {/* Below the split — the pricing strip */}
         <div className="mt-12 border-t border-[rgba(58,56,50,0.10)] pt-6">
           <ul
-            className={`${spaceMono.className} flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.14em]`}
+            className={`${spaceMono.className} flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] uppercase tracking-[0.14em]`}
             style={{ color: CHARCOAL }}
           >
             {PRICING.map((item, i) => (

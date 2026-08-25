@@ -106,9 +106,9 @@ export function WishlistTool() {
       <div className="grid gap-6 p-5 md:p-7 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── FORM ─────────────────────────────────────────────── */}
         <form onSubmit={submit} className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/70 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#313c42]">Your wish</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#313c42]">Your wish</p>
           <label className="mt-4 block">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">Your business</span>
+            <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">Your business</span>
             <input
               className="mt-1.5 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm outline-none focus:border-[#313c42]"
               value={business}
@@ -117,7 +117,7 @@ export function WishlistTool() {
             />
           </label>
           <label className="mt-4 block">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">One job you wish you could hand off</span>
+            <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">One job you wish you could hand off</span>
             <textarea
               className="mt-1.5 min-h-[96px] w-full resize-none rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#313c42]"
               value={wish}
@@ -134,7 +134,7 @@ export function WishlistTool() {
             Draft my specialist spec
           </button>
           {error ? <p className="mt-3 text-xs text-[#9A3412]">{error}</p> : null}
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">
+          <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">
             Draft only · reviewed by a named person · not legal advice
           </p>
         </form>
@@ -150,10 +150,10 @@ export function WishlistTool() {
           ) : (
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#313c42]">
+                <span className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#eef4f4] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.14em] text-[#313c42]">
                   {spec.kete} kete
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(184, 150, 79,0.4)] bg-[#FBF3E2] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#8A5B10]">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(184, 150, 79,0.4)] bg-[#FBF3E2] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[#8A5B10]">
                   <Stamp className="h-3 w-3" aria-hidden /> Sealed in an evidence pack
                 </span>
               </div>
@@ -164,16 +164,16 @@ export function WishlistTool() {
               <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">{spec.forLine}</p>
 
               <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.24)] bg-gradient-to-br from-[#ffffff] to-[#f3f5f3] p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#313c42]">Hours back, each week</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#313c42]">Hours back, each week</p>
                 <p className="mt-1 font-display text-[clamp(2.4rem,5vw,3.4rem)] font-light leading-none text-[#313c42] tabular-nums">
                   {hours}<span className="ml-1 align-top text-base text-[#5A5550]">hrs</span>
                 </p>
-                <p className="mt-1 text-[11px] text-[#5A5550]">Conservative estimate for a small NZ business.</p>
+                <p className="mt-1 text-[12px] text-[#5A5550]">Conservative estimate for a small NZ business.</p>
               </div>
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">It would draft</p>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">It would draft</p>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[#3D4250]">
                     {spec.drafts.map((d) => (
                       <li key={d} className="flex gap-2"><span aria-hidden className="text-[#313c42]">·</span><span>{d}</span></li>
@@ -181,7 +181,7 @@ export function WishlistTool() {
                   </ul>
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">Checks on every output</p>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">Checks on every output</p>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[#3D4250]">
                     {spec.checks.map((c) => (
                       <li key={c} className="flex gap-2"><span aria-hidden className="text-[#313c42]">✓</span><span>{c}</span></li>
@@ -190,7 +190,7 @@ export function WishlistTool() {
                 </div>
               </div>
 
-              <p className="mt-5 text-[11px] leading-relaxed text-[#6B6661]">
+              <p className="mt-5 text-[12px] leading-relaxed text-[#6B6661]">
                 This is a draft a named person reviews before anything is used. Nothing the specialist
                 drafts is lodged automatically to Customs, IRD, Companies Office, WorkSafe, MPI or the
                 Privacy Commissioner — a licensed person lodges. Not legal, financial, or medical advice.
@@ -204,7 +204,7 @@ export function WishlistTool() {
                   </p>
                 ) : (
                   <form onSubmit={submitClaim}>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#313c42]">Claim this spec</p>
+                    <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#313c42]">Claim this spec</p>
                     <p className="mt-2 text-xs leading-relaxed text-[#5A5550]">
                       Leave an email and we’ll send this spec and what it would take to build it. Draft-only, no obligation.
                     </p>
@@ -227,11 +227,11 @@ export function WishlistTool() {
                         Send it to me
                       </button>
                     </div>
-                    <label className="mt-3 flex items-start gap-2 text-[11px] leading-relaxed text-[#5A5550]">
+                    <label className="mt-3 flex items-start gap-2 text-[12px] leading-relaxed text-[#5A5550]">
                       <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                       <span>Okay to send occasional assembl updates. Unsubscribe anytime.</span>
                     </label>
-                    <p className="mt-2 text-[11px] leading-relaxed text-[#6B6661]">
+                    <p className="mt-2 text-[12px] leading-relaxed text-[#6B6661]">
                       Your email is used only to send this spec and, if ticked, occasional updates — held under the Privacy Act 2020.{" "}
                       <Link href="/privacy" className="underline underline-offset-2 hover:opacity-80">Privacy</Link>.
                     </p>

@@ -54,7 +54,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         <p
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#5C5852',
@@ -73,7 +73,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         <p
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.65rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#8E8A82',
@@ -125,7 +125,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         <p
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.65rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#8E8A82',
@@ -175,7 +175,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         <p
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: '0.65rem',
+            fontSize: '0.75rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: pack.status === 'sealed' ? '#3A3832' : '#A33B2C',
@@ -229,7 +229,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         className="mt-12"
         style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '0.6rem',
+          fontSize: '0.75rem',
           color: '#8E8A82',
           letterSpacing: '0.14em',
           wordBreak: 'break-all',
@@ -248,7 +248,7 @@ function Term({ label }: { label: string }) {
     <dt
       style={{
         fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: '0.65rem',
+        fontSize: '0.75rem',
         color: '#8E8A82',
         letterSpacing: '0.18em',
         textTransform: 'uppercase',

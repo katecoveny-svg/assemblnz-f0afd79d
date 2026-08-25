@@ -38,7 +38,7 @@ export default async function DocPage({ params }: { params: Promise<Params> }) {
         <aside className="hidden lg:block">
           <Link
             href="/docs"
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+            className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
             Docs home
@@ -62,7 +62,7 @@ export default async function DocPage({ params }: { params: Promise<Params> }) {
         </aside>
 
         <article className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-6 md:p-9">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
             {doc.group}
           </p>
           <div className="mt-5 space-y-6">
@@ -126,7 +126,7 @@ function PagerLink({ label, href, title }: { label: string; href: string; title:
       href={href}
       className="block rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-4 transition-colors hover:bg-white"
     >
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </span>
       <span className="mt-2 block font-display text-2xl font-light leading-none">{title}</span>

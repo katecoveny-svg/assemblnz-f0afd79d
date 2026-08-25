@@ -126,7 +126,7 @@ export function BuilderClient() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-[1180px] flex-col gap-6 px-5 py-8 md:px-10">
       <header>
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+        <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
           assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> studio · guided build
         </p>
         <h1 className="mt-3 font-display text-[36px] font-light lowercase leading-[1.0] text-[color:var(--text-primary)] md:text-[52px]">
@@ -190,7 +190,7 @@ export function BuilderClient() {
                       <span className="flex items-center justify-between">
                         <span className="font-mono text-[12.5px] text-[color:var(--text-primary)]">{o.label}</span>
                         <span className={[
-                          'font-mono text-[10px] uppercase tracking-[0.16em]',
+                          'font-mono text-[12px] uppercase tracking-[0.16em]',
                           on ? 'text-[color:var(--assembl-pounamu)]' : 'text-[color:var(--text-secondary)]',
                         ].join(' ')}>
                           {on ? 'added' : '+ add'}
@@ -206,7 +206,7 @@ export function BuilderClient() {
                   <button
                     type="button"
                     onClick={() => setStepIdx((i) => Math.max(0, i - 1))}
-                    className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                    className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
                   >
                     Back
                   </button>
@@ -215,7 +215,7 @@ export function BuilderClient() {
                   type="button"
                   disabled={!canAdvance}
                   onClick={() => setStepIdx((i) => Math.min(STEP_ORDER.length - 1, i + 1))}
-                  className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] disabled:opacity-40"
+                  className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] disabled:opacity-40"
                 >
                   Next layer
                 </button>
@@ -233,7 +233,7 @@ export function BuilderClient() {
               </div>
 
               <label className="flex flex-col gap-1.5">
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">name it</span>
+                <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">name it</span>
                 <input
                   type="text"
                   value={picks.name}
@@ -251,41 +251,41 @@ export function BuilderClient() {
                 <button
                   type="button"
                   onClick={share}
-                  className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)]"
+                  className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--text-primary)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)]"
                 >
                   {copied ? 'link copied' : 'share this build'}
                 </button>
                 <button
                   type="button"
                   onClick={downloadCard}
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
                 >
                   download card
                 </button>
                 <button
                   type="button"
                   onClick={shareCard}
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
                 >
                   share card
                 </button>
                 <Link
                   href="/pilot"
-                  className="rounded-[2px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] hover:bg-[color:var(--assembl-pounamu-deep)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--assembl-paper)] hover:bg-[color:var(--assembl-pounamu-deep)]"
                 >
                   Build it for real
                 </Link>
                 <button
                   type="button"
                   onClick={() => { setPicks({ ...EMPTY_PICKS }); setStepIdx(0); }}
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
                 >
                   Start over
                 </button>
                 <button
                   type="button"
                   onClick={() => setStepIdx(4)}
-                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
                 >
                   Back
                 </button>
@@ -295,7 +295,7 @@ export function BuilderClient() {
         </div>
       </div>
 
-      <footer className="mt-4 border-t border-[color:var(--assembl-cloud)] pt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+      <footer className="mt-4 border-t border-[color:var(--assembl-cloud)] pt-5 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
         every part in the scene is a real component · the full workbench lives at{' '}
         <Link href="/studio" className="underline decoration-[color:var(--assembl-cloud)] underline-offset-4 hover:decoration-[color:var(--text-primary)]">
           /studio
@@ -308,7 +308,7 @@ export function BuilderClient() {
 function SummaryBlock({ title, items, empty }: { title: string; items: string[]; empty: string }) {
   return (
     <div className="rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
-      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">{title}</div>
+      <div className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">{title}</div>
       {items.length === 0 ? (
         <p className="mt-2 text-[12.5px] text-[color:var(--text-secondary)]">{empty}</p>
       ) : (

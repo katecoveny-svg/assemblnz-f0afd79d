@@ -41,7 +41,7 @@ export function ComplianceCalendar({
           return (
             <div
               key={d}
-              className="relative flex h-10 items-start justify-start rounded-md bg-[color:var(--brand-bg)]/60 p-1.5 text-[10px] text-[color:var(--brand-muted)]"
+              className="relative flex h-10 items-start justify-start rounded-md bg-[color:var(--brand-bg)]/60 p-1.5 text-[12px] text-[color:var(--brand-muted)]"
               title={hits?.map((h) => h.label).join(', ') ?? undefined}
             >
               {d}

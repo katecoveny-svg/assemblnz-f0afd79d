@@ -62,7 +62,7 @@ export default function ToroPage() {
                   Start Tōro · $29/month
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
-                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                   $29 + GST / month · cancel any time
                 </span>
               </div>
@@ -97,7 +97,7 @@ export default function ToroPage() {
                 <article className="glass-card h-full p-7">
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="font-display text-display-md font-light">{feature.name}</h3>
-                    <span className="rounded-full bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)]">
+                    <span className="rounded-full bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)]">
                       {feature.badge}
                     </span>
                   </div>

@@ -114,7 +114,7 @@ export function VesselTile({
         {name}
       </p>
       <p
-        className="relative z-10 mt-3 font-mono text-[10px] uppercase tracking-[0.32em]"
+        className="relative z-10 mt-3 font-mono text-[12px] uppercase tracking-[0.32em]"
         style={{ color: 'var(--text-secondary)' }}
       >
         vessel forthcoming

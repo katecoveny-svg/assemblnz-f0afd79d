@@ -55,7 +55,7 @@ export function AironautShell({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Honest concept banner */}
-        <div className="border-b border-[color:var(--air-line-soft)] bg-[color:var(--air-mist)] px-4 py-2 text-center text-[0.72rem] text-[color:var(--air-slate)] sm:px-6">
+        <div className="border-b border-[color:var(--air-line-soft)] bg-[color:var(--air-mist)] px-4 py-2 text-center text-[0.75rem] text-[color:var(--air-slate)] sm:px-6">
           Concept pilot for Aironaut Customs Brokers — <strong className="text-[color:var(--air-navy)]">draft only</strong>. Nothing here is lodged with the New Zealand Customs Service. Demo data.
         </div>
 

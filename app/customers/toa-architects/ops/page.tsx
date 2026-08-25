@@ -66,7 +66,7 @@ export default function ToaArchitectsOpsHome() {
       <OsScrollReveal>
         <section className="grid gap-5 md:grid-cols-[1fr_1.1fr] md:items-stretch">
           <div className="flex flex-col justify-center">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">
+            <p className="text-[12px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">
               ask arc — live
             </p>
             <h2 className="mt-2 text-2xl font-semibold leading-tight text-[color:var(--brand-ink)]">
@@ -90,7 +90,7 @@ export default function ToaArchitectsOpsHome() {
           <ToaWalkthrough />
           <a
             href="/customers/toa-architects/ops/walk"
-            className="self-start rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition hover:opacity-90 hover:-translate-y-0.5"
+            className="self-start rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition hover:opacity-90 hover:-translate-y-0.5"
             style={{ backgroundColor: '#bfa37a', color: '#161516' }}
           >
             open the full-screen walk-through →

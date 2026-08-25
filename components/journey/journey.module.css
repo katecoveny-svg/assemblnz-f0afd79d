@@ -48,7 +48,7 @@
 .wordmarkSub {
   display: block;
   font-family: var(--font-mono, monospace);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--j-faint);
@@ -118,7 +118,7 @@
 .railLinkDone { background: var(--j-accent); }
 .railLabel {
   font-family: var(--font-mono, monospace);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--j-faint);
@@ -137,7 +137,7 @@
 }
 .eyebrow {
   font-family: var(--font-mono, monospace);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--j-accent);
@@ -237,7 +237,7 @@
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-mono, monospace);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.28rem 0.6rem;
@@ -270,7 +270,7 @@
 .category { margin-bottom: 1.4rem; }
 .categoryName {
   font-family: var(--font-mono, monospace);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--j-faint);
@@ -339,7 +339,7 @@
 .waitDetail { font-size: 0.82rem; color: var(--j-dim); margin: 0.15rem 0 0; }
 .waitRole {
   font-family: var(--font-mono, monospace);
-  font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--j-faint); margin-left: auto; white-space: nowrap; padding-left: 0.5rem;
 }
 
@@ -349,7 +349,7 @@
 .approvalTitle { font-size: 1.15rem; font-weight: 500; margin: 0; }
 .approvalGrid { display: grid; gap: 0.6rem; margin: 1rem 0; }
 .approvalRow { display: grid; grid-template-columns: 130px 1fr; gap: 0.75rem; font-size: 0.9rem; }
-.approvalKey { color: var(--j-faint); font-family: var(--font-mono, monospace); font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 0.15rem; }
+.approvalKey { color: var(--j-faint); font-family: var(--font-mono, monospace); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 0.15rem; }
 .approvalVal { color: var(--j-ink); }
 .approvalResolved { color: var(--j-dim); font-size: 0.85rem; margin-top: 0.75rem; }
 
@@ -369,24 +369,24 @@
 }
 .proofSeal {
   font-family: var(--font-mono, monospace);
-  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--j-gold);
 }
 .metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; background: var(--j-line); border: 1px solid var(--j-line); border-radius: 14px; overflow: hidden; margin: 1.25rem 0; }
 .metric { background: #fff; padding: 1rem 1.1rem; }
 .metricValue { font-family: var(--font-display, serif); font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
 .metricLabel { font-size: 0.78rem; color: var(--j-dim); margin-top: 0.35rem; }
-.metricEst { font-family: var(--font-mono, monospace); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--j-faint); margin-top: 0.2rem; }
+.metricEst { font-family: var(--font-mono, monospace); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--j-faint); margin-top: 0.2rem; }
 .list { margin: 0.5rem 0 0; padding-left: 1.1rem; }
 .list li { font-size: 0.88rem; color: var(--j-dim); margin-bottom: 0.3rem; }
 
 /* ── inside the journey ─────────────────────────────────────────────────── */
 .inside { display: grid; gap: 1rem; }
 .insideCard { border: 1px solid var(--j-line); border-radius: 16px; padding: 1.1rem 1.2rem; background: var(--j-paper); }
-.insideTitle { font-family: var(--font-mono, monospace); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--j-accent); margin: 0 0 0.75rem; }
+.insideTitle { font-family: var(--font-mono, monospace); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--j-accent); margin: 0 0 0.75rem; }
 .timeline { display: flex; flex-direction: column; gap: 0; }
 .event { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; padding: 0.4rem 0; font-size: 0.85rem; }
-.eventType { font-family: var(--font-mono, monospace); font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--j-faint); white-space: nowrap; padding-top: 0.1rem; }
+.eventType { font-family: var(--font-mono, monospace); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--j-faint); white-space: nowrap; padding-top: 0.1rem; }
 .agentGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
 .agent { border: 1px solid var(--j-line); border-radius: 12px; padding: 0.85rem 0.95rem; }
 .agentName { font-weight: 600; font-size: 0.9rem; margin: 0 0 0.15rem; }
@@ -424,7 +424,7 @@
   list-style: none;
   padding: 1rem 0;
   font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--j-accent-deep);
@@ -443,7 +443,7 @@
 .sampleStrip {
   text-align: center;
   font-family: var(--font-mono, monospace);
-  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--j-faint);
   margin-top: 2.5rem;
 }

@@ -75,7 +75,7 @@ export default function SiteVisitsPage() {
             ))}
           </ul>
 
-          <p className="mt-4 border-t border-black/5 pt-2 text-[11px] text-[color:var(--brand-muted)]">
+          <p className="mt-4 border-t border-black/5 pt-2 text-[12px] text-[color:var(--brand-muted)]">
             distribution once approved: {v.distribution.join(' · ')} (demo)
           </p>
         </div>

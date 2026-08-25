@@ -7,7 +7,7 @@
 }
 .ind-wrap { max-width: 1180px; margin: 0 auto; padding: 130px 28px 100px; }
 .ind-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.24em; text-transform: uppercase; color: #B8964F; margin: 0 0 24px;
 }
 .ind h1 {
@@ -42,7 +42,7 @@
 .ind-card h2 { margin: 0; font-size: 1.16rem; font-weight: 700; }
 .ind-wait { margin: 0; font-weight: 300; font-size: 0.86rem; line-height: 1.5; color: #1C1B18; }
 .ind-wait span {
-  display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.18em; text-transform: uppercase; color: #B8964F; margin-bottom: 4px;
 }
 .ind-what {
@@ -54,7 +54,7 @@
   text-decoration: none; border-bottom: 1px solid rgba(184,150,79,0.45); align-self: flex-start;
 }
 .ind-soon {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.54rem; letter-spacing: 0.16em;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.16em;
   text-transform: uppercase; color: #B8964F; align-self: flex-start;
 }
 

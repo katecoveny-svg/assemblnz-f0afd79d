@@ -39,7 +39,7 @@ export default async function EntryDetail({ params }: { params: Promise<{ id: st
           </p>
         </div>
         <div className="text-right">
-          <p className="text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Readiness</p>
+          <p className="text-[0.75rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Readiness</p>
           <p className="air-display text-4xl" style={{ color: plan.readinessScore >= 80 ? 'var(--air-ok)' : plan.readinessScore >= 50 ? 'var(--air-warn)' : 'var(--air-hold)' }}>
             {plan.readinessScore}
           </p>
@@ -88,7 +88,7 @@ export default async function EntryDetail({ params }: { params: Promise<{ id: st
             })}
           </ul>
           <div className="mt-4">
-            <p className="text-[0.68rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Shipment</p>
+            <p className="text-[0.75rem] uppercase tracking-[0.12em] text-[color:var(--air-slate)]">Shipment</p>
             <p className="mt-1 text-sm text-[color:var(--air-slate)]">
               {input.packages ?? '—'} packages · {input.grossWeightKg ?? '—'} kg gross
               {input.etaIso ? ` · ETA ${formatNzDate(input.etaIso)}` : ''}
@@ -106,7 +106,7 @@ export default async function EntryDetail({ params }: { params: Promise<{ id: st
         <div className="overflow-hidden air-card">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[color:var(--air-line)] bg-[color:var(--air-mist)] text-left text-[0.66rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">
+              <tr className="border-b border-[color:var(--air-line)] bg-[color:var(--air-mist)] text-left text-[0.75rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">
                 <th className="px-4 py-2.5">Line</th>
                 <th className="px-4 py-2.5">Qty</th>
                 <th className="px-4 py-2.5">Value</th>
@@ -150,7 +150,7 @@ export default async function EntryDetail({ params }: { params: Promise<{ id: st
                     </div>
                     <p className="mt-1 text-xs text-[color:var(--air-slate)]">{b.detail}</p>
                     {b.citation ? (
-                      <p className="mt-1 text-[0.68rem] text-[color:var(--air-brass-deep)]">
+                      <p className="mt-1 text-[0.75rem] text-[color:var(--air-brass-deep)]">
                         {b.citation.source}{b.citation.ref ? ` — ${b.citation.ref}` : ''}
                       </p>
                     ) : null}
@@ -196,7 +196,7 @@ export default async function EntryDetail({ params }: { params: Promise<{ id: st
                       </div>
                     </div>
                     <p className="mt-1 text-xs text-[color:var(--air-ink)]">{cand.headingText}</p>
-                    <p className="mt-1 text-[0.72rem] text-[color:var(--air-slate)]">{cand.griReasoning}</p>
+                    <p className="mt-1 text-[0.75rem] text-[color:var(--air-slate)]">{cand.griReasoning}</p>
                   </div>
                 ))}
               </div>

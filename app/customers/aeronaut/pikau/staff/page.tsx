@@ -31,7 +31,7 @@ export default async function StaffPage() {
       <div className="overflow-hidden air-card">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[color:var(--air-line)] bg-[color:var(--air-mist)] text-left text-[0.66rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">
+            <tr className="border-b border-[color:var(--air-line)] bg-[color:var(--air-mist)] text-left text-[0.75rem] uppercase tracking-[0.1em] text-[color:var(--air-slate)]">
               <th className="px-4 py-2.5">Name</th>
               <th className="px-4 py-2.5">Role</th>
               <th className="hidden px-4 py-2.5 sm:table-cell">Licence</th>

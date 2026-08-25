@@ -915,7 +915,7 @@ export function CinematicBuilder() {
               ))}
             </div>
             <div className="inspector-overlay show">
-              <h3><span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.48rem', color: 'var(--brass)' }}>{p.s}</span> {p.n}</h3>
+              <h3><span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.75rem', color: 'var(--brass)' }}>{p.s}</span> {p.n}</h3>
               <dl>
                 <dt>question</dt><dd>{p.q}</dd>
                 <dt>configured value</dt><dd>{p.v}</dd>

@@ -88,7 +88,7 @@ function Badge({
   }[tone];
   return (
     <span
-      className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+      className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
       style={{ background: styles.bg, color: styles.fg }}
     >
       {children}
@@ -109,12 +109,12 @@ export function ManaReceiptCard({ receipt }: { receipt: ManaReceiptCardSummary }
           <p className="font-display text-xl font-light leading-snug text-[color:var(--text-primary)]">
             Mana Receipt #{receipt.receipt_number}
           </p>
-          <p className="mt-1 font-mono text-[11px] text-[color:var(--text-secondary)]">
+          <p className="mt-1 font-mono text-[12px] text-[color:var(--text-secondary)]">
             {formatTime(receipt.created_at)} · {receipt.call_sid.slice(0, 12)}…
           </p>
         </div>
         <span
-          className="flex-shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
+          className="flex-shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[12px] uppercase tracking-[0.12em]"
           style={{ background: status.bg, color: status.fg }}
         >
           {receipt.status.replace('_', ' ')}

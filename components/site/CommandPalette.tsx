@@ -53,7 +53,7 @@ export function CommandPalette() {
           style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
         >
           <Dialog.Title className="sr-only">Search assembl</Dialog.Title>
-          <Command label="Search assembl" className="flex flex-1 flex-col [&_[cmdk-group-heading]]:px-4 [&_[cmdk-group-heading]]:pb-2 [&_[cmdk-group-heading]]:pt-5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-[color:var(--text-secondary)]">
+          <Command label="Search assembl" className="flex flex-1 flex-col [&_[cmdk-group-heading]]:px-4 [&_[cmdk-group-heading]]:pb-2 [&_[cmdk-group-heading]]:pt-5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[12px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-[color:var(--text-secondary)]">
             <div className="flex items-center gap-3 border-b border-[rgba(35,33,31,0.10)] px-4 py-3">
               <Search className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
               <Command.Input
@@ -88,7 +88,7 @@ export function CommandPalette() {
                     <Layers3 className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{kete.name}</span>
                     <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.englishName}</span>
-                    <kbd className="hidden items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                    <kbd className="hidden items-center gap-1 font-mono text-[12px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                       <span>Press</span>
                       <CornerDownLeft className="h-3 w-3" />
                     </kbd>
@@ -109,7 +109,7 @@ export function CommandPalette() {
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                       <span className="flex-1 text-body-md">{agent.name}</span>
                       <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.englishName}</span>
-                      <kbd className="hidden items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                      <kbd className="hidden items-center gap-1 font-mono text-[12px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                         <span>Press</span>
                         <CornerDownLeft className="h-3 w-3" />
                       </kbd>
@@ -127,7 +127,7 @@ export function CommandPalette() {
                   >
                     <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{page.label}</span>
-                    <kbd className="hidden items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                    <kbd className="hidden items-center gap-1 font-mono text-[12px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                       <span>Press</span>
                       <CornerDownLeft className="h-3 w-3" />
                     </kbd>

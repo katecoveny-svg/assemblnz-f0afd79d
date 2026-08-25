@@ -135,7 +135,7 @@ export function AdminNav({ email }: { email: string }) {
           title={email}
           style={{
             fontFamily: 'var(--font-mono), "Space Mono", ui-monospace, monospace',
-            fontSize: 10.5,
+            fontSize: 12,
             letterSpacing: '0.08em',
             color: '#8A8678',
             flexShrink: 0,

@@ -95,7 +95,7 @@ export function MarketplaceClient({
 
 function chipClass(active: boolean) {
   return [
-    'h-10 shrink-0 rounded-full border px-4 font-mono text-[10px] uppercase tracking-[0.14em] transition',
+    'h-10 shrink-0 rounded-full border px-4 font-mono text-[12px] uppercase tracking-[0.14em] transition',
     active
       ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-[#FFF7EC]'
       : 'border-[rgba(35,33,31,0.14)] bg-white/68 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',

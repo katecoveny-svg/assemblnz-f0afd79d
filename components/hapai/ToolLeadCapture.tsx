@@ -110,7 +110,7 @@ export function ToolLeadCapture({
         className ?? "",
       ].join(" ")}
     >
-      <p className={["flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em]", labelColour].join(" ")}>
+      <p className={["flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em]", labelColour].join(" ")}>
         <Mail className="h-3.5 w-3.5" aria-hidden />
         {title}
       </p>
@@ -141,7 +141,7 @@ export function ToolLeadCapture({
           Send it to me
         </button>
       </div>
-      <label className={["mt-3 flex items-start gap-2 text-[11px] leading-relaxed", bodyColour].join(" ")}>
+      <label className={["mt-3 flex items-start gap-2 text-[12px] leading-relaxed", bodyColour].join(" ")}>
         <input
           type="checkbox"
           checked={consent}
@@ -150,7 +150,7 @@ export function ToolLeadCapture({
         />
         <span>Okay to send occasional assembl updates. Unsubscribe anytime.</span>
       </label>
-      <p className={["mt-2 text-[11px] leading-relaxed", bodyColour].join(" ")}>
+      <p className={["mt-2 text-[12px] leading-relaxed", bodyColour].join(" ")}>
         Your email is collected only to send this result and, if you tick the box, occasional
         updates — held under the Privacy Act 2020.{" "}
         <Link href="/privacy" className="underline underline-offset-2 hover:opacity-80">

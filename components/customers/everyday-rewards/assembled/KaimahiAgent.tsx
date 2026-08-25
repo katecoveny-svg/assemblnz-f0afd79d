@@ -59,7 +59,7 @@ export function KaimahiAgent() {
   if (!named) {
     return (
       <Card style={{ maxWidth: 460 }}>
-        <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, marginBottom: 8 }}>
+        <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: GREY, marginBottom: 8 }}>
           name your agent
         </div>
         <p style={{ fontSize: 14.5, lineHeight: 1.6, color: CHARCOAL, margin: '0 0 14px' }}>
@@ -94,7 +94,7 @@ export function KaimahiAgent() {
 
   return (
     <Card style={{ maxWidth: 460 }}>
-      <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>
+      <div style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase', color: ORANGE, marginBottom: 10 }}>
         {name} · in-app agent
       </div>
       <div ref={scroller} style={{ maxHeight: 260, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>

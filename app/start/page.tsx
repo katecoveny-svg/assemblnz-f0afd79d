@@ -33,7 +33,7 @@ export default function StartPage() {
         />
         <div className="container relative z-10 grid min-h-[92vh] items-center gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_460px] lg:py-20">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               assembl Industry Pack
             </p>
             <h1 className="mt-6 max-w-[12ch] font-display text-[clamp(3.4rem,7vw,6.8rem)] font-light leading-[0.9]">
@@ -61,13 +61,13 @@ export default function StartPage() {
           </div>
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 p-6 shadow-[0_18px_60px_rgba(35,33,31,0.08)]">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
               Flat monthly pack
             </p>
             <p className="mt-5 font-display text-6xl font-light leading-none">
               NZ$3,500
             </p>
-            <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               per month + GST
             </p>
             <div className="mt-8 space-y-3">
@@ -91,7 +91,7 @@ export default function StartPage() {
         <div className="container">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
                 Kete picker
               </p>
               <h2 className="mt-4 font-display text-5xl font-light leading-none md:text-6xl">
@@ -126,7 +126,7 @@ export default function StartPage() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--kete-accent)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--kete-accent)]">
                     {kete.industry}
                   </p>
                   <h3 className="mt-3 font-display text-4xl font-light leading-none">
@@ -135,7 +135,7 @@ export default function StartPage() {
                   <p className="mt-4 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
                     {kete.tagline}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--kete-accent)]">
+                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--kete-accent)]">
                     Get Started
                     <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
@@ -159,7 +159,7 @@ function TrustMark({
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-3 py-3 text-center">
       <Icon className="mx-auto h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
-      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+      <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
         {label}
       </p>
     </div>

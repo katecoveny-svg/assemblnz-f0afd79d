@@ -110,7 +110,7 @@ export default function StaffPage() {
                 <div
                   style={{
                     fontFamily: 'var(--lula-mono), monospace',
-                    fontSize: 10.5,
+                    fontSize: 12,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     color: B.brassDark,
@@ -142,7 +142,7 @@ export default function StaffPage() {
                           <span
                             style={{
                               fontFamily: 'var(--lula-mono), monospace',
-                              fontSize: 11,
+                              fontSize: 12,
                               color: B.inkSoft,
                             }}
                           >

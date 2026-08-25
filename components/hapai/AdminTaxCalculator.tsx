@@ -45,7 +45,7 @@ export function AdminTaxCalculator() {
       <div className="grid gap-6 p-5 md:p-7 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── INPUTS ───────────────────────────────────────────── */}
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/70 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#313c42]">Your team</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#313c42]">Your team</p>
           <div className="mt-4 grid gap-4">
             <Field label="People doing admin / compliance">
               <input className={inputClass} type="number" min={0} step={1} value={people} onChange={(e) => setPeople(Number(e.target.value) || 0)} />
@@ -66,7 +66,7 @@ export function AdminTaxCalculator() {
               </select>
             </Field>
           </div>
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">
+          <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">
             Across {WORKING_WEEKS_PER_YEAR} working weeks · indicative only · not financial advice
           </p>
         </div>
@@ -74,7 +74,7 @@ export function AdminTaxCalculator() {
         {/* ── RESULT ───────────────────────────────────────────── */}
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="rounded-[12px] border border-[rgba(58,56,50,0.24)] bg-gradient-to-br from-[#ffffff] to-[#f3f5f3] p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#313c42]">Your admin tax, per year</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[#313c42]">Your admin tax, per year</p>
             <p className="mt-2 font-display text-[clamp(2.6rem,5.5vw,4.2rem)] font-light leading-none text-[#313c42]">
               {formatNzd(result.annualCostNzd)}
             </p>
@@ -94,7 +94,7 @@ export function AdminTaxCalculator() {
 
           {/* Link the result to the matching kete chat. */}
           <div className="mt-5 rounded-[10px] border border-[rgba(35,33,31,0.1)] p-4" style={{ backgroundColor: `${kete.accent}10` }}>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: kete.accent }}>
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em]" style={{ color: kete.accent }}>
               {kete.name} · {kete.industry}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">
@@ -138,7 +138,7 @@ const inputClass =
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">{label}</span>
+      <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">{label}</span>
       {children}
     </label>
   );
@@ -147,9 +147,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Stat({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-[#f7f9f8] p-3">
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">{label}</p>
+      <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#6B6661]">{label}</p>
       <p className="mt-1 font-display text-xl tabular-nums">{value}</p>
-      <p className="mt-1 text-[11px] text-[#5A5550]">{sub}</p>
+      <p className="mt-1 text-[12px] text-[#5A5550]">{sub}</p>
     </div>
   );
 }

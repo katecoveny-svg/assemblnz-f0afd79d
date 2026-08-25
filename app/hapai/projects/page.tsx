@@ -46,7 +46,7 @@ export default function HapaiProjectsPage() {
       <section className="border-b border-[rgba(35,33,31,0.10)] px-6 py-16 lg:px-10 lg:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               hapai · project picker
             </p>
             <h1
@@ -146,7 +146,7 @@ function Field({
 }) {
   return (
     <label className={`block ${className}`}>
-      <span className="block font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+      <span className="block font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
         {label}
       </span>
       <span className="mt-2 block">{children}</span>

@@ -57,7 +57,7 @@ export function ArcChatPanel({
         <ArcMark size={30} />
         <div>
           <p className="text-sm font-semibold text-[color:var(--brand-ink)]">ARC</p>
-          <p className="text-[11px] text-[color:var(--brand-muted)]">
+          <p className="text-[12px] text-[color:var(--brand-muted)]">
             concept demo · scripted · draft-only
           </p>
         </div>
@@ -92,7 +92,7 @@ export function ArcChatPanel({
             </button>
           ),
         )}
-        <p className="mt-1 text-[10px] text-[color:var(--brand-muted)]">
+        <p className="mt-1 text-[12px] text-[color:var(--brand-muted)]">
           trust score A · NZ Building Code, NZIA templates · last synced 4 min
           ago (demo)
         </p>

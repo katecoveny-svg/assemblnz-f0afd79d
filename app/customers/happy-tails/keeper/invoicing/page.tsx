@@ -22,7 +22,7 @@ export default function InvoicingPage() {
       <div className="xero" style={{ marginBottom: 20 }}>
         <div className="lg">X</div>
         <div><b>Xero — {HAPPY_TAILS_BRAND.legalName}</b> · GST {HAPPY_TAILS_BRAND.gst} · June 2026 draft run</div>
-        <div style={{ marginLeft: 'auto', fontSize: 11.5, fontWeight: 600, color: 'var(--good)' }}>
+        <div style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 600, color: 'var(--good)' }}>
           {cred.mode === 'live' ? '● Connected · live' : '● Connected · mocked (INV-3031)'}
         </div>
       </div>
@@ -36,12 +36,12 @@ export default function InvoicingPage() {
               <div className="av" style={{ width: 32, height: 32, background: '#fff' }}><DogAvatar /></div>
               <div>
                 <div style={{ fontWeight: 600, fontSize: 13.5 }}>{dog.name}</div>
-                <div style={{ color: 'var(--mute)', fontSize: 11.5 }}>{dog.slug === 'franklin' ? '4 daycare · 5 overnight (small pup)' : `${dog.latestInvoice.period} bookings`}</div>
+                <div style={{ color: 'var(--mute)', fontSize: 12 }}>{dog.slug === 'franklin' ? '4 daycare · 5 overnight (small pup)' : `${dog.latestInvoice.period} bookings`}</div>
               </div>
               {i === 0 ? (
                 <span style={{ marginLeft: 'auto', fontWeight: 700, fontVariantNumeric: 'tabular-nums', fontSize: 13.5 }}>{dog.latestInvoice.total}</span>
               ) : (
-                <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 600, color: matched ? 'var(--good)' : 'var(--warn)', background: matched ? '#eef4ef' : '#fdf3dd', padding: '3px 8px', borderRadius: 999 }}>{matched ? 'matched ✓' : 'check swap ⚠'}</span>
+                <span style={{ marginLeft: 'auto', fontSize: 12, fontWeight: 600, color: matched ? 'var(--good)' : 'var(--warn)', background: matched ? '#eef4ef' : '#fdf3dd', padding: '3px 8px', borderRadius: 999 }}>{matched ? 'matched ✓' : 'check swap ⚠'}</span>
               )}
             </div>
           ))}

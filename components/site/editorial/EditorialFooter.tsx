@@ -33,7 +33,7 @@ export function EditorialFooter({ year }: { year: number }) {
             className="group inline-flex w-fit flex-col gap-1"
           >
             <span
-              className="text-[10px] uppercase tracking-[0.3em] text-[#1A1918]/55"
+              className="text-[12px] uppercase tracking-[0.3em] text-[#1A1918]/55"
               style={{ fontFamily: 'var(--font-mono)' }}
             >
               {f.contactLabel}
@@ -50,7 +50,7 @@ export function EditorialFooter({ year }: { year: number }) {
         {/* links + place + year */}
         <div className="flex flex-col gap-5 sm:items-end">
           <nav
-            className="flex flex-wrap gap-x-5 gap-y-2 text-[11px] uppercase tracking-[0.18em] text-[#1A1918]/70 sm:justify-end"
+            className="flex flex-wrap gap-x-5 gap-y-2 text-[12px] uppercase tracking-[0.18em] text-[#1A1918]/70 sm:justify-end"
             style={{ fontFamily: 'var(--font-mono)' }}
             aria-label="Footer"
           >
@@ -69,7 +69,7 @@ export function EditorialFooter({ year }: { year: number }) {
             })}
           </nav>
           <p
-            className="text-[10px] uppercase tracking-[0.3em] text-[#1A1918]/45 sm:text-right"
+            className="text-[12px] uppercase tracking-[0.3em] text-[#1A1918]/45 sm:text-right"
             style={{ fontFamily: 'var(--font-mono)' }}
           >
             {f.place} · {year}

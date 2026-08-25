@@ -73,7 +73,7 @@ function wordmarkPosition(pos: string): [number, number, CanvasTextAlign] {
   return [80, 70, "left"];
 }
 
-const labelClass = "font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]";
+const labelClass = "font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]";
 const inputClass =
   "mt-1.5 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm outline-none focus:border-[#3f7373]";
 const cardClass = "rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/70 p-5";
@@ -121,7 +121,7 @@ function RadioStack<T extends { value: string; label: string }>({
           />
           <span className="flex w-full flex-wrap items-baseline justify-between gap-x-2 text-[#313c42]">
             <span>{option.label}</span>
-            {detailOf ? <small className="text-[11px] text-[#68766f]">{detailOf(option)}</small> : null}
+            {detailOf ? <small className="text-[12px] text-[#68766f]">{detailOf(option)}</small> : null}
           </span>
         </label>
       ))}
@@ -398,7 +398,7 @@ export function OgCardGeneratorTool() {
                 Download PNG
               </button>
             </div>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]">
+            <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]">
               All cards render locally in your browser
             </p>
           </div>
@@ -415,7 +415,7 @@ export function OgCardGeneratorTool() {
                 className="block aspect-[1200/630] h-auto w-full"
               />
             </div>
-            <div className="mt-3 flex items-center justify-between gap-3 font-mono text-[11px] text-[#68766f]">
+            <div className="mt-3 flex items-center justify-between gap-3 font-mono text-[12px] text-[#68766f]">
               <span>1200×630 png</span>
               <button
                 type="button"

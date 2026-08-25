@@ -324,7 +324,7 @@ export function PilotAgentChat({
           }}
           aria-pressed={voiceReplies}
           title={voiceReplies ? 'Spoken replies on — tap to mute' : 'Tap to have replies spoken aloud'}
-          className="ml-auto rounded-full border border-black/10 px-2 py-0.5 text-[10px] uppercase transition-colors hover:bg-black/[0.04]"
+          className="ml-auto rounded-full border border-black/10 px-2 py-0.5 text-[12px] uppercase transition-colors hover:bg-black/[0.04]"
           style={{
             letterSpacing: '0.16em',
             color: voiceReplies ? '#fff' : 'rgba(31, 29, 26, 0.62)',
@@ -334,7 +334,7 @@ export function PilotAgentChat({
           {voiceReplies ? '🔊 voice on' : '🔇 voice'}
         </button>
         <span
-          className="rounded-full px-2 py-0.5 text-[10px] uppercase"
+          className="rounded-full px-2 py-0.5 text-[12px] uppercase"
           style={{ letterSpacing: '0.16em', color: 'rgba(31, 29, 26, 0.62)', background: `${accent}14` }}
         >
           live · draft-only
@@ -343,7 +343,7 @@ export function PilotAgentChat({
 
       {offline ? (
         <div
-          className="border-b border-black/5 px-4 py-2 text-[10px] uppercase"
+          className="border-b border-black/5 px-4 py-2 text-[12px] uppercase"
           style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY, backgroundColor: '#F7F5EE' }}
           role="status"
         >
@@ -377,7 +377,7 @@ export function PilotAgentChat({
                     {citations.length > 0 && (
                       <div className="mt-3 border-t border-black/5 pt-2">
                         <div
-                          className="mb-1.5 text-[9px] uppercase"
+                          className="mb-1.5 text-[12px] uppercase"
                           style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
                         >
                           sources
@@ -395,7 +395,7 @@ export function PilotAgentChat({
                               target={c.url ? '_blank' : undefined}
                               rel="noreferrer"
                               title={`${TIER_LABEL[c.tier ?? 'B']}${c.ref ? ` — ${c.ref}` : ''}`}
-                              className={`rounded-full border border-black/10 px-2 py-0.5 text-[10px] transition-colors ${c.url ? 'hover:bg-black/5' : 'cursor-default'}`}
+                              className={`rounded-full border border-black/10 px-2 py-0.5 text-[12px] transition-colors ${c.url ? 'hover:bg-black/5' : 'cursor-default'}`}
                               style={{ color: '#3E3C36' }}
                             >
                               {c.tier ? `${c.tier} · ` : ''}
@@ -454,7 +454,7 @@ export function PilotAgentChat({
               disabled={busy}
               whileHover={reduce ? undefined : { y: -2, scale: 1.02 }}
               whileTap={reduce ? undefined : { scale: 0.98 }}
-              className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-left text-[11px] leading-[1.4] shadow-sm transition-colors hover:bg-black/[0.03] disabled:opacity-50"
+              className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-left text-[12px] leading-[1.4] shadow-sm transition-colors hover:bg-black/[0.03] disabled:opacity-50"
             >
               {t}
             </motion.button>
@@ -513,7 +513,7 @@ export function PilotAgentChat({
           </motion.button>
         </form>
         {draftNote ? (
-          <p className="mt-2 text-[10px]" style={{ color: ASSEMBL_WARM_GREY }}>
+          <p className="mt-2 text-[12px]" style={{ color: ASSEMBL_WARM_GREY }}>
             {draftNote}
           </p>
         ) : null}

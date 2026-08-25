@@ -424,7 +424,7 @@ export function AgentChat({
             <ArrowUp size={18} aria-hidden />
           </button>
         </form>
-        <p className="mk-mono mx-auto mt-2 max-w-2xl text-center text-[11px]" style={{ color: PALETTE.muted }}>
+        <p className="mk-mono mx-auto mt-2 max-w-2xl text-center text-[12px]" style={{ color: PALETTE.muted }}>
           A draft for you to check. Not legal, financial, or medical advice.
         </p>
       </div>

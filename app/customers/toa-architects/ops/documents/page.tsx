@@ -62,7 +62,7 @@ export default function DocumentsPage() {
           {toaProducerStatements.map((ps) => (
             <li key={ps.id} className="flex items-center justify-between gap-3 py-2">
               <span className="min-w-0 truncate text-[color:var(--brand-ink)]">
-                <span className="mr-2 rounded border border-black/10 px-1.5 py-0.5 text-[10px] font-semibold">
+                <span className="mr-2 rounded border border-black/10 px-1.5 py-0.5 text-[12px] font-semibold">
                   {ps.kind}
                 </span>
                 {ps.project}
@@ -74,7 +74,7 @@ export default function DocumentsPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-[11px] text-[color:var(--brand-muted)]">
+        <p className="mt-3 text-[12px] text-[color:var(--brand-muted)]">
           files live in the practice&apos;s own Dropbox / Drive / SharePoint —
           ARC reads and indexes, it doesn&apos;t move your archive (demo)
         </p>

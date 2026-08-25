@@ -43,7 +43,7 @@ export default async function BlueprintPage({ params }: Params) {
   });
 
   const label: React.CSSProperties = {
-    fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, letterSpacing: '0.16em',
+    fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, letterSpacing: '0.16em',
     textTransform: 'uppercase', color: accent, marginBottom: 12,
   };
   const card: React.CSSProperties = {
@@ -56,7 +56,7 @@ export default async function BlueprintPage({ params }: Params) {
       {/* Their colour, full bleed — the first thing anyone sees is their own brand. */}
       <header style={{ background: accent, padding: '54px 24px 46px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
+          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)' }}>
             Business Blueprint · assembl
           </div>
           <h1 style={{ fontSize: 'clamp(30px,5vw,52px)', fontWeight: 300, color: '#fff', margin: '18px 0 0', letterSpacing: '-0.015em' }}>
@@ -120,7 +120,7 @@ export default async function BlueprintPage({ params }: Params) {
             </p>
             {brief.blindSpots.map((b, i) => (
               <div key={b} style={{ display: 'flex', gap: 14, padding: '13px 0', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)' }}>
-                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#D4A843', paddingTop: 3 }}>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: '#D4A843', paddingTop: 3 }}>
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <span style={{ color: '#fff', fontSize: 15.5, lineHeight: 1.6 }}>{b}</span>
@@ -136,7 +136,7 @@ export default async function BlueprintPage({ params }: Params) {
               {[brief.brand.primary, brief.brand.secondary, brief.brand.accent].filter(Boolean).map((hex) => (
                 <div key={hex as string} style={{ textAlign: 'center' }}>
                   <div style={{ width: 76, height: 46, borderRadius: 10, background: hex as string, border: '1px solid rgba(26,25,24,0.12)' }} />
-                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 9.5, color: '#6E6B64', marginTop: 6 }}>{hex}</div>
+                  <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: '#6E6B64', marginTop: 6 }}>{hex}</div>
                 </div>
               ))}
             </div>
@@ -153,7 +153,7 @@ export default async function BlueprintPage({ params }: Params) {
           >
             Assemble one for your business →
           </a>
-          <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 9.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8A867E', marginTop: 26, lineHeight: 1.9 }}>
+          <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8A867E', marginTop: 26, lineHeight: 1.9 }}>
             Read from one public page on {new Date(kept.createdAt).toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' })}.
             <br />Kept until {kept_until}, then deleted. Nothing here is a claim about the business — only a reading of its own website.
             <br />assembl NZ Limited · assembl@assembl.co.nz

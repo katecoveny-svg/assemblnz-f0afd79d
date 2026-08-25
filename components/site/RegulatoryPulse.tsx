@@ -37,7 +37,7 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
         <div>
           <div className="flex items-center gap-3">
             <PulseDot active={!stats.degraded && stats.liveSources > 0} />
-            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               Live NZ source check · updated {formatTime(stats.capturedAt)}
             </p>
           </div>
@@ -61,10 +61,10 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
                   className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] p-4"
                 >
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--assembl-pounamu)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--assembl-pounamu)]">
                       {item.changeType}
                     </p>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                       {formatDate(item.detectedAt)}
                     </p>
                   </div>
@@ -72,13 +72,13 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
                     {item.title}
                   </h3>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                       {item.sourceName}
                     </p>
                     {item.sourceUrl ? (
                       <Link
                         href={item.sourceUrl}
-                        className="inline-flex items-center font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]"
+                        className="inline-flex items-center font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]"
                       >
                         Source
                         <ArrowRight className="ml-1.5 h-3 w-3" aria-hidden />

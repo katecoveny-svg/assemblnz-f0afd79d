@@ -14,7 +14,7 @@
 .eyebrow {
   margin: 0;
   color: #3f7373;
-  font: 700 0.68rem/1.4 var(--font-mono), monospace;
+  font: 700 0.75rem/1.4 var(--font-mono), monospace;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -26,7 +26,7 @@
 }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 46px; background: rgba(63, 115, 115, 0.13); }
 .steps article { min-height: 300px; padding: clamp(26px, 3.4vw, 44px); background: #fff; }
-.steps span { color: #b8964f; font: 700 0.68rem var(--font-mono), monospace; letter-spacing: 0.13em; }
+.steps span { color: #b8964f; font: 700 0.75rem var(--font-mono), monospace; letter-spacing: 0.13em; }
 .steps h3 { margin: 42px 0 0; color: #2e5a58; font: 500 clamp(1.8rem, 3vw, 2.7rem)/1 var(--font-display), Georgia, serif; }
 .steps p { max-width: 320px; margin: 16px 0 0; color: #68766f; font-size: 0.9rem; line-height: 1.65; }
 

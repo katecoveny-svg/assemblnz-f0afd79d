@@ -490,12 +490,12 @@ export function ReactionCanvas({ presetId, values, seed, background, text, onAdj
         style={{ background: palette.ground }}
       />
       {!ready && !error && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
           seeding chemistry…
         </div>
       )}
       {error && (
-        <div className="absolute inset-0 flex items-center justify-center px-6 text-center font-mono text-[11px] text-[color:var(--text-primary)]">
+        <div className="absolute inset-0 flex items-center justify-center px-6 text-center font-mono text-[12px] text-[color:var(--text-primary)]">
           {error}
         </div>
       )}

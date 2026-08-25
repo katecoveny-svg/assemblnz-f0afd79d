@@ -234,13 +234,13 @@ function TenderCard({ entry }: { entry: LiveFeedEntry }) {
           {positive.slice(0, 4).map((s) => (
             <span
               key={s.label}
-              className="text-[11px] font-mono px-2 py-0.5 rounded bg-pounamu-100 text-pounamu-900 border border-pounamu-300"
+              className="text-[12px] font-mono px-2 py-0.5 rounded bg-pounamu-100 text-pounamu-900 border border-pounamu-300"
             >
               {s.label} +{s.points}
             </span>
           ))}
           {positive.length > 4 && (
-            <span className="text-[11px] font-mono px-2 py-0.5 text-taupe-500">
+            <span className="text-[12px] font-mono px-2 py-0.5 text-taupe-500">
               +{positive.length - 4} more
             </span>
           )}
@@ -268,7 +268,7 @@ function NotAuthorised({ email }: { email: string }) {
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
       <div className="max-w-md rounded-lg border border-taupe-300 bg-mist-50 p-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-taupe-600">
+        <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-taupe-600">
           not authorised
         </p>
         <h1 className="mt-3 font-cormorant text-3xl text-pounamu-900">

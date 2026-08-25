@@ -20,7 +20,7 @@
    headline it exists to judge. */
 .lab-toggle {
   position: fixed; bottom: 16px; left: 16px; z-index: 22; cursor: pointer;
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.54rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.12em; text-transform: uppercase;
   padding: 9px 15px; border-radius: 50px;
   background: var(--ink); color: var(--bg); border: 0;
@@ -41,12 +41,12 @@
 .lab-bar.shut { opacity: 0; transform: translateY(10px) scale(0.98); pointer-events: none; }
 .lab-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .lab-l {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--ink2); margin-right: 4px;
 }
 .lab-bar button {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.06em; text-transform: uppercase;
   padding: 5px 9px; border-radius: 50px; cursor: pointer;
   background: transparent; color: var(--ink2);
@@ -55,7 +55,7 @@
 }
 .lab-bar button:hover { color: var(--ink); border-color: var(--accent); }
 .lab-bar button.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-.lab-note { font-size: 0.62rem; line-height: 1.5; color: var(--ink2); }
+.lab-note { font-size: 0.75rem; line-height: 1.5; color: var(--ink2); }
 .lab-note b { color: var(--ink); font-weight: 700; }
 
 /* ── the stages ── */
@@ -80,7 +80,7 @@
 }
 
 .lab-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.24em; text-transform: uppercase;
   color: var(--kicker); margin-bottom: 26px;
 }

@@ -269,7 +269,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
         <h3 className="font-display text-xl font-light text-[color:var(--text-primary)]">
           Day planner
         </h3>
-        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+        <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
           {dayLabel()}
           {stop ? (
             <>
@@ -282,7 +282,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
 
       {!autoStop ? (
         <label className="mb-3 flex flex-col gap-1 text-sm">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Pick a stop
           </span>
           <select
@@ -312,7 +312,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
           <button
             type="submit"
             disabled={pending || !prompt.trim() || !stop}
-            className="rounded-card bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-85 disabled:opacity-50"
+            className="rounded-card bg-[color:var(--assembl-ink)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--assembl-paper)] transition hover:opacity-85 disabled:opacity-50"
           >
             {pending ? 'planning…' : 'plan my day'}
           </button>
@@ -321,7 +321,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
               type="button"
               onClick={onWhatsNext}
               disabled={pending}
-              className="rounded-card border border-[rgba(35,33,31,0.15)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[color:var(--text-primary)] transition hover:bg-white disabled:opacity-50"
+              className="rounded-card border border-[rgba(35,33,31,0.15)] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.2em] text-[color:var(--text-primary)] transition hover:bg-white disabled:opacity-50"
             >
               what’s next?
             </button>
@@ -347,12 +347,12 @@ export function DayPlanner({ payload, storageScope }: Props) {
                 className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/85 p-4"
               >
                 <header className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     {b.when} · {b.title}
                   </p>
                   {b.book !== 'none' ? (
                     <span
-                      className={`rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] ${BOOK_TONE[b.book]}`}
+                      className={`rounded-full px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.18em] ${BOOK_TONE[b.book]}`}
                     >
                       {BOOK_LABELS[b.book]}
                     </span>
@@ -361,13 +361,13 @@ export function DayPlanner({ payload, storageScope }: Props) {
                 <p className="mt-1 font-display text-base font-light text-[color:var(--text-primary)]">
                   {b.place}
                 </p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                   {b.address}
                 </p>
                 <p className="mt-2 text-sm text-[color:var(--text-primary)]">
                   {b.why}
                 </p>
-                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                   ↳ {b.transit}
                 </p>
                 {b.bookNote ? (
@@ -382,7 +382,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] transition hover:bg-white"
+                    className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] transition hover:bg-white"
                   >
                     open in maps
                   </a>
@@ -395,7 +395,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
               aria-label="Verify on the day"
               className="rounded-card border border-[rgba(35,33,31,0.10)] bg-[rgba(35,33,31,0.04)] p-4"
             >
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 Verify on the day
               </p>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[color:var(--text-body)]">
@@ -411,13 +411,13 @@ export function DayPlanner({ payload, storageScope }: Props) {
       {stored.length > 0 ? (
         <section aria-label="Saved plans" className="mt-6">
           <header className="mb-2 flex items-center justify-between">
-            <h4 className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+            <h4 className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               Recent plans ({stored.length})
             </h4>
             <button
               type="button"
               onClick={clearStored}
-              className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:bg-white"
+              className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] transition hover:bg-white"
             >
               clear
             </button>
@@ -440,7 +440,7 @@ export function DayPlanner({ payload, storageScope }: Props) {
                     onClick={() => reopenStored(s)}
                     className="w-full rounded-card border border-[rgba(35,33,31,0.10)] bg-white/85 p-3 text-left transition hover:bg-white"
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                       {when} · {stopLabel}
                     </p>
                     <p className="mt-1 line-clamp-2 text-sm text-[color:var(--text-primary)]">

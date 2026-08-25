@@ -85,7 +85,7 @@ export function EducationStudio() {
           >
             Keeper — draft content
           </button>
-          <p className="mt-2 text-[11.5px] leading-snug" style={{ color: 'var(--tenant-muted)' }}>
+          <p className="mt-2 text-[12px] leading-snug" style={{ color: 'var(--tenant-muted)' }}>
             Drafted in Auckland Zoo's public /news voice, for the education team to review, edit and publish.
           </p>
         </Card>

@@ -107,7 +107,7 @@ export default function DashboardPage() {
                     <StatusDot tone={tone} />
                     {c.enclosure}
                   </span>
-                  <span className="text-[11.5px]" style={{ color: 'var(--tenant-muted)' }}>{c.checkedBy} · {c.time}</span>
+                  <span className="text-[12px]" style={{ color: 'var(--tenant-muted)' }}>{c.checkedBy} · {c.time}</span>
                 </li>
               );
             })}
@@ -128,7 +128,7 @@ export default function DashboardPage() {
                   <span className="text-[13.5px] font-medium" style={{ color: 'var(--tenant-ink)' }}>{e.title}</span>
                   <StatusDot tone={e.status} />
                 </div>
-                <p className="text-[11.5px]" style={{ color: 'var(--tenant-muted)' }}>{e.when} · {e.headcount}</p>
+                <p className="text-[12px]" style={{ color: 'var(--tenant-muted)' }}>{e.when} · {e.headcount}</p>
               </li>
             ))}
           </ul>
@@ -158,7 +158,7 @@ export default function DashboardPage() {
                   <span style={{ color: 'var(--tenant-primary)' }}>
                     <SpeciesSilhouette slug={s.slug} className="h-8 w-8" />
                   </span>
-                  <span className="text-[11px] font-medium leading-tight" style={{ color: 'var(--tenant-ink)' }}>{s.name}</span>
+                  <span className="text-[12px] font-medium leading-tight" style={{ color: 'var(--tenant-ink)' }}>{s.name}</span>
                 </div>
               </Link>
             ))}
@@ -175,7 +175,7 @@ function StatCard({ label, value, sub, tone = 'ok', href }: { label: string; val
       <div className="h-full rounded-2xl border p-4 transition-colors group-hover:border-[var(--tenant-primary)]" style={{ borderColor: 'var(--tenant-line)', background: 'var(--tenant-surface)' }}>
         <div className="flex items-center gap-2">
           <StatusDot tone={tone} />
-          <p className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>{label}</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.14em]" style={{ color: 'var(--tenant-muted)' }}>{label}</p>
         </div>
         <p className="mt-1.5 font-[family-name:var(--font-display)] text-[30px] leading-none" style={{ color: 'var(--tenant-ink)' }}>{value}</p>
         <p className="mt-1 text-[12px]" style={{ color: 'var(--tenant-muted)' }}>{sub}</p>

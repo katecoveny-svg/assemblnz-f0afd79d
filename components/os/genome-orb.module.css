@@ -73,7 +73,7 @@
 
 .nodeLabel {
   font-family: var(--font-body), 'Inter', system-ui, sans-serif;
-  font-size: 11.5px;
+  font-size: 12px;
   letter-spacing: 0.02em;
   fill: #6d6d76;
 }

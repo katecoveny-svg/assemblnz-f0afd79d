@@ -19,7 +19,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <>
-      <Link href="/admin/users" style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: C.muted, textDecoration: 'none' }}>
+      <Link href="/admin/users" style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.1em', color: C.muted, textDecoration: 'none' }}>
         ← USERS
       </Link>
       <div style={{ height: 10 }} />

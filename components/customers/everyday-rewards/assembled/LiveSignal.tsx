@@ -91,7 +91,7 @@ export function LiveSignal() {
               live source unavailable right now — not faking a number.
             </div>
           )}
-          <div style={{ fontSize: 11, color: GREY, marginTop: 8 }}>Open-Meteo · read-only · no key</div>
+          <div style={{ fontSize: 12, color: GREY, marginTop: 8 }}>Open-Meteo · read-only · no key</div>
         </Tier>
 
         <Tier label="illustrative context">
@@ -104,7 +104,7 @@ export function LiveSignal() {
       </div>
 
       <div style={{ marginTop: 16, padding: '16px 18px', borderRadius: 14, border: `1.5px solid ${ORANGE}`, background: '#fff', maxWidth: 900 }}>
-        <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: ORANGE_DARK, marginBottom: 8 }}>
+        <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: ORANGE_DARK, marginBottom: 8 }}>
           assembl response
         </div>
         <p style={{ fontSize: 14.5, lineHeight: 1.6, color: CHARCOAL, margin: 0 }}>{response}</p>
@@ -116,7 +116,7 @@ export function LiveSignal() {
 function Tier({ label, children, accent }: { label: string; children: React.ReactNode; accent?: boolean }) {
   return (
     <div style={{ padding: '16px 18px', borderRadius: 14, border: '1px solid rgba(34,48,60,0.12)', background: accent ? '#fbfaf7' : '#fff' }}>
-      <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: accent ? ORANGE_DARK : GREY, marginBottom: 10 }}>
+      <div style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: accent ? ORANGE_DARK : GREY, marginBottom: 10 }}>
         {label}
       </div>
       {children}

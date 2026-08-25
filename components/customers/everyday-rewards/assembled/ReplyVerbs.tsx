@@ -49,7 +49,7 @@ export function ReplyVerbs({ recipient }: { recipient: ResolvedRecipient }) {
               color: NAVY,
             }}
           >
-            <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: ORANGE, minWidth: 62 }}>
+            <span style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: ORANGE, minWidth: 62 }}>
               {v.label}
             </span>
             <span style={{ fontFamily: 'var(--edr-display), Georgia, serif', fontSize: 19, lineHeight: 1.35, flex: 1 }}>
@@ -59,7 +59,7 @@ export function ReplyVerbs({ recipient }: { recipient: ResolvedRecipient }) {
           </a>
         ))}
       </div>
-      <p style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 11, letterSpacing: '0.06em', color: GREY, marginTop: 20 }}>
+      <p style={{ fontFamily: 'var(--edr-mono), monospace', fontSize: 12, letterSpacing: '0.06em', color: GREY, marginTop: 20 }}>
         {C.footer}
       </p>
     </div>

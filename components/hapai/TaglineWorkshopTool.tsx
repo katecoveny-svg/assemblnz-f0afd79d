@@ -66,7 +66,7 @@ function writeShortlist(next: string[]) {
   shortlistListeners.forEach((listener) => listener());
 }
 
-const labelClass = "font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]";
+const labelClass = "font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]";
 const textareaClass =
   "mt-1.5 min-h-[64px] w-full resize-y rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#3f7373]";
 
@@ -253,7 +253,7 @@ export function TaglineWorkshopTool() {
                     className="h-4 w-4 shrink-0 accent-[#3f7373]"
                   />
                   <span className="text-[#313c42]">
-                    {style.name} <span className="text-[11px] text-[#68766f]">· {style.hint}</span>
+                    {style.name} <span className="text-[12px] text-[#68766f]">· {style.hint}</span>
                   </span>
                 </label>
               ))}
@@ -321,7 +321,7 @@ export function TaglineWorkshopTool() {
               <span className="flex items-center">{gate.counter}</span>
             </div>
             {error ? <p className="mt-3 text-xs text-[#9A3412]">{error}</p> : null}
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]">
+            <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]">
               Draft only · a human clears the final line
             </p>
           </div>
@@ -331,7 +331,7 @@ export function TaglineWorkshopTool() {
           <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="font-display text-2xl font-light text-[#313c42]">Candidates</h2>
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#68766f]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#68766f]">
                 {loading ? "composing…" : ranMeta || "ready"}
               </p>
             </div>
@@ -344,7 +344,7 @@ export function TaglineWorkshopTool() {
               <div className="mt-4 grid gap-5">
                 {Object.entries(groups).map(([style, items]) => (
                   <section key={style}>
-                    <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3f7373]">
+                    <h3 className="font-mono text-[12px] uppercase tracking-[0.18em] text-[#3f7373]">
                       {style}
                     </h3>
                     <div className="mt-2 grid gap-2.5">
@@ -357,14 +357,14 @@ export function TaglineWorkshopTool() {
                           >
                             <p className="text-sm leading-relaxed text-[#313c42]">{item.tagline}</p>
                             <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-[rgba(35,33,31,0.08)] pt-2.5">
-                              <p className="font-mono text-[10px] tracking-[0.12em] text-[#68766f]">
+                              <p className="font-mono text-[12px] tracking-[0.12em] text-[#68766f]">
                                 {item.tagline.length} chars
                               </p>
                               <div className="flex gap-2">
                                 <button
                                   type="button"
                                   onClick={() => toggleShortlist(item.tagline)}
-                                  className={`inline-flex h-9 items-center gap-1.5 rounded-[8px] border px-3 font-mono text-[11px] transition ${
+                                  className={`inline-flex h-9 items-center gap-1.5 rounded-[8px] border px-3 font-mono text-[12px] transition ${
                                     saved
                                       ? "border-[#b8964f] bg-[#FBF3E2] text-[#8A5B10]"
                                       : "border-[rgba(35,33,31,0.14)] bg-white text-[#313c42] hover:bg-[#f3f5f3]"
@@ -379,7 +379,7 @@ export function TaglineWorkshopTool() {
                                 <button
                                   type="button"
                                   onClick={() => void copyTagline(item.tagline)}
-                                  className={`inline-flex h-9 items-center gap-1.5 rounded-[8px] border px-3 font-mono text-[11px] transition ${
+                                  className={`inline-flex h-9 items-center gap-1.5 rounded-[8px] border px-3 font-mono text-[12px] transition ${
                                     copied === item.tagline
                                       ? "border-[#3f7373] bg-[#3f7373] text-white"
                                       : "border-[rgba(35,33,31,0.14)] bg-white text-[#313c42] hover:bg-[#f3f5f3]"

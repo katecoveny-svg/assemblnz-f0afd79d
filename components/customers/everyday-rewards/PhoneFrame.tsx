@@ -55,7 +55,7 @@ export function PhoneFrame({
             textAlign: 'right',
             padding: '0 24px 4px',
             fontFamily: 'var(--edr-mono), monospace',
-            fontSize: 10,
+            fontSize: 12,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             color: statusOnDark ? 'rgba(255,255,255,0.75)' : EDR_BRAND.greyMid,

@@ -23,7 +23,7 @@
 .wsp-pick { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
 .wsp-tab {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
   padding: 7px 14px; border-radius: 50px; cursor: pointer;
   border: 1px solid rgba(26,25,23,0.14); background: transparent;
   color: var(--ink-2); transition: all 0.28s var(--ease);
@@ -62,7 +62,7 @@
 .wsp-status {
   width: 100%; display: flex; justify-content: space-between; align-items: center;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.5rem; letter-spacing: 0.08em; color: var(--ink-2);
+  font-size: 0.75rem; letter-spacing: 0.08em; color: var(--ink-2);
   margin-bottom: 26px; padding-top: 2px;
 }
 .wsp-brand {
@@ -76,7 +76,7 @@
 }
 /* the loyalty line — names the mechanic so nobody mistakes it for a spinner */
 .wsp-loyal {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
   letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass);
   text-align: center; margin-bottom: 12px;
 }
@@ -107,7 +107,7 @@
 }
 .wsp-credit-l {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.48rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--ink-2); margin-top: 7px;
 }
 
@@ -131,17 +131,17 @@
 @keyframes wsp-pulse { 50% { box-shadow: 0 0 0 9px rgba(191,163,122,0); } }
 .wsp-who {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.46rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--brass);
+  font-size: 0.75rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--brass);
 }
-.wsp-doing { font-size: 0.72rem; font-weight: 300; color: var(--ink); line-height: 1.3; }
+.wsp-doing { font-size: 0.75rem; font-weight: 300; color: var(--ink); line-height: 1.3; }
 .wsp-earn {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.54rem; color: var(--ink-2); white-space: nowrap;
+  font-size: 0.75rem; color: var(--ink-2); white-space: nowrap;
 }
 .wsp-step.done .wsp-earn { color: var(--navy); font-weight: 600; }
 
 .wsp-learned {
-  width: 100%; margin-top: 12px; font-size: 0.7rem; font-weight: 300;
+  width: 100%; margin-top: 12px; font-size: 0.75rem; font-weight: 300;
   color: var(--ink-2); line-height: 1.4;
 }
 .wsp-learned b { font-weight: 600; color: var(--navy); }
@@ -152,7 +152,7 @@
   width: 100%; margin-top: 12px; padding: 10px 14px;
   border-radius: 12px; background: rgba(191,163,122,0.14);
   border: 1px solid rgba(184,150,79,0.4);
-  font-size: 0.72rem; font-weight: 400; color: var(--ink); line-height: 1.45;
+  font-size: 0.75rem; font-weight: 400; color: var(--ink); line-height: 1.45;
   animation: wsp-redeem-in 0.5s var(--ease);
 }
 .wsp-redeem b { font-weight: 700; color: var(--navy); }
@@ -189,7 +189,7 @@
 }
 .wsp-sheet-skip {
   margin-top: 10px; cursor: pointer; background: none; border: 0;
-  font-size: 0.68rem; color: var(--ink-2); text-decoration: underline;
+  font-size: 0.75rem; color: var(--ink-2); text-decoration: underline;
 }
 
 @media (max-width: 400px) {

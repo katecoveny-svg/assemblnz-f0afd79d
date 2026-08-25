@@ -51,7 +51,7 @@ export default async function HapaiProjectResultsPage({
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="border-b border-[rgba(35,33,31,0.10)] px-6 py-14 lg:px-10 lg:py-20">
         <div className="mx-auto max-w-7xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
             hapai · project picker
           </p>
           <h1
@@ -67,7 +67,7 @@ export default async function HapaiProjectResultsPage({
           </p>
           {focus ? (
             <p className="mt-4 max-w-2xl rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/50 p-4 text-sm leading-relaxed text-[color:var(--text-body)]">
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                 Your context:
               </span>{" "}
               {focus}
@@ -83,7 +83,7 @@ export default async function HapaiProjectResultsPage({
               key={candidate.slug}
               className="flex flex-col rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-6 shadow-[0_18px_56px_rgba(35,33,31,0.06)]"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
+              <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
                 Candidate {index + 1}
               </p>
               <h2 className="mt-4 font-display text-4xl leading-none text-[color:var(--assembl-pounamu)]">
@@ -156,7 +156,7 @@ function Metric({
 }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-[6px] border border-[rgba(35,33,31,0.08)] bg-white/55 p-3">
-      <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+      <span className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
         <Icon className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
         {label}
       </span>

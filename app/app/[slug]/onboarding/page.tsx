@@ -116,7 +116,7 @@ export default async function TenantOnboardingPage({
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-wrap items-end justify-between gap-5">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               {currentTenant.slug} · onboarding
             </p>
             <h1 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-light leading-[0.9]">
@@ -128,7 +128,7 @@ export default async function TenantOnboardingPage({
             </p>
           </div>
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 px-5 py-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Kete
             </p>
             <p className="mt-1 font-display text-3xl font-light leading-none">
@@ -211,7 +211,7 @@ export default async function TenantOnboardingPage({
                   Auto-confirm above confidence threshold
                 </label>
                 <label>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                  <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                     Confidence
                   </span>
                   <input
@@ -232,7 +232,7 @@ export default async function TenantOnboardingPage({
           </section>
 
           <aside className="h-fit rounded-[8px] border border-[rgba(43,107,87,0.22)] bg-[rgba(43,107,87,0.08)] p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               Ready when you are
             </p>
             <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -273,7 +273,7 @@ function OnboardingStep({
             {icon}
           </div>
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               {number}
             </p>
             <h2 className="mt-1 font-display text-3xl font-light leading-none">{title}</h2>
@@ -305,7 +305,7 @@ function StatusPill({
   return (
     <span
       className={[
-        'rounded-full border px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em]',
+        'rounded-full border px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em]',
         status === 'complete'
           ? 'border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.10)] text-[color:var(--assembl-pounamu)]'
           : 'border-[rgba(212,168,83,0.45)] bg-[rgba(212,168,83,0.10)] text-[#7A5C1E]',

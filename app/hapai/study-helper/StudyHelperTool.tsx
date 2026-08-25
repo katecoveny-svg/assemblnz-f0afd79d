@@ -154,13 +154,13 @@ export function StudyHelperTool() {
   return (
     <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_18%,rgba(58,56,50,0.13),transparent_32%),linear-gradient(180deg,#ffffff_0%,#f3f5f3_55%,#ffffff_100%)] px-6 py-12 text-[#313c42] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1500px]">
-        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]">
+        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#313c42]">
           <ArrowLeft className="h-3.5 w-3.5" /> SPARK library
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#313c42]">SPARK · study helper</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[#313c42]">SPARK · study helper</p>
             <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#313c42]">
               Turn notes into a plan.
             </h1>
@@ -177,7 +177,7 @@ export function StudyHelperTool() {
               ].map(({ icon: Icon, title, body }) => (
                 <div key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.06)]">
                   <Icon className="h-5 w-5 text-[#313c42]" aria-hidden />
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#313c42]">{title}</p>
+                  <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">{body}</p>
                 </div>
               ))}
@@ -187,7 +187,7 @@ export function StudyHelperTool() {
           <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#313c42] p-6 text-[#ffffff] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(184, 150, 79,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
             <div className="relative">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#b8964f]">how it helps</p>
+              <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#b8964f]">how it helps</p>
               <p className="mt-3 font-display text-4xl font-light leading-none text-[#ffffff]">
                 It builds the plan. He writes the answer.
               </p>
@@ -210,7 +210,7 @@ export function StudyHelperTool() {
         <section className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap gap-3">
-              <button type="button" onClick={loadExamSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
+              <button type="button" onClick={loadExamSample} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#ffffff] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.12em] text-[#313c42] hover:bg-white">
                 Load a sample exam night
               </button>
               {modes.map(({ id, label, icon: Icon }) => (
@@ -218,7 +218,7 @@ export function StudyHelperTool() {
                   key={id}
                   type="button"
                   onClick={() => setMode(id)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] ${
+                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[12px] uppercase tracking-[0.12em] ${
                     mode === id
                       ? "border-[#313c42] bg-[#313c42] text-[#ffffff]"
                       : "border-[rgba(35,33,31,0.14)] bg-[#ffffff] text-[#5A5550] hover:bg-white"
@@ -239,7 +239,7 @@ export function StudyHelperTool() {
               <SmallInput label="Author" value={author} onChange={setAuthor} />
 
               <label className="md:col-span-2">
-                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Upload notes, handout, or whiteboard photo</span>
+                <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Upload notes, handout, or whiteboard photo</span>
                 <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(58,56,50,0.32)] bg-[#f7f9f8] p-4">
                   <input
                     type="file"
@@ -290,7 +290,7 @@ export function StudyHelperTool() {
               <Field label="What he remembers or is worried about" value={roughIdeas} onChange={setRoughIdeas} placeholder="Characters, themes, scenes, what is confusing, what he thinks might come up." />
               <Field label="Quote bank or page refs" value={quoteBank} onChange={setQuoteBank} placeholder="Paste exact quotes from the book if he has them. If not, say no exact quotes yet." />
               <label>
-                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Focus ideas</span>
+                <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">Focus ideas</span>
                 <div className="min-h-[170px] rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#f7f9f8] p-4">
                   <div className="flex flex-wrap gap-2">
                     {focusChips.map((chip) => (
@@ -349,7 +349,7 @@ export function StudyHelperTool() {
           </div>
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#313c42]">what this becomes</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[#313c42]">what this becomes</p>
             <h2 className="mt-3 font-display text-4xl font-light leading-none">Mapped to NZ Curriculum skills.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>Sample:</strong> Year 9 English exam prep on <em>Falling into Rarohenga</em> — swap in your own details.</li>
@@ -396,7 +396,7 @@ function SmallInput({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>
+      <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -419,7 +419,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>
+      <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.22em] text-[#6B6661]">{label}</span>
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}

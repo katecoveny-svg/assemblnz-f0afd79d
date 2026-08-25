@@ -59,7 +59,7 @@ export function OsEditorialHero({
         {/* type panel */}
         <div className="flex flex-1 flex-col justify-center gap-3 p-6 md:p-9">
           <p
-            className="text-[10px] uppercase tracking-[0.2em]"
+            className="text-[12px] uppercase tracking-[0.2em]"
             style={{
               color: accent,
               fontFamily: 'var(--font-brand-mono), ui-monospace, monospace',
@@ -83,7 +83,7 @@ export function OsEditorialHero({
           ) : null}
           {config.ctaLabel ? (
             <span
-              className="mt-1 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em]"
+              className="mt-1 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.14em]"
               style={{ backgroundColor: ink, color: bg }}
             >
               {config.ctaLabel}

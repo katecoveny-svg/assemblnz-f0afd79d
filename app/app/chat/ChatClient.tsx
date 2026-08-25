@@ -372,7 +372,7 @@ export function ChatClient({
         >
           <Menu size={18} aria-hidden /> Kete
         </button>
-        <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+        <span className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
           assembl · chat
         </span>
         <Link
@@ -410,7 +410,7 @@ export function ChatClient({
             </button>
           )}
         </div>
-        <p className="px-6 pt-5 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+        <p className="px-6 pt-5 font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
           Choose a kete
         </p>
         <nav className="mt-3 space-y-1 px-3 pb-10">
@@ -440,7 +440,7 @@ export function ChatClient({
                     <span className="block font-display text-base leading-tight text-[color:var(--text-primary)]">
                       {kete.name}
                     </span>
-                    <span className="block text-[11px] text-[color:var(--text-secondary)]">
+                    <span className="block text-[12px] text-[color:var(--text-secondary)]">
                       {kete.industry}
                     </span>
                   </span>
@@ -467,7 +467,7 @@ export function ChatClient({
                             >
                               {agent.name}
                             </span>
-                            <span className="block text-[11px] text-[color:var(--text-secondary)]">
+                            <span className="block text-[12px] text-[color:var(--text-secondary)]">
                               {agent.role}
                             </span>
                           </button>
@@ -490,7 +490,7 @@ export function ChatClient({
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div className="flex flex-col gap-1">
             <p
-              className="font-mono text-[10px] uppercase tracking-[0.32em]"
+              className="font-mono text-[12px] uppercase tracking-[0.32em]"
               style={{ color: accent }}
             >
               {selection?.kete.name} · {agentRole}
@@ -572,7 +572,7 @@ export function ChatClient({
                   </p>
                 ) : null}
                 <details className="mt-3">
-                  <summary className="cursor-pointer text-[11px] font-mono uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <summary className="cursor-pointer text-[12px] font-mono uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     assembl layers (how the work flows)
                   </summary>
                   <div className="mt-3 grid gap-2 md:grid-cols-5">
@@ -580,7 +580,7 @@ export function ChatClient({
                       <div key={layer.key} className="rounded-[8px] bg-white/55 p-3">
                         <p className="font-display text-base text-[color:var(--text-primary)]">{layer.label}</p>
                         <p className="mt-1 text-[12px] leading-relaxed text-[color:var(--text-body)]">{layer.role}</p>
-                        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">{layer.evidence}</p>
+                        <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">{layer.evidence}</p>
                       </div>
                     ))}
                   </div>
@@ -597,7 +597,7 @@ export function ChatClient({
               <div className="rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-4">
                 <div className="flex items-center gap-2">
                   <Workflow size={16} style={{ color: accent }} aria-hidden />
-                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                     Premade workflows · tap to start
                   </p>
                 </div>
@@ -619,7 +619,7 @@ export function ChatClient({
                         <span className="block text-sm font-medium text-[color:var(--text-primary)]">
                           {workflow.title}
                         </span>
-                        <span className="mt-0.5 block text-[11px] leading-relaxed text-[color:var(--text-secondary)]">
+                        <span className="mt-0.5 block text-[12px] leading-relaxed text-[color:var(--text-secondary)]">
                           {workflow.outcome}
                         </span>
                       </button>
@@ -627,7 +627,7 @@ export function ChatClient({
                   })}
                 </div>
                 {activeWorkflow ? (
-                  <div className="mt-3 rounded-[8px] bg-[rgba(43,107,87,0.08)] p-3 text-[11px] leading-relaxed text-[color:var(--text-body)]">
+                  <div className="mt-3 rounded-[8px] bg-[rgba(43,107,87,0.08)] p-3 text-[12px] leading-relaxed text-[color:var(--text-body)]">
                     <strong className="font-medium text-[color:var(--text-primary)]">
                       {activeWorkflow.evidencePack}
                     </strong>{' '}
@@ -670,7 +670,7 @@ export function ChatClient({
 
             {error && (
               <div className="rounded-md border border-[rgba(172,88,56,0.4)] bg-[rgba(172,88,56,0.06)] px-4 py-3 text-sm text-[color:var(--text-body)]">
-                <strong className="font-mono text-[10px] uppercase tracking-[0.24em]">
+                <strong className="font-mono text-[12px] uppercase tracking-[0.24em]">
                   Error
                 </strong>
                 <div className="mt-1">{error}</div>
@@ -720,7 +720,7 @@ export function ChatClient({
               )}
             </button>
           </div>
-          <p className="mx-auto mt-2 max-w-3xl text-[11px] text-[color:var(--text-secondary)]">
+          <p className="mx-auto mt-2 max-w-3xl text-[12px] text-[color:var(--text-secondary)]">
             {selection?.kete.name} → {agentLabel}.{' '}
             <Link
               href="/app"
@@ -753,7 +753,7 @@ function AgentTrait({
 }) {
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.55)] p-3">
-      <p className="font-mono text-[9px] uppercase tracking-[0.18em]" style={{ color: accent }}>
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em]" style={{ color: accent }}>
         {label}
       </p>
       <p className="mt-1 line-clamp-3 leading-relaxed">{value}</p>
@@ -783,7 +783,7 @@ function MessageBubble({
       <div className="flex justify-start">
         <div className="max-w-[90%]">
           <p
-            className="mb-1 font-mono text-[10px] uppercase tracking-[0.28em]"
+            className="mb-1 font-mono text-[12px] uppercase tracking-[0.28em]"
             style={{ color: accent }}
           >
             {message.agentName ?? 'agent'}

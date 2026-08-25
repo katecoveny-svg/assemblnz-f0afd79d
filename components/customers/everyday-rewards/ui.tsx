@@ -19,7 +19,7 @@ export function Eyebrow({ children }: { children: React.ReactNode }) {
     <div
       style={{
         fontFamily: 'var(--edr-mono), monospace',
-        fontSize: 10.5,
+        fontSize: 12,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
         color: EDR_BRAND.orange,

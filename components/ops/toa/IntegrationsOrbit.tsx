@@ -67,7 +67,7 @@ export function IntegrationsOrbit({ tools }: { tools: OrbitTool[] }) {
         <h2 className="font-[family-name:var(--font-brand-display)] text-sm font-semibold uppercase tracking-[0.18em] text-white">
           One brain, plugged into the tools you already use
         </h2>
-        <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
           hover any tool · concept — nothing is connected in this demo
         </span>
       </div>
@@ -111,7 +111,7 @@ export function IntegrationsOrbit({ tools }: { tools: OrbitTool[] }) {
             y={CY + RING_R + 22}
             textAnchor="middle"
             fill={CHAMPAGNE}
-            style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase' }}
+            style={{ fontSize: 12, letterSpacing: '0.22em', textTransform: 'uppercase' }}
           >
             ARC · reads · drafts · chases · files
           </text>
@@ -121,7 +121,7 @@ export function IntegrationsOrbit({ tools }: { tools: OrbitTool[] }) {
           <text x={CX} y={CY - 6} textAnchor="middle" fill="#fff" style={{ fontSize: 26, letterSpacing: '0.28em', fontFamily: 'var(--font-brand-display)' }}>
             TOA
           </text>
-          <text x={CX} y={CY + 16} textAnchor="middle" fill="rgba(255,255,255,0.7)" style={{ fontSize: 9, letterSpacing: '0.34em' }}>
+          <text x={CX} y={CY + 16} textAnchor="middle" fill="rgba(255,255,255,0.7)" style={{ fontSize: 12, letterSpacing: '0.34em' }}>
             ARCHITECTS
           </text>
 
@@ -147,7 +147,7 @@ export function IntegrationsOrbit({ tools }: { tools: OrbitTool[] }) {
                   strokeDasharray={t.tier === 1 ? undefined : '3 3'}
                 />
                 <rect x={7} y={(h - 24) / 2} width={24} height={24} rx={6} fill="#0b1f3a" stroke={`${CHAMPAGNE}55`} />
-                <text x={19} y={h / 2 + 3.5} textAnchor="middle" fill={CHAMPAGNE} style={{ fontSize: 9.5, fontWeight: 700 }}>
+                <text x={19} y={h / 2 + 3.5} textAnchor="middle" fill={CHAMPAGNE} style={{ fontSize: 12, fontWeight: 700 }}>
                   {t.mark}
                 </text>
                 <text x={38} y={h / 2 + 4} fill="#fff" style={{ fontSize: t.tier === 1 ? 12.5 : 11.5 }}>
@@ -187,7 +187,7 @@ export function IntegrationsOrbit({ tools }: { tools: OrbitTool[] }) {
       </div>
 
       {/* legend */}
-      <div className="flex flex-wrap items-center gap-5 px-6 pb-5 md:px-8 text-[11px]">
+      <div className="flex flex-wrap items-center gap-5 px-6 pb-5 md:px-8 text-[12px]">
         <span className="inline-flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.75)' }}>
           <span aria-hidden className="inline-block h-0 w-7 border-t-2" style={{ borderColor: CHAMPAGNE, borderStyle: 'dashed' }} />
           reads + writes daily — drafts always wait for your yes

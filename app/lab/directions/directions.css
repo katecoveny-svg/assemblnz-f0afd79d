@@ -23,7 +23,7 @@
   padding: 96px 6vw 110px;
 }
 .dir-kicker {
-  font-family: var(--mono); font-size: 0.6rem;
+  font-family: var(--mono); font-size: 0.75rem;
   letter-spacing: 0.26em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 30px;
 }
@@ -76,7 +76,7 @@
 /* ── the switch, bottom corner, closed by default ── */
 .dir-toggle {
   position: fixed; bottom: 16px; left: 16px; z-index: 22; cursor: pointer;
-  font-family: var(--mono); font-size: 0.54rem;
+  font-family: var(--mono); font-size: 0.75rem;
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 10px 16px; border-radius: 999px; border: 0;
   background: var(--ink); color: var(--bg);
@@ -95,7 +95,7 @@
 }
 .dir-panel.shut { opacity: 0; transform: translateY(10px) scale(0.98); pointer-events: none; }
 .dir-panel button {
-  font-family: var(--mono); font-size: 0.53rem;
+  font-family: var(--mono); font-size: 0.75rem;
   letter-spacing: 0.08em; text-transform: uppercase;
   padding: 6px 11px; border-radius: 999px; cursor: pointer;
   background: transparent; color: var(--ink);
@@ -106,7 +106,7 @@
 .dir-panel button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .dir-premise {
   flex: 1 1 100%; margin: 4px 0 0;
-  font-size: 0.66rem; line-height: 1.55; color: var(--ink);
+  font-size: 0.75rem; line-height: 1.55; color: var(--ink);
 }
 
 @media (max-width: 900px) {

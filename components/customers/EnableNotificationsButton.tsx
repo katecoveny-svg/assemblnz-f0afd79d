@@ -115,7 +115,7 @@ export function EnableNotificationsButton({ slug }: { slug: string }) {
       disabled={state === 'working' || state === 'enabled' || state === 'denied'}
       className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white/70 px-3 py-1 transition-colors hover:bg-black/5 disabled:cursor-default disabled:hover:bg-white/70"
       style={{
-        fontSize: 10,
+        fontSize: 12,
         letterSpacing: '0.16em',
         textTransform: 'uppercase',
         color: '#5A5850',

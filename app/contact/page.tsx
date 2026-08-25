@@ -67,7 +67,7 @@ export default function ContactPage() {
               />
 
               <div className={styles.contactCard}>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                   Success message
                 </p>
                 <p className="mt-3 text-sm text-[color:var(--text-body)]">
@@ -106,7 +106,7 @@ function ContactCard({
           />
         </div>
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             {title}
           </p>
           <div className="mt-2 space-y-1 text-sm text-[color:var(--text-body)]">

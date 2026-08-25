@@ -20,7 +20,7 @@ function hashtagCountOf(text: string) {
   return (text.match(/(^|\s)#[\p{L}\p{N}_-]+/gu) || []).length;
 }
 
-const labelClass = "font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]";
+const labelClass = "font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]";
 
 function ChipRow({
   options,
@@ -213,7 +213,7 @@ export function CaptionComposerTool() {
             <span className="flex items-center">{gate.counter}</span>
           </div>
           {error ? <p className="mt-3 text-xs text-[#9A3412]">{error}</p> : null}
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#68766f]">
+          <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-[#68766f]">
             Draft only · check claims before posting
           </p>
         </div>
@@ -221,7 +221,7 @@ export function CaptionComposerTool() {
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="font-display text-2xl font-light text-[#313c42]">Variants</h2>
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#68766f]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#68766f]">
               {loading ? "composing…" : ranMeta || "waiting for source content"}
             </p>
           </div>
@@ -241,13 +241,13 @@ export function CaptionComposerTool() {
                     {variant.caption}
                   </p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[rgba(35,33,31,0.1)] pt-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#68766f]">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-[#68766f]">
                       {variant.caption.length} chars · {hashtagCountOf(variant.caption)} hashtags
                     </p>
                     <button
                       type="button"
                       onClick={() => void copyVariant(index)}
-                      className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-[8px] border px-3.5 font-mono text-[11px] transition ${
+                      className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-[8px] border px-3.5 font-mono text-[12px] transition ${
                         copiedIndex === index
                           ? "border-[#3f7373] bg-[#3f7373] text-white"
                           : "border-[rgba(35,33,31,0.14)] bg-white text-[#313c42] hover:bg-[#f3f5f3]"

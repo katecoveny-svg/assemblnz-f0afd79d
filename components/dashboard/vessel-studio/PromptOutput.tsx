@@ -71,14 +71,14 @@ export function PromptOutput({
     <div className="flex flex-col gap-3">
       <div className="flex items-baseline justify-between">
         <div>
-          <div className="font-mono text-[10.5px] lowercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          <div className="font-mono text-[12px] lowercase tracking-[0.2em] text-[color:var(--text-secondary)]">
             prompt
           </div>
           <h2 className="mt-0.5 font-display text-[28px] font-light text-[color:var(--text-primary)]">
             composed
           </h2>
         </div>
-        <div className="font-mono text-[10.5px] text-[color:var(--text-secondary)]">
+        <div className="font-mono text-[12px] text-[color:var(--text-secondary)]">
           {k.name} · {state.ar} · {state.variants}× variant
           {state.variants > 1 ? 's' : ''}
         </div>
@@ -100,13 +100,13 @@ export function PromptOutput({
       </div>
 
       {k.portrait && (
-        <p className="border-l-2 border-[color:var(--assembl-gold-thread)] py-1 pl-3 font-mono text-[11px] font-light leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
+        <p className="border-l-2 border-[color:var(--assembl-gold-thread)] py-1 pl-3 font-mono text-[12px] font-light leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
           tip: upload one of your existing brand portraits as a reference image for style
           consistency. anchor strength 0.45–0.6 works well for founder content.
         </p>
       )}
 
-      <div className="text-center font-mono text-[10px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+      <div className="text-center font-mono text-[12px] lowercase tracking-[0.16em] text-[color:var(--text-secondary)]">
         mode:{' '}
         <span className="text-[color:var(--text-primary)]">
           {usingRedux ? 'image-to-image' : 'text-to-image'}
@@ -120,7 +120,7 @@ export function PromptOutput({
           type="button"
           onClick={handleCopy}
           className={[
-            'flex-1 rounded-[2px] border px-3.5 py-2.5 font-mono text-[11px] lowercase tracking-[0.18em] transition-colors',
+            'flex-1 rounded-[2px] border px-3.5 py-2.5 font-mono text-[12px] lowercase tracking-[0.18em] transition-colors',
             copied
               ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
               : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)] hover:bg-[color:var(--assembl-cloud)]',
@@ -131,7 +131,7 @@ export function PromptOutput({
         <button
           type="button"
           onClick={onReset}
-          className="flex-1 rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3.5 py-2.5 font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--assembl-cloud)]"
+          className="flex-1 rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3.5 py-2.5 font-mono text-[12px] lowercase tracking-[0.18em] text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--assembl-cloud)]"
         >
           reset
         </button>

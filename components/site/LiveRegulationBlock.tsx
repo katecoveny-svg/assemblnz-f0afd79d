@@ -109,7 +109,7 @@ export function LiveRegulationBlock() {
           {/* Supporting figures only appear when live data backs them — never
               fabricated document totals. */}
           {live ? (
-            <p className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
+            <p className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
               <span className="text-[color:var(--assembl-paper)]">{nz(pulse!.totalDocuments)} source documents</span>
               <span aria-hidden className="text-[color:var(--assembl-gold-thread)]">·</span>
               <span className="text-[color:var(--assembl-paper)]">
@@ -119,7 +119,7 @@ export function LiveRegulationBlock() {
               <span>Updated overnight</span>
             </p>
           ) : (
-            <p className="mx-auto mt-9 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
+            <p className="mx-auto mt-9 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
               Updated overnight
             </p>
           )}

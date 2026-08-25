@@ -8,9 +8,9 @@ import { composeSystemPrompt } from '@/lib/studio/schema';
 function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+      <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         <span>{label}</span>
-        {hint && <span className="tracking-[0.06em] text-[9.5px]">{hint}</span>}
+        {hint && <span className="tracking-[0.06em] text-[12px]">{hint}</span>}
       </div>
       {children}
     </label>
@@ -50,7 +50,7 @@ function ListField({ values, onChange, placeholder }: { values: string[]; onChan
           <button
             type="button"
             onClick={() => onChange(values.filter((_, j) => j !== i))}
-            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 font-mono text-[10.5px] hover:border-[color:var(--text-primary)]"
+            className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 font-mono text-[12px] hover:border-[color:var(--text-primary)]"
             aria-label="remove"
           >
             ×
@@ -60,7 +60,7 @@ function ListField({ values, onChange, placeholder }: { values: string[]; onChan
       <button
         type="button"
         onClick={() => onChange([...values, ''])}
-        className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]"
+        className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]"
       >
         + add item {placeholder ? `— ${placeholder}` : ''}
       </button>
@@ -76,7 +76,7 @@ function StatusBadge({ status }: { status: string }) {
     warning: 'bg-red-400 text-white',
   };
   return (
-    <span className={`inline-block rounded-[2px] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.14em] ${map[status] ?? map.draft}`}>
+    <span className={`inline-block rounded-[2px] px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] ${map[status] ?? map.draft}`}>
       {status}
     </span>
   );
@@ -92,7 +92,7 @@ export function PropertiesPanel() {
   if (!component) {
     return (
       <aside className="flex h-full flex-col gap-3 border-l border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">nothing selected</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">nothing selected</p>
         <p className="text-sm text-[color:var(--text-secondary)]">Click a module in the scene or a chip in the library.</p>
       </aside>
     );
@@ -105,7 +105,7 @@ export function PropertiesPanel() {
     <aside className="flex h-full flex-col overflow-y-auto border-l border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)]">
       <div className="flex flex-col gap-2 border-b border-[color:var(--assembl-cloud)] p-4">
         <div className="flex items-center justify-between">
-          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             {component.kind}
           </span>
           <StatusBadge status={status} />
@@ -119,7 +119,7 @@ export function PropertiesPanel() {
         <div className="mt-1 flex gap-1.5" role="tablist">
           <button type="button" role="tab" aria-selected={tab === 'main'} onClick={() => setTab('main')}
             className={[
-              'rounded-[2px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em]',
+              'rounded-[2px] border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.16em]',
               tab === 'main'
                 ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                 : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -129,7 +129,7 @@ export function PropertiesPanel() {
           </button>
           <button type="button" role="tab" aria-selected={tab === 'advanced'} onClick={() => setTab('advanced')}
             className={[
-              'rounded-[2px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em]',
+              'rounded-[2px] border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.16em]',
               tab === 'advanced'
                 ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
                 : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
@@ -147,7 +147,7 @@ export function PropertiesPanel() {
           <button
             type="button"
             onClick={() => { if (confirm('Remove this component from the agent?')) removeComponent(component.id); }}
-            className="mt-4 self-start rounded-[2px] border border-red-300 bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-red-600 hover:bg-red-50"
+            className="mt-4 self-start rounded-[2px] border border-red-300 bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] text-red-600 hover:bg-red-50"
           >
             Remove component
           </button>
@@ -214,7 +214,7 @@ export function PropertiesPanel() {
                 <option value="none">none</option><option value="rolling">rolling</option><option value="nightly-summary">nightly-summary</option>
               </select>
             </Field>
-            <label className="flex items-center gap-2 font-mono text-[11.5px] text-[color:var(--text-primary)]">
+            <label className="flex items-center gap-2 font-mono text-[12px] text-[color:var(--text-primary)]">
               <input type="checkbox" checked={d.containsPII} onChange={(e) => upd({ containsPII: e.target.checked })} />
               may contain personally identifiable information
             </label>
@@ -239,7 +239,7 @@ export function PropertiesPanel() {
           <>
             <Field label="title"><TextField value={d.title} onChange={(v) => upd({ title: v })} /></Field>
             <Field label="description"><TextArea value={d.description} onChange={(v) => upd({ description: v })} /></Field>
-            <Field label={`items — ${d.items}`}><span className="font-mono text-[11px] text-[color:var(--text-secondary)]">indexed {d.items} items · last {d.lastIndexed ?? 'never'}</span></Field>
+            <Field label={`items — ${d.items}`}><span className="font-mono text-[12px] text-[color:var(--text-secondary)]">indexed {d.items} items · last {d.lastIndexed ?? 'never'}</span></Field>
           </>
         );
       }
@@ -257,7 +257,7 @@ export function PropertiesPanel() {
                 {agent.connectors.map((c) => <option key={c.id} value={c.id}>{c.provider}</option>)}
               </select>
             </Field>
-            <label className="flex items-center gap-2 font-mono text-[11.5px] text-[color:var(--text-primary)]">
+            <label className="flex items-center gap-2 font-mono text-[12px] text-[color:var(--text-primary)]">
               <input type="checkbox" checked={d.requiresApproval} onChange={(e) => upd({ requiresApproval: e.target.checked })} />
               requires human approval before running
             </label>
@@ -272,7 +272,7 @@ export function PropertiesPanel() {
             <Field label="provider"><TextField value={d.provider} onChange={(v) => upd({ provider: v })} /></Field>
             <Field label="scopes"><ListField values={d.scopes} onChange={(v) => upd({ scopes: v })} placeholder="scope" /></Field>
             <div className="rounded-[3px] border border-[color:var(--assembl-gold-thread)]/50 bg-[color:var(--assembl-gold-thread)]/10 p-3">
-              <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">simulated integration</div>
+              <div className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">simulated integration</div>
               <p className="mt-1 text-[12px] text-[color:var(--text-primary)]">
                 This connector is a stand-in for the prototype. Nothing is fetched from a live account and no message actually sends.
               </p>
@@ -335,11 +335,11 @@ export function PropertiesPanel() {
       const composed = composeSystemPrompt(agent);
       return (
         <>
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          <div className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             composed system prompt · read-only
           </div>
-          <pre className="whitespace-pre-wrap rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-3 font-mono text-[11px] leading-[1.55] text-[color:var(--text-primary)]">{composed}</pre>
-          <p className="font-mono text-[10px] text-[color:var(--text-secondary)]">
+          <pre className="whitespace-pre-wrap rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-3 font-mono text-[12px] leading-[1.55] text-[color:var(--text-primary)]">{composed}</pre>
+          <p className="font-mono text-[12px] text-[color:var(--text-secondary)]">
             Composed from the structured fields above. Edit them, not this text.
           </p>
         </>
@@ -347,8 +347,8 @@ export function PropertiesPanel() {
     }
     return (
       <>
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">raw</div>
-        <pre className="whitespace-pre-wrap rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-3 font-mono text-[10.5px] leading-[1.5] text-[color:var(--text-primary)]">{JSON.stringify(component!.data, null, 2)}</pre>
+        <div className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">raw</div>
+        <pre className="whitespace-pre-wrap rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-3 font-mono text-[12px] leading-[1.5] text-[color:var(--text-primary)]">{JSON.stringify(component!.data, null, 2)}</pre>
       </>
     );
   }
