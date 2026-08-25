@@ -176,6 +176,11 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/agent-schema',
   // The generative studio.
   '/creative-playground',
+  // The generative studio's static deploy (public/generative-studio). Without
+  // this the splash gate rewrites it to '/' on the live domain and the visitor
+  // silently gets the homepage at 200. three.min.js survives on its own because
+  // SPLASH_STATIC_FILE matches '.js', so the page fails while its assets do not.
+  '/generative-studio',
   // Notes from assembl — the public writing, indexed and cited.
   '/notes',
 ];
