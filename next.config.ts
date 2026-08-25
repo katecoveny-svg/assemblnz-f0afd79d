@@ -71,6 +71,13 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // The generative studio is a static file in public/generative-studio.
+      // This must be a REDIRECT, not a rewrite: index.html loads three.min.js
+      // with a relative src, so the browser URL has to sit inside the folder or
+      // it resolves to /three.min.js and every 3D engine dies quietly.
+      // Also note it is NOT at /studio — that path is the koro agent-builder.
+      { source: '/generative-studio', destination: '/generative-studio/index.html', permanent: false },
+
       // ── Editorial gallery rebuild (2026-07-20): `/` renders the editorial
       // hero + walkable gallery. The 2026-07-20 302 to /build-an-agent is
       // removed on this branch — the interactive builder still lives at
