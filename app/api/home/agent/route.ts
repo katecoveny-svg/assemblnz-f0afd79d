@@ -3,7 +3,8 @@ import { createHash } from 'node:crypto';
 import { z } from 'zod';
 import { getServiceClient } from '@/lib/supabase/service';
 import { clientIpFromHeaders } from '@/lib/lead-capture';
-import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { MODEL_TIER_TO_ANTHROPIC, marketplaceAgentBySlug } from '@/lib/marketplace/agents';
+import { specialistSystem } from '@/lib/home/specialist-prompt';
 import { resolveModelLadder, generateWithFallback } from '@/lib/ai/router';
 import type { ModelMessage } from 'ai';
 
@@ -41,6 +42,12 @@ const BodySchema = z.object({
     .array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().max(4000) }))
     .max(12)
     .optional(),
+  /**
+   * Which agent is answering. Omitted (or 'assembl') keeps the house guide.
+   * Anything else must resolve to a live agent in the registry — an unknown
+   * slug falls back to the guide rather than inventing a specialist.
+   */
+  agent: z.string().trim().max(64).optional(),
 });
 
 function hashIp(ip: string | null): string {
@@ -160,6 +167,13 @@ export async function POST(req: Request) {
   }
   const { message, history = [] } = parsed.data;
 
+  // An unknown or not-yet-live slug falls back to the house guide rather than
+  // inventing a specialist to match it.
+  const requested = parsed.data.agent && parsed.data.agent !== 'assembl'
+    ? marketplaceAgentBySlug(parsed.data.agent)
+    : undefined;
+  const speaker = requested?.status === 'live' ? requested : null;
+
   const ipHash = hashIp(clientIpFromHeaders(req.headers));
   const sessionId = parsed.data.sessionId ?? `anon-${ipHash}`;
   const service = getServiceClient();
@@ -192,7 +206,13 @@ export async function POST(req: Request) {
     );
   }
 
-  await service.from('home_agent_log').insert({ session_id: sessionId, ip_hash: ipHash, role: 'user', message });
+  await service.from('home_agent_log').insert({
+    session_id: sessionId,
+    ip_hash: ipHash,
+    role: 'user',
+    message,
+    agent_slug: speaker?.slug ?? 'home-guide',
+  });
 
   // Sonnet tier: the guide has to hold a boundary and stay on voice, which the
   // cheap tier does less reliably on a page prospects judge us by.
@@ -211,9 +231,9 @@ export async function POST(req: Request) {
 
   const result = await generateWithFallback({
     ladder,
-    system: SYSTEM,
+    system: speaker ? specialistSystem(speaker) : SYSTEM,
     messages,
-    agentSlug: 'home-guide',
+    agentSlug: speaker ? `home-${speaker.slug}` : 'home-guide',
     tenant: 'assembl',
   });
 
@@ -230,7 +250,8 @@ export async function POST(req: Request) {
     role: 'assistant',
     message: result.text,
     model: result.rung.id,
+    agent_slug: speaker?.slug ?? 'home-guide',
   });
 
-  return NextResponse.json({ reply: result.text, sessionId });
+  return NextResponse.json({ reply: result.text, sessionId, agent: speaker?.slug ?? 'assembl' });
 }

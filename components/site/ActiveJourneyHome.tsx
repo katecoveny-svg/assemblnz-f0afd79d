@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
 import { HomeLiveData } from '@/components/site/HomeLiveData';
+import { HomeAgentGallery } from '@/components/site/HomeAgentGallery';
 
 const architecture = [
   { number: '01', title: 'Approved sources', body: 'Only the organisation’s approved rules, service information and sources.', href: '/genome', link: 'See approved context' },
@@ -20,6 +21,7 @@ const destinations = [
   ['start', 'Start'],
   ['product', 'Product'],
   ['system', 'System'],
+  ['agent-gallery', 'Agents'],
   ['pilot', 'Pilot'],
   ['tools', 'Tools'],
   ['live-data', 'Live data'],
@@ -145,7 +147,7 @@ export function ActiveJourneyHome() {
         <button className="aj-wordmark" onClick={() => goTo('start')} aria-label="Return to the start">assembl<span>·</span></button>
         <p>MAHI THAT EARNS ITS PROOF.</p>
         <nav aria-label="assembl tools and contact">
-          <a href="https://make-with-assembl.katecoveny.chatgpt.site">assembl with assembl <i>↗</i></a>
+          <a href="/generative-studio">Generative studio <i>↗</i></a>
           <a href="mailto:assembl@assembl.co.nz?subject=One%20useful%20customer%20wait">Discuss one wait <i>↗</i></a>
           <a className="aj-operator" href="/admin/login" rel="nofollow">Operator <i>↗</i></a>
         </nav>
@@ -172,9 +174,9 @@ export function ActiveJourneyHome() {
           <div className="aj-opening-note">
             <span>SCROLL / DRAG</span>
             <p>assembl turns a real wait into a useful part of the customer journey. The customer can complete one helpful action, receive agreed value where appropriate and approve what the service team uses next.</p>
-            <a className="aj-studio-promo" href="https://make-with-assembl.katecoveny.chatgpt.site">
+            <a className="aj-studio-promo" href="/generative-studio">
               <strong>Describe it. Watch it assembl.</strong>
-              <small>one direction · living field · remix</small>
+              <small>40 generative engines · one brand</small>
               <i aria-hidden="true">↗</i>
             </a>
           </div>
@@ -195,7 +197,7 @@ export function ActiveJourneyHome() {
           <div className="aj-proof-strip"><span>REAL WAIT</span><i>→</i><span>CUSTOMER CHOICE</span><i>→</i><span>PREPARED BRIEF</span><i>→</i><span>NAMED REVIEW</span><i>→</i><span>RECORD</span></div>
         </section>
 
-        <section className="aj-panel aj-live">
+        <section className="aj-panel aj-live" id="live-agent">
           <article className="aj-live-copy">
             <span>02 / ONE WAIT IN ACTION</span>
             <h2>The team is reviewing the application.</h2>
@@ -239,6 +241,8 @@ export function ActiveJourneyHome() {
           <article><span>03 / SPONSORED</span><h3>Let a partner fund practical help.</h3><p>Name the partner and what it funds. Sharing is optional. The sponsor never controls the customer’s outcome.</p><b>DISCLOSED / USEFUL / CUSTOMER-CONTROLLED</b></article>
           <div className="aj-mode-signal"><i /><span>THE WAIT IS REAL</span><strong>VALUE FOR THE CUSTOMER / RELEVANCE FOR THE BUSINESS</strong></div>
         </section>
+
+        <HomeAgentGallery />
 
         <section className="aj-panel aj-pilot" id="pilot">
           <figure className="aj-pilot-contact-sheet" aria-label="A four-step active journey sprint from wait to measured handoff"><div><span>01</span><b>REAL WAIT</b><p>Application under review</p></div><div><span>02</span><b>USEFUL TASK</b><p>Check one missing item</p></div><div><span>03</span><b>NAMED REVIEW</b><p>Lending specialist</p></div><div><span>04</span><b>VISIBLE PROOF</b><p>Sources and edits recorded</p></div><figcaption>ONE WAIT / ONE COMPLETE PILOT</figcaption></figure>
