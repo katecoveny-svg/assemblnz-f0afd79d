@@ -5,7 +5,7 @@ export type State = 'live' | 'sample' | 'coming';
 const MAP: Record<State, { label: string; dot: string; fg: string; bg: string }> = {
   live: { label: 'Live', dot: '#3E8A88', fg: 'var(--b-teal-deep)', bg: 'var(--b-teal-soft)' },
   sample: { label: 'Sample', dot: '#8A938F', fg: 'var(--b-muted)', bg: 'var(--b-surface-alt)' },
-  coming: { label: 'Coming next', dot: '#916A70', fg: 'var(--b-ochre)', bg: 'var(--b-ochre-soft)' },
+  coming: { label: 'Coming next', dot: '#BFA37A', fg: 'var(--b-ochre)', bg: 'var(--b-ochre-soft)' },
 };
 
 /**

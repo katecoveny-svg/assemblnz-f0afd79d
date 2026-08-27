@@ -183,6 +183,18 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/generative-studio',
   // Notes from assembl — the public writing, indexed and cited.
   '/notes',
+  // ── Signing in ─────────────────────────────────────────────────────────
+  // Every step of the sign-in chain has to survive the gate, or the operator
+  // hub is unreachable on the live domain: the login page rewrites to '/', and
+  // so does the link in the magic-link email, so a session can never be
+  // established. Nothing here is a security hole — /admin has its own gate in
+  // lib/admin/ensureAdmin.ts and bounces anyone who is not an operator; the
+  // splash gate is a marketing curtain, not an authorisation boundary.
+  '/admin',
+  '/app/admin',
+  '/login',
+  '/auth/',
+  '/account',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).

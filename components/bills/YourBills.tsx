@@ -7,6 +7,7 @@ import { Card, CategoryTag, SectionLabel, money } from '@/components/bills/kit';
 import { LiveState } from '@/components/bills/LiveState';
 import { useBillsSession } from '@/components/bills/useSession';
 import type { SessionBill } from '@/lib/bills/session-summary';
+import { ThreeNumbers } from '@/components/bills/ThreeNumbers';
 
 /**
  * The household's own bills, once they have uploaded any.
@@ -94,7 +95,10 @@ export function YourBills() {
   const unpriced = data.count - data.pricedCount;
 
   return (
-    <Card className="mb-4 !p-5">
+    <>
+      {/* The three numbers first — everything else is detail behind them. */}
+      <ThreeNumbers bills={data.bills} />
+      <Card className="mb-4 !p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <SectionLabel>Your bills</SectionLabel>
@@ -162,6 +166,7 @@ export function YourBills() {
         Read-only. assembl bills extracts what your bill says; it never switches, cancels or pays
         anything. Savings and hidden costs below are still the sample household.
       </p>
-    </Card>
+      </Card>
+    </>
   );
 }

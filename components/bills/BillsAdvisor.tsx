@@ -73,8 +73,8 @@ export function BillsAdvisor() {
         onClick={() => setOpen(true)}
         className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:scale-105"
         style={{
-          background: 'linear-gradient(135deg, #240B21, #3A1435)',
-          boxShadow: '0 0 20px rgba(47,107,79,0.55), 0 0 44px rgba(47,107,79,0.3)',
+          background: 'linear-gradient(135deg, #3A3832, #2A2823)',
+          boxShadow: '0 0 20px rgba(46,97,70,0.55), 0 0 44px rgba(46,97,70,0.3)',
           fontFamily: "var(--font-bills-display), system-ui, sans-serif",
         }}
       >

@@ -24,7 +24,7 @@ export function BillsAtmosphere() {
       t = 0;
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     // assembl particulate palette: silver, warm-grey, champagne gold, pounamu, blue undertone
-    const TINTS = ['181,176,162', '201,197,186', '145,106,112', '47,107,79', '141,160,184'];
+    const TINTS = ['181,176,162', '201,197,186', '191,163,122', '46,97,70', '141,160,184'];
     type P = { x: number; y: number; r: number; op: number; spd: number; ph: number; col: string; node: boolean };
     let dots: P[] = [];
     let links: { a: P; b: P; op: number }[] = [];
@@ -96,8 +96,8 @@ export function BillsAtmosphere() {
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       {/* Soft paper washes — pounamu / gold, whisper quiet */}
-      <div className="orb-b" style={{ width: 520, height: 420, top: '-8%', left: '-6%', background: 'radial-gradient(circle, rgba(47,107,79,0.07), transparent 70%)', ['--d' as string]: '17s' }} />
-      <div className="orb-b" style={{ width: 460, height: 460, top: '20%', right: '-10%', background: 'radial-gradient(circle, rgba(145,106,112,0.08), transparent 70%)', ['--d' as string]: '21s', ['--del' as string]: '-4s' }} />
+      <div className="orb-b" style={{ width: 520, height: 420, top: '-8%', left: '-6%', background: 'radial-gradient(circle, rgba(46,97,70,0.07), transparent 70%)', ['--d' as string]: '17s' }} />
+      <div className="orb-b" style={{ width: 460, height: 460, top: '20%', right: '-10%', background: 'radial-gradient(circle, rgba(191,163,122,0.08), transparent 70%)', ['--d' as string]: '21s', ['--del' as string]: '-4s' }} />
       <div className="orb-b" style={{ width: 380, height: 300, bottom: '-6%', left: '25%', background: 'radial-gradient(circle, rgba(141,160,184,0.06), transparent 70%)', ['--d' as string]: '25s', ['--del' as string]: '-9s' }} />
       {/* Particle field */}
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-60" />

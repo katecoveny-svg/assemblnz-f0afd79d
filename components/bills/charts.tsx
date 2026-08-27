@@ -63,8 +63,8 @@ export function SpendTrendChart() {
           tickFormatter={(v) => `$${v}`}
         />
         <Tooltip contentStyle={tooltipStyle} formatter={(v, name) => [money(Number(v)), name === 'spend' ? 'Total bills' : 'Electricity']} />
-        <Area isAnimationActive={false} type="monotone" dataKey="spend" stroke={BILLS.teal} strokeWidth={2.5} fill="url(#billsSpend)" style={{ filter: 'drop-shadow(0 0 6px rgba(47,107,79,0.5))' }} />
-        <Area isAnimationActive={false} type="monotone" dataKey="power" stroke={BILLS.coral} strokeWidth={2} fill="url(#billsPower)" style={{ filter: 'drop-shadow(0 0 6px rgba(142,47,58,0.45))' }} />
+        <Area isAnimationActive={false} type="monotone" dataKey="spend" stroke={BILLS.teal} strokeWidth={2.5} fill="url(#billsSpend)" style={{ filter: 'drop-shadow(0 0 6px rgba(46,97,70,0.5))' }} />
+        <Area isAnimationActive={false} type="monotone" dataKey="power" stroke={BILLS.coral} strokeWidth={2} fill="url(#billsPower)" style={{ filter: 'drop-shadow(0 0 6px rgba(180,86,46,0.45))' }} />
       </AreaChart>
     </ResponsiveContainer>
   );

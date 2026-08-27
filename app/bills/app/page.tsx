@@ -15,8 +15,8 @@ const quickActions = [
 ];
 
 const toneStyle: Record<string, { fg: string; glow: string }> = {
-  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(47,107,79,0.4))' },
-  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(142,47,58,0.4))' },
+  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(46,97,70,0.4))' },
+  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(180,86,46,0.4))' },
   neutral: { fg: 'var(--b-ink)', glow: 'none' },
 };
 
