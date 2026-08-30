@@ -36,9 +36,9 @@ export function BillsShell({ children }: { children: ReactNode }) {
       {/* Demo ribbon */}
       <div
         className="flex items-center justify-center gap-2 px-4 py-1.5 text-[12px] font-medium"
-        style={{ background: 'rgba(47,107,79,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
+        style={{ background: 'rgba(46,97,70,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
       >
-        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(47,107,79,0.9)' }} />
+        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(46,97,70,0.9)' }} />
         Live console · sample household — real bill parsing, real provider prices, no real accounts connected
       </div>
 

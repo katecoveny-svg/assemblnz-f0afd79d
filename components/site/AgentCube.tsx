@@ -24,7 +24,11 @@ import { askAgent } from '@/lib/home/agent-handoff';
 
 const FACE = 3; // tiles per face edge
 const SLOTS = FACE * FACE * 6; // 54
-const TILE_PX = 320;
+// 512 rather than 320: at the sizes the front faces render on a retina display
+// a 320px tile is being magnified, which is half the blur. The other half is
+// anisotropy — most faces are seen at an angle, and without it the mipmap
+// chosen for a slanted face is far too small. Both are set below.
+const TILE_PX = 512;
 const CYCLE_MS = 2400;
 
 type Slot = { mesh: THREE.Mesh; agent: HomeAgent | null };
@@ -93,7 +97,7 @@ export function AgentCube() {
     camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
     renderer.domElement.style.display = 'block';
@@ -106,15 +110,25 @@ export function AgentCube() {
     // One shared geometry; a material and texture per slot so a tile can flip.
     const geometry = new THREE.PlaneGeometry(0.9, 0.9);
     const brandTexture = new THREE.CanvasTexture(drawBrandTile(TILE_PX));
-    brandTexture.colorSpace = THREE.SRGBColorSpace;
 
     const slots: Slot[] = [];
     const textures: THREE.Texture[] = [brandTexture];
     const materials: THREE.MeshBasicMaterial[] = [];
 
-    const textureFor = (agent: HomeAgent) => {
-      const t = new THREE.CanvasTexture(drawAgentTile(agent, TILE_PX));
+    const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+    const sharpen = (t: THREE.Texture) => {
       t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = maxAnisotropy;
+      t.generateMipmaps = true;
+      t.minFilter = THREE.LinearMipmapLinearFilter;
+      t.magFilter = THREE.LinearFilter;
+      t.needsUpdate = true;
+      return t;
+    };
+    sharpen(brandTexture);
+
+    const textureFor = (agent: HomeAgent) => {
+      const t = sharpen(new THREE.CanvasTexture(drawAgentTile(agent, TILE_PX)));
       textures.push(t);
       return t;
     };

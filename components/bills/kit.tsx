@@ -72,15 +72,15 @@ export function SectionLabel({ children }: { children: ReactNode }) {
 }
 
 const CATEGORY_TINT: Record<string, { bg: string; fg: string }> = {
-  Electricity: { bg: 'rgba(36,11,33,0.10)', fg: '#240B21' },
-  Broadband: { bg: 'rgba(74,107,140,0.15)', fg: '#4A6B8C' },
-  Insurance: { bg: 'rgba(122,95,168,0.16)', fg: '#7A5FA8' },
-  Council: { bg: 'rgba(145,106,112,0.15)', fg: '#7A555B' },
-  Subscriptions: { bg: 'rgba(142,47,58,0.16)', fg: '#8E2F3A' },
-  Mobile: { bg: 'rgba(101,74,78,0.14)', fg: '#654A4E' },
-  Gas: { bg: 'rgba(138,107,78,0.16)', fg: '#8A6B4E' },
-  KiwiSaver: { bg: 'rgba(47,107,79,0.15)', fg: '#2F6B4F' },
-  ACC: { bg: 'rgba(145,106,112,0.15)', fg: '#7A555B' },
+  Electricity: { bg: 'rgba(58,56,50,0.10)', fg: '#3A3832' },
+  Broadband: { bg: 'rgba(74,107,140,0.15)', fg: '#3F5C79' },
+  Insurance: { bg: 'rgba(138,106,46,0.16)', fg: '#8A6A2E' },
+  Council: { bg: 'rgba(189,181,146,0.28)', fg: '#6B6549' },
+  Subscriptions: { bg: 'rgba(180,86,46,0.14)', fg: '#93421F' },
+  Mobile: { bg: 'rgba(86,84,75,0.14)', fg: '#56544B' },
+  Gas: { bg: 'rgba(191,163,122,0.24)', fg: '#8A6A2E' },
+  KiwiSaver: { bg: 'rgba(46,97,70,0.13)', fg: '#2E6146' },
+  ACC: { bg: 'rgba(189,181,146,0.28)', fg: '#6B6549' },
 };
 
 export function CategoryTag({ category }: { category: string }) {
@@ -103,8 +103,8 @@ export function SourceBadge({ source }: { source: string }) {
 export function TrendChip({ trend, note }: { trend?: 'up' | 'down' | 'flat'; note?: string }) {
   if (!trend) return null;
   const map = {
-    up: { Icon: ArrowUpRight, color: '#8E2F3A', bg: 'rgba(142,47,58,0.16)' },
-    down: { Icon: ArrowDownRight, color: '#2F6B4F', bg: 'rgba(47,107,79,0.16)' },
+    up: { Icon: ArrowUpRight, color: '#B4562E', bg: 'rgba(180,86,46,0.16)' },
+    down: { Icon: ArrowDownRight, color: '#2E6146', bg: 'rgba(46,97,70,0.16)' },
     flat: { Icon: Minus, color: 'var(--b-faint)', bg: 'rgba(26,25,24,0.05)' },
   }[trend];
   const { Icon } = map;

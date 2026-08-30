@@ -41,7 +41,7 @@ export default function BillsLayout({ children }: { children: ReactNode }) {
         @keyframes bills-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         .bills-rise { animation: bills-rise .6s cubic-bezier(.16,1,.3,1) both; }
         @media (prefers-reduced-motion: reduce) { .bills-rise { animation: none; } }
-        [data-assembl-bills] ::selection { background: rgba(145,106,112,0.22); }
+        [data-assembl-bills] ::selection { background: rgba(191,163,122,0.22); }
       `}</style>
     </div>
   );

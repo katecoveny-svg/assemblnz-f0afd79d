@@ -13,11 +13,11 @@ export function WordMark({ size = 20 }: { size?: number }) {
         style={{
           width: size * 1.6,
           height: size * 1.6,
-          background: '#240B21',
+          background: '#3A3832',
           boxShadow: '0 1px 3px rgba(36,87,64,0.3)',
         }}
       >
-        <Wallet size={size * 0.9} color="#FFFDFB" />
+        <Wallet size={size * 0.9} color="#FFF7EC" />
       </span>
       <span
         style={{
@@ -27,11 +27,11 @@ export function WordMark({ size = 20 }: { size?: number }) {
           lineHeight: 1,
           letterSpacing: '0.04em',
           textTransform: 'lowercase',
-          color: '#240B21',
+          color: '#3A3832',
         }}
       >
         assembl bills
-        <span aria-hidden style={{ color: '#916A70' }}>.</span>
+        <span aria-hidden style={{ color: '#BFA37A' }}>.</span>
       </span>
     </span>
   );
@@ -52,7 +52,7 @@ export function HeroSavingsCard({ found }: { found: number }) {
       {/* central glow disc */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ width: '78%', height: '78%', background: 'radial-gradient(circle, rgba(47,107,79,0.22), transparent 68%)' }}
+        style={{ width: '78%', height: '78%', background: 'radial-gradient(circle, rgba(46,97,70,0.22), transparent 68%)' }}
         animate={{ scale: [1, 1.06, 1], opacity: [0.85, 1, 0.85] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -60,9 +60,9 @@ export function HeroSavingsCard({ found }: { found: number }) {
       <div
         className="absolute left-1/2 top-1/2 flex aspect-square w-[62%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full text-center"
         style={{
-          background: 'radial-gradient(circle at 40% 35%, #FFFFFF, #F5F1F2)',
+          background: 'radial-gradient(circle at 40% 35%, #FFFFFF, #FFFDF5)',
           border: '1px solid var(--b-teal-line)',
-          boxShadow: 'inset 0 0 40px rgba(47,107,79,0.14), 0 0 60px -10px rgba(47,107,79,0.45)',
+          boxShadow: 'inset 0 0 40px rgba(46,97,70,0.14), 0 0 60px -10px rgba(46,97,70,0.45)',
           backdropFilter: 'blur(8px)',
         }}
       >

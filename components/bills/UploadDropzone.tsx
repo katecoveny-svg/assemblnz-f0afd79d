@@ -1,7 +1,9 @@
 'use client';
 
+import { DashAgentLoader } from '@/components/dash/DashAgentLoader';
+
 import { useCallback, useRef, useState, type DragEvent } from 'react';
-import { UploadCloud, FileText, Check, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { UploadCloud, FileText, Check, Sparkles, AlertCircle } from 'lucide-react';
 import { useBillsSession } from './useSession';
 
 type Parsed = {
@@ -110,9 +112,17 @@ export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string 
       </div>
 
       {busy && (
-        <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)', color: 'var(--b-muted)' }}>
-          <Loader2 size={16} className="animate-spin" style={{ color: 'var(--b-teal)' }} />
-          Reading <span className="font-medium" style={{ color: 'var(--b-ink)' }}>{fileName}</span> — the reading agent is extracting the fields…
+        <div className="mt-3 rounded-2xl px-4 py-4" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
+          <DashAgentLoader
+            label="The reading agent"
+            accent="var(--b-gold)"
+            messages={[
+              `Reading ${fileName}…`,
+              'Finding the provider and the total…',
+              'Looking for the due date…',
+              'Checking what it says against NZ providers…',
+            ]}
+          />
         </div>
       )}
 
