@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>assembl — generative studio</title>
-<script>p5.disableFriendlyErrors = true;</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+<!-- Must come AFTER p5 loads. This line used to sit ABOVE the script tag, so it
+     threw "ReferenceError: p5 is not defined" as the first entry in the console
+     on every single load — p5 does not exist until its own script has run. -->
+<script>if (window.p5) p5.disableFriendlyErrors = true;</script>
 <script src="three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
 <script src="https://js.puter.com/v2/"></script>
@@ -899,6 +902,10 @@ const state = {
   aiPrompt: 'a liquid chrome sculpture on a gallery plinth, deep plum and rose gold, soft studio lighting, premium minimal',
   aiImage: null,
   aiLoading: false,
+  // Why the last render failed, in words a person can act on. Without this the
+  // canvas fell straight back to "press render to generate" on any failure, so
+  // a broken model service and a button that was never pressed looked identical.
+  aiError: null,
   aiModel: 'pollinations', // 'pollinations' | 'playground' | 'flux' | 'assembl' (our LoRA)
   aiLoraUrl: 'https://v3b.fal.media/files/b/0aa6cb09/LUqvU7BMFwqsVDl4Cx-Q5_pytorch_lora_weights.safetensors',
   aiLoraTrigger: 'asmbst',
@@ -3700,6 +3707,7 @@ function bootAiRender(){
   t = 0;
   state.aiImage = null;
   state.aiLoading = false;
+  state.aiError = null;
 }
 function drawAiRender(){
   t += 0.01;
@@ -3731,6 +3739,23 @@ function drawAiRender(){
     return;
   }
   const cx = W/2, cy = H/2;
+
+  // A failed render says so, and says why. Rendered before the idle state so a
+  // failure can never be mistaken for "you have not pressed the button yet".
+  if(state.aiError){
+    noStroke();
+    fill(rgba('#A8451F', 0.10));
+    ellipse(cx, cy, 200, 200);
+    fill(rgba('#A8451F', 0.95));
+    textFont('IBM Plex Mono'); textSize(11); textAlign(CENTER);
+    text('render failed', cx, cy - 6);
+    fill(rgba(GRAPHITE, 0.72));
+    textSize(11);
+    // p5 wraps inside a text box when given a width and height.
+    text(state.aiError, cx - Math.min(W*0.38, 300), cy + 14, Math.min(W*0.76, 600), 140);
+    return;
+  }
+
   noStroke();
   fill(rgba(PLUM, 0.08));
   ellipse(cx, cy, 200, 200);
@@ -3742,6 +3767,7 @@ async function generateAiImage(){
   if(state.aiLoading) return;
   state.aiLoading = true;
   state.aiImage = null;
+  state.aiError = null;
   const styleSuffix = ', deep plum #240B21 and muted rose #B76E79 palette, premium gallery lighting, clean minimal composition, photorealistic, 8k';
   const fullPrompt = state.aiPrompt + styleSuffix;
   try{
@@ -3752,7 +3778,7 @@ async function generateAiImage(){
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: fullPrompt, image_size: 'square_hd' })
       });
-      if(!res.ok) throw new Error('proxy ' + res.status);
+      if(!res.ok) throw new Error(`The assembl LoRA proxy answered ${res.status}. The Cloudflare Worker at assembl-lora-proxy may not be deployed. Try one of the other models.`);
       const data = await res.json();
       const url = data.images[0].url;
       const imgEl = await new Promise((res2, rej)=>{ const im = new Image(); im.crossOrigin='anonymous'; im.onload=()=>res2(im); im.onerror=rej; im.src=url; });
@@ -3763,7 +3789,13 @@ async function generateAiImage(){
       state.aiLoading = false;
       return;
     }
-    // puter.js — free unlimited image generation, no key needed
+    // puter.js — free unlimited image generation, no key needed.
+    // It is a third-party script from js.puter.com. If that host is blocked,
+    // offline, or has changed its API, `puter` is simply not on the window and
+    // the old code threw an unreadable ReferenceError into a silent catch.
+    if (typeof puter === 'undefined' || !puter?.ai?.txt2img) {
+      throw new Error('The image service at js.puter.com did not load. An ad-blocker, a corporate network, or the service being down will all do this. The other 25 engines do not use it and still work.');
+    }
     const modelMap = { pollinations: 'black-forest-labs/flux-2-klein-4b', playground: 'black-forest-labs/flux-2-klein-9b-base', flux: 'black-forest-labs/flux-2-dev' };
     const model = modelMap[state.aiModel] || modelMap.pollinations;
     const imgEl = await puter.ai.txt2img(fullPrompt, { model: model });
@@ -3775,6 +3807,10 @@ async function generateAiImage(){
     state.aiLoading = false;
   }catch(e){
     state.aiLoading = false;
+    // Say what went wrong ON THE CANVAS. This used to log to the console and
+    // nothing else, so the spinner stopped and the panel fell back to "press
+    // render to generate" — indistinguishable from never having pressed it.
+    state.aiError = (e && e.message) ? e.message : 'The render failed and gave no reason.';
     console.error('AI render failed:', e);
   }
 }
