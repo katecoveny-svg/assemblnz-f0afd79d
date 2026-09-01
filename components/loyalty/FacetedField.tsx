@@ -18,8 +18,10 @@ type Pod = {
 };
 
 /** Lit by One NZ accent — craft of artifact pods, not salmon wash. */
-const POD_COLOR = 0x3a6f7c; // muted digital turquoise body
-const POD_HI = 0x007c92; // locked accent specular
+const POD_MUTED = 0x4a3842; // near-plum faceted body (homepage quiet)
+const POD_JOURNEY = 0x3a6f7c; // muted turquoise body (journey)
+const KEY_ACCENT = 0x007c92; // locked accent as light on forms
+const DEPTH = 0x00b0ca;
 const PLUM = 0x170f13;
 
 export function FacetedField({
@@ -27,7 +29,7 @@ export function FacetedField({
   accent = true,
 }: {
   className?: string;
-  /** When true, key light + pod tint lean `#007C92` (journey). Homepage may pass false for quieter heather pods. */
+  /** Journey leans pod body toward turquoise; homepage keeps quieter plum pods. Key light is always `#007C92`. */
   accent?: boolean;
 }) {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -50,17 +52,16 @@ export function FacetedField({
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 80);
     camera.position.set(0, 0.2, 9.2);
 
-    // Soft key + fill — atmospheric light falloff. Accent lights forms; not a flat teal wash.
-    const body = accent ? POD_COLOR : 0x8a6a6e;
-    const keyCol = accent ? POD_HI : 0xc4a08a;
-    const key = new THREE.DirectionalLight(keyCol, accent ? 1.15 : 1.35);
+    // Soft key + fill — `#007C92` lights the forms (never salmon). Not a flat teal wash.
+    const body = accent ? POD_JOURNEY : POD_MUTED;
+    const key = new THREE.DirectionalLight(KEY_ACCENT, accent ? 1.25 : 1.05);
     key.position.set(4, 5, 6);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0x654a4e, 0.5);
+    const fill = new THREE.DirectionalLight(0x654a4e, 0.45);
     fill.position.set(-5, -1, 2);
     scene.add(fill);
-    scene.add(new THREE.AmbientLight(0x3a2034, 0.6));
-    const rim = new THREE.PointLight(accent ? 0x00b0ca : 0xf5f1f2, accent ? 0.4 : 0.55, 24);
+    scene.add(new THREE.AmbientLight(0x2a1824, 0.55));
+    const rim = new THREE.PointLight(DEPTH, accent ? 0.35 : 0.22, 24);
     rim.position.set(-2, 3, 4);
     scene.add(rim);
 

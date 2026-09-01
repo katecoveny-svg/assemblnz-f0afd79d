@@ -1,9 +1,8 @@
 'use client';
 
 /**
- * Immersive loyalty homepage — craft bar from Kate's Claude Design artifact.
- * Atmospheric plum + faceted depth · split editorial/phone · loyalty spine only.
- * Phone stepper: 01 WAIT → 02 EARN → 03 EVIDENCE (never life-admin labels).
+ * Immersive loyalty homepage — cinematic craft bar.
+ * Asymmetric bleed · extreme type · typed phone beats · loyalty spine only.
  */
 
 import dynamic from 'next/dynamic';
@@ -32,6 +31,8 @@ const STEPS: { id: Beat; n: string; label: string }[] = [
   { id: 'evidence', n: '03', label: 'evidence' },
 ];
 
+const WAIT_LINE = "eSIM activation in progress · you're in a wait moment";
+
 const THEME = {
   '--eeh-plum': ASSEMBL_CANON.plum,
   '--eeh-mulberry': ASSEMBL_CANON.mulberry,
@@ -43,9 +44,30 @@ const THEME = {
   '--one-nz-accent': DIGITAL_TURQUOISE,
 } as CSSProperties;
 
+function useTypedLine(full: string, active: boolean, reduced: boolean) {
+  const [text, setText] = useState(reduced || !active ? full : '');
+  useEffect(() => {
+    if (!active) return;
+    if (reduced) {
+      setText(full);
+      return;
+    }
+    setText('');
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 1;
+      setText(full.slice(0, i));
+      if (i >= full.length) window.clearInterval(id);
+    }, 28);
+    return () => window.clearInterval(id);
+  }, [full, active, reduced]);
+  return text;
+}
+
 export function EarnEventHome() {
   const [beat, setBeat] = useState<Beat>('wait');
   const [reduced, setReduced] = useState(false);
+  const typed = useTypedLine(WAIT_LINE, beat === 'wait', reduced);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -65,7 +87,7 @@ export function EarnEventHome() {
     const id = window.setInterval(() => {
       i = (i + 1) % order.length;
       setBeat(order[i]!);
-    }, 3200);
+    }, 3600);
     return () => window.clearInterval(id);
   }, [reduced]);
 
@@ -95,18 +117,12 @@ export function EarnEventHome() {
           <div className="eeh-copy">
             <p className="eeh-brand-line">assembl.</p>
             <h1 id="eeh-masthead">{MASTHEAD}</h1>
-            <p className="eeh-lede">
-              Agentic loyalty that turns everyday waits into Phone Dollars.
-              <span> Real value. Real time.</span>
-            </p>
             <p className="eeh-mono-line">{TWELVE_WORD_ENERGY}</p>
-
-            <ul className="eeh-chips" aria-label="Positioning">
-              <li>mode · agentic loyalty</li>
-              <li>first fit · one nz</li>
-              <li>independent concept</li>
-            </ul>
-
+            <p className="eeh-mode-strip">
+              <span>mode a · phone dollars</span>
+              <span>detect · activate · credit</span>
+              <span>mode b · optional</span>
+            </p>
             <div className="eeh-ctas">
               <Link className="eeh-cta-primary" href="/journeys/one-nz">
                 show me the demo
@@ -118,7 +134,12 @@ export function EarnEventHome() {
           </div>
 
           <aside className="eeh-stage" aria-label="Loyalty journey on the phone">
-            <div className="eeh-phone" data-beat={beat}>
+            <div className="eeh-fg-blur" aria-hidden="true" />
+            <div
+              className="eeh-phone"
+              data-beat={beat}
+              style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}
+            >
               <div className="eeh-phone-chrome">
                 <span className="eeh-one-mark">one.nz</span>
                 <span className="eeh-how">how it works</span>
@@ -136,7 +157,10 @@ export function EarnEventHome() {
               <div className="eeh-phone-body">
                 {beat === 'wait' && (
                   <>
-                    <p className="eeh-raw">eSIM activation in progress · you&rsquo;re in a wait moment</p>
+                    <p className="eeh-raw">
+                      {typed}
+                      <i className="eeh-caret" aria-hidden="true" />
+                    </p>
                     <div className="eeh-wait-dot" aria-hidden="true">
                       <i />
                     </div>
@@ -196,32 +220,8 @@ export function EarnEventHome() {
                 )}
               </div>
             </div>
-
             <div className="eeh-plinth" aria-hidden="true" />
           </aside>
-        </section>
-
-        <section className="eeh-modes" aria-labelledby="eeh-modes-title">
-          <p className="eeh-section-kicker">two ways to run it</p>
-          <h2 id="eeh-modes-title">Mode A · Mode B</h2>
-          <div className="eeh-modes-grid">
-            <article>
-              <span>Mode A · preferred</span>
-              <h3>assembl brings the agentic layer</h3>
-              <p>
-                One NZ keeps Phone Dollars and One Wallet. assembl recognises wait moments, stamps
-                credit in real time, and issues Mana Receipts with a named person responsible.
-              </p>
-            </article>
-            <article>
-              <span>Mode B · optional</span>
-              <h3>loyalty runs inside your stack</h3>
-              <p>
-                Same wait → earn → evidence pattern, wired to systems you already operate. The
-                customer still earns currency they already value.
-              </p>
-            </article>
-          </div>
         </section>
       </main>
 
