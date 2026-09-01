@@ -441,45 +441,46 @@
 }
 
 .eeh-fg-pod polygon {
-  fill: #2a1a22;
-  stroke: rgba(0, 124, 146, 0.55);
-  stroke-width: 1.2;
-  filter: drop-shadow(0 0 10px rgba(0, 124, 146, 0.35));
+  fill: #3a2834;
+  stroke: #007c92;
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 14px rgba(0, 124, 146, 0.55));
 }
 
 .eeh-fg-pod-a {
-  width: 118px;
-  height: 118px;
-  left: -2%;
-  bottom: 18%;
-  opacity: 0.92;
-  filter: blur(0.6px);
+  width: 140px;
+  height: 140px;
+  left: 8%;
+  bottom: 12%;
+  opacity: 0.95;
+  filter: blur(0.4px);
   transform: rotate(-18deg);
 }
 
 .eeh-fg-pod-b {
-  width: 86px;
-  height: 86px;
-  right: 6%;
-  top: 22%;
-  opacity: 0.78;
-  filter: blur(3.5px);
+  width: 96px;
+  height: 96px;
+  right: 18%;
+  top: 16%;
+  opacity: 0.85;
+  filter: blur(2.8px);
   transform: rotate(22deg);
 }
 
 .eeh-fg-pod-c {
-  width: 150px;
-  height: 150px;
-  right: -4%;
-  bottom: 6%;
-  opacity: 0.7;
-  filter: blur(7px);
+  width: 168px;
+  height: 168px;
+  right: 2%;
+  bottom: 2%;
+  opacity: 0.78;
+  filter: blur(6px);
   transform: rotate(8deg);
 }
 
 .eeh-fg-pod-c polygon {
-  fill: #1e1218;
-  stroke: rgba(0, 124, 146, 0.28);
+  fill: #24151c;
+  stroke: rgba(0, 124, 146, 0.45);
+  stroke-width: 1.2;
 }
 
 .eeh-phone-body {

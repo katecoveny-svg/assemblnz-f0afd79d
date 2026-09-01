@@ -17,10 +17,10 @@ type Pod = {
   phase: number;
 };
 
-/** Plum body — dark enough for near-black field, light enough to catch specular. */
-const POD_BODY = 0x3a2832;
-/** Journey lean — still plum-first, slight cool bias, not a teal wash. */
-const POD_BODY_JOURNEY = 0x2f3740;
+/** Plum body — lifted so facets catch #007C92 key (was muddy near-black). */
+const POD_BODY = 0x5c4652;
+/** Journey lean — cool plum, not a teal wash. */
+const POD_BODY_JOURNEY = 0x4a5560;
 const KEY_ACCENT = 0x007c92;
 const DEPTH = 0x00b0ca;
 const FILL_PLUM = 0x654a4e;
@@ -58,7 +58,7 @@ export function FacetedField({
     renderer.setSize(w, h);
     renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = accent ? 1.15 : 1.28;
+    renderer.toneMappingExposure = accent ? 1.35 : 1.55;
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -69,49 +69,54 @@ export function FacetedField({
 
     // Single accent light family — `#007C92` key + depth rim. Plum fill only.
     // Homepage previously underlit (key ~1.05); raise so facets read as sculpture.
-    const key = new THREE.DirectionalLight(KEY_ACCENT, accent ? 2.05 : 2.35);
+    const key = new THREE.DirectionalLight(KEY_ACCENT, accent ? 2.6 : 3.1);
     key.position.set(5.2, 6.4, 7.2);
     scene.add(key);
 
-    const keySoft = new THREE.DirectionalLight(KEY_ACCENT, accent ? 0.55 : 0.72);
+    const keySoft = new THREE.DirectionalLight(KEY_ACCENT, accent ? 0.85 : 1.1);
     keySoft.position.set(1.5, 2.2, 8);
     scene.add(keySoft);
 
-    const fill = new THREE.DirectionalLight(FILL_PLUM, 0.38);
+    const fill = new THREE.DirectionalLight(FILL_PLUM, 0.55);
     fill.position.set(-6, -1.5, 3);
     scene.add(fill);
 
-    scene.add(new THREE.AmbientLight(AMBIENT_PLUM, 0.42));
+    scene.add(new THREE.AmbientLight(AMBIENT_PLUM, 0.55));
 
-    const rim = new THREE.PointLight(DEPTH, accent ? 0.55 : 0.48, 28);
+    const rim = new THREE.PointLight(DEPTH, accent ? 0.75 : 0.7, 28);
     rim.position.set(-2.4, 3.2, 5);
     scene.add(rim);
 
-    const spark = new THREE.PointLight(KEY_ACCENT, accent ? 0.85 : 1.05, 16);
+    const spark = new THREE.PointLight(KEY_ACCENT, accent ? 1.2 : 1.45, 18);
     spark.position.set(3.2, 1.4, 4.5);
     scene.add(spark);
 
     const geo = new THREE.OctahedronGeometry(1, 0);
     const matSharp = new THREE.MeshStandardMaterial({
       color: body,
-      roughness: 0.22,
-      metalness: 0.62,
+      roughness: 0.16,
+      metalness: 0.72,
       flatShading: true,
-      envMapIntensity: 1.1,
+      emissive: KEY_ACCENT,
+      emissiveIntensity: accent ? 0.08 : 0.12,
     });
     const matMid = new THREE.MeshStandardMaterial({
       color: body,
-      roughness: 0.32,
-      metalness: 0.48,
+      roughness: 0.26,
+      metalness: 0.55,
       flatShading: true,
+      emissive: KEY_ACCENT,
+      emissiveIntensity: 0.05,
     });
     const matSoft = new THREE.MeshStandardMaterial({
       color: body,
-      roughness: 0.48,
-      metalness: 0.28,
+      roughness: 0.42,
+      metalness: 0.32,
       flatShading: true,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.62,
+      emissive: KEY_ACCENT,
+      emissiveIntensity: 0.03,
     });
 
     const pods: Pod[] = [];
