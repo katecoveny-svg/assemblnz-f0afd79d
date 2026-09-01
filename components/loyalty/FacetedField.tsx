@@ -42,7 +42,13 @@ export function FacetedField({
     const w = mount.clientWidth || window.innerWidth;
     const h = mount.clientHeight || window.innerHeight;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    } catch {
+      // Headless / no-WebGL environments — keep atmospheric CSS only.
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(w, h);
     renderer.setClearColor(0x000000, 0);

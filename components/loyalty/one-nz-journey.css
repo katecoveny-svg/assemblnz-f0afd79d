@@ -638,6 +638,12 @@
   text-transform: uppercase;
 }
 
+.onz-wordmark-keep {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
 .onz-cta-band {
   margin-top: 1rem;
   padding: clamp(2rem, 4vw, 2.75rem);

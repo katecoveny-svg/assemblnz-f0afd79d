@@ -360,7 +360,9 @@ export function OneNzJourney() {
             </dl>
             <footer>
               <p>Thank you for being part of One NZ</p>
-              <span>powered by agentic loyalty · assembl</span>
+              <span>
+                powered by agentic loyalty · <b className="onz-wordmark-keep">assembl</b>
+              </span>
             </footer>
           </article>
         </section>
@@ -387,7 +389,9 @@ export function OneNzJourney() {
       </main>
 
       <footer className="onz-footer">
-        <Link href="/">← assembl</Link>
+        <Link href="/" className="onz-wordmark-keep">
+          ← assembl
+        </Link>
         <span>preview · not production</span>
         <span>Made in Aotearoa</span>
       </footer>
