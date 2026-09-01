@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  DEMO_RECEIPT_AT,
   DIGITAL_TURQUOISE,
   EVIDENCE_SPLIT,
   ONE_NZ_ACCENT,
@@ -28,8 +29,11 @@ describe('one-nz loyalty tokens', () => {
     expect(EVIDENCE_SPLIT.reduce((s, r) => s + r.pct, 0)).toBe(100);
   });
 
-  it('uses a fresh Mana Receipt demo timestamp (Sep 2026)', async () => {
-    const { DEMO_RECEIPT_AT } = await import('./one-nz');
+  it('formats NZD for Phone Dollars', () => {
+    expect(nzd(2.75)).toMatch(/\$2\.75/);
+  });
+
+  it('uses a fresh Mana Receipt demo timestamp (Sep 2026)', () => {
     expect(DEMO_RECEIPT_AT).toMatch(/Sep 2026/);
     expect(DEMO_RECEIPT_AT).not.toMatch(/2025/);
   });
