@@ -12,7 +12,7 @@
 
 ## 2026-07-02 - Standardizing Active Press States Site-Wide
 **Learning:** Adding standardized active/pressed CSS transitions (like `active:translate-y-0` and `active:scale-100`) to complex cards and quick action prompts with hover/focus lift states completes the sensory feedback loop, dramatically improving the responsiveness and tactile feel of the interface.
-**Action:** Pair hover/focus lifts (such as `-translate-y-0.5` or `-translate-y-1` and hover scale boosts) with `active:translate-y-0 active:scale-100` on elements like marketing cards, prompt buttons, and concierge triggers.
+**Action:** Pair hover/focus lifts (such as `-translate-y-0.5` or `-translate-y-1` and hover scale boosts) with `active:translate-y-0 active:scale-100` on elements like marketing cards, prompt prompts, and concierge triggers.
 
 ## 2026-07-08 - High-Intent Checkout Form Accessibility & Polite Counters
 **Learning:** High-intent interactive forms like checkout and fit-checks demand strong accessibility features. Implicit nested labels can fail screen readers and limit click-target sizing; explicit `htmlFor` and `id` associations are superior. In addition, when adding text length constraints, using a standard visual character counter is great, but screen-reader announcements can get highly annoying (verbose) if they declare the count on every keystroke. Combining visual counters with an `sr-only` polite live region that is silent until hitting a critical 90% threshold strikes the perfect utility/verbosity balance.
@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-22 - Smart Polite Character Counters on Generator Inputs
+**Learning:** Textareas with strict input constraints (like the 1200-character description in the SPARK generator form) greatly benefit from real-time feedback. Standard screen reader announcements on every single key press are extremely distracting. Implementing a polite `aria-live` region that is silent until crossing a 90% threshold (1080 characters) balances accessibility and helpful focus without verbal overhead.
+**Action:** Pair visual character counters with an `sr-only` polite live region that becomes active and announces character counts only after crossing the 90% maximum length threshold.
