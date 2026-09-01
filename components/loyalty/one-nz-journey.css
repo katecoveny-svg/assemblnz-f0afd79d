@@ -306,35 +306,35 @@
 }
 
 .onz-fg-pod-a {
-  width: 120px;
-  height: 120px;
+  width: 118px;
+  height: 118px;
   left: auto;
-  right: 62%;
-  bottom: 20%;
-  opacity: 0.96;
-  filter: blur(0.35px);
+  right: 230px;
+  bottom: 24%;
+  opacity: 0.97;
+  filter: blur(0.3px);
   transform: rotate(-16deg);
 }
 
 .onz-fg-pod-b {
-  width: 84px;
-  height: 84px;
+  width: 80px;
+  height: 80px;
   left: auto;
-  right: 10%;
-  top: 24%;
-  opacity: 0.88;
-  filter: blur(2.4px);
+  right: 60px;
+  top: 30%;
+  opacity: 0.9;
+  filter: blur(2.2px);
   transform: rotate(20deg);
 }
 
 .onz-fg-pod-c {
-  width: 148px;
-  height: 148px;
+  width: 140px;
+  height: 140px;
   left: auto;
-  right: 2%;
-  bottom: 4%;
-  opacity: 0.8;
-  filter: blur(5.5px);
+  right: 6px;
+  bottom: 6%;
+  opacity: 0.84;
+  filter: blur(5px);
   transform: rotate(10deg);
 }
 

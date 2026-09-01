@@ -448,36 +448,36 @@
 }
 
 .eeh-fg-pod-a {
-  /* Cross left edge of phone — phone sits flex-end in stage */
-  width: 132px;
-  height: 132px;
+  /* Cross the phone's left edge (phone is flex-end ~330px wide) */
+  width: 128px;
+  height: 128px;
   left: auto;
-  right: 58%;
-  bottom: 22%;
-  opacity: 0.96;
-  filter: blur(0.35px);
+  right: 250px;
+  bottom: 26%;
+  opacity: 0.97;
+  filter: blur(0.3px);
   transform: rotate(-18deg);
 }
 
 .eeh-fg-pod-b {
-  width: 92px;
-  height: 92px;
+  width: 88px;
+  height: 88px;
   left: auto;
-  right: 14%;
-  top: 28%;
-  opacity: 0.88;
-  filter: blur(2.4px);
+  right: 70px;
+  top: 32%;
+  opacity: 0.9;
+  filter: blur(2.2px);
   transform: rotate(22deg);
 }
 
 .eeh-fg-pod-c {
-  width: 156px;
-  height: 156px;
+  width: 150px;
+  height: 150px;
   left: auto;
-  right: 4%;
-  bottom: 6%;
-  opacity: 0.82;
-  filter: blur(5.5px);
+  right: 10px;
+  bottom: 8%;
+  opacity: 0.84;
+  filter: blur(5px);
   transform: rotate(8deg);
 }
 
