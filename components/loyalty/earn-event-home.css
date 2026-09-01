@@ -24,7 +24,7 @@
 }
 
 .eeh-atmosphere {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -118,20 +118,42 @@
   outline-offset: 4px;
 }
 
-/* Full-bleed asymmetric hero — copy bottom-left, phone bleeds right */
+/* Full-bleed asymmetric hero — copy bottom-left, phone bleeds right.
+   Pin track: scroll advances in-phone wait → earn → evidence. */
 .eeh-main {
   max-width: none;
   margin: 0;
   padding: 0;
 }
 
+.eeh-pin {
+  height: 320vh;
+  position: relative;
+}
+
 .eeh-hero {
+  position: sticky;
+  top: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 0;
   align-items: end;
-  min-height: calc(100svh - 4.25rem);
+  min-height: 100svh;
+  height: 100svh;
   padding: 0 0 0 clamp(1.25rem, 3.5vw, 2.75rem);
+  overflow: hidden;
+}
+
+.eeh-hero[data-beat='wait'] .eeh-phone {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.eeh-hero[data-beat='earn'] .eeh-phone {
+  transform: translate3d(0, -10px, 0) scale(1.01);
+}
+
+.eeh-hero[data-beat='evidence'] .eeh-phone {
+  transform: translate3d(0, -18px, 0) scale(1.015);
 }
 
 .eeh-copy {
@@ -175,6 +197,52 @@
 
 .eeh-mode-strip span:first-child {
   color: var(--eeh-accent);
+}
+
+.eeh-beat-note {
+  margin: 0 0 1.5rem;
+  max-width: 32ch;
+}
+
+.eeh-beat-note span {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--eeh-accent);
+  font: 500 0.62rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eeh-beat-note p {
+  margin: 0;
+  color: rgba(245, 241, 242, 0.72);
+  font: 400 1rem/1.4 var(--font-display), sans-serif;
+  letter-spacing: -0.015em;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.eeh-scroll-meter {
+  margin-top: 1.5rem;
+  height: 1px;
+  max-width: 12rem;
+  background: rgba(245, 241, 242, 0.12);
+}
+
+.eeh-scroll-meter i {
+  display: block;
+  height: 1px;
+  width: 100%;
+  transform-origin: left center;
+  background: var(--eeh-accent);
+  transition: transform 0.12s linear;
+}
+
+.eeh-scroll-hint {
+  margin: 0.55rem 0 0;
+  color: rgba(245, 241, 242, 0.35);
+  font: 500 0.58rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .eeh-ctas {
@@ -226,8 +294,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  min-height: calc(100svh - 4.25rem);
-  padding: 3rem 0 2.5rem;
+  min-height: 100%;
+  height: 100%;
+  padding: 4.5rem 0 2.5rem;
   overflow: visible;
 }
 
@@ -271,6 +340,8 @@
     0 0 0 1px rgba(0, 124, 146, 0.08),
     0 0 80px color-mix(in srgb, var(--po-client-color, #007c92) 18%, transparent);
   overflow: hidden;
+  will-change: transform;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .eeh-phone-chrome {
@@ -335,6 +406,24 @@
   padding: 1rem 1.15rem 1.35rem;
   display: flex;
   flex-direction: column;
+}
+
+.eeh-phone-beat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  animation: eeh-beat-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes eeh-beat-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .eeh-raw {
@@ -515,9 +604,15 @@
 }
 
 @media (max-width: 960px) {
+  .eeh-pin {
+    height: auto;
+  }
+
   .eeh-hero {
+    position: relative;
     grid-template-columns: 1fr;
     min-height: 0;
+    height: auto;
     padding: 0 clamp(1.25rem, 4vw, 2rem);
   }
 
@@ -532,6 +627,7 @@
 
   .eeh-stage {
     min-height: 0;
+    height: auto;
     justify-content: center;
     padding: 0 0 2.5rem;
   }
@@ -543,6 +639,15 @@
   .eeh-fg-blur,
   .eeh-aotearoa-b {
     display: none;
+  }
+
+  .eeh-scroll-hint,
+  .eeh-scroll-meter {
+    display: none;
+  }
+
+  .eeh-hero[data-beat] .eeh-phone {
+    transform: none;
   }
 }
 
@@ -564,6 +669,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .eeh-pin {
+    height: auto;
+  }
+
+  .eeh-hero {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+  }
+
   .eeh-wait-dot::before,
   .eeh-wait-dot::after,
   .eeh-caret {
@@ -578,7 +693,18 @@
     transform: none;
   }
 
-  .eeh-stepper li {
+  .eeh-stepper li,
+  .eeh-scroll-meter i,
+  .eeh-beat-note p,
+  .eeh-phone {
     transition: none;
+  }
+
+  .eeh-phone-beat {
+    animation: none;
+  }
+
+  .eeh-hero[data-beat] .eeh-phone {
+    transform: none;
   }
 }

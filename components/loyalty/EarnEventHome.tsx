@@ -1,13 +1,13 @@
 'use client';
 
 /**
- * Immersive loyalty homepage — cinematic craft bar.
- * Asymmetric bleed · extreme type · typed phone beats · loyalty spine only.
+ * Immersive loyalty homepage — scroll-pinned cinematic hero.
+ * Scroll advances in-phone wait → earn → evidence. Loyalty spine only.
  */
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   ASSEMBL_CANON,
   DEMO_EARN,
@@ -32,6 +32,21 @@ const STEPS: { id: Beat; n: string; label: string }[] = [
 ];
 
 const WAIT_LINE = "eSIM activation in progress · you're in a wait moment";
+
+const BEAT_COPY: Record<Beat, { kicker: string; line: string }> = {
+  wait: {
+    kicker: '01 · wait',
+    line: 'We detect a real wait and start earning for you.',
+  },
+  earn: {
+    kicker: '02 · earn',
+    line: 'Phone Dollars stamp into One Wallet in real time.',
+  },
+  evidence: {
+    kicker: '03 · evidence',
+    line: 'Mana Receipt locks the record with a named human.',
+  },
+};
 
 const THEME = {
   '--eeh-plum': ASSEMBL_CANON.plum,
@@ -64,8 +79,16 @@ function useTypedLine(full: string, active: boolean, reduced: boolean) {
   return text;
 }
 
+function beatFromProgress(p: number): Beat {
+  if (p < 0.34) return 'wait';
+  if (p < 0.67) return 'earn';
+  return 'evidence';
+}
+
 export function EarnEventHome() {
+  const pinRef = useRef<HTMLDivElement>(null);
   const [beat, setBeat] = useState<Beat>('wait');
+  const [progress, setProgress] = useState(0);
   const [reduced, setReduced] = useState(false);
   const typed = useTypedLine(WAIT_LINE, beat === 'wait', reduced);
 
@@ -80,16 +103,35 @@ export function EarnEventHome() {
   useEffect(() => {
     if (reduced) {
       setBeat('evidence');
+      setProgress(1);
       return;
     }
-    const order: Beat[] = ['wait', 'earn', 'evidence'];
-    let i = 0;
-    const id = window.setInterval(() => {
-      i = (i + 1) % order.length;
-      setBeat(order[i]!);
-    }, 3600);
-    return () => window.clearInterval(id);
+
+    const onScroll = () => {
+      const el = pinRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const total = el.offsetHeight - window.innerHeight;
+      if (total <= 0) {
+        setProgress(0);
+        setBeat('wait');
+        return;
+      }
+      const p = Math.min(1, Math.max(0, -rect.top / total));
+      setProgress(p);
+      setBeat(beatFromProgress(p));
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, [reduced]);
+
+  const beatMeta = BEAT_COPY[beat];
 
   return (
     <div className="eeh" style={THEME}>
@@ -113,116 +155,134 @@ export function EarnEventHome() {
       </header>
 
       <main className="eeh-main">
-        <section className="eeh-hero" aria-labelledby="eeh-masthead">
-          <div className="eeh-copy">
-            <p className="eeh-brand-line">assembl.</p>
-            <h1 id="eeh-masthead">{MASTHEAD}</h1>
-            <p className="eeh-mono-line">{TWELVE_WORD_ENERGY}</p>
-            <p className="eeh-mode-strip">
-              <span>mode a · phone dollars</span>
-              <span>detect · activate · credit</span>
-              <span>mode b · optional</span>
-            </p>
-            <div className="eeh-ctas">
-              <Link className="eeh-cta-primary" href="/journeys/one-nz">
-                show me the demo
-              </Link>
-              <Link className="eeh-cta-ghost" href="/contact">
-                book a working session
-              </Link>
-            </div>
-          </div>
+        <div className="eeh-pin" ref={pinRef}>
+          <section
+            className="eeh-hero"
+            aria-labelledby="eeh-masthead"
+            data-beat={beat}
+            style={{ ['--eeh-progress' as string]: String(progress) }}
+          >
+            <div className="eeh-copy">
+              <p className="eeh-brand-line">assembl.</p>
+              <h1 id="eeh-masthead">{MASTHEAD}</h1>
+              <p className="eeh-mono-line">{TWELVE_WORD_ENERGY}</p>
+              <p className="eeh-mode-strip">
+                <span>mode a · phone dollars</span>
+                <span>detect · activate · credit</span>
+                <span>mode b · optional</span>
+              </p>
 
-          <aside className="eeh-stage" aria-label="Loyalty journey on the phone">
-            <div className="eeh-fg-blur" aria-hidden="true" />
-            <div
-              className="eeh-phone"
-              data-beat={beat}
-              style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}
-            >
-              <div className="eeh-phone-chrome">
-                <span className="eeh-one-mark">one.nz</span>
-                <span className="eeh-how">how it works</span>
+              <div className="eeh-beat-note" aria-live="polite" key={beat}>
+                <span>{beatMeta.kicker}</span>
+                <p>{beatMeta.line}</p>
               </div>
 
-              <ol className="eeh-stepper" aria-label="Loyalty process">
-                {STEPS.map((s) => (
-                  <li key={s.id} data-on={beat === s.id || undefined}>
-                    <em>{s.n}</em>
-                    <span>{s.label}</span>
-                  </li>
-                ))}
-              </ol>
+              <div className="eeh-ctas">
+                <Link className="eeh-cta-primary" href="/journeys/one-nz">
+                  show me the demo
+                </Link>
+                <Link className="eeh-cta-ghost" href="/contact">
+                  book a working session
+                </Link>
+              </div>
 
-              <div className="eeh-phone-body">
-                {beat === 'wait' && (
-                  <>
-                    <p className="eeh-raw">
-                      {typed}
-                      <i className="eeh-caret" aria-hidden="true" />
-                    </p>
-                    <div className="eeh-wait-dot" aria-hidden="true">
-                      <i />
+              <div className="eeh-scroll-meter" aria-hidden="true">
+                <i style={{ transform: `scaleX(${progress})` }} />
+              </div>
+              <p className="eeh-scroll-hint">scroll to advance the wait</p>
+            </div>
+
+            <aside className="eeh-stage" aria-label="Loyalty journey on the phone">
+              <div className="eeh-fg-blur" aria-hidden="true" />
+              <div
+                className="eeh-phone"
+                data-beat={beat}
+                style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}
+              >
+                <div className="eeh-phone-chrome">
+                  <span className="eeh-one-mark">one.nz</span>
+                  <span className="eeh-how">how it works</span>
+                </div>
+
+                <ol className="eeh-stepper" aria-label="Loyalty process">
+                  {STEPS.map((s) => (
+                    <li key={s.id} data-on={beat === s.id || undefined}>
+                      <em>{s.n}</em>
+                      <span>{s.label}</span>
+                    </li>
+                  ))}
+                </ol>
+
+                <div className="eeh-phone-body">
+                  {beat === 'wait' && (
+                    <div className="eeh-phone-beat" key="wait">
+                      <p className="eeh-raw">
+                        {typed}
+                        <i className="eeh-caret" aria-hidden="true" />
+                      </p>
+                      <div className="eeh-wait-dot" aria-hidden="true">
+                        <i />
+                      </div>
+                      <p className="eeh-accent-line">detect · activate · credit</p>
+                      <p className="eeh-quiet">Earning Phone Dollars while One NZ finishes the work.</p>
                     </div>
-                    <p className="eeh-accent-line">detect · activate · credit</p>
-                    <p className="eeh-quiet">Earning Phone Dollars while One NZ finishes the work.</p>
-                  </>
-                )}
+                  )}
 
-                {beat === 'earn' && (
-                  <>
-                    <p className="eeh-transform">↓ becomes phone dollars</p>
-                    <dl className="eeh-evidence">
-                      <div>
-                        <dt>wait</dt>
-                        <dd>eSIM activation · ~90s</dd>
-                      </div>
-                      <div>
-                        <dt>credit</dt>
-                        <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
-                      </div>
-                      <div>
-                        <dt>wallet</dt>
-                        <dd>One Wallet · this line</dd>
-                      </div>
-                      <div>
-                        <dt>this wait</dt>
-                        <dd>{nzd(DEMO_EARN.thisWait)} earned</dd>
-                      </div>
-                    </dl>
-                    <p className="eeh-quiet">Currency the customer already values.</p>
-                  </>
-                )}
+                  {beat === 'earn' && (
+                    <div className="eeh-phone-beat" key="earn">
+                      <p className="eeh-transform">↓ becomes phone dollars</p>
+                      <dl className="eeh-evidence">
+                        <div>
+                          <dt>wait</dt>
+                          <dd>eSIM activation · ~90s</dd>
+                        </div>
+                        <div>
+                          <dt>credit</dt>
+                          <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
+                        </div>
+                        <div>
+                          <dt>wallet</dt>
+                          <dd>One Wallet · this line</dd>
+                        </div>
+                        <div>
+                          <dt>this wait</dt>
+                          <dd>{nzd(DEMO_EARN.thisWait)} earned</dd>
+                        </div>
+                      </dl>
+                      <p className="eeh-quiet">Currency the customer already values.</p>
+                    </div>
+                  )}
 
-                {beat === 'evidence' && (
-                  <>
-                    <p className="eeh-transform">↓ mana receipt</p>
-                    <dl className="eeh-evidence eeh-evidence-lock">
-                      <div>
-                        <dt>moment</dt>
-                        <dd>2 May 2025, 9:41pm</dd>
-                      </div>
-                      <div>
-                        <dt>earned</dt>
-                        <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
-                      </div>
-                      <div>
-                        <dt>permission</dt>
-                        <dd>opted in · reversible</dd>
-                      </div>
-                      <div>
-                        <dt>named human</dt>
-                        <dd>Alex R. · loyalty ops</dd>
-                      </div>
-                    </dl>
-                    <p className="eeh-quiet">your wait, recorded properly. nothing invented.</p>
-                  </>
-                )}
+                  {beat === 'evidence' && (
+                    <div className="eeh-phone-beat" key="evidence">
+                      <p className="eeh-transform">↓ mana receipt</p>
+                      <dl className="eeh-evidence eeh-evidence-lock">
+                        <div>
+                          <dt>moment</dt>
+                          <dd>2 May 2025, 9:41pm</dd>
+                        </div>
+                        <div>
+                          <dt>earned</dt>
+                          <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
+                        </div>
+                        <div>
+                          <dt>permission</dt>
+                          <dd>opted in · reversible</dd>
+                        </div>
+                        <div>
+                          <dt>named human</dt>
+                          <dd>Alex R. · loyalty ops</dd>
+                        </div>
+                      </dl>
+                      <p className="eeh-quiet">your wait, recorded properly. nothing invented.</p>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="eeh-plinth" aria-hidden="true" />
-          </aside>
-        </section>
+              <div className="eeh-plinth" aria-hidden="true" />
+            </aside>
+          </section>
+        </div>
       </main>
 
       <footer className="eeh-footer">
