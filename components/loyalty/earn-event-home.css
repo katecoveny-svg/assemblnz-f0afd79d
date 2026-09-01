@@ -52,7 +52,7 @@
 
 .eeh-aotearoa {
   position: absolute;
-  color: rgba(245, 241, 242, 0.045);
+  color: rgba(245, 241, 242, 0.07);
   font: 500 clamp(3rem, 8vw, 7rem) / 1 var(--font-display), 'Instrument Sans', sans-serif;
   letter-spacing: 0.08em;
   text-transform: none;
@@ -70,7 +70,7 @@
   bottom: 22%;
   font-size: clamp(2rem, 5vw, 4.2rem);
   transform: rotate(8deg);
-  color: rgba(245, 241, 242, 0.035);
+  color: rgba(245, 241, 242, 0.055);
 }
 
 /* ── Chrome ────────────────────────────────────────────────────────────── */
@@ -320,14 +320,14 @@
 
 .eeh-stepper em {
   color: var(--eeh-accent);
-  font: 500 0.6rem/1 var(--font-mono), monospace;
+  font: 500 0.68rem/1 var(--font-mono), monospace;
   font-style: normal;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
 }
 
 .eeh-stepper span {
   color: var(--eeh-paper);
-  font: 500 0.68rem/1 var(--font-mono), monospace;
+  font: 500 0.72rem/1 var(--font-mono), monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
