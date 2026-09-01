@@ -31,10 +31,10 @@
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 55% at 58% 42%, rgba(101, 74, 78, 0.45) 0%, transparent 62%),
-    radial-gradient(ellipse 50% 40% at 18% 20%, rgba(145, 106, 112, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(36, 11, 33, 0.9) 0%, transparent 50%),
-    linear-gradient(165deg, #2e122b 0%, var(--eeh-plum) 45%, #160610 100%);
+    radial-gradient(ellipse 70% 55% at 58% 42%, rgba(101, 74, 78, 0.38) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 40% at 18% 20%, rgba(145, 106, 112, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 72% 48%, rgba(0, 0, 0, 0.35) 0%, transparent 55%),
+    linear-gradient(165deg, #1e1116 0%, var(--eeh-plum) 42%, #150d12 100%);
 }
 
 .eeh-field {
@@ -139,18 +139,18 @@
 }
 
 .eeh-brand-line {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.2rem;
   color: var(--eeh-paper);
-  font: 500 clamp(3.2rem, 7.5vw, 5.8rem) / 0.92 var(--font-display), sans-serif;
-  letter-spacing: -0.065em;
+  font: 500 clamp(3.6rem, 9vw, 7rem) / 0.88 var(--font-display), sans-serif;
+  letter-spacing: -0.07em;
 }
 
 .eeh-copy h1 {
-  margin: 0 0 1.4rem;
-  max-width: 11ch;
-  color: var(--eeh-paper);
-  font: 500 clamp(2.1rem, 4.4vw, 3.35rem) / 1.02 var(--font-display), sans-serif;
-  letter-spacing: -0.045em;
+  margin: 0 0 1.5rem;
+  max-width: 12ch;
+  color: rgba(255, 253, 251, 0.92);
+  font: 500 clamp(1.55rem, 2.8vw, 2.15rem) / 1.15 var(--font-display), sans-serif;
+  letter-spacing: -0.03em;
 }
 
 .eeh-lede {
@@ -247,6 +247,18 @@
   align-items: center;
   justify-content: center;
   min-height: 560px;
+}
+
+.eeh-stage::before {
+  content: '';
+  position: absolute;
+  width: min(92%, 420px);
+  height: min(70%, 480px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(145, 106, 112, 0.22) 0%, transparent 68%);
+  filter: blur(8px);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .eeh-phone {

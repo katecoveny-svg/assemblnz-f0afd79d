@@ -17,10 +17,19 @@ type Pod = {
   phase: number;
 };
 
-const POD_COLOR = 0xc4a08a; // peach / dusty rose — atmospheric craft, not client accent
-const PLUM = 0x240b21;
+/** Lit by One NZ accent — craft of artifact pods, not salmon wash. */
+const POD_COLOR = 0x3a6f7c; // muted digital turquoise body
+const POD_HI = 0x007c92; // locked accent specular
+const PLUM = 0x170f13;
 
-export function FacetedField({ className }: { className?: string }) {
+export function FacetedField({
+  className,
+  accent = true,
+}: {
+  className?: string;
+  /** When true, key light + pod tint lean `#007C92` (journey). Homepage may pass false for quieter heather pods. */
+  accent?: boolean;
+}) {
   const mountRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -41,32 +50,34 @@ export function FacetedField({ className }: { className?: string }) {
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 80);
     camera.position.set(0, 0.2, 9.2);
 
-    // Soft key + fill — atmospheric light falloff, not flat fill.
-    const key = new THREE.DirectionalLight(0xffe8dc, 1.35);
+    // Soft key + fill — atmospheric light falloff. Accent lights forms; not a flat teal wash.
+    const body = accent ? POD_COLOR : 0x8a6a6e;
+    const keyCol = accent ? POD_HI : 0xc4a08a;
+    const key = new THREE.DirectionalLight(keyCol, accent ? 1.15 : 1.35);
     key.position.set(4, 5, 6);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0x916a70, 0.45);
+    const fill = new THREE.DirectionalLight(0x654a4e, 0.5);
     fill.position.set(-5, -1, 2);
     scene.add(fill);
-    scene.add(new THREE.AmbientLight(0x654a4e, 0.55));
-    const rim = new THREE.PointLight(0xf5f1f2, 0.55, 24);
+    scene.add(new THREE.AmbientLight(0x3a2034, 0.6));
+    const rim = new THREE.PointLight(accent ? 0x00b0ca : 0xf5f1f2, accent ? 0.4 : 0.55, 24);
     rim.position.set(-2, 3, 4);
     scene.add(rim);
 
     const geo = new THREE.OctahedronGeometry(1, 0);
     const matSharp = new THREE.MeshStandardMaterial({
-      color: POD_COLOR,
-      roughness: 0.38,
-      metalness: 0.22,
+      color: body,
+      roughness: 0.36,
+      metalness: accent ? 0.35 : 0.22,
       flatShading: true,
     });
     const matSoft = new THREE.MeshStandardMaterial({
-      color: POD_COLOR,
+      color: body,
       roughness: 0.55,
-      metalness: 0.12,
+      metalness: 0.18,
       flatShading: true,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.5,
     });
 
     const pods: Pod[] = [];
@@ -113,9 +124,15 @@ export function FacetedField({ className }: { className?: string }) {
     c.height = 256;
     const ctx = c.getContext('2d')!;
     const g = ctx.createRadialGradient(128, 128, 10, 128, 128, 128);
-    g.addColorStop(0, 'rgba(145,106,112,0.35)');
-    g.addColorStop(0.45, 'rgba(101,74,78,0.12)');
-    g.addColorStop(1, 'rgba(36,11,33,0)');
+    if (accent) {
+      g.addColorStop(0, 'rgba(0,124,146,0.28)');
+      g.addColorStop(0.45, 'rgba(0,176,202,0.08)');
+      g.addColorStop(1, 'rgba(23,15,19,0)');
+    } else {
+      g.addColorStop(0, 'rgba(145,106,112,0.32)');
+      g.addColorStop(0.45, 'rgba(101,74,78,0.1)');
+      g.addColorStop(1, 'rgba(23,15,19,0)');
+    }
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, 256, 256);
     const tex = new THREE.CanvasTexture(c);
@@ -172,7 +189,7 @@ export function FacetedField({ className }: { className?: string }) {
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };
-  }, []);
+  }, [accent]);
 
   return <div ref={mountRef} className={className} aria-hidden="true" />;
 }

@@ -70,7 +70,7 @@ export function EarnEventHome() {
   return (
     <div className="eeh" style={THEME}>
       <div className="eeh-atmosphere" aria-hidden="true">
-        <FacetedField className="eeh-field" />
+        <FacetedField className="eeh-field" accent={false} />
         <span className="eeh-aotearoa eeh-aotearoa-a">Aotearoa</span>
         <span className="eeh-aotearoa eeh-aotearoa-b">Aotearoa</span>
       </div>
@@ -228,7 +228,7 @@ export function EarnEventHome() {
           <strong>assembl</strong>
           <span>experience design · loyalty strategy · product design</span>
         </div>
-        <span className="eeh-footer-place">Aotearoa New Zealand</span>
+        <span className="eeh-footer-place">Made in Aotearoa</span>
       </footer>
     </div>
   );

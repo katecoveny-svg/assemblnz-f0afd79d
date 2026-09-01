@@ -28,9 +28,9 @@
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 65% 50% at 62% 30%, rgba(101, 74, 78, 0.42) 0%, transparent 60%),
-    radial-gradient(ellipse 45% 35% at 12% 70%, rgba(145, 106, 112, 0.16) 0%, transparent 55%),
-    linear-gradient(180deg, #2c1028 0%, var(--onz-plum) 40%, #14060f 100%);
+    radial-gradient(ellipse 55% 45% at 70% 35%, rgba(0, 124, 146, 0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 50% at 40% 60%, rgba(101, 74, 78, 0.28) 0%, transparent 60%),
+    linear-gradient(180deg, #1e1116 0%, var(--onz-plum) 40%, #150d12 100%);
 }
 
 .onz-field {
@@ -517,6 +517,44 @@
   background: var(--onz-paper);
   color: var(--onz-plum);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+}
+
+.onz-split-bar {
+  display: flex;
+  gap: 0.45rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.onz-split-bar li {
+  min-width: 0;
+  padding: 0.75rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 124, 146, 0.35);
+  background: rgba(0, 124, 146, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.onz-split-bar strong {
+  color: var(--onz-accent);
+  font: 500 1.15rem/1 var(--font-display), sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.onz-split-bar span {
+  color: var(--onz-paper);
+  font: 500 0.62rem/1.2 var(--font-mono), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.onz-split-bar em {
+  color: rgba(245, 241, 242, 0.45);
+  font: 400 0.7rem/1.3 var(--font-display), sans-serif;
+  font-style: normal;
 }
 
 .onz-receipt > header {

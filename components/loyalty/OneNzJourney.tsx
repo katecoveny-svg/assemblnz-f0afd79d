@@ -13,6 +13,7 @@ import {
   ASSEMBL_CANON,
   DEMO_EARN,
   DIGITAL_TURQUOISE,
+  EVIDENCE_SPLIT,
   INDEPENDENT_CONCEPT_DISCLAIMER,
   MASTHEAD,
   nzd,
@@ -99,7 +100,7 @@ export function OneNzJourney() {
   return (
     <div className="onz" style={THEME}>
       <div className="onz-atmosphere" aria-hidden="true">
-        <FacetedField className="onz-field" />
+        <FacetedField className="onz-field" accent />
         <span className="onz-aotearoa">Aotearoa</span>
       </div>
 
@@ -287,6 +288,15 @@ export function OneNzJourney() {
               The wait, the earn, the permission posture, and the named person responsible — proof
               the customer can keep.
             </p>
+            <ol className="onz-split-bar" aria-label="Evidence composition 55 / 30 / 15">
+              {EVIDENCE_SPLIT.map((row) => (
+                <li key={row.id} style={{ flex: row.pct }}>
+                  <strong>{row.pct}%</strong>
+                  <span>{row.label}</span>
+                  <em>{row.note}</em>
+                </li>
+              ))}
+            </ol>
           </div>
           <article className="onz-receipt" aria-label="Mana Receipt sample">
             <header>
@@ -348,7 +358,7 @@ export function OneNzJourney() {
       <footer className="onz-footer">
         <Link href="/">← assembl</Link>
         <span>preview · not production</span>
-        <span>Aotearoa New Zealand</span>
+        <span>Made in Aotearoa</span>
       </footer>
     </div>
   );
