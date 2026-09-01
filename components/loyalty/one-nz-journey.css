@@ -196,6 +196,19 @@
   min-height: 540px;
 }
 
+.onz-fg-blur {
+  position: absolute;
+  left: -8%;
+  bottom: 12%;
+  width: 42%;
+  height: 38%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(23, 15, 19, 0.55) 0%, transparent 70%);
+  filter: blur(18px);
+  z-index: 3;
+  pointer-events: none;
+}
+
 .onz-phone {
   position: relative;
   z-index: 2;
@@ -205,7 +218,7 @@
   background: linear-gradient(165deg, #1c0c19 0%, #0e060c 100%);
   box-shadow:
     0 48px 96px rgba(0, 0, 0, 0.5),
-    0 0 70px rgba(0, 124, 146, 0.14);
+    0 0 70px color-mix(in srgb, var(--po-client-color, #007c92) 22%, transparent);
   overflow: hidden;
 }
 

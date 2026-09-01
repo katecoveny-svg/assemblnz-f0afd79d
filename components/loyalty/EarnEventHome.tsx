@@ -39,6 +39,8 @@ const THEME = {
   '--eeh-chalk': ASSEMBL_CANON.chalk,
   '--eeh-paper': ASSEMBL_CANON.paper,
   '--eeh-accent': DIGITAL_TURQUOISE,
+  '--po-client-color': DIGITAL_TURQUOISE,
+  '--one-nz-accent': DIGITAL_TURQUOISE,
 } as CSSProperties;
 
 export function EarnEventHome() {

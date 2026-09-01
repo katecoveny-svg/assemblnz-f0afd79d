@@ -43,6 +43,8 @@ const THEME = {
   '--onz-chalk': ASSEMBL_CANON.chalk,
   '--onz-paper': ASSEMBL_CANON.paper,
   '--onz-accent': DIGITAL_TURQUOISE,
+  '--po-client-color': DIGITAL_TURQUOISE,
+  '--one-nz-accent': DIGITAL_TURQUOISE,
 } as CSSProperties;
 
 export function OneNzJourney() {
@@ -52,6 +54,7 @@ export function OneNzJourney() {
   const [stamped, setStamped] = useState(false);
   const [household, setHousehold] = useState(false);
   const [reduced, setReduced] = useState(false);
+  const [scrollDriven, setScrollDriven] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -68,6 +71,9 @@ export function OneNzJourney() {
       setBeat('evidence');
       return;
     }
+
+    // Auto timeline until the visitor scrolls — then scroll owns the beat.
+    if (scrollDriven) return;
 
     setBeat('wait');
     setEarned(0);
@@ -93,7 +99,31 @@ export function OneNzJourney() {
       window.clearInterval(id);
       window.clearTimeout(earnTimer);
     };
-  }, [trigger, reduced]);
+  }, [trigger, reduced, scrollDriven]);
+
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-onz-beat]'));
+    if (!nodes.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting && e.intersectionRatio > 0.45)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const next = visible.target.getAttribute('data-onz-beat') as Beat | null;
+        if (!next) return;
+        setScrollDriven(true);
+        setBeat(next);
+        if (next !== 'wait') {
+          setEarned(DEMO_EARN.thisWait);
+          setStamped(next === 'evidence');
+        }
+      },
+      { threshold: [0.45, 0.6] },
+    );
+    nodes.forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, []);
 
   const active = WAIT_TRIGGERS.find((t) => t.id === trigger)!;
 
@@ -138,7 +168,8 @@ export function OneNzJourney() {
           </div>
 
           <aside className="onz-live" id="onz-live" aria-label="Live loyalty phone">
-            <div className="onz-phone" data-beat={beat}>
+            <div className="onz-fg-blur" aria-hidden="true" />
+            <div className="onz-phone" data-beat={beat} style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}>
               <div className="onz-phone-chrome">
                 <span>one.nz</span>
                 <span className="onz-how">how it works</span>
@@ -226,7 +257,7 @@ export function OneNzJourney() {
           </aside>
         </section>
 
-        <section className="onz-triggers-band" aria-labelledby="onz-trig-title">
+        <section className="onz-triggers-band" data-onz-beat="wait" aria-labelledby="onz-trig-title">
           <div>
             <p className="onz-kicker">01 · wait triggers</p>
             <h2 id="onz-trig-title">Pick a real wait</h2>
@@ -249,7 +280,7 @@ export function OneNzJourney() {
           </div>
         </section>
 
-        <section className="onz-split" aria-labelledby="onz-hh-title">
+        <section className="onz-split" data-onz-beat="earn" aria-labelledby="onz-hh-title">
           <div>
             <p className="onz-kicker">02 · earn · optional share</p>
             <h2 id="onz-hh-title">Household rebalance</h2>
@@ -280,7 +311,7 @@ export function OneNzJourney() {
           </div>
         </section>
 
-        <section className="onz-receipt-band" aria-labelledby="onz-ev-title">
+        <section className="onz-receipt-band" data-onz-beat="evidence" aria-labelledby="onz-ev-title">
           <div>
             <p className="onz-kicker">03 · evidence</p>
             <h2 id="onz-ev-title">Mana Receipt</h2>
