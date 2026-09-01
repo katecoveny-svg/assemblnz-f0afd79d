@@ -12,6 +12,7 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import {
   ASSEMBL_CANON,
   DEMO_EARN,
+  DEMO_RECEIPT_AT,
   DIGITAL_TURQUOISE,
   EVIDENCE_SPLIT,
   INDEPENDENT_CONCEPT_DISCLAIMER,
@@ -169,6 +170,15 @@ export function OneNzJourney() {
 
           <aside className="onz-live" id="onz-live" aria-label="Live loyalty phone">
             <div className="onz-fg-blur" aria-hidden="true" />
+            <svg className="onz-fg-pod onz-fg-pod-a" viewBox="0 0 80 80" aria-hidden="true">
+              <polygon points="40,4 72,40 40,76 8,40" />
+            </svg>
+            <svg className="onz-fg-pod onz-fg-pod-b" viewBox="0 0 80 80" aria-hidden="true">
+              <polygon points="40,6 70,40 40,74 10,40" />
+            </svg>
+            <svg className="onz-fg-pod onz-fg-pod-c" viewBox="0 0 80 80" aria-hidden="true">
+              <polygon points="40,8 68,40 40,72 12,40" />
+            </svg>
             <div className="onz-phone" data-beat={beat} style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}>
               <div className="onz-phone-chrome">
                 <span>one.nz</span>
@@ -178,8 +188,8 @@ export function OneNzJourney() {
               <ol className="onz-stepper" aria-label="Loyalty process">
                 {STEPS.map((s) => (
                   <li key={s.id} data-on={beat === s.id || undefined}>
-                    <em>{s.n}</em>
-                    <span>{s.label}</span>
+                    <span className="onz-step-n">{s.n}</span>
+                    <span className="onz-step-label">{s.label}</span>
                   </li>
                 ))}
               </ol>
@@ -232,7 +242,7 @@ export function OneNzJourney() {
                       <div>
                         <dt>moment</dt>
                         <dd>
-                          {active.label} · 2 May 2025, 9:41pm
+                          {active.label} · {DEMO_RECEIPT_AT}
                         </dd>
                       </div>
                       <div>
@@ -338,7 +348,7 @@ export function OneNzJourney() {
               <div>
                 <dt>Wait moment</dt>
                 <dd>
-                  {active.label} · 2 May 2025, 9:41pm
+                  {active.label} · {DEMO_RECEIPT_AT}
                 </dd>
               </div>
               <div>

@@ -44,6 +44,9 @@ export const DEMO_EARN = {
   householdShare: 0.15,
 } as const;
 
+/** Fresh Mana Receipt timestamp — NZ preview demo (not May 2025). */
+export const DEMO_RECEIPT_AT = '1 Sep 2026, 8:14pm' as const;
+
 /** Mana Receipt evidence composition — shown before final CTA. */
 export const EVIDENCE_SPLIT = [
   { id: 'wait', label: 'wait duration', pct: 55, note: 'time in a real process' },

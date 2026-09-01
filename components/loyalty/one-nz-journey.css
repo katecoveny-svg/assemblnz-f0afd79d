@@ -151,6 +151,11 @@
   margin: 0 0 0.25rem;
   font: 500 clamp(2.8rem, 6vw, 4.6rem) / 0.92 var(--font-display), sans-serif;
   letter-spacing: -0.06em;
+  background: linear-gradient(165deg, #ffffff 0%, #f5f1f2 42%, #c9b8bc 78%, #916a70 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .onz-hero-copy h1 {
@@ -251,26 +256,88 @@
   display: flex;
   flex-direction: column;
   gap: 0.18rem;
-  padding: 0.3rem 0.2rem;
-  opacity: 0.35;
-  transition: opacity 0.4s ease;
+  padding: 0.35rem 0.2rem 0.45rem;
+  opacity: 1;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .onz-stepper li[data-on] {
-  opacity: 1;
+  border-bottom-color: #007c92;
 }
 
-.onz-stepper em {
-  color: var(--onz-accent);
+.onz-step-n {
+  color: rgba(245, 241, 242, 0.38) !important;
   font: 500 0.58rem/1 var(--font-mono), monospace;
   font-style: normal;
   letter-spacing: 0.12em;
+  -webkit-text-fill-color: rgba(245, 241, 242, 0.38);
 }
 
-.onz-stepper span {
+.onz-stepper li[data-on] .onz-step-n {
+  color: #007c92 !important;
+  -webkit-text-fill-color: #007c92;
+}
+
+.onz-step-label {
+  color: rgba(245, 241, 242, 0.42) !important;
   font: 500 0.66rem/1 var(--font-mono), monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  -webkit-text-fill-color: rgba(245, 241, 242, 0.42);
+}
+
+.onz-stepper li[data-on] .onz-step-label {
+  color: #f5f1f2 !important;
+  -webkit-text-fill-color: #f5f1f2;
+}
+
+.onz-fg-pod {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.onz-fg-pod polygon {
+  fill: #2a1a22;
+  stroke: rgba(0, 124, 146, 0.55);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 10px rgba(0, 124, 146, 0.35));
+}
+
+.onz-fg-pod-a {
+  width: 110px;
+  height: 110px;
+  left: -8%;
+  bottom: 16%;
+  opacity: 0.9;
+  filter: blur(0.5px);
+  transform: rotate(-16deg);
+}
+
+.onz-fg-pod-b {
+  width: 78px;
+  height: 78px;
+  right: 2%;
+  top: 18%;
+  opacity: 0.75;
+  filter: blur(3.2px);
+  transform: rotate(20deg);
+}
+
+.onz-fg-pod-c {
+  width: 140px;
+  height: 140px;
+  right: -10%;
+  bottom: 4%;
+  opacity: 0.68;
+  filter: blur(7px);
+  transform: rotate(10deg);
+}
+
+.onz-fg-pod-c polygon {
+  fill: #1e1218;
+  stroke: rgba(0, 124, 146, 0.28);
 }
 
 .onz-phone-body {

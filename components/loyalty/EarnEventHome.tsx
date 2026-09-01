@@ -11,6 +11,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   ASSEMBL_CANON,
   DEMO_EARN,
+  DEMO_RECEIPT_AT,
   DIGITAL_TURQUOISE,
   MASTHEAD,
   nzd,
@@ -194,6 +195,16 @@ export function EarnEventHome() {
 
             <aside className="eeh-stage" aria-label="Loyalty journey on the phone">
               <div className="eeh-fg-blur" aria-hidden="true" />
+              {/* HTML FG pods — Three.js field sits behind the phone; these cross in front. */}
+              <svg className="eeh-fg-pod eeh-fg-pod-a" viewBox="0 0 80 80" aria-hidden="true">
+                <polygon points="40,4 72,40 40,76 8,40" />
+              </svg>
+              <svg className="eeh-fg-pod eeh-fg-pod-b" viewBox="0 0 80 80" aria-hidden="true">
+                <polygon points="40,6 70,40 40,74 10,40" />
+              </svg>
+              <svg className="eeh-fg-pod eeh-fg-pod-c" viewBox="0 0 80 80" aria-hidden="true">
+                <polygon points="40,8 68,40 40,72 12,40" />
+              </svg>
               <div
                 className="eeh-phone"
                 data-beat={beat}
@@ -207,8 +218,8 @@ export function EarnEventHome() {
                 <ol className="eeh-stepper" aria-label="Loyalty process">
                   {STEPS.map((s) => (
                     <li key={s.id} data-on={beat === s.id || undefined}>
-                      <em>{s.n}</em>
-                      <span>{s.label}</span>
+                      <span className="eeh-step-n">{s.n}</span>
+                      <span className="eeh-step-label">{s.label}</span>
                     </li>
                   ))}
                 </ol>
@@ -259,7 +270,7 @@ export function EarnEventHome() {
                       <dl className="eeh-evidence eeh-evidence-lock">
                         <div>
                           <dt>moment</dt>
-                          <dd>2 May 2025, 9:41pm</dd>
+                          <dd>{DEMO_RECEIPT_AT}</dd>
                         </div>
                         <div>
                           <dt>earned</dt>

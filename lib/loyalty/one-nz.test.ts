@@ -28,7 +28,9 @@ describe('one-nz loyalty tokens', () => {
     expect(EVIDENCE_SPLIT.reduce((s, r) => s + r.pct, 0)).toBe(100);
   });
 
-  it('formats NZD for Phone Dollars', () => {
-    expect(nzd(2.75)).toMatch(/\$2\.75/);
+  it('uses a fresh Mana Receipt demo timestamp (Sep 2026)', async () => {
+    const { DEMO_RECEIPT_AT } = await import('./one-nz');
+    expect(DEMO_RECEIPT_AT).toMatch(/Sep 2026/);
+    expect(DEMO_RECEIPT_AT).not.toMatch(/2025/);
   });
 });
