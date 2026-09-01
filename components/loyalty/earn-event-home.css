@@ -202,6 +202,7 @@
 .eeh-beat-note {
   margin: 0 0 1.5rem;
   max-width: 32ch;
+  animation: eeh-beat-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .eeh-beat-note span {
