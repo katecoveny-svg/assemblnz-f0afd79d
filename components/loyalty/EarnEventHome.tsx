@@ -137,7 +137,7 @@ export function EarnEventHome() {
   return (
     <div className="eeh" style={THEME}>
       <div className="eeh-atmosphere" aria-hidden="true">
-        <FacetedField className="eeh-field" accent={false} />
+        <FacetedField className="eeh-field" accent />
         <span className="eeh-aotearoa eeh-aotearoa-a">Aotearoa</span>
         <span className="eeh-aotearoa eeh-aotearoa-b">Aotearoa</span>
       </div>

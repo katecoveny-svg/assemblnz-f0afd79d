@@ -448,32 +448,36 @@
 }
 
 .eeh-fg-pod-a {
-  width: 140px;
-  height: 140px;
-  left: 8%;
-  bottom: 12%;
-  opacity: 0.95;
-  filter: blur(0.4px);
+  /* Cross left edge of phone — phone sits flex-end in stage */
+  width: 132px;
+  height: 132px;
+  left: auto;
+  right: 58%;
+  bottom: 22%;
+  opacity: 0.96;
+  filter: blur(0.35px);
   transform: rotate(-18deg);
 }
 
 .eeh-fg-pod-b {
-  width: 96px;
-  height: 96px;
-  right: 18%;
-  top: 16%;
-  opacity: 0.85;
-  filter: blur(2.8px);
+  width: 92px;
+  height: 92px;
+  left: auto;
+  right: 14%;
+  top: 28%;
+  opacity: 0.88;
+  filter: blur(2.4px);
   transform: rotate(22deg);
 }
 
 .eeh-fg-pod-c {
-  width: 168px;
-  height: 168px;
-  right: 2%;
-  bottom: 2%;
-  opacity: 0.78;
-  filter: blur(6px);
+  width: 156px;
+  height: 156px;
+  left: auto;
+  right: 4%;
+  bottom: 6%;
+  opacity: 0.82;
+  filter: blur(5.5px);
   transform: rotate(8deg);
 }
 
