@@ -162,6 +162,7 @@
 .onz-hero-copy h1 {
   margin: 0 0 1.15rem;
   max-width: 11ch;
+  color: rgba(255, 253, 251, 0.92);
   font: 500 clamp(1.9rem, 3.8vw, 2.9rem) / 1.02 var(--font-display), sans-serif;
   letter-spacing: -0.04em;
 }
@@ -942,10 +943,9 @@
   .onz-phone-body {
     animation: none;
   }
-}
+
   .onz-wait-dot::before,
   .onz-wait-dot::after {
-    animation: none;
     opacity: 0.35;
   }
 
