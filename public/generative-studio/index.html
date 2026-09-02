@@ -906,10 +906,7 @@ const state = {
   // canvas fell straight back to "press render to generate" on any failure, so
   // a broken model service and a button that was never pressed looked identical.
   aiError: null,
-  aiModel: 'pollinations', // 'pollinations' | 'playground' | 'flux' | 'assembl' (our LoRA)
-  aiLoraUrl: 'https://v3b.fal.media/files/b/0aa6cb09/LUqvU7BMFwqsVDl4Cx-Q5_pytorch_lora_weights.safetensors',
-  aiLoraTrigger: 'asmbst',
-  aiLoraScale: 0.85,
+  aiModel: 'pollinations',
   aiFinish: 'none', // 'none' | 'plum-chrome' | 'rose-void' | 'noir-gold' | 'porcelain-quartz'
   // iphone live screen text
   iphoneText: 'mahi that earns its proof',
@@ -3771,24 +3768,6 @@ async function generateAiImage(){
   const styleSuffix = ', deep plum #240B21 and muted rose #B76E79 palette, premium gallery lighting, clean minimal composition, photorealistic, 8k';
   const fullPrompt = state.aiPrompt + styleSuffix;
   try{
-    if(state.aiModel === 'assembl'){
-      // the trained assembl LoRA via the worker proxy — no key in the browser
-      const res = await fetch('https://assembl-lora-proxy.assembl-studio.workers.dev', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: fullPrompt, image_size: 'square_hd' })
-      });
-      if(!res.ok) throw new Error(`The assembl LoRA proxy answered ${res.status}. The Cloudflare Worker at assembl-lora-proxy may not be deployed. Try one of the other models.`);
-      const data = await res.json();
-      const url = data.images[0].url;
-      const imgEl = await new Promise((res2, rej)=>{ const im = new Image(); im.crossOrigin='anonymous'; im.onload=()=>res2(im); im.onerror=rej; im.src=url; });
-      const pg = createGraphics(imgEl.width || 1024, imgEl.height || 1024);
-      pg.pixelDensity(1);
-      pg.drawingContext.drawImage(imgEl, 0, 0);
-      state.aiImage = pg;
-      state.aiLoading = false;
-      return;
-    }
     // puter.js — free unlimited image generation, no key needed.
     // It is a third-party script from js.puter.com. If that host is blocked,
     // offline, or has changed its API, `puter` is simply not on the window and
@@ -6675,7 +6654,7 @@ function buildParams(){
   ];
   if(state.engine==='airender') defs = [
     {type:'text', label:'prompt', key:'aiPrompt', max:200},
-    {type:'seg', label:'model', key:'aiModel', opts:['pollinations','playground','flux','assembl']},
+    {type:'seg', label:'model', key:'aiModel', opts:['pollinations','playground','flux']},
     {type:'seg', label:'finish', key:'aiFinish', opts:['none','plum-chrome','rose-void','noir-gold','porcelain-quartz']},
     {type:'action', label:'render', fn: generateAiImage},
   ];
