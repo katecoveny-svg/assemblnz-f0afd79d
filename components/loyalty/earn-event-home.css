@@ -89,6 +89,15 @@
   color: var(--eeh-paper);
 }
 
+.eeh-header nav a.eeh-operator {
+  color: rgba(245, 241, 242, 0.38);
+}
+
+.eeh-header nav a.eeh-operator:hover,
+.eeh-header nav a.eeh-operator:focus-visible {
+  color: var(--eeh-heather);
+}
+
 .eeh-header a:focus-visible,
 .eeh-cta-primary:focus-visible,
 .eeh-cta-ghost:focus-visible {

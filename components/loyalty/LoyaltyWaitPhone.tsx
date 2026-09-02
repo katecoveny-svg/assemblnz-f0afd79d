@@ -1,12 +1,13 @@
 'use client';
 
 /**
- * Real-device loyalty phone — Assembl homepage wait→earn narrative.
+ * Real-device loyalty phone — Assembl homepage wait→earn.
  * Paper/chalk canvas, plum bezel, heather accent. No One NZ packaging.
- * Scroll/beat-driven; not a FAQ chat.
+ * Scroll advances the spine; chips + composer drive loyalty-wait replies locally
+ * (always succeed — no FAQ /api dependency).
  */
 
-import type { CSSProperties } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import { ASSEMBL_CANON } from '@/lib/loyalty/one-nz';
 
 export type LoyaltyBeat = 'wait' | 'earn' | 'evidence';
@@ -17,9 +18,19 @@ const STEPS: { id: LoyaltyBeat; n: string; label: string }[] = [
   { id: 'evidence', n: '03', label: 'evidence' },
 ];
 
+/** Loyalty-wait chips only — never generic “what is assembl” FAQ. */
+const CHIPS = [
+  'How does the wait earn?',
+  'Show the Mana Receipt',
+  'Who reviews the credit?',
+] as const;
+
+type Msg = { role: 'user' | 'assistant'; content: string };
+
 type Props = {
   beat: LoyaltyBeat;
-  /** 0–1 scroll progress — drives earn counter. */
+  /** Parent can jump beat when a chip asks for earn/evidence. */
+  onBeatRequest?: (beat: LoyaltyBeat) => void;
   progress?: number;
   reduced?: boolean;
 };
@@ -33,9 +44,77 @@ function creditForProgress(p: number): string {
   });
 }
 
-export function LoyaltyWaitPhone({ beat, progress = 0, reduced = false }: Props) {
+/** Grounded loyalty-wait replies — Assembl-general, no client packaging. */
+function replyFor(ask: string): { text: string; beat?: LoyaltyBeat } {
+  const q = ask.toLowerCase();
+  if (q.includes('mana') || q.includes('receipt') || q.includes('evidence') || q.includes('proof')) {
+    return {
+      beat: 'evidence',
+      text: 'Mana Receipt locks the wait, the credit, permission, and the named human who reviews it — proof you can keep.',
+    };
+  }
+  if (q.includes('review') || q.includes('human') || q.includes('who')) {
+    return {
+      beat: 'evidence',
+      text: 'A named person in loyalty ops reviews before anything settles. Nothing sends without that human yes.',
+    };
+  }
+  if (q.includes('earn') || q.includes('credit') || q.includes('stamp') || q.includes('wallet')) {
+    return {
+      beat: 'earn',
+      text: 'While the wait is still happening, credit stamps into the wallet — permissioned, reversible, visible.',
+    };
+  }
+  if (q.includes('wait') || q.includes('detect') || q.includes('hold') || q.includes('activat')) {
+    return {
+      beat: 'wait',
+      text: 'We detect a real wait — hold, activation, review — and start the earn the moment it begins. No invented delay.',
+    };
+  }
+  return {
+    text: 'Ask about the wait, the earn, or the Mana Receipt — detect · activate · credit, with a named human on the record.',
+  };
+}
+
+export function LoyaltyWaitPhone({
+  beat,
+  onBeatRequest,
+  progress = 0,
+  reduced = false,
+}: Props) {
   const earned = reduced || beat !== 'wait' ? '$2.75' : creditForProgress(progress);
   const stamped = beat === 'evidence' || (reduced && beat !== 'wait');
+  const [messages, setMessages] = useState<Msg[]>([]);
+  const [draft, setDraft] = useState('');
+  const [busy, setBusy] = useState(false);
+  const streamRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = streamRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages, busy, beat]);
+
+  const send = useCallback(
+    (raw: string) => {
+      const clean = raw.trim();
+      if (!clean || busy) return;
+      setBusy(true);
+      setDraft('');
+      setMessages((m) => [...m, { role: 'user', content: clean }]);
+      const { text, beat: next } = replyFor(clean);
+      window.setTimeout(() => {
+        if (next) onBeatRequest?.(next);
+        setMessages((m) => [...m, { role: 'assistant', content: text }]);
+        setBusy(false);
+      }, reduced ? 0 : 420);
+    },
+    [busy, onBeatRequest, reduced],
+  );
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    send(draft);
+  };
 
   return (
     <div
@@ -141,6 +220,51 @@ export function LoyaltyWaitPhone({ beat, progress = 0, reduced = false }: Props)
             </>
           )}
         </div>
+
+        {messages.length > 0 && (
+          <div className="lwp-thread" ref={streamRef} aria-live="polite">
+            {messages.map((m, i) => (
+              <p key={i} className={`lwp-msg lwp-${m.role}`}>
+                {m.content}
+              </p>
+            ))}
+            {busy && (
+              <p className="lwp-msg lwp-assistant lwp-typing" aria-label="Preparing a reply">
+                <span />
+                <span />
+                <span />
+              </p>
+            )}
+          </div>
+        )}
+
+        {messages.length === 0 && !busy && (
+          <div className="lwp-chips" role="group" aria-label="Loyalty wait questions">
+            {CHIPS.map((c) => (
+              <button key={c} type="button" className="lwp-chip" onClick={() => send(c)}>
+                {c}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <form className="lwp-composer" onSubmit={onSubmit}>
+          <label className="sr-only" htmlFor="lwp-ask">
+            Ask about the loyalty wait
+          </label>
+          <input
+            id="lwp-ask"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder="Ask about wait → earn…"
+            maxLength={280}
+            autoComplete="off"
+            disabled={busy}
+          />
+          <button type="submit" disabled={busy || !draft.trim()} aria-label="Send">
+            <b aria-hidden="true">↑</b>
+          </button>
+        </form>
 
         <div className="lwp-homebar" aria-hidden="true" />
       </div>

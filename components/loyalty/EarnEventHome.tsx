@@ -60,6 +60,7 @@ export function EarnEventHome() {
   const [beat, setBeat] = useState<Beat>('wait');
   const [progress, setProgress] = useState(0);
   const [reduced, setReduced] = useState(false);
+  const holdBeatUntil = useRef(0);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -83,12 +84,12 @@ export function EarnEventHome() {
       const total = el.offsetHeight - window.innerHeight;
       if (total <= 0) {
         setProgress(0);
-        setBeat('wait');
+        if (Date.now() > holdBeatUntil.current) setBeat('wait');
         return;
       }
       const p = Math.min(1, Math.max(0, -rect.top / total));
       setProgress(p);
-      setBeat(beatFromProgress(p));
+      if (Date.now() > holdBeatUntil.current) setBeat(beatFromProgress(p));
     };
 
     onScroll();
@@ -99,6 +100,14 @@ export function EarnEventHome() {
       window.removeEventListener('resize', onScroll);
     };
   }, [reduced]);
+
+  const requestBeat = (next: Beat) => {
+    holdBeatUntil.current = Date.now() + 4200;
+    setBeat(next);
+    if (next === 'wait') setProgress(0.12);
+    if (next === 'earn') setProgress(0.5);
+    if (next === 'evidence') setProgress(0.9);
+  };
 
   const beatMeta = BEAT_COPY[beat];
 
@@ -113,11 +122,15 @@ export function EarnEventHome() {
           assembl.
         </Link>
         <nav aria-label="Primary">
+          <Link href="/generative-studio">Generative studio</Link>
           <Link href="/journeys/one-nz">client demo</Link>
           <Link href="/contact">book</Link>
           <a href="mailto:assembl@assembl.co.nz?subject=Agentic%20loyalty%20working%20session">
             contact
           </a>
+          <Link className="eeh-operator" href="/admin/login" rel="nofollow">
+            Operator
+          </Link>
         </nav>
       </header>
 
@@ -172,7 +185,12 @@ export function EarnEventHome() {
               </svg>
 
               <div className="eeh-phone-host" data-beat={beat}>
-                <LoyaltyWaitPhone beat={beat} progress={progress} reduced={reduced} />
+                <LoyaltyWaitPhone
+                  beat={beat}
+                  progress={progress}
+                  reduced={reduced}
+                  onBeatRequest={requestBeat}
+                />
               </div>
               <div className="eeh-plinth" aria-hidden="true" />
             </aside>
