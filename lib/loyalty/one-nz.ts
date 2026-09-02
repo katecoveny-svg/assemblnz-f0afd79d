@@ -22,9 +22,16 @@ export const ASSEMBL_CANON = {
   paper: '#FFFDFB',
 } as const;
 
-/** Locked positioning spine (Experience Designer / Kate). */
+/** Locked positioning spine (Experience Designer / Kate) — One NZ journey only. */
 export const TWELVE_WORD_ENERGY =
   'assembling turns activation and hold-time waits into phone dollars toward the next upgrade.';
+
+/**
+ * Assembl homepage spine — no client packaging (Kate lock: no One NZ on `/`).
+ * Must stay free of Phone Dollars / One Wallet / upgrade-offer wording.
+ */
+export const ASSEMBL_HOME_SPINE =
+  'assembling turns activation and hold-time waits into earned credit — with proof you can keep.';
 
 export const MASTHEAD = 'the wait is the earn event.';
 
