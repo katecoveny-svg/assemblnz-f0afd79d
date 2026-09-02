@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
-import { EarnEventHome } from '@/components/loyalty/EarnEventHome';
-import { MASTHEAD, TWELVE_WORD_ENERGY } from '@/lib/loyalty/one-nz';
+import { ActiveJourneyHome } from '@/components/site/ActiveJourneyHome';
+import './active-journey-home.css';
 
 export const metadata: Metadata = {
-  title: 'the wait is the earn event',
-  description: TWELVE_WORD_ENERGY,
+  title: 'agentic customer journeys that make waiting useful',
+  description:
+    'assembl turns real customer waits into useful, permissioned preparation. Optional rewards and customer-approved knowledge help teams provide more relevant service, with a named person in control.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: `assembl · ${MASTHEAD}`,
-    description: TWELVE_WORD_ENERGY,
+    title: 'assembl | useful agentic customer journeys',
+    description:
+      'Turn real customer waits into useful preparation, optional value and more relevant service, with the customer and a named person in control.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -16,11 +18,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `assembl · ${MASTHEAD}`,
-    description: TWELVE_WORD_ENERGY,
+    title: 'assembl | useful agentic customer journeys',
+    description:
+      'Turn real customer waits into useful preparation, optional value and more relevant service, with the customer and a named person in control.',
   },
 };
 
 export default function HomePage() {
-  return <EarnEventHome />;
+  return <ActiveJourneyHome />;
 }
