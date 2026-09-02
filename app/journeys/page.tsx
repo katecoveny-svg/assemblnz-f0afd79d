@@ -57,47 +57,6 @@ export default async function JourneysIndex() {
         </p>
 
         <div style={{ display: 'grid', gap: '1rem', marginTop: '2.5rem' }}>
-          <Link
-            href="/journeys/one-nz"
-            style={{
-              display: 'block',
-              border: '1px solid rgba(0,124,146,0.35)',
-              borderRadius: 20,
-              padding: '1.5rem 1.75rem',
-              textDecoration: 'none',
-              color: 'inherit',
-              background: 'linear-gradient(180deg, #fff, #f3fafb)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-display, Georgia, serif)',
-                  fontSize: '1.5rem',
-                  margin: 0,
-                }}
-              >
-                One NZ · the wait is the earn event
-              </h2>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono, monospace)',
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  color: '#007C92',
-                  alignSelf: 'center',
-                }}
-              >
-                primary demo
-              </span>
-            </div>
-            <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
-              Agentic loyalty concept — Phone Dollars, One Wallet, Mana Receipts. Independent
-              concept; not a current One NZ offer.
-            </p>
-          </Link>
-
           {journeys.map((j) => (
             <Link
               key={j.id}
