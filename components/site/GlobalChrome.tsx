@@ -28,6 +28,10 @@ const CINEMATIC_PATHS = new Set(['/', '/pricing', '/agents', '/about', '/pilots'
 const isEditorialHome = (pathname: string | null): boolean =>
   !!pathname && CINEMATIC_PATHS.has(pathname);
 
+/** Immersive journey demos that ship their own frame (no global V2 chrome). */
+const isImmersiveJourney = (pathname: string | null): boolean =>
+  pathname === '/journeys/one-nz';
+
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
  * rendered on every marketing page so the frame stops changing as you move
@@ -53,7 +57,8 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isStudio(pathname) ||
     isBuildAnAgent(pathname) ||
     isLab(pathname) ||
-    isEditorialHome(pathname)
+    isEditorialHome(pathname) ||
+    isImmersiveJourney(pathname)
   );
 }
 

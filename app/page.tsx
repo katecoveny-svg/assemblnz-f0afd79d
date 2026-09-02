@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
-import { ActiveJourneyHome } from '@/components/site/ActiveJourneyHome';
-import './active-journey-home.css';
+import { WaitEarnHome } from '@/components/site/WaitEarnHome';
+import './wait-earn-home.css';
 
 export const metadata: Metadata = {
-  title: 'agentic customer journeys that make waiting useful',
+  title: 'the wait is the earn event',
   description:
-    'assembl turns real customer waits into useful, permissioned preparation. Optional rewards and customer-approved knowledge help teams provide more relevant service, with a named person in control.',
+    'assembl turns real customer waits into permissioned earn moments — NZ-first loyalty where the wait is the earn event.',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'assembl | useful agentic customer journeys',
+    title: 'assembl · the wait is the earn event',
     description:
-      'Turn real customer waits into useful preparation, optional value and more relevant service, with the customer and a named person in control.',
+      'While a real process runs, the customer earns value for one useful action — with proof that locks last.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl | useful agentic customer journeys',
+    title: 'assembl · the wait is the earn event',
     description:
-      'Turn real customer waits into useful preparation, optional value and more relevant service, with the customer and a named person in control.',
+      'While a real process runs, the customer earns value for one useful action — with proof that locks last.',
   },
 };
 
 export default function HomePage() {
-  return <ActiveJourneyHome />;
+  return <WaitEarnHome />;
 }
