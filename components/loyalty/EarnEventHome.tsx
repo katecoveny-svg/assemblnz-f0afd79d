@@ -166,6 +166,12 @@ export function EarnEventHome() {
                 </Link>
               </div>
 
+              <a className="eeh-studio-promo" href="/generative-studio">
+                <strong>Describe it. Watch it assembl.</strong>
+                <small>Generative studio · 40 engines · one brand</small>
+                <i aria-hidden="true">↗</i>
+              </a>
+
               <div className="eeh-scroll-meter" aria-hidden="true">
                 <i style={{ transform: `scaleX(${progress})` }} />
               </div>
@@ -203,6 +209,12 @@ export function EarnEventHome() {
           <strong>assembl</strong>
           <span>experience design · loyalty strategy · product design</span>
         </div>
+        <nav className="eeh-footer-nav" aria-label="Site tools">
+          <a href="/generative-studio">Generative studio</a>
+          <Link href="/admin/login" rel="nofollow">
+            Operator login
+          </Link>
+        </nav>
         <span className="eeh-footer-place">preview · not production</span>
       </footer>
     </div>
