@@ -78,6 +78,12 @@ const nextConfig: NextConfig = {
       // Also note it is NOT at /studio — that path is the koro agent-builder.
       { source: '/generative-studio', destination: '/generative-studio/index.html', permanent: false },
 
+      // Soft-deprecate any worlds/onenz outreach destination — loyalty demo
+      // lives at /journeys/one-nz (preview, 2026-09).
+      { source: '/worlds/onenz', destination: '/journeys/one-nz', permanent: false },
+      { source: '/worlds/one-nz', destination: '/journeys/one-nz', permanent: false },
+      { source: '/worlds/onenz/:path*', destination: '/journeys/one-nz', permanent: false },
+
       // ── Editorial gallery rebuild (2026-07-20): `/` renders the editorial
       // hero + walkable gallery. The 2026-07-20 302 to /build-an-agent is
       // removed on this branch — the interactive builder still lives at
