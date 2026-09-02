@@ -28,6 +28,10 @@ const CINEMATIC_PATHS = new Set(['/', '/pricing', '/agents', '/about', '/pilots'
 const isEditorialHome = (pathname: string | null): boolean =>
   !!pathname && CINEMATIC_PATHS.has(pathname);
 
+/** Loyalty journey demonstrators ship their own plum chrome. */
+const isLoyaltyJourney = (pathname: string | null): boolean =>
+  !!pathname && (pathname === '/journeys/one-nz' || pathname.startsWith('/journeys/one-nz/'));
+
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
  * rendered on every marketing page so the frame stops changing as you move
@@ -53,7 +57,8 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isStudio(pathname) ||
     isBuildAnAgent(pathname) ||
     isLab(pathname) ||
-    isEditorialHome(pathname)
+    isEditorialHome(pathname) ||
+    isLoyaltyJourney(pathname)
   );
 }
 
