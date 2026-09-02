@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { LoyaltyWaitPhone, type LoyaltyBeat } from '@/components/loyalty/LoyaltyWaitPhone';
-import { ASSEMBL_CANON, MASTHEAD } from '@/lib/loyalty/one-nz';
+import { ASSEMBL_CANON, ASSEMBL_HOME_SPINE, MASTHEAD } from '@/lib/loyalty/one-nz';
 import './loyalty-wait-phone.css';
 import './earn-event-home.css';
 
@@ -22,8 +22,7 @@ const FacetedField = dynamic(
 type Beat = LoyaltyBeat;
 
 /** Assembl-general spine — no client packaging. */
-const SPINE_LINE =
-  'assembling turns activation and hold-time waits into earned credit — with proof you can keep.';
+const SPINE_LINE = ASSEMBL_HOME_SPINE;
 
 const BEAT_COPY: Record<Beat, { kicker: string; line: string }> = {
   wait: {

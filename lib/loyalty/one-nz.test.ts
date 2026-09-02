@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  ASSEMBL_HOME_SPINE,
   DEMO_RECEIPT_AT,
   DIGITAL_TURQUOISE,
   EVIDENCE_SPLIT,
@@ -22,6 +23,13 @@ describe('one-nz loyalty tokens', () => {
     expect(MASTHEAD).toBe('the wait is the earn event.');
     expect(TWELVE_WORD_ENERGY).toContain('activation and hold-time waits');
     expect(TWELVE_WORD_ENERGY).toContain('phone dollars toward the next upgrade');
+  });
+
+  it('keeps Assembl homepage spine free of One NZ packaging', () => {
+    expect(ASSEMBL_HOME_SPINE).toContain('earned credit');
+    expect(ASSEMBL_HOME_SPINE).not.toMatch(/phone dollars/i);
+    expect(ASSEMBL_HOME_SPINE).not.toMatch(/one wallet/i);
+    expect(ASSEMBL_HOME_SPINE).not.toMatch(/one nz/i);
   });
 
   it('keeps 55/30/15 evidence composition', () => {

@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import { EarnEventHome } from '@/components/loyalty/EarnEventHome';
-import { MASTHEAD, TWELVE_WORD_ENERGY } from '@/lib/loyalty/one-nz';
+import { ASSEMBL_HOME_SPINE, MASTHEAD } from '@/lib/loyalty/one-nz';
 
 export const metadata: Metadata = {
   title: 'the wait is the earn event',
-  description: TWELVE_WORD_ENERGY,
+  description: ASSEMBL_HOME_SPINE,
   alternates: { canonical: '/' },
   openGraph: {
     title: `assembl · ${MASTHEAD}`,
-    description: TWELVE_WORD_ENERGY,
+    description: ASSEMBL_HOME_SPINE,
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `assembl · ${MASTHEAD}`,
-    description: TWELVE_WORD_ENERGY,
+    description: ASSEMBL_HOME_SPINE,
   },
 };
 

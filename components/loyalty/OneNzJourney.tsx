@@ -81,14 +81,20 @@ export function OneNzJourney() {
     let current = 0;
     const target = DEMO_EARN.thisWait;
     const step = target / 16;
+    let cancelled = false;
+    let evidenceTimer: number | undefined;
 
-    const earnTimer = window.setTimeout(() => setBeat('earn'), 1400);
+    const earnTimer = window.setTimeout(() => {
+      if (!cancelled) setBeat('earn');
+    }, 1400);
     const id = window.setInterval(() => {
+      if (cancelled) return;
       current = Math.min(target, current + step);
       setEarned(Number(current.toFixed(2)));
       if (current >= target) {
         window.clearInterval(id);
-        window.setTimeout(() => {
+        evidenceTimer = window.setTimeout(() => {
+          if (cancelled) return;
           setStamped(true);
           setBeat('evidence');
         }, 500);
@@ -96,8 +102,10 @@ export function OneNzJourney() {
     }, 140);
 
     return () => {
+      cancelled = true;
       window.clearInterval(id);
       window.clearTimeout(earnTimer);
+      if (evidenceTimer !== undefined) window.clearTimeout(evidenceTimer);
     };
   }, [trigger, reduced, scrollDriven]);
 
