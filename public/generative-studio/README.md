@@ -17,14 +17,6 @@ serve it at `/studio-dist/`.
 | `index.html` | The whole studio — engines, palettes, exports, the iPhone renderer |
 | `three.min.js` | Loaded locally by `index.html` for the 3D engines |
 
-## What is deliberately not here
-
-`lora-dataset.zip` (3.8MB of training PNGs) shipped in the original folder but
-is **never referenced by `index.html`**. It was a leftover in the deploy
-directory, not a runtime dependency, so publishing it would have put the
-training images on a public URL for no functional gain. If the studio ever needs
-it, add it back knowingly rather than by inheritance.
-
 ## External dependencies
 
 `index.html` loads three scripts from third-party CDNs at runtime:
