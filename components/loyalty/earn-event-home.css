@@ -159,7 +159,7 @@
 .eeh-mono-line {
   margin: 0 0 1.35rem;
   max-width: 42ch;
-  color: rgba(245, 241, 242, 0.42);
+  color: rgba(245, 241, 242, 0.62);
   font: 400 0.72rem/1.55 var(--font-mono), monospace;
   letter-spacing: 0.01em;
 }
@@ -364,7 +364,7 @@
   stroke-width: 1.2;
 }
 
-/* —— Live agent chat phone (HomeGuidePhone) —— */
+/* —— Loyalty wait phone (real handset, not FAQ chat) —— */
 .eeh-phone-host {
   position: relative;
   z-index: 2;
@@ -373,44 +373,8 @@
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.eeh-phone-host .aj-phone {
-  width: min(100%, 318px);
-  height: 620px;
-  padding: 34px 16px 14px;
-  margin: 0;
+.eeh-phone-host .lwp {
   transform: rotate(1.5deg);
-  border: 5px solid var(--eeh-heather);
-  border-radius: 44px;
-  background: var(--eeh-paper);
-  color: var(--eeh-plum);
-  box-shadow:
-    0 50px 110px rgba(0, 0, 0, 0.55),
-    0 0 58px rgba(145, 106, 112, 0.35);
-  display: flex;
-  flex-direction: column;
-}
-
-.eeh-phone-host .aj-phone > i {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  width: 78px;
-  height: 18px;
-  border-radius: 99px;
-  background: var(--eeh-plum);
-  transform: translateX(-50%);
-}
-
-.eeh-phone-host .hg-stream {
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.eeh-phone-host .hg-input input:focus-visible,
-.eeh-phone-host .hg-modes button:focus-visible,
-.eeh-phone-host .hg-chip:focus-visible {
-  outline: 2px solid var(--eeh-heather);
-  outline-offset: 2px;
 }
 
 .eeh-plinth {
@@ -550,6 +514,12 @@
 
   .eeh-phone-host {
     margin-right: 0;
+  }
+
+  .eeh-phone-host .lwp {
+    transform: none;
+    width: min(100%, 300px);
+    height: 580px;
   }
 
   .eeh-fg-blur,

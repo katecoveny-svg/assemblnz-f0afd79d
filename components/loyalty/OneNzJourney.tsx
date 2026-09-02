@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * One NZ agentic loyalty journey — craft-matched to the atmospheric homepage.
- * Spine: wait → earn → evidence. Accent locked #007C92.
+ * One NZ agentic loyalty journey — real bright phone + #007C92 chrome only.
+ * Plum stage OK; phone interior chalk/paper. One NZ packaging only here.
  * Never life-admin labels (SAY IT / THE ASK / ASSEMBL'D).
  */
 
@@ -73,7 +73,6 @@ export function OneNzJourney() {
       return;
     }
 
-    // Auto timeline until the visitor scrolls — then scroll owns the beat.
     if (scrollDriven) return;
 
     setBeat('wait');
@@ -167,7 +166,7 @@ export function OneNzJourney() {
             </ul>
           </div>
 
-          <aside className="onz-live" id="onz-live" aria-label="Live loyalty phone">
+          <aside className="onz-live" id="onz-live" aria-label="One NZ loyalty phone">
             <div className="onz-fg-blur" aria-hidden="true" />
             <svg className="onz-fg-pod onz-fg-pod-a" viewBox="0 0 80 80" aria-hidden="true">
               <polygon points="40,4 72,40 40,76 8,40" />
@@ -178,88 +177,109 @@ export function OneNzJourney() {
             <svg className="onz-fg-pod onz-fg-pod-c" viewBox="0 0 80 80" aria-hidden="true">
               <polygon points="40,8 68,40 40,72 12,40" />
             </svg>
-            <div className="onz-phone" data-beat={beat} style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}>
-              <div className="onz-phone-chrome">
-                <span>one.nz</span>
-                <span className="onz-how">how it works</span>
-              </div>
 
-              <ol className="onz-stepper" aria-label="Loyalty process">
-                {STEPS.map((s) => (
-                  <li key={s.id} data-on={beat === s.id || undefined}>
-                    <span className="onz-step-n">{s.n}</span>
-                    <span className="onz-step-label">{s.label}</span>
-                  </li>
-                ))}
-              </ol>
+            <div
+              className="onz-phone"
+              data-beat={beat}
+              style={{ ['--po-client-color' as string]: DIGITAL_TURQUOISE }}
+            >
+              <div className="onz-phone-frame">
+                <i className="onz-island" aria-hidden="true" />
+                <span className="onz-status" aria-hidden="true">
+                  <em>9:41</em>
+                  <b />
+                </span>
 
-              <div className="onz-phone-body">
-                {beat === 'wait' && (
-                  <>
-                    <p className="onz-raw">{active.label} in progress — you&rsquo;re in a wait moment</p>
-                    <div className="onz-wait-dot" aria-hidden="true">
-                      <i />
-                    </div>
-                    <p className="onz-accent-line">detect · activate · credit</p>
-                    <p className="onz-quiet">Earning Phone Dollars… Thanks for waiting with One NZ</p>
-                  </>
-                )}
+                <div className="onz-screen">
+                  <div className="onz-client-stripe">
+                    <span>one.nz</span>
+                    <span className="onz-how">how it works</span>
+                  </div>
 
-                {beat === 'earn' && (
-                  <>
-                    <p className="onz-transform">↓ becomes phone dollars</p>
-                    <dl className="onz-kv">
-                      <div>
-                        <dt>wait</dt>
-                        <dd>
-                          {active.label} · {active.dwell}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>this wait</dt>
-                        <dd>{nzd(earned)}</dd>
-                      </div>
-                      <div>
-                        <dt>stamp</dt>
-                        <dd className={stamped ? 'is-lit' : undefined}>
-                          +{nzd(DEMO_EARN.stamp)} → One Wallet
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>balance</dt>
-                        <dd>{nzd(DEMO_EARN.balance)}</dd>
-                      </div>
-                    </dl>
-                    <p className="onz-quiet">Currency the customer already values.</p>
-                  </>
-                )}
+                  <ol className="onz-stepper" aria-label="Loyalty process">
+                    {STEPS.map((s) => (
+                      <li key={s.id} data-on={beat === s.id || undefined}>
+                        <span className="onz-step-n">{s.n}</span>
+                        <span className="onz-step-label">{s.label}</span>
+                      </li>
+                    ))}
+                  </ol>
 
-                {beat === 'evidence' && (
-                  <>
-                    <p className="onz-transform">↓ mana receipt</p>
-                    <dl className="onz-kv onz-kv-lock">
-                      <div>
-                        <dt>moment</dt>
-                        <dd>
-                          {active.label} · {DEMO_RECEIPT_AT}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>earned</dt>
-                        <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
-                      </div>
-                      <div>
-                        <dt>permission</dt>
-                        <dd>opted in · reversible</dd>
-                      </div>
-                      <div>
-                        <dt>named human</dt>
-                        <dd>Alex R. · loyalty operations</dd>
-                      </div>
-                    </dl>
-                    <p className="onz-quiet">your wait, recorded properly. nothing invented.</p>
-                  </>
-                )}
+                  <div className="onz-phone-body" key={`${beat}-${trigger}`}>
+                    {beat === 'wait' && (
+                      <>
+                        <p className="onz-raw">
+                          {active.label} in progress — you&rsquo;re in a wait moment
+                        </p>
+                        <div className="onz-wait-dot" aria-hidden="true">
+                          <i />
+                        </div>
+                        <p className="onz-accent-line">detect · activate · credit</p>
+                        <p className="onz-quiet">
+                          Earning Phone Dollars… Thanks for waiting with One NZ
+                        </p>
+                      </>
+                    )}
+
+                    {beat === 'earn' && (
+                      <>
+                        <p className="onz-transform">↓ becomes phone dollars</p>
+                        <dl className="onz-kv">
+                          <div>
+                            <dt>wait</dt>
+                            <dd>
+                              {active.label} · {active.dwell}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>this wait</dt>
+                            <dd>{nzd(earned)}</dd>
+                          </div>
+                          <div>
+                            <dt>stamp</dt>
+                            <dd className={stamped ? 'is-lit' : undefined}>
+                              +{nzd(DEMO_EARN.stamp)} → One Wallet
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>balance</dt>
+                            <dd>{nzd(DEMO_EARN.balance)}</dd>
+                          </div>
+                        </dl>
+                        <p className="onz-quiet">Currency the customer already values.</p>
+                      </>
+                    )}
+
+                    {beat === 'evidence' && (
+                      <>
+                        <p className="onz-transform">↓ mana receipt</p>
+                        <dl className="onz-kv onz-kv-lock">
+                          <div>
+                            <dt>moment</dt>
+                            <dd>
+                              {active.label} · {DEMO_RECEIPT_AT}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>earned</dt>
+                            <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
+                          </div>
+                          <div>
+                            <dt>permission</dt>
+                            <dd>opted in · reversible</dd>
+                          </div>
+                          <div>
+                            <dt>named human</dt>
+                            <dd>Alex R. · loyalty operations</dd>
+                          </div>
+                        </dl>
+                        <p className="onz-quiet">your wait, recorded properly. nothing invented.</p>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="onz-homebar" aria-hidden="true" />
+                </div>
               </div>
             </div>
             <div className="onz-plinth" aria-hidden="true" />
@@ -280,7 +300,10 @@ export function OneNzJourney() {
                 role="tab"
                 aria-selected={trigger === t.id}
                 className={trigger === t.id ? 'is-on' : undefined}
-                onClick={() => setTrigger(t.id)}
+                onClick={() => {
+                  setScrollDriven(false);
+                  setTrigger(t.id);
+                }}
               >
                 {t.label}
                 <em>{t.dwell}</em>

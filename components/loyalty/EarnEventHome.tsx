@@ -1,17 +1,17 @@
 'use client';
 
 /**
- * Assembl loyalty homepage — scroll-pinned cinematic hero + live agent chat phone.
- * Assembl brand only (plum/heather). No One NZ packaging. No Aotearoa watermarks.
- * Phone = HomeGuidePhone (live agent chat from production homepage).
+ * Assembl loyalty homepage — atmospheric plum craft + wait→earn phone.
+ * Assembl brand only. No One NZ packaging. No Aotearoa watermarks.
+ * Phone = loyalty/wait narrative (scroll-tied), not FAQ chat.
  */
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
+import { LoyaltyWaitPhone, type LoyaltyBeat } from '@/components/loyalty/LoyaltyWaitPhone';
 import { ASSEMBL_CANON, MASTHEAD } from '@/lib/loyalty/one-nz';
-import '@/app/active-journey-home.css';
+import './loyalty-wait-phone.css';
 import './earn-event-home.css';
 
 const FacetedField = dynamic(
@@ -19,7 +19,7 @@ const FacetedField = dynamic(
   { ssr: false },
 );
 
-type Beat = 'wait' | 'earn' | 'evidence';
+type Beat = LoyaltyBeat;
 
 /** Assembl-general spine — no client packaging. */
 const SPINE_LINE =
@@ -47,13 +47,6 @@ const THEME = {
   '--eeh-chalk': ASSEMBL_CANON.chalk,
   '--eeh-paper': ASSEMBL_CANON.paper,
   '--eeh-accent': ASSEMBL_CANON.heather,
-  '--aj-paper': ASSEMBL_CANON.paper,
-  '--aj-chalk': ASSEMBL_CANON.chalk,
-  '--aj-ink': ASSEMBL_CANON.plum,
-  '--aj-plum': ASSEMBL_CANON.plum,
-  '--aj-plum-muted': ASSEMBL_CANON.mulberry,
-  '--aj-rose': ASSEMBL_CANON.heather,
-  '--aj-plum-soft': ASSEMBL_CANON.mulberry,
 } as CSSProperties;
 
 function beatFromProgress(p: number): Beat {
@@ -120,7 +113,7 @@ export function EarnEventHome() {
           assembl.
         </Link>
         <nav aria-label="Primary">
-          <Link href="/journeys/one-nz">the demo</Link>
+          <Link href="/journeys/one-nz">client demo</Link>
           <Link href="/contact">book</Link>
           <a href="mailto:assembl@assembl.co.nz?subject=Agentic%20loyalty%20working%20session">
             contact
@@ -152,8 +145,8 @@ export function EarnEventHome() {
               </div>
 
               <div className="eeh-ctas">
-                <a className="eeh-cta-primary" href="#live-agent">
-                  talk to a live agent
+                <a className="eeh-cta-primary" href="#loyalty-phone">
+                  watch the wait earn
                 </a>
                 <Link className="eeh-cta-ghost" href="/journeys/one-nz">
                   see a client demo
@@ -163,10 +156,10 @@ export function EarnEventHome() {
               <div className="eeh-scroll-meter" aria-hidden="true">
                 <i style={{ transform: `scaleX(${progress})` }} />
               </div>
-              <p className="eeh-scroll-hint">scroll to advance the wait</p>
+              <p className="eeh-scroll-hint">scroll to advance wait → earn → evidence</p>
             </div>
 
-            <aside className="eeh-stage" id="live-agent" aria-label="Live agent on the phone">
+            <aside className="eeh-stage" id="loyalty-phone" aria-label="Loyalty wait phone">
               <div className="eeh-fg-blur" aria-hidden="true" />
               <svg className="eeh-fg-pod eeh-fg-pod-a" viewBox="0 0 80 80" aria-hidden="true">
                 <polygon points="40,4 72,40 40,76 8,40" />
@@ -179,7 +172,7 @@ export function EarnEventHome() {
               </svg>
 
               <div className="eeh-phone-host" data-beat={beat}>
-                <HomeGuidePhone />
+                <LoyaltyWaitPhone beat={beat} progress={progress} reduced={reduced} />
               </div>
               <div className="eeh-plinth" aria-hidden="true" />
             </aside>

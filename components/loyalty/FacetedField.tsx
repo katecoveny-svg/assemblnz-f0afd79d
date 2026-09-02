@@ -53,7 +53,7 @@ export function FacetedField({
     renderer.setSize(w, h);
     renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = accent ? 1.35 : 1.45;
+    renderer.toneMappingExposure = accent ? 1.55 : 1.45;
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -64,19 +64,19 @@ export function FacetedField({
     const keyColor = accent ? KEY_CLIENT : HEATHER;
     const rimColor = accent ? DEPTH_CLIENT : HEATHER;
 
-    const key = new THREE.DirectionalLight(keyColor, accent ? 2.6 : 2.8);
+    const key = new THREE.DirectionalLight(keyColor, accent ? 2.1 : 2.8);
     key.position.set(5.2, 6.4, 7.2);
     scene.add(key);
 
-    const keySoft = new THREE.DirectionalLight(keyColor, accent ? 0.85 : 0.95);
+    const keySoft = new THREE.DirectionalLight(keyColor, accent ? 0.55 : 0.95);
     keySoft.position.set(1.5, 2.2, 8);
     scene.add(keySoft);
 
-    const fill = new THREE.DirectionalLight(FILL_PLUM, 0.55);
+    const fill = new THREE.DirectionalLight(FILL_PLUM, accent ? 0.85 : 0.55);
     fill.position.set(-6, -1.5, 3);
     scene.add(fill);
 
-    scene.add(new THREE.AmbientLight(AMBIENT_PLUM, 0.55));
+    scene.add(new THREE.AmbientLight(AMBIENT_PLUM, accent ? 0.72 : 0.55));
 
     const rim = new THREE.PointLight(rimColor, accent ? 0.75 : 0.55, 28);
     rim.position.set(-2.4, 3.2, 5);
@@ -153,8 +153,8 @@ export function FacetedField({
     const ctx = c.getContext('2d')!;
     const g = ctx.createRadialGradient(128, 128, 8, 128, 128, 128);
     if (accent) {
-      g.addColorStop(0, 'rgba(0,124,146,0.22)');
-      g.addColorStop(0.4, 'rgba(0,176,202,0.06)');
+      g.addColorStop(0, 'rgba(0,124,146,0.12)');
+      g.addColorStop(0.4, 'rgba(0,176,202,0.04)');
     } else {
       g.addColorStop(0, 'rgba(145,106,112,0.28)');
       g.addColorStop(0.4, 'rgba(101,74,78,0.08)');
