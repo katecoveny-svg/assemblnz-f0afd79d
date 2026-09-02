@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { LoyaltyWaitPhone, type LoyaltyBeat } from '@/components/loyalty/LoyaltyWaitPhone';
+import { showPreviewDeployLabel } from '@/lib/deploy-env';
 import { ASSEMBL_CANON, ASSEMBL_HOME_SPINE, MASTHEAD } from '@/lib/loyalty/one-nz';
 import './loyalty-wait-phone.css';
 import './earn-event-home.css';
@@ -214,7 +215,9 @@ export function EarnEventHome() {
             Operator login
           </Link>
         </nav>
-        <span className="eeh-footer-place">preview · not production</span>
+        {showPreviewDeployLabel() ? (
+          <span className="eeh-footer-place">preview · not production</span>
+        ) : null}
       </footer>
     </div>
   );
