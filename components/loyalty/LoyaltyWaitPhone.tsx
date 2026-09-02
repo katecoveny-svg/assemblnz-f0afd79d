@@ -177,11 +177,11 @@ export function LoyaltyWaitPhone({
                 </div>
                 <div>
                   <dt>stamp</dt>
-                  <dd className={stamped ? 'is-lit' : undefined}>+$0.45 → wallet</dd>
+                  <dd className={stamped ? 'is-lit' : undefined}>+$0.45 to wallet</dd>
                 </div>
                 <div>
                   <dt>spine</dt>
-                  <dd>wait → earn → evidence</dd>
+                  <dd>wait · earn · evidence</dd>
                 </div>
               </dl>
               <p className="lwp-note">Permissioned. Reversible. Named human reviews.</p>
@@ -256,7 +256,7 @@ export function LoyaltyWaitPhone({
             id="lwp-ask"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="Ask about wait → earn…"
+            placeholder="Ask about wait · earn…"
             maxLength={280}
             autoComplete="off"
             disabled={busy}
