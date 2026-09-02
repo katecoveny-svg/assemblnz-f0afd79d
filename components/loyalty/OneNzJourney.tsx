@@ -132,7 +132,6 @@ export function OneNzJourney() {
     <div className="onz" style={THEME}>
       <div className="onz-atmosphere" aria-hidden="true">
         <FacetedField className="onz-field" accent />
-        <span className="onz-aotearoa">Aotearoa</span>
       </div>
 
       <a className="onz-skip" href="#onz-live">

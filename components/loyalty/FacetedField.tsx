@@ -2,8 +2,8 @@
 
 /**
  * Atmospheric plum field — faceted octahedron pods + soft bokeh.
- * Near-black plum bodies lit by ONE accent family `#007C92` (specular on facets).
- * Never salmon / magenta / flat teal wash across the canvas.
+ * Homepage (accent=false): heather/plum light family — Assembl brand only.
+ * Journey (accent=true): `#007C92` key on cool plum bodies — client demonstrator.
  */
 
 import { useEffect, useRef } from 'react';
@@ -17,12 +17,11 @@ type Pod = {
   phase: number;
 };
 
-/** Plum body — lifted so facets catch #007C92 key (was muddy near-black). */
-const POD_BODY = 0x5c4652;
-/** Journey lean — cool plum, not a teal wash. */
-const POD_BODY_JOURNEY = 0x4a5560;
-const KEY_ACCENT = 0x007c92;
-const DEPTH = 0x00b0ca;
+const POD_HOME = 0x5c4652;
+const POD_JOURNEY = 0x4a5560;
+const HEATHER = 0x916a70;
+const KEY_CLIENT = 0x007c92;
+const DEPTH_CLIENT = 0x00b0ca;
 const FILL_PLUM = 0x654a4e;
 const AMBIENT_PLUM = 0x1a1016;
 
@@ -31,11 +30,7 @@ export function FacetedField({
   accent = true,
 }: {
   className?: string;
-  /**
-   * Journey: slightly cooler body + stronger key.
-   * Homepage: same accent light family, quieter body — never muddy grey.
-   * Key/specular always `#007C92`.
-   */
+  /** true = One NZ journey (#007C92). false = Assembl homepage (heather). */
   accent?: boolean;
 }) {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -58,22 +53,22 @@ export function FacetedField({
     renderer.setSize(w, h);
     renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = accent ? 1.35 : 1.55;
+    renderer.toneMappingExposure = accent ? 1.35 : 1.45;
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 80);
     camera.position.set(0, 0.2, 9.2);
 
-    const body = accent ? POD_BODY_JOURNEY : POD_BODY;
+    const body = accent ? POD_JOURNEY : POD_HOME;
+    const keyColor = accent ? KEY_CLIENT : HEATHER;
+    const rimColor = accent ? DEPTH_CLIENT : HEATHER;
 
-    // Single accent light family — `#007C92` key + depth rim. Plum fill only.
-    // Homepage previously underlit (key ~1.05); raise so facets read as sculpture.
-    const key = new THREE.DirectionalLight(KEY_ACCENT, accent ? 2.6 : 3.1);
+    const key = new THREE.DirectionalLight(keyColor, accent ? 2.6 : 2.8);
     key.position.set(5.2, 6.4, 7.2);
     scene.add(key);
 
-    const keySoft = new THREE.DirectionalLight(KEY_ACCENT, accent ? 0.85 : 1.1);
+    const keySoft = new THREE.DirectionalLight(keyColor, accent ? 0.85 : 0.95);
     keySoft.position.set(1.5, 2.2, 8);
     scene.add(keySoft);
 
@@ -83,11 +78,11 @@ export function FacetedField({
 
     scene.add(new THREE.AmbientLight(AMBIENT_PLUM, 0.55));
 
-    const rim = new THREE.PointLight(DEPTH, accent ? 0.75 : 0.7, 28);
+    const rim = new THREE.PointLight(rimColor, accent ? 0.75 : 0.55, 28);
     rim.position.set(-2.4, 3.2, 5);
     scene.add(rim);
 
-    const spark = new THREE.PointLight(KEY_ACCENT, accent ? 1.2 : 1.45, 18);
+    const spark = new THREE.PointLight(keyColor, accent ? 1.2 : 1.0, 18);
     spark.position.set(3.2, 1.4, 4.5);
     scene.add(spark);
 
@@ -97,15 +92,15 @@ export function FacetedField({
       roughness: 0.16,
       metalness: 0.72,
       flatShading: true,
-      emissive: KEY_ACCENT,
-      emissiveIntensity: accent ? 0.08 : 0.12,
+      emissive: keyColor,
+      emissiveIntensity: accent ? 0.08 : 0.1,
     });
     const matMid = new THREE.MeshStandardMaterial({
       color: body,
       roughness: 0.26,
       metalness: 0.55,
       flatShading: true,
-      emissive: KEY_ACCENT,
+      emissive: keyColor,
       emissiveIntensity: 0.05,
     });
     const matSoft = new THREE.MeshStandardMaterial({
@@ -115,12 +110,11 @@ export function FacetedField({
       flatShading: true,
       transparent: true,
       opacity: 0.62,
-      emissive: KEY_ACCENT,
+      emissive: keyColor,
       emissiveIntensity: 0.03,
     });
 
     const pods: Pod[] = [];
-    // x, y, z, scale, speed, soft(bokeh) — some closer to camera for depth layering
     const placements: Array<[number, number, number, number, number, 'sharp' | 'mid' | 'soft']> = [
       [-3.6, 1.8, -2.2, 0.55, 0.18, 'sharp'],
       [3.8, 1.2, -3.4, 0.9, 0.12, 'soft'],
@@ -158,9 +152,13 @@ export function FacetedField({
     c.height = 256;
     const ctx = c.getContext('2d')!;
     const g = ctx.createRadialGradient(128, 128, 8, 128, 128, 128);
-    // Accent glow behind device — restrained, not a field wash
-    g.addColorStop(0, 'rgba(0,124,146,0.22)');
-    g.addColorStop(0.4, 'rgba(0,176,202,0.06)');
+    if (accent) {
+      g.addColorStop(0, 'rgba(0,124,146,0.22)');
+      g.addColorStop(0.4, 'rgba(0,176,202,0.06)');
+    } else {
+      g.addColorStop(0, 'rgba(145,106,112,0.28)');
+      g.addColorStop(0.4, 'rgba(101,74,78,0.08)');
+    }
     g.addColorStop(1, 'rgba(23,15,19,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, 256, 256);
