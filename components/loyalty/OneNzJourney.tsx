@@ -9,6 +9,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useState, type CSSProperties } from 'react';
+import { showPreviewDeployLabel } from '@/lib/deploy-env';
 import {
   ASSEMBL_CANON,
   DEMO_EARN,
@@ -432,7 +433,7 @@ export function OneNzJourney() {
         <Link href="/" className="onz-wordmark-keep">
           ← assembl
         </Link>
-        <span>preview · not production</span>
+        {showPreviewDeployLabel() ? <span>preview · not production</span> : null}
         <span>Made in Aotearoa</span>
       </footer>
     </div>
