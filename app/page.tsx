@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
-import { EarnEventHome } from '@/components/loyalty/EarnEventHome';
-import { ASSEMBL_HOME_SPINE, MASTHEAD } from '@/lib/loyalty/one-nz';
+import { AssemblHomepage } from '@/components/site/AssemblHomepage';
+
+const HOME_DESCRIPTION =
+  'Every customer journey has moments in between. Assembl turns waiting, processing and handoff into useful progress — with specialist agents, human control and proof.';
 
 export const metadata: Metadata = {
-  title: 'the wait is the earn event',
-  description: ASSEMBL_HOME_SPINE,
+  title: 'assembl · active customer journeys',
+  description: HOME_DESCRIPTION,
   alternates: { canonical: '/' },
   openGraph: {
-    title: `assembl · ${MASTHEAD}`,
-    description: ASSEMBL_HOME_SPINE,
+    title: 'assembl · active customer journeys',
+    description: HOME_DESCRIPTION,
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -16,11 +18,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `assembl · ${MASTHEAD}`,
-    description: ASSEMBL_HOME_SPINE,
+    title: 'assembl · active customer journeys',
+    description: HOME_DESCRIPTION,
   },
 };
 
 export default function HomePage() {
-  return <EarnEventHome />;
+  return <AssemblHomepage />;
 }
