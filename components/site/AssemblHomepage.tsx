@@ -7,6 +7,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { prepareVisit, type VisitChoice } from "@/lib/copy/prepared-visit";
 import "./assembl-homepage.css";
+import CinematicJourney from "./CinematicJourney";
 
 const PreparationWorld = dynamic(() => import("./PreparationWorld"), {
   ssr: false,
@@ -88,48 +89,7 @@ export function AssemblHomepage() {
           start with one journey <span>↗</span>
         </button>
       </header>
-      <section className="aw-hero" aria-labelledby="aw-title">
-        <Image
-          src="/images/assembl-preparation-world.webp"
-          alt="A sunlit preparation studio with a paper folio, rose-metal phone and brushed nickel details"
-          fill
-          priority
-          sizes="100vw"
-          className="aw-hero-photo"
-        />
-        <div className="aw-hero-shade" />
-        <div className="aw-hero-copy">
-          <p className="aw-label">customer journeys, assembled</p>
-          <h1 id="aw-title">
-            the next step,
-            <br />
-            <em>already taking shape.</em>
-          </h1>
-          <p className="aw-lead">
-            We design and run agentic customer journeys. Specialist agents
-            prepare the work. Your people stay in control.
-          </p>
-          <p className="aw-hero-detail">
-            From the first enquiry to the final handoff. Less chasing. Less
-            repeating. A clearer way forward.
-          </p>
-          <div className="aw-actions">
-            <a href="#journey" className="aw-button">
-              see a journey assemble <span>↘</span>
-            </a>
-            <a href="#offering" className="aw-text-link">
-              meet assembl
-            </a>
-          </div>
-        </div>
-        <div className="aw-hero-note">
-          <span>physical preparation / an original assembl world</span>
-          <span>one customer. one next step.</span>
-        </div>
-        <a className="aw-hotspot" href="#journey">
-          <span>+</span> step inside the journey
-        </a>
-      </section>
+      <CinematicJourney />
       <section className="aw-intro" id="offering">
         <p className="aw-label">01 / what we do</p>
         <div>

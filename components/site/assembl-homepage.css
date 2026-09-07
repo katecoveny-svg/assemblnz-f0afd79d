@@ -1026,3 +1026,44 @@
     transition: none !important;
   }
 }
+
+/* Scroll-directed opening: native page scroll, horizontal chapter track. */
+.aw-cinema { position: relative; height: 360vh; background: #f5f1f2; }
+.aw-cinema-sticky { position: sticky; top: 0; height: 100svh; min-height: 660px; overflow: hidden; }
+.aw-cinema-world { position: absolute; inset: 0; }
+.aw-cinema-world > img { object-fit: cover; }
+.aw-cinema-world .aw-canvas { height: 100%; border: 0; border-radius: 0; background: transparent; }
+.aw-cinema-world:after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg,#f5f1f2 0%,#f5f1f2eb 26%,#f5f1f280 43%,transparent 62%); }
+.aw-cinema-top { position: absolute; z-index: 2; top: 28px; left: 4.5%; right: 4.5%; display: flex; justify-content: space-between; gap: 20px; font: 13px var(--font-mono),monospace; }
+.aw-cinema-window { position: relative; z-index: 1; height: 100%; pointer-events: none; }
+.aw-cinema-track { height: 100%; display: flex; will-change: transform; }
+.aw-cinema-chapter { flex: 0 0 100%; width: 100%; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 80px 4.5% 105px; }
+.aw-cinema-chapter > * { pointer-events: auto; }
+.aw-cinema-chapter h1,.aw-cinema-chapter h2 { font-size: clamp(56px,6.3vw,104px); max-width: 660px; margin: 25px 0; line-height: .99; letter-spacing: -.065em; }
+.aw-cinema-description { max-width: 440px; font-size: clamp(18px,1.5vw,23px); line-height: 1.5; }
+.aw-cinema-service { max-width: 390px; margin-top: 18px !important; color: #654a4e; }
+.aw-cinema-chapter .aw-button { margin-top: 30px; }
+.aw-cinema-bottom { position: absolute; z-index: 3; bottom: 30px; left: 4.5%; right: 4.5%; display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 14px; }
+.aw-cinema-bottom nav { display: flex; gap: 8px; }
+.aw-cinema-bottom button { border: 1px solid #240b2133; background: #fffdfbcc; color: #240b21; min-width: 46px; min-height: 46px; padding: 10px 15px; border-radius: 30px; }
+.aw-cinema-bottom button[aria-current] { background: #240b21; color: #fffdfb; }
+.aw-cinema-progress { position: absolute; bottom: 0; height: 4px; width: 100%; transform-origin: left; background: #916a70; }
+.aw-cinema-manual { height: auto; }
+.aw-cinema-manual .aw-cinema-sticky { position: relative; }
+@media (max-width: 800px) {
+ .aw-cinema { height: auto; }
+ .aw-cinema-sticky { position: relative; height: 950px; min-height: 950px; }
+ .aw-cinema-top { top: 22px; left: 6%; right: 6%; font-size: 12px; }
+ .aw-cinema-top > span { max-width: 140px; }
+ .aw-cinema-top > a { max-width: 130px; text-align: right; }
+ .aw-cinema-chapter { justify-content: flex-start; padding: 95px 6% 0; }
+ .aw-cinema-chapter h1,.aw-cinema-chapter h2 { max-width: 520px; font-size: clamp(49px,10vw,76px); margin: 20px 0; }
+ .aw-cinema-description { font-size: 18px; max-width: 470px; }
+ .aw-cinema-service { font-size: 16px; }
+ .aw-cinema-world { top: 440px; bottom: 90px; left: -65%; right: -10%; }
+ .aw-cinema-world:after { background: linear-gradient(#f5f1f2,transparent 30%); }
+ .aw-cinema-bottom { flex-wrap: wrap; left: 6%; right: 6%; bottom: 22px; gap: 10px; }
+ .aw-cinema-bottom > span { width: 100%; font-size: 12px; }
+ .aw-cinema-bottom button { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .aw-cinema { height: auto; } .aw-cinema-sticky { position: relative; } }

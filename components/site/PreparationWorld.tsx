@@ -8,10 +8,12 @@ export default function PreparationWorld({
   stage,
   choice,
   paused,
+  cinematic = false,
 }: {
   stage: number;
   choice: VisitChoice | null;
   paused: boolean;
+  cinematic?: boolean;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const current = useRef({ stage, choice, paused });
@@ -30,6 +32,7 @@ export default function PreparationWorld({
     async function mount() {
       try {
         const T = await import("three");
+        const { RoomEnvironment } = await import("three/examples/jsm/environments/RoomEnvironment.js");
         if (cancelled || !host.current) return;
         const el = host.current;
         const renderer = new T.WebGLRenderer({ antialias: true });
@@ -47,6 +50,12 @@ export default function PreparationWorld({
           "Original 3D preparation folio",
         );
         const scene = new T.Scene();
+        const environment = new RoomEnvironment();
+        const pmrem = new T.PMREMGenerator(renderer);
+        const envMap = pmrem.fromScene(environment);
+        scene.environment = envMap.texture;
+        environment.dispose();
+        pmrem.dispose();
         scene.background = new T.Color("#f5f1f2");
         const camera = new T.PerspectiveCamera(
           34,
@@ -219,14 +228,14 @@ export default function PreparationWorld({
           if (!visible) return;
           const target = reduced ? 1 : current.current.stage / 3;
           progress = current.current.paused
-            ? progress
+            ? target
             : progress + (target - progress) * 0.06;
           pages.forEach((p, i) => {
             const looseX = -2.3 + i * 0.7,
               looseZ = i % 2 ? -0.7 : 0.6;
             p.position.set(
               T.MathUtils.lerp(looseX, 0.7, progress),
-              0.13 + i * 0.1,
+              0.13 + i * 0.1 + (cinematic ? (1 - progress) * (0.8 + i * 0.45) : 0),
               T.MathUtils.lerp(looseZ, 0.05, progress),
             );
             p.rotation.z = (1 - progress) * (i - 1.5) * 0.18;
@@ -237,8 +246,15 @@ export default function PreparationWorld({
           const a =
             (reduced || current.current.paused ? 0 : scroll * 0.2) +
             view.current * 0.3;
-          camera.position.set(5 * Math.cos(a), 6.3, 6 + Math.sin(a));
-          camera.lookAt(0, 0.2, 0);
+          if (cinematic) {
+            const sweep = progress * 1.1 - 0.5;
+            camera.position.set(7 * Math.sin(sweep), 4.6 - progress * 1.7, 7 * Math.cos(sweep));
+            camera.lookAt(-0.1, 0.7, 0);
+            camera.setViewOffset(el.clientWidth, el.clientHeight, -el.clientWidth * 0.22, 0, el.clientWidth, el.clientHeight);
+          } else {
+            camera.position.set(5 * Math.cos(a), 6.3, 6 + Math.sin(a));
+            camera.lookAt(0, 0.2, 0);
+          }
           updateReceipt();
           renderer.render(scene, camera);
         }
@@ -256,6 +272,7 @@ export default function PreparationWorld({
               ).forEach((m) => m.dispose());
             }
           });
+          envMap.dispose();
           texture.dispose();
           renderer.dispose();
           renderer.domElement.remove();
@@ -279,7 +296,7 @@ export default function PreparationWorld({
       observer.disconnect();
       dispose();
     };
-  }, []);
+  }, [cinematic]);
   return (
     <>
       <div className="aw-canvas" ref={host}>
@@ -295,7 +312,7 @@ export default function PreparationWorld({
           </div>
         )}
       </div>
-      <div className="aw-view-controls" aria-label="View the preparation table">
+      {!cinematic && <div className="aw-view-controls" aria-label="View the preparation table">
         {["overview", "the folio", "the handoff"].map((text, i) => (
           <button
             key={text}
@@ -306,7 +323,7 @@ export default function PreparationWorld({
             {text}
           </button>
         ))}
-      </div>
+      </div>}
     </>
   );
 }
