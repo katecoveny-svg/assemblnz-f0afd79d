@@ -1049,6 +1049,7 @@
 .aw-cinema-bottom button[aria-current] { background: #240b21; color: #fffdfb; }
 .aw-cinema-progress { position: absolute; bottom: 0; height: 4px; width: 100%; transform-origin: left; background: #916a70; }
 .aw-cinema-manual { height: auto; }
+.aw-cinema-manual .aw-cinema-track { transition: transform 850ms cubic-bezier(.22,.68,0,1); }
 .aw-cinema-manual .aw-cinema-sticky { position: relative; }
 @media (max-width: 800px) {
  .aw-cinema { height: auto; }
