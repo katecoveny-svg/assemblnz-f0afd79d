@@ -6,7 +6,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ASSEMBLY_BEATS,
   CLOSE,
-  CONCEPTS,
   FOOTER,
   HERO,
   LIVE_WAIT,
@@ -15,7 +14,7 @@ import {
   PROOF,
 } from './copy';
 import { JourneyPhone } from './JourneyPhone';
-import type { PointerRef, ProgressRef } from './AssemblyScene';
+import type { PointerRef, ProgressRef } from './types';
 import './cinematic-journey.css';
 
 const AssemblyScrollCanvas = dynamic(
@@ -24,9 +23,9 @@ const AssemblyScrollCanvas = dynamic(
 );
 
 /**
- * Cinematic 3D homepage preview — scroll-driven assembly of journey parts.
- * PREVIEW ONLY: replaces flat AssemblHomepage for Kate review; do not merge
- * to production until she signs off.
+ * Cinematic 3D homepage preview — Assembl-only product story.
+ * No named-client / independent-concept panels on home (Kate hard lock).
+ * PREVIEW ONLY — do not merge to production until Kate signs off.
  */
 export function CinematicJourneyHome() {
   const progress = useRef(0) as ProgressRef;
@@ -206,35 +205,6 @@ export function CinematicJourneyHome() {
             </p>
           </div>
           <JourneyPhone scenario={scenario} choice={choice} />
-        </section>
-
-        <section className="cj-concepts" id="concepts" aria-labelledby="cj-concepts-title">
-          <div className="cj-concepts-head">
-            <p className="cj-kicker">{CONCEPTS.kicker}</p>
-            <h2 id="cj-concepts-title">{CONCEPTS.title}</h2>
-            <p>{CONCEPTS.body}</p>
-          </div>
-          <div className="cj-concept-rail">
-            {CONCEPTS.items.map((concept, index) => (
-              <Link
-                href="/concepts"
-                className={`cj-concept cj-concept-${concept.tone}`}
-                key={concept.name}
-              >
-                <span>
-                  0{index + 1} · independent concept
-                </span>
-                <small>{concept.name}</small>
-                <h3>{concept.line}</h3>
-                <p>{concept.body}</p>
-                <b>
-                  enter concept
-                  <em aria-hidden="true">↗</em>
-                </b>
-              </Link>
-            ))}
-          </div>
-          <p className="cj-concept-disclaimer">{CONCEPTS.disclaimer}</p>
         </section>
 
         <section className="cj-proof" id="proof" aria-labelledby="cj-proof-title">

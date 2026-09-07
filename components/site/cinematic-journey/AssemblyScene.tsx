@@ -2,15 +2,11 @@
 
 import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Environment } from '@react-three/drei/core/Environment';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { Edges } from '@react-three/drei/core/Edges';
 import * as THREE from 'three';
-
-/** Shared scroll progress 0…1 driven by the page shell. */
-export type ProgressRef = { current: number };
-export type PointerRef = { current: { x: number; y: number } };
+import type { PointerRef, ProgressRef } from './types';
 
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -240,6 +236,7 @@ function CameraRig({
 }) {
   const { camera } = useThree();
   useFrame(() => {
+    if (!camera) return;
     const p = progress.current;
     // Dolly in + slight orbit as parts assemble; settle once evidence locks.
     const z = 7.2 - easeOutCubic(clamp01(p / 0.85)) * 1.8;
@@ -264,11 +261,12 @@ function Atmosphere({ progress }: { progress: ProgressRef }) {
     <>
       <fog attach="fog" args={['#F5F1F2', 10, 26]} />
       <color attach="background" args={['#F5F1F2']} />
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[5.5, 8, 4]} intensity={1.15} color="#FFFDFB" castShadow />
-      <directionalLight position={[-5, 2.5, -3]} intensity={0.55} color="#916A70" />
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[5.5, 8, 4]} intensity={1.25} color="#FFFDFB" castShadow />
+      <directionalLight position={[-5, 2.5, -3]} intensity={0.65} color="#916A70" />
+      <directionalLight position={[0, -1, 4]} intensity={0.35} color="#F5F1F2" />
       <pointLight ref={light} position={[0, 1.2, 2.4]} color="#916A70" intensity={0.4} distance={12} />
-      <Environment preset="studio" />
+      {/* No Environment HDR — CDN fetch has crashed Suspense on preview before. */}
     </>
   );
 }

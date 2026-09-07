@@ -1,7 +1,7 @@
 /**
  * Homepage copy for the cinematic 3D preview.
- * Written for Kate's blunt NZ voice + no-AI-slop: concrete, active, specific.
- * Independent-concept disclaimer language is preserved where needed.
+ * Assembl-only product story. Written for Kate's blunt NZ voice + no-AI-slop.
+ * No named client / independent-concept panels on home (Kate hard lock).
  */
 
 export const HOME_META = {
@@ -92,58 +92,24 @@ export const LIVE_WAIT = {
       detail: 'You reach the next step informed, organised and still in control.',
     },
     {
-      id: 'village',
-      label: 'family choosing a village',
-      status: 'Your information pack is being prepared.',
-      wait: 'A village adviser is reviewing your enquiry.',
-      prompt: 'Let’s make sure the visit answers the questions that matter.',
-      choices: ['I’m exploring for myself', 'I’m helping a parent', 'different care needs', 'understand the costs'],
-      outcome: 'Family readiness plan ready.',
-      detail: 'One shared, permissioned context carries into the human conversation.',
+      id: 'application',
+      label: 'application in review',
+      status: 'Your application is with the team.',
+      wait: 'A specialist is reviewing what you sent.',
+      prompt: 'While they work, I can check what is missing.',
+      choices: ['check my documents', 'prepare my questions', 'keep me updated', 'explain the next step'],
+      outcome: 'Handoff brief ready for review.',
+      detail: 'Nothing reaches a named person until you approve what will be shared.',
     },
     {
-      id: 'car',
-      label: 'car being prepared',
-      status: 'Your vehicle is being prepared.',
-      wait: 'The ownership handover is being coordinated.',
-      prompt: 'While that happens, let’s assemble the experience around you.',
-      choices: ['configure handover', 'organise trade-in', 'plan servicing', 'set delivery around me'],
-      outcome: 'Ownership plan ready.',
-      detail: 'The car is one part. Everything around it arrives prepared too.',
-    },
-  ],
-} as const;
-
-export const CONCEPTS = {
-  kicker: 'independent concepts',
-  title: 'Same operating system. Different customer worlds.',
-  body: 'assembl should disappear into the experience. The client remains the hero.',
-  disclaimer:
-    'Independent concepts use simulated data. No commercial relationship with the named organisations is implied.',
-  items: [
-    {
-      name: 'Summerset',
-      line: 'A family decision, assembled.',
-      body: 'Family priorities become a tailored visit, shared questions and a better-prepared human conversation.',
-      tone: 'summerset',
-    },
-    {
-      name: 'Ryman',
-      line: 'One family story across changing needs.',
-      body: 'Approved context travels across living, support and care — without asking a family to start again.',
-      tone: 'ryman',
-    },
-    {
-      name: 'Nectar',
-      line: 'Clarity, assembled.',
-      body: 'Quote processing becomes time to understand cost, prepare documents and arrive at the decision ready.',
-      tone: 'nectar',
-    },
-    {
-      name: 'Giltrap',
-      line: 'The entire ownership experience, assembled.',
-      body: 'Discovery, sourcing, trade-in, handover, servicing and concierge support become one active journey.',
-      tone: 'giltrap',
+      id: 'order',
+      label: 'order being prepared',
+      status: 'Your order is being prepared.',
+      wait: 'Fulfilment is still running.',
+      prompt: 'While that happens, let’s get the next step ready.',
+      choices: ['confirm delivery details', 'add a note for the team', 'see what happens next', 'pause and review'],
+      outcome: 'Next-step plan ready.',
+      detail: 'Progress stays visible. Approval stays human.',
     },
   ],
 } as const;
@@ -173,7 +139,7 @@ export const PROOF = {
       'confidence',
       'conversion',
     ],
-    note: 'Example measurement framework · no invented client results.',
+    note: 'Example measurement framework · no invented results.',
   },
   fold: 'turn the journey over',
 } as const;
@@ -192,7 +158,6 @@ export const CLOSE = {
 export const FOOTER = {
   line: 'active customer journeys · mahi that earns its proof.',
   links: [
-    { label: 'concepts', href: '/concepts' },
     { label: 'Generative Studio', href: '/generative-studio' },
     { label: 'Operator', href: '/admin/login' },
     { label: 'contact', href: 'mailto:assembl@assembl.co.nz' },
