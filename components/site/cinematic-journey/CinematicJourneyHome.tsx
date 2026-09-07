@@ -280,7 +280,7 @@ export function CinematicJourneyHome() {
           </a>
           <small>{CLOSE.tagline}</small>
         </section>
-      </main>
+      </div>
 
       <footer className="cj-footer">
         <Link className="cj-wordmark" href="/">
