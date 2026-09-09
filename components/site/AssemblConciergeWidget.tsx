@@ -35,9 +35,9 @@ function buildKnowledge() {
       cta: 'see pricing',
     },
     {
-      match: ['wait', 'earn', 'loyalty', 'mana', 'receipt', 'reward', 'one nz', 'one-nz'],
+      match: ['wait', 'earn', 'loyalty', 'mana', 'receipt', 'reward', 'evidence receipt', 'one nz', 'one-nz'],
       answer:
-        'Wait→earn turns a real wait into credit the customer can see, with a Mana Receipt of what changed. The One NZ journey is a public demo of that pattern, not a claimed partnership.',
+        'Wait→earn turns a real wait into credit the customer can see, with an Evidence receipt of what changed. The One NZ journey is a public demo of that pattern, not a claimed partnership.',
       href: '/journeys/one-nz',
       cta: 'see the demo',
     },
@@ -60,9 +60,9 @@ function buildKnowledge() {
       cta: 'book a working session',
     },
     {
-      match: ['evidence', 'proof', 'audit', 'review', 'approve', 'trust', 'mana receipt'],
+      match: ['evidence', 'proof', 'audit', 'review', 'approve', 'trust', 'mana receipt', 'evidence receipt'],
       answer:
-        'Every piece of work ships with its record: sources cited, reasoning shown, a named person signing it off. Mana Receipts are the customer-facing proof of what changed during a wait.',
+        'Every piece of work ships with its record: sources cited, reasoning shown, a named person signing it off. Evidence receipts are the customer-facing proof of what changed during a wait.',
       href: '/evidence-pack',
       cta: 'see an evidence pack',
     },
@@ -79,7 +79,7 @@ export function AssemblConciergeWidget() {
   // The /admin operator hub is an internal surface — keep the public concierge off it.
   const isAdminHub = !!pathname && (pathname === '/admin' || pathname.startsWith('/admin/'));
   // Full-screen white-labelled tenant workspaces must never show the assembl
-  // concierge inside them (assembl attribution stays on the Mana Receipt).
+  // concierge inside them (assembl attribution stays on the Evidence receipt).
   // Uses the same guard as the site header/footer so new tenants and the
   // /for/* magic links are covered without maintaining a slug list here —
   // per-slug lists rot on tenant renames (aeronaut→aironaut did exactly that).
@@ -168,7 +168,9 @@ export function AssemblConciergeWidget() {
   };
 
   // Don't render the global concierge on an agent's own chat page, the internal
-  // /admin operator hub, a tenant workspace, or the homepage (its own portal).
+  // /admin operator hub, a tenant workspace, or the homepage.
+  // Homepage (`/`) owns live chat via HomeGuidePhone in CinematicJourneyHome —
+  // this float is intentionally off there (pathname gate), not blocked by R3F/Lenis.
   if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || (!!pathname && ['/', '/pricing', '/agents', '/about', '/pilots', '/field-notes', '/build-an-agent'].includes(pathname))) {
     return null;
   }

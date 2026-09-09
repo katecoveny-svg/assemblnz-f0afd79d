@@ -12,6 +12,9 @@ import type { PointerRef, ProgressRef } from './types';
  *
  * Hardened for preview: ErrorBoundary + no CDN Environment so a WebGL or
  * HDR failure cannot surface as a whole-page Vercel Application error.
+ *
+ * pointer-events:none on the wrapper (and canvas) is load-bearing — live
+ * chat inputs in the HTML story must receive clicks; the field is visual only.
  */
 export function AssemblyScrollCanvas({
   progress,
@@ -48,13 +51,15 @@ export function AssemblyScrollCanvas({
 
   return (
     <CanvasErrorBoundary>
-      <div className="cj-canvas" aria-hidden="true">
+      <div className="cj-canvas" aria-hidden="true" style={{ pointerEvents: 'none' }}>
         <Canvas
           camera={{ position: [0.35, 0.55, 7.2], fov: 34, near: 0.1, far: 60 }}
           dpr={[1, 1.5]}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           shadows
+          style={{ pointerEvents: 'none' }}
           onCreated={({ gl }) => {
+            gl.domElement.style.pointerEvents = 'none';
             gl.domElement.addEventListener('webglcontextlost', (e: Event) => {
               e.preventDefault();
             });
