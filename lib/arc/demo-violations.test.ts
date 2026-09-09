@@ -8,7 +8,10 @@ describe('Arc PREVIEW demo data', () => {
     for (const v of ARC_DEMO_VIOLATIONS) {
       expect(v.demo).toBe(true);
       expect(v.code.length).toBeGreaterThan(3);
-      expect(v.position).toHaveLength(3);
+      expect(v.position.x).toBeGreaterThan(0);
+      expect(v.position.x).toBeLessThanOrEqual(100);
+      expect(v.position.y).toBeGreaterThan(0);
+      expect(v.position.y).toBeLessThanOrEqual(100);
     }
   });
 
