@@ -58,7 +58,7 @@ export default async function JourneysIndex() {
 
         <div style={{ display: 'grid', gap: '1rem', marginTop: '2.5rem' }}>
           <Link
-            href="/journeys/mana-receipt"
+            href="/journeys/evidence-receipt"
             style={{
               display: 'block',
               border: '1px solid rgba(145,106,112,0.4)',
@@ -77,7 +77,7 @@ export default async function JourneysIndex() {
                   margin: 0,
                 }}
               >
-                Mana Receipt DEMO · port_2fa
+                Evidence receipt DEMO · port_2fa
               </h2>
               <span
                 style={{
@@ -93,7 +93,7 @@ export default async function JourneysIndex() {
               </span>
             </div>
             <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
-              First mint · port 2FA YES ≤2h. Sample wait→earn evidence. Auth path clear. Carrier
+              First mint · port 2FA YES ≤2h. Sample wait→earn audit proof. Auth path clear. Carrier
               owns currency; assembl owns evidence.
             </p>
           </Link>

@@ -1,5 +1,5 @@
 /**
- * Mana Receipt DEMO schema v0 — wait-state evidence mock.
+ * Evidence receipt DEMO schema v0 — wait→earn audit proof mock.
  *
  * Locks (Kate-approved):
  * - status is always DEMO (never pretend live)
@@ -8,21 +8,22 @@
  * - currency_note is adjacency language only — never claim live Phone Dollars
  * - Carrier owns currency; assembl owns evidence
  * - No One NZ affiliation / partnership claim
+ * - Product name is Evidence receipt — no te reo product labels
  */
 
 import { ASSEMBL_CANON } from '@/lib/loyalty/one-nz';
 
-export const MANA_RECEIPT_SCHEMA_VERSION = 'v0' as const;
+export const EVIDENCE_RECEIPT_SCHEMA_VERSION = 'v0' as const;
 
-export type ManaReceiptDemoStatus = 'DEMO';
+export type EvidenceReceiptDemoStatus = 'DEMO';
 
 /** Primary mint wait type for the first DEMO visual. */
-export type ManaReceiptWaitType = 'port_2fa';
+export type EvidenceReceiptWaitType = 'port_2fa';
 
-export interface ManaReceiptDemoV0 {
-  schema_version: typeof MANA_RECEIPT_SCHEMA_VERSION;
-  status: ManaReceiptDemoStatus;
-  wait_type: ManaReceiptWaitType;
+export interface EvidenceReceiptDemoV0 {
+  schema_version: typeof EVIDENCE_RECEIPT_SCHEMA_VERSION;
+  status: EvidenceReceiptDemoStatus;
+  wait_type: EvidenceReceiptWaitType;
   /** Mock hash over wait context — illustrative only. */
   context_hash: string;
   /** Mock hash over earn/permission rules — illustrative only. */
@@ -62,8 +63,8 @@ export interface ManaReceiptDemoV0 {
 }
 
 /** Hero DEMO — port_2fa first mint. */
-export const PORT_2FA_MANA_RECEIPT_DEMO: ManaReceiptDemoV0 = {
-  schema_version: MANA_RECEIPT_SCHEMA_VERSION,
+export const PORT_2FA_EVIDENCE_RECEIPT_DEMO: EvidenceReceiptDemoV0 = {
+  schema_version: EVIDENCE_RECEIPT_SCHEMA_VERSION,
   status: 'DEMO',
   wait_type: 'port_2fa',
   context_hash:
@@ -72,7 +73,7 @@ export const PORT_2FA_MANA_RECEIPT_DEMO: ManaReceiptDemoV0 = {
     'sha256:2b7e151628aed2a6abf7158809cf4f3c762e7160f38b4da56a784d9045190cfe',
   currency_note:
     'Sample stamp beside the wait. DEMO only — not live currency, no claim on a carrier balance.',
-  receipt_id: 'MR-DEMO-PORT2FA-20260909',
+  receipt_id: 'ER-DEMO-PORT2FA-20260909',
   issued_at: '9 Sep 2026, 11:05am NZST',
   wait: {
     label: 'Port 2FA',
@@ -99,17 +100,17 @@ export const PORT_2FA_MANA_RECEIPT_DEMO: ManaReceiptDemoV0 = {
   },
 };
 
-export const MANA_RECEIPT_DEMO_DISCLAIMER =
+export const EVIDENCE_RECEIPT_DEMO_DISCLAIMER =
   'DEMO sample only. Not a live credit. No carrier offer. No affiliation.';
 
-export const MANA_RECEIPT_DEMO_SPINE =
+export const EVIDENCE_RECEIPT_DEMO_SPINE =
   'Port 2FA can take up to two hours. Earn can stamp while you wait. 2FA stays on its own path.';
 
-export const MANA_RECEIPT_DEMO_HEADLINE = 'A Mana Receipt for port 2FA.';
+export const EVIDENCE_RECEIPT_DEMO_HEADLINE = 'Evidence receipt for port 2FA.';
 
-export const MANA_RECEIPT_DEMO_KICKER = 'wait_type · port_2fa · first mint';
+export const EVIDENCE_RECEIPT_DEMO_KICKER = 'wait_type · port_2fa · first mint';
 
-export const MANA_RECEIPT_NAV = {
+export const EVIDENCE_RECEIPT_NAV = {
   studio: { label: 'Generative Studio', href: '/generative-studio' },
   operator: { label: 'Operator', href: '/admin/login' },
 } as const;
