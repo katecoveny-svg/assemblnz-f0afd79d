@@ -1,33 +1,31 @@
 /**
- * Forge agent-app PREVIEW copy — pitch surface only.
- * Automotive / dealership / workshop. Concrete NZ English.
- * No partnership claims. No mana/kete product labels.
+ * Forge agent-app PREVIEW copy — automotive workshop / dealership desk.
+ * Concrete NZ English. No architecture floor-plate grammar.
+ * Honest path to live Arataki chat. No partnership claims.
  */
 
 export const FORGE_PREVIEW = {
   metaTitle: 'Forge · automotive agent-app preview · concept · demo data',
   metaDescription:
-    'Preview of Forge — assembl’s automotive dealership and workshop agent-app. Observe the floor plate, flag WoF and CCCFA issues, draft actions that wait for human approval.',
-  previewBadge: 'PREVIEW · concept · demo data · details fictional',
+    'Preview of Forge — assembl’s automotive dealership and workshop agent-app. Flag WoF and CCCFA issues on the service bay, draft actions that wait for human approval.',
+  previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'forge',
   productLine: 'assembl agent-app',
   heroLine: 'Workshop work that cites its flags.',
   heroSupport:
-    'Forge reads the dealership floor plate, flags NZTA WoF/CoF and CCCFA issues, and drafts service actions that wait for your yes.',
+    'Forge watches the service bay — WoF due stamps, CoF holds, CCCFA disclosure gaps — and stages notes that wait for your yes.',
 
-  assembleEyebrow: '01 · assemble',
-  assembleTitle: 'Parts on the plate. Then a bay.',
-  assembleSupport:
-    'Flat-lay chassis, wheels and bay fittings settle into a fictional NZ dealership floor plate — DEMO only, not a workshop schedule.',
-  ctaAssemble: 'Watch parts assemble',
-  ctaPins: 'See DEMO flags',
-
-  modelEyebrow: 'Click a pin',
-  modelTitle: 'Your floor. Flags you can name.',
-  modelSupport:
-    'DEMO pins use NZTA WoF/CoF and CCCFA references on a fictional dealership plan. Nothing here is a real compliance check.',
+  bayEyebrow: '01 · service bay',
+  bayTitle: 'Flags on the bay board.',
+  baySupport:
+    'DEMO flags use NZTA WoF/CoF and CCCFA references on a fictional workshop day. Nothing here is a real compliance check.',
+  ctaBay: 'See DEMO bay flags',
+  ctaChat: 'Chat with Arataki',
+  aratakiHref: '/agents/arataki',
+  aratakiNote:
+    'Live automotive chat lives on Arataki — the dealership agent. This page is a DEMO craft preview only.',
 
   narrativeEyebrow: 'How Forge works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
@@ -36,7 +34,7 @@ export const FORGE_PREVIEW = {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Forge watches the floor plate as vehicles move — WoF bay status, CoF holds, CCCFA disclosure gaps.',
+      body: 'Forge watches the service bay as vehicles move — WoF bay status, CoF holds, CCCFA disclosure gaps.',
     },
     {
       id: 'advise' as const,
@@ -55,13 +53,13 @@ export const FORGE_PREVIEW = {
   chatEyebrow: 'Chat as proof',
   chatTitle: 'Ask once. Get a cited draft.',
   chatSupport:
-    'Scripted preview — no model call, nothing sends. Every reply ends as a draft awaiting approval.',
+    'Scripted preview on this door — or open Arataki for the live automotive agent. Every reply here ends as a draft awaiting approval.',
   chatGreeting:
     'Forge here. Ask about a DEMO WoF bay or a CCCFA flag. I cite the rule, draft the note, and hold it for your approval.',
   chatOpeners: [
     {
       q: 'Check the WoF bay against NZTA inspection rules',
-      a: 'Draft ready — NZTA WoF. Bay 2 has a vehicle past its due stamp with no staged inspection booking. Proposed note names the plate, cites the WoF requirement, and lists bay options. Status: awaiting human approval. Sources: DEMO pin wof-due · NZTA WoF (preview).',
+      a: 'Draft ready — NZTA WoF. Bay 2 has a vehicle past its due stamp with no staged inspection booking. Proposed note names the plate, cites the WoF requirement, and lists bay options. Status: awaiting human approval. Sources: DEMO flag wof-due · NZTA WoF (preview).',
     },
     {
       q: 'Draft a CCCFA disclosure note for this finance lead',
@@ -69,7 +67,7 @@ export const FORGE_PREVIEW = {
     },
     {
       q: 'Where does the CoF hold block the workshop day?',
-      a: 'Draft ready — NZTA CoF. Heavy vehicle in bay 4 lacks a current CoF for the scheduled road test. Memo cites the pin and waits. Status: awaiting human approval. Nothing sends.',
+      a: 'Draft ready — NZTA CoF. Heavy vehicle in bay 4 lacks a current CoF for the scheduled road test. Memo cites the flag and waits. Status: awaiting human approval. Nothing sends.',
     },
   ],
   chatFooter: 'draft-only · cites flags · DEMO · nothing sends without you',
@@ -86,7 +84,7 @@ export const FORGE_PREVIEW = {
     {
       name: 'Look',
       price: 'Free',
-      detail: 'Browse DEMO flags and sample drafts on the floor plate.',
+      detail: 'Browse DEMO bay flags and sample drafts on this door.',
       credits: '0 credits',
       hoursBack: 0,
     },
@@ -114,6 +112,6 @@ export const FORGE_PREVIEW = {
   ],
 
   footerNote:
-    'Forge is an assembl agent-app preview. Independent concept — not a partnership with any dealership, OEM, NZTA, or finance product named elsewhere.',
+    'Forge is an assembl agent-app preview. Independent concept — not a partnership with any dealership, OEM, NZTA, or finance product named elsewhere. Demo data only.',
   footerWordmark: 'assembl',
 } as const;

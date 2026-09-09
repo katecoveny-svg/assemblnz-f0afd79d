@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   ENSEMBLE_BRAND_BOARD,
+  ENSEMBLE_CLAIM_PINS,
   ENSEMBLE_MAKERS,
   ENSEMBLE_PACKAGE_STAGES,
 } from '@/lib/ensemble/demo-package';
@@ -21,6 +22,16 @@ describe('Ensemble creative front door DEMO data', () => {
     for (const item of ENSEMBLE_BRAND_BOARD) {
       expect(item.demo).toBe(true);
       expect(item.agent.length).toBeGreaterThan(2);
+    }
+  });
+
+  it('stages DEMO claim pins on the artefact — not a floor plate', () => {
+    expect(ENSEMBLE_CLAIM_PINS.length).toBeGreaterThanOrEqual(3);
+    for (const pin of ENSEMBLE_CLAIM_PINS) {
+      expect(pin.demo).toBe(true);
+      expect(pin.code.length).toBeGreaterThan(1);
+      expect(pin.artefact.length).toBeGreaterThan(2);
+      expect(pin.summary.toLowerCase()).not.toContain('floor plate');
     }
   });
 
@@ -46,6 +57,7 @@ describe('Ensemble creative front door DEMO data', () => {
     expect(blob).not.toMatch(/\bmana\b/);
     expect(blob).not.toMatch(/\bkete\b/);
     expect(blob).not.toMatch(/partner with/);
+    expect(blob).not.toContain('floor plate');
     expect(blob).toContain('independent concept');
     expect(blob).toContain('demo');
     expect(ENSEMBLE_PREVIEW.tiers.map((t) => t.name)).toEqual([

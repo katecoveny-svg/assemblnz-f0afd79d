@@ -77,5 +77,24 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     expect(landing).toMatch(/EnsembleCreativeDesk/);
     expect(landing).toMatch(/EnsembleBriefDesk/);
     expect(landing).toMatch(/EnsembleBrandBoard/);
+    expect(landing).toMatch(/EnsembleClaimPins/);
+    expect(landing).toMatch(/observeStatus=/);
+    expect(landing).not.toMatch(/floor plate/i);
+  });
+
+  it('keeps Forge off BlueprintScene / PlanPins (automotive bay, not floor plate)', () => {
+    const landing = read('components/forge/ForgeLanding.tsx')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    const copy = read('lib/forge/preview-copy.ts')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    expect(landing).not.toMatch(/\bBlueprintScene\b/);
+    expect(landing).not.toMatch(/\bPlanPins\b/);
+    expect(landing).not.toMatch(/\bForgePlanSvg\b/);
+    expect(landing).toMatch(/ForgeBayFlags/);
+    expect(landing).toMatch(/observeStatus=/);
+    expect(landing).toMatch(/aratakiHref|\/agents\/arataki/);
+    expect(copy.toLowerCase()).not.toContain('floor plate');
   });
 });

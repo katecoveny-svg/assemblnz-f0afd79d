@@ -13,20 +13,20 @@
   --ens-ink-soft: rgba(36, 11, 33, 0.68);
   --ens-line: rgba(36, 11, 33, 0.12);
   --ens-line-strong: rgba(36, 11, 33, 0.28);
-  --ens-grid: rgba(36, 11, 33, 0.045);
 
   min-height: 100vh;
+  /* Soft chalk atmosphere — never architecture floor-plate grid as hero. */
   background-color: var(--ens-paper);
   background-image:
-    radial-gradient(920px 420px at 12% -8%, rgba(145, 106, 112, 0.12), transparent 62%),
+    radial-gradient(920px 420px at 12% -8%, rgba(145, 106, 112, 0.14), transparent 62%),
     radial-gradient(780px 380px at 88% 8%, rgba(101, 74, 78, 0.1), transparent 58%),
-    linear-gradient(var(--ens-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ens-grid) 1px, transparent 1px);
-  background-size: auto, auto, 32px 32px, 32px 32px;
-  background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+    linear-gradient(180deg, #fffdfb 0%, #f7f2f3 48%, #fffdfb 100%);
   color: var(--ens-ink);
   font-family: var(--font-body), 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
+  /* Kill inherited agent-app engineering grid when both roots share the node. */
+  background-size: auto;
+  background-position: 0 0;
 }
 
 .ens-root *,
@@ -55,31 +55,41 @@
 
 .ens-nav-brand {
   display: flex;
-  align-items: baseline;
-  gap: 0.65rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
   text-decoration: none;
   color: var(--ens-plum);
 }
 
 .ens-nav-brand strong {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .ens-nav-brand span {
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ens-muted);
+  white-space: nowrap;
 }
 
 .ens-nav-badge {
   margin: 0;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  flex-shrink: 1;
+  max-width: min(42vw, 14rem);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ens-rose);
+  border: 1px solid var(--ens-line);
+  padding: 0.35rem 0.55rem;
+  background: rgba(255, 253, 251, 0.95);
+  line-height: 1.35;
 }
 
 .ens-story {
@@ -606,6 +616,129 @@
   }
 }
 
+/* DEMO claim pins — claims on the artefact, not a floor-plate sheet. */
+.ens-claims {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.ens-claim-card {
+  border: 1px solid var(--ens-line-strong);
+  background: var(--ens-paper);
+  padding: 1.25rem 1.15rem 1.35rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.ens-demo-pill {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.28rem 0.5rem;
+  background: var(--ens-plum);
+  color: var(--ens-paper);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ens-claim-code {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ens-rose);
+}
+
+.ens-claim-card h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 4.2vw, 1.55rem);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--ens-plum);
+}
+
+.ens-claim-card > p {
+  margin: 0;
+  color: var(--ens-ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.ens-claim-artefact {
+  margin: 0.25rem 0 0 !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ens-muted) !important;
+}
+
+.ens-claim-meta {
+  margin: 0.15rem 0 0 !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ens-rose) !important;
+}
+
+.ens-claim-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.ens-claim-list-label {
+  margin: 0 0 0.15rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ens-muted);
+}
+
+.ens-claim-list-item {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--ens-line);
+  background: rgba(255, 253, 251, 0.92);
+  color: inherit;
+  padding: 0.85rem 0.95rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.ens-claim-list-item span {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ens-rose);
+}
+
+.ens-claim-list-item strong {
+  font-size: 0.98rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ens-plum);
+}
+
+.ens-claim-list-item[data-active='true'],
+.ens-claim-list-item:hover {
+  border-color: var(--ens-plum);
+  background: var(--ens-chalk);
+}
+
+@media (min-width: 860px) {
+  .ens-claims {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+}
+
 @media (max-width: 900px) {
   .ens-hero-grid,
   .ens-package,
@@ -614,13 +747,72 @@
   }
 
   .ens-hero-copy h1 {
-    max-width: 14ch;
+    max-width: none;
+    font-size: clamp(2.1rem, 9.5vw, 3.1rem);
+  }
+
+  .ens-section {
+    padding: 2.25rem 1.1rem;
+  }
+
+  .ens-nav {
+    padding: 0.85rem 1.1rem;
+    gap: 0.75rem;
+  }
+
+  .ens-hero-visual {
+    min-height: 240px;
+  }
+
+  .ens-board {
+    grid-template-columns: 1fr;
+  }
+
+  .ens-tools {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 520px) {
   .ens-nav {
-    flex-direction: column;
     align-items: flex-start;
+  }
+
+  .ens-nav-badge {
+    max-width: 100%;
+  }
+
+  .ens-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .ens-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ens-cta {
+    width: 100%;
+  }
+
+  /* ObserveAdviseAct + chat inherit aa-* — keep them from clipping on iPhone. */
+  .ens-root .aa-section {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+    max-width: 100%;
+  }
+
+  .ens-root .aa-oaa-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ens-root .aa-oaa-actions .aa-cta {
+    width: 100%;
+  }
+
+  .ens-root .aa-chat-actions button {
+    white-space: normal;
+    line-height: 1.35;
   }
 }
