@@ -1,17 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { LIVE_WAIT } from './copy';
 
-type Scenario = (typeof LIVE_WAIT.scenarios)[number];
+const DEMO_SCENARIO = {
+  status: 'Your personalised quote is being reviewed.',
+  wait: 'The assessment is still running.',
+  prompt: 'While that happens, I can prepare the decision.',
+  choices: ['align with payday', 'check my documents', 'show total cost', 'prepare my questions'],
+  outcome: 'Adviser-ready summary assembled.',
+  detail: 'You reach the next step informed, organised and still in control.',
+} as const;
+
+type Scenario = typeof DEMO_SCENARIO;
 
 /**
  * Simulated wait chrome only — NOT live chat.
  * Kept for possible wait-scenario demos. Homepage live agent chat is
  * `HomeGuidePhone` mounted from `CinematicJourneyHome` (POST /api/home/agent).
- * role=img: decorative device frame; no input composer by design.
  */
-export function JourneyPhone({ scenario, choice }: { scenario: Scenario; choice: number }) {
+export function JourneyPhone({
+  scenario = DEMO_SCENARIO,
+  choice = 0,
+}: {
+  scenario?: Scenario;
+  choice?: number;
+}) {
   const [clock, setClock] = useState('9:41');
 
   useEffect(() => {

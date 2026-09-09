@@ -1,10 +1,11 @@
 /**
- * Higgsfield / CoS media drop-in registry for the cinematic homepage.
+ * Higgsfield / CoS media registry for the cinematic homepage (declutter PREVIEW).
  *
- * Kate-approved hero package (locked art direction):
- * - still A fa6fe811 — hero atmosphere / poster
- * - still B 2e5e76fe — mid-scroll assemble atmosphere
- * - video  9a8c5c81 — 8s 1080p Cinema Studio assemble-on-plum loop
+ * Visual system = video + stills (no R3F mesh clutter on `/`).
+ * Kate-approved package:
+ * - still A fa6fe811 — hero poster
+ * - still B 2e5e76fe — wait / mid scroll still
+ * - video  9a8c5c81 — full-bleed hero loop
  *
  * Prefer vendored `/public/cinematic-home/*` over CloudFront hotlinks.
  */
