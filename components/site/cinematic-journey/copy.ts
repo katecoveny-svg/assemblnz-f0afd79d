@@ -156,10 +156,14 @@ export const CLOSE = {
 } as const;
 
 export const FOOTER = {
-  line: 'active customer journeys · mahi that earns its proof.',
+  // English Assembl voice on home (Kate PREVIEW lock — retire te reo product labels here).
+  line: 'active customer journeys · work that earns its proof.',
   links: [
     { label: 'Generative Studio', href: '/generative-studio' },
     { label: 'Operator', href: '/admin/login' },
     { label: 'contact', href: 'mailto:assembl@assembl.co.nz' },
   ],
 } as const;
+
+/** Header mono tag — English Assembl voice (replaces retired mahi line on home). */
+export const HEADER_TAG = 'work that earns its proof.' as const;

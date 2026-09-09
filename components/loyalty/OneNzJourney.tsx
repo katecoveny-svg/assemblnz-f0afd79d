@@ -237,7 +237,7 @@ export function OneNzJourney() {
               <h2 id="onz-hh-title">Phone Dollars, then REBALANCE</h2>
               <p>
                 Earn stamps into One Wallet while the wait is still happening. Optional household
-                REBALANCE shares a slice — permissioned, visible, reversible.
+                REBALANCE shares a slice. Opt-in, visible, reversible.
               </p>
               <button
                 type="button"
@@ -269,8 +269,8 @@ export function OneNzJourney() {
               <p className="onz-kicker">03 · evidence</p>
               <h2 id="onz-ev-title">Mana Receipt</h2>
               <p>
-                The wait, the earn, the permission posture, and the named person responsible — proof
-                the customer can keep.
+                Records the wait, the earn, the opt-in (reversible), and the named person
+                responsible. Proof the customer can keep.
               </p>
               <ol className="onz-split-bar" aria-label="Evidence composition 55 / 30 / 15">
                 {EVIDENCE_SPLIT.map((row) => (
@@ -339,7 +339,10 @@ export function OneNzJourney() {
 
         <section className="onz-ownership" aria-labelledby="onz-own-title">
           <p className="onz-kicker">{MODE_A.label} · who owns what</p>
-          <h2 id="onz-own-title">Clear ownership. No affiliation claim.</h2>
+          <h2 id="onz-own-title">
+            assembl runs the wait→earn layer. One NZ keeps Phone Dollars, One Wallet, and the
+            programme.
+          </h2>
           <div className="onz-own-grid">
             <article>
               <h3>{MODE_A.oneNz.title}</h3>

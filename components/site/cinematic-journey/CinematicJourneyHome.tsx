@@ -2,19 +2,22 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
+import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
 import {
   ASSEMBLY_BEATS,
   CLOSE,
   FOOTER,
+  HEADER_TAG,
   HERO,
   LIVE_WAIT,
   LOST_TIME,
   NAV,
   PROOF,
 } from './copy';
-import { JourneyPhone } from './JourneyPhone';
+import { CraftScroll } from './CraftScroll';
 import type { PointerRef, ProgressRef } from './types';
+import '@/app/active-journey-home.css';
 import './cinematic-journey.css';
 
 const AssemblyScrollCanvas = dynamic(
@@ -22,21 +25,26 @@ const AssemblyScrollCanvas = dynamic(
   { ssr: false },
 );
 
+/** CSS vars HomeGuidePhone / .aj-phone / .hg-* styles expect. */
+const PHONE_THEME = {
+  '--aj-paper': '#FFFDFB',
+  '--aj-chalk': '#F5F1F2',
+  '--aj-ink': '#240B21',
+  '--aj-plum': '#240B21',
+  '--aj-plum-muted': '#654A4E',
+  '--aj-rose': '#916A70',
+  '--aj-plum-soft': '#654A4E',
+} as CSSProperties;
+
 /**
  * Cinematic 3D homepage preview — Assembl-only product story.
  * No named-client / independent-concept panels on home (Kate hard lock).
+ * Live agent chat phone restored (HomeGuidePhone → /api/home/agent).
  * PREVIEW ONLY — do not merge to production until Kate signs off.
  */
 export function CinematicJourneyHome() {
   const progress = useRef(0) as ProgressRef;
   const pointer = useRef({ x: 0, y: 0 }) as PointerRef;
-  const [scenarioId, setScenarioId] = useState<(typeof LIVE_WAIT.scenarios)[number]['id']>('quote');
-  const [choice, setChoice] = useState(0);
-
-  const scenario = useMemo(
-    () => LIVE_WAIT.scenarios.find((s) => s.id === scenarioId) ?? LIVE_WAIT.scenarios[0],
-    [scenarioId],
-  );
 
   useEffect(() => {
     const onScroll = () => {
@@ -63,6 +71,7 @@ export function CinematicJourneyHome() {
 
   return (
     <div className="cj">
+      <CraftScroll />
       <AssemblyScrollCanvas progress={progress} pointer={pointer} />
       <div className="cj-veil" aria-hidden="true" />
 
@@ -70,7 +79,7 @@ export function CinematicJourneyHome() {
         <Link className="cj-wordmark" href="/" aria-label="assembl home">
           assembl<span>·</span>
         </Link>
-        <p className="cj-header-tag">mahi that earns its proof.</p>
+        <p className="cj-header-tag">{HEADER_TAG}</p>
         <nav className="cj-header-nav" aria-label="assembl tools">
           <a className="cj-studio" href={NAV.studio.href}>
             {NAV.studio.label}
@@ -169,42 +178,24 @@ export function CinematicJourneyHome() {
             <p className="cj-kicker">{LIVE_WAIT.kicker}</p>
             <h2 id="cj-live-title">{LIVE_WAIT.title}</h2>
             <p>{LIVE_WAIT.body}</p>
-            <div className="cj-scenario-tabs" role="tablist" aria-label="Customer wait scenarios">
-              {LIVE_WAIT.scenarios.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={scenarioId === item.id}
-                  className={scenarioId === item.id ? 'is-on' : undefined}
-                  onClick={() => {
-                    setScenarioId(item.id);
-                    setChoice(0);
-                  }}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-            <div className="cj-choice-grid">
-              {scenario.choices.map((item, index) => (
-                <button
-                  key={item}
-                  type="button"
-                  className={choice === index ? 'is-on' : undefined}
-                  onClick={() => setChoice(index)}
-                >
-                  <span>{item}</span>
-                  <i aria-hidden="true">{choice === index ? '✓' : '→'}</i>
-                </button>
-              ))}
-            </div>
             <p className="cj-permission">
               <b>permission</b>
               Only the context approved for this moment is used. Review or remove it before handoff.
             </p>
           </div>
-          <JourneyPhone scenario={scenario} choice={choice} />
+          {/*
+            Live agent chat (HomeGuidePhone → POST /api/home/agent).
+            data-lenis-prevent keeps CraftScroll/Lenis off nested scroll + input focus.
+            id=live-agent matches HomeGuidePhone agent-handoff scroll target.
+          */}
+          <div
+            className="cj-live-phone"
+            id="live-agent"
+            data-lenis-prevent
+            style={PHONE_THEME}
+          >
+            <HomeGuidePhone />
+          </div>
         </section>
 
         <section className="cj-proof" id="proof" aria-labelledby="cj-proof-title">

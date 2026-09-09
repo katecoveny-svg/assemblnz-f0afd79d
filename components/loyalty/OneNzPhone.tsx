@@ -1,8 +1,9 @@
 'use client';
 
 /**
- * One NZ–skinned loyalty phone — real app chrome, beat-synced wait→earn→evidence,
- * live agent chat on the wait beat. Not an abstract number board.
+ * One NZ–skinned loyalty phone — Wait→Earn→Evidence with One Wallet chrome.
+ * Inside-phone greens echo the real app; Assembl page accent stays #007C92.
+ * Independent concept — not a partnership claim or offerwall clone.
  */
 
 import {
@@ -36,12 +37,6 @@ type Props = {
   onHouseholdToggle?: () => void;
 };
 
-const STEPS: { id: OnzBeat; n: string; label: string }[] = [
-  { id: 'wait', n: '01', label: 'wait' },
-  { id: 'earn', n: '02', label: 'earn' },
-  { id: 'evidence', n: '03', label: 'evidence' },
-];
-
 function replyFor(
   ask: string,
   triggerLabel: string,
@@ -74,6 +69,25 @@ function replyFor(
   return {
     text: 'Ask about the wait, Phone Dollars, household share, or your Mana Receipt.',
   };
+}
+
+function PhoneNav({ active }: { active: 'accounts' | 'wallet' | 'help' }) {
+  return (
+    <nav className="onz-app-nav" aria-label="One NZ app navigation (demo)">
+      <span data-on={active === 'accounts' || undefined}>
+        <i className="onz-nav-ico onz-nav-accounts" aria-hidden="true" />
+        Accounts
+      </span>
+      <span data-on={active === 'wallet' || undefined}>
+        <i className="onz-nav-ico onz-nav-wallet" aria-hidden="true" />
+        One Wallet
+      </span>
+      <span data-on={active === 'help' || undefined}>
+        <i className="onz-nav-ico onz-nav-help" aria-hidden="true" />
+        Need help?
+      </span>
+    </nav>
+  );
 }
 
 export function OneNzPhone({
@@ -174,7 +188,12 @@ export function OneNzPhone({
   const houseEarn = household ? DEMO_EARN.householdShare : 0;
 
   return (
-    <div className="onz-phone" data-beat={beat} aria-label="One NZ loyalty phone demo">
+    <div
+      className="onz-phone"
+      data-beat={beat}
+      data-chrome={beat === 'earn' ? 'dark' : 'light'}
+      aria-label="One NZ loyalty phone demo"
+    >
       <div className="onz-phone-glow" aria-hidden="true" />
       <div className="onz-phone-frame">
         <i className="onz-island" aria-hidden="true" />
@@ -188,99 +207,110 @@ export function OneNzPhone({
         </span>
 
         <div className="onz-screen">
-          <header className="onz-client-stripe">
-            <div>
-              <strong>one.nz</strong>
-              <span>Phone Dollars</span>
-            </div>
-            <em>how it works</em>
-          </header>
-
-          <ol className="onz-stepper" aria-label="Loyalty process">
-            {STEPS.map((s) => (
-              <li key={s.id} data-on={beat === s.id || undefined}>
-                <span className="onz-step-n">{s.n}</span>
-                <span className="onz-step-label">{s.label}</span>
-              </li>
-            ))}
-          </ol>
-
           <div className="onz-phone-body" key={`${beat}-${trigger}`}>
             {beat === 'wait' && (
-              <>
-                <p className="onz-raw">
-                  {active.label} in progress
-                  <span>{active.dwell} dwell</span>
-                </p>
+              <div className="onz-wait-stage">
                 <div
-                  className="onz-wait-ring"
+                  className="onz-orb"
                   style={{ ['--onz-dwell' as string]: `${dwellPct}%` }}
+                  data-reduced={reduced || undefined}
                   aria-hidden="true"
                 >
-                  <i />
-                  <span>{Math.round(dwellPct)}%</span>
+                  <i className="onz-orb-halo" />
+                  <i className="onz-orb-mid" />
+                  <i className="onz-orb-core" />
                 </div>
-                <p className="onz-accent-line">detect · activate · credit</p>
-                <div className="onz-agent-card" aria-live="polite">
+                <p className="onz-orb-dwell">{Math.round(dwellPct)}% through wait</p>
+                <p className="onz-wait-title">{active.label} in progress</p>
+                <p className="onz-wait-dwell">{active.dwell} dwell · detect · activate · credit</p>
+                <div className="onz-wait-note" aria-live="polite">
                   <header>
-                    <span className="onz-agent-dot" aria-hidden="true" />
-                    <strong>assembl agent</strong>
+                    <span className="onz-orb-mini" aria-hidden="true" />
+                    <strong>While you wait</strong>
                     <em>live</em>
                   </header>
                   <p>
-                    Earning Phone Dollars while your {active.label} completes. Thanks for waiting
-                    with One NZ.
+                    Phone Dollars start earning the moment this {active.label.toLowerCase()} does.
+                    Ask below if you want the proof trail.
                   </p>
                 </div>
-              </>
+              </div>
             )}
 
             {beat === 'earn' && (
-              <>
-                <p className="onz-transform">↓ becomes phone dollars</p>
-                <dl className="onz-kv">
-                  <div>
-                    <dt>wait</dt>
-                    <dd>
-                      {active.label} · {active.dwell}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>this wait</dt>
-                    <dd>{nzd(earned)}</dd>
-                  </div>
-                  <div>
-                    <dt>stamp</dt>
-                    <dd className={stamped ? 'is-lit' : undefined}>
-                      +{nzd(DEMO_EARN.stamp)} → One Wallet
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>balance</dt>
-                    <dd>{nzd(DEMO_EARN.balance)}</dd>
-                  </div>
-                </dl>
-                <div className="onz-wallet-stamp" data-lit={stamped || undefined}>
-                  <span>One Wallet</span>
-                  <strong>+{nzd(lineEarn)}</strong>
-                  {household ? <em>household +{nzd(houseEarn)}</em> : null}
+              <div className="onz-wallet-stage">
+                <header className="onz-wallet-top">
+                  <span className="onz-wallet-back" aria-hidden="true">
+                    ←
+                  </span>
+                  <strong>One Wallet</strong>
+                  <span className="onz-wallet-spacer" aria-hidden="true" />
+                </header>
+                <div className="onz-wallet-activity" aria-hidden="true">
+                  View activity
+                  <span>›</span>
+                </div>
+                <div className="onz-wallet-tabs" role="tablist" aria-label="One Wallet tabs">
+                  <span role="tab" aria-selected="true" data-on>
+                    Earn
+                  </span>
+                  <span role="tab" aria-selected="false">
+                    Redeem
+                  </span>
+                </div>
+                <div className="onz-wallet-copy">
+                  <h3>Earn Phone Dollars</h3>
+                  <p>Useful micro-action during this wait stamps credit into One Wallet.</p>
+                </div>
+                <div className="onz-wallet-stamp-card" data-lit={stamped || undefined}>
+                  <span className="onz-stamp-kicker">This wait · {active.label}</span>
+                  <strong className={stamped ? 'is-lit' : undefined}>
+                    {stamped ? `+${nzd(DEMO_EARN.stamp)}` : nzd(earned)}
+                  </strong>
+                  <em>{stamped ? 'Stamped into One Wallet' : 'Stamping…'}</em>
+                  <dl className="onz-stamp-meta">
+                    <div>
+                      <dt>Balance</dt>
+                      <dd>{nzd(DEMO_EARN.balance)}</dd>
+                    </div>
+                    <div>
+                      <dt>This line</dt>
+                      <dd>{nzd(lineEarn)}</dd>
+                    </div>
+                    {household ? (
+                      <div>
+                        <dt>Household</dt>
+                        <dd>+{nzd(houseEarn)}</dd>
+                      </div>
+                    ) : null}
+                  </dl>
                 </div>
                 {onHouseholdToggle ? (
                   <button
                     type="button"
-                    className={`onz-phone-toggle ${household ? 'is-on' : ''}`}
+                    className={`onz-wallet-toggle ${household ? 'is-on' : ''}`}
                     aria-pressed={household}
                     onClick={onHouseholdToggle}
                   >
-                    {household ? 'REBALANCE on' : 'REBALANCE off'}
+                    <span>REBALANCE</span>
+                    <em>{household ? 'On · share with household' : 'Off · keep on this line'}</em>
                   </button>
                 ) : null}
-              </>
+              </div>
             )}
 
             {beat === 'evidence' && (
-              <>
-                <p className="onz-transform">↓ mana receipt</p>
+              <div className="onz-evidence-stage">
+                <header className="onz-evidence-top">
+                  <span className="onz-wallet-back" aria-hidden="true">
+                    ←
+                  </span>
+                  <strong>Mana Receipt</strong>
+                  <span className="onz-wallet-spacer" aria-hidden="true" />
+                </header>
+                <p className="onz-evidence-lede">
+                  Your wait, recorded properly — permissioned and named.
+                </p>
                 <article className="onz-phone-receipt" aria-label="Mana Receipt">
                   <header>
                     <span>one.nz</span>
@@ -288,31 +318,31 @@ export function OneNzPhone({
                   </header>
                   <dl>
                     <div>
-                      <dt>moment</dt>
+                      <dt>Moment</dt>
                       <dd>
                         {active.label} · {DEMO_RECEIPT_AT}
                       </dd>
                     </div>
                     <div>
-                      <dt>earned</dt>
+                      <dt>Earned</dt>
                       <dd>+{nzd(DEMO_EARN.stamp)} Phone Dollars</dd>
                     </div>
                     <div>
-                      <dt>destination</dt>
+                      <dt>Destination</dt>
                       <dd>One Wallet{household ? ' · household share' : ''}</dd>
                     </div>
                     <div>
-                      <dt>permission</dt>
-                      <dd>opted in · reversible</dd>
+                      <dt>Permission</dt>
+                      <dd>Opted in · reversible</dd>
                     </div>
                     <div>
-                      <dt>named human</dt>
+                      <dt>Named human</dt>
                       <dd>Alex R. · loyalty operations</dd>
                     </div>
                   </dl>
-                  <footer>your wait, recorded properly.</footer>
+                  <footer>Proof you can keep.</footer>
                 </article>
-              </>
+              </div>
             )}
           </div>
 
@@ -336,7 +366,7 @@ export function OneNzPhone({
               )}
 
               {messages.length === 0 && !busy && beat === 'wait' && (
-                <div className="onz-chips-row" role="group" aria-label="Ask the agent">
+                <div className="onz-chips-row" role="group" aria-label="Ask about this wait">
                   {AGENT_CHIPS.map((c) => (
                     <button key={c} type="button" className="onz-chip" onClick={() => send(c)}>
                       {c}
@@ -365,6 +395,7 @@ export function OneNzPhone({
             </>
           )}
 
+          <PhoneNav active={beat === 'wait' ? 'help' : 'wallet'} />
           <div className="onz-homebar" aria-hidden="true" />
         </div>
       </div>
