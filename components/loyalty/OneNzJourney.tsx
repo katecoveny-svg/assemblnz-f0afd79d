@@ -192,7 +192,11 @@ export function OneNzJourney() {
               </ul>
             </section>
 
-            <section className="onz-chapter" aria-labelledby="onz-trig-title">
+            <section
+              className="onz-chapter"
+              data-onz-beat="wait"
+              aria-labelledby="onz-trig-title"
+            >
               <p className="onz-kicker">01 · wait triggers</p>
               <h2 id="onz-trig-title">Pick a real wait</h2>
               <p>
