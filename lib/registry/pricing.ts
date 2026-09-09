@@ -12,8 +12,7 @@
  *
  * NOTE: lib/pricing.ts still carries older Industry Pack / Tōro canon for
  * unmigrated internal surfaces. New public commercial copy reads from here.
- * /pricing (CinematicPricing) hardcodes matching amounts — keep them identical
- * or import the named constants below.
+ * /pricing (CinematicPricing) imports the named amount constants below.
  */
 
 export type PricingRow = { label: string; price: string };
