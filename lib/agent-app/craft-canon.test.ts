@@ -66,4 +66,12 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     expect(AGENT_APP_CRAFT.plum).toBe('#240B21');
     expect(AGENT_APP_CRAFT.rootClass).toBe('aa-root');
   });
+
+  it('keeps Ensemble off BlueprintScene / PlanPins (creative desk, not floor plate)', () => {
+    const landing = read('components/ensemble/EnsembleLanding.tsx');
+    expect(landing).not.toMatch(/BlueprintScene/);
+    expect(landing).not.toMatch(/PlanPins/);
+    expect(landing).not.toMatch(/EnsemblePlanSvg/);
+    expect(landing).toMatch(/EnsembleCreativeDesk|EnsembleBriefDesk|EnsembleBrandBoard/);
+  });
 });

@@ -5,7 +5,8 @@ import { ENSEMBLE_PREVIEW } from '@/lib/ensemble/preview-copy';
 export const metadata: Metadata = {
   title: ENSEMBLE_PREVIEW.metaTitle,
   description: ENSEMBLE_PREVIEW.metaDescription,
-  robots: { index: false, follow: false },
+  // Sell door — indexable. DEMO labels stay on-page for honesty.
+  robots: { index: true, follow: true },
   alternates: { canonical: '/agents/ensemble' },
   openGraph: {
     title: ENSEMBLE_PREVIEW.metaTitle,
@@ -16,11 +17,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * Ensemble — marketing & creative studio agent-app PREVIEW landing.
- * Route mirrors Arc at /agents/arc and Forge at /agents/forge
- * (splash already exempts /agents). Prefer /agents/ensemble over /apps/*
- * for marketing craft. Public pitch surface. Noindex. Does not touch
- * homepage craft.
+ * Ensemble — public creative studio agent-app front door.
+ * CreativeWorkspace DNA (brief desk → package, brand board, studio links).
+ * No architecture floor plates. Homepage `/` untouched.
  */
 export default function EnsembleAgentAppPage() {
   return <EnsembleLanding />;
