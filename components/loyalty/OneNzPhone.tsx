@@ -93,6 +93,7 @@ export function OneNzPhone({
   const [clock, setClock] = useState('9:41');
   const [dwellPct, setDwellPct] = useState(reduced ? 72 : 8);
   const streamRef = useRef<HTMLDivElement | null>(null);
+  const replyTimerRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const tick = () => {
@@ -122,21 +123,40 @@ export function OneNzPhone({
   }, [messages, busy, beat]);
 
   useEffect(() => {
-    // Reset thread when trigger changes so the demo stays readable.
+    // Cancel any in-flight reply so a delayed callback cannot append after reset
+    // or fire onBeatRequest for the previous trigger.
+    if (replyTimerRef.current !== undefined) {
+      window.clearTimeout(replyTimerRef.current);
+      replyTimerRef.current = undefined;
+    }
     setMessages([]);
     setDraft('');
     setBusy(false);
   }, [trigger]);
 
+  useEffect(() => {
+    return () => {
+      if (replyTimerRef.current !== undefined) {
+        window.clearTimeout(replyTimerRef.current);
+        replyTimerRef.current = undefined;
+      }
+    };
+  }, []);
+
   const send = useCallback(
     (raw: string) => {
       const clean = raw.trim();
       if (!clean || busy) return;
+      if (replyTimerRef.current !== undefined) {
+        window.clearTimeout(replyTimerRef.current);
+        replyTimerRef.current = undefined;
+      }
       setBusy(true);
       setDraft('');
       setMessages((m) => [...m, { role: 'user', content: clean }]);
       const { text, beat: next } = replyFor(clean, active.label);
-      window.setTimeout(() => {
+      replyTimerRef.current = window.setTimeout(() => {
+        replyTimerRef.current = undefined;
         if (next) onBeatRequest?.(next);
         setMessages((m) => [...m, { role: 'assistant', content: text }]);
         setBusy(false);
