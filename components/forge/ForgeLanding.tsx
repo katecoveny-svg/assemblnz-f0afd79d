@@ -15,6 +15,10 @@ import { FORGE_DEMO_FLAGS } from '@/lib/forge/demo-flags';
 import { FORGE_PREVIEW } from '@/lib/forge/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
 
+/**
+ * Forge PREVIEW landing — paper craft kit lineage from Arc #1166 (leave-live).
+ * Does not use #1167 plum-field craft. Homepage `/` untouched.
+ */
 export function ForgeLanding() {
   const c = FORGE_PREVIEW;
 
