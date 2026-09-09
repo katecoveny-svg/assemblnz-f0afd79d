@@ -416,12 +416,15 @@
 .cj-industry-link span { color: var(--cj-heather); }
 
 .cj-live {
+  position: relative;
+  z-index: 2;
   padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 72px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
   gap: clamp(32px, 5vw, 72px);
   align-items: start;
   border-top: 1px solid var(--cj-rule);
+  overflow: clip;
 }
 .cj-live-copy { max-width: 560px; }
 .cj-live-copy h2 {
@@ -468,7 +471,7 @@
   --aj-plum-muted: #654a4e;
   --aj-rose: #916a70;
   position: relative;
-  z-index: 3;
+  z-index: 1;
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
@@ -476,6 +479,7 @@
   place-items: center;
   pointer-events: auto;
   isolation: isolate;
+  transform: translateZ(0);
 }
 .cj-live-phone .aj-phone {
   position: relative;
@@ -781,6 +785,8 @@
 
 
 .cj-close {
+  position: relative;
+  z-index: 3;
   margin: 0 clamp(20px, 4.5vw, 72px) clamp(60px, 8vh, 100px);
   padding: clamp(56px, 8vh, 100px) clamp(24px, 4vw, 64px);
   background: var(--cj-ink);
