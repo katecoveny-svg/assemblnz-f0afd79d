@@ -36,7 +36,7 @@ export const ASSEMBL_HOME_SPINE =
 export const MASTHEAD = 'the wait is the earn event.';
 
 export const INDEPENDENT_CONCEPT_DISCLAIMER =
-  'Independent concept by assembl — not a current One NZ product, offer, or partnership. Phone Dollars, One Wallet and Mana Receipts shown here are proposed experience design only.';
+  'Independent concept by assembl, not a current One NZ product, offer, or partnership. Phone Dollars, One Wallet and Mana Receipts shown here are proposed experience design only.';
 
 export const WAIT_TRIGGERS = [
   { id: 'esim', label: 'eSIM activation', dwell: '~90s', primary: true },
@@ -80,7 +80,7 @@ export const MODE_A = {
  */
 export const PHASE_0 = {
   title: 'Phase 0 pilot',
-  lede: 'One wait trigger, one earn rule, Mana Receipts from day one — opted-in members only.',
+  lede: 'One wait trigger, one earn rule, Mana Receipts from day one. Opted-in members only.',
   facts: [
     { label: 'Investment', value: 'NZ$85–140k' },
     { label: 'Build', value: '~4 weeks' },

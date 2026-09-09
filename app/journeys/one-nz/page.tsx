@@ -5,7 +5,7 @@ import { INDEPENDENT_CONCEPT_DISCLAIMER, MASTHEAD } from '@/lib/loyalty/one-nz';
 export const metadata: Metadata = {
   title: 'One NZ · Wait→Earn Phase 0',
   description:
-    'Independent concept: the wait is the earn event. Phone Dollars stamp into One Wallet while you wait — with Mana Receipts as evidence. Not a current One NZ offer or partnership.',
+    'Independent concept: the wait is the earn event. Phone Dollars stamp into One Wallet while you wait, with Mana Receipts as evidence. Not a current One NZ offer or partnership.',
   robots: { index: false, follow: false },
   alternates: { canonical: '/journeys/one-nz' },
   openGraph: {

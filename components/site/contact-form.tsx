@@ -40,7 +40,7 @@ export function ContactForm() {
             aria-hidden
           />
         </div>
-        <h2 className="mt-6 font-display text-3xl">Kia ora — we&apos;ll be in touch.</h2>
+        <h2 className="mt-6 font-display text-3xl">Kia ora. We&apos;ll be in touch.</h2>
         <p className="mx-auto mt-4 max-w-md text-sm text-[color:var(--text-body)]">
           We&apos;ve logged your enquiry and someone from the team will reply
           within one working day. Reference for your records:
@@ -167,7 +167,7 @@ export function ContactForm() {
             rows={5}
             onChange={(e) => setMessageLength(e.target.value.length)}
             className="form-input resize-y"
-            placeholder="The wait you want to make useful, the agent job on your desk, or the Outcome result you have in mind — whatever helps us prep for the call."
+            placeholder="The wait you want to make useful, the agent job on your desk, or the Outcome result you have in mind. Whatever helps us prep for the call."
           />
           <div className="mt-2 flex justify-end">
             <span
