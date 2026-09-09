@@ -110,6 +110,7 @@
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 0.95;
+  color: var(--arc-paper);
 }
 
 .arc-hero-support {
