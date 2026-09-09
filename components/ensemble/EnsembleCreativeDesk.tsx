@@ -11,7 +11,9 @@ import { ENSEMBLE_PREVIEW } from '@/lib/ensemble/preview-copy';
  * Live console: /customers/creative-agency/ops
  */
 export function EnsembleCreativeDesk() {
-  const [active, setActive] = useState(ENSEMBLE_MAKERS[0].slug);
+  const [active, setActive] = useState<(typeof ENSEMBLE_MAKERS)[number]['slug']>(
+    ENSEMBLE_MAKERS[0].slug,
+  );
   const [brief, setBrief] = useState(
     'Winter single-origin launch for a Wellington café — warm, claim-safe, ready for approval.',
   );
