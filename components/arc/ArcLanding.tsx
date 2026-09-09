@@ -5,6 +5,7 @@ import { ARC_PREVIEW } from '@/lib/arc/preview-copy';
 import { ARC_BLUEPRINT_CRAFT } from '@/lib/agent-app/blueprint-craft';
 import { BlueprintField } from '@/components/agent-app/BlueprintField';
 import { PinnedSteps } from '@/components/agent-app/PinnedSteps';
+import { PlanAssembling } from '@/components/agent-app/PlanAssembling';
 import { ArcCraftScroll } from '@/components/arc/ArcCraftScroll';
 import { ArcModelDemo } from '@/components/arc/ArcModelDemo';
 import { ArcPreviewChat } from '@/components/arc/ArcPreviewChat';
@@ -51,6 +52,9 @@ export function ArcLanding() {
           title={c.narrativeTitle}
           steps={craft.steps}
           partsLabel={craft.partsLabel}
+          stage={(activeStep) => (
+            <PlanAssembling activeStep={activeStep} caption={craft.drawingCaption} />
+          )}
         />
 
         <section className="arc-section" aria-labelledby="arc-model-title">

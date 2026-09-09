@@ -9,12 +9,17 @@ import { ARC_DEMO_VIOLATIONS } from '@/lib/arc/demo-violations';
 import { ARC_PREVIEW } from '@/lib/arc/preview-copy';
 
 describe('agent-app blueprint craft kit', () => {
-  it('locks plum accents and exposes reusable vertical craft', () => {
+  it('locks Kate craft tokens and reusable vertical craft', () => {
     expect(BLUEPRINT_TOKENS.plum).toBe('#240B21');
     expect(BLUEPRINT_TOKENS.rose).toBe('#916A70');
+    expect(BLUEPRINT_TOKENS.heather).toBe('#A8898E');
+    expect(BLUEPRINT_TOKENS.mulberry).toBe('#7A4E5A');
     expect(getBlueprintCraft('arc').name).toBe('arc');
     expect(getBlueprintCraft('forge').name).toBe('forge');
-    expect(ARC_BLUEPRINT_CRAFT.metaphor.toLowerCase()).toContain('assemble');
+    expect(ARC_BLUEPRINT_CRAFT.metaphor).toBe(
+      'Building parts assemble into a coherent plan.',
+    );
+    expect(ARC_BLUEPRINT_CRAFT.drawingCaption.toLowerCase()).toContain('nz terrace');
     expect(FORGE_BLUEPRINT_CRAFT.partsLabel.length).toBeGreaterThan(0);
     expect(ARC_BLUEPRINT_CRAFT.steps.map((s) => s.id)).toEqual([
       'observe',

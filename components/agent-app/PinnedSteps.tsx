@@ -1,27 +1,29 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { BlueprintStep } from '@/lib/agent-app/blueprint-craft';
-import { PlanAssembling } from '@/components/agent-app/PlanAssembling';
 import './blueprint-craft.css';
 
 /**
- * Pinned step scroll — Heron behaviour, Assembl craft.
- * Sticky plan + step copy; scroll advances Observe → Advise → Act.
- * Reusable: pass any vertical's steps + optional plan slot later.
+ * Pinned step scroll — sticky stage + Observe → Advise → Act runway.
+ * Vertical-agnostic: Arc passes a plan drawing; Forge can pass a build sheet.
  */
 export function PinnedSteps({
   eyebrow,
   title,
   steps,
   partsLabel,
+  stage,
 }: {
   eyebrow: string;
   title: string;
   steps: readonly BlueprintStep[];
   partsLabel: string;
+  /** Assembling drawing for this vertical (plan, build sheet, …). */
+  stage: (activeStep: number) => ReactNode;
 }) {
   const rootRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
@@ -88,10 +90,9 @@ export function PinnedSteps({
             ))}
           </ol>
         </div>
-        <PlanAssembling activeStep={active} />
+        {stage(active)}
       </div>
 
-      {/* scroll runway — each spacer advances one step while the sticky stage holds */}
       {steps.map((step) => (
         <div key={`spacer-${step.id}`} className="bp-pin-spacer" aria-hidden />
       ))}

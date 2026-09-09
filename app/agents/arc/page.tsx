@@ -19,6 +19,9 @@ export const metadata: Metadata = {
  * Arc — architecture & design agent-app PREVIEW landing.
  * Public pitch surface under /agents (splash-exempt). Noindex.
  * Does not touch homepage craft.
+ *
+ * Kate craft locks: plum blueprint assembling language, NZ DEMO typology,
+ * Instrument Sans + IBM Plex Mono, reusable via components/agent-app.
  */
 export default function ArcAgentAppPage() {
   return <ArcLanding />;

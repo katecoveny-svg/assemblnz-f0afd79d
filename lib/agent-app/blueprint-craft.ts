@@ -2,9 +2,13 @@
  * Shared agent-app blueprint craft kit.
  * Arc is the first vertical; Forge (and others) reuse this shape later.
  *
- * Visual language: architectural assembling / blueprint / plan drawings.
- * Field: deep plum. Accents: heather / mulberry. Type: Instrument Sans + IBM Plex Mono.
- * Never cream paper, never orange, never partnership claims.
+ * HARD Kate craft locks (agent-app system):
+ * 1. Visual language = architectural assembling / blueprint / plan drawings
+ *    — not cream Heron paper, not orange accents.
+ * 2. Accent = deep plum #240B21 + heather/mulberry.
+ * 3. Arc plans feel New Zealand relevant (NZBC/AUP DEMO; NZ typology).
+ * 4. Arc metaphor = building parts assembling into a coherent plan.
+ * 5. Instrument Sans + IBM Plex Mono; no AI slop; no mana/kete; no partnership claims.
  */
 
 export const BLUEPRINT_TOKENS = {
@@ -17,7 +21,7 @@ export const BLUEPRINT_TOKENS = {
   mulberry: '#7A4E5A',
   line: 'rgba(245, 241, 242, 0.12)',
   lineStrong: 'rgba(145, 106, 112, 0.55)',
-  grid: 'rgba(245, 241, 242, 0.055)',
+  grid: 'rgba(245, 241, 242, 0.09)',
 } as const;
 
 export type AgentAppVerticalId = 'arc' | 'forge';
@@ -37,6 +41,8 @@ export type BlueprintVerticalCraft = {
   metaphor: string;
   /** Assembling parts language for plan drawings */
   partsLabel: string;
+  /** DEMO drawing caption for the assembling stage */
+  drawingCaption: string;
   steps: BlueprintStep[];
 };
 
@@ -46,6 +52,7 @@ export const ARC_BLUEPRINT_CRAFT: BlueprintVerticalCraft = {
   name: 'arc',
   metaphor: 'Building parts assemble into a coherent plan.',
   partsLabel: 'walls · openings · stair · deck',
+  drawingCaption: 'DEMO · NZ terrace infill · AUP H4 sketch',
   steps: [
     {
       id: 'observe',
@@ -77,6 +84,7 @@ export const FORGE_BLUEPRINT_CRAFT: BlueprintVerticalCraft = {
   name: 'forge',
   metaphor: 'Car parts assemble into a coherent build sheet.',
   partsLabel: 'body · chassis · trim · systems',
+  drawingCaption: 'DEMO · build sheet · parts assembling',
   steps: [
     {
       id: 'observe',
