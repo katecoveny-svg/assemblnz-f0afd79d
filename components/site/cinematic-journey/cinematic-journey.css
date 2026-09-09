@@ -178,8 +178,8 @@
   letter-spacing: -0.07em;
   text-wrap: balance;
   color: var(--cj-paper);
+  white-space: pre-line;
 }
-.cj-hero h1 span { display: block; }
 .cj-hero-lede {
   max-width: 34em;
   margin: 28px 0 0;
