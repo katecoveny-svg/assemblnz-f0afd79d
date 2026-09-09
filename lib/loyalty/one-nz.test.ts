@@ -4,10 +4,13 @@ import {
   DEMO_RECEIPT_AT,
   DIGITAL_TURQUOISE,
   EVIDENCE_SPLIT,
+  MODE_A,
   ONE_NZ_ACCENT,
   ONE_NZ_ACCENT_DEPTH,
   MASTHEAD,
+  PHASE_0,
   TWELVE_WORD_ENERGY,
+  WAIT_TRIGGERS,
   nzd,
 } from './one-nz';
 
@@ -44,5 +47,28 @@ describe('one-nz loyalty tokens', () => {
   it('uses a fresh Mana Receipt demo timestamp (Sep 2026)', () => {
     expect(DEMO_RECEIPT_AT).toMatch(/Sep 2026/);
     expect(DEMO_RECEIPT_AT).not.toMatch(/2025/);
+  });
+
+  it('locks Mode A ownership split', () => {
+    expect(MODE_A.label).toBe('Mode A');
+    expect(MODE_A.oneNz.points.join(' ')).toMatch(/P&L/i);
+    expect(MODE_A.assembl.points.join(' ')).toMatch(/Mana Receipt/i);
+  });
+
+  it('locks Phase 0 commercials without puff', () => {
+    const values = PHASE_0.facts.map((f) => f.value).join(' ');
+    expect(values).toMatch(/NZ\$85–140k/);
+    expect(values).toMatch(/~4 weeks/);
+    expect(values).toMatch(/500–1,000/);
+    expect(values).toMatch(/\$0\.30/);
+    expect(values).toMatch(/55 \/ 30 \/ 15/);
+    expect(values).toMatch(/\$0/);
+    expect(PHASE_0.lede.toLowerCase()).not.toMatch(/revolutionise|seamless|supercharge/);
+  });
+
+  it('marks eSIM and plan change as primary Phase 0 triggers', () => {
+    expect(WAIT_TRIGGERS.find((t) => t.id === 'esim')?.primary).toBe(true);
+    expect(WAIT_TRIGGERS.find((t) => t.id === 'plan')?.primary).toBe(true);
+    expect(WAIT_TRIGGERS.find((t) => t.id === 'ivr')?.primary).toBe(false);
   });
 });
