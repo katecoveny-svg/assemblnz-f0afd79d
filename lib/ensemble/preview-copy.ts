@@ -6,7 +6,7 @@
  */
 
 export const ENSEMBLE_PREVIEW = {
-  metaTitle: 'Ensemble · creative studio · assembl',
+  metaTitle: 'Ensemble · creative studio',
   metaDescription:
     'Ensemble is assembl’s creative studio agent-app. Brief the desk once — copy, stills, film and voice assemble into a package that waits for your yes.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
