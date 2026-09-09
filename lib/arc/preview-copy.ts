@@ -1,6 +1,7 @@
 /**
  * Arc agent-app PREVIEW copy — pitch surface only.
  * Concrete, NZ English. No partnership claims. No mana/kete product labels.
+ * Blueprint assembling metaphor — not cream Heron paper, not orange accents.
  */
 
 export const ARC_PREVIEW = {
@@ -14,42 +15,28 @@ export const ARC_PREVIEW = {
   productLine: 'assembl agent-app',
   heroLine: 'Architecture work that cites its sources.',
   heroSupport:
-    'Arc reads a model, flags NZ Building Code and plan issues, and drafts fixes that wait for your yes.',
+    'Arc runs with the model: flags NZ Building Code and plan issues, drafts fixes, and waits for your yes.',
+  heroMetaphor: 'Building parts assemble into a coherent plan.',
 
   modelEyebrow: 'Click a pin',
   modelTitle: 'Your model. Issues you can name.',
   modelSupport:
-    'DEMO pins use NZBC / AUP-class references on a fictional massing. Nothing here is a real consent check.',
+    'DEMO pins use NZBC / AUP-class references on a fictional NZ terrace massing. Nothing here is a real consent check.',
 
   narrativeEyebrow: 'How Arc works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
-  chapters: [
-    {
-      id: 'observe',
-      label: '01',
-      title: 'Observe',
-      body: 'Arc watches the model as spaces take shape — clearances, barriers, travel paths, openings.',
-    },
-    {
-      id: 'advise',
-      label: '02',
-      title: 'Advise',
-      body: 'Each issue arrives with a clause citation and plain-language summary, ready for review.',
-    },
-    {
-      id: 'act',
-      label: '03',
-      title: 'Act on approval',
-      body: 'Drafts stay staged. A person approves before anything changes a drawing or leaves the desk.',
-    },
-  ],
 
-  chatEyebrow: 'Chat as proof',
-  chatTitle: 'Ask once. Get a cited draft.',
+  inToolEyebrow: 'In the tool',
+  inToolTitle: 'An agent that stays with the drawing.',
+  inToolSupport:
+    'Ask about the model in chat. Review flags and approvals in the dashboard. Every draft waits.',
+
+  chatEyebrow: 'Arc chat',
+  chatTitle: 'Ask about the model.',
   chatSupport:
     'Scripted preview — no model call, nothing sends. Every reply ends as a draft awaiting approval.',
   chatGreeting:
-    'Arc here. Ask about a DEMO pin or a clearance. I cite the clause, draft the note, and hold it for your approval.',
+    'Arc here. Ask about a DEMO pin or a clearance on this NZ terrace sketch. I cite the clause, draft the note, and hold it for your approval.',
   chatOpeners: [
     {
       q: 'Check the stair handrail against NZBC D1',
@@ -67,6 +54,11 @@ export const ARC_PREVIEW = {
   chatFooter: 'draft-only · cites clauses · DEMO · nothing sends without you',
   approvalLabel: 'Awaiting human approval',
   evidenceLabel: 'Evidence receipt',
+
+  dashboardEyebrow: 'Arc dashboard',
+  dashboardTitle: 'Flags and approvals',
+  dashboardSupport:
+    'Sketch UI — DEMO flags from the plan. Approve nothing is sent; drafts stay staged.',
 
   pricingEyebrow: 'Hours back · credits',
   pricingTitle: 'Sketch pricing — not live checkout',

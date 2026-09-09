@@ -41,8 +41,9 @@ export function ArcCraftScroll() {
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);
 
+    // Skip pinned-step runway — it owns its own ScrollTrigger.
     const sections = root.querySelectorAll<HTMLElement>(
-      '.arc-story > section:not(.arc-hero), .arc-footer',
+      '.arc-story > section:not(.arc-hero):not(.bp-pin-steps), .arc-footer',
     );
 
     const ctx = gsap.context(() => {

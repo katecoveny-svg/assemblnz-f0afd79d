@@ -12,6 +12,13 @@
   --arc-line: rgba(245, 241, 242, 0.12);
   --arc-line-strong: rgba(145, 106, 112, 0.55);
 
+  /* Shared blueprint craft kit tokens */
+  --bp-grid: rgba(245, 241, 242, 0.055);
+  --bp-line: var(--arc-line);
+  --bp-line-strong: var(--arc-line-strong);
+  --bp-heather: var(--arc-heather);
+  --bp-rose: var(--arc-rose);
+
   min-height: 100vh;
   background:
     radial-gradient(120% 80% at 70% -10%, rgba(122, 78, 90, 0.28), transparent 55%),
@@ -120,6 +127,14 @@
   line-height: 1.45;
   color: var(--arc-ink-soft);
   font-weight: 400;
+}
+
+.arc-hero-metaphor {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--arc-heather);
 }
 
 .arc-cta-row {
@@ -275,39 +290,158 @@
   padding: 0.3rem 0.5rem;
 }
 
-.arc-chapters {
+.arc-intool-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.75rem;
 }
 
-@media (min-width: 800px) {
-  .arc-chapters {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.25rem;
+@media (min-width: 980px) {
+  .arc-intool-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
   }
 }
 
-.arc-chapter {
-  padding: 1.5rem 1.25rem;
-  border-top: 1px solid var(--arc-line-strong);
-  background: transparent;
-}
-
-.arc-chapter .arc-eyebrow {
-  margin-bottom: 0.85rem;
-}
-
-.arc-chapter h3 {
-  margin: 0 0 0.65rem;
-  font-size: 1.45rem;
+.arc-intool-label {
+  margin: 0 0 0.45rem;
+  font-size: 1.35rem;
   font-weight: 500;
   letter-spacing: -0.03em;
 }
 
-.arc-chapter p {
+.arc-intool-support {
+  margin: 0 0 1rem;
+  color: var(--arc-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.45;
+  max-width: 36rem;
+}
+
+.arc-dash {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+
+.arc-dash-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.15rem;
+  border-bottom: 1px solid var(--arc-line);
+}
+
+.arc-dash-head h3 {
+  margin: 0.35rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.arc-dash-body {
+  display: grid;
+  gap: 0;
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .arc-dash-body {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+.arc-dash-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid var(--arc-line);
+}
+
+.arc-dash-list button {
+  width: 100%;
+  display: grid;
+  gap: 0.2rem;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border: 0;
+  border-bottom: 1px solid var(--arc-line);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.arc-dash-list button[data-active='true'] {
+  background: rgba(145, 106, 112, 0.14);
+}
+
+.arc-dash-list button:hover {
+  background: rgba(145, 106, 112, 0.1);
+}
+
+.arc-dash-code {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--arc-rose);
+}
+
+.arc-dash-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.arc-dash-status[data-status='awaiting'] {
+  color: var(--arc-rose);
+}
+
+.arc-dash-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.15rem;
+}
+
+.arc-dash-detail h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.arc-dash-detail p {
   margin: 0;
   color: var(--arc-ink-soft);
-  line-height: 1.5;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.arc-dash-meta {
+  margin: 0.5rem 0 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.arc-dash-meta dd {
+  margin: 0.15rem 0 0;
+  color: var(--arc-chalk);
+  font-size: 0.9rem;
+}
+
+.bp-pin-steps .arc-section-head,
+.bp-pin-steps h2 {
+  color: var(--arc-paper);
+}
+
+.bp-pin-steps h2 {
+  margin: 0;
+  font-size: clamp(1.85rem, 4vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
 }
 
 .arc-chat-grid {

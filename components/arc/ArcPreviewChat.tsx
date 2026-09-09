@@ -9,7 +9,7 @@ type Msg = {
   awaitingApproval?: boolean;
 };
 
-export function ArcPreviewChat() {
+export function ArcPreviewChat({ compact = false }: { compact?: boolean }) {
   const openers = ARC_PREVIEW.chatOpeners;
   const [thread, setThread] = useState<Msg[]>([
     { from: 'arc', text: ARC_PREVIEW.chatGreeting },
@@ -26,46 +26,51 @@ export function ArcPreviewChat() {
     setUsed((u) => [...u, i]);
   };
 
-  return (
-    <div className="arc-chat-grid">
-      <div className="arc-chat" id="arc-chat">
-        <div className="arc-chat-head">
-          <span className="arc-mark arc-mono" aria-hidden>
-            ARC
-          </span>
-          <div>
-            <strong>{ARC_PREVIEW.brand}</strong>
-            <span className="arc-mono">scripted · draft-only · DEMO</span>
-          </div>
-        </div>
-
-        <div className="arc-chat-thread" role="log" aria-live="polite">
-          {thread.map((m, i) => (
-            <div
-              key={`${m.from}-${i}`}
-              className={`arc-bubble ${m.from === 'arc' ? 'arc-bubble-arc' : 'arc-bubble-you'}`}
-            >
-              {m.text}
-              {m.awaitingApproval ? (
-                <div className="arc-approval arc-mono">{ARC_PREVIEW.approvalLabel}</div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-
-        <div className="arc-chat-actions">
-          {openers.map((o, i) =>
-            used.includes(i) ? null : (
-              <button key={o.q} type="button" onClick={() => ask(i)}>
-                {o.q}
-              </button>
-            ),
-          )}
-          <p className="arc-chat-foot arc-mono">{ARC_PREVIEW.chatFooter}</p>
+  const chat = (
+    <div className="arc-chat bp-frame-premium" id="arc-chat">
+      <div className="arc-chat-head">
+        <span className="arc-mark arc-mono" aria-hidden>
+          ARC
+        </span>
+        <div>
+          <strong>{ARC_PREVIEW.brand}</strong>
+          <span className="arc-mono">scripted · draft-only · DEMO</span>
         </div>
       </div>
 
-      <aside className="arc-evidence">
+      <div className="arc-chat-thread" role="log" aria-live="polite">
+        {thread.map((m, i) => (
+          <div
+            key={`${m.from}-${i}`}
+            className={`arc-bubble ${m.from === 'arc' ? 'arc-bubble-arc' : 'arc-bubble-you'}`}
+          >
+            {m.text}
+            {m.awaitingApproval ? (
+              <div className="arc-approval arc-mono">{ARC_PREVIEW.approvalLabel}</div>
+            ) : null}
+          </div>
+        ))}
+      </div>
+
+      <div className="arc-chat-actions">
+        {openers.map((o, i) =>
+          used.includes(i) ? null : (
+            <button key={o.q} type="button" onClick={() => ask(i)}>
+              {o.q}
+            </button>
+          ),
+        )}
+        <p className="arc-chat-foot arc-mono">{ARC_PREVIEW.chatFooter}</p>
+      </div>
+    </div>
+  );
+
+  if (compact) return chat;
+
+  return (
+    <div className="arc-chat-grid">
+      {chat}
+      <aside className="arc-evidence bp-frame">
         <p className="arc-eyebrow arc-mono">{ARC_PREVIEW.evidenceLabel}</p>
         <h3>Latest draft status</h3>
         <dl>
