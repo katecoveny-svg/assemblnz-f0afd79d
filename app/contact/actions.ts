@@ -21,9 +21,15 @@ const ContactSchema = z.object({
   name: z.string().min(1, "Name is required").max(120),
   email: z.string().email("Please provide a valid email"),
   business: z.string().max(160).optional(),
+  /** Current interest field (wait→earn / install / free tools / other). */
+  interest: z.string().max(80).optional(),
+  /**
+   * Legacy industry-kete field. Still accepted if an old client posts `kete`,
+   * and folded into `interest` when the new field is empty.
+   */
   kete: z.string().max(40).optional(),
   message: z.string().min(10, "A few sentences please").max(4000),
-  intent: z.enum(["demo", "trial", "question"]).default("demo"),
+  intent: z.enum(["demo", "trial", "question", "team"]).default("trial"),
 });
 
 export type ContactState =
@@ -38,13 +44,19 @@ export async function submitContact(
   _prev: ContactState,
   formData: FormData
 ): Promise<ContactState> {
+  const interestRaw =
+    (formData.get("interest") as string | null) ||
+    (formData.get("kete") as string | null) ||
+    undefined;
+
   const parsed = ContactSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     business: formData.get("business") || undefined,
+    interest: interestRaw || undefined,
     kete: formData.get("kete") || undefined,
     message: formData.get("message"),
-    intent: formData.get("intent") || "demo",
+    intent: formData.get("intent") || "trial",
   });
 
   if (!parsed.success) {
@@ -55,6 +67,7 @@ export async function submitContact(
   }
 
   const ref = `ASB-${Date.now().toString(36).toUpperCase()}`;
+  const interest = parsed.data.interest || parsed.data.kete;
 
   // Belt-and-braces: a durable row lands BEFORE we attempt email, so even a
   // total email outage leaves Kate a queryable record. Fail-soft.
@@ -66,6 +79,8 @@ export async function submitContact(
       ref,
       intent: parsed.data.intent,
       business: parsed.data.business,
+      interest,
+      // Keep legacy key for any intake that still filters on `kete`.
       kete: parsed.data.kete,
       message: parsed.data.message,
     },
@@ -78,12 +93,12 @@ export async function submitContact(
     return { status: "error", message: FALLBACK_ERROR };
   }
 
-  // Build a richer message body so the email includes intent + business + kete
+  // Build a richer message body so the email includes intent + business + interest
   const enriched = [
     `Reference: ${ref}`,
     `Intent: ${parsed.data.intent}`,
     parsed.data.business ? `Business: ${parsed.data.business}` : null,
-    parsed.data.kete ? `Kete: ${parsed.data.kete}` : null,
+    interest ? `Interest: ${interest}` : null,
     "",
     parsed.data.message,
   ]
