@@ -775,4 +775,10 @@
 @media (prefers-reduced-motion: reduce) {
   .cj-btn { transition: none; }
   .cj-phone-signal i { animation: none; }
+  .cj [data-cj-reveal],
+  .cj-story > section:not(.cj-hero) > *,
+  .cj-footer > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
