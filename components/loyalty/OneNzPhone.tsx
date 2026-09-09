@@ -230,8 +230,8 @@ export function OneNzPhone({
                     <em>live</em>
                   </header>
                   <p>
-                    Phone Dollars start earning the moment this {active.label.toLowerCase()} does.
-                    Ask below if you want the proof trail.
+                    Phone Dollars start earning the moment this {active.label} does. Ask below if
+                    you want the proof trail.
                   </p>
                 </div>
               </div>
@@ -265,10 +265,14 @@ export function OneNzPhone({
                 <div className="onz-wallet-stamp-card" data-lit={stamped || undefined}>
                   <span className="onz-stamp-kicker">This wait · {active.label}</span>
                   <strong className={stamped ? 'is-lit' : undefined}>
-                    {stamped ? `+${nzd(DEMO_EARN.stamp)}` : nzd(earned)}
+                    +{nzd(DEMO_EARN.stamp)}
                   </strong>
-                  <em>{stamped ? 'Stamped into One Wallet' : 'Stamping…'}</em>
+                  <em>{stamped ? 'Stamped into One Wallet' : 'Stamping into One Wallet…'}</em>
                   <dl className="onz-stamp-meta">
+                    <div>
+                      <dt>Moment value</dt>
+                      <dd>{nzd(earned || DEMO_EARN.thisWait)}</dd>
+                    </div>
                     <div>
                       <dt>Balance</dt>
                       <dd>{nzd(DEMO_EARN.balance)}</dd>
