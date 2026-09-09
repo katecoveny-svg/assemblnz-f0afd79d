@@ -117,7 +117,7 @@ export function CinematicJourneyHome() {
           <p>{STORY.body}</p>
         </section>
 
-        <section className="cj-wait" aria-labelledby="cj-wait-title">
+        <section className="cj-wait" id="loyalty-wait" aria-labelledby="cj-wait-title">
           <div className="cj-wait-copy">
             <p className="cj-kicker">{WAIT.kicker}</p>
             <h2 id="cj-wait-title">{WAIT.title}</h2>
@@ -154,10 +154,15 @@ export function CinematicJourneyHome() {
                   <p className="cj-industry-vertical">{item.vertical}</p>
                 </div>
                 <p className="cj-industry-line">{item.line}</p>
+                <p className="cj-industry-metaphor">{item.metaphor}</p>
                 <ul className="cj-industry-sources" aria-label={`${item.name} sources`}>
                   {item.sources.map((source) => (
                     <li key={source.label}>
-                      <span>{source.label}</span>
+                      <div className="cj-source-main">
+                        <span className="cj-source-label">{source.label}</span>
+                        <span className="cj-source-cite">{source.cite}</span>
+                        <span className="cj-source-asof">as of {source.asOf}</span>
+                      </div>
                       <em data-status={source.status}>{sourceBadge(source.status)}</em>
                     </li>
                   ))}

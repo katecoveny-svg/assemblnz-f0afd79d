@@ -1,13 +1,16 @@
 /**
- * Homepage copy — Kate Hudson craft PREVIEW (declutter pass).
- * Assembl-only product story. Short. No AI slop. No mana/kete labels.
- * No named client / independent-concept panels on home (Kate hard lock).
+ * Homepage copy — Kate Hudson craft PREVIEW (declutter + loyalty desk).
+ * Assembl-only. Short. No AI slop. No mana/kete. No One NZ / client cards on `/`.
+ *
+ * Dual-track (do not merge language):
+ * 1) Loyalty wait → earn / Evidence receipt — not agent hours-back credits.
+ * 2) Vertical agents on live NZ feeds — cite source + as-of; DEMO if not wired.
  */
 
 export const HOME_META = {
   title: 'assembl · agentic customer journeys',
   description:
-    'assembl builds agentic customer journeys. Agents prepare the next step. Humans stay in charge. Wait becomes useful — with an evidence receipt.',
+    'assembl builds agentic customer journeys. Agents prepare the next step. Humans stay in charge. Loyalty wait earns an evidence receipt. Industry agents cite live NZ sources.',
 } as const;
 
 export const NAV = {
@@ -24,59 +27,89 @@ export const HERO = {
   kicker: 'agentic customer journeys',
   brand: 'assembl',
   headline: 'Agents prepare.\nYou decide.',
-  lede: 'assembl turns the moments in between — waits, reviews, handoffs — into useful progress. Specialist agents do the preparatory work. A named human stays in charge.',
-  ctaPrimary: { label: 'See industry agents', href: '#industries' },
-  ctaSecondary: { label: 'Try a live wait', href: '#live-wait' },
-  proofLine: 'draft-only · evidence receipt · nothing sends without you',
+  lede: 'Two tracks on one page: a loyalty wait that earns an evidence receipt, and industry agents that cite live NZ sources. Agents prepare. Humans stay in charge.',
+  ctaPrimary: { label: 'Loyalty wait', href: '#loyalty-wait' },
+  ctaSecondary: { label: 'Industry agents', href: '#industries' },
+  proofLine: 'evidence receipt · draft-only · nothing sends without you',
 } as const;
 
 export const STORY = {
   kicker: 'what assembl is',
-  title: 'One journey object. Clear control.',
-  body: 'A customer journey understands what someone needs, completes the work around them, and proves the experience improved. Agents prepare. Humans approve.',
+  title: 'Agentic customer journeys.',
+  body: 'Agents prepare the next step around the customer. A named human stays in charge. Proof locks last.',
 } as const;
 
+/** Track 1 — loyalty / rewarded wait. Not credits pricing. */
 export const WAIT = {
-  kicker: 'loyalty wait',
-  title: 'The wait becomes useful — and rewarded.',
-  body: 'While systems process, assembl fills the gap with progress the customer can use. Every useful action leaves an evidence receipt: what context was used, what was prepared, who approved it.',
+  kicker: 'track 1 · loyalty wait',
+  title: 'Wait. Earn. Evidence receipt.',
+  body: 'While systems process, the wait becomes useful — and rewarded. Progress the customer can use. An evidence receipt locks what changed. This is not agent hours-back credits.',
   points: [
     {
-      label: 'useful',
-      text: 'Explain, organise, draft the next step — not another spinner.',
+      label: 'wait',
+      text: 'The delay already exists. Fill it with something useful — not a spinner.',
     },
     {
-      label: 'rewarded',
-      text: 'Loyalty wait: time in delay earns value back, not dead minutes.',
+      label: 'earn',
+      text: 'Loyalty wait: time in delay earns value back. Not credit packs. Not pricing tiers.',
     },
     {
       label: 'receipt',
-      text: 'Evidence receipt locks last — measurable, reviewable, honest.',
+      text: 'Evidence receipt: context used, work prepared, who approved — measurable and honest.',
     },
   ],
 } as const;
 
 export type IndustrySourceStatus = 'demo' | 'live';
 
+export type IndustrySource = {
+  label: string;
+  cite: string;
+  asOf: string;
+  status: IndustrySourceStatus;
+};
+
 /**
- * Industry strip — same pattern per vertical: agent ↔ live NZ documents/tools.
- * Label DEMO vs live-source honestly when a feed is not wired yet.
+ * Track 2 — industry agents ↔ live NZ documents/tools.
+ * Paper/plum agent-apps. Cite source + as-of. DEMO when the feed is not wired.
  */
 export const INDUSTRIES = {
-  kicker: 'industry agents',
-  title: 'Connected to tools and live NZ sources.',
-  body: 'Each vertical agent reads the same pattern: observe the work, cite the source, draft for approval.',
+  kicker: 'track 2 · industry agents',
+  title: 'Vertical agents on live NZ feeds.',
+  body: 'Same pattern each vertical: observe the work, cite the instrument, draft for approval. Paper and plum agent-apps — not partnership claims.',
   items: [
     {
       id: 'arc',
       name: 'Arc',
       vertical: 'architecture',
       href: '/agents/arc',
-      line: 'Reads the model. Flags code issues. Drafts fixes that wait for your yes.',
+      line: 'Consent → code → H&S → bill revisions. Arc cites the instrument and holds the draft.',
+      metaphor: 'consent → code → H&S → bill revisions',
       sources: [
-        { label: 'NZ Building Code', status: 'demo' satisfies IndustrySourceStatus },
-        { label: 'Parliamentary building updates', status: 'demo' satisfies IndustrySourceStatus },
-        { label: 'Health & Safety at Work Act', status: 'demo' satisfies IndustrySourceStatus },
+        {
+          label: 'Building Act 2004 + Building Code',
+          cite: 'legislation.govt.nz · building.govt.nz',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'Building Amendment Bill 2026 progress',
+          cite: 'parliamentary building updates',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'Health and Safety at Work Act + WorkSafe',
+          cite: 'HSWA · WorkSafe guidance',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'MBIE BCA performance / Stats NZ consents',
+          cite: 'BCA aggregates · Stats NZ',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
       ],
     },
     {
@@ -84,10 +117,27 @@ export const INDUSTRIES = {
       name: 'Forge',
       vertical: 'automotive',
       href: '/agents/forge',
-      line: 'Reads the floor plate. Flags WoF and CCCFA gaps. Holds the service note.',
+      line: 'Sales rules, consumer notices, fleet data — cited, then staged for your yes.',
+      metaphor: 'MVSA → CIN → NZTA fleet',
       sources: [
-        { label: 'NZTA WoF / CoF', status: 'demo' satisfies IndustrySourceStatus },
-        { label: 'CCCFA disclosure', status: 'demo' satisfies IndustrySourceStatus },
+        {
+          label: 'Motor Vehicle Sales Act + motortraders.govt.nz',
+          cite: 'MVSA · motortraders.govt.nz',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'Used-vehicle CIN',
+          cite: 'comcom.govt.nz · Consumer Information Notice',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'NZTA fleet open data',
+          cite: 'NZTA instruments · WoF / CoF pattern',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
       ],
     },
     {
@@ -95,25 +145,36 @@ export const INDUSTRIES = {
       name: 'Ensemble',
       vertical: 'creative',
       href: '/agents/ensemble',
-      line: 'Reads the studio board. Flags ASA and Fair Trading claims. Stages the draft.',
+      line: 'Campaign claims cited against ASA and Fair Trading — draft held for approval.',
+      metaphor: 'claim → standard → draft',
       sources: [
-        { label: 'ASA standards', status: 'demo' satisfies IndustrySourceStatus },
-        { label: 'Fair Trading Act 1986', status: 'demo' satisfies IndustrySourceStatus },
+        {
+          label: 'ASA Advertising Standards',
+          cite: 'asa.co.nz',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'Fair Trading Act 1986',
+          cite: 'legislation.govt.nz',
+          asOf: 'Sep 2026',
+          status: 'demo' satisfies IndustrySourceStatus,
+        },
       ],
     },
   ],
 } as const;
 
 export const LIVE_WAIT = {
-  kicker: 'try an active wait',
-  title: 'A real delay. Something useful while it runs.',
-  body: 'Talk to an agent in the phone. Simulated for the demo; live when a provider key is configured.',
+  kicker: 'try a loyalty wait',
+  title: 'A real delay. Earn the receipt while it runs.',
+  body: 'Talk in the phone. Simulated for the demo; live when a provider key is configured. Earn progress — not credits.',
 } as const;
 
 export const CLOSE = {
   kicker: 'start with one moment',
   title: 'Pick one wait. Make it useful.',
-  body: 'Choose a customer delay that already exists. We assemble the journey around it and define how to prove it worked.',
+  body: 'Choose a customer delay that already exists. Assemble the loyalty wait or wire an industry agent to its NZ sources — then prove it with an evidence receipt.',
   cta: {
     label: 'Assemble a customer journey',
     href: 'mailto:assembl@assembl.co.nz?subject=Assemble%20one%20customer%20moment&body=The%20customer%20moment%3A%0A%0AWhat%20happens%20today%3A%0A%0AWhat%20I%27d%20like%20to%20improve%3A%0A%0ACompany%3A%0A',
@@ -123,7 +184,7 @@ export const CLOSE = {
 } as const;
 
 export const FOOTER = {
-  line: 'agentic customer journeys · work that earns its proof.',
+  line: 'loyalty wait · evidence receipt · live NZ sources.',
   links: [
     { label: 'Studio', href: '/generative-studio' },
     { label: 'Journeys', href: '/journeys' },
