@@ -24,6 +24,12 @@ export const ENSEMBLE_PREVIEW = {
     'Strategy, copy, stills, film and voice settle into one reviewable set — DEMO package only, not a live campaign.',
   ctaAssemble: 'Watch the package assemble',
   ctaBoard: 'Open the brand board',
+  ctaClaims: 'See DEMO claim pins',
+
+  claimsEyebrow: '02 · claim pins',
+  claimsTitle: 'Claims on the artefact.',
+  claimsSupport:
+    'ASA and Fair Trading flags sit on the campaign piece itself — readable DEMO notes, not an architecture pin sheet. Nothing publishes without a human yes.',
 
   boardEyebrow: 'Brand board',
   boardTitle: 'Work you can point at.',

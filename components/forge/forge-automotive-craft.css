@@ -1,0 +1,408 @@
+/* Forge automotive craft — paper/chalk field + plum accent.
+ * Service bay desk metaphor. No architecture floor plates.
+ * Instrument Sans + IBM Plex Mono via agent-app / root font tokens.
+ */
+
+.frg-root {
+  --frg-plum: #240b21;
+  --frg-muted: #654a4e;
+  --frg-rose: #916a70;
+  --frg-chalk: #f5f1f2;
+  --frg-paper: #fffdfb;
+  --frg-ink: #240b21;
+  --frg-ink-soft: rgba(36, 11, 33, 0.68);
+  --frg-line: rgba(36, 11, 33, 0.12);
+  --frg-line-strong: rgba(36, 11, 33, 0.28);
+
+  min-height: 100vh;
+  background-color: var(--frg-paper);
+  background-image:
+    radial-gradient(880px 400px at 8% -6%, rgba(145, 106, 112, 0.12), transparent 60%),
+    radial-gradient(720px 360px at 92% 4%, rgba(101, 74, 78, 0.09), transparent 55%),
+    linear-gradient(180deg, #fffdfb 0%, #f6f1f2 46%, #fffdfb 100%);
+  color: var(--frg-ink);
+  font-family: var(--font-body), 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+  background-size: auto;
+  background-position: 0 0;
+}
+
+.frg-root *,
+.frg-root *::before,
+.frg-root *::after {
+  box-sizing: border-box;
+}
+
+.frg-mono {
+  font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+.frg-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem clamp(1.1rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--frg-line);
+  background: rgba(255, 253, 251, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.frg-nav-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
+  text-decoration: none;
+  color: var(--frg-plum);
+}
+
+.frg-nav-brand strong {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.frg-nav-brand span {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frg-muted);
+  white-space: nowrap;
+}
+
+.frg-nav-badge {
+  margin: 0;
+  flex-shrink: 1;
+  max-width: min(42vw, 14rem);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+  border: 1px solid var(--frg-line);
+  padding: 0.35rem 0.55rem;
+  background: rgba(255, 253, 251, 0.95);
+  line-height: 1.35;
+}
+
+.frg-story {
+  display: flex;
+  flex-direction: column;
+}
+
+.frg-section {
+  padding: clamp(2.25rem, 6vw, 5rem) clamp(1.1rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--frg-line);
+}
+
+.frg-section-head {
+  max-width: 42rem;
+  margin-bottom: 1.5rem;
+}
+
+.frg-section-head h2 {
+  margin: 0.35rem 0 0.65rem;
+  font-size: clamp(1.55rem, 3.4vw, 2.25rem);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.frg-section-head p:last-child {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  max-width: 54ch;
+}
+
+.frg-eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-hero {
+  padding-top: clamp(2.5rem, 7vw, 5rem);
+}
+
+.frg-hero-grid {
+  display: grid;
+  gap: clamp(1.35rem, 4vw, 2.5rem);
+  align-items: start;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.frg-hero-copy h1 {
+  margin: 0.4rem 0 0;
+  font-size: clamp(2.15rem, 8.5vw, 3.6rem);
+  font-weight: 550;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  max-width: 14ch;
+}
+
+.frg-hero-support {
+  margin: 1rem 0 0;
+  color: var(--frg-ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 40ch;
+}
+
+.frg-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.45rem;
+}
+
+.frg-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.78rem 1.15rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 550;
+  text-decoration: none;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.frg-cta:hover {
+  transform: translateY(-1px);
+}
+
+.frg-cta-primary {
+  background: var(--frg-plum);
+  color: var(--frg-paper);
+}
+
+.frg-cta-ghost {
+  background: transparent;
+  color: var(--frg-plum);
+  border: 1px solid var(--frg-line-strong);
+}
+
+.frg-hero-panel {
+  border: 1px solid var(--frg-line-strong);
+  background: rgba(255, 253, 251, 0.94);
+  padding: 1.15rem 1.15rem 1.25rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.frg-hero-panel h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+
+.frg-hero-panel p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.frg-hero-panel .frg-mono {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-bays {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.frg-bay-card {
+  border: 1px solid var(--frg-line-strong);
+  background: var(--frg-paper);
+  padding: 1.25rem 1.15rem 1.35rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.frg-demo-pill {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.28rem 0.5rem;
+  background: var(--frg-plum);
+  color: var(--frg-paper);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.frg-bay-code {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-bay-card h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 4.2vw, 1.55rem);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--frg-plum);
+}
+
+.frg-bay-card > p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.frg-bay-meta,
+.frg-bay-stamp {
+  margin: 0.2rem 0 0 !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.frg-bay-meta {
+  color: var(--frg-muted) !important;
+}
+
+.frg-bay-stamp {
+  color: var(--frg-rose) !important;
+}
+
+.frg-bay-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.frg-bay-list-label {
+  margin: 0 0 0.15rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-muted);
+}
+
+.frg-bay-list-item {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--frg-line);
+  background: rgba(255, 253, 251, 0.92);
+  color: inherit;
+  padding: 0.85rem 0.95rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.frg-bay-list-item span {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-bay-list-item strong {
+  font-size: 0.98rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--frg-plum);
+}
+
+.frg-bay-list-item[data-active='true'],
+.frg-bay-list-item:hover {
+  border-color: var(--frg-plum);
+  background: var(--frg-chalk);
+}
+
+.frg-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1.5rem clamp(1.1rem, 4vw, 3rem) 2.5rem;
+}
+
+.frg-footer p {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--frg-ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.frg-footer a {
+  color: var(--frg-plum);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 860px) {
+  .frg-hero-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: center;
+  }
+
+  .frg-bays {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+}
+
+@media (max-width: 520px) {
+  .frg-nav-badge {
+    max-width: 100%;
+  }
+
+  .frg-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .frg-cta {
+    width: 100%;
+  }
+
+  .frg-root .aa-section {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+    max-width: 100%;
+  }
+
+  .frg-root .aa-oaa-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .frg-root .aa-oaa-actions .aa-cta {
+    width: 100%;
+  }
+
+  .frg-root .aa-chat-actions button {
+    white-space: normal;
+    line-height: 1.35;
+  }
+}

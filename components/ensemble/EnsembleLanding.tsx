@@ -9,6 +9,7 @@ import {
 } from '@/components/agent-app';
 import { EnsembleBrandBoard } from '@/components/ensemble/EnsembleBrandBoard';
 import { EnsembleBriefDesk } from '@/components/ensemble/EnsembleBriefDesk';
+import { EnsembleClaimPins } from '@/components/ensemble/EnsembleClaimPins';
 import { EnsembleCreativeDesk } from '@/components/ensemble/EnsembleCreativeDesk';
 import { EnsemblePreviewChat } from '@/components/ensemble/EnsemblePreviewChat';
 import {
@@ -29,12 +30,14 @@ const AA_TOKEN_STYLE = {
   ['--aa-ink-soft']: 'rgba(36, 11, 33, 0.68)',
   ['--aa-line']: 'rgba(36, 11, 33, 0.12)',
   ['--aa-line-strong']: 'rgba(36, 11, 33, 0.28)',
-  ['--aa-grid']: 'rgba(36, 11, 33, 0.045)',
+  // Neutralise inherited engineering grid on shared .aa-root class.
+  ['--aa-grid']: 'transparent',
 } as CSSProperties;
 
 /**
  * Ensemble creative front door — CreativeWorkspace DNA on plum/paper craft.
  * No BlueprintScene / PlanPins / floor plates (Arc keeps that factory kit).
+ * Mobile-first: claims live on the artefact, not an architecture pin sheet.
  */
 export function EnsembleLanding() {
   const c = ENSEMBLE_PREVIEW;
@@ -45,7 +48,10 @@ export function EnsembleLanding() {
       data-craft="creative-desk"
       style={AA_TOKEN_STYLE}
     >
-      <CraftScroll />
+      <CraftScroll
+        rootSelector=".ens-root"
+        revealSelector=".ens-story > section:not(.ens-hero), .ens-footer"
+      />
 
       <header className="ens-nav">
         <Link href="/agents/ensemble" className="ens-nav-brand">
@@ -66,8 +72,8 @@ export function EnsembleLanding() {
                 <a className="ens-cta ens-cta-primary" href="#ensemble-assemble">
                   {c.ctaAssemble}
                 </a>
-                <a className="ens-cta ens-cta-ghost" href="#ensemble-board">
-                  {c.ctaBoard}
+                <a className="ens-cta ens-cta-ghost" href="#ensemble-claims">
+                  {c.ctaClaims}
                 </a>
               </div>
             </div>
@@ -90,6 +96,15 @@ export function EnsembleLanding() {
             <p>{c.assembleSupport}</p>
           </div>
           <EnsembleBriefDesk />
+        </section>
+
+        <section className="ens-section" aria-labelledby="ensemble-claims-title">
+          <div className="ens-section-head">
+            <p className="ens-eyebrow ens-mono">{c.claimsEyebrow}</p>
+            <h2 id="ensemble-claims-title">{c.claimsTitle}</h2>
+            <p>{c.claimsSupport}</p>
+          </div>
+          <EnsembleClaimPins />
         </section>
 
         <section className="ens-section" aria-labelledby="ensemble-board-title">

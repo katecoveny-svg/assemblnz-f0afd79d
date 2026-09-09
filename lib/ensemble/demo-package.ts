@@ -119,6 +119,58 @@ export const ENSEMBLE_BRAND_BOARD: BrandBoardItem[] = [
   },
 ];
 
+/**
+ * DEMO claim flags on the campaign artefact — readable cards, not an
+ * architecture pin sheet. ASA / Fair Trading / rights. Not advice.
+ */
+export type ClaimPin = {
+  id: string;
+  code: string;
+  title: string;
+  summary: string;
+  artefact: string;
+  demo: true;
+};
+
+export const ENSEMBLE_CLAIM_PINS: ClaimPin[] = [
+  {
+    id: 'asa-superiority',
+    code: 'ASA',
+    title: 'Unsubstantiated superiority claim',
+    summary:
+      'Brand board headline claims “NZ’s #1” without substantiation on this DEMO plate. Cite ASA Principle 2 before any publish draft leaves the desk.',
+    artefact: 'Harbour winter headline · Muse',
+    demo: true,
+  },
+  {
+    id: 'fta-price',
+    code: 'FTA 1986',
+    title: 'Price claim missing conditions',
+    summary:
+      'Offer lock-up omits material conditions on this DEMO forme. Fair Trading Act 1986 — draft the note, hold for human sign-off.',
+    artefact: 'Offer lock-up · brand board',
+    demo: true,
+  },
+  {
+    id: 'asa-disclaimer',
+    code: 'ASA',
+    title: 'Disclaimer too small on forme',
+    summary:
+      'DEMO disclaimer sits below readable size on the campaign forme. Stage a corrected layout before any media booking.',
+    artefact: 'Campaign forme · Prism',
+    demo: true,
+  },
+  {
+    id: 'copyright-asset',
+    code: 'Copyright',
+    title: 'Asset rights unconfirmed',
+    summary:
+      'Stock still on the DEMO shelf has no confirmed licence trail. Hold publish until rights are on the receipt.',
+    artefact: 'Asset shelf · Flux still',
+    demo: true,
+  },
+];
+
 export const ENSEMBLE_MAKERS = [
   {
     slug: 'auaha',

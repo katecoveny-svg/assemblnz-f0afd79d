@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, Send, X } from 'lucide-react';
-import { isCustomerWorkspace, isAlphassembl, isAssemblBills, isStandaloneHealth, isMotionStudio, isCreativeStudio } from '@/components/site/site-header';
+import { isCustomerWorkspace, isAlphassembl, isAssemblBills, isStandaloneHealth, isMotionStudio, isCreativeStudio, isAgentMarketplace } from '@/components/site/site-header';
 import { cn } from '@/lib/utils';
 import { PRICING_NOTE, PRICE_INSTALL, PRICE_RUNNING, PRICE_TEAM, pricingPlainLines } from '@/lib/registry/pricing';
 
@@ -168,10 +168,12 @@ export function AssemblConciergeWidget() {
   };
 
   // Don't render the global concierge on an agent's own chat page, the internal
-  // /admin operator hub, a tenant workspace, or the homepage.
+  // /admin operator hub, a tenant workspace, marketplace/agent-app craft pages,
+  // or the homepage. Craft landings (/agents/ensemble, /agents/forge, …) own
+  // their own CTAs — the float was eating mobile content (Kate craft fail).
   // Homepage (`/`) owns live chat via HomeGuidePhone in CinematicJourneyHome —
   // this float is intentionally off there (pathname gate), not blocked by R3F/Lenis.
-  if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || (!!pathname && ['/', '/pricing', '/agents', '/about', '/pilots', '/field-notes', '/build-an-agent'].includes(pathname))) {
+  if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAgentMarketplace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || (!!pathname && ['/', '/pricing', '/about', '/pilots', '/field-notes', '/build-an-agent'].includes(pathname))) {
     return null;
   }
 
