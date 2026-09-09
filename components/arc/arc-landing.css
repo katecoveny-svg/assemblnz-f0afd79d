@@ -13,7 +13,7 @@
   --arc-line-strong: rgba(145, 106, 112, 0.55);
 
   /* Shared blueprint craft kit tokens */
-  --bp-grid: rgba(245, 241, 242, 0.055);
+  --bp-grid: rgba(245, 241, 242, 0.09);
   --bp-line: var(--arc-line);
   --bp-line-strong: var(--arc-line-strong);
   --bp-heather: var(--arc-heather);
