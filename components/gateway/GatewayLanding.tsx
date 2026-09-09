@@ -53,15 +53,15 @@ export function GatewayLanding() {
             <aside className="aa-hero-sheet" aria-hidden>
               <TitleBlock
                 fields={[
-                  { label: 'CLIENT', value: 'sample brokerage' },
-                  { label: 'SHIPMENT', value: 'Harbour import · DEMO' },
+                  { label: 'BROKER', value: 'sample brokerage' },
+                  { label: 'VESSEL', value: 'MV Harbour Demo' },
+                  { label: 'MANIFEST', value: 'B/L DEMO-8841' },
                   { label: 'AGENTS', value: 'gateway · pikau' },
-                  { label: 'PACK', value: 'entry · tariff · clearance' },
                 ]}
               />
               <div className="aa-hero-rule" />
               <p className="aa-mono aa-hero-sheet-note">
-                clearance pack · plum accent · DEMO · not lodged
+                vessel · entry · tariff · clearance · DEMO
               </p>
             </aside>
           </div>
@@ -74,13 +74,13 @@ export function GatewayLanding() {
           title={c.assembleTitle}
           support={c.assembleSupport}
           titleBlock={[
-            { label: 'SHIPMENT', value: 'Harbour import · DEMO' },
-            { label: 'PACK', value: 'Invoice · tariff · entry' },
-            { label: 'BORDER', value: 'Clearance staged' },
-            { label: 'STATUS', value: 'preview · not lodged' },
+            { label: 'VESSEL', value: 'MV Harbour Demo · VOY 26-04' },
+            { label: 'MANIFEST', value: 'B/L DEMO-8841' },
+            { label: 'ENTRY', value: 'Invoice · HS · CIF' },
+            { label: 'BORDER', value: 'clearance staged · not lodged' },
           ]}
           caption="fictional NZ brokerage · sample business · details fictional"
-          ariaLabel="DEMO customs clearance pack assembling from flat-lay entry documents and tariff pins"
+          ariaLabel="DEMO vessel clearance pack assembling from manifest, entry docs and tariff pins"
           gridPatternId="gateway-entry-grid"
         >
           <GatewayAssembleParts />
@@ -96,17 +96,17 @@ export function GatewayLanding() {
             id="gateway-model"
             pins={GATEWAY_DEMO_PINS}
             titleBlock={[
-              { label: 'PACK', value: 'Clearance pins · DEMO' },
+              { label: 'MANIFEST', value: 'Clearance pins · DEMO' },
               { label: 'CODES', value: 'Customs Act · Tariff · Biosecurity' },
               { label: 'STATUS', value: 'staged · not lodged' },
             ]}
             underlay={<GatewayEntryUnderlay />}
-            caption="import entry pack · DEMO pins · Customs Act / tariff citations"
+            caption="vessel clearance pack · DEMO pins · HS / Customs Act / border"
             demoBadge={c.demoBadge}
             evidenceLabel={c.evidenceLabel}
-            ariaLabel="DEMO customs clearance pack with clickable tariff and border pins"
+            ariaLabel="DEMO vessel clearance pack with clickable HS, origin and border pins"
             gridPatternId="gateway-entry-grid-pins"
-            hint="Click a pin on the entry pack"
+            hint="Click a pin on the clearance pack"
             listLabel="DEMO clearance pins"
           />
         </section>

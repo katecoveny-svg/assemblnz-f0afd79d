@@ -43,8 +43,12 @@ describe('Gateway PREVIEW demo data', () => {
     expect(blob).not.toMatch(/\bga plan\b|\bg\.a\.\b/);
     expect(blob).not.toMatch(/\bdrawing\b/);
     expect(blob).not.toMatch(/\bscale\b/);
-    expect(blob).toMatch(/entry|tariff|clearance|border|customs/);
-    expect(GATEWAY_PREVIEW.assembleTitle.toLowerCase()).toMatch(/desk|clearance|entry|pack|docs/);
+    expect(blob).not.toMatch(/\broom\b|\bstair\b|\bbedroom\b/);
+    expect(blob).not.toMatch(/north arrow|n-compass|compass/);
+    expect(blob).toMatch(/entry|tariff|clearance|border|customs|manifest|vessel|hs/);
+    expect(GATEWAY_PREVIEW.assembleTitle.toLowerCase()).toMatch(
+      /manifest|clearance|entry|tariff|vessel/,
+    );
   });
 
   it('frames pricing as hours back', () => {

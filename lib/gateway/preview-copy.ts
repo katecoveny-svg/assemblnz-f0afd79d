@@ -9,7 +9,7 @@
 export const GATEWAY_PREVIEW = {
   metaTitle: 'Gateway · customs agent-app preview · concept · demo data',
   metaDescription:
-    'Preview of Gateway — assembl’s customs brokerage agent-app with Pīkau. Observe the entry pack, flag tariff and border issues, draft actions that wait for human approval.',
+    'Preview of Gateway — assembl’s customs brokerage agent-app with Pīkau. Observe the vessel manifest and entry pack, flag tariff and border issues, draft actions that wait for human approval.',
   previewBadge: 'PREVIEW · concept · demo data · details fictional',
   demoBadge: 'DEMO',
 
@@ -17,19 +17,19 @@ export const GATEWAY_PREVIEW = {
   productLine: 'assembl agent-app',
   heroLine: 'Border work that cites its pins.',
   heroSupport:
-    'Gateway and Pīkau read the entry pack, flag tariff and Customs Act issues, and draft broker actions that wait for your yes.',
+    'Gateway and Pīkau read the vessel manifest and entry pack, flag HS and Customs Act issues, and draft broker actions that wait for your yes.',
 
   assembleEyebrow: '01 · assemble',
-  assembleTitle: 'Docs on the desk. Then a clearance draft.',
+  assembleTitle: 'Manifest, entry docs, tariff — then clearance.',
   assembleSupport:
-    'Flat-lay invoice, packing list, tariff card and border stamps settle into a fictional NZ import entry pack — DEMO only, not a lodged clearance.',
+    'Flat-lay bill of lading, invoice, HS tariff card and border stamps settle into a fictional NZ import clearance pack — DEMO only, not a lodged entry.',
   ctaAssemble: 'Watch the pack assemble',
   ctaPins: 'See DEMO pins',
 
   modelEyebrow: 'Click a pin',
   modelTitle: 'Your entry. Pins you can name.',
   modelSupport:
-    'DEMO pins use Customs and Excise Act / Working Tariff references on a fictional clearance pack. Nothing here is a real clearance check.',
+    'DEMO pins cite Customs and Excise Act / Working Tariff on a fictional vessel clearance pack. Nothing here is a real clearance check.',
 
   narrativeEyebrow: 'How Gateway works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
@@ -38,7 +38,7 @@ export const GATEWAY_PREVIEW = {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Gateway watches the entry pack as lines arrive — HS gaps, missing origin proof, biosecurity holds, valuation evidence.',
+      body: 'Gateway watches the manifest and entry pack as lines arrive — HS gaps, missing origin proof, biosecurity holds, valuation evidence.',
     },
     {
       id: 'advise' as const,
@@ -88,7 +88,7 @@ export const GATEWAY_PREVIEW = {
     {
       name: 'Look',
       price: 'Free',
-      detail: 'Browse DEMO pins and sample drafts on the entry pack.',
+      detail: 'Browse DEMO pins and sample drafts on the clearance pack.',
       credits: '0 credits',
       hoursBack: 0,
     },

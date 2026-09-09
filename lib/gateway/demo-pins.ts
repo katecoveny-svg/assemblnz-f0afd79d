@@ -1,7 +1,8 @@
 /**
  * DEMO-only customs / tariff / border pins for the Gateway agent-app preview.
- * Fictional clearance pack. Not advice. Not a real clearance check.
+ * Fictional vessel clearance pack. Not advice. Not a real clearance check.
  * Positions are percentages on the entry-pack canvas (0–100).
+ * Not architecture pins — HS / entry / border / valuation only.
  */
 
 import type { PlanPin } from '@/lib/agent-app/types';
@@ -14,8 +15,8 @@ export const GATEWAY_DEMO_PINS: GatewayPin[] = [
     code: 'Working Tariff',
     title: 'HS classification pending',
     summary:
-      'Line 2 has no confirmed heading against the NZ Working Tariff. DEMO pack — cite GRI before any entry change; a licensed broker confirms the code.',
-    position: { x: 72, y: 36 },
+      'Line 2 has no confirmed heading against the NZ Working Tariff (DEMO shows 8544.42 · confirm). Cite GRI before any entry change; a licensed broker confirms the code.',
+    position: { x: 74, y: 40 },
     demo: true,
   },
   {
@@ -24,7 +25,7 @@ export const GATEWAY_DEMO_PINS: GatewayPin[] = [
     title: 'Origin proof missing',
     summary:
       'Preference claim lacks a certificate of origin on this DEMO entry. Gateway drafts the gap note; nothing lodges until a person approves.',
-    position: { x: 42, y: 48 },
+    position: { x: 40, y: 50 },
     demo: true,
   },
   {
@@ -32,8 +33,8 @@ export const GATEWAY_DEMO_PINS: GatewayPin[] = [
     code: 'Biosecurity Act',
     title: 'Biosecurity hold — packing',
     summary:
-      'Wooden packing scheduled for release lacks an ISPM 15 mark on this DEMO pack. Draft waits for broker clearance — not a real MPI hold.',
-    position: { x: 78, y: 72 },
+      'Wooden packing on this DEMO vessel pack lacks an ISPM 15 mark for the scheduled release. Draft waits for broker clearance — not a real MPI hold.',
+    position: { x: 80, y: 74 },
     demo: true,
   },
   {
@@ -41,8 +42,8 @@ export const GATEWAY_DEMO_PINS: GatewayPin[] = [
     code: 'Customs Act',
     title: 'Valuation evidence thin',
     summary:
-      'CIF build on this DEMO invoice is short of freight and insurance evidence. Valuation note stays staged until a licensed person signs.',
-    position: { x: 22, y: 70 },
+      'CIF build on this DEMO invoice is short of freight and insurance evidence for B/L DEMO-8841. Valuation note stays staged until a licensed person signs.',
+    position: { x: 20, y: 72 },
     demo: true,
   },
 ];
