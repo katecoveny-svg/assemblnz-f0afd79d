@@ -89,14 +89,7 @@ export function CinematicJourneyHome() {
               {HERO.brand}
               <span>·</span>
             </p>
-            <h1 id="cj-hero-title">
-              {HERO.headline.split('\n').map((line, index, lines) => (
-                <span key={line}>
-                  {line}
-                  {index < lines.length - 1 ? <br /> : null}
-                </span>
-              ))}
-            </h1>
+            <h1 id="cj-hero-title">{HERO.headline}</h1>
             <p className="cj-hero-lede">{HERO.lede}</p>
             <div className="cj-hero-actions">
               <a className="cj-btn" href={HERO.ctaPrimary.href}>
