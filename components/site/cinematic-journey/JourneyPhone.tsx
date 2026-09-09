@@ -6,8 +6,10 @@ import { LIVE_WAIT } from './copy';
 type Scenario = (typeof LIVE_WAIT.scenarios)[number];
 
 /**
- * Real device chrome for the live-wait beat — bezel, island, status, home bar.
- * Living UI, not abstract number boards.
+ * Simulated wait chrome only — NOT live chat.
+ * Kept for possible wait-scenario demos. Homepage live agent chat is
+ * `HomeGuidePhone` mounted from `CinematicJourneyHome` (POST /api/home/agent).
+ * role=img: decorative device frame; no input composer by design.
  */
 export function JourneyPhone({ scenario, choice }: { scenario: Scenario; choice: number }) {
   const [clock, setClock] = useState('9:41');
