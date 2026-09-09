@@ -174,7 +174,7 @@ function Connectors({ progress, reducedMotion }: { progress: ProgressRef; reduce
     const mat = new THREE.LineBasicMaterial({
       color: new THREE.Color('#916A70'),
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.55,
     });
     const points = [
       new THREE.Vector3(0, 0.85, 0),
@@ -220,7 +220,7 @@ function DriftFloor({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <mesh ref={ref} rotation={[-Math.PI / 2.12, 0, 0.08]} position={[0.4, -1.85, -1.2]} receiveShadow>
       <planeGeometry args={[42, 28, 96, 64]} />
-      <meshStandardMaterial color="#FFFDFB" metalness={0.04} roughness={0.82} />
+      <meshStandardMaterial color="#1a0c18" metalness={0.18} roughness={0.88} />
     </mesh>
   );
 }
@@ -255,17 +255,17 @@ function Atmosphere({ progress }: { progress: ProgressRef }) {
   const light = useRef<THREE.PointLight>(null);
   useFrame(() => {
     if (!light.current) return;
-    light.current.intensity = 0.35 + progress.current * 0.55;
+    light.current.intensity = 0.45 + progress.current * 0.7;
   });
   return (
     <>
-      <fog attach="fog" args={['#F5F1F2', 10, 26]} />
-      <color attach="background" args={['#F5F1F2']} />
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[5.5, 8, 4]} intensity={1.25} color="#FFFDFB" castShadow />
-      <directionalLight position={[-5, 2.5, -3]} intensity={0.65} color="#916A70" />
-      <directionalLight position={[0, -1, 4]} intensity={0.35} color="#F5F1F2" />
-      <pointLight ref={light} position={[0, 1.2, 2.4]} color="#916A70" intensity={0.4} distance={12} />
+      <fog attach="fog" args={['#240B21', 8, 22]} />
+      <color attach="background" args={['#240B21']} />
+      <ambientLight intensity={0.28} />
+      <directionalLight position={[5.5, 8, 4]} intensity={1.05} color="#F5F1F2" castShadow />
+      <directionalLight position={[-5, 2.5, -3]} intensity={0.85} color="#916A70" />
+      <directionalLight position={[0, -1, 4]} intensity={0.25} color="#654A4E" />
+      <pointLight ref={light} position={[0, 1.2, 2.4]} color="#916A70" intensity={0.55} distance={14} />
       {/* No Environment HDR — CDN fetch has crashed Suspense on preview before. */}
     </>
   );
@@ -302,11 +302,11 @@ export function AssemblyScene({
       </group>
       <ContactShadows
         position={[0, -1.82, 0]}
-        opacity={0.35}
+        opacity={0.55}
         scale={18}
-        blur={2.4}
+        blur={2.6}
         far={6}
-        color="#240B21"
+        color="#0a0409"
       />
     </>
   );
