@@ -12,6 +12,10 @@ import 'lenis/dist/lenis.css';
  *
  * Lenis: duration ~1.2, heavy ease, hash anchors on.
  * Reveals: ≤40px rise, child stagger ~0.08.
+ *
+ * Live chat phone must stay interactive: Lenis skips nodes marked
+ * `data-lenis-prevent` (and form fields), and GSAP does not autoAlpha the
+ * phone shell — visibility:hidden would swallow pointer/focus.
  */
 export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string }) {
   useEffect(() => {
@@ -37,6 +41,22 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
       autoRaf: false,
       // Keep #assemble / #live-wait CTAs on Lenis inertia (lenis.css disables native smooth).
       anchors: true,
+      allowNestedScroll: true,
+      // Never steal wheel/touch from the live-chat phone or form controls.
+      prevent: (node) => {
+        if (!(node instanceof HTMLElement)) return false;
+        if (node.closest('[data-lenis-prevent], .cj-live-phone, .hg-phone, .aj-phone')) {
+          return true;
+        }
+        const tag = node.tagName;
+        return (
+          tag === 'INPUT' ||
+          tag === 'TEXTAREA' ||
+          tag === 'SELECT' ||
+          tag === 'BUTTON' ||
+          node.isContentEditable
+        );
+      },
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -48,13 +68,16 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
     gsap.ticker.lagSmoothing(0);
 
     // Hero paints immediately; subsequent chapters rise ≤40px with stagger ~0.08.
+    // Exclude the live-chat phone so GSAP never sets visibility:hidden on it.
     const sections = root.querySelectorAll<HTMLElement>(
       '.cj-story > section:not(.cj-hero), .cj-footer',
     );
 
     const ctx = gsap.context(() => {
       sections.forEach((section) => {
-        const targets = section.querySelectorAll<HTMLElement>(':scope > *');
+        const targets = section.querySelectorAll<HTMLElement>(
+          ':scope > *:not(.cj-live-phone):not([data-lenis-prevent])',
+        );
         if (!targets.length) return;
 
         // Hide first so ScrollTrigger never pops visible → hidden mid-frame.

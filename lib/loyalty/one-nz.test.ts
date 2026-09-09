@@ -4,6 +4,7 @@ import {
   DEMO_RECEIPT_AT,
   DIGITAL_TURQUOISE,
   EVIDENCE_SPLIT,
+  INDEPENDENT_CONCEPT_DISCLAIMER,
   MODE_A,
   ONE_NZ_ACCENT,
   ONE_NZ_ACCENT_DEPTH,
@@ -20,6 +21,15 @@ describe('one-nz loyalty tokens', () => {
     expect(DIGITAL_TURQUOISE).toBe('#007C92');
     expect(ONE_NZ_ACCENT_DEPTH).toBe('#00B0CA');
     expect(ONE_NZ_ACCENT).not.toBe('#00A45F');
+  });
+
+  it('keeps independent-concept disclaimer without partnership claim', () => {
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/Independent concept by assembl/);
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/not a current One NZ product/);
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER.toLowerCase()).not.toMatch(/partner(ship)? with one nz/);
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/Phone Dollars/);
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/One Wallet/);
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/Mana Receipts/);
   });
 
   it('keeps locked masthead and activation spine', () => {
