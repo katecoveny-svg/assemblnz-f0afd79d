@@ -8,7 +8,7 @@ import styles from './contact.module.css';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Whether you are ready for a pilot or just want to understand what assembl does for your industry — we would like to hear from you.',
+    'Talk to assembl about wait→earn journeys, installing an agent, or Outcome work. We reply within one working day.',
 };
 
 export default function ContactPage() {
@@ -19,8 +19,8 @@ export default function ContactPage() {
             <p className={publicStyles.eyebrow}>get in touch · one useful conversation</p>
             <h1>Let&apos;s<br /><em>talk.</em></h1>
             <p className={publicStyles.lede}>
-              Whether you are ready for a pilot or just want to understand what assembl does for
-              your industry — we would like to hear from you.
+              Ready for a wait→earn pilot, an agent install, or Outcome work. Tell us what you
+              need. A person replies within one working day.
             </p>
         </div>
         <aside className={publicStyles.heroAside} aria-label="Contact expectations">

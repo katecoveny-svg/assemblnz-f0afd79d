@@ -36,12 +36,12 @@ export const ASSEMBL_HOME_SPINE =
 export const MASTHEAD = 'the wait is the earn event.';
 
 export const INDEPENDENT_CONCEPT_DISCLAIMER =
-  'Independent concept by assembl — not a current One NZ product, offer, or partnership. Phone Dollars, One Wallet and Mana Receipts shown here are proposed experience design only.';
+  'Independent concept by assembl, not a current One NZ product, offer, or partnership. Phone Dollars, One Wallet and Mana Receipts shown here are proposed experience design only.';
 
 export const WAIT_TRIGGERS = [
-  { id: 'esim', label: 'eSIM activation', dwell: '~90s' },
-  { id: 'plan', label: 'Plan change', dwell: '~2 min' },
-  { id: 'ivr', label: 'IVR hold', dwell: '~4 min' },
+  { id: 'esim', label: 'eSIM activation', dwell: '~90s', primary: true },
+  { id: 'plan', label: 'Plan change', dwell: '~2 min', primary: true },
+  { id: 'ivr', label: 'IVR hold', dwell: '~4 min', primary: false },
 ] as const;
 
 export const DEMO_EARN = {
@@ -59,6 +59,42 @@ export const EVIDENCE_SPLIT = [
   { id: 'wait', label: 'wait duration', pct: 55, note: 'time in a real process' },
   { id: 'action', label: 'useful moment', pct: 30, note: 'permissioned micro-action' },
   { id: 'household', label: 'household share', pct: 15, note: 'optional rebalance' },
+] as const;
+
+/** Mode A ownership — locked Phase 0 pack. */
+export const MODE_A = {
+  label: 'Mode A',
+  oneNz: {
+    title: 'One NZ owns',
+    points: ['Member relationship', 'Phone Dollars currency', 'P&L on the moment pool'],
+  },
+  assembl: {
+    title: 'assembl brings',
+    points: ['Wait detection layer', 'Permissioned agent moments', 'Mana Receipts as evidence'],
+  },
+} as const;
+
+/**
+ * Phase 0 pilot commercials — factual pack numbers only.
+ * Do not invent uplift, partnership, or conversion claims.
+ */
+export const PHASE_0 = {
+  title: 'Phase 0 pilot',
+  lede: 'One wait trigger, one earn rule, Mana Receipts from day one. Opted-in members only.',
+  facts: [
+    { label: 'Investment', value: 'NZ$85–140k' },
+    { label: 'Build', value: '~4 weeks' },
+    { label: 'Cohort', value: '500–1,000 opted-in' },
+    { label: 'Sponsor pool', value: '~$0.30 / wait (indicative)' },
+    { label: 'Moment split', value: '55 / 30 / 15' },
+    { label: 'Member cost', value: '$0' },
+  ],
+} as const;
+
+export const AGENT_CHIPS = [
+  'Why am I earning?',
+  'Show Mana Receipt',
+  'Share with household?',
 ] as const;
 
 export function nzd(amount: number): string {

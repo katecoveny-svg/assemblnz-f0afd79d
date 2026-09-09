@@ -27,8 +27,8 @@ export const runtime = 'nodejs';
  *   4. Never quotes prices at all — not a number, not a range, and not a
  *      redirect to /pricing. Kate's position is that cost is a conversation, so
  *      the agent answers with the access framing and asks what would make it
- *      affordable for a business that size. (It also sidesteps the fact that
- *      lib/pricing.ts and lib/registry/pricing.ts currently disagree on GST.)
+ *      affordable for a business that size. (Ask assembl / registry consumers
+ *      quote `lib/registry/pricing.ts` instead.)
  *   5. Every enquiry is routed to assembl@assembl.co.nz. There is no form.
  */
 

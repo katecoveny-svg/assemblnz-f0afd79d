@@ -1,18 +1,18 @@
 /**
  * THE pricing registry — the single source of truth for every surface that
- * shows a price: /pricing, the Ask assembl widget, admin, whatever comes next.
+ * shows a price: Ask assembl, and any other registry consumer.
  *
- * Consolidation rule (2026-07-05): one bundle/agent/pricing registry mirrored
- * everywhere. Never hardcode a price inside a component again — import it
- * from here so a repricing is a one-file change.
+ * Live public ladder (matches /pricing, 2026-09): Install $1,500 +GST once ·
+ * keep it running $250/mo +GST · team $800/mo +GST · Outcome talk to us.
+ * All prices NZD, GST exclusive.
  *
- * This is the LIVE marketplace ladder (Free / $9.99 / Pro Stack $49 pick 3+1 /
- * Specialist $199 / All-Access $250 / enterprise custom / outcome from $5,000).
- * It replaced the pre-marketplace May-11 setup+monthly ladder, which is dead
- * on every surface. All prices NZD, GST inclusive.
+ * RETIRED (do not quote on any public surface): the marketplace seat ladder
+ * (free / $9.99 / Pro Stack $49 / Specialist $199 / All-Access $250 /
+ * outcome from $5,000 / GST inclusive). That framing is dead.
  *
- * NOTE: lib/pricing.ts still carries the older Industry Pack canon and is kept
- * only for surfaces that haven't migrated; new code reads from here.
+ * NOTE: lib/pricing.ts still carries older Industry Pack / Tōro canon for
+ * unmigrated internal surfaces. New public commercial copy reads from here.
+ * /pricing (CinematicPricing) imports the named amount constants below.
  */
 
 export type PricingRow = { label: string; price: string };
@@ -26,75 +26,77 @@ export type PricingTier = {
   featured?: boolean;
 };
 
-export const PRICING_NOTE = 'All prices NZD, GST inclusive.';
+/** Amounts shared with /pricing so the page and the registry cannot drift. */
+export const PRICE_INSTALL = '$1,500';
+export const PRICE_INSTALL_SUFFIX = ' +GST · once';
+export const PRICE_RUNNING = '$250';
+export const PRICE_RUNNING_SUFFIX = '/mo +GST';
+export const PRICE_TEAM = '$800';
+export const PRICE_TEAM_SUFFIX = '/mo +GST';
+export const PRICE_OUTCOME = 'talk to us';
+
+export const PRICING_NOTE = 'All prices NZD, GST exclusive.';
 
 export const PRICING_TIERS: PricingTier[] = [
   {
-    name: 'individual',
-    benefit: 'one job off your plate.',
-    rows: [
-      { label: 'try any agent', price: 'free' },
-      { label: 'one agent, yours', price: '$9.99/mo' },
-    ],
+    name: 'install',
+    benefit: 'one real thing running in about two weeks.',
+    rows: [{ label: 'the install', price: `${PRICE_INSTALL} +GST once` }],
     points: [
-      'every agent inside your living site answers three messages free — no card',
-      'pick the one that earns its keep and take it home',
-      'every reply is a draft you approve',
+      'two weeks: written record of how the business works, one agent on one real job, one customer journey end to end',
+      'first month of running included',
+      'NZ-hosted, Privacy Act 2020',
     ],
-    cta: { label: 'try an agent', href: '/agents' },
-  },
-  {
-    name: 'operator',
-    benefit: 'the working day, drafted. the standard for NZ teams.',
-    rows: [
-      { label: 'pro stack — pick 3 + 1 agents', price: '$49/mo' },
-      { label: 'specialist collection', price: '$199/mo' },
-      { label: 'all-access — every agent', price: '$250/mo' },
-    ],
-    points: [
-      'pro stack: any three agents plus one, working as a team',
-      'specialist: a whole purpose-built collection — construction, automotive, creative, animal care and more',
-      'all-access: every agent assembl runs, one price',
-    ],
-    cta: { label: 'book a pilot', href: '/pilot-sprint' },
+    cta: { label: 'see pricing', href: '/pricing' },
     featured: true,
   },
   {
-    name: 'enterprise',
-    benefit: 'the whole operation, with governance to match.',
-    rows: [{ label: 'custom', price: "let's talk" }],
+    name: 'keep it running',
+    benefit: 'hosted, accurate, cancel any time.',
+    rows: [{ label: 'monthly', price: `${PRICE_RUNNING}/mo +GST` }],
     points: [
-      'organisation-wide rollout with named owners',
-      'privacy designed to the Privacy Act 2020, including IPP 3A',
-      'mana receipts and audit-pack exports your board can read',
+      'hosting and running costs',
+      'written record kept current when prices, staff or policies change',
+      'you keep the written record either way',
     ],
-    cta: { label: 'talk to us', href: 'mailto:assembl@assembl.co.nz?subject=enterprise' },
+    cta: { label: 'see pricing', href: '/pricing' },
+  },
+  {
+    name: 'team',
+    benefit: 'a few agents covering one full journey.',
+    rows: [{ label: 'monthly', price: `${PRICE_TEAM}/mo +GST` }],
+    points: [
+      'everything in keep it running',
+      'several agents, each with written limits',
+      'shared drafts the team can see',
+    ],
+    cta: { label: 'see pricing', href: '/pricing' },
   },
   {
     name: 'outcome',
-    benefit: 'buy the result, not the software.',
-    rows: [{ label: 'per outcome', price: 'from $5,000' }],
+    benefit: 'priced on the work delivered, not seats.',
+    rows: [{ label: 'custom', price: PRICE_OUTCOME }],
     points: [
-      'one workflow, built and proven inside 30 days',
-      'priced as the outcome it delivers, not seats',
-      'you keep the evidence pack either way',
+      'scoped against a result you name',
+      'scorecard agreed before we start',
+      'larger loyalty / wait→earn pilots: talk to us',
     ],
-    cta: { label: 'start a pilot', href: '/pilot-sprint' },
+    cta: { label: 'talk to us', href: '/contact' },
   },
 ];
 
-/** Which tier buys which V4 bundle — the commerce map, no invented prices. */
-export function tierForBundle(slug: string, standalone?: boolean): string {
-  if (standalone) return 'pack-priced — per application, on the collection page';
-  if (slug === 'hearth') return 'individual — $9.99 an agent, or pro stack $49';
-  return 'operator — specialist collection $199/mo';
+/**
+ * RETIRED helper — marketplace bundle→tier map. Kept so old call sites do not
+ * break, but returns current install/running language only. Do not revive the
+ * $9.99 / $49 / $199 ladder here.
+ */
+export function tierForBundle(_slug: string, _standalone?: boolean): string {
+  return `install ${PRICE_INSTALL} +GST once, then keep it running ${PRICE_RUNNING}/mo +GST — see /pricing`;
 }
 
 /**
  * The ladder as plain sentences, derived from PRICING_TIERS so chat surfaces
- * (the Ask assembl widget) can quote pricing without a second copy that
- * drifts. One line per tier: "operator — pro stack — pick 3 + 1 agents $49/mo,
- * specialist collection $199/mo, …".
+ * (the Ask assembl widget) can quote pricing without a second copy that drifts.
  */
 export function pricingPlainLines(): string[] {
   return PRICING_TIERS.map(

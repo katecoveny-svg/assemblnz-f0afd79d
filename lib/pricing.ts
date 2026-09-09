@@ -1,6 +1,9 @@
 /**
- * Source of truth: Industry Pack flat-rate pricing canon (locked 2026-05-15).
- * All prices NZD, GST exclusive.
+ * Legacy Industry Pack / Tōro pricing canon (locked 2026-05-15).
+ *
+ * Public commercial surfaces must NOT quote from here — use
+ * `lib/registry/pricing.ts` (Install / keep it running / team / Outcome,
+ * GST exclusive). This file remains only for unmigrated internal consumers.
  */
 
 export type SubscribePlan = {
