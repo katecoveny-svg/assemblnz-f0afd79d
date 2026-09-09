@@ -1,6 +1,6 @@
 /**
  * Shared types for assembl agent-app PREVIEW craft surfaces
- * (Arc architecture, Forge automotive, future verticals).
+ * (Arc architecture, Forge automotive, Ensemble creative, future verticals).
  */
 
 export type TitleBlockField = {
