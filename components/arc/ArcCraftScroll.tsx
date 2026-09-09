@@ -1,90 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
-import Lenis from 'lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import 'lenis/dist/lenis.css';
+import { CraftScroll } from '@/components/agent-app/CraftScroll';
 
 /**
- * Arc PREVIEW craft: Lenis (~1.2) + GSAP section reveals.
- * Assemble pin/scrub lives in ArcAssembleStage. Scoped to `.arc-root`.
+ * Arc PREVIEW craft scroll — shared CraftScroll scoped to `.aa-root`.
+ * Assemble pin/scrub lives in BlueprintScene via ArcAssembleStage.
  */
 export function ArcCraftScroll() {
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-
-    const root = document.querySelector<HTMLElement>('.arc-root');
-    if (!root) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const heavyEase = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
-
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: heavyEase,
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.35,
-      autoRaf: false,
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const ticker = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(ticker);
-    gsap.ticker.lagSmoothing(0);
-
-    // Refresh after pin stages mount so Lenis + ScrollTrigger stay aligned.
-    const refresh = () => ScrollTrigger.refresh();
-    requestAnimationFrame(refresh);
-    window.addEventListener('load', refresh);
-
-    const sections = root.querySelectorAll<HTMLElement>(
-      '.arc-story > section:not(.arc-hero):not(.arc-assemble-pin), .arc-footer',
-    );
-
-    const ctx = gsap.context(() => {
-      sections.forEach((section) => {
-        const targets = section.querySelectorAll<HTMLElement>(':scope > *');
-        if (!targets.length) return;
-
-        gsap.fromTo(
-          targets,
-          { autoAlpha: 0, y: 36 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            stagger: 0.08,
-            overwrite: 'auto',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 84%',
-              once: true,
-              toggleActions: 'play none none none',
-            },
-          },
-        );
-      });
-    }, root);
-
-    return () => {
-      window.removeEventListener('load', refresh);
-      ctx.revert();
-      gsap.ticker.remove(ticker);
-      lenis.destroy();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, []);
-
-  return null;
+  return <CraftScroll />;
 }

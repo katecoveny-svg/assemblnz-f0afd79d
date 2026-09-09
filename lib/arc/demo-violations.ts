@@ -4,16 +4,9 @@
  * Positions are percentages on the GA plan sheet (0–100).
  */
 
-export type ArcViolation = {
-  id: string;
-  code: string;
-  title: string;
-  summary: string;
-  /** Percent of plan sheet width / height */
-  position: { x: number; y: number };
-  /** DEMO label always shown in UI */
-  demo: true;
-};
+import type { PlanPin } from '@/lib/agent-app/types';
+
+export type ArcViolation = PlanPin;
 
 export const ARC_DEMO_VIOLATIONS: ArcViolation[] = [
   {
