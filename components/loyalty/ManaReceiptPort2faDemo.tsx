@@ -1,15 +1,20 @@
 'use client';
 
 /**
- * Mana Receipt DEMO visual — wait_type=port_2fa.
- * Assembl brand only. status=DEMO always. Auth path stays clear.
+ * Mana Receipt DEMO — wait_type=port_2fa.
+ * Dark plum field · cinematic Studio/Operator chrome · real phone.
+ * status=DEMO always. Auth path stays clear.
  */
 
-import type { CSSProperties } from 'react';
+import Link from 'next/link';
+import { useEffect, useState, type CSSProperties } from 'react';
 import {
   ASSEMBL_CANON,
   MANA_RECEIPT_DEMO_DISCLAIMER,
+  MANA_RECEIPT_DEMO_HEADLINE,
+  MANA_RECEIPT_DEMO_KICKER,
   MANA_RECEIPT_DEMO_SPINE,
+  MANA_RECEIPT_NAV,
   PORT_2FA_MANA_RECEIPT_DEMO,
   formatSampleCredit,
   type ManaReceiptDemoV0,
@@ -26,34 +31,47 @@ const THEME = {
 
 function PhoneReceipt({ receipt }: { receipt: ManaReceiptDemoV0 }) {
   const stamp = formatSampleCredit(receipt.earn.sample_stamp_nzd);
+  const [clock, setClock] = useState('9:41');
+
+  useEffect(() => {
+    const tick = () => {
+      const d = new Date();
+      setClock(`${d.getHours() % 12 || 12}:${String(d.getMinutes()).padStart(2, '0')}`);
+    };
+    tick();
+    const id = window.setInterval(tick, 30_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   return (
     <div className="mrd-phone" aria-label="Phone preview of Mana Receipt DEMO">
-      <div className="mrd-phone-bezel" aria-hidden="true">
-        <i className="mrd-island" />
-        <span className="mrd-status">
-          <em>9:41</em>
-          <b />
-        </span>
-      </div>
+      <div className="mrd-phone-shell">
+        <div className="mrd-phone-island" aria-hidden="true" />
+        <div className="mrd-phone-status">
+          <span>{clock}</span>
+          <span className="mrd-phone-status-right" aria-hidden="true">
+            <i />
+            <i />
+            <b />
+          </span>
+        </div>
 
-      <div className="mrd-screen">
-        <header className="mrd-appbar">
-          <strong>assembl</strong>
-          <span>mana receipt</span>
-        </header>
+        <div className="mrd-phone-app">
+          <div className="mrd-phone-appbar">
+            <strong>assembl</strong>
+            <em>mana receipt</em>
+          </div>
 
-        <span className="mrd-phone-demo">status · DEMO</span>
+          <span className="mrd-phone-demo">status · DEMO</span>
 
-        <div className="mrd-phone-body">
           <p className="mrd-phone-kicker">
             {receipt.wait_type} · {receipt.wait.window}
           </p>
           <h2>{receipt.wait.moment}</h2>
 
           <p className="mrd-auth-clear">
-            <strong>Auth path clear.</strong> 2FA is not slowed or blocked —
-            earn sits beside the wait.
+            <strong>Auth path clear.</strong> 2FA keeps moving. Earn sits beside
+            the wait.
           </p>
 
           <div className="mrd-pulse" aria-hidden="true">
@@ -135,8 +153,8 @@ function DetailLedger({ receipt }: { receipt: ManaReceiptDemoV0 }) {
         <div>
           <h2 id="mrd-detail-title">Mana Receipt · detail</h2>
           <p>
-            Evidence of the wait beside the port. Sample earn only — currency
-            stays with the carrier.
+            What the wait recorded. Sample earn only. Currency stays with the
+            carrier.
           </p>
         </div>
         <span className="mrd-seal">DEMO</span>
@@ -163,10 +181,32 @@ export function ManaReceiptPort2faDemo() {
   const receipt = PORT_2FA_MANA_RECEIPT_DEMO;
 
   return (
-    <main className="mrd" style={THEME}>
+    <div className="mrd" style={THEME}>
       <div className="mrd-atmosphere" aria-hidden="true" />
+      <div className="mrd-veil" aria-hidden="true" />
 
-      <div className="mrd-shell">
+      <header className="mrd-header">
+        <Link className="mrd-wordmark" href="/" aria-label="assembl home">
+          assembl<span>·</span>
+        </Link>
+        <p className="mrd-header-tag">mahi that earns its proof.</p>
+        <nav className="mrd-header-nav" aria-label="assembl tools">
+          <a className="mrd-studio" href={MANA_RECEIPT_NAV.studio.href}>
+            {MANA_RECEIPT_NAV.studio.label}
+            <i aria-hidden="true">↗</i>
+          </a>
+          <a
+            className="mrd-operator"
+            href={MANA_RECEIPT_NAV.operator.href}
+            rel="nofollow"
+          >
+            {MANA_RECEIPT_NAV.operator.label}
+            <i aria-hidden="true">↗</i>
+          </a>
+        </nav>
+      </header>
+
+      <main className="mrd-shell">
         <div className="mrd-top">
           <div className="mrd-brand">
             <strong>assembl</strong>
@@ -180,8 +220,8 @@ export function ManaReceiptPort2faDemo() {
 
         <section className="mrd-hero" aria-labelledby="mrd-hero-title">
           <div className="mrd-copy">
-            <p className="mrd-kicker">wait_type · port_2fa · first mint</p>
-            <h1 id="mrd-hero-title">Mana Receipt for a port 2FA wait.</h1>
+            <p className="mrd-kicker">{MANA_RECEIPT_DEMO_KICKER}</p>
+            <h1 id="mrd-hero-title">{MANA_RECEIPT_DEMO_HEADLINE}</h1>
             <p className="mrd-lede">{MANA_RECEIPT_DEMO_SPINE}</p>
 
             <div className="mrd-boundary" aria-label="Ownership boundary">
@@ -206,10 +246,9 @@ export function ManaReceiptPort2faDemo() {
         <DetailLedger receipt={receipt} />
 
         <p className="mrd-foot">
-          Schema v0 · mock hashes · route /journeys/mana-receipt · no live
-          credit claim
+          Schema v0 · mock hashes · /journeys/mana-receipt · DEMO only
         </p>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

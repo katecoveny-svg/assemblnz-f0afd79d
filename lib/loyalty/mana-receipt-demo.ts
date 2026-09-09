@@ -71,14 +71,14 @@ export const PORT_2FA_MANA_RECEIPT_DEMO: ManaReceiptDemoV0 = {
   rules_hash:
     'sha256:2b7e151628aed2a6abf7158809cf4f3c762e7160f38b4da56a784d9045190cfe',
   currency_note:
-    'Sample wallet credit shown beside the wait — not live currency, not a claim on any carrier balance.',
+    'Sample stamp beside the wait. DEMO only — not live currency, no claim on a carrier balance.',
   receipt_id: 'MR-DEMO-PORT2FA-20260909',
   issued_at: '9 Sep 2026, 11:05am NZST',
   wait: {
     label: 'Port 2FA',
     window: 'YES ≤2h',
     auth_path: 'clear',
-    moment: 'Number port in progress — 2FA window open',
+    moment: 'Number port running · 2FA window open',
   },
   earn: {
     sample_stamp_nzd: 0.45,
@@ -100,10 +100,19 @@ export const PORT_2FA_MANA_RECEIPT_DEMO: ManaReceiptDemoV0 = {
 };
 
 export const MANA_RECEIPT_DEMO_DISCLAIMER =
-  'DEMO receipt only — sample wait→earn evidence. Not a live credit, not a carrier offer, not an affiliation claim.';
+  'DEMO sample only. Not a live credit. No carrier offer. No affiliation.';
 
 export const MANA_RECEIPT_DEMO_SPINE =
-  'Port 2FA is underway. Credit can land while you wait — the auth path stays clear.';
+  'Port 2FA can take up to two hours. Earn can stamp while you wait. 2FA stays on its own path.';
+
+export const MANA_RECEIPT_DEMO_HEADLINE = 'A Mana Receipt for port 2FA.';
+
+export const MANA_RECEIPT_DEMO_KICKER = 'wait_type · port_2fa · first mint';
+
+export const MANA_RECEIPT_NAV = {
+  studio: { label: 'Generative Studio', href: '/generative-studio' },
+  operator: { label: 'Operator', href: '/admin/login' },
+} as const;
 
 export { ASSEMBL_CANON };
 

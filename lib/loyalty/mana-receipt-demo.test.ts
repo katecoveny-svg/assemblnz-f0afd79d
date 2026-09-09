@@ -19,6 +19,7 @@ describe('Mana Receipt DEMO schema v0 — port_2fa', () => {
       'phone dollars credited',
     );
     expect(MANA_RECEIPT_DEMO_DISCLAIMER.toLowerCase()).toContain('not a live credit');
+    expect(MANA_RECEIPT_DEMO_DISCLAIMER.toLowerCase()).toContain('demo');
   });
 
   it('states ownership boundary without One NZ affiliation', () => {
@@ -27,6 +28,7 @@ describe('Mana Receipt DEMO schema v0 — port_2fa', () => {
     expect(ownership.evidence_owner.toLowerCase()).toContain('assembl');
     expect(JSON.stringify(PORT_2FA_MANA_RECEIPT_DEMO).toLowerCase()).not.toContain('partnership');
     expect(JSON.stringify(PORT_2FA_MANA_RECEIPT_DEMO).toLowerCase()).not.toContain('kete');
+    expect(JSON.stringify(PORT_2FA_MANA_RECEIPT_DEMO).toLowerCase()).not.toContain('one nz');
   });
 
   it('includes mock context_hash and rules_hash', () => {

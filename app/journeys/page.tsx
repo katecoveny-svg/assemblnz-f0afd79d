@@ -93,8 +93,8 @@ export default async function JourneysIndex() {
               </span>
             </div>
             <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
-              First mint wait_type — port 2FA YES ≤2h. Sample wait→earn evidence only; auth path
-              stays clear. Carrier owns currency; assembl owns evidence.
+              First mint · port 2FA YES ≤2h. Sample wait→earn evidence. Auth path clear. Carrier
+              owns currency; assembl owns evidence.
             </p>
           </Link>
 

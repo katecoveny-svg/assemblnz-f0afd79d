@@ -5,7 +5,7 @@ import { MANA_RECEIPT_DEMO_DISCLAIMER } from '@/lib/loyalty/mana-receipt-demo';
 export const metadata: Metadata = {
   title: 'PREVIEW · Mana Receipt DEMO — port_2fa | assembl',
   description:
-    'DEMO Mana Receipt for wait_type=port_2fa. Sample wait→earn evidence only — not live credit, not a carrier affiliation.',
+    'DEMO Mana Receipt for wait_type=port_2fa. Sample wait→earn evidence. Auth path stays clear.',
   robots: { index: false, follow: false },
   alternates: { canonical: '/journeys/mana-receipt' },
   openGraph: {
