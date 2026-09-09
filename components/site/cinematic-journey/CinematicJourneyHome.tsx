@@ -2,8 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
 import {
   ASSEMBLY_BEATS,
@@ -208,7 +207,6 @@ export function CinematicJourneyHome() {
               Only the context approved for this moment is used. Review or remove it before handoff.
             </p>
           </div>
-          <div className="cj-live-phone" id="live-agent">
           {/*
             Live agent chat (HomeGuidePhone → POST /api/home/agent).
             data-lenis-prevent keeps CraftScroll/Lenis off nested scroll + input focus.
