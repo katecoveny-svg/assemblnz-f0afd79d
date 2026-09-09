@@ -10,7 +10,7 @@ import 'lenis/dist/lenis.css';
  * Homepage craft layer (PREVIEW): Lenis inertia + GSAP ScrollTrigger reveals.
  * Scoped to the cinematic home only. Honours prefers-reduced-motion.
  *
- * Lenis: duration ~1.2, heavy ease.
+ * Lenis: duration ~1.2, heavy ease, hash anchors on.
  * Reveals: ≤40px rise, child stagger ~0.08.
  *
  * Live chat phone must stay interactive: Lenis skips nodes marked
@@ -39,6 +39,8 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
       wheelMultiplier: 1,
       touchMultiplier: 1.35,
       autoRaf: false,
+      // Keep #assemble / #live-wait CTAs on Lenis inertia (lenis.css disables native smooth).
+      anchors: true,
       allowNestedScroll: true,
       // Never steal wheel/touch from the live-chat phone or form controls.
       prevent: (node) => {
@@ -78,25 +80,22 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
         );
         if (!targets.length) return;
 
-        gsap.fromTo(
-          targets,
-          { autoAlpha: 0, y: 40 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            stagger: 0.08,
-            overwrite: 'auto',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 84%',
-              once: true,
-              toggleActions: 'play none none none',
-            },
+        // Hide first so ScrollTrigger never pops visible → hidden mid-frame.
+        gsap.set(targets, { autoAlpha: 0, y: 40 });
+        gsap.to(targets, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.08,
+          overwrite: 'auto',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 84%',
+            once: true,
+            toggleActions: 'play none none none',
           },
-        );
+        });
       });
     }, root);
 
