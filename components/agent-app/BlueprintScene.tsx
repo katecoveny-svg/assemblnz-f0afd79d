@@ -22,9 +22,9 @@ export type BlueprintSceneProps = {
 };
 
 /**
- * Paper blueprint assembly canvas.
- * Flat-lay parts (data-part + scatter attrs) scrub into plan seats; swaps
- * part set + plan underlay via children. Paper field + plum ink only.
+ * Paper blueprint assembly canvas — Kate craft OVERRIDE.
+ * Field = paper #FFFDFB. Plum #240B21 = ink/parts only.
+ * Flat-lay parts (data-part + scatter attrs) scrub into plan seats.
  */
 export function BlueprintScene({
   sectionId,
