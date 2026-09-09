@@ -134,7 +134,7 @@ export default async function JourneysIndex() {
               </span>
             </div>
             <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
-              Agentic loyalty concept — Phone Dollars, One Wallet, Mana Receipts. Independent
+              Agentic loyalty concept — Phone Dollars, One Wallet, Evidence receipt. Independent
               concept; not a current One NZ offer.
             </p>
           </Link>
