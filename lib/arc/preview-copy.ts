@@ -32,19 +32,19 @@ export const ARC_PREVIEW = {
   narrativeTitle: 'Observe. Advise. Act on approval.',
   chapters: [
     {
-      id: 'observe',
+      id: 'observe' as const,
       label: '01',
       title: 'Observe',
       body: 'Arc watches the model as spaces take shape — clearances, barriers, travel paths, openings.',
     },
     {
-      id: 'advise',
+      id: 'advise' as const,
       label: '02',
       title: 'Advise',
       body: 'Each issue arrives with a clause citation and plain-language summary, ready for review.',
     },
     {
-      id: 'act',
+      id: 'act' as const,
       label: '03',
       title: 'Act on approval',
       body: 'Drafts stay staged. A person approves before anything changes a drawing or leaves the desk.',
@@ -87,24 +87,28 @@ export const ARC_PREVIEW = {
       price: 'Free',
       detail: 'Browse pins and sample drafts on DEMO models.',
       credits: '0 credits',
+      hoursBack: 0,
     },
     {
       name: 'Practice',
       price: '~NZ$99',
       detail: 'Personal seat for cited drafts on your own projects.',
       credits: 'starter credits',
+      hoursBack: 3,
     },
     {
       name: 'Studio',
       price: '~NZ$295',
       detail: 'Shared studio seat, more credits, shared evidence receipts.',
       credits: 'studio credits',
+      hoursBack: 8,
     },
     {
       name: 'Enterprise',
       price: 'Custom',
       detail: 'Firm standards, SSO later, procurement path — talk to assembl.',
       credits: 'by agreement',
+      hoursBack: 20,
     },
   ],
 
