@@ -67,7 +67,7 @@ export default function DisclaimerPage() {
                 Every workflow runs through the same five-stage pipeline: Kahu (intake), Iho (router), Tā (drafting), Mahara (named human review), Mana (sealed in an evidence pack). The agents that draft work cite their sources inline. Drafts that reach a customer have been seen and signed off by a named person on your team.
               </p>
               <p className="mt-3">
-                Outputs from the public chat at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the public workflow marketplace at <Link href="/workflows" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/workflows</Link> are demonstration drafts intended for evaluation. They are not customer-facing, signed-off work — that pathway begins at the Pilot Sprint stage.
+                Outputs from the public chat at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the public workflows at <Link href="/workflows" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/workflows</Link> are demonstration drafts intended for evaluation. They are not customer-facing, signed-off work — that pathway begins with a paid Install (see <Link href="/pricing" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/pricing</Link>).
               </p>
             </SectionReveal>
 
@@ -88,7 +88,7 @@ export default function DisclaimerPage() {
             <SectionReveal delay={0.45}>
               <h2 className="font-display text-2xl font-light md:text-3xl">No professional relationship created.</h2>
               <p className="mt-3">
-                Using assembl, the public chat, the SPARK tools, or the workflow marketplace does not create a lawyer-client, accountant-client, doctor-patient, financial-adviser-client, or any other professional relationship between you and assembl, between you and Kate Hudson, or between you and any agent in the assembl fleet. For matters requiring a regulated professional, engage one.
+                Using assembl, the public chat, the SPARK tools, or the public workflows does not create a lawyer-client, accountant-client, doctor-patient, financial-adviser-client, or any other professional relationship between you and assembl, between you and Kate Hudson, or between you and any agent in the assembl fleet. For matters requiring a regulated professional, engage one.
               </p>
             </SectionReveal>
 

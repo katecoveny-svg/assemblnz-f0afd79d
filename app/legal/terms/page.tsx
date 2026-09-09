@@ -5,10 +5,10 @@ import { SectionReveal } from '@/components/SectionReveal';
 export const metadata: Metadata = {
   title: 'Terms of Use',
   description:
-    'The terms governing use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, the workflow marketplace, and any embedded assembl widget.',
+    'The terms governing use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, public workflows, and any embedded assembl widget.',
 };
 
-const LAST_REVIEWED = '27 May 2026';
+const LAST_REVIEWED = '9 September 2026';
 
 export default function TermsPage() {
   return (
@@ -35,7 +35,7 @@ export default function TermsPage() {
           <div className="mt-12 space-y-10 text-base leading-relaxed text-[color:var(--text-body)] md:text-[17px]">
             <SectionReveal delay={0.2}>
               <p>
-                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl NZ Limited (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
+                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, public workflows, the embed widgets, the kete chats, and any other surface operated by assembl NZ Limited (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
               </p>
             </SectionReveal>
 
@@ -62,8 +62,8 @@ export default function TermsPage() {
               <p className="mt-3">You may use assembl to:</p>
               <ul className="mt-3 space-y-2 pl-5">
                 <li className="list-disc">Try the public chats at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the SPARK tools at <Link href="/hapai" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/hapai</Link> without signup, for personal evaluation.</li>
-                <li className="list-disc">Run workflows from the marketplace at <Link href="/workflows" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/workflows</Link>, share workflow links, and embed workflow widgets on your own website, subject to the rate limits in clause 4.</li>
-                <li className="list-disc">Subscribe to an agent (or All-Access), or book a Pilot Sprint, to run real workflows against your team&apos;s data.</li>
+                <li className="list-disc">Run public workflows at <Link href="/workflows" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/workflows</Link>, share workflow links, and embed workflow widgets on your own website, subject to the rate limits in clause 4.</li>
+                <li className="list-disc">Use a paid Install, keep-it-running or team plan, or Outcome engagement — as set out on <Link href="/pricing" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/pricing</Link> — to run real work against your team&apos;s data.</li>
                 <li className="list-disc">Use the outputs as drafts. Every draft must be reviewed and signed off by a named human in your team before it leaves your organisation (see <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link>).</li>
               </ul>
             </SectionReveal>
@@ -86,7 +86,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.4}>
               <h2 className="font-display text-2xl font-light md:text-3xl">4. Rate limits and fair use.</h2>
               <p className="mt-3">
-                The public marketplace and SPARK tools are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits come with a paid agent subscription, All-Access, or a custom contract.
+                The public chats, SPARK tools, and public workflows are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits come with a paid Install, keep-it-running or team plan, Outcome engagement, or a custom contract.
               </p>
               <p className="mt-3">
                 We may throttle or temporarily suspend access if usage looks abusive or appears designed to bypass these limits. We&apos;ll tell you why before doing so where reasonably possible.
@@ -95,13 +95,19 @@ export default function TermsPage() {
 
             <SectionReveal delay={0.45}>
               <h2 className="font-display text-2xl font-light md:text-3xl">5. Pricing.</h2>
+              <p className="mt-3">
+                Current public pricing is published on <Link href="/pricing" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/pricing</Link>. All amounts below are in New Zealand dollars and are <strong>GST exclusive</strong>.
+              </p>
               <ul className="mt-3 space-y-2 pl-5">
-                <li className="list-disc"><strong>Free</strong> — the utility agents stay free, and every paid agent gives you 3 free messages before the paywall. No card to start.</li>
-                <li className="list-disc"><strong>Everyday agent</strong> — NZ$9.99 per month per agent, GST inclusive. Monthly billing via Stripe. Cancel any time.</li>
-                <li className="list-disc"><strong>Specialist agent</strong> — NZ$199 per month per agent, GST inclusive. Monthly billing via Stripe. Cancel any time.</li>
-                <li className="list-disc"><strong>All-Access</strong> — NZ$250 per month, GST inclusive. Every agent we make, now and as we add them. Monthly billing via Stripe. Cancel any time.</li>
-                <li className="list-disc"><strong>Pilot Sprint</strong> — a fixed-scope professional-services engagement, priced per the signed Statement of Work. Refundable until day one.</li>
+                <li className="list-disc"><strong>Install</strong> — NZ$1,500 +GST once. One real thing running in about two weeks; first month of running included.</li>
+                <li className="list-disc"><strong>Keep it running</strong> — NZ$250 per month +GST. Hosted and kept current. Cancel any time.</li>
+                <li className="list-disc"><strong>Team</strong> — NZ$800 per month +GST. Several agents covering one full journey. Cancel any time.</li>
+                <li className="list-disc"><strong>Outcome</strong> — custom / talk to us. Priced on the work delivered, not seats.</li>
               </ul>
+              <p className="mt-3">
+                Payment is arranged as shown on <Link href="/pricing" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/pricing</Link>: Stripe checkout when it is configured for that environment; otherwise arrange payment with{' '}
+                <a href="mailto:assembl@assembl.co.nz" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">assembl@assembl.co.nz</a>.
+              </p>
               <p className="mt-3">
                 Prices can change. If we change the price of a service you&apos;re using, we&apos;ll give you at least 30 days&apos; written notice before the new price applies.
               </p>
@@ -159,7 +165,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.75}>
               <h2 className="font-display text-2xl font-light md:text-3xl">11. Termination.</h2>
               <p className="mt-3">
-                You can cancel a subscription at any time from your account settings, or by emailing{' '}
+                You can cancel a monthly keep-it-running or team plan at any time from your account settings, or by emailing{' '}
                 <a href="mailto:hello@assembl.co.nz" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">hello@assembl.co.nz</a>.
               </p>
               <p className="mt-3">
