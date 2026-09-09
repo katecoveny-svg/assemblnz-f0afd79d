@@ -36,6 +36,17 @@ describe('Gateway PREVIEW demo data', () => {
     ]);
   });
 
+  it('uses customs clearance motif — not architecture plan-sheet language', () => {
+    const blob = JSON.stringify(GATEWAY_PREVIEW).toLowerCase();
+    expect(blob).not.toMatch(/floor plate/);
+    expect(blob).not.toMatch(/floorplan|floor-plan/);
+    expect(blob).not.toMatch(/\bga plan\b|\bg\.a\.\b/);
+    expect(blob).not.toMatch(/\bdrawing\b/);
+    expect(blob).not.toMatch(/\bscale\b/);
+    expect(blob).toMatch(/entry|tariff|clearance|border|customs/);
+    expect(GATEWAY_PREVIEW.assembleTitle.toLowerCase()).toMatch(/desk|clearance|entry|pack|docs/);
+  });
+
   it('frames pricing as hours back', () => {
     expect(GATEWAY_PREVIEW.hoursBack).toMatch(/hours back/i);
     expect(GATEWAY_PREVIEW.pricingTitle.toLowerCase()).toContain('not live');
