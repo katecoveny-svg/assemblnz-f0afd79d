@@ -4,6 +4,16 @@ import { useEffect, useRef } from 'react';
 import { CineFooter } from './CineFooter';
 import * as THREE from 'three';
 import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
+import {
+  PRICE_INSTALL,
+  PRICE_INSTALL_SUFFIX,
+  PRICE_OUTCOME,
+  PRICE_RUNNING,
+  PRICE_RUNNING_SUFFIX,
+  PRICE_TEAM,
+  PRICE_TEAM_SUFFIX,
+  PRICING_NOTE,
+} from '@/lib/registry/pricing';
 
 /**
  * /pricing — Kate's pricing.html prototype, ported 1:1 (copy + tiers hers,
@@ -123,8 +133,8 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
           <div className="kicker">pricing</div>
           <h1>Agents prepare.<br /><span className="accent">People decide.</span></h1>
           <p className="lede" style={{ marginTop: 16 }}>
-            $1,500 gets one real thing running in your business in about two weeks. Not a demo,
-            not a slide deck. After that it&rsquo;s $250 a month to keep it working.
+            {PRICE_INSTALL} gets one real thing running in your business in about two weeks. Not a demo,
+            not a slide deck. After that it&rsquo;s {PRICE_RUNNING} a month to keep it working.
           </p>
           <p className="lede" style={{ marginTop: 10, opacity: 0.72 }}>
             <a href="/ai-ready" style={{ textDecoration: 'underline' }}>Paste your website first</a>
@@ -137,7 +147,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
             <div className="price-card featured">
               <div className="price-badge">the install</div>
               <div className="price-tier">the install</div>
-              <div className="price-amount">$1,500<span> +GST · once</span></div>
+              <div className="price-amount">{PRICE_INSTALL}<span>{PRICE_INSTALL_SUFFIX}</span></div>
               <div className="price-desc">
                 Two weeks. At the end you have three things, and honest numbers on whether they helped.
               </div>
@@ -156,7 +166,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
             <div className="price-card">
               <div className="price-badge">after that</div>
               <div className="price-tier">keep it running</div>
-              <div className="price-amount">$250<span>/mo +GST</span></div>
+              <div className="price-amount">{PRICE_RUNNING}<span>{PRICE_RUNNING_SUFFIX}</span></div>
               <div className="price-desc">
                 Nothing switches off at the end of the install. This keeps it hosted, running and
                 accurate when your prices, staff or policies change — which is most of the work.
@@ -181,7 +191,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
             <div className="pricing-grid">
               <div className="price-card">
                 <div className="price-tier">team</div>
-                <div className="price-amount">$800<span>/mo +GST</span></div>
+                <div className="price-amount">{PRICE_TEAM}<span>{PRICE_TEAM_SUFFIX}</span></div>
                 <div className="price-desc">A few agents covering one full journey, end to end.</div>
                 <ul className="price-list">
                   <li>Everything in keep it running</li>
@@ -193,7 +203,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
               </div>
               <div className="price-card">
                 <div className="price-tier">outcome</div>
-                <div className="price-amount">talk to us</div>
+                <div className="price-amount">{PRICE_OUTCOME}</div>
                 <div className="price-desc">
                   Priced on the work delivered rather than on seats — for when the job is bigger than
                   one journey.
@@ -229,7 +239,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
             </p>
           </div>
 
-          <p style={{ marginTop: 34, fontSize: 13, opacity: 0.6 }}>All prices NZD, GST exclusive.</p>
+          <p style={{ marginTop: 34, fontSize: 13, opacity: 0.6 }}>{PRICING_NOTE}</p>
         </div>
 
         <CineFooter />

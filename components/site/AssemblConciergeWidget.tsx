@@ -6,8 +6,7 @@ import Link from 'next/link';
 import { ArrowRight, Send, X } from 'lucide-react';
 import { isCustomerWorkspace, isAlphassembl, isAssemblBills, isStandaloneHealth, isMotionStudio, isCreativeStudio } from '@/components/site/site-header';
 import { cn } from '@/lib/utils';
-import { orderedBundles } from '@/lib/marketplace/bundles';
-import { PRICING_NOTE, pricingPlainLines } from '@/lib/registry/pricing';
+import { PRICING_NOTE, PRICE_INSTALL, pricingPlainLines } from '@/lib/registry/pricing';
 
 type Message = {
   role: 'user' | 'agent';
@@ -21,51 +20,45 @@ const GOLD = '#557060';
 
 const QUICK_PROMPTS = [
   'how does pricing work?',
-  'which bundle fits me?',
-  'show me an agent',
-  'book a pilot',
+  'what is wait to earn?',
+  'install an agent',
+  'talk about outcome',
 ] as const;
 
-/** Live bundle names, pulled from the registry — never hardcode agent names. */
-function bundleSentence(): string {
-  const bundles = orderedBundles();
-  const named = bundles.map((bundle) => bundle.name).join(', ');
-  return `There are ${bundles.length}: ${named}.`;
-}
-
-/** Knowledge base, built at render so pricing and names track the registry. */
+/** Knowledge base, built at render so pricing tracks the registry. */
 function buildKnowledge() {
   return [
     {
-      match: ['price', 'pricing', 'cost', 'pay', 'how much', 'subscription', 'plan'],
-      answer: `Start free — every agent answers a few messages before you pay a cent. From there: ${pricingPlainLines().join('; ')}. ${PRICING_NOTE}`,
+      match: ['price', 'pricing', 'cost', 'pay', 'how much', 'subscription', 'plan', 'gst'],
+      answer: `Public pricing today: ${pricingPlainLines().join('; ')}. ${PRICING_NOTE} Free tools and try-an-agent paths stay free. Larger loyalty / wait→earn Outcome pilots are scoped with us — not listed as a seat price.`,
       href: '/pricing',
       cta: 'see pricing',
     },
     {
-      match: ['bundle', 'fit', 'pack', 'industry', 'construction', 'automotive', 'creative', 'health', 'legal', 'family', 'immigration', 'animal', 'which'],
-      answer: `A bundle is a team of specialists built for one line of work. ${bundleSentence()} Tell me what you do and I'll point you at the right one.`,
-      href: '/bundles',
-      cta: 'browse bundles',
+      match: ['wait', 'earn', 'loyalty', 'mana', 'receipt', 'reward'],
+      answer:
+        'Wait→earn turns idle waiting into useful work the customer can see: prepare the next step, earn a small credit, leave a Mana Receipt of what changed. The One NZ journey is a public demo of that pattern — not a claimed partnership.',
+      href: '/journeys/one-nz',
+      cta: 'see the demo',
     },
     {
-      match: ['agent', 'show', 'assistant', 'fleet', 'marketplace', 'try'],
+      match: ['install', 'agent', 'show', 'assistant', 'try', 'free'],
       answer:
-        "Every agent has its own page — what it does, what it cites, and a chat you can try on the spot. A few messages free, no card. Pick the one that matches the job on your desk and put it to work.",
+        'Start free: paste a website, try an agent, or use a one-task tool. When you are ready, the install puts one real agent and one journey into your business in about two weeks — priced on /pricing.',
       href: '/agents',
       cta: 'meet the agents',
     },
     {
-      match: ['pilot', 'sprint', 'book', 'start', 'demo'],
+      match: ['outcome', 'pilot', 'sprint', 'book', 'start', 'demo', 'talk'],
       answer:
-        "A pilot is the low-risk way in: one real workflow from your business, built and proven inside 30 days, priced as an outcome. You keep the evidence pack either way.",
-      href: '/pilot-sprint',
-      cta: 'book a pilot',
+        `Outcome work is priced on the result delivered, not seats — talk to us and we scope it. The fixed public path is the install on /pricing; Founding Pilot Sprint at /pilot-sprint is the same ${PRICE_INSTALL} +GST entry for one workflow when that page fits.`,
+      href: '/contact',
+      cta: 'talk to the team',
     },
     {
-      match: ['evidence', 'proof', 'audit', 'review', 'approve', 'trust'],
+      match: ['evidence', 'proof', 'audit', 'review', 'approve', 'trust', 'mana receipt'],
       answer:
-        'Every piece of work ships with its evidence pack: sources cited, reasoning shown, a named person signing it off. The mahi and the proof stay side by side.',
+        'Every piece of work ships with its record: sources cited, reasoning shown, a named person signing it off. Mana Receipts are the customer-facing proof of what changed during a wait.',
       href: '/evidence-pack',
       cta: 'see an evidence pack',
     },
@@ -138,9 +131,9 @@ export function AssemblConciergeWidget() {
     return (
       knowledge.find((entry) => entry.match.some((needle) => lower.includes(needle))) ?? {
         answer:
-          "The short version: specialist agents that know Aotearoa, drafts a person approves, and an evidence pack behind every piece of work. Ask me about pricing, bundles, or a job you'd like off your plate.",
-        href: '/agents',
-        cta: 'meet the agents',
+          "The short version: wait→earn journeys, agents that draft for a named person's yes, and Mana Receipts that show what changed. Ask me about pricing, installing an agent, or Outcome work.",
+        href: '/contact',
+        cta: 'talk to the team',
       }
     );
   };
