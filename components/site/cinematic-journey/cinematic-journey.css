@@ -325,6 +325,27 @@
   align-items: start;
 }
 .cj-live-copy { max-width: 640px; }
+
+/* Live agent phone — above R3F canvas/veil; Lenis must not own its pointer. */
+.cj-live-phone {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  pointer-events: auto;
+  isolation: isolate;
+}
+.cj-live-phone .aj-phone,
+.cj-live-phone .hg-phone {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  min-height: 620px;
+  margin: 0 auto;
+  transform: none;
+  pointer-events: auto;
+}
 .cj-live-copy h2 {
   margin: 0;
   font-size: clamp(36px, 4.4vw, 64px);
