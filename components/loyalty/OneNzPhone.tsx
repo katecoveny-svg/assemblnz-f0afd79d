@@ -228,7 +228,7 @@ export function OneNzPhone({
                     <em>live</em>
                   </header>
                   <p>
-                    Phone Dollars earn while this {active.label.toLowerCase()} finishes.
+                    Phone Dollars stamp while this {active.label} finishes.
                   </p>
                 </div>
               </>
