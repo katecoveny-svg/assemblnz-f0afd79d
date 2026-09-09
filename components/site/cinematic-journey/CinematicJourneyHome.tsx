@@ -7,12 +7,14 @@ import {
   ASSEMBLY_BEATS,
   CLOSE,
   FOOTER,
+  HEADER_TAG,
   HERO,
   LIVE_WAIT,
   LOST_TIME,
   NAV,
   PROOF,
 } from './copy';
+import { CraftScroll } from './CraftScroll';
 import { JourneyPhone } from './JourneyPhone';
 import type { PointerRef, ProgressRef } from './types';
 import './cinematic-journey.css';
@@ -63,6 +65,7 @@ export function CinematicJourneyHome() {
 
   return (
     <div className="cj">
+      <CraftScroll />
       <AssemblyScrollCanvas progress={progress} pointer={pointer} />
       <div className="cj-veil" aria-hidden="true" />
 
@@ -70,7 +73,7 @@ export function CinematicJourneyHome() {
         <Link className="cj-wordmark" href="/" aria-label="assembl home">
           assembl<span>·</span>
         </Link>
-        <p className="cj-header-tag">mahi that earns its proof.</p>
+        <p className="cj-header-tag">{HEADER_TAG}</p>
         <nav className="cj-header-nav" aria-label="assembl tools">
           <a className="cj-studio" href={NAV.studio.href}>
             {NAV.studio.label}
