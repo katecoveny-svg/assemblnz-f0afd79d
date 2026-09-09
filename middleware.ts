@@ -313,6 +313,11 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|pdf|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
 
+/** Concept creative-agency tenant is the Ensemble sell demo — public, no basic auth. */
+const isPublicCreativeAgencyDemo = (pathname: string) =>
+  pathname === '/customers/creative-agency' ||
+  pathname.startsWith('/customers/creative-agency/');
+
 const needsDemoAuth = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
   // The public agent builder — exact match here; '/a/…' is in the prefix list.
@@ -321,6 +326,8 @@ const needsDemoAuth = (request: NextRequest) => {
     return false;
   }
   if (DEMO_AUTH_STATIC_FILE.test(pathname)) return false;
+  // Sellable Ensemble creative demo — buyers enter without the demo password.
+  if (isPublicCreativeAgencyDemo(pathname)) return false;
   if (matchesPrefix(pathname, '/customers')) return true;
 
   const host = (request.headers.get('host') ?? '').toLowerCase();
@@ -658,6 +665,21 @@ const productRedirect = (request: NextRequest) => {
     return NextResponse.redirect(url, 308);
   }
 
+  // Ensemble sell door — do NOT dump /bundles/ensemble to /pricing.
+  if (pathname === '/bundles/ensemble' || pathname.startsWith('/bundles/ensemble/')) {
+    url.pathname = '/agents/ensemble';
+    url.search = '';
+    return NextResponse.redirect(url, 308);
+  }
+
+  // Auaha kete bookmark → Ensemble creative front door (before splash can
+  // swallow /kete/* on the live apex).
+  if (pathname === '/kete/auaha' || pathname.startsWith('/kete/auaha/')) {
+    url.pathname = '/agents/ensemble';
+    url.search = '';
+    return NextResponse.redirect(url, 308);
+  }
+
   // /agents is public again: the curated index and individual demos explain
   // one clear job at a time. The detail and chat routes keep their draft-only
   // approval boundaries, while the Living Site remains a separate system demo.
@@ -769,6 +791,24 @@ export async function middleware(request: NextRequest) {
   // signed token IS the credential for the whole demo host.
   const hubEntry = await handleHubEntry(request);
   if (hubEntry) return hubEntry;
+
+  // Ensemble sell-door redirects must beat the live-apex splash rewrite
+  // ( /kete/* is not splash-exempt; /bundles/* would otherwise later 308 to
+  // /pricing ). Keep these ahead of splashGate.
+  {
+    const pathname = request.nextUrl.pathname;
+    if (
+      pathname === '/bundles/ensemble' ||
+      pathname.startsWith('/bundles/ensemble/') ||
+      pathname === '/kete/auaha' ||
+      pathname.startsWith('/kete/auaha/')
+    ) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/agents/ensemble';
+      url.search = '';
+      return NextResponse.redirect(url, 308);
+    }
+  }
 
   // Live domain is behind the coming-soon splash while the fresh site is built
   // at staging. Runs after the invite entry (so /for links resolve) and before
