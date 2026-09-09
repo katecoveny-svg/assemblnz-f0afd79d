@@ -1,113 +1,15 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ARC_PREVIEW } from '@/lib/arc/preview-copy';
 
 /**
- * Pinned scroll-scrub: flat-lay building parts assemble into a NZ terrace GA plan.
- * Paper field + plum ink. Honours prefers-reduced-motion (shows assembled).
+ * Pinned scroll-scrub assemble stage (timeline owned by ArcCraftScroll).
+ * Markup only — GSAP pin/scrub runs against `.arc-assemble-pin` + `[data-sheet=assemble]`.
  */
 export function ArcAssembleStage() {
-  const pinRef = useRef<HTMLDivElement>(null);
-  const sheetRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const pin = pinRef.current;
-    const sheet = sheetRef.current;
-    if (!pin || !sheet) return;
-
-    const parts = sheet.querySelectorAll<SVGElement>('[data-part]');
-    const assembled = sheet.querySelectorAll<SVGElement>('[data-assembled]');
-    const flat = sheet.querySelectorAll<SVGElement>('[data-flat]');
-
-    if (reduce) {
-      parts.forEach((el) => {
-        el.style.transform = '';
-        el.style.opacity = '1';
-      });
-      flat.forEach((el) => {
-        el.style.opacity = '0';
-      });
-      assembled.forEach((el) => {
-        el.style.opacity = '1';
-      });
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: pin,
-          start: 'top top',
-          end: '+=220%',
-          pin: true,
-          scrub: 0.65,
-          anticipatePin: 1,
-        },
-      });
-
-      // Flat-lay labels fade as assembly begins
-      tl.fromTo(
-        flat,
-        { autoAlpha: 1 },
-        { autoAlpha: 0, duration: 0.25, ease: 'none' },
-        0,
-      );
-
-      // Each part slides from scatter into its plan seat
-      parts.forEach((el, i) => {
-        const scatterX = Number(el.dataset.sx ?? 0);
-        const scatterY = Number(el.dataset.sy ?? 0);
-        const scatterR = Number(el.dataset.sr ?? 0);
-        tl.fromTo(
-          el,
-          {
-            x: scatterX,
-            y: scatterY,
-            rotation: scatterR,
-            transformOrigin: '50% 50%',
-          },
-          {
-            x: 0,
-            y: 0,
-            rotation: 0,
-            duration: 0.55,
-            ease: 'power2.inOut',
-          },
-          0.08 + i * 0.06,
-        );
-      });
-
-      tl.fromTo(
-        assembled,
-        { autoAlpha: 0 },
-        { autoAlpha: 1, duration: 0.35, ease: 'power1.out' },
-        0.72,
-      );
-
-      tl.fromTo(
-        sheet.querySelectorAll('[data-assemble-stamp]'),
-        { autoAlpha: 0, y: 8 },
-        { autoAlpha: 1, y: 0, duration: 0.2, ease: 'power2.out' },
-        0.88,
-      );
-    }, pin);
-
-    return () => {
-      ctx.revert();
-    };
-  }, []);
-
   return (
     <section
       className="arc-assemble-pin"
-      ref={pinRef}
       aria-labelledby="arc-assemble-title"
       id="arc-assemble"
     >
@@ -118,7 +20,7 @@ export function ArcAssembleStage() {
           <p>{ARC_PREVIEW.assembleSupport}</p>
         </div>
 
-        <div className="arc-plan-sheet" ref={sheetRef} data-sheet="assemble">
+        <div className="arc-plan-sheet" data-sheet="assemble">
           <div className="arc-title-block arc-mono" aria-hidden>
             <div className="arc-title-block-row">
               <span>PROJECT</span>
@@ -153,13 +55,11 @@ export function ArcAssembleStage() {
             <rect width="640" height="420" fill="#FFFDFB" />
             <rect width="640" height="420" fill="url(#arc-eng-grid)" />
 
-            {/* Flat-lay captions */}
             <g data-flat fill="#654A4E" fontFamily="IBM Plex Mono, ui-monospace, monospace" fontSize="9" letterSpacing="1.2">
               <text x="36" y="28">FLAT LAY · PARTS</text>
               <text x="480" y="28">SCROLL TO ASSEMBLE</text>
             </g>
 
-            {/* Envelope / walls */}
             <g
               data-part
               data-sx="-48"
@@ -176,7 +76,6 @@ export function ArcAssembleStage() {
               <line x1="360" y1="210" x2="360" y2="320" strokeWidth="2" />
             </g>
 
-            {/* Stair block */}
             <g data-part data-sx="72" data-sy="36" data-sr="8" stroke="#240B21" fill="none">
               <rect x="430" y="230" width="80" height="90" strokeWidth="2" />
               {[0, 1, 2, 3, 4].map((i) => (
@@ -192,13 +91,11 @@ export function ArcAssembleStage() {
               ))}
             </g>
 
-            {/* Bath / WC */}
             <g data-part data-sx="54" data-sy="-42" data-sr="6" stroke="#240B21" fill="none">
               <rect x="360" y="210" width="70" height="55" strokeWidth="2" />
               <circle cx="395" cy="238" r="14" strokeWidth="1.2" strokeDasharray="3 2" opacity="0.7" />
             </g>
 
-            {/* Deck */}
             <g data-part data-sx="-36" data-sy="58" data-sr="-3" stroke="#240B21" fill="none">
               <rect
                 x="90"
@@ -211,7 +108,6 @@ export function ArcAssembleStage() {
               />
             </g>
 
-            {/* Door swings + openings */}
             <g data-part data-sx="20" data-sy="-50" data-sr="12" stroke="#654A4E" fill="none">
               <path d="M190 210 A22 22 0 0 1 212 232" strokeWidth="1.2" />
               <path d="M270 130 A20 20 0 0 1 290 150" strokeWidth="1.2" />
@@ -219,7 +115,6 @@ export function ArcAssembleStage() {
               <line x1="320" y1="70" x2="390" y2="70" strokeWidth="4" stroke="#FFFDFB" />
             </g>
 
-            {/* Assembled annotations */}
             <g
               data-assembled
               fill="#654A4E"
@@ -238,7 +133,6 @@ export function ArcAssembleStage() {
               </text>
             </g>
 
-            {/* Dimension + north */}
             <g data-assembled stroke="#240B21" fill="#240B21" opacity="0">
               <line x1="90" y1="52" x2="510" y2="52" strokeWidth="0.8" />
               <line x1="90" y1="48" x2="90" y2="56" strokeWidth="0.8" />
