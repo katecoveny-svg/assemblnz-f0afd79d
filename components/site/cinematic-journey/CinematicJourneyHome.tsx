@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import { useEffect, useRef, type CSSProperties } from 'react';
 import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
 import {
@@ -15,7 +16,10 @@ import {
   NAV,
   PROOF,
 } from './copy';
+import { AtmosphereLayer } from './AtmosphereLayer';
+import { CinematicMediaSlot } from './CinematicMediaSlot';
 import { CraftScroll } from './CraftScroll';
+import { CINEMATIC_MEDIA } from './media';
 import type { PointerRef, ProgressRef } from './types';
 import '@/app/active-journey-home.css';
 import './cinematic-journey.css';
@@ -45,6 +49,8 @@ const PHONE_THEME = {
 export function CinematicJourneyHome() {
   const progress = useRef(0) as ProgressRef;
   const pointer = useRef({ x: 0, y: 0 }) as PointerRef;
+  const [scenarioId, setScenarioId] = useState<(typeof LIVE_WAIT.scenarios)[number]['id']>('quote');
+  const [choice, setChoice] = useState(0);
 
   useEffect(() => {
     const onScroll = () => {
@@ -69,10 +75,13 @@ export function CinematicJourneyHome() {
     };
   }, []);
 
+  const scenario = LIVE_WAIT.scenarios.find((s) => s.id === scenarioId) ?? LIVE_WAIT.scenarios[0];
+
   return (
     <div className="cj">
       <CraftScroll />
       <AssemblyScrollCanvas progress={progress} pointer={pointer} />
+      <AtmosphereLayer progress={progress} />
       <div className="cj-veil" aria-hidden="true" />
 
       <header className="cj-header">
@@ -117,7 +126,9 @@ export function CinematicJourneyHome() {
             </div>
             <p className="cj-hero-proof">{HERO.proofLine}</p>
           </div>
-          <div className="cj-hero-stage" aria-hidden="true" />
+          <div className="cj-hero-stage" aria-hidden="true">
+            <CinematicMediaSlot slot={CINEMATIC_MEDIA.hero} mode="inline" className="cj-hero-media" />
+          </div>
         </section>
 
         <section className="cj-assemble" id="assemble" aria-labelledby="cj-assemble-title">
@@ -125,8 +136,13 @@ export function CinematicJourneyHome() {
             <p className="cj-kicker">how a journey assembles</p>
             <h2 id="cj-assemble-title">Five parts lock into one coherent next step.</h2>
           </div>
+
+          <div className="cj-assemble-media" data-cj-parallax="assemble">
+            <CinematicMediaSlot slot={CINEMATIC_MEDIA.assemble} mode="inline" />
+          </div>
+
           <div className="cj-beats">
-            {ASSEMBLY_BEATS.map((beat) => (
+            {ASSEMBLY_BEATS.map((beat, index) => (
               <article className="cj-beat" key={beat.id} id={`beat-${beat.id}`}>
                 <div>
                   <p className="cj-beat-n">
@@ -135,9 +151,18 @@ export function CinematicJourneyHome() {
                   <h3>{beat.title}</h3>
                   <p>{beat.body}</p>
                 </div>
-                <div className="cj-beat-marker" aria-hidden="true">
-                  {beat.label}
-                </div>
+                {/* Mid still anchors the centre beat until video 9a8c5c81 lands. */}
+                {index === 2 ? (
+                  <CinematicMediaSlot
+                    slot={CINEMATIC_MEDIA.mid}
+                    mode="inline"
+                    className="cj-beat-media"
+                  />
+                ) : (
+                  <div className="cj-beat-marker" aria-hidden="true">
+                    {beat.label}
+                  </div>
+                )}
               </article>
             ))}
           </div>
@@ -183,6 +208,7 @@ export function CinematicJourneyHome() {
               Only the context approved for this moment is used. Review or remove it before handoff.
             </p>
           </div>
+          <div className="cj-live-phone" id="live-agent">
           {/*
             Live agent chat (HomeGuidePhone → POST /api/home/agent).
             data-lenis-prevent keeps CraftScroll/Lenis off nested scroll + input focus.
