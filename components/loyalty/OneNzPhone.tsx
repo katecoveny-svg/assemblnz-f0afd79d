@@ -57,13 +57,13 @@ function replyFor(
   if (q.includes('earn') || q.includes('why') || q.includes('dollar') || q.includes('wallet')) {
     return {
       beat: 'earn',
-      text: `While ${triggerLabel.toLowerCase()} is still running, Phone Dollars stamp into One Wallet. You pay $0 for the moment.`,
+      text: `While ${triggerLabel} is still running, Phone Dollars stamp into One Wallet. You pay $0 for the moment.`,
     };
   }
   if (q.includes('wait') || q.includes('esim') || q.includes('plan') || q.includes('hold')) {
     return {
       beat: 'wait',
-      text: `We detected a real ${triggerLabel.toLowerCase()}. The earn starts the moment the wait does — nothing invented.`,
+      text: `We detected a real ${triggerLabel}. The earn starts the moment the wait does — nothing invented.`,
     };
   }
   return {
