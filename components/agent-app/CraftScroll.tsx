@@ -14,9 +14,9 @@ type CraftScrollProps = {
 };
 
 /**
- * Shared agent-app PREVIEW craft: Lenis (~1.2) + GSAP section reveals.
- * Wires ScrollTrigger.scrollerProxy so BlueprintScene pin/scrub advances
- * under Lenis. Assemble timeline stays in BlueprintScene.
+ * Shared agent-app PREVIEW craft: Lenis (~1.2) + GSAP reveals + light parallax.
+ * ScrollTrigger.scrollerProxy keeps BlueprintScene pin/scrub in sync with Lenis.
+ * Paper field + plum accent only — see `lib/agent-app/craft-canon.ts`.
  */
 export function CraftScroll({
   rootSelector = '.aa-root',
@@ -102,6 +102,43 @@ export function CraftScroll({
           },
         );
       });
+
+      // Light parallax — hero title-block drifts slower than scroll (still camera).
+      const heroSheet = root.querySelector<HTMLElement>('.aa-hero-sheet');
+      if (heroSheet) {
+        gsap.fromTo(
+          heroSheet,
+          { y: 28 },
+          {
+            y: -18,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: root.querySelector('.aa-hero') ?? heroSheet,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 0.8,
+            },
+          },
+        );
+      }
+
+      // Plan sheets (non-pin) ease upward slightly as they enter — depth, not bounce.
+      root.querySelectorAll<HTMLElement>('.aa-plan-sheet:not(.aa-plan-interactive)').forEach((sheet) => {
+        gsap.fromTo(
+          sheet,
+          { y: 40 },
+          {
+            y: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sheet,
+              start: 'top 92%',
+              end: 'top 48%',
+              scrub: 0.7,
+            },
+          },
+        );
+      });
     }, root);
 
     return () => {
@@ -110,7 +147,6 @@ export function CraftScroll({
       ctx.revert();
       gsap.ticker.remove(ticker);
       lenis.destroy();
-      // Do not kill BlueprintScene pin triggers here — they own their own context.
     };
   }, [rootSelector, revealSelector]);
 

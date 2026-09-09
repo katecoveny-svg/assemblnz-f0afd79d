@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  AGENT_APP_CRAFT,
   BlueprintScene,
   CraftScroll,
   HoursBackPricing,
@@ -19,7 +20,7 @@ export function EnsembleLanding() {
   const c = ENSEMBLE_PREVIEW;
 
   return (
-    <div className="aa-root">
+    <div className="aa-root" data-craft={AGENT_APP_CRAFT.craftAttr}>
       <CraftScroll />
 
       <header className="aa-nav">

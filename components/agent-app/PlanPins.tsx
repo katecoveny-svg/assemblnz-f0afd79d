@@ -22,8 +22,9 @@ export type PlanPinsProps = {
 };
 
 /**
- * Clickable DEMO pins on an NZ plan sheet.
+ * Clickable DEMO pins on an NZ plan sheet — paper field, plum accent pins.
  * Underlay swaps per vertical; pin data is passed in.
+ * Factory lock: never dark-plum canvas; see craft-canon.ts.
  */
 export function PlanPins({
   id = 'aa-model',

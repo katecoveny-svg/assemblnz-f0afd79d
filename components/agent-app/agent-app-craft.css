@@ -1,5 +1,13 @@
-/* Agent-app shared craft PREVIEW — paper engineering sheet + plum accent.
-   Kate craft OVERRIDE: field is paper (#FFFDFB), plum is ink/CTA only. */
+/* Agent-app shared craft PREVIEW — PAPER engineering sheet + plum accent ONLY.
+ *
+ * Kate craft OVERRIDE (factory lock for Arc / Forge / Ensemble / future):
+ *   Field  = paper #FFFDFB + hairline grid — NEVER a full-field dark plum wash
+ *   Accent = plum #240B21 (lines, pins, CTAs, title-block ink) — like Heron orange, but plum
+ *   Type   = Instrument Sans + IBM Plex Mono (labels / evidence / stamps)
+ *   Motion = Lenis + GSAP pin/scrub assemble (flat-lay → plan)
+ *
+ * Source of truth: lib/agent-app/craft-canon.ts (vitest hard-fail).
+ */
 
 .aa-root {
   --aa-plum: #240b21;

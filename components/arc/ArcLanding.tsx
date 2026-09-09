@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import {
+  AGENT_APP_CRAFT,
   HoursBackPricing,
   ObserveAdviseAct,
   TitleBlock,
@@ -17,7 +18,7 @@ export function ArcLanding() {
   const c = ARC_PREVIEW;
 
   return (
-    <div className="aa-root">
+    <div className="aa-root" data-craft={AGENT_APP_CRAFT.craftAttr}>
       <ArcCraftScroll />
 
       <header className="aa-nav">
