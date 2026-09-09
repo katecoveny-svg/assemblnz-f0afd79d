@@ -131,6 +131,7 @@ export function EnsembleLanding() {
           title={c.narrativeTitle}
           steps={c.chapters}
           demoBadge={c.demoBadge}
+          observeStatus="Observing brand board · draft not ready"
           approveLabel="Approve draft"
           actLabel="Act"
           actDisabledHint="Act stays locked until you approve the draft."
