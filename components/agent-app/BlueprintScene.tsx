@@ -70,31 +70,36 @@ export function BlueprintScene({
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
+      // Seed flat-lay so first paint is scattered before scrub advances.
+      parts.forEach((el) => {
+        gsap.set(el, {
+          x: Number(el.dataset.sx ?? 0),
+          y: Number(el.dataset.sy ?? 0),
+          rotation: Number(el.dataset.sr ?? 0),
+          transformOrigin: '50% 50%',
+        });
+      });
+      gsap.set(assembled, { autoAlpha: 0 });
+      gsap.set(flat, { autoAlpha: 1 });
+      gsap.set(sheet.querySelectorAll('[data-assemble-stamp]'), { autoAlpha: 0 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: pin,
           start: 'top top',
-          end: '+=220%',
+          end: '+=240%',
           pin: true,
-          scrub: 0.65,
+          scrub: 0.7,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       });
 
-      tl.fromTo(flat, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.25, ease: 'none' }, 0);
+      tl.to(flat, { autoAlpha: 0, duration: 0.2, ease: 'none' }, 0);
 
       parts.forEach((el, i) => {
-        const scatterX = Number(el.dataset.sx ?? 0);
-        const scatterY = Number(el.dataset.sy ?? 0);
-        const scatterR = Number(el.dataset.sr ?? 0);
-        tl.fromTo(
+        tl.to(
           el,
-          {
-            x: scatterX,
-            y: scatterY,
-            rotation: scatterR,
-            transformOrigin: '50% 50%',
-          },
           {
             x: 0,
             y: 0,
@@ -102,24 +107,19 @@ export function BlueprintScene({
             duration: 0.55,
             ease: 'power2.inOut',
           },
-          0.08 + i * 0.06,
+          0.06 + i * 0.07,
         );
       });
 
-      tl.fromTo(
-        assembled,
-        { autoAlpha: 0 },
-        { autoAlpha: 1, duration: 0.35, ease: 'power1.out' },
-        0.72,
-      );
-
-      tl.fromTo(
+      tl.to(assembled, { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 0.7);
+      tl.to(
         sheet.querySelectorAll('[data-assemble-stamp]'),
-        { autoAlpha: 0, y: 8 },
         { autoAlpha: 1, y: 0, duration: 0.2, ease: 'power2.out' },
-        0.88,
+        0.85,
       );
     }, pin);
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
       ctx.revert();

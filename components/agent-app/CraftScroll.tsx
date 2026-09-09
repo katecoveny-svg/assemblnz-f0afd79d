@@ -15,7 +15,8 @@ type CraftScrollProps = {
 
 /**
  * Shared agent-app PREVIEW craft: Lenis (~1.2) + GSAP section reveals.
- * Assemble pin/scrub lives in BlueprintScene. Scoped to rootSelector.
+ * Wires ScrollTrigger.scrollerProxy so BlueprintScene pin/scrub advances
+ * under Lenis. Assemble timeline stays in BlueprintScene.
  */
 export function CraftScroll({
   rootSelector = '.aa-root',
@@ -43,6 +44,24 @@ export function CraftScroll({
       autoRaf: false,
     });
 
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        if (arguments.length && typeof value === 'number') {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return lenis.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.documentElement.style.transform ? 'transform' : 'fixed',
+    });
+
     lenis.on('scroll', ScrollTrigger.update);
 
     const ticker = (time: number) => {
@@ -54,6 +73,7 @@ export function CraftScroll({
     const refresh = () => ScrollTrigger.refresh();
     requestAnimationFrame(refresh);
     window.addEventListener('load', refresh);
+    window.addEventListener('resize', refresh);
 
     const sections = root.querySelectorAll<HTMLElement>(revealSelector);
 
@@ -86,10 +106,11 @@ export function CraftScroll({
 
     return () => {
       window.removeEventListener('load', refresh);
+      window.removeEventListener('resize', refresh);
       ctx.revert();
       gsap.ticker.remove(ticker);
       lenis.destroy();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      // Do not kill BlueprintScene pin triggers here — they own their own context.
     };
   }, [rootSelector, revealSelector]);
 
