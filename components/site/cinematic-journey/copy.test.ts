@@ -24,9 +24,9 @@ describe('cinematic homepage hrefs', () => {
     }
   });
 
-  it('anchors live-wait CTA on-page and journeys demos under /journeys', () => {
-    expect(HERO.ctaPrimary.href).toBe('#industries');
-    expect(HERO.ctaSecondary.href).toBe('#live-wait');
+  it('anchors dual-track CTAs on-page and journeys demos under /journeys', () => {
+    expect(HERO.ctaPrimary.href).toBe('#loyalty-wait');
+    expect(HERO.ctaSecondary.href).toBe('#industries');
     expect(CLOSE.demos.href).toBe('/journeys');
   });
 

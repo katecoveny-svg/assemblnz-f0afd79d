@@ -6,9 +6,12 @@
  * Type = Instrument Sans + IBM Plex Mono (labels / evidence only).
  * Motion = Lenis + GSAP pin/scrub assemble (flat-lay → plan).
  *
- * Applies to every vertical that imports `components/agent-app/*`
- * (Arc, Forge, Ensemble, future). Do not introduce cream/orange Heron
- * leftovers, dark plum fields, mana/kete product labels, or AI-slop copy.
+ * Applies to architecture / floor-plate verticals that import
+ * `components/agent-app/*` BlueprintScene + PlanPins (Arc, Forge, Gateway).
+ * Ensemble is the creative desk front door — it must NOT import BlueprintScene
+ * or PlanPins; it reuses ObserveAdviseAct / HoursBackPricing / CraftScroll only.
+ * Do not introduce cream/orange Heron leftovers, dark plum fields, mana/kete
+ * product labels, or AI-slop copy.
  */
 
 export const AGENT_APP_CRAFT = {
