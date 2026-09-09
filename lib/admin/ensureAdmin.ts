@@ -16,7 +16,7 @@ import { getServiceClient } from '@/lib/supabase/service';
  *   3. legacy markers: `user_roles.role = 'admin'` or `profiles.is_admin`.
  *
  * Everyone else is bounced. Unauthenticated visitors go to the canon-styled
- * /admin/login (magic link + optional password).
+ * /admin/login (password primary; magic link optional when SMTP works).
  *
  * Pages under /admin then read with the service-role client (RLS bypass) ONLY
  * after this gate has proven authorisation — the established pattern documented
@@ -24,15 +24,23 @@ import { getServiceClient } from '@/lib/supabase/service';
  * a public policy.
  */
 
-const ADMIN_EMAILS = new Set<string>([
+/** Founder mailboxes — always operators, even before designated_admins rows exist. */
+export const FOUNDER_ADMIN_EMAILS = [
   'assembl@assembl.co.nz',
   'kate@assembl.co.nz',
-]);
+] as const;
+
+const ADMIN_EMAILS = new Set<string>(FOUNDER_ADMIN_EMAILS);
 
 export type AdminUser = {
   id: string;
   email: string;
 };
+
+/** True when the email is a locked founder mailbox (bootstrap allowlist). */
+export function isFounderAdminEmail(rawEmail: string): boolean {
+  return ADMIN_EMAILS.has(rawEmail.trim().toLowerCase());
+}
 
 /** Non-redirecting admin check for Route Handlers and server actions. */
 export async function isAdminUser(userId: string, rawEmail: string): Promise<boolean> {

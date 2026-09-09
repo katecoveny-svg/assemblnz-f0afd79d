@@ -94,8 +94,9 @@ export default async function TodayPage() {
       <SectionTitle>Jump in</SectionTitle>
       <Grid min={200}>
         {[
+          { href: '/admin/agents', label: 'Agents', note: 'Catalogue + status · client connect' },
+          { href: '/admin/connectors', label: 'Connectors', note: 'Pilot Pipedream links' },
           { href: '/admin/users', label: 'Users', note: 'Tier + level, drill in' },
-          { href: '/admin/agents', label: 'Agents', note: 'Catalogue + status' },
           { href: '/admin/pilot', label: 'Pilot', note: 'Review user agents' },
           { href: '/admin/billing', label: 'Billing', note: 'Subs, MRR, churn' },
           { href: '/admin/support', label: 'Support', note: 'Triage + reply' },

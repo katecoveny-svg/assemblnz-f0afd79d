@@ -99,11 +99,11 @@ export function AdminLoginForm({ redirectTo }: { redirectTo: string }) {
         sign in.
       </h1>
       <p style={{ fontSize: 15, lineHeight: 1.55, color: palette.bodyGrey, margin: '0 0 12px' }}>
-        {mode === 'password' && 'Sign in with your email and password.'}
-        {mode === 'magic' && 'Enter your operator email and we’ll send a one-time sign-in link.'}
-        {mode === 'reset' && 'We’ll email a password reset link for this operator mailbox.'}
+        {mode === 'password' && 'Password is the primary path. Enter your operator email and password.'}
+        {mode === 'magic' && 'Optional while email delivery is healthy — we will send a one-time sign-in link.'}
+        {mode === 'reset' && 'Email reset only works if SMTP is delivering. Prefer founder bootstrap or Studio if mail is broken.'}
       </p>
-      {mode !== 'reset' && (
+      {mode === 'password' && (
         <p
           style={{
             fontSize: 13.5,
@@ -116,7 +116,11 @@ export function AdminLoginForm({ redirectTo }: { redirectTo: string }) {
             borderRadius: 10,
           }}
         >
-          If a magic link doesn&rsquo;t arrive, use password. Magic link still works when email delivery is healthy.
+          Magic-link email is unreliable right now. Use password. No password yet? Set one via{' '}
+          <a href="/admin/bootstrap-password" style={{ color: palette.ink }}>
+            founder bootstrap
+          </a>{' '}
+          or Supabase Studio (no secrets in git).
         </p>
       )}
 
@@ -279,6 +283,19 @@ export function AdminLoginForm({ redirectTo }: { redirectTo: string }) {
         <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {mode === 'password' && (
             <>
+              <a
+                href="/admin/bootstrap-password"
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 12,
+                  letterSpacing: '0.08em',
+                  color: palette.ink,
+                  textDecoration: 'underline',
+                  textUnderlineOffset: 3,
+                }}
+              >
+                No password yet? Founder bootstrap
+              </a>
               <ModeLink onClick={() => setMode('magic')}>Prefer a magic link instead</ModeLink>
               <ModeLink onClick={() => setMode('reset')}>Forgot password? Email a reset link</ModeLink>
             </>
