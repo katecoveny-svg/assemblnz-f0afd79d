@@ -7,8 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import 'lenis/dist/lenis.css';
 
 /**
- * Arc PREVIEW craft: Lenis (~1.2) + GSAP chapter reveals.
- * Scoped to `.arc-root`. Honours prefers-reduced-motion.
+ * Arc PREVIEW craft: Lenis (~1.2) + GSAP section reveals.
+ * Assemble pin/scrub lives in ArcAssembleStage. Scoped to `.arc-root`.
  */
 export function ArcCraftScroll() {
   useEffect(() => {
@@ -41,8 +41,13 @@ export function ArcCraftScroll() {
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);
 
+    // Refresh after pin stages mount so Lenis + ScrollTrigger stay aligned.
+    const refresh = () => ScrollTrigger.refresh();
+    requestAnimationFrame(refresh);
+    window.addEventListener('load', refresh);
+
     const sections = root.querySelectorAll<HTMLElement>(
-      '.arc-story > section:not(.arc-hero), .arc-footer',
+      '.arc-story > section:not(.arc-hero):not(.arc-assemble-pin), .arc-footer',
     );
 
     const ctx = gsap.context(() => {
@@ -73,6 +78,7 @@ export function ArcCraftScroll() {
     }, root);
 
     return () => {
+      window.removeEventListener('load', refresh);
       ctx.revert();
       gsap.ticker.remove(ticker);
       lenis.destroy();

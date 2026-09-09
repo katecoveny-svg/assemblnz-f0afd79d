@@ -1,6 +1,7 @@
 /**
  * DEMO-only NZ code pins for the Arc agent-app preview.
  * Fictional layout. Not advice. Not a real consent check.
+ * Positions are percentages on the GA plan sheet (0–100).
  */
 
 export type ArcViolation = {
@@ -8,7 +9,8 @@ export type ArcViolation = {
   code: string;
   title: string;
   summary: string;
-  position: [number, number, number];
+  /** Percent of plan sheet width / height */
+  position: { x: number; y: number };
   /** DEMO label always shown in UI */
   demo: true;
 };
@@ -20,7 +22,7 @@ export const ARC_DEMO_VIOLATIONS: ArcViolation[] = [
     title: 'Handrail required',
     summary:
       'Stair flight rises more than 1 m without a continuous handrail on the open side. DEMO layout — cite D1/AS1 before any drawing change.',
-    position: [1.35, 1.15, 0.55],
+    position: { x: 72, y: 58 },
     demo: true,
   },
   {
@@ -29,7 +31,7 @@ export const ARC_DEMO_VIOLATIONS: ArcViolation[] = [
     title: 'Guardrail height',
     summary:
       'Deck edge sits below the 1000 mm barrier height for a fall greater than 1 m. DEMO pin — fix waits for human approval.',
-    position: [-1.1, 1.55, 1.4],
+    position: { x: 28, y: 78 },
     demo: true,
   },
   {
@@ -38,7 +40,7 @@ export const ARC_DEMO_VIOLATIONS: ArcViolation[] = [
     title: 'Exit travel distance',
     summary:
       'Furthest habitable room exceeds the demonstrated travel path for this occupancy sketch. DEMO data — not a fire-engineering report.',
-    position: [0.2, 0.85, -1.35],
+    position: { x: 38, y: 28 },
     demo: true,
   },
   {
@@ -47,7 +49,7 @@ export const ARC_DEMO_VIOLATIONS: ArcViolation[] = [
     title: 'Accessible WC clearance',
     summary:
       'Turning circle reads short of 1500 mm in this DEMO plan. Arc drafts the note; a licensed person signs the fix.',
-    position: [-1.25, 0.55, -0.2],
+    position: { x: 78, y: 42 },
     demo: true,
   },
 ];

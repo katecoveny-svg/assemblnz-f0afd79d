@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ARC_PREVIEW } from '@/lib/arc/preview-copy';
 import { ArcCraftScroll } from '@/components/arc/ArcCraftScroll';
+import { ArcAssembleStage } from '@/components/arc/ArcAssembleStage';
 import { ArcModelDemo } from '@/components/arc/ArcModelDemo';
 import { ArcPreviewChat } from '@/components/arc/ArcPreviewChat';
 import './arc-landing.css';
@@ -24,18 +25,49 @@ export function ArcLanding() {
 
       <main className="arc-story">
         <section className="arc-section arc-hero" aria-label="Arc hero">
-          <p className="arc-eyebrow arc-mono">{c.productLine}</p>
-          <h1>{c.heroLine}</h1>
-          <p className="arc-hero-support">{c.heroSupport}</p>
-          <div className="arc-cta-row">
-            <a className="arc-cta arc-cta-primary" href="#arc-model">
-              See DEMO pins
-            </a>
-            <a className="arc-cta arc-cta-ghost" href="#arc-chat">
-              Ask Arc
-            </a>
+          <div className="arc-hero-grid">
+            <div className="arc-hero-copy">
+              <p className="arc-eyebrow arc-mono">{c.productLine}</p>
+              <h1>{c.heroLine}</h1>
+              <p className="arc-hero-support">{c.heroSupport}</p>
+              <div className="arc-cta-row">
+                <a className="arc-cta arc-cta-primary" href="#arc-assemble">
+                  {c.ctaAssemble}
+                </a>
+                <a className="arc-cta arc-cta-ghost" href="#arc-model">
+                  {c.ctaPins}
+                </a>
+              </div>
+            </div>
+
+            <aside className="arc-hero-sheet" aria-hidden>
+              <div className="arc-title-block arc-mono">
+                <div className="arc-title-block-row">
+                  <span>CLIENT</span>
+                  <strong>sample practice</strong>
+                </div>
+                <div className="arc-title-block-row">
+                  <span>JOB</span>
+                  <strong>Harbour terrace</strong>
+                </div>
+                <div className="arc-title-block-row">
+                  <span>AGENT</span>
+                  <strong>arc · preview</strong>
+                </div>
+                <div className="arc-title-block-row">
+                  <span>SHEET</span>
+                  <strong>cover · paper</strong>
+                </div>
+              </div>
+              <div className="arc-hero-rule" />
+              <p className="arc-mono arc-hero-sheet-note">
+                engineering sheet · plum accent · DEMO
+              </p>
+            </aside>
           </div>
         </section>
+
+        <ArcAssembleStage />
 
         <section className="arc-section" aria-labelledby="arc-model-title">
           <div className="arc-section-head">

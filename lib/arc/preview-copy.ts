@@ -16,10 +16,17 @@ export const ARC_PREVIEW = {
   heroSupport:
     'Arc reads a model, flags NZ Building Code and plan issues, and drafts fixes that wait for your yes.',
 
+  assembleEyebrow: '01 · assemble',
+  assembleTitle: 'Parts on the sheet. Then a plan.',
+  assembleSupport:
+    'Flat-lay pieces of a fictional Auckland terrace settle into a GA drawing — DEMO only, not a consent set.',
+  ctaAssemble: 'Watch parts assemble',
+  ctaPins: 'See DEMO pins',
+
   modelEyebrow: 'Click a pin',
   modelTitle: 'Your model. Issues you can name.',
   modelSupport:
-    'DEMO pins use NZBC / AUP-class references on a fictional massing. Nothing here is a real consent check.',
+    'DEMO pins use NZBC / AUP-class references on a fictional harbour terrace plan. Nothing here is a real consent check.',
 
   narrativeEyebrow: 'How Arc works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
