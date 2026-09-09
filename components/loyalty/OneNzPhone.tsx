@@ -50,13 +50,13 @@ function replyFor(
   if (q.includes('mana') || q.includes('receipt') || q.includes('proof') || q.includes('evidence')) {
     return {
       beat: 'evidence',
-      text: 'Your Mana Receipt locks the wait, the Phone Dollars stamp, permission, and the named human who reviews it.',
+      text: 'Your Mana Receipt records the wait, the Phone Dollars stamp, the opt-in, and the named human who reviews it.',
     };
   }
   if (q.includes('household') || q.includes('share') || q.includes('rebalance')) {
     return {
       beat: 'earn',
-      text: 'Optional REBALANCE can share a slice of this wait\'s earn across the household plan — permissioned and reversible.',
+      text: 'Optional REBALANCE can share a slice of this wait\'s earn across the household plan. Opt-in, visible, reversible.',
     };
   }
   if (q.includes('earn') || q.includes('why') || q.includes('dollar') || q.includes('wallet')) {
@@ -68,7 +68,7 @@ function replyFor(
   if (q.includes('wait') || q.includes('esim') || q.includes('plan') || q.includes('hold')) {
     return {
       beat: 'wait',
-      text: `We detected a real ${triggerLabel.toLowerCase()}. The earn starts the moment the wait does — nothing invented.`,
+      text: `We detected a real ${triggerLabel.toLowerCase()}. Earn starts when the wait starts.`,
     };
   }
   return {
@@ -228,8 +228,7 @@ export function OneNzPhone({
                     <em>live</em>
                   </header>
                   <p>
-                    Earning Phone Dollars while your {active.label} completes. Thanks for waiting
-                    with One NZ.
+                    Phone Dollars stamp while this {active.label} finishes.
                   </p>
                 </div>
               </>
@@ -237,7 +236,7 @@ export function OneNzPhone({
 
             {beat === 'earn' && (
               <>
-                <p className="onz-transform">↓ becomes phone dollars</p>
+                <p className="onz-transform">Phone Dollars</p>
                 <dl className="onz-kv">
                   <div>
                     <dt>wait</dt>
@@ -280,7 +279,7 @@ export function OneNzPhone({
 
             {beat === 'evidence' && (
               <>
-                <p className="onz-transform">↓ mana receipt</p>
+                <p className="onz-transform">Mana Receipt</p>
                 <article className="onz-phone-receipt" aria-label="Mana Receipt">
                   <header>
                     <span>one.nz</span>
@@ -310,7 +309,7 @@ export function OneNzPhone({
                       <dd>Alex R. · loyalty operations</dd>
                     </div>
                   </dl>
-                  <footer>your wait, recorded properly.</footer>
+                  <footer>This wait is recorded as it happened.</footer>
                 </article>
               </>
             )}

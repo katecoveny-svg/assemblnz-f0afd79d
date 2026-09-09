@@ -38,7 +38,7 @@ export type ContactState =
   | { status: "error"; message: string };
 
 const FALLBACK_ERROR =
-  "We couldn't send your message right now — please email assembl@assembl.co.nz directly.";
+  "We couldn't send your message right now. Please email assembl@assembl.co.nz directly.";
 
 export async function submitContact(
   _prev: ContactState,
