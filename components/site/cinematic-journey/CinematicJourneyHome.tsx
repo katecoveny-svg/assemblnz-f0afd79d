@@ -215,11 +215,17 @@ export function CinematicJourneyHome() {
         <p>{FOOTER.line}</p>
         <nav aria-label="Footer">
           {FOOTER.links.map((link) =>
-            link.href.startsWith('mailto:') || link.href.startsWith('/admin') ? (
+            link.href.startsWith('mailto:') ||
+            link.href.startsWith('/admin') ||
+            link.href.startsWith('https://demo.assembl.co.nz') ? (
               <a
                 key={link.href}
                 href={link.href}
-                rel={link.href.startsWith('/admin') ? 'nofollow' : undefined}
+                rel={
+                  link.href.startsWith('/admin') || link.href.startsWith('https://demo.assembl.co.nz')
+                    ? 'nofollow'
+                    : undefined
+                }
               >
                 {link.label}
               </a>

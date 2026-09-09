@@ -12,7 +12,7 @@ export const HOME_META = {
 
 export const NAV = {
   studio: { label: 'Studio', href: '/generative-studio' },
-  operator: { label: 'Operator', href: '/admin/login' },
+  operator: { label: 'Operator', href: 'https://demo.assembl.co.nz/admin/login' },
   journeys: { label: 'Journeys', href: '/journeys' },
   discuss: {
     label: 'Discuss one wait',
@@ -80,6 +80,17 @@ export const INDUSTRIES = {
       ],
     },
     {
+      id: 'customs',
+      name: 'Customs',
+      vertical: 'trade & border',
+      href: '/agents/customs',
+      line: 'Reads the invoice. Flags tariff and origin gaps. Drafts the entry for a broker.',
+      sources: [
+        { label: 'Customs and Excise Act 2018', status: 'live' satisfies IndustrySourceStatus },
+        { label: 'NZ Working Tariff', status: 'live' satisfies IndustrySourceStatus },
+      ],
+    },
+    {
       id: 'forge',
       name: 'Forge',
       vertical: 'automotive',
@@ -107,7 +118,7 @@ export const INDUSTRIES = {
 export const LIVE_WAIT = {
   kicker: 'try an active wait',
   title: 'A real delay. Something useful while it runs.',
-  body: 'Talk to an agent in the phone. Simulated for the demo; live when a provider key is configured.',
+  body: 'Talk to a live specialist in the phone — flagships can cite NZ knowledge when a provider key is configured. The “simulated wait” tab is labelled and separate.',
 } as const;
 
 export const CLOSE = {
@@ -127,7 +138,7 @@ export const FOOTER = {
   links: [
     { label: 'Studio', href: '/generative-studio' },
     { label: 'Journeys', href: '/journeys' },
-    { label: 'Operator', href: '/admin/login' },
+    { label: 'Operator', href: 'https://demo.assembl.co.nz/admin/login' },
     { label: 'contact', href: 'mailto:assembl@assembl.co.nz' },
   ],
 } as const;

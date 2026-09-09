@@ -25,7 +25,13 @@
 import 'server-only';
 import { anthropic } from '@ai-sdk/anthropic';
 import { createOpenAI } from '@ai-sdk/openai';
-import { generateText, type LanguageModel, type ModelMessage } from 'ai';
+import {
+  generateText,
+  stepCountIs,
+  type LanguageModel,
+  type ModelMessage,
+  type ToolSet,
+} from 'ai';
 import { recordModelFallback } from './fallback-log';
 
 export type ModelRung = {
@@ -166,15 +172,27 @@ export async function generateWithFallback(opts: {
   /** model_calls ledger context (migration 20260722093000). */
   tenant?: string | null;
   taskId?: string | null;
+  /**
+   * Optional tools (e.g. read-only searchNZKnowledge on the homepage phone).
+   * When set, generation may take multiple steps; keep `maxToolSteps` small.
+   */
+  tools?: ToolSet;
+  /** Max generateText steps when tools are provided (default 3). */
+  maxToolSteps?: number;
 }): Promise<{ ok: true; text: string; rung: ModelRung } | { ok: false }> {
-  const { ladder, messages, agentSlug, userId } = opts;
+  const { ladder, messages, agentSlug, userId, tools, maxToolSteps = 3 } = opts;
   const { recordModelCall, providerFromModelId } = await import('./call-log');
   for (let i = 0; i < ladder.length; i++) {
     const rung = ladder[i];
     const system = rung.isPrimary ? opts.system : `${opts.system}\n\n${FALLBACK_DISCLOSURE}`;
     const started = Date.now();
     try {
-      const { text, usage } = await generateText({ model: rung.model, system, messages });
+      const { text, usage } = await generateText({
+        model: rung.model,
+        system,
+        messages,
+        ...(tools ? { tools, stopWhen: stepCountIs(maxToolSteps) } : {}),
+      });
       void recordModelCall({
         tenant: opts.tenant,
         agent: agentSlug,

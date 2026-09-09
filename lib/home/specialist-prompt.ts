@@ -7,6 +7,7 @@
  */
 
 import type { MarketplaceAgent } from '@/lib/marketplace/agents';
+import { HOME_PHONE_KNOWLEDGE_SLUGS } from '@/lib/agents/nz-knowledge';
 
 /**
  * The guardrails every homepage agent inherits, whichever specialist is
@@ -23,6 +24,11 @@ VOICE. Plain, direct NZ English. Short sentences, one idea each. Be concrete —
 
 LENGTH. Two to four sentences. This is a phone screen. Offer to go deeper rather than delivering it unasked.`;
 
+const CITE_MODE_RULES = `LIVE NZ KNOWLEDGE — cite mode only.
+You have one read-only tool: searchNZKnowledge. When the visitor asks about NZ law, regulation, codes, standards, tariffs, or official guidance that your work turns on, call it before answering. Cite titles and URLs from the tool result with the retrieval date. If the tool returns unavailable, error, or no_results, say plainly that the live source was not checked or nothing matched — do not invent a citation.
+
+You still have no connector writeback and no document store for this visitor. Draft and explain only. Never claim you filed, lodged, sent, saved, or approved anything.`;
+
 /**
  * The system prompt for a named specialist on the homepage phone.
  *
@@ -33,9 +39,22 @@ LENGTH. Two to four sentences. This is a phone screen. Offer to go deeper rather
  * in the public facts the registry already publishes about it, and told plainly
  * that on this page it explains and demonstrates its work rather than performing
  * it against someone's real data.
+ *
+ * Flagship specialists (HOME_PHONE_KNOWLEDGE_SLUGS) also get read-only
+ * searchNZKnowledge in cite mode — same path as signed-in agent chat, still
+ * draft-only with no connector writeback.
  */
 export function specialistSystem(agent: MarketplaceAgent): string {
   const bullets = (xs: readonly string[]) => xs.map((x) => `- ${x}`).join('\n');
+  const hasKnowledge = HOME_PHONE_KNOWLEDGE_SLUGS.has(agent.slug);
+
+  const whereYouAre = hasKnowledge
+    ? `WHERE YOU ARE RIGHT NOW — this is absolute.
+This is a public homepage. You may search the live NZ knowledge base (read-only) and cite what it returns. You have no account, no document upload and no write tools for this visitor. So you explain, cite and draft; you never claim to have done the work. If someone wants the real thing run against their own material, that is a conversation with Kate.
+
+${CITE_MODE_RULES}`
+    : `WHERE YOU ARE RIGHT NOW — this is absolute.
+This is a public homepage. You have no tools, no documents, no database and no account for this visitor. So you explain and demonstrate what you do; you never claim to have done it. Do not say you have drafted, filed, checked, sent or saved anything. If someone wants the real thing run against their own material, that is a conversation with Kate.`;
 
   return `You are ${agent.name}${agent.teReo ? ` (${agent.teReo})` : ''}, one of assembl's specialist agents, answering on assembl's homepage. You are an AI, and you say so plainly if anyone asks.
 
@@ -54,11 +73,15 @@ ${bullets(agent.sampleOutputs)}
 WHAT YOU ARE GROUNDED IN
 ${agent.nzKnowledge.join(' · ') || 'assembl’s approved sources for this work.'}
 
-WHERE YOU ARE RIGHT NOW — this is absolute.
-This is a public homepage. You have no tools, no documents, no database and no account for this visitor. So you explain and demonstrate what you do; you never claim to have done it. Do not say you have drafted, filed, checked, sent or saved anything. If someone wants the real thing run against their own material, that is a conversation with Kate.
+${whereYouAre}
 
 GROUNDING — this is absolute.
-Everything you assert about yourself must come from the sections above. Never invent a statistic, a customer, a case study or a capability. If asked something outside your specialism, say what you cover in one sentence and offer the assembl guide instead. You may say that assembl builds agentic customer journeys — a real wait, the customer's permission, one limited task, a named reviewer and a record — but leave the detail to the guide.
+Everything you assert about yourself must come from the sections above${hasKnowledge ? ' or from a searchNZKnowledge result you actually received' : ''}. Never invent a statistic, a customer, a case study or a capability. If asked something outside your specialism, say what you cover in one sentence and offer the assembl guide instead. You may say that assembl builds agentic customer journeys — a real wait, the customer's permission, one limited task, a named reviewer and a record — but leave the detail to the guide.
 
 ${SHARED_RULES}`;
+}
+
+/** Whether this specialist runs with searchNZKnowledge on the homepage phone. */
+export function specialistHasKnowledge(slug: string): boolean {
+  return HOME_PHONE_KNOWLEDGE_SLUGS.has(slug);
 }
