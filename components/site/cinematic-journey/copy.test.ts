@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CLOSE, FOOTER, HERO, INDUSTRIES, NAV } from '@/components/site/cinematic-journey/copy';
+import { CLOSE, FOOTER, HERO, INDUSTRIES, LIVE_WAIT, NAV } from '@/components/site/cinematic-journey/copy';
 
 describe('cinematic homepage hrefs', () => {
   it('points Studio, Operator, Journeys and discuss at sellable destinations', () => {
@@ -28,6 +28,13 @@ describe('cinematic homepage hrefs', () => {
     expect(HERO.ctaPrimary.href).toBe('#loyalty-wait');
     expect(HERO.ctaSecondary.href).toBe('#industries');
     expect(CLOSE.demos.href).toBe('/journeys');
+  });
+
+  it('keeps live-phone NZ cite + loyalty earn language on the wait strip', () => {
+    expect(LIVE_WAIT.body).toMatch(/cite NZ knowledge/i);
+    expect(LIVE_WAIT.body).toMatch(/simulated wait/i);
+    expect(LIVE_WAIT.body).toMatch(/not credits/i);
+    expect(LIVE_WAIT.kicker).toMatch(/loyalty wait/i);
   });
 
   it('mirrors Studio / Journeys / Operator in the footer', () => {
