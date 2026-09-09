@@ -8,18 +8,9 @@ import 'lenis/dist/lenis.css';
 
 /**
  * Homepage craft layer (PREVIEW): Lenis inertia + GSAP ScrollTrigger.
- * - Section reveals (≤40px rise, stagger ~0.08)
- * - Scroll-scrubbed parallax on media / beat markers / atmosphere depth
+ * Elegant parallax / scrub — sparse, not noisy.
  * Honours prefers-reduced-motion.
- * Homepage craft layer (PREVIEW): Lenis inertia + GSAP ScrollTrigger reveals.
- * Scoped to the cinematic home only. Honours prefers-reduced-motion.
- *
- * Lenis: duration ~1.2, heavy ease, hash anchors on.
- * Reveals: ≤40px rise, child stagger ~0.08.
- *
- * Live chat phone must stay interactive: Lenis skips nodes marked
- * `data-lenis-prevent` (and form fields), and GSAP does not autoAlpha the
- * phone shell — visibility:hidden would swallow pointer/focus.
+ * Live chat phone stays interactive via data-lenis-prevent.
  */
 export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string }) {
   useEffect(() => {
@@ -42,10 +33,8 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
       wheelMultiplier: 1,
       touchMultiplier: 1.35,
       autoRaf: false,
-      // Keep #assemble / #live-wait CTAs on Lenis inertia (lenis.css disables native smooth).
       anchors: true,
       allowNestedScroll: true,
-      // Never steal wheel/touch from the live-chat phone or form controls.
       prevent: (node) => {
         if (!(node instanceof HTMLElement)) return false;
         if (node.closest('[data-lenis-prevent], .cj-live-phone, .hg-phone, .aj-phone')) {
@@ -70,8 +59,6 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);
 
-    // Hero paints immediately; subsequent chapters rise ≤40px with stagger ~0.08.
-    // Exclude the live-chat phone so GSAP never sets visibility:hidden on it.
     const sections = root.querySelectorAll<HTMLElement>(
       '.cj-story > section:not(.cj-hero), .cj-footer',
     );
@@ -83,12 +70,11 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
         );
         if (!targets.length) return;
 
-        // Hide first so ScrollTrigger never pops visible → hidden mid-frame.
-        gsap.set(targets, { autoAlpha: 0, y: 40 });
+        gsap.set(targets, { autoAlpha: 0, y: 36 });
         gsap.to(targets, {
           autoAlpha: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.85,
           ease: 'power3.out',
           stagger: 0.08,
           overwrite: 'auto',
@@ -101,14 +87,35 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
         });
       });
 
-      // Hero copy drifts slower than the stage — depth without flash.
-      const heroCopy = root.querySelector<HTMLElement>('.cj-hero-copy');
-      if (heroCopy) {
+      // Hero: media scales gently; copy drifts slower — depth without noise.
+      const hero = root.querySelector<HTMLElement>('.cj-hero');
+      const heroMedia = root.querySelector<HTMLElement>('[data-cj-parallax="hero-media"]');
+      const heroCopy = root.querySelector<HTMLElement>('[data-cj-parallax="hero-copy"]');
+
+      if (hero && heroMedia) {
+        gsap.fromTo(
+          heroMedia,
+          { y: 0, scale: 1.06 },
+          {
+            y: 80,
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          },
+        );
+      }
+
+      if (hero && heroCopy) {
         gsap.to(heroCopy, {
-          y: -56,
+          y: -48,
           ease: 'none',
           scrollTrigger: {
-            trigger: root.querySelector('.cj-hero'),
+            trigger: hero,
             start: 'top top',
             end: 'bottom top',
             scrub: 0.55,
@@ -116,86 +123,43 @@ export function CraftScroll({ rootSelector = '.cj' }: { rootSelector?: string })
         });
       }
 
-      // Beat markers dock in as each beat scrolls through.
-      root.querySelectorAll<HTMLElement>('.cj-beat').forEach((beat) => {
-        const marker = beat.querySelector<HTMLElement>('.cj-beat-marker');
-        const media = beat.querySelector<HTMLElement>('.cj-media');
-        if (marker) {
-          gsap.fromTo(
-            marker,
-            { scale: 0.72, autoAlpha: 0.35, rotate: -8 },
-            {
-              scale: 1,
-              autoAlpha: 1,
-              rotate: 0,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: beat,
-                start: 'top 75%',
-                end: 'center 45%',
-                scrub: 0.65,
-              },
-            },
-          );
-        }
-        if (media) {
-          gsap.fromTo(
-            media,
-            { y: 48, scale: 0.96 },
-            {
-              y: -24,
-              scale: 1,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: beat,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 0.7,
-              },
-            },
-          );
-        }
-      });
-
-      // Inline assemble media scrub (video slot / still B).
-      const assembleMedia = root.querySelector<HTMLElement>('.cj-assemble-media');
-      if (assembleMedia) {
+      // Wait still rises into frame.
+      const waitMedia = root.querySelector<HTMLElement>('[data-cj-parallax="wait-media"]');
+      if (waitMedia) {
         gsap.fromTo(
-          assembleMedia,
-          { y: 80, autoAlpha: 0.4 },
+          waitMedia,
+          { y: 64 },
           {
-            y: -40,
+            y: -32,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: waitMedia.closest('.cj-wait') ?? waitMedia,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.7,
+            },
+          },
+        );
+      }
+
+      // Industry cards assemble left → right as they enter.
+      root.querySelectorAll<HTMLElement>('.cj-industry').forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { y: 28, autoAlpha: 0.35 },
+          {
+            y: 0,
             autoAlpha: 1,
             ease: 'none',
             scrollTrigger: {
-              trigger: root.querySelector('#assemble'),
+              trigger: card,
               start: 'top 90%',
-              end: 'bottom 20%',
-              scrub: 0.75,
+              end: 'top 55%',
+              scrub: 0.5 + index * 0.08,
             },
           },
         );
-      }
-
-      // Proof fold opens as a slight horizontal slide — assembly, not bounce.
-      const fold = root.querySelector<HTMLElement>('.cj-proof-fold');
-      if (fold) {
-        gsap.fromTo(
-          fold.querySelectorAll('.cj-proof-face'),
-          { x: (i: number) => (i === 0 ? -36 : 36), autoAlpha: 0.4 },
-          {
-            x: 0,
-            autoAlpha: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: fold,
-              start: 'top 80%',
-              end: 'top 40%',
-              scrub: 0.6,
-            },
-          },
-        );
-      }
+      });
     }, root);
 
     return () => {

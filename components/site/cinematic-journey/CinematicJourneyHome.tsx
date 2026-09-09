@@ -1,32 +1,25 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { HomeGuidePhone } from '@/components/site/HomeGuidePhone';
 import {
-  ASSEMBLY_BEATS,
   CLOSE,
   FOOTER,
   HEADER_TAG,
   HERO,
+  INDUSTRIES,
   LIVE_WAIT,
-  LOST_TIME,
   NAV,
-  PROOF,
+  STORY,
+  WAIT,
+  type IndustrySourceStatus,
 } from './copy';
-import { AtmosphereLayer } from './AtmosphereLayer';
 import { CinematicMediaSlot } from './CinematicMediaSlot';
 import { CraftScroll } from './CraftScroll';
 import { CINEMATIC_MEDIA } from './media';
-import type { PointerRef, ProgressRef } from './types';
 import '@/app/active-journey-home.css';
 import './cinematic-journey.css';
-
-const AssemblyScrollCanvas = dynamic(
-  () => import('./AssemblyScrollCanvas').then((m) => m.AssemblyScrollCanvas),
-  { ssr: false },
-);
 
 /** CSS vars HomeGuidePhone / .aj-phone / .hg-* styles expect. */
 const PHONE_THEME = {
@@ -39,49 +32,21 @@ const PHONE_THEME = {
   '--aj-plum-soft': '#654A4E',
 } as CSSProperties;
 
+function sourceBadge(status: IndustrySourceStatus) {
+  return status === 'live' ? 'live source' : 'DEMO';
+}
+
 /**
- * Cinematic 3D homepage preview — Assembl-only product story.
- * No named-client / independent-concept panels on home (Kate hard lock).
- * Live agent chat phone restored (HomeGuidePhone → /api/home/agent).
- * PREVIEW ONLY — do not merge to production until Kate signs off.
+ * Cinematic homepage PREVIEW — Kate declutter craft pass.
+ * Higgsfield video + stills as the visual system. No R3F mesh clutter.
+ * Assembl-only product story. Studio + Operator present.
+ * PREVIEW ONLY — do not Ready/merge until Kate signs off.
  */
 export function CinematicJourneyHome() {
-  const progress = useRef(0) as ProgressRef;
-  const pointer = useRef({ x: 0, y: 0 }) as PointerRef;
-  const [scenarioId, setScenarioId] = useState<(typeof LIVE_WAIT.scenarios)[number]['id']>('quote');
-  const [choice, setChoice] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      // Bias progress toward the assembly chapter (first ~70% of page height).
-      progress.current = Math.max(0, Math.min(1, window.scrollY / (max * 0.72)));
-    };
-    const onPointer = (e: PointerEvent) => {
-      pointer.current = {
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -((e.clientY / window.innerHeight) * 2 - 1),
-      };
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('pointermove', onPointer, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('pointermove', onPointer);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, []);
-
-  const scenario = LIVE_WAIT.scenarios.find((s) => s.id === scenarioId) ?? LIVE_WAIT.scenarios[0];
-
   return (
     <div className="cj">
       <CraftScroll />
-      <AssemblyScrollCanvas progress={progress} pointer={pointer} />
-      <AtmosphereLayer progress={progress} />
-      <div className="cj-veil" aria-hidden="true" />
+      <div className="cj-field" aria-hidden="true" />
 
       <header className="cj-header">
         <Link className="cj-wordmark" href="/" aria-label="assembl home">
@@ -93,6 +58,10 @@ export function CinematicJourneyHome() {
             {NAV.studio.label}
             <i aria-hidden="true">↗</i>
           </a>
+          <Link href={NAV.journeys.href}>
+            {NAV.journeys.label}
+            <i aria-hidden="true">↗</i>
+          </Link>
           <a href={NAV.discuss.href}>
             {NAV.discuss.label}
             <i aria-hidden="true">↗</i>
@@ -106,13 +75,28 @@ export function CinematicJourneyHome() {
 
       <div className="cj-story">
         <section className="cj-hero" aria-labelledby="cj-hero-title">
-          <div className="cj-hero-copy">
+          <div className="cj-hero-visual" data-cj-parallax="hero-media">
+            <CinematicMediaSlot
+              slot={CINEMATIC_MEDIA.hero}
+              mode="inline"
+              className="cj-hero-media"
+            />
+          </div>
+          <div className="cj-hero-veil" aria-hidden="true" />
+          <div className="cj-hero-copy" data-cj-parallax="hero-copy">
             <p className="cj-kicker">{HERO.kicker}</p>
             <p className="cj-hero-brand">
               {HERO.brand}
               <span>·</span>
             </p>
-            <h1 id="cj-hero-title">{HERO.headline}</h1>
+            <h1 id="cj-hero-title">
+              {HERO.headline.split('\n').map((line, index, lines) => (
+                <span key={line}>
+                  {line}
+                  {index < lines.length - 1 ? <br /> : null}
+                </span>
+              ))}
+            </h1>
             <p className="cj-hero-lede">{HERO.lede}</p>
             <div className="cj-hero-actions">
               <a className="cj-btn" href={HERO.ctaPrimary.href}>
@@ -125,76 +109,66 @@ export function CinematicJourneyHome() {
             </div>
             <p className="cj-hero-proof">{HERO.proofLine}</p>
           </div>
-          <div className="cj-hero-stage" aria-hidden="true">
-            <CinematicMediaSlot slot={CINEMATIC_MEDIA.hero} mode="inline" className="cj-hero-media" />
+        </section>
+
+        <section className="cj-story-block" aria-labelledby="cj-story-title">
+          <p className="cj-kicker">{STORY.kicker}</p>
+          <h2 id="cj-story-title">{STORY.title}</h2>
+          <p>{STORY.body}</p>
+        </section>
+
+        <section className="cj-wait" aria-labelledby="cj-wait-title">
+          <div className="cj-wait-copy">
+            <p className="cj-kicker">{WAIT.kicker}</p>
+            <h2 id="cj-wait-title">{WAIT.title}</h2>
+            <p>{WAIT.body}</p>
+            <ul className="cj-wait-points">
+              {WAIT.points.map((point) => (
+                <li key={point.label}>
+                  <b>{point.label}</b>
+                  <span>{point.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="cj-wait-media" data-cj-parallax="wait-media">
+            <CinematicMediaSlot
+              slot={CINEMATIC_MEDIA.mid}
+              mode="inline"
+              autoPlay={false}
+            />
           </div>
         </section>
 
-        <section className="cj-assemble" id="assemble" aria-labelledby="cj-assemble-title">
-          <div className="cj-assemble-head">
-            <p className="cj-kicker">how a journey assembles</p>
-            <h2 id="cj-assemble-title">Five parts lock into one coherent next step.</h2>
+        <section className="cj-industries" id="industries" aria-labelledby="cj-industries-title">
+          <div className="cj-industries-head">
+            <p className="cj-kicker">{INDUSTRIES.kicker}</p>
+            <h2 id="cj-industries-title">{INDUSTRIES.title}</h2>
+            <p>{INDUSTRIES.body}</p>
           </div>
-
-          <div className="cj-assemble-media" data-cj-parallax="assemble">
-            <CinematicMediaSlot slot={CINEMATIC_MEDIA.assemble} mode="inline" />
-          </div>
-
-          <div className="cj-beats">
-            {ASSEMBLY_BEATS.map((beat, index) => (
-              <article className="cj-beat" key={beat.id} id={`beat-${beat.id}`}>
-                <div>
-                  <p className="cj-beat-n">
-                    {beat.n} · {beat.label}
-                  </p>
-                  <h3>{beat.title}</h3>
-                  <p>{beat.body}</p>
+          <div className="cj-industry-grid">
+            {INDUSTRIES.items.map((item) => (
+              <article className="cj-industry" key={item.id}>
+                <div className="cj-industry-top">
+                  <p className="cj-industry-name">{item.name}</p>
+                  <p className="cj-industry-vertical">{item.vertical}</p>
                 </div>
-                {/* Mid still anchors the centre beat until video 9a8c5c81 lands. */}
-                {index === 2 ? (
-                  <CinematicMediaSlot
-                    slot={CINEMATIC_MEDIA.mid}
-                    mode="inline"
-                    className="cj-beat-media"
-                  />
-                ) : (
-                  <div className="cj-beat-marker" aria-hidden="true">
-                    {beat.label}
-                  </div>
-                )}
+                <p className="cj-industry-line">{item.line}</p>
+                <ul className="cj-industry-sources" aria-label={`${item.name} sources`}>
+                  {item.sources.map((source) => (
+                    <li key={source.label}>
+                      <span>{source.label}</span>
+                      <em data-status={source.status}>{sourceBadge(source.status)}</em>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="cj-industry-link" href={item.href}>
+                  Open {item.name}
+                  <span aria-hidden="true">↗</span>
+                </Link>
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="cj-lost" aria-labelledby="cj-lost-title">
-          <p className="cj-kicker">{LOST_TIME.kicker}</p>
-          <h2 id="cj-lost-title">{LOST_TIME.title}</h2>
-          <p>{LOST_TIME.body}</p>
-          <div className="cj-timeline" aria-label="A passive wait becoming an active customer journey">
-            <div className="cj-timeline-row cj-timeline-before">
-              {LOST_TIME.before.map((item, index) => (
-                <span key={item}>
-                  <b>{String(index + 1).padStart(2, '0')}</b>
-                  {item}
-                </span>
-              ))}
-            </div>
-            <div className="cj-timeline-cut">
-              <i aria-hidden="true" />
-              assembl
-              <i aria-hidden="true" />
-            </div>
-            <div className="cj-timeline-row cj-timeline-after">
-              {LOST_TIME.after.map((item, index) => (
-                <span key={item}>
-                  <b>{String(index + 1).padStart(2, '0')}</b>
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          <p className="cj-lost-closer">{LOST_TIME.closer}</p>
         </section>
 
         <section className="cj-live" id="live-wait" aria-labelledby="cj-live-title">
@@ -207,11 +181,6 @@ export function CinematicJourneyHome() {
               Only the context approved for this moment is used. Review or remove it before handoff.
             </p>
           </div>
-          {/*
-            Live agent chat (HomeGuidePhone → POST /api/home/agent).
-            data-lenis-prevent keeps CraftScroll/Lenis off nested scroll + input focus.
-            id=live-agent matches HomeGuidePhone agent-handoff scroll target.
-          */}
           <div
             className="cj-live-phone"
             id="live-agent"
@@ -222,47 +191,19 @@ export function CinematicJourneyHome() {
           </div>
         </section>
 
-        <section className="cj-proof" id="proof" aria-labelledby="cj-proof-title">
-          <div className="cj-proof-copy">
-            <p className="cj-kicker">{PROOF.kicker}</p>
-            <h2 id="cj-proof-title">{PROOF.title}</h2>
-            <p>{PROOF.body}</p>
-          </div>
-          <div className="cj-proof-fold">
-            <div className="cj-proof-face">
-              <span>{PROOF.customerSees.label}</span>
-              <h3>{PROOF.customerSees.title}</h3>
-              <ul>
-                {PROOF.customerSees.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="cj-proof-spine">
-              {PROOF.fold}
-              <span aria-hidden="true">→</span>
-            </div>
-            <div className="cj-proof-face">
-              <span>{PROOF.businessMeasures.label}</span>
-              <h3>{PROOF.businessMeasures.title}</h3>
-              <div className="cj-measures">
-                {PROOF.businessMeasures.items.map((item) => (
-                  <b key={item}>{item}</b>
-                ))}
-              </div>
-              <small>{PROOF.businessMeasures.note}</small>
-            </div>
-          </div>
-        </section>
-
         <section className="cj-close" aria-labelledby="cj-close-title">
           <p className="cj-kicker">{CLOSE.kicker}</p>
           <h2 id="cj-close-title">{CLOSE.title}</h2>
           <p>{CLOSE.body}</p>
-          <a className="cj-btn" href={CLOSE.cta.href}>
-            {CLOSE.cta.label}
-            <span>↗</span>
-          </a>
+          <div className="cj-close-actions">
+            <a className="cj-btn" href={CLOSE.cta.href}>
+              {CLOSE.cta.label}
+              <span>↗</span>
+            </a>
+            <Link className="cj-link" href={CLOSE.demos.href}>
+              {CLOSE.demos.label}
+            </Link>
+          </div>
           <small>{CLOSE.tagline}</small>
         </section>
       </div>
@@ -275,7 +216,11 @@ export function CinematicJourneyHome() {
         <nav aria-label="Footer">
           {FOOTER.links.map((link) =>
             link.href.startsWith('mailto:') || link.href.startsWith('/admin') ? (
-              <a key={link.href} href={link.href} rel={link.href.startsWith('/admin') ? 'nofollow' : undefined}>
+              <a
+                key={link.href}
+                href={link.href}
+                rel={link.href.startsWith('/admin') ? 'nofollow' : undefined}
+              >
                 {link.label}
               </a>
             ) : (
