@@ -208,8 +208,8 @@ export function OneNzPhone({
                     <em>live</em>
                   </header>
                   <p>
-                    Earning Phone Dollars while your {active.label.toLowerCase()} completes. Thanks
-                    for waiting with One NZ.
+                    Earning Phone Dollars while your {active.label} completes. Thanks for waiting
+                    with One NZ.
                   </p>
                 </div>
               </>

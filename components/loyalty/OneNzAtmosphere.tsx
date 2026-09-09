@@ -126,10 +126,10 @@ export function OneNzAtmosphere({ className }: { className?: string }) {
     scene.add(shadow);
 
     let raf = 0;
-    const clock = new THREE.Clock();
+    let t0 = performance.now();
 
-    const draw = () => {
-      const t = clock.getElapsedTime();
+    const draw = (now: number) => {
+      const t = (now - t0) / 1000;
       if (!reduced) {
         orbs.forEach((o) => {
           o.mesh.position.x = o.base.x + Math.sin(t * o.speed + o.phase) * o.drift;
@@ -142,7 +142,7 @@ export function OneNzAtmosphere({ className }: { className?: string }) {
       renderer.render(scene, camera);
       raf = window.requestAnimationFrame(draw);
     };
-    draw();
+    raf = window.requestAnimationFrame(draw);
 
     const onResize = () => {
       const nw = mount.clientWidth || window.innerWidth;
