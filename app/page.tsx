@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   },
 };
 
-/** Preview: cinematic 3D homepage. Do not merge to production until Kate signs off. */
 export default function HomePage() {
   return <CinematicJourneyHome />;
 }

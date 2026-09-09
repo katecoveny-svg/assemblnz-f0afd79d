@@ -309,8 +309,16 @@
   justify-content: center;
 }
 
-/* —— Real handset —— */
+/* —— Real handset ——
+   Inside-phone greens echo One NZ app chrome for fidelity only.
+   Assembl page accent stays --onz-accent (#007C92). */
 .onz-phone {
+  --onz-mint: #5dffb5;
+  --onz-mint-deep: #00c98a;
+  --onz-forest: #0b3d32;
+  --onz-forest-mid: #0f4f40;
+  --onz-forest-deep: #041a14;
+  --onz-card-r: 16px;
   position: relative;
   z-index: 2;
   width: min(100%, 318px);
@@ -376,7 +384,12 @@
 .onz-status em {
   font: 600 0.62rem/1 var(--font-mono), monospace;
   font-style: normal;
-  color: var(--onz-plum);
+  color: #111;
+  transition: color 0.35s ease;
+}
+
+.onz-phone[data-chrome='dark'] .onz-status em {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .onz-status-icons {
@@ -390,10 +403,10 @@
   display: block;
   width: 12px;
   height: 8px;
-  border: 1.5px solid rgba(36, 11, 33, 0.45);
+  border: 1.5px solid rgba(17, 17, 17, 0.45);
   border-top: 0;
   border-radius: 0 0 8px 8px;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 .onz-wifi {
@@ -401,8 +414,8 @@
   height: 10px;
   border-radius: 50%;
   border: 1.5px solid transparent;
-  border-top-color: rgba(36, 11, 33, 0.5);
-  border-right-color: rgba(36, 11, 33, 0.5);
+  border-top-color: rgba(17, 17, 17, 0.5);
+  border-right-color: rgba(17, 17, 17, 0.5);
   transform: rotate(-45deg);
   margin-bottom: 2px;
 }
@@ -411,7 +424,7 @@
   width: 18px;
   height: 8px;
   border-radius: 2px;
-  border: 1.5px solid rgba(36, 11, 33, 0.4);
+  border: 1.5px solid rgba(17, 17, 17, 0.4);
   position: relative;
 }
 
@@ -420,7 +433,26 @@
   position: absolute;
   inset: 1.5px 3px 1.5px 1.5px;
   border-radius: 1px;
-  background: var(--onz-accent);
+  background: var(--onz-forest-mid);
+}
+
+.onz-phone[data-chrome='dark'] .onz-sig,
+.onz-phone[data-chrome='dark'] .onz-wifi {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.onz-phone[data-chrome='dark'] .onz-wifi {
+  border-color: transparent;
+  border-top-color: rgba(255, 255, 255, 0.75);
+  border-right-color: rgba(255, 255, 255, 0.75);
+}
+
+.onz-phone[data-chrome='dark'] .onz-batt {
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.onz-phone[data-chrome='dark'] .onz-batt::after {
+  background: var(--onz-mint);
 }
 
 .onz-screen {
@@ -431,340 +463,433 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: 36px;
-  background: var(--onz-paper);
-  color: var(--onz-plum);
+  background: #fff;
+  color: #111;
   box-shadow: inset 0 0 0 1px rgba(36, 11, 33, 0.06);
+  transition: background 0.45s ease, color 0.35s ease;
 }
 
-.onz-client-stripe {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 2.55rem 1.05rem 0.75rem;
-  background: linear-gradient(180deg, #008da6 0%, var(--onz-accent) 100%);
-  color: #fffdfb;
+.onz-phone[data-beat='wait'] .onz-screen {
+  background:
+    radial-gradient(ellipse 70% 42% at 50% 28%, rgba(93, 255, 181, 0.18) 0%, transparent 62%),
+    linear-gradient(180deg, #ffffff 0%, #f7faf8 100%);
 }
 
-.onz-client-stripe strong {
-  display: block;
-  font: 600 1rem/1 var(--font-display), sans-serif;
-  letter-spacing: -0.03em;
+.onz-phone[data-beat='earn'] .onz-screen {
+  background: linear-gradient(180deg, var(--onz-forest) 0%, var(--onz-forest-deep) 72%, #020c09 100%);
+  color: #fff;
 }
 
-.onz-client-stripe span {
-  display: block;
-  margin-top: 0.2rem;
-  font: 500 0.55rem/1 var(--font-mono), monospace;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.8;
-}
-
-.onz-client-stripe em {
-  font: 500 0.55rem/1 var(--font-mono), monospace;
-  font-style: normal;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.78;
-  padding-bottom: 0.15rem;
-}
-
-.onz-stepper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 0;
-  padding: 0.55rem 0.7rem 0.4rem;
-  list-style: none;
-  border-bottom: 1px solid rgba(36, 11, 33, 0.08);
-  background: var(--onz-chalk);
-}
-
-.onz-stepper li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-  padding: 0.35rem 0.2rem 0.5rem;
-  opacity: 0.5;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
-}
-
-.onz-stepper li[data-on] {
-  opacity: 1;
-  border-bottom-color: var(--onz-accent);
-}
-
-.onz-step-n {
-  color: #654a4e;
-  font: 500 0.55rem/1 var(--font-mono), monospace;
-  letter-spacing: 0.12em;
-}
-
-.onz-stepper li[data-on] .onz-step-n {
-  color: var(--onz-accent);
-}
-
-.onz-step-label {
-  color: #654a4e;
-  font: 600 0.62rem/1 var(--font-mono), monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.onz-stepper li[data-on] .onz-step-label {
-  color: #240b21;
+.onz-phone[data-beat='evidence'] .onz-screen {
+  background: linear-gradient(180deg, #ffffff 0%, #f4f6f5 100%);
+  color: #111;
 }
 
 .onz-phone-body {
   flex: 1 1 auto;
   min-height: 0;
-  padding: 0.9rem 1.05rem 0.55rem;
+  padding: 2.45rem 0.95rem 0.45rem;
   display: flex;
   flex-direction: column;
   overflow: auto;
   animation: onz-body-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.onz-raw {
-  margin: 0 0 0.65rem;
-  color: var(--onz-plum);
-  font: italic 400 0.95rem/1.3 var(--font-display), sans-serif;
+/* —— Wait: concentric mint orb (One Assistant energy) —— */
+.onz-wait-stage {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  text-align: center;
 }
 
-.onz-raw span {
-  font: 500 0.58rem/1 var(--font-mono), monospace;
-  font-style: normal;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--onz-mulberry);
-}
-
-.onz-wait-ring {
+.onz-orb {
   --onz-dwell: 10%;
   position: relative;
-  width: 92px;
-  height: 92px;
-  margin: 0.2rem auto 0.75rem;
-  border-radius: 50%;
+  width: 168px;
+  height: 168px;
+  margin: 0.35rem auto 0.85rem;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(circle at center, var(--onz-paper) 58%, transparent 59%),
-    conic-gradient(var(--onz-accent) var(--onz-dwell), rgba(0, 124, 146, 0.12) 0);
-  box-shadow: 0 0 28px rgba(0, 124, 146, 0.22);
 }
 
-.onz-wait-ring i {
+.onz-orb-halo,
+.onz-orb-mid,
+.onz-orb-core {
   position: absolute;
-  width: 18px;
-  height: 18px;
   border-radius: 50%;
-  background: var(--onz-accent);
-  box-shadow: 0 0 18px rgba(0, 124, 146, 0.55);
+  pointer-events: none;
 }
 
-.onz-wait-ring span {
-  position: relative;
-  z-index: 1;
-  margin-top: 2.6rem;
-  font: 600 0.58rem/1 var(--font-mono), monospace;
-  color: var(--onz-accent);
-  letter-spacing: 0.04em;
+.onz-orb-halo {
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(93, 255, 181, 0.55) 0%, rgba(93, 255, 181, 0.18) 38%, transparent 68%),
+    radial-gradient(circle at 42% 40%, rgba(120, 90, 200, 0.12) 0%, transparent 45%);
+  filter: blur(1px);
+  animation: onz-orb-breathe 3.6s ease-in-out infinite;
+  opacity: calc(0.55 + (var(--onz-dwell) / 200));
 }
 
-.onz-accent-line {
+.onz-orb-mid {
+  width: 72px;
+  height: 72px;
+  background: radial-gradient(circle at 40% 35%, #b8ffe0 0%, var(--onz-mint) 48%, var(--onz-mint-deep) 100%);
+  box-shadow:
+    0 0 28px rgba(93, 255, 181, 0.65),
+    0 0 0 10px rgba(93, 255, 181, 0.12);
+  animation: onz-orb-pulse 2.8s ease-in-out infinite;
+}
+
+.onz-orb-core {
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle at 40% 35%, #fff 0%, #e8fff4 70%, var(--onz-mint) 100%);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.9);
+}
+
+.onz-orb-dwell {
   margin: 0 0 0.55rem;
-  text-align: center;
-  color: var(--onz-accent);
-  font: 500 0.68rem/1.3 var(--font-mono), monospace;
-  letter-spacing: 0.08em;
+  font: 600 0.58rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+  color: var(--onz-forest-mid);
 }
 
-.onz-agent-card {
+.onz-orb[data-reduced] .onz-orb-halo,
+.onz-orb[data-reduced] .onz-orb-mid {
+  animation: none;
+}
+
+.onz-wait-title {
+  margin: 0 0 0.3rem;
+  color: #111;
+  font: 600 1.05rem/1.2 var(--font-display), sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.onz-wait-dwell {
+  margin: 0 0 0.85rem;
+  color: rgba(17, 17, 17, 0.55);
+  font: 500 0.58rem/1.35 var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.onz-wait-note {
+  width: 100%;
   margin-top: auto;
   padding: 0.75rem 0.8rem;
-  border-radius: 14px;
-  border: 1px solid rgba(0, 124, 146, 0.28);
-  background: linear-gradient(180deg, #f7fbfc 0%, #eef7f9 100%);
+  border-radius: var(--onz-card-r);
+  border: 1px solid rgba(11, 61, 50, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 8px 22px rgba(11, 61, 50, 0.06);
+  text-align: left;
 }
 
-.onz-agent-card header {
+.onz-wait-note header {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   margin-bottom: 0.4rem;
 }
 
-.onz-agent-dot {
-  width: 7px;
-  height: 7px;
+.onz-orb-mini {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--onz-accent);
-  box-shadow: 0 0 0 3px rgba(0, 124, 146, 0.18);
+  background: radial-gradient(circle at 40% 35%, #fff 0%, var(--onz-mint) 70%);
+  box-shadow: 0 0 10px rgba(93, 255, 181, 0.7);
 }
 
-.onz-agent-card strong {
-  font: 600 0.68rem/1 var(--font-display), sans-serif;
+.onz-wait-note strong {
+  font: 600 0.72rem/1 var(--font-display), sans-serif;
   letter-spacing: -0.02em;
+  color: #111;
 }
 
-.onz-agent-card em {
+.onz-wait-note em {
   margin-left: auto;
   font: 500 0.52rem/1 var(--font-mono), monospace;
   font-style: normal;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--onz-accent);
+  color: var(--onz-mint-deep);
 }
 
-.onz-agent-card p {
+.onz-wait-note p {
   margin: 0;
-  color: var(--onz-mulberry);
+  color: rgba(17, 17, 17, 0.68);
   font: 400 0.72rem/1.4 var(--font-display), sans-serif;
 }
 
-.onz-transform {
-  margin: 0 0 0.65rem;
-  color: var(--onz-accent);
-  font: 500 0.62rem/1 var(--font-mono), monospace;
-  letter-spacing: 0.12em;
+/* —— Earn: One Wallet · Earn Phone Dollars —— */
+.onz-wallet-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  flex: 1;
+  min-height: 0;
+  color: #fff;
+}
+
+.onz-wallet-top {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  padding-top: 0.15rem;
+}
+
+.onz-wallet-top strong {
+  text-align: center;
+  font: 600 1rem/1 var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.onz-wallet-back {
+  color: rgba(255, 255, 255, 0.75);
+  font: 500 1rem/1 sans-serif;
+}
+
+.onz-wallet-spacer {
+  display: block;
+}
+
+.onz-wallet-activity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(255, 255, 255, 0.88);
+  font: 500 0.72rem/1 var(--font-display), sans-serif;
+  cursor: default;
+}
+
+.onz-wallet-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.onz-wallet-tabs span {
+  padding: 0.55rem 0.2rem 0.65rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  font: 600 0.82rem/1 var(--font-display), sans-serif;
+  border-bottom: 2px solid transparent;
+}
+
+.onz-wallet-tabs span[data-on] {
+  color: #fff;
+  border-bottom-color: var(--onz-mint);
+}
+
+.onz-wallet-copy h3 {
+  margin: 0.2rem 0 0.25rem;
+  font: 600 1.28rem/1.1 var(--font-display), sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.onz-wallet-copy p {
+  margin: 0 0 0.2rem;
+  color: rgba(255, 255, 255, 0.72);
+  font: 400 0.72rem/1.35 var(--font-display), sans-serif;
+}
+
+.onz-wallet-stamp-card {
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--onz-card-r);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.22) 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.onz-wallet-stamp-card[data-lit] {
+  border-color: rgba(93, 255, 181, 0.45);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.22),
+    0 0 24px rgba(93, 255, 181, 0.18);
+}
+
+.onz-stamp-kicker {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: rgba(255, 255, 255, 0.55);
+  font: 500 0.55rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.onz-kv {
-  margin: 0 0 0.65rem;
-  padding: 0.8rem 0.85rem;
-  display: grid;
-  gap: 0.55rem;
-  border-radius: 14px;
-  border: 1px solid rgba(36, 11, 33, 0.1);
-  background: var(--onz-chalk);
+.onz-wallet-stamp-card > strong {
+  display: block;
+  font: 600 1.85rem/1 var(--font-display), sans-serif;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.88);
 }
 
-.onz-kv div {
+.onz-wallet-stamp-card > strong.is-lit {
+  color: var(--onz-mint);
+}
+
+.onz-wallet-stamp-card > em {
+  display: block;
+  margin: 0.3rem 0 0.7rem;
+  font: 500 0.62rem/1.2 var(--font-mono), monospace;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.onz-stamp-meta {
+  margin: 0;
   display: grid;
-  grid-template-columns: 5.6rem 1fr;
-  gap: 0.3rem;
+  gap: 0.4rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.onz-stamp-meta div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
   align-items: baseline;
 }
 
-.onz-kv dt {
-  color: var(--onz-mulberry);
-  font: 500 0.52rem/1.3 var(--font-mono), monospace;
-  letter-spacing: 0.1em;
+.onz-stamp-meta dt {
+  color: rgba(255, 255, 255, 0.5);
+  font: 500 0.55rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.onz-kv dd {
+.onz-stamp-meta dd {
   margin: 0;
-  color: var(--onz-plum);
-  font: 500 0.74rem/1.3 var(--font-mono), monospace;
-}
-
-.onz-kv dd.is-lit {
-  color: var(--onz-accent);
-}
-
-.onz-wallet-stamp {
-  display: grid;
-  gap: 0.15rem;
-  padding: 0.7rem 0.85rem;
-  border-radius: 12px;
-  border: 1px dashed rgba(0, 124, 146, 0.35);
-  background: rgba(0, 124, 146, 0.06);
-  margin-bottom: 0.55rem;
-  transition: border-color 0.4s ease, background 0.4s ease;
-}
-
-.onz-wallet-stamp[data-lit] {
-  border-style: solid;
-  border-color: rgba(0, 124, 146, 0.55);
-  background: rgba(0, 124, 146, 0.1);
-}
-
-.onz-wallet-stamp span {
-  font: 500 0.52rem/1 var(--font-mono), monospace;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--onz-mulberry);
-}
-
-.onz-wallet-stamp strong {
-  font: 600 1.15rem/1.1 var(--font-display), sans-serif;
-  letter-spacing: -0.03em;
-  color: var(--onz-accent);
+  font: 600 0.78rem/1 var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
-.onz-wallet-stamp em {
-  font: 500 0.62rem/1.2 var(--font-mono), monospace;
-  font-style: normal;
-  color: var(--onz-mulberry);
-}
-
-.onz-phone-toggle {
-  align-self: start;
-  padding: 0.45rem 0.75rem;
+.onz-wallet-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  width: 100%;
+  margin-top: 0.15rem;
+  padding: 0.7rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(36, 11, 33, 0.16);
-  background: transparent;
-  color: var(--onz-mulberry);
-  font: 500 0.58rem/1 var(--font-mono), monospace;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.78);
+  text-align: left;
   cursor: pointer;
 }
 
-.onz-phone-toggle.is-on {
-  border-color: rgba(0, 124, 146, 0.5);
-  color: var(--onz-accent);
-  background: rgba(0, 124, 146, 0.08);
+.onz-wallet-toggle span {
+  font: 600 0.62rem/1 var(--font-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.onz-wallet-toggle em {
+  font: 400 0.68rem/1.25 var(--font-display), sans-serif;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.onz-wallet-toggle.is-on {
+  border-color: rgba(93, 255, 181, 0.55);
+  background: rgba(93, 255, 181, 0.1);
+  color: var(--onz-mint);
+}
+
+.onz-wallet-toggle.is-on em {
+  color: rgba(93, 255, 181, 0.8);
+}
+
+/* —— Evidence: Mana Receipt (rounded card + clean dl) —— */
+.onz-evidence-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.onz-evidence-top {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+}
+
+.onz-evidence-top strong {
+  text-align: center;
+  font: 600 1rem/1 var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
+  color: #111;
+}
+
+.onz-evidence-top .onz-wallet-back {
+  color: rgba(17, 17, 17, 0.65);
+}
+
+.onz-evidence-lede {
+  margin: 0.15rem 0 0.25rem;
+  color: rgba(17, 17, 17, 0.62);
+  font: 400 0.74rem/1.4 var(--font-display), sans-serif;
+  text-align: center;
 }
 
 .onz-phone-receipt {
-  padding: 0.85rem 0.9rem;
-  border-radius: 14px;
-  border: 1px solid rgba(0, 124, 146, 0.35);
-  background: linear-gradient(180deg, #fff 0%, #eef7f9 100%);
-  box-shadow: 0 10px 24px rgba(36, 11, 33, 0.06);
+  padding: 0.95rem 1rem;
+  border-radius: var(--onz-card-r);
+  border: 1px solid rgba(11, 61, 50, 0.12);
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(11, 61, 50, 0.08);
 }
 
 .onz-phone-receipt > header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding-bottom: 0.55rem;
-  margin-bottom: 0.65rem;
-  border-bottom: 1px solid rgba(36, 11, 33, 0.12);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
 }
 
 .onz-phone-receipt > header span {
-  font: 600 0.8rem/1 var(--font-display), sans-serif;
+  font: 600 0.85rem/1 var(--font-display), sans-serif;
+  color: var(--onz-forest);
 }
 
 .onz-phone-receipt > header strong {
   font: 500 0.55rem/1 var(--font-mono), monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--onz-mulberry);
+  color: rgba(17, 17, 17, 0.5);
 }
 
 .onz-phone-receipt dl {
   margin: 0;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.55rem;
 }
 
 .onz-phone-receipt dl div {
   display: grid;
-  gap: 0.12rem;
+  gap: 0.14rem;
 }
 
 .onz-phone-receipt dt {
-  color: var(--onz-mulberry);
+  color: rgba(17, 17, 17, 0.48);
   font: 500 0.52rem/1 var(--font-mono), monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -772,18 +897,20 @@
 
 .onz-phone-receipt dd {
   margin: 0;
-  font: 500 0.78rem/1.25 var(--font-display), sans-serif;
+  font: 500 0.8rem/1.3 var(--font-display), sans-serif;
   letter-spacing: -0.015em;
+  color: #111;
 }
 
 .onz-phone-receipt footer {
-  margin-top: 0.65rem;
-  padding-top: 0.55rem;
-  border-top: 1px solid rgba(36, 11, 33, 0.1);
-  color: var(--onz-mulberry);
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.1);
+  color: rgba(17, 17, 17, 0.5);
   font: 500 0.62rem/1.3 var(--font-mono), monospace;
 }
 
+/* Chat / chips — beat-aware */
 .onz-chips-row {
   display: flex;
   flex-wrap: wrap;
@@ -794,17 +921,17 @@
 .onz-chip {
   padding: 0.35rem 0.55rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 124, 146, 0.35);
-  background: rgba(0, 124, 146, 0.06);
-  color: var(--onz-plum);
+  border: 1px solid rgba(11, 61, 50, 0.2);
+  background: rgba(11, 61, 50, 0.05);
+  color: #111;
   font: 500 0.58rem/1 var(--font-mono), monospace;
   letter-spacing: 0.02em;
   cursor: pointer;
 }
 
 .onz-chip:hover {
-  border-color: var(--onz-accent);
-  background: rgba(0, 124, 146, 0.12);
+  border-color: var(--onz-mint-deep);
+  background: rgba(93, 255, 181, 0.14);
 }
 
 .onz-thread {
@@ -825,14 +952,14 @@
 
 .onz-user {
   justify-self: end;
-  background: var(--onz-accent);
-  color: var(--onz-paper);
+  background: var(--onz-forest-mid);
+  color: #fff;
 }
 
 .onz-assistant {
   justify-self: start;
-  background: var(--onz-chalk);
-  color: var(--onz-plum);
+  background: rgba(11, 61, 50, 0.08);
+  color: #111;
 }
 
 .onz-typing {
@@ -846,7 +973,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--onz-mulberry);
+  background: var(--onz-forest-mid);
   animation: onz-dot 1s ease-in-out infinite;
 }
 
@@ -862,7 +989,7 @@
   gap: 0.4rem;
   align-items: center;
   padding: 0.35rem 0.75rem 0.2rem;
-  border-top: 1px solid rgba(36, 11, 33, 0.08);
+  border-top: 1px solid rgba(11, 61, 50, 0.1);
 }
 
 .onz-composer input {
@@ -870,13 +997,13 @@
   min-width: 0;
   border: 0;
   background: transparent;
-  color: var(--onz-plum);
+  color: #111;
   font: 400 0.72rem/1.3 var(--font-display), sans-serif;
   outline: none;
 }
 
 .onz-composer input::placeholder {
-  color: rgba(101, 74, 78, 0.55);
+  color: rgba(17, 17, 17, 0.4);
 }
 
 .onz-composer button {
@@ -884,8 +1011,8 @@
   height: 28px;
   border-radius: 50%;
   border: 0;
-  background: var(--onz-accent);
-  color: var(--onz-paper);
+  background: var(--onz-forest-mid);
+  color: #fff;
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -900,12 +1027,92 @@
   font: 600 0.85rem/1 sans-serif;
 }
 
+/* Thin bottom nav echo — Accounts · One Wallet · Need help? */
+.onz-app-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.15rem;
+  padding: 0.35rem 0.35rem 0.1rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.onz-phone[data-beat='earn'] .onz-app-nav {
+  background: rgba(2, 12, 9, 0.92);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.onz-app-nav > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.25rem 0.1rem;
+  color: rgba(17, 17, 17, 0.45);
+  font: 500 0.48rem/1 var(--font-display), sans-serif;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.onz-phone[data-beat='earn'] .onz-app-nav > span {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.onz-app-nav > span[data-on] {
+  color: var(--onz-forest-mid);
+}
+
+.onz-phone[data-beat='earn'] .onz-app-nav > span[data-on] {
+  color: var(--onz-mint);
+}
+
+.onz-nav-ico {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+.onz-nav-accounts {
+  border-radius: 99px 99px 4px 4px;
+  position: relative;
+}
+
+.onz-nav-accounts::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  top: -5px;
+  left: 3px;
+}
+
+.onz-nav-wallet {
+  border-radius: 3px;
+  border-top-width: 3px;
+}
+
+.onz-nav-help {
+  border-radius: 50%;
+  transform: rotate(45deg);
+  width: 12px;
+  height: 12px;
+  margin: 2px 0;
+}
+
 .onz-homebar {
   width: 108px;
   height: 4px;
-  margin: 0.2rem auto 0.6rem;
+  margin: 0.2rem auto 0.55rem;
   border-radius: 99px;
-  background: rgba(36, 11, 33, 0.2);
+  background: rgba(17, 17, 17, 0.18);
+}
+
+.onz-phone[data-beat='earn'] .onz-homebar {
+  background: rgba(255, 255, 255, 0.28);
 }
 
 .onz-plinth {
@@ -1329,6 +1536,34 @@
   }
 }
 
+@keyframes onz-orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.95;
+  }
+}
+
+@keyframes onz-orb-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 28px rgba(93, 255, 181, 0.55),
+      0 0 0 10px rgba(93, 255, 181, 0.1);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 36px rgba(93, 255, 181, 0.75),
+      0 0 0 14px rgba(93, 255, 181, 0.16);
+  }
+}
+
 @media (max-width: 960px) {
   .onz-header {
     grid-template-columns: 1fr auto;
@@ -1390,13 +1625,13 @@
     grid-template-columns: 1fr;
   }
 
-  .onz-kv div {
-    grid-template-columns: 1fr;
-    gap: 0.12rem;
-  }
-
   .onz-phone-frame {
     height: 600px;
+  }
+
+  .onz-orb {
+    width: 148px;
+    height: 148px;
   }
 }
 
@@ -1405,7 +1640,8 @@
   .onz-phone:hover,
   .onz-phone-body,
   .onz-typing span,
-  .onz-stepper li {
+  .onz-orb-halo,
+  .onz-orb-mid {
     animation: none !important;
     transition: none !important;
     transform: none !important;
@@ -1413,5 +1649,9 @@
 
   .onz-typing span {
     opacity: 0.55;
+  }
+
+  .onz-orb-halo {
+    opacity: 0.85;
   }
 }

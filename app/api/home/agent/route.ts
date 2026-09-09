@@ -176,43 +176,52 @@ export async function POST(req: Request) {
 
   const ipHash = hashIp(clientIpFromHeaders(req.headers));
   const sessionId = parsed.data.sessionId ?? `anon-${ipHash}`;
-  const service = getServiceClient();
+  // Rate-limit log is best-effort. Missing service role must not 500 the
+  // public homepage phone — fail open and still answer when a model is wired.
+  let service: ReturnType<typeof getServiceClient> | null = null;
+  try {
+    service = getServiceClient();
+  } catch {
+    service = null;
+  }
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  // Session and IP are checked together: the session id comes from the client,
-  // so on its own it is a courtesy limit, not a control.
-  const [{ count: sessionCount }, { count: ipCount }] = await Promise.all([
-    service
-      .from('home_agent_log')
-      .select('id', { count: 'exact', head: true })
-      .eq('session_id', sessionId)
-      .eq('role', 'user')
-      .gte('created_at', since),
-    service
-      .from('home_agent_log')
-      .select('id', { count: 'exact', head: true })
-      .eq('ip_hash', ipHash)
-      .eq('role', 'user')
-      .gte('created_at', since),
-  ]);
+  if (service) {
+    // Session and IP are checked together: the session id comes from the client,
+    // so on its own it is a courtesy limit, not a control.
+    const [{ count: sessionCount }, { count: ipCount }] = await Promise.all([
+      service
+        .from('home_agent_log')
+        .select('id', { count: 'exact', head: true })
+        .eq('session_id', sessionId)
+        .eq('role', 'user')
+        .gte('created_at', since),
+      service
+        .from('home_agent_log')
+        .select('id', { count: 'exact', head: true })
+        .eq('ip_hash', ipHash)
+        .eq('role', 'user')
+        .gte('created_at', since),
+    ]);
 
-  if ((sessionCount ?? 0) >= SESSION_LIMIT || (ipCount ?? 0) >= IP_LIMIT) {
-    return NextResponse.json(
-      {
-        error:
-          "That's as much as I can cover here today. Email assembl@assembl.co.nz and you'll get a real answer from a person.",
-      },
-      { status: 429 },
-    );
+    if ((sessionCount ?? 0) >= SESSION_LIMIT || (ipCount ?? 0) >= IP_LIMIT) {
+      return NextResponse.json(
+        {
+          error:
+            "That's as much as I can cover here today. Email assembl@assembl.co.nz and you'll get a real answer from a person.",
+        },
+        { status: 429 },
+      );
+    }
+
+    await service.from('home_agent_log').insert({
+      session_id: sessionId,
+      ip_hash: ipHash,
+      role: 'user',
+      message,
+      agent_slug: speaker?.slug ?? 'home-guide',
+    });
   }
-
-  await service.from('home_agent_log').insert({
-    session_id: sessionId,
-    ip_hash: ipHash,
-    role: 'user',
-    message,
-    agent_slug: speaker?.slug ?? 'home-guide',
-  });
 
   // Sonnet tier: the guide has to hold a boundary and stay on voice, which the
   // cheap tier does less reliably on a page prospects judge us by.
@@ -244,14 +253,16 @@ export async function POST(req: Request) {
     );
   }
 
-  await service.from('home_agent_log').insert({
-    session_id: sessionId,
-    ip_hash: ipHash,
-    role: 'assistant',
-    message: result.text,
-    model: result.rung.id,
-    agent_slug: speaker?.slug ?? 'home-guide',
-  });
+  if (service) {
+    await service.from('home_agent_log').insert({
+      session_id: sessionId,
+      ip_hash: ipHash,
+      role: 'assistant',
+      message: result.text,
+      model: result.rung.id,
+      agent_slug: speaker?.slug ?? 'home-guide',
+    });
+  }
 
   return NextResponse.json({ reply: result.text, sessionId, agent: speaker?.slug ?? 'assembl' });
 }
