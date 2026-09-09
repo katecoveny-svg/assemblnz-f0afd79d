@@ -84,6 +84,14 @@ const nextConfig: NextConfig = {
       { source: '/worlds/one-nz', destination: '/journeys/one-nz', permanent: false },
       { source: '/worlds/onenz/:path*', destination: '/journeys/one-nz', permanent: false },
 
+      // Evidence receipt rename (PREVIEW) — retire /journeys/mana-receipt label.
+      { source: '/journeys/mana-receipt', destination: '/journeys/evidence-receipt', permanent: false },
+      {
+        source: '/journeys/mana-receipt/:path*',
+        destination: '/journeys/evidence-receipt',
+        permanent: false,
+      },
+
       // ── Editorial gallery rebuild (2026-07-20): `/` renders the editorial
       // hero + walkable gallery. The 2026-07-20 302 to /build-an-agent is
       // removed on this branch — the interactive builder still lives at

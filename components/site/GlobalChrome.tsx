@@ -28,9 +28,15 @@ const CINEMATIC_PATHS = new Set(['/', '/pricing', '/agents', '/about', '/pilots'
 const isEditorialHome = (pathname: string | null): boolean =>
   !!pathname && CINEMATIC_PATHS.has(pathname);
 
-/** Loyalty journey demonstrators ship their own plum chrome. */
+/** Loyalty / Evidence receipt journey demonstrators ship their own plum chrome. */
 const isLoyaltyJourney = (pathname: string | null): boolean =>
-  !!pathname && (pathname === '/journeys/one-nz' || pathname.startsWith('/journeys/one-nz/'));
+  !!pathname &&
+  (pathname === '/journeys/one-nz' ||
+    pathname.startsWith('/journeys/one-nz/') ||
+    pathname === '/journeys/evidence-receipt' ||
+    pathname.startsWith('/journeys/evidence-receipt/') ||
+    pathname === '/journeys/mana-receipt' ||
+    pathname.startsWith('/journeys/mana-receipt/'));
 
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
