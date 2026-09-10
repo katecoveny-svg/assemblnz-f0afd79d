@@ -80,12 +80,12 @@ function drawAdOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, c: C
   // Measure headline + caption, then stack them bottom-up above the wordmark.
   const headSize = Math.round(w * 0.062);
   const headLH = Math.round(headSize * 1.12);
-  ctx.font = `500 ${headSize}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.font = `500 ${headSize}px 'Instrument Sans', system-ui, sans-serif`;
   const headLines = wrapLines(ctx, c.headline, maxW).slice(0, 3);
 
   const capSize = Math.round(w * 0.032);
   const capLH = Math.round(capSize * 1.32);
-  ctx.font = `400 ${capSize}px 'Lato', system-ui, sans-serif`;
+  ctx.font = `400 ${capSize}px 'Instrument Sans', system-ui, sans-serif`;
   const capLines = wrapLines(ctx, c.caption, maxW).slice(0, 3);
 
   const wordSize = Math.round(w * 0.03);
@@ -96,22 +96,22 @@ function drawAdOverlay(ctx: CanvasRenderingContext2D, w: number, h: number, c: C
   const headTop = headBottom - (headLines.length - 1) * headLH;
 
   // Eyebrow — business name.
-  ctx.font = `500 ${Math.round(w * 0.024)}px 'Space Mono', ui-monospace, monospace`;
+  ctx.font = `500 ${Math.round(w * 0.024)}px 'IBM Plex Mono', ui-monospace, monospace`;
   ctx.fillStyle = c.business.accent;
   ctx.fillText(c.business.name.toUpperCase(), pad, headTop - Math.round(w * 0.04));
 
   // Headline.
-  ctx.font = `500 ${headSize}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.font = `500 ${headSize}px 'Instrument Sans', system-ui, sans-serif`;
   ctx.fillStyle = '#ffffff';
   headLines.forEach((ln, i) => ctx.fillText(ln, pad, headTop + i * headLH));
 
   // Caption.
-  ctx.font = `400 ${capSize}px 'Lato', system-ui, sans-serif`;
+  ctx.font = `400 ${capSize}px 'Instrument Sans', system-ui, sans-serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.9)';
   capLines.forEach((ln, i) => ctx.fillText(ln, pad, capTop + i * capLH));
 
   // Wordmark.
-  ctx.font = `600 ${wordSize}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.font = `600 ${wordSize}px 'Instrument Sans', system-ui, sans-serif`;
   ctx.fillStyle = c.business.accent;
   ctx.globalAlpha = 0.96;
   ctx.fillText('assembl', pad, bottom);

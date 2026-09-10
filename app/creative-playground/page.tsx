@@ -9,12 +9,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * /creative-playground — on the Instrument canon.
+ * /creative-playground — on the plum canon.
  *
- * Was paper-white with the Cormorant display cut and grey secondary text: the
- * pre-2026-07-26 skin, which read as a different site once the rest of the
- * marketing surface moved to navy. Canon here is Lato on #050F1C, hierarchy by
- * weight rather than by opacity, and brass for accents only.
+ * Instrument Sans + IBM Plex Mono on deep plum, with heather accents.
  */
 export default function CreativePlaygroundPage() {
   return (
