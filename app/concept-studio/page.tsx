@@ -74,16 +74,16 @@ export default function ConceptStudioPage() {
           </div>
         </div>
         <aside className={styles.heroAside} aria-label="Concept Studio status guide">
-          <div className={styles.heroFact}><span>01</span><div><strong>Live now</strong><p>The interaction works on assembl.co.nz and produces a real draft, export or result.</p></div></div>
-          <div className={styles.heroFact}><span>02</span><div><strong>Public preview</strong><p>The core experience works, but a provider, polish pass or production connection is still being proven.</p></div></div>
-          <div className={styles.heroFact}><span>03</span><div><strong>Concept</strong><p>A product direction you can explore. Data and integrations are deliberately labelled as fictional or simulated.</p></div></div>
+          <div className={styles.heroFact}><span>01</span><div><strong>Live now</strong><p>Works on assembl.co.nz today — a real draft, export or result you can try.</p></div></div>
+          <div className={styles.heroFact}><span>02</span><div><strong>Preview</strong><p>The core flow works. A provider, polish pass or production connection may still be missing — labelled honestly.</p></div></div>
+          <div className={styles.heroFact}><span>03</span><div><strong>Concept</strong><p>A product direction you can explore. Data and integrations are fictional or simulated on purpose.</p></div></div>
         </aside>
       </section>
 
       <div className={styles.truthBar}>
         <div><strong>{live.length} live experiences</strong><span>Open and use them now.</span></div>
-        <div><strong>{previews.length} public previews</strong><span>Useful, with visible production limits.</span></div>
-        <div><strong>{concepts.length} concept products</strong><span>Explore the direction without mistaking it for a connected service.</span></div>
+        <div><strong>{previews.length} previews</strong><span>Useful, with visible production limits.</span></div>
+        <div><strong>{concepts.length} concepts</strong><span>Explore the direction — fictional or simulated on purpose.</span></div>
       </div>
 
       <section id="promote" className={styles.section}>

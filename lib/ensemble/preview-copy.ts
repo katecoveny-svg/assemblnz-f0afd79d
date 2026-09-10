@@ -1,6 +1,6 @@
 /**
  * Ensemble agent-app — creative studio front door copy.
- * Marketing / creative desk. Concrete NZ English.
+ * Plain NZ English. Marketing / creative desk.
  * No partnership claims. No mana product labels.
  * Floor-plate / architecture craft is retired for Ensemble — Arc keeps that kit.
  */
@@ -8,43 +8,43 @@
 export const ENSEMBLE_PREVIEW = {
   metaTitle: 'Ensemble · creative studio',
   metaDescription:
-    'Ensemble helps a creative desk turn one brief into copy, stills, film and voice — flags ASA and Fair Trading claim gaps, and stages a package that waits for a human yes. DEMO only.',
+    'Ensemble helps a creative desk turn one brief into a campaign package — copy, stills, film and voice drafted for human approval. DEMO package only.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'ensemble',
   productLine: 'assembl agent-app',
-  heroLine: 'One brief. A package ready to review.',
+  heroLine: 'One brief. A package to approve.',
   heroSupport:
-    'Ensemble stages copy, stills, film and voice from one brief, flags claim gaps, and holds the package for your yes. DEMO only — nothing publishes.',
+    'Ensemble turns a brief into copy, stills, film and voice on a DEMO desk — then holds every piece for your yes before anything publishes.',
 
   assembleEyebrow: '01 · brief desk',
-  assembleTitle: 'Brief in. Package out for review.',
+  assembleTitle: 'A brief on the desk. Then a package.',
   assembleSupport:
-    'Strategy, copy, stills, film and voice land in one DEMO set you can check. Not a live campaign.',
-  ctaAssemble: 'See the package stage',
+    'Strategy, copy, stills, film and voice settle into one reviewable set — DEMO package only, not a live campaign.',
+  ctaAssemble: 'See the package assemble',
   ctaBoard: 'Open the brand board',
   ctaClaims: 'See DEMO claim flags',
 
   claimsEyebrow: '02 · claim flags',
-  claimsTitle: 'Tap a claim flag on the piece.',
+  claimsTitle: 'Claims on the campaign piece.',
   claimsSupport:
-    'ASA and Fair Trading flags sit on the DEMO campaign piece as readable notes. Nothing publishes without a human yes.',
+    'ASA and Fair Trading flags sit on the campaign piece itself — readable DEMO notes. Nothing publishes without a human yes.',
 
   boardEyebrow: 'Brand board',
-  boardTitle: 'Samples you can point at.',
+  boardTitle: 'Work you can point at.',
   boardSupport:
-    'Stills, film, voice and copy from the creative desk. Every piece is labelled DEMO and stays draft-only until a person says yes.',
+    'Real samples from the creative desk — stills, film, voice and copy. Every piece is labelled DEMO and stays draft-only until a person says yes.',
 
-  toolsEyebrow: 'Studio tools',
+  toolsEyebrow: 'Studio craft',
   toolsTitle: 'Open the live tools.',
   toolsSupport:
-    'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same tools behind this desk.',
+    'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same craft behind this desk.',
 
   workspaceEyebrow: 'Creative workspace',
-  workspaceTitle: 'Pick a maker. Drop a brief.',
+  workspaceTitle: 'The desk that runs the brief.',
   workspaceSupport:
-    'Scripted DEMO on this door — open the live workspace when you want the full console.',
+    'Pick a maker, drop a brief, watch the package stage. Scripted DEMO on this door — open the live workspace when you want the full console.',
   workspaceCta: 'Open live workspace',
 
   narrativeEyebrow: 'How Ensemble works',
@@ -54,13 +54,13 @@ export const ENSEMBLE_PREVIEW = {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Ensemble reads the brief — audience, offer, brand marks, claim lines, asset shelf.',
+      body: 'Ensemble watches the brief land — audience, offer, brand marks, claim lines, asset shelf.',
     },
     {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each piece arrives plain: copy options, art direction, film beat, voice script — ready for the desk to review.',
+      body: 'Each piece arrives cited and plain: copy options, art direction, film beat, voice script — ready for the desk to review.',
     },
     {
       id: 'act' as const,

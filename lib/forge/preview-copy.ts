@@ -1,26 +1,26 @@
 /**
  * Forge agent-app PREVIEW copy — automotive workshop / dealership desk.
- * Concrete NZ English. No architecture floor-plate grammar.
+ * Plain NZ English. No architecture floor-plate grammar.
  * Honest path to live Arataki chat. No partnership claims.
  */
 
 export const FORGE_PREVIEW = {
-  metaTitle: 'Forge · automotive agent-app preview · concept · demo data',
+  metaTitle: 'Forge · automotive preview · concept · demo data',
   metaDescription:
-    'Forge helps a dealership or workshop review the service day before work leaves the bay — flags WoF/CoF and CCCFA gaps, cites the rule, and drafts a note that waits for a human yes. DEMO only.',
+    'Forge helps a workshop or dealership desk review the service bay — flags WoF, CoF and CCCFA gaps on DEMO data, cites the rule, and drafts a note that waits for a human yes.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'forge',
   productLine: 'assembl agent-app',
-  heroLine: 'Review the service day before it leaves the bay.',
+  heroLine: 'Flag bay issues before the day slips.',
   heroSupport:
-    'Forge flags WoF due stamps, CoF holds and CCCFA disclosure gaps on a DEMO workshop day, cites the rule, and drafts a note that waits for your yes. Nothing books or sends without you.',
+    'Forge flags WoF due stamps, CoF holds and CCCFA disclosure gaps on a DEMO service bay, cites the rule, and drafts a note that waits for your yes.',
 
   bayEyebrow: '01 · service bay',
-  bayTitle: 'Tap a flag on the bay board.',
+  bayTitle: 'Flags on the bay board.',
   baySupport:
-    'Each DEMO flag cites NZTA WoF/CoF or CCCFA rules on a fictional workshop day. Nothing here is a real compliance check.',
+    'DEMO flags use NZTA WoF/CoF and CCCFA references on a fictional workshop day. Nothing here is a real compliance check.',
   ctaBay: 'See DEMO bay flags',
   ctaChat: 'Chat with Arataki',
   aratakiHref: '/agents/arataki',
@@ -40,7 +40,7 @@ export const FORGE_PREVIEW = {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each flag arrives with a cited clause and plain-language note, ready for the service desk to review.',
+      body: 'Each flag arrives with a cited clause and a plain-language note, ready for the service desk to review.',
     },
     {
       id: 'act' as const,

@@ -44,7 +44,7 @@ const JOURNEYS: Journey[] = [
     id: 'wing',
     n: '02',
     sector: 'Airline & travel',
-    wait: 'A flight is delayed and several hundred people reach for their phones at once. Most of that wait is spent in a queue with no useful options.',
+    wait: 'A flight is delayed and several hundred people reach for their phones at once. The wait is spent in a queue, and it is where loyalty is won or lost.',
     assembled: 'Three ranked rebooking options prepared before the passenger reaches the desk — seat preference held, connection risk checked, the reason for the ranking written in plain words.',
     boundary: 'It can prepare options and stage them. It cannot rebook, refund or override an operations decision. Nothing is confirmed without the passenger and the airline both saying yes.',
     measured: 'Calls deflected, option-review rate, confirmed in-app rebookings, and zero unapproved actions.',
@@ -291,11 +291,11 @@ export function CinematicConcepts() {
 
         <header className="page-header" style={{ paddingBottom: 20 }}>
           <div className="kicker">concepts · how it works</div>
-          <h1>Same journey shape.<br /><span className="accent">Five industries.</span></h1>
+          <h1>Five waits.<br /><span className="accent">Same pattern.</span></h1>
           <p className="lede" style={{ marginTop: 12 }}>
-            People ask whether this only works for groceries. It doesn&rsquo;t. Each industry below uses the same shape:
-            a wait your customer already has, work prepared inside it, and a person who says yes before anything happens.
-            Pick a sector and see what changes.
+            People ask if this only works for groceries. It doesn&rsquo;t. Each concept is the same shape: a real customer wait,
+            useful work prepared inside it, and a named person who says yes before anything happens. Pick an industry and watch
+            the object rebuild — live demo / preview / concept labels stay honest.
           </p>
         </header>
 

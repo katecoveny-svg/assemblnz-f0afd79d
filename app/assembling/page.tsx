@@ -20,18 +20,18 @@ import './assembling-canon.css';
  */
 
 export const metadata: Metadata = {
-  title: 'assembling. by assembl — earn during the wait',
+  title: 'assembling. by assembl — useful waits',
   description:
-    'Your product makes customers wait. assembling turns that wait into a loyalty layer: agents work in the open and the person earns something they keep. Opt-in, NZ-built.',
+    'Your product already makes customers wait. assembling turns that wait into something useful: they see the work, can earn a reward, and a person stays in charge. Opt-in, NZ-built.',
   alternates: { canonical: '/assembling' },
   openGraph: {
-    title: 'assembling — earn during the wait',
-    description: 'The loyalty layer for customer waits, by assembl. Opt-in. Points, bill credit, or a donation while agents work.',
+    title: 'assembling — useful waits.',
+    description: 'Turn a real customer delay into useful preparation and an honest reward — by assembl.',
     type: 'website',
     siteName: 'assembling. by assembl',
     url: '/assembling',
     locale: 'en_NZ',
-    images: [{ url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'assembling — earn during the wait' }],
+    images: [{ url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'assembling — useful waits.' }],
   },
 };
 
@@ -55,16 +55,16 @@ export default function AssemblingPage() {
             <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
           </div>
           <div className="asm-hero-copy">
-            <span className="mono">assembling · loyalty during the wait</span>
+            <span className="mono">assembling · useful wait · evidence receipt</span>
             <h1>
-              Earn while
+              The wait,
               <br />
-              <span className="metal">you wait.</span>
+              <span className="metal">made useful.</span>
             </h1>
             <p className="lede">
-              Most products leave customers on a spinner while work happens. assembling shows the work in the open and
-              lets the person earn points, bill credit or a donation during that wait — opt-in, with a human yes before
-              anything consequential happens.
+              Every journey has a pause — while systems process, research or draft. Today that pause is a spinner.
+              assembling fills it: the customer sees the work and can earn something they keep, while a named person
+              stays in charge.
             </p>
             <div className="asm-earns">
               <div className="asm-earns-k mono">what those minutes become</div>
@@ -85,11 +85,10 @@ export default function AssemblingPage() {
         {/* ── the three tiers — the monetisation architecture ── */}
         <section className="asm-band" id="tiers">
           <span className="mono">the framework</span>
-          <h2>Three tiers of agentic value.</h2>
+          <h2>Three ways the wait can pay back.</h2>
           <p className="sub">
-            Beyond subscriptions: co-branded experience wrapped around the moments customers
-            already spend waiting and deciding. No banner ads — plain, warm, contextual
-            intelligence, labelled when it is sponsored.
+            Built around delays customers already sit through. No banner ads — contextual offers, labelled when sponsored,
+            with a human still deciding anything that matters.
           </p>
           <div className="asm-doors">
             <div className="asm-door">
@@ -267,8 +266,8 @@ export default function AssemblingPage() {
             <a className="asm-cta" href={CONTACT}>email me directly &rarr;</a>
             <p className="fine">
               Straight to assembl@assembl.co.nz from your own mail client. No form, no list, and
-              nothing in between. assembling is part of assembl &mdash; intuitive agentic customer
-              journeys.
+              nothing in between. assembling is part of assembl &mdash; agentic customer journeys
+              with a person still in charge.
             </p>
           </div>
         </section>

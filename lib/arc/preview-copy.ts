@@ -1,20 +1,21 @@
 /**
  * Arc agent-app PREVIEW copy — pitch surface only.
- * Concrete NZ English. No partnership claims. No mana/kete product labels.
+ * Plain NZ English. Concrete. No partnership claims. No mana/kete product labels.
+ * Plan-pack framing (not pins-on-the-plate / floor-plate poetry).
  */
 
 export const ARC_PREVIEW = {
-  metaTitle: 'Arc · architecture agent-app preview',
+  metaTitle: 'Arc · architecture preview · concept · demo data',
   metaDescription:
-    'Arc helps an NZ architecture practice review a plan before it lodges — flags Building Code and plan gaps, cites the clause, and drafts a note that waits for a human yes. DEMO only.',
+    'Arc helps an architect or designer review a plan before consent — flags NZ Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for a human yes. DEMO only.',
   previewBadge: 'PREVIEW · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'arc',
   productLine: 'assembl agent-app',
-  heroLine: 'Review the plan before it lodges.',
+  heroLine: 'Check the plan before you lodge.',
   heroSupport:
-    'Arc flags NZ Building Code and plan gaps on a DEMO terrace, cites the clause, and drafts a note that waits for your yes. Nothing lodges a consent.',
+    'Arc flags Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for your yes. Nothing lodges to a BCA.',
 
   assembleEyebrow: '01 · plan pack',
   assembleTitle: 'Spaces, stairs and openings — one DEMO pack.',
@@ -41,7 +42,7 @@ export const ARC_PREVIEW = {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each flag arrives with a clause citation and plain-language note, ready for review.',
+      body: 'Each flag arrives with a cited clause and a plain-language note, ready for review.',
     },
     {
       id: 'act' as const,

@@ -121,20 +121,20 @@ export function CinematicAgents() {
   }, []);
 
   const agents = [
-    { num: '01', shape: 'navy', h: 'Intent Agent', p: 'Reads the enquiry, names the job, and pulls out the facts that matter for the next step.', tags: ['memory', 'voice'] },
-    { num: '02', shape: 'brass', h: 'Knowledge Agent', p: 'Answers only from confirmed sources — offers, prices, FAQs and business rules from the Blueprint.', tags: ['knowledge', 'boundaries'] },
-    { num: '03', shape: 'chrome', h: 'Planning Agent', p: 'Compares options against constraints and presents a decision for someone to approve.', tags: ['intelligence', 'abilities'] },
-    { num: '04', shape: 'brass', h: 'Budget Agent', p: 'Checks every recommendation against the budget ceiling before it reaches you.', tags: ['abilities', 'boundaries'] },
-    { num: '05', shape: 'navy', h: 'Proof Agent', p: 'Records what changed, who approved it, and what the outcome was against the baseline.', tags: ['memory', 'abilities'] },
-    { num: '06', shape: 'chrome', h: 'Voice Agent', p: 'Writes in your business voice — tone and formality from your Blueprint, not generic internet copy.', tags: ['voice', 'knowledge'] },
+    { num: '01', shape: 'navy', h: 'Intent Agent', p: 'Reads the enquiry and names the job — what the person wants, in plain words.', tags: ['memory', 'voice'] },
+    { num: '02', shape: 'brass', h: 'Knowledge Agent', p: 'Answers from your approved offers, prices, FAQs and rules — not the open web.', tags: ['knowledge', 'boundaries'] },
+    { num: '03', shape: 'chrome', h: 'Planning Agent', p: 'Compares options against your constraints and stages a plan for you to pick.', tags: ['intelligence', 'abilities'] },
+    { num: '04', shape: 'brass', h: 'Budget Agent', p: 'Checks every recommendation against the budget before it reaches you.', tags: ['abilities', 'boundaries'] },
+    { num: '05', shape: 'navy', h: 'Proof Agent', p: 'Records what changed, who approved it, and what the outcome was.', tags: ['memory', 'abilities'] },
+    { num: '06', shape: 'chrome', h: 'Voice Agent', p: 'Writes in your business voice — warm, plain, helpful — not generic internet tone.', tags: ['voice', 'knowledge'] },
   ];
   const parts = [
-    { n: '01', h: 'memory', p: 'Customer context, preferences and history kept across sessions.' },
-    { n: '02', h: 'knowledge', p: 'Read-only confirmed sources — offers, prices and rules from the Blueprint.' },
-    { n: '03', h: 'intelligence', p: 'How it reasons — model, temperature and depth, set per agent.' },
-    { n: '04', h: 'voice', p: 'Tone and formality taken from your business, not a generic template.' },
-    { n: '05', h: 'abilities', p: 'Read, organise, compare and draft. Never sends on its own.' },
-    { n: '06', h: 'boundaries', p: 'Approval stays visible with every action that matters.' },
+    { n: '01', h: 'memory', p: 'What it remembers — customer context, preferences, history across sessions.' },
+    { n: '02', h: 'knowledge', p: 'Read only · confirmed sources — your offers, prices and rules.' },
+    { n: '03', h: 'intelligence', p: 'How it reasons — model settings you can change per agent.' },
+    { n: '04', h: 'voice', p: 'How it speaks — tone and formality taken from your business.' },
+    { n: '05', h: 'abilities', p: 'What it can do — read, organise, compare, draft. Never sends.' },
+    { n: '06', h: 'boundaries', p: 'The limit — approval stays visible with every action.' },
   ];
 
   return (
@@ -154,7 +154,7 @@ export function CinematicAgents() {
         <header className="page-header">
           <div className="kicker">agents</div>
           <h1>Specialists,<br /><span className="accent">not one assistant.</span></h1>
-          <p className="lede" style={{ marginTop: 16 }}>Give one clear job to a specialist. Get a draft back with a review boundary — and a named place where you stay in control.</p>
+          <p className="lede" style={{ marginTop: 16 }}>Give one clear job to a specialist. Get a draft back with a named reviewer and a hard stop — nothing sends without you.</p>
         </header>
 
         <div className="page-body">
@@ -170,7 +170,7 @@ export function CinematicAgents() {
 
           <div className="parts-section">
             <div className="kicker">agent parts</div>
-            <h2 style={{ marginBottom: 8 }}>Six parts. <span className="accent">One agent.</span></h2>
+            <h2 style={{ marginBottom: 8 }}>Six settings. <span className="accent">One specialist.</span></h2>
             <div className="parts-grid">
               {parts.map((p) => (
                 <div className="part-card" key={p.n}>
