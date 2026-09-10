@@ -59,7 +59,8 @@ export async function approveAgentAction(formData: FormData) {
   if (!id) return;
   try {
     const { decideActionRequest } = await import('@/lib/agents/action-requests');
-    await decideActionRequest(id, 'approved', admin.email, note || undefined);
+    const recorded = await decideActionRequest(id, 'approved', admin.email, note || undefined);
+    if (!recorded) return;
     // Close the OS loop: the linked task completes with the approval on record.
     const { onActionDecided } = await import('@/lib/os/orchestrator');
     await onActionDecided({ actionRequestId: id, decision: 'approved', reviewer: admin.email });
@@ -76,7 +77,8 @@ export async function rejectAgentAction(formData: FormData) {
   if (!id) return;
   try {
     const { decideActionRequest } = await import('@/lib/agents/action-requests');
-    await decideActionRequest(id, 'rejected', admin.email, note || undefined);
+    const recorded = await decideActionRequest(id, 'rejected', admin.email, note || undefined);
+    if (!recorded) return;
     const { onActionDecided } = await import('@/lib/os/orchestrator');
     await onActionDecided({ actionRequestId: id, decision: 'rejected', reviewer: admin.email });
   } catch {

@@ -9,7 +9,7 @@ import { isSpecialist } from '@/lib/specialists/sources';
 import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import './vertical-apps.css';
 
-type Source = { title: string; url: string | null; retrievedAt: string };
+type Source = { title: string; url: string | null; retrievedAt: string; hash?: string; sourceDate?: string | null; dataUrl?: string };
 type Reply = { reply: string; mode: 'live'; agent: string; agentName: string; sourceStatus: 'retrieved' | 'unavailable' | 'not-requested'; sources: Source[]; sourceFailures?: string[]; createdAt: string };
 type Message = { role: 'user' | 'assistant'; content: string; receipt?: Reply };
 
@@ -91,7 +91,7 @@ export function VerticalPhone({ slug, native = false, preparedPrompt }: { slug: 
     if (!clean || clean.length > 1000 || inFlight.current || !navigator.onLine) return;
     inFlight.current = true;
     controller.current = new AbortController();
-    const timeout = window.setTimeout(() => controller.current?.abort(), 55000);
+    const timeout = window.setTimeout(() => controller.current?.abort(), isSpecialist(slug) ? 85000 : 55000);
     const history = (retry ? messages.slice(0, -1) : messages).slice(-8).map(m => ({ role: m.role, content: m.content.slice(0, 5000) }));
     if (!retry) setMessages(m => [...m, { role: 'user', content: clean }]);
     setInput(''); setBusy(true); setError(''); setFailed(''); setSaved(false);
@@ -114,7 +114,7 @@ export function VerticalPhone({ slug, native = false, preparedPrompt }: { slug: 
 
   function saveDraft() {
     if (!lastReply || !draft.trim()) return;
-    const text = `${v.name} · assembl\n${v.output} — DRAFT FOR REVIEW\nPrepared by ${v.agentName}\nGenerated: ${lastReply.createdAt}\nReviewer: ${reviewer.trim() || `${v.reviewer} — not yet named`}\n\n${draft}\n\nSOURCE RECORD\n${lastReply.sourceStatus === 'retrieved' ? lastReply.sources.map(s => `${s.title} · ${s.url || 'No public URL'} · retrieved ${s.retrievedAt}`).join('\n') : lastReply.sourceStatus === 'unavailable' ? 'Live source search was unavailable or found no match.' : 'No live source search was performed for this reply.'}\n\nEdited after generation: ${draft !== lastReply.reply ? 'yes' : 'no'}\nNot sent, lodged, published or approved. Check the draft before use.\n`;
+    const text = `${v.name} · assembl\n${v.output} — DRAFT FOR REVIEW\nPrepared by ${v.agentName}\nGenerated: ${lastReply.createdAt}\nReviewer: ${reviewer.trim() || `${v.reviewer} — not yet named`}\n\n${draft}\n\nSOURCE RECORD\n${lastReply.sourceStatus === 'retrieved' ? lastReply.sources.map(s => `${s.title} · ${s.url || 'No public URL'} · retrieved ${s.retrievedAt}${s.sourceDate ? ` · ${s.sourceDate}` : ''}${s.hash ? ` · SHA-256 ${s.hash}` : ''}${s.dataUrl ? ` · Official data: ${s.dataUrl}` : ''}`).join('\n') : lastReply.sourceStatus === 'unavailable' ? 'Live source search was unavailable or found no match.' : 'No live source search was performed for this reply.'}${lastReply.sourceFailures?.length ? `\nNot verified this time: ${lastReply.sourceFailures.join('; ')}` : ''}\n\nEdited after generation: ${draft !== lastReply.reply ? 'yes' : 'no'}\nNot sent, lodged, published or approved. Check the draft before use.\n`;
     const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
     const a = document.createElement('a'); a.href = url; a.download = `${slug}-draft.txt`; a.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000); setSaved(true);

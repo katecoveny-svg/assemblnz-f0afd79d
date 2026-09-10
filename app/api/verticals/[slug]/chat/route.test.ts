@@ -1,10 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const mocks = vi.hoisted(() => ({ generate: vi.fn(), ladder: vi.fn(), consume: vi.fn(), search: vi.fn() }));
+const mocks = vi.hoisted(() => ({ generate: vi.fn(), ladder: vi.fn(), consume: vi.fn(), search: vi.fn(), retrieve: vi.fn() }));
 vi.mock('@/lib/ai/router', () => ({ generateWithFallback: mocks.generate, resolveModelLadder: mocks.ladder }));
 vi.mock('@/lib/creative/ratelimit', () => ({ consume: mocks.consume }));
 vi.mock('@/lib/agents/nz-knowledge', () => ({ searchNZKnowledge: mocks.search }));
 vi.mock('@/lib/lead-capture', () => ({ clientIpFromHeaders: () => '127.0.0.1' }));
+vi.mock('@/lib/specialists/live-sources', () => ({ retrieveSpecialistSources: mocks.retrieve }));
 import { POST } from './route';
 
 const req = (body: unknown = { message: 'Prepare a sample brief.' }, origin = 'https://www.assembl.co.nz') => new Request('https://www.assembl.co.nz/api/verticals/arc/chat', { method: 'POST', headers: { origin }, body: JSON.stringify(body) });
@@ -14,6 +15,31 @@ beforeEach(() => {
   mocks.ladder.mockReturnValue([{ id: 'configured-model' }]);
   mocks.consume.mockResolvedValue({ ok: true });
   mocks.generate.mockResolvedValue({ ok: true, text: 'A prepared draft. Architect review required.' });
+  mocks.retrieve.mockResolvedValue([]);
+});
+
+describe('specialist source and review boundary', () => {
+  it('retrieves official pages before any retirement generation and attaches actual receipts', async () => {
+    const source = { id: 'villages-act', title: 'Retirement Villages Act', url: 'https://www.legislation.govt.nz/act/public/2003/0112/latest/whole.html', kind: 'law', status: 'retrieved', retrievedAt: '2026-09-10T08:00:00Z', sourceDate: 'Version as at 24 January 2026', hash: 'verified-sha256', excerpt: 'Official extract' };
+    mocks.retrieve.mockResolvedValue([source]);
+    const r = await POST(req({ message: 'What should we check before signing?' }), context('retirement'));
+    expect(mocks.retrieve.mock.invocationCallOrder[0]).toBeLessThan(mocks.generate.mock.invocationCallOrder[0]);
+    expect(mocks.generate.mock.calls[0][0].system).toContain('Official extract');
+    expect(mocks.generate.mock.calls[0][0].tools).toBeUndefined();
+    expect(mocks.generate).toHaveBeenCalledTimes(2);
+    expect(await r.json()).toMatchObject({ mode: 'live', status: 'draft', sourceStatus: 'retrieved', sources: [{ hash: source.hash, sourceDate: source.sourceDate, url: source.url }], sourceFailures: [] });
+  });
+  it('carries failed sources through to both factual review and the reader', async () => {
+    mocks.retrieve.mockResolvedValue([{ status: 'unavailable', title: 'Current employment guidance', reason: 'Source unavailable', url: 'https://www.employment.govt.nz/' }]);
+    const r = await POST(req({ message: 'Explain a fair people process.' }), context('aroha'));
+    expect(mocks.generate.mock.calls[1][0].messages[0].content).toContain('Source unavailable');
+    expect(await r.json()).toMatchObject({ sourceStatus: 'unavailable', sources: [], sourceFailures: ['Current employment guidance'] });
+  });
+  it('withholds a specialist draft if the factual review fails', async () => {
+    mocks.generate.mockResolvedValueOnce({ ok: true, text: 'Unchecked rates.' }).mockResolvedValueOnce({ ok: false });
+    const r = await POST(req({ message: 'What are the current costs?' }), context('retirement'));
+    expect(r.status).toBe(503); expect((await r.json()).reply).toBeUndefined();
+  });
 });
 
 describe('public vertical live chat boundary', () => {

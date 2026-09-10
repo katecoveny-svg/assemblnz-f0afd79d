@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { OFFICIAL_SOURCES, isSpecialist, selectSources } from './sources';
-import { relevantExcerpt, retrieveSource, sourceText } from './live-sources';
+import { legislationText, relevantExcerpt, retrieveSource, sourceText } from './live-sources';
 import { blankLead, csvCell, decodeLead, encodeLead, leadInput, leadsCsv } from './crm';
 import { publicHttps, verifiedProspects } from './prospecting';
 import { villageCosts } from './planning';
@@ -11,9 +11,16 @@ describe('official source retrieval',()=>{
     expect(selectSources('retirement','residential care subsidy asset threshold')[0].id).toBe('care-subsidy');
     expect(selectSources('aroha','minimum wage salary')[0].id).toBe('minimum-wage');
     expect(isSpecialist('__proto__')).toBe(false);
+    expect(selectSources('retirement', 'family village occupation agreement cooling-off and proposed law changes').slice(0,2).map(s => s.id)).toEqual(['villages-cancellation','village-reform']);
+    expect(selectSources('aroha', 'adult minimum wage and KiwiSaver rates').map(s => s.id)).toEqual(['minimum-wage', 'kiwisaver']);
+    expect(selectSources('retirement', 'Can a property attorney act before incapacity?').slice(0, 2).map(s => s.id)).toEqual(['epa', 'pppr-act']);
+    expect(selectSources('retirement', 'contact my family').map(s => s.id)).not.toContain('villages-act');
   });
   it('removes instructions embedded in scripts and navigation',()=>{
     expect(sourceText('<main><script>steal()</script><nav>Sign in</nav><h1>Care</h1><p>A &amp; B</p></main>')).toBe('Care\nA & B');
+  });
+  it('does not leak navigation controller attributes containing angle brackets into legal evidence',()=>{
+    expect(sourceText('<main data-action="turbo:load->controller#load"><form data-action="click->find">Search the Act</form><div data-action="click->next"><h1>Section 28</h1><p>Cancellation by notice.</p></div></main>')).toBe('Section 28\nCancellation by notice.');
   });
   it('selects relevant sections from a long Act within a fixed budget',()=>{
     const text='irrelevant '.repeat(3000)+'COOLING cancellation '.repeat(100)+'other '.repeat(3000);
@@ -21,9 +28,9 @@ describe('official source retrieval',()=>{
     expect(excerpt).toContain('COOLING cancellation');expect(excerpt.length).toBeLessThanOrEqual(18000);
   });
   it('records content fingerprint and retrieval date from actual page text',async()=>{
-    vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response(`<main><h1>Care</h1><p>Updated on <span>23 July 2026</span></p>${'<p>Official care information.</p>'.repeat(30)}</main>`,{headers:{'content-type':'text/html'}})));
+    vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response(`<main><h1>Care</h1><p>Version\nas at <span>23 July 2026</span></p>${'<p>Official care information.</p>'.repeat(30)}</main>`,{headers:{'content-type':'text/html'}})));
     const result=await retrieveSource(OFFICIAL_SOURCES[3],'care');
-    expect(result.status).toBe('retrieved');if(result.status==='retrieved'){expect(result.hash).toHaveLength(64);expect(result.sourceDate).toContain('23 July 2026');expect(result.retrievedAt).toMatch(/^\d{4}-/);}
+    expect(result.status).toBe('retrieved');if(result.status==='retrieved'){expect(result.hash).toHaveLength(64);expect(result.sourceDate).toBe('Version as at 23 July 2026');expect(result.retrievedAt).toMatch(/^\d{4}-/);}
   });
   it('rejects redirects away from the fixed official source hosts',async()=>{
     const fetch=vi.fn().mockResolvedValue(new Response('',{status:302,headers:{location:'https://internal.example/secret'}}));vi.stubGlobal('fetch',fetch);
@@ -32,6 +39,30 @@ describe('official source retrieval',()=>{
   it('never substitutes stale knowledge when a source fails',async()=>{
     vi.stubGlobal('fetch',vi.fn().mockRejectedValue(new Error('offline')));
     const result=await retrieveSource(OFFICIAL_SOURCES[0],'law');expect(result.status).toBe('unavailable');expect(result).not.toHaveProperty('excerpt');
+  });
+  it('distinguishes an official-site denial without exposing its response or retrying',async()=>{
+    const fetch = vi.fn().mockResolvedValue(new Response('Private edge diagnostic', { status: 403 })); vi.stubGlobal('fetch', fetch);
+    const result = await retrieveSource(OFFICIAL_SOURCES[0], 'law');
+    expect(result).toMatchObject({ status: 'unavailable', reason: 'The official website returned HTTP 403. No cached facts have been substituted.' });
+    expect(JSON.stringify(result)).not.toContain('Private edge diagnostic'); expect(fetch).toHaveBeenCalledTimes(1);
+  });
+  it('reads dated official XML and isolates the actual requested section',async()=>{
+    const xml = '<act date.as.at="2026-01-24"><cover><title>Retirement Villages Act 2003</title></cover><prov id="OTHER"><text>Unrelated rule.</text></prov><prov id="DLM220865"><label>28</label><heading>Cooling-off period</heading><text>Notice must be given not later than 15 working days after signing.</text></prov></act>';
+    const parsed = legislationText(xml, 'DLM220865');
+    expect(parsed.sourceDate).toBe('Version as at 24 January 2026');
+    expect(parsed.text).toContain('15 working days'); expect(parsed.text).not.toContain('Unrelated rule');
+    const source = OFFICIAL_SOURCES.find(s => s.id === 'villages-cancellation')!;
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(xml.replace('</text></prov></act>', `${' More statutory context.'.repeat(20)}</text></prov></act>`), {headers:{'content-type':'application/xml'}})));
+    expect(await retrieveSource(source, 'cooling')).toMatchObject({ status:'retrieved', url:source.url, dataUrl:source.dataUrl, sourceDate:parsed.sourceDate });
+  });
+  it('retains statutory forms that share tag names with website controls',()=>{
+    const result = legislationText('<regulation date.as.at="2019-10-01"><form><heading>Certificate by lawyer</heading><text>The adviser must certify the specified matters.</text></form></regulation>');
+    expect(result.text).toContain('The adviser must certify');
+  });
+  it('rejects missing sections, undated XML and entity declarations instead of guessing law',()=>{
+    expect(() => legislationText('<act date.as.at="2026-01-24"><prov id="OTHER"/></act>', 'DLM220865')).toThrow('not found');
+    expect(() => legislationText('<act><text>Some words</text></act>')).toThrow('version');
+    expect(() => legislationText('<!ENTITY secret SYSTEM "file:///private"><act date.as.at="2026-01-24"/>')).toThrow('version');
   });
 });
 describe('private CRM records and safe exports',()=>{
