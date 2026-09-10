@@ -40,6 +40,7 @@ export function DashLeadForm() {
   const [role, setRole] = useState<Role>('publisher');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState('');
   const emailId = useId();
   const nameId = useId();
   const orgId = useId();
@@ -52,6 +53,7 @@ export function DashLeadForm() {
     setRole(next);
     setStatus('idle');
     setError(null);
+    setMessage('');
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -83,6 +85,7 @@ export function DashLeadForm() {
         return;
       }
       form.reset();
+      setMessage('');
       setStatus('done');
     } catch {
       setError('Network hiccup. Please try again, or email assembl@assembl.co.nz.');
@@ -113,7 +116,7 @@ export function DashLeadForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchRole(value)}
-              className={active ? 'btn btn--primary btn--sm' : 'btn btn--sm'}
+              className={active ? 'btn btn--primary btn--sm' : 'btn btn--sm dash-tab'}
               style={
                 active
                   ? undefined
@@ -165,17 +168,46 @@ export function DashLeadForm() {
               id={msgId}
               name="message"
               rows={3}
+              maxLength={1000}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               placeholder={copy.msgPlaceholder}
               className="field"
               style={{ resize: 'vertical', minHeight: 92 }}
+              aria-describedby={`${msgId}-counter`}
             />
+            <div style={{ marginTop: 4, display: 'flex', justifyContent: 'flex-end' }}>
+              <span
+                id={`${msgId}-counter`}
+                className="field-hint"
+                style={{
+                  fontFamily: 'var(--ff-sans)',
+                  fontSize: '10px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  fontWeight: message.length >= 900 ? 600 : 400,
+                  color: message.length >= 900 ? 'var(--gold-text, #BFA37A)' : 'var(--muted)',
+                }}
+                aria-hidden="true"
+              >
+                {message.length} / 1000 characters
+              </span>
+              <span className="sr-only" aria-live="polite">
+                {message.length >= 900 ? `${message.length} of 1000 characters used` : ''}
+              </span>
+            </div>
           </div>
 
           {error && (
-            <p style={{ fontSize: 14, color: '#9A3412', fontWeight: 600 }}>{error}</p>
+            <p role="alert" style={{ fontSize: 14, color: '#9A3412', fontWeight: 600 }}>{error}</p>
           )}
 
-          <button type="submit" disabled={status === 'submitting'} className="btn btn--primary" style={{ alignSelf: 'start' }}>
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            className="btn btn--primary active:scale-[0.98] transition-transform"
+            style={{ alignSelf: 'start' }}
+          >
             {status === 'submitting' ? 'Sending…' : copy.cta}
             <ArrowRight aria-hidden />
           </button>
@@ -194,6 +226,14 @@ export function DashLeadForm() {
           assembl@assembl.co.nz
         </a>
       </p>
+
+      <style>{`
+        .dash-tab:hover,
+        .dash-tab:focus-visible {
+          color: var(--fg) !important;
+          background: rgba(0, 0, 0, 0.04) !important;
+        }
+      `}</style>
     </div>
   );
 }
@@ -217,12 +257,18 @@ function Field({
     <div className="field-group">
       <label htmlFor={id} className="field-label">
         {label}
+        {required ? (
+          <span style={{ color: 'var(--gold-text, #BFA37A)', marginLeft: 4 }} aria-hidden="true">
+            *
+          </span>
+        ) : null}
       </label>
       <input
         id={id}
         name={name}
         type={type}
         required={required}
+        aria-required={required || undefined}
         autoComplete={autoComplete}
         className="field"
       />
