@@ -9,7 +9,7 @@ import { isSpecialist } from '@/lib/specialists/sources';
 import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import './vertical-apps.css';
 
-type Source = { title: string; url: string | null; retrievedAt: string; hash?: string; sourceDate?: string | null };
+type Source = { title: string; url: string | null; retrievedAt: string; hash?: string; sourceDate?: string | null; dataUrl?: string };
 type Reply = { reply: string; mode: 'live'; agent: string; agentName: string; sourceStatus: 'retrieved' | 'unavailable' | 'not-requested'; sources: Source[]; sourceFailures?: string[]; createdAt: string };
 type Message = { role: 'user' | 'assistant'; content: string; receipt?: Reply };
 
@@ -114,7 +114,7 @@ export function VerticalPhone({ slug, native = false, preparedPrompt }: { slug: 
 
   function saveDraft() {
     if (!lastReply || !draft.trim()) return;
-    const text = `${v.name} · assembl\n${v.output} — DRAFT FOR REVIEW\nPrepared by ${v.agentName}\nGenerated: ${lastReply.createdAt}\nReviewer: ${reviewer.trim() || `${v.reviewer} — not yet named`}\n\n${draft}\n\nSOURCE RECORD\n${lastReply.sourceStatus === 'retrieved' ? lastReply.sources.map(s => `${s.title} · ${s.url || 'No public URL'} · retrieved ${s.retrievedAt}${s.sourceDate ? ` · ${s.sourceDate}` : ''}${s.hash ? ` · SHA-256 ${s.hash}` : ''}`).join('\n') : lastReply.sourceStatus === 'unavailable' ? 'Live source search was unavailable or found no match.' : 'No live source search was performed for this reply.'}${lastReply.sourceFailures?.length ? `\nNot verified this time: ${lastReply.sourceFailures.join('; ')}` : ''}\n\nEdited after generation: ${draft !== lastReply.reply ? 'yes' : 'no'}\nNot sent, lodged, published or approved. Check the draft before use.\n`;
+    const text = `${v.name} · assembl\n${v.output} — DRAFT FOR REVIEW\nPrepared by ${v.agentName}\nGenerated: ${lastReply.createdAt}\nReviewer: ${reviewer.trim() || `${v.reviewer} — not yet named`}\n\n${draft}\n\nSOURCE RECORD\n${lastReply.sourceStatus === 'retrieved' ? lastReply.sources.map(s => `${s.title} · ${s.url || 'No public URL'} · retrieved ${s.retrievedAt}${s.sourceDate ? ` · ${s.sourceDate}` : ''}${s.hash ? ` · SHA-256 ${s.hash}` : ''}${s.dataUrl ? ` · Official data: ${s.dataUrl}` : ''}`).join('\n') : lastReply.sourceStatus === 'unavailable' ? 'Live source search was unavailable or found no match.' : 'No live source search was performed for this reply.'}${lastReply.sourceFailures?.length ? `\nNot verified this time: ${lastReply.sourceFailures.join('; ')}` : ''}\n\nEdited after generation: ${draft !== lastReply.reply ? 'yes' : 'no'}\nNot sent, lodged, published or approved. Check the draft before use.\n`;
     const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
     const a = document.createElement('a'); a.href = url; a.download = `${slug}-draft.txt`; a.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000); setSaved(true);

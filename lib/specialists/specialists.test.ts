@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { OFFICIAL_SOURCES, isSpecialist, selectSources } from './sources';
-import { relevantExcerpt, retrieveSource, sourceText } from './live-sources';
+import { legislationText, relevantExcerpt, retrieveSource, sourceText } from './live-sources';
 import { blankLead, csvCell, decodeLead, encodeLead, leadInput, leadsCsv } from './crm';
 import { publicHttps, verifiedProspects } from './prospecting';
 import { villageCosts } from './planning';
@@ -45,6 +45,20 @@ describe('official source retrieval',()=>{
     const result = await retrieveSource(OFFICIAL_SOURCES[0], 'law');
     expect(result).toMatchObject({ status: 'unavailable', reason: 'The official website returned HTTP 403. No cached facts have been substituted.' });
     expect(JSON.stringify(result)).not.toContain('Private edge diagnostic'); expect(fetch).toHaveBeenCalledTimes(1);
+  });
+  it('reads dated official XML and isolates the actual requested section',async()=>{
+    const xml = '<act date.as.at="2026-01-24"><cover><title>Retirement Villages Act 2003</title></cover><prov id="OTHER"><text>Unrelated rule.</text></prov><prov id="DLM220865"><label>28</label><heading>Cooling-off period</heading><text>Notice must be given not later than 15 working days after signing.</text></prov></act>';
+    const parsed = legislationText(xml, 'DLM220865');
+    expect(parsed.sourceDate).toBe('Version as at 24 January 2026');
+    expect(parsed.text).toContain('15 working days'); expect(parsed.text).not.toContain('Unrelated rule');
+    const source = OFFICIAL_SOURCES.find(s => s.id === 'villages-cancellation')!;
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(xml.replace('</text></prov></act>', `${' More statutory context.'.repeat(20)}</text></prov></act>`), {headers:{'content-type':'application/xml'}})));
+    expect(await retrieveSource(source, 'cooling')).toMatchObject({ status:'retrieved', url:source.url, dataUrl:source.dataUrl, sourceDate:parsed.sourceDate });
+  });
+  it('rejects missing sections, undated XML and entity declarations instead of guessing law',()=>{
+    expect(() => legislationText('<act date.as.at="2026-01-24"><prov id="OTHER"/></act>', 'DLM220865')).toThrow('not found');
+    expect(() => legislationText('<act><text>Some words</text></act>')).toThrow('version');
+    expect(() => legislationText('<!ENTITY secret SYSTEM "file:///private"><act date.as.at="2026-01-24"/>')).toThrow('version');
   });
 });
 describe('private CRM records and safe exports',()=>{
