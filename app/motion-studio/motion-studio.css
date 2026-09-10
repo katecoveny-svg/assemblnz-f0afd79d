@@ -1,21 +1,21 @@
 .motion-studio-root {
-  --paper: #f4f2ec;
-  --white: #fffefa;
-  --ink: #263339;
-  --deep: #182226;
-  --body: #5f6667;
-  --muted: #92928a;
-  --brass: #b89554;
-  --sage: #dfe7e2;
-  --line: rgba(38, 51, 57, 0.13);
-  --line-soft: rgba(38, 51, 57, 0.075);
+  --paper: #FFFDFB;
+  --white: #F5F1F2;
+  --ink: #240B21;
+  --deep: #240B21;
+  --body: #654A4E;
+  --muted: rgba(36, 11, 33, 0.45);
+  --brass: #916A70; /* heather — retired brass name kept for selectors */
+  --sage: #F5F1F2;
+  --line: rgba(36, 11, 33, 0.14);
+  --line-soft: rgba(36, 11, 33, 0.08);
 }
 
 .motion-studio-root, .motion-studio-root * { box-sizing: border-box; }
-.motion-studio-root { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans), Inter, "Helvetica Neue", sans-serif; -webkit-font-smoothing: antialiased; }
+.motion-studio-root { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body), "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 .motion-studio-root button, .motion-studio-root input { font: inherit; }
 .motion-studio-root button { color: inherit; }
-.motion-studio-root ::selection { background: #eadfc9; }
+.motion-studio-root ::selection { background: rgba(145, 106, 112, 0.28); }
 
 .studio {
   min-height: 100vh;
@@ -23,7 +23,7 @@
   grid-template-rows: auto auto 1fr auto;
   overflow: hidden;
   background:
-    linear-gradient(90deg, transparent 0 29.98%, rgba(38,51,57,.045) 30%, transparent 30.05%),
+    linear-gradient(90deg, transparent 0 29.98%, rgba(36,11,33,.045) 30%, transparent 30.05%),
     var(--paper);
 }
 
@@ -34,14 +34,14 @@
   align-items: center;
   border-bottom: 1px solid var(--line);
   padding: 0 28px;
-  background: rgba(255,254,250,.65);
+  background: rgba(255,253,251,.72);
   backdrop-filter: blur(14px);
 }
 
 .brand-lockup { display: flex; align-items: center; gap: 15px; }
 .brand-lockup > a {
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display), "Instrument Sans", system-ui, sans-serif;
   font-size: 26px;
   letter-spacing: -.055em;
   text-decoration: none;
@@ -56,9 +56,9 @@
   margin-left: 5px;
   border-radius: 999px;
   padding: 3px 5px;
-  background: #e8deca;
-  color: #795f31;
-  font-family: var(--font-mono), monospace;
+  background: rgba(145, 106, 112, 0.16);
+  color: #654A4E;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
   font-size: 12px;
   font-style: normal;
   letter-spacing: .08em;
@@ -66,7 +66,7 @@
 }
 .header-note {
   color: var(--muted);
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
   font-size: 12px;
   letter-spacing: .19em;
 }
@@ -88,10 +88,10 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(184,149,84,.35);
+  border-bottom: 1px solid rgba(145,106,112,.35);
   padding: 10px 28px;
-  background: #f2e8d5;
-  color: #6f5b36;
+  background: #F5F1F2;
+  color: #654A4E;
   font-size: 12px;
 }
 .remix-note strong { font-weight: 600; }
@@ -109,15 +109,15 @@
   overflow-y: auto;
   max-height: calc(100vh - 146px);
   border-right: 1px solid var(--line);
-  background: rgba(247,246,241,.82);
+  background: rgba(245,241,242,.82);
   scrollbar-width: thin;
-  scrollbar-color: rgba(38,51,57,.18) transparent;
+  scrollbar-color: rgba(36,11,33,.18) transparent;
 }
 .rail-intro { padding: 36px 30px 31px; border-bottom: 1px solid var(--line); }
 .rail-intro p {
   margin: 0;
   color: var(--brass);
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: .17em;
@@ -125,7 +125,7 @@
 .rail-intro h1 {
   margin: 15px 0 14px;
   color: var(--deep);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display), "Instrument Sans", system-ui, sans-serif;
   font-size: clamp(43px, 4vw, 61px);
   font-weight: 400;
   letter-spacing: -.055em;
@@ -136,7 +136,7 @@
 
 .control-section { padding: 22px 30px 24px; border-bottom: 1px solid var(--line); }
 .control-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.control-heading span { color: var(--ink); font-family: var(--font-mono), monospace; font-size: 12px; font-weight: 600; letter-spacing: .15em; }
+.control-heading span { color: var(--ink); font-family: var(--font-mono), "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600; letter-spacing: .15em; }
 .control-heading small { color: var(--muted); font-size: 12px; }
 .shape-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .shape-option {
@@ -146,14 +146,14 @@
   gap: 10px;
   border: 1px solid var(--line);
   padding: 9px;
-  background: rgba(255,255,252,.65);
+  background: rgba(255,253,251,.65);
   cursor: pointer;
   text-align: left;
   transition: background .2s ease, border .2s ease;
 }
-.shape-option:hover { border-color: rgba(38,51,57,.35); }
+.shape-option:hover { border-color: rgba(36,11,33,.35); }
 .shape-option.selected { border-color: var(--ink); background: var(--ink); color: white; }
-.shape-option > b { width: 28px; color: var(--brass); font-family: Georgia, serif; font-size: 22px; font-weight: 400; text-align: center; }
+.shape-option > b { width: 28px; color: var(--brass); font-family: var(--font-display), "Instrument Sans", system-ui, sans-serif; font-size: 22px; font-weight: 400; text-align: center; }
 .shape-option span { min-width: 0; }
 .shape-option strong { display: block; font-size: 12px; font-weight: 600; }
 .shape-option small { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
@@ -163,20 +163,20 @@
   display: grid;
   gap: 5px;
   margin-top: 9px;
-  border: 1px dashed rgba(38,51,57,.22);
+  border: 1px dashed rgba(36,11,33,.22);
   padding: 11px;
-  background: rgba(255,255,252,.44);
+  background: rgba(255,253,251,.44);
 }
 .image-upload button { justify-self: start; border: 0; padding: 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 600; }
 .image-upload span { overflow: hidden; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
-.image-upload small { color: #9a4a36; font-size: 12px; line-height: 1.45; }
+.image-upload small { color: #916A70; font-size: 12px; line-height: 1.45; }
 
 .mini-label { display: block; margin: 16px 0 9px; color: var(--body); font-size: 12px; }
 .swatch-row { display: flex; gap: 9px; }
 .swatch {
   width: 27px;
   height: 27px;
-  border: 3px solid #f7f6f1;
+  border: 3px solid #F5F1F2;
   border-radius: 50%;
   outline: 1px solid var(--line);
   background: var(--swatch);
@@ -196,11 +196,11 @@
   font-size: 12px;
   text-align: left;
 }
-.background-chip i { width: 14px; height: 14px; border: 1px solid rgba(38,51,57,.1); border-radius: 50%; }
+.background-chip i { width: 14px; height: 14px; border: 1px solid rgba(36,11,33,.1); border-radius: 50%; }
 .background-chip.selected { border-color: var(--ink); color: var(--ink); }
 .pattern-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
 .pattern-chip { min-width: 0; display: grid; justify-items: center; gap: 4px; border: 1px solid var(--line); padding: 9px 3px 7px; background: transparent; color: var(--muted); cursor: pointer; }
-.pattern-chip b { color: var(--ink); font-family: Georgia, serif; font-size: 13px; font-weight: 400; }
+.pattern-chip b { color: var(--ink); font-family: var(--font-display), "Instrument Sans", system-ui, sans-serif; font-size: 13px; font-weight: 400; }
 .pattern-chip span { font-size: 12px; }
 .pattern-chip.selected { border-color: var(--ink); background: var(--ink); color: rgba(255,255,255,.6); }
 .pattern-chip.selected b { color: white; }
@@ -222,12 +222,12 @@
 .range-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 18px; }
 .range-control > span { display: flex; justify-content: space-between; margin-bottom: 7px; }
 .range-control b { color: var(--body); font-size: 12px; font-weight: 500; }
-.range-control i { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; font-style: normal; }
+.range-control i { color: var(--muted); font-family: var(--font-mono), "IBM Plex Mono", monospace; font-size: 12px; font-style: normal; }
 .range-control input {
   width: 100%;
   height: 2px;
   appearance: none;
-  background: rgba(38,51,57,.16);
+  background: rgba(36,11,33,.16);
   accent-color: var(--ink);
 }
 .range-control input::-webkit-slider-thumb {
@@ -242,9 +242,9 @@
 }
 .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 18px; }
 .toggle { display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); padding: 9px; background: transparent; cursor: pointer; color: var(--body); font-size: 12px; text-align: left; }
-.toggle i { width: 12px; height: 7px; border-radius: 99px; background: rgba(38,51,57,.16); }
-.toggle.active { border-color: rgba(70,111,98,.33); background: var(--sage); color: var(--ink); }
-.toggle.active i { background: #557a6c; box-shadow: inset 5px 0 0 white; }
+.toggle i { width: 12px; height: 7px; border-radius: 99px; background: rgba(36,11,33,.16); }
+.toggle.active { border-color: rgba(145,106,112,.45); background: var(--sage); color: var(--ink); }
+.toggle.active i { background: #916A70; box-shadow: inset 5px 0 0 #F5F1F2; }
 .mobile-tabs { display: none; }
 
 .canvas-stage {
@@ -257,8 +257,8 @@
   padding: clamp(22px, 2.7vw, 44px);
   background:
     radial-gradient(circle at 50% 45%, rgba(255,255,255,.84), transparent 47%),
-    linear-gradient(rgba(38,51,57,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(38,51,57,.025) 1px, transparent 1px);
+    linear-gradient(rgba(36,11,33,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36,11,33,.025) 1px, transparent 1px);
   background-size: auto, 42px 42px, 42px 42px;
 }
 .canvas-frame {
@@ -277,8 +277,8 @@
   width: 100%;
   max-height: calc(100vh - 245px);
   overflow: hidden;
-  border: 1px solid rgba(38,51,57,.08);
-  background: #f4f2ec;
+  border: 1px solid rgba(36,11,33,.08);
+  background: #FFFDFB;
   cursor: grab;
   touch-action: none;
 }
@@ -291,8 +291,8 @@
   right: 22px;
   display: flex;
   justify-content: space-between;
-  color: rgba(38,51,57,.45);
-  font-family: var(--font-mono), monospace;
+  color: rgba(36,11,33,.45);
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
   font-size: 12px;
   letter-spacing: .15em;
   pointer-events: none;
@@ -302,8 +302,8 @@
   position: absolute;
   top: 50%;
   right: 14px;
-  color: rgba(38,51,57,.34);
-  font-family: var(--font-mono), monospace;
+  color: rgba(36,11,33,.34);
+  font-family: var(--font-mono), "IBM Plex Mono", monospace;
   font-size: 12px;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -320,7 +320,7 @@
   background: rgba(255,254,250,.86);
   backdrop-filter: blur(10px);
 }
-.format-switch button { border: 0; padding: 7px 9px; background: transparent; cursor: pointer; color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; }
+.format-switch button { border: 0; padding: 7px 9px; background: transparent; cursor: pointer; color: var(--muted); font-family: var(--font-mono), "IBM Plex Mono", monospace; font-size: 12px; }
 .format-switch button.selected { background: var(--ink); color: white; }
 
 .export-dock {
@@ -336,7 +336,7 @@
 }
 .study-id { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: start; gap: 0 7px; }
 .study-id > i { grid-row: span 2; width: 7px; height: 7px; border-radius: 50%; background: #648575; box-shadow: 0 0 0 4px rgba(100,133,117,.09); }
-.study-id span { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: .12em; }
+.study-id span { color: var(--muted); font-family: var(--font-mono), "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; }
 .study-id strong { font-size: 12px; font-weight: 500; }
 .export-dock > p { margin: 0; color: var(--muted); font-size: 12px; }
 .export-actions { justify-self: end; display: flex; gap: 7px; }
@@ -355,11 +355,11 @@
 }
 .export-actions button:last-child { min-width: 170px; border-color: var(--ink); background: var(--ink); color: white; }
 .export-actions button:disabled { cursor: wait; }
-.export-actions small { color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; }
+.export-actions small { color: var(--muted); font-family: var(--font-mono), "IBM Plex Mono", monospace; font-size: 12px; }
 .export-actions button:last-child small { color: rgba(255,255,255,.45); }
 .export-actions .recording > i { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--brass); transition: width .1s linear; }
 
-.dark-studio .canvas-stage { background-color: #20292e; background-image: radial-gradient(circle at 50% 45%, rgba(255,255,255,.06), transparent 47%), linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); }
+.dark-studio .canvas-stage { background-color: #240B21; background-image: radial-gradient(circle at 50% 45%, rgba(245,241,242,.06), transparent 47%), linear-gradient(rgba(245,241,242,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(245,241,242,.025) 1px, transparent 1px); }
 
 @media (max-width: 1080px) {
   .studio { overflow: visible; }
@@ -398,7 +398,7 @@
     background: rgba(255,254,250,.94);
     backdrop-filter: blur(12px);
   }
-  .mobile-tabs button { border: 0; border-right: 1px solid var(--line); padding: 12px 5px; background: transparent; color: var(--muted); font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  .mobile-tabs button { border: 0; border-right: 1px solid var(--line); padding: 12px 5px; background: transparent; color: var(--muted); font-family: var(--font-mono), "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
   .mobile-tabs button[aria-selected="true"] { background: var(--ink); color: white; }
   .control-section { order: 3; display: none; padding: 22px 19px 28px; background: var(--paper); }
   .control-section.active { display: block; }

@@ -28,7 +28,9 @@ serve it at `/studio-dist/`.
 The studio is not self-contained: if any of those hosts is unreachable, the
 features depending on them stop working.
 
-## Known issue
+## Known issues
 
-`p5.disableFriendlyErrors` is set before p5 has loaded, so the console shows one
-non-fatal error on load. It does not stop the studio working.
+- Puter (`js.puter.com`) and gif.js are CDN deps — blocked networks fail those
+  features open; p5/three engines still run.
+- iOS export uses the Web Share sheet when available (`<a download>` is unreliable
+  on Safari for blob/data URLs).

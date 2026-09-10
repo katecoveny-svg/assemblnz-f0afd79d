@@ -1,91 +1,80 @@
-/* ══ CREATIVE PLAYGROUND — Instrument canon ═════════════════════════════════
-   Navy #050F1C, Lato only (never the Cormorant display cut), full-ink text
-   with hierarchy carried by weight rather than opacity, brass for accents.
-   The studio canvas below keeps its own light stage — it is a gallery inside
-   the site, the same way the showroom is on the homepage — but the page it
-   sits in now belongs to the same site as everything else.
+/* ══ CREATIVE PLAYGROUND — plum canon ═══════════════════════════════════════
+   Deep plum #240B21 ground, chalk type, heather accents.
+   Instrument Sans for headlines/body; IBM Plex Mono for kickers.
+   The studio canvas below keeps its own light stage — a gallery inside
+   the site — but the page chrome matches the locked brand system.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .cp-root {
-  --cp-navy: #050F1C;
-  --cp-ink: #F0EEE9;
-  --cp-brass: #D4A843;
-  background: var(--cp-navy);
+  --cp-plum: #240B21;
+  --cp-ink: #F5F1F2;
+  --cp-heather: #916A70;
+  background: var(--cp-plum);
   color: var(--cp-ink);
 }
 
 .cp-kicker {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--cp-brass);
+  color: var(--cp-heather);
 }
-.cp-dot { margin: 0 6px; color: var(--cp-brass); }
+.cp-dot { margin: 0 6px; color: var(--cp-heather); }
 
 .cp-h1 {
   margin-top: 18px;
-  font-family: 'Jost', system-ui, sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  font-family: var(--font-display), 'Instrument Sans', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
   line-height: 1.05;
   font-size: clamp(2.1rem, 5.2vw, 4rem);
   color: var(--cp-ink);
+  text-transform: none;
 }
 
 .cp-lede {
   margin-top: 20px;
   max-width: 560px;
-  font-family: 'Jost', system-ui, sans-serif;
-  font-weight: 300;
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+  font-weight: 400;
   font-size: clamp(1rem, 1.3vw, 1.1rem);
   line-height: 1.7;
-  color: var(--cp-ink);
+  color: rgba(245, 241, 242, 0.78);
 }
 
 .cp-foot {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cp-ink);
+  color: rgba(245, 241, 242, 0.7);
 }
-.cp-foot > div { border-top: 1px solid rgba(240, 238, 233, 0.12); }
+.cp-foot > div { border-top: 1px solid rgba(245, 241, 242, 0.12); }
 .cp-link {
   color: var(--cp-ink);
   text-decoration: none;
-  border-bottom: 1px solid rgba(212, 168, 67, 0.5);
+  border-bottom: 1px solid rgba(145, 106, 112, 0.5);
   padding-bottom: 2px;
 }
-.cp-link:hover { color: var(--cp-brass); border-bottom-color: var(--cp-brass); }
+.cp-link:hover { color: var(--cp-heather); border-bottom-color: var(--cp-heather); }
 
-/* ── the studio controls ────────────────────────────────────────────────────
-   GenerativeArtCanvas paints its chrome from the site tokens (--assembl-paper,
-   --text-primary, --assembl-cloud), which resolve to the paper palette: on
-   navy that gave white tiles, and the SELECTED tile went ink-on-ink and read
-   as switched off. This component renders nowhere else, so remapping the
-   tokens inside .cp-root re-skins every control at once without touching the
-   component or any other surface. */
+/* Remap GenerativeArtCanvas chrome tokens onto plum without editing the
+   shared component. Selected tiles invert chalk-on-plum. */
 .cp-root {
-  --assembl-paper: rgba(8, 13, 26, 0.72);
-  --text-primary: #F0EEE9;
-  --text-secondary: #F0EEE9;
-  --assembl-cloud: rgba(212, 168, 67, 0.34);
-  --assembl-gold-thread: #D4A843;
+  --assembl-paper: rgba(36, 11, 33, 0.72);
+  --text-primary: #F5F1F2;
+  --text-secondary: #F5F1F2;
+  --assembl-cloud: rgba(145, 106, 112, 0.34);
+  --assembl-gold-thread: #916A70;
 }
 
-/* glass + gold rim, the same card treatment as the rest of the site */
 .cp-root button[class*='rounded-'] {
   border-radius: 12px !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
-/* The selected tile needs no rule of its own: the component sets it to
-   --text-primary on --assembl-paper, which under the remap above is a cream
-   pill with navy type — the same inverted-chip language as the nav CTA. */
 
-/* the artwork stage stays a lit gallery inside the navy room */
 .cp-root canvas,
 .cp-root svg[width] {
   border-radius: 14px;
