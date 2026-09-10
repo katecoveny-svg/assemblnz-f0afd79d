@@ -48,6 +48,16 @@ describe('Forge PREVIEW demo data', () => {
     expect(FORGE_PREVIEW.aratakiHref).toBe('/agents/arataki');
     expect(FORGE_PREVIEW.pillars).toHaveLength(5);
     expect(FORGE_PREVIEW.metrics.length).toBeGreaterThanOrEqual(4);
+    expect(FORGE_PREVIEW.workflows.map((w) => w.id)).toEqual([
+      'sales',
+      'service',
+      'chat',
+      'yard',
+      'loyalty',
+    ]);
+    expect(FORGE_PREVIEW.workflows.every((w) => w.output.length > 4 && w.state.length > 4)).toBe(
+      true,
+    );
     expect(FORGE_PREVIEW.tiers.map((t) => t.name)).toEqual([
       'Look',
       'Practice',

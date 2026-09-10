@@ -118,6 +118,7 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     expect(landing).toMatch(/ForgeLifecycle/);
     expect(landing).toMatch(/ForgeOutcomes/);
     expect(landing).toMatch(/ForgeMetricsStrip/);
+    expect(landing).toMatch(/ForgeWorkflows/);
     expect(landing).toMatch(/observeStatus=/);
     expect(landing).toMatch(/aratakiHref|\/agents\/arataki/);
     expect(copy.toLowerCase()).not.toContain('floor plate');

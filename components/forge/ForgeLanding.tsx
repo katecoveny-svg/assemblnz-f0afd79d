@@ -12,6 +12,7 @@ import { ForgeLifecycle } from '@/components/forge/ForgeLifecycle';
 import { ForgeMetricsStrip } from '@/components/forge/ForgeMetricsStrip';
 import { ForgeOutcomes } from '@/components/forge/ForgeOutcomes';
 import { ForgePreviewChat } from '@/components/forge/ForgePreviewChat';
+import { ForgeWorkflows } from '@/components/forge/ForgeWorkflows';
 import { FORGE_PREVIEW } from '@/lib/forge/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
 import '@/components/forge/forge-automotive-craft.css';
@@ -122,6 +123,15 @@ export function ForgeLanding() {
             <p>{c.metricsSupport}</p>
           </div>
           <ForgeMetricsStrip />
+        </section>
+
+        <section className="frg-section" aria-labelledby="forge-workflows-title">
+          <div className="frg-section-head">
+            <p className="frg-eyebrow frg-mono">{c.workflowsEyebrow}</p>
+            <h2 id="forge-workflows-title">{c.workflowsTitle}</h2>
+            <p>{c.workflowsSupport}</p>
+          </div>
+          <ForgeWorkflows />
         </section>
 
         <section className="frg-section" aria-labelledby="forge-who-title">

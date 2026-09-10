@@ -17,9 +17,71 @@ export const FORGE_PREVIEW = {
   productLine: 'automotive operating system',
   heroLine: 'One connected dealership journey.',
   heroSupport:
-    'Forge helps a NZ dealer or workshop desk run research, sale, service and loyalty as one path. It flags the gap, cites the rule, and stages a draft that waits for your yes.',
+    'For NZ dealers and workshops: Forge connects lead → sale → service → loyalty, stages cited drafts, and waits for a human yes before anything leaves the desk.',
 
-  whoForEyebrow: 'Who it is for',
+  metricsEyebrow: '01 · DEMO outcomes · directional',
+  metricsTitle: 'Hours back on the desk — not invented live scores.',
+  metricsSupport:
+    'Sample figures for the preview conversation only. Not a signed dealer result, not a live feed, not a partnership claim.',
+
+  workflowsEyebrow: '02 · desk workflows',
+  workflowsTitle: 'Named desks. Concrete drafts. Clear states.',
+  workflowsSupport:
+    'Tap a workflow for a DEMO output. These are sample desk jobs — not live OEM modules, not a real rooftop feed.',
+  workflows: [
+    {
+      id: 'sales',
+      role: 'Sales',
+      title: 'Lead reply + finance check',
+      job: 'Turn an enquiry into a staged reply and flag CCCFA gaps before the handshake.',
+      output: 'Draft reply · SUV enquiry + trade-in',
+      state: 'Awaiting human approval · DEMO',
+      detail:
+        'Missing responsible-lending fields marked. Quote note held. Nothing sends until a person approves.',
+    },
+    {
+      id: 'service',
+      role: 'Service',
+      title: 'Bay flags + WoF / CoF',
+      job: 'Keep the workshop day honest with cited NZTA flags on DEMO bay data.',
+      output: 'Bay 2 · WoF due stamp past',
+      state: 'Staged hold note · DEMO',
+      detail:
+        'Inspection booking options listed. Parts pick stays locked until the desk clears the flag.',
+    },
+    {
+      id: 'chat',
+      role: 'Live chat',
+      title: 'Arataki on the dealership desk',
+      job: 'Live automotive chat runs on Arataki — this Forge door is craft preview only.',
+      output: 'Open /agents/arataki',
+      state: 'Live path · not this page',
+      detail:
+        'Use Arataki for the live agent. Forge shows the operating-system story and DEMO drafts only.',
+    },
+    {
+      id: 'yard',
+      role: 'Yard / stock',
+      title: 'Stock note for the lot',
+      job: 'Stage a yard availability note from DEMO stock so the sales desk answers once.',
+      output: 'Mid-size SUV · DEMO lot note',
+      state: 'Draft ready · not published',
+      detail:
+        'Trade-in next steps included. Merchandising copy stays staged — no live listing push from this preview.',
+    },
+    {
+      id: 'loyalty',
+      role: 'Loyalty',
+      title: 'Repurchase from last service',
+      job: 'Feed service proof into the next sale draft so repurchase starts from evidence.',
+      output: 'Repurchase note · post-service',
+      state: 'Held for sign-off · DEMO',
+      detail:
+        'References the recent bay visit and upcoming WoF window. A person approves before any customer send.',
+    },
+  ],
+
+  whoForEyebrow: '03 · who it is for',
   whoForTitle: 'Dealer desk. Workshop floor. One operating path.',
   whoForSupport:
     'Built for NZ dealerships and workshops that need the customer journey held together — without inventing live OEM partnerships on this page.',
@@ -37,11 +99,6 @@ export const FORGE_PREVIEW = {
       body: 'One board for the journey — research to repurchase — with human approval before anything leaves.',
     },
   ],
-
-  metricsEyebrow: 'DEMO outcomes · directional',
-  metricsTitle: 'Hours back on the desk — not invented live scores.',
-  metricsSupport:
-    'Sample figures for the preview conversation only. Not Impel benchmarks, not a signed dealer result, not a live feed.',
   metrics: [
     {
       value: '~3h',
@@ -65,7 +122,7 @@ export const FORGE_PREVIEW = {
     },
   ],
 
-  pillarsEyebrow: '02 · outcomes',
+  pillarsEyebrow: '04 · outcomes',
   pillarsTitle: 'Five jobs a dealership actually runs.',
   pillarsSupport:
     'Concrete NZ DEMO pillars — customer experience, sales, service, operations and loyalty — not slogan theatre.',
@@ -97,13 +154,13 @@ export const FORGE_PREVIEW = {
     },
   ],
 
-  lifecycleEyebrow: '03 · connected journey',
+  lifecycleEyebrow: '05 · connected journey',
   lifecycleTitle: 'Research → sale → service → loyalty.',
   lifecycleSupport:
     'Tap a stage for a DEMO pin. This is a connected journey board, not a live dealership feed.',
   lifecycleHint: 'DEMO pins · sample only · not live',
 
-  bayEyebrow: '04 · service bay stage',
+  bayEyebrow: '06 · service bay stage',
   bayTitle: 'Bay flags inside the operating system.',
   baySupport:
     'Service is one stage of Forge — not the whole product. DEMO flags use NZTA WoF/CoF and CCCFA references on a fictional workshop day.',
@@ -116,7 +173,7 @@ export const FORGE_PREVIEW = {
   aratakiPanelTitle: 'Arataki runs the live desk',
   aratakiPanelEyebrow: 'Live path',
 
-  narrativeEyebrow: '05 · human in the loop',
+  narrativeEyebrow: '07 · human in the loop',
   narrativeTitle: 'Observe. Advise. Act on approval.',
   chapters: [
     {
@@ -139,7 +196,7 @@ export const FORGE_PREVIEW = {
     },
   ],
 
-  chatEyebrow: '06 · chat as proof',
+  chatEyebrow: '08 · chat as proof',
   chatTitle: 'Ask once. Get a cited draft.',
   chatSupport:
     'Scripted preview on this door — or open Arataki for the live automotive agent. Every reply here ends as a draft awaiting approval.',
@@ -167,7 +224,7 @@ export const FORGE_PREVIEW = {
   approvalLabel: 'Awaiting human approval',
   evidenceLabel: 'Evidence receipt',
 
-  pricingEyebrow: '07 · hours back · credits',
+  pricingEyebrow: '09 · hours back · credits',
   pricingTitle: 'Sketch pricing — not live checkout',
   pricingSupport:
     'UI sketch only. No payments, no SSO. Numbers are directional for the preview conversation — hours back across the dealership journey, not seats sold.',

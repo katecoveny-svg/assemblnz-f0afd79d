@@ -373,6 +373,127 @@
   line-height: 1.45;
 }
 
+/* —— Desk workflows (named roles + concrete DEMO outputs) —— */
+.frg-flows {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.frg-flow-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.frg-flow-item {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--frg-line);
+  background: rgba(255, 253, 251, 0.94);
+  color: inherit;
+  padding: 0.85rem 0.95rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.frg-flow-item span {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-flow-item strong {
+  font-size: 0.98rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--frg-plum);
+}
+
+.frg-flow-item[data-active='true'],
+.frg-flow-item:hover {
+  border-color: var(--frg-plum);
+  background: var(--frg-chalk);
+}
+
+.frg-flow-card {
+  border: 1px solid var(--frg-line-strong);
+  background: var(--frg-paper);
+  padding: 1.25rem 1.15rem 1.35rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.frg-flow-role {
+  margin: 0.15rem 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-flow-card h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.5vw, 1.55rem);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--frg-plum);
+}
+
+.frg-flow-job {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.frg-flow-meta {
+  margin: 0.35rem 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.frg-flow-meta div {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.65rem 0.75rem;
+  background: var(--frg-chalk);
+  border-left: 2px solid var(--frg-plum);
+}
+
+.frg-flow-meta dt {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-muted);
+}
+
+.frg-flow-meta dd {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  color: var(--frg-plum);
+}
+
+.frg-flow-card > p:not(.frg-flow-job):not(.frg-flow-role) {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.frg-flow-cta {
+  margin-top: 0.35rem;
+  width: fit-content;
+}
+
 /* —— Who for —— */
 .frg-who {
   max-width: 1120px;
@@ -710,6 +831,12 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  .frg-flows {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
   .frg-who {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.25rem;
@@ -784,6 +911,10 @@
   }
 
   .frg-cta {
+    width: 100%;
+  }
+
+  .frg-flow-cta {
     width: 100%;
   }
 
