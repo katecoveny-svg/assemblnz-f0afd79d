@@ -1,19 +1,21 @@
 'use client';
 
 /**
- * Evidence receipt DEMO — Engage People–class loyalty craft.
- * Paper/chalk field · plum accent · Instrument Sans + IBM Plex Mono.
- * Phase 0 spine = port_2fa. status=DEMO always. Auth path stays clear.
- * Homepage `/` untouched. One NZ private gate untouched.
+ * Evidence receipt DEMO — Engage People craft BAR (checklist #1198).
+ * Paper/chalk · plum/heather accent · Instrument Sans + IBM Plex Mono.
+ * Phase 0 spine = port_2fa. status=DEMO always. Homepage `/` untouched.
  */
 
 import Link from 'next/link';
-import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { CraftScroll, ObserveAdviseAct } from '@/components/agent-app';
 import {
   ASSEMBL_CANON,
+  EVIDENCE_RECEIPT_MOMENTS,
+  EVIDENCE_RECEIPT_OPS,
   EVIDENCE_RECEIPT_PREVIEW,
-  EVIDENCE_RECEIPT_WORKFLOWS,
+  EVIDENCE_RECEIPT_SYSTEM,
+  EVIDENCE_RECEIPT_WAIT,
   PORT_2FA_EVIDENCE_RECEIPT_DEMO,
   formatSampleCredit,
   type EvidenceReceiptDemoV0,
@@ -95,21 +97,21 @@ function PhoneReceipt({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
             <dl>
               <div>
                 <dt>status</dt>
-                <dd>DEMO</dd>
+                <dd>{receipt.evidence.status}</dd>
+              </div>
+              <div>
+                <dt>source</dt>
+                <dd>{receipt.evidence.source}</dd>
+              </div>
+              <div>
+                <dt>amount</dt>
+                <dd>{receipt.evidence.amount_label}</dd>
               </div>
               <div>
                 <dt>wait</dt>
                 <dd>
                   {receipt.wait.label} · {receipt.wait.window}
                 </dd>
-              </div>
-              <div>
-                <dt>sample earn</dt>
-                <dd>+{stamp} (sample)</dd>
-              </div>
-              <div>
-                <dt>permission</dt>
-                <dd>{receipt.earn.permission}</dd>
               </div>
               <div>
                 <dt>named human</dt>
@@ -127,6 +129,52 @@ function PhoneReceipt({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
   );
 }
 
+function EvidenceReceiptCard({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
+  const c = EVIDENCE_RECEIPT_PREVIEW;
+  const rows: { label: string; value: string }[] = [
+    { label: 'source', value: receipt.evidence.source },
+    { label: 'timestamp', value: receipt.evidence.timestamp },
+    { label: 'rule', value: receipt.evidence.rule },
+    { label: 'amount', value: receipt.evidence.amount_label },
+    { label: 'status', value: receipt.evidence.status },
+    { label: 'receipt_id', value: receipt.receipt_id },
+    { label: 'permission', value: receipt.earn.permission },
+    {
+      label: 'named human',
+      value: `${receipt.named_human.name} · ${receipt.named_human.role}`,
+    },
+    { label: 'context_hash', value: receipt.context_hash },
+    { label: 'rules_hash', value: receipt.rules_hash },
+  ];
+
+  return (
+    <section className="erd-receipt-card" id="erd-receipt" aria-labelledby="erd-receipt-title">
+      <div className="erd-receipt-card-head">
+        <div>
+          <p className="erd-mono erd-eyebrow">{c.receiptEyebrow}</p>
+          <h2 id="erd-receipt-title">{c.evidenceLabel}</h2>
+          <p>{c.receiptSupport}</p>
+        </div>
+        <span className="erd-seal">{receipt.evidence.status}</span>
+      </div>
+      <dl className="erd-receipt-fields">
+        {rows.map((row) => (
+          <div key={row.label}>
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="erd-receipt-audit">
+        <a className="erd-cta erd-cta-ghost" href="#erd-ledger">
+          {receipt.evidence.audit_label}
+        </a>
+        <p className="erd-mono">audit link · in-page · DEMO only</p>
+      </div>
+    </section>
+  );
+}
+
 function DetailLedger({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
   const rows: { label: string; value: string }[] = [
     { label: 'schema', value: receipt.schema_version },
@@ -138,6 +186,9 @@ function DetailLedger({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
       label: 'auth_path',
       value: `${receipt.wait.auth_path} — never slows 2FA`,
     },
+    { label: 'source', value: receipt.evidence.source },
+    { label: 'rule', value: receipt.evidence.rule },
+    { label: 'amount', value: receipt.evidence.amount_label },
     { label: 'context_hash', value: receipt.context_hash },
     { label: 'rules_hash', value: receipt.rules_hash },
     {
@@ -160,7 +211,7 @@ function DetailLedger({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
     <section className="erd-detail" aria-labelledby="erd-detail-title" id="erd-ledger">
       <div className="erd-detail-head">
         <div>
-          <h2 id="erd-detail-title">Evidence receipt · detail</h2>
+          <h2 id="erd-detail-title">Evidence receipt · audit detail</h2>
           <p>
             What the wait recorded. Sample earn only. Currency stays with the carrier.
           </p>
@@ -185,184 +236,51 @@ function DetailLedger({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
   );
 }
 
-function WorkflowsRail() {
-  const c = EVIDENCE_RECEIPT_PREVIEW;
-  const [activeId, setActiveId] = useState(EVIDENCE_RECEIPT_WORKFLOWS[0]?.id ?? '');
+function JourneyMoments() {
+  const [activeId, setActiveId] = useState(EVIDENCE_RECEIPT_MOMENTS[0]?.id ?? '');
   const active =
-    EVIDENCE_RECEIPT_WORKFLOWS.find((s) => s.id === activeId) ?? EVIDENCE_RECEIPT_WORKFLOWS[0];
-
+    EVIDENCE_RECEIPT_MOMENTS.find((m) => m.id === activeId) ?? EVIDENCE_RECEIPT_MOMENTS[0];
   if (!active) return null;
 
   return (
-    <div className="erd-life" id="erd-workflows">
-      <div className="erd-life-rail" role="tablist" aria-label="DEMO loyalty workflows">
-        {EVIDENCE_RECEIPT_WORKFLOWS.map((stage, index) => (
+    <div className="erd-moments" id="erd-moments">
+      <div className="erd-moments-rail" role="tablist" aria-label="DEMO journey moments">
+        {EVIDENCE_RECEIPT_MOMENTS.map((m) => (
           <button
-            key={stage.id}
+            key={m.id}
             type="button"
             role="tab"
-            id={`erd-life-tab-${stage.id}`}
-            aria-selected={stage.id === active.id}
-            aria-controls="erd-life-panel"
-            className="erd-life-node"
-            data-active={stage.id === active.id ? 'true' : 'false'}
-            onClick={() => setActiveId(stage.id)}
+            id={`erd-moment-tab-${m.id}`}
+            aria-selected={m.id === active.id}
+            aria-controls="erd-moment-panel"
+            className="erd-moment-tab"
+            data-active={m.id === active.id ? 'true' : 'false'}
+            onClick={() => setActiveId(m.id)}
           >
-            <span className="erd-mono erd-life-step">{stage.step}</span>
-            <strong>{stage.short}</strong>
-            {index < EVIDENCE_RECEIPT_WORKFLOWS.length - 1 ? (
-              <span className="erd-life-connector" aria-hidden />
-            ) : null}
+            {m.short}
           </button>
         ))}
       </div>
-
       <div
-        className="erd-life-panel"
-        id="erd-life-panel"
+        className="erd-moment-panel"
+        id="erd-moment-panel"
         role="tabpanel"
-        aria-labelledby={`erd-life-tab-${active.id}`}
+        aria-labelledby={`erd-moment-tab-${active.id}`}
         aria-live="polite"
       >
-        <div className="erd-life-copy">
-          <p className="erd-mono erd-life-hint">{c.workflowsHint}</p>
+        <div className="erd-moment-copy">
           <h3>{active.title}</h3>
           <p>{active.summary}</p>
-          {active.id === 'wait-earn' || active.id === 'prove-wait' ? (
-            <a className="erd-cta erd-cta-ghost erd-life-link" href="#erd-port">
-              {c.ctaPort2fa}
-            </a>
-          ) : null}
-          {active.id === 'agent-surface' ? (
-            <a className="erd-cta erd-cta-ghost erd-life-link" href="#erd-chat">
-              {c.ctaChat}
-            </a>
-          ) : null}
         </div>
-
-        <aside className="erd-life-pin">
-          <span className="erd-demo-pill erd-mono">{c.demoBadge}</span>
-          <p className="erd-mono erd-life-pin-code">{active.pinCode}</p>
-          <h4>{active.pinTitle}</h4>
-          <p>{active.pinBody}</p>
-          <p className="erd-mono erd-life-pin-desk">{active.desk}</p>
-          <p className="erd-mono erd-life-pin-stamp">
-            {c.evidenceLabel} · staged · not lodged
-          </p>
-        </aside>
+        <dl className="erd-moment-ui" aria-label="DEMO UI surface">
+          {active.ui.map((row) => (
+            <div key={row.label}>
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-    </div>
-  );
-}
-
-type ChatMsg = { role: 'user' | 'assistant'; content: string };
-
-function LoyaltyPreviewChat() {
-  const c = EVIDENCE_RECEIPT_PREVIEW;
-  const [messages, setMessages] = useState<ChatMsg[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [draft, setDraft] = useState('');
-  const streamRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const el = streamRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, busy]);
-
-  const send = (raw: string) => {
-    const clean = raw.trim();
-    if (!clean || busy) return;
-    setBusy(true);
-    setDraft('');
-    setMessages((m) => [...m, { role: 'user', content: clean }]);
-    const match = c.chatOpeners.find((o) => o.q.toLowerCase() === clean.toLowerCase());
-    const reply =
-      match?.a ??
-      `Draft ready — loyalty desk. I heard “${clean.slice(0, 80)}”. Ask about wait→earn, the Evidence receipt, who reviews, or the wallet layer. Status: awaiting human approval. Evidence receipt: DEMO · nothing sends.`;
-    window.setTimeout(() => {
-      setMessages((m) => [...m, { role: 'assistant', content: reply }]);
-      setBusy(false);
-    }, 380);
-  };
-
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    send(draft);
-  };
-
-  const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant');
-
-  return (
-    <div className="erd-chat" id="erd-chat">
-      <div className="erd-chat-main">
-        <header className="erd-chat-head">
-          <p className="erd-mono">scripted · draft-only · DEMO</p>
-          <p>{c.chatGreeting}</p>
-        </header>
-
-        {messages.length === 0 ? (
-          <div className="erd-chat-openers" role="group" aria-label="Loyalty DEMO questions">
-            {c.chatOpeners.map((o) => (
-              <button key={o.q} type="button" className="erd-chat-opener" onClick={() => send(o.q)}>
-                {o.q}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <div className="erd-chat-thread" ref={streamRef} aria-live="polite">
-            {messages.map((m, i) => (
-              <p key={i} className={`erd-chat-msg erd-chat-${m.role}`}>
-                {m.content}
-              </p>
-            ))}
-            {busy ? (
-              <p className="erd-chat-msg erd-chat-assistant erd-chat-typing" aria-label="Preparing a reply">
-                <span />
-                <span />
-                <span />
-              </p>
-            ) : null}
-          </div>
-        )}
-
-        <form className="erd-chat-composer" onSubmit={onSubmit}>
-          <label className="sr-only" htmlFor="erd-ask">
-            Ask the loyalty desk
-          </label>
-          <input
-            id="erd-ask"
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder="Ask about wait · earn · evidence…"
-            maxLength={280}
-            autoComplete="off"
-            disabled={busy}
-          />
-          <button type="submit" disabled={busy || !draft.trim()} aria-label="Send">
-            ↑
-          </button>
-        </form>
-        <p className="erd-mono erd-chat-foot">{c.chatFooter}</p>
-      </div>
-
-      <aside className="erd-chat-evidence" aria-label="Evidence aside">
-        <p className="erd-mono">{c.evidenceLabel}</p>
-        {lastAssistant ? (
-          <>
-            <h3>{c.approvalLabel}</h3>
-            <p>{lastAssistant.content.slice(0, 160)}…</p>
-            <span className="erd-demo-pill erd-mono">{c.demoBadge}</span>
-          </>
-        ) : (
-          <>
-            <h3>No draft yet</h3>
-            <p>Ask once. A cited draft assembles and holds for a human yes — nothing outbound.</p>
-            <a className="erd-cta erd-cta-ghost" href="#erd-port">
-              {c.ctaPort2fa}
-            </a>
-          </>
-        )}
-      </aside>
     </div>
   );
 }
@@ -370,6 +288,8 @@ function LoyaltyPreviewChat() {
 export function EvidenceReceiptPort2faDemo() {
   const receipt = PORT_2FA_EVIDENCE_RECEIPT_DEMO;
   const c = EVIDENCE_RECEIPT_PREVIEW;
+  const wait = EVIDENCE_RECEIPT_WAIT;
+  const ops = EVIDENCE_RECEIPT_OPS;
 
   return (
     <div className="erd aa-root" data-craft="loyalty-evidence" style={THEME}>
@@ -409,9 +329,8 @@ export function EvidenceReceiptPort2faDemo() {
             </span>
           </div>
 
-          <div className="erd-hero-stage">
+          <div className="erd-hero-card">
             <div className="erd-copy">
-              <p className="erd-brand-signal">{c.brand}</p>
               <p className="erd-kicker erd-mono">{c.kicker}</p>
               <h1 id="erd-hero-title">{c.heroLine}</h1>
               <p className="erd-lede">{c.heroSupport}</p>
@@ -429,8 +348,8 @@ export function EvidenceReceiptPort2faDemo() {
               </div>
 
               <div className="erd-cta-row">
-                <a className="erd-cta erd-cta-primary" href="#erd-workflows">
-                  {c.ctaWorkflows}
+                <a className="erd-cta erd-cta-primary" href="#erd-receipt">
+                  {c.ctaInspect}
                 </a>
                 <a className="erd-cta erd-cta-ghost" href="#erd-port">
                   {c.ctaPort2fa}
@@ -440,28 +359,11 @@ export function EvidenceReceiptPort2faDemo() {
               <p className="erd-disclaimer">{c.disclaimer}</p>
             </div>
 
-            <aside className="erd-hero-aside" aria-label="DEMO loyalty journey preview">
-              <div className="erd-hero-lot">
-                <p className="erd-mono erd-hero-lot-label">DEMO journey rail</p>
-                <ol className="erd-hero-stages">
-                  <li data-on="true">
-                    <span className="erd-mono">01</span> Wait
-                  </li>
-                  <li data-on="true">
-                    <span className="erd-mono">02</span> Earn
-                  </li>
-                  <li data-on="true">
-                    <span className="erd-mono">03</span> Evidence
-                  </li>
-                  <li>
-                    <span className="erd-mono">04</span> Human yes
-                  </li>
-                </ol>
-                <p className="erd-hero-stamp erd-mono">sample · DEMO · not a live program</p>
-              </div>
-              <div className="erd-phone-wrap">
+            <aside className="erd-hero-frame" aria-label="DEMO Evidence receipt preview">
+              <div className="erd-hero-frame-inner">
+                <p className="erd-mono erd-hero-lot-label">Phase 0 · port_2fa</p>
                 <PhoneReceipt receipt={receipt} />
-                <div className="erd-plinth" aria-hidden="true" />
+                <p className="erd-hero-stamp erd-mono">sample · DEMO · not a live program</p>
               </div>
             </aside>
           </div>
@@ -473,7 +375,7 @@ export function EvidenceReceiptPort2faDemo() {
             <h2 id="erd-metrics-title">{c.metricsTitle}</h2>
             <p>{c.metricsSupport}</p>
           </div>
-          <div className="erd-metrics" aria-label="DEMO directional trust signals">
+          <div className="erd-metrics erd-metrics-bento" aria-label="DEMO directional trust signals">
             {c.metrics.map((m) => (
               <article key={m.label} className="erd-metric">
                 <p className="erd-mono erd-metric-value">{m.value}</p>
@@ -484,45 +386,81 @@ export function EvidenceReceiptPort2faDemo() {
           </div>
         </section>
 
-        <section className="erd-section" aria-labelledby="erd-who-title">
+        <section className="erd-section" aria-labelledby="erd-system-title" id="erd-system">
           <div className="erd-section-head">
-            <p className="erd-eyebrow erd-mono">{c.whoForEyebrow}</p>
-            <h2 id="erd-who-title">{c.whoForTitle}</h2>
-            <p>{c.whoForSupport}</p>
+            <p className="erd-eyebrow erd-mono">{c.systemEyebrow}</p>
+            <h2 id="erd-system-title">{c.systemTitle}</h2>
+            <p>{c.systemSupport}</p>
           </div>
-          <div className="erd-who">
-            {c.whoForPoints.map((point) => (
-              <article key={point.title} className="erd-who-card">
-                <h3>{point.title}</h3>
-                <p>{point.body}</p>
-              </article>
+          <ol className="erd-system" aria-label="Loyalty system stages">
+            {EVIDENCE_RECEIPT_SYSTEM.map((stage) => (
+              <li key={stage.id} className="erd-system-node">
+                <span className="erd-mono erd-system-step">{stage.step}</span>
+                <strong>{stage.label}</strong>
+                <p>{stage.body}</p>
+              </li>
             ))}
+          </ol>
+        </section>
+
+        <section className="erd-section" aria-labelledby="erd-wait-title" id="erd-wait">
+          <div className="erd-section-head">
+            <p className="erd-eyebrow erd-mono">{c.waitEyebrow}</p>
+            <h2 id="erd-wait-title">{c.waitTitle}</h2>
+            <p>{c.waitSupport}</p>
+          </div>
+          <div className="erd-wait-panel">
+            <article>
+              <h3 className="erd-mono">status</h3>
+              <p>{wait.status}</p>
+            </article>
+            <article>
+              <h3 className="erd-mono">timing</h3>
+              <p>{wait.timing}</p>
+            </article>
+            <article>
+              <h3 className="erd-mono">why wait</h3>
+              <p>{wait.why}</p>
+            </article>
+            <article>
+              <h3 className="erd-mono">next action</h3>
+              <p>{wait.nextAction}</p>
+            </article>
           </div>
         </section>
 
-        <section className="erd-section" aria-labelledby="erd-pillars-title">
+        <section className="erd-section" aria-labelledby="erd-receipt-section-title">
           <div className="erd-section-head">
-            <p className="erd-eyebrow erd-mono">{c.pillarsEyebrow}</p>
-            <h2 id="erd-pillars-title">{c.pillarsTitle}</h2>
-            <p>{c.pillarsSupport}</p>
+            <p className="erd-eyebrow erd-mono">{c.receiptEyebrow}</p>
+            <h2 id="erd-receipt-section-title">{c.receiptTitle}</h2>
+            <p>{c.receiptSupport}</p>
           </div>
-          <div className="erd-pillars">
-            {c.pillars.map((p) => (
-              <article key={p.id} className="erd-pillar">
-                <h3>{p.title}</h3>
-                <p>{p.body}</p>
+          <EvidenceReceiptCard receipt={receipt} />
+        </section>
+
+        <section className="erd-section" aria-labelledby="erd-moments-title">
+          <div className="erd-section-head">
+            <p className="erd-eyebrow erd-mono">{c.momentsEyebrow}</p>
+            <h2 id="erd-moments-title">{c.momentsTitle}</h2>
+            <p>{c.momentsSupport}</p>
+          </div>
+          <JourneyMoments />
+        </section>
+
+        <section className="erd-section" aria-labelledby="erd-ops-title" id="erd-ops">
+          <div className="erd-section-head">
+            <p className="erd-eyebrow erd-mono">{ops.eyebrow}</p>
+            <h2 id="erd-ops-title">{ops.title}</h2>
+            <p>{ops.support}</p>
+          </div>
+          <div className="erd-ops">
+            {ops.tiles.map((tile) => (
+              <article key={tile.id} className="erd-ops-tile">
+                <h3>{tile.title}</h3>
+                <p>{tile.body}</p>
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="erd-section" aria-labelledby="erd-life-title">
-          <div className="erd-section-head">
-            <p className="erd-eyebrow erd-mono">{c.workflowsEyebrow}</p>
-            <h2 id="erd-life-title">{c.workflowsTitle}</h2>
-            <p>{c.workflowsSupport}</p>
-          </div>
-          <WorkflowsRail />
         </section>
 
         <section className="erd-section" aria-labelledby="erd-port-title" id="erd-port">
@@ -551,18 +489,17 @@ export function EvidenceReceiptPort2faDemo() {
           actDisabledHint="Act stays locked until you approve the draft."
           actEnabledHint="Approved — Act can run the staged loyalty draft."
         />
-
-        <section className="erd-section" aria-labelledby="erd-chat-title">
-          <div className="erd-section-head">
-            <p className="erd-eyebrow erd-mono">{c.chatEyebrow}</p>
-            <h2 id="erd-chat-title">{c.chatTitle}</h2>
-            <p>{c.chatSupport}</p>
-          </div>
-          <LoyaltyPreviewChat />
-        </section>
       </main>
 
       <footer className="erd-footer">
+        <div className="erd-cta-row erd-footer-cta">
+          <a className="erd-cta erd-cta-primary" href="#erd-receipt">
+            {c.ctaInspect}
+          </a>
+          <a className="erd-cta erd-cta-ghost" href="#erd-port">
+            {c.ctaPort2fa}
+          </a>
+        </div>
         <p>{c.footerNote}</p>
         <p className="erd-footer-mark">{c.footerWordmark}</p>
       </footer>
