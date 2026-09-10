@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-08-13 - Accessible Form Validation and Interactive Tab Parity
+**Learning:** For highly styled landing page forms, using a standard visual asterisk with high contrast (`var(--gold-text)`), mapping `aria-required` programmatically, and implementing character counts with screen-reader polite live regions active only above 90% threshold optimizes form readability and accessibility. Additionally, styling inactive tab selector buttons with dynamic hover and focus-visible states matching the brand's aesthetic provides high-fidelity interaction parity.
+**Action:** Implement visual form constraints using explicit labels, polite live regions above 90% threshold, and clean local CSS focus-visible / hover overrides instead of hardcoded inline styles.
