@@ -31,7 +31,7 @@ type Brief = {
 
 const PARTS = [
   { n: 'memory', s: '01', q: 'What does it remember?', v: 'Customer preferences, past interactions, context that carries across sessions. Consent-based and data-minimised.', a: 'read/write · consent-based' },
-  { n: 'knowledge', s: '02', q: 'What does it know?', v: 'Approved offers, prices, FAQs and business rules from the Blueprint. Reads only confirmed sources.', a: 'read only · confirmed sources' },
+  { n: 'knowledge', s: '02', q: 'What does it know?', v: 'Approved offers, prices, FAQs and business rules from your confirmed sources. Reads only what you allow.', a: 'read only · confirmed sources' },
   { n: 'intelligence', s: '03', q: 'How does it reason?', v: 'Model selection, temperature, reasoning depth. Configurable per agent — tuned to the job.', a: 'configurable · testable' },
   { n: 'voice', s: '04', q: 'How does it speak?', v: 'Tone, formality, personality — warm, plain, helpful. Encoded from your business voice profile.', a: 'encoded · consistent' },
   { n: 'abilities', s: '05', q: 'What can it do?', v: 'Read, organise, compare and draft. Never sends, files, books or commits without approval.', a: 'bounded · visible' },

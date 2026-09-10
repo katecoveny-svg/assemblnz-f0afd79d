@@ -25,9 +25,11 @@ describe('Forge PREVIEW demo data', () => {
     expect(blob).not.toMatch(/contact energy/);
     expect(blob).not.toMatch(/partner with/);
     expect(blob).not.toContain('floor plate');
+    expect(blob).not.toContain('workshop work that cites');
     expect(blob).toContain('independent concept');
     expect(blob).toContain('arataki');
     expect(blob).toContain('demo');
+    expect(FORGE_PREVIEW.heroLine.toLowerCase()).toContain('flag bay');
     expect(FORGE_PREVIEW.aratakiHref).toBe('/agents/arataki');
     expect(FORGE_PREVIEW.tiers.map((t) => t.name)).toEqual([
       'Look',

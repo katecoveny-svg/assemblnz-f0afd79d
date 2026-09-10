@@ -15,18 +15,18 @@
 export const HOME_FAQ = [
   {
     q: 'What is an agentic customer journey?',
-    a: 'An agentic customer journey is a customer relationship run by a team of specialist AI agents inside the business — one watching for work coming due, one noticing customers going quiet, one drafting the next step, one checking it against the rules. Each agent has a single job and a written limit, and everything that reaches a customer is drafted for a named person to approve. assembl designs and runs agentic customer journeys for New Zealand businesses, covering the whole relationship from first enquiry to the tenth year rather than just the first reply.',
+    a: 'An agentic customer journey is how a business runs the customer relationship with specialist agents on named jobs — one watching for work due, one drafting the next step, one checking the rules. Each agent has a written limit. Anything that reaches a customer is a draft for a named person to approve. assembl designs and runs these journeys for New Zealand businesses, from first enquiry onward — not just the first reply.',
   },
   {
     q: 'What is agentic CX (agentic customer experience)?',
-    a: 'Agentic CX is customer experience delivered by cooperating AI agents rather than one chatbot: the agents read the signals a business already holds, prepare each next step, and hand drafts to people for approval. It differs from chat automation because it is proactive across the whole journey, not reactive to a single message. assembl is an agentic CX studio in Aotearoa New Zealand — its agents draft, and a person always decides.',
+    a: 'Agentic CX means specialists prepare the next customer step from signals the business already holds, then hand a draft to a person. It is not one chatbot answering messages. assembl is based in Aotearoa New Zealand: agents draft; a person always decides.',
   },
   {
     q: 'What is a rewarded wait state?',
-    a: 'A rewarded wait state replaces the loading spinner. While agents work, the customer watches the work happen step by step, earns a small credit toward what they are already buying, and is asked one optional question in return — so the business learns something and the customer gets something, in time that was being wasted anyway. The idea was developed by assembl and appears on this page as a phone you can tap through.',
+    a: 'A rewarded wait replaces the spinner. While work runs, the customer sees the steps, can earn something useful toward what they already buy, and may answer one optional question. Time that used to be dead becomes useful. assembl shows this on the page as a phone you can tap through.',
   },
   {
     q: 'Who builds agentic customer journeys in New Zealand?',
-    a: 'assembl (assembl NZ Limited, Auckland) builds agentic customer journeys for New Zealand businesses. You can paste your website into the builder on assembl.co.nz and watch an agent assemble itself from your own business, then keep it from $1,500 NZD to install and $250 a month to run — with every agent drafting for human approval.',
+    a: 'assembl (assembl NZ Limited, Auckland) builds them for New Zealand businesses. You can paste a website into the builder on assembl.co.nz, see a specialist assemble from your own facts, then keep it from about $1,500 NZD to install and $250 a month to run — with every agent drafting for human approval.',
   },
 ] as const;

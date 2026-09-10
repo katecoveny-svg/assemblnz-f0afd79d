@@ -1,21 +1,21 @@
 /**
  * Forge agent-app PREVIEW copy — automotive workshop / dealership desk.
- * Concrete NZ English. No architecture floor-plate grammar.
+ * Plain NZ English. No architecture floor-plate grammar.
  * Honest path to live Arataki chat. No partnership claims.
  */
 
 export const FORGE_PREVIEW = {
-  metaTitle: 'Forge · automotive agent-app preview · concept · demo data',
+  metaTitle: 'Forge · automotive preview · concept · demo data',
   metaDescription:
-    'Preview of Forge — assembl’s automotive dealership and workshop agent-app. Flag WoF and CCCFA issues on the service bay, draft actions that wait for human approval.',
+    'Forge helps a workshop or dealership desk review the service bay — flags WoF, CoF and CCCFA gaps on DEMO data, cites the rule, and drafts a note that waits for a human yes.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'forge',
   productLine: 'assembl agent-app',
-  heroLine: 'Workshop work that cites its flags.',
+  heroLine: 'Flag bay issues before the day slips.',
   heroSupport:
-    'Forge watches the service bay — WoF due stamps, CoF holds, CCCFA disclosure gaps — and stages notes that wait for your yes.',
+    'Forge flags WoF due stamps, CoF holds and CCCFA disclosure gaps on a DEMO service bay, cites the rule, and drafts a note that waits for your yes.',
 
   bayEyebrow: '01 · service bay',
   bayTitle: 'Flags on the bay board.',
@@ -40,7 +40,7 @@ export const FORGE_PREVIEW = {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each flag arrives with a cited clause and plain-language summary, ready for the service desk to review.',
+      body: 'Each flag arrives with a cited clause and a plain-language note, ready for the service desk to review.',
     },
     {
       id: 'act' as const,

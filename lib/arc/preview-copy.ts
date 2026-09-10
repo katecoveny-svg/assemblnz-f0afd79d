@@ -1,32 +1,33 @@
 /**
  * Arc agent-app PREVIEW copy — pitch surface only.
- * Concrete, NZ English. No partnership claims. No mana/kete product labels.
+ * Plain NZ English. Concrete. No partnership claims. No mana/kete product labels.
  */
 
 export const ARC_PREVIEW = {
-  metaTitle: 'Arc · architecture agent-app preview',
+  metaTitle: 'Arc · architecture preview · concept · demo data',
   metaDescription:
-    'Preview of Arc — assembl’s architecture and design agent-app. Observe the model, cite NZ code issues, draft fixes that wait for human approval.',
+    'Arc helps an architect or designer review a plan before consent — flags NZ Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for a human yes.',
   previewBadge: 'PREVIEW · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'arc',
   productLine: 'assembl agent-app',
-  heroLine: 'Architecture work that cites its sources.',
+  heroLine: 'Check the plan before you lodge.',
   heroSupport:
-    'Arc reads a model, flags NZ Building Code and plan issues, and drafts fixes that wait for your yes.',
+    'Arc flags Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for your yes. Nothing lodges to a BCA.',
 
-  assembleEyebrow: '01 · assemble',
-  assembleTitle: 'Parts on the sheet. Then a plan.',
+  assembleEyebrow: '01 · plan sheet',
+  assembleTitle: 'Parts on the sheet — then a DEMO plan.',
   assembleSupport:
-    'Flat-lay pieces of a fictional Auckland terrace settle into a GA drawing — DEMO only, not a consent set.',
-  ctaAssemble: 'Watch parts assemble',
-  ctaPins: 'See DEMO pins',
+    'Pieces of a fictional Auckland terrace settle into a GA drawing so you can see the issues. DEMO only — not a consent set.',
+  ctaAssemble: 'See the plan assemble',
+  ctaPins: 'Tap the DEMO flags',
 
-  modelEyebrow: 'Click a pin',
-  modelTitle: 'Your model. Issues you can name.',
+  modelEyebrow: '02 · flags',
+  modelTitle: 'Tap a flag on the plan.',
   modelSupport:
-    'DEMO pins use NZBC / AUP-class references on a fictional harbour terrace plan. Nothing here is a real consent check.',
+    'Each DEMO flag cites an NZBC or AUP-class rule on a fictional harbour terrace. Nothing here is a real consent check.',
+  pinHint: 'Tap a flag on the plan',
 
   narrativeEyebrow: 'How Arc works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
@@ -41,7 +42,7 @@ export const ARC_PREVIEW = {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each issue arrives with a clause citation and plain-language summary, ready for review.',
+      body: 'Each flag arrives with a cited clause and a plain-language note, ready for review.',
     },
     {
       id: 'act' as const,
@@ -56,11 +57,11 @@ export const ARC_PREVIEW = {
   chatSupport:
     'Scripted preview — no model call, nothing sends. Every reply ends as a draft awaiting approval.',
   chatGreeting:
-    'Arc here. Ask about a DEMO pin or a clearance. I cite the clause, draft the note, and hold it for your approval.',
+    'Arc here. Ask about a DEMO flag or a clearance. I cite the clause, draft the note, and hold it for your approval.',
   chatOpeners: [
     {
       q: 'Check the stair handrail against NZBC D1',
-      a: 'Draft ready — NZBC D1/AS1. The open stair rises past 1 m without a continuous handrail. Proposed note names the flight, cites the clause, and lists the fix options. Status: awaiting human approval. Sources: DEMO pin stair-handrail · NZBC D1/AS1 (preview).',
+      a: 'Draft ready — NZBC D1/AS1. The open stair rises past 1 m without a continuous handrail. Proposed note names the flight, cites the clause, and lists the fix options. Status: awaiting human approval. Sources: DEMO flag stair-handrail · NZBC D1/AS1 (preview).',
     },
     {
       q: 'Draft a clearance note for the accessible WC',
@@ -68,7 +69,7 @@ export const ARC_PREVIEW = {
     },
     {
       q: 'Where does exit travel distance fail?',
-      a: 'Draft ready — AUP H4 · NZBC C class check on this fictional layout. Furthest habitable room exceeds the demonstrated path. Memo cites the pin and waits. Status: awaiting human approval. Nothing sends.',
+      a: 'Draft ready — AUP H4 · NZBC C class check on this fictional layout. Furthest habitable room exceeds the demonstrated path. Memo cites the flag and waits. Status: awaiting human approval. Nothing sends.',
     },
   ],
   chatFooter: 'draft-only · cites clauses · DEMO · nothing sends without you',
@@ -85,7 +86,7 @@ export const ARC_PREVIEW = {
     {
       name: 'Look',
       price: 'Free',
-      detail: 'Browse pins and sample drafts on DEMO models.',
+      detail: 'Browse flags and sample drafts on DEMO models.',
       credits: '0 credits',
       hoursBack: 0,
     },

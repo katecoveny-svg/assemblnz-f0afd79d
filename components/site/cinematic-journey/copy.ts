@@ -4,13 +4,13 @@
  *
  * Dual-track (do not merge language):
  * 1) Loyalty wait → earn / Evidence receipt — not agent hours-back credits.
- * 2) Vertical agents on live NZ feeds — cite source + as-of; DEMO if not wired.
+ * 2) Industry agents cite NZ sources — cite source + as-of; DEMO if not wired.
  */
 
 export const HOME_META = {
   title: 'assembl · agentic customer journeys',
   description:
-    'assembl builds agentic customer journeys. Agents prepare the next step. Humans stay in charge. Loyalty wait earns an evidence receipt. Industry agents cite live NZ sources.',
+    'assembl builds agentic customer journeys for NZ businesses. Agents prepare the next step. Humans stay in charge. A loyalty wait earns an evidence receipt. Industry agents cite NZ sources — DEMO when the feed is not live.',
 } as const;
 
 export const NAV = {
@@ -75,15 +75,15 @@ export type IndustrySource = {
  */
 export const INDUSTRIES = {
   kicker: 'track 2 · industry agents',
-  title: 'Vertical agents on live NZ feeds.',
-  body: 'Same pattern each vertical: observe the work, cite the instrument, draft for approval. Paper and plum agent-apps — not partnership claims.',
+  title: 'Industry agents that cite NZ sources.',
+  body: 'Same pattern each vertical: watch the work, cite the rule, draft for approval. Preview craft — not partnership claims.',
   items: [
     {
       id: 'arc',
       name: 'Arc',
       vertical: 'architecture',
       href: '/agents/arc',
-      line: 'Consent → code → H&S → bill revisions. Arc cites the instrument and holds the draft.',
+      line: 'Reads the plan. Flags Building Code and H&S issues. Drafts the fix for approval.',
       metaphor: 'consent → code → H&S → bill revisions',
       sources: [
         {
@@ -117,7 +117,7 @@ export const INDUSTRIES = {
       name: 'Forge',
       vertical: 'automotive',
       href: '/agents/forge',
-      line: 'Sales rules, consumer notices, fleet data — cited, then staged for your yes.',
+      line: 'Flags WoF, sales notices and finance disclosure gaps — cited, then held for your yes.',
       metaphor: 'MVSA → CIN → NZTA fleet',
       sources: [
         {
@@ -141,11 +141,33 @@ export const INDUSTRIES = {
       ],
     },
     {
+      id: 'customs',
+      name: 'Customs',
+      vertical: 'trade & border',
+      href: '/agents/customs',
+      line: 'Reads the invoice. Flags tariff and origin gaps. Drafts the entry for a broker.',
+      metaphor: 'invoice → tariff → origin → entry draft',
+      sources: [
+        {
+          label: 'Customs and Excise Act 2018',
+          cite: 'legislation.govt.nz · customs.govt.nz',
+          asOf: 'Sep 2026',
+          status: 'live' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'NZ Working Tariff',
+          cite: 'NZ Customs Working Tariff Document · HS 2022',
+          asOf: 'Sep 2026',
+          status: 'live' satisfies IndustrySourceStatus,
+        },
+      ],
+    },
+    {
       id: 'ensemble',
       name: 'Ensemble',
       vertical: 'creative',
       href: '/agents/ensemble',
-      line: 'Campaign claims cited against ASA and Fair Trading — draft held for approval.',
+      line: 'Checks campaign claims against ASA and Fair Trading — draft held for approval.',
       metaphor: 'claim → standard → draft',
       sources: [
         {
@@ -168,7 +190,7 @@ export const INDUSTRIES = {
 export const LIVE_WAIT = {
   kicker: 'try a loyalty wait',
   title: 'A real delay. Earn the receipt while it runs.',
-  body: 'Talk in the phone. Simulated for the demo; live when a provider key is configured. Earn progress — not credits.',
+  body: 'Talk in the phone. Simulated when labelled; live when a provider key is set. Earn progress — not credit packs.',
 } as const;
 
 export const CLOSE = {

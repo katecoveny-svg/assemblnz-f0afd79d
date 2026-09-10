@@ -1,6 +1,6 @@
 /**
  * Ensemble agent-app — creative studio front door copy.
- * Marketing / creative desk. Concrete NZ English.
+ * Plain NZ English. Marketing / creative desk.
  * No partnership claims. No mana product labels.
  * Floor-plate / architecture craft is retired for Ensemble — Arc keeps that kit.
  */
@@ -8,28 +8,28 @@
 export const ENSEMBLE_PREVIEW = {
   metaTitle: 'Ensemble · creative studio',
   metaDescription:
-    'Ensemble is assembl’s creative studio agent-app. Brief the desk once — copy, stills, film and voice assemble into a package that waits for your yes.',
+    'Ensemble helps a creative desk turn one brief into a campaign package — copy, stills, film and voice drafted for human approval. DEMO package only.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'ensemble',
   productLine: 'assembl agent-app',
-  heroLine: 'Brief once. The package assembles.',
+  heroLine: 'One brief. A package to approve.',
   heroSupport:
-    'Ensemble is the creative studio front door — brand board, generative craft, and a desk that stages copy, stills, film and voice for human approval.',
+    'Ensemble turns a brief into copy, stills, film and voice on a DEMO desk — then holds every piece for your yes before anything publishes.',
 
   assembleEyebrow: '01 · brief desk',
   assembleTitle: 'A brief on the desk. Then a package.',
   assembleSupport:
     'Strategy, copy, stills, film and voice settle into one reviewable set — DEMO package only, not a live campaign.',
-  ctaAssemble: 'Watch the package assemble',
+  ctaAssemble: 'See the package assemble',
   ctaBoard: 'Open the brand board',
-  ctaClaims: 'See DEMO claim pins',
+  ctaClaims: 'See DEMO claim flags',
 
-  claimsEyebrow: '02 · claim pins',
-  claimsTitle: 'Claims on the artefact.',
+  claimsEyebrow: '02 · claim flags',
+  claimsTitle: 'Claims on the campaign piece.',
   claimsSupport:
-    'ASA and Fair Trading flags sit on the campaign piece itself — readable DEMO notes, not an architecture pin sheet. Nothing publishes without a human yes.',
+    'ASA and Fair Trading flags sit on the campaign piece itself — readable DEMO notes. Nothing publishes without a human yes.',
 
   boardEyebrow: 'Brand board',
   boardTitle: 'Work you can point at.',
@@ -39,7 +39,7 @@ export const ENSEMBLE_PREVIEW = {
   toolsEyebrow: 'Studio craft',
   toolsTitle: 'Open the live tools.',
   toolsSupport:
-    'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same craft DNA behind this desk.',
+    'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same craft behind this desk.',
 
   workspaceEyebrow: 'Creative workspace',
   workspaceTitle: 'The desk that runs the brief.',
@@ -83,7 +83,7 @@ export const ENSEMBLE_PREVIEW = {
     },
     {
       q: 'Check this headline against ASA truthfulness',
-      a: 'Draft ready — ASA. The DEMO headline claims “NZ’s #1” without substantiation on the brand board. Proposed note names the claim line, cites ASA Principle 2, and lists evidence options. Status: awaiting human approval. Sources: DEMO pin asa-claim · ASA (preview).',
+      a: 'Draft ready — ASA. The DEMO headline claims “NZ’s #1” without substantiation on the brand board. Proposed note names the claim line, cites ASA Principle 2, and lists evidence options. Status: awaiting human approval. Sources: DEMO flag asa-claim · ASA (preview).',
     },
     {
       q: 'Draft a Fair Trading note for this price claim',

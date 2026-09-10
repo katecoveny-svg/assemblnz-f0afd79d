@@ -60,6 +60,7 @@ describe('Ensemble creative front door DEMO data', () => {
     expect(blob).not.toContain('floor plate');
     expect(blob).toContain('independent concept');
     expect(blob).toContain('demo');
+    expect(ENSEMBLE_PREVIEW.heroLine.toLowerCase()).toContain('one brief');
     expect(ENSEMBLE_PREVIEW.tiers.map((t) => t.name)).toEqual([
       'Look',
       'Practice',

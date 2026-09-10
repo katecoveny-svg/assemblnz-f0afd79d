@@ -291,12 +291,11 @@ export function CinematicConcepts() {
 
         <header className="page-header" style={{ paddingBottom: 20 }}>
           <div className="kicker">concepts · how it works</div>
-          <h1>Five industries.<br /><span className="accent">One architecture.</span></h1>
+          <h1>Five waits.<br /><span className="accent">Same pattern.</span></h1>
           <p className="lede" style={{ marginTop: 12 }}>
-            The first of these was built for a grocery loyalty programme, so people ask whether it only works for groceries.
-            It doesn&rsquo;t. Every one of these is the same shape: a moment your customer spends waiting, work prepared inside it,
-            and a person who says yes before anything happens. Only the configuration changes — pick an industry and watch the
-            object rebuild.
+            People ask if this only works for groceries. It doesn&rsquo;t. Each concept is the same shape: a real customer wait,
+            useful work prepared inside it, and a named person who says yes before anything happens. Pick an industry and watch
+            the object rebuild — live demo / preview / concept labels stay honest.
           </p>
         </header>
 

@@ -1,34 +1,35 @@
 /**
  * Gateway agent-app PREVIEW copy — pitch surface only.
- * Customs brokerage / tariff / entry. Concrete NZ English.
+ * Customs brokerage / tariff / entry. Plain NZ English.
  * No partnership claims. No mana/kete product labels.
  * Draft-only honesty — nothing lodges to TSW or Customs.
  */
 
 export const GATEWAY_PREVIEW = {
-  metaTitle: 'Gateway · customs agent-app preview · concept · demo data',
+  metaTitle: 'Gateway · customs broker preview · concept · demo data',
   metaDescription:
-    'Preview of Gateway — assembl’s customs brokerage agent-app with Pīkau. Observe the entry plate, flag tariff and border issues, draft actions that wait for human approval.',
+    'Gateway helps a customs broker (with Pīkau) review an import entry before it lodges — flags tariff gaps, missing origin proof and biosecurity holds, cites the rule, and drafts a note that waits for a human yes. DEMO only.',
   previewBadge: 'PREVIEW · concept · demo data · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'gateway',
   productLine: 'assembl agent-app',
-  heroLine: 'Border work that cites its pins.',
+  heroLine: 'Review the entry before it lodges.',
   heroSupport:
-    'Gateway and Pīkau read the entry plate, flag tariff and Customs Act issues, and draft broker actions that wait for your yes.',
+    'Gateway and Pīkau flag tariff gaps, missing origin proof and biosecurity holds on a DEMO entry pack, cite the rule, and draft a note that waits for your yes. Nothing lodges to Customs or TSW.',
 
-  assembleEyebrow: '01 · assemble',
-  assembleTitle: 'Pins on the plate. Then an entry.',
+  assembleEyebrow: '01 · entry pack',
+  assembleTitle: 'Invoice, tariff and border — one DEMO pack.',
   assembleSupport:
-    'Flat-lay invoice, tariff strip and border stamps settle into a fictional NZ entry plate — DEMO only, not a lodged clearance.',
-  ctaAssemble: 'Watch pins assemble',
-  ctaPins: 'See DEMO pins',
+    'A fictional NZ entry pack comes together so you can see the gaps before lodge. DEMO only — not a real clearance.',
+  ctaAssemble: 'See the entry pack',
+  ctaPins: 'Tap the DEMO flags',
 
-  modelEyebrow: 'Click a pin',
-  modelTitle: 'Your entry. Pins you can name.',
+  modelEyebrow: '02 · flags',
+  modelTitle: 'Tap a flag on the entry pack.',
   modelSupport:
-    'DEMO pins use Customs and Excise Act / Working Tariff references on a fictional broker plate. Nothing here is a real clearance check.',
+    'Each DEMO flag cites a Customs Act, Working Tariff or Biosecurity rule on a fictional broker pack. Nothing here is a real clearance check.',
+  pinHint: 'Tap a flag on the entry pack',
 
   narrativeEyebrow: 'How Gateway works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
@@ -37,13 +38,13 @@ export const GATEWAY_PREVIEW = {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Gateway watches the entry plate as lines arrive — HS gaps, missing origin proof, biosecurity holds, valuation evidence.',
+      body: 'Gateway watches the entry as lines arrive — HS gaps, missing origin proof, biosecurity holds, valuation evidence.',
     },
     {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each pin arrives with a cited clause and plain-language summary, ready for a licensed broker to review.',
+      body: 'Each flag arrives with a cited clause and plain-language note, ready for a licensed broker to review.',
     },
     {
       id: 'act' as const,
@@ -58,11 +59,11 @@ export const GATEWAY_PREVIEW = {
   chatSupport:
     'Scripted preview — no model call, nothing sends. Every reply ends as a draft awaiting approval.',
   chatGreeting:
-    'Gateway here. Ask about a DEMO tariff pin or an entry flag. I cite the rule, draft the note, and hold it for your approval.',
+    'Gateway here. Ask about a DEMO tariff flag or an entry hold. I cite the rule, draft the note, and hold it for your approval.',
   chatOpeners: [
     {
       q: 'Classify this line against the NZ Working Tariff',
-      a: 'Draft ready — NZ Working Tariff · GRI. Line 2 reads as insulated cable with no confirmed heading. Proposed note cites GRI 1 / 3(b), lists candidate headings, and holds for broker sign-off. Status: awaiting human approval. Sources: DEMO pin hs-pending · Working Tariff (preview).',
+      a: 'Draft ready — NZ Working Tariff · GRI. Line 2 reads as insulated cable with no confirmed heading. Proposed note cites GRI 1 / 3(b), lists candidate headings, and holds for broker sign-off. Status: awaiting human approval. Sources: DEMO flag hs-pending · Working Tariff (preview).',
     },
     {
       q: 'Draft an entry note for the missing certificate of origin',
@@ -70,10 +71,10 @@ export const GATEWAY_PREVIEW = {
     },
     {
       q: 'Where does the biosecurity hold block clearance?',
-      a: 'Draft ready — Biosecurity Act 1993. Wooden packing on this DEMO plate lacks an ISPM 15 mark for the scheduled release. Memo cites the pin and waits. Status: awaiting human approval. Nothing sends.',
+      a: 'Draft ready — Biosecurity Act 1993. Wooden packing on this DEMO pack lacks an ISPM 15 mark for the scheduled release. Memo cites the flag and waits. Status: awaiting human approval. Nothing sends.',
     },
   ],
-  chatFooter: 'draft-only · cites pins · DEMO · nothing lodges without you',
+  chatFooter: 'draft-only · cites flags · DEMO · nothing lodges without you',
   approvalLabel: 'Awaiting human approval',
   evidenceLabel: 'Evidence receipt',
 
@@ -87,7 +88,7 @@ export const GATEWAY_PREVIEW = {
     {
       name: 'Look',
       price: 'Free',
-      detail: 'Browse DEMO pins and sample drafts on the entry plate.',
+      detail: 'Browse DEMO flags and sample drafts on the entry pack.',
       credits: '0 credits',
       hoursBack: 0,
     },

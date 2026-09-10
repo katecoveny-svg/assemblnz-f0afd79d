@@ -65,10 +65,10 @@ export type JourneyStage = {
  * literally the value loop from the card: engagement feeds data, data sharpens
  * the next wait. The flywheel is the shape, not a caption. */
 export const JOURNEY_STAGES: JourneyStage[] = [
-  { key: 'intent', n: '01', label: 'intent signal', note: 'A user or agent signals a task or request.' },
-  { key: 'predict', n: '02', label: 'wait prediction', note: 'The agent estimates duration and context.' },
-  { key: 'deliver', n: '03', label: 'value delivery', note: 'Relevant content, offers or micro-tasks, delivered.' },
-  { key: 'exchange', n: '04', label: 'value exchange', note: 'The user engages. Value created, revenue realised.' },
+  { key: 'intent', n: '01', label: 'the ask', note: 'A customer or agent names the job.' },
+  { key: 'predict', n: '02', label: 'the wait', note: 'How long it will take, and what context matters.' },
+  { key: 'deliver', n: '03', label: 'useful work', note: 'Relevant prep, options or micro-tasks while they wait.' },
+  { key: 'exchange', n: '04', label: 'the handoff', note: 'The person engages. A draft is ready for approval.' },
 ];
 
 /** Where each stage sits in world space — a route that climbs as it travels. */
