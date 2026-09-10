@@ -8,6 +8,9 @@ import {
   ObserveAdviseAct,
 } from '@/components/agent-app';
 import { ForgeBayFlags } from '@/components/forge/ForgeBayFlags';
+import { ForgeLifecycle } from '@/components/forge/ForgeLifecycle';
+import { ForgeMetricsStrip } from '@/components/forge/ForgeMetricsStrip';
+import { ForgeOutcomes } from '@/components/forge/ForgeOutcomes';
 import { ForgePreviewChat } from '@/components/forge/ForgePreviewChat';
 import { FORGE_PREVIEW } from '@/lib/forge/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
@@ -27,7 +30,8 @@ const AA_TOKEN_STYLE = {
 } as CSSProperties;
 
 /**
- * Forge PREVIEW — automotive service-bay craft one-pager.
+ * Forge PREVIEW — Impel-class automotive operating system craft.
+ * Connected journey (research → sale → service → loyalty), not bay-only.
  * No BlueprintScene / PlanPins / architecture floor plate.
  * Honest CTA to live Arataki chat. Homepage `/` untouched.
  */
@@ -37,7 +41,7 @@ export function ForgeLanding() {
   return (
     <div
       className="frg-root aa-root"
-      data-craft="automotive-bay"
+      data-craft="automotive-os"
       style={AA_TOKEN_STYLE}
     >
       <CraftScroll
@@ -55,8 +59,9 @@ export function ForgeLanding() {
 
       <main className="frg-story">
         <section className="frg-section frg-hero" aria-label="Forge hero">
-          <div className="frg-hero-grid">
+          <div className="frg-hero-stage">
             <div className="frg-hero-copy">
+              <p className="frg-brand-signal">{c.brand}</p>
               <p className="frg-eyebrow frg-mono">{c.productLine}</p>
               <h1>{c.heroLine}</h1>
               <p className="frg-hero-support">{c.heroSupport}</p>
@@ -64,21 +69,93 @@ export function ForgeLanding() {
                 <Link className="frg-cta frg-cta-primary" href={c.aratakiHref}>
                   {c.ctaChat}
                 </Link>
-                <a className="frg-cta frg-cta-ghost" href="#forge-bay">
-                  {c.ctaBay}
+                <a className="frg-cta frg-cta-ghost" href="#forge-lifecycle">
+                  {c.ctaLifecycle}
                 </a>
               </div>
             </div>
 
-            <aside className="frg-hero-panel">
-              <p className="frg-mono">Live path</p>
-              <h2>Arataki runs the dealership desk</h2>
-              <p>{c.aratakiNote}</p>
-              <Link className="frg-cta frg-cta-primary" href={c.aratakiHref}>
-                Open Arataki
-              </Link>
+            <aside className="frg-hero-visual" aria-label="DEMO dealership journey preview">
+              <div className="frg-hero-lot">
+                <p className="frg-mono frg-hero-lot-label">DEMO journey rail</p>
+                <ol className="frg-hero-stages">
+                  <li data-on="true">
+                    <span className="frg-mono">01</span> Lead
+                  </li>
+                  <li data-on="true">
+                    <span className="frg-mono">02</span> Sale
+                  </li>
+                  <li data-on="true">
+                    <span className="frg-mono">03</span> Service
+                  </li>
+                  <li>
+                    <span className="frg-mono">04</span> Loyalty
+                  </li>
+                </ol>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="frg-hero-sphere"
+                  src="/brand/genome/sphere-automotive.png"
+                  alt=""
+                  width={160}
+                  height={172}
+                />
+                <p className="frg-hero-stamp frg-mono">sample · DEMO · not a live rooftop</p>
+              </div>
+
+              <div className="frg-hero-panel">
+                <p className="frg-mono">{c.aratakiPanelEyebrow}</p>
+                <h2>{c.aratakiPanelTitle}</h2>
+                <p>{c.aratakiNote}</p>
+                <Link className="frg-cta frg-cta-primary" href={c.aratakiHref}>
+                  Open Arataki
+                </Link>
+              </div>
             </aside>
           </div>
+        </section>
+
+        <section className="frg-section frg-section-metrics" aria-labelledby="forge-metrics-title">
+          <div className="frg-section-head">
+            <p className="frg-eyebrow frg-mono">{c.metricsEyebrow}</p>
+            <h2 id="forge-metrics-title">{c.metricsTitle}</h2>
+            <p>{c.metricsSupport}</p>
+          </div>
+          <ForgeMetricsStrip />
+        </section>
+
+        <section className="frg-section" aria-labelledby="forge-who-title">
+          <div className="frg-section-head">
+            <p className="frg-eyebrow frg-mono">{c.whoForEyebrow}</p>
+            <h2 id="forge-who-title">{c.whoForTitle}</h2>
+            <p>{c.whoForSupport}</p>
+          </div>
+          <div className="frg-who">
+            {c.whoForPoints.map((point) => (
+              <article key={point.title} className="frg-who-card">
+                <h3>{point.title}</h3>
+                <p>{point.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="frg-section" aria-labelledby="forge-pillars-title">
+          <div className="frg-section-head">
+            <p className="frg-eyebrow frg-mono">{c.pillarsEyebrow}</p>
+            <h2 id="forge-pillars-title">{c.pillarsTitle}</h2>
+            <p>{c.pillarsSupport}</p>
+          </div>
+          <ForgeOutcomes />
+        </section>
+
+        <section className="frg-section" aria-labelledby="forge-life-title">
+          <div className="frg-section-head">
+            <p className="frg-eyebrow frg-mono">{c.lifecycleEyebrow}</p>
+            <h2 id="forge-life-title">{c.lifecycleTitle}</h2>
+            <p>{c.lifecycleSupport}</p>
+          </div>
+          <ForgeLifecycle />
         </section>
 
         <section className="frg-section" aria-labelledby="forge-bay-title">
@@ -95,11 +172,11 @@ export function ForgeLanding() {
           title={c.narrativeTitle}
           steps={c.chapters}
           demoBadge={c.demoBadge}
-          observeStatus="Observing service bay · draft not ready"
+          observeStatus="Observing dealership journey · draft not ready"
           approveLabel="Approve draft"
           actLabel="Act"
           actDisabledHint="Act stays locked until you approve the draft."
-          actEnabledHint="Approved — Act can run the staged workshop draft."
+          actEnabledHint="Approved — Act can run the staged dealership draft."
         />
 
         <section className="aa-section" aria-labelledby="forge-chat-title">

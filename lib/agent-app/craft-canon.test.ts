@@ -104,7 +104,7 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     expect(landing).not.toMatch(/floor plate/i);
   });
 
-  it('keeps Forge off BlueprintScene / PlanPins (automotive bay, not floor plate)', () => {
+  it('keeps Forge off BlueprintScene / PlanPins (automotive OS, not floor plate)', () => {
     const landing = read('components/forge/ForgeLanding.tsx')
       .replace(/\/\*[\s\S]*?\*\//g, '')
       .replace(/^\s*\/\/.*$/gm, '');
@@ -115,8 +115,13 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     expect(landing).not.toMatch(/\bPlanPins\b/);
     expect(landing).not.toMatch(/\bForgePlanSvg\b/);
     expect(landing).toMatch(/ForgeBayFlags/);
+    expect(landing).toMatch(/ForgeLifecycle/);
+    expect(landing).toMatch(/ForgeOutcomes/);
+    expect(landing).toMatch(/ForgeMetricsStrip/);
     expect(landing).toMatch(/observeStatus=/);
     expect(landing).toMatch(/aratakiHref|\/agents\/arataki/);
     expect(copy.toLowerCase()).not.toContain('floor plate');
+    expect(copy.toLowerCase()).toContain('connected');
+    expect(copy.toLowerCase()).toContain('operating system');
   });
 });

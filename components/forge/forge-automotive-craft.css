@@ -1,5 +1,6 @@
-/* Forge automotive craft — paper/chalk field + plum accent.
- * Service bay desk metaphor. No architecture floor plates.
+/* Forge automotive OS craft — paper/chalk field + plum accent.
+ * Dealership / workshop operating system. Connected journey, not bay-only.
+ * No architecture floor plates. No Arc soft-kit bleed on mobile.
  * Instrument Sans + IBM Plex Mono via agent-app / root font tokens.
  */
 
@@ -17,9 +18,9 @@
   min-height: 100vh;
   background-color: var(--frg-paper);
   background-image:
-    radial-gradient(880px 400px at 8% -6%, rgba(145, 106, 112, 0.12), transparent 60%),
-    radial-gradient(720px 360px at 92% 4%, rgba(101, 74, 78, 0.09), transparent 55%),
-    linear-gradient(180deg, #fffdfb 0%, #f6f1f2 46%, #fffdfb 100%);
+    radial-gradient(980px 460px at 6% -10%, rgba(145, 106, 112, 0.16), transparent 58%),
+    radial-gradient(820px 420px at 94% 0%, rgba(101, 74, 78, 0.11), transparent 55%),
+    linear-gradient(180deg, #fffdfb 0%, #f5f1f2 42%, #fffdfb 100%);
   color: var(--frg-ink);
   font-family: var(--font-body), 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
@@ -62,7 +63,7 @@
 }
 
 .frg-nav-brand strong {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -79,7 +80,7 @@
 .frg-nav-badge {
   margin: 0;
   flex-shrink: 1;
-  max-width: min(42vw, 14rem);
+  max-width: min(46vw, 16rem);
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -96,18 +97,19 @@
 }
 
 .frg-section {
-  padding: clamp(2.25rem, 6vw, 5rem) clamp(1.1rem, 4vw, 3rem);
+  padding: clamp(2.35rem, 6vw, 5.25rem) clamp(1.1rem, 4vw, 3rem);
   border-bottom: 1px solid var(--frg-line);
+  background-color: transparent;
 }
 
 .frg-section-head {
-  max-width: 42rem;
-  margin-bottom: 1.5rem;
+  max-width: 44rem;
+  margin-bottom: 1.6rem;
 }
 
 .frg-section-head h2 {
   margin: 0.35rem 0 0.65rem;
-  font-size: clamp(1.55rem, 3.4vw, 2.25rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   font-weight: 550;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -129,33 +131,64 @@
   color: var(--frg-rose);
 }
 
+/* —— Hero: cinematic dealership energy —— */
 .frg-hero {
-  padding-top: clamp(2.5rem, 7vw, 5rem);
+  padding-top: clamp(2.4rem, 7vw, 5.25rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  position: relative;
+  isolation: isolate;
 }
 
-.frg-hero-grid {
+.frg-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(105deg, rgba(36, 11, 33, 0.04) 0%, transparent 42%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 72px,
+      rgba(36, 11, 33, 0.035) 72px,
+      rgba(36, 11, 33, 0.035) 73px
+    );
+  mask-image: linear-gradient(180deg, #000 40%, transparent 100%);
+  pointer-events: none;
+}
+
+.frg-hero-stage {
   display: grid;
-  gap: clamp(1.35rem, 4vw, 2.5rem);
+  gap: clamp(1.5rem, 4vw, 2.75rem);
   align-items: start;
-  max-width: 980px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
+.frg-brand-signal {
+  margin: 0 0 0.55rem;
+  font-size: clamp(2.8rem, 11vw, 5.2rem);
+  font-weight: 550;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  color: var(--frg-plum);
+}
+
 .frg-hero-copy h1 {
-  margin: 0.4rem 0 0;
-  font-size: clamp(2.15rem, 8.5vw, 3.6rem);
+  margin: 0.45rem 0 0;
+  font-size: clamp(1.85rem, 5.2vw, 3.15rem);
   font-weight: 550;
   letter-spacing: -0.04em;
-  line-height: 1.02;
-  max-width: 14ch;
+  line-height: 1.05;
+  max-width: 16ch;
 }
 
 .frg-hero-support {
-  margin: 1rem 0 0;
+  margin: 1.05rem 0 0;
   color: var(--frg-ink-soft);
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   line-height: 1.55;
-  max-width: 40ch;
+  max-width: 42ch;
 }
 
 .frg-cta-row {
@@ -192,9 +225,84 @@
   border: 1px solid var(--frg-line-strong);
 }
 
+.frg-hero-visual {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.frg-hero-lot {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--frg-line-strong);
+  background:
+    linear-gradient(160deg, rgba(36, 11, 33, 0.92) 0%, #3a1a34 48%, #654a4e 100%);
+  color: var(--frg-paper);
+  padding: 1.25rem 1.2rem 1.35rem;
+  min-height: 15.5rem;
+}
+
+.frg-hero-lot-label {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 253, 251, 0.62);
+}
+
+.frg-hero-stages {
+  list-style: none;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+  max-width: 14rem;
+}
+
+.frg-hero-stages li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  opacity: 0.45;
+}
+
+.frg-hero-stages li[data-on='true'] {
+  opacity: 1;
+}
+
+.frg-hero-stages li span {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: #916a70;
+}
+
+.frg-hero-sphere {
+  position: absolute;
+  right: -0.4rem;
+  bottom: -0.6rem;
+  width: min(42%, 11rem);
+  height: auto;
+  opacity: 0.88;
+  filter: saturate(0.85) contrast(1.05);
+  pointer-events: none;
+}
+
+.frg-hero-stamp {
+  position: absolute;
+  left: 1.2rem;
+  bottom: 1rem;
+  margin: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 253, 251, 0.55);
+}
+
 .frg-hero-panel {
   border: 1px solid var(--frg-line-strong);
-  background: rgba(255, 253, 251, 0.94);
+  background: rgba(255, 253, 251, 0.96);
   padding: 1.15rem 1.15rem 1.25rem;
   display: grid;
   gap: 0.65rem;
@@ -221,8 +329,246 @@
   color: var(--frg-rose);
 }
 
+.frg-hero-panel .frg-cta {
+  justify-self: start;
+}
+
+/* —— Metrics strip —— */
+.frg-metrics {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.frg-metric {
+  border: 1px solid var(--frg-line-strong);
+  background: var(--frg-paper);
+  padding: 1.1rem 1rem 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.frg-metric-value {
+  margin: 0;
+  font-size: clamp(1.65rem, 4vw, 2.15rem);
+  letter-spacing: -0.03em;
+  color: var(--frg-plum);
+  line-height: 1;
+}
+
+.frg-metric h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.frg-metric p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+/* —— Who for —— */
+.frg-who {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.frg-who-card {
+  border-left: 2px solid var(--frg-rose);
+  padding: 0.15rem 0 0.15rem 1rem;
+}
+
+.frg-who-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+
+.frg-who-card p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.96rem;
+  line-height: 1.5;
+  max-width: 48ch;
+}
+
+/* —— Outcome pillars —— */
+.frg-pillars {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.frg-pillar {
+  border: 1px solid var(--frg-line);
+  background: rgba(255, 253, 251, 0.92);
+  padding: 1.15rem 1.1rem 1.25rem;
+  display: grid;
+  gap: 0.45rem;
+  border-top: 2px solid var(--frg-plum);
+}
+
+.frg-pillar h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+
+.frg-pillar p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* —— Connected lifecycle —— */
+.frg-life {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.15rem;
+}
+
+.frg-life-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.frg-life-node {
+  appearance: none;
+  position: relative;
+  border: 1px solid var(--frg-line);
+  background: var(--frg-paper);
+  color: inherit;
+  padding: 0.85rem 0.65rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.3rem;
+  text-align: left;
+  min-height: 4.25rem;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.frg-life-node strong {
+  font-size: 0.92rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+
+.frg-life-step {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-life-connector {
+  display: none;
+}
+
+.frg-life-node[data-active='true'],
+.frg-life-node:hover {
+  border-color: var(--frg-plum);
+  background: var(--frg-chalk);
+}
+
+.frg-life-panel {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid var(--frg-line-strong);
+  background: var(--frg-paper);
+  padding: 1.2rem 1.1rem 1.3rem;
+}
+
+.frg-life-hint {
+  margin: 0 0 0.55rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--frg-muted);
+}
+
+.frg-life-copy h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+  font-weight: 550;
+  letter-spacing: -0.03em;
+}
+
+.frg-life-copy > p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.frg-life-bay-link {
+  margin-top: 1rem;
+  width: fit-content;
+}
+
+.frg-life-pin {
+  border-top: 1px solid var(--frg-line);
+  padding-top: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.frg-life-pin-code {
+  margin: 0.15rem 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frg-rose);
+}
+
+.frg-life-pin h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  color: var(--frg-plum);
+}
+
+.frg-life-pin > p {
+  margin: 0;
+  color: var(--frg-ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.frg-life-pin-desk,
+.frg-life-pin-stamp {
+  margin: 0.15rem 0 0 !important;
+  font-size: 0.66rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.frg-life-pin-desk {
+  color: var(--frg-muted) !important;
+}
+
+.frg-life-pin-stamp {
+  color: var(--frg-rose) !important;
+}
+
+/* —— Bay flags (service stage) —— */
 .frg-bays {
-  max-width: 980px;
+  max-width: 1120px;
   margin: 0 auto;
   display: grid;
   gap: 1rem;
@@ -359,9 +705,48 @@
   letter-spacing: -0.02em;
 }
 
-@media (min-width: 860px) {
-  .frg-hero-grid {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+@media (min-width: 720px) {
+  .frg-metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .frg-who {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .frg-who-card {
+    border-left: none;
+    border-top: 2px solid var(--frg-rose);
+    padding: 1rem 0 0;
+  }
+
+  .frg-pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .frg-pillars .frg-pillar:last-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+  }
+
+  .frg-life-panel {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 1.35rem;
+    align-items: start;
+  }
+
+  .frg-life-pin {
+    border-top: none;
+    border-left: 1px solid var(--frg-line);
+    padding-top: 0;
+    padding-left: 1.2rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .frg-hero-stage {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     align-items: center;
   }
 
@@ -370,9 +755,25 @@
     gap: 1.25rem;
     align-items: start;
   }
+
+  .frg-pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .frg-pillars .frg-pillar:nth-child(4),
+  .frg-pillars .frg-pillar:nth-child(5) {
+    grid-column: auto;
+    max-width: none;
+  }
+
+  .frg-pillars .frg-pillar:last-child {
+    grid-column: auto;
+    max-width: none;
+  }
 }
 
-@media (max-width: 520px) {
+/* Mobile craft PASS — no Arc soft kit bleed, full-width CTAs, readable tabs */
+@media (max-width: 640px) {
   .frg-nav-badge {
     max-width: 100%;
   }
@@ -384,6 +785,24 @@
 
   .frg-cta {
     width: 100%;
+  }
+
+  .frg-hero-panel .frg-cta {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .frg-life-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .frg-life-node {
+    min-height: 3.75rem;
+  }
+
+  .frg-hero-sphere {
+    width: min(48%, 9.5rem);
+    opacity: 0.72;
   }
 
   .frg-root .aa-section {
@@ -404,5 +823,30 @@
   .frg-root .aa-chat-actions button {
     white-space: normal;
     line-height: 1.35;
+  }
+
+  .frg-root .aa-chat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .frg-root .aa-pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Kill any inherited engineering grid / soft kit wash on shared aa-root */
+  .frg-root.aa-root {
+    background-size: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frg-cta,
+  .frg-life-node,
+  .frg-bay-list-item {
+    transition: none;
+  }
+
+  .frg-cta:hover {
+    transform: none;
   }
 }

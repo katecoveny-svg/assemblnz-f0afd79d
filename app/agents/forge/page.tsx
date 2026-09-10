@@ -16,9 +16,10 @@ export const metadata: Metadata = {
 };
 
 /**
- * Forge — automotive dealership & workshop agent-app PREVIEW landing.
- * Service-bay craft one-pager with honest CTA to /agents/arataki.
- * No architecture floor plates. Public pitch surface. Does not touch homepage.
+ * Forge — automotive dealership operating system PREVIEW landing.
+ * Connected journey craft (research → sale → service → loyalty).
+ * Honest CTA to /agents/arataki. No architecture floor plates.
+ * Public pitch surface. Does not touch homepage.
  */
 export default function ForgeAgentAppPage() {
   return <ForgeLanding />;
