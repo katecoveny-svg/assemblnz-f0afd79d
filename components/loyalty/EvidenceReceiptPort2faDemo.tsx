@@ -187,7 +187,9 @@ function DetailLedger({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
 
 function WorkflowsRail() {
   const c = EVIDENCE_RECEIPT_PREVIEW;
-  const [activeId, setActiveId] = useState(EVIDENCE_RECEIPT_WORKFLOWS[0]?.id ?? '');
+  const [activeId, setActiveId] = useState<(typeof EVIDENCE_RECEIPT_WORKFLOWS)[number]['id']>(
+    EVIDENCE_RECEIPT_WORKFLOWS[0].id,
+  );
   const active =
     EVIDENCE_RECEIPT_WORKFLOWS.find((s) => s.id === activeId) ?? EVIDENCE_RECEIPT_WORKFLOWS[0];
 

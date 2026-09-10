@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { AgentStudyArtwork } from '@/components/agent-app/AgentStudyArtwork';
 import {
   AGENT_APP_CRAFT,
   HoursBackPricing,
@@ -13,12 +14,13 @@ import { ArcModelDemo } from '@/components/arc/ArcModelDemo';
 import { ArcPreviewChat } from '@/components/arc/ArcPreviewChat';
 import { ARC_PREVIEW } from '@/lib/arc/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
+import '@/components/agent-app/agent-editorial.css';
 
 export function ArcLanding() {
   const c = ARC_PREVIEW;
 
   return (
-    <div className="aa-root" data-craft={AGENT_APP_CRAFT.craftAttr}>
+    <div className="aa-root agent-edition agent-edition-arc" data-craft={AGENT_APP_CRAFT.craftAttr}>
       <ArcCraftScroll />
 
       <header className="aa-nav">
@@ -46,7 +48,9 @@ export function ArcLanding() {
               </div>
             </div>
 
-            <aside className="aa-hero-sheet" aria-hidden>
+            <AgentStudyArtwork agent="arc" />
+
+            <aside className="agent-hero-register" aria-hidden>
               <TitleBlock
                 fields={[
                   { label: 'CLIENT', value: 'sample practice' },

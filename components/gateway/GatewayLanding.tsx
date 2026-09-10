@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { AgentStudyArtwork } from '@/components/agent-app/AgentStudyArtwork';
 import {
   BlueprintScene,
   CraftScroll,
@@ -17,12 +18,13 @@ import { GatewayPreviewChat } from '@/components/gateway/GatewayPreviewChat';
 import { GATEWAY_DEMO_PINS } from '@/lib/gateway/demo-pins';
 import { GATEWAY_PREVIEW } from '@/lib/gateway/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
+import '@/components/agent-app/agent-editorial.css';
 
 export function GatewayLanding() {
   const c = GATEWAY_PREVIEW;
 
   return (
-    <div className="aa-root">
+    <div className="aa-root agent-edition agent-edition-customs">
       <CraftScroll />
 
       <header className="aa-nav">
@@ -50,7 +52,9 @@ export function GatewayLanding() {
               </div>
             </div>
 
-            <aside className="aa-hero-sheet" aria-hidden>
+            <AgentStudyArtwork agent="customs" />
+
+            <aside className="agent-hero-register" aria-hidden>
               <TitleBlock
                 fields={[
                   { label: 'BROKER', value: 'sample brokerage' },

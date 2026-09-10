@@ -1,8 +1,56 @@
 /** SVG underlay + assemble parts for Arc harbour terrace GA. */
 
+/** Drafting detail for the existing fictional plan; room geometry and flag anchors stay fixed. */
+function ArcPlanDetail() {
+  return (
+    <g aria-hidden="true">
+      <g fill="#F5F1F2">
+        <rect x="92" y="72" width="176" height="136" />
+        <rect x="272" y="72" width="236" height="136" />
+        <rect x="362" y="212" width="66" height="51" />
+      </g>
+      <g stroke="#916A70" strokeWidth="0.35" opacity="0.22">
+        {Array.from({ length: 25 }, (_, i) => <line key={i} x1={98 + i * 10} y1="215" x2={98 + i * 10} y2="317" />)}
+        {Array.from({ length: 7 }, (_, i) => <line key={`deck-${i}`} x1="92" y1={325 + i * 6} x2="308" y2={325 + i * 6} />)}
+      </g>
+      <g stroke="#654A4E" strokeWidth="0.7" fill="#FFFDFB">
+        {/* Bedroom joinery and beds. */}
+        {[112, 312].map((x) => (
+          <g key={x}>
+            <rect x={x} y="86" width="67" height="43" />
+            <path d={`M${x} 98h67 M${x + 8} 90h20v6h-20z M${x + 38} 90h20v6h-20z`} />
+            <rect x={x - 12} y="86" width="8" height="11" />
+            <rect x={x + 71} y="86" width="8" height="11" />
+          </g>
+        ))}
+        <path d="M103 173h101v24H103z M128 173v24 M153 173v24 M178 173v24 M291 174h110v22H291z M318 174v22 M345 174v22 M372 174v22" />
+        {/* Kitchen bench, sink and hob. */}
+        <path d="M106 224h129v22H106z M110 228h30v14h-30z M118 228v14 M183 224v22 M207 224v22" />
+        <circle cx="191" cy="231" r="3" /><circle cx="200" cy="239" r="3" />
+        <circle cx="191" cy="239" r="3" /><circle cx="200" cy="231" r="3" />
+        {/* Living room furniture and dining setting. */}
+        <rect x="109" y="280" width="69" height="27" rx="2" />
+        <path d="M113 284h61v15h-61z M144 284v15" />
+        <rect x="190" y="283" width="29" height="19" rx="4" />
+        <rect x="285" y="250" width="37" height="45" rx="2" />
+        <path d="M275 255h7v13h-7z M275 279h7v13h-7z M325 255h7v13h-7z M325 279h7v13h-7z" />
+        {/* Glazing: double lines and reveals on the original exterior wall. */}
+        <path d="M130 68h77v5h-77z M325 68h73v5h-73z M507 116h5v62h-5z M115 318h79v5h-79z M220 318h71v5h-71z" />
+        <path d="M130 70.5h77 M325 70.5h73 M509.5 116v62 M115 320.5h79 M220 320.5h71" />
+      </g>
+      <g stroke="#654A4E" strokeWidth="0.6" fill="none" opacity="0.5">
+        <path d="M69 70v250 M64 70h10 M64 210h10 M64 320h10 M90 388h220 M90 383v10 M310 383v10" />
+        <path d="M434 239h69 M434 253h69 M434 267h69 M434 281h69 M434 295h69 M434 309h69" />
+        <path d="M469 303v-65m-3 5 3-5 3 5" />
+      </g>
+    </g>
+  );
+}
+
 export function ArcTerraceUnderlay() {
   return (
     <>
+      <ArcPlanDetail />
       <g stroke="#240B21" fill="none" strokeLinejoin="miter">
         <rect x="90" y="70" width="420" height="250" strokeWidth="3.2" />
         <line x1="270" y1="70" x2="270" y2="210" strokeWidth="2" />
@@ -95,6 +143,7 @@ export function ArcTerraceUnderlay() {
 export function ArcAssembleParts() {
   return (
     <>
+      <g data-assembled opacity="0"><ArcPlanDetail /></g>
       <g
         data-flat
         fill="#654A4E"
