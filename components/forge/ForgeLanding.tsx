@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { AgentStudyArtwork } from '@/components/agent-app/AgentStudyArtwork';
+import { TransportStudy } from '@/components/agent-app/TransportStudy';
 import type { CSSProperties } from 'react';
 import {
   CraftScroll,
@@ -13,6 +13,7 @@ import { ForgeLifecycle } from '@/components/forge/ForgeLifecycle';
 import { ForgeMetricsStrip } from '@/components/forge/ForgeMetricsStrip';
 import { ForgeOutcomes } from '@/components/forge/ForgeOutcomes';
 import { ForgePreviewChat } from '@/components/forge/ForgePreviewChat';
+import { DealerContentStudio } from '@/components/forge/DealerContentStudio';
 import { FORGE_PREVIEW } from '@/lib/forge/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
 import '@/components/forge/forge-automotive-craft.css';
@@ -75,9 +76,10 @@ export function ForgeLanding() {
                   {c.ctaLifecycle}
                 </a>
               </div>
+              <a className="dealer-studio-link" href="#forge-content">Open dealership content studio ↗</a>
             </div>
 
-            <AgentStudyArtwork agent="forge" />
+            <TransportStudy agent="forge" />
 
             <aside className="frg-hero-visual" aria-label="DEMO dealership journey preview">
               <div className="frg-hero-lot">
@@ -110,6 +112,8 @@ export function ForgeLanding() {
             </aside>
           </div>
         </section>
+
+        <DealerContentStudio />
 
         <section className="frg-section frg-section-metrics" aria-labelledby="forge-metrics-title">
           <div className="frg-section-head">

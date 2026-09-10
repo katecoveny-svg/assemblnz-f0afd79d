@@ -1,0 +1,30 @@
+.transport-study { margin:0; width:100%; min-width:0; }
+.transport-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; min-height:44px; padding:0 0 10px; border-bottom:1px solid #d8cdcf; }
+.transport-heading > span { color:#654a4e; font-size:9px; letter-spacing:.05em; }
+.transport-heading > div { display:flex; }
+.transport-study button { display:inline-flex; align-items:center; justify-content:center; gap:7px; border:0; padding:9px 12px; min-height:38px; background:none; color:#654a4e; border-radius:3px; font:500 12px/1.3 var(--font-body),sans-serif; cursor:pointer; }
+.transport-study button[aria-pressed=true] { background:#240b21; color:#fffdfb; }
+.transport-study button:hover:not([aria-pressed=true]) { background:#eee7e8; color:#240b21; }
+.transport-stage { position:relative; width:100%; aspect-ratio:16/10; background:#f5f1ed; overflow:hidden; }
+.transport-stage video { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.transport-stage model-viewer { width:100%; height:100%; display:block; --poster-color:transparent; --progress-bar-color:#916a70; --progress-bar-height:2px; }
+.transport-model-poster { object-fit:contain; }
+.transport-player[data-mode=model] .transport-stage { background:#f6f3f0; }
+.transport-scene-index { position:absolute; inset:auto 18px 16px; display:flex; justify-content:space-between; font-size:8px; color:#654a4e; pointer-events:none; }
+.transport-scene-index span { background:#fffdfbdd; padding:5px 7px; border-radius:2px; }
+.transport-timeline { padding:16px 0 4px; }
+.transport-chapter { display:flex; align-items:center; justify-content:space-between; color:#654a4e; gap:12px; }
+.transport-chapter span { font-size:9px; letter-spacing:.01em; }.transport-chapter span:last-child { white-space:nowrap; }
+.transport-scrub { display:block; margin:5px 0 6px; }.transport-scrub input { appearance:none; display:block; width:100%; height:28px; background:transparent; margin:0; cursor:ew-resize; accent-color:#654a4e; }
+.transport-scrub input::-webkit-slider-runnable-track { height:2px; background:#cbbdc0; }.transport-scrub input::-webkit-slider-thumb { appearance:none; width:10px; height:10px; border-radius:50%; background:#654a4e; margin-top:-4px; }
+.transport-scrub input::-moz-range-track { height:2px; background:#cbbdc0; }.transport-scrub input::-moz-range-thumb { width:10px; height:10px; border:0; border-radius:50%; background:#654a4e; }
+.transport-scrub input:focus-visible { outline:2px solid #916a70; outline-offset:3px; }
+.transport-controls { display:flex; align-items:center; justify-content:space-between; gap:10px; }.transport-controls > div { display:flex; align-items:center; gap:3px; }
+.transport-controls > div:first-child { border:1px solid #d8cdcf; padding:3px; border-radius:4px; }
+.transport-detail { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:12px; border-top:1px solid #e1d7d9; padding-top:8px; }
+.transport-detail p { font-size:11px; color:#654a4e; margin:0; line-height:1.6; }.transport-detail button { font-size:10px; white-space:nowrap; }
+.transport-disclosure { color:#654a4e; font-size:8px; letter-spacing:.01em; padding-top:9px; line-height:1.65; }
+.transport-message { color:#654a4e; font-size:12px; padding:12px; background:#f5f1f2; line-height:1.5; }
+.dealer-studio-link { font-size:13px; color:#654a4e; text-decoration:underline; text-underline-offset:4px; width:fit-content; padding:10px 0; }
+@media(max-width:760px) { .transport-heading > span { font-size:8px; }.transport-stage { aspect-ratio:4/3; }.transport-study button { min-height:44px; padding:9px 10px; font-size:12px; }.transport-detail p { max-width:25ch; }.transport-detail button { font-size:10px; }.transport-controls { gap:3px; }.transport-scene-index { inset:auto 10px 10px; }.transport-scene-index span { font-size:7px; }.transport-chapter span { font-size:8px; }.transport-disclosure { font-size:8px; } }
+@media(prefers-reduced-motion:reduce) { .transport-study * { scroll-behavior:auto; } }

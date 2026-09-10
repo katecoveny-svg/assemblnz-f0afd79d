@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { AgentStudyArtwork } from '@/components/agent-app/AgentStudyArtwork';
+import { TransportStudy } from '@/components/agent-app/TransportStudy';
 import {
   BlueprintScene,
   CraftScroll,
@@ -52,7 +52,7 @@ export function GatewayLanding() {
               </div>
             </div>
 
-            <AgentStudyArtwork agent="customs" />
+            <TransportStudy agent="customs" />
 
             <aside className="agent-hero-register" aria-hidden>
               <TitleBlock
