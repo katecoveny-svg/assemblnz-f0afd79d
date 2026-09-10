@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import {
   HOME_AGENTS,
   HOME_AGENTS_FEATURED,
@@ -82,16 +82,15 @@ const KNOWLEDGE_FEATURED = new Set([
   'gateway',
 ]);
 
+function subscribeMotionPreference(onChange: () => void) {
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+}
+
 function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduced(mq.matches);
-    const on = () => setReduced(mq.matches);
-    mq.addEventListener('change', on);
-    return () => mq.removeEventListener('change', on);
-  }, []);
-  return reduced;
+  return useSyncExternalStore(subscribeMotionPreference,
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches, () => false);
 }
 
 const openingLine = (agent: HomeAgent) =>
@@ -99,7 +98,8 @@ const openingLine = (agent: HomeAgent) =>
     ? 'Ask me what assembl is, what it does, or what it will not do.'
     : `${agent.description} Ask me what I do — or pick another agent above.`;
 
-export function HomeGuidePhone() {
+export function HomeGuidePhone({ presentation = 'compact' }: { presentation?: 'compact' | 'device' }) {
+  const device = presentation === 'device';
   const [mode, setMode] = useState<'live' | 'wait'>('live');
   const reduced = usePrefersReducedMotion();
 
@@ -121,11 +121,7 @@ export function HomeGuidePhone() {
   useEffect(() => {
     if (mode !== 'wait') return;
     // Reduced motion gets the finished conversation, not a performance of it.
-    if (reduced) {
-      setShown(DEMO_SCRIPT.length);
-      setDemoTyping(false);
-      return;
-    }
+    if (reduced) return;
     if (shown >= DEMO_SCRIPT.length) return;
     const next = DEMO_SCRIPT[shown];
     const isAgent = next.role === 'assistant';
@@ -241,9 +237,36 @@ export function HomeGuidePhone() {
         ? KNOWLEDGE_SUGGESTIONS
         : AGENT_SUGGESTIONS;
 
-  return (
-    <div className="aj-phone hg-phone">
-      <i aria-hidden="true" />
+  const suggestionButtons = messages.length <= 1 && !busy && (
+    <div className="hg-foot hg-suggest">
+      {suggestions.map((s) => (
+        <button key={s} type="button" className="hg-chip" onClick={() => send(s)}>
+          {s}
+        </button>
+      ))}
+    </div>
+  );
+
+  const content = (
+    <>
+      {device && (
+        <>
+          <div className="hg-hardware" aria-hidden="true">
+            <span>9:41</span>
+            <i className="hg-island"><i /></i>
+            <svg width="62" height="16" viewBox="0 0 62 16" fill="currentColor">
+              <rect x="1" y="10" width="3" height="4" rx="1" /><rect x="6" y="7" width="3" height="7" rx="1" /><rect x="11" y="4" width="3" height="10" rx="1" /><rect x="16" y="1" width="3" height="13" rx="1" />
+              <path d="M25 6Q31 0 37 6L35 8Q31 4 27 8ZM28 10Q31 7 34 10L31 14Z" />
+              <rect x="43" y="3" width="16" height="10" rx="3" fill="none" stroke="currentColor" /><rect x="45" y="5" width="12" height="6" rx="1" /><rect x="60" y="6" width="2" height="4" rx="1" />
+            </svg>
+          </div>
+          <div className="hg-device-agent">
+            <div className="hg-agent-mark" aria-hidden="true">a<span>·</span></div>
+            <div><strong>{mode === 'live' ? agent.name : 'assembl'}</strong><span>{mode === 'live' ? agent.categoryLabel : 'simulated wait'}</span></div>
+            {mode === 'live' && <button type="button" aria-label="Choose an agent" aria-expanded={browsing} onClick={() => setBrowsing((b) => !b)}>⌄</button>}
+          </div>
+        </>
+      )}
 
       <div className="hg-modes" role="tablist" aria-label="Phone mode">
         <button
@@ -347,7 +370,7 @@ export function HomeGuidePhone() {
         )}
       </small>
 
-      <div className="hg-stream" ref={streamRef} aria-live="polite">
+      <div className="hg-stream" ref={streamRef} role="log" aria-label={mode === 'live' ? `${agent.name} conversation` : 'Simulated conversation'} aria-live="polite" aria-relevant="additions text">
         {mode === 'wait'
           ? DEMO_SCRIPT.slice(0, visible).map((m, i) => (
               <p key={i} className={`hg-msg hg-${m.role}`}>
@@ -360,7 +383,7 @@ export function HomeGuidePhone() {
               </p>
             ))}
 
-        {(mode === 'wait' ? demoTyping : busy) && (
+        {(mode === 'wait' ? !reduced && demoTyping : busy) && (
           <p className="hg-msg hg-assistant hg-typing" aria-label="Preparing a reply">
             <span />
             <span />
@@ -369,6 +392,7 @@ export function HomeGuidePhone() {
         )}
 
         {mode === 'live' && error && <p className="hg-msg hg-error">{error}</p>}
+        {device && mode === 'live' && suggestionButtons}
       </div>
 
       {mode === 'wait' ? (
@@ -388,15 +412,7 @@ export function HomeGuidePhone() {
         </div>
       ) : (
         <>
-          {messages.length <= 1 && !busy && (
-            <div className="hg-foot hg-suggest">
-              {suggestions.map((s) => (
-                <button key={s} type="button" className="hg-chip" onClick={() => send(s)}>
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
+          {!device && suggestionButtons}
           <form
             className="aj-phone-input hg-input"
             onSubmit={(e) => {
@@ -422,6 +438,12 @@ export function HomeGuidePhone() {
           </form>
         </>
       )}
+    </>
+  );
+
+  return (
+    <div className={`aj-phone hg-phone${device ? ' hg-phone-device' : ''}`}>
+      {device ? <div className="hg-device-screen">{content}<div className="hg-home-indicator" aria-hidden="true" /></div> : <><i aria-hidden="true" />{content}</>}
     </div>
   );
 }
