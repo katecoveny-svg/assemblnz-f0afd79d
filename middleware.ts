@@ -40,6 +40,19 @@ const SPA_PUBLIC_PREFIXES = [
 const matchesPrefix = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`);
 
+// Client concepts require private-demo access on every host, including previews.
+const isPrivateJourney = (pathname: string) => {
+  let decoded = pathname;
+  try {
+    decoded = decodeURIComponent(pathname);
+  } catch {
+    // Malformed paths remain subject to the normal router validation.
+  }
+  return ['/journeys/one-nz', '/worlds/onenz', '/worlds/one-nz'].some((prefix) =>
+    matchesPrefix(decoded.toLowerCase(), prefix),
+  );
+};
+
 // ---------------------------------------------------------------------------
 // Coming-soon splash gate (live domain only).
 //
@@ -320,6 +333,7 @@ const isPublicCreativeAgencyDemo = (pathname: string) =>
 
 const needsDemoAuth = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
+  if (isPrivateJourney(pathname)) return true;
   // The public agent builder — exact match here; '/a/…' is in the prefix list.
   if (pathname === '/a') return false;
   if (DEMO_AUTH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) {
@@ -782,6 +796,14 @@ const shouldProxyToSpa = (pathname: string) => {
 };
 
 export async function middleware(request: NextRequest) {
+  // Resolve private client access before public exemptions, rewrites or proxies.
+  if (isPrivateJourney(request.nextUrl.pathname)) {
+    const response = (await requireDemoAuth(request)) ?? NextResponse.next();
+    response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, nosnippet');
+    return response;
+  }
+
   // Magic-link entry (/for/[slug]) resolves before the gate — a valid signed
   // link IS the credential. Invalid or revoked links get the branded page.
   const inviteEntry = await handleInviteEntry(request);
@@ -860,5 +882,8 @@ export const config = {
     '/manifest.json',
     '/manifest-:path*.json',
     '/favicon.png',
+    '/journeys/one-nz/:path*',
+    '/worlds/onenz/:path*',
+    '/worlds/one-nz/:path*',
   ],
 };

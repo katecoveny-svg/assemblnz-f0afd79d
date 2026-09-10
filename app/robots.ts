@@ -36,6 +36,9 @@ const DISALLOW = [
   '/dev/',
   '/preview/',
   '/customers/',
+  '/journeys/one-nz',
+  '/worlds/onenz',
+  '/worlds/one-nz',
 ];
 
 // Answer-engine + model crawlers we explicitly allow (do NOT block these).

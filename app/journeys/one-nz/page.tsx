@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { OneNzJourney } from '@/components/loyalty/OneNzJourney';
 import { INDEPENDENT_CONCEPT_DISCLAIMER, MASTHEAD } from '@/lib/loyalty/one-nz';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'One NZ · Wait→Earn Phase 0',
   description:
