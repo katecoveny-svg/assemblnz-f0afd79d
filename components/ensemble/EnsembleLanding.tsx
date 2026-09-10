@@ -76,6 +76,15 @@ export function EnsembleLanding() {
                   {c.ctaClaims}
                 </a>
               </div>
+              <div className="ens-cta-row ens-cta-row-share" aria-label="Make and share">
+                <a className="ens-cta ens-cta-share" href={c.makeHref}>
+                  {c.ctaMakeSomething}
+                </a>
+                <a className="ens-cta ens-cta-share-ghost" href={c.shareHref}>
+                  {c.ctaShareFromGen}
+                </a>
+              </div>
+              <p className="ens-share-hint ens-mono">{c.shareHint}</p>
             </div>
 
             <aside className="ens-hero-visual">
@@ -122,6 +131,15 @@ export function EnsembleLanding() {
             <h2 id="ensemble-tools-title">{c.toolsTitle}</h2>
             <p>{c.toolsSupport}</p>
           </div>
+          <div className="ens-cta-row ens-tools-share" aria-label="Studio share path">
+            <a className="ens-cta ens-cta-share" href={c.makeHref}>
+              {c.ctaMakeSomething}
+            </a>
+            <a className="ens-cta ens-cta-share-ghost" href={c.shareHref}>
+              {c.ctaShareFromGen}
+            </a>
+          </div>
+          <p className="ens-share-hint ens-mono ens-tools-share-hint">{c.shareHint}</p>
           <div className="ens-tools">
             {ENSEMBLE_STUDIO_LINKS.map((tool) => (
               <Link key={tool.href} href={tool.href} className="ens-tool">

@@ -2230,6 +2230,7 @@ function download(blobOrUrl, name){
         const a = document.createElement('a');
         a.href = blobOrUrl; a.download = name; a.rel = 'noopener';
         document.body.appendChild(a); a.click(); a.remove();
+        setStatus('downloaded · proof saved');
         return;
       }
     } else {
@@ -2243,10 +2244,14 @@ function download(blobOrUrl, name){
       try{
         if(!navigator.canShare || navigator.canShare({ files:[file] })){
           await navigator.share({ files:[file], title:'assembl generative studio' });
+          setStatus('shared · use the sheet, or long-press to save');
           return;
         }
       }catch(e){
-        if(e && e.name === 'AbortError') return;
+        if(e && e.name === 'AbortError'){
+          setStatus('share cancelled · tap export again when ready');
+          return;
+        }
       }
     }
     const url = URL.createObjectURL(blob);
@@ -2256,8 +2261,10 @@ function download(blobOrUrl, name){
     if(/iPhone|iPad|iPod/i.test(ua)){
       // Fallback: open so the user can long-press save
       setTimeout(()=>{ try{ window.open(url, '_blank'); }catch(_){ } }, 250);
+      setStatus('opened · long-press the image to save');
     } else {
       setTimeout(()=> URL.revokeObjectURL(url), 4000);
+      setStatus('downloaded · proof saved · tap share to post');
     }
   };
   void run();
@@ -2371,7 +2378,6 @@ async function renderCurrent(){
     else if(share.out==='mp4') out = await renderWebM(6000);
     else if(share.out==='html') out = await renderHTML();
     download(out.blob, out.name);
-    setStatus('downloaded · proof saved');
     share.lastUrl = out.url; share.lastBlob = out.blob; share.lastName = out.name;
     if(share.out !== 'html') showPreview(out.url, share.out==='gif'?'gif':'webm');
   } catch(err){
@@ -6356,6 +6362,15 @@ function applyShareState(s){
   }
 }
 function checkHashRoute(){
+  // Ensemble viral path: /generative-studio#share → enter + open share plate
+  const rawHash = (window.location.hash || '').replace(/^#/, '');
+  if(rawHash === 'share' || rawHash.startsWith('share/')){
+    const parts = rawHash.split('/');
+    const eng = parts[1] && ENGINES.some(e => e.id === parts[1]) ? parts[1] : (state.engine || 'braid');
+    launchEngine(eng);
+    setTimeout(()=>{ try{ openShare(); }catch(_){ } }, 220);
+    return;
+  }
   const s = readShareHash();
   if(!s || !ENGINES.some(e => e.id === s.engine)) return;
   const l = document.getElementById('landing');
