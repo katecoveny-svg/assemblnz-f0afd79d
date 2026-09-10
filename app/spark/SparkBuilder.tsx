@@ -75,7 +75,24 @@ export default function SparkBuilder() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             maxLength={1200}
+            aria-describedby="spark-desc-counter"
           />
+          <div className="flex justify-end px-2.5 pb-2">
+            <span
+              id="spark-desc-counter"
+              className={`font-mono text-[10px] uppercase tracking-[0.1em] ${
+                description.length > 1080
+                  ? 'text-destructive font-medium'
+                  : 'text-[#5c544b]'
+              }`}
+              aria-hidden="true"
+            >
+              {description.length} / 1200 characters
+            </span>
+            <span className="sr-only" aria-live="polite">
+              {description.length > 1080 ? `${description.length} / 1200 characters` : ''}
+            </span>
+          </div>
           <div className={styles.controls}>
             <span className={styles.hint}>Plain English. SPARK builds a working tool — you set the terms.</span>
             <button
