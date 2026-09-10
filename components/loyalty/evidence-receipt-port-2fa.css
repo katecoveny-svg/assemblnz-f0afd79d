@@ -305,8 +305,17 @@
   border: 1px solid var(--erd-plum);
 }
 
+.erd a.erd-cta-primary {
+  color: var(--erd-paper);
+}
+
 .erd-cta-primary:hover {
   background: #3a152f;
+  color: var(--erd-paper);
+}
+
+.erd a.erd-cta-primary:hover {
+  color: var(--erd-paper);
 }
 
 .erd-cta-ghost {
