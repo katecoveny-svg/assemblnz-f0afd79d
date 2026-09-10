@@ -8,7 +8,7 @@ import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
 
-const PROOF_LINE = "The living business operating system.";
+const PROOF_LINE = "Agents prepare. You decide.";
 
 function openCommandPalette() {
   window.dispatchEvent(new Event("assembl:open-command"));
