@@ -1,131 +1,200 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { InMemoryJourneyRepository } from "@/lib/journey/repository";
-import {
-  DetailRows,
-  PageHero,
-  PageNote,
-  PublicPage,
-  SectionHeading,
-  TextLink,
-} from "@/components/public/PublicPage";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { InMemoryJourneyRepository } from '@/lib/journey/repository';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
-  title: "Customer journeys · assembl",
+  title: 'Customer journeys · assembl',
   description:
-    "Explore how a real customer wait can become useful preparation, with permission, human review and evidence.",
+    'Customer journeys that find the wait, prepare the work, and prove the result — with human approval before anything sends. DEMO reference journeys included.',
   robots: { index: false, follow: false },
-  alternates: { canonical: "/journeys" },
 };
+
 export default async function JourneysIndex() {
+  // List every seed journey regardless of tenant for the concept surface.
   const repo = new InMemoryJourneyRepository();
-  const journeys = await repo.listJourneys("everyday-assembled");
+  const journeys = await repo.listJourneys('everyday-assembled');
+
   return (
-    <PublicPage>
-      <PageHero
-        eyebrow="Customer journeys"
-        title="A better"
-        accent="next step."
-        body="The wait is one part of a bigger journey. Explore how a customer’s choice becomes useful preparation, a human handoff and a record of what happened."
-        image="folio"
-      >
-        <TextLink href="#explore" primary>
-          Explore the journeys
-        </TextLink>
-        <TextLink href="/how-it-works">See the shared pattern</TextLink>
-      </PageHero>
-      <section id="explore" className="public-section">
-        <SectionHeading
-          label="Inside a customer moment"
-          title="From waiting to ready."
-          body="These demonstrators make the journey tangible. They are independent concepts with visible limits, not claims of a client relationship or a live integration."
-        />
-        <article className="public-feature">
-          <div className="public-feature-image">
-            <Image
-              src="/img/home/assembl-phone-journey-aperture.png"
-              alt="Paper stages of a customer journey lead through a phone into a prepared folio."
-              fill
-              sizes="(max-width: 760px) 100vw, 45vw"
-            />
-          </div>
-          <div>
-            <p className="public-label">01 / Independent telecom concept</p>
-            <h3>Make the connection count.</h3>
-            <p>
-              Explore the One NZ concept: a customer wait, optional
-              participation and an evidence receipt that shows the steps.
+    <main
+      style={{
+        minHeight: '100dvh',
+        background: '#fff',
+        color: 'var(--a-text, #252d31)',
+        fontFamily: 'var(--font-body, system-ui, sans-serif)',
+        padding: 'clamp(2rem, 6vw, 5rem) clamp(1rem, 5vw, 2rem)',
+      }}
+    >
+      <div style={{ maxWidth: 780, margin: '0 auto' }}>
+        <p
+          style={{
+            fontFamily: 'var(--font-mono, monospace)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            color: 'var(--a-accent, #3f7373)',
+            margin: '0 0 0.75rem',
+          }}
+        >
+          assembl · customer journeys
+        </p>
+        <h1
+          style={{
+            fontFamily: 'var(--font-display, Georgia, serif)',
+            fontSize: 'clamp(2rem, 5vw, 3.2rem)',
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+            margin: '0 0 1rem',
+          }}
+        >
+          Find the wait. Prepare the work. Prove the result.
+        </h1>
+        <p style={{ fontSize: '1.05rem', lineHeight: 1.6, color: 'var(--a-text-dim, #556)', maxWidth: '58ch' }}>
+          Each journey uses the same shape: a customer wait, work prepared inside it, and a person who says yes before
+          anything happens. Below are DEMO reference journeys — the same pattern carries to energy, airlines, trades and more.
+        </p>
+
+        <div style={{ display: 'grid', gap: '1rem', marginTop: '2.5rem' }}>
+          <Link
+            href="/journeys/evidence-receipt"
+            style={{
+              display: 'block',
+              border: '1px solid rgba(145,106,112,0.4)',
+              borderRadius: 20,
+              padding: '1.5rem 1.75rem',
+              textDecoration: 'none',
+              color: 'inherit',
+              background: 'linear-gradient(180deg, #fffdfb, #f5f1f2)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-display, Georgia, serif)',
+                  fontSize: '1.5rem',
+                  margin: 0,
+                }}
+              >
+                Evidence receipt DEMO · port_2fa
+              </h2>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: '#916A70',
+                  alignSelf: 'center',
+                }}
+              >
+                status DEMO
+              </span>
+            </div>
+            <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
+              First mint · port 2FA YES ≤2h. Sample wait→earn audit proof. Auth path clear. Carrier
+              owns currency; assembl owns evidence.
             </p>
-            <dl className="public-feature-rows">
-              <div>
-                <dt>The moment</dt>
-                <dd>A customer is waiting for their mobile connection.</dd>
-              </div>
-              <div>
-                <dt>The idea</dt>
-                <dd>
-                  Prepare the next step and make any proposed reward visible.
-                </dd>
-              </div>
-              <div>
-                <dt>The boundary</dt>
-                <dd>
-                  An independent assembl demonstrator. Not a current One NZ
-                  offer.
-                </dd>
-              </div>
-            </dl>
-            <TextLink href="/journeys/one-nz" primary>
-              Explore the One NZ concept
-            </TextLink>
-          </div>
-        </article>
-        <article className="public-feature">
-          <div className="public-feature-image">
-            <Image
-              src="/brand/public-craft/receipt.webp"
-              alt="An archival receipt, glass and rose metal frame."
-              fill
-              sizes="(max-width: 760px) 100vw, 45vw"
-            />
-          </div>
-          <div>
-            <p className="public-label">02 / Sample evidence</p>
-            <h3>Leave a trail someone can read.</h3>
-            <p>
-              A sample receipt makes the permission, event and resulting status
-              inspectable. The example uses simulated information.
+          </Link>
+
+          <Link
+            href="/journeys/one-nz"
+            style={{
+              display: 'block',
+              border: '1px solid rgba(0,124,146,0.35)',
+              borderRadius: 20,
+              padding: '1.5rem 1.75rem',
+              textDecoration: 'none',
+              color: 'inherit',
+              background: 'linear-gradient(180deg, #fff, #f3fafb)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-display, Georgia, serif)',
+                  fontSize: '1.5rem',
+                  margin: 0,
+                }}
+              >
+                One NZ · the wait is the earn event
+              </h2>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: '#007C92',
+                  alignSelf: 'center',
+                }}
+              >
+                primary demo
+              </span>
+            </div>
+            <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
+              Agentic loyalty concept — Phone Dollars, One Wallet, Evidence receipt. Independent
+              concept; not a current One NZ offer.
             </p>
-            <TextLink href="/journeys/evidence-receipt" primary>
-              Inspect the sample receipt
-            </TextLink>
-          </div>
-        </article>
-      </section>
-      <section className="public-section">
-        <SectionHeading
-          label="Reference journeys"
-          title="The same care, in different moments."
-          body="Use the sample journeys to explore the flow, then imagine one real wait in your organisation."
-        />
-        <DetailRows
-          rows={journeys.map((journey, index) => ({
-            n: String(index + 3).padStart(2, "0"),
-            h: journey.name,
-            p: journey.description,
-            href: `/journeys/${journey.id}`,
-          }))}
-        />
-        <PageNote>
-          Reference journeys use fictional details and simulated actions. Each
-          experience explains its own boundary.
-        </PageNote>
-        <div className="public-actions">
-          <TextLink href="/concepts">Explore five industry moments</TextLink>
-          <TextLink href="/pilots">Shape a pilot around your wait</TextLink>
+          </Link>
+
+          {journeys.map((j) => (
+            <Link
+              key={j.id}
+              href={`/journeys/${j.id}`}
+              style={{
+                display: 'block',
+                border: '1px solid rgba(49,60,66,0.12)',
+                borderRadius: 20,
+                padding: '1.5rem 1.75rem',
+                textDecoration: 'none',
+                color: 'inherit',
+                background: 'linear-gradient(180deg, #fff, #f7f9f8)',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-display, Georgia, serif)',
+                    fontSize: '1.5rem',
+                    margin: 0,
+                  }}
+                >
+                  {j.name}
+                </h2>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono, monospace)',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    color: 'var(--a-gold, #b8964f)',
+                    alignSelf: 'center',
+                  }}
+                >
+                  {j.status}
+                </span>
+              </div>
+              <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
+                {j.description}
+              </p>
+            </Link>
+          ))}
         </div>
-      </section>
-    </PublicPage>
+
+        <p
+          style={{
+            fontFamily: 'var(--font-mono, monospace)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: 'var(--a-text-faint, #889)',
+            marginTop: '3rem',
+          }}
+        >
+          sample journeys — details fictional · everything simulated
+        </p>
+      </div>
+    </main>
   );
 }

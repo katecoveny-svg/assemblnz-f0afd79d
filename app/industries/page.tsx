@@ -1,235 +1,192 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { graph, breadcrumbNode, SITE_URL } from "@/lib/seo/schema";
-import {
-  PageHero,
-  PageNote,
-  PublicPage,
-  SectionHeading,
-  TextLink,
-} from "@/components/public/PublicPage";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { graph, breadcrumbNode, SITE_URL } from '@/lib/seo/schema';
+import './industries.css';
+
+/**
+ * /industries — what assembl works in, evidenced by what actually exists.
+ *
+ * Kate, 29 July 2026: "I need to have somewhere on the site what are the
+ * industries that assembl supports."
+ *
+ * Every industry here is backed by a working concept — the wait named is the
+ * one that industry actually has, and the link goes to a live demonstrator you
+ * can walk through. Where a concept is for a named business it is an
+ * INDEPENDENT concept, never a client relationship, so this page speaks in
+ * sectors and links to the demonstrators.
+ */
+
 export const metadata: Metadata = {
-  title: "Industry moments · assembl",
+  title: 'Industries — where agentic customer journeys already work',
   description:
-    "Explore proposed customer journeys across different industries, each with a real wait and a defined human handoff.",
-  alternates: { canonical: "/industries" },
+    'The industries assembl works in: insurance, lending, energy, retail, logistics, property, retirement living, travel, tax and construction — each with a working concept you can walk through.',
+  alternates: { canonical: '/industries' },
+  openGraph: {
+    title: 'Industries — assembl',
+    description: 'Insurance, lending, energy, retail, logistics, property, retirement, travel, tax, construction — each with a live concept.',
+  },
 };
+
 type Industry = {
   name: string;
   wait: string;
   what: string;
   demo?: { label: string; href: string };
-  status?: "coming";
+  status?: 'coming';
 };
+
 const INDUSTRIES: Industry[] = [
   {
-    name: "General insurance",
-    wait: "A claim is being reviewed.",
-    what: "Prepare a customer-approved evidence summary and questions for the claims team. A person owns the assessment and any decision.",
-    demo: {
-      label: "walk the claims concept",
-      href: "https://assembling-tower.pages.dev",
-    },
+    name: 'General insurance',
+    wait: 'Lodgement to decision — measured in weeks, felt as silence.',
+    what: 'The claim prepared in the open: photos read, the assessor booked, the decision drafted for a person. One question — is your home liveable tonight — reorders the queue.',
+    demo: { label: 'walk the claims concept', href: 'https://assembling-tower.pages.dev' },
   },
   {
-    name: "Health insurance",
-    wait: "Information is being gathered for a coverage review.",
-    what: "Organise the documents and open questions for the insurer. Clinical advice and coverage decisions remain with qualified people.",
-    demo: {
-      label: "walk the remediation concept",
-      href: "https://assembling-southern-cross.pages.dev",
-    },
+    name: 'Health insurance',
+    wait: 'Prior approval before a procedure — the silence between diagnosis and theatre.',
+    what: 'The approval assembled like a surgical checklist, each line of the quote tested against the plan, with the cases that need a person held back from the run.',
+    demo: { label: 'walk the remediation concept', href: 'https://assembling-southern-cross.pages.dev' },
   },
   {
-    name: "Lending & consumer finance",
-    wait: "An application is awaiting information or review.",
-    what: "Prepare a completeness checklist and questions for the lending specialist. The agent does not decide affordability, eligibility or approval.",
-    demo: {
-      label: "walk the lending concept",
-      href: "https://assembling-nectar.pages.dev",
-    },
+    name: 'Lending & consumer finance',
+    wait: 'The gap between a quote and money landing, usually under pressure.',
+    what: 'The statement reads itself into lanes while affordability checks light green — and a person signs before anything moves.',
+    demo: { label: 'walk the lending concept', href: 'https://assembling-nectar.pages.dev' },
   },
   {
-    name: "Banking",
-    wait: "A customer is waiting for an adviser or an application update.",
-    what: "Assemble a clear brief of the customer’s questions and missing items for an approved human handoff.",
-    demo: {
-      label: "walk the banking demonstrator",
-      href: "https://assembling-demo-banking.pages.dev",
-    },
+    name: 'Banking',
+    wait: 'A home-loan application against an offer deadline.',
+    what: 'The engine room made visible: valuation ordered, serviceability tested, policy slots checked — ending at a named assessor, never a machine decision.',
+    demo: { label: 'walk the banking demonstrator', href: 'https://assembling-demo-banking.pages.dev' },
   },
   {
-    name: "Investing & KiwiSaver",
-    wait: "An order or transfer is processing.",
-    what: "Explain the administrative steps and prepare customer questions. Any regulated advice follows an approved advice pathway.",
-    demo: {
-      label: "walk the investing concept",
-      href: "https://assembling-sharesies.pages.dev",
-    },
+    name: 'Investing & KiwiSaver',
+    wait: 'A transfer that goes dark for days while savings are in transit.',
+    what: 'The money shown in motion — old provider, the middle leg, landed — with the portfolio assembling as the cash clears.',
+    demo: { label: 'walk the investing concept', href: 'https://assembling-sharesies.pages.dev' },
   },
   {
-    name: "Tax & fintech",
-    wait: "A client is waiting for an accountant or filing review.",
-    what: "Organise supporting records and open questions for a qualified reviewer. Filing and consequential advice need a defined approval path.",
-    demo: {
-      label: "walk the tax concept",
-      href: "https://assembling-hnry.pages.dev",
-    },
+    name: 'Tax & fintech',
+    wait: 'End of financial year: filed, then assessed, in silence.',
+    what: 'The year replayed — every invoice splitting into its streams as it happened — ending on one number that was already paid along the way.',
+    demo: { label: 'walk the tax concept', href: 'https://assembling-hnry.pages.dev' },
   },
   {
-    name: "Postal & logistics",
-    wait: "A parcel is between delivery steps.",
-    what: "Prepare delivery preferences or the information needed for an enquiry. A real status source is required for live tracking.",
-    demo: {
-      label: "walk the parcel concept",
-      href: "https://assembling-nzpost.pages.dev",
-    },
+    name: 'Postal & logistics',
+    wait: '“Out for delivery” — a six-hour window at somebody’s door.',
+    what: 'The real network lit up, scan by scan, to the van on your street — and one answer (a safe place) that ends the redelivery loop.',
+    demo: { label: 'walk the parcel concept', href: 'https://assembling-nzpost.pages.dev' },
   },
   {
-    name: "Marketplace & property",
-    wait: "A customer is waiting for a property conversation.",
-    what: "Assemble the questions and approved information that would make the next conversation more useful.",
-    demo: {
-      label: "walk the property concept",
-      href: "https://assembling-trademe.pages.dev",
-    },
+    name: 'Marketplace & property',
+    wait: 'The silence after a rental application, or a listing that has gone quiet.',
+    what: 'A key being cut — a notch for each completed check — and a vendor note drafted from what the listing data actually says.',
+    demo: { label: 'walk the property concept', href: 'https://assembling-trademe.pages.dev' },
   },
   {
-    name: "Energy & utilities",
-    wait: "A bill, switch or account question is being reviewed.",
-    what: "Prepare a clear summary of the information and questions. Billing disputes, outages and hardship need the appropriate support team.",
-    demo: {
-      label: "walk the energy concept",
-      href: "https://assembling-electrickiwi.pages.dev",
-    },
+    name: 'Energy & utilities',
+    wait: 'Switch limbo, and the bill nobody can explain.',
+    what: 'The switch shown day by day, the bill explained against the actual weather, and a free hour placed on tonight’s real demand curve.',
+    demo: { label: 'walk the energy concept', href: 'https://assembling-electrickiwi.pages.dev' },
   },
   {
-    name: "Grocery & retail",
-    wait: "An order is being picked or packed.",
-    what: "Gather optional substitution preferences for customer review, with the primary order continuing either way.",
-    demo: {
-      label: "walk the grocery demonstrator",
-      href: "https://assembling-demo-grocery.pages.dev",
-    },
+    name: 'Grocery & retail',
+    wait: 'The picking window — decided without the shopper.',
+    what: 'The trolley picked live, aisle by aisle, with every substitution raised as a card to approve rather than a doorstep surprise.',
+    demo: { label: 'walk the grocery demonstrator', href: 'https://assembling-demo-grocery.pages.dev' },
   },
   {
-    name: "Subscription & meal kits",
-    wait: "A meal-kit order is being prepared.",
-    what: "Help the household prepare for the week with an optional pantry check or dinner plan. Allergy and food safety questions go to the service team.",
-    demo: {
-      label: "walk the meal-kit concept",
-      href: "https://assembling-myfoodbag.pages.dev",
-    },
+    name: 'Subscription & meal kits',
+    wait: 'Delivery day — when takeaways steal the night.',
+    what: 'Tonight’s dinner assembling on the bench, substitutions explained rather than swapped silently, the window tightened to forty minutes.',
+    demo: { label: 'walk the meal-kit concept', href: 'https://assembling-myfoodbag.pages.dev' },
   },
   {
-    name: "Retirement living & care",
-    wait: "A family is waiting for information or a village visit.",
-    what: "Prepare a family-controlled brief of preferences and questions for the adviser. Care, legal and financial decisions stay with qualified people.",
-    demo: {
-      label: "walk the retirement demonstrator",
-      href: "https://assembling-demo-retirement.pages.dev",
-    },
+    name: 'Retirement living & care',
+    wait: 'The exit repayment — a family waiting months, mid-grief, while fees accrue.',
+    what: 'The relicensing pipeline in the open — refurbishment, listing, viewings, settlement — and a question that can release money early for care.',
+    demo: { label: 'walk the retirement demonstrator', href: 'https://assembling-demo-retirement.pages.dev' },
   },
   {
-    name: "Airlines & travel",
-    wait: "A travel team is resolving a disruption.",
-    what: "Prepare the customer’s priorities for connections, travelling companions and access needs. The team confirms availability and any booking.",
-    demo: {
-      label: "walk the airline demonstrator",
-      href: "https://assembling-demo-airline.pages.dev",
-    },
+    name: 'Airlines & travel',
+    wait: 'The gap between a cancellation and a new itinerary.',
+    what: 'Three ways home assembled with seats held while you choose — group kept together, earliest arrival, fewest connections — ticketed by a person.',
+    demo: { label: 'walk the airline demonstrator', href: 'https://assembling-demo-airline.pages.dev' },
   },
   {
-    name: "Trades & professional services",
-    wait: "A quote or site visit is being prepared.",
-    what: "Organise the job brief and questions using the information the customer approves. A qualified person confirms scope and price.",
-    demo: { label: "see the journey", href: "/concepts" },
+    name: 'Trades & professional services',
+    wait: 'The quote that takes three evenings to write.',
+    what: 'The quote drafted from your own rates and terms while the customer is still interested — held at draft until you approve it.',
+    demo: { label: 'see the journey', href: '/concepts' },
   },
   {
-    name: "Construction & architecture",
-    wait: "A project question is waiting for a design or delivery review.",
-    what: "Prepare the relevant model information, documents and questions for the responsible professional. Technical decisions remain with that person.",
-    demo: {
-      label: "walk the construction demonstrator",
-      href: "https://assembling-construction.pages.dev",
-    },
+    name: 'Construction & architecture',
+    wait: 'The gap between a question about the model and someone with a licence to answer it.',
+    what: 'Your IFC export becomes something a client can walk in a browser, quantities counted from the model rather than retyped, and a 4D sequence drafted from your programme — every output held for the practice.',
+    demo: { label: 'walk the construction demonstrator', href: 'https://assembling-construction.pages.dev' },
   },
 ];
+
 export default function IndustriesPage() {
   return (
-    <PublicPage>
+    <main className="ind">
       <JsonLd
         data={graph(
           {
-            "@type": "ItemList",
-            "@id": SITE_URL + "/industries#list",
-            name: "Proposed customer journey concepts",
-            itemListElement: INDUSTRIES.map((item, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              name: item.name,
-              description: item.what,
+            '@type': 'ItemList',
+            '@id': `${SITE_URL}/industries#list`,
+            name: 'Industries assembl works in',
+            itemListElement: INDUSTRIES.map((i, n) => ({
+              '@type': 'ListItem',
+              position: n + 1,
+              name: i.name,
+              description: i.what,
             })),
           },
           breadcrumbNode([
-            { name: "assembl", path: "/" },
-            { name: "Industries", path: "/industries" },
+            { name: 'assembl', path: '/' },
+            { name: 'Industries', path: '/industries' },
           ]),
         )}
       />
-      <PageHero
-        eyebrow="Industry moments"
-        title="A real wait."
-        accent="In every kind of work."
-        body="Explore where useful preparation could fit. Each concept begins with a customer moment and ends with a person responsible for the next step."
-        image="folio"
-      >
-        <TextLink href="#explore" primary>
-          Explore the moments
-        </TextLink>
-        <TextLink href="/pilots">Start with one pilot</TextLink>
-      </PageHero>
-      <section id="explore" className="public-section">
-        <SectionHeading
-          label="Proposed customer journeys"
-          title="One pattern. Many possibilities."
-          body="These independent concepts illustrate possible journeys. They do not establish a client relationship, a live integration or a measured customer outcome."
-        />
-        <div className="public-agent-grid">
-          {INDUSTRIES.map((item, index) => (
-            <article className="public-agent-card" key={item.name}>
-              <p className="public-label">
-                {String(index + 1).padStart(2, "0")} / Proposed concept
-              </p>
-              <h3>{item.name}</h3>
-              <p className="public-industry-wait">{item.wait}</p>
-              <p>{item.what}</p>
-              {item.demo &&
-                (item.demo.href.startsWith("http") ? (
-                  <a
-                    className="public-text-link"
-                    href={item.demo.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open concept <span aria-hidden>↗</span>
-                    <span className="sr-only"> (opens a new tab)</span>
-                  </a>
-                ) : (
-                  <Link className="public-text-link" href={item.demo.href}>
-                    Explore the journey <span aria-hidden>↗</span>
-                  </Link>
-                ))}
+      <div className="ind-wrap">
+        <p className="ind-kicker">assembl · intuitive agentic customer journeys</p>
+        <h1>The industries<br /><span className="metal">we work in.</span></h1>
+        <p className="ind-lede">
+          Every industry below has a wait in it — a moment where a customer is left holding
+          nothing while real work happens out of sight. We have built a working concept for each
+          one, on that industry&rsquo;s own published facts. Walk any of them.
+        </p>
+
+        <div className="ind-grid">
+          {INDUSTRIES.map((i) => (
+            <article key={i.name} className={`ind-card${i.status === 'coming' ? ' soon' : ''}`}>
+              <h2>{i.name}</h2>
+              <p className="ind-wait"><span>the wait</span>{i.wait}</p>
+              <p className="ind-what">{i.what}</p>
+              {i.demo ? (
+                <a className="ind-go" href={i.demo.href}>{i.demo.label} →</a>
+              ) : (
+                <span className="ind-soon">in build</span>
+              )}
             </article>
           ))}
         </div>
-        <PageNote>
-          External concepts have their own demonstration data and boundaries. A
-          live pilot requires a separately agreed scope, permissions and tested
-          connections.
-        </PageNote>
-      </section>
-    </PublicPage>
+
+        <div className="ind-foot">
+          <p>
+            The named-company concepts are <b>independent concepts</b> — built from public
+            material to show what that journey could be. They are not clients, and nothing on
+            them was built with a customer&rsquo;s data.
+          </p>
+          <div className="ind-cta-row">
+            <Link className="ind-cta" href="/ai-ready">see your own journey, drafted</Link>
+            <Link className="ind-cta ghost" href="/assembling">the wait state framework</Link>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }

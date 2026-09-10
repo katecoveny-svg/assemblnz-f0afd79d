@@ -46,8 +46,9 @@ export function PilotSprintCheckout({ configured }: { configured: boolean }) {
           secure checkout
         </p>
         <p className="mt-3 text-sm leading-6 text-[color:var(--text-body)]">
-          Online payment is unavailable here. Contact assembl to arrange payment
-          after the workflow and start date have been agreed.
+          Stripe is not configured in this environment yet. The fit-check route
+          is live; add the production Stripe secret to activate one-click
+          payment.
         </p>
         <a
           href="mailto:assembl@assembl.co.nz?subject=Pilot%20Sprint%20payment"

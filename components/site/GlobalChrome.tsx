@@ -3,8 +3,6 @@
 import { usePathname } from 'next/navigation';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { V2Footer } from '@/components/v2/V2Footer';
-import { PublicHeader, PublicFooter } from '@/components/public/PublicChrome';
-import { publicPageKind } from '@/components/public/public-route-canon';
 import {
   isDashMicrosite,
   isAgentMarketplace,
@@ -72,14 +70,12 @@ function shipsOwnChrome(pathname: string | null): boolean {
 
 export function GlobalNav() {
   const pathname = usePathname();
-  if (publicPageKind(pathname)) return <PublicHeader />;
   if (shipsOwnChrome(pathname)) return null;
   return <V2Nav current={pathname ?? undefined} />;
 }
 
 export function GlobalFooter() {
   const pathname = usePathname();
-  if (publicPageKind(pathname)) return <PublicFooter />;
   if (shipsOwnChrome(pathname)) return null;
   return <V2Footer />;
 }

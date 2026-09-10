@@ -19,7 +19,6 @@ export function FaqTool() {
   const [cat, setCat] = useState<string>('all');
   const [open, setOpen] = useState<string | null>(FAQS[0]!.q);
   const [copiedQ, setCopiedQ] = useState<string | null>(null);
-  const [copyError, setCopyError] = useState(false);
 
   const shown = useMemo(
     () => (cat === 'all' ? FAQS : FAQS.filter((f) => f.cat === cat)),
@@ -27,28 +26,27 @@ export function FaqTool() {
   );
 
   const copy = async (q: string, a: string) => {
-    setCopyError(false);
     try {
       await navigator.clipboard.writeText(
         `${q}\n\n${a}\n\n— assembl, intuitive agentic customer journeys · assembl.co.nz`,
       );
       setCopiedQ(q);
       setTimeout(() => setCopiedQ(null), 2000);
-    } catch { setCopyError(true); }
+    } catch { /* clipboard denied — nothing to clean up */ }
   };
 
   return (
     <div className="faqt">
-      <div className="faqt-chips" role="group" aria-label="Filter questions by topic">
+      <div className="faqt-chips" role="tablist" aria-label="Filter questions by topic">
         <button
-          type="button" aria-pressed={cat === 'all'}
+          type="button" role="tab" aria-selected={cat === 'all'}
           className={cat === 'all' ? 'on' : ''} onClick={() => setCat('all')}
         >
           all
         </button>
         {FAQ_CATS.map((c) => (
           <button
-            key={c} type="button" aria-pressed={cat === c}
+            key={c} type="button" role="tab" aria-selected={cat === c}
             className={cat === c ? 'on' : ''} onClick={() => setCat(c)}
           >
             {c}
@@ -56,7 +54,6 @@ export function FaqTool() {
         ))}
       </div>
 
-      {copyError && <p role="status" className="faqt-feedback">Copy is unavailable. You can select and copy the answer text.</p>}
       <div className="faqt-list">
         {shown.map((f) => {
           const isOpen = open === f.q;
@@ -75,7 +72,7 @@ export function FaqTool() {
                 <div className="faqt-a">
                   <p>{f.a}</p>
                   <div className="faqt-a-row">
-                    <button type="button" className="faqt-copy" aria-live="polite" onClick={() => void copy(f.q, f.a)}>
+                    <button type="button" className="faqt-copy" onClick={() => void copy(f.q, f.a)}>
                       {copiedQ === f.q ? 'copied ✓' : 'copy for your AI'}
                     </button>
                     <span className="faqt-cat">{f.cat}</span>

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
-import { PageHero, PublicPage, TextLink } from '@/components/public/PublicPage';
+import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { PainfulWorkflowCapture } from '@/components/hapai/PainfulWorkflowCapture';
 import { ToolLeadCapture } from '@/components/hapai/ToolLeadCapture';
 import {
@@ -61,7 +62,7 @@ const ledeExamples = [
   },
   {
     name: 'Food Act temperature log',
-    job: 'Log a fridge or cook temp and prepare a dated record for review.',
+    job: 'Log a fridge or cook temp and get a compliant record, dated and filed.',
     href: '/hapai/food-temp-log',
   },
   {
@@ -96,9 +97,77 @@ const adoptionLoop = [
 
 export default function HapaiPage() {
   return (
-    <PublicPage>
-      <PageHero eyebrow="SPARK / Public tools" title="One small task." accent="Something useful." body="Explore the tools for everyday work. Bring a note, a brief or a question, then review what comes back before using or sharing it." image="tiles"><TextLink href="#explore" primary>Open the tool library</TextLink><TextLink href="#workflow-request">Describe a tool you need</TextLink></PageHero>
-      <div className="public-document">
+    <div className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
+        {/* Pattern Studio motion — decorative, behind the hero. */}
+        <PatternBackdrop
+          className="absolute inset-0"
+          mode="particles"
+          colorRole="accent"
+          count={120}
+          connectLines
+          connectDistance={130}
+          glow
+          opacity={0.32}
+          speed={0.55}
+          lazyMount={false}
+        />
+        <div className="relative z-[1] mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+          <div>
+            <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+              built in aotearoa · SPARK
+            </p>
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.2rem,6vw,5.8rem)] font-light leading-[0.92]">
+              Tools for the job in front of you.
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
+              assembl&apos;s public library of single-purpose tools. Upload the note, paste the
+              rough text, record the meeting, photograph the notice, or choose
+              the task. Get a draft, checklist, share card, plan, or next action
+              you can review.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Link href="#tools" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
+                Open the library <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
+                Book a pilot
+              </Link>
+            </div>
+            <div className="mt-8 max-w-md">
+              <ToolLeadCapture
+                toolSlug="hapai-library"
+                source="hapai-library"
+                title="One new free tool each fortnight"
+                blurb="Get one new free tool in your inbox each fortnight. Short, useful, unsubscribe anytime."
+                successMessage="Ka pai. You’re on the list — one tool each fortnight."
+              />
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 shadow-[0_28px_90px_rgba(35,33,31,0.12)]">
+            <div className="relative aspect-[4/3]">
+              <Image
+                src="/img/kete/home-vessel-pounamu.jpg"
+                alt="assembl evidence vessel on a warm cream background"
+                fill
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                className="object-cover transition-transform duration-700 hover:scale-[1.02]"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff]/8 via-transparent to-[#ffffff]/46" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#ffffff]/88 p-4 backdrop-blur">
+                <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+                  public tool library
+                </p>
+                <p className="mt-2 font-display text-2xl font-light leading-tight md:text-3xl">
+                  One task. One tool. One useful result.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Lede examples — lead with four ordinary jobs so the idea is concrete. */}
       <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
@@ -171,8 +240,7 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <span id="tools" />
-      <section id="explore" className="px-5 py-16 md:px-10 md:py-24">
+      <section id="tools" className="px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
@@ -261,10 +329,6 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <section className="public-section public-contact-grid">
-        <div><h2 className="font-display text-4xl">Keep a little curiosity in your inbox.</h2><p className="mt-5 text-[color:var(--text-body)]">An optional update when there is another tool to try.</p></div>
-        <ToolLeadCapture toolSlug="hapai-library" source="hapai-library" title="One new free tool each fortnight" blurb="Get one new free tool in your inbox each fortnight. Short, useful, unsubscribe anytime." successMessage="Ka pai. You’re on the list — one tool each fortnight." />
-      </section>
       <section id="workflow-request" className="border-t border-[rgba(35,33,31,0.10)] bg-[#f3f5f3] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
           <PainfulWorkflowCapture />
@@ -283,10 +347,11 @@ export default function HapaiPage() {
           </div>
           <div>
             <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
-              When a public tool proves useful, discuss a version for your team.
-              Agree the information it uses, your review rules and the scope
-              before connecting it to live work. The current offers and
-              prices are on the pricing page.
+              The full SPARK library, branded to your org and available to every
+              team member, comes with All-Access — every agent we make, NZ$250/month.
+              Your wordmark, your colour, your voice, your review rules. The
+              point is simple: every team should be able to create, open, and
+              share small internal tools for the work they actually do.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/pricing" className="cta-primary inline-flex h-12 items-center px-6">
@@ -300,7 +365,6 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      </div>
-    </PublicPage>
+    </div>
   );
 }
