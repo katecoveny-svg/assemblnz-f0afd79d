@@ -1,0 +1,283 @@
+/* Ensemble's editorial studio introduction. Copy and downstream tools stay as-is. */
+.ens-root .ens-nav {
+  min-height: 84px;
+  padding: 18px clamp(20px, 4.4vw, 72px);
+  gap: 24px;
+  align-items: center;
+  background: rgba(255, 253, 251, .96);
+  border-color: rgba(36, 11, 33, .13);
+}
+
+.ens-root .ens-nav-brand { flex-shrink: 0; gap: 5px; }
+.ens-root .ens-nav-brand strong { font-size: 28px; font-weight: 550; letter-spacing: -.055em; }
+.ens-root .ens-nav-brand span { font-size: 9px; letter-spacing: .12em; }
+.ens-root .ens-nav-badge {
+  flex: 0 1 310px;
+  max-width: 310px;
+  padding: 0 0 0 20px;
+  border: 0;
+  border-left: 1px solid var(--ens-line-strong);
+  background: transparent;
+  color: var(--ens-muted);
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: .09em;
+}
+
+.ens-root .ens-hero {
+  padding: clamp(38px, 4.5vw, 72px) clamp(20px, 4.4vw, 72px) 0;
+  background: var(--ens-paper);
+}
+
+.ens-root .ens-hero-grid {
+  grid-template-columns: minmax(0, 1.03fr) minmax(0, 1fr);
+  grid-template-areas: 'copy visual' 'studio visual';
+  gap: 34px clamp(32px, 5vw, 80px);
+  max-width: 1440px;
+  align-items: center;
+}
+
+.ens-hero-copy { grid-area: copy; }
+.ens-hero .ens-eyebrow { color: var(--ens-muted); font-size: 10px; letter-spacing: .18em; }
+.ens-root .ens-hero-copy h1 {
+  margin: 24px 0 0;
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: clamp(60px, 6.4vw, 100px);
+  line-height: .99;
+  font-weight: 500;
+  color: var(--ens-plum);
+  letter-spacing: -.062em;
+  max-width: 10.2ch;
+  text-wrap: balance;
+}
+.ens-hero-copy h1 > span { display: block; color: var(--ens-rose); }
+.ens-root .ens-hero-support {
+  margin: 28px 0 0;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.65;
+  max-width: 43ch;
+  color: #634d5e;
+}
+.ens-hero .ens-cta-row { margin-top: 30px; }
+.ens-hero .ens-cta {
+  min-height: 48px;
+  width: auto;
+  gap: 22px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+.ens-hero .ens-cta > span { font-size: 19px; line-height: 1; font-weight: 400; }
+.ens-hero .ens-cta-primary { padding: 16px 22px; }
+.ens-hero .ens-cta-primary:hover { background: #4c2845; transform: translateY(-2px); }
+.ens-root :is(.ens-nav, .ens-hero) a:focus-visible {
+  outline: 2px solid var(--ens-rose);
+  outline-offset: 5px;
+}
+
+.ens-hero-studio {
+  grid-area: studio;
+  align-self: end;
+  border-top: 1px solid var(--ens-line);
+  padding: 19px 0 32px;
+}
+.ens-hero-studio .ens-cta-row { margin: 0; flex-direction: row; gap: 8px 27px; align-items: center; }
+.ens-hero-studio .ens-cta {
+  min-height: 44px;
+  padding: 0;
+  gap: 13px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--ens-plum);
+  justify-content: flex-start;
+  font-size: 12px;
+  text-decoration: underline;
+  text-decoration-color: rgba(36, 11, 33, .3);
+  text-underline-offset: 5px;
+}
+.ens-hero-studio .ens-cta-ghost { display: flex; margin-bottom: 3px; color: var(--ens-muted); }
+.ens-hero-studio .ens-cta:hover { text-decoration-color: currentColor; }
+.ens-hero-studio .ens-share-hint {
+  margin: 10px 0 0;
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  max-width: 48ch;
+}
+
+.ens-root .ens-hero-visual {
+  grid-area: visual;
+  margin: 0;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ens-proof-desk {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.08;
+  isolation: isolate;
+  overflow: hidden;
+  background: #654a4e;
+  box-shadow: inset 0 0 0 1px rgba(36, 11, 33, .12);
+}
+.ens-proof-register {
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--ens-chalk);
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+.ens-proof-backing {
+  position: absolute;
+  top: 18%;
+  left: 21%;
+  width: 69%;
+  height: 65%;
+  background: #c8acb2;
+  transform: rotate(9deg);
+  box-shadow: 0 15px 38px rgba(25, 8, 20, .22);
+  animation: ens-backing-arrive 1050ms cubic-bezier(.2,.7,.2,1) both;
+}
+.ens-proof-still {
+  position: absolute;
+  left: 12%;
+  top: 13%;
+  width: 73%;
+  background: var(--ens-paper);
+  padding: 15px 15px 23px;
+  transform: rotate(-7deg);
+  box-shadow: 0 18px 38px rgba(25, 8, 20, .26);
+  animation: ens-still-arrive 1250ms cubic-bezier(.2,.7,.2,1) both;
+}
+.ens-proof-sheet-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--ens-muted);
+  font-size: clamp(7px, .65vw, 9px);
+  line-height: 1.3;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.ens-root .ens-hero-visual .ens-proof-still img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  animation: none;
+}
+.ens-proof-crop-marks i { position: absolute; width: 6px; height: 6px; border-color: #9c8890; border-style: solid; }
+.ens-proof-crop-marks i:nth-child(1) { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+.ens-proof-crop-marks i:nth-child(2) { top: 8px; right: 8px; border-width: 1px 1px 0 0; }
+.ens-proof-crop-marks i:nth-child(3) { bottom: 8px; left: 8px; border-width: 0 0 1px 1px; }
+.ens-proof-crop-marks i:nth-child(4) { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+.ens-proof-copy {
+  position: absolute;
+  bottom: 8%;
+  right: 7%;
+  width: 58%;
+  padding: clamp(18px, 2vw, 30px);
+  background: var(--ens-paper);
+  transform: rotate(3deg);
+  box-shadow: 0 18px 30px rgba(25, 8, 20, .23);
+  animation: ens-copy-arrive 1450ms cubic-bezier(.2,.7,.2,1) both;
+}
+.ens-proof-copy p {
+  margin: 18px 0 22px;
+  color: var(--ens-plum);
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: clamp(22px, 2.5vw, 36px);
+  font-weight: 450;
+  line-height: 1.06;
+  letter-spacing: -.045em;
+}
+.ens-proof-copy-status { color: var(--ens-muted); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
+.ens-root .ens-hero-stamp {
+  position: static;
+  margin: 0;
+  padding: 15px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ens-line);
+  background: transparent;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-align: right;
+}
+.ens-proof-disciplines {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 14px;
+  padding: 17px 0 30px;
+  color: var(--ens-muted);
+  font-size: 9px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+}
+.ens-root :is(#ensemble-assemble, #ensemble-claims) { scroll-margin-top: 112px; }
+
+@keyframes ens-backing-arrive { from { opacity: 0; transform: translate(22px, 28px) rotate(16deg); } }
+@keyframes ens-still-arrive { from { opacity: 0; transform: translate(-34px, 38px) rotate(-16deg); } }
+@keyframes ens-copy-arrive { from { opacity: 0; transform: translate(20px, 65px) rotate(12deg); } }
+
+@media (max-width: 1100px) and (min-width: 761px) {
+  .ens-root .ens-hero-grid { column-gap: 28px; }
+  .ens-root .ens-hero-copy h1 { font-size: clamp(54px, 6.4vw, 70px); }
+  .ens-root .ens-hero-support { font-size: 16px; }
+  .ens-proof-desk { aspect-ratio: 1 / 1.22; }
+  .ens-proof-still { top: 18%; }
+  .ens-proof-backing { top: 22%; height: 58%; }
+  .ens-proof-copy { bottom: 2%; padding: 18px; }
+  .ens-proof-copy p { font-size: 21px; margin: 12px 0 14px; }
+}
+
+@media (max-width: 760px) {
+  .ens-root .ens-nav { min-height: 76px; padding: 14px 20px; gap: 16px; }
+  .ens-root .ens-nav-brand strong { font-size: 25px; }
+  .ens-root .ens-nav-brand span { font-size: 8px; }
+  .ens-root .ens-nav-badge { flex-basis: 185px; max-width: 51%; padding-left: 14px; font-size: 10px; line-height: 1.5; letter-spacing: .035em; }
+  .ens-root .ens-hero { padding: 30px 20px 0; }
+  .ens-root .ens-hero-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'copy' 'visual' 'studio'; gap: 28px; }
+  .ens-root .ens-hero-copy h1 { font-size: clamp(44px, 11.8vw, 70px); margin-top: 18px; max-width: 13ch; letter-spacing: -.055em; line-height: 1; }
+  .ens-root .ens-hero-support { font-size: 15px; line-height: 1.6; margin-top: 22px; max-width: 45ch; }
+  .ens-hero .ens-cta-row { margin-top: 24px; flex-direction: row; }
+  .ens-hero .ens-cta-primary { width: 100%; justify-content: space-between; min-height: 50px; padding: 15px 19px; font-size: 13px; }
+  .ens-proof-desk { aspect-ratio: 1 / 1.04; }
+  .ens-proof-register { font-size: 8px; left: 18px; right: 18px; top: 18px; }
+  .ens-proof-still { padding: 10px 10px 16px; }
+  .ens-proof-sheet-label { font-size: 7px; margin-bottom: 9px; }
+  .ens-proof-copy { bottom: 4%; padding: 14px; }
+  .ens-proof-copy p { font-size: clamp(18px, 5.2vw, 28px); margin: 10px 0 12px; }
+  .ens-proof-copy-status { font-size: 7px; }
+  .ens-proof-disciplines { justify-content: flex-start; gap: 10px 18px; padding-bottom: 0; font-size: 9px; }
+  .ens-hero-studio { padding: 15px 0 30px; }
+  .ens-hero-studio .ens-cta-row { margin-top: 0; gap: 4px 25px; }
+  .ens-hero-studio .ens-cta { width: auto; }
+  .ens-root :is(#ensemble-assemble, #ensemble-claims) { scroll-margin-top: 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ens-proof-backing, .ens-proof-still, .ens-proof-copy { animation: none; }
+  .ens-hero .ens-cta { transition: none; }
+  .ens-hero .ens-cta:hover { transform: none; }
+}
