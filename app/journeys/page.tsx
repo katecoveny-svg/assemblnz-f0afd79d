@@ -5,9 +5,9 @@ import { InMemoryJourneyRepository } from '@/lib/journey/repository';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Agentic customer journeys · assembl',
+  title: 'Customer journeys · assembl',
   description:
-    'assembl creates agentic customer journeys that understand what people need, complete the work around them and prove the experience is improving.',
+    'Customer journeys that find the wait, prepare the work, and prove the result — with human approval before anything sends. DEMO reference journeys included.',
   robots: { index: false, follow: false },
 };
 
@@ -37,7 +37,7 @@ export default async function JourneysIndex() {
             margin: '0 0 0.75rem',
           }}
         >
-          assembl · agentic customer journeys
+          assembl · customer journeys
         </p>
         <h1
           style={{
@@ -48,12 +48,11 @@ export default async function JourneysIndex() {
             margin: '0 0 1rem',
           }}
         >
-          Find the friction. Assemble the journey. Prove the result.
+          Find the wait. Prepare the work. Prove the result.
         </h1>
         <p style={{ fontSize: '1.05rem', lineHeight: 1.6, color: 'var(--a-text-dim, #556)', maxWidth: '58ch' }}>
-          One reusable journey object powers the composer, the runtime, the customer interface and
-          the Proof dashboard. Below is the first reference journey — the same architecture carries
-          to energy, airlines, trades and more.
+          Each journey uses the same shape: a customer wait, work prepared inside it, and a person who says yes before
+          anything happens. Below are DEMO reference journeys — the same pattern carries to energy, airlines, trades and more.
         </p>
 
         <div style={{ display: 'grid', gap: '1rem', marginTop: '2.5rem' }}>

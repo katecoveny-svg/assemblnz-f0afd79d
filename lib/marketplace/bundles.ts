@@ -66,11 +66,11 @@ export const ASSEMBLER_BUNDLE: BundleMeta = {
   name: 'Assembler',
   teReo: '',
   subtitle:
-    'The site foreman that routes site safety, consents, project admin and quality — drafted for a Licensed Building Practitioner to review.',
+    'Site safety, consents, project admin and quality — routed to the right specialist and drafted for a Licensed Building Practitioner to review.',
   category: 'construction',
   leadSlug: 'foreman',
   shortPitch:
-    'The site foreman who routes safety, consents, project admin and quality — without you having to think about which agent owns which job.',
+    'Routes site safety, consents, project admin and quality to the right specialist. Every draft waits for an LBP to review.',
   monthlyNzd: 399,
   seatNzd: 199,
   icon: 'shield',
@@ -127,11 +127,11 @@ export const ENSEMBLE_BUNDLE: BundleMeta = {
   name: 'Ensemble',
   teReo: '',
   subtitle:
-    'The creative director — brief, draft, brand-redline and ship. ASA + Fair Trading + Copyright compliance on every artefact.',
+    'Brief, draft and brand-redline creative work. ASA, Fair Trading and Copyright checks on every artefact before you approve.',
   category: 'creative',
   leadSlug: 'creative-director',
   shortPitch:
-    'A creative director who briefs, drafts, brand-redlines and ships — copy, image, video, 3D, podcast, schedule. ASA + Fair Trading + Copyright compliance on every artefact.',
+    'Brief to draft for copy, image, video, 3D, podcast and schedule — with ASA, Fair Trading and Copyright checks. Nothing publishes without your yes.',
   monthlyNzd: 299,
   seatNzd: 149,
   icon: 'spark',
@@ -155,11 +155,11 @@ export const PRACTICE_BUNDLE: BundleMeta = {
   name: 'Practice',
   teReo: '',
   subtitle:
-    'The duty doctor. Triages the request to GP, oncology, mental health, paeds, women’s, aged care, ACC, allied health — and always sends the work to a registered practitioner for review.',
+    'Triage a health request to GP, oncology, mental health, paeds, women’s, aged care, ACC or allied health — then send the draft to a registered practitioner for review.',
   category: 'health',
   leadSlug: 'duty-doctor',
   shortPitch:
-    'A duty doctor who triages the request to GP, oncology, mental health, paeds, women’s, aged care, ACC, allied health or vet — and always sends the work to a registered practitioner for review.',
+    'Routes a health request to the right clinical desk, then holds the draft for a registered practitioner to review. Nothing clinical goes out without that sign-off.',
   monthlyNzd: 499,
   seatNzd: 249,
   icon: 'scribe',
@@ -212,11 +212,11 @@ export const HEARTH_BUNDLE: BundleMeta = {
   name: 'Hearth',
   teReo: '',
   subtitle:
-    'The whānau navigator. School notices, meals, calendar, elder check-ins, power bills, weather, catch logs. Tōro is the lead, no longer a peer.',
+    'Whānau admin in one place — school notices, meals, calendar, elder check-ins, power bills, weather and catch logs. Tōro is the front door.',
   category: 'family',
   leadSlug: 'toro',
   shortPitch:
-    'The whānau navigator. School notices, meals, calendar, elder check-ins, power bills, weather, catch logs. Tōro is the lead, no longer a peer.',
+    'School notices, meals, calendar, elder check-ins, power bills, weather and catch logs — drafted for a parent to approve. Tōro is the front door.',
   monthlyNzd: 24.99,
   seatNzd: 9.99,
   icon: 'whanau',
@@ -224,7 +224,7 @@ export const HEARTH_BUNDLE: BundleMeta = {
   groups: [
     {
       label: 'The lead',
-      blurb: 'Helm — the front door to your household, riding on Tōro.',
+      blurb: 'Tōro — the front door to your household.',
       slugs: ['toro'],
     },
     {
@@ -250,11 +250,11 @@ export const COUNSEL_BUNDLE: BundleMeta = {
   name: 'Counsel',
   teReo: '',
   subtitle:
-    'The solicitor. Every output ends: this is a model-assisted draft — have a registered NZ lawyer review and sign.',
+    'Legal drafts for family, employment, property, wills, tenancy and more. Every output says: have a registered NZ lawyer review and sign.',
   category: 'legal',
   leadSlug: 'solicitor',
   shortPitch:
-    'The solicitor. Routes to family, employment, property, wills/trusts, immigration appeals, tenancy, consumer, Te Tiriti, tax or Disputes Tribunal. Every output ends: this is a model-assisted draft — have a registered NZ lawyer review and sign.',
+    'Routes to family, employment, property, wills/trusts, immigration appeals, tenancy, consumer, Te Tiriti, tax or Disputes Tribunal. Every output is a draft for a registered NZ lawyer to review and sign.',
   monthlyNzd: 499,
   seatNzd: 249,
   icon: 'shield',

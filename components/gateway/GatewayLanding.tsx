@@ -80,7 +80,7 @@ export function GatewayLanding() {
             { label: 'REV', value: 'P0 · preview' },
           ]}
           caption="fictional NZ brokerage · sample business · details fictional"
-          ariaLabel="DEMO customs entry plate assembling from flat-lay tariff and border pins"
+          ariaLabel="DEMO customs entry pack assembling from invoice, tariff and border parts"
           gridPatternId="gateway-eng-grid"
         >
           <GatewayAssembleParts />
@@ -96,16 +96,19 @@ export function GatewayLanding() {
             id="gateway-model"
             pins={GATEWAY_DEMO_PINS}
             titleBlock={[
-              { label: 'SHEET', value: 'Pins overlay · DEMO' },
+              { label: 'SHEET', value: 'Flags overlay · DEMO' },
               { label: 'CODES', value: 'Customs Act · Tariff · Biosecurity' },
               { label: 'STATUS', value: 'staged · not lodged' },
             ]}
             underlay={<GatewayEntryUnderlay />}
-            caption="customs entry plate · DEMO pins · Customs Act / tariff citations"
+            caption="customs entry pack · DEMO flags · Customs Act / tariff citations"
+            hint={c.pinHint}
             demoBadge={c.demoBadge}
             evidenceLabel={c.evidenceLabel}
-            ariaLabel="DEMO customs entry plate with clickable tariff and border pins"
+            ariaLabel="DEMO customs entry pack with clickable tariff and border flags"
             gridPatternId="gateway-eng-grid-pins"
+            emptyPrompt="Select a DEMO flag on the entry pack."
+            listLabel="DEMO flags"
           />
         </section>
 
@@ -118,6 +121,7 @@ export function GatewayLanding() {
           actLabel="Act"
           actDisabledHint="Act stays locked until you approve the draft."
           actEnabledHint="Approved — Act can run the staged broker draft."
+          observeStatus="Observing entry pack · draft not ready"
         />
 
         <section className="aa-section" aria-labelledby="gateway-chat-title">

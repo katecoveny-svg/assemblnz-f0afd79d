@@ -15,7 +15,7 @@ export const HOME_META = {
 
 export const NAV = {
   studio: { label: 'Studio', href: '/generative-studio' },
-  operator: { label: 'Operator', href: '/admin/login' },
+  operator: { label: 'Operator', href: 'https://demo.assembl.co.nz/admin/login' },
   journeys: { label: 'Journeys', href: '/journeys' },
   discuss: {
     label: 'Discuss one wait',
@@ -113,6 +113,28 @@ export const INDUSTRIES = {
       ],
     },
     {
+      id: 'customs',
+      name: 'Customs',
+      vertical: 'trade & border',
+      href: '/agents/customs',
+      line: 'Reads the invoice. Flags tariff and origin gaps. Drafts the entry for a broker.',
+      metaphor: 'invoice → tariff → origin → entry draft',
+      sources: [
+        {
+          label: 'Customs and Excise Act 2018',
+          cite: 'legislation.govt.nz · customs.govt.nz',
+          asOf: 'Sep 2026',
+          status: 'live' satisfies IndustrySourceStatus,
+        },
+        {
+          label: 'NZ Working Tariff',
+          cite: 'NZ Customs Working Tariff Document · HS 2022',
+          asOf: 'Sep 2026',
+          status: 'live' satisfies IndustrySourceStatus,
+        },
+      ],
+    },
+    {
       id: 'forge',
       name: 'Forge',
       vertical: 'automotive',
@@ -137,28 +159,6 @@ export const INDUSTRIES = {
           cite: 'NZTA live docs pattern · fleet open data',
           asOf: 'Sep 2026',
           status: 'demo' satisfies IndustrySourceStatus,
-        },
-      ],
-    },
-    {
-      id: 'customs',
-      name: 'Customs',
-      vertical: 'trade & border',
-      href: '/agents/customs',
-      line: 'Reads the invoice. Flags tariff and origin gaps. Drafts the entry for a broker.',
-      metaphor: 'invoice → tariff → origin → entry draft',
-      sources: [
-        {
-          label: 'Customs and Excise Act 2018',
-          cite: 'legislation.govt.nz · customs.govt.nz',
-          asOf: 'Sep 2026',
-          status: 'live' satisfies IndustrySourceStatus,
-        },
-        {
-          label: 'NZ Working Tariff',
-          cite: 'NZ Customs Working Tariff Document · HS 2022',
-          asOf: 'Sep 2026',
-          status: 'live' satisfies IndustrySourceStatus,
         },
       ],
     },
@@ -190,7 +190,7 @@ export const INDUSTRIES = {
 export const LIVE_WAIT = {
   kicker: 'try a loyalty wait',
   title: 'A real delay. Earn the receipt while it runs.',
-  body: 'Talk in the phone. Simulated when labelled; live when a provider key is set. Earn progress — not credit packs.',
+  body: 'Talk to a live specialist in the phone — flagships can cite NZ knowledge when a provider key is configured. The “simulated wait” tab is labelled and separate. Earn progress — not credits.',
 } as const;
 
 export const CLOSE = {
@@ -210,7 +210,7 @@ export const FOOTER = {
   links: [
     { label: 'Studio', href: '/generative-studio' },
     { label: 'Journeys', href: '/journeys' },
-    { label: 'Operator', href: '/admin/login' },
+    { label: 'Operator', href: 'https://demo.assembl.co.nz/admin/login' },
     { label: 'contact', href: 'mailto:assembl@assembl.co.nz' },
   ],
 } as const;

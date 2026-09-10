@@ -1,12 +1,13 @@
 /**
  * Arc agent-app PREVIEW copy — pitch surface only.
  * Plain NZ English. Concrete. No partnership claims. No mana/kete product labels.
+ * Plan-pack framing (not pins-on-the-plate / floor-plate poetry).
  */
 
 export const ARC_PREVIEW = {
   metaTitle: 'Arc · architecture preview · concept · demo data',
   metaDescription:
-    'Arc helps an architect or designer review a plan before consent — flags NZ Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for a human yes.',
+    'Arc helps an architect or designer review a plan before consent — flags NZ Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for a human yes. DEMO only.',
   previewBadge: 'PREVIEW · sample business · details fictional',
   demoBadge: 'DEMO',
 
@@ -16,18 +17,17 @@ export const ARC_PREVIEW = {
   heroSupport:
     'Arc flags Building Code and layout issues on a DEMO model, cites the clause, and drafts a fix that waits for your yes. Nothing lodges to a BCA.',
 
-  assembleEyebrow: '01 · plan sheet',
-  assembleTitle: 'Parts on the sheet — then a DEMO plan.',
+  assembleEyebrow: '01 · plan pack',
+  assembleTitle: 'Spaces, stairs and openings — one DEMO pack.',
   assembleSupport:
-    'Pieces of a fictional Auckland terrace settle into a GA drawing so you can see the issues. DEMO only — not a consent set.',
-  ctaAssemble: 'See the plan assemble',
+    'A fictional Auckland terrace plan comes together so you can see the gaps before lodge. DEMO only — not a consent set.',
+  ctaAssemble: 'See the plan pack',
   ctaPins: 'Tap the DEMO flags',
 
   modelEyebrow: '02 · flags',
   modelTitle: 'Tap a flag on the plan.',
   modelSupport:
     'Each DEMO flag cites an NZBC or AUP-class rule on a fictional harbour terrace. Nothing here is a real consent check.',
-  pinHint: 'Tap a flag on the plan',
 
   narrativeEyebrow: 'How Arc works',
   narrativeTitle: 'Observe. Advise. Act on approval.',
@@ -36,7 +36,7 @@ export const ARC_PREVIEW = {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Arc watches the model as spaces take shape — clearances, barriers, travel paths, openings.',
+      body: 'Arc watches the plan as spaces take shape — clearances, barriers, travel paths, openings.',
     },
     {
       id: 'advise' as const,
@@ -86,7 +86,7 @@ export const ARC_PREVIEW = {
     {
       name: 'Look',
       price: 'Free',
-      detail: 'Browse flags and sample drafts on DEMO models.',
+      detail: 'Browse DEMO flags and sample drafts on this door.',
       credits: '0 credits',
       hoursBack: 0,
     },
@@ -114,6 +114,6 @@ export const ARC_PREVIEW = {
   ],
 
   footerNote:
-    'Arc is an assembl agent-app preview. Independent concept — not a partnership with any practice or third-party product named elsewhere.',
+    'Arc is an assembl agent-app preview. Independent concept — not a partnership with any practice or third-party product named elsewhere. Draft-only — nothing lodges.',
   footerWordmark: 'assembl',
 } as const;
