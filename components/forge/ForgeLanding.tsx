@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { VerticalShowcase } from '@/components/verticals/VerticalShowcase';
+import { VerticalAppTools } from '@/components/verticals/VerticalAppTools';
 import { TransportStudy } from '@/components/agent-app/TransportStudy';
 import type { CSSProperties } from 'react';
 import {
@@ -113,6 +115,8 @@ export function ForgeLanding() {
           </div>
         </section>
 
+        <VerticalShowcase slug="forge" />
+
         <DealerContentStudio />
 
         <section className="frg-section frg-section-metrics" aria-labelledby="forge-metrics-title">
@@ -205,6 +209,7 @@ export function ForgeLanding() {
         <p>{c.footerNote}</p>
         <Link href="/">{c.footerWordmark}</Link>
       </footer>
+      <VerticalAppTools slug="forge" />
     </div>
   );
 }

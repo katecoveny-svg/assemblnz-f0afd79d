@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { VerticalShowcase } from '@/components/verticals/VerticalShowcase';
+import { VerticalAppTools } from '@/components/verticals/VerticalAppTools';
 import { AgentStudyArtwork } from '@/components/agent-app/AgentStudyArtwork';
 import {
   AGENT_APP_CRAFT,
@@ -67,6 +69,8 @@ export function ArcLanding() {
           </div>
         </section>
 
+        <VerticalShowcase slug="arc" />
+
         <ArcAssembleStage />
 
         <section className="aa-section" aria-labelledby="arc-model-title">
@@ -110,6 +114,7 @@ export function ArcLanding() {
         <p>{c.footerNote}</p>
         <Link href="/">{c.footerWordmark}</Link>
       </footer>
+      <VerticalAppTools slug="arc" />
     </div>
   );
 }

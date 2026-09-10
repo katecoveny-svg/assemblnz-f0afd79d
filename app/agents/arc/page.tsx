@@ -1,13 +1,19 @@
 import type { Metadata } from 'next';
+import { verticalMetadata, verticalViewport } from '@/lib/verticals/metadata';
 import { ArcLanding } from '@/components/arc/ArcLanding';
 import { ARC_PREVIEW } from '@/lib/arc/preview-copy';
 
+export const viewport = verticalViewport;
+const appMetadata = verticalMetadata('arc');
+
 export const metadata: Metadata = {
+  ...appMetadata,
   title: ARC_PREVIEW.metaTitle,
   description: ARC_PREVIEW.metaDescription,
   robots: { index: false, follow: false },
   alternates: { canonical: '/agents/arc' },
   openGraph: {
+    ...appMetadata.openGraph,
     title: ARC_PREVIEW.metaTitle,
     description: ARC_PREVIEW.metaDescription,
     url: '/agents/arc',

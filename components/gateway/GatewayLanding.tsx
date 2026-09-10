@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { VerticalShowcase } from '@/components/verticals/VerticalShowcase';
+import { VerticalAppTools } from '@/components/verticals/VerticalAppTools';
 import { TransportStudy } from '@/components/agent-app/TransportStudy';
 import {
   BlueprintScene,
@@ -70,6 +72,8 @@ export function GatewayLanding() {
             </aside>
           </div>
         </section>
+
+        <VerticalShowcase slug="customs" />
 
         <BlueprintScene
           sectionId="gateway-assemble"
@@ -154,6 +158,7 @@ export function GatewayLanding() {
         <p>{c.footerNote}</p>
         <Link href="/">{c.footerWordmark}</Link>
       </footer>
+      <VerticalAppTools slug="customs" />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { VerticalShowcase } from '@/components/verticals/VerticalShowcase';
+import { VerticalAppTools } from '@/components/verticals/VerticalAppTools';
 import type { CSSProperties } from 'react';
 import {
   CraftScroll,
@@ -99,6 +101,8 @@ export function EnsembleLanding() {
             </div>
           </div>
         </section>
+
+        <VerticalShowcase slug="ensemble" />
 
         <section className="ens-section" aria-labelledby="ensemble-assemble-title">
           <div className="ens-section-head">
@@ -199,6 +203,7 @@ export function EnsembleLanding() {
         <p>{c.footerNote}</p>
         <Link href="/">{c.footerWordmark}</Link>
       </footer>
+      <VerticalAppTools slug="ensemble" />
     </div>
   );
 }
