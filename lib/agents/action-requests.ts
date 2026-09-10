@@ -133,7 +133,7 @@ export async function decideActionRequest(
   decision: 'approved' | 'rejected',
   reviewer: string,
   note?: string,
-): Promise<void> {
+): Promise<boolean> {
   const sb = getServiceClient();
   const { data: row } = await sb
     .from('agent_action_requests')
@@ -141,7 +141,7 @@ export async function decideActionRequest(
     .eq('id', id)
     .eq('status', 'pending')
     .maybeSingle();
-  if (!row) return;
+  if (!row) return false;
 
   const { data: claimed, error: claimError } = await sb
     .from('agent_action_requests')
@@ -158,7 +158,7 @@ export async function decideActionRequest(
     .maybeSingle();
 
   // Only the operator who atomically claimed this pending request may dispatch it.
-  if (claimError || !claimed) return;
+  if (claimError || !claimed) return false;
 
   writeActionReceipt({
     agent: row.agent_slug,
@@ -171,6 +171,7 @@ export async function decideActionRequest(
   if (decision === 'approved' && dispatchEnabled()) {
     await dispatchAction(row as ActionRequestRow, reviewer);
   }
+  return true;
 }
 
 /**

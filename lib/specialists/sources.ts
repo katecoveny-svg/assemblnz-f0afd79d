@@ -12,6 +12,7 @@ export const OFFICIAL_SOURCES: SourceDefinition[] = [
   { id: 'care-contribution', title: 'Residential care maximum contributions — current regional table', publisher: 'Work and Income', url: 'https://map.workandincome.govt.nz/map/deskfile/extra-help-information/residential-care-subsidy-tables/territorial-local-authority-maximum-contribution-r.html', topics: ['care', 'contribution', 'regional', 'weekly', 'rates', 'rest home'], agents: rv, kind: 'statistics' },
   { id: 'nz-super', title: 'Benefit and NZ Super rates — 1 April 2026 edition', publisher: 'Work and Income', url: 'https://www.workandincome.govt.nz/products/benefit-rates/benefit-rates-april-2026', topics: ['super', 'pension', 'allowance', 'benefit', 'income', 'rates'], agents: rv, kind: 'statistics' },
   { id: 'epa', title: 'Enduring power of attorney', publisher: 'New Zealand Government', url: 'https://www.govt.nz/browse/family-and-whanau/power-of-attorney-enduring-and-ordinary/enduring-power-of-attorney/', topics: ['epa', 'attorney', 'consent', 'capacity', 'decision', 'family', 'parent'], agents: rv, kind: 'guidance' },
+  { id: 'pppr-act', title: 'Protection of Personal and Property Rights Act 1988 — latest version', publisher: 'NZ Legislation', url: 'https://www.legislation.govt.nz/act/public/1988/4/en/latest/', topics: ['epa', 'attorney', 'capacity', 'guardian', 'property manager'], agents: rv, kind: 'legislation' },
   { id: 'sector-evidence', title: 'Retirement village monitoring and reports', publisher: 'Retirement Commission', url: 'https://retirement.govt.nz/retirement-villages/monitoring-and-reports', topics: ['statistics', 'figures', 'residents', 'population', 'sector', 'complaints', 'evidence'], agents: rv, kind: 'statistics' },
   { id: 'village-register', title: 'Retirement village occupation right agreements', publisher: 'Companies Office', url: 'https://www.companiesoffice.govt.nz/all-registers/retirement-villages/registered-documents/occupation-right-agreement/', topics: ['register', 'registration', 'ora', 'agreement', 'disclosure', 'village'], agents: rv, kind: 'guidance' },
   { id: 'village-reform', title: 'Retirement Villages Act review — policy and reform status', publisher: 'HUD', url: 'https://www.hud.govt.nz/our-work/retirement-villages-act-2003', topics: ['reform', 'review', 'change', 'bill', 'proposal', 'repayment'], agents: rv, kind: 'reform' },
@@ -31,13 +32,14 @@ export const OFFICIAL_SOURCES: SourceDefinition[] = [
 export function selectSources(slug: SpecialistSlug, query: string, limit = 4): SourceDefinition[] {
   const q = query.toLowerCase();
   const ranked = OFFICIAL_SOURCES.filter(s => s.agents.includes(slug))
-    .map((s, index) => ({ s, index, score: s.topics.reduce((n, t) => n + (q.includes(t) ? 1 : 0), 0) }))
+    .map((s, index) => ({ s, index, score: s.topics.reduce((n, t) => n + (new RegExp(`\\b${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(q) ? 1 : 0), 0) }))
     .sort((a, b) => b.score - a.score || a.index - b.index);
   // Avoid fetching unrelated full Acts to pad out a narrow wage or funding question.
   const relevant = ranked.filter(x => x.score > 0);
   const priorityIds = slug === 'retirement' ? [
     ...(/cooling|cancel/.test(q) ? ['villages-cancellation'] : []),
     ...(/reform|propos|amend|law changes?/.test(q) ? ['village-reform'] : []),
+    ...(/\bepa\b|attorney|capacity|guardian/.test(q) ? ['epa', 'pppr-act'] : []),
   ] : [];
   const priority = priorityIds.flatMap(id => OFFICIAL_SOURCES.filter(s => s.id === id));
   return [...priority, ...(relevant.length ? relevant : ranked).map(x => x.s).filter(s => !priorityIds.includes(s.id))].slice(0, limit);

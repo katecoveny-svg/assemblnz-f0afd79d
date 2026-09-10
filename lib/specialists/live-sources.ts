@@ -6,6 +6,7 @@ export type RetrievedSource = SourceDefinition & { status: 'retrieved'; retrieve
 export type FailedSource = SourceDefinition & { status: 'unavailable'; checkedAt: string; reason: string };
 export type SourceCheck = RetrievedSource | FailedSource;
 const hosts = new Set(OFFICIAL_SOURCES.map(s => new URL(s.url).hostname));
+class SourceReadError extends Error {}
 
 export function sourceText(html: string): string {
   const main = html.match(/<main\b(?:"[^"]*"|'[^']*'|[^'">])*?>([\s\S]*?)<\/main>/i)?.[1] ?? html;
@@ -34,29 +35,32 @@ export async function retrieveSource(source: SourceDefinition, query: string, si
     const timeout = signal ? AbortSignal.any([signal, AbortSignal.timeout(10000)]) : AbortSignal.timeout(10000);
     for (let redirects = 0; redirects < 4; redirects++) {
       const target = new URL(url);
-      if (target.protocol !== 'https:' || !hosts.has(target.hostname) || target.port || target.username || target.password) throw new Error('source redirect is outside the official catalogue');
+      if (target.protocol !== 'https:' || !hosts.has(target.hostname) || target.port || target.username || target.password) throw new SourceReadError('The page redirected outside the approved official source catalogue.');
       response = await fetch(url, { cache: 'no-store', redirect: 'manual', signal: timeout, headers: { Accept: 'text/html', 'User-Agent': 'assembl-source-reader/1.0 (+https://www.assembl.co.nz)' } });
       if (response.status >= 300 && response.status < 400) {
         const location = response.headers.get('location');
-        if (!location) throw new Error('source moved without an address');
+        if (!location) throw new SourceReadError('The official page moved without providing a destination.');
         await response.body?.cancel(); url = new URL(location, url).href; continue;
       }
       break;
     }
-    if (!response?.ok || !response.body || !response.headers.get('content-type')?.includes('text/html')) throw new Error('official page did not return readable content');
+    if (!response?.ok) throw new SourceReadError(`The official website returned HTTP ${response?.status ?? 'unavailable'}.`);
+    if (!response.body || !response.headers.get('content-type')?.includes('text/html')) throw new SourceReadError('The official page did not return readable HTML.');
     const reader = response.body.getReader(); const decoder = new TextDecoder(); let html = ''; let size = 0;
     while (true) {
       const { value, done } = await reader.read(); if (done) break;
       size += value.byteLength;
-      if (size > 4000000) { await reader.cancel(); throw new Error('official page is too large to verify in this request'); }
+      if (size > 4000000) { await reader.cancel(); throw new SourceReadError('The official page exceeded the size limit for this check.'); }
       html += decoder.decode(value, { stream: true });
     }
     const text = sourceText(html + decoder.decode());
-    if (text.length < 300 || /access denied|verify you are human|request rejected/i.test(text.slice(0, 700))) throw new Error('official page could not be verified');
+    if (text.length < 300 || /access denied|verify you are human|request rejected/i.test(text.slice(0, 700))) throw new SourceReadError('The website did not provide verifiable page content.');
     const sourceDate = text.match(/(?:[Ll]ast\s+(?:updated|modified)|[Vv]ersion\s+as\s+at|[Ee]ffective\s+from|[Uu]pdated\s+on)[\s:]*[0-9]{1,2}[ \t]+[A-Za-z]+[ \t]+[0-9]{4}/)?.[0]?.replace(/\s+/g, ' ') ?? null;
     return { ...source, url, status: 'retrieved', retrievedAt: checkedAt, hash: createHash('sha256').update(text).digest('hex'), excerpt: relevantExcerpt(text, query), sourceDate };
-  } catch {
-    return { ...source, status: 'unavailable', checkedAt, reason: 'Could not read the current official page. No cached facts have been substituted.' };
+  } catch (error) {
+    // Report only controlled public-source diagnostics, never raw network errors or response bodies.
+    const reason = error instanceof SourceReadError ? error.message : error instanceof Error && ['AbortError', 'TimeoutError'].includes(error.name) ? 'The official source check timed out.' : 'Could not connect to the current official page.';
+    return { ...source, status: 'unavailable', checkedAt, reason: `${reason} No cached facts have been substituted.` };
   }
 }
 

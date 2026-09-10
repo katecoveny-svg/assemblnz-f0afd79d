@@ -13,6 +13,8 @@ describe('official source retrieval',()=>{
     expect(isSpecialist('__proto__')).toBe(false);
     expect(selectSources('retirement', 'family village occupation agreement cooling-off and proposed law changes').slice(0,2).map(s => s.id)).toEqual(['villages-cancellation','village-reform']);
     expect(selectSources('aroha', 'adult minimum wage and KiwiSaver rates').map(s => s.id)).toEqual(['minimum-wage', 'kiwisaver']);
+    expect(selectSources('retirement', 'Can a property attorney act before incapacity?').slice(0, 2).map(s => s.id)).toEqual(['epa', 'pppr-act']);
+    expect(selectSources('retirement', 'contact my family').map(s => s.id)).not.toContain('villages-act');
   });
   it('removes instructions embedded in scripts and navigation',()=>{
     expect(sourceText('<main><script>steal()</script><nav>Sign in</nav><h1>Care</h1><p>A &amp; B</p></main>')).toBe('Care\nA & B');
@@ -37,6 +39,12 @@ describe('official source retrieval',()=>{
   it('never substitutes stale knowledge when a source fails',async()=>{
     vi.stubGlobal('fetch',vi.fn().mockRejectedValue(new Error('offline')));
     const result=await retrieveSource(OFFICIAL_SOURCES[0],'law');expect(result.status).toBe('unavailable');expect(result).not.toHaveProperty('excerpt');
+  });
+  it('distinguishes an official-site denial without exposing its response or retrying',async()=>{
+    const fetch = vi.fn().mockResolvedValue(new Response('Private edge diagnostic', { status: 403 })); vi.stubGlobal('fetch', fetch);
+    const result = await retrieveSource(OFFICIAL_SOURCES[0], 'law');
+    expect(result).toMatchObject({ status: 'unavailable', reason: 'The official website returned HTTP 403. No cached facts have been substituted.' });
+    expect(JSON.stringify(result)).not.toContain('Private edge diagnostic'); expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
 describe('private CRM records and safe exports',()=>{
