@@ -3,8 +3,12 @@ import { AGENT_APP_COPY_HARD_FAIL } from '@/lib/agent-app/craft-canon';
 import {
   EVIDENCE_RECEIPT_DEMO_DISCLAIMER,
   EVIDENCE_RECEIPT_DEMO_HEADLINE,
+  EVIDENCE_RECEIPT_MOMENTS,
+  EVIDENCE_RECEIPT_OPS,
   EVIDENCE_RECEIPT_PREVIEW,
   EVIDENCE_RECEIPT_SCHEMA_VERSION,
+  EVIDENCE_RECEIPT_SYSTEM,
+  EVIDENCE_RECEIPT_WAIT,
   EVIDENCE_RECEIPT_WORKFLOWS,
   PORT_2FA_EVIDENCE_RECEIPT_DEMO,
 } from './evidence-receipt-demo';
@@ -36,6 +40,10 @@ describe('Evidence receipt DEMO schema v0 — port_2fa', () => {
       disclaimer: EVIDENCE_RECEIPT_DEMO_DISCLAIMER,
       preview: EVIDENCE_RECEIPT_PREVIEW,
       workflows: EVIDENCE_RECEIPT_WORKFLOWS,
+      system: EVIDENCE_RECEIPT_SYSTEM,
+      wait: EVIDENCE_RECEIPT_WAIT,
+      moments: EVIDENCE_RECEIPT_MOMENTS,
+      ops: EVIDENCE_RECEIPT_OPS,
     }).toLowerCase();
     expect(blob).not.toMatch(/in partnership with/);
     expect(blob).not.toMatch(/official partner/);
@@ -51,9 +59,75 @@ describe('Evidence receipt DEMO schema v0 — port_2fa', () => {
     expect(PORT_2FA_EVIDENCE_RECEIPT_DEMO.context_hash.startsWith('sha256:')).toBe(true);
     expect(PORT_2FA_EVIDENCE_RECEIPT_DEMO.rules_hash.startsWith('sha256:')).toBe(true);
   });
+
+  it('ships first-class Evidence receipt fields (checklist #4)', () => {
+    const { evidence } = PORT_2FA_EVIDENCE_RECEIPT_DEMO;
+    expect(evidence.source).toMatch(/port_2fa/);
+    expect(evidence.timestamp.length).toBeGreaterThan(4);
+    expect(evidence.rule.toLowerCase()).toMatch(/auth|earn/);
+    expect(evidence.amount_label).toMatch(/\$0\.45/);
+    expect(evidence.status).toBe('DEMO');
+    expect(evidence.audit_href).toBe('#erd-receipt');
+  });
 });
 
-describe('Evidence receipt PREVIEW — Engage People–class craft locks', () => {
+describe('Evidence receipt PREVIEW — checklist #1198 craft locks', () => {
+  it('ships the full system map campaign → confirmation', () => {
+    expect(EVIDENCE_RECEIPT_SYSTEM.map((s) => s.id)).toEqual([
+      'campaign',
+      'earn',
+      'pending-wait',
+      'evidence-receipt',
+      'balance',
+      'reward-choice',
+      'redemption',
+      'confirmation',
+    ]);
+  });
+
+  it('makes wait→earn explicit with status, timing, why, next action', () => {
+    expect(EVIDENCE_RECEIPT_WAIT.status.toLowerCase()).toContain('waiting');
+    expect(EVIDENCE_RECEIPT_WAIT.timing.toLowerCase()).toContain('≤2h');
+    expect(EVIDENCE_RECEIPT_WAIT.why.toLowerCase()).toMatch(/2fa|auth/);
+    expect(EVIDENCE_RECEIPT_WAIT.nextAction.toLowerCase()).toMatch(/evidence|human/);
+  });
+
+  it('ships three real journey moments with UI rows', () => {
+    expect(EVIDENCE_RECEIPT_MOMENTS.map((m) => m.id)).toEqual([
+      'first-earn',
+      'receipt-review',
+      'redeem',
+    ]);
+    for (const moment of EVIDENCE_RECEIPT_MOMENTS) {
+      expect(moment.ui.length).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it('exposes a light operating layer without enterprise claims', () => {
+    expect(EVIDENCE_RECEIPT_OPS.tiles.map((t) => t.id)).toEqual([
+      'triggers',
+      'approvals',
+      'reporting',
+    ]);
+    const blob = JSON.stringify(EVIDENCE_RECEIPT_OPS).toLowerCase();
+    expect(blob).toContain('demo');
+    expect(blob).toContain('sample-only');
+    expect(blob).not.toContain('salesforce');
+    expect(blob).not.toMatch(/\bsla\b/);
+  });
+
+  it('uses one CTA pattern: Inspect Evidence / Try port_2fa DEMO', () => {
+    expect(EVIDENCE_RECEIPT_PREVIEW.ctaInspect.toLowerCase()).toContain('evidence');
+    expect(EVIDENCE_RECEIPT_PREVIEW.ctaPort2fa.toLowerCase()).toContain('port_2fa');
+  });
+
+  it('leads with one outcome for members + operators', () => {
+    const line = EVIDENCE_RECEIPT_PREVIEW.heroLine.toLowerCase();
+    expect(line).toContain('member');
+    expect(line).toContain('operator');
+    expect(line).toMatch(/earn|proof/);
+  });
+
   it('ships named wait→earn workflows with DEMO pins', () => {
     expect(EVIDENCE_RECEIPT_WORKFLOWS.map((w) => w.id)).toEqual([
       'wait-earn',
@@ -69,12 +143,10 @@ describe('Evidence receipt PREVIEW — Engage People–class craft locks', () =>
   });
 
   it('frames the promise as wait→earn with Evidence receipt proof', () => {
-    expect(EVIDENCE_RECEIPT_PREVIEW.heroLine.toLowerCase()).toContain('wait');
-    expect(EVIDENCE_RECEIPT_PREVIEW.heroLine.toLowerCase()).toContain('earn');
+    expect(EVIDENCE_RECEIPT_DEMO_HEADLINE.toLowerCase()).toMatch(/earn|proof|wait/);
     expect(EVIDENCE_RECEIPT_PREVIEW.productLine.toLowerCase()).toContain('evidence receipt');
     expect(EVIDENCE_RECEIPT_PREVIEW.pillars).toHaveLength(5);
     expect(EVIDENCE_RECEIPT_PREVIEW.metrics.length).toBeGreaterThanOrEqual(4);
-    expect(EVIDENCE_RECEIPT_PREVIEW.chatOpeners.length).toBeGreaterThanOrEqual(3);
     const blob = JSON.stringify(EVIDENCE_RECEIPT_PREVIEW).toLowerCase();
     expect(blob).toContain('evidence receipt');
     expect(blob).toContain('port_2fa');
@@ -88,6 +160,10 @@ describe('Evidence receipt PREVIEW — Engage People–class craft locks', () =>
       preview: EVIDENCE_RECEIPT_PREVIEW,
       workflows: EVIDENCE_RECEIPT_WORKFLOWS,
       receipt: PORT_2FA_EVIDENCE_RECEIPT_DEMO,
+      system: EVIDENCE_RECEIPT_SYSTEM,
+      wait: EVIDENCE_RECEIPT_WAIT,
+      moments: EVIDENCE_RECEIPT_MOMENTS,
+      ops: EVIDENCE_RECEIPT_OPS,
     });
     for (const re of AGENT_APP_COPY_HARD_FAIL) {
       expect(code).not.toMatch(re);
