@@ -10,7 +10,11 @@ class SourceReadError extends Error {}
 
 export function sourceText(html: string): string {
   const main = html.match(/<main\b(?:"[^"]*"|'[^']*'|[^'">])*?>([\s\S]*?)<\/main>/i)?.[1] ?? html;
-  return main.replace(/<!--[\s\S]*?-->/g, '').replace(/<(script|style|nav|footer|header|svg|form|aside)\b(?:"[^"]*"|'[^']*'|[^'">])*?>[\s\S]*?<\/\1>/gi, '')
+  return markupText(main.replace(/<(script|style|nav|footer|header|svg|form|aside)\b(?:"[^"]*"|'[^']*'|[^'">])*?>[\s\S]*?<\/\1>/gi, ''));
+}
+
+function markupText(markup: string): string {
+  return markup.replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<\/(p|li|h[1-6]|div|tr|section|heading|label|text|para|subprov|prov)>/gi, '\n').replace(/<br\s*\/?>/gi, '\n')
     .replace(/<(?:"[^"]*"|'[^']*'|[^'">])*?>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
@@ -31,7 +35,7 @@ export function legislationText(xml: string, sectionId?: string) {
     content = `${title}\n${section}`;
   }
   const sourceDate = `Version as at ${new Intl.DateTimeFormat('en-NZ', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${version}T00:00:00Z`))}`;
-  return { text: `${sourceDate}\n${sourceText(content)}`, sourceDate };
+  return { text: `${sourceDate}\n${markupText(content)}`, sourceDate };
 }
 
 export function relevantExcerpt(text: string, query: string, max = 18000): string {

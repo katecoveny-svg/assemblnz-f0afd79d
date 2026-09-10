@@ -55,6 +55,10 @@ describe('official source retrieval',()=>{
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(xml.replace('</text></prov></act>', `${' More statutory context.'.repeat(20)}</text></prov></act>`), {headers:{'content-type':'application/xml'}})));
     expect(await retrieveSource(source, 'cooling')).toMatchObject({ status:'retrieved', url:source.url, dataUrl:source.dataUrl, sourceDate:parsed.sourceDate });
   });
+  it('retains statutory forms that share tag names with website controls',()=>{
+    const result = legislationText('<regulation date.as.at="2019-10-01"><form><heading>Certificate by lawyer</heading><text>The adviser must certify the specified matters.</text></form></regulation>');
+    expect(result.text).toContain('The adviser must certify');
+  });
   it('rejects missing sections, undated XML and entity declarations instead of guessing law',()=>{
     expect(() => legislationText('<act date.as.at="2026-01-24"><prov id="OTHER"/></act>', 'DLM220865')).toThrow('not found');
     expect(() => legislationText('<act><text>Some words</text></act>')).toThrow('version');
