@@ -5,16 +5,17 @@ import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { ArrowUp, ArrowUpRight, Check, ChevronLeft, FileDown, FileText, Layers, Maximize2, MessageCircle, Minimize2, RotateCcw, Signal, Square, Wifi } from 'lucide-react';
 import { VERTICALS, type VerticalSlug } from '@/lib/verticals/config';
+import { isSpecialist } from '@/lib/specialists/sources';
 import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import './vertical-apps.css';
 
 type Source = { title: string; url: string | null; retrievedAt: string };
-type Reply = { reply: string; mode: 'live'; agent: string; agentName: string; sourceStatus: 'retrieved' | 'unavailable' | 'not-requested'; sources: Source[]; createdAt: string };
+type Reply = { reply: string; mode: 'live'; agent: string; agentName: string; sourceStatus: 'retrieved' | 'unavailable' | 'not-requested'; sources: Source[]; sourceFailures?: string[]; createdAt: string };
 type Message = { role: 'user' | 'assistant'; content: string; receipt?: Reply };
 
-export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; native?: boolean }) {
+export function VerticalPhone({ slug, native = false, preparedPrompt }: { slug: VerticalSlug; native?: boolean; preparedPrompt?: { text: string; id: number } }) {
   const v = VERTICALS[slug];
-  const tool = { arc: { label: 'Plans', anchor: 'arc-model' }, forge: { label: 'Content', anchor: 'forge-content' }, customs: { label: 'Entry', anchor: 'gateway-model' }, ensemble: { label: 'Studio', anchor: 'ensemble-desk' } }[slug];
+  const tool = { arc: { label: 'Plans', anchor: 'arc-model' }, forge: { label: 'Content', anchor: 'forge-content' }, customs: { label: 'Entry', anchor: 'gateway-model' }, ensemble: { label: 'Studio', anchor: 'ensemble-desk' }, retirement: { label: 'Plan', anchor: 'workspace' }, flux: { label: 'Pipeline', anchor: 'workspace' }, aroha: { label: 'People', anchor: 'workspace' } }[slug];
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
@@ -37,6 +38,12 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
   const inFlight = useRef(false);
   const lastReply = [...messages].reverse().find(m => m.receipt)?.receipt;
   const state = !online ? 'Offline' : busy ? 'Preparing your draft' : error ? 'Reply interrupted' : lastReply ? 'Live reply received' : 'Ready to connect';
+
+  const [appliedPrompt, setAppliedPrompt] = useState(preparedPrompt);
+  if (preparedPrompt && appliedPrompt !== preparedPrompt) {
+    setAppliedPrompt(preparedPrompt); setInput(preparedPrompt.text.slice(0, 1000)); setTab('chat');
+  }
+  useEffect(() => { if (preparedPrompt) composer.current?.focus(); }, [preparedPrompt]);
 
   useEffect(() => {
     const update = () => setOnline(navigator.onLine);
@@ -118,7 +125,7 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
       {!native && <div className="va-hardware" aria-hidden="true"><span>9:41</span><i className="va-island" /><span><Signal size={14} /><Wifi size={15} /><i className="va-battery" /></span></div>}
       <header className="va-phone-header">
         <Image unoptimized src={`/brand/vertical-apps/${slug}/icon-192.png`} width={44} height={44} alt="" />
-        <div><strong>{v.name}</strong><span>with {v.agentName}</span></div>
+        <div><strong>{v.name}</strong><span>{v.agentName === v.name ? 'NZ specialist' : `with ${v.agentName}`}</span></div>
         {!native && <button ref={expandButton} type="button" className="va-icon-button" aria-label={expanded ? 'Close expanded chat' : 'Expand chat'} onClick={toggleExpanded}>{expanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}</button>}
         <button type="button" className="va-icon-button" disabled={busy || messages.length === 0} aria-label="Start a new conversation" onClick={reset}><RotateCcw size={17} /></button>
       </header>
@@ -155,6 +162,7 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
           <label>Reviewer<input value={reviewer} maxLength={100} placeholder={v.reviewer} onChange={e => { setReviewer(e.target.value); setSaved(false); }} /></label>
           <div className="va-sources"><strong>Source record</strong><p>{lastReply.sourceStatus === 'retrieved' ? 'Sources retrieved for this reply. Check the draft against them.' : lastReply.sourceStatus === 'unavailable' ? 'Live sources could not be verified for this reply.' : 'Prepared from this conversation. No live source search was requested.'}</p>
             {lastReply.sources.map((s, i) => <div key={`${s.url}-${i}`}>{s.url && /^https?:\/\//i.test(s.url) ? <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title} ↗</a> : <span>{s.title}</span>}<small>Retrieved {s.retrievedAt}</small></div>)}
+            {!!lastReply.sourceFailures?.length && <p>Not verified this time: {lastReply.sourceFailures.join('; ')}.</p>}
           </div>
           <button type="button" className="va-button va-button-primary" disabled={!draft.trim()} onClick={saveDraft}>{saved ? <Check size={17} /> : <FileDown size={17} />}{saved ? 'Draft downloaded' : 'Download draft'}</button>
         </> : <p className="va-small">Your live reply will appear here. Ask a question to start.</p>}
@@ -163,7 +171,7 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
         <button type="button" aria-current={tab === 'chat' ? 'page' : undefined} onClick={() => setTab('chat')}><MessageCircle size={17} />Chat</button>
         <button type="button" aria-current={tab === 'review' ? 'page' : undefined} onClick={() => setTab('review')}><FileText size={17} />Review{lastReply && <i aria-label="Draft ready" />}</button>
         {native && <a href={`/agents/${slug}#${tool.anchor}`}><Layers size={17} />{tool.label}</a>}
-        <a href={`/agents/${slug}${native ? '#top' : '/app'}`}><ArrowUpRight size={17} />{native ? 'Story' : 'Open app'}</a>
+        {isSpecialist(slug) ? <a href="#workspace" onClick={() => setExpanded(false)}><Layers size={17}/>{tool.label}</a> : <a href={`/agents/${slug}${native ? '#top' : '/app'}`}><ArrowUpRight size={17} />{native ? 'Story' : 'Open app'}</a>}
       </nav>
       {!native && <div className="va-home-indicator" aria-hidden="true"><i /></div>}
     </div>

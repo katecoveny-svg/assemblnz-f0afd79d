@@ -6,6 +6,8 @@ import { getVertical } from '@/lib/verticals/config';
 import { verticalMetadata, verticalViewport } from '@/lib/verticals/metadata';
 import { VerticalPhone } from '@/components/verticals/VerticalPhone';
 import { VerticalAppTools } from '@/components/verticals/VerticalAppTools';
+import { isSpecialist } from '@/lib/specialists/sources';
+import { SpecialistWorkspace } from '@/components/specialists/SpecialistWorkspace';
 
 export const viewport = verticalViewport;
 
@@ -19,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function VerticalAppPage({ params }: { params: Promise<{ slug: string }> }) {
   const v = getVertical((await params).slug);
   if (!v) notFound();
+  if (isSpecialist(v.slug)) return <SpecialistWorkspace slug={v.slug} />;
   return <div className="va-workspace">
     <header className="va-app-header"><a href={`/agents/${v.slug}`} className="va-app-wordmark">{v.name}<span>by assembl</span></a><VerticalAppTools slug={v.slug} app /></header>
     <main className="va-workspace-grid">
