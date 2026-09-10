@@ -8,43 +8,43 @@
 export const ENSEMBLE_PREVIEW = {
   metaTitle: 'Ensemble · creative studio',
   metaDescription:
-    'Ensemble is assembl’s creative studio agent-app. Brief the desk once — copy, stills, film and voice assemble into a package that waits for your yes.',
+    'Ensemble helps a creative desk turn one brief into copy, stills, film and voice — flags ASA and Fair Trading claim gaps, and stages a package that waits for a human yes. DEMO only.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'ensemble',
   productLine: 'assembl agent-app',
-  heroLine: 'Brief once. The package assembles.',
+  heroLine: 'One brief. A package ready to review.',
   heroSupport:
-    'Ensemble is the creative studio front door — brand board, generative craft, and a desk that stages copy, stills, film and voice for human approval.',
+    'Ensemble stages copy, stills, film and voice from one brief, flags claim gaps, and holds the package for your yes. DEMO only — nothing publishes.',
 
   assembleEyebrow: '01 · brief desk',
-  assembleTitle: 'A brief on the desk. Then a package.',
+  assembleTitle: 'Brief in. Package out for review.',
   assembleSupport:
-    'Strategy, copy, stills, film and voice settle into one reviewable set — DEMO package only, not a live campaign.',
-  ctaAssemble: 'Watch the package assemble',
+    'Strategy, copy, stills, film and voice land in one DEMO set you can check. Not a live campaign.',
+  ctaAssemble: 'See the package stage',
   ctaBoard: 'Open the brand board',
-  ctaClaims: 'See DEMO claim pins',
+  ctaClaims: 'See DEMO claim flags',
 
-  claimsEyebrow: '02 · claim pins',
-  claimsTitle: 'Claims on the artefact.',
+  claimsEyebrow: '02 · claim flags',
+  claimsTitle: 'Tap a claim flag on the piece.',
   claimsSupport:
-    'ASA and Fair Trading flags sit on the campaign piece itself — readable DEMO notes, not a pin sheet. Nothing publishes without a human yes.',
+    'ASA and Fair Trading flags sit on the DEMO campaign piece as readable notes. Nothing publishes without a human yes.',
 
   boardEyebrow: 'Brand board',
-  boardTitle: 'Work you can point at.',
+  boardTitle: 'Samples you can point at.',
   boardSupport:
-    'Real samples from the creative desk — stills, film, voice and copy. Every piece is labelled DEMO and stays draft-only until a person says yes.',
+    'Stills, film, voice and copy from the creative desk. Every piece is labelled DEMO and stays draft-only until a person says yes.',
 
-  toolsEyebrow: 'Studio craft',
+  toolsEyebrow: 'Studio tools',
   toolsTitle: 'Open the live tools.',
   toolsSupport:
-    'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same craft DNA behind this desk.',
+    'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same tools behind this desk.',
 
   workspaceEyebrow: 'Creative workspace',
-  workspaceTitle: 'The desk that runs the brief.',
+  workspaceTitle: 'Pick a maker. Drop a brief.',
   workspaceSupport:
-    'Pick a maker, drop a brief, watch the package stage. Scripted DEMO on this door — open the live workspace when you want the full console.',
+    'Scripted DEMO on this door — open the live workspace when you want the full console.',
   workspaceCta: 'Open live workspace',
 
   narrativeEyebrow: 'How Ensemble works',
@@ -54,13 +54,13 @@ export const ENSEMBLE_PREVIEW = {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Ensemble watches the brief land — audience, offer, brand marks, claim lines, asset shelf.',
+      body: 'Ensemble reads the brief — audience, offer, brand marks, claim lines, asset shelf.',
     },
     {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each piece arrives cited and plain: copy options, art direction, film beat, voice script — ready for the desk to review.',
+      body: 'Each piece arrives plain: copy options, art direction, film beat, voice script — ready for the desk to review.',
     },
     {
       id: 'act' as const,
@@ -83,7 +83,7 @@ export const ENSEMBLE_PREVIEW = {
     },
     {
       q: 'Check this headline against ASA truthfulness',
-      a: 'Draft ready — ASA. The DEMO headline claims “NZ’s #1” without substantiation on the brand board. Proposed note names the claim line, cites ASA Principle 2, and lists evidence options. Status: awaiting human approval. Sources: DEMO pin asa-claim · ASA (preview).',
+      a: 'Draft ready — ASA. The DEMO headline claims “NZ’s #1” without substantiation on the brand board. Proposed note names the claim line, cites ASA Principle 2, and lists evidence options. Status: awaiting human approval. Sources: DEMO flag asa-claim · ASA (preview).',
     },
     {
       q: 'Draft a Fair Trading note for this price claim',

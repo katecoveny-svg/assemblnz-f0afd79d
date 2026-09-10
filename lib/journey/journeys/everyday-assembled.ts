@@ -89,7 +89,7 @@ const stages: JourneyStage[] = [
   stage({
     id: 'entry',
     type: 'entry',
-    name: 'Tell us what life looks like',
+    name: 'Tell us what you need',
     order: 1,
     customerGoal: 'Say what I need in my own words.',
     businessGoal: 'Capture intent with the lowest possible effort.',
@@ -279,12 +279,12 @@ export const everydayAssembledJourney: CustomerJourney = {
   tenantId: GROCERY_TENANT,
   name: 'everyday, assembled',
   description:
-    'An agentic grocery journey that turns what life looks like into a personalised, approval-ready shop.',
+    'A grocery DEMO journey that turns a plain household request into an approval-ready basket — nothing buys without a human yes.',
   objective:
-    'Reduce the mental load of planning a shop for a household with mixed needs, and prove the time it saves.',
+    'Cut the time it takes to plan a shop for a household with mixed needs, and show the minutes saved.',
   status: 'shadow',
   frictionMoment:
-    'The moment a household gives up planning a real shop because working out meals around mixed dietary needs is too much effort.',
+    'A household stops planning a real shop because sorting meals around mixed dietary needs takes too long.',
   entryPoints: [
     {
       id: 'ep-web',

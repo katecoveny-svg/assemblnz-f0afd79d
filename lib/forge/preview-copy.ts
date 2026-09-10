@@ -7,20 +7,20 @@
 export const FORGE_PREVIEW = {
   metaTitle: 'Forge · automotive agent-app preview · concept · demo data',
   metaDescription:
-    'Preview of Forge — assembl’s automotive dealership and workshop agent-app. Flag WoF and CCCFA issues on the service bay, draft actions that wait for human approval.',
+    'Forge helps a dealership or workshop review the service day before work leaves the bay — flags WoF/CoF and CCCFA gaps, cites the rule, and drafts a note that waits for a human yes. DEMO only.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'forge',
   productLine: 'assembl agent-app',
-  heroLine: 'Workshop work that cites its flags.',
+  heroLine: 'Review the service day before it leaves the bay.',
   heroSupport:
-    'Forge watches the service bay — WoF due stamps, CoF holds, CCCFA disclosure gaps — and stages notes that wait for your yes.',
+    'Forge flags WoF due stamps, CoF holds and CCCFA disclosure gaps on a DEMO workshop day, cites the rule, and drafts a note that waits for your yes. Nothing books or sends without you.',
 
   bayEyebrow: '01 · service bay',
-  bayTitle: 'Flags on the bay board.',
+  bayTitle: 'Tap a flag on the bay board.',
   baySupport:
-    'DEMO flags use NZTA WoF/CoF and CCCFA references on a fictional workshop day. Nothing here is a real compliance check.',
+    'Each DEMO flag cites NZTA WoF/CoF or CCCFA rules on a fictional workshop day. Nothing here is a real compliance check.',
   ctaBay: 'See DEMO bay flags',
   ctaChat: 'Chat with Arataki',
   aratakiHref: '/agents/arataki',
@@ -40,7 +40,7 @@ export const FORGE_PREVIEW = {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each flag arrives with a cited clause and plain-language summary, ready for the service desk to review.',
+      body: 'Each flag arrives with a cited clause and plain-language note, ready for the service desk to review.',
     },
     {
       id: 'act' as const,

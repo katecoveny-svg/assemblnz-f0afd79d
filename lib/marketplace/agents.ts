@@ -310,7 +310,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Atlas',
     teReo: '',
     description:
-      'The free AI adoption coach. Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where AI will not help.',
+      'Free adoption coach. Maps your week, points you to agents that fit, and walks you to your first built workflow — honest about where agents will not help.',
     whatItDoes: [
       'Learns your week through plain questions, then finds and scores where AI could help.',
       'Recommends one to three agents from the shelf, or picks one low-risk first build and hands it to Pilot.',
@@ -345,7 +345,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'dawn',
     name: 'Dawn',
     teReo: '',
-    description: 'Your day briefed before the kettle boils.',
+    description: 'Morning brief from your calendar, weather and overnight changes — drafted for you to check.',
     whatItDoes: [
       'Scans your calendar, the weather, and what changed overnight.',
       'Surfaces the time-sensitive things first — early starts, drop-offs, deadlines.',
@@ -494,7 +494,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'invoice-tidy',
     name: 'Invoice Tidy',
     teReo: '',
-    description: 'Reconciles invoices against statements.',
+    description: 'Matches invoices to bank or supplier statements and drafts the reconcile note.',
     whatItDoes: [
       'Matches invoices to lines on a bank or supplier statement.',
       'Flags mismatches: wrong amount, missing payment, duplicate.',
@@ -522,7 +522,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'hui',
     name: 'Hui',
     teReo: '',
-    description: 'Joins the meeting, leaves the minutes.',
+    description: 'Turns a transcript or notes into minutes, decisions and actions for review.',
     whatItDoes: [
       'Turns a transcript or notes into clean minutes.',
       'Pulls out decisions and action items with owners.',
@@ -634,7 +634,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'treasury',
     name: 'Treasury',
     teReo: '',
-    description: 'GST, PAYE, provisional tax.',
+    description: 'Organises GST, PAYE and provisional tax workings for your accountant to check.',
     whatItDoes: [
       'Organises GST, PAYE and provisional tax workings.',
       'Sorts transactions into the right boxes and totals them.',
@@ -695,7 +695,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Arataki',
     teReo: 'Arataki',
     description:
-      'The automotive agent that runs a dealership end to end — sales compliance, finance disclosure, the service lane, courtesy cars, and heavy-transport operations.',
+      'Dealership and workshop desk — sales compliance, CCCFA disclosure, service lane, courtesy cars and heavy-transport ops. Drafts wait for your yes.',
     whatItDoes: [
       'Prepares the Consumer Information Notice and CCCFA finance disclosure for every sale, and checks trader registration, PPSR and odometer history.',
       'Runs the service lane: VIRM-based WoF/CoF checks, workshop job cards, LVV modification tracking, and courtesy-car logistics.',
@@ -742,7 +742,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'food-temp-logs',
     name: 'Food Temp Logs',
     teReo: '',
-    description: 'Daily fridge and cool-store logs.',
+    description: 'Records fridge, freezer and cool-store readings into a daily log draft.',
     whatItDoes: [
       'Records daily fridge, freezer and cool-store readings.',
       'Compares each to the safe range in your Food Control Plan.',
@@ -770,7 +770,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'stock-count',
     name: 'Stock Count',
     teReo: '',
-    description: 'Walk the shelves, talk the counts.',
+    description: 'Spoken or typed shelf walk that becomes a stock count draft.',
     whatItDoes: [
       'Takes a spoken or typed walk of the shelves and captures counts.',
       'Matches each count to the right product and unit.',
@@ -798,7 +798,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'compliance-check',
     name: 'Compliance Check',
     teReo: '',
-    description: 'Certs, H&S and renewals.',
+    description: 'Tracks certs, licences and training renewals with expiry dates for review.',
     whatItDoes: [
       'Keeps a register of certs, licences and training with expiry dates.',
       'Tracks the health and safety obligations that apply.',
@@ -917,7 +917,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'front',
     name: 'Front',
     teReo: '',
-    description: 'Answers the phones after hours.',
+    description: 'Answers after-hours calls, takes a message and drafts the handoff note.',
     whatItDoes: [
       'Answers after-hours calls and greets the caller.',
       'Captures name, contact, reason and urgency with a collection notice.',
@@ -949,7 +949,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'auaha',
     name: 'Auaha',
     teReo: '',
-    description: 'Full creative shop — brief → copy → image → video → podcast → one-shot apps.',
+    description: 'Turns a brief into copy, image, video and podcast drafts — you approve before anything publishes.',
     whatItDoes: [
       'Turns a brief into a creative direction, then drafts the copy.',
       'Writes image prompts, video scripts and podcast outlines from the same brief.',
@@ -982,7 +982,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'social-manager',
     name: 'Social Manager',
     teReo: '',
-    description: 'The always-on half of your social — publishes, watches comments, drafts replies.',
+    description: 'Schedules approved posts, watches comments and drafts replies for you to send.',
     whatItDoes: [
       'Schedules and publishes approved posts across your channels.',
       'Watches comments and DMs and drafts replies in your voice.',
@@ -1017,7 +1017,7 @@ const AGENT_DEFS: AgentDef[] = [
     slug: 'chief',
     name: 'Chief',
     teReo: '',
-    description: 'A chief of staff for one — inbox, calendar, expenses, drafted and ready for your nod.',
+    description: 'Inbox, calendar and expenses drafted in one place — ready for your yes before anything sends.',
     whatItDoes: [
       'Triages your inbox and drafts replies in your voice.',
       'Runs your calendar: holds, clashes, a one-page brief per meeting.',
@@ -1116,7 +1116,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Pilot',
     teReo: '',
     description:
-      'Your step-by-step agent maker. Pilot walks you through naming, building, testing and shipping your own agent — no code, no jargon. First one free.',
+      'Step-by-step agent maker — name the job, build, test and ship a small agent. First one free.',
     whatItDoes: [
       'Guides you through seven plain-English steps: name, goal, inputs, tools, voice and safety, a test drive, then ship.',
       'Writes the system prompt for you against the locked assembl voice — sentence case, English-first, no slop — and adds the right NZ Acts for your category.',
@@ -1186,7 +1186,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Prism',
     teReo: '',
     description:
-      'The creative studio in one chat — brand DNA, campaigns, social, video and design direction, drafted on-brand for you to approve.',
+      'Creative studio in one chat — brand marks, campaigns, social, video and design direction, drafted for you to approve.',
     whatItDoes: [
       'Reads your site into a Brand DNA, then keeps every piece on-brand.',
       'Turns a one-line brief into a full cross-platform campaign, content calendar or video storyboard.',
@@ -1251,7 +1251,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Kaupapa',
     teReo: '',
     description:
-      'The construction project director — scope, programme, contract administration, payment claims and the consent pathway, drafted for your reviewer to act on.',
+      'Construction project desk — scope, programme, contracts, payment claims and consent pathway, drafted for your reviewer.',
     whatItDoes: [
       'Defines scope and maps the building- and resource-consent pathway for the build.',
       'Administers the contract: payment claims and schedules, variations, retentions and extension-of-time claims under the Construction Contracts Act 2002.',
@@ -1727,7 +1727,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Helm',
     teReo: 'Tōro',
     description:
-      'The whānau lead — the front door to the Hearth bundle. Household admin, school comms, appointments, meals (Kai) and everyday logistics, drafted for a parent to approve.',
+      'Whānau front door — household admin, school notices, appointments, meals and logistics, drafted for a parent to approve.',
     whatItDoes: [
       'Fronts the whole Hearth household: school notices, routines, appointments, meals and everyday logistics.',
       'Routes to Kai for the food shop and to the other Hearth modes; pulls dates, costs and deadlines out of notices.',
@@ -1840,7 +1840,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Keeper',
     teReo: 'Kaitiaki',
     description:
-      'The front door to Kaitiaki. Routes an animal question to the right kind of care — companion vet, farm, equine, exotic, doggy daycare, welfare triage, wildlife rehab or Threatened Species Recovery. Every reply is a draft for a registered vet, welfare officer, licensed operator or named kaitiaki reviewer to sign.',
+      'Kaitiaki front door — routes an animal question to companion vet, farm, equine, exotic, daycare, welfare, wildlife or species recovery. Every reply is a draft for a registered reviewer to sign.',
     whatItDoes: [
       'Hears the request in plain English and routes it to the right specialist — asking one clarifying question only if it is genuinely ambiguous.',
       'Runs the bundle hard-rule checks on the way back: NZVA Code, Animal Welfare Act 1999, MPI notifiable-disease, DOC notification, council + vaccination cross-checks.',
@@ -2004,7 +2004,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Exotic, Avian & Reptile Vet',
     teReo: '',
     description:
-      'A credible second opinion on birds, reptiles, small mammals and companion fish — husbandry-first, with a zoonotic check and a hard route to DOC when an "exotic" turns out to be a native.',
+      'Second-opinion drafts for birds, reptiles, small mammals and companion fish — husbandry-first, zoonotic check, and a hard route to DOC when an exotic turns out to be a native.',
     whatItDoes: [
       'Drafts the consult with a husbandry review — enclosure, diet, UVB, temperature gradient, cage-mate compatibility.',
       'Runs a CITES check on novel exotics and a zoonotic check every presentation.',
@@ -2126,7 +2126,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Doggy Daycare',
     teReo: '',
     description:
-      'The operating system for a boutique NZ doggy daycare — enrolment to Welcome Pack, SMS pickup coordination in the carer’s voice, email in the owner’s voice, Xero invoicing, vaccination + council tracking. Every message and invoice is a draft the operator sends.',
+      'Boutique NZ doggy daycare ops — enrolment, welcome pack, pickup SMS, owner email, invoicing and vaccination tracking. Every message and invoice is a draft the operator sends.',
     whatItDoes: [
       'Drafts the 5-page Welcome Pack from the enrolment form in the operator’s voice — a 2-minute review instead of 20–30.',
       'Drafts the monthly Xero invoice as a Draft — part-month, itemised, small-pup discounts + swap credits + surcharges pre-applied.',

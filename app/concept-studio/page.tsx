@@ -12,7 +12,7 @@ import styles from '@/components/public/public-pages.module.css';
 export const metadata: Metadata = {
   title: 'Concept Studio — live demos and public experiments',
   description:
-    'Try assembl products, public tools and carefully labelled concept previews. Live means working now; preview and concept boundaries stay visible.',
+    'Try assembl products, public tools and labelled concept previews. Each card says what you can try today and where the boundary still sits.',
   alternates: { canonical: '/concept-studio' },
 };
 
@@ -64,9 +64,9 @@ export default function ConceptStudioPage() {
       <section className={styles.hero}>
         <div>
           <p className={styles.eyebrow}>assembl · Concept Studio</p>
-          <h1>Try the work.<br /><em>See what is real.</em></h1>
+          <h1>Try the demos.<br /><em>See the boundary.</em></h1>
           <p className={styles.lede}>
-            Working products, public experiments and early concepts in one place. Every card says what you can try today and where the boundary still sits.
+            Working products, public experiments and early concepts in one place. Every card says what you can try today and where human approval still sits.
           </p>
           <div className={styles.actions}>
             <a href="#promote" className={styles.primary}>Start with the shareable tools</a>
@@ -88,8 +88,8 @@ export default function ConceptStudioPage() {
 
       <section id="promote" className={styles.section}>
         <div className={styles.sectionHeader}>
-          <div><p className={styles.eyebrow}>promotion-ready</p><h2>Small tools people can <em>use and share.</em></h2></div>
-          <p>These are the best starting links for social posts, conversations and press outreach. Each gives the visitor something of their own to keep or remix.</p>
+          <div><p className={styles.eyebrow}>shareable tools</p><h2>Small tools people can <em>use and share.</em></h2></div>
+          <p>Best starting links for a prospect conversation. Each gives the visitor something of their own to keep or remix.</p>
         </div>
         <div className={styles.demoGrid}>{promotable.map((demo) => <DemoCard key={demo.slug} demo={demo} />)}</div>
       </section>
