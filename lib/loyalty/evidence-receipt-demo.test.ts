@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import { AGENT_APP_COPY_HARD_FAIL } from '@/lib/agent-app/craft-canon';
 import {
   EVIDENCE_RECEIPT_DEMO_DISCLAIMER,
   EVIDENCE_RECEIPT_DEMO_HEADLINE,
+  EVIDENCE_RECEIPT_PREVIEW,
   EVIDENCE_RECEIPT_SCHEMA_VERSION,
+  EVIDENCE_RECEIPT_WORKFLOWS,
   PORT_2FA_EVIDENCE_RECEIPT_DEMO,
 } from './evidence-receipt-demo';
 
@@ -31,17 +34,70 @@ describe('Evidence receipt DEMO schema v0 — port_2fa', () => {
       ...PORT_2FA_EVIDENCE_RECEIPT_DEMO,
       headline: EVIDENCE_RECEIPT_DEMO_HEADLINE,
       disclaimer: EVIDENCE_RECEIPT_DEMO_DISCLAIMER,
+      preview: EVIDENCE_RECEIPT_PREVIEW,
+      workflows: EVIDENCE_RECEIPT_WORKFLOWS,
     }).toLowerCase();
-    expect(blob).not.toContain('partnership');
+    expect(blob).not.toMatch(/in partnership with/);
+    expect(blob).not.toMatch(/official partner/);
     expect(blob).not.toContain('kete');
     expect(blob).not.toContain('one nz');
-    expect(blob).not.toContain('mana');
+    expect(blob).not.toMatch(/\bmana\b/);
     expect(blob).not.toContain('mahi');
     expect(blob).not.toContain('aotearoa');
+    expect(blob).toContain('independent concept');
   });
 
   it('includes mock context_hash and rules_hash', () => {
     expect(PORT_2FA_EVIDENCE_RECEIPT_DEMO.context_hash.startsWith('sha256:')).toBe(true);
     expect(PORT_2FA_EVIDENCE_RECEIPT_DEMO.rules_hash.startsWith('sha256:')).toBe(true);
+  });
+});
+
+describe('Evidence receipt PREVIEW — Engage People–class craft locks', () => {
+  it('ships named wait→earn workflows with DEMO pins', () => {
+    expect(EVIDENCE_RECEIPT_WORKFLOWS.map((w) => w.id)).toEqual([
+      'wait-earn',
+      'prove-wait',
+      'redeem-credit',
+      'agent-surface',
+    ]);
+    for (const stage of EVIDENCE_RECEIPT_WORKFLOWS) {
+      expect(stage.demo).toBe(true);
+      expect(stage.pinTitle.length).toBeGreaterThan(4);
+      expect(stage.pinBody.toLowerCase()).toMatch(/demo|sample|approval|human/);
+    }
+  });
+
+  it('frames the promise as wait→earn with Evidence receipt proof', () => {
+    expect(EVIDENCE_RECEIPT_PREVIEW.heroLine.toLowerCase()).toContain('wait');
+    expect(EVIDENCE_RECEIPT_PREVIEW.heroLine.toLowerCase()).toContain('earn');
+    expect(EVIDENCE_RECEIPT_PREVIEW.productLine.toLowerCase()).toContain('evidence receipt');
+    expect(EVIDENCE_RECEIPT_PREVIEW.pillars).toHaveLength(5);
+    expect(EVIDENCE_RECEIPT_PREVIEW.metrics.length).toBeGreaterThanOrEqual(4);
+    expect(EVIDENCE_RECEIPT_PREVIEW.chatOpeners.length).toBeGreaterThanOrEqual(3);
+    const blob = JSON.stringify(EVIDENCE_RECEIPT_PREVIEW).toLowerCase();
+    expect(blob).toContain('evidence receipt');
+    expect(blob).toContain('port_2fa');
+    expect(blob).toContain('layer');
+    expect(blob).toContain('independent concept');
+    expect(blob).toContain('not engage people benchmarks');
+  });
+
+  it('hard-fails banned AI-slop / bare AI / mana / kete in preview copy', () => {
+    const code = JSON.stringify({
+      preview: EVIDENCE_RECEIPT_PREVIEW,
+      workflows: EVIDENCE_RECEIPT_WORKFLOWS,
+      receipt: PORT_2FA_EVIDENCE_RECEIPT_DEMO,
+    });
+    for (const re of AGENT_APP_COPY_HARD_FAIL) {
+      expect(code).not.toMatch(re);
+    }
+  });
+
+  it('keeps metrics directional and honest (no fake live %)', () => {
+    expect(EVIDENCE_RECEIPT_PREVIEW.metricsEyebrow.toLowerCase()).toContain('demo');
+    expect(EVIDENCE_RECEIPT_PREVIEW.metricsSupport.toLowerCase()).toContain('not a live feed');
+    expect(EVIDENCE_RECEIPT_PREVIEW.metrics.some((m) => m.value === '0')).toBe(true);
+    expect(EVIDENCE_RECEIPT_PREVIEW.metrics.some((m) => /human yes/i.test(m.label))).toBe(true);
   });
 });
