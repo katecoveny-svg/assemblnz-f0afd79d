@@ -66,6 +66,21 @@ const DEMO_SCRIPT: ReadonlyArray<{ role: 'user' | 'assistant'; content: string; 
 const GUIDE_SUGGESTIONS = ['What is assembl?', 'What will it not do?', 'How would we start?'];
 /** Honest for any specialist — none of these assume a capability. */
 const AGENT_SUGGESTIONS = ['What can you do?', 'Show me an example', 'What won’t you do?'];
+/** Flagships with live NZ knowledge cite mode on /api/home/agent. */
+const KNOWLEDGE_SUGGESTIONS = [
+  'What NZ sources do you use?',
+  'Cite one relevant rule',
+  'What won’t you do?',
+];
+const KNOWLEDGE_FEATURED = new Set([
+  'arai',
+  'kaupapa',
+  'pikau',
+  'auaha',
+  'arataki',
+  'prism',
+  'gateway',
+]);
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -219,7 +234,12 @@ export function HomeGuidePhone() {
 
   const visible = reduced ? DEMO_SCRIPT.length : shown;
   const demoDone = visible >= DEMO_SCRIPT.length;
-  const suggestions = agent.slug === 'assembl' ? GUIDE_SUGGESTIONS : AGENT_SUGGESTIONS;
+  const suggestions =
+    agent.slug === 'assembl'
+      ? GUIDE_SUGGESTIONS
+      : KNOWLEDGE_FEATURED.has(agent.slug)
+        ? KNOWLEDGE_SUGGESTIONS
+        : AGENT_SUGGESTIONS;
 
   return (
     <div className="aj-phone hg-phone">
@@ -318,7 +338,11 @@ export function HomeGuidePhone() {
         ) : (
           <>
             <b className="hg-dot hg-dot-live" aria-hidden="true" /> LIVE AI ·{' '}
-            {agent.slug === 'assembl' ? 'ANSWERS ABOUT ASSEMBL' : agent.name.toUpperCase()}
+            {agent.slug === 'assembl'
+              ? 'ANSWERS ABOUT ASSEMBL'
+              : KNOWLEDGE_FEATURED.has(agent.slug)
+                ? `${agent.name.toUpperCase()} · NZ CITE MODE`
+                : agent.name.toUpperCase()}
           </>
         )}
       </small>

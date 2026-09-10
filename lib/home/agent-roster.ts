@@ -74,11 +74,11 @@ export const HOME_AGENTS: HomeAgent[] = PUBLIC_MARKETPLACE_AGENTS.filter(
   .sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category));
 
 /**
- * The agents the homepage opens on — the ones that show the range of the work
- * rather than the ones that happen to sort first. A visitor who never touches
- * the picker still sees a spread across household, business, trades and care.
+ * The agents the homepage opens on — flagship specialists that can cite live
+ * NZ knowledge on the phone (architecture / customs / creative / automotive),
+ * plus a spread a visitor recognises without opening the full picker.
  */
-const OPENING_SLUGS = ['awhi', 'aroha', 'arai', 'kaupapa', 'auaha', 'front'] as const;
+const OPENING_SLUGS = ['arai', 'kaupapa', 'pikau', 'auaha', 'arataki', 'prism'] as const;
 
 export const HOME_AGENTS_FEATURED: HomeAgent[] = OPENING_SLUGS.map((slug) =>
   HOME_AGENTS.find((a) => a.slug === slug),

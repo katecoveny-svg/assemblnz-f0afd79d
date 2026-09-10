@@ -4,7 +4,8 @@ import { z } from 'zod';
 import { getServiceClient } from '@/lib/supabase/service';
 import { clientIpFromHeaders } from '@/lib/lead-capture';
 import { MODEL_TIER_TO_ANTHROPIC, marketplaceAgentBySlug } from '@/lib/marketplace/agents';
-import { specialistSystem } from '@/lib/home/specialist-prompt';
+import { specialistSystem, specialistHasKnowledge } from '@/lib/home/specialist-prompt';
+import { nzKnowledgeTools } from '@/lib/agents/nz-knowledge';
 import { resolveModelLadder, generateWithFallback } from '@/lib/ai/router';
 import type { ModelMessage } from 'ai';
 
@@ -21,9 +22,11 @@ export const runtime = 'nodejs';
  *      and would otherwise be trivially rotated.
  *   2. Answers only about assembl — what it is, what it does, what it can and
  *      cannot do, and how to start. Anything else is redirected, not attempted.
- *   3. Grounded in a fixed brief below. It has no database access and no search,
- *      so it cannot surface customer data and cannot cite something that is not
- *      in the brief.
+ *   3. House guide: grounded in a fixed brief below — no database access and
+ *      no search, so it cannot surface customer data. Flagship specialists
+ *      (ārai, kaupapa, pīkau, auaha, arataki, prism, gateway) may call
+ *      searchNZKnowledge in read-only cite mode — same path as signed-in
+ *      agent chat, still draft-only with no connector writeback.
  *   4. Never quotes prices at all — not a number, not a range, and not a
  *      redirect to /pricing. Kate's position is that cost is a conversation, so
  *      the agent answers with the access framing and asks what would make it
@@ -244,6 +247,9 @@ export async function POST(req: Request) {
     messages,
     agentSlug: speaker ? `home-${speaker.slug}` : 'home-guide',
     tenant: 'assembl',
+    ...(speaker && specialistHasKnowledge(speaker.slug)
+      ? { tools: nzKnowledgeTools, maxToolSteps: 3 }
+      : {}),
   });
 
   if (!result.ok) {

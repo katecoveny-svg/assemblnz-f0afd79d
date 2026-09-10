@@ -3,6 +3,7 @@
 import { cookies, headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
+import { resolveAuthOrigin } from '@/lib/auth/origin';
 
 /**
  * Sign-in server actions.
@@ -18,11 +19,18 @@ import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-p
  * verifier not found in storage" error on /auth/callback. Running here writes
  * the verifier (and the session cookies) through next/headers cookies(), which
  * sets them HttpOnly + Secure + SameSite=Lax — far more reliable.
+ *
+ * Operator hub note: magic-link / password-reset `emailRedirectTo` must use
+ * demo.assembl.co.nz (see lib/auth/origin.ts). www already 302s /admin* and
+ * /auth* there; we still force the demo origin in code so a mis-hosted form
+ * cannot emit a confirm URL that Supabase rejects or that writes cookies on
+ * the wrong host.
  */
 
 type Result = { ok: true } | { ok: false; error: string };
 export type SendMagicLinkResult = Result;
 export type PasswordSignInResult = Result;
+export type SendPasswordResetResult = Result;
 
 /**
  * Records the "stay signed in on this device" choice as a cookie. The Supabase
@@ -40,6 +48,14 @@ function readRemember(formData: FormData): boolean {
   // Default ON: a missing field (older client) keeps the friendlier long
   // session; only an explicit "0" opts out.
   return formData.get('remember') !== '0';
+}
+
+async function requestAuthOrigin(redirectTo: string): Promise<string> {
+  const h = await headers();
+  const forwardedHost = h.get('x-forwarded-host');
+  const host = forwardedHost ?? h.get('host');
+  const forwardedProto = h.get('x-forwarded-proto') ?? 'https';
+  return resolveAuthOrigin({ host, proto: forwardedProto, redirectTo });
 }
 
 export async function sendMagicLinkAction(
@@ -60,14 +76,7 @@ export async function sendMagicLinkAction(
       ? redirectToRaw
       : '/app';
 
-  const h = await headers();
-  const forwardedHost = h.get('x-forwarded-host');
-  const host = forwardedHost ?? h.get('host');
-  const forwardedProto = h.get('x-forwarded-proto') ?? 'https';
-  if (!host) {
-    return { ok: false, error: 'Could not determine request origin.' };
-  }
-  const origin = `${forwardedProto}://${host}`;
+  const origin = await requestAuthOrigin(redirectTo);
   // /auth/confirm uses verifyOtp + token_hash, so the round-trip survives a
   // magic-link click in a different browser/webview than the one that
   // submitted (Gmail in-app, Apple Mail handoff, desktop→mobile). The
@@ -129,6 +138,38 @@ export async function passwordSignInAction(
       ok: false,
       error: 'That email and password did not match. Try again, or use a magic link.',
     };
+  }
+  return { ok: true };
+}
+
+/**
+ * Password reset email for the operator hub. Does not invent or store a
+ * password — Supabase emails a recovery link that lands on demo
+ * `/auth/confirm?next=/admin/reset-password`. Same origin rules as magic link.
+ *
+ * Always returns ok when the request shape is valid so we do not reveal whether
+ * the mailbox exists. Real SMTP / rate-limit failures still surface.
+ */
+export async function sendPasswordResetAction(
+  _prev: SendPasswordResetResult | null,
+  formData: FormData,
+): Promise<SendPasswordResetResult> {
+  const emailRaw = formData.get('email');
+  if (typeof emailRaw !== 'string' || emailRaw.trim().length === 0) {
+    return { ok: false, error: 'Email is required.' };
+  }
+
+  const email = emailRaw.trim().toLowerCase();
+  const origin = await requestAuthOrigin('/admin/reset-password');
+  const confirmUrl = `${origin}/auth/confirm?next=${encodeURIComponent('/admin/reset-password')}`;
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: confirmUrl,
+  });
+
+  if (error) {
+    return { ok: false, error: error.message };
   }
   return { ok: true };
 }
