@@ -20,6 +20,7 @@ export const PUBLIC_NAV_LINKS = [
   { href: '/about', label: 'about' },
 ] as const;
 
+export const CONCEPT_DEMOS: readonly ConceptDemo[] = [
   {
     slug: 'business-genome',
     title: 'Business Genome',
