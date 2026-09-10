@@ -83,7 +83,7 @@ export function SiteFooter() {
           <span aria-hidden style={{ color: GOLD, fontSize: 12, lineHeight: 1 }}>
             •
           </span>
-          less admin. more mahi.
+          less admin. make the wait useful.
         </p>
 
         <div
@@ -136,7 +136,7 @@ export function SiteFooter() {
         </div>
 
         <p style={{ ...monoSmall, margin: 0, paddingTop: 24, fontSize: 12, color: BODY_GREY }}>
-          © 2026 assembl — built in aotearoa
+          © 2026 assembl — built in new zealand
         </p>
       </div>
     </footer>

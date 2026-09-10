@@ -45,7 +45,7 @@ function replyFor(
   if (q.includes('mana') || q.includes('receipt') || q.includes('proof') || q.includes('evidence')) {
     return {
       beat: 'evidence',
-      text: 'Your Mana Receipt locks the wait, the Phone Dollars stamp, permission, and the named human who reviews it.',
+      text: 'Your Evidence receipt locks the wait, the Phone Dollars stamp, permission, and the named human who reviews it.',
     };
   }
   if (q.includes('household') || q.includes('share') || q.includes('rebalance')) {
@@ -67,7 +67,7 @@ function replyFor(
     };
   }
   return {
-    text: 'Ask about the wait, Phone Dollars, household share, or your Mana Receipt.',
+    text: 'Ask about the wait, Phone Dollars, household share, or your Evidence receipt.',
   };
 }
 
@@ -309,16 +309,16 @@ export function OneNzPhone({
                   <span className="onz-wallet-back" aria-hidden="true">
                     ←
                   </span>
-                  <strong>Mana Receipt</strong>
+                  <strong>Evidence receipt</strong>
                   <span className="onz-wallet-spacer" aria-hidden="true" />
                 </header>
                 <p className="onz-evidence-lede">
                   Your wait, recorded properly — permissioned and named.
                 </p>
-                <article className="onz-phone-receipt" aria-label="Mana Receipt">
+                <article className="onz-phone-receipt" aria-label="Evidence receipt">
                   <header>
                     <span>one.nz</span>
-                    <strong>Mana Receipt</strong>
+                    <strong>Evidence receipt</strong>
                   </header>
                   <dl>
                     <div>

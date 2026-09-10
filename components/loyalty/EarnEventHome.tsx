@@ -36,7 +36,7 @@ const BEAT_COPY: Record<Beat, { kicker: string; line: string }> = {
   },
   evidence: {
     kicker: '03 · evidence',
-    line: 'Mana Receipt locks the record with a named human.',
+    line: 'Evidence receipt locks the record with a named human.',
   },
 };
 
@@ -149,7 +149,7 @@ export function EarnEventHome() {
               <p className="eeh-mode-strip">
                 <span>detect · activate · credit</span>
                 <span>wait → earn → evidence</span>
-                <span>mana receipt</span>
+                <span>evidence receipt</span>
               </p>
 
               <div className="eeh-beat-note" aria-live="polite" key={beat}>

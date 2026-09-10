@@ -767,8 +767,8 @@
   <canvas class="hero-canvas" id="hero-canvas"></canvas>
   <!-- Pinned to #landing, not .hero-inner: `bottom:24px` was resolving against
        the hero block and dropping the hint on top of the enter buttons. -->
-  <div class="scroll-hint">click anywhere · mahi that earns its proof</div>
-  <div class="landing-tag">assembl intuitive · aotearoa</div>
+  <div class="scroll-hint">click anywhere · work that earns its proof</div>
+  <div class="landing-tag">assembl intuitive · new zealand</div>
 </div>
 
 <header>
@@ -784,7 +784,7 @@
   </div>
   <div style="display:flex; align-items:center; gap:14px; pointer-events:auto;">
     <div id="cw-picker" style="display:flex; gap:5px;"></div>
-    <div class="kicker">mahi that earns its proof</div>
+    <div class="kicker">work that earns its proof</div>
   </div>
 </header>
 
@@ -799,7 +799,7 @@
   <div id="param-list"></div>
 </div>
 
-<div id="tag" style="display:none;">assembl intuitive · aotearoa</div>
+<div id="tag" style="display:none;">assembl intuitive · new zealand</div>
 
 <div id="cw-custom">
   <h5>your brand colours</h5>
@@ -956,7 +956,7 @@ const state = {
   aiModel: 'pollinations',
   aiFinish: 'none', // 'none' | 'plum-chrome' | 'rose-void' | 'noir-gold' | 'porcelain-quartz'
   // iphone live screen text
-  iphoneText: 'mahi that earns its proof',
+  iphoneText: 'work that earns its proof',
   // world customisation
   worldAtmos: 'plum-dusk',
   worldWater: 'rose',
@@ -1007,7 +1007,7 @@ let sharing = false;
 /* ---------- engine registry ---------- */
 const ENGINES = [
   { id:'braid',   label:'the braid',   num:'i.',   desc:'waiting, made visible' },
-  { id:'fields',  label:'mahi fields', num:'ii.',  desc:'flow-field painter' },
+  { id:'fields',  label:'flow fields', num:'ii.',  desc:'flow-field painter' },
   { id:'lattice', label:'proof lattice',num:'iii.', desc:'data as ornament' },
   { id:'tides',   label:'tīkapa tides',num:'iv.',  desc:'plum ink tides' },
   { id:'glyph',   label:'glyph assembly',num:'v.', desc:'your word, assembled' },
@@ -1024,7 +1024,7 @@ const ENGINES = [
   { id:'ascii',   label:'ascii forge', num:'xvi.', desc:'your word in living type' },
   { id:'kinetic', label:'kinetic type', num:'xvii.', desc:'typography in orbit' },
   { id:'ferro',   label:'ferrofluid', num:'xviii.', desc:'magnetic liquid spikes' },
-  { id:'kowhaiwhai', label:'kōwhaiwhai weave', num:'xix.', desc:'rafter patterns of aotearoa' },
+  { id:'kowhaiwhai', label:'kōwhaiwhai weave', num:'xix.', desc:'rafter pattern weave' },
   { id:'lenticular', label:'lenticular duel', num:'xx.', desc:'two artworks, one surface' },
   { id:'murmur',  label:'murmuration', num:'xxi.', desc:'starlings assemble your word' },
   { id:'sumi',    label:'suminagashi', num:'xxii.', desc:'ink marbling on water' },
@@ -1152,7 +1152,7 @@ function drawBraid(){
 }
 
 /* ============================================================
-   ENGINE 2 — MAHI FIELDS (flow-field painter)
+   ENGINE 2 — FLOW FIELDS (flow-field painter)
    ============================================================ */
 let fieldsLayer = null;
 function bootFields(){
@@ -2210,7 +2210,7 @@ function plateWordmark(x, tw, th){
   x.textAlign = 'right'; x.textBaseline = 'top';
   x.font = `400 ${Math.max(8, wm*0.42)}px "IBM Plex Mono", monospace`;
   x.fillStyle = plateSub;
-  x.fillText('mahi that earns its proof', tw - m, m);
+  x.fillText('work that earns its proof', tw - m, m);
   x.restore();
 }
 function setStatus(msg, pct){
@@ -2979,9 +2979,9 @@ function plateWordmarkInArea(x, tw, th, bleed, bg){
   x.font = `400 ${Math.max(16, wm*0.38)}px "IBM Plex Mono", monospace`;
   x.fillStyle = sub;
   x.textBaseline = 'top';
-  x.fillText(`genesis drop ${String(state.seed).padStart(5,'0')} · assembl generative studio · aotearoa`, m, bleed + th - m + wm*0.3);
+  x.fillText(`genesis drop ${String(state.seed).padStart(5,'0')} · assembl generative studio · new zealand`, m, bleed + th - m + wm*0.3);
   x.textAlign = 'right';
-  x.fillText('mahi that earns its proof', bleed + tw - m, m);
+  x.fillText('work that earns its proof', bleed + tw - m, m);
   x.restore();
 }
 function drawCropMarks(x, tw, th, bleed, bg){
@@ -3350,7 +3350,7 @@ function buildFerro(group, mats){
 }
 
 /* ============================================================
-   ENGINE 19 — KŌWHAIWHAI WEAVE (rafter patterns of aotearoa)
+   ENGINE 19 — KŌWHAIWHAI WEAVE (rafter pattern weave)
    koru spirals + pūhoro rhythms, generative but respectful
    ============================================================ */
 function bootKowhaiwhai(){

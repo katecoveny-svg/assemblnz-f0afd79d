@@ -21,7 +21,7 @@ const STEPS: { id: LoyaltyBeat; n: string; label: string }[] = [
 /** Loyalty-wait chips only — never generic “what is assembl” FAQ. */
 const CHIPS = [
   'How does the wait earn?',
-  'Show the Mana Receipt',
+  'Show the Evidence receipt',
   'Who reviews the credit?',
 ] as const;
 
@@ -50,7 +50,7 @@ function replyFor(ask: string): { text: string; beat?: LoyaltyBeat } {
   if (q.includes('mana') || q.includes('receipt') || q.includes('evidence') || q.includes('proof')) {
     return {
       beat: 'evidence',
-      text: 'Mana Receipt locks the wait, the credit, permission, and the named human who reviews it — proof you can keep.',
+      text: 'Evidence receipt locks the wait, the credit, permission, and the named human who reviews it — proof you can keep.',
     };
   }
   if (q.includes('review') || q.includes('human') || q.includes('who')) {
@@ -72,7 +72,7 @@ function replyFor(ask: string): { text: string; beat?: LoyaltyBeat } {
     };
   }
   return {
-    text: 'Ask about the wait, the earn, or the Mana Receipt — detect · activate · credit, with a named human on the record.',
+    text: 'Ask about the wait, the earn, or the Evidence receipt — detect · activate · credit, with a named human on the record.',
   };
 }
 
@@ -190,12 +190,12 @@ export function LoyaltyWaitPhone({
 
           {beat === 'evidence' && (
             <>
-              <p className="lwp-kicker">mana receipt</p>
+              <p className="lwp-kicker">evidence receipt</p>
               <h3>Proof you can keep</h3>
-              <article className="lwp-receipt" aria-label="Mana Receipt">
+              <article className="lwp-receipt" aria-label="Evidence receipt">
                 <header>
                   <span>assembl</span>
-                  <strong>Mana Receipt</strong>
+                  <strong>Evidence receipt</strong>
                 </header>
                 <dl>
                   <div>

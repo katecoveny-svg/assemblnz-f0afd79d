@@ -92,12 +92,12 @@ export function CreativeWorkspace({ agents }: { agents: SlimAgent[] }) {
 
         <section style={{ textAlign: "center", margin: "34px 0 6px" }}>
           <p style={{ fontFamily: disp, fontWeight: 700, fontSize: 12, letterSpacing: "0.42em", textTransform: "uppercase", color: FAINT, margin: "0 0 14px" }}>
-            The creative kete · a studio in a chat
+            The creative studio · a studio in a chat
           </p>
           <h1 style={{ fontFamily: disp, fontWeight: 300, fontSize: "clamp(28px,4.8vw,52px)", lineHeight: 1.04, letterSpacing: "-0.01em", margin: "0 auto", maxWidth: "18ch", textWrap: "balance" as const }}>
             Describe it once.{" "}
             <b style={{ fontWeight: 900, background: `linear-gradient(92deg, ${KOWHAI_L}, ${KOWHAI} 55%, ${POUNAMU_L})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Auaha assembles the whole thing.
+              Ensemble assembles the whole thing.
             </b>
           </h1>
           <p style={{ color: MUT, fontSize: 15, lineHeight: 1.6, maxWidth: "58ch", margin: "16px auto 0" }}>
@@ -115,11 +115,11 @@ export function CreativeWorkspace({ agents }: { agents: SlimAgent[] }) {
 
         <footer style={{ marginTop: 58, paddingTop: 24, borderTop: `1px solid ${LINE}`, display: "flex", justifyContent: "space-between", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
           <p style={{ margin: 0, color: FAINT, fontSize: 12, lineHeight: 1.7, maxWidth: "64ch" }}>
-            <b style={{ color: MUT }}>Concept · demo.</b> AUAHA runs on real generation keys (Imagen · Gemini · Fal · ElevenLabs).
+            <b style={{ color: MUT }}>Concept · demo.</b> Ensemble runs on real generation keys (Imagen · Gemini · Fal · ElevenLabs).
             A missing key returns a named panel, never a 500. Action dispatch stays off — nothing here publishes or emails on its own.
-            Keys are never surfaced. Built in Aotearoa.
+            Keys are never surfaced. Built in New Zealand.
           </p>
-          <div style={{ fontFamily: disp, fontWeight: 900, letterSpacing: "0.5em", fontSize: 13, color: MUT }}>AUAHA</div>
+          <div style={{ fontFamily: disp, fontWeight: 900, letterSpacing: "0.5em", fontSize: 13, color: MUT }}>ENSEMBLE</div>
         </footer>
       </div>
 
@@ -181,15 +181,15 @@ function BrandBar({ sessionCount }: { sessionCount: number }) {
       <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
         <ConstellationMark />
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          <span style={{ fontFamily: disp, fontWeight: 700, fontSize: 12, letterSpacing: "0.32em", textTransform: "uppercase", color: KOWHAI_L, opacity: 0.85 }}>Assembl · Auaha Creative Pack</span>
-          <span className="wm" style={{ fontFamily: disp, fontWeight: 900, fontSize: 22, letterSpacing: "0.5em", textTransform: "uppercase" }}>Auaha</span>
+          <span style={{ fontFamily: disp, fontWeight: 700, fontSize: 12, letterSpacing: "0.32em", textTransform: "uppercase", color: KOWHAI_L, opacity: 0.85 }}>Assembl · Ensemble Creative Pack</span>
+          <span className="wm" style={{ fontFamily: disp, fontWeight: 900, fontSize: 22, letterSpacing: "0.5em", textTransform: "uppercase" }}>Ensemble</span>
         </div>
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <Chip dot={POUNAMU_L}>5 makers live</Chip>
         <Chip dot={KOWHAI}>20 gens / hour</Chip>
         <Chip dot="#C6784E">Dispatch off</Chip>
-        {sessionCount > 0 ? <Chip>{sessionCount} this session</Chip> : <Chip>Mana receipt on every output</Chip>}
+        {sessionCount > 0 ? <Chip>{sessionCount} this session</Chip> : <Chip>Evidence receipt on every output</Chip>}
       </div>
     </header>
   );
@@ -446,7 +446,7 @@ function Starters({ items, busy, onPick }: { items: string[]; busy: boolean; onP
 function ReceiptChip({ r }: { r: Receipt }) {
   return (
     <div style={{ fontFamily: mono, fontSize: 12, color: MUT, marginTop: 8, lineHeight: 1.5 }}>
-      <span style={{ color: KOWHAI_L }}>◆ mana receipt</span> · {r.provider} · {r.model}
+      <span style={{ color: KOWHAI_L }}>◆ evidence receipt</span> · {r.provider} · {r.model}
       {r.spec ? ` · ${r.spec}` : ""} · ~${r.costNzd.toFixed(2)} est.
       <br />
       <span style={{ color: FAINT }}>{r.trust}</span>
@@ -517,7 +517,7 @@ function ImageStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
         onChange={(url) => setRefUrl(url)}
       />
       <Composer placeholder="Describe the shot — or upload a photo and steer: 'Instagram 4:5, warmer, crop tighter'" cta="Generate ×4" busy={busy} onSend={run} />
-      {!lastBrief && <Starters busy={busy} onPick={run} items={["Editorial hero of a kōwhai branch at dawn, Aotearoa light.", "Instagram still from this upload — navy training-field mood.", "Product still for a Wellington gin, botanical, low key."]} />}
+      {!lastBrief && <Starters busy={busy} onPick={run} items={["Editorial hero of a kōwhai branch at dawn, New Zealand light.", "Instagram still from this upload — navy training-field mood.", "Product still for a Wellington gin, botanical, low key."]} />}
       {lastBrief && (
         <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
           {["more editorial", "warmer", "darker, add fog", "wider crop", "9:16 story crop"].map((q) => (
@@ -677,7 +677,7 @@ function PodcastStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset
   );
 }
 
-// ── CHAT (Muse / Auaha, streamed) ────────────────────────────────────────────
+// ── CHAT (Muse / Ensemble, streamed) ────────────────────────────────────────────
 function ChatStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) => void }) {
   const [msgs, setMsgs] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
   const [busy, setBusy] = useState(false);
@@ -791,7 +791,7 @@ function RosterStrip({ roster }: { roster: SlimAgent[] }) {
   if (roster.length === 0) return null;
   return (
     <section style={{ marginTop: 44 }}>
-      <SectionHead num="02" title="The rest of the kete" lead="Real roster, not interactive chat surfaces in this build — they hold colour, cadence, social, events and formal writing across a campaign." />
+      <SectionHead num="02" title="The rest of the studio" lead="Real roster, not interactive chat surfaces in this build — they hold colour, cadence, social, events and formal writing across a campaign." />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(190px,1fr))", gap: 12 }}>
         {roster.map((a) => (
           <div key={a.slug} className="rnode" style={{ display: "flex", alignItems: "center", gap: 12, border: `1px solid ${LINE}`, borderRadius: 14, padding: "13px 15px", background: "rgba(14,14,26,0.5)" }}>

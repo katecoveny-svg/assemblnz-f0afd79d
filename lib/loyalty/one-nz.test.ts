@@ -29,7 +29,7 @@ describe('one-nz loyalty tokens', () => {
     expect(INDEPENDENT_CONCEPT_DISCLAIMER.toLowerCase()).not.toMatch(/partner(ship)? with one nz/);
     expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/Phone Dollars/);
     expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/One Wallet/);
-    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/Mana Receipts/);
+    expect(INDEPENDENT_CONCEPT_DISCLAIMER).toMatch(/Evidence receipts/);
   });
 
   it('keeps locked masthead and activation spine', () => {
@@ -54,7 +54,7 @@ describe('one-nz loyalty tokens', () => {
     expect(nzd(2.75)).toMatch(/\$2\.75/);
   });
 
-  it('uses a fresh Mana Receipt demo timestamp (Sep 2026)', () => {
+  it('uses a fresh Evidence receipt demo timestamp (Sep 2026)', () => {
     expect(DEMO_RECEIPT_AT).toMatch(/Sep 2026/);
     expect(DEMO_RECEIPT_AT).not.toMatch(/2025/);
   });
@@ -62,7 +62,7 @@ describe('one-nz loyalty tokens', () => {
   it('locks Mode A ownership split', () => {
     expect(MODE_A.label).toBe('Mode A');
     expect(MODE_A.oneNz.points.join(' ')).toMatch(/P&L/i);
-    expect(MODE_A.assembl.points.join(' ')).toMatch(/Mana Receipt/i);
+    expect(MODE_A.assembl.points.join(' ')).toMatch(/Evidence receipt/i);
   });
 
   it('locks Phase 0 commercials without puff', () => {

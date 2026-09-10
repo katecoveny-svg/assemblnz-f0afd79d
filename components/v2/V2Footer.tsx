@@ -54,7 +54,7 @@ export function V2Footer() {
       <div>
         <AssemblWordmark className="text-[24px] leading-none" style={{ letterSpacing: '0.12em', color: '#240B21' }} />
         <p style={{ margin: '5px 0 0', color: '#654A4E', fontSize: 12, letterSpacing: '0.06em' }}>
-          See what your agent is made of. Built in Aotearoa.
+          See what your agent is made of. Built in New Zealand.
         </p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>

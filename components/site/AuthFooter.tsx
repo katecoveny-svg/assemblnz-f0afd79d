@@ -15,7 +15,7 @@ export function AuthFooter() {
           <span className={styles.brandWord}>assembl</span>
           <span className={styles.pillDash} aria-hidden />
         </Link>
-        <p className={styles.footerNote}>© {year} assembl · Built in Aotearoa</p>
+        <p className={styles.footerNote}>© {year} assembl · Built in New Zealand</p>
       </div>
     </footer>
   );

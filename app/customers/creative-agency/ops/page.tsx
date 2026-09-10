@@ -3,7 +3,7 @@ import { AUAHA_AGENTS } from "@/lib/creative/agents";
 import { CreativeWorkspace, type SlimAgent } from "@/components/creative/CreativeWorkspace";
 
 export const metadata: Metadata = {
-  title: "AUAHA · the creative kete",
+  title: "Ensemble · the creative studio",
   description: "A creative studio in a chat — real imagery, copy, video and voice, on-brand.",
 };
 

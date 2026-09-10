@@ -36,7 +36,7 @@ export const ASSEMBL_HOME_SPINE =
 export const MASTHEAD = 'the wait is the earn event.';
 
 export const INDEPENDENT_CONCEPT_DISCLAIMER =
-  'Independent concept by assembl, not a current One NZ product, offer, or partnership. Phone Dollars, One Wallet and Mana Receipts shown here are proposed experience design only.';
+  'Independent concept by assembl, not a current One NZ product, offer, or partnership. Phone Dollars, One Wallet and Evidence receipts shown here are proposed experience design only.';
 
 export const WAIT_TRIGGERS = [
   { id: 'esim', label: 'eSIM activation', dwell: '~90s', primary: true },
@@ -51,10 +51,10 @@ export const DEMO_EARN = {
   householdShare: 0.15,
 } as const;
 
-/** Fresh Mana Receipt timestamp — NZ preview demo (not May 2025). */
+/** Fresh Evidence receipt timestamp — NZ preview demo (not May 2025). */
 export const DEMO_RECEIPT_AT = '1 Sep 2026, 8:14pm' as const;
 
-/** Mana Receipt evidence composition — shown before final CTA. */
+/** Evidence receipt composition — shown before final CTA. */
 export const EVIDENCE_SPLIT = [
   { id: 'wait', label: 'wait duration', pct: 55, note: 'time in a real process' },
   { id: 'action', label: 'useful moment', pct: 30, note: 'permissioned micro-action' },
@@ -70,7 +70,7 @@ export const MODE_A = {
   },
   assembl: {
     title: 'assembl brings',
-    points: ['Wait detection layer', 'Permissioned agent moments', 'Mana Receipts as evidence'],
+    points: ['Wait detection layer', 'Permissioned agent moments', 'Evidence receipts as proof'],
   },
 } as const;
 
@@ -80,7 +80,7 @@ export const MODE_A = {
  */
 export const PHASE_0 = {
   title: 'Phase 0 pilot',
-  lede: 'One wait trigger, one earn rule, Mana Receipts from day one. Opted-in members only.',
+  lede: 'One wait trigger, one earn rule, Evidence receipts from day one. Opted-in members only.',
   facts: [
     { label: 'Investment', value: 'NZ$85–140k' },
     { label: 'Build', value: '~4 weeks' },
@@ -93,7 +93,7 @@ export const PHASE_0 = {
 
 export const AGENT_CHIPS = [
   'Why am I earning?',
-  'Show Mana Receipt',
+  'Show Evidence receipt',
   'Share with household?',
 ] as const;
 
