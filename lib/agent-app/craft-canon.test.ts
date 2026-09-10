@@ -49,6 +49,7 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
       read('lib/arc/preview-copy.ts'),
       read('lib/forge/preview-copy.ts'),
       read('lib/ensemble/preview-copy.ts'),
+      read('lib/gateway/preview-copy.ts'),
     ].join('\n');
 
     // Strip block comments so "No mana/kete" doc lines don't false-positive.
@@ -59,6 +60,27 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     }
 
     expect(code.toLowerCase()).toContain('independent concept');
+  });
+
+  it('keeps BlueprintScene titles outside the pin canvas (no stacked heading collision)', () => {
+    const scene = read('components/agent-app/BlueprintScene.tsx');
+    expect(scene).toMatch(/aa-assemble-intro/);
+    expect(scene).toMatch(/aa-assemble-canvas/);
+    expect(scene).toMatch(/matchMedia/);
+    // Section head must not live inside the pinned canvas ref.
+    const canvasBlock = scene.slice(
+      scene.indexOf('aa-assemble-canvas'),
+      scene.indexOf('</section>'),
+    );
+    expect(canvasBlock).not.toMatch(/aa-assemble-head/);
+    expect(canvasBlock).not.toMatch(/titleId/);
+  });
+
+  it('opaque-stacks story sections so pin layers cannot paint through copy', () => {
+    const css = read('components/agent-app/agent-app-craft.css');
+    expect(css).toMatch(/\.aa-story\s*>\s*\.aa-section[\s\S]*?background-color:\s*var\(--aa-paper\)/);
+    expect(css).toMatch(/\.aa-assemble-intro/);
+    expect(css).toMatch(/\.aa-assemble-canvas/);
   });
 
   it('exports craft attr for aa-root surfaces', () => {
