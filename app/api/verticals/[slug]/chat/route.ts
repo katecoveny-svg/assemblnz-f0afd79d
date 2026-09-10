@@ -12,7 +12,7 @@ import { retrieveSpecialistSources } from '@/lib/specialists/live-sources';
 import { specialistSystem, SPECIALIST_REVIEW } from '@/lib/specialists/prompt';
 
 export const runtime = 'nodejs';
-export const maxDuration = 60;
+export const maxDuration = 90;
 const headers = { 'Cache-Control': 'no-store' };
 
 export async function POST(req: Request, { params }: { params: Promise<{ slug: string }> }) {
@@ -34,14 +34,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const rate = await consume(`vertical:${key}`, 'copy');
   if (!rate.ok) return Response.json({ error: 'The demo message limit has been reached. Please try again later.' }, { status: 429, headers: { ...headers, 'Retry-After': String(Math.ceil(rate.resetMs / 1000)) } });
   const checks: NZKnowledgeResult[] = [];
-  const abortSignal = AbortSignal.any([req.signal, AbortSignal.timeout(45000)]);
+  const abortSignal = AbortSignal.any([req.signal, AbortSignal.timeout(isSpecialist(v.slug) ? 75000 : 45000)]);
   if (isSpecialist(v.slug)) {
     // Retrieval is compulsory and server-selected; the model cannot skip it.
     // Only topic words select public pages. Visitor text is never sent to a search engine.
     const sources = await retrieveSpecialistSources(v.slug, `${parsed.data.history.filter(m => m.role === 'user').map(m => m.content).join(' ')} ${parsed.data.message}`, abortSignal);
     const generated = await generateWithFallback({ ladder, system: specialistSystem(v.slug, sources), agentSlug: v.agent, tenant: 'assembl-public-specialist', messages: [...parsed.data.history.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: parsed.data.message }], maxOutputTokens: 1600, abortSignal });
     if (!generated.ok || !generated.text.trim()) return Response.json({ error: 'The specialist could not finish that reply. Please try again.', mode: 'unavailable' }, { status: 503, headers });
-    const review = await generateWithFallback({ ladder, system: SPECIALIST_REVIEW, agentSlug: `${v.agent}-review`, tenant: 'assembl-public-specialist', messages: [{ role: 'user', content: JSON.stringify({ task: parsed.data.message, history: parsed.data.history, draft: generated.text, sources }) }], maxOutputTokens: 1600, abortSignal });
+    const review = await generateWithFallback({ ladder: resolveModelLadder('claude-haiku-4-5-20251001', ['claude-sonnet-4-6']), system: SPECIALIST_REVIEW, agentSlug: `${v.agent}-review`, tenant: 'assembl-public-specialist', messages: [{ role: 'user', content: JSON.stringify({ task: parsed.data.message, history: parsed.data.history, draft: generated.text, sources }) }], maxOutputTokens: 1600, abortSignal });
     if (!review.ok || !review.text.trim()) return Response.json({ error: 'The specialist could not finish checking that reply. Please try again.', mode: 'unavailable' }, { status: 503, headers });
     const verified = sources.filter(s => s.status === 'retrieved');
     return Response.json({ reply: review.text, mode: 'live', agent: v.agent, agentName: v.agentName, sourceStatus: verified.length ? 'retrieved' : sources.length ? 'unavailable' : 'not-requested', sources: verified.map(s => ({ title: s.title, url: s.url, retrievedAt: s.retrievedAt, hash: s.hash, sourceDate: s.sourceDate })), sourceFailures: sources.filter(s => s.status === 'unavailable').map(s => s.title), createdAt: new Date().toISOString(), status: 'draft' }, { headers });

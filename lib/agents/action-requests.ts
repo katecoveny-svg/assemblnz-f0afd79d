@@ -34,7 +34,7 @@ export type WebhookPayload = {
 
 /** A business action to run against the customer's OWN connected account. */
 export type ConnectorActionPayload = {
-  action: 'create_lead' | 'add_sheet_row';
+  action: 'create_lead' | 'add_sheet_row' | 'create_email_draft';
   app: string; // e.g. 'google_sheets', 'hubspot'
   /** connected-account owner — convention `tenant:<slug>`, set at connect time */
   externalUserId: string;
@@ -143,7 +143,7 @@ export async function decideActionRequest(
     .maybeSingle();
   if (!row) return;
 
-  await sb
+  const { data: claimed, error: claimError } = await sb
     .from('agent_action_requests')
     .update({
       status: decision,
@@ -152,7 +152,13 @@ export async function decideActionRequest(
       decided_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
-    .eq('id', id);
+    .eq('id', id)
+    .eq('status', 'pending')
+    .select('id')
+    .maybeSingle();
+
+  // Only the operator who atomically claimed this pending request may dispatch it.
+  if (claimError || !claimed) return;
 
   writeActionReceipt({
     agent: row.agent_slug,

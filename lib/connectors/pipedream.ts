@@ -172,7 +172,7 @@ export function withAppFilter(connectLinkUrl: string, appSlug?: string | null): 
  * verify. Anything unmapped fails honestly ("app not yet mapped") instead of
  * guessing a component id.
  */
-export const PIPEDREAM_ACTION_MAP: Record<string, Record<string, { componentId: string; note: string }>> = {
+export const PIPEDREAM_ACTION_MAP: Record<string, Record<string, { componentId: string; note: string; authProp?: string }>> = {
   add_sheet_row: {
     google_sheets: {
       componentId: 'google_sheets-add-single-row',
@@ -180,9 +180,19 @@ export const PIPEDREAM_ACTION_MAP: Record<string, Record<string, { componentId: 
     },
   },
   create_lead: {
+    salesforce_rest_api: {
+      componentId: 'salesforce_rest_api-create-lead', authProp: 'salesforce',
+      note: 'creates the reviewed lead in the customer’s Salesforce account',
+    },
     hubspot: {
       componentId: 'hubspot-create-or-update-contact',
       note: 'creates or updates a contact in the customer’s HubSpot',
+    },
+  },
+  create_email_draft: {
+    microsoft_outlook: {
+      componentId: 'microsoft_outlook-create-draft-email', authProp: 'microsoftOutlook',
+      note: 'creates an unsent draft in the connected Microsoft 365 Outlook mailbox',
     },
   },
 };
@@ -209,7 +219,7 @@ export async function runConnectorAction(input: {
   }
 
   const accounts = await listConnectedAccounts(input.externalUserId).catch(() => []);
-  const account = accounts.find((a) => a.app?.name_slug === input.app) ?? accounts[0];
+  const account = accounts.find((a) => a.app?.name_slug === input.app && accountOwner(a) === input.externalUserId && a.healthy === true);
   if (!account) {
     return { ok: false, detail: { error: `no connected ${input.app} account for ${input.externalUserId}` } };
   }
@@ -219,8 +229,8 @@ export async function runConnectorAction(input: {
       external_user_id: input.externalUserId,
       id: mapped.componentId,
       configured_props: {
-        [input.app]: { authProvisionId: account.id },
         ...input.data,
+        [mapped.authProp ?? input.app]: { authProvisionId: account.id },
       },
     });
     return { ok: true, detail: { component: mapped.componentId, response: body } };

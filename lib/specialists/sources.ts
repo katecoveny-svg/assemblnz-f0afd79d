@@ -26,7 +26,10 @@ export const OFFICIAL_SOURCES: SourceDefinition[] = [
 
 export function selectSources(slug: SpecialistSlug, query: string, limit = 4): SourceDefinition[] {
   const q = query.toLowerCase();
-  return OFFICIAL_SOURCES.filter(s => s.agents.includes(slug))
+  const ranked = OFFICIAL_SOURCES.filter(s => s.agents.includes(slug))
     .map((s, index) => ({ s, index, score: s.topics.reduce((n, t) => n + (q.includes(t) ? 1 : 0), 0) }))
-    .sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit).map(x => x.s);
+    .sort((a, b) => b.score - a.score || a.index - b.index);
+  // Avoid fetching unrelated full Acts to pad out a narrow wage or funding question.
+  const relevant = ranked.filter(x => x.score > 0);
+  return (relevant.length ? relevant : ranked).slice(0, limit).map(x => x.s);
 }

@@ -11,6 +11,7 @@ describe('official source retrieval',()=>{
     expect(selectSources('retirement','residential care subsidy asset threshold')[0].id).toBe('care-subsidy');
     expect(selectSources('aroha','minimum wage salary')[0].id).toBe('minimum-wage');
     expect(isSpecialist('__proto__')).toBe(false);
+    expect(selectSources('aroha', 'adult minimum wage and KiwiSaver rates').map(s => s.id)).toEqual(['minimum-wage', 'kiwisaver']);
   });
   it('removes instructions embedded in scripts and navigation',()=>{
     expect(sourceText('<main><script>steal()</script><nav>Sign in</nav><h1>Care</h1><p>A &amp; B</p></main>')).toBe('Care\nA & B');
