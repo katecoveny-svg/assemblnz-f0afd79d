@@ -236,13 +236,10 @@ function DetailLedger({ receipt }: { receipt: EvidenceReceiptDemoV0 }) {
   );
 }
 
-function WorkflowsRail() {
-  const c = EVIDENCE_RECEIPT_PREVIEW;
-  const [activeId, setActiveId] = useState<(typeof EVIDENCE_RECEIPT_WORKFLOWS)[number]['id']>(
-    EVIDENCE_RECEIPT_WORKFLOWS[0].id,
-  );
 function JourneyMoments() {
-  const [activeId, setActiveId] = useState(EVIDENCE_RECEIPT_MOMENTS[0]?.id ?? '');
+  const [activeId, setActiveId] = useState<(typeof EVIDENCE_RECEIPT_MOMENTS)[number]['id']>(
+    EVIDENCE_RECEIPT_MOMENTS[0].id,
+  );
   const active =
     EVIDENCE_RECEIPT_MOMENTS.find((m) => m.id === activeId) ?? EVIDENCE_RECEIPT_MOMENTS[0];
   if (!active) return null;
