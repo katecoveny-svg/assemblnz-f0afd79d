@@ -436,7 +436,7 @@ function ShopView({ items, retailer, checkedItems, onRetailer, onCheck, onCopy }
                 const checked = checkedItems.includes(key);
                 return (
                   <li key={key} className={checked ? styles.itemChecked : ''}>
-                    <button type="button" onClick={() => onCheck(item)} aria-pressed={checked}><span>{checked ? <Check aria-hidden /> : null}</span></button>
+                    <button type="button" onClick={() => onCheck(item)} aria-pressed={checked} aria-label={`${checked ? 'Uncheck' : 'Check'} ${item.name}`}><span>{checked ? <Check aria-hidden /> : null}</span></button>
                     <div><strong>{item.name}</strong><small>{item.quantity} {item.unit} · {item.recipeCount} recipe{item.recipeCount === 1 ? '' : 's'}</small></div>
                     <a href={retailerHandoffUrl(retailer, item.name)} target="_blank" rel="noreferrer" title={retailer === 'woolworths' ? `Search Woolworths for ${item.name}` : `Open New World to search for ${item.name}`}><ExternalLink aria-hidden /></a>
                   </li>
