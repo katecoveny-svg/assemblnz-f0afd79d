@@ -54,7 +54,8 @@ export async function retrieveSource(source: SourceDefinition, query: string, si
       html += decoder.decode(value, { stream: true });
     }
     const text = sourceText(html + decoder.decode());
-    if (text.length < 300 || /access denied|verify you are human|request rejected/i.test(text.slice(0, 700))) throw new SourceReadError('The website did not provide verifiable page content.');
+    if (/access denied|verify you are human|request rejected/i.test(text.slice(0, 700))) throw new SourceReadError('The official website returned an access or verification message.');
+    if (text.length < 300) throw new SourceReadError('The official page provided too little readable text to verify.');
     const sourceDate = text.match(/(?:[Ll]ast\s+(?:updated|modified)|[Vv]ersion\s+as\s+at|[Ee]ffective\s+from|[Uu]pdated\s+on)[\s:]*[0-9]{1,2}[ \t]+[A-Za-z]+[ \t]+[0-9]{4}/)?.[0]?.replace(/\s+/g, ' ') ?? null;
     return { ...source, url, status: 'retrieved', retrievedAt: checkedAt, hash: createHash('sha256').update(text).digest('hex'), excerpt: relevantExcerpt(text, query), sourceDate };
   } catch (error) {
