@@ -25,11 +25,55 @@ export function CraftScroll({
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-
     const root = document.querySelector<HTMLElement>(rootSelector);
     if (!root) return;
+
+    // App links can arrive before the streamed story and its pinned scenes settle.
+    // Align after layout, using the same scroll controller as the story.
+    let scrollToTarget = (top: number) => window.scrollTo({ top, behavior: 'instant' });
+    let anchorFrame = 0;
+    let disposed = false;
+    let userMoved = false;
+    const alignHash = () => {
+      if (disposed || userMoved || !window.location.hash) return;
+      let id: string;
+      try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
+      const target = id === 'top' ? root : document.getElementById(id);
+      if (!target || !root.contains(target)) return;
+      const margin = parseFloat(getComputedStyle(target).scrollMarginTop);
+      const offset = margin || (root.querySelector('header')?.getBoundingClientRect().height ?? 0) + 20;
+      scrollToTarget(Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset));
+    };
+    const scheduleHash = () => {
+      cancelAnimationFrame(anchorFrame);
+      anchorFrame = requestAnimationFrame(() => {
+        anchorFrame = requestAnimationFrame(alignHash);
+      });
+    };
+    const newHash = () => { userMoved = false; scheduleHash(); };
+    const stopAligning = () => { userMoved = true; cancelAnimationFrame(anchorFrame); };
+    const onKey = (event: KeyboardEvent) => {
+      if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) stopAligning();
+    };
+    window.addEventListener('hashchange', newHash);
+    window.addEventListener('load', scheduleHash);
+    window.addEventListener('wheel', stopAligning, { passive: true });
+    window.addEventListener('touchstart', stopAligning, { passive: true });
+    window.addEventListener('keydown', onKey);
+    void document.fonts.ready.then(() => { if (!disposed) scheduleHash(); });
+    scheduleHash();
+    const cleanupHash = () => {
+      disposed = true;
+      cancelAnimationFrame(anchorFrame);
+      window.removeEventListener('hashchange', newHash);
+      window.removeEventListener('load', scheduleHash);
+      window.removeEventListener('wheel', stopAligning);
+      window.removeEventListener('touchstart', stopAligning);
+      window.removeEventListener('keydown', onKey);
+    };
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return cleanupHash;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -43,6 +87,7 @@ export function CraftScroll({
       touchMultiplier: 1.35,
       autoRaf: false,
     });
+    scrollToTarget = (top) => lenis.scrollTo(top, { immediate: true });
 
     ScrollTrigger.scrollerProxy(document.documentElement, {
       scrollTop(value) {
@@ -142,6 +187,7 @@ export function CraftScroll({
     }, root);
 
     return () => {
+      cleanupHash();
       window.removeEventListener('load', refresh);
       window.removeEventListener('resize', refresh);
       ctx.revert();
