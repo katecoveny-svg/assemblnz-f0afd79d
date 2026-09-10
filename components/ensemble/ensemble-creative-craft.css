@@ -196,6 +196,46 @@
   border: 1px solid var(--ens-line-strong);
 }
 
+/* Viral share path — large tap targets on phone (post-#1188). */
+.ens-cta-row-share {
+  margin-top: 0.85rem;
+}
+
+.ens-cta-share {
+  background: var(--ens-rose);
+  color: var(--ens-paper);
+  min-height: 48px;
+  padding-inline: 1.25rem;
+}
+
+.ens-cta-share-ghost {
+  background: transparent;
+  color: var(--ens-plum);
+  border: 1px solid var(--ens-rose);
+  min-height: 48px;
+  padding-inline: 1.25rem;
+}
+
+.ens-share-hint {
+  margin-top: 0.7rem;
+  max-width: 36ch;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ens-muted);
+  line-height: 1.45;
+}
+
+.ens-tools-share {
+  max-width: 1180px;
+  margin: 0 auto 0.55rem;
+}
+
+.ens-tools-share-hint {
+  max-width: 1180px;
+  margin: 0 auto 1rem;
+}
+
 .ens-hero-visual {
   position: relative;
   border: 1px solid var(--ens-line);

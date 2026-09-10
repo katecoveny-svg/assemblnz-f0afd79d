@@ -40,6 +40,13 @@ export const ENSEMBLE_PREVIEW = {
   toolsTitle: 'Open the live tools.',
   toolsSupport:
     'Generative Studio, Pattern Studio, Ad Studio, plus Auaha, Prism and Muse — the same craft behind this desk.',
+  /** Viral share path — Kate brief after #1188. Lands on working Gen Studio export. */
+  ctaMakeSomething: 'Make something',
+  ctaShareFromGen: 'Share from Gen Studio',
+  makeHref: '/generative-studio',
+  shareHref: '/generative-studio#share',
+  shareHint:
+    'On your phone: create → export opens the share sheet (or long-press save).',
 
   workspaceEyebrow: 'Creative workspace',
   workspaceTitle: 'The desk that runs the brief.',

@@ -37,9 +37,9 @@ const ASPECTS: AspectSpec[] = [
   { id: 'portrait', label: 'Portrait', ratio: '9 / 16',   maxWidth: '480px',  hint: '9 : 16' },
 ];
 
-// --- Text overlay (assembl fonts) ------------------------------------------
-type OverlayFont = 'cormorant' | 'jost' | 'mono';
-type OverlayColor = 'ink' | 'navy' | 'paper' | 'champagne' | 'brass' | 'gold';
+// --- Text overlay (plum canon — Instrument Sans + IBM Plex Mono) -----------
+type OverlayFont = 'instrument' | 'mono';
+type OverlayColor = 'ink' | 'plum' | 'paper' | 'heather' | 'muted';
 interface TextOverlay {
   on: boolean;
   text: string;
@@ -52,21 +52,43 @@ interface TextOverlay {
   y: number;                 // 0..1 fraction of canvas height
 }
 const OVERLAY_FONTS: Record<OverlayFont, { label: string; css: string; weights: number[] }> = {
-  cormorant: { label: 'Cormorant', css: "'Cormorant Garamond', Georgia, serif", weights: [300, 400, 500, 600, 700] },
-  jost:      { label: 'Jost',      css: "'Jost', system-ui, sans-serif",        weights: [200, 300, 400, 500, 700] },
-  mono:      { label: 'Space Mono',css: "'Space Mono', ui-monospace, monospace", weights: [400, 700] },
+  instrument: {
+    label: 'Instrument',
+    css: "var(--font-display), 'Instrument Sans', system-ui, sans-serif",
+    weights: [400, 500, 600, 700],
+  },
+  mono: {
+    label: 'IBM Plex Mono',
+    css: "var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace",
+    weights: [400, 500, 600],
+  },
 };
-/** BRAND-CANON.md §5 — the only colours type may be set in. */
+/** docs/assembl-brand-system.md — plum canon type colours only. */
 const OVERLAY_COLORS: Record<OverlayColor, string> = {
-  ink: '#1C1B18',
-  navy: '#050F1C',
-  paper: '#FAFAF7',
-  champagne: '#BFA37A',
-  brass: '#B8964F',
-  gold: '#D4A843',
+  ink: '#240B21',
+  plum: '#240B21',
+  paper: '#FFFDFB',
+  heather: '#916A70',
+  muted: '#654A4E',
 };
+/** Map legacy share-URL keys (Cormorant / Jost / champagne / gold) onto canon. */
+function resolveOverlayFont(raw: string | null): OverlayFont | null {
+  if (!raw) return null;
+  if (raw === 'instrument' || raw === 'jost' || raw === 'cormorant') return 'instrument';
+  if (raw === 'mono') return 'mono';
+  return null;
+}
+function resolveOverlayColor(raw: string | null): OverlayColor | null {
+  if (!raw) return null;
+  if (raw === 'ink') return 'ink';
+  if (raw === 'plum' || raw === 'navy') return 'plum';
+  if (raw === 'paper') return 'paper';
+  if (raw === 'heather' || raw === 'champagne' || raw === 'brass' || raw === 'gold') return 'heather';
+  if (raw === 'muted') return 'muted';
+  return null;
+}
 const DEFAULT_OVERLAY: TextOverlay = {
-  on: false, text: '', font: 'jost', weight: 500, size: 48,
+  on: false, text: '', font: 'instrument', weight: 500, size: 48,
   color: 'ink', align: 'center', x: 0.5, y: 0.5,
 };
 
@@ -107,18 +129,18 @@ function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number) {
     light = sum / (box.data.length / 4) > 128;
   } catch { /* tainted or empty — fall back to the light mark */ }
 
-  const ink = light ? 'rgba(28,27,24,0.92)' : 'rgba(250,250,247,0.92)';
+  const ink = light ? 'rgba(36,11,33,0.92)' : 'rgba(245,241,242,0.92)';
   ctx.save();
   ctx.textAlign = 'right';
   ctx.textBaseline = 'alphabetic';
-  ctx.font = `500 ${size}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.font = `500 ${size}px 'Instrument Sans', system-ui, sans-serif`;
   ctx.fillStyle = ink;
   ctx.fillText('assembl', w - pad, h - pad);
-  // the champagne dot — the mark's tell
+  // heather dot — plum-canon tell on every export
   const tw = ctx.measureText('assembl').width;
   ctx.beginPath();
   ctx.arc(w - pad - tw - size * 0.45, h - pad - size * 0.28, size * 0.13, 0, Math.PI * 2);
-  ctx.fillStyle = '#BFA37A';
+  ctx.fillStyle = '#916A70';
   ctx.fill();
   ctx.restore();
 }
@@ -259,15 +281,15 @@ function stateFromSearch(sp: URLSearchParams | null): StudioState {
   if (ot) {
     overlay.on = true;
     overlay.text = ot;
-    const f = sp?.get('tf') as OverlayFont | null;
-    if (f && f in OVERLAY_FONTS) overlay.font = f;
+    const f = resolveOverlayFont(sp?.get('tf') ?? null);
+    if (f) overlay.font = f;
     const num = (k: string, fb: number) => { const v = Number(sp?.get(k)); return Number.isFinite(v) ? v : fb; };
     overlay.weight = num('twt', overlay.weight);
     overlay.size = num('tsz', overlay.size);
     overlay.x = num('tx', overlay.x);
     overlay.y = num('ty', overlay.y);
-    const c = sp?.get('tc');
-    if (c === 'champagne') overlay.color = 'champagne';
+    const c = resolveOverlayColor(sp?.get('tc') ?? null);
+    if (c) overlay.color = c;
     const a = sp?.get('ta');
     if (a === 'left' || a === 'right') overlay.align = a;
   }
@@ -421,24 +443,55 @@ export function GenerativeArtCanvas() {
     setState((prev) => ({ ...prev, seed: Math.floor(Math.random() * 100000) }));
   }, []);
 
-  const download = useCallback((blob: Blob | null, ext: string) => {
+  const download = useCallback(async (blob: Blob | null, ext: string) => {
     if (!blob) return;
+    const filename = `assembl-${state.family}-${state.presetId}-${state.seed}.${ext}`;
+    // iOS Safari ignores <a download> for blob URLs — prefer Web Share on mobile.
+    if (ext === 'png') {
+      const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
+      const isMobile =
+        /iPhone|iPad|iPod|Android/i.test(ua) ||
+        (typeof navigator !== 'undefined' &&
+          navigator.maxTouchPoints > 1 &&
+          typeof window !== 'undefined' &&
+          window.innerWidth <= 820);
+      if (isMobile) {
+        const shared = await tryNativeShare({
+          url: typeof window !== 'undefined' ? window.location.href : '',
+          title: copy.title,
+          text: copy.text,
+          pngBlob: blob,
+          filename,
+        });
+        if (shared) return;
+      }
+    }
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `assembl-${state.family}-${state.presetId}-${state.seed}.${ext}`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     a.remove();
-    URL.revokeObjectURL(url);
-  }, [state.family, state.presetId, state.seed]);
+    if (/iPhone|iPad|iPod/i.test(typeof navigator !== 'undefined' ? navigator.userAgent || '' : '')) {
+      setTimeout(() => {
+        try {
+          window.open(url, '_blank');
+        } catch {
+          /* ignore */
+        }
+      }, 250);
+    } else {
+      URL.revokeObjectURL(url);
+    }
+  }, [copy.text, copy.title, state.family, state.presetId, state.seed]);
 
   const downloadPng = useCallback(async () => {
     const png = exportersRef.current.png;
     if (!png) return;
     const blob = await png();
     if (!blob) return;
-    download(await compositeOverlay(blob, state.overlay, 1, socialSize), 'png');
+    await download(await compositeOverlay(blob, state.overlay, 1, socialSize), 'png');
   }, [download, state.overlay, socialSize]);
 
   const downloadSvg = useCallback(() => {
@@ -801,14 +854,14 @@ export function GenerativeArtCanvas() {
             <div className="flex flex-col gap-2">
               <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 <span>text</span>
-                <span className="text-[12px] tracking-[0.06em]">cormorant garamond · woven into the piece</span>
+                <span className="text-[12px] tracking-[0.06em]">instrument sans · woven into the piece</span>
               </div>
               <input
                 type="text"
                 value={state.text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="assembl."
-                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-2 font-display text-[16px] italic text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/60 focus:border-[color:var(--text-primary)] focus:outline-none"
+                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-2 font-display text-[16px] text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/60 focus:border-[color:var(--text-primary)] focus:outline-none"
                 spellCheck={false}
                 autoComplete="off"
               />
@@ -1070,7 +1123,7 @@ export function GenerativeArtCanvas() {
                 />
               </label>
               <div className="flex items-end gap-2">
-                {(['ink', 'champagne'] as const).map((c) => (
+                {(['ink', 'heather'] as const).map((c) => (
                   <button
                     key={c}
                     type="button"

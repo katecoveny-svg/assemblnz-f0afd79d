@@ -52,6 +52,15 @@ describe('Ensemble creative front door DEMO data', () => {
     expect(hrefs).toContain('/agents/muse');
   });
 
+  it('exposes Make something / Share from Gen Studio viral path', () => {
+    expect(ENSEMBLE_PREVIEW.ctaMakeSomething).toBe('Make something');
+    expect(ENSEMBLE_PREVIEW.ctaShareFromGen).toBe('Share from Gen Studio');
+    expect(ENSEMBLE_PREVIEW.makeHref).toBe('/generative-studio');
+    expect(ENSEMBLE_PREVIEW.shareHref).toContain('/generative-studio');
+    expect(ENSEMBLE_PREVIEW.shareHref).toContain('#share');
+    expect(ENSEMBLE_PREVIEW.shareHint.toLowerCase()).toMatch(/share|export|phone/);
+  });
+
   it('keeps preview copy free of partnership claims and retired product labels', () => {
     const blob = JSON.stringify(ENSEMBLE_PREVIEW).toLowerCase();
     expect(blob).not.toMatch(/\bmana\b/);
