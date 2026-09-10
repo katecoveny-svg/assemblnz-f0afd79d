@@ -187,7 +187,7 @@ export function WorkflowRunner({
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <label className="inline-flex h-10 cursor-pointer items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78">
+                  <label className="inline-flex h-10 cursor-pointer items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78 focus-within:-translate-y-0.5 focus-within:bg-white/78 focus-within:outline focus-within:outline-2 focus-within:outline-ring focus-within:outline-offset-2 active:translate-y-0">
                     <Upload className="mr-2 h-4 w-4 text-[color:var(--workflow-accent)]" aria-hidden />
                     Add photo
                     <input
@@ -201,7 +201,8 @@ export function WorkflowRunner({
                   <button
                     type="button"
                     onClick={toggleSpeechCapture}
-                    className="inline-flex h-10 items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78"
+                    aria-pressed={listening}
+                    className="inline-flex h-10 items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78 focus-visible:-translate-y-0.5 focus-visible:bg-white/78 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
                   >
                     <Mic className="mr-2 h-4 w-4 text-[color:var(--workflow-accent)]" aria-hidden />
                     {listening ? 'Listening...' : 'Speak notice'}
@@ -247,13 +248,15 @@ export function WorkflowRunner({
                   value={String(inputs[input.id] ?? '')}
                   onChange={(event) => setInputs((current) => ({ ...current, [input.id]: event.target.value }))}
                   placeholder={input.placeholder}
-                  className="mt-2 min-h-[118px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/80 px-4 py-3 text-sm outline-none focus:border-[color:var(--workflow-accent)]"
+                  aria-required={input.required}
+                  className="mt-2 min-h-[118px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/80 px-4 py-3 text-sm transition focus-visible:border-[color:var(--workflow-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--workflow-accent)]/40"
                 />
               ) : input.type === 'select' ? (
                 <select
                   value={String(inputs[input.id] ?? '')}
                   onChange={(event) => setInputs((current) => ({ ...current, [input.id]: event.target.value }))}
-                  className="mt-2 h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/80 px-4 text-sm outline-none focus:border-[color:var(--workflow-accent)]"
+                  aria-required={input.required}
+                  className="mt-2 h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/80 px-4 text-sm transition focus-visible:border-[color:var(--workflow-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--workflow-accent)]/40"
                 >
                   <option value="">Choose...</option>
                   {input.options?.map((option) => (
@@ -270,6 +273,7 @@ export function WorkflowRunner({
                       <button
                         key={option}
                         type="button"
+                        aria-pressed={selected}
                         onClick={() => {
                           setInputs((current) => {
                             const currentValue = current[input.id];
@@ -281,10 +285,10 @@ export function WorkflowRunner({
                           });
                         }}
                         className={[
-                          'rounded-full border px-3 py-1.5 text-sm transition',
+                          'rounded-full border px-3 py-1.5 text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:scale-95',
                           selected
                             ? 'border-[color:var(--workflow-accent)] bg-[color:var(--workflow-accent)] text-white'
-                            : 'border-[rgba(35,33,31,0.14)] bg-white/72 text-[color:var(--text-primary)]',
+                            : 'border-[rgba(35,33,31,0.14)] bg-white/72 text-[color:var(--text-primary)] hover:bg-white focus-visible:bg-white',
                         ].join(' ')}
                       >
                         {option}
@@ -298,7 +302,8 @@ export function WorkflowRunner({
                   value={String(inputs[input.id] ?? '')}
                   onChange={(event) => setInputs((current) => ({ ...current, [input.id]: event.target.value }))}
                   placeholder={input.placeholder}
-                  className="mt-2 h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/80 px-4 text-sm outline-none focus:border-[color:var(--workflow-accent)]"
+                  aria-required={input.required}
+                  className="mt-2 h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/80 px-4 text-sm transition focus-visible:border-[color:var(--workflow-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--workflow-accent)]/40"
                 />
               )}
             </label>
@@ -373,7 +378,7 @@ export function WorkflowRunner({
             />
             <a
               href={`/app?workflow=${workflow.slug}`}
-              className="mt-4 flex items-center justify-between rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-4 text-sm transition hover:border-[color:var(--workflow-accent)]"
+              className="mt-4 flex items-center justify-between rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-4 text-sm transition hover:-translate-y-0.5 hover:border-[color:var(--workflow-accent)] focus-visible:-translate-y-0.5 focus-visible:border-[color:var(--workflow-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
             >
               <span className="flex items-center gap-3">
                 <LayoutDashboard className="h-4 w-4 text-[color:var(--workflow-accent)]" aria-hidden />
@@ -420,7 +425,7 @@ function InstallOption({
       <button
         type="button"
         onClick={onCopy}
-        className="mt-3 inline-flex h-9 items-center rounded-full border border-[rgba(35,33,31,0.14)] px-4 text-sm"
+        className="mt-3 inline-flex h-9 items-center rounded-full border border-[rgba(35,33,31,0.14)] bg-white/50 px-4 text-sm font-medium transition hover:-translate-y-0.5 hover:border-[color:var(--workflow-accent)] hover:bg-white focus-visible:-translate-y-0.5 focus-visible:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0"
       >
         {copied ? <Check className="mr-2 h-4 w-4" aria-hidden /> : <Copy className="mr-2 h-4 w-4" aria-hidden />}
         {copied ? 'Copied' : button}
