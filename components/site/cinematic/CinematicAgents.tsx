@@ -47,6 +47,7 @@ export function CinematicAgents() {
         </header>
 
         <div className="page-body">
+          <section aria-label="Specialist workspaces" style={{ marginBottom: 48 }}><div className="kicker">open a specialist workspace</div><div className="agent-grid">{[{ slug: 'retirement', name: 'Retirement guide', text: 'Prepare a family journey through retirement living, with official NZ sources.' }, { slug: 'flux', name: 'Flux', text: 'Research business fit, organise a private pipeline and prepare a useful follow-up.' }, { slug: 'aroha', name: 'Aroha', text: 'Prepare people processes with current NZ sources and human review.' }].map(a => <Link className="agent-card" href={`/agents/${a.slug}/app`} key={a.slug}><h3>{a.name}</h3><p>{a.text}</p><span className="tag">open the app →</span></Link>)}</div></section>
           <div className="agent-grid">
             {agents.map((a) => (
               <Link className="agent-card" key={a.num} href="/assembling">

@@ -1,5 +1,5 @@
 /** Public verticals only. Client rooms never belong in this registry. */
-export const VERTICAL_SLUGS = ['arc', 'forge', 'customs', 'ensemble'] as const;
+export const VERTICAL_SLUGS = ['arc', 'forge', 'customs', 'ensemble', 'retirement', 'flux', 'aroha'] as const;
 export type VerticalSlug = (typeof VERTICAL_SLUGS)[number];
 
 export type Vertical = {
@@ -19,6 +19,39 @@ export type Vertical = {
 };
 
 export const VERTICALS: Record<VerticalSlug, Vertical> = {
+  retirement: {
+    slug: 'retirement', name: 'Retirement guide', field: 'Retirement living · Aotearoa', agent: 'retirement', agentName: 'Retirement guide',
+    title: 'A next chapter. At their pace.', description: 'Help someone you care about explore retirement living, understand the questions and prepare a move on their terms.',
+    greeting: 'Who are you helping, and what matters to them? We can explore independent village living, support at home or the residential care pathway. Start with general details; your family can take this one step at a time.',
+    reviewer: 'Older person, independent lawyer and care or financial adviser as needed', output: 'Family preparation plan', image: '/brand/vertical-apps/retirement/study.png', imageAlt: 'Illustrative family plan, source notes and priorities',
+    starters: [
+      { label: 'Help us start the conversation', prompt: 'We are helping a parent explore retirement living. They value independence and being close to friends. Prepare a first family conversation, with staying at home included as an option. Do not assume they want to move.' },
+      { label: 'Check current care funding', prompt: 'What does the current official Residential Care Subsidy page say about asset thresholds for a person aged 65 or older, including a partner staying at home? Explain the separate assessment steps and cite the current page.' },
+      { label: 'Prepare for the village lawyer', prompt: 'We have not signed an occupation right agreement. Help us prepare questions about deferred management fees, ongoing charges, leaving the village and cooling-off rights. Verify the law before giving deadlines.' },
+    ],
+  },
+  flux: {
+    slug: 'flux', name: 'Flux', field: 'Sales & customer relationships', agent: 'flux', agentName: 'Flux',
+    title: 'Every lead. A considered next step.', description: 'Research business fit, organise your pipeline and prepare relevant follow-ups for your team to review.',
+    greeting: 'What do you sell, who is it useful for, and what is the next conversation you want to earn? I can help research fit and prepare the follow-up. Your pipeline and connected tools stay under your control.',
+    reviewer: 'Sales owner', output: 'Sales brief', image: '/brand/vertical-apps/flux/study.png', imageAlt: 'Illustrative sales brief and evidence folio',
+    starters: [
+      { label: 'Define our ideal customer', prompt: 'We help regional NZ businesses turn customer waiting into useful preparation. Help me define a narrow ideal customer and three observable public signals of fit. Keep commercial assumptions labelled.' },
+      { label: 'Prepare a helpful follow-up', prompt: 'A prospect requested more information after our demo. We have not agreed a budget or meeting. Draft a short follow-up that asks one useful question, without inventing promises or sending anything.' },
+      { label: 'Review our pipeline', prompt: 'Help me review a small sales pipeline. Give me a practical sequence for checking source evidence, buyer need, next action, owner and follow-up date. Do not invent lead scores.' },
+    ],
+  },
+  aroha: {
+    slug: 'aroha', name: 'Aroha', field: 'People & work · Aotearoa', agent: 'aroha', agentName: 'Aroha',
+    title: 'Good work begins with people.', description: 'NZ HR and employment law — agreements, disciplinary process, leave, and the true cost of a hire, drafted for you to check.',
+    greeting: 'What is happening in your team? We can prepare a role, an onboarding plan, a leave question or a fair conversation. Use role descriptions instead of employee names. A person reviews each next step.',
+    reviewer: 'HR lead or employment lawyer', output: 'HR preparation brief', image: '/brand/vertical-apps/aroha/study.png', imageAlt: 'Illustrative HR preparation folio',
+    starters: [
+      { label: 'Prepare a new starter plan', prompt: 'Prepare a first-week onboarding plan for a customer service role in a small NZ team. We have not finalised hours or the agreement. Keep decisions and missing details visible.' },
+      { label: 'Check current pay settings', prompt: 'Check the current official adult minimum wage and employer KiwiSaver settings, including effective dates and exceptions that need checking. Cite only pages you read.' },
+      { label: 'Plan a fair conversation', prompt: 'A team member has missed a deadline. No findings have been made. Help an HR lead prepare a fair first conversation that hears their perspective and does not predetermine an outcome.' },
+    ],
+  },
   arc: {
     slug: 'arc', name: 'ARC', field: 'Architecture & design', agent: 'whakaae', agentName: 'Whakaaē',
     title: 'Talk the plan through.',

@@ -23,7 +23,7 @@ describe('separate public vertical apps', () => {
   });
   it('uses distinct installed identities, scoped starts and two valid icon sizes', () => {
     const apps = VERTICAL_SLUGS.map(s => verticalManifest(VERTICALS[s]));
-    expect(new Set(apps.map(a => a.id)).size).toBe(4);
+    expect(new Set(apps.map(a => a.id)).size).toBe(7);
     for (const app of apps) {
       expect(app.start_url.startsWith(`${app.scope}/`)).toBe(true);
       expect(app.display).toBe('standalone');

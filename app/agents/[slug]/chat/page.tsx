@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { marketplaceAgentBySlug, toPublicAgent } from '@/lib/marketplace/agents';
+import { isSpecialist } from '@/lib/specialists/sources';
 import { AgentChat } from './AgentChat';
 import Link from 'next/link';
 import { KAUMATUA_HELD_SLUGS, KAUMATUA_HOLD_MESSAGE } from '@/lib/agents/knowledge-map';
@@ -9,6 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
+  if (isSpecialist(slug)) redirect(`/agents/${slug}/app`);
   const agent = marketplaceAgentBySlug(slug);
   if (!agent) return {};
   return {
@@ -22,6 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function AgentChatPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  if (isSpecialist(slug)) redirect(`/agents/${slug}/app`);
   const agent = marketplaceAgentBySlug(slug);
   if (!agent) notFound();
 

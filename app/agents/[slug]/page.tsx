@@ -7,11 +7,16 @@ import { MarketplaceAgentDetail } from './MarketplaceAgentDetail';
 import { FleetAgentDetail } from './FleetAgentDetail';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { graph, agentProductNode, breadcrumbNode, SITE_URL } from '@/lib/seo/schema';
+import { isSpecialist } from '@/lib/specialists/sources';
+import { VERTICALS } from '@/lib/verticals/config';
+import { verticalMetadata } from '@/lib/verticals/metadata';
+import { SpecialistWorkspace } from '@/components/specialists/SpecialistWorkspace';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
+  if (isSpecialist(slug)) { const v = VERTICALS[slug]; return { ...verticalMetadata(slug), title: `${v.name} · assembl`, description: v.description, alternates: { canonical: `/agents/${slug}` } }; }
 
   const marketplace = marketplaceAgentBySlug(slug);
   if (marketplace) {
@@ -52,6 +57,7 @@ export default async function AgentDetailPage({
   searchParams: Promise<{ workflow?: string }>;
 }) {
   const [{ slug }, sp] = await Promise.all([params, searchParams]);
+  if (isSpecialist(slug)) return <SpecialistWorkspace slug={slug} />;
 
   // Marketplace agents take precedence — this is the consumer App Store surface.
   const marketplace = marketplaceAgentBySlug(slug);
