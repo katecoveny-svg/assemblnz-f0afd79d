@@ -107,7 +107,8 @@ export function WatchScene({ home = false }: { home?: boolean }) {
     }
 
     function render(progress: number) {
-      const drift = mobile.matches ? (home ? 0.72 : 0.40) + 0.05 * Math.sin(progress * Math.PI) : -0.035 + 0.2 * progress;
+      const mobileEntry = .52 - .36 * smooth(clamp(progress * span / (innerHeight * .7)));
+      const drift = mobile.matches ? (home ? mobileEntry : 0.40) + 0.05 * Math.sin(progress * Math.PI) : -0.035 + 0.2 * progress;
       const travel = Math.max(0, Math.min(progress * span + innerHeight * drift, finish - art!.offsetHeight));
       art!.style.transform = reduced ? '' : `translate3d(0,${travel.toFixed(2)}px,0)`;
       art!.style.setProperty('--watch-drift', `${Math.sin(progress * Math.PI * 2) * 3}%`);
