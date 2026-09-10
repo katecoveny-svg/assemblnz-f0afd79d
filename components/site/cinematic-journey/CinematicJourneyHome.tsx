@@ -17,6 +17,7 @@ import {
 } from './copy';
 import '@/app/active-journey-home.css';
 import './cinematic-journey.css';
+import './home-phone-device.css';
 
 /** CSS vars HomeGuidePhone / .aj-phone / .hg-* styles expect. */
 const PHONE_THEME = {
@@ -170,7 +171,7 @@ export function CinematicJourneyHome() {
             data-lenis-prevent
             style={PHONE_THEME}
           >
-            <HomeGuidePhone />
+            <HomeGuidePhone presentation="device" />
           </div>
         </section>
 
