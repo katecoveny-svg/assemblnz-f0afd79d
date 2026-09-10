@@ -3,9 +3,9 @@ import Link from "next/link";
 import { PilotCta } from "@/components/creative/PilotCta";
 
 export const metadata: Metadata = {
-  title: "AUAHA — a creative studio in a chat",
+  title: "Ensemble — a creative studio in a chat",
   description:
-    "Prism art-directs and generates imagery, Muse writes, Flux films, Verse voices. Real AI generation, on-brand, made in Aotearoa.",
+    "Prism art-directs and generates imagery, Muse writes, Flux films, Verse voices. Real generation, on-brand, made in New Zealand.",
 };
 
 const PAPER = "#FBFAF6";
@@ -37,7 +37,7 @@ export default function CreativeAgencyLanding() {
         <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.15fr) minmax(0,0.85fr)", gap: 40, alignItems: "center" }} className="ca-hero">
           <div>
             <p style={{ fontFamily: mono, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_DEEP }}>
-              assembl · the AUAHA creative kete
+              assembl · the Ensemble creative studio
             </p>
             <h1 style={{ fontFamily: serif, fontWeight: 500, fontSize: "clamp(2.6rem, 6vw, 4.4rem)", lineHeight: 1.02, letterSpacing: "-0.02em", margin: "14px 0 0" }}>
               a creative studio<br />in a chat<span style={{ color: GOLD }}>.</span>
@@ -82,7 +82,7 @@ export default function CreativeAgencyLanding() {
       {/* live gallery — 6 real samples */}
       <section style={{ maxWidth: 1120, margin: "0 auto", padding: "34px 26px 20px" }}>
         <h2 style={{ fontFamily: serif, fontWeight: 500, fontSize: 30, letterSpacing: "-0.02em", margin: "0 0 4px" }}>
-          made by the kete<span style={{ color: GOLD }}>.</span>
+          made by the studio<span style={{ color: GOLD }}>.</span>
         </h2>
         <p style={{ fontSize: 13.5, color: GREY, marginBottom: 18 }}>
           Six samples — every one generated, not stock. Imagen 4.0 for stills, Veo 3.1 for film, ElevenLabs for voice, Gemini for words.
@@ -104,12 +104,12 @@ export default function CreativeAgencyLanding() {
             book a pilot<span style={{ color: GOLD }}>.</span>
           </h2>
           <p style={{ fontSize: 14.5, color: GREY, marginBottom: 20, maxWidth: 560 }}>
-            Want the kete pointed at your brand? Tell us what you'd make first. It lands in the queue — nothing is sent automatically.
+            Want the studio pointed at your brand? Tell us what you'd make first. It lands in the queue — nothing is sent automatically.
           </p>
           <PilotCta />
         </div>
         <p style={{ fontFamily: mono, fontSize: 12, color: GREY, textAlign: "center", marginTop: 34 }}>
-          made in Aotearoa · draft-only demo · a person approves before anything is published
+          made in New Zealand · draft-only demo · a person approves before anything is published
         </p>
       </section>
 

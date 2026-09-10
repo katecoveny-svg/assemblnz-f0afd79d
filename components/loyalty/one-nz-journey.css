@@ -815,7 +815,7 @@
   color: rgba(93, 255, 181, 0.8);
 }
 
-/* —— Evidence: Mana Receipt (rounded card + clean dl) —— */
+/* —— Evidence: Evidence receipt (rounded card + clean dl) —— */
 .onz-evidence-stage {
   display: flex;
   flex-direction: column;

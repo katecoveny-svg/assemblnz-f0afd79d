@@ -188,7 +188,7 @@ export function OneNzJourney() {
               <ul className="onz-chips">
                 <li>detect · activate · credit</li>
                 <li>phone dollars · one wallet</li>
-                <li>mana receipts</li>
+                <li>evidence receipts</li>
               </ul>
             </section>
 
@@ -267,7 +267,7 @@ export function OneNzJourney() {
               aria-labelledby="onz-ev-title"
             >
               <p className="onz-kicker">03 · evidence</p>
-              <h2 id="onz-ev-title">Mana Receipt</h2>
+              <h2 id="onz-ev-title">Evidence receipt</h2>
               <p>
                 Records the wait, the earn, the opt-in (reversible), and the named person
                 responsible. Proof the customer can keep.
@@ -281,10 +281,10 @@ export function OneNzJourney() {
                   </li>
                 ))}
               </ol>
-              <article className="onz-receipt" aria-label="Mana Receipt sample">
+              <article className="onz-receipt" aria-label="Evidence receipt sample">
                 <header>
                   <span>one.nz</span>
-                  <strong>Mana Receipt</strong>
+                  <strong>Evidence receipt</strong>
                 </header>
                 <dl>
                   <div>

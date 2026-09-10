@@ -30,7 +30,7 @@ const AD_FORMATS: Array<[string, number, number]> = [
   ['Landscape 16:9', 1920, 1080],
 ];
 
-/** AUAHA render formats → the aspect ratio the API forwards to each provider. */
+/** Ensemble render formats → the aspect ratio the API forwards to each provider. */
 const AR_BY_FORMAT: Record<string, string> = {
   'Square 1:1': '1:1',
   'Story 9:16': '9:16',
@@ -120,7 +120,7 @@ export function PatternStudioClient() {
   const [recording, setRecording] = useState(false);
   const [hasImage, setHasImage] = useState(false);
 
-  // Send to AUAHA — hand this frame to the creative kete for a real render.
+  // Send to Ensemble — hand this frame to the creative studio for a real render.
   const [auahaKind, setAuahaKind] = useState<'Image' | 'Video'>('Image');
   const [auahaFormat, setAuahaFormat] = useState(AD_FORMATS[0][0]);
   const [auahaBrief, setAuahaBrief] = useState('');
@@ -346,7 +346,7 @@ export function PatternStudioClient() {
     }
   };
 
-  // Stamp the wordmark onto an AUAHA-rendered still, then download it — so a
+  // Stamp the wordmark onto an Ensemble-rendered still, then download it — so a
   // generated asset carries the brand too, not just the studio's own exports.
   const downloadBrandedImage = async (src: string, name: string) => {
     const img = new Image();
@@ -377,7 +377,7 @@ export function PatternStudioClient() {
     }
   };
 
-  // Poll the AUAHA video endpoint until the render lands (Runway/Veo are async).
+  // Poll the Ensemble video endpoint until the render lands (Runway/Veo are async).
   const pollAuahaVideo = async (operation: string): Promise<string | null> => {
     for (let i = 0; i < 40; i++) {
       await new Promise((r) => setTimeout(r, 6000));
@@ -406,7 +406,7 @@ export function PatternStudioClient() {
     setAuahaImg(null);
     setAuahaVid(null);
     setAuahaNote('');
-    setStatus('Sending this frame to AUAHA…');
+    setStatus('Sending this frame to Ensemble…');
     try {
       if (auahaKind === 'Image') {
         const r = await fetch('/api/creative/image', {
@@ -415,12 +415,12 @@ export function PatternStudioClient() {
           body: JSON.stringify({ brief, aspectRatio, count: 1, agent: 'prism', referenceDataUrl }),
         });
         const d = await r.json();
-        if (d.notConfigured) setAuahaNote(`AUAHA needs ${d.envVar} set for image. ${d.detail}`);
+        if (d.notConfigured) setAuahaNote(`Ensemble needs ${d.envVar} set for image. ${d.detail}`);
         else if (d.error) setAuahaNote(d.error);
         else if (d.images?.[0]) {
           setAuahaImg(d.images[0]);
-          setStatus('AUAHA rendered a still.');
-        } else setAuahaNote('AUAHA returned no image.');
+          setStatus('Ensemble rendered a still.');
+        } else setAuahaNote('Ensemble returned no image.');
       } else {
         const r = await fetch('/api/creative/video', {
           method: 'POST',
@@ -428,19 +428,19 @@ export function PatternStudioClient() {
           body: JSON.stringify({ brief, aspectRatio, referenceDataUrl }),
         });
         const d = await r.json();
-        if (d.notConfigured) setAuahaNote(`AUAHA needs ${d.envVar} set for video. ${d.detail}`);
+        if (d.notConfigured) setAuahaNote(`Ensemble needs ${d.envVar} set for video. ${d.detail}`);
         else if (d.error) setAuahaNote(d.error);
         else if (d.done && d.video) {
           setAuahaVid(d.video);
-          setStatus('AUAHA rendered a film.');
+          setStatus('Ensemble rendered a film.');
         } else if (d.operation) {
-          setStatus('AUAHA is rendering the film — this takes a minute or two…');
+          setStatus('Ensemble is rendering the film — this takes a minute or two…');
           const video = await pollAuahaVideo(d.operation);
           if (video) {
             setAuahaVid(video);
-            setStatus('AUAHA rendered a film.');
-          } else setAuahaNote('The render did not finish in time. Try again, or open AUAHA.');
-        } else setAuahaNote('AUAHA returned no film.');
+            setStatus('Ensemble rendered a film.');
+          } else setAuahaNote('The render did not finish in time. Try again, or open Ensemble.');
+        } else setAuahaNote('Ensemble returned no film.');
       }
     } catch (e) {
       setAuahaNote((e as Error).message);
@@ -693,9 +693,9 @@ export function PatternStudioClient() {
         </section>
 
         <section className={styles.group}>
-          <h3>Send to AUAHA</h3>
+          <h3>Send to Ensemble</h3>
           <p className={styles.status} style={{ minHeight: 0, lineHeight: 1.5 }}>
-            Hand this frame to your creative kete for a real render — a still (Google Imagen / Fal
+            Hand this frame to your creative studio for a real render — a still (Google Imagen / Fal
             Flux) or a film (Runway Gen-4 / Fal Kling / Google Veo), seeded by the pattern.
           </p>
           <Select label="Make" value={auahaKind} options={['Image', 'Video']} onChange={(v) => setAuahaKind(v as 'Image' | 'Video')} />
@@ -710,20 +710,20 @@ export function PatternStudioClient() {
             />
           </label>
           <button type="button" className={styles.action} onClick={sendToAuaha} disabled={auahaBusy}>
-            {auahaBusy ? 'Rendering with AUAHA…' : 'Render with AUAHA'}
+            {auahaBusy ? 'Rendering with Ensemble…' : 'Render with Ensemble'}
           </button>
           {auahaImg && (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={auahaImg}
-                alt="AUAHA-rendered still from this pattern"
+                alt="Ensemble-rendered still from this pattern"
                 style={{ width: '100%', borderRadius: 8, marginTop: 10, display: 'block' }}
               />
               <button
                 type="button"
                 className={styles.action}
-                onClick={() => downloadBrandedImage(auahaImg, `assembl-auaha-${auahaFormat.replace(/\W+/g, '-').toLowerCase()}.png`)}
+                onClick={() => downloadBrandedImage(auahaImg, `assembl-ensemble-${auahaFormat.replace(/\W+/g, '-').toLowerCase()}.png`)}
               >
                 Download still
               </button>
@@ -738,7 +738,7 @@ export function PatternStudioClient() {
                 playsInline
                 style={{ width: '100%', borderRadius: 8, marginTop: 10, display: 'block' }}
               />
-              <a className={styles.action} href={auahaVid} download="assembl-auaha.mp4" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+              <a className={styles.action} href={auahaVid} download="assembl-ensemble.mp4" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
                 Download film
               </a>
             </>
@@ -751,8 +751,8 @@ export function PatternStudioClient() {
           <Link href="/ad-studio" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
             Ad Studio — a campaign from your Genome →
           </Link>
-          <Link href="/customers/creative-agency/ops" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
-            Open AUAHA for 3D + scheduling →
+          <Link href="/agents/ensemble" className={styles.action} style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+            Open Ensemble for 3D + scheduling →
           </Link>
         </section>
       </aside>

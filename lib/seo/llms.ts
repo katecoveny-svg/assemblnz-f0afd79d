@@ -45,7 +45,7 @@ const KEY_PAGES = [
   ['/agents', 'Specialist agents that can be installed for particular work'],
   ['/about', 'What assembl is, the founder, and how the human-in-the-loop works'],
   ['/trust', 'Trust Centre — data residency, PII masking, evidence packs, compliance posture'],
-  ['/mana-receipts', 'How the Mana Receipt provenance layer works'],
+  ['/mana-receipts', 'How the Evidence receipt provenance layer works'],
   ['/faq', 'Answers to the questions people ask about specialist agents and assembl'],
   ['/industries', 'The industries assembl works in — each with a live concept demonstrator'],
   ['/notes', 'Notes from assembl — plain writing on agentic customer journeys, every number sourced'],
@@ -94,7 +94,7 @@ export function buildLlmsTxt(): string {
   lines.push('## About');
   lines.push('');
   lines.push(
-    'assembl was founded by Kate Hudson and is built in Aotearoa New Zealand. It exists to give people their time back by connecting the scattered surfaces of a business around one shared source of truth.',
+    'assembl was founded by Kate Hudson and is built in New Zealand. It exists to give people their time back by connecting the scattered surfaces of a business around one shared source of truth.',
   );
   lines.push('');
   lines.push('## dash (sibling brand)');

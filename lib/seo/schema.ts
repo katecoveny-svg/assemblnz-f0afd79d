@@ -64,7 +64,7 @@ export function organizationNode(): Json {
     image: OG_IMAGE,
     description:
       'assembl is a New Zealand agentic customer experience (agentic CX) company. It designs and runs agentic customer journeys: teams of specialist AI agents inside a business that read the signals its systems already hold, prepare the next step for every customer from first enquiry to the tenth year, and draft rather than act — a named person approves anything that reaches a customer or commits money. assembl also builds rewarded wait states, where customers watch the work happen, earn a credit toward what they are buying, and answer one optional question back.',
-    slogan: 'Mahi that earns its proof.',
+    slogan: 'Work that earns its proof.',
     knowsAbout: [
       'agentic customer journeys',
       'agentic CX',
@@ -77,14 +77,14 @@ export function organizationNode(): Json {
     ],
     foundingLocation: {
       '@type': 'Place',
-      name: 'Aotearoa New Zealand',
+      name: 'New Zealand',
     },
     areaServed: [
       { '@type': 'Country', name: 'New Zealand' },
       { '@type': 'City', name: 'Auckland' },
       { '@type': 'City', name: 'Wellington' },
     ],
-    knowsLanguage: ['en-NZ', 'mi'],
+    knowsLanguage: ['en-NZ'],
     founder: { '@id': PERSON_ID },
     ...(KATE_SAME_AS.length ? {} : {}),
     contactPoint: {
@@ -92,7 +92,7 @@ export function organizationNode(): Json {
       contactType: 'customer support',
       url: `${SITE_URL}/contact`,
       areaServed: 'NZ',
-      availableLanguage: ['English', 'te reo Māori'],
+      availableLanguage: ['English'],
     },
   };
 }

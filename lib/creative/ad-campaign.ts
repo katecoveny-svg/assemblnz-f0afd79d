@@ -109,7 +109,7 @@ async function resolveBusiness(slug: string): Promise<ResolvedBusiness | null> {
       bg: ASSEMBL_AD.bg,
       facts,
       live,
-      fallbackHeadline: "Less admin. More mahi.",
+      fallbackHeadline: "Less admin. Make the wait useful.",
       fallbackCaption: "assembl grows your business while you run it.",
     };
   }
@@ -266,7 +266,7 @@ async function runCampaign(b: ResolvedBusiness, goal: string): Promise<AdCampaig
   if (!headline) headline = b.fallbackHeadline;
   if (!caption) caption = b.fallbackCaption;
   if (!imagePrompt)
-    imagePrompt = `A photographic, on-brand image of the everyday work of ${b.name} — ${b.descriptor}, ${b.tagline}. The tools, materials and setting of the job, natural Aotearoa light, editorial composition, warm and calm. ${NO_PEOPLE}`;
+    imagePrompt = `A photographic, on-brand image of the everyday work of ${b.name} — ${b.descriptor}, ${b.tagline}. The tools, materials and setting of the job, natural New Zealand light, editorial composition, warm and calm. ${NO_PEOPLE}`;
   if (!abstractPrompt) abstractPrompt = fallbackAbstractPrompt(b);
   imagePrompt = withNoPeople(imagePrompt);
   abstractPrompt = withNoPeople(abstractPrompt);
