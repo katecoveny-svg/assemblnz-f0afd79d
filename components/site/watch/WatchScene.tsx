@@ -53,6 +53,7 @@ export function WatchScene({ home = false }: { home?: boolean }) {
     let span = 1, start = 0, finish = 0, offset = 0, phi = 52, lastPose = -1;
     let timeline = 0, autoplay = home, lastTick = 0, lastScroll = scrollY, clock = 0;
     let keys: [number, number][] = [];
+    let mobilePath: [number, number][] = [];
     let fadeBegin = 1, fadeEnd = 1;
     const caption = scene.querySelector<HTMLElement>('.watch-assembly-caption');
 
@@ -67,12 +68,25 @@ export function WatchScene({ home = false }: { home?: boolean }) {
         const section = (selector: string) => root!.querySelector<HTMLElement>(selector);
         const at = (element: HTMLElement | null) => element ? clamp((element.getBoundingClientRect().top + scrollY - start - innerHeight * .15) / span) : 0;
         const wait = section('.cj-wait');
+        const story = section('.cj-story-block');
+        const hero = section('.cj-hero');
+        const heroCopy = section('.cj-hero-copy');
+        const waitMedia = section('.cj-wait-media');
         const industry = section('.cj-industries');
         const industryTop = industry ? industry.getBoundingClientRect().top + scrollY - start : finish;
         fadeBegin = clamp((industryTop - innerHeight * .65) / span);
         fadeEnd = clamp((industryTop - innerHeight * .1) / span);
         keys = [[0, 0], [at(section('.cj-story-block')), 2.4], [at(wait), 4.2],
           [fadeBegin, 8.2], [1, 9.4]];
+        if (hero && heroCopy && story && wait && waitMedia) {
+          const top = (element: HTMLElement) => element.getBoundingClientRect().top + scrollY - start;
+          const heroY = top(heroCopy) + heroCopy.offsetHeight - art!.offsetHeight * .2;
+          const storyY = top(story) + story.offsetHeight - art!.offsetHeight * .8;
+          const waitY = top(waitMedia) - art!.offsetHeight * .15;
+          // Use the real empty media spaces on narrow screens, not the text column.
+          mobilePath = [[0, heroY], [top(hero) + hero.offsetHeight - innerHeight * .8, heroY + 50],
+            [top(story) - innerHeight * .2, storyY], [top(wait) - innerHeight * .2, waitY], [finish, waitY]];
+        }
       }
       lastPose = -1;
     }
@@ -107,9 +121,20 @@ export function WatchScene({ home = false }: { home?: boolean }) {
     }
 
     function render(progress: number) {
-      const mobileEntry = .52 - .36 * smooth(clamp(progress * span / (innerHeight * .7)));
-      const drift = mobile.matches ? (home ? mobileEntry : 0.40) + 0.05 * Math.sin(progress * Math.PI) : -0.035 + 0.2 * progress;
-      const travel = Math.max(0, Math.min(progress * span + innerHeight * drift, finish - art!.offsetHeight));
+      const drift = mobile.matches ? .40 + .05 * Math.sin(progress * Math.PI) : -.035 + .2 * progress;
+      let travel = Math.max(0, Math.min(progress * span + innerHeight * drift, finish - art!.offsetHeight));
+      if (home && mobile.matches && mobilePath.length) {
+        const distance = progress * span;
+        travel = mobilePath[mobilePath.length - 1][1];
+        for (let i = 1; i < mobilePath.length; i++) {
+          const [end, to] = mobilePath[i];
+          if (distance <= end) {
+            const [begin, from] = mobilePath[i - 1];
+            travel = from + (to - from) * smooth(clamp((distance - begin) / Math.max(1, end - begin)));
+            break;
+          }
+        }
+      }
       art!.style.transform = reduced ? '' : `translate3d(0,${travel.toFixed(2)}px,0)`;
       art!.style.setProperty('--watch-drift', `${Math.sin(progress * Math.PI * 2) * 3}%`);
       if (home) art!.style.opacity = reduced ? '1' : String(1 - smooth(clamp((progress - fadeBegin) / Math.max(.001, fadeEnd - fadeBegin))));
