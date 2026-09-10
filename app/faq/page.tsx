@@ -1,34 +1,24 @@
-import type { Metadata } from 'next';
-import { JsonLd } from '@/components/seo/JsonLd';
-import { graph, faqPageNode, breadcrumbNode, SITE_URL } from '@/lib/seo/schema';
-import { FAQS } from './faq-content';
-import { FaqTool } from './FaqTool';
-
-const PUBLISHED = '2026-07-26';
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { graph, faqPageNode, breadcrumbNode, SITE_URL } from "@/lib/seo/schema";
+import { FAQS } from "./faq-content";
+import { FaqTool } from "./FaqTool";
+import {
+  PageHero,
+  PublicPage,
+  SectionHeading,
+  TextLink,
+} from "@/components/public/PublicPage";
 
 export const metadata: Metadata = {
-  title: 'Agentic customer journeys, answered — the assembl FAQ',
+  title: "Questions, answered · assembl",
   description:
-    'Plain answers about agentic customer journeys and agentic CX: the six parts of an agent, rewarded wait states, human approval, and being found by AI assistants. By assembl, Aotearoa.',
-  alternates: { canonical: '/faq' },
-  openGraph: {
-    title: 'Agentic customer journeys, answered',
-    description: 'The questions people ask assistants about agentic CX — answered plainly, by assembl.',
-    url: `${SITE_URL}/faq`,
-    type: 'article',
-  },
+    "Plain answers about active customer journeys, specialist agents, permissions, human review and evidence.",
+  alternates: { canonical: "/faq" },
 };
-
-/**
- * /faq — a discovery tool, twice over. For engines: every answer is FAQPage
- * JSON-LD phrased the way people ask assistants, from the same file the page
- * renders. For clients: chip filters, one-line questions that open on demand,
- * and a copy-for-your-AI button that carries the answer (and the locked
- * phrase) into their own ChatGPT/Claude conversations.
- */
 export default function FaqPage() {
   return (
-    <main className="faqpg">
+    <PublicPage>
       <JsonLd
         data={graph(
           faqPageNode(
@@ -36,29 +26,37 @@ export default function FaqPage() {
             `${SITE_URL}/faq#faq`,
           ),
           breadcrumbNode([
-            { name: 'assembl', path: '/' },
-            { name: 'FAQ', path: '/faq' },
+            { name: "assembl", path: "/" },
+            { name: "FAQ", path: "/faq" },
           ]),
         )}
       />
-      <div className="faqpg-main">
-        <p className="faqpg-kicker">assembl · intuitive agentic customer journeys · {PUBLISHED}</p>
-        <h1>
-          Agentic journeys,<br /><span className="metal">answered.</span>
-        </h1>
-        <p className="faqpg-sub">
-          The questions people ask — and the answers their assistants will find here. Filter by
-          topic, open what you need, and copy any answer straight into your own AI.
-        </p>
-
+      <PageHero
+        eyebrow="Questions & answers"
+        title="A little more"
+        accent="understanding."
+        body="Explore the questions behind the work. Choose a topic, open an answer and take a copy into your next conversation."
+        image="receipt"
+        compact
+      >
+        <TextLink href="#explore" primary>
+          Find an answer
+        </TextLink>
+        <TextLink href="/contact">Ask Kate</TextLink>
+      </PageHero>
+      <section id="explore" className="public-section">
+        <SectionHeading
+          label="In plain words"
+          title="What would you like to know?"
+        />
         <FaqTool />
-
-        <div className="faqpg-cta">
-          <a className="solid" href="/ai-ready">assemble your journey + check AI-readiness</a>
-          <a className="ghost" href="/assembling">see the agentic journey</a>
-          <a className="ghost" href="/pricing">pricing</a>
+        <div className="public-actions">
+          <TextLink href="/how-it-works" primary>
+            See how it works
+          </TextLink>
+          <TextLink href="/pricing">Explore the pricing</TextLink>
         </div>
-      </div>
-    </main>
+      </section>
+    </PublicPage>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, Instrument_Sans, Archivo_Black } from 'next/font/google';
 import { GlobalNav, GlobalFooter } from '@/components/site/GlobalChrome';
+import { PublicSurface } from '@/components/public/PublicChrome';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
 import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget';
@@ -131,7 +132,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="relative flex min-h-screen flex-col">
             <GlobalNav />
             <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>
-              {children}
+              <PublicSurface>{children}</PublicSurface>
             </main>
             <GlobalFooter />
           </div>

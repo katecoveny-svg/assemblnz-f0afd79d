@@ -45,7 +45,7 @@ export const PRICING_TIERS: PricingTier[] = [
     points: [
       'two weeks: written record of how the business works, one agent on one real job, one customer journey end to end',
       'first month of running included',
-      'NZ-hosted, Privacy Act 2020',
+      'hosting and data requirements agreed for the journey',
     ],
     cta: { label: 'see pricing', href: '/pricing' },
     featured: true,

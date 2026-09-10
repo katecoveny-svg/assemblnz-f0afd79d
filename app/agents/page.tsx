@@ -1,19 +1,14 @@
-import type { Metadata } from 'next';
-import { CinematicAgents } from '@/components/site/cinematic/CinematicAgents';
-import '../cine.css';
-
-/**
- * /agents — Kate's agents.html prototype (2026-07-24), ported 1:1 to the
- * cinematic design system. Middleware's marketplace redirect now exempts the
- * exact /agents path so this page serves.
- */
-
+import type { Metadata } from "next";
+import { CinematicAgents } from "@/components/site/cinematic/CinematicAgents";
+import { HOME_AGENTS, HOME_AGENT_CATEGORIES } from "@/lib/home/agent-roster";
 export const metadata: Metadata = {
-  title: 'assembl · agents',
-  description: 'Specialist agents for clear NZ jobs. Each one drafts work with a review boundary — nothing sends without your yes.',
-  alternates: { canonical: '/agents' },
+  title: "assembl · agents",
+  description:
+    "Explore specialist agents by task. Find the help you need and understand the review boundary.",
+  alternates: { canonical: "/agents" },
 };
-
 export default function AgentsPage() {
-  return <CinematicAgents />;
+  return (
+    <CinematicAgents agents={HOME_AGENTS} categories={HOME_AGENT_CATEGORIES} />
+  );
 }

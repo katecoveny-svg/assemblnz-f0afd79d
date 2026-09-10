@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { CinematicConcepts } from '@/components/site/cinematic/CinematicConcepts';
-import '../cine.css';
 
 /**
  * /concepts — the public, client-name-free walkthrough of the five journeys.
