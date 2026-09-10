@@ -13,6 +13,9 @@
  * Forge is the automotive operating-system front door — connected dealership
  * journey (research → sale → service → loyalty) with bay flags as one stage,
  * not floor plates; it skips BlueprintScene / PlanPins and links live chat to Arataki.
+ * Evidence receipt (`/journeys/evidence-receipt`) is the loyalty wait→earn DEMO —
+ * paper/chalk field, port_2fa Phase 0 spine, CraftScroll + ObserveAdviseAct; not a
+ * points marketplace clone and not the One NZ private gate.
  * Do not introduce cream/orange Heron leftovers, dark plum fields, mana/kete
  * product labels, or AI-slop copy.
  */

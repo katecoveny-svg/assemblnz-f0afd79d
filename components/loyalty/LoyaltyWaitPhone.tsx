@@ -47,10 +47,10 @@ function creditForProgress(p: number): string {
 /** Grounded loyalty-wait replies — Assembl-general, no client packaging. */
 function replyFor(ask: string): { text: string; beat?: LoyaltyBeat } {
   const q = ask.toLowerCase();
-  if (q.includes('mana') || q.includes('receipt') || q.includes('evidence') || q.includes('proof')) {
+  if (q.includes('receipt') || q.includes('evidence') || q.includes('proof')) {
     return {
       beat: 'evidence',
-      text: 'Evidence receipt locks the wait, the credit, permission, and the named human who reviews it — proof you can keep.',
+      text: 'Evidence receipt locks the wait, the credit, permission, and the named human who reviews it — wait proof you can keep.',
     };
   }
   if (q.includes('review') || q.includes('human') || q.includes('who')) {

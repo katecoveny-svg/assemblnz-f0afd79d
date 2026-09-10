@@ -1,5 +1,6 @@
-/* Evidence receipt DEMO — port_2fa
-   Dark plum field #240B21 · Instrument Sans + IBM Plex Mono · cinematic depth. */
+/* Evidence receipt DEMO — Engage People–class loyalty craft
+   Paper/chalk field · plum accent · Instrument Sans + IBM Plex Mono.
+   Phase 0 spine = port_2fa. Never invent live program scores. */
 
 .erd {
   --erd-plum: #240b21;
@@ -7,15 +8,18 @@
   --erd-heather: #916a70;
   --erd-chalk: #f5f1f2;
   --erd-paper: #fffdfb;
-  --erd-ink: #12060f;
-  --erd-rule: rgba(245, 241, 242, 0.12);
-  --erd-rule-strong: rgba(245, 241, 242, 0.22);
+  --erd-ink: #240b21;
+  --erd-rule: rgba(36, 11, 33, 0.12);
+  --erd-rule-strong: rgba(36, 11, 33, 0.28);
   position: relative;
   isolation: isolate;
   min-height: 100svh;
   overflow-x: clip;
-  color: var(--erd-chalk);
-  background: var(--erd-plum);
+  color: var(--erd-plum);
+  background:
+    radial-gradient(ellipse 70% 45% at 88% 8%, rgba(145, 106, 112, 0.14), transparent 58%),
+    radial-gradient(ellipse 50% 40% at 8% 70%, rgba(101, 74, 78, 0.1), transparent 55%),
+    linear-gradient(180deg, var(--erd-paper) 0%, var(--erd-chalk) 48%, var(--erd-paper) 100%);
   font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
 }
 
@@ -45,26 +49,8 @@
   border: 0;
 }
 
-.erd-atmosphere {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 58% 42% at 78% 22%, rgba(145, 106, 112, 0.34), transparent 62%),
-    radial-gradient(ellipse 48% 38% at 12% 82%, rgba(101, 74, 78, 0.36), transparent 58%),
-    radial-gradient(ellipse 40% 30% at 48% 48%, rgba(36, 11, 33, 0.2), transparent 70%),
-    linear-gradient(165deg, #1a0818 0%, var(--erd-plum) 44%, #0e050d 100%);
-}
-
-.erd-veil {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(36, 11, 33, 0.9) 0%, rgba(36, 11, 33, 0.42) 40%, rgba(36, 11, 33, 0.08) 66%, rgba(18, 6, 15, 0.55) 100%),
-    linear-gradient(180deg, rgba(36, 11, 33, 0.55) 0%, transparent 14%, transparent 78%, rgba(18, 6, 15, 0.78) 100%);
+.erd-mono {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
 }
 
 .erd-header {
@@ -77,15 +63,15 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   border-bottom: 1px solid var(--erd-rule);
-  background: rgba(36, 11, 33, 0.82);
-  backdrop-filter: blur(22px) saturate(1.08);
+  background: rgba(255, 253, 251, 0.88);
+  backdrop-filter: blur(18px) saturate(1.05);
 }
 
 .erd-wordmark {
   width: max-content;
   font: 600 28px / 0.9 var(--font-display), 'Instrument Sans', sans-serif;
   letter-spacing: -0.06em;
-  color: var(--erd-chalk);
+  color: var(--erd-plum);
 }
 
 .erd-wordmark span {
@@ -96,10 +82,10 @@
 .erd-header-tag {
   margin: 0;
   justify-self: center;
-  font: 500 11px / 1 var(--font-mono), 'IBM Plex Mono', monospace;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(245, 241, 242, 0.55);
+  color: rgba(36, 11, 33, 0.55);
 }
 
 .erd-header-nav {
@@ -112,7 +98,7 @@
 .erd-header-nav a {
   font: 500 12px / 1 var(--font-mono), 'IBM Plex Mono', monospace;
   letter-spacing: 0.08em;
-  color: var(--erd-chalk);
+  color: var(--erd-plum);
 }
 
 .erd-header-nav a i {
@@ -125,7 +111,7 @@
   padding: 9px 12px;
   border: 1px solid var(--erd-rule-strong);
   border-radius: 999px;
-  background: rgba(101, 74, 78, 0.35);
+  background: rgba(245, 241, 242, 0.85);
 }
 
 .erd-shell {
@@ -133,7 +119,37 @@
   z-index: 2;
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: clamp(1.5rem, 4vw, 2.75rem) 0 clamp(3.5rem, 9vw, 5.5rem);
+  padding: clamp(1.5rem, 4vw, 2.75rem) 0 0;
+}
+
+.erd-section {
+  margin-bottom: clamp(2.5rem, 7vw, 4.5rem);
+}
+
+.erd-section-head {
+  max-width: 54ch;
+  margin-bottom: clamp(1.25rem, 3vw, 1.85rem);
+}
+
+.erd-section-head h2 {
+  margin: 0.35rem 0 0.55rem;
+  font: 600 clamp(1.45rem, 3vw, 2rem) / 1.15 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.03em;
+  color: var(--erd-plum);
+}
+
+.erd-section-head p {
+  margin: 0;
+  font: 400 1rem / 1.55 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.68);
+}
+
+.erd-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--erd-heather);
 }
 
 .erd-top {
@@ -142,7 +158,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem 1.25rem;
-  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
 }
 
 .erd-brand {
@@ -154,14 +170,14 @@
 .erd-brand strong {
   font: 600 clamp(1.2rem, 2.2vw, 1.45rem) / 1 var(--font-display), 'Instrument Sans', sans-serif;
   letter-spacing: -0.03em;
-  color: var(--erd-chalk);
+  color: var(--erd-plum);
 }
 
 .erd-brand span {
   font: 500 0.68rem / 1 var(--font-mono), 'IBM Plex Mono', monospace;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(245, 241, 242, 0.5);
+  color: rgba(36, 11, 33, 0.5);
 }
 
 .erd-demo-pill {
@@ -170,13 +186,12 @@
   gap: 0.45rem;
   padding: 0.45rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(145, 106, 112, 0.55);
-  background: rgba(18, 6, 15, 0.55);
-  color: var(--erd-chalk);
-  font: 600 0.68rem / 1 var(--font-mono), 'IBM Plex Mono', monospace;
-  letter-spacing: 0.14em;
+  border: 1px solid rgba(145, 106, 112, 0.45);
+  background: rgba(255, 253, 251, 0.92);
+  color: var(--erd-plum);
+  font: 600 0.62rem / 1 var(--font-mono), 'IBM Plex Mono', monospace;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  box-shadow: 0 0 0 1px rgba(145, 106, 112, 0.12), 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 
 .erd-demo-pill i {
@@ -184,30 +199,30 @@
   height: 7px;
   border-radius: 50%;
   background: var(--erd-heather);
-  box-shadow: 0 0 0 3px rgba(145, 106, 112, 0.28);
+  box-shadow: 0 0 0 3px rgba(145, 106, 112, 0.22);
 }
 
-.erd-hero {
+.erd-hero-stage {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
   gap: clamp(1.75rem, 5vw, 3.5rem);
-  align-items: center;
-  margin-bottom: clamp(2.25rem, 6vw, 3.75rem);
-}
-
-.erd-reveal {
-  opacity: 0;
-  transform: translate3d(0, 28px, 0);
-  will-change: transform, opacity;
+  align-items: start;
 }
 
 .erd-copy {
   max-width: 36rem;
 }
 
+.erd-brand-signal {
+  margin: 0 0 0.35rem;
+  font: 600 clamp(2.4rem, 6vw, 3.6rem) / 0.92 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.06em;
+  color: var(--erd-plum);
+}
+
 .erd-kicker {
   margin: 0 0 0.85rem;
-  font: 500 0.72rem / 1.3 var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--erd-heather);
@@ -217,14 +232,21 @@
   margin: 0 0 1rem;
   font: 600 clamp(2rem, 4.6vw, 3.15rem) / 1.05 var(--font-display), 'Instrument Sans', sans-serif;
   letter-spacing: -0.035em;
-  color: var(--erd-paper);
+  color: var(--erd-plum);
 }
 
 .erd-lede {
-  margin: 0 0 1.35rem;
-  max-width: 36ch;
+  margin: 0 0 0.85rem;
+  max-width: 42ch;
   font: 400 1.05rem / 1.55 var(--font-body), 'Instrument Sans', sans-serif;
-  color: rgba(245, 241, 242, 0.78);
+  color: rgba(36, 11, 33, 0.78);
+}
+
+.erd-spine {
+  margin: 0 0 1.25rem;
+  max-width: 40ch;
+  font: 500 0.92rem / 1.5 var(--font-body), 'Instrument Sans', sans-serif;
+  color: var(--erd-mulberry);
 }
 
 .erd-boundary {
@@ -234,10 +256,8 @@
   padding: 1rem 1.1rem;
   border-radius: 16px;
   border: 1px solid var(--erd-rule-strong);
-  background: rgba(18, 6, 15, 0.45);
-  box-shadow:
-    inset 0 1px 0 rgba(245, 241, 242, 0.05),
-    0 18px 40px rgba(0, 0, 0, 0.22);
+  background: rgba(255, 253, 251, 0.92);
+  border-top: 2px solid var(--erd-heather);
 }
 
 .erd-boundary p {
@@ -257,20 +277,123 @@
 
 .erd-boundary strong {
   font: 500 0.92rem / 1.35 var(--font-body), 'Instrument Sans', sans-serif;
-  color: var(--erd-chalk);
+  color: var(--erd-plum);
+}
+
+.erd-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 1.15rem;
+}
+
+.erd-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  font: 600 0.88rem / 1 var(--font-body), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.01em;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.erd-cta-primary {
+  background: var(--erd-plum);
+  color: var(--erd-paper);
+  border: 1px solid var(--erd-plum);
+}
+
+.erd-cta-primary:hover {
+  background: #3a152f;
+}
+
+.erd-cta-ghost {
+  background: transparent;
+  color: var(--erd-plum);
+  border: 1px solid var(--erd-rule-strong);
+}
+
+.erd-cta-ghost:hover {
+  border-color: var(--erd-heather);
+  background: rgba(245, 241, 242, 0.7);
 }
 
 .erd-disclaimer {
   margin: 0;
   max-width: 42ch;
   font: 400 0.78rem / 1.5 var(--font-mono), 'IBM Plex Mono', monospace;
-  color: rgba(245, 241, 242, 0.52);
+  color: rgba(36, 11, 33, 0.52);
+}
+
+.erd-hero-aside {
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+}
+
+.erd-hero-lot {
+  width: 100%;
+  padding: 1.1rem 1.2rem;
+  border-radius: 18px;
+  background: var(--erd-plum);
+  color: var(--erd-chalk);
+  border: 1px solid rgba(245, 241, 242, 0.1);
+}
+
+.erd-hero-lot-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 242, 0.55);
+}
+
+.erd-hero-stages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.erd-hero-stages li {
+  padding: 0.55rem 0.4rem;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 241, 242, 0.14);
+  font: 500 0.72rem / 1.25 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(245, 241, 242, 0.55);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.erd-hero-stages li[data-on='true'] {
+  border-color: rgba(145, 106, 112, 0.65);
+  color: var(--erd-paper);
+  background: rgba(145, 106, 112, 0.18);
+}
+
+.erd-hero-stages .erd-mono {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--erd-heather);
+}
+
+.erd-hero-stamp {
+  margin: 0.85rem 0 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 242, 0.48);
 }
 
 .erd-phone-wrap {
   display: flex;
   justify-content: center;
   position: relative;
+  width: 100%;
 }
 
 .erd-phone-wrap::before {
@@ -279,13 +402,12 @@
   inset: 12% 8% auto;
   height: 70%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(145, 106, 112, 0.28) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(145, 106, 112, 0.22) 0%, transparent 68%);
   filter: blur(28px);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Real handset — cinematic depth */
 .erd-phone {
   position: relative;
   z-index: 1;
@@ -294,11 +416,11 @@
   border-radius: 46px;
   background:
     linear-gradient(145deg, rgba(255, 253, 251, 0.12), transparent 35%),
-    linear-gradient(160deg, #3a1a34 0%, var(--erd-ink) 55%, #070307 100%);
+    linear-gradient(160deg, #3a1a34 0%, #12060f 55%, #070307 100%);
   box-shadow:
-    0 60px 120px rgba(0, 0, 0, 0.62),
-    0 18px 36px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(245, 241, 242, 0.12),
+    0 40px 80px rgba(36, 11, 33, 0.28),
+    0 12px 28px rgba(36, 11, 33, 0.16),
+    0 0 0 1px rgba(36, 11, 33, 0.18),
     inset 0 1px 0 rgba(255, 253, 251, 0.14);
   transform: perspective(1200px) rotateY(-6deg) rotateX(3deg);
   transform-style: preserve-3d;
@@ -514,24 +636,9 @@
     transform: none;
   }
 
-  .erd-reveal {
-    opacity: 1;
-    transform: none;
+  .erd-cta {
+    transition: none;
   }
-}
-
-/* Lenis — avoid fighting native smooth scroll */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
 }
 
 .erd-phone-receipt {
@@ -607,21 +714,227 @@ html.lenis body {
   bottom: -18px;
   height: 28px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(36, 11, 33, 0.28), transparent 70%);
   filter: blur(8px);
   z-index: 0;
   pointer-events: none;
 }
 
-/* Detail ledger */
+/* Metrics */
+.erd-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--erd-rule);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 253, 251, 0.72);
+}
+
+.erd-metric {
+  padding: 1.15rem 1.2rem;
+  border-right: 1px solid var(--erd-rule);
+}
+
+.erd-metric:last-child {
+  border-right: 0;
+}
+
+.erd-metric-value {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  letter-spacing: -0.03em;
+  color: var(--erd-plum);
+}
+
+.erd-metric h3 {
+  margin: 0 0 0.35rem;
+  font: 600 0.92rem / 1.3 var(--font-body), 'Instrument Sans', sans-serif;
+  color: var(--erd-plum);
+}
+
+.erd-metric p {
+  margin: 0;
+  font: 400 0.82rem / 1.4 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.62);
+}
+
+/* Who / pillars */
+.erd-who,
+.erd-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.erd-pillars {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.erd-who-card,
+.erd-pillar {
+  padding: 1.1rem 1.15rem;
+  border-top: 2px solid var(--erd-heather);
+  border-left: 1px solid var(--erd-rule);
+  border-right: 1px solid var(--erd-rule);
+  border-bottom: 1px solid var(--erd-rule);
+  border-radius: 0 0 14px 14px;
+  background: rgba(255, 253, 251, 0.85);
+}
+
+.erd-who-card h3,
+.erd-pillar h3 {
+  margin: 0 0 0.45rem;
+  font: 600 1rem / 1.25 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--erd-plum);
+}
+
+.erd-who-card p,
+.erd-pillar p {
+  margin: 0;
+  font: 400 0.9rem / 1.5 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.68);
+}
+
+/* Workflows */
+.erd-life {
+  display: grid;
+  gap: 1rem;
+}
+
+.erd-life-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.erd-life-node {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem 0.85rem;
+  text-align: left;
+  border: 1px solid var(--erd-rule);
+  border-radius: 14px;
+  background: rgba(255, 253, 251, 0.9);
+  color: var(--erd-plum);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.erd-life-node[data-active='true'] {
+  border-color: var(--erd-heather);
+  background: var(--erd-chalk);
+}
+
+.erd-life-step {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--erd-heather);
+}
+
+.erd-life-node strong {
+  font: 600 0.92rem / 1.2 var(--font-body), 'Instrument Sans', sans-serif;
+}
+
+.erd-life-connector {
+  display: none;
+}
+
+.erd-life-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--erd-rule);
+  border-radius: 18px;
+  background: rgba(255, 253, 251, 0.92);
+}
+
+.erd-life-hint {
+  margin: 0 0 0.55rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--erd-heather);
+}
+
+.erd-life-copy h3 {
+  margin: 0 0 0.45rem;
+  font: 600 1.2rem / 1.2 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.erd-life-copy p {
+  margin: 0 0 0.85rem;
+  max-width: 48ch;
+  font: 400 0.95rem / 1.5 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.7);
+}
+
+.erd-life-link {
+  width: fit-content;
+}
+
+.erd-life-pin {
+  padding: 1rem 1.05rem;
+  border-radius: 14px;
+  background: var(--erd-plum);
+  color: var(--erd-chalk);
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+}
+
+.erd-life-pin .erd-demo-pill {
+  justify-self: start;
+  background: rgba(18, 6, 15, 0.45);
+  color: var(--erd-paper);
+  border-color: rgba(145, 106, 112, 0.55);
+}
+
+.erd-life-pin-code,
+.erd-life-pin-desk,
+.erd-life-pin-stamp {
+  margin: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 242, 0.55);
+}
+
+.erd-life-pin h4 {
+  margin: 0;
+  font: 600 1.05rem / 1.2 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--erd-paper);
+}
+
+.erd-life-pin > p:not(.erd-mono) {
+  margin: 0;
+  font: 400 0.88rem / 1.45 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(245, 241, 242, 0.78);
+}
+
+/* Port spine */
+.erd-port-stage {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.erd-phone-wrap-inline .erd-phone {
+  transform: none;
+}
+
 .erd-detail {
   border-radius: 24px;
   border: 1px solid var(--erd-rule-strong);
   background: linear-gradient(180deg, rgba(255, 253, 251, 0.97) 0%, rgba(245, 241, 242, 0.95) 100%);
   color: var(--erd-plum);
-  box-shadow:
-    0 36px 80px rgba(0, 0, 0, 0.42),
-    0 0 0 1px rgba(245, 241, 242, 0.04);
   overflow: hidden;
 }
 
@@ -712,10 +1025,213 @@ html.lenis body {
   color: var(--erd-mulberry);
 }
 
-.erd-foot {
-  margin-top: 1.5rem;
-  font: 400 0.72rem / 1.5 var(--font-mono), monospace;
-  color: rgba(245, 241, 242, 0.45);
+/* Chat */
+.erd-chat {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.erd-chat-main,
+.erd-chat-evidence {
+  border: 1px solid var(--erd-rule);
+  border-radius: 18px;
+  background: rgba(255, 253, 251, 0.92);
+  padding: 1.15rem 1.2rem;
+}
+
+.erd-chat-head p:first-child {
+  margin: 0 0 0.45rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--erd-heather);
+}
+
+.erd-chat-head p:last-child {
+  margin: 0;
+  font: 400 0.92rem / 1.5 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.72);
+}
+
+.erd-chat-openers {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0;
+}
+
+.erd-chat-opener {
+  text-align: left;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--erd-rule);
+  background: var(--erd-chalk);
+  color: var(--erd-plum);
+  font: 500 0.9rem / 1.35 var(--font-body), 'Instrument Sans', sans-serif;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.erd-chat-opener:hover {
+  border-color: var(--erd-heather);
+  background: var(--erd-paper);
+}
+
+.erd-chat-thread {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.erd-chat-msg {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  font: 400 0.88rem / 1.45 var(--font-body), 'Instrument Sans', sans-serif;
+}
+
+.erd-chat-user {
+  background: var(--erd-plum);
+  color: var(--erd-paper);
+  justify-self: end;
+  max-width: 92%;
+}
+
+.erd-chat-assistant {
+  background: var(--erd-chalk);
+  color: var(--erd-plum);
+  max-width: 96%;
+}
+
+.erd-chat-typing {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.erd-chat-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--erd-heather);
+  opacity: 0.55;
+}
+
+.erd-chat-composer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.erd-chat-composer input {
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--erd-rule-strong);
+  background: var(--erd-paper);
+  color: var(--erd-plum);
+  font: 400 0.9rem / 1.3 var(--font-body), 'Instrument Sans', sans-serif;
+}
+
+.erd-chat-composer button {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--erd-plum);
+  color: var(--erd-paper);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.erd-chat-composer button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.erd-chat-foot {
+  margin: 0.75rem 0 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(36, 11, 33, 0.48);
+}
+
+.erd-chat-evidence {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+  border-top: 2px solid var(--erd-heather);
+}
+
+.erd-chat-evidence > .erd-mono {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--erd-heather);
+}
+
+.erd-chat-evidence h3 {
+  margin: 0;
+  font: 600 1.05rem / 1.2 var(--font-display), 'Instrument Sans', sans-serif;
+}
+
+.erd-chat-evidence p {
+  margin: 0;
+  font: 400 0.88rem / 1.45 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.68);
+}
+
+.erd-footer {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 2.75rem;
+  border-top: 1px solid var(--erd-rule);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.erd-footer p {
+  margin: 0;
+  max-width: 72ch;
+  font: 400 0.82rem / 1.5 var(--font-body), 'Instrument Sans', sans-serif;
+  color: rgba(36, 11, 33, 0.58);
+}
+
+.erd-footer-mark {
+  font: 600 1.1rem / 1 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.04em;
+  color: var(--erd-plum) !important;
+}
+
+@media (max-width: 980px) {
+  .erd-pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .erd-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .erd-metric:nth-child(2) {
+    border-right: 0;
+  }
+
+  .erd-metric:nth-child(1),
+  .erd-metric:nth-child(2) {
+    border-bottom: 1px solid var(--erd-rule);
+  }
+
+  .erd-port-stage,
+  .erd-life-panel,
+  .erd-chat {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 880px) {
@@ -727,16 +1243,28 @@ html.lenis body {
     display: none;
   }
 
-  .erd-hero {
+  .erd-hero-stage {
     grid-template-columns: 1fr;
   }
 
-  .erd-phone-wrap {
+  .erd-hero-aside {
     order: -1;
   }
 
   .erd-phone {
     transform: none;
+  }
+
+  .erd-hero-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .erd-who {
+    grid-template-columns: 1fr;
+  }
+
+  .erd-life-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .erd-grid {
@@ -748,12 +1276,41 @@ html.lenis body {
   }
 }
 
-@media (max-width: 420px) {
-  .erd-phone-shell {
-    min-height: 580px;
+@media (max-width: 520px) {
+  .erd-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .erd-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .erd-metric {
+    border-right: 0;
+    border-bottom: 1px solid var(--erd-rule);
+  }
+
+  .erd-metric:last-child {
+    border-bottom: 0;
+  }
+
+  .erd-cta-row {
+    flex-direction: column;
+  }
+
+  .erd-cta {
+    width: 100%;
   }
 
   .erd-header-nav .erd-studio {
     display: none;
+  }
+
+  .erd-phone-shell {
+    min-height: 580px;
+  }
+
+  .erd-brand-signal {
+    font-size: clamp(2rem, 10vw, 2.6rem);
   }
 }
