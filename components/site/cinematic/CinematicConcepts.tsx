@@ -44,7 +44,7 @@ const JOURNEYS: Journey[] = [
     id: 'wing',
     n: '02',
     sector: 'Airline & travel',
-    wait: 'A flight is delayed and several hundred people reach for their phones at once. The wait is spent in a queue, and it is where loyalty is won or lost.',
+    wait: 'A flight is delayed and several hundred people reach for their phones at once. Most of that wait is spent in a queue with no useful options.',
     assembled: 'Three ranked rebooking options prepared before the passenger reaches the desk — seat preference held, connection risk checked, the reason for the ranking written in plain words.',
     boundary: 'It can prepare options and stage them. It cannot rebook, refund or override an operations decision. Nothing is confirmed without the passenger and the airline both saying yes.',
     measured: 'Calls deflected, option-review rate, confirmed in-app rebookings, and zero unapproved actions.',
@@ -291,12 +291,11 @@ export function CinematicConcepts() {
 
         <header className="page-header" style={{ paddingBottom: 20 }}>
           <div className="kicker">concepts · how it works</div>
-          <h1>Five industries.<br /><span className="accent">One architecture.</span></h1>
+          <h1>Same journey shape.<br /><span className="accent">Five industries.</span></h1>
           <p className="lede" style={{ marginTop: 12 }}>
-            The first of these was built for a grocery loyalty programme, so people ask whether it only works for groceries.
-            It doesn&rsquo;t. Every one of these is the same shape: a moment your customer spends waiting, work prepared inside it,
-            and a person who says yes before anything happens. Only the configuration changes — pick an industry and watch the
-            object rebuild.
+            People ask whether this only works for groceries. It doesn&rsquo;t. Each industry below uses the same shape:
+            a wait your customer already has, work prepared inside it, and a person who says yes before anything happens.
+            Pick a sector and see what changes.
           </p>
         </header>
 

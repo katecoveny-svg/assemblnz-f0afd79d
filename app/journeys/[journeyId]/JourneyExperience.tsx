@@ -343,7 +343,7 @@ function Main(props: MainProps) {
 function Entry(props: MainProps) {
   return (
     <section className={styles.panel}>
-      <p className={styles.eyebrow}>Tell us what life looks like</p>
+      <p className={styles.eyebrow}>Tell us what you need</p>
       <h1 className={styles.headline}>We&rsquo;ll help assemble the shop around it.</h1>
       <p className={styles.lede}>
         Say it in your own words — who you&rsquo;re feeding, for how long, and anything that

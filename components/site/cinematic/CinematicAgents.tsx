@@ -121,20 +121,20 @@ export function CinematicAgents() {
   }, []);
 
   const agents = [
-    { num: '01', shape: 'navy', h: 'Intent Agent', p: 'Understands what was meant. Classifies the enquiry, extracts the signal from the noise.', tags: ['memory', 'voice'] },
-    { num: '02', shape: 'brass', h: 'Knowledge Agent', p: 'Reads from confirmed sources only. Offers, prices, FAQs and business rules from the Blueprint.', tags: ['knowledge', 'boundaries'] },
-    { num: '03', shape: 'chrome', h: 'Planning Agent', p: 'Assembles the plan. Compares options, checks constraints, presents the decision.', tags: ['intelligence', 'abilities'] },
-    { num: '04', shape: 'brass', h: 'Budget Agent', p: 'Guards the ceiling. Checks every recommendation against the budget before it reaches you.', tags: ['abilities', 'boundaries'] },
-    { num: '05', shape: 'navy', h: 'Proof Agent', p: 'Records what changed. Every action traced. Every outcome measured against the baseline.', tags: ['memory', 'abilities'] },
-    { num: '06', shape: 'chrome', h: 'Voice Agent', p: 'Speaks the way you do. Warm, plain, helpful — encoded from your business, not the internet.', tags: ['voice', 'knowledge'] },
+    { num: '01', shape: 'navy', h: 'Intent Agent', p: 'Reads the enquiry, names the job, and pulls out the facts that matter for the next step.', tags: ['memory', 'voice'] },
+    { num: '02', shape: 'brass', h: 'Knowledge Agent', p: 'Answers only from confirmed sources — offers, prices, FAQs and business rules from the Blueprint.', tags: ['knowledge', 'boundaries'] },
+    { num: '03', shape: 'chrome', h: 'Planning Agent', p: 'Compares options against constraints and presents a decision for someone to approve.', tags: ['intelligence', 'abilities'] },
+    { num: '04', shape: 'brass', h: 'Budget Agent', p: 'Checks every recommendation against the budget ceiling before it reaches you.', tags: ['abilities', 'boundaries'] },
+    { num: '05', shape: 'navy', h: 'Proof Agent', p: 'Records what changed, who approved it, and what the outcome was against the baseline.', tags: ['memory', 'abilities'] },
+    { num: '06', shape: 'chrome', h: 'Voice Agent', p: 'Writes in your business voice — tone and formality from your Blueprint, not generic internet copy.', tags: ['voice', 'knowledge'] },
   ];
   const parts = [
-    { n: '01', h: 'memory', p: 'What it remembers — customer context, preferences, history across sessions.' },
-    { n: '02', h: 'knowledge', p: 'Read only · confirmed sources — offers, prices, rules from the Blueprint.' },
-    { n: '03', h: 'intelligence', p: 'How it reasons — model, temperature, depth. Configurable per agent.' },
-    { n: '04', h: 'voice', p: 'How it speaks — tone, formality. Encoded from your business.' },
-    { n: '05', h: 'abilities', p: 'What it can do — read, organise, compare, draft. Never sends.' },
-    { n: '06', h: 'boundaries', p: 'The operating limit — approval stays visible with every action.' },
+    { n: '01', h: 'memory', p: 'Customer context, preferences and history kept across sessions.' },
+    { n: '02', h: 'knowledge', p: 'Read-only confirmed sources — offers, prices and rules from the Blueprint.' },
+    { n: '03', h: 'intelligence', p: 'How it reasons — model, temperature and depth, set per agent.' },
+    { n: '04', h: 'voice', p: 'Tone and formality taken from your business, not a generic template.' },
+    { n: '05', h: 'abilities', p: 'Read, organise, compare and draft. Never sends on its own.' },
+    { n: '06', h: 'boundaries', p: 'Approval stays visible with every action that matters.' },
   ];
 
   return (
@@ -154,7 +154,7 @@ export function CinematicAgents() {
         <header className="page-header">
           <div className="kicker">agents</div>
           <h1>Specialists,<br /><span className="accent">not one assistant.</span></h1>
-          <p className="lede" style={{ marginTop: 16 }}>Give one clear job to a specialist and receive a draft with its review boundary. Each agent knows what it can do — and exactly where you stay in control.</p>
+          <p className="lede" style={{ marginTop: 16 }}>Give one clear job to a specialist. Get a draft back with a review boundary — and a named place where you stay in control.</p>
         </header>
 
         <div className="page-body">

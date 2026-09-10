@@ -20,18 +20,18 @@ import './assembling-canon.css';
  */
 
 export const metadata: Metadata = {
-  title: 'assembling. by assembl — the wait state, productive',
+  title: 'assembling. by assembl — earn during the wait',
   description:
-    'Your application makes customers wait. assembling turns that wait into a loyalty layer: agents work in the open and the person earns something they keep. Opt-in, NZ-built.',
+    'Your product makes customers wait. assembling turns that wait into a loyalty layer: agents work in the open and the person earns something they keep. Opt-in, NZ-built.',
   alternates: { canonical: '/assembling' },
   openGraph: {
-    title: 'assembling — the wait state, productive.',
-    description: 'The loyalty layer for the agentic wait, by assembl — intuitive agentic customer journeys.',
+    title: 'assembling — earn during the wait',
+    description: 'The loyalty layer for customer waits, by assembl. Opt-in. Points, bill credit, or a donation while agents work.',
     type: 'website',
     siteName: 'assembling. by assembl',
     url: '/assembling',
     locale: 'en_NZ',
-    images: [{ url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'assembling — the wait state, productive.' }],
+    images: [{ url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'assembling — earn during the wait' }],
   },
 };
 
@@ -55,16 +55,16 @@ export default function AssemblingPage() {
             <div className="asm-stage-note mono">tier 01 — live today · the module itself, not a picture of it</div>
           </div>
           <div className="asm-hero-copy">
-            <span className="mono">assembling · the loyalty layer for the agentic wait</span>
+            <span className="mono">assembling · loyalty during the wait</span>
             <h1>
-              The wait state,
+              Earn while
               <br />
-              <span className="metal">productive.</span>
+              <span className="metal">you wait.</span>
             </h1>
             <p className="lede">
-              Every agentic journey has a pause — the minutes while agents research, draft and
-              check. Today that pause is a spinner. assembling turns it into the most generous
-              moment in the journey: the customer watches the work happen and earns as they wait.
+              Most products leave customers on a spinner while work happens. assembling shows the work in the open and
+              lets the person earn points, bill credit or a donation during that wait — opt-in, with a human yes before
+              anything consequential happens.
             </p>
             <div className="asm-earns">
               <div className="asm-earns-k mono">what those minutes become</div>

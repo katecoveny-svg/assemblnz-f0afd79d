@@ -11,7 +11,7 @@ import '../cine.css';
 export const metadata: Metadata = {
   title: 'concepts — assembl',
   description:
-    'Five industries, one architecture: grocery and loyalty, airline and travel, energy, retirement living and care, trades and professional services. The same customer journey, configured differently.',
+    'Same journey shape across five industries: grocery, airline, energy, retirement living, and trades. A customer wait, work prepared inside it, and a human yes before anything happens.',
   alternates: { canonical: '/concepts' },
 };
 
