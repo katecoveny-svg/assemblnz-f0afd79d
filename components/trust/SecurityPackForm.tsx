@@ -13,6 +13,7 @@ const labelClass =
 export function SecurityPackForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [useLength, setUseLength] = useState(0);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,53 +67,98 @@ export function SecurityPackForm() {
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       <div>
         <label htmlFor="tc-name" className={labelClass}>
-          Name
+          Name <span className="text-[color:var(--assembl-pounamu)]" aria-hidden="true">*</span>
         </label>
-        <input id="tc-name" name="name" type="text" required autoComplete="name" className={inputClass} />
+        <input
+          id="tc-name"
+          name="name"
+          type="text"
+          required
+          aria-required="true"
+          autoComplete="name"
+          className={inputClass}
+        />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="tc-org" className={labelClass}>
-            Organisation
+            Organisation <span className="text-[color:var(--assembl-pounamu)]" aria-hidden="true">*</span>
           </label>
-          <input id="tc-org" name="org" type="text" required autoComplete="organization" className={inputClass} />
+          <input
+            id="tc-org"
+            name="org"
+            type="text"
+            required
+            aria-required="true"
+            autoComplete="organization"
+            className={inputClass}
+          />
         </div>
         <div>
           <label htmlFor="tc-role" className={labelClass}>
-            Role
+            Role <span className="text-[color:var(--assembl-pounamu)]" aria-hidden="true">*</span>
           </label>
-          <input id="tc-role" name="role" type="text" required autoComplete="organization-title" className={inputClass} />
+          <input
+            id="tc-role"
+            name="role"
+            type="text"
+            required
+            aria-required="true"
+            autoComplete="organization-title"
+            className={inputClass}
+          />
         </div>
       </div>
 
       <div>
         <label htmlFor="tc-use" className={labelClass}>
-          How you&rsquo;ll use the pack
+          How you&rsquo;ll use the pack <span className="text-[color:var(--assembl-pounamu)]" aria-hidden="true">*</span>
         </label>
         <textarea
           id="tc-use"
           name="intendedUse"
           required
+          aria-required="true"
+          aria-describedby="use-counter"
+          maxLength={1000}
           rows={3}
+          onChange={(e) => setUseLength(e.target.value.length)}
           placeholder="e.g. Vendor security review for a procurement process."
           className={`${inputClass} resize-y`}
         />
+        <div className="mt-1.5 flex justify-end">
+          <span
+            id="use-counter"
+            className={`font-mono text-[10px] uppercase tracking-[0.1em] ${
+              useLength > 900
+                ? "font-medium text-[#B4452F]"
+                : "text-[color:var(--text-secondary)]"
+            }`}
+            aria-hidden="true"
+          >
+            {useLength} / 1000 characters
+          </span>
+          <span className="sr-only" aria-live="polite">
+            {useLength > 900 ? `${useLength} / 1000 characters` : ""}
+          </span>
+        </div>
       </div>
 
-      <label className="flex items-start gap-3 text-[15px] leading-6 text-[color:var(--text-primary)]">
+      <div className="flex items-start gap-3">
         <input
+          id="tc-nda"
           name="ndaSigned"
           type="checkbox"
           className="mt-1 h-4 w-4 rounded border-[color:var(--assembl-cloud)] text-[color:var(--assembl-pounamu)] focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
         />
-        <span>
+        <label htmlFor="tc-nda" className="text-[15px] leading-6 text-[color:var(--text-primary)]">
           An NDA is already in place between our organisations.{" "}
           <span className="text-[color:var(--text-secondary)]">
             (Optional — we can send one with the pack if not.)
           </span>
-        </span>
-      </label>
+        </label>
+      </div>
 
       {status === "error" && error ? (
         <p role="alert" className="text-sm text-[#B4452F]">
@@ -123,7 +169,7 @@ export function SecurityPackForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-7 py-3 text-sm font-medium text-white transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--assembl-paper)] disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-7 py-3 text-sm font-medium text-white transition-all hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--assembl-paper)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? "Sending…" : "Request the security pack"}
       </button>
