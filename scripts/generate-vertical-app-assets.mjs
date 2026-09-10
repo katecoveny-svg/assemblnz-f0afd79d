@@ -3,8 +3,8 @@ import { mkdir, writeFile } from 'node:fs/promises';
 
 const items = [
   { slug: 'arc', name: 'ARC', field: 'ARCHITECTURE & DESIGN', lines: ['Talk the', 'plan through.'], image: 'public/brand/agent-studies/arc-harbour-terraces.webp', mark: '<path d="M154 330V234L256 161l102 73v96M154 234l102 68 102-68M256 302v48"/>' },
-  { slug: 'forge', name: 'Forge', field: 'AUTOMOTIVE', lines: ['Keep the next', 'step moving.'], image: 'public/brand/transport/subaru-assembled.webp', mark: '<path d="M150 292l23-69h166l23 69M145 292h222v43H145zM179 335v17m155-17v17M182 274h148"/><circle cx="184" cy="310" r="6"/><circle cx="328" cy="310" r="6"/>' },
-  { slug: 'customs', name: 'Gateway', field: 'CUSTOMS & FREIGHT', lines: ['Get the entry', 'ready for review.'], image: 'public/brand/transport/boat-assembled.webp', mark: '<path d="M149 287h214l-32 58H181zM183 287v-72h145v72M218 215v72m37-72v72m37-72v72M157 366h198M201 195v-31h94v31"/>' },
+  { slug: 'forge', name: 'Forge', field: 'AUTOMOTIVE', lines: ['Keep the next', 'step moving.'], image: 'public/brand/transport/subaru-reference.webp', mark: '<path d="M150 292l23-69h166l23 69M145 292h222v43H145zM179 335v17m155-17v17M182 274h148"/><circle cx="184" cy="310" r="6"/><circle cx="328" cy="310" r="6"/>' },
+  { slug: 'customs', name: 'Gateway', field: 'CUSTOMS & FREIGHT', lines: ['Get the entry', 'ready for review.'], image: 'public/brand/transport/boat-reference.webp', mark: '<path d="M149 287h214l-32 58H181zM183 287v-72h145v72M218 215v72m37-72v72m37-72v72M157 366h198M201 195v-31h94v31"/>' },
   { slug: 'ensemble', name: 'Ensemble', field: 'CREATIVE STUDIO', lines: ['Put your', 'brief to work.'], image: 'public/generated/creative-agency/anchors/prism-cafe.png', mark: '<path d="M159 173h151v151H159zM202 215h151v151H202zM181 195h151v151H181z"/>' },
 ];
 const esc = text => text.replaceAll('&','&amp;').replaceAll('<','&lt;');

@@ -38,7 +38,7 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
     description: 'Prepare an enquiry reply, a service update or a dealership brief, ready for your team to check.',
     greeting: 'What needs preparing at the dealership? Share the facts you have, or try a sample Subaru enquiry. I will keep the gaps visible and leave the next action with your team.',
     reviewer: 'Dealership or service team', output: 'Customer draft',
-    image: '/brand/transport/subaru-assembled.webp', imageAlt: 'Illustrative Subaru WRX assembly model',
+    image: '/brand/transport/subaru-reference.webp', imageAlt: 'Illustrative Subaru WRX assembly model',
     starters: [
       { label: 'Reply to a Subaru enquiry', prompt: 'Sample enquiry: a customer asks to see a blue Subaru WRX this weekend. Stock, price and appointments are unconfirmed. Draft a short reply for our sales team to review, with one useful question. Do not invent availability.' },
       { label: 'Prepare a service update', prompt: 'Sample service visit: inspection underway, no findings or completion time confirmed. The customer needs the car for school pickup. Draft a helpful update and one question for the service adviser to ask.' },
@@ -51,7 +51,7 @@ export const VERTICALS: Record<VerticalSlug, Vertical> = {
     description: 'Organise the shipment details and missing documents before the broker takes the next step.',
     greeting: 'What is arriving, and what do you know so far? I can organise a shipment brief and questions for your broker. Start with sample goods and keep personal or commercial identifiers out of the demo.',
     reviewer: 'Customs broker', output: 'Shipment brief',
-    image: '/brand/transport/boat-assembled.webp', imageAlt: 'Illustrative container vessel assembly model',
+    image: '/brand/transport/boat-reference.webp', imageAlt: 'Illustrative container vessel assembly model',
     starters: [
       { label: 'Prepare a sea-freight brief', prompt: 'Sample shipment: timber furniture arriving in Auckland by sea. We have a supplier invoice but no confirmed wood species, treatment evidence or origin documents. Prepare a missing-information brief for our broker. Do not invent a tariff code or clearance status.' },
       { label: 'Prepare an air-freight update', prompt: 'Sample shipment: replacement machine parts arriving by air, with arrival time and clearance unconfirmed. Draft a short customer update and questions for the freight team. Do not promise a release date.' },
