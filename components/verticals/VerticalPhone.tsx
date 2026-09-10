@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { ArrowUp, ArrowUpRight, Check, ChevronLeft, FileDown, FileText, Layers, Maximize2, MessageCircle, Minimize2, RotateCcw, Signal, Square, Wifi } from 'lucide-react';
 import { VERTICALS, type VerticalSlug } from '@/lib/verticals/config';
@@ -24,10 +25,14 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
   const [draft, setDraft] = useState('');
   const [reviewer, setReviewer] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const [collapsedHeight, setCollapsedHeight] = useState(790);
   const [saved, setSaved] = useState(false);
   const scroll = useRef<HTMLDivElement>(null);
   const composer = useRef<HTMLTextAreaElement>(null);
   const frame = useRef<HTMLDivElement>(null);
+  const expandButton = useRef<HTMLButtonElement>(null);
+  const restoreFocus = useRef(false);
+  const conversationPosition = useRef(0);
   const controller = useRef<AbortController | null>(null);
   const inFlight = useRef(false);
   const lastReply = [...messages].reverse().find(m => m.receipt)?.receipt;
@@ -43,12 +48,18 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, busy, error]);
   useEffect(() => {
+    if (scroll.current) scroll.current.scrollTop = conversationPosition.current;
+    if (expanded || restoreFocus.current) expandButton.current?.focus();
+    if (!expanded) restoreFocus.current = false;
     if (!expanded) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const previousFocus = document.activeElement as HTMLElement | null;
     const key = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setExpanded(false);
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        conversationPosition.current = scroll.current?.scrollTop ?? 0;
+        setExpanded(false);
+      }
       if (event.key !== 'Tab') return;
       const targets = Array.from(frame.current?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], textarea:not(:disabled), input:not(:disabled), [tabindex="0"]') ?? []).filter(el => el.getClientRects().length);
       const first = targets[0]; const last = targets[targets.length - 1];
@@ -56,8 +67,17 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
       if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     };
     window.addEventListener('keydown', key);
-    return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', key); previousFocus?.focus(); };
+    return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', key); };
   }, [expanded]);
+
+  function toggleExpanded() {
+    if (!expanded) {
+      setCollapsedHeight(frame.current?.getBoundingClientRect().height ?? 790);
+      restoreFocus.current = true;
+    }
+    conversationPosition.current = scroll.current?.scrollTop ?? 0;
+    setExpanded(value => !value);
+  }
 
   async function send(text: string, retry = false) {
     const clean = text.trim();
@@ -93,13 +113,13 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
     window.setTimeout(() => URL.revokeObjectURL(url), 1000); setSaved(true);
   }
 
-  return <div ref={frame} className={`va-phone-stage ${native ? 'va-phone-native' : ''} ${expanded ? 'va-phone-expanded' : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label={expanded ? `${v.name} expanded chat` : undefined}>
+  const phone = <div ref={frame} className={`va-phone-stage ${native ? 'va-phone-native' : ''} ${expanded ? 'va-phone-expanded' : ''}`} data-lenis-prevent={expanded || undefined} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label={expanded ? `${v.name} expanded chat` : undefined}>
     <div className="va-phone" data-agent={v.agent}>
       {!native && <div className="va-hardware" aria-hidden="true"><span>9:41</span><i className="va-island" /><span><Signal size={14} /><Wifi size={15} /><i className="va-battery" /></span></div>}
       <header className="va-phone-header">
         <Image unoptimized src={`/brand/vertical-apps/${slug}/icon-192.png`} width={44} height={44} alt="" />
         <div><strong>{v.name}</strong><span>with {v.agentName}</span></div>
-        {!native && <button type="button" className="va-icon-button" aria-label={expanded ? 'Close expanded chat' : 'Expand chat'} onClick={() => setExpanded(x => !x)}>{expanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}</button>}
+        {!native && <button ref={expandButton} type="button" className="va-icon-button" aria-label={expanded ? 'Close expanded chat' : 'Expand chat'} onClick={toggleExpanded}>{expanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}</button>}
         <button type="button" className="va-icon-button" disabled={busy || messages.length === 0} aria-label="Start a new conversation" onClick={reset}><RotateCcw size={17} /></button>
       </header>
       <div className="va-connection" role="status" data-state={!online || error ? 'offline' : busy ? 'busy' : lastReply ? 'live' : 'ready'}><i /><span>{state}</span><span>Drafts for review</span></div>
@@ -148,4 +168,6 @@ export function VerticalPhone({ slug, native = false }: { slug: VerticalSlug; na
       {!native && <div className="va-home-indicator" aria-hidden="true"><i /></div>}
     </div>
   </div>;
+
+  return expanded ? <><div aria-hidden="true" style={{ height: collapsedHeight }} />{createPortal(phone, document.body)}</> : phone;
 }
