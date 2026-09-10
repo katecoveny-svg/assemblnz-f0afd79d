@@ -35,14 +35,17 @@ Vehicle photos remain in the browser and are never sent to the text endpoint. Br
 ## Verification
 
 - Repository lint, targeted component lint, TypeScript check and production build passed.
-- 77 targeted tests passed across dealer content, Forge/Gateway flags, craft and private-journey protection.
+- 77 targeted tests passed across dealer content, Forge/Gateway flags, craft and private-journey protection. Another 15 loyalty tests passed after resolving a merge residue in the existing loyalty page (92 checks in total).
 - All three GLBs contain a single assembly clip and per-object animation. Start/end transform drift is zero in the saved verification records.
 - Subaru and boat films were inspected at multiple phases. The aircraft's assembled and exploded render frames were inspected.
 - Browser checks at desktop and 375px: film playback, Film/3D switches, pause, scrub, exploded view and no horizontal overflow. Boat and aircraft controls were checked independently.
 - The dealership form generated a Subaru campaign and a Toyota campaign. Changing marque cleared old facts. A photo was uploaded through the real file picker, an email draft was edited, and a real ZIP download was opened to verify all three expected files, the edited text, method and photo provenance. The exported 1080 × 1350 PNG was inspected.
+- A square 1080 × 1080 image with a long edited headline was downloaded in Chrome and inspected. Changed briefs disabled both copying and export.
+- The private Higgsfield scene loaded in its browser editor with the three models, object tree, delivery camera and 12-second timeline.
 - Reduced-motion and offscreen pause are implemented. Reduced motion was verified in source; an OS-level reduced-motion setting was not changed during this review.
 - ARC and existing copy files have no diff from the approved review version.
 - Anonymous access to the current public One NZ route returned HTTP 401; 54 private-journey tests passed.
+- A concurrent merge from main left an obsolete function header in the loyalty page and narrowed the journey selector type. The residue was removed and the selector type widened without changing its copy or intended behaviour; the full build passed again.
 - Production publishing remains separate from this draft review.
 
 ## Source map
