@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { isTenantPwaScope, pwaBaseForPath, TENANT_CACHE_PREFIX } from "@/lib/pwa/tenants";
+import { isVerticalWorkerScope, verticalForPath } from "@/lib/verticals/config";
 
 function manifestForPath(pathname: string) {
+  const vertical = verticalForPath(pathname);
+  if (vertical) return `/agents/${vertical.slug}/manifest.webmanifest`;
   const hapaiMatch = pathname.match(/^\/hapai\/([^/]+)$/);
   if (hapaiMatch?.[1]) return `/hapai/${hapaiMatch[1]}/manifest.json`;
 
@@ -37,8 +41,9 @@ function setManifestLink(pathname: string) {
 }
 
 export function PwaRegister() {
+  const pathname = usePathname();
+  useEffect(() => { setManifestLink(pathname); }, [pathname]);
   useEffect(() => {
-    setManifestLink(window.location.pathname);
 
     if (!("serviceWorker" in navigator)) return;
 
@@ -57,7 +62,7 @@ export function PwaRegister() {
       .getRegistrations()
       .then((registrations) => {
         registrations.forEach((registration) => {
-          if (isTenantPwaScope(registration.scope)) return;
+          if (isTenantPwaScope(registration.scope) || isVerticalWorkerScope(registration.scope)) return;
           registration.unregister().catch(() => undefined);
         });
       })

@@ -179,6 +179,9 @@ export async function generateWithFallback(opts: {
   tools?: ToolSet;
   /** Max generateText steps when tools are provided (default 3). */
   maxToolSteps?: number;
+  /** Optional request limits for small public chat surfaces. */
+  maxOutputTokens?: number;
+  abortSignal?: AbortSignal;
 }): Promise<{ ok: true; text: string; rung: ModelRung } | { ok: false }> {
   const { ladder, messages, agentSlug, userId, tools, maxToolSteps = 3 } = opts;
   const { recordModelCall, providerFromModelId } = await import('./call-log');
@@ -191,6 +194,8 @@ export async function generateWithFallback(opts: {
         model: rung.model,
         system,
         messages,
+        ...(opts.maxOutputTokens ? { maxOutputTokens: opts.maxOutputTokens } : {}),
+        ...(opts.abortSignal ? { abortSignal: opts.abortSignal } : {}),
         ...(tools ? { tools, stopWhen: stepCountIs(maxToolSteps) } : {}),
       });
       void recordModelCall({
@@ -207,6 +212,7 @@ export async function generateWithFallback(opts: {
       });
       return { ok: true, text, rung };
     } catch (err) {
+      if (opts.abortSignal?.aborted) break;
       const reason = err instanceof Error ? err.message : String(err);
       void recordModelCall({
         tenant: opts.tenant,
