@@ -20,17 +20,6 @@
   color: var(--ink);
   display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
-.wsp-pick { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
-.wsp-tab {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 7px 14px; border-radius: 50px; cursor: pointer;
-  border: 1px solid rgba(26,25,23,0.14); background: transparent;
-  color: var(--ink-2); transition: all 0.28s var(--ease);
-}
-.wsp-tab:hover:not(.on) { border-color: var(--brass); color: var(--ink); }
-.wsp-tab.on { background: var(--navy); color: var(--paper); border-color: var(--navy); }
-
 /* the device */
 .wsp-phone {
   position: relative; width: 300px; height: 610px; flex-shrink: 0;

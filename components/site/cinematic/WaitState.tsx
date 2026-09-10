@@ -16,85 +16,40 @@ import './wait-state.css';
  * No real company names — this is assembl's own site, and a named sponsor
  * would assert a commercial relationship that does not exist. The credit comes
  * from the business running the journey.
+ *
+ * Single scenario (shop / groceries points) — Kate, Sep 2026: the Power /
+ * Groceries / Claim tabs under the phone were cut; one auto-playing wait is
+ * enough on the homepage.
  */
 
 type Ask = { q: string; options: [string, string]; learn: [string, string] };
 type Step = { agent: string; doing: string; credit?: number; ask?: Ask };
-type Scenario = { id: string; label: string; app: string; unit: [string, string]; redeem: string; steps: Step[] };
 
-const SCENARIOS: Scenario[] = [
-  {
-    id: 'power',
-    label: 'Power',
-    app: 'Why is my bill up?',
-    unit: ['$', ''],
-    redeem: 'off your next bill',
-    steps: [
-      { agent: 'Meter', doing: 'Thirty days of use', credit: 0.15 },
-      { agent: 'Weather', doing: 'Against the cold snap', credit: 0.2 },
-      {
-        agent: 'Ask', doing: 'One question',
-        ask: {
-          q: 'Anyone moved in this month?',
-          options: ['Yes', 'No'],
-          learn: ['household grew', 'weather, not people'],
-        },
+const SCENARIO = {
+  app: 'A week of meals',
+  unit: ['', ' pts'] as [string, string],
+  redeem: 'toward free delivery',
+  steps: [
+    { agent: 'Basket', doing: 'What you actually buy', credit: 60 },
+    { agent: 'Stock', doing: 'On the shelf near you', credit: 40 },
+    {
+      agent: 'Ask', doing: 'One question',
+      ask: {
+        q: 'Anyone avoiding anything?',
+        options: ['Gluten-free', 'Nothing'] as [string, string],
+        learn: ['one gluten-free eater', 'no restrictions'] as [string, string],
       },
-      { agent: 'Tariff', doing: 'Better plan for this pattern', credit: 0.25 },
-      { agent: 'Draft', doing: 'Ready for a person', credit: 0.3 },
-    ],
-  },
-  {
-    id: 'shop',
-    label: 'Groceries',
-    app: 'A week of meals',
-    unit: ['', ' pts'],
-    redeem: 'toward free delivery',
-    steps: [
-      { agent: 'Basket', doing: 'What you actually buy', credit: 60 },
-      { agent: 'Stock', doing: 'On the shelf near you', credit: 40 },
-      {
-        agent: 'Ask', doing: 'One question',
-        ask: {
-          q: 'Anyone avoiding anything?',
-          options: ['Gluten-free', 'Nothing'],
-          learn: ['one gluten-free eater', 'no restrictions'],
-        },
-      },
-      { agent: 'Balance', doing: 'Five meals to budget', credit: 90 },
-      { agent: 'Draft', doing: 'Ready for a person', credit: 110 },
-    ],
-  },
-  {
-    id: 'claim',
-    label: 'A claim',
-    app: 'Storm damage',
-    unit: ['$', ''],
-    redeem: 'off your excess',
-    steps: [
-      { agent: 'Policy', doing: 'What this covers', credit: 0.4 },
-      { agent: 'Photos', doing: 'Sorted and matched', credit: 0.35 },
-      {
-        agent: 'Ask', doing: 'One question',
-        ask: {
-          q: 'Liveable tonight?',
-          options: ['No', 'Yes'],
-          learn: ['needs somewhere tonight', 'repair queue, not urgent'],
-        },
-      },
-      { agent: 'Assess', doing: 'Numbers against schedule', credit: 0.5 },
-      { agent: 'Draft', doing: 'Ready for a person', credit: 0.45 },
-    ],
-  },
-];
+    },
+    { agent: 'Balance', doing: 'Five meals to budget', credit: 90 },
+    { agent: 'Draft', doing: 'Ready for a person', credit: 110 },
+  ] satisfies Step[],
+};
 
 const BEAT = 1150;
 
 export function WaitState() {
-  // Kate, 30 July 2026: lead with points, not the power scenario's small $
-  // amount — the whole idea is "get paid to wait", and points climbing to 300
-  // reads as that instantly where $0.90 does not.
-  const [sid, setSid] = useState('shop');
+  // Kate, 30 July 2026: lead with points — the whole idea is "get paid to
+  // wait", and points climbing to 300 reads as that instantly.
   const [at, setAt] = useState(-1);
   const [done, setDone] = useState<number[]>([]);
   const [credit, setCredit] = useState(0);
@@ -104,7 +59,7 @@ export function WaitState() {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const sc = SCENARIOS.find((s) => s.id === sid)!;
+  const sc = SCENARIO;
   const running = at >= 0 && !finished;
   const pending = running ? sc.steps[at] : undefined;
   /** The question genuinely holds the line — it is a question, not a tick. */
@@ -113,11 +68,10 @@ export function WaitState() {
   const clear = () => { if (timer.current) clearTimeout(timer.current); timer.current = null; };
   useEffect(() => clear, []);
 
-  const reset = useCallback((next?: string) => {
+  const reset = useCallback(() => {
     clear();
     setAt(-1); setDone([]); setCredit(0);
     setAnswer(null); setSkipped(false); setFinished(false);
-    if (next) setSid(next);
   }, []);
 
   useEffect(() => {
@@ -253,13 +207,6 @@ export function WaitState() {
             </div>
           )}
         </div>
-      </div>
-
-      <div className="wsp-pick" role="group" aria-label="Choose a wait">
-        {SCENARIOS.map((s) => (
-          <button key={s.id} type="button" className={`wsp-tab${s.id === sid ? ' on' : ''}`}
-            onClick={() => reset(s.id)}>{s.label}</button>
-        ))}
       </div>
     </div>
   );
