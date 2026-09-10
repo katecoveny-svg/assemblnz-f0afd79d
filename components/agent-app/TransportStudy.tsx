@@ -43,6 +43,7 @@ function AssemblyPlayer({ subject }: { subject: Subject }) {
   useEffect(() => { state.current = { mode, paused, reduced, followScroll }; }, [mode, paused, reduced, followScroll]);
   const path = `/brand/transport/${subject}`;
   const data = labels[subject];
+  const orbit = subject === 'subaru' ? '-42deg 64deg 95%' : '-42deg 64deg 85%';
 
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
@@ -124,7 +125,7 @@ function AssemblyPlayer({ subject }: { subject: Subject }) {
     if (mode === 'model' && model.current?.loaded) model.current.currentTime = value;
   }
   function play() { setReduced(false); setFollowScroll(false); setPaused(!paused); }
-  function reset() { seek(0); if (model.current?.loaded) { model.current.cameraOrbit = '-42deg 64deg 85%'; model.current.jumpCameraToGoal(); } }
+  function reset() { seek(0); if (model.current?.loaded) { model.current.cameraOrbit = orbit; model.current.jumpCameraToGoal(); } }
   const chapter = time < 1.5 ? 'Ready to begin' : time < 5 ? 'The parts separate' : time < 7 ? 'The construction, revealed' : time < 10.5 ? 'Coming together' : 'Ready for the next step';
 
   return (
@@ -133,7 +134,7 @@ function AssemblyPlayer({ subject }: { subject: Subject }) {
         {mode === 'film' ? <video ref={video} src={`${path}-film.mp4`} poster={`${path}-${subject === 'plane' ? 'assembled' : 'reference'}.webp`} muted loop playsInline preload="metadata" aria-label={data.alt} onTimeUpdate={() => setTime(video.current?.currentTime || 0)} onLoadedMetadata={() => { if (video.current) video.current.currentTime = time; }} onError={() => { setMessage('The film could not load. Try the 3D study.'); setPaused(true); }} />
           : <>
             {!ready && <Image src={`${path}-assembled.webp`} alt={data.alt} fill sizes="(max-width:760px) 100vw,60vw" className="transport-model-poster" />}
-            {createElement('model-viewer', { ref: model, alt: data.alt, 'camera-controls': true, 'disable-zoom': true, 'camera-orbit': '-42deg 64deg 85%', 'camera-target': subject === 'subaru' ? '0m 1.2m 0m' : '0m 2.2m 0m', 'min-camera-orbit': 'auto 20deg auto', 'max-camera-orbit': 'auto 100deg auto', 'field-of-view': '30deg', 'shadow-intensity': '0.7', 'shadow-softness': '1', exposure: '0.9', 'environment-image': 'neutral', 'interaction-prompt': 'none', 'touch-action': 'pan-y', style: { opacity: ready ? 1 : 0 } })}
+            {createElement('model-viewer', { ref: model, alt: data.alt, 'camera-controls': true, 'disable-zoom': true, 'camera-orbit': orbit, 'camera-target': subject === 'subaru' ? '0m 1.2m 0m' : '0m 2.2m 0m', 'min-camera-orbit': 'auto 20deg auto', 'max-camera-orbit': 'auto 100deg auto', 'field-of-view': '30deg', 'shadow-intensity': '0.7', 'shadow-softness': '1', exposure: '0.9', 'environment-image': 'neutral', 'interaction-prompt': 'none', 'touch-action': 'pan-y', style: { opacity: ready ? 1 : 0 } })}
           </>}
         <div className="transport-scene-index aa-mono"><span>{subject === 'subaru' ? '01 / Forge' : subject === 'boat' ? '01 / Sea' : '02 / Air'}</span><span>{mode === 'model' ? 'Drag to rotate' : 'Assembly film'}</span></div>
       </div>
