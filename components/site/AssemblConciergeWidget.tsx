@@ -35,10 +35,10 @@ function buildKnowledge() {
       cta: 'see pricing',
     },
     {
-      match: ['wait', 'earn', 'loyalty', 'mana', 'receipt', 'reward', 'evidence receipt', 'one nz', 'one-nz'],
+      match: ['wait', 'earn', 'loyalty', 'mana', 'receipt', 'reward', 'evidence receipt'],
       answer:
-        'Wait→earn turns a real wait into credit the customer can see, with an Evidence receipt of what changed. The One NZ journey is a public demo of that pattern, not a claimed partnership.',
-      href: '/journeys/one-nz',
+        'Wait→earn turns a real wait into credit the customer can see, with an Evidence receipt of what changed.',
+      href: '/journeys/evidence-receipt',
       cta: 'see the demo',
     },
     {
