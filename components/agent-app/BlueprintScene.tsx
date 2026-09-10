@@ -25,6 +25,10 @@ export type BlueprintSceneProps = {
  * Paper blueprint assembly canvas — Kate craft OVERRIDE.
  * Field = paper #FFFDFB. Plum #240B21 = ink/parts only.
  * Flat-lay parts (data-part + scatter attrs) scrub into plan seats.
+ *
+ * Layout lock: section titles live OUTSIDE the pin. Only the sheet canvas
+ * pins on wide/tall viewports. Mobile and short viewports skip pin entirely
+ * (readable first — no title/TitleBlock/body collision).
  */
 export function BlueprintScene({
   sectionId,
@@ -44,7 +48,6 @@ export function BlueprintScene({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const pin = pinRef.current;
     const sheet = sheetRef.current;
     if (!pin || !sheet) return;
@@ -52,8 +55,9 @@ export function BlueprintScene({
     const parts = sheet.querySelectorAll<SVGElement>('[data-part]');
     const assembled = sheet.querySelectorAll<SVGElement>('[data-assembled]');
     const flat = sheet.querySelectorAll<SVGElement>('[data-flat]');
+    const stamps = sheet.querySelectorAll('[data-assemble-stamp]');
 
-    if (reduce) {
+    const showAssembled = () => {
       parts.forEach((el) => {
         el.style.transform = '';
         el.style.opacity = '1';
@@ -64,59 +68,78 @@ export function BlueprintScene({
       assembled.forEach((el) => {
         el.style.opacity = '1';
       });
+      stamps.forEach((el) => {
+        (el as HTMLElement | SVGElement).style.opacity = '1';
+      });
+    };
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      showAssembled();
       return;
     }
 
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Seed flat-lay so first paint is scattered before scrub advances.
-      parts.forEach((el) => {
-        gsap.set(el, {
-          x: Number(el.dataset.sx ?? 0),
-          y: Number(el.dataset.sy ?? 0),
-          rotation: Number(el.dataset.sr ?? 0),
-          transformOrigin: '50% 50%',
+      const mm = gsap.matchMedia();
+
+      // Desktop + tall enough: pin the sheet canvas only (titles stay in flow above).
+      mm.add('(min-width: 900px) and (min-height: 720px)', () => {
+        parts.forEach((el) => {
+          gsap.set(el, {
+            x: Number(el.dataset.sx ?? 0),
+            y: Number(el.dataset.sy ?? 0),
+            rotation: Number(el.dataset.sr ?? 0),
+            transformOrigin: '50% 50%',
+          });
         });
-      });
-      gsap.set(assembled, { autoAlpha: 0 });
-      gsap.set(flat, { autoAlpha: 1 });
-      gsap.set(sheet.querySelectorAll('[data-assemble-stamp]'), { autoAlpha: 0 });
+        gsap.set(assembled, { autoAlpha: 0 });
+        gsap.set(flat, { autoAlpha: 1 });
+        gsap.set(stamps, { autoAlpha: 0 });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: pin,
-          start: 'top top',
-          end: '+=240%',
-          pin: true,
-          scrub: 0.7,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      tl.to(flat, { autoAlpha: 0, duration: 0.2, ease: 'none' }, 0);
-
-      parts.forEach((el, i) => {
-        tl.to(
-          el,
-          {
-            x: 0,
-            y: 0,
-            rotation: 0,
-            duration: 0.55,
-            ease: 'power2.inOut',
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: pin,
+            start: 'top top',
+            end: '+=180%',
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.7,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
-          0.06 + i * 0.07,
-        );
+        });
+
+        tl.to(flat, { autoAlpha: 0, duration: 0.2, ease: 'none' }, 0);
+
+        parts.forEach((el, i) => {
+          tl.to(
+            el,
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              duration: 0.55,
+              ease: 'power2.inOut',
+            },
+            0.06 + i * 0.07,
+          );
+        });
+
+        tl.to(assembled, { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 0.7);
+        tl.to(stamps, { autoAlpha: 1, y: 0, duration: 0.2, ease: 'power2.out' }, 0.85);
+
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
       });
 
-      tl.to(assembled, { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 0.7);
-      tl.to(
-        sheet.querySelectorAll('[data-assemble-stamp]'),
-        { autoAlpha: 1, y: 0, duration: 0.2, ease: 'power2.out' },
-        0.85,
-      );
+      // Mobile / short viewports: assembled state in place — no pin theatre.
+      mm.add('(max-width: 899px), (max-height: 719px)', () => {
+        showAssembled();
+      });
     }, pin);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -127,42 +150,41 @@ export function BlueprintScene({
   }, []);
 
   return (
-    <section
-      className="aa-assemble-pin"
-      ref={pinRef}
-      aria-labelledby={titleId}
-      id={sectionId}
-    >
-      <div className="aa-assemble-stage">
+    <section className="aa-assemble-pin" aria-labelledby={titleId} id={sectionId}>
+      <div className="aa-assemble-intro">
         <div className="aa-section-head aa-assemble-head">
           <p className="aa-eyebrow aa-mono">{eyebrow}</p>
           <h2 id={titleId}>{title}</h2>
           <p>{support}</p>
         </div>
+      </div>
 
-        <div className="aa-plan-sheet" ref={sheetRef} data-sheet="assemble">
-          <TitleBlock fields={titleBlock} />
+      <div className="aa-assemble-canvas" ref={pinRef}>
+        <div className="aa-assemble-stage">
+          <div className="aa-plan-sheet" ref={sheetRef} data-sheet="assemble">
+            <TitleBlock fields={titleBlock} />
 
-          <svg className="aa-plan-svg" viewBox={viewBox} role="img" aria-label={ariaLabel}>
-            <defs>
-              <pattern id={gridPatternId} width="20" height="20" patternUnits="userSpaceOnUse">
-                <path
-                  d="M 20 0 L 0 0 0 20"
-                  fill="none"
-                  stroke="#240B21"
-                  strokeWidth="0.35"
-                  opacity="0.08"
-                />
-              </pattern>
-            </defs>
+            <svg className="aa-plan-svg" viewBox={viewBox} role="img" aria-label={ariaLabel}>
+              <defs>
+                <pattern id={gridPatternId} width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path
+                    d="M 20 0 L 0 0 0 20"
+                    fill="none"
+                    stroke="#240B21"
+                    strokeWidth="0.35"
+                    opacity="0.08"
+                  />
+                </pattern>
+              </defs>
 
-            <rect width="640" height="420" fill="#FFFDFB" />
-            <rect width="640" height="420" fill={`url(#${gridPatternId})`} />
+              <rect width="640" height="420" fill="#FFFDFB" />
+              <rect width="640" height="420" fill={`url(#${gridPatternId})`} />
 
-            {children}
-          </svg>
+              {children}
+            </svg>
 
-          <p className="aa-sheet-caption aa-mono">{caption}</p>
+            <p className="aa-sheet-caption aa-mono">{caption}</p>
+          </div>
         </div>
       </div>
     </section>

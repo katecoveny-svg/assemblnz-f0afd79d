@@ -80,7 +80,7 @@ export function GatewayLanding() {
             { label: 'BORDER', value: 'clearance staged · not lodged' },
           ]}
           caption="fictional NZ brokerage · sample business · details fictional"
-          ariaLabel="DEMO vessel clearance pack assembling from manifest, entry docs and tariff pins"
+          ariaLabel="DEMO vessel clearance pack assembling from manifest, entry docs and tariff flags"
           gridPatternId="gateway-entry-grid"
         >
           <GatewayAssembleParts />
@@ -96,18 +96,19 @@ export function GatewayLanding() {
             id="gateway-model"
             pins={GATEWAY_DEMO_PINS}
             titleBlock={[
-              { label: 'MANIFEST', value: 'Clearance pins · DEMO' },
+              { label: 'MANIFEST', value: 'Clearance flags · DEMO' },
               { label: 'CODES', value: 'Customs Act · Tariff · Biosecurity' },
               { label: 'STATUS', value: 'staged · not lodged' },
             ]}
             underlay={<GatewayEntryUnderlay />}
-            caption="vessel clearance pack · DEMO pins · HS / Customs Act / border"
+            caption="vessel clearance pack · DEMO flags · HS / Customs Act / border"
+            hint={c.pinHint}
             demoBadge={c.demoBadge}
             evidenceLabel={c.evidenceLabel}
-            ariaLabel="DEMO vessel clearance pack with clickable HS, origin and border pins"
+            ariaLabel="DEMO vessel clearance pack with clickable HS, origin and border flags"
             gridPatternId="gateway-entry-grid-pins"
-            hint="Click a pin on the clearance pack"
-            listLabel="DEMO clearance pins"
+            emptyPrompt="Select a DEMO flag on the entry pack."
+            listLabel="DEMO flags"
           />
         </section>
 
@@ -120,6 +121,7 @@ export function GatewayLanding() {
           actLabel="Act"
           actDisabledHint="Act stays locked until you approve the draft."
           actEnabledHint="Approved — Act can run the staged broker draft."
+          observeStatus="Observing entry pack · draft not ready"
         />
 
         <section className="aa-section" aria-labelledby="gateway-chat-title">

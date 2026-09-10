@@ -10,7 +10,7 @@
  *
  * Six field effects (wave, pulse, ripple, spiral, noise, off) and the dot /
  * particle shape sets are hers, unchanged. Two site adaptations: the word
- * sampler uses the brand display face (Cormorant) rather than Poppins, and a
+ * sampler uses Instrument Sans (plum canon) rather than Poppins, and a
  * reduced-motion static frame snaps particleText straight to the assembled
  * word (the React wrapper forces isAnimated:false there — content stays,
  * motion doesn't). Colours are passed in concrete; the wrapper resolves the
@@ -59,10 +59,10 @@ export interface PatternSettings {
 }
 
 export const ASSEMBL_PRESETS: Record<string, { backgroundColor: string; foregroundColor: string }> = {
-  'Cream / Teal': { backgroundColor: '#f7f3ea', foregroundColor: '#2d5f6b' },
-  'Dark / Gold': { backgroundColor: '#141413', foregroundColor: '#e8b04b' },
-  'Cream / Orange': { backgroundColor: '#f7f3ea', foregroundColor: '#c8623a' },
-  'Dark / Teal': { backgroundColor: '#141413', foregroundColor: '#2d5f6b' },
+  'Paper / Plum': { backgroundColor: '#FFFDFB', foregroundColor: '#240B21' },
+  'Chalk / Heather': { backgroundColor: '#F5F1F2', foregroundColor: '#916A70' },
+  'Plum / Chalk': { backgroundColor: '#240B21', foregroundColor: '#F5F1F2' },
+  'Mulberry / Paper': { backgroundColor: '#654A4E', foregroundColor: '#FFFDFB' },
   'Pure Black/White': { backgroundColor: '#000000', foregroundColor: '#ffffff' },
   'Pure White/Black': { backgroundColor: '#ffffff', foregroundColor: '#000000' },
 };
@@ -87,9 +87,9 @@ const DEFAULTS: PatternSettings = {
   turbulence: 30,
   words: ['assembl'],
   holdSeconds: 2.2,
-  backgroundColor: '#ffffff',
-  foregroundColor: '#3f7373',
-  accentColor: '#b8964f',
+  backgroundColor: '#FFFDFB',
+  foregroundColor: '#240B21',
+  accentColor: '#916A70',
   isAnimated: true,
 };
 
@@ -100,8 +100,8 @@ const BAYER_4 = [
   [3, 11, 1, 9],
   [15, 7, 13, 5],
 ].map((row) => row.map((v) => (v + 0.5) / 16));
-// Brand display face for the word sampler (Kate's engine used Poppins).
-const TEXT_FONT = "'Cormorant Garamond', Georgia, serif";
+// Brand display face for the word sampler (plum canon — Instrument Sans).
+const TEXT_FONT = "'Instrument Sans', system-ui, sans-serif";
 
 interface Dot {
   x: number;

@@ -28,6 +28,11 @@ describe('Gateway PREVIEW demo data', () => {
     expect(blob).toContain('concept');
     expect(blob).toContain('demo');
     expect(blob).toMatch(/draft-only|nothing lodges/);
+    expect(blob).not.toContain('pins on the plate');
+    expect(blob).not.toContain('border work that cites');
+    expect(blob).not.toContain('flat-lay');
+    expect(GATEWAY_PREVIEW.heroLine.toLowerCase()).toContain('review the entry');
+    expect(GATEWAY_PREVIEW.modelTitle.toLowerCase()).toMatch(/tap a flag|entry pack/);
     expect(GATEWAY_PREVIEW.tiers.map((t) => t.name)).toEqual([
       'Look',
       'Practice',

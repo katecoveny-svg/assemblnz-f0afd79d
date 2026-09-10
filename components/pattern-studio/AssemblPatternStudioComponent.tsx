@@ -52,7 +52,7 @@ export interface AssemblPatternStudioProps {
  * React wrapper for the Pattern Studio engine (Kate's handoff contract).
  * Owns the three production behaviours — reduced-motion, tab-visibility and
  * lazy-mount — so a caller can't forget them. Colour defaults are assembl's
- * canon values (Ming teal + gold on pearl); the orange from the studio demo
+ * plum canon defaults (deep plum + heather on paper); the orange from the studio demo
  * is intentionally not a default here — one restrained accent.
  */
 function AssemblPatternStudioComponent({
@@ -75,9 +75,9 @@ function AssemblPatternStudioComponent({
   holdSeconds = 2.2,
   speed = 1.2,
   mouseInteractive = true,
-  backgroundColor = '#ffffff',
-  foregroundColor = '#3f7373',
-  accentColor = '#b8964f',
+  backgroundColor = '#FFFDFB',
+  foregroundColor = '#240B21',
+  accentColor = '#916A70',
   isAnimated = true,
   respectReducedMotion = true,
   pauseWhenHidden = true,

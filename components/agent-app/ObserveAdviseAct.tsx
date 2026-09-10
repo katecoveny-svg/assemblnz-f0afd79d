@@ -13,6 +13,8 @@ export type ObserveAdviseActProps = {
   actDisabledHint?: string;
   actEnabledHint?: string;
   demoBadge?: string;
+  /** Override the observe-phase status line (defaults to floor-plate wording for Arc/Forge). */
+  observeStatus?: string;
 };
 
 /**
@@ -29,6 +31,7 @@ export function ObserveAdviseAct({
   actDisabledHint = 'Act stays locked until you approve.',
   actEnabledHint = 'Approved — Act can run the staged draft.',
   demoBadge = 'DEMO',
+  observeStatus = 'Observing floor plate · draft not ready',
 }: ObserveAdviseActProps) {
   const [phase, setPhase] = useState<'observe' | 'advise' | 'approved'>('observe');
   const [acted, setActed] = useState(false);
@@ -85,7 +88,7 @@ export function ObserveAdviseAct({
         <div className="aa-oaa-controls">
           <span className="aa-demo-pill aa-mono">{demoBadge}</span>
           <p className="aa-mono aa-oaa-status">
-            {phase === 'observe' && 'Observing floor plate · draft not ready'}
+            {phase === 'observe' && observeStatus}
             {phase === 'advise' && 'Advice staged · awaiting human approval'}
             {phase === 'approved' && !acted && actEnabledHint}
             {acted && 'Acted on approval · DEMO only · nothing sent'}

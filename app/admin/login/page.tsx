@@ -7,10 +7,11 @@ import { AdminLoginForm } from './AdminLoginForm';
  * /admin/login — operator sign-in, canvas-styled.
  *
  * Lives OUTSIDE the (hub) route group so ensureAdmin() never gates it (which
- * would loop unauthenticated visitors). Magic link is the primary path (Kate:
- * assembl@assembl.co.nz), password is the optional fast path once one is set
- * at /account/security. Sessions honour the existing 90-day
- * "stay signed in" policy (lib/supabase/session-policy.ts).
+ * would loop unauthenticated visitors). Password is the obvious sign-in path
+ * when magic-link email does not arrive; magic link stays available. Password
+ * can be set via the reset flow on this form or at /account/security once
+ * signed in. Sessions honour the existing 90-day "stay signed in" policy
+ * (lib/supabase/session-policy.ts).
  *
  * Already-authenticated visitors are bounced straight into the hub — the
  * (hub) gate then decides whether they are actually an operator.

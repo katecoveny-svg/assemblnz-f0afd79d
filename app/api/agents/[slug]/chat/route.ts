@@ -12,7 +12,6 @@ import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketpla
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { recordModelFallback } from '@/lib/ai/fallback-log';
 import { createClient } from '@supabase/supabase-js';
-import { citeFromPCO, type SupabaseRpcClient } from '@/lib/government/types';
 import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 import { WHANAU_KNOWLEDGE, isFamilyAgent } from '@/lib/agents/whanau-knowledge';
 import { CLINICAL_NOTE_KNOWLEDGE } from '@/lib/agents/clinical-notes';
@@ -36,6 +35,7 @@ import {
 } from '@/lib/agents/knowledge-map';
 import { checkChatRateLimit, chatClientIp } from '@/lib/agents/chat-rate-limit';
 import { writeChatReceipt } from '@/lib/agents/receipts';
+import { nzKnowledgeTools } from '@/lib/agents/nz-knowledge';
 
 export const maxDuration = 60;
 
@@ -191,87 +191,14 @@ function anonSetCookie(value: string): string {
  * user or anonymous device). After that the route returns 402 with a paywall
  * payload. A paid install (per-agent / bundle / all-access) lifts the limit.
  *
- * NZ knowledge tools (Gazette / PCO Legislation / Beehive) are scaffolded here
- * as stubs. They expose the shape the model can call, but return a "not yet
- * wired" placeholder. Real retrieval (pgvector embeddings + live source wiring)
- * lands in a follow-up task.
+ * NZ knowledge uses the shared read-only searchNZKnowledge tool
+ * (lib/agents/nz-knowledge.ts) — live KB retrieval with honest miss notes.
  */
 
 /**
- * Live NZ knowledge search — grounds agents in assembl's Industry Knowledge
- * Base (legislation, regulations, official guidance, government sources) via the
- * deployed `ikb-search` edge function, which embeds the query (Gemini, 768-dim)
- * and runs the `search_industry_kb` pgvector RPC. Returns real ranked snippets
- * with titles + URLs for the agent to cite. Fails safe: on any problem it tells
- * the agent to answer from general knowledge and flag that the live source was
- * not checked.
+ * Live NZ knowledge — shared read-only cite tool (lib/agents/nz-knowledge.ts).
+ * Same path as the homepage phone flagships.
  */
-const nzKnowledgeTools = {
-  searchNZKnowledge: tool({
-    description:
-      "Search assembl's New Zealand knowledge base (legislation, regulations, standards, official government guidance) for grounding. Use whenever the answer turns on NZ law, a statutory reference, compliance, entitlements, or official guidance. Returns real source snippets with titles and URLs — cite the ones you use, with their retrieval date.",
-    inputSchema: z.object({
-      query: z.string().describe('The NZ legal / regulatory / government question or topic to look up'),
-    }),
-    execute: async ({ query }) => {
-      const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
-      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-      const geminiKey = process.env.GEMINI_API_KEY;
-      if (!base || !serviceKey || !geminiKey) {
-        return {
-          status: 'unavailable',
-          note: 'The NZ knowledge base is not reachable right now. Answer from general knowledge and clearly say it was not checked against the live source.',
-        };
-      }
-      try {
-        // 1. Embed the query — Gemini gemini-embedding-001 at 768 dims, matching
-        //    the kb_doc_chunks pgvector schema the live KB is stored in.
-        const er = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${geminiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: { parts: [{ text: query.slice(0, 8000) }] }, outputDimensionality: 768 }),
-          },
-        );
-        if (!er.ok) {
-          return { status: 'error', note: 'Could not search the live source right now. Answer from general knowledge and flag it was not verified.' };
-        }
-        const ej = (await er.json()) as { embedding?: { values?: number[] } };
-        const embedding = ej.embedding?.values;
-        if (!Array.isArray(embedding) || embedding.length === 0) {
-          return { status: 'error', note: 'The live source search returned no embedding. Answer from general knowledge and flag it was not verified.' };
-        }
-        // 2. Retrieve from the live KB via match_kb_knowledge (kb_doc_chunks),
-        //    reusing the proven citeFromPCO helper.
-        const supabase = createClient(base, serviceKey) as unknown as SupabaseRpcClient;
-        const citations = await citeFromPCO(supabase, embedding, null, 6);
-        if (!citations.length) {
-          return {
-            status: 'no_results',
-            note: 'Nothing close in the live NZ knowledge base. Answer from general knowledge and flag that it was not found in the live source.',
-          };
-        }
-        return {
-          status: 'ok',
-          sources: citations.map((c) => ({
-            title: c.title,
-            url: c.url,
-            snippet: c.snippet.slice(0, 700),
-            similarity: Number.isFinite(c.similarity) ? Number(c.similarity.toFixed(3)) : undefined,
-          })),
-          retrievedAt: new Date().toISOString().slice(0, 10),
-        };
-      } catch (e) {
-        return {
-          status: 'error',
-          note: `NZ knowledge search error: ${e instanceof Error ? e.message : 'unknown'}. Answer from general knowledge and flag that it was not verified.`,
-        };
-      }
-    },
-  }),
-};
-
 export async function POST(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const agent = marketplaceAgentBySlug(slug);

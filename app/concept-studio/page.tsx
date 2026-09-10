@@ -12,7 +12,7 @@ import styles from '@/components/public/public-pages.module.css';
 export const metadata: Metadata = {
   title: 'Concept Studio — live demos and public experiments',
   description:
-    'Try assembl products, public tools and carefully labelled concept previews. Live means working now; preview and concept boundaries stay visible.',
+    'Try assembl products, public tools and labelled concept previews. Each card says what you can try today and where the boundary still sits.',
   alternates: { canonical: '/concept-studio' },
 };
 
@@ -64,9 +64,9 @@ export default function ConceptStudioPage() {
       <section className={styles.hero}>
         <div>
           <p className={styles.eyebrow}>assembl · Concept Studio</p>
-          <h1>Try the work.<br /><em>See what is real.</em></h1>
+          <h1>Try the demos.<br /><em>See the boundary.</em></h1>
           <p className={styles.lede}>
-            Working products, public experiments and early concepts in one place. Every card says what you can try today and where the boundary still sits.
+            Working products, public experiments and early concepts in one place. Every card says what you can try today and where human approval still sits.
           </p>
           <div className={styles.actions}>
             <a href="#promote" className={styles.primary}>Start with the shareable tools</a>
@@ -74,22 +74,22 @@ export default function ConceptStudioPage() {
           </div>
         </div>
         <aside className={styles.heroAside} aria-label="Concept Studio status guide">
-          <div className={styles.heroFact}><span>01</span><div><strong>Live now</strong><p>The interaction works on assembl.co.nz and produces a real draft, export or result.</p></div></div>
-          <div className={styles.heroFact}><span>02</span><div><strong>Public preview</strong><p>The core experience works, but a provider, polish pass or production connection is still being proven.</p></div></div>
-          <div className={styles.heroFact}><span>03</span><div><strong>Concept</strong><p>A product direction you can explore. Data and integrations are deliberately labelled as fictional or simulated.</p></div></div>
+          <div className={styles.heroFact}><span>01</span><div><strong>Live now</strong><p>Works on assembl.co.nz today — a real draft, export or result you can try.</p></div></div>
+          <div className={styles.heroFact}><span>02</span><div><strong>Preview</strong><p>The core flow works. A provider, polish pass or production connection may still be missing — labelled honestly.</p></div></div>
+          <div className={styles.heroFact}><span>03</span><div><strong>Concept</strong><p>A product direction you can explore. Data and integrations are fictional or simulated on purpose.</p></div></div>
         </aside>
       </section>
 
       <div className={styles.truthBar}>
         <div><strong>{live.length} live experiences</strong><span>Open and use them now.</span></div>
-        <div><strong>{previews.length} public previews</strong><span>Useful, with visible production limits.</span></div>
-        <div><strong>{concepts.length} concept products</strong><span>Explore the direction without mistaking it for a connected service.</span></div>
+        <div><strong>{previews.length} previews</strong><span>Useful, with visible production limits.</span></div>
+        <div><strong>{concepts.length} concepts</strong><span>Explore the direction — fictional or simulated on purpose.</span></div>
       </div>
 
       <section id="promote" className={styles.section}>
         <div className={styles.sectionHeader}>
-          <div><p className={styles.eyebrow}>promotion-ready</p><h2>Small tools people can <em>use and share.</em></h2></div>
-          <p>These are the best starting links for social posts, conversations and press outreach. Each gives the visitor something of their own to keep or remix.</p>
+          <div><p className={styles.eyebrow}>shareable tools</p><h2>Small tools people can <em>use and share.</em></h2></div>
+          <p>Best starting links for a prospect conversation. Each gives the visitor something of their own to keep or remix.</p>
         </div>
         <div className={styles.demoGrid}>{promotable.map((demo) => <DemoCard key={demo.slug} demo={demo} />)}</div>
       </section>

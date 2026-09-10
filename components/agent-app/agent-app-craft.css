@@ -61,8 +61,10 @@
 
 .aa-nav-brand {
   display: flex;
-  align-items: baseline;
-  gap: 0.65rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
   text-decoration: none;
   color: var(--aa-plum);
 }
@@ -71,23 +73,27 @@
   font-size: 1.15rem;
   font-weight: 600;
   letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .aa-nav-brand span {
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--aa-muted);
+  white-space: nowrap;
 }
 
 .aa-nav-badge {
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--aa-plum);
   border: 1px solid var(--aa-line-strong);
-  padding: 0.4rem 0.7rem;
+  padding: 0.35rem 0.55rem;
   background: var(--aa-paper);
+  max-width: min(42vw, 14rem);
+  line-height: 1.35;
 }
 
 .aa-story {
@@ -95,11 +101,45 @@
   flex-direction: column;
 }
 
+/* Opaque paper field on every story block so pinned assemble never
+   paints titles/TitleBlock through following section copy. */
+.aa-story > .aa-section,
+.aa-story > .aa-assemble-pin,
+.aa-footer {
+  position: relative;
+  z-index: 2;
+  background-color: var(--aa-paper);
+  background-image:
+    linear-gradient(var(--aa-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--aa-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+}
+
+.aa-story > .aa-assemble-pin {
+  z-index: 1;
+}
+
+/* Full-bleed opaque cover; content stays on the 1180 measure. */
+.aa-story > .aa-section {
+  max-width: none;
+  width: 100%;
+  isolation: isolate;
+}
+
+.aa-story > .aa-section > * {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
 .aa-section {
   padding: clamp(4rem, 10vw, 7.5rem) clamp(1.25rem, 4vw, 3rem);
   max-width: 1180px;
   margin: 0 auto;
   width: 100%;
+  isolation: isolate;
 }
 
 .aa-hero {
@@ -267,35 +307,90 @@
   line-height: 1.5;
 }
 
-/* —— Assemble pin stage —— */
+/* —— Assemble pin stage ——
+ * Titles sit in .aa-assemble-intro (normal flow, never pinned).
+ * Only .aa-assemble-canvas pins on desktop — sized to the viewport so
+ * TitleBlock / sheet / caption cannot collide with the next section head.
+ */
 .aa-assemble-pin {
   position: relative;
   width: 100%;
-}
-
-.aa-assemble-stage {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+.aa-assemble-intro {
+  position: relative;
+  z-index: 3;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem) 0;
   max-width: 1180px;
   margin: 0 auto;
   width: 100%;
-  gap: 1.5rem;
+}
+
+.aa-assemble-canvas {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background-color: var(--aa-paper);
+  background-image:
+    linear-gradient(var(--aa-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--aa-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+}
+
+.aa-assemble-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 3rem)
+    clamp(2.5rem, 6vw, 4.5rem);
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) and (min-height: 720px) {
+  .aa-assemble-canvas {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .aa-assemble-stage {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    width: 100%;
+  }
+
+  .aa-assemble-stage .aa-plan-sheet {
+    max-height: min(calc(100vh - 3rem), 820px);
+    overflow: auto;
+  }
+
+  .aa-assemble-stage .aa-plan-svg {
+    max-height: min(52vh, 480px);
+    width: auto;
+    margin-inline: auto;
+  }
 }
 
 .aa-assemble-head {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
+  max-width: 40rem;
 }
 
 .aa-plan-sheet {
   position: relative;
+  z-index: 0;
   border: 1px solid var(--aa-line-strong);
   background: var(--aa-paper);
   padding: 1rem 1rem 0.85rem;
   display: grid;
   gap: 0.75rem;
+  isolation: isolate;
 }
 
 .aa-plan-svg {
@@ -901,11 +996,18 @@
 .aa-footer {
   padding: 3rem clamp(1.25rem, 4vw, 3rem) 4rem;
   border-top: 1px solid var(--aa-line);
-  max-width: 1180px;
+  max-width: none;
   margin: 0 auto;
   width: 100%;
   display: grid;
   gap: 1rem;
+}
+
+.aa-footer > * {
+  max-width: 1180px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .aa-footer p {
@@ -973,6 +1075,113 @@
 .aa-pin:hover .aa-pin-label,
 .aa-pin[data-active='true'] .aa-pin-label {
   opacity: 1;
+}
+
+/* —— Mobile / short-viewport rescue (readable first) —— */
+@media (max-width: 899px) {
+  .aa-hero {
+    min-height: 0;
+    padding-top: clamp(2rem, 8vw, 3.5rem);
+  }
+
+  .aa-hero h1 {
+    max-width: none;
+    font-size: clamp(2.1rem, 9.5vw, 3.2rem);
+  }
+
+  .aa-section {
+    padding: 2.5rem 1.1rem;
+  }
+
+  .aa-assemble-intro {
+    padding: 2.5rem 1.1rem 0;
+  }
+
+  .aa-assemble-stage {
+    padding: 1.1rem 1.1rem 2.5rem;
+  }
+
+  .aa-assemble-canvas {
+    min-height: 0;
+  }
+
+  .aa-section-head {
+    margin-bottom: 1.25rem;
+    max-width: none;
+  }
+
+  .aa-section-head h2 {
+    font-size: clamp(1.55rem, 7vw, 2.15rem);
+  }
+
+  .aa-title-block-row {
+    grid-template-columns: 4.75rem minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .aa-title-block-row strong {
+    font-size: 0.78rem;
+    overflow-wrap: anywhere;
+  }
+
+  .aa-plan-interactive {
+    min-height: 0;
+  }
+
+  .aa-model-shell {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .aa-canvas-hint {
+    position: static;
+    margin-top: 0.15rem;
+  }
+
+  .aa-pin-label {
+    /* Keep labels from painting over body copy outside the pinboard. */
+    max-width: 9rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  .aa-nav {
+    padding: 0.85rem 1.1rem;
+    align-items: flex-start;
+  }
+
+  .aa-nav-badge {
+    max-width: 100%;
+  }
+
+  .aa-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .aa-cta {
+    width: 100%;
+  }
+
+  .aa-oaa-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .aa-oaa-actions .aa-cta {
+    width: 100%;
+  }
+
+  .aa-chat-actions button {
+    white-space: normal;
+    line-height: 1.35;
+  }
+
+  .aa-credit-meter-row {
+    grid-template-columns: 5rem 1fr 2.25rem;
+    gap: 0.5rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

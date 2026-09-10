@@ -181,38 +181,40 @@ export function AdStudioClient() {
   const wrap: React.CSSProperties = { maxWidth: 1080, margin: '0 auto', padding: 'clamp(20px, 5vw, 40px)' };
   const label: React.CSSProperties = {
     display: 'block',
-    fontFamily: 'var(--font-mono), Space Mono, monospace',
+    fontFamily: 'var(--font-mono), "IBM Plex Mono", monospace',
     fontSize: 12,
     letterSpacing: '0.14em',
     textTransform: 'uppercase',
-    color: '#6b7581',
+    color: '#654A4E',
     margin: '0 0 6px',
   };
   const field: React.CSSProperties = {
     width: '100%',
     padding: '11px 13px',
     borderRadius: 10,
-    border: '1px solid rgba(49,60,66,0.16)',
-    background: '#fff',
-    color: '#313c42',
+    border: '1px solid rgba(36,11,33,0.16)',
+    background: '#FFFDFB',
+    color: '#240B21',
     fontSize: 15,
+    fontFamily: 'var(--font-body), "Instrument Sans", system-ui, sans-serif',
   };
   const button: React.CSSProperties = {
     width: '100%',
     padding: '13px 16px',
     borderRadius: 10,
     border: 'none',
-    background: '#3f7373',
-    color: '#fff',
+    background: '#240B21',
+    color: '#F5F1F2',
     fontSize: 15,
     fontWeight: 600,
     cursor: busy ? 'default' : 'pointer',
     opacity: busy ? 0.7 : 1,
+    fontFamily: 'var(--font-body), "Instrument Sans", system-ui, sans-serif',
   };
 
   return (
     <div style={wrap}>
-      <p style={{ margin: '0 0 22px', color: '#4a5560', lineHeight: 1.55, maxWidth: 620 }}>
+      <p style={{ margin: '0 0 22px', color: '#654A4E', lineHeight: 1.55, maxWidth: 620 }}>
         Point it at your website. assembl reads your brand off the page, you check what it found,
         set the goal, and it writes the ad in your voice, generates an on-brand image, and lays the
         campaign out in every size — all drafts for your yes.
@@ -235,9 +237,9 @@ export function AdStudioClient() {
               style={{
                 padding: '9px 16px',
                 borderRadius: 999,
-                border: `1px solid ${mode === m ? '#3f7373' : 'rgba(49,60,66,0.16)'}`,
-                background: mode === m ? 'rgba(63,115,115,0.1)' : '#fff',
-                color: mode === m ? '#2e5a58' : '#4a5560',
+                border: `1px solid ${mode === m ? '#240B21' : 'rgba(36,11,33,0.16)'}`,
+                background: mode === m ? 'rgba(145,106,112,0.12)' : '#FFFDFB',
+                color: mode === m ? '#240B21' : '#654A4E',
                 fontSize: 13,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -282,7 +284,7 @@ export function AdStudioClient() {
                   padding: 16,
                   borderRadius: 14,
                   border: `1px solid ${hexToRgba(dna.accent, 0.45)}`,
-                  background: '#fbfaf6',
+                  background: '#F5F1F2',
                 }}
               >
                 <span style={{ ...label, margin: 0, color: dna.accent }}>
@@ -299,7 +301,7 @@ export function AdStudioClient() {
                       type="color"
                       value={dna.accent}
                       onChange={(e) => setDnaField({ accent: e.target.value })}
-                      style={{ width: 52, height: 44, padding: 2, borderRadius: 10, border: '1px solid rgba(49,60,66,0.16)', background: '#fff', cursor: 'pointer' }}
+                      style={{ width: 52, height: 44, padding: 2, borderRadius: 10, border: '1px solid rgba(36,11,33,0.16)', background: '#FFFDFB', cursor: 'pointer' }}
                       aria-label="Brand colour"
                     />
                   </div>
@@ -313,7 +315,7 @@ export function AdStudioClient() {
                     <span style={{ ...label, margin: 0 }}>What the page said</span>
                     {dna.facts.map((f, i) => (
                       <div key={`${f.label}-${i}`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        <span style={{ fontSize: 12, color: '#6b7581', minWidth: 88, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                        <span style={{ fontSize: 12, color: '#654A4E', minWidth: 88, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                           {f.label}
                         </span>
                         <input
@@ -326,7 +328,7 @@ export function AdStudioClient() {
                           type="button"
                           onClick={() => removeFact(i)}
                           aria-label={`Remove ${f.label}`}
-                          style={{ border: 'none', background: 'transparent', color: '#6b7581', cursor: 'pointer', fontSize: 16, lineHeight: 1 }}
+                          style={{ border: 'none', background: 'transparent', color: '#654A4E', cursor: 'pointer', fontSize: 16, lineHeight: 1 }}
                         >
                           ×
                         </button>
@@ -369,7 +371,7 @@ export function AdStudioClient() {
           {busy ? 'Generating…' : 'Generate campaign'}
         </button>
         {note && (
-          <p style={{ margin: 0, color: '#4a5560', lineHeight: 1.5, fontSize: 14 }} aria-live="polite">
+          <p style={{ margin: 0, color: '#654A4E', lineHeight: 1.5, fontSize: 14 }} aria-live="polite">
             {note}
           </p>
         )}
@@ -380,7 +382,7 @@ export function AdStudioClient() {
           <p style={{ ...label, color: campaign.business.accent }}>
             {campaign.headline}
           </p>
-          <p style={{ margin: '2px 0 0', color: '#4a5560', lineHeight: 1.55, maxWidth: 620 }}>
+          <p style={{ margin: '2px 0 0', color: '#654A4E', lineHeight: 1.55, maxWidth: 620 }}>
             {campaign.caption}
           </p>
         </div>
@@ -414,19 +416,19 @@ export function AdStudioClient() {
                 <img
                   src={card.dataUrl}
                   alt={`${campaign?.business.name} ad — ${card.label}`}
-                  style={{ width: '100%', borderRadius: 10, display: 'block', border: '1px solid rgba(49,60,66,0.1)' }}
+                  style={{ width: '100%', borderRadius: 10, display: 'block', border: '1px solid rgba(36,11,33,0.1)' }}
                 />
                 <figcaption
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 8 }}
                 >
-                  <span style={{ fontSize: 12, color: '#6b7581' }}>{card.label}</span>
+                  <span style={{ fontSize: 12, color: '#654A4E' }}>{card.label}</span>
                   <button
                     type="button"
                     onClick={() => download(card)}
                     style={{
-                      border: '1px solid rgba(63,115,115,0.4)',
+                      border: '1px solid rgba(145,106,112,0.45)',
                       background: 'transparent',
-                      color: '#3f7373',
+                      color: '#240B21',
                       borderRadius: 8,
                       padding: '5px 11px',
                       fontSize: 12,

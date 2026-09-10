@@ -49,6 +49,7 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
       read('lib/arc/preview-copy.ts'),
       read('lib/forge/preview-copy.ts'),
       read('lib/ensemble/preview-copy.ts'),
+      read('lib/gateway/preview-copy.ts'),
     ].join('\n');
 
     // Strip block comments so "No mana/kete" doc lines don't false-positive.
@@ -61,9 +62,61 @@ describe('agent-app factory craft canon (paper + plum accent)', () => {
     expect(code.toLowerCase()).toContain('independent concept');
   });
 
+  it('keeps BlueprintScene titles outside the pin canvas (no stacked heading collision)', () => {
+    const scene = read('components/agent-app/BlueprintScene.tsx');
+    expect(scene).toMatch(/aa-assemble-intro/);
+    expect(scene).toMatch(/aa-assemble-canvas/);
+    expect(scene).toMatch(/matchMedia/);
+    // Section head must not live inside the pinned canvas ref.
+    const canvasBlock = scene.slice(
+      scene.indexOf('aa-assemble-canvas'),
+      scene.indexOf('</section>'),
+    );
+    expect(canvasBlock).not.toMatch(/aa-assemble-head/);
+    expect(canvasBlock).not.toMatch(/titleId/);
+  });
+
+  it('opaque-stacks story sections so pin layers cannot paint through copy', () => {
+    const css = read('components/agent-app/agent-app-craft.css');
+    expect(css).toMatch(/\.aa-story\s*>\s*\.aa-section[\s\S]*?background-color:\s*var\(--aa-paper\)/);
+    expect(css).toMatch(/\.aa-assemble-intro/);
+    expect(css).toMatch(/\.aa-assemble-canvas/);
+  });
+
   it('exports craft attr for aa-root surfaces', () => {
     expect(AGENT_APP_CRAFT.field).toBe('#FFFDFB');
     expect(AGENT_APP_CRAFT.plum).toBe('#240B21');
     expect(AGENT_APP_CRAFT.rootClass).toBe('aa-root');
+  });
+
+  it('keeps Ensemble off BlueprintScene / PlanPins (creative desk, not floor plate)', () => {
+    const landing = read('components/ensemble/EnsembleLanding.tsx')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    expect(landing).not.toMatch(/\bBlueprintScene\b/);
+    expect(landing).not.toMatch(/\bPlanPins\b/);
+    expect(landing).not.toMatch(/\bEnsemblePlanSvg\b/);
+    expect(landing).toMatch(/EnsembleCreativeDesk/);
+    expect(landing).toMatch(/EnsembleBriefDesk/);
+    expect(landing).toMatch(/EnsembleBrandBoard/);
+    expect(landing).toMatch(/EnsembleClaimPins/);
+    expect(landing).toMatch(/observeStatus=/);
+    expect(landing).not.toMatch(/floor plate/i);
+  });
+
+  it('keeps Forge off BlueprintScene / PlanPins (automotive bay, not floor plate)', () => {
+    const landing = read('components/forge/ForgeLanding.tsx')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    const copy = read('lib/forge/preview-copy.ts')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+    expect(landing).not.toMatch(/\bBlueprintScene\b/);
+    expect(landing).not.toMatch(/\bPlanPins\b/);
+    expect(landing).not.toMatch(/\bForgePlanSvg\b/);
+    expect(landing).toMatch(/ForgeBayFlags/);
+    expect(landing).toMatch(/observeStatus=/);
+    expect(landing).toMatch(/aratakiHref|\/agents\/arataki/);
+    expect(copy.toLowerCase()).not.toContain('floor plate');
   });
 });

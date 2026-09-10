@@ -17,9 +17,8 @@ export const metadata: Metadata = {
 
 /**
  * Forge — automotive dealership & workshop agent-app PREVIEW landing.
- * Route mirrors Arc at /agents/arc (splash already exempts /agents).
- * Prefer /agents/forge over /apps/forge for consistency with Arc pattern.
- * Public pitch surface. Noindex. Does not touch homepage craft.
+ * Service-bay craft one-pager with honest CTA to /agents/arataki.
+ * No architecture floor plates. Public pitch surface. Does not touch homepage.
  */
 export default function ForgeAgentAppPage() {
   return <ForgeLanding />;

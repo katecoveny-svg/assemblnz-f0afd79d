@@ -310,7 +310,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Atlas',
     teReo: '',
     description:
-      'The free AI adoption coach. Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where AI will not help.',
+      'Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where automation will not help.',
     whatItDoes: [
       'Learns your week through plain questions, then finds and scores where AI could help.',
       'Recommends one to three agents from the shelf, or picks one low-risk first build and hands it to Pilot.',
@@ -333,7 +333,7 @@ const AGENT_DEFS: AgentDef[] = [
     tile: 'cream',
     featured: true,
     greeting:
-      'I am Atlas, the free AI adoption coach. I will not sell you anything. Tell me what you do most days, and we will find one useful thing to build — starting small and low-risk.',
+      'I am Atlas, the free adoption coach. I will not sell you anything. Tell me what you do most days, and we will find one useful thing to build — starting small and low-risk.',
     starters: [
       'What do you do most days?',
       'What do you repeat every week that feels slow?',
@@ -909,7 +909,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'scribe',
     tile: 'cream',
     bundle: 'practice',
-    greeting: 'With per-visit consent in place, tap record to capture the consult — or paste a transcript — and I will draft the clinical note, suggest codes, and end with a Mana Receipt. I never diagnose; sign-off stays with you.',
+    greeting: 'With per-visit consent in place, tap record to capture the consult — or paste a transcript — and I will draft the clinical note, suggest codes, and end with an evidence receipt. I never diagnose; sign-off stays with you.',
     starters: ['Draft a SOAP note from this consult.', 'Draft the ACC45 from this injury consult.', 'Write a referral letter.'],
     consultCapture: true,
   },
@@ -1125,7 +1125,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A working agent you can test in a sandbox before it goes anywhere.',
       'A draft saved to My Agents for your own use, free.',
-      'An optional path to submit it for marketplace review, signed with a Mana Receipt.',
+      'An optional path to submit it for marketplace review, signed with an evidence receipt.',
     ],
     sampleOutputs: [
       'Built “Lease Reader” — reads a tenancy agreement, flags the clauses that matter, cites the Residential Tenancies Act 1986. Saved as a draft.',
@@ -1736,7 +1736,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A weekly brief that puts the time-sensitive things first.',
       'School-comms and appointment drafts ready for a parent to send.',
-      'A Mana Receipt (signed Tōro) on every output, and a permissions record so nothing slips.',
+      'An evidence receipt (signed Tōro) on every output, and a permissions record so nothing slips.',
     ],
     sampleOutputs: [
       'This week: school assembly Wednesday 9am, dentist Friday 2pm, mufti-day gold-coin Thursday.',
@@ -1849,7 +1849,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'The right specialist for the animal, without you having to know which one to ask.',
       'A clean draft with every statutory obligation surfaced, never buried.',
-      'A Mana Receipt that names the specialist, the sources, and the human who must sign.',
+      'An evidence receipt that names the specialist, the sources, and the human who must sign.',
     ],
     sampleOutputs: [
       'Routed to Large Animal — and flagged the M.bovis signal to the MPI notifiable-disease pathway, which cannot be suppressed.',
@@ -1893,7 +1893,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A structured consult draft, marked for the vet to examine and sign.',
       'A cost estimate as a range, stamped "confirm with clinic front-of-house".',
-      'A Mana Receipt citing the NZVA Code, the relevant MPI Code of Welfare and the formulary entry.',
+      'An evidence receipt citing the NZVA Code, the relevant MPI Code of Welfare and the formulary entry.',
     ],
     sampleOutputs: [
       'SOAP drafted: 6yo DSH, acute vomiting — differentials listed; needs a physical exam, not diagnosed from history alone.',
@@ -1933,7 +1933,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A plan with withholding days and a NAIT check surfaced up front.',
       'A notifiable-disease flag the moment production-animal signals appear.',
-      'A Mana Receipt citing the DairyNZ or B+L protocol, the MPI code and the OSPRI reference.',
+      'An evidence receipt citing the DairyNZ or B+L protocol, the MPI code and the OSPRI reference.',
     ],
     sampleOutputs: [
       'Mastitis plan drafted — milk withholding 96h, meat 7d; antimicrobial choice per NZVA AMU guidance.',
@@ -1973,7 +1973,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A workup draft with a withdrawal-time table for the discipline.',
       'A live compliance stamp against the racing and FEI rules with the retrieval date.',
-      'A Mana Receipt citing the rules and the sources.',
+      'An evidence receipt citing the rules and the sources.',
     ],
     sampleOutputs: [
       'Lameness workup drafted for a Standardbred — withdrawal-time table attached; HRNZ list checked today.',
@@ -2013,7 +2013,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A species-appropriate plan a rural vet can stand behind.',
       'A husbandry review that catches the usual root cause.',
-      'A Mana Receipt with the zoonotic and CITES/native checks recorded.',
+      'An evidence receipt with the zoonotic and CITES/native checks recorded.',
     ],
     sampleOutputs: [
       'Bearded dragon off its food — husbandry review flags a low UVB output; plan drafted for the vet.',
@@ -2055,7 +2055,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A triage with a severity grade and a jurisdiction check.',
       'An inspector-brief draft with facts, evidence and next investigative step.',
-      'A Mana Receipt citing the AWA section and the Code of Welfare.',
+      'An evidence receipt citing the AWA section and the Code of Welfare.',
     ],
     sampleOutputs: [
       'Severity: serious ill-treatment (AWA s29) — jurisdiction SPCA with MPI referral drafted.',
@@ -2095,7 +2095,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A rescue triage with region-specific contacts and fallback numbers.',
       'An evidence checklist — photos with EXIF, location, time, condition.',
-      'A Mana Receipt with the chain-of-custody note recorded.',
+      'An evidence receipt with the chain-of-custody note recorded.',
     ],
     sampleOutputs: [
       'Beached dolphin at Ōtaki — call Project Jonah then DOC; keep it upright and wet, do not push it out.',
@@ -2135,7 +2135,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'Channel-aware drafts: email sounds like the owner, SMS sounds like the carer, never mixed.',
       'A vaccination + council-registration ledger with 90/60/30-day nudges, and AWA-compliant incident reports.',
-      'A Mana Receipt — and the discipline that Keeper never sends; the operator approves and sends every draft.',
+      'An evidence receipt — and the discipline that Keeper never sends; the operator approves and sends every draft.',
     ],
     sampleOutputs: [
       'Hi there, Pick for Biscuit tomorrow will be between 7.50-8.15am. Home address right? Thanks Sam \u{1F600}',
@@ -2219,7 +2219,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A programme-scoped draft that follows DOC operational rules exactly.',
       'Ngāi Tahu data sovereignty over all mātauranga and the tracked-bird database.',
-      'A Mana Receipt naming the kaitiaki reviewer required before anything ships.',
+      'An evidence receipt naming the kaitiaki reviewer required before anything ships.',
     ],
     sampleOutputs: [
       'Coming soon — pending iwi + DOC sign-off.',
@@ -2259,7 +2259,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'Recovery-plan-scoped drafts for trusts and community groups.',
       'Certified-provider references for dog-aversion training.',
-      'A Mana Receipt naming the kaitiaki reviewer for the rohe.',
+      'An evidence receipt naming the kaitiaki reviewer for the rohe.',
     ],
     sampleOutputs: [
       'Coming soon — pending iwi sign-off for the translocation rohe.',
@@ -2299,7 +2299,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A hospital-pathway SOAP defined by the case, not the species.',
       'A DOC notification draft on every admission, with the Wildlife Act permit cited.',
-      'A Mana Receipt naming a kaitiaki reviewer where the species is taonga.',
+      'An evidence receipt naming a kaitiaki reviewer where the species is taonga.',
     ],
     sampleOutputs: [
       'Kererū with lead toxicity — admission drafted; DOC notification attached; chelation plan for the vet.',
@@ -2339,7 +2339,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'Clinical, dashboard and education drafts for a vet, keeper or education-team member to sign.',
       'A welfare-code tracker against the MPI Code of Welfare — Zoos and the ZAA manual.',
-      'A Mana Receipt with the clinical-accuracy stamp and the iwi-consultation hold on taonga content.',
+      'An evidence receipt with the clinical-accuracy stamp and the iwi-consultation hold on taonga content.',
     ],
     sampleOutputs: [
       'Rhino forelimb lameness post-transfer — SOAP drafted; NSAID dose from AZWMP cross-checked against VetMed NZ.',
@@ -2379,7 +2379,7 @@ const AGENT_DEFS: AgentDef[] = [
     whatYouGet: [
       'A recovery-plan-scoped draft for a DOC + iwi partner to sign.',
       'Community-sanctuary content with the sanctuary’s own kaitiaki-partner attribution.',
-      'A Mana Receipt citing the Recovery Plan version and the iwi partner.',
+      'An evidence receipt citing the Recovery Plan version and the iwi partner.',
     ],
     sampleOutputs: [
       'Whio translocation logistics drafted — iwi consent obligations and the Wildlife Act permit pathway cross-referenced.',

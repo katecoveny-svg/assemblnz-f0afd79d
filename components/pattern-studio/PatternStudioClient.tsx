@@ -41,7 +41,7 @@ const AR_BY_FORMAT: Record<string, string> = {
 /** Stamp the assembl wordmark into a frame's bottom-left corner. */
 function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number, color: string) {
   const size = Math.max(13, Math.round(w * 0.028));
-  ctx.font = `600 ${size}px 'Cormorant Garamond', Georgia, serif`;
+  ctx.font = `600 ${size}px 'Instrument Sans', system-ui, sans-serif`;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = color;
@@ -101,9 +101,9 @@ const INITIAL: PatternSettings = {
   turbulence: 30,
   words: ['assembl', 'proof'],
   holdSeconds: 2.2,
-  backgroundColor: '#ffffff',
-  foregroundColor: '#3f7373',
-  accentColor: '#b8964f',
+  backgroundColor: '#FFFDFB',
+  foregroundColor: '#240B21',
+  accentColor: '#916A70',
   isAnimated: true,
 };
 
@@ -270,7 +270,7 @@ export function PatternStudioClient() {
         const pad = Math.round(w * 0.06);
         ctx.textBaseline = 'alphabetic';
         if (caption.trim()) {
-          ctx.font = `500 ${Math.round(w * 0.055)}px 'Cormorant Garamond', Georgia, serif`;
+          ctx.font = `500 ${Math.round(w * 0.055)}px 'Instrument Sans', system-ui, sans-serif`;
           ctx.fillStyle = s.foregroundColor;
           ctx.textAlign = 'left';
           wrapText(ctx, caption.trim(), pad, h - pad - Math.round(w * 0.06), w - pad * 2, Math.round(w * 0.065));
@@ -297,12 +297,27 @@ export function PatternStudioClient() {
     }
   };
 
-  const downloadPNG = () => {
+  const downloadPNG = async () => {
     const t = brandedCanvas();
     if (!t) return;
+    const blob = await new Promise<Blob | null>((res) => t.toBlob(res, 'image/png'));
+    if (!blob) return;
+    const name = `assembl-pattern-${s.mode}.png`;
+    const file = new File([blob], name, { type: 'image/png' });
+    const ua = navigator.userAgent || '';
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(ua) || (navigator.maxTouchPoints > 1 && window.innerWidth <= 820);
+    if (isMobile && navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: 'assembl pattern studio' });
+        setStatus('Shared PNG frame.');
+        return;
+      } catch {
+        /* fall through to download */
+      }
+    }
     const a = document.createElement('a');
-    a.href = t.toDataURL('image/png');
-    a.download = `assembl-pattern-${s.mode}.png`;
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
     a.click();
     setStatus('Saved PNG frame.');
   };
@@ -386,7 +401,7 @@ export function PatternStudioClient() {
     const aspectRatio = AR_BY_FORMAT[auahaFormat] ?? '1:1';
     const brief =
       auahaBrief.trim() ||
-      `A polished on-brand social asset built from this ${s.mode} pattern — teal and gold, calm and editorial.`;
+      `A polished on-brand social asset built from this ${s.mode} pattern — plum and heather, calm and editorial.`;
     setAuahaBusy(true);
     setAuahaImg(null);
     setAuahaVid(null);

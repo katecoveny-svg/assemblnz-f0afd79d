@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { FORGE_PREVIEW } from '@/lib/forge/preview-copy';
 
@@ -9,6 +10,10 @@ type Msg = {
   awaitingApproval?: boolean;
 };
 
+/**
+ * Scripted Forge chat proof. Evidence panel stays compact until a draft
+ * exists — never a giant empty receipt as the hero.
+ */
 export function ForgePreviewChat() {
   const openers = FORGE_PREVIEW.chatOpeners;
   const [thread, setThread] = useState<Msg[]>([
@@ -25,6 +30,8 @@ export function ForgePreviewChat() {
     ]);
     setUsed((u) => [...u, i]);
   };
+
+  const hasDraft = used.length > 0;
 
   return (
     <div className="aa-chat-grid">
@@ -66,26 +73,40 @@ export function ForgePreviewChat() {
       </div>
 
       <aside className="aa-evidence">
-        <p className="aa-eyebrow aa-mono">{FORGE_PREVIEW.evidenceLabel}</p>
-        <h3>Latest draft status</h3>
-        <dl>
-          <div>
-            <dt className="aa-mono">State</dt>
-            <dd>
-              {used.length === 0
-                ? 'No draft yet — ask Forge one question'
-                : FORGE_PREVIEW.approvalLabel}
-            </dd>
-          </div>
-          <div>
-            <dt className="aa-mono">Sources</dt>
-            <dd>NZTA WoF/CoF · CCCFA DEMO citations on this page only</dd>
-          </div>
-          <div>
-            <dt className="aa-mono">Send</dt>
-            <dd>Blocked until a human approves</dd>
-          </div>
-        </dl>
+        {hasDraft ? (
+          <>
+            <p className="aa-eyebrow aa-mono">{FORGE_PREVIEW.evidenceLabel}</p>
+            <h3>Latest draft status</h3>
+            <dl>
+              <div>
+                <dt className="aa-mono">State</dt>
+                <dd>{FORGE_PREVIEW.approvalLabel}</dd>
+              </div>
+              <div>
+                <dt className="aa-mono">Sources</dt>
+                <dd>NZTA WoF/CoF · CCCFA DEMO citations on this page only</dd>
+              </div>
+              <div>
+                <dt className="aa-mono">Send</dt>
+                <dd>Blocked until a human approves</dd>
+              </div>
+            </dl>
+          </>
+        ) : (
+          <>
+            <p className="aa-eyebrow aa-mono">Live automotive desk</p>
+            <h3>Talk to Arataki</h3>
+            <p style={{ margin: '0 0 1rem', color: 'var(--aa-ink-soft)', lineHeight: 1.5 }}>
+              {FORGE_PREVIEW.aratakiNote}
+            </p>
+            <Link className="aa-cta aa-cta-primary" href={FORGE_PREVIEW.aratakiHref}>
+              {FORGE_PREVIEW.ctaChat}
+            </Link>
+            <p className="aa-mono" style={{ marginTop: '1rem', fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--aa-muted)' }}>
+              Or ask a DEMO question here — evidence appears when a draft is staged
+            </p>
+          </>
+        )}
       </aside>
     </div>
   );

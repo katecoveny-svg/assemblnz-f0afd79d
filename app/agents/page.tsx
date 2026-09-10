@@ -10,7 +10,7 @@ import '../cine.css';
 
 export const metadata: Metadata = {
   title: 'assembl · agents',
-  description: 'Specialists, not one assistant. Each agent knows what it can do — and exactly where you stay in control.',
+  description: 'Specialist agents for clear NZ jobs. Each one drafts work with a review boundary — nothing sends without your yes.',
   alternates: { canonical: '/agents' },
 };
 

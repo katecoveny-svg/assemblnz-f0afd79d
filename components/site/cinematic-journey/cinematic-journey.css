@@ -178,8 +178,8 @@
   letter-spacing: -0.07em;
   text-wrap: balance;
   color: var(--cj-paper);
+  white-space: pre-line;
 }
-.cj-hero h1 span { display: block; }
 .cj-hero-lede {
   max-width: 34em;
   margin: 28px 0 0;
@@ -367,6 +367,13 @@
   line-height: 1.45;
   max-width: 28em;
 }
+.cj-industry-metaphor {
+  margin: 0;
+  font: 500 11px / 1.35 var(--font-mono), "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cj-heather);
+}
 .cj-industry-sources {
   list-style: none;
   margin: 0;
@@ -378,16 +385,32 @@
 .cj-industry-sources li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  padding: 10px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--cj-rule);
-  font-size: 13px;
-  color: rgba(245, 241, 242, 0.82);
 }
 .cj-industry-sources li:last-child { border-bottom: 1px solid var(--cj-rule); }
+.cj-source-main {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.cj-source-label {
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(245, 241, 242, 0.88);
+}
+.cj-source-cite,
+.cj-source-asof {
+  font: 400 10px / 1.35 var(--font-mono), "IBM Plex Mono", monospace;
+  letter-spacing: 0.06em;
+  color: rgba(245, 241, 242, 0.48);
+}
+.cj-source-asof { color: rgba(245, 241, 242, 0.4); }
 .cj-industry-sources em {
   flex: 0 0 auto;
+  margin-top: 2px;
   font: 500 10px / 1 var(--font-mono), "IBM Plex Mono", monospace;
   font-style: normal;
   letter-spacing: 0.12em;
@@ -416,12 +439,15 @@
 .cj-industry-link span { color: var(--cj-heather); }
 
 .cj-live {
+  position: relative;
+  z-index: 2;
   padding: clamp(80px, 12vh, 140px) clamp(20px, 4.5vw, 72px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
   gap: clamp(32px, 5vw, 72px);
   align-items: start;
   border-top: 1px solid var(--cj-rule);
+  overflow: clip;
 }
 .cj-live-copy { max-width: 560px; }
 .cj-live-copy h2 {
@@ -468,7 +494,7 @@
   --aj-plum-muted: #654a4e;
   --aj-rose: #916a70;
   position: relative;
-  z-index: 3;
+  z-index: 1;
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
@@ -476,6 +502,7 @@
   place-items: center;
   pointer-events: auto;
   isolation: isolate;
+  transform: translateZ(0);
 }
 .cj-live-phone .aj-phone {
   position: relative;
@@ -781,6 +808,8 @@
 
 
 .cj-close {
+  position: relative;
+  z-index: 3;
   margin: 0 clamp(20px, 4.5vw, 72px) clamp(60px, 8vh, 100px);
   padding: clamp(56px, 8vh, 100px) clamp(24px, 4vw, 64px);
   background: var(--cj-ink);

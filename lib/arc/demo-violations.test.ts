@@ -24,6 +24,8 @@ describe('Arc PREVIEW demo data', () => {
     expect(blob).not.toMatch(/bearplus/);
     expect(blob).not.toMatch(/partner with/);
     expect(blob).toContain('independent concept');
+    expect(blob).not.toContain('architecture work that cites');
+    expect(ARC_PREVIEW.heroLine.toLowerCase()).toContain('check the plan');
     expect(ARC_PREVIEW.tiers.map((t) => t.name)).toEqual([
       'Look',
       'Practice',
