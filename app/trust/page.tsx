@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { palette, typography } from '@assembl/canvas/tokens';
 import { Constellation, MicroLabel } from '@assembl/canvas';
-import { HeroArt } from '@/components/v2/HeroArt';
 import { MottoStrip } from '@/components/v2/V2Chrome';
 import { SecurityPackForm } from '@/components/trust/SecurityPackForm';
 import styles from '@/components/v2/v2.module.css';
@@ -63,9 +62,6 @@ export default function TrustPage() {
     <div className={styles.page}>
       {/* ── hero ─────────────────────────────────────────────────────── */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.45 }}>
-          <HeroArt />
-        </div>
         <div className={styles.section} style={{ position: 'relative', paddingBottom: 40 }}>
           <div className={styles.inner}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

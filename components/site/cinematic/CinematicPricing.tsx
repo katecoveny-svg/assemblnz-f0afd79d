@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { CineFooter } from './CineFooter';
-import * as THREE from 'three';
 import { PilotSprintCheckout } from '@/components/billing/PilotSprintCheckout';
 import {
   PRICE_INSTALL,
@@ -17,116 +16,22 @@ import {
 
 /**
  * /pricing — Kate's pricing.html prototype, ported 1:1 (copy + tiers hers,
- * 2026-07-24). Same .cine design system as the homepage; its own small 3D
- * scene: two brass/chrome pricing crystals + ring drifting with scroll
- * (her Assembl3D.pricingGroup).
- *
- * NOTE FOR REVIEW: this REPLACES the live pilot-sprint Stripe checkout page.
- * Flagged to Kate before any merge.
+ * 2026-07-24). The shared watch frame supplies the artwork. The pricing
+ * registry, copy and checkout component remain unchanged.
  */
 export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: boolean }) {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const cleanups: Array<() => void> = [];
-    const on = (t: EventTarget, e: string, fn: EventListenerOrEventListenerObject, opts?: AddEventListenerOptions) => {
-      t.addEventListener(e, fn, opts);
-      cleanups.push(() => t.removeEventListener(e, fn));
-    };
-
-    const canvas = root.querySelector('#canvas-3d-pricing') as HTMLCanvasElement;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#FDFBF7');
-    const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 100);
-
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    const env = new THREE.Scene();
-    env.background = new THREE.Color('#0A0A0D');
-    const softbox = (color: string, w: number, h: number, x: number, y: number, z: number) => {
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color }));
-      m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m);
-    };
-    softbox('#FFFFFF', 14, 5, 0, 9, 0);
-    softbox('#FFF6E8', 8, 12, -10, 2, 4);
-    softbox('#E9EEF4', 8, 10, 10, 1, -3);
-    softbox('#FFFFFF', 3, 14, 5, 2, 8);
-    softbox('#D9DEE6', 16, 3, 0, -7, 0);
-    scene.environment = pmrem.fromScene(env, 0.02).texture;
-    scene.add(new THREE.AmbientLight('#FFFFFF', 0.5));
-    const key = new THREE.DirectionalLight('#FFFFFF', 2.5); key.position.set(5, 8, 5); scene.add(key);
-    const fill = new THREE.DirectionalLight('#FFF8EE', 1); fill.position.set(-3, 3, 3); scene.add(fill);
-
-    const brass = new THREE.MeshPhysicalMaterial({ color: '#B8964F', metalness: 1, roughness: 0.12, envMapIntensity: 1.6, clearcoat: 0.6, clearcoatRoughness: 0.2 });
-    const chrome = new THREE.MeshPhysicalMaterial({ color: '#D6DADF', metalness: 1, roughness: 0.02, envMapIntensity: 2.4, clearcoat: 1, clearcoatRoughness: 0.03 });
-
-    const group = new THREE.Group();
-    const c1 = new THREE.Mesh(new THREE.OctahedronGeometry(1.2, 0), brass);
-    c1.position.set(-2, 0, 0); group.add(c1);
-    const c2 = new THREE.Mesh(new THREE.IcosahedronGeometry(1.0, 0), chrome);
-    c2.position.set(2, 0.5, 0); group.add(c2);
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(2.8, 0.04, 16, 96), brass);
-    ring.rotation.x = Math.PI / 2.5; group.add(ring);
-    group.position.set(3, 0, 0);
-    scene.add(group);
-
-    camera.position.set(0, 1, 8);
-    camera.lookAt(0, 0, 0);
-
-    let scroll = 0, mx = 0, my = 0, t = 0, raf = 0;
-    on(window, 'scroll', () => { scroll = window.scrollY; }, { passive: true });
-    on(document, 'mousemove', (ev) => {
-      const e = ev as MouseEvent;
-      mx = (e.clientX / innerWidth - 0.5) * 2; my = (e.clientY / innerHeight - 0.5) * 2;
-    });
-    const onResize = () => {
-      camera.aspect = innerWidth / innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(innerWidth, innerHeight);
-    };
-    on(window, 'resize', onResize);
-
-    function tick() {
-      raf = requestAnimationFrame(tick);
-      t += 0.016;
-      const max = document.body.scrollHeight - innerHeight;
-      const prog = max > 0 ? scroll / max : 0;
-      group.rotation.y = t * 0.06 + prog * Math.PI * 0.15;
-      group.position.y = Math.sin(prog * Math.PI * 1.8) * 0.4 + my * 0.2;
-      group.position.x = 3 - prog * 5 + mx * 0.4;
-      c1.rotation.y = t * 0.12; c1.rotation.x = Math.sin(t * 0.1) * 0.1;
-      c2.rotation.y = -t * 0.1; c2.rotation.x = Math.sin(t * 0.08) * 0.08;
-      ring.rotation.z = t * 0.05;
-      camera.position.x = mx * 0.8;
-      camera.position.y = 1 - my * 0.3;
-      camera.lookAt(group.position.x * 0.4, group.position.y * 0.4, 0);
-      renderer.render(scene, camera);
-    }
-    tick();
-    cleanups.push(() => cancelAnimationFrame(raf));
-    cleanups.push(() => { pmrem.dispose(); renderer.dispose(); });
-    return () => { cleanups.forEach((fn) => fn()); };
-  }, []);
 
   return (
-    <div className="cine" ref={rootRef} style={{ cursor: 'auto' }}>
-      <canvas id="canvas-3d-pricing" style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', zIndex: 0 }} />
+    <div className="cine" style={{ cursor: 'auto' }}>
       <div className="content">
         <nav className="nav">
-          <a className="wordmark" href="/">assembl</a>
+          <Link className="wordmark" href="/">assembl</Link>
           <div className="nav-links">
-            <a href="/agents">agents</a>
-            <a href="/pricing">pricing</a>
-            <a href="/assembling">the agentic journey</a>
+            <Link href="/agents">agents</Link>
+            <Link href="/pricing">pricing</Link>
+            <Link href="/assembling">the agentic journey</Link>
           </div>
-          <a className="nav-cta" href="/">← home</a>
+          <Link className="nav-cta" href="/">← home</Link>
         </nav>
 
         <header className="page-header">
@@ -137,7 +42,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
             not a slide deck. After that it&rsquo;s {PRICE_RUNNING} a month to keep it working.
           </p>
           <p className="lede" style={{ marginTop: 10, opacity: 0.72 }}>
-            <a href="/ai-ready" style={{ textDecoration: 'underline' }}>Paste your website first</a>
+            <Link href="/ai-ready" style={{ textDecoration: 'underline' }}>Paste your website first</Link>
             {' '}— it&rsquo;s free, and you&rsquo;ll see what we&rsquo;d be working from.
           </p>
         </header>
@@ -177,7 +82,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
                 <li>The agent re-checked against it</li>
                 <li>Cancel any time — you keep the written record either way</li>
               </ul>
-              <a className="btn btn-solid" href="/ai-ready">start with your own journey</a>
+              <Link className="btn btn-solid" href="/ai-ready">start with your own journey</Link>
             </div>
           </div>
 
@@ -199,7 +104,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
                   <li>One complete customer journey</li>
                   <li>Shared drafts your team can see</li>
                 </ul>
-                <a className="btn btn-ghost" href="/ai-ready">start with your own journey</a>
+                <Link className="btn btn-ghost" href="/ai-ready">start with your own journey</Link>
               </div>
               <div className="price-card">
                 <div className="price-tier">outcome</div>
@@ -213,7 +118,7 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
                   <li>A scorecard agreed before we start</li>
                   <li>Fail a line of it and we change the design or stop</li>
                 </ul>
-                <a className="btn btn-ghost" href="/ai-ready">start with your own journey</a>
+                <Link className="btn btn-ghost" href="/ai-ready">start with your own journey</Link>
               </div>
             </div>
           </div>
