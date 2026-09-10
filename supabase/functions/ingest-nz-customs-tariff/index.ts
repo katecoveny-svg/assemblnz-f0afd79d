@@ -27,6 +27,7 @@
 // flag dependent agents on change, embeddings best-effort with backfill.
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { parseWtdSections, type WtdSection } from "./parse-wtd.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -82,42 +83,8 @@ class BlockedError extends Error {
   }
 }
 
-// ── WTD index page → per-section effective dates + PDF pointers ────────────
-interface WtdSection {
-  roman: string;          // "VIII"
-  chapters: number[];     // [41, 42, 43]
-  title: string;          // "Raw hides and skins, leather, ..."
-  pdfUrl: string;
-  effective: string | null; // "1 January 2026"
-}
-
-function parseWtdSections(html: string): { sections: WtdSection[]; docEffective: string | null } {
-  const sections: WtdSection[] = [];
-  const re = /href="(\/media\/[^"]+\.pdf)"[^>]*title="Section ([IVX]+),? ?Chapters? ([\d\s–-]+):\s*([^"]*)"/g;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(html)) !== null) {
-    const [, href, roman, chapterSpan, title] = m;
-    const nums = chapterSpan.match(/\d+/g)?.map(Number) ?? [];
-    const chapters: number[] = [];
-    if (nums.length === 2 && nums[1] > nums[0]) {
-      for (let c = nums[0]; c <= nums[1]; c++) chapters.push(c);
-    } else {
-      chapters.push(...nums);
-    }
-    // The "Effective d Month yyyy" note follows the link in the page flow.
-    const tail = html.slice(m.index, m.index + 1200);
-    const eff = tail.match(/Effective\s+(\d{1,2}\s+\w+\s+\d{4})/i);
-    sections.push({
-      roman,
-      chapters,
-      title: title.replace(/&amp;/g, "&").replace(/&#x2019;/g, "'").trim(),
-      pdfUrl: `https://www.customs.govt.nz${href}`,
-      effective: eff ? eff[1] : null,
-    });
-  }
-  const doc = html.match(/recent updates,\s*effective\s+(\d{1,2}\s+\w+\s+\d{4})/i);
-  return { sections, docEffective: doc ? doc[1] : null };
-}
+// WTD index parsing lives in ./parse-wtd.ts (unit-tested). Same contract:
+// never invent codes / rates / dates; fail clearly when the layout yields <15 sections.
 
 // ── HS 2022 baseline (UN Comtrade H6 reference) ─────────────────────────────
 interface H6Entry {
