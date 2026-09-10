@@ -11,10 +11,14 @@ describe('official source retrieval',()=>{
     expect(selectSources('retirement','residential care subsidy asset threshold')[0].id).toBe('care-subsidy');
     expect(selectSources('aroha','minimum wage salary')[0].id).toBe('minimum-wage');
     expect(isSpecialist('__proto__')).toBe(false);
+    expect(selectSources('retirement', 'family village occupation agreement cooling-off and proposed law changes').slice(0,2).map(s => s.id)).toEqual(['villages-cancellation','village-reform']);
     expect(selectSources('aroha', 'adult minimum wage and KiwiSaver rates').map(s => s.id)).toEqual(['minimum-wage', 'kiwisaver']);
   });
   it('removes instructions embedded in scripts and navigation',()=>{
     expect(sourceText('<main><script>steal()</script><nav>Sign in</nav><h1>Care</h1><p>A &amp; B</p></main>')).toBe('Care\nA & B');
+  });
+  it('does not leak navigation controller attributes containing angle brackets into legal evidence',()=>{
+    expect(sourceText('<main data-action="turbo:load->controller#load"><form data-action="click->find">Search the Act</form><div data-action="click->next"><h1>Section 28</h1><p>Cancellation by notice.</p></div></main>')).toBe('Section 28\nCancellation by notice.');
   });
   it('selects relevant sections from a long Act within a fixed budget',()=>{
     const text='irrelevant '.repeat(3000)+'COOLING cancellation '.repeat(100)+'other '.repeat(3000);

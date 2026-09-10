@@ -8,10 +8,10 @@ export type SourceCheck = RetrievedSource | FailedSource;
 const hosts = new Set(OFFICIAL_SOURCES.map(s => new URL(s.url).hostname));
 
 export function sourceText(html: string): string {
-  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? html;
-  return main.replace(/<(script|style|nav|footer|header|svg)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
+  const main = html.match(/<main\b(?:"[^"]*"|'[^']*'|[^'">])*?>([\s\S]*?)<\/main>/i)?.[1] ?? html;
+  return main.replace(/<(script|style|nav|footer|header|svg|form|aside)\b(?:"[^"]*"|'[^']*'|[^'">])*?>[\s\S]*?<\/\1>/gi, '')
     .replace(/<\/(p|li|h[1-6]|div|tr|section)>/gi, '\n').replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<[^>]*>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&')
+    .replace(/<(?:"[^"]*"|'[^']*'|[^'">])*?>/g, ' ').replace(/&nbsp;|&#160;/g, ' ').replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
     .replace(/&#(\d+);/g, (_, n) => Number(n) < 0x110000 ? String.fromCodePoint(Number(n)) : '')
     .replace(/[\t \r]+/g, ' ').replace(/\n[ \t]+/g, '\n').replace(/\n\s*\n/g, '\n').trim();

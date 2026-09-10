@@ -16,6 +16,10 @@ export const OFFICIAL_SOURCES: SourceDefinition[] = [
   { id: 'village-register', title: 'Retirement village occupation right agreements', publisher: 'Companies Office', url: 'https://www.companiesoffice.govt.nz/all-registers/retirement-villages/registered-documents/occupation-right-agreement/', topics: ['register', 'registration', 'ora', 'agreement', 'disclosure', 'village'], agents: rv, kind: 'guidance' },
   { id: 'village-reform', title: 'Retirement Villages Act review — policy and reform status', publisher: 'HUD', url: 'https://www.hud.govt.nz/our-work/retirement-villages-act-2003', topics: ['reform', 'review', 'change', 'bill', 'proposal', 'repayment'], agents: rv, kind: 'reform' },
   { id: 'care-assessment-law', title: 'Residential Care and Disability Support Services Act 2018 — needs assessment', publisher: 'NZ Legislation', url: 'https://www.legislation.govt.nz/act/public/2018/0033/latest/LMS41589.html', topics: ['nasc', 'assessment', 'needs', 'care', 'rest home'], agents: rv, kind: 'legislation' },
+  { id: 'villages-cancellation', title: 'Retirement Villages Act — section 28, cooling-off and cancellation', publisher: 'NZ Legislation', url: 'https://www.legislation.govt.nz/act/public/2003/112/en/latest/sections/DLM220865/', topics: ['cooling', 'cancel', 'delay'], agents: rv, kind: 'legislation' },
+  { id: 'village-complaints', title: 'Village complaint figures — October 2025 to March 2026', publisher: 'Retirement Commission', url: 'https://assets.retirement.govt.nz/public/Uploads/Retirement-Villages/Documents-and-white-papers/Retirement_Villages_Report_Oct-2025_Mar_2026.html', topics: ['statistics', 'figures', 'sector', 'complaints', 'registered', 'resolution', 'report'], agents: rv, kind: 'statistics' },
+  { id: 'village-code-practice', title: 'Retirement Villages Code of Practice — official guidance', publisher: 'Retirement Commission', url: 'https://retirement.govt.nz/retirement-villages/the-act-regulations-and-codes/code-of-practice', topics: ['code of practice', 'maintenance', 'security', 'emergency', 'transfer', 'operator', 'complaint'], agents: rv, kind: 'guidance' },
+  { id: 'village-code-rights', title: 'Code of Residents’ Rights — official guidance', publisher: 'Retirement Commission', url: 'https://retirement.govt.nz/retirement-villages/the-act-regulations-and-codes/code-of-residents-rights', topics: ['code of residents', 'rights', 'resident', 'disclosure'], agents: rv, kind: 'guidance' },
   { id: 'minimum-wage', title: 'Minimum wage rates and types', publisher: 'Employment New Zealand', url: 'https://www.employment.govt.nz/pay-and-hours/pay-and-wages/minimum-wage/minimum-wage-rates-and-types', topics: ['pay', 'salary', 'wage', 'hire', 'cost', 'rates'], agents: hr, kind: 'guidance' },
   { id: 'kiwisaver', title: 'KiwiSaver changes and effective dates', publisher: 'Inland Revenue', url: 'https://www.ird.govt.nz/kiwisaver-changes', topics: ['kiwisaver', 'pay', 'salary', 'contribution', 'hire', 'cost', 'rates'], agents: hr, kind: 'guidance' },
   { id: 'employment-act', title: 'Employment Relations Act 2000 — latest version', publisher: 'NZ Legislation', url: 'https://www.legislation.govt.nz/act/public/2000/0024/latest/whole.html', topics: ['hire', 'agreement', 'contract', 'process', 'dismiss', 'disciplin', 'restructur', 'redundan', 'grievance', 'law', 'trial', 'good faith', 'performance'], agents: hr, kind: 'legislation' },
@@ -31,5 +35,10 @@ export function selectSources(slug: SpecialistSlug, query: string, limit = 4): S
     .sort((a, b) => b.score - a.score || a.index - b.index);
   // Avoid fetching unrelated full Acts to pad out a narrow wage or funding question.
   const relevant = ranked.filter(x => x.score > 0);
-  return (relevant.length ? relevant : ranked).slice(0, limit).map(x => x.s);
+  const priorityIds = slug === 'retirement' ? [
+    ...(/cooling|cancel/.test(q) ? ['villages-cancellation'] : []),
+    ...(/reform|propos|amend|law changes?/.test(q) ? ['village-reform'] : []),
+  ] : [];
+  const priority = priorityIds.flatMap(id => OFFICIAL_SOURCES.filter(s => s.id === id));
+  return [...priority, ...(relevant.length ? relevant : ranked).map(x => x.s).filter(s => !priorityIds.includes(s.id))].slice(0, limit);
 }

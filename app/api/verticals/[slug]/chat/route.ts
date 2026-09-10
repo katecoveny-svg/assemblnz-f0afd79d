@@ -9,7 +9,7 @@ import { consume } from '@/lib/creative/ratelimit';
 import { clientIpFromHeaders } from '@/lib/lead-capture';
 import { isSpecialist } from '@/lib/specialists/sources';
 import { retrieveSpecialistSources } from '@/lib/specialists/live-sources';
-import { specialistSystem, SPECIALIST_REVIEW } from '@/lib/specialists/prompt';
+import { specialistSystem, specialistRole, SPECIALIST_REVIEW } from '@/lib/specialists/prompt';
 
 export const runtime = 'nodejs';
 export const maxDuration = 90;
@@ -41,7 +41,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     const sources = await retrieveSpecialistSources(v.slug, `${parsed.data.history.filter(m => m.role === 'user').map(m => m.content).join(' ')} ${parsed.data.message}`, abortSignal);
     const generated = await generateWithFallback({ ladder, system: specialistSystem(v.slug, sources), agentSlug: v.agent, tenant: 'assembl-public-specialist', messages: [...parsed.data.history.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: parsed.data.message }], maxOutputTokens: 1600, abortSignal });
     if (!generated.ok || !generated.text.trim()) return Response.json({ error: 'The specialist could not finish that reply. Please try again.', mode: 'unavailable' }, { status: 503, headers });
-    const review = await generateWithFallback({ ladder: resolveModelLadder('claude-haiku-4-5-20251001', ['claude-sonnet-4-6']), system: SPECIALIST_REVIEW, agentSlug: `${v.agent}-review`, tenant: 'assembl-public-specialist', messages: [{ role: 'user', content: JSON.stringify({ task: parsed.data.message, history: parsed.data.history, draft: generated.text, sources }) }], maxOutputTokens: 1600, abortSignal });
+    const review = await generateWithFallback({ ladder: v.slug === 'flux' ? resolveModelLadder('claude-haiku-4-5-20251001', ['claude-sonnet-4-6']) : ladder, system: `${SPECIALIST_REVIEW}\nSPECIFIC ROLE AND CAPABILITIES: ${specialistRole(v.slug)}`, agentSlug: `${v.agent}-review`, tenant: 'assembl-public-specialist', messages: [{ role: 'user', content: JSON.stringify({ task: parsed.data.message, history: parsed.data.history, draft: generated.text, sources }) }], maxOutputTokens: 1600, abortSignal });
     if (!review.ok || !review.text.trim()) return Response.json({ error: 'The specialist could not finish checking that reply. Please try again.', mode: 'unavailable' }, { status: 503, headers });
     const verified = sources.filter(s => s.status === 'retrieved');
     return Response.json({ reply: review.text, mode: 'live', agent: v.agent, agentName: v.agentName, sourceStatus: verified.length ? 'retrieved' : sources.length ? 'unavailable' : 'not-requested', sources: verified.map(s => ({ title: s.title, url: s.url, retrievedAt: s.retrievedAt, hash: s.hash, sourceDate: s.sourceDate })), sourceFailures: sources.filter(s => s.status === 'unavailable').map(s => s.title), createdAt: new Date().toISOString(), status: 'draft' }, { headers });
