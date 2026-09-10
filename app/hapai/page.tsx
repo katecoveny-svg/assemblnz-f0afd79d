@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
-import { PatternBackdrop } from '@/components/pattern-studio/PatternBackdrop';
 import { PainfulWorkflowCapture } from '@/components/hapai/PainfulWorkflowCapture';
 import { ToolLeadCapture } from '@/components/hapai/ToolLeadCapture';
 import {
@@ -99,19 +98,6 @@ export default function HapaiPage() {
   return (
     <div className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
-        {/* Pattern Studio motion — decorative, behind the hero. */}
-        <PatternBackdrop
-          className="absolute inset-0"
-          mode="particles"
-          colorRole="accent"
-          count={120}
-          connectLines
-          connectDistance={130}
-          glow
-          opacity={0.32}
-          speed={0.55}
-          lazyMount={false}
-        />
         <div className="relative z-[1] mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <div>
             <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
@@ -146,17 +132,11 @@ export default function HapaiPage() {
           </div>
 
           <div className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 shadow-[0_28px_90px_rgba(35,33,31,0.12)]">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src="/img/kete/home-vessel-pounamu.jpg"
-                alt="assembl evidence vessel on a warm cream background"
-                fill
-                sizes="(min-width: 1024px) 46vw, 100vw"
-                className="object-cover transition-transform duration-700 hover:scale-[1.02]"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff]/8 via-transparent to-[#ffffff]/46" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#ffffff]/88 p-4 backdrop-blur">
+            <div className="relative">
+              <video className="block aspect-video w-full" controls playsInline preload="none" poster="/brand/watch/watch-poster.jpg" aria-label="Watch assembly film">
+                <source src="/brand/watch/watch-desktop.mp4" type="video/mp4" />
+              </video>
+              <div className="relative border-t border-white/25 bg-[#260f21] p-4">
                 <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   public tool library
                 </p>

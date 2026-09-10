@@ -15,9 +15,6 @@ import {
   WAIT,
   type IndustrySourceStatus,
 } from './copy';
-import { CinematicMediaSlot } from './CinematicMediaSlot';
-import { CraftScroll } from './CraftScroll';
-import { CINEMATIC_MEDIA } from './media';
 import '@/app/active-journey-home.css';
 import './cinematic-journey.css';
 
@@ -38,14 +35,13 @@ function sourceBadge(status: IndustrySourceStatus) {
 
 /**
  * Cinematic homepage PREVIEW — Kate declutter craft pass.
- * Higgsfield video + stills as the visual system. No R3F mesh clutter.
+ * The shared watch model and film provide the visual system.
  * Assembl-only product story. Studio + Operator present.
  * PREVIEW ONLY — do not Ready/merge until Kate signs off.
  */
 export function CinematicJourneyHome() {
   return (
     <div className="cj">
-      <CraftScroll />
       <div className="cj-field" aria-hidden="true" />
 
       <header className="cj-header">
@@ -75,13 +71,6 @@ export function CinematicJourneyHome() {
 
       <div className="cj-story">
         <section className="cj-hero" aria-labelledby="cj-hero-title">
-          <div className="cj-hero-visual" data-cj-parallax="hero-media">
-            <CinematicMediaSlot
-              slot={CINEMATIC_MEDIA.hero}
-              mode="inline"
-              className="cj-hero-media"
-            />
-          </div>
           <div className="cj-hero-veil" aria-hidden="true" />
           <div className="cj-hero-copy" data-cj-parallax="hero-copy">
             <p className="cj-kicker">{HERO.kicker}</p>
@@ -125,11 +114,7 @@ export function CinematicJourneyHome() {
             </ul>
           </div>
           <div className="cj-wait-media" data-cj-parallax="wait-media">
-            <CinematicMediaSlot
-              slot={CINEMATIC_MEDIA.mid}
-              mode="inline"
-              autoPlay={false}
-            />
+
           </div>
         </section>
 

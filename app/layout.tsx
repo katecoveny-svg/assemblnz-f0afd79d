@@ -6,6 +6,7 @@ import { CommandPalette } from '@/components/site/CommandPalette';
 import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget';
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import { PwaRegister } from '@/components/site/PwaRegister';
+import { PublicWatchFrame } from '@/components/site/watch/PublicWatchFrame';
 import { JsonLd } from '@/components/seo/JsonLd';
 import {
   graph,
@@ -128,13 +129,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AssemblConciergeWidget />
           </div>
           <PwaRegister />
-          <div className="relative flex min-h-screen flex-col">
+          <PublicWatchFrame>
             <GlobalNav />
             <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>
               {children}
             </main>
             <GlobalFooter />
-          </div>
+          </PublicWatchFrame>
         </KeteAccentProvider>
       </body>
     </html>
