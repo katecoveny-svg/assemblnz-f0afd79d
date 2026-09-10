@@ -53,7 +53,7 @@ export async function retrieveSource(source: SourceDefinition, query: string, si
     }
     const text = sourceText(html + decoder.decode());
     if (text.length < 300 || /access denied|verify you are human|request rejected/i.test(text.slice(0, 700))) throw new Error('official page could not be verified');
-    const sourceDate = text.match(/(?:[Ll]ast (?:updated|modified)|[Vv]ersion as at|[Ee]ffective from|[Uu]pdated on)[\s:]*[0-9]{1,2}[ \t]+[A-Za-z]+[ \t]+[0-9]{4}/)?.[0] ?? null;
+    const sourceDate = text.match(/(?:[Ll]ast\s+(?:updated|modified)|[Vv]ersion\s+as\s+at|[Ee]ffective\s+from|[Uu]pdated\s+on)[\s:]*[0-9]{1,2}[ \t]+[A-Za-z]+[ \t]+[0-9]{4}/)?.[0]?.replace(/\s+/g, ' ') ?? null;
     return { ...source, url, status: 'retrieved', retrievedAt: checkedAt, hash: createHash('sha256').update(text).digest('hex'), excerpt: relevantExcerpt(text, query), sourceDate };
   } catch {
     return { ...source, status: 'unavailable', checkedAt, reason: 'Could not read the current official page. No cached facts have been substituted.' };

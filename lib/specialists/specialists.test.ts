@@ -26,9 +26,9 @@ describe('official source retrieval',()=>{
     expect(excerpt).toContain('COOLING cancellation');expect(excerpt.length).toBeLessThanOrEqual(18000);
   });
   it('records content fingerprint and retrieval date from actual page text',async()=>{
-    vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response(`<main><h1>Care</h1><p>Updated on <span>23 July 2026</span></p>${'<p>Official care information.</p>'.repeat(30)}</main>`,{headers:{'content-type':'text/html'}})));
+    vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response(`<main><h1>Care</h1><p>Version\nas at <span>23 July 2026</span></p>${'<p>Official care information.</p>'.repeat(30)}</main>`,{headers:{'content-type':'text/html'}})));
     const result=await retrieveSource(OFFICIAL_SOURCES[3],'care');
-    expect(result.status).toBe('retrieved');if(result.status==='retrieved'){expect(result.hash).toHaveLength(64);expect(result.sourceDate).toContain('23 July 2026');expect(result.retrievedAt).toMatch(/^\d{4}-/);}
+    expect(result.status).toBe('retrieved');if(result.status==='retrieved'){expect(result.hash).toHaveLength(64);expect(result.sourceDate).toBe('Version as at 23 July 2026');expect(result.retrievedAt).toMatch(/^\d{4}-/);}
   });
   it('rejects redirects away from the fixed official source hosts',async()=>{
     const fetch=vi.fn().mockResolvedValue(new Response('',{status:302,headers:{location:'https://internal.example/secret'}}));vi.stubGlobal('fetch',fetch);
