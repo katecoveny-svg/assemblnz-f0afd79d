@@ -48,11 +48,13 @@ describe('public vertical live chat boundary', () => {
     expect(Object.keys(options.tools)).toEqual(['searchNZKnowledge']);
     expect(options.maxOutputTokens).toBe(1000);
     expect(options.system).toContain('cannot send, lodge, publish, book, save or approve');
+    expect(mocks.generate).toHaveBeenCalledTimes(2);
+    expect(mocks.generate.mock.calls[1][0].tools).toBeUndefined();
   });
   it('reports a failed search honestly, not as a verified source', async () => {
     mocks.search.mockResolvedValue({ status: 'unavailable', note: 'Unavailable' });
     mocks.generate.mockImplementation(async options => {
-      await options.tools.searchNZKnowledge.execute({ query: 'building consent' });
+      if (options.tools) await options.tools.searchNZKnowledge.execute({ query: 'building consent' });
       return { ok: true, text: 'The current source could not be verified.' };
     });
     expect(await (await POST(req(), context())).json()).toMatchObject({ sourceStatus: 'unavailable', sources: [] });
@@ -60,13 +62,18 @@ describe('public vertical live chat boundary', () => {
   it('attaches only the sources actually retrieved in this request', async () => {
     mocks.search.mockResolvedValue({ status: 'ok', sources: [{ title: 'Test source', url: 'https://www.building.govt.nz/', snippet: 'Evidence' }], retrievedAt: '2026-09-10' });
     mocks.generate.mockImplementation(async options => {
-      await options.tools.searchNZKnowledge.execute({ query: 'building consent' });
+      if (options.tools) await options.tools.searchNZKnowledge.execute({ query: 'building consent' });
       return { ok: true, text: 'A source-backed draft for review.' };
     });
     expect(await (await POST(req(), context())).json()).toMatchObject({ sourceStatus: 'retrieved', sources: [{ title: 'Test source', url: 'https://www.building.govt.nz/', retrievedAt: '2026-09-10' }] });
   });
   it('returns an error rather than claiming a reply after provider failure', async () => {
     mocks.generate.mockResolvedValue({ ok: false });
+    const response = await POST(req(), context());
+    expect(response.status).toBe(503); expect((await response.json()).reply).toBeUndefined();
+  });
+  it('does not return an unchecked draft when the factual edit fails', async () => {
+    mocks.generate.mockResolvedValueOnce({ ok: true, text: 'Your shipment has arrived.' }).mockResolvedValueOnce({ ok: false });
     const response = await POST(req(), context());
     expect(response.status).toBe(503); expect((await response.json()).reply).toBeUndefined();
   });
