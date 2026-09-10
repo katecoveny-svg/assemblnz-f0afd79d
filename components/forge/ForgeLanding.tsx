@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { TransportStudy } from '@/components/agent-app/TransportStudy';
 import type { CSSProperties } from 'react';
 import {
   CraftScroll,
@@ -12,9 +13,11 @@ import { ForgeLifecycle } from '@/components/forge/ForgeLifecycle';
 import { ForgeMetricsStrip } from '@/components/forge/ForgeMetricsStrip';
 import { ForgeOutcomes } from '@/components/forge/ForgeOutcomes';
 import { ForgePreviewChat } from '@/components/forge/ForgePreviewChat';
+import { DealerContentStudio } from '@/components/forge/DealerContentStudio';
 import { FORGE_PREVIEW } from '@/lib/forge/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
 import '@/components/forge/forge-automotive-craft.css';
+import '@/components/agent-app/agent-editorial.css';
 
 const AA_TOKEN_STYLE = {
   ['--aa-plum']: '#240b21',
@@ -40,7 +43,7 @@ export function ForgeLanding() {
 
   return (
     <div
-      className="frg-root aa-root"
+      className="frg-root aa-root agent-edition agent-edition-forge"
       data-craft="automotive-os"
       style={AA_TOKEN_STYLE}
     >
@@ -73,7 +76,10 @@ export function ForgeLanding() {
                   {c.ctaLifecycle}
                 </a>
               </div>
+              <a className="dealer-studio-link" href="#forge-content">Open dealership content studio ↗</a>
             </div>
+
+            <TransportStudy agent="forge" />
 
             <aside className="frg-hero-visual" aria-label="DEMO dealership journey preview">
               <div className="frg-hero-lot">
@@ -92,14 +98,6 @@ export function ForgeLanding() {
                     <span className="frg-mono">04</span> Loyalty
                   </li>
                 </ol>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className="frg-hero-sphere"
-                  src="/brand/genome/sphere-automotive.png"
-                  alt=""
-                  width={160}
-                  height={172}
-                />
                 <p className="frg-hero-stamp frg-mono">sample · DEMO · not a live rooftop</p>
               </div>
 
@@ -114,6 +112,8 @@ export function ForgeLanding() {
             </aside>
           </div>
         </section>
+
+        <DealerContentStudio />
 
         <section className="frg-section frg-section-metrics" aria-labelledby="forge-metrics-title">
           <div className="frg-section-head">
