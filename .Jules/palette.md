@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-28 - Standardizing Waitlist Forms and Tab Interactions
+**Learning:** For forms styled under customized theme systems (like the `dash-kit`'s cream/forest/sage), standardizing required fields with visual indicators, explicit ARIA attributes, and polite character counts significantly elevates usability. In addition, transparent button groups/tabs can suffer from lack of feedback on hover/focus when standard utility styles are overridden. Using scoped, elegant CSS rules preserves design-system polish while ensuring keyboard and mouse interaction parity.
+**Action:** Always provide visual required indicators and programmatic `aria-required` properties for form fields, pair textareas with polite counters, and implement scoped hover/focus states for transparent tab/button lists.
