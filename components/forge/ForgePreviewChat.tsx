@@ -84,7 +84,7 @@ export function ForgePreviewChat() {
               </div>
               <div>
                 <dt className="aa-mono">Sources</dt>
-                <dd>NZTA WoF/CoF · CCCFA DEMO citations on this page only</dd>
+                <dd>Lead · CCCFA · NZTA WoF/CoF · loyalty DEMO citations on this page only</dd>
               </div>
               <div>
                 <dt className="aa-mono">Send</dt>

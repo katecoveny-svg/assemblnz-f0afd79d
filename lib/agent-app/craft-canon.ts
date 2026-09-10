@@ -10,8 +10,9 @@
  * `components/agent-app/*` BlueprintScene + PlanPins (Arc, Gateway).
  * Ensemble is the creative desk front door — it must NOT import BlueprintScene
  * or PlanPins; it reuses ObserveAdviseAct / HoursBackPricing / CraftScroll only.
- * Forge is the automotive bay front door — service-bay cards, not floor plates;
- * it also skips BlueprintScene / PlanPins and links live chat to Arataki.
+ * Forge is the automotive operating-system front door — connected dealership
+ * journey (research → sale → service → loyalty) with bay flags as one stage,
+ * not floor plates; it skips BlueprintScene / PlanPins and links live chat to Arataki.
  * Do not introduce cream/orange Heron leftovers, dark plum fields, mana/kete
  * product labels, or AI-slop copy.
  */

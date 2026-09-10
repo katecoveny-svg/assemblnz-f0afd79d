@@ -1,46 +1,135 @@
 /**
- * Forge agent-app PREVIEW copy — automotive workshop / dealership desk.
- * Plain NZ English. No architecture floor-plate grammar.
- * Honest path to live Arataki chat. No partnership claims.
+ * Forge agent-app PREVIEW copy — automotive dealership / workshop OS.
+ * Plain NZ English. Full customer journey, not bay-only.
+ * No architecture floor-plate grammar. No partnership claims.
+ * Bare "AI" banned — say agent, operating system, or the desk job.
+ * Honest path to live Arataki chat.
  */
 
 export const FORGE_PREVIEW = {
-  metaTitle: 'Forge · automotive preview · concept · demo data',
+  metaTitle: 'Forge · automotive operating system · concept · demo data',
   metaDescription:
-    'Forge helps a workshop or dealership desk review the service bay — flags WoF, CoF and CCCFA gaps on DEMO data, cites the rule, and drafts a note that waits for a human yes.',
+    'Forge is an assembl DEMO for NZ dealerships and workshops — one connected journey from lead research through sale, service bay and loyalty. Drafts wait for a human yes. Live chat is on Arataki.',
   previewBadge: 'DEMO · draft-only · sample business · details fictional',
   demoBadge: 'DEMO',
 
   brand: 'forge',
-  productLine: 'assembl agent-app',
-  heroLine: 'Flag bay issues before the day slips.',
+  productLine: 'automotive operating system',
+  heroLine: 'One connected dealership journey.',
   heroSupport:
-    'Forge flags WoF due stamps, CoF holds and CCCFA disclosure gaps on a DEMO service bay, cites the rule, and drafts a note that waits for your yes.',
+    'Forge helps a NZ dealer or workshop desk run research, sale, service and loyalty as one path. It flags the gap, cites the rule, and stages a draft that waits for your yes.',
 
-  bayEyebrow: '01 · service bay',
-  bayTitle: 'Flags on the bay board.',
+  whoForEyebrow: 'Who it is for',
+  whoForTitle: 'Dealer desk. Workshop floor. One operating path.',
+  whoForSupport:
+    'Built for NZ dealerships and workshops that need the customer journey held together — without inventing live OEM partnerships on this page.',
+  whoForPoints: [
+    {
+      title: 'Sales desk',
+      body: 'Lead replies, CCCFA disclosure checks and quote drafts stay staged until a person approves.',
+    },
+    {
+      title: 'Service bay',
+      body: 'WoF and CoF flags cite NZTA rules on DEMO bay data before the day slips.',
+    },
+    {
+      title: 'Owner / GM',
+      body: 'One board for the journey — research to repurchase — with human approval before anything leaves.',
+    },
+  ],
+
+  metricsEyebrow: 'DEMO outcomes · directional',
+  metricsTitle: 'Hours back on the desk — not invented live scores.',
+  metricsSupport:
+    'Sample figures for the preview conversation only. Not Impel benchmarks, not a signed dealer result, not a live feed.',
+  metrics: [
+    {
+      value: '~3h',
+      label: 'Back on the sales desk / week',
+      note: 'Less chasing incomplete leads',
+    },
+    {
+      value: '~5h',
+      label: 'Back in the service bay / week',
+      note: 'Less hunting WoF / CoF stamps',
+    },
+    {
+      value: '1',
+      label: 'Human yes before send',
+      note: 'Drafts stay locked without approval',
+    },
+    {
+      value: '0',
+      label: 'Outbound sends from this page',
+      note: 'Preview never messages a customer',
+    },
+  ],
+
+  pillarsEyebrow: '02 · outcomes',
+  pillarsTitle: 'Five jobs a dealership actually runs.',
+  pillarsSupport:
+    'Concrete NZ DEMO pillars — customer experience, sales, service, operations and loyalty — not slogan theatre.',
+  pillars: [
+    {
+      id: 'experience',
+      title: 'Customer experience',
+      body: 'Every stage keeps the same customer in view — research notes carry into sale, service and the next visit.',
+    },
+    {
+      id: 'sales',
+      title: 'Sales conversion',
+      body: 'Lead reply and finance drafts assemble fast, with CCCFA gaps flagged before a person signs off.',
+    },
+    {
+      id: 'service',
+      title: 'Service retention',
+      body: 'Bay flags for WoF, CoF and parts keep the workshop day honest so service customers return.',
+    },
+    {
+      id: 'ops',
+      title: 'Operational efficiency',
+      body: 'Less chasing stamps and missing fields. More time on the floor and the desk that closes work.',
+    },
+    {
+      id: 'loyalty',
+      title: 'Loyalty / repurchase',
+      body: 'Service history feeds a repurchase note that waits for approval — the next sale starts from proof, not guesswork.',
+    },
+  ],
+
+  lifecycleEyebrow: '03 · connected journey',
+  lifecycleTitle: 'Research → sale → service → loyalty.',
+  lifecycleSupport:
+    'Tap a stage for a DEMO pin. This is a connected journey board, not a live dealership feed.',
+  lifecycleHint: 'DEMO pins · sample only · not live',
+
+  bayEyebrow: '04 · service bay stage',
+  bayTitle: 'Bay flags inside the operating system.',
   baySupport:
-    'DEMO flags use NZTA WoF/CoF and CCCFA references on a fictional workshop day. Nothing here is a real compliance check.',
-  ctaBay: 'See DEMO bay flags',
+    'Service is one stage of Forge — not the whole product. DEMO flags use NZTA WoF/CoF and CCCFA references on a fictional workshop day.',
+  ctaBay: 'Open service bay stage',
+  ctaLifecycle: 'See the connected journey',
   ctaChat: 'Chat with Arataki',
   aratakiHref: '/agents/arataki',
   aratakiNote:
-    'Live automotive chat lives on Arataki — the dealership agent. This page is a DEMO craft preview only.',
+    'Live automotive chat lives on Arataki — the dealership agent. This page is a DEMO craft preview of the Forge operating system only.',
+  aratakiPanelTitle: 'Arataki runs the live desk',
+  aratakiPanelEyebrow: 'Live path',
 
-  narrativeEyebrow: 'How Forge works',
+  narrativeEyebrow: '05 · human in the loop',
   narrativeTitle: 'Observe. Advise. Act on approval.',
   chapters: [
     {
       id: 'observe' as const,
       label: '01',
       title: 'Observe',
-      body: 'Forge watches the service bay as vehicles move — WoF bay status, CoF holds, CCCFA disclosure gaps.',
+      body: 'Forge watches the journey board — lead gaps, finance disclosure, WoF bay status, CoF holds, loyalty follow-ups.',
     },
     {
       id: 'advise' as const,
       label: '02',
       title: 'Advise',
-      body: 'Each flag arrives with a cited clause and a plain-language note, ready for the service desk to review.',
+      body: 'Each flag arrives with a cited rule and a plain-language draft for the desk to review.',
     },
     {
       id: 'act' as const,
@@ -50,13 +139,17 @@ export const FORGE_PREVIEW = {
     },
   ],
 
-  chatEyebrow: 'Chat as proof',
+  chatEyebrow: '06 · chat as proof',
   chatTitle: 'Ask once. Get a cited draft.',
   chatSupport:
     'Scripted preview on this door — or open Arataki for the live automotive agent. Every reply here ends as a draft awaiting approval.',
   chatGreeting:
-    'Forge here. Ask about a DEMO WoF bay or a CCCFA flag. I cite the rule, draft the note, and hold it for your approval.',
+    'Forge here. Ask about a DEMO lead, sale, service bay or loyalty follow-up. I cite the rule, draft the note, and hold it for your approval.',
   chatOpeners: [
+    {
+      q: 'Draft a reply for this DEMO research lead',
+      a: 'Draft ready — lead desk. The DEMO enquiry asks about a mid-size SUV and a trade-in. Proposed reply confirms stock check steps, books a yard visit slot, and holds for your yes. Status: awaiting human approval. Evidence receipt: DEMO · nothing sends.',
+    },
     {
       q: 'Check the WoF bay against NZTA inspection rules',
       a: 'Draft ready — NZTA WoF. Bay 2 has a vehicle past its due stamp with no staged inspection booking. Proposed note names the plate, cites the WoF requirement, and lists bay options. Status: awaiting human approval. Sources: DEMO flag wof-due · NZTA WoF (preview).',
@@ -66,39 +159,39 @@ export const FORGE_PREVIEW = {
       a: 'Draft ready — CCCFA. Responsible lending disclosure is incomplete on this DEMO lead. The note marks missing fields and holds for sign-off. Status: awaiting human approval. Evidence receipt: DEMO · not lodged.',
     },
     {
-      q: 'Where does the CoF hold block the workshop day?',
-      a: 'Draft ready — NZTA CoF. Heavy vehicle in bay 4 lacks a current CoF for the scheduled road test. Memo cites the flag and waits. Status: awaiting human approval. Nothing sends.',
+      q: 'Stage a loyalty repurchase note from last service',
+      a: 'Draft ready — loyalty. DEMO service history shows a recent bay visit and an upcoming WoF window. Proposed repurchase note references the service proof and waits. Status: awaiting human approval. Nothing sends.',
     },
   ],
-  chatFooter: 'draft-only · cites flags · DEMO · nothing sends without you',
+  chatFooter: 'draft-only · cites journey flags · DEMO · nothing sends without you',
   approvalLabel: 'Awaiting human approval',
   evidenceLabel: 'Evidence receipt',
 
-  pricingEyebrow: 'Hours back · credits',
+  pricingEyebrow: '07 · hours back · credits',
   pricingTitle: 'Sketch pricing — not live checkout',
   pricingSupport:
-    'UI sketch only. No payments, no SSO. Numbers are directional for the preview conversation — hours back, not seats sold.',
+    'UI sketch only. No payments, no SSO. Numbers are directional for the preview conversation — hours back across the dealership journey, not seats sold.',
   hoursBack: 'hours back each week',
-  hoursBackNote: 'Less chasing WoF stamps. More time on the workshop floor.',
+  hoursBackNote: 'Less chasing leads and WoF stamps. More time on the desk and the floor.',
   tiers: [
     {
       name: 'Look',
       price: 'Free',
-      detail: 'Browse DEMO bay flags and sample drafts on this door.',
+      detail: 'Browse the DEMO journey board, bay flags and sample drafts on this door.',
       credits: '0 credits',
       hoursBack: 0,
     },
     {
       name: 'Practice',
       price: '~NZ$99',
-      detail: 'Personal seat for cited drafts on your own workshop day.',
+      detail: 'Personal seat for cited drafts across lead, sale and service on your own day.',
       credits: 'starter credits',
       hoursBack: 3,
     },
     {
       name: 'Studio',
       price: '~NZ$295',
-      detail: 'Shared rooftop seat, more credits, shared evidence receipts.',
+      detail: 'Shared rooftop seat, more credits, shared evidence receipts across the journey.',
       credits: 'studio credits',
       hoursBack: 8,
     },
