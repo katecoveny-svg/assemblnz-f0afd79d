@@ -11,6 +11,7 @@ import { EnsembleBrandBoard } from '@/components/ensemble/EnsembleBrandBoard';
 import { EnsembleBriefDesk } from '@/components/ensemble/EnsembleBriefDesk';
 import { EnsembleClaimPins } from '@/components/ensemble/EnsembleClaimPins';
 import { EnsembleCreativeDesk } from '@/components/ensemble/EnsembleCreativeDesk';
+import { EnsembleHeroArtwork } from '@/components/ensemble/EnsembleHeroArtwork';
 import { EnsemblePreviewChat } from '@/components/ensemble/EnsemblePreviewChat';
 import {
   ENSEMBLE_PREVIEW,
@@ -18,6 +19,7 @@ import {
 } from '@/lib/ensemble/preview-copy';
 import '@/components/agent-app/agent-app-craft.css';
 import '@/components/ensemble/ensemble-creative-craft.css';
+import '@/components/ensemble/ensemble-hero.css';
 
 const AA_TOKEN_STYLE = {
   // Mirror agent-app tokens so ObserveAdviseAct / chat / pricing inherit.
@@ -66,35 +68,35 @@ export function EnsembleLanding() {
           <div className="ens-hero-grid">
             <div className="ens-hero-copy">
               <p className="ens-eyebrow ens-mono">{c.productLine}</p>
-              <h1>{c.heroLine}</h1>
+              <h1><span>{c.heroLine.slice(0, c.heroLine.indexOf('.') + 1)}</span>{' '}{c.heroLine.slice(c.heroLine.indexOf('.') + 2)}</h1>
               <p className="ens-hero-support">{c.heroSupport}</p>
               <div className="ens-cta-row">
                 <a className="ens-cta ens-cta-primary" href="#ensemble-assemble">
                   {c.ctaAssemble}
-                </a>
-                <a className="ens-cta ens-cta-ghost" href="#ensemble-claims">
-                  {c.ctaClaims}
+                  <span aria-hidden="true">↗</span>
                 </a>
               </div>
+            </div>
+
+            <EnsembleHeroArtwork />
+
+            <div className="ens-hero-studio">
+              <a className="ens-cta ens-cta-ghost" href="#ensemble-claims">
+                {c.ctaClaims}
+                <span aria-hidden="true">↗</span>
+              </a>
               <div className="ens-cta-row ens-cta-row-share" aria-label="Make and share">
                 <a className="ens-cta ens-cta-share" href={c.makeHref}>
                   {c.ctaMakeSomething}
+                  <span aria-hidden="true">↗</span>
                 </a>
                 <a className="ens-cta ens-cta-share-ghost" href={c.shareHref}>
                   {c.ctaShareFromGen}
+                  <span aria-hidden="true">↗</span>
                 </a>
               </div>
               <p className="ens-share-hint ens-mono">{c.shareHint}</p>
             </div>
-
-            <aside className="ens-hero-visual">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/generated/creative-agency/anchors/prism-vessel.png"
-                alt="Prism DEMO vessel still from the creative desk"
-              />
-              <p className="ens-hero-stamp ens-mono">sample · DEMO · not live media</p>
-            </aside>
           </div>
         </section>
 
