@@ -12,7 +12,7 @@ import {
 import {
   GatewayAssembleParts,
   GatewayEntryUnderlay,
-} from '@/components/gateway/GatewayPlanSvg';
+} from '@/components/gateway/GatewayEntryPackSvg';
 import { GatewayPreviewChat } from '@/components/gateway/GatewayPreviewChat';
 import { GATEWAY_DEMO_PINS } from '@/lib/gateway/demo-pins';
 import { GATEWAY_PREVIEW } from '@/lib/gateway/preview-copy';
@@ -53,15 +53,15 @@ export function GatewayLanding() {
             <aside className="aa-hero-sheet" aria-hidden>
               <TitleBlock
                 fields={[
-                  { label: 'CLIENT', value: 'sample brokerage' },
-                  { label: 'JOB', value: 'Harbour entry pack' },
-                  { label: 'AGENT', value: 'gateway · pikau · preview' },
-                  { label: 'SHEET', value: 'entry plate · paper' },
+                  { label: 'BROKER', value: 'sample brokerage' },
+                  { label: 'VESSEL', value: 'MV Harbour Demo' },
+                  { label: 'MANIFEST', value: 'B/L DEMO-8841' },
+                  { label: 'AGENTS', value: 'gateway · pikau' },
                 ]}
               />
               <div className="aa-hero-rule" />
               <p className="aa-mono aa-hero-sheet-note">
-                concept · demo data · plum accent · DEMO
+                vessel · entry · tariff · clearance · DEMO
               </p>
             </aside>
           </div>
@@ -74,14 +74,14 @@ export function GatewayLanding() {
           title={c.assembleTitle}
           support={c.assembleSupport}
           titleBlock={[
-            { label: 'PROJECT', value: 'Harbour entry · DEMO' },
-            { label: 'DRAWING', value: 'Entry plate · A1' },
-            { label: 'SCALE', value: '1:1 pack' },
-            { label: 'REV', value: 'P0 · preview' },
+            { label: 'VESSEL', value: 'MV Harbour Demo · VOY 26-04' },
+            { label: 'MANIFEST', value: 'B/L DEMO-8841' },
+            { label: 'ENTRY', value: 'Invoice · HS · CIF' },
+            { label: 'BORDER', value: 'clearance staged · not lodged' },
           ]}
           caption="fictional NZ brokerage · sample business · details fictional"
-          ariaLabel="DEMO customs entry pack assembling from invoice, tariff and border parts"
-          gridPatternId="gateway-eng-grid"
+          ariaLabel="DEMO vessel clearance pack assembling from manifest, entry docs and tariff flags"
+          gridPatternId="gateway-entry-grid"
         >
           <GatewayAssembleParts />
         </BlueprintScene>
@@ -96,17 +96,17 @@ export function GatewayLanding() {
             id="gateway-model"
             pins={GATEWAY_DEMO_PINS}
             titleBlock={[
-              { label: 'SHEET', value: 'Flags overlay · DEMO' },
+              { label: 'MANIFEST', value: 'Clearance flags · DEMO' },
               { label: 'CODES', value: 'Customs Act · Tariff · Biosecurity' },
               { label: 'STATUS', value: 'staged · not lodged' },
             ]}
             underlay={<GatewayEntryUnderlay />}
-            caption="customs entry pack · DEMO flags · Customs Act / tariff citations"
+            caption="vessel clearance pack · DEMO flags · HS / Customs Act / border"
             hint={c.pinHint}
             demoBadge={c.demoBadge}
             evidenceLabel={c.evidenceLabel}
-            ariaLabel="DEMO customs entry pack with clickable tariff and border flags"
-            gridPatternId="gateway-eng-grid-pins"
+            ariaLabel="DEMO vessel clearance pack with clickable HS, origin and border flags"
+            gridPatternId="gateway-entry-grid-pins"
             emptyPrompt="Select a DEMO flag on the entry pack."
             listLabel="DEMO flags"
           />

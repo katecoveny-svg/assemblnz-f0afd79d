@@ -1,6 +1,7 @@
 /**
  * Gateway agent-app PREVIEW copy — pitch surface only.
- * Customs brokerage / tariff / entry. Plain NZ English.
+ * Customs brokerage / tariff / entry / border / clearance.
+ * Plain NZ English. No architecture plan-sheet language.
  * No partnership claims. No mana/kete product labels.
  * Draft-only honesty — nothing lodges to TSW or Customs.
  */
