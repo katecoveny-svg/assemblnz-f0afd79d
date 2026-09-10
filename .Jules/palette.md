@@ -21,3 +21,7 @@
 ## 2026-07-20 - Balanced Focus Styles for Highly-Styled Form Elements
 **Learning:** While native CSS outlines are ideal for elements in overflow-hidden containers, they can look visually jarring or floating awkwardly when forced onto highly-styled rounded text inputs, textareas, and toggle tab buttons. Using customized, elegant focus indicators (like `focus-visible:ring-2` with ring-offsets or opacity/tint styling matching the brand) preserves premium design-system polish while fully complying with high accessibility standards.
 **Action:** For highly-styled inputs and toggle tabs, design with custom focus rings/offsets instead of raw outlines to ensure visual excellence and WCAG focus compliance remain in perfect harmony.
+
+## 2026-07-28 - Micro-UX and Semantic Form Optimization for Dash Forms
+**Learning:** Combining programmatic form validation (aria-required, explicit label associations) with scoped interactive selectors (.dash-tab replacing inline styles) makes legacy forms highly responsive and accessible. Character limits are best communicated via dual-channel feedback: high-contrast color transitions near the limit and highly scoped screen-reader-only polite announcements.
+**Action:** Replace inline state styling overrides with modular CSS subclasses inside scoped selectors, and pair textareas with polite live counters that only activate above the 90% utilization mark.

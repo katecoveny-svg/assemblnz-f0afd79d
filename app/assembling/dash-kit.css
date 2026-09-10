@@ -256,6 +256,23 @@
   font-size: 14px;
   padding: 11px 18px;
 }
+.dash-kit .dash-tab {
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid transparent;
+}
+.dash-kit .dash-tab:hover {
+  background: var(--surface);
+  color: var(--fg);
+  border-color: var(--line);
+}
+.dash-kit .dash-tab:focus-visible {
+  background: var(--surface);
+  color: var(--fg);
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(212, 168, 67, 0.85);
+}
 
 /* ---------- fields ---------- */
 .dash-kit .field-group {
