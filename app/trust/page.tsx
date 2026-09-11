@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 /**
  * /trust — the canonical trust page (v2 site, DIRECTION-LOCKED direction).
  *
- * Honest by construction, reusing the copy posture from /mana-receipts
+ * Honest by construction, reusing the copy posture from the Evidence journey
  * (which stays live as the deep-dive): Mana Receipts explained, the knowledge
  * Tier A/B/C model, and Privacy Act 2020 IPP 3A ALIGNMENT — never a claim of
  * SOC 2 / ISO / HIPAA certification. /trust/soc2 keeps the honest posture
@@ -96,14 +96,14 @@ export default function TrustPage() {
             document your board, auditor, client or insurer can actually read.
           </p>
           <div style={{ display: 'flex', gap: 22, marginTop: 22, flexWrap: 'wrap' }}>
-            <Link href="/mana-receipts" className={styles.navCta}>
+            <Link href="/journeys/evidence-receipt" className={styles.navCta}>
               read the honest trust page
               <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
                 •
               </span>
             </Link>
             <Link
-              href="/mana-receipts/sample"
+              href="/journeys/evidence-receipt"
               className={styles.navLink}
               style={{ alignSelf: 'center', borderBottom: `1px solid ${palette.hairline}` }}
             >
@@ -221,8 +221,8 @@ export default function TrustPage() {
               /trust/soc2
             </Link>{' '}
             and{' '}
-            <Link href="/mana-receipts" style={{ color: palette.ink }}>
-              /mana-receipts
+            <Link href="/journeys/evidence-receipt" style={{ color: palette.ink }}>
+              /journeys/evidence-receipt
             </Link>
             . Te Tiriti statement:{' '}
             <Link href="/te-tiriti" style={{ color: palette.ink }}>

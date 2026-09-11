@@ -34,8 +34,6 @@ const CORE_PATHS = [
   '/how-it-works',
   '/hui',
   '/insurance',
-  '/mana-receipts',
-  '/mana-receipts/sample',
   '/press',
   '/te-tiriti',
   '/toro',

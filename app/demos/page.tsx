@@ -166,9 +166,9 @@ export default async function DemosPage() {
               <div className="dm-card-top">
                 <div>
                   <p className="dm-sector">trust · every demo</p>
-                  <h3>Mana Receipts</h3>
+                  <h3>Evidence</h3>
                 </div>
-                <a className="dm-open" href="/mana-receipts" target="_blank" rel="noopener">
+                <a className="dm-open" href="/journeys/evidence-receipt" target="_blank" rel="noopener">
                   open &rarr;
                 </a>
               </div>
@@ -177,7 +177,7 @@ export default async function DemosPage() {
                 approved it &mdash; itemised, on the record. The Everyday Rewards demonstrator ends
                 on one; pilots issue them from the teamroom.
               </p>
-              <code className="dm-url">assembl.co.nz/mana-receipts</code>
+              <code className="dm-url">assembl.co.nz/journeys/evidence-receipt</code>
             </article>
             <article className="dm-card small">
               <div className="dm-card-top">
