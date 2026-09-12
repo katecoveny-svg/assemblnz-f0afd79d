@@ -146,24 +146,25 @@ export const OPERATOR_DESK_ACTIVITY: OperatorDeskLogEvent[] = [
 /** Deterministic candle path — hours-back climbing across the 7h session. */
 export function buildOperatorDeskCandles(): OperatorDeskCandle[] {
   const candles: OperatorDeskCandle[] = [];
-  let close = 0.15;
+  let close = 0.2;
   const buckets = 42;
   for (let i = 0; i < buckets; i++) {
     const t = Math.round((i / buckets) * OPERATOR_DESK_SESSION_MINUTES);
-    const drift = 0.12 + (i / buckets) * 0.55 + Math.sin(i * 0.7) * 0.04;
+    const target = 0.2 + ((i + 1) / buckets) * 7.8;
     const open = close;
     const up = (i * 7 + 3) % 5 !== 0;
-    const body = drift * (up ? 1 : -0.35);
-    close = Math.max(0.05, open + body);
-    const high = Math.max(open, close) + Math.abs(drift) * 0.15;
-    const low = Math.min(open, close) - Math.abs(drift) * 0.1;
+    const wobble = Math.sin(i * 0.7) * 0.18;
+    const next = up ? target + wobble * 0.3 : Math.max(open - 0.25, target * 0.92);
+    close = round2(Math.max(0.1, next));
+    const high = round2(Math.max(open, close) + 0.12 + Math.abs(wobble) * 0.15);
+    const low = round2(Math.min(open, close) - 0.08);
     const stamps = 1 + ((i * 3) % 5);
     candles.push({
       t,
       open: round2(open),
-      high: round2(high),
-      low: round2(low),
-      close: round2(close),
+      high,
+      low,
+      close,
       stamps,
     });
   }
@@ -232,7 +233,7 @@ export function projectOperatorDeskFrame(progress: number): OperatorDeskFrame {
   const activeCandles = candles.length > 0 ? candles : OPERATOR_DESK_CANDLES.slice(0, 1);
   const last = activeCandles[activeCandles.length - 1]!;
 
-  const hoursBack = round2(lerp(0.2, last.close * 1.05 + 2.4, Math.min(1, p * 1.05)));
+  const hoursBack = round2(lerp(0.2, last.close, Math.min(1, p * 1.05)));
   const evidenceReceipts = Math.max(
     0,
     Math.floor(lerp(0, 48, p) + activeCandles.reduce((n, c) => n + c.stamps, 0) * 0.15),
