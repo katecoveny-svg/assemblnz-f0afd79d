@@ -16,6 +16,9 @@
  * Evidence receipt (`/journeys/evidence-receipt`) is the loyalty wait→earn DEMO —
  * paper/chalk field, port_2fa Phase 0 spine, CraftScroll + ObserveAdviseAct; not a
  * points marketplace clone and not the One NZ private gate.
+ * Operator desk (`/journeys/operator-desk`) is the live loyalty/Evidence command
+ * craft DEMO — hours-back, stamps, clearance, mono activity log; Assembl-only,
+ * never crypto/wallets/fund movement.
  * Do not introduce cream/orange Heron leftovers, dark plum fields, mana/kete
  * product labels, or AI-slop copy.
  */
