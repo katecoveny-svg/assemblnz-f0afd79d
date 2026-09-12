@@ -274,6 +274,9 @@ export function OperatorDeskDemo() {
 
       <header className="od-top">
         <div className="od-brand">
+          <Link href="/" className="od-assembl">
+            assembl
+          </Link>
           <p className="od-wordmark">{c.wordmark}</p>
           <p className="od-mode">{c.modeLabel}</p>
         </div>

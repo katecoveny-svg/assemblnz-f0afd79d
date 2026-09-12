@@ -85,6 +85,18 @@
   justify-self: start;
 }
 
+.od-assembl {
+  display: inline-block;
+  margin: 0 0 0.35rem 0.15rem;
+  font: 600 0.95rem / 1 var(--font-display), 'Instrument Sans', sans-serif;
+  letter-spacing: -0.04em;
+  color: var(--od-plum);
+}
+
+.od-assembl:hover {
+  color: var(--od-heather);
+}
+
 .od-wordmark {
   margin: 0;
   display: inline-block;
