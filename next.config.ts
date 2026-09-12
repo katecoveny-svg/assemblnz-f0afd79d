@@ -92,6 +92,16 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
 
+      // Public Mana Receipts product surface retired — Evidence lives at
+      // /journeys/evidence-receipt (port_2fa DEMO). Permanent so indexed and
+      // bookmarked /mana-receipts URLs stop rendering the old experience.
+      { source: '/mana-receipts', destination: '/journeys/evidence-receipt', permanent: true },
+      {
+        source: '/mana-receipts/:path*',
+        destination: '/journeys/evidence-receipt',
+        permanent: true,
+      },
+
       // ── Editorial gallery rebuild (2026-07-20): `/` renders the editorial
       // hero + walkable gallery. The 2026-07-20 302 to /build-an-agent is
       // removed on this branch — the interactive builder still lives at

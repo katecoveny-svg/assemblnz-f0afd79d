@@ -45,7 +45,7 @@ const KEY_PAGES = [
   ['/agents', 'Specialist agents that can be installed for particular work'],
   ['/about', 'What assembl is, the founder, and how the human-in-the-loop works'],
   ['/trust', 'Trust Centre — data residency, PII masking, evidence packs, compliance posture'],
-  ['/mana-receipts', 'How the Evidence receipt provenance layer works'],
+  ['/journeys/evidence-receipt', 'How the Evidence receipt provenance layer works'],
   ['/faq', 'Answers to the questions people ask about specialist agents and assembl'],
   ['/industries', 'The industries assembl works in — each with a live concept demonstrator'],
   ['/notes', 'Notes from assembl — plain writing on agentic customer journeys, every number sourced'],

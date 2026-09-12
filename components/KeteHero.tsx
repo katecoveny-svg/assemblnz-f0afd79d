@@ -12,7 +12,7 @@
  * - Cursor tracker trail
  * - Click triggers 5-stage pipeline animation (Kahu → Iho → Tā → Mahara → Mana)
  *   with HTML overlay glyph labels fading in time with each stage
- * - Listens to KeteAccentContext — hovering a kete card in the grid
+ * - Listens to AssemblAccentContext — hovering a kete card in the grid
  *   subtly tints the hero kete to that kete's accent colour
  * - prefers-reduced-motion: full fallback to static PNG poster
  */
@@ -21,7 +21,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as THREE from 'three';
 import { EffectComposer, RenderPass, EffectPass, BloomEffect } from 'postprocessing';
-import { useKeteAccent } from '@/components/KeteAccentContext';
+import { useAssemblAccent } from '@/components/AssemblAccentContext';
 
 const GOLD_HEX = 0xd4a853;
 const PAPER_HEX = 0xfaf7f2;
@@ -48,7 +48,7 @@ export default function KeteHero() {
   const [visibleStages, setVisibleStages] = useState<number[]>([]);
 
   // Cross-component tint from kete grid hover
-  const { accent } = useKeteAccent();
+  const { accent } = useAssemblAccent();
   const tintRef = useRef<THREE.Color | null>(null);
   useEffect(() => {
     if (accent) {

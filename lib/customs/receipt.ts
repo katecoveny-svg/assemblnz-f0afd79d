@@ -8,7 +8,7 @@
  * hash so the pack can be shown to Customs on an audit.
  *
  * Shapes reuse the existing Evidence Ledger types (lib/evidence/types.ts) so
- * these receipts render in the same /mana-receipts surface. Assembl
+ * these receipts render on the Evidence journey surface. Assembl
  * attribution lives here in the receipt issuer — this is the one place the
  * chrome carries an assembl mark.
  */

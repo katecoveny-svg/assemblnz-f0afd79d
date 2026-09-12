@@ -114,7 +114,6 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/how-it-works',
   '/trust',
   '/contact',
-  '/mana-receipts',
   '/te-tiriti',
   '/legal',
   '/bundles',
@@ -827,6 +826,16 @@ export async function middleware(request: NextRequest) {
     ) {
       const url = request.nextUrl.clone();
       url.pathname = '/agents/ensemble';
+      url.search = '';
+      return NextResponse.redirect(url, 308);
+    }
+
+    // Retired public Mana Receipts surface → Evidence journey (permanent).
+    // Must run before splashGate: /mana-receipts is no longer splash-exempt,
+    // and without this hop the apex would rewrite to the homepage at 200.
+    if (pathname === '/mana-receipts' || pathname.startsWith('/mana-receipts/')) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/journeys/evidence-receipt';
       url.search = '';
       return NextResponse.redirect(url, 308);
     }

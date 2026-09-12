@@ -4,7 +4,7 @@ import { GlobalNav, GlobalFooter } from '@/components/site/GlobalChrome';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
 import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget';
-import { KeteAccentProvider } from '@/components/KeteAccentContext';
+import { AssemblAccentProvider } from '@/components/AssemblAccentContext';
 import { PwaRegister } from '@/components/site/PwaRegister';
 import { PublicWatchFrame } from '@/components/site/watch/PublicWatchFrame';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -122,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
-        <KeteAccentProvider>
+        <AssemblAccentProvider>
           <ScrollProgress />
           <CommandPalette />
           <div className="hidden md:block">
@@ -136,7 +136,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </main>
             <GlobalFooter />
           </PublicWatchFrame>
-        </KeteAccentProvider>
+        </AssemblAccentProvider>
       </body>
     </html>
   );
