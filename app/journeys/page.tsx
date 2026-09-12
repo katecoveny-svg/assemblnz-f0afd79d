@@ -57,6 +57,47 @@ export default async function JourneysIndex() {
 
         <div style={{ display: 'grid', gap: '1rem', marginTop: '2.5rem' }}>
           <Link
+            href="/journeys/operator-desk"
+            style={{
+              display: 'block',
+              border: '1px solid rgba(145,106,112,0.4)',
+              borderRadius: 20,
+              padding: '1.5rem 1.75rem',
+              textDecoration: 'none',
+              color: 'inherit',
+              background: 'linear-gradient(180deg, #fffdfb, #f5f1f2)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-display, Georgia, serif)',
+                  fontSize: '1.5rem',
+                  margin: 0,
+                }}
+              >
+                Operator desk DEMO · live session
+              </h2>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: '#916A70',
+                  alignSelf: 'center',
+                }}
+              >
+                status DEMO
+              </span>
+            </div>
+            <p style={{ margin: '0.6rem 0 0', color: 'var(--a-text-dim, #556)', lineHeight: 1.55 }}>
+              Live Operator craft for wait→earn, Evidence receipts, approvals and agents. Auto-advancing
+              DEMO session — not money moved, not a trading desk.
+            </p>
+          </Link>
+
+          <Link
             href="/journeys/evidence-receipt"
             style={{
               display: 'block',
