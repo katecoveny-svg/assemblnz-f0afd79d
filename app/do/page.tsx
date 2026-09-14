@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     'DO Agent OS v0 preview — see something, ✦ make agent. DEMO only; consequential actions always need a human yes.',
   robots: { index: false, follow: false },
+  manifest: '/do/manifest.webmanifest',
 };
 
 export default function DoPage() {

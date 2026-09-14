@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { AgentSpec, DemoTemplate, PageContext, TemplateLane } from '@/apps/do/shared/types';
 import { DoFloatingWidget } from './DoFloatingWidget';
+import { DoDistributionPlates } from './DoDistributionPlates';
 
 type Groups = Record<'needs_you' | 'working' | 'done', AgentSpec[]>;
 
@@ -161,6 +162,37 @@ export function DoHome() {
     setError(null);
   }
 
+  async function runWhatsAppSim() {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/do/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ surface: 'whatsapp', demo: true }),
+      });
+      const data = await res.json();
+      if (!res.ok && !data.spec) throw new Error(data.error || data.honesty || 'whatsapp sim failed');
+      if (data.spec) {
+        setDraft(data.spec as AgentSpec);
+        setMakeOpen(true);
+      }
+      await refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'whatsapp sim failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function openClearAgent() {
+    setBrief('keep my writing clear on this site — flag AI-slop and basic grammar');
+    void compile(
+      'keep my writing clear on this site — flag AI-slop and basic grammar',
+      'clear-writing-watch',
+    );
+  }
+
   return (
     <div className="do-root">
       <div className="do-shell">
@@ -218,15 +250,28 @@ export function DoHome() {
               <span className="do-chip-dot" /> Mitre 10 DEMO
             </span>
             <span className="do-chip do-chip-live">
-              <span className="do-chip-dot" /> Watch + Evidence
+              <span className="do-chip-dot" /> DO Clear
             </span>
+            <span className="do-chip do-chip-live">
+              <span className="do-chip-dot" /> Share intake
+            </span>
+            <span className="do-chip do-chip-stub">WhatsApp DEMO</span>
+            <span className="do-chip do-chip-stub">Keyboard stub</span>
+            <span className="do-chip do-chip-stub">Home widget stub</span>
             <span className="do-chip do-chip-stub">SAP stub</span>
-            <span className="do-chip do-chip-stub">Xero stub</span>
             <span className="do-chip do-chip-stub">Astra stub</span>
           </div>
         </section>
 
         {error ? <p className="do-error">{error}</p> : null}
+
+        <DoDistributionPlates
+          groups={groups}
+          busy={busy}
+          onRefresh={() => void refresh()}
+          onWhatsAppSim={() => void runWhatsAppSim()}
+          onOpenClearAgent={openClearAgent}
+        />
 
         {makeOpen ? (
           <section className="do-make" aria-label="Make agent">

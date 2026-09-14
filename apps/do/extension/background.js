@@ -47,6 +47,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       .catch((err) => sendResponse({ ok: false, error: String(err?.message || err) }));
     return true;
   }
+  if (message?.type === 'DO_CLEAR_SCAN') {
+    clearScan(message.text, message.rewrite !== false)
+      .then((data) => sendResponse({ ok: true, data }))
+      .catch((err) => sendResponse({ ok: false, error: String(err?.message || err) }));
+    return true;
+  }
   if (message?.type === 'DO_GET_API_BASE') {
     chrome.storage.local.get(['doApiBase'], (res) => {
       sendResponse({ apiBase: res.doApiBase || 'http://localhost:3000' });
@@ -93,5 +99,17 @@ async function getTemplates() {
   const res = await fetch(`${base}/api/do/templates`);
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'templates failed');
+  return data;
+}
+
+async function clearScan(text, rewrite = true) {
+  const base = await apiBase();
+  const res = await fetch(`${base}/api/do/clear`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, rewrite: !!rewrite }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'clear scan failed');
   return data;
 }

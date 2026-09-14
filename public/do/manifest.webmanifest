@@ -1,0 +1,27 @@
+{
+  "name": "DO · assembl PREVIEW",
+  "short_name": "DO",
+  "description": "See something → ✦ make agent. DEMO PREVIEW.",
+  "start_url": "/do",
+  "scope": "/do",
+  "display": "standalone",
+  "background_color": "#FFFDFB",
+  "theme_color": "#240B21",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "share_target": {
+    "action": "/api/do/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

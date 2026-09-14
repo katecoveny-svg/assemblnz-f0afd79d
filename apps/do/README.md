@@ -2,9 +2,9 @@
 
 Working name: **DO**. Behaviour: **See something → ✦ make agent.**
 
-Promise: **DO anything from where you already are.** Surface ≠ agent — the floating ✦ is one launch surface; the agent is the AgentSpec.
+Promise: **DO anything from where you already are.** Surface ≠ agent.
 
-Isolated DEMO / PREVIEW inside the assembl monorepo. Does **not** change the live homepage (`/`, CinematicJourneyHome) or One NZ / Evidence / Operator journeys.
+Isolated DEMO / PREVIEW. Does **not** change the live homepage (`/`).
 
 ## How to try (fast path)
 
@@ -14,33 +14,46 @@ pnpm --filter @assembl/canvas build   # once, if needed
 pnpm dev                              # http://localhost:3000/do
 ```
 
-### Floating ✦ widget on `/do`
+### Floating ✦ + Mitre DEMO
 
-1. Open `http://localhost:3000/do`
-2. Click the floating **✦** (bottom-right) — Grammarly-like compact sheet
-3. Context chips show URL / title / selection
-4. Pick a template from a lane, or type “make agent for this” → compile
-5. Review AgentSpec card (**watches / when / does / asks first**)
-6. Optional connector stub (SAP / email / calendar / Xero / Akahu) — default **Hook later**
-7. **Activate** → lands in Working / Needs you with Evidence
+1. Open `/do` → floating **✦** (bottom-right)
+2. Pick a launch template or type a brief → AgentSpec → Activate
+3. **Mitre 10 · SAP pursuit DEMO** → fixture RFP → Activate → Needs you + Evidence
 
-### Mitre 10 · SAP pursuit DEMO
+### Share sheet / paste into DO
 
-1. On `/do`, click **Mitre 10 · SAP pursuit DEMO**
-2. Widget opens on template `mitre10-sap-rfp-brief` with fictional RFP + SAP landscape fixture context
-3. Review the AgentSpec → **Activate**
-4. Agent moves to **Needs you** with **DO Evidence** (draft from fixtures — nothing sent)
-5. Approve (DEMO) records your yes; does not email/submit/write to SAP
+1. Open `/do/share` or use the **Paste / share into DO** plate
+2. Paste text/URL → Make agent, or load the share DEMO fixture
+3. Installable PWA manifest: `/do/manifest.webmanifest` with `share_target` → `POST /api/do/share`
+4. **iOS Share Sheet → DO** when the native app exists (documented; not built in this PREVIEW)
 
-Lane: `pursuit-mitre10-sap` also includes competitor watch, stakeholder map, proposal compare, next meeting pack.
+### WhatsApp fixture sim
+
+On `/do`, click **WhatsApp fixture sim** → `POST /api/do/message` with `{ surface: "whatsapp", demo: true }` → compiles a DEMO agent (no live webhook).
+
+### DO Clear (grammar + anti-AI-slop)
+
+1. On `/do`, use the **DO Clear** plate — sample sloppy draft, chips, plain rewrite, “Make agent: keep clear”
+2. Chrome extension: type in any `textarea` / `contenteditable` → chips under the field (paper/plum ✦, not purple Grammarly)
+3. Side panel → **DO Clear · writing DEMO**
+4. Honesty: local heuristics + stub rewrite — **not Grammarly parity**
+
+### Keyboard + Home widget (native stubs)
+
+| Platform | Path | README |
+|----------|------|--------|
+| iOS Keyboard | `apps/do/ios/DoKeyboard/` | open in Xcode, Full Access warning |
+| iOS Needs you widget | `apps/do/ios/DoNeedsYouWidget/` | WidgetKit stub, `do://needs-you` |
+| Android IME | `apps/do/android/DoIme/` | open in Android Studio |
+| Android Needs you | `apps/do/android/DoNeedsYouWidget/` | App Widget stub |
+
+Linux CI cannot App Store / Play–build these — **compiling-ready stubs** only. Web preview plates on `/do` show keyboard chrome + Needs you mini board.
 
 ### Chrome extension
 
-1. `chrome://extensions` → Developer mode → **Load unpacked** → `apps/do/extension`
-2. Open any http(s) page → floating **✦** opens an on-page compact sheet (same flow as `/do`)
-3. Side panel remains available as a second surface
-4. Set API base to `http://localhost:3000` if needed
-5. Confirm boards on `/do`
+1. `chrome://extensions` → Load unpacked → `apps/do/extension`
+2. Floating ✦ opens on-page sheet; Clear overlay watches editable fields
+3. API base default `http://localhost:3000`
 
 ## Architecture
 
@@ -50,30 +63,11 @@ context + intent → AgentSpec → tools → permissions → outcome
 
 | Surface | Status |
 |---------|--------|
-| Chrome MV3 ✦ (on-page sheet) | live (MVP) |
-| Web `/do` floating ✦ | live (MVP) |
-| WhatsApp / SMS / Messenger | stubs only |
-
-### Runtime routing (not a chatbot)
-
-| Job class | Lane | Example |
-|-----------|------|---------|
-| Simple single-source | **local** Watch / primitive | power price change |
-| Multi-source / compare / find | **Astra-class** (stub) | quote compare, GETS-like find |
-
-## Launch template catalog
-
-Data-driven registry in `apps/do/shared/templates.ts` — served by `GET /api/do/templates` (grouped by lane), used by `/do` + extension.
-
-| Lane | Examples |
-|------|----------|
-| Mitre 10 · SAP pursuit | RFP brief, competitor watch, stakeholder map, proposal compare, meeting pack |
-| Personal / Household | power price, plan compare, school notice, physio watch, tradie find |
-| Bills / Money | recurring expense, invoice extract, quote compare |
-| Work / Pursuit | GETS-like find, bid brief, competitor watch, meeting prep |
-| Study / Family | tutor (hints not answers), newsletter → calendar, kids tomorrow |
-| Retail / Ops | stock watch, supplier quotes, store notice |
-| SME | Xero recurring (stub), customer follow-up (asks first) |
+| Chrome MV3 ✦ + Clear | live |
+| Web `/do` + floating ✦ | live |
+| Share / keyboard / home-widget | DEMO |
+| WhatsApp | DEMO fixture sim (webhook stub) |
+| SMS / Messenger | stubs |
 
 ## API map
 
@@ -81,24 +75,21 @@ Data-driven registry in `apps/do/shared/templates.ts` — served by `GET /api/do
 |--------|------|---------|
 | `POST` | `/api/do/agents/compile` | NL + page → AgentSpec |
 | `POST` | `/api/do/agents/:id/activate` | Activate (`{ connector? }`) |
-| `POST` | `/api/do/agents/:id/tick` | Watch tick (`{ simulateChange? }`) |
-| `POST` | `/api/do/agents/:id/approve` | Approve / decline |
-| `GET`  | `/api/do/templates` | Catalog + groups + connector stubs + fixtures |
+| `POST` | `/api/do/message` | Common ingress (chrome/web/share/keyboard/whatsapp DEMO) |
+| `POST` | `/api/do/share` | Web Share Target / paste intake |
+| `POST` | `/api/do/clear` | DO Clear scan + optional stub rewrite |
+| `GET`  | `/api/do/templates` | Catalog + groups + connectors |
 | `GET`  | `/api/do/agents?grouped=1` | Boards |
-| `POST` | `/api/do/message` | Common surface ingress |
-| `GET`  | `/api/do/surfaces` | Live + stub surfaces |
-
-Primitives: `watch` | `find` | `extract` | `prepare` | `compare`.
+| `GET`  | `/api/do/surfaces` | Surface registry |
 
 ## DEMO honesty
 
-- PREVIEW / DEMO banners on every launch surface
-- Mitre 10 / SAP pack uses **fictional** RFP and landscape fixtures — not a live Mitre 10 or SAP system
-- Connector picker is stubs only; **Hook later** is the default
-- Approve records your yes; does **not** buy/book/send/post/submit/pay/sign externally
-- Local JSON (`apps/do/data/`) or in-memory — not multi-device
-- Astra lane stubbed
 - Homepage `/` untouched
+- Mitre/SAP fixtures fictional
+- Connectors + WhatsApp webhook stubs; **Hook later** default
+- DO Clear is heuristics, not Grammarly
+- Native keyboard/widgets are stubs — enable Full Access / IME only when you trust the API base
+- Approve does not buy/book/send/post/submit/pay/sign externally
 
 ## Brand
 
