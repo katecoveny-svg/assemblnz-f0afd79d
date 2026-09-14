@@ -23,6 +23,23 @@ export const DEMO_TEMPLATES: DemoTemplate[] = [
     never: ['buy or add to cart', 'submit forms on the page'],
   },
   {
+    id: 'power-price-watch',
+    name: 'Power price Watch DEMO',
+    summary: 'Detect a fixture power-price page change (v1 → v2). Local Watch lane.',
+    brief: 'did this power price change?',
+    primitive: 'watch',
+    fixture: 'power-price-watch',
+    watches: ['fixture:power-price-watch'],
+    looks_for: ['c/kWh rate changes', 'effective-from date'],
+    can_do_without_asking: [
+      'snapshot the DEMO price card',
+      'diff against the last snapshot',
+      'attach DO Evidence when a change is found',
+    ],
+    must_ask_before: ['send me a notification off this device'],
+    never: ['switch plans', 'pay a bill', 'submit a form'],
+  },
+  {
     id: 'school-notice',
     name: 'School notice → calendar',
     summary: 'Extract dates from a school notice and draft calendar suggestions.',

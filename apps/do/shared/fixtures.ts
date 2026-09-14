@@ -91,6 +91,18 @@ Office`,
       },
     ],
   },
+  /** DEMO power-price pages for Watch change detection (v1 → v2). */
+  'power-price-watch': {
+    title: 'DEMO · residential power price card',
+    v1: {
+      url: 'fixture://power-price/v1',
+      body: 'Contact Energy DEMO · Anytime rate 32.4 c/kWh · Daily fixed $2.10 · Effective until 30 Sep 2026.',
+    },
+    v2: {
+      url: 'fixture://power-price/v2',
+      body: 'Contact Energy DEMO · Anytime rate 35.1 c/kWh · Daily fixed $2.10 · Effective from 1 Oct 2026.',
+    },
+  },
 } as const;
 
 export type FixtureKey = keyof typeof FIXTURES;

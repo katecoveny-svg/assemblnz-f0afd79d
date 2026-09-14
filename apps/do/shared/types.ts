@@ -1,7 +1,12 @@
 /**
  * DO Agent OS v0 — shared types.
  * Working name: DO. Behaviour: See something → ✦ make agent.
+ * Core spine (channel-agnostic): context + intent → AgentSpec → tools → permissions → outcome
  */
+
+import type { DoEvidence, RuntimeLane, ToolPlan } from './pipeline';
+import type { WatchSnapshot } from './watch';
+import type { ApprovalChainStep } from './approval-chain';
 
 export type AgentPrimitive = 'watch' | 'find' | 'extract' | 'prepare' | 'compare';
 
@@ -52,6 +57,14 @@ export interface AgentSpec {
   pendingApprovals: PendingApproval[];
   /** Latest working note / receipt (plain English). */
   lastNote?: string;
+  /** Runtime lane chosen by router (local vs Astra-class). */
+  lane?: RuntimeLane;
+  /** Tool plan from router. */
+  toolPlan?: ToolPlan;
+  /** Last watch snapshots for change detection. */
+  watchSnapshots?: WatchSnapshot[];
+  /** Evidence receipt when an outcome completes. */
+  evidence?: DoEvidence;
 }
 
 export interface PendingApproval {
@@ -61,6 +74,8 @@ export interface PendingApproval {
   /** Why this was classified as needing approval (policy, not model). */
   policyHit: ConsequentialVerb | 'policy';
   createdAt: string;
+  /** Major-decision chain only (specialist → skeptic → decision → human). */
+  chain?: ApprovalChainStep[];
 }
 
 export interface CompileRequest {
@@ -68,6 +83,8 @@ export interface CompileRequest {
   page?: PageContext;
   /** Optional template id to seed from. */
   templateId?: string;
+  /** Launch surface that produced this compile. */
+  surface?: string;
 }
 
 export interface CompileResponse {

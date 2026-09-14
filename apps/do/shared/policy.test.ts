@@ -52,16 +52,15 @@ describe('DO compile', () => {
     expect(spec.can_do_without_asking.every((a) => !requiresHumanApproval(a))).toBe(true);
   });
 
-  it('ships five NZ DEMO templates', () => {
-    expect(DEMO_TEMPLATES).toHaveLength(5);
+  it('ships NZ DEMO templates including power-price Watch', () => {
+    expect(DEMO_TEMPLATES.length).toBeGreaterThanOrEqual(5);
     const ids = DEMO_TEMPLATES.map((t) => t.id);
-    expect(ids).toEqual([
-      'price-watcher',
-      'school-notice',
-      'gets-opportunity',
-      'quote-compare',
-      'kids-tomorrow',
-    ]);
+    expect(ids).toContain('price-watcher');
+    expect(ids).toContain('power-price-watch');
+    expect(ids).toContain('school-notice');
+    expect(ids).toContain('gets-opportunity');
+    expect(ids).toContain('quote-compare');
+    expect(ids).toContain('kids-tomorrow');
   });
 
   it('compiles from a template id', () => {

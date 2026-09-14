@@ -273,6 +273,45 @@
   margin: 0;
 }
 
+.do-evidence {
+  margin-top: 0.9rem;
+  padding: 0.75rem;
+  background: var(--do-chalk);
+  border-radius: 12px;
+  border-left: 3px solid var(--do-heather);
+}
+
+.do-evidence-summary {
+  margin: 0.35rem 0;
+  font-size: 0.92rem;
+}
+
+.do-evidence-why {
+  margin: 0 0 0.5rem;
+  color: var(--do-muted);
+  font-size: 0.88rem;
+}
+
+.do-evidence ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.do-chain {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.do-watch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
 @media (max-width: 520px) {
   .do-brand {
     font-size: 2.6rem;

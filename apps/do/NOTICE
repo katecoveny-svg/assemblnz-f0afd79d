@@ -1,0 +1,28 @@
+# NOTICE — third-party inspiration for DO Agent OS v0
+
+This PREVIEW selectively adapts *patterns* from open-source projects.
+It is **not** a fork or redistribution of those codebases.
+
+## changedetection.io (Apache License 2.0)
+
+- Project: https://github.com/dgtlmoon/changedetection.io
+- License: Apache-2.0
+- What we took: the idea of content hashing / snapshot diff for page & price watches
+- Where: `apps/do/shared/watch.ts` (small local hash+diff primitive)
+
+## ArchiveBox (inspired; not copied)
+
+- Project: https://github.com/ArchiveBox/ArchiveBox
+- What we took: preserve “what was seen” when something important happens
+- Where: `apps/do/shared/evidence.ts` — DO Evidence receipts on outcomes
+
+## TradingAgents (inspired; not copied)
+
+- Pattern: specialist → skeptic → decision → human approval
+- Where: `apps/do/shared/approval-chain.ts` — **only** for major pay/buy/sign/submit paths
+- Simple Watch / extract / prepare agents stay single-primitive
+
+## Explicitly out of scope this PREVIEW
+
+- Voicebox, SearXNG, LibreTranslate (note for later; AGPL components must stay separately hosted if ever used)
+- DO Store, autonomous purchases, real Akahu/Xero OAuth

@@ -95,6 +95,26 @@ export function DoHome() {
     }
   }
 
+  async function tick(id: string, simulateChange = false) {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/do/agents/${id}/tick`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ simulateChange }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'tick failed');
+      setDraft(data.agent as AgentSpec);
+      await refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'tick failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="do-root">
       <header className="do-top">
@@ -179,6 +199,7 @@ export function DoHome() {
         busy={busy}
         onActivate={(id) => void activate(id)}
         onDecide={decide}
+        onTick={(id, sim) => void tick(id, sim)}
       />
       <Board
         title="Working"
@@ -187,6 +208,7 @@ export function DoHome() {
         busy={busy}
         onActivate={(id) => void activate(id)}
         onDecide={decide}
+        onTick={(id, sim) => void tick(id, sim)}
       />
       <Board
         title="Done"
@@ -195,6 +217,7 @@ export function DoHome() {
         busy={busy}
         onActivate={(id) => void activate(id)}
         onDecide={decide}
+        onTick={(id, sim) => void tick(id, sim)}
       />
     </div>
   );
@@ -206,6 +229,7 @@ function Board({
   busy,
   onActivate,
   onDecide,
+  onTick,
 }: {
   title: string;
   statusKey: string;
@@ -213,6 +237,7 @@ function Board({
   busy: boolean;
   onActivate: (id: string) => void;
   onDecide: (agentId: string, approvalId: string, decision: 'approve' | 'reject') => void;
+  onTick: (id: string, simulateChange?: boolean) => void;
 }) {
   return (
     <section className="do-board" aria-label={title}>
@@ -229,6 +254,7 @@ function Board({
             busy={busy}
             onActivate={() => onActivate(a.id)}
             onDecide={onDecide}
+            onTick={onTick}
           />
         ))}
       </div>
@@ -240,12 +266,14 @@ function AgentCard({
   spec,
   onActivate,
   onDecide,
+  onTick,
   busy,
   highlight,
 }: {
   spec: AgentSpec;
   onActivate?: () => void;
   onDecide?: (agentId: string, approvalId: string, decision: 'approve' | 'reject') => void;
+  onTick?: (id: string, simulateChange?: boolean) => void;
   busy?: boolean;
   highlight?: boolean;
 }) {
@@ -253,7 +281,10 @@ function AgentCard({
     <article className={`do-card${highlight ? ' do-card-highlight' : ''}`}>
       <header className="do-card-head">
         <h3>{spec.name}</h3>
-        <span className="do-mono">{spec.primitive}</span>
+        <span className="do-mono">
+          {spec.primitive}
+          {spec.lane ? ` · ${spec.lane}` : ''}
+        </span>
       </header>
       <p className="do-brief">{spec.brief}</p>
       <dl className="do-spec">
@@ -280,6 +311,23 @@ function AgentCard({
       </dl>
       {spec.lastNote ? <p className="do-note">{spec.lastNote}</p> : null}
 
+      {spec.evidence ? (
+        <div className="do-evidence">
+          <p className="do-mono">DO Evidence</p>
+          <p className="do-evidence-summary">{spec.evidence.summary}</p>
+          <p className="do-evidence-why">{spec.evidence.why}</p>
+          <ul>
+            {spec.evidence.sources.map((s) => (
+              <li key={s.id}>
+                <span className="do-mono">{s.kind}</span> {s.label}
+                {s.contentHash ? ` · ${s.contentHash}` : ''}
+                {s.excerpt ? ` — ${s.excerpt.slice(0, 100)}` : ''}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       {spec.pendingApprovals.map((p) => (
         <div key={p.id} className="do-approval">
           <p>
@@ -287,6 +335,15 @@ function AgentCard({
             <br />
             {p.reason}
           </p>
+          {p.chain?.length ? (
+            <ol className="do-chain">
+              {p.chain.map((step) => (
+                <li key={step.stage}>
+                  <span className="do-mono">{step.stage}</span> {step.note}
+                </li>
+              ))}
+            </ol>
+          ) : null}
           {onDecide ? (
             <div className="do-approval-actions">
               <button type="button" disabled={busy} onClick={() => onDecide(spec.id, p.id, 'approve')}>
@@ -299,6 +356,17 @@ function AgentCard({
           ) : null}
         </div>
       ))}
+
+      {spec.primitive === 'watch' && onTick && (spec.status === 'working' || spec.watchSnapshots?.length) ? (
+        <div className="do-watch-actions">
+          <button type="button" className="do-cta do-cta-secondary" disabled={busy} onClick={() => onTick(spec.id, false)}>
+            Tick watch
+          </button>
+          <button type="button" className="do-cta do-cta-secondary" disabled={busy} onClick={() => onTick(spec.id, true)}>
+            Simulate change
+          </button>
+        </div>
+      ) : null}
 
       {onActivate && spec.status === 'needs_you' && spec.pendingApprovals.length === 0 ? (
         <button type="button" className="do-cta do-cta-secondary" disabled={busy} onClick={onActivate}>

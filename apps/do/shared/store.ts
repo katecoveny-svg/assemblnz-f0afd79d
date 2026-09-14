@@ -10,6 +10,10 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import type { AgentSpec, AgentStatus, PendingApproval } from './types';
 import { detectConsequentialVerb, requiresHumanApproval } from './policy';
+import { buildMajorApproval, needsMajorChain } from './approval-chain';
+import { diffSnapshots, getWatchFixture, snapshotFromText } from './watch';
+import { evidenceFromSnapshots, evidenceFromSources } from './evidence';
+import { stubAstraProvider } from './router';
 
 const DATA_DIR = path.join(process.cwd(), 'apps/do/data');
 const DATA_FILE = path.join(DATA_DIR, 'agents.json');
@@ -50,7 +54,6 @@ async function load(): Promise<StoreShape> {
     fileOk = true;
     return fromFile;
   }
-  // First write attempt will set fileOk.
   return memory;
 }
 
@@ -92,24 +95,63 @@ export async function activateAgent(id: string): Promise<AgentSpec | null> {
   if (!agent) return null;
 
   const pending: PendingApproval[] = [...agent.pendingApprovals];
-  // Demo behaviour: watchers start working; templates that prepare drafts
-  // leave a review item under needs_you when must_ask_before is non-empty.
   let status: AgentStatus = 'working';
   let lastNote = 'Working · watching / preparing within policy.';
+  let watchSnapshots = agent.watchSnapshots ? [...agent.watchSnapshots] : [];
 
   if (agent.primitive === 'watch') {
-    lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}.`;
+    // Seed a baseline snapshot for fixture watches / page text.
+    if (agent.watches.some((w) => w.includes('power-price') || w.includes('fixture:power-price'))) {
+      const page = getWatchFixture('v1');
+      const snap = snapshotFromText(page.key, page.body, { label: page.label, url: page.url });
+      watchSnapshots = [snap];
+      lastNote = `Working · baseline stored for ${page.label}. Tick to simulate a change.`;
+    } else if (agent.page?.pageText || agent.page?.url) {
+      const body = agent.page.pageText || agent.page.title || agent.page.url;
+      const snap = snapshotFromText(agent.page.url || 'page', body, {
+        label: agent.page.title || agent.page.url,
+        url: agent.page.url,
+      });
+      watchSnapshots = [snap];
+      lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}.`;
+    } else {
+      lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}.`;
+    }
+  } else if (agent.lane === 'astra') {
+    const astra = await stubAstraProvider.run({
+      brief: agent.brief,
+      contextSummary: agent.watches.join(', '),
+    });
+    lastNote = astra.draft;
+    if (agent.must_ask_before.length > 0) {
+      status = 'needs_you';
+      const action = agent.must_ask_before[0];
+      pending.push(
+        needsMajorChain(action)
+          ? buildMajorApproval(action)
+          : {
+              id: randomUUID(),
+              action,
+              reason: `Ready for your yes before: ${action}`,
+              policyHit: detectConsequentialVerb(action) ?? 'policy',
+              createdAt: new Date().toISOString(),
+            },
+      );
+    }
   } else if (agent.must_ask_before.length > 0) {
     status = 'needs_you';
     const action = agent.must_ask_before[0];
-    const hit = detectConsequentialVerb(action) ?? 'policy';
-    pending.push({
-      id: randomUUID(),
-      action,
-      reason: `Ready for your yes before: ${action}`,
-      policyHit: hit,
-      createdAt: new Date().toISOString(),
-    });
+    pending.push(
+      needsMajorChain(action)
+        ? buildMajorApproval(action)
+        : {
+            id: randomUUID(),
+            action,
+            reason: `Ready for your yes before: ${action}`,
+            policyHit: detectConsequentialVerb(action) ?? 'policy',
+            createdAt: new Date().toISOString(),
+          },
+    );
     lastNote = 'Needs you · draft ready; consequential step waiting on approval.';
   }
 
@@ -118,6 +160,81 @@ export async function activateAgent(id: string): Promise<AgentSpec | null> {
     status,
     pendingApprovals: pending,
     lastNote,
+    watchSnapshots,
+  });
+}
+
+/**
+ * Tick a watch agent — DEMO change detection.
+ * Pass `simulateChange: true` to advance the power-price fixture to v2.
+ */
+export async function tickWatch(
+  id: string,
+  opts: { simulateChange?: boolean } = {},
+): Promise<AgentSpec | null> {
+  const agent = await getAgent(id);
+  if (!agent || agent.primitive !== 'watch') return null;
+
+  const previous = agent.watchSnapshots?.[agent.watchSnapshots.length - 1];
+  let nextBody: string;
+  let label: string;
+  let url: string | undefined;
+  let key: string;
+
+  const isPower = agent.watches.some((w) => w.includes('power-price'));
+  if (isPower) {
+    const page = getWatchFixture(opts.simulateChange ? 'v2' : 'v1');
+    nextBody = page.body;
+    label = page.label;
+    url = page.url;
+    key = page.key;
+  } else {
+    nextBody = agent.page?.pageText || previous?.excerpt || agent.page?.title || '';
+    if (opts.simulateChange) nextBody = `${nextBody} · CHANGED ${Date.now()}`;
+    label = agent.page?.title || agent.name;
+    url = agent.page?.url;
+    key = url || agent.id;
+  }
+
+  const next = snapshotFromText(key, nextBody, { label, url });
+  const { changed, note } = diffSnapshots(previous, next);
+  const snapshots = [...(agent.watchSnapshots ?? []), next].slice(-8);
+
+  if (!changed) {
+    return saveAgent({
+      ...agent,
+      status: 'working',
+      watchSnapshots: snapshots,
+      lastNote: note,
+    });
+  }
+
+  const evidence = evidenceFromSnapshots(
+    agent.id,
+    previous ? [previous, next] : [next],
+    'Rate or copy changed between snapshots — review before acting.',
+    note,
+  );
+
+  const pending: PendingApproval[] = [...agent.pendingApprovals];
+  if (agent.must_ask_before[0]) {
+    const action = agent.must_ask_before[0];
+    pending.push({
+      id: randomUUID(),
+      action,
+      reason: `Change detected · ${action}`,
+      policyHit: detectConsequentialVerb(action) ?? 'policy',
+      createdAt: new Date().toISOString(),
+    });
+  }
+
+  return saveAgent({
+    ...agent,
+    status: 'needs_you',
+    watchSnapshots: snapshots,
+    pendingApprovals: pending,
+    evidence,
+    lastNote: `${note} · moved to Needs you with Evidence.`,
   });
 }
 
@@ -131,8 +248,6 @@ export async function approvePending(
   const item = agent.pendingApprovals.find((p) => p.id === approvalId);
   if (!item) return null;
 
-  // Even an "approve" in DEMO does not perform the consequential action —
-  // we only record the decision and move the agent to done / working.
   if (decision === 'approve' && requiresHumanApproval(item.action)) {
     // Recorded yes — still DEMO: we do not buy/book/send/etc.
   }
@@ -141,10 +256,39 @@ export async function approvePending(
   const status: AgentStatus =
     decision === 'approve' && remaining.length === 0 ? 'done' : remaining.length ? 'needs_you' : 'working';
 
+  let evidence = agent.evidence;
+  if (decision === 'approve' && status === 'done' && !evidence) {
+    evidence = evidenceFromSources(
+      agent.id,
+      [
+        {
+          kind: 'brief',
+          label: agent.name,
+          excerpt: agent.brief,
+          capturedAt: new Date().toISOString(),
+        },
+        ...(agent.page
+          ? [
+              {
+                kind: 'page' as const,
+                label: agent.page.title || agent.page.url,
+                url: agent.page.url,
+                excerpt: (agent.page.pageText || agent.page.selectedText || '').slice(0, 200),
+                capturedAt: new Date().toISOString(),
+              },
+            ]
+          : []),
+      ],
+      `You approved “${item.action}”. DEMO — nothing was sent externally.`,
+      `Outcome recorded for ${agent.name}.`,
+    );
+  }
+
   return saveAgent({
     ...agent,
     pendingApprovals: remaining,
     status,
+    evidence,
     lastNote:
       decision === 'approve'
         ? `Done · you approved “${item.action}” (DEMO — nothing was sent externally).`

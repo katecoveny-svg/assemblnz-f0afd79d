@@ -10,6 +10,18 @@ export type {
   PendingApproval,
 } from './types';
 
+export type {
+  DoContext,
+  DoIntent,
+  DoEvidence,
+  DoEvidenceSource,
+  DoMessage,
+  DoOutcome,
+  LaunchSurface,
+  RuntimeLane,
+  ToolPlan,
+} from './pipeline';
+
 export {
   CONSEQUENTIAL_VERBS,
   detectConsequentialVerb,
@@ -29,4 +41,10 @@ export {
   activateAgent,
   approvePending,
   agentsByStatus,
+  tickWatch,
 } from './store';
+export { chooseLane, planTools, stubAstraProvider } from './router';
+export { SURFACES, getSurface } from './surfaces';
+export { diffSnapshots, getWatchFixture, snapshotFromText, hashContent } from './watch';
+export { evidenceFromSnapshots, evidenceFromSources } from './evidence';
+export { needsMajorChain, buildMajorApproval } from './approval-chain';

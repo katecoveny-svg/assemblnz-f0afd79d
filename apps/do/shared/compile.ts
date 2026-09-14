@@ -7,6 +7,7 @@
 import { randomUUID } from 'node:crypto';
 import { enforceApprovalPolicy, POLICY_HONESTY } from './policy';
 import { getTemplate, DEMO_TEMPLATES } from './templates';
+import { planTools } from './router';
 import type {
   AgentPrimitive,
   AgentSpec,
@@ -158,6 +159,7 @@ export function compileAgent(input: CompileRequest): CompileResponse {
 
   const enforced = enforceApprovalPolicy(base);
   const now = new Date().toISOString();
+  const toolPlan = planTools(primitive, { brief: brief || template?.brief || '' });
 
   const spec: AgentSpec = {
     id: randomUUID(),
@@ -172,7 +174,15 @@ export function compileAgent(input: CompileRequest): CompileResponse {
     updatedAt: now,
     pendingApprovals: [],
     lastNote: 'Compiled · not active yet. Review the card, then activate.',
+    lane: toolPlan.lane,
+    toolPlan,
+    watchSnapshots: [],
   };
 
-  return { spec, honesty: POLICY_HONESTY };
+  const honesty =
+    toolPlan.lane === 'astra'
+      ? `${POLICY_HONESTY} · Astra-class lane (stub in v0).`
+      : POLICY_HONESTY;
+
+  return { spec, honesty };
 }
