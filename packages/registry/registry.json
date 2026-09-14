@@ -1,0 +1,119 @@
+{
+  "$schema": "./registry.schema.json",
+  "name": "@assembl/registry",
+  "version": "0.1.0",
+  "description": "AI-readable block registry for assembl Studio creative director. Stubs for PREVIEW v0.",
+  "homepage": "https://assembl.co.nz/creative-studio",
+  "style": "assembl-plum-paper",
+  "tailwind": {
+    "config": "none — prefer CSS variables from nz-material",
+    "css": "packages/registry/src/nz-material/tokens.css"
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib",
+    "registry": "@assembl/registry"
+  },
+  "items": [
+    {
+      "name": "cinema-hero",
+      "type": "registry:block",
+      "title": "Cinema hero",
+      "description": "Full-bleed cinematic hero plane with still camera and assembling subjects.",
+      "dependencies": [],
+      "registryDependencies": ["nz-material", "wait-state"],
+      "files": ["src/cinema-hero/index.tsx", "src/cinema-hero/meta.json"],
+      "categories": ["hero", "motion"]
+    },
+    {
+      "name": "sideways-story",
+      "type": "registry:block",
+      "title": "Sideways story",
+      "description": "Horizontal chapter rail — one idea per viewport.",
+      "dependencies": [],
+      "registryDependencies": ["editorial-type", "camera-scroll"],
+      "files": ["src/sideways-story/index.tsx", "src/sideways-story/meta.json"],
+      "categories": ["narrative", "layout"]
+    },
+    {
+      "name": "object-assembly",
+      "type": "registry:block",
+      "title": "Object assembly",
+      "description": "MANY→COORDINATION→ONE sculptural object assembly.",
+      "dependencies": [],
+      "registryDependencies": ["particle-field", "nz-material"],
+      "files": ["src/object-assembly/index.tsx", "src/object-assembly/meta.json"],
+      "categories": ["3d", "motion"]
+    },
+    {
+      "name": "aerial-world",
+      "type": "registry:block",
+      "title": "Aerial world",
+      "description": "Minimalist top-down fine-art field — not tourism postcard.",
+      "dependencies": [],
+      "registryDependencies": ["nz-material"],
+      "files": ["src/aerial-world/index.tsx", "src/aerial-world/meta.json"],
+      "categories": ["3d", "hero"]
+    },
+    {
+      "name": "agent-live",
+      "type": "registry:block",
+      "title": "Agent live",
+      "description": "Quiet agent presence as coordinator — never chatbot mascot.",
+      "dependencies": [],
+      "registryDependencies": ["wait-state"],
+      "files": ["src/agent-live/index.tsx", "src/agent-live/meta.json"],
+      "categories": ["agent", "proof"]
+    },
+    {
+      "name": "wait-state",
+      "type": "registry:block",
+      "title": "Wait state",
+      "description": "Honest wait / assembling proof surface with mono labels.",
+      "dependencies": [],
+      "registryDependencies": ["nz-material"],
+      "files": ["src/wait-state/index.tsx", "src/wait-state/meta.json"],
+      "categories": ["proof", "motion"]
+    },
+    {
+      "name": "editorial-type",
+      "type": "registry:block",
+      "title": "Editorial type",
+      "description": "Instrument Sans hierarchy; IBM Plex Mono for proof only.",
+      "dependencies": [],
+      "registryDependencies": ["nz-material"],
+      "files": ["src/editorial-type/index.tsx", "src/editorial-type/meta.json"],
+      "categories": ["typography"]
+    },
+    {
+      "name": "camera-scroll",
+      "type": "registry:block",
+      "title": "Camera scroll",
+      "description": "Scroll-linked chapter camera with reduced-motion assembled end state.",
+      "dependencies": [],
+      "registryDependencies": ["editorial-type"],
+      "files": ["src/camera-scroll/index.tsx", "src/camera-scroll/meta.json"],
+      "categories": ["motion", "scroll"]
+    },
+    {
+      "name": "particle-field",
+      "type": "registry:block",
+      "title": "Particle field",
+      "description": "Organic particulate field — nature patterns becoming coordination.",
+      "dependencies": [],
+      "registryDependencies": ["nz-material"],
+      "files": ["src/particle-field/index.tsx", "src/particle-field/meta.json"],
+      "categories": ["3d", "motion"]
+    },
+    {
+      "name": "nz-material",
+      "type": "registry:theme",
+      "title": "NZ material",
+      "description": "Plum / paper / heather tokens — geography and light, no motif garnish.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": ["src/nz-material/tokens.css", "src/nz-material/meta.json"],
+      "categories": ["theme", "tokens"]
+    }
+  ]
+}

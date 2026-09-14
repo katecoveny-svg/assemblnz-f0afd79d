@@ -1,0 +1,16 @@
+/**
+ * @assembl/nz-material — plum / paper / heather tokens.
+ * Geography and light — no koru tourism garnish, no Māori motifs as decoration.
+ */
+:root,
+[data-assembl-material='nz'] {
+  --assembl-deep-plum: #240b21;
+  --assembl-muted-plum: #654a4e;
+  --assembl-dusty-rose: #916a70;
+  --assembl-chalk: #f5f1f2;
+  --assembl-paper: #fffdfb;
+  --assembl-chrome: rgba(200, 198, 196, 0.55);
+  --assembl-ink: #240b21;
+  --assembl-ink-soft: rgba(36, 11, 33, 0.68);
+  --assembl-line: rgba(36, 11, 33, 0.12);
+}

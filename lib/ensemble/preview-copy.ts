@@ -145,6 +145,11 @@ export const ENSEMBLE_PREVIEW = {
 
 export const ENSEMBLE_STUDIO_LINKS = [
   {
+    href: '/creative-studio',
+    label: 'Creative Director',
+    note: 'PREVIEW · idea → direction → world',
+  },
+  {
     href: '/generative-studio',
     label: 'Generative Studio',
     note: 'shaders · materials · motion',

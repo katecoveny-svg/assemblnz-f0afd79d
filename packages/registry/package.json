@@ -1,0 +1,52 @@
+{
+  "name": "@assembl/registry",
+  "version": "0.1.0",
+  "description": "assembl Studio creative block registry — stubs for Creative Director PREVIEW v0. Intended install names: @assembl/<block>.",
+  "license": "UNLICENSED",
+  "author": "Kate Hudson <assembl@assembl.co.nz>",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./registry.json": "./registry.json",
+    "./cinema-hero": "./src/cinema-hero/index.tsx",
+    "./sideways-story": "./src/sideways-story/index.tsx",
+    "./object-assembly": "./src/object-assembly/index.tsx",
+    "./aerial-world": "./src/aerial-world/index.tsx",
+    "./agent-live": "./src/agent-live/index.tsx",
+    "./wait-state": "./src/wait-state/index.tsx",
+    "./editorial-type": "./src/editorial-type/index.tsx",
+    "./camera-scroll": "./src/camera-scroll/index.tsx",
+    "./particle-field": "./src/particle-field/index.tsx",
+    "./nz-material": "./src/nz-material/tokens.css",
+    "./nz-material/meta": "./src/nz-material/meta.json"
+  },
+  "files": [
+    "src",
+    "registry.json",
+    "registry.schema.json",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.7",
+    "react": "19.0.0",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [
+    "assembl",
+    "registry",
+    "creative-director",
+    "shadcn-style"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

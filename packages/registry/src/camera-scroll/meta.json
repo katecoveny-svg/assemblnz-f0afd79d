@@ -1,0 +1,8 @@
+{
+  "name": "camera-scroll",
+  "title": "Camera scroll",
+  "status": "stub",
+  "constructGrammars": ["editorial-css-gsap"],
+  "visualDna": ["scroll-linked", "reduced-motion-end-state"],
+  "reject": ["parallax-tourism", "bounce-easing"]
+}

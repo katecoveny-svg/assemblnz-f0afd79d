@@ -1,0 +1,568 @@
+/* Creative Director PREVIEW — plum / paper craft. No AI purple gradients. */
+
+.cd-root {
+  --cd-plum: #240b21;
+  --cd-muted: #654a4e;
+  --cd-rose: #916a70;
+  --cd-chalk: #f5f1f2;
+  --cd-paper: #fffdfb;
+  --cd-line: rgba(36, 11, 33, 0.12);
+  --cd-line-strong: rgba(36, 11, 33, 0.28);
+  --cd-ink-soft: rgba(36, 11, 33, 0.68);
+
+  min-height: 100vh;
+  background:
+    radial-gradient(120% 80% at 10% -10%, rgba(145, 106, 112, 0.14), transparent 55%),
+    radial-gradient(90% 60% at 100% 0%, rgba(36, 11, 33, 0.06), transparent 50%),
+    linear-gradient(180deg, var(--cd-chalk) 0%, var(--cd-paper) 40%, var(--cd-paper) 100%);
+  color: var(--cd-plum);
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  padding: 0 1.25rem 4rem;
+}
+
+.cd-mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  letter-spacing: 0.02em;
+}
+
+.cd-nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 0 0.5rem;
+}
+
+.cd-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cd-brand strong {
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.cd-brand span {
+  font-size: 0.72rem;
+  color: var(--cd-muted);
+}
+
+.cd-badge {
+  margin: 0;
+  font-size: 0.68rem;
+  color: var(--cd-rose);
+  border: 1px solid var(--cd-line-strong);
+  padding: 0.35rem 0.6rem;
+  white-space: nowrap;
+}
+
+.cd-hero {
+  max-width: 1100px;
+  margin: 1.5rem auto 2rem;
+}
+
+.cd-eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  color: var(--cd-rose);
+  text-transform: lowercase;
+}
+
+.cd-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 450;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  max-width: 14ch;
+}
+
+.cd-hero h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--cd-muted);
+}
+
+.cd-lede {
+  margin: 1rem 0 0;
+  max-width: 42rem;
+  color: var(--cd-ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.cd-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+}
+
+.cd-demo-note {
+  margin: 0.85rem 0 0;
+  font-size: 0.7rem;
+  color: var(--cd-muted);
+}
+
+.cd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 1px solid var(--cd-line-strong);
+  background: transparent;
+  color: var(--cd-plum);
+  padding: 0.7rem 1.05rem;
+  font: inherit;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.cd-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cd-btn-primary {
+  background: var(--cd-plum);
+  color: var(--cd-paper);
+  border-color: var(--cd-plum);
+}
+
+.cd-btn-primary:hover:not(:disabled) {
+  background: var(--cd-muted);
+  border-color: var(--cd-muted);
+}
+
+.cd-btn-ghost:hover:not(:disabled) {
+  border-color: var(--cd-rose);
+  color: var(--cd-rose);
+}
+
+.cd-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  max-width: 1100px;
+  margin: 0 auto 1.5rem;
+}
+
+.cd-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--cd-line);
+  background: rgba(255, 253, 251, 0.7);
+  color: var(--cd-muted);
+  padding: 0.45rem 0.7rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.cd-step span {
+  font-size: 0.68rem;
+  color: var(--cd-rose);
+}
+
+.cd-step.is-active {
+  border-color: var(--cd-plum);
+  color: var(--cd-plum);
+  background: var(--cd-paper);
+}
+
+.cd-step.is-done {
+  border-color: rgba(145, 106, 112, 0.45);
+}
+
+.cd-panel {
+  max-width: 1100px;
+  margin: 0 auto 1.75rem;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid var(--cd-line);
+}
+
+.cd-panel-head h2 {
+  margin: 0.2rem 0 0.5rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-weight: 450;
+  letter-spacing: -0.02em;
+}
+
+.cd-panel-head p {
+  margin: 0;
+  color: var(--cd-ink-soft);
+  max-width: 40rem;
+  line-height: 1.5;
+}
+
+.cd-label {
+  display: block;
+  margin: 1.25rem 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--cd-muted);
+}
+
+.cd-prompt {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--cd-line-strong);
+  background: var(--cd-paper);
+  color: var(--cd-plum);
+  padding: 0.9rem 1rem;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.45;
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.cd-prompt:focus {
+  outline: 2px solid var(--cd-rose);
+  outline-offset: 2px;
+}
+
+.cd-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.cd-intent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 0;
+}
+
+.cd-intent-grid dt {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  color: var(--cd-rose);
+  margin-bottom: 0.25rem;
+}
+
+.cd-intent-grid dd {
+  margin: 0;
+  line-height: 1.45;
+  color: var(--cd-plum);
+}
+
+.cd-pill {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: 0.68rem;
+  color: var(--cd-rose);
+  border: 1px solid var(--cd-line);
+  padding: 0.25rem 0.5rem;
+}
+
+.cd-details {
+  margin-top: 1.25rem;
+}
+
+.cd-details summary {
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--cd-muted);
+}
+
+.cd-pre {
+  margin: 0.75rem 0 0;
+  padding: 1rem;
+  background: var(--cd-plum);
+  color: var(--cd-paper);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+.cd-directions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.cd-direction {
+  border: 1px solid var(--cd-line);
+  background: rgba(255, 253, 251, 0.85);
+  padding: 1.1rem 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  /* Interaction container — choosing a direction is the job */
+  transition: border-color 180ms ease, transform 220ms ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cd-direction:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.cd-direction.is-selected {
+  border-color: var(--cd-plum);
+}
+
+.cd-dir-id {
+  margin: 0;
+  font-size: 0.68rem;
+  color: var(--cd-rose);
+}
+
+.cd-direction h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.cd-dir-meta {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--cd-ink-soft);
+}
+
+.cd-dir-meta strong {
+  display: block;
+  font-size: 0.68rem;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 400;
+  color: var(--cd-rose);
+  margin-bottom: 0.15rem;
+}
+
+.cd-blocks {
+  margin: 0.25rem 0;
+  font-size: 0.68rem;
+  color: var(--cd-muted);
+  line-height: 1.4;
+}
+
+.cd-why {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--cd-muted);
+  font-style: italic;
+  flex: 1;
+}
+
+.cd-direction .cd-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.cd-targets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.cd-target {
+  margin: 0;
+}
+
+.cd-plate {
+  aspect-ratio: 16 / 10;
+  border: 1px dashed var(--cd-line-strong);
+  background:
+    linear-gradient(145deg, rgba(36, 11, 33, 0.88), rgba(101, 74, 78, 0.75)),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 8px,
+      rgba(255, 253, 251, 0.04) 8px,
+      rgba(255, 253, 251, 0.04) 16px
+    );
+  color: var(--cd-paper);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.cd-plate-mobile-hero {
+  aspect-ratio: 9 / 16;
+  max-width: 180px;
+}
+
+.cd-plate span {
+  font-size: 0.68rem;
+  opacity: 0.9;
+}
+
+.cd-target figcaption {
+  margin-top: 0.55rem;
+}
+
+.cd-target figcaption strong {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.cd-target figcaption p {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: var(--cd-ink-soft);
+  line-height: 1.4;
+}
+
+.cd-constructs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.cd-construct {
+  text-align: left;
+  border: 1px solid var(--cd-line);
+  background: rgba(255, 253, 251, 0.85);
+  padding: 1.1rem;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.cd-construct.is-selected {
+  border-color: var(--cd-plum);
+  box-shadow: inset 0 0 0 1px var(--cd-plum);
+}
+
+.cd-construct h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.cd-construct p {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  color: var(--cd-ink-soft);
+  line-height: 1.45;
+}
+
+.cd-checks {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.cd-check {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.75rem;
+  border: 1px solid var(--cd-line);
+  padding: 0.75rem 0.9rem;
+  background: rgba(255, 253, 251, 0.9);
+}
+
+.cd-check span {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  padding-top: 0.15rem;
+}
+
+.cd-check.is-pass span {
+  color: var(--cd-muted);
+}
+
+.cd-check.is-warn span {
+  color: var(--cd-rose);
+}
+
+.cd-check.is-fail span {
+  color: #8b2e3a;
+}
+
+.cd-check strong {
+  font-weight: 500;
+}
+
+.cd-check p {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+  color: var(--cd-ink-soft);
+}
+
+.cd-revise,
+.cd-pass {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--cd-line-strong);
+  background: var(--cd-paper);
+}
+
+.cd-revise h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.cd-revise ul {
+  margin: 0 0 1rem;
+  padding-left: 1.1rem;
+  color: var(--cd-ink-soft);
+}
+
+.cd-pass p {
+  margin: 0 0 1rem;
+  line-height: 1.5;
+  color: var(--cd-ink-soft);
+}
+
+.cd-pass code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.85em;
+}
+
+.cd-footer {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--cd-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--cd-muted);
+}
+
+.cd-footer a {
+  color: var(--cd-plum);
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .cd-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cd-check {
+    grid-template-columns: 1fr;
+  }
+
+  .cd-hero h1 {
+    max-width: none;
+  }
+}

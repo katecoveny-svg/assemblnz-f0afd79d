@@ -1,0 +1,8 @@
+{
+  "name": "cinema-hero",
+  "title": "Cinema hero",
+  "status": "stub",
+  "constructGrammars": ["cinematic-video"],
+  "visualDna": ["still-camera", "assembling-subjects", "full-bleed"],
+  "reject": ["card-grid", "inset-media-card"]
+}

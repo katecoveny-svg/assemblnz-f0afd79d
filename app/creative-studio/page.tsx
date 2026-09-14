@@ -1,10 +1,19 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from 'next';
+import { CreativeDirectorPipeline } from '@/components/creative-director/CreativeDirectorPipeline';
+
+export const metadata: Metadata = {
+  title: 'assembl studio · creative director (PREVIEW)',
+  description:
+    'PREVIEW — idea → direction → world → experience. Three art directions before code, then construct and Creative Critic. DEMO fixtures only.',
+  robots: { index: false, follow: false },
+  alternates: { canonical: '/creative-studio' },
+};
 
 /**
- * /creative-studio is the old public-maker doorway. The studio it pointed at
- * (make-with-assembl.katecoveny.chatgpt.site) has been superseded by the
- * generative studio shipping from this repo, so the doorway now leads there.
+ * Creative door elevation — Creative Director v0 PREVIEW.
+ * Formerly redirected to /generative-studio; that craft tool remains linked.
+ * Does not touch live homepage `/` or One NZ private journeys.
  */
 export default function CreativeStudioPage() {
-  redirect("/generative-studio");
+  return <CreativeDirectorPipeline />;
 }

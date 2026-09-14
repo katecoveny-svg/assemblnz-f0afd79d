@@ -44,6 +44,7 @@ describe('Ensemble creative front door DEMO data', () => {
       'verse',
     ]);
     const hrefs = ENSEMBLE_STUDIO_LINKS.map((l) => l.href);
+    expect(hrefs).toContain('/creative-studio');
     expect(hrefs).toContain('/generative-studio');
     expect(hrefs).toContain('/pattern-studio');
     expect(hrefs).toContain('/ad-studio');

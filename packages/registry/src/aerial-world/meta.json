@@ -1,0 +1,8 @@
+{
+  "name": "aerial-world",
+  "title": "Aerial world",
+  "status": "stub",
+  "constructGrammars": ["spatial-r3f", "cinematic-video"],
+  "visualDna": ["top-down", "fine-art", "not-tourism"],
+  "reject": ["postcard-horizon", "drone-tourism-reel"]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "particle-field",
+  "title": "Particle field",
+  "status": "stub",
+  "constructGrammars": ["spatial-r3f", "cinematic-video"],
+  "visualDna": ["organic", "nature-patterns", "coordination"],
+  "reject": ["matrix-rain", "neon-particle-cliche"]
+}
