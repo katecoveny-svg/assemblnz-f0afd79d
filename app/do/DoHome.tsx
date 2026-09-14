@@ -7,6 +7,14 @@ type Groups = Record<'needs_you' | 'working' | 'done', AgentSpec[]>;
 
 const EMPTY: Groups = { needs_you: [], working: [], done: [] };
 
+function LivingMark({ className = '' }: { className?: string }) {
+  return (
+    <i className={`do-living ${className}`.trim()} aria-hidden="true">
+      <span>✦</span>
+    </i>
+  );
+}
+
 export function DoHome() {
   const [groups, setGroups] = useState<Groups>(EMPTY);
   const [templates, setTemplates] = useState<DemoTemplate[]>([]);
@@ -57,7 +65,6 @@ export function DoHome() {
       if (!res.ok) throw new Error(data.error || 'compile failed');
       setDraft(data.spec as AgentSpec);
       setMakeOpen(true);
-      await refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'compile failed');
     } finally {
@@ -117,108 +124,130 @@ export function DoHome() {
 
   return (
     <div className="do-root">
-      <header className="do-top">
-        <div>
-          <p className="do-eyebrow">assembl · DO · PREVIEW</p>
-          <h1 className="do-brand">DO</h1>
-          <p className="do-tag">See something → ✦ make agent.</p>
-        </div>
-        <button
-          type="button"
-          className="do-cta"
-          disabled={busy}
-          onClick={() => {
-            setMakeOpen(true);
-            setDraft(null);
-          }}
-        >
-          ✦ make agent
-        </button>
-      </header>
-
-      <p className="do-honesty">{honesty || 'DEMO · consequential actions always need your yes.'}</p>
-
-      {error ? <p className="do-error">{error}</p> : null}
-
-      {makeOpen ? (
-        <section className="do-make" aria-label="Make agent">
-          <label className="do-label" htmlFor="do-brief">
-            What should this agent do?
-          </label>
-          <div className="do-make-row">
-            <input
-              id="do-brief"
-              className="do-input"
-              value={brief}
-              onChange={(e) => setBrief(e.target.value)}
-              placeholder='e.g. tell me if this changes'
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && brief.trim()) void compile();
-              }}
-            />
-            <button
-              type="button"
-              className="do-cta do-cta-secondary"
-              disabled={busy || !brief.trim()}
-              onClick={() => void compile()}
-            >
-              ✦ compile
-            </button>
+      <div className="do-shell">
+        <header className="do-top">
+          <div>
+            <p className="do-eyebrow">assembl · DO · PREVIEW</p>
+            <h1 className="do-brand">DO</h1>
+            <p className="do-tag">
+              See something → <LivingMark /> make agent.
+            </p>
           </div>
+          <button
+            type="button"
+            className="do-cta"
+            disabled={busy}
+            onClick={() => {
+              setMakeOpen(true);
+              setDraft(null);
+            }}
+          >
+            <LivingMark />
+            make agent
+          </button>
+        </header>
 
-          {draft ? <AgentCard spec={draft} onActivate={() => void activate(draft.id)} busy={busy} highlight /> : null}
+        <p className="do-honesty">
+          {honesty || 'DEMO · consequential actions always need your yes.'}
+        </p>
+
+        <aside className="do-bridge" aria-label="Personal OS wallet cue">
+          <LivingMark />
+          <p>
+            ✦ is your personal OS wallet — mint Evidence while you wait. DEMO cue only; no live
+            connectors.
+          </p>
+        </aside>
+
+        {error ? <p className="do-error">{error}</p> : null}
+
+        {makeOpen ? (
+          <section className="do-make" aria-label="Make agent">
+            <div className="do-panel">
+              <label className="do-label" htmlFor="do-brief">
+                What should this agent do?
+              </label>
+              <div className="do-make-row">
+                <input
+                  id="do-brief"
+                  className="do-input"
+                  value={brief}
+                  onChange={(e) => setBrief(e.target.value)}
+                  placeholder="e.g. tell me if this changes"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && brief.trim()) void compile();
+                  }}
+                />
+                <button
+                  type="button"
+                  className="do-cta do-cta-on-paper"
+                  disabled={busy || !brief.trim()}
+                  onClick={() => void compile()}
+                >
+                  <LivingMark />
+                  compile
+                </button>
+              </div>
+
+              {draft ? (
+                <AgentCard
+                  spec={draft}
+                  onActivate={() => void activate(draft.id)}
+                  busy={busy}
+                  highlight
+                />
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        <section className="do-templates" aria-label="Demo templates">
+          <h2 className="do-section-title">Demo templates</h2>
+          <div className="do-template-grid">
+            {templates.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className="do-template"
+                disabled={busy}
+                onClick={() => {
+                  setBrief(t.brief);
+                  void compile(t.brief, t.id);
+                }}
+              >
+                <span className="do-mono">{t.primitive}</span>
+                <strong>{t.name}</strong>
+                <span>{t.summary}</span>
+              </button>
+            ))}
+          </div>
         </section>
-      ) : null}
 
-      <section className="do-templates" aria-label="Demo templates">
-        <h2 className="do-section-title">Demo templates</h2>
-        <div className="do-template-grid">
-          {templates.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              className="do-template"
-              disabled={busy}
-              onClick={() => {
-                setBrief(t.brief);
-                void compile(t.brief, t.id);
-              }}
-            >
-              <span className="do-mono">{t.primitive}</span>
-              <strong>{t.name}</strong>
-              <span>{t.summary}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <Board
-        title="Needs you"
-        statusKey="needs_you"
-        agents={groups.needs_you}
-        busy={busy}
-        onActivate={(id) => void activate(id)}
-        onDecide={decide}
-        onTick={(id, sim) => void tick(id, sim)}
-      />
-      <Board
-        title="Working"
-        statusKey="working"
-        agents={groups.working}
-        busy={busy}
-        onActivate={(id) => void activate(id)}
-        onDecide={decide}
-        onTick={(id, sim) => void tick(id, sim)}
-      />
-      <Board
-        title="Done"
-        statusKey="done"
-        agents={groups.done}
-        busy={busy}
-        onActivate={(id) => void activate(id)}
-        onDecide={decide}
-        onTick={(id, sim) => void tick(id, sim)}
-      />
+        <Board
+          title="Needs you"
+          agents={groups.needs_you}
+          busy={busy}
+          onActivate={(id) => void activate(id)}
+          onDecide={decide}
+          onTick={(id, sim) => void tick(id, sim)}
+        />
+        <Board
+          title="Working"
+          agents={groups.working}
+          busy={busy}
+          onActivate={(id) => void activate(id)}
+          onDecide={decide}
+          onTick={(id, sim) => void tick(id, sim)}
+        />
+        <Board
+          title="Done"
+          agents={groups.done}
+          busy={busy}
+          onActivate={(id) => void activate(id)}
+          onDecide={decide}
+          onTick={(id, sim) => void tick(id, sim)}
+        />
+      </div>
     </div>
   );
 }
@@ -232,7 +261,6 @@ function Board({
   onTick,
 }: {
   title: string;
-  statusKey: string;
   agents: AgentSpec[];
   busy: boolean;
   onActivate: (id: string) => void;
@@ -241,10 +269,13 @@ function Board({
 }) {
   return (
     <section className="do-board" aria-label={title}>
-      <h2 className="do-section-title">
-        {title}
-        <span className="do-count">{agents.length}</span>
-      </h2>
+      <div className="do-board-head">
+        <h2 className="do-section-title">
+          {title}
+          <span className="do-count">{agents.length}</span>
+        </h2>
+        <div className="do-board-rail" aria-hidden="true" />
+      </div>
       {agents.length === 0 ? <p className="do-empty">Nothing here yet.</p> : null}
       <div className="do-cards">
         {agents.map((a) => (
@@ -277,8 +308,15 @@ function AgentCard({
   busy?: boolean;
   highlight?: boolean;
 }) {
+  const stampWhen = spec.evidence?.createdAt
+    ? new Date(spec.evidence.createdAt).toISOString().slice(0, 16).replace('T', ' ')
+    : null;
+
   return (
-    <article className={`do-card${highlight ? ' do-card-highlight' : ''}`}>
+    <article
+      className={`do-card${highlight ? ' do-card-highlight' : ''}`}
+      data-status={spec.status}
+    >
       <header className="do-card-head">
         <h3>{spec.name}</h3>
         <span className="do-mono">
@@ -312,19 +350,33 @@ function AgentCard({
       {spec.lastNote ? <p className="do-note">{spec.lastNote}</p> : null}
 
       {spec.evidence ? (
-        <div className="do-evidence">
-          <p className="do-mono">DO Evidence</p>
+        <div className="do-evidence" aria-label="DO Evidence receipt">
+          <div className="do-evidence-head">
+            <div className="do-evidence-mark">
+              <span className="do-mono">DO Evidence</span>
+              <strong>Wait-proof receipt</strong>
+            </div>
+            <span className="do-evidence-stamp">Stamped · DEMO</span>
+          </div>
           <p className="do-evidence-summary">{spec.evidence.summary}</p>
           <p className="do-evidence-why">{spec.evidence.why}</p>
-          <ul>
+          <ul className="do-evidence-sources">
             {spec.evidence.sources.map((s) => (
               <li key={s.id}>
-                <span className="do-mono">{s.kind}</span> {s.label}
-                {s.contentHash ? ` · ${s.contentHash}` : ''}
-                {s.excerpt ? ` — ${s.excerpt.slice(0, 100)}` : ''}
+                <span className="do-mono">{s.kind}</span>
+                <span>
+                  {s.label}
+                  {s.contentHash ? ` · ${s.contentHash}` : ''}
+                </span>
+                {s.excerpt ? <span>{s.excerpt.slice(0, 100)}</span> : null}
               </li>
             ))}
           </ul>
+          <div className="do-evidence-audit">
+            <span>sources · {spec.evidence.sources.length}</span>
+            {stampWhen ? <span>locked · {stampWhen}</span> : null}
+            <span>no external exec</span>
+          </div>
         </div>
       ) : null}
 
@@ -359,19 +411,31 @@ function AgentCard({
 
       {spec.primitive === 'watch' && onTick && (spec.status === 'working' || spec.watchSnapshots?.length) ? (
         <div className="do-watch-actions">
-          <button type="button" className="do-cta do-cta-secondary" disabled={busy} onClick={() => onTick(spec.id, false)}>
+          <button
+            type="button"
+            className="do-cta do-cta-ghost"
+            disabled={busy}
+            onClick={() => onTick(spec.id, false)}
+          >
             Tick watch
           </button>
-          <button type="button" className="do-cta do-cta-secondary" disabled={busy} onClick={() => onTick(spec.id, true)}>
+          <button
+            type="button"
+            className="do-cta do-cta-ghost"
+            disabled={busy}
+            onClick={() => onTick(spec.id, true)}
+          >
             Simulate change
           </button>
         </div>
       ) : null}
 
       {onActivate && spec.status === 'needs_you' && spec.pendingApprovals.length === 0 ? (
-        <button type="button" className="do-cta do-cta-secondary" disabled={busy} onClick={onActivate}>
-          Activate
-        </button>
+        <div className="do-card-actions">
+          <button type="button" className="do-cta do-cta-on-paper" disabled={busy} onClick={onActivate}>
+            Activate
+          </button>
+        </div>
       ) : null}
     </article>
   );
