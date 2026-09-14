@@ -40,6 +40,10 @@ const isLoyaltyJourney = (pathname: string | null): boolean =>
     pathname === '/journeys/mana-receipt' ||
     pathname.startsWith('/journeys/mana-receipt/'));
 
+/** DO Agent OS v0 PREVIEW — isolated ✦ make agent surface. */
+const isDoPreview = (pathname: string | null): boolean =>
+  !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
+
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
  * rendered on every marketing page so the frame stops changing as you move
@@ -66,7 +70,8 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isBuildAnAgent(pathname) ||
     isLab(pathname) ||
     isEditorialHome(pathname) ||
-    isLoyaltyJourney(pathname)
+    isLoyaltyJourney(pathname) ||
+    isDoPreview(pathname)
   );
 }
 

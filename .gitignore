@@ -62,3 +62,6 @@ tools/**/*.ckpt
 
 # capture-only patched copies for screenshot harness — never ship
 research/_shotcache/
+
+# DO Agent OS v0 local persistence (DEMO)
+apps/do/data/

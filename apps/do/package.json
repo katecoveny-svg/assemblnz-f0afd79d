@@ -1,0 +1,11 @@
+{
+  "name": "@assembl/do",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DO Agent OS v0 — See something → ✦ make agent (PREVIEW)",
+  "type": "module",
+  "exports": {
+    ".": "./shared/index.ts",
+    "./shared/*": "./shared/*"
+  }
+}
