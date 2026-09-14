@@ -1,0 +1,8 @@
+{
+  "name": "object-assembly",
+  "title": "Object assembly",
+  "status": "stub",
+  "constructGrammars": ["spatial-r3f", "cinematic-video"],
+  "visualDna": ["many-to-one", "sculptural", "organic-assembly"],
+  "reject": ["network-node-graph", "org-chart"]
+}

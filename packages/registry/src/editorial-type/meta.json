@@ -1,0 +1,8 @@
+{
+  "name": "editorial-type",
+  "title": "Editorial type",
+  "status": "stub",
+  "constructGrammars": ["editorial-css-gsap"],
+  "visualDna": ["instrument-sans", "plex-mono-proof-only"],
+  "reject": ["inter-default", "all-caps-marketing"]
+}

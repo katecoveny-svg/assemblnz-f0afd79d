@@ -1,0 +1,8 @@
+{
+  "name": "agent-live",
+  "title": "Agent live",
+  "status": "stub",
+  "constructGrammars": ["editorial-css-gsap", "spatial-r3f"],
+  "visualDna": ["coordinator", "no-mascot", "no-chatbot-imagery"],
+  "reject": ["robot-avatar", "speech-bubble-hero"]
+}

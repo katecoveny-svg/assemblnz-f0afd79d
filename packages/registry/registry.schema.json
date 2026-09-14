@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "assembl registry manifest",
+  "description": "shadcn-style registry schema notes for AI agents and humans installing @assembl/* blocks.",
+  "type": "object",
+  "required": ["name", "items"],
+  "properties": {
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "description": { "type": "string" },
+    "style": { "type": "string" },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "title", "files"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Install name. Published intent: @assembl/<name>."
+          },
+          "type": {
+            "type": "string",
+            "enum": ["registry:block", "registry:theme", "registry:ui", "registry:lib"]
+          },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "dependencies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "npm package dependencies"
+          },
+          "registryDependencies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Other registry item names required first"
+          },
+          "files": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "categories": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

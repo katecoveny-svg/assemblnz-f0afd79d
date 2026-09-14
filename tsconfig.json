@@ -28,6 +28,12 @@
       ],
       "@assembl/dash-sdk": [
         "./packages/dash-sdk/src/index.ts"
+      ],
+      "@assembl/registry": [
+        "./packages/registry/src/index.ts"
+      ],
+      "@assembl/registry/*": [
+        "./packages/registry/src/*"
       ]
     }
   },

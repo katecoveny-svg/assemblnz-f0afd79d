@@ -1,0 +1,14 @@
+{
+  "name": "nz-material",
+  "title": "NZ material",
+  "status": "stub",
+  "type": "registry:theme",
+  "tokens": {
+    "deepPlum": "#240B21",
+    "mutedPlum": "#654A4E",
+    "dustyRose": "#916A70",
+    "chalk": "#F5F1F2",
+    "paper": "#FFFDFB"
+  },
+  "reject": ["ai-purple-gradient", "koru-decoration", "canary", "brass-gold"]
+}

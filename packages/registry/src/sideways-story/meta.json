@@ -1,0 +1,8 @@
+{
+  "name": "sideways-story",
+  "title": "Sideways story",
+  "status": "stub",
+  "constructGrammars": ["editorial-css-gsap"],
+  "visualDna": ["horizontal-chapters", "one-idea-per-viewport"],
+  "reject": ["vertical-card-stack-as-hero"]
+}

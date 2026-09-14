@@ -1,0 +1,8 @@
+{
+  "name": "wait-state",
+  "title": "Wait state",
+  "status": "stub",
+  "constructGrammars": ["editorial-css-gsap", "cinematic-video", "spatial-r3f"],
+  "visualDna": ["mono-labels", "honest-status", "no-spinners"],
+  "reject": ["indeterminate-spinner", "fake-completed"]
+}
