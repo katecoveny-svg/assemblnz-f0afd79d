@@ -7,32 +7,54 @@
     <link rel="stylesheet" href="sidepanel.css" />
   </head>
   <body>
-    <header class="top">
-      <div>
+    <div class="shell">
+      <header class="hero">
         <p class="eyebrow">assembl · DO · PREVIEW</p>
-        <h1>✦ make agent</h1>
+        <h1><span class="star" aria-hidden>✦</span> make agent</h1>
+        <p class="tag">See something → AgentSpec.</p>
+        <a class="home" href="http://localhost:3000/do" target="_blank" rel="noreferrer">Open DO home</a>
+      </header>
+
+      <p class="honesty">DEMO · buy / book / send / post / submit / pay / sign always need your yes.</p>
+
+      <section class="how" aria-label="How this works">
+        <p class="how-title">How this works</p>
+        <ol>
+          <li>✦ captures context → AgentSpec</li>
+          <li>Simple → local Watch; hard → Astra stub</li>
+          <li>Consequential → your approve + Evidence</li>
+        </ol>
+      </section>
+
+      <label for="brief">What should this agent do?</label>
+      <textarea id="brief" rows="3" placeholder="tell me if this changes"></textarea>
+
+      <div class="row">
+        <button type="button" id="compile" class="cta"><span class="star" aria-hidden>✦</span> compile</button>
+        <button type="button" id="activate" class="cta secondary" disabled>Activate</button>
       </div>
-      <a class="home" href="http://localhost:3000/do" target="_blank" rel="noreferrer">Open DO</a>
-    </header>
 
-    <p class="honesty">DEMO · buy / book / send / post / submit / pay / sign always need your yes.</p>
+      <p id="status" class="status" hidden></p>
+      <article id="specCard" class="wallet" hidden>
+        <header class="wallet-head">
+          <h2 id="specName"></h2>
+          <span id="specChip" class="chip"></span>
+        </header>
+        <dl class="perm">
+          <div><dt>Watches</dt><dd id="specWatches"></dd></div>
+          <div><dt>When</dt><dd id="specWhen"></dd></div>
+          <div><dt>Does</dt><dd id="specDoes"></dd></div>
+          <div><dt>Asks first</dt><dd id="specAsks"></dd></div>
+          <div><dt>Never</dt><dd id="specNever"></dd></div>
+        </dl>
+      </article>
 
-    <label for="brief">What should this agent do?</label>
-    <textarea id="brief" rows="3" placeholder="tell me if this changes"></textarea>
-
-    <div class="row">
-      <button type="button" id="compile">✦ compile</button>
-      <button type="button" id="activate" disabled>Activate</button>
+      <details class="settings">
+        <summary>API base</summary>
+        <input id="apiBase" type="url" placeholder="http://localhost:3000" />
+        <button type="button" id="saveBase" class="cta secondary">Save</button>
+      </details>
     </div>
-
-    <p id="status" class="status" hidden></p>
-    <pre id="spec" class="spec" hidden></pre>
-
-    <details class="settings">
-      <summary>API base</summary>
-      <input id="apiBase" type="url" placeholder="http://localhost:3000" />
-      <button type="button" id="saveBase">Save</button>
-    </details>
 
     <script src="sidepanel.js"></script>
   </body>

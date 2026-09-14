@@ -2,7 +2,7 @@ const briefEl = document.getElementById('brief');
 const compileBtn = document.getElementById('compile');
 const activateBtn = document.getElementById('activate');
 const statusEl = document.getElementById('status');
-const specEl = document.getElementById('spec');
+const specCard = document.getElementById('specCard');
 const apiBaseEl = document.getElementById('apiBase');
 const saveBaseBtn = document.getElementById('saveBase');
 
@@ -16,20 +16,14 @@ function setStatus(text, show = true) {
 function renderSpec(spec) {
   lastSpec = spec;
   activateBtn.disabled = !spec?.id;
-  specEl.hidden = false;
-  specEl.textContent = [
-    `name: ${spec.name}`,
-    `primitive: ${spec.primitive}`,
-    `status: ${spec.status}`,
-    `watches: ${spec.watches.join(' · ')}`,
-    `looks_for: ${spec.looks_for.join(' · ')}`,
-    `can_do_without_asking: ${spec.can_do_without_asking.join(' · ')}`,
-    `must_ask_before: ${spec.must_ask_before.join(' · ')}`,
-    `never: ${spec.never.join(' · ')}`,
-    spec.lastNote ? `note: ${spec.lastNote}` : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
+  specCard.hidden = false;
+  document.getElementById('specName').textContent = spec.name;
+  document.getElementById('specChip').textContent = `${spec.primitive}${spec.lane ? ` · ${spec.lane}` : ''}`;
+  document.getElementById('specWatches').textContent = spec.watches.join(' · ');
+  document.getElementById('specWhen').textContent = spec.looks_for.join(' · ');
+  document.getElementById('specDoes').textContent = spec.can_do_without_asking.join(' · ') || '—';
+  document.getElementById('specAsks').textContent = spec.must_ask_before.join(' · ') || '—';
+  document.getElementById('specNever').textContent = spec.never.join(' · ');
 }
 
 async function captureFromActiveTab() {
