@@ -1,9 +1,16 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import type { AgentSpec, DemoTemplate } from '@/apps/do/shared/types';
+import type { AgentSpec, DemoTemplate, PageContext, TemplateLane } from '@/apps/do/shared/types';
+import { DoFloatingWidget } from './DoFloatingWidget';
 
 type Groups = Record<'needs_you' | 'working' | 'done', AgentSpec[]>;
+
+type TemplateGroup = {
+  lane: TemplateLane;
+  label: string;
+  templates: DemoTemplate[];
+};
 
 const EMPTY: Groups = { needs_you: [], working: [], done: [] };
 
@@ -13,15 +20,31 @@ const BOARD_LEDE: Record<keyof Groups, string> = {
   done: 'Outcomes with Evidence — what was seen, and why.',
 };
 
+const MITRE_FIXTURE_PAGE: PageContext = {
+  url: 'fixture://mitre10-sap-rfp',
+  title: 'DEMO · Mitre 10 SAP pursuit — RFP snippet',
+  selectedText:
+    'Improve purchase-order visibility from DC to store · Human approval before any write-back to SAP',
+  pageText: `REQUEST FOR PROPOSAL — Store operations + supply-chain visibility (DEMO)
+Buyer: Mitre 10 New Zealand (sample business — details fictional for this DEMO).
+Closing: 24 Oct 2026, 17:00 NZST.
+Must-haves: SAP MM / SD touchpoints · Read-path ≤ 15 min · Human approval before SAP write-back.
+SAP landscape: ECC 6.0 with S/4 migration (wave 2) · MM PO/GR · SD transfers · PI/PO middleware.`,
+};
+
 export function DoHome() {
   const [groups, setGroups] = useState<Groups>(EMPTY);
-  const [templates, setTemplates] = useState<DemoTemplate[]>([]);
+  const [templateGroups, setTemplateGroups] = useState<TemplateGroup[]>([]);
   const [honesty, setHonesty] = useState('');
   const [brief, setBrief] = useState('');
   const [draft, setDraft] = useState<AgentSpec | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [makeOpen, setMakeOpen] = useState(false);
+  const [widgetOpen, setWidgetOpen] = useState(false);
+  const [mitreTemplateId, setMitreTemplateId] = useState<string | null>(null);
+  const [mitrePage, setMitrePage] = useState<PageContext | null>(null);
+  const [widgetKey, setWidgetKey] = useState(0);
 
   const refresh = useCallback(async () => {
     const res = await fetch('/api/do/agents?grouped=1');
@@ -34,13 +57,13 @@ export function DoHome() {
     void refresh();
     void fetch('/api/do/templates')
       .then((r) => r.json())
-      .then((data: { templates: DemoTemplate[]; honesty: string }) => {
-        setTemplates(data.templates);
+      .then((data: { groups: TemplateGroup[]; honesty: string }) => {
+        setTemplateGroups(data.groups || []);
         setHonesty(data.honesty);
       });
   }, [refresh]);
 
-  async function compile(nextBrief?: string, templateId?: string) {
+  async function compile(nextBrief?: string, templateId?: string, page?: PageContext) {
     setBusy(true);
     setError(null);
     try {
@@ -51,12 +74,13 @@ export function DoHome() {
           brief: nextBrief ?? brief,
           templateId,
           page:
-            typeof window !== 'undefined'
+            page ??
+            (typeof window !== 'undefined'
               ? {
                   url: window.location.href,
                   title: document.title,
                 }
-              : undefined,
+              : undefined),
         }),
       });
       const data = await res.json();
@@ -121,6 +145,22 @@ export function DoHome() {
     }
   }
 
+  function openWidget() {
+    setMitreTemplateId(null);
+    setMitrePage(null);
+    setWidgetOpen(true);
+    setWidgetKey((k) => k + 1);
+    setError(null);
+  }
+
+  function startMitreDemo() {
+    setMitrePage(MITRE_FIXTURE_PAGE);
+    setMitreTemplateId('mitre10-sap-rfp-brief');
+    setWidgetOpen(true);
+    setWidgetKey((k) => k + 1);
+    setError(null);
+  }
+
   return (
     <div className="do-root">
       <div className="do-shell">
@@ -131,19 +171,19 @@ export function DoHome() {
             <p className="do-tag">See something → ✦ make agent.</p>
           </div>
           <div className="do-hero-actions">
-            <button
-              type="button"
-              className="do-cta"
-              disabled={busy}
-              onClick={() => {
-                setMakeOpen(true);
-                setDraft(null);
-              }}
-            >
+            <button type="button" className="do-cta" disabled={busy} onClick={openWidget}>
               <span className="do-star" aria-hidden>
                 ✦
               </span>
               make agent
+            </button>
+            <button
+              type="button"
+              className="do-cta do-cta-secondary"
+              disabled={busy}
+              onClick={startMitreDemo}
+            >
+              Mitre 10 · SAP pursuit DEMO
             </button>
             <p className="do-honesty">
               {honesty || 'DEMO · consequential actions always need your yes.'}
@@ -156,30 +196,32 @@ export function DoHome() {
           <ol>
             <li>
               <span className="do-how-n">01</span>
-              <span>✦ captures context → AgentSpec</span>
+              <span>Floating ✦ captures context → pick a template or type what to DO</span>
             </li>
             <li>
               <span className="do-how-n">02</span>
-              <span>Simple jobs run local Watch; hard jobs route Astra-class (stub)</span>
+              <span>AgentSpec card (watches / when / does / asks first) → Activate</span>
             </li>
             <li>
               <span className="do-how-n">03</span>
-              <span>Consequential actions need your approve — Evidence shows why</span>
+              <span>Optional connector stub (hook later by default) · Evidence on outcome</span>
             </li>
           </ol>
           <div className="do-wired" aria-label="What is wired">
             <span className="do-chip do-chip-live">
-              <span className="do-chip-dot" /> Chrome ✦
+              <span className="do-chip-dot" /> Floating ✦
             </span>
             <span className="do-chip do-chip-live">
               <span className="do-chip-dot" /> /do home
             </span>
             <span className="do-chip do-chip-live">
+              <span className="do-chip-dot" /> Mitre 10 DEMO
+            </span>
+            <span className="do-chip do-chip-live">
               <span className="do-chip-dot" /> Watch + Evidence
             </span>
-            <span className="do-chip do-chip-stub">WhatsApp stub</span>
-            <span className="do-chip do-chip-stub">SMS stub</span>
-            <span className="do-chip do-chip-stub">Messenger stub</span>
+            <span className="do-chip do-chip-stub">SAP stub</span>
+            <span className="do-chip do-chip-stub">Xero stub</span>
             <span className="do-chip do-chip-stub">Astra stub</span>
           </div>
         </section>
@@ -221,26 +263,34 @@ export function DoHome() {
           </section>
         ) : null}
 
-        <section className="do-templates" aria-label="Demo templates">
-          <h2 className="do-section-title">Demo templates</h2>
-          <div className="do-template-grid">
-            {templates.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className="do-template"
-                disabled={busy}
-                onClick={() => {
-                  setBrief(t.brief);
-                  void compile(t.brief, t.id);
-                }}
-              >
-                <span className="do-mono">{t.primitive}</span>
-                <strong>{t.name}</strong>
-                <span>{t.summary}</span>
-              </button>
-            ))}
-          </div>
+        <section className="do-templates" aria-label="Launch templates">
+          <h2 className="do-section-title">Launch templates</h2>
+          <p className="do-board-lede">
+            Pick a job. Surface ≠ agent — the ✦ widget is one place to launch from.
+          </p>
+          {templateGroups.map((g) => (
+            <div key={g.lane} className="do-lane-block">
+              <h3 className="do-lane-heading">{g.label}</h3>
+              <div className="do-template-grid">
+                {g.templates.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className="do-template"
+                    disabled={busy}
+                    onClick={() => {
+                      setBrief(t.brief);
+                      void compile(t.brief, t.id);
+                    }}
+                  >
+                    <span className="do-mono">{t.primitive}</span>
+                    <strong>{t.name}</strong>
+                    <span>{t.summary}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
 
         <Board
@@ -271,6 +321,22 @@ export function DoHome() {
           onTick={(id, sim) => void tick(id, sim)}
         />
       </div>
+
+      <DoFloatingWidget
+        key={widgetKey}
+        forceOpen={widgetOpen}
+        launchTemplateId={mitreTemplateId}
+        pageOverride={mitrePage}
+        onActivated={(agent) => {
+          setDraft(agent);
+          void refresh();
+        }}
+        onClose={() => {
+          setWidgetOpen(false);
+          setMitreTemplateId(null);
+          setMitrePage(null);
+        }}
+      />
     </div>
   );
 }
@@ -378,6 +444,12 @@ function AgentCard({
           <dt>Never</dt>
           <dd>{spec.never.join(' · ')}</dd>
         </div>
+        {spec.connector ? (
+          <div>
+            <dt>Connector</dt>
+            <dd>{spec.connector}</dd>
+          </div>
+        ) : null}
       </dl>
 
       {spec.lastNote ? <p className="do-note">{spec.lastNote}</p> : null}

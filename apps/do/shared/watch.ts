@@ -51,17 +51,47 @@ export function diffSnapshots(
   };
 }
 
-/** DEMO power-price fixture pages used by the Watch DEMO. */
-export function getWatchFixture(version: 'v1' | 'v2' = 'v1'): {
+type WatchFixturePair = {
+  title: string;
+  v1: { url: string; body: string };
+  v2: { url: string; body: string };
+};
+
+const WATCH_FIXTURE_KEYS = [
+  'power-price-watch',
+  'mitre10-sap-competitor',
+  'physio-slots',
+  'competitor-page',
+  'stock-page',
+  'xero-recurring',
+] as const;
+
+function asWatchPair(key: (typeof WATCH_FIXTURE_KEYS)[number]): WatchFixturePair {
+  return FIXTURES[key] as WatchFixturePair;
+}
+
+/** Resolve which DEMO watch fixture an agent is bound to. */
+export function resolveWatchFixtureKey(watches: string[]): (typeof WATCH_FIXTURE_KEYS)[number] | null {
+  for (const key of WATCH_FIXTURE_KEYS) {
+    if (watches.some((w) => w.includes(key))) return key;
+  }
+  return null;
+}
+
+/** DEMO fixture pages used by Watch DEMO (power-price, Mitre competitor, etc.). */
+export function getWatchFixture(
+  version: 'v1' | 'v2' = 'v1',
+  fixtureKey: (typeof WATCH_FIXTURE_KEYS)[number] = 'power-price-watch',
+): {
   key: string;
   label: string;
   url: string;
   body: string;
 } {
-  const fixture = FIXTURES['power-price-watch'];
+  const fixture = asWatchPair(fixtureKey);
   const page = version === 'v2' ? fixture.v2 : fixture.v1;
   return {
-    key: 'fixture:power-price-watch',
+    key: `fixture:${fixtureKey}`,
     label: fixture.title,
     url: page.url,
     body: page.body,

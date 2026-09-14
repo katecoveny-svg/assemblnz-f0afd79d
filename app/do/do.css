@@ -644,6 +644,206 @@
   opacity: 0.75;
 }
 
+.do-lane-block {
+  margin-bottom: 1.75rem;
+}
+
+.do-lane-heading {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  color: var(--do-muted);
+}
+
+/* ── Floating ✦ widget (Grammarly-like) ── */
+.do-fab {
+  appearance: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 80;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 999px;
+  background: var(--do-plum);
+  color: var(--do-paper);
+  font-size: 1.45rem;
+  cursor: pointer;
+  box-shadow: 0 14px 36px rgba(36, 11, 33, 0.28);
+  display: grid;
+  place-items: center;
+  transition: transform 180ms ease, box-shadow 220ms ease;
+}
+
+.do-fab .do-star {
+  animation: do-star-float 3.6s ease-in-out infinite;
+}
+
+.do-fab:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 20px 48px rgba(36, 11, 33, 0.34), 0 0 18px rgba(145, 106, 112, 0.35);
+}
+
+.do-widget {
+  position: fixed;
+  right: 20px;
+  bottom: 88px;
+  z-index: 81;
+  width: min(420px, calc(100vw - 24px));
+  max-height: min(78dvh, 720px);
+  overflow: auto;
+  padding: 1.15rem 1.15rem 1.35rem;
+  border-radius: 24px;
+  background:
+    linear-gradient(165deg, #fff 0%, var(--do-paper) 55%, var(--do-chalk) 100%);
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  box-shadow: var(--do-shadow-lift);
+  color: var(--do-plum);
+}
+
+.do-widget-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.55rem;
+}
+
+.do-widget-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.do-widget-close {
+  appearance: none;
+  border: 1px solid var(--do-rule-strong);
+  background: rgba(255, 253, 251, 0.9);
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--do-sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--do-plum);
+}
+
+.do-widget-honesty {
+  margin: 0 0 0.75rem;
+  font-family: var(--do-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  color: var(--do-heather);
+}
+
+.do-context-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.do-lane-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.75rem 0 0.85rem;
+}
+
+.do-lane-tab {
+  appearance: none;
+  border: 1px solid var(--do-rule);
+  background: rgba(255, 253, 251, 0.7);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--do-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--do-muted);
+  cursor: pointer;
+}
+
+.do-lane-tab.is-active {
+  background: var(--do-plum);
+  color: var(--do-paper);
+  border-color: transparent;
+}
+
+.do-widget-templates {
+  display: grid;
+  gap: 1rem;
+  max-height: 38dvh;
+  overflow: auto;
+  padding-right: 0.15rem;
+}
+
+.do-widget-lane .do-mono {
+  margin: 0 0 0.45rem;
+}
+
+.do-template-grid-compact {
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+.do-template-grid-compact .do-template {
+  padding: 0.85rem 0.95rem;
+  border-radius: 16px;
+}
+
+.do-widget-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.95rem;
+}
+
+.do-widget-spec .do-card {
+  margin-top: 0.25rem;
+}
+
+.do-connector-grid {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+}
+
+.do-connector {
+  text-align: left;
+  appearance: none;
+  border: 1px solid var(--do-rule);
+  background: rgba(255, 253, 251, 0.9);
+  border-radius: 16px;
+  padding: 0.85rem 0.95rem;
+  display: grid;
+  gap: 0.25rem;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.do-connector.is-active {
+  border-color: rgba(145, 106, 112, 0.55);
+  box-shadow: 0 0 0 1px rgba(145, 106, 112, 0.28);
+}
+
+.do-connector strong {
+  font-weight: 550;
+  letter-spacing: -0.01em;
+}
+
+.do-connector span {
+  font-size: 0.8rem;
+  color: var(--do-ink-soft);
+  line-height: 1.35;
+}
+
 @media (max-width: 720px) {
   .do-hero {
     grid-template-columns: 1fr;
@@ -675,5 +875,23 @@
   .do-input,
   .do-cta-secondary {
     width: 100%;
+  }
+
+  .do-widget {
+    right: 12px;
+    left: 12px;
+    bottom: 80px;
+    width: auto;
+  }
+
+  .do-fab {
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .do-fab .do-star {
+    animation: none !important;
   }
 }

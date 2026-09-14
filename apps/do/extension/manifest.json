@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "DO · make agent (assembl PREVIEW)",
-  "version": "0.1.0",
-  "description": "See something → ✦ make agent. DEMO preview for assembl DO Agent OS v0.",
+  "version": "0.2.0",
+  "description": "See something → ✦ make agent. Floating sheet + templates. DEMO preview for assembl DO.",
   "action": {
     "default_title": "DO · make agent",
     "default_popup": "sidepanel.html"

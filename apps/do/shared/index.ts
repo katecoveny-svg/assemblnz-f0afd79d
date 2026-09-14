@@ -5,9 +5,12 @@ export type {
   CompileRequest,
   CompileResponse,
   ConsequentialVerb,
+  ConnectorChoice,
+  ConnectorHint,
   DemoTemplate,
   PageContext,
   PendingApproval,
+  TemplateLane,
 } from './types';
 
 export type {
@@ -31,8 +34,9 @@ export {
 } from './policy';
 
 export { compileAgent } from './compile';
-export { DEMO_TEMPLATES, getTemplate } from './templates';
+export { DEMO_TEMPLATES, getTemplate, templatesByLane, LANE_LABELS, LANE_ORDER } from './templates';
 export { FIXTURES } from './fixtures';
+export { CONNECTOR_STUBS, getConnector } from './connectors';
 export {
   listAgents,
   getAgent,
@@ -45,6 +49,12 @@ export {
 } from './store';
 export { chooseLane, planTools, stubAstraProvider } from './router';
 export { SURFACES, getSurface } from './surfaces';
-export { diffSnapshots, getWatchFixture, snapshotFromText, hashContent } from './watch';
+export {
+  diffSnapshots,
+  getWatchFixture,
+  resolveWatchFixtureKey,
+  snapshotFromText,
+  hashContent,
+} from './watch';
 export { evidenceFromSnapshots, evidenceFromSources } from './evidence';
 export { needsMajorChain, buildMajorApproval } from './approval-chain';
