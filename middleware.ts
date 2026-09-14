@@ -175,6 +175,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   // Agentic customer journeys — the "everyday, assembled" reference journey and
   // any future journey configuration render here (public concept surface).
   '/journeys',
+  // DO Agent OS v0 PREVIEW — isolated ✦ make agent surface (not homepage nav).
+  '/do',
   // Canonical public experience route (the sandbox journey).
   '/experience',
   // The industries assembl works in — public, in the homepage nav and the

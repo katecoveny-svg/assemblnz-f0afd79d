@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-NZ">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DO · make agent</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div>
+        <p class="eyebrow">assembl · DO · PREVIEW</p>
+        <h1>✦ make agent</h1>
+      </div>
+      <a class="home" href="http://localhost:3000/do" target="_blank" rel="noreferrer">Open DO</a>
+    </header>
+
+    <p class="honesty">DEMO · buy / book / send / post / submit / pay / sign always need your yes.</p>
+
+    <label for="brief">What should this agent do?</label>
+    <textarea id="brief" rows="3" placeholder="tell me if this changes"></textarea>
+
+    <div class="row">
+      <button type="button" id="compile">✦ compile</button>
+      <button type="button" id="activate" disabled>Activate</button>
+    </div>
+
+    <p id="status" class="status" hidden></p>
+    <pre id="spec" class="spec" hidden></pre>
+
+    <details class="settings">
+      <summary>API base</summary>
+      <input id="apiBase" type="url" placeholder="http://localhost:3000" />
+      <button type="button" id="saveBase">Save</button>
+    </details>
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

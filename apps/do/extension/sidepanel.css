@@ -1,0 +1,138 @@
+:root {
+  --plum: #240b21;
+  --heather: #916a70;
+  --muted: #654a4e;
+  --paper: #fffdfb;
+  --chalk: #f5f1f2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  width: 360px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--paper), var(--chalk));
+  color: var(--plum);
+  font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  font-family: ui-monospace, 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--heather);
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.home {
+  color: var(--heather);
+  font-size: 12px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(145, 106, 112, 0.4);
+}
+
+.honesty {
+  margin: 12px 0 16px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--heather);
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+textarea,
+input {
+  width: 100%;
+  border: 1px solid rgba(36, 11, 33, 0.18);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+  color: var(--plum);
+  resize: vertical;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+button {
+  appearance: none;
+  border: none;
+  background: var(--plum);
+  color: var(--paper);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#activate {
+  background: transparent;
+  color: var(--plum);
+  border: 1px solid rgba(36, 11, 33, 0.25);
+}
+
+.status {
+  margin-top: 12px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.spec {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  border-radius: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.settings {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.settings summary {
+  cursor: pointer;
+}
+
+.settings input {
+  margin: 8px 0;
+}
