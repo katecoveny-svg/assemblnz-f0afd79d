@@ -40,16 +40,26 @@
     right: '18px',
     bottom: '18px',
     zIndex: '2147483646',
-    width: '48px',
-    height: '48px',
+    width: '52px',
+    height: '52px',
     borderRadius: '999px',
     border: 'none',
     background: '#240B21',
     color: '#FFFDFB',
-    fontSize: '20px',
+    fontSize: '22px',
     cursor: 'pointer',
-    boxShadow: '0 8px 24px rgba(36,11,33,0.28)',
+    boxShadow: '0 12px 32px rgba(36,11,33,0.32)',
     fontFamily: 'system-ui, sans-serif',
+    transition: 'transform 160ms ease, box-shadow 200ms ease',
+  });
+
+  btn.addEventListener('mouseenter', () => {
+    btn.style.transform = 'translateY(-2px) scale(1.04)';
+    btn.style.boxShadow = '0 16px 40px rgba(36,11,33,0.4), 0 0 18px rgba(145,106,112,0.35)';
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+    btn.style.boxShadow = '0 12px 32px rgba(36,11,33,0.32)';
   });
 
   btn.addEventListener('click', () => {
