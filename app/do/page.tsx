@@ -5,7 +5,9 @@ import './do.css';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'DO · PREVIEW · assembl',
+  title: {
+    absolute: 'DO · PREVIEW · assembl',
+  },
   description:
     'DO Agent OS v0 preview — see something, ✦ make agent. DEMO only; consequential actions always need a human yes.',
   robots: { index: false, follow: false },
