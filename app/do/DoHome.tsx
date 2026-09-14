@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import type { AgentPrimitive, AgentSpec, DemoTemplate, PageContext, TemplateLane } from '@/apps/do/shared/types';
 import { DoClearDemo } from './DoClearDemo';
 import { DoFloatingWidget } from './DoFloatingWidget';
@@ -15,6 +15,27 @@ type TemplateGroup = {
 };
 
 const EMPTY: Groups = { needs_you: [], working: [], done: [] };
+
+const BOARD_META: Record<
+  keyof Groups,
+  { title: string; lede: string; depth: 'near' | 'mid' | 'far' }
+> = {
+  needs_you: {
+    title: 'Needs you',
+    lede: 'Approvals waiting on a human yes.',
+    depth: 'near',
+  },
+  working: {
+    title: 'Working',
+    lede: 'Watching or preparing within policy.',
+    depth: 'mid',
+  },
+  done: {
+    title: 'Done',
+    lede: 'Evidence receipts — what was seen, and why.',
+    depth: 'far',
+  },
+};
 
 const MITRE_FIXTURE_PAGE: PageContext = {
   url: 'fixture://mitre10-sap-rfp',
@@ -189,18 +210,20 @@ export function DoHome() {
 
   return (
     <div className="do-root">
+      <div className="do-stage-glow" aria-hidden />
       <div className="do-shell">
-        <div className="do-topchips" aria-label="Status">
-          <span className="do-chip do-chip-preview">PREVIEW</span>
-          <span className="do-chip do-chip-live">
-            <span className="do-chip-dot" />
+        <div className="do-topbar" aria-label="Status">
+          <span className="do-pill do-pill-preview">PREVIEW</span>
+          <span className="do-pill do-pill-runtime">
+            <span className="do-pill-dot" />
             {runtimeLabel}
           </span>
         </div>
 
-        <section className="do-stage" aria-label="DO stage">
+        <section className="do-stage" aria-label="Spatial widget stage">
           <div className="do-stage-brand">
-            <p className="do-wordmark">DO</p>
+            <p className="do-kicker">assembl · spatial widget</p>
+            <h1 className="do-wordmark">DO</h1>
             <p className="do-tagline">See something → ✦ make agent</p>
           </div>
 
@@ -211,15 +234,16 @@ export function DoHome() {
             onClick={openWidget}
             aria-label="Make agent"
           >
-            <span className="do-orb-star" aria-hidden>
-              ✦
+            <span className="do-orb-halo" aria-hidden />
+            <span className="do-orb-core" aria-hidden>
+              <span className="do-orb-star">✦</span>
             </span>
             <span className="do-orb-label">make agent</span>
           </button>
 
           <button
             type="button"
-            className="do-mitre-tile"
+            className="do-mitre-card"
             disabled={busy}
             onClick={startMitreDemo}
             aria-label="Mitre 10 SAP pursuit DEMO"
@@ -234,12 +258,13 @@ export function DoHome() {
             <span className="do-mono">DEMO</span>
           </button>
 
-          <div className="do-bento" aria-label="Templates">
-            {featured.map((t) => (
+          <div className="do-pinboard" aria-label="Templates">
+            {featured.map((t, i) => (
               <button
                 key={t.id}
                 type="button"
-                className={`do-widget-tile${pinned.includes(t.id) ? ' is-pinned' : ''}`}
+                className={`do-pin${pinned.includes(t.id) ? ' is-pinned' : ''}`}
+                style={{ '--do-pin-i': String(i % 5) } as CSSProperties}
                 disabled={busy}
                 onClick={() => void compileFromTemplate(t)}
                 onContextMenu={(e) => {
@@ -248,10 +273,10 @@ export function DoHome() {
                 }}
                 title={`${t.laneLabel} · right-click to pin`}
               >
-                <span className="do-widget-glyph" aria-hidden>
+                <span className="do-pin-glyph" aria-hidden>
                   {PRIMITIVE_GLYPH[t.primitive]}
                 </span>
-                <span className="do-widget-body">
+                <span className="do-pin-body">
                   <strong>{t.name}</strong>
                   <span>{t.summary}</span>
                 </span>
@@ -277,9 +302,9 @@ export function DoHome() {
           </section>
         ) : null}
 
-        <section className="do-boards" aria-label="Boards">
+        <section className="do-depths" aria-label="Boards">
           <Board
-            title="Needs you"
+            statusKey="needs_you"
             agents={groups.needs_you}
             busy={busy}
             onActivate={(id) => void activate(id)}
@@ -288,7 +313,7 @@ export function DoHome() {
             onDelete={(id) => void remove(id)}
           />
           <Board
-            title="Working"
+            statusKey="working"
             agents={groups.working}
             busy={busy}
             onActivate={(id) => void activate(id)}
@@ -297,7 +322,7 @@ export function DoHome() {
             onDelete={(id) => void remove(id)}
           />
           <Board
-            title="Done"
+            statusKey="done"
             agents={groups.done}
             busy={busy}
             onActivate={(id) => void activate(id)}
@@ -309,8 +334,7 @@ export function DoHome() {
 
         <section className="do-demos" aria-label="Surface demos">
           <DoClearDemo />
-          <DoWhatsAppSim />
-          <aside className="do-how-mini" aria-label="How this works">
+          <aside className="do-how-card" aria-label="How this works">
             <p className="do-mono">How this works</p>
             <ol>
               <li>
@@ -325,6 +349,7 @@ export function DoHome() {
             </ol>
             <p className="do-how-note">Mitre DEMO uses fictional fixtures. Nothing sends without your yes.</p>
           </aside>
+          <DoWhatsAppSim />
         </section>
       </div>
 
@@ -348,7 +373,7 @@ export function DoHome() {
 }
 
 function Board({
-  title,
+  statusKey,
   agents,
   busy,
   onActivate,
@@ -356,7 +381,7 @@ function Board({
   onTick,
   onDelete,
 }: {
-  title: string;
+  statusKey: keyof Groups;
   agents: AgentSpec[];
   busy: boolean;
   onActivate: (id: string) => void;
@@ -364,19 +389,22 @@ function Board({
   onTick: (id: string, simulateChange?: boolean) => void;
   onDelete: (id: string) => void;
 }) {
+  const meta = BOARD_META[statusKey];
   return (
-    <div className="do-board">
-      <header className="do-board-head">
-        <h2>{title}</h2>
+    <div className={`do-depth do-depth-${meta.depth}`}>
+      <header className="do-depth-head">
+        <h2>{meta.title}</h2>
         <span className="do-count">{agents.length}</span>
       </header>
-      {agents.length === 0 ? <p className="do-empty">—</p> : null}
-      <div className="do-wallet-row">
-        {agents.map((a) => (
+      <p className="do-depth-lede">{meta.lede}</p>
+      {agents.length === 0 ? <p className="do-empty">Nothing placed yet.</p> : null}
+      <div className="do-wallet-stack">
+        {agents.map((a, i) => (
           <AgentWallet
             key={a.id}
             spec={a}
             busy={busy}
+            stackIndex={i}
             onActivate={() => onActivate(a.id)}
             onDecide={onDecide}
             onTick={onTick}
@@ -402,6 +430,7 @@ function AgentWallet({
   onDelete,
   busy,
   highlight,
+  stackIndex = 0,
 }: {
   spec: AgentSpec;
   onActivate?: () => void;
@@ -410,26 +439,59 @@ function AgentWallet({
   onDelete?: () => void;
   busy?: boolean;
   highlight?: boolean;
+  stackIndex?: number;
 }) {
+  const when = spec.looks_for.join(' · ');
+  const does = spec.can_do_without_asking.join(' · ') || '—';
+  const asks = spec.must_ask_before.join(' · ') || '—';
+
   return (
-    <article className={`do-wallet${highlight ? ' do-wallet-highlight' : ''}`}>
+    <article
+      className={`do-wallet${highlight ? ' do-wallet-highlight' : ''}`}
+      style={{ '--do-stack': String(Math.min(stackIndex, 4)) } as CSSProperties}
+    >
       <header className="do-wallet-head">
         <div>
+          <p className="do-mono">
+            {spec.primitive}
+            {spec.lane ? ` · ${spec.lane}` : ''}
+          </p>
           <h3>{spec.name}</h3>
           <p className="do-wallet-job">{spec.brief}</p>
         </div>
-        <span className={`do-status do-status-${spec.status}`}>
-          {statusLabel(spec.status)}
-        </span>
+        <span className={`do-status do-status-${spec.status}`}>{statusLabel(spec.status)}</span>
       </header>
 
-      <div className="do-wallet-chips">
-        <span className="do-chip">{spec.primitive}</span>
-        {spec.lane ? <span className="do-chip">{spec.lane}</span> : null}
+      <dl className="do-spec" aria-label="Agent permissions">
+        <div>
+          <dt>Watches</dt>
+          <dd>{spec.watches.join(' · ')}</dd>
+        </div>
+        <div>
+          <dt>When</dt>
+          <dd>{when}</dd>
+        </div>
+        <div>
+          <dt>Does</dt>
+          <dd>{does}</dd>
+        </div>
+        <div>
+          <dt>Asks first</dt>
+          <dd>{asks}</dd>
+        </div>
+        <div>
+          <dt>Never</dt>
+          <dd>{spec.never.join(' · ')}</dd>
+        </div>
         {spec.connector && spec.connector !== 'hook-later' ? (
-          <span className="do-chip">{spec.connector}</span>
+          <div>
+            <dt>Connector</dt>
+            <dd>{spec.connector}</dd>
+          </div>
         ) : null}
-      </div>
+      </dl>
+
+      {spec.lastNote ? <p className="do-note">{spec.lastNote}</p> : null}
 
       {spec.evidence ? (
         <div className="do-receipt">
@@ -444,6 +506,22 @@ function AgentWallet({
           </div>
           <p className="do-receipt-summary">{spec.evidence.summary}</p>
           <p className="do-receipt-why">{spec.evidence.why}</p>
+          {spec.evidence.sources?.length ? (
+            <ul className="do-receipt-sources">
+              {spec.evidence.sources.map((s) => (
+                <li key={s.id}>
+                  <span className="do-evidence-meta">
+                    {s.kind}
+                    {s.contentHash ? ` · ${s.contentHash}` : ''}
+                  </span>
+                  <span>
+                    {s.label}
+                    {s.excerpt ? ` — ${s.excerpt.slice(0, 100)}` : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       ) : null}
 
@@ -467,10 +545,20 @@ function AgentWallet({
       <div className="do-wallet-actions">
         {spec.primitive === 'watch' && onTick && (spec.status === 'working' || spec.watchSnapshots?.length) ? (
           <>
-            <button type="button" className="do-cta do-cta-secondary do-cta-compact" disabled={busy} onClick={() => onTick(spec.id, false)}>
+            <button
+              type="button"
+              className="do-cta do-cta-ghost do-cta-compact"
+              disabled={busy}
+              onClick={() => onTick(spec.id, false)}
+            >
               Tick
             </button>
-            <button type="button" className="do-cta do-cta-secondary do-cta-compact" disabled={busy} onClick={() => onTick(spec.id, true)}>
+            <button
+              type="button"
+              className="do-cta do-cta-ghost do-cta-compact"
+              disabled={busy}
+              onClick={() => onTick(spec.id, true)}
+            >
               Simulate
             </button>
           </>
@@ -484,7 +572,12 @@ function AgentWallet({
           </button>
         ) : null}
         {onDelete ? (
-          <button type="button" className="do-cta do-cta-secondary do-cta-compact" disabled={busy} onClick={onDelete}>
+          <button
+            type="button"
+            className="do-cta do-cta-ghost do-cta-compact"
+            disabled={busy}
+            onClick={onDelete}
+          >
             Delete
           </button>
         ) : null}

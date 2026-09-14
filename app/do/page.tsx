@@ -6,10 +6,10 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'DO · PREVIEW · assembl',
+    absolute: 'DO · Spatial Widget PREVIEW · assembl',
   },
   description:
-    'DO Agent OS v0 preview — see something, ✦ make agent. DEMO only; consequential actions always need a human yes.',
+    'DO Spatial Widget preview — deep plum stage, living ✦, placeable paper agents. DEMO only; consequential actions always need a human yes.',
   robots: { index: false, follow: false },
 };
 
