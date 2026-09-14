@@ -72,6 +72,7 @@ export function DoFloatingWidget({
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<PageContext>(() => capturePage());
   const [laneFilter, setLaneFilter] = useState<TemplateLane | 'all'>('all');
+  const [runtimeLabel, setRuntimeLabel] = useState('Assembl runtime · DEMO');
 
   const refreshContext = useCallback(() => {
     setPage(pageOverride ?? capturePage());
@@ -91,6 +92,11 @@ export function DoFloatingWidget({
           setHonesty(data.honesty || '');
         },
       );
+    void fetch('/api/do/runtime')
+      .then((r) => r.json())
+      .then((data: { runtime?: { label?: string } }) => {
+        if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
+      });
   }, []);
 
   useEffect(() => {
@@ -253,6 +259,12 @@ export function DoFloatingWidget({
           </header>
 
           <p className="do-widget-honesty">
+            <span className="do-chip do-chip-preview">PREVIEW</span>{' '}
+            <span className="do-chip do-chip-live">
+              <span className="do-chip-dot" />
+              {runtimeLabel}
+            </span>
+            <br />
             {honesty || 'DEMO · consequential actions always need your yes.'}
           </p>
 

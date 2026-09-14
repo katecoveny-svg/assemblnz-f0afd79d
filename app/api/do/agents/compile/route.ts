@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { compileAgent } from '@/apps/do/shared/compile';
+import { runtimeCompile } from '@/apps/do/shared/runtime';
 import { saveAgent } from '@/apps/do/shared/store';
 import type { CompileRequest } from '@/apps/do/shared/types';
 
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = compileAgent(body);
+    const result = await runtimeCompile(body);
     const saved = await saveAgent(result.spec);
     return NextResponse.json({ ...result, spec: saved });
   } catch (err) {
