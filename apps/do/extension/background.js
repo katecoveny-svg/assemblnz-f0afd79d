@@ -36,7 +36,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
   if (message?.type === 'DO_ACTIVATE') {
-    activate(message.id)
+    activate(message.id, message.connector)
+      .then((data) => sendResponse({ ok: true, data }))
+      .catch((err) => sendResponse({ ok: false, error: String(err?.message || err) }));
+    return true;
+  }
+  if (message?.type === 'DO_GET_TEMPLATES') {
+    getTemplates()
       .then((data) => sendResponse({ ok: true, data }))
       .catch((err) => sendResponse({ ok: false, error: String(err?.message || err) }));
     return true;
@@ -70,10 +76,22 @@ async function compile(payload) {
   return data;
 }
 
-async function activate(id) {
+async function activate(id, connector) {
   const base = await apiBase();
-  const res = await fetch(`${base}/api/do/agents/${id}/activate`, { method: 'POST' });
+  const res = await fetch(`${base}/api/do/agents/${id}/activate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ connector: connector || 'hook-later' }),
+  });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'activate failed');
+  return data;
+}
+
+async function getTemplates() {
+  const base = await apiBase();
+  const res = await fetch(`${base}/api/do/templates`);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'templates failed');
   return data;
 }

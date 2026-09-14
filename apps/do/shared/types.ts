@@ -12,6 +12,21 @@ export type AgentPrimitive = 'watch' | 'find' | 'extract' | 'prepare' | 'compare
 
 export type AgentStatus = 'needs_you' | 'working' | 'done';
 
+/** Launch template lanes for the catalog + widget. */
+export type TemplateLane =
+  | 'personal-household'
+  | 'bills-money'
+  | 'work-pursuit'
+  | 'study-family'
+  | 'retail-ops'
+  | 'sme'
+  | 'pursuit-mitre10-sap';
+
+/** Optional connector stubs — hook later is the honest default. */
+export type ConnectorHint = 'sap' | 'email' | 'calendar' | 'xero' | 'akahu';
+
+export type ConnectorChoice = ConnectorHint | 'hook-later';
+
 /** Consequential verbs that ALWAYS require human approval. Server-enforced. */
 export type ConsequentialVerb =
   | 'buy'
@@ -65,6 +80,10 @@ export interface AgentSpec {
   watchSnapshots?: WatchSnapshot[];
   /** Evidence receipt when an outcome completes. */
   evidence?: DoEvidence;
+  /** Template that seeded this agent, if any. */
+  templateId?: string;
+  /** Optional connector stub chosen at activate. */
+  connector?: ConnectorChoice;
 }
 
 export interface PendingApproval {
@@ -85,6 +104,8 @@ export interface CompileRequest {
   templateId?: string;
   /** Launch surface that produced this compile. */
   surface?: string;
+  /** Optional connector stub (defaults to hook-later on activate). */
+  connector?: ConnectorChoice;
 }
 
 export interface CompileResponse {
@@ -96,9 +117,14 @@ export interface CompileResponse {
 export interface DemoTemplate {
   id: string;
   name: string;
+  /** One-line job description. */
   summary: string;
   brief: string;
   primitive: AgentPrimitive;
+  /** Catalog lane for grouping in the widget. */
+  lane: TemplateLane;
+  /** Optional connector hint shown in the picker. */
+  connectorHint?: ConnectorHint;
   /** Fixture key when the template does not scrape a live locked site. */
   fixture?: string;
   watches: string[];

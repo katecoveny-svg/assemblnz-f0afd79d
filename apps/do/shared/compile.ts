@@ -31,9 +31,13 @@ function truncatePage(page?: PageContext): PageContext | undefined {
 function inferPrimitive(brief: string): AgentPrimitive {
   const b = brief.toLowerCase();
   if (/\bcompar(e|ison)\b|\bvs\b|\bdiffer/.test(b)) return 'compare';
-  if (/\bextract\b|\bpull (out|the)\b|\bcalendar\b|\bdates?\b/.test(b)) return 'extract';
-  if (/\bfind\b|\bopportunit|\btender|\bgets\b|\bsearch\b/.test(b)) return 'find';
-  if (/\bprepar|\bbrief\b|\btomorrow\b|\bkids?\b/.test(b)) return 'prepare';
+  if (/\bextract\b|\bpull (out|the)\b|\bcalendar\b|\bdates?\b|\bstakeholder/.test(b)) {
+    return 'extract';
+  }
+  if (/\bfind\b|\bopportunit|\btender|\bgets\b|\bsearch\b|\btradie\b/.test(b)) return 'find';
+  if (/\bprepar|\bbrief\b|\btomorrow\b|\bkids?\b|\bmeeting\b|\btutor\b|\bexplain\b/.test(b)) {
+    return 'prepare';
+  }
   if (/\bwatch\b|\bchang(e|es|ing)\b|\btell me if\b|\balert\b|\bmonitor\b/.test(b)) {
     return 'watch';
   }
@@ -48,14 +52,17 @@ function matchTemplate(brief: string, templateId?: string) {
   const b = brief.toLowerCase();
   for (const t of DEMO_TEMPLATES) {
     if (b.includes(t.id.replace(/-/g, ' '))) return t;
-    // Soft match on distinctive phrases from the template brief.
     const key = t.brief.toLowerCase().slice(0, 24);
     if (key && b.includes(key.slice(0, 16))) return t;
   }
-  if (/\bschool\b|\bnotice\b|\bcalendar\b/.test(b)) return getTemplate('school-notice');
+  if (/\bmitre\b|\bsap\b.*\brfp\b|\bpursuit brief\b/.test(b)) {
+    return getTemplate('mitre10-sap-rfp-brief');
+  }
+  if (/\bschool\b|\bnotice\b|\bcalendar\b/.test(b)) return getTemplate('school-notice-tomorrow');
   if (/\bgets\b|\btender\b|\bopportunit/.test(b)) return getTemplate('gets-opportunity');
   if (/\bquote\b|\bcompar/.test(b)) return getTemplate('quote-compare');
   if (/\bkids?\b|\btomorrow\b/.test(b)) return getTemplate('kids-tomorrow');
+  if (/\bpower\b.*\bprice|\bprice\b.*\bpower/.test(b)) return getTemplate('power-price-watch');
   if (/\bchang|\bwatch|\bprice\b|\btell me if/.test(b)) return getTemplate('price-watcher');
   return undefined;
 }
@@ -119,10 +126,10 @@ function defaultForPrimitive(
       };
     case 'prepare':
       return {
-        watches: ['DEMO family fixtures'],
-        looks_for: ['gear', 'notes', 'pickup changes'],
+        watches: ['DEMO fixtures', url],
+        looks_for: ['requirements', 'deadlines', 'open questions'],
         can_do_without_asking: ['draft a brief from fixtures'],
-        must_ask_before: ['send the brief', 'book care'],
+        must_ask_before: ['send the brief', 'submit'],
         never: ['message other people without a human yes'],
       };
   }
@@ -177,6 +184,8 @@ export function compileAgent(input: CompileRequest): CompileResponse {
     lane: toolPlan.lane,
     toolPlan,
     watchSnapshots: [],
+    templateId: template?.id,
+    connector: input.connector ?? 'hook-later',
   };
 
   const honesty =

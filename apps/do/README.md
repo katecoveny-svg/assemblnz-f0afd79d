@@ -2,54 +2,11 @@
 
 Working name: **DO**. Behaviour: **See something → ✦ make agent.**
 
-Isolated DEMO / PREVIEW inside the assembl monorepo. Does **not** change the live homepage (`/`, CinematicJourneyHome) or One NZ / Evidence / Operator journeys (soft PREVIEW link on `/journeys` only).
+Promise: **DO anything from where you already are.** Surface ≠ agent — the floating ✦ is one launch surface; the agent is the AgentSpec.
 
-## Architecture
+Isolated DEMO / PREVIEW inside the assembl monorepo. Does **not** change the live homepage (`/`, CinematicJourneyHome) or One NZ / Evidence / Operator journeys.
 
-**Surface ≠ agent.** Chrome extension is ONE launch surface. Core spine is channel-agnostic:
-
-```
-context + intent → AgentSpec → tools → permissions → outcome
-```
-
-| Surface | Status |
-|---------|--------|
-| Chrome MV3 ✦ | live (MVP) |
-| Web `/do` | live (MVP) |
-| WhatsApp / SMS / Messenger | stubs only (`GET /api/do/surfaces`, `POST /api/do/message`) |
-
-Common ingress: `POST /api/do/message` with `{ surface, brief, page? }`.
-
-### Runtime routing (not a chatbot)
-
-DO is **not** a chatbot or Astra wrapper.
-
-| Job class | Lane | Example |
-|-----------|------|---------|
-| Simple single-source | **local** Watch / primitive | “did this power price change?” |
-| Multi-source / compare / exception / computer-use | **Astra-class** behind an interface | quote compare, GETS-like find |
-
-v0 Astra provider is a **stub** (`stubAstraProvider`) — DEMO honesty, no vendor secrets, no external model call. See `apps/do/shared/router.ts`.
-
-### Patterns absorbed (selectively)
-
-See `apps/do/NOTICE`:
-
-1. **Watch engine** — hash/diff snapshots (patterns from changedetection.io, Apache-2.0)
-2. **DO Evidence** — ArchiveBox-inspired receipt of what was seen + why (on outcome cards)
-3. **Approval chain** — specialist → skeptic → decision → you — **only** for major pay/buy/sign/submit paths
-4. Voicebox / SearXNG / LibreTranslate — **out of scope** this PREVIEW (later; AGPL must stay separately hosted if ever used)
-
-## What ships
-
-1. Chrome MV3 extension — floating ✦, side panel, page capture
-2. Compile API + message ingress → AgentSpec JSON (local JSON / memory persist)
-3. Hard approval policy — server-side; model never picks risk tier
-4. `/do` home — **Needs you** / **Working** / **Done** + agent cards
-5. DEMO templates (NZ-flavoured, fixtures honest) including **Power price Watch DEMO**
-6. Watch tick + simulate-change + Evidence on completed / changed outcomes
-
-## How to run locally
+## How to try (fast path)
 
 ```bash
 pnpm install
@@ -57,42 +14,92 @@ pnpm --filter @assembl/canvas build   # once, if needed
 pnpm dev                              # http://localhost:3000/do
 ```
 
-### Load unpacked extension
+### Floating ✦ widget on `/do`
+
+1. Open `http://localhost:3000/do`
+2. Click the floating **✦** (bottom-right) — Grammarly-like compact sheet
+3. Context chips show URL / title / selection
+4. Pick a template from a lane, or type “make agent for this” → compile
+5. Review AgentSpec card (**watches / when / does / asks first**)
+6. Optional connector stub (SAP / email / calendar / Xero / Akahu) — default **Hook later**
+7. **Activate** → lands in Working / Needs you with Evidence
+
+### Mitre 10 · SAP pursuit DEMO
+
+1. On `/do`, click **Mitre 10 · SAP pursuit DEMO**
+2. Widget opens on template `mitre10-sap-rfp-brief` with fictional RFP + SAP landscape fixture context
+3. Review the AgentSpec → **Activate**
+4. Agent moves to **Needs you** with **DO Evidence** (draft from fixtures — nothing sent)
+5. Approve (DEMO) records your yes; does not email/submit/write to SAP
+
+Lane: `pursuit-mitre10-sap` also includes competitor watch, stakeholder map, proposal compare, next meeting pack.
+
+### Chrome extension
 
 1. `chrome://extensions` → Developer mode → **Load unpacked** → `apps/do/extension`
-2. Open any page → ✦ → `tell me if this changes` → compile → Activate
-3. Confirm on `/do`
+2. Open any http(s) page → floating **✦** opens an on-page compact sheet (same flow as `/do`)
+3. Side panel remains available as a second surface
+4. Set API base to `http://localhost:3000` if needed
+5. Confirm boards on `/do`
 
-### Watch DEMO (fixture change)
+## Architecture
 
-1. On `/do`, click **Power price Watch DEMO**
-2. **Activate** → Working (baseline snapshot)
-3. **Simulate change** → Needs you + **DO Evidence** card (v1 → v2 hash diff)
+```
+context + intent → AgentSpec → tools → permissions → outcome
+```
+
+| Surface | Status |
+|---------|--------|
+| Chrome MV3 ✦ (on-page sheet) | live (MVP) |
+| Web `/do` floating ✦ | live (MVP) |
+| WhatsApp / SMS / Messenger | stubs only |
+
+### Runtime routing (not a chatbot)
+
+| Job class | Lane | Example |
+|-----------|------|---------|
+| Simple single-source | **local** Watch / primitive | power price change |
+| Multi-source / compare / find | **Astra-class** (stub) | quote compare, GETS-like find |
+
+## Launch template catalog
+
+Data-driven registry in `apps/do/shared/templates.ts` — served by `GET /api/do/templates` (grouped by lane), used by `/do` + extension.
+
+| Lane | Examples |
+|------|----------|
+| Mitre 10 · SAP pursuit | RFP brief, competitor watch, stakeholder map, proposal compare, meeting pack |
+| Personal / Household | power price, plan compare, school notice, physio watch, tradie find |
+| Bills / Money | recurring expense, invoice extract, quote compare |
+| Work / Pursuit | GETS-like find, bid brief, competitor watch, meeting prep |
+| Study / Family | tutor (hints not answers), newsletter → calendar, kids tomorrow |
+| Retail / Ops | stock watch, supplier quotes, store notice |
+| SME | Xero recurring (stub), customer follow-up (asks first) |
 
 ## API map
 
 | Method | Path | Purpose |
 |--------|------|---------|
 | `POST` | `/api/do/agents/compile` | NL + page → AgentSpec |
+| `POST` | `/api/do/agents/:id/activate` | Activate (`{ connector? }`) |
+| `POST` | `/api/do/agents/:id/tick` | Watch tick (`{ simulateChange? }`) |
+| `POST` | `/api/do/agents/:id/approve` | Approve / decline |
+| `GET`  | `/api/do/templates` | Catalog + groups + connector stubs + fixtures |
+| `GET`  | `/api/do/agents?grouped=1` | Boards |
 | `POST` | `/api/do/message` | Common surface ingress |
 | `GET`  | `/api/do/surfaces` | Live + stub surfaces |
-| `GET`  | `/api/do/agents?grouped=1` | Boards |
-| `POST` | `/api/do/agents/:id/activate` | Activate |
-| `POST` | `/api/do/agents/:id/tick` | Watch tick (`{ simulateChange?: true }`) |
-| `POST` | `/api/do/agents/:id/approve` | Approve / decline |
-| `GET`  | `/api/do/templates` | DEMO templates + fixtures |
 
 Primitives: `watch` | `find` | `extract` | `prepare` | `compare`.
 
 ## DEMO honesty
 
-- PREVIEW / DEMO banners everywhere that matters
-- Local JSON (`apps/do/data/`) or in-memory — not multi-device
+- PREVIEW / DEMO banners on every launch surface
+- Mitre 10 / SAP pack uses **fictional** RFP and landscape fixtures — not a live Mitre 10 or SAP system
+- Connector picker is stubs only; **Hook later** is the default
 - Approve records your yes; does **not** buy/book/send/post/submit/pay/sign externally
-- Fixtures for GETS / kids / quotes / power-price — no locked-site scrapes
+- Local JSON (`apps/do/data/`) or in-memory — not multi-device
 - Astra lane stubbed
-- Out of scope: DO Store, OpenAI Pioneers drafting, Studio mega-pipeline, real Akahu/Xero OAuth, autonomous purchases
+- Homepage `/` untouched
 
 ## Brand
 
-Plum `#240B21`, heather `#916A70`, paper `#FFFDFB`. Instrument Sans + IBM Plex Mono. No bot avatars, purple AI gradients, or chat-first DO homepage.
+Plum `#240B21`, heather `#916A70`, paper `#FFFDFB`. Instrument Sans + IBM Plex Mono. No bot avatars, purple AI gradients, or chat-first DO UI.

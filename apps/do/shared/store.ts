@@ -8,12 +8,20 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import type { AgentSpec, AgentStatus, PendingApproval } from './types';
+import type { AgentSpec, AgentStatus, ConnectorChoice, PendingApproval } from './types';
 import { detectConsequentialVerb, requiresHumanApproval } from './policy';
 import { buildMajorApproval, needsMajorChain } from './approval-chain';
-import { diffSnapshots, getWatchFixture, snapshotFromText } from './watch';
+import {
+  diffSnapshots,
+  getWatchFixture,
+  resolveWatchFixtureKey,
+  snapshotFromText,
+} from './watch';
 import { evidenceFromSnapshots, evidenceFromSources } from './evidence';
 import { stubAstraProvider } from './router';
+import { FIXTURES } from './fixtures';
+import { getTemplate } from './templates';
+import { getConnector } from './connectors';
 
 const DATA_DIR = path.join(process.cwd(), 'apps/do/data');
 const DATA_FILE = path.join(DATA_DIR, 'agents.json');
@@ -86,26 +94,68 @@ export async function deleteAgent(id: string): Promise<boolean> {
   return true;
 }
 
+function fixtureExcerptForAgent(agent: AgentSpec): { label: string; excerpt: string } | null {
+  const template = agent.templateId ? getTemplate(agent.templateId) : undefined;
+  const key = template?.fixture;
+  if (!key || !(key in FIXTURES)) {
+    if (agent.page?.pageText) {
+      return {
+        label: agent.page.title || agent.page.url,
+        excerpt: agent.page.pageText.slice(0, 320),
+      };
+    }
+    return null;
+  }
+  const fixture = FIXTURES[key as keyof typeof FIXTURES] as Record<string, unknown>;
+  const title = typeof fixture.title === 'string' ? fixture.title : key;
+  if (typeof fixture.body === 'string') {
+    return { label: title, excerpt: fixture.body.slice(0, 360) };
+  }
+  if (Array.isArray(fixture.items)) {
+    return { label: title, excerpt: JSON.stringify(fixture.items).slice(0, 360) };
+  }
+  if (Array.isArray(fixture.quotes)) {
+    return { label: title, excerpt: JSON.stringify(fixture.quotes).slice(0, 360) };
+  }
+  if (Array.isArray(fixture.draftCoverage)) {
+    return { label: title, excerpt: JSON.stringify(fixture.draftCoverage).slice(0, 360) };
+  }
+  if (Array.isArray(fixture.lines)) {
+    return { label: title, excerpt: JSON.stringify(fixture.lines).slice(0, 360) };
+  }
+  if (Array.isArray(fixture.plans)) {
+    return { label: title, excerpt: JSON.stringify(fixture.plans).slice(0, 360) };
+  }
+  return { label: title, excerpt: JSON.stringify(fixture).slice(0, 360) };
+}
+
 /**
  * Activate an agent: moves to working, and if the brief implies a
  * consequential follow-up, parks an approval under needs_you.
+ * Optional connector choice is recorded (stubs only — DEMO honesty).
  */
-export async function activateAgent(id: string): Promise<AgentSpec | null> {
+export async function activateAgent(
+  id: string,
+  opts: { connector?: ConnectorChoice } = {},
+): Promise<AgentSpec | null> {
   const agent = await getAgent(id);
   if (!agent) return null;
 
+  const connector = opts.connector ?? agent.connector ?? 'hook-later';
+  const connectorMeta = getConnector(connector);
   const pending: PendingApproval[] = [...agent.pendingApprovals];
   let status: AgentStatus = 'working';
-  let lastNote = 'Working · watching / preparing within policy.';
+  let lastNote = `Working · watching / preparing within policy. · ${connectorMeta.honesty}`;
   let watchSnapshots = agent.watchSnapshots ? [...agent.watchSnapshots] : [];
+  let evidence = agent.evidence;
 
   if (agent.primitive === 'watch') {
-    // Seed a baseline snapshot for fixture watches / page text.
-    if (agent.watches.some((w) => w.includes('power-price') || w.includes('fixture:power-price'))) {
-      const page = getWatchFixture('v1');
+    const watchKey = resolveWatchFixtureKey(agent.watches);
+    if (watchKey) {
+      const page = getWatchFixture('v1', watchKey);
       const snap = snapshotFromText(page.key, page.body, { label: page.label, url: page.url });
       watchSnapshots = [snap];
-      lastNote = `Working · baseline stored for ${page.label}. Tick to simulate a change.`;
+      lastNote = `Working · baseline stored for ${page.label}. Tick to simulate a change. · ${connectorMeta.honesty}`;
     } else if (agent.page?.pageText || agent.page?.url) {
       const body = agent.page.pageText || agent.page.title || agent.page.url;
       const snap = snapshotFromText(agent.page.url || 'page', body, {
@@ -113,16 +163,43 @@ export async function activateAgent(id: string): Promise<AgentSpec | null> {
         url: agent.page.url,
       });
       watchSnapshots = [snap];
-      lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}.`;
+      lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}. · ${connectorMeta.honesty}`;
     } else {
-      lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}.`;
+      lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}. · ${connectorMeta.honesty}`;
     }
   } else if (agent.lane === 'astra') {
     const astra = await stubAstraProvider.run({
       brief: agent.brief,
       contextSummary: agent.watches.join(', '),
     });
-    lastNote = astra.draft;
+    lastNote = `${astra.draft} · ${connectorMeta.honesty}`;
+    const fx = fixtureExcerptForAgent(agent);
+    if (fx) {
+      evidence = evidenceFromSources(
+        agent.id,
+        [
+          {
+            kind: 'fixture',
+            label: fx.label,
+            excerpt: fx.excerpt,
+            capturedAt: new Date().toISOString(),
+          },
+          ...(agent.page
+            ? [
+                {
+                  kind: 'page' as const,
+                  label: agent.page.title || agent.page.url,
+                  url: agent.page.url,
+                  excerpt: (agent.page.pageText || agent.page.selectedText || '').slice(0, 200),
+                  capturedAt: new Date().toISOString(),
+                },
+              ]
+            : []),
+        ],
+        'DEMO draft assembled from fixtures / page context. Consequential step waits on your yes.',
+        `Draft ready · ${agent.name}`,
+      );
+    }
     if (agent.must_ask_before.length > 0) {
       status = 'needs_you';
       const action = agent.must_ask_before[0];
@@ -138,21 +215,52 @@ export async function activateAgent(id: string): Promise<AgentSpec | null> {
             },
       );
     }
-  } else if (agent.must_ask_before.length > 0) {
-    status = 'needs_you';
-    const action = agent.must_ask_before[0];
-    pending.push(
-      needsMajorChain(action)
-        ? buildMajorApproval(action)
-        : {
-            id: randomUUID(),
-            action,
-            reason: `Ready for your yes before: ${action}`,
-            policyHit: detectConsequentialVerb(action) ?? 'policy',
-            createdAt: new Date().toISOString(),
+  } else {
+    const fx = fixtureExcerptForAgent(agent);
+    if (fx) {
+      evidence = evidenceFromSources(
+        agent.id,
+        [
+          {
+            kind: 'fixture',
+            label: fx.label,
+            excerpt: fx.excerpt,
+            capturedAt: new Date().toISOString(),
           },
-    );
-    lastNote = 'Needs you · draft ready; consequential step waiting on approval.';
+          ...(agent.page
+            ? [
+                {
+                  kind: 'page' as const,
+                  label: agent.page.title || agent.page.url,
+                  url: agent.page.url,
+                  excerpt: (agent.page.pageText || agent.page.selectedText || '').slice(0, 200),
+                  capturedAt: new Date().toISOString(),
+                },
+              ]
+            : []),
+        ],
+        'DEMO draft assembled from fixtures / page context. Consequential step waits on your yes.',
+        `Draft ready · ${agent.name}`,
+      );
+    }
+    if (agent.must_ask_before.length > 0) {
+      status = 'needs_you';
+      const action = agent.must_ask_before[0];
+      pending.push(
+        needsMajorChain(action)
+          ? buildMajorApproval(action)
+          : {
+              id: randomUUID(),
+              action,
+              reason: `Ready for your yes before: ${action}`,
+              policyHit: detectConsequentialVerb(action) ?? 'policy',
+              createdAt: new Date().toISOString(),
+            },
+      );
+      lastNote = `Needs you · draft ready with Evidence; consequential step waiting on approval. · ${connectorMeta.honesty}`;
+    } else {
+      lastNote = `Working · draft ready with Evidence. · ${connectorMeta.honesty}`;
+    }
   }
 
   return saveAgent({
@@ -161,6 +269,8 @@ export async function activateAgent(id: string): Promise<AgentSpec | null> {
     pendingApprovals: pending,
     lastNote,
     watchSnapshots,
+    evidence,
+    connector,
   });
 }
 
@@ -181,9 +291,9 @@ export async function tickWatch(
   let url: string | undefined;
   let key: string;
 
-  const isPower = agent.watches.some((w) => w.includes('power-price'));
-  if (isPower) {
-    const page = getWatchFixture(opts.simulateChange ? 'v2' : 'v1');
+  const watchKey = resolveWatchFixtureKey(agent.watches);
+  if (watchKey) {
+    const page = getWatchFixture(opts.simulateChange ? 'v2' : 'v1', watchKey);
     nextBody = page.body;
     label = page.label;
     url = page.url;
