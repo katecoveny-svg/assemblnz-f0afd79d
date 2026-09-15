@@ -18,7 +18,7 @@ import {
   snapshotFromText,
 } from './watch';
 import { evidenceFromSnapshots, evidenceFromSources } from './evidence';
-import { stubAstraProvider } from './router';
+import { runtimeAstraHardJob } from './runtime';
 import { FIXTURES } from './fixtures';
 import { getTemplate } from './templates';
 import { getConnector } from './connectors';
@@ -168,11 +168,11 @@ export async function activateAgent(
       lastNote = `Working · watching ${agent.watches[0] ?? 'the page'} for ${agent.looks_for[0] ?? 'changes'}. · ${connectorMeta.honesty}`;
     }
   } else if (agent.lane === 'astra') {
-    const astra = await stubAstraProvider.run({
+    const astra = await runtimeAstraHardJob({
       brief: agent.brief,
       contextSummary: agent.watches.join(', '),
     });
-    lastNote = `${astra.draft} · ${connectorMeta.honesty}`;
+    lastNote = `${astra.draft} · ${astra.honesty} · ${connectorMeta.honesty}`;
     const fx = fixtureExcerptForAgent(agent);
     if (fx) {
       evidence = evidenceFromSources(

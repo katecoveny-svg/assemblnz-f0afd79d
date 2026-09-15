@@ -55,6 +55,23 @@ export {
   tickWatch,
 } from './store';
 export { chooseLane, planTools, stubAstraProvider } from './router';
+export {
+  getDoRuntimeStatus,
+  runtimeCompile,
+  runtimeClearRewrite,
+  runtimeAstraHardJob,
+} from './runtime';
+export type {
+  DoRuntimeStatus,
+  DoRuntimeMode,
+  DoRuntimeProvider,
+  DoRuntimeCapability,
+  ClearRewriteResult,
+} from './runtime';
+export { clearHeuristics } from './clear';
+export type { ClearMark, ClearHeuristicResult } from './clear';
+export { resolveDoSpineAsync, createOrchestratorSpine } from './spine';
+export type { DoAgentsSpine, DoSession, DoInterruption, DoSpineKind } from './spine';
 export { SURFACES, getSurface } from './surfaces';
 export {
   diffSnapshots,
