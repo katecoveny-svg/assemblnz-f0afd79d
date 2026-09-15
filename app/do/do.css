@@ -198,12 +198,12 @@
 
 .do-orb-halo {
   position: absolute;
-  inset: -12%;
+  inset: -18%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 50%, rgba(145, 106, 112, 0.45), transparent 62%),
-    radial-gradient(circle at 50% 50%, rgba(255, 253, 251, 0.12), transparent 70%);
-  filter: blur(10px);
+    radial-gradient(circle at 50% 50%, rgba(145, 106, 112, 0.55), transparent 58%),
+    radial-gradient(circle at 50% 50%, rgba(255, 253, 251, 0.18), transparent 72%);
+  filter: blur(14px);
   animation: do-orb-breathe 4.8s ease-in-out infinite;
   z-index: 0;
 }
@@ -211,19 +211,22 @@
 .do-orb-core {
   position: relative;
   z-index: 1;
-  width: 78%;
+  width: 86%;
   aspect-ratio: 1;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at 32% 28%, rgba(255, 253, 251, 0.28), transparent 40%),
-    radial-gradient(circle at 70% 75%, rgba(145, 106, 112, 0.35), transparent 48%),
-    linear-gradient(160deg, #3a1834 0%, var(--do-plum) 55%, #1a0718 100%);
+    radial-gradient(circle at 30% 24%, rgba(255, 253, 251, 0.42), transparent 38%),
+    radial-gradient(circle at 55% 48%, rgba(145, 106, 112, 0.25), transparent 55%),
+    radial-gradient(circle at 72% 78%, rgba(26, 7, 24, 0.9), transparent 52%),
+    linear-gradient(155deg, #4a2044 0%, #2c1228 42%, #140510 100%);
   box-shadow:
-    0 0 0 1px rgba(255, 253, 251, 0.1) inset,
-    0 22px 50px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(145, 106, 112, 0.35);
+    0 0 0 1.5px rgba(255, 253, 251, 0.16) inset,
+    0 -18px 28px rgba(0, 0, 0, 0.35) inset,
+    0 26px 56px rgba(0, 0, 0, 0.55),
+    0 0 48px rgba(145, 106, 112, 0.45),
+    0 0 80px rgba(145, 106, 112, 0.2);
 }
 
 .do-orb-star {
