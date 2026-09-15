@@ -25,18 +25,53 @@ It should understand:
 - product/market changes
 - useful model/tool capability changes
 - client-specific opportunities
-- what Assembl has already built that can be reused
+- what assembl has already built that can be reused
 
 Output: a bounded opportunity with evidence, buyer/user, value hypothesis, urgency and next action.
 
 ### DO — do the work
 DO is the portable execution layer.
 
-It should be able to work where the user already is — browser and connected tools — rather than forcing every job into a new standalone application.
+It should work where the user already is — browser, native desktop and connected tools — rather than forcing every job into a new standalone application.
 
 DO capabilities should be reusable, permission-aware and composable. Risky actions are previewed and approved; completed actions leave receipts.
 
 DO can also be a distribution/lead surface: useful small tools can be tried with limited free usage and upgraded into paid capability.
+
+#### current DO shape
+
+Treat DO as **one portable runtime with multiple surfaces**, not a collection of unrelated apps.
+
+Current shared spine:
+
+`context + intent → AgentSpec → tools → permissions → outcome/evidence`
+
+Current/active surfaces include:
+- hosted DO workspace/widget
+- browser extension / side-panel companion
+- native Mac floating companion
+- mobile/share surfaces
+- voice as an interaction channel
+
+The native Mac companion is the intended persistent cross-app surface for **“do this here, now.”** It now has a floating orb, explicit accessibility-based selected-text/review-first paste controls, persisted orb position/visibility, and an opt-in launch-at-login path. It must not silently read secure fields, record the screen, or turn context access into authority to act.
+
+**DO Office** is the coordination surface for **“show me my DO team and what is happening.”** It sits above the same AgentSpec runtime and should make these visible:
+- personal / work / client workspaces
+- needs-you approvals/questions
+- active work
+- completed work + receipts
+- structured handoffs/inbox
+- actual provisioned identities/mailboxes where available
+
+DO Office is not a second agent runtime and should not become a hidden group chat of bots. Agent-to-agent coordination should use structured, inspectable handoffs carrying minimal task context, requested action and evidence references.
+
+A DO may have a human-readable identity and eventually a real email address, but the product must distinguish proposed identity from an actually provisioned mailbox. Reuse the existing agent-email infrastructure rather than fabricating addresses or creating a second mail system.
+
+Durable DO Office schema has been added to source for owner-scoped workspaces, DO AgentSpec records, structured handoffs and receipts. Treat deployment/runtime availability as unverified until the migration is deliberately confirmed against the live Supabase project and app repository methods are wired.
+
+Gemini Live voice work is currently an active integration effort. The intended boundary is: voice can converse, prepare/compile DO work and query/coordinate the same DO state, but it must use the same context, tool permission, approval and evidence rules as every other surface. Voice is a channel into DO, not a privileged bypass around DO policy.
+
+For visual/system details, see `docs/DO-OFFICE-ARCHITECTURE.md` and the DO shared primitives under `apps/do/shared/`.
 
 ### SHOW / STUDIO — show the possibility
 Studio is the visual, experiential and commercial proof layer.
@@ -51,7 +86,7 @@ It turns opportunities and software capability into:
 - before/after simulations
 - proof that a proposed change is understandable and valuable
 
-SHOW is not just presentation. It is how Assembl makes invisible future work tangible enough to sell, test and improve.
+SHOW is not just presentation. It is how assembl makes invisible future work tangible enough to sell, test and improve.
 
 ### FACTORY — build once, reuse repeatedly
 The factory sits beneath Pursuit, DO and SHOW.
@@ -90,7 +125,7 @@ The intended flywheel is:
 
 ## the role of the Business Genome
 
-The **Business Genome remains important, but it is not the top-level description of Assembl**.
+The **Business Genome remains important, but it is not the top-level description of assembl**.
 
 Use “Business Genome” for structured, reusable understanding of a specific business/client/tenant, including:
 - products/services
@@ -108,11 +143,11 @@ Use “Business Genome” for structured, reusable understanding of a specific b
 The Genome is a **context substrate** used by Pursuit, DO, SHOW and customer journeys.
 
 Do not confuse:
-- **Assembl company memory** — the canonical repo context that describes Assembl itself
+- **assembl company memory** — the canonical repo context that describes assembl itself
 with
 - **a Business Genome** — structured context for a customer/business being served.
 
-Assembl company memory is routed through `config/context-manifest.json` and `docs/context/*`.
+assembl company memory is routed through `config/context-manifest.json` and `docs/context/*`.
 
 ## customer journey foundation
 
