@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import './do-live.css';
 
 type InteractionStatus = 'IDLE' | 'IN_PROGRESS';
+type Props = { embedded?: boolean };
 
 type LiveSession = {
   uri: string;
@@ -11,7 +12,18 @@ type LiveSession = {
   mode: 'standard' | 'extended';
 };
 
-function pageContext() {
+function pageContext(embedded: boolean) {
+  // Embedded DO receives reviewed context from its parent through the existing
+  // postMessage bridge. Until Live shares that reviewed state explicitly, do
+  // not scrape the hosted widget/document body and pretend it is the source page.
+  if (embedded) {
+    return {
+      url: '',
+      title: 'DO embedded workspace',
+      selectedText: '',
+      pageText: '',
+    };
+  }
   const selected = window.getSelection()?.toString()?.trim() || '';
   return {
     url: window.location.href,
@@ -35,7 +47,7 @@ function fromBase64(value: string) {
   return bytes.buffer;
 }
 
-export function DoGeminiLive() {
+export function DoGeminiLive({ embedded = false }: Props) {
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [status, setStatus] = useState<InteractionStatus>('IDLE');
@@ -117,6 +129,7 @@ export function DoGeminiLive() {
 
       const ws = new WebSocket(session.uri);
       wsRef.current = ws;
+      const initialContext = pageContext(embedded);
 
       ws.onopen = () => {
         ws.send(JSON.stringify({
@@ -131,16 +144,16 @@ export function DoGeminiLive() {
               parts: [{ text: [
                 'You are DO by Assembl: a concise, warm New Zealand work agent.',
                 'Stay useful while work is happening. Give short spoken progress updates rather than leaving silence.',
-                'You may inspect the page context and PREPARE a DO agent with the compile_do_agent tool.',
+                'You may PREPARE a DO agent with the compile_do_agent tool from context the user has deliberately provided.',
                 'You may not send, purchase, submit, publish, change an account, spend money, or claim an external action happened.',
                 'Consequential actions always require the existing Assembl approval flow and are outside this live session.',
-                `Current page context: ${JSON.stringify(pageContext())}`,
+                `Reviewed page/workspace context: ${JSON.stringify(initialContext)}`,
               ].join('\n') }],
             },
             tools: [{
               functionDeclarations: [{
                 name: 'compile_do_agent',
-                description: 'Prepare a DO agent/spec from a brief and the current webpage. This is preparation only and performs no external action.',
+                description: 'Prepare a DO agent/spec from a brief and reviewed context. This is preparation only and performs no external action.',
                 behavior: 'NON_BLOCKING',
                 parameters: {
                   type: 'OBJECT',
@@ -175,7 +188,7 @@ export function DoGeminiLive() {
         processor.connect(inputAudio.destination);
         setConnected(true);
         setConnecting(false);
-        setNote('Listening. Ask DO to work something out from this page.');
+        setNote('Listening. Ask DO to prepare the next step from the context you chose.');
       };
 
       ws.onmessage = async (event) => {
@@ -198,13 +211,12 @@ export function DoGeminiLive() {
           if (call.name !== 'compile_do_agent') continue;
           let output: unknown;
           try {
-            const response = await fetch('/api/do/agents/compile', {
+            const response = await fetch('/api/do/live-compile', {
               method: 'POST',
               headers: { 'content-type': 'application/json' },
               body: JSON.stringify({
                 brief: String(call.args?.brief || '').slice(0, 2000),
-                page: pageContext(),
-                surface: 'web-widget',
+                page: initialContext,
                 connector: 'hook-later',
               }),
             });
@@ -237,7 +249,7 @@ export function DoGeminiLive() {
       setNote(error instanceof Error ? error.message : 'Live DO could not start.');
       disconnect();
     }
-  }, [connected, connecting, disconnect, playNext]);
+  }, [connected, connecting, disconnect, embedded, playNext]);
 
   return (
     <section className="do-live-dock" aria-label="Talk to DO">
