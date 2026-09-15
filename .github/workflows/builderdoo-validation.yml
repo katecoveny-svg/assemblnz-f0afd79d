@@ -5,10 +5,19 @@ on:
   pull_request:
     paths:
       - 'app/api/do/builder/**'
+      - 'app/api/do/connections/**'
+      - 'app/api/do/live-*/**'
       - 'app/do/builder/**'
+      - 'app/do/connections/**'
       - 'app/do/office/**'
       - 'apps/do/shared/builder*'
+      - 'apps/do/shared/capability-catalogue.ts'
+      - 'apps/do/shared/spatial-tools.ts'
       - 'apps/do/builder-runner/**'
+      - 'lib/os/improvement*'
+      - 'lib/os/routing*'
+      - 'lib/os/capabilities.ts'
+      - 'lib/connectors/**'
       - 'docs/factory/PRIMITIVES.md'
       - '.github/workflows/builderdoo-validation.yml'
 
@@ -34,7 +43,7 @@ jobs:
         run: pnpm --filter @assembl/canvas build
       - name: Typecheck
         run: pnpm typecheck
-      - name: Builderdoo unit test
-        run: pnpm test apps/do/shared/builder.test.ts
+      - name: DO core unit tests
+        run: pnpm test apps/do/shared/builder.test.ts lib/os/improvement.test.ts lib/os/routing.test.ts
       - name: Production build
         run: pnpm build
