@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-16",
+  "purpose": "Canonical routing manifest for Assembl agents, coding harnesses and DO runtimes. This file points to truth; it does not duplicate full context.",
+  "entrypoints": {
+    "human_or_coding_agent": [
+      "START_HERE.md",
+      "AGENTS.md",
+      "docs/context/README.md",
+      "docs/context/CURRENT.md"
+    ],
+    "runtime_agent": [
+      "docs/context/CURRENT.md",
+      "docs/assembl-context.md"
+    ]
+  },
+  "canonical": {
+    "current_state": "docs/context/CURRENT.md",
+    "company_and_product_strategy": "docs/assembl-context.md",
+    "brand": "docs/assembl-brand-system.md",
+    "copy": "docs/assembl-copy-standard.md",
+    "factory": "docs/factory/FACTORY.md",
+    "primitives": "docs/factory/PRIMITIVES.md",
+    "decisions": "docs/factory/DECISIONS.md",
+    "learnings": "docs/factory/LEARNINGS.md",
+    "agent_registry": "docs/AGENT-REGISTRY.md",
+    "architecture": "docs/AGENTIC-OS-ARCHITECTURE.md",
+    "journey_foundation": "docs/agentic-customer-journey.md",
+    "wait_states": "docs/agentic-wait-states-roadmap.md"
+  },
+  "product_structure": {
+    "pursuit": "find the work — signals, friction, opportunities, buyers, tenders and evidence",
+    "do": "do the work — bounded execution in browser/tools with approvals and receipts",
+    "show": "show the possibility — Studio proof, demonstrators, journeys, creative, pitches and tender artefacts",
+    "factory": "shared context, primitives, agents, skills, connectors, tests, evals and learning",
+    "proof": "evidence and outcomes feeding back into Pursuit and the Factory"
+  },
+  "brand_snapshot": {
+    "wordmark": "assembl",
+    "colors": {
+      "deep_plum": "#240B21",
+      "muted_plum": "#654A4E",
+      "dusty_rose": "#916A70",
+      "chalk": "#F5F1F2",
+      "paper": "#FFFDFB"
+    },
+    "fonts": {
+      "primary": "Instrument Sans",
+      "evidence_mono": "IBM Plex Mono"
+    },
+    "forbidden_company_directions": [
+      "Cormorant-led company branding",
+      "champagne/gold company branding",
+      "brass company branding",
+      "pounamu as the Assembl company master palette",
+      "canary yellow",
+      "robot/chatbot imagery"
+    ],
+    "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent."
+  },
+  "precedence": [
+    "current explicit task/user instruction",
+    "root AGENTS.md",
+    "nearest nested AGENTS.md",
+    "canonical files in this manifest",
+    "current code/schema/tests for runtime reality",
+    "harness-specific compatibility memory",
+    "historical/research/generated material"
+  ]
+}

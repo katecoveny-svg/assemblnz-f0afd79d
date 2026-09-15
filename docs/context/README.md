@@ -2,27 +2,43 @@
 
 Use this file to decide what context to load. The goal is one coherent source of truth without loading the entire company history into every task.
 
-## Precedence
+Machine-readable routing lives in `config/context-manifest.json`.
+Fast-moving working context lives in `docs/context/CURRENT.md`.
+
+## precedence
 
 When instructions conflict, use this order:
 
-1. **Current user/task instruction**
+1. **Current explicit user/task instruction**
 2. **Root `AGENTS.md`** — repo-wide operating and safety rules
-3. **Nested `AGENTS.md`** — only for files inside that subtree
-4. **Canonical current docs listed below**
+3. **Nearest nested `AGENTS.md`** — only for files inside that subtree
+4. **Canonical current docs in `config/context-manifest.json` and listed below**
 5. **Current code/schema/tests** for implementation reality
-6. **`CLAUDE.md` and harness-specific compatibility files** — useful memory, but not allowed to override canonical docs above
+6. **`CLAUDE.md` and other harness-specific compatibility memory** — useful but supplementary
 7. **Handovers, audits, research, old briefs, generated outputs and legacy experiments** — reference only
 
 Never silently merge contradictory truths. Flag the conflict and prefer the higher-precedence source.
 
-## Canonical context by question
+## always load first
+
+For a fresh coding/agent task, use:
+
+1. `START_HERE.md`
+2. `AGENTS.md`
+3. `config/context-manifest.json`
+4. `docs/context/CURRENT.md`
+5. this router
+6. only the smallest task-specific canon + source/tests
+
+## canonical context by question
 
 | Need | Canonical source |
 |---|---|
-| What is assembl / strategy / product philosophy? | `docs/assembl-context.md` |
+| Where is Assembl at right now? | `docs/context/CURRENT.md` |
+| What is assembl / durable strategy / product philosophy? | `docs/assembl-context.md` |
 | Visual system / brand tokens | `docs/assembl-brand-system.md` |
 | Public copy rules | `docs/assembl-copy-standard.md` + `COPY.md` where still mirrored |
+| Machine-readable source map | `config/context-manifest.json` |
 | Repo operating rules / done criteria | `AGENTS.md` |
 | Current software-factory model | `docs/factory/FACTORY.md` |
 | Reusable capabilities | `docs/factory/PRIMITIVES.md` |
@@ -37,41 +53,55 @@ Never silently merge contradictory truths. Flag the conflict and prefer the high
 | Plugin subtree | `plugins/CLAUDE.md` plus any nested instructions |
 | Remotion subtree | `remotion/CLAUDE.md` |
 
-## Product routing
+## product routing
 
-### Pursuit
-Load only the context needed for signals, opportunity intelligence, evidence provenance, buyer/company understanding and commercial opportunity. Pursuit should create evidence-backed opportunities, not speculative certainty.
-
-### Studio
-Load brand + copy + relevant product/customer context. Studio is the proof surface: working demonstrations, journeys, interfaces, video, image and pitch artefacts should show the possibility without inventing customer claims.
+### Pursuit / FIND
+Load the context needed for signals, opportunity intelligence, evidence provenance, buyer/company understanding, tenders and commercial opportunity. Pursuit should create evidence-backed opportunities, not speculative certainty.
 
 ### DO
-Load execution/tool/authority context. DO should preview risky work, obtain approval at meaningful boundaries and leave a receipt after action.
+Load execution/tool/authority context. DO should preview risky work, obtain approval at meaningful boundaries, execute within granted limits and leave a receipt.
+
+### SHOW / Studio
+Load brand + copy + relevant product/customer context. SHOW is the proof surface: working demonstrations, journeys, interfaces, video, image, 3D, pitches and tender artefacts should make the possibility tangible without inventing customer claims.
 
 ### Factory
-Load this router + `docs/factory/*` + only the product area being changed. Factory work should improve multiple future builds where possible.
+Load this router + relevant `docs/factory/*` + only the product area being changed. Factory work should improve multiple future builds where practical.
 
-## Truth labels
+### Business Genome
+A Business Genome is context for a specific business/client/tenant. It is not Assembl company memory. Load only the parts of a Genome required for the current task or journey stage.
+
+## truth labels
 
 Use these labels in planning/docs when useful:
 
-- **canonical** — current intended truth
-- **runtime truth** — what the current code/schema actually does
+- **canonical** — current intended durable truth
+- **current state** — today's operating state; can change faster than canon
+- **runtime truth** — what current code/schema/tests actually do
 - **proposal** — not yet accepted
 - **historical** — useful background, not current instruction
 - **legacy** — retained for compatibility only
 - **archive candidate** — likely removable/movable after reference checks
 
-## Context budget rule
+## context budget rule
 
-Default new coding session:
-
-1. `START_HERE.md`
-2. `AGENTS.md`
-3. this router
-4. one or two task-specific canonical docs
-5. the relevant code/tests
-
-Do not automatically load `CLAUDE.md`, all of `docs/`, all research files, or prior chat transcripts.
+Do not automatically load `CLAUDE.md`, all of `docs/`, all research files, all Business Genome content, or prior chat transcripts.
 
 The agent should be able to state which files it loaded and why.
+
+Run `pnpm context:check` when context/brand work changes or when drift is suspected.
+
+## promoting chat knowledge into persistent memory
+
+Chat history is working memory, not the company source of truth.
+
+When a conversation produces something durable:
+
+- current state change → update `docs/context/CURRENT.md`
+- durable product/strategy change → update `docs/assembl-context.md`
+- brand change → update `docs/assembl-brand-system.md` + manifest snapshot
+- reusable capability → update `docs/factory/PRIMITIVES.md`
+- durable decision → update `docs/factory/DECISIONS.md`
+- repeated lesson/failure → update `docs/factory/LEARNINGS.md`
+- agent role/capability change → update the appropriate agent registry/definition
+
+Do not let a nightly automation silently promote experiments into canon.
