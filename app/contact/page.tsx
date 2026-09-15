@@ -69,10 +69,10 @@ export default async function ContactPage({searchParams}:{searchParams:Promise<{
 
               <div className={styles.contactCard}>
                 <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Success message
+                  Your email draft
                 </p>
                 <p className="mt-3 text-sm text-[color:var(--text-body)]">
-                  Thank you. Kate will be in touch within one business day.
+                  The form opens your email app. Review the draft and press Send to contact assembl.
                 </p>
               </div>
             </aside>

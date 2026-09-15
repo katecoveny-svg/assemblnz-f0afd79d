@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DO by assembl",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Choose text, prepare a useful draft, review it and take it with you.",
   "action": { "default_title": "Open DO", "default_popup": "popup.html" },
   "permissions": ["activeTab", "scripting"],

@@ -67,7 +67,7 @@ export interface ImageResult {
 
 export async function generateImages(
   brief: string,
-  opts: { count?: number; aspectRatio?: string; referenceDataUrl?: string } = {},
+  opts: { count?: number; aspectRatio?: string; referenceDataUrl?: string; signal?: AbortSignal } = {},
 ): Promise<ImageResult> {
   const count = Math.min(Math.max(opts.count ?? 4, 1), 4);
   const aspectRatio = opts.aspectRatio ?? "1:1";
@@ -78,6 +78,7 @@ export async function generateImages(
   if (g) {
     const model = "imagen-4.0-generate-001";
     const res = await fetch(`${GLB}/models/${model}:predict?key=${g}`, {
+      signal: opts.signal,
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -97,14 +98,14 @@ export async function generateImages(
   }
   const f = keys.fal();
   if (f) {
-    const images = await falFlux(prompt, count, f);
+    const images = await falFlux(prompt, count, f, opts.signal);
     return { provider: "fal", model: "fal-ai/flux-pro/v1.1", images, aspectRatio };
   }
   // No local provider key — route through the deployed `generate-image` edge
   // function, which holds its own FAL_API_KEY in Supabase secrets. This is the
   // same path the live Auaha agent chat uses (lib/agents/creative.ts), so the
   // social studios generate real stills wherever the platform secrets live.
-  const edge = await edgeGenerateImage(prompt);
+  const edge = await edgeGenerateImage(prompt, opts.signal);
   if (edge) return { provider: "fal", model: "generate-image edge · flux", images: [edge], aspectRatio };
   throw new NotConfigured(
     "GEMINI_API_KEY",
@@ -113,7 +114,7 @@ export async function generateImages(
 }
 
 /** Fal Flux via the deployed Supabase edge function (its own FAL_API_KEY). */
-async function edgeGenerateImage(prompt: string): Promise<string | null> {
+async function edgeGenerateImage(prompt: string, signal?: AbortSignal): Promise<string | null> {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
@@ -122,6 +123,7 @@ async function edgeGenerateImage(prompt: string): Promise<string | null> {
   if (!base || !key) return null;
   try {
     const res = await fetch(`${base}/functions/v1/generate-image`, {
+      signal,
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, apikey: key, "Content-Type": "application/json" },
       body: JSON.stringify({ prompt, provider: "fal", style: "photorealistic" }),
@@ -131,7 +133,7 @@ async function edgeGenerateImage(prompt: string): Promise<string | null> {
     if (!d.imageUrl) return null;
     // Hosted Fal URLs get inlined so galleries stay self-contained; data URLs pass through.
     if (d.imageUrl.startsWith("data:")) return d.imageUrl;
-    const r = await fetch(d.imageUrl);
+    const r = await fetch(d.imageUrl, { signal });
     if (!r.ok) return d.imageUrl;
     return dataUrl(r.headers.get("content-type") || "image/jpeg", await bufToB64(r));
   } catch {
@@ -139,8 +141,9 @@ async function edgeGenerateImage(prompt: string): Promise<string | null> {
   }
 }
 
-async function falFlux(prompt: string, count: number, key: string): Promise<string[]> {
+async function falFlux(prompt: string, count: number, key: string, signal?: AbortSignal): Promise<string[]> {
   const res = await fetch("https://fal.run/fal-ai/flux-pro/v1.1", {
+    signal,
     method: "POST",
     headers: { Authorization: `Key ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, num_images: count, image_size: "square_hd" }),
@@ -151,7 +154,7 @@ async function falFlux(prompt: string, count: number, key: string): Promise<stri
   const out: string[] = [];
   for (const img of d.images ?? []) {
     try {
-      const r = await fetch(img.url);
+      const r = await fetch(img.url, { signal });
       out.push(dataUrl(r.headers.get("content-type") || "image/jpeg", await bufToB64(r)));
     } catch {
       out.push(img.url);
