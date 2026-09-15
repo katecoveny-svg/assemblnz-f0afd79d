@@ -1,12 +1,9 @@
 /*
- * Auth chrome — locked canon (2026-06-23).
+ * Auth chrome — current assembl company canon.
  *
- * The signed-out auth surfaces (/login, /start/signup, anything under /auth/*)
- * carry their own header + footer so the global SiteHeader/SiteFooter (which
- * still ship the older pre-canon chrome and a kete-cutout footer mark) are
- * suppressed there. This mirrors the homepage glass-pill nav from
- * home.module.css: lowercase Cormorant `assembl` wordmark + gold pill-dash on
- * the left, a glass-pill nav on the right. The wordmark is always a link home.
+ * Signed-out auth surfaces own this small header/footer frame so they stay
+ * consistent and uncluttered. Company brand: plum / rose / paper,
+ * Instrument Sans, IBM Plex Mono only for evidence/status microcopy.
  */
 
 .header {
@@ -14,12 +11,13 @@
   top: 0;
   z-index: 40;
   width: 100%;
-  background: rgba(255, 247, 236, 0.78); /* cream, translucent */
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom: 1px solid var(--dash-hairline, #efeadc);
+  background: rgba(255, 253, 251, 0.84);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  border-bottom: 1px solid rgba(36, 11, 33, 0.1);
   padding-top: env(safe-area-inset-top, 0px);
 }
+
 .inner {
   max-width: 1340px;
   width: 100%;
@@ -31,69 +29,65 @@
   gap: 20px;
   padding: 0 24px;
 }
+
 @media (min-width: 768px) {
-  .inner {
-    padding: 0 48px;
-  }
+  .inner { padding: 0 48px; }
 }
 
-/* brand — wordmark + gold pill-dash, always a link home */
 .brand {
   display: inline-flex;
-  align-items: flex-end;
-  gap: 7px;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: opacity 0.15s ease;
 }
 .brand:hover,
+.brand:focus-visible { opacity: 0.78; }
 .brand:focus-visible {
-  opacity: 0.82;
-}
-.brand:focus-visible {
-  outline: 2px solid var(--assembl-gold, #BFA37A);
+  outline: 2px solid #916A70;
   outline-offset: 4px;
 }
+
 .brandWord {
-  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-display), 'Instrument Sans', system-ui, sans-serif;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 28px;
   line-height: 1;
-  letter-spacing: -0.01em;
-  color: var(--dash-ink, #3a3832);
+  letter-spacing: -0.045em;
+  color: #240B21;
 }
-/* the gold pill-dash sitting at the baseline-bottom of the wordmark */
+
+/* Small assembly/state mark, not a decorative gold flourish. */
 .pillDash {
-  width: 22px;
-  height: 7px;
-  border-radius: 4px;
-  background: var(--assembl-gold, #BFA37A);
-  margin-bottom: 6px;
+  width: 20px;
+  height: 6px;
+  border-radius: 99px;
+  background: #916A70;
   flex: none;
 }
 
-/* glass-pill nav (ported from the homepage canon nav) */
 .nav {
   display: none;
   align-items: center;
-  gap: 32px;
-  font-family: var(--font-body), 'Lato', system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--dash-body, #56544b);
-  background: linear-gradient(135deg, rgba(255, 243, 200, 0.72), rgba(255, 236, 170, 0.55));
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border: 1px solid rgba(255, 224, 120, 0.7);
-  padding: 11px 30px;
+  gap: 30px;
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #654A4E;
+  background: rgba(245, 241, 242, 0.78);
+  backdrop-filter: blur(16px) saturate(1.05);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  padding: 11px 28px;
   border-radius: 99px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 8px 22px rgba(200, 150, 0, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), 0 10px 28px rgba(36, 11, 33, 0.06);
 }
+
 @media (min-width: 880px) {
-  .nav {
-    display: inline-flex;
-  }
+  .nav { display: inline-flex; }
 }
+
 .nav a {
   color: inherit;
   text-decoration: none;
@@ -101,11 +95,9 @@
   transition: color 0.15s ease;
 }
 .nav a:hover,
+.nav a:focus-visible { color: #240B21; }
 .nav a:focus-visible {
-  color: var(--dash-ink, #3a3832);
-}
-.nav a:focus-visible {
-  outline: 2px solid var(--assembl-gold, #BFA37A);
+  outline: 2px solid #916A70;
   outline-offset: 3px;
 }
 
@@ -113,34 +105,33 @@
   display: inline-flex;
   align-items: center;
   pointer-events: auto;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(58, 56, 50, 0.14);
-  color: var(--dash-ink, #3a3832);
-  padding: 11px 24px;
+  background: #240B21;
+  border: 1px solid #240B21;
+  color: #FFFDFB;
+  padding: 11px 23px;
   border-radius: 99px;
-  font-family: var(--font-body), 'Lato', system-ui, sans-serif;
-  font-weight: 700;
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+  font-weight: 600;
   font-size: 14px;
   text-decoration: none;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 8px 22px rgba(58, 56, 50, 0.07);
-  transition: opacity 0.15s ease;
+  box-shadow: 0 10px 26px rgba(36, 11, 33, 0.12);
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 .cta:hover,
 .cta:focus-visible {
-  opacity: 0.85;
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
+.cta:active { transform: translateY(0); }
 .cta:focus-visible {
-  outline: 2px solid var(--assembl-gold, #BFA37A);
+  outline: 2px solid #916A70;
   outline-offset: 3px;
 }
 
-/* footer — minimal canon line, no kete-cutout mark */
 .footer {
   width: 100%;
-  border-top: 1px solid var(--dash-hairline, #efeadc);
-  background: rgba(255, 247, 236, 0.6);
+  border-top: 1px solid rgba(36, 11, 33, 0.1);
+  background: rgba(255, 253, 251, 0.78);
   padding: 24px;
   padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
 }
@@ -162,21 +153,18 @@
 }
 .footerBrand {
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 6px;
   text-decoration: none;
 }
-.footerBrand .brandWord {
-  font-size: 22px;
-}
+.footerBrand .brandWord { font-size: 21px; }
 .footerBrand .pillDash {
-  width: 18px;
-  height: 6px;
-  margin-bottom: 4px;
+  width: 16px;
+  height: 5px;
 }
 .footerNote {
-  font-family: var(--font-mono), 'Space Mono', ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  color: var(--dash-muted, #8a8678);
+  font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #654A4E;
 }
