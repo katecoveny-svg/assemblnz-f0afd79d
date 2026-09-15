@@ -1,0 +1,49 @@
+name: DO macOS companion build
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/do/macos/**'
+      - '.github/workflows/do-macos-build.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build DO companion
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x apps/do/macos/build.sh
+          apps/do/macos/build.sh "$RUNNER_TEMP/do-companion"
+
+      - name: Verify bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x "$RUNNER_TEMP/do-companion/DO.app/Contents/MacOS/DO"
+          /usr/bin/codesign --verify --deep --strict "$RUNNER_TEMP/do-companion/DO.app"
+          /usr/bin/plutil -lint "$RUNNER_TEMP/do-companion/DO.app/Contents/Info.plist"
+          /usr/bin/file "$RUNNER_TEMP/do-companion/DO.app/Contents/MacOS/DO"
+
+      - name: Archive development build
+        shell: bash
+        run: |
+          set -euo pipefail
+          ditto -c -k --keepParent "$RUNNER_TEMP/do-companion/DO.app" "$RUNNER_TEMP/DO-development-companion.zip"
+
+      - name: Upload development artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DO-development-companion
+          path: ${{ runner.temp }}/DO-development-companion.zip
+          retention-days: 7
+          if-no-files-found: error
