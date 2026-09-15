@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 /**
- * Brand guard — fails the build if deprecated brand tokens or old-era names
- * reappear on the marketing surfaces (DIRECTION-LOCKED-2026-07-01, palette
- * correction 2026-07-02: champagne gold #BFA37A replaces canary; old agent
- * names were renamed in the V4 cull; dash/Beat became Assembling).
+ * Assembl brand guard.
  *
- * Scope is deliberately the NEW-direction surfaces only — legacy microsites,
- * pilot workspaces and the HAPAI tools are audited separately.
+ * Canonical source: docs/assembl-brand-system.md
+ * Current company palette: deep plum / muted plum / dusty rose / chalk / paper.
+ * Current type: Instrument Sans + IBM Plex Mono for evidence/proof metadata.
+ *
+ * This guard still blocks known deprecated canary tokens and retired names on
+ * selected company surfaces. It deliberately does not attempt to ban every
+ * historical colour/font repo-wide because legacy/client surfaces coexist in
+ * this monorepo. Use scripts/context-health.mjs to report broader drift.
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -41,23 +44,14 @@ const BANNED = [
 
 const EXT = new Set(['.ts', '.tsx', '.css', '.mdx', '.md']);
 
-/**
- * Repo-wide hex sweep (canary → champagne, 2026-07-05): the deprecated canary
- * hexes are banned EVERYWHERE under these roots, not just the new-direction
- * surfaces. Word-level bans (old agent names, the word "canary") stay scoped
- * to SCOPE above — legacy customer configs keep a `canary:` KEY name for the
- * assembl crossover token, but its VALUE must be champagne #BFA37A.
- */
 const HEX_SCOPE = ['app', 'components', 'lib', 'packages', 'public', 'styles'];
 const HEX_BANNED = [/#FFD42A/i, /#F5C64B/i];
 const HEX_EXT = new Set([...EXT, '.html', '.svg', '.json']);
 const HEX_EXEMPT = new Set([
   // asserts on the banned patterns themselves
   'lib/customers/toa-architects/canary-guard.test.ts',
-  // DEFERRED (canary sweep 2026-07-05): uncommitted local work in flight on
-  // this file — migrate to the pearl gold and delete the exemption when it
-  // lands. (lib/brand/configs/happy-tails.ts landed on the pearl palette
-  // 2026-07-17 and its exemption is gone.)
+  // Historical surface pending explicit migration. Keep exemption local and
+  // remove it when the surface is brought onto current canon.
   'components/ops/hero3d/HappyTailsHero.tsx',
 ]);
 
@@ -92,16 +86,16 @@ for (const root of HEX_SCOPE) {
       const m = text.match(pattern);
       if (m) {
         const line = text.slice(0, m.index).split('\n').length;
-        violations.push(`${file}:${line} — banned hex ${pattern} (use champagne #BFA37A)`);
+        violations.push(`${file}:${line} — banned legacy canary hex ${pattern}`);
       }
     }
   }
 }
 
 if (violations.length) {
-  console.error('brand-guard: deprecated brand tokens found on new-direction surfaces:\n');
+  console.error('brand-guard: deprecated brand tokens found on guarded surfaces:\n');
   for (const v of violations) console.error('  ' + v);
-  console.error('\nUse champagne gold #BFA37A for the accent role and the renamed agent/sub-brand names.');
+  console.error('\nFollow docs/assembl-brand-system.md. Do not substitute another historical palette.');
   process.exit(1);
 }
-console.log('brand-guard: clean');
+console.log('brand-guard: clean — canonical source is docs/assembl-brand-system.md');
