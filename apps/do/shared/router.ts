@@ -12,7 +12,11 @@ import type { DoIntent, RuntimeLane, ToolPlan } from './pipeline';
 const ASTRA_HINT =
   /\b(compar(e|ison)|multi[- ]?source|across (sites|pages|quotes)|exception|computer[- ]?use|research|reconcile)\b/i;
 
+const ENSEMBLE_HINT =
+  /\b(creative|art direction|web design|design director|visual director|brand refs?|ensemble|studio)\b/i;
+
 export function chooseLane(primitive: AgentPrimitive, brief: string): RuntimeLane {
+  if (ENSEMBLE_HINT.test(brief)) return 'ensemble';
   if (primitive === 'compare') return 'astra';
   if (primitive === 'find') return 'astra';
   if (ASTRA_HINT.test(brief)) return 'astra';
@@ -22,6 +26,21 @@ export function chooseLane(primitive: AgentPrimitive, brief: string): RuntimeLan
 
 export function planTools(primitive: AgentPrimitive, intent: DoIntent): ToolPlan {
   const lane = chooseLane(primitive, intent.brief);
+  if (lane === 'ensemble') {
+    return {
+      primitive,
+      lane: 'ensemble',
+      reason:
+        'Creative / Ensemble lane — art directions, visual targets, craft critique (Assembl Studio language).',
+      tools: [
+        'ensemble.directions',
+        'ensemble.visual_targets',
+        'ensemble.critic',
+        'evidence.capture',
+        'permissions.gate',
+      ],
+    };
+  }
   if (lane === 'local') {
     const tools =
       primitive === 'watch'

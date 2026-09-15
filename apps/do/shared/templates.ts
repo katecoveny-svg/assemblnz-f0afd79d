@@ -2,22 +2,27 @@
  * Launch template catalog for DO Agent OS v0.
  * Data-driven — used by /do, Chrome ✦ widget, and GET /api/do/templates.
  * DEMO honesty: fixtures only; no live scrapes of locked sites.
+ *
+ * Public catalog excludes Mitre 10 / SAP pursuit pack — that pack is private
+ * (`/do/pursuit/mitre10` + `?pack=mitre10` on the templates API).
  */
 
-import type { DemoTemplate, TemplateLane } from './types';
+import type { DemoTemplate, TemplateLane, TemplatePack } from './types';
 
 export const LANE_LABELS: Record<TemplateLane, string> = {
+  'creative-ensemble': 'Creative / Ensemble',
   'personal-household': 'Personal / Household',
   'bills-money': 'Bills / Money',
   'work-pursuit': 'Work / Pursuit',
   'study-family': 'Study / Family',
   'retail-ops': 'Retail / Ops',
   sme: 'SME',
-  'pursuit-mitre10-sap': 'Mitre 10 · SAP pursuit',
+  'pursuit-mitre10-sap': 'Mitre 10 · SAP pursuit (private)',
 };
 
+/** Public lane order — no Mitre/SAP. */
 export const LANE_ORDER: TemplateLane[] = [
-  'pursuit-mitre10-sap',
+  'creative-ensemble',
   'personal-household',
   'bills-money',
   'work-pursuit',
@@ -26,8 +31,54 @@ export const LANE_ORDER: TemplateLane[] = [
   'sme',
 ];
 
+export const PRIVATE_LANE_ORDER: TemplateLane[] = ['pursuit-mitre10-sap'];
+
+const MITRE_TEMPLATE_IDS = new Set([
+  'mitre10-sap-rfp-brief',
+  'mitre10-sap-competitor-watch',
+  'mitre10-sap-stakeholder-map',
+  'mitre10-sap-proposal-compare',
+  'mitre10-sap-next-meeting',
+]);
+
+export function isMitreTemplateId(id: string): boolean {
+  return MITRE_TEMPLATE_IDS.has(id);
+}
+
+export function isPublicTemplate(t: DemoTemplate): boolean {
+  return t.lane !== 'pursuit-mitre10-sap' && !isMitreTemplateId(t.id);
+}
+
 export const DEMO_TEMPLATES: DemoTemplate[] = [
-  // ── Mitre 10 / SAP Pursuit pack (NZ retail, SAP customer — sales bid DEMO) ──
+  // ── Creative / Ensemble (Assembl Studio creative-director language) ──
+  {
+    id: 'creative-web-director',
+    name: 'Creative web director',
+    summary: 'Three art directions, visual targets, craft critique — asks before publish.',
+    brief:
+      'create a creative agent that could direct web design — three art directions, visual targets, craft critique',
+    primitive: 'prepare',
+    lane: 'creative-ensemble',
+    watches: ['current page URL', 'brand refs', 'brief'],
+    looks_for: [
+      'brand cues on the page',
+      'brief constraints',
+      'reference tones',
+      'composition opportunities',
+    ],
+    can_do_without_asking: [
+      'draft three materially different art directions',
+      'propose visual targets (desktop hero, mobile, key interaction, motion board)',
+      'run craft critique against Assembl Studio creative-director checks',
+    ],
+    must_ask_before: ['publish', 'export', 'send'],
+    never: [
+      'publish or ship without a human yes',
+      'claim a live brand system write-back',
+    ],
+  },
+
+  // ── Mitre 10 / SAP Pursuit pack (PRIVATE — not on public /do) ──
   {
     id: 'mitre10-sap-rfp-brief',
     name: 'RFP → pursuit brief',
@@ -356,7 +407,7 @@ export const DEMO_TEMPLATES: DemoTemplate[] = [
     never: ['message other parents without a human yes'],
   },
 
-  // ── Retail / Ops (Mitre-adjacent) ──
+  // ── Retail / Ops ──
   {
     id: 'stock-page-watch',
     name: 'Stock / page watch',
@@ -459,10 +510,23 @@ export function getTemplate(id: string): DemoTemplate | undefined {
   return DEMO_TEMPLATES.find((t) => t.id === id);
 }
 
-export function templatesByLane(): { lane: TemplateLane; label: string; templates: DemoTemplate[] }[] {
-  return LANE_ORDER.map((lane) => ({
-    lane,
-    label: LANE_LABELS[lane],
-    templates: DEMO_TEMPLATES.filter((t) => t.lane === lane),
-  })).filter((g) => g.templates.length > 0);
+export function templatesForPack(pack: TemplatePack = 'public'): DemoTemplate[] {
+  if (pack === 'mitre10') {
+    return DEMO_TEMPLATES.filter((t) => t.lane === 'pursuit-mitre10-sap');
+  }
+  return DEMO_TEMPLATES.filter(isPublicTemplate);
+}
+
+export function templatesByLane(
+  pack: TemplatePack = 'public',
+): { lane: TemplateLane; label: string; templates: DemoTemplate[] }[] {
+  const order = pack === 'mitre10' ? PRIVATE_LANE_ORDER : LANE_ORDER;
+  const pool = templatesForPack(pack);
+  return order
+    .map((lane) => ({
+      lane,
+      label: LANE_LABELS[lane],
+      templates: pool.filter((t) => t.lane === lane),
+    }))
+    .filter((g) => g.templates.length > 0);
 }

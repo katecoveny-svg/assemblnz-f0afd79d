@@ -278,3 +278,23 @@ Ask before send: do not forward landscape notes outside the pursuit team.`,
 } as const;
 
 export type FixtureKey = keyof typeof FIXTURES;
+
+const MITRE_FIXTURE_KEYS = new Set([
+  'mitre10-sap-rfp',
+  'mitre10-sap-competitor',
+  'mitre10-sap-stakeholders',
+  'mitre10-sap-proposal-compare',
+  'mitre10-sap-meeting',
+]);
+
+/** Public fixtures exclude Mitre/SAP pursuit pack. */
+export function fixturesForPack(pack: 'public' | 'mitre10' = 'public'): Record<string, unknown> {
+  if (pack === 'mitre10') {
+    return Object.fromEntries(
+      Object.entries(FIXTURES).filter(([key]) => MITRE_FIXTURE_KEYS.has(key)),
+    );
+  }
+  return Object.fromEntries(
+    Object.entries(FIXTURES).filter(([key]) => !MITRE_FIXTURE_KEYS.has(key)),
+  );
+}

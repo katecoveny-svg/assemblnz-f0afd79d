@@ -11,6 +11,7 @@ export type {
   PageContext,
   PendingApproval,
   TemplateLane,
+  TemplatePack,
 } from './types';
 
 export type {
@@ -34,9 +35,9 @@ export {
 } from './policy';
 
 export { compileAgent } from './compile';
-export { DEMO_TEMPLATES, getTemplate, templatesByLane, LANE_LABELS, LANE_ORDER } from './templates';
-export { FIXTURES } from './fixtures';
-export { CONNECTOR_STUBS, getConnector } from './connectors';
+export { DEMO_TEMPLATES, getTemplate, templatesByLane, templatesForPack, isPublicTemplate, isMitreTemplateId, LANE_LABELS, LANE_ORDER } from './templates';
+export { FIXTURES, fixturesForPack } from './fixtures';
+export { CONNECTOR_STUBS, PUBLIC_CONNECTOR_STUBS, connectorsForPack, getConnector } from './connectors';
 export {
   listAgents,
   getAgent,

@@ -23,7 +23,7 @@ export interface DoIntent {
   templateId?: string;
 }
 
-export type RuntimeLane = 'local' | 'astra';
+export type RuntimeLane = 'local' | 'astra' | 'ensemble';
 
 export interface ToolPlan {
   primitive: AgentPrimitive;

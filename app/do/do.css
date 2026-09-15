@@ -154,13 +154,17 @@
 /* ── First viewport: spatial stage ── */
 .do-stage {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(160px, 200px) minmax(160px, 210px);
+  grid-template-columns: minmax(0, 1.15fr) minmax(160px, 200px) minmax(180px, 230px);
   grid-template-rows: auto auto;
   gap: 1rem 1.15rem;
   align-items: end;
-  min-height: min(70dvh, 620px);
-  margin-bottom: 2rem;
+  min-height: min(72dvh, 640px);
+  margin-bottom: 1.5rem;
   perspective: 1400px;
+}
+
+.do-stage-private {
+  min-height: min(55dvh, 480px);
 }
 
 .do-stage-brand {
@@ -186,6 +190,10 @@
   letter-spacing: -0.06em;
   line-height: 0.86;
   color: var(--do-paper);
+}
+
+.do-wordmark-sm {
+  font-size: clamp(2.6rem, 8vw, 4.2rem);
 }
 
 .do-tagline {
@@ -304,9 +312,76 @@
   }
 }
 
-/* Mitre as thick paper object */
-.do-mitre-card {
+/* Chrome extension install — thick paper object (replaces Mitre on public /do) */
+.do-ext-card {
   grid-column: 3;
+  grid-row: 1;
+  appearance: none;
+  border: none;
+  background: var(--do-paper);
+  color: var(--do-plum);
+  border-radius: 22px;
+  padding: 1rem 1.05rem 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+  align-content: start;
+  font: inherit;
+  box-shadow: var(--do-card-shadow);
+  transform: translateZ(0) rotateZ(1.1deg);
+  min-height: 148px;
+  position: relative;
+}
+
+.do-ext-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px rgba(36, 11, 33, 0.06) inset;
+  pointer-events: none;
+}
+
+.do-ext-card strong {
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  font-weight: 550;
+}
+
+.do-ext-steps {
+  margin: 0.15rem 0 0;
+  padding: 0 0 0 1.05rem;
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--do-ink-soft);
+}
+
+.do-ext-download {
+  color: var(--do-plum);
+  font-weight: 550;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.do-ext-saved {
+  margin: 0.35rem 0 0;
+  font-family: var(--do-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  color: var(--do-heather);
+  line-height: 1.4;
+}
+
+.do-ext-card-panel {
+  transform: none;
+  max-width: 320px;
+}
+
+/* Mitre as thick paper object (private route only) */
+.do-mitre-card {
+  grid-column: 2;
   grid-row: 1;
   appearance: none;
   border: none;
@@ -324,6 +399,9 @@
   transition: transform 200ms ease, box-shadow 220ms ease;
   min-height: 148px;
   position: relative;
+  justify-self: center;
+  max-width: 210px;
+  width: 100%;
 }
 
 .do-mitre-card::after {
@@ -372,6 +450,10 @@
 .do-mitre-mark span:nth-child(4) {
   background: var(--do-plum);
   opacity: 0.45;
+}
+
+.do-pin-creative {
+  box-shadow: var(--do-card-shadow-lift), 0 0 0 1px rgba(145, 106, 112, 0.35);
 }
 
 /* Pin-to-page template widgets */
@@ -1466,6 +1548,7 @@
   }
 
   .do-orb,
+  .do-ext-card,
   .do-mitre-card {
     grid-row: 2;
   }
@@ -1475,6 +1558,7 @@
     max-width: none;
   }
 
+  .do-ext-card,
   .do-mitre-card {
     grid-column: 2;
   }

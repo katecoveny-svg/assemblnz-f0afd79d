@@ -24,16 +24,18 @@ type ConnectorStub = {
 type WidgetStep = 'browse' | 'spec' | 'connector';
 
 export type DoFloatingWidgetProps = {
-  /** When set, open immediately on this template (Mitre DEMO path). */
+  /** When set, open immediately on this template. */
   launchTemplateId?: string | null;
-  /** Override page context (Mitre fixture context). */
+  /** Override page context (e.g. private Mitre fixture). */
   pageOverride?: PageContext | null;
   onActivated?: (agent: AgentSpec) => void;
   onClose?: () => void;
-  /** Controlled open from parent (Mitre DEMO / hero). */
+  /** Controlled open from parent. */
   forceOpen?: boolean;
   /** Seed free-text brief from homepage PREVIEW handoff (?brief=). */
   initialBrief?: string | null;
+  /** Template pack — public by default; mitre10 for private route. */
+  pack?: 'public' | 'mitre10';
 };
 
 function capturePage(): PageContext {
@@ -62,6 +64,7 @@ export function DoFloatingWidget({
   onClose,
   forceOpen = false,
   initialBrief = null,
+  pack = 'public',
 }: DoFloatingWidgetProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<WidgetStep>('browse');
@@ -82,7 +85,8 @@ export function DoFloatingWidget({
   }, [pageOverride]);
 
   useEffect(() => {
-    void fetch('/api/do/templates')
+    const qs = pack === 'mitre10' ? '?pack=mitre10' : '';
+    void fetch(`/api/do/templates${qs}`)
       .then((r) => r.json())
       .then(
         (data: {
@@ -100,7 +104,7 @@ export function DoFloatingWidget({
       .then((data: { runtime?: { label?: string } }) => {
         if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
       });
-  }, []);
+  }, [pack]);
 
   useEffect(() => {
     if (forceOpen) {
@@ -304,7 +308,7 @@ export function DoFloatingWidget({
                   className="do-input"
                   value={brief}
                   onChange={(e) => setBrief(e.target.value)}
-                  placeholder="e.g. prepare a pursuit brief from this page"
+                  placeholder="e.g. create a creative agent that could direct web design"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && brief.trim()) void compileFreeText();
                   }}

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import type { AgentPrimitive, AgentSpec, DemoTemplate, PageContext, TemplateLane } from '@/apps/do/shared/types';
 import { DoClearDemo } from './DoClearDemo';
+import { DoExtensionInstall } from './DoExtensionInstall';
 import { DoFloatingWidget } from './DoFloatingWidget';
 import { DoWhatsAppSim } from './DoWhatsAppSim';
 
@@ -18,35 +19,11 @@ const EMPTY: Groups = { needs_you: [], working: [], done: [] };
 
 const BOARD_META: Record<
   keyof Groups,
-  { title: string; lede: string; depth: 'near' | 'mid' | 'far' }
+  { title: string; depth: 'near' | 'mid' | 'far' }
 > = {
-  needs_you: {
-    title: 'Needs you',
-    lede: 'Approvals waiting on a human yes.',
-    depth: 'near',
-  },
-  working: {
-    title: 'Working',
-    lede: 'Watching or preparing within policy.',
-    depth: 'mid',
-  },
-  done: {
-    title: 'Done',
-    lede: 'Evidence receipts — what was seen, and why.',
-    depth: 'far',
-  },
-};
-
-const MITRE_FIXTURE_PAGE: PageContext = {
-  url: 'fixture://mitre10-sap-rfp',
-  title: 'DEMO · Mitre 10 SAP pursuit — RFP snippet',
-  selectedText:
-    'Improve purchase-order visibility from DC to store · Human approval before any write-back to SAP',
-  pageText: `REQUEST FOR PROPOSAL — Store operations + supply-chain visibility (DEMO)
-Buyer: Mitre 10 New Zealand (sample business — details fictional for this DEMO).
-Closing: 24 Oct 2026, 17:00 NZST.
-Must-haves: SAP MM / SD touchpoints · Read-path ≤ 15 min · Human approval before SAP write-back.
-SAP landscape: ECC 6.0 with S/4 migration (wave 2) · MM PO/GR · SD transfers · PI/PO middleware.`,
+  needs_you: { title: 'Needs you', depth: 'near' },
+  working: { title: 'Working', depth: 'mid' },
+  done: { title: 'Done', depth: 'far' },
 };
 
 const PRIMITIVE_GLYPH: Record<AgentPrimitive, string> = {
@@ -64,8 +41,8 @@ export function DoHome() {
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<AgentSpec | null>(null);
   const [widgetOpen, setWidgetOpen] = useState(false);
-  const [mitreTemplateId, setMitreTemplateId] = useState<string | null>(null);
-  const [mitrePage, setMitrePage] = useState<PageContext | null>(null);
+  const [launchTemplateId, setLaunchTemplateId] = useState<string | null>(null);
+  const [pageOverride, setPageOverride] = useState<PageContext | null>(null);
   const [widgetKey, setWidgetKey] = useState(0);
   const [runtimeLabel, setRuntimeLabel] = useState('Assembl runtime · DEMO');
   const [pinned, setPinned] = useState<string[]>([]);
@@ -191,17 +168,9 @@ export function DoHome() {
     }
   }
 
-  function openWidget() {
-    setMitreTemplateId(null);
-    setMitrePage(null);
-    setWidgetOpen(true);
-    setWidgetKey((k) => k + 1);
-    setError(null);
-  }
-
-  function startMitreDemo() {
-    setMitrePage(MITRE_FIXTURE_PAGE);
-    setMitreTemplateId('mitre10-sap-rfp-brief');
+  function openWidget(templateId?: string, page?: PageContext) {
+    setLaunchTemplateId(templateId ?? null);
+    setPageOverride(page ?? null);
     setWidgetOpen(true);
     setWidgetKey((k) => k + 1);
     setError(null);
@@ -216,7 +185,10 @@ export function DoHome() {
   );
   const featured = [
     ...flatTemplates.filter((t) => pinned.includes(t.id)),
-    ...flatTemplates.filter((t) => !pinned.includes(t.id)),
+    ...flatTemplates.filter((t) => t.id === 'creative-web-director' && !pinned.includes(t.id)),
+    ...flatTemplates.filter(
+      (t) => t.id !== 'creative-web-director' && !pinned.includes(t.id),
+    ),
   ].slice(0, 10);
 
   return (
@@ -250,7 +222,7 @@ export function DoHome() {
             type="button"
             className="do-orb"
             disabled={busy}
-            onClick={openWidget}
+            onClick={() => openWidget()}
             aria-label="Make agent"
           >
             <span className="do-orb-halo" aria-hidden />
@@ -260,29 +232,16 @@ export function DoHome() {
             <span className="do-orb-label">make agent</span>
           </button>
 
-          <button
-            type="button"
-            className="do-mitre-card"
-            disabled={busy}
-            onClick={startMitreDemo}
-            aria-label="Mitre 10 SAP pursuit DEMO"
-          >
-            <span className="do-mitre-mark" aria-hidden>
-              <span />
-              <span />
-              <span />
-              <span />
-            </span>
-            <strong>Mitre 10 · SAP</strong>
-            <span className="do-mono">DEMO</span>
-          </button>
+          <DoExtensionInstall variant="stage" />
 
           <div className="do-pinboard" aria-label="Templates">
             {featured.map((t, i) => (
               <button
                 key={t.id}
                 type="button"
-                className={`do-pin${pinned.includes(t.id) ? ' is-pinned' : ''}`}
+                className={`do-pin${pinned.includes(t.id) ? ' is-pinned' : ''}${
+                  t.id === 'creative-web-director' ? ' do-pin-creative' : ''
+                }`}
                 style={{ '--do-pin-i': String(i % 5) } as CSSProperties}
                 disabled={busy}
                 onClick={() => void compileFromTemplate(t)}
@@ -353,23 +312,6 @@ export function DoHome() {
 
         <section className="do-demos" aria-label="Surface demos">
           <DoClearDemo />
-          <aside className="do-how-card" aria-label="How this works">
-            <p className="do-mono">How this works</p>
-            <ol>
-              <li>
-                <span aria-hidden>✦</span> Make
-              </li>
-              <li>
-                <span aria-hidden>◎</span> Place
-              </li>
-              <li>
-                <span aria-hidden>▤</span> Evidence
-              </li>
-            </ol>
-            <p className="do-how-note">
-              Wallet cards + Needs you — not chat threads. Mitre DEMO is fictional. Nothing sends without your yes.
-            </p>
-          </aside>
           <DoWhatsAppSim />
         </section>
       </div>
@@ -377,8 +319,8 @@ export function DoHome() {
       <DoFloatingWidget
         key={widgetKey}
         forceOpen={widgetOpen}
-        launchTemplateId={mitreTemplateId}
-        pageOverride={mitrePage}
+        launchTemplateId={launchTemplateId}
+        pageOverride={pageOverride}
         initialBrief={homeBrief}
         onActivated={(agent) => {
           setDraft(agent);
@@ -386,8 +328,8 @@ export function DoHome() {
         }}
         onClose={() => {
           setWidgetOpen(false);
-          setMitreTemplateId(null);
-          setMitrePage(null);
+          setLaunchTemplateId(null);
+          setPageOverride(null);
           setHomeBrief(null);
         }}
       />
@@ -419,8 +361,7 @@ function Board({
         <h2>{meta.title}</h2>
         <span className="do-count">{agents.length}</span>
       </header>
-      <p className="do-depth-lede">{meta.lede}</p>
-      {agents.length === 0 ? <p className="do-empty">Nothing placed yet.</p> : null}
+      {agents.length === 0 ? <p className="do-empty">—</p> : null}
       <div className="do-wallet-stack">
         {agents.map((a, i) => (
           <AgentWallet

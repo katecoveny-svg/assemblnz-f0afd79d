@@ -20,10 +20,14 @@ export type TemplateLane =
   | 'study-family'
   | 'retail-ops'
   | 'sme'
+  | 'creative-ensemble'
   | 'pursuit-mitre10-sap';
 
 /** Optional connector stubs — hook later is the honest default. */
 export type ConnectorHint = 'sap' | 'email' | 'calendar' | 'xero' | 'akahu';
+
+/** Packs gated off the public catalog (private routes only). */
+export type TemplatePack = 'public' | 'mitre10';
 
 export type ConnectorChoice = ConnectorHint | 'hook-later';
 

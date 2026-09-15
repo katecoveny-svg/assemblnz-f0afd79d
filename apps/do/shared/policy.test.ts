@@ -7,9 +7,11 @@ import {
   DEMO_TEMPLATES,
   CONSEQUENTIAL_VERBS,
   templatesByLane,
+  templatesForPack,
   getTemplate,
   activateAgent,
   saveAgent,
+  chooseLane,
 } from './index';
 
 describe('DO approval policy', () => {
@@ -56,26 +58,24 @@ describe('DO compile', () => {
     expect(spec.can_do_without_asking.every((a) => !requiresHumanApproval(a))).toBe(true);
   });
 
-  it('ships a broad launch catalog with Mitre 10 SAP pack', () => {
-    expect(DEMO_TEMPLATES.length).toBeGreaterThanOrEqual(20);
-    const ids = DEMO_TEMPLATES.map((t) => t.id);
+  it('public catalog excludes Mitre / SAP and includes creative-web-director', () => {
+    const publicTemplates = templatesForPack('public');
+    const ids = publicTemplates.map((t) => t.id);
     expect(ids).toContain('power-price-watch');
-    expect(ids).toContain('mitre10-sap-rfp-brief');
-    expect(ids).toContain('mitre10-sap-competitor-watch');
-    expect(ids).toContain('mitre10-sap-stakeholder-map');
-    expect(ids).toContain('mitre10-sap-proposal-compare');
-    expect(ids).toContain('mitre10-sap-next-meeting');
+    expect(ids).toContain('creative-web-director');
     expect(ids).toContain('xero-recurring-cost-watch');
-    expect(ids).toContain('explain-until-solve');
+    expect(ids).not.toContain('mitre10-sap-rfp-brief');
+    expect(ids).not.toContain('mitre10-sap-competitor-watch');
+    expect(ids.every((id) => !/mitre|sap/i.test(id))).toBe(true);
 
-    const mitre = DEMO_TEMPLATES.filter((t) => t.lane === 'pursuit-mitre10-sap');
-    expect(mitre).toHaveLength(5);
-    expect(mitre.every((t) => t.summary.length > 10)).toBe(true);
-
-    const groups = templatesByLane();
-    expect(groups.some((g) => g.lane === 'pursuit-mitre10-sap')).toBe(true);
+    const groups = templatesByLane('public');
+    expect(groups.some((g) => g.lane === 'pursuit-mitre10-sap')).toBe(false);
+    expect(groups.some((g) => g.lane === 'creative-ensemble')).toBe(true);
     expect(groups.some((g) => g.lane === 'personal-household')).toBe(true);
-    expect(groups.some((g) => g.lane === 'sme')).toBe(true);
+
+    const mitre = templatesForPack('mitre10');
+    expect(mitre).toHaveLength(5);
+    expect(mitre.every((t) => t.lane === 'pursuit-mitre10-sap')).toBe(true);
   });
 
   it('compiles from a template id', () => {
@@ -85,7 +85,44 @@ describe('DO compile', () => {
     expect(spec.templateId).toBe('kids-tomorrow');
   });
 
-  it('compiles Mitre 10 RFP brief with SAP connector hint available', () => {
+  it('compiles creative web director from NL (not Mitre / price watch)', () => {
+    const { spec, honesty } = compileAgent({
+      brief: 'create a creative agent that could direct web design',
+      page: {
+        url: 'https://example.co.nz/brand',
+        title: 'Brand page',
+      },
+    });
+    expect(spec.templateId).toBe('creative-web-director');
+    expect(spec.name).toBe('Creative web director');
+    expect(spec.primitive).toBe('prepare');
+    expect(spec.lane).toBe('ensemble');
+    expect(spec.watches.some((w) => /brand refs|brief|page/i.test(w))).toBe(true);
+    expect(spec.can_do_without_asking.some((a) => /art directions/i.test(a))).toBe(true);
+    expect(spec.must_ask_before).toEqual(
+      expect.arrayContaining(['publish', 'export', 'send']),
+    );
+    expect(spec.brief.toLowerCase()).not.toMatch(/mitre|sap|price watch/i);
+    expect(JSON.stringify(spec).toLowerCase()).not.toMatch(/mitre 10/);
+    expect(honesty).toMatch(/Ensemble/i);
+    expect(chooseLane('prepare', spec.brief)).toBe('ensemble');
+  });
+
+  it('compiles creative-web-director template id cleanly', () => {
+    const template = getTemplate('creative-web-director');
+    expect(template?.lane).toBe('creative-ensemble');
+    const { spec } = compileAgent({
+      brief: '',
+      templateId: 'creative-web-director',
+    });
+    expect(spec.name).toBe('Creative web director');
+    expect(spec.lane).toBe('ensemble');
+    expect(spec.must_ask_before).toEqual(
+      expect.arrayContaining(['publish', 'export', 'send']),
+    );
+  });
+
+  it('still compiles Mitre pack when templateId is explicit (private)', () => {
     const template = getTemplate('mitre10-sap-rfp-brief');
     expect(template?.connectorHint).toBe('sap');
     expect(template?.lane).toBe('pursuit-mitre10-sap');
@@ -105,7 +142,7 @@ describe('DO compile', () => {
   });
 });
 
-describe('DO Mitre activate → Evidence', () => {
+describe('DO Mitre activate → Evidence (private pack)', () => {
   it('activates Mitre RFP brief into Needs you with Evidence', async () => {
     const { spec } = compileAgent({
       brief: '',
@@ -124,5 +161,12 @@ describe('DO Mitre activate → Evidence', () => {
     expect(activated!.evidence!.summary).toMatch(/Draft ready/i);
     expect(activated!.pendingApprovals.length).toBeGreaterThan(0);
     expect(activated!.connector).toBe('hook-later');
+  });
+});
+
+describe('DO catalog integrity', () => {
+  it('ships a broad public launch catalog', () => {
+    expect(templatesForPack('public').length).toBeGreaterThanOrEqual(18);
+    expect(DEMO_TEMPLATES.length).toBeGreaterThanOrEqual(20);
   });
 });
