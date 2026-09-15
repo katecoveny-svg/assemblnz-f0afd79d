@@ -170,3 +170,25 @@ describe('DO catalog integrity', () => {
     expect(DEMO_TEMPLATES.length).toBeGreaterThanOrEqual(20);
   });
 });
+
+describe('DO public agent list filter', () => {
+  it('hides Mitre/SAP pursuit agents from the public pack', async () => {
+    const { filterAgentsForPack, isPublicAgent } = await import('./public-agents');
+    const mitre = compileAgent({
+      brief: '',
+      templateId: 'mitre10-sap-rfp-brief',
+      page: {
+        url: 'fixture://mitre10-sap-rfp',
+        title: 'DEMO · Mitre 10 SAP pursuit — RFP snippet',
+      },
+    }).spec;
+    const publicAgent = compileAgent({ brief: '', templateId: 'plan-compare' }).spec;
+
+    expect(isPublicAgent(mitre)).toBe(false);
+    expect(isPublicAgent(publicAgent)).toBe(true);
+    expect(filterAgentsForPack([mitre, publicAgent], 'public').map((a) => a.id)).toEqual([
+      publicAgent.id,
+    ]);
+    expect(filterAgentsForPack([mitre, publicAgent], 'mitre10')).toHaveLength(2);
+  });
+});

@@ -36,6 +36,7 @@ export {
 
 export { compileAgent } from './compile';
 export { DEMO_TEMPLATES, getTemplate, templatesByLane, templatesForPack, isPublicTemplate, isMitreTemplateId, LANE_LABELS, LANE_ORDER } from './templates';
+export { isPublicAgent, filterAgentsForPack } from './public-agents';
 export { FIXTURES, fixturesForPack } from './fixtures';
 export { CONNECTOR_STUBS, PUBLIC_CONNECTOR_STUBS, connectorsForPack, getConnector } from './connectors';
 export {
