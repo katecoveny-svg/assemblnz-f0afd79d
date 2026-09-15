@@ -76,22 +76,23 @@ describe('routeModel', () => {
     expect(winning.ladder).toContain('grok-4.6');
   });
 
-  it('knows Grok 4.6 can satisfy a coding + vision task once it has winning evidence', () => {
+  it('can route Grok 4.6 first for coding + vision when measured evidence beats the full score', () => {
     const req: TaskRequirements = {
       ...base,
       capabilities: ['coding', 'vision', 'tool_use'],
       qualityPreference: 'maximum',
     };
-    const { ladder } = routeModel({
+    const { ladder, rationale } = routeModel({
       requirements: req,
       workflow: 'builder-do-code-review',
       isAvailable: allAvailable,
       stats: [
         { model: 'grok-4.6', workflow: 'builder-do-code-review', accuracy: 0.99, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 400, avgCostNzd: 0.01 },
-        { model: 'claude-sonnet-5', workflow: 'builder-do-code-review', accuracy: 0.9, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 700, avgCostNzd: 0.02 },
+        { model: 'claude-sonnet-5', workflow: 'builder-do-code-review', accuracy: 0.88, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 700, avgCostNzd: 0.02 },
       ],
     });
     expect(ladder[0]).toBe('grok-4.6');
+    expect(rationale.some((line) => line.includes('Grok 4.6') && line.includes('measured accuracy 99%'))).toBe(true);
   });
 
   it('realtime voice routes to the realtime candidate only', () => {
