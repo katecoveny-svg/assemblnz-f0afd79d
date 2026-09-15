@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { GlowDoWidget } from '@/components/site/assembl-the-work/GlowDoWidget';
 
 const LINKS = [
   { href: '/do/office', label: 'Office' },
@@ -11,10 +12,10 @@ const LINKS = [
 
 export function DoUtilityDock() {
   const pathname = usePathname();
-  if (pathname === '/do/widget') return null;
+  if (pathname === '/do/widget' || pathname === '/do/object') return null;
   return (
-    <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
+    <><GlowDoWidget />{pathname !== '/do' && <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
       {LINKS.map((item) => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>{item.label}</Link>)}
-    </nav>
+    </nav>}</>
   );
 }

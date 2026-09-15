@@ -1,111 +1,142 @@
-'use client';
+"use client";
 
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei/core/OrbitControls';
-import { RoundedBox } from '@react-three/drei/core/RoundedBox';
-import styles from './spatial.module.css';
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { Component, useState, type ReactNode } from "react";
+import { ArrowDown, ArrowUpRight, Move, RotateCcw } from "lucide-react";
+import styles from "./spatial.module.css";
 
-type Props = { needsYou: number; working: number; done: number };
-
-function WorkPod({ position, tone, active }: { position: [number, number, number]; tone: string; active: number }) {
-  return (
-    <group position={position}>
-      <RoundedBox args={[2.15, 0.22, 1.38]} radius={0.14} smoothness={4} position={[0, 0.16, 0]}>
-        <meshStandardMaterial color="#fffdfb" roughness={0.55} />
-      </RoundedBox>
-      <RoundedBox args={[1.45, 0.65, 0.08]} radius={0.08} smoothness={4} position={[0, 0.82, -0.28]}>
-        <meshStandardMaterial color={tone} roughness={0.32} metalness={0.08} />
-      </RoundedBox>
-      {Array.from({ length: Math.min(Math.max(active, 1), 4) }).map((_, index) => (
-        <mesh key={index} position={[-0.6 + index * 0.4, 0.48, 0.2]}>
-          <sphereGeometry args={[0.12, 24, 24]} />
-          <meshStandardMaterial color={index === 0 ? '#240b21' : '#916a70'} roughness={0.35} metalness={0.1} />
-        </mesh>
-      ))}
-    </group>
-  );
+export type OfficeCounts = { needsYou: number; working: number; done: number };
+export type OfficeView = "overview" | "review" | "builder" | "proof";
+const OfficeScene = dynamic(() => import("./OfficeScene"), {
+  ssr: false,
+  loading: () => <p className={styles.loading}>Opening the studio…</p>,
+});
+class SceneBoundary extends Component<
+  { children: ReactNode; onReset: () => void },
+  { failed: boolean }
+> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    return this.state.failed ? (
+      <div className={styles.loading}>
+        <p>
+          This browser could not open the 3D view. The studio image and task
+          board are available.
+        </p>
+        <button onClick={this.props.onReset}>Return to studio image</button>
+      </div>
+    ) : (
+      this.props.children
+    );
+  }
 }
-
-function OfficeScene({ needsYou, working, done }: Props) {
-  return (
-    <>
-      <color attach="background" args={['#f5f1f2']} />
-      <ambientLight intensity={1.7} />
-      <directionalLight position={[5, 8, 4]} intensity={2.2} color="#fff8f4" />
-      <directionalLight position={[-5, 4, -2]} intensity={0.8} color="#d6e2e8" />
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]}>
-        <planeGeometry args={[13.5, 8]} />
-        <meshStandardMaterial color="#fffdfb" roughness={0.82} />
-      </mesh>
-
-      <mesh position={[0, 1.3, -3.15]}>
-        <boxGeometry args={[12.6, 2.5, 0.08]} />
-        <meshStandardMaterial color="#d7e1e5" transparent opacity={0.5} roughness={0.2} />
-      </mesh>
-      <mesh position={[0, 0.15, -3.28]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[14, 9]} />
-        <meshStandardMaterial color="#78919b" roughness={0.5} />
-      </mesh>
-
-      <mesh position={[0, 0.15, 2.8]}>
-        <boxGeometry args={[11.6, 0.3, 0.14]} />
-        <meshStandardMaterial color="#240b21" roughness={0.4} />
-      </mesh>
-
-      <WorkPod position={[-3.6, 0, -0.45]} tone="#916a70" active={needsYou} />
-      <WorkPod position={[0, 0, -0.45]} tone="#654a4e" active={working} />
-      <WorkPod position={[3.6, 0, -0.45]} tone="#240b21" active={done} />
-
-      <group position={[-4.7, 0, 2.1]}>
-        <mesh position={[0, 0.75, 0]}>
-          <cylinderGeometry args={[0.34, 0.43, 1.5, 28]} />
-          <meshStandardMaterial color="#654a4e" roughness={0.6} />
-        </mesh>
-        <mesh position={[0, 1.62, 0]}>
-          <sphereGeometry args={[0.65, 24, 24]} />
-          <meshStandardMaterial color="#916a70" roughness={0.72} />
-        </mesh>
-      </group>
-
-      <group position={[4.4, 0, 1.8]}>
-        <RoundedBox args={[2.2, 0.16, 1.1]} radius={0.08} smoothness={4} position={[0, 0.55, 0]}>
-          <meshStandardMaterial color="#f5f1f2" roughness={0.72} />
-        </RoundedBox>
-        <mesh position={[0, 0.95, 0]}>
-          <torusGeometry args={[0.42, 0.08, 18, 48]} />
-          <meshStandardMaterial color="#916a70" metalness={0.45} roughness={0.28} />
-        </mesh>
-      </group>
-
-      <OrbitControls enablePan={false} minDistance={7.3} maxDistance={11.5} minPolarAngle={0.72} maxPolarAngle={1.32} target={[0, 0.6, 0]} />
-    </>
-  );
-}
-
-export function DoOfficeSpatial(props: Props) {
+const VIEWS: { id: OfficeView; name: string }[] = [
+  { id: "overview", name: "Whole studio" },
+  { id: "review", name: "Review room" },
+  { id: "builder", name: "Builder lab" },
+  { id: "proof", name: "Proof library" },
+];
+export function DoOfficeSpatial(counts: OfficeCounts) {
+  const [exploring, setExploring] = useState(false);
+  const [view, setView] = useState<OfficeView>("overview");
+  const [reset, setReset] = useState(0);
   return (
     <section className={styles.wrap} aria-labelledby="do-office-spatial-title">
       <div className={styles.copy}>
         <div>
-          <span>spatial office · first room</span>
-          <h2 id="do-office-spatial-title">your DOs have a place to work.</h2>
+          <span>DO OFFICE / HARBOUR STUDIO</span>
+          <h2 id="do-office-spatial-title">
+            Make room
+            <br />
+            for good work.
+          </h2>
         </div>
         <p>
-          A first interactive architectural shell for the future Auckland harbour office. The 3D room reflects the same Office state below; it is not a second system.
+          A place to review, build and bring the proof together. Explore the
+          studio, then open the work that needs you.
         </p>
       </div>
-      <div className={styles.scene} aria-label="Interactive conceptual 3D DO Office with three work zones overlooking water">
-        <Canvas camera={{ position: [7.8, 6.4, 8.5], fov: 42 }} dpr={[1, 1.5]}>
-          <OfficeScene {...props} />
-        </Canvas>
-        <div className={styles.legend} aria-hidden>
-          <span><i data-tone="rose" />needs you · {props.needsYou}</span>
-          <span><i data-tone="muted" />working · {props.working}</span>
-          <span><i data-tone="plum" />done · {props.done}</span>
+      <div className={styles.scene} aria-label="DO harbour studio">
+        <Image
+          className={styles.poster}
+          src="/do/office/office-poster.webp"
+          alt="An imagined harbour studio with walnut desks, rose lounge seating and a glowing D sculpture"
+          width={1500}
+          height={1000}
+          priority
+        />
+        {exploring ? (
+          <SceneBoundary key={reset} onReset={() => setExploring(false)}>
+            <OfficeScene {...counts} view={view} />
+          </SceneBoundary>
+        ) : (
+          <div className={styles.enter}>
+            <button onClick={() => setExploring(true)}>
+              <Move size={18} />
+              Explore in 3D <ArrowUpRight size={17} />
+            </button>
+            <span>Drag to look around. Scroll to move closer.</span>
+          </div>
+        )}
+        <div className={styles.sceneCaption}>
+          <span>01 / AN IMAGINED HARBOUR STUDIO</span>
+          {exploring && (
+            <button
+              onClick={() => {
+                setView("overview");
+                setReset((value) => value + 1);
+              }}
+              aria-label="Reset studio view"
+            >
+              <RotateCcw size={15} />
+              Reset view
+            </button>
+          )}
         </div>
       </div>
-      <p className={styles.fallback}>Drag to look around. The full accessible task view remains directly below the spatial scene.</p>
+      {exploring && (
+        <nav className={styles.views} aria-label="Studio viewpoints">
+          {VIEWS.map((item) => (
+            <button
+              key={item.id}
+              aria-pressed={view === item.id}
+              onClick={() => setView(item.id)}
+            >
+              {item.name}
+            </button>
+          ))}
+          <button onClick={() => setExploring(false)}>Still view</button>
+        </nav>
+      )}
+      <nav className={styles.legend} aria-label="Open the Office task board">
+        <a href="#board-needs_you">
+          <span className={styles.dot} />
+          Needs you <strong>{counts.needsYou}</strong>
+          <ArrowDown size={15} />
+        </a>
+        <a href="#board-working">
+          <span className={styles.dot} />
+          Working <strong>{counts.working}</strong>
+          <ArrowDown size={15} />
+        </a>
+        <a href="#board-done">
+          <span className={styles.dot} />
+          Done <strong>{counts.done}</strong>
+          <ArrowDown size={15} />
+        </a>
+      </nav>
+      <p className={styles.fallback}>
+        The room and board use the same Office state. This preview is not a
+        connected team workspace.{" "}
+        <a href="/do/office/do-harbour-studio.blend" download>
+          Download the editable Blender scene
+        </a>
+        .
+      </p>
     </section>
   );
 }

@@ -233,38 +233,25 @@ struct Workspace: View {
     }
 }
 
+struct DOShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: rect.width * 0.24, y: rect.height * 0.15))
+        p.addLine(to: CGPoint(x: rect.width * 0.45, y: rect.height * 0.15))
+        p.addCurve(to: CGPoint(x: rect.width * 0.45, y: rect.height * 0.85), control1: CGPoint(x: rect.width * 0.95, y: rect.height * 0.15), control2: CGPoint(x: rect.width * 0.95, y: rect.height * 0.85))
+        p.addLine(to: CGPoint(x: rect.width * 0.24, y: rect.height * 0.85)); p.closeSubpath()
+        return p
+    }
+}
 struct Orb: View {
     var body: some View {
         ZStack {
-            Circle()
-                .fill(RadialGradient(
-                    colors: [
-                        Color(red: 0.94, green: 0.81, blue: 1),
-                        Color(red: 0.64, green: 0.29, blue: 0.95),
-                        Color(red: 0.20, green: 0.04, blue: 0.38),
-                    ],
-                    center: .topLeading,
-                    startRadius: 0,
-                    endRadius: 73
-                ))
-                .frame(width: 64, height: 64)
-                .shadow(color: .purple.opacity(0.7), radius: 13)
-            Image(systemName: "sparkle")
-                .font(.system(size: 34, weight: .light))
-                .foregroundColor(.white)
-                .rotationEffect(.degrees(12))
-            Circle()
-                .fill(.white)
-                .frame(width: 5, height: 5)
-                .offset(x: 26, y: -25)
-                .shadow(color: .white, radius: 6)
-        }
-        .frame(width: 96, height: 96)
-        .help("Click to open DO. Drag to move.")
-        .accessibilityLabel("Open DO")
+            RoundedRectangle(cornerRadius: 23).fill(Color(red: 0.14, green: 0.04, blue: 0.13)).frame(width: 70, height: 70).shadow(color: Color(red: 0.57, green: 0.42, blue: 0.44).opacity(0.75), radius: 14)
+            DOShape().stroke(Color(red: 0.91, green: 0.75, blue: 1), style: StrokeStyle(lineWidth: 5, lineJoin: .round)).frame(width: 48, height: 48)
+            Circle().fill(Color(red: 0.96, green: 0.85, blue: 1)).frame(width: 9, height: 9).offset(x: -1)
+        }.frame(width: 96, height: 96).help("Click to open DO. Drag to move. Moving shares nothing.").accessibilityLabel("Open DO")
     }
 }
-
 final class DraggableOrbView: NSHostingView<Orb> {
     var openDO: (() -> Void)?
     var didMove: ((NSPoint) -> Void)?

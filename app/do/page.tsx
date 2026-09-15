@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { DoHomeCurrent } from './DoHomeCurrent';
+import { DoHome } from './DoHome';
 import './do.css';
 
 export const dynamic = 'force-dynamic';
@@ -8,4 +8,5 @@ export const metadata: Metadata = {
   description: 'Bring your DOs to the work: companion, Office, Builderdoo and user-scoped connections with visible permissions, approvals and proof.',
   alternates: { canonical: '/do' },
 };
-export default function DoPage() { return <DoHomeCurrent />; }
+// Keep the spatial DO experience connected to the current runtime; see docs/DO-VISUAL-BASELINE.md.
+export default function DoPage() { return <DoHome />; }

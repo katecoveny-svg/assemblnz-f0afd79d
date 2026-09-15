@@ -95,3 +95,18 @@ New DO surfaces should resolve to existing AgentSpec/policy/evidence primitives 
 
 **Revisit when**  
 A surface has materially different security/runtime requirements that cannot safely share the common DO contract, or evidence shows the AgentSpec model cannot represent a required class of work.
+
+
+---
+
+## ADR-004 — Preserve the spatial DO companion beside the shared runtime
+**Status:** accepted  
+**Date:** 2026-09-16
+
+**Decision**  
+The owner confirmed the dimensional D + dot, plum/rose motion, floating launcher, saved visual canvas and Personal/Work specialists as the DO baseline. The assembl homepage stays the company front door. Restore the local canvas work from **Review shared ChatGPT conversation** and compose it with Builderdoo, Office and current connection/security work. The earlier text-only `DoHomeCurrent` requirement is superseded. See [DO visual baseline](../DO-VISUAL-BASELINE.md) for source commits and runtime boundaries.
+
+Explicit visual sharing is an input channel: choose a screen still or upload an image, inspect it, grant processing consent, then review DO's observations. Moving the companion does not capture anything. Shared trial, origin and rate controls remain in force. The local OpenAI voice worker remains development-only; a richer UI does not grant production authority.
+
+**Verification**  
+Protect the routed front doors in production builds, verify desktop/375px/reduced-motion, and check the exact merged deployment. Local edits alone are not a release.

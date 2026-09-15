@@ -1,0 +1,289 @@
+/* Company front door + Direction-C DO. Infrastructure work must preserve this identity. */
+.atw-spatial {
+  --rose: #d6a5bd;
+}
+.atw-spatial em {
+  font-family: var(--font-body), "Instrument Sans", sans-serif;
+  font-style: normal;
+  color: var(--muted);
+}
+.atw-spatial .atw-hero {
+  background: #240b21;
+  min-height: 850px;
+  max-height: 1100px;
+}
+.atw-spatial .atw-nav {
+  padding-right: 145px;
+}
+.atw-spatial .atw-hero-copy {
+  top: 24%;
+  right: auto;
+  width: 48%;
+  z-index: 2;
+}
+.atw-spatial .atw-hero h1 {
+  font-size: clamp(90px, 10vw, 155px);
+  line-height: 0.86;
+  letter-spacing: -0.075em;
+}
+.atw-spatial .atw-hero-overline {
+  font:
+    10px/1.5 var(--font-mono),
+    monospace;
+  letter-spacing: 0.14em;
+  color: #d6b5c9;
+  margin-bottom: 28px;
+}
+.atw-spatial .atw-hero-sub {
+  font-size: clamp(23px, 2.5vw, 36px);
+  letter-spacing: -0.035em;
+  color: #edc6dd;
+}
+.atw-spatial .atw-hero-body {
+  max-width: 430px;
+  color: #dfcdd8;
+  font-size: 17px;
+}
+.atw-spatial .atw-hero-actions {
+  gap: 22px;
+}
+.atw-spatial .atw-pill-light {
+  background: #fffdfb;
+  color: #240b21;
+  border-color: #fffdfb;
+  backdrop-filter: none;
+}
+.atw-spatial .atw-hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: #f1d9e7;
+}
+.atw-hero-spatial {
+  position: absolute;
+  right: 3%;
+  top: 13%;
+  width: 51%;
+  max-width: 720px;
+  z-index: 1;
+}
+.atw-spatial .atw-hero-job {
+  left: 5.5%;
+  right: 5.5%;
+  bottom: 35px;
+  z-index: 3;
+}
+.atw-companion-story {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 5%;
+  padding: 110px 7%;
+  background: #240b21;
+  color: #fffdfb;
+}
+.atw-companion-copy {
+  max-width: 470px;
+}
+.atw-companion-copy h2 {
+  margin: 26px 0;
+}
+.atw-companion-copy p {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #dfcbd8;
+}
+.atw-companion-copy article {
+  padding-top: 70px;
+}
+.atw-companion-copy article > span {
+  font:
+    10px var(--font-mono),
+    monospace;
+  color: #d6a5bd;
+  letter-spacing: 0.08em;
+}
+.atw-companion-copy h3 {
+  color: #fffdfb;
+  font-size: 29px;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+  margin: 20px 0 15px;
+}
+.atw-companion-copy .atw-text-link {
+  border-color: #fff4;
+  color: #fffdfb;
+  margin-top: 20px;
+}
+.atw-companion-scene {
+  position: sticky;
+  top: 18vh;
+  align-self: start;
+}
+.atw-system {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8%;
+  background: #f5f1f2;
+}
+.atw-system h2 {
+  margin: 24px 0;
+}
+.atw-system-copy > p:not(.atw-kicker) {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #654a4e;
+  margin-bottom: 25px;
+}
+.atw-system-loop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #240b2125;
+}
+.atw-system-loop li {
+  display: grid;
+  grid-template-columns: 30px 65px 1fr;
+  gap: 14px;
+  padding: 23px 0;
+  border-bottom: 1px solid #240b2125;
+}
+.atw-system-loop span {
+  font:
+    10px var(--font-mono),
+    monospace;
+  color: #654a4e;
+}
+.atw-system-loop strong {
+  font-size: 12px;
+}
+.atw-system-loop p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #654a4e;
+}
+@media (max-width: 1000px) {
+  .atw-spatial .atw-hero {
+    min-height: 820px;
+  }
+  .atw-spatial .atw-hero h1 {
+    font-size: 10vw;
+  }
+  .atw-spatial .atw-hero-copy {
+    top: 25%;
+  }
+  .atw-hero-spatial {
+    top: 24%;
+    right: 1%;
+  }
+  .atw-spatial .atw-hero-actions {
+    flex-wrap: wrap;
+  }
+  .atw-companion-story {
+    gap: 2%;
+    padding: 80px 6%;
+  }
+}
+@media (max-width: 700px) {
+  .atw-spatial .atw-nav {
+    padding-right: 110px;
+    grid-template-columns: 1fr;
+  }
+  .atw-spatial .atw-nav nav {
+    grid-row: auto;
+    grid-column: auto;
+    gap: 24px;
+  }
+  .atw-spatial .atw-hero {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding-bottom: 30px;
+  }
+  .atw-spatial .atw-hero-copy {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    padding: 45px 6% 0;
+    right: auto;
+  }
+  .atw-spatial .atw-hero h1 {
+    font-size: clamp(68px, 16vw, 108px);
+  }
+  .atw-spatial .atw-hero-sub {
+    font-size: 26px;
+  }
+  .atw-spatial .atw-hero-overline {
+    font-size: 9px;
+    margin-bottom: 22px;
+  }
+  .atw-spatial .atw-hero-body {
+    max-width: 340px;
+    font-size: 15px;
+  }
+  .atw-spatial .atw-hero-actions {
+    gap: 18px;
+  }
+  .atw-hero-spatial {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 92%;
+    margin: 0 auto;
+    order: 2;
+  }
+  .atw-spatial .atw-hero {
+    display: flex;
+    flex-direction: column;
+  }
+  .atw-spatial .atw-nav {
+    order: 0;
+  }
+  .atw-spatial .atw-hero-copy {
+    order: 1;
+  }
+  .atw-spatial .atw-hero-job {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    order: 3;
+    margin: 32px 6% 0;
+  }
+  .atw-spatial .atw-do-field {
+    border-radius: 22px;
+  }
+  .atw-companion-story,
+  .atw-system {
+    grid-template-columns: 1fr;
+  }
+  .atw-companion-story {
+    padding: 65px 7%;
+  }
+  .atw-companion-copy article {
+    padding-top: 45px;
+  }
+  .atw-companion-scene {
+    position: relative;
+    top: auto;
+    grid-row: 2;
+    margin-top: 35px;
+  }
+  .atw-system {
+    gap: 40px;
+  }
+  .atw-spatial .atw-product-strip {
+    gap: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atw-companion-scene {
+    position: relative;
+    top: auto;
+  }
+  .atw-spatial {
+    scroll-behavior: auto;
+  }
+}

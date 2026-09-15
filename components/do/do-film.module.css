@@ -1,0 +1,104 @@
+.film {
+  position: relative;
+  min-height: 650px;
+  height: 85svh;
+  max-height: 1100px;
+  overflow: hidden;
+  background: #240b21;
+  color: #fffdfb;
+}
+.film video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+.film:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #190b21c9, transparent 75%),
+    linear-gradient(0deg, #1b0b1bc7, transparent 30%);
+  pointer-events: none;
+}
+.copy {
+  position: relative;
+  z-index: 1;
+  padding: 110px 7%;
+}
+.copy > span {
+  font:
+    10px var(--font-mono),
+    monospace;
+  letter-spacing: 1.4px;
+  color: #f2dce8;
+}
+.copy h2 {
+  font:
+    400 clamp(40px, 5.3vw, 85px) / 1.05 var(--font-body),
+    sans-serif;
+  letter-spacing: -0.065em;
+  margin: 28px 0 42px;
+}
+.copy a {
+  display: inline-flex;
+  gap: 28px;
+  align-items: center;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #eac5daa1;
+  color: inherit;
+  text-decoration: none;
+  font-size: 16px;
+}
+.controls {
+  position: absolute;
+  z-index: 2;
+  bottom: 30px;
+  left: 7%;
+  right: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font:
+    10px var(--font-mono),
+    monospace;
+  letter-spacing: 1px;
+}
+.controls button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #ecd0e599;
+  border-radius: 50%;
+  color: #fffdfb;
+  background: #30102dbb;
+  cursor: pointer;
+}
+.film :focus-visible {
+  outline: 3px solid #edc1dd;
+  outline-offset: 5px;
+}
+@media (max-width: 700px) {
+  .film {
+    min-height: 580px;
+    height: 80svh;
+  }
+  .film video {
+    object-position: 65% center;
+  }
+  .copy {
+    padding-top: 75px;
+  }
+  .copy > span {
+    font-size: 9px;
+    max-width: 200px;
+    display: block;
+    line-height: 1.7;
+  }
+  .copy h2 {
+    font-size: 44px;
+  }
+}
