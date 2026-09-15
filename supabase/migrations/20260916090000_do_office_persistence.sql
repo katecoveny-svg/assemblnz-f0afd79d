@@ -131,6 +131,22 @@ CREATE POLICY do_handoffs_owner ON public.do_handoffs
       WHERE workspace.id = do_handoffs.workspace_id
         AND workspace.owner_id = auth.uid()
     )
+    AND (
+      from_do_agent_id IS NULL OR EXISTS (
+        SELECT 1 FROM public.do_agents source_agent
+        WHERE source_agent.id = do_handoffs.from_do_agent_id
+          AND source_agent.owner_id = auth.uid()
+          AND source_agent.workspace_id = do_handoffs.workspace_id
+      )
+    )
+    AND (
+      to_do_agent_id IS NULL OR EXISTS (
+        SELECT 1 FROM public.do_agents destination_agent
+        WHERE destination_agent.id = do_handoffs.to_do_agent_id
+          AND destination_agent.owner_id = auth.uid()
+          AND destination_agent.workspace_id = do_handoffs.workspace_id
+      )
+    )
   )
   WITH CHECK (
     owner_id = auth.uid()
@@ -138,6 +154,22 @@ CREATE POLICY do_handoffs_owner ON public.do_handoffs
       SELECT 1 FROM public.do_workspaces workspace
       WHERE workspace.id = do_handoffs.workspace_id
         AND workspace.owner_id = auth.uid()
+    )
+    AND (
+      from_do_agent_id IS NULL OR EXISTS (
+        SELECT 1 FROM public.do_agents source_agent
+        WHERE source_agent.id = do_handoffs.from_do_agent_id
+          AND source_agent.owner_id = auth.uid()
+          AND source_agent.workspace_id = do_handoffs.workspace_id
+      )
+    )
+    AND (
+      to_do_agent_id IS NULL OR EXISTS (
+        SELECT 1 FROM public.do_agents destination_agent
+        WHERE destination_agent.id = do_handoffs.to_do_agent_id
+          AND destination_agent.owner_id = auth.uid()
+          AND destination_agent.workspace_id = do_handoffs.workspace_id
+      )
     )
   );
 
@@ -151,6 +183,14 @@ CREATE POLICY do_receipts_owner ON public.do_receipts
       WHERE workspace.id = do_receipts.workspace_id
         AND workspace.owner_id = auth.uid()
     )
+    AND (
+      do_agent_id IS NULL OR EXISTS (
+        SELECT 1 FROM public.do_agents receipt_agent
+        WHERE receipt_agent.id = do_receipts.do_agent_id
+          AND receipt_agent.owner_id = auth.uid()
+          AND receipt_agent.workspace_id = do_receipts.workspace_id
+      )
+    )
   )
   WITH CHECK (
     owner_id = auth.uid()
@@ -158,6 +198,14 @@ CREATE POLICY do_receipts_owner ON public.do_receipts
       SELECT 1 FROM public.do_workspaces workspace
       WHERE workspace.id = do_receipts.workspace_id
         AND workspace.owner_id = auth.uid()
+    )
+    AND (
+      do_agent_id IS NULL OR EXISTS (
+        SELECT 1 FROM public.do_agents receipt_agent
+        WHERE receipt_agent.id = do_receipts.do_agent_id
+          AND receipt_agent.owner_id = auth.uid()
+          AND receipt_agent.workspace_id = do_receipts.workspace_id
+      )
     )
   );
 
