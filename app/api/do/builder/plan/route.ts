@@ -53,9 +53,11 @@ export async function POST(request: Request) {
 
   const input = parsed.data;
   const modelCapabilities: TaskCapability[] = ['reasoning', 'coding', 'long_context', 'tool_use', 'structured_output'];
-  if (input.needsVision) modelCapabilities.push('vision');
-
-  const jobCapabilities: BuilderCapability[] = [...modelCapabilities];
+  const jobCapabilities: BuilderCapability[] = ['reasoning', 'coding', 'long_context', 'tool_use', 'structured_output'];
+  if (input.needsVision) {
+    modelCapabilities.push('vision');
+    jobCapabilities.push('vision');
+  }
   if (input.needsBrowser) jobCapabilities.push('browser_use');
 
   const route = routeModel({
