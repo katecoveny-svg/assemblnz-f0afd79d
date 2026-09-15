@@ -37,7 +37,7 @@ export async function GET() {
         'Cache-Control': 'no-store',
         'X-DO-Extension-Path': 'apps/do/extension',
         'X-DO-Install-Hint':
-          'Chrome → Extensions → Developer mode → Load unpacked → select the unzipped folder',
+          'Chrome > Extensions > Developer mode > Load unpacked > select the unzipped folder',
       },
     });
   } catch (err) {

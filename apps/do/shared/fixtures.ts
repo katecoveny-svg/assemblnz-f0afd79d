@@ -236,7 +236,7 @@ Ask before send: do not forward landscape notes outside the pursuit team.`,
   'competitor-page': {
     title: 'DEMO · competitor page',
     v1: { url: 'fixture://competitor/v1', body: 'Competitor DEMO · Pricing from $49/mo · “Local support” claim · Updated Aug 2026.' },
-    v2: { url: 'fixture://competitor/v2', body: 'Competitor DEMO · Pricing from $59/mo · “Local + SAP certified” claim · Updated Sep 2026.' },
+    v2: { url: 'fixture://competitor/v2', body: 'Competitor DEMO · Pricing from $59/mo · “Local + ISO certified” claim · Updated Sep 2026.' },
   },
   'meeting-prep': {
     title: 'DEMO · meeting thread',

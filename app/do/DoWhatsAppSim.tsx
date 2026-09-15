@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 const THREAD = [
-  { from: 'you' as const, text: 'Watch this Mitre RFP for deadline changes' },
+  { from: 'you' as const, text: 'Watch this page for price changes' },
   { from: 'do' as const, text: '✦ Agent drafted · Needs your yes before any notify' },
   { from: 'you' as const, text: 'Activate' },
   { from: 'do' as const, text: 'Working · Evidence on change. DEMO — nothing sent.' },
