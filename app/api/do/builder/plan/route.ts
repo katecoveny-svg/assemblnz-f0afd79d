@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { admitDoRequest, allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
-import { BUILDERDOO_CANONICAL_CONTEXT, type BuilderJob } from '@/apps/do/shared/builder';
+import { createBuilderJob, type BuilderCapability } from '@/apps/do/shared/builder';
 import { chatClientIp } from '@/lib/agents/chat-rate-limit';
 import { MODEL_CANDIDATES, routeModel, type TaskCapability } from '@/lib/os/routing';
 
@@ -22,16 +22,6 @@ const inputSchema = z.object({
 
 export function OPTIONS(request: Request) {
   return new Response(null, { status: allowedDoOrigin(request) ? 204 : 403, headers: doHeaders(request) });
-}
-
-function defaultDone(objective: string): string[] {
-  return [
-    'The requested behaviour exists in the intended surface without creating a parallel implementation.',
-    'Relevant tests/checks pass for the changed area.',
-    objective.toLowerCase().includes('visual') || objective.toLowerCase().includes('office')
-      ? 'The visible result has runtime/visual evidence and remains usable on narrow screens.'
-      : 'The result has evidence appropriate to its claim.',
-  ];
 }
 
 export async function POST(request: Request) {
@@ -79,28 +69,21 @@ export async function POST(request: Request) {
     workflow: 'builder-do',
   });
 
+  const job = createBuilderJob({
+    objective: input.objective,
+    scope: input.scope,
+    definitionOfDone: input.definitionOfDone,
+    proof: input.proof,
+    risk: input.risk,
+    quality: input.quality,
+    authority: input.authority,
+    capabilities: capabilities as BuilderCapability[],
+  }, route);
+
   const costPriors = route.ladder.map((id) => {
     const candidate = MODEL_CANDIDATES.find((model) => model.id === id);
     return candidate ? { id, provider: candidate.provider, label: candidate.label, costPerMTokensNzd: candidate.costPerMTokensNzd } : { id };
   });
-
-  const title = input.objective.replace(/\s+/g, ' ').trim().slice(0, 76);
-  const job: BuilderJob = {
-    id: crypto.randomUUID(),
-    title,
-    objective: input.objective,
-    scope: input.scope.length ? input.scope : ['Inspect the smallest relevant current implementation first.'],
-    definitionOfDone: input.definitionOfDone.length ? input.definitionOfDone : defaultDone(input.objective),
-    proof: input.proof.length ? input.proof : ['Relevant automated checks', 'Runtime evidence', 'Reviewable change summary'],
-    contextFiles: [...BUILDERDOO_CANONICAL_CONTEXT],
-    capabilities: capabilities as BuilderJob['capabilities'],
-    risk: input.risk,
-    quality: input.quality,
-    authority: input.authority,
-    status: 'planned',
-    route,
-    createdAt: new Date().toISOString(),
-  };
 
   return json({
     job,
