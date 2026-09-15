@@ -1,218 +1,300 @@
 # assembl · context
 
-> Public website and demonstrator copy must follow [the assembl copy standard](./assembl-copy-standard.md). Where older positioning in this document conflicts with that standard, the copy standard wins.
+> Canonical company and product strategy. For the latest working state, read `docs/context/CURRENT.md` first. Public website and demonstrator copy must follow `docs/assembl-copy-standard.md`. Visual work must follow `docs/assembl-brand-system.md`.
 
-## Project overview
+**Last strategy refresh:** 16 September 2026
 
-assembl is building a new category of software.
+## what assembl is
 
-It is **not** a chatbot platform. It is **not** an automation agency. It is
-**not** a traditional customer experience platform.
+assembl is becoming an **intelligence-powered software factory for finding, doing and showing valuable work**.
 
-assembl creates agentic customer journeys that understand customer intent,
-assemble the right specialist agents around that journey, complete meaningful
-work on behalf of customers and businesses, and provide measurable proof that
-the experience has improved.
+It is not one giant assistant, a chatbot platform, a traditional automation agency or a collection of disconnected demos.
 
-The long-term vision is to become the operating system for agentic customer
-experiences.
+assembl combines live signals, structured business context, specialist agents, reusable software primitives and proof systems so useful work can be discovered, assembled, executed and demonstrated repeatedly.
 
-## Vision
+The durable asset is not any single model. It is Assembl's context, primitives, skills, customer understanding, proof, design taste and learning loop.
 
-Every business already has a customer journey. Today those journeys are
-fragmented across:
+## current top-level structure
 
-- websites
-- CRMs
-- email
-- support systems
-- loyalty platforms
-- booking systems
-- internal staff
-- spreadsheets
-- disconnected AI tools
+### 1. Pursuit — find the work
 
-assembl sits above those systems. It assembles a coordinated digital workforce
-that helps customers move through the journey with less friction and more
-confidence.
+Pursuit is the intelligence and opportunity layer.
 
-The customer should feel like the business understands them. The business
-should feel like work is disappearing.
+It gathers and interprets signals such as:
+- customer/business friction
+- company and market changes
+- tenders, awards and procurement
+- buyer and intent signals
+- product/service gaps
+- repeated operational work
+- useful model/tool capability changes
+- existing Assembl capabilities that can be recombined
 
-## Core positioning
+Pursuit should output a bounded opportunity with evidence, buyer/user, value hypothesis, urgency and a recommended next action.
 
-assembl creates agentic customer journeys that:
+Pursuit should help answer: **what is worth building or doing next?**
 
-- understand intent
-- gather only useful context
-- recommend the next best action
-- complete work safely
-- keep humans in control
-- prove business outcomes
+### 2. DO — do the work
 
-Our promise is not intelligence. Our promise is:
+DO is the portable execution layer.
 
-**Find the friction. Assemble the journey. Prove the result.**
+It acts where the user already works — browser and connected tools — and turns intent into bounded action.
 
-## Product philosophy
+DO should:
+- expose reusable capabilities rather than bespoke one-off flows
+- understand permissions and authority
+- preview meaningful risky actions
+- request approval at the right boundary
+- execute within granted limits
+- leave receipts and traces after action
+- work as both product capability and distribution surface
 
-Every feature must answer one question: **Does this help a customer complete
-something meaningful?**
+DO should help answer: **can Assembl actually complete the useful work?**
 
-Avoid building AI simply because AI is possible. Everything must remove friction.
+### 3. SHOW / Studio — show the possibility
 
-## Design philosophy
+Studio is the visual, experiential and commercial proof layer.
 
-assembl should feel unlike traditional SaaS. The interface should feel calm,
-premium and highly visual.
+It turns intelligence and capability into something a person can understand, react to, buy, approve or improve:
+- working demonstrators
+- websites and product experiences
+- agentic customer journeys
+- image, video, motion and 3D creative
+- before/after simulations
+- pitch and business-development material
+- tender/award concepts and submissions
+- campaign and customer experience concepts
 
-- paper white
-- generous whitespace
-- editorial layout
-- restrained typography
-- subtle motion
-- premium interaction
-- no dashboard clutter
-- no glowing AI clichés
-- no cartoon robots
-- no canary yellow
+SHOW should help answer: **can we make the future tangible enough to evaluate and sell?**
 
-Motion should communicate work happening — never decorative animation.
-Everything should feel like information assembling.
+### 4. Factory — make it compound
 
-_(Current design canon: [`assembl-brand-system.md`](./assembl-brand-system.md).)_
+The Factory sits beneath Pursuit, DO and SHOW.
 
-## Visual language
+It owns reusable:
+- context
+- agent definitions
+- skills and runbooks
+- software primitives
+- connectors and tools
+- model routing
+- permissions and approval patterns
+- design system
+- tests and evaluations
+- evidence/proof capture
+- deployment/release patterns
+- decisions and learnings
 
-The visual metaphor is assembly. Knowledge assembles. Intent assembles.
-Journeys assemble. Agents assemble. Recommendations assemble. Proof assembles.
+Factory loop:
 
-The customer should always understand what the system is doing. The interface
-should make invisible AI visible.
+`SELECT → ISOLATE → BUILD → PROVE → REVIEW → SHIP-READY → COMPOUND`
 
-## Strategic direction — six layers
+Every substantial build should leave behind something reusable: a primitive, skill, test/eval, pattern, connector, piece of canonical knowledge or durable lesson.
 
-### 1. Business Genome
+## working shorthand
 
-The structured understanding of a business: products, services, customer types,
-policies, terminology, workflows, permissions, goals, systems, tools, knowledge,
-success metrics. The Genome is the source of truth for every journey.
+**Find it. DO it. Show it.**
 
-### 2. Customer Journey
+- Find it → Pursuit
+- DO it → execution
+- Show it → Studio/proof
 
-A reusable journey model. Every customer journey consists of stages — typically:
-entry, intent, context, recommendation, commitment, action, wait, fulfilment,
-resolution, continuation. Every industry uses the same architecture; only
-configuration changes.
+This is a product architecture shorthand, not a requirement that every public page use those exact words.
 
-### 3. Specialist agent team
+## proof and learning
 
-assembl does not believe in one giant assistant. Every journey is supported by
-specialist roles (Intent, Context, Planning, Recommendation, Action, Wait,
-Resolution, Loyalty…). The customer may never know these agents exist;
-internally they collaborate through a shared runtime.
+Proof is not a separate afterthought. Every part of Assembl should create evidence.
 
-### 4. Runtime
+Useful proof can include:
+- work completed
+- time saved
+- customer effort reduced
+- recommendations accepted
+- approvals
+- journey completion
+- conversions or commercial outcomes
+- screenshots/video
+- traces and receipts
+- eval/test results
 
-The Runtime is the operating system: context selection, orchestration,
-permissions, tools, memory, traces, approvals, state, policy, reliability. Every
-journey runs through the Runtime — no customer has bespoke orchestration.
+Proof feeds the customer, Studio, Pursuit and the Factory.
 
-### 5. Wait state
+The flywheel is:
 
-Waiting is part of almost every journey. assembl transforms waiting into value.
-Instead of "Loading…", the customer experiences progress, understanding,
-preparation, recommendations, confidence and useful interaction. Waiting should
-feel productive.
+`signals → Pursuit → opportunity → Factory → DO/SHOW → proof → learning → stronger Pursuit + Factory`
 
-### 6. Proof
+## the role of the Business Genome
 
-Every journey should prove value: time saved, work completed, recommendations
-accepted, interventions, approvals, journey completion, customer effort
-reduction, business outcome improvements. Proof is a core product feature.
+The Business Genome remains a core **context primitive**, but it is no longer the top-level definition of Assembl.
 
-## The Business Genome
+A Business Genome is structured understanding of a specific business/client/tenant, including:
+- products and services
+- customer segments
+- policies and rules
+- terminology
+- brand and voice
+- workflows
+- permissions
+- goals
+- systems and tools
+- knowledge
+- success metrics
+- approved business-specific context
 
-The Business Genome is not a CRM and not customer data — it is structured
-business intelligence. Typical objects: Business, Products, Services, Customer
-Segments, Knowledge, Policies, Rules, Brand Voice, Terminology, Tools,
-Permissions, Success Metrics, Journey Templates, Agent Definitions, Evaluation
-Suites, Industry Packs. Everything references the Genome; never duplicate
-business configuration.
+The Genome is used by Pursuit, DO, SHOW and agentic customer journeys.
 
-## Agent principles
+Do not confuse a customer's Business Genome with **Assembl company memory**.
 
-Agents must be specialised. Every agent has: Purpose, Inputs, Outputs, Authority,
-Tools, Skills, Limitations, Evaluations, Owner, Version. Agents do not improvise
-responsibilities — they collaborate.
+Assembl company memory lives in the repository and is routed through:
+- `config/context-manifest.json`
+- `START_HERE.md`
+- `AGENTS.md`
+- `docs/context/CURRENT.md`
+- canonical strategy/brand/factory documents
 
-### Authority levels
+## agentic customer journeys
 
-Every action has authority: observe · draft · recommend · act with approval ·
-act within limits · autonomous with audit. Humans always remain in control of
-important actions.
+Agentic customer journeys remain a major reusable product foundation.
 
-## Customer journey philosophy
+A journey may include:
+- entry and intent
+- context gathering
+- recommendation
+- commitment/approval
+- action
+- productive wait
+- fulfilment
+- resolution
+- continuation and loyalty
+- proof
 
-Customers should never complete long forms. assembl asks only the smallest
-useful next question. Every interaction should feel relevant, timely, helpful,
-minimal. The system should progressively understand the customer.
+Pursuit can identify which journeys are valuable. The Factory provides the reusable runtime. DO completes work inside them. SHOW demonstrates and commercialises them.
 
-### Context
+The reusable foundation lives in `lib/journey/` and is documented in `docs/agentic-customer-journey.md`.
 
-Only retrieve context required for the current journey stage. Never load the
-entire Business Genome into every request. Context selection is a product
-feature.
+## specialist agents
 
-### Credibility
+assembl should not rely on one giant assistant for all work.
 
-assembl must never exaggerate capability. If something is simulated, label it
-simulated. If something is proposed, label it proposed. If something requires
-approval, say so clearly. Trust is more important than appearing intelligent.
+Every durable agent should define:
+- Purpose
+- Inputs
+- Outputs
+- Authority
+- Tools
+- Skills
+- Limitations
+- Evaluations
+- Owner
+- Version
 
-### Wait state philosophy
+Agents should collaborate through shared context and runtime contracts rather than inventing responsibilities per conversation.
 
-Waiting should reduce uncertainty, collect missing context, prepare the next
-step, educate, reward and increase confidence. Waiting should never be a spinner.
+## authority
 
-### Experience principles
+Actions should have explicit authority levels:
 
-The customer should feel: "I don't have to explain myself twice." · "I always
-know what happens next." · "The business understands my situation." · "I stayed
-in control."
+`observe → draft → recommend → act with approval → act within limits → autonomous with audit`
 
-## Technical principles
+Humans remain in control of consequential actions.
 
-Prefer deterministic workflows over unnecessary AI. Use AI where reasoning adds
-value; use code where code is more reliable. Every output should be typed. Every
-action should be traceable. Every important decision should have evidence. Every
-journey should be measurable.
+Never claim an action is completed if it is simulated, proposed, sandboxed or waiting for approval.
 
-## Initial reference journey
+## context philosophy
 
-The first production reference journey is **everyday, assembled**. The customer
-enters natural-language intent; the platform understands, asks relevant
-questions, creates recommendations, builds an approval-ready basket, uses a
-productive wait state, handles exceptions and records proof. The architecture
-must remain reusable for every future industry.
+Context selection is a product capability.
 
-_(Implementation: `lib/journey/` + `app/journeys/` — see
-`docs/agentic-customer-journey.md`.)_
+Do not load an entire Business Genome, entire repo, all prior chats or all company history into every request.
 
-## Future journey templates
+Retrieve the smallest useful current context for the stage/task.
 
-The architecture should support Retail, Energy, Airlines, Insurance, Healthcare,
-Trades, Professional Services, Hospitality, Property, Education and Government
-without changing the underlying Runtime. Only the Business Genome configuration
-changes.
+For Assembl's own agents, use `config/context-manifest.json` and `docs/context/README.md` to route context consistently.
 
-## Long-term goal
+Chat history is working memory, not company canon. Durable truths discovered in chats should be promoted into the repository.
 
+## customer experience philosophy
+
+Customers should not need to understand the underlying agent team.
+
+They should feel:
+- I do not have to explain myself twice.
+- I understand what is happening.
+- I know what happens next.
+- useful work is being completed for me.
+- I stayed in control.
+
+Ask only the smallest useful next question.
+
+## wait states
+
+Waiting is a first-class journey moment.
+
+A productive wait state can:
+- reduce uncertainty
+- gather missing context
+- prepare the next step
+- explain progress
+- educate
+- recommend
+- reward
+- increase confidence
+
+Waiting should not be a meaningless spinner.
+
+Wait-state strategy remains documented in `docs/agentic-wait-states-roadmap.md`.
+
+## technical principles
+
+- Prefer deterministic software where reasoning is unnecessary.
+- Use models where reasoning, interpretation or generation adds genuine value.
+- Use structured inputs/outputs for machine-to-machine work.
+- Make important actions traceable.
+- Keep side effects bounded and reversible where possible.
+- Use approval gates at meaningful risk boundaries.
+- Reuse existing primitives before creating parallel infrastructure.
+- Prove runtime behaviour rather than assuming generated code works.
+- Treat models and harnesses as replaceable; keep company memory and capability portable.
+
+## design and brand
+
+The canonical company visual system is `docs/assembl-brand-system.md`.
+
+Current company direction:
+- deep plum `#240B21`
+- muted plum `#654A4E`
+- dusty rose `#916A70`
+- chalk `#F5F1F2`
+- paper `#FFFDFB`
+- Instrument Sans
+- IBM Plex Mono for evidence/proof metadata
+- lowercase `assembl`
+
+Old Cormorant/champagne/gold/brass/pounamu/canary company directions are legacy and must not be treated as current precedent merely because they remain in old code or assets.
+
+Verified client branding remains scoped to the named client work.
+
+## long-term goal
+
+assembl should make valuable software and customer work cheaper and faster to produce **without losing taste, trust or proof**.
+
+The long-term system is not a single linear architecture. It is a compounding loop:
+
+```text
+live signals + business context
+        ↓
+      Pursuit
+        ↓
+ opportunity / specification
+        ↓
+      Factory
+     ↙      ↘
+    DO      SHOW
+     ↘      ↙
+      proof
+        ↓
+ learning + reusable primitives
+        ↓
+ stronger Pursuit + Factory
 ```
-Business Genome → Journey Composer → Runtime → Agent Team → Customer Experience → Proof
-```
-
-The customer sees a beautiful journey. The business sees measurable outcomes.
-The platform sees reusable architecture.
 
 That is assembl.
