@@ -1,7 +1,8 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, RoundedBox } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei/core/OrbitControls';
+import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import styles from './spatial.module.css';
 
 type Props = { needsYou: number; working: number; done: number };
