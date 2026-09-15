@@ -275,6 +275,10 @@ Ask before send: do not forward landscape notes outside the pursuit team.`,
     title: 'DEMO · customer thread',
     body: 'Customer Jordan · Quote sent 8 Sep · Asked about lead time · No reply yet · Promise: follow up this week.',
   },
+  'clear-writing-sample': {
+    title: 'DEMO · sloppy draft',
+    body: 'We will unlock next-generation value and seamlessly leverage our robust AI-powered landscape to revolutionise your workflow. Its important to note that we could of delivered this alot sooner.',
+  },
 } as const;
 
 export type FixtureKey = keyof typeof FIXTURES;

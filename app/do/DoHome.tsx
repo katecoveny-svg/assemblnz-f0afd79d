@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import type { AgentPrimitive, AgentSpec, DemoTemplate, PageContext, TemplateLane } from '@/apps/do/shared/types';
 import { DoClearDemo } from './DoClearDemo';
+import { DoDistributionPlates } from './DoDistributionPlates';
 import { DoExtensionInstall } from './DoExtensionInstall';
 import { DoFloatingWidget } from './DoFloatingWidget';
 import { DoWhatsAppSim } from './DoWhatsAppSim';
@@ -176,6 +177,54 @@ export function DoHome() {
     setError(null);
   }
 
+  async function runWhatsAppSim() {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/do/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ surface: 'whatsapp', demo: true }),
+      });
+      const data = await res.json();
+      if (!res.ok && !data.spec) throw new Error(data.error || data.honesty || 'whatsapp sim failed');
+      if (data.spec) setDraft(data.spec as AgentSpec);
+      await refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'whatsapp sim failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function openClearAgent() {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/do/agents/compile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          brief: 'keep my writing clear on this site — flag AI-slop and basic grammar',
+          templateId: 'clear-writing-watch',
+          page:
+            typeof window !== 'undefined'
+              ? { url: window.location.href, title: document.title }
+              : undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'compile failed');
+      setDraft(data.spec as AgentSpec);
+      if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
+      await refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'compile failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   function togglePin(id: string) {
     setPinned((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   }
@@ -309,6 +358,14 @@ export function DoHome() {
             onDelete={(id) => void remove(id)}
           />
         </section>
+
+        <DoDistributionPlates
+          groups={groups}
+          busy={busy}
+          onRefresh={() => void refresh()}
+          onWhatsAppSim={() => void runWhatsAppSim()}
+          onOpenClearAgent={() => void openClearAgent()}
+        />
 
         <section className="do-demos" aria-label="Surface demos">
           <DoClearDemo />

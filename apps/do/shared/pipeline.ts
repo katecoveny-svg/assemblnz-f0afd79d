@@ -7,7 +7,15 @@
 
 import type { AgentPrimitive, AgentSpec, PageContext } from './types';
 
-export type LaunchSurface = 'chrome' | 'web' | 'whatsapp' | 'sms' | 'messenger';
+export type LaunchSurface =
+  | 'chrome'
+  | 'web'
+  | 'share'
+  | 'whatsapp'
+  | 'sms'
+  | 'messenger'
+  | 'keyboard'
+  | 'home-widget';
 
 export interface DoContext {
   surface: LaunchSurface;

@@ -275,3 +275,47 @@ input {
 .settings input {
   margin: 8px 0;
 }
+
+.clear-demo {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(36, 11, 33, 0.1);
+}
+
+.clear-demo textarea {
+  width: 100%;
+  margin: 8px 0;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  border-radius: 12px;
+  padding: 10px;
+  font: inherit;
+  background: #fffdfb;
+  color: #240b21;
+  resize: vertical;
+}
+
+.clear-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.clear-chip {
+  appearance: none;
+  border: 1px solid rgba(36, 11, 33, 0.2);
+  background: #fff;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  color: #240b21;
+}
+
+.clear-chip.slop {
+  background: rgba(160, 90, 60, 0.08);
+}
+
+.clear-chip.grammar {
+  background: rgba(145, 106, 112, 0.1);
+}

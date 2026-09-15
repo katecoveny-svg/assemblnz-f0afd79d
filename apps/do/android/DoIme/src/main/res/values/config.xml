@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Emulator loopback to host machine running pnpm dev -->
+    <string name="do_api_base">http://10.0.2.2:3000</string>
+    <string name="app_name">DO Keyboard</string>
+</resources>

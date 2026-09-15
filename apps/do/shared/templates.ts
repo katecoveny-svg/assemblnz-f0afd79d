@@ -504,6 +504,26 @@ export const DEMO_TEMPLATES: DemoTemplate[] = [
     must_ask_before: ['send me a notification off this device'],
     never: ['buy or add to cart', 'submit forms on the page'],
   },
+  {
+    id: 'clear-writing-watch',
+    name: 'Keep my writing clear',
+    summary: 'DO Clear — watch this site’s fields for AI-slop and basic grammar; nudge only.',
+    brief: 'keep my writing clear on this site — flag AI-slop and basic grammar; ask before rewriting for me',
+    primitive: 'watch',
+    lane: 'work-pursuit',
+    watches: ['current page editable fields', 'fixture:clear-writing-sample'],
+    looks_for: [
+      'AI-slop phrases (unlock, seamlessly, leverage, AI-powered…)',
+      'basic grammar / spelling slips',
+    ],
+    can_do_without_asking: [
+      'scan visible editable text with local heuristics',
+      'underline / chip issues under DO Clear',
+      'suggest a plain rewrite (stub)',
+    ],
+    must_ask_before: ['replace my text automatically', 'send a rewrite to anyone'],
+    never: ['claim Grammarly parity', 'send without a human yes'],
+  },
 ];
 
 export function getTemplate(id: string): DemoTemplate | undefined {

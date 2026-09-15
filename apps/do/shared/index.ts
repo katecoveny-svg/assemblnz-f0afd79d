@@ -39,6 +39,13 @@ export { DEMO_TEMPLATES, getTemplate, templatesByLane, templatesForPack, isPubli
 export { FIXTURES, fixturesForPack } from './fixtures';
 export { CONNECTOR_STUBS, PUBLIC_CONNECTOR_STUBS, connectorsForPack, getConnector } from './connectors';
 export {
+  scanClearWriting,
+  applyClearSuggestions,
+  CLEAR_HONESTY,
+  AI_SLOP_PATTERNS,
+} from './clear-writing';
+export { WHATSAPP_FIXTURE, SHARE_FIXTURE } from './share-fixtures';
+export {
   listAgents,
   getAgent,
   saveAgent,
