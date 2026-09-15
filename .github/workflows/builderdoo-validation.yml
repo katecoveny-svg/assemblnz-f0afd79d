@@ -7,6 +7,9 @@ on:
       - 'app/api/do/builder/**'
       - 'app/api/do/connections/**'
       - 'app/api/do/live-*/**'
+      - 'app/do/DoHome.tsx'
+      - 'app/do/page.tsx'
+      - 'app/do/do-current.css'
       - 'app/do/builder/**'
       - 'app/do/connections/**'
       - 'app/do/office/**'
@@ -19,6 +22,8 @@ on:
       - 'lib/connectors/pipedream.ts'
       - 'docs/DO-SELF-IMPROVEMENT.md'
       - 'docs/factory/PRIMITIVES.md'
+      - 'vercel.json'
+      - 'scripts/vercel-ignore-build.mjs'
       - '.github/workflows/builderdoo-validation.yml'
 
 permissions:
