@@ -1,0 +1,23 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+const mocks = vi.hoisted(() => ({ reserve: vi.fn(), release: vi.fn() }));
+vi.mock('@/apps/do/shared/trial', () => ({ reserveDoTrial: mocks.reserve, DoTrialError: class extends Error {} }));
+vi.mock('@/apps/do/shared/http', () => ({ allowedDoOrigin: (r: Request) => r.headers.get('origin') === new URL(r.url).origin, doHeaders: () => new Headers({'Cache-Control':'no-store'}), admitDoRequest: () => true }));
+vi.mock('@/lib/agents/chat-rate-limit', () => ({ chatClientIp: () => 'test' }));
+import { POST } from './route';
+const input = { mimeType: 'image/png', data: Buffer.from([137,80,78,71,13,10,26,10,0,0,0,0]).toString('base64'), consent: true };
+const reading = { category: 'broadband', currency: 'NZD', monthlyCost: 89, usage: 300, unit: 'Mbps', exitFee: null };
+const req = (body: unknown = input, origin = 'https://www.assembl.co.nz') => new Request('https://www.assembl.co.nz/api/do/bills/read', { method:'POST', headers:{origin,'Content-Type':'application/json'}, body:JSON.stringify(body) });
+let fetcher: ReturnType<typeof vi.fn>;
+const provider = (value: unknown, finishReason = 'STOP') => Response.json({ candidates:[{finishReason,content:{parts:[{text:JSON.stringify(value)}]}}] });
+beforeEach(() => { vi.clearAllMocks(); vi.stubEnv('GEMINI_API_KEY','test-only'); fetcher = vi.fn(); vi.stubGlobal('fetch',fetcher); mocks.reserve.mockResolvedValue({release:mocks.release}); mocks.release.mockResolvedValue(undefined); });
+afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
+describe('bill image service', () => {
+ it('rejects foreign origins before reading or reserving', async () => { expect((await POST(req(input,'https://other.example'))).status).toBe(403); expect(mocks.reserve).not.toHaveBeenCalled(); });
+ it('requires separate image permission', async () => { expect((await POST(req({...input,consent:false}))).status).toBe(400); expect(fetcher).not.toHaveBeenCalled(); });
+ it('rejects mismatched image signatures', async () => { expect((await POST(req({...input,mimeType:'image/jpeg'}))).status).toBe(400); expect(mocks.reserve).not.toHaveBeenCalled(); });
+ it('rejects oversized request bodies', async () => { expect((await POST(req({...input,data:'A'.repeat(2800200)}))).status).toBe(400); expect(mocks.reserve).not.toHaveBeenCalled(); });
+ it('returns only reviewable structured figures and does not search', async () => { fetcher.mockResolvedValue(provider(reading)); const response = await POST(req()); expect(response.status).toBe(200); expect(await response.json()).toEqual({reading,reviewRequired:true}); const sent = JSON.parse(fetcher.mock.calls[0][1].body); expect(sent.tools).toBeUndefined(); expect(sent.contents[0].parts[0].inlineData).toEqual({mimeType:input.mimeType,data:input.data}); expect(mocks.release).not.toHaveBeenCalled(); });
+ it('refunds an incomplete output', async () => { fetcher.mockResolvedValue(provider(reading,'MAX_TOKENS')); expect((await POST(req())).status).toBe(503); expect(mocks.release).toHaveBeenCalledOnce(); });
+ it('refunds images without usable figures', async () => { fetcher.mockResolvedValue(provider({...reading,monthlyCost:null,usage:null})); expect((await POST(req())).status).toBe(503); expect(mocks.release).toHaveBeenCalledOnce(); });
+ it('does not expose private provider errors', async () => { fetcher.mockResolvedValue(new Response('private provider content',{status:500})); const response = await POST(req()); expect(await response.text()).not.toContain('private provider content'); expect(mocks.release).toHaveBeenCalledOnce(); });
+});
