@@ -17,13 +17,11 @@ import {
   softwareApplicationNode,
 } from '@/lib/seo/schema';
 import './globals.css';
-// The shared life layer (btn3d / reveal / glowSoft / liftCard / parallax).
-// Opt-in classes only — see app/life.css.
 import './life.css';
 
-// Site-wide entity graph — assembl (Organization), dash (sibling brand), Kate
-// Hudson (Person / founder), the WebSite, and the Living Site product. Emitted
-// on every page so answer engines read one consistent set of entity signals.
+// Site-wide entity graph: assembl, DO, founder, website and current software
+// product. The compatibility-named dashOrganizationNode now emits DO rather
+// than the retired Dash sibling-brand entity.
 const SITE_GRAPH = graph(
   organizationNode(),
   dashOrganizationNode(),
@@ -38,9 +36,7 @@ const SITE_GRAPH = graph(
 export const dynamic = 'force-dynamic';
 
 // Locked assembl type system: Instrument Sans for headings, body and
-// navigation. IBM Plex Mono is reserved for wait-state labels, evidence,
-// timestamps and proof. The two Instrument instances expose the existing
-// display/body tokens without forcing other routes to change their CSS.
+// navigation. IBM Plex Mono is reserved for evidence, timestamps and proof.
 const instrumentDisplay = Instrument_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -62,9 +58,8 @@ const plexMono = IBM_Plex_Mono({
   display: 'swap',
 });
 
-// Editorial gallery homepage — chunky grotesque for the hero + manifesto type,
-// paired with Cormorant italic. Closest free equivalent to the Neue Haas
-// Grotesk Display Black feel Kate referenced in the designbyshiv brief.
+// Kept for legacy/editorial routes that explicitly consume --font-editorial;
+// it is not the canonical Assembl company typeface.
 const archivoBlack = Archivo_Black({
   subsets: ['latin'],
   weight: ['400'],
@@ -74,19 +69,17 @@ const archivoBlack = Archivo_Black({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl · make the wait useful',
+    default: 'assembl · find it. DO it. show it.',
     template: '%s · assembl',
   },
   description:
-    'While an application, order or claim is processed, assembl checks what is missing and prepares a clear brief for the person handling it.',
+    'Pursuit finds evidence-backed work. DO is the portable agent workforce that gets it moving. Studio makes the result tangible. One shared context and software Factory underneath.',
   metadataBase: new URL('https://www.assembl.co.nz'),
   alternates: { canonical: '/' },
-  // og:image comes from the file-convention opengraph-image.tsx per route
-  // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl · make the wait useful',
+    title: 'assembl · find it. DO it. show it.',
     description:
-      'Turn one real customer wait into a prepared handoff, with customer approval and a named person responsible.',
+      'Pursuit finds the work. DO gets it moving. Studio turns the result into proof, pitches and experiences.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -94,9 +87,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl · make the wait useful',
+    title: 'assembl · find it. DO it. show it.',
     description:
-      'While a process runs, assembl prepares the customer’s next step for human review.',
+      'One shared system for signals, portable agents, execution and proof.',
   },
   icons: {
     icon: [
@@ -113,7 +106,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-NZ" className={`${instrumentDisplay.variable} ${instrumentBody.variable} ${plexMono.variable} ${archivoBlack.variable}`}>
-
       <body>
         <JsonLd data={SITE_GRAPH} />
         <a
