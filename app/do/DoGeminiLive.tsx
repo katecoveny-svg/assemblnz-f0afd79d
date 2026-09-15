@@ -28,25 +28,63 @@ function toBase64(buffer: ArrayBuffer) {
   return btoa(binary);
 }
 
+function fromBase64(value: string) {
+  const binary = atob(value);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+}
+
 export function DoGeminiLive() {
   const [connected, setConnected] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [status, setStatus] = useState<InteractionStatus>('IDLE');
   const [note, setNote] = useState('Talk to DO. It can prepare work from the page while you keep talking.');
   const wsRef = useRef<WebSocket | null>(null);
-  const audioRef = useRef<AudioContext | null>(null);
+  const inputAudioRef = useRef<AudioContext | null>(null);
+  const outputAudioRef = useRef<AudioContext | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const processorRef = useRef<ScriptProcessorNode | null>(null);
+  const playQueueRef = useRef<ArrayBuffer[]>([]);
+  const playingRef = useRef(false);
+
+  const playNext = useCallback(() => {
+    if (playingRef.current || playQueueRef.current.length === 0) return;
+    const audio = outputAudioRef.current;
+    if (!audio) return;
+    const chunk = playQueueRef.current.shift();
+    if (!chunk) return;
+
+    const pcm = new Int16Array(chunk);
+    const floats = new Float32Array(pcm.length);
+    for (let i = 0; i < pcm.length; i++) floats[i] = pcm[i] / 32768;
+    const buffer = audio.createBuffer(1, floats.length, 24000);
+    buffer.copyToChannel(floats, 0);
+    const source = audio.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audio.destination);
+    source.onended = () => {
+      playingRef.current = false;
+      playNext();
+    };
+    playingRef.current = true;
+    source.start();
+  }, []);
 
   const disconnect = useCallback(() => {
-    wsRef.current?.close();
+    const ws = wsRef.current;
     wsRef.current = null;
+    if (ws && ws.readyState < WebSocket.CLOSING) ws.close();
     processorRef.current?.disconnect();
     processorRef.current = null;
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
-    void audioRef.current?.close();
-    audioRef.current = null;
+    void inputAudioRef.current?.close();
+    void outputAudioRef.current?.close();
+    inputAudioRef.current = null;
+    outputAudioRef.current = null;
+    playQueueRef.current = [];
+    playingRef.current = false;
     setConnected(false);
     setConnecting(false);
     setStatus('IDLE');
@@ -72,8 +110,10 @@ export function DoGeminiLive() {
         audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 16000 },
       });
       streamRef.current = media;
-      const audio = new AudioContext({ sampleRate: 16000 });
-      audioRef.current = audio;
+      const inputAudio = new AudioContext({ sampleRate: 16000 });
+      const outputAudio = new AudioContext();
+      inputAudioRef.current = inputAudio;
+      outputAudioRef.current = outputAudio;
 
       const ws = new WebSocket(session.uri);
       wsRef.current = ws;
@@ -117,8 +157,8 @@ export function DoGeminiLive() {
           },
         }));
 
-        const source = audio.createMediaStreamSource(media);
-        const processor = audio.createScriptProcessor(4096, 1, 1);
+        const source = inputAudio.createMediaStreamSource(media);
+        const processor = inputAudio.createScriptProcessor(4096, 1, 1);
         processorRef.current = processor;
         processor.onaudioprocess = (event) => {
           if (ws.readyState !== WebSocket.OPEN) return;
@@ -132,7 +172,7 @@ export function DoGeminiLive() {
           }));
         };
         source.connect(processor);
-        processor.connect(audio.destination);
+        processor.connect(inputAudio.destination);
         setConnected(true);
         setConnecting(false);
         setNote('Listening. Ask DO to work something out from this page.');
@@ -144,6 +184,13 @@ export function DoGeminiLive() {
         if (interaction === 'IN_PROGRESS' || interaction === 'IDLE') {
           setStatus(interaction);
           setNote(interaction === 'IN_PROGRESS' ? 'DO is working… you can keep talking.' : 'Listening.');
+        }
+
+        for (const part of message.serverContent?.modelTurn?.parts ?? []) {
+          if (part.inlineData?.data && String(part.inlineData?.mimeType || '').startsWith('audio/')) {
+            playQueueRef.current.push(fromBase64(part.inlineData.data));
+            playNext();
+          }
         }
 
         const calls = message.toolCall?.functionCalls ?? [];
@@ -163,19 +210,21 @@ export function DoGeminiLive() {
             });
             output = await response.json();
             if (!response.ok) throw new Error('DO compile failed');
-            setNote('Prepared. Open DO to review the agent before anything else happens.');
+            setNote('Prepared. Review the agent before anything else happens.');
           } catch (error) {
             output = { error: error instanceof Error ? error.message : 'compile failed' };
           }
-          ws.send(JSON.stringify({
-            toolResponse: {
-              functionResponses: [{
-                id: call.id,
-                name: call.name,
-                response: { output, scheduling: 'WHEN_IDLE' },
-              }],
-            },
-          }));
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+              toolResponse: {
+                functionResponses: [{
+                  id: call.id,
+                  name: call.name,
+                  response: { output, scheduling: 'WHEN_IDLE' },
+                }],
+              },
+            }));
+          }
         }
       };
 
@@ -188,7 +237,7 @@ export function DoGeminiLive() {
       setNote(error instanceof Error ? error.message : 'Live DO could not start.');
       disconnect();
     }
-  }, [connected, connecting, disconnect]);
+  }, [connected, connecting, disconnect, playNext]);
 
   return (
     <section className="do-live-dock" aria-label="Talk to DO">
