@@ -1,18 +1,16 @@
+// Updated by model-agnostic DO bootstrap: keep provider choice behind capabilities/evals.
 /**
  * Model & Capability Router — which intelligence for which piece of work.
  *
- * (Kate's routing brief, 2026-07-13.) Every task declares TaskRequirements;
- * the router picks a ladder of models by considering capability fit, tenant
- * policy, privacy ceiling, latency and quality preference, price, provider
- * availability, MEASURED performance on real Assembl workflows
- * (model_workflow_stats — never published benchmarks alone), and previous
- * failure rates. Experimental providers are excluded from production
- * ladders until the evals show them beating a production model on that
- * specific workflow.
+ * Every task declares TaskRequirements; the router picks a ladder of models by
+ * considering capability fit, tenant policy, privacy ceiling, latency and
+ * quality preference, price, provider availability, MEASURED performance on
+ * real Assembl workflows (model_workflow_stats — never published benchmarks
+ * alone), and previous failure rates.
  *
- * Pure logic — stats and failure rates are injected, so routing decisions
- * are deterministic and unit-testable. The live wrapper that loads
- * measurements is lib/os/routing-live.ts.
+ * Pure logic — stats and failure rates are injected, so routing decisions are
+ * deterministic and unit-testable. The live wrapper that loads measurements is
+ * lib/os/routing-live.ts.
  */
 
 export type TaskCapability =
@@ -48,7 +46,7 @@ export type ModelCandidate = {
   latency: keyof typeof LATENCY_RANK;
   /** Intrinsic quality tier 1–5 — a prior only; measurements outrank it. */
   quality: 1 | 2 | 3 | 4 | 5;
-  /** Rough blended NZD per 1M tokens — a prior for cost scoring. */
+  /** Rough blended NZD per 1M tokens — routing prior, not billing truth. */
   costPerMTokensNzd: number;
   /** Highest data classification this provider may see under our terms. */
   maxDataClassification: keyof typeof CLASSIFICATION_RANK;
@@ -147,12 +145,12 @@ export const MODEL_CANDIDATES: readonly ModelCandidate[] = [
     envKeys: ['OPENAI_API_KEY'],
   },
   {
-    id: 'grok-4',
+    id: 'grok-4.6',
     provider: 'xai',
-    label: 'Grok (experimental until it wins a workflow)',
-    capabilities: [...CORE],
+    label: 'Grok 4.6 (experimental until it wins an Assembl workflow)',
+    capabilities: [...CORE, 'coding', 'vision'],
     latency: 'fast',
-    quality: 3,
+    quality: 4,
     costPerMTokensNzd: 8,
     maxDataClassification: 'internal',
     status: 'experimental',
@@ -188,9 +186,9 @@ export const MODEL_CANDIDATES: readonly ModelCandidate[] = [
 export type WorkflowStat = {
   model: string;
   workflow: string;
-  accuracy: number; // 0..1
-  toolSuccess: number | null; // 0..1
-  hallucinationRate: number | null; // 0..1 (lower is better)
+  accuracy: number;
+  toolSuccess: number | null;
+  hallucinationRate: number | null;
   avgLatencyMs: number | null;
   avgCostNzd: number | null;
 };
@@ -231,7 +229,6 @@ export function routeModel(input: RouteInput): RouteDecision {
   const rationale: string[] = [];
 
   const scored = MODEL_CANDIDATES.filter((c) => {
-    // Hard filters — never scored around.
     if (!req.capabilities.every((cap) => c.capabilities.includes(cap))) return false;
     if (CLASSIFICATION_RANK[c.maxDataClassification] < CLASSIFICATION_RANK[req.dataClassification]) {
       rationale.push(`${c.label}: excluded — cannot handle ${req.dataClassification} data`);
@@ -248,7 +245,6 @@ export function routeModel(input: RouteInput): RouteDecision {
       rationale.push(`${c.label}: excluded — provider not configured`);
       return false;
     }
-    // Experimental models earn production traffic only by measurement.
     if (c.status === 'experimental') {
       const stat = statFor(c.id);
       const bestProduction = Math.max(
@@ -265,8 +261,6 @@ export function routeModel(input: RouteInput): RouteDecision {
   }).map((c) => {
     let score = 0;
     const why: string[] = [];
-
-    // Measured performance outranks everything (never benchmarks alone).
     const stat = statFor(c.id);
     if (stat) {
       score += stat.accuracy * 100;
@@ -274,29 +268,24 @@ export function routeModel(input: RouteInput): RouteDecision {
       if (stat.hallucinationRate != null) score -= stat.hallucinationRate * 60;
       if (stat.toolSuccess != null) score += stat.toolSuccess * 20;
     } else {
-      score += c.quality * 8; // prior only, worth far less than measurement
+      score += c.quality * 8;
       why.push('no Assembl measurements yet — using quality prior');
     }
 
-    // Previous failures on the ledger.
     const failure = input.failureRates?.[c.id] ?? 0;
     score -= failure * 50;
     if (failure > 0.05) why.push(`recent failure rate ${(failure * 100).toFixed(0)}%`);
 
-    // Quality preference vs cost.
     if (req.qualityPreference === 'maximum') score += c.quality * 6;
     if (req.qualityPreference === 'economy') score -= Math.log1p(c.costPerMTokensNzd) * 8;
     if (req.qualityPreference === 'balanced') score += c.quality * 3 - Math.log1p(c.costPerMTokensNzd) * 4;
-    // High-value or high-risk work deserves the strongest model.
     if (req.estimatedValue === 'high' || req.riskLevel === 'high') score += c.quality * 4;
 
-    // Latency preference.
     if (req.latencyPreference === 'fast' && c.latency !== 'standard') score += 6;
     if (req.latencyPreference === 'realtime' && c.latency === 'realtime') score += 10;
     if (req.latencyPreference === 'background') score += Math.log1p(1 / (c.costPerMTokensNzd + 0.1)) * 2;
 
-    if (c.status === 'fallback') score -= 30; // availability net, not first choice
-
+    if (c.status === 'fallback') score -= 30;
     return { c, score, why };
   });
 
@@ -304,9 +293,6 @@ export function routeModel(input: RouteInput): RouteDecision {
   for (const s of scored) rationale.push(`${s.c.label}: score ${s.score.toFixed(0)} — ${s.why.join('; ')}`);
 
   let ladder = scored.map((s) => s.c.id);
-
-  // Independent verification needs a second, different provider in the
-  // ladder — reorder so the first two rungs never share a provider.
   if (req.requiresIndependentVerification && ladder.length > 1) {
     const first = scored[0].c.provider;
     const otherIdx = scored.findIndex((s, i) => i > 0 && s.c.provider !== first);

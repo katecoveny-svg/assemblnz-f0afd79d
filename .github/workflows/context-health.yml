@@ -10,12 +10,14 @@ on:
     paths:
       - 'START_HERE.md'
       - 'AGENTS.md'
+      - 'AGENT_CHAT_STARTER.md'
       - 'config/context-manifest.json'
       - 'docs/context/**'
       - 'docs/assembl-context.md'
       - 'docs/assembl-brand-system.md'
       - 'docs/assembl-copy-standard.md'
       - 'docs/factory/**'
+      - 'docs/DO-PERSONAL-BUILDER-PLATFORM.md'
       - 'brand/**'
       - 'scripts/context-health.mjs'
       - 'scripts/brand-guard.mjs'
@@ -36,6 +38,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
       - name: Check canonical context and report drift
         run: pnpm context:check
