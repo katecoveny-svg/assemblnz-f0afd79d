@@ -6,6 +6,7 @@ import { isTenantPwaScope, pwaBaseForPath, TENANT_CACHE_PREFIX } from "@/lib/pwa
 import { isVerticalWorkerScope, verticalForPath } from "@/lib/verticals/config";
 
 function manifestForPath(pathname: string) {
+  if (pathname === "/do" || pathname.startsWith("/do/")) return "/do/manifest.webmanifest";
   const vertical = verticalForPath(pathname);
   if (vertical) return `/agents/${vertical.slug}/manifest.webmanifest`;
   const hapaiMatch = pathname.match(/^\/hapai\/([^/]+)$/);

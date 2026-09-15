@@ -1,27 +1,38 @@
 {
-  "name": "DO · assembl PREVIEW",
+  "id": "/do",
+  "name": "DO by assembl",
   "short_name": "DO",
-  "description": "See something → ✦ make agent. DEMO PREVIEW.",
-  "start_url": "/do",
+  "description": "Help with everyday tasks, bills and work. Choose a task, review the result and take the next step.",
+  "start_url": "/do?source=installed",
   "scope": "/do",
   "display": "standalone",
-  "background_color": "#FFFDFB",
-  "theme_color": "#240B21",
+  "background_color": "#240b21",
+  "theme_color": "#6123ae",
+  "lang": "en-NZ",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
+      "src": "/do/icons/do-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/do/icons/do-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "share_target": {
-    "action": "/api/do/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
+  "shortcuts": [
+    {
+      "name": "Bills & budget",
+      "url": "/do/bills",
+      "description": "Read a bill and compare current offers."
+    },
+    {
+      "name": "Open DO",
+      "url": "/do?open=1",
+      "description": "Choose a task and prepare your next step."
     }
-  }
+  ]
 }
