@@ -104,3 +104,12 @@ byId('download').addEventListener('click', () => {
   const link = document.createElement('a'); link.href = url; link.download = 'do-' + draft.id.slice(0, 8) + '.md'; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000); status('Draft and receipt downloaded.');
 });
+
+byId('openBuilder').addEventListener('click', async () => {
+  try {
+    const text = [byId('brief').value, source.value].filter(Boolean).join('\n\n');
+    if (text) await navigator.clipboard.writeText(text);
+    await chrome.tabs.create({ url: API_ORIGIN + '/do?open=1' });
+    status(text ? 'Inputs copied. Paste them into your agent’s ingredients in the visual builder.' : 'Visual builder opened.');
+  } catch { status('Open assembl.co.nz/do and paste your inputs into the visual builder.'); }
+});

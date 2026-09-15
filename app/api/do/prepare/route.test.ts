@@ -1,3 +1,5 @@
+const trial = vi.hoisted(() => ({ reserve: vi.fn(), release: vi.fn() }));
+vi.mock('@/apps/do/shared/trial', () => ({ reserveDoTrial: trial.reserve, DoTrialError: class extends Error {} }));
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 const model = vi.hoisted(() => ({ prepare: vi.fn() }));
 vi.mock('@/apps/do/shared/preparation-server', () => ({ prepareDoDraft: model.prepare, DoPreparationError: class extends Error {} }));
@@ -13,9 +15,14 @@ function request(body: unknown, origin = 'https://www.assembl.co.nz') {
   return new Request('https://www.assembl.co.nz/api/do/prepare', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: origin, 'x-test-ip': `ip-${ip++}` }, body: JSON.stringify(body) });
 }
 const input = { task: 'brief', source: 'A document chosen by this visitor.', consent: true };
-beforeEach(() => { model.prepare.mockReset(); model.prepare.mockResolvedValue({ id: 'own-draft', status: 'draft' }); });
+beforeEach(() => { trial.reserve.mockReset(); trial.release.mockResolvedValue(undefined); trial.reserve.mockResolvedValue({ release: trial.release }); model.prepare.mockReset(); model.prepare.mockResolvedValue({ id: 'own-draft', status: 'draft' }); });
 
 describe('public DO preparation boundary', () => {
+  it('enforces the shared three-task gate before generating any draft', async () => {
+    trial.reserve.mockRejectedValue({ code: 'trial_exhausted', message: 'Enquire to continue' });
+    const response = await POST(request(input));
+    expect(response.status).toBe(402); expect(model.prepare).not.toHaveBeenCalled();
+  });
   it('rejects a foreign site before model invocation', async () => {
     const response = await POST(request(input, 'https://unrelated.example'));
     expect(response.status).toBe(403); expect(response.headers.get('Access-Control-Allow-Origin')).toBeNull(); expect(model.prepare).not.toHaveBeenCalled();
