@@ -34,3 +34,12 @@ captureButton.addEventListener('click', async () => {
   } catch (e) { status.textContent = e instanceof Error ? e.message : 'Selection access is unavailable. Paste the text into the builder.'; }
   finally { captureButton.disabled = false; }
 });
+
+document.getElementById('float').addEventListener('click', async () => {
+  try {
+    const [tab] = await chrome.tabs.query({active:true,currentWindow:true});
+    if (!tab?.id || !/^https?:\/\//.test(tab.url || '')) throw new Error('Click DO’s toolbar icon on a normal webpage first. Browser settings and PDF viewer pages may block extensions.');
+    await chrome.scripting.executeScript({target:{tabId:tab.id},files:['floating.js']});
+    status.textContent = 'DO is on this page. Drag the purple orb, or focus it and use arrow keys. Click it to reopen this panel.';
+  } catch(e) { status.textContent = e instanceof Error ? e.message : 'Could not place DO. Click its toolbar icon on this tab and try again.'; }
+});

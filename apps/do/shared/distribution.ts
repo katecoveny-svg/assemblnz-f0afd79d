@@ -7,9 +7,9 @@ export function doWidgetScript(origin: string): string {
   const host = document.createElement('div');
   const shadow = host.attachShadow({mode: 'open'});
   const style = document.createElement('style');
-  style.textContent = ':host{all:initial}button{font:14px Arial,sans-serif;cursor:pointer}.launch{position:fixed;right:18px;bottom:12px;z-index:2147483000;width:100px;height:84px;border:0;padding:0;background:transparent;filter:drop-shadow(0 0 13px #e0a2ca80);transition:transform .2s}.launch:hover{transform:translateY(-3px)}.launch img{width:100%;height:100%;object-fit:contain}.panel{position:fixed;right:20px;bottom:86px;width:min(470px,calc(100vw - 24px));height:min(740px,calc(100dvh - 110px));z-index:2147483001;background:#fffdfb;border:1px solid #916a7070;border-radius:13px;box-shadow:0 12px 60px #240b2150;overflow:hidden}.close{height:36px;width:36px;position:absolute;right:8px;top:8px;border:1px solid #240b2120;background:#fffdfb;border-radius:50%;z-index:2;color:#240b21}.panel iframe{width:100%;height:100%;border:0}button:focus-visible{outline:2px solid #916a70;outline-offset:4px}[hidden]{display:none!important}';
+  style.textContent = ':host{all:initial}button{font:14px Arial,sans-serif;cursor:pointer}.launch{position:fixed;right:18px;bottom:12px;z-index:2147483000;width:100px;height:84px;border:0;padding:0;background:transparent;filter:drop-shadow(0 0 13px #e0a2ca80);transition:transform .2s}.launch:hover{transform:translateY(-3px)}.launch .spark{display:grid;place-items:center;width:64px;height:64px;margin:auto;border-radius:50%;font-size:43px;color:#fff1ff;background:radial-gradient(circle at 30% 22%,#f6dfff,#b374f5 24%,#792cc6 55%,#2c0d52 83%);box-shadow:inset 0 0 10px #e8b9ff,0 0 17px #b05af7aa,0 0 30px #963be577}.launch{touch-action:none;cursor:grab}.panel{position:fixed;right:20px;bottom:86px;width:min(470px,calc(100vw - 24px));height:min(740px,calc(100dvh - 110px));z-index:2147483001;background:#fffdfb;border:1px solid #916a7070;border-radius:13px;box-shadow:0 12px 60px #240b2150;overflow:hidden}.close{height:36px;width:36px;position:absolute;right:8px;top:8px;border:1px solid #240b2120;background:#fffdfb;border-radius:50%;z-index:2;color:#240b21}.panel iframe{width:100%;height:100%;border:0}button:focus-visible{outline:2px solid #916a70;outline-offset:4px}[hidden]{display:none!important}';
   const launch = document.createElement('button');
-  launch.className = 'launch'; launch.type = 'button'; const badge = document.createElement('img'); badge.src = origin + '/cinematic-nature/do-portable.png'; badge.alt = ''; launch.append(badge);
+  launch.className = 'launch'; launch.type = 'button'; const badge = document.createElement('span'); badge.className='spark'; badge.textContent='✦'; badge.setAttribute('aria-hidden','true'); launch.append(badge);
   launch.setAttribute('aria-label', 'Open DO writing and task widget'); launch.setAttribute('aria-expanded', 'false');
   const panel = document.createElement('section'); panel.className = 'panel'; panel.hidden = true;
   panel.setAttribute('aria-label', 'DO preparation');
@@ -33,7 +33,15 @@ export function doWidgetScript(origin: string): string {
     if (event.source === frame.contentWindow && event.origin === origin && event.data?.type === 'assembl-do:ready') { loaded = true; offerContext(); }
   });
   frame.addEventListener('load', () => { frame.contentWindow.postMessage({type:'assembl-do:hello'}, origin); });
-  launch.addEventListener('click', () => panel.hidden ? open(null) : hide()); close.addEventListener('click', hide);
+  let dragging = null; let moved = false;
+  function place(x,y){launch.style.right='auto';launch.style.bottom='auto';launch.style.left=Math.max(8,Math.min(innerWidth-108,x))+'px';launch.style.top=Math.max(8,Math.min(innerHeight-92,y))+'px';}
+  launch.addEventListener('pointerdown',e=>{if(e.button!==0)return;const r=launch.getBoundingClientRect();dragging={x:e.clientX,y:e.clientY,left:r.left,top:r.top};moved=false;launch.setPointerCapture(e.pointerId);});
+  launch.addEventListener('pointermove',e=>{if(!dragging)return;if(Math.hypot(e.clientX-dragging.x,e.clientY-dragging.y)>5)moved=true;if(moved)place(dragging.left+e.clientX-dragging.x,dragging.top+e.clientY-dragging.y);});
+  launch.addEventListener('pointerup',e=>{dragging=null;if(launch.hasPointerCapture(e.pointerId))launch.releasePointerCapture(e.pointerId);});
+  launch.addEventListener('pointercancel',()=>{dragging=null;moved=true;});
+  launch.addEventListener('keydown',e=>{if(!e.altKey||!e.key.startsWith('Arrow'))return;e.preventDefault();const r=launch.getBoundingClientRect();place(r.left+(e.key==='ArrowRight'?24:e.key==='ArrowLeft'?-24:0),r.top+(e.key==='ArrowDown'?24:e.key==='ArrowUp'?-24:0));});
+  window.addEventListener('resize',()=>{const r=launch.getBoundingClientRect();place(r.left,r.top);});
+  launch.addEventListener('click', () => {if(moved){moved=false;return;}panel.hidden ? open(null) : hide();}); close.addEventListener('click', hide);
   shadow.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
   panel.append(close, frame); shadow.append(style, launch, panel); document.body.append(host);
   window.assemblDo = Object.freeze({open, close:hide});
