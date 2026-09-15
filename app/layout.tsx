@@ -8,95 +8,32 @@ import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import { PwaRegister } from '@/components/site/PwaRegister';
 import { PublicWatchFrame } from '@/components/site/watch/PublicWatchFrame';
 import { JsonLd } from '@/components/seo/JsonLd';
-import {
-  graph,
-  organizationNode,
-  dashOrganizationNode,
-  personNode,
-  websiteNode,
-  softwareApplicationNode,
-} from '@/lib/seo/schema';
+import { graph, organizationNode, personNode, websiteNode, softwareApplicationNode } from '@/lib/seo/schema';
 import './globals.css';
-// The shared life layer (btn3d / reveal / glowSoft / liftCard / parallax).
-// Opt-in classes only — see app/life.css.
 import './life.css';
 
-// Site-wide entity graph — assembl (Organization), dash (sibling brand), Kate
-// Hudson (Person / founder), the WebSite, and the Living Site product. Emitted
-// on every page so answer engines read one consistent set of entity signals.
-const SITE_GRAPH = graph(
-  organizationNode(),
-  dashOrganizationNode(),
-  personNode(),
-  websiteNode(),
-  softwareApplicationNode(),
-);
-
-// Next 16/Turbopack currently trips a prerender workStore invariant across
-// unrelated static routes in this app. Keep this branch on the dynamic path so
-// deploys stay reliable while the public-site rebuild is in flight.
+const SITE_GRAPH = graph(organizationNode(), personNode(), websiteNode(), softwareApplicationNode());
 export const dynamic = 'force-dynamic';
 
-// Locked assembl type system: Instrument Sans for headings, body and
-// navigation. IBM Plex Mono is reserved for wait-state labels, evidence,
-// timestamps and proof. The two Instrument instances expose the existing
-// display/body tokens without forcing other routes to change their CSS.
-const instrumentDisplay = Instrument_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
-const instrumentBody = Instrument_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-body',
-  display: 'swap',
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-mono',
-  display: 'swap',
-});
-
-// Editorial gallery homepage — chunky grotesque for the hero + manifesto type,
-// paired with Cormorant italic. Closest free equivalent to the Neue Haas
-// Grotesk Display Black feel Kate referenced in the designbyshiv brief.
-const archivoBlack = Archivo_Black({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-editorial',
-  display: 'swap',
-});
+const instrumentDisplay = Instrument_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-display', display: 'swap' });
+const instrumentBody = Instrument_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-body', display: 'swap' });
+const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-mono', display: 'swap' });
+const archivoBlack = Archivo_Black({ subsets: ['latin'], weight: ['400'], variable: '--font-editorial', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: {
-    default: 'assembl · make the wait useful',
-    template: '%s · assembl',
-  },
-  description:
-    'While an application, order or claim is processed, assembl checks what is missing and prepares a clear brief for the person handling it.',
+  title: { default: 'assembl — find it. DO it. show it.', template: '%s · assembl' },
+  description: 'Pursuit finds evidence-backed work. DO is the portable agent workforce that gets it moving. Studio turns the result into proof, pitches and experiences. One shared context and factory underneath.',
   metadataBase: new URL('https://www.assembl.co.nz'),
   alternates: { canonical: '/' },
-  // og:image comes from the file-convention opengraph-image.tsx per route
-  // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl · make the wait useful',
-    description:
-      'Turn one real customer wait into a prepared handoff, with customer approval and a named person responsible.',
-    type: 'website',
-    locale: 'en_NZ',
-    url: 'https://www.assembl.co.nz',
-    siteName: 'assembl',
+    title: 'assembl — find it. DO it. show it.',
+    description: 'Pursuit finds the work. DO gets it moving. Studio makes it tangible.',
+    type: 'website', locale: 'en_NZ', url: 'https://www.assembl.co.nz', siteName: 'assembl',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl · make the wait useful',
-    description:
-      'While a process runs, assembl prepares the customer’s next step for human review.',
+    title: 'assembl — find it. DO it. show it.',
+    description: 'One shared system for signals, portable agents, execution and proof.',
   },
   icons: {
     icon: [
@@ -104,8 +41,7 @@ export const metadata: Metadata = {
       { url: '/icons/assembl-icon-192x192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icons/assembl-icon-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/icons/assembl-icon-180x180.png',
-    shortcut: '/icons/favicon.ico',
+    apple: '/icons/assembl-icon-180x180.png', shortcut: '/icons/favicon.ico',
   },
   manifest: '/manifest.webmanifest',
 };
@@ -113,27 +49,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-NZ" className={`${instrumentDisplay.variable} ${instrumentBody.variable} ${plexMono.variable} ${archivoBlack.variable}`}>
-
       <body>
         <JsonLd data={SITE_GRAPH} />
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-deep-plum)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[color:var(--assembl-paper)] focus:shadow-brand focus:outline focus:outline-2 focus:outline-ring focus:outline-offset-2"
-        >
-          Skip to main content
-        </a>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-deep-plum)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[color:var(--assembl-paper)] focus:shadow-brand focus:outline focus:outline-2 focus:outline-ring focus:outline-offset-2">Skip to main content</a>
         <KeteAccentProvider>
           <ScrollProgress />
           <CommandPalette />
-          <div className="hidden md:block">
-            <AssemblConciergeWidget />
-          </div>
+          <div className="hidden md:block"><AssemblConciergeWidget /></div>
           <PwaRegister />
           <PublicWatchFrame>
             <GlobalNav />
-            <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>
-              {children}
-            </main>
+            <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>{children}</main>
             <GlobalFooter />
           </PublicWatchFrame>
         </KeteAccentProvider>
