@@ -10,6 +10,7 @@
     "lint": "eslint app/kete/arataki components/arataki lib/arataki --max-warnings=0",
     "lint:all": "eslint . --max-warnings=0",
     "lint:macrons": "tsx scripts/lint-macrons.ts",
+    "context:check": "node scripts/context-health.mjs",
     "build:agents-catalog": "tsx scripts/build-agents-catalog.ts",
     "voice:deploy:manaaki": "tsx scripts/voice-deploy-manaaki.ts",
     "setup:self-serve-stripe": "tsx scripts/setup-self-serve-stripe.ts",
