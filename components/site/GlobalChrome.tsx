@@ -44,6 +44,10 @@ const isLoyaltyJourney = (pathname: string | null): boolean =>
 const isDoPreview = (pathname: string | null): boolean =>
   !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
 
+/** Draft PREVIEW pages (commercial homepage etc.) ship their own chrome. */
+const isPreviewSurface = (pathname: string | null): boolean =>
+  !!pathname && (pathname === '/preview' || pathname.startsWith('/preview/'));
+
 /**
  * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
  * rendered on every marketing page so the frame stops changing as you move
@@ -71,7 +75,8 @@ function shipsOwnChrome(pathname: string | null): boolean {
     isLab(pathname) ||
     isEditorialHome(pathname) ||
     isLoyaltyJourney(pathname) ||
-    isDoPreview(pathname)
+    isDoPreview(pathname) ||
+    isPreviewSurface(pathname)
   );
 }
 

@@ -177,6 +177,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/journeys',
   // DO Agent OS v0 PREVIEW — isolated ✦ make agent surface (not homepage nav).
   '/do',
+  // Draft PREVIEW surfaces (commercial homepage etc.) — noindex; splash must not rewrite.
+  '/preview',
   // Canonical public experience route (the sandbox journey).
   '/experience',
   // The industries assembl works in — public, in the homepage nav and the
