@@ -7,7 +7,7 @@ import { DoGeminiLive } from './DoGeminiLive';
 export function DoWorkspace(props: ComponentProps<typeof DoBuilder>) {
   return (
     <>
-      <DoGeminiLive />
+      <DoGeminiLive embedded={Boolean(props.embedded)} />
       <DoBuilder {...props} />
     </>
   );
