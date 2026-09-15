@@ -7,7 +7,7 @@ import { DO_INPUT } from './copy';
 import { HOME_BRIEF_MAX_LENGTH, saveHomeBrief } from '@/apps/do/shared/home-handoff';
 
 /** Carries a draft to the DO demonstration without submitting or compiling it. */
-export function DoIntentInput() {
+export function DoIntentInput({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -33,11 +33,12 @@ export function DoIntentInput() {
   };
 
   return (
-    <form className="atw-do-form" onSubmit={onSubmit} aria-label="Give DO a job">
-      <label className="sr-only" htmlFor="atw-do-intent">
+    <form className={`atw-do-form ${compact ? "is-compact" : ""}`} onSubmit={onSubmit} aria-label="Give DO a job">
+      {!compact && <label className="sr-only" htmlFor="atw-do-intent">
         {DO_INPUT.title}
-      </label>
+      </label>}
       <div className="atw-do-field">
+        {compact && <label className="atw-job-label" htmlFor="atw-do-intent">What do you need done?</label>}
         <input
           id="atw-do-intent"
           name="brief"
@@ -50,12 +51,12 @@ export function DoIntentInput() {
           aria-describedby="atw-do-honesty"
         />
         <button type="submit" className="atw-btn atw-btn-rose">
-          {DO_INPUT.submit}
+          {compact ? <span aria-label="Give DO the job">→</span> : DO_INPUT.submit}
         </button>
       </div>
       <p className="atw-do-honesty" id="atw-do-honesty">{DO_INPUT.honesty}</p>
       {error && <p className="atw-do-error" role="alert">{error} <Link href="/do">Open DO →</Link></p>}
-      <div className="atw-do-examples" role="group" aria-label="Example jobs">
+      {!compact && <div className="atw-do-examples" role="group" aria-label="Example jobs">
         {DO_INPUT.examples.map((example) => (
           <button key={example} type="button" onClick={() => {
             setValue(example);
@@ -65,7 +66,7 @@ export function DoIntentInput() {
             {example}
           </button>
         ))}
-      </div>
+      </div>}
     </form>
   );
 }

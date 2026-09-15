@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO by assembl</title><link rel="stylesheet" href="popup.css"></head><body>
+<header><strong>DO<span>✦</span></strong><a href="https://www.assembl.co.nz/do" target="_blank" rel="noreferrer">by assembl ↗</a></header>
+<h1>Your writing and work, a little easier.</h1><p>Choose a ready-made agent. Select text or paste a message, then edit and copy the result back to your work.</p>
+<div class="capture"><button id="captureSelection" type="button">Use selected text</button><button id="capturePage" type="button">Use page text</button></div>
+<form id="prepareForm"><label for="source">Text DO can use</label><textarea id="source" maxlength="12000" rows="6" placeholder="Select text on a page, or paste it here." required></textarea><p id="sourceLabel" class="small">Nothing captured yet.</p>
+<label for="task">Choose your agent</label><select id="task"><option value="reply">Write a reply</option><option value="plan">Make a plan</option><option value="brief">Prepare a brief</option><option value="compare">Compare options</option><option value="rewrite">Polish my writing</option><option value="extract">Find the details</option></select>
+<label for="brief">Anything to focus on?</label><input id="brief" maxlength="2000" placeholder="Optional instruction">
+<label class="consent"><input type="checkbox" id="consent" required><span>Use this text for this preparation.<small>It goes to assembl and, for generation, its configured model provider. Nothing is sent elsewhere or saved by this extension.</small></span></label>
+<button id="prepare" class="primary" type="submit">✦ Prepare draft</button><button id="stop" type="button" hidden>Stop</button></form>
+<p id="status" role="status" class="status" hidden></p>
+<section id="result" hidden><h2>Ready for review.</h2><label for="output">Your editable draft</label><textarea id="output" rows="10" maxlength="20000"></textarea><label for="reviewer">Reviewed by</label><input id="reviewer" maxlength="100" placeholder="Your name or responsible team"><button type="button" id="review">Mark as reviewed</button><div class="exports"><button type="button" id="copy">Copy text</button><button type="button" id="download">Draft + receipt</button></div><p class="small" id="method"></p><p class="small">You take the next step. DO has not sent, booked, purchased or submitted anything.</p></section>
+<footer>Closing this popup clears its text. Copy or download anything you want to keep.</footer><script src="popup.js"></script></body></html>

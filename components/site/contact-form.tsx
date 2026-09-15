@@ -7,15 +7,16 @@ import { submitContact, type ContactState } from "@/app/contact/actions";
 import { cn } from "@/lib/utils";
 
 const INTEREST_OPTIONS = [
-  { value: "wait-earn", label: "Wait→Earn / loyalty pilot" },
-  { value: "install-agent", label: "Install an agent" },
-  { value: "free-tools", label: "Free tools / try an agent" },
+  { value: "pursuit", label: "Pursuit — find the opportunity" },
+  { value: "do", label: "DO — prepare the work" },
+  { value: "studio", label: "Studio — make it tangible" },
+  { value: "system", label: "Pursuit, DO and Studio together" },
   { value: "something-else", label: "Something else" },
 ] as const;
 
 const initialState: ContactState = { status: "idle" };
 
-export function ContactForm() {
+export function ContactForm({ initialInterest = "" }: { initialInterest?: string }) {
   const [state, formAction, isPending] = useActionState(
     submitContact,
     initialState
@@ -83,7 +84,7 @@ export function ContactForm() {
           <select
             id="intent"
             name="intent"
-            defaultValue="trial"
+            defaultValue="team"
             className="form-input"
             required
             aria-required="true"
@@ -140,7 +141,7 @@ export function ContactForm() {
           </Field>
 
           <Field label="What are you interested in?" name="interest">
-            <select id="interest" name="interest" defaultValue="" className="form-input">
+            <select id="interest" name="interest" defaultValue={initialInterest} className="form-input">
               <option value="">Not sure yet</option>
               {INTEREST_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>

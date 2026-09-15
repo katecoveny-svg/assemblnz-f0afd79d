@@ -1,232 +1,37 @@
 'use client';
-
 import Link from 'next/link';
-import Image from 'next/image';
-import { AtwCraftScroll } from './AtwCraftScroll';
-import { AerialAssembly } from './AerialAssembly';
+import { useRef, useState } from 'react';
+import { ArrowDown, ArrowRight, ArrowUpRight, Play, X } from 'lucide-react';
+import { OceanMedia } from './OceanMedia';
+import { GlowDoWidget } from './GlowDoWidget';
 import { DoIntentInput } from './DoIntentInput';
-import {
-  REVIEW,
-  DO_INPUT,
-  FOOTER,
-  HERO,
-  JOURNEYS,
-  LOOP,
-  NAV,
-  PRODUCTS,
-  SIGNALS,
-  START,
-  STUDIO,
-} from './copy';
+import { DoProductStory } from './DoProductStory';
+import { CustomerJourneys } from './CustomerJourneys';
+import { PRODUCTS, HERO } from './copy';
 import './assembl-the-work.css';
-
-/** The public homepage and its explicitly marked review route. */
 export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
-  return (
-    <div className="atw" data-preview={preview}>
-      <AtwCraftScroll />
-
-      {preview && <div className="atw-preview-ribbon" role="status">
-        <strong>PREVIEW</strong>
-        <span>homepage review route</span>
-        <Link href="/">view live homepage →</Link>
-      </div>}
-
-      <header className="atw-nav">
-        <Link className="atw-wordmark" href="/" aria-label="assembl home">
-          assembl<span>·</span>
-        </Link>
-        <nav className="atw-nav-links" aria-label="Primary">
-          {NAV.products.map((item) => (
-            <Link key={item.label} href={item.href} data-emphasis={item.emphasis ? 'true' : 'false'}>
-              {item.label}
-            </Link>
-          ))}
-          {NAV.links.map((item) => (
-            <Link key={item.label} href={item.href}>
-              {item.label}
-            </Link>
-          ))}
-          <Link className="atw-nav-cta" href={NAV.cta.href}>
-            {NAV.cta.label}
-          </Link>
-        </nav>
-      </header>
-
-      <section className="atw-hero" aria-labelledby="atw-hero-title">
-        <div className="atw-hero-atmosphere" aria-hidden="true" />
-        <div className="atw-hero-grid">
-          <div className="atw-hero-copy">
-            <p className="atw-hero-brand">{HERO.brand}</p>
-            <h1 id="atw-hero-title">{HERO.headline}</h1>
-            <p className="atw-hero-sub">{HERO.subhead}</p>
-            <p className="atw-hero-body">{HERO.body}</p>
-            <p className="atw-hero-explanation">{HERO.explanation}</p>
-            <div className="atw-hero-actions">
-              <Link className="atw-btn" href={HERO.ctaPrimary.href}>
-                {HERO.ctaPrimary.label}
-              </Link>
-              <a className="atw-link" href={HERO.ctaSecondary.href}>
-                {HERO.ctaSecondary.label}
-              </a>
-            </div>
-            <div className="atw-hero-meta">
-              <p className="atw-hero-products">{HERO.productLine}</p>
-              <p className="atw-hero-loop">{HERO.loopLine}</p>
-            </div>
-          </div>
-          <AerialAssembly />
-        </div>
-      </section>
-
-      <section className="atw-section atw-do-input" id="do-input" aria-labelledby="atw-do-title">
-        <p className="atw-kicker">{DO_INPUT.kicker}</p>
-        <h2 id="atw-do-title">{DO_INPUT.title}</h2>
-        <DoIntentInput />
-      </section>
-
-      <section className="atw-section atw-signals" aria-labelledby="atw-signals-title">
-        <p className="atw-kicker">{SIGNALS.kicker}</p>
-        <h2 id="atw-signals-title">{SIGNALS.title}</h2>
-        <p className="atw-body">{SIGNALS.body}</p>
-        <div className="atw-flow">
-          {SIGNALS.flow.map((step) => (
-            <div
-              key={step.id}
-              className="atw-flow-step"
-              data-center={step.id === 'output' ? 'true' : 'false'}
-            >
-              <strong>{step.label}</strong>
-              <p>{step.examples}</p>
-              <p className="atw-source-note">{step.note}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="atw-section atw-products" id="products" aria-labelledby="atw-products-title">
-        <p className="atw-kicker">{PRODUCTS.kicker}</p>
-        <h2 id="atw-products-title">{PRODUCTS.title}</h2>
-        <p className="atw-lede">{PRODUCTS.lede}</p>
-        <div className="atw-product-grid">
-          {PRODUCTS.items.map((product) => (
-            <article
-              key={product.id}
-              id={product.id}
-              className="atw-product"
-              data-hero={'hero' in product && product.hero ? 'true' : 'false'}
-            >
-              <p className="atw-product-verb">{product.verb}</p>
-              <h3>{product.name}</h3>
-              <p>{product.body}</p>
-              <Link className="atw-link" href={product.href}>
-                {product.explore}
-              </Link>
-              <p className="atw-product-note">{product.note}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-
-
-      <section className="atw-section atw-journeys" id="use-cases" aria-labelledby="atw-journeys-title">
-        <p className="atw-kicker">{JOURNEYS.kicker}</p>
-        <h2 id="atw-journeys-title">{JOURNEYS.title}</h2>
-        <p className="atw-body">{JOURNEYS.body}</p>
-        <p className="atw-body atw-journey-value">{JOURNEYS.value}</p>
-        <div className="atw-journey-points">
-          {JOURNEYS.points.map((point) => (
-            <div key={point.label} className="atw-journey-point">
-              <strong>{point.label}</strong>
-              <p>{point.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="atw-studio" aria-labelledby="atw-studio-title">
-        <div className="atw-studio-inner">
-          <p className="atw-kicker">{STUDIO.kicker}</p>
-          <h2 id="atw-studio-title">{STUDIO.title}</h2>
-          <p className="atw-body">{STUDIO.body}</p>
-          <ul className="atw-studio-chips">
-            {STUDIO.chips.map((chip) => (
-              <li key={chip}>{chip}</li>
-            ))}
-          </ul>
-          <Link className="atw-btn" href={STUDIO.cta.href}>
-            {STUDIO.cta.label}
-          </Link>
-        </div>
-        <div className="atw-studio-gallery">
-          <figure>
-            <Image src="/generated/creative-agency/anchors/prism-skincare.png" alt="Generated skincare campaign concept: glass bottle on a stone plinth" width={1024} height={1024} sizes="(max-width: 700px) 90vw, 35vw" />
-            <figcaption><span>Generated concept</span>Product imagery &amp; advertising</figcaption>
-          </figure>
-          <figure>
-            <video controls preload="none" playsInline poster="/cinematic-home/hf-2e5e76fe.png" aria-label="Generated mechanical assembly film study">
-              <source src="/cinematic-home/hf-9a8c5c81.mp4" type="video/mp4" />
-              <a href="/cinematic-home/hf-9a8c5c81.mp4">View the assembly film study</a>
-            </video>
-            <figcaption><span>Generated motion study</span>Assembly, film &amp; visual concepts</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section className="atw-section atw-loop" id="how-it-works" aria-labelledby="atw-loop-title">
-        <p className="atw-kicker">{LOOP.kicker}</p>
-        <h2 id="atw-loop-title">{LOOP.title}</h2>
-        <div className="atw-loop-track">
-          {LOOP.steps.map((step) => (
-            <div key={step.id} className="atw-loop-step">
-              <strong>{step.label}</strong>
-              <p>{step.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="atw-section atw-compare" aria-labelledby="atw-compare-title">
-        <p className="atw-kicker">{REVIEW.kicker}</p>
-        <h2 id="atw-compare-title">{REVIEW.title}</h2>
-        <div className="atw-compare-grid">
-          {REVIEW.columns.map((col) => (
-            <div
-              key={col.id}
-              className="atw-compare-col"
-              data-highlight={'highlight' in col && col.highlight ? 'true' : 'false'}
-            >
-              <h3>{col.name}</h3>
-              <ul>
-                {col.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="atw-section atw-start" aria-labelledby="atw-start-title">
-        <p className="atw-kicker">{START.kicker}</p>
-        <h2 id="atw-start-title">{START.title}</h2>
-        <p className="atw-body">{START.body}</p>
-        <div className="atw-start-actions">
-          <Link className="atw-btn" href={START.primary.href}>
-            {START.primary.label}
-          </Link>
-          <a className="atw-link" href={START.secondary.href}>
-            {START.secondary.label}
-          </a>
-        </div>
-      </section>
-
-      <footer className="atw-footer">
-        <p>{FOOTER.line}</p>
-        <p>{FOOTER.note}</p>
-        <Link href="/legal/privacy">Privacy</Link>
-      </footer>
-    </div>
-  );
+  const filmDialog = useRef<HTMLDialogElement>(null);
+  const film = useRef<HTMLVideoElement>(null);
+  const [cinema, setCinema] = useState(false);
+  function openFilm() { setCinema(true); filmDialog.current?.showModal(); void film.current?.play().catch(() => {}); }
+  return <div className="atw" data-preview={preview}>
+    <GlowDoWidget />
+    <a className="atw-skip" href="#products">Skip to products</a>
+    {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
+    <section className="atw-hero" aria-labelledby="atw-hero-title">
+      <OceanMedia paused={cinema} /><div className="atw-hero-shade" aria-hidden="true" />
+      <header className="atw-nav"><Link className="atw-wordmark" href="/" aria-label="assembl home">assembl</Link><nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav></header>
+      <div className="atw-hero-copy"><h1 id="atw-hero-title" aria-label={HERO.headline}>assembl<br />the work.</h1><p className="atw-hero-sub">{HERO.subhead}</p><p className="atw-hero-body">Find the opportunity. Prepare the work. Make it tangible.</p><div className="atw-hero-actions"><a className="atw-pill" href="#do-input" onClick={() => document.getElementById('atw-do-intent')?.focus()}>Give DO a job <ArrowRight size={21} /></a><button className="atw-pill" onClick={openFilm}><span className="atw-play"><Play size={14} fill="currentColor" /></span>Watch the film</button></div></div>
+      <div className="atw-hero-job" id="do-input"><DoIntentInput compact /></div>
+    </section>
+    <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>— <em>find it.</em></span></Link><Link href="/do"><strong>DO</strong><span>— <em>do it.</em></span></Link><Link href="/creative-studio"><strong>Studio</strong><span>— <em>show it.</em></span></Link><p>Available separately.<br />Stronger together.</p></section>
+    <section className="atw-intro atw-section" id="products"><p className="atw-kicker">THREE PRODUCTS. ONE SHARED DIRECTION.</p><h2>Good work<br />comes <em>together.</em></h2><div><p>Start with an opening. Give the work a shape. Make something people can see, try and use.</p><p>Pursuit, DO and Studio are available as standalone engagements or as one connected system, scoped around the work you need done.</p><a className="atw-text-link" href="#choose">Find your starting point <ArrowDown size={18} /></a></div></section>
+    <section className="atw-product-list atw-section" aria-label="Explore the products">{PRODUCTS.items.map((product, index) => <article className="atw-product-row" id={product.id} key={product.id}><span className="atw-product-number">0{index + 1}</span><div className="atw-product-name"><p>{product.verb.split('·')[1]?.trim()}</p><h2>{product.name}</h2></div><div className="atw-product-description"><p>{product.body}</p><Link className="atw-text-link" href={product.href}>{product.explore}<ArrowUpRight size={20} /></Link><small>{product.note}</small></div></article>)}</section>
+    <DoProductStory />
+    <CustomerJourneys compact />
+    <section className="atw-how atw-section" id="how-it-works"><div><p className="atw-kicker">THE WORK MOVES. YOU STAY IN CONTROL.</p><h2>Prepare it.<br />Review it.<br /><em>Take it forward.</em></h2></div><ol><li><span>01</span><div><h3>Bring what matters.</h3><p>Your goal, your context and the sources you choose to use. Start with one real piece of work.</p></div></li><li><span>02</span><div><h3>See what comes together.</h3><p>Get an editable draft, a response plan or a creative direction. Keep the evidence and open questions close.</p></div></li><li><span>03</span><div><h3>Choose the next step.</h3><p>A person reviews the result. Sending, publishing and connecting another system each need an agreed permission.</p></div></li></ol></section>
+    <section className="atw-choose atw-section" id="choose"><p className="atw-kicker">START WHERE THE WORK IS.</p><h2>One product.<br />Or the <em>whole system.</em></h2><p>Choose a focused engagement with Pursuit, DO or Studio. Or bring them together around a customer journey, a team or a business.</p><div><Link className="atw-pill atw-pill-dark" href="/contact?product=single">Discuss one product <ArrowUpRight size={19} /></Link><Link className="atw-text-link" href="/contact?product=system">Plan the complete system <ArrowUpRight size={19} /></Link></div><small>Scope, price, connections and delivery are agreed with you before work begins.</small></section>
+    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Mahi that earns its proof.<br />Imagined and built in Aotearoa.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>Original generated nature studies.</span></footer>
+    <dialog ref={filmDialog} className="atw-film-dialog" aria-label="assembl nature film" onClose={() => { setCinema(false); film.current?.pause(); }}><button className="atw-film-close" aria-label="Close film" onClick={() => filmDialog.current?.close()}><X size={22} /></button><video ref={film} controls playsInline preload="none" poster="/cinematic-nature/ocean-assembly.webp" aria-label="Fish schools and gannets assembling over the ocean"><source src="/cinematic-nature/ocean-assembly.mp4" type="video/mp4" /></video><p>A generated nature study. Thousands of fish sweep into a shared current as gannets move in formation above the coast.</p></dialog>
+  </div>;
 }

@@ -11,7 +11,7 @@ export const PREVIEW_META = {
 
 export const NAV = {
   products: [
-    { label: 'Pursuit', href: '#pursuit', emphasis: false },
+    { label: 'Pursuit', href: '/pursuit', emphasis: false },
     { label: 'DO', href: '/do', emphasis: true },
     { label: 'Studio', href: '/creative-studio', emphasis: false },
   ],
@@ -53,28 +53,28 @@ export const PRODUCTS = {
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
       body: 'For teams finding their next opportunity. Bring relevant public signals and permissioned business context into buyer research, a qualified opportunity and a next-step brief.',
-      href: 'mailto:assembl@assembl.co.nz?subject=Pursuit%20brief',
-      explore: 'discuss Pursuit →', note: 'Start with your business and the opportunities you want to find.',
+      href: '/pursuit',
+      explore: 'Explore Pursuit', note: 'Start with your business and the opportunities you want to find.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'For people with work to move forward. Give DO an outcome. Assemble the available context, specialist agents and tools into a response plan, proposal, sales draft or customer journey.',
-      href: '/do', explore: 'try DO →', note: 'Explore the demonstration. Live tools depend on the agreed connections and permissions.',
+      body: 'Your writing and task agents, wherever work happens. Draft a reply, polish your writing, turn notes into a plan or work through the options. Review the result and take it with you.',
+      href: '/do', explore: 'Try DO', note: 'Use DO here, in your browser or through the downloadable website widget.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
       body: 'For teams making an idea tangible. Turn an independent brief or prepared work into demonstrators, pitches, websites, advertising, marketing campaigns, imagery and film.',
-      href: '/creative-studio', explore: 'enter Studio →', note: 'Explore the creative demonstration, then bring a brief for production.',
+      href: '/creative-studio', explore: 'Explore Studio', note: 'Open your private creative workspace, or bring a brief for a scoped engagement.',
     },
   ],
 } as const;
 
 export const DO_INPUT = {
-  kicker: 'try DO · demonstration',
+  kicker: 'give DO a job',
   title: 'what do you need done?',
-  placeholder: 'Describe the outcome you want…',
+  placeholder: 'Describe the outcome you need.',
   submit: 'give DO the job →',
-  honesty: 'Opens the DO demonstration with your brief. Nothing is sent, submitted or published.',
+  honesty: 'Your brief opens in DO for review before preparation.',
   examples: [
     'Find relevant opportunities for my business and prepare the strongest one.',
     'Turn this tender into a response plan and first draft.',

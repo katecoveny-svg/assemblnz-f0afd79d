@@ -1,677 +1,78 @@
 'use client';
 
-import { useCallback, useEffect, useState, type CSSProperties } from 'react';
-import type { AgentPrimitive, AgentSpec, DemoTemplate, PageContext, TemplateLane } from '@/apps/do/shared/types';
-import { DoClearDemo } from './DoClearDemo';
-import { DoDistributionPlates } from './DoDistributionPlates';
-import { DoFloatingWidget } from './DoFloatingWidget';
-import { DoWhatsAppSim } from './DoWhatsAppSim';
+import Link from 'next/link';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { ArrowUpRight, Download, Film, Pause, Play, X } from 'lucide-react';
+import { LivingAssembly } from './DoLivingAssembly';
+import { DoWorkspace } from './DoWorkspace';
+import { CustomerJourneys } from '@/components/site/assembl-the-work/CustomerJourneys';
+import { DO_TASKS, type DoTask } from '@/apps/do/shared/preparation';
+import '@/components/site/assembl-the-work/assembl-the-work.css';
 import { readHomeBrief } from '@/apps/do/shared/home-handoff';
 
-type Groups = Record<'needs_you' | 'working' | 'done', AgentSpec[]>;
-
-type TemplateGroup = {
-  lane: TemplateLane;
-  label: string;
-  templates: DemoTemplate[];
-};
-
-const EMPTY: Groups = { needs_you: [], working: [], done: [] };
-
-const BOARD_META: Record<
-  keyof Groups,
-  { title: string; lede: string; depth: 'near' | 'mid' | 'far' }
-> = {
-  needs_you: {
-    title: 'Needs you',
-    lede: 'Approvals waiting on a human yes.',
-    depth: 'near',
-  },
-  working: {
-    title: 'Working',
-    lede: 'Watching or preparing within policy.',
-    depth: 'mid',
-  },
-  done: {
-    title: 'Done',
-    lede: 'Evidence receipts — what was seen, and why.',
-    depth: 'far',
-  },
-};
-
-const MITRE_FIXTURE_PAGE: PageContext = {
-  url: 'fixture://mitre10-sap-rfp',
-  title: 'DEMO · Mitre 10 SAP pursuit — RFP snippet',
-  selectedText:
-    'Improve purchase-order visibility from DC to store · Human approval before any write-back to SAP',
-  pageText: `REQUEST FOR PROPOSAL — Store operations + supply-chain visibility (DEMO)
-Buyer: Mitre 10 New Zealand (sample business — details fictional for this DEMO).
-Closing: 24 Oct 2026, 17:00 NZST.
-Must-haves: SAP MM / SD touchpoints · Read-path ≤ 15 min · Human approval before SAP write-back.
-SAP landscape: ECC 6.0 with S/4 migration (wave 2) · MM PO/GR · SD transfers · PI/PO middleware.`,
-};
-
-const PRIMITIVE_GLYPH: Record<AgentPrimitive, string> = {
-  watch: '◎',
-  find: '⌕',
-  extract: '▤',
-  prepare: '✦',
-  compare: '⇄',
-};
+const VIEWS = [
+  { name: 'write', eyebrow: 'Your writing and task agents. Ready when you are.', title: <>Write it.<br />Work it out.</>, copy: 'Draft a reply. Polish your writing. Turn notes into a plan. Bring the text and choose the agent that helps.' },
+  { name: 'work', eyebrow: 'Less organising. A clearer next step.', title: <>A brief.<br />A plan. A reply.</>, copy: 'Compare the options, find the details or prepare the handoff. Six ready-made agents turn the text you choose into useful work.' },
+  { name: 'anywhere', eyebrow: 'DO goes where the work is.', title: <>A little DO.<br />Alongside you.</>, copy: 'Select text in your browser or paste a message from another app. Get a draft, review it and copy it back. Keep DO close with the widget.' },
+];
+const subscribeMotion = (fn: () => void) => { const q = matchMedia('(prefers-reduced-motion: reduce)'); q.addEventListener('change', fn); return () => q.removeEventListener('change', fn); };
+const subscribeVisibility = (fn: () => void) => { document.addEventListener('visibilitychange', fn); return () => document.removeEventListener('visibilitychange', fn); };
 
 export function DoHome() {
-  const [groups, setGroups] = useState<Groups>(EMPTY);
-  const [templateGroups, setTemplateGroups] = useState<TemplateGroup[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [draft, setDraft] = useState<AgentSpec | null>(null);
-  const [widgetOpen, setWidgetOpen] = useState(false);
-  const [mitreTemplateId, setMitreTemplateId] = useState<string | null>(null);
-  const [mitrePage, setMitrePage] = useState<PageContext | null>(null);
-  const [widgetKey, setWidgetKey] = useState(0);
-  const [runtimeLabel, setRuntimeLabel] = useState('Assembl runtime · DEMO');
-  const [pinned, setPinned] = useState<string[]>([]);
-  const [homeBrief, setHomeBrief] = useState<string | null>(null);
+  const [view, setView] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [cinema, setCinema] = useState(false);
+  const [brief, setBrief] = useState('');
+  const [selectedTask, setSelectedTask] = useState<DoTask>('reply');
+  const [handoffError, setHandoffError] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState('');
+  const workspace = useRef<HTMLDialogElement>(null);
+  const downloads = useRef<HTMLDialogElement>(null);
+  const reduced = useSyncExternalStore(subscribeMotion, () => matchMedia('(prefers-reduced-motion: reduce)').matches, () => true);
+  const visible = useSyncExternalStore(subscribeVisibility, () => !document.hidden, () => true);
+  const running = !paused && !reduced && visible && !modalOpen;
 
-  const refresh = useCallback(async () => {
-    const res = await fetch('/api/do/agents?grouped=1');
-    if (!res.ok) return;
-    const data = (await res.json()) as { groups: Groups };
-    setGroups(data.groups);
+  function openWorkspace() { workspace.current?.showModal(); setModalOpen(true); }
+  useEffect(() => {
+    // Hydrate the tab's external handoff only after the dialog has mounted.
+    const frame = requestAnimationFrame(() => {
+      const params = new URLSearchParams(window.location.search);
+      const selected = DO_TASKS.find(item => item.id === params.get('task'));
+      if (selected) setSelectedTask(selected.id);
+      if (params.get('from') !== 'home' && params.get('open') !== '1' && !selected) return;
+      if (params.get('from') === 'home') {
+        try {
+          const incoming = readHomeBrief(sessionStorage, params.get('handoff') || '');
+          if (incoming) { setBrief(incoming); setSelectedTask('brief'); }
+          else setHandoffError('This homepage draft has expired or is unavailable in this tab. Add your text below to continue.');
+        } catch { setHandoffError('This browser could not open the homepage draft. Add your text below to continue.'); }
+      }
+      workspace.current?.showModal(); setModalOpen(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  useEffect(() => {
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') setCinema(false); };
+    window.addEventListener('keydown', escape); return () => window.removeEventListener('keydown', escape);
   }, []);
 
-  useEffect(() => {
-    void refresh();
-    void fetch('/api/do/templates')
-      .then((r) => r.json())
-      .then((data: { groups: TemplateGroup[] }) => {
-        setTemplateGroups(data.groups || []);
-      });
-    void fetch('/api/do/runtime')
-      .then((r) => r.json())
-      .then((data: { runtime?: { label?: string } }) => {
-        if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
-      });
-  }, [refresh]);
-
-  // Same-tab homepage draft: the URL carries an opaque ID, never the brief.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('from') !== 'home') return;
-    let brief: string | null = null;
-    try {
-      brief = readHomeBrief(window.sessionStorage, params.get('handoff') || '');
-    } catch {
-      // Browser storage may be disabled. Keep the demonstration usable.
-    }
-    if (!brief) {
-      setError('This homepage draft has expired or is unavailable in this tab. Give DO a new brief to continue.');
-      return;
-    }
-    setHomeBrief(brief);
-    setWidgetOpen(true);
-  }, []);
-
-  async function compileFromTemplate(t: DemoTemplate) {
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/do/agents/compile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          brief: t.brief,
-          templateId: t.id,
-          page:
-            typeof window !== 'undefined'
-              ? { url: window.location.href, title: document.title }
-              : undefined,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'compile failed');
-      setDraft(data.spec as AgentSpec);
-      if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
-      await refresh();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'compile failed');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function activate(id: string) {
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/do/agents/${id}/activate`, { method: 'POST' });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'activate failed');
-      setDraft(data.agent as AgentSpec);
-      await refresh();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'activate failed');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function decide(agentId: string, approvalId: string, decision: 'approve' | 'reject') {
-    setBusy(true);
-    try {
-      await fetch(`/api/do/agents/${agentId}/approve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ approvalId, decision }),
-      });
-      await refresh();
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function tick(id: string, simulateChange = false) {
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/do/agents/${id}/tick`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ simulateChange }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'tick failed');
-      setDraft(data.agent as AgentSpec);
-      await refresh();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'tick failed');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function remove(id: string) {
-    setBusy(true);
-    try {
-      await fetch(`/api/do/agents/${id}`, { method: 'DELETE' });
-      if (draft?.id === id) setDraft(null);
-      await refresh();
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  function openWidget() {
-    setMitreTemplateId(null);
-    setMitrePage(null);
-    setWidgetOpen(true);
-    setWidgetKey((k) => k + 1);
-    setError(null);
-  }
-
-  function startMitreDemo() {
-    setMitrePage(MITRE_FIXTURE_PAGE);
-    setMitreTemplateId('mitre10-sap-rfp-brief');
-    setWidgetOpen(true);
-    setWidgetKey((k) => k + 1);
-    setError(null);
-  }
-
-  async function runWhatsAppSim() {
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/do/message', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ surface: 'whatsapp', demo: true }),
-      });
-      const data = await res.json();
-      if (!res.ok && !data.spec) throw new Error(data.error || data.honesty || 'whatsapp sim failed');
-      if (data.spec) setDraft(data.spec as AgentSpec);
-      await refresh();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'whatsapp sim failed');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function openClearAgent() {
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/do/agents/compile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          brief: 'keep my writing clear on this site — flag AI-slop and basic grammar',
-          templateId: 'clear-writing-watch',
-          page:
-            typeof window !== 'undefined'
-              ? { url: window.location.href, title: document.title }
-              : undefined,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'compile failed');
-      setDraft(data.spec as AgentSpec);
-      if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
-      await refresh();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'compile failed');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  function togglePin(id: string) {
-    setPinned((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  }
-
-  const flatTemplates = templateGroups.flatMap((g) =>
-    g.templates.map((t) => ({ ...t, laneLabel: g.label })),
-  );
-  const featured = [
-    ...flatTemplates.filter((t) => pinned.includes(t.id)),
-    ...flatTemplates.filter((t) => !pinned.includes(t.id)),
-  ].slice(0, 10);
-
-  return (
-    <div className="do-root">
-      <div className="do-stage-glow" aria-hidden />
-      <div className="do-shell">
-        <div className="do-topbar" aria-label="Status">
-          <span className="do-pill do-pill-preview">PREVIEW</span>
-          <span className="do-pill do-pill-runtime">
-            <span className="do-pill-dot" />
-            {runtimeLabel}
-          </span>
-          <span className="do-pill do-pill-lock" title="Product locks">
-            not chat · not Grammarly · not Instinct
-          </span>
-        </div>
-
-        <section className="do-stage" aria-label="DO widget stage">
-          <div className="do-stage-brand">
-            <p className="do-kicker">assembl · portable agents</p>
-            <h1 className="do-wordmark">DO</h1>
-            <p className="do-tagline">See something → ✦ make agent</p>
-            <p className="do-verb-row" aria-label="Agent object verbs">
-              <span>place</span>
-              <span>template</span>
-              <span>delete</span>
-            </p>
-          </div>
-
-          <button
-            type="button"
-            className="do-orb"
-            disabled={busy}
-            onClick={openWidget}
-            aria-label="Make agent"
-          >
-            <span className="do-orb-halo" aria-hidden />
-            <span className="do-orb-core" aria-hidden>
-              <span className="do-orb-star">✦</span>
-            </span>
-            <span className="do-orb-label">make agent</span>
-          </button>
-
-          <button
-            type="button"
-            className="do-mitre-card"
-            disabled={busy}
-            onClick={startMitreDemo}
-            aria-label="Mitre 10 SAP pursuit DEMO"
-          >
-            <span className="do-mitre-mark" aria-hidden>
-              <span />
-              <span />
-              <span />
-              <span />
-            </span>
-            <strong>Mitre 10 · SAP</strong>
-            <span className="do-mono">DEMO</span>
-          </button>
-
-          <div className="do-pinboard" aria-label="Templates">
-            {featured.map((t, i) => (
-              <button
-                key={t.id}
-                type="button"
-                className={`do-pin${pinned.includes(t.id) ? ' is-pinned' : ''}`}
-                style={{ '--do-pin-i': String(i % 5) } as CSSProperties}
-                disabled={busy}
-                onClick={() => void compileFromTemplate(t)}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  togglePin(t.id);
-                }}
-                title={`${t.laneLabel} · right-click to pin`}
-              >
-                <span className="do-pin-glyph" aria-hidden>
-                  {PRIMITIVE_GLYPH[t.primitive]}
-                </span>
-                <span className="do-pin-body">
-                  <strong>{t.name}</strong>
-                  <span>{t.summary}</span>
-                </span>
-                <span className="do-mono">{t.primitive}</span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {error ? <p className="do-error">{error}</p> : null}
-
-        {draft ? (
-          <section className="do-draft-strip" aria-label="Draft agent">
-            <AgentWallet
-              spec={draft}
-              busy={busy}
-              highlight
-              onActivate={() => void activate(draft.id)}
-              onDecide={decide}
-              onTick={tick}
-              onDelete={() => void remove(draft.id)}
-            />
-          </section>
-        ) : null}
-
-        <section className="do-depths" aria-label="Boards">
-          <Board
-            statusKey="needs_you"
-            agents={groups.needs_you}
-            busy={busy}
-            onActivate={(id) => void activate(id)}
-            onDecide={decide}
-            onTick={(id, sim) => void tick(id, sim)}
-            onDelete={(id) => void remove(id)}
-          />
-          <Board
-            statusKey="working"
-            agents={groups.working}
-            busy={busy}
-            onActivate={(id) => void activate(id)}
-            onDecide={decide}
-            onTick={(id, sim) => void tick(id, sim)}
-            onDelete={(id) => void remove(id)}
-          />
-          <Board
-            statusKey="done"
-            agents={groups.done}
-            busy={busy}
-            onActivate={(id) => void activate(id)}
-            onDecide={decide}
-            onTick={(id, sim) => void tick(id, sim)}
-            onDelete={(id) => void remove(id)}
-          />
-        </section>
-
-        <DoDistributionPlates
-          groups={groups}
-          busy={busy}
-          onRefresh={() => void refresh()}
-          onWhatsAppSim={() => void runWhatsAppSim()}
-          onOpenClearAgent={() => void openClearAgent()}
-        />
-
-        <section className="do-demos" aria-label="Surface demos">
-          <DoClearDemo />
-          <aside className="do-how-card" aria-label="How this works">
-            <p className="do-mono">How this works</p>
-            <ol>
-              <li>
-                <span aria-hidden>✦</span> Make
-              </li>
-              <li>
-                <span aria-hidden>◎</span> Place
-              </li>
-              <li>
-                <span aria-hidden>▤</span> Evidence
-              </li>
-            </ol>
-            <p className="do-how-note">
-              Wallet cards + Needs you — not chat threads. Mitre DEMO is fictional. Nothing sends without your yes.
-            </p>
-          </aside>
-          <DoWhatsAppSim />
-        </section>
-      </div>
-
-      <DoFloatingWidget
-        key={widgetKey}
-        forceOpen={widgetOpen}
-        launchTemplateId={mitreTemplateId}
-        pageOverride={mitrePage}
-        initialBrief={homeBrief}
-        onActivated={(agent) => {
-          setDraft(agent);
-          void refresh();
-        }}
-        onClose={() => {
-          setWidgetOpen(false);
-          setMitreTemplateId(null);
-          setMitrePage(null);
-          setHomeBrief(null);
-        }}
-      />
-    </div>
-  );
-}
-
-function Board({
-  statusKey,
-  agents,
-  busy,
-  onActivate,
-  onDecide,
-  onTick,
-  onDelete,
-}: {
-  statusKey: keyof Groups;
-  agents: AgentSpec[];
-  busy: boolean;
-  onActivate: (id: string) => void;
-  onDecide: (agentId: string, approvalId: string, decision: 'approve' | 'reject') => void;
-  onTick: (id: string, simulateChange?: boolean) => void;
-  onDelete: (id: string) => void;
-}) {
-  const meta = BOARD_META[statusKey];
-  return (
-    <div className={`do-depth do-depth-${meta.depth}`}>
-      <header className="do-depth-head">
-        <h2>{meta.title}</h2>
-        <span className="do-count">{agents.length}</span>
-      </header>
-      <p className="do-depth-lede">{meta.lede}</p>
-      {agents.length === 0 ? <p className="do-empty">Nothing placed yet.</p> : null}
-      <div className="do-wallet-stack">
-        {agents.map((a, i) => (
-          <AgentWallet
-            key={a.id}
-            spec={a}
-            busy={busy}
-            stackIndex={i}
-            onActivate={() => onActivate(a.id)}
-            onDecide={onDecide}
-            onTick={onTick}
-            onDelete={() => onDelete(a.id)}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function statusLabel(status: AgentSpec['status']) {
-  if (status === 'needs_you') return 'Needs you';
-  if (status === 'working') return 'Working';
-  return 'Done';
-}
-
-function AgentWallet({
-  spec,
-  onActivate,
-  onDecide,
-  onTick,
-  onDelete,
-  busy,
-  highlight,
-  stackIndex = 0,
-}: {
-  spec: AgentSpec;
-  onActivate?: () => void;
-  onDecide?: (agentId: string, approvalId: string, decision: 'approve' | 'reject') => void;
-  onTick?: (id: string, simulateChange?: boolean) => void;
-  onDelete?: () => void;
-  busy?: boolean;
-  highlight?: boolean;
-  stackIndex?: number;
-}) {
-  const when = spec.looks_for.join(' · ');
-  const does = spec.can_do_without_asking.join(' · ') || '—';
-  const asks = spec.must_ask_before.join(' · ') || '—';
-
-  return (
-    <article
-      className={`do-wallet${highlight ? ' do-wallet-highlight' : ''}`}
-      style={{ '--do-stack': String(Math.min(stackIndex, 4)) } as CSSProperties}
-    >
-      <header className="do-wallet-head">
-        <div>
-          <p className="do-mono">
-            {spec.primitive}
-            {spec.lane ? ` · ${spec.lane}` : ''}
-          </p>
-          <h3>{spec.name}</h3>
-          <p className="do-wallet-job">{spec.brief}</p>
-        </div>
-        <span className={`do-status do-status-${spec.status}`}>{statusLabel(spec.status)}</span>
-      </header>
-
-      <dl className="do-spec" aria-label="Agent permissions">
-        <div>
-          <dt>Watches</dt>
-          <dd>{spec.watches.join(' · ')}</dd>
-        </div>
-        <div>
-          <dt>When</dt>
-          <dd>{when}</dd>
-        </div>
-        <div>
-          <dt>Does</dt>
-          <dd>{does}</dd>
-        </div>
-        <div>
-          <dt>Asks first</dt>
-          <dd>{asks}</dd>
-        </div>
-        <div>
-          <dt>Never</dt>
-          <dd>{spec.never.join(' · ')}</dd>
-        </div>
-        {spec.connector && spec.connector !== 'hook-later' ? (
-          <div>
-            <dt>Connector</dt>
-            <dd>{spec.connector}</dd>
-          </div>
-        ) : null}
-      </dl>
-
-      {spec.lastNote ? <p className="do-note">{spec.lastNote}</p> : null}
-
-      {spec.evidence ? (
-        <div className="do-receipt">
-          <div className="do-receipt-head">
-            <span className="do-mono">Evidence</span>
-            <span className="do-evidence-meta">
-              {new Date(spec.evidence.createdAt).toLocaleString('en-NZ', {
-                dateStyle: 'short',
-                timeStyle: 'short',
-              })}
-            </span>
-          </div>
-          <p className="do-receipt-summary">{spec.evidence.summary}</p>
-          <p className="do-receipt-why">{spec.evidence.why}</p>
-          {spec.evidence.sources?.length ? (
-            <ul className="do-receipt-sources">
-              {spec.evidence.sources.map((s) => (
-                <li key={s.id}>
-                  <span className="do-evidence-meta">
-                    {s.kind}
-                    {s.contentHash ? ` · ${s.contentHash}` : ''}
-                  </span>
-                  <span>
-                    {s.label}
-                    {s.excerpt ? ` — ${s.excerpt.slice(0, 100)}` : ''}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      ) : null}
-
-      {spec.pendingApprovals.map((p) => (
-        <div key={p.id} className="do-approval">
-          <p className="do-mono">approval · {p.policyHit}</p>
-          <p>{p.reason}</p>
-          {onDecide ? (
-            <div className="do-approval-actions">
-              <button type="button" disabled={busy} onClick={() => onDecide(spec.id, p.id, 'approve')}>
-                Approve
-              </button>
-              <button type="button" disabled={busy} onClick={() => onDecide(spec.id, p.id, 'reject')}>
-                Decline
-              </button>
-            </div>
-          ) : null}
-        </div>
-      ))}
-
-      <div className="do-wallet-actions">
-        {spec.primitive === 'watch' && onTick && (spec.status === 'working' || spec.watchSnapshots?.length) ? (
-          <>
-            <button
-              type="button"
-              className="do-cta do-cta-ghost do-cta-compact"
-              disabled={busy}
-              onClick={() => onTick(spec.id, false)}
-            >
-              Tick
-            </button>
-            <button
-              type="button"
-              className="do-cta do-cta-ghost do-cta-compact"
-              disabled={busy}
-              onClick={() => onTick(spec.id, true)}
-            >
-              Simulate
-            </button>
-          </>
-        ) : null}
-        {onActivate && spec.status === 'needs_you' && spec.pendingApprovals.length === 0 ? (
-          <button type="button" className="do-cta do-cta-compact" disabled={busy} onClick={onActivate}>
-            <span className="do-star" aria-hidden>
-              ✦
-            </span>
-            Activate
-          </button>
-        ) : null}
-        {onDelete ? (
-          <button
-            type="button"
-            className="do-cta do-cta-ghost do-cta-compact"
-            disabled={busy}
-            onClick={onDelete}
-          >
-            Delete
-          </button>
-        ) : null}
-      </div>
-    </article>
-  );
+  return <div className="do-product">
+    <section className={`do-world ${cinema ? 'do-cinema' : ''}`} aria-label="DO, by assembl">
+      <LivingAssembly running={running} reduced={reduced} view={view} cinema={cinema} />
+      <div className="do-world-shade" />
+      <header className="do-world-header do-interface"><Link href="/do" className="do-world-logo" aria-label="DO home">DO<span aria-hidden>✦</span></Link><Link href="/" className="do-by">by <strong>assembl</strong></Link><nav aria-label="DO"><button onClick={() => { downloads.current?.showModal(); setModalOpen(true); }}><Download size={15} />Take DO with you</button><button onClick={openWorkspace}>Open DO <ArrowUpRight size={16} /></button></nav></header>
+      <div className="do-world-story do-interface" key={view}><p>{VIEWS[view].eyebrow}</p><h1>{VIEWS[view].title}</h1><p className="do-world-lede">{VIEWS[view].copy}</p><button className="do-world-make" onClick={openWorkspace}><span aria-hidden>✦</span> Choose an agent <ArrowUpRight size={20} /></button><span className="do-world-boundary">Prepare · review · take it with you</span></div>
+      <aside className="do-world-peek do-interface"><span className="do-small-label">SIX READY-MADE AGENTS</span><button onClick={openWorkspace}><span aria-hidden>✦</span><span><strong>{view === 0 ? 'A reply. A plan. A clearer draft.' : view === 1 ? 'A clearer comparison.' : 'A brief ready for your review.'}</strong><small>Pick an agent. Add text. Take the result with you.</small></span><ArrowUpRight size={19} /></button></aside>
+      <footer className="do-world-footer do-interface"><div className="do-viewpoints"><span className="do-small-label">VIEWPOINT</span><div role="group" aria-label="Change viewpoint">{VIEWS.map((item, index) => <button key={item.name} aria-pressed={view === index} onClick={() => setView(index)}><span>0{index + 1}</span>{item.name}</button>)}</div></div><div className="do-motion-controls"><button aria-label={paused ? 'Play motion' : 'Pause motion'} disabled={reduced} onClick={() => setPaused(value => !value)}>{paused ? <Play size={17} /> : <Pause size={17} />}</button><button aria-label="Enter cinema mode" onClick={() => setCinema(true)}><Film size={17} /></button></div><p>Generated imagery · living motion.<br />{reduced ? 'Reduced motion is on.' : 'A study in assembly.'}</p></footer>
+      {cinema && <div className="do-cinema-controls"><button onClick={() => setPaused(value => !value)} disabled={reduced} aria-label={paused ? 'Play motion' : 'Pause motion'}>{paused ? <Play size={16} /> : <Pause size={16} />}</button><button onClick={() => setCinema(false)}>Exit cinema</button></div>}
+    </section>
+    <section className="do-product-detail" aria-label="What you can do"><div><span className="do-small-label">A PRODUCT IN ITS OWN RIGHT</span><h2>Your writing.<br />Your work. Your DO.</h2></div><div><p>Six ready-made agents help you reply, write, plan, brief, compare and find the details. Use selected webpage text, a document excerpt or a message you paste. Edit the result, then copy it into your email, message or document.</p><div className="do-detail-links"><button onClick={openWorkspace}>Start a task <ArrowUpRight size={16} /></button><button onClick={() => { downloads.current?.showModal(); setModalOpen(true); }}>Get the widget <ArrowUpRight size={16} /></button></div><p className="do-product-boundary">The current product prepares work for review. Account connections, background monitoring and external actions require a separately configured workflow.</p></div></section>
+    <section className="do-agent-directory" aria-label="Ready-made DO agents"><div><span className="do-small-label">PICK THE HELP YOU NEED</span><h2>Six agents.<br/>One little DO.</h2></div><div className="do-agent-directory-grid">{DO_TASKS.map(agent=><button key={agent.id} onClick={()=>{setSelectedTask(agent.id);openWorkspace();}}><span aria-hidden>{agent.glyph}</span><strong>{agent.title}</strong><p>{agent.description}</p><ArrowUpRight size={17}/></button>)}</div></section>
+    <section className="do-portability" id="take-do-with-you"><span className="do-small-label">KEEP DO CLOSE</span><h2>Where the work is.</h2><div><article><h3>In your browser.</h3><p>Select the part of a page you need. Open the extension, choose an agent and review the result.</p><a href="/api/do/download?format=extension" download>Download browser extension <Download size={16}/></a></article><article><h3>In your messages.</h3><p>Paste a message into DO. Draft a reply, adjust the tone and copy it back into your messaging or email app.</p><button onClick={()=>{setSelectedTask('reply');openWorkspace();}}>Write a reply <ArrowUpRight size={16}/></button></article><article><h3>On your website.</h3><p>Add a small DO launcher. Visitors can bring text, choose an agent and prepare their next step.</p><a href="/api/do/download?format=embed" download>Download website widget <Download size={16}/></a></article></div><button className="do-install-help" onClick={()=>{downloads.current?.showModal();setModalOpen(true);}}>Installation and embed code <ArrowUpRight size={16}/></button></section>
+    <div className="atw"><CustomerJourneys /></div>
+    <section className="do-product-family"><span className="do-small-label">BUY ONE PRODUCT. OR CONNECT THE WHOLE SYSTEM.</span><p>DO for the next step. Pursuit for the next client. Creative Studio for the work they see.</p><div><Link href="/contact?product=do">DO for your team <ArrowUpRight size={16} /></Link><Link href="/pursuit">Pursuit <ArrowUpRight size={16} /></Link><Link href="/creative-studio">Creative Studio <ArrowUpRight size={16} /></Link></div></section>
+    <dialog ref={workspace} aria-label="DO preparation workspace" className="do-workspace-dialog" onClose={() => setModalOpen(false)}><button className="do-dialog-close" aria-label="Close DO workspace" onClick={() => workspace.current?.close()}><X size={21} /></button>{handoffError && <p className="do-error" role="alert">{handoffError}</p>}<DoWorkspace key={brief + selectedTask} initialBrief={brief} initialTask={selectedTask} /></dialog>
+    <dialog ref={downloads} aria-label="Download DO" className="do-download-dialog" onClose={() => setModalOpen(false)}><button className="do-dialog-close" aria-label="Close downloads" onClick={() => downloads.current?.close()}><X size={21} /></button><span className="do-small-label">TAKE DO WITH YOU</span><h2>Your DO.<br />Where you need it.</h2><p>Use DO on a page, in your browser, or as part of your own website.</p><div className="do-download-card"><span aria-hidden>↗</span><div><h3>Browser extension</h3><p>Capture selected text when you choose. Review it before preparation. Includes the complete extension source.</p><a href="/api/do/download?format=extension" download><Download size={16} />Download extension ZIP</a><details><summary>Install in Chrome or Edge</summary><ol><li>Download and unzip the extension.</li><li>Open the browser’s Extensions page and turn on Developer mode.</li><li>Choose “Load unpacked” and select the unzipped folder.</li><li>Pin DO. Capture a selection, review it and choose a task.</li></ol><p>This is a direct install. It is not a Chrome Web Store listing.</p></details></div></div><div className="do-download-card"><span aria-hidden>✦</span><div><h3>Website widget</h3><p>A small DO launcher for your site. Visitors paste text into a separate preparation window.</p><a href="/api/do/download?format=embed" download><Download size={16} />Download widget kit</a><button onClick={async () => { try { await navigator.clipboard.writeText('<script src="https://www.assembl.co.nz/api/do/widget" defer></script>'); setDownloadNotice('Widget embed copied.'); } catch { setDownloadNotice('Download the widget kit to get the embed code.'); } }}>Copy embed code</button></div></div>{downloadNotice && <p className="do-success" role="status">{downloadNotice}</p>}<p className="do-download-note">The hosted runtime stays with assembl. Downloads contain no provider keys. Preparation availability and limits are shared with the web product.</p></dialog>
+  </div>;
 }

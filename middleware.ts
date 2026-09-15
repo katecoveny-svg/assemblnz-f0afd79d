@@ -138,6 +138,7 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/creative-playground',
   // Public browser-local Creative Studio and its self-contained tools.
   '/creative-studio',
+  '/pursuit',
   '/tools/',
   '/media/',
   // AI-search readiness + journey tool. Missing from this list since it

@@ -8,10 +8,12 @@ import styles from './contact.module.css';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Talk to assembl about wait→earn journeys, installing an agent, or Outcome work. We reply within one working day.',
+    'Talk to assembl about Pursuit, DO, Studio or a complete connected system.',
 };
 
-export default function ContactPage() {
+export default async function ContactPage({searchParams}:{searchParams:Promise<{product?:string}>}) {
+  const {product} = await searchParams;
+  const interest = ["pursuit","do","studio","system"].includes(product || "") ? product : "";
   return (
     <div className={publicStyles.page}>
       <section className={`${publicStyles.hero} ${styles.hero}`}>
@@ -19,8 +21,7 @@ export default function ContactPage() {
             <p className={publicStyles.eyebrow}>get in touch · one useful conversation</p>
             <h1>Let&apos;s<br /><em>talk.</em></h1>
             <p className={publicStyles.lede}>
-              Ready for a wait→earn pilot, an agent install, or Outcome work. Tell us what you
-              need. A person replies within one working day.
+              Start with Pursuit, DO or Studio, or bring the whole system together. Tell us the work you need to move forward.
             </p>
         </div>
         <aside className={publicStyles.heroAside} aria-label="Contact expectations">
@@ -32,7 +33,7 @@ export default function ContactPage() {
 
       <section className={`${publicStyles.section} ${styles.formSection}`}>
           <div className={styles.formGrid}>
-            <ContactForm />
+            <ContactForm initialInterest={interest} />
 
             <aside className={styles.contactRail}>
               <ContactCard
@@ -62,7 +63,7 @@ export default function ContactPage() {
                 title="Where we are"
                 lines={[
                   'Aotearoa New Zealand.',
-                  'Customer data hosted in NZ-resident regions by default.',
+                  'Data handling and hosting are agreed for each engagement.',
                 ]}
               />
 
