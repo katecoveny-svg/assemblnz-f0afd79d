@@ -31,10 +31,13 @@ export function DoBuilder({ initialBrief = '', initialTask = 'reply', embedded =
   useEffect(() => {
     const frame = requestAnimationFrame(() => { void refreshTrial(); });
     const receive = (e: MessageEvent) => {
-      if (!embedded || e.source !== window.parent || e.data?.type !== 'assembl-do:context' || typeof e.data.text !== 'string') return;
+      if (!embedded || e.source !== window.parent) return;
+      if (e.data?.type === 'assembl-do:hello') { window.parent.postMessage({ type: 'assembl-do:ready' }, '*'); return; }
+      if (e.data?.type !== 'assembl-do:context' || typeof e.data.text !== 'string') return;
       setContext(e.data.text.slice(0, 12000)); setConsent(false);
     };
     window.addEventListener('message', receive);
+    if (embedded) window.parent.postMessage({ type: 'assembl-do:ready' }, '*');
     return () => { cancelAnimationFrame(frame); window.removeEventListener('message', receive); };
   }, [embedded]);
   const instruction = [direction, context, ...sources.map(s => `${s.name}\n${s.text}`)].filter(Boolean).join('\n\n').slice(0, skill === 'image' ? 4000 : 12000);
