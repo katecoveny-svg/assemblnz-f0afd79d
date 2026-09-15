@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { DoHome } from './DoHome';
+import { DoHomeCurrent } from './DoHomeCurrent';
 import './do.css';
 
 export const dynamic = 'force-dynamic';
@@ -9,4 +9,4 @@ export const metadata: Metadata = {
   alternates: { canonical: '/do' },
 };
 
-export default function DoPage() { return <DoHome />; }
+export default function DoPage() { return <DoHomeCurrent />; }
