@@ -1,0 +1,41 @@
+name: context health
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Evening in New Zealand (20:00 NZST / 21:00 NZDT). The separate user-level
+    # nightly review handles local-time reporting; this workflow is a repo guard.
+    - cron: '0 8 * * *'
+  pull_request:
+    paths:
+      - 'START_HERE.md'
+      - 'AGENTS.md'
+      - 'config/context-manifest.json'
+      - 'docs/context/**'
+      - 'docs/assembl-context.md'
+      - 'docs/assembl-brand-system.md'
+      - 'docs/assembl-copy-standard.md'
+      - 'docs/factory/**'
+      - 'brand/**'
+      - 'scripts/context-health.mjs'
+      - 'scripts/brand-guard.mjs'
+      - 'package.json'
+
+permissions:
+  contents: read
+
+jobs:
+  context-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Check canonical context and report drift
+        run: pnpm context:check
