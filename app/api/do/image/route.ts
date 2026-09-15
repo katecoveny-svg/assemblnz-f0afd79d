@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   catch (error) { const e = error as DoTrialError; return json({ error: e.code, message: e.message }, e.code === 'trial_exhausted' ? 402 : 503); }
   try {
     const result = await generateImages(parsed.data.prompt, { count: 1, aspectRatio: parsed.data.aspectRatio, signal: AbortSignal.timeout(100_000) });
-    return json({ images: result.images, model: result.model, status: 'draft' });
+    return json({ images: result.images, model: result.model.startsWith('generate-image edge') ? 'assembl image service' : result.model, status: 'draft' });
   } catch {
     await reservation.release().catch(() => {});
     return json({ message: 'The image provider could not complete this task. Your brief is still here. Please try again later.' }, 503);

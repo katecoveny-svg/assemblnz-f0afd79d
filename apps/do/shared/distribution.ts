@@ -16,10 +16,11 @@ export function doWidgetScript(origin: string): string {
   const close = document.createElement('button'); close.className = 'close'; close.type = 'button'; close.textContent = '×'; close.setAttribute('aria-label', 'Close DO widget');
   const frame = document.createElement('iframe'); frame.title = 'DO by assembl — prepare and review';
   frame.referrerPolicy = 'no-referrer';
+  frame.setAttribute('allow', 'clipboard-write');
   frame.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox');
   let loaded = false; let context = null;
   function offerContext() {
-    if (loaded && context) frame.contentWindow.postMessage({type:'assembl-do:context', text:String(context.text || '').slice(0,12000), title:String(context.title || '').slice(0,160), url:String(context.url || '').slice(0,2000)}, origin);
+    if (loaded && context) { frame.contentWindow.postMessage({type:'assembl-do:context', text:String(context.text || '').slice(0,12000), title:String(context.title || '').slice(0,160), url:String(context.url || '').slice(0,2000)}, origin); context = null; }
   }
   function open(value) {
     context = value && typeof value === 'object' ? value : null;
@@ -28,7 +29,10 @@ export function doWidgetScript(origin: string): string {
     close.focus();
   }
   function hide() { panel.hidden = true; launch.setAttribute('aria-expanded', 'false'); launch.focus(); }
-  frame.addEventListener('load', () => {loaded = true; offerContext();});
+  window.addEventListener('message', event => {
+    if (event.source === frame.contentWindow && event.origin === origin && event.data?.type === 'assembl-do:ready') { loaded = true; offerContext(); }
+  });
+  frame.addEventListener('load', () => { frame.contentWindow.postMessage({type:'assembl-do:hello'}, origin); });
   launch.addEventListener('click', () => panel.hidden ? open(null) : hide()); close.addEventListener('click', hide);
   shadow.addEventListener('keydown', event => { if (event.key === 'Escape') hide(); });
   panel.append(close, frame); shadow.append(style, launch, panel); document.body.append(host);
