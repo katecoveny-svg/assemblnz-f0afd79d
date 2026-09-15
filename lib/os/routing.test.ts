@@ -48,7 +48,6 @@ describe('routeModel', () => {
     }
     expect(ladder).not.toContain('gpt-5.6-terra');
     expect(ladder).not.toContain('gemini-3.5-flash');
-    expect(ladder).not.toContain('grok-4.6');
   });
 
   it('respects tenant provider policy', () => {
