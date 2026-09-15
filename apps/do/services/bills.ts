@@ -13,8 +13,9 @@ export function annualComparison(current: number, alternative: number, joiningFe
 }
 export type GroundedBillResult = { text: string; sources: { title: string; url: string }[]; checkedAt: string; searchHtml?: string };
 export function readGroundedBillResult(data: unknown): GroundedBillResult {
-  const schema = z.object({ candidates: z.array(z.object({ content: z.object({ parts: z.array(z.object({ text: z.string().optional() })) }), groundingMetadata: z.object({ groundingChunks: z.array(z.object({ web: z.object({ uri: z.string(), title: z.string().optional() }).optional() })).optional(), webSearchQueries: z.array(z.string()).optional(), searchEntryPoint: z.object({ renderedContent: z.string().optional() }).optional() }).optional() })).min(1) });
+  const schema = z.object({ candidates: z.array(z.object({ finishReason: z.string(), content: z.object({ parts: z.array(z.object({ text: z.string().optional() })) }), groundingMetadata: z.object({ groundingChunks: z.array(z.object({ web: z.object({ uri: z.string(), title: z.string().optional() }).optional() })).optional(), webSearchQueries: z.array(z.string()).optional(), searchEntryPoint: z.object({ renderedContent: z.string().optional() }).optional() }).optional() })).min(1) });
   const candidate = schema.parse(data).candidates[0];
+  if (candidate.finishReason !== 'STOP') throw new Error('Research did not finish');
   const text = candidate.content.parts.map(p => p.text || '').join('').trim();
   const metadata = candidate.groundingMetadata;
   const sources = (metadata?.groundingChunks || []).flatMap(chunk => {
