@@ -18,7 +18,7 @@ describe('DO image task', () => {
   });
   it('generates just one image and retains its reservation on success', async () => {
     expect((await POST(make())).status).toBe(200);
-    expect(mocks.generate).toHaveBeenCalledWith('Silver fish over dark plum water', { count: 1, aspectRatio: '1:1' });
+    expect(mocks.generate).toHaveBeenCalledWith('Silver fish over dark plum water', expect.objectContaining({ count: 1, aspectRatio: '1:1', signal: expect.any(AbortSignal) }));
     expect(mocks.release).not.toHaveBeenCalled();
   });
   it('refunds provider failures without exposing raw errors', async () => {
