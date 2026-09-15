@@ -1,15 +1,20 @@
-name: builderdoo validation
+name: DO core validation
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'app/api/do/builder/**'
-      - 'app/do/builder/**'
-      - 'app/do/office/**'
-      - 'apps/do/shared/builder*'
-      - 'apps/do/builder-runner/**'
+      - 'app/api/do/**'
+      - 'app/do/**'
+      - 'apps/do/**'
+      - 'lib/os/improvement*'
+      - 'lib/os/routing*'
+      - 'lib/ai/router.ts'
+      - 'lib/ai/call-log.ts'
+      - 'lib/connectors/**'
       - 'docs/factory/PRIMITIVES.md'
+      - 'vercel.json'
+      - 'scripts/vercel-ignore-build.mjs'
       - '.github/workflows/builderdoo-validation.yml'
 
 permissions:
@@ -34,7 +39,7 @@ jobs:
         run: pnpm --filter @assembl/canvas build
       - name: Typecheck
         run: pnpm typecheck
-      - name: Builderdoo unit test
-        run: pnpm test apps/do/shared/builder.test.ts
+      - name: DO core unit tests
+        run: pnpm test apps/do/shared/builder.test.ts lib/os/improvement.test.ts
       - name: Production build
         run: pnpm build
