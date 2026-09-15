@@ -6,6 +6,7 @@ import { DoClearDemo } from './DoClearDemo';
 import { DoDistributionPlates } from './DoDistributionPlates';
 import { DoFloatingWidget } from './DoFloatingWidget';
 import { DoWhatsAppSim } from './DoWhatsAppSim';
+import { readHomeBrief } from '@/apps/do/shared/home-handoff';
 
 type Groups = Record<'needs_you' | 'working' | 'done', AgentSpec[]>;
 
@@ -93,12 +94,21 @@ export function DoHome() {
       });
   }, [refresh]);
 
-  // Homepage PREVIEW handoff: /do?brief=…&from=home-preview
+  // Same-tab homepage draft: the URL carries an opaque ID, never the brief.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
-    const brief = params.get('brief')?.trim();
-    if (!brief) return;
+    if (params.get('from') !== 'home') return;
+    let brief: string | null = null;
+    try {
+      brief = readHomeBrief(window.sessionStorage, params.get('handoff') || '');
+    } catch {
+      // Browser storage may be disabled. Keep the demonstration usable.
+    }
+    if (!brief) {
+      setError('This homepage draft has expired or is unavailable in this tab. Give DO a new brief to continue.');
+      return;
+    }
     setHomeBrief(brief);
     setWidgetOpen(true);
   }, []);

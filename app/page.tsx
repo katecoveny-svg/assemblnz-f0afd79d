@@ -1,20 +1,11 @@
 import type { Metadata } from 'next';
-import { CinematicJourneyHome } from '@/components/site/cinematic-journey/CinematicJourneyHome';
-import { HOME_META } from '@/components/site/cinematic-journey/copy';
+import { AssemblTheWorkHome } from '@/components/site/assembl-the-work/AssemblTheWorkHome';
+import { HOME_META } from '@/components/site/assembl-the-work/copy';
 
-/**
- * LIVE homepage — cinematic journey baseline.
- *
- * Commercial architecture PREVIEW ("assembl the work") lives at /preview/home
- * and must NOT replace this until Kate approves and merges.
- *
- * To promote after approval, swap the import to:
- *   AssemblTheWorkHome from '@/components/site/assembl-the-work/AssemblTheWorkHome'
- * Keep CinematicJourneyHome in-tree for easy revert.
- */
+// Approved public homepage. CinematicJourneyHome remains in-tree for rollback.
 
 export const metadata: Metadata = {
-  title: HOME_META.title,
+  title: { absolute: HOME_META.title },
   description: HOME_META.description,
   alternates: { canonical: '/' },
   openGraph: {
@@ -33,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <CinematicJourneyHome />;
+  return <AssemblTheWorkHome />;
 }

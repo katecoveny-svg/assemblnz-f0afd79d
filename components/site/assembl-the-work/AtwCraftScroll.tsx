@@ -7,7 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import 'lenis/dist/lenis.css';
 
 /**
- * Sparse craft layer for the assembl-the-work PREVIEW homepage.
+ * Sparse craft layer for the assembl-the-work homepage.
  * Lenis + section assemble-in. Honours prefers-reduced-motion.
  */
 export function AtwCraftScroll() {
@@ -64,9 +64,8 @@ export function AtwCraftScroll() {
         const targets = section.querySelectorAll<HTMLElement>(':scope > *');
         if (!targets.length) return;
 
-        gsap.set(targets, { autoAlpha: 0, y: 28 });
+        gsap.set(targets, { y: 18 });
         gsap.to(targets, {
-          autoAlpha: 1,
           y: 0,
           duration: 0.8,
           ease: 'power3.out',
@@ -100,7 +99,6 @@ export function AtwCraftScroll() {
       ctx.revert();
       gsap.ticker.remove(ticker);
       lenis.destroy();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 

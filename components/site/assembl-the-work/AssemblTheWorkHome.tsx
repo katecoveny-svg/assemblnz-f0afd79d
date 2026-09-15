@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { AtwCraftScroll } from './AtwCraftScroll';
 import { AerialAssembly } from './AerialAssembly';
 import { DoIntentInput } from './DoIntentInput';
 import {
-  COMPARE,
+  REVIEW,
   DO_INPUT,
   FOOTER,
   HERO,
@@ -19,24 +20,20 @@ import {
 } from './copy';
 import './assembl-the-work.css';
 
-/**
- * PREVIEW — commercial architecture homepage.
- * "assembl the work · find it · DO it · show it"
- * Served at /preview/home only. LIVE `/` stays on CinematicJourneyHome.
- */
-export function AssemblTheWorkHome() {
+/** The public homepage and its explicitly marked review route. */
+export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
   return (
-    <div className="atw">
+    <div className="atw" data-preview={preview}>
       <AtwCraftScroll />
 
-      <div className="atw-preview-ribbon" role="status">
+      {preview && <div className="atw-preview-ribbon" role="status">
         <strong>PREVIEW</strong>
-        <span>not live · Kate must approve before merge</span>
+        <span>homepage review route</span>
         <Link href="/">view live homepage →</Link>
-      </div>
+      </div>}
 
       <header className="atw-nav">
-        <Link className="atw-wordmark" href="/preview/home" aria-label="assembl home preview">
+        <Link className="atw-wordmark" href="/" aria-label="assembl home">
           assembl<span>·</span>
         </Link>
         <nav className="atw-nav-links" aria-label="Primary">
@@ -60,13 +57,11 @@ export function AssemblTheWorkHome() {
         <div className="atw-hero-atmosphere" aria-hidden="true" />
         <div className="atw-hero-grid">
           <div className="atw-hero-copy">
-            <p className="atw-hero-brand">
-              {HERO.brand}
-              <span>·</span>
-            </p>
+            <p className="atw-hero-brand">{HERO.brand}</p>
             <h1 id="atw-hero-title">{HERO.headline}</h1>
             <p className="atw-hero-sub">{HERO.subhead}</p>
             <p className="atw-hero-body">{HERO.body}</p>
+            <p className="atw-hero-explanation">{HERO.explanation}</p>
             <div className="atw-hero-actions">
               <Link className="atw-btn" href={HERO.ctaPrimary.href}>
                 {HERO.ctaPrimary.label}
@@ -84,20 +79,26 @@ export function AssemblTheWorkHome() {
         </div>
       </section>
 
+      <section className="atw-section atw-do-input" id="do-input" aria-labelledby="atw-do-title">
+        <p className="atw-kicker">{DO_INPUT.kicker}</p>
+        <h2 id="atw-do-title">{DO_INPUT.title}</h2>
+        <DoIntentInput />
+      </section>
+
       <section className="atw-section atw-signals" aria-labelledby="atw-signals-title">
         <p className="atw-kicker">{SIGNALS.kicker}</p>
         <h2 id="atw-signals-title">{SIGNALS.title}</h2>
-        <p className="atw-lede">{SIGNALS.lede}</p>
         <p className="atw-body">{SIGNALS.body}</p>
         <div className="atw-flow">
           {SIGNALS.flow.map((step) => (
             <div
               key={step.id}
               className="atw-flow-step"
-              data-center={step.id === 'assembl' ? 'true' : 'false'}
+              data-center={step.id === 'output' ? 'true' : 'false'}
             >
               <strong>{step.label}</strong>
               <p>{step.examples}</p>
+              <p className="atw-source-note">{step.note}</p>
             </div>
           ))}
         </div>
@@ -111,6 +112,7 @@ export function AssemblTheWorkHome() {
           {PRODUCTS.items.map((product) => (
             <article
               key={product.id}
+              id={product.id}
               className="atw-product"
               data-hero={'hero' in product && product.hero ? 'true' : 'false'}
             >
@@ -120,21 +122,19 @@ export function AssemblTheWorkHome() {
               <Link className="atw-link" href={product.href}>
                 {product.explore}
               </Link>
+              <p className="atw-product-note">{product.note}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="atw-section atw-do-input" id="do-input" aria-labelledby="atw-do-title">
-        <p className="atw-kicker">{DO_INPUT.kicker}</p>
-        <h2 id="atw-do-title">{DO_INPUT.title}</h2>
-        <DoIntentInput />
-      </section>
 
-      <section className="atw-section atw-journeys" id="how-it-works" aria-labelledby="atw-journeys-title">
+
+      <section className="atw-section atw-journeys" id="use-cases" aria-labelledby="atw-journeys-title">
         <p className="atw-kicker">{JOURNEYS.kicker}</p>
         <h2 id="atw-journeys-title">{JOURNEYS.title}</h2>
         <p className="atw-body">{JOURNEYS.body}</p>
+        <p className="atw-body atw-journey-value">{JOURNEYS.value}</p>
         <div className="atw-journey-points">
           {JOURNEYS.points.map((point) => (
             <div key={point.label} className="atw-journey-point">
@@ -146,8 +146,6 @@ export function AssemblTheWorkHome() {
       </section>
 
       <section className="atw-studio" aria-labelledby="atw-studio-title">
-        <div className="atw-studio-field" aria-hidden="true" />
-        <div className="atw-studio-slash" aria-hidden="true" />
         <div className="atw-studio-inner">
           <p className="atw-kicker">{STUDIO.kicker}</p>
           <h2 id="atw-studio-title">{STUDIO.title}</h2>
@@ -161,9 +159,22 @@ export function AssemblTheWorkHome() {
             {STUDIO.cta.label}
           </Link>
         </div>
+        <div className="atw-studio-gallery">
+          <figure>
+            <Image src="/generated/creative-agency/anchors/prism-skincare.png" alt="Generated skincare campaign concept: glass bottle on a stone plinth" width={1024} height={1024} sizes="(max-width: 700px) 90vw, 35vw" />
+            <figcaption><span>Generated concept</span>Product imagery &amp; advertising</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="none" playsInline poster="/cinematic-home/hf-2e5e76fe.png" aria-label="Generated mechanical assembly film study">
+              <source src="/cinematic-home/hf-9a8c5c81.mp4" type="video/mp4" />
+              <a href="/cinematic-home/hf-9a8c5c81.mp4">View the assembly film study</a>
+            </video>
+            <figcaption><span>Generated motion study</span>Assembly, film &amp; visual concepts</figcaption>
+          </figure>
+        </div>
       </section>
 
-      <section className="atw-section atw-loop" aria-labelledby="atw-loop-title">
+      <section className="atw-section atw-loop" id="how-it-works" aria-labelledby="atw-loop-title">
         <p className="atw-kicker">{LOOP.kicker}</p>
         <h2 id="atw-loop-title">{LOOP.title}</h2>
         <div className="atw-loop-track">
@@ -177,10 +188,10 @@ export function AssemblTheWorkHome() {
       </section>
 
       <section className="atw-section atw-compare" aria-labelledby="atw-compare-title">
-        <p className="atw-kicker">{COMPARE.kicker}</p>
-        <h2 id="atw-compare-title">{COMPARE.title}</h2>
+        <p className="atw-kicker">{REVIEW.kicker}</p>
+        <h2 id="atw-compare-title">{REVIEW.title}</h2>
         <div className="atw-compare-grid">
-          {COMPARE.columns.map((col) => (
+          {REVIEW.columns.map((col) => (
             <div
               key={col.id}
               className="atw-compare-col"
@@ -209,12 +220,12 @@ export function AssemblTheWorkHome() {
             {START.secondary.label}
           </a>
         </div>
-        <p className="atw-start-note">{START.note}</p>
       </section>
 
       <footer className="atw-footer">
         <p>{FOOTER.line}</p>
-        <p className="atw-live-note">{FOOTER.liveNote}</p>
+        <p>{FOOTER.note}</p>
+        <Link href="/legal/privacy">Privacy</Link>
       </footer>
     </div>
   );
