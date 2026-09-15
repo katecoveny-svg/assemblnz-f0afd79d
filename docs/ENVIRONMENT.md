@@ -1,157 +1,165 @@
-# Environment Variables — Assembl Chat Pipeline
+# assembl environment and secrets
 
-This document lists every environment variable / secret used by the Assembl
-chat pipeline, where it is consumed, and what happens if it is missing.
+**Last refreshed:** 16 September 2026
 
-All secrets live in **Lovable Cloud** (Supabase project secrets) and are
-injected into edge functions at runtime via `Deno.env.get(...)`. Frontend
-build-time variables are exposed to the Vite client via the `VITE_` prefix
-in `.env`.
+This document describes the current environment-variable model for the main assembl repository. It is intentionally about **where configuration belongs** rather than copying secret values into docs.
 
-> **Never** hard-code these values. **Never** call third-party model APIs
-> directly from the browser — always proxy through an edge function so the
-> key stays server-side.
+The annotated variable inventory lives in [`.env.local.example`](../.env.local.example). Treat that file plus current code as the authoritative variable-name reference.
 
----
+## rules
 
-## 1. Frontend build-time (`.env`, prefixed with `VITE_`)
+1. **Never commit real secrets.**
+2. Do not use the tracked historical root `.env` as configuration truth.
+3. Local main-app values belong in `.env.local` (git-ignored).
+4. Production/preview main-app values belong in the Vercel project environment.
+5. Supabase edge-function secrets belong in the Supabase project secret store.
+6. Public/publishable browser configuration must be explicitly named and documented as public.
+7. Service-role keys, provider keys, webhook secrets, signing secrets and private tokens are server-only.
+8. Optional integrations should fail safely as documented; do not put placeholder secrets into production merely to silence an error.
 
-These are **publishable** values safe to ship to the browser.
+The repository is public. Anything ever committed should be considered visible even if later deleted. If a committed value was actually secret, rotate it rather than assuming deletion makes it private again.
 
-| Name | Used by | Purpose |
-|---|---|---|
-| `VITE_SUPABASE_URL` | `src/integrations/supabase/client.ts`, `src/lib/mcpChat.ts` | Base URL for Supabase REST + edge functions (e.g. `${VITE_SUPABASE_URL}/functions/v1/mcp-chat`). |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | `src/integrations/supabase/client.ts` | Anon/publishable key used by the browser SDK. |
-| `VITE_SUPABASE_PROJECT_ID` | Misc client helpers | Project ref for constructing function URLs when needed. |
-| `VITE_MAPBOX_TOKEN` | Map components (Voyage, Command Mode) | Public Mapbox token. Not used by chat pipeline directly. |
+## local setup
 
----
-
-## 2. AI model providers (chat-critical)
-
-These power the streaming chat endpoints. The browser hits one of two edge
-functions, which then call the upstream provider with the appropriate key.
-
-### `LOVABLE_API_KEY`
-- **Auto-provisioned by Lovable Cloud** — never ask the user for this.
-- Used by: `supabase/functions/mcp-chat/index.ts`, `supabase/functions/compress-context/index.ts`, every other function that calls `https://ai.gateway.lovable.dev/v1/chat/completions`.
-- Provides access to Google Gemini (2.5/3.x) and OpenAI GPT-5 family models through the Lovable AI Gateway.
-- **Missing →** all gateway-routed chats (Manaaki, Waihanga, Auaha, Arataki, Pakihi, Tōro, Pīkau, etc.) fail with `LOVABLE_API_KEY not configured`.
-
-### `ANTHROPIC_API_KEY`
-- **User-provided** Anthropic console key.
-- Used by: `supabase/functions/claude-chat/index.ts` (the dedicated Claude streaming endpoint that `streamMcpChat` routes to whenever the caller selects a `claude-*` model — see `isClaudeModel()` in `src/lib/mcpChat.ts`).
-- Powers Claude 3.5 Sonnet / Haiku selections from the in-chat ⚙️ model picker.
-- **Missing →** Claude model selections fail; gateway models (Gemini/GPT-5) keep working.
-
-### `OPENROUTER_API_KEY`
-- Optional fallback router used by some specialist agents that explicitly opt out of the Lovable AI Gateway.
-- Not required for the default chat flow.
-
-### `GEMINI_API_KEY`
-- Direct Google AI Studio key, used only by a handful of legacy specialist functions that pre-date the gateway. New code should use `LOVABLE_API_KEY` via the gateway instead.
-
----
-
-## 3. Mana Trust Layer pipeline
-
-The trust layer wraps every chat turn (PII mask → tier gate → audit → post-rewrite). It uses the same model keys above; no extra secrets are required for the governance steps themselves. Decisions are persisted to `audit_log`, `aaaip_audit_exports`, and `agent_test_results`, all of which are governed by Supabase RLS — no secrets needed beyond the standard service role.
-
-| Secret | Where |
-|---|---|
-| `SUPABASE_URL` | Auto-set in every edge function — used to build internal REST calls. |
-| `SUPABASE_ANON_KEY` | Auto-set — used when an edge function needs to invoke another function with the caller's identity. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Auto-set — used by audit + governance writes that must bypass RLS. **Never expose to the client.** |
-| `SUPABASE_PUBLISHABLE_KEY` | Same as `VITE_SUPABASE_PUBLISHABLE_KEY`, available server-side. |
-| `SUPABASE_DB_URL` | Auto-set — direct Postgres connection string for migration tooling. |
-
----
-
-## 4. Messaging channels (used when chat replies are delivered via SMS/WhatsApp)
-
-| Secret | Used by | Purpose |
-|---|---|---|
-| `TNZ_AUTH_TOKEN` | `tnz-inbound`, `tnz-send`, Tōro family flows | TNZ Group SMS auth. |
-| `TNZ_API_BASE` | TNZ functions | TNZ API base URL. |
-| `TNZ_FROM_NUMBER` | TNZ functions | Sender ID / shortcode. |
-| `TWILIO_ACCOUNT_SID` | Twilio voice + WhatsApp functions | Account identifier. |
-| `TWILIO_AUTH_TOKEN` | Twilio functions | Account auth token. |
-| `TWILIO_API_KEY` | Twilio functions (managed via Lovable Connector) | Scoped API key. |
-| `TWILIO_PHONE_NUMBER` | Twilio SMS | Default sender. |
-| `TWILIO_WHATSAPP_NUMBER` | Twilio WhatsApp | WhatsApp sender (`whatsapp:+...`). |
-| `BREVO_API_KEY` | Transactional email (signup confirmations, evidence packs) | Brevo SMTP/API. |
-| `ADMIN_EMAIL` | Notification fan-out | Where admin alerts are sent. |
-
----
-
-## 5. Live data + creative tooling (called from chat as tools)
-
-| Secret | Used by | Purpose |
-|---|---|---|
-| `OPENWEATHERMAP_API_KEY` | `iot-weather` | Weather lookups for Manaaki / Waihanga / Arataki. |
-| `AGROMONITORING_API_KEY` | Agronomic IoT | Soil + crop telemetry. |
-| `AISSTREAM_API_KEY` | `iot-ais-tracking` | Maritime AIS feeds. |
-| `AT_API_KEY` | `iot-at` | Auckland Transport real-time feeds. |
-| `FIRECRAWL_API_KEY` | Web scraping (managed via Connector) | Compliance scanner + brand scan. |
-| `FAL_API_KEY` | `stitch-generate` (image router) | Fal.ai (Flux) image generation. |
-| `RUNWAY_API_KEY` | Video generation | Runway Gen-3. |
-| `MESHY_API_KEY` | 3D asset generation | Meshy text-to-3D. |
-| `STITCH_API_KEY` | `stitch-generate` orchestrator | Internal stitching service. |
-| `ELEVENLABS_API_KEY` | Voice synthesis | ElevenLabs TTS for the Brain widget. |
-| `FLINT_API_KEY` | Proposal templating | Flint ABM template integration. |
-
----
-
-## 6. Payments + integrations
-
-| Secret | Used by | Purpose |
-|---|---|---|
-| `STRIPE_SECRET_KEY` | `stripe-*` functions, `/start` onboarding | Subscription + invoice creation. |
-| `XERO_CLIENT_ID` / `XERO_CLIENT_SECRET` | Xero sync functions | OAuth client credentials for accounting sync. |
-
----
-
-## Chat pipeline call graph (where keys land)
-
-```
-Browser
-  └─ src/lib/mcpChat.ts  (streamMcpChat)
-        │
-        ├─ isClaudeModel(model) ─ true ──► /functions/v1/claude-chat
-        │                                     └─ ANTHROPIC_API_KEY
-        │
-        └─ false ──────────────────────────► /functions/v1/mcp-chat
-                                              └─ LOVABLE_API_KEY
-                                                  └─ ai.gateway.lovable.dev
-                                                       ├─ google/gemini-*
-                                                       └─ openai/gpt-5*
-
-Both endpoints write governance + analytics rows using the
-auto-provisioned SUPABASE_SERVICE_ROLE_KEY, and the compression /
-summarisation step (compress-context) reuses LOVABLE_API_KEY.
-```
-
----
-
-## Verifying secrets at runtime
-
-Use the diagnostic edge function `toroa-secret-check` to confirm the most
-critical secrets are present without ever exposing their values:
+Main web app:
 
 ```bash
-curl -s "$VITE_SUPABASE_URL/functions/v1/toroa-secret-check" \
-  -H "Authorization: Bearer $VITE_SUPABASE_PUBLISHABLE_KEY" | jq
+pnpm install
+cp .env.local.example .env.local
+# fill only the values needed for your task, or pull the project's development
+# environment through the approved deployment tooling.
+pnpm --filter @assembl/canvas build
+pnpm dev
 ```
 
-Returns `{ ok: boolean, secrets: [{ name, set }] }`. To extend the check
-list, edit `REQUIRED_SECRETS` in `supabase/functions/toroa-secret-check/index.ts`.
+`.env.local` is ignored by git. Do not add it with force flags.
 
----
+The canonical live Supabase project reference and current variable names are documented in `.env.local.example`; do not copy credentials from old README snippets, historical runbooks or Git history.
 
-## Adding a new secret
+## main Next.js / Vercel variables
 
-1. In Lovable Cloud → **Add secret** (or use the `add_secret` flow in chat).
-2. Reference it in your edge function via `Deno.env.get("MY_NEW_SECRET")`.
-3. Add a row to this document under the appropriate section.
-4. If it is required for the chat pipeline to boot, append it to
-   `REQUIRED_SECRETS` in `toroa-secret-check`.
+Common categories currently include:
+
+### Supabase
+
+- `NEXT_PUBLIC_SUPABASE_URL` — public project URL
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — publishable browser key
+- `SUPABASE_SERVICE_ROLE_KEY` — **server-only** privileged key
+
+Authenticated/internal routes may require the first two. Server routes that perform privileged reads/writes may additionally require the service-role key.
+
+### model providers
+
+The repo supports several providers/routing paths. Depending on the feature, current variable names can include:
+
+- `ANTHROPIC_API_KEY`
+- `OPENAI_API_KEY`
+- `GEMINI_API_KEY` / `GOOGLE_GENERATIVE_AI_API_KEY`
+- `GROQ_API_KEY`
+- `OLLAMA_BASE_URL`
+- `AI_GATEWAY_API_KEY`
+
+Do not assume every feature uses the same router. Inspect the relevant route/runtime before provisioning a credential.
+
+**DO:** provider keys remain server-side. Browser/native launch surfaces should receive bounded results or short-lived constrained credentials where the upstream API explicitly supports that model, never the long-lived provider key.
+
+### DO runtime
+
+DO-related configuration is documented in `.env.local.example` and the relevant DO docs. `DO_RUNTIME` selects the configured runtime mode where supported; provider credentials determine which model adapters are available.
+
+Any live/browser-issued token endpoint must be protected by the same-origin/session/rate controls appropriate to DO and should issue the narrowest usable credential.
+
+### media / creative / voice
+
+Optional features can use keys such as:
+
+- `DEEPGRAM_API_KEY`
+- `FAL_API_KEY`
+- `ELEVENLABS_API_KEY`
+
+and other provider-specific variables documented in `.env.local.example`.
+
+These integrations should fail closed or degrade to a non-provider path according to the feature's product contract.
+
+### email / agent identities
+
+Agent email infrastructure can use configuration such as:
+
+- `BREVO_API_KEY`
+- `AGENTMAIL_WEBHOOK_SECRET`
+- `AGENT_EMAIL_DOMAIN`
+- `AGENT_EMAIL_OUTBOUND_TOKEN`
+- `AGENT_EMAIL_ADMIN_TOKEN`
+
+Agent identities/email addresses are product infrastructure, not hard-coded secrets. Inbound signatures and outbound/admin tokens are server-only.
+
+### billing
+
+Stripe configuration includes server-only and publishable values. Examples:
+
+- `STRIPE_SECRET_KEY`
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+
+Never expose the secret/webhook values to browser code.
+
+## Supabase edge functions
+
+`supabase/functions/*` run independently from the root Next.js runtime. Their provider/configuration values should be stored as Supabase project secrets and read server-side (`Deno.env.get(...)`).
+
+Built-in Supabase values such as project URL/anon/service-role credentials are managed by the platform for edge-function execution; do not duplicate privileged values into frontend configuration.
+
+When adding a new edge-function secret:
+
+1. add it through the approved Supabase secret-management path;
+2. reference it only from server/edge code;
+3. document the variable name and purpose in `.env.local.example` or a scoped runbook where appropriate;
+4. ensure logs and error responses never print the value;
+5. add a presence-only health check only when it is useful and safe.
+
+## sub-projects
+
+The repository contains independent toolchains:
+
+- `remotion/` — Bun
+- `plugins/mcp-servers/*` — npm
+- `supabase/functions/*` — Deno
+- `apps/do/macos/` — native Swift development companion
+
+A sub-project may have its own scoped example/config docs. Root secrets should not be copied into sub-project source files merely for convenience.
+
+## current secret-hygiene cleanup
+
+A historical root `.env` remains tracked from the repo's Lovable/Vite era even though `.gitignore` now ignores `.env*`. We are treating this as a separate security cleanup because blindly deleting configuration without verifying active deployment dependencies can create outages.
+
+Cleanup sequence:
+
+1. stop docs/agents from treating root `.env` as canonical — **done in current cleanup PR**;
+2. inventory variable **names only** and active consumers without reproducing values;
+3. verify required values exist in the correct Vercel/Supabase secret stores;
+4. classify each historical tracked value as public configuration vs secret;
+5. rotate any value that was truly secret;
+6. remove the tracked `.env` from current source;
+7. consider history rewriting only with a deliberate migration plan; rotation is still required for exposed secrets.
+
+## adding a new variable
+
+Before adding one:
+
+- confirm an existing variable/provider configuration cannot be reused;
+- decide whether it is public, server-only or edge-only;
+- add an empty/commented example to `.env.local.example` if main-app developers need to know it exists;
+- add the real value only to the appropriate secret store;
+- ensure missing-variable behaviour is explicit and safe;
+- update a scoped runbook when setup is non-obvious.
+
+## never do this
+
+- commit a provider API key
+- paste a service-role key into client code
+- send a long-lived model key to the browser because WebSocket code needs authentication
+- read secrets from historical Git commits for convenience
+- log secret values in CI, screenshots, PR comments or debugging output
+- make a tracked `.env` the source of truth for an agent or build
+
+For current repo/runtime setup, also read `AGENTS.md`, `.env.local.example`, and the relevant product/runbook before changing environment configuration.
