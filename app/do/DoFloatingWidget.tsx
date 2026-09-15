@@ -250,7 +250,7 @@ export function DoFloatingWidget({
                 <span className="do-star" aria-hidden>
                   ✦
                 </span>{' '}
-                DO anything from here
+                Make agent
               </h2>
             </div>
             <button type="button" className="do-widget-close" onClick={close} aria-label="Close">

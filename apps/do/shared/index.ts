@@ -63,6 +63,8 @@ export type {
 } from './runtime';
 export { clearHeuristics } from './clear';
 export type { ClearMark, ClearHeuristicResult } from './clear';
+export { resolveDoSpineAsync, createOrchestratorSpine } from './spine';
+export type { DoAgentsSpine, DoSession, DoInterruption, DoSpineKind } from './spine';
 export { SURFACES, getSurface } from './surfaces';
 export {
   diffSnapshots,

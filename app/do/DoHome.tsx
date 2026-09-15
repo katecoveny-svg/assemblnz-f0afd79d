@@ -218,13 +218,21 @@ export function DoHome() {
             <span className="do-pill-dot" />
             {runtimeLabel}
           </span>
+          <span className="do-pill do-pill-lock" title="Product locks">
+            not chat · not Grammarly · not Instinct
+          </span>
         </div>
 
-        <section className="do-stage" aria-label="Spatial widget stage">
+        <section className="do-stage" aria-label="DO widget stage">
           <div className="do-stage-brand">
-            <p className="do-kicker">assembl · spatial widget</p>
+            <p className="do-kicker">assembl · portable agents</p>
             <h1 className="do-wordmark">DO</h1>
             <p className="do-tagline">See something → ✦ make agent</p>
+            <p className="do-verb-row" aria-label="Agent object verbs">
+              <span>place</span>
+              <span>template</span>
+              <span>delete</span>
+            </p>
           </div>
 
           <button
@@ -338,16 +346,18 @@ export function DoHome() {
             <p className="do-mono">How this works</p>
             <ol>
               <li>
-                <span aria-hidden>✦</span> Capture
+                <span aria-hidden>✦</span> Make
               </li>
               <li>
-                <span aria-hidden>◎</span> Activate
+                <span aria-hidden>◎</span> Place
               </li>
               <li>
                 <span aria-hidden>▤</span> Evidence
               </li>
             </ol>
-            <p className="do-how-note">Mitre DEMO uses fictional fixtures. Nothing sends without your yes.</p>
+            <p className="do-how-note">
+              Wallet cards + Needs you — not chat threads. Mitre DEMO is fictional. Nothing sends without your yes.
+            </p>
           </aside>
           <DoWhatsAppSim />
         </section>
