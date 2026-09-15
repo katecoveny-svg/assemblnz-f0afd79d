@@ -116,6 +116,41 @@ export type ConnectedAccount = {
   updated_at?: string;
 };
 
+/** DO's Gmail reader has no caller-controlled URL, method, or account owner. */
+export async function doGmailReader(externalUserId: string) {
+  if (!/^do:user:[0-9a-f-]{36}$/.test(externalUserId)) throw new Error('Invalid DO owner');
+  const cfg = pipedreamConfig();
+  if (!cfg || !process.env.DO_GMAIL_OAUTH_APP_ID) throw new Error('Gmail setup needed');
+  const accounts = await listConnectedAccounts(externalUserId);
+  const account = accounts.find(a => accountOwner(a) === externalUserId && a.app?.name_slug === 'gmail' && a.healthy === true);
+  if (!account) throw new Error('Connect Gmail first');
+  return async function read<T>(path: string): Promise<T> {
+    if (!/^messages(?:\?|\/[a-zA-Z0-9_-]+\?)/.test(path) || path.length > 5000) throw new Error('Invalid Gmail read');
+    const url = Buffer.from(`https://gmail.googleapis.com/gmail/v1/users/me/${path}`).toString('base64url');
+    return pd<T>(cfg, 'GET', `/connect/${cfg.projectId}/proxy/${url}?external_user_id=${encodeURIComponent(externalUserId)}&account_id=${encodeURIComponent(account.id)}`);
+  };
+}
+
+export async function connectDoGmail(externalUserId: string) {
+  const oauthAppId = process.env.DO_GMAIL_OAUTH_APP_ID;
+  if (!oauthAppId || !/^do:user:[0-9a-f-]{36}$/.test(externalUserId)) throw new Error('Gmail setup needed');
+  const link = await createConnectLink(externalUserId);
+  const url = new URL(link.connect_link_url);
+  url.searchParams.set('app', 'gmail');
+  url.searchParams.set('oauthAppId', oauthAppId);
+  return url.toString();
+}
+
+export async function disconnectDoGmail(externalUserId: string) {
+  if (!/^do:user:[0-9a-f-]{36}$/.test(externalUserId)) throw new Error('Invalid DO owner');
+  const cfg = pipedreamConfig();
+  if (!cfg) throw new Error('Gmail setup needed');
+  const accounts = await listConnectedAccounts(externalUserId);
+  for (const account of accounts.filter(a => accountOwner(a) === externalUserId && a.app?.name_slug === 'gmail')) {
+    await pd(cfg, 'DELETE', `/connect/${cfg.projectId}/accounts/${encodeURIComponent(account.id)}`);
+  }
+}
+
 /** Accounts a customer has connected under our project. */
 export async function listConnectedAccounts(externalUserId: string): Promise<ConnectedAccount[]> {
   const cfg = pipedreamConfig();

@@ -77,6 +77,7 @@ export function DoBuilder({ initialBrief = '', initialTask = 'reply', embedded =
     finally { setBusy(false); void refreshTrial(); }
   }
   return <div className="dob">
+    <p><a href="/do/family" target="_blank" rel="noopener noreferrer">School admin from Gmail · pilot setup ↗</a></p>
     <header className="dob-head"><div><span className="dob-kicker">DO / AGENT BUILDER</span><h2>Make your own little DO.</h2><p>Bring the ingredients. Choose a skill. Make something useful.</p></div><span className="dob-allowance">{remaining === null ? '3 free tasks to try' : `${remaining} of 3 tasks left`}</span></header>
     <div className="dob-trial"><span>Three free tasks across writing and images. Shared per network. Failed generations do not use a task.</span><a href={ENQUIRE}>Enquire about more <ArrowUpRight size={14}/></a></div>
     <div className="dob-layout"><aside className="dob-palette"><span className="dob-kicker">01 / CHOOSE A SKILL</span><p>Drag a card onto your agent, or tap to add.</p>{SKILLS.map(s => <button key={s.id} type="button" draggable disabled={busy} onDragStart={e => e.dataTransfer.setData('application/x-do-skill', s.id)} onClick={() => selectSkill(s.id)} aria-pressed={skill === s.id}><span className="dob-glyph">{s.glyph}</span><span><strong>{s.title}</strong><small>{s.description}</small></span><Grip size={15}/></button>)}</aside>
