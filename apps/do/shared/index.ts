@@ -25,6 +25,23 @@ export type {
   ToolPlan,
 } from './pipeline';
 
+export type {
+  DoOfficeIdentity,
+  DoOfficeMailboxState,
+  DoOfficeMember,
+  DoOfficeMessage,
+  DoOfficeMessageKind,
+  DoOfficePresence,
+  DoOfficeSnapshot,
+  DoOfficeSpaceKind,
+  DoOfficeWorkspace,
+} from './office';
+
+export {
+  officeMemberFromAgent,
+  officeSnapshotFromAgents,
+} from './office';
+
 export {
   CONSEQUENTIAL_VERBS,
   detectConsequentialVerb,
