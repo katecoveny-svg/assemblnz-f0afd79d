@@ -1,12 +1,12 @@
 /** Public homepage positioning. Product demonstrations are labelled at their entry points. */
 export const HOME_META = {
-  title: 'assembl the work. find it. DO it. show it.',
-  description: 'Connect business signals, specialist agent work and creative production. Pursuit finds opportunities. DO prepares the work. Studio makes it visible. People review the next step.',
+  title: 'assembl — find it. DO it. show it.',
+  description: 'Pursuit finds evidence-backed work. DO is the portable agent workforce that gets it moving. Studio turns the result into proof, pitches and experiences. One shared context and factory underneath.',
 } as const;
 
 export const PREVIEW_META = {
-  title: 'Homepage preview · assembl the work.',
-  description: 'Preview of the assembl homepage: Pursuit, DO and Studio.',
+  title: 'Homepage preview · assembl',
+  description: 'Preview of the current assembl system: Pursuit, DO, Studio and the shared Factory beneath them.',
 } as const;
 
 export const NAV = {
@@ -16,22 +16,21 @@ export const NAV = {
     { label: 'Studio', href: '/creative-studio', emphasis: false },
   ],
   links: [
-    { label: 'Use cases', href: '#use-cases' },
     { label: 'How it works', href: '#how-it-works' },
   ],
   cta: { label: 'give DO a job', href: '#do-input' },
 } as const;
 
 export const HERO = {
-  brand: 'Mahi that earns its proof.',
-  headline: 'assembl the work.',
-  subhead: 'find it. DO it. show it.',
-  body: 'assembl turns live business signals into work.',
-  explanation: 'Find the opportunity. Bring together the agents, tools and context to act on it. Then turn the result into something people can see, approve or experience.',
+  brand: 'One system for finding, doing and showing valuable work.',
+  headline: 'find it. DO it. show it.',
+  subhead: 'Pursuit finds the work. DO gets it moving. Studio makes it tangible.',
+  body: 'One shared context, tools and proof loop across the business.',
+  explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
   ctaPrimary: { label: 'give DO a job →', href: '#do-input' },
-  ctaSecondary: { label: 'see how assembl works', href: '#how-it-works' },
+  ctaSecondary: { label: 'see the system', href: '#products' },
   productLine: 'Pursuit · DO · Studio',
-  loopLine: 'use one. connect two. run the whole loop.',
+  loopLine: 'one context. many models. visible proof.',
 } as const;
 
 export const SIGNALS = {
@@ -48,23 +47,23 @@ export const SIGNALS = {
 export const PRODUCTS = {
   kicker: 'three products · one system',
   title: 'three ways to assembl the work.',
-  lede: 'Start with Pursuit, DO or Studio. Each works independently. Together, they connect the opportunity, the work and the experience.',
+  lede: 'Start with Pursuit, DO or Studio. Each works independently. Together, they connect the opportunity, the work and the proof.',
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
       body: 'For teams finding their next opportunity. Bring relevant public signals and permissioned business context into buyer research, a qualified opportunity and a next-step brief.',
       href: '/pursuit',
-      explore: 'Explore Pursuit', note: 'Start with your business and the opportunities you want to find.',
+      explore: 'Explore Pursuit', note: 'Start with the market, company or work you want to understand.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'Your writing and task agents, wherever work happens. Draft a reply, polish your writing, turn notes into a plan or work through the options. Review the result and take it with you.',
-      href: '/do', explore: 'Try DO', note: 'Use DO here, in your browser or through the downloadable website widget.',
+      body: 'Your portable agent workforce. Give a DO a job in the browser, on your Mac or inside a connected workflow. DO can research, prepare, build and coordinate using the right model and tools while keeping context, permissions and proof attached.',
+      href: '/do', explore: 'Try DO', note: 'Start with one job. Add specialist DOs, connectors and deeper authority when you need them.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
-      body: 'For teams making an idea tangible. Turn an independent brief or prepared work into demonstrators, pitches, websites, advertising, marketing campaigns, imagery and film.',
-      href: '/creative-studio', explore: 'Explore Studio', note: 'Open your private creative workspace, or bring a brief for a scoped engagement.',
+      body: 'For teams making an idea tangible. Turn a brief or completed work into demonstrators, pitches, websites, campaigns, imagery, film and interactive experiences.',
+      href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
     },
   ],
 } as const;
@@ -74,33 +73,33 @@ export const DO_INPUT = {
   title: 'what do you need done?',
   placeholder: 'Describe the outcome you need.',
   submit: 'give DO the job →',
-  honesty: 'Your brief opens in DO for review before preparation.',
+  honesty: 'Your job opens in DO for review before any consequential action.',
   examples: [
     'Find relevant opportunities for my business and prepare the strongest one.',
     'Turn this tender into a response plan and first draft.',
-    'Design a useful customer journey while a quote is being prepared.',
-    'Turn this opportunity into a pitch and campaign concept.',
+    'Build the next version of this product and prepare a reviewable PR.',
+    'Turn this opportunity into a pitch, campaign and interactive demo.',
   ],
 } as const;
 
 export const JOURNEYS = {
-  kicker: 'customer journeys · inside DO',
-  title: 'waiting can move the work forward.',
-  body: 'While a customer waits for a quote, application, delivery or decision, agents can help prepare what comes next. Gather the missing information. Explain the next step. Prepare the handoff.',
-  value: 'Add loyalty, rewards or partner value where it helps the customer.',
+  kicker: 'customer journeys · reusable primitive',
+  title: 'agentic journeys remain part of the system.',
+  body: 'DO can work inside customer journeys as well as standalone tasks — gathering context, preparing the next step, coordinating approvals and leaving evidence.',
+  value: 'Rewards, loyalty and partner value belong where they improve the customer outcome, not as interruption.',
   points: [
-    { label: 'utility first', text: 'One optional, useful step. The customer can skip it and continue their original task.' },
-    { label: 'reward second', text: 'Where agreed, recognise useful participation. Make the value and any sponsor clear.' },
-    { label: 'interruption never', text: 'The customer reviews what is shared. A named person or team owns the next step.' },
+    { label: 'utility first', text: 'Make the next step genuinely useful.' },
+    { label: 'permission visible', text: 'Keep context sharing and consequential actions explicit.' },
+    { label: 'proof attached', text: 'Show what happened, why and what still needs a person.' },
   ],
 } as const;
 
 export const STUDIO = {
   kicker: 'Studio · creative production',
   title: 'make the possibility visible.',
-  body: 'Turn a brief, an opportunity or a piece of agent work into something people can experience. Demonstrate the journey. Build the pitch. Create the website, campaign or visual concept.',
+  body: 'Turn a brief, an opportunity or completed agent work into something people can experience. Demonstrate the journey. Build the pitch. Create the website, campaign or visual concept.',
   cta: { label: 'enter Studio →', href: '/creative-studio' },
-  chips: ['demonstrators', 'interactive pitches', 'websites', 'advertising', 'marketing', 'film', '3D concepts'],
+  chips: ['demonstrators', 'interactive pitches', 'websites', 'advertising', 'marketing', 'film', '3D experiences'],
 } as const;
 
 export const LOOP = {
@@ -109,9 +108,9 @@ export const LOOP = {
   steps: [
     { id: 'signal', label: 'SIGNAL', text: 'Notice a relevant change.' },
     { id: 'find', label: 'FIND', text: 'Understand the opportunity.' },
-    { id: 'do', label: 'DO', text: 'Prepare the work for review.' },
-    { id: 'show', label: 'SHOW', text: 'Make it tangible.' },
-    { id: 'learn', label: 'LEARN', text: 'Use the response to inform the next brief.' },
+    { id: 'do', label: 'DO', text: 'Research, prepare, build or act within authority.' },
+    { id: 'show', label: 'SHOW', text: 'Make the result tangible.' },
+    { id: 'learn', label: 'LEARN', text: 'Use proof and decisions to improve the next job.' },
   ],
 } as const;
 
@@ -120,15 +119,15 @@ export const REVIEW = {
   title: 'know what is ready. decide what happens next.',
   columns: [
     { id: 'context', name: 'Choose the context', points: ['Agree the outcome and available sources.', 'Choose what can be used and shared.'] },
-    { id: 'prepare', name: 'Inspect the work', points: ['Review the prepared draft and its sources.', 'See assumptions, gaps and open questions.'] },
-    { id: 'review', name: 'Approve the next step', highlight: true, points: ['A person reviews consequential actions.', 'Sending, submission and publication need separate approval.'] },
+    { id: 'prepare', name: 'Inspect the work', points: ['Review the prepared result and its evidence.', 'See assumptions, gaps and open questions.'] },
+    { id: 'review', name: 'Approve the next step', highlight: true, points: ['A person reviews consequential actions.', 'Sending, submission, publication and spend need the required authority.'] },
   ],
 } as const;
 
 export const START = {
   kicker: 'start with DO',
   title: 'give DO one real job.',
-  body: 'Start with an outcome. Bring the context you have. See what can be prepared next.',
+  body: 'Start with an outcome. Bring the context you have. See what the right DO can prepare or build next.',
   primary: { label: 'give DO a job →', href: '#do-input' },
   secondary: {
     label: 'bring us a company',
@@ -137,6 +136,6 @@ export const START = {
 } as const;
 
 export const FOOTER = {
-  line: 'assembl the work. find it. DO it. show it.',
-  note: 'Mahi that earns its proof. · Aotearoa New Zealand',
+  line: 'find it. DO it. show it.',
+  note: 'One shared context · portable agents · proof that compounds. · Aotearoa New Zealand',
 } as const;
