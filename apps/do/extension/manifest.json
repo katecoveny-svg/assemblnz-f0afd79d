@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "DO by assembl",
-  "version": "1.2.0",
-  "description": "Build writing and creative agents alongside your browser work. Capture selected text only when you choose.",
+  "version": "1.3.0",
+  "description": "Build writing and creative agents alongside your browser work. A draggable purple companion. Read selected text only when you choose.",
   "action": {
     "default_title": "Open DO"
   },

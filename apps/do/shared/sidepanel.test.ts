@@ -7,10 +7,11 @@ function setup() {
   const send = vi.fn();
   const frame = { contentWindow: { postMessage: send }, addEventListener: (name: string, fn: () => void) => { handlers['frame:' + name] = fn; } };
   const button = { disabled: false, addEventListener: (name: string, fn: () => void) => { handlers['button:' + name] = fn; } };
+  const float = { addEventListener: (name: string, fn: () => void) => { handlers['float:' + name] = fn; } };
   const status = { textContent: '' };
   const query = vi.fn(async () => [{ id: 7, url: 'https://example.test/page' }]);
   const execute = vi.fn(async () => [{ result: { text: 'Chosen text', title: 'Sample', url: 'https://example.test/page' } }]);
-  runInNewContext(source, { document: { getElementById: (id: string) => ({ builder: frame, capture: button, status })[id] }, window: { addEventListener: (name: string, fn: () => void) => { handlers['window:' + name] = fn; } }, chrome: { tabs: { query }, scripting: { executeScript: execute } }, Error });
+  runInNewContext(source, { document: { getElementById: (id: string) => ({ builder: frame, capture: button, float, status })[id] }, window: { addEventListener: (name: string, fn: () => void) => { handlers['window:' + name] = fn; } }, chrome: { tabs: { query }, scripting: { executeScript: execute } }, Error });
   return { handlers, frame, send, execute, query, status };
 }
 describe('persistent DO panel capture', () => {
