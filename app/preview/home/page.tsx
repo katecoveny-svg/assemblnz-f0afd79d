@@ -10,10 +10,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/**
- * PREVIEW route — commercial architecture homepage draft.
- * LIVE `/` is unchanged (CinematicJourneyHome) until Kate merges.
- */
+// Retained, non-indexed review route for the shared homepage component.
 export default function PreviewHomePage() {
-  return <AssemblTheWorkHome />;
+  return <AssemblTheWorkHome preview />;
 }

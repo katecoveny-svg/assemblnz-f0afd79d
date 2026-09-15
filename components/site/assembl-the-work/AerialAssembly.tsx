@@ -1,6 +1,7 @@
 'use client';
 
 import type { CSSProperties } from 'react';
+import Image from 'next/image';
 
 /**
  * Aerial assembly — scattered signals flock through FIND → DO → SHOW → one output.
@@ -24,7 +25,10 @@ export function AerialAssembly() {
   ];
 
   return (
-    <figure className="atw-aerial" aria-label="Signals assemble through FIND, DO and SHOW into one output">
+    <figure className="atw-aerial" aria-label="Illustration: a tender signal becomes a response plan and a pitch for review">
+      <Image className="atw-aerial-landscape" src="/images/site/landscape-coast-aotearoa.png" alt="" fill priority sizes="(max-width: 959px) 90vw, 42vw" />
+      <div className="atw-aerial-shade" aria-hidden="true" />
+      <div className="atw-aerial-heading"><span>an illustrative journey</span><strong>a signal.<br />something worth doing.</strong></div>
       <svg viewBox="0 0 400 320" role="img" aria-hidden="true">
         <defs>
           <linearGradient id="atw-path" x1="0" y1="0" x2="1" y2="0">
@@ -50,13 +54,13 @@ export function AerialAssembly() {
             FIND
           </text>
         </g>
-        <g className="atw-stage-ring" data-motion style={{ animationDelay: '1.2s' }}>
+        <g className="atw-stage-ring" data-motion style={{ animationDelay: '0s' }}>
           <circle cx="200" cy="160" r="34" fill="rgba(145,106,112,0.12)" stroke="#F5F1F2" strokeOpacity="0.7" strokeWidth="1.25" />
           <text x="200" y="164" textAnchor="middle" fill="#FFFDFB" fontSize="13" fontFamily="IBM Plex Mono, monospace" letterSpacing="0.14em" fontWeight="700">
             DO
           </text>
         </g>
-        <g className="atw-stage-ring" data-motion style={{ animationDelay: '2.4s' }}>
+        <g className="atw-stage-ring" data-motion style={{ animationDelay: '0s' }}>
           <circle cx="290" cy="150" r="28" fill="none" stroke="#916A70" strokeOpacity="0.55" strokeWidth="1" />
           <text x="290" y="154" textAnchor="middle" fill="#F5F1F2" fontSize="11" fontFamily="IBM Plex Mono, monospace" letterSpacing="0.12em">
             SHOW
@@ -65,7 +69,7 @@ export function AerialAssembly() {
 
         {/* Output lock */}
         <rect x="318" y="210" width="54" height="28" fill="none" stroke="#F5F1F2" strokeOpacity="0.45" />
-        <text x="345" y="228" textAnchor="middle" fill="#916A70" fontSize="9" fontFamily="IBM Plex Mono, monospace" letterSpacing="0.08em">
+        <text x="345" y="228" textAnchor="middle" fill="#F5F1F2" fontSize="10" fontFamily="IBM Plex Mono, monospace" letterSpacing="0.08em">
           OUTPUT
         </text>
 
@@ -84,14 +88,18 @@ export function AerialAssembly() {
               {
                 ['--dx' as string]: s.dx,
                 ['--dy' as string]: s.dy,
-                animationDelay: s.delay,
-                animationDuration: `${6.8 + (i % 4) * 0.45}s`,
+                animationDelay: `${i * 0.08}s`,
+                animationDuration: `${2.5 + (i % 4) * 0.15}s`,
               } as CSSProperties
             }
           />
         ))}
       </svg>
-      <figcaption className="atw-aerial-caption">aerial assembly · signals → work</figcaption>
+      <figcaption className="atw-aerial-caption">
+        <div><span>FIND</span><strong>A tender opens</strong></div>
+        <div><span>DO</span><strong>A response plan</strong></div>
+        <div><span>SHOW</span><strong>A pitch to review</strong></div>
+      </figcaption>
     </figure>
   );
 }

@@ -32,7 +32,7 @@ export type DoFloatingWidgetProps = {
   onClose?: () => void;
   /** Controlled open from parent (Mitre DEMO / hero). */
   forceOpen?: boolean;
-  /** Seed free-text brief from homepage PREVIEW handoff (?brief=). */
+  /** Seed a same-tab draft from the homepage; compiling is a separate action. */
   initialBrief?: string | null;
 };
 
