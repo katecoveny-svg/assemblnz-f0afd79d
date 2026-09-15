@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ClearMark } from '@/apps/do/shared/clear';
 
 const SAMPLE =
-  'It is important to note that we will prepare the pursuit brief in order to win, due to the fact that the RFP closes soon.';
+  'It is important to note that we will prepare the brief in order to ship, due to the fact that the deadline closes soon.';
 
 export function DoClearDemo() {
   const [text, setText] = useState(SAMPLE);
