@@ -62,9 +62,9 @@ export const PRODUCTS = {
     {
       id: 'do',
       name: 'DO',
-      verb: 'DO it',
+      verb: 'DO it · execute',
       hero: true,
-      body: 'The outcome product. Say what needs doing. assembl assembles agents, tools and context — then waits for your yes.',
+      body: 'The hero product. Say the outcome. assembl assembles agents, tools and context — then waits for your yes.',
       href: '/do',
       explore: 'open DO →',
     },

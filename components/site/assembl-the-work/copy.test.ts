@@ -13,6 +13,7 @@ describe('assembl-the-work PREVIEW copy', () => {
     expect(NAV.products.find((p) => p.label === 'DO')?.emphasis).toBe(true);
     expect(NAV.cta.href).toBe('/do');
     expect(PRODUCTS.items.find((p) => p.id === 'do')?.hero).toBe(true);
+    expect(PRODUCTS.items.find((p) => p.id === 'do')?.verb).toContain('execute');
     expect(START.primary.href).toBe('/do');
   });
 

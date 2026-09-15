@@ -147,19 +147,54 @@ export function AssemblTheWorkHome() {
 
       <section className="atw-studio" aria-labelledby="atw-studio-title">
         <div className="atw-studio-field" aria-hidden="true" />
-        <div className="atw-studio-slash" aria-hidden="true" />
-        <div className="atw-studio-inner">
-          <p className="atw-kicker">{STUDIO.kicker}</p>
-          <h2 id="atw-studio-title">{STUDIO.title}</h2>
-          <p className="atw-body">{STUDIO.body}</p>
-          <ul className="atw-studio-chips">
-            {STUDIO.chips.map((chip) => (
-              <li key={chip}>{chip}</li>
-            ))}
-          </ul>
-          <Link className="atw-btn" href={STUDIO.cta.href}>
-            {STUDIO.cta.label}
-          </Link>
+        <div className="atw-studio-grid">
+          <div className="atw-studio-copy">
+            <p className="atw-kicker">{STUDIO.kicker}</p>
+            <h2 id="atw-studio-title">{STUDIO.title}</h2>
+            <p className="atw-body">{STUDIO.body}</p>
+            <ul className="atw-studio-chips">
+              {STUDIO.chips.map((chip) => (
+                <li key={chip}>{chip}</li>
+              ))}
+            </ul>
+            <Link className="atw-btn atw-btn-studio" href={STUDIO.cta.href}>
+              {STUDIO.cta.label}
+            </Link>
+          </div>
+
+          <aside className="atw-studio-desk" aria-label="Studio proof desk DEMO">
+            <div className="atw-desk-register">
+              <span>Studio · DEMO</span>
+              <span>register</span>
+            </div>
+            <div className="atw-desk-backing" aria-hidden="true" />
+            <div className="atw-desk-still">
+              <p className="atw-desk-sheet-label">direction board</p>
+              <ul className="atw-desk-stages">
+                <li>
+                  <span>01</span>
+                  <strong>demonstrator</strong>
+                </li>
+                <li>
+                  <span>02</span>
+                  <strong>pitch folio</strong>
+                </li>
+                <li>
+                  <span>03</span>
+                  <strong>campaign still</strong>
+                </li>
+                <li>
+                  <span>04</span>
+                  <strong>film · 3D</strong>
+                </li>
+              </ul>
+            </div>
+            <div className="atw-desk-copy">
+              <p className="atw-desk-copy-status">elite creative · Ensemble kinship</p>
+              <p>Show the work like it matters.</p>
+              <span>crop · critique · ship</span>
+            </div>
+          </aside>
         </div>
       </section>
 
