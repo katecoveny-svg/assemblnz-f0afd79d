@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { listAgents } from '@/apps/do/shared/store';
 import type { AgentSpec } from '@/apps/do/shared/types';
+import { DoOfficeSpatial } from './DoOfficeSpatial';
 import styles from './office.module.css';
 
 export const dynamic = 'force-dynamic';
@@ -67,7 +68,6 @@ function AgentCard({ agent }: { agent: AgentSpec }) {
       </div>
 
       <p className={styles.task}>{agent.brief || 'No current brief.'}</p>
-
       {agent.lastNote ? <p className={styles.note}>{agent.lastNote}</p> : null}
 
       <div className={styles.metrics}>
@@ -96,10 +96,11 @@ export default async function DoOfficePage() {
         <div className={styles.brandLockup}>
           <Link href="/do" className={styles.wordmark}>DO</Link>
           <span>office</span>
-          <span className={styles.preview}>preview</span>
+          <span className={styles.preview}>spatial preview</span>
         </div>
         <div className={styles.headerActions}>
           <Link href="/do/widget" className={styles.secondary}>open companion</Link>
+          <Link href="/do/builder" className={styles.secondary}>Builderdoo</Link>
           <Link href="/do" className={styles.primary}>+ DO</Link>
         </div>
       </header>
@@ -107,16 +108,19 @@ export default async function DoOfficePage() {
       <main className={styles.main}>
         <section className={styles.intro}>
           <div>
-            <p className={styles.eyebrow}>your DOs, in one place</p>
-            <h1>see the work.<br />step in when it matters.</h1>
+            <p className={styles.eyebrow}>your digital workforce</p>
+            <h1>give the work.<br />see it move.</h1>
           </div>
           <p className={styles.introCopy}>
-            One calm view of what is working, what needs your yes, and what just finished.
-            DOs coordinate through visible handoffs and evidence rather than a hidden bot chat.
+            Builderdoo gives the team work. The Office shows what is moving, what needs your yes, and what just finished.
+            The spatial layer and the accessible board share the same state.
           </p>
         </section>
 
+        <DoOfficeSpatial needsYou={needsYou} working={working} done={done} />
+
         <nav className={styles.workspaceBar} aria-label="DO workspaces">
+          <Link href="/do/builder" className={styles.builderLink}>+ job with Builderdoo</Link>
           <button type="button" className={styles.workspaceActive}>all DOs <span>{agents.length}</span></button>
           <button type="button" disabled>personal</button>
           <button type="button" disabled>work</button>
@@ -137,21 +141,12 @@ export default async function DoOfficePage() {
             return (
               <section className={styles.column} key={column.key} aria-labelledby={`board-${column.key}`}>
                 <header className={styles.columnHeader}>
-                  <div>
-                    <h2 id={`board-${column.key}`}>{column.label}</h2>
-                    <p>{column.helper}</p>
-                  </div>
+                  <div><h2 id={`board-${column.key}`}>{column.label}</h2><p>{column.helper}</p></div>
                   <span>{columnAgents.length}</span>
                 </header>
-
                 <div className={styles.cardStack}>
-                  {columnAgents.length ? columnAgents.map((agent) => (
-                    <AgentCard key={agent.id} agent={agent} />
-                  )) : (
-                    <div className={styles.empty}>
-                      <span>quiet here</span>
-                      <p>No DOs in this state yet.</p>
-                    </div>
+                  {columnAgents.length ? columnAgents.map((agent) => <AgentCard key={agent.id} agent={agent} />) : (
+                    <div className={styles.empty}><span>quiet here</span><p>No DOs in this state yet.</p></div>
                   )}
                 </div>
               </section>
@@ -160,18 +155,10 @@ export default async function DoOfficePage() {
         </div>
 
         <section className={styles.officeNote}>
-          <div>
-            <p className={styles.eyebrow}>next layer</p>
-            <h2>personal · work · clients</h2>
-          </div>
+          <div><p className={styles.eyebrow}>where this goes</p><h2>personal · work · clients</h2></div>
           <div className={styles.officeNoteCopy}>
-            <p>
-              The Office will use the same portable AgentSpec underneath the browser companion, Mac companion,
-              voice and hosted DO. A DO gets an email address only after a real mailbox is provisioned.
-            </p>
-            <p>
-              This preview currently projects the existing DO demo store. It does not claim durable cloud state yet.
-            </p>
+            <p>The Office uses the same portable AgentSpec underneath the browser companion, Mac companion, voice and hosted DO. Builderdoo is the software-factory specialist inside that workforce.</p>
+            <p>The next spatial pass adds named rooms, handoffs moving between spaces, the usage rail, Creative Director studio and the Vault — all projected from real state rather than separate 3D-only data.</p>
           </div>
         </section>
       </main>
