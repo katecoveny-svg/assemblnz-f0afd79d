@@ -3,7 +3,7 @@
   "name": "DO by assembl",
   "short_name": "DO",
   "description": "Help with everyday tasks, bills and work. Choose a task, review the result and take the next step.",
-  "start_url": "/do?source=installed",
+  "start_url": "/do?open=1&source=installed",
   "scope": "/do",
   "display": "standalone",
   "background_color": "#240b21",
