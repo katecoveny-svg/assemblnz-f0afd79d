@@ -4,8 +4,8 @@ import './do.css';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: { absolute: 'DO · your writing and task agents · assembl' },
-  description: 'Prepare a brief, compare options and make the next step clearer. DO works with the text you choose, with review and an evidence receipt.',
+  title: { absolute: 'DO · your portable agent workforce · assembl' },
+  description: 'Bring your DOs to the work: companion, Office, Builderdoo and user-scoped connections with visible permissions, approvals and proof.',
   alternates: { canonical: '/do' },
 };
 export default function DoPage() { return <DoHome />; }
