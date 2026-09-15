@@ -52,13 +52,15 @@ export async function POST(request: Request) {
   }
 
   const input = parsed.data;
-  const capabilities: TaskCapability[] = ['reasoning', 'coding', 'long_context', 'tool_use', 'structured_output'];
-  if (input.needsVision) capabilities.push('vision');
-  if (input.needsBrowser) capabilities.push('browser_use');
+  const modelCapabilities: TaskCapability[] = ['reasoning', 'coding', 'long_context', 'tool_use', 'structured_output'];
+  if (input.needsVision) modelCapabilities.push('vision');
+
+  const jobCapabilities: BuilderCapability[] = [...modelCapabilities];
+  if (input.needsBrowser) jobCapabilities.push('browser_use');
 
   const route = routeModel({
     requirements: {
-      capabilities,
+      capabilities: modelCapabilities,
       riskLevel: input.risk,
       latencyPreference: 'standard',
       qualityPreference: input.quality,
@@ -77,7 +79,7 @@ export async function POST(request: Request) {
     risk: input.risk,
     quality: input.quality,
     authority: input.authority,
-    capabilities: capabilities as BuilderCapability[],
+    capabilities: jobCapabilities,
   }, route);
 
   const costPriors = route.ladder.map((id) => {
