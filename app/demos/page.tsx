@@ -166,9 +166,9 @@ export default async function DemosPage() {
               <div className="dm-card-top">
                 <div>
                   <p className="dm-sector">trust · every demo</p>
-                  <h3>Mana Receipts</h3>
+                  <h3>Evidence</h3>
                 </div>
-                <a className="dm-open" href="/mana-receipts" target="_blank" rel="noopener">
+                <a className="dm-open" href="/journeys/evidence-receipt" target="_blank" rel="noopener">
                   open &rarr;
                 </a>
               </div>
@@ -177,7 +177,7 @@ export default async function DemosPage() {
                 approved it &mdash; itemised, on the record. The Everyday Rewards demonstrator ends
                 on one; pilots issue them from the teamroom.
               </p>
-              <code className="dm-url">assembl.co.nz/mana-receipts</code>
+              <code className="dm-url">assembl.co.nz/journeys/evidence-receipt</code>
             </article>
             <article className="dm-card small">
               <div className="dm-card-top">
@@ -189,7 +189,7 @@ export default async function DemosPage() {
               <p className="dm-show">
                 Where pilots actually run: a shared room on the studio&rsquo;s BUZZ stack where the
                 client, Kate, and the agents work side by side &mdash; staffed by Hermes&rsquo; agent
-                and the Claude agent as named teammates, with Mana Receipts issued from the room.
+                and the Claude agent as named teammates, with Evidence receipts issued from the room.
                 No public URL by design; clients are invited in per pilot.
               </p>
               <code className="dm-url">private &mdash; invitation per pilot</code>

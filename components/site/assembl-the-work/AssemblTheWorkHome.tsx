@@ -7,7 +7,7 @@ import { GlowDoWidget } from './GlowDoWidget';
 import { DoIntentInput } from './DoIntentInput';
 import { DoProductStory } from './DoProductStory';
 import { CustomerJourneys } from './CustomerJourneys';
-import { PRODUCTS, HERO } from './copy';
+import { PRODUCTS, HERO, FOOTER } from './copy';
 import './assembl-the-work.css';
 export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
   const filmDialog = useRef<HTMLDialogElement>(null);
@@ -31,7 +31,7 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <CustomerJourneys compact />
     <section className="atw-how atw-section" id="how-it-works"><div><p className="atw-kicker">THE WORK MOVES. YOU STAY IN CONTROL.</p><h2>Prepare it.<br />Review it.<br /><em>Take it forward.</em></h2></div><ol><li><span>01</span><div><h3>Bring what matters.</h3><p>Your goal, your context and the sources you choose to use. Start with one real piece of work.</p></div></li><li><span>02</span><div><h3>See what comes together.</h3><p>Get an editable draft, a response plan or a creative direction. Keep the evidence and open questions close.</p></div></li><li><span>03</span><div><h3>Choose the next step.</h3><p>A person reviews the result. Sending, publishing and connecting another system each need an agreed permission.</p></div></li></ol></section>
     <section className="atw-choose atw-section" id="choose"><p className="atw-kicker">START WHERE THE WORK IS.</p><h2>One product.<br />Or the <em>whole system.</em></h2><p>Choose a focused engagement with Pursuit, DO or Studio. Or bring them together around a customer journey, a team or a business.</p><div><Link className="atw-pill atw-pill-dark" href="/contact?product=single">Discuss one product <ArrowUpRight size={19} /></Link><Link className="atw-text-link" href="/contact?product=system">Plan the complete system <ArrowUpRight size={19} /></Link></div><small>Scope, price, connections and delivery are agreed with you before work begins.</small></section>
-    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Mahi that earns its proof.<br />Imagined and built in Aotearoa.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>Original generated nature studies.</span></footer>
+    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>{FOOTER.tagline}<br />{FOOTER.place}</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>Original generated nature studies.</span></footer>
     <dialog ref={filmDialog} className="atw-film-dialog" aria-label="assembl nature film" onClose={() => { setCinema(false); film.current?.pause(); }}><button className="atw-film-close" aria-label="Close film" onClick={() => filmDialog.current?.close()}><X size={22} /></button><video ref={film} controls playsInline preload="none" poster="/cinematic-nature/ocean-assembly.webp" aria-label="Fish schools and gannets assembling over the ocean"><source src="/cinematic-nature/ocean-assembly.mp4" type="video/mp4" /></video><p>A generated nature study. Thousands of fish sweep into a shared current as gannets move in formation above the coast.</p></dialog>
   </div>;
 }

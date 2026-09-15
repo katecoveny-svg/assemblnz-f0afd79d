@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import { agentCountByKete } from '@/lib/agents';
-import { useKeteAccent } from '@/components/KeteAccentContext';
+import { useAssemblAccent } from '@/components/AssemblAccentContext';
 import { KeteIllustration } from '@/components/KeteIllustration';
 
 /**
@@ -73,7 +73,7 @@ export function KeteCard({
   className?: string;
   onAccentChange?: (accent: string | null) => void;
 }) {
-  const { setAccent } = useKeteAccent();
+  const { setAccent } = useAssemblAccent();
   const agentCount = AGENT_COUNTS[kete.slug] ?? 0;
   const cardHref = href ?? `/kete/${kete.slug}`;
   const handleAccent = (accent: string | null) => {

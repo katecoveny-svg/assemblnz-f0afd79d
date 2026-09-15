@@ -23,7 +23,7 @@ export const NAV = {
 } as const;
 
 export const HERO = {
-  brand: 'Mahi that earns its proof.',
+  brand: 'Work that earns its proof.',
   headline: 'assembl the work.',
   subhead: 'find it. DO it. show it.',
   body: 'assembl turns live business signals into work.',
@@ -138,5 +138,7 @@ export const START = {
 
 export const FOOTER = {
   line: 'assembl the work. find it. DO it. show it.',
-  note: 'Mahi that earns its proof. · Aotearoa New Zealand',
+  note: 'Work that earns its proof. · Built in New Zealand.',
+  tagline: 'Work that earns its proof.',
+  place: 'Built in New Zealand.',
 } as const;
