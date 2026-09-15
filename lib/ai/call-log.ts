@@ -16,6 +16,8 @@ export type ModelCallRecord = {
   latencyMs?: number;
   tokensIn?: number;
   tokensOut?: number;
+  /** Actual provider cost when exposed, otherwise an explicitly estimated cost. */
+  costNzd?: number | null;
   ok: boolean;
   error?: string | null;
 };
@@ -25,7 +27,8 @@ export function providerFromModelId(id: string): string {
   if (id.startsWith('gemini')) return 'google';
   if (id.startsWith('groq:')) return 'groq';
   if (id.startsWith('ollama:')) return 'ollama';
-  if (id.startsWith('gpt')) return 'openai';
+  if (id.startsWith('grok') || id.startsWith('xai:')) return 'xai';
+  if (id.startsWith('gpt') || /^o\d/.test(id)) return 'openai';
   return 'unknown';
 }
 
@@ -42,6 +45,7 @@ export async function recordModelCall(record: ModelCallRecord): Promise<void> {
       latency_ms: record.latencyMs ?? null,
       tokens_in: record.tokensIn ?? null,
       tokens_out: record.tokensOut ?? null,
+      cost_nzd: record.costNzd ?? null,
       ok: record.ok,
       error: record.error?.slice(0, 500) ?? null,
     });
