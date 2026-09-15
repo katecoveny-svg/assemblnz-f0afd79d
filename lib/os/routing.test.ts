@@ -48,6 +48,7 @@ describe('routeModel', () => {
     }
     expect(ladder).not.toContain('gpt-5.6-terra');
     expect(ladder).not.toContain('gemini-3.5-flash');
+    expect(ladder).not.toContain('grok-4.6');
   });
 
   it('respects tenant provider policy', () => {
@@ -61,18 +62,36 @@ describe('routeModel', () => {
 
   it('keeps experimental providers out until they win the workflow', () => {
     const without = routeModel({ requirements: base, isAvailable: allAvailable });
-    expect(without.ladder).not.toContain('grok-4');
+    expect(without.ladder).not.toContain('grok-4.6');
 
     const winning = routeModel({
       requirements: base,
       workflow: 'enquiry-reply',
       isAvailable: allAvailable,
       stats: [
-        { model: 'grok-4', workflow: 'enquiry-reply', accuracy: 0.98, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 500, avgCostNzd: 0.005 },
+        { model: 'grok-4.6', workflow: 'enquiry-reply', accuracy: 0.98, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 500, avgCostNzd: 0.005 },
         { model: 'claude-sonnet-5', workflow: 'enquiry-reply', accuracy: 0.8, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 900, avgCostNzd: 0.01 },
       ],
     });
-    expect(winning.ladder).toContain('grok-4');
+    expect(winning.ladder).toContain('grok-4.6');
+  });
+
+  it('knows Grok 4.6 can satisfy a coding + vision task once it has winning evidence', () => {
+    const req: TaskRequirements = {
+      ...base,
+      capabilities: ['coding', 'vision', 'tool_use'],
+      qualityPreference: 'maximum',
+    };
+    const { ladder } = routeModel({
+      requirements: req,
+      workflow: 'builder-do-code-review',
+      isAvailable: allAvailable,
+      stats: [
+        { model: 'grok-4.6', workflow: 'builder-do-code-review', accuracy: 0.99, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 400, avgCostNzd: 0.01 },
+        { model: 'claude-sonnet-5', workflow: 'builder-do-code-review', accuracy: 0.9, toolSuccess: 1, hallucinationRate: 0, avgLatencyMs: 700, avgCostNzd: 0.02 },
+      ],
+    });
+    expect(ladder[0]).toBe('grok-4.6');
   });
 
   it('realtime voice routes to the realtime candidate only', () => {
@@ -84,7 +103,6 @@ describe('routeModel', () => {
         dataClassification: 'internal',
       },
       isAvailable: allAvailable,
-      // GPT-Live is experimental — it needs a measurement to route
       workflow: 'voice-chief-of-staff',
       stats: [
         { model: 'gpt-live', workflow: 'voice-chief-of-staff', accuracy: 0.9, toolSuccess: null, hallucinationRate: null, avgLatencyMs: 300, avgCostNzd: 0.02 },
