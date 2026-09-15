@@ -1,45 +1,27 @@
 /**
  * lib/seo/schema.ts — schema.org / JSON-LD builders for AI-search discovery.
  *
- * Answer engines (ChatGPT Search, Perplexity, Claude, Google AI Overviews)
- * lean on structured data to identify entities, prices and relationships. This
- * module is the single source of truth for that markup so every surface emits
- * the SAME organisation, person and pricing facts — consistent entity signals
- * let a crawler disambiguate "assembl" (lowercase, the NZ Living Site product)
- * from the English word.
+ * This module is a machine-readable product surface. Keep it aligned with the
+ * current repository canon rather than historical homepage eras.
  *
- * RULE: everything here must reflect REAL, verifiable facts — real prices, real
- * agents, real people. No invented street addresses, no fabricated social
- * profiles. Where a fact is not yet public (e.g. Kate Hudson's LinkedIn URL for
- * `sameAs`), the field is omitted rather than guessed. Add it via SAME_AS below
- * once the canonical URL is confirmed.
- *
- * Builders are pure — they take plain params (or nothing) and return plain
- * objects, so this file pulls in no server-only agent prompts and is safe to
- * import from any server component.
+ * RULE: everything here must reflect real, verifiable facts. No invented
+ * customers, addresses, profiles, prices or capabilities.
  */
 
 export const SITE_URL = 'https://www.assembl.co.nz';
 
-// Stable @id anchors so the emitted nodes form one connected graph across
-// pages (crawlers merge nodes that share an @id).
 export const ORG_ID = `${SITE_URL}/#organization`;
-export const DASH_ORG_ID = `${SITE_URL}/#dash`;
+/** Kept as a compatibility export for older imports. The node now describes DO, not the retired Dash brand. */
+export const DASH_ORG_ID = `${SITE_URL}/#do`;
 export const PERSON_ID = `${SITE_URL}/#kate-hudson`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
-export const SOFTWARE_ID = `${SITE_URL}/#living-site`;
+export const SOFTWARE_ID = `${SITE_URL}/#do`;
 
 const LOGO = `${SITE_URL}/icons/assembl-icon-512x512.png`;
 const OG_IMAGE = `${SITE_URL}/og/og-assembl.png`;
-
-/**
- * Verified external profiles for the founder. LEFT EMPTY on purpose — do not
- * add a URL here unless it is the real, confirmed profile. Fabricated `sameAs`
- * links poison the entity graph they are meant to strengthen.
- */
 const KATE_SAME_AS: string[] = [];
 
-/** Canonical public Living Site offers (NZD). */
+/** Historical public pilot prices retained for route compatibility. Do not use these as the company-level offer. */
 export const PRICE_TIERS = [
   { name: 'Living Site demos', price: 0, note: 'Fictional sample businesses, no card required' },
   { name: 'Founding Pilot Sprint', price: 1500, note: 'One agreed workflow over ten working days, plus GST' },
@@ -47,7 +29,6 @@ export const PRICE_TIERS = [
 
 type Json = Record<string, unknown>;
 
-/** assembl — the Living Site company. */
 export function organizationNode(): Json {
   return {
     '@type': 'Organization',
@@ -63,16 +44,18 @@ export function organizationNode(): Json {
     },
     image: OG_IMAGE,
     description:
-      'assembl is a New Zealand agentic customer experience (agentic CX) company. It designs and runs agentic customer journeys: teams of specialist AI agents inside a business that read the signals its systems already hold, prepare the next step for every customer from first enquiry to the tenth year, and draft rather than act — a named person approves anything that reaches a customer or commits money. assembl also builds rewarded wait states, where customers watch the work happen, earn a credit toward what they are buying, and answer one optional question back.',
-    slogan: 'Work that earns its proof.',
+      'assembl is a New Zealand software and agent platform for finding, doing and showing valuable work. Pursuit turns live signals into evidence-backed opportunities. DO is a portable, model-agnostic agent workforce that can research, prepare, build and coordinate with explicit permissions and evidence. Studio turns the result into demonstrations, creative and commercial proof. A shared software Factory carries context, connectors, model routing, approvals, evaluations and learning underneath the system.',
+    slogan: 'Find it. DO it. Show it.',
     knowsAbout: [
-      'agentic customer journeys',
-      'agentic CX',
-      'agentic customer experience',
       'AI agents for business',
-      'customer journey automation',
-      'rewarded wait states',
+      'portable AI agents',
+      'model-agnostic AI agents',
+      'agent tool connections',
       'human-approved AI workflows',
+      'AI software development agents',
+      'business opportunity intelligence',
+      'interactive product demonstrations',
+      'agentic customer journeys',
       'AI adoption for New Zealand businesses',
     ],
     foundingLocation: {
@@ -86,7 +69,6 @@ export function organizationNode(): Json {
     ],
     knowsLanguage: ['en-NZ'],
     founder: { '@id': PERSON_ID },
-    ...(KATE_SAME_AS.length ? {} : {}),
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
@@ -97,21 +79,26 @@ export function organizationNode(): Json {
   };
 }
 
-/** dash — the sibling reward-layer / ad-network brand ("Get paid for the wait"). */
+/**
+ * Compatibility function retained for old imports. The retired Dash sibling
+ * brand is no longer emitted into the global entity graph; this node now
+ * represents DO, the current portable execution product.
+ */
 export function dashOrganizationNode(): Json {
   return {
-    '@type': 'Organization',
+    '@type': 'SoftwareApplication',
     '@id': DASH_ORG_ID,
-    name: 'dash',
-    url: `${SITE_URL}/dash`,
-    slogan: 'Get paid for the wait.',
+    name: 'DO by assembl',
+    url: `${SITE_URL}/do`,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web, macOS, browser',
     description:
-      'dash is the sibling brand to assembl — the rewarded wait state layer. While agents work, the customer watches the work happen and earns a credit toward what they are already buying.',
-    parentOrganization: { '@id': ORG_ID },
+      'DO is assembl’s portable agent workforce. A DO keeps its role, context, permissions and evidence while the underlying model or execution harness can change.',
+    publisher: { '@id': ORG_ID },
+    isPartOf: { '@id': WEBSITE_ID },
   };
 }
 
-/** Kate Hudson — founder. `sameAs` intentionally omitted until URLs are verified. */
 export function personNode(): Json {
   return {
     '@type': 'Person',
@@ -136,27 +123,17 @@ export function websiteNode(): Json {
   };
 }
 
-/**
- * The product node, with only the public offers assembl currently makes.
- */
 export function softwareApplicationNode(): Json {
-  const paid = PRICE_TIERS.filter((t) => t.price > 0).map((t) => t.price);
   return {
     '@type': 'SoftwareApplication',
     '@id': SOFTWARE_ID,
-    name: 'assembl — agentic customer journeys',
+    name: 'DO by assembl — portable agent workforce',
     applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
-    url: `${SITE_URL}/build-an-agent`,
-    description: 'Agentic customer journeys for New Zealand businesses: specialist AI agents with one job each and a written limit, drafting every step of the customer relationship for a named person to approve — plus rewarded wait states that give the customer a credit while the work happens.',
+    operatingSystem: 'Web, macOS, browser',
+    url: `${SITE_URL}/do`,
+    description:
+      'A portable, model-agnostic agent workforce for research, preparation, building and coordinated work. Users connect the tools they choose; consequential actions remain permissioned and completed work can carry evidence and receipts.',
     publisher: { '@id': ORG_ID },
-    offers: {
-      '@type': 'AggregateOffer',
-      priceCurrency: 'NZD',
-      lowPrice: '0',
-      highPrice: String(Math.max(...paid)),
-      offerCount: String(PRICE_TIERS.length),
-    },
   };
 }
 
@@ -224,9 +201,7 @@ export function faqPageNode(items: FaqItem[], id?: string): Json {
   };
 }
 
-export function breadcrumbNode(
-  crumbs: { name: string; path: string }[],
-): Json {
+export function breadcrumbNode(crumbs: { name: string; path: string }[]): Json {
   return {
     '@type': 'BreadcrumbList',
     itemListElement: crumbs.map((c, i) => ({
@@ -260,7 +235,6 @@ export function articleNode(a: {
   };
 }
 
-/** Wrap any set of nodes in a single @graph document. */
 export function graph(...nodes: Json[]): Json {
   return {
     '@context': 'https://schema.org',
