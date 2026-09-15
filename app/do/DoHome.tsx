@@ -69,6 +69,7 @@ export function DoHome() {
   const [widgetKey, setWidgetKey] = useState(0);
   const [runtimeLabel, setRuntimeLabel] = useState('Assembl runtime · DEMO');
   const [pinned, setPinned] = useState<string[]>([]);
+  const [homeBrief, setHomeBrief] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     const res = await fetch('/api/do/agents?grouped=1');
@@ -90,6 +91,16 @@ export function DoHome() {
         if (data.runtime?.label) setRuntimeLabel(data.runtime.label);
       });
   }, [refresh]);
+
+  // Homepage PREVIEW handoff: /do?brief=…&from=home-preview
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const brief = params.get('brief')?.trim();
+    if (!brief) return;
+    setHomeBrief(brief);
+    setWidgetOpen(true);
+  }, []);
 
   async function compileFromTemplate(t: DemoTemplate) {
     setBusy(true);
@@ -368,6 +379,7 @@ export function DoHome() {
         forceOpen={widgetOpen}
         launchTemplateId={mitreTemplateId}
         pageOverride={mitrePage}
+        initialBrief={homeBrief}
         onActivated={(agent) => {
           setDraft(agent);
           void refresh();
@@ -376,6 +388,7 @@ export function DoHome() {
           setWidgetOpen(false);
           setMitreTemplateId(null);
           setMitrePage(null);
+          setHomeBrief(null);
         }}
       />
     </div>

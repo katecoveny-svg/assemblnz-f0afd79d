@@ -32,6 +32,8 @@ export type DoFloatingWidgetProps = {
   onClose?: () => void;
   /** Controlled open from parent (Mitre DEMO / hero). */
   forceOpen?: boolean;
+  /** Seed free-text brief from homepage PREVIEW handoff (?brief=). */
+  initialBrief?: string | null;
 };
 
 function capturePage(): PageContext {
@@ -59,13 +61,14 @@ export function DoFloatingWidget({
   onActivated,
   onClose,
   forceOpen = false,
+  initialBrief = null,
 }: DoFloatingWidgetProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<WidgetStep>('browse');
   const [groups, setGroups] = useState<TemplateGroup[]>([]);
   const [connectors, setConnectors] = useState<ConnectorStub[]>([]);
   const [honesty, setHonesty] = useState('');
-  const [brief, setBrief] = useState('');
+  const [brief, setBrief] = useState(initialBrief?.trim() || '');
   const [draft, setDraft] = useState<AgentSpec | null>(null);
   const [connector, setConnector] = useState<ConnectorChoice>('hook-later');
   const [busy, setBusy] = useState(false);
@@ -105,6 +108,13 @@ export function DoFloatingWidget({
       refreshContext();
     }
   }, [forceOpen, refreshContext]);
+
+  useEffect(() => {
+    const seeded = initialBrief?.trim();
+    if (!seeded || !open) return;
+    setBrief(seeded);
+    setStep('browse');
+  }, [initialBrief, open]);
 
   useEffect(() => {
     if (!launchTemplateId || !open) return;
