@@ -38,6 +38,13 @@ export { DEMO_TEMPLATES, getTemplate, templatesByLane, LANE_LABELS, LANE_ORDER }
 export { FIXTURES } from './fixtures';
 export { CONNECTOR_STUBS, getConnector } from './connectors';
 export {
+  scanClearWriting,
+  applyClearSuggestions,
+  CLEAR_HONESTY,
+  AI_SLOP_PATTERNS,
+} from './clear-writing';
+export { WHATSAPP_FIXTURE, SHARE_FIXTURE } from './share-fixtures';
+export {
   listAgents,
   getAgent,
   saveAgent,
