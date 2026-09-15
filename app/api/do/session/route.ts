@@ -18,6 +18,6 @@ export async function POST(req: Request) {
 }
 export async function DELETE(req: Request) {
   if (!sameDoOrigin(req)) return Response.json({ message: 'Open DO to sign out.' }, { status: 403, headers });
-  try { const db = await createClient(); await db.auth.signOut({ scope: 'local' }); return Response.json({ signedOut: true }, { headers }); }
+  try { const db = await createClient(); const { error } = await db.auth.signOut({ scope: 'local' }); if (error) throw error; return Response.json({ signedOut: true }, { headers }); }
   catch { return Response.json({ message: 'Sign-out could not finish. Try again.' }, { status: 503, headers }); }
 }
