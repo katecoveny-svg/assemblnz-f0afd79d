@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { DoUtilityDock } from './DoUtilityDock';
+import './utility-dock.css';
+
 /** DO installs as its own app across its task routes. No offline data cache. */
 export const metadata: Metadata = {
   manifest: '/do/manifest.webmanifest',
@@ -7,4 +10,7 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, title: 'DO', statusBarStyle: 'default' },
   icons: { icon: '/do/icons/do-192.png', apple: '/do/icons/do-180.png' },
 };
-export default function DoLayout({ children }: { children: ReactNode }) { return children; }
+
+export default function DoLayout({ children }: { children: ReactNode }) {
+  return <>{children}<DoUtilityDock /></>;
+}
