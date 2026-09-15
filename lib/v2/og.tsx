@@ -1,17 +1,12 @@
 import { ImageResponse } from 'next/og';
 
-/**
- * Shared OG image template for the v2 marketing site —
- * DIRECTION-LOCKED-2026-07-01: warm paper, lowercase Cormorant headline with
- * the champagne-gold full stop, sparse gold constellation, tiny lowercase wordmark.
- */
+/** Shared OG image template for current assembl company surfaces. */
 
-const PAPER = '#FBFAF6';
-const INK = '#1A1918';
-const BODY = '#5A5850';
-const GOLD_BRIGHT = '#C8A876';
-const GOLD_SOFT = '#D9B87A';
-const SILVER = '#B5B0A2';
+const PAPER = '#FFFDFB';
+const CHALK = '#F5F1F2';
+const DEEP_PLUM = '#240B21';
+const MUTED_PLUM = '#654A4E';
+const DUSTY_ROSE = '#916A70';
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
@@ -35,25 +30,18 @@ async function loadGoogleFont(
   }
 }
 
-// Fixed constellation geometry (no randomness — deterministic output).
-const STARS: Array<[number, number, number, boolean?]> = [
-  [1010, 120, 7, true],
-  [930, 78, 4],
-  [1085, 74, 5, true],
-  [1130, 140, 4],
-  [1058, 190, 5],
-  [968, 176, 4, true],
-  [900, 132, 3],
-];
-const LINKS: Array<[number, number]> = [
-  [0, 1],
-  [0, 2],
-  [0, 4],
-  [0, 5],
-  [1, 6],
-  [2, 3],
-  [3, 4],
-  [5, 6],
+// Deterministic assembly field: individual pieces move toward one coherent line.
+const PIECES: Array<[number, number, number, number]> = [
+  [900, 96, 22, 10],
+  [946, 128, 14, 14],
+  [1001, 88, 30, 8],
+  [1044, 146, 16, 16],
+  [1094, 104, 20, 10],
+  [1138, 162, 10, 10],
+  [918, 194, 13, 13],
+  [974, 210, 26, 8],
+  [1034, 224, 12, 12],
+  [1090, 236, 32, 8],
 ];
 
 export async function v2OgImage({
@@ -65,11 +53,11 @@ export async function v2OgImage({
   headline: string;
   sub?: string;
 }) {
-  const text = `${headline}.assembl${sub ?? ''}${eyebrow}`;
-  const [cormorant] = await Promise.all([loadGoogleFont('Cormorant Garamond', '500', text)]);
+  const text = `${headline}assembl${sub ?? ''}${eyebrow}`;
+  const instrument = await loadGoogleFont('Instrument Sans', '600', text);
 
-  const fonts: Array<{ name: string; data: ArrayBuffer; weight: 500; style: 'normal' }> = [];
-  if (cormorant) fonts.push({ name: 'Cormorant', data: cormorant, weight: 500, style: 'normal' });
+  const fonts: Array<{ name: string; data: ArrayBuffer; weight: 600; style: 'normal' }> = [];
+  if (instrument) fonts.push({ name: 'Instrument Sans', data: instrument, weight: 600, style: 'normal' });
 
   return new ImageResponse(
     (
@@ -81,80 +69,70 @@ export async function v2OgImage({
           flexDirection: 'column',
           justifyContent: 'space-between',
           backgroundColor: PAPER,
-          padding: '72px 84px 56px',
+          padding: '68px 78px 54px',
           position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        {/* constellation */}
-        <svg
-          width="1200"
-          height="630"
-          viewBox="0 0 1200 630"
-          style={{ position: 'absolute', top: 0, left: 0 }}
-        >
-          {LINKS.map(([a, b], i) => (
-            <line
-              key={`l${i}`}
-              x1={STARS[a][0]}
-              y1={STARS[a][1]}
-              x2={STARS[b][0]}
-              y2={STARS[b][1]}
-              stroke={GOLD_SOFT}
-              strokeWidth="1"
-              opacity="0.45"
-            />
-          ))}
-          {STARS.map(([x, y, r, bright], i) => (
-            <circle key={i} cx={x} cy={y} r={r} fill={bright ? GOLD_BRIGHT : GOLD_SOFT} opacity="0.85" />
-          ))}
-          {/* quiet particulate ridge along the bottom */}
-          {Array.from({ length: 60 }).map((_, i) => {
-            const x = 20 + i * 20;
-            const y = 560 - Math.abs(Math.sin(i / 6.5)) * 60 - (i % 5) * 4;
-            return (
-              <circle
-                key={`d${i}`}
-                cx={x}
-                cy={y}
-                r={i % 7 === 0 ? 3 : 2}
-                fill={i % 9 === 0 ? GOLD_SOFT : SILVER}
-                opacity={0.35}
-              />
-            );
-          })}
-        </svg>
+        <div
+          style={{
+            position: 'absolute',
+            top: -120,
+            right: -90,
+            width: 520,
+            height: 520,
+            borderRadius: 520,
+            background: CHALK,
+          }}
+        />
+
+        {PIECES.map(([x, y, w, h], i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              left: x,
+              top: y,
+              width: w,
+              height: h,
+              borderRadius: 99,
+              backgroundColor: i % 3 === 0 ? DUSTY_ROSE : i % 3 === 1 ? MUTED_PLUM : DEEP_PLUM,
+              opacity: i < 6 ? 0.86 : 0.56,
+              transform: `rotate(${i % 2 === 0 ? -8 : 8}deg)`,
+            }}
+          />
+        ))}
 
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            fontSize: 20,
-            letterSpacing: '0.16em',
+            fontSize: 18,
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            color: BODY,
-            fontFamily: 'sans-serif',
+            color: MUTED_PLUM,
+            fontFamily: instrument ? 'Instrument Sans' : 'sans-serif',
+            fontWeight: 600,
           }}
         >
-          <div
-            style={{ width: 10, height: 10, borderRadius: 10, backgroundColor: GOLD_BRIGHT }}
-          />
+          <div style={{ width: 26, height: 6, borderRadius: 99, backgroundColor: DUSTY_ROSE }} />
           {eyebrow}
         </div>
 
         <div
           style={{
             display: 'flex',
-            fontFamily: cormorant ? 'Cormorant' : 'serif',
-            fontSize: 88,
-            lineHeight: 1.05,
-            color: INK,
-            maxWidth: 860,
-            textTransform: 'lowercase',
+            maxWidth: 875,
+            fontFamily: instrument ? 'Instrument Sans' : 'sans-serif',
+            fontSize: 86,
+            lineHeight: 0.98,
+            letterSpacing: '-0.055em',
+            color: DEEP_PLUM,
+            fontWeight: 600,
           }}
         >
           {headline}
-          <span style={{ color: GOLD_BRIGHT }}>.</span>
         </div>
 
         <div
@@ -163,21 +141,35 @@ export async function v2OgImage({
             justifyContent: 'space-between',
             alignItems: 'flex-end',
             width: '100%',
+            gap: 28,
           }}
         >
-          <div style={{ display: 'flex', fontSize: 24, color: BODY, fontFamily: 'sans-serif', maxWidth: 760 }}>
+          <div
+            style={{
+              display: 'flex',
+              maxWidth: 760,
+              fontSize: 23,
+              lineHeight: 1.35,
+              color: MUTED_PLUM,
+              fontFamily: instrument ? 'Instrument Sans' : 'sans-serif',
+            }}
+          >
             {sub ?? ''}
           </div>
           <div
             style={{
               display: 'flex',
-              fontFamily: cormorant ? 'Cormorant' : 'serif',
-              fontSize: 34,
-              letterSpacing: '0.3em',
-              color: INK,
+              alignItems: 'center',
+              gap: 9,
+              fontFamily: instrument ? 'Instrument Sans' : 'sans-serif',
+              fontSize: 30,
+              fontWeight: 600,
+              letterSpacing: '-0.04em',
+              color: DEEP_PLUM,
             }}
           >
             assembl
+            <span style={{ display: 'flex', width: 18, height: 6, borderRadius: 99, backgroundColor: DUSTY_ROSE }} />
           </div>
         </div>
       </div>
