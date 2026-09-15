@@ -5,39 +5,43 @@
  * - Personal / Pro: Assembl-hosted (included in subscription)
  * - Enterprise BYO: later opt-in via DO_RUNTIME=byo + OPENAI_API_KEY
  *
- * FAIL-OPEN: without provider keys, compile + Clear still run on
- * deterministic heuristics and label “Assembl runtime · DEMO”.
+ * Inference spine:
+ * - Prefer OpenAI Agents SDK (`@openai/agents`) for compile / Clear / hard jobs
+ *   when an OpenAI-compatible key is present (agent + tools + guardrails + HITL).
+ * - Otherwise thin TypeScript orchestrator matching the same concepts
+ *   (sessions, handoffs, HITL) — not a fake SDK, the durable DO contract.
+ *
+ * FAIL-OPEN: without provider keys, compile + Clear still run and label
+ * “Assembl runtime · DEMO”.
  */
 
 import 'server-only';
 import { clearHeuristics, type ClearMark } from './clear';
 import { compileAgent } from './compile';
-import { stubAstraProvider } from './router';
 import type { CompileRequest, CompileResponse } from './types';
+import type {
+  DoRuntimeCapability,
+  DoRuntimeMode,
+  DoRuntimeProvider,
+  DoRuntimeStatus,
+} from './runtime-status';
+import { resolveDoSpineAsync } from './spine';
 
 export type { ClearMark } from './clear';
-
-export type DoRuntimeMode = 'assembl' | 'byo';
-
-export type DoRuntimeProvider = 'assemblHosted' | 'byo';
-
-export type DoRuntimeCapability = 'live' | 'demo';
-
-export type DoRuntimeStatus = {
-  mode: DoRuntimeMode;
-  provider: DoRuntimeProvider;
-  capability: DoRuntimeCapability;
-  /** Chip label for UI honesty. */
-  label: string;
-  /** Plain-English note for README / telemetry. */
-  note: string;
-};
+export type {
+  DoRuntimeMode,
+  DoRuntimeProvider,
+  DoRuntimeCapability,
+  DoRuntimeStatus,
+} from './runtime-status';
 
 export type ClearRewriteResult = {
   original: string;
   rewritten: string;
   marks: ClearMark[];
   runtime: DoRuntimeStatus;
+  spine?: string;
+  sessionId?: string;
 };
 
 function envMode(): DoRuntimeMode {
@@ -60,9 +64,15 @@ function hasByoKey(): boolean {
   return Boolean(process.env.OPENAI_API_KEY || process.env.AI_GATEWAY_API_KEY);
 }
 
+function hasOpenAiKey(): boolean {
+  return hasByoKey();
+}
+
 /** Resolve current runtime posture for chips + docs. */
 export function getDoRuntimeStatus(): DoRuntimeStatus {
   const mode = envMode();
+  const spine = hasOpenAiKey() ? 'openai-sdk' : 'orchestrator';
+
   if (mode === 'byo') {
     if (hasByoKey()) {
       return {
@@ -71,6 +81,7 @@ export function getDoRuntimeStatus(): DoRuntimeStatus {
         capability: 'live',
         label: 'BYO runtime',
         note: 'DO_RUNTIME=byo with OpenAI / gateway key — Enterprise-style bring-your-own.',
+        spine,
       };
     }
     return {
@@ -78,7 +89,8 @@ export function getDoRuntimeStatus(): DoRuntimeStatus {
       provider: 'byo',
       capability: 'demo',
       label: 'BYO · DEMO',
-      note: 'DO_RUNTIME=byo but no OPENAI_API_KEY / AI_GATEWAY_API_KEY — deterministic DEMO.',
+      note: 'DO_RUNTIME=byo but no OPENAI_API_KEY / AI_GATEWAY_API_KEY — orchestrator DEMO.',
+      spine: 'orchestrator',
     };
   }
 
@@ -87,8 +99,11 @@ export function getDoRuntimeStatus(): DoRuntimeStatus {
       mode: 'assembl',
       provider: 'assemblHosted',
       capability: 'live',
-      label: 'Assembl runtime',
-      note: 'Assembl-hosted inference via existing model ladder (Personal / Pro default).',
+      label: hasOpenAiKey() ? 'Assembl runtime · Agents SDK' : 'Assembl runtime',
+      note: hasOpenAiKey()
+        ? 'Assembl-hosted via OpenAI Agents SDK (Personal / Pro).'
+        : 'Assembl-hosted via model ladder + DO orchestrator spine (Personal / Pro).',
+      spine,
     };
   }
 
@@ -97,38 +112,55 @@ export function getDoRuntimeStatus(): DoRuntimeStatus {
     provider: 'assemblHosted',
     capability: 'demo',
     label: 'Assembl runtime · DEMO',
-    note: 'No model keys configured — deterministic compile + Clear heuristics still wired.',
+    note: 'No model keys — orchestrator spine keeps compile + Clear + HITL wired.',
+    spine: 'orchestrator',
   };
 }
 
 /**
- * Compile via Assembl-hosted default (or BYO). Always falls back to
- * deterministic compileAgent so UX stays wired without keys.
+ * Compile via Agents SDK spine (or orchestrator). Always fails open to
+ * deterministic compileAgent so UX stays wired.
  */
 export async function runtimeCompile(
   input: CompileRequest,
-): Promise<CompileResponse & { runtime: DoRuntimeStatus }> {
+): Promise<CompileResponse & { runtime: DoRuntimeStatus; sessionId?: string; spine?: string }> {
   const runtime = getDoRuntimeStatus();
+  const spine = await resolveDoSpineAsync(getDoRuntimeStatus);
+  const result = await spine.compile(input);
+
+  if (result.ok) {
+    // If Assembl live without OpenAI, optionally polish name via ladder.
+    if (
+      runtime.capability === 'live' &&
+      runtime.spine === 'orchestrator' &&
+      hasAssemblLadderKey()
+    ) {
+      try {
+        const polished = await refineCompileWithModel(input, result.output, runtime);
+        return {
+          ...polished,
+          runtime: { ...runtime, spine: 'orchestrator' },
+          sessionId: result.session.id,
+          spine: result.spine,
+        };
+      } catch {
+        /* keep spine output */
+      }
+    }
+    return {
+      ...result.output,
+      runtime: { ...result.runtime, spine: result.spine },
+      sessionId: result.session.id,
+      spine: result.spine,
+    };
+  }
+
   const base = compileAgent(input);
-
-  if (runtime.capability === 'demo') {
-    return {
-      ...base,
-      honesty: `${base.honesty} · ${runtime.label}`,
-      runtime,
-    };
-  }
-
-  try {
-    const refined = await refineCompileWithModel(input, base, runtime);
-    return { ...refined, runtime };
-  } catch {
-    return {
-      ...base,
-      honesty: `${base.honesty} · ${runtime.label} (heuristic fallback)`,
-      runtime,
-    };
-  }
+  return {
+    ...base,
+    honesty: `${base.honesty} · ${runtime.label}`,
+    runtime,
+  };
 }
 
 async function refineCompileWithModel(
@@ -136,30 +168,18 @@ async function refineCompileWithModel(
   base: CompileResponse,
   runtime: DoRuntimeStatus,
 ): Promise<CompileResponse> {
-  const { generateWithFallback, resolveModelLadder, resolveLadderFromIds } = await import(
-    '@/lib/ai/router'
-  );
-
-  const ladder =
-    runtime.provider === 'byo'
-      ? resolveLadderFromIds(['gpt-4o-mini', 'gpt-4o'])
-      : resolveModelLadder('claude-sonnet-4-6', [
-          'gemini-2.5-flash',
-          'groq:llama-3.3-70b-versatile',
-        ]);
-
-  if (ladder.length === 0) {
-    return {
-      ...base,
-      honesty: `${base.honesty} · ${runtime.label}`,
-    };
-  }
+  const { generateWithFallback, resolveModelLadder } = await import('@/lib/ai/router');
+  const ladder = resolveModelLadder('claude-sonnet-4-6', [
+    'gemini-2.5-flash',
+    'groq:llama-3.3-70b-versatile',
+  ]);
+  if (ladder.length === 0) return base;
 
   const brief = input.brief || base.spec.brief;
   const result = await generateWithFallback({
     ladder,
     system:
-      'You refine DO agent briefs. Reply with ONE short agent display name (max 48 chars). No quotes, no explanation.',
+      'You refine DO agent briefs. Reply with ONE short agent display name (max 48 chars). No quotes, no explanation. DO is a portable agent object product — not a chatbot.',
     messages: [{ role: 'user', content: `Brief: ${brief}\nPrimitive: ${base.spec.primitive}` }],
     agentSlug: 'do-runtime',
     tenant: 'do',
@@ -167,15 +187,9 @@ async function refineCompileWithModel(
     maxOutputTokens: 48,
   });
 
-  if (!result.ok) {
-    return { ...base, honesty: `${base.honesty} · ${runtime.label}` };
-  }
-
+  if (!result.ok) return base;
   const name = result.text.trim().replace(/^["']|["']$/g, '').slice(0, 48);
-  if (!name) {
-    return { ...base, honesty: `${base.honesty} · ${runtime.label}` };
-  }
-
+  if (!name) return base;
   return {
     spec: {
       ...base.spec,
@@ -186,115 +200,57 @@ async function refineCompileWithModel(
   };
 }
 
-/** Clear rewrite — underlines + suggested tighter copy. */
+/** Clear rewrite — Agents SDK / orchestrator + underlines. */
 export async function runtimeClearRewrite(text: string): Promise<ClearRewriteResult> {
   const runtime = getDoRuntimeStatus();
-  const original = text.slice(0, 4_000);
-  const heuristic = clearHeuristics(original);
+  const spine = await resolveDoSpineAsync(getDoRuntimeStatus);
+  const result = await spine.clear(text);
 
-  if (runtime.capability === 'demo' || !original.trim()) {
-    return { ...heuristic, runtime };
-  }
-
-  try {
-    const { generateWithFallback, resolveModelLadder, resolveLadderFromIds } = await import(
-      '@/lib/ai/router'
-    );
-    const ladder =
-      runtime.provider === 'byo'
-        ? resolveLadderFromIds(['gpt-4o-mini', 'gpt-4o'])
-        : resolveModelLadder('claude-sonnet-4-6', [
-            'gemini-2.5-flash',
-            'groq:llama-3.3-70b-versatile',
-          ]);
-
-    if (ladder.length === 0) {
-      return { ...heuristic, runtime };
-    }
-
-    const result = await generateWithFallback({
-      ladder,
-      system:
-        'Rewrite the user text for clarity. Keep meaning. Shorter is better. Return only the rewritten text.',
-      messages: [{ role: 'user', content: original }],
-      agentSlug: 'do-clear',
-      tenant: 'do',
-      taskId: 'clear-rewrite',
-      maxOutputTokens: 600,
-    });
-
-    if (!result.ok || !result.text.trim()) {
-      return { ...heuristic, runtime };
-    }
-
+  if (result.ok) {
     return {
-      original,
-      rewritten: result.text.trim(),
-      marks: heuristic.marks,
-      runtime,
+      ...result.output,
+      runtime: { ...result.runtime, spine: result.spine },
+      spine: result.spine,
+      sessionId: result.session.id,
     };
-  } catch {
-    return { ...heuristic, runtime };
   }
+
+  const heuristic = clearHeuristics(text.slice(0, 4_000));
+  return { ...heuristic, runtime };
 }
 
-/** Astra-class hard job — Assembl-hosted stub that can call the model when live. */
+/** Astra-class hard job through spine (SDK handoff or orchestrator). */
 export async function runtimeAstraHardJob(input: {
   brief: string;
   contextSummary: string;
-}): Promise<{ draft: string; honesty: string; runtime: DoRuntimeStatus }> {
+}): Promise<{
+  draft: string;
+  honesty: string;
+  runtime: DoRuntimeStatus;
+  sessionId?: string;
+  spine?: string;
+  interruptions?: Array<{ id: string; reason: string }>;
+}> {
   const runtime = getDoRuntimeStatus();
-  const stub = await stubAstraProvider.run(input);
+  const spine = await resolveDoSpineAsync(getDoRuntimeStatus);
+  const result = await spine.hardJob(input);
 
-  if (runtime.capability === 'demo') {
+  if (result.ok) {
     return {
-      draft: stub.draft,
-      honesty: `${stub.honesty} · ${runtime.label}`,
-      runtime,
+      draft: result.output.draft,
+      honesty: result.output.honesty,
+      runtime: { ...result.runtime, spine: result.spine },
+      sessionId: result.session.id,
+      spine: result.spine,
+      interruptions: result.interruptions.map((i) => ({ id: i.id, reason: i.reason })),
     };
   }
 
-  try {
-    const { generateWithFallback, resolveModelLadder, resolveLadderFromIds } = await import(
-      '@/lib/ai/router'
-    );
-    const ladder =
-      runtime.provider === 'byo'
-        ? resolveLadderFromIds(['gpt-4o-mini'])
-        : resolveModelLadder('claude-sonnet-4-6', ['gemini-2.5-flash']);
-
-    if (ladder.length === 0) {
-      return { draft: stub.draft, honesty: `${stub.honesty} · ${runtime.label}`, runtime };
-    }
-
-    const result = await generateWithFallback({
-      ladder,
-      system:
-        'You are DO’s Astra-class planner stub. Draft a short multi-source plan. Do not claim anything was submitted or sent.',
-      messages: [
-        {
-          role: 'user',
-          content: `Brief: ${input.brief}\nContext: ${input.contextSummary}`,
-        },
-      ],
-      agentSlug: 'do-astra',
-      tenant: 'do',
-      taskId: 'astra-hard-job',
-      maxOutputTokens: 400,
-    });
-
-    if (!result.ok) {
-      return { draft: stub.draft, honesty: `${stub.honesty} · ${runtime.label}`, runtime };
-    }
-
-    return {
-      draft: result.text.trim(),
-      honesty: `Assembl-hosted Astra-class draft · ${runtime.label}. Nothing sent.`,
-      runtime,
-    };
-  } catch {
-    return { draft: stub.draft, honesty: `${stub.honesty} · ${runtime.label}`, runtime };
-  }
+  return {
+    draft: `DEMO hard-job stub · ${input.brief.slice(0, 80)}`,
+    honesty: `${result.error} · ${runtime.label}`,
+    runtime,
+  };
 }
 
 export { clearHeuristics } from './clear';

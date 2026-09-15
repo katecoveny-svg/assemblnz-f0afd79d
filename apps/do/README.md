@@ -2,9 +2,20 @@
 
 Working name: **DO**. Behaviour: **See something → ✦ make agent.**
 
-Promise: **DO anything from where you already are.** Surface ≠ agent — the floating ✦ is one launch surface; the agent is the AgentSpec.
+Promise: **DO anything from where you already are.** Surface ≠ agent — the floating ✦ is one launch surface; the agent is the portable **AgentSpec**.
 
-Isolated DEMO / PREVIEW inside the assembl monorepo. Does **not** change the live homepage (`/`, CinematicJourneyHome) or One NZ / Evidence / Operator journeys.
+Isolated DEMO / PREVIEW inside the assembl monorepo. Does **not** change the live homepage (`/`).
+
+## What DO is (and is not)
+
+| DO is | DO is not |
+|-------|-----------|
+| See something → ✦ make a **portable agent object** | ChatGPT / OpenAI consumer agent clone |
+| **place / template / delete** AgentSpecs | Instinct-style messaging personal assistant |
+| Home = **Wallet / Things cards** + Needs you | Chat threads as the home |
+| Clear = vertical plain / **anti-slop** (secondary) | Grammarly grammar-first product |
+
+Starter lessons kept: approval-gated consequential actions, ✦ make agent, AgentSpec watches/when/does/asks, plum side panel.
 
 ## How to try (fast path)
 
@@ -18,112 +29,76 @@ pnpm dev                              # http://localhost:3000/do
 
 First viewport is **widgets**, not brochure copy:
 
-1. Thin **PREVIEW** + **Assembl runtime · DEMO** chips
+1. Thin PREVIEW + runtime chips + differentiation lock chip
 2. Giant living **✦** — primary make-agent control
-3. Template **widget tiles** (bento) — one-line job max; right-click to pin
-4. **Mitre 10 · SAP** DEMO tile (geometric mark, logo-free)
-5. Scroll for Wallet boards (Needs you / Working / Done), **DO Clear** mini-overlay, WhatsApp phone stub
+3. **place · template · delete** verbs under the wordmark
+4. Template pinboard + Mitre 10 · SAP DEMO tile
+5. Wallet boards (Needs you / Working / Done)
+6. DO Clear (secondary) + WhatsApp phone stub
 
-### Floating ✦ widget on `/do`
+## Agents SDK spine
 
-1. Click the floating **✦** (bottom-right) or the giant orb
-2. Context chips show URL / title / selection
-3. Pick a template, or type a brief → compile via Assembl-hosted runtime
-4. Review AgentSpec → optional connector stub → **Activate**
-5. Lands in Working / Needs you with Evidence
+Hard jobs / compile / Clear prefer **OpenAI Agents SDK** patterns:
 
-### Mitre 10 · SAP pursuit DEMO
+- `agent` + `tools` + `guardrails` + **human-in-the-loop** (`needsApproval`) for consequential acts
+- Sessions + handoffs (Compile · Clear · Astra specialists)
+- Commercial default remains **Assembl-hosted**
 
-1. Click the **Mitre 10 · SAP** tile
-2. Widget opens on `mitre10-sap-rfp-brief` with fictional RFP fixture context
-3. Activate → Needs you + Evidence (draft only — nothing sent)
+| Condition | Spine |
+|-----------|--------|
+| `OPENAI_API_KEY` or `AI_GATEWAY_API_KEY` set | `@openai/agents` adapter (`apps/do/shared/spine/openai-adapter.ts`) |
+| No OpenAI key (Assembl DEMO / Anthropic-only) | Thin TS orchestrator matching the same concepts (`apps/do/shared/spine/orchestrator.ts`) |
 
-### Chrome extension
+Adapter interface: `apps/do/shared/spine/types.ts` (`DoAgentsSpine`).  
+Resolver: `resolveDoSpineAsync()` in `apps/do/shared/spine/index.ts`.  
+Runtime entry: `apps/do/shared/runtime.ts` → compile / Clear / Astra.
 
-1. `chrome://extensions` → Developer mode → **Load unpacked** → `apps/do/extension`
-2. Open any http(s) page → floating **✦** opens an on-page compact sheet
-3. Side panel remains available as a second surface
-4. Set API base to `http://localhost:3000` if needed
+This is **not** a fake SDK. When the package cannot run (no key), the orchestrator is the durable DO contract the SDK adapter implements.
+
+```bash
+# dependency (workspace root)
+pnpm add -w @openai/agents
+```
+
+Env:
+
+```bash
+DO_RUNTIME=assembl   # default — Assembl hosts inference
+# DO_RUNTIME=byo     # Enterprise BYO later
+# OPENAI_API_KEY=…   # enables Agents SDK adapter (also used for byo)
+# AI_GATEWAY_API_KEY=…
+```
 
 ## Runtime — Assembl hosts the agent
 
-**Product default:** Assembl supplies inference inside the subscription. Not “bring your own API” as the default.
-
 | Plan posture | Runtime |
 |--------------|---------|
-| Personal / Pro | **Assembl-hosted** included (`DO_RUNTIME=assembl`, default) |
-| Enterprise | BYO later (`DO_RUNTIME=byo` + `OPENAI_API_KEY` / gateway) |
+| Personal / Pro | **Assembl-hosted** included (`DO_RUNTIME=assembl`) |
+| Enterprise | BYO later (`DO_RUNTIME=byo` + OpenAI key) |
 
-Implementation: `apps/do/shared/runtime.ts`
-
-- Provider id: `assemblHosted` (default)
-- Reuses `lib/ai/router.ts` (`generateWithFallback` + model ladder) when keys exist
-- Without keys: **hosted DEMO mode** — deterministic compile + Clear heuristics still wired; chip reads **Assembl runtime · DEMO**
-- Clear rewrite: `POST /api/do/clear`
-- Status chip: `GET /api/do/runtime`
-- Compile path: `POST /api/do/agents/compile` → `runtimeCompile`
-
-Env (see `.env.local.example`):
-
-```bash
-DO_RUNTIME=assembl   # or byo
-# OPENAI_API_KEY=…   # only required for byo live
-# AI_GATEWAY_API_KEY=…  # optional byo gateway
-```
-
-## Architecture
-
-```
-context + intent → AgentSpec → tools → permissions → outcome
-         ↑
-   Assembl-hosted runtime (or BYO / DEMO)
-```
-
-| Surface | Status |
-|---------|--------|
-| Chrome MV3 ✦ (on-page sheet) | live (MVP) |
-| Web `/do` floating ✦ + widget stage | live (MVP) |
-| DO Clear overlay demo | live (heuristics + hosted rewrite) |
-| WhatsApp / SMS / Messenger | stubs / phone chrome DEMO only |
-
-### Runtime routing (not a chatbot)
-
-| Job class | Lane | Example |
-|-----------|------|---------|
-| Simple single-source | **local** Watch / primitive | power price change |
-| Multi-source / compare / find | **Astra-class** (Assembl-hosted stub) | quote compare, GETS-like find |
-
-## Launch template catalog
-
-Data-driven registry in `apps/do/shared/templates.ts` — served by `GET /api/do/templates`.
+Without keys: chip **Assembl runtime · DEMO** — deterministic compile + Clear + HITL still wired.
 
 ## API map
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `POST` | `/api/do/agents/compile` | NL + page → AgentSpec (via runtime) |
-| `POST` | `/api/do/agents/:id/activate` | Activate (`{ connector? }`) |
-| `POST` | `/api/do/agents/:id/tick` | Watch tick (`{ simulateChange? }`) |
-| `POST` | `/api/do/agents/:id/approve` | Approve / decline |
-| `DELETE` | `/api/do/agents/:id` | Delete |
-| `GET`  | `/api/do/templates` | Catalog + groups + connector stubs |
-| `GET`  | `/api/do/agents?grouped=1` | Boards |
-| `GET`  | `/api/do/runtime` | Assembl / BYO / DEMO status |
+| `POST` | `/api/do/agents/compile` | NL + page → AgentSpec (via spine) |
 | `POST` | `/api/do/clear` | Clear rewrite + underline marks |
-| `POST` | `/api/do/message` | Common surface ingress |
-| `GET`  | `/api/do/surfaces` | Live + stub surfaces |
-
-Primitives: `watch` | `find` | `extract` | `prepare` | `compare`.
+| `GET`  | `/api/do/runtime` | Assembl / BYO / DEMO + spine kind |
+| `POST` | `/api/do/agents/:id/activate` | Activate |
+| `POST` | `/api/do/agents/:id/tick` | Watch tick |
+| `POST` | `/api/do/agents/:id/approve` | Approve / decline (HITL) |
+| `DELETE` | `/api/do/agents/:id` | Delete |
+| `GET`  | `/api/do/templates` | Catalog |
+| `GET`  | `/api/do/agents?grouped=1` | Boards |
 
 ## DEMO honesty
 
-- Thin PREVIEW + runtime chips (not banner novels)
-- Mitre 10 / SAP pack uses **fictional** fixtures — not a live Mitre 10 or SAP system
-- Connector picker is stubs only; **Hook later** is the default
-- Approve records your yes; does **not** buy/book/send/post/submit/pay/sign externally
-- Without model keys the runtime still works and labels **Assembl runtime · DEMO**
+- Thin PREVIEW + runtime chips
+- Mitre / SAP fixtures are fictional
+- Approve does not send/submit/pay externally
 - Homepage `/` untouched
 
 ## Brand
 
-Plum `#240B21`, heather `#916A70`, paper `#FFFDFB`. Instrument Sans + IBM Plex Mono. No bot avatars, purple AI gradients, or chat-first DO UI. Respect `prefers-reduced-motion`.
+Plum `#240B21`, heather `#916A70`, paper `#FFFDFB`. Instrument Sans + IBM Plex Mono. No bot avatars, purple AI gradients, or chat-first DO UI.

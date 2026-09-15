@@ -93,6 +93,29 @@
   color: rgba(245, 241, 242, 0.88);
 }
 
+.do-pill-lock {
+  color: rgba(245, 241, 242, 0.55);
+  letter-spacing: 0.06em;
+}
+
+.do-verb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0;
+}
+
+.do-verb-row span {
+  font-family: var(--do-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 253, 251, 0.5);
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 253, 251, 0.14);
+}
+
 .do-pill-dot {
   width: 6px;
   height: 6px;

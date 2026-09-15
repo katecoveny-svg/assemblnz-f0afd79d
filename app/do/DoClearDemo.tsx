@@ -55,7 +55,7 @@ export function DoClearDemo() {
   return (
     <div className="do-clear" aria-label="DO Clear demo">
       <div className="do-clear-chrome">
-        <span className="do-mono">DO Clear</span>
+        <span className="do-mono">DO Clear · anti-slop</span>
         <span className="do-chip do-chip-live">
           <span className="do-chip-dot" />
           {runtimeLabel}
@@ -98,7 +98,7 @@ export function DoClearDemo() {
         {marks[0] ? (
           <span className="do-clear-hint">{marks[0].suggestion}</span>
         ) : (
-          <span className="do-clear-hint">Underlines mark tighten-ups</span>
+          <span className="do-clear-hint">Secondary · plain vertical, not grammar-first</span>
         )}
       </div>
     </div>
