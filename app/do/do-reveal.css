@@ -68,7 +68,7 @@
   object-fit: contain;
   mix-blend-mode: screen;
   /* Shift dimensional-d.png purple cast → warm rose / soft magenta-rose */
-  filter: hue-rotate(48deg) saturate(0.88) brightness(1.03);
+  filter: hue-rotate(58deg) saturate(0.85) brightness(1.04);
 }
 .dor-slice-0 {
   clip-path: inset(0 65% 0 0);
@@ -406,5 +406,5 @@
 }
 .dor-object img {
   mask-image: radial-gradient(ellipse at center, #000 42%, transparent 72%);
-  filter: hue-rotate(48deg) saturate(0.88) brightness(1.03);
+  filter: hue-rotate(58deg) saturate(0.85) brightness(1.04);
 }
