@@ -18,6 +18,7 @@ import { DO_TEMPLATES } from "./do-templates";
 import { DoMark } from "@/components/do/DoMark";
 import { DoPortableStarters } from "@/components/do/DoPortableStarters";
 import { DoDownloadsStrip } from "@/components/do/DoDownloadsStrip";
+import { DoDownloadCtas } from "@/components/do/DoDownloadCtas";
 import { DO_TASKS } from "@/apps/do/shared/preparation";
 import { readHomeBrief } from "@/apps/do/shared/home-handoff";
 import type { DoSkill } from "./DoBuilder";
@@ -194,8 +195,16 @@ export function DoHome() {
           <Link href="/do/tasks">Tasks</Link>
           <Link href="/do/meetings">Meetings</Link>
           <Link href="/do/connections">Connections</Link>
+          <button
+            type="button"
+            className={styles.headerDownload}
+            onClick={() => downloads.current?.showModal()}
+          >
+            Download DO <Download size={15} />
+          </button>
         </nav>
       </header>
+      <DoDownloadCtas variant="banner" />
       <div>
         <DoReveal
           onBuild={(id, context) => {
@@ -433,11 +442,17 @@ export function DoHome() {
                 Keep DO in the browser side panel. Bring selected text when you
                 choose.
               </p>
+              <a
+                href="/api/do/download?format=extension"
+                download="assembl-do-extension-1.5.2.zip"
+              >
+                Download Chrome DO <Download size={16} />
+              </a>
               <button
                 type="button"
                 onClick={() => downloads.current?.showModal()}
               >
-                Get the extension <Download size={16} />
+                Install steps <ArrowUpRight size={16} />
               </button>
             </article>
             <article>
@@ -447,11 +462,17 @@ export function DoHome() {
                 The Mac development app remembers its position and visibility.
                 Start at login is your choice in the DO menu.
               </p>
-              <a href="https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos">
-                Mac companion setup <ArrowUpRight size={16} />
+              <a
+                href="/api/do/download?format=mac"
+                download="DO-mac-companion.zip"
+              >
+                Download Mac DO <Download size={16} />
               </a>
+              <Link href="/do/install#mac">
+                Build & availability <ArrowUpRight size={16} />
+              </Link>
               <small>
-                Development build · public signed installer not available.
+                Source zip · build on a Mac · no notarised public installer yet.
               </small>
             </article>
             <article>
@@ -542,37 +563,43 @@ export function DoHome() {
           <br />
           Alongside you.
         </h2>
-        <DoDownloadsStrip />
+        <DoDownloadCtas variant="sheet" />
         <div className="do-download-card">
           <div>
-            <h3>Browser side panel</h3>
+            <h3>Chrome DO</h3>
             <p>
-              Download and unzip the extension. In Chrome or Edge, open
-              Extensions, enable Developer mode, choose “Load unpacked” and
-              select the folder. Pin DO to open its side panel.
+              Download and unzip. In Chrome, open Extensions, enable Developer
+              mode, choose “Load unpacked” and select the folder. Pin DO. If it
+              shows Inactive, Reload after fixing any JS errors — every file uses
+              quoted <code>&apos;use strict&apos;;</code>.
             </p>
-            <a href="/api/do/download?format=extension" download>
+            <a
+              href="/api/do/download?format=extension"
+              download="assembl-do-extension-1.5.2.zip"
+            >
               <Download size={16} />
-              Download extension ZIP
+              Download Chrome DO
             </a>
             <small>Direct installation · not a browser store listing.</small>
           </div>
         </div>
         <div className="do-download-card">
           <div>
-            <h3>Mac companion</h3>
+            <h3>Mac DO</h3>
             <p>
-              Local development build with floating orb, selection capture and
-              review-first paste. Public signed installer is not available yet.
+              Source zip of the floating companion. Build on a Mac with Xcode
+              Command Line Tools. Public signed installer is not available yet.
             </p>
             <a
-              href="https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos"
-              target="_blank"
-              rel="noreferrer"
+              href="/api/do/download?format=mac"
+              download="DO-mac-companion.zip"
             >
-              <ArrowUpRight size={16} />
-              Mac setup on GitHub
+              <Download size={16} />
+              Download Mac DO
             </a>
+            <small>
+              Development / ad-hoc signed only — Gatekeeper may warn.
+            </small>
           </div>
         </div>
         <div className="do-download-card">

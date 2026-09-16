@@ -75,10 +75,15 @@ describe('Per-DO task store', () => {
   it('returns next open todos sorted by priority', () => {
     const portable = DO_TASK_SEED_BOARDS.find((board) => board.id === 'portable-widget')!;
     const next = nextOpenTodos(portable, 3);
-    expect(next).toHaveLength(3);
+    expect(next).toHaveLength(2);
     expect(next.every((item) => item.status !== 'done')).toBe(true);
     expect(next[0]?.priority).toBe('p0');
-    expect(openIssues(portable.issues).some((item) => item.status === 'blocked')).toBe(true);
+    expect(next.map((item) => item.id)).toEqual(
+      expect.arrayContaining(['pw-ux', 'pw-meeting-auth']),
+    );
+    expect(portable.issues.filter((item) => item.status === 'done').map((item) => item.id)).toEqual(
+      expect.arrayContaining(['pw-chrome-cta', 'pw-mac-cta']),
+    );
   });
 
   it('merges newly seeded boards without wiping saved edits', () => {

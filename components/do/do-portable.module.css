@@ -134,14 +134,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 36px;
-  padding: 0 12px;
+  min-height: 40px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--do-plum);
   background: var(--do-plum);
   color: var(--do-paper);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -149,6 +149,15 @@
   background: var(--do-paper);
   color: var(--do-plum);
   border-color: #dccbd6;
+}
+
+.downloadGuide {
+  font-size: 12px;
+  color: var(--do-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  align-self: center;
+  padding: 0 4px;
 }
 
 .downloadsNote {

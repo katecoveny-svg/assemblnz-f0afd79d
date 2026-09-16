@@ -22,12 +22,11 @@ a{color:inherit;font-size:11px}
 .board span{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#654a4e}
 .board p{margin:6px 0 0;font-size:11px;color:#654a4e;line-height:1.4}
 .downloads{margin:4px 16px 8px;padding:12px 14px;border-radius:14px;border:1px solid #916a7088;background:#fffdfb;color:#240b21}
-.downloads-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
-.downloads-head strong{font-size:13px;letter-spacing:-.02em}
-.downloads-head span{color:#654a4e;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase}
-.download-row{display:flex;flex-wrap:wrap;gap:8px}
-.download-link{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid #240b21;background:#240b21;color:#fffdfb;text-decoration:none;font-size:12px;font-weight:500}
+.downloads-label{margin:0 0 8px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#916a70}
+.download-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.download-link{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid #240b21;background:#240b21;color:#fffdfb;text-decoration:none;font-size:12px;font-weight:500}
 .download-link.secondary{background:#fffdfb;color:#240b21;border-color:#dccbd6}
+.download-guide{font-size:11px;color:#654a4e;text-decoration:underline;text-underline-offset:3px}
 .downloads-note{margin:8px 0 0;font-size:11px;color:#654a4e;line-height:1.45}
 .toolbar-row{display:flex;flex-wrap:wrap;gap:8px 14px;padding:0 16px 8px}
 .text-btn{border:0;background:transparent;color:#d6bfd0;font:inherit;font-size:11px;text-decoration:underline;cursor:pointer;padding:4px 0}
