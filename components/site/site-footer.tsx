@@ -2,88 +2,105 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MatarikiCluster } from "@/components/assembl/chrome";
-import { isAdminHub, isAgentMarketplace, isAlphassembl, isAssemblBills, isAtlas, isAuthSurface, isCustomerWorkspace, isDashMicrosite, isEcho, isLab, isStandaloneHealth, isStudio } from "@/components/site/site-header";
+import {
+  isAdminHub,
+  isAgentMarketplace,
+  isAlphassembl,
+  isAssemblBills,
+  isAtlas,
+  isAuthSurface,
+  isCustomerWorkspace,
+  isDashMicrosite,
+  isEcho,
+  isLab,
+  isStandaloneHealth,
+  isStudio,
+} from "@/components/site/site-header";
 
 /**
- * Global footer — DIRECTION-LOCKED-2026-07-01 (palette correction 2026-07-02).
- *
- * Paper white, lowercase Cormorant `assembl` wordmark with the matariki
- * cluster ornament, the tracked motto as the only uppercase text, Space Mono
- * small links in three quiet columns (product / company / legal). No
- * sub-brand references, no old-era anchors.
+ * Global footer — plum / chalk / Instrument Sans.
+ * IBM Plex Mono only for micro labels. No Cormorant / gold / grape.
  */
 
 const COLUMNS: { label: string; links: { href: string; label: string }[] }[] = [
   {
     label: "product",
     links: [
-      { href: "/living-site", label: "the living site" },
-      { href: "/os", label: "the operating system" },
-      { href: "/install", label: "install a business" },
-      { href: "/pricing", label: "pricing" },
-      { href: "/trust", label: "trust" },
+      { href: "/pursuit", label: "Pursuit" },
+      { href: "/do", label: "DO" },
+      { href: "/creative-studio", label: "Studio" },
+      { href: "/contact", label: "Contact" },
     ],
   },
   {
     label: "company",
     links: [
-      { href: "/about", label: "about" },
-      { href: "/contact", label: "contact" },
+      { href: "/about", label: "About" },
+      { href: "/contact", label: "Contact" },
       { href: "mailto:assembl@assembl.co.nz", label: "assembl@assembl.co.nz" },
     ],
   },
   {
     label: "legal",
     links: [
-      { href: "/legal/privacy", label: "privacy" },
-      { href: "/legal/terms", label: "terms" },
+      { href: "/legal/privacy", label: "Privacy" },
+      { href: "/legal/terms", label: "Terms" },
     ],
   },
 ];
 
-const GOLD = "#BFA37A";
-const INK = "#1A1918";
-const BODY_GREY = "#5A5850";
-const HAIRLINE = "#E7E4DA";
+const PLUM = "#240B21";
+const MUTED = "#654A4E";
+const CHALK = "#F5F1F2";
+const HAIRLINE = "rgba(36, 11, 33, 0.12)";
 
-const monoSmall: React.CSSProperties = {
-  fontFamily: "var(--font-mono), 'Space Mono', monospace",
-  fontSize: 12.5,
-  textTransform: "lowercase",
+const bodyLink: React.CSSProperties = {
+  fontFamily: "var(--font-body), 'Instrument Sans', system-ui, sans-serif",
+  fontSize: 14,
+  color: PLUM,
+  textDecoration: "none",
 };
 
 const microLabel: React.CSSProperties = {
   margin: 0,
-  fontFamily: "var(--font-mono), 'Space Mono', monospace",
-  fontSize: 12,
-  letterSpacing: "0.16em",
+  fontFamily: "var(--font-mono), 'IBM Plex Mono', monospace",
+  fontSize: 11,
+  letterSpacing: "0.12em",
   textTransform: "uppercase",
-  color: BODY_GREY,
+  color: MUTED,
 };
 
 export function SiteFooter() {
   const pathname = usePathname();
-  // The /assembling microsite, /agents marketplace, /atlas coach, signed-out
-  // auth surfaces and the /admin operator hub ship their own footer (or none);
-  // suppress the global one there. Customer pilot workspaces (/customers/*) are
-  // white-labelled — suppress the assembl footer across the whole subtree.
-  // pathname === "/" — the root is the coming-soon splash until the fresh
-  // marketing site cuts over; the splash carries no chrome at all.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isStudio(pathname) || isLab(pathname) || pathname === "/") return null;
+  if (
+    isDashMicrosite(pathname) ||
+    isAgentMarketplace(pathname) ||
+    isAtlas(pathname) ||
+    isEcho(pathname) ||
+    isAuthSurface(pathname) ||
+    isAdminHub(pathname) ||
+    isCustomerWorkspace(pathname) ||
+    isAlphassembl(pathname) ||
+    isAssemblBills(pathname) ||
+    isStandaloneHealth(pathname) ||
+    isStudio(pathname) ||
+    isLab(pathname) ||
+    pathname === "/"
+  ) {
+    return null;
+  }
 
   return (
     <footer
       className="relative z-10 mt-24"
-      style={{ background: "#FBFAF6", borderTop: `1px solid ${HAIRLINE}` }}
+      style={{ background: CHALK, borderTop: `1px solid ${HAIRLINE}` }}
     >
       <div className="container" style={{ paddingTop: 64, paddingBottom: 28 }}>
-        {/* motto — the only uppercase text in the footer */}
         <p style={{ ...microLabel, display: "flex", alignItems: "center", gap: 10 }}>
-          <span aria-hidden style={{ color: GOLD, fontSize: 12, lineHeight: 1 }}>
+          <span aria-hidden style={{ color: "#916A70", fontSize: 12, lineHeight: 1 }}>
             •
           </span>
-          less admin. make the wait useful.
+          find it · do it · show it
         </p>
 
         <div
@@ -95,24 +112,23 @@ export function SiteFooter() {
               href="/"
               className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
-              <MatarikiCluster size={40} gold className="opacity-90" />
               <span
                 style={{
-                  fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                  fontFamily: "var(--font-body), 'Instrument Sans', system-ui, sans-serif",
                   fontWeight: 500,
                   fontSize: 30,
                   lineHeight: 1,
-                  letterSpacing: "0.04em",
+                  letterSpacing: "-0.04em",
                   textTransform: "lowercase",
-                  color: INK,
+                  color: PLUM,
                 }}
               >
                 assembl
-                <span aria-hidden style={{ color: GOLD }}>
-                  .
-                </span>
               </span>
             </Link>
+            <p style={{ margin: "12px 0 0", color: MUTED, fontSize: 13, lineHeight: 1.5, maxWidth: 280 }}>
+              Built in Aotearoa. Nothing consequential sends without a named yes.
+            </p>
           </div>
 
           {COLUMNS.map((col) => (
@@ -124,7 +140,7 @@ export function SiteFooter() {
                     <Link
                       href={item.href}
                       className="rounded-sm transition-colors hover:opacity-70 focus-visible:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
-                      style={{ ...monoSmall, color: INK, textDecoration: "none" }}
+                      style={bodyLink}
                     >
                       {item.label}
                     </Link>
@@ -135,8 +151,16 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <p style={{ ...monoSmall, margin: 0, paddingTop: 24, fontSize: 12, color: BODY_GREY }}>
-          © 2026 assembl — built in new zealand
+        <p
+          style={{
+            fontFamily: "var(--font-mono), 'IBM Plex Mono', monospace",
+            margin: 0,
+            paddingTop: 24,
+            fontSize: 11,
+            color: MUTED,
+          }}
+        >
+          © 2026 assembl — built in Aotearoa
         </p>
       </div>
     </footer>

@@ -14,10 +14,10 @@ export type ConceptDemo = {
 };
 
 export const PUBLIC_NAV_LINKS = [
-  { href: '/agents', label: 'agents' },
-  { href: '/concept-studio', label: 'concept studio' },
-  { href: '/pricing', label: 'pricing' },
-  { href: '/about', label: 'about' },
+  { href: '/pursuit', label: 'Pursuit' },
+  { href: '/do', label: 'DO' },
+  { href: '/creative-studio', label: 'Studio' },
+  { href: '/about', label: 'About' },
 ] as const;
 
 export const CONCEPT_DEMOS: readonly ConceptDemo[] = [
