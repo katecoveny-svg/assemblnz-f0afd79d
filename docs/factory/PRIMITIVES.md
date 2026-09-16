@@ -22,7 +22,7 @@ Do not extract something merely because it might be reused. Prefer extraction af
 | DO native Mac companion | active development | `apps/do/macos/` | cross-app DO surface | Mac compile/smoke-test needed | floating companion, explicit accessibility capture/paste, persisted position/visibility, opt-in login launch |
 | Agent email transport/audit | existing | `lib/agent-email/`, `supabase/functions/agent-email-*`, `agent_email_*` tables | provisioned agent identities | audit before DO mailbox linking | reuse for real DO mailboxes; never fabricate addresses from agent names |
 | Shared context manifest | existing | `config/context-manifest.json`, `docs/context/*` | Codex, Claude, Grok, Hermes, DO runtimes | `pnpm context:check` | one repo-backed memory spine across harnesses |
-| Agent-paid tool gate | new / active | `lib/tools/` (`auth`, `keys`, `sandbox`, `cap`, `receipts`, `invoke`, `store`) | `/api/tools/nz-who-runs-it`, next `nz-trade-finder` | `lib/tools/__tests__/agent-paid-tools.test.ts` | URL + key + daily cap + receipt; `test_` sandbox never hits live upstreams |
+| Agent-paid tool gate | active | `lib/tools/` (`auth`, `keys`, `sandbox`, `cap`, `receipts`, `invoke`, `store`, `registry`) | `/api/tools/nz-who-runs-it`, `nz-trade-finder`, `meeting-enhance`, `nz-compliance-ping` | `lib/tools/__tests__/agent-paid-tools.test.ts` + route tests | URL + key + daily cap + receipt; `test_` sandbox never hits live upstreams |
 
 ## Candidates to inventory
 

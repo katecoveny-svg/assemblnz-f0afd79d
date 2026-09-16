@@ -128,3 +128,17 @@ A second tool (nz-trade-finder) can plug into the same gate. DO Meeting / Househ
 
 **Revisit when**  
 Billing moves from daily cent caps to Stripe metered billing, or keys need org-scoped multi-tenant issuance UI.
+
+## ADR-005a — meeting-enhance on the agent-paid tools line (extension)
+**Status:** accepted  
+**Date:** 2026-09-16
+
+**Context**  
+Kate’s agent-paid tools thesis: URL + key + cap + receipt for one useful job. Meeting enhance was previously scoped only to Meeting DO.
+
+**Decision**  
+Ship `POST /api/tools/meeting-enhance` on the same paid-tools gate as `nz-who-runs-it`, reusing DO meeting-notes preparation for live when configured. Sandbox `test_` keys stay deterministic and model-free. Drafts only — never claim send/assign. Meeting DO UI remains the capture surface; this endpoint is the agent HTTP complement.
+
+**Consequences**  
+Three tools share receipts/caps: `nz-trade-finder` (sandbox-first; live NZBN/Companies Office city+trade stubbed), `meeting-enhance`, `nz-compliance-ping` (NZBN status flags). Registry at `/tools` + `docs/tools/README.md`.
+
