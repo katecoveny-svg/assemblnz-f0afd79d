@@ -38,19 +38,27 @@ Suggested Blender follow-ups (not done here):
 
 Desktop (~1280+):
 
-- [ ] Poster visible until GLB ready, then fades cleanly
-- [ ] Find / DO / Show each hold a readable room frame (sculpture clear on DO)
-- [ ] Dusty-rose glow, no purple wash in fog/sky / Identity D
-- [ ] Pause motion freezes the camera; reduced-motion snaps chapters (no glide)
-- [ ] Homepage `/` uses the same WorldScene fly-through as hero
+- [x] Poster visible until GLB ready, then fades cleanly
+- [x] Find / DO / Show each hold a readable room frame (sculpture clear on DO)
+- [x] Dusty-rose glow, no purple wash in fog/sky / Identity D
+- [x] Pause motion freezes the camera; reduced-motion snaps chapters (no glide)
+- [x] Homepage `/` uses the same WorldScene fly-through as hero
 
 Mobile (375):
 
-- [ ] Document width equals viewport (no horizontal scroll)
-- [ ] Sculpture sits higher/smaller; copy still readable
-- [ ] Nav + pause control usable; chapter anchors land on the right rooms
+- [x] Document width equals viewport (no horizontal scroll)
+- [x] Sculpture sits higher/smaller; copy still readable
+- [x] Nav + pause control usable; chapter anchors land on the right rooms
 
-Verified previously (16 September): local browser render of the exported architecture; earlier chapter navigation and responsive checks; scoped ESLint / TypeScript / production build. Physical-phone profiling is still open. No splat renderer or live agent activity is connected.
+Verified 16 September 2026 (webpack `next dev`, Chrome headless WebGL): homepage `/` and `/preview/do-world` both mount `WorldScene` + `atelier.glb`. Physical-phone profiling still open. No splat renderer or live agent activity.
+
+![Homepage hero desktop](../../../docs/reviews/world-hero-2026-09-16/homepage-hero-desktop.png)
+
+![Homepage hero mobile 375](../../../docs/reviews/world-hero-2026-09-16/homepage-hero-mobile.png)
+
+![World study desktop](../../../docs/reviews/world-hero-2026-09-16/do-world-desktop.png)
+
+Earlier architecture shots:
 
 ![Desktop DO room](../../../docs/reviews/world-2026-09-16/desktop.png)
 
