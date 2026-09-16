@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { BUILDERDOO_CANONICAL_CONTEXT, createBuilderJob } from './builder';
 
-describe('Builderdoo job contract', () => {
+describe('Builder DO job contract', () => {
   it('keeps the canonical Assembl context and provider route separate from the job identity', () => {
     const job = createBuilderJob({
       objective: 'Build a visual DO Office usage rail.',

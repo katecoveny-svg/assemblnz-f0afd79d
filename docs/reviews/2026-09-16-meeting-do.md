@@ -28,3 +28,9 @@
 - Production build passes for initial implementation; the final bounded-upload and shared-audio changes also pass the production build.
 
 References: https://developers.google.com/workspace/add-ons/gmail ; https://developers.google.com/workspace/add-ons/how-tos/testing-workspace-addons
+
+## Builder DO correction
+
+User corrected the specialist spelling to Builder DO, superseding the historical Builderdoo exception. Visible labels, titles, handoffs and active DO navigation use Builder DO; internal storage keys remain unchanged to preserve saved work. Regular 400-weight Instrument Sans headings replace heavier styling.
+
+Verified production-build browser flow: create a synthetic plan, save it, reload, reopen its objective and contract. Saved-job reopening now restores quality/risk/authority/vision/browser settings; storage errors no longer claim successful persistence. Added downloadable text handoff. Five focused planning/contract tests, typecheck, scoped lint and production build pass. Build worker execution remains unconnected; the UI now states this directly. No software build was launched by creating the test plan.

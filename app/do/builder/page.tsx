@@ -4,7 +4,7 @@ import { BuilderDoWorkspace } from './BuilderDoWorkspace';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Builderdoo · assembl' },
+  title: { absolute: 'Builder DO · assembl' },
   description: 'A persistent model-agnostic chief builder for the Assembl software factory.',
   alternates: { canonical: '/do/builder' },
 };

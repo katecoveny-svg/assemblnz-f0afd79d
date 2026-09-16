@@ -14,7 +14,7 @@ type PlannedResponse = {
 type SavedJob = PlannedResponse & { savedAt: string };
 
 const EXAMPLES = [
-  'Build the next usable version of DO Office with a real usage rail and Builderdoo entry point.',
+  'Build the next usable version of DO Office with a real usage rail and Builder DO entry point.',
   'Audit the current public Assembl shell for brand drift and fix only active company surfaces.',
   'Create a visual Creative Director DO that can brief, critique and route image, video, web and 3D work.',
 ];
@@ -22,7 +22,7 @@ const EXAMPLES = [
 function handoffText(plan: PlannedResponse): string {
   const { job } = plan;
   return [
-    'Act as Builderdoo for Assembl.',
+    'Act as Builder DO for Assembl.',
     `Job: ${job.title}`,
     `Objective: ${job.objective}`,
     `Authority: ${job.authority}. ${plan.executionBoundary}`,
@@ -73,7 +73,7 @@ export function BuilderDoWorkspace() {
   async function planJob() {
     if (objective.trim().length < 8 || busy) return;
     setBusy(true);
-    setMessage('Builderdoo is routing this job…');
+    setMessage('Builder DO is routing this job…');
     try {
       const response = await fetch('/api/do/builder/plan', {
         method: 'POST',
@@ -81,11 +81,11 @@ export function BuilderDoWorkspace() {
         body: JSON.stringify({ objective, risk, quality, authority, needsVision, needsBrowser }),
       });
       const data = await response.json() as PlannedResponse & { message?: string };
-      if (!response.ok) throw new Error(data.message || 'Builderdoo could not plan this job.');
+      if (!response.ok) throw new Error(data.message || 'Builder DO could not plan this job.');
       setPlan(data);
-      setMessage('Job planned. Review the route and boundary before handing it to an execution harness.');
+      setMessage('Plan ready. Review it, then download or copy the handoff for your coding agent.');
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Builderdoo could not plan this job.');
+      setMessage(error instanceof Error ? error.message : 'Builder DO could not plan this job.');
     } finally {
       setBusy(false);
     }
@@ -95,8 +95,16 @@ export function BuilderDoWorkspace() {
     if (!plan) return;
     const next: SavedJob[] = [{ ...plan, savedAt: new Date().toISOString() }, ...queue.filter((item) => item.job.id !== plan.job.id)].slice(0, 12);
     setQueue(next);
-    try { localStorage.setItem('assembl-builderdoo-jobs-v1', JSON.stringify(next)); } catch { /* keep in memory */ }
-    setMessage('Saved to this device. Durable cloud Builderdoo jobs are the next persistence step.');
+    try { localStorage.setItem('assembl-builderdoo-jobs-v1', JSON.stringify(next)); } catch { setMessage('Browser storage is unavailable. Download the handoff to keep this job.'); return; }
+    setMessage('Saved to this device. It will be here when you return in this browser.');
+  }
+
+  function downloadHandoff() {
+    if (!plan) return;
+    const url = URL.createObjectURL(new Blob([handoffText(plan)], { type: 'text/plain;charset=utf-8' }));
+    const anchor = document.createElement('a'); anchor.href = url; anchor.download = `builder-do-${plan.job.id}.txt`; anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setMessage('Handoff downloaded. Open it with your coding agent; no build has started here.');
   }
 
   async function copyHandoff() {
@@ -115,8 +123,8 @@ export function BuilderDoWorkspace() {
         <div>
           <Link href="/do" className={styles.brand}>DO</Link>
           <span className={styles.slash}>/</span>
-          <strong>Builderdoo</strong>
-          <span className={styles.preview}>founder preview</span>
+          <strong>Builder DO</strong>
+          <span className={styles.preview}>build planner</span>
         </div>
         <nav>
           <Link href="/do/connections">connections</Link>
@@ -128,21 +136,20 @@ export function BuilderDoWorkspace() {
       <main className={styles.main}>
         <section className={styles.hero}>
           <div>
-            <p className={styles.eyebrow}>persistent chief builder</p>
+            <p className={styles.eyebrow}>Builder DO / prepare a build</p>
             <h1>tell it what<br />needs to exist.</h1>
           </div>
           <p className={styles.heroCopy}>
-            Builderdoo keeps the Assembl context and build contract stable while the underlying model can change.
-            Plan the job here, then hand the same job to Codex, Claude, Grok, Gemini or another repo-capable harness.
+            Describe what you want to build. Review the plan, save it or download a handoff for your coding agent. This page prepares the job; it does not yet run a build worker.
           </p>
         </section>
 
         <div className={styles.grid}>
           <section className={styles.composer}>
             <div className={styles.sectionHead}>
-              <span>01</span><div><strong>the job</strong><p>What should Builderdoo make, fix or prove?</p></div>
+              <span>01</span><div><strong>the job</strong><p>What should Builder DO make, fix or prove?</p></div>
             </div>
-            <textarea value={objective} onChange={(event) => setObjective(event.target.value)} maxLength={4000} rows={7} aria-label="Builderdoo objective" />
+            <textarea value={objective} onChange={(event) => setObjective(event.target.value)} maxLength={4000} rows={7} aria-label="Builder DO objective" />
             <div className={styles.examples}>
               {EXAMPLES.map((example) => <button type="button" key={example} onClick={() => setObjective(example)}>{example.split(' ').slice(0, 5).join(' ')}…</button>)}
             </div>
@@ -168,7 +175,7 @@ export function BuilderDoWorkspace() {
               <div className={styles.modelHero}><span>primary</span><strong>{activeModel?.label || plan.job.route.ladder[0] || 'no configured match'}</strong><small>{activeModel?.provider || 'waiting for provider capability'}</small></div>
               <ol className={styles.ladder}>{plan.job.route.ladder.map((model, index) => <li key={model}><span>{String(index + 1).padStart(2, '0')}</span><strong>{model}</strong></li>)}</ol>
               <div className={styles.boundary}><span>authority boundary</span><p>{plan.executionBoundary}</p></div>
-            </> : <div className={styles.empty}><strong>no route yet</strong><p>Builderdoo will choose from the configured model candidates after you define the job.</p></div>}
+            </> : <div className={styles.empty}><strong>no route yet</strong><p>Builder DO will choose from the configured model candidates after you define the job.</p></div>}
           </aside>
         </div>
 
@@ -179,13 +186,13 @@ export function BuilderDoWorkspace() {
             <div><h3>done when</h3>{plan.job.definitionOfDone.map((item) => <p key={item}>✓ {item}</p>)}</div>
             <div><h3>proof</h3>{plan.job.proof.map((item) => <p key={item}>↳ {item}</p>)}</div>
           </div>
-          <div className={styles.actions}><button type="button" onClick={saveJob}>save job</button><button type="button" onClick={() => void copyHandoff()} className={styles.primaryAction}>copy builder handoff</button></div>
+          <div className={styles.actions}><button type="button" onClick={saveJob}>save job</button><button type="button" onClick={downloadHandoff}>download build handoff</button><button type="button" onClick={() => void copyHandoff()} className={styles.primaryAction}>copy builder handoff</button></div>
           <details><summary>portable handoff</summary><pre>{handoffText(plan)}</pre></details>
         </section> : null}
 
         <section className={styles.queue}>
-          <div className={styles.sectionHead}><span>03</span><div><strong>work queue</strong><p>Founder-local for this first slice.</p></div></div>
-          {queue.length ? <div className={styles.queueGrid}>{queue.map((item) => <button key={item.job.id} type="button" onClick={() => { setPlan(item); setObjective(item.job.objective); }}><span>{item.job.status}</span><strong>{item.job.title}</strong><small>{new Date(item.savedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</small></button>)}</div> : <div className={styles.empty}><strong>no saved jobs yet</strong><p>Plan your first build, inspect it, then save it here.</p></div>}
+          <div className={styles.sectionHead}><span>03</span><div><strong>work queue</strong><p>Saved on this device. Open a job to continue.</p></div></div>
+          {queue.length ? <div className={styles.queueGrid}>{queue.map((item) => <button key={item.job.id} type="button" onClick={() => { setPlan(item); setObjective(item.job.objective); setRisk(item.job.risk); setQuality(item.job.quality); setAuthority(item.job.authority); setNeedsVision(item.job.capabilities.includes('vision')); setNeedsBrowser(item.job.capabilities.includes('browser_use')); }}><span>{item.job.status}</span><strong>{item.job.title}</strong><small>{new Date(item.savedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</small></button>)}</div> : <div className={styles.empty}><strong>no saved jobs yet</strong><p>Plan your first build, inspect it, then save it here.</p></div>}
         </section>
       </main>
     </div>

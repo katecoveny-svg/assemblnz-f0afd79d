@@ -63,7 +63,7 @@ export function DoConnections() {
   }
 
   return <div className={styles.shell}>
-    <header className={styles.topbar}><div><Link href="/do" className={styles.brand}>DO</Link><span>/</span><strong>connections</strong></div><nav><Link href="/do/office">office</Link><Link href="/do/builder">Builderdoo</Link></nav></header>
+    <header className={styles.topbar}><div><Link href="/do" className={styles.brand}>DO</Link><span>/</span><strong>connections</strong></div><nav><Link href="/do/office">office</Link><Link href="/do/builder">Builder DO</Link></nav></header>
     <main className={styles.main}>
       <section className={styles.hero}><div><p>capabilities, not connector clutter</p><h1>give your DOs<br/>the tools they need.</h1></div><p>Connect an account once. DOs request a capability; Assembl resolves it to the right connected tool while permissions and approvals stay visible.</p></section>
 

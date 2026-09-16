@@ -8,7 +8,7 @@ import styles from './do-current.module.css';
 
 const SURFACES = [
   { href: '/do/office', icon: Layers3, label: 'DO Office', note: 'See what needs you, what is working and what is done.' },
-  { href: '/do/builder', icon: Hammer, label: 'Builderdoo', note: 'Give your chief builder a product or software job.' },
+  { href: '/do/builder', icon: Hammer, label: 'Builder DO', note: 'Give your chief builder a product or software job.' },
   { href: '/do/connections', icon: Cable, label: 'Connections', note: 'Connect the capabilities your DOs need once.' },
   { href: '/do/widget', icon: MonitorUp, label: 'Companion', note: 'Keep DO beside the work in your browser.' },
 ] as const;
@@ -27,7 +27,7 @@ export function DoHomeCurrent() {
   return <div className={styles.page}>
     <header className={styles.header}>
       <div className={styles.brand}><Link href="/do">DO</Link><span>by</span><Link href="/">assembl</Link></div>
-      <nav aria-label="DO"><Link href="/do/office">Office</Link><Link href="/do/connections">Connections</Link><Link href="/do/builder">Builderdoo</Link><button type="button" onClick={openWorkspace}>Open DO <ArrowUpRight size={15}/></button></nav>
+      <nav aria-label="DO"><Link href="/do/office">Office</Link><Link href="/do/connections">Connections</Link><Link href="/do/builder">Builder DO</Link><button type="button" onClick={openWorkspace}>Open DO <ArrowUpRight size={15}/></button></nav>
     </header>
 
     <main>
@@ -62,7 +62,7 @@ export function DoHomeCurrent() {
       </section>
 
       <section className={styles.builderSection}>
-        <Hammer size={26}/><div><p className={styles.eyebrow}>for builders</p><h2>Builderdoo keeps the job.<br/>the coding model is replaceable.</h2><p>Plan the build once, then hand the same job contract to Codex, Claude Code, Grok Build or another compatible execution harness.</p></div><Link href="/do/builder">Open Builderdoo <ArrowUpRight size={17}/></Link>
+        <Hammer size={26}/><div><p className={styles.eyebrow}>for builders</p><h2>Builder DO keeps the job.<br/>the coding model is replaceable.</h2><p>Plan the build once, then hand the same job contract to Codex, Claude Code, Grok Build or another compatible execution harness.</p></div><Link href="/do/builder">Open Builder DO <ArrowUpRight size={17}/></Link>
       </section>
     </main>
 

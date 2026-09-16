@@ -29,13 +29,13 @@ export async function POST(request: Request) {
   const json = (body: unknown, status = 200) => Response.json(body, { status, headers });
 
   if (!allowedDoOrigin(request)) {
-    return json({ error: 'origin_not_allowed', message: 'Open Builderdoo from the Assembl DO workspace.' }, 403);
+    return json({ error: 'origin_not_allowed', message: 'Open Builder DO from the Assembl DO workspace.' }, 403);
   }
 
   const ip = chatClientIp(request.headers);
   if (!admitDoRequest(ip)) {
     headers.set('Retry-After', '60');
-    return json({ error: 'rate_limited', message: 'Builderdoo is receiving too many planning requests. Try again in a minute.' }, 429);
+    return json({ error: 'rate_limited', message: 'Builder DO is receiving too many planning requests. Try again in a minute.' }, 429);
   }
 
   let raw: unknown;
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
   const parsed = inputSchema.safeParse(raw);
   if (!parsed.success) {
-    return json({ error: 'invalid_input', message: parsed.error.issues[0]?.message || 'Check the Builderdoo job.' }, 400);
+    return json({ error: 'invalid_input', message: parsed.error.issues[0]?.message || 'Check the Builder DO job.' }, 400);
   }
 
   const input = parsed.data;

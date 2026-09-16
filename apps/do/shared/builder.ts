@@ -50,7 +50,7 @@ export const BUILDERDOO_RULES = [
   'Work in an isolated branch/worktree where the execution harness supports it.',
   'No merge, deploy, publishing, spend, credential changes or irreversible actions without explicit authority.',
   'No-error is not proof: visible changes need visual/runtime evidence and code changes need relevant checks.',
-  'Model/provider is replaceable; Builderdoo identity, context, tools, approvals and evidence are persistent.',
+  'Model/provider is replaceable; Builder DO identity, context, tools, approvals and evidence are persistent.',
 ] as const;
 
 function defaultDone(objective: string): string[] {
@@ -69,7 +69,7 @@ export function createBuilderJob(
   opts: { id?: string; now?: string } = {},
 ): BuilderJob {
   const objective = input.objective.replace(/\s+/g, ' ').trim();
-  if (objective.length < 8) throw new Error('Builderdoo objective is too short');
+  if (objective.length < 8) throw new Error('Builder DO objective is too short');
 
   return {
     id: opts.id ?? crypto.randomUUID(),
