@@ -18,15 +18,36 @@
 }
 .identity {
   position: absolute;
-  inset: 0;
+  inset: 8%;
+  display: grid;
+  place-items: center;
   transform: translateY(calc(var(--drift) * -0.65));
-  mask-image: radial-gradient(ellipse, black 38%, transparent 71%);
+  mask-image: radial-gradient(ellipse, black 48%, transparent 78%);
 }
-.identity img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.mark {
+  display: grid;
+  place-items: center;
+  width: min(72%, 420px);
+  aspect-ratio: 1;
+  border-radius: 28%;
+  color: #f3d4de;
+  background: radial-gradient(
+    ellipse at 28% 18%,
+    #c995a8,
+    #916a70 38%,
+    #391333 68%,
+    #240b21 92%
+  );
+  box-shadow:
+    inset 1px 1px 3px #f8e4ea66,
+    inset -3px -4px 10px #180a1e,
+    0 0 48px #d6a5bd66,
+    0 0 90px #c995a840;
+}
+.mark svg {
+  width: 62%;
+  height: 62%;
+  filter: drop-shadow(0 0 10px #e8b6c4aa);
 }
 .card {
   position: absolute;

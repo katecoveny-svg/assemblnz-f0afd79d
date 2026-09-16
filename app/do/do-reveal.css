@@ -54,21 +54,39 @@
   transform: translateY(-50%) scale(calc(1 + var(--reveal) * 0.2));
   pointer-events: none;
   opacity: calc(1 - var(--reveal));
-  /* Rose bloom only — warm the baked PNG aura off grape-purple */
+  /* Rose bloom only — plum/rose Assembl D (no grape PNG) */
   filter: drop-shadow(0 0 28px #d6a5bd66) drop-shadow(0 0 56px #c995a848);
 }
 .dor-slice {
   position: absolute;
   inset: 0;
   will-change: transform;
+  display: grid;
+  place-items: center;
 }
-.dor-slice img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  mix-blend-mode: screen;
-  /* Shift dimensional-d.png purple cast → warm rose / soft magenta-rose */
-  filter: hue-rotate(58deg) saturate(0.85) brightness(1.04);
+.dor-mark {
+  display: grid;
+  place-items: center;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 28%;
+  color: #f3d4de;
+  background: radial-gradient(
+    ellipse at 28% 18%,
+    #c995a8,
+    #916a70 38%,
+    #391333 68%,
+    #240b21 92%
+  );
+  box-shadow:
+    inset 1px 1px 3px #f8e4ea66,
+    inset -3px -4px 10px #180a1e,
+    0 0 36px #d6a5bd55;
+}
+.dor-mark svg {
+  width: 62%;
+  height: 62%;
+  filter: drop-shadow(0 0 8px #e8b6c4aa);
 }
 .dor-slice-0 {
   clip-path: inset(0 65% 0 0);

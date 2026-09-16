@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { DoMark } from "./DoMark";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -95,15 +94,10 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
       aria-label={company ? "Pursuit, DO and Studio" : "Meet your DOs"}
     >
       <div className={styles.light} aria-hidden="true" />
-      <div className={styles.identity}>
-        <Image
-          src="/do/canvas/dimensional-d.png"
-          alt="DO’s dimensional glass D and glowing dot"
-          width={800}
-          height={800}
-          sizes="(max-width: 700px) 100vw, 52vw"
-          priority
-        />
+      <div className={styles.identity} aria-hidden="true">
+        <span className={styles.mark}>
+          <DoMark />
+        </span>
       </div>
       {(company ? COMPANY : COMPANIONS).map((item, index) => (
         <Link

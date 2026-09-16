@@ -52,7 +52,7 @@ export function V2Footer() {
           style={{ letterSpacing: '-0.04em', color: '#240B21' }}
         />
         <p style={{ margin: '8px 0 0', color: '#654A4E', fontSize: 13, lineHeight: 1.5 }}>
-          Find it. DO it. Show it. Built in Aotearoa.
+          Find it. DO it. Show it. Built in New Zealand.
         </p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>

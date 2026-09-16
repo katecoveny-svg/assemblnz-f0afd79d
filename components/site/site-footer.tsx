@@ -127,7 +127,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p style={{ margin: "12px 0 0", color: MUTED, fontSize: 13, lineHeight: 1.5, maxWidth: 280 }}>
-              Built in Aotearoa. Nothing consequential sends without a named yes.
+              Built in New Zealand. Nothing consequential sends without a named yes.
             </p>
           </div>
 
@@ -160,7 +160,7 @@ export function SiteFooter() {
             color: MUTED,
           }}
         >
-          © 2026 assembl — built in Aotearoa
+          © 2026 assembl — built in New Zealand
         </p>
       </div>
     </footer>

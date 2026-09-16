@@ -137,5 +137,5 @@ export const START = {
 
 export const FOOTER = {
   line: 'find it. DO it. show it.',
-  note: 'One shared context · portable agents · proof that compounds. · Aotearoa New Zealand',
+  note: 'One shared context · portable agents · proof that compounds. · Built in New Zealand',
 } as const;
