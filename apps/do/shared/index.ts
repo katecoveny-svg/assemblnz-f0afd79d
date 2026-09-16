@@ -91,6 +91,37 @@ export { resolveDoSpineAsync, createOrchestratorSpine } from './spine';
 export type { DoAgentsSpine, DoSession, DoInterruption, DoSpineKind } from './spine';
 export { SURFACES, getSurface } from './surfaces';
 export {
+  HOUSEHOLD_SEAT_IDS,
+  HOUSEHOLD_HARD_GATES,
+  installHouseholdFloor,
+  tickHouseholdFloor,
+  boardByStatus,
+  assertDraftsOnlyAction,
+} from './household-floor';
+export type {
+  HouseholdSeatId,
+  HouseholdFloorInstance,
+  HouseholdFloorTemplate,
+} from './household-floor';
+export {
+  PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE,
+  OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE,
+  getHouseholdFloorTemplate,
+  listShareableHouseholdFloorTemplates,
+} from './household-floor-templates';
+export {
+  browserSeatCaptureInput,
+  mintBrowserSeatReceipt,
+  BROWSER_SEAT_BOUNDARY,
+  BROWSER_SEAT_FOLLOW_UPS,
+} from './browser-seat';
+export {
+  DEFAULT_DO_PERSONALISATION,
+  applyDoPersonalisation,
+  DO_BRAND_ACCENTS,
+  DO_AVATAR_MARKS,
+} from './do-personalisation';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,

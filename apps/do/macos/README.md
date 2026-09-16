@@ -39,6 +39,8 @@ The intended next context-capture step is explicit user-selected screen/window c
 
 This provides the desired “DO can see what I’m working on” experience without defaulting to continuous invisible surveillance.
 
+Household Floor’s Chrome browser seat (`docs/do-templates/DO-BROWSER-SEAT.md`) is the browser vertical slice today. Mac ScreenCaptureKit should mint the same receipt shape for learn-mode / “show me once” flows. Orb drag is never consent.
+
 ## build
 
 Build with the included `build.sh` on macOS with Xcode Command Line Tools:

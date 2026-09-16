@@ -1,9 +1,69 @@
 'use strict';
-// The worker only configures the browser panel. It never reads pages or starts tasks.
+// Configures the side panel and brokers per-DO browser-seat captures.
+// Never sends forms, pays, or submits. Dragging the floating ✦ shares nothing.
+
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
-// A click on the explicitly installed page companion can reopen the panel.
+
 chrome.runtime.onMessage.addListener((message, sender, reply) => {
-  if (message?.type !== 'do:open-panel' || sender.id !== chrome.runtime.id || !sender.tab?.id) return false;
-  chrome.sidePanel.open({tabId:sender.tab.id}).then(()=>reply({ok:true})).catch(()=>reply({ok:false}));
-  return true;
+  if (sender.id !== chrome.runtime.id) return false;
+
+  if (message?.type === 'do:open-panel' && sender.tab?.id) {
+    chrome.sidePanel.open({ tabId: sender.tab.id }).then(() => reply({ ok: true })).catch(() => reply({ ok: false }));
+    return true;
+  }
+
+  if (message?.type === 'do:browser-seat-capture') {
+    (async () => {
+      try {
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!tab?.id || !/^https?:\/\//.test(tab.url || '')) {
+          throw new Error('Open a normal webpage first, then capture.');
+        }
+
+        const [{ result: page }] = await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: () => {
+            const text = String(document.body?.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 12000);
+            return {
+              url: location.href,
+              title: String(document.title || 'Untitled').slice(0, 200),
+              pageText: text || '(no visible text)',
+            };
+          },
+        });
+
+        let screenshotBase64;
+        let screenshotMimeType;
+        if (message.includeScreenshot) {
+          const dataUrl = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' });
+          const match = /^data:(image\/png);base64,(.+)$/.exec(dataUrl || '');
+          if (match) {
+            screenshotMimeType = match[1];
+            screenshotBase64 = match[2];
+          }
+        }
+
+        reply({
+          ok: true,
+          page: {
+            ...page,
+            screenshotBase64,
+            screenshotMimeType,
+          },
+        });
+      } catch (error) {
+        reply({ ok: false, error: error instanceof Error ? error.message : 'Capture failed.' });
+      }
+    })();
+    return true;
+  }
+
+  if (message?.type === 'do:open-url-for-do' && typeof message.url === 'string') {
+    chrome.tabs.create({ url: message.url }).then(() => reply({ ok: true })).catch((error) => {
+      reply({ ok: false, error: error instanceof Error ? error.message : 'Could not open URL.' });
+    });
+    return true;
+  }
+
+  return false;
 });

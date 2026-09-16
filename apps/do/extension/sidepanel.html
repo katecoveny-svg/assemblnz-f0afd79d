@@ -1,6 +1,61 @@
 <!doctype html>
-<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO alongside your work</title><link rel="stylesheet" href="sidepanel.css"></head>
-<body><header><strong><i class="do-orb" aria-hidden="true">✦</i>DO<span>by assembl</span></strong><a href="https://www.assembl.co.nz/do?open=1" target="_blank" rel="noreferrer">Open full workspace ↗</a></header>
-<div class="capture"><button id="float" type="button">Show floating DO on this tab</button><button id="capture" type="button">Use selected page text</button><p id="status" role="status">Select text on the page, then add it here. You can also paste directly into the builder.</p></div>
-<p class="services"><a href="https://www.assembl.co.nz/do/meetings" target="_blank" rel="noreferrer">Meeting DO · record &amp; prepare ↗</a> · <a href="https://www.assembl.co.nz/do/bills" target="_blank" rel="noreferrer">Bills &amp; budget ↗</a> · <a href="https://www.assembl.co.nz/do/family" target="_blank" rel="noreferrer">School admin ↗</a></p><iframe id="builder" title="DO visual agent builder" src="https://www.assembl.co.nz/do/widget" allow="clipboard-write" referrerpolicy="no-referrer"></iframe>
-<script src="sidepanel.js"></script></body></html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DO alongside your work</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <header>
+    <strong><i class="do-orb" aria-hidden="true">✦</i>DO<span>by assembl</span></strong>
+    <a href="https://www.assembl.co.nz/do/household" target="_blank" rel="noreferrer">Household Floor ↗</a>
+  </header>
+
+  <div class="capture">
+    <button id="float" type="button">Show floating DO on this tab</button>
+    <button id="capture" type="button">Use selected page text</button>
+    <p id="status" role="status">Select text on the page, then add it here. Dragging the floating ✦ does not share your screen.</p>
+  </div>
+
+  <section class="seat" aria-labelledby="seat-title">
+    <h2 id="seat-title">Browser seat for a DO</h2>
+    <p class="seat-copy">Each DO has its own session key. Capture visible page text (and optional screenshot) with consent. Never send, pay or submit.</p>
+    <label class="field">DO id (UUID)
+      <input id="do-id" type="text" spellcheck="false" placeholder="from /do/household after install" autocomplete="off">
+    </label>
+    <label class="field">Session key
+      <input id="session-key" type="text" spellcheck="false" placeholder="do-browser-seat:&lt;do-id&gt;" autocomplete="off">
+    </label>
+    <label class="field">Open URL for this DO
+      <input id="open-url" type="url" placeholder="https://demo-college.bridge.school.nz" autocomplete="off">
+    </label>
+    <div class="seat-actions">
+      <button id="open-url-btn" type="button">Open URL</button>
+      <button id="seat-capture" type="button">Capture page for this DO</button>
+    </div>
+    <label class="check"><input id="seat-consent" type="checkbox"> I consent to capture this page for this DO (domain/session). Not a submit.</label>
+    <label class="check"><input id="seat-shot" type="checkbox"> Include visible-tab screenshot</label>
+    <label class="check"><input id="seat-learn" type="checkbox"> Learn mode — store a playbook stub from this capture</label>
+    <label class="field">Playbook label
+      <input id="playbook-label" type="text" maxlength="80" placeholder="open SHC notices" autocomplete="off">
+    </label>
+    <label class="field">API origin
+      <select id="api-origin">
+        <option value="https://www.assembl.co.nz">https://www.assembl.co.nz</option>
+        <option value="http://localhost:3000">http://localhost:3000</option>
+        <option value="http://127.0.0.1:3000">http://127.0.0.1:3000</option>
+      </select>
+    </label>
+    <p id="seat-status" role="status">Consent required before capture. Household Floor uses this for SchoolBridge / Council / AT.</p>
+  </section>
+
+  <p class="services">
+    <a href="https://www.assembl.co.nz/do/household" target="_blank" rel="noreferrer">Household Floor ↗</a>
+    · <a href="https://www.assembl.co.nz/do/meetings" target="_blank" rel="noreferrer">Meeting DO ↗</a>
+    · <a href="https://www.assembl.co.nz/do/family" target="_blank" rel="noreferrer">School admin ↗</a>
+  </p>
+  <iframe id="builder" title="DO visual agent builder" src="https://www.assembl.co.nz/do/widget" allow="clipboard-write" referrerpolicy="no-referrer"></iframe>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
