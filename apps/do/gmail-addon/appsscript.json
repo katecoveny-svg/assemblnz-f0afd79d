@@ -1,0 +1,14 @@
+{
+  "timeZone": "Pacific/Auckland",
+  "runtimeVersion": "V8",
+  "oauthScopes": ["https://www.googleapis.com/auth/gmail.addons.execute"],
+  "addOns": {
+    "common": {
+      "name": "DO by assembl",
+      "logoUrl": "https://www.assembl.co.nz/do/canvas/dimensional-d.png",
+      "homepageTrigger": { "runFunction": "doHome" },
+      "openLinkUrlPrefixes": ["https://www.assembl.co.nz/"]
+    },
+    "gmail": {}
+  }
+}

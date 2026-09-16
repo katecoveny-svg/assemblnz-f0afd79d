@@ -6,7 +6,7 @@ import { GlowDoWidget } from '@/components/site/assembl-the-work/GlowDoWidget';
 
 const LINKS = [
   { href: '/do/office', label: 'Office' },
-  { href: '/do/builder', label: 'Builderdoo' },
+  { href: '/do/builder', label: 'Builder DO' },
   { href: '/do/connections', label: 'Connections' },
 ] as const;
 

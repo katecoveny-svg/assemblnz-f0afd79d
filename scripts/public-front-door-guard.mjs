@@ -22,7 +22,7 @@ const publicFiles = ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', 
 for (const path of publicFiles) {
   const text = read(path);
   if (/OceanMedia|ocean-assembly|cinematic-nature|brand-rescue\.css|DoHomeCurrent/.test(text)) errors.push(`${path}: retired front door or nature film`);
-  if (/\bDOO\b|\bDoo\b/.test(text)) errors.push(`${path}: product is DO; Builderdoo is the specialist's name`);
+  if (/\bDOO\b|\bDoo\b|Builderdoo/i.test(text)) errors.push(`${path}: product is DO; specialist is Builder DO`);
 }
 for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp']) {
   if (!existsSync(asset)) errors.push(`${asset}: missing approved visual asset`);

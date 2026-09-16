@@ -69,3 +69,6 @@ The camera stays still. The objects move. A six-to-eight-second loop should fini
 DO is always `DO`, never `DOO`. Its canonical symbol is the glowing D with the small luminous o/dot inside, implemented by `components/do/DoMark.tsx`. Preserve its deep plum/purple body and rose glow across web, browser and Mac surfaces. This explicitly approved product identity takes precedence over the generic-orb exclusion above; it does not authorise unrelated orb decoration.
 
 The specialist section reads “Meet your To DO’s.” with the purple DO identity. Homepage product verbs (find it, do it, show it) use Instrument Sans, upright, never the old Georgia/italic treatment. Specialist characters may supplement the canonical DO identity but must not replace the product mark.
+
+### Builder DO spelling — 16 September correction
+The software-building specialist is **Builder DO**, with a space and uppercase DO. This supersedes all historical “Builderdoo” naming exceptions. Preserve existing storage keys and internal identifiers for compatibility. Its page uses regular Instrument Sans headings, not heavy bold type.

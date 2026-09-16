@@ -91,7 +91,7 @@ const SPECIALISTS: Specialist[] = [
   },
   {
     id: "builder",
-    name: "Builderdoo",
+    name: "Builder DO",
     scope: "work",
     glyph: "⌘",
     description: "Turn a software idea into a build job.",
@@ -179,7 +179,8 @@ export function DoHome() {
         <span className={styles.product}>/ DO</span>
         <nav aria-label="DO">
           <Link href="/do/office">Office</Link>
-          <Link href="/do/builder">Builderdoo</Link>
+          <Link href="/do/builder">Builder DO</Link>
+          <Link href="/do/meetings">Meetings</Link>
           <Link href="/do/connections">Connections</Link>
         </nav>
       </header>
@@ -448,7 +449,7 @@ export function DoHome() {
         <nav aria-label="assembl products">
           <Link href="/pursuit">Pursuit</Link>
           <Link href="/creative-studio">Studio</Link>
-          <Link href="/do/builder">Builderdoo</Link>
+          <Link href="/do/builder">Builder DO</Link>
         </nav>
       </footer>
 
