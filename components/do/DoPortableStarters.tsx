@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import styles from './do-portable.module.css';
 import { DoDownloadsStrip } from './DoDownloadsStrip';
-import { DoInstallPwaCta } from './DoInstallPwaCta';
 import { DoLivingBlob } from './DoLivingBlob';
 import '@/app/do/do-craft.css';
 
@@ -114,7 +113,6 @@ export function DoPortableStarters({
       </div>
       {showDownloads ? <DoDownloadsStrip /> : null}
       <div className={styles.install}>
-        <DoInstallPwaCta prominent />
         <Link href="/do/meetings?phone=1" className={styles.phoneEasy}>
           Phone-easy Meeting →
         </Link>

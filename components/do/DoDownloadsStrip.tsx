@@ -3,26 +3,36 @@
 import Link from 'next/link';
 import { Download } from 'lucide-react';
 import styles from './do-portable.module.css';
+import { DoInstallPwaCta } from './DoInstallPwaCta';
 
 type Props = {
   compact?: boolean;
   className?: string;
+  /** Hide Install CTA (rare — default clusters Install with downloads). */
+  hideInstall?: boolean;
 };
 
 /**
- * Chrome ZIP + Mac companion entry — visible on /do and portable surfaces.
- * Mac is an honest development-source zip (no signed installer claim).
+ * Get DO on this device — Install PWA + Chrome ZIP + Mac companion in one cluster.
+ * Mac remains an honest development-source zip (no signed installer claim).
  */
-export function DoDownloadsStrip({ compact = false, className }: Props) {
+export function DoDownloadsStrip({ compact = false, className, hideInstall = false }: Props) {
   return (
     <section
       className={[styles.downloads, className].filter(Boolean).join(' ')}
-      aria-label="Downloads"
+      aria-label="Get DO on this device"
     >
       <div className={styles.downloadsHead}>
-        <strong>Take DO with you</strong>
-        <span>Chrome · Mac</span>
+        <strong>Get DO on this device</strong>
+        <span>PWA · Chrome · Mac</span>
       </div>
+
+      {!hideInstall ? (
+        <div className={styles.installCluster}>
+          <DoInstallPwaCta prominent={!compact} compact={compact} />
+        </div>
+      ) : null}
+
       <div className={styles.downloadRow}>
         <a
           className={styles.downloadLink}
@@ -46,8 +56,9 @@ export function DoDownloadsStrip({ compact = false, className }: Props) {
       </div>
       {!compact ? (
         <p className={styles.downloadsNote}>
-          Chrome: unzip → Load unpacked. Mac: source zip · build on a Mac · no
-          notarised public installer yet.
+          Phone: Install DO / Add to Home Screen. Chrome: unzip → Load unpacked. Mac: source zip ·
+          build on a Mac · no notarised public installer yet. App Store / Play wrappers are planned;
+          not listed live.
         </p>
       ) : null}
     </section>

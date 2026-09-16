@@ -1,12 +1,21 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { isTenantPwaScope, pwaBaseForPath, TENANT_CACHE_PREFIX } from "@/lib/pwa/tenants";
-import { isVerticalWorkerScope, verticalForPath } from "@/lib/verticals/config";
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import {
+  isTenantPwaScope,
+  pwaBaseForPath,
+  TENANT_CACHE_PREFIX,
+} from '@/lib/pwa/tenants';
+import { isVerticalWorkerScope, verticalForPath } from '@/lib/verticals/config';
+import { DO_PWA_CACHE_PREFIX, isDoPwaScope } from '@/lib/do/do-service-worker';
+
+function isDoPath(pathname: string) {
+  return pathname === '/do' || pathname.startsWith('/do/');
+}
 
 function manifestForPath(pathname: string) {
-  if (pathname === "/do" || pathname.startsWith("/do/")) return "/do/manifest.webmanifest";
+  if (isDoPath(pathname)) return '/do/manifest.webmanifest';
   const vertical = verticalForPath(pathname);
   if (vertical) return `/agents/${vertical.slug}/manifest.webmanifest`;
   const hapaiMatch = pathname.match(/^\/hapai\/([^/]+)$/);
@@ -15,16 +24,13 @@ function manifestForPath(pathname: string) {
   const workflowMatch = pathname.match(/^\/w\/([^/]+)$/);
   if (workflowMatch?.[1]) return `/w/${workflowMatch[1]}/manifest.json`;
 
-  // Each marketplace agent's chat installs as its own app.
   const agentChatMatch = pathname.match(/^\/agents\/([^/]+)\/chat$/);
   if (agentChatMatch?.[1]) return `/agents/${agentChatMatch[1]}/manifest.json`;
 
-  // PWA-enabled pilot workspaces install as their own tenant app. Host-aware:
-  // matches both /customers/<slug>/* (www) and /<slug>/* (demo host rewrite).
   const tenant = pwaBaseForPath(pathname);
   if (tenant) return `${tenant.base}/manifest.webmanifest`;
 
-  return "/manifest.webmanifest";
+  return '/manifest.webmanifest';
 }
 
 function setManifestLink(pathname: string) {
@@ -35,53 +41,61 @@ function setManifestLink(pathname: string) {
     return;
   }
 
-  const link = document.createElement("link");
-  link.rel = "manifest";
+  const link = document.createElement('link');
+  link.rel = 'manifest';
   link.href = href;
   document.head.appendChild(link);
 }
 
+function preserveWorker(scope: string) {
+  return isTenantPwaScope(scope) || isVerticalWorkerScope(scope) || isDoPwaScope(scope);
+}
+
+function preserveCache(key: string) {
+  return key.startsWith(TENANT_CACHE_PREFIX) || key.startsWith(DO_PWA_CACHE_PREFIX);
+}
+
 export function PwaRegister() {
   const pathname = usePathname();
-  useEffect(() => { setManifestLink(pathname); }, [pathname]);
   useEffect(() => {
+    setManifestLink(pathname);
+  }, [pathname]);
 
-    if (!("serviceWorker" in navigator)) return;
+  useEffect(() => {
+    if (!('serviceWorker' in navigator)) return;
 
-    // We no longer ship a SITE-WIDE caching service worker. A worker at scope
-    // "/" is what repeatedly served returning visitors a stale app shell (the
-    // homepage rendering as the old narrow-strip layout); see public/sw.js and
-    // PRs #398 and #418. We proactively tear down any root/legacy worker and
-    // purge its caches so each load comes straight from the live network build.
-    //
-    // EXCEPTION (pilot PWAs, 2026-07): tenant workspaces register their own
-    // NARROWLY-SCOPED workers (e.g. /customers/aironaut/), whose navigations
-    // are network-first by design — they can never serve a stale shell for the
-    // wider site because the browser only routes their own scope to them.
-    // Those registrations and their `tenant-pwa-*` caches are preserved.
+    // Site-wide caching workers at "/" caused stale shells (#398/#418/#431).
+    // Tear down root/legacy workers, but preserve narrowly scoped PWAs:
+    // tenant workspaces, vertical apps, and DO (/do/).
     navigator.serviceWorker
       .getRegistrations()
       .then((registrations) => {
         registrations.forEach((registration) => {
-          if (isTenantPwaScope(registration.scope) || isVerticalWorkerScope(registration.scope)) return;
+          if (preserveWorker(registration.scope)) return;
           registration.unregister().catch(() => undefined);
         });
       })
       .catch(() => undefined);
 
-    if (typeof caches !== "undefined") {
+    if (typeof caches !== 'undefined') {
       caches
         .keys()
         .then((keys) =>
           Promise.all(
-            keys
-              .filter((key) => !key.startsWith(TENANT_CACHE_PREFIX))
-              .map((key) => caches.delete(key)),
+            keys.filter((key) => !preserveCache(key)).map((key) => caches.delete(key)),
           ),
         )
         .catch(() => undefined);
     }
   }, []);
+
+  // Register DO-scoped worker on DO routes (installable PWA + offline shell).
+  useEffect(() => {
+    if (!('serviceWorker' in navigator) || !isDoPath(pathname)) return;
+    navigator.serviceWorker
+      .register('/do/sw.js', { scope: '/do/', updateViaCache: 'none' })
+      .catch(() => undefined);
+  }, [pathname]);
 
   return null;
 }

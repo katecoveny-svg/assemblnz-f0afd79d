@@ -114,12 +114,23 @@
 
 .downloads {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   margin: 0;
   padding: 12px 14px;
   border-radius: 14px;
   border: 1px solid #dccbd6;
   background: var(--do-paper);
+  box-shadow: 0 0 24px rgba(214, 165, 189, 0.18);
+}
+
+.installCluster {
+  width: 100%;
+}
+
+.installCluster :global(.do-cta--install),
+.installCluster :global(.do-cta) {
+  max-width: none;
+  width: 100%;
 }
 
 .downloadsHead {
