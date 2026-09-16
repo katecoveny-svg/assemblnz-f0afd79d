@@ -11,13 +11,28 @@ type PlannedResponse = {
   executionBoundary: string;
 };
 
-type SavedJob = PlannedResponse & { savedAt: string };
+type JobReceipt = {
+  id: string;
+  kind: string;
+  title: string;
+  summary: string;
+  evidence?: Record<string, unknown>;
+  createdAt: string;
+};
+
+type SavedJob = PlannedResponse & {
+  savedAt: string;
+  durable?: boolean;
+  receipt?: JobReceipt | null;
+};
 
 const EXAMPLES = [
   'Build the next usable version of DO Office with a real usage rail and Builder DO entry point.',
   'Audit the current public Assembl shell for brand drift and fix only active company surfaces.',
   'Create a visual Creative Director DO that can brief, critique and route image, video, web and 3D work.',
 ];
+
+const LOCAL_QUEUE_KEY = 'assembl-builderdoo-jobs-v1';
 
 function handoffText(plan: PlannedResponse): string {
   const { job } = plan;
@@ -47,6 +62,19 @@ function handoffText(plan: PlannedResponse): string {
   ].join('\n');
 }
 
+function readLocalQueue(): SavedJob[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(LOCAL_QUEUE_KEY) || '[]') as unknown;
+    return Array.isArray(raw) ? (raw.slice(0, 12) as SavedJob[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalQueue(next: SavedJob[]) {
+  localStorage.setItem(LOCAL_QUEUE_KEY, JSON.stringify(next.slice(0, 12)));
+}
+
 export function BuilderDoWorkspace() {
   const [objective, setObjective] = useState(EXAMPLES[0]);
   const [risk, setRisk] = useState<BuilderRisk>('medium');
@@ -58,14 +86,43 @@ export function BuilderDoWorkspace() {
   const [queue, setQueue] = useState<SavedJob[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  const [activeReceipt, setActiveReceipt] = useState<JobReceipt | null>(null);
 
   useEffect(() => {
-    try {
-      const raw = JSON.parse(localStorage.getItem('assembl-builderdoo-jobs-v1') || '[]') as unknown;
-      // Hydrate optional browser storage after SSR; server and initial client must agree.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (Array.isArray(raw)) setQueue(raw.slice(0, 12) as SavedJob[]);
-    } catch { /* local queue is optional */ }
+    let cancelled = false;
+    async function hydrate() {
+      const local = readLocalQueue();
+      try {
+        const response = await fetch('/api/do/builder/jobs', { method: 'GET', credentials: 'same-origin' });
+        if (cancelled) return;
+        if (response.status === 401) {
+          setSignedIn(false);
+          setQueue(local);
+          return;
+        }
+        if (!response.ok) {
+          setSignedIn(null);
+          setQueue(local);
+          return;
+        }
+        const data = await response.json() as { jobs?: SavedJob[] };
+        setSignedIn(true);
+        const durable = Array.isArray(data.jobs) ? data.jobs : [];
+        const merged = [
+          ...durable,
+          ...local.filter((item) => !durable.some((job) => job.job.id === item.job.id)),
+        ].slice(0, 12);
+        setQueue(merged);
+      } catch {
+        if (!cancelled) {
+          setSignedIn(null);
+          setQueue(local);
+        }
+      }
+    }
+    void hydrate();
+    return () => { cancelled = true; };
   }, []);
 
   const activeModel = useMemo(() => plan?.models.find((model) => model.id === plan.job.route.ladder[0]), [plan]);
@@ -73,6 +130,7 @@ export function BuilderDoWorkspace() {
   async function planJob() {
     if (objective.trim().length < 8 || busy) return;
     setBusy(true);
+    setActiveReceipt(null);
     setMessage('Builder DO is routing this job…');
     try {
       const response = await fetch('/api/do/builder/plan', {
@@ -83,7 +141,7 @@ export function BuilderDoWorkspace() {
       const data = await response.json() as PlannedResponse & { message?: string };
       if (!response.ok) throw new Error(data.message || 'Builder DO could not plan this job.');
       setPlan(data);
-      setMessage('Plan ready. Review it, then download or copy the handoff for your coding agent.');
+      setMessage('Plan ready. Review it, then save to your Office workspace or download a handoff. Planning does not start a build.');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Builder DO could not plan this job.');
     } finally {
@@ -91,12 +149,104 @@ export function BuilderDoWorkspace() {
     }
   }
 
-  function saveJob() {
-    if (!plan) return;
-    const next: SavedJob[] = [{ ...plan, savedAt: new Date().toISOString() }, ...queue.filter((item) => item.job.id !== plan.job.id)].slice(0, 12);
-    setQueue(next);
-    try { localStorage.setItem('assembl-builderdoo-jobs-v1', JSON.stringify(next)); } catch { setMessage('Browser storage is unavailable. Download the handoff to keep this job.'); return; }
-    setMessage('Saved to this device. It will be here when you return in this browser.');
+  async function saveJob() {
+    if (!plan || busy) return;
+    setBusy(true);
+    setMessage(signedIn === false
+      ? 'Saving on this device…'
+      : 'Saving to your Office workspace…');
+    try {
+      const idempotencyKey = `builder-save:${plan.job.id}`;
+      const response = await fetch('/api/do/builder/jobs', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          job: plan.job,
+          models: plan.models,
+          executionBoundary: plan.executionBoundary,
+          idempotencyKey,
+        }),
+      });
+      const data = await response.json() as SavedJob & { message?: string; receipt?: JobReceipt | null; error?: string };
+
+      if (response.status === 401) {
+        setSignedIn(false);
+        const next: SavedJob[] = [{ ...plan, savedAt: new Date().toISOString(), durable: false }, ...queue.filter((item) => item.job.id !== plan.job.id)].slice(0, 12);
+        setQueue(next);
+        try { writeLocalQueue(next); } catch { /* ignore */ }
+        setActiveReceipt(null);
+        setMessage('Signed out — saved on this device only. Sign in to reopen this job on another device with a real acceptance receipt.');
+        return;
+      }
+
+      if (!response.ok) throw new Error(data.message || 'Could not save this Builder job.');
+
+      setSignedIn(true);
+      const saved: SavedJob = {
+        job: data.job,
+        models: data.models,
+        executionBoundary: data.executionBoundary,
+        savedAt: data.savedAt,
+        durable: true,
+        receipt: data.receipt ?? null,
+      };
+      setPlan({ job: saved.job, models: saved.models, executionBoundary: saved.executionBoundary });
+      setActiveReceipt(saved.receipt ?? null);
+      const next = [saved, ...queue.filter((item) => item.job.id !== saved.job.id)].slice(0, 12);
+      setQueue(next);
+      try {
+        writeLocalQueue(next.map(({ receipt: _receipt, ...rest }) => rest));
+      } catch { /* local mirror is optional */ }
+      setMessage(saved.receipt
+        ? `${saved.receipt.title}. ${saved.receipt.summary}`
+        : 'Saved to your Office workspace. No build has started.');
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Could not save this Builder job.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function openSavedJob(item: SavedJob) {
+    setPlan(item);
+    setObjective(item.job.objective);
+    setRisk(item.job.risk);
+    setQuality(item.job.quality);
+    setAuthority(item.job.authority);
+    setNeedsVision(item.job.capabilities.includes('vision'));
+    setNeedsBrowser(item.job.capabilities.includes('browser_use'));
+    setActiveReceipt(item.receipt ?? null);
+
+    if (!item.durable) {
+      setMessage('Opened a device-local job. Sign in and save again to attach an Office receipt.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/do/builder/jobs/${item.job.id}`, { method: 'GET', credentials: 'same-origin' });
+      if (response.status === 401) {
+        setSignedIn(false);
+        setMessage('Sign in to reopen durable jobs from another device.');
+        return;
+      }
+      if (!response.ok) {
+        setMessage('Could not refresh this durable job. Showing the last known plan.');
+        return;
+      }
+      const data = await response.json() as SavedJob & { receipts?: JobReceipt[] };
+      const refreshed: PlannedResponse = {
+        job: data.job,
+        models: data.models,
+        executionBoundary: data.executionBoundary,
+      };
+      setPlan(refreshed);
+      const receipt = data.receipts?.find((entry) => entry.kind === 'job_accepted') ?? data.receipts?.[0] ?? null;
+      setActiveReceipt(receipt);
+      setMessage(receipt ? `Reopened with receipt: ${receipt.title}` : 'Reopened durable Builder job from your Office workspace.');
+    } catch {
+      setMessage('Could not refresh this durable job. Showing the last known plan.');
+    }
   }
 
   function downloadHandoff() {
@@ -130,6 +280,7 @@ export function BuilderDoWorkspace() {
           <Link href="/do/connections">connections</Link>
           <Link href="/do/office">office</Link>
           <Link href="/do/widget">companion</Link>
+          {signedIn === false ? <Link href="/login?redirect=%2Fdo%2Fbuilder">sign in</Link> : null}
         </nav>
       </header>
 
@@ -140,7 +291,7 @@ export function BuilderDoWorkspace() {
             <h1>tell it what<br />needs to exist.</h1>
           </div>
           <p className={styles.heroCopy}>
-            Describe what you want to build. Review the plan, save it or download a handoff for your coding agent. This page prepares the job; it does not yet run a build worker.
+            Describe what you want to build. Review the plan, save it to your Office workspace for a real acceptance receipt, or download a handoff for your coding agent. Planning does not run a build worker.
           </p>
         </section>
 
@@ -186,13 +337,24 @@ export function BuilderDoWorkspace() {
             <div><h3>done when</h3>{plan.job.definitionOfDone.map((item) => <p key={item}>✓ {item}</p>)}</div>
             <div><h3>proof</h3>{plan.job.proof.map((item) => <p key={item}>↳ {item}</p>)}</div>
           </div>
-          <div className={styles.actions}><button type="button" onClick={saveJob}>save job</button><button type="button" onClick={downloadHandoff}>download build handoff</button><button type="button" onClick={() => void copyHandoff()} className={styles.primaryAction}>copy builder handoff</button></div>
+          {activeReceipt ? <div className={styles.boundary}><span>office receipt · {activeReceipt.kind}</span><p>{activeReceipt.title} — {activeReceipt.summary}</p></div> : null}
+          <div className={styles.actions}>
+            <button type="button" onClick={() => void saveJob()} disabled={busy}>{signedIn === false ? 'save on this device' : 'save to office'}</button>
+            <button type="button" onClick={downloadHandoff}>download build handoff</button>
+            <button type="button" onClick={() => void copyHandoff()} className={styles.primaryAction}>copy builder handoff</button>
+          </div>
           <details><summary>portable handoff</summary><pre>{handoffText(plan)}</pre></details>
         </section> : null}
 
         <section className={styles.queue}>
-          <div className={styles.sectionHead}><span>03</span><div><strong>work queue</strong><p>Saved on this device. Open a job to continue.</p></div></div>
-          {queue.length ? <div className={styles.queueGrid}>{queue.map((item) => <button key={item.job.id} type="button" onClick={() => { setPlan(item); setObjective(item.job.objective); setRisk(item.job.risk); setQuality(item.job.quality); setAuthority(item.job.authority); setNeedsVision(item.job.capabilities.includes('vision')); setNeedsBrowser(item.job.capabilities.includes('browser_use')); }}><span>{item.job.status}</span><strong>{item.job.title}</strong><small>{new Date(item.savedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</small></button>)}</div> : <div className={styles.empty}><strong>no saved jobs yet</strong><p>Plan your first build, inspect it, then save it here.</p></div>}
+          <div className={styles.sectionHead}>
+            <span>03</span>
+            <div>
+              <strong>work queue</strong>
+              <p>{signedIn ? 'Durable Office jobs reopen across devices. Device-local jobs remain until you save while signed in.' : 'Sign in to keep jobs in your Office workspace. Until then, saves stay on this device.'}</p>
+            </div>
+          </div>
+          {queue.length ? <div className={styles.queueGrid}>{queue.map((item) => <button key={item.job.id} type="button" onClick={() => void openSavedJob(item)}><span>{item.durable ? `${item.job.status} · office` : item.job.status}</span><strong>{item.job.title}</strong><small>{new Date(item.savedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</small></button>)}</div> : <div className={styles.empty}><strong>no saved jobs yet</strong><p>Plan your first build, inspect it, then save it here.</p></div>}
         </section>
       </main>
     </div>

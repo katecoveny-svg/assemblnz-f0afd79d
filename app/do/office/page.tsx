@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { doOwner } from '@/apps/do/services/owner';
+import { listOwnerBuilderJobs } from '@/apps/do/services/office-jobs';
 import { listAgents } from '@/apps/do/shared/store';
+import type { DurableJobRecord } from '@/apps/do/shared/office-jobs';
 import type { AgentSpec } from '@/apps/do/shared/types';
 import { DoOfficeSpatial } from './DoOfficeSpatial';
 import styles from './office.module.css';
@@ -54,23 +57,39 @@ function AgentCard({ agent }: { agent: AgentSpec }) {
   </article>;
 }
 
+function BuilderJobCard({ record }: { record: DurableJobRecord }) {
+  return <article className={styles.card}>
+    <div className={styles.cardTop}><div className={styles.identity}><div className={styles.avatar} aria-hidden>BD</div><div><h3>{record.title}</h3><p>Builder DO · {record.status.replace('_', ' ')}</p></div></div><span className={styles.state} data-state={record.officeStatus}>{record.officeStatus.replace('_', ' ')}</span></div>
+    <p className={styles.task}>{record.job.objective}</p>
+    <p className={styles.note}>Authority: {record.job.authority}. Acceptance receipts are available; execution success is not claimed until a build produces evidence.</p>
+    <div className={styles.metrics}><span><strong>1</strong> acceptance</span><span><strong>{record.job.proof.length}</strong> proof items</span><span className={styles.mailbox}>durable · personal</span></div>
+    <div className={styles.cardFooter}><span>updated {new Date(record.updatedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</span><Link href="/do/builder">reopen in Builder</Link></div>
+  </article>;
+}
+
 export default async function DoOfficePage() {
   const agents = await listAgents();
-  const needsYou = agentsForBoard(agents, 'needs_you').length;
-  const working = agentsForBoard(agents, 'working').length;
-  const done = agentsForBoard(agents, 'done').length;
+  const owner = await doOwner();
+  const durableJobs = owner ? await listOwnerBuilderJobs(owner.id).catch(() => []) : [];
+  const builderNeedsYou = durableJobs.filter((job) => job.officeStatus === 'needs_you').length;
+  const builderWorking = durableJobs.filter((job) => job.officeStatus === 'working').length;
+  const builderDone = durableJobs.filter((job) => job.officeStatus === 'done').length;
+  const needsYou = agentsForBoard(agents, 'needs_you').length + builderNeedsYou;
+  const working = agentsForBoard(agents, 'working').length + builderWorking;
+  const done = agentsForBoard(agents, 'done').length + builderDone;
   return <div className={styles.page}>
     <header className={styles.header}>
       <div className={styles.brandLockup}><Link href="/do" className={styles.wordmark}>DO</Link><span>office</span><span className={styles.preview}>spatial preview</span></div>
       <div className={styles.headerActions}><Link href="/do/connections" className={styles.secondary}>connections</Link><Link href="/do/widget" className={styles.secondary}>open companion</Link><Link href="/do/builder" className={styles.secondary}>Builder DO</Link><Link href="/do" className={styles.primary}>+ DO</Link></div>
     </header>
     <main className={styles.main}>
-      <section className={styles.intro}><div><p className={styles.eyebrow}>your digital workforce</p><h1>give the work.<br />see it move.</h1></div><p className={styles.introCopy}>Builder DO gives the team work. The Office shows what is moving, what needs your yes, and what just finished. The spatial layer and the accessible board share the same state.</p></section>
+      <section className={styles.intro}><div><p className={styles.eyebrow}>your digital workforce</p><h1>give the work.<br />see it move.</h1></div><p className={styles.introCopy}>Builder DO gives the team work. The Office shows what is moving, what needs your yes, and what just finished. Signed-in Builder jobs now land in your personal Office workspace with acceptance receipts.</p></section>
       <DoOfficeSpatial needsYou={needsYou} working={working} done={done} />
-      <nav className={styles.workspaceBar} aria-label="DO workspaces"><Link href="/do/builder" className={styles.builderLink}>+ job with Builder DO</Link><button type="button" className={styles.workspaceActive}>all DOs <span>{agents.length}</span></button><button type="button" disabled>personal</button><button type="button" disabled>work</button><button type="button" disabled>clients</button><p>workspace assignment arrives with durable DO Office storage</p></nav>
+      <nav className={styles.workspaceBar} aria-label="DO workspaces"><Link href="/do/builder" className={styles.builderLink}>+ job with Builder DO</Link><button type="button" className={styles.workspaceActive}>all DOs <span>{agents.length + durableJobs.length}</span></button><button type="button" disabled>personal{durableJobs.length ? ` · ${durableJobs.length}` : ''}</button><button type="button" disabled>work</button><button type="button" disabled>clients</button><p>{owner ? 'Signed-in Builder jobs use durable Office storage. Demo agents remain local until handoffs land.' : <><Link href="/login?redirect=%2Fdo%2Foffice">Sign in</Link> to project durable Builder jobs here.</>}</p></nav>
       <section className={styles.summary} aria-label="DO status summary"><div><strong>{needsYou}</strong><span>needs you</span></div><div><strong>{working}</strong><span>working</span></div><div><strong>{done}</strong><span>done</span></div><div><strong>0</strong><span>unread handoffs</span></div></section>
+      {durableJobs.length ? <section className={styles.column} aria-labelledby="board-builder-jobs"><header className={styles.columnHeader}><div><h2 id="board-builder-jobs">builder jobs</h2><p>owner-scoped plans with acceptance receipts</p></div><span>{durableJobs.length}</span></header><div className={styles.cardStack}>{durableJobs.map((record) => <BuilderJobCard key={record.id} record={record} />)}</div></section> : null}
       <div className={styles.boards}>{BOARD.map((column) => { const columnAgents = agentsForBoard(agents, column.key); return <section className={styles.column} key={column.key} aria-labelledby={`board-${column.key}`}><header className={styles.columnHeader}><div><h2 id={`board-${column.key}`}>{column.label}</h2><p>{column.helper}</p></div><span>{columnAgents.length}</span></header><div className={styles.cardStack}>{columnAgents.length ? columnAgents.map((agent) => <AgentCard key={agent.id} agent={agent} />) : <div className={styles.empty}><span>quiet here</span><p>No DOs in this state yet.</p></div>}</div></section>; })}</div>
-      <section className={styles.officeNote}><div><p className={styles.eyebrow}>where this goes</p><h2>personal · work · clients</h2></div><div className={styles.officeNoteCopy}><p>The Office uses the same portable AgentSpec underneath the browser companion, Mac companion, voice and hosted DO. Builder DO is the software-factory specialist inside that workforce.</p><p>Connections give the workforce user-approved capabilities without handing raw credentials to an agent. The next spatial pass adds named rooms, handoffs, usage rail, Creative Director studio and the Vault — projected from real state.</p></div></section>
+      <section className={styles.officeNote}><div><p className={styles.eyebrow}>where this goes</p><h2>personal · work · clients</h2></div><div className={styles.officeNoteCopy}><p>The Office uses the same portable AgentSpec underneath the browser companion, Mac companion, voice and hosted DO. Builder DO is the software-factory specialist inside that workforce.</p><p>Connections give the workforce user-approved capabilities without handing raw credentials to an agent. Structured handoffs, usage rail and execution receipts are the next durable wiring steps — still projected from real state, never fabricated success.</p></div></section>
     </main>
   </div>;
 }
