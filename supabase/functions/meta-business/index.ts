@@ -17,9 +17,14 @@
 //   * Redirects are restricted to an allow-list of origins.
 //     No postMessage(..., '*').
 //
-// Required secrets:
+// Required secrets (vault only — never commit):
 //   META_APP_ID, META_APP_SECRET, META_STATE_SECRET,
 //   APP_URL, (optional) META_ALLOWED_ORIGINS  comma-separated
+//
+// Locked callback (register in Meta App ONLY after a real deploy):
+//   https://wurwcrgxjjwqdaxqceey.supabase.co/functions/v1/meta-business/callback
+// Host: wurwcrgxjjwqdaxqceey (assembl-prod, Sydney).
+// NOT: ssaxxdkxzrvkdjsanhei (dead / legacy Lovable).
 // ============================================================
 
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
