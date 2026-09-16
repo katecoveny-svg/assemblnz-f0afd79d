@@ -107,7 +107,18 @@ export function DoConnections() {
       {GROUPS.map((group) => {
         const cards = state?.capabilities.filter((capability) => capability.group === group) ?? [];
         if (!cards.length) return null;
-        return <section className={styles.group} key={group}><header><span>{group}</span><p>{groupHelper(group)}</p></header><div className={styles.grid}>{cards.map((capability) => <article className={styles.card} key={capability.key}><div className={styles.cardTop}><div className={styles.icon}><PlugZap size={17}/></div><span data-status={capability.status}>{capability.status}</span></div><h2>{capability.label}</h2><p>{capability.description}</p><small>{capability.authority.replace('_', ' ')}</small>{capability.apps?.length ? <div className={styles.apps}>{capability.apps.map((app) => { const isConnected = connected.has(app.slug); const needsReconnect = unhealthy.has(app.slug); return <button type="button" key={app.slug} disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || isConnected || Boolean(busy)} onClick={() => void connect(app.slug)}>{isConnected ? <><CheckCircle2 size={14}/> {app.label} connected</> : busy === app.slug ? `opening ${app.label}…` : !state?.availability[app.slug] ? `${app.label} · setup needed` : needsReconnect ? `Reconnect ${app.label}` : `Connect ${app.label}`}</button>; })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Platform capability · availability depends on the task'}</div>}</article>)}</div></section>;
+        return <section className={styles.group} key={group}><header><span>{group}</span><p>{groupHelper(group)}</p></header><div className={styles.grid}>{cards.map((capability) => <article className={styles.card} key={capability.key}><div className={styles.cardTop}><div className={styles.icon}><PlugZap size={17}/></div><span data-status={capability.status}>{capability.status}</span></div><h2>{capability.label}</h2><p>{capability.description}</p><small>{capability.authority.replace('_', ' ')}</small>{capability.apps?.length ? <div className={styles.apps}>{capability.apps.map((app) => { const isConnected = connected.has(app.slug); const needsReconnect = unhealthy.has(app.slug); const label = isConnected
+                          ? <><CheckCircle2 size={14}/> {app.label} connected</>
+                          : busy === app.slug
+                            ? `opening ${app.label}…`
+                            : !state?.signedIn
+                              ? `Sign in · ${app.label}`
+                              : !state?.availability[app.slug]
+                                ? `${app.label} · setup needed`
+                                : needsReconnect
+                                  ? `Reconnect ${app.label}`
+                                  : `Connect ${app.label}`;
+                        return <button type="button" key={app.slug} disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || isConnected || Boolean(busy)} onClick={() => void connect(app.slug)}>{label}</button>; })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Platform capability · availability depends on the task'}</div>}</article>)}</div></section>;
       })}
 
       <section className={styles.boundary}><strong>One connection layer. Explicit authority.</strong><p>OAuth grants stay with the connector provider rather than in prompts. A connection does not automatically grant a DO permission to send, publish, spend or mutate an external system.</p></section>
