@@ -22,6 +22,7 @@ const COMPANY = [
     glyph: "◈",
   },
 ];
+/** Public product-demo companions only — never Personal / Household / Inbox. */
 const COMPANIONS = [
   {
     label: "Writing DO",
@@ -30,16 +31,16 @@ const COMPANIONS = [
     glyph: "✦",
   },
   {
-    label: "Personal DO",
-    title: "A little less life admin.",
-    href: "/do?task=plan",
-    glyph: "◎",
+    label: "Creative DO",
+    title: "Give an idea a shape.",
+    href: "/do?task=image",
+    glyph: "◈",
   },
   {
-    label: "Inbox DO",
-    title: "The details that matter.",
-    href: "/do/family",
-    glyph: "↩",
+    label: "Builder DO",
+    title: "Turn an idea into a build job.",
+    href: "/do/builder",
+    glyph: "⌘",
   },
 ];
 

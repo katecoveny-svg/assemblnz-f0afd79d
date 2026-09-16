@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowDown,
   ArrowUpRight,
   Cable,
   Download,
@@ -21,96 +20,16 @@ import { DoDownloadsStrip } from "@/components/do/DoDownloadsStrip";
 import { DoDownloadCtas } from "@/components/do/DoDownloadCtas";
 import { DO_TASKS } from "@/apps/do/shared/preparation";
 import { readHomeBrief } from "@/apps/do/shared/home-handoff";
+import {
+  PUBLIC_DO_SPECIALISTS,
+  type PublicDoSpecialist,
+} from "@/lib/do/public-do-specialists";
 import type { DoSkill } from "./DoBuilder";
 import styles from "./do-home.module.css";
 
 const DoWorkspace = dynamic(() =>
   import("./DoWorkspace").then((module) => module.DoWorkspace),
 );
-type Specialist = {
-  id: string;
-  name: string;
-  scope: "personal" | "work";
-  glyph: string;
-  description: string;
-  note: string;
-  task?: DoSkill;
-  href?: string;
-};
-const SPECIALISTS: Specialist[] = [
-  {
-    id: "writing",
-    name: "Writing DO",
-    scope: "work",
-    glyph: "✦",
-    description: "Make the words sound like you.",
-    note: "Polish a draft, keep its meaning and review the result.",
-    task: "rewrite",
-  },
-  {
-    id: "personal",
-    name: "Personal DO",
-    scope: "personal",
-    glyph: "◎",
-    description: "A little less life admin.",
-    note: "Turn the notes you choose into a plan you can edit.",
-    task: "plan",
-  },
-  {
-    id: "household",
-    name: "Household Floor",
-    scope: "personal",
-    glyph: "⌂",
-    description: "Family seats, evening board, drafts only.",
-    note: "Public scrubbed template — install, customise, run the board. Browser seat for school pages.",
-    href: "/do/household",
-  },
-  {
-    id: "inbox",
-    name: "Inbox DO",
-    scope: "personal",
-    glyph: "↩",
-    description: "Bring the important details forward.",
-    note: "School-admin Gmail pilot. Account connection and message selection required.",
-    href: "/do/family",
-  },
-  {
-    id: "creative",
-    name: "Creative DO",
-    scope: "work",
-    glyph: "◈",
-    description: "Give an idea a visible shape.",
-    note: "Prepare an image from your brief when the image provider is configured.",
-    task: "image",
-  },
-  {
-    id: "details",
-    name: "Detail DO",
-    scope: "work",
-    glyph: "⌕",
-    description: "Find the dates, figures and links.",
-    note: "Extract exact details from the text you approve.",
-    task: "extract",
-  },
-  {
-    id: "bills",
-    name: "Bills DO",
-    scope: "personal",
-    glyph: "⇄",
-    description: "Get a clearer view of a bill.",
-    note: "Read your bill, check the figures and review a comparison.",
-    href: "/do/bills",
-  },
-  {
-    id: "builder",
-    name: "Builder DO",
-    scope: "work",
-    glyph: "⌘",
-    description: "Turn a software idea into a build job.",
-    note: "Prepare a build contract for your chosen coding worker. Review before execution.",
-    href: "/do/builder",
-  },
-];
 
 export function DoHome() {
   const params = useSearchParams();
@@ -123,8 +42,9 @@ export function DoHome() {
   const [template, setTemplate] = useState<string | undefined>();
   const [name, setName] = useState("My DO");
   const [handoffError, setHandoffError] = useState("");
-  const [filter, setFilter] = useState<"all" | "personal" | "work">("all");
-  const [selected, setSelected] = useState(SPECIALISTS[0]);
+  const [selected, setSelected] = useState<PublicDoSpecialist>(
+    PUBLIC_DO_SPECIALISTS[0],
+  );
   const [dropNotice, setDropNotice] = useState("");
 
   function openWorkspace() {
@@ -180,9 +100,9 @@ export function DoHome() {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-public-do="product-demo">
       <a className={styles.skip} href="#your-dos">
-        Skip to your DOs
+        Skip to product DOs
       </a>
       <header className={styles.header}>
         <Link href="/" className={styles.brand}>
@@ -192,7 +112,6 @@ export function DoHome() {
         <nav aria-label="DO">
           <Link href="/do/office">Office</Link>
           <Link href="/do/builder">Builder DO</Link>
-          <Link href="/do/tasks">Tasks</Link>
           <Link href="/do/meetings">Meetings</Link>
           <Link href="/do/connections">Connections</Link>
           <button
@@ -249,45 +168,33 @@ export function DoHome() {
           <div className={styles.sectionHead}>
             <div>
               <p className={styles.eyebrow}>
-                SMALL SPECIALISTS. YOUR KIND OF HELP.
+                PRODUCT DEMO · WORK DOs
               </p>
-              <h2 id="team-title" aria-label="Meet your To DO’s.">Meet your To <span className={styles.teamWordmark}><span className={styles.teamLogo}><DoMark /></span><span>DO’s.</span></span></h2>
+              <h2 id="team-title" aria-label="Meet your To DO’s.">
+                Meet your To{" "}
+                <span className={styles.teamWordmark}>
+                  <span className={styles.teamLogo}>
+                    <DoMark />
+                  </span>
+                  <span>DO’s.</span>
+                </span>
+              </h2>
             </div>
             <div>
               <p>
-                Drag a DO onto the glowing workspace, or tap to choose. Open it
-                when you’re ready.
+                Generic product examples — Writing DO and other work specialists.
+                Not a personal or household account. Drag a DO onto the glowing
+                workspace, or tap to choose.
               </p>
-              <div
-                className={styles.filters}
-                role="group"
-                aria-label="Show DO specialists"
-              >
-                {(["all", "personal", "work"] as const).map((value) => (
-                  <button
-                    type="button"
-                    key={value}
-                    aria-pressed={filter === value}
-                    onClick={() => setFilter(value)}
-                  >
-                    {value === "all"
-                      ? "All DOs"
-                      : value === "personal"
-                        ? "Personal"
-                        : "Work"}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
           <div className={styles.assembly}>
             <div className={styles.cards}>
-              {SPECIALISTS.filter(
-                (item) => filter === "all" || item.scope === filter,
-              ).map((item) => (
+              {PUBLIC_DO_SPECIALISTS.map((item) => (
                 <button
                   className={styles.card}
                   data-identity={item.id}
+                  data-demo="true"
                   key={item.id}
                   type="button"
                   draggable
@@ -307,7 +214,7 @@ export function DoHome() {
                   }}
                 >
                   <span className={styles.cardTop}>
-                    <span>{item.scope}</span>
+                    <span>DEMO · {item.scope}</span>
                     <Grip size={15} aria-hidden="true" />
                   </span>
                   <span className={styles.identity} aria-hidden="true">
@@ -334,7 +241,7 @@ export function DoHome() {
               }}
               onDrop={(event) => {
                 event.preventDefault();
-                const item = SPECIALISTS.find(
+                const item = PUBLIC_DO_SPECIALISTS.find(
                   (candidate) =>
                     candidate.id ===
                     event.dataTransfer.getData("application/x-do-specialist"),
@@ -347,7 +254,7 @@ export function DoHome() {
                 }
               }}
             >
-              <span className={styles.eyebrow}>YOUR SELECTED DO</span>
+              <span className={styles.eyebrow}>DEMO · SELECTED DO</span>
               <span className={styles.mark}>
                 <DoMark />
               </span>
@@ -370,7 +277,7 @@ export function DoHome() {
 
         <section className={styles.office} aria-labelledby="office-title">
           <div>
-            <p className={styles.eyebrow}>DO OFFICE / SPATIAL PREVIEW</p>
+            <p className={styles.eyebrow}>DO OFFICE · PRODUCT PREVIEW</p>
             <h2 id="office-title">
               A place for
               <br />
@@ -378,14 +285,11 @@ export function DoHome() {
             </h2>
             <p>
               See what needs your attention, what is underway and what has a
-              receipt. The Office and its 3D rooms show the same demo runtime
-              state.
+              receipt. This is a product preview of Office boards — not a
+              personal, household or operator task list.
             </p>
             <Link className={styles.primary} href="/do/office">
               Step into the Office <ArrowUpRight size={17} />
-            </Link>
-            <Link className={styles.textButton} href="/do/tasks">
-              Per-DO task lists <ArrowUpRight size={17} />
             </Link>
           </div>
           <div className={styles.officeStates}>

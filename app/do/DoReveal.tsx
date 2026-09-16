@@ -4,8 +4,14 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowDown, ArrowUpRight, Pause, Play, RotateCcw } from "lucide-react";
 import { DoMark } from "./DoAppearance";
 import "./do-reveal.css";
-const notes =
-  "School notice: bring swimming gear on Tuesday. Power bill: payment due Friday. Dentist reminder: Thursday at 3 pm. Please confirm who can do the school pickup.";
+
+/** Generic product DEMO brief — never personal / household / operator week context. */
+const DEMO_NOTES =
+  "Client note: please tighten the proposal opening. Keep the three proof points. Soften the timeline claim so it reads as a plan, not a promise. Ready for review before the Thursday pitch.";
+
+const DEMO_DRAFT =
+  "Opening — Clearer, shorter, still yours.\nProof — Three evidence points kept intact.\nTimeline — Framed as a plan for review, not a commitment.\nNext — Ready for your edit before Thursday.";
+
 export function DoReveal({
   onBuild,
 }: {
@@ -18,13 +24,11 @@ export function DoReveal({
   const [progress, setProgress] = useState(0),
     [paused, setPaused] = useState(false),
     [reduced, setReduced] = useState(false),
-    [skill, setSkill] = useState("school"),
+    [skill, setSkill] = useState("writing"),
     [position, setPosition] = useState({ x: 0, y: 0 }),
     [shared, setShared] = useState(false),
     [result, setResult] = useState(false),
-    [draft, setDraft] = useState(
-      "Tuesday — Pack swimming gear.\nThursday, 3 pm — Dentist appointment.\nFriday — Check and pay the power bill.\nTo confirm — Who can do school pickup?",
-    );
+    [draft, setDraft] = useState(DEMO_DRAFT);
   useEffect(() => {
     const media = matchMedia(
       "(prefers-reduced-motion: reduce), (max-width: 760px)",
@@ -65,16 +69,23 @@ export function DoReveal({
     setPaused(false);
     root.current?.scrollIntoView({ behavior: "auto" });
   }
+  const skillLabel =
+    skill === "creative"
+      ? "Creative"
+      : skill === "meeting"
+        ? "Meeting"
+        : "Writing";
   return (
     <section
       ref={root}
       className={`dor ${reduced ? "dor-static" : ""}`}
       style={{ "--reveal": open, "--travel": progress } as CSSProperties}
       aria-label="How to assemble your DO"
+      data-public-do="product-demo"
     >
       <div className="dor-stage">
         <div className="dor-intro" inert={!reduced && open > 0.5}>
-          <span className="dor-eyebrow">YOUR PERSONAL ASSISTANT</span>
+          <span className="dor-eyebrow">DO · PRODUCT DEMO</span>
           <h1 aria-label="assembl your DO">
             assembl
             <br />
@@ -121,13 +132,13 @@ export function DoReveal({
         <div className="dor-work" id="dor-build" inert={!reduced && open < 0.5}>
           <header>
             <span>ASSEMBLE YOUR DO</span>
-            <span>Interactive example · no task used</span>
+            <span>DEMO example · no personal account</span>
           </header>
           <div className="dor-parts">
             <fieldset>
               <legend>1. Choose its work</legend>
               {[
-                ["school", "Life admin"],
+                ["writing", "Writing"],
                 ["meeting", "Meeting notes"],
                 ["creative", "Images"],
               ].map(([id, title]) => (
@@ -142,8 +153,8 @@ export function DoReveal({
             </fieldset>
             <div className="dor-workarea">
               <div className="dor-paper">
-                <small>YOUR WEEK · EXAMPLE</small>
-                <p>{notes}</p>
+                <small>WRITING BRIEF · DEMO</small>
+                <p>{DEMO_NOTES}</p>
                 <button
                   onClick={() => {
                     setShared(true);
@@ -231,7 +242,7 @@ export function DoReveal({
               <h2>2. Review the context</h2>
               {shared ? (
                 <>
-                  <p>{notes}</p>
+                  <p>{DEMO_NOTES}</p>
                   <button onClick={() => setResult(true)}>
                     Show example result
                   </button>
@@ -251,7 +262,7 @@ export function DoReveal({
                 </p>
               )}
               <small>
-                This example selects only the text shown here. Open your DO and
+                This DEMO selects only the text shown here. Open your DO and
                 choose Show DO to share a real screenshot or image.
               </small>
             </div>
@@ -260,7 +271,7 @@ export function DoReveal({
               {result ? (
                 <>
                   <label htmlFor="dor-draft">
-                    Worked example: weekly checklist
+                    Worked example: writing polish
                   </label>
                   <textarea
                     id="dor-draft"
@@ -274,16 +285,10 @@ export function DoReveal({
               <button
                 className="dor-build"
                 onClick={() =>
-                  onBuild(skill, skill === "school" && shared ? notes : "")
+                  onBuild(skill, skill === "writing" && shared ? DEMO_NOTES : "")
                 }
               >
-                Open{" "}
-                {skill === "creative"
-                  ? "Creative"
-                  : skill === "school"
-                    ? "School admin"
-                    : "Meeting"}{" "}
-                DO <ArrowUpRight size={16} />
+                Open {skillLabel} DO <ArrowUpRight size={16} />
               </button>
             </div>
           </div>
