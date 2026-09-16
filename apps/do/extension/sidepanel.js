@@ -170,8 +170,8 @@ function selectedHint(payload) {
     : 'Using visible page text for help (selection was empty).';
 }
 
-captureButton.addEventListener('click', () => void captureSelection());
-helpPageButton.addEventListener('click', () => void helpWithPage());
+captureButton.addEventListener('click', () => captureSelection());
+helpPageButton.addEventListener('click', () => helpWithPage());
 
 meetingButton.addEventListener('click', () => {
   showMeetingCard(true);
