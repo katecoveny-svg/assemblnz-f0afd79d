@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   if (!admitDoRequest(ip)) return json({ message: 'Please wait a minute before checking again.' }, 429);
   let reservation: Awaited<ReturnType<typeof reserveDoTrial>> | null = null;
   try {
-    reservation = await reserveDoTrial(ip);
+    reservation = await reserveDoTrial(ip, { signedInOwnerId: owner.id });
     const { messages, moreAvailable } = await collectFamilyMail(owner.externalId, parsed.data.senders, parsed.data.days);
     if (!messages.some(m => m.text.trim())) {
       await reservation.release(); reservation = null;

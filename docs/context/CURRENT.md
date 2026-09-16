@@ -73,6 +73,8 @@ Gemini Live voice work is currently an active integration effort. The intended b
 
 For visual/system details, see `docs/DO-OFFICE-ARCHITECTURE.md` and the DO shared primitives under `apps/do/shared/`.
 
+**Household Floor (16 Sep 2026):** public scrubbed family DO at `/do/household` with nine seats, evening-board tick, personalisation, and Chrome browser-seat v0. Owner-private seed exists but must not be the public share. Save to Office remains plan-acceptance only — not a running agent.
+
 ### SHOW / STUDIO — show the possibility
 Studio is the visual, experiential and commercial proof layer.
 

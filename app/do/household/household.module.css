@@ -1,0 +1,565 @@
+.page {
+  --hf-accent: #240b21;
+  --hf-ink: #fffdfb;
+  min-height: 100svh;
+  color: #240b21;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(145, 106, 112, 0.22), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(36, 11, 33, 0.12), transparent 50%),
+    linear-gradient(180deg, #fffdfb 0%, #f5f1f2 42%, #efe8ea 100%);
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 4vw, 56px);
+  border-bottom: 1px solid rgba(36, 11, 33, 0.08);
+  background: rgba(255, 253, 251, 0.82);
+  backdrop-filter: blur(16px);
+}
+
+.brand,
+.headerActions,
+.ctaRow,
+.tabs,
+.swatches,
+.marks,
+.seatCardTop,
+.boardCol header,
+.installGrid,
+.seatsGrid,
+.boardGrid {
+  display: flex;
+}
+
+.brand {
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.wordmark {
+  color: #240b21;
+  text-decoration: none;
+  font-size: 22px;
+  letter-spacing: -0.05em;
+}
+
+.brand > span:not(.chip) {
+  color: #654a4e;
+  font-size: 14px;
+}
+
+.chip {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #f5f1f2;
+  color: #654a4e;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.headerActions {
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.headerActions a {
+  text-decoration: none;
+  color: #654a4e;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 999px;
+}
+
+.primaryLink {
+  background: var(--hf-accent);
+  color: var(--hf-ink) !important;
+}
+
+.main {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 80px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.orbStage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+}
+
+.orb {
+  position: relative;
+  z-index: 2;
+  width: 112px;
+  height: 112px;
+  border: 0;
+  border-radius: 50%;
+  cursor: grab;
+  color: var(--hf-ink);
+  background:
+    radial-gradient(circle at 30% 22%, color-mix(in srgb, var(--hf-accent) 35%, #fff), var(--hf-accent) 55%, #1a0718 88%);
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 255, 0.25),
+    0 0 24px color-mix(in srgb, var(--hf-accent) 45%, transparent),
+    0 18px 40px rgba(36, 11, 33, 0.28);
+  font-size: 42px;
+  animation: floaty 4.5s ease-in-out infinite;
+}
+
+.orbGlow {
+  position: absolute;
+  inset: 18% 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--hf-accent) 35%, transparent), transparent 70%);
+  filter: blur(12px);
+  animation: pulse 4.5s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.06); }
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #916a70;
+}
+
+.heroCopy h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.lede {
+  margin: 0 0 18px;
+  max-width: 54ch;
+  color: #654a4e;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.ctaRow {
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cta,
+.secondaryCta,
+.templateCard button,
+.customise button,
+.shareCard button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cta,
+.templateCard button {
+  background: var(--hf-accent);
+  color: var(--hf-ink);
+}
+
+.secondaryCta {
+  background: transparent;
+  color: #240b21;
+  border: 1px solid rgba(36, 11, 33, 0.18) !important;
+}
+
+.status {
+  margin: 8px 0 0;
+  color: #654a4e;
+  font-size: 0.95rem;
+}
+
+.installGrid {
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.templateCard {
+  flex: 1 1 280px;
+  padding: 22px;
+  border-radius: 28px;
+  background: rgba(255, 253, 251, 0.9);
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  box-shadow: 0 18px 50px rgba(36, 11, 33, 0.06);
+}
+
+.templateCard[data-shareable='true'] {
+  background:
+    linear-gradient(160deg, rgba(255, 253, 251, 0.95), rgba(245, 241, 242, 0.92));
+}
+
+.templateCard[data-shareable='false'] {
+  opacity: 0.92;
+}
+
+.cardMark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--hf-accent);
+  color: var(--hf-ink);
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.templateCard h2 {
+  margin: 0 0 8px;
+  letter-spacing: -0.03em;
+}
+
+.templateCard p,
+.templateCard li,
+.seatTile p,
+.seatCard p,
+.browserSeat p,
+.honestyBand p {
+  color: #654a4e;
+  line-height: 1.4;
+}
+
+.templateCard ul {
+  margin: 0 0 16px;
+  padding-left: 18px;
+}
+
+.danger {
+  background: transparent !important;
+  color: #654a4e !important;
+  border: 1px solid rgba(101, 74, 78, 0.35) !important;
+}
+
+.tabs {
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.tabs button {
+  appearance: none;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  background: #fffdfb;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font: inherit;
+  font-weight: 600;
+  color: #654a4e;
+  cursor: pointer;
+}
+
+.tabs button[data-active='true'] {
+  background: var(--hf-accent);
+  color: var(--hf-ink);
+  border-color: transparent;
+}
+
+.whoWhere,
+.order,
+.gatesBar,
+.receipt,
+.honestyBand,
+.browserHero,
+.followUps {
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: rgba(255, 253, 251, 0.88);
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  margin-bottom: 16px;
+}
+
+.boardGrid {
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.boardCol {
+  flex: 1 1 220px;
+  min-height: 220px;
+  padding: 14px;
+  border-radius: 22px;
+  background: rgba(36, 11, 33, 0.03);
+}
+
+.boardCol header {
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.boardCol h2 {
+  margin: 0;
+  font-size: 1rem;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+}
+
+.boardCol header span,
+.seatId {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #916a70;
+}
+
+.cardStack {
+  display: grid;
+  gap: 10px;
+}
+
+.seatCard,
+.seatTile {
+  padding: 14px;
+  border-radius: 18px;
+  background: #fffdfb;
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  box-shadow: 0 10px 28px rgba(36, 11, 33, 0.04);
+}
+
+.seatCardTop {
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #916a70;
+}
+
+.seatCard h3,
+.seatTile h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.need,
+.meta {
+  font-size: 0.9rem;
+  color: #916a70 !important;
+}
+
+.draft {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f5f1f2;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  white-space: pre-wrap;
+  color: #240b21;
+}
+
+.empty {
+  padding: 18px 12px;
+  text-align: center;
+  color: #916a70;
+}
+
+.empty span {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.order ol,
+.gatesBar ul,
+.hostList ul,
+.gates ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #654a4e;
+}
+
+.seatsGrid {
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.seatTile {
+  flex: 1 1 220px;
+}
+
+.customise {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border-radius: 24px;
+  background: rgba(255, 253, 251, 0.9);
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  margin-bottom: 16px;
+}
+
+.customise label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.customise input {
+  border: 1px solid rgba(36, 11, 33, 0.14);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  background: #fffdfb;
+}
+
+.swatches,
+.marks {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.swatch[data-active='true'],
+.marks button[data-active='true'] {
+  outline: 2px solid #240b21;
+  outline-offset: 2px;
+}
+
+.marks button {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  background: #fffdfb;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.previewCard {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  padding: 20px;
+  border-radius: 22px;
+  min-height: 110px;
+}
+
+.previewCard span {
+  font-size: 28px;
+}
+
+.browserSeat {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.steps {
+  margin: 0;
+  padding: 18px 18px 18px 36px;
+  border-radius: 22px;
+  background: #fffdfb;
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  color: #654a4e;
+  line-height: 1.45;
+}
+
+.hostList {
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(36, 11, 33, 0.04);
+}
+
+.honesty,
+.honestyBand h2 {
+  letter-spacing: -0.03em;
+}
+
+.honestyBand h2 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+}
+
+.shareModal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(36, 11, 33, 0.45);
+}
+
+.shareCard {
+  width: min(480px, 100%);
+  padding: 22px;
+  border-radius: 24px;
+  background: #fffdfb;
+  box-shadow: 0 24px 80px rgba(36, 11, 33, 0.28);
+}
+
+.shareCard textarea {
+  width: 100%;
+  margin: 12px 0 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(36, 11, 33, 0.14);
+  padding: 12px;
+  font: inherit;
+  resize: vertical;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .ctaRow,
+  .headerActions {
+    justify-content: center;
+  }
+
+  .orbStage {
+    min-height: 140px;
+  }
+}

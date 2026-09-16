@@ -1,18 +1,29 @@
 {
   "manifest_version": 3,
   "name": "DO by assembl",
-  "version": "1.3.0",
-  "description": "Build writing and creative agents alongside your browser work. A draggable purple companion. Read selected text only when you choose.",
+  "version": "1.4.0",
+  "description": "Floating ✦ companion and per-DO browser seat. Capture consented page text and screenshots for Household Floor — never send or pay.",
   "action": {
     "default_title": "Open DO"
   },
   "permissions": [
     "activeTab",
     "scripting",
-    "sidePanel"
+    "sidePanel",
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
-    "https://www.assembl.co.nz/*"
+    "https://www.assembl.co.nz/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "optional_host_permissions": [
+    "https://*.bridge.school.nz/*",
+    "https://at.govt.nz/*",
+    "https://www.at.govt.nz/*",
+    "https://aucklandcouncil.govt.nz/*",
+    "https://www.aucklandcouncil.govt.nz/*"
   ],
   "icons": {
     "16": "icons/icon16.png",

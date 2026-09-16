@@ -199,8 +199,8 @@ export function BuilderDoWorkspace() {
         writeLocalQueue(next.map(({ receipt: _receipt, ...rest }) => rest));
       } catch { /* local mirror is optional */ }
       setMessage(saved.receipt
-        ? `${saved.receipt.title}. ${saved.receipt.summary}`
-        : 'Saved to your Office workspace. No build has started.');
+        ? `${saved.receipt.title}. ${saved.receipt.summary} Next: open Office to see the accepted plan, or go to Household Floor to run a living DO — save ≠ running.`
+        : 'Saved to your Office workspace. No build has started. Save to Office is not a running agent.');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Could not save this Builder job.');
     } finally {
@@ -291,7 +291,7 @@ export function BuilderDoWorkspace() {
             <h1>tell it what<br />needs to exist.</h1>
           </div>
           <p className={styles.heroCopy}>
-            Describe what you want to build. Review the plan, save it to your Office workspace for a real acceptance receipt, or download a handoff for your coding agent. Planning does not run a build worker.
+            Describe what you want to build. Review the plan, then save it to Office for a <strong>job_accepted</strong> receipt — that stores the plan only; it does not start a running agent or Household Floor. For a living family DO: install Household Floor, place the extension, run the evening board.
           </p>
         </section>
 
@@ -337,11 +337,12 @@ export function BuilderDoWorkspace() {
             <div><h3>done when</h3>{plan.job.definitionOfDone.map((item) => <p key={item}>✓ {item}</p>)}</div>
             <div><h3>proof</h3>{plan.job.proof.map((item) => <p key={item}>↳ {item}</p>)}</div>
           </div>
-          {activeReceipt ? <div className={styles.boundary}><span>office receipt · {activeReceipt.kind}</span><p>{activeReceipt.title} — {activeReceipt.summary}</p></div> : null}
+          {activeReceipt ? <div className={styles.boundary}><span>office receipt · {activeReceipt.kind}</span><p>{activeReceipt.title} — {activeReceipt.summary}</p><p>Save to Office ≠ running agent. Living path: <a href="/do/household">Household Floor</a> · <a href="/api/do/download?format=extension">install extension</a> · place DO · run evening board.</p></div> : null}
           <div className={styles.actions}>
             <button type="button" onClick={() => void saveJob()} disabled={busy}>{signedIn === false ? 'save on this device' : 'save to office'}</button>
             <button type="button" onClick={downloadHandoff}>download build handoff</button>
             <button type="button" onClick={() => void copyHandoff()} className={styles.primaryAction}>copy builder handoff</button>
+            <a href="/do/household" className={styles.primaryAction} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>open Household Floor</a>
           </div>
           <details><summary>portable handoff</summary><pre>{handoffText(plan)}</pre></details>
         </section> : null}

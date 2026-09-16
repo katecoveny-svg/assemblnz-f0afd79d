@@ -7,6 +7,7 @@
 import type { DoEvidence, RuntimeLane, ToolPlan } from './pipeline';
 import type { WatchSnapshot } from './watch';
 import type { ApprovalChainStep } from './approval-chain';
+import type { DoConnectorRequirement } from './do-connectors';
 
 export type AgentPrimitive = 'watch' | 'find' | 'extract' | 'prepare' | 'compare';
 
@@ -84,6 +85,11 @@ export interface AgentSpec {
   templateId?: string;
   /** Optional connector stub chosen at activate. */
   connector?: ConnectorChoice;
+  /**
+   * Pipedream Connect apps / capabilities this DO needs.
+   * Templates never embed tokens — user connects via /api/do/connections.
+   */
+  requiredConnectors?: DoConnectorRequirement[];
 }
 
 export interface PendingApproval {
@@ -132,4 +138,6 @@ export interface DemoTemplate {
   can_do_without_asking: string[];
   must_ask_before: string[];
   never: string[];
+  /** Optional Pipedream Connect requirements for this template. */
+  requiredConnectors?: DoConnectorRequirement[];
 }

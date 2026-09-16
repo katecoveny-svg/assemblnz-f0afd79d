@@ -70,7 +70,16 @@ Linux CI cannot App Store / Play–build these — **compiling-ready stubs** onl
 
 1. `chrome://extensions` → Load unpacked → `apps/do/extension`
 2. Floating ✦ opens on-page sheet; Clear overlay watches editable fields
-3. API base default `http://localhost:3000`
+3. Side panel browser seat: paste Household Floor DO id + session key → consent → capture page text / optional screenshot
+4. API base default `https://www.assembl.co.nz` (switch to localhost in the side panel when testing)
+
+### Household Floor
+
+1. Open `/do/household`
+2. Install the **public** scrubbed template (shareable) or owner-private seed (do not share)
+3. Customise name / accent / avatar mark
+4. **Run evening board** → Needs you / Working / Done
+5. Docs: `docs/do-templates/HOUSEHOLD-FLOOR.md`
 
 ## Agents SDK spine
 

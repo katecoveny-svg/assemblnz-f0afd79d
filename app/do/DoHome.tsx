@@ -54,6 +54,15 @@ const SPECIALISTS: Specialist[] = [
     task: "plan",
   },
   {
+    id: "household",
+    name: "Household Floor",
+    scope: "personal",
+    glyph: "⌂",
+    description: "Family seats, evening board, drafts only.",
+    note: "Public scrubbed template — install, customise, run the board. Browser seat for school pages.",
+    href: "/do/household",
+  },
+  {
     id: "inbox",
     name: "Inbox DO",
     scope: "personal",
