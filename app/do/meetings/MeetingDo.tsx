@@ -28,6 +28,7 @@ function MeetingDoInner() {
   const router = useRouter();
   const params = useSearchParams();
   const phoneMode = params.get('phone') === '1';
+  const previewNotes = params.get('previewNotes') === '1';
   const recordRef = useRef<HTMLElement | null>(null);
   const [captureMode, setCaptureMode] = useState<'microphone' | 'meeting'>('microphone');
   const audioContext = useRef<AudioContext | null>(null);
@@ -133,6 +134,60 @@ function MeetingDoInner() {
       cancelled = true;
     };
   }, []);
+
+  // Local UI preview of the review surface when preparation is unavailable (no model claim).
+  useEffect(() => {
+    if (!previewNotes) return;
+    const sample = [
+      'Meeting notes',
+      'Kate and Adrian aligned on shipping phone Meeting DO for tonight after Install → Record works.',
+      '',
+      'Decisions / outcomes',
+      'Ship soft launch for Adrian once Install → Record is reliable.',
+      '',
+      'Action items',
+      'Send invite · Owner: Alex · Due: Friday',
+      '',
+      'Open questions',
+      'Budget not confirmed.',
+      'Who hosts the follow-up?',
+      '',
+      'Suggested specialist DO',
+      'Office DO — draft invite (draft)',
+      '',
+      'Follow-up email draft',
+      'Subject: Soft launch for Meeting DO',
+      'Kia ora — notes from today for review. Nothing sent automatically.',
+    ].join('\n');
+    setNotes(
+      'Kate and Adrian discussed the phone Meeting DO tonight. Decided to ship soft launch for Adrian after Install → Record works. Alex will send the invite by Friday. Budget not confirmed. Open question: who hosts the follow-up?',
+    );
+    setDraft(sample);
+    setReceipt({
+      version: 1,
+      id: '00000000-0000-4000-8000-000000000001',
+      task: 'meeting-notes',
+      title: 'Smart meeting notes · Meeting transcript',
+      text: sample,
+      createdAt: new Date().toISOString(),
+      status: 'draft',
+      evidence: {
+        method: 'model',
+        model: 'preview-only (not generated)',
+        sourceTitle: 'Meeting transcript',
+        sourceUrl: '',
+        sourceHash: '0'.repeat(64),
+        sourceCharacters: sample.length,
+        instructionHash: '0'.repeat(64),
+        outputHash: '0'.repeat(64),
+        consentAt: new Date().toISOString(),
+        boundary:
+          'Preview layout only. No model was called. No message was sent.',
+      },
+    });
+    setPasteOpen(true);
+    setShareNotes(true);
+  }, [previewNotes]);
 
   const noteSections = useMemo(
     () => (draft.trim() ? parseMeetingSmartNotes(draft) : []),
@@ -376,6 +431,13 @@ function MeetingDoInner() {
           </Link>
         ) : null}
       </nav>
+
+      {previewNotes ? (
+        <p className={styles.alert} role="status">
+          Layout preview (`?previewNotes=1`) — sample smart notes only. No model was called and nothing
+          was sent.
+        </p>
+      ) : null}
 
       {phoneMode ? (
         <section className={styles.phoneLanding} aria-label="Phone Meeting DO">

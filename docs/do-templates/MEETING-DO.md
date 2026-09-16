@@ -15,5 +15,6 @@ Surface: `/do/meetings` (phone: `/do/meetings?phone=1`).
 - Deepgram configuration is checked and stated in the UI.
 - Separate consent for audio→Deepgram and transcript→model.
 - Owners and dates must appear in the source; the agent must not invent them.
+- `?previewNotes=1` seeds a **layout-only** sample review surface (banner states no model was called). For visual QA when preparation is unavailable — not a generation claim.
 
 See also: `docs/reviews/2026-09-16-meeting-do.md`, `docs/do-templates/DO-DISTRIBUTION.md`.
