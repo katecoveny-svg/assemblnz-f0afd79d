@@ -75,7 +75,11 @@ export function HouseholdFloorClient({
       return;
     }
     if (initialPrivate) {
-      setMessage('Private install path ready — use Install private (do not share). Prefer the public template for tonight’s share.');
+      // Public site must not offer an owner-private install door. Real household
+      // context does not ship in the web bundle; use the scrubbed public template.
+      setMessage(
+        'Owner-private install is not available on the public site. Install the scrubbed public Household Floor template instead.',
+      );
     }
   }, [initialPrivate]);
 
@@ -123,38 +127,10 @@ export function HouseholdFloorClient({
     }
   }
 
-  async function installPrivate() {
-    setBusy(true);
-    try {
-      const response = await fetch('/api/do/household', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          action: 'install',
-          templateId: OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.id,
-        }),
-      });
-      const data = await response.json() as {
-        floor?: HouseholdFloorInstance;
-        message?: string;
-        shareWarning?: string | null;
-      };
-      if (response.status === 401) {
-        // Local-only private install for the owner machine when signed out — still not shareable.
-        const next = installHouseholdFloor({ template: OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE });
-        persist(next, 'Owner-private seed installed on this device only. Do not share — contains personal household context. Sign in to persist server-side.');
-        setTab('board');
-        return;
-      }
-      if (!response.ok || !data.floor) throw new Error(data.message || 'Could not install private seed.');
-      persist(data.floor, data.shareWarning || 'Owner-private Household Floor installed. Not for public share.');
-      setTab('board');
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Could not install private seed.');
-    } finally {
-      setBusy(false);
-    }
+  function refusePrivateInstall() {
+    setMessage(
+      'Owner-private install is closed on the public site. Use the scrubbed public template — personal household context does not ship in this web app.',
+    );
   }
 
   async function runEveningBoard() {
@@ -319,15 +295,18 @@ export function HouseholdFloorClient({
             </article>
             <article className={styles.templateCard} data-shareable="false">
               <div className={styles.cardMark}>◎</div>
-              <h2>Owner private seed</h2>
-              <p>Same seats and schedules with owner household context. Not for public share. Use only on your machine.</p>
+              <h2>Owner mode</h2>
+              <p>
+                Personal household context does not ship in this public web app.
+                Use the scrubbed public template above. Owner-private seeds stay off the public site.
+              </p>
               <ul>
-                <li>Hidden from Share tonight</li>
-                <li>Banner warns on install</li>
-                <li>{initialPrivate ? 'Linked from private path' : 'Explicit install only'}</li>
+                <li>No private install on assembl.co.nz</li>
+                <li>Public template is drafts-only</li>
+                <li>{initialPrivate ? 'Private URL path refused here' : 'Demo-safe share path'}</li>
               </ul>
-              <button type="button" className={styles.danger} disabled={busy} onClick={() => void installPrivate()}>
-                Install private (do not share)
+              <button type="button" className={styles.danger} disabled={busy} onClick={refusePrivateInstall}>
+                Private install unavailable
               </button>
             </article>
           </section>

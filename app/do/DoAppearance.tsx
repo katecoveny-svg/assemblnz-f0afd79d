@@ -41,7 +41,7 @@ export function DoAppearancePanel({
     ox: number;
     oy: number;
   } | null>(null);
-  const colours = { plum: "#d5a6e8", violet: "#a3a0ff", copper: "#e7ac91" };
+  const colours = { plum: "#916A70", violet: "#654A4E", copper: "#C4A494" };
   return (
     <section
       className="do-customise"

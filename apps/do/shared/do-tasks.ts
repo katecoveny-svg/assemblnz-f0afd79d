@@ -85,7 +85,10 @@ function task(
   };
 }
 
-/** Honest open Assembl DO work as of 16 Sep 2026 — editable per board. */
+/**
+ * Public demo seed boards — fictional product-demo tasks only.
+ * Do not seed personal operator backlogs, private PR URLs or real household work.
+ */
 export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
   {
     id: 'portable-widget',
@@ -95,34 +98,34 @@ export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
     issues: [
       task(
         'pw-ux',
-        'Ship friendlier portable UX (D-mark, badge polish)',
+        'Polish the portable companion mark and status badge',
         'doing',
         'p0',
-        'PR #1302 — clearer D-mark identity, status badge, and companion chrome.',
-        'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1302',
+        'Demo board: keep the D-mark and status chip readable on a small surface.',
+        '/do/widget',
       ),
       task(
         'pw-meeting-auth',
-        'Surface Meeting auth at the top of the companion',
+        'Show meeting sign-in near the top of the companion',
         'todo',
         'p0',
-        'Meeting DO sign-in should be reachable without digging through nested panels.',
-        'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1302',
+        'Demo board: auth should be obvious before voice or prepare features.',
+        '/do/meetings',
       ),
       task(
         'pw-chrome-cta',
-        'Chrome extension download button visible on portable UI',
+        'Chrome extension download visible on portable UI',
         'done',
         'p1',
-        'Download Chrome DO CTAs on /do banner, Glow sheet, and side panel → /api/do/download?format=extension.',
+        'Demo board: download CTA points at the public extension path.',
         '/api/do/download?format=extension',
       ),
       task(
         'pw-mac-cta',
-        'Mac companion download button + working format=mac',
+        'Mac companion download + working format=mac',
         'done',
         'p0',
-        'format=mac (plus macos / mac-companion) serves DO-mac-companion.zip of apps/do/macos source.',
+        'Demo board: format=mac serves the public Mac companion zip.',
         '/api/do/download?format=mac',
       ),
     ],
@@ -135,26 +138,26 @@ export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
     issues: [
       task(
         'wl-pursuit',
-        'Pursuit handoff into Task DO Maker',
+        'Hand a Pursuit brief into Task DO Maker',
         'doing',
         'p0',
-        'PR #1301 — accept an opportunity brief from Pursuit into a white-label Task DO Maker flow.',
-        'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1301',
+        'Demo board: accept a sample opportunity brief into a maker flow.',
+        '/do/builder',
       ),
       task(
         'wl-partner',
         'Partner / white-label mode for Task DO Maker',
         'todo',
         'p1',
-        'Partner-branded maker path without claiming live partner deployments.',
-        'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1301',
+        'Demo board: partner-branded maker path without claiming live partner deployments.',
+        '/do/builder',
       ),
       task(
         'wl-honesty',
         'Keep builder receipts honest (plan ≠ running agent)',
         'todo',
         'p1',
-        'Saving a plan must not mint a fabricated success receipt.',
+        'Demo board: saving a plan must not mint a fabricated success receipt.',
         '/do/builder',
       ),
     ],
@@ -202,7 +205,7 @@ export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
         'Clear sign-in path for Meeting DO',
         'todo',
         'p0',
-        'Operators need an obvious auth path before voice / prepare features that require a session.',
+        'Demo: an obvious auth path helps before voice / prepare features that require a session.',
         '/do/meetings',
       ),
       task(
@@ -271,10 +274,10 @@ export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
     issues: [
       task(
         'cx-composio',
-        'Composio / Zapier / Treg env keys wired for connectors',
+        'Demo connectors show honest missing-key status',
         'todo',
         'p0',
-        'Fail open with honest status when env keys are missing.',
+        'Demo: fail open with honest status when keys are missing.',
         '/do/connections',
       ),
       task(
@@ -290,7 +293,7 @@ export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
         'MCP gateway status readable from Connections',
         'doing',
         'p1',
-        'Operators should see gateway readiness without digging through docs alone.',
+        'Demo: gateway readiness should be visible without digging through docs alone.',
         '/do/connections#mcp-gateway',
       ),
     ],

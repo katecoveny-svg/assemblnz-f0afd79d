@@ -65,5 +65,20 @@ for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-
 const companyCss = read('components/site/assembl-the-work/assembl-the-work.css');
 if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) errors.push('Company typography must use Instrument Sans, not the retired serif font');
 if (!read('app/do/DoHome.tsx').includes('Meet your To ')) errors.push('Preserve the approved To DO specialist heading');
+
+// Public DO honesty — never ship owner-private household PII or operator backlog hosts in shared seeds.
+const householdTemplates = read('apps/do/shared/household-floor-templates.ts');
+if (/Kate Hudson|Geraldine Place|Kohimarama|Daldy|Sacred Heart|Baradene|Coveny/i.test(householdTemplates)) {
+  errors.push('apps/do/shared/household-floor-templates.ts: owner/public templates must not embed personal household PII');
+}
+const doTasks = read('apps/do/shared/do-tasks.ts');
+if (/github\.com\/katecoveny-svg\/assemblnz/i.test(doTasks)) {
+  errors.push('apps/do/shared/do-tasks.ts: public task seeds must not link private operator PRs');
+}
+const meetingDo = read('app/do/meetings/MeetingDo.tsx');
+if (/Kate and Adrian/i.test(meetingDo)) {
+  errors.push('app/do/meetings/MeetingDo.tsx: sample notes must use fictional names on the public demo');
+}
+
 if (errors.length) { console.error('public-front-door-guard: drift detected\n' + errors.join('\n')); process.exit(1); }
 console.log('public-front-door-guard: assembl front door, WorldScene/AssemblWorldHero or DoSpatialScene company, dimensional DO and portable canvas present');
