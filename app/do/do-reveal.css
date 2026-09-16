@@ -398,4 +398,9 @@
   }
 }
 
-.dor-intro h1{color:#fff7ff}.dor-object img{mask-image:radial-gradient(ellipse at center,#000 42%,transparent 72%)}
+.dor-intro h1 {
+  color: #fff7ff;
+}
+.dor-object img {
+  mask-image: radial-gradient(ellipse at center, #000 42%, transparent 72%);
+}

@@ -327,10 +327,10 @@ export default function LiveDo({
   }
   const activeVoice =
     snapshot && ["connecting", "live", "closing"].includes(snapshot.voice);
-  const Container = embedded ? "section" : "main";
+  const Container = "section";
   return (
     <Container
-      id={embedded ? undefined : "main-content"}
+      aria-label="DO connected conversation"
       className={`do-live${snapshot ? " is-open" : ""}${embedded ? " do-live-embedded" : ""}`}
     >
       <audio ref={audio} autoPlay playsInline />

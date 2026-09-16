@@ -189,7 +189,7 @@ export function DoBuilder({
       };
       const list = [
         entry,
-        ...recipes.filter((r) => r.name !== entry.name),
+        ...readSavedRecipes().filter((r) => r.name !== entry.name),
       ].slice(0, 8);
       localStorage.setItem("assembl-do-recipes-v1", JSON.stringify(list));
       setRecipes(list);
@@ -200,12 +200,11 @@ export function DoBuilder({
       setError("This browser could not save the recipe.");
     }
   }
-  function loadRecipes() {
-    try {
-      const raw: unknown = JSON.parse(
-        localStorage.getItem("assembl-do-recipes-v1") || "[]",
-      );
-      const list = Array.isArray(raw)
+  function readSavedRecipes(): Recipe[] {
+    const raw: unknown = JSON.parse(
+      localStorage.getItem("assembl-do-recipes-v1") || "[]",
+    );
+    return Array.isArray(raw)
         ? raw
             .filter(
               (r): r is Recipe =>
@@ -218,6 +217,10 @@ export function DoBuilder({
             )
             .slice(0, 8)
         : [];
+  }
+  function loadRecipes() {
+    try {
+      const list = readSavedRecipes();
       setRecipes(list);
       setNotice(
         list.length

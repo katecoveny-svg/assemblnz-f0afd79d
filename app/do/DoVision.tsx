@@ -47,12 +47,13 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
   const generation = useRef(0);
   const uploader = useRef<HTMLInputElement>(null);
   useEffect(() => {
+    const lifetimeGeneration = generation;
     const frame = requestAnimationFrame(() =>
       setCanShare(Boolean(navigator.mediaDevices?.getDisplayMedia)),
     );
     return () => {
       cancelAnimationFrame(frame);
-      generation.current++;
+      lifetimeGeneration.current++;
       request.current?.abort();
       stream.current?.getTracks().forEach((track) => track.stop());
     };

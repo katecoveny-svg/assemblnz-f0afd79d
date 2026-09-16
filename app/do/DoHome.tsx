@@ -183,7 +183,7 @@ export function DoHome() {
           <Link href="/do/connections">Connections</Link>
         </nav>
       </header>
-      <main>
+      <div>
         <DoReveal
           onBuild={(id, context) => {
             const chosen = DO_TEMPLATES.find((item) => item.id === id);
@@ -439,7 +439,7 @@ export function DoHome() {
             </article>
           </div>
         </section>
-      </main>
+      </div>
       <footer className={styles.footer}>
         <Link className={styles.brand} href="/">
           assembl
