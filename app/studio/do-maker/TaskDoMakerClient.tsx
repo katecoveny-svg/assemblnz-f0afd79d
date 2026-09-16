@@ -55,15 +55,12 @@ function hasMakerContext(search: { get(name: string): string | null }): boolean 
   );
 }
 
-function seedDraft(search: { get(name: string): string | null }): { draft: TaskDoDraft; fromBrowser: boolean } {
+function seedDraft(search: { get(name: string): string | null }): TaskDoDraft {
   if (hasMakerContext(search)) {
-    return { draft: draftFromSearchParams(search), fromBrowser: false };
+    return draftFromSearchParams(search);
   }
-  if (typeof window !== 'undefined') {
-    const local = readLocalDraft(window.localStorage);
-    if (local) return { draft: local, fromBrowser: true };
-  }
-  return { draft: draftFromParts(DEFAULT_BRAND, DEFAULT_CONFIG), fromBrowser: false };
+  // Do not read localStorage during the first render — avoids hydration mismatch.
+  return draftFromParts(DEFAULT_BRAND, DEFAULT_CONFIG);
 }
 
 export function TaskDoMakerClient() {
@@ -72,17 +69,32 @@ export function TaskDoMakerClient() {
   const previewOnly = isPreviewMode(searchParams);
 
   const initial = useMemo(() => seedDraft(searchParams), []);
-  const [brand, setBrand] = useState(initial.draft.brand);
-  const [config, setConfig] = useState(initial.draft.config);
-  const [journey, setJourney] = useState<PursuitJourney>(initial.draft.journey);
-  const [persist, setPersist] = useState<PersistState>(initial.fromBrowser ? 'browser' : 'idle');
+  const [brand, setBrand] = useState(initial.brand);
+  const [config, setConfig] = useState(initial.config);
+  const [journey, setJourney] = useState<PursuitJourney>(initial.journey);
+  const [persist, setPersist] = useState<PersistState>('idle');
   const [message, setMessage] = useState(
-    initial.fromBrowser
-      ? 'Restored the last draft saved in this browser.'
-      : 'Drafts stay in this browser until you export or hand off to DO.',
+    'Drafts stay in this browser until you export or hand off to DO.',
   );
   const [specId, setSpecId] = useState(() => crypto.randomUUID());
   const [customName, setCustomName] = useState('');
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (hasMakerContext(searchParams)) {
+      setHydrated(true);
+      return;
+    }
+    const local = readLocalDraft(window.localStorage);
+    if (local) {
+      setBrand(local.brand);
+      setConfig(local.config);
+      setJourney(local.journey);
+      setPersist('browser');
+      setMessage('Restored the last draft saved in this browser.');
+    }
+    setHydrated(true);
+  }, [searchParams]);
 
   const mode = config.mode;
   const skin = config.partnerSlug ? PARTNER_SKINS[config.partnerSlug] : undefined;
@@ -97,7 +109,7 @@ export function TaskDoMakerClient() {
   );
 
   useEffect(() => {
-    if (previewOnly) return;
+    if (previewOnly || !hydrated) return;
     const timer = window.setTimeout(() => {
       const params = draftToSearchParams(draft);
       router.replace(`?${params.toString()}`, { scroll: false });
@@ -105,7 +117,7 @@ export function TaskDoMakerClient() {
       setPersist('browser');
     }, 400);
     return () => window.clearTimeout(timer);
-  }, [draft, previewOnly, router]);
+  }, [draft, previewOnly, router, hydrated]);
 
   // Keep logoUrl synced from uploaded mark when present.
   useEffect(() => {

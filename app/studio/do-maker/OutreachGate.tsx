@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { OutreachGate } from '@/lib/studio/pursuit-journey';
 import {
   hasUnlockedOutreach,
@@ -83,16 +83,24 @@ export function OutreachGateOverlay({
   children,
 }: GateProps) {
   const unlockKey = outreachUnlockKey(draftId);
-  const [unlocked, setUnlocked] = useState(() =>
-    typeof window !== 'undefined' ? hasUnlockedOutreach(window.localStorage, unlockKey) : false,
-  );
+  const [unlocked, setUnlocked] = useState(false);
+  const [ready, setReady] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [interest, setInterest] = useState('API access / deeper DEMO');
   const [error, setError] = useState('');
 
-  if (!outreach.enabled || unlocked) {
+  useEffect(() => {
+    setUnlocked(hasUnlockedOutreach(window.localStorage, unlockKey));
+    setReady(true);
+  }, [unlockKey]);
+
+  if (!outreach.enabled || (ready && unlocked)) {
+    return <>{children}</>;
+  }
+
+  if (!ready) {
     return <>{children}</>;
   }
 
