@@ -233,23 +233,21 @@ struct Workspace: View {
     }
 }
 
-struct DOShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        var p = Path()
-        p.move(to: CGPoint(x: rect.width * 0.24, y: rect.height * 0.15))
-        p.addLine(to: CGPoint(x: rect.width * 0.45, y: rect.height * 0.15))
-        p.addCurve(to: CGPoint(x: rect.width * 0.45, y: rect.height * 0.85), control1: CGPoint(x: rect.width * 0.95, y: rect.height * 0.15), control2: CGPoint(x: rect.width * 0.95, y: rect.height * 0.85))
-        p.addLine(to: CGPoint(x: rect.width * 0.24, y: rect.height * 0.85)); p.closeSubpath()
-        return p
-    }
-}
 struct Orb: View {
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 23).fill(Color(red: 0.14, green: 0.04, blue: 0.13)).frame(width: 70, height: 70).shadow(color: Color(red: 0.57, green: 0.42, blue: 0.44).opacity(0.75), radius: 14)
-            DOShape().stroke(Color(red: 0.91, green: 0.75, blue: 1), style: StrokeStyle(lineWidth: 5, lineJoin: .round)).frame(width: 48, height: 48)
-            Circle().fill(Color(red: 0.96, green: 0.85, blue: 1)).frame(width: 9, height: 9).offset(x: -1)
-        }.frame(width: 96, height: 96).help("Click to open DO. Drag to move. Moving shares nothing.").accessibilityLabel("Open DO")
+        Group {
+            if let iconURL = Bundle.main.url(forResource: "DO-floating", withExtension: "png"),
+               let icon = NSImage(contentsOf: iconURL) {
+                Image(nsImage: icon).resizable().scaledToFit()
+                    .frame(width: 76, height: 76)
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .shadow(color: Color(red: 0.57, green: 0.42, blue: 0.44).opacity(0.6), radius: 9)
+            } else {
+                Text("DO").font(.system(size: 24, weight: .regular))
+            }
+        }.frame(width: 96, height: 96)
+            .help("Click to open DO. Drag to move. Moving shares nothing.")
+            .accessibilityLabel("Open DO")
     }
 }
 final class DraggableOrbView: NSHostingView<Orb> {
@@ -334,7 +332,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         menuItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        menuItem.button?.title = "✦ DO"
+        if let iconURL = Bundle.main.url(forResource: "DO-menu", withExtension: "png"),
+           let icon = NSImage(contentsOf: iconURL) {
+            icon.size = NSSize(width: 22, height: 22)
+            menuItem.button?.image = icon
+            menuItem.button?.imagePosition = .imageOnly
+        } else {
+            menuItem.button?.title = "DO"
+        }
+        menuItem.button?.toolTip = "DO by assembl"
+        menuItem.button?.setAccessibilityLabel("DO menu")
         buildMenu()
     }
 
