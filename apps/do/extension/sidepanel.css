@@ -3,7 +3,7 @@ body{display:flex;flex-direction:column;background:#240b21;color:#fffdfb;font:13
 header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #654a4e88;gap:12px}
 header strong{display:flex;align-items:center;gap:8px;font-size:22px;letter-spacing:-.04em}
 header strong span{display:block;font-size:10px;letter-spacing:0;color:#d6a5bd;font-weight:500;margin-left:2px}
-.do-mark{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:12px;color:#f3ceeb;background:radial-gradient(ellipse at 25% 15%,#9b6f94,#391333 67%,#240b21);box-shadow:0 0 14px #d6a5bd80;flex:none}
+.do-mark{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:12px;color:#f3d4de;background:radial-gradient(ellipse at 25% 15%,#c995a8,#916a70 42%,#391333 72%,#240b21);box-shadow:0 0 14px #d6a5bd80;flex:none}
 .do-mark svg{width:22px;height:22px}
 a{color:inherit;font-size:11px}
 .primary{padding:14px 16px 6px}

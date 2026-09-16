@@ -51,6 +51,27 @@ describe('DO preparation and evidence', () => {
     expect(JSON.parse(request.messages[0].content).sourceText).toContain('send this');
     expect(draft.evidence.model).toBe('actual-fallback-model'); expect(draft.status).toBe('draft');
   });
+  it('uses Granola-class meeting-notes instructions and never-invent rules', async () => {
+    provider.ladder.mockReturnValue([{ id: 'test-provider' }]);
+    provider.generate.mockResolvedValue({
+      ok: true,
+      text: 'Meeting notes\nClean summary.\n\nDecisions / outcomes\nNone stated in the source.',
+      rung: { id: 'meeting-model' },
+    });
+    const draft = await prepareDoDraft({
+      ...input(),
+      task: 'meeting-notes',
+      source: 'We agreed to ship next week. Alex will send the invite.',
+      brief: 'Produce smart notes',
+    });
+    const request = provider.generate.mock.calls[0][0];
+    expect(request.maxOutputTokens).toBe(2000);
+    expect(request.system).toContain('Granola-style smart notes');
+    expect(request.system).toContain('Never invent owners');
+    expect(request.system).toContain('Follow-up email draft');
+    expect(draft.task).toBe('meeting-notes');
+    expect(draft.title).toContain('Smart meeting notes');
+  });
 });
 
 describe('private browser drafts', () => {

@@ -7,7 +7,7 @@ export type SavedDoDraft = { draft: DoPreparedDraft; source: string; brief: stri
 const savedSchema = z.object({
   source: z.string().max(DO_SOURCE_LIMIT), brief: z.string().max(2_000),
   draft: z.object({
-    version: z.literal(1), id: z.string().uuid(), task: z.enum(['reply', 'plan', 'brief', 'compare', 'rewrite', 'extract']),
+    version: z.literal(1), id: z.string().uuid(), task: z.enum(['reply', 'plan', 'brief', 'meeting-notes', 'compare', 'rewrite', 'extract']),
     title: z.string().max(300), text: z.string().max(20_000), createdAt: z.string().datetime(),
     status: z.enum(['draft', 'reviewed']), reviewer: z.string().max(100).optional(),
     reviewedAt: z.string().datetime().optional(), reviewedTextHash: z.string().max(64).optional(),

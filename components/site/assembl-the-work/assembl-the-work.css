@@ -16,4 +16,4 @@
 
 .atw-do-glow .atw-do-widget-label{display:flex;align-items:center;justify-content:center;gap:5px;color:#fffdfb;font:11px 'Instrument Sans',sans-serif;background:#240b21d9;padding:6px 10px;border:1px solid #c797ba77;border-radius:99px;box-shadow:0 0 20px #b581a744;white-space:nowrap}.atw-do-glow{height:auto!important;overflow:visible!important}
 
-.atw .atw-do-glow{width:88px;touch-action:none;cursor:grab;filter:none}.atw .atw-do-glow:active{cursor:grabbing}.atw-do-glow .do-spark{width:68px;height:68px}.atw-do-glow .atw-do-widget-label{background:#2b1048e8;border-color:#b478f5aa}.atw .atw-do-glow:hover{transform:none;filter:none}
+.atw .atw-do-glow{width:88px;touch-action:none;cursor:grab;filter:none}.atw .atw-do-glow:active{cursor:grabbing}.atw-do-glow .do-spark{width:68px;height:68px}.atw-do-glow .atw-do-widget-label{background:#240b21ee;border-color:#d6a5bdaa}.atw .atw-do-glow:hover{transform:none;filter:none}

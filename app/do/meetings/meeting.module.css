@@ -69,22 +69,116 @@
   font-weight: 550;
 }
 
-.mark {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  padding: 0;
+.markBlob {
   margin-bottom: 18px;
-  /* Orb chrome comes from do-craft .do-craft-orb--meeting */
-  background: transparent;
-  box-shadow: none;
-  color: #f3ceeb;
 }
 
-.mark svg {
-  width: 48px;
-  height: 48px;
+.installBanner {
+  display: grid;
+  gap: 14px;
+  margin: 8px 0 20px;
+  padding: 22px 22px 20px;
+  border-radius: 24px;
+  background: var(--paper);
+  border: 1px solid rgba(36, 11, 33, 0.16);
+  box-shadow:
+    0 18px 40px rgba(36, 11, 33, 0.06),
+    0 0 32px rgba(214, 165, 189, 0.28);
+}
+
+.installTitle {
+  font-size: clamp(22px, 4vw, 28px) !important;
+  margin: 0 0 6px !important;
+}
+
+.phoneLink {
+  color: var(--rose) !important;
+  font-size: 13px;
+  font-weight: 500;
+  text-underline-offset: 3px;
+}
+
+.phoneShell {
+  padding-bottom: 48px;
+}
+
+.phoneNav {
+  justify-content: flex-start !important;
+}
+
+.phoneLanding {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 28px 0 8px;
+}
+
+.phoneLanding .lead {
+  max-width: 32ch;
+  text-align: center;
+}
+
+.phoneLanding h1 {
+  font-size: clamp(42px, 11vw, 64px);
+  letter-spacing: -0.06em;
+  margin: 4px 0 8px;
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.phoneBlob {
+  margin-bottom: 8px;
+}
+
+.phoneSteps {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 18px;
+  padding: 18px 18px 16px;
+  border-radius: 22px;
+  background: var(--paper);
+  border: 1px solid rgba(36, 11, 33, 0.14);
+  text-align: left;
+  box-shadow: 0 0 28px rgba(214, 165, 189, 0.22);
+}
+
+.phoneStepLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.phoneStepLabel span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--plum);
+  color: var(--paper);
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+.phoneRecordRow {
+  display: grid;
+  gap: 10px;
+}
+
+.phoneRecordRow :global(.do-cta--stop) {
+  min-height: 52px;
+  width: 100%;
+}
+
+.recordPrimaryPanel {
+  scroll-margin-top: 16px;
 }
 
 .record,
@@ -318,6 +412,99 @@
   letter-spacing: 0.04em;
 }
 
+.notesReview {
+  border: 1px solid rgba(36, 11, 33, 0.16);
+  background: var(--paper);
+  border-radius: 24px;
+  padding: 28px;
+  margin: 18px 0;
+  box-shadow:
+    0 18px 40px rgba(36, 11, 33, 0.05),
+    0 0 36px rgba(214, 165, 189, 0.18);
+}
+
+.notesSurface {
+  display: grid;
+  gap: 0;
+  margin: 8px 0 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(245, 241, 242, 0.65), var(--chalk));
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  overflow: hidden;
+}
+
+.notesBlock {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid rgba(36, 11, 33, 0.08);
+}
+
+.notesBlock:last-child {
+  border-bottom: 0;
+}
+
+.notesHeading {
+  margin: 0 0 10px;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.notesBody {
+  margin: 0;
+  color: var(--plum);
+  line-height: 1.55;
+  font-size: 15px;
+}
+
+.notesBody p {
+  margin: 0 0 8px;
+}
+
+.notesBody p:last-child {
+  margin-bottom: 0;
+}
+
+.editNotes {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(145, 106, 112, 0.45);
+  background: rgba(245, 241, 242, 0.4);
+}
+
+.editNotes summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  list-style: none;
+}
+
+.editNotes summary::-webkit-details-marker {
+  display: none;
+}
+
+.editNotes summary::before {
+  content: '▾ ';
+  color: var(--rose);
+}
+
+.editNotes:not([open]) summary::before {
+  content: '▸ ';
+}
+
+.editNotes[open] summary {
+  margin-bottom: 10px;
+  color: var(--plum);
+}
+
+.editNotes textarea {
+  min-height: 220px;
+}
+
 .shell a {
   color: inherit;
 }
@@ -327,9 +514,38 @@
   outline-offset: 4px;
 }
 
+@media (max-width: 640px) {
+  .shell {
+    padding: 18px 14px 72px;
+  }
+
+  .installBanner {
+    padding: 18px 16px;
+  }
+
+  .recordActions {
+    display: grid;
+    gap: 10px;
+  }
+
+  .recordActions :global(.do-cta--record),
+  .recordActions :global(.do-cta--stop) {
+    width: 100%;
+  }
+
+  .recordActions :global(.do-cta--stop) {
+    min-height: 56px;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 12vw, 64px);
+  }
+}
+
 @media (max-width: 450px) {
   .record,
-  .next {
+  .next,
+  .notesReview {
     padding: 20px;
   }
 

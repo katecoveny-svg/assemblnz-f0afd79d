@@ -101,7 +101,7 @@
     10px var(--font-mono),
     monospace;
   letter-spacing: 2px;
-  color: #bd9ec7;
+  color: #c9a8b0;
 }
 .dob .docanvas h2 {
   font-size: clamp(38px, 5vw, 74px);
@@ -130,7 +130,7 @@
   transform: rotateY(-9deg) rotateX(4deg);
 }
 .docanvas-object.glowing {
-  filter: drop-shadow(0 0 24px #b679d32b);
+  filter: drop-shadow(0 0 24px #d6a5bd2b);
 }
 .docanvas-modules {
   display: flex;
@@ -335,7 +335,7 @@
   height: 70px;
   border-radius: 50%;
   background: #402051;
-  border: 2px solid #b480d8;
+  border: 2px solid #c995a8;
   color: #ddb4fc;
   padding: 14px;
   touch-action: none;
@@ -666,7 +666,7 @@
 .dob:has(.docanvas) .dob-board select {
   background: #faf4f7;
   color: #32182d;
-  border-color: #ba97ad;
+  border-color: #b88a96;
   padding: 14px;
   line-height: 1.6;
 }

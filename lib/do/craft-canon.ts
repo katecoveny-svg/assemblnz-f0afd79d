@@ -21,7 +21,13 @@ export const DO_CRAFT = {
   paper: '#FFFDFB',
   /** Soft rose glow only — never purple neon. */
   roseGlow: '#D6A5BD',
-  markInk: '#F3CEEB',
+  /** Warm rose highlight inside volumetric orb (not grape mid). */
+  roseHighlight: '#C995A8',
+  /** Soft magenta-rose bloom around D-mark. */
+  roseBloom: '#E8B6C4',
+  /** Inset specular — warm rose, not lavender. */
+  roseInset: '#F8E4EA',
+  markInk: '#F3D4DE',
   fonts: {
     sans: 'Instrument Sans',
     mono: 'IBM Plex Mono',
@@ -51,6 +57,17 @@ export const DO_CRAFT = {
     '#381653',
     '#f6dfff',
     '#e8b9ff',
+    /** Grape mid / lavender bloom — read as purple, not rose. */
+    '#9b6f94',
+    '#ecbddd',
+    '#f8dff8',
+    '#b479c3',
+    '#b37aca',
+    '#b168d3',
+    '#edbedd',
+    '#b679d3',
+    '#b478f5',
+    '#b480d8',
   ] as const,
   /** Chatbot-home copy — ban on DO craft surfaces. */
   bannedCopy: [
