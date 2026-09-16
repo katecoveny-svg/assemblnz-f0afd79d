@@ -1,71 +1,94 @@
-# Task DO Maker — Assembl Studio × Pursuit
+# Task DO Maker — two modes, one shared core
 
-**Route:** `/studio/do-maker`  
+**Canonical route:** `/studio/do-maker`  
+**Partner alias:** `/do/maker/partner/[partnerSlug]` → redirects to canonical with `mode=partner`  
 **Status:** shipping foundation  
 **Related:** `docs/STUDIO.md`, `apps/do/shared/types.ts` (`AgentSpec`), `/pursuit`, `/do/office`
 
 ## Intent
 
-Mint a **narrow, white-label task DO** from Assembl Studio — not a full family OS like Household Floor.
+Mint a **narrow, white-label task DO** — not a full family OS like Household Floor.
 
-Pursuit finds the opportunity. Studio mints a partner-ready draft agent. DO Office / companions consume the same portable `AgentSpec`.
+One shared maker core powers two entry experiences:
 
-## Pursuit handoff
+| Mode | Audience | Framing |
+|---|---|---|
+| **A · Pursuit / Studio** | Internal + pitch | Assembl Studio chrome; opportunity handoff from `/pursuit` |
+| **B · Partner-facing** | Partner’s customers | Partner product name / colours primary; assembl credit minimal (`powered by assembl DO`) |
 
-Keep Pursuit hub workspace launches as top-level navigations to the Sites origin (`lib/product-destinations.ts`). The assembl.co.nz overview at `/pursuit` deep-links into the maker with query context:
+## Shared schema
+
+White-label + task fields (maker state):
+
+- `mode`: `pursuit` \| `partner`
+- `partnerSlug` (optional): offline skin id (`bp`, `warehouse`)
+- `brandName` / accents / optional `logoUrl` / promise
+- `taskTitle`, `jobLine`, `instructions` / boundaries
+- Pursuit context: `opportunity`, `partner` (free text), `task`
+
+Compiled output is always a portable `AgentSpec` via `compileTaskDoSpec()` — drafts-only, `connector: 'hook-later'`, no scrape / live-API claims.
+
+## Mode A — Pursuit / Studio
+
+Deep-link from `/pursuit` (Sites hub origins unchanged):
+
+```
+/studio/do-maker?opportunity=Service%20quote%20preparation&task=research-brief&template=research-brief
+```
 
 | Param | Purpose |
 |---|---|
 | `opportunity` | Short opportunity label from Pursuit |
-| `partner` | Partner / client display context (also seeds brand name when `brand` is absent) |
+| `partner` | Partner / client display context (also seeds brand when `brand` absent) |
 | `task` | Task key / slug |
-| `template` | Starter chip id (`research-brief`, `outreach-draft`, `meeting-follow-up`, `school-admin`, `wait-reward`) |
-| `brand` | White-label display name |
-| `accent` / `accent2` | Hex accent colours |
-| `logo` | Optional logo URL |
-| `promise` | Short partner promise |
+| `template` | Starter chip (`research-brief`, `outreach-draft`, `meeting-follow-up`, `school-admin`, `wait-reward`) |
+| `brand` / `accent` / `accent2` / `logo` / `promise` | White-label pitch fields |
 | `title` / `job` / `instructions` | Task fields |
-| `preview=1` | Shareable demo preview (branded widget stub only) |
+| `preview=1` | Shareable demo preview |
 
-Example:
+Default chips lean opportunity work: research, outreach, meeting follow-up, school admin, wait/reward.
 
-`/studio/do-maker?opportunity=Service%20quote%20preparation&task=research-brief&template=research-brief&brand=Northside%20Joinery&accent=%2317384D`
+## Mode B — Partner-facing white-label
 
-Hub operators can append the same query string onto `https://assembl.co.nz/studio/do-maker` without changing Sites workspace origins.
+Customer-facing maker for partners (bp Road-Ready, Warehouse, and similar rewarded-wait / task-utility shapes).
 
-## White-label fields
+```
+/studio/do-maker?mode=partner&partner=bp
+/do/maker/partner/bp          # alias
+/do/maker/partner/warehouse   # alias
+```
 
-- Brand / display name
-- Accent + secondary colour
-- Optional logo URL
-- Short promise
-- Task title + one-line job
-- Instructions / boundaries (defaults to **drafts-only send**)
+### Offline demo skins
 
-Starter templates are NZ-friendly and generic — no partnership framing.
+Config objects only — **not** live OAuth or partner APIs:
+
+| Slug | Product | Default template | Rail |
+|---|---|---|---|
+| `bp` | bp Road-Ready | `rewarded-wait` | Rewards while you wait |
+| `warehouse` | The Warehouse | `task-utility` | Useful wait · Warehouse rewards |
+
+Mode B chips default to **rewarded wait**, **task utility**, and shared **wait / reward** — drafts-only, no scrape claims, partner rail visible on the portable preview. Assembl attribution stays small in chrome and preview footer.
+
+No Foodstuffs partnership framing.
 
 ## Persistence honesty
 
 | Surface | Behaviour |
 |---|---|
 | Browser draft | `localStorage` key `assembl:studio:task-do-draft:v1` |
-| Share / preview URL | Query params encode maker state |
+| Share / preview URL | Query params encode maker state (including `mode`) |
 | Export | Downloads a valid `AgentSpec` JSON |
-| DO Office handoff | `sessionStorage` key `assembl:do:task-do-handoff:v1` + `/do/office?from=task-do-maker` banner |
+| DO Office handoff | `sessionStorage` + `/do/office?from=task-do-maker` banner |
 | Durable cloud save | Not claimed for anonymous use. Signed-in Builder jobs remain the durable Office path today. |
 
-Do not present local/session drafts as connected partner APIs or completed Office saves.
+## How to demo both modes
 
-## Output
-
-`compileTaskDoSpec()` in `lib/studio/task-do-maker.ts` produces an `AgentSpec` with:
-
-- drafts-only posture (`must_ask_before` / `never` enforced via `enforceApprovalPolicy`)
-- `connector: 'hook-later'`
-- `demo: true`, `status: 'needs_you'`
-- Pursuit context folded into `brief`
+1. **Mode A:** open `/pursuit` → “Mint a task DO in Studio” → set a pitch brand → export / preview.
+2. **Mode B:** open `/do/maker/partner/bp` or `/studio/do-maker?mode=partner&partner=warehouse` → confirmed partner chrome + rewarded-wait / task-utility chips → preview shows partner rail + `powered by assembl DO`.
+3. Toggle Pursuit ↔ Partner inside the maker for a side-by-side pitch.
 
 ## Product destinations
 
 `PRODUCT_DESTINATIONS.agentStudio.taskDoMaker` → `/studio/do-maker`  
+`PRODUCT_DESTINATIONS.agentStudio.partnerDoMaker` → `/do/maker/partner`  
 (Distinct from Creative Studio’s Sites `/agency` workspace.)
