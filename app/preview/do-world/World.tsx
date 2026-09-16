@@ -87,7 +87,7 @@ export default function World() {
           alt=""
           fill
           sizes="100vw"
-          quality={70}
+          quality={75}
           className={`${styles.poster}${sceneReady ? ` ${styles.posterDimmed}` : ''}`}
           priority
         />
