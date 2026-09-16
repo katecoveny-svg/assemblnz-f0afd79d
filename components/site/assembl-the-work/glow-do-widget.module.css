@@ -228,25 +228,26 @@
   place-items: center;
   width: 66px;
   height: 66px;
-  color: #f3d4de;
+  color: #f5f1f2;
   border-radius: 24px;
+  /* Plum plaque + dusty-rose glow — no cool purple D */
   background: radial-gradient(
     ellipse at 25% 15%,
-    #c995a8,
+    #b08990,
     #916a70 42%,
-    #391333 72%,
+    #3a1a2e 72%,
     #240b21
   );
   box-shadow:
-    inset 1px 1px 2px #f8e4ea8c,
-    inset -2px -2px 5px #180a1e,
-    0 0 22px #d6a5bd80;
+    inset 1px 1px 2px #f5f1f28c,
+    inset -2px -2px 5px #180a14,
+    0 0 22px #916a7080;
   margin-bottom: 6px;
 }
 .mark svg {
   width: 50px;
   height: 50px;
-  filter: drop-shadow(0 0 5px #e8b6c4);
+  filter: drop-shadow(0 0 5px #916a70cc);
 }
 @media (max-width: 700px) {
   .mark {
