@@ -102,11 +102,15 @@ Persistence layer (Postgres/Supabase) can serialise the schema directly — ever
 
 ## Task DO Maker
 
-White-label, task-specific DO minting lives at **`/studio/do-maker`**.
+White-label, task-specific DO minting lives at **`/studio/do-maker`** with two modes sharing one core:
 
-See [`docs/STUDIO-TASK-DO-MAKER.md`](./STUDIO-TASK-DO-MAKER.md) for Pursuit handoff params, white-label fields, AgentSpec export and honesty boundaries.
+- **Mode A · Pursuit / Studio** — opportunity pitch handoff from `/pursuit`
+- **Mode B · Partner-facing** — partner chrome primary (`?mode=partner&partner=bp|warehouse`); alias `/do/maker/partner/[slug]`
+
+See [`docs/STUDIO-TASK-DO-MAKER.md`](./STUDIO-TASK-DO-MAKER.md) for handoff params, partner skins, AgentSpec export and honesty boundaries.
 
 Related surfaces:
 - Pursuit overview CTA → `/studio/do-maker?...`
+- Partner alias index → `/do/maker/partner`
 - DO Office session handoff banner when arriving with `?from=task-do-maker`
 - Portable AgentSpec shape from `apps/do/shared/types.ts`

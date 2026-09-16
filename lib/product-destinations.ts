@@ -37,6 +37,8 @@ export const PRODUCT_DESTINATIONS = {
     label: 'Assembl Studio',
     overview: '/studio',
     taskDoMaker: '/studio/do-maker',
+    /** Mode B partner-facing alias index (redirects into /studio/do-maker?mode=partner). */
+    partnerDoMaker: '/do/maker/partner',
   },
 } as const;
 

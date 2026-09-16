@@ -13,23 +13,42 @@ type Handoff = {
   spec: AgentSpec;
 };
 
-function readHandoff(): Handoff | null {
+let cachedKey = '';
+let cachedValue: Handoff | null = null;
+
+function readHandoffSnapshot(): Handoff | null {
+  if (typeof window === 'undefined') return null;
   try {
-    if (typeof window === 'undefined') return null;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('from') !== 'task-do-maker') return null;
-    const raw = sessionStorage.getItem(TASK_DO_HANDOFF_KEY);
-    if (!raw) return null;
+    const from = new URLSearchParams(window.location.search).get('from') || '';
+    const raw = from === 'task-do-maker' ? sessionStorage.getItem(TASK_DO_HANDOFF_KEY) : null;
+    const key = `${from}::${raw ?? ''}`;
+    if (key === cachedKey) return cachedValue;
+    cachedKey = key;
+    if (!raw) {
+      cachedValue = null;
+      return cachedValue;
+    }
     const parsed = JSON.parse(raw) as Handoff;
-    if (parsed?.version !== 1 || !parsed.spec?.id || !parsed.spec?.name) return null;
-    return parsed;
+    cachedValue =
+      parsed?.version === 1 && parsed.spec?.id && parsed.spec?.name ? parsed : null;
+    return cachedValue;
   } catch {
-    return null;
+    cachedKey = 'error';
+    cachedValue = null;
+    return cachedValue;
   }
 }
 
-function subscribe() {
-  return () => undefined;
+function subscribe(onStoreChange: () => void) {
+  if (typeof window === 'undefined') return () => undefined;
+  const onStorage = (event: StorageEvent) => {
+    if (event.storageArea === sessionStorage && event.key === TASK_DO_HANDOFF_KEY) {
+      cachedKey = '';
+      onStoreChange();
+    }
+  };
+  window.addEventListener('storage', onStorage);
+  return () => window.removeEventListener('storage', onStorage);
 }
 
 /**
@@ -37,7 +56,7 @@ function subscribe() {
  * Session handoff only — does not invent durable cloud save.
  */
 export function TaskDoHandoffBanner() {
-  const handoff = useSyncExternalStore(subscribe, readHandoff, () => null);
+  const handoff = useSyncExternalStore(subscribe, readHandoffSnapshot, () => null);
   if (!handoff) return null;
 
   const brand = handoff.brand?.displayName || 'partner';

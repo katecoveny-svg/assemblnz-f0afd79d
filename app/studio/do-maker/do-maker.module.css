@@ -499,6 +499,109 @@
   line-height: 1.55;
 }
 
+.partnerShell .topbar {
+  border-bottom-color: color-mix(in srgb, var(--maker-accent, #240b21) 28%, transparent);
+}
+
+.modeSwitch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: #f5f1f2;
+  border: 1px solid rgba(36, 11, 33, 0.08);
+}
+
+.modeSwitch button {
+  border: 0;
+  border-radius: 999px;
+  min-height: 28px;
+  padding: 0 12px;
+  background: transparent;
+  color: #654a4e;
+  font: 500 10px var(--font-body), 'Instrument Sans', sans-serif;
+  cursor: pointer;
+}
+
+.modeSwitch button[aria-pressed='true'] {
+  background: var(--maker-accent, #240b21);
+  color: #fffdfb;
+}
+
+.skinRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.skinChip {
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  background: #fffdfb;
+  cursor: pointer;
+  font: inherit;
+}
+
+.skinChip strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #240b21;
+}
+
+.skinChip span {
+  display: block;
+  margin-top: 4px;
+  color: #654a4e;
+  font-size: 11px;
+}
+
+.skinChip[aria-pressed='true'] {
+  border-color: var(--skin-accent, var(--maker-accent, #240b21));
+  box-shadow: inset 0 0 0 1px var(--skin-accent, var(--maker-accent, #240b21));
+  background: color-mix(in srgb, var(--skin-accent, #240b21) 8%, #fffdfb);
+}
+
+.skinNote {
+  margin: 12px 0 0;
+  color: #916a70;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.partnerRail {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--maker-accent-2, #916a70) 22%, #fffdfb);
+  color: #240b21;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.partnerRail em {
+  font-style: normal;
+  color: #654a4e;
+}
+
+.poweredBy {
+  margin: 12px 0 0;
+  text-align: center;
+  color: #916a70;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
 @media (max-width: 1100px) {
   .grid {
     grid-template-columns: 1fr;
@@ -524,7 +627,8 @@
     font-size: clamp(3rem, 16vw, 5rem);
   }
 
-  .colourRow {
+  .colourRow,
+  .skinRow {
     grid-template-columns: 1fr;
   }
 

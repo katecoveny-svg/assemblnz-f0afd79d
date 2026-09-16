@@ -5,7 +5,7 @@ import { TaskDoMakerClient } from './TaskDoMakerClient';
 export const metadata: Metadata = {
   title: { absolute: 'Task DO Maker · assembl studio' },
   description:
-    'Mint a white-label, task-specific DO from Assembl Studio — drafts-only by default, portable AgentSpec for DO Office.',
+    'Mint a white-label, task-specific DO — Mode A Pursuit pitch or Mode B partner-facing skin. Drafts-only by default, portable AgentSpec for DO Office.',
   alternates: { canonical: '/studio/do-maker' },
 };
 

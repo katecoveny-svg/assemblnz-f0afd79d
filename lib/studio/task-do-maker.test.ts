@@ -2,21 +2,27 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_BRAND,
   DEFAULT_CONFIG,
+  PARTNER_SKINS,
+  applyPartnerSkin,
   applyTemplate,
   compileTaskDoSpec,
   draftFromSearchParams,
   draftToSearchParams,
   makerHref,
   normaliseBrand,
+  partnerAliasHref,
+  partnerMakerHref,
   previewHref,
+  templatesForMode,
 } from './task-do-maker';
 
 describe('task-do-maker', () => {
-  it('compiles a drafts-only AgentSpec with white-label name', () => {
+  it('compiles a drafts-only AgentSpec with white-label name (Mode A)', () => {
     const spec = compileTaskDoSpec(
       { ...DEFAULT_BRAND, displayName: 'Coastal Care' },
       {
         ...DEFAULT_CONFIG,
+        mode: 'pursuit',
         templateId: 'research-brief',
         title: 'Research brief',
         job: 'Turn sources into a short brief.',
@@ -36,6 +42,7 @@ describe('task-do-maker', () => {
     expect(spec.never.some((item) => /send without/i.test(item))).toBe(true);
     expect(spec.can_do_without_asking.some((item) => /\bsend\b/i.test(item))).toBe(false);
     expect(spec.brief).toContain('Opportunity: Quote prep wait state');
+    expect(spec.brief).toContain('Mode: pursuit');
   });
 
   it('applies starter templates without wiping custom title', () => {
@@ -63,6 +70,7 @@ describe('task-do-maker', () => {
       }),
     );
 
+    expect(draft.config.mode).toBe('pursuit');
     expect(draft.brand.displayName).toBe('Northside Joinery');
     expect(draft.brand.accent).toBe('#17384D');
     expect(draft.config.opportunity).toBe('Service quote prep');
@@ -72,10 +80,49 @@ describe('task-do-maker', () => {
     const params = draftToSearchParams(draft);
     expect(params.get('partner')).toBe('Northside Joinery');
     expect(params.get('opportunity')).toBe('Service quote prep');
+    expect(params.get('mode')).toBeNull();
     expect(previewHref(draft)).toContain('preview=1');
     expect(makerHref({ partner: 'Northside Joinery', task: 'outreach' })).toBe(
       '/studio/do-maker?partner=Northside+Joinery&task=outreach',
     );
+  });
+
+  it('loads Mode B partner skins offline with rewarded-wait posture', () => {
+    const seeded = applyPartnerSkin('bp');
+    expect(seeded.brand.displayName).toBe(PARTNER_SKINS.bp.productName);
+    expect(seeded.config.mode).toBe('partner');
+    expect(seeded.config.partnerSlug).toBe('bp');
+    expect(seeded.config.templateId).toBe('rewarded-wait');
+
+    const draft = draftFromSearchParams(new URLSearchParams({ mode: 'partner', partner: 'warehouse' }));
+    expect(draft.config.mode).toBe('partner');
+    expect(draft.config.partnerSlug).toBe('warehouse');
+    expect(draft.brand.accent).toBe(PARTNER_SKINS.warehouse.brand.accent);
+    expect(draft.config.templateId).toBe('task-utility');
+
+    const spec = compileTaskDoSpec(draft.brand, draft.config, {
+      id: '22222222-2222-4222-8222-222222222222',
+      now: '2026-09-16T00:00:00.000Z',
+    });
+    expect(spec.brief).toContain('Mode: partner');
+    expect(spec.brief).toContain('Partner skin: warehouse');
+    expect(spec.never.some((item) => /scrape/i.test(item))).toBe(true);
+    expect(spec.connector).toBe('hook-later');
+    expect(spec.lastNote).toMatch(/partner-facing skin/i);
+
+    expect(partnerMakerHref('bp')).toBe('/studio/do-maker?mode=partner&partner=bp');
+    expect(partnerAliasHref('warehouse')).toBe('/do/maker/partner/warehouse');
+    expect(draftToSearchParams(draft).get('mode')).toBe('partner');
+  });
+
+  it('filters templates by mode', () => {
+    const pursuit = templatesForMode('pursuit').map((t) => t.id);
+    const partner = templatesForMode('partner').map((t) => t.id);
+    expect(pursuit).toContain('research-brief');
+    expect(pursuit).not.toContain('rewarded-wait');
+    expect(partner).toContain('rewarded-wait');
+    expect(partner).toContain('task-utility');
+    expect(partner).not.toContain('outreach-draft');
   });
 
   it('rejects invalid accent colours', () => {
