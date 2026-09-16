@@ -54,6 +54,7 @@ describe('DO MCP gateway schema', () => {
     expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'composio')).toBe(true);
     expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'treg')).toBe(true);
     expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'nz_live')).toBe(true);
+    expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.toolId === 'pco_legislation')).toBe(true);
     expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'mcp_market_hub')).toBe(true);
     expect(JSON.stringify(HOUSEHOLD_FLOOR_MCP_ALLOWLIST)).not.toMatch(/client_secret|access_token|sk-[a-z0-9]/i);
   });

@@ -47,7 +47,7 @@ export async function GET(request: Request) {
   }
 
   const zapier = await zapierMcpProbe();
-  const nzLive = listNzLiveToolStatuses();
+  const nzLive = await listNzLiveToolStatuses();
   const hubAttached = await hubListAttachedToolkits({
     ownerExternalId: owner?.externalId ?? null,
   });

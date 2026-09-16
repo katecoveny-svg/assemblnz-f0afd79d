@@ -7,6 +7,15 @@
 
 export type NzLiveToolStatus = 'live' | 'needs_key' | 'stub';
 
+/**
+ * Where the keyed secret lives for status / gating.
+ * - next_or_edge: Next.js process.env must see the key (or status is needs_key)
+ * - supabase_edge: single key path is the Supabase edge secret — DO must not invent
+ *   a second Next-only key. Runtime calls the edge; status may probe edge when
+ *   Next.js does not mirror the secret.
+ */
+export type NzLiveSecretScope = 'next_or_edge' | 'supabase_edge';
+
 export type NzLiveToolDef = {
   toolId: string;
   label: string;
@@ -18,6 +27,8 @@ export type NzLiveToolDef = {
   envKeys: readonly string[];
   /** Declared product status when env is present (or keyless). */
   baseStatus: NzLiveToolStatus;
+  /** Default next_or_edge. PCO uses supabase_edge (same PCO_API_KEY as adapter-pco). */
+  secretScope?: NzLiveSecretScope;
   sideEffect: 'none' | 'draft';
   approvalRequired: boolean;
 };
@@ -161,10 +172,13 @@ export const NZ_LIVE_TOOLS: readonly NzLiveToolDef[] = [
   {
     toolId: 'pco_legislation',
     label: 'PCO legislation search',
-    purpose: 'Parliamentary Counsel Office legislation API via adapter-pco / mcp-nz-govt.',
-    edgeFunction: 'adapter-pco',
+    purpose:
+      'Parliamentary Counsel Office legislation search via mcp-nz-govt (legislation_search). Same single secret PCO_API_KEY as adapter-pco KB ingest — no second key path.',
+    edgeFunction: 'mcp-nz-govt',
+    upstream: 'https://api.legislation.govt.nz/v0/works/',
     envKeys: ['PCO_API_KEY'],
     baseStatus: 'needs_key',
+    secretScope: 'supabase_edge',
     sideEffect: 'none',
     approvalRequired: false,
   },
@@ -180,12 +194,57 @@ export const NZ_LIVE_TOOLS: readonly NzLiveToolDef[] = [
   },
 ] as const;
 
+/**
+ * Sync status from Next.js env only.
+ * For supabase_edge tools (PCO), if the secret is not mirrored into Next.js this
+ * returns needs_key — callers that can probe the edge should prefer
+ * `resolveNzLiveToolStatusWithEdgeHint` so production edge secrets count as live.
+ */
 export function resolveNzLiveToolStatus(tool: NzLiveToolDef): NzLiveToolStatus {
   if (tool.baseStatus === 'stub') return 'stub';
   if (tool.baseStatus === 'live' && tool.envKeys.length === 0) return 'live';
   const missing = tool.envKeys.filter((key) => !process.env[key]?.trim());
   if (missing.length) return 'needs_key';
   return tool.baseStatus === 'needs_key' ? 'live' : tool.baseStatus;
+}
+
+/**
+ * Status with optional edge-live hint (e.g. mcp-nz-govt returned PCO provider + result).
+ * Never requires reading or logging the raw secret.
+ */
+export function resolveNzLiveToolStatusWithEdgeHint(
+  tool: NzLiveToolDef,
+  edgeLiveByToolId?: Readonly<Record<string, boolean>>,
+): NzLiveToolStatus {
+  const sync = resolveNzLiveToolStatus(tool);
+  if (sync === 'live' || sync === 'stub') return sync;
+  if (tool.secretScope === 'supabase_edge' && edgeLiveByToolId?.[tool.toolId] === true) {
+    return 'live';
+  }
+  return sync;
+}
+
+/** True when Next.js mirrors the secret — never log the value. */
+export function nzLiveNextHasSecret(tool: NzLiveToolDef): boolean {
+  return tool.envKeys.every((key) => Boolean(process.env[key]?.trim()));
+}
+
+/**
+ * Scrubbed PCO live signal from mcp-nz-govt envelope — never includes API key material.
+ * Live = Parliamentary Counsel Office provider + result payload (not search-URL fallback).
+ */
+export function pcoLegislationLooksLive(payload: unknown): boolean {
+  if (!payload || typeof payload !== 'object') return false;
+  const root = payload as Record<string, unknown>;
+  const data =
+    root.data && typeof root.data === 'object'
+      ? (root.data as Record<string, unknown>)
+      : root;
+  if (data.provider !== 'Parliamentary Counsel Office') return false;
+  if (!('result' in data) || data.result == null) return false;
+  const note = typeof data.note === 'string' ? data.note.toLowerCase() : '';
+  if (note.includes('not configured')) return false;
+  return true;
 }
 
 export function nzLiveAllowlistEntries() {

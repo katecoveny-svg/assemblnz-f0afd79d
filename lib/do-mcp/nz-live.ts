@@ -2,7 +2,9 @@ import 'server-only';
 
 import {
   NZ_LIVE_TOOLS,
+  pcoLegislationLooksLive,
   resolveNzLiveToolStatus,
+  resolveNzLiveToolStatusWithEdgeHint,
   type NzLiveToolDef,
 } from '@/apps/do/shared/nz-live-pack';
 
@@ -79,20 +81,57 @@ function toolById(toolId: string): NzLiveToolDef | undefined {
   return NZ_LIVE_TOOLS.find((tool) => tool.toolId === toolId);
 }
 
-export function listNzLiveToolStatuses() {
+let pcoEdgeLiveProbe: Promise<boolean> | null = null;
+
+/**
+ * Detect whether Supabase edge has working PCO_API_KEY via mcp-nz-govt.
+ * Does not read or log the secret — only the public JSON envelope.
+ */
+export async function probePcoLegislationLive(): Promise<boolean> {
+  if (process.env.PCO_API_KEY?.trim()) return true;
+  if (!pcoEdgeLiveProbe) {
+    pcoEdgeLiveProbe = (async () => {
+      const result = await invokeEdge('mcp-nz-govt', {
+        action: 'legislation_search',
+        query: 'Act',
+        limit: 1,
+      });
+      if (!result.ok) return false;
+      return pcoLegislationLooksLive(result.detail.response);
+    })();
+  }
+  return pcoEdgeLiveProbe;
+}
+
+export async function listNzLiveToolStatuses() {
+  const edgeLive: Record<string, boolean> = {};
+  const pco = NZ_LIVE_TOOLS.find((tool) => tool.toolId === 'pco_legislation');
+  if (pco?.secretScope === 'supabase_edge' && resolveNzLiveToolStatus(pco) !== 'live') {
+    edgeLive.pco_legislation = await probePcoLegislationLive();
+  } else if (pco && resolveNzLiveToolStatus(pco) === 'live') {
+    edgeLive.pco_legislation = true;
+  }
+
   return NZ_LIVE_TOOLS.map((tool) => ({
     toolId: tool.toolId,
     label: tool.label,
     purpose: tool.purpose,
-    status: resolveNzLiveToolStatus(tool),
+    status: resolveNzLiveToolStatusWithEdgeHint(tool, edgeLive),
     envKeys: tool.envKeys,
+    secretScope: tool.secretScope ?? 'next_or_edge',
     edgeFunction: tool.edgeFunction,
     upstream: tool.upstream,
+    note:
+      tool.toolId === 'pco_legislation'
+        ? edgeLive.pco_legislation
+          ? 'Live via mcp-nz-govt using Supabase edge secret PCO_API_KEY (same key as adapter-pco). Not mirrored into Next.js unless set locally for status.'
+          : 'Needs Supabase edge secret PCO_API_KEY (single key path shared with adapter-pco). Do not invent a second key.'
+        : undefined,
   }));
 }
 
 /**
- * Run an NZ Live tool. Never invents traffic or keyed success.
+ * Run an NZ Live tool. Never invents traffic or keyed success. Never logs secrets.
  */
 export async function runNzLiveTool(
   toolId: string,
@@ -101,15 +140,18 @@ export async function runNzLiveTool(
   const tool = toolById(toolId);
   if (!tool) return { ok: false, error: `Unknown NZ Live tool: ${toolId}` };
 
-  const status = resolveNzLiveToolStatus(tool);
-  if (status === 'stub') {
+  const syncStatus = resolveNzLiveToolStatus(tool);
+  if (syncStatus === 'stub') {
     return {
       ok: false,
       error: `${tool.label} is stubbed. ${tool.upstream ? `See ${tool.upstream}` : 'Not implemented.'}`,
       statusHint: 'stub',
     };
   }
-  if (status === 'needs_key') {
+
+  // Edge-scoped secrets (PCO): do not block on Next.js env — edge owns PCO_API_KEY.
+  // Next-scoped secrets still need the local/mirrored key before calling.
+  if (syncStatus === 'needs_key' && tool.secretScope !== 'supabase_edge') {
     return {
       ok: false,
       error: `${tool.label} needs ${tool.envKeys.join(', ')} (set in Supabase secrets / env). Not configured here.`,
@@ -165,12 +207,37 @@ export async function runNzLiveTool(
         query: String(args.query ?? args.q ?? '').slice(0, 120),
         limit: Number(args.limit ?? 8),
       });
-    case 'pco_legislation':
-      return invokeEdge('mcp-nz-govt', {
+    case 'pco_legislation': {
+      const type =
+        args.type === 'act' || args.type === 'bill' || args.type === 'regulation' || args.type === 'secondary'
+          ? args.type
+          : undefined;
+      const result = await invokeEdge('mcp-nz-govt', {
         action: 'legislation_search',
         query: String(args.query ?? args.q ?? '').slice(0, 120),
         limit: Number(args.limit ?? 5),
+        ...(type ? { type } : {}),
       });
+      if (!result.ok) {
+        return { ok: false, error: result.error, statusHint: 'error' };
+      }
+      if (!pcoLegislationLooksLive(result.detail.response)) {
+        return {
+          ok: false,
+          error:
+            'PCO legislation is not live on the edge (missing Supabase secret PCO_API_KEY or upstream non-JSON). Same single key path as adapter-pco — ask via secure channel if the secret must be rotated; never log it.',
+          statusHint: 'needs_key',
+        };
+      }
+      return {
+        ok: true,
+        detail: {
+          ...result.detail,
+          keyPath: 'supabase_edge:PCO_API_KEY',
+          relatedAdapter: 'adapter-pco (KB ingest; same secret)',
+        },
+      };
+    }
     case 'nz_fuel_prices':
       return invokeEdge('nz-fuel-prices', {});
     case 'waka_kotahi_traffic':

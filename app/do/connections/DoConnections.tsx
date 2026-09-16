@@ -49,6 +49,7 @@ type McpState = {
     purpose: string;
     status: 'live' | 'needs_key' | 'stub';
     envKeys: string[];
+    note?: string;
   }>;
   mcpMarketHub?: {
     hubUrl: string;
@@ -319,11 +320,13 @@ export function DoConnections() {
                       <p>{tool.purpose}</p>
                       <small>{tool.toolId}{tool.envKeys.length ? ` · ${tool.envKeys.join(', ')}` : ' · keyless'}</small>
                       <div className={styles.included}>
-                        {tool.status === 'live'
-                          ? 'Callable now via /api/do/mcp (provider nz_live).'
-                          : tool.status === 'needs_key'
-                            ? 'Honest needs_key — set env / Supabase secret before expecting live data.'
-                            : 'Stub — documented, not faked.'}
+                        {tool.note
+                          ? tool.note
+                          : tool.status === 'live'
+                            ? 'Callable now via /api/do/mcp (provider nz_live).'
+                            : tool.status === 'needs_key'
+                              ? 'Honest needs_key — set env / Supabase secret before expecting live data.'
+                              : 'Stub — documented, not faked.'}
                       </div>
                     </article>
                   ))}

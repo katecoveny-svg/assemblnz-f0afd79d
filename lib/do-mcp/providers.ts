@@ -106,7 +106,7 @@ export function listProviderStatuses(): DoMcpProviderStatus[] {
         missingEnv: missing,
         state: 'ready',
         note: missing.length
-          ? `NZ Live toolkit ready for keyless tools (GeoNet, weather, fuel, Beehive). Keyed tools need: ${missing.join(', ')}. Waka Kotahi traffic is stub.`
+          ? `NZ Live toolkit ready for keyless tools + edge-scoped PCO when Supabase has PCO_API_KEY. Next.js missing mirrors: ${missing.join(', ')}. Waka Kotahi traffic is stub.`
           : 'NZ Live toolkit ready — including keyed AT/NZBN/PCO/NewsAPI tools.',
       };
     }

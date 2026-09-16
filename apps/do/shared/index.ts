@@ -156,9 +156,11 @@ export {
   NZ_LIVE_TOOLS,
   NZ_LIVE_TOOLKIT,
   resolveNzLiveToolStatus,
+  resolveNzLiveToolStatusWithEdgeHint,
   nzLiveAllowlistEntries,
+  pcoLegislationLooksLive,
 } from './nz-live-pack';
-export type { NzLiveToolDef, NzLiveToolStatus } from './nz-live-pack';
+export type { NzLiveToolDef, NzLiveToolStatus, NzLiveSecretScope } from './nz-live-pack';
 export {
   MCP_MARKET_HUB,
   MCP_MARKET_HUB_LOOKALIKES,
