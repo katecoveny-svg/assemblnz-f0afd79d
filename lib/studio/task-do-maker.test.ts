@@ -3,6 +3,7 @@ import {
   DEFAULT_BRAND,
   DEFAULT_CONFIG,
   PARTNER_SKINS,
+  applyCustomClient,
   applyPartnerSkin,
   applyTemplate,
   compileTaskDoSpec,
@@ -15,6 +16,10 @@ import {
   previewHref,
   templatesForMode,
 } from './task-do-maker';
+import {
+  bpLoyaltyMomentConciergeJourney,
+  normaliseJourney,
+} from './pursuit-journey';
 
 describe('task-do-maker', () => {
   it('compiles a drafts-only AgentSpec with white-label name (Mode A)', () => {
@@ -76,6 +81,7 @@ describe('task-do-maker', () => {
     expect(draft.config.opportunity).toBe('Service quote prep');
     expect(draft.config.templateId).toBe('outreach-draft');
     expect(draft.config.title).toBe('Outreach draft');
+    expect(draft.journey).toBeTruthy();
 
     const params = draftToSearchParams(draft);
     expect(params.get('partner')).toBe('Northside Joinery');
@@ -87,18 +93,33 @@ describe('task-do-maker', () => {
     );
   });
 
-  it('loads Mode B partner skins offline with rewarded-wait posture', () => {
+  it('loads Mode B partner skins offline with rewarded-wait posture and BP concierge journey', () => {
     const seeded = applyPartnerSkin('bp');
     expect(seeded.brand.displayName).toBe(PARTNER_SKINS.bp.productName);
     expect(seeded.config.mode).toBe('partner');
     expect(seeded.config.partnerSlug).toBe('bp');
     expect(seeded.config.templateId).toBe('rewarded-wait');
+    expect(seeded.journey.title).toMatch(/Loyalty Moment Concierge/i);
+    expect(seeded.journey.sponsored.enabled).toBe(true);
+    expect(seeded.journey.sponsored.asaLabel).toBe('Sponsored');
+    expect(seeded.journey.sponsored.stages.map((s) => s.id)).toEqual([
+      'ad_loyalty',
+      'branded_agent',
+      'useful_step',
+      'genuine_offer',
+      'permit',
+      'action',
+      'receipt',
+    ]);
+    expect(seeded.journey.sponsored.honesty).toMatch(/no bp account link/i);
+    expect(PARTNER_SKINS.bp.verticalHint).toMatch(/fuel/i);
 
     const draft = draftFromSearchParams(new URLSearchParams({ mode: 'partner', partner: 'warehouse' }));
     expect(draft.config.mode).toBe('partner');
     expect(draft.config.partnerSlug).toBe('warehouse');
     expect(draft.brand.accent).toBe(PARTNER_SKINS.warehouse.brand.accent);
     expect(draft.config.templateId).toBe('task-utility');
+    expect(draft.journey.sponsored.enabled).toBe(true);
 
     const spec = compileTaskDoSpec(draft.brand, draft.config, {
       id: '22222222-2222-4222-8222-222222222222',
@@ -113,6 +134,22 @@ describe('task-do-maker', () => {
     expect(partnerMakerHref('bp')).toBe('/studio/do-maker?mode=partner&partner=bp');
     expect(partnerAliasHref('warehouse')).toBe('/do/maker/partner/warehouse');
     expect(draftToSearchParams(draft).get('mode')).toBe('partner');
+    expect(draftToSearchParams(draft).get('sponsored')).toBe('1');
+  });
+
+  it('supports custom clients without a partner skin dropdown', () => {
+    const custom = applyCustomClient('Northside Joinery', { mode: 'pursuit' });
+    expect(custom.config.partnerSlug).toBeNull();
+    expect(custom.brand.displayName).toBe('Northside Joinery');
+    expect(custom.journey.title).toMatch(/Northside Joinery/);
+  });
+
+  it('normalises BP Loyalty Moment Concierge seed', () => {
+    const journey = normaliseJourney(bpLoyaltyMomentConciergeJourney());
+    expect(journey.sponsored.asaLabel).toBe('Sponsored');
+    expect(journey.outreach.enabled).toBe(true);
+    expect(journey.brief).toMatch(/fuel/i);
+    expect(journey.steps).toHaveLength(4);
   });
 
   it('filters templates by mode', () => {

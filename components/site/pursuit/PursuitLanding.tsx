@@ -46,6 +46,7 @@ export function PursuitLanding() {
           <h1 id="pursuit-title">Find the opening.<br/><span>Build the possibility.</span></h1>
           <p className={styles.lead}>Research the opportunity. Shape a credible idea. Prepare the next conversation.</p>
           <a className={styles.primary} href={workspace}>Open your Pursuit hub <ArrowUpRight size={19}/></a>
+          <Link className={styles.quietLink} href="/pursuit/playground">Try the public Pursuit playground <ArrowRight size={16}/></Link>
           <Link className={styles.quietLink} href={taskDoMaker}>Mint a task DO in Studio <ArrowRight size={16}/></Link>
           <a className={styles.quietLink} href="#pursuit-example">See how the work takes shape <ArrowDown size={16}/></a>
         </div>
@@ -81,7 +82,9 @@ export function PursuitLanding() {
       </div>
       <p className={styles.exampleNote} style={{ marginTop: 28 }}>
         Ready to mint a narrow, white-label task agent from an opportunity?{' '}
-        <Link href={taskDoMaker}>Open the Task DO Maker</Link>.
+        <Link href={taskDoMaker}>Open the Task DO Maker</Link>
+        {' · '}
+        <Link href="/pursuit/playground">Public playground (NZ company lookup)</Link>.
       </p>
     </section>
     <section className={styles.offer} aria-labelledby="offer-title">
