@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DoWorkspace } from '../DoWorkspace';
 import { DoMark } from '@/components/do/DoMark';
 import { DoPortableStarters } from '@/components/do/DoPortableStarters';
-import { LindaStrip } from '@/components/do/LindaStrip';
+import { DoTaskStrip } from '@/components/do/DoTaskStrip';
 import styles from './widget.module.css';
 import '../do.css';
 
@@ -24,14 +24,14 @@ export default function DoWidgetPage() {
         <Link href="/do/connections" target="_blank" rel="noopener">Connections ↗</Link>
         <Link href="/do/office" target="_blank" rel="noopener">Office ↗</Link>
         <Link href="/do/builder" target="_blank" rel="noopener">Builder DO ↗</Link>
-        <Link href="/do/linda?board=portable-widget" target="_blank" rel="noopener">Linda ↗</Link>
+        <Link href="/do/tasks?board=portable-widget" target="_blank" rel="noopener">Tasks ↗</Link>
       </nav>
       <p>Meeting notes open the recording-first Meeting DO in a full tab. Sign-in is only for transcription. Drafts stay here.</p>
     </header>
     <div className={styles.starters}>
       <DoPortableStarters showDownloads />
     </div>
-    <LindaStrip boardId="portable-widget" label="Portable widget · next" />
+    <DoTaskStrip boardId="portable-widget" label="This DO · next tasks" />
     <DoWorkspace embedded />
   </div>;
 }

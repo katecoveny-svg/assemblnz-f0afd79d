@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import { DoMark } from "@/components/do/DoMark";
+import { DoTaskStrip } from "@/components/do/DoTaskStrip";
 import {
   DoPortableStarters,
   type DoPortableStarter,
@@ -270,6 +271,7 @@ export function GlowDoWidget() {
         </button>
         {opened && view === "welcome" ? (
           <div className={styles.welcome}>
+            <DoTaskStrip boardId="portable-widget" label="This DO · next tasks" />
             <DoPortableStarters
               onStarter={onStarter}
               interceptMeeting
@@ -292,11 +294,14 @@ export function GlowDoWidget() {
           </div>
         ) : null}
         {opened && view === "workspace" ? (
-          <DoWorkspace
-            key={starterBrief || "blank"}
-            initialBrief={starterBrief}
-            initialTask={starterBrief.includes("reply") ? "reply" : "brief"}
-          />
+          <>
+            <DoTaskStrip boardId="portable-widget" label="This DO · next tasks" />
+            <DoWorkspace
+              key={starterBrief || "blank"}
+              initialBrief={starterBrief}
+              initialTask={starterBrief.includes("reply") ? "reply" : "brief"}
+            />
+          </>
         ) : null}
         <nav className={styles.shortcuts} aria-label="More from DO">
           <Link href="/do">
@@ -304,6 +309,7 @@ export function GlowDoWidget() {
           </Link>
           <Link href="/do/meetings">Meeting DO</Link>
           <Link href="/do/office">Office</Link>
+          <Link href="/do/tasks">Tasks</Link>
           <Link href="/do/connections">Connections</Link>
           <Link href="/login?redirect=%2Fdo">Sign in</Link>
         </nav>

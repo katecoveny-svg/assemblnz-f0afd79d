@@ -34,6 +34,7 @@ import {
   type DoConnectorStatus,
 } from '@/apps/do/shared/do-connectors';
 
+import { DoTaskPanel } from '@/components/do/DoTaskPanel';
 import styles from './household.module.css';
 
 type Tab = 'board' | 'seats' | 'customise' | 'browser' | 'connectors';
@@ -300,6 +301,8 @@ export function HouseholdFloorClient({
             <p className={styles.status} role="status">{message}</p>
           </div>
         </section>
+
+        <DoTaskPanel boardId="household-floor" title="Household Floor to-do" />
 
         {!floor ? (
           <section className={styles.installGrid}>

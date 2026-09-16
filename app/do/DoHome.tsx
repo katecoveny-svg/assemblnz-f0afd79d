@@ -191,7 +191,7 @@ export function DoHome() {
         <nav aria-label="DO">
           <Link href="/do/office">Office</Link>
           <Link href="/do/builder">Builder DO</Link>
-          <Link href="/do/linda">Linda</Link>
+          <Link href="/do/tasks">Tasks</Link>
           <Link href="/do/meetings">Meetings</Link>
           <Link href="/do/connections">Connections</Link>
         </nav>
@@ -375,8 +375,8 @@ export function DoHome() {
             <Link className={styles.primary} href="/do/office">
               Step into the Office <ArrowUpRight size={17} />
             </Link>
-            <Link className={styles.textButton} href="/do/linda">
-              Open Linda task boards <ArrowUpRight size={17} />
+            <Link className={styles.textButton} href="/do/tasks">
+              Per-DO task lists <ArrowUpRight size={17} />
             </Link>
           </div>
           <div className={styles.officeStates}>

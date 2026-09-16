@@ -1,45 +1,47 @@
 /**
- * Linda — Assembl DO Linear-style task boards (v0).
+ * Per-DO in-product task lists (v0).
  *
- * Persistence is localStorage keyed by signed-in owner id when available,
- * otherwise `device`. This is intentionally not Linear.app sync and not
- * Office/Builder durable jobs (`do_agents`). Those systems track execution
- * receipts; Linda tracks honest human TODOs per DO workstream.
+ * One board per DO / workstream. Persist in localStorage keyed by signed-in
+ * owner id when available, otherwise `device`. Not Linear.app sync and not
+ * Office/Builder durable jobs (`do_agents`) — those track execution receipts;
+ * these lists track honest human TODOs on each DO surface.
  */
 
-export const LINDA_STORAGE_PREFIX = 'assembl:do:linda:v1';
-export const LINDA_VERSION = 1 as const;
+export const DO_TASKS_STORAGE_PREFIX = 'assembl:do:tasks:v1';
+/** Legacy key from the short-lived misnamed experiment — read once for migration. */
+const LEGACY_STORAGE_PREFIX = 'assembl:do:linda:v1';
+export const DO_TASKS_VERSION = 1 as const;
 
-export type LindaStatus = 'backlog' | 'todo' | 'doing' | 'blocked' | 'done';
-export type LindaPriority = 'p0' | 'p1' | 'p2';
+export type DoTaskStatus = 'backlog' | 'todo' | 'doing' | 'blocked' | 'done';
+export type DoTaskPriority = 'p0' | 'p1' | 'p2';
 
-export type LindaIssue = {
+export type DoTask = {
   id: string;
   title: string;
-  status: LindaStatus;
-  priority: LindaPriority;
+  status: DoTaskStatus;
+  priority: DoTaskPriority;
   notes: string;
   href?: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type LindaBoard = {
+export type DoTaskBoard = {
   id: string;
   title: string;
   glyph: string;
-  /** Live DO surface or related docs for this workstream. */
+  /** Live DO surface for this workstream. */
   href: string;
-  issues: LindaIssue[];
+  issues: DoTask[];
 };
 
-export type LindaStore = {
-  version: typeof LINDA_VERSION;
-  boards: LindaBoard[];
+export type DoTaskStore = {
+  version: typeof DO_TASKS_VERSION;
+  boards: DoTaskBoard[];
   updatedAt: string;
 };
 
-export const LINDA_STATUS_ORDER: LindaStatus[] = [
+export const DO_TASK_STATUS_ORDER: DoTaskStatus[] = [
   'doing',
   'todo',
   'blocked',
@@ -47,7 +49,7 @@ export const LINDA_STATUS_ORDER: LindaStatus[] = [
   'done',
 ];
 
-export const LINDA_STATUS_LABEL: Record<LindaStatus, string> = {
+export const DO_TASK_STATUS_LABEL: Record<DoTaskStatus, string> = {
   backlog: 'Backlog',
   todo: 'Todo',
   doing: 'In progress',
@@ -55,7 +57,7 @@ export const LINDA_STATUS_LABEL: Record<LindaStatus, string> = {
   done: 'Done',
 };
 
-export const LINDA_PRIORITY_LABEL: Record<LindaPriority, string> = {
+export const DO_TASK_PRIORITY_LABEL: Record<DoTaskPriority, string> = {
   p0: 'P0',
   p1: 'P1',
   p2: 'P2',
@@ -63,14 +65,14 @@ export const LINDA_PRIORITY_LABEL: Record<LindaPriority, string> = {
 
 const SEED_AT = '2026-09-16T08:00:00.000Z';
 
-function issue(
+function task(
   id: string,
   title: string,
-  status: LindaStatus,
-  priority: LindaPriority,
+  status: DoTaskStatus,
+  priority: DoTaskPriority,
   notes: string,
   href?: string,
-): LindaIssue {
+): DoTask {
   return {
     id,
     title,
@@ -83,76 +85,76 @@ function issue(
   };
 }
 
-/** Honest open Assembl DO work as of 16 Sep 2026 — editable in Linda. */
-export const LINDA_SEED_BOARDS: LindaBoard[] = [
+/** Honest open Assembl DO work as of 16 Sep 2026 — editable per board. */
+export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
   {
     id: 'portable-widget',
     title: 'Portable widget',
     glyph: '✦',
     href: '/do/widget',
     issues: [
-      issue(
+      task(
         'pw-ux',
         'Ship friendlier portable UX (D-mark, badge polish)',
         'doing',
         'p0',
-        'PR #1302 — clearer D-mark identity, status badge, and companion chrome so the floating DO feels like the same object everywhere.',
+        'PR #1302 — clearer D-mark identity, status badge, and companion chrome.',
         'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1302',
       ),
-      issue(
+      task(
         'pw-meeting-auth',
-        'Surface Meeting auth at the top level of the companion',
+        'Surface Meeting auth at the top of the companion',
         'todo',
         'p0',
-        'Meeting DO sign-in should be reachable without digging through nested panels. Part of PR #1302.',
+        'Meeting DO sign-in should be reachable without digging through nested panels.',
         'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1302',
       ),
-      issue(
+      task(
         'pw-chrome-cta',
         'Chrome extension download button visible on portable UI',
         'todo',
         'p1',
-        'Chrome zip via /api/do/download?format=extension already works — make the CTA obvious on /do/widget and home downloads.',
+        'Chrome zip via /api/do/download?format=extension works — make the CTA obvious.',
         '/api/do/download?format=extension',
       ),
-      issue(
+      task(
         'pw-mac-cta',
         'Mac companion download button + working format=mac',
         'blocked',
         'p0',
-        'Mac /api/do/download?format=mac currently returns 400 (only extension|embed are accepted). Need API + visible CTA on /do and portable UI.',
+        'Mac /api/do/download?format=mac currently returns 400 (only extension|embed accepted).',
         '/api/do/download?format=mac',
       ),
     ],
   },
   {
-    id: 'white-label-maker',
-    title: 'White-label Task DO Maker',
-    glyph: '◇',
+    id: 'builder',
+    title: 'Builder DO',
+    glyph: '⌘',
     href: '/do/builder',
     issues: [
-      issue(
+      task(
         'wl-pursuit',
         'Pursuit handoff into Task DO Maker',
         'doing',
         'p0',
-        'PR #1301 — accept an opportunity brief from Pursuit and open a white-label Task DO Maker flow in Studio.',
+        'PR #1301 — accept an opportunity brief from Pursuit into a white-label Task DO Maker flow.',
         'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1301',
       ),
-      issue(
+      task(
         'wl-partner',
         'Partner / white-label mode for Task DO Maker',
         'todo',
         'p1',
-        'Partner-branded maker path without claiming live partner deployments. Keep Assembl frame + approval boundaries.',
+        'Partner-branded maker path without claiming live partner deployments.',
         'https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1301',
       ),
-      issue(
+      task(
         'wl-honesty',
-        'Keep maker receipts honest (plan ≠ running agent)',
+        'Keep builder receipts honest (plan ≠ running agent)',
         'todo',
         'p1',
-        'Same boundary as Builder/Office: saving a plan must not mint a fabricated success receipt.',
+        'Saving a plan must not mint a fabricated success receipt.',
         '/do/builder',
       ),
     ],
@@ -163,28 +165,28 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
     glyph: '⌂',
     href: '/do/household',
     issues: [
-      issue(
+      task(
         'hf-share',
         'Polish public shareable Household Floor template',
         'doing',
         'p0',
-        'Scrubbed public template should install cleanly, customise seats, and stay drafts-only for send.',
+        'Scrubbed public template should install cleanly and stay drafts-only for send.',
         '/do/household',
       ),
-      issue(
+      task(
         'hf-browser-seat',
         'Browser seat path for school / council pages',
         'todo',
         'p0',
-        'Extension capture with consent + session key wiring. Never send, pay, book or submit forms.',
+        'Extension capture with consent + session key. Never send, pay, book or submit forms.',
         '/do/household',
       ),
-      issue(
+      task(
         'hf-evening-board',
         'Evening board run feels living (not inert Office job)',
         'todo',
         'p1',
-        'Make the distinction clear: Office holds plans; Household Floor is the living family DO.',
+        'Office holds plans; Household Floor is the living family DO.',
         '/do/household',
       ),
     ],
@@ -195,7 +197,7 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
     glyph: '◎',
     href: '/do/meetings',
     issues: [
-      issue(
+      task(
         'mt-signin',
         'Clear sign-in path for Meeting DO',
         'todo',
@@ -203,13 +205,61 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
         'Operators need an obvious auth path before voice / prepare features that require a session.',
         '/do/meetings',
       ),
-      issue(
+      task(
         'mt-voice-smoke',
         'Voice smoke path (mic → prepare / transcribe)',
         'todo',
         'p1',
-        'Prove microphone consent → transcription/prepare without claiming automated meeting attendance.',
+        'Prove microphone consent → transcription/prepare without claiming automated attendance.',
         '/do/meetings',
+      ),
+    ],
+  },
+  {
+    id: 'writing',
+    title: 'Writing DO',
+    glyph: '✦',
+    href: '/do?task=rewrite&open=1',
+    issues: [
+      task(
+        'wr-voice',
+        'Keep rewrite drafts sounding like the person',
+        'todo',
+        'p1',
+        'Polish without inventing claims; review before handoff.',
+        '/do?task=rewrite&open=1',
+      ),
+      task(
+        'wr-receipt',
+        'Show preparation receipt after rewrite',
+        'todo',
+        'p2',
+        'Evidence stays visible on the shared workspace.',
+        '/do?task=rewrite&open=1',
+      ),
+    ],
+  },
+  {
+    id: 'personal',
+    title: 'Personal DO',
+    glyph: '◎',
+    href: '/do?task=plan&open=1',
+    issues: [
+      task(
+        'pe-plan',
+        'Turn chosen notes into an editable plan',
+        'todo',
+        'p1',
+        'Plan skill only — no silent calendar or send actions.',
+        '/do?task=plan&open=1',
+      ),
+      task(
+        'pe-scope',
+        'Keep personal context scoped (not one giant prompt)',
+        'backlog',
+        'p2',
+        'Personal / work / client scopes stay separate.',
+        '/do',
       ),
     ],
   },
@@ -219,23 +269,23 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
     glyph: '⇄',
     href: '/do/connections',
     issues: [
-      issue(
+      task(
         'cx-composio',
         'Composio / Zapier / Treg env keys wired for connectors',
         'todo',
         'p0',
-        'Capability-based connections should fail open with honest status when env keys are missing — never invent connected success.',
+        'Fail open with honest status when env keys are missing.',
         '/do/connections',
       ),
-      issue(
+      task(
         'cx-nz-live',
         'NZ Live pack key gaps surfaced honestly',
         'todo',
         'p1',
-        'Show which NZ Live connectors need keys vs which are ready. Link MCP gateway status.',
+        'Show which NZ Live connectors need keys vs which are ready.',
         '/do/connections#mcp-gateway',
       ),
-      issue(
+      task(
         'cx-gateway',
         'MCP gateway status readable from Connections',
         'doing',
@@ -251,23 +301,23 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
     glyph: '↓',
     href: '/do',
     issues: [
-      issue(
+      task(
         'dl-chrome',
         'Chrome extension zip works',
         'done',
         'p1',
-        'Confirmed: /api/do/download?format=extension returns a zip. Keep CTAs visible on /do.',
+        'Confirmed: /api/do/download?format=extension returns a zip.',
         '/api/do/download?format=extension',
       ),
-      issue(
+      task(
         'dl-mac-api',
         'Mac companion download API (format=mac)',
         'blocked',
         'p0',
-        'Currently 400 — route only accepts extension|embed. Add Mac package + Content-Disposition, then surface CTAs.',
+        'Currently 400 — route only accepts extension|embed.',
         '/api/do/download?format=mac',
       ),
-      issue(
+      task(
         'dl-ctas',
         'Visible Chrome + Mac CTAs on /do and portable UI',
         'todo',
@@ -278,33 +328,33 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
     ],
   },
   {
-    id: 'linda-meta',
-    title: 'DO task manager (Linda)',
+    id: 'office',
+    title: 'DO Office',
     glyph: '☰',
-    href: '/do/linda',
+    href: '/do/office',
     issues: [
-      issue(
-        'li-v0',
-        'Ship Linda v0 — boards per DO, localStorage persist',
+      task(
+        'of-per-do',
+        'Keep a to-do panel on each major DO surface',
         'doing',
         'p0',
-        'Linear-inspired lists per workstream. Honest about device/owner local storage — not Linear.app sync.',
-        '/do/linda',
+        'Household, Meetings, Builder, Office, companion — per-DO lists, not one named meta product.',
+        '/do/office',
       ),
-      issue(
-        'li-strip',
-        'Embed Linda strip (next 3 todos) in widget / Office',
+      task(
+        'of-rollup',
+        'Optional /do/tasks rollup across workstreams',
         'todo',
         'p1',
-        'Compact “this DO’s next 3” strip for portable widget and Office.',
-        '/do/linda',
+        'Useful overview only — primary UX stays on each DO page.',
+        '/do/tasks',
       ),
-      issue(
-        'li-durable',
-        'Optional later: wire boards to do_agents / receipts',
+      task(
+        'of-durable',
+        'Optional later: wire lists to do_agents / receipts',
         'backlog',
         'p2',
-        'Only if a persistence path fits without conflating human TODOs with Builder execution jobs. Keep receipts honest.',
+        'Only if persistence fits without conflating human TODOs with Builder execution jobs.',
         '/do/office',
       ),
     ],
@@ -313,20 +363,32 @@ export const LINDA_SEED_BOARDS: LindaBoard[] = [
 
 type LocalStorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
-export function lindaStorageKey(ownerKey: string): string {
+export function doTasksStorageKey(ownerKey: string): string {
   const safe = ownerKey.replace(/[^a-zA-Z0-9:_-]/g, '').slice(0, 80) || 'device';
-  return `${LINDA_STORAGE_PREFIX}:${safe}`;
+  return `${DO_TASKS_STORAGE_PREFIX}:${safe}`;
 }
 
-export function createSeedStore(now = new Date().toISOString()): LindaStore {
+function legacyStorageKey(ownerKey: string): string {
+  const safe = ownerKey.replace(/[^a-zA-Z0-9:_-]/g, '').slice(0, 80) || 'device';
+  return `${LEGACY_STORAGE_PREFIX}:${safe}`;
+}
+
+/** Map legacy board ids from the short-lived experiment onto current ids. */
+function normalizeBoardId(id: string): string {
+  if (id === 'linda-meta') return 'office';
+  if (id === 'white-label-maker') return 'builder';
+  return id;
+}
+
+export function createSeedStore(now = new Date().toISOString()): DoTaskStore {
   return {
-    version: LINDA_VERSION,
-    boards: structuredClone(LINDA_SEED_BOARDS),
+    version: DO_TASKS_VERSION,
+    boards: structuredClone(DO_TASK_SEED_BOARDS),
     updatedAt: now,
   };
 }
 
-function isStatus(value: unknown): value is LindaStatus {
+function isStatus(value: unknown): value is DoTaskStatus {
   return (
     value === 'backlog' ||
     value === 'todo' ||
@@ -336,11 +398,11 @@ function isStatus(value: unknown): value is LindaStatus {
   );
 }
 
-function isPriority(value: unknown): value is LindaPriority {
+function isPriority(value: unknown): value is DoTaskPriority {
   return value === 'p0' || value === 'p1' || value === 'p2';
 }
 
-function parseIssue(raw: unknown): LindaIssue | null {
+function parseIssue(raw: unknown): DoTask | null {
   if (!raw || typeof raw !== 'object') return null;
   const item = raw as Record<string, unknown>;
   if (typeof item.id !== 'string' || typeof item.title !== 'string') return null;
@@ -360,34 +422,38 @@ function parseIssue(raw: unknown): LindaIssue | null {
   };
 }
 
-function parseBoard(raw: unknown): LindaBoard | null {
+function parseBoard(raw: unknown): DoTaskBoard | null {
   if (!raw || typeof raw !== 'object') return null;
   const item = raw as Record<string, unknown>;
   if (typeof item.id !== 'string' || typeof item.title !== 'string') return null;
   if (typeof item.glyph !== 'string' || typeof item.href !== 'string') return null;
   if (!Array.isArray(item.issues)) return null;
-  const issues = item.issues.map(parseIssue).filter((issueItem): issueItem is LindaIssue => Boolean(issueItem));
+  const issues = item.issues
+    .map(parseIssue)
+    .filter((issueItem): issueItem is DoTask => Boolean(issueItem));
+  const id = normalizeBoardId(item.id).slice(0, 80);
+  const seed = DO_TASK_SEED_BOARDS.find((board) => board.id === id);
   return {
-    id: item.id.slice(0, 80),
-    title: item.title.slice(0, 120),
-    glyph: item.glyph.slice(0, 8),
-    href: item.href.slice(0, 1_000),
+    id,
+    title: (seed?.title ?? item.title).slice(0, 120),
+    glyph: (seed?.glyph ?? item.glyph).slice(0, 8),
+    href: (seed?.href ?? item.href).slice(0, 1_000),
     issues: issues.slice(0, 200),
   };
 }
 
 /** Merge seed boards the user has never seen into a saved store (additive only). */
-export function mergeSeedBoards(store: LindaStore): LindaStore {
+export function mergeSeedBoards(store: DoTaskStore): DoTaskStore {
   const byId = new Map(store.boards.map((board) => [board.id, board]));
   let changed = false;
-  for (const seed of LINDA_SEED_BOARDS) {
+  for (const seed of DO_TASK_SEED_BOARDS) {
     if (!byId.has(seed.id)) {
       byId.set(seed.id, structuredClone(seed));
       changed = true;
     }
   }
   if (!changed) return store;
-  const order = LINDA_SEED_BOARDS.map((board) => board.id);
+  const order = DO_TASK_SEED_BOARDS.map((board) => board.id);
   const boards = [
     ...order.map((id) => byId.get(id)!).filter(Boolean),
     ...[...byId.values()].filter((board) => !order.includes(board.id)),
@@ -395,87 +461,103 @@ export function mergeSeedBoards(store: LindaStore): LindaStore {
   return { ...store, boards, updatedAt: new Date().toISOString() };
 }
 
-export function parseLindaStore(raw: unknown): LindaStore | null {
+export function parseDoTaskStore(raw: unknown): DoTaskStore | null {
   if (!raw || typeof raw !== 'object') return null;
   const value = raw as Record<string, unknown>;
-  if (value.version !== LINDA_VERSION || !Array.isArray(value.boards)) return null;
+  if (value.version !== DO_TASKS_VERSION || !Array.isArray(value.boards)) return null;
   if (typeof value.updatedAt !== 'string') return null;
   const boards = value.boards
     .map(parseBoard)
-    .filter((board): board is LindaBoard => Boolean(board))
+    .filter((board): board is DoTaskBoard => Boolean(board))
     .slice(0, 40);
   if (!boards.length) return null;
-  return mergeSeedBoards({ version: LINDA_VERSION, boards, updatedAt: value.updatedAt });
+  // Dedupe after legacy id remaps (e.g. linda-meta → office).
+  const seen = new Set<string>();
+  const deduped: DoTaskBoard[] = [];
+  for (const board of boards) {
+    if (seen.has(board.id)) continue;
+    seen.add(board.id);
+    deduped.push(board);
+  }
+  return mergeSeedBoards({ version: DO_TASKS_VERSION, boards: deduped, updatedAt: value.updatedAt });
 }
 
-export function readLindaStore(storage: LocalStorageLike, ownerKey: string): LindaStore {
+export function readDoTaskStore(storage: LocalStorageLike, ownerKey: string): DoTaskStore {
   try {
-    const raw = storage.getItem(lindaStorageKey(ownerKey));
+    const key = doTasksStorageKey(ownerKey);
+    let raw = storage.getItem(key);
+    if (!raw) {
+      const legacy = storage.getItem(legacyStorageKey(ownerKey));
+      if (legacy) {
+        raw = legacy;
+        storage.setItem(key, legacy);
+        storage.removeItem(legacyStorageKey(ownerKey));
+      }
+    }
     if (!raw || raw.length > 2_000_000) return createSeedStore();
-    const parsed = parseLindaStore(JSON.parse(raw) as unknown);
+    const parsed = parseDoTaskStore(JSON.parse(raw) as unknown);
     return parsed ?? createSeedStore();
   } catch {
     return createSeedStore();
   }
 }
 
-export function writeLindaStore(
+export function writeDoTaskStore(
   storage: LocalStorageLike,
   ownerKey: string,
-  store: LindaStore,
-): LindaStore {
-  const next: LindaStore = {
-    version: LINDA_VERSION,
+  store: DoTaskStore,
+): DoTaskStore {
+  const next: DoTaskStore = {
+    version: DO_TASKS_VERSION,
     boards: store.boards.slice(0, 40).map((board) => ({
       ...board,
       issues: board.issues.slice(0, 200),
     })),
     updatedAt: new Date().toISOString(),
   };
-  storage.setItem(lindaStorageKey(ownerKey), JSON.stringify(next));
+  storage.setItem(doTasksStorageKey(ownerKey), JSON.stringify(next));
   return next;
 }
 
-export function resetLindaStore(storage: LocalStorageLike, ownerKey: string): LindaStore {
-  const next = createSeedStore();
-  return writeLindaStore(storage, ownerKey, next);
+export function resetDoTaskStore(storage: LocalStorageLike, ownerKey: string): DoTaskStore {
+  return writeDoTaskStore(storage, ownerKey, createSeedStore());
 }
 
-export function openIssues(issues: LindaIssue[]): LindaIssue[] {
+export function openIssues(issues: DoTask[]): DoTask[] {
   return issues
     .filter((item) => item.status !== 'done')
     .sort((a, b) => {
       const priority = a.priority.localeCompare(b.priority);
       if (priority !== 0) return priority;
       const status =
-        LINDA_STATUS_ORDER.indexOf(a.status) - LINDA_STATUS_ORDER.indexOf(b.status);
+        DO_TASK_STATUS_ORDER.indexOf(a.status) - DO_TASK_STATUS_ORDER.indexOf(b.status);
       if (status !== 0) return status;
       return a.updatedAt.localeCompare(b.updatedAt);
     });
 }
 
-/** Next N open todos for a board — used by the compact Linda strip. */
-export function nextOpenTodos(board: LindaBoard | undefined, limit = 3): LindaIssue[] {
+export function nextOpenTodos(board: DoTaskBoard | undefined, limit = 3): DoTask[] {
   if (!board) return [];
   return openIssues(board.issues).slice(0, Math.max(0, limit));
 }
 
-export function findBoard(store: LindaStore, boardId: string): LindaBoard | undefined {
-  return store.boards.find((board) => board.id === boardId);
+export function findBoard(store: DoTaskStore, boardId: string): DoTaskBoard | undefined {
+  return store.boards.find((board) => board.id === normalizeBoardId(boardId));
 }
 
 export function updateIssue(
-  store: LindaStore,
+  store: DoTaskStore,
   boardId: string,
   issueId: string,
-  patch: Partial<Pick<LindaIssue, 'title' | 'status' | 'priority' | 'notes' | 'href'>>,
+  patch: Partial<Pick<DoTask, 'title' | 'status' | 'priority' | 'notes' | 'href'>>,
   now = new Date().toISOString(),
-): LindaStore {
+): DoTaskStore {
+  const id = normalizeBoardId(boardId);
   return {
     ...store,
     updatedAt: now,
     boards: store.boards.map((board) => {
-      if (board.id !== boardId) return board;
+      if (board.id !== id) return board;
       return {
         ...board,
         issues: board.issues.map((item) =>
@@ -487,14 +569,15 @@ export function updateIssue(
 }
 
 export function addIssue(
-  store: LindaStore,
+  store: DoTaskStore,
   boardId: string,
-  input: { title: string; priority?: LindaPriority; notes?: string; href?: string },
+  input: { title: string; priority?: DoTaskPriority; notes?: string; href?: string },
   now = new Date().toISOString(),
-): LindaStore {
+): DoTaskStore {
   const title = input.title.trim().slice(0, 300);
   if (!title) return store;
-  const issueItem: LindaIssue = {
+  const id = normalizeBoardId(boardId);
+  const issueItem: DoTask = {
     id: `local-${now.replace(/\W/g, '').slice(0, 18)}-${Math.random().toString(36).slice(2, 8)}`,
     title,
     status: 'todo',
@@ -508,30 +591,30 @@ export function addIssue(
     ...store,
     updatedAt: now,
     boards: store.boards.map((board) =>
-      board.id === boardId ? { ...board, issues: [issueItem, ...board.issues] } : board,
+      board.id === id ? { ...board, issues: [issueItem, ...board.issues] } : board,
     ),
   };
 }
 
-export function groupIssuesByStatus(issues: LindaIssue[]): Array<{
-  status: LindaStatus;
+export function groupIssuesByStatus(issues: DoTask[]): Array<{
+  status: DoTaskStatus;
   label: string;
-  issues: LindaIssue[];
+  issues: DoTask[];
 }> {
-  return LINDA_STATUS_ORDER.map((status) => ({
+  return DO_TASK_STATUS_ORDER.map((status) => ({
     status,
-    label: LINDA_STATUS_LABEL[status],
+    label: DO_TASK_STATUS_LABEL[status],
     issues: issues
       .filter((item) => item.status === status)
       .sort((a, b) => a.priority.localeCompare(b.priority) || a.title.localeCompare(b.title)),
   })).filter((group) => group.issues.length > 0 || statusOpenGroup(group.status));
 }
 
-function statusOpenGroup(status: LindaStatus): boolean {
+function statusOpenGroup(status: DoTaskStatus): boolean {
   return status === 'todo' || status === 'doing' || status === 'blocked';
 }
 
-export async function resolveLindaOwnerKey(): Promise<{ ownerKey: string; signedIn: boolean }> {
+export async function resolveDoTaskOwnerKey(): Promise<{ ownerKey: string; signedIn: boolean }> {
   try {
     if (
       typeof process !== 'undefined' &&
