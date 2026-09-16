@@ -9,6 +9,7 @@ import {
 } from '@/apps/do/shared/do-mcp-gateway';
 import { composioExecuteTool, composioListTools } from './composio';
 import { providerConfigured } from './providers';
+import { listNzLiveToolStatuses, runNzLiveTool } from './nz-live';
 import { tregCallEndpoint, tregCatalogSearch } from './treg';
 import { zapierMcpExecute } from './zapier';
 
@@ -170,6 +171,29 @@ export async function callDoMcpTool(input: DoMcpCallInput): Promise<DoMcpToolRec
     });
   }
 
+  if (input.provider === 'nz_live') {
+    const result = await runNzLiveTool(input.toolId, input.arguments ?? {});
+    if (!result.ok) {
+      return receipt({
+        provider: 'nz_live',
+        toolId: input.toolId,
+        ownerExternalId: input.ownerExternalId,
+        status: result.statusHint === 'stub' || result.statusHint === 'needs_key'
+          ? 'not_configured'
+          : 'error',
+        summary: result.error,
+      });
+    }
+    return receipt({
+      provider: 'nz_live',
+      toolId: input.toolId,
+      ownerExternalId: input.ownerExternalId,
+      status: 'ok',
+      summary: `NZ Live ran ${entry.label}.`,
+      detail: result.detail,
+    });
+  }
+
   // Pipedream stays on /api/do/connections + runConnectorAction — not this MCP path.
   return receipt({
     provider: 'pipedream',
@@ -183,3 +207,5 @@ export async function callDoMcpTool(input: DoMcpCallInput): Promise<DoMcpToolRec
 export async function listSpikeComposioTools() {
   return composioListTools({ query: 'hackernews', limit: 10 });
 }
+
+export { listNzLiveToolStatuses };

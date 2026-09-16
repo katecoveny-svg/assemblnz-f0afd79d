@@ -21,6 +21,7 @@ Cursor / Grok Bot / IDE MCP plugins **do not** flow into customer DOs. Assembl D
 | **Zapier MCP** | Long-tail / obscure apps (~9000) when Composio lacks coverage | `ZAPIER_MCP_TOKEN` |
 | **Treg** | Pay-per-call data (SEO/SERP/enrichment/scraping) — **not** OAuth linking | `TREG_TOKEN` (catalog search is public) |
 | **Pipedream Connect** | First-party Gmail / assembl-owned Connect paths | `PIPEDREAM_*` + `DO_GMAIL_OAUTH_APP_ID` |
+| **NZ Live** | Aotearoa public/open data toolkit | Per-tool live / needs_key / stub — see `DO-NZ-LIVE.md` |
 
 ## How a DO gets tools
 

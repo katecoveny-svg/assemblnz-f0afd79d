@@ -14,9 +14,12 @@
  *   zapier    — long-tail / Zap-style (~9000) when Composio lacks coverage
  *   treg      — pay-per-call data APIs (SEO/SERP/enrichment) — not OAuth linking
  *   pipedream — first-party Connect (Gmail) already wired; complementary
+ *   nz_live   — Aotearoa public/open data toolkit (AT, weather, NZBN, GeoNet, …)
  */
 
-export type DoMcpProviderId = 'composio' | 'zapier' | 'treg' | 'pipedream';
+import { nzLiveAllowlistEntries } from './nz-live-pack';
+
+export type DoMcpProviderId = 'composio' | 'zapier' | 'treg' | 'pipedream' | 'nz_live';
 
 export type DoMcpSideEffect = 'none' | 'draft' | 'write' | 'spend';
 
@@ -76,9 +79,17 @@ export const DO_MCP_PROVIDERS: readonly DoMcpProviderMeta[] = [
     connectHint: 'Existing /do/connections + DO_GMAIL_OAUTH_APP_ID path. Prefer Composio/Zapier for new marketplace tools.',
     docsUrl: '/docs/PIPEDREAM-CONNECT-SETUP.md',
   },
+  {
+    id: 'nz_live',
+    label: 'NZ Live',
+    fit: 'Aotearoa public data toolkit — Auckland Transport, weather, NZBN, GeoNet, Parliament, Beehive, fuel. Reuses Assembl edge functions.',
+    envKeys: ['AT_API_KEY', 'NZBN_API_KEY', 'PCO_API_KEY', 'NEWSAPI_KEY'],
+    connectHint: 'Keyless tools (GeoNet, Open-Meteo weather, fuel, Beehive RSS) are live. Set AT_API_KEY / NZBN_API_KEY / PCO_API_KEY / NEWSAPI_KEY in Supabase secrets for keyed tools. Waka Kotahi traffic is stub.',
+    docsUrl: '/docs/do-templates/DO-NZ-LIVE.md',
+  },
 ] as const;
 
-/** Spike allowlist — safe demo tools for Composio-first runtime. */
+/** Spike allowlist — safe demo tools for Composio-first runtime + NZ Live. */
 export const DO_MCP_SPIKE_ALLOWLIST: readonly DoMcpAllowlistEntry[] = [
   {
     provider: 'composio',
@@ -107,6 +118,7 @@ export const DO_MCP_SPIKE_ALLOWLIST: readonly DoMcpAllowlistEntry[] = [
     approvalRequired: true,
     required: false,
   },
+  ...nzLiveAllowlistEntries(),
 ] as const;
 
 /** Optional MCP tools declared on public Household Floor (no live tokens). */
@@ -125,6 +137,33 @@ export const HOUSEHOLD_FLOOR_MCP_ALLOWLIST: readonly DoMcpAllowlistEntry[] = [
     toolId: 'catalog_search',
     label: 'Data catalog search (Treg)',
     purpose: 'Find pay-per-call enrichment endpoints when a DO needs bought data (not account linking).',
+    sideEffect: 'none',
+    approvalRequired: false,
+    required: false,
+  },
+  {
+    provider: 'nz_live',
+    toolId: 'at_bus_positions',
+    label: 'AT buses (NZ Live)',
+    purpose: 'Optional Auckland Transport realtime for the BUS seat — needs AT_API_KEY.',
+    sideEffect: 'none',
+    approvalRequired: false,
+    required: false,
+  },
+  {
+    provider: 'nz_live',
+    toolId: 'nz_weather_forecast',
+    label: 'NZ weather (NZ Live)',
+    purpose: 'Optional Open-Meteo forecast for the WEATHER seat.',
+    sideEffect: 'none',
+    approvalRequired: false,
+    required: false,
+  },
+  {
+    provider: 'nz_live',
+    toolId: 'geonet_quakes',
+    label: 'GeoNet quakes (NZ Live)',
+    purpose: 'Optional hazard awareness — public GeoNet API.',
     sideEffect: 'none',
     approvalRequired: false,
     required: false,

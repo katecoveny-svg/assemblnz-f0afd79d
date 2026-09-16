@@ -34,14 +34,17 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 - `docs/do-templates/HOUSEHOLD-FLOOR-DO-SPEC.md`  
 - `docs/do-templates/DO-CONNECTORS.md` — Pipedream first-party path  
 - `docs/do-templates/DO-MCP-GATEWAY.md` — Composio / Zapier / Treg marketplace MCP  
+- `docs/do-templates/DO-NZ-LIVE.md` — NZ Live toolkit  
+- `docs/do-templates/DO-PORTABLE-AGENT.md` — agent everywhere vision  
 
-### Connectors + DO MCP gateway
+### Connectors + DO MCP gateway + NZ Live
 
 - Pipedream Connect: first-party Gmail / mapped actions (complementary)
 - **DO MCP gateway** (marketplace): Composio primary · Zapier long-tail · Treg pay-per-call — `docs/do-templates/DO-MCP-GATEWAY.md`
+- **NZ Live toolkit**: AT · weather · NZBN · GeoNet · Parliament · Beehive · fuel · (Waka Kotahi stub) — `docs/do-templates/DO-NZ-LIVE.md`
 - Cursor IDE MCP ≠ DO MCP
-- UI: `/do/connections#mcp-gateway` + Household Floor MCP allowlist cards
-- Optional Gmail + Calendar Connect + Composio/Treg allowlist on public HF — drafts-only / never auto-send  
+- **Portable agent**: floating ✦ / Mac orb / Household Floor are the same object — `docs/do-templates/DO-PORTABLE-AGENT.md`
+- UI: `/do/connections#mcp-gateway` + NZ Live status cards + HF MCP allowlist  
 
 ### Trial model (product rule)
 

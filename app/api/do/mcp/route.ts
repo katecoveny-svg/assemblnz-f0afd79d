@@ -8,6 +8,7 @@ import { doOwner, privateDoHeaders as headers, sameDoOrigin } from '@/apps/do/se
 import {
   callDoMcpTool,
   composioListTools,
+  listNzLiveToolStatuses,
   listProviderStatuses,
   tregCatalogSearch,
   zapierMcpProbe,
@@ -40,11 +41,14 @@ export async function GET(request: Request) {
   }
 
   const zapier = await zapierMcpProbe();
+  const nzLive = listNzLiveToolStatuses();
 
   return Response.json({
     signedIn: Boolean(owner),
     cursorMcpNote:
       'Cursor / IDE MCP plugins do not flow into customer DOs. Tools must be declared on the DO allowlist and run through this gateway.',
+    portableAgentNote:
+      'DO is a portable agent: floating ✦ on web/extension/Mac takes what you can see (selection/page with consent), runs Clear + prepare seats, drafts-only for send. Household Floor is the same object — not an inert Office job.',
     flow: [
       'declare mcpAllowlist on DO',
       'configure provider env',
@@ -54,6 +58,7 @@ export async function GET(request: Request) {
     ],
     providers,
     allowlist,
+    nzLive,
     composioSample,
     tregSample,
     zapier,

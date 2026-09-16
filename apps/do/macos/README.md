@@ -19,7 +19,9 @@ This is still an unsigned/ad-hoc local development companion, not a notarised pu
 
 The toolbar offers explicit selection capture from the previously active app and review-first paste.
 
-Open DO, choose the app you want to work in, select text, then return to DO and choose **Use selected text**. Capture stays in the local review box until you choose **Add to DO**. Use **Review clipboard** to inspect copied text. **Paste reviewed text** inserts only the reviewed content into the chosen editable field. It never presses Return or Send.
+Open DO, choose the app you want to work in, select text, then return to DO and choose **Use selected text** (Show DO see-this). Capture stays in the local review box until you choose **Add to DO**. Use **Review clipboard** to inspect copied text. **Paste reviewed text** inserts only the reviewed content into the chosen editable field. It never presses Return or Send.
+
+This Mac orb is the **same portable DO** as the web floating ✦ and Chrome companion — not a separate product. See `docs/do-templates/DO-PORTABLE-AGENT.md`.
 
 Accessibility permission is requested only through the labelled **Enable app interaction** button. Each capture and paste checks permission and target application again. Secure text fields are refused. No selected text or clipboard content is automatically read on launch.
 

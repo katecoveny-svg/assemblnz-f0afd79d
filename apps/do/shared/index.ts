@@ -153,6 +153,13 @@ export type {
   DoMcpSideEffect,
 } from './do-mcp-gateway';
 export {
+  NZ_LIVE_TOOLS,
+  NZ_LIVE_TOOLKIT,
+  resolveNzLiveToolStatus,
+  nzLiveAllowlistEntries,
+} from './nz-live-pack';
+export type { NzLiveToolDef, NzLiveToolStatus } from './nz-live-pack';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,

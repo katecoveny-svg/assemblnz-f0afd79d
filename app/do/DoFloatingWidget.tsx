@@ -275,12 +275,14 @@ export function DoFloatingWidget({
               {runtimeLabel}
             </span>
             <br />
+            Portable DO — works on this page with what you select. Writing / email help is Clear + prepare; send stays drafts-only.
+            <br />
             {honesty || 'DEMO · consequential actions always need your yes.'}
           </p>
 
-          <div className="do-context-chips" aria-label="Context">
+          <div className="do-context-chips" aria-label="What DO can see">
             {chips.length === 0 ? (
-              <span className="do-chip">No page context yet</span>
+              <span className="do-chip">No page context yet — select text, then refresh</span>
             ) : (
               chips.map((c) => (
                 <span key={c.label} className="do-chip do-chip-live" title={c.value}>
@@ -289,6 +291,9 @@ export function DoFloatingWidget({
                 </span>
               ))
             )}
+            <button type="button" className="do-chip" onClick={refreshContext}>
+              Use selected text / refresh see-this
+            </button>
           </div>
 
           {error ? <p className="do-error">{error}</p> : null}

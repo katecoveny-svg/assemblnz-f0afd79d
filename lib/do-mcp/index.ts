@@ -2,4 +2,5 @@ export { listProviderStatuses, providerConfigured, composioConfigured, zapierMcp
 export { composioListTools, composioExecuteTool } from './composio';
 export { zapierMcpProbe, zapierMcpExecute } from './zapier';
 export { tregCatalogSearch, tregCallEndpoint } from './treg';
-export { callDoMcpTool, listSpikeComposioTools } from './runtime';
+export { callDoMcpTool, listSpikeComposioTools, listNzLiveToolStatuses } from './runtime';
+export { runNzLiveTool } from './nz-live';

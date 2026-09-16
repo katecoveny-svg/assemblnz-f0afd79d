@@ -40,6 +40,9 @@ export function providerConfigured(id: DoMcpProviderId): boolean {
       return tregConfigured();
     case 'pipedream':
       return pipedreamConfigured();
+    case 'nz_live':
+      // NZ Live is a toolkit: some tools are always live (keyless). Treat gateway as configured.
+      return true;
     default:
       return false;
   }
@@ -80,6 +83,17 @@ export function listProviderStatuses(): DoMcpProviderStatus[] {
         note: configured
           ? 'Pipedream Connect ready for first-party Gmail / mapped actions — use /do/connections.'
           : 'Pipedream env incomplete. Keep for Gmail Connect; marketplace tools go through Composio/Zapier/Treg.',
+      };
+    }
+    if (meta.id === 'nz_live') {
+      return {
+        ...meta,
+        configured: true,
+        missingEnv: missing,
+        state: 'ready',
+        note: missing.length
+          ? `NZ Live toolkit ready for keyless tools (GeoNet, weather, fuel, Beehive). Keyed tools need: ${missing.join(', ')}. Waka Kotahi traffic is stub.`
+          : 'NZ Live toolkit ready — including keyed AT/NZBN/PCO/NewsAPI tools.',
       };
     }
     return {

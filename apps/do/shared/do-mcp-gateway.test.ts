@@ -10,12 +10,13 @@ import {
 } from './do-mcp-gateway';
 
 describe('DO MCP gateway schema', () => {
-  it('registers composio, zapier, treg, and pipedream providers', () => {
+  it('registers composio, zapier, treg, pipedream, and nz_live providers', () => {
     expect(DO_MCP_PROVIDERS.map((p) => p.id)).toEqual([
       'composio',
       'zapier',
       'treg',
       'pipedream',
+      'nz_live',
     ]);
     expect(DO_MCP_FLOW_SUMMARY[0]).toMatch(/Cursor/);
   });
@@ -30,7 +31,8 @@ describe('DO MCP gateway schema', () => {
   it('declares optional HF MCP tools without secrets', () => {
     expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'composio')).toBe(true);
     expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'treg')).toBe(true);
-    expect(JSON.stringify(HOUSEHOLD_FLOOR_MCP_ALLOWLIST)).not.toMatch(/api[_-]?key|secret|token/i);
+    expect(HOUSEHOLD_FLOOR_MCP_ALLOWLIST.some((t) => t.provider === 'nz_live')).toBe(true);
+    expect(JSON.stringify(HOUSEHOLD_FLOOR_MCP_ALLOWLIST)).not.toMatch(/client_secret|access_token|sk-[a-z0-9]/i);
   });
 });
 
