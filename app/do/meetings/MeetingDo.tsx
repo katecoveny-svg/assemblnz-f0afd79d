@@ -103,7 +103,7 @@ export function MeetingDo() {
       <div className={styles.actions}><button disabled={!permission || recording || starting || busy} onClick={() => void start()}>{starting ? 'Waiting for microphone…' : 'Record meeting'}</button><button disabled={!recording} onClick={stop}>Stop recording</button></div>
       <p role="status">{recording ? '● Recording selected audio — stops at 10 minutes' : 'Microphone off'}</p>
       {audioUrl && <><audio controls src={audioUrl} /><a href={audioUrl} download={`meeting-recording.${audio?.type.includes("mp4") ? "m4a" : "webm"}`}>Download recording</a></>}
-      <p><Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to use configured transcription. No audio is saved to the DO database.</p>
+      <p className={styles.authNote}><strong>Sign in required for transcription.</strong> You can still record and download audio here. <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in to use Meeting DO transcription</Link> — use a normal browser tab (not an embedded panel). No audio is saved to the DO database.</p>
     </section>
     <section><h2>2. Review the words</h2><label><input type="checkbox" checked={share} disabled={busy || recording} onChange={e => setShare(e.target.checked)} />I approve sharing this audio with Deepgram for transcription, or these notes with the configured DO model for preparation.</label>
       <button disabled={!audio || !share || busy || recording} onClick={() => void process('transcribe')}>Transcribe recording</button>

@@ -8,18 +8,43 @@
 </head>
 <body>
   <header>
-    <strong><i class="do-orb" aria-hidden="true">✦</i>DO<span>by assembl</span></strong>
-    <a href="https://www.assembl.co.nz/do/household" target="_blank" rel="noreferrer">Household Floor ↗</a>
+    <strong>
+      <i class="do-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><circle cx="30" cy="32" r="6" fill="currentColor"/></svg>
+      </i>
+      DO<span>by assembl</span>
+    </strong>
+    <a href="https://www.assembl.co.nz/do" target="_blank" rel="noreferrer">Full workspace ↗</a>
   </header>
 
-  <div class="capture">
-    <button id="float" type="button">Show floating DO on this tab</button>
-    <button id="capture" type="button">Use selected page text</button>
-    <p id="status" role="status">Select text on the page, then add it here. Dragging the floating ✦ does not share your screen.</p>
+  <section class="primary" aria-label="What do you want to do?">
+    <p class="lede">DO helps where you already are. Drafts only — nothing is sent or paid for you.</p>
+    <div class="actions">
+      <button id="help-page" type="button" class="primary-btn">Chat / Help with this page</button>
+      <button id="capture" type="button" class="primary-btn secondary">Use selection</button>
+      <button id="meeting" type="button" class="primary-btn secondary">Meeting DO</button>
+      <button id="sign-in" type="button" class="primary-btn ghost">Sign in</button>
+    </div>
+    <p id="status" role="status">Select text on the page to light up the toolbar, then Use selection — or open Meeting DO in a normal tab.</p>
+  </section>
+
+  <section id="meeting-card" class="callout" hidden>
+    <h2>Meeting DO needs a signed-in browser tab</h2>
+    <p>Recording and transcription cannot finish inside this side panel. Sign in opens a normal assembl tab so OAuth and cookies work. After you sign in, return here and click Refresh builder if the draft looks stale.</p>
+    <div class="actions">
+      <button id="meeting-signin" type="button" class="primary-btn">Sign in to use Meeting DO</button>
+      <button id="meeting-open" type="button" class="primary-btn secondary">Open Meeting DO</button>
+      <button id="meeting-dismiss" type="button" class="primary-btn ghost">Not now</button>
+    </div>
+  </section>
+
+  <div class="toolbar-row">
+    <button id="float" type="button" class="text-btn">Show floating DO on this tab</button>
+    <button id="refresh-frame" type="button" class="text-btn">Refresh builder</button>
   </div>
 
-  <section class="seat" aria-labelledby="seat-title">
-    <h2 id="seat-title">Browser seat for a DO</h2>
+  <details class="seat" id="seat-details">
+    <summary>Advanced · browser seat (Household Floor)</summary>
     <p class="seat-copy">Each DO has its own session key. Capture visible page text (and optional screenshot) with consent. Never send, pay or submit.</p>
     <label class="field">DO id (UUID)
       <input id="do-id" type="text" spellcheck="false" placeholder="from /do/household after install" autocomplete="off">
@@ -48,13 +73,8 @@
       </select>
     </label>
     <p id="seat-status" role="status">Consent required before capture. Household Floor uses this for SchoolBridge / Council / AT.</p>
-  </section>
+  </details>
 
-  <p class="services">
-    <a href="https://www.assembl.co.nz/do/household" target="_blank" rel="noreferrer">Household Floor ↗</a>
-    · <a href="https://www.assembl.co.nz/do/meetings" target="_blank" rel="noreferrer">Meeting DO ↗</a>
-    · <a href="https://www.assembl.co.nz/do/family" target="_blank" rel="noreferrer">School admin ↗</a>
-  </p>
   <iframe id="builder" title="DO visual agent builder" src="https://www.assembl.co.nz/do/widget" allow="clipboard-write" referrerpolicy="no-referrer"></iframe>
   <script src="sidepanel.js"></script>
 </body>

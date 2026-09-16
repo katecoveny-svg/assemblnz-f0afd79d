@@ -3,6 +3,10 @@
 const PRODUCTION_ORIGIN = 'https://www.assembl.co.nz';
 const frame = document.getElementById('builder');
 const captureButton = document.getElementById('capture');
+const helpPageButton = document.getElementById('help-page');
+const meetingButton = document.getElementById('meeting');
+const signInButton = document.getElementById('sign-in');
+const meetingCard = document.getElementById('meeting-card');
 const status = document.getElementById('status');
 const seatStatus = document.getElementById('seat-status');
 const doIdInput = document.getElementById('do-id');
@@ -20,6 +24,7 @@ let apiOrigin = PRODUCTION_ORIGIN;
 
 function syncFrame() {
   frame.src = `${apiOrigin}/do/widget`;
+  ready = false;
 }
 
 function offer() {
@@ -27,6 +32,15 @@ function offer() {
   frame.contentWindow.postMessage({ type: 'assembl-do:context', ...pending }, apiOrigin);
   pending = null;
   status.textContent = 'Selection added. Review it in the builder before running a task.';
+}
+
+function openTopLevel(path) {
+  const url = `${apiOrigin}${path}`;
+  return chrome.runtime.sendMessage({ type: 'do:open-url-for-do', url });
+}
+
+function showMeetingCard(visible) {
+  meetingCard.hidden = !visible;
 }
 
 chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin'], (stored) => {
@@ -44,7 +58,6 @@ chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin'], (stored) => {
 apiOriginSelect.addEventListener('change', () => {
   apiOrigin = apiOriginSelect.value;
   chrome.storage.local.set({ doApiOrigin: apiOrigin });
-  ready = false;
   syncFrame();
 });
 
@@ -78,7 +91,12 @@ frame.addEventListener('load', () => {
   }
 });
 
-captureButton.addEventListener('click', async () => {
+window.addEventListener('focus', () => {
+  // After OAuth in a top-level tab, cookies may not refresh the iframe until reload.
+  status.textContent = 'Back from the browser? Use Refresh builder if Meeting or sign-in just finished.';
+});
+
+async function captureSelection() {
   captureButton.disabled = true;
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -107,6 +125,85 @@ captureButton.addEventListener('click', async () => {
   } finally {
     captureButton.disabled = false;
   }
+}
+
+async function helpWithPage() {
+  helpPageButton.disabled = true;
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab?.id || !/^https?:\/\//.test(tab.url || '')) {
+      throw new Error('Open a normal webpage, then click Help with this page.');
+    }
+    const result = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => {
+        const selected = String(window.getSelection()?.toString() || '').trim();
+        const root = document.querySelector('main') || document.body;
+        const page = String(root?.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 8000);
+        const text = selected || page;
+        return text
+          ? {
+              text,
+              title: document.title.slice(0, 160),
+              url: location.origin + location.pathname,
+            }
+          : null;
+      },
+    });
+    if (!result[0]?.result) {
+      throw new Error('No readable page text found. Paste the part you want help with into the builder.');
+    }
+    pending = result[0].result;
+    status.textContent = selectedHint(result[0].result) + ' Review the builder context, then prepare a draft.';
+    offer();
+  } catch (e) {
+    status.textContent = e instanceof Error ? e.message : 'Could not read this page.';
+  } finally {
+    helpPageButton.disabled = false;
+  }
+}
+
+function selectedHint(payload) {
+  const short = payload.text.length < 400;
+  return short
+    ? 'Using your selection for help.'
+    : 'Using visible page text for help (selection was empty).';
+}
+
+captureButton.addEventListener('click', () => void captureSelection());
+helpPageButton.addEventListener('click', () => void helpWithPage());
+
+meetingButton.addEventListener('click', () => {
+  showMeetingCard(true);
+  status.textContent = 'Meeting DO opens in a normal tab. Sign in there if transcription is needed.';
+});
+
+signInButton.addEventListener('click', async () => {
+  const response = await openTopLevel('/login?redirect=%2Fdo');
+  status.textContent = response?.ok
+    ? 'Sign-in opened in a browser tab. When you finish, return here and Refresh builder.'
+    : (response?.error || 'Could not open sign-in.');
+});
+
+document.getElementById('meeting-signin').addEventListener('click', async () => {
+  const response = await openTopLevel('/login?redirect=%2Fdo%2Fmeetings');
+  status.textContent = response?.ok
+    ? 'Sign in to use Meeting DO — opened in a browser tab. After login you land on Meeting DO. Then return here and Refresh builder if needed.'
+    : (response?.error || 'Could not open sign-in.');
+});
+
+document.getElementById('meeting-open').addEventListener('click', async () => {
+  const response = await openTopLevel('/do/meetings');
+  status.textContent = response?.ok
+    ? 'Meeting DO opened in a browser tab. If it asks you to sign in, use Sign in to use Meeting DO.'
+    : (response?.error || 'Could not open Meeting DO.');
+});
+
+document.getElementById('meeting-dismiss').addEventListener('click', () => showMeetingCard(false));
+
+document.getElementById('refresh-frame').addEventListener('click', () => {
+  syncFrame();
+  status.textContent = 'Builder refreshed. Sign-in cookies from a top-level tab may now be visible to the widget.';
 });
 
 document.getElementById('float').addEventListener('click', async () => {
@@ -116,7 +213,7 @@ document.getElementById('float').addEventListener('click', async () => {
       throw new Error('Click DO’s toolbar icon on a normal webpage first. Browser settings and PDF viewer pages may block extensions.');
     }
     await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['floating.js'] });
-    status.textContent = 'DO is on this page. Drag the purple orb, or focus it and use arrow keys. Click it to reopen this panel. Dragging does not share the screen.';
+    status.textContent = 'DO is on this page. Drag the purple D-mark, or focus it and use arrow keys. Click it to reopen this panel. Dragging does not share the screen.';
   } catch (e) {
     status.textContent = e instanceof Error ? e.message : 'Could not place DO. Click its toolbar icon on this tab and try again.';
   }
