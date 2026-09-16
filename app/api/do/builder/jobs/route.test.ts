@@ -10,9 +10,17 @@ const repo = new MemoryOfficeJobsRepo();
 vi.mock('@/apps/do/services/owner', () => ({
   doOwner: vi.fn(),
   privateDoHeaders: { 'Cache-Control': 'private, no-store', Vary: 'Cookie', 'X-Content-Type-Options': 'nosniff' },
-  sameDoOrigin: (req: Request) => {
+}));
+
+vi.mock('@/apps/do/shared/http', () => ({
+  allowedDoOrigin: (req: Request) => {
     const origin = req.headers.get('origin');
-    return !origin || origin === new URL(req.url).origin;
+    if (!origin) return null;
+    try {
+      return origin === new URL(req.url).origin ? origin : null;
+    } catch {
+      return null;
+    }
   },
 }));
 

@@ -1,12 +1,13 @@
 import { z } from 'zod';
 
-import { doOwner, privateDoHeaders, sameDoOrigin } from '@/apps/do/services/owner';
+import { doOwner, privateDoHeaders } from '@/apps/do/services/owner';
 import {
   getOwnerBuilderJob,
   listOwnerBuilderJobs,
   saveOwnerBuilderJob,
 } from '@/apps/do/services/office-jobs';
 import { createBuilderJob } from '@/apps/do/shared/builder';
+import { allowedDoOrigin } from '@/apps/do/shared/http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -52,14 +53,14 @@ function json(body: unknown, status = 200) {
 }
 
 export async function OPTIONS(request: Request) {
-  if (!sameDoOrigin(request)) return new Response(null, { status: 403, headers: headers() });
+  if (!allowedDoOrigin(request)) return new Response(null, { status: 403, headers: headers() });
   const responseHeaders = headers();
   responseHeaders.set('Allow', 'GET, POST, OPTIONS');
   return new Response(null, { status: 204, headers: responseHeaders });
 }
 
 export async function GET(request: Request) {
-  if (!sameDoOrigin(request) && request.headers.get('sec-fetch-site') === 'cross-site') {
+  if (request.headers.get('origin') && !allowedDoOrigin(request)) {
     return json({ error: 'origin_not_allowed' }, 403);
   }
   const owner = await doOwner();
@@ -79,7 +80,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!sameDoOrigin(request)) {
+  if (!allowedDoOrigin(request)) {
     return json({ error: 'origin_not_allowed', message: 'Open Builder DO from the Assembl DO workspace.' }, 403);
   }
 

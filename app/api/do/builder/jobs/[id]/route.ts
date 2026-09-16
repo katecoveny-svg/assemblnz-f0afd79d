@@ -1,5 +1,6 @@
-import { doOwner, privateDoHeaders, sameDoOrigin } from '@/apps/do/services/owner';
+import { doOwner, privateDoHeaders } from '@/apps/do/services/owner';
 import { getOwnerBuilderJob, recordOwnerJobEvent } from '@/apps/do/services/office-jobs';
+import { allowedDoOrigin } from '@/apps/do/shared/http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,7 +12,7 @@ function json(body: unknown, status = 200) {
 }
 
 export async function GET(request: Request, { params }: Params) {
-  if (!sameDoOrigin(request) && request.headers.get('sec-fetch-site') === 'cross-site') {
+  if (request.headers.get('origin') && !allowedDoOrigin(request)) {
     return json({ error: 'origin_not_allowed' }, 403);
   }
 
