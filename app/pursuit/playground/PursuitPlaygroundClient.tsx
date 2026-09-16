@@ -14,10 +14,30 @@ import {
 } from '@/lib/studio/pursuit-journey';
 import styles from './playground.module.css';
 
+type WhoRunsItPayload = {
+  status: string;
+  legalName: string | null;
+  nzbn: string | null;
+  entityStatus?: string | null;
+  entityType?: string | null;
+  directors: Array<{ name: string; role?: string }>;
+  registeredOffice?: string | null;
+  sandbox: boolean;
+  adapters?: { nzbn: string; companiesOffice: string };
+  gaps?: string[];
+};
+
 type ToolCallEvent =
   | { kind: 'thinking'; text: string }
   | { kind: 'tool_call'; name: string; args: Record<string, unknown> }
-  | { kind: 'tool_result'; ok: boolean; summary: string; sandbox: boolean; raw?: unknown }
+  | {
+      kind: 'tool_result';
+      ok: boolean;
+      summary: string;
+      sandbox: boolean;
+      raw?: WhoRunsItPayload;
+      receiptId?: string;
+    }
   | { kind: 'answer'; text: string };
 
 type HealthResponse = {
@@ -90,15 +110,7 @@ export function PursuitPlaygroundClient() {
       const json = (await res.json()) as {
         ok?: boolean;
         error?: { message?: string; hint?: string };
-        data?: {
-          status: string;
-          legalName: string | null;
-          nzbn: string | null;
-          directors: Array<{ name: string; role?: string }>;
-          sandbox: boolean;
-          adapters?: { nzbn: string; companiesOffice: string };
-          gaps?: string[];
-        };
+        data?: WhoRunsItPayload;
         meta?: { receiptId?: string; environment?: string };
       };
 
@@ -131,10 +143,6 @@ export function PursuitPlaygroundClient() {
         data.legalName ? `legalName=${data.legalName}` : null,
         data.nzbn ? `nzbn=${data.nzbn}` : null,
         `directors=${directorLine}`,
-        data.adapters
-          ? `adapters nzbn=${data.adapters.nzbn} companiesOffice=${data.adapters.companiesOffice}`
-          : null,
-        json.meta?.receiptId ? `receipt=${json.meta.receiptId}` : null,
       ]
         .filter(Boolean)
         .join(' · ');
@@ -147,6 +155,7 @@ export function PursuitPlaygroundClient() {
           sandbox: Boolean(data.sandbox),
           summary,
           raw: data,
+          receiptId: json.meta?.receiptId,
         },
         {
           kind: 'answer',
@@ -196,13 +205,15 @@ export function PursuitPlaygroundClient() {
   return (
     <div className={styles.page}>
       <header className={styles.topbar}>
-        <div>
-          <Link href="/" className={styles.wordmark}>assembl</Link>
-          <span className={styles.slash}>/</span>
-          <Link href="/pursuit">pursuit</Link>
-          <span className={styles.slash}>/</span>
-          <span>playground</span>
-          <span className={styles.badge}>DEMO</span>
+        <div className={styles.brandCol}>
+          <div className={styles.brandRow}>
+            <Link href="/" className={styles.wordmark}>assembl</Link>
+            <span className={styles.slash}>/</span>
+            <Link href="/pursuit">pursuit</Link>
+            <span className={styles.slash}>/</span>
+            <span>playground</span>
+          </div>
+          <p className={styles.demoBadge}>public showcase · sandbox tool · DEMO</p>
         </div>
         <nav aria-label="Playground">
           <Link href="/tools/nz-who-runs-it">Tool docs</Link>
@@ -267,26 +278,31 @@ export function PursuitPlaygroundClient() {
           <div className={styles.transcript} aria-live="polite" aria-label="Agent tool transcript">
             {events.length === 0 ? (
               <p className={styles.empty}>
-                No calls yet. Run a lookup to see thinking → tool_call → tool_result → answer.
+                No calls yet. Run a lookup to see thinking → tool call → evidence plate → answer.
               </p>
             ) : (
               events.map((event, index) => (
                 <article key={`${event.kind}-${index}`} data-kind={event.kind} className={styles.event}>
                   <header>
-                    <span>{event.kind}</span>
+                    <span>{event.kind.replace('_', ' ')}</span>
                     {event.kind === 'tool_result' && event.sandbox ? (
                       <span className={styles.badge}>sandbox</span>
                     ) : null}
                   </header>
                   {event.kind === 'thinking' || event.kind === 'answer' ? <p>{event.text}</p> : null}
                   {event.kind === 'tool_call' ? (
-                    <pre>{JSON.stringify({ name: event.name, arguments: event.args }, null, 2)}</pre>
+                    <p className={styles.toolCall}>
+                      <code>{event.name}</code>
+                      {' · '}
+                      company=<strong>{String(event.args.company ?? '')}</strong>
+                    </p>
                   ) : null}
                   {event.kind === 'tool_result' ? (
-                    <>
+                    event.ok && event.raw ? (
+                      <EvidencePlate data={event.raw} receiptId={event.receiptId} />
+                    ) : (
                       <p data-ok={event.ok}>{event.summary}</p>
-                      {event.raw ? <pre>{JSON.stringify(event.raw, null, 2)}</pre> : null}
-                    </>
+                    )
                   ) : null}
                 </article>
               ))
@@ -343,9 +359,69 @@ export function PursuitPlaygroundClient() {
         </section>
 
         <p className={styles.footerNote}>
-          Public Assembl showcase — not a client skin. No Mana / kete watermarks. Live home stays untouched.
+          Public Assembl showcase — not a client skin · live home untouched
         </p>
       </main>
+    </div>
+  );
+}
+
+function EvidencePlate({
+  data,
+  receiptId,
+}: {
+  data: WhoRunsItPayload;
+  receiptId?: string;
+}) {
+  return (
+    <div className={styles.receipt} aria-label="Evidence receipt">
+      <div className={styles.receiptHead}>
+        <strong>{data.legalName || 'Lookup result'}</strong>
+        <span className={styles.receiptMeta}>
+          {data.sandbox ? 'sandbox fixture' : 'live-shaped'} · evidence plate
+        </span>
+      </div>
+      <div className={styles.receiptGrid}>
+        <div className={styles.receiptCell}>
+          <span>NZBN</span>
+          <strong>{data.nzbn || '—'}</strong>
+        </div>
+        <div className={styles.receiptCell}>
+          <span>Status</span>
+          <strong>{data.entityStatus || data.status || '—'}</strong>
+        </div>
+        <div className={styles.receiptCell}>
+          <span>Entity</span>
+          <strong>{data.entityType || '—'}</strong>
+        </div>
+        <div className={styles.receiptCell}>
+          <span>Registered office</span>
+          <strong>{data.registeredOffice || '—'}</strong>
+        </div>
+      </div>
+      <div className={styles.receiptDirectors}>
+        <span>Directors · public register fields only</span>
+        {data.directors?.length ? (
+          <ul>
+            {data.directors.map((director) => (
+              <li key={`${director.name}-${director.role || 'dir'}`}>
+                {director.name}
+                {director.role ? ` · ${director.role}` : ''}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No directors returned in this result.</p>
+        )}
+      </div>
+      <div className={styles.receiptFoot}>
+        adapters · nzbn={data.adapters?.nzbn || '—'} · companiesOffice=
+        {data.adapters?.companiesOffice || '—'}
+        {receiptId ? ` · receipt ${receiptId}` : ''}
+        {data.sandbox
+          ? ' · DEMO honesty: not a live Companies Office read'
+          : ' · treat as operational data, not advice'}
+      </div>
     </div>
   );
 }

@@ -238,28 +238,32 @@ export function TaskDoMakerClient() {
     return (
       <div
         className={`${styles.shell} ${mode === 'partner' ? styles.partnerShell : ''}`}
-        style={{ ['--maker-accent' as string]: brand.accent, ['--maker-accent-2' as string]: brand.accentSecondary }}
+        style={{
+          ['--partner-accent' as string]: brand.accent,
+          ['--partner-accent-2' as string]: brand.accentSecondary,
+        }}
         data-mode={mode}
       >
         <header className={styles.topbar}>
-          <div>
-            {mode === 'partner' ? (
-              <>
-                <span className={styles.brand}>{brand.displayName}</span>
-                <span className={styles.slash}>/</span>
-                <span>task helper</span>
-                <span className={styles.preview}>partner demo</span>
-              </>
-            ) : (
-              <>
-                <Link href="/" className={styles.brand}>assembl</Link>
-                <span className={styles.slash}>/</span>
-                <Link href="/studio">studio</Link>
-                <span className={styles.slash}>/</span>
-                <span>task do preview</span>
-                <span className={styles.preview}>demo</span>
-              </>
-            )}
+          <div className={styles.navBrandCol}>
+            <div className={styles.navBrandRow}>
+              {mode === 'partner' ? (
+                <>
+                  <span className={styles.brand}>{brand.displayName}</span>
+                  <span className={styles.slash}>/</span>
+                  <span>task helper</span>
+                </>
+              ) : (
+                <>
+                  <Link href="/" className={styles.brand}>assembl</Link>
+                  <span className={styles.slash}>/</span>
+                  <Link href="/studio">studio</Link>
+                  <span className={styles.slash}>/</span>
+                  <span>task do preview</span>
+                </>
+              )}
+            </div>
+            <p className={styles.demoBadge}>scripted · draft-only · DEMO</p>
           </div>
           <nav aria-label="Preview">
             <Link href={`/studio/do-maker?${draftToSearchParams(draft).toString()}`}>edit in maker</Link>
@@ -278,28 +282,34 @@ export function TaskDoMakerClient() {
   return (
     <div
       className={`${styles.shell} ${mode === 'partner' ? styles.partnerShell : ''}`}
-      style={{ ['--maker-accent' as string]: brand.accent, ['--maker-accent-2' as string]: brand.accentSecondary }}
+      style={{
+        ['--partner-accent' as string]: brand.accent,
+        ['--partner-accent-2' as string]: brand.accentSecondary,
+      }}
       data-mode={mode}
     >
       <header className={styles.topbar}>
-        <div>
-          {mode === 'partner' ? (
-            <>
-              <span className={styles.brand}>{brand.displayName || 'partner'}</span>
-              <span className={styles.slash}>/</span>
-              <span>maker</span>
-              <span className={styles.preview}>partner</span>
-            </>
-          ) : (
-            <>
-              <Link href="/" className={styles.brand}>assembl</Link>
-              <span className={styles.slash}>/</span>
-              <Link href="/studio">studio</Link>
-              <span className={styles.slash}>/</span>
-              <span>task do maker</span>
-              <span className={styles.preview}>pursuit</span>
-            </>
-          )}
+        <div className={styles.navBrandCol}>
+          <div className={styles.navBrandRow}>
+            {mode === 'partner' ? (
+              <>
+                <span className={styles.brand}>{brand.displayName || 'partner'}</span>
+                <span className={styles.slash}>/</span>
+                <span>maker</span>
+              </>
+            ) : (
+              <>
+                <Link href="/" className={styles.brand}>assembl</Link>
+                <span className={styles.slash}>/</span>
+                <Link href="/studio">studio</Link>
+                <span className={styles.slash}>/</span>
+                <span>task do maker</span>
+              </>
+            )}
+          </div>
+          <p className={styles.demoBadge}>
+            {mode === 'partner' ? 'partner skin · draft-only · DEMO' : 'pursuit desk · draft-only · DEMO'}
+          </p>
         </div>
         <nav aria-label="Maker destinations">
           <Link href={makerHref({ mode: 'pursuit', opportunity: 'Service quote preparation', task: 'research-brief', template: 'research-brief' })}>Mode A · Pursuit</Link>
@@ -314,7 +324,7 @@ export function TaskDoMakerClient() {
         <section className={styles.hero}>
           <div>
             <p className={styles.eyebrow}>
-              {mode === 'partner' ? 'Partner-facing DO maker · PREVIEW' : 'Studio · Pursuit journey builder · PREVIEW'}
+              {mode === 'partner' ? 'Partner desk · PREVIEW' : 'Studio · Pursuit desk · PREVIEW'}
             </p>
             <h1>{mode === 'partner' ? 'Assemble the client demo.' : 'Assemble a Pursuit demo.'}</h1>
             <p className={styles.heroCopy}>
