@@ -140,6 +140,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   // Public browser-local Creative Studio and its self-contained tools.
   '/creative-studio',
   '/pursuit',
+  // Agency / Pursuit connections desk (Meta Business OAuth return surface).
+  '/agency',
   '/tools/',
   '/media/',
   // AI-search readiness + journey tool. Missing from this list since it

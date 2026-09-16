@@ -1,10 +1,11 @@
 // ============================================================
 // META BUSINESS — OAuth layer for assembl
 //
-// One function, four routes:
+// One function, five routes:
 //   GET  /meta-business/start     -> begin OAuth (returns auth_url)
 //   GET  /meta-business/callback  -> Meta redirects here  <-- REGISTER THIS URI
-//   GET  /meta-business/status    -> non-secret connection health
+//   GET  /meta-business/status    -> non-secret connection health (+ meta_connection_id)
+//   GET|POST /meta-business/assets -> list / save Portfolio→Page→IG→Ad Account
 //   POST /meta-business/deletion  -> Meta data-deletion callback
 //
 // Security posture (deliberate departures from the older
@@ -20,6 +21,11 @@
 // Required secrets:
 //   META_APP_ID, META_APP_SECRET, META_STATE_SECRET,
 //   APP_URL, (optional) META_ALLOWED_ORIGINS  comma-separated
+//
+// Locked callback (register in Meta App ONLY after a real deploy):
+//   https://wurwcrgxjjwqdaxqceey.supabase.co/functions/v1/meta-business/callback
+// Host: wurwcrgxjjwqdaxqceey (assembl-prod, Sydney).
+// NOT: ssaxxdkxzrvkdjsanhei (dead / legacy Lovable).
 // ============================================================
 
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
@@ -49,9 +55,14 @@ const ALLOWED_EXTRA_SCOPES = new Set([
 ]);
 
 interface MetaConnectionSummary {
+  id: string;
+  business_id: string | null;
   business_name: string | null;
+  page_id: string | null;
   page_name: string | null;
+  instagram_id: string | null;
   instagram_username: string | null;
+  ad_account_id: string | null;
   ad_account_name: string | null;
   scopes: string[] | null;
   status: string;
@@ -59,6 +70,12 @@ interface MetaConnectionSummary {
   token_expires_at: string | null;
   last_verified_at: string | null;
   last_error: string | null;
+}
+
+interface MetaAssetOption {
+  id: string;
+  name: string;
+  meta?: Record<string, string | null>;
 }
 
 function corsHeaders(origin: string | null) {
@@ -352,32 +369,250 @@ async function handleCallback(req: Request) {
   );
 }
 
-async function handleStatus(req: Request, origin: string | null) {
+async function requireUser(req: Request, origin: string | null) {
   const supabase = admin();
   const authHeader = req.headers.get("Authorization");
-  if (!authHeader) return json({ error: "Not authenticated" }, 401, origin);
-
+  if (!authHeader) {
+    return { error: json({ error: "Not authenticated" }, 401, origin) } as const;
+  }
   const { data: { user }, error } = await supabase.auth.getUser(
     authHeader.replace("Bearer ", ""),
   );
-  if (error || !user) return json({ error: "Invalid token" }, 401, origin);
+  if (error || !user) {
+    return { error: json({ error: "Invalid token" }, 401, origin) } as const;
+  }
+  return { supabase, user } as const;
+}
 
+async function loadConnectionWithToken(userId: string) {
+  const supabase = admin();
   const { data: conn } = await supabase
     .from("meta_connections")
     .select(
-      "business_name, page_name, instagram_username, ad_account_name, " +
+      "id, business_id, business_name, page_id, page_name, " +
+      "instagram_id, instagram_username, ad_account_id, ad_account_name, " +
       "scopes, status, capability, token_expires_at, last_verified_at, last_error",
     )
-    .eq("user_id", user.id)
+    .eq("user_id", userId)
     .maybeSingle<MetaConnectionSummary>();
 
+  if (!conn) return { supabase, conn: null, token: null } as const;
+
+  const { data: cred } = await supabase
+    .from("meta_credentials")
+    .select("access_token")
+    .eq("connection_id", conn.id)
+    .maybeSingle();
+
+  return {
+    supabase,
+    conn,
+    token: (cred?.access_token as string | undefined) ?? null,
+  } as const;
+}
+
+async function handleStatus(req: Request, origin: string | null) {
+  const auth = await requireUser(req, origin);
+  if ("error" in auth) return auth.error;
+
+  const { conn } = await loadConnectionWithToken(auth.user.id);
   if (!conn) return json({ connected: false }, 200, origin);
 
   const expiring = conn.token_expires_at
     ? new Date(conn.token_expires_at).getTime() - Date.now() < 7 * 864e5
     : false;
 
-  return json({ connected: conn.status === "connected", expiring, ...conn }, 200, origin);
+  // Shared key for UI/selectors — never return tokens from this endpoint.
+  return json({
+    connected: conn.status === "connected",
+    expiring,
+    meta_connection_id: conn.id,
+    ...conn,
+  }, 200, origin);
+}
+
+async function graphGet<T>(path: string, token: string): Promise<T | null> {
+  try {
+    const res = await fetch(
+      `${GRAPH}${path}${path.includes("?") ? "&" : "?"}access_token=${token}`,
+    );
+    if (!res.ok) {
+      console.error("graph get failed:", path, await res.text());
+      return null;
+    }
+    return await res.json() as T;
+  } catch (e) {
+    console.error("graph get error:", path, e);
+    return null;
+  }
+}
+
+// Read-only asset catalogue for Portfolio → Page → IG → Ad Account.
+async function handleAssets(req: Request, origin: string | null) {
+  const auth = await requireUser(req, origin);
+  if ("error" in auth) return auth.error;
+
+  const { conn, token } = await loadConnectionWithToken(auth.user.id);
+  if (!conn || conn.status !== "connected") {
+    return json({ error: "Not connected" }, 404, origin);
+  }
+  if (!token) {
+    return json({ error: "Credentials unavailable" }, 503, origin);
+  }
+
+  const url = new URL(req.url);
+  const businessId = url.searchParams.get("business_id");
+  const pageId = url.searchParams.get("page_id");
+
+  const businessesRaw = await graphGet<{ data?: Array<{ id: string; name: string }> }>(
+    "/me/businesses?fields=id,name&limit=100",
+    token,
+  );
+  const businesses: MetaAssetOption[] = (businessesRaw?.data ?? []).map((b) => ({
+    id: b.id,
+    name: b.name,
+  }));
+
+  let pages: MetaAssetOption[] = [];
+  if (businessId) {
+    const owned = await graphGet<{ data?: Array<{ id: string; name: string }> }>(
+      `/${businessId}/owned_pages?fields=id,name&limit=100`,
+      token,
+    );
+    pages = (owned?.data ?? []).map((p) => ({ id: p.id, name: p.name }));
+  } else {
+    const mine = await graphGet<{ data?: Array<{ id: string; name: string }> }>(
+      "/me/accounts?fields=id,name&limit=100",
+      token,
+    );
+    pages = (mine?.data ?? []).map((p) => ({ id: p.id, name: p.name }));
+  }
+
+  let instagram: MetaAssetOption[] = [];
+  if (pageId) {
+    const page = await graphGet<{
+      id: string;
+      instagram_business_account?: { id: string; username?: string };
+    }>(
+      `/${pageId}?fields=id,name,instagram_business_account{id,username}`,
+      token,
+    );
+    if (page?.instagram_business_account?.id) {
+      instagram = [{
+        id: page.instagram_business_account.id,
+        name: page.instagram_business_account.username
+          ? `@${page.instagram_business_account.username}`
+          : page.instagram_business_account.id,
+        meta: {
+          username: page.instagram_business_account.username ?? null,
+          page_id: pageId,
+        },
+      }];
+    }
+  }
+
+  let adAccounts: MetaAssetOption[] = [];
+  if (businessId) {
+    const ads = await graphGet<{
+      data?: Array<{ id: string; name: string; account_id?: string }>;
+    }>(
+      `/${businessId}/owned_ad_accounts?fields=id,name,account_id&limit=100`,
+      token,
+    );
+    adAccounts = (ads?.data ?? []).map((a) => ({
+      id: a.id,
+      name: a.name || a.account_id || a.id,
+    }));
+  } else {
+    const ads = await graphGet<{
+      data?: Array<{ id: string; name: string; account_id?: string }>;
+    }>(
+      "/me/adaccounts?fields=id,name,account_id&limit=100",
+      token,
+    );
+    adAccounts = (ads?.data ?? []).map((a) => ({
+      id: a.id,
+      name: a.name || a.account_id || a.id,
+    }));
+  }
+
+  return json({
+    meta_connection_id: conn.id,
+    selected: {
+      business_id: conn.business_id,
+      page_id: conn.page_id,
+      instagram_id: conn.instagram_id,
+      ad_account_id: conn.ad_account_id,
+    },
+    businesses,
+    pages,
+    instagram,
+    ad_accounts: adAccounts,
+  }, 200, origin);
+}
+
+async function handleSelectAssets(req: Request, origin: string | null) {
+  const auth = await requireUser(req, origin);
+  if ("error" in auth) return auth.error;
+  if (req.method !== "POST") {
+    return json({ error: "POST required" }, 405, origin);
+  }
+
+  const body = await req.json().catch(() => null) as {
+    meta_connection_id?: string;
+    business_id?: string | null;
+    business_name?: string | null;
+    page_id?: string | null;
+    page_name?: string | null;
+    instagram_id?: string | null;
+    instagram_username?: string | null;
+    ad_account_id?: string | null;
+    ad_account_name?: string | null;
+  } | null;
+
+  if (!body?.meta_connection_id) {
+    return json({ error: "meta_connection_id required" }, 400, origin);
+  }
+
+  const { supabase, conn } = await loadConnectionWithToken(auth.user.id);
+  if (!conn || conn.id !== body.meta_connection_id) {
+    return json({ error: "Connection not found" }, 404, origin);
+  }
+
+  const patch = {
+    business_id: body.business_id ?? null,
+    business_name: body.business_name ?? null,
+    page_id: body.page_id ?? null,
+    page_name: body.page_name ?? null,
+    instagram_id: body.instagram_id ?? null,
+    instagram_username: body.instagram_username ?? null,
+    ad_account_id: body.ad_account_id ?? null,
+    ad_account_name: body.ad_account_name ?? null,
+    last_verified_at: new Date().toISOString(),
+    last_error: null,
+  };
+
+  const { data: updated, error } = await supabase
+    .from("meta_connections")
+    .update(patch)
+    .eq("id", conn.id)
+    .eq("user_id", auth.user.id)
+    .select(
+      "id, business_id, business_name, page_id, page_name, " +
+      "instagram_id, instagram_username, ad_account_id, ad_account_name, status",
+    )
+    .single();
+
+  if (error || !updated) {
+    console.error("asset select failed:", error?.message);
+    return json({ error: "Could not save assets" }, 500, origin);
+  }
+
+  return json({
+    ok: true,
+    meta_connection_id: updated.id,
+    ...updated,
+  }, 200, origin);
 }
 
 // Meta calls this when a user removes the app. Required by Platform Terms.
@@ -430,11 +665,14 @@ serve(async (req) => {
       case "start":    return await handleStart(req, origin);
       case "callback": return await handleCallback(req);
       case "status":   return await handleStatus(req, origin);
+      case "assets":   return req.method === "POST"
+        ? await handleSelectAssets(req, origin)
+        : await handleAssets(req, origin);
       case "deletion": return await handleDeletion(req, origin);
       default:
         return json({
           error: "Unknown route",
-          routes: ["start", "callback", "status", "deletion"],
+          routes: ["start", "callback", "status", "assets", "deletion"],
           callback_uri: callbackUri(),
         }, 404, origin);
     }

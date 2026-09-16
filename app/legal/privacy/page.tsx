@@ -171,6 +171,17 @@ export default function PrivacyPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.65}>
+              <h2 className="font-display text-2xl font-light md:text-3xl">Optional Meta Business connection</h2>
+              <p className="mt-3">
+                Meta Business is an optional user-connected integration. If you choose to connect it inside Assembl, we store selected asset metadata (Business Portfolio, Page, Instagram and Ad Account) and vault Meta access tokens so they are not readable from the browser. You can disconnect at any time from the connections surface, or request deletion via Meta&apos;s app-removal flow or{' '}
+                <Link href="/legal/meta-data-deletion" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/legal/meta-data-deletion</Link>.
+              </p>
+              <p className="mt-3">
+                Connecting Meta does not place Facebook Pixel, Meta Pixel, or Meta advertising cookies on the public marketing site. Phase-1 scopes are read-first; paid activation stays off unless explicitly enabled later.
+              </p>
+            </SectionReveal>
+
+            <SectionReveal delay={0.68}>
               <h2 className="font-display text-2xl font-light md:text-3xl">Cookies and analytics</h2>
               <p className="mt-3">
                 assembl.co.nz uses essential cookies for authentication and session management. We do not use third-party advertising cookies. We do not run Facebook Pixel or Google Analytics 4 tracking on the public marketing site. Logged-in app analytics (which workflows you ran, what your reviewer accepted) are recorded against your tenant and visible to you in your admin dashboard.
@@ -183,7 +194,7 @@ export default function PrivacyPage() {
                 We&apos;ll update this page as the platform changes. Substantive changes get a new &quot;last reviewed&quot; date at the top. Material changes that affect your obligations under an active contract will be communicated to you in writing at least 14 days before they take effect.
               </p>
               <p className="mt-3 text-sm text-[color:var(--text-secondary)]">
-                See also: <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link> · <Link href="/legal/terms" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Terms of Use</Link>
+                See also: <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link> · <Link href="/legal/terms" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Terms of Use</Link> · <Link href="/legal/meta-data-deletion" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Meta data deletion</Link>
               </p>
             </SectionReveal>
           </div>
