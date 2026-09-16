@@ -218,6 +218,8 @@ const SPLASH_EXEMPT_PREFIXES = [
 const SPLASH_EXEMPT_EXACT = new Set([
   // The public agent builder itself (share pages are '/a/' in the prefixes).
   '/a',
+  // Agent tool registry index (`/tools/…` already in SPLASH_EXEMPT_PREFIXES).
+  '/tools',
   '/robots.txt',
   '/sitemap.xml',
   '/favicon.ico',

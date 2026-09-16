@@ -149,7 +149,7 @@ Auth: Authorization: Bearer <key>
             health JSON
           </Link>
           {' · '}
-          next: <code className="font-mono text-[12px]">nz-trade-finder</code> (register-only)
+          next: <code className="font-mono text-[12px]">nz-trade-finder · meeting-enhance · nz-compliance-ping</code> (register-only)
         </footer>
       </div>
     </main>

@@ -1,70 +1,31 @@
-# nz-trade-finder — spec stub (tool #2 after nz-who-runs-it)
+# nz-trade-finder — tool #2 after nz-who-runs-it
 
-**Status:** docs-only stub. **Register-only v0** — no email scrape in week-1.
+**Status:** sandbox shipping. Live NZBN / Companies Office city+trade search is **stubbed** (honest 503).
 
 ## One job
 
 Given a **city** + **trade** (e.g. `Wellington` + `plumber`), return an **owner-led list** of local businesses suitable for agent outreach — legal name / trading name, NZBN when known, public contact hints from **registers only**, and source links.
 
-## Why it follows nz-who-runs-it
+## Endpoint
 
-`nz-who-runs-it` answers “who runs *this* entity?”. `nz-trade-finder` answers “which owner-operated businesses in *this place* do *this trade*?”. Enrich candidates by calling `nz-who-runs-it` once a shortlist exists.
-
-## Proposed I/O (draft)
-
-```json
-// POST /api/tools/nz-trade-finder
-{
-  "city": "Wellington",
-  "trade": "plumber",
-  "limit": 10
-}
-```
-
-```json
-// response.data (proposed)
-{
-  "status": "ok" | "partial" | "not_found",
-  "query": { "city": "Wellington", "trade": "plumber" },
-  "results": [
-    {
-      "tradingName": string,
-      "legalName": string | null,
-      "nzbn": string | null,
-      "ownerHints": string[],
-      "contactHints": { "emails": [], "phones": [], "websites": [], "notes": [] },
-      "sourceLinks": [{ "label": string, "url": string }],
-      "confidence": "high" | "medium" | "low"
-    }
-  ],
-  "sandbox": boolean,
-  "gaps": string[]
-}
-```
+`POST /api/tools/nz-trade-finder` · docs `/tools/nz-trade-finder` · skill `docs/tools/nz-trade-finder.skill.md`
 
 ## Auth / economics
 
-Reuse `lib/tools` primitives:
+Same gate as `nz-who-runs-it`:
 
 - `Authorization: Bearer` / `X-Assembl-Tool-Key`
 - `test_` → sandbox fixtures only
 - daily spend cap + receipt per successful call
 
-## Data rules (week-1 / register-only v0)
+## Data rules (v0)
 
-- **Register-only:** NZBN, Companies Office, and other cited public registers — no website email scrape, no SERP harvest, no directory scrape in week-1.
-- No Foodstuffs / supermarket inventory APIs.
-- No invented phone numbers or emails. If a register does not publish contact, leave it empty and add a `gaps[]` note.
-- Prefer agent-consented browser seats later for anything behind a login — not v0.
-
-## Out of scope for this stub
-
-- Scrapers, SERP automation, paid directory contracts, email discovery.
-- Full route implementation (intentionally deferred until after nz-who-runs-it ships).
+- **Register-only:** no website email scrape, no SERP harvest, no directory scrape.
+- No invented phone numbers or emails. Empty register fields stay empty with a `gaps[]` note.
+- Live adapter not wired yet — use `test_` keys. Planned sources: NZBN + Companies Office.
 
 ## Related
 
-- Live scaffold: `/api/tools/nz-who-runs-it`, `/tools/nz-who-runs-it`
+- `nz-who-runs-it` for director enrichment on a shortlist
+- `nz-compliance-ping` for public status flags
 - Shared primitives: `lib/tools/`
-- Skill draft pattern: `docs/tools/nz-who-runs-it.skill.md`
-- Meeting enhance stays in Meeting DO product (PR #1306) — not this paid-tools line.

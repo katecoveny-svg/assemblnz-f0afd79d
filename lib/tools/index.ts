@@ -34,3 +34,5 @@ export type {
   ToolReceipt,
   ToolSpendDay,
 } from './types';
+export { AGENT_PAID_TOOLS, getToolRegistryEntry } from './registry';
+export type { ToolRegistryEntry } from './registry';
