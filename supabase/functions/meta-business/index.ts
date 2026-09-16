@@ -1,10 +1,11 @@
 // ============================================================
 // META BUSINESS — OAuth layer for assembl
 //
-// One function, four routes:
+// One function, five routes:
 //   GET  /meta-business/start     -> begin OAuth (returns auth_url)
 //   GET  /meta-business/callback  -> Meta redirects here  <-- REGISTER THIS URI
-//   GET  /meta-business/status    -> non-secret connection health
+//   GET  /meta-business/status    -> non-secret connection health (+ meta_connection_id)
+//   GET|POST /meta-business/assets -> list / save Portfolio→Page→IG→Ad Account
 //   POST /meta-business/deletion  -> Meta data-deletion callback
 //
 // Security posture (deliberate departures from the older
@@ -17,7 +18,7 @@
 //   * Redirects are restricted to an allow-list of origins.
 //     No postMessage(..., '*').
 //
-// Required secrets (vault only — never commit):
+// Required secrets:
 //   META_APP_ID, META_APP_SECRET, META_STATE_SECRET,
 //   APP_URL, (optional) META_ALLOWED_ORIGINS  comma-separated
 //
@@ -432,7 +433,9 @@ async function handleStatus(req: Request, origin: string | null) {
 
 async function graphGet<T>(path: string, token: string): Promise<T | null> {
   try {
-    const res = await fetch(`${GRAPH}${path}${path.includes("?") ? "&" : "?"}access_token=${token}`);
+    const res = await fetch(
+      `${GRAPH}${path}${path.includes("?") ? "&" : "?"}access_token=${token}`,
+    );
     if (!res.ok) {
       console.error("graph get failed:", path, await res.text());
       return null;
@@ -444,7 +447,7 @@ async function graphGet<T>(path: string, token: string): Promise<T | null> {
   }
 }
 
-// Read-only asset catalogue for the Portfolio → Page → IG → Ad Account selector.
+// Read-only asset catalogue for Portfolio → Page → IG → Ad Account.
 async function handleAssets(req: Request, origin: string | null) {
   const auth = await requireUser(req, origin);
   if ("error" in auth) return auth.error;
@@ -470,7 +473,6 @@ async function handleAssets(req: Request, origin: string | null) {
     name: b.name,
   }));
 
-  // Pages: prefer business-owned pages when a portfolio is selected.
   let pages: MetaAssetOption[] = [];
   if (businessId) {
     const owned = await graphGet<{ data?: Array<{ id: string; name: string }> }>(
@@ -490,7 +492,6 @@ async function handleAssets(req: Request, origin: string | null) {
   if (pageId) {
     const page = await graphGet<{
       id: string;
-      name?: string;
       instagram_business_account?: { id: string; username?: string };
     }>(
       `/${pageId}?fields=id,name,instagram_business_account{id,username}`,
