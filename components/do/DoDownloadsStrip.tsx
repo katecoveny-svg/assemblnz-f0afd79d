@@ -10,15 +10,23 @@ type Props = {
   className?: string;
   /** Hide Install CTA (rare — default clusters Install with downloads). */
   hideInstall?: boolean;
+  /** Optional fragment target for deep-link (use once per page). */
+  anchorId?: string;
 };
 
 /**
  * Get DO on this device — Install PWA + Chrome ZIP + Mac companion in one cluster.
  * Mac remains an honest development-source zip (no signed installer claim).
  */
-export function DoDownloadsStrip({ compact = false, className, hideInstall = false }: Props) {
+export function DoDownloadsStrip({
+  compact = false,
+  className,
+  hideInstall = false,
+  anchorId,
+}: Props) {
   return (
     <section
+      id={anchorId}
       className={[styles.downloads, className].filter(Boolean).join(' ')}
       aria-label="Get DO on this device"
     >

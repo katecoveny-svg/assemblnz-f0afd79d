@@ -111,7 +111,7 @@ export function DoPortableStarters({
           );
         })}
       </div>
-      {showDownloads ? <DoDownloadsStrip /> : null}
+      {showDownloads ? <DoDownloadsStrip anchorId="get-do" /> : null}
       <div className={styles.install}>
         <Link href="/do/meetings?phone=1" className={styles.phoneEasy}>
           Phone-easy Meeting →
