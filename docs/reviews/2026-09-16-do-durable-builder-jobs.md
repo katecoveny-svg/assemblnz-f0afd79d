@@ -45,6 +45,7 @@ Saving a planned job records **`job_accepted` only**. Evidence includes `executi
 ```bash
 pnpm exec vitest run apps/do/shared/office-jobs.test.ts app/api/do/builder/jobs/route.test.ts apps/do/shared/builder.test.ts app/api/do/builder/plan/route.test.ts
 pnpm typecheck
+pnpm build
 ```
 
 Manual (signed in, after migration):
@@ -53,3 +54,5 @@ Manual (signed in, after migration):
 2. Confirm status shows acceptance receipt text (not “build succeeded”).
 3. Open `/do/office` and see the job under builder jobs.
 4. Reopen the job from the Builder queue (or another browser session while signed in).
+
+Signed-out path (verified in this PR): plan → save on this device → queue entry → reopen. Jobs API uses `allowedDoOrigin` (same helper as planning) so localhost/127.0.0.1 Host mismatches do not block the 401 → device-local fallback.
