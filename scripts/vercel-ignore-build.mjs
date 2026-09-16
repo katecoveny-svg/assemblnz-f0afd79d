@@ -22,7 +22,9 @@ try {
   process.exit(1);
 }
 
-if (!files.length) process.exit(0);
+// A redeploy can intentionally apply changed environment variables to the same
+// commit. An empty Git diff does not mean that build configuration is unchanged.
+if (!files.length) process.exit(1);
 
 const NON_RUNTIME = [
   /^docs\//,
