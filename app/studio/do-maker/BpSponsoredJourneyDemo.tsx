@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   BP_SPONSORED_SCENARIO,
   BP_SPONSORED_STEPS,
   buildBpSponsoredReceipt,
   type SponsoredJourneyStepId,
 } from '@/lib/studio/bp-sponsored-journey';
-import styles from '@/app/studio/do-maker/do-maker.module.css';
+import styles from './do-maker.module.css';
 
 /**
  * Interactive sponsored-agent walkthrough for bp Road-Ready inside Task DO Maker.
@@ -20,10 +20,7 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
 
   const index = BP_SPONSORED_STEPS.findIndex((step) => step.id === stepId);
   const step = BP_SPONSORED_STEPS[index] ?? BP_SPONSORED_STEPS[0];
-  const progress = useMemo(
-    () => `${String(index + 1).padStart(2, '0')} / ${String(BP_SPONSORED_STEPS.length).padStart(2, '0')}`,
-    [index],
-  );
+  const progress = `${String(index + 1).padStart(2, '0')} / ${String(BP_SPONSORED_STEPS.length).padStart(2, '0')}`;
 
   const advance = () => {
     if (step.requiresPermit && !permitIssued) {
