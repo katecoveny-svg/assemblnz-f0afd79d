@@ -4,6 +4,7 @@ import { cookies, headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
 import { resolveAuthOrigin } from '@/lib/auth/origin';
+import { safeReturnPath } from '@/lib/auth/redirect';
 
 /**
  * Sign-in server actions.
@@ -71,10 +72,7 @@ export async function sendMagicLinkAction(
 
   const email = emailRaw.trim().toLowerCase();
   const remember = readRemember(formData);
-  const redirectTo =
-    typeof redirectToRaw === 'string' && redirectToRaw.startsWith('/')
-      ? redirectToRaw
-      : '/app';
+  const redirectTo = safeReturnPath(redirectToRaw);
 
   const origin = await requestAuthOrigin(redirectTo);
   // /auth/confirm uses verifyOtp + token_hash, so the round-trip survives a

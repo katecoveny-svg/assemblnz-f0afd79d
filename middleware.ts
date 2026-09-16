@@ -10,6 +10,7 @@ import {
   verifyInviteSlug,
 } from '@/lib/demo-invites/crypto';
 import { HUB_DEMO_MARKER, verifyHubToken } from '@/lib/demo-invites/gate';
+import { isDoReturn } from '@/lib/auth/redirect';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
 
@@ -240,6 +241,8 @@ const splashGate = (request: NextRequest): NextResponse | null => {
   // Stale sign-in URLs get a hard 302 home, not a rewrite — the redirect
   // shows in the URL bar and replaces any cached copy of the old form.
   if (matchesPrefix(pathname, '/login')) {
+    // Personal DO accounts live on the same host as their workspace.
+    if (pathname === '/login' && isDoReturn(request.nextUrl.searchParams.get('redirect'))) return null;
     const url = request.nextUrl.clone();
     url.pathname = '/';
     url.search = '';
@@ -260,6 +263,8 @@ const splashGate = (request: NextRequest): NextResponse | null => {
   // before 2026-07-05 point at this host (the old template used SiteURL);
   // forward them with the token intact instead of splashing them.
   if (matchesPrefix(pathname, '/auth')) {
+    const destination = request.nextUrl.searchParams.get('redirect') ?? request.nextUrl.searchParams.get('next');
+    if (['/auth/confirm', '/auth/callback'].includes(pathname) && isDoReturn(destination)) return null;
     return NextResponse.redirect(
       `${ADMIN_HOME}${pathname}${request.nextUrl.search}`,
       302,

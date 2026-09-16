@@ -29,6 +29,7 @@
     "@ai-sdk/react": "^3",
     "@assembl/canvas": "workspace:*",
     "@assembl/registry": "workspace:*",
+    "@google/genai": "2.22.0",
     "@google/model-viewer": "^4.0.0",
     "@openai/agents": "^0.18.0",
     "@radix-ui/react-accordion": "^1.2.11",

@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
+import { resolveAuthReturn } from '@/lib/auth/redirect';
 
 /**
  * Honour an explicit "stay signed in" choice carried on the magic-link URL.
@@ -34,28 +35,12 @@ async function applyRememberParam(url: URL) {
  * held the true destination in its own `next`) nested inside. Unwrap that so
  * rescued old links still land where the visitor was headed, not on /app.
  */
-function resolveNext(raw: string | null): string {
-  if (!raw) return '/app';
-  if (raw.startsWith('/')) return raw;
-  try {
-    const nested = new URL(raw);
-    const host = nested.hostname;
-    if (host === 'assembl.co.nz' || host.endsWith('.assembl.co.nz')) {
-      const inner = nested.searchParams.get('next');
-      if (inner && inner.startsWith('/')) return inner;
-      if (!nested.pathname.startsWith('/auth')) return `${nested.pathname}${nested.search}`;
-    }
-  } catch {
-    // not a URL — fall through to the default
-  }
-  return '/app';
-}
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const token_hash = url.searchParams.get('token_hash');
   const type = url.searchParams.get('type') as EmailOtpType | null;
-  const next = resolveNext(url.searchParams.get('next'));
+  const next = resolveAuthReturn(url.searchParams.get('next'));
 
   await applyRememberParam(url);
 
@@ -66,6 +51,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
+    loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
     return NextResponse.redirect(loginUrl);
   }
@@ -81,11 +67,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
+    loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
     return NextResponse.redirect(loginUrl);
   }
 
   const loginUrl = new URL('/login', url.origin);
+  loginUrl.searchParams.set('redirect', next);
   loginUrl.searchParams.set('error', 'Missing or invalid confirmation parameters.');
   return NextResponse.redirect(loginUrl);
 }
