@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Component, useEffect, useRef, useState, type ReactNode } from 'react';
 import styles from './world.module.css';
 const Scene = dynamic(() => import('./WorldScene'), { ssr: false });
@@ -27,7 +28,7 @@ export default function World() {
     return () => { query.removeEventListener('change', motion); removeEventListener('scroll', scroll); removeEventListener('resize', scroll); };
   }, []);
   return <div className={styles.world}>
-    <div className={styles.stage} aria-hidden="true"><Boundary><Scene progress={progress} paused={paused || reduced} /></Boundary></div>
+    <div className={styles.stage} aria-hidden="true"><Image src="/do/world/atelier-poster.png" alt="" fill sizes="100vw" quality={70} className={styles.poster} priority/><Boundary><Scene progress={progress} paused={paused || reduced} /></Boundary></div>
     <h1 className={styles.srOnly}>assembl — Find. DO. Show.</h1><header className={styles.header}><Link href="/" className={styles.brand}>assembl</Link><span>World study</span><Link href="/do">Open DO ↗</Link></header>
     <nav className={styles.nav} aria-label="Explore the work">{chapters.map(chapter => <a key={chapter.id} href={`#${chapter.id}`}>{chapter.title}</a>)}<button onClick={() => setPaused(!paused)} disabled={reduced}>{reduced ? 'Reduced motion' : paused ? 'Resume motion' : 'Pause motion'}</button></nav>
     {chapters.map(chapter => <section key={chapter.id} id={chapter.id} className={styles.chapter}><div><p className={styles.label}>{chapter.label}</p><h2>{chapter.title}</h2><p className={styles.description}>{chapter.description}</p><Link className={styles.action} href={chapter.href}>{chapter.action} <span>↗</span></Link></div></section>)}
