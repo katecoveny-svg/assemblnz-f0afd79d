@@ -1,6 +1,6 @@
 # assembl — current operating state
 
-**Last verified:** 16 September 2026  
+**Last verified:** 17 September 2026  
 **Status:** current working context  
 **Update rule:** refresh from merged work and accepted decisions; do not rewrite stable canon casually.
 
@@ -10,225 +10,269 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## current shape
 
-assembl is becoming an **intelligence-powered software factory** for finding, doing and showing valuable work.
+assembl is becoming an **intelligence-powered software factory for finding, doing and showing valuable work**.
 
-The current top-level structure is:
+Working company shorthand:
+
+> **assembl the work.**
+>
+> **find it. DO it. show it.**
+
+Commercially, Pursuit, DO and Studio can stand alone or connect:
+
+> **use one. connect two. run the whole loop.**
 
 ### PURSUIT — find the work
+
 Pursuit gathers live and accumulated signals and turns them into evidence-backed opportunities.
 
 It should understand:
-- companies and markets
-- customer/business friction
-- tenders, awards and procurement
-- buyer signals
-- product/market changes
-- useful model/tool capability changes
-- client-specific opportunities
-- what assembl has already built that can be reused
 
-Output: a bounded opportunity with evidence, buyer/user, value hypothesis, urgency and next action.
+- companies and markets;
+- customer/business friction;
+- tenders, awards and procurement;
+- buyer and relationship signals;
+- product/market changes;
+- useful model/tool capability changes;
+- client-specific opportunities;
+- what assembl has already built that can be reused.
+
+Output: a bounded opportunity with evidence, provenance, buyer/user, value hypothesis, urgency, smallest useful proof and next action.
+
+#### Pursuit state — 17 Sep
+
+A flexible Pursuit journey builder and public NZBN playground were merged as **PREVIEW** work. Current preview capabilities include freeform clients, uploadable brand imagery, editable journey steps, a Sponsored Agent module and draft-only outreach gating.
+
+Do not describe these preview surfaces as live client integrations or live advertising/commerce infrastructure.
+
+Pursuit remains broader than tenders, although tender/procurement work is a high-value vertical and commercial wedge.
 
 ### DO — do the work
-DO is the portable execution layer.
 
-It should work where the user already is — browser, native desktop and connected tools — rather than forcing every job into a new standalone application.
+DO is the portable execution and safe-action layer.
 
-DO capabilities should be reusable, permission-aware and composable. Risky actions are previewed and approved; completed actions leave receipts.
+It should work where the user already is — browser, hosted workspace, native desktop, PWA/mobile/share surfaces and connected tools — rather than forcing every job into a new standalone application.
 
-DO can also be a distribution/lead surface: useful small tools can be tried with limited free usage and upgraded into paid capability.
+Shared spine:
 
-#### current DO shape
+`context + intent → AgentSpec → tools → permissions → outcome + evidence`
+
+Safe-action lifecycle:
+
+`know → prepare → permit → do → verify → receipt`
+
+Risky actions are previewed and approved at meaningful boundaries. Completed actions should leave receipts.
+
+#### DO Action Cloud — Phase 1 merged
+
+Phase 1 source work is now present for the shared safe-action layer, including:
+
+- Action Contract schema;
+- Permit / Wait / Receipt data structures;
+- `/api/do/action` stage routes;
+- action-run and receipt persistence schema;
+- a bounded `demo.echo` lifecycle;
+- verification/VAR scaffolding;
+- OpenAPI draft and acceptance tests.
+
+This is meaningful implementation progress, but it does **not** make the entire Action Cloud a live production platform. Treat wider provider rails, commercial integrations and autonomous action as staged until specifically verified.
+
+Canonical build package: `docs/do-action-cloud/`.
+
+#### DO Browser + Sponsored Journeys
+
+A Sponsored Journeys and DO Browser Runtime prototype is merged.
+
+Current prototype direction includes:
+
+- `/do/sponsored` grocery/loyalty demonstration;
+- `/do/browser` persistent-job concepts;
+- browser widget/side-panel hooks;
+- permit/receipt UX moving toward the shared Action Cloud contract.
+
+These surfaces are explicitly prototypes/previews. They are not evidence of a live OpenAI Ads, Meta, CRM, commerce or partner integration.
+
+Sponsored Journeys should stay provider-neutral and utility-led.
+
+#### DO surfaces
 
 Treat DO as **one portable runtime with multiple surfaces**, not a collection of unrelated apps.
 
-Current shared spine:
-
-`context + intent → AgentSpec → tools → permissions → outcome/evidence`
-
 Current/active surfaces include:
-- hosted DO workspace/widget
-- browser extension / side-panel companion
-- native Mac floating companion
-- mobile/share surfaces
-- voice as an interaction channel
 
-The native Mac companion is the intended persistent cross-app surface for **“do this here, now.”** It now has a floating orb, explicit accessibility-based selected-text/review-first paste controls, persisted orb position/visibility, and an opt-in launch-at-login path. It must not silently read secure fields, record the screen, or turn context access into authority to act.
+- hosted DO workspace/widget;
+- Chrome/browser extension and side-panel companion;
+- native Mac floating companion;
+- scoped PWA and install flow;
+- DO Office;
+- Household DO;
+- Meeting DO;
+- Builder DO;
+- Task DO Maker;
+- voice as an interaction channel;
+- partner/client-specific DO skins where clearly labelled.
 
-**DO Office** is the coordination surface for **“show me my DO team and what is happening.”** It sits above the same AgentSpec runtime and should make these visible:
-- personal / work / client workspaces
-- needs-you approvals/questions
-- active work
-- completed work + receipts
-- structured handoffs/inbox
-- actual provisioned identities/mailboxes where available
+The native Mac companion is the persistent cross-app surface for **“do this here, now.”** Context access does not imply authority to act.
 
-DO Office is not a second agent runtime and should not become a hidden group chat of bots. Agent-to-agent coordination should use structured, inspectable handoffs carrying minimal task context, requested action and evidence references.
+**DO Office** is the coordination surface for **“show me my DO team and what is happening.”** It should expose workspaces, needs-you approvals/questions, active work, completed work/receipts and structured handoffs without becoming a hidden group chat of bots.
 
-A DO may have a human-readable identity and eventually a real email address, but the product must distinguish proposed identity from an actually provisioned mailbox. Reuse the existing agent-email infrastructure rather than fabricating addresses or creating a second mail system.
+**Task DO Maker** supports white-label task-specific DO creation from Pursuit/Studio and partner-facing modes. Preview/export state must remain distinct from durable Office provisioning.
 
-Durable DO Office schema has been added to source for owner-scoped workspaces, DO AgentSpec records, structured handoffs and receipts. Treat deployment/runtime availability as unverified until the migration is deliberately confirmed against the live Supabase project and app repository methods are wired.
+#### Meeting DO / DO Meet
 
-Gemini Live voice work is currently an active integration effort. The intended boundary is: voice can converse, prepare/compile DO work and query/coordinate the same DO state, but it must use the same context, tool permission, approval and evidence rules as every other surface. Voice is a channel into DO, not a privileged bypass around DO policy.
+Meeting DO currently includes recording/transcription-oriented product work and Granola-style smart-note preparation with explicit truth boundaries around model/transcription availability.
 
-For visual/system details, see `docs/DO-OFFICE-ARCHITECTURE.md` and the DO shared primitives under `apps/do/shared/`.
+The wider **DO Meet** direction is:
 
-**Household Floor (16 Sep 2026):** public scrubbed family DO at `/do/household` with nine seats, evening-board tick, personalisation, and Chrome browser-seat v0. Owner-private seed exists but must not be the public share. Save to Office remains plan-acceptance only — not a running agent.
+> **Talk. Decide. DO.**
 
-**Task DO Maker (16 Sep 2026):** white-label task-specific DO minting at `/studio/do-maker` with two modes — **Pursuit/Studio** (Mode A, opportunity handoff from `/pursuit`) and **partner-facing** (Mode B, `/do/maker/partner/[slug]` alias, offline `bp` + `warehouse` skins, rewarded-wait / drafts-only). Exports portable AgentSpec + preview URL; browser/session drafts only unless durable Office save is explicitly available.
+`conversation → transcript/notes → decisions → work graph → agents/tools → approvals → completed work + receipts`
+
+The DO Meet package under `docs/do-meet/` is a **build brief**, not a claim that all hosted video, bot-provider or production meeting integrations are live.
+
+#### agent-ready tools
+
+Sandbox-first agent tools have expanded, including trade-finder, meeting-enhance and compliance-ping patterns alongside NZ business/operator lookup work.
+
+The product principle is small, bounded tools with clear source/privacy limits, keys/caps where relevant and receipts. Do not turn this into a random API marketplace.
 
 ### SHOW / STUDIO — show the possibility
+
 Studio is the visual, experiential and commercial proof layer.
 
 It turns opportunities and software capability into:
-- interactive demonstrators
-- product/customer journeys
-- websites and campaign experiences
-- image, video and 3D creative
-- pitches and business-development artefacts
-- tender/award concepts and submissions
-- before/after simulations
-- proof that a proposed change is understandable and valuable
+
+- interactive demonstrators;
+- product/customer journeys;
+- websites and microsites;
+- image, video, film, motion and 3D;
+- advertising and campaign concepts;
+- pitches and business-development artefacts;
+- tender/award concepts and submissions;
+- before/after simulations;
+- proof that a proposed change is understandable and valuable.
 
 SHOW is not just presentation. It is how assembl makes invisible future work tangible enough to sell, test and improve.
 
+Studio must remain genuinely visual and experiential. Do not reduce it to a text-only file library.
+
 ### FACTORY — build once, reuse repeatedly
-The factory sits beneath Pursuit, DO and SHOW.
+
+The Factory sits beneath Pursuit, DO and Studio.
 
 It owns:
-- canonical context
-- agent definitions
-- skills/runbooks
-- reusable primitives
-- connectors/tools
-- model routing
-- permissions/approvals
-- tests and evals
-- proof/evidence capture
-- deployment patterns
-- durable decisions and learnings
+
+- canonical context;
+- agent definitions;
+- skills/runbooks;
+- reusable primitives;
+- connectors/tools;
+- model routing;
+- permissions/approvals;
+- design/motion primitives;
+- tests and evals;
+- proof/evidence capture;
+- deployment patterns;
+- durable decisions and learnings.
 
 Factory loop:
 
 `SELECT → ISOLATE → BUILD → PROVE → REVIEW → SHIP-READY → COMPOUND`
 
 ### PROOF + LEARNING — close the loop
+
 Every useful build should produce evidence and learning.
 
-That evidence feeds:
-- the next customer decision
-- the next Pursuit opportunity
-- the primitive registry
-- agent/eval improvements
-- future Studio demonstrations
-- product and commercial strategy
+Flywheel:
 
-The intended flywheel is:
+`signals → Pursuit → opportunity → Factory → DO/Studio → proof → learning → stronger Pursuit + Factory`
 
-`signals → Pursuit → opportunity → Factory → DO/SHOW → proof → learning → stronger Pursuit + Factory`
-
-## the role of the Business Genome
+## Business Genome
 
 The **Business Genome remains important, but it is not the top-level description of assembl**.
 
-Use “Business Genome” for structured, reusable understanding of a specific business/client/tenant, including:
-- products/services
-- customers/segments
-- policies/rules
-- terminology
-- brand and voice
-- workflows
-- permissions
-- systems/tools
-- knowledge
-- success metrics
-- approved company-specific context
-
-The Genome is a **context substrate** used by Pursuit, DO, SHOW and customer journeys.
+Use “Business Genome” for structured, reusable understanding of a specific business/client/tenant: products, customers, policies, terminology, brand, workflows, permissions, systems, knowledge, goals and success metrics.
 
 Do not confuse:
-- **assembl company memory** — the canonical repo context that describes assembl itself
-with
-- **a Business Genome** — structured context for a customer/business being served.
 
-assembl company memory is routed through `config/context-manifest.json` and `docs/context/*`.
+- **assembl company memory** — canonical repository context describing assembl itself;
+- **Business Genome** — context for a customer/business being served.
 
-## customer journey foundation
+## customer journeys and wait states
 
-Agentic customer journeys remain a major product primitive, not discarded strategy.
+Agentic customer journeys remain a major product primitive.
 
-The reusable journey system should continue to support:
-- intent
-- context gathering
-- recommendation
-- approval
-- action
-- productive wait states
-- fulfilment/resolution
-- continuation/loyalty
-- proof
+The reusable journey system can support intent, context gathering, recommendation, approval, action, productive waits, fulfilment/resolution, continuation/loyalty and proof.
 
-Pursuit can discover which journeys are worth building; the Factory assembles them; DO performs work inside them; SHOW demonstrates and sells them.
+Wait states, rewards and sponsorship are **capabilities inside appropriate journeys**, not the top-level definition of assembl.
 
-## current product language
+Principle:
 
-Working company-level shorthand:
-
-**Find it. DO it. Show it.**
-
-Interpretation:
-- **Find it** → Pursuit/intelligence
-- **DO it** → execution
-- **Show it** → Studio/proof/creative/commercialisation
-
-The exact public homepage wording can evolve, but product architecture should not be independently reinvented by each agent.
+> **utility first. reward second. interruption never.**
 
 ## brand state — do not drift
 
-Canonical company brand remains `docs/assembl-brand-system.md`.
+Canonical company brand: `docs/assembl-brand-system.md`.
+Operational design guide: `DESIGN.md`.
 
 Use:
-- Deep plum `#240B21`
-- Muted plum `#654A4E`
-- Dusty rose `#916A70`
-- Chalk `#F5F1F2`
-- Paper `#FFFDFB`
-- Instrument Sans for normal company UI/type
-- IBM Plex Mono for evidence/proof/wait-state metadata
-- lowercase `assembl`
 
-Do **not** use old Cormorant/champagne/gold/brass/pounamu/canary company directions as precedent simply because they still exist in older code, screenshots or research.
+- Deep plum `#240B21`;
+- Muted plum `#654A4E`;
+- Dusty rose `#916A70`;
+- Chalk `#F5F1F2`;
+- Paper `#FFFDFB`;
+- Instrument Sans for normal company UI/type;
+- IBM Plex Mono for evidence/proof/permission metadata;
+- lowercase `assembl`.
 
-Client-specific verified branding is allowed inside named client work.
+Visual grammar:
+
+> **things gather, organise and move with purpose until a useful whole is visible.**
+
+Two approved visual modes:
+
+1. brand/narrative assembly — premium aerial/top-down fine-art collective motion, often with an Aotearoa sensibility;
+2. product/proof assembly — recognisable inputs becoming a reviewable output, permission boundary and receipt.
+
+Do not use old Cormorant/champagne/gold/brass/pounamu/canary/grape-purple company directions as precedent because they remain in legacy code.
 
 ## persistent memory model
 
-All agents should share the same layers:
+All agents should share the same context layers:
 
-1. **manifest** — `config/context-manifest.json`
-2. **current state** — this file
-3. **stable company/product canon** — `docs/assembl-context.md`
-4. **brand/copy canon** — brand and copy standards
-5. **factory memory** — decisions, primitives, learnings
-6. **task-specific product docs**
-7. **runtime truth** — current code/schema/tests
+1. `config/context-manifest.json`;
+2. this current state file;
+3. `docs/assembl-context.md`;
+4. brand/copy/design canon;
+5. factory decisions/primitives/learnings;
+6. task-specific product docs;
+7. current code/schema/tests as runtime truth.
 
-Chat history is useful working memory, but it is not company canon.
+Chat history is useful working memory, not company canon.
 
-If a chat discovers a durable truth, promote it into the repo rather than relying on that chat to be found again.
+## truth labels
+
+Agents must distinguish:
+
+- **canonical** — durable intended truth;
+- **current state** — today's operating state;
+- **runtime truth** — what current code/schema/tests actually do;
+- **preview** — implemented for demonstration/evaluation, not production proof;
+- **build brief** — defined work that may not be implemented;
+- **proposal** — not yet accepted;
+- **simulated** — no real external effect;
+- **legacy/historical** — retained reference, not current instruction.
+
+Never promote a preview, credential, generated output or merged document into a stronger capability claim without runtime evidence.
 
 ## end-of-day update rule
 
 At the end of a meaningful workday:
 
-1. inspect merged PRs/accepted decisions since the last update
-2. identify changes to product direction, brand, architecture, primitives or operating rules
-3. append raw/day-specific facts to a daily state note if useful
-4. update this file only when the *current operating state* genuinely changed
-5. update a stable canonical document only when a durable decision changed
-6. add new reusable capability to `docs/factory/PRIMITIVES.md`
-7. add decisions to `docs/factory/DECISIONS.md`
-8. add repeated lessons/failures to `docs/factory/LEARNINGS.md`
-9. never let an automated nightly process silently rewrite brand/product canon
-
-This creates persistent memory without turning every day's experiments into permanent truth.
+1. inspect merged PRs and accepted decisions;
+2. identify real changes to product direction, brand, architecture, primitives or operating rules;
+3. update this file only when the current operating state genuinely changed;
+4. update stable canon only when a durable decision changed;
+5. register reusable capabilities, decisions and learnings in the Factory docs;
+6. never let an automated process silently rewrite brand or product canon.
