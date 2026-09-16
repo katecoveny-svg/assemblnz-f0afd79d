@@ -180,7 +180,7 @@ export function GlowDoWidget() {
       <dialog
         ref={dialog}
         className="do-workspace-dialog"
-        aria-label="DO workspace"
+        aria-label="DO workspace — portable agent"
         onClose={() => setOpened(false)}
       >
         <button
@@ -193,12 +193,16 @@ export function GlowDoWidget() {
         </button>
         {opened ? <DoWorkspace /> : null}
         <nav className={styles.shortcuts} aria-label="More from DO">
+          <Link href="/do/household">Household Floor <ArrowUpRight size={14} /></Link>
           <Link href="/do">
             Your DOs <ArrowUpRight size={14} />
           </Link>
           <Link href="/do/office">Office</Link>
           <Link href="/do/connections">Connections</Link>
         </nav>
+        <p className={styles.portableHint}>
+          Same portable DO across web · Chrome ✦ · Mac orb. Tell it what it can see — drafts-only for send.
+        </p>
       </dialog>
     </>
   );

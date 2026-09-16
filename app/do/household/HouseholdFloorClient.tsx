@@ -62,6 +62,11 @@ export function HouseholdFloorClient({
           : existing.visibility === 'owner_private'
             ? OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.connectors
             : PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE.connectors,
+        mcpAllowlist: existing.mcpAllowlist?.length
+          ? existing.mcpAllowlist
+          : existing.visibility === 'owner_private'
+            ? OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.mcpAllowlist
+            : PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE.mcpAllowlist,
       };
       writeLocalHouseholdFloor(migrated);
       setFloor(migrated);
@@ -459,8 +464,29 @@ export function HouseholdFloorClient({
                   ))}
                 </div>
                 {connectorMessage ? <p className={styles.status} role="status">{connectorMessage}</p> : null}
+                <div className={styles.browserHero} style={{ marginTop: 28 }}>
+                  <h2>MCP tool allowlist</h2>
+                  <p>
+                    Cursor IDE MCP plugins do not flow into this DO. Tools only run when declared here and called through the DO MCP gateway (Composio primary · Zapier long-tail · Treg data APIs · Pipedream for first-party Gmail).
+                  </p>
+                </div>
+                <div className={styles.cardStack}>
+                  {(floor.mcpAllowlist ?? []).map((tool) => (
+                    <article key={`${tool.provider}-${tool.toolId}`} className={styles.seatCard}>
+                      <div className={styles.seatCardTop}>
+                        <strong>{tool.label}</strong>
+                        <span>{tool.provider} · {tool.sideEffect}{tool.approvalRequired ? ' · approval' : ''}</span>
+                      </div>
+                      <h3>{tool.purpose}</h3>
+                      <p className={styles.need}><code>{tool.toolId}</code></p>
+                      <div className={styles.ctaRow}>
+                        <a className={styles.secondaryCta} href="/do/connections#mcp-gateway">MCP gateway status</a>
+                      </div>
+                    </article>
+                  ))}
+                </div>
                 <p className={styles.honesty}>
-                  Flow: Pipedream project → Connect apps → Vercel env → DO declares connectors → you connect → tools read with consent. Sending stays approval-gated.
+                  Pipedream Connect remains for first-party Gmail. Marketplace “heaps of APIs” = Composio → Zapier → Treg via DO MCP — never fake live access when env is missing.
                 </p>
               </section>
             ) : null}

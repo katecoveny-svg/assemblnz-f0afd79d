@@ -1,8 +1,13 @@
 # How connectors flow into DO
 
 **Status:** canonical wiring note (16 September 2026 NZ)  
-**Stack:** Pipedream Connect only — no second OAuth for DO  
-Kate said “Dreamtime” → treat as **Pipedream**.
+**Stack:**  
+- **DO MCP gateway** (marketplace) — Composio · Zapier · Treg — see `docs/do-templates/DO-MCP-GATEWAY.md`  
+- **Pipedream Connect** (first-party) — Gmail + mapped actions she already set  
+
+**Cursor / IDE MCP ≠ DO MCP.** Plugins in Cursor do not become customer DO tools.
+
+Kate said “Dreamtime” → treat as **Pipedream** for the first-party Connect path. Marketplace “heaps of APIs” → **Composio-first** MCP gateway.
 
 ## Flow
 
@@ -62,6 +67,7 @@ Public template lists **optional Gmail + Google Calendar** — no live tokens. D
 
 ## Related
 
+- `docs/do-templates/DO-MCP-GATEWAY.md` — **primary marketplace path** (Composio / Zapier / Treg)
 - `docs/PIPEDREAM-CONNECT-SETUP.md`
 - `docs/DO-FAMILY-GMAIL.md`
 - `docs/do-templates/HOUSEHOLD-FLOOR.md`

@@ -16,6 +16,7 @@ import {
   HOUSEHOLD_FLOOR_OWNER_CONNECTORS,
   HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS,
 } from './do-connectors';
+import { HOUSEHOLD_FLOOR_MCP_ALLOWLIST } from './do-mcp-gateway';
 
 const SEATS: HouseholdSeat[] = [
   {
@@ -235,6 +236,7 @@ export const PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
   schedules: SCHEDULES,
   dailyBoardOrder: DEFAULT_DAILY_BOARD_ORDER,
   connectors: HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS,
+  mcpAllowlist: [...HOUSEHOLD_FLOOR_MCP_ALLOWLIST],
 };
 
 /**
@@ -306,6 +308,7 @@ export const OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
   schedules: SCHEDULES,
   dailyBoardOrder: DEFAULT_DAILY_BOARD_ORDER,
   connectors: HOUSEHOLD_FLOOR_OWNER_CONNECTORS,
+  mcpAllowlist: [...HOUSEHOLD_FLOOR_MCP_ALLOWLIST],
 };
 
 export const HOUSEHOLD_FLOOR_TEMPLATES: HouseholdFloorTemplate[] = [

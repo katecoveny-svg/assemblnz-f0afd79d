@@ -12,6 +12,7 @@ import {
   type DoPersonalisation,
 } from './do-personalisation';
 import type { DoConnectorRequirement } from './do-connectors';
+import type { DoMcpAllowlistEntry } from './do-mcp-gateway';
 
 export const HOUSEHOLD_SEAT_IDS = [
   'SCHOOL',
@@ -138,6 +139,8 @@ export type HouseholdFloorTemplate = {
   dailyBoardOrder: string[];
   /** Pipedream Connect apps this DO may use — never live tokens. */
   connectors: DoConnectorRequirement[];
+  /** DO MCP gateway allowlist (Composio/Zapier/Treg) — never secrets. */
+  mcpAllowlist: DoMcpAllowlistEntry[];
 };
 
 export type HouseholdFloorInstance = {
@@ -150,6 +153,7 @@ export type HouseholdFloorInstance = {
   schedules: HouseholdScheduleHook[];
   dailyBoardOrder: string[];
   connectors: DoConnectorRequirement[];
+  mcpAllowlist: DoMcpAllowlistEntry[];
   board: HouseholdBoardItem[];
   receipts: HouseholdFloorReceipt[];
   /** Per-DO browser seat session key (not a shared anonymous scrape). */
@@ -220,6 +224,7 @@ export function installHouseholdFloor(input: InstallHouseholdFloorInput): Househ
     schedules: structuredClone(input.template.schedules),
     dailyBoardOrder: [...input.template.dailyBoardOrder],
     connectors: structuredClone(input.template.connectors),
+    mcpAllowlist: structuredClone(input.template.mcpAllowlist ?? []),
     board: [],
     receipts: [
       {

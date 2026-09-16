@@ -8,6 +8,7 @@ import type { DoEvidence, RuntimeLane, ToolPlan } from './pipeline';
 import type { WatchSnapshot } from './watch';
 import type { ApprovalChainStep } from './approval-chain';
 import type { DoConnectorRequirement } from './do-connectors';
+import type { DoMcpAllowlistEntry } from './do-mcp-gateway';
 
 export type AgentPrimitive = 'watch' | 'find' | 'extract' | 'prepare' | 'compare';
 
@@ -90,6 +91,12 @@ export interface AgentSpec {
    * Templates never embed tokens — user connects via /api/do/connections.
    */
   requiredConnectors?: DoConnectorRequirement[];
+  /**
+   * DO MCP gateway allowlist — Composio / Zapier / Treg / Pipedream.
+   * Cursor IDE MCP plugins do not apply. Tools only run when declared here
+   * and invoked through /api/do/mcp with a receipt.
+   */
+  mcpAllowlist?: DoMcpAllowlistEntry[];
 }
 
 export interface PendingApproval {

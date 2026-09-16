@@ -139,6 +139,47 @@ export {
   packAppSlugs,
 } from './do-connector-pack';
 export {
+  DO_MCP_PROVIDERS,
+  DO_MCP_SPIKE_ALLOWLIST,
+  HOUSEHOLD_FLOOR_MCP_ALLOWLIST,
+  DO_MCP_FLOW_SUMMARY,
+  isAllowlisted,
+  sideEffectNeedsApproval,
+} from './do-mcp-gateway';
+export type {
+  DoMcpAllowlistEntry,
+  DoMcpProviderId,
+  DoMcpToolReceipt,
+  DoMcpSideEffect,
+} from './do-mcp-gateway';
+export {
+  NZ_LIVE_TOOLS,
+  NZ_LIVE_TOOLKIT,
+  NZ_LIVE_NAMED_TOOLKITS,
+  resolveNzLiveToolStatus,
+  resolveNzLiveToolStatusWithEdgeHint,
+  nzLiveAllowlistEntries,
+  pcoLegislationLooksLive,
+  toolsForNamedToolkit,
+} from './nz-live-pack';
+export type {
+  NzLiveToolDef,
+  NzLiveToolStatus,
+  NzLiveSecretScope,
+  NzLiveNamedToolkitId,
+  NzLiveNamedToolkit,
+} from './nz-live-pack';
+export {
+  MCP_MARKET_HUB,
+  MCP_MARKET_HUB_LOOKALIKES,
+  DO_TOOL_STACK_LAYERS,
+  mcpMarketHubAllowlistEntries,
+} from './mcp-market-hub-pack';
+export type {
+  McpMarketHubAttachedToolkit,
+  McpMarketHubToolId,
+} from './mcp-market-hub-pack';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,
