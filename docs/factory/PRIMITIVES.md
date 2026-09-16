@@ -15,6 +15,7 @@ Do not extract something merely because it might be reused. Prefer extraction af
 | DO AgentSpec runtime | existing / active | `apps/do/shared/` | browser extension, hosted DO, Mac/mobile surfaces | DO tests need expansion | portable agent definition, policy, compile/router/evidence spine; surface ≠ agent |
 | DO approval/evidence boundary | existing / active | `apps/do/shared/policy.ts`, approval/evidence primitives | all DO surfaces | audit/expand | consequential actions remain approval-gated and should leave evidence |
 | Builderdoo job contract | active foundation | `apps/do/shared/builder.ts`, `/api/do/builder/plan`, `/do/builder` | Builderdoo + future repo execution adapters | `apps/do/shared/builder.test.ts` | persistent build identity/context/authority/proof contract; provider is selected separately |
+| Builderdoo durable Office jobs | active foundation | `apps/do/shared/office-jobs.ts`, `apps/do/services/office-jobs.ts`, `/api/do/builder/jobs`, `do_agents`/`do_receipts`/`do_job_events` | Builder + Office | `apps/do/shared/office-jobs.test.ts`, `app/api/do/builder/jobs/route.test.ts` | owner-scoped save/list/reopen; idempotent events; `job_accepted` receipts only on plan save — never fabricated execution success |
 | DO Office coordination projection | active foundation | `apps/do/shared/office.ts`, `docs/DO-OFFICE-ARCHITECTURE.md` | DO Office + future voice/companion coordination | add tests before wider use | Personal/Work/Client workspaces, structured handoffs, visible approvals/evidence; not a second agent runtime |
 | DO Office spatial projection | active foundation | `app/do/office/DoOfficeSpatial.tsx` | 3D Office | visual/runtime proof required | R3F scene projects real Office status; accessible 2D board remains the task-detail surface and state owner |
 | DO native Mac companion | active development | `apps/do/macos/` | cross-app DO surface | Mac compile/smoke-test needed | floating companion, explicit accessibility capture/paste, persisted position/visibility, opt-in login launch |
@@ -23,14 +24,14 @@ Do not extract something merely because it might be reused. Prefer extraction af
 
 ## Candidates to inventory
 
-- Builderdoo durable authenticated job persistence
 - Builderdoo repo execution adapters (GitHub-connected worker, local harness, external coding harness)
+- Builder/Office execution outcome receipts linked to `os_evidence` / `model_calls`
 - model/token/cost usage rail from `model_calls`
 - signal ingestion
 - opportunity scoring / evidence provenance
 - company/brand ingestion
 - explicit screen/window context capture for DO (ScreenCaptureKit + browser bridge)
-- durable DO Office repository/API wiring
+- durable DO Office handoffs + multi-workspace UI wiring
 - human approval gates outside existing DO/journey paths
 - receipts/traces across non-DO products
 - connector framework consolidation
