@@ -1,12 +1,23 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Component, useEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  Component,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 import styles from './world.module.css';
 
-const Scene = dynamic(() => import('./WorldScene'), { ssr: false });
+type SceneProps = {
+  progress: React.RefObject<number>;
+  paused: boolean;
+  reduced?: boolean;
+  onReady?: (ready: boolean) => void;
+};
 
 class Boundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
@@ -57,6 +68,23 @@ export default function World() {
   const [reduced, setReduced] = useState(true);
   const [active, setActive] = useState('find');
   const [sceneReady, setSceneReady] = useState(false);
+  const [Scene, setScene] = useState<ComponentType<SceneProps> | null>(null);
+  const [sceneError, setSceneError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    import('./WorldScene')
+      .then((mod) => {
+        if (!cancelled) setScene(() => mod.default);
+      })
+      .catch((error: unknown) => {
+        console.error('WorldScene failed to load', error);
+        if (!cancelled) setSceneError(error instanceof Error ? error.message : 'load failed');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)');
@@ -92,11 +120,16 @@ export default function World() {
           priority
         />
         <Boundary>
-          <Scene
-            progress={progress}
-            paused={paused || reduced}
-            onReady={setSceneReady}
-          />
+          {sceneError ? (
+            <p className={styles.fallback}>3D study failed to load ({sceneError}). Poster remains.</p>
+          ) : Scene ? (
+            <Scene
+              progress={progress}
+              paused={paused || reduced}
+              reduced={reduced}
+              onReady={setSceneReady}
+            />
+          ) : null}
         </Boundary>
       </div>
       <h1 className={styles.srOnly}>assembl — Find. DO. Show.</h1>

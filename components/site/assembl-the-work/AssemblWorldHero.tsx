@@ -4,18 +4,27 @@
  * Homepage hero — reuses the PR #1311 DO World cinematic stack
  * (WorldScene + public/do/world/atelier.glb). Do not invent a second 3D path.
  */
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Component, useEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  Component,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 import { ArrowDown, ArrowRight } from 'lucide-react';
 import { DoIntentInput } from './DoIntentInput';
 import { HERO } from './copy';
 import styles from './assembl-world-hero.module.css';
 
-const Scene = dynamic(() => import('@/app/preview/do-world/WorldScene'), {
-  ssr: false,
-});
+type SceneProps = {
+  progress: React.RefObject<number>;
+  paused: boolean;
+  reduced?: boolean;
+  onReady?: (ready: boolean) => void;
+};
 
 class Boundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
@@ -39,6 +48,21 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(true);
   const [sceneReady, setSceneReady] = useState(false);
+  const [Scene, setScene] = useState<ComponentType<SceneProps> | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    import('@/app/preview/do-world/WorldScene')
+      .then((mod) => {
+        if (!cancelled) setScene(() => mod.default);
+      })
+      .catch((error: unknown) => {
+        console.error('WorldScene failed to load on homepage hero', error);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)');
@@ -81,11 +105,14 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
           priority
         />
         <Boundary>
-          <Scene
-            progress={progress}
-            paused={paused || reduced}
-            onReady={setSceneReady}
-          />
+          {Scene ? (
+            <Scene
+              progress={progress}
+              paused={paused || reduced}
+              reduced={reduced}
+              onReady={setSceneReady}
+            />
+          ) : null}
         </Boundary>
       </div>
 

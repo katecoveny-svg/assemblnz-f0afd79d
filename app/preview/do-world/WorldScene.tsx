@@ -11,98 +11,131 @@ import {
   BackSide,
   CatmullRomCurve3,
   Color,
-  CubicBezierCurve3,
-  CurvePath,
-  LineCurve3,
+  ExtrudeGeometry,
   MathUtils,
   Mesh,
   MeshStandardMaterial,
+  Shape,
   SRGBColorSpace,
   Vector3,
   type Object3D,
 } from 'three';
 
-/** Spatial C field — deep plum, not cool violet. */
-const FIELD = '#241018';
+/** Brand field — deep plum / chalk / dusty rose. No purple D. */
+const FIELD = '#240B21';
 const FOG = '#2a1620';
-const ROSE = '#d7abc8';
-const ROSE_WARM = '#e8b4a8';
+/** Dusty rose — Identity glow + Spatial C accent (not cool violet). */
+const ROSE = '#916A70';
+const ROSE_WARM = '#c4a098';
 const ROSE_DUST = '#916A70';
-const PLUM_BODY = '#2a0f22';
+const PLUM_BODY = '#240B21';
+const CHALK = '#F5F1F2';
 
 /**
- * Hold framing on Find / DO / Show, then ease between rooms.
- * Scroll thirds map to the three chapter anchors.
+ * Map scroll progress to path parameter with chapter holds.
+ * Hash landing on a chapter (≈0, ⅓, ⅔) should open on that room’s frame —
+ * especially DO on the D sculpture — not on the previous transition.
  */
 function chapterPath(t: number) {
-  const x = MathUtils.clamp(t, 0, 1);
-  if (x < 1 / 3) {
-    const u = x * 3;
-    return MathUtils.smootherstep(u, 0, 1) * 0.28;
-  }
-  if (x < 2 / 3) {
-    const u = (x - 1 / 3) * 3;
-    return 0.28 + MathUtils.smootherstep(u, 0, 1) * 0.36;
-  }
-  const u = (x - 2 / 3) * 3;
-  return 0.64 + MathUtils.smootherstep(u, 0, 1) * 0.36;
+  const frames = [0.16, 0.52, 0.88] as const;
+  const x = MathUtils.clamp(t, 0, 1) * 2.999;
+  const i = Math.min(2, Math.floor(x));
+  const f = x - Math.floor(x);
+  if (i >= 2) return frames[2];
+  const from = frames[i];
+  const to = frames[i + 1];
+  const hold = 0.62;
+  if (f < hold) return from;
+  return from + MathUtils.smootherstep((f - hold) / (1 - hold), 0, 1) * (to - from);
 }
 
 function Identity() {
   const { size } = useThree();
   const compact = size.width < 600;
-  // Shared DoMark contour, lifted into a physical object (not a billboard).
-  const outline = useMemo(() => {
-    const point = (x: number, y: number) => new Vector3((x - 32) / 32, (32 - y) / 32, 0);
-    const curve = new CurvePath<Vector3>();
-    curve.add(new LineCurve3(point(16, 12), point(29, 12)));
-    curve.add(new CubicBezierCurve3(point(29, 12), point(44, 12), point(52, 20), point(52, 32)));
-    curve.add(new CubicBezierCurve3(point(52, 32), point(52, 44), point(44, 52), point(29, 52)));
-    curve.add(new LineCurve3(point(29, 52), point(16, 52)));
-    curve.add(new LineCurve3(point(16, 52), point(16, 12)));
-    return curve;
+  // Shared DoMark contour as a solid extruded plaque (reliable vs tube CurvePath).
+  const geometry = useMemo(() => {
+    const shape = new Shape();
+    // DoMark path in a 64×64 viewBox, centered and scaled to ~1 unit.
+    const p = (x: number, y: number) => [(x - 32) / 28, (32 - y) / 28] as [number, number];
+    const [x0, y0] = p(16, 12);
+    shape.moveTo(x0, y0);
+    shape.lineTo(...p(29, 12));
+    shape.bezierCurveTo(...p(44, 12), ...p(52, 20), ...p(52, 32));
+    shape.bezierCurveTo(...p(52, 44), ...p(44, 52), ...p(29, 52));
+    shape.lineTo(...p(16, 52));
+    shape.closePath();
+    // Inner hole so the D reads as a contour, not a filled slab.
+    const hole = new Shape();
+    const h = (x: number, y: number) => [(x - 32) / 28, (32 - y) / 28] as [number, number];
+    hole.moveTo(...h(22, 20));
+    hole.lineTo(...h(29, 20));
+    hole.bezierCurveTo(...h(38, 20), ...h(42, 24), ...h(42, 32));
+    hole.bezierCurveTo(...h(42, 40), ...h(38, 44), ...h(29, 44));
+    hole.lineTo(...h(22, 44));
+    hole.closePath();
+    shape.holes.push(hole);
+    const geom = new ExtrudeGeometry(shape, {
+      depth: 0.22,
+      bevelEnabled: true,
+      bevelThickness: 0.04,
+      bevelSize: 0.035,
+      bevelSegments: 3,
+      curveSegments: 24,
+    });
+    geom.center();
+    return geom;
   }, []);
 
   return (
     <group
-      position={[compact ? 4.35 : 3.55, compact ? 4.05 : 2.72, -15]}
-      scale={compact ? 0.82 : 1.08}
-      rotation={[0.04, -0.28, 0]}
+      // Hang above the workshop table, centered in the DO chapter frame.
+      position={[compact ? 2.15 : 2.05, compact ? 3.35 : 2.55, compact ? -13.6 : -13.35]}
+      scale={compact ? 1.15 : 1.45}
+      rotation={[0.06, -0.38, 0]}
     >
-      <RoundedBox args={[2.15, 2.15, 0.58]} radius={0.44} smoothness={6} castShadow receiveShadow>
+      <RoundedBox args={[2.35, 2.35, 0.42]} radius={0.48} smoothness={6} castShadow receiveShadow>
         <meshPhysicalMaterial
           color={PLUM_BODY}
-          metalness={0.42}
-          roughness={0.22}
+          metalness={0.38}
+          roughness={0.28}
           clearcoat={1}
-          clearcoatRoughness={0.12}
-          reflectivity={0.55}
-          envMapIntensity={0.85}
+          clearcoatRoughness={0.14}
+          reflectivity={0.5}
+          envMapIntensity={0.9}
         />
       </RoundedBox>
-      <mesh position={[0, 0, 0.36]} castShadow>
-        <tubeGeometry args={[outline, 120, 7.2 / 64, 12, true]} />
+      <mesh geometry={geometry} position={[0, 0, 0.28]} castShadow>
         <meshStandardMaterial
-          color={ROSE}
+          color={CHALK}
           emissive={ROSE}
-          emissiveIntensity={0.85}
-          roughness={0.28}
-          metalness={0.35}
+          emissiveIntensity={0.95}
+          roughness={0.32}
+          metalness={0.28}
         />
       </mesh>
-      <mesh position={[-2 / 32, 0, 0.37]}>
-        <sphereGeometry args={[6.2 / 32, 28, 18]} />
+      <mesh position={[0.02, 0, 0.42]}>
+        <sphereGeometry args={[0.13, 28, 18]} />
         <meshStandardMaterial
           color={ROSE}
           emissive={ROSE}
-          emissiveIntensity={1.05}
-          roughness={0.22}
+          emissiveIntensity={1.25}
+          roughness={0.28}
           metalness={0.2}
         />
       </mesh>
-      {/* Soft rose presence — sculptural glow, not UI chrome. */}
-      <pointLight position={[0.15, 0.1, 1.1]} color={ROSE} intensity={4.2} distance={4.5} decay={2} />
-      <pointLight position={[-0.8, 0.4, 0.6]} color={ROSE_WARM} intensity={1.8} distance={3.5} decay={2} />
+      {/* Soft dusty-rose presence — sculptural glow, not purple UI chrome. */}
+      <pointLight position={[0.15, 0.1, 1.2]} color={ROSE} intensity={5.5} distance={6} decay={2} />
+      <pointLight position={[-0.9, 0.5, 0.7]} color={ROSE_WARM} intensity={2.2} distance={4.5} decay={2} />
+      <spotLight
+        position={[0.5, 1.4, 2.4]}
+        angle={0.5}
+        penumbra={0.7}
+        intensity={18}
+        color={ROSE}
+        distance={9}
+        decay={2}
+        castShadow={false}
+      />
     </group>
   );
 }
@@ -117,7 +150,7 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
       object.receiveShadow = true;
       const material = object.material;
       if (material instanceof MeshStandardMaterial) {
-        // Keep authored albedo; warm cove emissives toward rose, not violet.
+        // Keep authored albedo; warm cove emissives toward dusty rose, not violet.
         if (material.emissiveIntensity > 0.01) {
           material.emissive = new Color(ROSE_WARM);
           material.emissiveIntensity = Math.min(material.emissiveIntensity * 1.15, 6);
@@ -129,9 +162,14 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
     return clone;
   }, [scene]);
 
+  const { invalidate } = useThree();
   useEffect(() => {
     onReady(true);
-  }, [onReady, model]);
+    // Demand frameloop: paint once the atelier + Identity commit together.
+    invalidate();
+    const id = requestAnimationFrame(() => invalidate());
+    return () => cancelAnimationFrame(id);
+  }, [onReady, model, invalidate]);
 
   return <primitive object={model} />;
 }
@@ -235,43 +273,45 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
 function Journey({
   progress,
   paused,
+  reduced,
 }: {
   progress: RefObject<number>;
   paused: boolean;
+  reduced: boolean;
 }) {
   const current = useRef(0);
   const look = useRef(new Vector3());
   const { size, camera, invalidate } = useThree();
   const compact = size.width < 600;
 
-  // Eye-level walkthrough (~1.7–1.9 m). Slight lateral weave; rooms at z≈0 / -15 / -28.
+  // Eye-level walkthrough (~1.7–1.9 m). DO dwell frames the D sculpture at z≈-15.
   const path = useMemo(
     () =>
       new CatmullRomCurve3(
         compact
           ? [
-              new Vector3(2.6, 1.82, 10.5),
-              new Vector3(-1.1, 1.78, 3.2),
-              new Vector3(-0.35, 1.76, -1.2),
-              new Vector3(-1.4, 1.78, -8.5),
-              new Vector3(0.15, 1.74, -13.2),
-              new Vector3(-0.4, 1.76, -20.5),
-              new Vector3(1.1, 1.72, -25.2),
-              new Vector3(1.85, 1.7, -27.8),
+              new Vector3(2.4, 1.82, 10.2),
+              new Vector3(-1.0, 1.78, 3.0),
+              new Vector3(-0.2, 1.76, -1.0),
+              new Vector3(-1.2, 1.78, -7.5),
+              new Vector3(0.55, 1.76, -12.4),
+              new Vector3(0.9, 1.78, -14.2),
+              new Vector3(0.2, 1.74, -21.0),
+              new Vector3(1.6, 1.7, -27.4),
             ]
           : [
-              new Vector3(3.6, 1.88, 11.2),
-              new Vector3(-2.2, 1.82, 4.0),
-              new Vector3(-0.8, 1.78, -1.4),
-              new Vector3(-2.4, 1.8, -8.2),
-              new Vector3(0.35, 1.76, -13.0),
-              new Vector3(-0.9, 1.78, -20.0),
-              new Vector3(1.4, 1.72, -25.0),
-              new Vector3(2.2, 1.7, -28.0),
+              new Vector3(3.4, 1.88, 11.0),
+              new Vector3(-2.0, 1.82, 3.8),
+              new Vector3(-0.6, 1.78, -1.2),
+              new Vector3(-2.0, 1.8, -7.6),
+              new Vector3(0.6, 1.78, -12.2),
+              new Vector3(1.1, 1.8, -14.0),
+              new Vector3(-0.4, 1.76, -21.0),
+              new Vector3(2.0, 1.7, -27.6),
             ],
         false,
         'catmullrom',
-        0.18,
+        0.16,
       ),
     [compact],
   );
@@ -281,24 +321,24 @@ function Journey({
       new CatmullRomCurve3(
         compact
           ? [
-              new Vector3(-3.5, 1.7, -2),
-              new Vector3(2.4, 1.55, -4),
-              new Vector3(3.2, 2.5, -15),
-              new Vector3(3.6, 2.8, -15.2),
+              new Vector3(-3.2, 1.7, -2),
+              new Vector3(2.2, 1.55, -3.5),
+              new Vector3(2.2, 2.55, -13.2),
+              new Vector3(2.15, 2.7, -13.5),
               new Vector3(3.0, 1.7, -24),
               new Vector3(3.1, 1.55, -30),
             ]
           : [
-              new Vector3(-5.2, 1.75, -3),
-              new Vector3(2.8, 1.55, -5.5),
-              new Vector3(3.4, 2.35, -14.5),
-              new Vector3(3.7, 2.55, -15.2),
+              new Vector3(-5.0, 1.75, -3),
+              new Vector3(2.6, 1.55, -5),
+              new Vector3(2.15, 2.45, -13.0),
+              new Vector3(2.1, 2.6, -13.35),
               new Vector3(3.1, 1.65, -26),
               new Vector3(3.2, 1.5, -31.5),
             ],
         false,
         'catmullrom',
-        0.22,
+        0.2,
       ),
     [compact],
   );
@@ -306,17 +346,23 @@ function Journey({
   const target = useMemo(() => new Vector3(), []);
 
   useEffect(() => {
+    // Reduced-motion still needs scroll redraws so chapter frames snap.
     const redraw = () => {
-      if (!paused) invalidate();
+      if (!paused || reduced) invalidate();
     };
     addEventListener('scroll', redraw, { passive: true });
     invalidate();
     return () => removeEventListener('scroll', redraw);
-  }, [paused, invalidate]);
+  }, [paused, reduced, invalidate]);
 
   useFrame((_, delta) => {
     const desired = chapterPath(progress.current);
-    if (!paused) {
+    if (paused && !reduced) {
+      // User pause: freeze the current frame.
+    } else if (reduced) {
+      // Reduced motion: snap to the chapter frame, no glide.
+      current.current = desired;
+    } else {
       // Heavier lag = cinematic glide, not snap-to-scroll.
       const blend = 1 - Math.exp(-Math.min(delta, 0.05) * 2.35);
       current.current += (desired - current.current) * blend;
@@ -324,10 +370,12 @@ function Journey({
     const t = current.current;
     path.getPoint(t, camera.position);
     gaze.getPoint(t, target);
-    // Soft look-ahead so the gaze settles a beat after the body.
-    look.current.lerp(target, paused ? 1 : 1 - Math.exp(-Math.min(delta, 0.05) * 3.2));
+    look.current.lerp(
+      target,
+      paused && !reduced ? 1 : reduced ? 1 : 1 - Math.exp(-Math.min(delta, 0.05) * 3.2),
+    );
     camera.lookAt(look.current);
-    if (!paused && Math.abs(desired - current.current) > 0.00008) invalidate();
+    if ((!paused || reduced) && Math.abs(desired - current.current) > 0.00008) invalidate();
   });
 
   return null;
@@ -336,9 +384,13 @@ function Journey({
 export default function WorldScene(props: {
   progress: RefObject<number>;
   paused: boolean;
+  reduced?: boolean;
   onReady?: (ready: boolean) => void;
 }) {
   const [ready, setReady] = useState(false);
+  useEffect(() => {
+    void useGLTF.preload('/do/world/atelier.glb', '/do/office/draco/');
+  }, []);
   const markReady = (value: boolean) => {
     setReady(value);
     props.onReady?.(value);
@@ -346,10 +398,10 @@ export default function WorldScene(props: {
 
   return (
     <Canvas
-      style={{ opacity: ready ? 1 : 0, transition: 'opacity 700ms ease' }}
+      style={{ opacity: ready ? 1 : 0.001, transition: 'opacity 700ms ease' }}
       shadows
       frameloop="demand"
-      camera={{ position: [3.6, 1.88, 11.2], fov: 48, near: 0.1, far: 180 }}
+      camera={{ position: [3.4, 1.88, 11.0], fov: 48, near: 0.1, far: 180 }}
       dpr={[1, 1.5]}
       gl={{
         antialias: true,
@@ -358,18 +410,22 @@ export default function WorldScene(props: {
         toneMappingExposure: 1.08,
         outputColorSpace: SRGBColorSpace,
       }}
-      onCreated={({ gl }) => {
+      onCreated={({ gl, invalidate }) => {
         gl.toneMapping = ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.08;
         gl.outputColorSpace = SRGBColorSpace;
+        // Ensure the canvas element exists and demand-mode paints after mount.
+        invalidate();
       }}
     >
       <color attach="background" args={[FIELD]} />
       <fog attach="fog" args={[FOG, 28, 95]} />
       <Room onReady={markReady} />
-      <Journey progress={props.progress} paused={props.paused} />
+      <Journey
+        progress={props.progress}
+        paused={props.paused}
+        reduced={Boolean(props.reduced)}
+      />
     </Canvas>
   );
 }
-
-useGLTF.preload('/do/world/atelier.glb', '/do/office/draco/');
