@@ -70,10 +70,10 @@ export const DO_CAPABILITY_CATALOGUE: readonly DoCapabilityCard[] = [
     key: 'video_generation',
     label: 'Create motion/video',
     group: 'creative',
-    description: 'Prepare and render short visual outputs through configured Studio/DO production tools.',
+    description: 'Planned connection to Studio motion and video tools. Rendering is not yet available from this DO surface.',
     kind: 'platform',
     authority: 'prepare',
-    status: 'available',
+    status: 'preview',
   },
   {
     key: 'web_3d',

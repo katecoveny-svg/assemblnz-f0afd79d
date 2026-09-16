@@ -27,5 +27,8 @@ for (const path of publicFiles) {
 for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp']) {
   if (!existsSync(asset)) errors.push(`${asset}: missing approved visual asset`);
 }
+const companyCss = read('components/site/assembl-the-work/assembl-the-work.css');
+if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) errors.push('Company typography must use Instrument Sans, not the retired serif font');
+if (!read('app/do/DoHome.tsx').includes('Meet your To ')) errors.push('Preserve the approved To DO specialist heading');
 if (errors.length) { console.error('public-front-door-guard: drift detected\n' + errors.join('\n')); process.exit(1); }
 console.log('public-front-door-guard: assembl front door, dimensional DO and portable canvas present');

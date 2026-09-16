@@ -206,7 +206,7 @@ export function DoHome() {
               <p className={styles.eyebrow}>
                 SMALL SPECIALISTS. YOUR KIND OF HELP.
               </p>
-              <h2 id="team-title">Meet your DOs.</h2>
+              <h2 id="team-title" aria-label="Meet your To DO’s.">Meet your To <span className={styles.teamWordmark}><span className={styles.teamLogo}><DoMark /></span><span>DO’s.</span></span></h2>
             </div>
             <div>
               <p>

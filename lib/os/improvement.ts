@@ -37,7 +37,14 @@ export function evaluateImprovement(input: ImprovementCandidate): ImprovementDec
 
   if (input.securityRegression) return { decision: 'reject', reasons: ['security regression detected'] };
   if (input.expandsAuthority) return { decision: 'reject', reasons: ['candidate expands agent authority'] };
-  if (candidate.cases < 5) return { decision: 'hold', reasons: ['not enough evaluation cases'] };
+  const valid = (metrics: ImprovementMetrics) =>
+    Number.isInteger(metrics.cases) && metrics.cases >= 5 &&
+    [metrics.accuracy, metrics.toolSuccess, metrics.hallucinationRate].every(value =>
+      typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1) &&
+    [metrics.avgLatencyMs, metrics.avgCostNzd].every(value =>
+      typeof value === 'number' && Number.isFinite(value) && value >= 0);
+  if (!valid(baseline) || !valid(candidate)) return { decision: 'hold', reasons: ['complete, finite baseline and candidate measurements are required'] };
+  if (candidate.accuracy < baseline.accuracy) return { decision: 'reject', reasons: ['accuracy regressed'] };
   if (input.highRiskWorkflow && !input.independentlyReviewed) return { decision: 'hold', reasons: ['high-risk workflow requires independent review'] };
 
   const hallucinationDelta = (candidate.hallucinationRate ?? 0) - (baseline.hallucinationRate ?? 0);

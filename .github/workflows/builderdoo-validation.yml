@@ -11,6 +11,11 @@ on:
       - 'components/site/assembl-the-work/**'
       - 'lib/os/**'
       - 'lib/connectors/pipedream.ts'
+      - 'lib/connectors/pipedream.test.ts'
+      - 'lib/auth/**'
+      - 'app/login/**'
+      - 'app/auth/**'
+      - 'middleware.ts'
       - 'docs/DO-*.md'
       - 'package.json'
       - 'pnpm-lock.yaml'
@@ -44,6 +49,6 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/shared app/api/do lib/os/improvement.test.ts lib/os/routing.test.ts
+        run: pnpm test apps/do/shared app/api/do lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Production build
         run: pnpm build

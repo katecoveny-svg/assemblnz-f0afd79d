@@ -63,3 +63,9 @@ Motion must reveal causality:
 
 The camera stays still. The objects move. A six-to-eight-second loop should finish on a readable proof state and hold long enough to understand it.
 
+
+## DO identity — confirmed 16 September 2026
+
+DO is always `DO`, never `DOO`. Its canonical symbol is the glowing D with the small luminous o/dot inside, implemented by `components/do/DoMark.tsx`. Preserve its deep plum/purple body and rose glow across web, browser and Mac surfaces. This explicitly approved product identity takes precedence over the generic-orb exclusion above; it does not authorise unrelated orb decoration.
+
+The specialist section reads “Meet your To DO’s.” with the purple DO identity. Homepage product verbs (find it, do it, show it) use Instrument Sans, upright, never the old Georgia/italic treatment. Specialist characters may supplement the canonical DO identity but must not replace the product mark.
