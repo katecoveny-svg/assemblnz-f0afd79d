@@ -99,3 +99,14 @@ Persistence layer (Postgres/Supabase) can serialise the schema directly — ever
 - The 9-stage refund workflow — hard-coded stage timings
 - Confidence + cost + duration numbers during the test
 - The final "send" — no email actually goes out
+
+## Task DO Maker
+
+White-label, task-specific DO minting lives at **`/studio/do-maker`**.
+
+See [`docs/STUDIO-TASK-DO-MAKER.md`](./STUDIO-TASK-DO-MAKER.md) for Pursuit handoff params, white-label fields, AgentSpec export and honesty boundaries.
+
+Related surfaces:
+- Pursuit overview CTA → `/studio/do-maker?...`
+- DO Office session handoff banner when arriving with `?from=task-do-maker`
+- Portable AgentSpec shape from `apps/do/shared/types.ts`
