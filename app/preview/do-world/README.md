@@ -2,19 +2,51 @@
 
 Preview: `/preview/do-world`. Not linked from or substituted for the homepage.
 
-The scene is authored by `scripts/build-do-world.py` in Blender. The editable file retains its separate architecture and furniture; the browser export batches geometry by material. Current GLB: 1,704,728 bytes, 11 meshes, 11 materials, four embedded textures, Draco compression. Its poster remains visible during loading.
+The scene is authored by `scripts/build-do-world.py` in Blender. The editable file retains its separate architecture and furniture; the browser export batches geometry by material. Current GLB: 1,704,728 bytes, 11 meshes, 11 materials, four embedded textures, Draco compression. Its poster remains visible during loading, then fades once the GLB is ready.
 
-Implemented: scroll-driven eye-level camera path and gaze, three chapter anchors, direct product links, dimensional D sculpture following the shared DoMark contour, pause/reduced-motion handling, demand rendering, error boundary, and responsive typography.
+## This pass (cinematic fly-through)
 
-Verified 16 September: local browser render of the exported architecture; earlier chapter navigation and responsive checks; scoped ESLint, TypeScript and full production build pass. This is an architectural study, not the finished homepage. The latest revised camera path still requires a complete desktop/mobile pass. No splat renderer or live agent activity is connected, and performance has not been profiled on a physical phone.
+R3F-only craft upgrades (no Blender re-export required for this PR):
 
-Keep the working homepage intact while refining this route. Do not present the scene as proof of agent execution.
+- Chapter-eased camera path with dwell on Find / DO / Show, then smooth transitions
+- Lower cinematic FOV (48°) at true eye level (~1.7–1.9 m), separate desktop/mobile paths
+- Heavier scroll lag + soft gaze follow for a glide rather than snap
+- Spatial C lighting: deep plum field/fog, rose cove washes, warm harbour dusk shader (no purple leak)
+- ACES filmic tone mapping; rose-warmed emissive materials on the atelier GLB
+- Stronger dimensional D sculpture (shared DoMark contour) with rose presence lights
+- Honest poster → canvas crossfade; demand rendering; pause / reduced-motion still respected
 
-## D sculpture follow-up
+## Still needs Kate’s Mac (Blender 5.x)
 
-The old square image panel is replaced with a rounded physical object, the existing D contour as a raised tube, and a central dot. No external image request is needed for the identity. Portrait placement keeps it smaller and higher so it does not obscure the body copy. Studio now links to `/creative-studio`.
+Cloud VM has no Blender 5.1.1. When geometry/material authoring is next on the table, run locally:
 
-Desktop Find, DO and Show framing was inspected in the browser. The 375px DO view was inspected; document width equals viewport width. Visual proof is saved in the task outputs as `do-world/room-do-sculpture.png` and `do-world/room-do-mobile.png`. Full physical-phone profiling, all viewport/chapter combinations, and runtime activity remain open. This is an incremental improvement to the architectural study, not acceptance of the room as a finished cinematic homepage.
+```bash
+blender -b --python scripts/build-do-world.py -- /absolute/output
+# copy atelier.glb + atelier-poster.png into public/do/world/
+```
+
+Suggested Blender follow-ups (not done here):
+
+- Re-render poster from the revised arrival camera (lens ~35–40mm eye-level) so the load still matches the first frame
+- Soften walnut / limestone roughness for closer R3F/ACES parity
+- Optional: bake a subtle rose bounce into the cove light materials
+
+## Checklist before claiming done
+
+Desktop (~1280+):
+
+- [ ] Poster visible until GLB ready, then fades cleanly
+- [ ] Find / DO / Show each hold a readable room frame (sculpture clear on DO)
+- [ ] Rose glow, no purple wash in fog/sky
+- [ ] Pause motion freezes the camera; reduced-motion disables scroll fly-through
+
+Mobile (375):
+
+- [ ] Document width equals viewport (no horizontal scroll)
+- [ ] Sculpture sits higher/smaller; copy still readable
+- [ ] Nav + pause control usable; chapter anchors land on the right rooms
+
+Verified previously (16 September): local browser render of the exported architecture; earlier chapter navigation and responsive checks; scoped ESLint / TypeScript / production build. This remains an architectural study, not the finished homepage. No splat renderer or live agent activity is connected; physical-phone profiling is still open.
 
 ![Desktop DO room](../../../docs/reviews/world-2026-09-16/desktop.png)
 
