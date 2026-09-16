@@ -48,6 +48,18 @@ Build with the included `build.sh` on macOS with Xcode Command Line Tools:
 open /path/to/output/DO.app
 ```
 
+To create the drag-to-Applications disk image:
+
+```bash
+bash apps/do/macos/package.sh /path/to/output
+```
+
+The disk image contains DO.app, an Applications shortcut and a short installation guide. The app and menu bar use the shared D identity. Packaging builds in a temporary local folder to prevent synced-folder Finder metadata invalidating the signature, then verifies the signed app and disk image. Only the disk image is written to the chosen output folder.
+
+This verifies packaging, not Apple notarisation or permissions on another Mac. Launch-at-login and cross-app capture still need user-approved on-device testing.
+
+The build targets macOS 13 or later on the build machine’s architecture (Apple silicon for the current installer). An Intel or universal distribution build and testing on older macOS releases remain separate release work.
+
 The build links Cocoa, SwiftUI, WebKit, ApplicationServices and ServiceManagement. Do not disable Gatekeeper or other macOS security controls.
 
 ## product direction
