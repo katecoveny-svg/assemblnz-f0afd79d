@@ -1,15 +1,40 @@
 'use client';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Suspense, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
-import { useTexture } from '@react-three/drei/core/Texture';
+import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { useGLTF } from '@react-three/drei/core/Gltf';
 import { Environment } from '@react-three/drei/core/Environment';
 import { Lightformer } from '@react-three/drei/core/Lightformer';
-import { BackSide, CatmullRomCurve3, Mesh, Vector3, type Object3D } from 'three';
+import { BackSide, CatmullRomCurve3, CubicBezierCurve3, CurvePath, LineCurve3, Mesh, Vector3, type Object3D } from 'three';
 
 function Identity() {
-  const texture = useTexture('/do/canvas/dimensional-d.png');
-  return <mesh position={[3.5,2.65,-15]}><planeGeometry args={[1.8,1.8]}/><meshBasicMaterial map={texture} transparent toneMapped={false}/></mesh>;
+  const { size } = useThree();
+  const compact = size.width < 600;
+  // The same contour as DoMark.tsx, lifted into a real object rather than a billboard.
+  const outline = useMemo(() => {
+    const point = (x: number, y: number) => new Vector3((x - 32) / 32, (32 - y) / 32, 0);
+    const curve = new CurvePath<Vector3>();
+    curve.add(new LineCurve3(point(16,12), point(29,12)));
+    curve.add(new CubicBezierCurve3(point(29,12), point(44,12), point(52,20), point(52,32)));
+    curve.add(new CubicBezierCurve3(point(52,32), point(52,44), point(44,52), point(29,52)));
+    curve.add(new LineCurve3(point(29,52), point(16,52)));
+    curve.add(new LineCurve3(point(16,52), point(16,12)));
+    return curve;
+  }, []);
+  return <group position={[compact ? 4.5 : 3.5,compact ? 4.2 : 2.65,-15]} scale={compact ? .75 : 1} rotation={[0,-.22,0]}>
+    <RoundedBox args={[2.1,2.1,.52]} radius={.42} smoothness={5} castShadow>
+      <meshPhysicalMaterial color="#3c172f" metalness={.5} roughness={.24} clearcoat={1} clearcoatRoughness={.15}/>
+    </RoundedBox>
+    <mesh position={[0,0,.33]} castShadow>
+      <tubeGeometry args={[outline,96,7/64,10,true]}/>
+      <meshStandardMaterial color="#edbedd" emissive="#edbedd" emissiveIntensity={.7} roughness={.3} metalness={.3}/>
+    </mesh>
+    <mesh position={[-2/32,0,.34]}>
+      <sphereGeometry args={[6/32,24,16]}/>
+      <meshStandardMaterial color="#edbedd" emissive="#edbedd" emissiveIntensity={.9} roughness={.25}/>
+    </mesh>
+    <pointLight position={[0,0,1]} color="#edbedd" intensity={6} distance={5}/>
+  </group>;
 }
 function Architecture({onReady}: {onReady: (ready: boolean) => void}) {
   const { scene } = useGLTF('/do/world/atelier.glb', '/do/office/draco/');

@@ -14,7 +14,7 @@ class Boundary extends Component<{children: ReactNode}, {failed: boolean}> {
 const chapters = [
   {id:'find', label:'01 / Pursuit', title:'Find.', description:'Find the work worth doing.', href:'/pursuit', action:'Open Pursuit'},
   {id:'do', label:'02 / DO', title:'DO.', description:'Prepare useful work with your specialist DOs.', href:'/do', action:'assembl your DO'},
-  {id:'show', label:'03 / Studio', title:'Show.', description:'Turn the opportunity into something people can experience.', href:'/studio', action:'Open Studio'},
+  {id:'show', label:'03 / Studio', title:'Show.', description:'Turn the opportunity into something people can experience.', href:'/creative-studio', action:'Open Studio'},
 ];
 export default function World() {
   const progress = useRef(0);
