@@ -60,7 +60,7 @@ On the DO object / UI:
 5. Download extension → Load unpacked → paste DO id + session key → capture with consent  
 6. **Run evening board** → work **Needs you**
 
-Owner-private: `/do/household?install=owner-private` — do not share.
+Owner-private install is closed on the public site. Personal household context must not ship in the web bundle.
 
 ## Related
 

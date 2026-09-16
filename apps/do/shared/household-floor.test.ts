@@ -30,6 +30,8 @@ describe('Household Floor', () => {
   it('keeps owner-private seed non-shareable with full seat parity', () => {
     expect(OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.shareable).toBe(false);
     expect(OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.visibility).toBe('owner_private');
+    const privateBlob = JSON.stringify(OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE);
+    expect(privateBlob).not.toMatch(/Geraldine|Kohimarama|Daldy|Sacred Heart|Baradene|Coveny|Kate Hudson|413 Kohimarama/i);
     expect(OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.seats).toHaveLength(9);
     expect(OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.schedules.map((schedule) => schedule.id)).toContain('evening-board');
   });

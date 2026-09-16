@@ -140,13 +140,13 @@ function MeetingDoInner() {
     if (!previewNotes) return;
     const sample = [
       'Meeting notes',
-      'Kate and Adrian aligned on shipping phone Meeting DO for tonight after Install → Record works.',
+      'Avery and Jordan aligned on shipping phone Meeting DO for the demo after Install → Record works.',
       '',
       'Decisions / outcomes',
-      'Ship soft launch for Adrian once Install → Record is reliable.',
+      'Ship soft launch for the demo once Install → Record is reliable.',
       '',
       'Action items',
-      'Send invite · Owner: Alex · Due: Friday',
+      'Send invite · Owner: Riley · Due: Friday',
       '',
       'Open questions',
       'Budget not confirmed.',
@@ -160,7 +160,7 @@ function MeetingDoInner() {
       'Kia ora — notes from today for review. Nothing sent automatically.',
     ].join('\n');
     setNotes(
-      'Kate and Adrian discussed the phone Meeting DO tonight. Decided to ship soft launch for Adrian after Install → Record works. Alex will send the invite by Friday. Budget not confirmed. Open question: who hosts the follow-up?',
+      'Avery and Jordan discussed the phone Meeting DO for the demo. Decided to ship soft launch after Install → Record works. Riley will send the invite by Friday. Budget not confirmed. Open question: who hosts the follow-up?',
     );
     setDraft(sample);
     setReceipt({

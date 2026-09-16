@@ -14,7 +14,7 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice â€
 
 ### Owner-private path
 
-- Template `owner_private_household_floor` + `/do/household?install=owner-private`  
+- Owner-private shell keeps seat parity only; public site refuses private install (`?install=owner-private` closed)  
 - Same seats/schedules; personal household context  
 - API install requires sign-in; UI can install device-local with a do-not-share warning  
 - **Do not offer extensively tonight**

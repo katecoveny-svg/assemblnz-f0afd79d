@@ -240,46 +240,49 @@ export const PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
 };
 
 /**
- * Owner-private seed mirroring a real household operating pattern.
- * Install only from the private path — never offer as the public share card.
+ * Owner-mode shell — seat/schedule parity with the public template.
+ *
+ * Personal household context must NEVER ship in the public web bundle.
+ * Signed-in owners customise this shell after install; real addresses, schools
+ * and family names belong in private owner storage only (not this module).
  */
 export const OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
   id: 'owner_private_household_floor',
   visibility: 'owner_private',
-  name: 'Household Floor · owner',
+  name: 'Household Floor · owner shell',
   summary:
-    'Owner-personal Household Floor seed (Pacific/Auckland). Not for public share. Same seats and schedules as the public template with private household context.',
+    'Owner-mode Household Floor shell (Pacific/Auckland). Not shareable. Same seats and schedules as the public template — no personal household context in the web bundle.',
   shareable: false,
   context: {
     timezone: 'Pacific/Auckland',
     people: [
-      { id: 'kate', displayName: 'Kate Hudson', role: 'owner' },
-      { id: 'adrian', displayName: 'Adrian', role: 'co_parent', notes: 'Off-week home · Wynyard' },
+      { id: 'owner', displayName: 'Owner', role: 'owner' },
+      { id: 'co-parent', displayName: 'Co-parent', role: 'co_parent', notes: 'Customise after install' },
       {
-        id: 'jack',
-        displayName: 'Jack Coveny',
+        id: 'child-a',
+        displayName: 'Child A',
         role: 'child',
-        yearLabel: '14 · Y9 Sacred Heart',
-        schoolPortal: 'sacredheart.bridge.school.nz',
-        notes: 'Drop-off / e-scooter',
+        yearLabel: 'Customise year / school',
+        schoolPortal: 'school-a.example.school.nz',
+        notes: 'Add real details only in private owner storage',
       },
       {
-        id: 'mila',
-        displayName: 'Mila Coveny',
+        id: 'child-b',
+        displayName: 'Child B',
         role: 'child',
-        yearLabel: '~12 · Baradene',
-        schoolPortal: 'baradene.bridge.school.nz',
-        notes: 'PM often 413 Kohimarama Rd / Kepa Rd · Kate pickup ~15:30–16:00',
+        yearLabel: 'Customise year / school',
+        schoolPortal: 'school-b.example.school.nz',
+        notes: 'Add real details only in private owner storage',
       },
-      { id: 'aaron', displayName: 'Aaron', role: 'other', notes: 'Dad · week-on/off Mondays' },
-      { id: 'franklin', displayName: 'Franklin', role: 'pet', notes: 'Dachshund' },
+      { id: 'other', displayName: 'Other adult', role: 'other', notes: 'Optional' },
+      { id: 'pet', displayName: 'Pet', role: 'pet', notes: 'Optional' },
     ],
     homes: [
       {
-        id: 'geraldine',
-        label: 'Kids-week home',
-        addressLine: '6 A Geraldine Place, Kohimarama',
-        whenActive: 'Kids weeks',
+        id: 'home-a',
+        label: 'Primary home',
+        addressLine: 'Add address in private owner storage only',
+        whenActive: 'Primary weeks',
         bins: {
           rubbish: 'rubbish',
           recycling: 'recycling',
@@ -288,17 +291,17 @@ export const OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
         },
       },
       {
-        id: 'daldy',
-        label: 'Off-week home',
-        addressLine: '70 Daldy St, Wynyard',
-        whenActive: 'Off weeks with Adrian',
+        id: 'home-b',
+        label: 'Second home',
+        addressLine: 'Add address in private owner storage only',
+        whenActive: 'Alternate weeks',
       },
     ],
     custodyNote:
-      'Kids weeks at Geraldine Place (Kohimarama); off weeks at Daldy St (Wynyard) with Adrian. Aaron week-on/off Mondays.',
+      'Owner-mode shell only. Real custody notes and addresses must not live in the public web client.',
     schoolPortals: [
-      { label: 'Sacred Heart (Jack)', host: 'sacredheart.bridge.school.nz', childId: 'jack', mode: 'read_only' },
-      { label: 'Baradene (Mila)', host: 'baradene.bridge.school.nz', childId: 'mila', mode: 'read_only' },
+      { label: 'School A (Child A)', host: 'school-a.example.school.nz', childId: 'child-a', mode: 'read_only' },
+      { label: 'School B (Child B)', host: 'school-b.example.school.nz', childId: 'child-b', mode: 'read_only' },
     ],
     kitchenMode: 'fridge_photo',
     messaging: 'drafts_only',

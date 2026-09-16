@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description:
     'Installable family DO with nine seats, evening board, drafts-only gates and an owner-browser seat. Public scrubbed template ready to share.',
   alternates: { canonical: '/do/household' },
+  robots: { index: false, follow: false },
 };
 
 export default async function HouseholdFloorPage({
