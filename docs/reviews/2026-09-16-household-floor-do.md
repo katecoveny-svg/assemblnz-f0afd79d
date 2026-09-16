@@ -32,16 +32,16 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 - `docs/do-templates/HOUSEHOLD-FLOOR.md`  
 - `docs/do-templates/DO-BROWSER-SEAT.md`  
 - `docs/do-templates/HOUSEHOLD-FLOOR-DO-SPEC.md`  
-- `docs/do-templates/DO-CONNECTORS.md` — Pipedream → DO declare → connect → tools  
+- `docs/do-templates/DO-CONNECTORS.md` — Pipedream first-party path  
+- `docs/do-templates/DO-MCP-GATEWAY.md` — Composio / Zapier / Treg marketplace MCP  
 
-### Connectors (Pipedream)
+### Connectors + DO MCP gateway
 
-- DOs / Household Floor declare `connectors` / `requiredConnectors` (no tokens in templates)  
-- UI states: sign in · setup needed · connect · connected · needs reconnect  
-- Reuses `/api/do/connections` + `connectDoGmail` — no second OAuth stack  
-- Optional Gmail + Calendar on public HF template; drafts-only / never auto-send  
-- DO connector pack: Gmail · Calendar · Sheets · Drive · Slack · HubSpot (+ Notion / Todoist / Linear / Stripe / Dropbox / Outlook / Salesforce)  
-- `PIPEDREAM_ACTION_MAP` expanded with real component ids; surfaces on `/do/connections` + Household Floor Connectors tab  
+- Pipedream Connect: first-party Gmail / mapped actions (complementary)
+- **DO MCP gateway** (marketplace): Composio primary · Zapier long-tail · Treg pay-per-call — `docs/do-templates/DO-MCP-GATEWAY.md`
+- Cursor IDE MCP ≠ DO MCP
+- UI: `/do/connections#mcp-gateway` + Household Floor MCP allowlist cards
+- Optional Gmail + Calendar Connect + Composio/Treg allowlist on public HF — drafts-only / never auto-send  
 
 ### Trial model (product rule)
 
@@ -56,7 +56,7 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 1. `https://www.assembl.co.nz/do/household` (or local `/do/household`)  
 2. Install **public** template → customise → **Share tonight**  
 3. Download extension ZIP → Load unpacked → paste DO id / session key → consent capture on a school tab  
-4. **Connectors** tab → Connect Gmail (optional) via Pipedream — or `/do/connections`  
+4. **Connectors** tab → Pipedream Gmail (optional) + MCP allowlist cards — or `/do/connections#mcp-gateway`  
 5. **Run evening board** → clear Needs you drafts (nothing auto-sends)  
 6. Private seed only if she needs her real context — never in the public share pack  
 7. If prepare returns 402: **sign in** (signed-in owners bypass the network sandbox trial)

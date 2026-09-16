@@ -46,6 +46,7 @@ describe('Household Floor', () => {
     expect(floor.browserSeatSessionKey).toBe('do-browser-seat:11111111-1111-4111-8111-111111111111');
     expect(floor.connectors[0]?.app).toBe('gmail');
     expect(floor.connectors[0]?.required).toBe(false);
+    expect(floor.mcpAllowlist.some((tool) => tool.provider === 'composio')).toBe(true);
     expect(floor.receipts[0]?.evidence.executionClaimed).toBe(false);
   });
 

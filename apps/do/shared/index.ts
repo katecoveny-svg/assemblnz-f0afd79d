@@ -139,6 +139,20 @@ export {
   packAppSlugs,
 } from './do-connector-pack';
 export {
+  DO_MCP_PROVIDERS,
+  DO_MCP_SPIKE_ALLOWLIST,
+  HOUSEHOLD_FLOOR_MCP_ALLOWLIST,
+  DO_MCP_FLOW_SUMMARY,
+  isAllowlisted,
+  sideEffectNeedsApproval,
+} from './do-mcp-gateway';
+export type {
+  DoMcpAllowlistEntry,
+  DoMcpProviderId,
+  DoMcpToolReceipt,
+  DoMcpSideEffect,
+} from './do-mcp-gateway';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,
