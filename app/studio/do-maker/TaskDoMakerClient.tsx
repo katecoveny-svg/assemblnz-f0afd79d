@@ -35,6 +35,7 @@ import {
 import { JourneyBuilderPanel } from './JourneyBuilderPanel';
 import { OutreachGateEditor, OutreachGateOverlay } from './OutreachGate';
 import { SponsoredAgentPanel } from './SponsoredAgentPanel';
+import { BpSponsoredJourneyDemo } from './BpSponsoredJourneyDemo';
 import styles from './do-maker.module.css';
 
 type PersistState = 'idle' | 'browser' | 'copied' | 'exported' | 'handed-off';
@@ -213,22 +214,33 @@ export function TaskDoMakerClient() {
     window.location.href = '/do/office?from=task-do-maker';
   }, [brand, draft, spec]);
 
+  const isBpSponsoredDemo =
+    config.partnerSlug === 'bp' &&
+    (config.templateId === 'sponsored-agent' || journey.sponsored.enabled);
+
   const previewBody = (
     <>
-      <WidgetPreview
-        brand={brand}
-        config={config}
-        spec={spec}
-        mode={mode}
-        railLabel={skin?.railLabel}
-        journey={journey}
-        large
-      />
-      {journey.sponsored.enabled ? (
-        <SponsoredPreview journey={journey} />
-      ) : null}
+      {isBpSponsoredDemo ? (
+        <BpSponsoredJourneyDemo />
+      ) : (
+        <>
+          <WidgetPreview
+            brand={brand}
+            config={config}
+            spec={spec}
+            mode={mode}
+            railLabel={skin?.railLabel}
+            journey={journey}
+            large
+          />
+          {journey.sponsored.enabled ? <SponsoredPreview journey={journey} /> : null}
+        </>
+      )}
       <p className={styles.honesty}>
         Preview only. This DO drafts work for review. Nothing is sent, connected or claimed live from this link.
+        {isBpSponsoredDemo
+          ? ' Sponsored-agent walkthrough is a DEMO — Assembl Permit + receipt, not OpenAI Ads. No live bp partnership.'
+          : ''}
       </p>
       {mode === 'partner' ? <p className={styles.poweredBy}>{POWERED_BY_ASSEMBL}</p> : null}
     </>
@@ -319,7 +331,9 @@ export function TaskDoMakerClient() {
             <h1>{mode === 'partner' ? 'Assemble the client demo.' : 'Assemble a Pursuit demo.'}</h1>
             <p className={styles.heroCopy}>
               {mode === 'partner'
-                ? 'Start from a partner skin or a custom client. Edit the journey, attach brand imagery, and wire a Sponsored Agent module — drafts-only, no fake live connections.'
+                ? config.partnerSlug === 'bp'
+                  ? 'bp Road-Ready PREVIEW: sponsored-agent fuel-loyalty journey — intent → useful step → genuine offer → DO Permit → DEMO action → receipt. Assembl credit stays small; no live bp partnership or fake connections.'
+                  : 'Start from a partner skin or a custom client. Edit the journey, attach brand imagery, and wire a Sponsored Agent module — drafts-only, no fake live connections.'
                 : 'Freeform client, editable journey steps, optional Sponsored Agent advertising, and an outreach gate before deeper DEMO. Not locked to dropdown verticals.'}
             </p>
           </div>
@@ -452,7 +466,11 @@ export function TaskDoMakerClient() {
               <span>02</span>
               <div>
                 <strong id="task-title">Task starters</strong>
-                <p>Optional chips — rewrite title, job and boundaries freely.</p>
+                <p>
+                  {mode === 'partner'
+                    ? 'Sponsored agent, rewarded wait, and wait-time utility. Optional chips — rewrite freely. Drafts-only.'
+                    : 'Optional chips — rewrite title, job and boundaries freely.'}
+                </p>
               </div>
             </div>
             <div className={styles.chips} role="group" aria-label="Starter templates">
@@ -506,7 +524,11 @@ export function TaskDoMakerClient() {
                 <p>Widget stub + journey + sponsored walkthrough. Demo-ready, not connected.</p>
               </div>
             </div>
-            <WidgetPreview brand={brand} config={config} spec={spec} mode={mode} railLabel={skin?.railLabel} journey={journey} />
+            {isBpSponsoredDemo ? (
+              <BpSponsoredJourneyDemo compact />
+            ) : (
+              <WidgetPreview brand={brand} config={config} spec={spec} mode={mode} railLabel={skin?.railLabel} journey={journey} />
+            )}
             <div className={styles.actions}>
               <button type="button" onClick={() => void copyShare()}>Copy preview link</button>
               <button type="button" onClick={exportJson}>Export pack</button>
@@ -515,6 +537,11 @@ export function TaskDoMakerClient() {
               </button>
             </div>
             <p className={styles.status} role="status">{message}</p>
+            {isBpSponsoredDemo ? (
+              <p className={styles.diffNote}>
+                Assembl Sponsored Journeys complete work under DO Permit with a receipt — provider-neutral PREVIEW, not ChatGPT Ads. No live bp partnership.
+              </p>
+            ) : null}
             {mode === 'partner' ? <p className={styles.poweredBy}>{POWERED_BY_ASSEMBL}</p> : null}
           </section>
         </div>
@@ -542,10 +569,14 @@ export function TaskDoMakerClient() {
               <span>03b</span>
               <div>
                 <strong id="sponsored-preview-title">Sponsored walkthrough</strong>
-                <p>Ad/loyalty → branded agent → useful step → offer → Permit → action → receipt.</p>
+                <p>
+                  {isBpSponsoredDemo
+                    ? 'bp Road-Ready interactive DEMO — loyalty moment → Permit → receipt. PREVIEW only.'
+                    : 'Ad/loyalty → branded agent → useful step → offer → Permit → action → receipt.'}
+                </p>
               </div>
             </div>
-            <SponsoredPreview journey={journey} />
+            {isBpSponsoredDemo ? <BpSponsoredJourneyDemo /> : <SponsoredPreview journey={journey} />}
           </section>
         ) : null}
 

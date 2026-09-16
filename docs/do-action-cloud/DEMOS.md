@@ -84,6 +84,16 @@ Branded agent understands “need dinner tonight” → assembles useful basket/
 
 **Prototype:** `/do/sponsored` + `/api/do/sponsored` (demo stubs; not live loyalty).
 
+### Working DEMO (fuel / loyalty — bp Road-Ready)
+
+Interactive walkthrough lives on the existing Task DO Maker partner skin — **do not** add a parallel `/demos/bp-*` route:
+
+```
+/studio/do-maker?mode=partner&partner=bp&template=sponsored-agent&preview=1
+```
+
+Spine: pump wait → branded bp agent → intent → assemble → genuine offer → DO Permit → DEMO action → CRM stub → receipt. See `docs/STUDIO-TASK-DO-MAKER.md` and `lib/studio/bp-sponsored-journey.ts`. PREVIEW only — no live bp partnership.
+
 ---
 
 ## 4. DO Browser persistent job

@@ -98,7 +98,7 @@ describe('task-do-maker', () => {
     expect(seeded.brand.displayName).toBe(PARTNER_SKINS.bp.productName);
     expect(seeded.config.mode).toBe('partner');
     expect(seeded.config.partnerSlug).toBe('bp');
-    expect(seeded.config.templateId).toBe('rewarded-wait');
+    expect(seeded.config.templateId).toBe('sponsored-agent');
     expect(seeded.journey.title).toMatch(/Loyalty Moment Concierge/i);
     expect(seeded.journey.sponsored.enabled).toBe(true);
     expect(seeded.journey.sponsored.asaLabel).toBe('Sponsored');
@@ -152,13 +152,45 @@ describe('task-do-maker', () => {
     expect(journey.steps).toHaveLength(4);
   });
 
+  it('compiles bp sponsored-agent journey with Permit + receipt posture', () => {
+    const seeded = applyPartnerSkin('bp');
+    const spec = compileTaskDoSpec(seeded.brand, seeded.config, {
+      id: '33333333-3333-4333-8333-333333333333',
+      now: '2026-09-16T12:00:00.000Z',
+    });
+    expect(seeded.config.templateId).toBe('sponsored-agent');
+    expect(spec.name).toMatch(/sponsored agent/i);
+    expect(spec.must_ask_before.some((item) => /permit/i.test(item))).toBe(true);
+    expect(spec.never.some((item) => /openai ads/i.test(item))).toBe(true);
+    expect(spec.never.some((item) => /hide sponsorship/i.test(item))).toBe(true);
+    expect(spec.brief).toContain('Partner skin: bp');
+    expect(spec.brief).toMatch(/Sponsored agent/i);
+
+    const deep = draftFromSearchParams(
+      new URLSearchParams({
+        mode: 'partner',
+        partner: 'bp',
+        template: 'sponsored-agent',
+        preview: '1',
+      }),
+    );
+    expect(deep.config.partnerSlug).toBe('bp');
+    expect(deep.config.templateId).toBe('sponsored-agent');
+    expect(deep.brand.accent).toBe('#00965E');
+    expect(partnerMakerHref('bp', { template: 'sponsored-agent', preview: true })).toContain(
+      'template=sponsored-agent',
+    );
+  });
+
   it('filters templates by mode', () => {
     const pursuit = templatesForMode('pursuit').map((t) => t.id);
     const partner = templatesForMode('partner').map((t) => t.id);
     expect(pursuit).toContain('research-brief');
     expect(pursuit).not.toContain('rewarded-wait');
+    expect(pursuit).not.toContain('sponsored-agent');
     expect(partner).toContain('rewarded-wait');
     expect(partner).toContain('task-utility');
+    expect(partner).toContain('sponsored-agent');
     expect(partner).not.toContain('outreach-draft');
   });
 

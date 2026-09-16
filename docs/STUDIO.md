@@ -105,7 +105,7 @@ Persistence layer (Postgres/Supabase) can serialise the schema directly — ever
 White-label, task-specific DO minting lives at **`/studio/do-maker`** with two modes sharing one core:
 
 - **Mode A · Pursuit / Studio** — opportunity pitch handoff from `/pursuit`
-- **Mode B · Partner-facing** — partner chrome primary (`?mode=partner&partner=bp|warehouse`); alias `/do/maker/partner/[slug]`
+- **Mode B · Partner-facing** — partner chrome primary (`?mode=partner&partner=bp|warehouse`); alias `/do/maker/partner/[slug]`; bp defaults to sponsored-agent fuel-loyalty journey
 
 See [`docs/STUDIO-TASK-DO-MAKER.md`](./STUDIO-TASK-DO-MAKER.md) for handoff params, partner skins, AgentSpec export and honesty boundaries.
 

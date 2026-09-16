@@ -64,10 +64,33 @@ Config objects only — **not** live OAuth or partner APIs:
 
 | Slug | Product | Default template | Rail |
 |---|---|---|---|
-| `bp` | bp Road-Ready | `rewarded-wait` | Rewards while you wait |
+| `bp` | bp Road-Ready | `sponsored-agent` | Sponsored agent · fuel loyalty |
 | `warehouse` | The Warehouse | `task-utility` | Useful wait · Warehouse rewards |
 
-Mode B chips default to **rewarded wait**, **task utility**, and shared **wait / reward** — drafts-only, no scrape claims, partner rail visible on the portable preview. Assembl attribution stays small in chrome and preview footer.
+Mode B chips: **sponsored agent**, **rewarded wait**, **task utility**, and shared **wait / reward** — drafts-only, no scrape claims, partner rail visible on the portable preview. Assembl attribution stays small in chrome and preview footer.
+
+### bp Road-Ready · Sponsored Agent journey
+
+Canonical walkthrough (no parallel `/demos/bp-*` route):
+
+```
+/studio/do-maker?mode=partner&partner=bp
+/studio/do-maker?mode=partner&partner=bp&template=sponsored-agent&preview=1
+/do/maker/partner/bp
+```
+
+Interactive spine inside the maker preview:
+
+`loyalty moment → branded bp agent → intent → assemble useful next step → offer if genuine → DO Permit → DEMO action → CRM stub → receipt`
+
+| Assembl vs ChatGPT Sponsored Agents | |
+|---|---|
+| Surface | Partner app / maker / DO — provider-neutral |
+| Action | Completes a bounded job under **DO Permit** |
+| Proof | Emits a **receipt** (sponsor reporting ≠ chat impressions) |
+| Ads API | **Not** built on OpenAI Ads (none public); watch as future adapter only |
+
+DEMO honesty: no live bp Rewards, fuel-board scrape, payment or CRM write. Unpaid path remains available (skip offer).
 
 No Foodstuffs partnership framing.
 
@@ -84,8 +107,9 @@ No Foodstuffs partnership framing.
 ## How to demo both modes
 
 1. **Mode A:** open `/pursuit` → “Mint a task DO in Studio” → set a pitch brand → export / preview.
-2. **Mode B:** open `/do/maker/partner/bp` or `/studio/do-maker?mode=partner&partner=warehouse` → confirmed partner chrome + rewarded-wait / task-utility chips → preview shows partner rail + `powered by assembl DO`.
+2. **Mode B:** open `/do/maker/partner/bp` or `/studio/do-maker?mode=partner&partner=bp` → bp Road-Ready sponsored-agent walkthrough (Permit + receipt) or switch to Warehouse for task-utility. Preview shows partner rail + `powered by assembl DO`.
 3. Toggle Pursuit ↔ Partner inside the maker for a side-by-side pitch.
+4. Share preview: `/studio/do-maker?mode=partner&partner=bp&template=sponsored-agent&preview=1`
 
 ## Product destinations
 

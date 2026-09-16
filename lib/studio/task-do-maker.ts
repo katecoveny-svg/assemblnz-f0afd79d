@@ -49,7 +49,8 @@ export type TaskDoTemplateId =
   | 'school-admin'
   | 'wait-reward'
   | 'rewarded-wait'
-  | 'task-utility';
+  | 'task-utility'
+  | 'sponsored-agent';
 
 export type PartnerSlug = 'bp' | 'warehouse';
 
@@ -142,16 +143,17 @@ export const PARTNER_SKINS: Record<PartnerSlug, PartnerSkin> = {
   bp: {
     slug: 'bp',
     productName: 'bp Road-Ready',
-    railLabel: 'Rewards while you wait',
+    railLabel: 'Sponsored agent · fuel loyalty',
     brand: {
       displayName: 'bp Road-Ready',
       accent: '#00965E',
       accentSecondary: '#FFCD00',
       logoUrl: '',
-      promise: 'Use the wait. Earn a little clarity — drafts only.',
+      promise: 'Use the wait. Useful next step, then DO Permit — DEMO only.',
     },
-    defaultTemplate: 'rewarded-wait',
-    honesty: 'Demo skin only. No bp account link, scrape or live rewards API.',
+    defaultTemplate: 'sponsored-agent',
+    honesty:
+      'Demo skin only. Sponsored-agent journey is simulated — no bp account link, fuel-board scrape, live rewards API or CRM write.',
     verticalHint: 'fuel / convenience loyalty',
     conciergeTitle: 'BP Loyalty Moment Concierge',
   },
@@ -304,6 +306,44 @@ export const TASK_DO_TEMPLATES: TaskDoTemplate[] = [
       'scrape inventory or pricing',
       'claim a live partner API',
       'complete a purchase',
+    ],
+  },
+  {
+    id: 'sponsored-agent',
+    label: 'Sponsored agent',
+    title: 'Sponsored agent · fuel loyalty',
+    job: 'From a labelled loyalty wait, understand intent, assemble a useful next step, offer only if genuine, then run prepare → permit → DEMO action → CRM stub → receipt.',
+    instructions:
+      'You are a branded partner helper on a sponsored journey. Always label sponsorship. Prefer a useful unpaid next step; attach a loyalty offer only when it is genuinely relevant. Never scrape partner sites or claim live balances. Consequential steps require DO Permit. Emit a DEMO receipt. Never send, pay, book or write to CRM without an explicit human yes. Not built on OpenAI Ads — Assembl completes work under Permit with a receipt.',
+    primitive: 'prepare',
+    modes: ['partner'],
+    looks_for: [
+      'wait / loyalty moment',
+      'customer intent',
+      'useful next step',
+      'offer eligibility',
+      'permit bounds',
+      'receipt fields',
+    ],
+    can_do_without_asking: [
+      'label the sponsored moment',
+      'draft intent understanding',
+      'assemble a useful next-step comparison from DEMO data',
+      'draft a receipt skeleton',
+    ],
+    must_ask_before: [
+      'apply or redeem any loyalty offer',
+      'execute under DO Permit',
+      'stage a CRM / commerce handoff',
+      'send a notification off this device',
+    ],
+    never: [
+      'hide sponsorship',
+      'lengthen a wait to show an offer',
+      'scrape a partner website or app',
+      'claim a live rewards balance',
+      'depend on an OpenAI Ads API',
+      'complete a payment or fuel purchase',
     ],
   },
 ];
