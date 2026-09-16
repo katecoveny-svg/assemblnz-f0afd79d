@@ -1,4 +1,5 @@
-import { allowedDoOrigin, admitDoRequest, doHeaders, readDoJson } from '@/apps/do/shared/http';
+import { allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
+import { admitDoDemoRequest, doDemoClientIp } from '@/lib/do/action-stub/demo-http';
 import {
   approveBrowserRuntimePermit,
   createBrowserRuntimeJob,
@@ -15,7 +16,6 @@ import {
   BROWSER_RUNTIME_BOUNDARY,
 } from '@/apps/do/shared/browser-runtime';
 import { getPermit, getPrepared, getReceipt } from '@/lib/do/action-stub';
-import { chatClientIp } from '@/lib/agents/chat-rate-limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -82,8 +82,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const ip = chatClientIp(request.headers);
-  if (!admitDoRequest(ip)) {
+  const ip = doDemoClientIp(request);
+  if (!admitDoDemoRequest(ip)) {
     return json(request, { message: 'Please wait a minute before another browser runtime step.' }, 429);
   }
 
@@ -99,7 +99,8 @@ export async function POST(request: Request) {
   try {
     switch (action) {
       case 'create': {
-        const parsed = browserRuntimeCreateInput.safeParse(body);
+        const { action: _action, ...createBody } = body;
+        const parsed = browserRuntimeCreateInput.safeParse(createBody);
         if (!parsed.success) {
           return json(
             request,
@@ -115,7 +116,8 @@ export async function POST(request: Request) {
         return json(request, packJob(job.job_id));
       }
       case 'lock_context': {
-        const parsed = browserRuntimeContextInput.safeParse(body);
+        const { action: _action, ...contextBody } = body;
+        const parsed = browserRuntimeContextInput.safeParse(contextBody);
         if (!parsed.success) {
           return json(
             request,

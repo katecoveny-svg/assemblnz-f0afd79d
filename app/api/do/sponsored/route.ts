@@ -1,4 +1,5 @@
-import { allowedDoOrigin, admitDoRequest, doHeaders, readDoJson } from '@/apps/do/shared/http';
+import { allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
+import { admitDoDemoRequest, doDemoClientIp } from '@/lib/do/action-stub/demo-http';
 import { getPermit, getPrepared, getReceipt } from '@/lib/do/action-stub';
 import {
   advanceSponsoredRun,
@@ -8,7 +9,6 @@ import {
   listSponsoredRuns,
   startSponsoredRun,
 } from '@/lib/do/sponsored-journeys';
-import { chatClientIp } from '@/lib/agents/chat-rate-limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -68,8 +68,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const ip = chatClientIp(request.headers);
-  if (!admitDoRequest(ip)) {
+  const ip = doDemoClientIp(request);
+  if (!admitDoDemoRequest(ip)) {
     return json(request, { message: 'Please wait a minute before another sponsored journey step.' }, 429);
   }
 
