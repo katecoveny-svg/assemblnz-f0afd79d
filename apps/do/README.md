@@ -66,15 +66,23 @@ On `/do`, click **WhatsApp fixture sim** → `POST /api/do/message` with `{ surf
 
 Linux CI cannot App Store / Play–build these — **compiling-ready stubs** only. Web preview plates on `/do` show keyboard chrome + Needs you mini board.
 
+### Install / downloads
+
+- Guide: `/do/install`
+- Chrome zip API: `/api/do/download?format=extension`
+- Mac source zip API: `/api/do/download?format=macos` (build on a Mac — no notarised public .app yet)
+- Static mirrors: `public/do/downloads/assembl-do-extension-1.5.0.zip` and `assembl-do-macos-1.5.0.zip`
+
 ### Chrome extension
 
-1. `chrome://extensions` → **Load unpacked** → `apps/do/extension` (or Reload on an existing DO card after pulling)
+1. Download Chrome DO (or `chrome://extensions` → **Load unpacked** → `apps/do/extension`)
 2. Pin DO on the toolbar — the D-mark badge lights up with `1` when page text is selected
-3. Side panel primary actions: **Chat / Help with this page**, **Use selection**, **Meeting DO**, **Sign in**
+3. Side panel primary actions: **Chat / Help with this page**, **Use selection**, **Meeting DO**, **Sign in**, plus **Download Chrome DO / Mac DO**
 4. Meeting DO and Assembl sign-in always open a **top-level browser tab** (OAuth cannot finish inside the side panel iframe)
 5. After sign-in, return to the side panel and click **Refresh builder** if the widget still looks signed-out
 6. Floating D-mark: side panel → Show floating DO on this tab
 7. API base default `https://www.assembl.co.nz` (switch to localhost under Advanced · browser seat)
+8. If Chrome shows **Inactive**, open Errors — every packaged `.js` must use quoted `'use strict';`
 
 ### Household Floor
 

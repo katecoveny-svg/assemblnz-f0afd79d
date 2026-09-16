@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import { DoMark } from "@/components/do/DoMark";
+import { DoDownloadCtas } from "@/components/do/DoDownloadCtas";
 import {
   clampCompanionPosition,
   COMPANION_POSITION_KEY,
@@ -351,6 +352,10 @@ export function GlowDoWidget() {
                   Sign in <ArrowUpRight size={14} />
                 </Link>
               ) : null}
+            </div>
+            <div className={styles.downloads}>
+              <p className={styles.kicker}>Take DO with you</p>
+              <DoDownloadCtas variant="compact" />
             </div>
           </div>
         ) : null}

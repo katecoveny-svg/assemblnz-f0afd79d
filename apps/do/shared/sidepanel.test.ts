@@ -53,6 +53,8 @@ function setup() {
     'meeting-open': el({ addEventListener: vi.fn() }),
     'meeting-dismiss': el({ addEventListener: vi.fn() }),
     'refresh-frame': el({ addEventListener: vi.fn() }),
+    'download-chrome': el(),
+    'download-mac': el(),
     'seat-status': el(),
     'do-id': el({ addEventListener: vi.fn() }),
     'session-key': el({ addEventListener: vi.fn() }),

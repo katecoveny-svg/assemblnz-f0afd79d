@@ -1,3 +1,4 @@
+'use strict';
 /**
  * DO Clear — content-script heuristics for grammar + anti-AI-slop.
  * Mirrors apps/do/shared/clear-writing.ts (keep in sync for v0).

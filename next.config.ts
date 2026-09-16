@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   // Ship the committed winter-series markdown into the serverless bundles that
   // read it at runtime (the /admin approvals ingest action + the ingest API).
   outputFileTracingIncludes: {
-    '/api/do/download': ['./apps/do/extension/**'],
+    '/api/do/download': ['./apps/do/extension/**', './apps/do/macos/**'],
     '/admin/approvals': ['./content/spark-winter-series/**'],
     '/api/spark/winter-series/ingest': ['./content/spark-winter-series/**'],
   },

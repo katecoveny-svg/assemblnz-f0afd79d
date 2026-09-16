@@ -1,5 +1,6 @@
+'use strict';
 /**
- * DO content script — Grammarly-like floating ✦ + compact on-page sheet.
+ * DO content script — Grammarly-like floating companion + compact on-page sheet.
  * Surface ≠ agent. DEMO honesty banners throughout.
  */
 

@@ -22,9 +22,17 @@ let ready = false;
 let pending = null;
 let apiOrigin = PRODUCTION_ORIGIN;
 
+function syncDownloadLinks() {
+  const chromeLink = document.getElementById('download-chrome');
+  const macLink = document.getElementById('download-mac');
+  if (chromeLink) chromeLink.href = `${apiOrigin}/api/do/download?format=extension`;
+  if (macLink) macLink.href = `${apiOrigin}/api/do/download?format=macos`;
+}
+
 function syncFrame() {
   frame.src = `${apiOrigin}/do/widget`;
   ready = false;
+  syncDownloadLinks();
 }
 
 function offer() {
@@ -48,6 +56,8 @@ chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin'], (stored) => {
     apiOrigin = stored.doApiOrigin;
     apiOriginSelect.value = stored.doApiOrigin;
     syncFrame();
+  } else {
+    syncDownloadLinks();
   }
   if (stored.doBrowserSeat?.doId) {
     doIdInput.value = stored.doBrowserSeat.doId;

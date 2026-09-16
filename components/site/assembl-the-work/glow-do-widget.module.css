@@ -168,6 +168,11 @@
   align-items: center;
   margin-bottom: 8px;
 }
+.downloads {
+  margin: 18px 0 4px;
+  padding-top: 16px;
+  border-top: 1px solid #240b2122;
+}
 .continue {
   border: 1px solid #240b21;
   background: #240b21;

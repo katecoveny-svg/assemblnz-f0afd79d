@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import JSZip from 'jszip';
 import { DO_DISTRIBUTION_ORIGIN, doEmbedExample, doWidgetScript } from '@/apps/do/shared/distribution';
@@ -6,39 +6,150 @@ import { DO_DISTRIBUTION_ORIGIN, doEmbedExample, doWidgetScript } from '@/apps/d
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const VERSION = '1.5.0';
+const EXTENSION_ROOT = path.join(process.cwd(), 'apps/do/extension');
+const MACOS_ROOT = path.join(process.cwd(), 'apps/do/macos');
+
+const EXTENSION_FILES = [
+  'manifest.json',
+  'background.js',
+  'sidepanel.html',
+  'sidepanel.js',
+  'sidepanel.css',
+  'floating.js',
+  'selection-badge.js',
+  'popup.html',
+  'popup.js',
+  'popup.css',
+  'icons/icon16.png',
+  'icons/icon32.png',
+  'icons/icon48.png',
+  'icons/icon128.png',
+  'icons/do-spark.svg',
+] as const;
+
+async function addDir(zip: JSZip, dir: string, prefix: string) {
+  const entries = await readdir(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    const name = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) await addDir(zip, full, name);
+    else zip.file(name, await readFile(full));
+  }
+}
+
 export async function GET(request: Request) {
   const format = new URL(request.url).searchParams.get('format');
-  if (format !== 'extension' && format !== 'embed') return Response.json({ error: 'Choose format=extension or format=embed.' }, { status: 400 });
+  if (format !== 'extension' && format !== 'embed' && format !== 'macos') {
+    return Response.json(
+      { error: 'Choose format=extension, format=macos or format=embed.' },
+      { status: 400 },
+    );
+  }
   const zip = new JSZip();
   const origin = DO_DISTRIBUTION_ORIGIN;
   try {
     if (format === 'extension') {
-      // Fixed paths allow Next's file tracer to include only the public package files.
-      const [manifest, html, js, css, icon16, icon48, icon128] = await Promise.all([
-        readFile(path.join(process.cwd(), 'apps/do/extension/manifest.json')),
-        readFile(path.join(process.cwd(), 'apps/do/extension/popup.html')),
-        readFile(path.join(process.cwd(), 'apps/do/extension/popup.js')),
-        readFile(path.join(process.cwd(), 'apps/do/extension/popup.css')),
-        readFile(path.join(process.cwd(), 'apps/do/extension/icons/icon16.png')),
-        readFile(path.join(process.cwd(), 'apps/do/extension/icons/icon48.png')),
-        readFile(path.join(process.cwd(), 'apps/do/extension/icons/icon128.png')),
-      ]);
-      for (const [name, data] of [['manifest.json', manifest], ['popup.html', html], ['popup.js', js], ['popup.css', css], ['icons/icon16.png', icon16], ['icons/icon48.png', icon48], ['icons/icon128.png', icon128]] as const) zip.file(name, data);
-      for (const name of ['background.js', 'sidepanel.html', 'sidepanel.js', 'sidepanel.css', 'floating.js']) {
-        zip.file(name, await readFile(path.join(process.cwd(), 'apps/do/extension', name)));
+      for (const name of EXTENSION_FILES) {
+        zip.file(name, await readFile(path.join(EXTENSION_ROOT, name)));
       }
-      zip.file('README.md', `# DO browser extension\n\n1. Unzip this folder.\n2. Open Chrome or Edge Extensions and enable Developer mode.\n3. Choose Load unpacked and select this folder.\n4. Pin DO and click its toolbar icon to open the side panel beside your page.\n5. For Household Floor: open ${origin}/do/household, install the public template, copy the DO id + browser seat session key into the side panel, open a school/council/AT tab, tick consent, then **Capture page for this DO**.\n\nSelect page text and choose Use selected page text, or paste directly. Choose Show floating DO to place a draggable companion on the current webpage. **Dragging the floating ✦ does not share your screen.** Requires Chrome 116 or newer, or a compatible Edge version.\n\n## Browser seat\n\nPer-DO session key (\`do-browser-seat:<uuid>\`). Consent checkbox required. Optional visible-tab screenshot. Optional learn-mode playbook stub. The seat never sends, pays, books or submits forms. Optional host permissions cover SchoolBridge-style \`*.bridge.school.nz\`, AT and Auckland Council — grant only when you need those captures.\n\n## Permissions\n\nActive tab, scripting, tabs and storage are used when you press capture, open URL, or Show floating DO. The floating control alone reads no page content. The background worker opens the side panel and brokers explicit captures; it does not monitor in the background. Network hosts: ${origin} (and localhost when testing). Provider keys stay on assembl's server.\n\n## Product boundary\n\nThe extension prepares, extracts and records your review. It does not send, buy, book, submit, change accounts or monitor in the background. Save to Office is not a running agent — install Household Floor and run the evening board for the family DO path. This is a direct install, not a Chrome Web Store listing.\n\nSource included in this package. Version 1.4.0.\n`);
+      zip.file(
+        'README.md',
+        `# DO browser extension · v${VERSION}
+
+1. Unzip this folder.
+2. Open Chrome → \`chrome://extensions\` (or Edge Extensions).
+3. Enable **Developer mode**.
+4. Choose **Load unpacked** and select this unzipped folder.
+5. Pin **DO by assembl** on the toolbar. Select page text to light the badge.
+6. Click the toolbar icon to open the side panel.
+
+If the extension shows **Inactive**, open Errors — usually a JavaScript syntax issue. Every packaged \`.js\` file starts with \`'use strict';\` (quoted). Reload after fixing.
+
+## Meeting DO + sign-in
+
+Use **Sign in** / **Meeting DO** in the side panel. Those open a normal assembl browser tab so OAuth can finish. After sign-in, return to the side panel and click **Refresh builder** if needed.
+
+## Household Floor browser seat
+
+Open ${origin}/do/household, install the public template, copy the DO id + \`do-browser-seat:<uuid>\` session key into **Advanced · browser seat**, open a school/council/AT tab, tick consent, then **Capture page for this DO**.
+
+Dragging the floating D-mark does **not** share your screen. Selected text is only captured when you choose Use selection / Help with this page.
+
+Requires Chrome 116+ or compatible Edge. Direct install — not a Chrome Web Store listing.
+
+Source: assembl monorepo \`apps/do/extension\`.
+`,
+      );
+    } else if (format === 'macos') {
+      await addDir(zip, MACOS_ROOT, 'macos');
+      zip.file(
+        'README.md',
+        `# DO for Mac · development source · v${VERSION}
+
+There is **no notarised public Mac installer** in this package yet.
+
+This zip contains the Swift companion source from \`apps/do/macos\`.
+
+## Build on a Mac (Xcode Command Line Tools)
+
+\`\`\`bash
+unzip assembl-do-macos-${VERSION}.zip
+cd macos
+./build.sh ~/Desktop/do-mac-build
+open ~/Desktop/do-mac-build/DO.app
+\`\`\`
+
+Optional disk image (still ad-hoc signed, not notarised):
+
+\`\`\`bash
+bash package.sh ~/Desktop/do-mac-build
+\`\`\`
+
+## Honesty
+
+- Development / ad-hoc signed only — Gatekeeper may warn.
+- Accessibility for selected text is opt-in via a labelled control.
+- Dragging the floating D does not capture or share your screen.
+- A public Download Mac DO.app requires Developer ID signing + notarisation (not claimed here).
+
+Install guide: ${origin}/do/install
+`,
+      );
     } else {
       zip.file('do-widget.js', doWidgetScript(origin));
       zip.file('example.html', doEmbedExample(origin));
-      zip.file('README.md', `# DO website widget\n\nAdd this before the closing body tag:\n\n\`<script src="${origin}/api/do/widget" defer></script>\`\n\nOr serve the included do-widget.js from your own site. It opens the hosted DO workspace in an iframe.\n\nVisitors paste and review their own text before preparation. The launcher never reads your page, captures form inputs or starts a task. The host website cannot read the iframe's draft through this API.\n\nOptionally connect an explicit user-clicked button to window.assemblDo.open({text, title, url}). This offers text for review inside the widget; it never submits it automatically. Do not pass private information without permission.\n\nIf your site has a Content Security Policy, allow script-src ${origin} and frame-src ${origin}. The included launcher uses inline styles inside a shadow root; your style policy must allow these or you can adapt the source to your own approved stylesheet.\n\nThe hosted runtime stays with assembl. No model key is included. The visual builder assembles text tasks and image generation with a shared three-task trial; it does not execute actions or monitor later. See ${origin}/do for the current service. Household Floor lives at ${origin}/do/household.\n\nVersion 1.4.0.\n`);
+      zip.file(
+        'README.md',
+        `# DO website widget · v${VERSION}
+
+Add before \`</body>\`:
+
+\`<script src="${origin}/api/do/widget" defer></script>\`
+
+Or serve \`do-widget.js\` from your site. Opens the hosted DO workspace in an iframe.
+
+The launcher never reads your page or starts a task by itself.
+See ${origin}/do and ${origin}/do/install.
+`,
+      );
     }
     const content = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE' });
-    return new Response(content as BodyInit, { headers: {
-      'Content-Type': 'application/zip', 'Content-Disposition': `attachment; filename="assembl-do-${format}-1.4.0.zip"`,
-      'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
-    } });
+    return new Response(content as BodyInit, {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Disposition': `attachment; filename="assembl-do-${format}-${VERSION}.zip"`,
+        'Cache-Control': 'no-store',
+        'X-Content-Type-Options': 'nosniff',
+      },
+    });
   } catch {
-    return Response.json({ error: 'download_unavailable', message: 'The download could not be prepared. Please try again.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+    return Response.json(
+      {
+        error: 'download_unavailable',
+        message: 'The download could not be prepared. Please try again.',
+      },
+      { status: 503, headers: { 'Cache-Control': 'no-store' } },
+    );
   }
 }

@@ -434,6 +434,23 @@
   font-size: 12px;
   color: #240b21;
 }
+.portableGrid a.downloadCta {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 18px;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #240b21;
+  color: #fffdfb;
+  border-bottom: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+.portableGrid a.downloadCta + a,
+.portableGrid a.downloadCta + button {
+  margin-top: 12px;
+}
 .portableGrid small {
   display: block;
   font-size: 10px;

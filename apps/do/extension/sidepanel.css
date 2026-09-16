@@ -18,6 +18,9 @@ a{color:inherit;font-size:11px}
 .callout p{margin:0 0 10px;font-size:11px;color:#654a4e}
 .toolbar-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 8px}
 .text-btn{border:0;background:transparent;color:#654a4e;font:inherit;font-size:11px;text-decoration:underline;cursor:pointer;padding:4px 0}
+.downloads{padding:4px 16px 10px}
+.downloads-label{margin:0 0 8px;font:10px/1.4 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#916a70}
+.downloads .primary-btn{text-decoration:none;display:inline-flex;align-items:center}
 iframe{display:block;flex:1;min-height:160px;width:100%;border:0;border-top:1px solid #dccbd6}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #916a70;outline-offset:3px}
 .seat{margin:0 16px 10px;padding:0 0 4px;border:0;background:transparent}

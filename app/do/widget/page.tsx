@@ -19,6 +19,8 @@ export default function DoWidgetPage() {
       <nav aria-label="DO tools — open in a new tab">
         <Link href="/do/meetings" target="_blank" rel="noopener">Meeting DO ↗</Link>
         <Link href="/login?redirect=%2Fdo%2Fmeetings" target="_blank" rel="noopener">Sign in ↗</Link>
+        <Link href="/do/install" target="_blank" rel="noopener">Install ↗</Link>
+        <Link href="/api/do/download?format=extension" target="_blank" rel="noopener">Download Chrome DO ↗</Link>
         <Link href="/do/connections" target="_blank" rel="noopener">Connections ↗</Link>
         <Link href="/do/office" target="_blank" rel="noopener">Office ↗</Link>
         <Link href="/do/builder" target="_blank" rel="noopener">Builder DO ↗</Link>
