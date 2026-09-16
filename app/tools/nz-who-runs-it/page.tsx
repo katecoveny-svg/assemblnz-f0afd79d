@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'nz-who-runs-it · assembl tools',
   description:
-    'Agent-facing tool: resolve who publicly runs a New Zealand company from a name or NZBN. URL + code + docs. Key-gated. Sandbox via test_ keys.',
+    'Agent-facing tool: resolve who publicly runs a New Zealand company from a name or NZBN. Key-gated. Sandbox via test_ keys. Public-register sourcing only.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -24,8 +24,10 @@ export default function NzWhoRunsItDocsPage() {
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-[color:var(--assembl-muted-plum,#654A4E)]">
           One job: given a New Zealand company name or NZBN, return structured public
-          ownership/control hints — legal name, NZBN, directors when published, registered
-          office when published, contact hints, and source links.
+          ownership/control hints — legal name, NZBN, directors when published,
+          registered office when published, contact hints, and source links. Wraps
+          NZBN + Companies Office gateways (same adapters as mcp-nzbn /
+          mcp-companies-office).
         </p>
 
         <section className="mt-12 space-y-3">
@@ -62,9 +64,12 @@ Auth: Authorization: Bearer <key>
   "status": "ok" | "partial" | "not_found",
   "legalName": string | null,
   "nzbn": string | null,
+  "companyNumber": string | null,
   "directors": [{ "name", "role?", "appointedOn?" }],
   "registeredOffice": string | null,
   "contactHints": { "emails", "phones", "websites", "notes" },
+  "adapters": { "nzbn", "companiesOffice" },
+  "privacy": { "directorsArePersonalInformation", "notice", "doNot", "sources" },
   "sourceLinks": [{ "label", "url" }],
   "sandbox": boolean,
   "gaps": string[]
@@ -76,8 +81,8 @@ Auth: Authorization: Bearer <key>
           <h2 className="text-xl font-medium">Sandbox (test_ keys)</h2>
           <p className="text-[15px] leading-relaxed text-[color:var(--assembl-muted-plum,#654A4E)]">
             Any key starting with <code className="font-mono text-[13px]">test_</code> stays in
-            sandbox — realistic fixtures only, never live NZBN. Demo key:{' '}
-            <code className="font-mono text-[13px]">{DEMO_KEY}</code>. Try queries{' '}
+            sandbox — realistic fixtures only, never live registers. Demo key:{' '}
+            <code className="font-mono text-[13px]">{DEMO_KEY}</code>. Try{' '}
             <code className="font-mono text-[13px]">assembl</code>,{' '}
             <code className="font-mono text-[13px]">9429053514950</code>,{' '}
             <code className="font-mono text-[13px]">trade me</code>.
@@ -93,10 +98,7 @@ Auth: Authorization: Bearer <key>
         <section className="mt-10 space-y-3">
           <h2 className="text-xl font-medium">Live data + env</h2>
           <p className="text-[15px] leading-relaxed text-[color:var(--assembl-muted-plum,#654A4E)]">
-            Live keys call the NZBN gateway with{' '}
-            <code className="font-mono text-[13px]">NZBN_API_KEY</code> (legacy alias{' '}
-            <code className="font-mono text-[13px]">NZBN_API_TOKEN</code>). If missing, live calls
-            return <strong>503</strong> with a fix hint — never fake live data. Register at{' '}
+            Free subscription keys at{' '}
             <a
               className="underline underline-offset-2"
               href="https://api.business.govt.nz/"
@@ -104,7 +106,23 @@ Auth: Authorization: Bearer <key>
             >
               api.business.govt.nz
             </a>
-            .
+            . Live requires <code className="font-mono text-[13px]">NZBN_API_KEY</code> (legacy{' '}
+            <code className="font-mono text-[13px]">NZBN_API_TOKEN</code>). Optional{' '}
+            <code className="font-mono text-[13px]">COMPANIES_OFFICE_API_KEY</code> enriches
+            directors. Missing NZBN key → <strong>503</strong> with a fix hint — never fake live
+            data. Use <code className="font-mono text-[13px]">test_</code> keys when either key
+            is unset.
+          </p>
+        </section>
+
+        <section id="privacy" className="mt-10 space-y-3">
+          <h2 className="text-xl font-medium">Privacy Act (directors)</h2>
+          <p className="text-[15px] leading-relaxed text-[color:var(--assembl-muted-plum,#654A4E)]">
+            Director names are personal information even when published. This tool redistributes
+            only public-register <em>name / role / appointment</em> fields, cites NZBN + Companies
+            Office on every response, and never returns residential addresses or dates of birth.
+            Callers must not build secondary director dossiers (IPP 1, 9, 11). Receipts store
+            director counts, not names.
           </p>
         </section>
 
@@ -117,7 +135,7 @@ Auth: Authorization: Bearer <key>
             <li>503 upstream unconfigured — set NZBN_API_KEY or use test_.</li>
             <li>
               Receipts: <code className="font-mono text-[13px]">GET /api/tools/keys/&#123;keyId&#125;/receipts</code>{' '}
-              (HTML) or <code className="font-mono text-[13px]">?format=json</code>.
+              or <code className="font-mono text-[13px]">?format=json</code>.
             </li>
           </ul>
         </section>
@@ -131,7 +149,7 @@ Auth: Authorization: Bearer <key>
             health JSON
           </Link>
           {' · '}
-          skill draft in <code className="font-mono text-[12px]">docs/tools/nz-who-runs-it.skill.md</code>
+          next: <code className="font-mono text-[12px]">nz-trade-finder</code> (register-only)
         </footer>
       </div>
     </main>

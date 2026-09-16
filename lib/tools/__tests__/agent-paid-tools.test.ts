@@ -62,7 +62,7 @@ describe('runWhoRunsIt live without key', () => {
   it('returns honest 503-shaped ToolHttpError', async () => {
     const client = new NzbnClient({ apiKey: '' });
     await expect(
-      runWhoRunsIt({ company: 'assembl' }, { sandbox: false, client }),
+      runWhoRunsIt({ company: 'assembl' }, { sandbox: false, nzbnClient: client }),
     ).rejects.toMatchObject({ code: 'upstream_unconfigured', status: 503 });
   });
 });
@@ -84,13 +84,74 @@ describe('runWhoRunsIt live with mock fetch', () => {
     const client = new NzbnClient({ apiKey: 'fake', fetchImpl: fetchImpl as typeof fetch });
     const result = await runWhoRunsIt(
       { company: '9429053514950' },
-      { sandbox: false, client },
+      { sandbox: false, nzbnClient: client },
     );
     expect(result.status).toBe('partial');
     expect(result.legalName).toBe('assembl NZ Limited');
     expect(result.directors).toEqual([]);
     expect(result.sandbox).toBe(false);
+    expect(result.privacy.directorsArePersonalInformation).toBe(true);
+    expect(result.adapters.nzbn).toBe('live');
     expect(result.gaps.length).toBeGreaterThan(0);
+  });
+
+  it('enriches directors from Companies Office without residential PII', async () => {
+    const nzbnFetch = async () =>
+      new Response(
+        JSON.stringify({
+          nzbn: '9429053514950',
+          entityName: 'assembl NZ Limited',
+          entityStatusDescription: 'Registered',
+          roles: [],
+          addresses: [],
+          sourceRegisterUniqueIdentifier: '1234567',
+        }),
+        { status: 200 },
+      );
+    const coFetch = async () =>
+      new Response(
+        JSON.stringify({
+          companyNumber: '1234567',
+          companyName: 'assembl NZ Limited',
+          directors: [
+            {
+              fullName: 'Ada Example',
+              appointmentDate: '2020-01-01',
+              residentialAddress: 'SHOULD_NOT_APPEAR 1 Fake St',
+              dateOfBirth: '1970-01-01',
+            },
+          ],
+        }),
+        { status: 200 },
+      );
+    const { CompaniesOfficeClient } = await import(
+      '@/lib/tools/nz-who-runs-it/companies-office-client'
+    );
+    const result = await runWhoRunsIt(
+      { company: '9429053514950' },
+      {
+        sandbox: false,
+        nzbnClient: new NzbnClient({ apiKey: 'nzbn', fetchImpl: nzbnFetch as typeof fetch }),
+        companiesOfficeClient: new CompaniesOfficeClient({
+          apiKey: 'co',
+          fetchImpl: coFetch as typeof fetch,
+        }),
+      },
+    );
+    expect(result.directors).toEqual([
+      { name: 'Ada Example', role: 'Director', appointedOn: '2020-01-01' },
+    ]);
+    expect(JSON.stringify(result)).not.toContain('SHOULD_NOT_APPEAR');
+    expect(JSON.stringify(result)).not.toContain('1970-01-01');
+    expect(result.adapters.companiesOffice).toBe('live');
+  });
+});
+
+describe('sandbox privacy block', () => {
+  it('always includes privacy notice on fixtures', () => {
+    const r = sandboxWhoRunsIt('assembl');
+    expect(r.privacy.sources.length).toBeGreaterThan(0);
+    expect(r.adapters.nzbn).toBe('sandbox');
   });
 });
 

@@ -1,4 +1,4 @@
-import type { WhoRunsItResult } from './types';
+import { WHO_RUNS_IT_PRIVACY, type WhoRunsItResult } from './types';
 
 /**
  * Realistic NZ sandbox fixtures. Labelled sandbox — not live register reads.
@@ -11,6 +11,7 @@ const FIXTURES: WhoRunsItResult[] = [
     query: 'assembl',
     legalName: 'assembl NZ Limited',
     nzbn: '9429053514950',
+    companyNumber: null,
     entityStatus: 'Registered',
     entityType: 'NZ Limited Company',
     directors: [{ name: 'Kate Hudson', role: 'Director', appointedOn: null }],
@@ -37,6 +38,8 @@ const FIXTURES: WhoRunsItResult[] = [
         url: 'https://assembl.co.nz/tools/nz-who-runs-it',
       },
     ],
+    adapters: { nzbn: 'sandbox', companiesOffice: 'sandbox' },
+    privacy: WHO_RUNS_IT_PRIVACY,
     sandbox: true,
     gaps: [],
   },
@@ -45,6 +48,7 @@ const FIXTURES: WhoRunsItResult[] = [
     query: '9429053514950',
     legalName: 'assembl NZ Limited',
     nzbn: '9429053514950',
+    companyNumber: null,
     entityStatus: 'Registered',
     entityType: 'NZ Limited Company',
     directors: [{ name: 'Kate Hudson', role: 'Director', appointedOn: null }],
@@ -63,6 +67,8 @@ const FIXTURES: WhoRunsItResult[] = [
         url: 'https://www.nzbn.govt.nz/',
       },
     ],
+    adapters: { nzbn: 'sandbox', companiesOffice: 'sandbox' },
+    privacy: WHO_RUNS_IT_PRIVACY,
     sandbox: true,
     gaps: [],
   },
@@ -71,6 +77,7 @@ const FIXTURES: WhoRunsItResult[] = [
     query: 'trade me',
     legalName: 'Trade Me Limited',
     nzbn: '9429036051687',
+    companyNumber: null,
     entityStatus: 'Registered',
     entityType: 'NZ Limited Company',
     directors: [],
@@ -89,6 +96,8 @@ const FIXTURES: WhoRunsItResult[] = [
         url: 'https://app.companiesoffice.govt.nz/companies/app/ui/pages/companies/search?q=Trade+Me',
       },
     ],
+    adapters: { nzbn: 'sandbox', companiesOffice: 'sandbox' },
+    privacy: WHO_RUNS_IT_PRIVACY,
     sandbox: true,
     gaps: [
       'Director list not included in this sandbox fixture.',
@@ -109,6 +118,7 @@ export function sandboxWhoRunsIt(company: string): WhoRunsItResult {
       query: company,
       legalName: null,
       nzbn: null,
+      companyNumber: null,
       entityStatus: null,
       entityType: null,
       directors: [],
@@ -120,6 +130,8 @@ export function sandboxWhoRunsIt(company: string): WhoRunsItResult {
           url: 'https://assembl.co.nz/tools/nz-who-runs-it',
         },
       ],
+      adapters: { nzbn: 'sandbox', companiesOffice: 'sandbox' },
+      privacy: WHO_RUNS_IT_PRIVACY,
       sandbox: true,
       gaps: ['Empty company query.'],
     };
@@ -131,7 +143,13 @@ export function sandboxWhoRunsIt(company: string): WhoRunsItResult {
   });
 
   if (hit) {
-    return { ...hit, query: company, sandbox: true };
+    return {
+      ...hit,
+      query: company,
+      sandbox: true,
+      privacy: WHO_RUNS_IT_PRIVACY,
+      adapters: { nzbn: 'sandbox', companiesOffice: 'sandbox' },
+    };
   }
 
   return {
@@ -139,6 +157,7 @@ export function sandboxWhoRunsIt(company: string): WhoRunsItResult {
     query: company,
     legalName: null,
     nzbn: null,
+    companyNumber: null,
     entityStatus: null,
     entityType: null,
     directors: [],
@@ -157,6 +176,8 @@ export function sandboxWhoRunsIt(company: string): WhoRunsItResult {
         url: 'https://assembl.co.nz/tools/nz-who-runs-it',
       },
     ],
+    adapters: { nzbn: 'sandbox', companiesOffice: 'sandbox' },
+    privacy: WHO_RUNS_IT_PRIVACY,
     sandbox: true,
     gaps: ['No matching sandbox fixture for this query.'],
   };

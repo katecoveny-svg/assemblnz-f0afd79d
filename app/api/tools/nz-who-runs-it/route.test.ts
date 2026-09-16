@@ -133,5 +133,6 @@ describe('GET /api/tools/nz-who-runs-it', () => {
     expect(json.tool).toBe('nz-who-runs-it');
     expect(json.docs).toBe('/tools/nz-who-runs-it');
     expect(json.auth.demo_test_key.startsWith('test_')).toBe(true);
+    expect(Array.isArray((json as { wraps?: string[] }).wraps)).toBe(true);
   });
 });

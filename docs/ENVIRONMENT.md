@@ -110,6 +110,7 @@ Never expose the secret/webhook values to browser code.
 First shipping surface: `POST /api/tools/nz-who-runs-it` (shared primitives in `lib/tools/`).
 
 - `NZBN_API_KEY` — required for **live** lookups (api.business.govt.nz subscription key). Legacy alias `NZBN_API_TOKEN` is accepted. Without it, live keys get an honest **503**; `test_*` keys always use sandbox fixtures.
+- `COMPANIES_OFFICE_API_KEY` — optional live enrichment for public directors (same free gateway family). When unset, live NZBN results still return with `adapters.companiesOffice: "unavailable"` and a gap note.
 - `ASSEMBL_TOOL_DEMO_TEST_KEY` — optional override of the documented demo sandbox key.
 - `ASSEMBL_TOOLS_ALLOW_OPEN_TEST_KEYS` — when not `"false"`, any `test_*` key auto-provisions in the store (preview-friendly).
 - `ASSEMBL_TOOL_SEED_KEYS` — optional `id:rawKey:capCents,...` seed list for registered keys (including `live_`).
