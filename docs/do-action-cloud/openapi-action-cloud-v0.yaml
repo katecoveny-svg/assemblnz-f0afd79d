@@ -1,0 +1,315 @@
+openapi: 3.0.3
+info:
+  title: DO Action Cloud API (Phase 1 draft)
+  version: 0.1.0
+  description: |
+    Draft OpenAPI for DO Action Cloud stage handlers.
+    Not a claim of live production Action Cloud.
+    Lifecycle: discover → inspect → quote → prepare → permit → execute → wait → verify → receipt → undo
+  contact:
+    name: assembl
+servers:
+  - url: /
+    description: Host Next.js app
+tags:
+  - name: stages
+  - name: catalogue
+paths:
+  /api/do/action:
+    get:
+      tags: [catalogue]
+      summary: Catalogue, lifecycle map, demo.echo happy path
+      responses:
+        '200':
+          description: Catalogue JSON
+  /api/do/action/discover:
+    get:
+      tags: [stages]
+      summary: List available actions
+      responses:
+        '200':
+          description: Universal response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UniversalResponse'
+    post:
+      tags: [stages]
+      summary: List available actions
+      responses:
+        '200':
+          description: Universal response
+  /api/do/action/inspect:
+    get:
+      tags: [stages]
+      summary: Inspect demo.echo contract
+      responses:
+        '200':
+          description: Universal response
+  /api/do/action/quote:
+    post:
+      tags: [stages]
+      summary: Quote / dry-run (Phase 1 stub)
+      responses:
+        '501':
+          description: not_implemented
+  /api/do/action/prepare:
+    post:
+      tags: [stages]
+      summary: Lock args; return prep_id + args_hash
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrepareRequest'
+            example:
+              action_name: echo
+              namespace: demo
+              args:
+                message: hello
+              idempotency_key: idem_demo_00123456
+              tenant_id: ten_demo
+      responses:
+        '200':
+          description: Universal response with prep_id
+  /api/do/action/permit:
+    post:
+      tags: [stages]
+      summary: Issue short-lived permit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermitRequest'
+      responses:
+        '200':
+          description: Universal response with permit_id
+  /api/do/action/execute:
+    post:
+      tags: [stages]
+      summary: Execute under permit (rejects hash mismatch / expired)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteRequest'
+      responses:
+        '200':
+          description: Succeeded
+        '403':
+          description: permit_expired or args_hash_mismatch
+  /api/do/action/wait:
+    post:
+      tags: [stages]
+      summary: Register or resolve a wait
+      responses:
+        '200':
+          description: Universal response
+    get:
+      tags: [stages]
+      summary: Poll wait by query wait_id
+      parameters:
+        - in: query
+          name: wait_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Universal response
+  /api/do/action/wait/{waitId}:
+    get:
+      tags: [stages]
+      summary: Poll wait by path id
+      parameters:
+        - in: path
+          name: waitId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Universal response
+    post:
+      tags: [stages]
+      summary: Resolve wait
+      parameters:
+        - in: path
+          name: waitId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Universal response
+  /api/do/action/verify:
+    post:
+      tags: [stages]
+      summary: Post-execute verification
+      responses:
+        '200':
+          description: Universal response
+  /api/do/action/receipt:
+    post:
+      tags: [stages]
+      summary: Issue append-only receipt (after execute only)
+      responses:
+        '200':
+          description: Universal response
+        '409':
+          description: receipt_before_execute
+    get:
+      tags: [stages]
+      summary: Fetch receipt
+      parameters:
+        - in: query
+          name: action_id
+          schema:
+            type: string
+        - in: query
+          name: receipt_id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Universal response
+  /api/do/action/undo:
+    post:
+      tags: [stages]
+      summary: Undo (Phase 1 stub)
+      responses:
+        '501':
+          description: not_implemented
+components:
+  schemas:
+    PrepareRequest:
+      type: object
+      required: [action_name, args]
+      properties:
+        action_name:
+          type: string
+        namespace:
+          type: string
+          default: demo
+        args:
+          type: object
+        idempotency_key:
+          type: string
+          minLength: 8
+          maxLength: 128
+        tenant_id:
+          type: string
+        agent_id:
+          type: string
+    PermitRequest:
+      type: object
+      required: [prep_id]
+      properties:
+        prep_id:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        ttl_seconds:
+          type: integer
+        constraints:
+          type: object
+          properties:
+            args_hash:
+              type: string
+            max_uses:
+              type: integer
+    ExecuteRequest:
+      type: object
+      required: [permit_id, prep_id]
+      properties:
+        permit_id:
+          type: string
+        prep_id:
+          type: string
+        idempotency_key:
+          type: string
+        args:
+          type: object
+          description: Optional; when present must match locked args_hash
+    UniversalResponse:
+      type: object
+      required: [ok, stage, status, errors, risk, meta]
+      properties:
+        ok:
+          type: boolean
+        action_id:
+          type: string
+          nullable: true
+        action_name:
+          type: string
+          nullable: true
+        stage:
+          type: string
+        status:
+          type: string
+          enum:
+            - accepted
+            - in_progress
+            - waiting
+            - succeeded
+            - failed
+            - cancelled
+            - escalated
+            - undone
+        prep_id:
+          type: string
+          nullable: true
+        permit_id:
+          type: string
+          nullable: true
+        receipt_id:
+          type: string
+          nullable: true
+        wait_id:
+          type: string
+          nullable: true
+        verify:
+          type: object
+          nullable: true
+        result: {}
+        errors:
+          type: array
+          items:
+            type: object
+            required: [code, message]
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+              retryable:
+                type: boolean
+              details:
+                type: object
+        risk:
+          type: object
+          properties:
+            class:
+              type: string
+            flags:
+              type: array
+              items:
+                type: string
+        meta:
+          type: object
+          properties:
+            contract_version:
+              type: string
+            idempotency_key:
+              type: string
+              nullable: true
+            request_id:
+              type: string
+            server_time:
+              type: string
+              format: date-time
