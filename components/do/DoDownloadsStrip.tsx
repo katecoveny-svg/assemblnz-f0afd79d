@@ -1,10 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { Download } from 'lucide-react';
 import styles from './do-portable.module.css';
-
-const MAC_SETUP =
-  'https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos';
 
 type Props = {
   compact?: boolean;
@@ -13,7 +11,7 @@ type Props = {
 
 /**
  * Chrome ZIP + Mac companion entry — visible on /do and portable surfaces.
- * Mac remains an honest development-build / setup link (no signed installer claim).
+ * Mac is an honest development-source zip (no signed installer claim).
  */
 export function DoDownloadsStrip({ compact = false, className }: Props) {
   return (
@@ -22,24 +20,34 @@ export function DoDownloadsStrip({ compact = false, className }: Props) {
       aria-label="Downloads"
     >
       <div className={styles.downloadsHead}>
-        <strong>Downloads</strong>
+        <strong>Take DO with you</strong>
         <span>Chrome · Mac</span>
       </div>
       <div className={styles.downloadRow}>
         <a
           className={styles.downloadLink}
           href="/api/do/download?format=extension"
-          download
+          download="assembl-do-extension-1.5.2.zip"
         >
-          Chrome extension
+          <Download size={14} aria-hidden />
+          Download Chrome DO
         </a>
-        <Link className={styles.downloadLinkSecondary} href={MAC_SETUP} target="_blank" rel="noreferrer">
-          Mac companion
+        <a
+          className={styles.downloadLinkSecondary}
+          href="/api/do/download?format=mac"
+          download="DO-mac-companion.zip"
+        >
+          <Download size={14} aria-hidden />
+          Download Mac DO
+        </a>
+        <Link className={styles.downloadGuide} href="/do/install">
+          Install guide
         </Link>
       </div>
       {!compact ? (
         <p className={styles.downloadsNote}>
-          Chrome: unzip → Load unpacked. Mac: local development build — public signed installer not available yet.
+          Chrome: unzip → Load unpacked. Mac: source zip · build on a Mac · no
+          notarised public installer yet.
         </p>
       ) : null}
     </section>

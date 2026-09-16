@@ -158,9 +158,10 @@ describe('persistent DO panel capture', () => {
     expect(html).toMatch(/Help with this page/);
     expect(html).toMatch(/Draft a reply/);
     expect(html).toMatch(/Meeting notes/);
-    expect(html).toMatch(/Downloads/);
-    expect(html).toMatch(/Chrome extension/);
-    expect(html).toMatch(/Mac companion/);
+    expect(html).toMatch(/Take DO with you/);
+    expect(html).toMatch(/Download Chrome DO/);
+    expect(html).toMatch(/Download Mac DO/);
+    expect(html).toMatch(/format=mac/);
     expect(html).toMatch(/Needs you/);
     expect(html).toMatch(/Working/);
     expect(html).toMatch(/Done/);
@@ -169,5 +170,11 @@ describe('persistent DO panel capture', () => {
     expect(html).not.toMatch(/meeting-card/);
     expect(html).not.toMatch(/Linda/i);
     expect(html).not.toMatch(/Chat\s*\/\s*Help/i);
+  });
+  it('wires Mac download to the API, not GitHub', () => {
+    const s = setup();
+    void s;
+    expect(source).toContain("format=mac");
+    expect(source).not.toContain('github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos');
   });
 });

@@ -1,7 +1,6 @@
 'use strict';
 
 const PRODUCTION_ORIGIN = 'https://www.assembl.co.nz';
-const MAC_SETUP = 'https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos';
 const frame = document.getElementById('builder');
 const captureButton = document.getElementById('capture');
 const helpPageButton = document.getElementById('help-page');
@@ -32,7 +31,7 @@ function syncFrame() {
 
 function syncDownloads() {
   if (dlChrome) dlChrome.href = `${apiOrigin}/api/do/download?format=extension`;
-  if (dlMac) dlMac.href = MAC_SETUP;
+  if (dlMac) dlMac.href = `${apiOrigin}/api/do/download?format=mac`;
 }
 
 function offer() {
