@@ -3,15 +3,42 @@
  *
  * One white-label schema → portable AgentSpec. Branding is maker/preview state;
  * AgentSpec stays policy-clean (drafts-only, hook-later connectors).
+ *
+ * Journey / Sponsored Agent / outreach gate live in `pursuit-journey.ts` and
+ * ride along on the same draft — no Assembling/Dash fork, no second BP skin.
  */
 
 import type { AgentPrimitive, AgentSpec } from '@/apps/do/shared/types';
 import { enforceApprovalPolicy } from '@/apps/do/shared/policy';
+import {
+  bpLoyaltyMomentConciergeJourney,
+  defaultPursuitJourney,
+  normaliseJourney,
+  seedJourneyForPartner,
+  type PursuitJourney,
+} from './pursuit-journey';
 
 export const TASK_DO_MAKER_PATH = '/studio/do-maker';
 export const TASK_DO_PARTNER_PATH = '/do/maker/partner';
 export const TASK_DO_DRAFT_KEY = 'assembl:studio:task-do-draft:v1';
 export const TASK_DO_HANDOFF_KEY = 'assembl:do:task-do-handoff:v1';
+export const PURSUIT_PLAYGROUND_PATH = '/pursuit/playground';
+
+export type { PursuitJourney } from './pursuit-journey';
+export {
+  bpLoyaltyMomentConciergeJourney,
+  defaultPursuitJourney,
+  seedJourneyForPartner,
+  normaliseJourney,
+  readFileAsDataUrl,
+  saveOutreachLead,
+  hasUnlockedOutreach,
+  unlockOutreach,
+  outreachUnlockKey,
+  moveJourneyStep,
+  addCustomJourneyStep,
+  defaultSponsoredModule,
+} from './pursuit-journey';
 
 export type TaskDoMode = 'pursuit' | 'partner';
 
@@ -49,9 +76,12 @@ export type TaskDoConfig = {
 };
 
 export type TaskDoDraft = {
-  version: 1;
+  /** v1 drafts still load; journey is filled on read when missing. */
+  version: 1 | 2;
   brand: WhiteLabelBrand;
   config: TaskDoConfig;
+  /** Flexible Pursuit journey + Sponsored Agent + outreach gate. */
+  journey: PursuitJourney;
   updatedAt: string;
 };
 
@@ -80,6 +110,10 @@ export type PartnerSkin = {
   defaultTemplate: TaskDoTemplateId;
   /** Honest demo note — skins are offline config, not live OAuth. */
   honesty: string;
+  /** Vertical hint for journey seeding (not a dropdown lock). */
+  verticalHint: string;
+  /** Optional journey title when this skin seeds Mode B. */
+  conciergeTitle?: string;
 };
 
 export const DEFAULT_BRAND: WhiteLabelBrand = {
@@ -118,6 +152,8 @@ export const PARTNER_SKINS: Record<PartnerSlug, PartnerSkin> = {
     },
     defaultTemplate: 'rewarded-wait',
     honesty: 'Demo skin only. No bp account link, scrape or live rewards API.',
+    verticalHint: 'fuel / convenience loyalty',
+    conciergeTitle: 'BP Loyalty Moment Concierge',
   },
   warehouse: {
     slug: 'warehouse',
@@ -132,6 +168,7 @@ export const PARTNER_SKINS: Record<PartnerSlug, PartnerSkin> = {
     },
     defaultTemplate: 'task-utility',
     honesty: 'Demo skin only. No Warehouse account link, scrape or live rewards API.',
+    verticalHint: 'retail wait-time utility',
   },
 };
 
@@ -351,7 +388,11 @@ export function applyPartnerSkin(
   slug: PartnerSlug,
   current?: Partial<TaskDoConfig>,
   brandOverride?: Partial<WhiteLabelBrand>,
-): { brand: WhiteLabelBrand; config: TaskDoConfig } {
+  journeyOverride?: Partial<PursuitJourney> & {
+    sponsored?: Partial<PursuitJourney['sponsored']>;
+    outreach?: Partial<PursuitJourney['outreach']>;
+  },
+): { brand: WhiteLabelBrand; config: TaskDoConfig; journey: PursuitJourney } {
   const skin = PARTNER_SKINS[slug];
   const config = applyTemplate(skin.defaultTemplate, normaliseConfig({
     ...DEFAULT_CONFIG,
@@ -364,9 +405,66 @@ export function applyPartnerSkin(
   const overrides = Object.fromEntries(
     Object.entries(brandOverride ?? {}).filter(([, value]) => value !== undefined && value !== ''),
   ) as Partial<WhiteLabelBrand>;
+  const seededJourney = seedJourneyForPartner(slug);
   return {
     brand: normaliseBrand({ ...skin.brand, ...overrides }),
     config,
+    journey: normaliseJourney({
+      ...seededJourney,
+      ...journeyOverride,
+      title: journeyOverride?.title || seededJourney.title || skin.conciergeTitle || skin.productName,
+      sponsored: {
+        ...seededJourney.sponsored,
+        ...(journeyOverride?.sponsored ?? {}),
+        sponsorName:
+          journeyOverride?.sponsored?.sponsorName ||
+          seededJourney.sponsored.sponsorName ||
+          skin.productName,
+        asaLabel: 'Sponsored',
+        stages: journeyOverride?.sponsored?.stages ?? seededJourney.sponsored.stages,
+      },
+      outreach: {
+        ...seededJourney.outreach,
+        ...(journeyOverride?.outreach ?? {}),
+      },
+    }),
+  };
+}
+
+/** Custom client in partner/pursuit mode — no preset skin dropdown required. */
+export function applyCustomClient(
+  displayName: string,
+  current?: Partial<TaskDoConfig>,
+  brandOverride?: Partial<WhiteLabelBrand>,
+): { brand: WhiteLabelBrand; config: TaskDoConfig; journey: PursuitJourney } {
+  const name = displayName.trim() || 'Custom client';
+  const config = normaliseConfig({
+    ...DEFAULT_CONFIG,
+    ...current,
+    mode: current?.mode === 'partner' ? 'partner' : 'pursuit',
+    partnerSlug: null,
+    partner: name,
+    templateId: current?.templateId ?? (current?.mode === 'partner' ? 'rewarded-wait' : 'research-brief'),
+  });
+  const journey = normaliseJourney({
+    ...defaultPursuitJourney(),
+    title: `${name} journey`,
+    brief: current?.opportunity || '',
+    sponsored: {
+      ...defaultPursuitJourney().sponsored,
+      sponsorName: name,
+    },
+  });
+  return {
+    brand: normaliseBrand({
+      displayName: name,
+      accent: brandOverride?.accent,
+      accentSecondary: brandOverride?.accentSecondary,
+      logoUrl: brandOverride?.logoUrl,
+      promise: brandOverride?.promise || `One clear job for ${name}. Drafts first.`,
+    }),
+    config,
+    journey,
   };
 }
 
@@ -412,6 +510,7 @@ export function compileTaskDoSpec(
     configNorm.partner ? `Partner context: ${configNorm.partner}` : '',
     configNorm.partnerSlug ? `Partner skin: ${configNorm.partnerSlug}` : '',
     skin ? `Partner rail: ${skin.railLabel}` : '',
+    skin ? `Vertical: ${skin.verticalHint}` : '',
     configNorm.task ? `Task key: ${configNorm.task}` : '',
     `Brand promise: ${brandNorm.promise}`,
     `Instructions: ${instructions}`,
@@ -463,11 +562,28 @@ export function compileTaskDoSpec(
   };
 }
 
-export function draftFromParts(brand: WhiteLabelBrand, config: TaskDoConfig, updatedAt?: string): TaskDoDraft {
+export function draftFromParts(
+  brand: WhiteLabelBrand,
+  config: TaskDoConfig,
+  journey?: PursuitJourney | null,
+  updatedAt?: string,
+): TaskDoDraft {
+  const configNorm = normaliseConfig(config);
+  const baseJourney = normaliseJourney(
+    journey ??
+      (configNorm.partnerSlug
+        ? seedJourneyForPartner(configNorm.partnerSlug)
+        : defaultPursuitJourney()),
+  );
+  const journeyNorm = {
+    ...baseJourney,
+    brief: baseJourney.brief || configNorm.opportunity || '',
+  };
   return {
-    version: 1,
+    version: 2,
     brand: normaliseBrand(brand),
-    config: normaliseConfig(config),
+    config: configNorm,
+    journey: journeyNorm,
     updatedAt: updatedAt ?? new Date().toISOString(),
   };
 }
@@ -475,12 +591,13 @@ export function draftFromParts(brand: WhiteLabelBrand, config: TaskDoConfig, upd
 export function readLocalDraft(storage: Pick<Storage, 'getItem'>): TaskDoDraft | null {
   try {
     const raw = storage.getItem(TASK_DO_DRAFT_KEY);
-    if (!raw || raw.length > 200_000) return null;
-    const parsed = JSON.parse(raw) as Partial<TaskDoDraft>;
-    if (parsed.version !== 1) return null;
+    if (!raw || raw.length > 400_000) return null;
+    const parsed = JSON.parse(raw) as Partial<TaskDoDraft> & { version?: number };
+    if (parsed.version !== 1 && parsed.version !== 2) return null;
     return draftFromParts(
       normaliseBrand(parsed.brand),
       normaliseConfig(parsed.config),
+      parsed.journey ? normaliseJourney(parsed.journey) : null,
       typeof parsed.updatedAt === 'string' ? parsed.updatedAt : undefined,
     );
   } catch {
@@ -489,7 +606,7 @@ export function readLocalDraft(storage: Pick<Storage, 'getItem'>): TaskDoDraft |
 }
 
 export function writeLocalDraft(storage: Pick<Storage, 'setItem'>, draft: TaskDoDraft): TaskDoDraft {
-  const next = draftFromParts(draft.brand, draft.config, new Date().toISOString());
+  const next = draftFromParts(draft.brand, draft.config, draft.journey, new Date().toISOString());
   storage.setItem(TASK_DO_DRAFT_KEY, JSON.stringify(next));
   return next;
 }
@@ -509,7 +626,7 @@ export function writeHandoffSpec(storage: Pick<Storage, 'setItem'>, spec: AgentS
 /** Encode maker state into shareable / Pursuit / partner query params. */
 export function draftToSearchParams(draft: TaskDoDraft): URLSearchParams {
   const params = new URLSearchParams();
-  const { brand, config } = draft;
+  const { brand, config, journey } = draft;
   if (config.mode === 'partner') params.set('mode', 'partner');
   if (config.partnerSlug) params.set('partner', config.partnerSlug);
   else if (config.partner) params.set('partner', config.partner);
@@ -528,8 +645,13 @@ export function draftToSearchParams(draft: TaskDoDraft): URLSearchParams {
   if (brand.accentSecondary && brand.accentSecondary !== DEFAULT_BRAND.accentSecondary) {
     params.set('accent2', brand.accentSecondary);
   }
-  if (brand.logoUrl) params.set('logo', brand.logoUrl);
+  // Skip data-URL logos in share links — too large; browser draft keeps imagery.
+  if (brand.logoUrl && !brand.logoUrl.startsWith('data:')) params.set('logo', brand.logoUrl);
   if (brand.promise && brand.promise !== DEFAULT_BRAND.promise) params.set('promise', brand.promise);
+  if (journey.title) params.set('journey', journey.title);
+  if (journey.brief) params.set('jbrief', journey.brief.slice(0, 240));
+  if (journey.sponsored.enabled) params.set('sponsored', '1');
+  if (journey.outreach.enabled) params.set('gate', '1');
   return params;
 }
 
@@ -538,10 +660,14 @@ export function draftFromSearchParams(search: URLSearchParams | { get(name: stri
   const partnerParam = search.get('partner') || '';
   const skin = getPartnerSkin(partnerParam);
   const mode = normaliseMode(modeParam || (skin ? 'partner' : 'pursuit'));
+  const journeyTitle = search.get('journey') || '';
+  const journeyBrief = search.get('jbrief') || search.get('opportunity') || '';
+  const sponsoredFlag = search.get('sponsored') === '1';
+  const gateFlag = search.get('gate') !== '0';
 
   if (mode === 'partner' && skin) {
     const seeded = applyPartnerSkin(skin.slug, {
-      opportunity: search.get('opportunity') || '',
+      opportunity: search.get('opportunity') || journeyBrief,
       task: search.get('task') || '',
       templateId: getTaskDoTemplate(search.get('template'))?.id ?? skin.defaultTemplate,
       title: search.get('title') || '',
@@ -553,8 +679,12 @@ export function draftFromSearchParams(search: URLSearchParams | { get(name: stri
       accentSecondary: search.get('accent2') || undefined,
       logoUrl: search.get('logo') || undefined,
       promise: search.get('promise') || undefined,
+    }, {
+      title: journeyTitle || undefined,
+      brief: journeyBrief || undefined,
     });
-    // If URL supplied a template, re-apply after skin seed so chips win.
+    if (sponsoredFlag) seeded.journey.sponsored.enabled = true;
+    seeded.journey.outreach.enabled = gateFlag;
     const template = getTaskDoTemplate(search.get('template'));
     const config = template
       ? applyTemplate(template.id, { ...seeded.config, title: search.get('title') || '', job: search.get('job') || '', instructions: search.get('instructions') || DEFAULT_CONFIG.instructions })
@@ -567,7 +697,7 @@ export function draftFromSearchParams(search: URLSearchParams | { get(name: stri
       ...(search.get('logo') ? { logoUrl: search.get('logo')! } : {}),
       ...(search.get('promise') ? { promise: search.get('promise')! } : {}),
     });
-    return draftFromParts(brand, config);
+    return draftFromParts(brand, config, seeded.journey);
   }
 
   const templateParam = search.get('template');
@@ -579,7 +709,7 @@ export function draftFromSearchParams(search: URLSearchParams | { get(name: stri
     title: search.get('title') || '',
     job: search.get('job') || '',
     instructions: search.get('instructions') || DEFAULT_CONFIG.instructions,
-    opportunity: search.get('opportunity') || '',
+    opportunity: search.get('opportunity') || journeyBrief,
     partner: partnerParam,
     task: search.get('task') || '',
   });
@@ -596,7 +726,19 @@ export function draftFromSearchParams(search: URLSearchParams | { get(name: stri
     promise: search.get('promise') || DEFAULT_BRAND.promise,
   });
 
-  return draftFromParts(brand, config);
+  const journey = normaliseJourney({
+    ...defaultPursuitJourney(),
+    title: journeyTitle,
+    brief: journeyBrief,
+    sponsored: {
+      ...defaultPursuitJourney().sponsored,
+      enabled: sponsoredFlag,
+      sponsorName: brand.displayName,
+    },
+    outreach: { ...defaultPursuitJourney().outreach, enabled: gateFlag },
+  });
+
+  return draftFromParts(brand, config, journey);
 }
 
 export function makerHref(params?: Partial<{

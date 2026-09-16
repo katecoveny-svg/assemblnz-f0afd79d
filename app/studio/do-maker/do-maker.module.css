@@ -617,6 +617,331 @@
   }
 }
 
+.journeyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.customClientRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+  margin-top: 12px;
+}
+
+.customClientRow label {
+  display: grid;
+  gap: 6px;
+  color: #916a70;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.customClientRow input {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  border-radius: 12px;
+  background: #f5f1f2;
+  color: #240b21;
+  font: 500 14px/1.45 var(--font-body), 'Instrument Sans', sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ghostBtn {
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  border-radius: 999px;
+  min-height: 42px;
+  padding: 0 14px;
+  background: #fffdfb;
+  color: #240b21;
+  font: 500 11px var(--font-body), 'Instrument Sans', sans-serif;
+  cursor: pointer;
+}
+
+.assetRow {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.fileLabel {
+  display: grid;
+  gap: 6px;
+  color: #916a70;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fileLabel input[type='file'] {
+  font: 500 12px var(--font-body), 'Instrument Sans', sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #240b21;
+}
+
+.fileLabel span {
+  color: #654a4e;
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.assetPreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.assetPreview img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+}
+
+.journeySteps {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.journeySteps li {
+  padding: 12px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  border-radius: 14px;
+  background: #f5f1f2;
+}
+
+.journeySteps li[data-enabled='false'] {
+  opacity: 0.55;
+}
+
+.stepToolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stepEnable {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: #916a70;
+}
+
+.stepLabel {
+  flex: 1;
+  min-height: 36px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  border-radius: 10px;
+  padding: 0 10px;
+  background: #fffdfb;
+  font: 500 13px var(--font-body), 'Instrument Sans', sans-serif;
+}
+
+.stepMove {
+  display: flex;
+  gap: 4px;
+}
+
+.stepMove button {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  background: #fffdfb;
+  cursor: pointer;
+}
+
+.journeySteps textarea {
+  width: 100%;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  background: #fffdfb;
+  font: 500 13px/1.45 var(--font-body), 'Instrument Sans', sans-serif;
+  resize: vertical;
+}
+
+.toggleRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #240b21;
+  font-size: 13px;
+}
+
+.sponsoredWalk {
+  display: grid;
+  gap: 10px;
+}
+
+.sponsoredRail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sponsoredRail button {
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: #fffdfb;
+  color: #654a4e;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.sponsoredRail button[aria-selected='true'] {
+  background: var(--maker-accent, #240b21);
+  color: #fffdfb;
+  border-color: var(--maker-accent, #240b21);
+}
+
+.sponsoredCard,
+.sponsoredPreview {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  background: #fffdfb;
+}
+
+.sponsoredCard label,
+.sponsoredPreview h3 {
+  display: grid;
+  gap: 6px;
+}
+
+.sponsoredPreview h3 {
+  margin: 8px 0 0;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.sponsoredPreview p {
+  color: #654a4e;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.sponsoredMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sponsoredPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #ffcd00;
+  color: #240b21;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.demoPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #f5f1f2;
+  color: #654a4e;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.widgetHero {
+  margin-bottom: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+  max-height: 140px;
+}
+
+.widgetHero img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.gateShell {
+  position: relative;
+}
+
+.gateCard {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  margin: 0 auto 24px;
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  background: #fffdfb;
+  box-shadow: 0 18px 40px rgba(36, 11, 33, 0.12);
+}
+
+.gateCard h2 {
+  margin: 10px 0 0;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.05em;
+}
+
+.gateCard > p {
+  color: #654a4e;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.gateBlur {
+  filter: blur(3px);
+  opacity: 0.45;
+  pointer-events: none;
+  user-select: none;
+}
+
+.gateError {
+  color: #8b2e3b;
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .journeyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .main {
     width: min(100% - 22px, 1480px);
@@ -628,7 +953,8 @@
   }
 
   .colourRow,
-  .skinRow {
+  .skinRow,
+  .customClientRow {
     grid-template-columns: 1fr;
   }
 
