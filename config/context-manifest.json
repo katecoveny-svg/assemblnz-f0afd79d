@@ -1,23 +1,32 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-16",
+  "updated_at": "2026-09-17",
   "purpose": "Canonical routing manifest for Assembl agents, coding harnesses and DO runtimes. This file points to truth; it does not duplicate full context.",
   "entrypoints": {
     "human_or_coding_agent": [
       "START_HERE.md",
       "AGENTS.md",
-      "docs/context/README.md",
-      "docs/context/CURRENT.md"
+      "config/context-manifest.json",
+      "docs/context/CURRENT.md",
+      "docs/context/README.md"
     ],
     "runtime_agent": [
       "docs/context/CURRENT.md",
       "docs/assembl-context.md"
+    ],
+    "visual_or_creative_agent": [
+      "docs/context/CURRENT.md",
+      "docs/assembl-context.md",
+      "docs/assembl-brand-system.md",
+      "DESIGN.md",
+      "docs/assembl-copy-standard.md"
     ]
   },
   "canonical": {
     "current_state": "docs/context/CURRENT.md",
     "company_and_product_strategy": "docs/assembl-context.md",
     "brand": "docs/assembl-brand-system.md",
+    "design_guide": "DESIGN.md",
     "copy": "docs/assembl-copy-standard.md",
     "factory": "docs/factory/FACTORY.md",
     "primitives": "docs/factory/PRIMITIVES.md",
@@ -28,12 +37,27 @@
     "journey_foundation": "docs/agentic-customer-journey.md",
     "wait_states": "docs/agentic-wait-states-roadmap.md"
   },
+  "active_build_packages": {
+    "do_action_cloud": {
+      "path": "docs/do-action-cloud/",
+      "status": "mixed: Phase 1 implementation plus staged build briefs; verify runtime before capability claims"
+    },
+    "do_meet": {
+      "path": "docs/do-meet/",
+      "status": "build briefs plus related Meeting DO runtime work; broader hosted-video/provider integration is not implied live"
+    }
+  },
   "product_structure": {
     "pursuit": "find the work — signals, friction, opportunities, buyers, tenders and evidence",
-    "do": "do the work — bounded execution in browser/tools with approvals and receipts",
-    "show": "show the possibility — Studio proof, demonstrators, journeys, creative, pitches and tender artefacts",
-    "factory": "shared context, primitives, agents, skills, connectors, tests, evals and learning",
+    "do": "do the work — portable bounded execution with permissions, verification and receipts",
+    "show": "show the possibility — Studio proof, demonstrators, journeys, creative, campaigns, websites and tender artefacts",
+    "factory": "shared context, primitives, agents, skills, connectors, design, tests, evals and learning",
     "proof": "evidence and outcomes feeding back into Pursuit and the Factory"
+  },
+  "company_shorthand": {
+    "master": "assembl the work.",
+    "products": "find it. DO it. show it.",
+    "commercial": "use one. connect two. run the whole loop."
   },
   "brand_snapshot": {
     "wordmark": "assembl",
@@ -48,13 +72,20 @@
       "primary": "Instrument Sans",
       "evidence_mono": "IBM Plex Mono"
     },
+    "visual_grammar": "things gather, organise and move with purpose until a useful whole is visible",
+    "modes": [
+      "brand/narrative assembly — premium aerial/top-down collective movement",
+      "product/proof assembly — recognisable inputs become a reviewable output with permission and evidence"
+    ],
     "forbidden_company_directions": [
       "Cormorant-led company branding",
       "champagne/gold company branding",
       "brass company branding",
       "pounamu as the Assembl company master palette",
       "canary yellow",
-      "robot/chatbot imagery"
+      "grape-purple drift",
+      "robot/chatbot imagery",
+      "generic neon AI gradients"
     ],
     "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent."
   },
