@@ -180,6 +180,7 @@ export function DoHome() {
         <nav aria-label="DO">
           <Link href="/do/office">Office</Link>
           <Link href="/do/builder">Builderdoo</Link>
+          <Link href="/do/meetings">Meetings</Link>
           <Link href="/do/connections">Connections</Link>
         </nav>
       </header>
