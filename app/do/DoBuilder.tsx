@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import DoMemory from "./live/DoMemory";
@@ -95,6 +95,7 @@ export function DoBuilder({
   const [webSearch, setWebSearch] = useState(startingTemplate?.search || false);
   const [direction, setDirection] = useState(startingTemplate?.direction || "");
   const [context, setContext] = useState(initialBrief);
+  const contextInput = useRef<HTMLTextAreaElement>(null);
   const [sources, setSources] = useState<{ name: string; text: string }[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [runningRecipe, setRunningRecipe] = useState<{
@@ -138,6 +139,8 @@ export function DoBuilder({
         return;
       setContext(e.data.text.slice(0, 12000));
       setConsent(false);
+      setNotice("Context added from your companion. Review it before preparing a task.");
+      requestAnimationFrame(() => contextInput.current?.focus());
     };
     window.addEventListener("message", receive);
     if (embedded) window.parent.postMessage({ type: "assembl-do:ready" }, "*");
@@ -392,6 +395,7 @@ export function DoBuilder({
             <label htmlFor="dob-context">Text, notes or image brief</label>
             <textarea
               id="dob-context"
+              ref={contextInput}
               rows={4}
               maxLength={skill === "image" ? 4000 : 12000}
               value={context}
