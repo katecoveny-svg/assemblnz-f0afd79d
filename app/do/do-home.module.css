@@ -441,6 +441,17 @@
   color: #654a4e;
   margin-top: 12px;
 }
+.startersBand {
+  padding: 36px 7% 28px;
+  background:
+    radial-gradient(900px 360px at 0% 0%, rgba(145, 106, 112, 0.12), transparent 55%),
+    #fffdfb;
+  border-bottom: 1px solid #240b2114;
+}
+.portableDownloads {
+  margin-top: 36px;
+  max-width: 520px;
+}
 .footer {
   display: flex;
   justify-content: space-between;

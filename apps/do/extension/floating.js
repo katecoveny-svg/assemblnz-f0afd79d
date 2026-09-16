@@ -7,15 +7,15 @@
   const style = document.createElement('style');
   style.textContent = `
     :host{all:initial}
-    .wrap{position:fixed;right:24px;bottom:28px;z-index:2147483646;width:78px;font:12px 'Instrument Sans',Arial,sans-serif}
-    .orb{width:68px;height:68px;border:0;border-radius:22px;cursor:grab;touch-action:none;display:grid;place-items:center;color:#f3ceeb;background:radial-gradient(ellipse at 25% 15%,#9b6f94,#391333 67%,#240b21);box-shadow:inset 1px 1px 2px #f8dff88c,inset -2px -2px 5px #180a1e,0 0 22px #ce82ac80;position:relative}
+    .wrap{position:fixed;right:24px;bottom:28px;z-index:2147483646;width:78px;font:12px 'Instrument Sans',ui-sans-serif,system-ui,sans-serif}
+    .orb{width:68px;height:68px;border:0;border-radius:22px;cursor:grab;touch-action:none;display:grid;place-items:center;color:#f3ceeb;background:radial-gradient(ellipse at 25% 15%,#9b6f94,#391333 67%,#240b21);box-shadow:inset 1px 1px 2px #f8dff88c,inset -2px -2px 5px #180a1e,0 0 22px #d6a5bd80;position:relative}
     .orb:active{cursor:grabbing}
     .orb svg{width:42px;height:42px;filter:drop-shadow(0 0 4px #ecbddd);pointer-events:none}
     .label{display:block;margin-top:6px;background:#240b21ee;color:#fffdfb;padding:5px 8px;border-radius:99px;text-align:center;pointer-events:none;border:1px solid #d9a4c388;font-size:10px}
-    .close{position:absolute;right:-9px;top:-10px;width:24px;height:24px;border-radius:50%;border:1px solid #bb8de1;background:#fff;color:#381653;cursor:pointer}
+    .close{position:absolute;right:-9px;top:-10px;width:24px;height:24px;border-radius:50%;border:1px solid #d6bfd0;background:#fffdfb;color:#240b21;cursor:pointer}
     .notice{position:absolute;right:0;bottom:110px;width:200px;padding:10px;background:#fffdfb;color:#240b21;border-radius:12px;box-shadow:0 4px 20px #0003;font-size:11px;line-height:1.4}
     .notice:empty{display:none}
-    button:focus-visible{outline:3px solid #dbacff;outline-offset:4px}
+    button:focus-visible{outline:3px solid #916a70;outline-offset:4px}
   `;
   const wrap = document.createElement('div');
   wrap.className = 'wrap';

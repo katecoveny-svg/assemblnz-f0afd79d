@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "DO by assembl",
-  "version": "1.5.0",
-  "description": "Portable DO companion with D-mark toolbar presence. Help with this page, use your selection, or open Meeting DO — drafts only; never send or pay.",
+  "version": "1.5.2",
+  "description": "Portable DO companion — Spatial C plum stage, D-mark, Help with this page, Meeting notes (record-first). Drafts only; never send or pay.",
   "action": {
     "default_title": "Open DO — help with this page",
     "default_icon": {

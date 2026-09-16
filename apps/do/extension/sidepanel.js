@@ -1,12 +1,13 @@
 'use strict';
 
 const PRODUCTION_ORIGIN = 'https://www.assembl.co.nz';
+const MAC_SETUP = 'https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos';
 const frame = document.getElementById('builder');
 const captureButton = document.getElementById('capture');
 const helpPageButton = document.getElementById('help-page');
+const draftReplyButton = document.getElementById('draft-reply');
 const meetingButton = document.getElementById('meeting');
 const signInButton = document.getElementById('sign-in');
-const meetingCard = document.getElementById('meeting-card');
 const status = document.getElementById('status');
 const seatStatus = document.getElementById('seat-status');
 const doIdInput = document.getElementById('do-id');
@@ -17,6 +18,8 @@ const seatConsent = document.getElementById('seat-consent');
 const seatShot = document.getElementById('seat-shot');
 const seatLearn = document.getElementById('seat-learn');
 const playbookLabel = document.getElementById('playbook-label');
+const dlChrome = document.getElementById('dl-chrome');
+const dlMac = document.getElementById('dl-mac');
 
 let ready = false;
 let pending = null;
@@ -25,6 +28,11 @@ let apiOrigin = PRODUCTION_ORIGIN;
 function syncFrame() {
   frame.src = `${apiOrigin}/do/widget`;
   ready = false;
+}
+
+function syncDownloads() {
+  if (dlChrome) dlChrome.href = `${apiOrigin}/api/do/download?format=extension`;
+  if (dlMac) dlMac.href = MAC_SETUP;
 }
 
 function offer() {
@@ -39,16 +47,13 @@ function openTopLevel(path) {
   return chrome.runtime.sendMessage({ type: 'do:open-url-for-do', url });
 }
 
-function showMeetingCard(visible) {
-  meetingCard.hidden = !visible;
-}
-
 chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin'], (stored) => {
   if (stored.doApiOrigin) {
     apiOrigin = stored.doApiOrigin;
     apiOriginSelect.value = stored.doApiOrigin;
     syncFrame();
   }
+  syncDownloads();
   if (stored.doBrowserSeat?.doId) {
     doIdInput.value = stored.doBrowserSeat.doId;
     sessionKeyInput.value = stored.doBrowserSeat.sessionKey || `do-browser-seat:${stored.doBrowserSeat.doId}`;
@@ -59,6 +64,7 @@ apiOriginSelect.addEventListener('change', () => {
   apiOrigin = apiOriginSelect.value;
   chrome.storage.local.set({ doApiOrigin: apiOrigin });
   syncFrame();
+  syncDownloads();
 });
 
 doIdInput.addEventListener('change', () => {
@@ -92,7 +98,6 @@ frame.addEventListener('load', () => {
 });
 
 window.addEventListener('focus', () => {
-  // After OAuth in a top-level tab, cookies may not refresh the iframe until reload.
   status.textContent = 'Back from the browser? Use Refresh builder if Meeting or sign-in just finished.';
 });
 
@@ -170,12 +175,26 @@ function selectedHint(payload) {
     : 'Using visible page text for help (selection was empty).';
 }
 
+function draftReply() {
+  pending = {
+    text: 'Draft a clear reply I can edit. Do not send anything.',
+    title: 'Draft a reply',
+    url: apiOrigin + '/do',
+  };
+  status.textContent = 'Draft a reply seeded in the builder. Paste the message you need to answer, then prepare.';
+  offer();
+}
+
 captureButton.addEventListener('click', () => captureSelection());
 helpPageButton.addEventListener('click', () => helpWithPage());
+draftReplyButton.addEventListener('click', () => draftReply());
 
-meetingButton.addEventListener('click', () => {
-  showMeetingCard(true);
-  status.textContent = 'Meeting DO opens in a normal tab. Sign in there if transcription is needed.';
+// Recording-first: open Meeting DO top-level immediately (not a transcript stub / auth wall).
+meetingButton.addEventListener('click', async () => {
+  const response = await openTopLevel('/do/meetings');
+  status.textContent = response?.ok
+    ? 'Meeting DO opened — Record. Review. Prepare. Sign in only when you want transcription.'
+    : (response?.error || 'Could not open Meeting DO.');
 });
 
 signInButton.addEventListener('click', async () => {
@@ -184,22 +203,6 @@ signInButton.addEventListener('click', async () => {
     ? 'Sign-in opened in a browser tab. When you finish, return here and Refresh builder.'
     : (response?.error || 'Could not open sign-in.');
 });
-
-document.getElementById('meeting-signin').addEventListener('click', async () => {
-  const response = await openTopLevel('/login?redirect=%2Fdo%2Fmeetings');
-  status.textContent = response?.ok
-    ? 'Sign in to use Meeting DO — opened in a browser tab. After login you land on Meeting DO. Then return here and Refresh builder if needed.'
-    : (response?.error || 'Could not open sign-in.');
-});
-
-document.getElementById('meeting-open').addEventListener('click', async () => {
-  const response = await openTopLevel('/do/meetings');
-  status.textContent = response?.ok
-    ? 'Meeting DO opened in a browser tab. If it asks you to sign in, use Sign in to use Meeting DO.'
-    : (response?.error || 'Could not open Meeting DO.');
-});
-
-document.getElementById('meeting-dismiss').addEventListener('click', () => showMeetingCard(false));
 
 document.getElementById('refresh-frame').addEventListener('click', () => {
   syncFrame();
