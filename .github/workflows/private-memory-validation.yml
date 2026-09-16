@@ -1,0 +1,47 @@
+name: Private memory boundaries
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/functions/_shared/memory-auth.ts'
+      - 'supabase/functions/memory-recall/**'
+      - 'supabase/functions/memory-extractor/**'
+      - 'supabase/functions/memory-backfill-embeddings/**'
+      - 'supabase/functions/agent-router/**'
+      - 'supabase/migrations/**'
+      - 'lib/security/**'
+      - 'lib/deployment/edge-targets.test.ts'
+      - 'scripts/test-private-memory-rls.mjs'
+      - 'scripts/edge-deploy-targets.mjs'
+      - '.github/workflows/private-memory-validation.yml'
+      - '.github/workflows/deploy-edge-functions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  memory-boundaries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.9.6
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Identity, actual handler, and deployment selection tests
+        run: pnpm exec vitest run lib/security/memory-auth.test.ts lib/security/memory-handler.test.ts lib/deployment/edge-targets.test.ts
+      - name: Check affected Edge functions
+        run: deno check --no-config --node-modules-dir=none supabase/functions/memory-recall/index.ts supabase/functions/memory-extractor/index.ts supabase/functions/memory-backfill-embeddings/index.ts supabase/functions/agent-router/index.ts
+      - name: Owner access and isolation in disposable Postgres
+        run: node scripts/test-private-memory-rls.mjs
