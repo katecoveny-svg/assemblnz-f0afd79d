@@ -1,0 +1,70 @@
+.wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(
+    ellipse at 30% 22%,
+    #c995a8 0%,
+    #916a70 38%,
+    #391333 72%,
+    #240b21 100%
+  );
+  box-shadow:
+    inset 1px 1px 2px #f8dff88c,
+    0 0 28px #d6a5bd66;
+}
+
+.sm {
+  width: 64px;
+  height: 64px;
+}
+
+.md {
+  width: 88px;
+  height: 88px;
+}
+
+.lg {
+  width: min(168px, 42vw);
+  height: min(168px, 42vw);
+}
+
+.fallback {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    #fffdfb 0%,
+    #f3ceeb 18%,
+    #916a70 48%,
+    #391333 78%,
+    #240b21 100%
+  );
+  filter: blur(0.2px);
+  animation: do-blob-breathe 3.6s ease-in-out infinite;
+}
+
+.wrap canvas {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes do-blob-breathe {
+  0%,
+  100% {
+    transform: scale(0.96);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fallback {
+    animation: none;
+  }
+}

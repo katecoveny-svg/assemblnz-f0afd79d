@@ -25,6 +25,11 @@
   ],
   "shortcuts": [
     {
+      "name": "Meeting DO",
+      "url": "/do/meetings?phone=1",
+      "description": "Install, open, and record a meeting on your phone."
+    },
+    {
       "name": "Bills & budget",
       "url": "/do/bills",
       "description": "Read a bill and compare current offers."

@@ -147,6 +147,64 @@
   box-shadow: 0 10px 28px rgba(36, 11, 33, 0.22);
 }
 
+/* Phone / PWA install — thumb-friendly, rose glow (not purple) */
+.do-cta--install {
+  min-height: 56px;
+  width: 100%;
+  max-width: 420px;
+  padding: 16px 22px;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  background: var(--do-plum);
+  color: var(--do-paper);
+  border-color: var(--do-plum);
+  box-shadow:
+    0 12px 32px rgba(36, 11, 33, 0.28),
+    0 0 28px color-mix(in srgb, var(--do-rose-glow) 45%, transparent);
+}
+
+/* Meeting Record on phone — huge hit target */
+.do-cta--record {
+  min-height: 88px;
+  width: 100%;
+  padding: 22px 24px;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  border-radius: 28px;
+  background: var(--do-plum);
+  color: var(--do-paper);
+  border-color: var(--do-plum);
+  box-shadow:
+    0 16px 40px rgba(36, 11, 33, 0.3),
+    0 0 36px color-mix(in srgb, var(--do-rose-glow) 40%, transparent);
+}
+
+.do-cta--record[data-live='true'] {
+  background: #7a1f3d;
+  border-color: #7a1f3d;
+  animation: do-record-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes do-record-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 16px 40px rgba(36, 11, 33, 0.3),
+      0 0 28px color-mix(in srgb, var(--do-rose-glow) 35%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 16px 40px rgba(122, 31, 61, 0.35),
+      0 0 48px color-mix(in srgb, var(--do-rose-glow) 55%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .do-cta--record[data-live='true'] {
+    animation: none;
+  }
+}
+
 .do-cta:focus-visible,
 .do-craft :focus-visible {
   outline: 3px solid var(--do-rose);

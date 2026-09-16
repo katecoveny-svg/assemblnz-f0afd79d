@@ -20,6 +20,25 @@
   text-transform: uppercase;
 }
 
+.blob {
+  margin-bottom: 10px;
+}
+
+.install {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 4px;
+}
+
+.phoneEasy {
+  color: var(--do-rose);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .prompt {
   margin: 0 0 8px;
   font-size: clamp(1.4rem, 3vw, 1.85rem);

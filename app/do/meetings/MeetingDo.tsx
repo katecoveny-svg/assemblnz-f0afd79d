@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { DoMark } from '@/components/do/DoMark';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { DoLivingBlob } from '@/components/do/DoLivingBlob';
 import { DoWorkBoard } from '@/components/do/DoWorkBoard';
 import { DoInstallPwaCta } from '@/components/do/DoInstallPwaCta';
 import { DoTaskPanel } from '@/components/do/DoTaskPanel';
@@ -13,15 +13,17 @@ import '@/app/do/do-craft.css';
 import styles from './meeting.module.css';
 
 /**
- * Meeting DO — recording-first.
+ * Meeting DO — recording-first, phone-easy.
  * Record + download work unsigned-in. Transcribe / prepare need sign-in.
- * Paste notes is a secondary disclosure, not the primary path.
+ * `?phone=1` → one-screen Install → Record landing for tonight’s phone use.
  *
- * Compatible with per-DO to-do panel from PR #1303 (boardId meeting-do) —
- * that panel mounts after the header when present; this file does not fight it.
+ * Compatible with per-DO to-do panel from PR #1303 (boardId meeting-do).
  */
-export function MeetingDo() {
+function MeetingDoInner() {
   const router = useRouter();
+  const params = useSearchParams();
+  const phoneMode = params.get('phone') === '1';
+  const recordRef = useRef<HTMLElement | null>(null);
   const [captureMode, setCaptureMode] = useState<'microphone' | 'meeting'>('microphone');
   const audioContext = useRef<AudioContext | null>(null);
   const extraStreams = useRef<MediaStream[]>([]);
@@ -265,6 +267,10 @@ export function MeetingDo() {
     }
   }
 
+  function jumpToRecord() {
+    recordRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   const needsAuth = signedIn === false;
   const ext = audio?.type.includes('mp4') ? 'm4a' : 'webm';
 
@@ -300,59 +306,161 @@ export function MeetingDo() {
       : []),
   ];
 
+  const recordLabel = starting
+    ? captureMode === 'meeting'
+      ? 'Waiting for share…'
+      : 'Waiting for microphone…'
+    : recording
+      ? 'Recording… tap Stop'
+      : 'Record';
+
   return (
-    <main className={`do-craft ${styles.shell}`}>
-      <nav>
+    <main
+      className={`do-craft ${styles.shell} ${phoneMode ? styles.phoneShell : ''}`}
+      data-phone={phoneMode ? '1' : undefined}
+    >
+      <nav className={phoneMode ? styles.phoneNav : undefined}>
         <Link href="/do">← Your DOs</Link>
-        <Link href="/do/connections">Connections</Link>
-        <Link href="/do/tasks?board=meeting-do">Tasks</Link>
+        {!phoneMode ? <Link href="/do/connections">Connections</Link> : null}
+        {!phoneMode ? <Link href="/do/tasks?board=meeting-do">Tasks</Link> : null}
+        {!phoneMode ? (
+          <Link href="/do/meetings?phone=1" className={styles.phoneLink}>
+            Phone view
+          </Link>
+        ) : null}
       </nav>
 
-      <header className={styles.hero}>
-        <span className={`do-craft-orb do-craft-orb--meeting ${styles.mark}`}>
-          <DoMark />
-        </span>
-        <p className={styles.eyebrow}>YOUR MEETING, CARRIED FORWARD</p>
-        <h1>Meeting DO.</h1>
-        <p className={styles.lead}>
-          <strong>Record. Review. Prepare.</strong> Capture audio on this page, listen and download —
-          then transcribe when you are ready.
-        </p>
-      </header>
+      {phoneMode ? (
+        <section className={styles.phoneLanding} aria-label="Phone Meeting DO">
+          <DoLivingBlob size="lg" className={styles.phoneBlob} label="Meeting DO" />
+          <p className={styles.eyebrow}>PHONE · MEETING DO</p>
+          <h1>Record tonight.</h1>
+          <p className={styles.lead}>
+            <strong>Install → Open → Record.</strong> No sign-in to capture audio. Sign in later to
+            transcribe.
+          </p>
 
-      <DoTaskPanel boardId="meeting-do" title="Meeting DO to-do" />
+          <div className={styles.phoneSteps}>
+            <p className={styles.phoneStepLabel}>
+              <span>1</span> Install DO
+            </p>
+            <DoInstallPwaCta phone prominent />
+          </div>
 
-      <DoWorkBoard
-        title="Meeting DO"
-        needsYou={boardNeedsYou}
-        working={boardWorking}
-        done={boardDone}
-        evidenceSlot={
-          receipt
-            ? `Preparation receipt: ${receipt.id} · ${receipt.evidence.model || 'model unavailable'}`
-            : 'Local capture · no audio saved to the DO database until you choose Transcribe.'
-        }
-        empty={{
-          copy: 'Start with a recording. Paste notes stay secondary.',
-          firstAction: (
-            <button
-              type="button"
-              className="do-cta do-cta--hero"
-              disabled={!permission || recording || starting || busy}
-              onClick={() => void start()}
-            >
-              Record meeting
+          <div className={styles.phoneSteps}>
+            <p className={styles.phoneStepLabel}>
+              <span>2</span> Open Meeting
+            </p>
+            <button type="button" className="do-cta do-cta--secondary" onClick={jumpToRecord}>
+              Open Meeting → Record
             </button>
-          ),
-        }}
-      />
+          </div>
 
-      <section className={styles.record} aria-labelledby="record-title">
+          <div className={styles.phoneSteps}>
+            <p className={styles.phoneStepLabel}>
+              <span>3</span> Record
+            </p>
+            <label className={styles.check}>
+              <input
+                type="checkbox"
+                checked={permission}
+                disabled={recording || starting}
+                onChange={(e) => setPermission(e.target.checked)}
+              />
+              Everyone has been informed and I have permission to record.
+            </label>
+            <div className={styles.phoneRecordRow}>
+              <button
+                type="button"
+                className="do-cta do-cta--record"
+                disabled={!permission || recording || starting || busy}
+                data-live={recording ? 'true' : undefined}
+                onClick={() => void start()}
+              >
+                {recordLabel}
+              </button>
+              <button
+                type="button"
+                className="do-cta do-cta--stop"
+                disabled={!recording}
+                onClick={stop}
+              >
+                Stop
+              </button>
+            </div>
+            <p className={styles.status} role="status" data-live={recording ? 'true' : undefined}>
+              {recording
+                ? '● Recording — stops at 10 minutes'
+                : audio
+                  ? 'Recording ready · scroll for download'
+                  : 'Mic stays off until Record'}
+            </p>
+          </div>
+        </section>
+      ) : (
+        <header className={styles.hero}>
+          <DoLivingBlob size="md" className={styles.markBlob} label="Meeting DO" />
+          <p className={styles.eyebrow}>YOUR MEETING, CARRIED FORWARD</p>
+          <h1>Meeting DO.</h1>
+          <p className={styles.lead}>
+            <strong>Record. Review. Prepare.</strong> Capture audio on this page, listen and download —
+            then transcribe when you are ready.
+          </p>
+        </header>
+      )}
+
+      {!phoneMode ? <DoTaskPanel boardId="meeting-do" title="Meeting DO to-do" /> : null}
+
+      <section className={styles.installBanner} aria-label="Install DO on this phone">
+        <div>
+          <p className={styles.step}>Keep DO one tap away</p>
+          <h2 className={styles.installTitle}>Install DO</h2>
+          <p className={styles.copy}>
+            Add to Home Screen for tonight — then open Meeting and hit Record.
+          </p>
+        </div>
+        <DoInstallPwaCta prominent />
+        {!phoneMode ? (
+          <Link href="/do/meetings?phone=1" className={styles.phoneLink}>
+            Open phone-easy view →
+          </Link>
+        ) : null}
+      </section>
+
+      {!phoneMode ? (
+        <DoWorkBoard
+          title="Meeting DO"
+          needsYou={boardNeedsYou}
+          working={boardWorking}
+          done={boardDone}
+          evidenceSlot={
+            receipt
+              ? `Preparation receipt: ${receipt.id} · ${receipt.evidence.model || 'model unavailable'}`
+              : 'Local capture · no audio saved to the DO database until you choose Transcribe.'
+          }
+          empty={{
+            copy: 'Start with a recording. Paste notes stay secondary.',
+            firstAction: (
+              <button type="button" className="do-cta do-cta--hero" onClick={jumpToRecord}>
+                Record meeting
+              </button>
+            ),
+          }}
+        />
+      ) : null}
+
+      <section
+        ref={recordRef}
+        id="record"
+        className={`${styles.record} ${styles.recordPrimaryPanel}`}
+        aria-labelledby="record-title"
+      >
         <p className={styles.step}>1 · Record</p>
         <h2 id="record-title">Record the meeting</h2>
         <p className={styles.copy}>
           Audio stays on this device until you choose to share it. No video is kept. This recorder
-          stops after <strong>10 minutes</strong> — download before closing the page.
+          stops after <strong>10 minutes</strong> — download before closing the page. No sign-in
+          needed to record or download.
         </p>
 
         <label className={styles.field}>
@@ -380,17 +488,12 @@ export function MeetingDo() {
         <div className={styles.recordActions}>
           <button
             type="button"
-            className="do-cta do-cta--hero"
+            className="do-cta do-cta--record"
             disabled={!permission || recording || starting || busy}
+            data-live={recording ? 'true' : undefined}
             onClick={() => void start()}
           >
-            {starting
-              ? captureMode === 'meeting'
-                ? 'Waiting for share…'
-                : 'Waiting for microphone…'
-              : recording
-                ? 'Recording…'
-                : 'Record meeting'}
+            {recordLabel}
           </button>
           <button
             type="button"
@@ -557,18 +660,27 @@ export function MeetingDo() {
         </section>
       ) : null}
 
-      <section className={styles.next} aria-label="Install and downloads">
-        <p className={styles.step}>Keep DO close</p>
-        <h2>Install DO</h2>
-        <p className={styles.copy}>Add DO to your home screen, or take the Chrome / Mac companions with you.</p>
-        <DoInstallPwaCta />
-      </section>
-
       {message ? (
         <p className={styles.alert} role="alert">
           {message}
         </p>
       ) : null}
     </main>
+  );
+}
+
+export function MeetingDo() {
+  return (
+    <Suspense
+      fallback={
+        <main className="do-craft" style={{ padding: 24 }}>
+          <p className="do-craft-mono" style={{ color: '#654A4E' }}>
+            Opening Meeting DO…
+          </p>
+        </main>
+      }
+    >
+      <MeetingDoInner />
+    </Suspense>
   );
 }

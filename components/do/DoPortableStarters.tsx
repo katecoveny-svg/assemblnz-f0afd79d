@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from './do-portable.module.css';
 import { DoDownloadsStrip } from './DoDownloadsStrip';
 import { DoInstallPwaCta } from './DoInstallPwaCta';
+import { DoLivingBlob } from './DoLivingBlob';
 import '@/app/do/do-craft.css';
 
 export type DoPortableStarterId = 'page' | 'reply' | 'meeting' | 'downloads';
@@ -77,6 +78,7 @@ export function DoPortableStarters({
 
   return (
     <div className={[styles.shell, className].filter(Boolean).join(' ')}>
+      <DoLivingBlob size="sm" className={styles.blob} label="DO" />
       <p className={styles.eyebrow}>assembl · DO</p>
       <h2 className={styles.prompt}>{title}</h2>
       <p className={styles.lede}>{lede}</p>
@@ -111,8 +113,11 @@ export function DoPortableStarters({
         })}
       </div>
       {showDownloads ? <DoDownloadsStrip /> : null}
-      <div style={{ marginTop: 12 }}>
-        <DoInstallPwaCta compact />
+      <div className={styles.install}>
+        <DoInstallPwaCta prominent />
+        <Link href="/do/meetings?phone=1" className={styles.phoneEasy}>
+          Phone-easy Meeting →
+        </Link>
       </div>
     </div>
   );
