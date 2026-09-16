@@ -69,6 +69,8 @@ DO-related configuration is documented in `.env.local.example` and the relevant 
 
 Any live/browser-issued token endpoint must be protected by the same-origin/session/rate controls appropriate to DO and should issue the narrowest usable credential.
 
+**Gemini voice:** `DO_GEMINI_LIVE_ENABLED=true` enables the authenticated Gemini 3.8 voice surface when `GEMINI_API_KEY` (or `GOOGLE_GENERATIVE_AI_API_KEY`) is configured. `SUPABASE_SERVICE_ROLE_KEY` and the existing `agent_chat_sessions` unique identity indexes provide its persistent daily allowance. The browser receives one constrained ephemeral token for at most five minutes; never expose the provider key. Keep this flag off when provider access has not been configured. See `docs/reviews/2026-09-16-do-voice/README.md` for the connection and rollback checks.
+
 ### media / creative / voice
 
 Optional features can use keys such as:

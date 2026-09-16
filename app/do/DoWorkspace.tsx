@@ -1,14 +1,8 @@
-'use client';
+"use client";
 
-import type { ComponentProps } from 'react';
-import { DoBuilder } from './DoBuilder';
-import { DoGeminiLive } from './DoGeminiLive';
+import type { ComponentProps } from "react";
+import { DoBuilder } from "./DoBuilder";
 
 export function DoWorkspace(props: ComponentProps<typeof DoBuilder>) {
-  return (
-    <>
-      <DoGeminiLive embedded={Boolean(props.embedded)} />
-      <DoBuilder {...props} />
-    </>
-  );
+  return <DoBuilder {...props} />;
 }

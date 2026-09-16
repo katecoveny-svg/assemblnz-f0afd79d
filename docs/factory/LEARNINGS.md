@@ -39,3 +39,9 @@ Added `START_HERE.md`, `docs/context/README.md`, a tighter root `AGENTS.md`, and
 
 **Applies to**  
 All Assembl coding agents and future repo cleanup work.
+
+### 2026-09-16 — Public DO account and voice continuity
+
+Public route exemptions must be tested against earlier redirects: the legacy splash gate redirected `/login` and `/auth/*` before reaching its exemption list, blocking DO account entry. Keep personal DO confirmation on the workspace host and preserve operator-host isolation. Normalise return paths before checking scope.
+
+Direct browser voice needs a server-locked, short-lived token, a persistent account allowance, setup acknowledgement before microphone frames, and cancellation that also handles a late permission result. An audio transcript or compiled brief is a draft; adding it to a task must remain a separate reviewed action. See `docs/reviews/2026-09-16-do-voice/README.md` for boundaries and proof.

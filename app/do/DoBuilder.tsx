@@ -4,6 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import DoMemory from "./live/DoMemory";
 import { DoVision } from "./DoVision";
+import { DoGeminiLive } from "./DoGeminiLive";
 const LiveDo = dynamic(() => import("./live/LiveDo"));
 const subscribeToHost = () => () => {};
 const isLocalPreview = () =>
@@ -291,6 +292,15 @@ export function DoBuilder({
           Enquire about more <ArrowUpRight size={14} />
         </a>
       </div>
+      <DoGeminiLive context={instruction} onDraft={(text) => {
+        const next = `${context}${context ? "\n\n" : ""}Voice brief:\n${text}`;
+        if (next.length > 12000) return false;
+        setContext(next);
+        setConsent(false);
+        setRunningRecipe(null);
+        setNotice("Your voice brief is in the task. Check the context, then approve preparation.");
+        return true;
+      }} />
       <DoCanvas
         name={name}
         onName={setName}

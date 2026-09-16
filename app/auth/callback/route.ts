@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
+import { resolveAuthReturn } from '@/lib/auth/redirect';
 
 /**
  * Supabase auth callback. Accepts two flows:
@@ -24,7 +25,7 @@ export async function GET(request: NextRequest) {
   const token_hash = url.searchParams.get('token_hash');
   const type = url.searchParams.get('type') as EmailOtpType | null;
   const redirectParam = url.searchParams.get('redirect') ?? url.searchParams.get('next');
-  const next = redirectParam && redirectParam.startsWith('/') ? redirectParam : '/app';
+  const next = resolveAuthReturn(redirectParam);
 
   // Honour an explicit "stay signed in" choice carried on the link, before any
   // session cookies are written.
@@ -42,6 +43,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
+    loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
     return NextResponse.redirect(loginUrl);
   }
@@ -52,11 +54,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
+    loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
     return NextResponse.redirect(loginUrl);
   }
 
   const loginUrl = new URL('/login', url.origin);
+  loginUrl.searchParams.set('redirect', next);
   loginUrl.searchParams.set('error', 'Missing auth code in callback.');
   return NextResponse.redirect(loginUrl);
 }

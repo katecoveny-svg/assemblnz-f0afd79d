@@ -1,0 +1,9 @@
+[data-do-sign-in] .cta-primary {
+  background: #240b21;
+  color: #fffdfb;
+  border: 1px solid #240b21;
+  box-shadow: 0 8px 25px #916a7020;
+}
+[data-do-sign-in] input[type="checkbox"] { accent-color: #654a4e; }
+[data-do-sign-in] input:focus { border-color: #916a70; box-shadow: 0 0 0 2px #916a7026; }
+[data-do-sign-in] :is(a,button,input):focus-visible { outline: 2px solid #916a70; outline-offset: 4px; }

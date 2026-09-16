@@ -8,6 +8,7 @@
  * cookies never reach the operator hub.
  */
 
+import { isDoReturn } from './redirect';
 export const DEMO_AUTH_ORIGIN = 'https://demo.assembl.co.nz';
 
 const DEMO_HOSTS = new Set(['demo.assembl.co.nz']);
@@ -17,7 +18,8 @@ const MARKETING_HOSTS = new Set(['assembl.co.nz', 'www.assembl.co.nz']);
  * Resolve the origin used for `emailRedirectTo` / password-reset links.
  *
  * - Admin destinations always use the demo host (operator session cookies).
- * - Marketing hosts (www/apex) also resolve to demo when the request somehow
+ * - Personal DO returns stay on the canonical www host with their account.
+ * - Other marketing-host returns (www/apex) resolve to demo when the request
  *   still reaches this action (defence in depth — /admin already 302s).
  * - Otherwise honour the request host (local / preview) so Redirect URLs can
  *   be tested without hard-coding.
@@ -30,6 +32,8 @@ export function resolveAuthOrigin(opts: {
   const redirectTo = opts.redirectTo ?? '';
   const host = (opts.host ?? '').split(':')[0]?.toLowerCase() ?? '';
   const proto = opts.proto ?? 'https';
+
+  if (MARKETING_HOSTS.has(host) && isDoReturn(redirectTo)) return 'https://www.assembl.co.nz';
 
   if (redirectTo.startsWith('/admin') || MARKETING_HOSTS.has(host)) {
     return DEMO_AUTH_ORIGIN;

@@ -1,110 +1,145 @@
-import { admitDoRequest, allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
-import { chatClientIp, checkChatRateLimit } from '@/lib/agents/chat-rate-limit';
+import { GoogleGenAI } from "@google/genai";
+import { admitDoRequest, readDoJson } from "@/apps/do/shared/http";
+import { chatClientIp, checkChatRateLimit } from "@/lib/agents/chat-rate-limit";
+import {
+  doOwner,
+  privateDoHeaders as headers,
+  sameDoOrigin,
+} from "@/apps/do/services/owner";
+import {
+  DoVoiceAllowanceError,
+  readDoVoiceAllowance,
+  reserveDoVoice,
+} from "@/apps/do/services/voice-allowance";
+import {
+  DO_VOICE_DAILY_SESSIONS,
+  DO_VOICE_MODELS,
+  DO_VOICE_SECONDS,
+  doVoiceConfig,
+  doVoiceRequest,
+} from "@/apps/do/shared/gemini-live";
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+const key = () =>
+  process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+const enabled = () => process.env.DO_GEMINI_LIVE_ENABLED === "true";
 
-type LiveMode = 'standard' | 'extended';
-
-const MODELS: Record<LiveMode, string> = {
-  standard: 'gemini-3.8-live',
-  extended: 'gemini-3.8-live-extended-thinking',
-};
-
+export async function GET() {
+  const owner = await doOwner();
+  return Response.json(
+    {
+      enabled: enabled(),
+      configured: Boolean(key()),
+      signedIn: Boolean(owner),
+      remaining: owner
+        ? await readDoVoiceAllowance(owner.id).catch(() => null)
+        : null,
+      dailyLimit: DO_VOICE_DAILY_SESSIONS,
+      sessionSeconds: DO_VOICE_SECONDS,
+      model: DO_VOICE_MODELS.standard,
+    },
+    { headers },
+  );
+}
 export function OPTIONS(request: Request) {
   return new Response(null, {
-    status: allowedDoOrigin(request) ? 204 : 403,
-    headers: doHeaders(request),
+    status: sameDoOrigin(request) ? 204 : 403,
+    headers,
   });
 }
-
 export async function POST(request: Request) {
-  const headers = doHeaders(request);
-  const json = (body: unknown, status: number) => Response.json(body, { status, headers });
-
-  if (process.env.DO_GEMINI_LIVE_ENABLED !== 'true') {
-    return json({ error: 'DO Gemini Live is disabled.' }, 503);
-  }
-  if (!allowedDoOrigin(request)) {
-    return json({ error: 'origin_not_allowed', message: 'Open DO from its website or installed extension.' }, 403);
-  }
-
-  const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-  if (!apiKey) {
-    return json({ error: 'Gemini Live is not configured.' }, 503);
-  }
-
-  let raw: unknown = {};
-  try {
-    raw = await readDoJson(request);
-  } catch (error) {
-    const tooLarge = error instanceof Error && error.message === 'too_large';
-    return json({ error: tooLarge ? 'too_large' : 'invalid_request' }, tooLarge ? 413 : 400);
-  }
-  const body = raw && typeof raw === 'object' ? raw as Record<string, unknown> : {};
-  const mode: LiveMode = body.mode === 'standard' ? 'standard' : 'extended';
-  const model = MODELS[mode];
-  const voiceName = typeof body.voiceName === 'string' && body.voiceName.trim()
-    ? body.voiceName.trim().slice(0, 40)
-    : 'Kore';
-
+  const json = (body: unknown, status: number) =>
+    Response.json(body, { status, headers });
+  if (!sameDoOrigin(request))
+    return json({ error: "Open DO to start voice." }, 403);
+  const owner = await doOwner();
+  if (!owner)
+    return json(
+      { error: "Sign in to your own assembl account to use voice." },
+      401,
+    );
+  if (!enabled() || !key())
+    return json({ error: "Live voice is not available here yet." }, 503);
+  const parsed = doVoiceRequest.safeParse(
+    await readDoJson(request).catch(() => null),
+  );
+  if (!parsed.success)
+    return json({ error: "Choose a voice and confirm microphone use." }, 400);
   const ip = chatClientIp(request.headers);
-  if (!admitDoRequest(ip)) {
-    headers.set('Retry-After', '60');
-    return json({ error: 'rate_limited', message: 'Please wait before starting another Live session.' }, 429);
-  }
-  const rate = await checkChatRateLimit(ip, 'do-gemini-live-token');
-  if (!rate.allowed) {
-    headers.set('Retry-After', '600');
-    return json({ error: 'rate_limited', message: 'You have reached the Live session limit for now.' }, 429);
-  }
+  if (
+    !admitDoRequest(ip) ||
+    !(await checkChatRateLimit(ip, "do-gemini-live-token")).allowed
+  )
+    return json(
+      { error: "Please wait before starting another voice session." },
+      429,
+    );
 
-  // Google recommends one-use ephemeral tokens for browser/mobile Live clients.
-  // Keep both the token and the window for opening a new session short-lived.
-  const expireTime = new Date(Date.now() + 20 * 60_000).toISOString();
-  const newSessionExpireTime = new Date(Date.now() + 60_000).toISOString();
-
-  const upstream = await fetch('https://generativelanguage.googleapis.com/v1beta/auth_tokens', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-goog-api-key': apiKey,
-    },
-    body: JSON.stringify({
-      uses: 1,
-      expireTime,
-      newSessionExpireTime,
-      liveConnectConstraints: {
-        model: `models/${model}`,
-        config: {
-          responseModalities: ['AUDIO'],
-          speechConfig: {
-            voiceConfig: { prebuiltVoiceConfig: { voiceName } },
-          },
-        },
+  let reservation: Awaited<ReturnType<typeof reserveDoVoice>> | undefined;
+  try {
+    reservation = await reserveDoVoice(owner.id);
+    const { mode, voiceName } = parsed.data;
+    const model = DO_VOICE_MODELS[mode];
+    const config = doVoiceConfig(mode, voiceName);
+    // Google rejects subsequent messages after expiry; this is not just a UI timer.
+    const expiresAt = new Date(
+      Date.now() + DO_VOICE_SECONDS * 1000,
+    ).toISOString();
+    const ai = new GoogleGenAI({
+      apiKey: key()!,
+      httpOptions: { apiVersion: "v1beta" },
+    });
+    const token = await ai.authTokens.create({
+      config: {
+        uses: 1,
+        expireTime: expiresAt,
+        newSessionExpireTime: new Date(Date.now() + 60_000).toISOString(),
+        liveConnectConstraints: { model, config },
+        abortSignal: AbortSignal.any([
+          request.signal,
+          AbortSignal.timeout(10_000),
+        ]),
       },
-    }),
-    signal: AbortSignal.timeout(10_000),
-  });
-
-  if (!upstream.ok) {
-    const detail = await upstream.text().catch(() => '');
-    console.error('[DO Gemini Live] token issue failed', upstream.status, detail.slice(0, 300));
-    return json({ error: 'Could not start Gemini Live.' }, 502);
+    });
+    if (!token.name) throw new Error("incomplete_token");
+    // Never log or persist the temporary token. It is used only by this browser session.
+    return json(
+      {
+        token: token.name,
+        model,
+        mode,
+        voiceName,
+        config,
+        expiresAt,
+        sessionSeconds: DO_VOICE_SECONDS,
+      },
+      200,
+    );
+  } catch (error) {
+    if (reservation) await reservation.release().catch(() => {});
+    if (error instanceof DoVoiceAllowanceError)
+      return json(
+        { error: error.message },
+        error.code === "exhausted" ? 429 : 503,
+      );
+    const status =
+      error && typeof error === "object" && "status" in error
+        ? Number(error.status)
+        : 0;
+    // Keep upstream content and credentials out of browser responses and logs.
+    console.error(
+      "[DO voice] token request failed",
+      Number.isFinite(status) ? status : 0,
+    );
+    return json(
+      {
+        error:
+          status === 429
+            ? "The voice provider is at its limit. assembl needs to check its Google quota or billing before trying again."
+          : "The voice service could not connect. Please try again later.",
+      },
+      502,
+    );
   }
-
-  const tokenData = (await upstream.json()) as { name?: string };
-  const token = tokenData.name;
-  if (!token) {
-    return json({ error: 'Gemini Live token response was incomplete.' }, 502);
-  }
-
-  return json({
-    uri: `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContentConstrained?access_token=${encodeURIComponent(token)}`,
-    model,
-    mode,
-    voiceName,
-    approvalPolicy: 'prepare-only',
-    expiresAt: expireTime,
-  }, 200);
 }

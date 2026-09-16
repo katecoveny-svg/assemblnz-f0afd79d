@@ -7,7 +7,11 @@
   padding: 14px 16px;
   border: 1px solid rgba(67, 25, 51, 0.16);
   border-radius: 18px;
-  background: linear-gradient(135deg, rgba(250, 245, 248, 0.96), rgba(255, 255, 255, 0.98));
+  background: linear-gradient(
+    135deg,
+    rgba(250, 245, 248, 0.96),
+    rgba(255, 255, 255, 0.98)
+  );
   box-shadow: 0 18px 50px rgba(43, 12, 31, 0.08);
 }
 
@@ -52,5 +56,139 @@
   .do-live-dock {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+.do-live-panel {
+  margin: 20px 0;
+  color: #240b21;
+}
+.do-live-panel .do-live-dock {
+  margin-bottom: 0;
+}
+.do-live-panel :is(button, a) {
+  touch-action: manipulation;
+}
+.do-live-dock a,
+.do-live-options > button,
+.do-live-draft > button,
+.do-live-transcript > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  min-height: 44px;
+  border: 1px solid #654a4e40;
+  border-radius: 9px;
+  background: #35152b;
+  color: #fffdfb;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.do-live-panel button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.do-live-panel :is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid #916a70;
+  outline-offset: 4px;
+}
+.do-live-options,
+.do-live-transcript,
+.do-live-draft {
+  padding: 20px;
+  margin-top: 10px;
+  border: 1px solid #654a4e30;
+  border-radius: 14px;
+  background: #fffdfb;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.do-live-options > p {
+  color: #654a4e;
+  margin: 14px 0;
+}
+.do-live-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.do-live-choice label,
+.do-live-draft label {
+  display: grid;
+  gap: 7px;
+  font-weight: 500;
+}
+.do-live-choice select,
+.do-live-draft textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #654a4e50;
+  border-radius: 7px;
+  background: #f5f1f2;
+  color: #240b21;
+  font: inherit;
+}
+.do-live-draft textarea {
+  margin: 9px 0 12px;
+  resize: vertical;
+}
+.do-live-consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.do-live-consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+  accent-color: #654a4e;
+}
+.do-live-context {
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f5f1f2;
+  border-radius: 8px;
+  padding: 12px;
+  font:
+    12px/1.6 var(--font-mono),
+    monospace;
+}
+.do-live-state {
+  padding: 10px 16px;
+  color: #654a4e;
+  font:
+    12px/1.6 var(--font-mono),
+    monospace;
+}
+.do-live-transcript summary {
+  cursor: pointer;
+}
+.do-live-transcript p {
+  overflow-wrap: anywhere;
+}
+.do-live-transcript strong {
+  display: block;
+  font-size: 11px;
+  color: #654a4e;
+}
+@media (max-width: 480px) {
+  .do-live-choice {
+    grid-template-columns: 1fr;
+  }
+  .do-live-options,
+  .do-live-transcript,
+  .do-live-draft {
+    padding: 14px;
   }
 }
