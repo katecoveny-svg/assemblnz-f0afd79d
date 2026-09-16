@@ -1,0 +1,239 @@
+/**
+ * DO Spatial C craft kit — PREVIEW quality, audit-locked.
+ * Source of truth: lib/do/craft-canon.ts
+ *
+ * Stage = plum. Cards = paper. Accent glow = rose only.
+ * Type = Instrument Sans + IBM Plex Mono. No purple-leak glow tokens.
+ */
+
+.do-craft {
+  --do-stage: #240b21;
+  --do-plum: #240b21;
+  --do-muted: #654a4e;
+  --do-rose: #916a70;
+  --do-chalk: #f5f1f2;
+  --do-paper: #fffdfb;
+  --do-rose-glow: #d6a5bd;
+  --do-mark-ink: #f3ceeb;
+  --do-line: rgba(36, 11, 33, 0.12);
+  --do-line-strong: rgba(36, 11, 33, 0.22);
+
+  color: var(--do-plum);
+  font-family: var(--font-body), 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+}
+
+.do-craft *,
+.do-craft *::before,
+.do-craft *::after {
+  box-sizing: border-box;
+}
+
+.do-craft-mono {
+  font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* —— Stage (portable shell / extension body / meeting page wash) —— */
+.do-craft-stage {
+  background:
+    radial-gradient(900px 420px at 12% -10%, rgba(145, 106, 112, 0.18), transparent 58%),
+    radial-gradient(700px 380px at 100% 0%, rgba(36, 11, 33, 0.55), transparent 55%),
+    var(--do-stage);
+  color: var(--do-paper);
+}
+
+.do-craft-stage-soft {
+  background:
+    radial-gradient(900px 420px at 8% -8%, rgba(145, 106, 112, 0.14), transparent 58%),
+    radial-gradient(700px 360px at 100% 0%, rgba(36, 11, 33, 0.06), transparent 55%),
+    var(--do-chalk);
+  color: var(--do-plum);
+}
+
+.do-craft-card {
+  background: var(--do-paper);
+  color: var(--do-plum);
+  border: 1px solid var(--do-line-strong);
+  border-radius: 20px;
+}
+
+/* —— Volumetric D-mark orb —— */
+.do-craft-orb {
+  display: grid;
+  place-items: center;
+  color: var(--do-mark-ink);
+  border-radius: 22px;
+  background: radial-gradient(
+    ellipse at 25% 15%,
+    #9b6f94,
+    #391333 67%,
+    #240b21
+  );
+  box-shadow:
+    inset 1px 1px 2px #f8dff88c,
+    inset -2px -2px 5px #180a1e,
+    0 0 22px color-mix(in srgb, var(--do-rose-glow) 50%, transparent);
+}
+
+.do-craft-orb--glow {
+  width: 66px;
+  height: 66px;
+}
+
+.do-craft-orb--chrome {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+.do-craft-orb--meeting {
+  width: 64px;
+  height: 64px;
+}
+
+.do-craft-orb svg {
+  width: 72%;
+  height: 72%;
+  filter: drop-shadow(0 0 4px #ecbddd);
+}
+
+/* —— CTAs —— */
+.do-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--do-plum);
+  background: var(--do-plum);
+  color: var(--do-paper);
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.do-cta:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.do-cta--secondary {
+  background: var(--do-paper);
+  color: var(--do-plum);
+  border-color: var(--do-line-strong);
+}
+
+.do-cta--ghost {
+  background: transparent;
+  color: var(--do-muted);
+  border-color: var(--do-line-strong);
+}
+
+.do-cta--stop {
+  background: var(--do-chalk);
+  color: var(--do-plum);
+  border-color: var(--do-line-strong);
+}
+
+.do-cta--hero {
+  min-height: 52px;
+  min-width: min(100%, 220px);
+  padding: 16px 22px;
+  font-size: 17px;
+  box-shadow: 0 10px 28px rgba(36, 11, 33, 0.22);
+}
+
+.do-cta:focus-visible,
+.do-craft :focus-visible {
+  outline: 3px solid var(--do-rose);
+  outline-offset: 4px;
+}
+
+/* —— Work board columns —— */
+.do-work-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.do-work-col {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--do-line);
+  background: var(--do-paper);
+  color: var(--do-plum);
+  min-height: 120px;
+}
+
+.do-work-col header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.do-work-col h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.do-work-col header span {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--do-muted);
+}
+
+.do-work-empty {
+  margin: 0;
+  color: var(--do-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.do-work-item {
+  padding: 8px 0;
+  border-top: 1px solid var(--do-line);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.do-work-item:first-of-type {
+  border-top: 0;
+}
+
+.do-work-evidence {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--do-line-strong);
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--do-muted);
+}
+
+@media (max-width: 720px) {
+  .do-work-board {
+    grid-template-columns: 1fr;
+  }
+
+  .do-cta--hero {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .do-cta,
+  .do-craft-orb {
+    transition: none !important;
+  }
+}

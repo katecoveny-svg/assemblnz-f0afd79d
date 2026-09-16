@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import { DoMark } from "@/components/do/DoMark";
 import {
+  DoPortableStarters,
+  type DoPortableStarter,
+} from "@/components/do/DoPortableStarters";
+import {
   clampCompanionPosition,
   COMPANION_POSITION_KEY,
   readCompanionPosition,
@@ -19,27 +23,6 @@ const DoWorkspace = dynamic(() =>
 );
 
 const FIRST_VISIT_KEY = "assembl-do-glow-seen-v1";
-
-const STARTERS = [
-  {
-    id: "page",
-    label: "Help with this page",
-    hint: "Paste or describe what you need from this page.",
-    brief: "Help me with this page. Ask what I want before preparing a draft.",
-  },
-  {
-    id: "reply",
-    label: "Draft a reply",
-    hint: "Paste the message you need to answer.",
-    brief: "Draft a clear reply I can edit. Do not send anything.",
-  },
-  {
-    id: "meeting",
-    label: "Meeting notes",
-    hint: "Record or paste notes — sign-in required for transcription.",
-    meeting: true,
-  },
-] as const;
 
 export function GlowDoWidget() {
   const launcher = useRef<HTMLButtonElement>(null);
@@ -56,7 +39,6 @@ export function GlowDoWidget() {
   const [view, setView] = useState<"welcome" | "workspace">("welcome");
   const [starterBrief, setStarterBrief] = useState("");
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
-  const [meetingGate, setMeetingGate] = useState(false);
   const [position, setPosition] = useState<CompanionPosition | null>(null);
   const drag = useRef<{
     x: number;
@@ -140,7 +122,6 @@ export function GlowDoWidget() {
     markSeen();
     setView("welcome");
     setStarterBrief("");
-    setMeetingGate(false);
     setOpened(true);
     dialog.current?.showModal();
   }
@@ -148,21 +129,15 @@ export function GlowDoWidget() {
   function startWorkspace(brief = "") {
     setStarterBrief(brief);
     setView("workspace");
-    setMeetingGate(false);
   }
 
-  function onStarter(id: (typeof STARTERS)[number]["id"]) {
-    const starter = STARTERS.find((s) => s.id === id);
-    if (!starter) return;
-    if ("meeting" in starter && starter.meeting) {
-      if (signedIn === false || signedIn === null) {
-        setMeetingGate(true);
-        return;
-      }
-      window.location.assign("/do/meetings");
+  function onStarter(starter: DoPortableStarter) {
+    if (starter.id === "meeting") {
+      // Recording-first: open Meeting DO without gating on sign-in.
+      window.location.assign(starter.href || "/do/meetings");
       return;
     }
-    if ("brief" in starter) startWorkspace(starter.brief);
+    if (starter.brief) startWorkspace(starter.brief);
   }
 
   return (
@@ -283,7 +258,6 @@ export function GlowDoWidget() {
         onClose={() => {
           setOpened(false);
           setView("welcome");
-          setMeetingGate(false);
         }}
       >
         <button
@@ -296,48 +270,11 @@ export function GlowDoWidget() {
         </button>
         {opened && view === "welcome" ? (
           <div className={styles.welcome}>
-            <p className={styles.kicker}>assembl · DO</p>
-            <h2>What can DO help with?</h2>
-            <p>
-              Prepare drafts where you already are. DO does not listen in the
-              background, and it never sends, books or pays for you.
-            </p>
-            <div className={styles.starters} role="list">
-              {STARTERS.map((starter) => (
-                <button
-                  key={starter.id}
-                  type="button"
-                  className={styles.starter}
-                  role="listitem"
-                  onClick={() => onStarter(starter.id)}
-                >
-                  <strong>{starter.label}</strong>
-                  <span>{starter.hint}</span>
-                </button>
-              ))}
-            </div>
-            {meetingGate ? (
-              <div className={styles.gate} role="status">
-                <p>
-                  Meeting transcription needs an Assembl sign-in. Sign in opens
-                  in this window so login can finish, then continue to Meeting
-                  DO.
-                </p>
-                <Link
-                  className={styles.gateCta}
-                  href="/login?redirect=%2Fdo%2Fmeetings"
-                >
-                  Sign in to use Meeting DO <ArrowUpRight size={14} />
-                </Link>
-                <button
-                  type="button"
-                  className={styles.gateSecondary}
-                  onClick={() => window.location.assign("/do/meetings")}
-                >
-                  I am already signed in — open Meeting DO
-                </button>
-              </div>
-            ) : null}
+            <DoPortableStarters
+              onStarter={onStarter}
+              interceptMeeting
+              showDownloads
+            />
             <div className={styles.welcomeActions}>
               <button
                 type="button"

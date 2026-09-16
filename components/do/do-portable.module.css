@@ -1,0 +1,168 @@
+/* Shared portable DO chrome — Glow sheet, /do home, companion widget.
+   Extension sidepanel mirrors these tokens in apps/do/extension/sidepanel.css. */
+
+.shell {
+  --do-plum: #240b21;
+  --do-muted: #654a4e;
+  --do-rose: #916a70;
+  --do-chalk: #f5f1f2;
+  --do-paper: #fffdfb;
+  color: var(--do-plum);
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--do-rose);
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.prompt {
+  margin: 0 0 8px;
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.lede {
+  margin: 0 0 14px;
+  max-width: 42ch;
+  color: var(--do-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.starters {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.starter,
+.starterPrimary {
+  display: grid;
+  gap: 3px;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #dccbd6;
+  background: var(--do-paper);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+}
+
+.starter:hover {
+  border-color: var(--do-rose);
+}
+
+.starterPrimary {
+  background: var(--do-plum);
+  border-color: var(--do-plum);
+  color: var(--do-paper);
+}
+
+.starterPrimary:hover {
+  filter: brightness(1.05);
+}
+
+.starterPrimary span {
+  color: #f3ceeb;
+}
+
+.starter strong,
+.starterPrimary strong {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.starter span {
+  font-size: 12px;
+  color: var(--do-muted);
+  line-height: 1.4;
+}
+
+.starterPrimary span {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.downloads {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #dccbd6;
+  background: var(--do-paper);
+}
+
+.downloadsHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.downloadsHead strong {
+  font-size: 13px;
+  letter-spacing: -0.02em;
+}
+
+.downloadsHead span {
+  color: var(--do-muted);
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.downloadRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.downloadLink,
+.downloadLinkSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--do-plum);
+  background: var(--do-plum);
+  color: var(--do-paper);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.downloadLinkSecondary {
+  background: var(--do-paper);
+  color: var(--do-plum);
+  border-color: #dccbd6;
+}
+
+.downloadsNote {
+  margin: 0;
+  color: var(--do-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starter,
+  .starterPrimary,
+  .downloadLink,
+  .downloadLinkSecondary {
+    transition: none;
+  }
+}

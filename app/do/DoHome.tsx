@@ -16,6 +16,8 @@ import {
 import { DoReveal } from "./DoReveal";
 import { DO_TEMPLATES } from "./do-templates";
 import { DoMark } from "@/components/do/DoMark";
+import { DoPortableStarters } from "@/components/do/DoPortableStarters";
+import { DoDownloadsStrip } from "@/components/do/DoDownloadsStrip";
 import { DO_TASKS } from "@/apps/do/shared/preparation";
 import { readHomeBrief } from "@/apps/do/shared/home-handoff";
 import type { DoSkill } from "./DoBuilder";
@@ -205,6 +207,29 @@ export function DoHome() {
             openWorkspace();
           }}
         />
+
+        <section
+          className={styles.startersBand}
+          aria-label="What do you want to DO?"
+        >
+          <DoPortableStarters
+            onStarter={(starter) => {
+              if (starter.id === "meeting") {
+                window.location.assign("/do/meetings");
+                return;
+              }
+              if (starter.brief) {
+                setBrief(starter.brief);
+                setTask(starter.id === "reply" ? "reply" : "brief");
+                setName(starter.label);
+                setTemplate("");
+                openWorkspace();
+              }
+            }}
+            interceptMeeting
+            showDownloads
+          />
+        </section>
 
         <section
           className={styles.team}
@@ -419,7 +444,7 @@ export function DoHome() {
                 Start at login is your choice in the DO menu.
               </p>
               <a href="https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos">
-                Mac setup & availability <ArrowUpRight size={16} />
+                Mac companion setup <ArrowUpRight size={16} />
               </a>
               <small>
                 Development build · public signed installer not available.
@@ -447,6 +472,9 @@ export function DoHome() {
                 Manage connections <Cable size={16} />
               </Link>
             </article>
+          </div>
+          <div className={styles.portableDownloads}>
+            <DoDownloadsStrip />
           </div>
         </section>
       </div>
@@ -510,6 +538,7 @@ export function DoHome() {
           <br />
           Alongside you.
         </h2>
+        <DoDownloadsStrip />
         <div className="do-download-card">
           <div>
             <h3>Browser side panel</h3>
@@ -523,6 +552,23 @@ export function DoHome() {
               Download extension ZIP
             </a>
             <small>Direct installation · not a browser store listing.</small>
+          </div>
+        </div>
+        <div className="do-download-card">
+          <div>
+            <h3>Mac companion</h3>
+            <p>
+              Local development build with floating orb, selection capture and
+              review-first paste. Public signed installer is not available yet.
+            </p>
+            <a
+              href="https://github.com/katecoveny-svg/assemblnz-f0afd79d/tree/main/apps/do/macos"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ArrowUpRight size={16} />
+              Mac setup on GitHub
+            </a>
           </div>
         </div>
         <div className="do-download-card">
