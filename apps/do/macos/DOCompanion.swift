@@ -24,7 +24,8 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
         web.uiDelegate = self
         web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz/do/widget")!))
         if let active = NSWorkspace.shared.frontmostApplication,
-           active.processIdentifier != ProcessInfo.processInfo.processIdentifier {
+           active.processIdentifier != ProcessInfo.processInfo.processIdentifier,
+           active.activationPolicy == .regular {
             target = active
             targetName = active.localizedName ?? "your app"
         }
@@ -38,7 +39,8 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
 
     @objc func activated(_ notification: Notification) {
         guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
-              app.processIdentifier != ProcessInfo.processInfo.processIdentifier else { return }
+              app.processIdentifier != ProcessInfo.processInfo.processIdentifier,
+              app.activationPolicy == .regular else { return }
         target = app
         targetName = app.localizedName ?? "your app"
         destinationChecked = false
@@ -261,22 +263,25 @@ final class DraggableOrbView: NSHostingView<Orb> {
     override func hitTest(_ point: NSPoint) -> NSView? { bounds.contains(point) ? self : nil }
 
     override func mouseDown(with event: NSEvent) {
-        startMouse = NSEvent.mouseLocation
+        startMouse = window?.convertPoint(toScreen: event.locationInWindow) ?? .zero
         startOrigin = window?.frame.origin ?? .zero
         moved = false
     }
 
     override func mouseDragged(with event: NSEvent) {
-        let point = NSEvent.mouseLocation
+        guard let window else { return }
+        let point = window.convertPoint(toScreen: event.locationInWindow)
         let dx = point.x - startMouse.x
         let dy = point.y - startMouse.y
         if abs(dx) + abs(dy) > 4 { moved = true }
         if moved {
-            window?.setFrameOrigin(NSPoint(x: startOrigin.x + dx, y: startOrigin.y + dy))
+            window.setFrameOrigin(NSPoint(x: startOrigin.x + dx, y: startOrigin.y + dy))
         }
     }
 
     override func mouseUp(with event: NSEvent) {
+        // Classify the final event too: coalesced input may omit intermediate drags.
+        mouseDragged(with: event)
         if moved {
             if let origin = window?.frame.origin { didMove?(origin) }
         } else {
@@ -317,7 +322,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         orb.isOpaque = false
         orb.backgroundColor = .clear
         orb.hasShadow = false
-        orb.isMovableByWindowBackground = true
+        // Movement is handled by DraggableOrbView so a drag cannot also open DO.
+        orb.isMovableByWindowBackground = false
         orb.hidesOnDeactivate = false
         orb.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
 
