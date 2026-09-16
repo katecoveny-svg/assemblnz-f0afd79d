@@ -105,13 +105,13 @@ export default function DoInstallPage() {
           security protections. A public Mac installer needs Developer ID signing and
           Apple notarisation — not claimed here.
         </p>
-        <a className={styles.cta} href="/api/do/download?format=macos" download>
+        <a className={styles.cta} href="/api/do/download?format=mac" download="DO-mac-companion.zip">
           Download Mac DO source zip
         </a>
         <p className={styles.alt}>
           Static mirror:{' '}
-          <a className={styles.altLink} href="/do/downloads/assembl-do-macos-1.5.0.zip" download>
-            /do/downloads/assembl-do-macos-1.5.0.zip
+          <a className={styles.altLink} href="/do/downloads/DO-mac-companion.zip" download>
+            /do/downloads/DO-mac-companion.zip
           </a>
         </p>
       </section>

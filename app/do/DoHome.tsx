@@ -193,8 +193,16 @@ export function DoHome() {
           <Link href="/do/meetings">Meetings</Link>
           <Link href="/do/connections">Connections</Link>
           <Link href="/do/install">Install</Link>
+          <button
+            type="button"
+            className={styles.headerDownload}
+            onClick={() => downloads.current?.showModal()}
+          >
+            Download DO <Download size={15} />
+          </button>
         </nav>
       </header>
+      <DoDownloadCtas variant="banner" />
       <div>
         <DoReveal
           onBuild={(id, context) => {
@@ -429,8 +437,8 @@ export function DoHome() {
               </p>
               <a
                 className={styles.downloadCta}
-                href="/api/do/download?format=macos"
-                download="assembl-do-macos-1.5.0.zip"
+                href="/api/do/download?format=mac"
+                download="DO-mac-companion.zip"
               >
                 Download Mac DO <Download size={16} />
               </a>
@@ -554,7 +562,7 @@ export function DoHome() {
               No notarised public .app yet — Gatekeeper may warn on development
               builds.
             </p>
-            <a href="/api/do/download?format=macos" download>
+            <a href="/api/do/download?format=mac" download="DO-mac-companion.zip">
               <Download size={16} />
               Download Mac DO
             </a>

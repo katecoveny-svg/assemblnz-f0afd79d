@@ -70,8 +70,8 @@ Linux CI cannot App Store / Play–build these — **compiling-ready stubs** onl
 
 - Guide: `/do/install`
 - Chrome zip API: `/api/do/download?format=extension`
-- Mac source zip API: `/api/do/download?format=macos` (build on a Mac — no notarised public .app yet)
-- Static mirrors: `public/do/downloads/assembl-do-extension-1.5.0.zip` and `assembl-do-macos-1.5.0.zip`
+- Mac source zip API: `/api/do/download?format=mac` (aliases: `macos`, `mac-companion`; build on a Mac — no notarised public .app yet)
+- Static mirrors: `public/do/downloads/assembl-do-extension-1.5.0.zip` and `DO-mac-companion.zip`
 
 ### Chrome extension
 

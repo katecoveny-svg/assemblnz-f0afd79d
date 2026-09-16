@@ -26,7 +26,7 @@ function syncDownloadLinks() {
   const chromeLink = document.getElementById('download-chrome');
   const macLink = document.getElementById('download-mac');
   if (chromeLink) chromeLink.href = `${apiOrigin}/api/do/download?format=extension`;
-  if (macLink) macLink.href = `${apiOrigin}/api/do/download?format=macos`;
+  if (macLink) macLink.href = `${apiOrigin}/api/do/download?format=mac`;
 }
 
 function syncFrame() {

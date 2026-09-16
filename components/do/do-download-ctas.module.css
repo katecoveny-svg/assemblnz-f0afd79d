@@ -56,3 +56,33 @@
   padding: 10px 12px;
   font-size: 12px;
 }
+.banner {
+  width: 100%;
+  gap: 12px;
+  padding: 14px 7%;
+  background: #fffdfb;
+  border-bottom: 1px solid #dccbd6;
+  color: #240b21;
+}
+.bannerLabel {
+  margin: 0;
+  margin-right: 8px;
+  font: 10px/1.4 var(--font-mono), "IBM Plex Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #916a70;
+}
+.banner .primary {
+  background: #240b21;
+  color: #fffdfb !important;
+}
+.banner .secondary {
+  background: #f5f1f2;
+  color: #240b21 !important;
+  border-color: #dccbd6;
+}
+@media (max-width: 700px) {
+  .banner {
+    padding: 12px 5%;
+  }
+}

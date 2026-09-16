@@ -303,6 +303,10 @@ export function GlowDoWidget() {
               Prepare drafts where you already are. DO does not listen in the
               background, and it never sends, books or pays for you.
             </p>
+            <div className={styles.downloads}>
+              <p className={styles.kicker}>Take DO with you</p>
+              <DoDownloadCtas variant="sheet" />
+            </div>
             <div className={styles.starters} role="list">
               {STARTERS.map((starter) => (
                 <button
@@ -352,10 +356,6 @@ export function GlowDoWidget() {
                   Sign in <ArrowUpRight size={14} />
                 </Link>
               ) : null}
-            </div>
-            <div className={styles.downloads}>
-              <p className={styles.kicker}>Take DO with you</p>
-              <DoDownloadCtas variant="compact" />
             </div>
           </div>
         ) : null}

@@ -169,9 +169,14 @@
   margin-bottom: 8px;
 }
 .downloads {
-  margin: 18px 0 4px;
-  padding-top: 16px;
-  border-top: 1px solid #240b2122;
+  margin: 0 0 18px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f5f1f2;
+  border: 1px solid #dccbd6;
+}
+.downloads .kicker {
+  margin-bottom: 10px;
 }
 .continue {
   border: 1px solid #240b21;

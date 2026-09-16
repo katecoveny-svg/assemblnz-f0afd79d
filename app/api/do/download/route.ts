@@ -39,10 +39,14 @@ async function addDir(zip: JSZip, dir: string, prefix: string) {
 }
 
 export async function GET(request: Request) {
-  const format = new URL(request.url).searchParams.get('format');
-  if (format !== 'extension' && format !== 'embed' && format !== 'macos') {
+  const raw = new URL(request.url).searchParams.get('format');
+  const format =
+    raw === 'mac' || raw === 'macos' || raw === 'mac-companion'
+      ? 'mac'
+      : raw;
+  if (format !== 'extension' && format !== 'embed' && format !== 'mac') {
     return Response.json(
-      { error: 'Choose format=extension, format=macos or format=embed.' },
+      { error: 'Choose format=extension, format=mac or format=embed.' },
       { status: 400 },
     );
   }
@@ -81,7 +85,7 @@ Requires Chrome 116+ or compatible Edge. Direct install — not a Chrome Web Sto
 Source: assembl monorepo \`apps/do/extension\`.
 `,
       );
-    } else if (format === 'macos') {
+    } else if (format === 'mac') {
       await addDir(zip, MACOS_ROOT, 'macos');
       zip.file(
         'README.md',
@@ -94,7 +98,7 @@ This zip contains the Swift companion source from \`apps/do/macos\`.
 ## Build on a Mac (Xcode Command Line Tools)
 
 \`\`\`bash
-unzip assembl-do-macos-${VERSION}.zip
+unzip DO-mac-companion.zip
 cd macos
 ./build.sh ~/Desktop/do-mac-build
 open ~/Desktop/do-mac-build/DO.app
@@ -134,11 +138,17 @@ See ${origin}/do and ${origin}/do/install.
 `,
       );
     }
+    const filename =
+      format === 'extension'
+        ? `assembl-do-extension-${VERSION}.zip`
+        : format === 'mac'
+          ? 'DO-mac-companion.zip'
+          : `assembl-do-embed-${VERSION}.zip`;
     const content = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE' });
     return new Response(content as BodyInit, {
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="assembl-do-${format}-${VERSION}.zip"`,
+        'Content-Disposition': `attachment; filename="${filename}"`,
         'Cache-Control': 'no-store',
         'X-Content-Type-Options': 'nosniff',
       },

@@ -57,16 +57,21 @@ describe('DO downloadable product', () => {
     expect(script).not.toContain('OPENAI_API_KEY');
   });
 
-  it('packages Mac companion source with honest build instructions (no fake binary)', async () => {
-    const response = await GET(new Request('https://www.assembl.co.nz/api/do/download?format=macos'));
-    expect(response.status).toBe(200);
-    const zip = await JSZip.loadAsync(await response.arrayBuffer());
-    expect(zip.file('macos/DOCompanion.swift')).toBeTruthy();
-    expect(zip.file('macos/build.sh')).toBeTruthy();
-    expect(zip.file('macos/package.sh')).toBeTruthy();
-    const readme = await zip.file('README.md')!.async('string');
-    expect(readme).toMatch(/no notarised public Mac installer/i);
-    expect(readme).toContain('./build.sh');
+  it('packages Mac companion source for format=mac and format=macos', async () => {
+    for (const format of ['mac', 'macos'] as const) {
+      const response = await GET(
+        new Request(`https://www.assembl.co.nz/api/do/download?format=${format}`),
+      );
+      expect(response.status).toBe(200);
+      expect(response.headers.get('Content-Disposition')).toContain('DO-mac-companion.zip');
+      const zip = await JSZip.loadAsync(await response.arrayBuffer());
+      expect(zip.file('macos/DOCompanion.swift')).toBeTruthy();
+      expect(zip.file('macos/build.sh')).toBeTruthy();
+      expect(zip.file('macos/package.sh')).toBeTruthy();
+      const readme = await zip.file('README.md')!.async('string');
+      expect(readme).toMatch(/no notarised public Mac installer/i);
+      expect(readme).toContain('./build.sh');
+    }
   });
 
   it('packages a website launcher that requires user-triggered preparation in its iframe', async () => {

@@ -64,11 +64,10 @@ macos.file(
   'README.md',
   `# DO for Mac · development source · v${VERSION}\n\nNo notarised public installer. Build with ./macos/build.sh on a Mac.\nhttps://www.assembl.co.nz/do/install#mac\n`,
 );
-const macosPath = path.join(outDir, `assembl-do-macos-${VERSION}.zip`);
-await writeFile(
-  macosPath,
-  await macos.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' }),
-);
+const macosPath = path.join(outDir, `DO-mac-companion.zip`);
+const macosBuf = await macos.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
+await writeFile(macosPath, macosBuf);
+await writeFile(path.join(outDir, `assembl-do-macos-${VERSION}.zip`), macosBuf);
 
 console.log('Wrote', extensionPath);
 console.log('Wrote', macosPath);

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Download } from 'lucide-react';
 import styles from './do-download-ctas.module.css';
 
-type Variant = 'hero' | 'sheet' | 'compact';
+type Variant = 'hero' | 'sheet' | 'compact' | 'banner';
 
 export function DoDownloadCtas({
   variant = 'hero',
@@ -13,6 +13,9 @@ export function DoDownloadCtas({
 }) {
   return (
     <div className={`${styles.wrap} ${styles[variant]} ${className}`.trim()}>
+      {variant === 'banner' ? (
+        <p className={styles.bannerLabel}>Take DO with you</p>
+      ) : null}
       <a
         className={styles.primary}
         href="/api/do/download?format=extension"
@@ -23,8 +26,8 @@ export function DoDownloadCtas({
       </a>
       <a
         className={styles.secondary}
-        href="/api/do/download?format=macos"
-        download="assembl-do-macos-1.5.0.zip"
+        href="/api/do/download?format=mac"
+        download="DO-mac-companion.zip"
       >
         <Download size={16} aria-hidden />
         Download Mac DO
