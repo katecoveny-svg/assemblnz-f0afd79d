@@ -300,6 +300,10 @@ export function BuilderClient() {
         <Link href="/studio" className="underline decoration-[color:var(--assembl-cloud)] underline-offset-4 hover:decoration-[color:var(--text-primary)]">
           /studio
         </Link>
+        {' · '}
+        <Link href="/studio/do-maker" className="underline decoration-[color:var(--assembl-cloud)] underline-offset-4 hover:decoration-[color:var(--text-primary)]">
+          task do maker
+        </Link>
       </footer>
     </main>
   );

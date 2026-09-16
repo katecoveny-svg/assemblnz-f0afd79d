@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, FileText, Pause, Play } from 'lucide-react';
 import { GlowDoWidget } from '../assembl-the-work/GlowDoWidget';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
+import { makerHref } from '@/lib/studio/task-do-maker';
 import '../assembl-the-work/assembl-the-work.css';
 import styles from './pursuit.module.css';
 
@@ -24,6 +25,12 @@ export function PursuitLanding() {
   const [brief, setBrief] = useState(stages[2].detail);
   const active = stages[stage];
   const workspace = PRODUCT_DESTINATIONS.pursuit.workspace;
+  const taskDoMaker = makerHref({
+    opportunity: 'Service quote preparation',
+    partner: '',
+    task: 'research-brief',
+    template: 'research-brief',
+  });
   return <div className={`atw ${styles.page}`} data-paused={paused}>
     <a href="#pursuit-example" className="atw-skip">Skip to the example</a>
     <section className={styles.hero} aria-labelledby="pursuit-title">
@@ -39,6 +46,7 @@ export function PursuitLanding() {
           <h1 id="pursuit-title">Find the opening.<br/><span>Build the possibility.</span></h1>
           <p className={styles.lead}>Research the opportunity. Shape a credible idea. Prepare the next conversation.</p>
           <a className={styles.primary} href={workspace}>Open your Pursuit hub <ArrowUpRight size={19}/></a>
+          <Link className={styles.quietLink} href={taskDoMaker}>Mint a task DO in Studio <ArrowRight size={16}/></Link>
           <a className={styles.quietLink} href="#pursuit-example">See how the work takes shape <ArrowDown size={16}/></a>
         </div>
         <div id="pursuit-example" className={styles.example} aria-label="Illustrative Pursuit example">
@@ -71,6 +79,10 @@ export function PursuitLanding() {
         <Link href="/do"><span>02 / DO</span><h3>Prepare the work.</h3><p>Specialist help with the context you choose.</p><ArrowUpRight aria-hidden="true"/></Link>
         <Link href="/creative-studio"><span>03 / Studio</span><h3>Make it tangible.</h3><p>A concept, pitch or experience to review.</p><ArrowUpRight aria-hidden="true"/></Link>
       </div>
+      <p className={styles.exampleNote} style={{ marginTop: 28 }}>
+        Ready to mint a narrow, white-label task agent from an opportunity?{' '}
+        <Link href={taskDoMaker}>Open the Task DO Maker</Link>.
+      </p>
     </section>
     <section className={styles.offer} aria-labelledby="offer-title">
       <div><p className={styles.eyebrow}>Work with assembl</p><h2 id="offer-title">A focused<br/>Pursuit sprint.</h2><p>A scoped engagement to research one opportunity, develop a concept and prepare the next conversation.</p><Link className={styles.primaryDark} href="/contact?product=pursuit">Discuss your project <ArrowUpRight size={19}/></Link></div>

@@ -75,6 +75,8 @@ For visual/system details, see `docs/DO-OFFICE-ARCHITECTURE.md` and the DO share
 
 **Household Floor (16 Sep 2026):** public scrubbed family DO at `/do/household` with nine seats, evening-board tick, personalisation, and Chrome browser-seat v0. Owner-private seed exists but must not be the public share. Save to Office remains plan-acceptance only — not a running agent.
 
+**Task DO Maker (16 Sep 2026):** white-label task-specific DO minting at `/studio/do-maker`, linked from `/pursuit` with opportunity/partner/task query handoff. Exports portable AgentSpec + preview URL; browser/session drafts only unless durable Office save is explicitly available.
+
 ### SHOW / STUDIO — show the possibility
 Studio is the visual, experiential and commercial proof layer.
 

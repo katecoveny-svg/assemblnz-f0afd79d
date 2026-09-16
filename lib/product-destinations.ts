@@ -29,6 +29,15 @@ export const PRODUCT_DESTINATIONS = {
     overview: '/creative-studio',
     workspace: `${PURSUIT_SITE_ORIGIN}/agency`,
   },
+  /**
+   * Assembl agent Studio (koro workbench + Task DO Maker).
+   * Distinct from Creative Studio's Sites workspace above.
+   */
+  agentStudio: {
+    label: 'Assembl Studio',
+    overview: '/studio',
+    taskDoMaker: '/studio/do-maker',
+  },
 } as const;
 
 /** Existing contact route for a single product or a complete system scope. */
