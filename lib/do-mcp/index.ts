@@ -4,3 +4,11 @@ export { zapierMcpProbe, zapierMcpExecute } from './zapier';
 export { tregCatalogSearch, tregCallEndpoint } from './treg';
 export { callDoMcpTool, listSpikeComposioTools, listNzLiveToolStatuses } from './runtime';
 export { runNzLiveTool } from './nz-live';
+export {
+  mcpMarketHubConfigured,
+  hubBrowseCatalog,
+  hubSearchCatalog,
+  hubAttachToolkit,
+  hubListAttachedToolkits,
+  runMcpMarketHubTool,
+} from './mcp-market-hub';

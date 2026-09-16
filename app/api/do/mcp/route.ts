@@ -4,10 +4,16 @@ import {
   type DoMcpAllowlistEntry,
   type DoMcpProviderId,
 } from '@/apps/do/shared/do-mcp-gateway';
+import {
+  DO_TOOL_STACK_LAYERS,
+  MCP_MARKET_HUB,
+  MCP_MARKET_HUB_LOOKALIKES,
+} from '@/apps/do/shared/mcp-market-hub-pack';
 import { doOwner, privateDoHeaders as headers, sameDoOrigin } from '@/apps/do/services/owner';
 import {
   callDoMcpTool,
   composioListTools,
+  hubListAttachedToolkits,
   listNzLiveToolStatuses,
   listProviderStatuses,
   tregCatalogSearch,
@@ -42,6 +48,9 @@ export async function GET(request: Request) {
 
   const zapier = await zapierMcpProbe();
   const nzLive = listNzLiveToolStatuses();
+  const hubAttached = await hubListAttachedToolkits({
+    ownerExternalId: owner?.externalId ?? null,
+  });
 
   return Response.json({
     signedIn: Boolean(owner),
@@ -49,7 +58,9 @@ export async function GET(request: Request) {
       'Cursor / IDE MCP plugins do not flow into customer DOs. Tools must be declared on the DO allowlist and run through this gateway.',
     portableAgentNote:
       'DO is a portable agent: floating ✦ on web/extension/Mac takes what you can see (selection/page with consent), runs Clear + prepare seats, drafts-only for send. Household Floor is the same object — not an inert Office job.',
+    fourLayerStack: DO_TOOL_STACK_LAYERS,
     flow: [
+      'discover/pack via MCP Market Hub (optional)',
       'declare mcpAllowlist on DO',
       'configure provider env',
       'owner connects where required',
@@ -59,6 +70,15 @@ export async function GET(request: Request) {
     providers,
     allowlist,
     nzLive,
+    mcpMarketHub: {
+      hubUrl: MCP_MARKET_HUB.hubUrl,
+      appUrl: MCP_MARKET_HUB.appUrl,
+      directoryUrl: MCP_MARKET_HUB.directoryUrl,
+      connectHint: MCP_MARKET_HUB.connectHint,
+      lookalikes: MCP_MARKET_HUB_LOOKALIKES,
+      attached: hubAttached.ok ? hubAttached.detail.attached : [],
+      publicCatalogApi: 'not_documented',
+    },
     composioSample,
     tregSample,
     zapier,

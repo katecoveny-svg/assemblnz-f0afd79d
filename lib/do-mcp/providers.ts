@@ -6,6 +6,7 @@ import {
   type DoMcpProviderMeta,
 } from '@/apps/do/shared/do-mcp-gateway';
 import { pipedreamConfigured } from '@/lib/connectors/pipedream';
+import { mcpMarketHubConfigured, hubProviderNote } from './mcp-market-hub';
 
 export type DoMcpProviderStatus = DoMcpProviderMeta & {
   configured: boolean;
@@ -43,6 +44,9 @@ export function providerConfigured(id: DoMcpProviderId): boolean {
     case 'nz_live':
       // NZ Live is a toolkit: some tools are always live (keyless). Treat gateway as configured.
       return true;
+    case 'mcp_market_hub':
+      // Attach toolkit + list work without API key (local_draft). Catalog browse/search need key + client.
+      return true;
     default:
       return false;
   }
@@ -52,6 +56,16 @@ export function listProviderStatuses(): DoMcpProviderStatus[] {
   return DO_MCP_PROVIDERS.map((meta) => {
     const missing = missingEnv(meta.envKeys);
     const configured = missing.length === 0;
+    if (meta.id === 'mcp_market_hub') {
+      const hubKey = mcpMarketHubConfigured();
+      return {
+        ...meta,
+        configured: hubKey,
+        missingEnv: missing,
+        state: hubKey ? 'stub' : 'setup_needed',
+        note: hubProviderNote(),
+      };
+    }
     if (meta.id === 'zapier') {
       return {
         ...meta,

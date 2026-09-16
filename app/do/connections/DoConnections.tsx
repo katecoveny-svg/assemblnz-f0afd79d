@@ -28,10 +28,19 @@ type McpProviderRow = {
   connectHint: string;
 };
 
+type HubAttached = {
+  toolkitId: string;
+  label: string;
+  attachedAt: string;
+  syncState: 'local_draft' | 'synced';
+  sourceUrl?: string;
+};
+
 type McpState = {
   signedIn: boolean;
   cursorMcpNote: string;
   portableAgentNote?: string;
+  fourLayerStack?: Array<{ layer: number; label: string; role: string }>;
   providers: McpProviderRow[];
   allowlist: DoMcpAllowlistEntry[];
   nzLive?: Array<{
@@ -41,6 +50,15 @@ type McpState = {
     status: 'live' | 'needs_key' | 'stub';
     envKeys: string[];
   }>;
+  mcpMarketHub?: {
+    hubUrl: string;
+    appUrl: string;
+    directoryUrl: string;
+    connectHint: string;
+    lookalikes: Array<{ name: string; url: string; note: string }>;
+    attached: HubAttached[];
+    publicCatalogApi: string;
+  };
 };
 
 async function readConnections(): Promise<State> {
@@ -81,6 +99,9 @@ export function DoConnections() {
   const [mcp, setMcp] = useState<McpState | null>(null);
   const [busy, setBusy] = useState('');
   const [message, setMessage] = useState('');
+  const [hubToolkitId, setHubToolkitId] = useState('');
+  const [hubLabel, setHubLabel] = useState('');
+  const [hubMessage, setHubMessage] = useState('');
 
   async function refresh() {
     try {
@@ -135,10 +156,48 @@ export function DoConnections() {
     }
   }
 
+  async function attachHubToolkit() {
+    if (busy || !hubToolkitId.trim()) return;
+    setBusy('hub-attach');
+    setHubMessage('');
+    try {
+      const response = await fetch('/api/do/mcp', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'mcp_market_hub',
+          toolId: 'attach_toolkit',
+          approved: true,
+          arguments: {
+            toolkitId: hubToolkitId.trim(),
+            label: hubLabel.trim() || hubToolkitId.trim(),
+            sourceUrl: mcp?.mcpMarketHub?.hubUrl,
+          },
+        }),
+      });
+      const data = await response.json() as {
+        receipt?: { status: string; summary: string; detail?: { attached?: HubAttached } };
+        message?: string;
+      };
+      if (!response.ok || data.receipt?.status !== 'ok') {
+        throw new Error(data.receipt?.summary || data.message || 'Attach failed.');
+      }
+      setHubMessage(`Attached as local_draft: ${data.receipt?.detail?.attached?.toolkitId ?? hubToolkitId.trim()} — not Hub cloud sync.`);
+      setHubToolkitId('');
+      setHubLabel('');
+      const gateway = await readMcp();
+      setMcp(gateway);
+    } catch (error) {
+      setHubMessage(error instanceof Error ? error.message : 'Attach failed.');
+    } finally {
+      setBusy('');
+    }
+  }
+
   return <div className={styles.shell}>
     <header className={styles.topbar}><div><Link href="/do" className={styles.brand}>DO</Link><span>/</span><strong>connections</strong></div><nav><Link href="/do/household">Household Floor</Link><Link href="/do/office">office</Link><Link href="/do/builder">Builder DO</Link></nav></header>
     <main className={styles.main}>
-      <section className={styles.hero}><div><p>portable agent · tools where you already are</p><h1>give your DOs<br/>the tools they need.</h1></div><p>Drag the floating ✦, open the chat sheet, tell it what it can see (selection/page with consent). Marketplace APIs go through the <strong>DO MCP gateway</strong> (Composio · Zapier · Treg · NZ Live). Pipedream stays for first-party Gmail. Cursor IDE MCP ≠ DO MCP.</p></section>
+      <section className={styles.hero}><div><p>portable agent · tools where you already are</p><h1>give your DOs<br/>the tools they need.</h1></div><p>Drag the floating ✦, open the chat sheet, tell it what it can see (selection/page with consent). Four layers: <strong>MCP Market Hub</strong> (discover/pack) · <strong>Composio / Zapier / Treg</strong> (execute) · <strong>Pipedream</strong> (Gmail OAuth) · <strong>NZ Live</strong> (domain data). Cursor IDE MCP ≠ DO MCP.</p></section>
 
       {!state ? <p className={styles.notice}>Checking available capabilities…</p> : !state.signedIn ? <section className={styles.signin}><strong>Sign in before connecting personal tools.</strong><p>Connections are tied to your own DO account so another user cannot inherit your grants.</p><Link href="/login?redirect=%2Fdo%2Fconnections">Open DO sign-in <ArrowUpRight size={16}/></Link></section> : null}
       {message ? <div className={styles.error} role="alert">{message} <button type="button" onClick={() => void refresh()}>Try again</button></div> : null}
@@ -146,12 +205,21 @@ export function DoConnections() {
       <section className={styles.group} id="mcp-gateway">
         <header>
           <span>mcp gateway</span>
-          <p>declare → configure env → connect → allowlist call → receipt</p>
+          <p>Hub pack → configure env → connect → allowlist call → receipt</p>
         </header>
         {mcp ? (
           <>
             <p className={styles.notice} style={{ marginTop: 14 }}>{mcp.cursorMcpNote}</p>
             {mcp.portableAgentNote ? <p className={styles.notice}>{mcp.portableAgentNote}</p> : null}
+            {mcp.fourLayerStack?.length ? (
+              <div className={styles.included} style={{ marginTop: 12 }}>
+                {mcp.fourLayerStack.map((layer) => (
+                  <p key={layer.layer} style={{ margin: '4px 0' }}>
+                    <strong>{layer.layer}. {layer.label}</strong> — {layer.role}
+                  </p>
+                ))}
+              </div>
+            ) : null}
             <div className={styles.grid}>
               {mcp.providers.map((provider) => (
                 <article className={styles.card} key={provider.id}>
@@ -166,6 +234,74 @@ export function DoConnections() {
                 </article>
               ))}
             </div>
+
+            {mcp.mcpMarketHub ? (
+              <>
+                <header style={{ marginTop: 28 }} id="mcp-market-hub">
+                  <span>mcp market hub · attach toolkit</span>
+                  <p>discovery / pack — not execute · local_draft until Hub API exists</p>
+                </header>
+                <article className={styles.card} style={{ marginTop: 14, maxWidth: 560 }}>
+                  <h2>Attach a Hub toolkit to this DO</h2>
+                  <p>{mcp.mcpMarketHub.connectHint}</p>
+                  <p style={{ marginTop: 8 }}>
+                    <a href={mcp.mcpMarketHub.hubUrl} target="_blank" rel="noreferrer">Open Hub <ArrowUpRight size={14}/></a>
+                    {' · '}
+                    <a href={mcp.mcpMarketHub.directoryUrl} target="_blank" rel="noreferrer">Directory</a>
+                    {' · '}
+                    <a href={mcp.mcpMarketHub.appUrl} target="_blank" rel="noreferrer">App</a>
+                  </p>
+                  <small>Catalog API: {mcp.mcpMarketHub.publicCatalogApi} — no fake live Hub calls.</small>
+                  <div className={styles.apps} style={{ marginTop: 12, flexDirection: 'column', alignItems: 'stretch', gap: 8 }}>
+                    <label>
+                      Toolkit id
+                      <input
+                        type="text"
+                        value={hubToolkitId}
+                        onChange={(e) => setHubToolkitId(e.target.value)}
+                        placeholder="acme/customer-success"
+                        disabled={!mcp.signedIn || Boolean(busy)}
+                        style={{ display: 'block', width: '100%', marginTop: 4, padding: '8px 10px' }}
+                      />
+                    </label>
+                    <label>
+                      Label (optional)
+                      <input
+                        type="text"
+                        value={hubLabel}
+                        onChange={(e) => setHubLabel(e.target.value)}
+                        placeholder="Customer success toolkit"
+                        disabled={!mcp.signedIn || Boolean(busy)}
+                        style={{ display: 'block', width: '100%', marginTop: 4, padding: '8px 10px' }}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      disabled={!mcp.signedIn || !hubToolkitId.trim() || Boolean(busy)}
+                      onClick={() => void attachHubToolkit()}
+                    >
+                      {!mcp.signedIn ? 'Sign in to attach' : busy === 'hub-attach' ? 'Attaching…' : 'Attach as local_draft'}
+                    </button>
+                  </div>
+                  {hubMessage ? <div className={styles.included} style={{ marginTop: 10 }}>{hubMessage}</div> : null}
+                  {(mcp.mcpMarketHub.attached ?? []).length ? (
+                    <div className={styles.included} style={{ marginTop: 12 }}>
+                      {(mcp.mcpMarketHub.attached as HubAttached[]).map((item) => (
+                        <p key={item.toolkitId} style={{ margin: '4px 0' }}>
+                          {item.label} · {item.toolkitId} · {item.syncState}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className={styles.included} style={{ marginTop: 12 }}>No Hub toolkits attached yet.</div>
+                  )}
+                  <div className={styles.included} style={{ marginTop: 12 }}>
+                    Lookalikes (not Hub): {mcp.mcpMarketHub.lookalikes.map((l) => l.name).join(', ')} — see DO-MCP-MARKET-HUB.md
+                  </div>
+                </article>
+              </>
+            ) : null}
+
             {mcp.nzLive?.length ? (
               <>
                 <header style={{ marginTop: 28 }}>
@@ -195,7 +331,7 @@ export function DoConnections() {
               </>
             ) : null}
             <div className={styles.grid} style={{ marginTop: 12 }}>
-              {mcp.allowlist.filter((tool) => tool.provider !== 'nz_live').map((tool) => (
+              {mcp.allowlist.filter((tool) => tool.provider !== 'nz_live' && tool.provider !== 'mcp_market_hub').map((tool) => (
                 <article className={styles.card} key={`${tool.provider}-${tool.toolId}`}>
                   <div className={styles.cardTop}>
                     <div className={styles.icon}><PlugZap size={17}/></div>
@@ -231,7 +367,7 @@ export function DoConnections() {
                         return <button type="button" key={app.slug} disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || isConnected || Boolean(busy)} onClick={() => void connect(app.slug)}>{label}</button>; })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Platform capability · availability depends on the task'}</div>}</article>)}</div></section>;
       })}
 
-      <section className={styles.boundary}><strong>Cursor MCP ≠ DO MCP.</strong><p>IDE plugins do not become customer DO tools. Pipedream stays for first-party Connect (Gmail). Composio is the primary marketplace toolbox; Zapier covers long-tail; Treg is pay-per-call data — never OAuth linking.</p></section>
+      <section className={styles.boundary}><strong>Cursor MCP ≠ DO MCP.</strong><p>IDE plugins do not become customer DO tools. Four layers: Hub discovers/packs · Composio/Zapier/Treg execute · Pipedream first-party OAuth · NZ Live domain data. Hub is not an execute gateway.</p></section>
     </main>
   </div>;
 }

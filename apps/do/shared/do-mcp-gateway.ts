@@ -9,17 +9,23 @@
  *   4. Runtime calls go through this gateway with a receipt
  *   5. Side-effecting tools stay drafts-only or approval-gated
  *
- * Providers (layered fit):
- *   composio  — primary app toolbox (~1000 apps, managed OAuth)
- *   zapier    — long-tail / Zap-style (~9000) when Composio lacks coverage
- *   treg      — pay-per-call data APIs (SEO/SERP/enrichment) — not OAuth linking
- *   pipedream — first-party Connect (Gmail) already wired; complementary
- *   nz_live   — Aotearoa public/open data toolkit (AT, weather, NZBN, GeoNet, …)
+ * Four-layer stack (Kate):
+ *   1. mcp_market_hub — discovery + curated toolkit packing (not execute)
+ *   2. composio / zapier / treg — execution providers
+ *   3. pipedream — first-party OAuth (Gmail)
+ *   4. nz_live — domain toolkit (Aotearoa public/open data)
  */
 
+import { mcpMarketHubAllowlistEntries } from './mcp-market-hub-pack';
 import { nzLiveAllowlistEntries } from './nz-live-pack';
 
-export type DoMcpProviderId = 'composio' | 'zapier' | 'treg' | 'pipedream' | 'nz_live';
+export type DoMcpProviderId =
+  | 'composio'
+  | 'zapier'
+  | 'treg'
+  | 'pipedream'
+  | 'nz_live'
+  | 'mcp_market_hub';
 
 export type DoMcpSideEffect = 'none' | 'draft' | 'write' | 'spend';
 
@@ -47,6 +53,15 @@ export type DoMcpProviderMeta = {
 };
 
 export const DO_MCP_PROVIDERS: readonly DoMcpProviderMeta[] = [
+  {
+    id: 'mcp_market_hub',
+    label: 'MCP Market Hub',
+    fit: 'Discovery + curated toolkit packing (mcpmarket.com/hub) — browse catalog, version skills/MCPs, bundle toolkits, attach allowlist to a DO. Not an execute gateway.',
+    envKeys: ['MCP_MARKET_HUB_API_KEY'],
+    connectHint:
+      'Open https://mcpmarket.com/hub (or app.mcpmarket.com). Bundle a toolkit, then attach the toolkit id/URL on /do/connections. No public Hub catalog API is wired yet — Assembl will not invent live Hub calls.',
+    docsUrl: '/docs/do-templates/DO-MCP-MARKET-HUB.md',
+  },
   {
     id: 'composio',
     label: 'Composio',
@@ -119,10 +134,20 @@ export const DO_MCP_SPIKE_ALLOWLIST: readonly DoMcpAllowlistEntry[] = [
     required: false,
   },
   ...nzLiveAllowlistEntries(),
+  ...mcpMarketHubAllowlistEntries(),
 ] as const;
 
 /** Optional MCP tools declared on public Household Floor (no live tokens). */
 export const HOUSEHOLD_FLOOR_MCP_ALLOWLIST: readonly DoMcpAllowlistEntry[] = [
+  {
+    provider: 'mcp_market_hub',
+    toolId: 'attach_toolkit',
+    label: 'Attach Hub toolkit',
+    purpose: 'Optional: attach a curated MCP Market Hub toolkit id to this DO (local_draft until Hub API exists).',
+    sideEffect: 'draft',
+    approvalRequired: true,
+    required: false,
+  },
   {
     provider: 'composio',
     toolId: 'GMAIL_FETCH_EMAILS',
@@ -209,9 +234,10 @@ export function sideEffectNeedsApproval(entry: DoMcpAllowlistEntry): boolean {
 
 export const DO_MCP_FLOW_SUMMARY = [
   'Cursor / Grok Bot MCP plugins ≠ DO MCP — they do not flow into customer DOs',
+  'Four layers: Hub discovery/pack → Composio/Zapier/Treg execute → Pipedream OAuth → NZ Live domain packs',
   'DO declares mcpAllowlist (provider + toolId + sideEffect + approval)',
-  'Provider env configured (COMPOSIO_API_KEY / ZAPIER_MCP_TOKEN / TREG_TOKEN / PIPEDREAM_*)',
-  'Owner connects where required (Composio OAuth, Zapier apps, Treg prepaid)',
+  'Provider env configured (COMPOSIO_API_KEY / ZAPIER_MCP_TOKEN / TREG_TOKEN / PIPEDREAM_* / MCP_MARKET_HUB_API_KEY)',
+  'Owner connects where required (Hub toolkit attach, Composio OAuth, Zapier apps, Treg prepaid)',
   'Runtime calls only allowlisted tools via /api/do/mcp — receipt on every call',
   'Drafts-only / approval for write and spend side effects',
 ] as const;

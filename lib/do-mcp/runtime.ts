@@ -8,6 +8,7 @@ import {
   type DoMcpToolReceipt,
 } from '@/apps/do/shared/do-mcp-gateway';
 import { composioExecuteTool, composioListTools } from './composio';
+import { runMcpMarketHubTool } from './mcp-market-hub';
 import { providerConfigured } from './providers';
 import { listNzLiveToolStatuses, runNzLiveTool } from './nz-live';
 import { tregCallEndpoint, tregCatalogSearch } from './treg';
@@ -83,6 +84,37 @@ export async function callDoMcpTool(input: DoMcpCallInput): Promise<DoMcpToolRec
       status: 'ok',
       summary: 'Treg catalog search completed (public, no spend).',
       detail: { results: result.results },
+    });
+  }
+
+  // Hub attach / list work without API key (local_draft). Catalog tools return honest not_configured.
+  if (input.provider === 'mcp_market_hub') {
+    const result = await runMcpMarketHubTool(
+      input.toolId,
+      input.arguments ?? {},
+      input.ownerExternalId,
+    );
+    if (!result.ok) {
+      return receipt({
+        provider: 'mcp_market_hub',
+        toolId: input.toolId,
+        ownerExternalId: input.ownerExternalId,
+        status:
+          result.statusHint === 'not_configured' || result.statusHint === 'stub'
+            ? result.statusHint === 'stub'
+              ? 'not_implemented'
+              : 'not_configured'
+            : 'error',
+        summary: result.error,
+      });
+    }
+    return receipt({
+      provider: 'mcp_market_hub',
+      toolId: input.toolId,
+      ownerExternalId: input.ownerExternalId,
+      status: 'ok',
+      summary: `MCP Market Hub: ${entry.label}.`,
+      detail: result.detail,
     });
   }
 

@@ -160,6 +160,16 @@ export {
 } from './nz-live-pack';
 export type { NzLiveToolDef, NzLiveToolStatus } from './nz-live-pack';
 export {
+  MCP_MARKET_HUB,
+  MCP_MARKET_HUB_LOOKALIKES,
+  DO_TOOL_STACK_LAYERS,
+  mcpMarketHubAllowlistEntries,
+} from './mcp-market-hub-pack';
+export type {
+  McpMarketHubAttachedToolkit,
+  McpMarketHubToolId,
+} from './mcp-market-hub-pack';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,
