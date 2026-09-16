@@ -77,3 +77,11 @@ flowchart TB
 - No unsupported claims; speculative items marked **TBD** or **hypothesis**.
 - This package describes what to build — it does **not** assert that Action Cloud is live in production.
 - Commodity SaaS connectors and generic browse are covered by Composio / Pipedream / Browserbase; DO must not compete there.
+
+---
+
+## Related: DO Meet
+
+**DO Meet** (Talk. Decide. DO.) is the meeting-to-work engine that builds on this Action Cloud package — Permit / Wait / Receipt for conversation → decisions → jobs → approved, receipted work. Native hosted video is Phase 2; MVP is the work engine first.
+
+Build briefs (not a live-production claim): [`docs/do-meet/`](../do-meet/).

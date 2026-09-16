@@ -48,6 +48,7 @@ For a fresh coding/agent task, use:
 | Journey foundation plan | `docs/agentic-journey-foundation-plan.md` |
 | Wait-state product family | `docs/agentic-wait-states-roadmap.md` |
 | DO Action Cloud build briefs (Assembl orchestration · DO safe action · Pursuit vertical) | `docs/do-action-cloud/` |
+| DO Meet build briefs (meeting-to-work engine on Action Cloud Permit/Wait/Receipt; not live production) | `docs/do-meet/` |
 | Architecture / agent registry | `docs/AGENTIC-OS-ARCHITECTURE.md` + `docs/AGENT-REGISTRY.md` |
 | Environment variables | `.env.local.example` + `docs/ENVIRONMENT.md` |
 | Deployment / release | `docs/deployment-and-release-checklist.md` + `docs/deployment-surfaces.md` |
@@ -60,7 +61,7 @@ For a fresh coding/agent task, use:
 Load the context needed for signals, opportunity intelligence, evidence provenance, buyer/company understanding, tenders and commercial opportunity. Pursuit should create evidence-backed opportunities, not speculative certainty.
 
 ### DO
-Load execution/tool/authority context. DO should preview risky work, obtain approval at meaningful boundaries, execute within granted limits and leave a receipt. For the DO Action Cloud build-brief package (not a live-production claim), start at `docs/do-action-cloud/`.
+Load execution/tool/authority context. DO should preview risky work, obtain approval at meaningful boundaries, execute within granted limits and leave a receipt. For the DO Action Cloud build-brief package (not a live-production claim), start at `docs/do-action-cloud/`. For DO Meet (meeting-to-work engine on Permit/Wait/Receipt; MVP = work engine first, native video Phase 2; not live production), start at `docs/do-meet/`.
 
 ### SHOW / Studio
 Load brand + copy + relevant product/customer context. SHOW is the proof surface: working demonstrations, journeys, interfaces, video, image, 3D, pitches and tender artefacts should make the possibility tangible without inventing customer claims.
