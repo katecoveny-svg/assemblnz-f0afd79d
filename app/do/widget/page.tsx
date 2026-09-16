@@ -17,12 +17,13 @@ export default function DoWidgetPage() {
         <span aria-hidden="true"><DoMark /></span>Your DOs
       </Link>
       <nav aria-label="DO tools — open in a new tab">
-        <Link href="/do/meetings" target="_blank" rel="noopener">Meetings ↗</Link>
+        <Link href="/do/meetings" target="_blank" rel="noopener">Meeting DO ↗</Link>
+        <Link href="/login?redirect=%2Fdo%2Fmeetings" target="_blank" rel="noopener">Sign in ↗</Link>
         <Link href="/do/connections" target="_blank" rel="noopener">Connections ↗</Link>
         <Link href="/do/office" target="_blank" rel="noopener">Office ↗</Link>
         <Link href="/do/builder" target="_blank" rel="noopener">Builder DO ↗</Link>
       </nav>
-      <p>Tools open separately so your draft stays here.</p>
+      <p>Meeting DO and sign-in open in a full tab so login and recording can finish. Drafts stay here.</p>
     </header>
     <DoWorkspace embedded />
   </div>;

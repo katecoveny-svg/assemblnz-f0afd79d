@@ -1,10 +1,15 @@
 {
   "manifest_version": 3,
   "name": "DO by assembl",
-  "version": "1.4.0",
-  "description": "Floating ✦ companion and per-DO browser seat. Capture consented page text and screenshots for Household Floor — never send or pay.",
+  "version": "1.5.0",
+  "description": "Portable DO companion with D-mark toolbar presence. Help with this page, use your selection, or open Meeting DO — drafts only; never send or pay.",
   "action": {
-    "default_title": "Open DO"
+    "default_title": "Open DO — help with this page",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
   },
   "permissions": [
     "activeTab",
@@ -27,6 +32,7 @@
   ],
   "icons": {
     "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
@@ -36,5 +42,13 @@
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["selection-badge.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
 }
