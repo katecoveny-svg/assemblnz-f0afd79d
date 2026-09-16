@@ -6,6 +6,8 @@ import { GlowDoWidget } from '@/components/site/assembl-the-work/GlowDoWidget';
 
 const LINKS = [
   { href: '/do/office', label: 'Office' },
+  { href: '/do/sponsored', label: 'Sponsored' },
+  { href: '/do/browser', label: 'Browser' },
   { href: '/do/builder', label: 'Builder DO' },
   { href: '/do/tasks', label: 'Tasks' },
   { href: '/do/connections', label: 'Connections' },

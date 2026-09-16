@@ -53,6 +53,17 @@ Possible future adapter (**hypothesis**): detect in-browser agent context → ma
 | Governed actions + receipts | **DO** |
 | Org readiness + journeys | **Assembl** |
 
+### Prototype surfaces (Sep 2026)
+
+| Surface | Path | Notes |
+|---------|------|-------|
+| Browser Runtime UI | `/do/browser` | Persistent job · context lock · permit · artifact |
+| Demo API | `/api/do/browser-runtime` | In-process job store; stubs Permit/Receipt |
+| Extension | `apps/do/extension` side panel | Seed job + lock page into open job (extends browser seat) |
+| Shared model | `apps/do/shared/browser-runtime.ts` | Survives tab changes; model-neutral placeholder |
+
+Does **not** claim Mozilla/Firefox Smart Window embed. Does **not** invent a second extension.
+
 ---
 
 ## Monitoring checklist

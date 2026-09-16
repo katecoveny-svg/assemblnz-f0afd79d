@@ -19,10 +19,15 @@ const seatLearn = document.getElementById('seat-learn');
 const playbookLabel = document.getElementById('playbook-label');
 const dlChrome = document.getElementById('dl-chrome');
 const dlMac = document.getElementById('dl-mac');
+const runtimeStatus = document.getElementById('runtime-status');
+const runtimeConsent = document.getElementById('runtime-consent');
+const runtimeOpen = document.getElementById('runtime-open');
+const sponsoredOpen = document.getElementById('sponsored-open');
 
 let ready = false;
 let pending = null;
 let apiOrigin = PRODUCTION_ORIGIN;
+let openRuntimeJobId = null;
 
 function syncFrame() {
   frame.src = `${apiOrigin}/do/widget`;
@@ -32,6 +37,8 @@ function syncFrame() {
 function syncDownloads() {
   if (dlChrome) dlChrome.href = `${apiOrigin}/api/do/download?format=extension`;
   if (dlMac) dlMac.href = `${apiOrigin}/api/do/download?format=mac`;
+  if (runtimeOpen) runtimeOpen.href = `${apiOrigin}/do/browser`;
+  if (sponsoredOpen) sponsoredOpen.href = `${apiOrigin}/do/sponsored`;
 }
 
 function offer() {
@@ -46,7 +53,7 @@ function openTopLevel(path) {
   return chrome.runtime.sendMessage({ type: 'do:open-url-for-do', url });
 }
 
-chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin'], (stored) => {
+chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin', 'doBrowserRuntimeJobId'], (stored) => {
   if (stored.doApiOrigin) {
     apiOrigin = stored.doApiOrigin;
     apiOriginSelect.value = stored.doApiOrigin;
@@ -56,6 +63,12 @@ chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin'], (stored) => {
   if (stored.doBrowserSeat?.doId) {
     doIdInput.value = stored.doBrowserSeat.doId;
     sessionKeyInput.value = stored.doBrowserSeat.sessionKey || `do-browser-seat:${stored.doBrowserSeat.doId}`;
+  }
+  if (stored.doBrowserRuntimeJobId) {
+    openRuntimeJobId = stored.doBrowserRuntimeJobId;
+    if (runtimeStatus) {
+      runtimeStatus.textContent = `Open job ${openRuntimeJobId} · survives tab changes. Lock page with consent.`;
+    }
   }
 });
 
@@ -280,6 +293,67 @@ document.getElementById('seat-capture').addEventListener('click', async () => {
       || `Receipt ${data.receipt?.id || ''} saved. Review on Household Floor Needs you. Nothing was submitted.`;
   } catch (e) {
     seatStatus.textContent = e instanceof Error ? e.message : 'Browser seat capture failed.';
+  } finally {
+    button.disabled = false;
+  }
+});
+
+document.getElementById('runtime-seed')?.addEventListener('click', async () => {
+  const button = document.getElementById('runtime-seed');
+  button.disabled = true;
+  try {
+    const response = await fetch(`${apiOrigin}/api/do/browser-runtime`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'seed_insurer_compare' }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || data.error || 'Could not seed job.');
+    openRuntimeJobId = data.job?.job_id || null;
+    if (openRuntimeJobId) {
+      chrome.storage.local.set({ doBrowserRuntimeJobId: openRuntimeJobId });
+    }
+    runtimeStatus.textContent = openRuntimeJobId
+      ? `Job ${openRuntimeJobId} open · ${data.job?.title || 'persistent'}. Lock a page with consent.`
+      : 'Seeded, but no job id returned.';
+  } catch (e) {
+    runtimeStatus.textContent = e instanceof Error ? e.message : 'Seed failed.';
+  } finally {
+    button.disabled = false;
+  }
+});
+
+document.getElementById('runtime-lock')?.addEventListener('click', async () => {
+  const button = document.getElementById('runtime-lock');
+  button.disabled = true;
+  try {
+    if (!runtimeConsent?.checked) throw new Error('Tick consent before locking page context into the job.');
+    if (!openRuntimeJobId) throw new Error('Seed or open a job on /do/browser first.');
+
+    const capture = await chrome.runtime.sendMessage({
+      type: 'do:browser-seat-capture',
+      includeScreenshot: false,
+    });
+    if (!capture?.ok) throw new Error(capture?.error || 'Capture failed.');
+
+    const response = await fetch(`${apiOrigin}/api/do/browser-runtime`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        action: 'lock_context',
+        job_id: openRuntimeJobId,
+        consent: true,
+        url: capture.page.url,
+        title: capture.page.title,
+        pageText: capture.page.pageText,
+        tabId: capture.page.tabId,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || data.error || 'Lock refused.');
+    runtimeStatus.textContent = `Locked ${data.job?.context?.pageTextChars || 0} chars into ${openRuntimeJobId}. Continue on /do/browser for propose → permit → artifact.`;
+  } catch (e) {
+    runtimeStatus.textContent = e instanceof Error ? e.message : 'Lock failed.';
   } finally {
     button.disabled = false;
   }

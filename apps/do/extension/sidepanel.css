@@ -42,3 +42,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .seat-actions{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
 .seat-actions button{padding:10px 14px;border-radius:99px;border:1px solid #916a7070;background:#240b21;color:#fffdfb;font:inherit;cursor:pointer}
 .seat-actions button:disabled{opacity:.5}
+.runtime{margin:4px 16px 8px;padding:12px 14px;border-radius:14px;border:1px solid #916a7088;background:#fffdfb;color:#240b21}
+.runtime .eyebrow{color:#916a70}
+.runtime-title{margin:0 0 6px;font-size:15px;font-weight:560;letter-spacing:-.02em}
+.runtime .seat-copy,#runtime-status{color:#654a4e}
+.runtime-actions{margin:8px 0}
+.runtime .check{color:#654a4e}
+.runtime .primary-btn.secondary{color:#240b21;border-color:#dccbd6;background:#f5f1f2}
+.runtime .download-link{min-height:32px;font-size:11px}

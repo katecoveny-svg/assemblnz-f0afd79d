@@ -82,6 +82,8 @@ Branded agent understands “need dinner tonight” → assembles useful basket/
 
 - Sponsor report driven by receipts, not chat logs alone  
 
+**Prototype:** `/do/sponsored` + `/api/do/sponsored` (demo stubs; not live loyalty).
+
 ---
 
 ## 4. DO Browser persistent job
@@ -98,6 +100,8 @@ User starts “compare three insurers’ excess” as a **persistent DO job** th
 - Job state in DO Wait, not only browser memory  
 - Output is artifact/receipt-ready, not a chat dump  
 - No hard dependency on Firefox Smart Window APIs  
+
+**Prototype:** `/do/browser` + `/api/do/browser-runtime` + Chrome DO side panel “Persistent job” section.
 
 ---
 
