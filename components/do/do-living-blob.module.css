@@ -13,7 +13,7 @@
     #240b21 100%
   );
   box-shadow:
-    inset 1px 1px 2px #f8dff88c,
+    inset 1px 1px 2px #f8e4ea8c,
     0 0 28px #d6a5bd66;
 }
 
@@ -39,7 +39,7 @@
   background: radial-gradient(
     circle at 32% 28%,
     #fffdfb 0%,
-    #f3ceeb 18%,
+    #f3d4de 18%,
     #916a70 48%,
     #391333 78%,
     #240b21 100%

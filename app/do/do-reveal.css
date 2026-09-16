@@ -1,7 +1,7 @@
 .dor {
   height: 220vh;
-  background: #19091f;
-  color: #fff7ff;
+  background: #240b21;
+  color: #fffdfb;
   position: relative;
 }
 .dor-stage {
@@ -10,7 +10,7 @@
   min-height: 760px;
   height: 100svh;
   overflow: hidden;
-  background: radial-gradient(ellipse at 72% 50%, #4e235366, transparent 65%);
+  background: radial-gradient(ellipse at 72% 50%, #39133366, transparent 65%);
 }
 .dor-intro {
   position: absolute;
@@ -29,7 +29,7 @@
 .dor-intro p {
   font-size: 20px;
   line-height: 1.6;
-  color: #ddcddd;
+  color: #d6bfd0;
 }
 .dor-intro a {
   display: inline-flex;
@@ -37,7 +37,7 @@
   gap: 30px;
   color: #fff;
   text-decoration: none;
-  border-bottom: 1px solid #b291b4;
+  border-bottom: 1px solid #a87888;
   padding: 24px 0;
   pointer-events: auto;
 }
@@ -54,7 +54,8 @@
   transform: translateY(-50%) scale(calc(1 + var(--reveal) * 0.2));
   pointer-events: none;
   opacity: calc(1 - var(--reveal));
-  filter: drop-shadow(0 0 30px #b479c355);
+  /* Rose bloom only — warm the baked PNG aura off grape-purple */
+  filter: drop-shadow(0 0 28px #d6a5bd66) drop-shadow(0 0 56px #c995a848);
 }
 .dor-slice {
   position: absolute;
@@ -66,6 +67,8 @@
   height: 100%;
   object-fit: contain;
   mix-blend-mode: screen;
+  /* Shift dimensional-d.png purple cast → warm rose / soft magenta-rose */
+  filter: hue-rotate(48deg) saturate(0.88) brightness(1.03);
 }
 .dor-slice-0 {
   clip-path: inset(0 65% 0 0);
@@ -89,9 +92,9 @@
     rotateX(calc((1 - var(--reveal)) * 12deg));
   background: #f5f1f2;
   color: #240b21;
-  border: 1px solid #ac88b4;
+  border: 1px solid #b88a96;
   border-radius: 20px;
-  box-shadow: 0 0 100px #b37aca25;
+  box-shadow: 0 0 100px #c995a825;
   padding: 25px;
   overflow: auto;
 }
@@ -105,7 +108,7 @@
   gap: 20px;
   font-size: 11px;
   letter-spacing: 0.1em;
-  border-bottom: 1px solid #d6cbd3;
+  border-bottom: 1px solid #d6bfd0;
   padding-bottom: 20px;
 }
 .dor-parts {
@@ -128,7 +131,7 @@
 .dor button {
   font: inherit;
   cursor: pointer;
-  border: 1px solid #cbb9cb;
+  border: 1px solid #d6bfd0;
   border-radius: 8px;
   background: transparent;
   color: inherit;
@@ -136,11 +139,11 @@
 }
 .dor button:focus-visible,
 .dor a:focus-visible {
-  outline: 3px solid #93629e;
+  outline: 3px solid #916a70;
   outline-offset: 4px;
 }
 .dor-parts button[aria-pressed="true"] {
-  background: #321235;
+  background: #240b21;
   color: #fff;
 }
 .dor-workarea {
@@ -148,14 +151,14 @@
   position: relative;
   min-height: 320px;
   padding: 20px;
-  background: #e5dce6;
+  background: #f0e6ea;
   border-radius: 12px;
 }
 .dor-paper {
   background: #fffdfb;
   padding: 25px;
   max-width: 82%;
-  box-shadow: 0 10px 40px #351b3520;
+  box-shadow: 0 10px 40px #240b2120;
 }
 .dor-paper small {
   font-size: 10px;
@@ -168,7 +171,7 @@
 }
 .dor-paper button {
   font-size: 12px;
-  background: #f0e5f4;
+  background: #f5e8ee;
 }
 .dor .dor-drag {
   position: absolute;
@@ -176,10 +179,10 @@
   top: 35%;
   width: 70px;
   height: 70px;
-  background: #311638;
-  color: #e7beff;
+  background: #240b21;
+  color: #f3d4de;
   border-radius: 22px;
-  box-shadow: 0 0 28px #b168d390;
+  box-shadow: 0 0 28px #ce82ac90;
   touch-action: none;
   cursor: grab;
 }
@@ -197,7 +200,7 @@
 }
 .dor-context,
 .dor-result {
-  border: 1px solid #d9cbd9;
+  border: 1px solid #d6bfd0;
   border-radius: 10px;
   padding: 18px;
 }
@@ -216,7 +219,7 @@
   font-size: 10px;
   line-height: 1.5;
   margin-top: 10px;
-  color: #725b72;
+  color: #654a4e;
 }
 .dor-context button {
   font-size: 12px;
@@ -235,7 +238,7 @@
   resize: vertical;
   font: 12px/1.6 var(--font-body);
   padding: 10px;
-  border: 1px solid #c3b2c5;
+  border: 1px solid #c9a8b0;
   background: #fffdfb;
   margin-top: 8px;
 }
@@ -245,7 +248,7 @@
   justify-content: space-between;
   gap: 18px;
   width: 100%;
-  background: #321235;
+  background: #240b21;
   color: #fff;
   margin-top: 12px;
   font-size: 13px;
@@ -259,7 +262,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 12px;
-  color: #ddcddd;
+  color: #d6bfd0;
 }
 .dor-controls div {
   display: flex;
@@ -399,8 +402,9 @@
 }
 
 .dor-intro h1 {
-  color: #fff7ff;
+  color: #fffdfb;
 }
 .dor-object img {
   mask-image: radial-gradient(ellipse at center, #000 42%, transparent 72%);
+  filter: hue-rotate(48deg) saturate(0.88) brightness(1.03);
 }

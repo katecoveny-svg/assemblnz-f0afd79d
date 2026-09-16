@@ -36,14 +36,14 @@
   background: radial-gradient(
     circle at 30% 22%,
     #fffdfb 0%,
-    #f4d3e6 16%,
-    #cb8eae 38%,
-    #754263 64%,
+    #f5d8de 16%,
+    #c995a8 38%,
+    #6b3a45 64%,
     #240b21 86%
   );
   box-shadow:
     inset 0 0 14px #fff8,
-    0 0 24px #dd96bd88;
+    0 0 24px #d6a5bd88;
 }
 .label {
   display: flex;
@@ -52,10 +52,10 @@
   gap: 5px;
   white-space: nowrap;
   background: #240b21ee;
-  border: 1px solid #d9a4c388;
+  border: 1px solid #d6a5bd88;
   border-radius: 99px;
   padding: 6px 10px;
-  box-shadow: 0 0 20px #c08da744;
+  box-shadow: 0 0 20px #c995a844;
   font-size: 10px;
   line-height: 1.3;
 }
@@ -68,7 +68,7 @@
   font-size: 9px;
   line-height: 1.3;
   text-align: center;
-  border: 1px solid #d9a4c388;
+  border: 1px solid #d6a5bd88;
   max-width: 96px;
 }
 .sheet {
@@ -228,24 +228,25 @@
   place-items: center;
   width: 66px;
   height: 66px;
-  color: #f3ceeb;
+  color: #f3d4de;
   border-radius: 24px;
   background: radial-gradient(
     ellipse at 25% 15%,
-    #9b6f94,
-    #391333 67%,
+    #c995a8,
+    #916a70 42%,
+    #391333 72%,
     #240b21
   );
   box-shadow:
-    inset 1px 1px 2px #f8dff88c,
+    inset 1px 1px 2px #f8e4ea8c,
     inset -2px -2px 5px #180a1e,
-    0 0 22px #ce82ac80;
+    0 0 22px #d6a5bd80;
   margin-bottom: 6px;
 }
 .mark svg {
   width: 50px;
   height: 50px;
-  filter: drop-shadow(0 0 5px #ecbddd);
+  filter: drop-shadow(0 0 5px #e8b6c4);
 }
 @media (max-width: 700px) {
   .mark {

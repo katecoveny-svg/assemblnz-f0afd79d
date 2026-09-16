@@ -32,12 +32,16 @@ describe('DO Spatial C craft canon', () => {
     expect(css).toMatch(/--do-stage:\s*#240b21/i);
     expect(css).toMatch(/--do-paper:\s*#fffdfb/i);
     expect(css).toMatch(/--do-rose:\s*#916a70/i);
+    expect(css).toMatch(/--do-rose-glow:\s*#d6a5bd/i);
+    expect(css).toMatch(/--do-rose-highlight:\s*#c995a8/i);
     expect(css).toMatch(/Instrument Sans/);
     expect(css).toMatch(/IBM Plex Mono/);
     expect(css).toMatch(/\.do-cta\b/);
     expect(css).toMatch(/\.do-cta--secondary/);
     expect(css).toMatch(/\.do-work-board/);
     expect(css).not.toMatch(/Arial/i);
+    expect(css.toLowerCase()).not.toContain('#9b6f94');
+    expect(css.toLowerCase()).not.toContain('#ecbddd');
     for (const hex of DO_CRAFT.bannedPurpleHex) {
       expect(css.toLowerCase()).not.toContain(hex.toLowerCase());
     }
@@ -46,12 +50,18 @@ describe('DO Spatial C craft canon', () => {
   it('exports Spatial C tokens and work-board labels', () => {
     expect(DO_CRAFT.stage).toBe('#240B21');
     expect(DO_CRAFT.rose).toBe('#916A70');
+    expect(DO_CRAFT.roseGlow).toBe('#D6A5BD');
+    expect(DO_CRAFT.roseHighlight).toBe('#C995A8');
+    expect(DO_CRAFT.roseBloom).toBe('#E8B6C4');
     expect(DO_CRAFT.orb.glow).toBe(66);
     expect(DO_CRAFT.orb.extension).toBe(36);
     expect(DO_CRAFT.orb.meeting).toBe(64);
     expect(DO_WORK_COLUMN_LABEL.needsYou).toBe('Needs you');
     expect(DO_WORK_COLUMN_LABEL.working).toBe('Working');
     expect(DO_WORK_COLUMN_LABEL.done).toBe('Done');
+    expect(DO_CRAFT.bannedPurpleHex).toEqual(
+      expect.arrayContaining(['#9b6f94', '#ecbddd', '#b479c3']),
+    );
   });
 
   it('bans purple-leak hex and chatbot Chat CTA on DO portable surfaces', () => {

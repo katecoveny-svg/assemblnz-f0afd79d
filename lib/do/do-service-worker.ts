@@ -25,7 +25,7 @@ const OFFLINE_SHELL = `<!doctype html>
     font:18px/1.55 "Instrument Sans",ui-sans-serif,system-ui,sans-serif;padding:28px}
   main{max-width:28rem;text-align:center}
   .mark{width:64px;height:64px;margin:0 auto 18px;border-radius:22px;
-    background:radial-gradient(ellipse at 25% 15%,#9b6f94,#391333 67%,#240b21);
+    background:radial-gradient(ellipse at 25% 15%,#c995a8,#916a70 42%,#391333 72%,#240b21);
     box-shadow:0 0 22px #d6a5bd80}
   small{display:block;font:11px/1.4 "IBM Plex Mono",ui-monospace,monospace;
     letter-spacing:.12em;text-transform:uppercase;color:#916A70;margin-bottom:10px}

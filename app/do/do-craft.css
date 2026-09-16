@@ -14,7 +14,10 @@
   --do-chalk: #f5f1f2;
   --do-paper: #fffdfb;
   --do-rose-glow: #d6a5bd;
-  --do-mark-ink: #f3ceeb;
+  --do-rose-highlight: #c995a8;
+  --do-rose-bloom: #e8b6c4;
+  --do-rose-inset: #f8e4ea;
+  --do-mark-ink: #f3d4de;
   --do-line: rgba(36, 11, 33, 0.12);
   --do-line-strong: rgba(36, 11, 33, 0.22);
 
@@ -57,7 +60,7 @@
   border-radius: 20px;
 }
 
-/* —— Volumetric D-mark orb —— */
+/* —— Volumetric D-mark orb — warm rose highlight on plum (not grape) —— */
 .do-craft-orb {
   display: grid;
   place-items: center;
@@ -65,14 +68,15 @@
   border-radius: 22px;
   background: radial-gradient(
     ellipse at 25% 15%,
-    #9b6f94,
-    #391333 67%,
+    var(--do-rose-highlight),
+    #916a70 42%,
+    #391333 72%,
     #240b21
   );
   box-shadow:
-    inset 1px 1px 2px #f8dff88c,
+    inset 1px 1px 2px color-mix(in srgb, var(--do-rose-inset) 55%, transparent),
     inset -2px -2px 5px #180a1e,
-    0 0 22px color-mix(in srgb, var(--do-rose-glow) 50%, transparent);
+    0 0 22px color-mix(in srgb, var(--do-rose-glow) 55%, transparent);
 }
 
 .do-craft-orb--glow {
@@ -94,7 +98,7 @@
 .do-craft-orb svg {
   width: 72%;
   height: 72%;
-  filter: drop-shadow(0 0 4px #ecbddd);
+  filter: drop-shadow(0 0 4px var(--do-rose-bloom));
 }
 
 /* —— CTAs —— */
