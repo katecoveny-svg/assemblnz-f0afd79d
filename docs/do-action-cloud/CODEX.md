@@ -75,9 +75,16 @@ Suggested code layout (host repo):
 
 ```text
 docs/do-action-cloud/
-app/api/do/action/
-lib/do/action-contract/
-lib/do/permits|receipts|waits|adapters/
+app/api/do/action/              # Phase 1 — not yet; stubs live under action-stub
+app/api/do/sponsored/           # Sponsored Journeys prototype API
+app/api/do/browser-runtime/     # Browser Runtime prototype API
+app/do/sponsored/               # Sponsored Journeys UI
+app/do/browser/                 # Browser Runtime UI
+lib/do/action-stub/             # Local prepare/permit/execute/receipt (TODO → /api/do/action/*)
+lib/do/sponsored-journeys/
+apps/do/shared/browser-runtime.ts
+lib/do/action-contract/         # planned
+lib/do/permits|receipts|waits|adapters/  # planned
 supabase/migrations/
 ```
 

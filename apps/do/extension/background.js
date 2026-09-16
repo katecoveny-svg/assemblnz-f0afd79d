@@ -72,6 +72,7 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
           ok: true,
           page: {
             ...page,
+            tabId: tab.id,
             screenshotBase64,
             screenshotMimeType,
           },

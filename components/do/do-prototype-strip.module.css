@@ -1,0 +1,65 @@
+.strip {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  margin: 0 0 12px;
+  border-radius: 16px;
+  background: var(--do-paper, #fffdfb);
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  color: var(--do-plum, #240b21);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orb {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.orb svg {
+  width: 58%;
+  height: 58%;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--do-rose, #916a70);
+}
+
+.copy {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 560;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.links a {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--do-plum, #240b21);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--do-chalk, #f5f1f2);
+}
+
+.note {
+  margin: 0;
+  font-size: 11px;
+  color: var(--do-muted, #654a4e);
+  line-height: 1.4;
+}

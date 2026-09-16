@@ -55,6 +55,17 @@ Assembl Sponsored Journeys are **provider-neutral** and run on surfaces Assembl 
 4. CRM/commerce connectors as Assembl orchestration (reuse commodity connectors where appropriate — do not reinvent HubSpot CRUD).  
 5. Demo: grocery / loyalty (see `DEMOS.md`).
 
+### Prototype surfaces (Sep 2026)
+
+| Surface | Path | Notes |
+|---------|------|-------|
+| Sponsored Journeys UI | `/do/sponsored` | Grocery/loyalty demo stubs + Permit card + receipt |
+| Demo API | `/api/do/sponsored` | Local action stubs — **TODO** swap to `/api/do/action/*` |
+| Portable strip | `/do/widget` via `DoPrototypeStrip` | Links into journeys + browser runtime |
+| Shared stubs | `lib/do/action-stub`, `lib/do/sponsored-journeys` | Field-aligned with Action Contract |
+
+**Disclaimer (UI + docs):** Assembl Sponsored Journeys are **not** OpenAI Sponsored Agents / ChatGPT Ads. No OpenAI Ads API dependency.
+
 ## What we do not build now
 
 - Dependency on OpenAI Ads API  
