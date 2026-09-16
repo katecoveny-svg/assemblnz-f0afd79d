@@ -4,6 +4,8 @@
 **Locale:** NZ English  
 **Constraint:** Do not claim live production Action Cloud until Phase exit criteria are met in a deployed environment.
 
+**Phase 1 code status (in-repo):** Contract core landed under `lib/do/action-contract/`, `lib/do/action-cloud/`, `app/api/do/action/*`, migration `supabase/migrations/20260917090000_do_action_cloud.sql`, OpenAPI draft `openapi-action-cloud-v0.yaml`. Mock adapter `demo.echo` exercises prepare→permit→execute→wait→verify→receipt in memory (not live production). Action Cloud receipts use table `do_action_receipts` because Office already owns `do_receipts`.
+
 ---
 
 ## Suggested repo folder structure
@@ -68,11 +70,11 @@ Adjust names to the host monorepo; keep Action Contract as the stable centre.
 
 ### Acceptance criteria
 
-- [ ] Prepare locks args; execute rejects hash mismatch  
-- [ ] Expired permit cannot execute  
-- [ ] Idempotency key returns same action_id/result  
-- [ ] Receipt emitted only after execute (or explicit policy)  
-- [ ] Universal response schema validated in CI  
+- [x] Prepare locks args; execute rejects hash mismatch  
+- [x] Expired permit cannot execute  
+- [x] Idempotency key returns same action_id/result  
+- [x] Receipt emitted only after execute (or explicit policy)  
+- [x] Universal response schema validated in CI (route + lib tests)  
 
 ---
 
