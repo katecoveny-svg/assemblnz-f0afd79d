@@ -12,6 +12,10 @@ import {
   type HouseholdSeat,
   type HouseholdScheduleHook,
 } from './household-floor';
+import {
+  HOUSEHOLD_FLOOR_OWNER_CONNECTORS,
+  HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS,
+} from './do-connectors';
 
 const SEATS: HouseholdSeat[] = [
   {
@@ -230,6 +234,7 @@ export const PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
   seats: SEATS,
   schedules: SCHEDULES,
   dailyBoardOrder: DEFAULT_DAILY_BOARD_ORDER,
+  connectors: HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS,
 };
 
 /**
@@ -300,6 +305,7 @@ export const OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE: HouseholdFloorTemplate = {
   seats: SEATS,
   schedules: SCHEDULES,
   dailyBoardOrder: DEFAULT_DAILY_BOARD_ORDER,
+  connectors: HOUSEHOLD_FLOOR_OWNER_CONNECTORS,
 };
 
 export const HOUSEHOLD_FLOOR_TEMPLATES: HouseholdFloorTemplate[] = [

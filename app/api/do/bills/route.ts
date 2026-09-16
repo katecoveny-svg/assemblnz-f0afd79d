@@ -2,6 +2,7 @@ import { billInput, readGroundedBillResult } from '@/apps/do/services/bills';
 import { allowedDoOrigin, doHeaders, readDoJson, admitDoRequest } from '@/apps/do/shared/http';
 import { DoTrialError, reserveDoTrial } from '@/apps/do/shared/trial';
 import { chatClientIp } from '@/lib/agents/chat-rate-limit';
+import { doOwner } from '@/apps/do/services/owner';
 export const runtime = 'nodejs';
 export const maxDuration = 120;
 export async function POST(req: Request) {
@@ -14,9 +15,10 @@ export async function POST(req: Request) {
   if (!key) return json({ message: 'Live price research is not configured. You can still use the comparison calculator.' }, 503);
   const ip = chatClientIp(req.headers);
   if (!admitDoRequest(ip)) return json({ message: 'Please wait a minute before trying again.' }, 429);
+  const owner = await doOwner();
   let reservation: Awaited<ReturnType<typeof reserveDoTrial>> | null = null;
   try {
-    reservation = await reserveDoTrial(ip);
+    reservation = await reserveDoTrial(ip, { signedInOwnerId: owner?.id });
     const criteria = { category: input.data.category, region: input.data.region, monthlyCost: input.data.monthlyCost, usage: input.data.usage };
     const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },

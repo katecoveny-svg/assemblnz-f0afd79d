@@ -11,6 +11,7 @@ import {
   applyDoPersonalisation,
   type DoPersonalisation,
 } from './do-personalisation';
+import type { DoConnectorRequirement } from './do-connectors';
 
 export const HOUSEHOLD_SEAT_IDS = [
   'SCHOOL',
@@ -135,6 +136,8 @@ export type HouseholdFloorTemplate = {
   seats: HouseholdSeat[];
   schedules: HouseholdScheduleHook[];
   dailyBoardOrder: string[];
+  /** Pipedream Connect apps this DO may use — never live tokens. */
+  connectors: DoConnectorRequirement[];
 };
 
 export type HouseholdFloorInstance = {
@@ -146,6 +149,7 @@ export type HouseholdFloorInstance = {
   seats: HouseholdSeat[];
   schedules: HouseholdScheduleHook[];
   dailyBoardOrder: string[];
+  connectors: DoConnectorRequirement[];
   board: HouseholdBoardItem[];
   receipts: HouseholdFloorReceipt[];
   /** Per-DO browser seat session key (not a shared anonymous scrape). */
@@ -215,6 +219,7 @@ export function installHouseholdFloor(input: InstallHouseholdFloorInput): Househ
     seats: structuredClone(input.template.seats),
     schedules: structuredClone(input.template.schedules),
     dailyBoardOrder: [...input.template.dailyBoardOrder],
+    connectors: structuredClone(input.template.connectors),
     board: [],
     receipts: [
       {

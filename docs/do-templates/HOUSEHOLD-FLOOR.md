@@ -66,4 +66,5 @@ Owner-private: `/do/household?install=owner-private` — do not share.
 
 - `docs/do-templates/DO-BROWSER-SEAT.md`
 - `docs/do-templates/HOUSEHOLD-FLOOR-DO-SPEC.md`
+- `docs/do-templates/DO-CONNECTORS.md`
 - `docs/reviews/2026-09-16-household-floor-do.md`

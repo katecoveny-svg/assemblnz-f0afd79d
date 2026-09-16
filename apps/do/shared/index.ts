@@ -122,6 +122,18 @@ export {
   DO_AVATAR_MARKS,
 } from './do-personalisation';
 export {
+  resolveDoConnectorStatuses,
+  resolveConnectorState,
+  HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS,
+  DO_CONNECTOR_FLOW_SUMMARY,
+} from './do-connectors';
+export type {
+  DoConnectorRequirement,
+  DoConnectorStatus,
+  DoConnectorUiState,
+  DoConnectionsSnapshot,
+} from './do-connectors';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,

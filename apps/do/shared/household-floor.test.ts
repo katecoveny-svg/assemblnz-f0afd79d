@@ -34,7 +34,7 @@ describe('Household Floor', () => {
     expect(OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.schedules.map((schedule) => schedule.id)).toContain('evening-board');
   });
 
-  it('installs with personalisation and a per-DO browser seat key', () => {
+  it('installs with personalisation, connectors, and a per-DO browser seat key', () => {
     const floor = installHouseholdFloor({
       template: PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE,
       personalisation: { displayName: 'Avery Floor', accentColor: '#916A70', avatarMark: '✶' },
@@ -44,6 +44,8 @@ describe('Household Floor', () => {
     expect(floor.personalisation.displayName).toBe('Avery Floor');
     expect(floor.personalisation.accentColor).toBe('#916A70');
     expect(floor.browserSeatSessionKey).toBe('do-browser-seat:11111111-1111-4111-8111-111111111111');
+    expect(floor.connectors[0]?.app).toBe('gmail');
+    expect(floor.connectors[0]?.required).toBe(false);
     expect(floor.receipts[0]?.evidence.executionClaimed).toBe(false);
   });
 

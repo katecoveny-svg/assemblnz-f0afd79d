@@ -32,14 +32,29 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 - `docs/do-templates/HOUSEHOLD-FLOOR.md`  
 - `docs/do-templates/DO-BROWSER-SEAT.md`  
 - `docs/do-templates/HOUSEHOLD-FLOOR-DO-SPEC.md`  
+- `docs/do-templates/DO-CONNECTORS.md` — Pipedream → DO declare → connect → tools  
+
+### Connectors (Pipedream)
+
+- DOs / Household Floor declare `connectors` / `requiredConnectors` (no tokens in templates)  
+- UI states: sign in · setup needed · connect · connected · needs reconnect  
+- Reuses `/api/do/connections` + `connectDoGmail` — no second OAuth stack  
+- Optional Gmail on public HF template (school mail); drafts-only  
+
+### Trial (402 tonight)
+
+- Signed-in DO owners **bypass** the anonymous 3-task network trial on prepare / family / vision / image / bills  
+- If Kate still sees `402 trial_exhausted`, she is signed out — sign in, then retry  
 
 ## What Kate can click tomorrow morning
 
 1. `https://www.assembl.co.nz/do/household` (or local `/do/household`)  
 2. Install **public** template → customise → **Share tonight**  
 3. Download extension ZIP → Load unpacked → paste DO id / session key → consent capture on a school tab  
-4. **Run evening board** → clear Needs you drafts (nothing auto-sends)  
-5. Private seed only if she needs her real context — never in the public share pack  
+4. **Connectors** tab → Connect Gmail (optional) via Pipedream — or `/do/connections`  
+5. **Run evening board** → clear Needs you drafts (nothing auto-sends)  
+6. Private seed only if she needs her real context — never in the public share pack  
+7. If prepare returns 402: **sign in** (signed-in owners bypass the 3-task network trial)
 
 ## Needs-You
 
@@ -56,6 +71,8 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 pnpm exec vitest run \
   apps/do/shared/household-floor.test.ts \
   apps/do/shared/browser-seat.test.ts \
+  apps/do/shared/do-connectors.test.ts \
+  apps/do/shared/trial.test.ts \
   app/api/do/household/route.test.ts \
   app/api/do/browser-seat/route.test.ts
 pnpm typecheck

@@ -17,7 +17,7 @@ describe('DO shared trial', () => {
   it('admits exactly three of twenty simultaneous calls', async () => {
     const results = await Promise.allSettled(Array.from({ length: 20 }, () => reserveDoTrial('192.0.2.1')));
     expect(results.filter(r => r.status === 'fulfilled')).toHaveLength(3);
-    expect(await readDoTrial('192.0.2.1')).toEqual({ limit: 3, remaining: 0 });
+    expect(await readDoTrial('192.0.2.1')).toEqual({ limit: 3, remaining: 0, bypassed: false });
     expect([...state.rows.values()].every(r => !r.anon_id.includes('192.0.2.1'))).toBe(true);
   });
   it('releases only the failed reservation and permits one retry', async () => {
@@ -36,5 +36,18 @@ describe('DO shared trial', () => {
     await reserveDoTrial('192.0.2.1');
     expect((await readDoTrial('192.0.2.2')).remaining).toBe(3);
     await expect(reserveDoTrial('unknown')).rejects.toMatchObject({ code: 'trial_unavailable' });
+  });
+
+  it('bypasses the network quota for signed-in DO owners', async () => {
+    await reserveDoTrial('192.0.2.1');
+    await reserveDoTrial('192.0.2.1');
+    await reserveDoTrial('192.0.2.1');
+    await expect(reserveDoTrial('192.0.2.1')).rejects.toMatchObject({ code: 'trial_exhausted' });
+    const bypass = await reserveDoTrial('192.0.2.1', { signedInOwnerId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' });
+    expect(bypass.bypassed).toBe(true);
+    expect(await readDoTrial('192.0.2.1', { signedInOwnerId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' })).toMatchObject({
+      bypassed: true,
+      remaining: null,
+    });
   });
 });

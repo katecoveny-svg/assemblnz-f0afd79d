@@ -28,10 +28,15 @@ import {
   type DoAvatarMark,
 } from '@/apps/do/shared/do-personalisation';
 import { BROWSER_SEAT_FOLLOW_UPS, HOUSEHOLD_BROWSER_SEAT_HOSTS } from '@/apps/do/shared/browser-seat';
+import {
+  resolveDoConnectorStatuses,
+  type DoConnectionsSnapshot,
+  type DoConnectorStatus,
+} from '@/apps/do/shared/do-connectors';
 
 import styles from './household.module.css';
 
-type Tab = 'board' | 'seats' | 'customise' | 'browser';
+type Tab = 'board' | 'seats' | 'customise' | 'browser' | 'connectors';
 
 export function HouseholdFloorClient({
   initialPrivate = false,
@@ -43,18 +48,53 @@ export function HouseholdFloorClient({
   const [message, setMessage] = useState('Install the public Household Floor to try seats, boards and the browser seat path.');
   const [busy, setBusy] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [connectorStatuses, setConnectorStatuses] = useState<DoConnectorStatus[]>([]);
+  const [connectorMessage, setConnectorMessage] = useState('');
+  const [connectorBusy, setConnectorBusy] = useState('');
 
   useEffect(() => {
     const existing = readLocalHouseholdFloor();
     if (existing) {
-      setFloor(existing);
-      setMessage(`Restored ${existing.personalisation.displayName} from this device.`);
+      const migrated = {
+        ...existing,
+        connectors: existing.connectors?.length
+          ? existing.connectors
+          : existing.visibility === 'owner_private'
+            ? OWNER_PRIVATE_HOUSEHOLD_FLOOR_TEMPLATE.connectors
+            : PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE.connectors,
+      };
+      writeLocalHouseholdFloor(migrated);
+      setFloor(migrated);
+      setMessage(`Restored ${migrated.personalisation.displayName} from this device.`);
       return;
     }
     if (initialPrivate) {
       setMessage('Private install path ready — use Install private (do not share). Prefer the public template for tonight’s share.');
     }
   }, [initialPrivate]);
+
+  const refreshConnectors = useCallback(async (requirements = floor?.connectors ?? []) => {
+    if (!requirements.length) {
+      setConnectorStatuses([]);
+      return;
+    }
+    try {
+      const response = await fetch('/api/do/connections', { cache: 'no-store', credentials: 'same-origin' });
+      if (!response.ok) throw new Error('Connections unavailable');
+      const snapshot = await response.json() as DoConnectionsSnapshot;
+      setConnectorStatuses(resolveDoConnectorStatuses(requirements, snapshot));
+      setConnectorMessage(snapshot.accountsAvailable === false
+        ? 'Connected accounts could not be checked. Status is unknown until Pipedream responds.'
+        : '');
+    } catch {
+      setConnectorMessage('Could not load connector state. Open /do/connections or try again.');
+    }
+  }, [floor?.connectors]);
+
+  useEffect(() => {
+    if (!floor?.connectors?.length) return;
+    void refreshConnectors(floor.connectors);
+  }, [floor?.id, floor?.connectors, refreshConnectors]);
 
   const boards = useMemo(() => (floor ? boardByStatus(floor.board) : null), [floor]);
   const accent = floor?.personalisation.accentColor ?? '#240B21';
@@ -169,6 +209,30 @@ export function HouseholdFloorClient({
     setMessage('Personalisation saved on this device.');
   }
 
+  async function connectApp(app: string) {
+    if (connectorBusy) return;
+    setConnectorBusy(app);
+    setConnectorMessage('');
+    try {
+      const response = await fetch('/api/do/connections', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ app }),
+      });
+      const data = await response.json() as { url?: string; message?: string };
+      if (response.status === 401) {
+        window.location.assign('/login?redirect=%2Fdo%2Fhousehold');
+        return;
+      }
+      if (!response.ok || !data.url) throw new Error(data.message || 'Connection unavailable.');
+      window.location.assign(data.url);
+    } catch (error) {
+      setConnectorMessage(error instanceof Error ? error.message : 'Connection unavailable.');
+      setConnectorBusy('');
+    }
+  }
+
   function resetFloor() {
     clearLocalHouseholdFloor();
     setFloor(null);
@@ -265,6 +329,7 @@ export function HouseholdFloorClient({
               {([
                 ['board', 'Board'],
                 ['seats', 'Seats'],
+                ['connectors', 'Connectors'],
                 ['customise', 'Customise'],
                 ['browser', 'Browser seat'],
               ] as const).map(([id, label]) => (
@@ -341,6 +406,62 @@ export function HouseholdFloorClient({
                     </div>
                   </article>
                 ))}
+              </section>
+            ) : null}
+
+            {tab === 'connectors' ? (
+              <section className={styles.browserSeat}>
+                <div className={styles.browserHero}>
+                  <h2>Connectors for this DO</h2>
+                  <p>
+                    Declared Pipedream Connect apps — no tokens in the template.
+                    Gmail is optional for school mail (readonly). Drafts only; never auto-send.
+                  </p>
+                </div>
+                <div className={styles.cardStack}>
+                  {(connectorStatuses.length ? connectorStatuses : (floor.connectors ?? []).map((requirement) => ({
+                    ...requirement,
+                    state: 'sign_in' as const,
+                    stateLabel: 'Checking…',
+                  }))).map((row) => (
+                    <article key={`${row.app}-${row.capabilityKey}`} className={styles.seatCard}>
+                      <div className={styles.seatCardTop}>
+                        <strong>{row.label}</strong>
+                        <span data-state={row.state}>{row.stateLabel}{row.required ? ' · required' : ' · optional'}</span>
+                      </div>
+                      <h3>{row.purpose}</h3>
+                      <p className={styles.need}>{row.safety}</p>
+                      <div className={styles.ctaRow}>
+                        {row.state === 'connected' ? (
+                          <span className={styles.meta}>Linked{row.accountLabel ? ` · ${row.accountLabel}` : ''}. Authority: {row.authority}.</span>
+                        ) : row.state === 'sign_in' ? (
+                          <a className={styles.cta} href="/login?redirect=%2Fdo%2Fhousehold">Sign in to connect</a>
+                        ) : row.state === 'setup_needed' ? (
+                          <span className={styles.meta}>Platform setup needed (Pipedream / DO_GMAIL_OAUTH_APP_ID).</span>
+                        ) : (
+                          <button
+                            type="button"
+                            className={styles.cta}
+                            disabled={Boolean(connectorBusy)}
+                            onClick={() => void connectApp(row.app)}
+                          >
+                            {connectorBusy === row.app
+                              ? 'Opening Connect…'
+                              : row.state === 'needs_reconnect'
+                                ? `Reconnect ${row.label}`
+                                : `Connect ${row.label}`}
+                          </button>
+                        )}
+                        <a className={styles.secondaryCta} href="/do/connections">All DO connections</a>
+                        <button type="button" className={styles.secondaryCta} onClick={() => void refreshConnectors(floor.connectors)}>Refresh</button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+                {connectorMessage ? <p className={styles.status} role="status">{connectorMessage}</p> : null}
+                <p className={styles.honesty}>
+                  Flow: Pipedream project → Connect apps → Vercel env → DO declares connectors → you connect → tools read with consent. Sending stays approval-gated.
+                </p>
               </section>
             ) : null}
 

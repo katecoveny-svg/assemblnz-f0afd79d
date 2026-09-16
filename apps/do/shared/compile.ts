@@ -186,6 +186,9 @@ export function compileAgent(input: CompileRequest): CompileResponse {
     watchSnapshots: [],
     templateId: template?.id,
     connector: input.connector ?? 'hook-later',
+    requiredConnectors: template?.requiredConnectors
+      ? structuredClone(template.requiredConnectors)
+      : undefined,
   };
 
   const honesty =
