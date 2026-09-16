@@ -32,3 +32,22 @@ describe('evaluateImprovement', () => {
     expect(evaluateImprovement(candidate({ highRiskWorkflow: true, independentlyReviewed: false })).decision).toBe('hold');
   });
 });
+
+describe('incomplete or misleading improvement evidence', () => {
+  it('cannot trade lost accuracy for lower cost', () => {
+    const input = candidate(); input.candidate.accuracy = 0.5; input.candidate.avgCostNzd = 0.001;
+    expect(evaluateImprovement(input).decision).toBe('reject');
+  });
+  it.each([NaN, Infinity, -0.1, 1.1])('holds invalid accuracy %s', accuracy => {
+    const input = candidate(); input.candidate.accuracy = accuracy;
+    expect(evaluateImprovement(input).decision).toBe('hold');
+  });
+  it('does not interpret omitted hallucination evidence as zero hallucinations', () => {
+    const input = candidate(); delete input.candidate.hallucinationRate;
+    expect(evaluateImprovement(input).decision).toBe('hold');
+  });
+  it('requires an evaluated baseline', () => {
+    const input = candidate(); input.baseline.cases = 0;
+    expect(evaluateImprovement(input).decision).toBe('hold');
+  });
+});

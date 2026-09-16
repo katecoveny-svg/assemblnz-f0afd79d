@@ -32,3 +32,16 @@ describe('business connector execution boundary', () => {
   });
   it('rejects unmapped sending actions without making a provider request', async () => { const { runConnectorAction } = await import('./pipedream'); expect((await runConnectorAction({ externalUserId: 'tenant:mine', app: 'microsoft_outlook', action: 'send_email', data: {} })).ok).toBe(false); expect(fetcher).not.toHaveBeenCalled(); });
 });
+
+describe('DO connector configuration', () => {
+  it('requires the dedicated Gmail OAuth app without disabling other connectors', async () => {
+    vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', '');
+    const { doConnectorConfigured } = await import('./pipedream');
+    expect(doConnectorConfigured('gmail')).toBe(false);
+    expect(doConnectorConfigured('hubspot')).toBe(true);
+    vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'test-app');
+    expect(doConnectorConfigured('gmail')).toBe(true);
+    vi.stubEnv('PIPEDREAM_PROJECT_ID', '');
+    expect(doConnectorConfigured('gmail')).toBe(false);
+  });
+});

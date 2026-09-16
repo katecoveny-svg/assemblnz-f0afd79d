@@ -62,6 +62,8 @@ export function BuilderDoWorkspace() {
   useEffect(() => {
     try {
       const raw = JSON.parse(localStorage.getItem('assembl-builderdoo-jobs-v1') || '[]') as unknown;
+      // Hydrate optional browser storage after SSR; server and initial client must agree.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (Array.isArray(raw)) setQueue(raw.slice(0, 12) as SavedJob[]);
     } catch { /* local queue is optional */ }
   }, []);
@@ -117,6 +119,7 @@ export function BuilderDoWorkspace() {
           <span className={styles.preview}>founder preview</span>
         </div>
         <nav>
+          <Link href="/do/connections">connections</Link>
           <Link href="/do/office">office</Link>
           <Link href="/do/widget">companion</Link>
         </nav>

@@ -2,6 +2,7 @@ import { DO_CAPABILITY_CATALOGUE, CONNECTABLE_DO_APPS } from '@/apps/do/shared/c
 import { doOwner, privateDoHeaders as headers, sameDoOrigin } from '@/apps/do/services/owner';
 import {
   accountOwner,
+  doConnectorConfigured,
   connectDoGmail,
   createConnectLink,
   listConnectedAccounts,
@@ -12,11 +13,17 @@ import {
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const availability = Object.fromEntries([...CONNECTABLE_DO_APPS].map(app => [app, doConnectorConfigured(app)]));
   const owner = await doOwner();
-  if (!owner) return Response.json({ signedIn: false, configured: pipedreamConfigured(), capabilities: DO_CAPABILITY_CATALOGUE, accounts: [] }, { headers });
-  const accounts = await listConnectedAccounts(owner.externalId).catch(() => []);
+  if (!owner) return Response.json({ signedIn: false, availability, configured: pipedreamConfigured(), capabilities: DO_CAPABILITY_CATALOGUE, accounts: [] }, { headers });
+  let accounts: Awaited<ReturnType<typeof listConnectedAccounts>> = [];
+  let accountsAvailable = true;
+  try { accounts = await listConnectedAccounts(owner.externalId); }
+  catch { accountsAvailable = false; }
   return Response.json({
     signedIn: true,
+    availability,
+    accountsAvailable,
     configured: pipedreamConfigured(),
     capabilities: DO_CAPABILITY_CATALOGUE,
     accounts: accounts
@@ -34,6 +41,8 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { app?: unknown } | null;
   const app = typeof body?.app === 'string' ? body.app.trim() : '';
   if (!CONNECTABLE_DO_APPS.has(app)) return Response.json({ message: 'That connector is not enabled for DO yet.' }, { status: 400, headers });
+
+  if (!doConnectorConfigured(app)) return Response.json({ message: 'This connection needs platform setup before it can be linked.' }, { status: 503, headers });
 
   try {
     if (app === 'gmail') return Response.json({ url: await connectDoGmail(owner.externalId) }, { headers });

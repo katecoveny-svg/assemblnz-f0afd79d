@@ -43,6 +43,11 @@ export function pipedreamConfigured(): boolean {
   return pipedreamConfig() !== null;
 }
 
+/** Configuration readiness is separate from a user's OAuth grant. */
+export function doConnectorConfigured(app: string): boolean {
+  return pipedreamConfigured() && (app !== 'gmail' || Boolean(process.env.DO_GMAIL_OAUTH_APP_ID?.trim()));
+}
+
 // ── OAuth (client credentials) ──────────────────────────────────────────────
 
 let tokenCache: { token: string; expiresAt: number } | null = null;
