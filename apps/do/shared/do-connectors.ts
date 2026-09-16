@@ -11,6 +11,7 @@ import {
   DO_CAPABILITY_CATALOGUE,
   type DoCapabilityCard,
 } from './capability-catalogue';
+import { householdFloorConnectorRequirements } from './do-connector-pack';
 
 export type DoConnectorAuthority = DoCapabilityCard['authority'];
 
@@ -84,6 +85,12 @@ export function connectorStateLabel(state: DoConnectorUiState): string {
   }
 }
 
+function accountMatchesApp(accountApp: string, requiredApp: string): boolean {
+  if (accountApp === requiredApp) return true;
+  if (requiredApp === 'slack' && (accountApp === 'slack' || accountApp === 'slack_v2')) return true;
+  return false;
+}
+
 export function resolveConnectorState(
   requirement: DoConnectorRequirement,
   snapshot: DoConnectionsSnapshot,
@@ -91,7 +98,7 @@ export function resolveConnectorState(
   if (!snapshot.signedIn) return 'sign_in';
   if (!snapshot.configured || snapshot.availability[requirement.app] === false) return 'setup_needed';
   if (snapshot.accountsAvailable === false) return 'accounts_unknown';
-  const account = snapshot.accounts.find((row) => row.app === requirement.app);
+  const account = snapshot.accounts.find((row) => accountMatchesApp(row.app, requirement.app));
   if (!account) return 'connect';
   if (!account.healthy) return 'needs_reconnect';
   return 'connected';
@@ -103,7 +110,7 @@ export function resolveDoConnectorStatuses(
 ): DoConnectorStatus[] {
   return requirements.map((requirement) => {
     const state = resolveConnectorState(requirement, snapshot);
-    const account = snapshot.accounts.find((row) => row.app === requirement.app);
+    const account = snapshot.accounts.find((row) => accountMatchesApp(row.app, requirement.app));
     return {
       ...requirement,
       state,
@@ -113,31 +120,8 @@ export function resolveDoConnectorStatuses(
   });
 }
 
-/** Household Floor public defaults — optional Gmail for school mail; drafts-only. */
-export const HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS: DoConnectorRequirement[] = [
-  {
-    capabilityKey: 'email_read',
-    app: 'gmail',
-    label: 'Gmail',
-    required: false,
-    authority: 'read',
-    purpose: 'Optional school-mail context for the SCHOOL seat (read chosen messages).',
-    safety: 'Drafts only — never auto-send. Public template ships with no tokens.',
-  },
-];
-
-/** Owner-private Household Floor — same optional Gmail wiring; still drafts-only. */
-export const HOUSEHOLD_FLOOR_OWNER_CONNECTORS: DoConnectorRequirement[] = [
-  {
-    capabilityKey: 'email_read',
-    app: 'gmail',
-    label: 'Gmail',
-    required: false,
-    authority: 'read',
-    purpose: 'School admin / family mail for SCHOOL seat via existing DO Gmail readonly path.',
-    safety: 'gmail.readonly through Pipedream Connect. Never send without explicit approve.',
-  },
-];
+export const HOUSEHOLD_FLOOR_PUBLIC_CONNECTORS = householdFloorConnectorRequirements('public_template');
+export const HOUSEHOLD_FLOOR_OWNER_CONNECTORS = householdFloorConnectorRequirements('owner_private');
 
 export const DO_CONNECTOR_FLOW_SUMMARY = [
   'Pipedream project (PIPEDREAM_PROJECT_ID + client credentials)',
@@ -145,5 +129,5 @@ export const DO_CONNECTOR_FLOW_SUMMARY = [
   'Vercel / .env.local server env',
   'DO declares required/optional connectors (no tokens in templates)',
   'User signs in → Connect link → grant stays on Pipedream',
-  'DO tools read via Connect proxy; drafts-only / approval for send',
+  'DO tools / mapped actions run via Connect; drafts-only / approval for send & posts',
 ] as const;

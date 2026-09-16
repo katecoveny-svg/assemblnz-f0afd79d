@@ -22,7 +22,24 @@ async function readConnections(): Promise<State> {
 }
 const accountNotice = (next: State) => next.accountsAvailable === false ? 'Your connected accounts could not be checked. Their status is currently unknown.' : '';
 
-const GROUPS = ['communication', 'work', 'creative', 'spatial'] as const;
+const GROUPS = ['communication', 'work', 'productivity', 'finance', 'creative', 'spatial'] as const;
+
+function groupHelper(group: (typeof GROUPS)[number]): string {
+  switch (group) {
+    case 'communication':
+      return 'mail and messaging';
+    case 'work':
+      return 'calendar, files and CRM';
+    case 'productivity':
+      return 'tasks and notes';
+    case 'finance':
+      return 'billing reads';
+    case 'creative':
+      return 'production capabilities included by the platform';
+    default:
+      return 'spatial and interactive production';
+  }
+}
 
 export function DoConnections() {
   const [state, setState] = useState<State | null>(null);
@@ -46,8 +63,24 @@ export function DoConnections() {
     return () => { active = false; };
   }, []);
 
-  const connected = useMemo(() => new Set((state?.accounts ?? []).filter((account) => account.healthy).map((account) => account.app)), [state]);
-  const unhealthy = useMemo(() => new Set((state?.accounts ?? []).filter((account) => !account.healthy).map((account) => account.app)), [state]);
+  const connected = useMemo(() => {
+    const set = new Set<string>();
+    for (const account of state?.accounts ?? []) {
+      if (!account.healthy) continue;
+      set.add(account.app);
+      if (account.app === 'slack_v2') set.add('slack');
+    }
+    return set;
+  }, [state]);
+  const unhealthy = useMemo(() => {
+    const set = new Set<string>();
+    for (const account of state?.accounts ?? []) {
+      if (account.healthy) continue;
+      set.add(account.app);
+      if (account.app === 'slack_v2') set.add('slack');
+    }
+    return set;
+  }, [state]);
 
   async function connect(app: string) {
     if (busy) return;
@@ -74,7 +107,7 @@ export function DoConnections() {
       {GROUPS.map((group) => {
         const cards = state?.capabilities.filter((capability) => capability.group === group) ?? [];
         if (!cards.length) return null;
-        return <section className={styles.group} key={group}><header><span>{group}</span><p>{group === 'communication' ? 'mail and messaging context' : group === 'work' ? 'systems where work lands' : group === 'creative' ? 'production capabilities included by the platform' : 'spatial and interactive production'}</p></header><div className={styles.grid}>{cards.map((capability) => <article className={styles.card} key={capability.key}><div className={styles.cardTop}><div className={styles.icon}><PlugZap size={17}/></div><span data-status={capability.status}>{capability.status}</span></div><h2>{capability.label}</h2><p>{capability.description}</p><small>{capability.authority.replace('_', ' ')}</small>{capability.apps?.length ? <div className={styles.apps}>{capability.apps.map((app) => { const isConnected = connected.has(app.slug); const needsReconnect = unhealthy.has(app.slug); return <button type="button" key={app.slug} disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || isConnected || Boolean(busy)} onClick={() => void connect(app.slug)}>{isConnected ? <><CheckCircle2 size={14}/> {app.label} connected</> : busy === app.slug ? `opening ${app.label}…` : !state?.availability[app.slug] ? `${app.label} · setup needed` : needsReconnect ? `Reconnect ${app.label}` : `Connect ${app.label}`}</button>; })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Platform capability · availability depends on the task'}</div>}</article>)}</div></section>;
+        return <section className={styles.group} key={group}><header><span>{group}</span><p>{groupHelper(group)}</p></header><div className={styles.grid}>{cards.map((capability) => <article className={styles.card} key={capability.key}><div className={styles.cardTop}><div className={styles.icon}><PlugZap size={17}/></div><span data-status={capability.status}>{capability.status}</span></div><h2>{capability.label}</h2><p>{capability.description}</p><small>{capability.authority.replace('_', ' ')}</small>{capability.apps?.length ? <div className={styles.apps}>{capability.apps.map((app) => { const isConnected = connected.has(app.slug); const needsReconnect = unhealthy.has(app.slug); return <button type="button" key={app.slug} disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || isConnected || Boolean(busy)} onClick={() => void connect(app.slug)}>{isConnected ? <><CheckCircle2 size={14}/> {app.label} connected</> : busy === app.slug ? `opening ${app.label}…` : !state?.availability[app.slug] ? `${app.label} · setup needed` : needsReconnect ? `Reconnect ${app.label}` : `Connect ${app.label}`}</button>; })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Platform capability · availability depends on the task'}</div>}</article>)}</div></section>;
       })}
 
       <section className={styles.boundary}><strong>One connection layer. Explicit authority.</strong><p>OAuth grants stay with the connector provider rather than in prompts. A connection does not automatically grant a DO permission to send, publish, spend or mutate an external system.</p></section>

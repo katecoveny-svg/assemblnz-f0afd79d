@@ -3,7 +3,7 @@ export type DoCapabilityKind = 'connect' | 'platform' | 'spatial';
 export type DoCapabilityCard = {
   key: string;
   label: string;
-  group: 'communication' | 'work' | 'creative' | 'spatial';
+  group: 'communication' | 'work' | 'creative' | 'spatial' | 'productivity' | 'finance';
   description: string;
   kind: DoCapabilityKind;
   apps?: Array<{ slug: string; label: string }>;
@@ -13,15 +13,15 @@ export type DoCapabilityCard = {
 
 /**
  * User-facing capability catalogue. DO asks for capabilities; connector/provider
- * details stay behind this layer. Only app slugs already exercised in this repo
- * are marked connectable here.
+ * details stay behind this layer. App slugs match the DO connector pack /
+ * Pipedream Connect name_slugs where exercised.
  */
 export const DO_CAPABILITY_CATALOGUE: readonly DoCapabilityCard[] = [
   {
     key: 'email_read',
     label: 'Read chosen email',
     group: 'communication',
-    description: 'Use a connected mailbox as reviewed context. Gmail currently has the narrowest production pilot path.',
+    description: 'Use a connected mailbox as reviewed context. Gmail is the narrow production pilot (readonly).',
     kind: 'connect',
     apps: [{ slug: 'gmail', label: 'Gmail' }],
     authority: 'read',
@@ -31,10 +31,66 @@ export const DO_CAPABILITY_CATALOGUE: readonly DoCapabilityCard[] = [
     key: 'email_draft',
     label: 'Prepare email drafts',
     group: 'communication',
-    description: 'Prepare an unsent draft in a connected mailbox. Sending remains a separate approval-gated action.',
+    description: 'Prepare an unsent draft. Sending remains a separate approval-gated action and is not mapped for auto-send.',
     kind: 'connect',
-    apps: [{ slug: 'microsoft_outlook', label: 'Microsoft Outlook' }],
+    apps: [
+      { slug: 'gmail', label: 'Gmail' },
+      { slug: 'microsoft_outlook', label: 'Microsoft Outlook' },
+    ],
     authority: 'prepare',
+    status: 'connectable',
+  },
+  {
+    key: 'calendar_read',
+    label: 'Read calendar',
+    group: 'work',
+    description: 'List events from a connected Google Calendar for schedule boards.',
+    kind: 'connect',
+    apps: [{ slug: 'google_calendar', label: 'Google Calendar' }],
+    authority: 'read',
+    status: 'connectable',
+  },
+  {
+    key: 'calendar_draft',
+    label: 'Prepare calendar events',
+    group: 'work',
+    description: 'Create a calendar event the owner can review in Google Calendar.',
+    kind: 'connect',
+    apps: [{ slug: 'google_calendar', label: 'Google Calendar' }],
+    authority: 'prepare',
+    status: 'connectable',
+  },
+  {
+    key: 'sheets_write',
+    label: 'Add reviewed data to Sheets',
+    group: 'work',
+    description: 'Append a reviewed row through the connector-action approval path.',
+    kind: 'connect',
+    apps: [{ slug: 'google_sheets', label: 'Google Sheets' }],
+    authority: 'approval_required',
+    status: 'connectable',
+  },
+  {
+    key: 'drive_read',
+    label: 'Read Drive / files',
+    group: 'work',
+    description: 'Read file metadata from Google Drive or list a Dropbox folder for reviewed context.',
+    kind: 'connect',
+    apps: [
+      { slug: 'google_drive', label: 'Google Drive' },
+      { slug: 'dropbox', label: 'Dropbox' },
+    ],
+    authority: 'read',
+    status: 'connectable',
+  },
+  {
+    key: 'slack_post',
+    label: 'Post to Slack',
+    group: 'communication',
+    description: 'Post a reviewed message to Slack. Always approval-gated — never auto-post.',
+    kind: 'connect',
+    apps: [{ slug: 'slack', label: 'Slack' }],
+    authority: 'approval_required',
     status: 'connectable',
   },
   {
@@ -43,18 +99,44 @@ export const DO_CAPABILITY_CATALOGUE: readonly DoCapabilityCard[] = [
     group: 'work',
     description: 'Create a reviewed lead/contact through the existing connector-action approval path.',
     kind: 'connect',
-    apps: [{ slug: 'hubspot', label: 'HubSpot' }, { slug: 'salesforce_rest_api', label: 'Salesforce' }],
+    apps: [
+      { slug: 'hubspot', label: 'HubSpot' },
+      { slug: 'salesforce_rest_api', label: 'Salesforce' },
+    ],
     authority: 'approval_required',
     status: 'connectable',
   },
   {
-    key: 'sheets_write',
-    label: 'Add reviewed data to Sheets',
-    group: 'work',
-    description: 'Append a reviewed row through the existing connector-action approval path.',
+    key: 'notion_write',
+    label: 'Create Notion page',
+    group: 'productivity',
+    description: 'Create a Notion page from reviewed content (approval-gated).',
     kind: 'connect',
-    apps: [{ slug: 'google_sheets', label: 'Google Sheets' }],
+    apps: [{ slug: 'notion', label: 'Notion' }],
     authority: 'approval_required',
+    status: 'connectable',
+  },
+  {
+    key: 'task_create',
+    label: 'Create a task',
+    group: 'productivity',
+    description: 'Create a Todoist task or Linear issue from a reviewed next action.',
+    kind: 'connect',
+    apps: [
+      { slug: 'todoist', label: 'Todoist' },
+      { slug: 'linear_app', label: 'Linear' },
+    ],
+    authority: 'approval_required',
+    status: 'connectable',
+  },
+  {
+    key: 'billing_read',
+    label: 'Read invoices',
+    group: 'finance',
+    description: 'Retrieve Stripe invoice details for bills review. No charges.',
+    kind: 'connect',
+    apps: [{ slug: 'stripe', label: 'Stripe' }],
+    authority: 'read',
     status: 'connectable',
   },
   {
