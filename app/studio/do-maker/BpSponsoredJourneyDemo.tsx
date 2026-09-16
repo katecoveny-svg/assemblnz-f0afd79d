@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import {
+  BP_ASA_SPONSORED_LABEL,
   BP_SPONSORED_SCENARIO,
   BP_SPONSORED_STEPS,
+  BP_VERTICAL,
   buildBpSponsoredReceipt,
   type SponsoredJourneyStepId,
 } from '@/lib/studio/bp-sponsored-journey';
@@ -11,7 +13,10 @@ import styles from './do-maker.module.css';
 
 /**
  * Interactive sponsored-agent walkthrough for bp Road-Ready inside Task DO Maker.
- * DEMO honesty throughout — no live bp / CRM / rewards calls.
+ *
+ * Vertical: fuel / convenience retail loyalty (NOT electricity).
+ * ASA grammar: Assembling “Sponsored” pill separate from DEMO honesty.
+ * Does not fork Assembling / Dash — labelling only.
  */
 export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean }) {
   const [stepId, setStepId] = useState<SponsoredJourneyStepId>('moment');
@@ -21,6 +26,7 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
   const index = BP_SPONSORED_STEPS.findIndex((step) => step.id === stepId);
   const step = BP_SPONSORED_STEPS[index] ?? BP_SPONSORED_STEPS[0];
   const progress = `${String(index + 1).padStart(2, '0')} / ${String(BP_SPONSORED_STEPS.length).padStart(2, '0')}`;
+  const showAsa = step.showSponsoredLabel === true;
 
   const advance = () => {
     if (step.requiresPermit && !permitIssued) {
@@ -54,10 +60,11 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
     <div
       className={`${styles.journey} ${compact ? styles.journeyCompact : ''}`}
       data-step={step.id}
-      aria-label="bp Road-Ready sponsored agent DEMO"
+      data-vertical={BP_VERTICAL.id}
+      aria-label="bp Road-Ready fuel loyalty sponsored agent PREVIEW"
     >
       <div className={styles.journeyRail}>
-        <span>Sponsored · DEMO</span>
+        <span className={styles.journeyVertical}>{BP_VERTICAL.label} · PREVIEW</span>
         <em>{progress}</em>
       </div>
 
@@ -72,7 +79,19 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
               {BP_SPONSORED_SCENARIO.persona} · {BP_SPONSORED_SCENARIO.location}
             </span>
           </div>
-          <span className={styles.journeyDemoPill}>DEMO</span>
+          <div className={styles.journeyPills}>
+            {showAsa ? (
+              <span
+                className={styles.journeyAsaPill}
+                title="ASA disclosure — same grammar as Assembling"
+                role="note"
+                aria-label={`Sponsored content: ${BP_ASA_SPONSORED_LABEL}`}
+              >
+                {BP_ASA_SPONSORED_LABEL}
+              </span>
+            ) : null}
+            <span className={styles.journeyDemoPill}>DEMO</span>
+          </div>
         </header>
 
         <div className={styles.journeyBody}>
@@ -95,7 +114,11 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
               </div>
               <div>
                 <dt>Bounds</dt>
-                <dd>TTL 15m · max 1 · no payment · no CRM write</dd>
+                <dd>TTL 15m · max 1 · no payment · no fuel purchase · no CRM write</dd>
+              </div>
+              <div>
+                <dt>Vertical</dt>
+                <dd>{BP_VERTICAL.label}</dd>
               </div>
               <div>
                 <dt>Status</dt>
@@ -119,6 +142,10 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
                 <dd>{receipt.offer}</dd>
               </div>
               <div>
+                <dt>Vertical</dt>
+                <dd>{receipt.vertical}</dd>
+              </div>
+              <div>
                 <dt>Handoff</dt>
                 <dd>{receipt.handoff}</dd>
               </div>
@@ -134,6 +161,7 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
 
         <footer className={styles.journeyFoot}>
           <p className={styles.journeyDiff}>{BP_SPONSORED_SCENARIO.differentiator}</p>
+          <p className={styles.journeyNote}>{BP_VERTICAL.not}</p>
           <div className={styles.journeyActions}>
             {index > 0 && step.id !== 'receipt' ? (
               <button
@@ -154,7 +182,9 @@ export function BpSponsoredJourneyDemo({ compact = false }: { compact?: boolean 
               {primaryLabel}
             </button>
           </div>
-          <p className={styles.journeyPowered}>powered by assembl DO · drafts + permit + receipt</p>
+          <p className={styles.journeyPowered}>
+            powered by assembl DO · drafts + permit + receipt · ASA “{BP_ASA_SPONSORED_LABEL}”
+          </p>
         </footer>
       </div>
     </div>

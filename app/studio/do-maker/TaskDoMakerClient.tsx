@@ -332,7 +332,7 @@ export function TaskDoMakerClient() {
             <p className={styles.heroCopy}>
               {mode === 'partner'
                 ? config.partnerSlug === 'bp'
-                  ? 'bp Road-Ready PREVIEW: sponsored-agent fuel-loyalty journey — intent → useful step → genuine offer → DO Permit → DEMO action → receipt. Assembl credit stays small; no live bp partnership or fake connections.'
+                  ? 'bp Road-Ready PREVIEW: fuel / convenience loyalty — wait-at-pump → points / nearby / genuine offer → DO Permit → DEMO action → receipt. ASA “Sponsored” labelled. Not electricity. No live bp partnership.'
                   : 'Start from a partner skin or a custom client. Edit the journey, attach brand imagery, and wire a Sponsored Agent module — drafts-only, no fake live connections.'
                 : 'Freeform client, editable journey steps, optional Sponsored Agent advertising, and an outreach gate before deeper DEMO. Not locked to dropdown verticals.'}
             </p>

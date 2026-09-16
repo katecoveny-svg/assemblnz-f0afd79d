@@ -188,33 +188,35 @@ export function defaultPursuitJourney(): PursuitJourney {
 
 /**
  * BP Loyalty Moment Concierge — seed from Kate’s ChatGPT Pursuit Studio work.
- * Extends PARTNER_SKINS.bp Road-Ready (fuel / convenience loyalty). No second BP skin.
+ * Extends PARTNER_SKINS.bp Road-Ready (**fuel / convenience retail loyalty**).
+ * Vertical LOCK: NOT electricity / energy switch / ICP. No second BP skin.
+ * ASA label = Assembling “Sponsored” — do not fork Assembling/Dash product.
  */
 export function bpLoyaltyMomentConciergeJourney(): PursuitJourney {
   return {
     title: 'BP Loyalty Moment Concierge',
     brief:
-      'Fuel / convenience loyalty: the agent meets the driver at a reward moment, offers a clear redemption choice, and waits for human sign-off before any commit. Offline demo skin — no live bp API.',
+      'Fuel / convenience retail loyalty: wait-at-pump or in-app loyalty moment → branded bp agent → useful next step (points, nearby site, offer if genuine) → DO Permit → DEMO action → receipt. Offline demo skin — no live bp API. Not an electricity switch.',
     steps: [
       step(
         'opportunity',
         'Opportunity',
-        'Driver is already in a loyalty / wait moment at the pump or in-app. Make that moment useful without inventing points balances.',
+        'Driver is already in a loyalty / wait moment at the pump or in the bp app. Make that moment useful without inventing points balances.',
       ),
       step(
         'ideas',
         'Ideas',
-        'Concierge that explains the reward moment, offers redemption choices, and keeps unpaid help available beside the sponsored path.',
+        'Concierge that checks nearby sites, shows points on this fill, and keeps unpaid help available beside the sponsored path.',
       ),
       step(
         'experience',
         'Experience',
-        'Ad/loyalty moment → branded Road-Ready agent → useful step → genuine offer → Permit (DEMO) → action → receipt.',
+        'Wait-at-pump / app loyalty → branded Road-Ready agent → points / nearby / genuine offer → Permit (DEMO) → action → receipt.',
       ),
       step(
         'pitch',
         'Pitch',
-        'Show Assembl Sponsored Journeys on a partner surface: labelled, permit-gated, receipt-backed — provider-neutral.',
+        'Show Assembl Sponsored Journeys on a fuel-retail partner surface: ASA “Sponsored” labelled, permit-gated, receipt-backed — provider-neutral. PREVIEW only.',
       ),
     ],
     sponsored: {
@@ -222,41 +224,41 @@ export function bpLoyaltyMomentConciergeJourney(): PursuitJourney {
       asaLabel: ASA_LABEL,
       sponsorName: 'bp Road-Ready',
       unpaidPathNote:
-        'Drivers can skip the sponsored path and still get a plain status note — unpaid help stays available.',
+        'Drivers can skip the sponsored path and still get a plain wait / points status note — unpaid help stays available.',
       honesty:
-        'Demo skin only. No bp account link, scrape or live rewards API. Permit and action are DEMO — nothing redeems or charges.',
+        'Demo / PREVIEW only. Fuel & convenience loyalty — not electricity. No bp account link, scrape or live rewards API. Permit and action are DEMO — nothing redeems or charges.',
       stages: [
         sponsoredStage(
           'ad_loyalty',
           'Ad / loyalty moment',
-          'While the driver waits, a labelled loyalty moment appears: “Rewards while you wait.”',
+          'While the driver waits at the pump or in-app, a labelled loyalty moment appears: “Rewards while you wait.”',
         ),
         sponsoredStage(
           'branded_agent',
           'Branded agent',
-          'bp Road-Ready Concierge introduces itself with one job: help with this reward moment.',
+          'bp Road-Ready introduces itself with one job: help with this fuel / convenience loyalty moment.',
         ),
         sponsoredStage(
           'useful_step',
           'Useful step',
-          'Ask what the driver wants from this moment — status, redemption options, or a short checklist for the visit.',
+          'Assemble a useful next step: points on this fill, a nearby bp site compare, or a short convenience checklist.',
           { showSponsoredLabel: false },
         ),
         sponsoredStage(
           'genuine_offer',
           'Genuine offer',
-          'Show a sample redemption choice (e.g. coffee vs car-wash voucher). Symbolic DEMO offer — not a live balance.',
+          'Show a sample redemption (e.g. +50 points on coffee) only if it fits. Symbolic DEMO offer — not a live balance.',
         ),
         sponsoredStage(
           'permit',
           'Permit',
-          'Human sign-off before commit. DEMO permit with a short TTL and single use.',
+          'Human sign-off before commit. DEMO permit with a short TTL and single use — no payment, no fuel purchase.',
           { showSponsoredLabel: false, demoOnly: true },
         ),
         sponsoredStage(
           'action',
           'Action',
-          'On yes, prepare the redemption draft. Still DEMO — no live redeem.',
+          'On yes, prepare the loyalty earn draft. Still DEMO — no live redeem.',
           { showSponsoredLabel: false, demoOnly: true },
         ),
         sponsoredStage(
@@ -272,7 +274,7 @@ export function bpLoyaltyMomentConciergeJourney(): PursuitJourney {
       headline: 'Want the full Loyalty Concierge walkthrough?',
       body: 'Share your work email if you want API access notes or a guided DEMO. We unlock the deeper interaction in this browser.',
       ctaLabel: 'Request DEMO access',
-      unlockNote: 'Access unlocked for this browser. Still DEMO — no live bp connection.',
+      unlockNote: 'Access unlocked for this browser. Still DEMO — no live bp connection. Fuel / convenience loyalty only.',
       honesty: 'Lead stays in this browser only. Nothing is sent until you export or contact Assembl directly.',
     },
     assets: emptyBrandAssets(),

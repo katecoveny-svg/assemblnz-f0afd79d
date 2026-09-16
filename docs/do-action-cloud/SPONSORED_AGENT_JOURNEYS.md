@@ -61,6 +61,7 @@ Assembl Sponsored Journeys are **provider-neutral** and run on surfaces Assembl 
 |---------|------|-------|
 | Sponsored Journeys UI | `/do/sponsored` | Grocery/loyalty demo stubs + Permit card + receipt |
 | Demo API | `/api/do/sponsored` | Local action stubs — **TODO** swap to `/api/do/action/*` |
+| Task DO Maker · bp Road-Ready | `/studio/do-maker?mode=partner&partner=bp` | Fuel / convenience retail loyalty PREVIEW — wait-at-pump → Permit → receipt. **Not** electricity. ASA “Sponsored” grammar; no Assembling/Dash fork. |
 | Portable strip | `/do/widget` via `DoPrototypeStrip` | Links into journeys + browser runtime |
 | Shared stubs | `lib/do/action-stub`, `lib/do/sponsored-journeys` | Field-aligned with Action Contract |
 

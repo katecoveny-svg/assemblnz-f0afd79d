@@ -640,6 +640,43 @@
   color: #654a4e;
 }
 
+.journeyVertical {
+  letter-spacing: 0.08em;
+}
+
+.journeyPills {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.journeyAsaPill {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #ffcd00;
+  color: #240b21;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  /* Assembling ASA grammar — title-case “Sponsored”, never obscured */
+  opacity: 1;
+}
+
+.journeyDemoPill {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #240b21;
+  color: #ffcd00;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .journeySheet {
   border-radius: 18px;
   background: #fffdfb;
@@ -665,7 +702,7 @@
   font-weight: 500;
 }
 
-.journeyHead span {
+.journeyHead > div:not(.journeyMark):not(.journeyPills) > span {
   display: block;
   color: #654a4e;
   font-size: 11px;
@@ -684,18 +721,6 @@
   font-weight: 600;
   letter-spacing: -0.04em;
   flex: 0 0 auto;
-}
-
-.journeyDemoPill {
-  margin-left: auto;
-  padding: 5px 8px;
-  border-radius: 999px;
-  background: #240b21;
-  color: #ffcd00;
-  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .journeyBody {

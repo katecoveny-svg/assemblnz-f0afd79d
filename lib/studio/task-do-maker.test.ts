@@ -112,7 +112,7 @@ describe('task-do-maker', () => {
       'receipt',
     ]);
     expect(seeded.journey.sponsored.honesty).toMatch(/no bp account link/i);
-    expect(PARTNER_SKINS.bp.verticalHint).toMatch(/fuel/i);
+    expect(PARTNER_SKINS.bp.verticalHint).toMatch(/fuel \/ convenience retail loyalty/i);
 
     const draft = draftFromSearchParams(new URLSearchParams({ mode: 'partner', partner: 'warehouse' }));
     expect(draft.config.mode).toBe('partner');

@@ -71,7 +71,9 @@ Mode B chips: **sponsored agent**, **rewarded wait**, **task utility**, and shar
 
 ### bp Road-Ready · Sponsored Agent journey
 
-Canonical walkthrough (no parallel `/demos/bp-*` route):
+**Vertical LOCK (Builder inventory):** BP NZ = **fuel / convenience retail loyalty** — **not** electricity switch / ICP / home energy.
+
+Canonical walkthrough (no parallel `/demos/bp-*` route; does **not** fork Assembling/Dash — reuses ASA **“Sponsored”** disclosure grammar only):
 
 ```
 /studio/do-maker?mode=partner&partner=bp
@@ -81,16 +83,17 @@ Canonical walkthrough (no parallel `/demos/bp-*` route):
 
 Interactive spine inside the maker preview:
 
-`loyalty moment → branded bp agent → intent → assemble useful next step → offer if genuine → DO Permit → DEMO action → CRM stub → receipt`
+`wait-at-pump / app loyalty → branded bp agent → useful next step (points, nearby site, offer if genuine) → DO Permit → DEMO action → receipt`
 
 | Assembl vs ChatGPT Sponsored Agents | |
 |---|---|
 | Surface | Partner app / maker / DO — provider-neutral |
-| Action | Completes a bounded job under **DO Permit** |
+| Action | Completes a bounded loyalty job under **DO Permit** |
 | Proof | Emits a **receipt** (sponsor reporting ≠ chat impressions) |
 | Ads API | **Not** built on OpenAI Ads (none public); watch as future adapter only |
+| Labelling | Assembling ASA pill = **Sponsored** (title case); DEMO honesty is separate |
 
-DEMO honesty: no live bp Rewards, fuel-board scrape, payment or CRM write. Unpaid path remains available (skip offer).
+DEMO / PREVIEW honesty: no live bp Rewards, fuel-board scrape, payment or CRM write. Unpaid path remains available (skip offer). No live bp partnership claim.
 
 No Foodstuffs partnership framing.
 

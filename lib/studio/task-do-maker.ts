@@ -153,8 +153,8 @@ export const PARTNER_SKINS: Record<PartnerSlug, PartnerSkin> = {
     },
     defaultTemplate: 'sponsored-agent',
     honesty:
-      'Demo skin only. Sponsored-agent journey is simulated — no bp account link, fuel-board scrape, live rewards API or CRM write.',
-    verticalHint: 'fuel / convenience loyalty',
+      'Demo / PREVIEW only. Fuel & convenience retail loyalty — not electricity. Sponsored-agent journey is simulated — no bp account link, fuel-board scrape, live rewards API or CRM write.',
+    verticalHint: 'fuel / convenience retail loyalty',
     conciergeTitle: 'BP Loyalty Moment Concierge',
   },
   warehouse: {
