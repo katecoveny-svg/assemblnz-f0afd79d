@@ -1,67 +1,87 @@
 # NZ Live — DO toolkit
 
-**Status:** shipped basics — 16 September 2026 NZ  
+**Status:** expanded pack — 16 September 2026 NZ  
 **Provider id:** `nz_live` on the DO MCP gateway  
 **Product:** named toolkit on `/do/connections` — per-tool `live` | `needs_key` | `stub`
 
-## Basics Kate asked for
+## Named toolkits (docs/UI)
+
+| Toolkit | Fit |
+|---|---|
+| **Travel NZ** | AT + Waka Kotahi Traffic & Travel + Metlink / Metro Chch parity |
+| **Civic Watch** | Parliament, Beehive, PCO legislation, Stats NZ portal |
+| **SME Compliance** | NZBN (+ legislation-aware SME lookups) |
+| **Household Floor NZ** | Floor-friendly NZ data seats. **Grocery = consent browser-seat only — no invented supermarket APIs** |
+| **Property NZ** | LINZ parcels/titles context (not ownership claims) + schools directory |
+| **Hazard NZ** | Civil Defence AlertHub CAP + GeoNet CAP/quakes + MetService CAP |
+| **Energy & Cost** | EA EMI ICP + MBIE fuel |
+| **Media Pulse** | NZ news RSS / search |
+
+## P0 (this PR)
 
 | Tool | Status | Wiring |
 |---|---|---|
-| Auckland Transport bus positions | needs_key (`AT_API_KEY`) | `supabase/functions/bus-positions` → api.at.govt.nz |
-| NZ weather forecast | **live** | `nz-weather` → Open-Meteo (labelled; not MetService official API) |
-| NZ marine weather | **live** | `marine-weather` → Open-Meteo marine |
-| MetService alerts | **stub** | pending `METSERVICE_API_KEY` / official API |
-| NZBN search | needs_key (`NZBN_API_KEY`) | `mcp-nz-govt` `nzbn_search` |
-| Waka Kotahi traffic | **stub** | docs only — [use our data](https://www.nzta.govt.nz/about-us/about-this-site/use-our-data/) |
-| GeoNet quakes / news | **live** | `api.geonet.org.nz` direct |
-| Parliament bills | **live** | bills.parliament.nz search API |
-| Beehive releases | **live** | beehive.govt.nz RSS |
-| NZ news RSS | **live** | `mcp-news` `rss_feed` |
-| NZ news search | needs_key (`NEWSAPI_KEY`) | `mcp-news` search |
-| **PCO legislation** | **live** when `PCO_API_KEY` is on Supabase edge | DO: `mcp-nz-govt` `legislation_search` · KB ingest: `adapter-pco` — **same single secret** |
-| NZ fuel prices | **live** | `nz-fuel-prices` (MBIE; fallback labelled) |
+| Waka Kotahi road events | **live** | `https://trafficnz.info/service/traffic/rest/4/events/all/{n}` — no account |
+| Waka Kotahi cameras | **live** | `…/cameras/all` — no account |
+| Civil Defence AlertHub CAP | **live** | `https://alerthub.civildefence.govt.nz/atom/pwp` (Accept atom) |
+| GeoNet CAP | **live** | `https://api.geonet.org.nz/cap/1.2/GPA1.0/feed/atom1.0/quake` |
+| MetService CAP | **live** | `https://alerts.metservice.com/cap/rss` (public CAP; not commercial API) |
+| Hazard CAP bundle | **live** | Unified pull of the three CAP feeds |
+| Metlink transit | **stub** | City parity after AT — [open data](https://www.metlink.org.nz/about/open-data/) |
+| Metro Chch transit | **stub** | City parity after AT |
 
-## PCO legislation (Kate confirmed)
+## P1 (schema + stub)
 
-Kate already holds a **PCO_API_KEY** (requested June; emailed by PCO). Legislation is already pulling live through the edge.
+| Tool | Status | Notes |
+|---|---|---|
+| EA EMI ICP | stub | Power retailer by address — no invented credentials |
+| LINZ WFS parcels | stub | Parcels/titles context — **not ownership claims** |
+| Schools directory | stub | data.govt.nz Datastore |
+| Stats NZ portal | stub | Bookmark / portal URLs only |
 
-- **Single key path:** Supabase edge secret `PCO_API_KEY` — used by both `mcp-nz-govt` (interactive DO search) and `adapter-pco` (Knowledge Brain ingest).
-- **Do not invent a second key path** or mirror requirement for Next.js. Status UI probes the edge envelope (provider + result) when Next.js does not mirror the secret.
-- **Never log the raw secret.** If rotation or paste is needed, use a secure channel only.
-- DO tool id: `pco_legislation` → `POST /functions/v1/mcp-nz-govt` `{ "action": "legislation_search", "query": "…" }`
+## Already shipped
+
+| Tool | Status | Wiring |
+|---|---|---|
+| Auckland Transport bus positions | needs_key (`AT_API_KEY`) | `bus-positions` |
+| NZ weather / marine | **live** | Open-Meteo (labelled) |
+| MetService official alerts API | **stub** | Prefer `metservice_cap` |
+| NZBN search | **needs_key** (`NZBN_API_KEY`) | Honest until secret is in Supabase |
+| GeoNet quakes / news | **live** | api.geonet.org.nz |
+| Parliament / Beehive | **live** | public |
+| PCO legislation | **live** when edge has `PCO_API_KEY` | `mcp-nz-govt` + same key as `adapter-pco` |
+| NZ news RSS / search | live / needs_key | `mcp-news` |
+| NZ fuel prices | **live** | `nz-fuel-prices` |
 
 ## Env vars
 
-Set on **Supabase edge secrets** (mirror into `.env.local` only when you want Next.js-local status without probing):
+Set on **Supabase edge secrets** (mirror into `.env.local` only when useful):
 
 - `AT_API_KEY`
-- `NZBN_API_KEY`
-- `PCO_API_KEY` — **edge secret; DO + adapter-pco**
+- `NZBN_API_KEY` — may be missing; UI stays **needs_key** honestly
+- `PCO_API_KEY` — edge secret; DO + adapter-pco
 - `NEWSAPI_KEY`
-- `METSERVICE_API_KEY` (future alerts)
-- `MAPBOX_TOKEN` / `VITE_MAPBOX_TOKEN` (routes — adjacent, not traffic)
+- `METSERVICE_API_KEY` (official API stub only; CAP is keyless)
 
-Keyless tools do not need these.
-
-## Call path
+## Call examples
 
 ```
 POST /api/do/mcp
-{ "provider": "nz_live", "toolId": "pco_legislation", "arguments": { "query": "Privacy Act" } }
-→ receipt
-```
+{ "provider": "nz_live", "toolId": "waka_kotahi_traffic", "arguments": { "limit": 10 } }
 
-Household Floor optionally allowlists AT buses, NZ weather, GeoNet, and PCO legislation.
+POST /api/do/mcp
+{ "provider": "nz_live", "toolId": "hazard_cap_bundle", "arguments": {} }
+```
 
 ## Honesty
 
-Never invent live AT or NZTA traffic. Open-Meteo weather is labelled as such. Stub tools return `not_configured` / error receipts. PCO live status requires a real PCO provider+result envelope — fallback search-URL-only responses stay `needs_key`.
+- Never invent live AT without `AT_API_KEY`, NZBN without `NZBN_API_KEY`, or supermarket APIs.
+- Waka / CAP feeds are public and proven live in this environment.
+- LINZ tools must not claim ownership.
+- Grocery on Household Floor remains consent browser-seat only.
 
 ## Related
 
 - `apps/do/shared/nz-live-pack.ts`
 - `lib/do-mcp/nz-live.ts`
-- `supabase/functions/mcp-nz-govt/index.ts`
-- `supabase/functions/adapter-pco/index.ts`
 - `docs/do-templates/DO-MCP-GATEWAY.md`

@@ -155,12 +155,20 @@ export type {
 export {
   NZ_LIVE_TOOLS,
   NZ_LIVE_TOOLKIT,
+  NZ_LIVE_NAMED_TOOLKITS,
   resolveNzLiveToolStatus,
   resolveNzLiveToolStatusWithEdgeHint,
   nzLiveAllowlistEntries,
   pcoLegislationLooksLive,
+  toolsForNamedToolkit,
 } from './nz-live-pack';
-export type { NzLiveToolDef, NzLiveToolStatus, NzLiveSecretScope } from './nz-live-pack';
+export type {
+  NzLiveToolDef,
+  NzLiveToolStatus,
+  NzLiveSecretScope,
+  NzLiveNamedToolkitId,
+  NzLiveNamedToolkit,
+} from './nz-live-pack';
 export {
   MCP_MARKET_HUB,
   MCP_MARKET_HUB_LOOKALIKES,

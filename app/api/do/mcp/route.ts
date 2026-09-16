@@ -14,6 +14,7 @@ import {
   callDoMcpTool,
   composioListTools,
   hubListAttachedToolkits,
+  listNzLiveNamedToolkits,
   listNzLiveToolStatuses,
   listProviderStatuses,
   tregCatalogSearch,
@@ -48,6 +49,7 @@ export async function GET(request: Request) {
 
   const zapier = await zapierMcpProbe();
   const nzLive = await listNzLiveToolStatuses();
+  const nzLiveNamedToolkits = listNzLiveNamedToolkits();
   const hubAttached = await hubListAttachedToolkits({
     ownerExternalId: owner?.externalId ?? null,
   });
@@ -70,6 +72,9 @@ export async function GET(request: Request) {
     providers,
     allowlist,
     nzLive,
+    nzLiveNamedToolkits,
+    nzLiveGroceryNote:
+      'Household grocery = consent browser-seat only. Do not invent supermarket APIs.',
     mcpMarketHub: {
       hubUrl: MCP_MARKET_HUB.hubUrl,
       appUrl: MCP_MARKET_HUB.appUrl,

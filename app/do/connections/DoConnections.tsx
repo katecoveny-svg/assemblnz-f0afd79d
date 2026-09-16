@@ -49,8 +49,17 @@ type McpState = {
     purpose: string;
     status: 'live' | 'needs_key' | 'stub';
     envKeys: string[];
+    namedToolkit?: string;
+    priority?: string;
     note?: string;
   }>;
+  nzLiveNamedToolkits?: Array<{
+    id: string;
+    label: string;
+    fit: string;
+    toolIds: string[];
+  }>;
+  nzLiveGroceryNote?: string;
   mcpMarketHub?: {
     hubUrl: string;
     appUrl: string;
@@ -305,9 +314,29 @@ export function DoConnections() {
 
             {mcp.nzLive?.length ? (
               <>
+                <header style={{ marginTop: 28 }} id="nz-live">
+                  <span>nz live · named toolkits</span>
+                  <p>Travel NZ · Civic Watch · SME Compliance · Household Floor NZ · Property NZ · Hazard NZ · Energy &amp; Cost · Media Pulse</p>
+                </header>
+                {mcp.nzLiveGroceryNote ? <p className={styles.notice}>{mcp.nzLiveGroceryNote}</p> : null}
+                {mcp.nzLiveNamedToolkits?.length ? (
+                  <div className={styles.grid} style={{ marginTop: 12 }}>
+                    {mcp.nzLiveNamedToolkits.map((kit) => (
+                      <article className={styles.card} key={kit.id}>
+                        <div className={styles.cardTop}>
+                          <div className={styles.icon}><PlugZap size={17}/></div>
+                          <span>{kit.toolIds.length} tools</span>
+                        </div>
+                        <h2>{kit.label}</h2>
+                        <p>{kit.fit}</p>
+                        <small>{kit.id}</small>
+                      </article>
+                    ))}
+                  </div>
+                ) : null}
                 <header style={{ marginTop: 28 }}>
-                  <span>nz live toolkit</span>
-                  <p>live · needs_key · stub — reuses Assembl edge functions</p>
+                  <span>nz live tools</span>
+                  <p>live · needs_key · stub — public feeds + edge functions</p>
                 </header>
                 <div className={styles.grid}>
                   {mcp.nzLive.map((tool) => (
@@ -318,7 +347,12 @@ export function DoConnections() {
                       </div>
                       <h2>{tool.label}</h2>
                       <p>{tool.purpose}</p>
-                      <small>{tool.toolId}{tool.envKeys.length ? ` · ${tool.envKeys.join(', ')}` : ' · keyless'}</small>
+                      <small>
+                        {tool.namedToolkit ? `${tool.namedToolkit} · ` : ''}
+                        {tool.toolId}
+                        {tool.envKeys.length ? ` · ${tool.envKeys.join(', ')}` : ' · keyless'}
+                        {tool.priority ? ` · ${tool.priority}` : ''}
+                      </small>
                       <div className={styles.included}>
                         {tool.note
                           ? tool.note

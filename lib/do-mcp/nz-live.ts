@@ -1,7 +1,9 @@
 import 'server-only';
 
 import {
+  NZ_LIVE_NAMED_TOOLKITS,
   NZ_LIVE_TOOLS,
+  NZ_LIVE_TOOLKIT,
   pcoLegislationLooksLive,
   resolveNzLiveToolStatus,
   resolveNzLiveToolStatusWithEdgeHint,
@@ -58,23 +60,65 @@ async function invokeEdge(
   }
 }
 
-async function fetchPublicJson(url: string): Promise<{ ok: true; detail: Record<string, unknown> } | { ok: false; error: string }> {
+async function fetchPublic(
+  url: string,
+  accept: string,
+  opts?: { truncateJson?: boolean; maxRaw?: number },
+): Promise<{ ok: true; detail: Record<string, unknown> } | { ok: false; error: string }> {
   try {
     const res = await fetch(url, {
-      headers: { Accept: 'application/json, application/rss+xml, text/xml, */*' },
-      signal: AbortSignal.timeout(15_000),
+      headers: { Accept: accept },
+      signal: AbortSignal.timeout(20_000),
       cache: 'no-store',
     });
     const text = await res.text().catch(() => '');
     if (!res.ok) return { ok: false, error: `HTTP ${res.status}` };
     try {
-      return { ok: true, detail: { url, response: JSON.parse(text) as unknown } };
+      const parsed = JSON.parse(text) as unknown;
+      if (opts?.truncateJson) {
+        return { ok: true, detail: { url, response: truncateTrafficPayload(parsed) } };
+      }
+      return { ok: true, detail: { url, response: parsed } };
     } catch {
-      return { ok: true, detail: { url, response: { raw: text.slice(0, 4000) } } };
+      return {
+        ok: true,
+        detail: { url, response: { raw: text.slice(0, opts?.maxRaw ?? 4000), bytes: text.length } },
+      };
     }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : 'fetch failed' };
   }
+}
+
+async function fetchPublicJson(url: string) {
+  return fetchPublic(url, 'application/json, */*', { truncateJson: true });
+}
+
+async function fetchPublicFeed(url: string) {
+  // AlertHub 406s if application/json is preferred — ask for Atom/RSS first.
+  return fetchPublic(url, 'application/atom+xml, application/rss+xml, application/xml, */*', {
+    maxRaw: 6000,
+  });
+}
+
+/** Keep Waka payloads small in receipts — never drop honesty about source. */
+function truncateTrafficPayload(parsed: unknown): unknown {
+  if (!parsed || typeof parsed !== 'object') return parsed;
+  const root = parsed as Record<string, unknown>;
+  const response = root.response;
+  if (!response || typeof response !== 'object') return { ...root, truncated: false };
+  const resp = response as Record<string, unknown>;
+  const out: Record<string, unknown> = { ...root, truncated: true };
+  const nextResp: Record<string, unknown> = { ...resp };
+  for (const key of ['roadevent', 'camera', 'sign', 'vms'] as const) {
+    const arr = resp[key];
+    if (Array.isArray(arr)) {
+      nextResp[key] = arr.slice(0, 12);
+      nextResp[`${key}Total`] = arr.length;
+    }
+  }
+  out.response = nextResp;
+  return out;
 }
 
 function toolById(toolId: string): NzLiveToolDef | undefined {
@@ -103,6 +147,27 @@ export async function probePcoLegislationLive(): Promise<boolean> {
   return pcoEdgeLiveProbe;
 }
 
+function toolNote(tool: NzLiveToolDef, edgeLive: Record<string, boolean>): string | undefined {
+  if (tool.toolId === 'pco_legislation') {
+    return edgeLive.pco_legislation
+      ? 'Live via mcp-nz-govt using Supabase edge secret PCO_API_KEY (same key as adapter-pco). Not mirrored into Next.js unless set locally for status.'
+      : 'Needs Supabase edge secret PCO_API_KEY (single key path shared with adapter-pco). Do not invent a second key.';
+  }
+  if (tool.toolId === 'nzbn_search') {
+    return 'Honest needs_key until NZBN_API_KEY is present in Supabase secrets / env. Do not invent a key.';
+  }
+  if (tool.namedToolkit === 'household_floor_nz') {
+    return NZ_LIVE_TOOLKIT.groceryNote;
+  }
+  if (tool.priority === 'p1' && tool.baseStatus === 'stub') {
+    return 'P1 schema stub — documented in pack; not faked live.';
+  }
+  if (tool.toolId === 'metlink_transit' || tool.toolId === 'metro_chch_transit') {
+    return 'City parity stub after AT — open-data path documented; client not wired yet.';
+  }
+  return undefined;
+}
+
 export async function listNzLiveToolStatuses() {
   const edgeLive: Record<string, boolean> = {};
   const pco = NZ_LIVE_TOOLS.find((tool) => tool.toolId === 'pco_legislation');
@@ -119,14 +184,18 @@ export async function listNzLiveToolStatuses() {
     status: resolveNzLiveToolStatusWithEdgeHint(tool, edgeLive),
     envKeys: tool.envKeys,
     secretScope: tool.secretScope ?? 'next_or_edge',
+    namedToolkit: tool.namedToolkit,
+    priority: tool.priority,
     edgeFunction: tool.edgeFunction,
     upstream: tool.upstream,
-    note:
-      tool.toolId === 'pco_legislation'
-        ? edgeLive.pco_legislation
-          ? 'Live via mcp-nz-govt using Supabase edge secret PCO_API_KEY (same key as adapter-pco). Not mirrored into Next.js unless set locally for status.'
-          : 'Needs Supabase edge secret PCO_API_KEY (single key path shared with adapter-pco). Do not invent a second key.'
-        : undefined,
+    note: toolNote(tool, edgeLive),
+  }));
+}
+
+export function listNzLiveNamedToolkits() {
+  return NZ_LIVE_NAMED_TOOLKITS.map((kit) => ({
+    ...kit,
+    toolIds: NZ_LIVE_TOOLS.filter((t) => t.namedToolkit === kit.id).map((t) => t.toolId),
   }));
 }
 
@@ -144,13 +213,16 @@ export async function runNzLiveTool(
   if (syncStatus === 'stub') {
     return {
       ok: false,
-      error: `${tool.label} is stubbed. ${tool.upstream ? `See ${tool.upstream}` : 'Not implemented.'}`,
+      error: `${tool.label} is stubbed. ${tool.upstream ? `See ${tool.upstream}` : 'Not implemented.'}${
+        tool.toolId.includes('grocery') || tool.namedToolkit === 'household_floor_nz'
+          ? ` ${NZ_LIVE_TOOLKIT.groceryNote}`
+          : ''
+      }`,
       statusHint: 'stub',
     };
   }
 
   // Edge-scoped secrets (PCO): do not block on Next.js env — edge owns PCO_API_KEY.
-  // Next-scoped secrets still need the local/mirrored key before calling.
   if (syncStatus === 'needs_key' && tool.secretScope !== 'supabase_edge') {
     return {
       ok: false,
@@ -181,12 +253,42 @@ export async function runNzLiveTool(
         query: String(args.query ?? args.q ?? '').slice(0, 200),
         limit: Number(args.limit ?? 5),
       });
+    case 'waka_kotahi_traffic': {
+      const limit = Math.min(Math.max(Number(args.limit ?? 10), 1), 50);
+      return fetchPublicJson(`https://trafficnz.info/service/traffic/rest/4/events/all/${limit}`);
+    }
+    case 'waka_kotahi_cameras':
+      return fetchPublicJson('https://trafficnz.info/service/traffic/rest/4/cameras/all');
+    case 'civil_defence_alerthub':
+      return fetchPublicFeed('https://alerthub.civildefence.govt.nz/atom/pwp');
+    case 'geonet_cap':
+      return fetchPublicFeed('https://api.geonet.org.nz/cap/1.2/GPA1.0/feed/atom1.0/quake');
+    case 'metservice_cap':
+      return fetchPublicFeed('https://alerts.metservice.com/cap/rss');
+    case 'hazard_cap_bundle': {
+      const [alerthub, geonet, metservice] = await Promise.all([
+        fetchPublicFeed('https://alerthub.civildefence.govt.nz/atom/pwp'),
+        fetchPublicFeed('https://api.geonet.org.nz/cap/1.2/GPA1.0/feed/atom1.0/quake'),
+        fetchPublicFeed('https://alerts.metservice.com/cap/rss'),
+      ]);
+      return {
+        ok: true,
+        detail: {
+          toolkit: 'hazard_nz',
+          feeds: {
+            civil_defence_alerthub: alerthub.ok ? alerthub.detail : { error: alerthub.error },
+            geonet_cap: geonet.ok ? geonet.detail : { error: geonet.error },
+            metservice_cap: metservice.ok ? metservice.detail : { error: metservice.error },
+          },
+          anyOk: alerthub.ok || geonet.ok || metservice.ok,
+        },
+      };
+    }
     case 'geonet_quakes':
       return fetchPublicJson('https://api.geonet.org.nz/quake?MMI=3');
     case 'geonet_news':
       return fetchPublicJson('https://api.geonet.org.nz/news/geonet');
     case 'parliament_bills':
-      // adapter-parliament is KB-tick shaped; use public bills search directly.
       return fetchPublicJson(
         `https://bills.parliament.nz/api/data/search?${new URLSearchParams({
           search: String(args.query ?? args.q ?? 'bill').slice(0, 80),
@@ -194,7 +296,7 @@ export async function runNzLiveTool(
         }).toString()}`,
       );
     case 'beehive_releases':
-      return fetchPublicJson('https://www.beehive.govt.nz/rss.xml');
+      return fetchPublicFeed('https://www.beehive.govt.nz/rss.xml');
     case 'nz_news_rss':
       return invokeEdge('mcp-news', {
         action: 'rss_feed',
@@ -240,16 +342,16 @@ export async function runNzLiveTool(
     }
     case 'nz_fuel_prices':
       return invokeEdge('nz-fuel-prices', {});
-    case 'waka_kotahi_traffic':
-      return {
-        ok: false,
-        error: 'Waka Kotahi traffic is not wired. See https://www.nzta.govt.nz/about-us/about-this-site/use-our-data/',
-        statusHint: 'stub',
-      };
+    case 'metlink_transit':
+    case 'metro_chch_transit':
+    case 'stats_nz_portal':
+    case 'linz_wfs_parcels':
+    case 'schools_directory':
+    case 'ea_emi_icp':
     case 'metservice_alerts':
       return {
         ok: false,
-        error: 'MetService alerts pending METSERVICE_API_KEY / official API. Use nz_weather_forecast (Open-Meteo) for conditions.',
+        error: `${tool.label} is stubbed. ${tool.upstream ? `See ${tool.upstream}` : 'Not implemented.'}`,
         statusHint: 'stub',
       };
     default:
