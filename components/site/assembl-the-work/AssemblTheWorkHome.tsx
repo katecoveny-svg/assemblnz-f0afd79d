@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, ArrowUpRight } from 'lucide-react';
-import { DoIntentInput } from './DoIntentInput';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { GlowDoWidget } from './GlowDoWidget';
+import { AssemblWorldHero } from './AssemblWorldHero';
 import { DoFilm } from '@/components/do/DoFilm';
 import { DoSpatialScene } from '@/components/do/DoSpatialScene';
-import { PRODUCTS, HERO } from './copy';
+import { PRODUCTS } from './copy';
 import './assembl-the-work.css';
 import './assembl-spatial.css';
 
@@ -14,12 +14,7 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <GlowDoWidget />
     <a className="atw-skip" href="#products">Skip to products</a>
     {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
-    <section className="atw-hero" aria-labelledby="atw-hero-title">
-      <div className="atw-hero-spatial"><DoSpatialScene company /></div>
-      <header className="atw-nav"><Link className="atw-wordmark" href="/" aria-label="assembl home">assembl</Link><nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav></header>
-      <div className="atw-hero-copy"><p className="atw-hero-overline">GOOD WORK COMES TOGETHER.</p><h1 id="atw-hero-title">assembl<br />the work.</h1><p className="atw-hero-sub">find it. DO it. show it.</p><p className="atw-hero-body">{HERO.subhead}</p><div className="atw-hero-actions"><a className="atw-pill atw-pill-light" href="#do-input" onClick={() => document.getElementById('atw-do-intent')?.focus()}>Give DO a job <ArrowRight size={21} /></a><a className="atw-hero-link" href="#products">Explore assembl <ArrowDown size={17} /></a></div></div>
-      <div className="atw-hero-job" id="do-input"><DoIntentInput compact /></div>
-    </section>
+    <AssemblWorldHero preview={preview} />
     <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>— <em>find it.</em></span></Link><Link href="/do"><strong>DO</strong><span>— <em>do it.</em></span></Link><Link href="/creative-studio"><strong>Studio</strong><span>— <em>show it.</em></span></Link><p>Use one.<br />Connect the whole loop.</p></section>
     <section className="atw-companion-story" aria-labelledby="companion-story-title">
       <div className="atw-companion-copy"><p className="atw-kicker">DO / YOUR PORTABLE COMPANION</p><h2 id="companion-story-title">A little DO.<br />A world of help.</h2><p>A reply to write. A week to organise. An idea to build. Give the work its own DO and keep it close.</p>
@@ -34,6 +29,6 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <DoFilm />
     <section className="atw-how atw-section" id="how-it-works"><div><p className="atw-kicker">THE WORK MOVES. YOU STAY IN CONTROL.</p><h2>context in.<br />work out.<br /><em>proof attached.</em></h2></div><ol><li><span>01</span><div><h3>Bring what matters.</h3><p>Your goal, business context and the sources you choose to connect.</p></div></li><li><span>02</span><div><h3>Let the right DO take it.</h3><p>assembl brings the relevant specialist, tools and model to the work.</p></div></li><li><span>03</span><div><h3>Review what happens next.</h3><p>Approvals, evidence and receipts stay visible. Sending, publishing and spending remain permissioned actions.</p></div></li></ol></section>
     <section className="atw-choose atw-section" id="choose"><p className="atw-kicker">START WHERE THE WORK IS.</p><h2>one product.<br />or the <em>whole system.</em></h2><p>Start with Pursuit, DO or Studio. Connect them when you want one operating loop from signal to execution to proof.</p><div><Link className="atw-pill atw-pill-dark" href="/do">Try DO <ArrowUpRight size={19} /></Link><Link className="atw-text-link" href="/contact?product=system">Plan the complete system <ArrowUpRight size={19} /></Link></div><small>Connections, permissions and delivery are agreed before consequential actions are enabled.</small></section>
-    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in Aotearoa.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>One shared context · portable agents · proof that compounds.</span></footer>
+    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in New Zealand.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>One shared context · portable agents · proof that compounds.</span></footer>
   </div>;
 }

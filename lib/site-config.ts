@@ -310,12 +310,13 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // site story, never the marketplace. Lowercase on-brand (only micro-labels
 // are uppercase).
 export const nav = [
-  { href: '/how-it-works', label: 'how it works' },
-  { href: '/pricing',      label: 'pricing' },
-  { href: '/about',        label: 'about' },
+  { href: '/pursuit', label: 'Pursuit' },
+  { href: '/do', label: 'DO' },
+  { href: '/creative-studio', label: 'Studio' },
+  { href: '/about', label: 'About' },
 ] as const;
 
-export const navCta = { href: '/genome', label: 'try the demo' };
+export const navCta = { href: '/do', label: 'Try DO' };
 
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 

@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowDown, ArrowUpRight, Pause, Play, RotateCcw } from "lucide-react";
 import { DoMark } from "./DoAppearance";
@@ -108,13 +107,9 @@ export function DoReveal({
         <div className="dor-object" aria-hidden="true">
           {[0, 1, 2].map((i) => (
             <div key={i} className={`dor-slice dor-slice-${i}`}>
-              <Image
-                src="/do/canvas/dimensional-d.png"
-                alt=""
-                width={800}
-                height={800}
-                priority
-              />
+              <span className="dor-mark">
+                <DoMark />
+              </span>
             </div>
           ))}
         </div>
