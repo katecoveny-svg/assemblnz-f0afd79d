@@ -31,3 +31,9 @@ Limitations: no physical-device performance test or complete accessibility certi
 ## Copy gate
 
 The page says what visitors can do: research an opportunity, shape a concept and prepare a conversation. It does not claim live signals in the example or automatic outreach. The sprint is a scoped engagement; private hub access and connections remain explicitly agreed setup.
+
+## Visual proof
+
+![Desktop production build](pursuit-2026-09-16/desktop.png)
+
+![319px mobile view](pursuit-2026-09-16/mobile.png)
