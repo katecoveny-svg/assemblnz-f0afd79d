@@ -110,3 +110,21 @@ Explicit visual sharing is an input channel: choose a screen still or upload an 
 
 **Verification**  
 Protect the routed front doors in production builds, verify desktop/375px/reduced-motion, and check the exact merged deployment. Local edits alone are not a release.
+
+---
+
+## ADR-005 — Agent-paid tools: key gate, sandbox prefix, honest upstreams
+**Status:** accepted  
+**Date:** 2026-09-16
+
+**Context**  
+Assembl needs a product shape for selling single-job HTTP tools to agents: URL + code + agent docs, with spend caps and receipts — starting with NZ registry lookups.
+
+**Decision**  
+Ship shared primitives under `lib/tools/` and first route `POST /api/tools/nz-who-runs-it`. Every call requires `Authorization: Bearer` or `X-Assembl-Tool-Key`. Keys starting with `test_` always run sandbox fixtures and never call live NZBN. Live calls require `NZBN_API_KEY` and return structured **503** when unconfigured — never fabricate live register data. Persist keys/spend/receipts in Supabase when service-role is available; otherwise process-memory for preview with the production path documented.
+
+**Consequences**  
+A second tool (nz-trade-finder) can plug into the same gate. DO Meeting / Household routes stay untouched. Agent docs live at `/tools/<slug>` with a skill draft under `docs/tools/`.
+
+**Revisit when**  
+Billing moves from daily cent caps to Stripe metered billing, or keys need org-scoped multi-tenant issuance UI.

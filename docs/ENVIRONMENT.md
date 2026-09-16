@@ -105,6 +105,16 @@ Stripe configuration includes server-only and publishable values. Examples:
 
 Never expose the secret/webhook values to browser code.
 
+### agent-paid tools (`/api/tools/*`)
+
+First shipping surface: `POST /api/tools/nz-who-runs-it` (shared primitives in `lib/tools/`).
+
+- `NZBN_API_KEY` — required for **live** lookups (api.business.govt.nz subscription key). Legacy alias `NZBN_API_TOKEN` is accepted. Without it, live keys get an honest **503**; `test_*` keys always use sandbox fixtures.
+- `ASSEMBL_TOOL_DEMO_TEST_KEY` — optional override of the documented demo sandbox key.
+- `ASSEMBL_TOOLS_ALLOW_OPEN_TEST_KEYS` — when not `"false"`, any `test_*` key auto-provisions in the store (preview-friendly).
+- `ASSEMBL_TOOL_SEED_KEYS` — optional `id:rawKey:capCents,...` seed list for registered keys (including `live_`).
+- Storage: Supabase tables `assembl_tool_keys` / `assembl_tool_spend` / `assembl_tool_receipts` when service-role env is present; otherwise process-memory for local/preview (document that receipts are not cross-instance durable until Supabase is wired).
+
 ## Supabase edge functions
 
 `supabase/functions/*` run independently from the root Next.js runtime. Their provider/configuration values should be stored as Supabase project secrets and read server-side (`Deno.env.get(...)`).
