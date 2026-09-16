@@ -1,0 +1,5 @@
+Draco decoder files are redistributed from Three.js 0.184.0 examples/jsm/libs/draco/gltf.
+Draco is Copyright 2016 The Draco Authors, licensed under Apache License 2.0.
+Source and license: https://github.com/google/draco/blob/main/LICENSE
+Three.js: https://github.com/mrdoob/three.js/blob/r184/LICENSE
+These files are hosted locally; opening the DO studio does not contact a decoder CDN.

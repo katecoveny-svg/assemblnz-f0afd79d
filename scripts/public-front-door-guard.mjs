@@ -1,47 +1,31 @@
 #!/usr/bin/env node
+/** Guard the user-confirmed 16 September recovery. See docs/DO-VISUAL-BASELINE.md. */
 import { existsSync, readFileSync } from 'node:fs';
-
 const errors = [];
-const read = (path) => readFileSync(path, 'utf8');
-const homeRoute = read('app/page.tsx');
-const home = read('components/site/assembl-the-work/AssemblTheWorkHome.tsx');
-const homeCss = read('components/site/assembl-the-work/assembl-the-work-current.css');
-const doRoute = read('app/do/page.tsx');
-
-function requireMatch(label, text, pattern) {
-  if (!pattern.test(text)) errors.push(`${label}: missing ${pattern}`);
+const read = path => readFileSync(path, 'utf8');
+const checks = [
+  ['app/page.tsx', /AssemblTheWorkHome/],
+  ['app/do/page.tsx', /<DoHome\s*\/>/],
+  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<GlowDoWidget\s*\/>/],
+  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoSpatialScene\s+company/],
+  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
+  ['app/do/DoHome.tsx', /<DoReveal/],
+  ['app/do/DoHome.tsx', /href="\/do\/office"/],
+  ['app/do/DoBuilder.tsx', /<DoCanvas/],
+  ['components/site/assembl-the-work/GlowDoWidget.tsx', /COMPANION_POSITION_KEY/],
+  ['components/do/DoMark.tsx', /do-identity-dot/],
+];
+for (const [path, pattern] of checks) {
+  if (!pattern.test(read(path))) errors.push(`${path}: the accepted front-door feature is missing (${pattern})`);
 }
-function forbidMatch(label, text, pattern) {
-  if (pattern.test(text)) errors.push(`${label}: retired pattern ${pattern}`);
+const publicFiles = ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', 'app/do/DoHome.tsx', 'app/do/DoReveal.tsx', 'app/do/page.tsx'];
+for (const path of publicFiles) {
+  const text = read(path);
+  if (/OceanMedia|ocean-assembly|cinematic-nature|brand-rescue\.css|DoHomeCurrent/.test(text)) errors.push(`${path}: retired front door or nature film`);
+  if (/\bDOO\b|\bDoo\b/.test(text)) errors.push(`${path}: product is DO; Builderdoo is the specialist's name`);
 }
-
-requireMatch('homepage route', homeRoute, /AssemblTheWorkHome/);
-requireMatch('homepage', home, /assembl-the-work-current\.css/);
-requireMatch('homepage current CSS', homeCss, /#240b21/i);
-requireMatch('homepage current CSS', homeCss, /Instrument Sans/i);
-requireMatch('DO route', doRoute, /DoHomeCurrent/);
-
-for (const [label, text] of [
-  ['homepage', home],
-  ['homepage current CSS', homeCss],
-  ['DO route', doRoute],
-]) {
-  forbidMatch(label, text, /OceanMedia|ocean-assembly|cinematic-nature/i);
-  forbidMatch(label, text, /Cormorant|#BFA37A|champagne|canary/i);
+for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp']) {
+  if (!existsSync(asset)) errors.push(`${asset}: missing approved visual asset`);
 }
-
-forbidMatch('homepage', home, /assembl-the-work\.css|brand-rescue\.css/);
-forbidMatch('homepage current CSS', homeCss, /Georgia|Times New Roman/i);
-
-if (existsSync('components/site/assembl-the-work/OceanMedia.tsx')) {
-  errors.push('retired OceanMedia.tsx still exists in the active homepage package');
-}
-
-if (errors.length) {
-  console.error('public-front-door-guard: public brand/product drift detected:\n');
-  for (const error of errors) console.error(`  ${error}`);
-  console.error('\nHomepage canon: current plum / Instrument Sans Assembl system. DO canon: portable workforce via DoHomeCurrent.');
-  process.exit(1);
-}
-
-console.log('public-front-door-guard: clean — homepage and DO use current public front doors');
+if (errors.length) { console.error('public-front-door-guard: drift detected\n' + errors.join('\n')); process.exit(1); }
+console.log('public-front-door-guard: assembl front door, dimensional DO and portable canvas present');

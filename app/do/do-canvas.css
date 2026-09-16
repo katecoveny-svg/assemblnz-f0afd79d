@@ -1,0 +1,788 @@
+.docanvas {
+  --canvas-accent: #d5a6e8;
+  background: #1e0e23;
+  color: #faf4fa;
+  padding: 28px;
+  border-radius: 22px;
+  font-family: var(--font-body), sans-serif;
+}
+.docanvas * {
+  box-sizing: border-box;
+}
+.docanvas button,
+.docanvas input,
+.docanvas textarea,
+.docanvas select {
+  font: inherit;
+}
+.docanvas button {
+  cursor: pointer;
+}
+.docanvas button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.docanvas-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+.docanvas-brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none !important;
+  color: #fff !important;
+}
+.docanvas-brand svg {
+  width: 38px;
+  height: 38px;
+  color: var(--canvas-accent);
+}
+.docanvas-brand strong {
+  font-size: 29px;
+}
+.docanvas-brand small {
+  font-size: 12px;
+  color: #ccb9cf;
+}
+.docanvas-nav > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.docanvas-nav button,
+.docanvas-nav label {
+  background: transparent;
+  border: 1px solid #674770;
+  border-radius: 30px;
+  color: #f6edf7;
+  padding: 12px 17px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+}
+.docanvas-nav label input {
+  width: 80px;
+  color: white;
+  background: none;
+  border: 0;
+  min-width: 0;
+}
+.docanvas-nav .docanvas-save {
+  background: #fff8ff;
+  color: #25152b;
+}
+.docanvas-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 28px;
+}
+.docanvas-main {
+  min-width: 0;
+}
+.docanvas-hero {
+  position: relative;
+  min-height: 435px;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  align-items: center;
+}
+.docanvas-copy {
+  position: relative;
+  z-index: 1;
+}
+.docanvas-copy > span {
+  font:
+    10px var(--font-mono),
+    monospace;
+  letter-spacing: 2px;
+  color: #bd9ec7;
+}
+.dob .docanvas h2 {
+  font-size: clamp(38px, 5vw, 74px);
+  line-height: 1.02;
+  color: #fff7ff;
+  letter-spacing: -0.06em;
+  margin: 22px 0;
+}
+.docanvas-copy p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #d6c2dd;
+  max-width: 300px;
+}
+.docanvas-object {
+  width: 100%;
+  perspective: 900px;
+}
+.docanvas-object img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+  transition: transform 0.4s;
+}
+.docanvas-object:hover img {
+  transform: rotateY(-9deg) rotateX(4deg);
+}
+.docanvas-object.glowing {
+  filter: drop-shadow(0 0 24px #b679d32b);
+}
+.docanvas-modules {
+  display: flex;
+  gap: 14px;
+}
+.docanvas-modules article {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 9px;
+  padding: 20px 12px;
+  border: 1px solid #9969ad;
+  border-radius: 20px;
+  background: #35213f;
+  cursor: grab;
+}
+.docanvas-modules article > div {
+  min-width: 0;
+}
+.docanvas-modules svg {
+  color: #c79ae2;
+  flex-shrink: 0;
+}
+.dob .docanvas h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: inherit;
+  margin: 12px 0 7px;
+}
+.docanvas-modules p {
+  font-size: 12px;
+  color: #ceb7d5;
+  line-height: 1.45;
+  min-height: 36px;
+}
+.docanvas-module-actions {
+  display: flex;
+  gap: 5px;
+}
+.docanvas-module-actions button {
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  background: #50365c;
+  color: white;
+  border-radius: 7px;
+  padding: 6px;
+  font-size: 11px;
+}
+.docanvas-caption {
+  text-align: center;
+  font:
+    10px var(--font-mono),
+    monospace;
+  letter-spacing: 1px;
+  color: #ab8ab5;
+  margin: 18px 0 30px;
+}
+.docanvas-appearance {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  border-top: 1px solid #674770;
+  padding-top: 15px;
+}
+.docanvas-swatches {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.docanvas-swatches button {
+  border: 1px solid #765083;
+  background: #302037;
+  color: white;
+  border-radius: 25px;
+  padding: 9px 13px;
+  text-transform: capitalize;
+}
+.docanvas-swatches button[aria-pressed="true"] {
+  border-color: var(--canvas-accent);
+  box-shadow: 0 0 0 2px #a977be55;
+}
+.docanvas-appearance label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 15px;
+}
+.docanvas-character {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.docanvas-character img {
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.docanvas-character label {
+  display: grid;
+}
+.docanvas select {
+  max-width: 140px;
+  background: #302037;
+  color: white;
+  padding: 9px;
+  border: 1px solid #765083;
+  border-radius: 10px;
+}
+.docanvas-context {
+  background: #faf6fa;
+  color: #321a3b;
+  border-radius: 24px;
+  padding: 24px;
+  align-self: start;
+  box-shadow: 0 20px 50px #0003;
+}
+.docanvas-context header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #decede;
+  padding-bottom: 20px;
+}
+.docanvas-context header button {
+  border: 0;
+  background: none;
+}
+.docanvas-context small {
+  font-size: 11px;
+  color: #7b6085;
+}
+.docanvas-context p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #7a6383;
+}
+.docanvas-context label {
+  font-size: 12px;
+  display: block;
+  margin: 18px 0;
+}
+.docanvas-context textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  border: 1px solid #d3bddb;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 8px;
+  background: white;
+  color: #321a3b;
+  font-size: 13px;
+}
+.docanvas-context > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #ddcfe3;
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  margin: 10px 0;
+  color: #43234e;
+  font-size: 12px;
+}
+.docanvas-context hr {
+  border: 0;
+  border-top: 1px solid #decede;
+  margin: 25px 0;
+}
+.docanvas-context .docanvas-continue {
+  background: #42204e;
+  color: white;
+  justify-content: space-between;
+}
+.docanvas-templates {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0 20px;
+  flex-wrap: wrap;
+}
+.docanvas-templates button {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 22px;
+  background: #42284e;
+  color: white;
+  border: 1px solid #79518b;
+  border-radius: 16px;
+}
+.docanvas-widget {
+  position: fixed;
+  right: 28px;
+  bottom: 50px;
+  z-index: 50;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #402051;
+  border: 2px solid #b480d8;
+  color: #ddb4fc;
+  padding: 14px;
+  touch-action: none;
+}
+.docanvas-widget.glowing {
+  box-shadow:
+    0 0 14px #b571ff99,
+    0 0 40px #aa62dc66,
+    inset 0 0 16px #d6a0ff55;
+}
+.docanvas-widget svg {
+  width: 100%;
+  height: 100%;
+}
+.docanvas-widget > span {
+  position: absolute;
+  bottom: -23px;
+  left: 14px;
+  background: #24122e;
+  border: 1px solid #9869b0;
+  border-radius: 15px;
+  font-size: 10px;
+  padding: 4px 12px;
+  color: #eee1f5;
+}
+.docanvas :focus-visible {
+  outline: 2px solid #c896ea;
+  outline-offset: 4px;
+}
+@media (max-width: 900px) {
+  .docanvas-layout {
+    grid-template-columns: 1fr;
+  }
+  .docanvas-context {
+    max-width: none;
+  }
+  .docanvas-nav {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .docanvas-hero {
+    min-height: 360px;
+  }
+}
+@media (max-width: 600px) {
+  .docanvas {
+    padding: 18px;
+  }
+  .docanvas-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .docanvas-copy h2 br {
+    display: block;
+  }
+  .docanvas-object {
+    max-width: 320px;
+    margin: auto;
+  }
+  .docanvas-modules {
+    flex-direction: column;
+  }
+  .docanvas-modules article {
+    padding: 15px;
+  }
+  .docanvas-modules article > div {
+    flex: 1;
+  }
+  .docanvas-appearance {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .docanvas-nav > div {
+    gap: 8px;
+  }
+  .docanvas-nav button,
+  .docanvas-nav label {
+    padding: 10px 12px;
+  }
+  .docanvas-widget {
+    right: 22px;
+    width: 58px;
+    height: 58px;
+    padding: 12px;
+  }
+  .docanvas-character img {
+    width: 85px;
+    height: 85px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .docanvas * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .docanvas-object:hover img {
+    transform: none;
+  }
+}
+.do-workspace-dialog:has(.docanvas) {
+  width: calc(100vw - 24px);
+  max-width: 1480px;
+  padding: 0;
+  background: #1e0e23;
+  max-height: 96svh;
+}
+.dob:has(.docanvas) {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: #1e0e23;
+  border-radius: 0;
+}
+.dob:has(.docanvas) > .dob-head,
+.dob:has(.docanvas) > p:first-child {
+  display: none;
+}
+.dob:has(.docanvas) > .docanvas {
+  order: -2;
+}
+.dob:has(.docanvas) > .dob-trial {
+  color: #d4bfdb;
+  margin: 0 28px;
+  padding: 16px 0;
+}
+.dob:has(.docanvas) > .dob-layout,
+.dob:has(.docanvas) > .dob-recipes,
+.dob:has(.docanvas) > .dob-foot {
+  background: #f7f2f7;
+  padding: 22px;
+  margin: 0;
+}
+.dob:has(.docanvas) > p[role="status"],
+.dob:has(.docanvas) > .dob-error {
+  color: white;
+  padding: 0 28px;
+}
+.dob .docanvas-nav label input {
+  width: 80px;
+  background: transparent;
+  color: #f9efff;
+  border: 0;
+  padding: 0;
+}
+.dob .docanvas-nav label {
+  display: flex;
+  margin: 0;
+}
+.dob .docanvas h3 {
+  color: inherit;
+}
+.dob .docanvas-context textarea {
+  background: white;
+}
+.dob .docanvas small {
+  opacity: 1;
+}
+.dob .docanvas-character select {
+  background: #302037;
+  color: white;
+  width: auto;
+}
+.dob .docanvas-widget > span {
+  display: block;
+}
+.docanvas-layout:not(:has(.docanvas-context)) {
+  grid-template-columns: 1fr;
+}
+@media (max-width: 600px) {
+  .do-workspace-dialog:has(.docanvas) {
+    width: 100vw;
+    max-height: 100svh;
+    border-radius: 0;
+  }
+  .docanvas-nav {
+    padding-right: 22px;
+  }
+}
+
+.docanvas-object.pet-do img {
+  mix-blend-mode: normal;
+  max-height: 420px;
+  object-fit: contain;
+}
+.docanvas-character img {
+  mix-blend-mode: normal;
+}
+.docanvas-widget:has(img) {
+  padding: 0;
+  background: #301539;
+}
+.docanvas-widget > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.15);
+}
+
+.dob .docanvas .docanvas-nav label input {
+  background: transparent !important;
+  color: #f9efff !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: 100px !important;
+}
+.docanvas-object:not(.pet-do) img {
+  mask-image: radial-gradient(ellipse at center, #000 45%, transparent 73%);
+}
+
+.docanvas {
+  background:
+    radial-gradient(ellipse at 52% 27%, #69406166 0%, transparent 52%),
+    radial-gradient(ellipse at 12% 80%, #532c4d55 0%, transparent 48%), #210f24;
+}
+.docanvas-heading-do {
+  color: #d2a3c9;
+  text-shadow:
+    0 0 12px #b579a977,
+    0 0 35px #90588066;
+}
+.docanvas-modules article {
+  background: linear-gradient(145deg, #55344977, #302037);
+  box-shadow:
+    inset 0 1px 0 #d9a8cd22,
+    0 0 24px #8f56761a;
+}
+.docanvas-widget.glowing {
+  box-shadow:
+    0 0 14px #b57fba99,
+    0 0 40px #80527477,
+    inset 0 0 16px #d6a0c455;
+}
+/* One continuous workspace: templates, context, instructions, review. */
+.docanvas-heading-do {
+  margin-left: 0.12em;
+}
+.dob:has(.docanvas) > .dob-layout {
+  display: block;
+  background:
+    radial-gradient(ellipse at 75% 20%, #59344a44, transparent 65%), #210f24;
+  padding: 32px;
+  color: #f4e9f0;
+}
+.dob:has(.docanvas) .dob-palette {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0 0 32px;
+  overflow: visible;
+}
+.dob:has(.docanvas) .dob-palette > .dob-kicker,
+.dob:has(.docanvas) .dob-palette > h3,
+.dob:has(.docanvas) .dob-palette > p {
+  grid-column: 1/-1;
+  margin: 0;
+  display: block;
+}
+.dob:has(.docanvas) .dob-palette > h3 {
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+.dob:has(.docanvas) .dob-palette > p {
+  color: #ceb8c9;
+  margin-bottom: 12px;
+}
+.dob:has(.docanvas) .dob-palette > button {
+  margin: 0;
+  padding: 18px;
+  min-width: 0;
+  align-items: start;
+  background: #382031;
+  border-color: #745064;
+  color: #f8edf4;
+  border-radius: 18px;
+  box-shadow: none;
+}
+.dob:has(.docanvas) .dob-palette > button[aria-pressed="true"] {
+  background: #5a354e;
+  border-color: #c390b3;
+}
+.dob-palette > button > svg:first-child {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  color: #cca0c1;
+}
+.dob:has(.docanvas) .dob-palette small {
+  display: block;
+  font-size: 12px;
+  color: #d8c2d0;
+  opacity: 1;
+  line-height: 1.5;
+}
+.dob:has(.docanvas) .dob-palette strong {
+  font-size: 15px;
+}
+.dob:has(.docanvas) .dob-board {
+  background: #2b1726;
+  border: 1px solid #624158;
+  padding: 28px;
+  max-width: 100%;
+  border-radius: 24px;
+}
+.dob:has(.docanvas) .dob-source,
+.dob:has(.docanvas) .dob-agent,
+.dob:has(.docanvas) .dob-output {
+  background: #352031;
+  border: 1px solid #624158;
+  color: #f4e9f0;
+  box-shadow: none;
+  padding: 24px;
+}
+.dob:has(.docanvas) .dob-output h3 {
+  color: #f4e9f0;
+}
+.dob:has(.docanvas) .dob-agent-mark {
+  background: #513147;
+  color: #d1a2c2;
+  box-shadow: 0 0 25px #a16c882f;
+}
+.dob-agent-mark > svg {
+  width: 34px;
+  height: 34px;
+}
+.dob:has(.docanvas) .dob-board textarea,
+.dob:has(.docanvas) .dob-board input:not([type="checkbox"]):not([type="file"]),
+.dob:has(.docanvas) .dob-board select {
+  background: #faf4f7;
+  color: #32182d;
+  border-color: #ba97ad;
+  padding: 14px;
+  line-height: 1.6;
+}
+.dob:has(.docanvas) > .dob-recipes,
+.dob:has(.docanvas) > .dob-foot {
+  background: #210f24;
+  color: #ceb7c8;
+  padding: 24px 32px;
+}
+.dob:has(.docanvas) .dob-recipes button {
+  border-color: #89647c;
+  color: #f6e9f1;
+}
+.dob-wire {
+  opacity: 0.45;
+}
+.dob:has(.docanvas) .dob-run {
+  background: #d8b8ce;
+  color: #2c1526 !important;
+}
+.dob:has(.docanvas) .dob-contract {
+  font-size: 12px;
+  color: #d7bdce;
+}
+.dob:has(.docanvas) .dob-board small {
+  font-size: 12px;
+  opacity: 1;
+}
+.dob:has(.docanvas) .dob-board label {
+  font-size: 14px;
+}
+.dob:has(.docanvas) .dob-file {
+  font-size: 12px !important;
+}
+@media (max-width: 1000px) {
+  .dob:has(.docanvas) .dob-palette {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 500px) {
+  .dob:has(.docanvas) > .dob-layout {
+    padding: 18px;
+  }
+  .dob:has(.docanvas) .dob-palette {
+    grid-template-columns: 1fr;
+  }
+  .dob:has(.docanvas) .dob-board {
+    padding: 12px;
+  }
+  .dob:has(.docanvas) .dob-source,
+  .dob:has(.docanvas) .dob-agent,
+  .dob:has(.docanvas) .dob-output {
+    padding: 18px;
+  }
+  .dob:has(.docanvas) .dob-palette > button {
+    width: 100%;
+  }
+}
+.dob:has(.docanvas) .dob-palette > h3 {
+  color: #f5e9f1;
+}
+.dob:has(.docanvas) .dob-board label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.6;
+}
+.dob:has(.docanvas) input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #a77b98;
+  flex-shrink: 0;
+}
+
+.dob .do-action-mark {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+}
+.dob .do-action-mark svg {
+  width: 100%;
+  height: 100%;
+}
+.dob .do-workspace {
+  margin: 0 24px 24px;
+  padding: 24px;
+  border: 1px solid #9d7c90;
+  border-radius: 22px;
+  background: #faf4f7;
+  color: #32172c;
+}
+.dob .do-primary {
+  background: #56334b;
+  color: #fff4fb;
+}
+.dob .do-workspace textarea {
+  background: white;
+  color: #32172c;
+}
+
+.do-workspace-dialog:has(.docanvas) > .do-dialog-close {
+  position: sticky;
+  float: right;
+  top: 12px;
+  margin: 12px 12px -48px 0;
+  background: #f5e5f0;
+  color: #240b21;
+  z-index: 80;
+}
+.dob:has(.docanvas) > .do-memory {
+  margin: 0;
+  padding: 22px 30px;
+  background: #f8f2f6;
+  color: #240b21;
+}
+.do-action-mark svg {
+  width: 20px;
+  height: 20px;
+}

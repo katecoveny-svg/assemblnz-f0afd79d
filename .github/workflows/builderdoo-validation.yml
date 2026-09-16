@@ -4,27 +4,22 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'app/api/do/builder/**'
-      - 'app/api/do/connections/**'
-      - 'app/api/do/live-*/**'
-      - 'app/do/DoHomeCurrent.tsx'
-      - 'app/do/page.tsx'
-      - 'app/do/do-current.module.css'
-      - 'app/do/builder/**'
-      - 'app/do/connections/**'
-      - 'app/do/office/**'
-      - 'apps/do/shared/builder*'
-      - 'apps/do/shared/capability-catalogue.ts'
-      - 'apps/do/shared/spatial-tools.ts'
-      - 'apps/do/builder-runner/**'
-      - 'lib/os/improvement*'
-      - 'lib/os/routing*'
+      - 'app/do/**'
+      - 'app/api/do/**'
+      - 'apps/do/**'
+      - 'components/do/**'
+      - 'components/site/assembl-the-work/**'
+      - 'lib/os/**'
       - 'lib/connectors/pipedream.ts'
-      - 'docs/DO-SELF-IMPROVEMENT.md'
-      - 'docs/factory/PRIMITIVES.md'
+      - 'docs/DO-*.md'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
       - 'vercel.json'
+      - 'scripts/public-front-door-guard.mjs'
       - 'scripts/vercel-ignore-build.mjs'
       - '.github/workflows/builderdoo-validation.yml'
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -41,7 +36,7 @@ jobs:
           run_install: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build shared canvas
@@ -49,6 +44,6 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/shared/builder.test.ts lib/os/improvement.test.ts lib/os/routing.test.ts
+        run: pnpm test apps/do/shared app/api/do lib/os/improvement.test.ts lib/os/routing.test.ts
       - name: Production build
         run: pnpm build

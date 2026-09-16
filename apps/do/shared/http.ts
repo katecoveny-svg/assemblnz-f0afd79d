@@ -26,9 +26,9 @@ export function doHeaders(request: Request): Headers {
   }
   return headers;
 }
-export async function readDoJson(request: Request): Promise<unknown> {
+export async function readDoJson(request: Request, maxBytes = MAX_BODY_BYTES): Promise<unknown> {
   if (!request.headers.get('content-type')?.toLowerCase().startsWith('application/json')) throw new Error('json_required');
-  if (Number(request.headers.get('content-length') || 0) > MAX_BODY_BYTES) throw new Error('too_large');
+  if (Number(request.headers.get('content-length') || 0) > maxBytes) throw new Error('too_large');
   const reader = request.body?.getReader();
   if (!reader) throw new Error('invalid_json');
   const chunks: Uint8Array[] = []; let size = 0;
@@ -36,7 +36,7 @@ export async function readDoJson(request: Request): Promise<unknown> {
     for (;;) {
       const { value, done } = await reader.read(); if (done) break;
       size += value.byteLength;
-      if (size > MAX_BODY_BYTES) { await reader.cancel(); throw new Error('too_large'); }
+      if (size > maxBytes) { await reader.cancel(); throw new Error('too_large'); }
       chunks.push(value);
     }
     return JSON.parse(Buffer.concat(chunks).toString('utf8')) as unknown;

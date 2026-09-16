@@ -140,6 +140,9 @@ importers:
       web-push:
         specifier: ^3.6.7
         version: 3.6.7
+      ws:
+        specifier: ^8.21.3
+        version: 8.21.3
       zod:
         specifier: ^4.4.2
         version: 4.4.3
@@ -162,6 +165,9 @@ importers:
       '@types/web-push':
         specifier: ^3.6.4
         version: 3.6.4
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/ui':
         specifier: ^4.1.5
         version: 4.1.5(vitest@4.1.5)

@@ -1,6 +1,11 @@
 name: DO macOS companion build
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/do/macos/**'
+      - '.github/workflows/do-macos-build.yml'
   workflow_dispatch:
   pull_request:
     paths:
