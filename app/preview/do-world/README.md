@@ -1,20 +1,23 @@
 # Immersive world study
 
-Preview: `/preview/do-world`. Not linked from or substituted for the homepage.
+Preview: `/preview/do-world`. **Homepage hero** (`AssemblWorldHero`) reuses this same `WorldScene` + `public/do/world/atelier.glb` — no second 3D stack.
 
 The scene is authored by `scripts/build-do-world.py` in Blender. The editable file retains its separate architecture and furniture; the browser export batches geometry by material. Current GLB: 1,704,728 bytes, 11 meshes, 11 materials, four embedded textures, Draco compression. Its poster remains visible during loading, then fades once the GLB is ready.
 
-## This pass (cinematic fly-through)
+## This pass (cinematic fly-through + homepage hero)
 
 R3F-only craft upgrades (no Blender re-export required for this PR):
 
-- Chapter-eased camera path with dwell on Find / DO / Show, then smooth transitions
+- Chapter-hold camera path (Find / DO / Show dwell, then ease between rooms)
 - Lower cinematic FOV (48°) at true eye level (~1.7–1.9 m), separate desktop/mobile paths
 - Heavier scroll lag + soft gaze follow for a glide rather than snap
-- Spatial C lighting: deep plum field/fog, rose cove washes, warm harbour dusk shader (no purple leak)
+- Reduced-motion snaps to chapter frames (does not freeze on Find)
+- Brand Identity: deep plum plaque `#240B21`, chalk contour, dusty-rose `#916A70` glow (no purple D)
+- Spatial C lighting: plum field/fog, dusty-rose cove washes, warm harbour dusk shader
 - ACES filmic tone mapping; rose-warmed emissive materials on the atelier GLB
-- Stronger dimensional D sculpture (shared DoMark contour) with rose presence lights
-- Honest poster → canvas crossfade; demand rendering; pause / reduced-motion still respected
+- Extruded DoMark sculpture framed in the DO chapter
+- Honest poster → canvas crossfade; demand rendering; pause still respected
+- Homepage: `AssemblWorldHero` imports this `WorldScene` directly
 
 ## Still needs Kate’s Mac (Blender 5.x)
 
@@ -37,8 +40,9 @@ Desktop (~1280+):
 
 - [ ] Poster visible until GLB ready, then fades cleanly
 - [ ] Find / DO / Show each hold a readable room frame (sculpture clear on DO)
-- [ ] Rose glow, no purple wash in fog/sky
-- [ ] Pause motion freezes the camera; reduced-motion disables scroll fly-through
+- [ ] Dusty-rose glow, no purple wash in fog/sky / Identity D
+- [ ] Pause motion freezes the camera; reduced-motion snaps chapters (no glide)
+- [ ] Homepage `/` uses the same WorldScene fly-through as hero
 
 Mobile (375):
 
@@ -46,7 +50,7 @@ Mobile (375):
 - [ ] Sculpture sits higher/smaller; copy still readable
 - [ ] Nav + pause control usable; chapter anchors land on the right rooms
 
-Verified previously (16 September): local browser render of the exported architecture; earlier chapter navigation and responsive checks; scoped ESLint / TypeScript / production build. This remains an architectural study, not the finished homepage. No splat renderer or live agent activity is connected; physical-phone profiling is still open.
+Verified previously (16 September): local browser render of the exported architecture; earlier chapter navigation and responsive checks; scoped ESLint / TypeScript / production build. Physical-phone profiling is still open. No splat renderer or live agent activity is connected.
 
 ![Desktop DO room](../../../docs/reviews/world-2026-09-16/desktop.png)
 
