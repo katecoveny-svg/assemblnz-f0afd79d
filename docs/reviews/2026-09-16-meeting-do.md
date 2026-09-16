@@ -1,11 +1,22 @@
 # Meeting DO and Gmail — first implementation
 
+## Smart notes pipeline (Granola-inspired)
+
+Honest drafts-only path on `/do/meetings`:
+
+1. **Capture** — mic or shared meeting audio; local until the user chooses to share.
+2. **Whisper-class STT** — Deepgram nova-2 (`en-NZ`) when `DEEPGRAM_API_KEY` is set; paste-notes fallback when STT is unavailable.
+3. **Granola-class agent pass** — DO preparation task `meeting-notes`: clean readable notes, decisions/outcomes, action items (owners + dates only if stated), open questions, suggested specialist DO drafts, optional follow-up email draft. Never invent owners/dates; never auto-send.
+4. **Review** — polished notes surface before any handoff. Same prepare API + receipt; UI labelled Smart notes.
+
+Sign-in and Deepgram gates stay explicit in the UI. Phone-tonight / Install / living blob are orthogonal and do not block this path.
+
 ## Implemented in source
 
 - `/do/meetings`: local microphone or explicitly shared meeting-audio recording after participant-permission acknowledgement, explicit Stop, playback/download, automatic 10-minute / approximately 3.5 MB stop, track release on navigation/unmount and late-permission cancellation.
-- Separate sharing consent. Transcription requires a signed-in DO owner and configured `DEEPGRAM_API_KEY`, reusing the provider/API pattern of existing Hui transcription. No database audio write. Provider retention is governed by its account terms; do not claim that a provider retains nothing.
+- Separate sharing consent for Deepgram transcription and for smart-notes model preparation. Transcription requires a signed-in DO owner and configured `DEEPGRAM_API_KEY`, reusing the provider/API pattern of existing Hui transcription. No database audio write. Provider retention is governed by its account terms; do not claim that a provider retains nothing.
 - Audio uploads are bounded at 4 MB, including chunked requests, before multipart parsing. Same-origin, owner and rate checks precede provider invocation. No provider response body or credentials are logged.
-- Reviewed text goes through existing DO preparation with source/model receipt. Task owners/deadlines must come from source; proposed specialist assignments remain drafts.
+- Reviewed text goes through DO preparation task `meeting-notes` with source/model receipt. Task owners/deadlines must come from source; proposed specialist assignments and follow-up email remain drafts.
 - Reviewed handoff opens existing DO via same-tab session storage with an opaque URL identifier. It does not send emails, assign tasks to humans or start unattended workers.
 - Existing browser extension links to Meeting DO; it already works alongside Gmail on explicit toolbar/selection interaction.
 - `apps/do/gmail-addon`: Apps Script homepage card launcher and manifest for private developer installation. No Gmail message-reading/sending scopes. Not installed or Marketplace-published.

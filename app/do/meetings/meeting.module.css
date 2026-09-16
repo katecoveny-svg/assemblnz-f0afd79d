@@ -412,6 +412,99 @@
   letter-spacing: 0.04em;
 }
 
+.notesReview {
+  border: 1px solid rgba(36, 11, 33, 0.16);
+  background: var(--paper);
+  border-radius: 24px;
+  padding: 28px;
+  margin: 18px 0;
+  box-shadow:
+    0 18px 40px rgba(36, 11, 33, 0.05),
+    0 0 36px rgba(214, 165, 189, 0.18);
+}
+
+.notesSurface {
+  display: grid;
+  gap: 0;
+  margin: 8px 0 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(245, 241, 242, 0.65), var(--chalk));
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  overflow: hidden;
+}
+
+.notesBlock {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid rgba(36, 11, 33, 0.08);
+}
+
+.notesBlock:last-child {
+  border-bottom: 0;
+}
+
+.notesHeading {
+  margin: 0 0 10px;
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.notesBody {
+  margin: 0;
+  color: var(--plum);
+  line-height: 1.55;
+  font-size: 15px;
+}
+
+.notesBody p {
+  margin: 0 0 8px;
+}
+
+.notesBody p:last-child {
+  margin-bottom: 0;
+}
+
+.editNotes {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(145, 106, 112, 0.45);
+  background: rgba(245, 241, 242, 0.4);
+}
+
+.editNotes summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  list-style: none;
+}
+
+.editNotes summary::-webkit-details-marker {
+  display: none;
+}
+
+.editNotes summary::before {
+  content: '▾ ';
+  color: var(--rose);
+}
+
+.editNotes:not([open]) summary::before {
+  content: '▸ ';
+}
+
+.editNotes[open] summary {
+  margin-bottom: 10px;
+  color: var(--plum);
+}
+
+.editNotes textarea {
+  min-height: 220px;
+}
+
 .shell a {
   color: inherit;
 }
@@ -451,7 +544,8 @@
 
 @media (max-width: 450px) {
   .record,
-  .next {
+  .next,
+  .notesReview {
     padding: 20px;
   }
 

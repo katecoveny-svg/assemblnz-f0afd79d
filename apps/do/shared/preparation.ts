@@ -7,6 +7,12 @@ export const DO_TASKS = [
   { id: 'reply', title: 'Write a reply', description: 'A useful response to a message, in the tone you choose.', glyph: '↩' },
   { id: 'plan', title: 'Make a plan', description: 'Turn notes into actions, owners and open questions.', glyph: '✓' },
   { id: 'brief', title: 'Prepare a brief', description: 'A clear handoff, open questions and the next step.', glyph: '↗' },
+  {
+    id: 'meeting-notes',
+    title: 'Smart meeting notes',
+    description: 'Clean notes, decisions, actions and a follow-up draft from a transcript.',
+    glyph: '◎',
+  },
   { id: 'compare', title: 'Compare options', description: 'Differences, trade-offs and details to check.', glyph: '⇄' },
   { id: 'rewrite', title: 'Polish my writing', description: 'A plain-English draft that keeps the meaning.', glyph: '✦' },
   { id: 'extract', title: 'Find the details', description: 'Pull out dates, amounts, links and contact details.', glyph: '⌕' },
@@ -23,7 +29,7 @@ export function cleanSourceUrl(raw: string): string {
 }
 
 export const preparationInputSchema = z.object({
-  task: z.enum(['reply', 'plan', 'brief', 'compare', 'rewrite', 'extract']),
+  task: z.enum(['reply', 'plan', 'brief', 'meeting-notes', 'compare', 'rewrite', 'extract']),
   brief: z.string().trim().max(DO_BRIEF_LIMIT).default(''),
   source: z.string().trim().min(1, 'Add the text you want DO to use.').max(DO_SOURCE_LIMIT),
   sourceTitle: z.string().trim().max(160).default('Pasted text'),
