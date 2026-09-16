@@ -20,6 +20,7 @@ on:
     branches: [main]
     paths:
       - 'supabase/functions/**'
+      - 'scripts/edge-deploy-targets.mjs'
       - '.github/workflows/deploy-edge-functions.yml'
   workflow_dispatch:
 
@@ -39,22 +40,36 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       - name: Setup Supabase CLI
         uses: supabase/setup-cli@v1
         with:
           version: latest
 
-      - name: Deploy all edge functions
+      - name: Select affected edge functions
+        env:
+          EDGE_DEPLOY_ALL: ${{ github.event_name == 'workflow_dispatch' }}
+          EDGE_DEPLOY_BASE: ${{ github.event.before }}
+          EDGE_DEPLOY_HEAD: ${{ github.sha }}
+        run: node scripts/edge-deploy-targets.mjs > "$RUNNER_TEMP/edge-deploy-targets.txt"
+
+      - name: Deploy selected edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.DEPLOY }}
           PROJECT_REF: wurwcrgxjjwqdaxqceey
         run: |
           set +e  # don't bail on first failure; report all
 
-          # Discover all function directories (skip _shared, which is the
-          # imported helper code, not a deployable function)
-          mapfile -t FUNCTIONS < <(find supabase/functions -mindepth 1 -maxdepth 1 -type d -not -name '_shared' -printf '%f\n' | sort)
+          # Pushes deploy changed functions and consumers of changed helpers.
+          # An explicit manual workflow_dispatch retains the full redeploy.
+          mapfile -t FUNCTIONS < "$RUNNER_TEMP/edge-deploy-targets.txt"
           TOTAL=${#FUNCTIONS[@]}
 
           echo "::group::Functions to deploy ($TOTAL total)"

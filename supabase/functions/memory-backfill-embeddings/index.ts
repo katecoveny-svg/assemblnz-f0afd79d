@@ -4,6 +4,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.0";
+import { isMemoryServiceRequest } from "../_shared/memory-auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -37,6 +38,11 @@ serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
+
+  if (!(await isMemoryServiceRequest(req, SUPABASE_SERVICE_KEY))) {
+    return new Response(null, { status: 401, headers: corsHeaders });
+  }
+  if (req.method !== "POST") return new Response(null, { status: 405, headers: corsHeaders });
 
   const { data: rows, error } = await supabase
     .from("agent_memory")

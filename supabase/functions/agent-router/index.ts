@@ -1,6 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { embedText } from "../_shared/embed.ts";
+import { memoryPrincipal, resolveMemoryUser } from "../_shared/memory-auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -242,16 +243,13 @@ Deno.serve(async (req) => {
     let memoryBlock = "";
     let industryContextBlock = "";
 
-    // Extract user ID from auth header if not passed directly
-    const authHeader = req.headers.get("authorization");
-    let resolvedUserId = userId;
-    if (!resolvedUserId && authHeader) {
-      try {
-        const token = authHeader.replace("Bearer ", "");
-        const { data: { user } } = await supabase.auth.getUser(token);
-        resolvedUserId = user?.id;
-      } catch { /* anonymous user */ }
-    }
+    // Public chat can stay anonymous. Private context must use verified identity,
+    // including before forwarding a request with the server's service credential.
+    const principal = await memoryPrincipal(req, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, async (token) => {
+      const { data, error } = await supabase.auth.getUser(token);
+      return error ? null : data.user;
+    });
+    const resolvedUserId = resolveMemoryUser(principal, userId);
 
     // Resolve tenant for this user (best-effort) — used for unified memory recall + extraction queue
     let resolvedTenantId: string | null = null;
@@ -911,10 +909,6 @@ Trust & compliance:
 
         // Map Lovable model names to OpenRouter equivalents
         const OPENROUTER_MODEL_MAP: Record<string, string> = {
-          "gemini-2.5-flash": "gemini-2.5-flash",
-          "gemini-2.5-pro": "gemini-2.5-pro",
-          "gemini-2.5-pro": "gemini-2.5-pro",
-          "gemini-2.5-flash": "gemini-2.5-flash",
           "gemini-2.5-flash-lite": "gemini-2.5-flash",
           "gemini-2.5-pro": "gemini-2.5-flash",
           "gemini-2.5-flash": "gemini-2.5-flash",
