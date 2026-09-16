@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import styles from './builder.module.css';
+import { DoTaskPanel } from '@/components/do/DoTaskPanel';
 import type { BuilderJob, BuilderQuality, BuilderRisk } from '@/apps/do/shared/builder';
 
 type PlannedResponse = {
@@ -294,6 +295,8 @@ export function BuilderDoWorkspace() {
             Describe what you want to build. Review the plan, then save it to Office for a <strong>job_accepted</strong> receipt — that stores the plan only; it does not start a running agent or Household Floor. For a living family DO: install Household Floor, place the extension, run the evening board.
           </p>
         </section>
+
+        <DoTaskPanel boardId="builder" title="Builder DO to-do" />
 
         <div className={styles.grid}>
           <section className={styles.composer}>

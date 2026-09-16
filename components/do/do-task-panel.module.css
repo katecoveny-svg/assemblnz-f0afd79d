@@ -1,0 +1,234 @@
+.panel {
+  --plum: #240b21;
+  --muted: #654a4e;
+  --rose: #916a70;
+  --chalk: #f5f1f2;
+  --paper: #fffdfb;
+  margin: 18px 0;
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(36, 11, 33, 0.1);
+  border-radius: 16px;
+  background: var(--paper);
+  color: var(--plum);
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.head h2 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.eyebrow,
+.note,
+.status,
+.priority {
+  font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--rose);
+}
+
+.rollup {
+  flex-shrink: 0;
+  color: var(--plum);
+  font-size: 12px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(36, 11, 33, 0.22);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(36, 11, 33, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 0 8px;
+  border-bottom: 1px solid rgba(36, 11, 33, 0.06);
+  background: var(--paper);
+}
+
+.list li:last-child {
+  border-bottom: 0;
+}
+
+.doneRow {
+  opacity: 0.62;
+}
+
+.check {
+  grid-row: 1;
+  width: 36px;
+  min-height: 44px;
+  border: 0;
+  border-right: 1px solid rgba(36, 11, 33, 0.06);
+  background: var(--chalk);
+  color: var(--plum);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.rowBody {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 10px 8px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.priority {
+  display: inline-flex;
+  justify-content: center;
+  padding: 3px 5px;
+  border-radius: 999px;
+  background: var(--chalk);
+  color: var(--muted);
+}
+
+.priority[data-priority='p0'] {
+  background: var(--plum);
+  color: var(--paper);
+}
+
+.priority[data-priority='p1'] {
+  background: rgba(145, 106, 112, 0.2);
+  color: var(--plum);
+}
+
+.title {
+  font-size: 13px;
+  letter-spacing: -0.015em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.status[data-status='doing'] {
+  color: var(--plum);
+}
+
+.detail {
+  grid-column: 1 / -1;
+  padding: 0 12px 12px 44px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.detail a {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--plum);
+}
+
+.add {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.add input {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(36, 11, 33, 0.12);
+  border-radius: 10px;
+  background: var(--chalk);
+  color: var(--plum);
+  font: inherit;
+  outline: none;
+}
+
+.add input:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(145, 106, 112, 0.14);
+}
+
+.add button {
+  min-height: 40px;
+  border: 1px solid var(--plum);
+  border-radius: 10px;
+  background: var(--plum);
+  color: var(--paper);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.empty {
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.note {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .rowBody {
+    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-areas:
+      'priority title'
+      'priority status';
+  }
+
+  .priority {
+    grid-area: priority;
+  }
+
+  .title {
+    grid-area: title;
+    white-space: normal;
+  }
+
+  .status {
+    grid-area: status;
+  }
+}

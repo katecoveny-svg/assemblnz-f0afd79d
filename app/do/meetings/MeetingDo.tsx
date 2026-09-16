@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { DoMark } from '@/components/do/DoMark';
 import { DoWorkBoard } from '@/components/do/DoWorkBoard';
 import { DoInstallPwaCta } from '@/components/do/DoInstallPwaCta';
+import { DoTaskPanel } from '@/components/do/DoTaskPanel';
 import { saveHomeBrief } from '@/apps/do/shared/home-handoff';
 import type { DoPreparedDraft } from '@/apps/do/shared/preparation';
 import '@/app/do/do-craft.css';
@@ -304,6 +305,7 @@ export function MeetingDo() {
       <nav>
         <Link href="/do">← Your DOs</Link>
         <Link href="/do/connections">Connections</Link>
+        <Link href="/do/tasks?board=meeting-do">Tasks</Link>
       </nav>
 
       <header className={styles.hero}>
@@ -318,7 +320,7 @@ export function MeetingDo() {
         </p>
       </header>
 
-      {/* Slot: per-DO to-do panel (PR #1303 DoTaskPanel) mounts near here when merged — distinct from DoWorkBoard. */}
+      <DoTaskPanel boardId="meeting-do" title="Meeting DO to-do" />
 
       <DoWorkBoard
         title="Meeting DO"
