@@ -1,4 +1,5 @@
 import { DO_CAPABILITY_CATALOGUE, CONNECTABLE_DO_APPS } from '@/apps/do/shared/capability-catalogue';
+import { DO_CONNECTOR_PACK, DO_PIPEDREAM_ACTION_ENTRIES } from '@/apps/do/shared/do-connector-pack';
 import { doOwner, privateDoHeaders as headers, sameDoOrigin } from '@/apps/do/services/owner';
 import {
   accountOwner,
@@ -15,7 +16,34 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   const availability = Object.fromEntries([...CONNECTABLE_DO_APPS].map(app => [app, doConnectorConfigured(app)]));
   const owner = await doOwner();
-  if (!owner) return Response.json({ signedIn: false, availability, configured: pipedreamConfigured(), capabilities: DO_CAPABILITY_CATALOGUE, accounts: [] }, { headers });
+  const pack = DO_CONNECTOR_PACK.map((app) => ({
+    slug: app.slug,
+    label: app.label,
+    group: app.group,
+    description: app.description,
+    capabilities: app.capabilities,
+    defaultAuthority: app.defaultAuthority,
+    safety: app.safety,
+    setupNeeded: !doConnectorConfigured(app.slug),
+  }));
+  const actions = DO_PIPEDREAM_ACTION_ENTRIES.map((entry) => ({
+    action: entry.action,
+    app: entry.app,
+    componentId: entry.componentId,
+    approvalRequired: entry.approvalRequired,
+    note: entry.note,
+  }));
+  if (!owner) {
+    return Response.json({
+      signedIn: false,
+      availability,
+      configured: pipedreamConfigured(),
+      capabilities: DO_CAPABILITY_CATALOGUE,
+      pack,
+      actions,
+      accounts: [],
+    }, { headers });
+  }
   let accounts: Awaited<ReturnType<typeof listConnectedAccounts>> = [];
   let accountsAvailable = true;
   try { accounts = await listConnectedAccounts(owner.externalId); }
@@ -26,9 +54,15 @@ export async function GET() {
     accountsAvailable,
     configured: pipedreamConfigured(),
     capabilities: DO_CAPABILITY_CATALOGUE,
+    pack,
+    actions,
     accounts: accounts
       .filter((account) => accountOwner(account) === owner.externalId)
-      .map((account) => ({ app: account.app?.name_slug ?? 'unknown', label: account.app?.name ?? account.name ?? 'Connected account', healthy: account.healthy === true })),
+      .map((account) => ({
+        app: account.app?.name_slug ?? 'unknown',
+        label: account.app?.name ?? account.name ?? 'Connected account',
+        healthy: account.healthy === true,
+      })),
   }, { headers });
 }
 

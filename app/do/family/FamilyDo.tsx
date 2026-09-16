@@ -70,7 +70,9 @@ export function FamilyDo() {
         <p>Up to 20 recent messages from these senders. Attachments stay in Gmail. Long messages may be shortened and will be marked.</p>
         <label className="family-consent"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)}/><span>Use these emails to prepare my list through assembl’s text service. I have permission to use this family information.</span></label>
         <button className="family-primary" disabled={!connection?.connected || !consent || Boolean(busy) || trialUsed}>{busy ? <LoaderCircle size={18}/> : <Inbox size={18}/>} Prepare my school admin</button>
-        <p>One completed list uses one free task. Three free tasks, then <a href={enquiry}>enquire to continue</a>. Shared networks share the trial.</p>
+        <p>{connection?.signedIn
+          ? <>Signed-in prepare is unlimited. Anonymous sandbox tries still share a per-network free allowance.</>
+          : <>Public sandbox: three free tasks per network, then <a href="/login?redirect=%2Fdo%2Ffamily">sign in for unlimited prepare</a> or <a href={enquiry}>enquire to continue</a>.</>}</p>
       </form>
     </aside><section className="family-results" aria-label="School admin for review">
       <div className="family-results-head"><div><p className="family-kicker">03 · YOUR REVIEW</p><h2>{digest ? 'Here’s what needs you.' : 'Your week, made clearer.'}</h2></div>{digest && <button onClick={download}>Download list</button>}</div>

@@ -207,32 +207,99 @@ export function withAppFilter(connectLinkUrl: string, appSlug?: string | null): 
 // ── Running actions ─────────────────────────────────────────────────────────
 
 /**
- * The spike's action map — assembl action name → Pipedream component per app.
- * Deliberately tiny: the two actions pilots ask for first, on the app we can
- * verify. Anything unmapped fails honestly ("app not yet mapped") instead of
- * guessing a component id.
+ * DO + pilot action map — assembl action → Pipedream component per app.
+ * Component IDs are published Pipedream keys (verify in Connect dashboard
+ * on first run). Anything unmapped fails honestly.
  */
 export const PIPEDREAM_ACTION_MAP: Record<string, Record<string, { componentId: string; note: string; authProp?: string }>> = {
+  create_email_draft: {
+    gmail: {
+      componentId: 'gmail-create-draft',
+      authProp: 'gmail',
+      note: 'Creates an unsent Gmail draft. Never sends.',
+    },
+    microsoft_outlook: {
+      componentId: 'microsoft_outlook-create-draft-email',
+      authProp: 'microsoftOutlook',
+      note: 'Creates an unsent Outlook draft.',
+    },
+  },
+  list_calendar_events: {
+    google_calendar: {
+      componentId: 'google_calendar-list-events',
+      authProp: 'googleCalendar',
+      note: 'Lists calendar events (prefer fields=compact).',
+    },
+  },
+  create_calendar_event: {
+    google_calendar: {
+      componentId: 'google_calendar-create-event',
+      authProp: 'googleCalendar',
+      note: 'Creates a calendar event the owner can edit in Google Calendar.',
+    },
+  },
   add_sheet_row: {
     google_sheets: {
       componentId: 'google_sheets-add-single-row',
-      note: 'appends one row to a sheet the customer picks at connect time',
+      note: 'Appends one reviewed row to a sheet.',
+    },
+  },
+  get_drive_file: {
+    google_drive: {
+      componentId: 'google_drive-get-file-by-id',
+      authProp: 'googleDrive',
+      note: 'Reads Drive file metadata by id.',
+    },
+  },
+  post_slack_message: {
+    slack: {
+      componentId: 'slack_v2-send-message',
+      authProp: 'slack',
+      note: 'Posts a reviewed Slack message (approval-gated). Uses slack_v2 component package.',
     },
   },
   create_lead: {
-    salesforce_rest_api: {
-      componentId: 'salesforce_rest_api-create-lead', authProp: 'salesforce',
-      note: 'creates the reviewed lead in the customer’s Salesforce account',
-    },
     hubspot: {
       componentId: 'hubspot-create-or-update-contact',
-      note: 'creates or updates a contact in the customer’s HubSpot',
+      note: 'Creates or updates a HubSpot contact.',
+    },
+    salesforce_rest_api: {
+      componentId: 'salesforce_rest_api-create-lead',
+      authProp: 'salesforce',
+      note: 'Creates a Salesforce lead.',
     },
   },
-  create_email_draft: {
-    microsoft_outlook: {
-      componentId: 'microsoft_outlook-create-draft-email', authProp: 'microsoftOutlook',
-      note: 'creates an unsent draft in the connected Microsoft 365 Outlook mailbox',
+  create_notion_page: {
+    notion: {
+      componentId: 'notion-create-page',
+      authProp: 'notion',
+      note: 'Creates a Notion page from reviewed content.',
+    },
+  },
+  create_task: {
+    todoist: {
+      componentId: 'todoist-create-task',
+      authProp: 'todoist',
+      note: 'Creates a Todoist task.',
+    },
+    linear_app: {
+      componentId: 'linear_app-create-issue',
+      authProp: 'linearApp',
+      note: 'Creates a Linear issue.',
+    },
+  },
+  retrieve_invoice: {
+    stripe: {
+      componentId: 'stripe-retrieve-invoice',
+      authProp: 'stripe',
+      note: 'Reads a Stripe invoice for bills review.',
+    },
+  },
+  list_folder: {
+    dropbox: {
+      componentId: 'dropbox-list-file-folders-in-a-folder',
+      authProp: 'dropbox',
+      note: 'Lists files/folders in a Dropbox path.',
     },
   },
 };
@@ -259,7 +326,14 @@ export async function runConnectorAction(input: {
   }
 
   const accounts = await listConnectedAccounts(input.externalUserId).catch(() => []);
-  const account = accounts.find((a) => a.app?.name_slug === input.app && accountOwner(a) === input.externalUserId && a.healthy === true);
+  const account = accounts.find((a) => {
+    const slug = a.app?.name_slug ?? '';
+    if (accountOwner(a) !== input.externalUserId || a.healthy !== true) return false;
+    if (slug === input.app) return true;
+    // Slack Connect may report slack_v2 while DO pack declares slack.
+    if (input.app === 'slack' && (slug === 'slack' || slug === 'slack_v2')) return true;
+    return false;
+  });
   if (!account) {
     return { ok: false, detail: { error: `no connected ${input.app} account for ${input.externalUserId}` } };
   }

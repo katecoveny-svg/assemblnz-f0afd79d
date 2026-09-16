@@ -39,12 +39,17 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 - DOs / Household Floor declare `connectors` / `requiredConnectors` (no tokens in templates)  
 - UI states: sign in · setup needed · connect · connected · needs reconnect  
 - Reuses `/api/do/connections` + `connectDoGmail` — no second OAuth stack  
-- Optional Gmail on public HF template (school mail); drafts-only  
+- Optional Gmail + Calendar on public HF template; drafts-only / never auto-send  
+- DO connector pack: Gmail · Calendar · Sheets · Drive · Slack · HubSpot (+ Notion / Todoist / Linear / Stripe / Dropbox / Outlook / Salesforce)  
+- `PIPEDREAM_ACTION_MAP` expanded with real component ids; surfaces on `/do/connections` + Household Floor Connectors tab  
 
-### Trial (402 tonight)
+### Trial model (product rule)
 
-- Signed-in DO owners **bypass** the anonymous 3-task network trial on prepare / family / vision / image / bills  
+- **Anonymous / public sandbox:** `DO_TRIAL_LIMIT` free tasks per network IP (default **3**)  
+- **Signed-in Assembl DO owner:** unlimited prepare — `reserveDoTrial` bypassed  
 - If Kate still sees `402 trial_exhausted`, she is signed out — sign in, then retry  
+- Ops mid-demo reset (optional):  
+  `DELETE FROM agent_chat_sessions WHERE agent_slug LIKE 'do-trial-%' AND anon_id = 'do-network:<hmac>';`  
 
 ## What Kate can click tomorrow morning
 
@@ -54,7 +59,7 @@ Assembl DO twin of Household Floor as a **runnable, shareable** product slice �
 4. **Connectors** tab → Connect Gmail (optional) via Pipedream — or `/do/connections`  
 5. **Run evening board** → clear Needs you drafts (nothing auto-sends)  
 6. Private seed only if she needs her real context — never in the public share pack  
-7. If prepare returns 402: **sign in** (signed-in owners bypass the 3-task network trial)
+7. If prepare returns 402: **sign in** (signed-in owners bypass the network sandbox trial)
 
 ## Needs-You
 
@@ -72,7 +77,9 @@ pnpm exec vitest run \
   apps/do/shared/household-floor.test.ts \
   apps/do/shared/browser-seat.test.ts \
   apps/do/shared/do-connectors.test.ts \
+  apps/do/shared/do-connector-pack.test.ts \
   apps/do/shared/trial.test.ts \
+  apps/do/shared/catalogues.test.ts \
   app/api/do/household/route.test.ts \
   app/api/do/browser-seat/route.test.ts
 pnpm typecheck
@@ -84,3 +91,5 @@ Manual:
 2. Customise accent/mark/name → preview orb updates  
 3. Share tonight copies public link text only  
 4. Extension side panel browser seat rejects capture without consent  
+5. `/do/connections` shows Connect for Gmail / Calendar / Sheets / Slack / HubSpot (setup needed when env missing)  
+6. Signed-in prepare does not 402; signed-out exhaustion shows sign-in + enquire  

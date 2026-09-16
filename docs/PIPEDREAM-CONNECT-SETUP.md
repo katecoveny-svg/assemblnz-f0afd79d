@@ -69,15 +69,26 @@ works for curl debugging; the page is the day-to-day surface.)
    moves — flip the flag when a pilot is ready for real writes.
 4. Every stage writes a mana receipt (issuer `action-path`).
 
-## Mapped actions (the spike, deliberately tiny)
+## Mapped actions (DO connector pack)
 
 | assembl action | app | Pipedream component |
 | --- | --- | --- |
+| create_email_draft | gmail | `gmail-create-draft` |
+| create_email_draft | microsoft_outlook | `microsoft_outlook-create-draft-email` |
+| list_calendar_events | google_calendar | `google_calendar-list-events` |
+| create_calendar_event | google_calendar | `google_calendar-create-event` |
 | add_sheet_row | google_sheets | `google_sheets-add-single-row` |
+| get_drive_file | google_drive | `google_drive-get-file-by-id` |
+| post_slack_message | slack | `slack_v2-send-message` |
 | create_lead | hubspot | `hubspot-create-or-update-contact` |
+| create_lead | salesforce_rest_api | `salesforce_rest_api-create-lead` |
+| create_notion_page | notion | `notion-create-page` |
+| create_task | todoist | `todoist-create-task` |
+| create_task | linear_app | `linear_app-create-issue` |
+| retrieve_invoice | stripe | `stripe-retrieve-invoice` |
+| list_folder | dropbox | `dropbox-list-file-folders-in-a-folder` |
 
-Anything else fails with "app not yet mapped" — extend
-`PIPEDREAM_ACTION_MAP` in `lib/connectors/pipedream.ts` one line at a time.
+Anything else fails with "app not yet mapped" — extend `PIPEDREAM_ACTION_MAP` in `lib/connectors/pipedream.ts` one line at a time. DO-facing pack: `apps/do/shared/do-connector-pack.ts`. Flow: `docs/do-templates/DO-CONNECTORS.md`.
 
 ## Notes
 

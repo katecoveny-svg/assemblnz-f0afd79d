@@ -2,20 +2,36 @@ import 'server-only';
 import { createHmac } from 'node:crypto';
 import { getServiceClient } from '@/lib/supabase/service';
 
+/** Anonymous / public sandbox only. Override with DO_TRIAL_LIMIT (1–20). */
+export function doAnonTrialLimit(): number {
+  const raw = process.env.DO_TRIAL_LIMIT;
+  const parsed = raw ? Number(raw) : 3;
+  if (!Number.isFinite(parsed) || parsed < 1 || parsed > 20) return 3;
+  return Math.floor(parsed);
+}
+
+/** @deprecated Prefer doAnonTrialLimit() — kept for import compatibility. */
 export const DO_TRIAL_LIMIT = 3;
-const slots = ['do-trial-1', 'do-trial-2', 'do-trial-3'];
+
+function trialSlots(limit = doAnonTrialLimit()): string[] {
+  return Array.from({ length: limit }, (_, index) => `do-trial-${index + 1}`);
+}
+
 export class DoTrialError extends Error {
   constructor(public code: 'trial_exhausted' | 'trial_unavailable') {
-    super(code === 'trial_exhausted' ? 'Your three free DO tasks are used. Enquire to continue.' : 'The free-task allowance cannot be checked right now. Please try again later.');
+    super(
+      code === 'trial_exhausted'
+        ? 'Your free DO sandbox tasks on this network are used. Sign in for unlimited prepare, or enquire to continue.'
+        : 'The free-task allowance cannot be checked right now. Please try again later.',
+    );
   }
 }
 
 export type ReserveDoTrialOptions = {
   /**
-   * Signed-in DO owner id. When set, the network trial is bypassed so demos
-   * and connected workflows (Gmail, Household Floor) are not blocked by the
-   * anonymous 3-task IP allowance. Anonymous / signed-out callers still use
-   * the shared network quota.
+   * Signed-in DO owner id. When set, the network trial is bypassed —
+   * Assembl users get unlimited prepare. Anonymous callers keep the
+   * shared per-network sandbox quota (DO_TRIAL_LIMIT, default 3).
    */
   signedInOwnerId?: string | null;
 };
@@ -26,10 +42,15 @@ function identity(ip: string) {
   return 'do-network:' + createHmac('sha256', secret).update(`do-trial:${ip}`).digest('hex');
 }
 
-/** A database unique constraint arbitrates concurrent reservations across instances.
- * Network identity prevents clearing cookies from resetting the public trial.
- * Shared networks share the allowance. No raw address or source text is stored.
- * Signed-in owners bypass the anonymous network quota (still rate-limited elsewhere).
+/**
+ * Product rule:
+ * - Public / anonymous sandbox → N free tasks per network IP (default 3)
+ * - Signed-in Assembl DO owner → unlimited (skip reserve)
+ *
+ * Ops mid-demo reset (optional):
+ *   DELETE FROM agent_chat_sessions
+ *   WHERE anon_id = 'do-network:<hmac>' AND agent_slug LIKE 'do-trial-%';
+ * Identity is HMAC of IP with service role — never store raw IPs.
  */
 export async function reserveDoTrial(ip: string, opts: ReserveDoTrialOptions = {}) {
   if (opts.signedInOwnerId) {
@@ -39,26 +60,58 @@ export async function reserveDoTrial(ip: string, opts: ReserveDoTrialOptions = {
       reason: 'signed_in_owner' as const,
     };
   }
+  const limit = doAnonTrialLimit();
   try {
     const anonId = identity(ip);
     const db = getServiceClient();
-    for (const slot of slots) {
+    for (const slot of trialSlots(limit)) {
       const id = crypto.randomUUID();
-      const { error } = await db.from('agent_chat_sessions').insert({ id, anon_id: anonId, agent_slug: slot, free_message_count: 1 });
-      if (!error) return { release: async () => { await db.from('agent_chat_sessions').delete().eq('id', id).eq('anon_id', anonId); }, bypassed: false as const };
+      const { error } = await db.from('agent_chat_sessions').insert({
+        id,
+        anon_id: anonId,
+        agent_slug: slot,
+        free_message_count: 1,
+      });
+      if (!error) {
+        return {
+          release: async () => {
+            await db.from('agent_chat_sessions').delete().eq('id', id).eq('anon_id', anonId);
+          },
+          bypassed: false as const,
+        };
+      }
       if (error.code !== '23505') throw new DoTrialError('trial_unavailable');
     }
     throw new DoTrialError('trial_exhausted');
-  } catch (e) { throw e instanceof DoTrialError ? e : new DoTrialError('trial_unavailable'); }
+  } catch (e) {
+    throw e instanceof DoTrialError ? e : new DoTrialError('trial_unavailable');
+  }
 }
 
 export async function readDoTrial(ip: string, opts: ReserveDoTrialOptions = {}) {
+  const limit = doAnonTrialLimit();
   if (opts.signedInOwnerId) {
-    return { remaining: null as number | null, limit: DO_TRIAL_LIMIT, bypassed: true as const };
+    return {
+      remaining: null as number | null,
+      limit,
+      bypassed: true as const,
+      mode: 'signed_in_unlimited' as const,
+    };
   }
   try {
-    const { count, error } = await getServiceClient().from('agent_chat_sessions').select('id', { count: 'exact', head: true }).eq('anon_id', identity(ip)).in('agent_slug', slots);
+    const { count, error } = await getServiceClient()
+      .from('agent_chat_sessions')
+      .select('id', { count: 'exact', head: true })
+      .eq('anon_id', identity(ip))
+      .in('agent_slug', trialSlots(limit));
     if (error) throw error;
-    return { remaining: Math.max(0, DO_TRIAL_LIMIT - (count ?? 0)), limit: DO_TRIAL_LIMIT, bypassed: false as const };
-  } catch { throw new DoTrialError('trial_unavailable'); }
+    return {
+      remaining: Math.max(0, limit - (count ?? 0)),
+      limit,
+      bypassed: false as const,
+      mode: 'anon_sandbox' as const,
+    };
+  } catch {
+    throw new DoTrialError('trial_unavailable');
+  }
 }

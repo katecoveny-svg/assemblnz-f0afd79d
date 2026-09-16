@@ -107,6 +107,8 @@ export function DoBuilder({
     agent?: DoLiveAgent;
   } | null>(null);
   const [remaining, setRemaining] = useState<number | null>(null);
+  const [trialLimit, setTrialLimit] = useState(3);
+  const [trialBypassed, setTrialBypassed] = useState(false);
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [images, setImages] = useState<string[]>([]);
@@ -118,6 +120,8 @@ export function DoBuilder({
       const r = await fetch("/api/do/runtime");
       const d = await r.json();
       setRemaining(d.trial?.remaining ?? null);
+      setTrialLimit(typeof d.trial?.limit === "number" ? d.trial.limit : 3);
+      setTrialBypassed(Boolean(d.trial?.bypassed));
     } catch {
       /* Server still enforces the limit. */
     }
@@ -281,19 +285,28 @@ export function DoBuilder({
           <p>Choose a skill, add the context it needs and review the result.</p>
         </div>
         <span className="dob-allowance">
-          {remaining === null
-            ? "3 free tasks to try"
-            : `${remaining} of 3 tasks left`}
+          {trialBypassed
+            ? "Signed in · unlimited prepare"
+            : remaining === null
+              ? `${trialLimit} free sandbox tasks`
+              : `${remaining} of ${trialLimit} sandbox tasks left`}
         </span>
       </header>
       <div className="dob-trial">
         <span>
-          Three free tasks across writing and images. Shared per network. Failed
-          generations do not use a task.
+          {trialBypassed
+            ? "Signed-in Assembl users are not limited by the public sandbox. Anonymous tries still share a per-network free allowance."
+            : `Public sandbox: ${trialLimit} free tasks per network. Sign in for unlimited prepare. Failed generations do not use a task.`}
         </span>
-        <a href={ENQUIRE}>
-          Enquire about more <ArrowUpRight size={14} />
-        </a>
+        {trialBypassed ? (
+          <a href="/do/connections">
+            Connections <ArrowUpRight size={14} />
+          </a>
+        ) : (
+          <a href={ENQUIRE}>
+            Enquire about more <ArrowUpRight size={14} />
+          </a>
+        )}
       </div>
       <DoGeminiLive context={instruction} onDraft={(text) => {
         const next = `${context}${context ? "\n\n" : ""}Voice brief:\n${text}`;
@@ -489,10 +502,16 @@ export function DoBuilder({
                 ? "Generate an image to review."
                 : "Prepare your draft."}
             </h3>
-            {remaining === 0 ? (
+            {remaining === 0 && !trialBypassed ? (
               <div className="dob-gate">
-                <h3>Your three free tasks are used.</h3>
-                <p>Keep your work. Enquire to arrange continued access.</p>
+                <h3>Your free sandbox tasks on this network are used.</h3>
+                <p>
+                  Sign in to your Assembl account for unlimited prepare, or enquire
+                  to arrange continued access. Your work stays in the editor.
+                </p>
+                <a href="/login?redirect=%2Fdo">
+                  Sign in for unlimited prepare <ArrowUpRight size={17} />
+                </a>
                 <a href={ENQUIRE}>
                   Open an enquiry email <ArrowUpRight size={17} />
                 </a>

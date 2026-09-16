@@ -134,6 +134,11 @@ export type {
   DoConnectionsSnapshot,
 } from './do-connectors';
 export {
+  DO_CONNECTOR_PACK,
+  DO_PIPEDREAM_ACTION_ENTRIES,
+  packAppSlugs,
+} from './do-connector-pack';
+export {
   diffSnapshots,
   getWatchFixture,
   resolveWatchFixtureKey,
