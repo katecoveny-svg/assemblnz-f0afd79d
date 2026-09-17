@@ -3,7 +3,7 @@ on:
   push:
     branches: ['design/scandi-office-source-20260918']
     paths:
-      - 'scripts/design/build_scandi_office.py'
+      - 'scripts/design/*.py'
       - '.github/workflows/scandi-office-authoring.yml'
   workflow_dispatch:
 permissions:
@@ -21,18 +21,15 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: true
-      - name: Install Blender
-        run: sudo apt-get update -qq && sudo apt-get install -y blender
+      - name: Install Blender and exporter dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y blender python3-numpy
       - name: Export and render original scene
         run: |
           set -euo pipefail
           mkdir -p visual-evidence/scandi
-          git rev-parse HEAD
-          sha256sum scripts/design/build_scandi_office.py
-          grep -n 'ShaderNode' scripts/design/build_scandi_office.py
-          blender -b -t 4 --python-exit-code 1 --python scripts/design/build_scandi_office.py 2>&1 | tee visual-evidence/scandi/render.log
+          blender -b -t 4 --python-exit-code 1 --python scripts/design/render_scandi_review.py 2>&1 | tee visual-evidence/scandi/render.log
           python - <<'PY'
-          import json, struct
+          import json
           from pathlib import Path
           root=Path('public/do/world/scandi-v1')
           for name in ['scandi-office.glb','harbour-workroom.jpg','review-room.jpg','studio-lounge.jpg','scene-manifest.json']:
@@ -43,22 +40,6 @@ jobs:
           assert model.stat().st_size<12_000_000, 'Model exceeds authoring budget'
           assert Path('visual-evidence/scandi/scandi-office.blend').is_file(), 'Missing editable Blender source'
           print(json.loads((root/'scene-manifest.json').read_text()))
-          PY
-      - name: Source snapshot for connected implementation review
-        if: always()
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import zipfile
-          roots=['lib/tools','lib/typesafe','lib/research','lib/pursuit','lib/seo','lib/ai','lib/auth','app/api/tools','app/api/pursuit','app/api/research','app/api/do','app/tools','app/pursuit','app/creative-studio','components/site/pursuit','components/site/assembl-the-work','components/do','scripts/design','docs/tools','docs/context','plugins/skills']
-          allowed={'.ts','.tsx','.json','.md','.css','.py','.mjs','.yaml','.yml'}
-          Path('visual-evidence').mkdir(exist_ok=True)
-          with zipfile.ZipFile('visual-evidence/source-review.zip','w',zipfile.ZIP_DEFLATED) as z:
-              for root in roots:
-                  for p in Path(root).rglob('*'):
-                      if p.is_file() and p.suffix in allowed and p.stat().st_size<400000 and 'node_modules' not in p.parts:z.write(p)
-              for f in ['middleware.ts','lib/product-destinations.ts','app/sitemap.ts','app/robots.ts','app/layout.tsx','package.json','AGENTS.md','docs/assembl-copy-standard.md','lib/rate-limit.ts','app/preview/do-world/WorldScene.tsx','docs/assembl-brand-system.md','DESIGN.md']:
-                  if Path(f).is_file():z.write(f)
           PY
       - uses: actions/upload-artifact@v4
         if: always()
