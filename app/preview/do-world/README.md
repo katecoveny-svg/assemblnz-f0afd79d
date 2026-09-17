@@ -2,56 +2,71 @@
 
 Preview: `/preview/do-world`. **Homepage hero** (`AssemblWorldHero`) reuses this same `WorldScene` + `public/do/world/atelier.glb` — no second 3D stack.
 
-The scene is authored by `scripts/build-do-world.py` in Blender. The editable file retains its separate architecture and furniture; the browser export batches geometry by material. Current GLB (2026-09-17 Kate lock): **~1.81 MB**, **13 meshes / 13 materials**, five embedded textures, Draco compression, **≈122k triangles**. Imagined Assembl studio overlooking a Waitematā-like harbour at dusk (Rangitoto-inspired silhouette, waterfront CBD lights, Sky Tower–inspired landmark). Not a mapped real property. Its poster remains visible during loading, then fades once the GLB is ready.
+## Pipeline (locked)
 
-## This pass (Auckland harbour atelier + plum grade)
+1. Author in Blender via `scripts/build-do-world.py` (procedural; materials embedded; no downloaded texture packs).
+2. Script saves **editable** `do-world.blend` first (separate objects), then batches by material and exports Draco `do-world.glb`.
+3. Copy into the app:
+   - `do-world.glb` → `public/do/world/atelier.glb`
+   - `do-world-poster.png` → `public/do/world/atelier-poster.png`
+   - `do-world.blend` → `public/do/world/do-world.blend` (editable source; keep separate from browser batches)
+4. R3F consumer: `WorldScene.tsx` + `World.tsx` (scroll Journey, chapter anchors, Identity D). Homepage must reuse this stack.
 
-Authoring + R3F craft (same pipeline):
+## Kate Mac re-export (Blender 5.1.1)
 
-- Regenerated `atelier.glb` / poster / `do-world.blend` from `scripts/build-do-world.py`
-- Waitematā exterior: closer water, stepped Auckland waterfront massing, harbour city lights, volcanic island silhouette, slender sky landmark
-- Interior craft: softer walnut/limestone, desk monitors + lamps, salon pendant, pohutukawa-toned botanicals
-- Plum/mulberry grade (not lilac wash): restrained cove emission, deeper world, warmer harbour bounce
-- R3F: Waitematā dusk sky, clearer fog falloff, harbour lightformers, material-aware emissive boost, Find gaze toward glazing
-- Chapter-hold camera path + Identity D sculpture preserved
-- Homepage: `AssemblWorldHero` still imports this `WorldScene` directly
-
-## Rebuild (Blender 5.x)
+From the repo root:
 
 ```bash
-blender -b --python scripts/build-do-world.py -- /absolute/output
-# copy do-world.glb → public/do/world/atelier.glb
-# copy do-world-poster.png → public/do/world/atelier-poster.png
-# copy do-world.blend → public/do/world/do-world.blend
+/Applications/Blender.app/Contents/MacOS/Blender -b --python scripts/build-do-world.py -- /absolute/output/dir
 ```
 
-Optional: `--skip-render` to export GLB only.
+Then:
 
-## Budget
+```bash
+cp /absolute/output/dir/do-world.glb public/do/world/atelier.glb
+cp /absolute/output/dir/do-world-poster.png public/do/world/atelier-poster.png
+cp /absolute/output/dir/do-world.blend public/do/world/do-world.blend
+```
 
-| Asset | Size | Notes |
-| --- | --- | --- |
-| `atelier.glb` | ~1.81 MB | Draco level 6; 13 batched meshes |
-| `atelier-poster.png` | ~2.0 MB | 1600×1000 AgX Cycles poster |
-| `do-world.blend` | ~1.8 MB | Editable source for Kate |
+Optional: add `--skip-render` after the output path args to export GLB/blend only (faster iterate).
 
-Stay web-viable — do not grow the hero past ~3 MB without an explicit budget decision.
+Local Mac study path Kate has used:
 
-## Checklist before claiming done
+`/Users/kateharland/Documents/Codex/2026-09-16/referenced-chatgpt-conversation-this-is-an/outputs/do-world/do-world.blend`
+
+## This craft pass
+
+- Task chairs with arms / lumbar; table apron + pedestals; salon cushions
+- Acoustic plum felt panels; research shelf ledge; graphite monitors
+- Waitematā exterior: waterfront massing, sky landmark, Harbour Bridge–inspired span, ferry silhouette, Rangitoto massing
+- Open glazing (no opaque glass plane) so harbour/city lights stay readable
+- Plum / dusty-rose Spatial C grade — not purple D chrome, not grape neon
+- R3F: tighter FOV (46°), refined desktop + mobile eye-level paths, harbour gaze on Find
+- Budget target: web-viable Draco GLB under ~3 MB
+
+## Current budget (verify after each export)
+
+| Asset | Typical |
+| --- | --- |
+| `atelier.glb` | ~2.3 MB Draco; ~15 batched meshes |
+| `atelier-poster.png` | ~1.9 MB · 1600×1000 AgX |
+| `do-world.blend` | ~2.3 MB editable |
+
+Do not grow the hero past ~3 MB without an explicit budget decision.
+
+## Checklist
 
 Desktop (~1280+):
 
-- [ ] Poster visible until GLB ready, then fades cleanly
-- [ ] Waitematā / city-light exterior readable through the glazing (not a plum void)
-- [ ] Find / DO / Show each hold a readable room frame (sculpture clear on DO)
-- [ ] Dusty-rose / mulberry accents, no grape UI chrome or flat lilac wash
-- [ ] Pause motion freezes the camera; reduced-motion snaps chapters (no glide)
-- [ ] Homepage `/` uses the same WorldScene fly-through as hero
+- [ ] Poster → canvas crossfade
+- [ ] Harbour / city lights readable through glazing
+- [ ] Find / DO / Show holds; Identity D clear on DO
+- [ ] Plum / dusty-rose grade; no grape neon
+- [ ] Pause freezes; reduced-motion snaps
+- [ ] Homepage `/` uses the same WorldScene
 
 Mobile (375):
 
-- [ ] Document width equals viewport (no horizontal scroll)
-- [ ] Sculpture sits higher/smaller; copy still readable
-- [ ] Nav + pause control usable; chapter anchors land on the right rooms
-
-Verified evidence for this PR lives under `docs/reviews/world-auckland-2026-09-17/` and walkthrough artifacts.
+- [ ] No horizontal scroll
+- [ ] Still view / reduced path OK (≤650px by design on homepage)
+- [ ] `/preview/do-world` camera framing readable
