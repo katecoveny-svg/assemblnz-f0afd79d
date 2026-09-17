@@ -3,10 +3,11 @@ import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 
 /**
  * Site-wide footer — Instrument Sans body, IBM Plex Mono only for micro labels.
- * Product doors: Pursuit / DO / Studio. No gold / Cormorant / grape.
+ * Public product doors stay on assembl.co.nz. Private Pursuit client hubs are
+ * launched only from explicit hub/workspace CTAs.
  */
-const FOOTER_LINKS: Array<[string, string, boolean?]> = [
-  ['https://assembl-pursuit.katecoveny.chatgpt.site', 'Pursuit', true],
+const FOOTER_LINKS: Array<[string, string]> = [
+  ['/pursuit', 'Pursuit'],
   ['/do', 'DO'],
   ['/creative-studio', 'Studio'],
   ['/contact', 'Contact'],
@@ -58,17 +59,11 @@ export function V2Footer() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
         <p style={microStyle}>Product doors</p>
         <nav aria-label="assembl footer" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px 18px' }}>
-          {FOOTER_LINKS.map(([href, label, external]) =>
-            external ? (
-              <a key={href} href={href} style={linkStyle} target="_blank" rel="noopener noreferrer">
-                {label}
-              </a>
-            ) : (
-              <Link key={href} href={href} style={linkStyle}>
-                {label}
-              </Link>
-            ),
-          )}
+          {FOOTER_LINKS.map(([href, label]) => (
+            <Link key={href} href={href} style={linkStyle}>
+              {label}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>

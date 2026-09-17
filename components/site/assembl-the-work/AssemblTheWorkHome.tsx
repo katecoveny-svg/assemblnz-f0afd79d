@@ -3,22 +3,45 @@ import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { AssemblWorldHero } from './AssemblWorldHero';
 import { DoFilm } from '@/components/do/DoFilm';
+import { Reveal } from '@/components/motion/Reveal';
 import { HERO, PRODUCTS } from './copy';
 import './assembl-the-work.css';
 import './assembl-spatial.css';
+import './assembl-depth.css';
 
 export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
-  return <div className="atw atw-spatial" data-preview={preview}>
+  return <div className="atw atw-spatial atw-depth-surface" data-preview={preview}>
     <a className="atw-skip" href="#products">Skip to products</a>
     {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
     <AssemblWorldHero preview={preview} />
     <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>— <em>find it.</em></span></Link><Link href="/do"><strong>DO</strong><span>— <em>do it.</em></span></Link><Link href="/creative-studio"><strong>Studio</strong><span>— <em>show it.</em></span></Link><p>{HERO.loopLine}</p></section>
-    <section className="atw-intro atw-section" id="products"><p className="atw-kicker">THREE PRODUCTS. ONE SHARED OPERATING LAYER.</p><h2>the work stays<br />connected.</h2><div><p>Pursuit finds the work worth doing. DO brings the right agents, context and tools to it. Studio makes the result visible enough to test, sell or ship.</p><p>The context, permissions, evidence and learning travel with the work instead of restarting in every app or chat.</p><a className="atw-text-link" href="#choose">Choose where to start <ArrowDown size={18} /></a></div></section>
-    <section className="atw-product-list atw-section" aria-label="Explore the products">{PRODUCTS.items.map((product, index) => <article className="atw-product-row" id={product.id} key={product.id}><span className="atw-product-number">0{index + 1}</span><div className="atw-product-name"><p>{product.verb.split('·')[1]?.trim()}</p><h2>{product.name}</h2></div><div className="atw-product-description"><p>{product.body}</p>{'external' in product && product.external ? <a className="atw-text-link" href={product.href} target="_blank" rel="noopener noreferrer">{product.explore}<ArrowUpRight size={20} /></a> : <Link className="atw-text-link" href={product.href}>{product.explore}<ArrowUpRight size={20} /></Link>}<small>{product.note}</small></div></article>)}</section>
-    <section className="atw-system atw-section" aria-labelledby="atw-system-title"><div className="atw-system-copy"><p className="atw-kicker">ONE CONTEXT. MANY MODELS. VISIBLE PROOF.</p><h2 id="atw-system-title">the model can change.<br />the work remembers.</h2><p>DO is the portable execution layer. It can use different models for coding, research, voice, vision or creative work while keeping the same context, tools, permissions and evidence.</p><Link className="atw-text-link" href="/contact?product=do">Talk about DO <ArrowUpRight size={18} /></Link></div><ol className="atw-system-loop"><li><span>01</span><strong>FIND</strong><p>Pursuit brings evidence-backed opportunities into view.</p></li><li><span>02</span><strong>DO</strong><p>Bounded work with context, tools, permissions and receipts.</p></li><li><span>03</span><strong>SHOW</strong><p>Studio turns the result into something people can see, try and understand.</p></li><li><span>04</span><strong>LEARN</strong><p>Proof and decisions feed the next job instead of disappearing into a chat.</p></li></ol></section>
+
+    <Reveal className="atw-depth-reveal">
+      <section className="atw-intro atw-section" id="products"><p className="atw-kicker">THREE PRODUCTS. ONE SHARED OPERATING LAYER.</p><h2>the work stays<br />connected.</h2><div><p>Pursuit finds the work worth doing. DO brings the right agents, context and tools to it. Studio makes the result visible enough to test, sell or ship.</p><p>The context, permissions, evidence and learning travel with the work instead of restarting in every app or chat.</p><a className="atw-text-link" href="#choose">Choose where to start <ArrowDown size={18} /></a></div></section>
+    </Reveal>
+
+    <section className="atw-product-list atw-section" aria-label="Explore the products">
+      {PRODUCTS.items.map((product, index) =>
+        <Reveal key={product.id} className="atw-depth-reveal" delay={index * 90} y={28}>
+          <article className="atw-product-row" id={product.id}><span className="atw-product-number">0{index + 1}</span><div className="atw-product-name"><p>{product.verb.split('·')[1]?.trim()}</p><h2>{product.name}</h2></div><div className="atw-product-description"><p>{product.body}</p>{'external' in product && product.external ? <a className="atw-text-link" href={product.href} target="_blank" rel="noopener noreferrer">{product.explore}<ArrowUpRight size={20} /></a> : <Link className="atw-text-link" href={product.href}>{product.explore}<ArrowUpRight size={20} /></Link>}<small>{product.note}</small></div></article>
+        </Reveal>
+      )}
+    </section>
+
+    <Reveal className="atw-depth-reveal" y={34}>
+      <section className="atw-system atw-section" aria-labelledby="atw-system-title"><div className="atw-system-copy"><p className="atw-kicker">ONE CONTEXT. MANY MODELS. VISIBLE PROOF.</p><h2 id="atw-system-title">the model can change.<br />the work remembers.</h2><p>DO is the portable execution layer. It can use different models for coding, research, voice, vision or creative work while keeping the same context, tools, permissions and evidence.</p><Link className="atw-text-link" href="/contact?product=do">Talk about DO <ArrowUpRight size={18} /></Link></div><ol className="atw-system-loop"><li><span>01</span><strong>FIND</strong><p>Pursuit brings evidence-backed opportunities into view.</p></li><li><span>02</span><strong>DO</strong><p>Bounded work with context, tools, permissions and receipts.</p></li><li><span>03</span><strong>SHOW</strong><p>Studio turns the result into something people can see, try and understand.</p></li><li><span>04</span><strong>LEARN</strong><p>Proof and decisions feed the next job instead of disappearing into a chat.</p></li></ol></section>
+    </Reveal>
+
     <DoFilm />
-    <section className="atw-how atw-section" id="how-it-works"><div><p className="atw-kicker">THE WORK MOVES. YOU STAY IN CONTROL.</p><h2>context in.<br />work out.<br /><em>proof attached.</em></h2></div><ol><li><span>01</span><div><h3>Bring what matters.</h3><p>Your goal, business context and the sources you choose to connect.</p></div></li><li><span>02</span><div><h3>Let the right DO take it.</h3><p>assembl brings the relevant specialist, tools and model to the work.</p></div></li><li><span>03</span><div><h3>Review what happens next.</h3><p>Approvals, evidence and receipts stay visible. Sending, publishing and spending remain permissioned actions.</p></div></li></ol></section>
-    <section className="atw-choose atw-section" id="choose"><p className="atw-kicker">START WHERE THE WORK IS.</p><h2>one product.<br />or the <em>whole system.</em></h2><p>Start with Pursuit or Studio. Connect DO when you want the full loop from signal to execution to proof.</p><div><Link className="atw-pill atw-pill-dark" href="/pursuit">Open Pursuit <ArrowUpRight size={19} /></Link><Link className="atw-text-link" href="/contact?product=system">Plan the complete system <ArrowUpRight size={19} /></Link></div><small>Connections, permissions and delivery are agreed before consequential actions are enabled.</small></section>
+
+    <Reveal className="atw-depth-reveal" y={30}>
+      <section className="atw-how atw-section" id="how-it-works"><div><p className="atw-kicker">THE WORK MOVES. YOU STAY IN CONTROL.</p><h2>context in.<br />work out.<br /><em>proof attached.</em></h2></div><ol><li><span>01</span><div><h3>Bring what matters.</h3><p>Your goal, business context and the sources you choose to connect.</p></div></li><li><span>02</span><div><h3>Let the right DO take it.</h3><p>assembl brings the relevant specialist, tools and model to the work.</p></div></li><li><span>03</span><div><h3>Review what happens next.</h3><p>Approvals, evidence and receipts stay visible. Sending, publishing and spending remain permissioned actions.</p></div></li></ol></section>
+    </Reveal>
+
+    <Reveal className="atw-depth-reveal" y={34}>
+      <section className="atw-choose atw-section" id="choose"><p className="atw-kicker">START WHERE THE WORK IS.</p><h2>one product.<br />or the <em>whole system.</em></h2><p>Start with Pursuit, DO or Studio. Connect them when you want the full loop from signal to execution to proof.</p><div><Link className="atw-pill atw-pill-dark" href="/pursuit">Open Pursuit <ArrowUpRight size={19} /></Link><Link className="atw-text-link" href="/contact?product=system">Plan the complete system <ArrowUpRight size={19} /></Link></div><small>Connections, permissions and delivery are agreed before consequential actions are enabled.</small></section>
+    </Reveal>
+
     <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in New Zealand.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>One shared context · portable agents · proof that compounds.</span></footer>
   </div>;
 }

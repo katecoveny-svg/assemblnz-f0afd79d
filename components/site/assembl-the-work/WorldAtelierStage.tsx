@@ -71,7 +71,6 @@ export function WorldAtelierStage({
   useEffect(() => {
     if (reduced || failed) return;
     let cancelled = false;
-    // Locked pipeline: Blender atelier → Draco GLB → WorldScene (no second stack).
     import('@/app/preview/do-world/WorldScene')
       .then((mod) => {
         if (!cancelled) setScene(() => mod.default);
@@ -99,7 +98,6 @@ export function WorldAtelierStage({
         unoptimized
         className={`${styles.poster}${sceneReady && live ? ` ${styles.posterDimmed}` : ''}`}
       />
-      {/* Native fallback if the optimized pipeline ever blanks the still. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/do/world/atelier-poster.png"
@@ -122,20 +120,18 @@ export function WorldAtelierStage({
   );
 }
 
-/** Shared reduced-motion + compact viewport gate for atelier landings. */
+/**
+ * Honour the person's reduced-motion preference only.
+ * A phone-sized viewport is not a request for a static experience.
+ */
 export function useAtelierMotionGate() {
-  const [reduced, setReduced] = useState(true);
+  const [reduced, setReduced] = useState(false);
   useEffect(() => {
     const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
-    const compactQuery = matchMedia('(max-width: 650px)');
-    const motion = () => setReduced(motionQuery.matches || compactQuery.matches);
-    motion();
-    motionQuery.addEventListener('change', motion);
-    compactQuery.addEventListener('change', motion);
-    return () => {
-      motionQuery.removeEventListener('change', motion);
-      compactQuery.removeEventListener('change', motion);
-    };
+    const sync = () => setReduced(motionQuery.matches);
+    sync();
+    motionQuery.addEventListener('change', sync);
+    return () => motionQuery.removeEventListener('change', sync);
   }, []);
   return reduced;
 }
