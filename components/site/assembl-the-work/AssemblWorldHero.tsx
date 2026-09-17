@@ -13,9 +13,9 @@ import {
 import styles from './assembl-world-hero.module.css';
 
 const chapters = [
-  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', action: 'Open Pursuit hub' },
-  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permissions for bounded work.', output: 'Prepared work with evidence — when DO is open for you.', href: '/do', action: 'About DO' },
-  { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see and try.', href: '/creative-studio', action: 'See the possibility' },
+  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Explore Pursuit' },
+  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permission for a bounded job.', output: 'Prepared work with the next action clear.', href: '/do', action: 'Meet DO' },
+  { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
 ] as const;
 
 export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
@@ -116,33 +116,19 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
             <a className={styles.pill} href="#products">
               See the whole system <ArrowRight size={20} />
             </a>
-            <a className={styles.link} href="/pursuit">
-              Open Pursuit <ArrowDown size={16} />
-            </a>
+            <Link className={styles.link} href="/do">
+              Meet DO <ArrowDown size={16} />
+            </Link>
           </div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
           <div className={styles.chapterSteps} aria-label="Pursuit, DO, Studio">
-            {chapters.map((item, index) =>
-              item.href.startsWith('http') ? (
-                <a
-                  key={item.product}
-                  href={item.href}
-                  aria-label={`Open ${item.product}`}
-                  data-active={chapter === index}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {String(index + 1).padStart(2, '0')}
-                  <span>{item.product}</span>
-                </a>
-              ) : (
-                <Link key={item.product} href={item.href} aria-label={`Open ${item.product}`} data-active={chapter === index}>
-                  {String(index + 1).padStart(2, '0')}
-                  <span>{item.product}</span>
-                </Link>
-              ),
-            )}
+            {chapters.map((item, index) => (
+              <Link key={item.product} href={item.href} aria-label={`Open ${item.product}`} data-active={chapter === index}>
+                {String(index + 1).padStart(2, '0')}
+                <span>{item.product}</span>
+              </Link>
+            ))}
           </div>
           <div className={styles.chapterBody}>
             <span className={styles.chapterLabel}>{current.product}</span>
@@ -152,28 +138,20 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
               <br />
               <strong>{current.output}</strong>
             </p>
-            {current.href.startsWith('http') ? (
-              <a href={current.href} target="_blank" rel="noopener noreferrer">
-                {current.action}
-                <ArrowUpRight size={16} />
-              </a>
-            ) : (
-              <Link href={current.href}>
-                {current.action}
-                <ArrowUpRight size={16} />
-              </Link>
-            )}
+            <Link href={current.href}>
+              {current.action}
+              <ArrowUpRight size={16} />
+            </Link>
           </div>
         </aside>
         <div className={styles.job} id="do-input">
           <p className={styles.jobNote}>
-            DO sits where you already work. Start with Pursuit or Studio — or{' '}
-            <Link href="/contact?product=do">talk to us about DO</Link>.
+            Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Connect them when the work needs the full loop.
           </p>
         </div>
         <p className={styles.honesty}>
-          {failed ? 'Still view. ' : reduced ? '' : 'Scroll to move through the atelier. '}
-          An imagined workspace, not live agent activity.
+          {failed ? 'Still view. ' : reduced ? '' : 'Scroll to move through the space. '}
+          Interactive concept environment. Product status and live connections are labelled on each product page.
         </p>
       </div>
       <div className={styles.stillSummary} aria-label="The complete work loop">
@@ -183,17 +161,10 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
             <h2>{item.verb}</h2>
             <p>{item.input}</p>
             <p>{item.output}</p>
-            {item.href.startsWith('http') ? (
-              <a href={item.href} target="_blank" rel="noopener noreferrer">
-                {item.action}
-                <ArrowUpRight size={16} />
-              </a>
-            ) : (
-              <Link href={item.href}>
-                {item.action}
-                <ArrowUpRight size={16} />
-              </Link>
-            )}
+            <Link href={item.href}>
+              {item.action}
+              <ArrowUpRight size={16} />
+            </Link>
           </article>
         ))}
       </div>
