@@ -3,14 +3,13 @@ import {TrialInput,containsCredential} from '@/lib/pursuit/public-contract';
 import {runPublicResearch} from '@/lib/pursuit/public-research';
 import {trialPolicy,storageConfigured,requestPrincipal,reserveTrial,completeTrial,failTrial,countPublicTool,noStore} from '@/lib/pursuit/public-store';
 export const runtime='nodejs';export const dynamic='force-dynamic';export const maxDuration=90;
-export async function GET(){const policy=await trialPolicy();const configured=Boolean(process.env.ANTHROPIC_API_KEY);return Response.json({ready:Boolean(policy?.enabled&&configured),providerConfigured:configured,storageConfigured:storageConfigured(),trialEnabled:Boolean(policy?.enabled),typesafeReady:Boolean(policy?.typesafe_enabled&&process.env.TYPESAFE_API_KEY),mode:'public_source_trial',publicKnowledge:true,privateKnowledge:false,paid:false,limits:{globalDaily:policy?.global_daily_limit??0,perClientDaily:policy?.client_daily_limit??0},retention:'Research results retained privately for up to 7 days for safe retries. No raw IP or original prompt is stored.',docs:'/tools/agents'},{headers:noStore});}
+export async function GET(){const policy=await trialPolicy();const configured=Boolean(process.env.ANTHROPIC_API_KEY);return Response.json({ready:Boolean(policy?.enabled&&configured),providerConfigured:configured,storageConfigured:storageConfigured(),trialEnabled:Boolean(policy?.enabled),typesafeReady:Boolean(policy?.enabled&&policy?.typesafe_enabled&&process.env.TYPESAFE_API_KEY),mode:'public_source_trial',publicKnowledge:true,privateKnowledge:false,paid:false,limits:{globalDaily:policy?.global_daily_limit??0,perClientDaily:policy?.client_daily_limit??0},retention:'Research results are stored privately for safe retries and abuse control. Raw IP addresses and original prompts are not stored by this endpoint. Retention cleanup must be verified before public activation.',docs:'/tools/agents'},{headers:noStore});}
 export async function POST(request:Request){
   let id='',principal='';
   try{
     const origin=request.headers.get('origin');const own=new URL(request.url).origin;
     if(!origin||origin!==own||request.headers.get('sec-fetch-site')==='cross-site')return Response.json({error:'Open the research canvas on this site.'},{status:403,headers:noStore});
     if(!(request.headers.get('content-type')??'').startsWith('application/json'))return Response.json({error:'JSON required.'},{status:415,headers:noStore});
-    // Bound streamed input too: Content-Length alone is not a reliable limit.
     const reader=request.body?.getReader();let bytes=0;const chunks:Uint8Array[]=[];
     if(!reader)throw new Error('invalid_input');
     while(true){const {done,value}=await reader.read();if(done)break;bytes+=value.byteLength;if(bytes>6000){await reader.cancel();return Response.json({error:'Keep the brief below 700 characters.'},{status:413,headers:noStore});}chunks.push(value);}

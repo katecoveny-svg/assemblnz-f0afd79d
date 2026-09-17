@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowUpRight, LockKeyhole } from 'lucide-react';
 import { AssemblWorldHero } from './AssemblWorldHero';
 import { DoFilm } from '@/components/do/DoFilm';
-import { ProductDoors } from './ImmersiveExperience';
+import { LivingBrief, ProductDoors } from './ImmersiveExperience';
 import { LivePursuitCanvas } from '../pursuit/LivePursuitCanvas';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { HERO } from './copy';
@@ -20,6 +20,8 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>find it.</span></Link><Link href="/do"><strong>DO</strong><span>DO it.</span></Link><Link href="/creative-studio"><strong>Studio</strong><span>show it.</span></Link><p>{HERO.loopLine}</p></section>
     <LivePursuitCanvas />
     <ProductDoors />
+    {/* The existing, explicitly labelled illustration remains separate from real research. */}
+    <LivingBrief />
     <section className="immersive-statement" aria-labelledby="statement-title"><p>less starting over. more moving forward.</p><h2 id="statement-title">The idea is only<br />the <span>beginning.</span></h2><div><p>Find the opening. Prepare the work. Give the possibility a form someone can see, change and try.</p><Link href="/creative-studio">See what Studio can do <ArrowUpRight size={19} /></Link></div></section>
     <DoFilm />
     <section className="immersive-close" id="choose" aria-labelledby="choose-title"><div><p className="atw-kicker">start with the work in front of you.</p><h2 id="choose-title">What could we<br /><span>assembl together?</span></h2><p>Bring an opportunity, a repetitive job or an idea that needs to be seen. Start with one product, or connect the whole system.</p><Link className="atw-pill atw-pill-dark" href="/contact?product=system">Bring us the work <ArrowUpRight size={18} /></Link></div><aside aria-label="Existing workspaces"><p>Already working with assembl?</p><a href={PRODUCT_DESTINATIONS.pursuit.workspace} target="_blank" rel="noopener noreferrer"><span><small>Pursuit</small>Open client hubs</span><ArrowUpRight size={20} /></a><a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer"><span><small>Studio</small>Open Creative Studio</span><ArrowUpRight size={20} /></a><small><LockKeyhole size={12} />Your existing private workspaces. Sign-in required.</small></aside></section>
