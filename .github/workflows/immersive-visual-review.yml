@@ -1,0 +1,36 @@
+name: Immersive visual review
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/immersive-visual-review.yml'
+      - 'scripts/immersive-browser-audit.py'
+      - 'components/site/assembl-the-work/**'
+      - 'components/site/pursuit/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: immersive-review-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  live-browser-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install playwright==1.55.0
+      - run: playwright install --with-deps chromium
+      - name: Capture anonymous public pages (no account or form actions)
+        run: python scripts/immersive-browser-audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: immersive-browser-baseline
+          path: visual-evidence/
+          retention-days: 7
