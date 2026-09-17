@@ -11,9 +11,9 @@ export const PREVIEW_META = {
 
 export const NAV = {
   products: [
-    { label: 'Pursuit', href: '/pursuit', emphasis: false, external: false },
+    { label: 'Pursuit', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', emphasis: false, external: true },
     { label: 'DO', href: '/do', emphasis: true },
-    { label: 'Studio', href: '/creative-studio', emphasis: false },
+    { label: 'Studio', href: 'https://assembl-pursuit.katecoveny.chatgpt.site/agency', emphasis: false, external: true },
   ],
   links: [
     { label: 'How it works', href: '#how-it-works' },
@@ -28,7 +28,7 @@ export const HERO = {
   body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
   explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
   ctaPrimary: { label: 'see the system →', href: '#products' },
-  ctaSecondary: { label: 'open Pursuit', href: '/pursuit' },
+  ctaSecondary: { label: 'open Pursuit', href: 'https://assembl-pursuit.katecoveny.chatgpt.site' },
   productLine: 'Pursuit · DO · Studio',
   loopLine: 'use one. connect two. run the whole loop.',
 } as const;
@@ -52,9 +52,9 @@ export const PRODUCTS = {
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
       body: 'For teams finding their next opportunity. Bring NZ live intelligence into a client Pursuit demonstrator — canvas first, radar behind the scenes.',
-      href: '/pursuit',
-      external: false,
-      explore: 'Open Pursuit', note: 'Story page on assembl; working hub opens from there.',
+      href: 'https://assembl-pursuit.katecoveny.chatgpt.site',
+      external: true,
+      explore: 'Open Pursuit hub', note: 'Working hub opens in your Pursuit workspace.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
@@ -64,7 +64,9 @@ export const PRODUCTS = {
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
       body: 'For teams making an idea tangible. Turn a brief or completed work into demonstrators, pitches, websites, campaigns, imagery, film and interactive experiences.',
-      href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
+      href: 'https://assembl-pursuit.katecoveny.chatgpt.site/agency',
+      external: true,
+      explore: 'Open Creative Studio', note: 'Working Creative Studio workspace. Public story stays on assembl.',
     },
   ],
 } as const;
@@ -128,7 +130,7 @@ export const START = {
   kicker: 'start where the work is',
   title: 'open Pursuit or Studio.',
   body: 'Start with finding or showing. Connect DO when you want help from the place you’re already in.',
-  primary: { label: 'open Pursuit →', href: '/pursuit' },
+  primary: { label: 'open Pursuit →', href: 'https://assembl-pursuit.katecoveny.chatgpt.site' },
   secondary: {
     label: 'bring us a company',
     href: 'mailto:assembl@assembl.co.nz?subject=Bring%20us%20a%20company&body=Company%20name%3A%0AWhat%20you%20want%20done%3A%0A',

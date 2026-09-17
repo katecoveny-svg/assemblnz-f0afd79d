@@ -161,24 +161,44 @@ if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
 
-// Studio product shelf: no duplicate atelier still across 3D + DO doors; no lab/experiment captions.
+// Studio product page: no duplicate-poster studies shelf; no experiment / study theatre.
 const productLandingPath = 'components/site/assembl-the-work/ProductLanding.tsx';
 const productLanding = read(productLandingPath);
-const studiesBlock = productLanding.match(/const studies = \[[\s\S]*?\] as const/)?.[0] ?? '';
-const atelierHits = (studiesBlock.match(/atelier-poster\.png/g) || []).length;
-if (atelierHits > 1) {
+if (/const studies\s*=|studio-studies|studio-study-/.test(productLanding)) {
   errors.push(
-    `${productLandingPath}: Studio shelf must not reuse atelier-poster.png for both the 3D walkthrough and the DO door`,
+    `${productLandingPath}: remove the duplicate-poster studies shelf — product doors only (Kate 2026-09-17)`,
   );
 }
 if (
-  /Not live agent activity|Architectural study|INTERACTIVE STUDY|motion experiment|craft demo|prototype theatre|\blab\b/i.test(
+  /Not live agent activity|Architectural study|INTERACTIVE STUDY|interactive study|motion experiment|craft demo|prototype theatre|\blab\b/i.test(
     productLanding,
   )
 ) {
   errors.push(
     `${productLandingPath}: public Studio copy must be product voice — no experiment / study / not-live captions`,
   );
+}
+if (!/PURSUIT_SITE_ORIGIN|PRODUCT_DESTINATIONS/.test(productLanding) || !/studioWorkspace|destination\.workspace/.test(productLanding)) {
+  errors.push(`${productLandingPath}: must keep working Pursuit hub + Creative Studio workspace doors via PRODUCT_DESTINATIONS`);
+}
+
+// Homepage hero: pin chapters + real client destinations (not story-only dead ends).
+const worldHero = read('components/site/assembl-the-work/AssemblWorldHero.tsx');
+if (!/GOOD WORK COMES TOGETHER/.test(worldHero) || !/DO sits where you already work/.test(worldHero)) {
+  errors.push('AssemblWorldHero: must keep Kate good-home copy (GOOD WORK / DO sits where you already work)');
+}
+if (!/styles\.chapter/.test(worldHero) || !/show it\./.test(worldHero)) {
+  errors.push('AssemblWorldHero: must keep product pin/chapter overlays on the WorldScene rail');
+}
+if (!/PURSUIT_SITE_ORIGIN|pursuitHub/.test(worldHero)) {
+  errors.push('AssemblWorldHero: Pursuit nav/CTA must open the working Pursuit hub');
+}
+if (!/PRODUCT_DESTINATIONS\.studio\.workspace|studioWorkspace/.test(worldHero)) {
+  errors.push('AssemblWorldHero: Studio door must open the Creative Studio workspace');
+}
+const destinations = read('lib/product-destinations.ts');
+if (!/hub:\s*PURSUIT_SITE_ORIGIN/.test(destinations) || !/\/agency/.test(destinations)) {
+  errors.push('lib/product-destinations.ts: must keep Pursuit hub + Creative Studio /agency workspace URLs');
 }
 const meetingUi = read('app/do/meetings/MeetingDo.tsx');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');

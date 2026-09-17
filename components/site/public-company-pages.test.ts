@@ -17,11 +17,16 @@ describe('current public company surfaces', () => {
     const html = renderToStaticMarkup(createElement(ProductLanding, { product: 'studio' }));
     expect(html).toContain('See the work');
     expect(html).toContain('/preview/do-world');
-    expect(html).toContain('/contact?product=do');
+    expect(html).toContain('/do');
+    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site/agency');
     expect(html).not.toContain('/do/meetings');
     expect(html).not.toContain('/studio/do-maker');
     expect(html).not.toContain('/do/office');
     expect(html).not.toContain('/cinematic-nature/ocean-assembly.webp');
+    expect(html).not.toContain('INTERACTIVE STUDY');
+    expect(html).not.toContain('Architectural study');
+    expect(html).not.toContain('Not live agent activity');
+    expect(html).not.toContain('studio-studies');
     expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
   });
   it('does not turn company contact and about into an ornamental watch', () => {

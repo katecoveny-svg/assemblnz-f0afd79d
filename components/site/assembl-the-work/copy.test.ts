@@ -9,11 +9,14 @@ describe('assembl-the-work homepage copy', () => {
     expect(HERO.loopLine.toLowerCase()).not.toContain('keep it');
   });
 
-  it('emphasises DO in nav and products', () => {
+  it('emphasises DO and opens real client destinations', () => {
     expect(NAV.products.find((p) => p.label === 'DO')?.emphasis).toBe(true);
-    expect(NAV.cta.href).toBe('#do-input');
+    expect(NAV.cta.href).toBe('#products');
+    expect(NAV.products.find((p) => p.label === 'Pursuit')?.href).toContain('assembl-pursuit.katecoveny.chatgpt.site');
+    expect(NAV.products.find((p) => p.label === 'Studio')?.href).toContain('/agency');
     expect(PRODUCTS.items.find((p) => p.id === 'do')?.hero).toBe(true);
-    expect(START.primary.href).toBe('#do-input');
+    expect(START.primary.href).toContain('assembl-pursuit.katecoveny.chatgpt.site');
+    expect(JSON.stringify(PRODUCTS)).not.toMatch(/INTERACTIVE STUDY|Architectural study|Not live agent activity/i);
   });
 
   it('avoids bare AI and banned slop in public labels', () => {

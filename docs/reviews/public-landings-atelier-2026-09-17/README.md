@@ -12,7 +12,7 @@ WorldScene / Auckland office fly-through quality — **one stack**, no parallel 
 | `/` homepage | `AssemblWorldHero` → `WorldAtelierStage` (full scroll rail) |
 | `/do` | Keeps #1343 Meeting notes / Household board craft as first viewport. `DoAtelierHero` ships on the shared stage but is **not mounted** until Kate compose-yes (avoids undoing craft). |
 | `/preview/do-world` | `World.tsx` → `WorldScene` directly (study) |
-| `/creative-studio` | `ProductLanding` — same `atelier-poster.png` + plum/rose grade; deep-link to `/preview/do-world` for the live walk |
+| `/creative-studio` | `ProductLanding` — atelier hero grade + workspace doors (no duplicate-poster studies shelf) |
 | Pursuit | NZ story at `/pursuit` + ChatGPT hub — no in-app WorldScene rail |
 
 ## Reuse rules

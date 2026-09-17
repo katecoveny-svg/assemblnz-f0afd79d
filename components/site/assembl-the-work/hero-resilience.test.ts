@@ -15,12 +15,16 @@ describe('homepage complete still view', () => {
       expect(html).toContain(output);
     expect(html).toContain('About DO');
     expect(html).toContain('DO sits where you already work');
+    expect(html).toContain('GOOD WORK COMES TOGETHER.');
+    expect(html).toContain('See the whole system');
+    expect(html).toContain('Open Pursuit');
     expect(html).not.toContain('Open Meeting or Household');
     expect(html).not.toContain('paused');
     expect(html).not.toContain('name="brief"');
+    expect(html).not.toContain('INTERACTIVE STUDY');
+    expect(html).not.toContain('Architectural study');
     expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
-    expect(html).toContain('href="/pursuit"');
+    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site/agency');
     expect(html).toContain('href="/do"');
-    expect(html).toContain('href="/creative-studio"');
   });
 });

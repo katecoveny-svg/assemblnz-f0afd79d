@@ -35,7 +35,11 @@ const COLUMNS: {
         external: true,
       },
       { href: "/do", label: "DO" },
-      { href: "/creative-studio", label: "Studio" },
+      {
+        href: "https://assembl-pursuit.katecoveny.chatgpt.site/agency",
+        label: "Studio",
+        external: true,
+      },
       { href: "/contact", label: "Contact" },
     ],
   },

@@ -2,8 +2,16 @@
 
 /** One public front door over the shared Blender atelier / WorldScene stage. */
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type AnchorHTMLAttributes,
+  type ReactNode,
+} from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
+import { PRODUCT_DESTINATIONS, PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
 import { HERO } from './copy';
 import {
   WorldAtelierStage,
@@ -12,11 +20,63 @@ import {
 } from './WorldAtelierStage';
 import styles from './assembl-world-hero.module.css';
 
+const pursuitHub = PURSUIT_SITE_ORIGIN;
+const doDoor = PRODUCT_DESTINATIONS.do.workspace;
+const studioWorkspace = PRODUCT_DESTINATIONS.studio.workspace;
+
 const chapters = [
-  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', action: 'Open Pursuit hub' },
-  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permissions for bounded work.', output: 'Prepared work with evidence — when DO is open for you.', href: '/do', action: 'About DO' },
-  { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see and try.', href: '/creative-studio', action: 'See the possibility' },
+  {
+    product: 'Pursuit',
+    verb: 'find it.',
+    input: 'A signal. A source. A question.',
+    output: 'An opportunity worth reviewing.',
+    href: pursuitHub,
+    action: 'Open Pursuit hub',
+    external: true,
+  },
+  {
+    product: 'DO',
+    verb: 'DO it.',
+    input: 'Context, tools and permissions for bounded work.',
+    output: 'Prepared work with evidence — when DO is open for you.',
+    href: doDoor,
+    action: 'About DO',
+    external: false,
+  },
+  {
+    product: 'Studio',
+    verb: 'show it.',
+    input: 'A brief. An idea. A piece of work.',
+    output: 'Something people can see and try.',
+    href: studioWorkspace,
+    action: 'Open Creative Studio',
+    external: true,
+  },
 ] as const;
+
+function ProductLink({
+  href,
+  external,
+  children,
+  ...rest
+}: {
+  href: string;
+  external: boolean;
+  children: ReactNode;
+} & AnchorHTMLAttributes<HTMLAnchorElement>) {
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} {...rest}>
+      {children}
+    </Link>
+  );
+}
 
 export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
   const progress = useRef(0);
@@ -84,9 +144,13 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
             assembl
           </Link>
           <nav aria-label="Primary">
-            <Link href="/pursuit">Pursuit</Link>
-            <Link href="/do">DO</Link>
-            <Link href="/creative-studio">Studio</Link>
+            <a href={pursuitHub} target="_blank" rel="noopener noreferrer">
+              Pursuit
+            </a>
+            <Link href={doDoor}>DO</Link>
+            <a href={studioWorkspace} target="_blank" rel="noopener noreferrer">
+              Studio
+            </a>
           </nav>
           <button
             type="button"
@@ -116,33 +180,25 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
             <a className={styles.pill} href="#products">
               See the whole system <ArrowRight size={20} />
             </a>
-            <a className={styles.link} href="/pursuit">
+            <a className={styles.link} href={pursuitHub} target="_blank" rel="noopener noreferrer">
               Open Pursuit <ArrowDown size={16} />
             </a>
           </div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
           <div className={styles.chapterSteps} aria-label="Pursuit, DO, Studio">
-            {chapters.map((item, index) =>
-              item.href.startsWith('http') ? (
-                <a
-                  key={item.product}
-                  href={item.href}
-                  aria-label={`Open ${item.product}`}
-                  data-active={chapter === index}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {String(index + 1).padStart(2, '0')}
-                  <span>{item.product}</span>
-                </a>
-              ) : (
-                <Link key={item.product} href={item.href} aria-label={`Open ${item.product}`} data-active={chapter === index}>
-                  {String(index + 1).padStart(2, '0')}
-                  <span>{item.product}</span>
-                </Link>
-              ),
-            )}
+            {chapters.map((item, index) => (
+              <ProductLink
+                key={item.product}
+                href={item.href}
+                external={item.external}
+                aria-label={`Open ${item.product}`}
+                data-active={chapter === index}
+              >
+                {String(index + 1).padStart(2, '0')}
+                <span>{item.product}</span>
+              </ProductLink>
+            ))}
           </div>
           <div className={styles.chapterBody}>
             <span className={styles.chapterLabel}>{current.product}</span>
@@ -152,17 +208,10 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
               <br />
               <strong>{current.output}</strong>
             </p>
-            {current.href.startsWith('http') ? (
-              <a href={current.href} target="_blank" rel="noopener noreferrer">
-                {current.action}
-                <ArrowUpRight size={16} />
-              </a>
-            ) : (
-              <Link href={current.href}>
-                {current.action}
-                <ArrowUpRight size={16} />
-              </Link>
-            )}
+            <ProductLink href={current.href} external={current.external}>
+              {current.action}
+              <ArrowUpRight size={16} />
+            </ProductLink>
           </div>
         </aside>
         <div className={styles.job} id="do-input">
@@ -183,17 +232,10 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
             <h2>{item.verb}</h2>
             <p>{item.input}</p>
             <p>{item.output}</p>
-            {item.href.startsWith('http') ? (
-              <a href={item.href} target="_blank" rel="noopener noreferrer">
-                {item.action}
-                <ArrowUpRight size={16} />
-              </a>
-            ) : (
-              <Link href={item.href}>
-                {item.action}
-                <ArrowUpRight size={16} />
-              </Link>
-            )}
+            <ProductLink href={item.href} external={item.external}>
+              {item.action}
+              <ArrowUpRight size={16} />
+            </ProductLink>
           </article>
         ))}
       </div>

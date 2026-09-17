@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { DoFilm } from '@/components/do/DoFilm';
@@ -35,35 +34,12 @@ const content = {
   },
 } as const;
 
-/** Studio work doors — Kate allowlist only (no Task DO Maker / DO Office / public DO shelf). */
-const studies = [
-  {
-    id: 'world',
-    title: 'Step inside the idea.',
-    type: '3D / WALKTHROUGH',
-    image: '/do/world/atelier-poster.png',
-    href: '/preview/do-world',
-    action: 'Walk through the atelier',
-    description: 'A Blender-authored world with a scroll-led camera, an accessible still view and three connected spaces.',
-    status: 'Scroll the Auckland atelier. Three connected spaces.',
-  },
-  {
-    id: 'do',
-    title: 'Bring DO into a real engagement.',
-    type: 'DO',
-    // Distinct from the atelier walkthrough still — DO product chrome, not a second WorldScene poster.
-    image: '/do/cinema/do-orb-poster.webp',
-    href: '/do',
-    action: 'See how DO works',
-    description: 'DO sits where you already work. Talk to assembl when you want it opened for your team.',
-    status: 'You stay in your own tools. Approvals stay with you.',
-  },
-] as const;
-
 export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
   const c = content[product];
   const destination = PRODUCT_DESTINATIONS[product];
   const pursuitHub = PURSUIT_SITE_ORIGIN;
+  const studioWorkspace = PRODUCT_DESTINATIONS.studio.workspace;
+  const doDoor = PRODUCT_DESTINATIONS.do.overview;
   return (
     <div className="atw product-page">
       <section
@@ -80,13 +56,10 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
             <a href={pursuitHub} target="_blank" rel="noopener noreferrer">
               Pursuit
             </a>
-            <Link href="/do">DO</Link>
-            <Link
-              href="/creative-studio"
-              aria-current={product === 'studio' ? 'page' : undefined}
-            >
+            <Link href={doDoor}>DO</Link>
+            <a href={studioWorkspace} target="_blank" rel="noopener noreferrer">
               Studio
-            </Link>
+            </a>
           </nav>
         </header>
         <div className="product-hero-copy">
@@ -97,8 +70,9 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
           <p>{c.body}</p>
           <div>
             {product === 'studio' ? (
-              <a className="atw-pill" href="#studio-work">
-                See the work <ArrowRight size={18} />
+              <a className="atw-pill" href={studioWorkspace} target="_blank" rel="noopener noreferrer">
+                {c.action}
+                <ArrowUpRight size={18} />
               </a>
             ) : (
               <a className="atw-pill" href={pursuitHub} target="_blank" rel="noopener noreferrer">
@@ -122,48 +96,27 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
           >
             <header>
               <div>
-                <p className="atw-kicker">OPEN IT. MOVE THROUGH IT. TRY IT.</p>
+                <p className="atw-kicker">OPEN THE WORK. SHOW THE POSSIBILITY.</p>
                 <h2 id="studio-work-title">See the work.</h2>
               </div>
               <p>
-                Open a walkthrough, or see how DO sits in the work you already do.
+                Walk the Auckland atelier on the homepage rail, open DO where you already work,
+                or step into your Creative Studio workspace.
               </p>
             </header>
-            <div className="studio-studies">
-              {studies.map((study) => (
-                <article
-                  className={`studio-study studio-study-${study.id}`}
-                  key={study.id}
-                >
-                  <Link
-                    className="studio-study-image"
-                    href={study.href}
-                    aria-label={study.action}
-                  >
-                    <Image
-                      src={study.image}
-                      alt=""
-                      fill
-                      sizes={
-                        study.id === 'world'
-                          ? '(max-width:650px) 100vw, 70vw'
-                          : '(max-width:650px) 100vw, 40vw'
-                      }
-                    />
-                    <span>{study.type}</span>
-                    <ArrowUpRight size={26} aria-hidden="true" />
-                  </Link>
-                  <div className="studio-study-copy">
-                    <h3>{study.title}</h3>
-                    <p>{study.description}</p>
-                    <Link className="atw-text-link" href={study.href}>
-                      {study.action}
-                      <ArrowUpRight size={17} />
-                    </Link>
-                    <small>{study.status}</small>
-                  </div>
-                </article>
-              ))}
+            <div className="studio-doors">
+              <Link className="atw-text-link" href="/preview/do-world">
+                Walk through the atelier
+                <ArrowRight size={17} />
+              </Link>
+              <Link className="atw-text-link" href={doDoor}>
+                See how DO works
+                <ArrowUpRight size={17} />
+              </Link>
+              <a className="atw-text-link" href={studioWorkspace} target="_blank" rel="noopener noreferrer">
+                Open Creative Studio
+                <ArrowUpRight size={17} />
+              </a>
             </div>
           </section>
           <DoFilm />

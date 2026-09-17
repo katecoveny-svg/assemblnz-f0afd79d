@@ -15,12 +15,13 @@ export const PURSUIT_SITE_ORIGIN =
 export const PRODUCT_DESTINATIONS = {
   pursuit: {
     label: 'Pursuit',
-    /** Public overview story page. Working hub remains PURSUIT_SITE_ORIGIN (Kate lock 2026-09-17). */
+    /** Public story page on assembl. */
     overview: '/pursuit',
     example: PURSUIT_SITE_ORIGIN,
+    /** Working client hub — public nav / CTAs open here (Kate 2026-09-17). */
     workspace: `${PURSUIT_SITE_ORIGIN}/studios`,
     hub: PURSUIT_SITE_ORIGIN,
-    external: false as const,
+    external: true as const,
   },
   do: {
     label: 'DO',
@@ -29,7 +30,9 @@ export const PRODUCT_DESTINATIONS = {
   },
   studio: {
     label: 'Creative Studio',
+    /** Public product page on assembl. */
     overview: '/creative-studio',
+    /** Working Creative Studio workspace — public nav / CTAs open here. */
     workspace: `${PURSUIT_SITE_ORIGIN}/agency`,
   },
   /**

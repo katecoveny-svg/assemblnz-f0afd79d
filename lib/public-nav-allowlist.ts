@@ -1,20 +1,23 @@
 /**
- * Public site link allowlist — Kate nav lock 2026-09-17; DO shelf off same day.
+ * Public site link allowlist — Kate nav lock 2026-09-17; hubs restored same day.
  *
  * ALLOWED primary destinations only:
- *   1. Home (/) — WorldScene fly-through
- *   2. Studio (/creative-studio) — real Studio door
- *   3. Pursuit (/pursuit) — public story; working hub remains external ChatGPT
+ *   1. Home (/) — WorldScene fly-through + product pins
+ *   2. Pursuit hub (external ChatGPT) — working client hub
+ *   3. Creative Studio workspace (external /agency) — working creative workspace
  *   4. Public /do explanation page (no Meeting/Household shelf)
+ *
+ * Story pages `/pursuit` and `/creative-studio` remain reachable but are not
+ * the primary nav doors.
  *
  * FORBIDDEN as public CTAs: in-repo Pursuit maker/playground, partner Mode A/B,
  * Personal/Inbox/Bills/Writing shelves, purple DO branding, private household install,
  * Meeting DO / Household DO as the public product face.
  */
 
-import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import { PRODUCT_DESTINATIONS, PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
 
-/** Working Pursuit hub — external ChatGPT only. Landing story is /pursuit. */
+/** Working Pursuit hub — external ChatGPT only. */
 export const PUBLIC_PURSUIT_HUB = PURSUIT_SITE_ORIGIN;
 
 export const PUBLIC_NAV_ALLOWLIST = [
@@ -22,10 +25,15 @@ export const PUBLIC_NAV_ALLOWLIST = [
   {
     id: 'pursuit',
     label: 'Pursuit',
-    href: '/pursuit',
-    external: false,
+    href: PUBLIC_PURSUIT_HUB,
+    external: true,
   },
-  { id: 'studio', label: 'Studio', href: '/creative-studio', external: false },
+  {
+    id: 'studio',
+    label: 'Studio',
+    href: PRODUCT_DESTINATIONS.studio.workspace,
+    external: true,
+  },
   { id: 'do', label: 'DO', href: '/do', external: false },
 ] as const;
 

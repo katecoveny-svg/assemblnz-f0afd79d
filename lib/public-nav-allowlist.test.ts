@@ -25,11 +25,14 @@ const PUBLIC_SURFACES = [
 ] as const;
 
 describe('public nav allowlist', () => {
-  it('keeps the working Pursuit hub external and the story page on /pursuit', () => {
+  it('opens Pursuit hub and Creative Studio workspace as primary nav doors', () => {
     expect(PUBLIC_PURSUIT_HUB).toBe('https://assembl-pursuit.katecoveny.chatgpt.site');
     const pursuit = PUBLIC_NAV_ALLOWLIST.find((item) => item.id === 'pursuit');
-    expect(pursuit?.href).toBe('/pursuit');
-    expect(pursuit?.external).toBe(false);
+    expect(pursuit?.href).toBe(PUBLIC_PURSUIT_HUB);
+    expect(pursuit?.external).toBe(true);
+    const studio = PUBLIC_NAV_ALLOWLIST.find((item) => item.id === 'studio');
+    expect(studio?.href).toBe('https://assembl-pursuit.katecoveny.chatgpt.site/agency');
+    expect(studio?.external).toBe(true);
   });
 
   it('keeps forbidden destinations listed', () => {

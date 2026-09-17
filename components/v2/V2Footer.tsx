@@ -8,7 +8,7 @@ import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 const FOOTER_LINKS: Array<[string, string, boolean?]> = [
   ['https://assembl-pursuit.katecoveny.chatgpt.site', 'Pursuit', true],
   ['/do', 'DO'],
-  ['/creative-studio', 'Studio'],
+  ['https://assembl-pursuit.katecoveny.chatgpt.site/agency', 'Studio', true],
   ['/contact', 'Contact'],
   ['/about', 'About'],
   ['/legal/privacy', 'Privacy'],
