@@ -1,156 +1,99 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import styles from '@/components/public/public-pages.module.css';
+import company from '@/components/public/company-pages.module.css';
 
 export const metadata: Metadata = {
-  title: 'assembl — how it works',
+  title: 'How assembl works',
   description:
-    'assembl understands one workflow, prepares the repetitive work, and keeps a person in control.',
+    'Pursuit finds the opportunity. DO moves the work forward. Studio makes the result tangible. Context, permissions and proof stay connected underneath.',
   alternates: { canonical: '/how-it-works' },
 };
 
-// Copy unchanged (Kate-approved simplified set from #915) — this rebuild is
-// design only: the page moves off the warm v2/canvas tokens onto the pearl
-// homepage look (white ground, ink display serif, teal/gold, pattern motion).
-const STEPS = [
+const products = [
   {
     n: '01',
-    label: 'understand',
-    title: 'we learn one workflow.',
-    body: 'We capture the facts, rules, people and tools behind one repetitive piece of work.',
+    name: 'Pursuit',
+    verb: 'find it.',
+    body: 'Bring relevant signals, source evidence and business context together. Decide what is worth acting on and what the next move should be.',
+    href: '/pursuit',
   },
   {
     n: '02',
-    label: 'prepare',
-    title: 'agents prepare the work.',
-    body: 'Replies, follow-ups, briefs and documents arrive as drafts using the same approved facts.',
+    name: 'DO',
+    verb: 'DO it.',
+    body: 'Bring the right agent, tools, model and permissions to a bounded job. Keep the prepared result, approval state and evidence visible.',
+    href: '/do',
   },
   {
     n: '03',
-    label: 'approve',
-    title: 'your team stays in control.',
-    body: 'A person reviews important work before anything is sent, published, booked or charged.',
+    name: 'Studio',
+    verb: 'show it.',
+    body: 'Turn the opportunity or completed work into something people can see, test and understand: a demonstrator, site, pitch, campaign, film or experience.',
+    href: '/creative-studio',
   },
 ] as const;
 
-const INK = '#313c42';
-const MUTED = '#68766f';
-const TEAL = '#252d31';
-const GOLD = '#737873';
-const HAIRLINE = 'rgba(49, 60, 66, 0.12)';
+const loop = [
+  ['Signal', 'A relevant change, need, deadline or opportunity comes into view.'],
+  ['Find', 'Pursuit gathers evidence and prepares the opportunity.'],
+  ['DO', 'The right agent and tools move the bounded work forward.'],
+  ['Show', 'Studio makes the result tangible enough to review, sell, test or ship.'],
+  ['Learn', 'Evidence and decisions strengthen the next job instead of disappearing into a chat.'],
+] as const;
 
 export default function HowItWorksPage() {
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: '#fff',
-        color: INK,
-        fontFamily: 'var(--font-body), Inter, system-ui, sans-serif',
-      }}
-    >
-      <section style={{ position: 'relative', overflow: 'hidden', borderBottom: `1px solid ${HAIRLINE}`, background: '#f0f0eb' }}>
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            margin: '0 auto',
-            maxWidth: 1100,
-            padding: '72px clamp(20px, 5vw, 40px) 64px',
-          }}
-        >
-          <p style={{ margin: 0, color: '#8b7447', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-            understand · prepare · approve
-          </p>
-          <h1
-            style={{
-              margin: '16px 0 0',
-              fontFamily: 'var(--font-body), Inter, Arial, sans-serif',
-              fontSize: 'clamp(44px, 6vw, 76px)',
-              fontWeight: 620,
-              lineHeight: 0.98,
-              letterSpacing: '-0.035em',
-              textTransform: 'uppercase',
-            }}
-          >
-            how assembl works<span aria-hidden style={{ color: GOLD }}>.</span>
-          </h1>
-          <p style={{ margin: '22px 0 0', maxWidth: 520, color: MUTED, fontSize: 17, lineHeight: 1.65 }}>
-            Start with one repetitive job. assembl prepares it using your business rules,
-            and your team decides what happens next.
+    <div className={`${styles.page} ${company.page}`}>
+      <section className={styles.hero}>
+        <div>
+          <p className={styles.eyebrow}>how it works · one connected loop</p>
+          <h1>find it.<br />DO it.<br />show it.</h1>
+          <p className={styles.lede}>
+            Start with the product that matches the work in front of you. Connect the full loop when the opportunity, execution and proof need to stay together.
           </p>
         </div>
+        <aside className={styles.heroAside} aria-label="Pursuit, DO and Studio">
+          {products.map((product) => (
+            <div className={styles.heroFact} key={product.name}>
+              <span>{product.n}</span>
+              <div>
+                <strong><Link href={product.href}>{product.name} · {product.verb} <ArrowUpRight size={16} aria-hidden="true" /></Link></strong>
+                <p>{product.body}</p>
+              </div>
+            </div>
+          ))}
+        </aside>
       </section>
 
-      {/* The three steps. */}
-      <section style={{ margin: '0 auto', maxWidth: 1100, padding: '56px clamp(20px, 5vw, 40px) 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
-          {STEPS.map((step) => (
-            <article
-              key={step.n}
-              style={{
-                padding: '28px 26px',
-                border: `1px solid ${HAIRLINE}`,
-                borderRadius: 0,
-                background: '#fafaf7',
-              }}
-            >
-              <p style={{ margin: 0, color: TEAL, fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                {step.n} · {step.label}
-              </p>
-              <h2
-                style={{
-                  margin: '16px 0 0',
-                  fontFamily: 'var(--font-display), Georgia, serif',
-                  fontSize: 26,
-                  fontWeight: 400,
-                  lineHeight: 1.15,
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                {step.title}
-              </h2>
-              <p style={{ margin: '14px 0 0', color: MUTED, fontSize: 15, lineHeight: 1.6 }}>{step.body}</p>
-            </article>
+      <section className={styles.section}>
+        <p className={styles.eyebrow}>signal → action → proof</p>
+        <h2>The work stays connected.</h2>
+        <p className={styles.lede}>
+          The shared operating layer carries context, tools, permissions, evidence and learning underneath the products. The model or interface can change without forcing the job to start from zero.
+        </p>
+        <div style={{ display: 'grid', gap: '1px', marginTop: 36, background: 'rgba(36,11,33,.10)' }}>
+          {loop.map(([label, body], index) => (
+            <div key={label} style={{ display: 'grid', gridTemplateColumns: '64px minmax(0,1fr)', gap: 20, padding: '22px 24px', background: 'var(--surface, #fffdfb)' }}>
+              <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 12, color: '#916A70' }}>{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <strong style={{ color: '#240B21' }}>{label}</strong>
+                <p style={{ marginTop: 6 }}>{body}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Built in Aotearoa + CTA. */}
-      <section style={{ margin: '0 auto', maxWidth: 1100, padding: '32px clamp(20px, 5vw, 40px) 72px' }}>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 20,
-            borderTop: `1px solid ${HAIRLINE}`,
-            paddingTop: 36,
-          }}
-        >
-          <p style={{ margin: 0, maxWidth: 480, color: MUTED, fontSize: 15, lineHeight: 1.6 }}>
-            <span style={{ color: INK, fontWeight: 600 }}>Built in Aotearoa.</span> Start
-            with the demo, then use a pilot to prove one workflow with your own rules.
-          </p>
-          <Link
-            href="/genome"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              padding: '14px 24px',
-              borderRadius: 999,
-              background: INK,
-              color: '#fff',
-              fontSize: 14,
-              fontWeight: 700,
-              textDecoration: 'none',
-            }}
-          >
-            try the live demo <ArrowRight size={15} aria-hidden />
-          </Link>
-        </div>
+      <section className={styles.section}>
+        <p className={styles.eyebrow}>people stay in control</p>
+        <h2>Permission is part of the product.</h2>
+        <p className={styles.lede}>
+          Connecting a system does not automatically grant authority to send, publish, spend or make irreversible changes. Consequential actions use the approval boundary agreed for the workflow, and completed work should leave evidence or a receipt.
+        </p>
+        <p>Previews, simulations and demonstrations stay labelled. A polished interface is not treated as proof that an external action happened.</p>
+        <Link href="/contact?product=system">Bring us the work <ArrowUpRight size={18} aria-hidden="true" /></Link>
       </section>
     </div>
   );
