@@ -4,7 +4,8 @@
   inset: 0;
   z-index: -3;
   pointer-events: none;
-  background: #240b21;
+  /* Paper stage — daylight white space; plum is not a scene field. */
+  background: #fffdfb;
 }
 .stage > div {
   position: absolute !important;
