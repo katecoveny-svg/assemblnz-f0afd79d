@@ -14,12 +14,12 @@
 
 .slide {
   position: absolute;
-  inset: 0;
-  border-radius: 8px;
+  inset: -4px;
+  border-radius: 10px;
   background: radial-gradient(
     120% 90% at 50% 0%,
-    rgba(214, 165, 189, 0.28),
-    rgba(145, 106, 112, 0.08) 48%,
+    rgba(214, 165, 189, 0.42),
+    rgba(145, 106, 112, 0.16) 48%,
     transparent 72%
   );
   z-index: 0;

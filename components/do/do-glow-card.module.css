@@ -22,15 +22,16 @@
 .glow {
   pointer-events: none;
   position: absolute;
-  inset: -1px;
+  inset: -2px;
   border-radius: inherit;
   opacity: 0;
   transition: opacity 220ms ease;
   background: radial-gradient(
-    420px circle at var(--glow-x) var(--glow-y),
-    rgba(214, 165, 189, 0.55),
-    rgba(145, 106, 112, 0.28) 28%,
-    transparent 58%
+    460px circle at var(--glow-x) var(--glow-y),
+    rgba(214, 165, 189, 0.85),
+    rgba(145, 106, 112, 0.45) 26%,
+    rgba(36, 11, 33, 0.08) 52%,
+    transparent 68%
   );
   z-index: 0;
 }
@@ -75,10 +76,11 @@
 
 .card[data-active="true"] .inner,
 .card:focus-within .inner {
-  border-color: rgba(145, 106, 112, 0.45);
+  border-color: rgba(145, 106, 112, 0.65);
   box-shadow:
-    0 0 0 1px rgba(214, 165, 189, 0.35),
-    0 22px 48px rgba(36, 11, 33, 0.1);
+    0 0 0 1px rgba(214, 165, 189, 0.55),
+    0 0 28px rgba(214, 165, 189, 0.45),
+    0 22px 48px rgba(36, 11, 33, 0.12);
 }
 
 @media (prefers-reduced-motion: reduce) {
