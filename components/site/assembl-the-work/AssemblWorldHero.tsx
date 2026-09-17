@@ -4,7 +4,6 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
-import { DoIntentInput } from './DoIntentInput';
 import { HERO } from './copy';
 import {
   WorldAtelierStage,
@@ -15,7 +14,7 @@ import styles from './assembl-world-hero.module.css';
 
 const chapters = [
   { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', action: 'Open Pursuit hub' },
-  { product: 'DO', verb: 'DO it.', input: 'A meeting to capture. A household board to run.', output: 'Useful notes or a chores board — ready for your review.', href: '/do', action: 'Open Meeting or Household' },
+  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permissions for bounded work.', output: 'Prepared work with evidence — when DO is open for you.', href: '/do', action: 'About DO' },
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see and try.', href: '/creative-studio', action: 'See the possibility' },
 ] as const;
 
@@ -114,15 +113,11 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
           <p className={styles.sub}>{HERO.subhead}</p>
           <p className={styles.body}>{HERO.body}</p>
           <div className={styles.actions}>
-            <a
-              className={styles.pill}
-              href="#do-input"
-              onClick={() => document.getElementById('atw-do-intent')?.focus()}
-            >
-              Open Meeting or Household <ArrowRight size={20} />
+            <a className={styles.pill} href="#products">
+              See the whole system <ArrowRight size={20} />
             </a>
-            <a className={styles.link} href="#products">
-              See the whole system <ArrowDown size={16} />
+            <a className={styles.link} href="/pursuit">
+              Open Pursuit <ArrowDown size={16} />
             </a>
           </div>
         </div>
@@ -171,7 +166,10 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
           </div>
         </aside>
         <div className={styles.job} id="do-input">
-          <DoIntentInput compact />
+          <p className={styles.jobNote}>
+            Public try-it DO tools are paused. Start with Pursuit or Studio — or{' '}
+            <Link href="/contact?product=do">talk to us about DO</Link>.
+          </p>
         </div>
         <p className={styles.honesty}>
           {failed ? 'Still view. ' : reduced ? '' : 'Scroll to move through the atelier. '}

@@ -9,12 +9,14 @@ describe('homepage complete still view', () => {
     const html = renderToStaticMarkup(createElement(AssemblWorldHero));
     for (const output of [
       'An opportunity worth reviewing.',
-      'Useful notes or a chores board — ready for your review.',
+      'Prepared work with evidence — when DO is open for you.',
       'Something people can see and try.',
     ])
       expect(html).toContain(output);
-    expect(html).toContain('Open Meeting or Household');
-    expect(html).toContain('name="brief"');
+    expect(html).toContain('About DO');
+    expect(html).toContain('Public try-it DO tools are paused');
+    expect(html).not.toContain('Open Meeting or Household');
+    expect(html).not.toContain('name="brief"');
     expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
     expect(html).toContain('href="/pursuit"');
     expect(html).toContain('href="/do"');

@@ -122,8 +122,8 @@ export function GlowDoWidget() {
   }
 
   function onStarter(starter: DoPortableStarter) {
-    // Public Glow only routes to Meeting or Household — never operator boards.
-    window.location.assign(starter.href || "/do/meetings");
+    // Public Glow does not open Meeting/Household while the shelf is paused.
+    window.location.assign(starter.href || "/do");
   }
 
   return (
@@ -258,8 +258,8 @@ export function GlowDoWidget() {
             <DoPortableStarters onStarter={onStarter} showDownloads />
             <div className={styles.welcomeActions}>
               {signedIn === false ? (
-                <Link href="/login?redirect=%2Fdo%2Fmeetings">
-                  Sign in for transcription <ArrowUpRight size={14} />
+                <Link href="/contact?product=do">
+                  Talk about DO <ArrowUpRight size={14} />
                 </Link>
               ) : null}
             </div>
@@ -267,11 +267,10 @@ export function GlowDoWidget() {
         ) : null}
         <nav className={styles.shortcuts} aria-label="More from DO">
           <Link href="/do">
-            Your DOs <ArrowUpRight size={14} />
+            About DO <ArrowUpRight size={14} />
           </Link>
-          <Link href="/do/meetings">Meeting DO</Link>
-          <Link href="/do/household">Household DO</Link>
-          <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link>
+          <Link href="/contact?product=do">Talk to us</Link>
+          <Link href="/">assembl home</Link>
         </nav>
       </dialog>
     </>

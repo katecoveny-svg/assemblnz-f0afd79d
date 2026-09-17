@@ -17,7 +17,8 @@ describe('current public company surfaces', () => {
     const html = renderToStaticMarkup(createElement(ProductLanding, { product: 'studio' }));
     expect(html).toContain('See the work');
     expect(html).toContain('/preview/do-world');
-    expect(html).toContain('/do/meetings');
+    expect(html).toContain('/contact?product=do');
+    expect(html).not.toContain('/do/meetings');
     expect(html).not.toContain('/studio/do-maker');
     expect(html).not.toContain('/do/office');
     expect(html).not.toContain('/cinematic-nature/ocean-assembly.webp');

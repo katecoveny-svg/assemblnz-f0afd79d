@@ -120,8 +120,12 @@ describe('DO Spatial C craft canon', () => {
     }
 
     const doHome = read('app/do/DoHome.tsx');
-    expect(doHome).toMatch(/Meeting notes\./);
-    expect(doHome).toMatch(/Household board\./);
+    expect(doHome).toMatch(/DO is paused on the public site/);
+    expect(doHome).toMatch(/HOLDING/);
+    expect(doHome).not.toMatch(/Meeting notes\./);
+    expect(doHome).not.toMatch(/Household board\./);
+    expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
+    expect(doHome).not.toMatch(/DoLivingBlob/);
     expect(doHome).not.toMatch(/Take DO with you/i);
     expect(doHome).not.toMatch(/PUBLIC DO\s*·\s*TWO TOOLS/i);
 
@@ -135,15 +139,11 @@ describe('DO Spatial C craft canon', () => {
     expect(homeCss).toMatch(/--plum:\s*#240b21/i);
     expect(homeCss).toMatch(/--paper:\s*#fffdfb/i);
     expect(homeCss).toMatch(/--rose:\s*#916a70/i);
-    // Hero display type must be paper on plum — never muted (olive-on-plum fail).
-    expect(homeCss).toMatch(/\.heroCopy h1[\s\S]*?color:\s*var\(--paper\)/);
-    expect(homeCss).toMatch(/\.hhBoard\b/);
+    // Holding display type must be paper on plum — never muted (olive-on-plum fail).
+    expect(homeCss).toMatch(/\.holdingTitle[\s\S]*?color:\s*var\(--paper\)/);
     for (const hex of DO_CRAFT.bannedGreenHex) {
       expect(homeCss.toLowerCase()).not.toContain(hex.toLowerCase());
     }
-
-    const companionCss = read('components/site/assembl-the-work/assembl-spatial.css');
-    expect(companionCss).toMatch(/\.atw-companion-copy h2[\s\S]*?color:\s*#fffdfb/);
 
     // Global progress must never put pounamu/green on public DO (and now uses dusty rose).
     const scroll = read('components/site/scroll-progress.tsx');

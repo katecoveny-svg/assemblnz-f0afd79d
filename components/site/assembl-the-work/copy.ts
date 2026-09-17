@@ -18,7 +18,7 @@ export const NAV = {
   links: [
     { label: 'How it works', href: '#how-it-works' },
   ],
-  cta: { label: 'open DO', href: '#do-input' },
+  cta: { label: 'see the system', href: '#products' },
 } as const;
 
 export const HERO = {
@@ -27,8 +27,8 @@ export const HERO = {
   subhead: 'find it. DO it. show it.',
   body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
   explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
-  ctaPrimary: { label: 'open Meeting or Household →', href: '#do-input' },
-  ctaSecondary: { label: 'see the system', href: '#products' },
+  ctaPrimary: { label: 'see the system →', href: '#products' },
+  ctaSecondary: { label: 'open Pursuit', href: '/pursuit' },
   productLine: 'Pursuit · DO · Studio',
   loopLine: 'use one. connect two. run the whole loop.',
 } as const;
@@ -58,8 +58,8 @@ export const PRODUCTS = {
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'Public DO offers Meeting notes and a Household chores board. Record a meeting into notes you can use, or try the demo household board. Drafts only — nothing is sent for you.',
-      href: '/do', explore: 'Try DO', note: 'Meeting DO and Household DO on the public face. Deeper tools stay behind sign-in.',
+      body: 'DO is the portable execution layer — bounded work with context, tools, permissions and receipts. Public try-it tools are paused on this site for now.',
+      href: '/do', explore: 'About DO', note: 'Holding page only. Talk to us when you want DO opened for a real engagement.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
@@ -72,13 +72,13 @@ export const PRODUCTS = {
 export const DO_INPUT = {
   kicker: 'open DO',
   title: 'what do you need done?',
-  placeholder: 'Meeting notes, or a household chores board…',
-  submit: 'open DO →',
-  honesty: 'Opens public DO — Meeting notes or a Household board. Nothing is sent for you.',
+  placeholder: 'Describe the outcome you want…',
+  submit: 'talk to us →',
+  honesty: 'Public try-it DO tools are paused. Contact assembl when you want DO opened for real work.',
   examples: [
-    'Turn today’s meeting into notes with actions and decisions.',
-    'Try the demo household chores board for this week.',
-    'Record a call and prepare meeting notes you can review.',
+    'Prepare a meeting into notes with actions and decisions.',
+    'Coordinate a household board for the week.',
+    'Bring bounded work into one place with clear permissions.',
   ],
 } as const;
 
@@ -125,10 +125,10 @@ export const REVIEW = {
 } as const;
 
 export const START = {
-  kicker: 'start with DO',
-  title: 'open Meeting or Household.',
-  body: 'Two tools: meeting notes you can use, and a demo household chores board. Drafts only.',
-  primary: { label: 'open DO →', href: '#do-input' },
+  kicker: 'start where the work is',
+  title: 'open Pursuit or Studio.',
+  body: 'Public try-it DO tools are paused. Start with finding or showing — connect DO when you need the full loop.',
+  primary: { label: 'open Pursuit →', href: '/pursuit' },
   secondary: {
     label: 'bring us a company',
     href: 'mailto:assembl@assembl.co.nz?subject=Bring%20us%20a%20company&body=Company%20name%3A%0AWhat%20you%20want%20done%3A%0A',

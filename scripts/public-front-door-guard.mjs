@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Guard the user-confirmed 16 September recovery, plus the #1324 homepage
- * WorldScene / atelier.glb fly-through hero (AssemblWorldHero), plus the
- * 2026-09-17 Kate lock: public DO shelf = Meeting + Household only.
+ * Guard the user-confirmed recovery + #1346 homepage WorldScene / atelier.glb
+ * fly-through, plus the 2026-09-17 Kate lock: public DO shelf is OFF.
+ *
+ * Public /do = minimal holding page (no Meeting/Household shelf, no Identity D theatre).
+ * Homepage must not sell Two small tools / Your DOs / Meeting+Household cards.
  *
  * Homepage hero dual-accept (intentional):
  *   A) legacy `<DoSpatialScene company />`, OR
@@ -17,15 +19,11 @@ const read = path => readFileSync(path, 'utf8');
 const checks = [
   ['app/page.tsx', /AssemblTheWorkHome/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
-    ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
-  ['app/do/DoHome.tsx', /PUBLIC_DO_SPECIALISTS/],
-  ['app/do/DoHome.tsx', /href="\/do\/meetings"/],
-  ['app/do/DoHome.tsx', /href="\/do\/household"/],
-  ['app/do/DoBuilder.tsx', /<DoCanvas/],
+  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
+  ['app/do/DoHome.tsx', /DO is paused on the public site/],
+  ['app/do/DoHome.tsx', /HOLDING/],
   ['components/site/assembl-the-work/GlowDoWidget.tsx', /COMPANION_POSITION_KEY/],
   ['components/do/DoMark.tsx', /do-identity-dot/],
-  ['lib/do/public-do-specialists.ts', /Meeting DO/],
-  ['lib/do/public-do-specialists.ts', /Household DO/],
 ];
 for (const [path, pattern] of checks) {
   if (!pattern.test(read(path))) errors.push(`${path}: the accepted front-door feature is missing (${pattern})`);
@@ -45,18 +43,23 @@ const homeSource = read(homePath);
 if (/<GlowDoWidget\b/.test(homeSource)) {
   errors.push(`${homePath}: public homepage must not mount GlowDoWidget (Kate nav lock — omit unless context/vision works)`);
 }
+if (/atw-companion-story|Two small tools|Your DOs|Just these two|Meeting notes\.\s*<br|Open Meeting DO|Open Household DO|\/do#your-dos/.test(homeSource)) {
+  errors.push(`${homePath}: public homepage must not sell the Meeting/Household / Your DOs shelf`);
+}
+if (/DoIntentInput/.test(homeSource)) {
+  errors.push(`${homePath}: public homepage must not mount DoIntentInput while the DO shelf is paused`);
+}
 if (hasWorldHero) {
   const heroPath = 'components/site/assembl-the-work/AssemblWorldHero.tsx';
-  const stagePath = 'components/site/assembl-the-work/WorldAtelierStage.tsx';
   if (!existsSync(heroPath)) {
     errors.push(`${heroPath}: AssemblWorldHero is referenced on home but the module is missing`);
   } else {
     const hero = read(heroPath);
-    const stage = existsSync(stagePath) ? read(stagePath) : '';
-    const wiresScene = /WorldScene/.test(hero) || /WorldAtelierStage/.test(hero);
-    const stageWiresScene = /WorldScene/.test(stage);
-    if (!wiresScene || ( /WorldAtelierStage/.test(hero) && !stageWiresScene)) {
-      errors.push(`${heroPath}: homepage must keep WorldScene / WorldAtelierStage → atelier.glb fly-through`);
+    if (!/WorldScene|WorldAtelierStage/.test(hero)) {
+      errors.push(`${heroPath}: AssemblWorldHero must load WorldScene / WorldAtelierStage (atelier.glb fly-through)`);
+    }
+    if (/DoIntentInput|Open Meeting or Household|\/do\/meetings|\/do\/household/.test(hero)) {
+      errors.push(`${heroPath}: hero must not open the paused Meeting/Household shelf`);
     }
   }
   if (!existsSync('public/do/world/atelier.glb')) {
@@ -75,7 +78,6 @@ const publicFiles = [
   'components/site/assembl-the-work/AssemblWorldHero.tsx',
 ];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
-// Kate lock + #1342: /pursuit is NZ story landing; hub stays ChatGPT.
 const bannedHrefs = [
   'href="/pursuit/playground"',
   'href="/studio/do-maker"',
@@ -87,6 +89,15 @@ const bannedHrefs = [
   'href="/do/connections"',
   'href="/do/sponsored"',
   'href="/do/browser"',
+  'href="/do/meetings"',
+  'href="/do/household"',
+];
+const bannedShelfCopy = [
+  'Two small tools',
+  'Your DOs',
+  'Just these two',
+  'PUBLIC_DO_SPECIALISTS',
+  'DoLivingBlob',
 ];
 for (const path of publicFiles) {
   const text = read(path);
@@ -102,6 +113,11 @@ for (const path of publicFiles) {
   for (const href of bannedHrefs) {
     if (text.includes(href)) errors.push(`${path}: banned public ${href}`);
   }
+  if (path === 'app/do/DoHome.tsx' || path === 'components/site/assembl-the-work/AssemblTheWorkHome.tsx') {
+    for (const phrase of bannedShelfCopy) {
+      if (text.includes(phrase)) errors.push(`${path}: banned shelf copy/component "${phrase}"`);
+    }
+  }
 }
 for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp']) {
   if (!existsSync(asset)) errors.push(`${asset}: missing approved visual asset`);
@@ -111,11 +127,14 @@ if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
   errors.push('Company typography must use Instrument Sans, not the retired serif font');
 }
 const doHome = read('app/do/DoHome.tsx');
-if (!/Meeting notes\./.test(doHome) || !/Household board\./.test(doHome)) {
-  errors.push('Public /do hero must lead with Meeting notes + Household board (Kate craft)');
+if (/Meeting notes\.|Household board\.|Two tools you can try|Open Meeting DO|Open Household DO|DoLivingBlob|PUBLIC_DO_SPECIALISTS|#tools|your-dos/i.test(doHome)) {
+  errors.push('Public /do must be a holding page — no Meeting/Household shelf or Identity D theatre');
 }
 if (/Whisper-class|Deepgram nova-2|Smart notes|Granola-class/i.test(doHome)) {
   errors.push('Public /do must not expose vendor/model theatre in UI chrome');
+}
+if (!/DO is paused on the public site/.test(doHome)) {
+  errors.push('Public /do holding page must state that DO is paused on the public site');
 }
 const meetingUi = read('app/do/meetings/MeetingDo.tsx');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
@@ -151,5 +170,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  'public-front-door-guard: assembl front door, WorldScene hero, public DO = Meeting + Household only',
+  'public-front-door-guard: assembl front door, WorldScene hero, public /do = holding (shelf off)',
 );

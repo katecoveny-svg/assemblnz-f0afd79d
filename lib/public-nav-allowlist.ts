@@ -1,16 +1,15 @@
 /**
- * Public site link allowlist — Kate nav lock 2026-09-17.
+ * Public site link allowlist — Kate nav lock 2026-09-17; DO shelf paused same day.
  *
  * ALLOWED primary destinations only:
  *   1. Home (/) — WorldScene fly-through
  *   2. Studio (/creative-studio) — real Studio door
  *   3. Pursuit (/pursuit) — public story; working hub remains external ChatGPT
- *   4. Meeting DO (/do/meetings)
- *   5. Household DO (/do/household) — generic DEMO
- *   6. Public /do hub (Meeting + Household cards only)
+ *   4. Public /do holding page (no Meeting/Household shelf)
  *
  * FORBIDDEN as public CTAs: in-repo Pursuit maker/playground, partner Mode A/B,
- * Personal/Inbox/Bills/Writing shelves, purple DO branding, private household install.
+ * Personal/Inbox/Bills/Writing shelves, purple DO branding, private household install,
+ * Meeting DO / Household DO as the public product face.
  */
 
 import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
@@ -30,10 +29,8 @@ export const PUBLIC_NAV_ALLOWLIST = [
   { id: 'do', label: 'DO', href: '/do', external: false },
 ] as const;
 
-export const PUBLIC_DO_ENTRIES = [
-  { id: 'meeting', label: 'Meeting DO', href: '/do/meetings' },
-  { id: 'household', label: 'Household DO', href: '/do/household' },
-] as const;
+/** Public DO entries — empty while the try-it shelf is paused. */
+export const PUBLIC_DO_ENTRIES = [] as const;
 
 /** In-repo routes that must not be primary public destinations. */
 export const FORBIDDEN_PUBLIC_DESTINATIONS = [
@@ -48,6 +45,8 @@ export const FORBIDDEN_PUBLIC_DESTINATIONS = [
   '/do/connections',
   '/do/sponsored',
   '/do/browser',
+  '/do/meetings',
+  '/do/household',
 ] as const;
 
 export function isExternalPublicHref(href: string): boolean {

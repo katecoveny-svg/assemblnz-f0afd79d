@@ -23,16 +23,16 @@ const COMPANY = [
 ];
 const COMPANIONS = [
   {
-    label: "Meeting DO",
-    title: "Record → notes you can use.",
-    href: "/do/meetings",
-    glyph: "◎",
+    label: "DO",
+    title: "Portable execution — paused publicly.",
+    href: "/do",
+    glyph: "✦",
   },
   {
-    label: "Household DO",
-    title: "Simple chores board (demo).",
-    href: "/do/household",
-    glyph: "⌂",
+    label: "Talk to us",
+    title: "Open DO in a real engagement.",
+    href: "/contact?product=do",
+    glyph: "↗",
   },
 ];
 
@@ -85,7 +85,7 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
       ref={root}
       className={styles.scene}
       data-paused={paused}
-      aria-label={company ? "Pursuit, DO and Studio" : "Meet your DOs"}
+      aria-label={company ? "Pursuit, DO and Studio" : "DO holding"}
     >
       <div className={styles.light} aria-hidden="true" />
       <div className={styles.identity} aria-hidden="true">
@@ -116,7 +116,7 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
       ))}
       <div className={styles.caption}>
         <span>
-          {company ? "ONE CONNECTED SYSTEM" : "YOUR WORK. YOUR LITTLE DO."}
+          {company ? "ONE CONNECTED SYSTEM" : "PUBLIC TRY-IT TOOLS PAUSED"}
         </span>
         <button
           type="button"

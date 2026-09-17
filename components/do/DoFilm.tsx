@@ -63,8 +63,8 @@ export function DoFilm() {
           <br />
           Put into motion.
         </h2>
-        <Link href="/do">
-          assembl your DO <ArrowUpRight size={20} />
+        <Link href="/contact?product=do">
+          Talk about DO <ArrowUpRight size={20} />
         </Link>
       </div>
       <div className={styles.controls}>

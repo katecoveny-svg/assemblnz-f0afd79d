@@ -3,11 +3,9 @@
 import Link from 'next/link';
 import styles from './do-portable.module.css';
 import { DoDownloadsStrip } from './DoDownloadsStrip';
-import { DoLivingBlob } from './DoLivingBlob';
-import { PUBLIC_DO_SPECIALISTS } from '@/lib/do/public-do-specialists';
 import '@/app/do/do-craft.css';
 
-export type DoPortableStarterId = 'meeting' | 'household' | 'downloads';
+export type DoPortableStarterId = 'about' | 'contact' | 'downloads';
 
 export type DoPortableStarter = {
   id: DoPortableStarterId;
@@ -17,16 +15,22 @@ export type DoPortableStarter = {
   primary?: boolean;
 };
 
-/** Public portable starters — Meeting + Household only (Kate lock). */
-export const DO_PORTABLE_STARTERS: DoPortableStarter[] = PUBLIC_DO_SPECIALISTS.map(
-  (item, index) => ({
-    id: item.id,
-    label: item.name,
-    hint: item.description,
-    href: item.href,
-    primary: index === 0,
-  }),
-);
+/** Portable starters while the public try-it shelf is paused. */
+export const DO_PORTABLE_STARTERS: DoPortableStarter[] = [
+  {
+    id: 'about',
+    label: 'About DO',
+    hint: 'Public try-it tools are paused. Read the holding page.',
+    href: '/do',
+    primary: true,
+  },
+  {
+    id: 'contact',
+    label: 'Talk about DO',
+    hint: 'Open a real engagement when you need the execution layer.',
+    href: '/contact?product=do',
+  },
+];
 
 type Props = {
   title?: string;
@@ -37,12 +41,12 @@ type Props = {
 };
 
 /**
- * Portable empty-state for Glow and public DO surfaces.
- * Only Meeting DO and Household DO — no Writing/Personal/Inbox/Builder promos.
+ * Portable empty-state for Glow / widget surfaces.
+ * No Meeting/Household public shelf. No Personal/Inbox/Builder promos.
  */
 export function DoPortableStarters({
-  title = 'What do you want to DO?',
-  lede = 'Meeting notes or a household chores board. DO never sends, books or pays for you.',
+  title = 'DO is paused on the public site',
+  lede = 'The portable execution layer remains part of assembl. Public try-it tools are off for now.',
   onStarter,
   showDownloads = true,
   className,
@@ -57,7 +61,6 @@ export function DoPortableStarters({
 
   return (
     <div className={[styles.shell, className].filter(Boolean).join(' ')}>
-      <DoLivingBlob size="sm" className={styles.blob} label="DO" />
       <p className={styles.eyebrow}>assembl · DO</p>
       <h2 className={styles.prompt}>{title}</h2>
       <p className={styles.lede}>{lede}</p>
@@ -92,11 +95,6 @@ export function DoPortableStarters({
         })}
       </div>
       {showDownloads ? <DoDownloadsStrip anchorId="get-do" /> : null}
-      <div className={styles.install}>
-        <Link href="/do/meetings?phone=1" className={styles.phoneEasy}>
-          Phone-easy Meeting →
-        </Link>
-      </div>
     </div>
   );
 }

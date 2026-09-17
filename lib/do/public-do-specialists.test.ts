@@ -21,7 +21,7 @@ const PUBLIC_SURFACES = [
 ] as const;
 
 describe('public DO specialists lock', () => {
-  it('allowlists only Meeting DO and Household DO', () => {
+  it('keeps Meeting and Household as preview specialists only — not the public face', () => {
     expect(PUBLIC_DO_SPECIALISTS.map((s) => s.id)).toEqual(['meeting', 'household']);
     expect(PUBLIC_DO_SPECIALISTS.map((s) => s.href)).toEqual([
       '/do/meetings',
@@ -49,14 +49,16 @@ describe('public DO specialists lock', () => {
         '/do/office',
         '/do/tasks',
         '/do/connections',
+        '/do/meetings',
+        '/do/household',
       ]),
     );
   });
 
-  it('allows only Meeting, Household and /do as public entry hrefs', () => {
+  it('allows only /do as the public DO entry href', () => {
     expect(isAllowedPublicDoHref('/do')).toBe(true);
-    expect(isAllowedPublicDoHref('/do/meetings')).toBe(true);
-    expect(isAllowedPublicDoHref('/do/household')).toBe(true);
+    expect(isAllowedPublicDoHref('/do/meetings')).toBe(false);
+    expect(isAllowedPublicDoHref('/do/household')).toBe(false);
     expect(isAllowedPublicDoHref('/do/builder')).toBe(false);
     expect(isAllowedPublicDoHref('/do/office')).toBe(false);
   });
@@ -68,5 +70,14 @@ describe('public DO specialists lock', () => {
       errors.push(...assertPublicShelfText(source, relative));
     }
     expect(errors).toEqual([]);
+  });
+
+  it('keeps public /do as a holding page without the tool shelf', () => {
+    const doHome = readFileSync(join(root, 'app/do/DoHome.tsx'), 'utf8');
+    expect(doHome).toMatch(/DO is paused on the public site/);
+    expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
+    expect(doHome).not.toMatch(/DoLivingBlob/);
+    expect(doHome).not.toMatch(/href="\/do\/meetings"/);
+    expect(doHome).not.toMatch(/href="\/do\/household"/);
   });
 });

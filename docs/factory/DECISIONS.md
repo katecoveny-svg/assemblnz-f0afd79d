@@ -142,3 +142,24 @@ Ship `POST /api/tools/meeting-enhance` on the same paid-tools gate as `nz-who-ru
 **Consequences**  
 Three tools share receipts/caps: `nz-trade-finder` (sandbox-first; live NZBN/Companies Office city+trade stubbed), `meeting-enhance`, `nz-compliance-ping` (NZBN status flags). Registry at `/tools` + `docs/tools/README.md`.
 
+
+---
+
+## ADR-006 — Public /do shelf paused (holding page)
+**Status:** accepted  
+**Date:** 2026-09-17
+
+**Context**  
+The public `/do` face presented Meeting DO + Household DO + a large Identity D theatre, and the homepage sold “Two small tools / Your DOs”. Kate asked that public face removed entirely for now without reintroducing Personal/operator DOs or vendor theatre.
+
+**Decision**  
+Public `/do` is a minimal on-brand holding page. Homepage and public CTAs must not link into Meeting/Household as the product offering. Meeting/Household code may remain in-repo as PREVIEW/internal. `scripts/public-front-door-guard.mjs` enforces the holding posture and bans shelf CTAs on public front-door files. Homepage WorldScene / atelier fly-through stays.
+
+**Why**  
+Honest public surface: do not sell a two-tool shelf that is not the current commercial door. Keep runtime code available without presenting it as the public product.
+
+**Consequences**  
+Nav/footer may still mention DO → holding page. Pursuit and Studio remain primary public try doors. Reopening a public DO try-it face requires an explicit new decision and guard update.
+
+**Revisit when**  
+Kate authorises a new public DO offering (possibly different tools or a different presentation) and the front-door guard is rewritten to match.

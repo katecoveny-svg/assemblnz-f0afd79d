@@ -4,31 +4,28 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GlowDoWidget } from '@/components/site/assembl-the-work/GlowDoWidget';
 
-/** Public DO chrome shortcuts — Meeting + Household only (Kate lock). */
-const LINKS = [
-  { href: '/do/meetings', label: 'Meeting DO' },
-  { href: '/do/household', label: 'Household DO' },
-] as const;
+/**
+ * DO chrome — Kate 2026-09-17: no public Meeting/Household shelf shortcuts.
+ * Glow stays off the /do holding page; deeper PREVIEW routes keep a light dock.
+ */
+const HOLDING_PATH = '/do';
 
 export function DoUtilityDock() {
   const pathname = usePathname();
-  if (pathname === '/do/widget' || pathname === '/do/object') return null;
+  if (
+    pathname === HOLDING_PATH ||
+    pathname === '/do/widget' ||
+    pathname === '/do/object'
+  ) {
+    return null;
+  }
   return (
     <>
       <GlowDoWidget />
-      {pathname !== '/do' && (
-        <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
-          {LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={pathname === item.href ? 'page' : undefined}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      )}
+      <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
+        <Link href="/do">DO holding</Link>
+        <Link href="/">assembl</Link>
+      </nav>
     </>
   );
 }

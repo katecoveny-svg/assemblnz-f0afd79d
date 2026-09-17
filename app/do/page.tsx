@@ -5,12 +5,12 @@ import './do.css';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: { absolute: 'DO · Meeting notes & Household · assembl' },
+  title: { absolute: 'DO · assembl' },
   description:
-    'Public DO offers Meeting notes and a Household chores board. Drafts only — nothing is sent for you.',
+    'DO is assembl’s portable execution layer. Public try-it tools are paused on this door for now.',
   alternates: { canonical: '/do' },
 };
-// Keep the spatial DO experience connected to the current runtime; see docs/DO-VISUAL-BASELINE.md.
+
 export default function DoPage() {
   return (
     <Suspense fallback={<main className="do-craft" aria-busy="true">Loading DO…</main>}>
