@@ -99,7 +99,7 @@ export function WorldAtelierStage({
         className={`${styles.poster}${sceneReady && live ? ` ${styles.posterDimmed}` : ''}`}
       />
       <Boundary onFailure={onFailure}>
-        {live ? (
+        {live && Scene ? (
           <Scene
             progress={progress}
             paused={paused}
