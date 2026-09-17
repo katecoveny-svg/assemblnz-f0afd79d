@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { GlowDoWidget } from '../assembl-the-work/GlowDoWidget';
-import { PRODUCT_DESTINATIONS, PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { PursuitCanvasHero } from './PursuitCanvasHero';
 import '../assembl-the-work/assembl-the-work.css';
 import styles from './pursuit.module.css';
@@ -29,7 +29,10 @@ const flow = [
 
 export function PursuitLanding() {
   const [paused, setPaused] = useState(false);
-  const hub = PURSUIT_SITE_ORIGIN;
+  // Launch directly into the authenticated client-hub index. The ChatGPT Site
+  // may still require sign-in, but its return_to now lands on /studios rather
+  // than the generic root.
+  const hub = PRODUCT_DESTINATIONS.pursuit.workspace;
   const studio = PRODUCT_DESTINATIONS.studio.overview;
 
   return (
@@ -67,17 +70,13 @@ export function PursuitLanding() {
               client can see, rearrange and take forward. The radar stays backstage.
             </p>
             <a className={styles.primary} href={hub} target="_blank" rel="noopener noreferrer">
-              Open the Pursuit hub <ArrowUpRight size={19} aria-hidden="true" />
+              Open the Pursuit client hubs <ArrowUpRight size={19} aria-hidden="true" />
             </a>
             <a className={styles.quietLink} href="#pursuit-canvas">
               See the canvas experience <ArrowRight size={16} aria-hidden="true" />
             </a>
             <p className={styles.honesty}>
-              Public page: the story and canvas proof. Working hub:{' '}
-              <a href={hub} target="_blank" rel="noopener noreferrer">
-                {hub.replace(/^https:\/\//, '')}
-              </a>
-              . APIs and tool health are not shown here.
+              Public page: the story and canvas proof. Private client work opens in the authenticated Pursuit hub.
             </p>
           </div>
 
@@ -144,21 +143,21 @@ export function PursuitLanding() {
         </div>
         <div className={styles.productLinks}>
           <a href={hub} target="_blank" rel="noopener noreferrer">
-            <span>01 / Pursuit hub</span>
+            <span>01 / Pursuit client hubs</span>
             <h3>Find and frame the opportunity.</h3>
-            <p>Working canvas and client Pursuit workspace.</p>
+            <p>Private client workspaces and Pursuit boards.</p>
             <ArrowUpRight aria-hidden="true" />
           </a>
           <Link href="/do">
             <span>02 / DO</span>
             <h3>Do the bounded work.</h3>
-            <p>A small agent where you already work. Surface ≠ agent.</p>
+            <p>Portable agents, tools and approvals around the job.</p>
             <ArrowUpRight aria-hidden="true" />
           </Link>
           <Link href={studio}>
             <span>03 / Studio</span>
             <h3>Make it tangible.</h3>
-            <p>Creative Studio for the show door.</p>
+            <p>Visual demonstrations, sites, film, campaigns and experiences.</p>
             <ArrowUpRight aria-hidden="true" />
           </Link>
         </div>
@@ -189,11 +188,10 @@ export function PursuitLanding() {
             <li>Practical next-step plan</li>
           </ul>
           <p>
-            Hub access is set up for the agreed engagement. The working hub requires sign-in on the
-            ChatGPT Pursuit site.
+            Hub access is set up for the agreed engagement. The private client hubs require ChatGPT sign-in.
           </p>
           <a href={hub} target="_blank" rel="noopener noreferrer">
-            Already working with us? Open the hub <ArrowRight size={17} aria-hidden="true" />
+            Already working with us? Open your client hubs <ArrowRight size={17} aria-hidden="true" />
           </a>
         </div>
       </section>
@@ -203,14 +201,14 @@ export function PursuitLanding() {
           assembl
         </Link>
         <p>
-          Mahi that earns its proof.
+          Find it. DO it. Show it.
           <br />
           Aotearoa New Zealand.
         </p>
         <nav aria-label="Footer">
           <Link href="/">Home</Link>
           <a href={hub} target="_blank" rel="noopener noreferrer">
-            Pursuit hub
+            Pursuit hubs
           </a>
           <Link href="/do">DO</Link>
           <Link href={studio}>Studio</Link>
