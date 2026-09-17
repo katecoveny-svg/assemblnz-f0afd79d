@@ -1,9 +1,10 @@
 /**
- * DO Spatial C craft canon — Experience Designer audit (16 Sep 2026).
+ * DO Spatial C craft canon — Experience Designer audit (16 Sep 2026)
+ * + public DO craft hotfix (17 Sep 2026).
  *
  * Stage  = plum `#240B21` (portable shell / orb stage)
  * Cards  = paper `#FFFDFB` on chalk `#F5F1F2`
- * Accent = dusty rose `#916A70` only — never purple-leak glow
+ * Accent = dusty rose `#916A70` only — never purple-leak glow, never green
  * Mark   = volumetric D-mark / ✦ (DoMark), sizes 66–68 / 36 / 64
  * Type   = Instrument Sans + IBM Plex Mono (evidence / wait labels)
  * CTAs   = `.do-cta*` from `app/do/do-craft.css`
@@ -69,11 +70,37 @@ export const DO_CRAFT = {
     '#b478f5',
     '#b480d8',
   ] as const,
-  /** Chatbot-home copy — ban on DO craft surfaces. */
+  /**
+   * Green / teal / pounamu accents banned on public DO craft surfaces.
+   * Muted plum on deep plum reads olive — never use muted as display type on stage.
+   */
+  bannedGreenHex: [
+    '#3f7373',
+    '#2e7d32',
+    '#2a7a3e',
+    '#3a3832',
+    '#228b22',
+    '#556b2f',
+    '#4a5d23',
+    '#3c6e6e',
+    '#0d9488',
+    '#14b8a6',
+    '#2dd4a8',
+    '#3e8a88',
+    '#2e6146',
+  ] as const,
+  /** Chatbot-home + AI-slop / vendor theatre — ban on DO craft UI chrome. */
   bannedCopy: [
     /Chat\s*\/\s*Help with this page/i,
     /\bLinda\b/,
     /\bchatbot\b/i,
+    /Whisper-class/i,
+    /Deepgram\s+nova-2/i,
+    /Granola-class/i,
+    /Smart notes/i,
+    /not configured on this environment/i,
+    /Transcribe when Deepgram is configured/i,
+    /Two tools\.\s*Useful work/i,
   ] as const,
   cta: {
     primary: 'do-cta',
@@ -89,9 +116,25 @@ export const DO_CRAFT_GUARD_PATHS = [
   'components/do',
   'components/site/assembl-the-work/GlowDoWidget.tsx',
   'components/site/assembl-the-work/glow-do-widget.module.css',
+  'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
+  'components/site/assembl-the-work/assembl-spatial.css',
   'apps/do/extension',
   'apps/do/shared/distribution.ts',
   'lib/do',
+] as const;
+
+/** Public-facing surfaces that must not dump vendor/env theatre. */
+export const DO_PUBLIC_COPY_GUARD_PATHS = [
+  'app/do/DoHome.tsx',
+  'app/do/page.tsx',
+  'app/do/meetings/MeetingDo.tsx',
+  'app/do/household/HouseholdFloorClient.tsx',
+  'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
+  'components/site/assembl-the-work/copy.ts',
+  'components/site/assembl-the-work/ProductLanding.tsx',
+  'components/do/DoPortableStarters.tsx',
+  'components/do/DoSpatialScene.tsx',
+  'lib/do/public-do-specialists.ts',
 ] as const;
 
 export type DoWorkColumnKey = 'needsYou' | 'working' | 'done';

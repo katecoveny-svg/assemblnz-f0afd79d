@@ -15,8 +15,8 @@ export const PUBLIC_DO_SPECIALISTS = [
     name: 'Meeting DO',
     href: '/do/meetings',
     glyph: '◎',
-    description: 'Record or upload → transcript → useful meeting notes.',
-    note: 'Capture audio, transcribe with Deepgram when configured, then review structured notes — actions, decisions, attendees when present. Drafts only.',
+    description: 'Record → notes you can use. Actions, decisions, who said what.',
+    note: 'Capture audio or paste notes. Turn them into a transcript, then review before any handoff. Drafts only — nothing is sent for you.',
     scope: 'work' as const,
   },
   {
@@ -24,8 +24,8 @@ export const PUBLIC_DO_SPECIALISTS = [
     name: 'Household DO',
     href: '/do/household',
     glyph: '⌂',
-    description: 'Demo household chores board — generic template only.',
-    note: 'Install the scrubbed public Household Floor. No personal names or private family context. Owner-private install stays closed on the public site.',
+    description: 'Simple chores board (demo). Not your real household.',
+    note: 'Install the public demo template. Fictional names only. Private family installs stay closed here.',
     scope: 'personal' as const,
   },
 ] as const;

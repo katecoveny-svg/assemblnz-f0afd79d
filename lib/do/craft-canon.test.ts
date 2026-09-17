@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DO_CRAFT,
   DO_CRAFT_GUARD_PATHS,
+  DO_PUBLIC_COPY_GUARD_PATHS,
   DO_WORK_COLUMN_LABEL,
 } from '@/lib/do/craft-canon';
 
@@ -45,6 +46,9 @@ describe('DO Spatial C craft canon', () => {
     for (const hex of DO_CRAFT.bannedPurpleHex) {
       expect(css.toLowerCase()).not.toContain(hex.toLowerCase());
     }
+    for (const hex of DO_CRAFT.bannedGreenHex) {
+      expect(css.toLowerCase()).not.toContain(hex.toLowerCase());
+    }
   });
 
   it('exports Spatial C tokens and work-board labels', () => {
@@ -62,9 +66,12 @@ describe('DO Spatial C craft canon', () => {
     expect(DO_CRAFT.bannedPurpleHex).toEqual(
       expect.arrayContaining(['#9b6f94', '#ecbddd', '#b479c3']),
     );
+    expect(DO_CRAFT.bannedGreenHex).toEqual(
+      expect.arrayContaining(['#3f7373', '#2dd4a8', '#2e7d32']),
+    );
   });
 
-  it('bans purple-leak hex and chatbot Chat CTA on DO portable surfaces', () => {
+  it('bans purple-leak hex, green accents and chatbot Chat CTA on DO portable surfaces', () => {
     const files: string[] = [];
     for (const rel of DO_CRAFT_GUARD_PATHS) {
       for (const file of walk(join(root, rel))) files.push(file);
@@ -82,6 +89,11 @@ describe('DO Spatial C craft canon', () => {
           hex.toLowerCase(),
         );
       }
+      for (const hex of DO_CRAFT.bannedGreenHex) {
+        expect(code.toLowerCase(), `${file} contains banned green ${hex}`).not.toContain(
+          hex.toLowerCase(),
+        );
+      }
       for (const re of DO_CRAFT.bannedCopy) {
         expect(code, `${file} matches ${re}`).not.toMatch(re);
       }
@@ -90,6 +102,32 @@ describe('DO Spatial C craft canon', () => {
         expect(code, `${file} uses Arial`).not.toMatch(/font[^;{]*Arial/i);
       }
     }
+  });
+
+  it('keeps public DO UI free of vendor/env theatre and green stage type', () => {
+    for (const relative of DO_PUBLIC_COPY_GUARD_PATHS) {
+      const source = read(relative);
+      const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+      for (const re of DO_CRAFT.bannedCopy) {
+        expect(code, `${relative} matches ${re}`).not.toMatch(re);
+      }
+      expect(code).not.toMatch(/Deepgram nova/i);
+      expect(code).not.toMatch(/Whisper-class/i);
+      expect(code).not.toMatch(/Smart notes/i);
+    }
+
+    const homeCss = read('app/do/do-home.module.css');
+    expect(homeCss).toMatch(/--plum:\s*#240b21/i);
+    expect(homeCss).toMatch(/--paper:\s*#fffdfb/i);
+    expect(homeCss).toMatch(/--rose:\s*#916a70/i);
+    // Hero display type must be paper on plum — never muted (olive-on-plum fail).
+    expect(homeCss).toMatch(/\.heroCopy h1[\s\S]*?color:\s*var\(--paper\)/);
+    for (const hex of DO_CRAFT.bannedGreenHex) {
+      expect(homeCss.toLowerCase()).not.toContain(hex.toLowerCase());
+    }
+
+    const companionCss = read('components/site/assembl-the-work/assembl-spatial.css');
+    expect(companionCss).toMatch(/\.atw-companion-copy h2[\s\S]*?color:\s*#fffdfb/);
   });
 
   it('keeps Glow as the single web launcher (DoFloatingWidget is a thin wrapper)', () => {

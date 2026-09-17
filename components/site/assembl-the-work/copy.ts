@@ -58,8 +58,8 @@ export const PRODUCTS = {
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'Public DO starts with Meeting notes and a generic Household chores board. Record or paste a meeting, review structured notes, or run the demo household template — drafts only, with permissions visible.',
-      href: '/do', explore: 'Try DO', note: 'Meeting DO and Household DO on the public face. Deeper specialist tools stay behind auth.',
+      body: 'Public DO offers Meeting notes and a Household chores board. Record a meeting into notes you can use, or try the demo household board. Drafts only — nothing is sent for you.',
+      href: '/do', explore: 'Try DO', note: 'Meeting DO and Household DO on the public face. Deeper tools stay behind sign-in.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
@@ -74,11 +74,11 @@ export const DO_INPUT = {
   title: 'what do you need done?',
   placeholder: 'Meeting notes, or a household chores board…',
   submit: 'open DO →',
-  honesty: 'Opens public DO — Meeting notes or a generic Household board. Nothing is sent for you.',
+  honesty: 'Opens public DO — Meeting notes or a Household board. Nothing is sent for you.',
   examples: [
     'Turn today’s meeting into notes with actions and decisions.',
-    'Run the demo household chores board for this week.',
-    'Record a call and prepare reviewable meeting notes.',
+    'Try the demo household chores board for this week.',
+    'Record a call and prepare meeting notes you can review.',
   ],
 } as const;
 
@@ -127,7 +127,7 @@ export const REVIEW = {
 export const START = {
   kicker: 'start with DO',
   title: 'open Meeting or Household.',
-  body: 'Public DO is pared to two tools: useful meeting notes, and a generic household chores board. Drafts only.',
+  body: 'Two tools: meeting notes you can use, and a demo household chores board. Drafts only.',
   primary: { label: 'open DO →', href: '#do-input' },
   secondary: {
     label: 'bring us a company',

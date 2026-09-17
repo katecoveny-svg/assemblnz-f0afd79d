@@ -317,11 +317,11 @@
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--plum);
 }
 
 .status[data-live='true'] {
-  color: #7a1f3d;
+  color: var(--rose);
 }
 
 .playback {
@@ -352,7 +352,7 @@
   margin: 12px 0 0;
   font-size: 13px;
   line-height: 1.55;
-  color: var(--muted);
+  color: var(--plum);
 }
 
 .authSoft a {

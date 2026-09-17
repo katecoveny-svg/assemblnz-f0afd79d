@@ -252,8 +252,8 @@ export function HouseholdFloorClient({
             <p className={styles.eyebrow}>pin · template · place · run</p>
             <h1>{floor?.personalisation.displayName ?? 'Household Floor'}</h1>
             <p className={styles.lede}>
-              Nine specialist seats. Evening, morning and Sunday boards. Drafts-only hard gates.
-              Owner-browser seat for school and council pages — consent required, never send or pay.
+              Nine specialist seats. Evening, morning and Sunday boards. Drafts only —
+              nothing is sent for you. This is a demo household, not your real one.
             </p>
             <div className={styles.ctaRow}>
               {!floor ? (
