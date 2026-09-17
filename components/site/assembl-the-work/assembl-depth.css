@@ -1,0 +1,186 @@
+/*
+ * Public homepage depth layer.
+ * Restores the dimensional/interactive behaviour without changing the
+ * Pursuit → DO → Studio information architecture.
+ */
+.atw-depth-surface {
+  position: relative;
+  isolation: isolate;
+}
+
+.atw-product-strip > a {
+  position: relative;
+  border-radius: 999px;
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1), background 260ms ease,
+    box-shadow 260ms ease, border-color 260ms ease;
+}
+.atw-product-strip > a::before {
+  content: '';
+  position: absolute;
+  inset: 4px 12px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 0%, rgba(214,165,189,.22), transparent 68%);
+  opacity: 0;
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+.atw-product-strip > a:hover {
+  transform: translateY(-2px);
+  background: rgba(245,241,242,.72);
+  box-shadow: 0 16px 40px rgba(36,11,33,.08), inset 0 1px 0 rgba(255,255,255,.9);
+  text-decoration: none;
+}
+.atw-product-strip > a:hover::before { opacity: 1; }
+
+.atw-product-list {
+  perspective: 1300px;
+}
+.atw-product-list .atw-product-row {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 18px;
+  padding: 34px 34px;
+  border: 1px solid rgba(36,11,33,.09);
+  border-radius: 28px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.84), rgba(245,241,242,.58)),
+    rgba(255,253,251,.74);
+  backdrop-filter: blur(22px) saturate(125%);
+  box-shadow:
+    0 28px 80px rgba(36,11,33,.07),
+    0 2px 10px rgba(36,11,33,.04),
+    inset 0 1px 0 rgba(255,255,255,.92);
+  transform: translateZ(0);
+  transition:
+    transform 420ms cubic-bezier(.16,1,.3,1),
+    box-shadow 420ms cubic-bezier(.16,1,.3,1),
+    border-color 420ms ease;
+}
+.atw-product-list .atw-product-row::after {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  right: -250px;
+  top: -300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(214,165,189,.32), rgba(145,106,112,.08) 42%, transparent 70%);
+  opacity: .35;
+  transition: opacity 420ms ease, transform 650ms cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.atw-product-list .atw-product-row:hover {
+  transform: translateY(-7px) rotateX(.45deg);
+  border-color: rgba(145,106,112,.28);
+  box-shadow:
+    0 38px 100px rgba(36,11,33,.13),
+    0 0 42px rgba(214,165,189,.12),
+    inset 0 1px 0 rgba(255,255,255,.98);
+}
+.atw-product-list .atw-product-row:hover::after {
+  opacity: .75;
+  transform: translate3d(-34px, 24px, 0) scale(1.08);
+}
+.atw-product-row .atw-text-link svg,
+.atw-how a svg,
+.atw-choose a svg {
+  transition: transform 220ms ease;
+}
+.atw-product-row .atw-text-link:hover svg,
+.atw-how a:hover svg,
+.atw-choose a:hover svg { transform: translate(3px,-2px); }
+
+.atw-system {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(80% 90% at 100% 0%, rgba(214,165,189,.22), transparent 60%),
+    #f5f1f2;
+}
+.atw-system::before {
+  content: '';
+  position: absolute;
+  inset: 7% 4%;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 38px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 34px 100px rgba(36,11,33,.05);
+  pointer-events: none;
+}
+.atw-system > * { position: relative; z-index: 1; }
+.atw-system-loop li {
+  margin: 8px 0;
+  padding: 18px 20px !important;
+  border: 1px solid rgba(36,11,33,.07) !important;
+  border-radius: 18px;
+  background: rgba(255,253,251,.54);
+  backdrop-filter: blur(14px);
+  transition: transform 260ms ease, box-shadow 260ms ease, background 260ms ease;
+}
+.atw-system-loop li:hover {
+  transform: translateX(5px);
+  background: rgba(255,253,251,.76);
+  box-shadow: 0 14px 42px rgba(36,11,33,.07);
+}
+
+.atw-how li {
+  margin: 8px 0;
+  padding: 20px 20px !important;
+  border: 1px solid rgba(36,11,33,.08) !important;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,.74), rgba(245,241,242,.35));
+  transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+}
+.atw-how li:hover {
+  transform: translateY(-3px);
+  border-color: rgba(145,106,112,.24) !important;
+  box-shadow: 0 20px 55px rgba(36,11,33,.08);
+}
+
+.atw-choose {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 15%, rgba(214,165,189,.28), transparent 34%),
+    linear-gradient(180deg, #f5f1f2, #fffdfb);
+}
+.atw-choose::before,
+.atw-choose::after {
+  content: '';
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  filter: blur(24px);
+  opacity: .2;
+  pointer-events: none;
+}
+.atw-choose::before { left: -90px; top: 10%; background: #d6a5bd; }
+.atw-choose::after { right: -110px; bottom: -60px; background: #654a4e; }
+.atw-choose > * { position: relative; z-index: 1; }
+
+.atw-depth-reveal {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .atw-product-list .atw-product-row {
+    padding: 26px 22px;
+    border-radius: 22px;
+    box-shadow: 0 20px 55px rgba(36,11,33,.075), inset 0 1px 0 rgba(255,255,255,.88);
+  }
+  .atw-product-list .atw-product-row:hover { transform: translateY(-3px); }
+  .atw-system::before { inset: 3% 3%; border-radius: 28px; }
+  .atw-system-loop li,
+  .atw-how li { border-radius: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atw-product-strip > a,
+  .atw-product-list .atw-product-row,
+  .atw-product-list .atw-product-row::after,
+  .atw-system-loop li,
+  .atw-how li,
+  .atw-product-row .atw-text-link svg,
+  .atw-how a svg,
+  .atw-choose a svg { transition: none !important; transform: none !important; }
+}
