@@ -1,0 +1,63 @@
+name: Scandi office authoring
+on:
+  push:
+    branches: ['design/scandi-office-source-20260918']
+    paths:
+      - 'scripts/design/build_scandi_office.py'
+      - '.github/workflows/scandi-office-authoring.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: scandi-office-authoring
+  cancel-in-progress: true
+jobs:
+  render:
+    if: github.ref == 'refs/heads/design/scandi-office-source-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: true
+      - name: Install Blender
+        run: sudo apt-get update -qq && sudo apt-get install -y blender
+      - name: Export and render original scene
+        run: blender -b -t 4 --python scripts/design/build_scandi_office.py
+      - name: Source snapshot for connected implementation review
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          roots=['lib/tools','lib/typesafe','lib/research','lib/pursuit','lib/seo','lib/ai','lib/auth','app/api/tools','app/api/pursuit','app/api/research','app/api/do','app/tools','app/pursuit','app/creative-studio','components/site/pursuit','components/site/assembl-the-work','components/do','scripts/design','docs/tools','docs/context','plugins/skills']
+          allowed={'.ts','.tsx','.json','.md','.css','.py','.mjs','.yaml','.yml'}
+          Path('visual-evidence').mkdir(exist_ok=True)
+          with zipfile.ZipFile('visual-evidence/source-review.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for root in roots:
+                  for p in Path(root).rglob('*'):
+                      if p.is_file() and p.suffix in allowed and p.stat().st_size<400000 and 'node_modules' not in p.parts: z.write(p)
+              for f in ['middleware.ts','lib/product-destinations.ts','app/sitemap.ts','app/robots.ts','app/layout.tsx','package.json','AGENTS.md','docs/assembl-copy-standard.md','lib/rate-limit.ts','app/preview/do-world/WorldScene.tsx','docs/assembl-brand-system.md','DESIGN.md']:
+                  if Path(f).is_file():z.write(f)
+              for p in Path('.').rglob('AGENTS.md'):
+                  if 'node_modules' not in p.parts and p.as_posix() not in z.namelist():z.write(p)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scandi-office-source-and-renders
+          path: |
+            visual-evidence/
+            public/do/world/scandi-v1/
+          retention-days: 14
+      - name: Commit generated assets only to isolated branch
+        run: |
+          test "${GITHUB_REF}" = 'refs/heads/design/scandi-office-source-20260918'
+          git config user.name 'Assembl asset builder'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/do/world/scandi-v1
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: generated Blender office GLB and three owned architectural renders'
+            git push origin HEAD:refs/heads/design/scandi-office-source-20260918
+          fi
