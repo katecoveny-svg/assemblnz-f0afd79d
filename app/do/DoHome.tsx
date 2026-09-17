@@ -232,7 +232,7 @@ export function DoHome() {
       <main className={styles.main} id="do-explain">
         <Reveal>
           <p className={styles.sectionEyebrow}>How DO works</p>
-          <h2 className={styles.sectionTitle}>Three quiet steps beside the work.</h2>
+          <h2 className={styles.sectionTitle}>Choose the task. Connect what it needs.</h2>
         </Reveal>
 
         <Reveal delay={0.08} className={styles.cardsReveal}>
