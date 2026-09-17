@@ -38,7 +38,7 @@ Fast GLB-only iterate:
 
 ## Tip SHA
 
-Craft branch tip for this pass: `ebce77dc23f24df9878d8993d2d93a8cbb7867d0`  
+Craft branch tip for this pass: `c9f49fb721726e9199243ba3315a3c55b7b7e79f`  
 (also `docs/reviews/world-craft-2026-09-17/TIP_SHA.txt`)
 
 Prefer Kate Mac re-export with Blender **5.1.1** when polishing geometry beyond the cloud Blender 5.0 bake checked into this PR.
