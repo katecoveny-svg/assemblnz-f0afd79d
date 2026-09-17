@@ -1,0 +1,85 @@
+name: DO Mac development build
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/do/macos/**'
+      - 'public/do/icons/**'
+      - '.github/workflows/do-mac-development.yml'
+  push:
+    branches: ['fix/do-portable-launch-install-20260918']
+    paths:
+      - 'apps/do/macos/**'
+      - '.github/workflows/do-mac-development.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    name: Development companion (${{ matrix.arch }})
+    runs-on: macos-15
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64, x86_64]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            apps/do/macos
+            public/do/icons
+      - name: Build and verify ad-hoc development app
+        env:
+          DO_MAC_ARCH: ${{ matrix.arch }}
+        run: |
+          cmp public/do/icons/do-192.png apps/do/macos/resources/do-192.png
+          cmp public/do/icons/do-512.png apps/do/macos/resources/do-512.png
+          bash apps/do/macos/build.sh "$RUNNER_TEMP/do-build"
+          codesign --verify --strict "$RUNNER_TEMP/do-build/DO.app"
+          file "$RUNNER_TEMP/do-build/DO.app/Contents/MacOS/DO"
+          ditto -c -k --sequesterRsrc --keepParent "$RUNNER_TEMP/do-build/DO.app" "$RUNNER_TEMP/DO-development-${DO_MAC_ARCH}.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DO-development-${{ matrix.arch }}-not-notarised
+          path: ${{ runner.temp }}/DO-development-${{ matrix.arch }}.zip
+          retention-days: 7
+          if-no-files-found: error
+  browser-package:
+    name: Portable browser contracts and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            apps/do
+            app/api/do/download
+            components/do
+            public/do
+            scripts
+      - name: Run portable contracts
+        run: node --test scripts/check-do-portable.cjs
+      - name: Package the exact extension file list
+        run: |
+          python3 - <<'PY'
+          import os, re, zipfile
+          from pathlib import Path
+          route = Path('app/api/do/download/route.ts').read_text()
+          section = route.split('export const EXTENSION_FILES = [', 1)[1].split('] as const;', 1)[0]
+          names = re.findall(r"'([^']+)'", section)
+          assert names and 'portable-worker.js' in names
+          target = Path(os.environ['RUNNER_TEMP']) / 'assembl-do-extension-1.6.0.zip'
+          with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as archive:
+              for name in names:
+                  archive.write(Path('apps/do/extension') / name, name)
+              archive.writestr('README.md', '# DO browser extension 1.6.0\n\nUnzip this inner ZIP, then use Chrome/Edge Extensions > Developer mode > Load unpacked. Pin DO and click its toolbar icon. Choose a movable workspace, explicitly selected text, meeting recording or TypeSafe. Normal Assembl sign-in and separate provider/microphone permissions apply. Existing advanced side panel is available via the back link. No automatic sends, screen capture or payments.\n')
+          print(target)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DO-Chrome-Edge-extension-1.6.0
+          path: ${{ runner.temp }}/assembl-do-extension-1.6.0.zip
+          retention-days: 7
+          if-no-files-found: error

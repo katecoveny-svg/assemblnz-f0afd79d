@@ -2,17 +2,24 @@
   "id": "/do",
   "name": "DO by assembl",
   "short_name": "DO",
-  "description": "Help with everyday tasks, meetings, bills and work. Record, prepare and review on this device — DO never sends, books or pays for you.",
-  "start_url": "/do",
+  "description": "Your portable work companion. Talk, record, prepare and review with permission. Draft-only tools; no automatic sends or purchases.",
+  "start_url": "/do/widget",
   "scope": "/do",
   "display": "standalone",
-  "display_override": ["standalone", "browser"],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
   "orientation": "any",
   "background_color": "#FFFDFB",
   "theme_color": "#240B21",
   "lang": "en-NZ",
   "dir": "ltr",
-  "categories": ["productivity", "utilities", "business"],
+  "categories": [
+    "productivity",
+    "utilities",
+    "business"
+  ],
   "icons": [
     {
       "src": "/do/icons/do-192.png?v=3",
@@ -41,10 +48,16 @@
   ],
   "shortcuts": [
     {
+      "name": "DO workspace",
+      "short_name": "Workspace",
+      "url": "/do/widget",
+      "description": "Talk, prepare and review in your workspace."
+    },
+    {
       "name": "Meeting DO",
       "short_name": "Meeting",
       "url": "/do/meetings?phone=1",
-      "description": "Install, open, and record a meeting on your phone."
+      "description": "Open and record a meeting on your phone."
     },
     {
       "name": "Household Floor",
