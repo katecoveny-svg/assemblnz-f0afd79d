@@ -1,8 +1,9 @@
 /**
- * DO Browser Runtime — persistent jobs above browser chrome.
+ * DO Browser Runtime — owner-scoped, process-memory preview jobs.
  *
  * Extends browser-seat capture; does not invent a second extension.
- * Jobs survive tab changes via DO store (not browser memory alone).
+ * Jobs can survive tab changes within one server process, not restarts or instances.
+ * This is not durable storage or an external-action runtime.
  * No Firefox Smart Window / Mozilla embed claims.
  *
  * @see docs/do-action-cloud/DO_BROWSER_RUNTIME.md
@@ -13,6 +14,7 @@ import { z } from 'zod';
 
 import {
   executeUnderPermit,
+  hashArgs,
   issuePermit,
   mintReceipt,
   prepareAction,
@@ -20,7 +22,7 @@ import {
 } from '@/lib/do/action-stub';
 
 export const BROWSER_RUNTIME_BOUNDARY =
-  'DO Browser Runtime prototype · persistent jobs in DO Wait-style store. Not a page-summarising sidebar. Not Firefox Smart Window. Capture is consented read-only; actions produce artifacts under Permit. executionClaimed=false until Action Core.';
+  'DO Browser Runtime preview · owner-scoped process-memory jobs, not durable storage. Jobs may be lost on restart or another server instance. Capture is consented read-only; artifacts and permits are demo stubs with no external effects. executionClaimed=false.';
 
 export type BrowserRuntimeContextLock = {
   /** What DO can see — visible to the user. */
@@ -54,6 +56,8 @@ export type BrowserRuntimeJobStatus =
 
 export type BrowserRuntimeJob = {
   job_id: string;
+  /** Advanced on every context lock or proposal, even at the same time/content. */
+  review_generation: number;
   title: string;
   objective: string;
   status: BrowserRuntimeJobStatus;
@@ -72,7 +76,7 @@ export type BrowserRuntimeJob = {
   artifact?: BrowserRuntimeArtifact;
   created_at: string;
   updated_at: string;
-  /** Survives tab changes — stored in DO, not only the tab. */
+  /** Across tabs only while the same server process holds this preview. Not durable. */
   survives_tab_change: true;
   mode: 'demo_stub';
   boundary: string;
@@ -86,9 +90,19 @@ export const browserRuntimeCreateInput = z
   })
   .strict();
 
+export const browserRuntimeJobId = z.string().regex(/^brj_[a-f0-9]{12}$/);
+
+/** The exact review displayed to the caller, never substituted with current state. */
+export const browserRuntimeReviewInput = z.object({
+  expected_permit_id: z.string().regex(/^prm_[a-f0-9]{12}$/),
+  expected_review_generation: z.number().int().nonnegative(),
+}).strict();
+
+export type BrowserRuntimeReviewInput = z.infer<typeof browserRuntimeReviewInput>;
+
 export const browserRuntimeContextInput = z
   .object({
-    job_id: z.string().trim().min(8).max(80),
+    job_id: browserRuntimeJobId,
     url: z.string().url().max(2000),
     title: z.string().trim().min(1).max(200),
     pageText: z.string().trim().min(1).max(12_000),
@@ -100,7 +114,9 @@ export const browserRuntimeContextInput = z
 export type BrowserRuntimeCreateInput = z.infer<typeof browserRuntimeCreateInput>;
 export type BrowserRuntimeContextInput = z.infer<typeof browserRuntimeContextInput>;
 
-type Store = Map<string, BrowserRuntimeJob>;
+// Ownership is server-side metadata, never part of the client job payload.
+type StoredJob = { ownerId: string; job: BrowserRuntimeJob };
+type Store = Map<string, StoredJob>;
 
 const globalStore = globalThis as typeof globalThis & {
   __assemblBrowserRuntimeJobs?: Store;
@@ -117,25 +133,64 @@ export function resetBrowserRuntimeJobs() {
   jobs().clear();
 }
 
-export function listBrowserRuntimeJobs(): BrowserRuntimeJob[] {
-  return [...jobs().values()].sort((a, b) => b.updated_at.localeCompare(a.updated_at));
+function requireOwner(ownerId: string) {
+  if (typeof ownerId !== 'string' || !ownerId.trim()) throw new Error('Owner required');
 }
 
-export function getBrowserRuntimeJob(job_id: string): BrowserRuntimeJob | undefined {
-  return jobs().get(job_id);
+export class BrowserRuntimeJobNotFoundError extends Error {
+  constructor() { super('Unknown browser runtime job'); }
 }
 
-function save(job: BrowserRuntimeJob): BrowserRuntimeJob {
+export class BrowserRuntimeReviewConflictError extends Error {
+  constructor() { super('Review changed. Reopen the job, review the current context and Permit, then decide again.'); }
+}
+
+export function listBrowserRuntimeJobs(ownerId: string): BrowserRuntimeJob[] {
+  requireOwner(ownerId);
+  return [...jobs().values()]
+    // Old unowned records left in a hot process are not adopted by any owner.
+    .filter(record => record.ownerId === ownerId)
+    .map(record => record.job)
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at));
+}
+
+export function getBrowserRuntimeJob(job_id: string, ownerId: string): BrowserRuntimeJob | undefined {
+  requireOwner(ownerId);
+  const record = jobs().get(job_id);
+  return record?.ownerId === ownerId ? record.job : undefined;
+}
+
+function requireJob(job_id: string, ownerId: string): BrowserRuntimeJob {
+  const job = getBrowserRuntimeJob(job_id, ownerId);
+  if (!job) throw new BrowserRuntimeJobNotFoundError();
+  return job;
+}
+
+function requireReviewedJob(job_id: string, ownerId: string, expected: BrowserRuntimeReviewInput): BrowserRuntimeJob {
+  // Authorise the owner before checking review identity. Validation and mutation
+  // stay synchronous within this process-memory store; do not insert an await.
+  const job = requireJob(job_id, ownerId);
+  const parsed = browserRuntimeReviewInput.parse(expected);
+  if (job.permit_id !== parsed.expected_permit_id || job.review_generation !== parsed.expected_review_generation) {
+    throw new BrowserRuntimeReviewConflictError();
+  }
+  return job;
+}
+
+function save(job: BrowserRuntimeJob, ownerId: string): BrowserRuntimeJob {
+  requireJob(job.job_id, ownerId);
   const next = { ...job, updated_at: new Date().toISOString() };
-  jobs().set(next.job_id, next);
+  jobs().set(next.job_id, { ownerId, job: next });
   return next;
 }
 
-export function createBrowserRuntimeJob(input: BrowserRuntimeCreateInput): BrowserRuntimeJob {
+export function createBrowserRuntimeJob(input: BrowserRuntimeCreateInput, ownerId: string): BrowserRuntimeJob {
+  requireOwner(ownerId);
   const parsed = browserRuntimeCreateInput.parse(input);
   const now = new Date().toISOString();
   const job: BrowserRuntimeJob = {
     job_id: stubId('brj'),
+    review_generation: 0,
     title: parsed.title,
     objective: parsed.objective,
     status: 'open',
@@ -146,14 +201,14 @@ export function createBrowserRuntimeJob(input: BrowserRuntimeCreateInput): Brows
     mode: 'demo_stub',
     boundary: BROWSER_RUNTIME_BOUNDARY,
   };
-  jobs().set(job.job_id, job);
+  jobs().set(job.job_id, { ownerId, job });
   return job;
 }
 
-export function lockBrowserRuntimeContext(input: BrowserRuntimeContextInput): BrowserRuntimeJob {
+export function lockBrowserRuntimeContext(input: BrowserRuntimeContextInput, ownerId: string): BrowserRuntimeJob {
+  requireOwner(ownerId);
   const parsed = browserRuntimeContextInput.parse(input);
-  const job = jobs().get(parsed.job_id);
-  if (!job) throw new Error(`Unknown job: ${parsed.job_id}`);
+  const job = requireJob(parsed.job_id, ownerId);
 
   const context: BrowserRuntimeContextLock = {
     url: parsed.url,
@@ -167,15 +222,21 @@ export function lockBrowserRuntimeContext(input: BrowserRuntimeContextInput): Br
 
   return save({
     ...job,
+    review_generation: (job.review_generation ?? 0) + 1,
     context,
+    proposal: undefined,
+    prep_id: undefined,
+    permit_id: undefined,
+    action_id: undefined,
+    artifact: undefined,
+    receipt_id: undefined,
     status: 'context_locked',
-  });
+  }, ownerId);
 }
 
 /** Propose next step from locked context — deterministic stub, not an LLM call. */
-export function proposeBrowserRuntimeNextStep(job_id: string): BrowserRuntimeJob {
-  const job = jobs().get(job_id);
-  if (!job) throw new Error(`Unknown job: ${job_id}`);
+export function proposeBrowserRuntimeNextStep(job_id: string, ownerId: string): BrowserRuntimeJob {
+  const job = requireJob(job_id, ownerId);
   if (!job.context) throw new Error('Lock context before proposing');
 
   const host = (() => {
@@ -203,26 +264,41 @@ export function proposeBrowserRuntimeNextStep(job_id: string): BrowserRuntimeJob
     artifact_kind,
   };
 
-  return save({ ...job, proposal, status: 'proposed' });
+  return save({
+    ...job,
+    review_generation: (job.review_generation ?? 0) + 1,
+    proposal,
+    prep_id: undefined,
+    permit_id: undefined,
+    action_id: undefined,
+    artifact: undefined,
+    receipt_id: undefined,
+    status: 'proposed',
+  }, ownerId);
 }
 
-export function requestBrowserRuntimePermit(job_id: string): BrowserRuntimeJob {
-  const job = jobs().get(job_id);
+export function requestBrowserRuntimePermit(job_id: string, ownerId: string): BrowserRuntimeJob {
+  const job = requireJob(job_id, ownerId);
   if (!job?.proposal || !job.context) {
     throw new Error('Proposal + context required before permit');
   }
 
+  // Bind proof to the whole retained review, not just the short display preview.
+  const args = {
+    job_id: job.job_id,
+    review_generation: job.review_generation,
+    artifact_kind: job.proposal.artifact_kind,
+    url: job.context.url,
+    args_preview: job.context.pageTextPreview.slice(0, 120),
+    context: { ...job.context },
+    proposal: { ...job.proposal },
+  };
   const prepared = prepareAction({
     action_name: 'browser.produce_artifact',
     namespace: 'demo.browser_runtime',
     title: `Produce ${job.proposal.artifact_kind} artifact`,
-    args: {
-      job_id: job.job_id,
-      artifact_kind: job.proposal.artifact_kind,
-      url: job.context.url,
-      args_preview: job.context.pageTextPreview.slice(0, 120),
-    },
-    idempotency_key: `browser-runtime:${job.job_id}:prepare`,
+    args,
+    idempotency_key: `browser-runtime:${job.job_id}:prepare:${hashArgs(args)}`,
     risk_class: 'low',
     agent_id: 'agt_browser_runtime',
   });
@@ -236,19 +312,22 @@ export function requestBrowserRuntimePermit(job_id: string): BrowserRuntimeJob {
     ...job,
     prep_id: prepared.prep_id,
     permit_id: permit.permit_id,
+    action_id: undefined,
+    artifact: undefined,
+    receipt_id: undefined,
     status: 'permit_pending',
-  });
+  }, ownerId);
 }
 
-export function approveBrowserRuntimePermit(job_id: string): BrowserRuntimeJob {
-  const job = jobs().get(job_id);
+export function approveBrowserRuntimePermit(job_id: string, ownerId: string, expected: BrowserRuntimeReviewInput): BrowserRuntimeJob {
+  const job = requireReviewedJob(job_id, ownerId, expected);
   if (!job?.permit_id) throw new Error('No permit');
   if (job.status !== 'permit_pending') throw new Error('Permit not pending');
-  return save({ ...job, status: 'permitted' });
+  return save({ ...job, status: 'permitted' }, ownerId);
 }
 
-export function produceBrowserRuntimeArtifact(job_id: string): BrowserRuntimeJob {
-  const job = jobs().get(job_id);
+export function produceBrowserRuntimeArtifact(job_id: string, ownerId: string, expected: BrowserRuntimeReviewInput): BrowserRuntimeJob {
+  const job = requireReviewedJob(job_id, ownerId, expected);
   if (!job?.proposal || !job.context || !job.permit_id || !job.prep_id) {
     throw new Error('Permit + proposal required');
   }
@@ -257,7 +336,7 @@ export function produceBrowserRuntimeArtifact(job_id: string): BrowserRuntimeJob
   const executed = executeUnderPermit({
     permit_id: job.permit_id,
     prep_id: job.prep_id,
-    idempotency_key: `browser-runtime:${job.job_id}:execute`,
+    idempotency_key: `browser-runtime:${job.job_id}:${job.prep_id}:${job.permit_id}:execute`,
     result: { artifact: true },
   });
 
@@ -283,12 +362,16 @@ export function produceBrowserRuntimeArtifact(job_id: string): BrowserRuntimeJob
     action_id: executed.action_id,
     artifact,
     status: 'artifact_ready',
-  });
+  }, ownerId);
 }
 
-export function mintBrowserRuntimeReceipt(job_id: string): BrowserRuntimeJob {
-  const job = jobs().get(job_id);
+export function mintBrowserRuntimeReceipt(job_id: string, ownerId: string, expected: BrowserRuntimeReviewInput): BrowserRuntimeJob {
+  const job = requireReviewedJob(job_id, ownerId, expected);
   if (!job?.action_id || !job.artifact) throw new Error('Artifact required before receipt');
+  if (job.status !== 'artifact_ready' && job.status !== 'receipted') {
+    throw new Error('Artifact not ready for receipt');
+  }
+  if (job.status === 'receipted' && job.receipt_id) return job;
 
   const receipt = mintReceipt({
     action_id: job.action_id,
@@ -302,15 +385,15 @@ export function mintBrowserRuntimeReceipt(job_id: string): BrowserRuntimeJob {
     ],
   });
 
-  return save({ ...job, receipt_id: receipt.receipt_id, status: 'receipted' });
+  return save({ ...job, receipt_id: receipt.receipt_id, status: 'receipted' }, ownerId);
 }
 
 /** Seed demo job matching DEMOS.md §4 — compare insurers' excess. */
-export function seedInsurerCompareJob(): BrowserRuntimeJob {
+export function seedInsurerCompareJob(ownerId: string): BrowserRuntimeJob {
   return createBrowserRuntimeJob({
     title: 'Compare three insurers’ excess',
     objective:
       'Compare excess figures across three insurer pages as a persistent DO job that survives tab changes; finish with a note artifact.',
     model_placeholder: 'model-neutral · proposer TBD',
-  });
+  }, ownerId);
 }

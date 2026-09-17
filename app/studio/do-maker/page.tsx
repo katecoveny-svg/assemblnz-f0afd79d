@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function TaskDoMakerPage() {
   return (
     <Suspense fallback={<div style={{ minHeight: '100svh', background: '#FFFDFB' }} />}>
-      <TaskDoMakerClient />
+      <TaskDoMakerClient initialIdentity={{ id: crypto.randomUUID(), createdAt: new Date().toISOString() }} />
     </Suspense>
   );
 }

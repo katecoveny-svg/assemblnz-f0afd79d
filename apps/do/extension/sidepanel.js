@@ -20,14 +20,14 @@ const playbookLabel = document.getElementById('playbook-label');
 const dlChrome = document.getElementById('dl-chrome');
 const dlMac = document.getElementById('dl-mac');
 const runtimeStatus = document.getElementById('runtime-status');
-const runtimeConsent = document.getElementById('runtime-consent');
+
 const runtimeOpen = document.getElementById('runtime-open');
 const sponsoredOpen = document.getElementById('sponsored-open');
 
 let ready = false;
 let pending = null;
 let apiOrigin = PRODUCTION_ORIGIN;
-let openRuntimeJobId = null;
+
 
 function syncFrame() {
   frame.src = `${apiOrigin}/do/widget`;
@@ -64,11 +64,8 @@ chrome.storage.local.get(['doBrowserSeat', 'doApiOrigin', 'doBrowserRuntimeJobId
     doIdInput.value = stored.doBrowserSeat.doId;
     sessionKeyInput.value = stored.doBrowserSeat.sessionKey || `do-browser-seat:${stored.doBrowserSeat.doId}`;
   }
-  if (stored.doBrowserRuntimeJobId) {
-    openRuntimeJobId = stored.doBrowserRuntimeJobId;
-    if (runtimeStatus) {
-      runtimeStatus.textContent = `Open job ${openRuntimeJobId} · survives tab changes. Lock page with consent.`;
-    }
+  if (stored.doBrowserRuntimeJobId && runtimeStatus) {
+    runtimeStatus.textContent = 'A previous preview job was kept on this device. Open the signed-in web preview to review it; extension job capture is not connected.';
   }
 });
 
@@ -290,7 +287,7 @@ document.getElementById('seat-capture').addEventListener('click', async () => {
 
     chrome.storage.local.set({ doBrowserSeat: { doId, sessionKey } });
     seatStatus.textContent = data.honesty
-      || `Receipt ${data.receipt?.id || ''} saved. Review on Household Floor Needs you. Nothing was submitted.`;
+      || 'Capture returned for review. Storage and attachment could not be confirmed. Nothing was submitted.';
   } catch (e) {
     seatStatus.textContent = e instanceof Error ? e.message : 'Browser seat capture failed.';
   } finally {
@@ -298,63 +295,18 @@ document.getElementById('seat-capture').addEventListener('click', async () => {
   }
 });
 
+// Private Browser Runtime jobs require the authenticated web session. Never
+// send captured context from the extension until a bounded auth bridge exists.
 document.getElementById('runtime-seed')?.addEventListener('click', async () => {
-  const button = document.getElementById('runtime-seed');
-  button.disabled = true;
   try {
-    const response = await fetch(`${apiOrigin}/api/do/browser-runtime`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ action: 'seed_insurer_compare' }),
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || data.error || 'Could not seed job.');
-    openRuntimeJobId = data.job?.job_id || null;
-    if (openRuntimeJobId) {
-      chrome.storage.local.set({ doBrowserRuntimeJobId: openRuntimeJobId });
-    }
-    runtimeStatus.textContent = openRuntimeJobId
-      ? `Job ${openRuntimeJobId} open · ${data.job?.title || 'persistent'}. Lock a page with consent.`
-      : 'Seeded, but no job id returned.';
-  } catch (e) {
-    runtimeStatus.textContent = e instanceof Error ? e.message : 'Seed failed.';
-  } finally {
-    button.disabled = false;
+    const response = await openTopLevel('/do/browser');
+    if (runtimeStatus) runtimeStatus.textContent = response?.ok
+      ? 'Continue in the signed-in Browser Runtime preview. No page context was captured or sent.'
+      : 'Could not open Browser Runtime. Open the web preview directly.';
+  } catch {
+    if (runtimeStatus) runtimeStatus.textContent = 'Could not open Browser Runtime. Open the web preview directly.';
   }
 });
-
-document.getElementById('runtime-lock')?.addEventListener('click', async () => {
-  const button = document.getElementById('runtime-lock');
-  button.disabled = true;
-  try {
-    if (!runtimeConsent?.checked) throw new Error('Tick consent before locking page context into the job.');
-    if (!openRuntimeJobId) throw new Error('Seed or open a job on /do/browser first.');
-
-    const capture = await chrome.runtime.sendMessage({
-      type: 'do:browser-seat-capture',
-      includeScreenshot: false,
-    });
-    if (!capture?.ok) throw new Error(capture?.error || 'Capture failed.');
-
-    const response = await fetch(`${apiOrigin}/api/do/browser-runtime`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        action: 'lock_context',
-        job_id: openRuntimeJobId,
-        consent: true,
-        url: capture.page.url,
-        title: capture.page.title,
-        pageText: capture.page.pageText,
-        tabId: capture.page.tabId,
-      }),
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || data.error || 'Lock refused.');
-    runtimeStatus.textContent = `Locked ${data.job?.context?.pageTextChars || 0} chars into ${openRuntimeJobId}. Continue on /do/browser for propose → permit → artifact.`;
-  } catch (e) {
-    runtimeStatus.textContent = e instanceof Error ? e.message : 'Lock failed.';
-  } finally {
-    button.disabled = false;
-  }
+document.getElementById('runtime-lock')?.addEventListener('click', () => {
+  if (runtimeStatus) runtimeStatus.textContent = 'Authenticated job capture is not connected in this extension. Use the reviewed draft workspace above.';
 });

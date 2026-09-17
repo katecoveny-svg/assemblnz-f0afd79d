@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const INTEREST_OPTIONS = [
   { value: "pursuit", label: "Pursuit — find the opportunity" },
-  { value: "do", label: "DO — prepare the work" },
+  { value: "do", label: "DO — do the work" },
   { value: "studio", label: "Studio — make it tangible" },
   { value: "system", label: "Pursuit, DO and Studio together" },
   { value: "something-else", label: "Something else" },
@@ -24,7 +24,7 @@ export function ContactForm({ initialInterest = "" }: { initialInterest?: string
     setOpened(true);
   }
   return (
-    <form onSubmit={openEmail} className="rounded-[18px] border border-[#252d31]/15 bg-[#f7f7f2] p-7 md:p-10">
+    <form onSubmit={openEmail} className="rounded-[18px] border border-[#240b21]/15 bg-[#F5F1F2] p-7 md:p-10">
       <div className="grid gap-5">
         <Field label="What's this about?" name="intent" required>
           <select
@@ -104,7 +104,7 @@ export function ContactForm({ initialInterest = "" }: { initialInterest?: string
             rows={5}
             onChange={(e) => setMessageLength(e.target.value.length)}
             className="form-input resize-y"
-            placeholder="The wait you want to make useful, the agent job on your desk, or the Outcome result you have in mind. Whatever helps us prep for the call."
+            placeholder="Tell us the job, the context you have and the result you need. What would make the next step useful?"
           />
           <div className="mt-2 flex justify-end">
             <span
@@ -133,7 +133,7 @@ export function ContactForm({ initialInterest = "" }: { initialInterest?: string
           </p>
           <button
             type="submit"
-            className="inline-flex h-12 items-center bg-[#252d31] px-7 font-mono text-xs uppercase tracking-[0.12em] text-white disabled:opacity-60"
+            className="inline-flex h-12 items-center bg-[#240b21] px-7 text-sm text-white disabled:opacity-60"
           >
             Open email draft <Send className="ml-2 h-4 w-4" aria-hidden />
           </button>
@@ -156,9 +156,9 @@ export function ContactForm({ initialInterest = "" }: { initialInterest?: string
           border-color: rgba(37, 45, 49, 0.55);
         }
         .form-input:focus {
-          outline: 2px solid var(--assembl-pounamu);
+          outline: 2px solid var(--assembl-dusty-rose, #916a70);
           outline-offset: 2px;
-          border-color: var(--assembl-pounamu);
+          border-color: var(--assembl-dusty-rose, #916a70);
         }
         .form-input::placeholder {
           color: var(--text-secondary);
@@ -184,11 +184,11 @@ function Field({
     <div className="block">
       <label
         htmlFor={name}
-        className="mb-2 block font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+        className="mb-2 block text-sm text-[color:var(--text-secondary)]"
       >
         {label}
         {required && (
-          <span className="ml-1 text-[color:var(--assembl-pounamu)]" aria-hidden="true">
+          <span className="ml-1 text-[color:var(--assembl-dusty-rose, #916a70)]" aria-hidden="true">
             *
           </span>
         )}

@@ -23,14 +23,14 @@ export const NAV = {
 
 export const HERO = {
   brand: 'One system for finding, doing and showing valuable work.',
-  headline: 'find it. DO it. show it.',
-  subhead: 'Pursuit finds the work. DO gets it moving. Studio makes it tangible.',
-  body: 'One shared context, tools and proof loop across the business.',
+  headline: 'assembl the work.',
+  subhead: 'find it. DO it. show it.',
+  body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
   explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
   ctaPrimary: { label: 'give DO a job →', href: '#do-input' },
   ctaSecondary: { label: 'see the system', href: '#products' },
   productLine: 'Pursuit · DO · Studio',
-  loopLine: 'one context. many models. visible proof.',
+  loopLine: 'use one. connect two. run the whole loop.',
 } as const;
 
 export const SIGNALS = {

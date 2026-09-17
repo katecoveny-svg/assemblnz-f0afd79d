@@ -1,6 +1,7 @@
 import { doOwner, privateDoHeaders } from '@/apps/do/services/owner';
 import { getOwnerBuilderJob, recordOwnerJobEvent } from '@/apps/do/services/office-jobs';
 import { allowedDoOrigin } from '@/apps/do/shared/http';
+import { OFFICE_STORAGE_UNAVAILABLE, OfficeStorageUnavailableError } from '@/apps/do/shared/office-jobs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -24,38 +25,44 @@ export async function GET(request: Request, { params }: Params) {
     return json({ error: 'invalid_id' }, 400);
   }
 
-  const detail = await getOwnerBuilderJob(owner.id, id);
-  if (!detail) return json({ error: 'not_found', message: 'No Builder job with that id in your Office workspace.' }, 404);
+  try {
+    const detail = await getOwnerBuilderJob(owner.id, id);
+    if (!detail) return json({ error: 'not_found', message: 'No Builder job with that id in your Office workspace.' }, 404);
 
-  await recordOwnerJobEvent({
-    ownerId: owner.id,
-    workspaceId: detail.record.workspaceId,
-    jobId: detail.record.id,
-    eventId: `job-reopened:${detail.record.id}:${new Date().toISOString().slice(0, 13)}`,
-    kind: 'job_reopened',
-    detail: { via: 'builder_api' },
-  }).catch(() => { /* reopen telemetry is best-effort */ });
+    await recordOwnerJobEvent({
+      ownerId: owner.id,
+      workspaceId: detail.record.workspaceId,
+      jobId: detail.record.id,
+      eventId: `job-reopened:${detail.record.id}:${new Date().toISOString().slice(0, 13)}`,
+      kind: 'job_reopened',
+      detail: { via: 'builder_api' },
+    }).catch(() => { /* reopen telemetry is best-effort */ });
 
-  return json({
-    job: detail.record.job,
-    models: detail.record.models,
-    executionBoundary: detail.record.executionBoundary,
-    officeStatus: detail.record.officeStatus,
-    savedAt: detail.record.updatedAt,
-    durable: true,
-    receipts: detail.receipts.map((receipt) => ({
-      id: receipt.id,
-      kind: receipt.kind,
-      title: receipt.title,
-      summary: receipt.summary,
-      evidence: receipt.evidence,
-      createdAt: receipt.createdAt,
-    })),
-    events: detail.events.map((event) => ({
-      eventId: event.eventId,
-      kind: event.kind,
-      detail: event.detail,
-      createdAt: event.createdAt,
-    })),
-  });
+    return json({
+      job: detail.record.job,
+      models: detail.record.models,
+      executionBoundary: detail.record.executionBoundary,
+      officeStatus: detail.record.officeStatus,
+      savedAt: detail.record.updatedAt,
+      durable: detail.record.storage === 'database',
+      storage: detail.record.storage,
+      receipts: detail.receipts.map((receipt) => ({
+        id: receipt.id,
+        kind: receipt.kind,
+        title: receipt.title,
+        summary: receipt.summary,
+        evidence: receipt.evidence,
+        createdAt: receipt.createdAt,
+      })),
+      events: detail.events.map((event) => ({
+        eventId: event.eventId,
+        kind: event.kind,
+        detail: event.detail,
+        createdAt: event.createdAt,
+      })),
+    });
+  } catch (error) {
+    if (error instanceof OfficeStorageUnavailableError) return json(OFFICE_STORAGE_UNAVAILABLE, 503);
+    return json({ error: 'load_failed', message: 'Could not reopen Builder job.' }, 500);
+  }
 }

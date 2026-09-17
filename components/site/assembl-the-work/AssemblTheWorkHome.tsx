@@ -5,7 +5,7 @@ import { GlowDoWidget } from './GlowDoWidget';
 import { AssemblWorldHero } from './AssemblWorldHero';
 import { DoFilm } from '@/components/do/DoFilm';
 import { DoSpatialScene } from '@/components/do/DoSpatialScene';
-import { PRODUCTS } from './copy';
+import { HERO, PRODUCTS } from './copy';
 import './assembl-the-work.css';
 import './assembl-spatial.css';
 
@@ -15,7 +15,7 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <a className="atw-skip" href="#products">Skip to products</a>
     {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
     <AssemblWorldHero preview={preview} />
-    <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>— <em>find it.</em></span></Link><Link href="/do"><strong>DO</strong><span>— <em>do it.</em></span></Link><Link href="/creative-studio"><strong>Studio</strong><span>— <em>show it.</em></span></Link><p>Use one.<br />Connect the whole loop.</p></section>
+    <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>— <em>find it.</em></span></Link><Link href="/do"><strong>DO</strong><span>— <em>do it.</em></span></Link><Link href="/creative-studio"><strong>Studio</strong><span>— <em>show it.</em></span></Link><p>{HERO.loopLine}</p></section>
     <section className="atw-companion-story" aria-labelledby="companion-story-title">
       <div className="atw-companion-copy"><p className="atw-kicker">DO / YOUR PORTABLE COMPANION</p><h2 id="companion-story-title">A little DO.<br />A world of help.</h2><p>A reply to write. A week to organise. An idea to build. Give the work its own DO and keep it close.</p>
         <article><span>01 / MAKE IT YOURS</span><h3>Your writing. Your work.</h3><p>Choose a specialist, add the material it needs and shape how it helps. Drag a skill into your DO or tap to choose.</p><Link className="atw-text-link" href="/do#your-dos">Choose your DO <ArrowUpRight size={17} /></Link></article>

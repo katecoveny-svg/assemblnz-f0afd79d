@@ -30,7 +30,7 @@ export function DoDownloadCtas({
         download="DO-mac-companion.zip"
       >
         <Download size={16} aria-hidden />
-        Download Mac DO
+        Download Mac source
       </a>
       <Link className={styles.guide} href="/do/install">
         Install guide

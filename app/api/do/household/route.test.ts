@@ -1,134 +1,121 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { repo, ownerA } = vi.hoisted(() => ({
-  ownerA: { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', externalId: 'do:user:aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' },
-  repo: {
-    clear: () => undefined as void,
-    // Reassigned in the mock factory to the real MemoryHouseholdFloorRepo methods.
-  } as {
-    clear: () => void;
-    save?: (ownerId: string | null, floor: unknown) => Promise<unknown>;
-    listForOwner?: (ownerId: string) => Promise<unknown[]>;
-    getForOwner?: (ownerId: string, floorId: string) => Promise<unknown>;
-    savePlaybook?: (playbook: unknown) => Promise<unknown>;
-  },
+vi.mock('@/apps/do/services/owner', async (importOriginal) => ({
+  ...await importOriginal<typeof import('@/apps/do/services/owner')>(), doOwner: vi.fn(),
 }));
-
-vi.mock('@/apps/do/services/owner', () => ({
-  doOwner: vi.fn(),
-  privateDoHeaders: { 'Cache-Control': 'private, no-store', Vary: 'Cookie', 'X-Content-Type-Options': 'nosniff' },
-}));
-
-vi.mock('@/apps/do/shared/http', () => ({
-  allowedDoOrigin: (req: Request) => {
-    const origin = req.headers.get('origin');
-    if (!origin) return null;
-    try {
-      return origin === new URL(req.url).origin ? origin : null;
-    } catch {
-      return null;
-    }
-  },
-}));
-
-vi.mock('@/apps/do/shared/household-floor-store', async () => {
-  const actual = await vi.importActual<typeof import('@/apps/do/shared/household-floor-store')>(
-    '@/apps/do/shared/household-floor-store',
-  );
-  const impl = new actual.MemoryHouseholdFloorRepo();
-  repo.clear = () => impl.clear();
-  repo.save = (ownerId, floor) => impl.save(ownerId, floor as never);
-  repo.listForOwner = (ownerId) => impl.listForOwner(ownerId);
-  repo.getForOwner = (ownerId, floorId) => impl.getForOwner(ownerId, floorId);
-  repo.savePlaybook = (playbook) => impl.savePlaybook(playbook as never);
-  return {
-    ...actual,
-    householdFloorMemory: impl,
-  };
-});
 
 import { doOwner } from '@/apps/do/services/owner';
-import { installHouseholdFloor } from '@/apps/do/shared/household-floor';
-import { PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE } from '@/apps/do/shared/household-floor-templates';
+import { HouseholdFloorOwnershipError, householdFloorMemory } from '@/apps/do/shared/household-floor-store';
 import { GET, POST } from './route';
 
-function postRequest(body: unknown, origin = 'https://www.assembl.co.nz') {
+const ownerA = { id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', externalId: 'do:user:a' };
+const ownerB = { id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', externalId: 'do:user:b' };
+const id = '11111111-1111-4111-8111-111111111111';
+function request(body: unknown) {
   return new Request('https://www.assembl.co.nz/api/do/household', {
-    method: 'POST',
-    headers: { origin, 'content-type': 'application/json' },
-    body: JSON.stringify(body),
+    method: 'POST', headers: { origin: 'https://www.assembl.co.nz', 'content-type': 'application/json' }, body: JSON.stringify(body),
   });
 }
 
-function getRequest(path = 'https://www.assembl.co.nz/api/do/household') {
-  return new Request(path, {
-    method: 'GET',
-    headers: { origin: 'https://www.assembl.co.nz' },
-  });
-}
+const install = () => POST(request({ templateId: 'public_household_floor', id }));
 
-describe('Household Floor API', () => {
+describe('Household preview storage contract', () => {
+  afterEach(() => vi.restoreAllMocks());
+
   beforeEach(() => {
-    repo.clear();
+    householdFloorMemory.clear();
     vi.mocked(doOwner).mockReset();
-  });
-
-  it('lists the public shareable template', async () => {
-    vi.mocked(doOwner).mockResolvedValue(null);
-    const response = await GET(getRequest());
-    expect(response.status).toBe(200);
-    const body = await response.json();
-    expect(body.publicTemplate.id).toBe('public_household_floor');
-    expect(body.honesty.path).toMatch(/evening board/i);
-  });
-
-  it('installs the public template without auth', async () => {
-    vi.mocked(doOwner).mockResolvedValue(null);
-    const response = await POST(postRequest({
-      action: 'install',
-      templateId: 'public_household_floor',
-      personalisation: { displayName: 'Demo Floor', accentColor: '#240B21', avatarMark: '⌂' },
-    }));
-    expect(response.status).toBe(200);
-    const body = await response.json();
-    expect(body.floor.templateId).toBe('public_household_floor');
-    expect(body.floor.personalisation.displayName).toBe('Demo Floor');
-    expect(body.shareWarning).toBeNull();
-  });
-
-  it('requires auth for owner-private install on the API', async () => {
-    vi.mocked(doOwner).mockResolvedValue(null);
-    const response = await POST(postRequest({
-      action: 'install',
-      templateId: 'owner_private_household_floor',
-    }));
-    expect(response.status).toBe(401);
-  });
-
-  it('ticks a posted floor into Needs you', async () => {
     vi.mocked(doOwner).mockResolvedValue(ownerA);
-    const floor = installHouseholdFloor({
-      template: PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE,
-      id: '44444444-4444-4444-8444-444444444444',
-    });
-    const response = await POST(postRequest({
-      action: 'tick',
-      forceScheduleId: 'evening-board',
-      floor,
-      persist: true,
-    }));
-    expect(response.status).toBe(200);
-    const body = await response.json();
-    expect(body.boards.needs_you.length).toBeGreaterThan(0);
-    expect(body.receipt.kind).toBe('board_tick');
   });
 
-  it('rejects cross-origin installs', async () => {
-    vi.mocked(doOwner).mockResolvedValue(ownerA);
-    const response = await POST(postRequest({
-      action: 'install',
-      templateId: 'public_household_floor',
-    }, 'https://evil.example'));
-    expect(response.status).toBe(403);
+  it('returns an unstored preview when signed out, without claiming device persistence', async () => {
+    vi.mocked(doOwner).mockResolvedValue(null);
+    const body = await (await install()).json();
+    expect(body).toMatchObject({ durable: false, storage: 'none', stored: false, preview: true });
+    expect(body.storageMessage).toMatch(/not stored/i);
+    expect(body.floor.receipts[0].summary).toMatch(/preview/i);
+    expect(body.floor.receipts[0].summary).not.toMatch(/installed on this device/i);
+    expect(await householdFloorMemory.get(id)).toBeNull();
+  });
+
+  it.each([false, true])('reports the actual process storage on tick with persist=%s', async (persist) => {
+    const { floor } = await (await install()).json();
+    const response = await POST(request({ action: 'tick', floor, persist }));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ durable: false, storage: persist ? 'process-memory' : 'none', stored: persist, preview: true });
+  });
+
+  it('does not let another owner install over or persist a tick to an existing floor', async () => {
+    const { floor } = await (await install()).json();
+    vi.mocked(doOwner).mockResolvedValue(ownerB);
+    const collision = await install();
+    expect(collision.status).toBe(409);
+    expect(collision.headers.get('cache-control')).toBe('private, no-store');
+    const body = await collision.json();
+    expect(body).toMatchObject({ error: 'floor_id_unavailable', message: 'Install with a new Household Floor id.', stored: false, storage: 'none', durable: false });
+    expect(body).not.toHaveProperty('floor');
+    const response = await POST(request({ action: 'tick', floor, persist: true }));
+    expect(response.status).toBe(404);
+    expect(await householdFloorMemory.getForOwner(ownerB.id, id)).toBeNull();
+    expect(await householdFloorMemory.getForOwner(ownerA.id, id)).toEqual(floor);
+  });
+
+  it('allows only one concurrent route install of the same id, with a request-bound owner', async () => {
+    const owners = [ownerA, ownerB];
+    const ownerContext = new AsyncLocalStorage<typeof ownerA>();
+    vi.mocked(doOwner).mockImplementation(async () => ownerContext.getStore() ?? null);
+
+    const responses = await Promise.all(owners.map((owner) => ownerContext.run(owner, () => POST(request({
+      templateId: 'public_household_floor', id, personalisation: { displayName: owner.externalId },
+    })))));
+    expect(responses.map((response) => response.status).sort()).toEqual([200, 409]);
+    const winner = responses.findIndex((response) => response.status === 200);
+    const loser = responses.findIndex((response) => response.status === 409);
+    const { floor } = await responses[winner].json();
+    expect(floor.personalisation.displayName).toBe(owners[winner].externalId);
+    expect(await responses[loser].json()).toMatchObject({ error: 'floor_id_unavailable', stored: false });
+    expect(await householdFloorMemory.listForOwner(owners[winner].id)).toEqual([floor]);
+    expect(await householdFloorMemory.listForOwner(owners[loser].id)).toEqual([]);
+    expect(await householdFloorMemory.getForOwner(owners[loser].id, id)).toBeNull();
+  });
+
+  it('maps a repository ownership conflict during tick persistence to a private 409', async () => {
+    const { floor } = await (await install()).json();
+    vi.spyOn(householdFloorMemory, 'save').mockRejectedValueOnce(new HouseholdFloorOwnershipError());
+
+    const response = await POST(request({ action: 'tick', floor, persist: true, forceScheduleId: 'evening-board' }));
+    expect(response.status).toBe(409);
+    expect(response.headers.get('cache-control')).toBe('private, no-store');
+    const body = await response.json();
+    expect(body).toMatchObject({ error: 'floor_id_unavailable', message: 'Install with a new Household Floor id.', stored: false, storage: 'none', durable: false });
+    expect(body).not.toHaveProperty('floor');
+    expect(await householdFloorMemory.getForOwner(ownerA.id, id)).toEqual(floor);
+  });
+
+  it.each(['install', 'tick'])('does not disguise unexpected %s storage errors as ownership conflicts', async (action) => {
+    const { floor } = await (await install()).json();
+    const error = new Error('Unexpected storage failure');
+    vi.spyOn(householdFloorMemory, 'save').mockRejectedValueOnce(error);
+    await expect(POST(request({ action, templateId: 'public_household_floor', id, floor, persist: true }))).rejects.toBe(error);
+  });
+
+  it('requires sign-in for a requested server tick save', async () => {
+    const { floor } = await (await install()).json();
+    vi.mocked(doOwner).mockResolvedValue(null);
+    expect((await POST(request({ action: 'tick', floor, persist: true }))).status).toBe(401);
+  });
+
+  it('labels signed-in install and list as process-memory previews, lost on reset', async () => {
+    const response = await install();
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body).toMatchObject({ durable: false, storage: 'process-memory', preview: true, stored: true });
+    expect(body.storageMessage).toMatch(/process.memory.*preview/i);
+    const listed = await GET(new Request('https://www.assembl.co.nz/api/do/household'));
+    expect(await listed.json()).toMatchObject({ durable: false, storage: 'process-memory', preview: true, floors: [{ id, durable: false, storage: 'process-memory' }] });
+    expect(await householdFloorMemory.getForOwner(ownerA.id, id)).not.toBeNull();
+    householdFloorMemory.clear();
+    expect(await householdFloorMemory.getForOwner(ownerA.id, id)).toBeNull();
   });
 });

@@ -8,8 +8,8 @@ import './watch.css';
 // Exact marketing routes only. Client journeys, tools, chat and workspaces retain
 // their existing interfaces and never load the marketing model.
 const WATCH_PAGES = new Set([
-  '/about', '/agents', '/pricing', '/concepts', '/pilots', '/field-notes',
-  '/how-it-works', '/trust', '/contact', '/faq', '/docs', '/hapai', '/industries',
+  '/agents', '/pricing', '/concepts', '/pilots', '/field-notes',
+  '/how-it-works', '/trust', '/faq', '/docs', '/hapai', '/industries',
   '/concept-studio', '/evidence-pack', '/workflows', '/journeys',
 ]);
 

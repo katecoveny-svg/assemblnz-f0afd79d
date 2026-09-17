@@ -4,9 +4,11 @@ import { Mail, Clock, MapPin } from 'lucide-react';
 import { ContactForm } from '@/components/site/contact-form';
 import publicStyles from '@/components/public/public-pages.module.css';
 import styles from './contact.module.css';
+import company from '@/components/public/company-pages.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact',
+  alternates: { canonical: '/contact' },
   description:
     'Talk to assembl about Pursuit, DO, Studio or a complete connected system.',
 };
@@ -15,7 +17,7 @@ export default async function ContactPage({searchParams}:{searchParams:Promise<{
   const {product} = await searchParams;
   const interest = ["pursuit","do","studio","system"].includes(product || "") ? product : "";
   return (
-    <div className={publicStyles.page}>
+    <div className={`${publicStyles.page} ${company.page}`}>
       <section className={`${publicStyles.hero} ${styles.hero}`}>
         <div>
             <p className={publicStyles.eyebrow}>get in touch · one useful conversation</p>

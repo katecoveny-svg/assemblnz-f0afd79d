@@ -1,14 +1,60 @@
 import { describe, expect, it } from 'vitest';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { Script } from 'node:vm';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import JSZip from 'jszip';
 import { EXTENSION_FILES, GET } from './route';
 import { doWidgetScript } from '@/apps/do/shared/distribution';
+import { DoDownloadCtas } from '@/components/do/DoDownloadCtas';
 
 const EXTENSION_DIR = path.join(process.cwd(), 'apps/do/extension');
+const EXTENSION_VERSION = JSON.parse(readFileSync(path.join(EXTENSION_DIR, 'manifest.json'), 'utf8')).version as string;
+
+describe('static DO download parity', () => {
+  it.each([
+    ['extension', `assembl-do-extension-${EXTENSION_VERSION}.zip`],
+    ['mac', 'DO-mac-companion.zip'],
+    ['mac', `assembl-do-macos-${EXTENSION_VERSION}.zip`],
+  ])('%s mirror %s has the same runtime files as the API and source', async (format, filename) => {
+    const response = await GET(new Request(`https://www.assembl.co.nz/api/do/download?format=${format}`));
+    expect(response.status).toBe(200);
+    const api = await JSZip.loadAsync(await response.arrayBuffer());
+    const mirror = await JSZip.loadAsync(readFileSync(path.join(process.cwd(), 'public/do/downloads', filename)));
+    // Only the root README is generated differently. Nested source READMEs,
+    // executable code, manifest, UI and icons must remain byte-for-byte equal.
+    const runtimeFiles = (zip: JSZip) => Object.values(zip.files)
+      .filter((entry) => !entry.dir && entry.name !== 'README.md')
+      .map((entry) => entry.name)
+      .sort();
+    const names = runtimeFiles(api);
+    expect(names.length).toBeGreaterThan(0);
+    expect(runtimeFiles(mirror), 'static/API file inventory').toEqual(names);
+    if (format === 'extension') {
+      expect(names).toEqual([...EXTENSION_FILES].sort());
+      expect(response.headers.get('Content-Disposition')).toContain(filename);
+    }
+    const drift: string[] = [];
+    for (const name of names) {
+      const sourcePath = format === 'extension'
+        ? path.join(EXTENSION_DIR, name)
+        : path.join(process.cwd(), 'apps/do', name);
+      const source = readFileSync(sourcePath);
+      expect((await api.file(name)!.async('nodebuffer')).equals(source), `API/source: ${name}`).toBe(true);
+      if (!(await mirror.file(name)!.async('nodebuffer')).equals(source)) drift.push(name);
+    }
+    expect(drift, 'Refresh stale mirrors with node scripts/package-do-downloads.mjs').toEqual([]);
+  });
+});
 
 describe('DO downloadable product', () => {
+  it('labels the Mac CTA as source rather than an installable app', () => {
+    const html = renderToStaticMarkup(createElement(DoDownloadCtas));
+    const macLink = html.match(/<a[^>]*href="\/api\/do\/download\?format=mac"[^>]*>(.*?)<\/a>/s)?.[1];
+    expect(macLink?.replace(/<[^>]+>/g, '').trim()).toBe('Download Mac source');
+  });
+
   it('packages a working extension with D-mark icons, side panel and valid JS', async () => {
     const response = await GET(new Request('https://www.assembl.co.nz/api/do/download?format=extension'));
     expect(response.status).toBe(200);

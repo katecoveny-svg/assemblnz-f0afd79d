@@ -1,0 +1,25 @@
+.page.page {
+  --paper: #fffdfb;
+  --ink: #240b21;
+  --body: #654a4e;
+  --line: #240b212b;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+}
+.page.page h1, .page.page h2, .page.page h3 {
+  text-transform: none;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -.045em;
+  color: var(--ink);
+}
+.page.page h1 em, .page.page h2 em { color: #654a4e; font-style: normal; }
+.page.page h1 { line-height: .98; }
+.page.page p { line-height: 1.65; }
+.page.page section > p + p { margin-top: 22px; }
+.page.page section > p + a { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; }
+.page.page aside p { color: #654a4e; }
+.page.page strong { text-transform: none; }
+.page.page strong a { display: inline-flex; gap: 8px; align-items: center; font-size: 19px; }
+.page.page a:focus-visible, .page.page button:focus-visible, .page.page input:focus-visible, .page.page textarea:focus-visible, .page.page select:focus-visible { outline: 3px solid #916a70; outline-offset: 4px; }

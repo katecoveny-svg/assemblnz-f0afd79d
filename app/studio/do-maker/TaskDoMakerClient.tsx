@@ -63,12 +63,12 @@ function seedDraft(search: { get(name: string): string | null }): TaskDoDraft {
   return draftFromParts(DEFAULT_BRAND, DEFAULT_CONFIG);
 }
 
-export function TaskDoMakerClient() {
+export function TaskDoMakerClient({ initialIdentity }: { initialIdentity: { id: string; createdAt: string } }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const previewOnly = isPreviewMode(searchParams);
 
-  const initial = useMemo(() => seedDraft(searchParams), []);
+  const [initial] = useState(() => seedDraft(searchParams));
   const [brand, setBrand] = useState(initial.brand);
   const [config, setConfig] = useState(initial.config);
   const [journey, setJourney] = useState<PursuitJourney>(initial.journey);
@@ -76,24 +76,25 @@ export function TaskDoMakerClient() {
   const [message, setMessage] = useState(
     'Drafts stay in this browser until you export or hand off to DO.',
   );
-  const [specId, setSpecId] = useState(() => crypto.randomUUID());
+  const [specId, setSpecId] = useState(initialIdentity.id);
   const [customName, setCustomName] = useState('');
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    if (hasMakerContext(searchParams)) {
+    const frame = requestAnimationFrame(() => {
+      if (!hasMakerContext(searchParams)) {
+        const local = readLocalDraft(window.localStorage);
+        if (local) {
+          setBrand(local.brand);
+          setConfig(local.config);
+          setJourney(local.journey);
+          setPersist('browser');
+          setMessage('Restored the last draft saved in this browser.');
+        }
+      }
       setHydrated(true);
-      return;
-    }
-    const local = readLocalDraft(window.localStorage);
-    if (local) {
-      setBrand(local.brand);
-      setConfig(local.config);
-      setJourney(local.journey);
-      setPersist('browser');
-      setMessage('Restored the last draft saved in this browser.');
-    }
-    setHydrated(true);
+    });
+    return () => cancelAnimationFrame(frame);
   }, [searchParams]);
 
   const mode = config.mode;
@@ -104,8 +105,8 @@ export function TaskDoMakerClient() {
     [brand, config, journey],
   );
   const spec = useMemo(
-    () => compileTaskDoSpec(brand, config, { id: specId }),
-    [brand, config, specId],
+    () => compileTaskDoSpec(brand, config, { id: specId, now: initialIdentity.createdAt }),
+    [brand, config, specId, initialIdentity.createdAt],
   );
 
   useEffect(() => {
@@ -121,10 +122,12 @@ export function TaskDoMakerClient() {
 
   // Keep logoUrl synced from uploaded mark when present.
   useEffect(() => {
-    if (journey.assets.markDataUrl && brand.logoUrl !== journey.assets.markDataUrl) {
+    if (!journey.assets.markDataUrl || brand.logoUrl === journey.assets.markDataUrl) return;
+    const frame = requestAnimationFrame(() => {
       setBrand((prev) => ({ ...prev, logoUrl: journey.assets.markDataUrl }));
-    }
-  }, [journey.assets.markDataUrl]);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [journey.assets.markDataUrl, brand.logoUrl]);
 
   const setMode = useCallback((next: TaskDoMode) => {
     if (next === 'partner') {

@@ -1,0 +1,110 @@
+[
+  {
+    "path": "/creative-studio",
+    "width": 1440,
+    "status": 200,
+    "title": "Studio · show it. · assembl",
+    "h1": "Give the ideaa world of its own.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/creative-studio",
+    "width": 375,
+    "status": 200,
+    "title": "Studio · show it. · assembl",
+    "h1": "Give the ideaa world of its own.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/about",
+    "width": 1440,
+    "status": 200,
+    "title": "About assembl · assembl",
+    "h1": "assemblthe work.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/about",
+    "width": 375,
+    "status": 200,
+    "title": "About assembl · assembl",
+    "h1": "assemblthe work.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/contact?product=studio",
+    "width": 1440,
+    "status": 200,
+    "title": "Contact · assembl",
+    "h1": "Let'stalk.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/contact?product=studio",
+    "width": 375,
+    "status": 200,
+    "title": "Contact · assembl",
+    "h1": "Let'stalk.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/studio/do-maker",
+    "width": 1440,
+    "status": 200,
+    "title": "Task DO Maker · assembl studio",
+    "h1": "Assemble a Pursuit demo.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/studio/do-maker",
+    "width": 375,
+    "status": 200,
+    "title": "Task DO Maker · assembl studio",
+    "h1": "Assemble a Pursuit demo.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/do/office",
+    "width": 1440,
+    "status": 200,
+    "title": "DO Office · assembl",
+    "h1": "give the work.see it move.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/do/office",
+    "width": 375,
+    "status": 200,
+    "title": "DO Office · assembl",
+    "h1": "give the work.see it move.",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/do/browser",
+    "width": 1440,
+    "status": 200,
+    "title": "Browser Runtime · DO · assembl",
+    "h1": "Jobs that survive the tab",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "path": "/do/browser",
+    "width": 375,
+    "status": 200,
+    "title": "Browser Runtime · DO · assembl",
+    "h1": "Jobs that survive the tab",
+    "overflow": false,
+    "errors": []
+  }
+]

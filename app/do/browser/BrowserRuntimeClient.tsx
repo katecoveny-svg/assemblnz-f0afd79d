@@ -19,6 +19,10 @@ type ApiPayload = {
   message?: string;
 };
 
+export function browserRuntimeResponseError(response: { ok: boolean }, data: ApiPayload): string | null {
+  return response.ok ? null : data.message || data.error || 'Browser Runtime request failed.';
+}
+
 const DEMO_CONTEXT = {
   url: 'https://example-insurer.demo/policy-excess',
   title: 'Comprehensive excess — demo insurer page',
@@ -33,28 +37,43 @@ export function BrowserRuntimeClient() {
   const [permit, setPermit] = useState<PermitRecord | null>(null);
   const [receipt, setReceipt] = useState<ReceiptRecord | null>(null);
   const [busy, setBusy] = useState(false);
-  const [status, setStatus] = useState('Jobs persist in DO — not only in this tab');
+  const [status, setStatus] = useState('Loading Browser Runtime preview…');
   const [title, setTitle] = useState('Compare three insurers’ excess');
   const [objective, setObjective] = useState(
     'Compare excess figures across insurer pages; finish with a note artifact.',
   );
 
-  const applyPayload = useCallback((data: ApiPayload) => {
-    if (data.job) setJob(data.job);
-    if (data.jobs) setJobs(data.jobs);
-    setPrepared(data.prepared ?? null);
-    setPermit(data.permit ?? null);
-    setReceipt(data.receipt ?? null);
+  const applyPayload = useCallback((data: ApiPayload, ok: boolean) => {
+    const error = browserRuntimeResponseError({ ok }, data);
+    if (error) {
+      // Do not leave previously opened private context visible after an auth/not-found denial.
+      setJobs([]);
+      setJob(null);
+      setPrepared(null);
+      setPermit(null);
+      setReceipt(null);
+      setStatus(error);
+      return false;
+    }
+    if (data.jobs) {
+      setJobs(data.jobs);
+      if (data.honesty) setStatus(data.honesty);
+    }
     if (data.job) {
+      setJob(data.job);
+      setPrepared(data.prepared ?? null);
+      setPermit(data.permit ?? null);
+      setReceipt(data.receipt ?? null);
       setStatus(`${data.job.status.replace(/_/g, ' ')} · ${data.job.job_id}`);
     }
+    return true;
   }, []);
 
-  const refresh = useCallback(async () => {
-    const res = await fetch('/api/do/browser-runtime');
-    const data = (await res.json()) as ApiPayload;
-    if (data.jobs) setJobs(data.jobs);
-  }, []);
+  const refresh = useCallback(() => {
+    return fetch('/api/do/browser-runtime')
+      .then(async res => applyPayload((await res.json()) as ApiPayload, res.ok))
+      .catch(() => applyPayload({ message: 'Network error' }, false));
+  }, [applyPayload]);
 
   useEffect(() => {
     void refresh();
@@ -70,14 +89,18 @@ export function BrowserRuntimeClient() {
           body: JSON.stringify(body),
         });
         const data = (await res.json()) as ApiPayload;
-        if (!res.ok) {
-          setStatus(data.message || data.error || 'Request failed');
+        if (res.status === 409 && data.error === 'stale_review' && typeof body.job_id === 'string') {
+          // Refresh what is displayed, never retry the rejected decision with
+          // newer identities. The person must review and explicitly act again.
+          const latest = await fetch(`/api/do/browser-runtime?job_id=${encodeURIComponent(body.job_id)}`);
+          if (!applyPayload((await latest.json()) as ApiPayload, latest.ok)) return;
+          if (await refresh()) setStatus(data.message || 'Review changed. Review the current job before deciding again.');
           return;
         }
-        applyPayload(data);
+        if (!applyPayload(data, res.ok)) return;
         await refresh();
       } catch {
-        setStatus('Network error');
+        applyPayload({ message: 'Network error' }, false);
       } finally {
         setBusy(false);
       }
@@ -196,8 +219,7 @@ export function BrowserRuntimeClient() {
                     Lock demo page context
                   </button>
                   <p className={styles.hint}>
-                    From the Chrome DO side panel, use “Lock into open job” after capture — same
-                    consent boundary as browser seat.
+                    This signed-in web preview uses sample context. Authenticated job capture from the Chrome side panel is not connected.
                   </p>
                 </div>
               )}
@@ -231,7 +253,11 @@ export function BrowserRuntimeClient() {
                     type="button"
                     className="do-cta"
                     disabled={busy}
-                    onClick={() => post({ action: 'approve_permit', job_id: job.job_id })}
+                    onClick={() => post({
+                      action: 'approve_permit', job_id: job.job_id,
+                      expected_permit_id: job.permit_id,
+                      expected_review_generation: job.review_generation,
+                    })}
                   >
                     Approve Permit
                   </button>
@@ -241,7 +267,11 @@ export function BrowserRuntimeClient() {
                     type="button"
                     className="do-cta"
                     disabled={busy}
-                    onClick={() => post({ action: 'produce_artifact', job_id: job.job_id })}
+                    onClick={() => post({
+                      action: 'produce_artifact', job_id: job.job_id,
+                      expected_permit_id: job.permit_id,
+                      expected_review_generation: job.review_generation,
+                    })}
                   >
                     Produce artifact
                   </button>
@@ -251,7 +281,11 @@ export function BrowserRuntimeClient() {
                     type="button"
                     className="do-cta"
                     disabled={busy}
-                    onClick={() => post({ action: 'receipt', job_id: job.job_id })}
+                    onClick={() => post({
+                      action: 'receipt', job_id: job.job_id,
+                      expected_permit_id: job.permit_id,
+                      expected_review_generation: job.review_generation,
+                    })}
                   >
                     Mint receipt
                   </button>
@@ -306,9 +340,15 @@ export function BrowserRuntimeClient() {
                     type="button"
                     disabled={busy}
                     onClick={async () => {
-                      const res = await fetch(`/api/do/browser-runtime?job_id=${item.job_id}`);
-                      const data = (await res.json()) as ApiPayload;
-                      applyPayload(data);
+                      setBusy(true);
+                      try {
+                        const res = await fetch(`/api/do/browser-runtime?job_id=${encodeURIComponent(item.job_id)}`);
+                        applyPayload((await res.json()) as ApiPayload, res.ok);
+                      } catch {
+                        applyPayload({ message: 'Network error' }, false);
+                      } finally {
+                        setBusy(false);
+                      }
                     }}
                   >
                     <strong>{item.title}</strong>

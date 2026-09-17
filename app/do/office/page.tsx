@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { doOwner } from '@/apps/do/services/owner';
 import { listOwnerBuilderJobs } from '@/apps/do/services/office-jobs';
-import { listAgents } from '@/apps/do/shared/store';
+
 import type { DurableJobRecord } from '@/apps/do/shared/office-jobs';
 import type { AgentSpec } from '@/apps/do/shared/types';
 import { DoTaskPanel } from '@/components/do/DoTaskPanel';
@@ -65,15 +65,20 @@ function BuilderJobCard({ record }: { record: DurableJobRecord }) {
     <div className={styles.cardTop}><div className={styles.identity}><div className={styles.avatar} aria-hidden>BD</div><div><h3>{record.title}</h3><p>Builder DO · {record.status.replace('_', ' ')}</p></div></div><span className={styles.state} data-state={record.officeStatus}>{record.officeStatus.replace('_', ' ')}</span></div>
     <p className={styles.task}>{record.job.objective}</p>
     <p className={styles.note}>Authority: {record.job.authority}. Acceptance receipts mean the plan was saved — not that a build or Household Floor is running.</p>
-    <div className={styles.metrics}><span><strong>1</strong> acceptance</span><span><strong>{record.job.proof.length}</strong> proof items</span><span className={styles.mailbox}>durable · personal</span></div>
+    <div className={styles.metrics}><span><strong>1</strong> acceptance</span><span><strong>{record.job.proof.length}</strong> proof items</span><span className={styles.mailbox}>{record.storage === 'database' ? 'saved · personal' : 'process-memory preview'}</span></div>
     <div className={styles.cardFooter}><span>updated {new Date(record.updatedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</span><Link href="/do/builder">reopen in Builder</Link></div>
   </article>;
 }
 
 export default async function DoOfficePage() {
-  const agents = await listAgents();
+  // Retired v0 storage has no owner identity and must never populate this page.
+  const agents: AgentSpec[] = [];
   const owner = await doOwner();
-  const durableJobs = owner ? await listOwnerBuilderJobs(owner.id).catch(() => []) : [];
+  let storageUnavailable = false;
+  const durableJobs = owner ? await listOwnerBuilderJobs(owner.id).catch(() => {
+    storageUnavailable = true;
+    return [];
+  }) : [];
   const builderNeedsYou = durableJobs.filter((job) => job.officeStatus === 'needs_you').length;
   const builderWorking = durableJobs.filter((job) => job.officeStatus === 'working').length;
   const builderDone = durableJobs.filter((job) => job.officeStatus === 'done').length;
@@ -91,7 +96,7 @@ export default async function DoOfficePage() {
       <DoTaskStrip boardId="household-floor" label="Household Floor · next" />
       <DoOfficeSpatial needsYou={needsYou} working={working} done={done} />
       <TaskDoHandoffBanner />
-      <nav className={styles.workspaceBar} aria-label="DO workspaces"><Link href="/do/builder" className={styles.builderLink}>+ job with Builder DO</Link><button type="button" className={styles.workspaceActive}>all DOs <span>{agents.length + durableJobs.length}</span></button><button type="button" disabled>personal{durableJobs.length ? ` · ${durableJobs.length}` : ''}</button><button type="button" disabled>work</button><button type="button" disabled>clients</button><p>{owner ? 'Signed-in Builder jobs use durable Office storage. Demo agents remain local until handoffs land.' : <><Link href="/login?redirect=%2Fdo%2Foffice">Sign in</Link> to project durable Builder jobs here.</>}</p></nav>
+      <nav className={styles.workspaceBar} aria-label="DO workspaces"><Link href="/do/builder" className={styles.builderLink}>+ job with Builder DO</Link><button type="button" className={styles.workspaceActive}>all DOs <span>{agents.length + durableJobs.length}</span></button><button type="button" disabled>personal{durableJobs.length ? ` · ${durableJobs.length}` : ''}</button><button type="button" disabled>work</button><button type="button" disabled>clients</button><p>{storageUnavailable ? 'Office storage is unavailable. Keep your local draft and try again later.' : owner ? 'Your owner-scoped Builder plans are shown here. Saving a plan does not run a build.' : <><Link href="/login?redirect=%2Fdo%2Foffice">Sign in</Link> to project durable Builder jobs here.</>}</p></nav>
       <section className={styles.summary} aria-label="DO status summary"><div><strong>{needsYou}</strong><span>needs you</span></div><div><strong>{working}</strong><span>working</span></div><div><strong>{done}</strong><span>done</span></div><div><strong>0</strong><span>unread handoffs</span></div></section>
       {durableJobs.length ? <section className={styles.column} aria-labelledby="board-builder-jobs"><header className={styles.columnHeader}><div><h2 id="board-builder-jobs">builder jobs</h2><p>owner-scoped plans with acceptance receipts</p></div><span>{durableJobs.length}</span></header><div className={styles.cardStack}>{durableJobs.map((record) => <BuilderJobCard key={record.id} record={record} />)}</div></section> : null}
       <div className={styles.boards}>{BOARD.map((column) => { const columnAgents = agentsForBoard(agents, column.key); return <section className={styles.column} key={column.key} aria-labelledby={`board-${column.key}`}><header className={styles.columnHeader}><div><h2 id={`board-${column.key}`}>{column.label}</h2><p>{column.helper}</p></div><span>{columnAgents.length}</span></header><div className={styles.cardStack}>{columnAgents.length ? columnAgents.map((agent) => <AgentCard key={agent.id} agent={agent} />) : <div className={styles.empty}><span>quiet here</span><p>No DOs in this state yet.</p></div>}</div></section>; })}</div>

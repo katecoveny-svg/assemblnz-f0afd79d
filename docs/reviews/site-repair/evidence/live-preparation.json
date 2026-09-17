@@ -1,0 +1,58 @@
+[
+  {
+    "task": "rewrite",
+    "status": 200,
+    "body": {
+      "draft": {
+        "version": 1,
+        "id": "74a176af-9090-436a-8afe-acb37234219a",
+        "task": "rewrite",
+        "title": "Polish my writing · Synthetic website check",
+        "text": "**Meeting reminder – 24 September 2026**\n\n---\n\n**Meeting details**\n\nDate and time: 24 September 2026 at 10:00 am.\n\n**What to bring**\n\nPlease bring the draft agenda.\n\n**Supplier status**\n\nNo supplier has been chosen yet.\n\n---\n\n*Draft only – please review before sending.*",
+        "createdAt": "2026-09-16T23:25:54.310Z",
+        "status": "draft",
+        "evidence": {
+          "method": "model",
+          "model": "claude-sonnet-4-6",
+          "sourceTitle": "Synthetic website check",
+          "sourceUrl": "",
+          "sourceHash": "992a67f5717118e9fb06c3e13bf700c87657c22e05e0bfb7acc7718dbb6a4bfc",
+          "sourceCharacters": 111,
+          "instructionHash": "7ba3852fce7629e7bd01bddeb78a718e52026a22f441dd16592fe63f8d8bca31",
+          "outputHash": "31fce10a0af94bafe429e746551e16668a3fa8cdfc1349eb74801c81d4d0a7a9",
+          "consentAt": "2026-09-16T23:25:54.310Z",
+          "boundary": "Prepared from the text you supplied. Linked pages were not fetched. External accounts were not accessed. No message, purchase, booking or submission was made."
+        }
+      },
+      "trialBypassed": false
+    }
+  },
+  {
+    "task": "meeting-notes",
+    "status": 200,
+    "body": {
+      "draft": {
+        "version": 1,
+        "id": "2749914a-1191-4a15-b651-d67038f1ba8c",
+        "task": "meeting-notes",
+        "title": "Smart meeting notes · Synthetic meeting check",
+        "text": "Meeting notes\nAlex is preparing a draft website outline, due 25 September 2026. Morgan raised the question of whether a mobile preview should be included in the outline. The team agreed to review the outline before anything is published. Nothing has been published to date.\n\nDecisions / outcomes\nThe team agreed to review the website outline before publishing.\n\nAction items\n- Prepare draft website outline · Owner: Alex · Due: 25 September 2026\n\nOpen questions\n- Should a mobile preview be included in the website outline? Raised by Morgan; no decision made.\n\nSuggested specialist DO\n- Draft: Builder DO to prepare a structured website outline template for Alex to work from, including a placeholder section for mobile preview pending team decision.\n\nFollow-up email draft\nSubject: Website outline review — draft due 25 September 2026\n\nHi team,\n\nJust a reminder that Alex is preparing the draft website outline, due 25 September 2026. We'll review this as a team before anything is published.\n\nOne open question to resolve ahead of or during that review: should a mobile preview be included? Morgan raised this but no decision was made — worth confirming so Alex can factor it in.\n\nPlease let me know if anything needs clarifying before then.\n\n[Your name]",
+        "createdAt": "2026-09-16T23:25:59.922Z",
+        "status": "draft",
+        "evidence": {
+          "method": "model",
+          "model": "claude-sonnet-4-6",
+          "sourceTitle": "Synthetic meeting check",
+          "sourceUrl": "",
+          "sourceHash": "54b18158db7a9062ef49cfd48ffea8f087badfa7ebfafddefbf82aa79680ea2f",
+          "sourceCharacters": 250,
+          "instructionHash": "3c360b58869d47a252a46791f7953239cdba52b07a8791b45d6eaa54b967ce0b",
+          "outputHash": "8c1b84bf19734a2f103db1210c6986169c8a79c3cd50ae3100456e6de292bc78",
+          "consentAt": "2026-09-16T23:25:59.922Z",
+          "boundary": "Prepared from the text you supplied. Linked pages were not fetched. External accounts were not accessed. No message, purchase, booking or submission was made."
+        }
+      },
+      "trialBypassed": false
+    }
+  }
+]
