@@ -15,56 +15,51 @@ import {
 } from '@/lib/registry/pricing';
 
 /**
- * /pricing — Kate's pricing.html prototype, ported 1:1 (copy + tiers hers,
- * 2026-07-24). The shared watch frame supplies the artwork. The pricing
- * registry, copy and checkout component remain unchanged.
+ * /pricing — current public install-and-run offer.
+ * Prices remain sourced from the registry; this component only frames them.
  */
 export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: boolean }) {
-
   return (
     <div className="cine" style={{ cursor: 'auto' }}>
       <div className="content">
         <nav className="nav">
           <Link className="wordmark" href="/">assembl</Link>
           <div className="nav-links">
-            <Link href="/agents">agents</Link>
-            <Link href="/pricing">pricing</Link>
-            <Link href="/assembling">the agentic journey</Link>
+            <Link href="/pursuit">Pursuit</Link>
+            <Link href="/do">DO</Link>
+            <Link href="/creative-studio">Studio</Link>
           </div>
           <Link className="nav-cta" href="/">← home</Link>
         </nav>
 
         <header className="page-header">
-          <div className="kicker">pricing</div>
-          <h1>Agents prepare.<br /><span className="accent">People decide.</span></h1>
+          <div className="kicker">current install offer</div>
+          <h1>Start with one useful job.<br /><span className="accent">Add more when it earns its place.</span></h1>
           <p className="lede" style={{ marginTop: 16 }}>
-            {PRICE_INSTALL} gets one real thing running in your business in about two weeks. Not a demo,
-            not a slide deck. After that it&rsquo;s {PRICE_RUNNING} a month to keep it working.
+            {PRICE_INSTALL} gets one bounded job running in about two weeks, with the context,
+            permissions and review points written down around it. After that it&rsquo;s {PRICE_RUNNING}
+            {' '}a month to keep the installed work running and current.
           </p>
           <p className="lede" style={{ marginTop: 10, opacity: 0.72 }}>
-            <Link href="/ai-ready" style={{ textDecoration: 'underline' }}>Paste your website first</Link>
-            {' '}— it&rsquo;s free, and you&rsquo;ll see what we&rsquo;d be working from.
+            This is the current public install-and-run offer. Larger outcomes can be scoped separately below.
           </p>
         </header>
 
         <div className="page-body">
           <div className="pricing-grid">
             <div className="price-card featured">
-              <div className="price-badge">the install</div>
+              <div className="price-badge">start here</div>
               <div className="price-tier">the install</div>
               <div className="price-amount">{PRICE_INSTALL}<span>{PRICE_INSTALL_SUFFIX}</span></div>
               <div className="price-desc">
-                Two weeks. At the end you have three things, and honest numbers on whether they helped.
+                Two weeks to turn one real job into a working, reviewable flow with clear boundaries.
               </div>
               <ul className="price-list">
-                <li><b>A written record of how your business works</b> — what you sell, how you talk,
-                  what needs your sign-off. A real document you can read and change.</li>
-                <li><b>One agent doing one real job</b> — drafting a quote, preparing a booking,
-                  pulling a claim together. Not a chatbot.</li>
-                <li><b>One customer journey, start to finish</b> — every step recorded, so you can
-                  see what it read and what it did.</li>
+                <li><b>A written working context</b> — the facts, rules, terminology and sign-off points the job depends on.</li>
+                <li><b>One DO on one real job</b> — preparing useful work with the required tools and permissions around it.</li>
+                <li><b>One complete flow</b> — enough to see the input, prepared work, approval boundary and result end to end.</li>
                 <li>First month of running included</li>
-                <li>NZ-hosted, NZ Privacy Act compliant</li>
+                <li>Data handling and hosting agreed for the engagement</li>
               </ul>
               <PilotSprintCheckout configured={checkoutConfigured} />
             </div>
@@ -73,52 +68,48 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
               <div className="price-tier">keep it running</div>
               <div className="price-amount">{PRICE_RUNNING}<span>{PRICE_RUNNING_SUFFIX}</span></div>
               <div className="price-desc">
-                Nothing switches off at the end of the install. This keeps it hosted, running and
-                accurate when your prices, staff or policies change — which is most of the work.
+                Keep the installed job available and current as the business context changes.
               </div>
               <ul className="price-list">
                 <li>Hosting and running costs</li>
-                <li>Your written record kept current</li>
-                <li>The agent re-checked against it</li>
-                <li>Cancel any time — you keep the written record either way</li>
+                <li>Working context kept current</li>
+                <li>The installed job re-checked as relevant facts or rules change</li>
+                <li>Cancel any time — the written context remains yours</li>
               </ul>
-              <Link className="btn btn-solid" href="/ai-ready">start with your own journey</Link>
+              <Link className="btn btn-solid" href="/contact?product=do">talk about the job</Link>
             </div>
           </div>
 
           <div className="founding" style={{ marginTop: 44 }}>
-            <h2>As you <span className="accent">grow</span></h2>
+            <h2>When the work <span className="accent">grows</span></h2>
             <p style={{ marginBottom: 24 }}>
-              More agents when you want them, not before. Most people start with one and add a second
-              when a different job starts annoying them — and by then your business is already written
-              down, so the second one is quicker to build.
+              Add more only when the first job proves useful. The same context and permissions can support a wider team or a larger outcome without starting from zero.
             </p>
             <div className="pricing-grid">
               <div className="price-card">
                 <div className="price-tier">team</div>
                 <div className="price-amount">{PRICE_TEAM}<span>{PRICE_TEAM_SUFFIX}</span></div>
-                <div className="price-desc">A few agents covering one full journey, end to end.</div>
+                <div className="price-desc">Several bounded jobs or agents working from the same agreed context.</div>
                 <ul className="price-list">
                   <li>Everything in keep it running</li>
-                  <li>Several agents, each with its own written limits</li>
-                  <li>One complete customer journey</li>
-                  <li>Shared drafts your team can see</li>
+                  <li>Several agents or jobs, each with explicit limits</li>
+                  <li>Shared context and review points</li>
+                  <li>Work your team can inspect before the next consequential step</li>
                 </ul>
-                <Link className="btn btn-ghost" href="/ai-ready">start with your own journey</Link>
+                <Link className="btn btn-ghost" href="/contact?product=do">talk about the team</Link>
               </div>
               <div className="price-card">
                 <div className="price-tier">outcome</div>
                 <div className="price-amount">{PRICE_OUTCOME}</div>
                 <div className="price-desc">
-                  Priced on the work delivered rather than on seats — for when the job is bigger than
-                  one journey.
+                  For work that is better scoped around a result than a monthly agent count.
                 </div>
                 <ul className="price-list">
                   <li>Scoped against a result you name</li>
                   <li>A scorecard agreed before we start</li>
-                  <li>Fail a line of it and we change the design or stop</li>
+                  <li>Can combine Pursuit, DO and Studio when the work needs the full loop</li>
                 </ul>
-                <Link className="btn btn-ghost" href="/ai-ready">start with your own journey</Link>
+                <Link className="btn btn-ghost" href="/contact?product=system">scope the outcome</Link>
               </div>
             </div>
           </div>
@@ -126,21 +117,25 @@ export function CinematicPricing({ checkoutConfigured }: { checkoutConfigured: b
           <div className="founding" style={{ marginTop: 44 }}>
             <h2>What the two weeks <span className="accent">look like</span></h2>
             <p>
-              <b>Week one</b> — we sit down and write your business down properly, then build the
-              agent around it.<br />
-              <b>Week two</b> — it runs against your real work. You watch it. We fix what&rsquo;s wrong.<br />
-              <b>At the end</b> — a working agent, and honest numbers on whether it saved anyone time.
-              If it didn&rsquo;t, we&rsquo;ll tell you.
+              <b>Week one</b> — agree the job, context, tools, boundaries and what a useful result looks like.<br />
+              <b>Week two</b> — run it against real work, review the outputs and fix what does not hold up.<br />
+              <b>At the end</b> — one working job, its review points and enough evidence to decide whether it should continue.
             </p>
           </div>
 
           <div className="founding" style={{ marginTop: 44 }}>
-            <h2>Before you pay <span className="accent">anything</span></h2>
+            <h2>See the system <span className="accent">before you scope it</span></h2>
             <p>
-              <b>Paste your website.</b> We read one page, build an agent that knows your business,
-              and show you the questions your site leaves hanging. About ten seconds, nothing saved.<br />
-              <b>Ask the live agent something.</b> It answers from a sample business on the home page.<br />
-              <b>The free tools.</b> Meeting notes, a 9am brief, share cards — one task each, no account.
+              <b>Pursuit</b> shows how signals become an opportunity.<br />
+              <b>DO</b> shows the action layer and the permission boundary around useful work.<br />
+              <b>Studio</b> shows how a brief, opportunity or completed job becomes something people can see and try.
+            </p>
+            <p style={{ marginTop: 16 }}>
+              <Link href="/pursuit" style={{ textDecoration: 'underline' }}>Explore Pursuit</Link>
+              {' · '}
+              <Link href="/do" style={{ textDecoration: 'underline' }}>Meet DO</Link>
+              {' · '}
+              <Link href="/creative-studio" style={{ textDecoration: 'underline' }}>Explore Studio</Link>
             </p>
           </div>
 
