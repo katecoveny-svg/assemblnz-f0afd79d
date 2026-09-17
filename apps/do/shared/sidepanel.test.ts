@@ -98,6 +98,11 @@ function setup() {
 }
 
 describe('persistent DO panel capture', () => {
+  it('does not send captured page context to the web-only Browser Runtime API', () => {
+    expect(source).not.toContain('/api/do/browser-runtime');
+    expect(html).toContain('Authenticated job capture is not connected in this extension');
+    expect(html).toMatch(/id="runtime-lock"[^>]*disabled/);
+  });
   it('does not capture on startup or automatically execute a task', () => {
     const s = setup();
     expect(s.query).not.toHaveBeenCalled();

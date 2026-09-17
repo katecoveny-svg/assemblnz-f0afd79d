@@ -39,15 +39,15 @@
   <section class="runtime" aria-label="Persistent browser job">
     <p class="eyebrow">DO Browser Runtime · prototype</p>
     <h2 class="runtime-title">Persistent job across tabs</h2>
-    <p class="seat-copy">Jobs live in DO — not only this tab. Capture what DO can see, then lock into an open job. Not a sidebar summariser. Not Firefox Smart Window.</p>
+    <p class="seat-copy">Authenticated job capture is not connected in this extension. Open the signed-in web preview, or use the reviewed draft workspace below. Preview jobs are process-memory only.</p>
     <div class="actions runtime-actions">
-      <button id="runtime-seed" type="button" class="primary-btn secondary">Seed insurer-compare job</button>
-      <button id="runtime-lock" type="button" class="primary-btn">Lock page into open job</button>
+      <button id="runtime-seed" type="button" class="primary-btn secondary">Open signed-in job preview</button>
+      <button id="runtime-lock" type="button" class="primary-btn" disabled>Lock page into open job</button>
       <a id="runtime-open" class="download-link" href="https://www.assembl.co.nz/do/browser" target="_blank" rel="noreferrer">Open Browser Runtime ↗</a>
       <a id="sponsored-open" class="download-link secondary" href="https://www.assembl.co.nz/do/sponsored" target="_blank" rel="noreferrer">Sponsored Journeys ↗</a>
     </div>
     <label class="check"><input id="runtime-consent" type="checkbox"> I consent to lock visible page text into the open DO job (not a submit).</label>
-    <p id="runtime-status" role="status">No open job yet. Seed one, or create on /do/browser.</p>
+    <p id="runtime-status" role="status">Job capture is unavailable here. The browser preview uses its own signed-in session.</p>
   </section>
 
   <section class="downloads" aria-label="Download DO">

@@ -85,7 +85,8 @@ describe('Builder durable jobs API', () => {
     const saved = await postJobs(postRequest(payload));
     expect(saved.status).toBe(200);
     const body = await saved.json();
-    expect(body.durable).toBe(true);
+    expect(body).toMatchObject({ durable: false, storage: 'process-memory' });
+    expect(body.receipt.summary).toMatch(/process.memory.*preview/i);
     expect(body.receipt.kind).toBe('job_accepted');
     expect(body.receipt.evidence.executionClaimed).toBe(false);
     expect(body.job.status).toBe('planned');
@@ -94,6 +95,7 @@ describe('Builder durable jobs API', () => {
     expect(listed.status).toBe(200);
     const listBody = await listed.json();
     expect(listBody.jobs).toHaveLength(1);
+    expect(listBody.jobs[0]).toMatchObject({ durable: false, storage: 'process-memory' });
     expect(listBody.jobs[0].job.id).toBe(payload.job.id);
 
     const opened = await getJob(getRequest(`https://www.assembl.co.nz/api/do/builder/jobs/${payload.job.id}`), {
@@ -101,6 +103,7 @@ describe('Builder durable jobs API', () => {
     });
     expect(opened.status).toBe(200);
     const openBody = await opened.json();
+    expect(openBody).toMatchObject({ durable: false, storage: 'process-memory' });
     expect(openBody.receipts[0].kind).toBe('job_accepted');
 
     vi.mocked(doOwner).mockResolvedValue(ownerB);

@@ -1,14 +1,14 @@
 {
   "name": "assembl",
   "short_name": "assembl",
-  "description": "Mahi that earns its proof. SPARK tools, specialist kete, workflows, human review, and evidence packs.",
+  "description": "assembl the work. Find evidence-backed opportunities with Pursuit, prepare bounded work with DO and show the possibility with Studio.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "background_color": "#FAF7F2",
-  "theme_color": "#2B6B57",
+  "background_color": "#FFFDFB",
+  "theme_color": "#240B21",
   "categories": ["business", "productivity", "education"],
   "icons": [
     {
@@ -26,24 +26,24 @@
   ],
   "shortcuts": [
     {
-      "name": "Browse agents",
-      "short_name": "Agents",
-      "description": "Open the assembl agent marketplace.",
-      "url": "/agents",
+      "name": "Open Pursuit",
+      "short_name": "Pursuit",
+      "description": "Find evidence-backed opportunities.",
+      "url": "/pursuit",
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Open SPARK tools",
-      "short_name": "SPARK",
-      "description": "Open the shareable assembl tool library.",
-      "url": "/hapai",
+      "name": "Open DO",
+      "short_name": "DO",
+      "description": "Prepare bounded work for review and approval.",
+      "url": "/do",
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Open workflows",
-      "short_name": "Workflows",
-      "description": "Open the workflow marketplace.",
-      "url": "/workflows",
+      "name": "Open Studio",
+      "short_name": "Studio",
+      "description": "Turn a brief into working proof and creative experiences.",
+      "url": "/creative-studio",
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     }
   ]

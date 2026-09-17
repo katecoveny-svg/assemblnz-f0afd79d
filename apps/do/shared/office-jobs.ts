@@ -9,6 +9,21 @@ import type { AgentStatus } from './types';
  * build_succeeded or proved receipt. Those require real execution evidence.
  */
 
+export const OFFICE_STORAGE_UNAVAILABLE = {
+  error: 'storage_unavailable',
+  durable: false,
+  storage: 'unavailable',
+  message: 'Durable Office storage is unavailable. The save or reload could not be confirmed.',
+  nextAction: 'Keep your local draft and retry after Office storage is configured and available.',
+} as const;
+
+export class OfficeStorageUnavailableError extends Error {
+  constructor() {
+    super(OFFICE_STORAGE_UNAVAILABLE.message);
+    this.name = 'OfficeStorageUnavailableError';
+  }
+}
+
 export const OFFICE_BUILDER_PRIMITIVE = 'build' as const;
 export const OFFICE_BUILDER_SPEC_KIND = 'builder_job' as const;
 
@@ -28,7 +43,10 @@ export type DurableJobEventKind =
   | 'handoff_prepared'
   | 'receipt_recorded';
 
+export type OfficeJobsStorage = 'database' | 'process-memory';
+
 export type DurableJobRecord = {
+  storage: OfficeJobsStorage;
   id: string;
   ownerId: string;
   workspaceId: string;
@@ -167,7 +185,7 @@ export function parseBuilderSpec(spec: unknown): {
   };
 }
 
-/** In-memory owner-scoped repository used by unit tests and local fail-soft fallbacks. */
+/** Explicitly selected owner-scoped test/local preview adapter. Never durable storage. */
 export class MemoryOfficeJobsRepo {
   private workspaces = new Map<string, { id: string; ownerId: string; name: string; kind: 'personal' | 'work' | 'client' }>();
   private jobs = new Map<string, DurableJobRecord>();
@@ -200,6 +218,7 @@ export class MemoryOfficeJobsRepo {
     }
 
     const record: DurableJobRecord = {
+      storage: 'process-memory',
       id: input.job.id,
       ownerId: input.ownerId,
       workspaceId: existing?.workspaceId ?? workspaceId,
@@ -236,7 +255,7 @@ export class MemoryOfficeJobsRepo {
       jobId: record.id,
       kind: receiptDraft.kind,
       title: receiptDraft.title,
-      summary: receiptDraft.summary,
+      summary: 'Process-memory preview only. No durable Office save, build or successful outcome is claimed.',
       evidence: receiptDraft.evidence,
       idempotencyKey: `receipt:job_accepted:${event.eventId}`,
       now,

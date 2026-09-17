@@ -12,11 +12,25 @@ import {
   listShareableHouseholdFloorTemplates,
   PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE,
 } from '@/apps/do/shared/household-floor-templates';
-import { householdFloorMemory } from '@/apps/do/shared/household-floor-store';
+import { HouseholdFloorOwnershipError, householdFloorMemory } from '@/apps/do/shared/household-floor-store';
 import { applyDoPersonalisation, DO_AVATAR_MARKS } from '@/apps/do/shared/do-personalisation';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+const MEMORY_PREVIEW = {
+  durable: false,
+  storage: 'process-memory',
+  preview: true,
+  storageMessage: 'Process-memory preview only. Not saved to a database; unavailable after a restart or on another server instance.',
+} as const;
+
+const UNSTORED_PREVIEW = {
+  durable: false,
+  storage: 'none',
+  preview: true,
+  storageMessage: 'Preview returned in this response only; not stored by the server. Save a local copy if needed.',
+} as const;
 
 const installSchema = z.object({
   templateId: z.enum(['public_household_floor', 'owner_private_household_floor']),
@@ -108,6 +122,7 @@ export async function GET(request: Request) {
   const floors = owner ? await householdFloorMemory.listForOwner(owner.id) : [];
 
   return json({
+    ...MEMORY_PREVIEW,
     publicTemplate: {
       id: PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE.id,
       name: PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE.name,
@@ -122,6 +137,7 @@ export async function GET(request: Request) {
       summary: template.summary,
     })),
     floors: floors.map((floor) => ({
+      ...MEMORY_PREVIEW,
       id: floor.id,
       templateId: floor.templateId,
       visibility: floor.visibility,
@@ -159,17 +175,31 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return json({ error: 'invalid_input', message: parsed.error.issues[0]?.message || 'Bad tick payload.' }, 400);
     }
+    const owner = parsed.data.persist ? await doOwner() : null;
+    if (parsed.data.persist) {
+      if (!owner) return json({ error: 'auth_required', message: 'Sign in to keep a process-memory preview.', ...UNSTORED_PREVIEW, stored: false }, 401);
+      const existing = await householdFloorMemory.getForOwner(owner.id, parsed.data.floor.id);
+      if (!existing) return json({ error: 'not_found', message: 'Install this Household Floor for your account before saving a tick.', ...UNSTORED_PREVIEW, stored: false }, 404);
+    }
     const result = tickHouseholdFloor({
       floor: parsed.data.floor,
       forceScheduleId: parsed.data.forceScheduleId,
     });
 
-    if (parsed.data.persist) {
-      const owner = await doOwner();
-      if (owner) await householdFloorMemory.save(owner.id, result.floor);
+    if (owner) {
+      try {
+        await householdFloorMemory.save(owner.id, result.floor);
+      } catch (error) {
+        if (error instanceof HouseholdFloorOwnershipError) {
+          return json({ error: 'floor_id_unavailable', message: 'Install with a new Household Floor id.', ...UNSTORED_PREVIEW, stored: false }, 409);
+        }
+        throw error;
+      }
     }
 
     return json({
+      ...(owner ? MEMORY_PREVIEW : UNSTORED_PREVIEW),
+      stored: Boolean(owner),
       floor: result.floor,
       created: result.created,
       receipt: result.receipt,
@@ -208,11 +238,26 @@ export async function POST(request: Request) {
   });
 
   const owner = await doOwner();
-  if (owner) await householdFloorMemory.save(owner.id, floor);
+  const provenance = owner ? MEMORY_PREVIEW : UNSTORED_PREVIEW;
+  floor.receipts = floor.receipts.map((receipt) => ({
+    ...receipt, summary: provenance.storageMessage,
+    evidence: { ...receipt.evidence, storage: provenance.storage, durable: false },
+  }));
+  if (owner) {
+    try {
+      await householdFloorMemory.save(owner.id, floor);
+    } catch (error) {
+      if (error instanceof HouseholdFloorOwnershipError) {
+        return json({ error: 'floor_id_unavailable', message: 'Install with a new Household Floor id.', ...UNSTORED_PREVIEW, stored: false }, 409);
+      }
+      throw error;
+    }
+  }
 
   return json({
     floor,
-    durable: Boolean(owner),
+    ...provenance,
+    stored: Boolean(owner),
     shareWarning: floor.visibility === 'owner_private'
       ? 'Owner-private seed — do not share this instance or screenshot with real household details.'
       : null,

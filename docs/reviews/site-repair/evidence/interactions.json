@@ -1,0 +1,13 @@
+{
+  "url": "http://127.0.0.1:3100/do?from=home&handoff=f8e3daf2-d50f-48f1-a023-a9ed6a3306ff",
+  "errors": [],
+  "posts": [],
+  "checks": [
+    "scene mounted",
+    "chapter DOM changes",
+    "pause",
+    "keyboard move",
+    "open/close dialog",
+    "homepage draft handoff without execution"
+  ]
+}

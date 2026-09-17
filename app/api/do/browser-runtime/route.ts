@@ -1,4 +1,5 @@
-import { allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
+import { readDoJson } from '@/apps/do/shared/http';
+import { doOwner, privateDoHeaders, sameDoOrigin } from '@/apps/do/services/owner';
 import { admitDoDemoRequest, doDemoClientIp } from '@/lib/do/action-stub/demo-http';
 import {
   approveBrowserRuntimePermit,
@@ -13,7 +14,11 @@ import {
   seedInsurerCompareJob,
   browserRuntimeCreateInput,
   browserRuntimeContextInput,
+  browserRuntimeJobId,
+  browserRuntimeReviewInput,
   BROWSER_RUNTIME_BOUNDARY,
+  BrowserRuntimeJobNotFoundError,
+  BrowserRuntimeReviewConflictError,
 } from '@/apps/do/shared/browser-runtime';
 import { getPermit, getPrepared, getReceipt } from '@/lib/do/action-stub';
 
@@ -21,14 +26,19 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 /**
- * DO Browser Runtime — persistent jobs API.
- * Extends browser-seat patterns; jobs live in DO store across tabs.
+ * DO Browser Runtime — authenticated, owner-scoped preview API.
+ * Jobs live only in process memory. No durable storage or external actions.
  * TODO(action-core): swap permit/execute stubs to /api/do/action/*.
  */
 
 function headers(request: Request) {
-  const base = doHeaders(request);
-  base.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  const base = new Headers(privateDoHeaders);
+  base.set('Vary', 'Cookie, Origin');
+  if (sameDoOrigin(request)) {
+    base.set('Access-Control-Allow-Origin', new URL(request.url).origin);
+    base.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    base.set('Access-Control-Allow-Headers', 'Content-Type');
+  }
   return base;
 }
 
@@ -36,8 +46,8 @@ function json(request: Request, body: unknown, status = 200) {
   return Response.json(body, { status, headers: headers(request) });
 }
 
-function packJob(job_id: string) {
-  const job = getBrowserRuntimeJob(job_id);
+function packJob(job_id: string, ownerId: string) {
+  const job = getBrowserRuntimeJob(job_id, ownerId);
   if (!job) return null;
   return {
     job,
@@ -49,38 +59,46 @@ function packJob(job_id: string) {
 }
 
 export async function OPTIONS(request: Request) {
-  if (!allowedDoOrigin(request)) {
+  if (!sameDoOrigin(request)) {
     return new Response(null, { status: 403, headers: headers(request) });
   }
   return new Response(null, { status: 204, headers: headers(request) });
 }
 
 export async function GET(request: Request) {
+  const owner = await doOwner();
+  if (!owner) return json(request, { error: 'sign_in_required', message: 'Sign in to use Browser Runtime preview.' }, 401);
   const url = new URL(request.url);
   const jobId = url.searchParams.get('job_id');
-  if (jobId) {
-    const packed = packJob(jobId);
+  if (url.searchParams.has('job_id')) {
+    const parsedId = browserRuntimeJobId.safeParse(jobId);
+    if (!parsedId.success || url.searchParams.getAll('job_id').length !== 1) {
+      return json(request, { error: 'invalid_job_id', message: 'A valid job_id is required' }, 400);
+    }
+    const packed = packJob(parsedId.data, owner.id);
     if (!packed) {
       return json(request, { error: 'job_not_found', message: 'Unknown browser runtime job' }, 404);
     }
     return json(request, packed);
   }
   return json(request, {
-    jobs: listBrowserRuntimeJobs(),
+    jobs: listBrowserRuntimeJobs(owner.id),
     boundary: BROWSER_RUNTIME_BOUNDARY,
-    honesty:
-      'Persistent DO jobs · not a sidebar summariser · not Firefox Smart Window · demo stubs only',
+    honesty: BROWSER_RUNTIME_BOUNDARY,
   });
 }
 
 export async function POST(request: Request) {
-  if (!allowedDoOrigin(request) && request.headers.get('origin')) {
+  if (!sameDoOrigin(request)) {
     return json(
       request,
-      { error: 'origin_not_allowed', message: 'Open Browser Runtime from Assembl or the DO extension.' },
+      { error: 'origin_not_allowed', message: 'Open Browser Runtime preview from Assembl.' },
       403,
     );
   }
+
+  const owner = await doOwner();
+  if (!owner) return json(request, { error: 'sign_in_required', message: 'Sign in to use Browser Runtime preview.' }, 401);
 
   const ip = doDemoClientIp(request);
   if (!admitDoDemoRequest(ip)) {
@@ -89,7 +107,11 @@ export async function POST(request: Request) {
 
   let body: Record<string, unknown>;
   try {
-    body = (await readDoJson(request)) as Record<string, unknown>;
+    const input = await readDoJson(request);
+    if (!input || typeof input !== 'object' || Array.isArray(input)) {
+      return json(request, { error: 'invalid_input', message: 'Expected a JSON object' }, 400);
+    }
+    body = input as Record<string, unknown>;
   } catch {
     return json(request, { error: 'invalid_json', message: 'Expected JSON body' }, 400);
   }
@@ -108,14 +130,17 @@ export async function POST(request: Request) {
             400,
           );
         }
-        const job = createBrowserRuntimeJob(parsed.data);
-        return json(request, packJob(job.job_id));
+        const job = createBrowserRuntimeJob(parsed.data, owner.id);
+        return json(request, packJob(job.job_id, owner.id));
       }
       case 'seed_insurer_compare': {
-        const job = seedInsurerCompareJob();
-        return json(request, packJob(job.job_id));
+        const job = seedInsurerCompareJob(owner.id);
+        return json(request, packJob(job.job_id, owner.id));
       }
       case 'lock_context': {
+        if (!browserRuntimeJobId.safeParse(body.job_id).success) {
+          return json(request, { error: 'invalid_job_id', message: 'A valid job_id is required' }, 400);
+        }
         const { action: _action, ...contextBody } = body;
         const parsed = browserRuntimeContextInput.safeParse(contextBody);
         if (!parsed.success) {
@@ -128,32 +153,52 @@ export async function POST(request: Request) {
             400,
           );
         }
-        const job = lockBrowserRuntimeContext(parsed.data);
-        return json(request, packJob(job.job_id));
+        const job = lockBrowserRuntimeContext(parsed.data, owner.id);
+        return json(request, packJob(job.job_id, owner.id));
       }
       case 'propose':
-      case 'request_permit':
+      case 'request_permit': {
+        const parsedId = browserRuntimeJobId.safeParse(body.job_id);
+        if (!parsedId.success) {
+          return json(request, { error: 'invalid_job_id', message: 'A valid job_id is required' }, 400);
+        }
+        const handler = action === 'propose' ? proposeBrowserRuntimeNextStep : requestBrowserRuntimePermit;
+        const job = handler(parsedId.data, owner.id);
+        return json(request, packJob(job.job_id, owner.id));
+      }
       case 'approve_permit':
       case 'produce_artifact':
       case 'receipt': {
-        const job_id = typeof body.job_id === 'string' ? body.job_id : '';
-        if (!job_id) {
-          return json(request, { error: 'job_id_required', message: 'job_id required' }, 400);
+        const parsedId = browserRuntimeJobId.safeParse(body.job_id);
+        if (!parsedId.success) {
+          return json(request, { error: 'invalid_job_id', message: 'A valid job_id is required' }, 400);
+        }
+        const { action: _action, job_id: _jobId, ...reviewBody } = body;
+        const parsedReview = browserRuntimeReviewInput.safeParse(reviewBody);
+        if (!parsedReview.success) {
+          return json(request, {
+            error: 'invalid_input',
+            message: 'The displayed expected_permit_id and expected_review_generation are required.',
+          }, 400);
         }
         const handlers = {
-          propose: proposeBrowserRuntimeNextStep,
-          request_permit: requestBrowserRuntimePermit,
           approve_permit: approveBrowserRuntimePermit,
           produce_artifact: produceBrowserRuntimeArtifact,
           receipt: mintBrowserRuntimeReceipt,
         } as const;
-        const job = handlers[action](job_id);
-        return json(request, packJob(job.job_id));
+        const job = handlers[action](parsedId.data, owner.id, parsedReview.data);
+        return json(request, packJob(job.job_id, owner.id));
       }
       default:
         return json(request, { error: 'unknown_action', message: `Unknown action: ${action}` }, 400);
     }
   } catch (error) {
+    if (error instanceof BrowserRuntimeJobNotFoundError) {
+      return json(request, { error: 'job_not_found', message: 'Unknown browser runtime job' }, 404);
+    }
+    if (error instanceof BrowserRuntimeReviewConflictError) {
+      return json(request, { error: 'stale_review', message: error.message }, 409);
+    }
     return json(
       request,
       {

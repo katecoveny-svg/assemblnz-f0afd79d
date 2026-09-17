@@ -29,14 +29,18 @@ export function GlowDoWidget() {
   const launcher = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const [opened, setOpened] = useState(false);
-  const [showHint, setShowHint] = useState(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      return !localStorage.getItem(FIRST_VISIT_KEY);
-    } catch {
-      return true;
-    }
-  });
+  // Keep the first client render identical to SSR; storage is browser-only.
+  const [showHint, setShowHint] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      try {
+        setShowHint(!localStorage.getItem(FIRST_VISIT_KEY));
+      } catch {
+        setShowHint(true);
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
   const [view, setView] = useState<"welcome" | "workspace">("welcome");
   const [starterBrief, setStarterBrief] = useState("");
   const [signedIn, setSignedIn] = useState<boolean | null>(null);

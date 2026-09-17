@@ -256,7 +256,20 @@
     border-radius: 19px;
   }
   .mark svg {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
+  }
+  .launcher {
+    width: 52px;
+    padding: 0;
+  }
+  .mark {
+    width: 48px;
+    height: 48px;
+    margin: 0;
+  }
+  /* Keep the companion close without covering the mobile task controls. */
+  .label, .hint {
+    display: none;
   }
 }

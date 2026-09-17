@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Suspense, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
 import { useGLTF } from '@react-three/drei/core/Gltf';
 import { Environment } from '@react-three/drei/core/Environment';
@@ -381,20 +381,37 @@ function Journey({
   return null;
 }
 
+function ContextHealth({ onLost }: { onLost: () => void }) {
+  const { gl } = useThree();
+  useEffect(() => {
+    const lost = (event: Event) => { event.preventDefault(); onLost(); };
+    gl.domElement.addEventListener('webglcontextlost', lost);
+    return () => gl.domElement.removeEventListener('webglcontextlost', lost);
+  }, [gl, onLost]);
+  return null;
+}
+
 export default function WorldScene(props: {
   progress: RefObject<number>;
   paused: boolean;
   reduced?: boolean;
   onReady?: (ready: boolean) => void;
+  onFailure?: () => void;
 }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     void useGLTF.preload('/do/world/atelier.glb', '/do/office/draco/');
   }, []);
-  const markReady = (value: boolean) => {
+  const onReady = props.onReady;
+  const onFailure = props.onFailure;
+  const markReady = useCallback((value: boolean) => {
     setReady(value);
-    props.onReady?.(value);
-  };
+    onReady?.(value);
+  }, [onReady]);
+  const lost = useCallback(() => {
+    markReady(false);
+    onFailure?.();
+  }, [markReady, onFailure]);
 
   return (
     <Canvas
@@ -420,6 +437,7 @@ export default function WorldScene(props: {
     >
       <color attach="background" args={[FIELD]} />
       <fog attach="fog" args={[FOG, 28, 95]} />
+      <ContextHealth onLost={lost} />
       <Room onReady={markReady} />
       <Journey
         progress={props.progress}

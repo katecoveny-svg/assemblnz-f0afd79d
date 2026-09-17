@@ -275,6 +275,8 @@ const splashGate = (request: NextRequest): NextResponse | null => {
     );
   }
 
+  // Public Task DO Maker only; keep /studio workbench and lookalike segments closed.
+  if (matchesPrefix(pathname, '/studio/do-maker')) return null;
   if (SPLASH_EXEMPT_EXACT.has(pathname)) return null;
   if (SPLASH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) return null;
   if (SPLASH_STATIC_FILE.test(pathname)) return null;

@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import type { BuilderJob } from '@/apps/do/shared/builder';
 import {
   OFFICE_BUILDER_PRIMITIVE,
-  MemoryOfficeJobsRepo,
+  OfficeStorageUnavailableError,
   acceptanceReceiptForJob,
   assertReceiptKindAllowed,
   builderSpecPayload,
@@ -21,17 +21,9 @@ import {
 /**
  * Owner-scoped durable Builder/Office jobs.
  * Uses authenticated Supabase client so RLS (owner_id = auth.uid()) is the boundary.
- * Falls back to an in-process memory repo only when the Office tables are unavailable
- * (local/dev without migration). Memory is not shared across instances.
+ * Database failures never downgrade to memory. Tests/local previews may explicitly
+ * select MemoryOfficeJobsRepo from the shared module instead.
  */
-
-const globalStore = globalThis as typeof globalThis & {
-  assemblOfficeJobsMemory?: MemoryOfficeJobsRepo;
-};
-
-function memoryRepo(): MemoryOfficeJobsRepo {
-  return (globalStore.assemblOfficeJobsMemory ??= new MemoryOfficeJobsRepo());
-}
 
 type AgentRow = {
   id: string;
@@ -72,6 +64,7 @@ function rowToRecord(row: AgentRow): DurableJobRecord | null {
   const parsed = parseBuilderSpec(row.spec);
   if (!parsed) return null;
   return {
+    storage: 'database',
     id: row.id,
     ownerId: row.owner_id,
     workspaceId: row.workspace_id,
@@ -121,7 +114,7 @@ async function db() {
 
 async function ensurePersonalWorkspace(ownerId: string): Promise<string> {
   const supabase = await db();
-  const { data: existing } = await supabase
+  const { data: existing, error: lookupError } = await supabase
     .from('do_workspaces')
     .select('id')
     .eq('owner_id', ownerId)
@@ -129,6 +122,7 @@ async function ensurePersonalWorkspace(ownerId: string): Promise<string> {
     .order('created_at', { ascending: true })
     .limit(1)
     .maybeSingle();
+  if (lookupError) throw lookupError;
   if (existing?.id) return existing.id as string;
 
   const { data, error } = await supabase
@@ -140,10 +134,13 @@ async function ensurePersonalWorkspace(ownerId: string): Promise<string> {
   return data.id as string;
 }
 
-async function useMemoryFallback(error: unknown): Promise<boolean> {
-  const message = error instanceof Error ? error.message : String(error ?? '');
-  return /do_workspaces|do_agents|do_receipts|do_job_events|schema cache|does not exist|Could not find the table/i.test(message)
-    || message.includes('Missing NEXT_PUBLIC_SUPABASE');
+function isOfficeStorageUnavailable(error: unknown): boolean {
+  if (error instanceof OfficeStorageUnavailableError) return true;
+  const fields = error && typeof error === 'object' ? error as { code?: unknown; message?: unknown } : {};
+  const code = typeof fields.code === 'string' ? fields.code : '';
+  const message = typeof fields.message === 'string' ? fields.message : typeof error === 'string' ? error : '';
+  return ['PGRST205', 'PGRST204', '42P01', '42703'].includes(code)
+    || /schema cache|(?:relation|column).*does not exist|Could not find the table|Missing NEXT_PUBLIC_SUPABASE/i.test(message);
 }
 
 export async function saveOwnerBuilderJob(input: SaveDurableBuilderJobInput): Promise<DurableJobDetail> {
@@ -158,12 +155,13 @@ export async function saveOwnerBuilderJob(input: SaveDurableBuilderJobInput): Pr
       executionBoundary: input.executionBoundary,
     });
 
-    const { data: existing } = await supabase
+    const { data: existing, error: lookupError } = await supabase
       .from('do_agents')
       .select('id, owner_id, workspace_id, created_at')
       .eq('id', input.job.id)
       .maybeSingle();
 
+    if (lookupError) throw lookupError;
     if (existing && existing.owner_id !== input.ownerId) {
       throw new Error('Job belongs to another owner.');
     }
@@ -219,8 +217,8 @@ export async function saveOwnerBuilderJob(input: SaveDurableBuilderJobInput): Pr
     }
     return detail;
   } catch (error) {
-    if (await useMemoryFallback(error)) {
-      return memoryRepo().saveBuilderJob(input);
+    if (isOfficeStorageUnavailable(error)) {
+      throw new OfficeStorageUnavailableError();
     }
     throw error;
   }
@@ -239,8 +237,8 @@ export async function listOwnerBuilderJobs(ownerId: string): Promise<DurableJobR
     if (error) throw error;
     return (data as AgentRow[] | null)?.map(rowToRecord).filter((row): row is DurableJobRecord => Boolean(row)) ?? [];
   } catch (error) {
-    if (await useMemoryFallback(error)) {
-      return memoryRepo().listBuilderJobs(ownerId);
+    if (isOfficeStorageUnavailable(error)) {
+      throw new OfficeStorageUnavailableError();
     }
     throw error;
   }
@@ -260,7 +258,7 @@ export async function getOwnerBuilderJob(ownerId: string, jobId: string): Promis
     const record = rowToRecord(data as AgentRow);
     if (!record) return null;
 
-    const [{ data: receipts }, { data: events }] = await Promise.all([
+    const [{ data: receipts, error: receiptsError }, { data: events, error: eventsError }] = await Promise.all([
       supabase
         .from('do_receipts')
         .select('id, owner_id, workspace_id, do_agent_id, kind, title, summary, evidence, idempotency_key, created_at')
@@ -277,14 +275,17 @@ export async function getOwnerBuilderJob(ownerId: string, jobId: string): Promis
         .limit(80),
     ]);
 
+    if (receiptsError) throw receiptsError;
+    if (eventsError) throw eventsError;
+
     return {
       record,
       receipts: ((receipts as ReceiptRow[] | null) ?? []).map(receiptFromRow),
       events: ((events as EventRow[] | null) ?? []).map((row) => eventFromRow(row)),
     };
   } catch (error) {
-    if (await useMemoryFallback(error)) {
-      return memoryRepo().getJobDetail(ownerId, jobId);
+    if (isOfficeStorageUnavailable(error)) {
+      throw new OfficeStorageUnavailableError();
     }
     throw error;
   }
@@ -301,12 +302,13 @@ export async function recordOwnerJobEvent(input: {
 }): Promise<DurableJobEvent> {
   try {
     const supabase = await db();
-    const { data: existing } = await supabase
+    const { data: existing, error: lookupError } = await supabase
       .from('do_job_events')
       .select('id, owner_id, workspace_id, do_agent_id, event_id, kind, detail, created_at')
       .eq('owner_id', input.ownerId)
       .eq('event_id', input.eventId)
       .maybeSingle();
+    if (lookupError) throw lookupError;
     if (existing) return eventFromRow(existing as EventRow, true);
 
     const { data, error } = await supabase
@@ -325,8 +327,8 @@ export async function recordOwnerJobEvent(input: {
     if (error || !data) throw error ?? new Error('Could not record job event.');
     return eventFromRow(data as EventRow, false);
   } catch (error) {
-    if (await useMemoryFallback(error)) {
-      return memoryRepo().recordEvent(input);
+    if (isOfficeStorageUnavailable(error)) {
+      throw new OfficeStorageUnavailableError();
     }
     throw error;
   }
@@ -353,12 +355,13 @@ export async function recordOwnerReceipt(input: {
   try {
     const supabase = await db();
     if (input.idempotencyKey) {
-      const { data: existing } = await supabase
+      const { data: existing, error: lookupError } = await supabase
         .from('do_receipts')
         .select('id, owner_id, workspace_id, do_agent_id, kind, title, summary, evidence, idempotency_key, created_at')
         .eq('owner_id', input.ownerId)
         .eq('idempotency_key', input.idempotencyKey)
         .maybeSingle();
+      if (lookupError) throw lookupError;
       if (existing) return receiptFromRow(existing as ReceiptRow);
     }
 
@@ -380,14 +383,9 @@ export async function recordOwnerReceipt(input: {
     if (error || !data) throw error ?? new Error('Could not record receipt.');
     return receiptFromRow(data as ReceiptRow);
   } catch (error) {
-    if (await useMemoryFallback(error)) {
-      return memoryRepo().recordReceipt(input);
+    if (isOfficeStorageUnavailable(error)) {
+      throw new OfficeStorageUnavailableError();
     }
     throw error;
   }
-}
-
-/** Test-only access to the process memory fallback. */
-export function __officeJobsMemoryForTests(): MemoryOfficeJobsRepo {
-  return memoryRepo();
 }

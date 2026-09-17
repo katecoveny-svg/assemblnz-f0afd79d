@@ -31,7 +31,7 @@ export function V2Nav({ current }: { current?: string }) {
         ))}
       </div>
       <div className={styles.navUtilities}>
-        <Link href="/login" className={`${styles.navLink} ${styles.navSignIn}`}>
+        <Link href="/login?redirect=%2Fdo" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
         <Link href="/do" className={styles.navCta}>

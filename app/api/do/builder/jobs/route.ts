@@ -7,6 +7,7 @@ import {
   saveOwnerBuilderJob,
 } from '@/apps/do/services/office-jobs';
 import { createBuilderJob } from '@/apps/do/shared/builder';
+import { OFFICE_STORAGE_UNAVAILABLE, OfficeStorageUnavailableError } from '@/apps/do/shared/office-jobs';
 import { allowedDoOrigin } from '@/apps/do/shared/http';
 
 export const runtime = 'nodejs';
@@ -66,17 +67,23 @@ export async function GET(request: Request) {
   const owner = await doOwner();
   if (!owner) return json({ error: 'auth_required', message: 'Sign in to open durable Builder jobs across devices.' }, 401);
 
-  const jobs = await listOwnerBuilderJobs(owner.id);
-  return json({
-    jobs: jobs.map((record) => ({
-      job: record.job,
-      models: record.models,
-      executionBoundary: record.executionBoundary,
-      officeStatus: record.officeStatus,
-      savedAt: record.updatedAt,
-      durable: true,
-    })),
-  });
+  try {
+    const jobs = await listOwnerBuilderJobs(owner.id);
+    return json({
+      jobs: jobs.map((record) => ({
+        job: record.job,
+        models: record.models,
+        executionBoundary: record.executionBoundary,
+        officeStatus: record.officeStatus,
+        savedAt: record.updatedAt,
+        durable: record.storage === 'database',
+        storage: record.storage,
+      })),
+    });
+  } catch (error) {
+    if (error instanceof OfficeStorageUnavailableError) return json(OFFICE_STORAGE_UNAVAILABLE, 503);
+    return json({ error: 'load_failed', message: 'Could not load Builder jobs.' }, 500);
+  }
 }
 
 export async function POST(request: Request) {
@@ -140,7 +147,8 @@ export async function POST(request: Request) {
       executionBoundary: detail.record.executionBoundary,
       officeStatus: detail.record.officeStatus,
       savedAt: detail.record.updatedAt,
-      durable: true,
+      durable: detail.record.storage === 'database',
+      storage: detail.record.storage,
       receipt: acceptance
         ? {
             id: acceptance.id,
@@ -159,8 +167,10 @@ export async function POST(request: Request) {
       })),
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Could not save Builder job.';
-    if (/another owner/i.test(message)) return json({ error: 'forbidden', message }, 403);
-    return json({ error: 'save_failed', message }, 500);
+    if (error instanceof OfficeStorageUnavailableError) return json(OFFICE_STORAGE_UNAVAILABLE, 503);
+    if (error instanceof Error && error.message === 'Job belongs to another owner.') {
+      return json({ error: 'forbidden', message: 'Job belongs to another owner.' }, 403);
+    }
+    return json({ error: 'save_failed', message: 'Could not save Builder job.' }, 500);
   }
 }
