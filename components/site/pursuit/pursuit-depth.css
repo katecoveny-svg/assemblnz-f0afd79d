@@ -1,0 +1,15 @@
+/* Scoped optical materials; client workspaces and their brand systems are untouched. */
+.pursuit-dimensional [class*='hero__'],.pursuit-dimensional section[class*='hero']{background-color:#240b21}
+.pursuit-dimensional [class*='ambient']{background:radial-gradient(ellipse at 78% 38%,#916a7066,transparent 60%),linear-gradient(120deg,#240b21,#492b3e)}
+.pursuit-dimensional [class*='header']{padding-right:7%}
+.pursuit-dimensional [class*='process'] ol{perspective:1300px}
+.pursuit-dimensional [class*='process'] li{padding:27px!important;margin:0 0 19px;border:1px solid #fff!important;border-radius:15px;background:linear-gradient(130deg,#fffdfbef,#eee4e9d6);box-shadow:0 3px 0 #d4c5ce,0 20px 40px #240b2110;transition:transform .4s,box-shadow .4s}
+.pursuit-dimensional [class*='productLinks']{perspective:1300px;gap:20px}
+.pursuit-dimensional [class*='productLinks']>a{position:relative;overflow:hidden;border:1px solid #fff!important;border-radius:16px;background:linear-gradient(145deg,#fffdfbf0,#e8dbe2);box-shadow:0 3px 0 #d4c5ce,0 24px 45px #240b211a;transition:transform .4s,box-shadow .4s;padding-top:70px!important}
+.pursuit-dimensional [class*='productLinks']>a::before{content:'';position:absolute;right:-30px;top:-50px;width:200px;height:125px;border:1px solid #916a7055;border-radius:25px;transform:rotate(-17deg);box-shadow:0 0 0 15px #fffdfb45,0 0 0 35px #916a700d;pointer-events:none}
+.pursuit-dimensional [class*='productLinks']>a:nth-child(2){background:linear-gradient(145deg,#654a4e,#240b21 75%);color:#fffdfb}
+.pursuit-dimensional [class*='productLinks']>a:nth-child(2) :is(h3,p,span,svg){color:#fffdfb}
+.pursuit-dimensional [class*='canvasCard']{background:linear-gradient(135deg,#fffdfbf5,#ede1e9dc)!important;border:1px solid #fffdfb!important;box-shadow:0 3px 0 #c9b3c0,0 16px 35px #240b2140,inset 0 1px 0 #fff!important;border-radius:13px!important;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.pursuit-dimensional [class*='process'] li:hover,.pursuit-dimensional [class*='productLinks']>a:hover{transform:perspective(1300px) rotateX(2deg) rotateY(-2deg) translateY(-5px);box-shadow:0 4px 0 #c7adbc,0 27px 52px #240b2129}}
+@supports(animation-timeline:view()){ @media(prefers-reduced-motion:no-preference){.pursuit-dimensional [class*='process'] li{animation:pursuit-depth-enter linear both;animation-timeline:view();animation-range:entry 0% entry 85%}@keyframes pursuit-depth-enter{from{transform:translateY(26px) rotateX(4deg)}to{transform:translateY(0) rotateX(0)}}}}
+@media(prefers-reduced-motion:reduce){.pursuit-dimensional [class*='process'] li,.pursuit-dimensional [class*='productLinks']>a{transition:none;animation:none;transform:none!important}}
