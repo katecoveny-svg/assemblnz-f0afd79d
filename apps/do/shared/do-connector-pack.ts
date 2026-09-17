@@ -27,7 +27,13 @@ export type DoMappedAction = {
   action: string;
   app: string;
   componentId: string;
-  authProp?: string;
+  /** Exact component auth prop; never infer it from an app slug. */
+  authProp: string;
+  /** Audited upstream version, not a claim of the project's installed version. */
+  version: string;
+  /** Exact account app required to execute, distinct from logical/display aliases. */
+  accountApp: string;
+  effect: 'read' | 'write';
   note: string;
   /** Never auto-dispatch without approval when true. */
   approvalRequired: boolean;
@@ -165,6 +171,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_email_draft',
     app: 'gmail',
     componentId: 'gmail-create-draft',
+    version: '0.2.3',
+    accountApp: 'gmail',
+    effect: 'write',
     authProp: 'gmail',
     note: 'Creates an unsent Gmail draft. Never sends.',
     approvalRequired: false,
@@ -173,6 +182,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_email_draft',
     app: 'microsoft_outlook',
     componentId: 'microsoft_outlook-create-draft-email',
+    version: '0.0.35',
+    accountApp: 'microsoft_outlook',
+    effect: 'write',
     authProp: 'microsoftOutlook',
     note: 'Creates an unsent Outlook draft.',
     approvalRequired: false,
@@ -181,6 +193,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'list_calendar_events',
     app: 'google_calendar',
     componentId: 'google_calendar-list-events',
+    version: '0.1.1',
+    accountApp: 'google_calendar',
+    effect: 'read',
     authProp: 'googleCalendar',
     note: 'Lists events for a calendar window (prefer fields=compact).',
     approvalRequired: false,
@@ -189,6 +204,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_calendar_event',
     app: 'google_calendar',
     componentId: 'google_calendar-create-event',
+    version: '1.1.2',
+    accountApp: 'google_calendar',
+    effect: 'write',
     authProp: 'googleCalendar',
     note: 'Creates a calendar event the owner can edit/cancel in Google Calendar.',
     approvalRequired: true,
@@ -197,6 +215,10 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'add_sheet_row',
     app: 'google_sheets',
     componentId: 'google_sheets-add-single-row',
+    version: '3.0.1',
+    accountApp: 'google_sheets',
+    effect: 'write',
+    authProp: 'googleSheets',
     note: 'Appends one reviewed row.',
     approvalRequired: true,
   },
@@ -204,6 +226,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'get_drive_file',
     app: 'google_drive',
     componentId: 'google_drive-get-file-by-id',
+    version: '0.0.22',
+    accountApp: 'google_drive',
+    effect: 'read',
     authProp: 'googleDrive',
     note: 'Reads file metadata by id.',
     approvalRequired: false,
@@ -212,6 +237,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'post_slack_message',
     app: 'slack',
     componentId: 'slack_v2-send-message',
+    version: '0.2.4',
+    accountApp: 'slack_v2',
+    effect: 'write',
     authProp: 'slack',
     note: 'Posts a reviewed Slack message (approval-gated). Component package is slack_v2.',
     approvalRequired: true,
@@ -220,6 +248,10 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_lead',
     app: 'hubspot',
     componentId: 'hubspot-create-or-update-contact',
+    version: '1.0.1',
+    accountApp: 'hubspot',
+    effect: 'write',
+    authProp: 'hubspot',
     note: 'Creates or updates a HubSpot contact.',
     approvalRequired: true,
   },
@@ -227,6 +259,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_lead',
     app: 'salesforce_rest_api',
     componentId: 'salesforce_rest_api-create-lead',
+    version: '0.4.1',
+    accountApp: 'salesforce_rest_api',
+    effect: 'write',
     authProp: 'salesforce',
     note: 'Creates a Salesforce lead.',
     approvalRequired: true,
@@ -235,6 +270,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_notion_page',
     app: 'notion',
     componentId: 'notion-create-page',
+    version: '1.0.1',
+    accountApp: 'notion',
+    effect: 'write',
     authProp: 'notion',
     note: 'Creates a Notion page from reviewed content.',
     approvalRequired: true,
@@ -243,6 +281,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_task',
     app: 'todoist',
     componentId: 'todoist-create-task',
+    version: '0.0.12',
+    accountApp: 'todoist',
+    effect: 'write',
     authProp: 'todoist',
     note: 'Creates a Todoist task.',
     approvalRequired: true,
@@ -251,6 +292,9 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'create_task',
     app: 'linear_app',
     componentId: 'linear_app-create-issue',
+    version: '0.4.21',
+    accountApp: 'linear_app',
+    effect: 'write',
     authProp: 'linearApp',
     note: 'Creates a Linear issue.',
     approvalRequired: true,
@@ -259,7 +303,10 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'retrieve_invoice',
     app: 'stripe',
     componentId: 'stripe-retrieve-invoice',
-    authProp: 'stripe',
+    version: '0.1.5',
+    accountApp: 'stripe',
+    effect: 'read',
+    authProp: 'app',
     note: 'Reads a Stripe invoice for bills review.',
     approvalRequired: false,
   },
@@ -267,11 +314,19 @@ export const DO_PIPEDREAM_ACTION_ENTRIES: readonly DoMappedAction[] = [
     action: 'list_folder',
     app: 'dropbox',
     componentId: 'dropbox-list-file-folders-in-a-folder',
+    version: '0.0.14',
+    accountApp: 'dropbox',
+    effect: 'read',
     authProp: 'dropbox',
     note: 'Lists files/folders in a Dropbox path.',
     approvalRequired: false,
   },
 ] as const;
+
+/** Exact app for new Connect links; a display alias never certifies a grant. */
+export function connectionApp(slug: string): string | null {
+  return DO_PIPEDREAM_ACTION_ENTRIES.find(entry => entry.app === slug || entry.accountApp === slug)?.accountApp ?? null;
+}
 
 export function packAppSlugs(): string[] {
   return DO_CONNECTOR_PACK.map((app) => app.slug);
@@ -314,15 +369,11 @@ export function householdFloorConnectorRequirements(
   ];
 }
 
-export function actionMapFromPack(): Record<string, Record<string, { componentId: string; note: string; authProp?: string }>> {
-  const map: Record<string, Record<string, { componentId: string; note: string; authProp?: string }>> = {};
+export function actionMapFromPack(): Record<string, Record<string, DoMappedAction>> {
+  const map: Record<string, Record<string, DoMappedAction>> = {};
   for (const entry of DO_PIPEDREAM_ACTION_ENTRIES) {
     map[entry.action] ??= {};
-    map[entry.action][entry.app] = {
-      componentId: entry.componentId,
-      note: entry.note,
-      ...(entry.authProp ? { authProp: entry.authProp } : {}),
-    };
+    map[entry.action][entry.app] = { ...entry };
   }
   return map;
 }

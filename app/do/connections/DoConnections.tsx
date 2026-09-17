@@ -1,89 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, CheckCircle2, PlugZap } from 'lucide-react';
-import type { DoCapabilityCard } from '@/apps/do/shared/capability-catalogue';
-import type { DoMcpAllowlistEntry } from '@/apps/do/shared/do-mcp-gateway';
+import { ArrowUpRight, PlugZap } from 'lucide-react';
+import { accountNotice, loadConnectionPanels, readMcp, type State, type McpState, type HubAttached } from './connections-state';
 import styles from './connections.module.css';
-
-type State = {
-  signedIn: boolean;
-  configured: boolean;
-  availability: Record<string, boolean>;
-  accountsAvailable?: boolean;
-  capabilities: DoCapabilityCard[];
-  accounts: Array<{ app: string; label: string; healthy: boolean }>;
-};
-
-type McpProviderRow = {
-  id: string;
-  label: string;
-  fit: string;
-  configured: boolean;
-  missingEnv: string[];
-  state: 'ready' | 'setup_needed' | 'stub';
-  note: string;
-  envKeys: string[];
-  connectHint: string;
-};
-
-type HubAttached = {
-  toolkitId: string;
-  label: string;
-  attachedAt: string;
-  syncState: 'local_draft' | 'synced';
-  sourceUrl?: string;
-};
-
-type McpState = {
-  signedIn: boolean;
-  cursorMcpNote: string;
-  portableAgentNote?: string;
-  fourLayerStack?: Array<{ layer: number; label: string; role: string }>;
-  providers: McpProviderRow[];
-  allowlist: DoMcpAllowlistEntry[];
-  nzLive?: Array<{
-    toolId: string;
-    label: string;
-    purpose: string;
-    status: 'live' | 'needs_key' | 'stub';
-    envKeys: string[];
-    namedToolkit?: string;
-    priority?: string;
-    note?: string;
-  }>;
-  nzLiveNamedToolkits?: Array<{
-    id: string;
-    label: string;
-    fit: string;
-    toolIds: string[];
-  }>;
-  nzLiveGroceryNote?: string;
-  mcpMarketHub?: {
-    hubUrl: string;
-    appUrl: string;
-    directoryUrl: string;
-    connectHint: string;
-    lookalikes: Array<{ name: string; url: string; note: string }>;
-    attached: HubAttached[];
-    publicCatalogApi: string;
-  };
-};
-
-async function readConnections(): Promise<State> {
-  const response = await fetch('/api/do/connections', { cache: 'no-store' });
-  if (!response.ok) throw new Error('Connections unavailable');
-  return response.json();
-}
-
-async function readMcp(): Promise<McpState> {
-  const response = await fetch('/api/do/mcp', { cache: 'no-store' });
-  if (!response.ok) throw new Error('MCP gateway unavailable');
-  return response.json();
-}
-
-const accountNotice = (next: State) => next.accountsAvailable === false ? 'Your connected accounts could not be checked. Their status is currently unknown.' : '';
 
 const GROUPS = ['communication', 'work', 'productivity', 'finance', 'creative', 'spatial'] as const;
 
@@ -109,48 +30,32 @@ export function DoConnections() {
   const [mcp, setMcp] = useState<McpState | null>(null);
   const [busy, setBusy] = useState('');
   const [message, setMessage] = useState('');
+  const [technicalError, setTechnicalError] = useState('');
+  const requestId = useRef(0);
   const [hubToolkitId, setHubToolkitId] = useState('');
   const [hubLabel, setHubLabel] = useState('');
   const [hubMessage, setHubMessage] = useState('');
 
-  async function refresh() {
-    try {
-      const [next, gateway] = await Promise.all([readConnections(), readMcp()]);
-      setState(next);
-      setMcp(gateway);
-      setMessage(accountNotice(next));
-    } catch { setMessage('Connections could not be checked. Please try again.'); }
-  }
-
-  useEffect(() => {
-    let active = true;
-    void Promise.all([readConnections(), readMcp()]).then(([next, gateway]) => {
-      if (!active) return;
-      setState(next);
-      setMcp(gateway);
-      setMessage(accountNotice(next));
-    }).catch(() => { if (active) setMessage('Connections could not be checked. Please try again.'); });
-    return () => { active = false; };
+  const refresh = useCallback(async () => {
+    const id = ++requestId.current;
+    await loadConnectionPanels({
+      onConnections: (next, error) => {
+        if (id !== requestId.current) return;
+        setState(next);
+        setMessage(error);
+      },
+      onTechnical: (next, error) => {
+        if (id !== requestId.current) return;
+        setMcp(next);
+        setTechnicalError(error);
+      },
+    });
   }, []);
 
-  const connected = useMemo(() => {
-    const set = new Set<string>();
-    for (const account of state?.accounts ?? []) {
-      if (!account.healthy) continue;
-      set.add(account.app);
-      if (account.app === 'slack_v2') set.add('slack');
-    }
-    return set;
-  }, [state]);
-  const unhealthy = useMemo(() => {
-    const set = new Set<string>();
-    for (const account of state?.accounts ?? []) {
-      if (account.healthy) continue;
-      set.add(account.app);
-      if (account.app === 'slack_v2') set.add('slack');
-    }
-    return set;
-  }, [state]);
+  useEffect(() => {
+    void refresh();
+    return () => { requestId.current += 1; };
+  }, [refresh]);
 
   async function connect(app: string) {
     if (busy) return;
@@ -204,14 +109,101 @@ export function DoConnections() {
     }
   }
 
+  return <ConnectionsView state={state} mcp={mcp} busy={busy} message={message} technicalError={technicalError}
+    hubToolkitId={hubToolkitId} hubLabel={hubLabel} hubMessage={hubMessage}
+    setHubToolkitId={setHubToolkitId} setHubLabel={setHubLabel}
+    refresh={refresh} connect={connect} attachHubToolkit={attachHubToolkit}/>;
+}
+
+type ConnectionsViewProps = {
+  state: State | null;
+  mcp: McpState | null;
+  busy: string;
+  message: string;
+  technicalError?: string;
+  hubToolkitId: string;
+  hubLabel: string;
+  hubMessage: string;
+  setHubToolkitId: (value: string) => void;
+  setHubLabel: (value: string) => void;
+  refresh: () => void;
+  connect: (app: string) => void;
+  attachHubToolkit: () => void;
+};
+
+export function ConnectionsView({ state, mcp, busy, message, technicalError, hubToolkitId, hubLabel, hubMessage,
+  setHubToolkitId, setHubLabel, refresh, connect, attachHubToolkit }: ConnectionsViewProps) {
+  const connected = useMemo(() => {
+    const set = new Set<string>();
+    for (const account of state?.signedIn ? state.accounts : []) {
+      if (!account.healthy) continue;
+      set.add(account.app);
+      if (account.app === 'slack_v2') set.add('slack');
+    }
+    return set;
+  }, [state]);
+  const unhealthy = useMemo(() => {
+    const set = new Set<string>();
+    for (const account of state?.signedIn ? state.accounts : []) {
+      if (account.healthy) continue;
+      set.add(account.app);
+      if (account.app === 'slack_v2') set.add('slack');
+    }
+    return set;
+  }, [state]);
+
   return <div className={styles.shell}>
     <header className={styles.topbar}><div><Link href="/do" className={styles.brand}>DO</Link><span>/</span><strong>connections</strong></div><nav><Link href="/do/household">Household Floor</Link><Link href="/do/office">office</Link><Link href="/do/builder">Builder DO</Link></nav></header>
     <main className={styles.main}>
-      <section className={styles.hero}><div><p>portable agent · tools where you already are</p><h1>give your DOs<br/>the tools they need.</h1></div><p>Drag the floating ✦, open the chat sheet, tell it what it can see (selection/page with consent). Four layers: <strong>MCP Market Hub</strong> (discover/pack) · <strong>Composio / Zapier / Treg</strong> (execute) · <strong>Pipedream</strong> (Gmail OAuth) · <strong>NZ Live</strong> (domain data). Cursor IDE MCP ≠ DO MCP.</p></section>
+      <section className={styles.hero}>
+        <div><p>DO / connections</p><h1>Connect the tools you use.</h1></div>
+        <p>Bring your mail, calendar and everyday work into DO. Choose what to share, then review anything that changes a connected tool.</p>
+      </section>
+      <p className={styles.permission}>Linking an account does not grant permission to read private information or make changes. DO asks separately when a task needs that access.</p>
 
-      {!state ? <p className={styles.notice}>Checking available capabilities…</p> : !state.signedIn ? <section className={styles.signin}><strong>Sign in before connecting personal tools.</strong><p>Connections are tied to your own DO account so another user cannot inherit your grants.</p><Link href="/login?redirect=%2Fdo%2Fconnections">Open DO sign-in <ArrowUpRight size={16}/></Link></section> : null}
+      {!state ? <p className={styles.notice} role="status">{message ? 'Account status unavailable' : 'Checking available capabilities…'}</p> : !state.signedIn ? <section className={styles.signin}><strong>Sign in before connecting personal tools.</strong><p>Connections are tied to your own DO account so another user cannot inherit your grants.</p><Link href="/login?redirect=%2Fdo%2Fconnections">Open DO sign-in <ArrowUpRight size={16}/></Link></section> : <section className={styles.account}><strong>Signed in to your DO account</strong><p>These connections belong to this account. Task permissions are requested separately.</p></section>}
       {message ? <div className={styles.error} role="alert">{message} <button type="button" onClick={() => void refresh()}>Try again</button></div> : null}
+      {state?.signedIn && state.accountsAvailable === false ? <div className={styles.notice} role="status">{accountNotice(state)} <button type="button" onClick={() => void refresh()}>Check again</button></div> : null}
 
+      <section className={styles.tools} aria-labelledby="your-tools">
+        <h2 id="your-tools">Your tools</h2>
+        <p>Choose a tool for the work you want DO to help with.</p>
+      {GROUPS.map((group) => {
+        const cards = state?.capabilities.filter((capability) => capability.group === group) ?? [];
+        if (!cards.length) return null;
+        return <section className={styles.group} key={group}>
+          <header><h3>{group}</h3><p>{groupHelper(group)}</p></header>
+          <div className={styles.grid}>{cards.map((capability) => <article className={styles.card} key={capability.key}>
+            <div className={styles.cardTop}><span data-status={capability.status}>{capability.status === 'connectable' ? 'Personal tool' : capability.status === 'preview' ? 'Preview' : 'Included in DO'}</span></div>
+            <h4>{capability.label}</h4>
+            <p>{capability.description}</p>
+            <small>{capability.authority === 'read' ? 'Read with task consent' : capability.authority === 'approval_required' ? 'Approval required before changes' : 'Prepare in DO'}</small>
+            {capability.apps?.length ? <div className={styles.apps}>{capability.apps.map((app) => {
+              const isConnected = connected.has(app.slug);
+              const needsReconnect = unhealthy.has(app.slug);
+              if (state?.signedIn && state.accountsAvailable === false) return <div className={styles.appState} key={app.slug}>
+                <strong>{app.label}</strong><span className={styles.status}>Connection status unknown</span>
+              </div>;
+              if (isConnected) return <div className={styles.appState} key={app.slug}>
+                <strong>{app.label}</strong><span className={styles.status}>Connected / unverified</span>
+                <p>Account linked. No tool call has been verified here.</p>
+              </div>;
+              const label = busy === app.slug ? `Opening ${app.label}…`
+                : !state?.signedIn ? `Sign in · ${app.label}`
+                : !state?.availability[app.slug] ? `${app.label} · setup needed`
+                : needsReconnect ? `Reconnect ${app.label}` : `Connect ${app.label}`;
+              return <button type="button" key={app.slug}
+                disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || Boolean(busy)}
+                onClick={() => void connect(app.slug)}>{label}</button>;
+            })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Included capability · availability depends on the task'}</div>}
+          </article>)}</div>
+        </section>;
+      })}
+      </section>
+
+      <details className={styles.technical}>
+        <summary>Technical connection details</summary>
+        <p className={styles.notice}>Provider setup, toolkits and execution routes. These details are separate from your personal account connections.</p>
       <section className={styles.group} id="mcp-gateway">
         <header>
           <span>mcp gateway</span>
@@ -382,29 +374,17 @@ export function DoConnections() {
               ))}
             </div>
           </>
+        ) : technicalError ? (
+          <div className={styles.notice} role="status">{technicalError} <button type="button" onClick={() => void refresh()}>Try again</button></div>
         ) : (
           <p className={styles.notice}>Loading MCP gateway…</p>
         )}
       </section>
 
-      {GROUPS.map((group) => {
-        const cards = state?.capabilities.filter((capability) => capability.group === group) ?? [];
-        if (!cards.length) return null;
-        return <section className={styles.group} key={group}><header><span>{group} · pipedream connect</span><p>{groupHelper(group)}</p></header><div className={styles.grid}>{cards.map((capability) => <article className={styles.card} key={capability.key}><div className={styles.cardTop}><div className={styles.icon}><PlugZap size={17}/></div><span data-status={capability.status}>{capability.status}</span></div><h2>{capability.label}</h2><p>{capability.description}</p><small>{capability.authority.replace('_', ' ')}</small>{capability.apps?.length ? <div className={styles.apps}>{capability.apps.map((app) => { const isConnected = connected.has(app.slug); const needsReconnect = unhealthy.has(app.slug); const label = isConnected
-                          ? <><CheckCircle2 size={14}/> {app.label} connected</>
-                          : busy === app.slug
-                            ? `opening ${app.label}…`
-                            : !state?.signedIn
-                              ? `Sign in · ${app.label}`
-                              : !state?.availability[app.slug]
-                                ? `${app.label} · setup needed`
-                                : needsReconnect
-                                  ? `Reconnect ${app.label}`
-                                  : `Connect ${app.label}`;
-                        return <button type="button" key={app.slug} disabled={!state?.signedIn || !state?.availability[app.slug] || state.accountsAvailable === false || isConnected || Boolean(busy)} onClick={() => void connect(app.slug)}>{label}</button>; })}</div> : <div className={styles.included}>{capability.status === 'preview' ? 'Preview · not yet connected to DO' : 'Platform capability · availability depends on the task'}</div>}</article>)}</div></section>;
-      })}
+
 
       <section className={styles.boundary}><strong>Cursor MCP ≠ DO MCP.</strong><p>IDE plugins do not become customer DO tools. Four layers: Hub discovers/packs · Composio/Zapier/Treg execute · Pipedream first-party OAuth · NZ Live domain data. Hub is not an execute gateway.</p></section>
+      </details>
     </main>
   </div>;
 }

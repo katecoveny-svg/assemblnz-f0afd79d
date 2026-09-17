@@ -1,1 +1,127 @@
-.shell{min-height:100svh;background:#f5f1f2;color:#240b21;font-family:var(--font-body),'Instrument Sans',system-ui,sans-serif}.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px clamp(20px,4vw,60px);border-bottom:1px solid rgba(36,11,33,.1);background:rgba(255,253,251,.9);backdrop-filter:blur(18px)}.topbar>div,.topbar nav{display:flex;align-items:center;gap:10px}.topbar a{text-decoration:none;color:inherit}.topbar nav a{padding:9px 12px;border-radius:999px;font-size:12px;border:1px solid rgba(36,11,33,.1);background:#fffdfb}.brand{font-size:22px;font-weight:700;letter-spacing:-.055em}.main{width:min(1380px,calc(100% - 40px));margin:0 auto;padding:clamp(48px,7vw,90px) 0 100px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:56px;margin-bottom:58px}.hero>div>p,.group header>span{margin:0 0 12px;font:700 10px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:#916a70}.hero h1{margin:0;font-size:clamp(3.4rem,7vw,7.2rem);line-height:.88;letter-spacing:-.075em;font-weight:600}.hero>p{max-width:470px;margin:0 0 8px;color:#654a4e;font-size:17px;line-height:1.65}.notice,.error,.signin,.boundary{padding:18px 20px;border:1px solid rgba(36,11,33,.1);border-radius:16px;background:#fffdfb}.error{color:#7b2733}.signin{margin-bottom:26px}.signin p,.boundary p{color:#654a4e;line-height:1.55}.signin a{display:inline-flex;align-items:center;gap:7px;color:#240b21;font-weight:700}.group{margin-top:42px}.group>header{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;padding-bottom:13px;border-bottom:1px solid rgba(36,11,33,.12)}.group header>span{margin:0}.group header p{margin:0;color:#916a70;font-size:11px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-top:12px}.card{min-height:270px;padding:22px;border:1px solid rgba(36,11,33,.1);border-radius:20px;background:#fffdfb;display:flex;flex-direction:column}.cardTop{display:flex;align-items:center;justify-content:space-between}.icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#240b21;color:#fffdfb}.cardTop>span{font:700 8px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#654a4e}.cardTop>span[data-status='available']{color:#240b21}.card h2{margin:25px 0 8px;font-size:21px;letter-spacing:-.035em}.card>p{margin:0;color:#654a4e;line-height:1.55;font-size:13px;flex:1}.card>small{margin-top:18px;color:#916a70;font:8px/1.4 var(--font-mono),'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em}.apps{display:grid;gap:7px;margin-top:15px}.apps button{min-height:42px;border:1px solid rgba(36,11,33,.14);border-radius:11px;background:#f5f1f2;color:#240b21;font:600 12px var(--font-body),'Instrument Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px}.apps button:not(:disabled):hover{background:#240b21;color:#fffdfb}.apps button:disabled{opacity:.58}.included{margin-top:15px;padding:10px 11px;border-radius:10px;background:#f5f1f2;color:#654a4e;font-size:10px}.boundary{margin-top:54px;display:flex;justify-content:space-between;gap:40px}.boundary p{max-width:700px;margin:0}.boundary strong{font-size:18px}.error{margin-bottom:20px}@media(max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{align-items:flex-start;flex-direction:column}.hero>p{max-width:680px}}@media(max-width:640px){.main{width:min(100% - 24px,1380px);padding-top:38px}.topbar{align-items:flex-start}.topbar nav{flex-wrap:wrap;justify-content:flex-end}.hero h1{font-size:clamp(3.2rem,15vw,5.2rem)}.grid{grid-template-columns:1fr}.group>header,.boundary{align-items:flex-start;flex-direction:column}.card{min-height:240px}}
+.shell {
+  min-height: 100svh;
+  background: #fffdfb;
+  color: #240b21;
+  font-family: var(--font-body), 'Instrument Sans', system-ui, sans-serif;
+}
+
+.shell *, .shell *::before, .shell *::after { box-sizing: border-box; }
+.shell a { color: inherit; text-underline-offset: 4px; }
+.shell button, .shell input, .technical summary {
+  min-height: 44px;
+  font: inherit;
+}
+.shell button {
+  padding: 10px 16px;
+  border: 1px solid #654a4e;
+  border-radius: 8px;
+  background: #240b21;
+  color: #fffdfb;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.4;
+}
+.shell button:disabled {
+  background: #f5f1f2;
+  color: #654a4e;
+  border-color: rgba(36, 11, 33, .2);
+  cursor: default;
+}
+.shell button:not(:disabled):hover { background: #654a4e; }
+.shell input {
+  min-width: 0;
+  color: #240b21;
+  background: #fffdfb;
+  border: 1px solid #654a4e;
+  border-radius: 6px;
+}
+.shell :is(a, button, input, summary):focus-visible {
+  outline: 2px solid #916a70;
+  outline-offset: 4px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 14px clamp(20px, 4vw, 60px);
+  border-bottom: 1px solid rgba(36, 11, 33, .14);
+}
+.topbar > div, .topbar nav { display: flex; align-items: center; gap: 10px; }
+.topbar nav { flex-wrap: wrap; gap: 4px; }
+.topbar a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.topbar nav a { padding: 10px 12px; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.brand { font-size: 25px; font-weight: 600; letter-spacing: -.06em; }
+.topbar strong { font-size: 14px; font-weight: 500; }
+
+.main { width: min(1160px, calc(100% - 40px)); margin: 0 auto; padding: clamp(32px, 5vw, 64px) 0 80px; }
+.hero { display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 48px; margin-bottom: 28px; }
+.hero > div > p { margin: 0 0 16px; font-size: 14px; }
+.hero h1 { max-width: 13ch; margin: 0; font-size: clamp(40px, 5.5vw, 72px); font-weight: 500; line-height: 1.04; letter-spacing: -.055em; }
+.hero > p { max-width: 42ch; margin: 0 0 3px; font-size: 17px; line-height: 1.6; }
+.permission { margin: 0 0 20px; padding: 16px 20px; border-left: 3px solid #916a70; background: #f5f1f2; line-height: 1.6; font-size: 14px; }
+.notice, .error, .signin, .account, .boundary { margin: 14px 0; padding: 18px 20px; border: 1px solid rgba(36, 11, 33, .16); border-radius: 8px; line-height: 1.6; }
+.account { border-left: 3px solid #916a70; }
+.account p, .signin p, .boundary p { margin: 6px 0 0; font-size: 14px; }
+.signin a { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; margin-top: 8px; font-weight: 600; }
+.error { border-color: #916a70; background: #f5f1f2; }
+.notice button, .error button { margin: 8px 0 0 8px; }
+
+.tools { margin-top: 36px; }
+.tools > h2 { margin: 0; font-size: 28px; font-weight: 500; letter-spacing: -.025em; }
+.tools > p { margin: 8px 0 0; font-size: 15px; line-height: 1.6; }
+.group { margin-top: 30px; }
+.group > header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px 24px; padding-bottom: 12px; border-bottom: 1px solid rgba(36, 11, 33, .18); }
+.group header h3, .group header > span { margin: 0; font-size: 18px; font-weight: 500; }
+.group header p { margin: 0; font-size: 13px; line-height: 1.5; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding-top: 16px; }
+.card { min-width: 0; display: flex; flex-direction: column; padding: 24px; border: 1px solid rgba(36, 11, 33, .16); border-radius: 10px; background: #fffdfb; overflow-wrap: anywhere; }
+.cardTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.status, .card small, .cardTop > span { font-family: var(--font-mono), 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.6; }
+.cardTop > span { padding: 4px 8px; background: #f5f1f2; border-radius: 4px; }
+.card h2, .card h4 { margin: 0 0 10px; font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -.025em; }
+.card > p { margin: 0 0 16px; font-size: 15px; line-height: 1.65; }
+.card small { display: block; margin: 0 0 18px; }
+.apps { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+.apps button { width: 100%; font-size: 14px; }
+.appState { padding: 14px; border-left: 2px solid #916a70; background: #f5f1f2; }
+.appState strong { display: block; margin-bottom: 4px; font-weight: 600; font-size: 14px; }
+.status { display: block; }
+.appState p { margin: 7px 0 0; font-size: 13px; line-height: 1.5; }
+.included { margin-top: auto; padding: 14px; background: #f5f1f2; font-size: 13px; line-height: 1.6; }
+.icon { display: inline-flex; padding: 8px; background: #f5f1f2; border-radius: 6px; }
+
+.technical { margin-top: 48px; padding: 0 20px 4px; border: 1px solid rgba(36, 11, 33, .18); border-radius: 10px; background: #f5f1f2; overflow-wrap: anywhere; }
+.technical summary { padding: 18px 0; cursor: pointer; font-weight: 500; font-size: 17px; }
+.technical[open] { padding-bottom: 20px; }
+.technical > .notice { margin-top: 0; }
+.technical .notice, .technical .boundary { background: #fffdfb; }
+.technical .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.technical .card { padding: 18px; }
+.technical .card h2 { font-size: 19px; }
+.technical .card a { display: inline-flex; gap: 5px; align-items: center; min-height: 44px; }
+.technical label { font-size: 14px; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 20px; }
+  .hero h1 { max-width: 16ch; }
+  .hero > p { max-width: 60ch; }
+  .technical .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .topbar { padding: 12px 20px; gap: 4px; }
+  .topbar nav { width: 100%; gap: 0; justify-content: space-between; }
+  .topbar nav a { padding: 10px 4px; font-size: 13px; }
+  .grid, .technical .grid { grid-template-columns: minmax(0, 1fr); }
+  .group > header { flex-direction: column; gap: 4px; }
+  .card { padding: 20px; }
+  .hero > p { font-size: 16px; }
+  .permission, .notice, .error, .signin, .account, .boundary { padding: 14px 16px; }
+  .technical { padding-right: 14px; padding-left: 14px; }
+  .technical summary { font-size: 16px; }
+  .notice button, .error button { display: block; margin-left: 0; }
+}

@@ -16,6 +16,9 @@
  * docs/PIPEDREAM-CONNECT-SETUP.md.
  */
 import 'server-only';
+import { actionMapFromPack } from '@/apps/do/shared/do-connector-pack';
+import { validateConnectorInput } from '@/apps/do/shared/connector-contracts';
+import { verifyPipedreamResult, type RunActionResult } from './pipedream-results';
 
 const API = 'https://api.pipedream.com/v1';
 
@@ -211,100 +214,9 @@ export function withAppFilter(connectLinkUrl: string, appSlug?: string | null): 
  * Component IDs are published Pipedream keys (verify in Connect dashboard
  * on first run). Anything unmapped fails honestly.
  */
-export const PIPEDREAM_ACTION_MAP: Record<string, Record<string, { componentId: string; note: string; authProp?: string }>> = {
-  create_email_draft: {
-    gmail: {
-      componentId: 'gmail-create-draft',
-      authProp: 'gmail',
-      note: 'Creates an unsent Gmail draft. Never sends.',
-    },
-    microsoft_outlook: {
-      componentId: 'microsoft_outlook-create-draft-email',
-      authProp: 'microsoftOutlook',
-      note: 'Creates an unsent Outlook draft.',
-    },
-  },
-  list_calendar_events: {
-    google_calendar: {
-      componentId: 'google_calendar-list-events',
-      authProp: 'googleCalendar',
-      note: 'Lists calendar events (prefer fields=compact).',
-    },
-  },
-  create_calendar_event: {
-    google_calendar: {
-      componentId: 'google_calendar-create-event',
-      authProp: 'googleCalendar',
-      note: 'Creates a calendar event the owner can edit in Google Calendar.',
-    },
-  },
-  add_sheet_row: {
-    google_sheets: {
-      componentId: 'google_sheets-add-single-row',
-      note: 'Appends one reviewed row to a sheet.',
-    },
-  },
-  get_drive_file: {
-    google_drive: {
-      componentId: 'google_drive-get-file-by-id',
-      authProp: 'googleDrive',
-      note: 'Reads Drive file metadata by id.',
-    },
-  },
-  post_slack_message: {
-    slack: {
-      componentId: 'slack_v2-send-message',
-      authProp: 'slack',
-      note: 'Posts a reviewed Slack message (approval-gated). Uses slack_v2 component package.',
-    },
-  },
-  create_lead: {
-    hubspot: {
-      componentId: 'hubspot-create-or-update-contact',
-      note: 'Creates or updates a HubSpot contact.',
-    },
-    salesforce_rest_api: {
-      componentId: 'salesforce_rest_api-create-lead',
-      authProp: 'salesforce',
-      note: 'Creates a Salesforce lead.',
-    },
-  },
-  create_notion_page: {
-    notion: {
-      componentId: 'notion-create-page',
-      authProp: 'notion',
-      note: 'Creates a Notion page from reviewed content.',
-    },
-  },
-  create_task: {
-    todoist: {
-      componentId: 'todoist-create-task',
-      authProp: 'todoist',
-      note: 'Creates a Todoist task.',
-    },
-    linear_app: {
-      componentId: 'linear_app-create-issue',
-      authProp: 'linearApp',
-      note: 'Creates a Linear issue.',
-    },
-  },
-  retrieve_invoice: {
-    stripe: {
-      componentId: 'stripe-retrieve-invoice',
-      authProp: 'stripe',
-      note: 'Reads a Stripe invoice for bills review.',
-    },
-  },
-  list_folder: {
-    dropbox: {
-      componentId: 'dropbox-list-file-folders-in-a-folder',
-      authProp: 'dropbox',
-      note: 'Lists files/folders in a Dropbox path.',
-    },
-  },
-};
+export const PIPEDREAM_ACTION_MAP = actionMapFromPack();
 
-export type RunActionResult = { ok: boolean; detail: Record<string, unknown> };
+export type { RunActionResult } from './pipedream-results';
 
 /**
  * Execute a mapped action against the customer's connected account. Reaches
@@ -329,13 +241,15 @@ export async function runConnectorAction(input: {
   const account = accounts.find((a) => {
     const slug = a.app?.name_slug ?? '';
     if (accountOwner(a) !== input.externalUserId || a.healthy !== true) return false;
-    if (slug === input.app) return true;
-    // Slack Connect may report slack_v2 while DO pack declares slack.
-    if (input.app === 'slack' && (slug === 'slack' || slug === 'slack_v2')) return true;
-    return false;
+    return slug === mapped.accountApp;
   });
   if (!account) {
     return { ok: false, detail: { error: `no connected ${input.app} account for ${input.externalUserId}` } };
+  }
+
+  const validated = validateConnectorInput(input.action, input.app, input.data);
+  if (!validated.ok) {
+    return { ok: false, detail: { error: 'invalid connector input', reason: validated.error } };
   }
 
   try {
@@ -343,11 +257,11 @@ export async function runConnectorAction(input: {
       external_user_id: input.externalUserId,
       id: mapped.componentId,
       configured_props: {
-        ...input.data,
-        [mapped.authProp ?? input.app]: { authProvisionId: account.id },
+        ...validated.data,
+        [mapped.authProp]: { authProvisionId: account.id },
       },
     });
-    return { ok: true, detail: { component: mapped.componentId, response: body } };
+    return verifyPipedreamResult(mapped, validated.data, body);
   } catch (e) {
     return { ok: false, detail: { error: e instanceof Error ? e.message : 'unknown' } };
   }

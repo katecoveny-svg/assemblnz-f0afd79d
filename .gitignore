@@ -16,6 +16,7 @@ dist-ssr
 # (covered above by `node_modules` and `dist`, but spelled out so a future
 # PR adding a build step under plugins/ can't accidentally commit artefacts).
 plugins/mcp-servers/*/node_modules/
+__pycache__/
 plugins/mcp-servers/*/dist/
 plugins/mcp-servers/*/*.tsbuildinfo
 
