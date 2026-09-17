@@ -22,11 +22,18 @@ import {
  * IBM Plex Mono only for micro labels. No Cormorant / gold / grape.
  */
 
-const COLUMNS: { label: string; links: { href: string; label: string }[] }[] = [
+const COLUMNS: {
+  label: string;
+  links: { href: string; label: string; external?: boolean }[];
+}[] = [
   {
     label: "product",
     links: [
-      { href: "/pursuit", label: "Pursuit" },
+      {
+        href: "https://assembl-pursuit.katecoveny.chatgpt.site",
+        label: "Pursuit",
+        external: true,
+      },
       { href: "/do", label: "DO" },
       { href: "/creative-studio", label: "Studio" },
       { href: "/contact", label: "Contact" },
@@ -138,13 +145,26 @@ export function SiteFooter() {
               <ul style={{ listStyle: "none", margin: "16px 0 0", padding: 0 }}>
                 {col.links.map((item) => (
                   <li key={item.href} style={{ marginTop: 10 }}>
-                    <Link
-                      href={item.href}
-                      className="rounded-sm transition-colors hover:opacity-70 focus-visible:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
-                      style={bodyLink}
-                    >
-                      {item.label}
-                    </Link>
+                    {item.external || item.href.startsWith("mailto:") ? (
+                      <a
+                        href={item.href}
+                        className="rounded-sm transition-colors hover:opacity-70 focus-visible:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+                        style={bodyLink}
+                        {...(item.external
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="rounded-sm transition-colors hover:opacity-70 focus-visible:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+                        style={bodyLink}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

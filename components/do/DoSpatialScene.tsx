@@ -10,7 +10,7 @@ const COMPANY = [
   {
     label: "Pursuit",
     title: "Find the opening.",
-    href: "/pursuit",
+    href: "https://assembl-pursuit.katecoveny.chatgpt.site",
     glyph: "↗",
   },
   { label: "DO", title: "Move the work forward.", href: "/do", glyph: "✦" },
@@ -23,22 +23,16 @@ const COMPANY = [
 ];
 const COMPANIONS = [
   {
-    label: "Writing DO",
-    title: "A draft in your voice.",
-    href: "/do?task=rewrite",
-    glyph: "✦",
-  },
-  {
-    label: "Personal DO",
-    title: "A little less life admin.",
-    href: "/do?task=plan",
+    label: "Meeting DO",
+    title: "Useful notes from the conversation.",
+    href: "/do/meetings",
     glyph: "◎",
   },
   {
-    label: "Inbox DO",
-    title: "The details that matter.",
-    href: "/do/family",
-    glyph: "↩",
+    label: "Household DO",
+    title: "Demo chores board — generic only.",
+    href: "/do/household",
+    glyph: "⌂",
   },
 ];
 
@@ -107,7 +101,7 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
           key={item.label}
         >
           <span className={styles.glyph} aria-hidden="true">
-            {item.label === "DO" || item.label === "Writing DO" ? (
+            {item.label === "DO" || item.label === "Meeting DO" ? (
               <DoMark />
             ) : (
               item.glyph

@@ -1,7 +1,7 @@
 {
   "name": "assembl",
   "short_name": "assembl",
-  "description": "assembl the work. Find evidence-backed opportunities with Pursuit, prepare bounded work with DO and show the possibility with Studio.",
+  "description": "assembl the work. Find opportunities in the Pursuit hub, prepare Meeting or Household work with DO, and show the possibility with Studio.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -26,17 +26,17 @@
   ],
   "shortcuts": [
     {
-      "name": "Open Pursuit",
-      "short_name": "Pursuit",
-      "description": "Find evidence-backed opportunities.",
-      "url": "/pursuit",
+      "name": "Meeting DO",
+      "short_name": "Meeting",
+      "description": "Record, transcribe and review useful meeting notes.",
+      "url": "/do/meetings",
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Open DO",
-      "short_name": "DO",
-      "description": "Prepare bounded work for review and approval.",
-      "url": "/do",
+      "name": "Household DO",
+      "short_name": "Household",
+      "description": "Generic demo household chores board.",
+      "url": "/do/household",
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     },
     {

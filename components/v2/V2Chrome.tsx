@@ -4,6 +4,48 @@ import styles from './v2.module.css';
 
 /** Public studio chrome. Server-safe: Instrument Sans + plum canon. */
 
+function NavItem({
+  href,
+  label,
+  current,
+  external,
+}: {
+  href: string;
+  label: string;
+  current?: string;
+  external?: boolean;
+}) {
+  const active = !external && current === href;
+  const className = styles.navLink;
+  const style = active ? { color: '#916A70' } : undefined;
+  const mark = active ? (
+    <span aria-hidden style={{ color: '#916A70' }}>
+      {' '}
+      •
+    </span>
+  ) : null;
+  if (external) {
+    return (
+      <a
+        href={href}
+        className={className}
+        style={style}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {label}
+        {mark}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} aria-current={active ? 'page' : undefined} className={className} style={style}>
+      {label}
+      {mark}
+    </Link>
+  );
+}
+
 export function V2Nav({ current }: { current?: string }) {
   return (
     <nav className={styles.nav} aria-label="Primary" data-global-chrome>
@@ -13,25 +55,17 @@ export function V2Nav({ current }: { current?: string }) {
       </Link>
       <div className={styles.navLinks}>
         {PUBLIC_NAV_LINKS.map((l) => (
-          <Link
+          <NavItem
             key={l.href}
             href={l.href}
-            aria-current={current === l.href ? 'page' : undefined}
-            className={styles.navLink}
-            style={current === l.href ? { color: '#916A70' } : undefined}
-          >
-            {l.label}
-            {current === l.href ? (
-              <span aria-hidden style={{ color: '#916A70' }}>
-                {' '}
-                •
-              </span>
-            ) : null}
-          </Link>
+            label={l.label}
+            current={current}
+            external={'external' in l ? Boolean(l.external) : false}
+          />
         ))}
       </div>
       <div className={styles.navUtilities}>
-        <Link href="/login?redirect=%2Fdo" className={`${styles.navLink} ${styles.navSignIn}`}>
+        <Link href="/login?redirect=%2Fdo%2Fmeetings" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
         <Link href="/do" className={styles.navCta}>

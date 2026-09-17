@@ -41,7 +41,7 @@ const chapters = [
     label: '01 / Pursuit',
     title: 'Find.',
     description: 'Find the work worth doing.',
-    href: '/pursuit',
+    href: 'https://assembl-pursuit.katecoveny.chatgpt.site',
     action: 'Open Pursuit',
   },
   {

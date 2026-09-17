@@ -11,14 +11,14 @@ export const PREVIEW_META = {
 
 export const NAV = {
   products: [
-    { label: 'Pursuit', href: '/pursuit', emphasis: false },
+    { label: 'Pursuit', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', emphasis: false, external: true },
     { label: 'DO', href: '/do', emphasis: true },
     { label: 'Studio', href: '/creative-studio', emphasis: false },
   ],
   links: [
     { label: 'How it works', href: '#how-it-works' },
   ],
-  cta: { label: 'give DO a job', href: '#do-input' },
+  cta: { label: 'open DO', href: '#do-input' },
 } as const;
 
 export const HERO = {
@@ -27,7 +27,7 @@ export const HERO = {
   subhead: 'find it. DO it. show it.',
   body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
   explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
-  ctaPrimary: { label: 'give DO a job →', href: '#do-input' },
+  ctaPrimary: { label: 'open Meeting or Household →', href: '#do-input' },
   ctaSecondary: { label: 'see the system', href: '#products' },
   productLine: 'Pursuit · DO · Studio',
   loopLine: 'use one. connect two. run the whole loop.',
@@ -52,13 +52,14 @@ export const PRODUCTS = {
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
       body: 'For teams finding their next opportunity. Bring relevant public signals and permissioned business context into buyer research, a qualified opportunity and a next-step brief.',
-      href: '/pursuit',
-      explore: 'Explore Pursuit', note: 'Start with the market, company or work you want to understand.',
+      href: 'https://assembl-pursuit.katecoveny.chatgpt.site',
+      external: true,
+      explore: 'Open Pursuit hub', note: 'Start with the market, company or work you want to understand.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'Your portable agent workforce. Give a DO a job in the browser, on your Mac or inside a connected workflow. DO can research, prepare, build and coordinate using the right model and tools while keeping context, permissions and proof attached.',
-      href: '/do', explore: 'Try DO', note: 'Start with one job. Add specialist DOs, connectors and deeper authority when you need them.',
+      body: 'Public DO starts with Meeting notes and a generic Household chores board. Record or paste a meeting, review structured notes, or run the demo household template — drafts only, with permissions visible.',
+      href: '/do', explore: 'Try DO', note: 'Meeting DO and Household DO on the public face. Deeper specialist tools stay behind auth.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
@@ -69,16 +70,15 @@ export const PRODUCTS = {
 } as const;
 
 export const DO_INPUT = {
-  kicker: 'give DO a job',
+  kicker: 'open DO',
   title: 'what do you need done?',
-  placeholder: 'Describe the outcome you need.',
-  submit: 'give DO the job →',
-  honesty: 'Your job opens in DO for review before any consequential action.',
+  placeholder: 'Meeting notes, or a household chores board…',
+  submit: 'open DO →',
+  honesty: 'Opens public DO — Meeting notes or a generic Household board. Nothing is sent for you.',
   examples: [
-    'Find relevant opportunities for my business and prepare the strongest one.',
-    'Turn this tender into a response plan and first draft.',
-    'Build the next version of this product and prepare a reviewable PR.',
-    'Turn this opportunity into a pitch, campaign and interactive demo.',
+    'Turn today’s meeting into notes with actions and decisions.',
+    'Run the demo household chores board for this week.',
+    'Record a call and prepare reviewable meeting notes.',
   ],
 } as const;
 
@@ -126,9 +126,9 @@ export const REVIEW = {
 
 export const START = {
   kicker: 'start with DO',
-  title: 'give DO one real job.',
-  body: 'Start with an outcome. Bring the context you have. See what the right DO can prepare or build next.',
-  primary: { label: 'give DO a job →', href: '#do-input' },
+  title: 'open Meeting or Household.',
+  body: 'Public DO is pared to two tools: useful meeting notes, and a generic household chores board. Drafts only.',
+  primary: { label: 'open DO →', href: '#do-input' },
   secondary: {
     label: 'bring us a company',
     href: 'mailto:assembl@assembl.co.nz?subject=Bring%20us%20a%20company&body=Company%20name%3A%0AWhat%20you%20want%20done%3A%0A',

@@ -16,9 +16,25 @@ describe('meeting audio boundary', () => {
   it('requires explicit upload consent', async () => { expect((await POST(request(false))).status).toBe(400); expect(fetch).not.toHaveBeenCalled(); });
   it('returns setup-needed without pretending to transcribe', async () => { vi.stubEnv('DEEPGRAM_API_KEY', ''); expect((await POST(request())).status).toBe(503); });
   it('returns transcript for review and no completed delegation', async () => {
-    vi.mocked(fetch).mockResolvedValue(Response.json({ results: { channels: [{ alternatives: [{ transcript: 'Alex will prepare the draft.' }] }] } }));
-    const data = await (await POST(request())).json(); expect(data).toEqual({ transcript: 'Alex will prepare the draft.', provider: 'Deepgram', status: 'review_required' });
+    vi.mocked(fetch).mockResolvedValue(Response.json({
+      results: {
+        channels: [{ alternatives: [{ transcript: 'Alex will prepare the draft.' }] }],
+        utterances: [
+          { speaker: 0, transcript: 'Alex will prepare the draft.' },
+        ],
+      },
+    }));
+    const data = await (await POST(request())).json();
+    expect(data).toEqual({
+      transcript: 'Speaker 0: Alex will prepare the draft.',
+      speakers: ['Speaker 0'],
+      provider: 'Deepgram',
+      status: 'review_required',
+    });
     expect(fetch).toHaveBeenCalledTimes(1);
+    const url = String(vi.mocked(fetch).mock.calls[0][0]);
+    expect(url).toContain('diarize=true');
+    expect(url).toContain('utterances=true');
   });
   it('does not leak provider errors', async () => { vi.mocked(fetch).mockResolvedValue(new Response('sensitive upstream detail', { status: 500 })); const response = await POST(request()); expect(response.status).toBe(502); expect(await response.text()).not.toContain('sensitive'); });
 });

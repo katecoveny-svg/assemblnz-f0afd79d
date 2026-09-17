@@ -1,3 +1,5 @@
+import { PUBLIC_NAV_ALLOWLIST, PUBLIC_PURSUIT_HUB } from '@/lib/public-nav-allowlist';
+
 export type DemoStatus = 'live' | 'preview' | 'concept';
 
 export type ConceptDemo = {
@@ -13,12 +15,16 @@ export type ConceptDemo = {
   featured?: boolean;
 };
 
-export const PUBLIC_NAV_LINKS = [
-  { href: '/pursuit', label: 'Pursuit' },
-  { href: '/do', label: 'DO' },
-  { href: '/creative-studio', label: 'Studio' },
-  { href: '/about', label: 'About' },
-] as const;
+/** Primary public nav — Kate allowlist (Pursuit is external hub only). */
+export const PUBLIC_NAV_LINKS = PUBLIC_NAV_ALLOWLIST.filter(
+  (item) => item.id !== 'home',
+).map((item) => ({
+  href: item.href,
+  label: item.label,
+  external: item.external,
+}));
+
+export { PUBLIC_PURSUIT_HUB };
 
 export const CONCEPT_DEMOS: readonly ConceptDemo[] = [
   {

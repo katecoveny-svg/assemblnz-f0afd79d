@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { HOME_BRIEF_KEY, HOME_BRIEF_MAX_LENGTH, HOME_BRIEF_TTL_MS, readHomeBrief, saveHomeBrief } from './home-handoff';
+import {
+  HOME_BRIEF_KEY,
+  HOME_BRIEF_MAX_LENGTH,
+  HOME_BRIEF_TTL_MS,
+  readHomeBrief,
+  resolvePublicDoHandoffTarget,
+  saveHomeBrief,
+} from './home-handoff';
 
 function session() {
   const entries = new Map<string, string>();
@@ -25,6 +32,17 @@ describe('homepage to DO draft handoff', () => {
     expect(readHomeBrief(storage, id, 3000)).toBe(brief);
     expect(readHomeBrief(session(), id, 3000)).toBeNull();
     expect(readHomeBrief(storage, 'different-draft', 3000)).toBeNull();
+  });
+
+  it('routes meeting and household intents to working public DOs only', () => {
+    expect(resolvePublicDoHandoffTarget('Turn this meeting into notes')).toBe('meetings');
+    expect(resolvePublicDoHandoffTarget('Run the household chores board')).toBe('household');
+    expect(resolvePublicDoHandoffTarget('Something else useful')).toBe('do');
+    const storage = session();
+    expect(saveHomeBrief(storage, 'Record the call notes', 1000, 'meetings')).toMatch(
+      /^\/do\/meetings\?from=home&handoff=/,
+    );
+    expect(saveHomeBrief(storage, 'Chores', 1000, 'household')).toBe('/do/household');
   });
 
   it('expires and removes a draft after 15 minutes', () => {

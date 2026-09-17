@@ -142,6 +142,9 @@ function MeetingDoInner() {
       'Meeting notes',
       'Avery and Jordan aligned on shipping phone Meeting DO for the demo after Install → Record works.',
       '',
+      'Attendees',
+      'Avery, Jordan, Riley',
+      '',
       'Decisions / outcomes',
       'Ship soft launch for the demo once Install → Record is reliable.',
       '',
@@ -153,7 +156,7 @@ function MeetingDoInner() {
       'Who hosts the follow-up?',
       '',
       'Suggested specialist DO',
-      'Office DO — draft invite (draft)',
+      'Meeting DO — follow-up notes (draft)',
       '',
       'Follow-up email draft',
       'Subject: Soft launch for Meeting DO',
@@ -423,8 +426,6 @@ function MeetingDoInner() {
     >
       <nav className={phoneMode ? styles.phoneNav : undefined}>
         <Link href="/do">← Your DOs</Link>
-        {!phoneMode ? <Link href="/do/connections">Connections</Link> : null}
-        {!phoneMode ? <Link href="/do/tasks?board=meeting-do">Tasks</Link> : null}
         {!phoneMode ? (
           <Link href="/do/meetings?phone=1" className={styles.phoneLink}>
             Phone view

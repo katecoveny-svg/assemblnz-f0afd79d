@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Guard the user-confirmed 16 September recovery, plus the #1324 homepage
- * WorldScene / atelier.glb fly-through hero (AssemblWorldHero).
+ * WorldScene / atelier.glb fly-through hero (AssemblWorldHero), plus the
+ * 2026-09-17 Kate lock: public DO shelf = Meeting + Household only.
  *
  * Homepage hero dual-accept (intentional):
  *   A) legacy `<DoSpatialScene company />`, OR
@@ -16,13 +17,15 @@ const read = path => readFileSync(path, 'utf8');
 const checks = [
   ['app/page.tsx', /AssemblTheWorkHome/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
-  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<GlowDoWidget\s*\/>/],
-  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
-  ['app/do/DoHome.tsx', /<DoReveal/],
-  ['app/do/DoHome.tsx', /href="\/do\/office"/],
+    ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
+  ['app/do/DoHome.tsx', /PUBLIC_DO_SPECIALISTS/],
+  ['app/do/DoHome.tsx', /href="\/do\/meetings"/],
+  ['app/do/DoHome.tsx', /href="\/do\/household"/],
   ['app/do/DoBuilder.tsx', /<DoCanvas/],
   ['components/site/assembl-the-work/GlowDoWidget.tsx', /COMPANION_POSITION_KEY/],
   ['components/do/DoMark.tsx', /do-identity-dot/],
+  ['lib/do/public-do-specialists.ts', /Meeting DO/],
+  ['lib/do/public-do-specialists.ts', /Household DO/],
 ];
 for (const [path, pattern] of checks) {
   if (!pattern.test(read(path))) errors.push(`${path}: the accepted front-door feature is missing (${pattern})`);
@@ -37,6 +40,10 @@ if (!hasLegacyCompanySpatial && !hasWorldHero) {
   errors.push(
     `${homePath}: homepage hero must keep either <DoSpatialScene company /> or <AssemblWorldHero /> (WorldScene / atelier.glb fly-through)`,
   );
+}
+const homeSource = read(homePath);
+if (/<GlowDoWidget\b/.test(homeSource)) {
+  errors.push(`${homePath}: public homepage must not mount GlowDoWidget (Kate nav lock — omit unless context/vision works)`);
 }
 if (hasWorldHero) {
   const heroPath = 'components/site/assembl-the-work/AssemblWorldHero.tsx';
@@ -53,18 +60,55 @@ if (hasWorldHero) {
   }
 }
 
-const publicFiles = ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', 'app/do/DoHome.tsx', 'app/do/DoReveal.tsx', 'app/do/page.tsx'];
+const publicFiles = [
+  'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
+  'app/do/DoHome.tsx',
+  'app/do/page.tsx',
+  'components/site/assembl-the-work/GlowDoWidget.tsx',
+  'components/do/DoPortableStarters.tsx',
+  'components/do/DoSpatialScene.tsx',
+  'app/do/DoUtilityDock.tsx',
+  'components/site/assembl-the-work/AssemblWorldHero.tsx',
+];
+const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
+const bannedHrefs = [
+  'href="/pursuit"',
+  'href="/pursuit/playground"',
+  'href="/studio/do-maker"',
+  'href="/do/family"',
+  'href="/do/bills"',
+  'href="/do/builder"',
+  'href="/do/office"',
+  'href="/do/tasks"',
+  'href="/do/connections"',
+  'href="/do/sponsored"',
+  'href="/do/browser"',
+];
 for (const path of publicFiles) {
   const text = read(path);
-  if (/OceanMedia|ocean-assembly|cinematic-nature|brand-rescue\.css|DoHomeCurrent/.test(text)) errors.push(`${path}: retired front door or nature film`);
-  if (/\bDOO\b|\bDoo\b|Builderdoo/i.test(text)) errors.push(`${path}: product is DO; specialist is Builder DO`);
+  if (/OceanMedia|ocean-assembly|cinematic-nature|brand-rescue\.css|DoHomeCurrent/.test(text)) {
+    errors.push(`${path}: retired front door or nature film`);
+  }
+  if (/\bDOO\b|\bDoo\b|Builderdoo/i.test(text)) {
+    errors.push(`${path}: product is DO; specialist is Builder DO`);
+  }
+  for (const promo of bannedPromos) {
+    if (text.includes(promo)) errors.push(`${path}: banned public promo "${promo}"`);
+  }
+  for (const href of bannedHrefs) {
+    if (text.includes(href)) errors.push(`${path}: banned public ${href}`);
+  }
 }
 for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp']) {
   if (!existsSync(asset)) errors.push(`${asset}: missing approved visual asset`);
 }
 const companyCss = read('components/site/assembl-the-work/assembl-the-work.css');
-if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) errors.push('Company typography must use Instrument Sans, not the retired serif font');
-if (!read('app/do/DoHome.tsx').includes('Meet your To ')) errors.push('Preserve the approved To DO specialist heading');
+if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
+  errors.push('Company typography must use Instrument Sans, not the retired serif font');
+}
+if (!read('app/do/DoHome.tsx').includes('Meet your To ')) {
+  errors.push('Preserve the approved To DO specialist heading');
+}
 
 // Public DO honesty — never ship owner-private household PII or operator backlog hosts in shared seeds.
 const householdTemplates = read('apps/do/shared/household-floor-templates.ts');
@@ -80,5 +124,10 @@ if (/Kate and Adrian/i.test(meetingDo)) {
   errors.push('app/do/meetings/MeetingDo.tsx: sample notes must use fictional names on the public demo');
 }
 
-if (errors.length) { console.error('public-front-door-guard: drift detected\n' + errors.join('\n')); process.exit(1); }
-console.log('public-front-door-guard: assembl front door, WorldScene/AssemblWorldHero or DoSpatialScene company, dimensional DO and portable canvas present');
+if (errors.length) {
+  console.error('public-front-door-guard: drift detected\n' + errors.join('\n'));
+  process.exit(1);
+}
+console.log(
+  'public-front-door-guard: assembl front door, WorldScene hero, public DO = Meeting + Household only',
+);
