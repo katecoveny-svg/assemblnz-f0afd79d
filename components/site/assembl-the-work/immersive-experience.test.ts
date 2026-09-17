@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
@@ -29,5 +30,14 @@ describe('immersive public experience', () => {
     expect(html).toContain('/preview/do-world');
     expect(html).toContain('Not a client endorsement or live agent activity.');
     expect(html).not.toContain('<video');
+  });
+  it('uses the canonical mark and palette, not the legacy purple render', () => {
+    const source = readFileSync('components/site/assembl-the-work/ImmersiveExperience.tsx', 'utf8');
+    const svg = readFileSync('public/do/canvas/identity-plum.svg', 'utf8');
+    expect(source).toContain('/do/canvas/identity-plum.svg');
+    expect(source).not.toContain('/do/canvas/dimensional-d.png');
+    expect(svg).toContain('M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z');
+    for (const colour of ['#240B21', '#916A70', '#FFFDFB']) expect(svg).toContain(colour);
+    expect(svg).not.toContain('<script');
   });
 });

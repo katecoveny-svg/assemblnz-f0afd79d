@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-label="The canonical DO mark in deep plum, paper and rose">
+  <defs>
+    <linearGradient id="paper" x2="0.7" y2="1"><stop stop-color="#FFFDFB"/><stop offset="1" stop-color="#F5F1F2"/></linearGradient>
+    <radialGradient id="light"><stop stop-color="#916A70" stop-opacity=".35"/><stop offset="1" stop-color="#916A70" stop-opacity="0"/></radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#654A4E"/><stop offset=".4" stop-color="#240B21"/><stop offset="1" stop-color="#240B21"/></linearGradient>
+    <linearGradient id="rim" x2="1" y2="1"><stop stop-color="#FFFDFB" stop-opacity=".75"/><stop offset=".45" stop-color="#916A70" stop-opacity=".4"/><stop offset="1" stop-color="#240B21" stop-opacity=".2"/></linearGradient>
+    <filter id="shadow" x="-50%" y="-40%" width="210%" height="230%"><feDropShadow dx="3" dy="35" stdDeviation="26" flood-color="#240B21" flood-opacity=".22"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.1"/></filter>
+  </defs>
+  <path fill="url(#paper)" d="M0 0h1200v680H0z"/>
+  <ellipse cx="635" cy="350" rx="520" ry="320" fill="url(#light)"/>
+  <g transform="translate(390 110) rotate(-7 220 220)">
+    <rect x="-28" y="-24" width="496" height="496" rx="104" fill="#FFFDFB" fill-opacity=".16" stroke="#916A70" stroke-opacity=".16"/>
+    <rect x="0" y="9" width="440" height="440" rx="82" fill="#654A4E"/>
+    <rect width="440" height="440" rx="82" fill="url(#body)" stroke="url(#rim)" stroke-width="2" filter="url(#shadow)"/>
+    <g transform="translate(16 28) scale(6)">
+      <g stroke="#916A70" fill="#916A70" opacity=".85" filter="url(#glow)"><path d="M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z" fill="none" stroke-width="8.2" stroke-linejoin="round"/><circle cx="30" cy="32" r="6" stroke="none"/></g>
+      <path d="M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z" fill="none" stroke="#FFFDFB" stroke-width="7" stroke-linejoin="round"/>
+      <circle cx="30" cy="32" r="6" fill="#FFFDFB"/>
+    </g>
+  </g>
+</svg>

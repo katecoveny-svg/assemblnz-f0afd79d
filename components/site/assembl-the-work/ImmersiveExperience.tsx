@@ -122,7 +122,7 @@ export function ProductDoors() {
 const studies = [
   { id:'space', name:'Spatial', title:'An idea you can step inside.', body:'Explore the existing atelier: three spaces, one scroll-led experience.', image:'/do/world/atelier-poster.png', href:'/preview/do-world', action:'Explore the space' },
   { id:'motion', name:'Motion', title:'An identity with movement.', body:'A short assembl motion study. Play the film to see the material, light and movement.', image:'/do/cinema/do-orb-poster.webp', href:'/do/cinema/do-orb-loop.mp4', action:'Watch the film' },
-  { id:'identity', name:'Identity', title:'A small mark. A whole world.', body:'The existing DO identity, carried into a visual system for the product.', image:'/do/canvas/dimensional-d.png', href:'/do', action:'Meet DO' },
+  { id:'identity', name:'Identity', title:'A small mark. A whole world.', body:'The existing DO identity, carried into a visual system for the product.', image:'/do/canvas/identity-plum.svg', href:'/do', action:'Meet DO' },
 ] as const;
 
 /** Existing approved visual work only; no invented client work or endorsements. */
