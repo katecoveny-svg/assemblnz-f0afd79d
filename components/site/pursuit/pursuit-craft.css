@@ -1,0 +1,12 @@
+/* Scoped public Pursuit enhancement; native scrolling remains in control. */
+.pursuit-craft{--text-primary:#240b21;--text-body:#654a4e;overflow:clip}
+.pursuit-craft [data-product='do']{--text-primary:#fffdfb}
+.pursuit-craft [aria-label='Illustrative Pursuit canvas']{border:1px solid #fffdfba8;border-radius:22px;box-shadow:inset 0 1px 0 #fff,0 5px 0 #916a7033,0 30px 85px #240b2128;transform:perspective(1400px) rotateY(-3deg);background:linear-gradient(135deg,#fffdfbdd,#e7d8e1aa);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.pursuit-craft [aria-labelledby='process-title']>ol{gap:20px}
+.pursuit-craft [aria-labelledby='process-title']>ol>li{padding:24px;border:1px solid #fffdfb;border-radius:15px;background:linear-gradient(130deg,#fffdfbe8,#f1e7edd6);box-shadow:inset 0 1px 0 #fff,0 4px 0 #916a701a,0 20px 48px #240b2110;transition:transform .35s,box-shadow .35s}
+.pursuit-craft [aria-labelledby='process-title']>ol>li:nth-child(2){margin-left:18px}
+.pursuit-craft [aria-labelledby='process-title']>ol>li:nth-child(3){margin-left:36px}
+.pursuit-craft [aria-labelledby='process-title']>ol>li:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 #fff,0 4px 0 #916a701a,0 26px 52px #240b2120}
+@supports(animation-timeline:view()){@media(prefers-reduced-motion:no-preference){.pursuit-craft [data-product]{animation:pursuit-arrive linear both;animation-timeline:view();animation-range:entry 0% entry 100%}@keyframes pursuit-arrive{from{translate:0 26px;scale:.97}to{translate:0 0;scale:1}}}}
+@media(max-width:760px){.pursuit-craft [aria-label='Illustrative Pursuit canvas']{transform:none}.pursuit-craft [aria-labelledby='process-title']>ol>li{margin-left:0!important;padding:22px}.pursuit-craft [aria-labelledby='process-title']>ol{gap:15px}}
+@media(prefers-reduced-motion:reduce){.pursuit-craft [aria-label='Illustrative Pursuit canvas'],.pursuit-craft [aria-labelledby='process-title']>ol>li{transform:none!important;transition:none;animation:none}}
