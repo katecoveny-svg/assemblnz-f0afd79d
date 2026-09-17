@@ -33,3 +33,6 @@
 @media(max-width:374px){.rail .copy h1{font-size:56px}.rail .sub{font-size:20px}.actions{gap:13px}.rail .pill{font-size:11px}}
 @media(max-height:700px) and (min-width:651px){.frame{min-height:580px;padding-top:17px}.rail .copy h1{font-size:clamp(64px,7.4vw,106px)}.copy{padding:18px 0}.rail .overline{margin-bottom:18px}.rail .sub{margin-top:17px}.chapter{margin-bottom:15px}.chapterBody{padding:20px}.rail .chapterBody h2{font-size:38px}.jobNote{font-size:11px;padding:9px 15px}}
 @media(prefers-reduced-motion:reduce){.rail{height:auto}.frame{position:relative;height:auto;min-height:100svh}.rail .pill,.chapterBody,.chapterSteps button{transition:none;transform:none!important}}
+
+/* Chapter controls need their own readable glass over the daylight floor. */
+@media(min-width:651px){.rail .chapterSteps button{background:#240b21ad;border-radius:8px;padding:12px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}.rail .chapterSteps button[data-active=true]{background:#240b21d4;border-top:2px solid #fffdfb}}
