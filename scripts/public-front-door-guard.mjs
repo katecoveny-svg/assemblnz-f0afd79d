@@ -160,6 +160,26 @@ if (!/small agent that sits where you already work/.test(doHome)) {
 if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
+
+// Studio product shelf: no duplicate atelier still across 3D + DO doors; no lab/experiment captions.
+const productLandingPath = 'components/site/assembl-the-work/ProductLanding.tsx';
+const productLanding = read(productLandingPath);
+const studiesBlock = productLanding.match(/const studies = \[[\s\S]*?\] as const/)?.[0] ?? '';
+const atelierHits = (studiesBlock.match(/atelier-poster\.png/g) || []).length;
+if (atelierHits > 1) {
+  errors.push(
+    `${productLandingPath}: Studio shelf must not reuse atelier-poster.png for both the 3D walkthrough and the DO door`,
+  );
+}
+if (
+  /Not live agent activity|Architectural study|INTERACTIVE STUDY|motion experiment|craft demo|prototype theatre|\blab\b/i.test(
+    productLanding,
+  )
+) {
+  errors.push(
+    `${productLandingPath}: public Studio copy must be product voice — no experiment / study / not-live captions`,
+  );
+}
 const meetingUi = read('app/do/meetings/MeetingDo.tsx');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 if (/Whisper-class|Deepgram nova-2|Granola-class|sharing this audio with Deepgram|Deepgram is not configured/i.test(meetingChrome)) {

@@ -20,7 +20,7 @@ WorldScene / Auckland office fly-through quality — **one stack**, no parallel 
 1. Import `WorldAtelierStage` (or `WorldScene` for the study twin). Never invent a second GLB/R3F stack.
 2. Keep reduced-motion + ≤650px still/poster path.
 3. Offscreen unmount via visibility gate.
-4. Honesty copy: imagined atelier, not live agent activity.
+4. Product voice only on public shelves — never label visuals as experiments, studies-as-lab, or “not live agent activity.”
 
 ## Out of scope (for later)
 

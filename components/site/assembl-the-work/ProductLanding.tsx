@@ -35,27 +35,28 @@ const content = {
   },
 } as const;
 
-/** Studio studies — Kate allowlist only (no Task DO Maker / DO Office / public DO shelf). */
+/** Studio work doors — Kate allowlist only (no Task DO Maker / DO Office / public DO shelf). */
 const studies = [
   {
     id: 'world',
     title: 'Step inside the idea.',
-    type: '3D / INTERACTIVE STUDY',
+    type: '3D / WALKTHROUGH',
     image: '/do/world/atelier-poster.png',
     href: '/preview/do-world',
     action: 'Walk through the atelier',
     description: 'A Blender-authored world with a scroll-led camera, an accessible still view and three connected spaces.',
-    status: 'Architectural study. Not live agent activity.',
+    status: 'Scroll the Auckland atelier. Three connected spaces.',
   },
   {
-    id: 'contact',
+    id: 'do',
     title: 'Bring DO into a real engagement.',
     type: 'DO',
-    image: '/do/world/atelier-poster.png',
-    href: '/contact?product=do',
-    action: 'Talk about DO',
+    // Distinct from the atelier walkthrough still — DO product chrome, not a second WorldScene poster.
+    image: '/do/cinema/do-orb-poster.webp',
+    href: '/do',
+    action: 'See how DO works',
     description: 'DO sits where you already work. Talk to assembl when you want it opened for your team.',
-    status: 'Surface ≠ agent. You stay in your own work.',
+    status: 'You stay in your own tools. Approvals stay with you.',
   },
 ] as const;
 
@@ -110,10 +111,6 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
               <ArrowUpRight size={18} />
             </Link>
           </div>
-          <small className="product-hero-note">
-            Same Auckland atelier poster as the homepage fly-through. Walk the live
-            WorldScene study when you want the scroll journey — not a second 3D stack.
-          </small>
         </div>
       </section>
       {product === 'studio' ? (
@@ -129,8 +126,7 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
                 <h2 id="studio-work-title">See the work.</h2>
               </div>
               <p>
-                Existing assembl studies. Open each one to see what it does and
-                what still needs connecting.
+                Open a walkthrough, or see how DO sits in the work you already do.
               </p>
             </header>
             <div className="studio-studies">
