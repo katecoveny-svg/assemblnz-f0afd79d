@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import { DoMark } from "@/components/do/DoMark";
-import { DoTaskStrip } from "@/components/do/DoTaskStrip";
 import {
   DoPortableStarters,
   type DoPortableStarter,
@@ -18,10 +16,6 @@ import {
 } from "@/apps/do/shared/companion-position";
 import "@/app/do/do.css";
 import styles from "./glow-do-widget.module.css";
-
-const DoWorkspace = dynamic(() =>
-  import("@/app/do/DoWorkspace").then((module) => module.DoWorkspace),
-);
 
 const FIRST_VISIT_KEY = "assembl-do-glow-seen-v1";
 
@@ -41,8 +35,6 @@ export function GlowDoWidget() {
     });
     return () => cancelAnimationFrame(frame);
   }, []);
-  const [view, setView] = useState<"welcome" | "workspace">("welcome");
-  const [starterBrief, setStarterBrief] = useState("");
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [position, setPosition] = useState<CompanionPosition | null>(null);
   const drag = useRef<{
@@ -125,24 +117,13 @@ export function GlowDoWidget() {
 
   function openDialog() {
     markSeen();
-    setView("welcome");
-    setStarterBrief("");
     setOpened(true);
     dialog.current?.showModal();
   }
 
-  function startWorkspace(brief = "") {
-    setStarterBrief(brief);
-    setView("workspace");
-  }
-
   function onStarter(starter: DoPortableStarter) {
-    if (starter.id === "meeting") {
-      // Recording-first: open Meeting DO without gating on sign-in.
-      window.location.assign(starter.href || "/do/meetings");
-      return;
-    }
-    if (starter.brief) startWorkspace(starter.brief);
+    // Public Glow only routes to Meeting or Household — never operator boards.
+    window.location.assign(starter.href || "/do/meetings");
   }
 
   return (
@@ -252,7 +233,7 @@ export function GlowDoWidget() {
         </span>
         {showHint ? (
           <span className={styles.hint} role="status">
-            Your portable DO
+            Meeting or Household
           </span>
         ) : null}
       </button>
@@ -262,7 +243,6 @@ export function GlowDoWidget() {
         aria-label="DO workspace"
         onClose={() => {
           setOpened(false);
-          setView("welcome");
         }}
       >
         <button
@@ -273,49 +253,25 @@ export function GlowDoWidget() {
         >
           <X size={21} />
         </button>
-        {opened && view === "welcome" ? (
+        {opened ? (
           <div className={styles.welcome}>
-            <DoTaskStrip boardId="portable-widget" label="This DO · next tasks" />
-            <DoPortableStarters
-              onStarter={onStarter}
-              interceptMeeting
-              showDownloads
-            />
+            <DoPortableStarters onStarter={onStarter} showDownloads />
             <div className={styles.welcomeActions}>
-              <button
-                type="button"
-                className={styles.continue}
-                onClick={() => startWorkspace()}
-              >
-                Open full builder
-              </button>
               {signedIn === false ? (
-                <Link href="/login?redirect=%2Fdo">
-                  Sign in <ArrowUpRight size={14} />
+                <Link href="/login?redirect=%2Fdo%2Fmeetings">
+                  Sign in for transcription <ArrowUpRight size={14} />
                 </Link>
               ) : null}
             </div>
           </div>
-        ) : null}
-        {opened && view === "workspace" ? (
-          <>
-            <DoTaskStrip boardId="portable-widget" label="This DO · next tasks" />
-            <DoWorkspace
-              key={starterBrief || "blank"}
-              initialBrief={starterBrief}
-              initialTask={starterBrief.includes("reply") ? "reply" : "brief"}
-            />
-          </>
         ) : null}
         <nav className={styles.shortcuts} aria-label="More from DO">
           <Link href="/do">
             Your DOs <ArrowUpRight size={14} />
           </Link>
           <Link href="/do/meetings">Meeting DO</Link>
-          <Link href="/do/office">Office</Link>
-          <Link href="/do/tasks">Tasks</Link>
-          <Link href="/do/connections">Connections</Link>
-          <Link href="/login?redirect=%2Fdo">Sign in</Link>
+          <Link href="/do/household">Household DO</Link>
+          <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link>
         </nav>
       </dialog>
     </>

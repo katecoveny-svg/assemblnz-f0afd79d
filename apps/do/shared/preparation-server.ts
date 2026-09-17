@@ -25,6 +25,9 @@ const TASK_INSTRUCTIONS = {
 Meeting notes
 Clean, readable notes — not a raw transcript dump. Short paragraphs or bullets. Strip filler, false starts and repetition while keeping meaning.
 
+Attendees
+List people named in the source, or diarised Speaker N labels when names are absent. If neither names nor speakers appear: None stated in the source. Never invent real names for Speaker labels.
+
 Decisions / outcomes
 Only decisions and outcomes stated in the source. If none: None stated in the source.
 
@@ -35,7 +38,7 @@ Open questions
 Unresolved questions, missing details and parking-lot items from the source. If none: None stated in the source.
 
 Suggested specialist DO
-Draft suggestions only — one specialist DO per concrete task when useful (for example Builder DO or Office DO). Mark each as draft. Do not claim anything was assigned or sent.
+Draft suggestions only — prefer Meeting DO follow-up or Household DO when relevant; otherwise a generic Office draft. Mark each as draft. Do not claim anything was assigned or sent.
 
 Follow-up email draft
 Optional short draft for the reviewer to edit: Subject line, then body. Never send. If a follow-up is not warranted: Not needed from this source.

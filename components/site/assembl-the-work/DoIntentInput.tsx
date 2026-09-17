@@ -33,7 +33,7 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
   };
 
   return (
-    <form className={`atw-do-form ${compact ? "is-compact" : ""}`} onSubmit={onSubmit} aria-label="Give DO a job">
+    <form className={`atw-do-form ${compact ? "is-compact" : ""}`} onSubmit={onSubmit} aria-label="Open public DO">
       {!compact && <label className="sr-only" htmlFor="atw-do-intent">
         {DO_INPUT.title}
       </label>}
@@ -51,7 +51,7 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
           aria-describedby="atw-do-honesty"
         />
         <button type="submit" className="atw-btn atw-btn-rose">
-          {compact ? <span aria-label="Give DO the job">→</span> : DO_INPUT.submit}
+          {compact ? <span aria-label="Open DO">→</span> : DO_INPUT.submit}
         </button>
       </div>
       <p className="atw-do-honesty" id="atw-do-honesty">{DO_INPUT.honesty}</p>

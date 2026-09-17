@@ -1,12 +1,20 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { DoHome } from './DoHome';
 import './do.css';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: { absolute: 'DO · your portable agent workforce · assembl' },
-  description: 'Bring your DOs to the work: companion, Office, Builder DO and user-scoped connections with visible permissions, approvals and proof.',
+  title: { absolute: 'DO · Meeting notes & Household · assembl' },
+  description:
+    'Public DO offers Meeting DO (record → transcript → useful notes) and a generic Household chores board. Drafts only — nothing is sent for you.',
   alternates: { canonical: '/do' },
 };
 // Keep the spatial DO experience connected to the current runtime; see docs/DO-VISUAL-BASELINE.md.
-export default function DoPage() { return <DoHome />; }
+export default function DoPage() {
+  return (
+    <Suspense fallback={<main className="do-craft" aria-busy="true">Loading DO…</main>}>
+      <DoHome />
+    </Suspense>
+  );
+}

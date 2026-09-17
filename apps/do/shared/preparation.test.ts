@@ -68,6 +68,7 @@ describe('DO preparation and evidence', () => {
     expect(request.maxOutputTokens).toBe(2000);
     expect(request.system).toContain('Granola-style smart notes');
     expect(request.system).toContain('Never invent owners');
+    expect(request.system).toContain('Attendees');
     expect(request.system).toContain('Follow-up email draft');
     expect(draft.task).toBe('meeting-notes');
     expect(draft.title).toContain('Smart meeting notes');

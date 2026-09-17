@@ -19,7 +19,7 @@ type SceneProps = {
 
 const chapters = [
   { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Find the work' },
-  { product: 'DO', verb: 'DO it.', input: 'Your goal. The context you choose.', output: 'Useful work, ready for your review.', href: '/do', action: 'Give DO a job' },
+  { product: 'DO', verb: 'DO it.', input: 'A meeting to capture. A household board to run.', output: 'Useful notes or a chores board — ready for your review.', href: '/do', action: 'Open Meeting or Household' },
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see and try.', href: '/creative-studio', action: 'See the possibility' },
 ] as const;
 
@@ -122,7 +122,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
           <p className={styles.sub}>{HERO.subhead}</p>
           <p className={styles.body}>{HERO.body}</p>
           <div className={styles.actions}>
-            <a className={styles.pill} href="#do-input" onClick={() => document.getElementById('atw-do-intent')?.focus()}>Give DO a job <ArrowRight size={20} /></a>
+            <a className={styles.pill} href="#do-input" onClick={() => document.getElementById('atw-do-intent')?.focus()}>Open Meeting or Household <ArrowRight size={20} /></a>
             <a className={styles.link} href="#products">See the whole system <ArrowDown size={16} /></a>
           </div>
         </div>
