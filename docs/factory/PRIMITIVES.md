@@ -9,6 +9,7 @@ Do not extract something merely because it might be reused. Prefer extraction af
 | CustomerJourney foundation | existing | `lib/journey/` | journey surfaces | see journey docs/evals | reusable journey runtime |
 | Business/customer context | existing | `lib/customers/` + related genome/context code | customer workspaces/journeys | audit needed | consolidate semantics before expanding |
 | Model routing | existing | `lib/ai/router.ts`, `lib/os/routing.ts` | agent/model work | routing tests | model is replaceable; route by task capability, measured performance, privacy, latency and cost |
+| TypeSafe bounded decision pilot | review-branch preview | `lib/typesafe/`, `/api/do/decision` | `/pursuit/typesafe`, `/do/typesafe`, `/creative-studio/typesafe` | `lib/typesafe/pilot-contract.test.ts`, `node --test scripts/check-typesafe-pilot.cjs` | creates a shared decision adapter; uses DO router/policy/auth; source consent + owner allowlist; live provider verification pending key; draft-only, no cross-tab execution or durable client storage; see `docs/integrations/typesafe-pilot.md` |
 | Agent registry | existing | `lib/agents.ts` + plugin prompts | agent surfaces | `pnpm test:agents` | files are canonical; DB prompt table is cache |
 | Canvas/design primitives | existing | `packages/canvas/` | UI surfaces | package build required | use current canon palette |
 | Journey proof/eval | existing | `lib/journey/` + `pnpm eval:journeys` | journeys | existing eval command | expand before creating parallel proof systems |
