@@ -1,0 +1,47 @@
+name: DO Mac development build
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/do/macos/**'
+      - 'public/do/icons/**'
+      - '.github/workflows/do-mac-development.yml'
+  push:
+    branches: ['fix/do-portable-launch-install-20260918']
+    paths:
+      - 'apps/do/macos/**'
+      - '.github/workflows/do-mac-development.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    name: Development companion (${{ matrix.arch }})
+    runs-on: macos-15
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64, x86_64]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            apps/do/macos
+            public/do/icons
+      - name: Build and verify ad-hoc development app
+        env:
+          DO_MAC_ARCH: ${{ matrix.arch }}
+        run: |
+          cmp public/do/icons/do-192.png apps/do/macos/resources/do-192.png
+          cmp public/do/icons/do-512.png apps/do/macos/resources/do-512.png
+          bash apps/do/macos/build.sh "$RUNNER_TEMP/do-build"
+          codesign --verify --strict "$RUNNER_TEMP/do-build/DO.app"
+          file "$RUNNER_TEMP/do-build/DO.app/Contents/MacOS/DO"
+          ditto -c -k --sequesterRsrc --keepParent "$RUNNER_TEMP/do-build/DO.app" "$RUNNER_TEMP/DO-development-${DO_MAC_ARCH}.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DO-development-${{ matrix.arch }}-not-notarised
+          path: ${{ runner.temp }}/DO-development-${{ matrix.arch }}.zip
+          retention-days: 7
+          if-no-files-found: error

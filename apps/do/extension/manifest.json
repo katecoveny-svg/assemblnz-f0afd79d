@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "DO by assembl",
-  "version": "1.5.2",
-  "description": "Portable DO companion — Spatial C plum stage, D-mark, Help with this page, Meeting notes (record-first). Drafts only; never send or pay.",
+  "version": "1.6.0",
+  "description": "Portable DO companion with movable browser workspace, selected-text handoff and meeting recording. Drafts only; no automatic actions.",
   "action": {
     "default_title": "Open DO — help with this page",
     "default_icon": {
@@ -38,15 +38,20 @@
   },
   "minimum_chrome_version": "116",
   "side_panel": {
-    "default_path": "sidepanel.html"
+    "default_path": "portable.html"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "portable-worker.js"
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["selection-badge.js"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "selection-badge.js"
+      ],
       "run_at": "document_idle",
       "all_frames": false
     }

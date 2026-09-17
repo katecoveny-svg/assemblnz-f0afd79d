@@ -1,0 +1,14 @@
+.do-portable { margin: 14px; padding: 18px; border: 1px solid #916A70; border-radius: 12px; background: #FFFDFB; color: #240B21; font: 14px/1.6 'Instrument Sans', system-ui, sans-serif; }
+.do-portable h2 { font-size: 23px; line-height: 1.15; letter-spacing: -.035em; margin: 0 0 12px; font-weight: 550; }
+.do-portable p { margin: 10px 0; }
+.do-portable .portable-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.do-portable button { width: 100%; min-height: 44px; font: inherit; font-size: 13px; padding: 10px 12px; border: 1px solid #916A70; border-radius: 6px; background: #F5F1F2; color: #240B21; cursor: pointer; text-align: left; }
+.do-portable button:first-child { grid-column: 1 / -1; background: #240B21; color: #FFFDFB; }
+.do-portable button:focus-visible { outline: 3px solid #916A70; outline-offset: 3px; }
+.do-portable button:disabled { opacity: .55; cursor: wait; }
+.do-portable .portable-note { color: #654A4E; font-size: 12px; }
+@media (max-width: 290px) { .do-portable .portable-actions { grid-template-columns: 1fr; } }
+.do-portable-page{margin:0;background:#FFFDFB;color:#240B21;font:15px/1.6 'Instrument Sans',system-ui,sans-serif;padding:22px;box-sizing:border-box}.do-portable-page header{display:flex;justify-content:space-between;gap:16px;font-size:12px;border-bottom:1px solid #916A70;padding-bottom:18px}.do-portable-page header span{font-size:24px;letter-spacing:-.07em}.do-portable-page a{color:#240B21}.do-portable-page .do-portable{padding:28px 0;border:0}.do-portable-page h1{font-size:clamp(38px,8vw,62px);font-weight:450;letter-spacing:-.06em;line-height:1.05;margin:20px 0}.do-portable-page .eyebrow{font-size:11px;letter-spacing:.13em}.do-portable-page details{border-top:1px solid #916A70;padding:18px 0;margin-top:28px}.do-portable-page summary{cursor:pointer;min-height:44px}.do-portable-page .install{display:block;margin-top:24px}.do-portable-page :focus-visible{outline:3px solid #916A70;outline-offset:3px}
+
+.do-portable button:last-child { grid-column: 1 / -1; }
+.do-portable-page { max-width: 680px; margin: 0 auto; }
