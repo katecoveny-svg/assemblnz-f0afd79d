@@ -4,7 +4,7 @@
  * ALLOWED primary destinations only:
  *   1. Home (/) — WorldScene fly-through
  *   2. Studio (/creative-studio) — real Studio door
- *   3. Pursuit Hub — external ChatGPT hub only
+ *   3. Pursuit (/pursuit) — public story; working hub remains external ChatGPT
  *   4. Meeting DO (/do/meetings)
  *   5. Household DO (/do/household) — generic DEMO
  *   6. Public /do hub (Meeting + Household cards only)
@@ -15,7 +15,7 @@
 
 import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
 
-/** Canonical Pursuit — link out only. Never /pursuit or /pursuit/playground. */
+/** Working Pursuit hub — external ChatGPT only. Landing story is /pursuit. */
 export const PUBLIC_PURSUIT_HUB = PURSUIT_SITE_ORIGIN;
 
 export const PUBLIC_NAV_ALLOWLIST = [
@@ -23,8 +23,8 @@ export const PUBLIC_NAV_ALLOWLIST = [
   {
     id: 'pursuit',
     label: 'Pursuit',
-    href: PUBLIC_PURSUIT_HUB,
-    external: true,
+    href: '/pursuit',
+    external: false,
   },
   { id: 'studio', label: 'Studio', href: '/creative-studio', external: false },
   { id: 'do', label: 'DO', href: '/do', external: false },
@@ -37,7 +37,6 @@ export const PUBLIC_DO_ENTRIES = [
 
 /** In-repo routes that must not be primary public destinations. */
 export const FORBIDDEN_PUBLIC_DESTINATIONS = [
-  '/pursuit',
   '/pursuit/playground',
   '/studio/do-maker',
   '/do/maker/partner',

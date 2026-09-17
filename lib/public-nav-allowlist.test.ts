@@ -15,6 +15,7 @@ const PUBLIC_SURFACES = [
   'components/site/assembl-the-work/AssemblWorldHero.tsx',
   'components/site/assembl-the-work/ProductLanding.tsx',
   'components/site/assembl-the-work/GlowDoWidget.tsx',
+  'components/site/pursuit/PursuitLanding.tsx',
   'app/do/DoHome.tsx',
   'app/do/DoUtilityDock.tsx',
   'components/do/DoPortableStarters.tsx',
@@ -24,17 +25,16 @@ const PUBLIC_SURFACES = [
 ] as const;
 
 describe('public nav allowlist', () => {
-  it('points Pursuit only at the external ChatGPT hub', () => {
+  it('keeps the working Pursuit hub external and the story page on /pursuit', () => {
     expect(PUBLIC_PURSUIT_HUB).toBe('https://assembl-pursuit.katecoveny.chatgpt.site');
     const pursuit = PUBLIC_NAV_ALLOWLIST.find((item) => item.id === 'pursuit');
-    expect(pursuit?.href).toBe(PUBLIC_PURSUIT_HUB);
-    expect(pursuit?.external).toBe(true);
+    expect(pursuit?.href).toBe('/pursuit');
+    expect(pursuit?.external).toBe(false);
   });
 
   it('keeps forbidden destinations listed', () => {
     expect(FORBIDDEN_PUBLIC_DESTINATIONS).toEqual(
       expect.arrayContaining([
-        '/pursuit',
         '/pursuit/playground',
         '/studio/do-maker',
         '/do/maker/partner',
@@ -42,6 +42,7 @@ describe('public nav allowlist', () => {
         '/do/builder',
       ]),
     );
+    expect(FORBIDDEN_PUBLIC_DESTINATIONS).not.toContain('/pursuit');
   });
 
   it('keeps primary public surfaces free of forbidden hrefs', () => {
