@@ -153,10 +153,10 @@ Three tools share receipts/caps: `nz-trade-finder` (sandbox-first; live NZBN/Com
 The public `/do` face presented Meeting DO + Household DO + a large Identity D theatre, and the homepage sold “Two small tools / Your DOs”. Kate asked that public face removed. A first “paused” holding page failed craft review — do not say paused.
 
 **Decision**  
-Public `/do` is a short on-brand explanation of DO (small agent where you already work; surface ≠ agent) with the daylight Auckland atelier still. Homepage and public CTAs must not link into Meeting/Household as the product offering. Meeting/Household code may remain in-repo as PREVIEW/internal. No “paused” / “coming soon” product copy on `/do`. `scripts/public-front-door-guard.mjs` enforces shelf-off + explanation posture. Homepage WorldScene / atelier fly-through stays.
+Public `/do` is a short on-brand explanation of DO (small agent where you already work; surface ≠ agent) with a scroll-linked daylight Auckland atelier stage (WorldScene + reliable `atelier-poster.png` fallback). Interactive craft stays: hover-slide cards, plum/rose proximity glow, scroll reveal. Cards use diagrams/UI chrome — not repeated atelier photos. Homepage and public CTAs must not link into Meeting/Household as the product offering. Meeting/Household code may remain in-repo as PREVIEW/internal. No “paused” / “coming soon” product copy on `/do`. No technique-narrating copy (“experiment”, “lab”, “craft demo”). `scripts/public-front-door-guard.mjs` enforces shelf-off + explanation + craft posture. Homepage WorldScene / atelier fly-through stays as the cinematic door.
 
 **Why**  
-Honest public surface without selling a two-tool shelf or sounding like an outage. Keep runtime code available without presenting it as the public product.
+Honest public surface without selling a two-tool shelf or sounding like an outage. Keep runtime code available without presenting it as the public product. Flat text-only /do failed Kate craft review (2026-09-17 evening) — restore scroll/hover/glow without cloning homepage theatre or narrating the technique.
 
 **Consequences**  
 Nav/footer may still mention DO → explanation page. Pursuit and Studio remain primary public try doors. Reopening a public DO try-it face requires an explicit new decision and guard update.
