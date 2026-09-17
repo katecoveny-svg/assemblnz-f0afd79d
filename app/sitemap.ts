@@ -6,20 +6,18 @@ import type { MetadataRoute } from 'next';
  * Host is the canonical www origin.
  */
 const BASE = 'https://www.assembl.co.nz';
-const PRODUCT_PATHS = ['/do', '/do/meetings', '/do/household', '/creative-studio', '/do/install'];
+const PRODUCT_PATHS = ['/pursuit', '/do', '/creative-studio'];
 
 const CORE_PATHS = [
   '',
   ...PRODUCT_PATHS,
+  '/do/install',
   '/agent-schema',
   '/ai-ready',
   // The public agent builder (per-agent share pages are deliberately not
   // listed — they're visitor-made and unreviewed).
   '/a',
-  '/agents',
   '/concept-studio',
-  '/genome',
-  '/hapai',
   '/motion-studio',
   '/pattern-studio',
   '/ad-studio',
@@ -27,7 +25,6 @@ const CORE_PATHS = [
   '/living-site',
   '/install',
   '/about',
-  '/os',
   '/pricing',
   '/ai-use',
   '/contact',
@@ -41,7 +38,7 @@ const CORE_PATHS = [
   '/te-tiriti',
   '/trust',
   '/trust/soc2',
-  // Assembling sub-brand
+  // Assembling remains a specialist journey capability, not a master product.
   '/assembling',
   '/assembling/for-ai-builders',
   '/assembling/sdk',
@@ -65,8 +62,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         : PRODUCT_PATHS.includes(path)
           ? 0.9
           : path.startsWith('/assembling')
-            ? 0.7
-            : 0.6,
+            ? 0.6
+            : 0.5,
   }));
 
   return core;
