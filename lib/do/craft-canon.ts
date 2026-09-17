@@ -107,6 +107,11 @@ export const DO_CRAFT = {
     /Two tools\.\s*Useful work/i,
     /Meet your To/i,
     /model unavailable/i,
+    /\bmotion experiment\b/i,
+    /\bopen office motion experiment\b/i,
+    /\bcraft demo\b/i,
+    /\bprototype theatre\b/i,
+    /\bPREVIEW badge theatre\b/i,
   ] as const,
   cta: {
     primary: 'do-cta',

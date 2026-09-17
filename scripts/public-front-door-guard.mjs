@@ -134,14 +134,25 @@ if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
   errors.push('Company typography must use Instrument Sans, not the retired serif font');
 }
 const doHome = read('app/do/DoHome.tsx');
+const doHomePublic = doHome
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/^\s*\/\/.*$/gm, '')
+  // Allow motion-hold props; ban product “paused” copy only.
+  .replace(/\bpaused=\{[^}]*\}/g, '');
 if (/Meeting notes\.|Household board\.|Two tools you can try|Open Meeting DO|Open Household DO|DoLivingBlob|PUBLIC_DO_SPECIALISTS|#tools|your-dos/i.test(doHome)) {
   errors.push('Public /do must explain DO — no Meeting/Household shelf or Identity D theatre');
 }
 if (/Whisper-class|Deepgram nova-2|Smart notes|Granola-class/i.test(doHome)) {
   errors.push('Public /do must not expose vendor/model theatre in UI chrome');
 }
-if (/\bpaused\b|coming soon|HOLDING/i.test(doHome.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, ''))) {
+if (/\bpaused\b|coming soon|HOLDING/i.test(doHomePublic)) {
   errors.push('Public /do must not say paused / coming soon / HOLDING (Kate craft fail)');
+}
+if (/motion experiment|craft demo|prototype theatre|PREVIEW badge theatre|\blab\b/i.test(doHomePublic)) {
+  errors.push('Public /do must not narrate technique (experiment / lab / craft demo / theatre)');
+}
+if (!/DoHoverCards/.test(doHome) || !/DoAtelierHeroStage/.test(doHome)) {
+  errors.push('Public /do must keep interactive craft (hover cards + atelier hero stage)');
 }
 if (!/small agent that sits where you already work/.test(doHome)) {
   errors.push('Public /do must explain DO as a small agent where you already work');

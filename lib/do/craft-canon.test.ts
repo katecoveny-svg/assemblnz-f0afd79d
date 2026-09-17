@@ -120,10 +120,16 @@ describe('DO Spatial C craft canon', () => {
     }
 
     const doHome = read('app/do/DoHome.tsx');
+    const doHomePublic = doHome
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\bpaused=\{[^}]*\}/g, '');
     expect(doHome).toMatch(/small agent that sits where you already work/);
     expect(doHome).toMatch(/Work from the place/);
     expect(doHome).toMatch(/atelier-poster\.png/);
-    expect(doHome).not.toMatch(/paused/i);
+    expect(doHome).toMatch(/DoHoverCards/);
+    expect(doHomePublic).not.toMatch(/\bpaused\b/i);
+    expect(doHomePublic).not.toMatch(/motion experiment|craft demo|\blab\b/i);
     expect(doHome).not.toMatch(/Meeting notes\./);
     expect(doHome).not.toMatch(/Household board\./);
     expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);

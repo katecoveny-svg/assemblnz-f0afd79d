@@ -96,7 +96,17 @@ export function WorldAtelierStage({
         sizes="100vw"
         quality={75}
         priority={priority}
+        unoptimized
         className={`${styles.poster}${sceneReady && live ? ` ${styles.posterDimmed}` : ''}`}
+      />
+      {/* Native fallback if the optimized pipeline ever blanks the still. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/do/world/atelier-poster.png"
+        alt=""
+        className={`${styles.posterNative}${sceneReady && live ? ` ${styles.posterDimmed}` : ''}`}
+        decoding="async"
+        fetchPriority={priority ? 'high' : 'auto'}
       />
       <Boundary onFailure={onFailure}>
         {live && Scene ? (

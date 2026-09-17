@@ -1,0 +1,78 @@
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cell {
+  position: relative;
+  min-height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    rgba(214, 165, 189, 0.28),
+    rgba(145, 106, 112, 0.08) 48%,
+    transparent 72%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glowWrap {
+  height: 100%;
+  z-index: 1;
+}
+
+.content {
+  display: grid;
+  gap: 12px;
+  padding: 22px 20px 24px;
+  min-height: 100%;
+}
+
+.diagram {
+  display: grid;
+  place-items: center;
+  height: 92px;
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(36, 11, 33, 0.04), transparent),
+    #f5f1f2;
+  color: #240b21;
+  overflow: hidden;
+}
+
+.index {
+  font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #916a70;
+}
+
+.title {
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #240b21;
+}
+
+.body {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #654a4e;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
