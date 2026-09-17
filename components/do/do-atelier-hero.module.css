@@ -8,7 +8,7 @@
   isolation: isolate;
   height: 160svh;
   color: var(--paper);
-  font-family: var(--font-body), 'Instrument Sans', Arial, sans-serif;
+  font-family: var(--font-body), 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
   background: var(--ink);
 }
 .frame {
