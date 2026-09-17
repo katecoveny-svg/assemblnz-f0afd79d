@@ -1,0 +1,58 @@
+name: Public pursuit validation
+on:
+  pull_request:
+    paths:
+      - 'lib/pursuit/public-*'
+      - 'lib/pursuit/pitch-export.ts'
+      - 'app/api/pursuit/research/**'
+      - 'app/api/knowledge/**'
+      - 'components/site/assembl-the-work/ResearchCanvas.tsx'
+      - 'components/site/assembl-the-work/research-canvas.module.css'
+      - 'components/site/assembl-the-work/AssemblTheWorkHome.tsx'
+      - 'app/tools/agents/**'
+      - 'scripts/public-pursuit-browser.py'
+      - '.github/workflows/public-research-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: public-pursuit-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Public API and export tests
+        run: pnpm test lib/pursuit/public-contract.test.ts lib/pursuit/public-live.test.ts app/api/knowledge/mcp/route.test.ts
+      - name: Scoped lint
+        run: pnpm exec eslint lib/pursuit/public-*.ts lib/pursuit/pitch-export.ts app/api/pursuit/research/route.ts app/api/knowledge/mcp/route.ts app/api/knowledge/search/route.ts components/site/assembl-the-work/ResearchCanvas.tsx app/tools/agents/page.tsx
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Start built application
+        run: |
+          pnpm start >/tmp/assembl-public-research.log 2>&1 &
+          for i in $(seq 1 45); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+      - name: Browser and protocol proof (no paid provider calls)
+        run: python scripts/public-pursuit-browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-pursuit-review
+          path: visual-evidence/public-pursuit/
+          retention-days: 14
