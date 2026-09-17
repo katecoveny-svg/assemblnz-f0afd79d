@@ -8,17 +8,17 @@ import './product-landing.css';
 
 const content = {
   pursuit: {
-    name: 'Pursuit', line: 'find it.', eyebrow: 'RESEARCH. REASON. POSSIBILITY.',
+    name: 'Pursuit', line: 'find it.', eyebrow: 'SIGNALS. EVIDENCE. POSSIBILITY.',
     heading: <>Find the opening.<br />Build the possibility.</>,
-    body: 'Bring client context, sources and a useful idea into one pursuit. Prepare work worth taking to the next conversation.',
+    body: 'Bring live signals, source evidence and business context together in one pursuit. Work out what is worth acting on and what the next move should be.',
     action: 'Open your Pursuit hub', photo: '/do/world/atelier-poster.png',
     steps: [
       ['Find a reason to act.', 'Research relevant public signals and the context you supply. Keep the original sources, dates and questions to validate.'],
-      ['Shape a credible idea.', 'Bring the customer moment, evidence and a proposed task onto the board. Develop the idea with the agent, then review the result.'],
-      ['Make the next conversation useful.', 'Keep the brief, opportunity, demonstrator and review notes in the private client workspace. Share only the experience you approve.'],
+      ['Shape a credible idea.', 'Bring the customer moment, evidence and a proposed task onto the board. Develop the idea, then review the result.'],
+      ['Make the next conversation useful.', 'Keep the brief, opportunity, demonstrator and review notes together. Share only the experience you approve.'],
     ],
     offer: 'A Pursuit sprint', deliverable: 'A focused opportunity brief, a developed concept and a plan for the next conversation.',
-    boundary: 'Your hub holds client work behind sign-in. New workspaces and business connections are set up as part of an agreed engagement.',
+    boundary: 'Client work stays behind sign-in. New workspaces and business connections are set up as part of an agreed engagement.',
   },
   studio: {
     name: 'Studio', line: 'show it.', eyebrow: 'DIRECTION. CRAFT. SOMETHING YOU CAN TRY.',
@@ -44,7 +44,7 @@ const studies = [
     image: '/do/world/atelier-poster.png',
     href: '/preview/do-world',
     action: 'Walk through the atelier',
-    description: 'A Blender-authored world with a scroll-led camera, an accessible still view and three connected spaces.',
+    description: 'A spatial study showing how an idea can become an explorable environment rather than another static deck.',
     status: 'Architectural study. Not live agent activity.',
   },
   {
@@ -54,8 +54,8 @@ const studies = [
     image: '/do/world/atelier-poster.png',
     href: '/contact?product=do',
     action: 'Talk about DO',
-    description: 'DO sits where you already work. Talk to assembl when you want it opened for your team.',
-    status: 'Surface ≠ agent. You stay in your own work.',
+    description: 'DO works where the work already happens. Talk to assembl when you want it opened for your team.',
+    status: 'Product availability and permissions are agreed per engagement.',
   },
 ] as const;
 
@@ -76,9 +76,7 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
             assembl
           </Link>
           <nav aria-label="Primary">
-            <a href={pursuitHub} target="_blank" rel="noopener noreferrer">
-              Pursuit
-            </a>
+            <Link href="/pursuit" aria-current={product === 'pursuit' ? 'page' : undefined}>Pursuit</Link>
             <Link href="/do">DO</Link>
             <Link
               href="/creative-studio"
@@ -110,10 +108,6 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
               <ArrowUpRight size={18} />
             </Link>
           </div>
-          <small className="product-hero-note">
-            Same Auckland atelier poster as the homepage fly-through. Walk the live
-            WorldScene study when you want the scroll journey — not a second 3D stack.
-          </small>
         </div>
       </section>
       {product === 'studio' ? (
@@ -230,13 +224,9 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
         </p>
         <nav aria-label="Product footer">
           <Link href="/">Home</Link>
-          <a
-            href={product === 'pursuit' ? pursuitHub : destination.workspace}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Your workspace
-          </a>
+          <Link href="/pursuit">Pursuit</Link>
+          <Link href="/do">DO</Link>
+          <Link href="/creative-studio">Studio</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/legal/privacy">Privacy</Link>
         </nav>

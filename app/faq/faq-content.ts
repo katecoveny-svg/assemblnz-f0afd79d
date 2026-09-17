@@ -1,89 +1,94 @@
 /**
- * FAQ content — repositioned to agentic customer journeys (2026-07-26).
+ * FAQ content — current public product architecture (2026-09-17).
  *
- * One source, three jobs: the visible /faq tool, the FAQPage JSON-LD engines
- * lift answers from, and the "copy for your AI" button on each card. Answers
- * stay at two-to-four sentences on purpose — this is a tool, not an essay —
- * and pricing figures live on /pricing so nothing here goes stale.
+ * One source, three jobs: the visible /faq tool, FAQPage JSON-LD, and the
+ * copy-for-AI surface. Keep answers concrete, current and aligned with
+ * Pursuit / DO / Studio. Pricing belongs on /pricing.
  */
 export type Faq = { cat: string; q: string; a: string };
 
 export const FAQ_CATS = [
-  'agentic journeys',
-  'working with assembl',
+  'the assembl system',
+  'Pursuit',
+  'DO',
+  'Studio',
   'trust & approval',
-  'the agentic era',
 ] as const;
 
 export const FAQS: Faq[] = [
   {
-    cat: 'agentic journeys',
-    q: 'What is an agentic customer journey?',
-    a: 'A customer relationship run by a team of specialist AI agents inside your business — one watching for work coming due, one noticing customers gone quiet, one drafting the next step, one checking it against your rules. Each agent has a single job and a written limit, and a named person approves anything that reaches a customer. assembl designs and runs them for New Zealand businesses, first enquiry to tenth year.',
+    cat: 'the assembl system',
+    q: 'What is assembl?',
+    a: 'assembl is a New Zealand software company for finding, doing and showing valuable work. Pursuit finds evidence-backed opportunities, DO moves bounded work forward with the right agents, context and tools, and Studio turns the result into something people can see, test, approve or buy.',
   },
   {
-    cat: 'agentic journeys',
-    q: 'What is agentic CX?',
-    a: 'Customer experience delivered by cooperating agents rather than one chatbot. It is proactive across the whole journey — reading the signals your systems already hold and preparing each next step — instead of reacting to a single message in a chat box.',
+    cat: 'the assembl system',
+    q: 'Do Pursuit, DO and Studio have to be used together?',
+    a: 'No. Each product can be used on its own. The larger advantage comes when the same context, permissions, evidence and learning move from the opportunity in Pursuit, through the work in DO, into the proof created in Studio.',
   },
   {
-    cat: 'agentic journeys',
-    q: 'What is a rewarded wait state?',
-    a: 'The loading spinner, replaced. While agents work, your customer watches the work happen, earns a small credit toward what they are already buying, and answers one optional question in return. You learn something; they get something; the time was being wasted anyway. Tap through one on the homepage.',
+    cat: 'the assembl system',
+    q: 'Where do agentic customer journeys fit?',
+    a: 'They are a reusable capability inside the system, not a separate top-level product. Pursuit can identify the customer or commercial opportunity, DO can prepare and coordinate the useful next step, and Studio can design and demonstrate the experience.',
   },
   {
-    cat: 'agentic journeys',
-    q: 'What are the six parts of an assembl agent?',
-    a: 'Knowledge (what it may read), signals (what it watches for), ability (the one job it does), boundary (where it stops), approval (whose yes it needs) and the flight log (what it did, kept). The full schema is published at /agent-schema — walk it in 3D on the homepage gallery.',
+    cat: 'the assembl system',
+    q: 'What is a rewarded or sponsored wait state?',
+    a: 'It is an optional journey pattern for moments when a person is already waiting for useful work to finish. The rule is utility first: any reward, loyalty value or sponsor must improve the customer outcome and be clearly disclosed rather than interrupt the task.',
   },
   {
-    cat: 'working with assembl',
-    q: 'Do I need to be technical?',
-    a: 'No. Paste your website into the builder and watch an agent assemble itself from your own business. From there we write your business down properly together, and you review and approve — you never touch code or write prompts.',
+    cat: 'Pursuit',
+    q: 'What does Pursuit do?',
+    a: 'Pursuit brings relevant signals, source evidence and business context together so a team can see what is worth acting on next. That can include tenders, projects, buyer movement, customer friction, market changes or a client-specific opportunity.',
   },
   {
-    cat: 'working with assembl',
-    q: 'What does it do day to day?',
-    a: 'It drafts the repeating work. An enquiry arrives; an agent reads it against everything your business knows and drafts the reply with its sources shown. A warranty nears its end; the follow-up is prepared before anyone remembered. You stay the decision — it does the typing.',
+    cat: 'Pursuit',
+    q: 'Is Pursuit just a tender finder?',
+    a: 'No. Tenders and procurement are useful inputs, but Pursuit is broader business-development intelligence. Its job is to turn a relevant change or signal into a bounded opportunity with evidence, a value hypothesis and a practical next move.',
   },
   {
-    cat: 'working with assembl',
-    q: 'What does it cost?',
-    a: 'One working agent installed in about two weeks for a fixed price, then a monthly fee to keep it running and accurate. Current figures are on the pricing page — they are deliberately not repeated here.',
+    cat: 'DO',
+    q: 'What is DO?',
+    a: 'DO is the action layer. It brings the right specialist agent, context, tools and permissions to a bounded job and keeps the prepared result, approval state and evidence visible. The aim is to work where the job already happens rather than force every task into a new app.',
   },
   {
-    cat: 'working with assembl',
-    q: 'How fast do we see something real?',
-    a: 'The builder shows you an agent drafted from your own website in about ten seconds, free. A working agent doing one real job takes about two weeks, and it runs against your real work in week two — with honest numbers on whether it helped.',
+    cat: 'DO',
+    q: 'Is DO one chatbot?',
+    a: 'No. DO is a portable product layer that can use different specialist agents and models for different jobs while keeping the same job context, permissions and evidence. The visible surface is only one part of that system.',
+  },
+  {
+    cat: 'DO',
+    q: 'Does DO send emails, publish or spend money on its own?',
+    a: 'Not simply because a tool is connected. Consequential actions such as sending, publishing, spending or irreversible changes remain behind the approval and authority configured for that workflow, and completed actions should leave a receipt or other evidence.',
+  },
+  {
+    cat: 'Studio',
+    q: 'What does Studio make?',
+    a: 'Studio makes the possibility visible. It can turn a brief, Pursuit opportunity or completed DO work into interactive demonstrators, websites, customer journeys, pitches, campaigns, imagery, film, motion, 3D experiences and other commercial proof.',
+  },
+  {
+    cat: 'Studio',
+    q: 'Is Studio only for marketing?',
+    a: 'No. Marketing is one use. Studio is also useful when a team needs to demonstrate a proposed product, customer journey, service change, tender concept or future-state experience before committing to a full implementation.',
   },
   {
     cat: 'trust & approval',
-    q: 'Does it send emails or spend money on its own?',
-    a: 'No. Everything an agent produces is a draft. Nothing emails a customer, books a slot or spends a cent until a named person approves it — that rule is written into every agent as its boundary, not into a policy document nobody reads.',
+    q: 'How do I know what is live and what is a demonstration?',
+    a: 'assembl labels important states explicitly, including PREVIEW, PROPOSED, SIMULATED, READY FOR REVIEW and live or verified states where appropriate. A polished screen, successful build or connected credential is not treated as proof that an external action happened.',
   },
   {
     cat: 'trust & approval',
     q: 'Where is my data kept?',
-    a: 'Hosted for Aotearoa New Zealand and built around the Privacy Act 2020: personal information records why it was collected and who may read it, and an agent only sees what its written knowledge section allows. The trust centre states the full posture plainly.',
+    a: 'Data handling, hosting and access are agreed for each engagement and should match the sensitivity of the work and the systems involved. The trust centre explains the current security, privacy and governance posture in more detail.',
   },
   {
     cat: 'trust & approval',
     q: 'What if an agent gets something wrong?',
-    a: 'You catch it before it ships, because nothing ships without you. Every draft shows what it read and where it was unsure, and the flight log keeps measured numbers separate from calculated ones — so you correct a draft, not clean up after a send.',
+    a: 'The system is designed to keep sources, assumptions, approval state and evidence visible so a person can review important work before the next consequential step. High-risk work should use tighter permissions, review boundaries and verification rather than relying on a model answer alone.',
   },
   {
-    cat: 'the agentic era',
-    q: 'How is this different from a chatbot?',
-    a: 'A chatbot answers questions in a box and forgets you. An agentic customer journey holds your real business context and does the recurring work across years of the relationship — replying, preparing, following through — with a person approving anything that leaves the building.',
-  },
-  {
-    cat: 'the agentic era',
-    q: 'Is my website ready for AI search?',
-    a: 'Probably not — most sites are nearly invisible to the assistants people now ask for recommendations. Run the free check at /ai-ready: eight honest checks, a score out of 100, and a personalised agentic customer journey drafted from your own site.',
-  },
-  {
-    cat: 'the agentic era',
-    q: 'How do I get my business recommended by AI assistants?',
-    a: 'Let the AI crawlers in, publish a machine map (llms.txt), define your business in structured data, and keep question-shaped text they can lift — then use the same phrases everywhere so engines learn what you are. The /ai-ready report shows exactly which of these your site already does.',
+    cat: 'trust & approval',
+    q: 'Do I need to be technical to work with assembl?',
+    a: 'No. Start with the business problem, opportunity or outcome. assembl can map the context, show the proposed work visually, and agree the tools, permissions and review boundaries needed for the engagement.',
   },
 ];

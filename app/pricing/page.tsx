@@ -3,14 +3,13 @@ import { CinematicPricing } from '@/components/site/cinematic/CinematicPricing';
 import '../cine.css';
 
 /**
- * /pricing — Kate's pricing.html prototype (2026-07-24), ported 1:1 to the
- * cinematic design system. REPLACES the previous pilot-sprint Stripe checkout
- * page — flagged for Kate's sign-off before merge.
+ * /pricing — current public install-and-run offer.
+ * Amounts remain sourced from lib/registry/pricing.ts.
  */
 
 export const metadata: Metadata = {
   title: 'assembl · pricing',
-  description: 'Agents prepare. People decide. assembl pricing.',
+  description: 'Current assembl install-and-run pricing. Start with one useful job, keep the work permissioned, and add more only when it earns its place.',
   alternates: { canonical: '/pricing' },
 };
 
