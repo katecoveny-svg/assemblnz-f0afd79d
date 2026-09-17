@@ -57,20 +57,17 @@ export function DoFilm() {
         <source src="/do/cinema/do-orb-loop.mp4" type="video/mp4" />
       </video>
       <div className={styles.copy}>
-        <span>AN IMAGINED WORLD. YOUR NEXT PIECE OF WORK.</span>
         <h2>
-          A little possibility.
+          Your next piece of work.
           <br />
-          Put into motion.
+          Ready in DO.
         </h2>
         <Link href="/contact?product=do">
           Talk about DO <ArrowUpRight size={20} />
         </Link>
       </div>
       <div className={styles.controls}>
-        <span>
-          {failed ? "Film unavailable · still view" : "DO / motion study"}
-        </span>
+        {failed ? <span>Film unavailable · still view</span> : null}
         <button
           type="button"
           disabled={failed}
