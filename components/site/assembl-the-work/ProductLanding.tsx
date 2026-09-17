@@ -50,12 +50,12 @@ const studies = [
   {
     id: 'contact',
     title: 'Bring DO into a real engagement.',
-    type: 'DO / HOLDING',
+    type: 'DO',
     image: '/do/world/atelier-poster.png',
     href: '/contact?product=do',
     action: 'Talk about DO',
-    description: 'Public try-it DO tools are paused. Talk to assembl when you want the portable execution layer opened for your work.',
-    status: 'Holding posture. No public tool shelf.',
+    description: 'DO sits where you already work. Talk to assembl when you want it opened for your team.',
+    status: 'Surface ≠ agent. You stay in your own work.',
   },
 ] as const;
 

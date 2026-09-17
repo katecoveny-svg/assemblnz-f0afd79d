@@ -1,9 +1,9 @@
 /**
  * Preview / internal DO specialists (Meeting + Household).
  *
- * Kate 2026-09-17: these are NOT the public /do product face. Public `/do` is a
- * holding page. Meeting/Household routes may remain in-repo as PREVIEW/internal.
- * Do not promote them from homepage, public nav, or the /do holding page.
+ * Kate 2026-09-17: these are NOT the public /do product face. Public `/do` explains
+ * DO (small agent where you already work). Meeting/Household routes may remain
+ * in-repo as PREVIEW/internal. Do not promote them from homepage, public nav, or `/do`.
  */
 
 export const PUBLIC_DO_SPECIALISTS = [
@@ -55,7 +55,7 @@ export const BANNED_PUBLIC_DO_HREFS = [
   '/do/household',
 ] as const;
 
-/** Only the holding page is an allowed public DO entry href. */
+/** Only the public /do explanation page is an allowed public DO entry href. */
 export function isAllowedPublicDoHref(href: string): boolean {
   return href === '/do';
 }

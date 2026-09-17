@@ -122,7 +122,7 @@ export function GlowDoWidget() {
   }
 
   function onStarter(starter: DoPortableStarter) {
-    // Public Glow does not open Meeting/Household while the shelf is paused.
+    // Public Glow does not open Meeting/Household while the shelf is off.
     window.location.assign(starter.href || "/do");
   }
 

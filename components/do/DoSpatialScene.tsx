@@ -24,7 +24,7 @@ const COMPANY = [
 const COMPANIONS = [
   {
     label: "DO",
-    title: "Portable execution — paused publicly.",
+    title: "A small agent where you already work.",
     href: "/do",
     glyph: "✦",
   },
@@ -116,7 +116,7 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
       ))}
       <div className={styles.caption}>
         <span>
-          {company ? "ONE CONNECTED SYSTEM" : "PUBLIC TRY-IT TOOLS PAUSED"}
+          {company ? "ONE CONNECTED SYSTEM" : "SURFACE ≠ AGENT"}
         </span>
         <button
           type="button"

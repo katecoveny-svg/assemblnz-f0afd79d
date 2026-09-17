@@ -167,7 +167,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
         </aside>
         <div className={styles.job} id="do-input">
           <p className={styles.jobNote}>
-            Public try-it DO tools are paused. Start with Pursuit or Studio — or{' '}
+            DO sits where you already work. Start with Pursuit or Studio — or{' '}
             <Link href="/contact?product=do">talk to us about DO</Link>.
           </p>
         </div>

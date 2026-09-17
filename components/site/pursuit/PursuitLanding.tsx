@@ -137,8 +137,8 @@ export function PursuitLanding() {
             clear doors.
           </h2>
           <p>
-            Start in Pursuit. Use DO when the work needs doing — the public try-it
-            shelf is paused; <Link href="/do">/do</Link> is a holding page for now.
+            Start in Pursuit. Use DO when the work needs doing — a small agent
+            that sits where you already work (<Link href="/do">/do</Link>).
             Open Studio when the idea needs to be seen.
           </p>
         </div>
@@ -152,7 +152,7 @@ export function PursuitLanding() {
           <Link href="/do">
             <span>02 / DO</span>
             <h3>Do the bounded work.</h3>
-            <p>Public try-it tools are paused. Holding page for now.</p>
+            <p>A small agent where you already work. Surface ≠ agent.</p>
             <ArrowUpRight aria-hidden="true" />
           </Link>
           <Link href={studio}>

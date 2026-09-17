@@ -14,8 +14,9 @@ describe('homepage complete still view', () => {
     ])
       expect(html).toContain(output);
     expect(html).toContain('About DO');
-    expect(html).toContain('Public try-it DO tools are paused');
+    expect(html).toContain('DO sits where you already work');
     expect(html).not.toContain('Open Meeting or Household');
+    expect(html).not.toContain('paused');
     expect(html).not.toContain('name="brief"');
     expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
     expect(html).toContain('href="/pursuit"');

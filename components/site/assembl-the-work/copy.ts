@@ -58,8 +58,8 @@ export const PRODUCTS = {
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'DO is the portable execution layer — bounded work with context, tools, permissions and receipts. Public try-it tools are paused on this site for now.',
-      href: '/do', explore: 'About DO', note: 'Holding page only. Talk to us when you want DO opened for a real engagement.',
+      body: 'DO is a small agent that sits where you already work. Click it for help in that context, pick or tweak a template, and connect a tool only when you want to. The surface is not the agent.',
+      href: '/do', explore: 'About DO', note: 'Work from the place you’re already in. Talk to us when you want DO opened for a real engagement.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
@@ -74,7 +74,7 @@ export const DO_INPUT = {
   title: 'what do you need done?',
   placeholder: 'Describe the outcome you want…',
   submit: 'talk to us →',
-  honesty: 'Public try-it DO tools are paused. Contact assembl when you want DO opened for real work.',
+  honesty: 'DO sits where you already work. Contact assembl when you want it opened for a real engagement.',
   examples: [
     'Prepare a meeting into notes with actions and decisions.',
     'Coordinate a household board for the week.',
@@ -127,7 +127,7 @@ export const REVIEW = {
 export const START = {
   kicker: 'start where the work is',
   title: 'open Pursuit or Studio.',
-  body: 'Public try-it DO tools are paused. Start with finding or showing — connect DO when you need the full loop.',
+  body: 'Start with finding or showing. Connect DO when you want help from the place you’re already in.',
   primary: { label: 'open Pursuit →', href: '/pursuit' },
   secondary: {
     label: 'bring us a company',

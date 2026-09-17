@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: { absolute: 'DO · assembl' },
   description:
-    'DO is assembl’s portable execution layer. Public try-it tools are paused on this door for now.',
+    'DO is a small agent that sits where you already work. Click for help in context, pick or tweak a template, connect a tool only when you want to.',
   alternates: { canonical: '/do' },
 };
 

@@ -15,19 +15,19 @@ export type DoPortableStarter = {
   primary?: boolean;
 };
 
-/** Portable starters while the public try-it shelf is paused. */
+/** Portable starters — explanation / contact only (no Meeting/Household shelf). */
 export const DO_PORTABLE_STARTERS: DoPortableStarter[] = [
   {
     id: 'about',
     label: 'About DO',
-    hint: 'Public try-it tools are paused. Read the holding page.',
+    hint: 'A small agent where you already work.',
     href: '/do',
     primary: true,
   },
   {
     id: 'contact',
     label: 'Talk about DO',
-    hint: 'Open a real engagement when you need the execution layer.',
+    hint: 'Open a real engagement when you need it.',
     href: '/contact?product=do',
   },
 ];
@@ -45,8 +45,8 @@ type Props = {
  * No Meeting/Household public shelf. No Personal/Inbox/Builder promos.
  */
 export function DoPortableStarters({
-  title = 'DO is paused on the public site',
-  lede = 'The portable execution layer remains part of assembl. Public try-it tools are off for now.',
+  title = 'Work from where you already are',
+  lede = 'DO is a small agent that sits in the place you’re already working. The surface is not the agent.',
   onStarter,
   showDownloads = true,
   className,

@@ -1,11 +1,11 @@
 /**
- * Public site link allowlist — Kate nav lock 2026-09-17; DO shelf paused same day.
+ * Public site link allowlist — Kate nav lock 2026-09-17; DO shelf off same day.
  *
  * ALLOWED primary destinations only:
  *   1. Home (/) — WorldScene fly-through
  *   2. Studio (/creative-studio) — real Studio door
  *   3. Pursuit (/pursuit) — public story; working hub remains external ChatGPT
- *   4. Public /do holding page (no Meeting/Household shelf)
+ *   4. Public /do explanation page (no Meeting/Household shelf)
  *
  * FORBIDDEN as public CTAs: in-repo Pursuit maker/playground, partner Mode A/B,
  * Personal/Inbox/Bills/Writing shelves, purple DO branding, private household install,
@@ -29,7 +29,7 @@ export const PUBLIC_NAV_ALLOWLIST = [
   { id: 'do', label: 'DO', href: '/do', external: false },
 ] as const;
 
-/** Public DO entries — empty while the try-it shelf is paused. */
+/** Public DO entries — empty while the try-it shelf is off. */
 export const PUBLIC_DO_ENTRIES = [] as const;
 
 /** In-repo routes that must not be primary public destinations. */

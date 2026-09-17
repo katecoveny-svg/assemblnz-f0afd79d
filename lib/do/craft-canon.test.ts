@@ -120,8 +120,10 @@ describe('DO Spatial C craft canon', () => {
     }
 
     const doHome = read('app/do/DoHome.tsx');
-    expect(doHome).toMatch(/DO is paused on the public site/);
-    expect(doHome).toMatch(/HOLDING/);
+    expect(doHome).toMatch(/small agent that sits where you already work/);
+    expect(doHome).toMatch(/Work from the place/);
+    expect(doHome).toMatch(/atelier-poster\.png/);
+    expect(doHome).not.toMatch(/paused/i);
     expect(doHome).not.toMatch(/Meeting notes\./);
     expect(doHome).not.toMatch(/Household board\./);
     expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
@@ -139,8 +141,8 @@ describe('DO Spatial C craft canon', () => {
     expect(homeCss).toMatch(/--plum:\s*#240b21/i);
     expect(homeCss).toMatch(/--paper:\s*#fffdfb/i);
     expect(homeCss).toMatch(/--rose:\s*#916a70/i);
-    // Holding display type must be paper on plum — never muted (olive-on-plum fail).
-    expect(homeCss).toMatch(/\.holdingTitle[\s\S]*?color:\s*var\(--paper\)/);
+    // Title on paper field must be plum — never muted olive fail.
+    expect(homeCss).toMatch(/\.title[\s\S]*?color:\s*var\(--plum\)/);
     for (const hex of DO_CRAFT.bannedGreenHex) {
       expect(homeCss.toLowerCase()).not.toContain(hex.toLowerCase());
     }

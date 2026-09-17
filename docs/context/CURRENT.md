@@ -98,7 +98,7 @@ Sponsored Journeys should stay provider-neutral and utility-led.
 
 Treat DO as **one portable runtime with multiple surfaces**, not a collection of unrelated apps.
 
-**Public `/do` (17 Sep 2026):** the public try-it shelf (Meeting + Household + Identity D theatre) is **off**. `/do` is a minimal on-brand holding page. Meeting/Household runtimes may remain in-repo as PREVIEW/internal routes but must not be sold from homepage, public nav, or the `/do` holding face. Do not reintroduce Personal/operator DOs or vendor theatre on public surfaces.
+**Public `/do` (17 Sep 2026):** the public Meeting + Household tool shelf and Identity D theatre are **off**. `/do` is a short on-brand explanation of DO (small agent where you already work) with the daylight atelier still — no “paused” copy. Meeting/Household runtimes may remain in-repo as PREVIEW/internal routes but must not be sold from homepage, public nav, or `/do`. Do not reintroduce Personal/operator DOs or vendor theatre on public surfaces.
 
 Current/active surfaces include:
 

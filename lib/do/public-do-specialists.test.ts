@@ -72,9 +72,11 @@ describe('public DO specialists lock', () => {
     expect(errors).toEqual([]);
   });
 
-  it('keeps public /do as a holding page without the tool shelf', () => {
+  it('keeps public /do as an explanation page without the tool shelf', () => {
     const doHome = readFileSync(join(root, 'app/do/DoHome.tsx'), 'utf8');
-    expect(doHome).toMatch(/DO is paused on the public site/);
+    expect(doHome).toMatch(/small agent that sits where you already work/);
+    expect(doHome).toMatch(/atelier-poster\.png/);
+    expect(doHome).not.toMatch(/paused/i);
     expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
     expect(doHome).not.toMatch(/DoLivingBlob/);
     expect(doHome).not.toMatch(/href="\/do\/meetings"/);

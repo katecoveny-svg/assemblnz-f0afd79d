@@ -3,8 +3,8 @@
  * Guard the user-confirmed recovery + #1346 homepage WorldScene / atelier.glb
  * fly-through, plus the 2026-09-17 Kate lock: public DO shelf is OFF.
  *
- * Public /do = minimal holding page (no Meeting/Household shelf, no Identity D theatre).
- * Homepage must not sell Two small tools / Your DOs / Meeting+Household cards.
+ * Public /do = short on-brand explanation of DO + daylight atelier still.
+ * No Meeting/Household shelf, no Identity D theatre, no “paused” copy.
  *
  * Homepage hero dual-accept (intentional):
  *   A) legacy `<DoSpatialScene company />`, OR
@@ -20,8 +20,9 @@ const checks = [
   ['app/page.tsx', /AssemblTheWorkHome/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
   ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
-  ['app/do/DoHome.tsx', /DO is paused on the public site/],
-  ['app/do/DoHome.tsx', /HOLDING/],
+  ['app/do/DoHome.tsx', /Work from the place/],
+  ['app/do/DoHome.tsx', /small agent that sits where you already work/],
+  ['app/do/DoHome.tsx', /atelier-poster\.png/],
   ['components/site/assembl-the-work/GlowDoWidget.tsx', /COMPANION_POSITION_KEY/],
   ['components/do/DoMark.tsx', /do-identity-dot/],
 ];
@@ -47,7 +48,7 @@ if (/atw-companion-story|Two small tools|Your DOs|Just these two|Meeting notes\.
   errors.push(`${homePath}: public homepage must not sell the Meeting/Household / Your DOs shelf`);
 }
 if (/DoIntentInput/.test(homeSource)) {
-  errors.push(`${homePath}: public homepage must not mount DoIntentInput while the DO shelf is paused`);
+  errors.push(`${homePath}: public homepage must not mount DoIntentInput while the DO shelf is off`);
 }
 if (hasWorldHero) {
   const heroPath = 'components/site/assembl-the-work/AssemblWorldHero.tsx';
@@ -59,7 +60,13 @@ if (hasWorldHero) {
       errors.push(`${heroPath}: AssemblWorldHero must load WorldScene / WorldAtelierStage (atelier.glb fly-through)`);
     }
     if (/DoIntentInput|Open Meeting or Household|\/do\/meetings|\/do\/household/.test(hero)) {
-      errors.push(`${heroPath}: hero must not open the paused Meeting/Household shelf`);
+      errors.push(`${heroPath}: hero must not open the Meeting/Household shelf`);
+    }
+    if (/\bpaused\b/i.test(hero.replace(/setPaused|const \[paused|paused,/g, ''))) {
+      // Allow React pause/play motion state; ban product “paused” copy in JSX strings.
+      if (/try-it DO tools are paused|DO is paused|tools are paused|shelf is paused/i.test(hero)) {
+        errors.push(`${heroPath}: must not use “paused” product copy (Kate craft fail)`);
+      }
     }
   }
   if (!existsSync('public/do/world/atelier.glb')) {
@@ -119,7 +126,7 @@ for (const path of publicFiles) {
     }
   }
 }
-for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp']) {
+for (const asset of ['public/do/canvas/dimensional-d.png', 'public/do/cinema/do-orb-loop.mp4', 'public/do/office/harbour-studio.glb', 'public/do/office/office-poster.webp', 'public/do/world/atelier-poster.png']) {
   if (!existsSync(asset)) errors.push(`${asset}: missing approved visual asset`);
 }
 const companyCss = read('components/site/assembl-the-work/assembl-the-work.css');
@@ -128,13 +135,19 @@ if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
 }
 const doHome = read('app/do/DoHome.tsx');
 if (/Meeting notes\.|Household board\.|Two tools you can try|Open Meeting DO|Open Household DO|DoLivingBlob|PUBLIC_DO_SPECIALISTS|#tools|your-dos/i.test(doHome)) {
-  errors.push('Public /do must be a holding page — no Meeting/Household shelf or Identity D theatre');
+  errors.push('Public /do must explain DO — no Meeting/Household shelf or Identity D theatre');
 }
 if (/Whisper-class|Deepgram nova-2|Smart notes|Granola-class/i.test(doHome)) {
   errors.push('Public /do must not expose vendor/model theatre in UI chrome');
 }
-if (!/DO is paused on the public site/.test(doHome)) {
-  errors.push('Public /do holding page must state that DO is paused on the public site');
+if (/\bpaused\b|coming soon|HOLDING/i.test(doHome.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, ''))) {
+  errors.push('Public /do must not say paused / coming soon / HOLDING (Kate craft fail)');
+}
+if (!/small agent that sits where you already work/.test(doHome)) {
+  errors.push('Public /do must explain DO as a small agent where you already work');
+}
+if (!/atelier-poster\.png/.test(doHome)) {
+  errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
 const meetingUi = read('app/do/meetings/MeetingDo.tsx');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
@@ -170,5 +183,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  'public-front-door-guard: assembl front door, WorldScene hero, public /do = holding (shelf off)',
+  'public-front-door-guard: assembl front door, WorldScene hero, public /do = DO explanation (shelf off)',
 );
