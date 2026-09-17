@@ -115,7 +115,21 @@ describe('DO Spatial C craft canon', () => {
       expect(code).not.toMatch(/Whisper-class/i);
       expect(code).not.toMatch(/Smart notes/i);
       expect(code).not.toMatch(/evidence\.model/);
+      expect(code).not.toMatch(/sharing this audio with Deepgram/i);
+      expect(code).not.toMatch(/Meet your To/i);
     }
+
+    const doHome = read('app/do/DoHome.tsx');
+    expect(doHome).toMatch(/Meeting notes\./);
+    expect(doHome).toMatch(/Household board\./);
+    expect(doHome).not.toMatch(/Take DO with you/i);
+    expect(doHome).not.toMatch(/PUBLIC DO\s*·\s*TWO TOOLS/i);
+
+    const meeting = read('app/do/meetings/MeetingDo.tsx');
+    expect(meeting).toMatch(/Turn audio into notes/);
+    expect(meeting).not.toMatch(/Whisper-class transcript/i);
+    expect(meeting).toMatch(/I approve sharing this audio for transcription/);
+    expect(meeting).not.toMatch(/sharing this audio with Deepgram/i);
 
     const homeCss = read('app/do/do-home.module.css');
     expect(homeCss).toMatch(/--plum:\s*#240b21/i);
