@@ -73,7 +73,8 @@ async def main():
                         await expect(page.locator('#how-it-works h3')).to_have_text('The work takes shape.')
                         await page.wait_for_timeout(1100)
                         await capture(page,f'{name}-{width}-brief-do')
-                        await page.get_by_role('slider',name='Work loop stage').fill('2')
+                        await page.get_by_role('slider',name='Work loop stage').focus()
+                        await page.get_by_role('slider',name='Work loop stage').press('End')
                         await expect(page.locator('#how-it-works h3')).to_have_text('Now they can see it.')
                         await page.wait_for_timeout(1100)
                         await capture(page,f'{name}-{width}-brief-studio')
@@ -81,7 +82,7 @@ async def main():
                         await page.wait_for_timeout(1200)
                         await capture(page,f'{name}-{width}-products')
                         if width > 1000:
-                            await page.locator('article[data-product="do"]').hover()
+                            await page.locator('article[data-product="do"]').hover(position={'x':24,'y':24})
                             await page.wait_for_timeout(500)
                             result['hoverTransform'] = await page.locator('article[data-product="do"]').evaluate('(e)=>getComputedStyle(e).transform')
                             await capture(page,f'{name}-{width}-hover')

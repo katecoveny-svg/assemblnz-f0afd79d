@@ -25,7 +25,6 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
   const visible = useAtelierVisibility(rail);
   const onFailure = useCallback(() => { setSceneReady(false); setFailed(true); }, []);
 
-  useEffect(() => { if (!visible) setSceneReady(false); }, [visible]);
   useEffect(() => {
     let frame = 0;
     const update = () => {
@@ -68,7 +67,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
         </header>
         <div className={styles.copy}>
           <p className={styles.overline}>GOOD WORK COMES TOGETHER.</p>
-          <h1 id="atw-hero-title">assembl<br />the work.</h1>
+          <h1 id="atw-hero-title">assembl <br />the work.</h1>
           <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>{HERO.body}</p>
           <div className={styles.actions}><a className={styles.pill} href="#products">See the whole system <ArrowRight size={20} aria-hidden="true" /></a><Link className={styles.link} href="/do">Meet DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>

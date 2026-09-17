@@ -37,7 +37,7 @@ jobs:
       - name: Typecheck and public interaction tests
         run: |
           pnpm typecheck
-          pnpm test components/site/assembl-the-work/immersive-experience.test.tsx components/site/assembl-the-work/hero-resilience.test.ts
+          pnpm test components/site/assembl-the-work/immersive-experience.test.ts components/site/assembl-the-work/hero-resilience.test.ts
           pnpm exec eslint components/site/assembl-the-work/ImmersiveExperience.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx components/site/assembl-the-work/ProductLanding.tsx components/site/GlobalChrome.tsx
       - name: Production build with existing brand guards
         run: pnpm build

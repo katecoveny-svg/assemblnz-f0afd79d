@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest';
 import { LivingBrief, ProductDoors, StudioGallery } from './ImmersiveExperience';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 
-/** Server content is the safety net; browser tests exercise the transitions. */
 describe('immersive public experience', () => {
   it('renders useful example content and native controls before JavaScript', () => {
     const html = renderToStaticMarkup(createElement(LivingBrief));
