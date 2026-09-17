@@ -98,6 +98,7 @@ export const DO_CRAFT = {
     /Deepgram\s+nova-2/i,
     /Granola-class/i,
     /Smart notes/i,
+    /Smart meeting notes/i,
     /not configured on this environment/i,
     /Transcribe when Deepgram is configured/i,
     /Two tools\.\s*Useful work/i,

@@ -47,7 +47,7 @@ function MeetingDoInner() {
   const [message, setMessage] = useState('');
   const [reviewed, setReviewed] = useState(false);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
-  const [deepgramConfigured, setDeepgramConfigured] = useState<boolean | null>(null);
+  const [transcriptionReady, setTranscriptionReady] = useState<boolean | null>(null);
   const [pasteOpen, setPasteOpen] = useState(false);
   const [editNotesOpen, setEditNotesOpen] = useState(false);
   const recorder = useRef<MediaRecorder | null>(null);
@@ -125,10 +125,10 @@ function MeetingDoInner() {
     void fetch('/api/do/meetings/transcribe', { credentials: 'same-origin' })
       .then((r) => r.json())
       .then((data: { configured?: boolean }) => {
-        if (!cancelled) setDeepgramConfigured(Boolean(data.configured));
+        if (!cancelled) setTranscriptionReady(Boolean(data.configured));
       })
       .catch(() => {
-        if (!cancelled) setDeepgramConfigured(null);
+        if (!cancelled) setTranscriptionReady(null);
       });
     return () => {
       cancelled = true;
@@ -170,7 +170,7 @@ function MeetingDoInner() {
       version: 1,
       id: '00000000-0000-4000-8000-000000000001',
       task: 'meeting-notes',
-      title: 'Smart meeting notes · Meeting transcript',
+      title: 'Meeting notes · Meeting transcript',
       text: sample,
       createdAt: new Date().toISOString(),
       status: 'draft',
@@ -298,7 +298,7 @@ function MeetingDoInner() {
       );
       return;
     }
-    if (kind === 'transcribe' && deepgramConfigured === false) {
+    if (kind === 'transcribe' && transcriptionReady === false) {
       setMessage(
         'Transcription isn’t available here right now. Paste notes below, then turn them into notes you can use.',
       );
@@ -372,18 +372,18 @@ function MeetingDoInner() {
 
   const needsAuth = signedIn === false;
   const canTranscribe =
-    Boolean(audio) && shareAudio && !busy && !recording && !needsAuth && deepgramConfigured !== false;
+    Boolean(audio) && shareAudio && !busy && !recording && !needsAuth && transcriptionReady !== false;
   const canSmartNotes = Boolean(notes.trim()) && shareNotes && !busy && !recording && !needsAuth;
   const ext = audio?.type.includes('mp4') ? 'm4a' : 'webm';
 
   const boardNeedsYou = [
-    ...(audio && !notes.trim() && !needsAuth && deepgramConfigured !== false
+    ...(audio && !notes.trim() && !needsAuth && transcriptionReady !== false
       ? [{ id: 'transcribe', title: 'Turn recording into notes', detail: 'Approve sharing, then transcribe.' }]
       : []),
     ...(audio && !notes.trim() && needsAuth
       ? [{ id: 'signin', title: 'Sign in to transcribe', detail: 'Recording stays on this page — download first if needed.' }]
       : []),
-    ...(audio && !notes.trim() && deepgramConfigured === false
+    ...(audio && !notes.trim() && transcriptionReady === false
       ? [{ id: 'paste', title: 'Paste notes instead', detail: 'Transcription isn’t available here — paste still works.' }]
       : []),
     ...(draft && !reviewed
@@ -656,7 +656,7 @@ function MeetingDoInner() {
             <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to
             transcribe. No audio is saved to the DO database.
           </p>
-        ) : deepgramConfigured === false ? (
+        ) : transcriptionReady === false ? (
           <p className={styles.authSoft}>
             Signed in · paste notes below, then turn them into notes you can use.
           </p>
