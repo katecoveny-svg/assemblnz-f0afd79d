@@ -1,0 +1,51 @@
+name: Refresh DO download parity
+on:
+  push:
+    branches: [feat/public-pursuit-canvas-20260918]
+    paths: ['.github/workflows/refresh-do-parity.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/feat/public-pursuit-canvas-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: feat/public-pursuit-canvas-20260918}
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: pnpm install --frozen-lockfile
+      - name: Bring expectations into line with the already-shipped contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('app/api/do/download/route.test.ts')
+          s=p.read_text()
+          pairs=[(".toContain('assembl-do-extension-1.5.2.zip')", ".toContain(`assembl-do-extension-${EXTENSION_VERSION}.zip`)"),
+                 ("expect(manifest.version).toBe('1.5.2')", "expect(manifest.version).toBe(EXTENSION_VERSION)"),
+                 ("expect(readme).toMatch(/no notarised public Mac installer/i)", "expect(readme).toMatch(/not a notarised public Mac installer/i)"),
+                 ("expect(readme).toContain('./build.sh')", "expect(readme).toContain('bash build.sh')"),
+                 ("it('keeps an origin value inside a JavaScript string'", "it('rejects an invalid origin before generating JavaScript'"),
+                 ("expect(() => new Script(doWidgetScript('https://example.nz/\";throw new Error(\"x\")//'))).not.toThrow();", "expect(() => doWidgetScript('https://example.nz/\";throw new Error(\"x\")//')).toThrow('Expected an HTTP(S) origin');\n    expect(() => new Script(doWidgetScript('https://example.nz'))).not.toThrow();")]
+          for old,new in pairs:
+              if old not in s: raise SystemExit('Baseline changed; inspect rather than patch blindly: '+old)
+              s=s.replace(old,new)
+          p.write_text(s)
+          PY
+      - name: Regenerate static mirrors from the existing packager
+        run: node scripts/package-do-downloads.mjs
+      - run: pnpm --filter @assembl/canvas build
+      - name: Verify parity, hygiene and all portable contracts
+        run: pnpm test app/api/do/download/route.test.ts apps/do/shared/portable-contract.test.ts
+      - name: Commit only validated mirror and test changes to the isolated branch
+        run: |
+          test "$(git rev-parse HEAD)" = "$(git ls-remote origin refs/heads/feat/public-pursuit-canvas-20260918 | cut -f1)" || { echo 'Branch moved; do not overwrite'; exit 1; }
+          git config user.name 'assembl-build'
+          git config user.email 'actions@users.noreply.github.com'
+          git add app/api/do/download/route.test.ts public/do/downloads/assembl-do-extension-1.6.0.zip public/do/downloads/assembl-do-macos-1.6.0.zip public/do/downloads/DO-mac-companion.zip public/do/downloads/README.md
+          git diff --cached --quiet || git commit -m 'fix(do): restore verified downloadable mirrors after portable source update'
+          git push origin HEAD:feat/public-pursuit-canvas-20260918
