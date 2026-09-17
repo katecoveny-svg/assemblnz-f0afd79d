@@ -1,12 +1,9 @@
 /**
- * Public-facing DO shelf allowlist (Kate lock 2026-09-17).
+ * Preview / internal DO specialists (Meeting + Household).
  *
- * Public `/do`, homepage Glow entry and portable starters may promote ONLY:
- *   1. Meeting DO
- *   2. Household DO (scrubbed public / demo template)
- *
- * Specialist Writing/Creative/Detail/Builder and personal Inbox/Bills/Personal
- * remain behind auth or non-public routes — never on the public shelf.
+ * Kate 2026-09-17: these are NOT the public /do product face. Public `/do` explains
+ * DO (small agent where you already work). Meeting/Household routes may remain
+ * in-repo as PREVIEW/internal. Do not promote them from homepage, public nav, or `/do`.
  */
 
 export const PUBLIC_DO_SPECIALISTS = [
@@ -54,10 +51,13 @@ export const BANNED_PUBLIC_DO_HREFS = [
   '/do/connections',
   '/do/sponsored',
   '/do/browser',
+  '/do/meetings',
+  '/do/household',
 ] as const;
 
+/** Only the public /do explanation page is an allowed public DO entry href. */
 export function isAllowedPublicDoHref(href: string): boolean {
-  return href === '/do' || PUBLIC_DO_SPECIALISTS.some((item) => item.href === href);
+  return href === '/do';
 }
 
 /** Scan a public surface source file for banned shelf promos and hrefs. */

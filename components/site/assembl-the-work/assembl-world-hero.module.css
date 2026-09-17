@@ -8,7 +8,7 @@
   isolation: isolate;
   height: 280svh;
   color: var(--paper);
-  font-family: var(--font-body), 'Instrument Sans', Arial, sans-serif;
+  font-family: var(--font-body), 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
   background: var(--ink);
 }
 .frame {
@@ -60,6 +60,18 @@
 .chapterBody strong { font-weight: 400; }
 .rail .chapterBody a { color: var(--paper); display: inline-flex; align-items: center; gap: 12px; padding-top: 22px; font-size: 13px; }
 .job { grid-column: 1 / -1; margin-right: 108px; min-width: 0; scroll-margin-top: 28px; }
+.jobNote {
+  margin: 0;
+  max-width: 42rem;
+  padding: 16px 18px;
+  border: 1px solid #fffdfb33;
+  border-radius: 4px;
+  background: #240b2166;
+  color: var(--chalk);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.jobNote a { color: var(--paper); text-decoration: underline; text-underline-offset: 4px; }
 .rail .honesty { grid-column: 1 / -1; margin: 14px 108px 0 0; font: 10px/1.6 var(--font-mono), monospace; color: var(--chalk); }
 .rail[data-static] { height: auto; }
 .stillSummary { display: none; }

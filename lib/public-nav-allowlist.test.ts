@@ -40,6 +40,8 @@ describe('public nav allowlist', () => {
         '/do/maker/partner',
         '/do/office',
         '/do/builder',
+        '/do/meetings',
+        '/do/household',
       ]),
     );
     expect(FORBIDDEN_PUBLIC_DESTINATIONS).not.toContain('/pursuit');

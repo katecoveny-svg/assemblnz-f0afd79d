@@ -137,9 +137,8 @@ export function PursuitLanding() {
             clear doors.
           </h2>
           <p>
-            Start in Pursuit. Use DO when the work needs doing — Meeting and Household stay on{' '}
-            <Link href="/do">/do</Link> (
-            <Link href="/do/meetings">Meeting</Link>, <Link href="/do/household">Household</Link>).
+            Start in Pursuit. Use DO when the work needs doing — a small agent
+            that sits where you already work (<Link href="/do">/do</Link>).
             Open Studio when the idea needs to be seen.
           </p>
         </div>
@@ -153,7 +152,7 @@ export function PursuitLanding() {
           <Link href="/do">
             <span>02 / DO</span>
             <h3>Do the bounded work.</h3>
-            <p>Meeting and Household stay here on /do.</p>
+            <p>A small agent where you already work. Surface ≠ agent.</p>
             <ArrowUpRight aria-hidden="true" />
           </Link>
           <Link href={studio}>

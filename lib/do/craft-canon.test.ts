@@ -120,8 +120,14 @@ describe('DO Spatial C craft canon', () => {
     }
 
     const doHome = read('app/do/DoHome.tsx');
-    expect(doHome).toMatch(/Meeting notes\./);
-    expect(doHome).toMatch(/Household board\./);
+    expect(doHome).toMatch(/small agent that sits where you already work/);
+    expect(doHome).toMatch(/Work from the place/);
+    expect(doHome).toMatch(/atelier-poster\.png/);
+    expect(doHome).not.toMatch(/paused/i);
+    expect(doHome).not.toMatch(/Meeting notes\./);
+    expect(doHome).not.toMatch(/Household board\./);
+    expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
+    expect(doHome).not.toMatch(/DoLivingBlob/);
     expect(doHome).not.toMatch(/Take DO with you/i);
     expect(doHome).not.toMatch(/PUBLIC DO\s*·\s*TWO TOOLS/i);
 
@@ -135,15 +141,11 @@ describe('DO Spatial C craft canon', () => {
     expect(homeCss).toMatch(/--plum:\s*#240b21/i);
     expect(homeCss).toMatch(/--paper:\s*#fffdfb/i);
     expect(homeCss).toMatch(/--rose:\s*#916a70/i);
-    // Hero display type must be paper on plum — never muted (olive-on-plum fail).
-    expect(homeCss).toMatch(/\.heroCopy h1[\s\S]*?color:\s*var\(--paper\)/);
-    expect(homeCss).toMatch(/\.hhBoard\b/);
+    // Title on paper field must be plum — never muted olive fail.
+    expect(homeCss).toMatch(/\.title[\s\S]*?color:\s*var\(--plum\)/);
     for (const hex of DO_CRAFT.bannedGreenHex) {
       expect(homeCss.toLowerCase()).not.toContain(hex.toLowerCase());
     }
-
-    const companionCss = read('components/site/assembl-the-work/assembl-spatial.css');
-    expect(companionCss).toMatch(/\.atw-companion-copy h2[\s\S]*?color:\s*#fffdfb/);
 
     // Global progress must never put pounamu/green on public DO (and now uses dusty rose).
     const scroll = read('components/site/scroll-progress.tsx');

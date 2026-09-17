@@ -4,16 +4,12 @@ import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DO_INPUT } from './copy';
-import {
-  HOME_BRIEF_MAX_LENGTH,
-  resolvePublicDoHandoffTarget,
-  saveHomeBrief,
-} from '@/apps/do/shared/home-handoff';
+import { HOME_BRIEF_MAX_LENGTH } from '@/apps/do/shared/home-handoff';
 
 /**
- * Homepage "What do you need done?" — Kate lock.
- * Routes only to working public DOs: Meeting DO, Household DO, or /do hub.
- * Never partner maker, Mode A/B, Office, or specialist shelves.
+ * Legacy homepage intent form — kept for preview/internal reuse.
+ * Kate 2026-09-17: does not open Meeting/Household. Routes to contact.
+ * Public homepage no longer mounts this component.
  */
 export function DoIntentInput({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
@@ -26,14 +22,12 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
       setError('Describe the outcome you want, or choose an example.');
       return;
     }
-    try {
-      const target = resolvePublicDoHandoffTarget(trimmed);
-      const destination = saveHomeBrief(window.sessionStorage, trimmed, Date.now(), target);
-      setError(null);
-      router.push(destination);
-    } catch {
-      setError('Your browser could not carry this draft to DO. Keep a copy and open DO directly.');
-    }
+    setError(null);
+    const params = new URLSearchParams({
+      product: 'do',
+      note: trimmed.slice(0, 500),
+    });
+    router.push(`/contact?${params.toString()}`);
   };
 
   const onSubmit = (event: FormEvent) => {
@@ -45,7 +39,7 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
     <form
       className={`atw-do-form ${compact ? 'is-compact' : ''}`}
       onSubmit={onSubmit}
-      aria-label="Open Meeting or Household DO"
+      aria-label="Talk to assembl about DO"
     >
       {!compact && (
         <label className="sr-only" htmlFor="atw-do-intent">
@@ -73,20 +67,20 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
           aria-describedby="atw-do-honesty"
         />
         <button type="submit" className="atw-btn atw-btn-rose">
-          {compact ? <span aria-label="Open DO">→</span> : DO_INPUT.submit}
+          {compact ? <span aria-label="Contact assembl">→</span> : DO_INPUT.submit}
         </button>
       </div>
       <p className="atw-do-honesty" id="atw-do-honesty">
         {DO_INPUT.honesty}
       </p>
       <p className="atw-do-honesty">
-        <Link href="/do/meetings">Meeting DO</Link>
+        <Link href="/do">About DO</Link>
         {' · '}
-        <Link href="/do/household">Household DO</Link>
+        <Link href="/contact?product=do">Contact</Link>
       </p>
       {error && (
         <p className="atw-do-error" role="alert">
-          {error} <Link href="/do">Open DO →</Link>
+          {error} <Link href="/contact?product=do">Contact →</Link>
         </p>
       )}
       {!compact && (

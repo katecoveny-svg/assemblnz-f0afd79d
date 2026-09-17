@@ -35,7 +35,7 @@ const content = {
   },
 } as const;
 
-/** Studio studies — Kate allowlist only (no Task DO Maker / DO Office promo). */
+/** Studio studies — Kate allowlist only (no Task DO Maker / DO Office / public DO shelf). */
 const studies = [
   {
     id: 'world',
@@ -48,14 +48,14 @@ const studies = [
     status: 'Architectural study. Not live agent activity.',
   },
   {
-    id: 'meeting',
-    title: 'Meeting notes that help.',
-    type: 'DO / MEETING',
+    id: 'contact',
+    title: 'Bring DO into a real engagement.',
+    type: 'DO',
     image: '/do/world/atelier-poster.png',
-    href: '/do/meetings',
-    action: 'Open Meeting DO',
-    description: 'Record or paste. Turn audio into notes. Review actions and decisions before anything leaves the page.',
-    status: 'Drafts only. Nothing is sent for you.',
+    href: '/contact?product=do',
+    action: 'Talk about DO',
+    description: 'DO sits where you already work. Talk to assembl when you want it opened for your team.',
+    status: 'Surface ≠ agent. You stay in your own work.',
   },
 ] as const;
 
