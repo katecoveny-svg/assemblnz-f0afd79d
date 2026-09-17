@@ -3,6 +3,7 @@
  * Guard the user-confirmed 16 September recovery, plus the #1324 homepage
  * WorldScene / atelier.glb fly-through hero (AssemblWorldHero), plus the
  * 2026-09-17 Kate lock: public DO shelf = Meeting + Household only.
+ * 2026-09-17 #1342: public /pursuit landing restored (playground still banned).
  *
  * Homepage hero dual-accept (intentional):
  *   A) legacy `<DoSpatialScene company />`, OR
@@ -72,7 +73,7 @@ const publicFiles = [
 ];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
 const bannedHrefs = [
-  'href="/pursuit"',
+  // /pursuit is a public story landing again (#1342). Keep playground + maker off the front door.
   'href="/pursuit/playground"',
   'href="/studio/do-maker"',
   'href="/do/family"',
