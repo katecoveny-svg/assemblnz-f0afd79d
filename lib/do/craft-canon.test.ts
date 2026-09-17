@@ -114,6 +114,7 @@ describe('DO Spatial C craft canon', () => {
       expect(code).not.toMatch(/Deepgram nova/i);
       expect(code).not.toMatch(/Whisper-class/i);
       expect(code).not.toMatch(/Smart notes/i);
+      expect(code).not.toMatch(/evidence\.model/);
     }
 
     const homeCss = read('app/do/do-home.module.css');
@@ -122,12 +123,19 @@ describe('DO Spatial C craft canon', () => {
     expect(homeCss).toMatch(/--rose:\s*#916a70/i);
     // Hero display type must be paper on plum — never muted (olive-on-plum fail).
     expect(homeCss).toMatch(/\.heroCopy h1[\s\S]*?color:\s*var\(--paper\)/);
+    expect(homeCss).toMatch(/\.hhBoard\b/);
     for (const hex of DO_CRAFT.bannedGreenHex) {
       expect(homeCss.toLowerCase()).not.toContain(hex.toLowerCase());
     }
 
     const companionCss = read('components/site/assembl-the-work/assembl-spatial.css');
     expect(companionCss).toMatch(/\.atw-companion-copy h2[\s\S]*?color:\s*#fffdfb/);
+
+    // Global progress must never put pounamu/green on public DO (and now uses dusty rose).
+    const scroll = read('components/site/scroll-progress.tsx');
+    expect(scroll).not.toMatch(/assembl-pounamu/);
+    expect(scroll).toMatch(/assembl-dusty-rose/);
+    expect(scroll).toMatch(/pathname === '\/do'/);
   });
 
   it('keeps Glow as the single web launcher (DoFloatingWidget is a thin wrapper)', () => {

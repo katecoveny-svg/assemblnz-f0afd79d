@@ -101,6 +101,7 @@ export const DO_CRAFT = {
     /not configured on this environment/i,
     /Transcribe when Deepgram is configured/i,
     /Two tools\.\s*Useful work/i,
+    /model unavailable/i,
   ] as const,
   cta: {
     primary: 'do-cta',

@@ -546,8 +546,8 @@ function MeetingDoInner() {
           done={boardDone}
           evidenceSlot={
             receipt
-              ? `Preparation receipt: ${receipt.id} · ${receipt.evidence.model || 'model unavailable'}`
-              : 'Local capture · no audio saved to the DO database until you choose Transcribe.'
+              ? `Preparation receipt: ${receipt.id} · notes prepared · drafts only`
+              : 'Local capture · no audio leaves this page until you choose Transcribe.'
           }
           empty={{
             copy: 'Start with a recording. Paste notes stay secondary.',
@@ -835,7 +835,7 @@ function MeetingDoInner() {
             email stays a draft — never auto-sent.
           </p>
           <small className={styles.receipt}>
-            Preparation receipt: {receipt?.id} · {receipt?.evidence.model || 'model unavailable'}
+            Preparation receipt: {receipt?.id} · notes prepared · drafts only
           </small>
         </section>
       ) : null}

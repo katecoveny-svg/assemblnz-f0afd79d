@@ -200,10 +200,37 @@
   color: #c9a8b8;
 }
 
+.heroCopy {
+  animation: doRise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .heroMark {
   display: grid;
   place-items: center;
   min-height: 280px;
+  animation: doBloom 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes doRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes doBloom {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .dropNotice {
@@ -249,6 +276,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 0;
   border-top: 1px solid rgba(36, 11, 33, 0.14);
+  animation: doRise 800ms 80ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .toolPlate,
@@ -426,13 +454,17 @@
 
 /* —— Household —— */
 .household {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(36px, 6vw, 72px);
+  align-items: end;
   padding: clamp(64px, 9vw, 100px) clamp(20px, 6vw, 72px);
   background: var(--paper);
   color: var(--plum);
   border-top: 1px solid rgba(36, 11, 33, 0.08);
 }
 
-.household h2 {
+.householdCopy h2 {
   font-size: clamp(36px, 5vw, 58px);
   font-weight: 400;
   line-height: 1.04;
@@ -441,12 +473,67 @@
   max-width: 14ch;
 }
 
-.household > p {
+.householdCopy > p:not(.eyebrowDark) {
   font-size: 16px;
   line-height: 1.6;
   color: var(--muted);
   max-width: 46ch;
   margin-bottom: 24px;
+}
+
+.hhBoard {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(36, 11, 33, 0.14);
+  background:
+    linear-gradient(rgba(36, 11, 33, 0.035) 1px, transparent 1px),
+    var(--chalk);
+  background-size: 100% 28px;
+}
+
+.hhBoard li {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(36, 11, 33, 0.12);
+}
+
+.hhBoard span {
+  font:
+    10px/1 var(--font-mono),
+    "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.hhBoard strong {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--plum);
+}
+
+.hhBoard em {
+  font-style: normal;
+  font:
+    11px/1.4 var(--font-mono),
+    "IBM Plex Mono",
+    monospace;
+  color: var(--muted);
+}
+
+.hhBoard li[data-done="true"] strong {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.hhBoard li[data-done="true"] span {
+  color: var(--muted);
 }
 
 /* —— Downloads —— */
@@ -512,6 +599,10 @@
   .proof {
     grid-template-columns: 1fr;
   }
+
+  .household {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
@@ -551,5 +642,6 @@
 @media (prefers-reduced-motion: reduce) {
   .page * {
     transition: none !important;
+    animation: none !important;
   }
 }

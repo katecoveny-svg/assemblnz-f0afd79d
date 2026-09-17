@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Mic } from "lucide-react";
 import { DoLivingBlob } from "@/components/do/DoLivingBlob";
-import { DoDownloadCtas } from "@/components/do/DoDownloadCtas";
 import { DoDownloadsStrip } from "@/components/do/DoDownloadsStrip";
 import { readHomeBrief } from "@/apps/do/shared/home-handoff";
 import {
@@ -70,8 +69,6 @@ export function DoHome() {
         </nav>
       </header>
 
-      <DoDownloadCtas variant="banner" />
-
       <section className={styles.hero} aria-labelledby="do-hero-title">
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>DO · PUBLIC FACE</p>
@@ -106,8 +103,12 @@ export function DoHome() {
         </p>
       ) : null}
 
-      <section className={styles.tools} id="tools" aria-labelledby="tools-title">
-        <div className={styles.toolsHead}>
+      <section
+        className={styles.tools}
+        id="tools"
+        aria-labelledby="tools-title"
+      >
+        <div className={styles.toolsHead} id="your-dos">
           <p className={styles.eyebrowDark}>TWO TOOLS · ONE SHELF</p>
           <h2 id="tools-title">What you can DO here.</h2>
           <p>
@@ -201,15 +202,40 @@ export function DoHome() {
       </section>
 
       <section className={styles.household} aria-labelledby="hh-title">
-        <p className={styles.eyebrowDark}>HOUSEHOLD · DEMO</p>
-        <h2 id="hh-title">A simple chores board.</h2>
-        <p>
-          Not your real household. Install the public demo template, run the
-          evening board, then leave it. Private family installs stay closed here.
-        </p>
-        <Link href="/do/household" className="do-cta">
-          Open Household DO <ArrowUpRight size={16} aria-hidden />
-        </Link>
+        <div className={styles.householdCopy}>
+          <p className={styles.eyebrowDark}>HOUSEHOLD · DEMO</p>
+          <h2 id="hh-title">A simple chores board.</h2>
+          <p>
+            Not your real household. Install the public demo template, run the
+            evening board, then leave it. Private family installs stay closed
+            here.
+          </p>
+          <Link href="/do/household" className="do-cta">
+            Open Household DO <ArrowUpRight size={16} aria-hidden />
+          </Link>
+        </div>
+        <ol className={styles.hhBoard} aria-label="Demo chores preview">
+          <li>
+            <span>Tonight</span>
+            <strong>Kitchen wipe-down</strong>
+            <em>Alex · demo</em>
+          </li>
+          <li>
+            <span>Tonight</span>
+            <strong>Bins out</strong>
+            <em>Jordan · demo</em>
+          </li>
+          <li>
+            <span>Weekend</span>
+            <strong>Laundry fold</strong>
+            <em>Sam · demo</em>
+          </li>
+          <li data-done="true">
+            <span>Done</span>
+            <strong>Dishwasher empty</strong>
+            <em>Riley · demo</em>
+          </li>
+        </ol>
       </section>
 
       <section className={styles.portable} aria-labelledby="keep-title">
