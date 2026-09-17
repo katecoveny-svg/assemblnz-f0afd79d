@@ -1,0 +1,19 @@
+{
+  "generator": "Blender 4.0.2",
+  "concept": "Original Scandinavian Auckland harbour office; not a photograph of an existing office",
+  "objects": 18,
+  "triangles": 245596,
+  "glb_bytes": 7558636,
+  "palette": {
+    "plum": "#240B21",
+    "rose": "#916A70",
+    "paper": "#FFFDFB"
+  },
+  "camera_contract": "x -9..9, y vertical 0..5, z 12..-35; centre corridor clear",
+  "outputs": [
+    "studio-lounge.jpg",
+    "review-room.jpg",
+    "harbour-workroom.jpg",
+    "scandi-office.glb"
+  ]
+}
