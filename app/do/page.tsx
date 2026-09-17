@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: { absolute: 'DO · Meeting notes & Household · assembl' },
   description:
-    'Public DO offers Meeting DO (record → transcript → useful notes) and a generic Household chores board. Drafts only — nothing is sent for you.',
+    'Public DO offers Meeting notes and a Household chores board. Drafts only — nothing is sent for you.',
   alternates: { canonical: '/do' },
 };
 // Keep the spatial DO experience connected to the current runtime; see docs/DO-VISUAL-BASELINE.md.

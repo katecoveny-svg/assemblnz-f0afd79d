@@ -24,13 +24,13 @@ const COMPANY = [
 const COMPANIONS = [
   {
     label: "Meeting DO",
-    title: "Useful notes from the conversation.",
+    title: "Record → notes you can use.",
     href: "/do/meetings",
     glyph: "◎",
   },
   {
     label: "Household DO",
-    title: "Demo chores board — generic only.",
+    title: "Simple chores board (demo).",
     href: "/do/household",
     glyph: "⌂",
   },

@@ -42,7 +42,7 @@ type Props = {
  */
 export function DoPortableStarters({
   title = 'What do you want to DO?',
-  lede = 'Meeting notes or a generic household chores board. DO never sends, books or pays for you.',
+  lede = 'Meeting notes or a household chores board. DO never sends, books or pays for you.',
   onStarter,
   showDownloads = true,
   className,

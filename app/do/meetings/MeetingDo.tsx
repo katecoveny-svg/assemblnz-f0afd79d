@@ -18,8 +18,8 @@ import styles from './meeting.module.css';
 
 /**
  * Meeting DO — recording-first, phone-easy.
- * Pipeline: Capture → Whisper-class STT → Granola-class smart notes → review.
- * Record + download work unsigned-in. Transcribe / smart notes need sign-in.
+ * Pipeline: Capture → turn audio into notes → review.
+ * Record + download work unsigned-in. Transcribe / write notes need sign-in.
  * `?phone=1` → one-screen Install → Record landing for tonight’s phone use.
  *
  * Compatible with per-DO to-do panel from PR #1303 (boardId meeting-do).
@@ -47,7 +47,7 @@ function MeetingDoInner() {
   const [message, setMessage] = useState('');
   const [reviewed, setReviewed] = useState(false);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
-  const [deepgramConfigured, setDeepgramConfigured] = useState<boolean | null>(null);
+  const [transcriptionReady, setTranscriptionReady] = useState<boolean | null>(null);
   const [pasteOpen, setPasteOpen] = useState(false);
   const [editNotesOpen, setEditNotesOpen] = useState(false);
   const recorder = useRef<MediaRecorder | null>(null);
@@ -125,10 +125,10 @@ function MeetingDoInner() {
     void fetch('/api/do/meetings/transcribe', { credentials: 'same-origin' })
       .then((r) => r.json())
       .then((data: { configured?: boolean }) => {
-        if (!cancelled) setDeepgramConfigured(Boolean(data.configured));
+        if (!cancelled) setTranscriptionReady(Boolean(data.configured));
       })
       .catch(() => {
-        if (!cancelled) setDeepgramConfigured(null);
+        if (!cancelled) setTranscriptionReady(null);
       });
     return () => {
       cancelled = true;
@@ -170,7 +170,7 @@ function MeetingDoInner() {
       version: 1,
       id: '00000000-0000-4000-8000-000000000001',
       task: 'meeting-notes',
-      title: 'Smart meeting notes · Meeting transcript',
+      title: 'Meeting notes · Meeting transcript',
       text: sample,
       createdAt: new Date().toISOString(),
       status: 'draft',
@@ -293,14 +293,14 @@ function MeetingDoInner() {
     if (signedIn === false) {
       setMessage(
         kind === 'transcribe'
-          ? 'Sign in to transcribe. Your recording stays on this page — download it first if you need a copy.'
-          : 'Sign in to run smart notes. Your transcript stays on this page.',
+          ? 'Sign in to turn audio into notes. Your recording stays on this page — download it first if you need a copy.'
+          : 'Sign in to turn your transcript into notes. Your text stays on this page.',
       );
       return;
     }
-    if (kind === 'transcribe' && deepgramConfigured === false) {
+    if (kind === 'transcribe' && transcriptionReady === false) {
       setMessage(
-        'Transcription needs Deepgram on this environment (DEEPGRAM_API_KEY). You can still record, download, or paste notes and run Smart notes.',
+        'Transcription isn’t available here right now. Paste notes below, then turn them into notes you can use.',
       );
       return;
     }
@@ -338,13 +338,13 @@ function MeetingDoInner() {
         setNotes(data.transcript);
         setShareAudio(false);
         setPasteOpen(true);
-        setMessage('Review and correct the transcript, then run Smart notes.');
+        setMessage('Review and correct the transcript, then turn it into notes.');
       } else {
         setDraft(data.draft.text);
         setReceipt(data.draft);
         setReviewed(false);
         setEditNotesOpen(false);
-        setMessage('Smart notes draft ready — review before any handoff.');
+        setMessage('Notes ready — review before any handoff.');
       }
     } catch (error) {
       if (alive.current) setMessage(error instanceof Error ? error.message : 'Could not finish.');
@@ -372,42 +372,42 @@ function MeetingDoInner() {
 
   const needsAuth = signedIn === false;
   const canTranscribe =
-    Boolean(audio) && shareAudio && !busy && !recording && !needsAuth && deepgramConfigured !== false;
+    Boolean(audio) && shareAudio && !busy && !recording && !needsAuth && transcriptionReady !== false;
   const canSmartNotes = Boolean(notes.trim()) && shareNotes && !busy && !recording && !needsAuth;
   const ext = audio?.type.includes('mp4') ? 'm4a' : 'webm';
 
   const boardNeedsYou = [
-    ...(audio && !notes.trim() && !needsAuth && deepgramConfigured !== false
-      ? [{ id: 'transcribe', title: 'Transcribe recording', detail: 'Approve Deepgram sharing, then Transcribe.' }]
+    ...(audio && !notes.trim() && !needsAuth && transcriptionReady !== false
+      ? [{ id: 'transcribe', title: 'Turn recording into notes', detail: 'Approve sharing, then transcribe.' }]
       : []),
     ...(audio && !notes.trim() && needsAuth
       ? [{ id: 'signin', title: 'Sign in to transcribe', detail: 'Recording stays on this page — download first if needed.' }]
       : []),
-    ...(audio && !notes.trim() && deepgramConfigured === false
-      ? [{ id: 'paste', title: 'Paste notes instead', detail: 'Deepgram is not configured here — paste still works.' }]
+    ...(audio && !notes.trim() && transcriptionReady === false
+      ? [{ id: 'paste', title: 'Paste notes instead', detail: 'Transcription isn’t available here — paste still works.' }]
       : []),
     ...(draft && !reviewed
-      ? [{ id: 'review-handoff', title: 'Review smart notes', detail: 'Correct owners and dates before opening a DO.' }]
+      ? [{ id: 'review-handoff', title: 'Review your notes', detail: 'Correct owners and dates before opening a DO.' }]
       : []),
     ...(notes.trim() && !draft
-      ? [{ id: 'smart-notes', title: 'Run smart notes', detail: 'Granola-class notes from your transcript — drafts only.' }]
+      ? [{ id: 'smart-notes', title: 'Turn transcript into notes', detail: 'Actions, decisions and who said what — drafts only.' }]
       : []),
   ];
   const boardWorking = [
     ...(recording || starting
       ? [{ id: 'recording', title: 'Recording meeting audio', detail: 'Stops at 10 minutes.' }]
       : []),
-    ...(busy ? [{ id: 'busy', title: 'Working on transcript or smart notes', detail: 'Source stays on this page.' }] : []),
+    ...(busy ? [{ id: 'busy', title: 'Working on your notes', detail: 'Source stays on this page.' }] : []),
   ];
   const boardDone = [
     ...(audio && !recording
       ? [{ id: 'captured', title: 'Recording captured', detail: 'Listen and download before leaving.' }]
       : []),
     ...(notes.trim()
-      ? [{ id: 'words', title: 'Transcript ready', detail: 'Whisper-class STT or pasted notes.' }]
+      ? [{ id: 'words', title: 'Transcript ready', detail: 'From recording or pasted notes.' }]
       : []),
     ...(reviewed && draft
-      ? [{ id: 'handoff-ready', title: 'Smart notes reviewed', detail: 'Ready to open a DO.' }]
+      ? [{ id: 'handoff-ready', title: 'Notes reviewed', detail: 'Ready to open a DO.' }]
       : []),
   ];
 
@@ -435,7 +435,7 @@ function MeetingDoInner() {
 
       {previewNotes ? (
         <p className={styles.alert} role="status">
-          Layout preview (`?previewNotes=1`) — sample smart notes only. No model was called and nothing
+          Layout preview (`?previewNotes=1`) — sample notes only. No model was called and nothing
           was sent.
         </p>
       ) : null}
@@ -447,7 +447,7 @@ function MeetingDoInner() {
           <h1>Record tonight.</h1>
           <p className={styles.lead}>
             <strong>Install → Open → Record.</strong> No sign-in to capture audio. Sign in later to
-            transcribe and run smart notes.
+            turn the recording into notes you can use.
           </p>
 
           <div className={styles.phoneSteps}>
@@ -510,11 +510,12 @@ function MeetingDoInner() {
       ) : (
         <header className={styles.hero}>
           <DoLivingBlob size="md" className={styles.markBlob} label="Meeting DO" />
-          <p className={styles.eyebrow}>CAPTURE → TRANSCRIBE → SMART NOTES → REVIEW</p>
+          <p className={styles.eyebrow}>CAPTURE → NOTES → REVIEW</p>
           <h1>Meeting DO.</h1>
           <p className={styles.lead}>
-            <strong>Record. Transcribe. Smart notes.</strong> Capture audio on this page, then a
-            Granola-class agent pass turns the transcript into notes you review — drafts only.
+            <strong>Record → notes you can use.</strong> Capture audio on this page,
+            turn it into a transcript, then review actions, decisions and who said what.
+            Drafts only — nothing is sent for you.
           </p>
         </header>
       )}
@@ -545,8 +546,8 @@ function MeetingDoInner() {
           done={boardDone}
           evidenceSlot={
             receipt
-              ? `Preparation receipt: ${receipt.id} · ${receipt.evidence.model || 'model unavailable'}`
-              : 'Local capture · no audio saved to the DO database until you choose Transcribe.'
+              ? `Preparation receipt: ${receipt.id} · notes prepared · drafts only`
+              : 'Local capture · no audio leaves this page until you choose Transcribe.'
           }
           empty={{
             copy: 'Start with a recording. Paste notes stay secondary.',
@@ -644,25 +645,24 @@ function MeetingDoInner() {
 
       <section className={styles.next} aria-labelledby="transcribe-title">
         <p className={styles.step}>2 · Transcribe</p>
-        <h2 id="transcribe-title">Whisper-class transcript</h2>
+        <h2 id="transcribe-title">Turn audio into notes</h2>
         <p className={styles.copy}>
-          Deepgram nova-2 (en-NZ) when configured — or paste notes below. Sign-in is required for
-          transcription; record and download still work unsigned-in.
+          Transcribe the recording, or paste notes below. Sign-in is required to
+          transcribe; record and download still work without it.
         </p>
 
         {needsAuth ? (
           <p className={styles.authSoft}>
-            <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to use configured
-            transcription. No audio is saved to the DO database.
+            <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to
+            transcribe. No audio is saved to the DO database.
           </p>
-        ) : deepgramConfigured === false ? (
+        ) : transcriptionReady === false ? (
           <p className={styles.authSoft}>
-            Signed in · Deepgram is not configured on this environment. Paste notes, then run Smart
-            notes.
+            Signed in · paste notes below, then turn them into notes you can use.
           </p>
         ) : (
           <p className={styles.authSoft}>
-            Signed in · transcription uses Deepgram nova-2 (en-NZ) when you approve sharing.
+            Signed in · approve sharing below to turn this recording into a transcript.
           </p>
         )}
 
@@ -673,7 +673,7 @@ function MeetingDoInner() {
             disabled={busy || recording || !audio}
             onChange={(e) => setShareAudio(e.target.checked)}
           />
-          I approve sharing this audio with Deepgram for transcription.
+          I approve sharing this audio for transcription.
         </label>
 
         <div className={styles.actions}>
@@ -689,7 +689,7 @@ function MeetingDoInner() {
 
         {notes.trim() ? (
           <label className={styles.field}>
-            Transcript · review before smart notes
+            Transcript · review before writing notes
             <textarea
               value={notes}
               maxLength={12000}
@@ -697,7 +697,7 @@ function MeetingDoInner() {
                 setNotes(e.target.value);
                 setReviewed(false);
               }}
-              placeholder="Your transcript appears here after Transcribe…"
+              placeholder="Your transcript appears here after you transcribe…"
             />
           </label>
         ) : null}
@@ -728,22 +728,22 @@ function MeetingDoInner() {
 
       {notes.trim() ? (
         <section className={styles.next} aria-labelledby="smart-notes-title">
-          <p className={styles.step}>3 · Smart notes</p>
-          <h2 id="smart-notes-title">Granola-class agent pass</h2>
+          <p className={styles.step}>3 · Useful notes</p>
+          <h2 id="smart-notes-title">Notes you can use</h2>
           <p className={styles.copy}>
-            Turns your transcript into clean notes, decisions, action items (owners and dates only
-            if stated), open questions, suggested specialist DOs, and an optional follow-up email
-            draft. Nothing is sent.
+            Turns your transcript into clean notes — decisions, action items
+            (owners and dates only if stated), open questions and a follow-up
+            draft you can edit. Nothing is sent.
           </p>
 
           {needsAuth ? (
             <p className={styles.authSoft}>
-              <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to run smart notes with
-              the configured DO model.
+              <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to
+              turn this transcript into notes.
             </p>
           ) : (
             <p className={styles.authSoft}>
-              Signed in · smart notes use the configured DO preparation model. Drafts only.
+              Signed in · drafts only. Nothing leaves this page until you choose a handoff.
             </p>
           )}
 
@@ -754,7 +754,7 @@ function MeetingDoInner() {
               disabled={busy || recording}
               onChange={(e) => setShareNotes(e.target.checked)}
             />
-            I approve sharing this transcript with the configured DO model for smart notes.
+            I approve sharing this transcript to prepare useful notes.
           </label>
 
           <div className={styles.actions}>
@@ -764,7 +764,7 @@ function MeetingDoInner() {
               disabled={!canSmartNotes}
               onClick={() => void process('smart-notes')}
             >
-              {busy ? 'Writing notes…' : 'Smart notes'}
+              {busy ? 'Writing notes…' : 'Write notes'}
             </button>
           </div>
         </section>
@@ -773,9 +773,9 @@ function MeetingDoInner() {
       {draft ? (
         <section className={styles.notesReview} aria-labelledby="handoff-title">
           <p className={styles.step}>4 · Review</p>
-          <h2 id="handoff-title">Review smart notes</h2>
+          <h2 id="handoff-title">Review your notes</h2>
           <p className={styles.copy}>
-            Correct owners, dates and proposed DO assignments. Nothing has been sent or assigned to
+            Correct owners, dates and proposed next steps. Nothing has been sent or assigned to
             another person.
           </p>
 
@@ -808,7 +808,7 @@ function MeetingDoInner() {
                 setDraft(e.target.value);
                 setReviewed(false);
               }}
-              aria-label="Edit smart notes"
+              aria-label="Edit notes"
             />
           </details>
 
@@ -818,7 +818,7 @@ function MeetingDoInner() {
               checked={reviewed}
               onChange={(e) => setReviewed(e.target.checked)}
             />
-            I have reviewed these smart notes. Owners and dates match the source.
+            I have reviewed these notes. Owners and dates match the source.
           </label>
           <div className={styles.actions}>
             <button
@@ -835,7 +835,7 @@ function MeetingDoInner() {
             email stays a draft — never auto-sent.
           </p>
           <small className={styles.receipt}>
-            Preparation receipt: {receipt?.id} · {receipt?.evidence.model || 'model unavailable'}
+            Preparation receipt: {receipt?.id} · notes prepared · drafts only
           </small>
         </section>
       ) : null}

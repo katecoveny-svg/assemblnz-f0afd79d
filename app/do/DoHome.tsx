@@ -3,25 +3,24 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Download, Mic } from "lucide-react";
-import { DoMark } from "@/components/do/DoMark";
-import { DoDownloadCtas } from "@/components/do/DoDownloadCtas";
+import { ArrowUpRight, Mic } from "lucide-react";
+import { DoLivingBlob } from "@/components/do/DoLivingBlob";
+import { DoDownloadsStrip } from "@/components/do/DoDownloadsStrip";
 import { readHomeBrief } from "@/apps/do/shared/home-handoff";
 import {
   PUBLIC_DO_SPECIALISTS,
   type PublicDoSpecialist,
 } from "@/lib/do/public-do-specialists";
+import "./do-craft.css";
 import styles from "./do-home.module.css";
 
 /**
- * Public DO home — Kate lock 2026-09-17.
- * Only Meeting DO + generic Household DO on the public shelf.
+ * Public DO home — Kate lock + craft rebuild 2026-09-17.
+ * Meeting DO + Household DO only. Brand: plum / rose / chalk / paper.
  */
 export function DoHome() {
   const params = useSearchParams();
   const router = useRouter();
-  // Explicit union: `as const` + PUBLIC_DO_SPECIALISTS[0] otherwise narrows
-  // useState to Meeting-only and fails when selecting Household (CI/Vercel).
   const [selected, setSelected] = useState<PublicDoSpecialist>(
     PUBLIC_DO_SPECIALISTS[0],
   );
@@ -37,16 +36,16 @@ export function DoHome() {
         );
         if (incoming) {
           setHandoffNotice(
-            "Homepage draft received. Public DO offers Meeting notes or Household chores — open one below. Nothing was sent.",
+            "Homepage draft received. Open Meeting notes or the Household board below. Nothing was sent.",
           );
         } else {
           setHandoffNotice(
-            "This homepage draft has expired or is unavailable in this tab. Open Meeting DO or Household DO below.",
+            "This homepage draft has expired or is unavailable in this tab. Open Meeting or Household below.",
           );
         }
       } catch {
         setHandoffNotice(
-          "This browser could not open the homepage draft. Open Meeting DO or Household DO below.",
+          "This browser could not open the homepage draft. Open Meeting or Household below.",
         );
       }
     });
@@ -54,144 +53,201 @@ export function DoHome() {
   }, [params]);
 
   return (
-    <div className={styles.page}>
-      <a className={styles.skip} href="#your-dos">
-        Skip to your DOs
+    <div className={`do-craft ${styles.page}`}>
+      <a className={styles.skip} href="#tools">
+        Skip to tools
       </a>
+
       <header className={styles.header}>
         <Link href="/" className={styles.brand}>
           assembl
         </Link>
         <span className={styles.product}>/ DO</span>
         <nav aria-label="DO">
-          <Link href="/do/meetings">Meeting DO</Link>
-          <Link href="/do/household">Household DO</Link>
+          <Link href="/do/meetings">Meeting</Link>
+          <Link href="/do/household">Household</Link>
         </nav>
       </header>
-      <DoDownloadCtas variant="banner" />
 
-      <section className={styles.team} id="your-dos" aria-labelledby="team-title">
-        <div className={styles.sectionHead}>
-          <div>
-            <p className={styles.eyebrow}>PUBLIC DO · TWO TOOLS</p>
-            <h2 id="team-title" aria-label="Meet your To DO’s.">
-              Meet your To{" "}
-              <span className={styles.teamWordmark}>
-                <span className={styles.teamLogo}>
-                  <DoMark />
-                </span>
-                <span>DO’s.</span>
-              </span>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Record a meeting into useful notes, or run a generic household
-              chores board. Nothing else is offered on the public face.
-            </p>
-          </div>
-        </div>
-
-        {handoffNotice ? (
-          <p className={styles.dropNotice} role="status">
-            {handoffNotice}
+      <section className={styles.hero} aria-labelledby="do-hero-title">
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}>DO · PUBLIC FACE</p>
+          <h1 id="do-hero-title">
+            Meeting notes.
+            <br />
+            Household board.
+          </h1>
+          <p className={styles.lede}>
+            Two tools you can try. Drafts only — nothing is sent for you.
           </p>
-        ) : null}
-
-        <div className={styles.assembly}>
-          <div className={styles.cards}>
-            {PUBLIC_DO_SPECIALISTS.map((item) => (
-              <button
-                className={styles.card}
-                data-identity={item.id}
-                key={item.id}
-                type="button"
-                aria-pressed={selected.id === item.id}
-                onClick={() => setSelected(item)}
-              >
-                <span className={styles.cardTop}>
-                  <span>{item.scope}</span>
-                </span>
-                <span className={styles.identity} aria-hidden="true">
-                  {item.glyph}
-                </span>
-                <strong>{item.name}</strong>
-                <span className={styles.description}>{item.description}</span>
-                <ArrowUpRight className={styles.cardArrow} size={17} />
-              </button>
-            ))}
+          <div className={styles.heroActions}>
+            <Link href="/do/meetings" className={styles.heroPrimary}>
+              Open Meeting DO <Mic size={17} aria-hidden />
+            </Link>
+            <Link href="/do/household" className={styles.heroGhost}>
+              Try Household board <ArrowUpRight size={17} aria-hidden />
+            </Link>
           </div>
-          <aside className={styles.dropzone} aria-label="Selected public DO">
-            <span className={styles.eyebrow}>YOUR SELECTED DO</span>
-            <span className={styles.mark}>
-              <DoMark />
-            </span>
-            <h3>{selected.name}</h3>
-            <p>{selected.note}</p>
-            <button
-              type="button"
-              className={styles.primary}
-              onClick={() => router.push(selected.href)}
-            >
-              Open {selected.name} <ArrowUpRight size={17} />
-            </button>
-            <small>Choosing a DO does not run a task or send anything.</small>
-          </aside>
+          <p className={styles.boundary}>
+            DEMO honesty · public shelf only · review before any handoff
+          </p>
+        </div>
+        <div className={styles.heroMark} aria-hidden="true">
+          <DoLivingBlob size="lg" label="DO" />
         </div>
       </section>
 
-      <section className={styles.portable} aria-labelledby="paths-title">
-        <div className={styles.sectionHead}>
-          <div>
-            <p className={styles.eyebrow}>START HERE</p>
-            <h2 id="paths-title">Two honest paths.</h2>
-          </div>
+      {handoffNotice ? (
+        <p className={styles.dropNotice} role="status">
+          {handoffNotice}
+        </p>
+      ) : null}
+
+      <section
+        className={styles.tools}
+        id="tools"
+        aria-labelledby="tools-title"
+      >
+        <div className={styles.toolsHead} id="your-dos">
+          <p className={styles.eyebrowDark}>TWO TOOLS · ONE SHELF</p>
+          <h2 id="tools-title">What you can DO here.</h2>
           <p>
-            Meeting DO needs a microphone or a paste. Household DO uses a
-            scrubbed demo template — private family installs stay closed here.
+            Pick one job. Keep the context close. Review what it prepares.
           </p>
         </div>
-        <div className={styles.portableGrid}>
-          <article>
-            <span>01 / MEETING</span>
-            <h3>Capture → notes.</h3>
-            <p>
-              Record or paste. Transcribe when Deepgram is configured. Review
-              actions, decisions and attendees before any handoff.
-            </p>
-            <Link href="/do/meetings">
-              Open Meeting DO <Mic size={16} />
-            </Link>
-            <Link href="/do/meetings?phone=1">
-              Phone-easy view <ArrowUpRight size={16} />
-            </Link>
-          </article>
-          <article>
-            <span>02 / HOUSEHOLD</span>
-            <h3>Chores board.</h3>
-            <p>
-              Generic demo household — fictional names only. Install the public
-              template; owner-private install is refused on this site.
-            </p>
-            <Link href="/do/household">
-              Open Household DO <ArrowUpRight size={16} />
-            </Link>
-          </article>
-          <article>
-            <span>03 / DOWNLOAD</span>
-            <h3>Keep DO close.</h3>
-            <p>
-              Chrome and Mac companions still open Meeting DO. They do not unlock
-              private operator boards from the public site.
-            </p>
-            <a
-              href="/api/do/download?format=extension"
-              download="assembl-do-extension-1.5.2.zip"
-            >
-              Download Chrome DO <Download size={16} />
-            </a>
-          </article>
+
+        <div className={styles.toolRail} role="list">
+          {PUBLIC_DO_SPECIALISTS.map((item, index) => {
+            const active = selected.id === item.id;
+            return (
+              <article
+                key={item.id}
+                role="listitem"
+                className={active ? styles.toolPlateActive : styles.toolPlate}
+                data-identity={item.id}
+              >
+                <button
+                  type="button"
+                  className={styles.toolSelect}
+                  aria-pressed={active}
+                  onClick={() => setSelected(item)}
+                >
+                  <span className={styles.toolIndex}>
+                    0{index + 1} / {item.id.toUpperCase()}
+                  </span>
+                  <span className={styles.toolGlyph} aria-hidden="true">
+                    {item.glyph}
+                  </span>
+                  <strong>{item.name}</strong>
+                  <span className={styles.toolDesc}>{item.description}</span>
+                </button>
+                <div className={styles.toolBody}>
+                  <p>{item.note}</p>
+                  <button
+                    type="button"
+                    className="do-cta"
+                    onClick={() => router.push(item.href)}
+                  >
+                    Open {item.name} <ArrowUpRight size={16} aria-hidden />
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
+      </section>
+
+      <section className={styles.proof} aria-labelledby="proof-title">
+        <div className={styles.proofCopy}>
+          <p className={styles.eyebrow}>HOW MEETING WORKS</p>
+          <h2 id="proof-title">
+            Record.
+            <br />
+            Get notes.
+            <br />
+            You decide.
+          </h2>
+          <p>
+            Capture the conversation. Turn audio into a transcript. Review
+            actions, decisions and who said what. Nothing leaves this page until
+            you choose a handoff.
+          </p>
+          <Link href="/do/meetings" className={styles.proofCta}>
+            Start Meeting DO <ArrowUpRight size={16} aria-hidden />
+          </Link>
+        </div>
+        <ol className={styles.proofSteps}>
+          <li>
+            <span>01</span>
+            <div>
+              <strong>Capture</strong>
+              <p>Record in the browser, or paste notes you already have.</p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <strong>Notes</strong>
+              <p>Turn the recording into a transcript you can correct.</p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <strong>Review</strong>
+              <p>Actions, decisions, attendees — drafts only. You stay in control.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section className={styles.household} aria-labelledby="hh-title">
+        <div className={styles.householdCopy}>
+          <p className={styles.eyebrowDark}>HOUSEHOLD · DEMO</p>
+          <h2 id="hh-title">A simple chores board.</h2>
+          <p>
+            Not your real household. Install the public demo template, run the
+            evening board, then leave it. Private family installs stay closed
+            here.
+          </p>
+          <Link href="/do/household" className="do-cta">
+            Open Household DO <ArrowUpRight size={16} aria-hidden />
+          </Link>
+        </div>
+        <ol className={styles.hhBoard} aria-label="Demo chores preview">
+          <li>
+            <span>Tonight</span>
+            <strong>Kitchen wipe-down</strong>
+            <em>Alex · demo</em>
+          </li>
+          <li>
+            <span>Tonight</span>
+            <strong>Bins out</strong>
+            <em>Jordan · demo</em>
+          </li>
+          <li>
+            <span>Weekend</span>
+            <strong>Laundry fold</strong>
+            <em>Sam · demo</em>
+          </li>
+          <li data-done="true">
+            <span>Done</span>
+            <strong>Dishwasher empty</strong>
+            <em>Riley · demo</em>
+          </li>
+        </ol>
+      </section>
+
+      <section className={styles.portable} aria-labelledby="keep-title">
+        <div className={styles.toolsHead}>
+          <p className={styles.eyebrowDark}>KEEP DO CLOSE</p>
+          <h2 id="keep-title">Phone, Chrome, Mac.</h2>
+          <p>
+            Companions still open Meeting DO. They do not open private operator
+            boards from the public site.
+          </p>
+        </div>
+        <DoDownloadsStrip anchorId="get-do" />
       </section>
 
       <footer className={styles.footer}>
@@ -200,7 +256,13 @@ export function DoHome() {
         </Link>
         <p>DO prepares. You decide.</p>
         <nav aria-label="assembl products">
-          <a href="https://assembl-pursuit.katecoveny.chatgpt.site" target="_blank" rel="noopener noreferrer">Pursuit</a>
+          <a
+            href="https://assembl-pursuit.katecoveny.chatgpt.site"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pursuit
+          </a>
           <Link href="/creative-studio">Studio</Link>
         </nav>
       </footer>

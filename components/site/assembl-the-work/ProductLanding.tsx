@@ -54,7 +54,7 @@ const studies = [
     image: '/do/world/atelier-poster.png',
     href: '/do/meetings',
     action: 'Open Meeting DO',
-    description: 'Record or paste → Deepgram transcript when configured → structured notes for review.',
+    description: 'Record or paste. Turn audio into notes. Review actions and decisions before anything leaves the page.',
     status: 'Drafts only. Nothing is sent for you.',
   },
 ] as const;

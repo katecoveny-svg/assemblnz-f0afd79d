@@ -106,8 +106,26 @@ const companyCss = read('components/site/assembl-the-work/assembl-the-work.css')
 if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
   errors.push('Company typography must use Instrument Sans, not the retired serif font');
 }
-if (!read('app/do/DoHome.tsx').includes('Meet your To ')) {
-  errors.push('Preserve the approved To DO specialist heading');
+const doHome = read('app/do/DoHome.tsx');
+if (!/Meeting notes\./.test(doHome) || !/Household board\./.test(doHome)) {
+  errors.push('Public /do hero must lead with Meeting notes + Household board (Kate craft)');
+}
+if (/Whisper-class|Deepgram nova-2|Smart notes|Granola-class/i.test(doHome)) {
+  errors.push('Public /do must not expose vendor/model theatre in UI chrome');
+}
+const meetingUi = read('app/do/meetings/MeetingDo.tsx');
+const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+if (/Whisper-class|Deepgram nova-2|Granola-class|sharing this audio with Deepgram|Deepgram is not configured/i.test(meetingChrome)) {
+  errors.push('Meeting DO UI chrome must not name Whisper/Deepgram/Granola (Kate audit 2026-09-17)');
+}
+if (!/Turn audio into notes/.test(meetingChrome)) {
+  errors.push('Meeting DO transcribe heading must be human: Turn audio into notes');
+}
+if (/Meet your To|PUBLIC DO\s*·\s*TWO TOOLS/i.test(doHome)) {
+  errors.push('Public /do must not revive sparse Lovable hero (Meet your To / PUBLIC DO · TWO TOOLS)');
+}
+if (/Take DO with you/i.test(doHome)) {
+  errors.push('Public /do first viewport must not open with Take DO with you banner (Kate sparse-Lovable fail)');
 }
 
 // Public DO honesty — never ship owner-private household PII or operator backlog hosts in shared seeds.

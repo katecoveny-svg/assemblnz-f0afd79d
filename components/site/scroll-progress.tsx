@@ -16,13 +16,16 @@ export function ScrollProgress() {
     restDelta: 0.001,
   });
 
-  // the "/" coming-soon splash carries no chrome at all
-  if (pathname === '/') return null;
+  // Splash and public DO ship their own chrome — no global progress line there.
+  if (pathname === '/' || pathname === '/do' || pathname?.startsWith('/do/')) {
+    return null;
+  }
 
+  // Dusty rose = progress/state in brand canon. Never pounamu/green.
   return (
     <motion.div
       aria-hidden
-      className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-[color:var(--assembl-pounamu)]"
+      className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-[color:var(--assembl-dusty-rose)]"
       style={{ scaleX }}
     />
   );

@@ -2,10 +2,17 @@
 .atw-spatial {
   --rose: #d6a5bd;
 }
+/* Muted plum on paper is fine. On dark plum stages it reads as olive/forest —
+   never use it for display type or emphasis on #240B21. */
 .atw-spatial em {
   font-family: var(--font-body), "Instrument Sans", sans-serif;
   font-style: normal;
-  color: var(--muted);
+  color: #916a70;
+}
+.atw-companion-story em,
+.atw-do-story em,
+.atw-spatial .atw-hero em {
+  color: #f5f1f2;
 }
 .atw-spatial .atw-hero {
   background: #240b21;
@@ -87,14 +94,34 @@
 }
 .atw-companion-copy h2 {
   margin: 26px 0;
+  color: #fffdfb;
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  max-width: 12ch;
 }
-.atw-companion-copy p {
+.atw-companion-copy > p:not(.atw-kicker) {
   font-size: 17px;
   line-height: 1.65;
   color: #dfcbd8;
+  max-width: 38ch;
 }
 .atw-companion-copy article {
-  padding-top: 70px;
+  padding-top: 56px;
+  border-top: 1px solid rgba(245, 241, 242, 0.12);
+  margin-top: 28px;
+}
+.atw-companion-copy article:first-of-type {
+  border-top: 0;
+  margin-top: 36px;
+  padding-top: 0;
+}
+.atw-companion-copy article > p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #dfcbd8;
+  max-width: 40ch;
 }
 .atw-companion-copy article > span {
   font:
