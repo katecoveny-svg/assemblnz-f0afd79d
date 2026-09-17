@@ -1,11 +1,14 @@
-import { redirect } from 'next/navigation';
-import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import type { Metadata } from 'next';
+import { PursuitLanding } from '@/components/site/pursuit/PursuitLanding';
 
-/**
- * In-repo Pursuit landing is retired from the public face (Kate lock 2026-09-17).
- * Canonical Pursuit is the external ChatGPT hub only.
- * Middleware also 308-redirects /pursuit* — this page is a belt-and-braces fallback.
- */
+export const metadata: Metadata = {
+  title: { absolute: 'Pursuit · find it. · assembl' },
+  description:
+    'Research the opportunity, develop a credible idea and prepare the next conversation with assembl Pursuit. Machine-readable docs for agents; private hub for client work.',
+  alternates: { canonical: '/pursuit' },
+};
+
+/** Lean www Pursuit — Find the opening. No playground / NZ-tool demo. */
 export default function PursuitPage() {
-  redirect(PURSUIT_SITE_ORIGIN);
+  return <PursuitLanding />;
 }

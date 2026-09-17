@@ -23,11 +23,13 @@ Pursuit turns relevant signals into qualified work. DO carries persistent agent 
 Human authority remains explicit. A connection to a tool does not itself grant permission to send, publish, spend or make irreversible changes. Consequential actions require the configured approval boundary and completed work should leave evidence or a receipt.`;
 
 const KEY_PAGES = [
-  ['https://assembl-pursuit.katecoveny.chatgpt.site', 'Pursuit hub — find evidence-backed work (external ChatGPT workspace)'],
+  ['/pursuit', 'Pursuit — find the opening; build the possibility (lean www brief)'],
+  ['https://assembl-pursuit.katecoveny.chatgpt.site', 'Pursuit hub — private ChatGPT workspace for client work'],
   ['/do', 'DO — public Meeting notes and generic Household chores board'],
   ['/do/meetings', 'Meeting DO — record, transcribe, review useful notes'],
   ['/do/household', 'Household DO — scrubbed public demo chores board'],
   ['/creative-studio', 'Studio — interactive demonstrations, campaigns, visual production, web and 3D proof'],
+  ['/llms.txt', 'Machine-readable product map for agents'],
   ['/trust', 'Trust Centre — security, privacy, evidence and governance posture'],
   ['/mana-receipts', 'Evidence receipt and provenance layer'],
   ['/agents', 'Specialist agent catalogue'],
@@ -37,7 +39,10 @@ const KEY_PAGES = [
 
 export function buildLlmsTxt(): string {
   const lines: string[] = ['# assembl', '', `> ${SUMMARY}`, '', INTRO, '', '## Key pages', ''];
-  for (const [path, desc] of KEY_PAGES) lines.push(`- [${path}](${SITE_URL}${path}): ${desc}`);
+  for (const [path, desc] of KEY_PAGES) {
+    const href = path.startsWith('http') ? path : `${SITE_URL}${path}`;
+    lines.push(`- [${path}](${href}): ${desc}`);
+  }
   lines.push('', '## Specialist agents', '');
   for (const cat of CATEGORIES) {
     const agents = agentsByCat(cat.slug);

@@ -21,7 +21,8 @@ describe('current public company surfaces', () => {
     expect(html).not.toContain('/studio/do-maker');
     expect(html).not.toContain('/do/office');
     expect(html).not.toContain('/cinematic-nature/ocean-assembly.webp');
-    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
+    expect(html).toContain('href="/pursuit"');
+    expect(html).toContain('href="/creative-studio"');
   });
   it('does not turn company contact and about into an ornamental watch', () => {
     for (const path of ['/contact', '/about']) {

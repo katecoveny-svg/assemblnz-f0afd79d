@@ -15,11 +15,12 @@ export const PURSUIT_SITE_ORIGIN =
 export const PRODUCT_DESTINATIONS = {
   pursuit: {
     label: 'Pursuit',
-    /** Public overview is the external ChatGPT hub only (Kate lock 2026-09-17). */
-    overview: PURSUIT_SITE_ORIGIN,
-    example: PURSUIT_SITE_ORIGIN,
+    /** Lean www landing — Find the opening. Hub is external ChatGPT workspace. */
+    overview: '/pursuit',
+    example: '/pursuit',
     workspace: `${PURSUIT_SITE_ORIGIN}/studios`,
-    external: true as const,
+    hub: PURSUIT_SITE_ORIGIN,
+    external: false as const,
   },
   do: {
     label: 'DO',

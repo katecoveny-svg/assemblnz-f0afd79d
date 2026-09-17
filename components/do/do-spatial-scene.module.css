@@ -30,24 +30,26 @@
   width: min(72%, 420px);
   aspect-ratio: 1;
   border-radius: 28%;
-  color: #f3d4de;
+  color: #f5f1f2;
   background: radial-gradient(
-    ellipse at 28% 18%,
-    #c995a8,
-    #916a70 38%,
-    #391333 68%,
-    #240b21 92%
+    ellipse at 30% 22%,
+    #916a70,
+    #654a4e 42%,
+    #3a1f34 72%,
+    #240b21 94%
   );
   box-shadow:
-    inset 1px 1px 3px #f8e4ea66,
-    inset -3px -4px 10px #180a1e,
-    0 0 48px #d6a5bd66,
-    0 0 90px #c995a840;
+    inset 1px 1px 2px #f5f1f233,
+    inset -2px -3px 8px #180a1e88,
+    0 0 36px #916a7033;
 }
-.mark svg {
-  width: 62%;
-  height: 62%;
-  filter: drop-shadow(0 0 10px #e8b6c4aa);
+.word {
+  font:
+    500 clamp(48px, 12vw, 96px) / 1 var(--font-body),
+    "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.06em;
+  color: #f5f1f2;
 }
 .card {
   position: absolute;
@@ -120,11 +122,17 @@
   width: 36px;
   height: 40px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #e7b0cf, #654a4e);
-  box-shadow:
-    inset 0 1px 0 #fff8,
-    0 0 20px #cb8db355;
+  background: linear-gradient(135deg, #916a70, #654a4e);
+  box-shadow: inset 0 1px 0 #fff4;
   font-size: 23px;
+  color: #f5f1f2;
+}
+.glyphWord {
+  font:
+    500 12px / 1 var(--font-body),
+    "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.04em;
 }
 .caption {
   position: absolute;

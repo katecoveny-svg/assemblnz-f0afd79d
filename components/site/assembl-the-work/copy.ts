@@ -11,14 +11,14 @@ export const PREVIEW_META = {
 
 export const NAV = {
   products: [
-    { label: 'Pursuit', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', emphasis: false, external: true },
+    { label: 'Pursuit', href: '/pursuit', emphasis: false },
     { label: 'DO', href: '/do', emphasis: true },
     { label: 'Studio', href: '/creative-studio', emphasis: false },
   ],
   links: [
     { label: 'How it works', href: '#how-it-works' },
   ],
-  cta: { label: 'open DO', href: '#do-input' },
+  cta: { label: 'open DO', href: '/do' },
 } as const;
 
 export const HERO = {
@@ -27,7 +27,7 @@ export const HERO = {
   subhead: 'find it. DO it. show it.',
   body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
   explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
-  ctaPrimary: { label: 'open Meeting or Household →', href: '#do-input' },
+  ctaPrimary: { label: 'open Meeting or Household →', href: '/do' },
   ctaSecondary: { label: 'see the system', href: '#products' },
   productLine: 'Pursuit · DO · Studio',
   loopLine: 'use one. connect two. run the whole loop.',
@@ -52,9 +52,8 @@ export const PRODUCTS = {
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
       body: 'For teams finding their next opportunity. Bring relevant public signals and permissioned business context into buyer research, a qualified opportunity and a next-step brief.',
-      href: 'https://assembl-pursuit.katecoveny.chatgpt.site',
-      external: true,
-      explore: 'Open Pursuit hub', note: 'Start with the market, company or work you want to understand.',
+      href: '/pursuit',
+      explore: 'Explore Pursuit', note: 'Lean www landing. Private hub for client work. No public playground.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,

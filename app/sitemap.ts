@@ -6,7 +6,7 @@ import type { MetadataRoute } from 'next';
  * Host is the canonical www origin.
  */
 const BASE = 'https://www.assembl.co.nz';
-const PRODUCT_PATHS = ['/do', '/do/meetings', '/do/household', '/creative-studio', '/do/install'];
+const PRODUCT_PATHS = ['/pursuit', '/do', '/do/meetings', '/do/household', '/creative-studio', '/do/install'];
 
 const CORE_PATHS = [
   '',

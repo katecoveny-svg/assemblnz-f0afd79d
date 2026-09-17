@@ -72,8 +72,8 @@ const publicFiles = [
 ];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
 const bannedHrefs = [
-  'href="/pursuit"',
   'href="/pursuit/playground"',
+  'href="/studio"',
   'href="/studio/do-maker"',
   'href="/do/family"',
   'href="/do/bills"',

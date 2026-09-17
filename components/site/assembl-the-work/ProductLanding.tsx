@@ -76,9 +76,12 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
             assembl
           </Link>
           <nav aria-label="Primary">
-            <a href={pursuitHub} target="_blank" rel="noopener noreferrer">
+            <Link
+              href="/pursuit"
+              aria-current={product === 'pursuit' ? 'page' : undefined}
+            >
               Pursuit
-            </a>
+            </Link>
             <Link href="/do">DO</Link>
             <Link
               href="/creative-studio"

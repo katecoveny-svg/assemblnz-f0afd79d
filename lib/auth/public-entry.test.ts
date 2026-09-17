@@ -24,7 +24,14 @@ describe('public install discovery', () => {
   it('lists canonical indexable product entries without private, preview or redirect URLs', async () => {
     const entries = sitemap();
     const urls = entries.map((entry) => entry.url);
-    const products = ['/do', '/do/meetings', '/do/household', '/creative-studio', '/do/install'];
+    const products = [
+      '/pursuit',
+      '/do',
+      '/do/meetings',
+      '/do/household',
+      '/creative-studio',
+      '/do/install',
+    ];
     for (const product of products) {
       expect(entries.find((entry) => entry.url === `https://www.assembl.co.nz${product}`), product).toMatchObject({
         priority: 0.9,
@@ -36,7 +43,7 @@ describe('public install discovery', () => {
       expect(new URL(url).origin).toBe('https://www.assembl.co.nz');
       expect(new URL(url).search).toBe('');
       expect(new URL(url).pathname).not.toMatch(
-        /^\/(?:admin|auth|login|api|customers|journeys\/one-nz|worlds\/(?:onenz|one-nz)|preview|studio|pursuit|do\/(?:browser|sponsored|tasks|widget|maker))(?:\/|$)/,
+        /^\/(?:admin|auth|login|api|customers|journeys\/one-nz|worlds\/(?:onenz|one-nz)|preview|studio|pursuit\/playground|do\/(?:browser|sponsored|tasks|widget|maker))(?:\/|$)/,
       );
       expect(['/insurance', '/toro']).not.toContain(new URL(url).pathname);
     }
@@ -87,8 +94,11 @@ async function expectPublicEntry(path: string, host: string) {
 }
 
 describe('retired public Pursuit maker / partner doors', () => {
-  it.each(publicHosts)('redirects in-repo Pursuit to the ChatGPT hub on %s', async (host) => {
-    for (const path of ['/pursuit', '/pursuit/', '/pursuit/playground']) {
+  it.each(publicHosts)('keeps lean /pursuit public and redirects playground on %s', async (host) => {
+    for (const path of ['/pursuit', '/pursuit/']) {
+      await expectPublicEntry(path, host);
+    }
+    for (const path of ['/pursuit/playground', '/pursuit/playground/']) {
       const response = await middleware(request(path, host));
       expect(response.status, path).toBe(308);
       expect(response.headers.get('location'), path).toMatch(
@@ -97,8 +107,10 @@ describe('retired public Pursuit maker / partner doors', () => {
     }
   });
 
-  it.each(publicHosts)('redirects Task DO Maker and partner aliases to Studio on %s', async (host) => {
+  it.each(publicHosts)('redirects Task DO Maker, /studio and partner aliases to Studio on %s', async (host) => {
     for (const path of [
+      '/studio',
+      '/studio/',
       '/studio/do-maker',
       '/studio/do-maker/',
       '/studio/do-maker?mode=partner&partner=bp',
@@ -125,7 +137,7 @@ describe('retired public Pursuit maker / partner doors', () => {
   it.each(['assembl.co.nz', 'www.assembl.co.nz'])(
     'does not open the workbench or segment lookalikes on %s',
     async (host) => {
-      for (const path of ['/studio', '/studio/other', '/studio/do-maker-private', '/studio/do-makerish']) {
+      for (const path of ['/studio/other', '/studio/do-maker-private', '/studio/do-makerish']) {
         const response = await middleware(request(path, host));
         expect(response.headers.get('x-middleware-rewrite'), path).toBe(`https://${host}/`);
       }

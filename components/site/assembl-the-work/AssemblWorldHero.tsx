@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Component, useCallback, useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
-import { DoIntentInput } from './DoIntentInput';
 import { HERO } from './copy';
 import styles from './assembl-world-hero.module.css';
 
@@ -18,7 +17,7 @@ type SceneProps = {
 };
 
 const chapters = [
-  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', action: 'Open Pursuit hub' },
+  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Open Pursuit' },
   { product: 'DO', verb: 'DO it.', input: 'A meeting to capture. A household board to run.', output: 'Useful notes or a chores board — ready for your review.', href: '/do', action: 'Open Meeting or Household' },
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see and try.', href: '/creative-studio', action: 'See the possibility' },
 ] as const;
@@ -110,7 +109,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
         <div className={styles.scrim} aria-hidden="true" />
         <header className={styles.nav}>
           <Link className={styles.wordmark} href="/" aria-label="assembl home">assembl</Link>
-          <nav aria-label="Primary"><a href="https://assembl-pursuit.katecoveny.chatgpt.site" target="_blank" rel="noopener noreferrer">Pursuit</a><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
+          <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
           <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused}>
             {paused || reduced ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}
             {reduced || failed ? 'Still view' : paused ? 'Resume' : 'Pause'}
@@ -122,7 +121,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
           <p className={styles.sub}>{HERO.subhead}</p>
           <p className={styles.body}>{HERO.body}</p>
           <div className={styles.actions}>
-            <a className={styles.pill} href="#do-input" onClick={() => document.getElementById('atw-do-intent')?.focus()}>Open Meeting or Household <ArrowRight size={20} /></a>
+            <Link className={styles.pill} href="/do">Open Meeting or Household <ArrowRight size={20} /></Link>
             <a className={styles.link} href="#products">See the whole system <ArrowDown size={16} /></a>
           </div>
         </div>
@@ -171,7 +170,6 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
             )}
           </div>
         </aside>
-        <div className={styles.job} id="do-input"><DoIntentInput compact /></div>
         <p className={styles.honesty}>{failed ? 'Still view. ' : reduced ? '' : 'Scroll to move through the atelier. '}An imagined workspace, not live agent activity.</p>
       </div>
       <div className={styles.stillSummary} aria-label="The complete work loop">

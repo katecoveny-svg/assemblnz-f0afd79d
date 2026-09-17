@@ -1,6 +1,5 @@
 "use client";
 
-import { DoMark } from "./DoMark";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Pause, Play } from "lucide-react";
@@ -10,7 +9,7 @@ const COMPANY = [
   {
     label: "Pursuit",
     title: "Find the opening.",
-    href: "https://assembl-pursuit.katecoveny.chatgpt.site",
+    href: "/pursuit",
     glyph: "↗",
   },
   { label: "DO", title: "Move the work forward.", href: "/do", glyph: "✦" },
@@ -89,8 +88,8 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
     >
       <div className={styles.light} aria-hidden="true" />
       <div className={styles.identity} aria-hidden="true">
-        <span className={styles.mark}>
-          <DoMark />
+        <span className={styles.mark} data-brand="dusty-rose">
+          <span className={styles.word}>DO</span>
         </span>
       </div>
       {(company ? COMPANY : COMPANIONS).map((item, index) => (
@@ -102,7 +101,7 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
         >
           <span className={styles.glyph} aria-hidden="true">
             {item.label === "DO" || item.label === "Meeting DO" ? (
-              <DoMark />
+              <span className={styles.glyphWord}>DO</span>
             ) : (
               item.glyph
             )}
