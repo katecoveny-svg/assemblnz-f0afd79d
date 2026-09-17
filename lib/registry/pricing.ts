@@ -1,8 +1,8 @@
 /**
  * THE pricing registry — the single source of truth for every surface that
- * shows a price: Ask assembl, and any other registry consumer.
+ * shows a price: Ask assembl, /pricing, and any other registry consumer.
  *
- * Live public ladder (matches /pricing, 2026-09): Install $1,500 +GST once ·
+ * Live public ladder (2026-09): Install $1,500 +GST once ·
  * keep it running $250/mo +GST · team $800/mo +GST · Outcome talk to us.
  * All prices NZD, GST exclusive.
  *
@@ -12,7 +12,7 @@
  *
  * NOTE: lib/pricing.ts still carries older Industry Pack / Tōro canon for
  * unmigrated internal surfaces. New public commercial copy reads from here.
- * /pricing (CinematicPricing) imports the named amount constants below.
+ * /pricing imports the named amount constants below.
  */
 
 export type PricingRow = { label: string; price: string };
@@ -40,48 +40,48 @@ export const PRICING_NOTE = 'All prices NZD, GST exclusive.';
 export const PRICING_TIERS: PricingTier[] = [
   {
     name: 'install',
-    benefit: 'one real thing running in about two weeks.',
+    benefit: 'one useful, bounded job running in about two weeks.',
     rows: [{ label: 'the install', price: `${PRICE_INSTALL} +GST once` }],
     points: [
-      'two weeks: written record of how the business works, one agent on one real job, one customer journey end to end',
+      'two weeks: written working context, one DO on one real job, one end-to-end flow with review points',
       'first month of running included',
-      'NZ-hosted, Privacy Act 2020',
+      'data handling and hosting agreed for the engagement',
     ],
     cta: { label: 'see pricing', href: '/pricing' },
     featured: true,
   },
   {
     name: 'keep it running',
-    benefit: 'hosted, accurate, cancel any time.',
+    benefit: 'keep the installed job available and current.',
     rows: [{ label: 'monthly', price: `${PRICE_RUNNING}/mo +GST` }],
     points: [
       'hosting and running costs',
-      'written record kept current when prices, staff or policies change',
-      'you keep the written record either way',
+      'working context kept current when relevant facts, staff or rules change',
+      'you keep the written context either way',
     ],
     cta: { label: 'see pricing', href: '/pricing' },
   },
   {
     name: 'team',
-    benefit: 'a few agents covering one full journey.',
+    benefit: 'several bounded jobs or agents using the same agreed context.',
     rows: [{ label: 'monthly', price: `${PRICE_TEAM}/mo +GST` }],
     points: [
       'everything in keep it running',
-      'several agents, each with written limits',
-      'shared drafts the team can see',
+      'several agents or jobs, each with explicit limits',
+      'shared context and review points for the team',
     ],
     cta: { label: 'see pricing', href: '/pricing' },
   },
   {
     name: 'outcome',
-    benefit: 'priced on the work delivered, not seats.',
+    benefit: 'priced around the result when the work is bigger than one installed job.',
     rows: [{ label: 'custom', price: PRICE_OUTCOME }],
     points: [
       'scoped against a result you name',
       'scorecard agreed before we start',
-      'larger loyalty / wait→earn pilots: talk to us',
+      'can combine Pursuit, DO and Studio when the outcome needs the full loop',
     ],
-    cta: { label: 'talk to us', href: '/contact' },
+    cta: { label: 'talk to us', href: '/contact?product=system' },
   },
 ];
 
