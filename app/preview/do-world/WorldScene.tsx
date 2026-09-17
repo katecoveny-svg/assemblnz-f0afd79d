@@ -23,8 +23,8 @@ import {
 
 /** Brand field — deep plum / chalk / dusty rose. No purple D. */
 const FIELD = '#240B21';
-/** Harbour dusk fog — clear enough for Waitematā massing to read. */
-const FOG = '#24141c';
+/** Harbour dusk fog — clear enough for Waitematā massing; deep plum field. */
+const FOG = '#1f1018';
 /** Dusty rose — Identity glow + Spatial C accent (not cool violet). */
 const ROSE = '#916A70';
 const ROSE_WARM = '#c4a098';
@@ -519,12 +519,12 @@ export default function WorldScene(props: {
         antialias: true,
         powerPreference: 'high-performance',
         toneMapping: ACESFilmicToneMapping,
-        toneMappingExposure: 1.05,
+        toneMappingExposure: 1.02,
         outputColorSpace: SRGBColorSpace,
       }}
       onCreated={({ gl, invalidate }) => {
         gl.toneMapping = ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.05;
+        gl.toneMappingExposure = 1.02;
         gl.outputColorSpace = SRGBColorSpace;
         // Ensure the canvas element exists and demand-mode paints after mount.
         invalidate();

@@ -1,0 +1,20 @@
+/* Shared Auckland atelier stage — poster + WorldScene canvas. */
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background: #240b21;
+}
+.stage > div {
+  position: absolute !important;
+  inset: 0;
+  z-index: 1;
+}
+.poster {
+  object-fit: cover;
+  transition: opacity 700ms ease;
+}
+.posterDimmed {
+  opacity: 0;
+}

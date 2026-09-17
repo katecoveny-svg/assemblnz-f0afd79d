@@ -47,12 +47,16 @@ if (/<GlowDoWidget\b/.test(homeSource)) {
 }
 if (hasWorldHero) {
   const heroPath = 'components/site/assembl-the-work/AssemblWorldHero.tsx';
+  const stagePath = 'components/site/assembl-the-work/WorldAtelierStage.tsx';
   if (!existsSync(heroPath)) {
     errors.push(`${heroPath}: AssemblWorldHero is referenced on home but the module is missing`);
   } else {
     const hero = read(heroPath);
-    if (!/WorldScene/.test(hero)) {
-      errors.push(`${heroPath}: AssemblWorldHero must load WorldScene (atelier.glb fly-through)`);
+    const stage = existsSync(stagePath) ? read(stagePath) : '';
+    const wiresScene = /WorldScene/.test(hero) || /WorldAtelierStage/.test(hero);
+    const stageWiresScene = /WorldScene/.test(stage);
+    if (!wiresScene || ( /WorldAtelierStage/.test(hero) && !stageWiresScene)) {
+      errors.push(`${heroPath}: homepage must keep WorldScene / WorldAtelierStage → atelier.glb fly-through`);
     }
   }
   if (!existsSync('public/do/world/atelier.glb')) {
@@ -71,8 +75,8 @@ const publicFiles = [
   'components/site/assembl-the-work/AssemblWorldHero.tsx',
 ];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
+// Kate lock + #1342: /pursuit is NZ story landing; hub stays ChatGPT.
 const bannedHrefs = [
-  'href="/pursuit"',
   'href="/pursuit/playground"',
   'href="/studio/do-maker"',
   'href="/do/family"',
