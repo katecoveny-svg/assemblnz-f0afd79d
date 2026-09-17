@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "goal_id": "do-wherever-you-work",
+  "accepted_at": "2026-09-18",
+  "tracking_issue": 1360,
+  "goal": "One DO assistant across browser, native, mobile and hosted Pursuit/Studio: permissioned vision, reasoning, focused TypeSafe decisions, durable scoped records and specifically approved actions with verified receipts.",
+  "implementation_is_not_complete": true,
+  "workstreams": [
+    {
+      "id": "activate-typesafe",
+      "status": "blocked_on_secure_configuration_and_live_proof",
+      "done_when": "A signed-in allowlisted run returns an actual provider response with redacted evidence."
+    },
+    {
+      "id": "typesafe-to-do-preparation",
+      "status": "implemented_on_review_branch_pending_runtime_proof",
+      "done_when": "Existing DO draft preparation runs from the new opt-in bridge and passes full-app and live preview verification."
+    },
+    {
+      "id": "shared-device-identity",
+      "status": "planned",
+      "done_when": "Every inventoried supported surface authenticates, revokes and resumes one owner/workspace-scoped job."
+    },
+    {
+      "id": "vision-and-reasoning",
+      "status": "planned",
+      "done_when": "User-selected captures produce reviewable multimodal observations and useful plans with consent, provenance and stale-context checks."
+    },
+    {
+      "id": "durable-client-and-assembl-records",
+      "status": "planned",
+      "done_when": "Versioned records save/reopen after restart with tenant isolation, retention and conflict handling."
+    },
+    {
+      "id": "separately-hosted-pursuit-hubs",
+      "status": "blocked_on_hub_deployment_access",
+      "done_when": "The actual private hub opens the same authenticated durable job and records; link-only integration is insufficient."
+    },
+    {
+      "id": "approved-save-send-publish",
+      "status": "planned",
+      "done_when": "Payload-bound approvals, idempotency and provider/database verification prove exact authorised transactions."
+    },
+    {
+      "id": "cross-surface-release-proof",
+      "status": "planned",
+      "done_when": "All target surfaces pass accessible runtime, adversarial and recovery tests with measured budgets and rollback."
+    }
+  ],
+  "global_boundaries": [
+    "No unattended consequential actions from this goal alone",
+    "No default continuous screen capture",
+    "No cross-client memory promotion",
+    "No model confidence as permission",
+    "No mocked result labelled live",
+    "No saved/sent/published label without observed backing evidence"
+  ]
+}
