@@ -27,20 +27,17 @@
   position: relative;
   z-index: 1;
   padding: 110px 7%;
+  color: #fffdfb;
 }
-.copy > span {
-  font:
-    10px var(--font-mono),
-    monospace;
-  letter-spacing: 1.4px;
-  color: #f2dce8;
-}
+/* Explicit paper — global @layer base h2 uses --text-primary (#252d31),
+   which reads as forest-green on this plum film. Never inherit ink here. */
 .copy h2 {
   font:
     400 clamp(40px, 5.3vw, 85px) / 1.05 var(--font-body),
     sans-serif;
   letter-spacing: -0.065em;
-  margin: 28px 0 42px;
+  margin: 0 0 42px;
+  color: #fffdfb;
 }
 .copy a {
   display: inline-flex;
@@ -48,7 +45,7 @@
   align-items: center;
   padding-bottom: 13px;
   border-bottom: 1px solid #eac5daa1;
-  color: inherit;
+  color: #fffdfb;
   text-decoration: none;
   font-size: 16px;
 }
@@ -65,12 +62,14 @@
     10px var(--font-mono),
     monospace;
   letter-spacing: 1px;
+  color: #f5f1f2;
 }
 .controls button {
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
+  margin-left: auto;
   border: 1px solid #ecd0e599;
   border-radius: 50%;
   color: #fffdfb;
@@ -91,12 +90,6 @@
   }
   .copy {
     padding-top: 75px;
-  }
-  .copy > span {
-    font-size: 9px;
-    max-width: 200px;
-    display: block;
-    line-height: 1.7;
   }
   .copy h2 {
     font-size: 44px;
