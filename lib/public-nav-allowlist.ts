@@ -4,7 +4,8 @@
  * ALLOWED primary destinations only:
  *   1. Home (/) — WorldScene fly-through
  *   2. Studio (/creative-studio) — real Studio door
- *   3. Pursuit lean www (/pursuit) — Find the opening; hub link-out on page
+ *   3. Pursuit lean www (/pursuit) — atelier ProductLanding craft; hub link-out
+ *      (ChatGPT). Never bird landing / playground on www.
  *   4. Meeting DO (/do/meetings)
  *   5. Household DO (/do/household) — generic DEMO
  *   6. Public /do hub (Meeting + Household cards only)

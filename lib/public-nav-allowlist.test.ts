@@ -14,7 +14,6 @@ const PUBLIC_SURFACES = [
   'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
   'components/site/assembl-the-work/AssemblWorldHero.tsx',
   'components/site/assembl-the-work/ProductLanding.tsx',
-  'components/site/assembl-the-work/GlowDoWidget.tsx',
   'components/site/pursuit/PursuitLanding.tsx',
   'app/do/DoHome.tsx',
   'app/do/DoUtilityDock.tsx',

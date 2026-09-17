@@ -1,41 +1,86 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, FileText } from 'lucide-react';
 import { DoFilm } from '@/components/do/DoFilm';
 import { PRODUCT_DESTINATIONS, PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
 import './assembl-the-work.css';
 import './product-landing.css';
 
+/**
+ * Shared product door craft for Pursuit + Studio.
+ * Same atelier hero language as the homepage fly-through — no bird landing.
+ * Pursuit hub (ChatGPT) is the working workspace; www is brand + brief only.
+ */
 const content = {
   pursuit: {
-    name: 'Pursuit', line: 'find it.', eyebrow: 'RESEARCH. REASON. POSSIBILITY.',
-    heading: <>Find the opening.<br />Build the possibility.</>,
+    name: 'Pursuit',
+    line: 'find it.',
+    eyebrow: 'RESEARCH. REASON. POSSIBILITY.',
+    heading: (
+      <>
+        Find the opening.
+        <br />
+        Build the possibility.
+      </>
+    ),
     body: 'Bring client context, sources and a useful idea into one pursuit. Prepare work worth taking to the next conversation.',
-    action: 'Open your Pursuit hub', photo: '/do/world/atelier-poster.png',
+    action: 'Open Pursuit hub',
+    photo: '/do/world/atelier-poster.png',
     steps: [
-      ['Find a reason to act.', 'Research relevant public signals and the context you supply. Keep the original sources, dates and questions to validate.'],
-      ['Shape a credible idea.', 'Bring the customer moment, evidence and a proposed task onto the board. Develop the idea with the agent, then review the result.'],
-      ['Make the next conversation useful.', 'Keep the brief, opportunity, demonstrator and review notes in the private client workspace. Share only the experience you approve.'],
+      [
+        'Find a reason to act.',
+        'Research relevant public signals and the context you supply. Keep the original sources, dates and questions to validate.',
+      ],
+      [
+        'Shape a credible idea.',
+        'Bring the customer moment, evidence and a proposed task onto the board. Develop the idea with the agent, then review the result.',
+      ],
+      [
+        'Make the next conversation useful.',
+        'Keep the brief, opportunity, demonstrator and review notes in the private client workspace. Share only the experience you approve.',
+      ],
     ],
-    offer: 'A Pursuit sprint', deliverable: 'A focused opportunity brief, a developed concept and a plan for the next conversation.',
-    boundary: 'Your hub holds client work behind sign-in. New workspaces and business connections are set up as part of an agreed engagement.',
+    offer: 'A Pursuit sprint',
+    deliverable:
+      'A focused opportunity brief, a developed concept and a plan for the next conversation.',
+    boundary:
+      'Your hub holds client work behind sign-in. New workspaces and business connections are set up as part of an agreed engagement.',
   },
   studio: {
-    name: 'Studio', line: 'show it.', eyebrow: 'DIRECTION. CRAFT. SOMETHING YOU CAN TRY.',
-    heading: <>Give the idea<br />a world of its own.</>,
+    name: 'Studio',
+    line: 'show it.',
+    eyebrow: 'DIRECTION. CRAFT. SOMETHING YOU CAN TRY.',
+    heading: (
+      <>
+        Give the idea
+        <br />a world of its own.
+      </>
+    ),
     body: 'Turn a brief, an opportunity or a piece of work into a demonstrator, website, campaign, film or experience people can step inside.',
-    action: 'Open your Creative Studio', photo: '/do/world/atelier-poster.png',
+    action: 'Open your Creative Studio',
+    photo: '/do/world/atelier-poster.png',
     steps: [
-      ['Start with the work.', 'Bring an independent brief, a Pursuit opportunity or a DO result. Agree the audience, brand, useful outcome and what the experience needs to prove.'],
-      ['Make it tangible.', 'Build the experience around something a person can see, change or try. Keep the source, prepared work and review decisions together.'],
-      ['Review, then take it out.', 'Edit and export the work you approve. Provider connections, publication and project permissions are agreed before external actions are enabled.'],
+      [
+        'Start with the work.',
+        'Bring an independent brief, a Pursuit opportunity or a DO result. Agree the audience, brand, useful outcome and what the experience needs to prove.',
+      ],
+      [
+        'Make it tangible.',
+        'Build the experience around something a person can see, change or try. Keep the source, prepared work and review decisions together.',
+      ],
+      [
+        'Review, then take it out.',
+        'Edit and export the work you approve. Provider connections, publication and project permissions are agreed before external actions are enabled.',
+      ],
     ],
-    offer: 'A Studio engagement', deliverable: 'An agreed set of demonstrators, websites, campaign, film, pitch or interactive assets. Start with the smallest useful proof.',
-    boundary: 'Your creative workspace requires sign-in. Media generation and publication use the providers and permissions agreed for your project.',
+    offer: 'A Studio engagement',
+    deliverable:
+      'An agreed set of demonstrators, websites, campaign, film, pitch or interactive assets. Start with the smallest useful proof.',
+    boundary:
+      'Your creative workspace requires sign-in. Media generation and publication use the providers and permissions agreed for your project.',
   },
 } as const;
 
-/** Studio studies — Kate allowlist only (no Task DO Maker / DO Office promo). */
 const studies = [
   {
     id: 'world',
@@ -44,7 +89,8 @@ const studies = [
     image: '/do/world/atelier-poster.png',
     href: '/preview/do-world',
     action: 'Walk through the atelier',
-    description: 'A Blender-authored world with a scroll-led camera, an accessible still view and three connected spaces.',
+    description:
+      'A Blender-authored world with a scroll-led camera, an accessible still view and three connected spaces.',
     status: 'Architectural study. Not live agent activity.',
   },
   {
@@ -54,8 +100,54 @@ const studies = [
     image: '/do/world/atelier-poster.png',
     href: '/do/meetings',
     action: 'Open Meeting DO',
-    description: 'Record or paste → Deepgram transcript when configured → structured notes for review.',
+    description:
+      'Record or paste → Deepgram transcript when configured → structured notes for review.',
     status: 'Drafts only. Nothing is sent for you.',
+  },
+] as const;
+
+const pursuitBrief = [
+  {
+    label: 'llms.txt',
+    href: '/llms.txt',
+    detail: 'Machine-readable product map for agents and tools.',
+  },
+  {
+    label: 'llms-full.txt',
+    href: '/llms-full.txt',
+    detail: 'Full public story: Pursuit, DO, Studio, authority boundaries.',
+  },
+  {
+    label: 'Bring a brief',
+    href: '/contact?product=pursuit',
+    detail: 'Human path — scope a Pursuit sprint with assembl.',
+  },
+] as const;
+
+const systemLoop = [
+  {
+    id: 'pursuit',
+    label: '01 / Pursuit',
+    title: 'Find the opening.',
+    body: 'Evidence-backed opportunity in the private hub.',
+    href: PURSUIT_SITE_ORIGIN,
+    external: true,
+  },
+  {
+    id: 'do',
+    label: '02 / DO',
+    title: 'Prepare the work.',
+    body: 'Meeting notes and a generic Household board.',
+    href: '/do',
+    external: false,
+  },
+  {
+    id: 'studio',
+    label: '03 / Studio',
+    title: 'Make it tangible.',
+    body: 'A concept, pitch or experience to review.',
+    href: '/creative-studio',
+    external: false,
   },
 ] as const;
 
@@ -103,7 +195,12 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
                 See the work <ArrowRight size={18} />
               </a>
             ) : (
-              <a className="atw-pill" href={pursuitHub} target="_blank" rel="noopener noreferrer">
+              <a
+                className="atw-pill"
+                href={pursuitHub}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {c.action}
                 <ArrowUpRight size={18} />
               </a>
@@ -114,10 +211,103 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
             </Link>
           </div>
           <small className="product-hero-note">
-            An imagined atelier. The work below is labelled by its actual state.
+            An imagined atelier — the same world as the homepage fly-through.
+            Client work lives in the Pursuit hub.
           </small>
         </div>
       </section>
+
+      {product === 'pursuit' ? (
+        <>
+          <section
+            className="pursuit-system atw-section"
+            aria-labelledby="pursuit-system-title"
+          >
+            <header>
+              <div>
+                <p className="atw-kicker">ONE SYSTEM · FIND · DO · SHOW</p>
+                <h2 id="pursuit-system-title">
+                  Same atelier.
+                  <br />
+                  Three doors.
+                </h2>
+              </div>
+              <p>
+                Home, Pursuit, DO and Studio share plum craft and the Waitematā
+                atelier. The working Pursuit hub is the ChatGPT workspace —
+                linked out, not rebuilt as a separate public playground on www.
+              </p>
+            </header>
+            <div className="pursuit-system-links">
+              {systemLoop.map((item) =>
+                item.external ? (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>{item.label}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                ) : (
+                  <Link key={item.id} href={item.href}>
+                    <span>{item.label}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                    <ArrowUpRight aria-hidden="true" />
+                  </Link>
+                ),
+              )}
+            </div>
+          </section>
+          <section
+            className="pursuit-brief atw-section"
+            id="pursuit-brief"
+            aria-labelledby="pursuit-brief-title"
+          >
+            <header>
+              <div>
+                <p className="atw-kicker">FOR AGENTS · READABLE BRIEF</p>
+                <h2 id="pursuit-brief-title">Not a live demo.</h2>
+              </div>
+              <p>
+                www does not run company lookups or mint task agents. Read the
+                structured docs, then open the private hub when you have access.
+              </p>
+            </header>
+            <ul className="pursuit-brief-list">
+              {pursuitBrief.map((item) => (
+                <li key={item.href}>
+                  {item.href.startsWith('/llms') ? (
+                    <a href={item.href}>
+                      <FileText size={18} aria-hidden="true" />
+                      <strong>{item.label}</strong>
+                      <span>{item.detail}</span>
+                    </a>
+                  ) : (
+                    <Link href={item.href}>
+                      <FileText size={18} aria-hidden="true" />
+                      <strong>{item.label}</strong>
+                      <span>{item.detail}</span>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <p className="pursuit-brief-note">
+              Canonical hub:{' '}
+              <a href={pursuitHub} target="_blank" rel="noopener noreferrer">
+                assembl-pursuit.katecoveny.chatgpt.site
+              </a>
+              . No in-repo playground on www.
+            </p>
+          </section>
+        </>
+      ) : null}
+
       {product === 'studio' ? (
         <>
           <section
@@ -175,6 +365,7 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
           <DoFilm />
         </>
       ) : null}
+
       <section className="product-work atw-section">
         <div>
           <p className="atw-kicker">
@@ -205,7 +396,10 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
         <h2>{c.offer}.</h2>
         <p>{c.deliverable}</p>
         <div>
-          <Link className="atw-pill atw-pill-dark" href={`/contact?product=${product}`}>
+          <Link
+            className="atw-pill atw-pill-dark"
+            href={`/contact?product=${product}`}
+          >
             Scope the work
             <ArrowUpRight size={18} />
           </Link>
@@ -232,12 +426,14 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
         </p>
         <nav aria-label="Product footer">
           <Link href="/">Home</Link>
+          <Link href="/do">DO</Link>
+          <Link href="/creative-studio">Studio</Link>
           <a
             href={product === 'pursuit' ? pursuitHub : destination.workspace}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Your workspace
+            {product === 'pursuit' ? 'Pursuit hub' : 'Your workspace'}
           </a>
           <Link href="/contact">Contact</Link>
           <Link href="/legal/privacy">Privacy</Link>

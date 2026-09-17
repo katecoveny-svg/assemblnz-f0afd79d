@@ -2,3 +2,29 @@
 .product-page .product-hero h1{font-family:var(--font-body),'Instrument Sans',sans-serif;color:#fffdfb}.product-page .product-hero .atw-pill{color:#240b21;background:#fffdfb}.product-hero-note{display:block;margin-top:26px;font:10px/1.6 var(--font-mono),monospace;color:#f5f1f2}.studio-work>header{display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:end;margin-bottom:60px}.studio-work>header h2{margin-top:22px}.studio-work>header>p{max-width:410px;line-height:1.7;color:#654a4e}.studio-studies{display:grid;grid-template-columns:1fr 1fr;gap:64px 38px}.studio-study-world{grid-column:1/-1;display:grid;grid-template-columns:1.5fr 1fr;gap:38px;align-items:center}.studio-study-image{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;background:#240b21}.studio-study-image img{object-fit:cover;transition:transform .7s}.studio-study-maker .studio-study-image img{object-fit:contain}.studio-study-image:hover img{transform:scale(1.025)}.studio-study-image>span{position:absolute;left:20px;top:20px;background:#240b21e6;color:#fffdfb;padding:8px 11px;font:10px/1.4 var(--font-mono),monospace;letter-spacing:.06em}.studio-study-image>svg{position:absolute;right:20px;bottom:20px;color:#fffdfb}.studio-study-copy{padding-top:25px}.studio-study-copy h3{font-family:var(--font-body),'Instrument Sans',sans-serif;font-size:34px;line-height:1.1;letter-spacing:-.045em;color:#240b21}.studio-study-copy p{color:#654a4e;line-height:1.7;margin:19px 0!important;max-width:430px}.studio-study-copy small{display:block;margin-top:23px;font:10px/1.7 var(--font-mono),monospace;color:#654a4e}.product-page h2,.product-page h3{font-family:var(--font-body),'Instrument Sans',sans-serif}.product-page .product-work h2{font-size:clamp(40px,4.4vw,64px)}
 @media(max-width:650px){.studio-work>header,.studio-studies,.studio-study-world{display:grid;grid-template-columns:1fr;gap:28px}.studio-study-world{grid-column:auto}.studio-work>header{margin-bottom:36px}.studio-study-copy{padding-top:0}.studio-study-copy h3{font-size:29px}.studio-studies{gap:48px}.studio-study-image>span{font-size:9px;left:12px;top:12px}.product-hero-note{max-width:260px}}
 @media(prefers-reduced-motion:reduce){.studio-study-image img{transition:none}.studio-study-image:hover img{transform:none}}
+
+.pursuit-system>header,.pursuit-brief>header{display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:end;margin-bottom:48px}
+.pursuit-system>header h2,.pursuit-brief>header h2{margin-top:22px}
+.pursuit-system>header>p,.pursuit-brief>header>p{max-width:420px;line-height:1.7;color:#654a4e}
+.pursuit-system-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.pursuit-system-links>a{position:relative;display:block;padding:26px 0 42px;border-top:1px solid #240b2130;color:inherit;text-decoration:none}
+.pursuit-system-links span{font:10px/1.5 var(--font-mono),monospace;letter-spacing:.1em;color:#916a70}
+.pursuit-system-links h3{font-size:28px;line-height:1.15;margin:18px 0 12px;letter-spacing:-.04em;color:#240b21}
+.pursuit-system-links p{font-size:15px;line-height:1.6;color:#654a4e;max-width:240px}
+.pursuit-system-links>a>svg{position:absolute;right:0;bottom:8px;width:18px;color:#240b21}
+.pursuit-brief{background:#f5f1f2}
+.pursuit-brief-list{list-style:none;margin:0;padding:0;display:grid;gap:0;max-width:720px}
+.pursuit-brief-list a{display:grid;grid-template-columns:28px 1fr;grid-template-rows:auto auto;column-gap:14px;padding:22px 0;border-top:1px solid #240b2128;color:inherit;text-decoration:none}
+.pursuit-brief-list a:hover strong{text-decoration:underline;text-underline-offset:4px}
+.pursuit-brief-list svg{grid-row:1 / span 2;margin-top:3px;color:#916a70}
+.pursuit-brief-list strong{font:500 17px/1.3 var(--font-body),"Instrument Sans",sans-serif;color:#240b21;letter-spacing:-.02em}
+.pursuit-brief-list span{font:12px/1.55 var(--font-mono),"IBM Plex Mono",monospace;color:#654a4e;margin-top:6px}
+.pursuit-brief-note{margin-top:28px!important;font:11px/1.7 var(--font-mono),monospace;color:#654a4e}
+.pursuit-brief-note a{color:#240b21;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:650px){
+.pursuit-system>header,.pursuit-brief>header,.pursuit-system-links{grid-template-columns:1fr;gap:24px}
+.pursuit-system>header,.pursuit-brief>header{margin-bottom:32px}
+.pursuit-system-links h3{font-size:26px}
+.pursuit-system-links>a{padding-bottom:28px}
+.pursuit-system-links>a>svg{bottom:18px}
+}

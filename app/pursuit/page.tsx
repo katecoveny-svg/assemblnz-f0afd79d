@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
-import { PursuitLanding } from '@/components/site/pursuit/PursuitLanding';
+import { ProductLanding } from '@/components/site/assembl-the-work/ProductLanding';
 
 export const metadata: Metadata = {
   title: { absolute: 'Pursuit · find it. · assembl' },
   description:
-    'Research the opportunity, develop a credible idea and prepare the next conversation with assembl Pursuit. Machine-readable docs for agents; private hub for client work.',
+    'Find the opening. Build the possibility. Assembl Pursuit landing on the shared atelier — private client work lives in the ChatGPT Pursuit hub.',
   alternates: { canonical: '/pursuit' },
 };
 
-/** Lean www Pursuit — Find the opening. No playground / NZ-tool demo. */
+/**
+ * www Pursuit door — same atelier ProductLanding craft as Studio / home fly-through.
+ * No bird hero. Working hub is external ChatGPT only.
+ */
 export default function PursuitPage() {
-  return <PursuitLanding />;
+  return <ProductLanding product="pursuit" />;
 }
