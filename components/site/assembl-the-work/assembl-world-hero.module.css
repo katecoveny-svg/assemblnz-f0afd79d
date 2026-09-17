@@ -24,9 +24,13 @@
   padding: 24px 5.5% 20px;
 }
 .stage, .scrim { position: absolute; inset: 0; pointer-events: none; }
+/* Soft neutral vignette for type — not a plum atmospheric wash over the atelier.
+   Stage/poster live in world-atelier-stage.module.css (shared landings). */
 .scrim {
   z-index: -1;
-  background: linear-gradient(90deg, #240b21d9, #240b2180 45%, #240b2120 78%), linear-gradient(0deg, #240b21e8, transparent 38%, transparent 70%, #240b2180);
+  background:
+    linear-gradient(90deg, rgba(18, 14, 16, 0.52), rgba(18, 14, 16, 0.22) 42%, transparent 74%),
+    linear-gradient(0deg, rgba(18, 14, 16, 0.58), transparent 34%, transparent 72%, rgba(18, 14, 16, 0.26));
 }
 .nav { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
 .rail .wordmark { color: var(--paper); font-size: 34px; font-weight: 500; letter-spacing: -.06em; line-height: 1; }
@@ -92,7 +96,11 @@
   .rail[data-static] .stillSummary { grid-template-columns: 1fr; padding: 32px 6%; gap: 30px; }
   .job { margin-right: 0; }
   .rail .honesty { margin: 15px 72px 0 0; font-size: 9px; }
-  .scrim { background: linear-gradient(90deg, #240b21eb, #240b21a3), linear-gradient(0deg, #240b21, transparent 70%); }
+  .scrim {
+    background:
+      linear-gradient(90deg, rgba(18, 14, 16, 0.62), rgba(18, 14, 16, 0.34) 55%, transparent 88%),
+      linear-gradient(0deg, rgba(18, 14, 16, 0.72), transparent 68%);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .rail { height: auto; }

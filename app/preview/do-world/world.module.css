@@ -11,11 +11,11 @@
 }
 
 .world {
-  /* Spatial C field: deep plum, rose edge — no purple wash. */
-  --field: #241018;
-  --rose: #d7abc8;
+  /* Daylight field: paper / chalk first. Plum + rose stay on UI chrome + accents. */
+  --field: #fffdfb;
+  --ink: #240b21;
   --rose-dust: #916a70;
-  --chalk: #fff6ef;
+  --chalk: #f5f1f2;
   background: var(--field);
   color: var(--chalk);
   position: relative;
@@ -25,9 +25,8 @@
 .stage {
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 72% 28%, rgba(145, 106, 112, 0.45), transparent 55%),
-    radial-gradient(ellipse at 30% 80%, rgba(36, 16, 24, 0.9), #1a0e14);
+  /* Neutral paper under the canvas — no rose radial / plum dusk wash. */
+  background: var(--field);
   pointer-events: none;
 }
 
@@ -54,7 +53,8 @@
   justify-content: space-between;
   gap: 24px;
   padding: 28px 5vw;
-  background: linear-gradient(#20131f99, transparent);
+  color: var(--ink);
+  background: linear-gradient(rgba(255, 253, 251, 0.92), transparent);
 }
 
 .header a {
@@ -72,7 +72,7 @@
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #f1d4e0;
+  color: #654a4e;
 }
 
 .nav {
@@ -84,8 +84,8 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  background: #1c1018e8;
-  border: 1px solid #f1c3da55;
+  background: #240b21f0;
+  border: 1px solid #fffdfb33;
   border-radius: 30px;
   padding: 10px 18px;
   white-space: nowrap;
@@ -96,7 +96,7 @@
 .nav button {
   font: inherit;
   font-size: 13px;
-  color: #fff3f8;
+  color: #fffdfb;
   text-decoration: none;
   background: none;
   border: 0;
@@ -106,7 +106,7 @@
 }
 
 .navActive {
-  background: #f1c3da22;
+  background: #916a7033;
   color: #fff;
 }
 
@@ -127,7 +127,8 @@
   align-items: center;
   padding: 100px 8vw;
   scroll-margin-top: 0;
-  background: linear-gradient(90deg, #1a101ddd, transparent 72%);
+  /* Soft charcoal type panel — not plum fog across the room. */
+  background: linear-gradient(90deg, rgba(18, 14, 16, 0.72), transparent 72%);
 }
 
 .chapter > div {
@@ -138,11 +139,11 @@
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #efbed3;
+  color: #f5f1f2;
 }
 
 .chapter h2 {
-  color: #fff3f6;
+  color: #fffdfb;
   font-family: inherit;
   font-size: clamp(88px, 12vw, 180px);
   line-height: 0.9;
@@ -163,7 +164,7 @@
   gap: 32px;
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px solid #dab7c4;
+  border-bottom: 1px solid #fffdfb66;
   padding: 18px 0;
   max-width: 260px;
   margin-top: 28px;
@@ -172,16 +173,17 @@
 .footer {
   position: relative;
   padding: 30px 8vw 115px;
-  background: #211520;
+  background: #240b21;
   font-size: 12px;
-  color: #d7c0c8;
+  color: #f5f1f2;
 }
 
 .fallback {
   position: relative;
   z-index: 2;
   padding: 130px 5vw;
-  background: #241720cc;
+  background: #fffdfbcc;
+  color: #240b21;
 }
 
 @media (max-width: 600px) {
@@ -211,7 +213,7 @@
 
   .chapter {
     padding: 100px 7vw;
-    background: linear-gradient(90deg, #1a101dbb, transparent);
+    background: linear-gradient(90deg, rgba(18, 14, 16, 0.7), transparent);
     min-height: 100svh;
   }
 
