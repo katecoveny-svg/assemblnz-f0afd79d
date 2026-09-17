@@ -3,7 +3,7 @@ on:
   push:
     branches: ['design/scandi-office-source-20260918']
     paths:
-      - 'scripts/design/build_scandi_office.py'
+      - 'scripts/design/*.py'
       - '.github/workflows/scandi-office-authoring.yml'
   workflow_dispatch:
 permissions:
@@ -27,12 +27,9 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p visual-evidence/scandi
-          git rev-parse HEAD
-          sha256sum scripts/design/build_scandi_office.py
-          grep -n 'ShaderNode' scripts/design/build_scandi_office.py
-          blender -b -t 4 --python-exit-code 1 --python scripts/design/build_scandi_office.py 2>&1 | tee visual-evidence/scandi/render.log
+          blender -b -t 4 --python-exit-code 1 --python scripts/design/render_scandi_review.py 2>&1 | tee visual-evidence/scandi/render.log
           python - <<'PY'
-          import json, struct
+          import json
           from pathlib import Path
           root=Path('public/do/world/scandi-v1')
           for name in ['scandi-office.glb','harbour-workroom.jpg','review-room.jpg','studio-lounge.jpg','scene-manifest.json']:
