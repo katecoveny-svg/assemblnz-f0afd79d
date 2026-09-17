@@ -27,6 +27,8 @@ jobs:
           s=p.read_text()
           pairs=[(".toContain('assembl-do-extension-1.5.2.zip')", ".toContain(`assembl-do-extension-${EXTENSION_VERSION}.zip`)"),
                  ("expect(manifest.version).toBe('1.5.2')", "expect(manifest.version).toBe(EXTENSION_VERSION)"),
+                 ("expect(manifest.side_panel.default_path).toBe('sidepanel.html')", "expect(manifest.side_panel.default_path).toBe('portable.html');\n    expect(zip.file('portable.html')).toBeTruthy()"),
+                 ("expect(manifest.background.service_worker).toBe('background.js')", "expect(manifest.background.service_worker).toBe('portable-worker.js');\n    expect(zip.file('portable-worker.js')).toBeTruthy()"),
                  ("expect(readme).toMatch(/no notarised public Mac installer/i)", "expect(readme).toMatch(/not a notarised public Mac installer/i)"),
                  ("expect(readme).toContain('./build.sh')", "expect(readme).toContain('bash build.sh')"),
                  ("it('keeps an origin value inside a JavaScript string'", "it('rejects an invalid origin before generating JavaScript'"),
