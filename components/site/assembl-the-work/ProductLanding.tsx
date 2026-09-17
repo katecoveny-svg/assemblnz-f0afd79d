@@ -1,237 +1,40 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { DoFilm } from '@/components/do/DoFilm';
-import { PRODUCT_DESTINATIONS, PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import { ArrowDown, ArrowUpRight, LockKeyhole } from 'lucide-react';
+import { StudioGallery } from './ImmersiveExperience';
+import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import './assembl-the-work.css';
 import './product-landing.css';
+import './immersive-studio.css';
 
 const content = {
   pursuit: {
-    name: 'Pursuit', line: 'find it.', eyebrow: 'SIGNALS. EVIDENCE. POSSIBILITY.',
-    heading: <>Find the opening.<br />Build the possibility.</>,
-    body: 'Bring live signals, source evidence and business context together in one pursuit. Work out what is worth acting on and what the next move should be.',
-    action: 'Open your Pursuit hub', photo: '/do/world/atelier-poster.png',
-    steps: [
-      ['Find a reason to act.', 'Research relevant public signals and the context you supply. Keep the original sources, dates and questions to validate.'],
-      ['Shape a credible idea.', 'Bring the customer moment, evidence and a proposed task onto the board. Develop the idea, then review the result.'],
-      ['Make the next conversation useful.', 'Keep the brief, opportunity, demonstrator and review notes together. Share only the experience you approve.'],
-    ],
-    offer: 'A Pursuit sprint', deliverable: 'A focused opportunity brief, a developed concept and a plan for the next conversation.',
-    boundary: 'Client work stays behind sign-in. New workspaces and business connections are set up as part of an agreed engagement.',
+    name:'Pursuit', verb:'find it.', heading:<>Find the opening.<br />Build the possibility.</>,
+    body:'Bring signals, source evidence and business context together. Work out what is worth acting on and what the next move should be.',
+    action:'Open client hubs', image:'/do/world/atelier-poster.png',
+    steps:[['Find a reason to act.','Keep relevant signals with their sources, dates and questions to validate.'],['Shape a credible idea.','Bring the customer moment, evidence and proposed work into one brief.'],['Make the conversation useful.','Keep the opportunity, demonstrator and review notes together. Share only the work you approve.']],
+    offer:'A focused Pursuit sprint.', deliverable:'An opportunity brief, a developed concept and a plan for the next conversation.',
   },
   studio: {
-    name: 'Studio', line: 'show it.', eyebrow: 'DIRECTION. CRAFT. SOMETHING YOU CAN TRY.',
-    heading: <>Give the idea<br />a world of its own.</>,
-    body: 'Turn a brief, an opportunity or a piece of work into a demonstrator, website, campaign, film or experience people can step inside.',
-    action: 'Open your Creative Studio', photo: '/do/world/atelier-poster.png',
-    steps: [
-      ['Start with the work.', 'Bring an independent brief, a Pursuit opportunity or a DO result. Agree the audience, brand, useful outcome and what the experience needs to prove.'],
-      ['Make it tangible.', 'Build the experience around something a person can see, change or try. Keep the source, prepared work and review decisions together.'],
-      ['Review, then take it out.', 'Edit and export the work you approve. Provider connections, publication and project permissions are agreed before external actions are enabled.'],
-    ],
-    offer: 'A Studio engagement', deliverable: 'An agreed set of demonstrators, websites, campaign, film, pitch or interactive assets. Start with the smallest useful proof.',
-    boundary: 'Your creative workspace requires sign-in. Media generation and publication use the providers and permissions agreed for your project.',
+    name:'Studio', verb:'show it.', heading:<>Give the idea<br />a world of its own.</>,
+    body:'Interactive demonstrations. Websites. Campaigns. Image and film. Turn the possibility into something people can see, change and try.',
+    action:'Open Creative Studio', image:'/do/office/office-poster.webp',
+    steps:[['Start with the work.','Bring an independent brief, a Pursuit opportunity or a DO result. Agree the audience, the brand and what the experience needs to prove.'],['Make it tangible.','Build the demonstrator, website, campaign or film around something a person can see, change or try.'],['Review. Refine. Release.','Keep the work and review decisions together. Export or publish through the providers and permissions agreed for your project.']],
+    offer:'Start with one useful proof.', deliverable:'A demonstrator, website, pitch, campaign or film. Agree the smallest useful scope, then build from there.',
   },
 } as const;
 
-/** Studio studies — Kate allowlist only (no Task DO Maker / DO Office / public DO shelf). */
-const studies = [
-  {
-    id: 'world',
-    title: 'Step inside the idea.',
-    type: '3D / INTERACTIVE STUDY',
-    image: '/do/world/atelier-poster.png',
-    href: '/preview/do-world',
-    action: 'Walk through the atelier',
-    description: 'A spatial study showing how an idea can become an explorable environment rather than another static deck.',
-    status: 'Architectural study. Not live agent activity.',
-  },
-  {
-    id: 'contact',
-    title: 'Bring DO into a real engagement.',
-    type: 'DO',
-    image: '/do/world/atelier-poster.png',
-    href: '/contact?product=do',
-    action: 'Talk about DO',
-    description: 'DO works where the work already happens. Talk to assembl when you want it opened for your team.',
-    status: 'Product availability and permissions are agreed per engagement.',
-  },
-] as const;
-
-export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
-  const c = content[product];
-  const destination = PRODUCT_DESTINATIONS[product];
-  const pursuitHub = PURSUIT_SITE_ORIGIN;
-  return (
-    <div className="atw product-page">
-      <section
-        className="product-hero"
-        style={{
-          backgroundImage: `linear-gradient(105deg,#240b21f2 0%,#240b21cc 42%,#654a4e66 72%,#240b2133),radial-gradient(120% 80% at 78% 40%,#916a7040,transparent 55%),url(${c.photo})`,
-        }}
-      >
-        <header className="atw-nav">
-          <Link className="atw-wordmark" href="/">
-            assembl
-          </Link>
-          <nav aria-label="Primary">
-            <Link href="/pursuit" aria-current={product === 'pursuit' ? 'page' : undefined}>Pursuit</Link>
-            <Link href="/do">DO</Link>
-            <Link
-              href="/creative-studio"
-              aria-current={product === 'studio' ? 'page' : undefined}
-            >
-              Studio
-            </Link>
-          </nav>
-        </header>
-        <div className="product-hero-copy">
-          <p className="atw-kicker">
-            {c.name.toUpperCase()} / {c.eyebrow}
-          </p>
-          <h1>{c.heading}</h1>
-          <p>{c.body}</p>
-          <div>
-            {product === 'studio' ? (
-              <a className="atw-pill" href="#studio-work">
-                See the work <ArrowRight size={18} />
-              </a>
-            ) : (
-              <a className="atw-pill" href={pursuitHub} target="_blank" rel="noopener noreferrer">
-                {c.action}
-                <ArrowUpRight size={18} />
-              </a>
-            )}
-            <Link className="atw-text-link" href={`/contact?product=${product}`}>
-              Bring a brief
-              <ArrowUpRight size={18} />
-            </Link>
-          </div>
-        </div>
-      </section>
-      {product === 'studio' ? (
-        <>
-          <section
-            className="studio-work atw-section"
-            id="studio-work"
-            aria-labelledby="studio-work-title"
-          >
-            <header>
-              <div>
-                <p className="atw-kicker">OPEN IT. MOVE THROUGH IT. TRY IT.</p>
-                <h2 id="studio-work-title">See the work.</h2>
-              </div>
-              <p>
-                Existing assembl studies. Open each one to see what it does and
-                what still needs connecting.
-              </p>
-            </header>
-            <div className="studio-studies">
-              {studies.map((study) => (
-                <article
-                  className={`studio-study studio-study-${study.id}`}
-                  key={study.id}
-                >
-                  <Link
-                    className="studio-study-image"
-                    href={study.href}
-                    aria-label={study.action}
-                  >
-                    <Image
-                      src={study.image}
-                      alt=""
-                      fill
-                      sizes={
-                        study.id === 'world'
-                          ? '(max-width:650px) 100vw, 70vw'
-                          : '(max-width:650px) 100vw, 40vw'
-                      }
-                    />
-                    <span>{study.type}</span>
-                    <ArrowUpRight size={26} aria-hidden="true" />
-                  </Link>
-                  <div className="studio-study-copy">
-                    <h3>{study.title}</h3>
-                    <p>{study.description}</p>
-                    <Link className="atw-text-link" href={study.href}>
-                      {study.action}
-                      <ArrowUpRight size={17} />
-                    </Link>
-                    <small>{study.status}</small>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-          <DoFilm />
-        </>
-      ) : null}
-      <section className="product-work atw-section">
-        <div>
-          <p className="atw-kicker">
-            {c.name.toUpperCase()} / {c.line.toUpperCase()}
-          </p>
-          <h2>
-            From a brief
-            <br />
-            to something
-            <br />
-            worth trying.
-          </h2>
-        </div>
-        <ol>
-          {c.steps.map(([title, body], i) => (
-            <li key={title}>
-              <span>0{i + 1}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section className="product-offer atw-section">
-        <p className="atw-kicker">USE ONE. CONNECT TWO. RUN THE WHOLE LOOP.</p>
-        <h2>{c.offer}.</h2>
-        <p>{c.deliverable}</p>
-        <div>
-          <Link className="atw-pill atw-pill-dark" href={`/contact?product=${product}`}>
-            Scope the work
-            <ArrowUpRight size={18} />
-          </Link>
-          <a
-            className="atw-text-link"
-            href={product === 'pursuit' ? pursuitHub : destination.workspace}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {c.action}
-            <ArrowUpRight size={18} />
-          </a>
-        </div>
-        <small>{c.boundary}</small>
-      </section>
-      <footer className="atw-footer">
-        <Link className="atw-wordmark" href="/">
-          assembl
-        </Link>
-        <p>
-          find it. DO it. show it.
-          <br />
-          Built in New Zealand.
-        </p>
-        <nav aria-label="Product footer">
-          <Link href="/">Home</Link>
-          <Link href="/pursuit">Pursuit</Link>
-          <Link href="/do">DO</Link>
-          <Link href="/creative-studio">Studio</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/legal/privacy">Privacy</Link>
-        </nav>
-        <span>Client work stays in its private workspace.</span>
-      </footer>
-    </div>
-  );
+export function ProductLanding({product}:{product:'pursuit'|'studio'}) {
+  const c=content[product];
+  const workspace=PRODUCT_DESTINATIONS[product].workspace;
+  return <div className="atw product-page immersive-studio">
+    <a className="atw-skip" href="#studio-work">Skip to the work</a>
+    <section className="product-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(36,11,33,.72),rgba(36,11,33,.18)),url(${c.image})`}}>
+      <header className="atw-nav"><Link className="atw-wordmark" href="/">assembl</Link><nav aria-label="Primary"><Link href="/pursuit" aria-current={product==='pursuit'?'page':undefined}>Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio" aria-current={product==='studio'?'page':undefined}>Studio</Link></nav></header>
+      <div className="product-hero-copy"><p className="atw-kicker">{c.name} / {c.verb}</p><h1>{c.heading}</h1><p>{c.body}</p><div><a className="atw-pill" href="#studio-work">See the possibilities <ArrowDown size={18} aria-hidden="true" /></a><a className="atw-text-link" href={workspace} target="_blank" rel="noopener noreferrer">{c.action}<ArrowUpRight size={18} aria-hidden="true" /></a></div><small className="studio-workspace-note"><LockKeyhole size={12} aria-hidden="true" />Your existing private workspace. Sign-in required.</small></div>
+    </section>
+    {product==='studio'?<StudioGallery />:<section className="product-work atw-section" id="studio-work"><h2>The opportunity.<br />The evidence.<br />The next move.</h2></section>}
+    <section className="product-work atw-section"><div><p className="atw-kicker">the work behind the experience</p><h2>From a brief<br />to something<br />worth trying.</h2></div><ol>{c.steps.map(([title,body],index)=><li key={title}><span>0{index+1}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol></section>
+    <section className="product-offer atw-section"><p className="atw-kicker">use one. connect two. run the whole loop.</p><h2>{c.offer}</h2><p>{c.deliverable}</p><div><Link className="atw-pill atw-pill-dark" href={`/contact?product=${product}`}>Bring a brief <ArrowUpRight size={18} aria-hidden="true" /></Link><a className="atw-text-link" href={workspace} target="_blank" rel="noopener noreferrer">{c.action}<ArrowUpRight size={18} aria-hidden="true" /></a></div><small>Client work stays private. Provider connections, publication and permissions are agreed for each project.</small></section>
+    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>find it. DO it. show it.<br />Built in New Zealand.</p><nav aria-label="Product footer"><Link href="/">Home</Link><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>Good work comes together.</span></footer>
+  </div>;
 }

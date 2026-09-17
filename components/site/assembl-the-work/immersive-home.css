@@ -1,0 +1,26 @@
+/* Scoped to the public homepage. Private workspaces and client brands are untouched. */
+.atw-immersive{background:#fffdfb;color:#240b21;overflow:clip}
+.atw-immersive .atw-product-strip{position:relative;z-index:4;background:#fffdfb;padding:26px 6%;gap:24px;min-height:100px}
+.atw-immersive .atw-product-strip>a{justify-content:flex-start;gap:18px;font-size:18px;min-height:44px}
+.atw-immersive .atw-product-strip>a>span{color:#916a70;font-size:14px}
+.atw-immersive .atw-product-strip>p{font-size:11px;color:#654a4e;line-height:1.7}
+.immersive-statement{padding:100px 6%;background:#240b21;color:#fffdfb;display:grid;grid-template-columns:1.1fr .9fr;column-gap:10%;position:relative;overflow:hidden}
+.immersive-statement>p{grid-column:1/-1;font:500 10px/1.7 var(--font-body),sans-serif;text-transform:uppercase;letter-spacing:.15em;color:#ddc7d5;margin-bottom:35px!important}
+.atw-immersive .immersive-statement h2{font-family:var(--font-body),sans-serif;font-weight:400;font-size:clamp(55px,7.3vw,106px);letter-spacing:-.06em;line-height:.98;color:#fffdfb}
+.immersive-statement h2>span{color:#d6b5c9}
+.immersive-statement>div{align-self:end;max-width:400px;padding-bottom:5px}
+.immersive-statement>div>p{font-size:18px;line-height:1.7;color:#e5d3df;margin-bottom:30px!important}
+.immersive-statement a{display:inline-flex;align-items:center;gap:25px;min-height:48px;border-bottom:1px solid #fffdfb55;font-size:14px;color:#fffdfb}
+.immersive-close{padding:110px 6%;display:grid;grid-template-columns:1.3fr .8fr;gap:10%;align-items:center;background:#f5f1f2;position:relative}
+.immersive-close .atw-kicker{font-family:var(--font-body),sans-serif;color:#654a4e;font-size:10px;margin-bottom:25px!important}
+.atw-immersive .immersive-close h2{font-size:clamp(42px,5.3vw,78px);line-height:1.03;font-weight:400;letter-spacing:-.06em}
+.immersive-close h2>span{color:#916a70}
+.immersive-close>div>p:not(.atw-kicker){font-size:16px;line-height:1.7;max-width:44ch;color:#654a4e;margin:25px 0 28px!important}
+.immersive-close aside{border-top:1px solid #240b212b;padding-top:25px}
+.immersive-close aside>p{font-size:13px;margin-bottom:14px!important;color:#654a4e}
+.immersive-close aside>a{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;border-bottom:1px solid #240b212b;font-size:22px;letter-spacing:-.04em;min-height:96px}
+.immersive-close aside>a small{display:block;font-size:10px;letter-spacing:.06em;margin-bottom:6px;color:#916a70}
+.immersive-close aside>small{display:flex;gap:8px;font-size:10px;line-height:1.6;color:#654a4e;margin-top:19px}.immersive-close aside>small>svg{flex-shrink:0;margin-top:2px}
+.atw-immersive .atw-footer{padding:45px 6% 25px;background:#fffdfb}
+.atw-immersive .atw-footer nav a{display:inline-flex;align-items:center;min-height:44px}
+@media(max-width:760px){.atw-immersive .atw-product-strip{grid-template-columns:repeat(3,minmax(0,1fr));padding:19px 6%;gap:12px}.atw-immersive .atw-product-strip>a{border:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;font-size:16px}.atw-immersive .atw-product-strip>a>span{font-size:11px}.atw-immersive .atw-product-strip>p{grid-column:1/-1;padding:12px 0 0;margin-top:0!important;border-top:1px solid #240b2115;font-size:10px}.immersive-statement{padding:75px 6%;grid-template-columns:1fr;gap:30px}.immersive-statement>p{margin-bottom:0!important;font-size:9px}.atw-immersive .immersive-statement h2{font-size:clamp(49px,13vw,88px)}.immersive-statement>div>p{font-size:15px;margin-bottom:20px!important;max-width:35ch}.immersive-statement a{font-size:13px}.immersive-close{grid-template-columns:1fr;padding:75px 6%;gap:45px}.atw-immersive .immersive-close h2{font-size:clamp(39px,10.5vw,66px)}.immersive-close>div>p:not(.atw-kicker){font-size:14px}.immersive-close aside>a{font-size:23px}.atw-immersive .atw-footer{grid-template-columns:1fr;gap:20px}.atw-immersive .atw-footer nav{gap:4px 20px}}

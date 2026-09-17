@@ -3,89 +3,24 @@
 import { usePathname } from 'next/navigation';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { V2Footer } from '@/components/v2/V2Footer';
-import {
-  isDashMicrosite,
-  isAgentMarketplace,
-  isAtlas,
-  isEcho,
-  isAuthSurface,
-  isAdminHub,
-  isCustomerWorkspace,
-  isAlphassembl,
-  isAssemblBills,
-  isStandaloneHealth,
-  isMotionStudio,
-  isCreativeStudio,
-  isStudio,
-  isBuildAnAgent,
-  isLab,
-} from '@/components/site/site-header';
+import { isDashMicrosite, isAgentMarketplace, isAtlas, isEcho, isAuthSurface, isAdminHub, isCustomerWorkspace, isAlphassembl, isAssemblBills, isStandaloneHealth, isMotionStudio, isCreativeStudio, isStudio, isBuildAnAgent, isLab } from '@/components/site/site-header';
 
-// Editorial gallery rebuild owns its own wordmark + footer.
-// The cinematic surfaces ship their own nav + footer (Kate's prototype
-// chrome) — global chrome must stay out of their way.
-const CINEMATIC_PATHS = new Set(['/', '/pricing', '/agents', '/pilots', '/field-notes', '/concepts']);
-const isEditorialHome = (pathname: string | null): boolean =>
-  !!pathname && CINEMATIC_PATHS.has(pathname);
+// These public pages supply their own complete navigation and footer.
+// Pursuit previously rendered BOTH its own and shared navigation on mobile.
+const CINEMATIC_PATHS = new Set(['/', '/pursuit', '/pricing', '/agents', '/pilots', '/field-notes', '/concepts']);
+const isEditorialHome = (pathname: string | null): boolean => !!pathname && CINEMATIC_PATHS.has(pathname);
+const isLoyaltyJourney = (pathname: string | null): boolean => !!pathname && ['/journeys/one-nz', '/journeys/evidence-receipt', '/journeys/operator-desk', '/journeys/mana-receipt'].some(path => pathname === path || pathname.startsWith(`${path}/`));
+const isDoPreview = (pathname: string | null): boolean => !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
+const isPreviewSurface = (pathname: string | null): boolean => !!pathname && (pathname === '/preview' || pathname.startsWith('/preview/'));
 
-/** Loyalty / Evidence / Operator desk journey demonstrators ship their own plum chrome. */
-const isLoyaltyJourney = (pathname: string | null): boolean =>
-  !!pathname &&
-  (pathname === '/journeys/one-nz' ||
-    pathname.startsWith('/journeys/one-nz/') ||
-    pathname === '/journeys/evidence-receipt' ||
-    pathname.startsWith('/journeys/evidence-receipt/') ||
-    pathname === '/journeys/operator-desk' ||
-    pathname.startsWith('/journeys/operator-desk/') ||
-    pathname === '/journeys/mana-receipt' ||
-    pathname.startsWith('/journeys/mana-receipt/'));
-
-/** DO Agent OS v0 PREVIEW — isolated ✦ make agent surface. */
-const isDoPreview = (pathname: string | null): boolean =>
-  !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
-
-/** Draft PREVIEW pages (commercial homepage etc.) ship their own chrome. */
-const isPreviewSurface = (pathname: string | null): boolean =>
-  !!pathname && (pathname === '/preview' || pathname.startsWith('/preview/'));
-
-/**
- * The single site-wide chrome — the homepage's glass V2Nav + slim footer,
- * rendered on every marketing page so the frame stops changing as you move
- * around (the "drift" the whole site had). App-surfaces that ship their own
- * chrome (the OS demo, Bills, Alphassembl, customer workspaces, the admin hub,
- * white-label living-site verticals, etc.) still suppress it — the SAME list
- * SiteHeader/SiteFooter used, minus the homepage, which now gets this chrome.
- */
 function shipsOwnChrome(pathname: string | null): boolean {
-  return (
-    isDashMicrosite(pathname) ||
-    isAgentMarketplace(pathname) ||
-    isAtlas(pathname) ||
-    isEcho(pathname) ||
-    isAuthSurface(pathname) ||
-    isAdminHub(pathname) ||
-    isCustomerWorkspace(pathname) ||
-    isAlphassembl(pathname) ||
-    isAssemblBills(pathname) ||
-    isStandaloneHealth(pathname) ||
-    isMotionStudio(pathname) ||
-    isCreativeStudio(pathname) ||
-    isStudio(pathname) ||
-    isBuildAnAgent(pathname) ||
-    isLab(pathname) ||
-    isEditorialHome(pathname) ||
-    isLoyaltyJourney(pathname) ||
-    isDoPreview(pathname) ||
-    isPreviewSurface(pathname)
-  );
+  return isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isBuildAnAgent(pathname) || isLab(pathname) || isEditorialHome(pathname) || isLoyaltyJourney(pathname) || isDoPreview(pathname) || isPreviewSurface(pathname);
 }
-
 export function GlobalNav() {
   const pathname = usePathname();
   if (shipsOwnChrome(pathname)) return null;
   return <V2Nav current={pathname ?? undefined} />;
 }
-
 export function GlobalFooter() {
   const pathname = usePathname();
   if (shipsOwnChrome(pathname)) return null;

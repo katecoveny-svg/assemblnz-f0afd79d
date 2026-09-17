@@ -7,6 +7,7 @@ on:
       - 'scripts/immersive-browser-audit.py'
       - 'components/site/assembl-the-work/**'
       - 'components/site/pursuit/**'
+      - 'components/site/GlobalChrome.tsx'
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,23 +15,43 @@ concurrency:
   group: immersive-review-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  live-browser-baseline:
+  proposed-browser-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - name: Typecheck and public interaction tests
+        run: |
+          pnpm typecheck
+          pnpm test components/site/assembl-the-work/immersive-experience.test.tsx components/site/assembl-the-work/hero-resilience.test.ts
+          pnpm exec eslint components/site/assembl-the-work/ImmersiveExperience.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx components/site/assembl-the-work/ProductLanding.tsx components/site/GlobalChrome.tsx
+      - name: Production build with existing brand guards
+        run: pnpm build
       - run: pip install playwright==1.55.0
       - run: playwright install --with-deps chromium
-      - name: Capture anonymous public pages (no account or form actions)
-        run: python scripts/immersive-browser-audit.py
+      - name: Start the built app
+        run: |
+          pnpm start > /tmp/assembl-public-server.log 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+      - name: Exercise local interactions and capture phone and desktop evidence
+        run: python scripts/immersive-browser-audit.py --local
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: immersive-browser-baseline
+          name: immersive-browser-proposed
           path: visual-evidence/
           retention-days: 7

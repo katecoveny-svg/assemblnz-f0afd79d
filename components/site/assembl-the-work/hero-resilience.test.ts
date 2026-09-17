@@ -5,22 +5,17 @@ import { AssemblWorldHero } from './AssemblWorldHero';
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }) }));
 
 describe('homepage complete still view', () => {
-  it('renders every product input, output and link before JavaScript or WebGL', () => {
+  it('renders all current product outputs and public links before WebGL', () => {
     const html = renderToStaticMarkup(createElement(AssemblWorldHero));
-    for (const output of [
-      'An opportunity worth reviewing.',
-      'Prepared work with evidence — when DO is open for you.',
-      'Something people can see and try.',
-    ])
-      expect(html).toContain(output);
-    expect(html).toContain('About DO');
-    expect(html).toContain('DO sits where you already work');
-    expect(html).not.toContain('Open Meeting or Household');
-    expect(html).not.toContain('paused');
+    for (const output of ['An opportunity worth reviewing.', 'Prepared work with the next action clear.', 'Something people can see, try and understand.']) expect(html).toContain(output);
+    for (const href of ['/pursuit', '/do', '/creative-studio']) expect(html).toContain(`href="${href}"`);
+    expect(html).toContain('The complete work loop');
+    expect(html).toContain('View Pursuit scene');
+    expect(html).toContain('View DO scene');
+    expect(html).toContain('View Studio scene');
+    expect(html).toContain('not live agent activity');
     expect(html).not.toContain('name="brief"');
-    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
-    expect(html).toContain('href="/pursuit"');
-    expect(html).toContain('href="/do"');
-    expect(html).toContain('href="/creative-studio"');
+    expect(html).not.toContain('/do/meetings');
+    expect(html).not.toContain('/do/household');
   });
 });
