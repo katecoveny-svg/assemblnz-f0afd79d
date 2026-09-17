@@ -60,3 +60,7 @@ Approval must identify the exact permit and review generation the person saw. Re
 Database configuration, a successful save call and durable storage are distinct. Propagate storage provenance and fail clearly when a requested durable write cannot be confirmed. Browser downloads need per-entry source/API/static parity tests, not only ZIP availability.
 
 Visual regressions need a stable production-mode browser as well as unit tests. Validate CTA contrast after shared CSS, SSR/client identity, a full static product story, and WebGL failure after readiness. A loading poster is not proof that the 3D scene rendered.
+
+## 2026-09-17 — Public Pursuit landing vs working hub
+
+Public `/pursuit` is the story + canvas proof page. The working hub stays on the external ChatGPT Pursuit site. Do not promote `/pursuit/playground` or partner/Task DO Maker as public CTAs. Radar/API plumbing stays behind the scenes; the public proof is NZ signals → canvas rearrange → brand/client demonstrator. Hero media drop-in path: `public/pursuit/media/pursuit-canvas-loop.mp4` (+ webm/poster).

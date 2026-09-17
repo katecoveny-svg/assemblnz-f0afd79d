@@ -139,8 +139,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/creative-playground',
   // Public browser-local Creative Studio and its self-contained tools.
   '/creative-studio',
-  // Pursuit hub is external (ChatGPT). In-repo /pursuit* redirects in middleware.
-  // '/pursuit' deliberately omitted from splash-exempt — do not revive the maker.
+  // Public Pursuit landing (story + canvas). Playground still redirected in middleware.
+  '/pursuit',
   // Agency / Pursuit connections desk (Meta Business OAuth return surface).
   '/agency',
   '/tools/',
@@ -848,9 +848,12 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url, 308);
     }
 
-    // Kate lock 2026-09-17 — in-repo Pursuit maker/playground and partner
-    // Mode A/B are not public doors. Apply on every host (incl. Vercel preview).
-    if (pathname === '/pursuit' || pathname.startsWith('/pursuit/')) {
+    // Kate lock 2026-09-17 (updated): public /pursuit landing is restored.
+    // Playground / maker remain closed. Hub stays external ChatGPT.
+    if (
+      pathname === '/pursuit/playground' ||
+      pathname.startsWith('/pursuit/playground/')
+    ) {
       return NextResponse.redirect('https://assembl-pursuit.katecoveny.chatgpt.site/', 308);
     }
     if (matchesPrefix(pathname, '/studio/do-maker')) {

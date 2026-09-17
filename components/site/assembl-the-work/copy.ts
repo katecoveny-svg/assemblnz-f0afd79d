@@ -11,7 +11,7 @@ export const PREVIEW_META = {
 
 export const NAV = {
   products: [
-    { label: 'Pursuit', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', emphasis: false, external: true },
+    { label: 'Pursuit', href: '/pursuit', emphasis: false, external: false },
     { label: 'DO', href: '/do', emphasis: true },
     { label: 'Studio', href: '/creative-studio', emphasis: false },
   ],
@@ -51,10 +51,10 @@ export const PRODUCTS = {
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
-      body: 'For teams finding their next opportunity. Bring relevant public signals and permissioned business context into buyer research, a qualified opportunity and a next-step brief.',
-      href: 'https://assembl-pursuit.katecoveny.chatgpt.site',
-      external: true,
-      explore: 'Open Pursuit hub', note: 'Start with the market, company or work you want to understand.',
+      body: 'For teams finding their next opportunity. Bring NZ live intelligence into a client Pursuit demonstrator — canvas first, radar behind the scenes.',
+      href: '/pursuit',
+      external: false,
+      explore: 'Open Pursuit', note: 'Story page on assembl; working hub opens from there.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,

@@ -87,8 +87,14 @@ async function expectPublicEntry(path: string, host: string) {
 }
 
 describe('retired public Pursuit maker / partner doors', () => {
-  it.each(publicHosts)('redirects in-repo Pursuit to the ChatGPT hub on %s', async (host) => {
-    for (const path of ['/pursuit', '/pursuit/', '/pursuit/playground']) {
+  it.each(publicHosts)('keeps the public Pursuit landing open on %s', async (host) => {
+    for (const path of ['/pursuit', '/pursuit/']) {
+      await expectPublicEntry(path, host);
+    }
+  });
+
+  it.each(publicHosts)('redirects Pursuit playground to the ChatGPT hub on %s', async (host) => {
+    for (const path of ['/pursuit/playground', '/pursuit/playground/']) {
       const response = await middleware(request(path, host));
       expect(response.status, path).toBe(308);
       expect(response.headers.get('location'), path).toMatch(
