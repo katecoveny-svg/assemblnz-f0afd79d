@@ -71,8 +71,9 @@ const publicFiles = [
   'components/site/assembl-the-work/AssemblWorldHero.tsx',
 ];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
+// Kate lock 2026-09-17 (+ #1342): public /pursuit is the NZ story landing.
+// Working hub stays external ChatGPT. Ban playground/maker/leaked DO shelves only.
 const bannedHrefs = [
-  'href="/pursuit"',
   'href="/pursuit/playground"',
   'href="/studio/do-maker"',
   'href="/do/family"',
