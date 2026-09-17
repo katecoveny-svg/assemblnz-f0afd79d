@@ -1,12 +1,12 @@
 /** Public homepage positioning. Product demonstrations are labelled at their entry points. */
 export const HOME_META = {
   title: 'assembl — find it. DO it. show it.',
-  description: 'Pursuit finds evidence-backed work. DO is the portable agent workforce that gets it moving. Studio turns the result into proof, pitches and experiences. One shared context and factory underneath.',
+  description: 'Pursuit finds evidence-backed work. DO moves it forward with agents, tools and permissioned action. Studio turns the result into proof, pitches and experiences.',
 } as const;
 
 export const PREVIEW_META = {
   title: 'Homepage preview · assembl',
-  description: 'Preview of the current assembl system: Pursuit, DO, Studio and the shared Factory beneath them.',
+  description: 'Preview of the current assembl system: Pursuit, DO and Studio with one shared operating layer beneath them.',
 } as const;
 
 export const NAV = {
@@ -26,9 +26,9 @@ export const HERO = {
   headline: 'assembl the work.',
   subhead: 'find it. DO it. show it.',
   body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
-  explanation: 'Find the opportunity. Bring together the right DOs, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
+  explanation: 'Find the opportunity. Bring together the right agents, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
   ctaPrimary: { label: 'see the system →', href: '#products' },
-  ctaSecondary: { label: 'open Pursuit', href: '/pursuit' },
+  ctaSecondary: { label: 'meet DO', href: '/do' },
   productLine: 'Pursuit · DO · Studio',
   loopLine: 'use one. connect two. run the whole loop.',
 } as const;
@@ -51,15 +51,15 @@ export const PRODUCTS = {
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
-      body: 'For teams finding their next opportunity. Bring NZ live intelligence into a client Pursuit demonstrator — canvas first, radar behind the scenes.',
+      body: 'For teams finding their next opportunity. Pursuit brings live signals, source evidence and business context together so the next move is clear.',
       href: '/pursuit',
       external: false,
-      explore: 'Open Pursuit', note: 'Story page on assembl; working hub opens from there.',
+      explore: 'Explore Pursuit', note: 'Start with the public story, then move into a private Pursuit workspace when the work is live.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'DO is a small agent that sits where you already work. Click it for help in that context, pick or tweak a template, and connect a tool only when you want to. The surface is not the agent.',
-      href: '/do', explore: 'About DO', note: 'Work from the place you’re already in. Talk to us when you want DO opened for a real engagement.',
+      body: 'DO is the action layer. It brings the right agent, context, tools and permissions to a bounded job, then keeps the result and next action visible.',
+      href: '/do', explore: 'Meet DO', note: 'Use DO where the work already happens, with consequential actions kept behind explicit approval.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
@@ -74,7 +74,7 @@ export const DO_INPUT = {
   title: 'what do you need done?',
   placeholder: 'Describe the outcome you want…',
   submit: 'talk to us →',
-  honesty: 'DO sits where you already work. Contact assembl when you want it opened for a real engagement.',
+  honesty: 'DO works where the work already happens. Contact assembl when you want it opened for a real engagement.',
   examples: [
     'Prepare a meeting into notes with actions and decisions.',
     'Coordinate a household board for the week.',
@@ -126,16 +126,16 @@ export const REVIEW = {
 
 export const START = {
   kicker: 'start where the work is',
-  title: 'open Pursuit or Studio.',
-  body: 'Start with finding or showing. Connect DO when you want help from the place you’re already in.',
-  primary: { label: 'open Pursuit →', href: '/pursuit' },
+  title: 'start with Pursuit, DO or Studio.',
+  body: 'Use one product on its own or connect the full loop from signal to action to proof.',
+  primary: { label: 'explore Pursuit →', href: '/pursuit' },
   secondary: {
-    label: 'bring us a company',
-    href: 'mailto:assembl@assembl.co.nz?subject=Bring%20us%20a%20company&body=Company%20name%3A%0AWhat%20you%20want%20done%3A%0A',
+    label: 'bring us the work',
+    href: 'mailto:assembl@assembl.co.nz?subject=Bring%20us%20the%20work&body=What%20you%20want%20to%20move%20forward%3A%0A',
   },
 } as const;
 
 export const FOOTER = {
   line: 'find it. DO it. show it.',
-  note: 'One shared context · portable agents · proof that compounds. · Built in New Zealand',
+  note: 'One shared context · permissioned action · proof that compounds. · Built in New Zealand',
 } as const;
