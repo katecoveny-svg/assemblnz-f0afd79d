@@ -848,8 +848,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url, 308);
     }
 
-    // Kate visual lock 2026-09-17 — lean /pursuit OK; playground + partner maker killed.
-    // Studio public door is /creative-studio (not /studio koro workbench).
+    // Kate live inventory 2026-09-17 — playground + partner maker killed.
+    // Pursuit primary door = ChatGPT hub (playground redirects there).
+    // Studio public door = /creative-studio (not /studio koro workbench).
+    // Forbidden public DO shelves → lean /do (Meeting + Household only).
     if (
       pathname === '/pursuit/playground' ||
       pathname.startsWith('/pursuit/playground/')
@@ -876,6 +878,35 @@ export async function middleware(request: NextRequest) {
       url.pathname = '/creative-studio';
       url.search = '';
       return NextResponse.redirect(url, 308);
+    }
+    const forbiddenPublicDo = [
+      '/do/office',
+      '/do/tasks',
+      '/do/family',
+      '/do/builder',
+      '/do/connections',
+      '/do/sponsored',
+      '/do/browser',
+      '/do/bills',
+      '/do/linda',
+    ] as const;
+    for (const prefix of forbiddenPublicDo) {
+      if (pathname === prefix || pathname.startsWith(`${prefix}/`)) {
+        const url = request.nextUrl.clone();
+        url.pathname = '/do';
+        url.search = '';
+        return NextResponse.redirect(url, 308);
+      }
+    }
+    // Personal/Writing shelf deep-links (?task=plan|reply|rewrite|…) → lean /do
+    if (pathname === '/do' || pathname === '/do/') {
+      const task = request.nextUrl.searchParams.get('task');
+      if (task && !['meeting', 'meetings', 'household'].includes(task.toLowerCase())) {
+        const url = request.nextUrl.clone();
+        url.pathname = '/do';
+        url.search = '';
+        return NextResponse.redirect(url, 308);
+      }
     }
   }
 

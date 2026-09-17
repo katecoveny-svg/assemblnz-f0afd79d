@@ -17,7 +17,7 @@ type SceneProps = {
 };
 
 const chapters = [
-  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Open Pursuit' },
+  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', action: 'Open Pursuit hub' },
   { product: 'DO', verb: 'DO it.', input: 'A meeting to capture. A household board to run.', output: 'Useful notes or a chores board — ready for your review.', href: '/do', action: 'Open Meeting or Household' },
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see and try.', href: '/creative-studio', action: 'See the possibility' },
 ] as const;
@@ -109,7 +109,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
         <div className={styles.scrim} aria-hidden="true" />
         <header className={styles.nav}>
           <Link className={styles.wordmark} href="/" aria-label="assembl home">assembl</Link>
-          <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
+          <nav aria-label="Primary"><a href="https://assembl-pursuit.katecoveny.chatgpt.site" target="_blank" rel="noopener noreferrer">Pursuit</a><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
           <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused}>
             {paused || reduced ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}
             {reduced || failed ? 'Still view' : paused ? 'Resume' : 'Pause'}

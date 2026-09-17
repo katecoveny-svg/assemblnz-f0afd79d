@@ -73,8 +73,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // Soft-retire the short-lived misnamed board route.
-      { source: '/do/linda', destination: '/do/tasks', permanent: false },
-      { source: '/do/linda/:path*', destination: '/do/tasks', permanent: false },
+      { source: '/do/linda', destination: '/do', permanent: false },
+      { source: '/do/linda/:path*', destination: '/do', permanent: false },
 
       // The generative studio is a static file in public/generative-studio.
       // This must be a REDIRECT, not a rewrite: index.html loads three.min.js

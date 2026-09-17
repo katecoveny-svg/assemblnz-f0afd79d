@@ -234,7 +234,7 @@ export function HouseholdFloorClient({
           <span className={styles.chip}>{floor?.visibility === 'owner_private' ? 'owner private' : 'public template'}</span>
         </div>
         <div className={styles.headerActions}>
-          <Link href="/do/office">Office</Link>
+          <Link href="/do">DO hub</Link>
           <Link href="/api/do/download?format=extension">Extension ZIP</Link>
           <Link href="/do" className={styles.primaryLink}>assembl home DO</Link>
         </div>

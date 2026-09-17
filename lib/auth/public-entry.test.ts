@@ -123,6 +123,28 @@ describe('retired public Pursuit maker / partner doors', () => {
     }
   });
 
+  it.each(publicHosts)('redirects forbidden public DO shelves to /do on %s', async (host) => {
+    for (const path of [
+      '/do/office',
+      '/do/office/',
+      '/do/tasks',
+      '/do/family',
+      '/do/builder',
+      '/do/connections',
+      '/do/sponsored',
+      '/do/browser',
+      '/do/linda',
+      '/do?task=plan',
+      '/do?task=reply&open=1',
+      '/do?task=rewrite',
+    ]) {
+      const response = await middleware(request(path, host));
+      expect(response.status, path).toBe(308);
+      const location = response.headers.get('location') ?? '';
+      expect(location, path).toMatch(/\/do\/?$/);
+    }
+  });
+
   it('partner page component redirects to Studio', async () => {
     let destination: string | null = null;
     try {

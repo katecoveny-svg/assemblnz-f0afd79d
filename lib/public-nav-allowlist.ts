@@ -1,17 +1,16 @@
 /**
- * Public site link allowlist — Kate nav lock 2026-09-17.
+ * Public site link allowlist — Kate nav lock 2026-09-17 (+ live inventory).
  *
  * ALLOWED primary destinations only:
  *   1. Home (/) — WorldScene fly-through
  *   2. Studio (/creative-studio) — real Studio door
- *   3. Pursuit lean www (/pursuit) — atelier ProductLanding craft; hub link-out
- *      (ChatGPT). Never bird landing / playground on www.
+ *   3. Pursuit — ChatGPT hub only (never playground / maker)
  *   4. Meeting DO (/do/meetings)
  *   5. Household DO (/do/household) — generic DEMO
  *   6. Public /do hub (Meeting + Household cards only)
  *
- * FORBIDDEN as public CTAs: Pursuit playground / NZ-tool demo, partner Mode A/B,
- * Personal/Inbox/Bills/Writing shelves, grape purple-D maker, private household.
+ * FORBIDDEN: office/tasks/family/builder shelves, Personal/Inbox/Writing,
+ * playground, partner maker, floating purple-D as public promo.
  */
 
 import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
@@ -24,8 +23,8 @@ export const PUBLIC_NAV_ALLOWLIST = [
   {
     id: 'pursuit',
     label: 'Pursuit',
-    href: '/pursuit',
-    external: false,
+    href: PUBLIC_PURSUIT_HUB,
+    external: true,
   },
   { id: 'studio', label: 'Studio', href: '/creative-studio', external: false },
   { id: 'do', label: 'DO', href: '/do', external: false },
@@ -38,6 +37,7 @@ export const PUBLIC_DO_ENTRIES = [
 
 /** In-repo routes that must not be primary public destinations. */
 export const FORBIDDEN_PUBLIC_DESTINATIONS = [
+  '/pursuit',
   '/pursuit/playground',
   '/studio',
   '/studio/do-maker',
@@ -67,7 +67,6 @@ export function assertNoForbiddenPublicHref(source: string, label: string): stri
       errors.push(`${label}: forbidden public href ${dest}`);
     }
   }
-  // Catch relative playground / maker CTA strings without full path attribute forms.
   if (/href=["']\/pursuit\/playground/.test(source)) {
     errors.push(`${label}: forbidden /pursuit/playground CTA`);
   }

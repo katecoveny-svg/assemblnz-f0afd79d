@@ -16,10 +16,13 @@ describe('homepage complete still view', () => {
     expect(html).toContain('Open Meeting or Household');
     expect(html).not.toContain('name="brief"');
     expect(html).not.toContain('What do you need done?');
-    expect(html).toContain('href="/pursuit"');
+    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
+    expect(html).not.toContain('href="/pursuit"');
     expect(html).toContain('href="/do"');
     expect(html).toContain('href="/creative-studio"');
     expect(html).not.toContain('href="/studio"');
     expect(html).not.toContain('/pursuit/playground');
+    expect(html).not.toContain('/do/office');
+    expect(html).not.toContain('/do/tasks');
   });
 });

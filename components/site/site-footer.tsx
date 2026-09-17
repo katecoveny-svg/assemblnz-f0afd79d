@@ -29,7 +29,11 @@ const COLUMNS: {
   {
     label: "product",
     links: [
-      { href: "/pursuit", label: "Pursuit" },
+      {
+        href: "https://assembl-pursuit.katecoveny.chatgpt.site",
+        label: "Pursuit",
+        external: true,
+      },
       { href: "/do", label: "DO" },
       { href: "/creative-studio", label: "Studio" },
       { href: "/contact", label: "Contact" },

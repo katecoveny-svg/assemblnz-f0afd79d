@@ -193,7 +193,7 @@ export function DoHome() {
         </Link>
         <p>DO prepares. You decide.</p>
         <nav aria-label="assembl products">
-          <Link href="/pursuit">Pursuit</Link>
+          <a href="https://assembl-pursuit.katecoveny.chatgpt.site" target="_blank" rel="noopener noreferrer">Pursuit</a>
           <Link href="/creative-studio">Studio</Link>
         </nav>
       </footer>

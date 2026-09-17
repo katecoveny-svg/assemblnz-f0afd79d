@@ -11,7 +11,7 @@ export const PREVIEW_META = {
 
 export const NAV = {
   products: [
-    { label: 'Pursuit', href: '/pursuit', emphasis: false },
+    { label: 'Pursuit', href: 'https://assembl-pursuit.katecoveny.chatgpt.site', emphasis: false, external: true },
     { label: 'DO', href: '/do', emphasis: true },
     { label: 'Studio', href: '/creative-studio', emphasis: false },
   ],
@@ -52,8 +52,9 @@ export const PRODUCTS = {
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
       body: 'For teams finding their next opportunity. Bring relevant public signals and permissioned business context into buyer research, a qualified opportunity and a next-step brief.',
-      href: '/pursuit',
-      explore: 'Explore Pursuit', note: 'Lean www landing. Private hub for client work. No public playground.',
+      href: 'https://assembl-pursuit.katecoveny.chatgpt.site',
+      external: true,
+      explore: 'Open Pursuit hub', note: 'Working hub is the ChatGPT workspace. No public playground on www.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
@@ -127,7 +128,7 @@ export const START = {
   kicker: 'start with DO',
   title: 'open Meeting or Household.',
   body: 'Public DO is pared to two tools: useful meeting notes, and a generic household chores board. Drafts only.',
-  primary: { label: 'open DO →', href: '#do-input' },
+  primary: { label: 'open DO →', href: '/do' },
   secondary: {
     label: 'bring us a company',
     href: 'mailto:assembl@assembl.co.nz?subject=Bring%20us%20a%20company&body=Company%20name%3A%0AWhat%20you%20want%20done%3A%0A',

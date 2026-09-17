@@ -21,8 +21,9 @@ describe('current public company surfaces', () => {
     expect(html).not.toContain('/studio/do-maker');
     expect(html).not.toContain('/do/office');
     expect(html).not.toContain('/cinematic-nature/ocean-assembly.webp');
-    expect(html).toContain('href="/pursuit"');
     expect(html).toContain('href="/creative-studio"');
+    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
+    expect(html).not.toContain('href="/pursuit"');
   });
 
   it('gives Pursuit the shared atelier door (not birds) and hub link-out', () => {
@@ -31,13 +32,14 @@ describe('current public company surfaces', () => {
     expect(html).toContain('Build the possibility.');
     expect(html).toContain('/do/world/atelier-poster.png');
     expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
-    expect(html).toContain('/llms.txt');
     expect(html).toContain('href="/do"');
     expect(html).toContain('href="/creative-studio"');
+    expect(html).not.toContain('href="/pursuit"');
     expect(html).not.toContain('/pursuit/playground');
     expect(html).not.toContain('/cinematic-nature/');
     expect(html).not.toContain('ocean-assembly');
     expect(html).not.toContain('/studio/do-maker');
+    expect(html).not.toContain('/do/office');
   });
   it('does not turn company contact and about into an ornamental watch', () => {
     for (const path of ['/contact', '/about']) {

@@ -60,18 +60,9 @@ if (hasWorldHero) {
   }
 }
 
-const publicFiles = [
-  'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
-  'app/do/DoHome.tsx',
-  'app/do/page.tsx',
-  'components/site/assembl-the-work/GlowDoWidget.tsx',
-  'components/do/DoPortableStarters.tsx',
-  'components/do/DoSpatialScene.tsx',
-  'app/do/DoUtilityDock.tsx',
-  'components/site/assembl-the-work/AssemblWorldHero.tsx',
-];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
 const bannedHrefs = [
+  'href="/pursuit"',
   'href="/pursuit/playground"',
   'href="/studio"',
   'href="/studio/do-maker"',
@@ -84,6 +75,17 @@ const bannedHrefs = [
   'href="/do/sponsored"',
   'href="/do/browser"',
 ];
+const publicFiles = [
+  'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
+  'app/do/DoHome.tsx',
+  'app/do/page.tsx',
+  'app/do/DoUtilityDock.tsx',
+  'components/do/DoPortableStarters.tsx',
+  'components/do/DoSpatialScene.tsx',
+  'components/site/assembl-the-work/AssemblWorldHero.tsx',
+  'app/about/page.tsx',
+  'app/do/widget/page.tsx',
+];
 for (const path of publicFiles) {
   const text = read(path);
   if (/OceanMedia|ocean-assembly|cinematic-nature|brand-rescue\.css|DoHomeCurrent/.test(text)) {
@@ -91,6 +93,9 @@ for (const path of publicFiles) {
   }
   if (/\bDOO\b|\bDoo\b|Builderdoo/i.test(text)) {
     errors.push(`${path}: product is DO; specialist is Builder DO`);
+  }
+  if (/<GlowDoWidget\b/.test(text) && path !== 'components/site/assembl-the-work/GlowDoWidget.tsx') {
+    errors.push(`${path}: public surface must not mount floating GlowDoWidget (Kate lock)`);
   }
   for (const promo of bannedPromos) {
     if (text.includes(promo)) errors.push(`${path}: banned public promo "${promo}"`);

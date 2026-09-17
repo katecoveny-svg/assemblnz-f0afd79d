@@ -6,7 +6,7 @@ import { AssemblWordmark } from '@/components/site/AssemblWordmark';
  * Product doors: Pursuit / DO / Studio. No gold / Cormorant / grape.
  */
 const FOOTER_LINKS: Array<[string, string, boolean?]> = [
-  ['/pursuit', 'Pursuit'],
+  ['https://assembl-pursuit.katecoveny.chatgpt.site', 'Pursuit', true],
   ['/do', 'DO'],
   ['/creative-studio', 'Studio'],
   ['/contact', 'Contact'],

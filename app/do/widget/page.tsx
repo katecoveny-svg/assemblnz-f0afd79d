@@ -21,15 +21,10 @@ export default function DoWidgetPage() {
       </Link>
       <nav aria-label="DO tools — open in a new tab">
         <Link href="/do/meetings" target="_blank" rel="noopener">Meeting notes ↗</Link>
+        <Link href="/do/household" target="_blank" rel="noopener">Household DO ↗</Link>
         <Link href="/login?redirect=%2Fdo%2Fmeetings" target="_blank" rel="noopener">Sign in ↗</Link>
-        <Link href="/do/connections" target="_blank" rel="noopener">Connections ↗</Link>
-        <Link href="/do/office" target="_blank" rel="noopener">Office ↗</Link>
-        <Link href="/do/sponsored" target="_blank" rel="noopener">Sponsored ↗</Link>
-        <Link href="/do/browser" target="_blank" rel="noopener">Browser ↗</Link>
-        <Link href="/do/builder" target="_blank" rel="noopener">Builder DO ↗</Link>
-        <Link href="/do/tasks?board=portable-widget" target="_blank" rel="noopener">Tasks ↗</Link>
       </nav>
-      <p>Meeting notes open the recording-first Meeting DO in a full tab. Sign-in is only for transcription. Drafts stay here.</p>
+      <p>Meeting notes and Household DO only on the public face. Drafts stay here — nothing is sent.</p>
     </header>
     <DoPrototypeStrip />
     <div className={styles.starters}>
