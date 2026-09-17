@@ -21,18 +21,26 @@ import {
   type Object3D,
 } from 'three';
 
-/** Brand field — deep plum / chalk / dusty rose. No purple D. */
-const FIELD = '#240B21';
-/** Harbour dusk fog — clear enough for Waitematā massing; deep plum field. */
-const FOG = '#1f1018';
-/** Dusty rose — Identity glow + Spatial C accent (not cool violet). */
+/**
+ * Daylight / white-space grade (Kate 2026-09-17).
+ * Paper + chalk field first. Deep plum + dusty rose are furniture/art accents only —
+ * never a global fog, background, or room-filling lightformer wash.
+ */
+const FIELD = '#FFFDFB';
+/** Soft paper harbour air — neutral, not plum / lavender haze. */
+const FOG = '#F2F0EF';
+/** Dusty rose — Identity glow + seating accents only (not cool violet). */
 const ROSE = '#916A70';
 const ROSE_WARM = '#c4a098';
-const ROSE_DUST = '#916A70';
 const PLUM_BODY = '#240B21';
 const CHALK = '#F5F1F2';
-/** Warm CBD window / harbour bounce — mulberry-adjacent, not grape chrome. */
-const HARBOUR_GLOW = '#e8a878';
+const PAPER = '#FFFDFB';
+/** Soft natural key through the glazing — warm daylight, not rose-opal flood. */
+const DAYLIGHT = '#FFF8EE';
+const HARBOUR_SKY = '#D0DCE8';
+const HARBOUR_HORIZON = '#EDE6DC';
+/** Daytime CBD bounce — muted warm, not night neon. */
+const HARBOUR_BOUNCE = '#E8C9A8';
 
 /**
  * Map scroll progress to path parameter with chapter holds.
@@ -111,7 +119,7 @@ function Identity() {
         <meshStandardMaterial
           color={CHALK}
           emissive={ROSE}
-          emissiveIntensity={0.95}
+          emissiveIntensity={0.85}
           roughness={0.32}
           metalness={0.28}
         />
@@ -121,21 +129,21 @@ function Identity() {
         <meshStandardMaterial
           color={ROSE}
           emissive={ROSE}
-          emissiveIntensity={1.25}
+          emissiveIntensity={1.1}
           roughness={0.28}
           metalness={0.2}
         />
       </mesh>
-      {/* Soft dusty-rose presence — sculptural glow, not purple UI chrome. */}
-      <pointLight position={[0.15, 0.1, 1.2]} color={ROSE} intensity={5.5} distance={6} decay={2} />
-      <pointLight position={[-0.9, 0.5, 0.7]} color={ROSE_WARM} intensity={2.2} distance={4.5} decay={2} />
+      {/* Rose glow stays LOCAL to the Identity D — never a room wash. */}
+      <pointLight position={[0.15, 0.1, 1.2]} color={ROSE} intensity={3.2} distance={4.2} decay={2} />
+      <pointLight position={[-0.9, 0.5, 0.7]} color={ROSE_WARM} intensity={1.4} distance={3.2} decay={2} />
       <spotLight
         position={[0.5, 1.4, 2.4]}
-        angle={0.5}
-        penumbra={0.7}
-        intensity={18}
+        angle={0.42}
+        penumbra={0.75}
+        intensity={10}
         color={ROSE}
-        distance={9}
+        distance={6.5}
         decay={2}
         castShadow={false}
       />
@@ -154,27 +162,64 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
       const material = object.material;
       if (material instanceof MeshStandardMaterial) {
         const name = (material.name || object.name || '').toLowerCase();
-        // Waitematā water — cooler metallic sheen so harbour reads vs plum fog.
-        if (
+        // Walls / ceiling — paper-chalk white space (kill baked plum plaster map).
+        if (name.includes('plaster') || name.includes('plum plaster')) {
+          if (material.map) {
+            material.map = null;
+          }
+          material.color = new Color(CHALK);
+          material.roughness = 0.86;
+          material.envMapIntensity = 0.55;
+          material.emissiveIntensity = 0;
+        }
+        // Floors — chalk limestone, not rose-tinted slab wash.
+        else if (name.includes('limestone') || name.includes('rose limestone')) {
+          if (material.map) {
+            material.map = null;
+          }
+          material.color = new Color('#EFEAEA');
+          material.roughness = 0.42;
+          material.envMapIntensity = 0.85;
+          material.emissiveIntensity = 0;
+        }
+        // Cove strips — warm daylight paper, not rose-opal flood.
+        else if (name.includes('opal') || name.includes('rose light') || name.includes('daylight cove')) {
+          if (material.map) {
+            material.map = null;
+          }
+          material.color = new Color(PAPER);
+          material.emissive = new Color(DAYLIGHT);
+          material.emissiveIntensity = Math.min(Math.max(material.emissiveIntensity || 1, 0.8), 1.6);
+          material.roughness = 0.35;
+          material.envMapIntensity = 0.4;
+        }
+        // Waitematā water — cooler daylight sheen so harbour reads vs white interior.
+        else if (
           name.includes('waitemata') ||
           name.includes('dusk water') ||
+          name.includes('daylight water') ||
           (name.includes('harbour') && name.includes('water'))
         ) {
-          material.metalness = Math.max(material.metalness, 0.58);
-          material.roughness = Math.min(material.roughness, 0.12);
-          material.envMapIntensity = 1.45;
+          if (material.map) {
+            material.map = null;
+          }
+          material.color = new Color('#4A6574');
+          material.metalness = Math.max(material.metalness, 0.52);
+          material.roughness = Math.min(material.roughness, 0.18);
+          material.envMapIntensity = 1.35;
+          material.emissiveIntensity = 0;
         }
         // Thin glazing — reflective, not opaque purple wash.
-        if (name.includes('glazing') || name.includes('glass')) {
+        else if (name.includes('glazing') || name.includes('glass')) {
           material.transparent = true;
-          material.opacity = 0.18;
-          material.metalness = 0.2;
+          material.opacity = 0.14;
+          material.metalness = 0.18;
           material.roughness = 0.05;
-          material.envMapIntensity = 1.8;
+          material.envMapIntensity = 1.6;
           material.depthWrite = false;
         }
-        // CBD / volcanic / bridge silhouettes — contrast for ACES + fog.
-        if (
+        // CBD / volcanic / bridge silhouettes — daylight contrast (no night neon remap).
+        else if (
           name.includes('auckland') ||
           name.includes('volcanic') ||
           name.includes('bridge') ||
@@ -182,41 +227,43 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
           name.includes('silhouette') ||
           name.includes('ferry')
         ) {
-          material.envMapIntensity = 0.5;
-          material.roughness = Math.min(Math.max(material.roughness, 0.85), 0.96);
-        }
-        // Keep authored albedo; warm cove + city emissives toward dusty rose / harbour gold.
-        if (material.emissiveIntensity > 0.01) {
           const cityLight =
             name.includes('harbour city') ||
             name.includes('city light') ||
             name.includes('tower window') ||
             name.includes('ferry cabin') ||
             name.includes('beacon');
-          material.emissive = new Color(cityLight ? HARBOUR_GLOW : ROSE_WARM);
-          material.emissiveIntensity = Math.min(
-            material.emissiveIntensity * (cityLight ? 1.5 : 1.15),
-            cityLight ? 11 : 5.5,
-          );
+          if (cityLight) {
+            // Soft daytime window bounce — readable, not dusk flood.
+            material.emissive = new Color(HARBOUR_BOUNCE);
+            material.emissiveIntensity = Math.min(material.emissiveIntensity * 0.22, 1.8);
+            material.color = new Color('#D8C4A8');
+          } else {
+            material.color = new Color('#3A4550');
+            material.envMapIntensity = 0.45;
+            material.roughness = Math.min(Math.max(material.roughness, 0.85), 0.96);
+            material.emissiveIntensity = 0;
+          }
         }
-        // Soften walnut / limestone / fabric for craft parity with ACES.
-        if (name.includes('walnut') || name.includes('limestone')) {
-          material.roughness = Math.min(material.roughness, name.includes('walnut') ? 0.34 : 0.38);
-          material.envMapIntensity = 1.1;
+        // Soften walnut / fabric; keep authored rose wool + plum felt as intentional accents.
+        else if (name.includes('walnut')) {
+          material.roughness = Math.min(material.roughness, 0.34);
+          material.envMapIntensity = 1.0;
         } else if (name.includes('linen') || name.includes('wool') || name.includes('felt')) {
           material.roughness = Math.max(material.roughness, 0.82);
-          material.envMapIntensity = 0.7;
+          material.envMapIntensity = 0.65;
+          // Do not remap rose/plum furniture albedos — accents stay intentional.
+        } else if (material.emissiveIntensity > 0.01) {
+          // Any leftover cove/lamp emissives → warm paper, not rose flood.
+          material.emissive = new Color(DAYLIGHT);
+          material.emissiveIntensity = Math.min(material.emissiveIntensity * 0.35, 2.2);
         } else if (
           !name.includes('waitemata') &&
           !name.includes('glazing') &&
           !name.includes('glass') &&
-          !name.includes('water') &&
-          !name.includes('auckland') &&
-          !name.includes('volcanic') &&
-          !name.includes('city') &&
-          !name.includes('silhouette')
+          !name.includes('water')
         ) {
-          material.envMapIntensity = Math.max(material.envMapIntensity || 0, 0.95);
+          material.envMapIntensity = Math.max(material.envMapIntensity || 0, 0.85);
         }
         material.needsUpdate = true;
       }
@@ -236,8 +283,8 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
   return <primitive object={model} />;
 }
 
-function Dusk() {
-  // Waitematā harbour dusk: warm rose-gold low horizon into deep plum — Spatial C, no grape wash.
+function Daylight() {
+  // Waitematā daylight: chalk paper interior against soft harbour sky — no plum dusk grade.
   return (
     <mesh>
       <sphereGeometry args={[140, 48, 28]} />
@@ -248,17 +295,18 @@ function Dusk() {
           vec3 d=normalize(direction);
           float h=d.y;
           // Auckland-facing harbour glow sits on the −X window elevation.
-          float harbour=exp(-pow((d.x+0.55)*2.4,2.0))*exp(-pow(h*6.0,2.0));
-          vec3 low=vec3(0.38,0.22,0.26);
-          vec3 mid=vec3(0.18,0.10,0.14);
-          vec3 high=vec3(0.08,0.04,0.07);
-          vec3 sky=mix(low,mid,smoothstep(-0.14,0.16,h));
-          sky=mix(sky,high,smoothstep(0.10,0.68,h));
-          // Horizon band — dusty rose into harbour gold.
-          sky+=vec3(0.22,0.11,0.08)*exp(-pow((h-0.015)*10.0,2.0));
-          sky+=vec3(0.28,0.14,0.08)*harbour*0.55;
-          // Soft city light scatter above the waterline.
-          sky+=vec3(0.16,0.08,0.06)*exp(-pow((h+0.04)*18.0,2.0))*0.35;
+          float harbour=exp(-pow((d.x+0.55)*2.4,2.0))*exp(-pow(h*5.5,2.0));
+          // Paper-white low band → chalk mid → soft harbour blue high.
+          vec3 low=vec3(0.96,0.95,0.93);
+          vec3 mid=vec3(0.82,0.87,0.92);
+          vec3 high=vec3(0.58,0.72,0.86);
+          vec3 sky=mix(low,mid,smoothstep(-0.18,0.22,h));
+          sky=mix(sky,high,smoothstep(0.12,0.72,h));
+          // Soft warm horizon — natural daylight, not rose-opal flood.
+          sky+=vec3(0.08,0.06,0.03)*exp(-pow((h-0.02)*9.0,2.0));
+          sky+=vec3(0.12,0.11,0.08)*harbour*0.18;
+          // Thin waterline scatter.
+          sky+=vec3(0.06,0.09,0.12)*exp(-pow((h+0.05)*16.0,2.0))*0.18;
           gl_FragColor=vec4(sky,1.0);
         }`}
       />
@@ -269,48 +317,49 @@ function Dusk() {
 function Room({ onReady }: { onReady: (ready: boolean) => void }) {
   return (
     <>
-      <Dusk />
+      <Daylight />
       <Suspense fallback={null}>
         <Architecture onReady={onReady} />
         <Identity />
       </Suspense>
-      <Environment resolution={256} frames={1} environmentIntensity={0.55}>
-        {/* Waitematā window elevation — harbour bounce into the room. */}
+      <Environment resolution={256} frames={1} environmentIntensity={0.72}>
+        {/* Waitematā window elevation — soft daylight bounce into the room. */}
         <Lightformer
           position={[-12, 4, -8]}
           rotation={[0, Math.PI / 2, 0]}
-          scale={[42, 10, 1]}
-          color={HARBOUR_GLOW}
-          intensity={2.4}
+          scale={[42, 12, 1]}
+          color={DAYLIGHT}
+          intensity={3.4}
         />
         <Lightformer
           position={[-10, 5, 0]}
           rotation={[0, Math.PI / 2, 0]}
-          scale={[30, 8, 1]}
-          color={ROSE}
-          intensity={1.5}
+          scale={[30, 10, 1]}
+          color={HARBOUR_SKY}
+          intensity={2.2}
         />
         <Lightformer
           position={[0, 9, -8]}
           rotation={[Math.PI / 2, 0, 0]}
-          scale={[12, 48, 1]}
-          color="#ffd4c4"
-          intensity={1.85}
+          scale={[14, 48, 1]}
+          color={PAPER}
+          intensity={2.6}
         />
         <Lightformer
           position={[8, 3, -14]}
           rotation={[0, -Math.PI / 2.4, 0]}
           scale={[18, 6, 1]}
-          color={ROSE_DUST}
-          intensity={0.85}
+          color={HARBOUR_HORIZON}
+          intensity={0.7}
         />
       </Environment>
-      <hemisphereLight args={['#e8c8d0', '#1a0e14', 0.9]} />
-      {/* Late harbour sun — warm mulberry, raking through the glazing. */}
+      {/* Soft chalk sky vs warm paper ground — no plum hemisphere. */}
+      <hemisphereLight args={['#EEF2F5', '#E8E4DF', 1.35]} />
+      {/* Soft natural key from the glazing — warm daylight, not mulberry dusk. */}
       <directionalLight
-        position={[-14, 6.5, -2]}
-        intensity={2.55}
-        color="#f0b898"
+        position={[-14, 9.5, -1]}
+        intensity={3.35}
+        color="#FFFAF2"
         castShadow
         shadow-mapSize={[1536, 1536]}
         shadow-camera-left={-24}
@@ -320,45 +369,36 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
         shadow-bias={-0.00015}
         shadow-normalBias={0.035}
       />
-      {/* Soft cove washes along the walk — Find / DO / Show. */}
+      {/* Soft cove washes along the walk — Find / DO / Show — paper warm, not rose. */}
       {[
-        [2.8, 4.6, 0.2, 44],
-        [3.2, 4.7, -14.5, 54],
-        [3.0, 4.5, -27.5, 48],
+        [2.8, 4.6, 0.2, 28],
+        [3.2, 4.7, -14.5, 34],
+        [3.0, 4.5, -27.5, 30],
       ].map(([x, y, z, intensity]) => (
         <pointLight
           key={z}
           position={[x, y, z]}
           intensity={intensity}
-          color="#ffd0bc"
-          distance={15}
+          color="#FFF2E6"
+          distance={14}
           decay={2}
         />
       ))}
-      {/* Exterior city scatter visible through the open glazing. */}
+      {/* Soft exterior daylight scatter through the open glazing (not night city neon). */}
       {[
-        [-16, 3.2, 2],
-        [-18, 4.0, -10],
-        [-17, 3.5, -22],
+        [-16, 4.5, 2],
+        [-18, 5.5, -10],
+        [-17, 4.8, -22],
       ].map(([x, y, z]) => (
         <pointLight
           key={`harbour-${z}`}
           position={[x, y, z]}
-          intensity={36}
-          color={HARBOUR_GLOW}
-          distance={28}
+          intensity={18}
+          color={DAYLIGHT}
+          distance={26}
           decay={2}
         />
       ))}
-      <spotLight
-        position={[-6.5, 4.2, -15]}
-        angle={0.55}
-        penumbra={0.7}
-        intensity={26}
-        color={ROSE}
-        distance={22}
-        decay={2}
-      />
     </>
   );
 }
@@ -519,20 +559,20 @@ export default function WorldScene(props: {
         antialias: true,
         powerPreference: 'high-performance',
         toneMapping: ACESFilmicToneMapping,
-        toneMappingExposure: 1.02,
+        toneMappingExposure: 1.32,
         outputColorSpace: SRGBColorSpace,
       }}
       onCreated={({ gl, invalidate }) => {
         gl.toneMapping = ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.02;
+        gl.toneMappingExposure = 1.32;
         gl.outputColorSpace = SRGBColorSpace;
         // Ensure the canvas element exists and demand-mode paints after mount.
         invalidate();
       }}
     >
       <color attach="background" args={[FIELD]} />
-      {/* Longer fog falloff so Waitematā massing remains legible past the glazing. */}
-      <fog attach="fog" args={[FOG, 36, 110]} />
+      {/* Soft paper fog — harbour massing stays readable; no plum atmospheric wash. */}
+      <fog attach="fog" args={[FOG, 72, 165]} />
       <ContextHealth onLost={lost} />
       <Room onReady={markReady} />
       <Journey

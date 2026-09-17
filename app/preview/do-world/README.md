@@ -34,14 +34,14 @@ Local Mac study path Kate has used:
 
 `/Users/kateharland/Documents/Codex/2026-09-16/referenced-chatgpt-conversation-this-is-an/outputs/do-world/do-world.blend`
 
-## This craft pass
+## This craft pass (Kate 2026-09-17 — daylight / white space)
 
-- Task chairs with arms / lumbar; table apron + pedestals; salon cushions
-- Acoustic plum felt panels; research shelf ledge; graphite monitors
-- Waitematā exterior: waterfront massing, sky landmark, Harbour Bridge–inspired span, ferry silhouette, Rangitoto massing
-- Open glazing (no opaque glass plane) so harbour/city lights stay readable
-- Plum / dusty-rose Spatial C grade — not purple D chrome, not grape neon
-- R3F: tighter FOV (46°), refined desktop + mobile eye-level paths, harbour gaze on Find
+- **Kill purple wash:** no plum `<color background>`, no plum fog, no rose-opal room flood, no dusk-purple default grade
+- Daylight / white space first: paper `#FFFDFB`, chalk `#F5F1F2`, soft natural key from the glazing
+- Deep plum `#240B21` + muted/dusty rose `#916A70` only on furnishings, art, acoustic panels, Identity D (local glow)
+- Waitematā exterior stays readable in daylight (harbour massing, bridge, Rangitoto)
+- R3F `WorldScene` carries the live daylight grade + runtime albedo overrides for plaster/limestone/cove until Kate Mac re-exports the GLB
+- Blender `scripts/build-do-world.py` albedo rebalance ready for Mac 5.1.1 re-export (paper chalk plaster, chalk limestone, warm daylight cove)
 - Budget target: web-viable Draco GLB under ~3 MB
 
 ## Current budget (verify after each export)
@@ -59,9 +59,10 @@ Do not grow the hero past ~3 MB without an explicit budget decision.
 Desktop (~1280+):
 
 - [ ] Poster → canvas crossfade
-- [ ] Harbour / city lights readable through glazing
-- [ ] Find / DO / Show holds; Identity D clear on DO
-- [ ] Plum / dusty-rose grade; no grape neon
+- [ ] Harbour / city readable through glazing in daylight (not purple haze)
+- [ ] Find / DO / Show holds; Identity D clear on DO (rose glow local only)
+- [ ] Paper/chalk white space dominant; plum + dusty rose as accents only
+- [ ] No global purple wash / plum fog / rose-opal flood
 - [ ] Pause freezes; reduced-motion snaps
 - [ ] Homepage `/` uses the same WorldScene
 
