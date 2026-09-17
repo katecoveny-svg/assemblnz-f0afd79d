@@ -24,10 +24,6 @@
   padding: 24px 5.5% 20px;
 }
 .stage, .scrim { position: absolute; inset: 0; pointer-events: none; }
-.stage { z-index: -3; background: var(--ink); }
-.stage > div { position: absolute !important; inset: 0; z-index: 1; }
-.poster { object-fit: cover; transition: opacity 700ms ease; }
-.posterDimmed { opacity: 0; }
 .scrim {
   z-index: -1;
   background: linear-gradient(90deg, #240b21d9, #240b2180 45%, #240b2120 78%), linear-gradient(0deg, #240b21e8, transparent 38%, transparent 70%, #240b2180);

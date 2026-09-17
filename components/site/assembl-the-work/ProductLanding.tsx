@@ -68,7 +68,7 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
       <section
         className="product-hero"
         style={{
-          backgroundImage: `linear-gradient(90deg,#240b21ed,#240b2180 55%,#240b2133),url(${c.photo})`,
+          backgroundImage: `linear-gradient(105deg,#240b21f2 0%,#240b21cc 42%,#654a4e66 72%,#240b2133),radial-gradient(120% 80% at 78% 40%,#916a7040,transparent 55%),url(${c.photo})`,
         }}
       >
         <header className="atw-nav">
@@ -111,7 +111,8 @@ export function ProductLanding({ product }: { product: 'pursuit' | 'studio' }) {
             </Link>
           </div>
           <small className="product-hero-note">
-            An imagined atelier. The work below is labelled by its actual state.
+            Same Auckland atelier poster as the homepage fly-through. Walk the live
+            WorldScene study when you want the scroll journey — not a second 3D stack.
           </small>
         </div>
       </section>
