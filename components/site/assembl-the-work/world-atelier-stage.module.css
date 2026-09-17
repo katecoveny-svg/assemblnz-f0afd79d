@@ -2,9 +2,8 @@
 .stage {
   position: absolute;
   inset: 0;
-  z-index: -3;
+  z-index: 0;
   pointer-events: none;
-  /* Paper stage — daylight white space; plum is not a scene field. */
   background: #fffdfb;
 }
 .stage > div {
@@ -29,4 +28,8 @@
 }
 .posterDimmed {
   opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .poster,
+  .posterNative { transition: none; }
 }
