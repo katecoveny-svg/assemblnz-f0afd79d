@@ -22,6 +22,23 @@ async def read_only(route):
 async def capture(page, name):
     await page.screenshot(path=str(OUT / f'{name}.png'), timeout=90000)
 
+async def decoded_gallery(gallery):
+    # A title update alone does not prove the newly selected image is visible.
+    image = gallery.locator('img')
+    await expect(image).to_be_visible()
+    await image.evaluate('(img) => img.decode()')
+    assert await image.evaluate('(img) => img.complete && img.naturalWidth > 0'), 'Gallery image did not decode'
+
+async def separated_brief_controls(page):
+    gap = await page.locator('#how-it-works [data-step]').evaluate('''stage => {
+      const output = stage.querySelector('h3')?.parentElement?.parentElement;
+      const controls = stage.querySelector('label');
+      if (!output || !controls) throw new Error('Missing living brief or controls');
+      return controls.getBoundingClientRect().top - output.getBoundingClientRect().bottom;
+    }''')
+    assert gap >= 8, f'Living brief controls overlap the output (gap={gap:.1f}px)'
+    return round(gap, 1)
+
 async def hold_scene(page):
     pause = page.get_by_role('button', name='Pause scene motion', exact=True)
     if await pause.count() and await pause.is_enabled():
@@ -72,11 +89,13 @@ async def main():
                         await page.locator('#how-it-works button').nth(1).click()
                         await expect(page.locator('#how-it-works h3')).to_have_text('The work takes shape.')
                         await page.wait_for_timeout(1100)
+                        result['briefDoControlGap'] = await separated_brief_controls(page)
                         await capture(page,f'{name}-{width}-brief-do')
                         await page.get_by_role('slider',name='Work loop stage').focus()
                         await page.get_by_role('slider',name='Work loop stage').press('End')
                         await expect(page.locator('#how-it-works h3')).to_have_text('Now they can see it.')
                         await page.wait_for_timeout(1100)
+                        result['briefStudioControlGap'] = await separated_brief_controls(page)
                         await capture(page,f'{name}-{width}-brief-studio')
                         await page.evaluate('document.querySelector("#products").scrollIntoView({behavior:"instant"})')
                         await page.wait_for_timeout(1200)
@@ -92,14 +111,18 @@ async def main():
                     elif name == 'studio' and LOCAL:
                         gallery = page.locator('#studio-work')
                         await gallery.scroll_into_view_if_needed()
+                        await decoded_gallery(gallery)
+                        await capture(page,f'{name}-{width}-spatial')
                         await gallery.locator('[aria-label="Choose a visual example"] button').nth(1).click()
                         await expect(gallery.locator('h3')).to_have_text('An identity with movement.')
+                        await decoded_gallery(gallery)
                         await capture(page,f'{name}-{width}-motion')
                         await gallery.get_by_role('button',name='Play film',exact=True).click()
                         await expect(gallery.locator('video')).to_be_visible()
                         await gallery.locator('video').evaluate('(e)=>e.pause()')
                         await gallery.locator('[aria-label="Choose a visual example"] button').nth(2).click()
                         await expect(gallery.locator('h3')).to_have_text('A small mark. A whole world.')
+                        await decoded_gallery(gallery)
                         await capture(page,f'{name}-{width}-identity')
                         result['interactions']=['gallery selection','user-initiated video','identity selection']
                     else:
