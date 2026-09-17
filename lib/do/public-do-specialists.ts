@@ -30,7 +30,8 @@ export const PUBLIC_DO_SPECIALISTS = [
   },
 ] as const;
 
-export type PublicDoSpecialistId = (typeof PUBLIC_DO_SPECIALISTS)[number]['id'];
+export type PublicDoSpecialist = (typeof PUBLIC_DO_SPECIALISTS)[number];
+export type PublicDoSpecialistId = PublicDoSpecialist['id'];
 
 /** Labels that must never appear as public shelf / Glow / home promo cards. */
 export const BANNED_PUBLIC_DO_PROMOS = [

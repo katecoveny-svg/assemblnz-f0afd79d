@@ -7,7 +7,10 @@ import { ArrowUpRight, Download, Mic } from "lucide-react";
 import { DoMark } from "@/components/do/DoMark";
 import { DoDownloadCtas } from "@/components/do/DoDownloadCtas";
 import { readHomeBrief } from "@/apps/do/shared/home-handoff";
-import { PUBLIC_DO_SPECIALISTS } from "@/lib/do/public-do-specialists";
+import {
+  PUBLIC_DO_SPECIALISTS,
+  type PublicDoSpecialist,
+} from "@/lib/do/public-do-specialists";
 import styles from "./do-home.module.css";
 
 /**
@@ -17,7 +20,11 @@ import styles from "./do-home.module.css";
 export function DoHome() {
   const params = useSearchParams();
   const router = useRouter();
-  const [selected, setSelected] = useState(PUBLIC_DO_SPECIALISTS[0]);
+  // Explicit union: `as const` + PUBLIC_DO_SPECIALISTS[0] otherwise narrows
+  // useState to Meeting-only and fails when selecting Household (CI/Vercel).
+  const [selected, setSelected] = useState<PublicDoSpecialist>(
+    PUBLIC_DO_SPECIALISTS[0],
+  );
   const [handoffNotice, setHandoffNotice] = useState("");
 
   useEffect(() => {
