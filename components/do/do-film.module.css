@@ -29,7 +29,7 @@
   padding: 110px 7%;
   color: #fffdfb;
 }
-/* Explicit paper: global h2 uses --text-primary (#252d31), which reads green on plum film. */
+/* Explicit paper: global h2 ink was overriding inherited film color on this dark surface. */
 .copy h2 {
   font:
     400 clamp(40px, 5.3vw, 85px) / 1.05 var(--font-body),

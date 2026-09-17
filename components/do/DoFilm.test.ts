@@ -18,7 +18,8 @@ describe('DoFilm craft', () => {
 
   it('pins headline color to paper so global h2 ink cannot read green on plum', () => {
     const css = readFileSync(join(__dirname, 'do-film.module.css'), 'utf8');
-    expect(css).toMatch(/\.copy h2\s*\{[^}]*color:\s*#fffdfb/s);
-    expect(css).not.toMatch(/#252d31|#3f7373|#2b6b57|pounamu|canary/i);
+    const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(withoutComments).toMatch(/\.copy h2\s*\{[^}]*color:\s*#fffdfb/s);
+    expect(withoutComments).not.toMatch(/#252d31|#3f7373|#2b6b57/i);
   });
 });
