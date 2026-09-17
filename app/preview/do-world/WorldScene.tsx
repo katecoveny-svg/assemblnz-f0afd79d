@@ -154,33 +154,62 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
       const material = object.material;
       if (material instanceof MeshStandardMaterial) {
         const name = (material.name || object.name || '').toLowerCase();
-        // Waitematā water — slightly cooler metallic sheen so harbour reads vs plum fog.
-        if (name.includes('waitemata') || name.includes('harbour') || name.includes('water')) {
-          material.metalness = Math.max(material.metalness, 0.55);
-          material.roughness = Math.min(material.roughness, 0.18);
-          material.envMapIntensity = 1.35;
+        // Waitematā water — cooler metallic sheen so harbour reads vs plum fog.
+        if (
+          name.includes('waitemata') ||
+          name.includes('dusk water') ||
+          (name.includes('harbour') && name.includes('water'))
+        ) {
+          material.metalness = Math.max(material.metalness, 0.58);
+          material.roughness = Math.min(material.roughness, 0.12);
+          material.envMapIntensity = 1.45;
         }
-        // CBD / volcanic silhouettes — lift contrast so they survive ACES + fog.
-        if (name.includes('auckland') || name.includes('volcanic') || name.includes('city') || name.includes('silhouette')) {
-          material.envMapIntensity = 0.55;
-          material.roughness = Math.min(Math.max(material.roughness, 0.82), 0.95);
+        // Thin glazing — reflective, not opaque purple wash.
+        if (name.includes('glazing') || name.includes('glass')) {
+          material.transparent = true;
+          material.opacity = 0.18;
+          material.metalness = 0.2;
+          material.roughness = 0.05;
+          material.envMapIntensity = 1.8;
+          material.depthWrite = false;
+        }
+        // CBD / volcanic / bridge silhouettes — contrast for ACES + fog.
+        if (
+          name.includes('auckland') ||
+          name.includes('volcanic') ||
+          name.includes('bridge') ||
+          name.includes('city') ||
+          name.includes('silhouette') ||
+          name.includes('ferry')
+        ) {
+          material.envMapIntensity = 0.5;
+          material.roughness = Math.min(Math.max(material.roughness, 0.85), 0.96);
         }
         // Keep authored albedo; warm cove + city emissives toward dusty rose / harbour gold.
         if (material.emissiveIntensity > 0.01) {
-          const cityLight = name.includes('harbour city') || name.includes('city light') || name.includes('tower window');
+          const cityLight =
+            name.includes('harbour city') ||
+            name.includes('city light') ||
+            name.includes('tower window') ||
+            name.includes('ferry cabin') ||
+            name.includes('beacon');
           material.emissive = new Color(cityLight ? HARBOUR_GLOW : ROSE_WARM);
           material.emissiveIntensity = Math.min(
-            material.emissiveIntensity * (cityLight ? 1.45 : 1.2),
-            cityLight ? 10 : 6.5,
+            material.emissiveIntensity * (cityLight ? 1.5 : 1.15),
+            cityLight ? 11 : 5.5,
           );
         }
-        // Soften walnut / limestone for closer craft parity with ACES.
+        // Soften walnut / limestone / fabric for craft parity with ACES.
         if (name.includes('walnut') || name.includes('limestone')) {
-          material.roughness = Math.min(material.roughness, name.includes('walnut') ? 0.38 : 0.42);
-          material.envMapIntensity = 1.05;
+          material.roughness = Math.min(material.roughness, name.includes('walnut') ? 0.34 : 0.38);
+          material.envMapIntensity = 1.1;
+        } else if (name.includes('linen') || name.includes('wool') || name.includes('felt')) {
+          material.roughness = Math.max(material.roughness, 0.82);
+          material.envMapIntensity = 0.7;
         } else if (
           !name.includes('waitemata') &&
-          !name.includes('harbour') &&
+          !name.includes('glazing') &&
+          !name.includes('glass') &&
           !name.includes('water') &&
           !name.includes('auckland') &&
           !name.includes('volcanic') &&
@@ -348,30 +377,31 @@ function Journey({
   const { size, camera, invalidate } = useThree();
   const compact = size.width < 600;
 
-  // Eye-level walkthrough (~1.7–1.9 m). DO dwell frames the D sculpture at z≈-15.
+  // Eye-level walkthrough (~1.72–1.88 m). DO dwell frames the D sculpture at z≈-15.
+  // Mobile path stays closer to centreline and slightly lower for 375 framing.
   const path = useMemo(
     () =>
       new CatmullRomCurve3(
         compact
           ? [
-              new Vector3(2.4, 1.82, 10.2),
-              new Vector3(-1.0, 1.78, 3.0),
-              new Vector3(-0.2, 1.76, -1.0),
-              new Vector3(-1.2, 1.78, -7.5),
-              new Vector3(0.55, 1.76, -12.4),
-              new Vector3(0.9, 1.78, -14.2),
-              new Vector3(0.2, 1.74, -21.0),
-              new Vector3(1.6, 1.7, -27.4),
+              new Vector3(2.1, 1.74, 9.6),
+              new Vector3(-0.6, 1.72, 2.6),
+              new Vector3(0.1, 1.7, -1.2),
+              new Vector3(-0.8, 1.72, -7.2),
+              new Vector3(0.7, 1.7, -12.2),
+              new Vector3(1.0, 1.72, -14.0),
+              new Vector3(0.35, 1.68, -20.6),
+              new Vector3(1.4, 1.66, -27.0),
             ]
           : [
-              new Vector3(3.4, 1.88, 11.0),
-              new Vector3(-2.0, 1.82, 3.8),
-              new Vector3(-0.6, 1.78, -1.2),
-              new Vector3(-2.0, 1.8, -7.6),
-              new Vector3(0.6, 1.78, -12.2),
-              new Vector3(1.1, 1.8, -14.0),
-              new Vector3(-0.4, 1.76, -21.0),
-              new Vector3(2.0, 1.7, -27.6),
+              new Vector3(3.2, 1.86, 10.6),
+              new Vector3(-1.6, 1.82, 3.4),
+              new Vector3(-0.4, 1.78, -1.0),
+              new Vector3(-1.7, 1.8, -7.4),
+              new Vector3(0.7, 1.78, -12.0),
+              new Vector3(1.15, 1.8, -13.9),
+              new Vector3(-0.2, 1.76, -20.8),
+              new Vector3(1.9, 1.7, -27.4),
             ],
         false,
         'catmullrom',
@@ -385,20 +415,21 @@ function Journey({
       new CatmullRomCurve3(
         compact
           ? [
-              new Vector3(-5.5, 1.65, -1.5),
-              new Vector3(-2.5, 1.5, -4),
-              new Vector3(2.2, 2.55, -13.2),
-              new Vector3(2.15, 2.7, -13.5),
-              new Vector3(3.0, 1.7, -24),
-              new Vector3(3.1, 1.55, -30),
+              // Find: harbour glazing, then DO sculpture, then salon.
+              new Vector3(-6.0, 1.55, -1.2),
+              new Vector3(-3.2, 1.48, -4.2),
+              new Vector3(2.15, 2.5, -13.15),
+              new Vector3(2.1, 2.65, -13.45),
+              new Vector3(2.9, 1.6, -24),
+              new Vector3(3.0, 1.5, -29.5),
             ]
           : [
-              new Vector3(-7.5, 1.7, -2),
-              new Vector3(-4.0, 1.55, -6),
-              new Vector3(2.15, 2.45, -13.0),
-              new Vector3(2.1, 2.6, -13.35),
-              new Vector3(3.1, 1.65, -26),
-              new Vector3(3.2, 1.5, -31.5),
+              new Vector3(-8.0, 1.65, -1.8),
+              new Vector3(-4.5, 1.5, -5.5),
+              new Vector3(2.12, 2.42, -12.95),
+              new Vector3(2.08, 2.58, -13.3),
+              new Vector3(3.05, 1.62, -25.5),
+              new Vector3(3.15, 1.48, -31.2),
             ],
         false,
         'catmullrom',
@@ -482,18 +513,18 @@ export default function WorldScene(props: {
       style={{ opacity: ready ? 1 : 0.001, transition: 'opacity 700ms ease' }}
       shadows
       frameloop="demand"
-      camera={{ position: [3.4, 1.88, 11.0], fov: 48, near: 0.1, far: 180 }}
+      camera={{ position: [3.2, 1.86, 10.6], fov: 46, near: 0.1, far: 180 }}
       dpr={[1, 1.5]}
       gl={{
         antialias: true,
         powerPreference: 'high-performance',
         toneMapping: ACESFilmicToneMapping,
-        toneMappingExposure: 1.08,
+        toneMappingExposure: 1.05,
         outputColorSpace: SRGBColorSpace,
       }}
       onCreated={({ gl, invalidate }) => {
         gl.toneMapping = ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.08;
+        gl.toneMappingExposure = 1.05;
         gl.outputColorSpace = SRGBColorSpace;
         // Ensure the canvas element exists and demand-mode paints after mount.
         invalidate();
