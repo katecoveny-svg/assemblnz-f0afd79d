@@ -37,3 +37,7 @@ Albedo + Cycles world rebalanced for daylight (see `KATE_MAC_EXPORT.md`).
 ## Authority
 
 Draft PREVIEW only — no merge until Kate yes.
+
+## PR
+
+https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1346
