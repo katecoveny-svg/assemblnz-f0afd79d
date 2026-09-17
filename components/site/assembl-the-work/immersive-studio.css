@@ -1,4 +1,4 @@
-.immersive-studio{font-family:var(--font-body),'Instrument Sans',sans-serif;color:#240b21;background:#fffdfb}
+.immersive-studio{--text-primary:#240b21;--text-body:#654a4e;font-family:var(--font-body),'Instrument Sans',sans-serif;color:#240b21;background:#fffdfb}
 .immersive-studio .product-hero{min-height:720px;background-position:center 55%;background-size:cover}
 .immersive-studio .atw-nav{color:#fffdfb}
 .immersive-studio .atw-nav nav a{min-height:44px;display:inline-flex;align-items:center}

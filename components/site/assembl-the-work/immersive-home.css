@@ -1,5 +1,6 @@
 /* Scoped to the public homepage. Private workspaces and client brands are untouched. */
-.atw-immersive{background:#fffdfb;color:#240b21;overflow:clip}
+.atw-immersive{--text-primary:#240b21;--text-body:#654a4e;background:#fffdfb;color:#240b21;overflow:clip}
+.atw-immersive [data-product='do']{--text-primary:#fffdfb}
 .atw-immersive .atw-product-strip{position:relative;z-index:4;background:#fffdfb;padding:26px 6%;gap:24px;min-height:100px}
 .atw-immersive .atw-product-strip>a{justify-content:flex-start;gap:18px;font-size:18px;min-height:44px}
 .atw-immersive .atw-product-strip>a>span{color:#916a70;font-size:14px}
