@@ -1,0 +1,22 @@
+.immersive-studio{--text-primary:#240b21;--text-body:#654a4e;font-family:var(--font-body),'Instrument Sans',sans-serif;color:#240b21;background:#fffdfb}
+.immersive-studio .product-hero{min-height:720px;background-position:center 55%;background-size:cover}
+.immersive-studio .atw-nav{color:#fffdfb}
+.immersive-studio .atw-nav nav a{min-height:44px;display:inline-flex;align-items:center}
+.immersive-studio .product-hero-copy{padding-top:75px;padding-bottom:75px;max-width:1000px}
+.immersive-studio .product-hero-copy h1{font:400 clamp(58px,7.8vw,112px)/.98 var(--font-body),sans-serif;letter-spacing:-.06em;color:#fffdfb}
+.immersive-studio .product-hero-copy>p:not(.atw-kicker){font-size:18px;line-height:1.7;max-width:43ch;color:#fffdfb}
+.immersive-studio .atw-kicker{font-family:var(--font-body),sans-serif;font-size:10px;letter-spacing:.15em}
+.immersive-studio .product-hero-copy .atw-pill{box-shadow:0 3px 0 #d9cbd1,0 14px 35px #240b212b;transition:transform .25s}
+.immersive-studio .product-hero-copy .atw-pill:hover{transform:translateY(-2px)}
+.immersive-studio .product-hero-copy .atw-text-link{color:#fffdfb;border-color:#fffdfb6b;min-height:48px}
+.studio-workspace-note{display:flex;align-items:center;gap:8px;font:10px/1.6 var(--font-body),sans-serif;color:#fffdfb;margin-top:23px}
+.immersive-studio .product-work{background:#f5f1f2;color:#240b21}
+.immersive-studio .product-work h2,.immersive-studio .product-offer h2{font-family:var(--font-body),sans-serif;line-height:1.04;letter-spacing:-.055em;color:#240b21}
+.immersive-studio .product-work li{border-bottom-color:#240b2126}
+.immersive-studio .product-work h3{color:#240b21;font-family:var(--font-body),sans-serif;font-weight:500}
+.immersive-studio .product-work li p,.immersive-studio .product-offer>p{color:#654a4e}
+.immersive-studio .product-offer{background:#fffdfb}
+.immersive-studio .atw-footer{background:#f5f1f2}
+.immersive-studio .atw-footer nav a{min-height:44px;display:inline-flex;align-items:center}
+@media(max-width:760px){.immersive-studio .product-hero{min-height:710px;background-position:58% center}.immersive-studio .atw-nav{padding:24px 6%;grid-template-columns:1fr;gap:14px}.immersive-studio .atw-nav nav{grid-row:2;grid-column:1;gap:28px}.immersive-studio .atw-wordmark{font-size:29px}.immersive-studio .product-hero-copy{padding:45px 6% 70px}.immersive-studio .product-hero-copy h1{font-size:clamp(48px,13.6vw,70px);max-width:11ch}.immersive-studio .product-hero-copy>p:not(.atw-kicker){font-size:15px;max-width:33ch}.immersive-studio .product-hero-copy>div{gap:16px;flex-wrap:wrap}.immersive-studio .product-hero-copy .atw-pill,.immersive-studio .product-hero-copy .atw-text-link{font-size:12px;min-height:48px}.studio-workspace-note{font-size:9px;align-items:flex-start}.studio-workspace-note svg{flex-shrink:0;margin-top:2px}.immersive-studio .product-work,.immersive-studio .product-offer{padding:65px 6%}.immersive-studio .product-work h2,.immersive-studio .product-offer h2{font-size:43px}}
+@media(prefers-reduced-motion:reduce){.immersive-studio .product-hero-copy .atw-pill{transition:none;transform:none!important}}
