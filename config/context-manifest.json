@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-17",
+  "updated_at": "2026-09-18",
   "purpose": "Canonical routing manifest for Assembl agents, coding harnesses and DO runtimes. This file points to truth; it does not duplicate full context.",
   "entrypoints": {
     "human_or_coding_agent": [
@@ -45,6 +45,11 @@
     "do_meet": {
       "path": "docs/do-meet/",
       "status": "build briefs plus related Meeting DO runtime work; broader hosted-video/provider integration is not implied live"
+    },
+    "do_everywhere": {
+      "path": "docs/do-everywhere/",
+      "status": "user-approved goal tracked in #1360; opt-in TypeSafe-to-DO preparation on review branch; vision, device identity, durable records, hosted hub and approved external actions require implementation/proof",
+      "goal_manifest": "config/do-everywhere-goal.json"
     }
   },
   "product_structure": {
