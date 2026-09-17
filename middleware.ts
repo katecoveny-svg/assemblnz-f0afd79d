@@ -139,7 +139,8 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/creative-playground',
   // Public browser-local Creative Studio and its self-contained tools.
   '/creative-studio',
-  '/pursuit',
+  // Pursuit hub is external (ChatGPT). In-repo /pursuit* redirects in middleware.
+  // '/pursuit' deliberately omitted from splash-exempt — do not revive the maker.
   // Agency / Pursuit connections desk (Meta Business OAuth return surface).
   '/agency',
   '/tools/',
@@ -275,8 +276,8 @@ const splashGate = (request: NextRequest): NextResponse | null => {
     );
   }
 
-  // Public Task DO Maker only; keep /studio workbench and lookalike segments closed.
-  if (matchesPrefix(pathname, '/studio/do-maker')) return null;
+  // Public Task DO Maker / Pursuit redirects run earlier (all hosts) in middleware().
+  // Keep splashGate focused on live-apex marketing curtain only.
   if (SPLASH_EXEMPT_EXACT.has(pathname)) return null;
   if (SPLASH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) return null;
   if (SPLASH_STATIC_FILE.test(pathname)) return null;
@@ -843,6 +844,24 @@ export async function middleware(request: NextRequest) {
     ) {
       const url = request.nextUrl.clone();
       url.pathname = '/agents/ensemble';
+      url.search = '';
+      return NextResponse.redirect(url, 308);
+    }
+
+    // Kate lock 2026-09-17 — in-repo Pursuit maker/playground and partner
+    // Mode A/B are not public doors. Apply on every host (incl. Vercel preview).
+    if (pathname === '/pursuit' || pathname.startsWith('/pursuit/')) {
+      return NextResponse.redirect('https://assembl-pursuit.katecoveny.chatgpt.site/', 308);
+    }
+    if (matchesPrefix(pathname, '/studio/do-maker')) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/creative-studio';
+      url.search = '';
+      return NextResponse.redirect(url, 308);
+    }
+    if (pathname === '/do/maker/partner' || pathname.startsWith('/do/maker/partner/')) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/creative-studio';
       url.search = '';
       return NextResponse.redirect(url, 308);
     }

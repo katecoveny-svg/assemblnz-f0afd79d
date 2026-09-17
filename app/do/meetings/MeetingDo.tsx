@@ -426,8 +426,6 @@ function MeetingDoInner() {
     >
       <nav className={phoneMode ? styles.phoneNav : undefined}>
         <Link href="/do">← Your DOs</Link>
-        {!phoneMode ? <Link href="/do/connections">Connections</Link> : null}
-        {!phoneMode ? <Link href="/do/tasks?board=meeting-do">Tasks</Link> : null}
         {!phoneMode ? (
           <Link href="/do/meetings?phone=1" className={styles.phoneLink}>
             Phone view

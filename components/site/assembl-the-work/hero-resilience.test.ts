@@ -15,7 +15,8 @@ describe('homepage complete still view', () => {
       expect(html).toContain(output);
     expect(html).toContain('Open Meeting or Household');
     expect(html).toContain('name="brief"');
-    expect(html).toContain('href="/pursuit"');
+    expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
+    expect(html).not.toContain('href="/pursuit"');
     expect(html).toContain('href="/do"');
     expect(html).toContain('href="/creative-studio"');
   });

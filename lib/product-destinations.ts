@@ -15,9 +15,11 @@ export const PURSUIT_SITE_ORIGIN =
 export const PRODUCT_DESTINATIONS = {
   pursuit: {
     label: 'Pursuit',
-    overview: '/pursuit',
+    /** Public overview is the external ChatGPT hub only (Kate lock 2026-09-17). */
+    overview: PURSUIT_SITE_ORIGIN,
     example: PURSUIT_SITE_ORIGIN,
     workspace: `${PURSUIT_SITE_ORIGIN}/studios`,
+    external: true as const,
   },
   do: {
     label: 'DO',
@@ -31,7 +33,7 @@ export const PRODUCT_DESTINATIONS = {
   },
   /**
    * Assembl agent Studio (koro workbench + Task DO Maker).
-   * Distinct from Creative Studio's Sites workspace above.
+   * Not a public product door — splash-gated / not linked from public nav.
    */
   agentStudio: {
     label: 'Assembl Studio',

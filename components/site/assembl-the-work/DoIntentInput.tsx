@@ -4,9 +4,17 @@ import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DO_INPUT } from './copy';
-import { HOME_BRIEF_MAX_LENGTH, saveHomeBrief } from '@/apps/do/shared/home-handoff';
+import {
+  HOME_BRIEF_MAX_LENGTH,
+  resolvePublicDoHandoffTarget,
+  saveHomeBrief,
+} from '@/apps/do/shared/home-handoff';
 
-/** Carries a draft to the DO demonstration without submitting or compiling it. */
+/**
+ * Homepage "What do you need done?" — Kate lock.
+ * Routes only to working public DOs: Meeting DO, Household DO, or /do hub.
+ * Never partner maker, Mode A/B, Office, or specialist shelves.
+ */
 export function DoIntentInput({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [value, setValue] = useState('');
@@ -19,7 +27,8 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
       return;
     }
     try {
-      const destination = saveHomeBrief(window.sessionStorage, trimmed);
+      const target = resolvePublicDoHandoffTarget(trimmed);
+      const destination = saveHomeBrief(window.sessionStorage, trimmed, Date.now(), target);
       setError(null);
       router.push(destination);
     } catch {
@@ -33,17 +42,30 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
   };
 
   return (
-    <form className={`atw-do-form ${compact ? "is-compact" : ""}`} onSubmit={onSubmit} aria-label="Open public DO">
-      {!compact && <label className="sr-only" htmlFor="atw-do-intent">
-        {DO_INPUT.title}
-      </label>}
+    <form
+      className={`atw-do-form ${compact ? 'is-compact' : ''}`}
+      onSubmit={onSubmit}
+      aria-label="Open Meeting or Household DO"
+    >
+      {!compact && (
+        <label className="sr-only" htmlFor="atw-do-intent">
+          {DO_INPUT.title}
+        </label>
+      )}
       <div className="atw-do-field">
-        {compact && <label className="atw-job-label" htmlFor="atw-do-intent">What do you need done?</label>}
+        {compact && (
+          <label className="atw-job-label" htmlFor="atw-do-intent">
+            What do you need done?
+          </label>
+        )}
         <input
           id="atw-do-intent"
           name="brief"
           value={value}
-          onChange={(e) => { setValue(e.target.value); setError(null); }}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setError(null);
+          }}
           placeholder={DO_INPUT.placeholder}
           autoComplete="off"
           required
@@ -54,19 +76,36 @@ export function DoIntentInput({ compact = false }: { compact?: boolean }) {
           {compact ? <span aria-label="Open DO">→</span> : DO_INPUT.submit}
         </button>
       </div>
-      <p className="atw-do-honesty" id="atw-do-honesty">{DO_INPUT.honesty}</p>
-      {error && <p className="atw-do-error" role="alert">{error} <Link href="/do">Open DO →</Link></p>}
-      {!compact && <div className="atw-do-examples" role="group" aria-label="Example jobs">
-        {DO_INPUT.examples.map((example) => (
-          <button key={example} type="button" onClick={() => {
-            setValue(example);
-            setError(null);
-            document.getElementById('atw-do-intent')?.focus();
-          }}>
-            {example}
-          </button>
-        ))}
-      </div>}
+      <p className="atw-do-honesty" id="atw-do-honesty">
+        {DO_INPUT.honesty}
+      </p>
+      <p className="atw-do-honesty">
+        <Link href="/do/meetings">Meeting DO</Link>
+        {' · '}
+        <Link href="/do/household">Household DO</Link>
+      </p>
+      {error && (
+        <p className="atw-do-error" role="alert">
+          {error} <Link href="/do">Open DO →</Link>
+        </p>
+      )}
+      {!compact && (
+        <div className="atw-do-examples" role="group" aria-label="Example jobs">
+          {DO_INPUT.examples.map((example) => (
+            <button
+              key={example}
+              type="button"
+              onClick={() => {
+                setValue(example);
+                setError(null);
+                document.getElementById('atw-do-intent')?.focus();
+              }}
+            >
+              {example}
+            </button>
+          ))}
+        </div>
+      )}
     </form>
   );
 }

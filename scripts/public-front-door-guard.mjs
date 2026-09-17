@@ -17,8 +17,7 @@ const read = path => readFileSync(path, 'utf8');
 const checks = [
   ['app/page.tsx', /AssemblTheWorkHome/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
-  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<GlowDoWidget\s*\/>/],
-  ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
+    ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
   ['app/do/DoHome.tsx', /PUBLIC_DO_SPECIALISTS/],
   ['app/do/DoHome.tsx', /href="\/do\/meetings"/],
   ['app/do/DoHome.tsx', /href="\/do\/household"/],
@@ -41,6 +40,10 @@ if (!hasLegacyCompanySpatial && !hasWorldHero) {
   errors.push(
     `${homePath}: homepage hero must keep either <DoSpatialScene company /> or <AssemblWorldHero /> (WorldScene / atelier.glb fly-through)`,
   );
+}
+const homeSource = read(homePath);
+if (/<GlowDoWidget\b/.test(homeSource)) {
+  errors.push(`${homePath}: public homepage must not mount GlowDoWidget (Kate nav lock — omit unless context/vision works)`);
 }
 if (hasWorldHero) {
   const heroPath = 'components/site/assembl-the-work/AssemblWorldHero.tsx';
@@ -69,6 +72,9 @@ const publicFiles = [
 ];
 const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
 const bannedHrefs = [
+  'href="/pursuit"',
+  'href="/pursuit/playground"',
+  'href="/studio/do-maker"',
   'href="/do/family"',
   'href="/do/bills"',
   'href="/do/builder"',

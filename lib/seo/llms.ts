@@ -23,11 +23,10 @@ Pursuit turns relevant signals into qualified work. DO carries persistent agent 
 Human authority remains explicit. A connection to a tool does not itself grant permission to send, publish, spend or make irreversible changes. Consequential actions require the configured approval boundary and completed work should leave evidence or a receipt.`;
 
 const KEY_PAGES = [
-  ['/pursuit', 'Pursuit — find evidence-backed work and turn signals into qualified opportunities'],
-  ['/do', 'DO — portable specialist agents that research, prepare, build and coordinate work'],
-  ['/do/builder', 'Builderdoo — the model-agnostic software-building DO'],
-  ['/do/office', 'DO Office — visible coordination, approvals, active work and completed evidence'],
-  ['/do/connections', 'DO Connections — connect capabilities to user-scoped tools with explicit authority'],
+  ['https://assembl-pursuit.katecoveny.chatgpt.site', 'Pursuit hub — find evidence-backed work (external ChatGPT workspace)'],
+  ['/do', 'DO — public Meeting notes and generic Household chores board'],
+  ['/do/meetings', 'Meeting DO — record, transcribe, review useful notes'],
+  ['/do/household', 'Household DO — scrubbed public demo chores board'],
   ['/creative-studio', 'Studio — interactive demonstrations, campaigns, visual production, web and 3D proof'],
   ['/trust', 'Trust Centre — security, privacy, evidence and governance posture'],
   ['/mana-receipts', 'Evidence receipt and provenance layer'],

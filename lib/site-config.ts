@@ -310,10 +310,9 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // site story, never the marketplace. Lowercase on-brand (only micro-labels
 // are uppercase).
 export const nav = [
-  { href: '/pursuit', label: 'Pursuit' },
+  { href: 'https://assembl-pursuit.katecoveny.chatgpt.site', label: 'Pursuit', external: true },
   { href: '/do', label: 'DO' },
   { href: '/creative-studio', label: 'Studio' },
-  { href: '/about', label: 'About' },
 ] as const;
 
 export const navCta = { href: '/do', label: 'Try DO' };
