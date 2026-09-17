@@ -38,7 +38,10 @@ Fast GLB-only iterate:
 
 ## Tip SHA
 
-Recorded on the draft PR after push (git tip of the craft branch). Prefer Kate Mac re-export when polishing geometry beyond what cloud Blender 5.0 produced.
+Craft branch tip for this pass: `ebce77dc23f24df9878d8993d2d93a8cbb7867d0`  
+(also `docs/reviews/world-craft-2026-09-17/TIP_SHA.txt`)
+
+Prefer Kate Mac re-export with Blender **5.1.1** when polishing geometry beyond the cloud Blender 5.0 bake checked into this PR.
 
 ## Honesty
 
