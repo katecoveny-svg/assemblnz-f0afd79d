@@ -92,27 +92,46 @@ export function DoSpatialScene({ company = false }: { company?: boolean }) {
           <span className={styles.word}>DO</span>
         </span>
       </div>
-      {(company ? COMPANY : COMPANIONS).map((item, index) => (
-        <Link
-          className={styles.card}
-          data-depth={index}
-          href={item.href}
-          key={item.label}
-        >
-          <span className={styles.glyph} aria-hidden="true">
-            {item.label === "DO" || item.label === "Meeting DO" ? (
-              <span className={styles.glyphWord}>DO</span>
-            ) : (
-              item.glyph
-            )}
-          </span>
-          <span>
-            <small>{item.label}</small>
-            <strong>{item.title}</strong>
-          </span>
-          <ArrowUpRight size={15} />
-        </Link>
-      ))}
+      {(company ? COMPANY : COMPANIONS).map((item, index) => {
+        const external = item.href.startsWith("http");
+        const content = (
+          <>
+            <span className={styles.glyph} aria-hidden="true">
+              {item.label === "DO" || item.label === "Meeting DO" ? (
+                <span className={styles.glyphWord}>DO</span>
+              ) : (
+                item.glyph
+              )}
+            </span>
+            <span>
+              <small>{item.label}</small>
+              <strong>{item.title}</strong>
+            </span>
+            <ArrowUpRight size={15} />
+          </>
+        );
+        return external ? (
+          <a
+            className={styles.card}
+            data-depth={index}
+            href={item.href}
+            key={item.label}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {content}
+          </a>
+        ) : (
+          <Link
+            className={styles.card}
+            data-depth={index}
+            href={item.href}
+            key={item.label}
+          >
+            {content}
+          </Link>
+        );
+      })}
       <div className={styles.caption}>
         <span>
           {company ? "ONE CONNECTED SYSTEM" : "YOUR WORK. YOUR LITTLE DO."}
