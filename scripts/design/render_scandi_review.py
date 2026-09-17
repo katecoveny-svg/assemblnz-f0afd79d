@@ -31,11 +31,11 @@ def export_web_model(output):
                 originals.append((slot, old))
                 slot.material = replacements[old]
         supported = set(bpy.ops.export_scene.gltf.get_rna_type().properties.keys())
-        options = dict(filepath=str(output), export_format='GLB',
-            use_selection=True, export_apply=True,
-            export_cameras=False, export_lights=False)
-        if 'export_yup' in supported:
-            options['export_yup'] = True
+        print('GLTF_SUPPORTED', sorted(supported))
+        options = dict(filepath=str(output), export_format='GLB', use_selection=True)
+        for key, value in [('export_apply', True), ('export_yup', True), ('export_cameras', False), ('export_lights', False)]:
+            if key in supported:
+                options[key] = value
         missing = set(options) - supported
         if missing:
             raise RuntimeError('Required glTF options unsupported: ' + ', '.join(sorted(missing)))
