@@ -23,13 +23,16 @@ import {
 
 /** Brand field — deep plum / chalk / dusty rose. No purple D. */
 const FIELD = '#240B21';
-const FOG = '#2a1620';
+/** Harbour dusk fog — clear enough for Waitematā massing to read. */
+const FOG = '#24141c';
 /** Dusty rose — Identity glow + Spatial C accent (not cool violet). */
 const ROSE = '#916A70';
 const ROSE_WARM = '#c4a098';
 const ROSE_DUST = '#916A70';
 const PLUM_BODY = '#240B21';
 const CHALK = '#F5F1F2';
+/** Warm CBD window / harbour bounce — mulberry-adjacent, not grape chrome. */
+const HARBOUR_GLOW = '#e8a878';
 
 /**
  * Map scroll progress to path parameter with chapter holds.
@@ -150,12 +153,42 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
       object.receiveShadow = true;
       const material = object.material;
       if (material instanceof MeshStandardMaterial) {
-        // Keep authored albedo; warm cove emissives toward dusty rose, not violet.
-        if (material.emissiveIntensity > 0.01) {
-          material.emissive = new Color(ROSE_WARM);
-          material.emissiveIntensity = Math.min(material.emissiveIntensity * 1.15, 6);
+        const name = (material.name || object.name || '').toLowerCase();
+        // Waitematā water — slightly cooler metallic sheen so harbour reads vs plum fog.
+        if (name.includes('waitemata') || name.includes('harbour') || name.includes('water')) {
+          material.metalness = Math.max(material.metalness, 0.55);
+          material.roughness = Math.min(material.roughness, 0.18);
+          material.envMapIntensity = 1.35;
         }
-        material.envMapIntensity = 0.9;
+        // CBD / volcanic silhouettes — lift contrast so they survive ACES + fog.
+        if (name.includes('auckland') || name.includes('volcanic') || name.includes('city') || name.includes('silhouette')) {
+          material.envMapIntensity = 0.55;
+          material.roughness = Math.min(Math.max(material.roughness, 0.82), 0.95);
+        }
+        // Keep authored albedo; warm cove + city emissives toward dusty rose / harbour gold.
+        if (material.emissiveIntensity > 0.01) {
+          const cityLight = name.includes('harbour city') || name.includes('city light') || name.includes('tower window');
+          material.emissive = new Color(cityLight ? HARBOUR_GLOW : ROSE_WARM);
+          material.emissiveIntensity = Math.min(
+            material.emissiveIntensity * (cityLight ? 1.45 : 1.2),
+            cityLight ? 10 : 6.5,
+          );
+        }
+        // Soften walnut / limestone for closer craft parity with ACES.
+        if (name.includes('walnut') || name.includes('limestone')) {
+          material.roughness = Math.min(material.roughness, name.includes('walnut') ? 0.38 : 0.42);
+          material.envMapIntensity = 1.05;
+        } else if (
+          !name.includes('waitemata') &&
+          !name.includes('harbour') &&
+          !name.includes('water') &&
+          !name.includes('auckland') &&
+          !name.includes('volcanic') &&
+          !name.includes('city') &&
+          !name.includes('silhouette')
+        ) {
+          material.envMapIntensity = Math.max(material.envMapIntensity || 0, 0.95);
+        }
         material.needsUpdate = true;
       }
     });
@@ -175,21 +208,28 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
 }
 
 function Dusk() {
-  // Harbour dusk: warm rose low horizon into deep plum — Spatial C, no purple leak.
+  // Waitematā harbour dusk: warm rose-gold low horizon into deep plum — Spatial C, no grape wash.
   return (
     <mesh>
-      <sphereGeometry args={[130, 32, 20]} />
+      <sphereGeometry args={[140, 48, 28]} />
       <shaderMaterial
         side={BackSide}
         vertexShader={`varying vec3 direction; void main(){direction=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`}
         fragmentShader={`varying vec3 direction; void main(){
-          float h=normalize(direction).y;
-          vec3 low=vec3(0.42,0.24,0.28);
-          vec3 mid=vec3(0.22,0.12,0.16);
-          vec3 high=vec3(0.10,0.05,0.09);
-          vec3 sky=mix(low,mid,smoothstep(-0.12,0.18,h));
-          sky=mix(sky,high,smoothstep(0.12,0.72,h));
-          sky+=vec3(0.18,0.09,0.06)*exp(-pow((h-0.02)*11.0,2.0));
+          vec3 d=normalize(direction);
+          float h=d.y;
+          // Auckland-facing harbour glow sits on the −X window elevation.
+          float harbour=exp(-pow((d.x+0.55)*2.4,2.0))*exp(-pow(h*6.0,2.0));
+          vec3 low=vec3(0.38,0.22,0.26);
+          vec3 mid=vec3(0.18,0.10,0.14);
+          vec3 high=vec3(0.08,0.04,0.07);
+          vec3 sky=mix(low,mid,smoothstep(-0.14,0.16,h));
+          sky=mix(sky,high,smoothstep(0.10,0.68,h));
+          // Horizon band — dusty rose into harbour gold.
+          sky+=vec3(0.22,0.11,0.08)*exp(-pow((h-0.015)*10.0,2.0));
+          sky+=vec3(0.28,0.14,0.08)*harbour*0.55;
+          // Soft city light scatter above the waterline.
+          sky+=vec3(0.16,0.08,0.06)*exp(-pow((h+0.04)*18.0,2.0))*0.35;
           gl_FragColor=vec4(sky,1.0);
         }`}
       />
@@ -205,48 +245,57 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
         <Architecture onReady={onReady} />
         <Identity />
       </Suspense>
-      <Environment resolution={256} frames={1} environmentIntensity={0.48}>
+      <Environment resolution={256} frames={1} environmentIntensity={0.55}>
+        {/* Waitematā window elevation — harbour bounce into the room. */}
+        <Lightformer
+          position={[-12, 4, -8]}
+          rotation={[0, Math.PI / 2, 0]}
+          scale={[42, 10, 1]}
+          color={HARBOUR_GLOW}
+          intensity={2.4}
+        />
         <Lightformer
           position={[-10, 5, 0]}
           rotation={[0, Math.PI / 2, 0]}
           scale={[30, 8, 1]}
           color={ROSE}
-          intensity={1.7}
+          intensity={1.5}
         />
         <Lightformer
           position={[0, 9, -8]}
           rotation={[Math.PI / 2, 0, 0]}
           scale={[12, 48, 1]}
           color="#ffd4c4"
-          intensity={1.9}
+          intensity={1.85}
         />
         <Lightformer
           position={[8, 3, -14]}
           rotation={[0, -Math.PI / 2.4, 0]}
           scale={[18, 6, 1]}
           color={ROSE_DUST}
-          intensity={0.9}
+          intensity={0.85}
         />
       </Environment>
-      <hemisphereLight args={['#e8c8d0', '#1a0e14', 0.95]} />
+      <hemisphereLight args={['#e8c8d0', '#1a0e14', 0.9]} />
+      {/* Late harbour sun — warm mulberry, raking through the glazing. */}
       <directionalLight
-        position={[-11, 7.5, 1.5]}
-        intensity={2.15}
-        color="#e4b4a8"
+        position={[-14, 6.5, -2]}
+        intensity={2.55}
+        color="#f0b898"
         castShadow
         shadow-mapSize={[1536, 1536]}
-        shadow-camera-left={-22}
-        shadow-camera-right={22}
-        shadow-camera-top={22}
-        shadow-camera-bottom={-22}
+        shadow-camera-left={-24}
+        shadow-camera-right={24}
+        shadow-camera-top={24}
+        shadow-camera-bottom={-24}
         shadow-bias={-0.00015}
         shadow-normalBias={0.035}
       />
       {/* Soft cove washes along the walk — Find / DO / Show. */}
       {[
-        [2.8, 4.6, 0.2, 48],
-        [3.2, 4.7, -14.5, 58],
-        [3.0, 4.5, -27.5, 52],
+        [2.8, 4.6, 0.2, 44],
+        [3.2, 4.7, -14.5, 54],
+        [3.0, 4.5, -27.5, 48],
       ].map(([x, y, z, intensity]) => (
         <pointLight
           key={z}
@@ -257,11 +306,26 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
           decay={2}
         />
       ))}
+      {/* Exterior city scatter visible through the open glazing. */}
+      {[
+        [-16, 3.2, 2],
+        [-18, 4.0, -10],
+        [-17, 3.5, -22],
+      ].map(([x, y, z]) => (
+        <pointLight
+          key={`harbour-${z}`}
+          position={[x, y, z]}
+          intensity={36}
+          color={HARBOUR_GLOW}
+          distance={28}
+          decay={2}
+        />
+      ))}
       <spotLight
         position={[-6.5, 4.2, -15]}
         angle={0.55}
         penumbra={0.7}
-        intensity={28}
+        intensity={26}
         color={ROSE}
         distance={22}
         decay={2}
@@ -321,16 +385,16 @@ function Journey({
       new CatmullRomCurve3(
         compact
           ? [
-              new Vector3(-3.2, 1.7, -2),
-              new Vector3(2.2, 1.55, -3.5),
+              new Vector3(-5.5, 1.65, -1.5),
+              new Vector3(-2.5, 1.5, -4),
               new Vector3(2.2, 2.55, -13.2),
               new Vector3(2.15, 2.7, -13.5),
               new Vector3(3.0, 1.7, -24),
               new Vector3(3.1, 1.55, -30),
             ]
           : [
-              new Vector3(-5.0, 1.75, -3),
-              new Vector3(2.6, 1.55, -5),
+              new Vector3(-7.5, 1.7, -2),
+              new Vector3(-4.0, 1.55, -6),
               new Vector3(2.15, 2.45, -13.0),
               new Vector3(2.1, 2.6, -13.35),
               new Vector3(3.1, 1.65, -26),
@@ -436,7 +500,8 @@ export default function WorldScene(props: {
       }}
     >
       <color attach="background" args={[FIELD]} />
-      <fog attach="fog" args={[FOG, 28, 95]} />
+      {/* Longer fog falloff so Waitematā massing remains legible past the glazing. */}
+      <fog attach="fog" args={[FOG, 36, 110]} />
       <ContextHealth onLost={lost} />
       <Room onReady={markReady} />
       <Journey
