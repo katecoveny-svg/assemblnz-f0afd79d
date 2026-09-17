@@ -4,9 +4,10 @@ Blender 5.x (Kate Mac 5.1.1):
   /Applications/Blender.app/Contents/MacOS/Blender -b --python scripts/build-do-world.py -- /absolute/output
 Optional: --skip-render
 
-Imagined Assembl studio overlooking a Waitematā-like harbour at dusk —
+Imagined Assembl studio overlooking a Waitematā-like harbour in daylight —
 Rangitoto-inspired volcanic silhouette, waterfront CBD + sky landmark,
-Harbour Bridge–inspired span, plum / dusty-rose grade.
+Harbour Bridge–inspired span. Paper / chalk white space first; deep plum +
+dusty rose only on furnishings and art accents (not a global purple grade).
 Not a scan or mapped real property. Materials embed in GLB; no downloads.
 
 Pipeline: editable .blend saved first (separate objects), then geometry is
@@ -88,22 +89,28 @@ def material(name, color, rough=0.5, metal=0, emit=0, pattern=None, clearcoat=0,
     return m
 
 
-# Craft materials — Assembl plum grade, not lilac wash / grape neon.
+# Craft materials — paper/chalk daylight field; plum + dusty rose on accents only.
+# Kate 2026-09-17: kill global purple wash. Walls/floors/coves stay neutral.
 wood = material('Smoked walnut grain', (0.22, 0.105, 0.07), 0.28, pattern='wood', clearcoat=0.15, coat_rough=0.35)
-stone = material('Rose limestone', (0.70, 0.58, 0.50), 0.30, pattern='stone', clearcoat=0.35, coat_rough=0.22)
-plaster = material('Warm plum plaster', (0.18, 0.09, 0.12), 0.82, pattern='stone')
+# Chalk limestone (~#F5F1F2 lean) — not rose-tinted slab wash.
+stone = material('Chalk limestone', (0.93, 0.91, 0.90), 0.38, pattern='stone', clearcoat=0.22, coat_rough=0.28)
+# Paper chalk plaster (~#FFFDFB / #F5F1F2) — white space, not plum walls.
+plaster = material('Paper chalk plaster', (0.98, 0.97, 0.96), 0.86, pattern='stone')
 brass = material('Brushed bronze', (0.44, 0.25, 0.14), 0.22, 0.85, clearcoat=0.4, coat_rough=0.18)
-linen = material('Warm linen', (0.64, 0.48, 0.42), 0.84, pattern='fabric')
-rose = material('Muted rose wool', (0.32, 0.10, 0.17), 0.86, pattern='fabric')
-felt = material('Acoustic plum felt', (0.16, 0.08, 0.11), 0.95)
-light = material('Rose opal light', (0.97, 0.68, 0.54), 0.20, emit=4.8)
-paper = material('Ivory paper', (0.93, 0.85, 0.72), 0.76)
+linen = material('Warm linen', (0.78, 0.72, 0.66), 0.84, pattern='fabric')
+# Intentional Assembl accents — furniture / art only.
+rose = material('Muted rose wool', (0.42, 0.28, 0.30), 0.86, pattern='fabric')  # ~#916A70
+felt = material('Acoustic plum felt', (0.14, 0.04, 0.13), 0.95)  # ~#240B21
+# Warm daylight cove — paper, not rose-opal flood.
+light = material('Warm daylight cove', (0.99, 0.96, 0.92), 0.28, emit=1.6)
+paper = material('Ivory paper', (0.99, 0.98, 0.96), 0.76)
 graphite = material('Monitor graphite', (0.04, 0.035, 0.045), 0.35, 0.4)
-water = material('Waitemata dusk water', (0.07, 0.10, 0.13), 0.08, 0.62, pattern='water', clearcoat=0.6, coat_rough=0.08)
-city = material('Auckland waterfront mass', (0.05, 0.032, 0.05), 0.90)
-volcanic = material('Volcanic island silhouette', (0.065, 0.05, 0.07), 0.93)
-leaf = material('Pohutukawa botanical', (0.11, 0.075, 0.085), 0.76)
-city_glow = material('Harbour city light', (0.99, 0.78, 0.55), 0.14, emit=12)
+water = material('Waitemata daylight water', (0.22, 0.34, 0.40), 0.12, 0.55, pattern='water', clearcoat=0.55, coat_rough=0.10)
+city = material('Auckland waterfront mass', (0.16, 0.18, 0.22), 0.90)
+volcanic = material('Volcanic island silhouette', (0.18, 0.20, 0.18), 0.93)
+leaf = material('Pohutukawa botanical', (0.14, 0.22, 0.12), 0.76)
+# Soft daytime window bounce — readable, not dusk neon.
+city_glow = material('Harbour city light', (0.92, 0.84, 0.70), 0.22, emit=2.4)
 
 
 def finish(o, name, mat, bevel=0, smooth=False):
@@ -189,11 +196,11 @@ for y in range(-12, 34, 4):
     box('Floor transverse joint', (0, y, 0.052), (21.4, 0.01, 0.002), brass, 0)
 box('Sculpted ceiling', (0, 10, 5.6), (22, 48, 0.3), plaster, 0.1)
 
-# Continuous rose-opal cove lights with bronze companion rails.
+# Continuous warm-daylight cove lights with bronze companion rails (not rose-opal flood).
 for offset in (0, 5):
     points = [(offset + math.sin(i / 22) * 1.8, -13 + i * 0.3, 5.31) for i in range(158)]
     tube('Ceiling bronze cove', points, 0.13, brass)
-    tube('Continuous rose light', [(x, y, z - 0.12) for x, y, z in points], 0.042, light)
+    tube('Continuous daylight cove', [(x, y, z - 0.12) for x, y, z in points], 0.042, light)
 
 # Curved walnut enclosure — vertical fins catch raking harbour light.
 for i in range(156):
@@ -231,7 +238,7 @@ for y in (0, 15):
         cyl('Turned table pedestal', (x, y, 0.46), 0.32, 0.88, wood, 28)
         cyl('Pedestal foot', (x, y, 0.06), 0.42, 0.08, brass, 24)
     for x in (2.0, 5.0):
-        # Monitor: graphite slab + soft rose content glow (not live-agent theatre).
+        # Monitor: graphite slab + soft paper content glow (not live-agent theatre).
         box('Desk monitor', (x, y - 0.88, 1.52), (0.78, 0.035, 0.46), graphite, 0.008)
         box('Monitor glow', (x, y - 0.86, 1.52), (0.68, 0.008, 0.36), light, 0)
         box('Monitor stand', (x, y - 0.82, 1.18), (0.18, 0.12, 0.08), brass, 0.02)
@@ -244,7 +251,7 @@ for y in (0, 15):
         box('Selected paper', (x, y - 0.12, 1.14), (0.58, 0.42, 0.006), paper, 0.004)
         for j in range(3):
             box('Paper annotation', (x - 0.05, y - 0.22 + j * 0.07, 1.145), (0.36, 0.01, 0.002), brass, 0)
-    area('Table softbox', (3.5, y, 4.85), 380, (1, 0.66, 0.55), 3.2, (3.5, y, 0))
+    area('Table softbox', (3.5, y, 4.85), 420, (1.0, 0.96, 0.90), 3.2, (3.5, y, 0))
 
 # Low bookshelf / research ledge at Find (near entry).
 for bx in (5.5, 6.4):
@@ -366,19 +373,20 @@ for fy, fz in ((-2, 0.22), (6, 0.2), (14, 0.24), (22, 0.18), (10, 0.26), (18, 0.
 box('Ferry hull', (-13.5, 4, 0.35), (1.8, 4.2, 0.55), city, 0.06)
 box('Ferry cabin glow', (-13.2, 4, 0.75), (0.9, 2.8, 0.35), city_glow, 0)
 
-# Area lights for poster / Cycles (R3F uses its own Spatial C grade).
+# Area lights for poster / Cycles (R3F WorldScene carries the live daylight grade).
 for py in range(-10, 35, 7):
-    area('Harbour dusk wash', (-8, py, 3.6), 480, (0.70, 0.46, 0.40), 5.5, (2, py, 1.2))
-area('Entry fill', (-1, -10, 4.4), 560, (0.95, 0.70, 0.55), 4.0, (3, 3, 1))
-area('City bounce', (-15, 12, 5.2), 820, (0.95, 0.62, 0.38), 9, (0, 12, 2))
+    area('Harbour daylight wash', (-8, py, 3.6), 720, (0.95, 0.94, 0.90), 5.5, (2, py, 1.2))
+area('Entry fill', (-1, -10, 4.4), 680, (1.0, 0.98, 0.94), 4.0, (3, 3, 1))
+area('City bounce', (-15, 12, 5.2), 900, (0.90, 0.93, 0.98), 9, (0, 12, 2))
 
 # ——— Export ———
 
 scene = bpy.context.scene
 scene.world.use_nodes = True
 bg = scene.world.node_tree.nodes['Background']
-bg.inputs[0].default_value = (0.08, 0.045, 0.07, 1)
-bg.inputs[1].default_value = 0.32
+# Soft harbour daylight — chalk sky, not plum dusk.
+bg.inputs[0].default_value = (0.72, 0.80, 0.88, 1)
+bg.inputs[1].default_value = 1.15
 
 # Eye-level arrival (~1.85 m), ~36mm — glance toward Waitematā glazing.
 bpy.ops.object.camera_add(location=(2.6, -10.2, 1.85))
