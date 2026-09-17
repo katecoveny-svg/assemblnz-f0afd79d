@@ -1,7 +1,6 @@
-"""Run the authored office with a bounded glTF material export.
-Blender 4.0's exporter cannot translate procedural Noise/Bump graphs. Keep
-those graphs in the editable .blend and Cycles renders; give glTF separate,
-constant PBR materials, then restore originals. No textures are claimed baked.
+"""Render the owned Scandi scene and export constant PBR web materials.
+Procedural render materials stay in the editable Blender source. Export options
+are checked against the installed operator rather than assumed across versions.
 """
 from pathlib import Path
 import bpy
@@ -31,9 +30,17 @@ def export_web_model(output):
                     replacements[old] = new
                 originals.append((slot, old))
                 slot.material = replacements[old]
-        bpy.ops.export_scene.gltf(filepath=str(output), export_format='GLB',
-            use_selection=True, export_apply=True, export_yup=True,
+        supported = set(bpy.ops.export_scene.gltf.get_rna_type().properties.keys())
+        options = dict(filepath=str(output), export_format='GLB',
+            use_selection=True, export_apply=True,
             export_cameras=False, export_lights=False)
+        if 'export_yup' in supported:
+            options['export_yup'] = True
+        missing = set(options) - supported
+        if missing:
+            raise RuntimeError('Required glTF options unsupported: ' + ', '.join(sorted(missing)))
+        print('GLTF_EXPORT_OPTIONS', options)
+        bpy.ops.export_scene.gltf(**options)
     finally:
         for slot, original in originals:
             slot.material = original
