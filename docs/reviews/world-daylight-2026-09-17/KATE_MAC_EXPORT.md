@@ -51,7 +51,7 @@ After Mac re-export, runtime map-stripping for plaster / limestone / cove in
 
 ## Tip SHA
 
-`a0c8240abae751b2d73f7cf6149cfe53f6a8cf24`  
+`df7f07aac2b5c65a09bccb7cf2d89c1930008652`  
 (also `docs/reviews/world-daylight-2026-09-17/TIP_SHA.txt`)
 
 ## Honesty
