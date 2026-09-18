@@ -46,7 +46,7 @@ export function DoFocusWorkspace() {
         <p className={styles.help}>Open this tool in its own window for sign-in and device permissions. Your draft stays here. No source text is transferred automatically.</p>
         <Link className={styles.primary} style={{ color: '#FFFDFB', textDecoration: 'none' }} href={`/do/widget?tool=${mode}`} target="_blank" rel="noopener noreferrer">{mode === 'talk' ? 'Open voice in a full window' : 'Open vision in a full window'}</Link>
       </section> : <>
-        {mode === 'talk' && <section className={styles.toolSurface} aria-label="Talk to DO"><DoGeminiLive context={context} onDraft={acceptContext} /></section>}
+        {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive context={context} onDraft={acceptContext} /></div>}
         {mode === 'look' && <section className={styles.toolSurface} aria-label="Show DO an image"><DoVision onUse={acceptContext} /></section>}
       </>}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
