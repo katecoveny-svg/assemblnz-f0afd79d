@@ -7,7 +7,7 @@ permissions:
 jobs:
   public-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
@@ -15,9 +15,48 @@ jobs:
         with: {version: 9.15.9, run_install: false}
       - uses: actions/setup-node@v4
         with: {node-version: 24}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - name: Public boundary, citation, copy and safe diagnostic contracts
         run: pnpm test lib/pursuit
       - name: Scoped lint
         run: pnpm exec eslint lib/pursuit/public-diagnostics.ts lib/pursuit/public-diagnostics.test.ts lib/pursuit/public-research.ts app/api/pursuit/research/route.ts app/do/DoHome.tsx
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Read-only DO copy review
+        run: |
+          pnpm start > /tmp/assembl-copy.log 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+          python - <<'PY'
+          import asyncio,json
+          from pathlib import Path
+          from playwright.async_api import async_playwright,expect
+          async def main():
+              out=Path('copy-proof');out.mkdir(exist_ok=True);reports=[]
+              async with async_playwright() as p:
+                  browser=await p.chromium.launch()
+                  for width in [375,1440]:
+                      ctx=await browser.new_context(viewport={'width':width,'height':900},reduced_motion='reduce')
+                      page=await ctx.new_page()
+                      await page.goto('http://127.0.0.1:3000/do',wait_until='domcontentloaded')
+                      title=page.get_by_role('heading',name='Choose the task. Add the context. Review the result.')
+                      await title.scroll_into_view_if_needed();await expect(title).to_be_visible()
+                      await page.wait_for_timeout(800)
+                      await page.screenshot(path=str(out/f'do-copy-{width}.png'),full_page=True)
+                      body=await page.locator('body').inner_text()
+                      assert 'quiet' not in body.lower()
+                      assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth+1')
+                      reports.append({'width':width,'copy':'passed','overflow':False,'motion':'reduced for stable copy inspection'})
+                      await ctx.close()
+                  await browser.close()
+              (out/'report.json').write_text(json.dumps(reports,indent=2))
+          asyncio.run(main())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-pursuit-copy-and-safety
+          path: copy-proof/
+          retention-days: 14
