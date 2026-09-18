@@ -1,0 +1,75 @@
+name: Splat atelier smoke
+on:
+  push:
+    branches: [prototype/splat-auckland-atelier-20260918]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm build
+      - run: pip install playwright==1.55.0
+      - run: playwright install --with-deps chromium
+      - run: |
+          pnpm start > /tmp/assembl.log 2>&1 &
+          for i in $(seq 1 45); do
+            curl -sf http://127.0.0.1:3000/preview/splat-atelier >/dev/null && break
+            sleep 2
+          done
+      - run: |
+          python - <<'PY'
+          import asyncio
+          from pathlib import Path
+          from playwright.async_api import async_playwright
+          OUT=Path('visual-evidence/splat-atelier')
+          OUT.mkdir(parents=True,exist_ok=True)
+
+          async def main():
+              async with async_playwright() as p:
+                  browser=await p.chromium.launch(args=['--enable-webgl','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'])
+                  for width,height in [(1440,900),(375,812)]:
+                      ctx=await browser.new_context(viewport={'width':width,'height':height},reduced_motion='no-preference')
+                      page=await ctx.new_page()
+                      errors=[]
+                      page.on('pageerror',lambda e: errors.append(str(e)))
+                      page.on('console',lambda m: errors.append(m.text()) if m.type=='error' else None)
+                      resp=await page.goto('http://127.0.0.1:3000/preview/splat-atelier',wait_until='domcontentloaded',timeout=45000)
+                      assert resp and resp.status==200
+                      await page.wait_for_timeout(10000)
+                      assert await page.locator('canvas').count()>=1,'Spark canvas did not mount'
+                      assert not await page.evaluate('document.documentElement.scrollWidth > innerWidth + 1'),'horizontal overflow'
+                      await page.screenshot(path=str(OUT/f'splat-{width}-top.png'))
+                      await page.evaluate('window.scrollTo({top:document.documentElement.scrollHeight*0.5,behavior:"instant"})')
+                      await page.wait_for_timeout(1200)
+                      await page.screenshot(path=str(OUT/f'splat-{width}-mid.png'))
+                      await page.evaluate('window.scrollTo({top:document.documentElement.scrollHeight,behavior:"instant"})')
+                      await page.wait_for_timeout(1200)
+                      await page.screenshot(path=str(OUT/f'splat-{width}-end.png'))
+                      assert not errors, errors
+                      await ctx.close()
+                  await browser.close()
+
+          asyncio.run(main())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: splat-atelier-smoke
+          path: visual-evidence/splat-atelier/
+          retention-days: 7
