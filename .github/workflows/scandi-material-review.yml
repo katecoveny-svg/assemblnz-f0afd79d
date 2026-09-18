@@ -1,0 +1,42 @@
+name: Scandi material review
+on:
+  push:
+    branches: [design/scandi-material-review-20260918]
+    paths: ['scripts/design/scandi_material_review.py','.github/workflows/scandi-material-review.yml']
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - name: Blender and exporter dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y blender python3-numpy
+      - name: Render and validate all new outputs
+        run: |
+          mkdir -p visual-evidence/scandi-v2
+          blender -b --python-exit-code 1 --python scripts/design/scandi_material_review.py > visual-evidence/scandi-v2/render.log 2>&1
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,struct
+          root=Path('public/do/world/scandi-v2')
+          for name in ['scandi-office.glb','harbour-workroom.jpg','review-room.jpg','studio-lounge.jpg','scene-manifest.json']:
+              p=root/name
+              if not p.is_file() or p.stat().st_size<100:raise SystemExit('Missing output: '+str(p))
+          raw=(root/'scandi-office.glb').read_bytes()
+          assert raw[:4]==b'glTF' and struct.unpack('<I',raw[8:12])[0]==len(raw)
+          assert len(raw)<12000000
+          print((root/'scene-manifest.json').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scandi-material-review
+          path: |
+            public/do/world/scandi-v2/
+            visual-evidence/scandi-v2/
+          retention-days: 14
