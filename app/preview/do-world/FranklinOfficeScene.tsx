@@ -13,8 +13,9 @@ import { batchFranklinOffice } from '@/lib/design/franklin-batching';
 /** Real Blender geometry, not a camera move applied to the poster. */
 function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
   const { scene } = useGLTF(FRANKLIN_ASSETS.model);
-  const { camera, gl, invalidate, size } = useThree();
-  const compact = size.width < 651;
+  const get = useThree(state => state.get);
+  const invalidate = useThree(state => state.invalidate);
+  const compact = useThree(state => state.size.width < 651);
   const position = useRef(new Vector3());
   const target = useRef(new Vector3());
   const look = useRef(new Vector3());
@@ -28,10 +29,11 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
     model.traverse(object => { if (object instanceof Mesh) object.geometry.dispose(); });
   }, [model]);
   useEffect(() => {
-    const canvas = gl.domElement;
-    canvas.dataset.scene = 'franklin-v1';
-    canvas.dataset.franklinMeshes = String(dogMeshes);
-    canvas.dataset.sceneBatches = String(model.children.length);
+    // Read the external renderer at effect time, not from a React render snapshot.
+    const canvas = get().gl.domElement;
+    canvas.setAttribute('data-scene', 'franklin-v1');
+    canvas.setAttribute('data-franklin-meshes', String(dogMeshes));
+    canvas.setAttribute('data-scene-batches', String(model.children.length));
     const lost = (event: Event) => { event.preventDefault(); onReady?.(false); onFailure?.(); };
     canvas.addEventListener('webglcontextlost', lost);
     const wake = () => invalidate();
@@ -44,10 +46,10 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
       window.removeEventListener('scroll', wake);
       window.removeEventListener('resize', wake);
     };
-  }, [gl, dogMeshes, model, invalidate, onReady, onFailure]);
+  }, [get, dogMeshes, model, invalidate, onReady, onFailure]);
   useEffect(() => { invalidate(); }, [paused, compact, invalidate]);
 
-  useFrame((_, delta) => {
+  useFrame(({ camera, gl }, delta) => {
     if (paused && !first.current) return;
     const view = franklinView(progress.current ?? 0, compact);
     position.current.set(...view.position);
@@ -66,12 +68,12 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
       camera.updateProjectionMatrix();
     }
     camera.lookAt(look.current);
-    gl.domElement.dataset.cameraPosition = camera.position.toArray().map((v: number) => v.toFixed(3)).join(',');
-    gl.domElement.dataset.cameraTarget = look.current.toArray().map((v: number) => v.toFixed(3)).join(',');
+    gl.domElement.setAttribute('data-camera-position', camera.position.toArray().map((v: number) => v.toFixed(3)).join(','));
+    gl.domElement.setAttribute('data-camera-target', look.current.toArray().map((v: number) => v.toFixed(3)).join(','));
     if (!announced.current) {
       announced.current = true;
       readyFrame.current = requestAnimationFrame(() => {
-        gl.domElement.dataset.franklinReady = 'true';
+        gl.domElement.setAttribute('data-franklin-ready', 'true');
         onReady?.(true);
       });
       invalidate();
