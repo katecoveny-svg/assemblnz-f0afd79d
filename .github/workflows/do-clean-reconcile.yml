@@ -44,7 +44,6 @@ jobs:
           for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
           python - <<'PY'
           from pathlib import Path
-          import json
           from playwright.sync_api import sync_playwright
           out=Path('visual-evidence/do-reconcile');out.mkdir(parents=True,exist_ok=True)
           with sync_playwright() as p:
@@ -54,7 +53,8 @@ jobs:
               page.route('**/*',lambda r:r.continue_() if r.request.method in ['GET','HEAD','OPTIONS'] else r.abort())
               assert page.goto('http://127.0.0.1:3000/do').status==200
               page.wait_for_timeout(1200)
-              assert 'Choose the task.' in page.locator('h1').inner_text()
+              assert 'Work from the place' in page.locator('h1').inner_text()
+              assert 'Choose the task. Add the context. Review the result.' in page.locator('body').inner_text()
               assert not page.evaluate('document.documentElement.scrollWidth>innerWidth+1')
               page.screenshot(path=str(out/f'do-{width}.png'))
               page.close()
@@ -73,6 +73,6 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add app/do/DoHome.tsx public/do/downloads/assembl-do-extension-1.6.0.zip public/do/downloads/DO-mac-companion.zip public/do/downloads/assembl-do-macos-1.6.0.zip public/do/downloads/README.md
           if ! git diff --cached --quiet; then
-            git commit -m 'fix(do): ship verified current download mirrors and concrete public copy'
+            git commit -m 'fix(do): ship verified current download mirrors and concrete supporting copy'
             git push origin HEAD:refs/heads/fix/do-clean-reconcile-20260918
           fi
