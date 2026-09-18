@@ -59,10 +59,10 @@ describe('DO downloadable product', () => {
     const response = await GET(new Request('https://www.assembl.co.nz/api/do/download?format=extension'));
     expect(response.status).toBe(200);
     expect(response.headers.get('Content-Type')).toBe('application/zip');
-    expect(response.headers.get('Content-Disposition')).toContain('assembl-do-extension-1.5.2.zip');
+    expect(response.headers.get('Content-Disposition')).toContain(`assembl-do-extension-${EXTENSION_VERSION}.zip`);
     const zip = await JSZip.loadAsync(await response.arrayBuffer());
     const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
-    expect(manifest.version).toBe('1.5.2');
+    expect(manifest.version).toBe(EXTENSION_VERSION);
     expect(manifest.action.default_icon['16']).toBe('icons/icon16.png');
     expect(manifest.action.default_icon['32']).toBe('icons/icon32.png');
     expect(manifest.action.default_icon['48']).toBe('icons/icon48.png');
@@ -70,8 +70,10 @@ describe('DO downloadable product', () => {
     expect(manifest.permissions).toEqual(
       expect.arrayContaining(['activeTab', 'scripting', 'sidePanel', 'storage', 'tabs']),
     );
-    expect(manifest.side_panel.default_path).toBe('sidepanel.html');
-    expect(manifest.background.service_worker).toBe('background.js');
+    expect(manifest.side_panel.default_path).toBe('portable.html');
+    expect(zip.file('portable.html')).toBeTruthy();
+    expect(manifest.background.service_worker).toBe('portable-worker.js');
+    expect(zip.file('portable-worker.js')).toBeTruthy();
     expect(manifest.content_scripts?.[0]?.js).toEqual(['selection-badge.js']);
     for (const name of [
       'background.js',
@@ -116,8 +118,8 @@ describe('DO downloadable product', () => {
       expect(zip.file('macos/build.sh')).toBeTruthy();
       expect(zip.file('macos/package.sh')).toBeTruthy();
       const readme = await zip.file('README.md')!.async('string');
-      expect(readme).toMatch(/no notarised public Mac installer/i);
-      expect(readme).toContain('./build.sh');
+      expect(readme).toMatch(/not a notarised public Mac installer/i);
+      expect(readme).toContain('bash build.sh');
     }
   });
 
@@ -133,8 +135,9 @@ describe('DO downloadable product', () => {
     expect(zip.file('example.html')).toBeTruthy();
   });
 
-  it('keeps an origin value inside a JavaScript string', () => {
-    expect(() => new Script(doWidgetScript('https://example.nz/";throw new Error("x")//'))).not.toThrow();
+  it('rejects an invalid origin before generating JavaScript', () => {
+    expect(() => doWidgetScript('https://example.nz/";throw new Error("x")//')).toThrow('Expected an HTTP(S) origin');
+    expect(() => new Script(doWidgetScript('https://example.nz'))).not.toThrow();
   });
 
   it('does not allow arbitrary file paths as a download format', async () => {
