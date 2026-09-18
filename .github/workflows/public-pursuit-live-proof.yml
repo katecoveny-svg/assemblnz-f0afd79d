@@ -1,0 +1,35 @@
+name: Bounded live Pursuit proof
+on:
+  push:
+    branches: ['test/public-pursuit-live-proof-20260918']
+    paths: ['.github/workflows/public-pursuit-live-proof.yml','scripts/public-pursuit-live-proof.ts']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: bounded-public-pursuit-live-proof
+  cancel-in-progress: false
+jobs:
+  one_public_brief:
+    if: github.ref == 'refs/heads/test/public-pursuit-live-proof-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: One public-company research attempt and an idempotent replay
+        run: pnpm exec tsx scripts/public-pursuit-live-proof.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-pursuit-live-proof
+          path: visual-evidence/live-pursuit/
+          retention-days: 14
