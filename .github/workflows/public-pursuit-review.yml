@@ -1,5 +1,13 @@
 name: Public pursuit review
 on:
+  pull_request:
+    paths:
+      - 'lib/pursuit/**'
+      - 'app/api/pursuit/research/**'
+      - 'app/api/knowledge/**'
+      - 'components/site/pursuit/**'
+      - 'scripts/public-pursuit-browser.py'
+      - '.github/workflows/public-pursuit-review.yml'
   push:
     branches: ['feat/pursuit-live-canvas-20260918']
   workflow_dispatch:
@@ -29,8 +37,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm test lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
-      - run: pnpm exec eslint components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts app/api/knowledge app/api/pursuit/research
+      - run: pnpm test lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
+      - run: pnpm exec eslint components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts lib/pursuit/public-response.ts lib/pursuit/public-research.ts lib/pursuit/public-store.ts app/api/knowledge app/api/pursuit/research
       - run: pnpm build
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
       - run: |
