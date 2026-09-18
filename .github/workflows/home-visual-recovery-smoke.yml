@@ -1,0 +1,37 @@
+name: Homepage visual recovery smoke
+on:
+  push:
+    branches: [design/home-visual-recovery-20260918]
+permissions:
+  contents: read
+jobs:
+  homepage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm build
+      - run: pip install playwright==1.55.0
+      - run: playwright install --with-deps chromium
+      - run: |
+          pnpm start > /tmp/assembl-home.log 2>&1 &
+          for i in $(seq 1 45); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+      - run: python scripts/home-visual-recovery-smoke.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: home-visual-recovery
+          path: visual-evidence/home-recovery/
+          retention-days: 7
