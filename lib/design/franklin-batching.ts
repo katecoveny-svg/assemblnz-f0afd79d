@@ -1,8 +1,9 @@
 import { BufferGeometry, Group, Mesh, type Material, type Object3D, type BufferAttribute, type InterleavedBufferAttribute } from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
-/** Batch the static authored room without changing its mesh shape or texture UVs.
- * The cached GLB geometry/materials remain untouched. Dog meshes stay a separate group.
+/** Batch static geometry without changing shape or texture UVs.
+ * GLTFLoader sanitises periods from node names, so accept the owned Franklin prefix.
+ * Cached source geometry and materials remain untouched.
  */
 export function batchFranklinOffice(source: Object3D): Group {
   const groups = new Map<string, { name: string; material: Material; parts: BufferGeometry[] }>();
@@ -12,7 +13,7 @@ export function batchFranklinOffice(source: Object3D): Group {
   source.updateMatrixWorld(true);
   source.traverse(object => {
     if (!(object instanceof Mesh)) return;
-    const dog = object.name.startsWith('Franklin.');
+    const dog = object.name.startsWith('Franklin');
     if (dog) franklinCount++;
     const geometry: BufferGeometry = object.geometry.clone().applyMatrix4(object.matrixWorld);
     if (Array.isArray(object.material)) {
@@ -32,7 +33,6 @@ export function batchFranklinOffice(source: Object3D): Group {
   for (const group of groups.values()) {
     const merged = mergeGeometries(group.parts, false);
     if (!merged) {
-      // Incompatible attributes keep their original geometry rather than losing an object.
       for (const part of group.parts) {
         const mesh = new Mesh(part, group.material); mesh.name=group.name;
         mesh.castShadow=true; mesh.receiveShadow=true; output.add(mesh);

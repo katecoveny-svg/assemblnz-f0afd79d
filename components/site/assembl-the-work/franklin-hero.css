@@ -21,3 +21,10 @@
 }
 @media(max-height:700px) and (min-width:651px){.franklin-hero .franklin-hero-copy{padding:25px 0 55px}.franklin-hero .franklin-hero-copy h1{font-size:84px}}
 @media(prefers-reduced-motion:reduce){.franklin-hero .franklin-hero-frame{position:relative}}
+@media(scripting:none){
+ .franklin-hero{height:auto!important}
+ .franklin-hero .franklin-hero-frame{position:relative;height:100svh}
+ .franklin-hero .franklin-hero-chapters,.franklin-hero button,.franklin-hero .franklin-hero-caption{display:none}
+ .franklin-hero [aria-label='The complete work loop']{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;padding:45px 6%;background:#fffdfb;color:#240b21}
+}
+@media(scripting:none) and (max-width:650px){.franklin-hero [aria-label='The complete work loop']{grid-template-columns:1fr}}

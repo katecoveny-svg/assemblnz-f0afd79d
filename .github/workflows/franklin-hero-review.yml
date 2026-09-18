@@ -30,8 +30,8 @@ jobs:
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
       - name: Real geometry, camera, content and existing product regression checks
-        run: pnpm test lib/design/franklin-scene.test.ts components/site/assembl-the-work/hero-resilience.test.ts components/site/assembl-the-work/immersive-experience.test.ts apps/do/shared app/api/do lib/pursuit
-      - run: pnpm exec eslint lib/design/franklin-scene.ts lib/design/franklin-batching.ts lib/design/franklin-scene.test.ts app/preview/do-world/FranklinOfficeScene.tsx components/site/assembl-the-work/WorldAtelierStage.tsx components/site/assembl-the-work/AssemblWorldHero.tsx
+        run: pnpm test lib/design/franklin components/site/assembl-the-work/hero-resilience.test.ts components/site/assembl-the-work/immersive-experience.test.ts apps/do/shared app/api/do lib/pursuit
+      - run: pnpm exec eslint lib/design/franklin-scene.ts lib/design/franklin-batching.ts lib/design/franklin-scene.test.ts lib/design/franklin-batching.test.ts app/preview/do-world/FranklinOfficeScene.tsx components/site/assembl-the-work/WorldAtelierStage.tsx components/site/assembl-the-work/AssemblWorldHero.tsx
       - run: pnpm build
       - run: pip install playwright==1.55.0 Pillow==11.3.0 && playwright install --with-deps chromium
       - name: Start the actual built site
