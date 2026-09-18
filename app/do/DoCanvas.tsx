@@ -60,7 +60,7 @@ export function DoCanvas(p: Props) {
     window.addEventListener("resize", clamp);
     return () => window.removeEventListener("resize", clamp);
   }, []);
-  const accent = { plum: "#d5a6e8", violet: "#aaa5ff", copper: "#e3ad91" }[
+  const accent = { plum: "#916A70", violet: "#654A4E", copper: "#F5F1F2" }[
     p.appearance.colour
   ];
   function reorder(from: CanvasModule, to: CanvasModule) {
@@ -193,8 +193,8 @@ export function DoCanvas(p: Props) {
               className={`docanvas-object ${p.appearance.glow ? "glowing" : ""}`}
             >
               <Image
-                src="/do/canvas/dimensional-d.png"
-                alt="Dimensional purple D and glowing dot"
+                src="/do/canvas/identity-plum.svg"
+                alt="DO symbol in deep plum, paper and rose"
                 width={800}
                 height={800}
                 priority
@@ -285,7 +285,7 @@ export function DoCanvas(p: Props) {
                         p.onAppearance({ ...p.appearance, colour: c })
                       }
                     >
-                      {c}
+                      {{ plum: "rose", violet: "plum", copper: "chalk" }[c]}
                     </button>
                   ))}
                 </div>
@@ -305,7 +305,7 @@ export function DoCanvas(p: Props) {
               </div>
               <div className="docanvas-character">
                 <Image
-                  src="/do/canvas/pet-do-purple.png"
+                  src="/do/canvas/pet-do-plum.svg"
                   width={120}
                   height={120}
                   alt="Pet DO appearance"
@@ -472,7 +472,7 @@ export function DoCanvas(p: Props) {
       >
         {p.appearance.character === "franklin" ? (
           <Image
-            src="/do/canvas/pet-do-purple.png"
+            src="/do/canvas/pet-do-plum.svg"
             width={70}
             height={70}
             alt="Pet DO"
