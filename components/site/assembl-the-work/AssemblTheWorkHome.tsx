@@ -18,8 +18,8 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
     <AssemblWorldHero preview={preview} />
     <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>find it.</span></Link><Link href="/do"><strong>DO</strong><span>DO it.</span></Link><Link href="/creative-studio"><strong>Studio</strong><span>show it.</span></Link><p>{HERO.loopLine}</p></section>
-    <LivePursuitCanvas />
     <ProductDoors />
+    <LivePursuitCanvas />
     {/* The existing, explicitly labelled illustration remains separate from real research. */}
     <LivingBrief />
     <section className="immersive-statement" aria-labelledby="statement-title"><p>less starting over. more moving forward.</p><h2 id="statement-title">The idea is only<br />the <span>beginning.</span></h2><div><p>Find the opening. Prepare the work. Give the possibility a form someone can see, change and try.</p><Link href="/creative-studio">See what Studio can do <ArrowUpRight size={19} /></Link></div></section>
