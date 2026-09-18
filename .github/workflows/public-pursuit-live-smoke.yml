@@ -1,0 +1,62 @@
+name: Public Pursuit live canary
+on:
+  push:
+    branches: [test/public-pursuit-live-20260918]
+    paths: ['.github/workflows/public-pursuit-live-smoke.yml']
+permissions:
+  contents: read
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - name: One real public-source request; no private data or workspace writes
+        run: |
+          python - <<'PY'
+          import json,urllib.request,urllib.error,uuid
+          from pathlib import Path
+          out=Path('live-proof');out.mkdir(exist_ok=True)
+          origin='https://www.assembl.co.nz'
+          report={'synthetic_owner_test':True,'live_provider':True,'public_company':'Bunnings New Zealand','private_data':False,'paid_customer_call':False}
+          def request(path,data=None):
+              headers={'Accept':'application/json','User-Agent':'Assembl-owned-public-canary/1.0'}
+              if data is not None:headers.update({'Content-Type':'application/json','Origin':origin,'Sec-Fetch-Site':'same-origin'})
+              req=urllib.request.Request(origin+path,data=json.dumps(data).encode() if data is not None else None,headers=headers)
+              try:
+                  with urllib.request.urlopen(req,timeout=100) as r:return r.status,json.load(r)
+              except urllib.error.HTTPError as e:
+                  raw=e.read().decode();return e.code,json.loads(raw) if raw.startswith('{') else {'error':raw[:200]}
+          try:
+              status,ready=request('/api/pursuit/research');report['availability']=ready
+              assert status==200 and ready.get('ready'), 'Trial unavailable; no provider request made'
+              assert ready['limits']['globalDaily']<=3 and ready['limits']['perClientDaily']<=1,'Unexpected trial budget'
+              payload={'requestId':str(uuid.uuid4()),'company':'Bunnings New Zealand','goal':'Research the publicly documented PowerPass offering for New Zealand trade customers. Propose one small stock-to-job or account-admin demonstrator Assembl could pitch. Cite primary sources, separate verified facts from proposals, and do not invent a partnership, savings, budget or customer interest.','consent':True,'useTypeSafe':False}
+              status,result=request('/api/pursuit/research',payload)
+              report['research_status']=status
+              (out/'research-result.json').write_text(json.dumps(result,indent=2))
+              assert status==200,'Live research did not complete; do not substitute a fixture'
+              assert result.get('mode')=='live' and result['trace']['webSearches']>0 and result['trace']['sources'],'Missing actual search trace'
+              assert result['trace']['knowledgeIds'] and result['trace']['persisted'],'Missing knowledge retrieval or durable receipt'
+              report['trace']=result['trace'];report['requestId']=payload['requestId']
+              status,replay=request('/api/pursuit/research',payload)
+              assert status==200 and replay==result,'Retry did not return identical saved result'
+              report['idempotent_replay']=True
+              status,k=request('/api/knowledge/search?q=Studio%20Pursuit')
+              report['knowledge_status']=status;report['knowledge_result']=k
+              assert status==200,'Published knowledge endpoint failed'
+              status,m=request('/api/knowledge/mcp',{'jsonrpc':'2.0','id':1,'method':'tools/list','params':{}})
+              report['mcp_status']=status;report['mcp_result']=m
+              assert status==200 and 'result' in m,'Public MCP tool list failed'
+              report['passed']=True
+          finally:
+              (out/'live-canary-report.json').write_text(json.dumps(report,indent=2))
+              print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-pursuit-live-proof
+          path: live-proof/
+          retention-days: 14
