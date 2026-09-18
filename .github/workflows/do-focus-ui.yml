@@ -1,0 +1,83 @@
+name: Focused DO product UI
+on:
+  push:
+    branches: ['design/do-focus-experience-20260918']
+    paths: ['components/do/DoProductFrame.tsx','components/do/DoFocusWorkspace.tsx','components/do/do-product-focus.module.css','app/do/meetings/**','app/do/DoTextWorkspace.tsx','scripts/apply-do-focus.py','scripts/finish-do-focus.py','scripts/review-do-focus.py','.github/workflows/do-focus-ui.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: do-focus-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/design/do-focus-experience-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.patch.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Apply only the inspected presentation migration
+        id: patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! grep -q 'return <MeetingDoExperience' app/do/meetings/MeetingDo.tsx; then
+            python scripts/apply-do-focus.py
+            python scripts/finish-do-focus.py
+            git add app/do/meetings/MeetingDo.tsx app/do/meetings/MeetingDoExperience.tsx app/do/DoTextWorkspace.tsx app/do/DoUtilityDock.tsx app/do/widget/page.tsx docs/factory/PRIMITIVES.md scripts/public-front-door-guard.mjs components/do/DoFocusWorkspace.tsx
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'design(do): apply focused Meeting and portable workspace presentation'
+            git push origin HEAD:refs/heads/design/do-focus-experience-20260918
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  review:
+    needs: apply
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.apply.outputs.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - name: Typecheck the actual application
+        run: pnpm typecheck
+      - name: Lint new product components
+        run: pnpm exec eslint components/do/DoProductFrame.tsx components/do/DoFocusWorkspace.tsx app/do/meetings/MeetingDoExperience.tsx
+      - name: Existing meeting parsing and preparation checks
+        run: pnpm exec vitest run apps/do/shared/meeting-smart-notes.test.ts
+      - name: Guarded production build
+        run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Real component browser review with isolated fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm start > /tmp/do-focus-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+          python scripts/review-do-focus.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DO-focused-product-UI-proof
+          path: |
+            visual-evidence/do-focus/
+            /tmp/do-focus-server.log
+          if-no-files-found: warn
+          retention-days: 14
