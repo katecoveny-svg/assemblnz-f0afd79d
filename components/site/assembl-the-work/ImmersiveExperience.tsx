@@ -86,6 +86,7 @@ function ProductDoor({ product, index }: { product: typeof doors[number]; index:
   const y = useMotionValue(0);
   const rotateX = useSpring(y, { stiffness: 180, damping: 26 });
   const rotateY = useSpring(x, { stiffness: 180, damping: 26 });
+  const baseTilt = [-2.4, 1.2, -1.7][index] ?? 0;
   const move = (event: PointerEvent<HTMLElement>) => {
     if (reduced || event.pointerType !== 'mouse') return;
     const box = event.currentTarget.getBoundingClientRect();
@@ -95,7 +96,26 @@ function ProductDoor({ product, index }: { product: typeof doors[number]; index:
   const reset = () => { x.set(0); y.set(0); };
   const external = product.workspace.startsWith('https://');
   return (
-    <motion.article className={styles.door} data-product={product.id} id={product.id} style={{ rotateX: reduced ? 0 : rotateX, rotateY: reduced ? 0 : rotateY, transformPerspective: 1400 }} onPointerMove={move} onPointerLeave={reset} onPointerCancel={reset}>
+    <motion.article
+      className={styles.door}
+      data-product={product.id}
+      id={product.id}
+      style={{
+        rotateX: reduced ? 0 : rotateX,
+        rotateY: reduced ? 0 : rotateY,
+        rotateZ: reduced ? 0 : baseTilt,
+        transformPerspective: 1400,
+      }}
+      initial={reduced ? false : { opacity: 0, y: 42 }}
+      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      whileHover={reduced ? undefined : { y: -12, scale: 1.018, rotateZ: 0 }}
+      whileTap={reduced ? undefined : { scale: 0.995 }}
+      transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1], delay: index * 0.06 }}
+      onPointerMove={move}
+      onPointerLeave={reset}
+      onPointerCancel={reset}
+    >
       <div className={styles.doorTop}><span>0{index + 1}</span><span>{product.verb}</span><ArrowUpRight size={18} aria-hidden="true" /></div>
       <h3>{product.name}</h3>
       <div className={styles.doorArt} aria-hidden="true">
@@ -113,8 +133,15 @@ function ProductDoor({ product, index }: { product: typeof doors[number]; index:
 }
 
 export function ProductDoors() {
+  const reduced = useReducedMotion();
   return <section className={styles.products} id="products" aria-labelledby="products-title">
-    <header className={styles.sectionHead}><div><p className={styles.eyebrow}>pursuit / DO / studio</p><h2 id="products-title">Start anywhere.<br /><span>Keep it connected.</span></h2></div><p>Use one. Connect two. Run the whole loop.<br /><small>Client hubs and Creative Studio open your existing private workspaces. Sign-in required.</small></p></header>
+    <motion.header
+      className={styles.sectionHead}
+      initial={reduced ? false : { opacity: 0, y: 28 }}
+      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.45 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    ><div><p className={styles.eyebrow}>pursuit / DO / studio</p><h2 id="products-title">Start anywhere.<br /><span>Keep it connected.</span></h2></div><p>Use one. Connect two. Run the whole loop.<br /><small>Client hubs and Creative Studio open your existing private workspaces. Sign-in required.</small></p></motion.header>
     <div className={styles.doors}>{doors.map((product, index) => <ProductDoor key={product.id} product={product} index={index} />)}</div>
   </section>;
 }
