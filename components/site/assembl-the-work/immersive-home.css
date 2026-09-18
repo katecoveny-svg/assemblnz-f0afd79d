@@ -25,3 +25,44 @@
 .atw-immersive .atw-footer{padding:45px 6% 25px;background:#fffdfb}
 .atw-immersive .atw-footer nav a{display:inline-flex;align-items:center;min-height:44px}
 @media(max-width:760px){.atw-immersive .atw-product-strip{grid-template-columns:repeat(3,minmax(0,1fr));padding:19px 6%;gap:12px}.atw-immersive .atw-product-strip>a{border:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;font-size:16px}.atw-immersive .atw-product-strip>a>span{font-size:11px}.atw-immersive .atw-product-strip>p{grid-column:1/-1;padding:12px 0 0;margin-top:0!important;border-top:1px solid #240b2115;font-size:10px}.immersive-statement{padding:75px 6%;grid-template-columns:1fr;gap:30px}.immersive-statement>p{margin-bottom:0!important;font-size:9px}.atw-immersive .immersive-statement h2{font-size:clamp(49px,13vw,88px)}.immersive-statement>div>p{font-size:15px;margin-bottom:20px!important;max-width:35ch}.immersive-statement a{font-size:13px}.immersive-close{grid-template-columns:1fr;padding:75px 6%;gap:45px}.atw-immersive .immersive-close h2{font-size:clamp(39px,10.5vw,66px)}.immersive-close>div>p:not(.atw-kicker){font-size:14px}.immersive-close aside>a{font-size:23px}.atw-immersive .atw-footer{grid-template-columns:1fr;gap:20px}.atw-immersive .atw-footer nav{gap:4px 20px}}
+
+
+/* Spatial bridge between the fly-through and the product system. */
+.atw-immersive .atw-product-strip{
+  margin:-1px 4% 0;
+  border:1px solid rgba(255,255,255,.82);
+  border-top:0;
+  border-radius:0 0 24px 24px;
+  background:linear-gradient(135deg,rgba(255,253,251,.92),rgba(245,241,242,.82));
+  box-shadow:0 28px 70px rgba(36,11,33,.10),inset 0 1px 0 #fff;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.atw-immersive .atw-product-strip>a{
+  transition:transform .28s cubic-bezier(.22,1,.36,1),color .28s;
+}
+@media(hover:hover) and (pointer:fine){
+  .atw-immersive .atw-product-strip>a:hover{transform:translateY(-3px);color:#916a70}
+}
+@supports(animation-timeline:view()){
+  @media(prefers-reduced-motion:no-preference){
+    .immersive-statement>p,
+    .immersive-statement>h2,
+    .immersive-statement>div,
+    .immersive-close>div,
+    .immersive-close>aside{
+      animation:atw-home-rise linear both;
+      animation-timeline:view();
+      animation-range:entry 0% cover 32%;
+    }
+    .immersive-statement>h2{animation-range:entry 0% cover 38%}
+    .immersive-close>aside{animation-range:entry 6% cover 34%}
+    @keyframes atw-home-rise{
+      from{opacity:.36;transform:translateY(34px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+  }
+}
+@media(max-width:760px){
+  .atw-immersive .atw-product-strip{margin:0;border-radius:0;border-left:0;border-right:0}
+}
