@@ -1,0 +1,58 @@
+name: Franklin daylight authoring
+on:
+  push:
+    branches: ['design/franklin-daylight-20260918']
+    paths: ['scripts/design/refine_franklin_daylight.py','.github/workflows/franklin-daylight-authoring.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: franklin-daylight-authoring
+  cancel-in-progress: true
+jobs:
+  render:
+    if: github.ref == 'refs/heads/design/franklin-daylight-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 35307818280
+          name: franklin-office-source-and-renders
+          path: /tmp/franklin-source
+      - run: sudo apt-get update -qq && sudo apt-get install -y blender python3-numpy
+      - name: Refine the authored Blender source and render
+        run: |
+          set -euo pipefail
+          mkdir -p visual-evidence/franklin-daylight
+          blender -b -t 4 --python-exit-code 1 --python scripts/design/refine_franklin_daylight.py 2>&1 | tee visual-evidence/franklin-daylight/render.log
+          python - <<'PY'
+          from pathlib import Path
+          import json,struct
+          root=Path('public/do/world/franklin-v1');data=(root/'office.glb').read_bytes()
+          assert data[:4]==b'glTF' and len(data)<18_000_000
+          n=struct.unpack_from('<I',data,12)[0];g=json.loads(data[20:20+n])
+          assert any(x.get('name','').startswith('Franklin.') and 'mesh' in x for x in g['nodes'])
+          assert any(x.get('name','').startswith('Exterior.') and 'mesh' in x for x in g['nodes'])
+          for f in ['hero-wide.jpg','hero-mobile.jpg','workroom.jpg','studio.jpg','franklin-detail.jpg','CREDITS.md']:assert (root/f).is_file()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: franklin-daylight-source-and-renders
+          path: |
+            visual-evidence/franklin-daylight/
+            public/do/world/franklin-v1/
+          retention-days: 14
+      - name: Save reviewed candidates on the art branch only
+        run: |
+          git config user.name 'Assembl Blender authoring'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/do/world/franklin-v1
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: add a licensed Auckland panorama behind the real Franklin office'
+            git push origin HEAD:refs/heads/design/franklin-daylight-20260918
+          fi
