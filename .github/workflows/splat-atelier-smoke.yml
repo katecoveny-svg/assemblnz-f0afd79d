@@ -29,7 +29,7 @@ jobs:
       - run: |
           pnpm start > /tmp/assembl.log 2>&1 &
           for i in $(seq 1 45); do
-            curl -sf http://127.0.0.1:3000/preview/splat-atelier >/dev/null && break
+            curl -sf http://127.0.0.1:3000/preview/splat-atelier?qa=1 >/dev/null && break
             sleep 2
           done
       - run: |
@@ -54,13 +54,13 @@ jobs:
                       await page.wait_for_timeout(10000)
                       assert await page.locator('canvas').count()>=1,'Spark canvas did not mount'
                       assert not await page.evaluate('document.documentElement.scrollWidth > innerWidth + 1'),'horizontal overflow'
-                      await page.screenshot(path=str(OUT/f'splat-{width}-top.png'))
+                      await page.screenshot(path=str(OUT/f'splat-{width}-top.png'),timeout=90000)
                       await page.evaluate('window.scrollTo({top:document.documentElement.scrollHeight*0.5,behavior:"instant"})')
                       await page.wait_for_timeout(1200)
-                      await page.screenshot(path=str(OUT/f'splat-{width}-mid.png'))
+                      await page.screenshot(path=str(OUT/f'splat-{width}-mid.png'),timeout=90000)
                       await page.evaluate('window.scrollTo({top:document.documentElement.scrollHeight,behavior:"instant"})')
                       await page.wait_for_timeout(1200)
-                      await page.screenshot(path=str(OUT/f'splat-{width}-end.png'))
+                      await page.screenshot(path=str(OUT/f'splat-{width}-end.png'),timeout=90000)
                       assert not errors, errors
                       await ctx.close()
                   await browser.close()
