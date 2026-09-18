@@ -2,7 +2,7 @@ name: Focused DO product UI
 on:
   push:
     branches: ['design/do-focus-experience-20260918']
-    paths: ['components/do/DoProductFrame.tsx','components/do/DoFocusWorkspace.tsx','components/do/do-product-focus.module.css','app/do/meetings/**','app/do/DoTextWorkspace.tsx','scripts/apply-do-focus.py','scripts/finish-do-focus.py','scripts/review-do-focus.py','.github/workflows/do-focus-ui.yml']
+    paths: ['components/do/DoProductFrame.tsx','components/do/DoFocusWorkspace.tsx','components/do/do-product-focus.module.css','app/do/meetings/**','app/do/DoTextWorkspace.tsx','scripts/*do-focus*','.github/workflows/do-focus-ui.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -30,8 +30,11 @@ jobs:
           if ! grep -q 'return <MeetingDoExperience' app/do/meetings/MeetingDo.tsx; then
             python scripts/apply-do-focus.py
             python scripts/finish-do-focus.py
-            git add app/do/meetings/MeetingDo.tsx app/do/meetings/MeetingDoExperience.tsx app/do/DoTextWorkspace.tsx app/do/DoUtilityDock.tsx app/do/widget/page.tsx docs/factory/PRIMITIVES.md scripts/public-front-door-guard.mjs components/do/DoFocusWorkspace.tsx
-            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'design(do): apply focused Meeting and portable workspace presentation'
+          fi
+          python scripts/refine-do-focus.py
+          git add app/do/meetings/MeetingDo.tsx app/do/meetings/MeetingDoExperience.tsx app/do/DoTextWorkspace.tsx app/do/DoUtilityDock.tsx app/do/widget/page.tsx docs/factory/PRIMITIVES.md scripts/public-front-door-guard.mjs components/do/DoFocusWorkspace.tsx components/do/do-product-focus.module.css
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'design(do): refine focused Meeting and portable workspace presentation'
             git push origin HEAD:refs/heads/design/do-focus-experience-20260918
           fi
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
@@ -72,6 +75,7 @@ jobs:
           trap 'kill "$server" || true' EXIT
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
           python scripts/review-do-focus.py
+          python scripts/review-do-focus-embed.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
