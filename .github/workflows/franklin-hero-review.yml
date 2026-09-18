@@ -1,0 +1,48 @@
+name: Franklin hero browser review
+on:
+  push:
+    branches: ['feat/franklin-hero-live-20260918']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: franklin-hero-browser-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Real geometry, camera, content and existing product regression checks
+        run: pnpm test lib/design/franklin-scene.test.ts components/site/assembl-the-work/hero-resilience.test.ts components/site/assembl-the-work/immersive-experience.test.ts apps/do/shared app/api/do lib/pursuit
+      - run: pnpm exec eslint lib/design/franklin-scene.ts lib/design/franklin-batching.ts lib/design/franklin-scene.test.ts app/preview/do-world/FranklinOfficeScene.tsx components/site/assembl-the-work/WorldAtelierStage.tsx components/site/assembl-the-work/AssemblWorldHero.tsx
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 Pillow==11.3.0 && playwright install --with-deps chromium
+      - name: Start the actual built site
+        run: |
+          pnpm start > /tmp/assembl-franklin.log 2>&1 &
+          for i in $(seq 1 45); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+      - name: Render actual camera movement, pause and fallbacks on desktop and phone
+        run: python scripts/design/franklin-browser-review.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: franklin-live-browser-proof
+          path: visual-evidence/franklin-browser/
+          retention-days: 14

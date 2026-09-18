@@ -1,35 +1,8 @@
-/* Shared Auckland atelier stage — poster + WorldScene canvas. */
-.stage {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: #fffdfb;
-}
-.stage > div {
-  position: absolute !important;
-  inset: 0;
-  z-index: 1;
-}
-.poster {
-  object-fit: cover;
-  transition: opacity 700ms ease;
-  z-index: 2;
-}
-.posterNative {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-  pointer-events: none;
-  transition: opacity 700ms ease;
-}
-.posterDimmed {
-  opacity: 0;
-}
-@media (prefers-reduced-motion: reduce) {
-  .poster,
-  .posterNative { transition: none; }
-}
+/* Shared architectural stage. Readable poster until actual WebGL geometry renders. */
+.stage{position:absolute;inset:0;z-index:0;pointer-events:none;background:#fffdfb}
+.stage>div{position:absolute!important;inset:0;z-index:1}
+.poster{object-fit:cover;transition:opacity 700ms ease;z-index:2}
+.posterNative{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;pointer-events:none;transition:opacity 700ms ease}
+.stage[data-world='franklin'] .posterNative{z-index:2}
+.posterDimmed{opacity:0}
+@media(prefers-reduced-motion:reduce){.poster,.posterNative{transition:none}}
