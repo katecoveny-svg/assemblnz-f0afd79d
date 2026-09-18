@@ -1,0 +1,105 @@
+.page{
+  position:relative;
+  min-height:260vh;
+  background:#efe8e8;
+  color:#fffdfb;
+  overflow:clip;
+  font-family:var(--font-body,Arial,sans-serif);
+}
+.scene{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background:
+    radial-gradient(circle at 68% 32%,rgba(255,255,255,.4),transparent 28%),
+    #efe8e8;
+}
+.scene canvas{
+  display:block;
+  width:100%;
+  height:100%;
+}
+.overlay{
+  position:fixed;
+  left:clamp(24px,6vw,96px);
+  top:clamp(28px,8vh,96px);
+  z-index:3;
+  width:min(520px,calc(100vw - 48px));
+  pointer-events:none;
+  text-shadow:0 2px 24px rgba(36,11,33,.28);
+}
+.brand{
+  font-size:19px;
+  letter-spacing:-.04em;
+  margin-bottom:clamp(48px,12vh,140px);
+}
+.eyebrow{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  margin-bottom:18px;
+  opacity:.82;
+}
+.overlay h1{
+  margin:0;
+  font-size:clamp(54px,8vw,116px);
+  line-height:.86;
+  letter-spacing:-.065em;
+  font-weight:500;
+}
+.overlay h1 em{font-style:normal;font-weight:350}
+.overlay p{
+  max-width:390px;
+  margin:28px 0 0;
+  font-size:15px;
+  line-height:1.55;
+  color:rgba(255,253,251,.88);
+}
+.meta{
+  display:inline-flex;
+  margin-top:24px;
+  padding:10px 14px;
+  border:1px solid rgba(255,255,255,.32);
+  border-radius:999px;
+  background:rgba(36,11,33,.25);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.scrollCue{
+  position:fixed;
+  left:clamp(24px,6vw,96px);
+  bottom:28px;
+  z-index:3;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,253,251,.72);
+}
+.badge{
+  position:fixed;
+  right:22px;
+  top:22px;
+  z-index:3;
+  padding:9px 12px;
+  border:1px solid rgba(36,11,33,.16);
+  border-radius:999px;
+  background:rgba(255,253,251,.62);
+  color:#351b32;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+@media(max-width:760px){
+  .page{min-height:220vh}
+  .overlay{top:24px}
+  .brand{margin-bottom:64px}
+  .overlay h1{font-size:58px}
+  .overlay p{font-size:13px;max-width:300px}
+  .badge{top:auto;bottom:22px;right:22px}
+  .scrollCue{bottom:56px}
+}
