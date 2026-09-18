@@ -1,0 +1,98 @@
+name: Review legacy DO plum repair
+on:
+  push:
+    branches: ['fix/do-canvas-plum-20260918']
+    paths: ['scripts/design/repair_do_canvas_plum.py','.github/workflows/do-plum-repair.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: do-plum-reviewed-repair
+  cancel-in-progress: true
+jobs:
+  repair:
+    if: github.ref == 'refs/heads/fix/do-canvas-plum-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Apply exact source patch once
+        run: |
+          if grep -q 'src="/do/canvas/pet-do-plum.svg"' app/do/DoCanvas.tsx; then
+            echo 'Scoped repair already committed; reviewing current branch.'
+          else
+            python scripts/design/repair_do_canvas_plum.py
+          fi
+      - name: Create non-shipping component fixture
+        run: |
+          mkdir -p app/preview/do-plum-review
+          cat > app/preview/do-plum-review/page.tsx <<'TSX'
+          'use client';
+          import {DoCanvas,DEFAULT_MODULES} from '@/app/do/DoCanvas';
+          import {DEFAULT_APPEARANCE} from '@/app/do/DoAppearance';
+          export default function ColourProof(){return <div className="dob"><DoCanvas name="Review DO" onName={()=>{}} appearance={DEFAULT_APPEARANCE} onAppearance={()=>{}} skill="Prepare a brief" context="Public component fixture. No provider or account connected." onContext={()=>{}} onSave={()=>{}} onTemplate={()=>{}} modules={DEFAULT_MODULES} onModules={()=>{}}/></div>;}
+          TSX
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Capture actual component without external actions
+        run: |
+          pnpm start >/tmp/do-plum-review.log 2>&1 &
+          for i in $(seq 1 45); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+          python - <<'PY'
+          import asyncio,json
+          from pathlib import Path
+          from playwright.async_api import async_playwright,expect
+          out=Path('visual-evidence/do-plum');out.mkdir(parents=True,exist_ok=True)
+          async def main():
+              report=[]
+              async with async_playwright() as p:
+                  browser=await p.chromium.launch()
+                  for width in [375,1440]:
+                      page=await browser.new_page(viewport={'width':width,'height':960},reduced_motion='reduce')
+                      await page.goto('http://127.0.0.1:3000/preview/do-plum-review',wait_until='networkidle')
+                      await expect(page.locator('.docanvas')).to_be_visible()
+                      await page.locator('img[src*="identity-plum"]').evaluate('(e)=>e.decode()')
+                      assert await page.locator('img[src*="pet-do-purple"],img[src*="dimensional-d.png"]').count()==0
+                      await page.screenshot(path=str(out/f'do-canvas-{width}.png'),full_page=True)
+                      report.append({'width':width,'fixture':'actual DoCanvas component, no external actions','canvasBackground':await page.locator('.docanvas').evaluate('(e)=>getComputedStyle(e).background'),'accent':await page.locator('.docanvas').evaluate('(e)=>getComputedStyle(e).getPropertyValue("--canvas-accent")')})
+                      await page.close()
+                  await browser.close()
+              (out/'report.json').write_text(json.dumps(report,indent=2))
+          asyncio.run(main())
+          PY
+      - name: Save exact source diff for review
+        if: always()
+        run: |
+          mkdir -p visual-evidence/do-plum
+          git diff -- app/do/DoCanvas.tsx app/do/DoAppearance.tsx app/do/do-canvas.css > visual-evidence/do-plum/source.patch
+          cp app/do/DoCanvas.tsx app/do/DoAppearance.tsx app/do/do-canvas.css visual-evidence/do-plum/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: do-plum-source-review
+          path: visual-evidence/do-plum/
+          retention-days: 14
+      - name: Commit only reviewed source to the isolated branch
+        run: |
+          test "$GITHUB_REF" = 'refs/heads/fix/do-canvas-plum-20260918'
+          git config user.name 'Assembl scoped colour repair'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- app/do/DoCanvas.tsx app/do/DoAppearance.tsx app/do/do-canvas.css public/do/canvas/pet-do-plum.svg
+          if ! git diff --cached --quiet; then
+            git commit -m 'fix(do): remove legacy purple canvas assets and colours without changing behaviour'
+            git push origin HEAD:refs/heads/fix/do-canvas-plum-20260918
+          fi

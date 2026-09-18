@@ -41,7 +41,8 @@ export function DoAppearancePanel({
     ox: number;
     oy: number;
   } | null>(null);
-  const colours = { plum: "#916A70", violet: "#654A4E", copper: "#C4A494" };
+  // Saved colour keys remain compatible; visible accents use the current brand.
+  const colours = { plum: "#916A70", violet: "#654A4E", copper: "#F5F1F2" };
   return (
     <section
       className="do-customise"
@@ -81,7 +82,7 @@ export function DoAppearancePanel({
           </button>
         </fieldset>
         <fieldset>
-          <legend>Colour</legend>
+          <legend>Accent</legend>
           {(["plum", "violet", "copper"] as const).map((c) => (
             <button
               key={c}
@@ -93,7 +94,7 @@ export function DoAppearancePanel({
                 style={{ background: colours[c] }}
                 className="do-colour-chip"
               />
-              {c}
+              {{ plum: "rose", violet: "plum", copper: "chalk" }[c]}
             </button>
           ))}
         </fieldset>
