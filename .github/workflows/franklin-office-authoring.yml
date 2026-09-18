@@ -1,0 +1,57 @@
+name: Franklin office authoring
+on:
+  push:
+    branches: ['design/franklin-office-20260918']
+    paths: ['scripts/design/build_franklin_office.py','.github/workflows/franklin-office-authoring.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: franklin-office-authoring
+  cancel-in-progress: true
+jobs:
+  render:
+    if: github.ref == 'refs/heads/design/franklin-office-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - run: sudo apt-get update -qq && sudo apt-get install -y blender python3-numpy
+      - name: Render real geometry and export the fly-through asset
+        run: |
+          set -euo pipefail
+          mkdir -p visual-evidence/franklin
+          blender -b -t 4 --python-exit-code 1 --python scripts/design/build_franklin_office.py 2>&1 | tee visual-evidence/franklin/render.log
+          python - <<'PY'
+          import json,struct
+          from pathlib import Path
+          r=Path('public/do/world/franklin-v1')
+          for f in ['office.glb','hero-wide.jpg','hero-mobile.jpg','workroom.jpg','studio.jpg','franklin-detail.jpg','scene-manifest.json']:
+            assert (r/f).is_file() and (r/f).stat().st_size>100,f
+          data=(r/'office.glb').read_bytes();assert data[:4]==b'glTF'
+          n=struct.unpack_from('<I',data,12)[0];g=json.loads(data[20:20+n])
+          assert any(n.get('name','').startswith('Franklin.') and 'mesh' in n for n in g['nodes'])
+          assert len(data)<18_000_000, 'Review geometry budget before promotion'
+          assert (Path('visual-evidence/franklin')/'franklin-office.blend').is_file()
+          print(json.dumps({'glbBytes':len(data),'meshes':len(g['meshes']),'materials':len(g['materials']),'embeddedImages':len(g.get('images',[]))}))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: franklin-office-source-and-renders
+          path: |
+            visual-evidence/franklin/
+            public/do/world/franklin-v1/
+          retention-days: 14
+      - name: Commit generated assets only to isolated design branch
+        run: |
+          test "$GITHUB_REF" = 'refs/heads/design/franklin-office-20260918'
+          git config user.name 'Assembl Blender authoring'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/do/world/franklin-v1
+          if ! git diff --cached --quiet; then
+            git commit -m 'art: render the wide Scandi office with real Franklin mesh geometry'
+            git push origin HEAD:refs/heads/design/franklin-office-20260918
+          fi
