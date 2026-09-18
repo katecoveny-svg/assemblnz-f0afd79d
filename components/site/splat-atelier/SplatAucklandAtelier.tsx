@@ -17,6 +17,7 @@ export default function SplatAucklandAtelier() {
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount) return;
+    const qaStill = new URLSearchParams(window.location.search).has('qa');
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
@@ -249,11 +250,7 @@ export default function SplatAucklandAtelier() {
         renderer.setSize(mount.clientWidth, mount.clientHeight);
       };
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onResize);
-
-      const animate = () => {
-        if (disposed) return;
+      const renderFrame = (ease = 0.08) => {
         const scaled = progress * (cameraStops.length - 1);
         const i = Math.min(Math.floor(scaled), cameraStops.length - 2);
         const local = scaled - i;
@@ -262,26 +259,44 @@ export default function SplatAucklandAtelier() {
 
         const nextPosition = a.p.clone().lerp(b.p, local);
         const nextTarget = a.t.clone().lerp(b.t, local);
-        camera.position.lerp(nextPosition, 0.08);
-        const look = camera.getWorldDirection(new Vector3()).multiplyScalar(8).add(camera.position);
-        const desired = nextTarget.clone();
-        const targetDir = desired.sub(camera.position).normalize();
+        camera.position.lerp(nextPosition, ease);
+        const targetDir = nextTarget.clone().sub(camera.position).normalize();
         const currentQuat = camera.quaternion.clone();
         camera.lookAt(camera.position.clone().add(targetDir));
         const desiredQuat = camera.quaternion.clone();
-        camera.quaternion.copy(currentQuat).slerp(desiredQuat, 0.08);
+        camera.quaternion.copy(currentQuat).slerp(desiredQuat, ease);
 
-        franklin.rotation.y = Math.sin(performance.now() * 0.00028) * 0.035;
-        franklin.position.y = 0.03 + Math.sin(performance.now() * 0.0009) * 0.009;
+        if (!qaStill) {
+          franklin.rotation.y = Math.sin(performance.now() * 0.00028) * 0.035;
+          franklin.position.y = 0.03 + Math.sin(performance.now() * 0.0009) * 0.009;
+        }
 
         renderer.render(scene, camera);
+      };
+
+      const animate = () => {
+        if (disposed) return;
+        renderFrame(0.08);
         raf = requestAnimationFrame(animate);
       };
 
-      animate();
+      const qaScroll = () => {
+        onScroll();
+        for (let i = 0; i < 18; i += 1) renderFrame(0.22);
+      };
+
+      window.addEventListener('resize', onResize);
+      window.addEventListener('scroll', qaStill ? qaScroll : onScroll, { passive: true });
+
+      onScroll();
+      if (qaStill) {
+        for (let i = 0; i < 22; i += 1) renderFrame(0.24);
+      } else {
+        animate();
+      }
 
       cleanup = () => {
-        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('scroll', qaStill ? qaScroll : onScroll);
         window.removeEventListener('resize', onResize);
         cancelAnimationFrame(raf);
         renderer.dispose();
