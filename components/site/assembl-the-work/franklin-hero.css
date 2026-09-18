@@ -1,0 +1,23 @@
+/* The chosen clean, wide office composition. Only the homepage Franklin variant. */
+.franklin-hero .franklin-hero-frame{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;min-height:650px}
+.franklin-hero .franklin-hero-copy{grid-column:1;max-width:525px;align-self:center;padding-bottom:60px}
+.franklin-hero .franklin-hero-copy h1{font-size:clamp(76px,7.6vw,120px);line-height:.96;letter-spacing:-.065em}
+.franklin-hero .franklin-hero-copy>p{max-width:350px}
+.franklin-hero .franklin-hero-copy>p:nth-of-type(2){max-width:none}
+.franklin-hero .franklin-hero-scrim{background:linear-gradient(90deg,rgba(20,16,16,.77),rgba(20,16,16,.48) 29%,rgba(20,16,16,.12) 52%,transparent 75%),linear-gradient(0deg,rgba(20,16,16,.35),transparent 23%,transparent 80%,rgba(20,16,16,.23));pointer-events:none}
+.franklin-hero .franklin-hero-chapters{position:absolute;right:5.5%;bottom:45px;width:300px;max-width:33vw;margin:0}
+.franklin-hero .franklin-hero-detail{display:none}
+.franklin-hero .franklin-hero-chapters button{background:rgba(36,11,33,.48);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:9px;font-family:var(--font-body),sans-serif}
+.franklin-hero .franklin-hero-caption{grid-row:3;align-self:end;max-width:430px;margin:0;font-size:9px;color:#fffdfb}
+@media(max-width:650px){
+ .franklin-hero .franklin-hero-frame{min-height:720px;grid-template-rows:auto 1fr auto auto}
+ .franklin-hero .franklin-hero-copy{align-self:start;max-width:100%;padding:32px 0 0}
+ .franklin-hero .franklin-hero-copy h1{font-size:clamp(54px,15.8vw,88px);line-height:.96}
+ .franklin-hero .franklin-hero-copy>p{max-width:30ch}
+ .franklin-hero .franklin-hero-copy>p:nth-of-type(2){font-size:21px}
+ .franklin-hero .franklin-hero-scrim{background:linear-gradient(90deg,rgba(20,16,16,.58),rgba(20,16,16,.13) 72%,transparent),linear-gradient(0deg,rgba(20,16,16,.38),transparent 20%,rgba(20,16,16,.16) 65%,rgba(20,16,16,.35))}
+ .franklin-hero .franklin-hero-chapters{position:relative;right:auto;bottom:auto;grid-row:3;max-width:none;width:100%;margin:0}
+ .franklin-hero .franklin-hero-caption{grid-row:4;max-width:34ch;font-size:8px;margin-top:5px}
+}
+@media(max-height:700px) and (min-width:651px){.franklin-hero .franklin-hero-copy{padding:25px 0 55px}.franklin-hero .franklin-hero-copy h1{font-size:84px}}
+@media(prefers-reduced-motion:reduce){.franklin-hero .franklin-hero-frame{position:relative}}

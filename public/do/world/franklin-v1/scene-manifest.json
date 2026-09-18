@@ -1,0 +1,56 @@
+{
+  "version": "franklin-v1",
+  "generator": "Blender 4.0.2",
+  "geometry": "Owned office and black-and-tan long-haired dachshund. No photographic cutout.",
+  "interpretation": "Imagined Auckland-inspired office, not a photograph or geographic survey.",
+  "model": "/do/world/franklin-v1/office.glb",
+  "poster": "/do/world/franklin-v1/hero-wide.jpg",
+  "mobilePoster": "/do/world/franklin-v1/hero-mobile.jpg",
+  "blenderSourceArtifact": "franklin-office.blend",
+  "franklinMeshCount": 35,
+  "meshCount": 754,
+  "bytes": 11871832,
+  "camera": {
+    "positions": [
+      [
+        -4.8,
+        1.93,
+        7.6
+      ],
+      [
+        -2.35,
+        1.78,
+        4.2
+      ],
+      [
+        1.1,
+        1.7,
+        3.8
+      ]
+    ],
+    "targets": [
+      [
+        1.0,
+        1.13,
+        -1.3
+      ],
+      [
+        -0.5,
+        1.1,
+        -2.2
+      ],
+      [
+        4.5,
+        0.9,
+        -0.55
+      ]
+    ]
+  },
+  "palette": [
+    "#240B21",
+    "#916A70",
+    "#FFFDFB",
+    "#F5F1F2"
+  ],
+  "status": "render candidate; inspect before public promotion"
+}
