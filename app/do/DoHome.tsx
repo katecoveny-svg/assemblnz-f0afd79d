@@ -20,21 +20,21 @@ const BEATS: DoHoverCardItem[] = [
     id: "click",
     index: "01",
     title: "Click DO where you are",
-    body: "Browser, desktop, or share surface — same agent, same context.",
+    body: "Open the workspace or use the companion to bring selected context.",
     diagram: <DiagramClick />,
   },
   {
     id: "template",
     index: "02",
     title: "Pick or tweak a template",
-    body: "Start from a useful shape for the job in front of you.",
+    body: "Choose a task and edit the instructions for your job.",
     diagram: <DiagramTemplate />,
   },
   {
     id: "connect",
     index: "03",
     title: "Connect only if you need to",
-    body: "Optional connectors. You review before anything consequential.",
+    body: "Connect the tools the task needs. Review before external actions.",
     diagram: <DiagramConnect />,
   },
 ];
@@ -241,7 +241,7 @@ export function DoHome() {
 
         <Reveal delay={0.12} className={styles.promiseBlock}>
           <p className={styles.promise}>
-            You can DO the work from the place you’re already in.
+            Choose the task. Add the context. Review the result.
           </p>
           <div className={styles.actions}>
             <Link href="/contact?product=do" className={styles.primary}>
