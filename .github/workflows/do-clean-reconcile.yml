@@ -1,0 +1,78 @@
+name: DO clean reconciliation
+on:
+  push:
+    branches: ['fix/do-clean-reconcile-20260918']
+    paths: ['scripts/design/reconcile_do_copy.py','.github/workflows/do-clean-reconcile.yml','app/api/do/download/route.test.ts','apps/do/shared/portable-contract.test.ts']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: do-clean-reconciliation
+  cancel-in-progress: true
+jobs:
+  validate:
+    if: github.ref == 'refs/heads/fix/do-clean-reconcile-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: python scripts/design/reconcile_do_copy.py
+      - run: node scripts/package-do-downloads.mjs
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Full DO core tests plus research regression tests
+        run: pnpm test apps/do/shared app/api/do lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts lib/pursuit
+      - run: pnpm exec eslint app/api/do/download/route.test.ts apps/do/shared/portable-contract.test.ts
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Verify rendered DO copy without provider calls
+        run: |
+          pnpm start >/tmp/assembl.log 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+          python - <<'PY'
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          out=Path('visual-evidence/do-reconcile');out.mkdir(parents=True,exist_ok=True)
+          with sync_playwright() as p:
+            b=p.chromium.launch()
+            for width in [375,1440]:
+              page=b.new_page(viewport={'width':width,'height':900},reduced_motion='reduce')
+              page.route('**/*',lambda r:r.continue_() if r.request.method in ['GET','HEAD','OPTIONS'] else r.abort())
+              assert page.goto('http://127.0.0.1:3000/do').status==200
+              page.wait_for_timeout(1200)
+              assert 'Work from the place' in page.locator('h1').inner_text()
+              assert 'Choose the task. Add the context. Review the result.' in page.locator('body').inner_text()
+              assert not page.evaluate('document.documentElement.scrollWidth>innerWidth+1')
+              page.screenshot(path=str(out/f'do-{width}.png'))
+              page.close()
+            b.close()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: do-clean-reconcile-proof
+          path: visual-evidence/do-reconcile/
+          retention-days: 14
+      - name: Save tested generated files to the isolated branch only
+        run: |
+          test "$GITHUB_REF" = 'refs/heads/fix/do-clean-reconcile-20260918'
+          git config user.name 'Assembl verified packaging'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/do/DoHome.tsx public/do/downloads/assembl-do-extension-1.6.0.zip public/do/downloads/DO-mac-companion.zip public/do/downloads/assembl-do-macos-1.6.0.zip public/do/downloads/README.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'fix(do): ship verified current download mirrors and concrete supporting copy'
+            git push origin HEAD:refs/heads/fix/do-clean-reconcile-20260918
+          fi
