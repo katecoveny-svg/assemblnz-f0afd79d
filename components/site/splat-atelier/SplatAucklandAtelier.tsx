@@ -21,8 +21,9 @@ export default function SplatAucklandAtelier() {
     let cleanup: (() => void) | undefined;
 
     const boot = async () => {
-      const THREE = await import(/* webpackIgnore: true */ 'three');
-      const Spark = await import(/* webpackIgnore: true */ '@sparkjsdev/spark');
+      const runtimeImport = new Function('specifier', 'return import(specifier)') as (specifier: string) => Promise<any>;
+      const THREE = await runtimeImport('three');
+      const Spark = await runtimeImport('@sparkjsdev/spark');
 
       if (disposed) return;
 
