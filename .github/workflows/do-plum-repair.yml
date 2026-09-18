@@ -1,0 +1,48 @@
+name: Review legacy DO plum repair
+on:
+  push:
+    branches: ['fix/do-canvas-plum-20260918']
+    paths: ['scripts/design/repair_do_canvas_plum.py','.github/workflows/do-plum-repair.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: github.ref == 'refs/heads/fix/do-canvas-plum-20260918'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - run: python scripts/design/repair_do_canvas_plum.py
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm build
+      - name: Save the exact source diff for review
+        if: always()
+        run: |
+          mkdir -p visual-evidence/do-plum
+          git diff -- app/do/DoCanvas.tsx app/do/DoAppearance.tsx app/do/do-canvas.css > visual-evidence/do-plum/source.patch
+          cp app/do/DoCanvas.tsx app/do/DoAppearance.tsx app/do/do-canvas.css visual-evidence/do-plum/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: do-plum-source-review
+          path: visual-evidence/do-plum/
+          retention-days: 14
+      - name: Commit tested source only to isolated repair branch
+        run: |
+          test "$GITHUB_REF" = 'refs/heads/fix/do-canvas-plum-20260918'
+          git config user.name 'Assembl scoped colour repair'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- app/do/DoCanvas.tsx app/do/DoAppearance.tsx app/do/do-canvas.css public/do/canvas/pet-do-plum.svg
+          git commit -m 'fix(do): remove legacy purple canvas assets and colours without changing behaviour'
+          git push origin HEAD:refs/heads/fix/do-canvas-plum-20260918
