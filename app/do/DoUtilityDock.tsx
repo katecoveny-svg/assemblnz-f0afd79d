@@ -15,6 +15,7 @@ export function DoUtilityDock() {
   if (
     pathname === DO_PUBLIC_PATH ||
     pathname === '/do/widget' ||
+    pathname === '/do/meetings' ||
     pathname === '/do/object'
   ) {
     return null;

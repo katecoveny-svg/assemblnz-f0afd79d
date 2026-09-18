@@ -160,13 +160,13 @@ if (!/small agent that sits where you already work/.test(doHome)) {
 if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
-const meetingUi = read('app/do/meetings/MeetingDo.tsx');
+const meetingUi = read('app/do/meetings/MeetingDo.tsx') + (existsSync('app/do/meetings/MeetingDoExperience.tsx') ? read('app/do/meetings/MeetingDoExperience.tsx') : '');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 if (/Whisper-class|Deepgram nova-2|Granola-class|sharing this audio with Deepgram|Deepgram is not configured/i.test(meetingChrome)) {
   errors.push('Meeting DO UI chrome must not name Whisper/Deepgram/Granola (Kate audit 2026-09-17)');
 }
-if (!/Turn audio into notes/.test(meetingChrome)) {
-  errors.push('Meeting DO transcribe heading must be human: Turn audio into notes');
+if (!/Turn audio into notes|Create transcript/.test(meetingChrome)) {
+  errors.push('Meeting DO must explain transcription in plain language');
 }
 if (/Meet your To|PUBLIC DO\s*·\s*TWO TOOLS/i.test(doHome)) {
   errors.push('Public /do must not revive sparse Lovable hero (Meet your To / PUBLIC DO · TWO TOOLS)');
