@@ -188,3 +188,111 @@
   .doors{gap:34px;padding:10px 0 28px}
   .door{border-radius:24px;box-shadow:inset 0 1px 0 #fff,0 3px 0 rgba(201,183,193,.55),0 22px 54px rgba(36,11,33,.13)}
 }
+
+
+/* Visual recovery: owned imagery + CSS-resilient depth even before Motion hydrates. */
+.door:nth-child(1){--door-tilt:-2.4deg}
+.door:nth-child(2){--door-tilt:1.2deg}
+.door:nth-child(3){--door-tilt:-1.7deg}
+.door{
+  rotate:var(--door-tilt,0deg);
+  transition:rotate .42s cubic-bezier(.22,1,.36,1),translate .42s cubic-bezier(.22,1,.36,1),box-shadow .42s cubic-bezier(.22,1,.36,1);
+}
+.door:hover,.door:focus-within{
+  rotate:0deg;
+  translate:0 -8px;
+}
+.visualCard{
+  position:absolute;
+  inset:8px 0 5px;
+  overflow:hidden;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.8);
+  background:#f5f1f2;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76),0 18px 38px rgba(36,11,33,.16);
+  transform:perspective(950px) rotateX(7deg) rotateY(-4deg) translateZ(18px);
+  transition:transform .55s cubic-bezier(.22,1,.36,1),box-shadow .55s cubic-bezier(.22,1,.36,1);
+}
+.visualCard img{
+  object-fit:cover;
+  transition:transform .7s cubic-bezier(.22,1,.36,1),filter .5s ease;
+}
+.visualCard>span{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:13px;
+  z-index:2;
+  width:max-content;
+  max-width:calc(100% - 28px);
+  padding:9px 12px;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:999px;
+  background:rgba(255,253,251,.78);
+  color:#240b21;
+  font:500 10px/1.2 var(--font-body),sans-serif;
+  letter-spacing:.01em;
+  box-shadow:0 10px 24px rgba(36,11,33,.12);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.pursuitVisual img{object-position:center center}
+.pursuitVisual::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(36,11,33,.15));
+  pointer-events:none;
+}
+.doVisual{
+  background:
+    radial-gradient(circle at 66% 20%,rgba(145,106,112,.26),transparent 30%),
+    linear-gradient(145deg,#654a4e,#240b21 72%);
+}
+.doVisual img{
+  object-fit:contain;
+  padding:14px;
+  filter:drop-shadow(0 20px 28px rgba(15,3,13,.3));
+}
+.doVisual>span{
+  background:rgba(36,11,33,.72);
+  border-color:rgba(255,255,255,.22);
+  color:#fffdfb;
+}
+.studioArt{
+  inset:8px 0 5px;
+  border:1px solid rgba(255,255,255,.82);
+  transform:perspective(950px) rotateX(6deg) rotateY(4deg) rotateZ(2deg) translateZ(18px);
+}
+.door:hover .visualCard,.door:focus-within .visualCard{
+  transform:perspective(950px) rotateX(1deg) rotateY(0deg) translateY(-7px) translateZ(28px);
+  box-shadow:inset 0 1px 0 #fff,0 28px 58px rgba(36,11,33,.22);
+}
+.door:hover .visualCard img,.door:focus-within .visualCard img{transform:scale(1.035)}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .products .sectionHead,.products .door{
+      animation:assembl-door-reveal linear both;
+      animation-timeline:view();
+      animation-range:entry 0% cover 30%;
+    }
+    .products .door:nth-child(2){animation-range:entry 3% cover 32%}
+    .products .door:nth-child(3){animation-range:entry 6% cover 34%}
+    @keyframes assembl-door-reveal{
+      from{opacity:.45;translate:0 34px}
+      to{opacity:1;translate:0 0}
+    }
+  }
+}
+@media(max-width:760px){
+  .door:nth-child(1){--door-tilt:-1.4deg}
+  .door:nth-child(2){--door-tilt:1deg}
+  .door:nth-child(3){--door-tilt:-1deg}
+  .visualCard{inset:6px 0 4px;transform:perspective(900px) rotateX(4deg) translateZ(12px)}
+  .visualCard>span{font-size:9px;bottom:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .door{rotate:0deg;translate:0}
+  .visualCard,.door:hover .visualCard,.door:focus-within .visualCard{transform:none}
+  .visualCard img,.door:hover .visualCard img,.door:focus-within .visualCard img{transform:none}
+}
