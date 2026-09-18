@@ -1,4 +1,4 @@
-import { BufferGeometry, Group, Mesh, type Material, type Object3D } from 'three';
+import { BufferGeometry, Group, Mesh, type Material, type Object3D, type BufferAttribute, type InterleavedBufferAttribute } from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 /** Batch the static authored room without changing its mesh shape or texture UVs.
@@ -14,7 +14,7 @@ export function batchFranklinOffice(source: Object3D): Group {
     if (!(object instanceof Mesh)) return;
     const dog = object.name.startsWith('Franklin.');
     if (dog) franklinCount++;
-    const geometry = object.geometry.clone().applyMatrix4(object.matrixWorld);
+    const geometry: BufferGeometry = object.geometry.clone().applyMatrix4(object.matrixWorld);
     if (Array.isArray(object.material)) {
       const mesh = new Mesh(geometry, object.material);
       mesh.name = object.name;
@@ -22,7 +22,8 @@ export function batchFranklinOffice(source: Object3D): Group {
       output.add(mesh);
       return;
     }
-    const signature = Object.entries(geometry.attributes).sort(([a],[b]) => a.localeCompare(b)).map(([name,a]) => `${name}:${a.itemSize}:${a.normalized}:${a.array.constructor.name}`).join('|');
+    const attributes = Object.entries(geometry.attributes) as [string, BufferAttribute | InterleavedBufferAttribute][];
+    const signature = attributes.sort(([a],[b]) => a.localeCompare(b)).map(([name,a]) => `${name}:${a.itemSize}:${a.normalized}:${a.array.constructor.name}`).join('|');
     const key = `${dog?'dog':'room'}:${object.material.uuid}:${Boolean(geometry.index)}:${signature}`;
     let group = groups.get(key);
     if (!group) { group = { name: `${dog?'Franklin':'Office'}.${object.material.name}`, material: object.material, parts: [] }; groups.set(key, group); }

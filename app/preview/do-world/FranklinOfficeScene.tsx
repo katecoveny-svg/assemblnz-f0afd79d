@@ -34,7 +34,6 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
     canvas.dataset.sceneBatches = String(model.children.length);
     const lost = (event: Event) => { event.preventDefault(); onReady?.(false); onFailure?.(); };
     canvas.addEventListener('webglcontextlost', lost);
-    // Demand rendering wakes only for interaction, settling, resize or a new mount.
     const wake = () => invalidate();
     window.addEventListener('scroll', wake, { passive: true });
     window.addEventListener('resize', wake);
@@ -67,8 +66,8 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
       camera.updateProjectionMatrix();
     }
     camera.lookAt(look.current);
-    gl.domElement.dataset.cameraPosition = camera.position.toArray().map(v => v.toFixed(3)).join(',');
-    gl.domElement.dataset.cameraTarget = look.current.toArray().map(v => v.toFixed(3)).join(',');
+    gl.domElement.dataset.cameraPosition = camera.position.toArray().map((v: number) => v.toFixed(3)).join(',');
+    gl.domElement.dataset.cameraTarget = look.current.toArray().map((v: number) => v.toFixed(3)).join(',');
     if (!announced.current) {
       announced.current = true;
       readyFrame.current = requestAnimationFrame(() => {
