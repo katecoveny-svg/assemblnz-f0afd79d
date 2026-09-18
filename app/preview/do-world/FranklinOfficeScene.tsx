@@ -5,17 +5,24 @@ import { useGLTF } from '@react-three/drei/core/Gltf';
 import { Environment } from '@react-three/drei/core/Environment';
 import { Lightformer } from '@react-three/drei/core/Lightformer';
 import { Suspense, useEffect, useMemo, useRef } from 'react';
-import { ACESFilmicToneMapping, Mesh, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Vector3 } from 'three';
+import { ACESFilmicToneMapping, Mesh, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Vector3, type Camera, type WebGLRenderer } from 'three';
 import type { WorldSceneProps } from '@/components/site/assembl-the-work/WorldAtelierStage';
 import { FRANKLIN_ASSETS, franklinView } from '@/lib/design/franklin-scene';
 import { batchFranklinOffice } from '@/lib/design/franklin-batching';
 
+type SceneAccess = {
+  get: () => { camera: Camera; gl: WebGLRenderer };
+  invalidate: () => void;
+  size: { width: number };
+};
+
 /** Real Blender geometry, not a camera move applied to the poster. */
 function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
   const { scene } = useGLTF(FRANKLIN_ASSETS.model);
-  const get = useThree(state => state.get);
-  const invalidate = useThree(state => state.invalidate);
-  const compact = useThree(state => state.size.width < 651);
+  // The repository's ambient R3F shim exposes the no-argument hook only.
+  // Keep the imperative renderer access typed locally, without weakening that shim.
+  const { get, invalidate, size } = useThree() as SceneAccess;
+  const compact = size.width < 651;
   const position = useRef(new Vector3());
   const target = useRef(new Vector3());
   const look = useRef(new Vector3());
@@ -29,7 +36,6 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
     model.traverse(object => { if (object instanceof Mesh) object.geometry.dispose(); });
   }, [model]);
   useEffect(() => {
-    // Read the external renderer at effect time, not from a React render snapshot.
     const canvas = get().gl.domElement;
     canvas.setAttribute('data-scene', 'franklin-v1');
     canvas.setAttribute('data-franklin-meshes', String(dogMeshes));
@@ -49,8 +55,10 @@ function Office({ progress, paused, onReady, onFailure }: WorldSceneProps) {
   }, [get, dogMeshes, model, invalidate, onReady, onFailure]);
   useEffect(() => { invalidate(); }, [paused, compact, invalidate]);
 
-  useFrame(({ camera, gl }, delta) => {
+  useFrame((_, delta) => {
     if (paused && !first.current) return;
+    // Three owns these mutable objects. Read them inside the external frame callback.
+    const { camera, gl } = get();
     const view = franklinView(progress.current ?? 0, compact);
     position.current.set(...view.position);
     target.current.set(...view.target);
