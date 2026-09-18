@@ -81,7 +81,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
         <div className={styles.recordDisc}><DoMark /></div>
       </div>
       <p className={styles.recordCaption}>{p.recording ? time : p.starting ? 'Awaiting your permission' : p.hasAudio ? 'Recording captured' : 'Ready when you are'}</p>
-      <p className={styles.recordSub}>{p.recording ? 'The ring shows recording activity, not sound levels.' : p.hasAudio ? 'Listen back before sharing for transcription.' : 'Your microphone stays off until you start.'}</p>
+      <p className={styles.recordSub}>{p.recording ? 'Recording locally. Stay with your meeting.' : p.hasAudio ? 'Listen back before sharing for transcription.' : 'Your microphone stays off until you start.'}</p>
       {!p.hasAudio && !p.recording && <label className={styles.consent}><input type="checkbox" checked={p.permission} disabled={active || p.busy} onChange={e => p.setPermission(e.target.checked)} /><span>Everyone has been informed and I have permission to record.</span></label>}
       {p.recording ? <button className={styles.primary} type="button" onClick={p.stop}><Square size={17} fill="currentColor" />Stop recording</button>
         : !p.hasAudio ? <button className={styles.primary} type="button" disabled={!p.permission || active || p.busy} onClick={() => { setElapsed(0); p.start(); }}><Mic size={18} />{p.starting ? 'Waiting for permission…' : 'Start recording'}</button> : null}
@@ -111,7 +111,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
       <label className={styles.consent}><input type="checkbox" checked={p.shareNotes} disabled={p.busy} onChange={e => p.setShareNotes(e.target.checked)} /><span>Use this transcript with DO’s preparation provider to write my notes.</span></label>
       <button className={styles.primary} disabled={!p.shareNotes || p.busy || p.signedIn !== true} onClick={() => p.process('smart-notes')}>Prepare my notes <ArrowUpRight size={18} /></button>
     </section>}
-    {p.busy && <div className={styles.preparing} role="status"><div className={styles.assemblingLines} aria-hidden="true"><i /><i /><i /></div><div><strong>{p.activity === 'transcribe' ? 'Turning the recording into words.' : 'Preparing your meeting notes.'}</strong><p>No invented progress percentage. You can stop this request.</p></div><button className={styles.textButton} onClick={p.cancel}>Stop</button></div>}
+    {p.busy && <div className={styles.preparing} role="status"><div className={styles.assemblingLines} aria-hidden="true"><i /><i /><i /></div><div><strong>{p.activity === 'transcribe' ? 'Turning the recording into words.' : 'Preparing your meeting notes.'}</strong><p>You can stop this request. Your source stays here.</p></div><button className={styles.textButton} onClick={p.cancel}>Stop</button></div>}
     {ready && <section ref={resultRef} tabIndex={-1} className={styles.document} aria-label="Prepared meeting notes">
       <div className={styles.documentHead}><span className={styles.kicker}>{p.preview ? 'SAMPLE LAYOUT' : p.reviewed ? 'REVIEW RECORDED ON THIS PAGE' : 'DRAFT · YOUR REVIEW'}</span><button className={styles.textButton} onClick={() => saveText(p.draft)}><Download size={15} />Download notes</button></div>
       <div className={styles.tabs} role="group" aria-label="Meeting content">

@@ -1,35 +1,27 @@
 'use client';
 
-import Link from 'next/link';
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { DoLivingBlob } from '@/components/do/DoLivingBlob';
-import { DoWorkBoard } from '@/components/do/DoWorkBoard';
-import { DoInstallPwaCta } from '@/components/do/DoInstallPwaCta';
-import { DoTaskPanel } from '@/components/do/DoTaskPanel';
+import { MeetingDoExperience } from './MeetingDoExperience';
 import { saveHomeBrief } from '@/apps/do/shared/home-handoff';
 import {
   MEETING_SMART_NOTES_BRIEF,
-  parseMeetingSmartNotes,
 } from '@/apps/do/shared/meeting-smart-notes';
 import type { DoPreparedDraft } from '@/apps/do/shared/preparation';
 import '@/app/do/do-craft.css';
-import styles from './meeting.module.css';
 
 /**
  * Meeting DO — recording-first, phone-easy.
  * Pipeline: Capture → turn audio into notes → review.
  * Record + download work unsigned-in. Transcribe / write notes need sign-in.
- * `?phone=1` → one-screen Install → Record landing for tonight’s phone use.
+ * The same focused recording experience adapts to desktop and phone.
  *
- * Compatible with per-DO to-do panel from PR #1303 (boardId meeting-do).
+ * Saved tasks remain accessible via More; no task board competes with recording.
  */
 function MeetingDoInner() {
   const router = useRouter();
   const params = useSearchParams();
-  const phoneMode = params.get('phone') === '1';
   const previewNotes = params.get('previewNotes') === '1';
-  const recordRef = useRef<HTMLElement | null>(null);
   const [captureMode, setCaptureMode] = useState<'microphone' | 'meeting'>('microphone');
   const audioContext = useRef<AudioContext | null>(null);
   const extraStreams = useRef<MediaStream[]>([]);
@@ -48,8 +40,7 @@ function MeetingDoInner() {
   const [reviewed, setReviewed] = useState(false);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [transcriptionReady, setTranscriptionReady] = useState<boolean | null>(null);
-  const [pasteOpen, setPasteOpen] = useState(false);
-  const [editNotesOpen, setEditNotesOpen] = useState(false);
+  const [activity, setActivity] = useState<'transcribe' | 'smart-notes' | null>(null);
   const recorder = useRef<MediaRecorder | null>(null);
   const stream = useRef<MediaStream | null>(null);
   const alive = useRef(true);
@@ -166,36 +157,9 @@ function MeetingDoInner() {
       'Avery and Jordan discussed the phone Meeting DO for the demo. Decided to ship soft launch after Install → Record works. Riley will send the invite by Friday. Budget not confirmed. Open question: who hosts the follow-up?',
     );
     setDraft(sample);
-    setReceipt({
-      version: 1,
-      id: '00000000-0000-4000-8000-000000000001',
-      task: 'meeting-notes',
-      title: 'Meeting notes · Meeting transcript',
-      text: sample,
-      createdAt: new Date().toISOString(),
-      status: 'draft',
-      evidence: {
-        method: 'model',
-        model: 'preview-only (not generated)',
-        sourceTitle: 'Meeting transcript',
-        sourceUrl: '',
-        sourceHash: '0'.repeat(64),
-        sourceCharacters: sample.length,
-        instructionHash: '0'.repeat(64),
-        outputHash: '0'.repeat(64),
-        consentAt: new Date().toISOString(),
-        boundary:
-          'Preview layout only. No model was called. No message was sent.',
-      },
-    });
-    setPasteOpen(true);
-    setShareNotes(true);
-  }, [previewNotes]);
+    setReceipt(null);
 
-  const noteSections = useMemo(
-    () => (draft.trim() ? parseMeetingSmartNotes(draft) : []),
-    [draft],
-  );
+  }, [previewNotes]);
 
   async function start() {
     if (!permission || pending.current || recording) return;
@@ -269,6 +233,7 @@ function MeetingDoInner() {
       rec.start(1000);
       setAudio(null);
       setAudioUrl('');
+      setNotes(''); setDraft(''); setReceipt(null); setReviewed(false); setShareNotes(false);
       setRecording(true);
       timer.current = setTimeout(stop, 10 * 60 * 1000);
     } catch {
@@ -305,6 +270,7 @@ function MeetingDoInner() {
       return;
     }
     setBusy(true);
+    setActivity(kind);
     setMessage('');
     const controller = new AbortController();
     request.current = controller;
@@ -333,23 +299,23 @@ function MeetingDoInner() {
         },
       );
       const data = await response.json();
+      if (!alive.current || controller.signal.aborted) return;
       if (!response.ok) throw new Error(data.message || 'Could not finish. Your source is still here.');
       if (kind === 'transcribe') {
         setNotes(data.transcript);
         setShareAudio(false);
-        setPasteOpen(true);
+        setDraft(''); setReceipt(null); setReviewed(false); setShareNotes(false);
         setMessage('Review and correct the transcript, then turn it into notes.');
       } else {
         setDraft(data.draft.text);
         setReceipt(data.draft);
         setReviewed(false);
-        setEditNotesOpen(false);
         setMessage('Notes ready — review before any handoff.');
       }
     } catch (error) {
       if (alive.current) setMessage(error instanceof Error ? error.message : 'Could not finish.');
     } finally {
-      if (alive.current) setBusy(false);
+      if (alive.current) { setBusy(false); setActivity(null); }
     }
   }
 
@@ -366,487 +332,30 @@ function MeetingDoInner() {
     }
   }
 
-  function jumpToRecord() {
-    recordRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  async function refreshConnection() {
+    const [runtime, transcription] = await Promise.all([
+      fetch('/api/do/runtime', { credentials: 'same-origin', cache: 'no-store' }).then(r => r.json()).catch(() => null),
+      fetch('/api/do/meetings/transcribe', { credentials: 'same-origin', cache: 'no-store' }).then(r => r.json()).catch(() => null),
+    ]);
+    if (!alive.current) return;
+    setSignedIn(runtime ? (typeof runtime.signedIn === 'boolean' ? runtime.signedIn : Boolean(runtime.trial?.bypassed)) : null);
+    setTranscriptionReady(transcription ? Boolean(transcription.configured) : null);
   }
 
-  const needsAuth = signedIn === false;
-  const canTranscribe =
-    Boolean(audio) && shareAudio && !busy && !recording && !needsAuth && transcriptionReady !== false;
-  const canSmartNotes = Boolean(notes.trim()) && shareNotes && !busy && !recording && !needsAuth;
-  const ext = audio?.type.includes('mp4') ? 'm4a' : 'webm';
-
-  const boardNeedsYou = [
-    ...(audio && !notes.trim() && !needsAuth && transcriptionReady !== false
-      ? [{ id: 'transcribe', title: 'Turn recording into notes', detail: 'Approve sharing, then transcribe.' }]
-      : []),
-    ...(audio && !notes.trim() && needsAuth
-      ? [{ id: 'signin', title: 'Sign in to transcribe', detail: 'Recording stays on this page — download first if needed.' }]
-      : []),
-    ...(audio && !notes.trim() && transcriptionReady === false
-      ? [{ id: 'paste', title: 'Paste notes instead', detail: 'Transcription isn’t available here — paste still works.' }]
-      : []),
-    ...(draft && !reviewed
-      ? [{ id: 'review-handoff', title: 'Review your notes', detail: 'Correct owners and dates before opening a DO.' }]
-      : []),
-    ...(notes.trim() && !draft
-      ? [{ id: 'smart-notes', title: 'Turn transcript into notes', detail: 'Actions, decisions and who said what — drafts only.' }]
-      : []),
-  ];
-  const boardWorking = [
-    ...(recording || starting
-      ? [{ id: 'recording', title: 'Recording meeting audio', detail: 'Stops at 10 minutes.' }]
-      : []),
-    ...(busy ? [{ id: 'busy', title: 'Working on your notes', detail: 'Source stays on this page.' }] : []),
-  ];
-  const boardDone = [
-    ...(audio && !recording
-      ? [{ id: 'captured', title: 'Recording captured', detail: 'Listen and download before leaving.' }]
-      : []),
-    ...(notes.trim()
-      ? [{ id: 'words', title: 'Transcript ready', detail: 'From recording or pasted notes.' }]
-      : []),
-    ...(reviewed && draft
-      ? [{ id: 'handoff-ready', title: 'Notes reviewed', detail: 'Ready to open a DO.' }]
-      : []),
-  ];
-
-  const recordLabel = starting
-    ? captureMode === 'meeting'
-      ? 'Waiting for share…'
-      : 'Waiting for microphone…'
-    : recording
-      ? 'Recording… tap Stop'
-      : 'Record';
-
-  return (
-    <main
-      className={`do-craft ${styles.shell} ${phoneMode ? styles.phoneShell : ''}`}
-      data-phone={phoneMode ? '1' : undefined}
-    >
-      <nav className={phoneMode ? styles.phoneNav : undefined}>
-        <Link href="/do">← Your DOs</Link>
-        {!phoneMode ? (
-          <Link href="/do/meetings?phone=1" className={styles.phoneLink}>
-            Phone view
-          </Link>
-        ) : null}
-      </nav>
-
-      {previewNotes ? (
-        <p className={styles.alert} role="status">
-          Layout preview (`?previewNotes=1`) — sample notes only. No model was called and nothing
-          was sent.
-        </p>
-      ) : null}
-
-      {phoneMode ? (
-        <section className={styles.phoneLanding} aria-label="Phone Meeting DO">
-          <DoLivingBlob size="lg" className={styles.phoneBlob} label="Meeting DO" />
-          <p className={styles.eyebrow}>PHONE · MEETING DO</p>
-          <h1>Record tonight.</h1>
-          <p className={styles.lead}>
-            <strong>Install → Open → Record.</strong> No sign-in to capture audio. Sign in later to
-            turn the recording into notes you can use.
-          </p>
-
-          <div className={styles.phoneSteps}>
-            <p className={styles.phoneStepLabel}>
-              <span>1</span> Install DO
-            </p>
-            <DoInstallPwaCta phone prominent />
-          </div>
-
-          <div className={styles.phoneSteps}>
-            <p className={styles.phoneStepLabel}>
-              <span>2</span> Open Meeting
-            </p>
-            <button type="button" className="do-cta do-cta--secondary" onClick={jumpToRecord}>
-              Open Meeting → Record
-            </button>
-          </div>
-
-          <div className={styles.phoneSteps}>
-            <p className={styles.phoneStepLabel}>
-              <span>3</span> Record
-            </p>
-            <label className={styles.check}>
-              <input
-                type="checkbox"
-                checked={permission}
-                disabled={recording || starting}
-                onChange={(e) => setPermission(e.target.checked)}
-              />
-              Everyone has been informed and I have permission to record.
-            </label>
-            <div className={styles.phoneRecordRow}>
-              <button
-                type="button"
-                className="do-cta do-cta--record"
-                disabled={!permission || recording || starting || busy}
-                data-live={recording ? 'true' : undefined}
-                onClick={() => void start()}
-              >
-                {recordLabel}
-              </button>
-              <button
-                type="button"
-                className="do-cta do-cta--stop"
-                disabled={!recording}
-                onClick={stop}
-              >
-                Stop
-              </button>
-            </div>
-            <p className={styles.status} role="status" data-live={recording ? 'true' : undefined}>
-              {recording
-                ? '● Recording — stops at 10 minutes'
-                : audio
-                  ? 'Recording ready · scroll for download'
-                  : 'Mic stays off until Record'}
-            </p>
-          </div>
-        </section>
-      ) : (
-        <header className={styles.hero}>
-          <DoLivingBlob size="md" className={styles.markBlob} label="Meeting DO" />
-          <p className={styles.eyebrow}>CAPTURE → NOTES → REVIEW</p>
-          <h1>Meeting DO.</h1>
-          <p className={styles.lead}>
-            <strong>Record → notes you can use.</strong> Capture audio on this page,
-            turn it into a transcript, then review actions, decisions and who said what.
-            Drafts only — nothing is sent for you.
-          </p>
-        </header>
-      )}
-
-      {!phoneMode ? <DoTaskPanel boardId="meeting-do" title="Meeting DO to-do" /> : null}
-
-      <section className={styles.installBanner} aria-label="Install DO on this phone">
-        <div>
-          <p className={styles.step}>Keep DO one tap away</p>
-          <h2 className={styles.installTitle}>Install DO</h2>
-          <p className={styles.copy}>
-            Add to Home Screen for tonight — then open Meeting and hit Record.
-          </p>
-        </div>
-        <DoInstallPwaCta prominent />
-        {!phoneMode ? (
-          <Link href="/do/meetings?phone=1" className={styles.phoneLink}>
-            Open phone-easy view →
-          </Link>
-        ) : null}
-      </section>
-
-      {!phoneMode ? (
-        <DoWorkBoard
-          title="Meeting DO"
-          needsYou={boardNeedsYou}
-          working={boardWorking}
-          done={boardDone}
-          evidenceSlot={
-            receipt
-              ? `Preparation receipt: ${receipt.id} · notes prepared · drafts only`
-              : 'Local capture · no audio leaves this page until you choose Transcribe.'
-          }
-          empty={{
-            copy: 'Start with a recording. Paste notes stay secondary.',
-            firstAction: (
-              <button type="button" className="do-cta do-cta--hero" onClick={jumpToRecord}>
-                Record meeting
-              </button>
-            ),
-          }}
-        />
-      ) : null}
-
-      <section
-        ref={recordRef}
-        id="record"
-        className={`${styles.record} ${styles.recordPrimaryPanel}`}
-        aria-labelledby="record-title"
-      >
-        <p className={styles.step}>1 · Capture</p>
-        <h2 id="record-title">Record the meeting</h2>
-        <p className={styles.copy}>
-          Audio stays on this device until you choose to share it. No video is kept. This recorder
-          stops after <strong>10 minutes</strong> — download before closing the page. No sign-in
-          needed to record or download.
-        </p>
-
-        <label className={styles.field}>
-          Audio source
-          <select
-            value={captureMode}
-            disabled={recording || starting}
-            onChange={(e) => setCaptureMode(e.target.value as 'microphone' | 'meeting')}
-          >
-            <option value="microphone">In person · microphone</option>
-            <option value="meeting">Meet / Zoom / Teams · shared audio + microphone</option>
-          </select>
-        </label>
-
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={permission}
-            disabled={recording || starting}
-            onChange={(e) => setPermission(e.target.checked)}
-          />
-          Everyone has been informed and I have permission to record.
-        </label>
-
-        <div className={styles.recordActions}>
-          <button
-            type="button"
-            className="do-cta do-cta--record"
-            disabled={!permission || recording || starting || busy}
-            data-live={recording ? 'true' : undefined}
-            onClick={() => void start()}
-          >
-            {recordLabel}
-          </button>
-          <button
-            type="button"
-            className="do-cta do-cta--stop"
-            disabled={!recording}
-            onClick={stop}
-          >
-            Stop recording
-          </button>
-        </div>
-
-        <p className={styles.status} role="status" data-live={recording ? 'true' : undefined}>
-          {recording
-            ? '● Recording selected audio — stops at 10 minutes'
-            : audio
-              ? 'Recording ready · listen and download'
-              : 'Ready when you are · mic stays off until Record'}
-        </p>
-
-        {audioUrl ? (
-          <div className={styles.playback}>
-            <audio controls src={audioUrl} />
-            <a
-              className="do-cta do-cta--secondary"
-              href={audioUrl}
-              download={`meeting-recording.${ext}`}
-            >
-              Download recording
-            </a>
-          </div>
-        ) : null}
-
-        <p className={styles.hint}>
-          For Google Meet, select the meeting tab and enable Share tab audio. Zoom/Teams system audio
-          depends on your browser and OS — if no audio is shared, recording will not start.
-        </p>
-      </section>
-
-      <section className={styles.next} aria-labelledby="transcribe-title">
-        <p className={styles.step}>2 · Transcribe</p>
-        <h2 id="transcribe-title">Turn audio into notes</h2>
-        <p className={styles.copy}>
-          Transcribe the recording, or paste notes below. Sign-in is required to
-          transcribe; record and download still work without it.
-        </p>
-
-        {needsAuth ? (
-          <p className={styles.authSoft}>
-            <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to
-            transcribe. No audio is saved to the DO database.
-          </p>
-        ) : transcriptionReady === false ? (
-          <p className={styles.authSoft}>
-            Signed in · paste notes below, then turn them into notes you can use.
-          </p>
-        ) : (
-          <p className={styles.authSoft}>
-            Signed in · approve sharing below to turn this recording into a transcript.
-          </p>
-        )}
-
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={shareAudio}
-            disabled={busy || recording || !audio}
-            onChange={(e) => setShareAudio(e.target.checked)}
-          />
-          I approve sharing this audio for transcription.
-        </label>
-
-        <div className={styles.actions}>
-          <button
-            type="button"
-            className="do-cta"
-            disabled={!canTranscribe}
-            onClick={() => void process('transcribe')}
-          >
-            {busy ? 'Working…' : 'Transcribe recording'}
-          </button>
-        </div>
-
-        {notes.trim() ? (
-          <label className={styles.field}>
-            Transcript · review before writing notes
-            <textarea
-              value={notes}
-              maxLength={12000}
-              onChange={(e) => {
-                setNotes(e.target.value);
-                setReviewed(false);
-              }}
-              placeholder="Your transcript appears here after you transcribe…"
-            />
-          </label>
-        ) : null}
-
-        <details
-          className={styles.paste}
-          open={pasteOpen}
-          onToggle={(e) => setPasteOpen((e.target as HTMLDetailsElement).open)}
-        >
-          <summary>Or paste notes instead</summary>
-          <p className={styles.copy}>
-            Secondary path if you already have notes. Recording above remains the primary way in.
-          </p>
-          <label className={styles.field}>
-            Meeting notes
-            <textarea
-              value={notes}
-              maxLength={12000}
-              onChange={(e) => {
-                setNotes(e.target.value);
-                setReviewed(false);
-              }}
-              placeholder="Paste notes here…"
-            />
-          </label>
-        </details>
-      </section>
-
-      {notes.trim() ? (
-        <section className={styles.next} aria-labelledby="smart-notes-title">
-          <p className={styles.step}>3 · Useful notes</p>
-          <h2 id="smart-notes-title">Notes you can use</h2>
-          <p className={styles.copy}>
-            Turns your transcript into clean notes — decisions, action items
-            (owners and dates only if stated), open questions and a follow-up
-            draft you can edit. Nothing is sent.
-          </p>
-
-          {needsAuth ? (
-            <p className={styles.authSoft}>
-              <Link href="/login?redirect=%2Fdo%2Fmeetings">Sign in</Link> to
-              turn this transcript into notes.
-            </p>
-          ) : (
-            <p className={styles.authSoft}>
-              Signed in · drafts only. Nothing leaves this page until you choose a handoff.
-            </p>
-          )}
-
-          <label className={styles.check}>
-            <input
-              type="checkbox"
-              checked={shareNotes}
-              disabled={busy || recording}
-              onChange={(e) => setShareNotes(e.target.checked)}
-            />
-            I approve sharing this transcript to prepare useful notes.
-          </label>
-
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className="do-cta do-cta--hero"
-              disabled={!canSmartNotes}
-              onClick={() => void process('smart-notes')}
-            >
-              {busy ? 'Writing notes…' : 'Write notes'}
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {draft ? (
-        <section className={styles.notesReview} aria-labelledby="handoff-title">
-          <p className={styles.step}>4 · Review</p>
-          <h2 id="handoff-title">Review your notes</h2>
-          <p className={styles.copy}>
-            Correct owners, dates and proposed next steps. Nothing has been sent or assigned to
-            another person.
-          </p>
-
-          <div className={styles.notesSurface}>
-            {noteSections.map((section) => (
-              <article key={section.heading} className={styles.notesBlock}>
-                <h3 className={styles.notesHeading}>{section.heading}</h3>
-                <div className={styles.notesBody}>
-                  {section.body.split('\n').map((line, i) =>
-                    line.trim() ? (
-                      <p key={`${section.heading}-${i}`}>{line}</p>
-                    ) : (
-                      <br key={`${section.heading}-br-${i}`} />
-                    ),
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <details
-            className={styles.editNotes}
-            open={editNotesOpen}
-            onToggle={(e) => setEditNotesOpen((e.target as HTMLDetailsElement).open)}
-          >
-            <summary>Edit notes text</summary>
-            <textarea
-              value={draft}
-              onChange={(e) => {
-                setDraft(e.target.value);
-                setReviewed(false);
-              }}
-              aria-label="Edit notes"
-            />
-          </details>
-
-          <label className={styles.check}>
-            <input
-              type="checkbox"
-              checked={reviewed}
-              onChange={(e) => setReviewed(e.target.checked)}
-            />
-            I have reviewed these notes. Owners and dates match the source.
-          </label>
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className="do-cta do-cta--hero"
-              disabled={!reviewed || !draft.trim()}
-              onClick={handoff}
-            >
-              Open a DO with this handoff
-            </button>
-          </div>
-          <p className={styles.hint}>
-            Opens the shared workspace for another review; it does not silently run work. Follow-up
-            email stays a draft — never auto-sent.
-          </p>
-          <small className={styles.receipt}>
-            Preparation receipt: {receipt?.id} · notes prepared · drafts only
-          </small>
-        </section>
-      ) : null}
-
-      {message ? (
-        <p className={styles.alert} role="alert">
-          {message}
-        </p>
-      ) : null}
-    </main>
-  );
+  return <MeetingDoExperience
+    preview={previewNotes} captureMode={captureMode} permission={permission}
+    shareAudio={shareAudio} shareNotes={shareNotes} recording={recording} starting={starting}
+    busy={busy} activity={activity} hasAudio={Boolean(audio)} audioUrl={audioUrl}
+    extension={audio?.type.includes('mp4') ? 'm4a' : 'webm'} notes={notes} draft={draft}
+    receipt={receipt} reviewed={reviewed} signedIn={signedIn}
+    transcriptionReady={transcriptionReady} message={message}
+    setCaptureMode={setCaptureMode} setPermission={setPermission}
+    setShareAudio={setShareAudio} setShareNotes={setShareNotes}
+    editNotes={value => { setNotes(value); setDraft(''); setReceipt(null); setReviewed(false); setShareNotes(false); }}
+    editDraft={value => { setDraft(value); setReviewed(false); }} setReviewed={setReviewed}
+    start={() => void start()} stop={stop} process={kind => void process(kind)} handoff={handoff}
+    cancel={() => request.current?.abort()} refreshConnection={() => void refreshConnection()}
+  />;
 }
 
 export function MeetingDo() {

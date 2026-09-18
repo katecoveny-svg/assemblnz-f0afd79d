@@ -15,7 +15,7 @@ export function DoFocusWorkspace() {
   const [mode, setMode] = useState<Mode>('write');
   const [context, setContext] = useState('');
   const [offeredContext, setOfferedContext] = useState<{ text: string; id: number }>();
-  function useContext(text: string) {
+  function acceptContext(text: string) {
     if (!text.trim() || text.length > 12000) return false;
     setOfferedContext({ text, id: Date.now() }); setMode('write'); return true;
   }
@@ -33,8 +33,8 @@ export function DoFocusWorkspace() {
         <Link href="/do/meetings"><AudioLines size={15} />Meet</Link>
       </nav>
       <div hidden={mode !== 'write'}><DoTextWorkspace embedded focus offeredContext={offeredContext} onSourceChange={setContext} /></div>
-      {mode === 'talk' && <section className={styles.toolSurface} aria-label="Talk to DO"><DoGeminiLive context={context} onDraft={useContext} /></section>}
-      {mode === 'look' && <section className={styles.toolSurface} aria-label="Show DO an image"><DoVision onUse={useContext} /></section>}
+      {mode === 'talk' && <section className={styles.toolSurface} aria-label="Talk to DO"><DoGeminiLive context={context} onDraft={acceptContext} /></section>}
+      {mode === 'look' && <section className={styles.toolSurface} aria-label="Show DO an image"><DoVision onUse={acceptContext} /></section>}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Build or customise a DO</summary>
         <p>Templates, appearance and the advanced builder. Your writing draft stays in this page.</p>

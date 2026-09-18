@@ -18,7 +18,7 @@ function downloadText(name: string, contents: string, type: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1_000);
 }
 
-export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embedded = false, onSettled }: { initialBrief?: string; initialTask?: DoTask; embedded?: boolean; onSettled?: () => void }) {
+export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embedded = false, onSettled, focus = false, offeredContext, onSourceChange }: { initialBrief?: string; initialTask?: DoTask; embedded?: boolean; onSettled?: () => void; focus?: boolean; offeredContext?: { text: string; id: number }; onSourceChange?: (value: string) => void }) {
   const [task, setTask] = useState<DoTask>(initialTask);
   const [source, setSource] = useState(initialBrief);
   const [brief, setBrief] = useState(initialBrief.slice(0, DO_BRIEF_LIMIT));
@@ -46,18 +46,33 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
     return () => { cancelAnimationFrame(restore); controller.abort(); abort.current?.abort(); };
   }, [embedded]);
 
+  useEffect(() => { onSourceChange?.(source); }, [source, onSourceChange]);
+  useEffect(() => {
+    if (!offeredContext) return;
+    const frame = requestAnimationFrame(() => {
+      abort.current?.abort();
+      setSource(offeredContext.text.slice(0, DO_SOURCE_LIMIT)); setSourceTitle('Reviewed DO context');
+      setSourceUrl(''); setConsent(false); setDraft(null); setNotice('Context added. Review it before preparing.');
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [offeredContext]);
+
   // An embed can offer context for review. It cannot trigger generation or read the result.
   useEffect(() => {
     if (!embedded) return;
     const receive = (event: MessageEvent) => {
-      if (event.source !== window.parent || event.data?.type !== 'assembl-do:context') return;
+      if (event.source !== window.parent) return;
+      if (event.data?.type === 'assembl-do:hello') { window.parent.postMessage({ type: 'assembl-do:ready' }, '*'); return; }
+      if (event.data?.type !== 'assembl-do:context') return;
       if (typeof event.data.text !== 'string') return;
+      abort.current?.abort(); setDraft(null);
       setSource(event.data.text.slice(0, DO_SOURCE_LIMIT));
       setSourceTitle(typeof event.data.title === 'string' ? event.data.title.slice(0, 160) : 'Shared context');
       setSourceUrl(typeof event.data.url === 'string' ? cleanSourceUrl(event.data.url) : '');
       setConsent(false); setNotice('Context added. Review the text, then choose whether to prepare it.');
     };
     window.addEventListener('message', receive);
+    window.parent.postMessage({ type: 'assembl-do:ready' }, '*');
     return () => window.removeEventListener('message', receive);
   }, [embedded]);
 
@@ -72,6 +87,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
         body: JSON.stringify({ task, source, brief, sourceTitle: sourceTitle || 'Pasted text', sourceUrl, consent }),
       });
       const data = await response.json();
+      if (controller.signal.aborted) return;
       if (!response.ok || !data.draft) throw new Error(data.message || 'DO could not finish this preparation.');
       setDraft(data.draft); setReviewer(''); setSourceForDraft(source.trim()); setBriefForDraft(brief.trim());
       requestAnimationFrame(() => resultRef.current?.focus());
@@ -108,10 +124,10 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   return <div className={`do-workspace ${embedded ? 'do-workspace-embedded' : ''}`}>
     <div className="do-workspace-intro"><span className="do-small-label">SIX READY-TO-USE WRITING & TASK AGENTS</span><h2>What do you want to DO?</h2><p>Choose an agent. Add your text. Get work you can edit, copy and use.</p></div>
     <form onSubmit={prepare} className="do-preparation-form">
-      <fieldset className="do-task-picker" disabled={busy}><legend>Choose your agent</legend>{DO_TASKS.map(option => <label key={option.id} className={task === option.id ? 'is-selected' : ''}><input type="radio" name="do-task" value={option.id} checked={task === option.id} onChange={() => { setTask(option.id); setConsent(false); }} /><span className="do-task-glyph" aria-hidden>{option.glyph}</span><span><strong>{option.title}</strong><small>{option.description}</small></span></label>)}</fieldset>
+      {focus ? <label className="do-focus-task">What should DO prepare?<select aria-label="Task" value={task} disabled={busy} onChange={e => { setTask(e.target.value as DoTask); setConsent(false); }}>{DO_TASKS.map(option => <option value={option.id} key={option.id}>{option.title}</option>)}</select></label> : <fieldset className="do-task-picker" disabled={busy}><legend>Choose your agent</legend>{DO_TASKS.map(option => <label key={option.id} className={task === option.id ? 'is-selected' : ''}><input type="radio" name="do-task" value={option.id} checked={task === option.id} onChange={() => { setTask(option.id); setConsent(false); }} /><span className="do-task-glyph" aria-hidden>{option.glyph}</span><span><strong>{option.title}</strong><small>{option.description}</small></span></label>)}</fieldset>}
       <div className="do-field-head"><label htmlFor="do-source">Text DO can use</label><span>{source.length.toLocaleString()} / 12,000</span></div>
       <textarea id="do-source" value={source} maxLength={DO_SOURCE_LIMIT} rows={7} required disabled={busy} onChange={event => { setSource(event.target.value); setConsent(false); }} placeholder="Paste a notice, brief, quote or the part of a page you want to work with…" />
-      <div className="do-example-row"><span>Try with sample text:</span>{EXAMPLES.map((example, index) => <button key={example.title} type="button" disabled={busy} onClick={() => { setSource(example.text); setSourceTitle(example.title); setSourceUrl(''); setBrief(''); setConsent(false); setTask(index === 0 ? 'reply' : index === 1 ? 'brief' : 'compare'); }}>{index === 0 ? 'A message' : index === 1 ? 'School notice' : 'Two quotes'}</button>)}</div>
+      {!focus && <div className="do-example-row"><span>Try with sample text:</span>{EXAMPLES.map((example, index) => <button key={example.title} type="button" disabled={busy} onClick={() => { setSource(example.text); setSourceTitle(example.title); setSourceUrl(''); setBrief(''); setConsent(false); setTask(index === 0 ? 'reply' : index === 1 ? 'brief' : 'compare'); }}>{index === 0 ? 'A message' : index === 1 ? 'School notice' : 'Two quotes'}</button>)}</div>}
       <details className="do-source-details"><summary>Add a source label or instructions</summary><label htmlFor="do-source-title">Source label</label><input id="do-source-title" value={sourceTitle} maxLength={160} disabled={busy} onChange={event => { setSourceTitle(event.target.value); setConsent(false); }} placeholder="For example, September supplier quotes" /><label htmlFor="do-source-url">Source link, if useful</label><input id="do-source-url" type="url" value={sourceUrl} maxLength={2_000} disabled={busy} onChange={event => { setSourceUrl(event.target.value); setConsent(false); }} placeholder="https://…" /><p>Links are recorded as references. Paste the text you want used; DO does not open these pages.</p><label htmlFor="do-brief">Anything to focus on?</label><textarea id="do-brief" value={brief} maxLength={DO_BRIEF_LIMIT} rows={3} disabled={busy} onChange={event => { setBrief(event.target.value); setConsent(false); }} placeholder="For example, prepare this for Jamie and flag anything we need to confirm." /></details>
       <label className="do-consent"><input type="checkbox" checked={consent} disabled={busy} onChange={event => setConsent(event.target.checked)} /><span>Use this text for this preparation.<small>{task === 'extract' ? 'assembl will extract exact matches from the text.' : 'The text and instructions go to assembl and its configured model provider.'} Saving a copy on this device is a separate choice.</small></span></label>
       <div className="do-prepare-actions"><button className="do-primary" disabled={busy || !consent || !source.trim()} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
