@@ -1,0 +1,23 @@
+name: Public Pursuit safety
+on:
+  pull_request:
+    paths: ['lib/pursuit/**','app/api/pursuit/research/**','.github/workflows/public-pursuit-safety.yml']
+permissions:
+  contents: read
+jobs:
+  public-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - name: Public boundary, citation, copy and safe diagnostic contracts
+        run: pnpm test lib/pursuit
+      - name: Scoped lint
+        run: pnpm exec eslint lib/pursuit/public-diagnostics.ts lib/pursuit/public-diagnostics.test.ts lib/pursuit/public-research.ts app/api/pursuit/research/route.ts app/do/DoHome.tsx
