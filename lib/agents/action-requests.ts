@@ -12,6 +12,7 @@
  * says so honestly.
  */
 import 'server-only';
+import { isDeepStrictEqual } from 'node:util';
 import { getServiceClient } from '@/lib/supabase/service';
 import { writeActionReceipt } from '@/lib/agents/receipts';
 import { runConnectorAction, pipedreamConfigured } from '@/lib/connectors/pipedream';
@@ -24,6 +25,8 @@ export type EmailDraftPayload = {
   subject: string;
   body: string;
   reason: string;
+  /** Identifies reviewed notes; does not verify their claims. */
+  meetingSourceHash?: string;
 };
 
 export type WebhookPayload = {
@@ -65,12 +68,15 @@ export async function createActionRequest(input: {
   requestedBy: string;
   kind: ActionKind;
   payload: EmailDraftPayload | WebhookPayload | ConnectorActionPayload;
+  /** Stable UUID for retry-safe preparation; existing requests are never overwritten. */
+  requestId?: string;
 }): Promise<{ id: string } | null> {
   try {
     const sb = getServiceClient();
     const { data, error } = await sb
       .from('agent_action_requests')
       .insert({
+        ...(input.requestId ? { id: input.requestId } : {}),
         agent_slug: input.agentSlug,
         requested_by: input.requestedBy,
         kind: input.kind,
@@ -78,7 +84,17 @@ export async function createActionRequest(input: {
       })
       .select('id')
       .single();
-    if (error || !data) return null;
+    if (error || !data) {
+      if (input.requestId) {
+        // Handles racing inserts and ambiguous network responses. All scope and
+        // payload fields must match before a retry can reuse an existing request.
+        const { data: existing, error: readError } = await sb.from('agent_action_requests')
+          .select('id, payload').eq('id', input.requestId).eq('requested_by', input.requestedBy)
+          .eq('agent_slug', input.agentSlug).eq('kind', input.kind).maybeSingle();
+        if (!readError && existing && isDeepStrictEqual(existing.payload, input.payload)) return { id: existing.id };
+      }
+      return null;
+    }
     writeActionReceipt({
       agent: input.agentSlug,
       action: input.kind,

@@ -1,14 +1,39 @@
 'use client';
 
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { MeetingDoExperience } from './MeetingDoExperience';
-import { saveHomeBrief } from '@/apps/do/shared/home-handoff';
 import {
   MEETING_SMART_NOTES_BRIEF,
 } from '@/apps/do/shared/meeting-smart-notes';
 import type { DoPreparedDraft } from '@/apps/do/shared/preparation';
 import '@/app/do/do-craft.css';
+
+const PREVIEW_SOURCE = 'Avery and Jordan discussed the phone Meeting DO for the demo. Decided to ship soft launch after Install → Record works. Riley will send the invite by Friday. Budget not confirmed. Open question: who hosts the follow-up?';
+const PREVIEW_DRAFT = [
+      'Meeting notes',
+      'Avery and Jordan aligned on shipping phone Meeting DO for the demo after Install → Record works.',
+      '',
+      'Attendees',
+      'Avery, Jordan, Riley',
+      '',
+      'Decisions / outcomes',
+      'Ship soft launch for the demo once Install → Record is reliable.',
+      '',
+      'Action items',
+      'Send invite · Owner: Riley · Due: Friday',
+      '',
+      'Open questions',
+      'Budget not confirmed.',
+      'Who hosts the follow-up?',
+      '',
+      'Suggested specialist DO',
+      'Meeting DO — follow-up notes (draft)',
+      '',
+      'Follow-up email draft',
+      'Subject: Soft launch for Meeting DO',
+      'Kia ora — notes from today for review. Nothing sent automatically.',
+    ].join('\n');
 
 /**
  * Meeting DO — recording-first, phone-easy.
@@ -18,10 +43,7 @@ import '@/app/do/do-craft.css';
  *
  * Saved tasks remain accessible via More; no task board competes with recording.
  */
-function MeetingDoInner() {
-  const router = useRouter();
-  const params = useSearchParams();
-  const previewNotes = params.get('previewNotes') === '1';
+function MeetingDoState({ previewNotes }: { previewNotes: boolean }) {
   const [captureMode, setCaptureMode] = useState<'microphone' | 'meeting'>('microphone');
   const audioContext = useRef<AudioContext | null>(null);
   const extraStreams = useRef<MediaStream[]>([]);
@@ -32,8 +54,8 @@ function MeetingDoInner() {
   const [starting, setStarting] = useState(false);
   const [audio, setAudio] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState('');
-  const [notes, setNotes] = useState('');
-  const [draft, setDraft] = useState('');
+  const [notes, setNotes] = useState(previewNotes ? PREVIEW_SOURCE : '');
+  const [draft, setDraft] = useState(previewNotes ? PREVIEW_DRAFT : '');
   const [receipt, setReceipt] = useState<DoPreparedDraft | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -126,40 +148,6 @@ function MeetingDoInner() {
     };
   }, []);
 
-  // Local UI preview of the review surface when preparation is unavailable (no model claim).
-  useEffect(() => {
-    if (!previewNotes) return;
-    const sample = [
-      'Meeting notes',
-      'Avery and Jordan aligned on shipping phone Meeting DO for the demo after Install → Record works.',
-      '',
-      'Attendees',
-      'Avery, Jordan, Riley',
-      '',
-      'Decisions / outcomes',
-      'Ship soft launch for the demo once Install → Record is reliable.',
-      '',
-      'Action items',
-      'Send invite · Owner: Riley · Due: Friday',
-      '',
-      'Open questions',
-      'Budget not confirmed.',
-      'Who hosts the follow-up?',
-      '',
-      'Suggested specialist DO',
-      'Meeting DO — follow-up notes (draft)',
-      '',
-      'Follow-up email draft',
-      'Subject: Soft launch for Meeting DO',
-      'Kia ora — notes from today for review. Nothing sent automatically.',
-    ].join('\n');
-    setNotes(
-      'Avery and Jordan discussed the phone Meeting DO for the demo. Decided to ship soft launch after Install → Record works. Riley will send the invite by Friday. Budget not confirmed. Open question: who hosts the follow-up?',
-    );
-    setDraft(sample);
-    setReceipt(null);
-
-  }, [previewNotes]);
 
   async function start() {
     if (!permission || pending.current || recording) return;
@@ -319,19 +307,6 @@ function MeetingDoInner() {
     }
   }
 
-  function handoff() {
-    try {
-      router.push(
-        saveHomeBrief(
-          sessionStorage,
-          `Prepare this reviewed meeting handoff. Ask before external actions.\n${draft}`,
-        ),
-      );
-    } catch {
-      setMessage('Shorten the handoff to under 3,900 characters before opening a DO.');
-    }
-  }
-
   async function refreshConnection() {
     const [runtime, transcription] = await Promise.all([
       fetch('/api/do/runtime', { credentials: 'same-origin', cache: 'no-store' }).then(r => r.json()).catch(() => null),
@@ -353,9 +328,15 @@ function MeetingDoInner() {
     setShareAudio={setShareAudio} setShareNotes={setShareNotes}
     editNotes={value => { setNotes(value); setDraft(''); setReceipt(null); setReviewed(false); setShareNotes(false); }}
     editDraft={value => { setDraft(value); setReviewed(false); }} setReviewed={setReviewed}
-    start={() => void start()} stop={stop} process={kind => void process(kind)} handoff={handoff}
+    start={() => void start()} stop={stop} process={kind => void process(kind)}
     cancel={() => request.current?.abort()} refreshConnection={() => void refreshConnection()}
   />;
+}
+
+function MeetingDoInner() {
+  const params = useSearchParams();
+  const previewNotes = params.get('previewNotes') === '1';
+  return <MeetingDoState key={previewNotes ? 'preview' : 'live'} previewNotes={previewNotes} />;
 }
 
 export function MeetingDo() {
