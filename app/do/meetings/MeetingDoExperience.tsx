@@ -7,6 +7,7 @@ import { DoMark } from '@/components/do/DoMark';
 import { DoProductFrame } from '@/components/do/DoProductFrame';
 import type { DoPreparedDraft } from '@/apps/do/shared/preparation';
 import { parseMeetingSmartNotes } from '@/apps/do/shared/meeting-smart-notes';
+import { MeetingFollowThrough } from './MeetingFollowThrough';
 import styles from '@/components/do/do-product-focus.module.css';
 
 export type MeetingExperienceProps = {
@@ -21,7 +22,7 @@ export type MeetingExperienceProps = {
   setShareNotes: (value: boolean) => void; editNotes: (value: string) => void;
   editDraft: (value: string) => void; setReviewed: (value: boolean) => void;
   start: () => void; stop: () => void; process: (kind: 'transcribe' | 'smart-notes') => void;
-  handoff: () => void; cancel: () => void; refreshConnection: () => void;
+  cancel: () => void; refreshConnection: () => void;
 };
 
 function saveText(text: string) {
@@ -38,6 +39,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
   const [editing, setEditing] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [replace, setReplace] = useState(false);
+  const [followup, setFollowup] = useState(false);
   const resultRef = useRef<HTMLElement>(null);
   const firstResult = useRef(false);
   useEffect(() => {
@@ -120,7 +122,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
       {tab === 'notes' && <>
         {editing ? <label className={styles.field}>Edit notes<textarea rows={16} value={p.draft} onChange={e => p.editDraft(e.target.value)} /></label> : <div className={styles.noteContent}>{sections.map(section => <article key={section.heading}><h3>{section.heading === 'Action items' ? 'Agreed next steps' : section.heading}</h3><p>{section.body}</p></article>)}</div>}
         <button className={styles.textButton} onClick={() => setEditing(!editing)}>{editing ? 'Finish editing' : 'Edit notes'}</button>
-        <div className={styles.reviewAction}><label className={styles.consent}><input type="checkbox" checked={p.reviewed} onChange={e => p.setReviewed(e.target.checked)} /><span>I checked the notes, including owners and dates.</span></label><button className={styles.primary} disabled={!p.reviewed || p.preview || !p.draft.trim()} onClick={p.handoff}>Prepare the follow-up <ArrowUpRight size={18} /></button><p>Opens a draft in DO. Nothing is assigned, sent or published.</p></div>
+        <div className={styles.reviewAction}><label className={styles.consent}><input type="checkbox" checked={p.reviewed} onChange={e => p.setReviewed(e.target.checked)} /><span>I checked the notes, including owners and dates.</span></label><button className={styles.primary} disabled={!p.reviewed || p.preview || !p.draft.trim()} onClick={() => setFollowup(true)}>Prepare the follow-up <ArrowUpRight size={18} /></button><p>Review an email, keep agreed tasks and prepare your next meeting. A queued email keeps the version you submitted, even if you later edit these notes.</p></div>
       </>}
       {tab === 'transcript' && <><p className={styles.help}>Changing the source clears the prepared notes and requires a new preparation.</p><label className={styles.field}>Original transcript<textarea rows={14} value={p.notes} readOnly /></label><button className={styles.textButton} onClick={() => p.editNotes(p.notes)}>Edit transcript and prepare again</button></>}
       {tab === 'details' && <div className={styles.sourceReceipt}>
@@ -129,6 +131,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
         {p.audioUrl && <><audio controls src={p.audioUrl} aria-label="Source recording" /><a className={styles.textButton} href={p.audioUrl} download={`meeting-recording.${p.extension}`}><Headphones size={16} />Keep the original audio</a></>}
       </div>}
     </section>}
+    {ready && followup && !p.preview && <MeetingFollowThrough key={p.draft} notes={p.draft} reviewed={p.reviewed} signedIn={p.signedIn} />}
     {p.message && <p className={styles.notice} role="status">{p.message}</p>}
     <p className={styles.privacyNote}><Check size={13} />Recording, sharing and follow-up are separate choices.</p>
   </DoProductFrame>;
