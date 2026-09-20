@@ -37,3 +37,15 @@ Verify homepage → DO home → each offered destination, including an unknown t
 Real signed-in microphone/Deepgram, school Gmail, meeting email dispatch, durable meeting jobs and native/extension permissions need separate acceptance. No messages, invites or payments were sent. This review is not a full DO rebuild.
 
 Rollback: revert this change. Existing browser drafts and queued meeting requests are not deleted.
+
+## Verification recorded
+
+Source checkpoint: `c3679383185377bddf74de76ec30252b5b826d56` in PR #1404.
+
+Passed: full TypeScript typecheck; 38 tests across seven files (public entry, auth returns, preparation, trials, meeting follow-through, immersive product links, hero resilience); changed-file ESLint; brand, macron and front-door guards; local production build. GitHub/Vercel also reported the preview deployment successful. Context-health passed its canonical checks and reported 31 pre-existing legacy brand review items outside this patch.
+
+Live production browser evidence: `/do` was a contact-only explanation; Meeting DO revealed sign-in after fictional transcript entry; Everyday DO returned a generated draft from fictional source text and omitted local saving. No email was sent and no microphone or account permission was requested.
+
+New-interface browser proof remains outstanding. The hosted preview redirects to Vercel sign-in. The Vercel app still reports `oauth_token_invalid_grant`. Local browser navigation was blocked by the browser environment, and its file URL policy rejected the isolated rendering review. Those restrictions were not bypassed. A static export and a component fixture were prepared only as temporary review aids; neither counts as browser or 375px proof. No live claims rely on simulated service responses.
+
+Keep the PR in draft until the protected preview is checked on desktop and at 375px, including save/reopen and the real sign-in return flow. This is a tested source fix, not a production release or full runtime acceptance.
