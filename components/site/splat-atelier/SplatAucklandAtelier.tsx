@@ -6,6 +6,7 @@ import styles from './splat-atelier.module.css';
 const THREE_IMPORTMAP = {
   imports: {
     three: 'https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js',
+    'three/addons/': 'https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/',
     '@sparkjsdev/spark': 'https://sparkjs.dev/releases/spark/2.2.0/spark.module.js',
   },
 };
@@ -16,6 +17,7 @@ export default function SplatAucklandAtelier() {
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount) return;
+    const qaStill = new URLSearchParams(window.location.search).has('qa');
 
     let disposed = false;
     let cleanup: (() => void) | undefined;
@@ -23,6 +25,7 @@ export default function SplatAucklandAtelier() {
     const boot = async () => {
       const runtimeImport = new Function('specifier', 'return import(specifier)') as (specifier: string) => Promise<any>;
       const THREE = await runtimeImport('three');
+      const { GLTFLoader } = await runtimeImport('three/addons/loaders/GLTFLoader.js');
       const Spark = await runtimeImport('@sparkjsdev/spark');
 
       if (disposed) return;
@@ -72,15 +75,35 @@ export default function SplatAucklandAtelier() {
       const room = new Group();
       scene.add(room);
 
-      // The current Studio office artwork becomes a photoreal image-splat wall.
+      // Three owned office renders form the photographic splat envelope.
       const officeWall = imageSplats({
-        url: '/do/office/office-poster.webp',
+        url: '/do/world/scandi-v1/harbour-workroom.jpg',
         subXY: 2,
-        dotRadius: 0.9,
+        dotRadius: 0.82,
       });
-      officeWall.position.set(0, 3.5, -5.8);
-      officeWall.scale.set(0.018, 0.018, 0.018);
+      officeWall.position.set(0, 3.4, -5.75);
+      officeWall.scale.set(0.0185, 0.0185, 0.0185);
       room.add(officeWall);
+
+      const loungeWall = imageSplats({
+        url: '/do/world/scandi-v1/studio-lounge.jpg',
+        subXY: 2,
+        dotRadius: 0.76,
+      });
+      loungeWall.position.set(-6.0, 3.0, -0.4);
+      loungeWall.rotation.y = Math.PI / 2.18;
+      loungeWall.scale.set(0.015, 0.015, 0.015);
+      room.add(loungeWall);
+
+      const reviewWall = imageSplats({
+        url: '/do/world/scandi-v1/review-room.jpg',
+        subXY: 2,
+        dotRadius: 0.76,
+      });
+      reviewWall.position.set(6.0, 3.0, -0.65);
+      reviewWall.rotation.y = -Math.PI / 2.16;
+      reviewWall.scale.set(0.015, 0.015, 0.015);
+      room.add(reviewWall);
 
       const addSplat = (group: any, x: number, y: number, z: number, scale: number, color: string, opacity = 0.95) => {
         const center = new Vector3(x, y, z);
@@ -165,39 +188,46 @@ export default function SplatAucklandAtelier() {
       rail.position.set(-3.2, 3.35, 0.5);
       room.add(rail);
 
+      // Load Franklin from the owned Blender office export and keep only named Franklin.* meshes.
       const franklin = new Group();
-      const coat = new MeshPhysicalMaterial({ color: '#3a2526', roughness: 0.62, metalness: 0.02 });
-      const noseMat = new MeshPhysicalMaterial({ color: '#171013', roughness: 0.4 });
-      const body = new Mesh(new CapsuleGeometry(0.34, 1.22, 8, 20), coat);
-      body.rotation.z = Math.PI / 2;
-      body.position.set(0, 0.62, 0);
-      franklin.add(body);
-
-      const head = new Mesh(new SphereGeometry(0.39, 24, 16), coat);
-      head.position.set(0.83, 0.8, 0);
-      franklin.add(head);
-
-      const snout = new Mesh(new CapsuleGeometry(0.12, 0.34, 8, 14), noseMat);
-      snout.rotation.z = Math.PI / 2;
-      snout.position.set(1.14, 0.74, 0);
-      franklin.add(snout);
-
-      for (const [x, z] of [[0.45, 0.2], [0.45, -0.2], [-0.42, 0.2], [-0.42, -0.2]]) {
-        const leg = new Mesh(new CapsuleGeometry(0.09, 0.36, 8, 12), coat);
-        leg.position.set(x, 0.27, z);
-        franklin.add(leg);
-      }
-
-      for (const z of [0.29, -0.29]) {
-        const ear = new Mesh(new CapsuleGeometry(0.11, 0.38, 8, 12), coat);
-        ear.rotation.z = -0.32;
-        ear.position.set(0.68, 1.08, z);
-        franklin.add(ear);
-      }
-
-      franklin.scale.setScalar(0.92);
-      franklin.position.set(-1.7, 0.05, 0.8);
       room.add(franklin);
+
+      const fallbackBody = new Mesh(
+        new CapsuleGeometry(0.34, 1.22, 8, 20),
+        new MeshPhysicalMaterial({ color: '#3a2526', roughness: 0.62, metalness: 0.02 }),
+      );
+      fallbackBody.rotation.z = Math.PI / 2;
+      fallbackBody.position.set(0, 0.62, 0);
+      franklin.add(fallbackBody);
+
+      const loader = new GLTFLoader();
+      loader.load(
+        '/do/world/franklin-v1/office.glb',
+        (gltf: any) => {
+          const extracted = new Group();
+          gltf.scene.traverse((node: any) => {
+            if (!node?.name?.startsWith?.('Franklin.')) return;
+            const clone = node.clone(true);
+            clone.position.copy(node.position);
+            clone.rotation.copy(node.rotation);
+            clone.scale.copy(node.scale);
+            extracted.add(clone);
+          });
+          if (!extracted.children.length) return;
+          franklin.clear();
+          extracted.rotation.set(-Math.PI / 2, 0, Math.PI);
+          extracted.scale.setScalar(1.18);
+          extracted.position.set(0, 0, 0);
+          franklin.add(extracted);
+        },
+        undefined,
+        () => {
+          // Keep the small geometric fallback rather than break the scene.
+        },
+      );
+
+      franklin.position.set(-1.65, 0.03, 0.7);
+      franklin.scale.setScalar(0.95);
 
       const cameraStops = [
         { p: new Vector3(-7.4, 3.2, 11.5), t: new Vector3(0, 1.6, -1.0) },
@@ -220,11 +250,7 @@ export default function SplatAucklandAtelier() {
         renderer.setSize(mount.clientWidth, mount.clientHeight);
       };
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onResize);
-
-      const animate = () => {
-        if (disposed) return;
+      const renderFrame = (ease = 0.08) => {
         const scaled = progress * (cameraStops.length - 1);
         const i = Math.min(Math.floor(scaled), cameraStops.length - 2);
         const local = scaled - i;
@@ -233,26 +259,44 @@ export default function SplatAucklandAtelier() {
 
         const nextPosition = a.p.clone().lerp(b.p, local);
         const nextTarget = a.t.clone().lerp(b.t, local);
-        camera.position.lerp(nextPosition, 0.08);
-        const look = camera.getWorldDirection(new Vector3()).multiplyScalar(8).add(camera.position);
-        const desired = nextTarget.clone();
-        const targetDir = desired.sub(camera.position).normalize();
+        camera.position.lerp(nextPosition, ease);
+        const targetDir = nextTarget.clone().sub(camera.position).normalize();
         const currentQuat = camera.quaternion.clone();
         camera.lookAt(camera.position.clone().add(targetDir));
         const desiredQuat = camera.quaternion.clone();
-        camera.quaternion.copy(currentQuat).slerp(desiredQuat, 0.08);
+        camera.quaternion.copy(currentQuat).slerp(desiredQuat, ease);
 
-        franklin.rotation.y = Math.sin(performance.now() * 0.00035) * 0.08;
-        franklin.position.y = 0.05 + Math.sin(performance.now() * 0.0011) * 0.018;
+        if (!qaStill) {
+          franklin.rotation.y = Math.sin(performance.now() * 0.00028) * 0.035;
+          franklin.position.y = 0.03 + Math.sin(performance.now() * 0.0009) * 0.009;
+        }
 
         renderer.render(scene, camera);
+      };
+
+      const animate = () => {
+        if (disposed) return;
+        renderFrame(0.08);
         raf = requestAnimationFrame(animate);
       };
 
-      animate();
+      const qaScroll = () => {
+        onScroll();
+        for (let i = 0; i < 18; i += 1) renderFrame(0.22);
+      };
+
+      window.addEventListener('resize', onResize);
+      window.addEventListener('scroll', qaStill ? qaScroll : onScroll, { passive: true });
+
+      onScroll();
+      if (qaStill) {
+        for (let i = 0; i < 22; i += 1) renderFrame(0.24);
+      } else {
+        animate();
+      }
 
       cleanup = () => {
-        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('scroll', qaStill ? qaScroll : onScroll);
         window.removeEventListener('resize', onResize);
         cancelAnimationFrame(raf);
         renderer.dispose();
