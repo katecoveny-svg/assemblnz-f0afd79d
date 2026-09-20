@@ -20,8 +20,8 @@ const PUBLIC_SURFACES = [
   'components/site/assembl-the-work/AssemblTheWorkHome.tsx',
 ] as const;
 
-describe('public DO specialists lock', () => {
-  it('keeps Meeting and Household as preview specialists only — not the public face', () => {
+describe('public DO entry boundaries', () => {
+  it('retains legacy specialist metadata without claiming execution', () => {
     expect(PUBLIC_DO_SPECIALISTS.map((s) => s.id)).toEqual(['meeting', 'household']);
     expect(PUBLIC_DO_SPECIALISTS.map((s) => s.href)).toEqual([
       '/do/meetings',
@@ -49,15 +49,18 @@ describe('public DO specialists lock', () => {
         '/do/office',
         '/do/tasks',
         '/do/connections',
-        '/do/meetings',
         '/do/household',
       ]),
     );
   });
 
-  it('allows only /do as the public DO entry href', () => {
+  it('allows working entry paths without exposing unfinished operator tools', () => {
     expect(isAllowedPublicDoHref('/do')).toBe(true);
-    expect(isAllowedPublicDoHref('/do/meetings')).toBe(false);
+    expect(isAllowedPublicDoHref('/do/meetings')).toBe(true);
+    expect(isAllowedPublicDoHref('/do/widget')).toBe(true);
+    expect(isAllowedPublicDoHref('/do/widget?task=plan')).toBe(true);
+    expect(isAllowedPublicDoHref('/do/install#chrome')).toBe(true);
+    expect(isAllowedPublicDoHref('https://foreign.example/do')).toBe(false);
     expect(isAllowedPublicDoHref('/do/household')).toBe(false);
     expect(isAllowedPublicDoHref('/do/builder')).toBe(false);
     expect(isAllowedPublicDoHref('/do/office')).toBe(false);
@@ -72,7 +75,7 @@ describe('public DO specialists lock', () => {
     expect(errors).toEqual([]);
   });
 
-  it('keeps public /do as an explanation page without the tool shelf', () => {
+  it('opens existing tasks before the preserved product story', () => {
     const doHome = readFileSync(join(root, 'app/do/DoHome.tsx'), 'utf8');
     const doHomePublic = doHome
       .replace(/\/\*[\s\S]*?\*\//g, '')
@@ -83,7 +86,11 @@ describe('public DO specialists lock', () => {
     expect(doHomePublic).not.toMatch(/\bpaused\b/i);
     expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
     expect(doHome).not.toMatch(/DoLivingBlob/);
-    expect(doHome).not.toMatch(/href="\/do\/meetings"/);
+    expect(doHome).toMatch(/href="\/do\/meetings"/);
+    expect(doHome).toMatch(/href="\/do\/widget"/);
+    expect(doHome).toMatch(/href="\/do\/widget\?task=plan"/);
+    expect(doHome.indexOf('id="do-start"')).toBeLessThan(doHome.indexOf('ref={rail}'));
+    expect(doHome).toContain('SIGN IN FOR NOTES');
     expect(doHome).not.toMatch(/href="\/do\/household"/);
   });
 });

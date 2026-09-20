@@ -1,9 +1,8 @@
 /**
- * Preview / internal DO specialists (Meeting + Household).
- *
- * Kate 2026-09-17: these are NOT the public /do product face. Public `/do` explains
- * DO (small agent where you already work). Meeting/Household routes may remain
- * in-repo as PREVIEW/internal. Do not promote them from homepage, public nav, or `/do`.
+ * Legacy specialist metadata retained for existing consumers.
+ * The 20 September access correction makes /do a task entry point.
+ * Meeting and the hosted workspace may be linked; unfinished operator and
+ * private-family surfaces stay out of public promotion.
  */
 
 export const PUBLIC_DO_SPECIALISTS = [
@@ -51,13 +50,12 @@ export const BANNED_PUBLIC_DO_HREFS = [
   '/do/connections',
   '/do/sponsored',
   '/do/browser',
-  '/do/meetings',
   '/do/household',
 ] as const;
 
-/** Only the public /do explanation page is an allowed public DO entry href. */
+/** Reviewed public entry routes. This list grants no authentication or action authority. */
 export function isAllowedPublicDoHref(href: string): boolean {
-  return href === '/do';
+  return ['/do', '/do/widget', '/do/widget?task=plan', '/do/meetings', '/do/install#chrome'].includes(href);
 }
 
 /** Scan a public surface source file for banned shelf promos and hrefs. */

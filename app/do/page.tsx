@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: { absolute: 'DO · assembl' },
   description:
-    'DO is a small agent that sits where you already work. Click for help in context, pick or tweak a template, connect a tool only when you want to.',
+    'Open DO for everyday writing, meeting notes and school notices. Bring the context and review the work before acting.',
   alternates: { canonical: '/do' },
 };
 
