@@ -33,7 +33,7 @@ export function parseMeetingSmartNotes(text: string): MeetingSmartNotesSection[]
 
   for (const raw of lines) {
     const line = raw.trimEnd();
-    const trimmed = line.trim();
+    const trimmed = line.trim().replace(/^#{1,6}\s+/, '').replace(/^\*\*(.*?)\*\*:?$/, '$1').replace(/:$/, '');
     if (HEADING_PATTERN.test(trimmed)) {
       if (current) sections.push({ ...current, body: current.body.trim() });
       const canonical =
