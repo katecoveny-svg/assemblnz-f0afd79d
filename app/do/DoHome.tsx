@@ -121,10 +121,9 @@ function Reveal({
 }
 
 /**
- * Public /do — Kate craft 2026-09-17 evening.
- * Locked meaning + interactive craft (scroll, hover, glow).
- * No Meeting/Household shelf, no Identity D theatre, no vendor names,
- * no technique captions ("experiment", "lab", "preview theatre").
+ * Public /do entry: open an existing task first; product story follows.
+ * User direction 2026-09-20 supersedes the earlier explanation-only lock.
+ * Keep the established atelier and consent boundaries.
  */
 export function DoHome() {
   const progress = useRef(0);
@@ -139,7 +138,9 @@ export function DoHome() {
   }, []);
 
   useEffect(() => {
-    if (!visible) setSceneReady(false);
+    if (visible) return;
+    const frame = requestAnimationFrame(() => setSceneReady(false));
+    return () => cancelAnimationFrame(frame);
   }, [visible]);
 
   const showStill = reduced || failed || !sceneReady;
@@ -166,8 +167,8 @@ export function DoHome() {
 
   return (
     <div className={`do-craft ${styles.page}`}>
-      <a className={styles.skip} href="#do-explain">
-        Skip to content
+      <a className={styles.skip} href="#do-start">
+        Skip to DO tasks
       </a>
 
       <header className={styles.header}>
@@ -176,10 +177,38 @@ export function DoHome() {
         </Link>
         <span className={styles.product}>/ DO</span>
         <nav aria-label="assembl products">
-          <Link href="/pursuit">Pursuit</Link>
-          <Link href="/creative-studio">Studio</Link>
+          <Link href="/do/widget">Open workspace</Link>
+          <Link href="/login?redirect=%2Fdo">Sign in</Link>
         </nav>
       </header>
+
+      <section id="do-start" className={styles.launcher} aria-labelledby="do-start-title">
+        <p className={styles.sectionEyebrow}>ONE DO. A FEW WAYS TO START.</p>
+        <h1 id="do-start-title">What needs doing?</h1>
+        <p className={styles.startIntro}>Choose the work in front of you. Bring the context, then review what DO prepares.</p>
+        <div className={styles.startGrid}>
+          <Link className={styles.startCard} href="/do/widget">
+            <span className={styles.startStatus}>PASTE TEXT · TRY A DRAFT</span>
+            <h2>Everyday work</h2><p>Write a reply, make a plan, compare options or find the details.</p>
+            <strong>Open Everyday DO <span aria-hidden="true">↗</span></strong>
+          </Link>
+          <Link className={styles.startCard} href="/do/meetings">
+            <span className={styles.startStatus}>PREVIEW · SIGN IN FOR NOTES</span>
+            <h2>Meetings</h2><p>Record or paste a transcript. Review notes and prepare the follow-up.</p>
+            <strong>Open Meeting DO <span aria-hidden="true">↗</span></strong>
+          </Link>
+          <Link className={styles.startCard} href="/do/widget?task=plan">
+            <span className={styles.startStatus}>PASTE A NOTICE · REVIEW A PLAN</span>
+            <h2>School &amp; family</h2><p>Turn a school notice or family to-do list into a plan you can check and keep.</p>
+            <strong>Organise a notice <span aria-hidden="true">↗</span></strong>
+          </Link>
+        </div>
+        <div className={styles.startLinks}>
+          <Link href="/do/install#chrome">Browser companion · setup guide ↗</Link>
+          <Link href="#do-explain">How DO works ↓</Link>
+        </div>
+        <p className={styles.startNote}>Drafts stay under your control. Sending, sharing and calendar changes need a separate step.</p>
+      </section>
 
       <section
         ref={rail}
@@ -214,11 +243,11 @@ export function DoHome() {
           <div className={styles.heroScrim} aria-hidden="true" />
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}>DO</p>
-            <h1 id="do-hero-title" className={styles.title}>
+            <h2 id="do-hero-title" className={styles.title}>
               Work from the place
               <br />
               you’re already in.
-            </h1>
+            </h2>
             <p className={styles.lede}>
               DO is a small agent that sits where you already work. Click it when
               you need help with that context. Pick or tweak a template. Connect a
@@ -244,8 +273,8 @@ export function DoHome() {
             Choose the task. Add the context. Review the result.
           </p>
           <div className={styles.actions}>
-            <Link href="/contact?product=do" className={styles.primary}>
-              Talk to us about DO
+            <Link href="/do/widget" className={styles.primary}>
+              Open DO workspace
             </Link>
             <Link href="/" className={styles.ghost}>
               Back to assembl

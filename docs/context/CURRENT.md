@@ -98,7 +98,7 @@ Sponsored Journeys should stay provider-neutral and utility-led.
 
 Treat DO as **one portable runtime with multiple surfaces**, not a collection of unrelated apps.
 
-**Public `/do` (17 Sep 2026):** the public Meeting + Household tool shelf and Identity D theatre are **off**. `/do` is a short on-brand explanation of DO (small agent where you already work) with the daylight atelier still — no “paused” copy. Meeting/Household runtimes may remain in-repo as PREVIEW/internal routes but must not be sold from homepage, public nav, or `/do`. Do not reintroduce Personal/operator DOs or vendor theatre on public surfaces.
+**Public `/do` access correction (20 Sep 2026, review branch):** Kate asked for a visible DO entry point and working core actions. This supersedes the 17 Sep explanation-only / hidden-tool direction. The homepage should say Open DO; `/do` should offer the hosted writing workspace, Meeting DO with its sign-in requirement, and school/family notice preparation before the preserved atelier story. The browser companion is a setup guide. Do not imply a full family Today feed, automatic meeting join, live bus tracking, cross-tab execution or autonomous work exists. Private operator and fictional household surfaces remain outside public promotion. Authentication, source consent and external-action approvals remain intact.
 
 Current/active surfaces include:
 

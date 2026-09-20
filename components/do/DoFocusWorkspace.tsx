@@ -9,9 +9,10 @@ import { DoVision } from '@/app/do/DoVision';
 import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
 import styles from './do-product-focus.module.css';
+import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build';
-export function DoFocusWorkspace() {
+export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTask }) {
   const [mode, setMode] = useState<Mode>('write');
   const [context, setContext] = useState('');
   const [offeredContext, setOfferedContext] = useState<{ text: string; id: number }>();
@@ -40,7 +41,7 @@ export function DoFocusWorkspace() {
         <button aria-pressed={mode === 'look'} onClick={() => setMode('look')}><Eye size={15} />Look</button>
         <Link href="/do/meetings" target={embedded ? '_blank' : undefined} rel={embedded ? 'noopener noreferrer' : undefined}><AudioLines size={15} />Meet</Link>
       </nav>
-      <div hidden={mode !== 'write'}><DoTextWorkspace embedded focus offeredContext={offeredContext} onSourceChange={setContext} /></div>
+      <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus offeredContext={offeredContext} onSourceChange={setContext} /></div>
       {embedded && (mode === 'talk' || mode === 'look') ? <section className={styles.toolSurface} aria-label="Open this tool in a full window">
         <h2>{mode === 'talk' ? 'A conversation with DO.' : 'Show DO what you mean.'}</h2>
         <p className={styles.help}>Open this tool in its own window for sign-in and device permissions. Your draft stays here. No source text is transferred automatically.</p>

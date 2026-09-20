@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Guard the user-confirmed recovery + #1346 homepage WorldScene / atelier.glb
- * fly-through, plus the 2026-09-17 Kate lock: public DO shelf is OFF.
+ * fly-through, plus the 2026-09-20 user-requested DO entry correction.
  *
- * Public /do = short on-brand explanation of DO + daylight atelier still.
- * No Meeting/Household shelf, no Identity D theatre, no “paused” copy.
+ * Public /do opens the hosted workspace and Meeting DO before the story.
+ * Keep the atelier, private-data protections and honest capability boundaries.
  *
  * Homepage hero dual-accept (intentional):
  *   A) legacy `<DoSpatialScene company />`, OR
@@ -96,7 +96,6 @@ const bannedHrefs = [
   'href="/do/connections"',
   'href="/do/sponsored"',
   'href="/do/browser"',
-  'href="/do/meetings"',
   'href="/do/household"',
 ];
 const bannedShelfCopy = [
@@ -139,8 +138,8 @@ const doHomePublic = doHome
   .replace(/^\s*\/\/.*$/gm, '')
   // Allow motion-hold props; ban product “paused” copy only.
   .replace(/\bpaused=\{[^}]*\}/g, '');
-if (/Meeting notes\.|Household board\.|Two tools you can try|Open Meeting DO|Open Household DO|DoLivingBlob|PUBLIC_DO_SPECIALISTS|#tools|your-dos/i.test(doHome)) {
-  errors.push('Public /do must explain DO — no Meeting/Household shelf or Identity D theatre');
+if (/Household board\.|Open Household DO|DoLivingBlob|PUBLIC_DO_SPECIALISTS/i.test(doHome)) {
+  errors.push('Public /do must not present the fictional household board as a working family product');
 }
 if (/Whisper-class|Deepgram nova-2|Smart notes|Granola-class/i.test(doHome)) {
   errors.push('Public /do must not expose vendor/model theatre in UI chrome');
@@ -160,6 +159,12 @@ if (!/small agent that sits where you already work/.test(doHome)) {
 if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
+// Product access must not regress to a contact-only explanation page again.
+for (const href of ['/do/widget', '/do/meetings', '/do/widget?task=plan']) {
+  if (!doHome.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
+}
+if (!doHome.includes('SIGN IN FOR NOTES')) errors.push('Meeting entry must explain the sign-in requirement');
+
 const meetingUi = read('app/do/meetings/MeetingDo.tsx') + (existsSync('app/do/meetings/MeetingDoExperience.tsx') ? read('app/do/meetings/MeetingDoExperience.tsx') : '');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 if (/Whisper-class|Deepgram nova-2|Granola-class|sharing this audio with Deepgram|Deepgram is not configured/i.test(meetingChrome)) {
@@ -194,5 +199,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  'public-front-door-guard: assembl front door, WorldScene hero, public /do = DO explanation (shelf off)',
+  'public-front-door-guard: working DO entry links, preserved atelier, private-data and capability boundaries',
 );

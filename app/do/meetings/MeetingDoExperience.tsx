@@ -58,7 +58,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
   const hasNotes = Boolean(p.notes.trim());
   const step = ready ? 3 : hasNotes ? 2 : p.hasAudio ? 1 : 0;
   const time = `${Math.floor(elapsed / 60).toString().padStart(2, '0')}:${(elapsed % 60).toString().padStart(2, '0')}`;
-  const auth = p.signedIn === false ? <p className={styles.notice}><Link href="/login?redirect=%2Fdo%2Fmeetings" target="_blank" rel="noopener noreferrer">Sign in in a new tab</Link>, then return here. <button type="button" className={styles.textButton} onClick={p.refreshConnection}>Refresh connection status</button> Download your recording before leaving this page.</p> : null;
+  const auth = p.signedIn === false ? <p className={styles.notice}><Link href="/login?redirect=%2Fdo%2Fmeetings" target="_blank" rel="noopener noreferrer">Sign in in a new tab</Link>, then return here. <button type="button" className={styles.textButton} onClick={p.refreshConnection}>Refresh connection status</button> Sign-in is needed to prepare notes or transcribe audio. Recording and downloading work on this device.</p> : null;
 
   return <DoProductFrame product="meeting" board="meeting-do">
     {p.preview && <p className={styles.notice}>Sample notes for layout review. No meeting or model call took place.</p>}
@@ -70,6 +70,11 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
       <h1>{active ? 'Stay in the conversation.' : ready ? 'The conversation, assembled.' : 'Be in the conversation.'}</h1>
       <p>{ready ? 'Your notes are ready to read, edit and take forward.' : 'Record here. Prepare useful notes. Decide what happens next.'}</p>
     </section>
+    {!ready && !hasNotes && !active && <>
+      {auth}
+      {p.signedIn === null && <p className={styles.notice}>Checking your connection. You can record locally while this loads. <button type="button" className={styles.textButton} onClick={p.refreshConnection}>Check connection again</button></p>}
+      {p.transcriptionReady === false && <p className={styles.notice}>Transcription is unavailable here. You can keep a recording or paste an existing transcript.</p>}
+    </>}
     {!ready && !hasNotes && <section className={styles.recorder} aria-label="Meeting recorder" data-recording={p.recording || undefined}>
       <div className={styles.recorderTop}>
         <div className={styles.sourceSwitch} role="group" aria-label="Recording source">
@@ -94,7 +99,6 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
         <a className={styles.textButton} href={p.audioUrl} download={`meeting-recording.${p.extension}`}><Download size={16} />Download recording</a>
       </div>}
       {p.hasAudio && <div className={styles.nextStep}>
-        {auth}
         {p.transcriptionReady === false && <p className={styles.notice}>Transcription is not configured on this deployment. Keep your recording or paste a transcript below.</p>}
         <label className={styles.consent}><input type="checkbox" checked={p.shareAudio} disabled={p.busy || active} onChange={e => p.setShareAudio(e.target.checked)} /><span>Share this recording with Deepgram to make a transcript.</span></label>
         <button className={styles.primary} disabled={!p.shareAudio || p.busy || active || p.signedIn !== true || p.transcriptionReady !== true} onClick={() => p.process('transcribe')}>Create transcript <ArrowUpRight size={18} /></button>
