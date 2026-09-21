@@ -4,7 +4,7 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import JSZip from 'jszip';
-const VERSION = '1.6.0';
+const VERSION = '1.7.0';
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'public/do/downloads');
 const extensionRoot = path.join(root, 'apps/do/extension');
@@ -45,6 +45,10 @@ const extension = new JSZip();
 for (const name of EXTENSION_FILES) extension.file(name, await readFile(path.join(extensionRoot, name)));
 extension.file('README.md', `# DO browser extension · v${VERSION}\n\nUnzip, then Load unpacked. Open the launch panel for signed-in workspace, voice, meetings and TypeSafe. Selection handoff needs an explicit click; no automatic capture or action.\nhttps://www.assembl.co.nz/do/install\n`);
 await writeFile(path.join(outDir, `assembl-do-extension-${VERSION}.zip`), await extension.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' }));
+if (process.argv.includes('--extension-only')) {
+  console.log('Chrome DO mirror refreshed at', outDir);
+  process.exit(0);
+}
 const macos = new JSZip();
 await addDir(macos, macosRoot, 'macos');
 for (const size of [192, 512]) {

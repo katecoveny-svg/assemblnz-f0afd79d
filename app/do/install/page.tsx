@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { DoInstallPwaCta } from '@/components/do/DoInstallPwaCta';
+import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from '@/components/do/DoMark';
 import { DoDownloadCtas } from '@/components/do/DoDownloadCtas';
 import styles from './install.module.css';
 import '../do.css';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Install DO · Chrome + Mac · assembl' },
+  title: { absolute: 'Install DO · Phone, Chrome + Mac · assembl' },
   description:
     'Download the Chrome DO extension zip or the Mac companion source. Load unpacked in Chrome; build the Mac app on a Mac with Xcode tools.',
   alternates: { canonical: '/do/install' },
@@ -41,12 +43,21 @@ export default function DoInstallPage() {
         <DoDownloadCtas variant="sheet" />
       </section>
 
+      <section className={styles.card} id="phone">
+        <h2 className={styles.cardTitle}>DO on your phone.</h2>
+        <p className={styles.heroCopy}>Open your workspace, add text or a screenshot, or record an in-person meeting. Keep DO on your home screen for next time.</p>
+        <Link className={styles.cta} href="/do/widget">Open DO</Link>{' '}<DoShareButton />
+        <DoInstallPwaCta phone prominent />
+        <p className={styles.note}>Share DO sends a public link. Share notes sends only the text you reviewed through your phone’s Share menu. Your recording and original source are not attached.</p>
+        <p className={styles.note}>Keep DO open while recording. To bring context from another app, paste text or add a screenshot; the phone workspace does not float over other apps.</p>
+      </section>
+
       <section className={styles.card} id="chrome">
         <h2 className={styles.cardTitle}>Chrome DO</h2>
         <ol className={styles.list}>
           <li className={styles.listItem}>
             Click <strong>Download Chrome DO</strong> — you get{' '}
-            <code className={styles.code}>assembl-do-extension-1.5.2.zip</code>.
+            <code className={styles.code}>assembl-do-extension-1.7.0.zip</code>.
           </li>
           <li className={styles.listItem}>
             Unzip the folder (keep <code className={styles.code}>manifest.json</code> at the top).
@@ -59,22 +70,20 @@ export default function DoInstallPage() {
             <strong>Load unpacked</strong> → select the unzipped folder →{' '}
             <strong>Reload</strong> if it was already installed.
           </li>
-          <li className={styles.listItem}>Pin DO. Select page text to light the toolbar badge.</li>
+          <li className={styles.listItem}>Pin DO, open its toolbar panel, then choose “Place DO on this tab”. Drag the glowing companion or its workspace handle. Choose “Point at an area”, hover, and click to review the text.</li>
         </ol>
         <p className={styles.note}>
-          If Chrome marks the extension <strong>Inactive</strong>, open Errors. Every
-          shipped <code className={styles.code}>.js</code> file must start with quoted{' '}
-          <code className={styles.code}>&apos;use strict&apos;;</code> — a bare{' '}
-          <code className={styles.code}>use strict</code> disables the extension. Toolbar
-          icons (16/32/48) are included so Chrome can show the D-mark.
+          On sites that block the embedded workspace, choose “Open DO workspace” in the toolbar panel.
+          Copy the context you reviewed and paste it there. For images or another window,
+          “Share a screen” lets you review one snapshot. No page is read just by dragging DO.
         </p>
         <a className={styles.cta} href="/api/do/download?format=extension" download>
           Download Chrome DO zip
         </a>
         <p className={styles.alt}>
           Static mirror (same package):{' '}
-          <a className={styles.altLink} href="/do/downloads/assembl-do-extension-1.5.2.zip" download>
-            /do/downloads/assembl-do-extension-1.5.2.zip
+          <a className={styles.altLink} href="/do/downloads/assembl-do-extension-1.7.0.zip" download>
+            /do/downloads/assembl-do-extension-1.7.0.zip
           </a>
         </p>
       </section>

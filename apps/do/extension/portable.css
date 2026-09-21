@@ -12,3 +12,6 @@
 
 .do-portable button:last-child { grid-column: 1 / -1; }
 .do-portable-page { max-width: 680px; margin: 0 auto; }
+
+/* A quiet launcher for the working companion. */
+.do-portable-page{background:radial-gradient(ellipse at 100% 0,#d6a5bd33,transparent 65%),#fffdfb}.do-portable-page header,.do-portable-page details{border:0}.do-portable-page .do-portable{background:transparent;margin:0}.do-portable button{border-radius:22px;border-color:#916a7045;background:#fffdfbb3}.do-portable button:first-child{background:linear-gradient(125deg,#654a4e,#240b21);box-shadow:0 6px 24px #916a7029}.do-portable-page details{background:#f5f1f2;padding:16px;border-radius:24px}

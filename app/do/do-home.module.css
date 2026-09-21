@@ -414,3 +414,8 @@
 @media(prefers-reduced-motion:reduce){.startCard,.startCard::before,.startCard strong svg{transition:none}}
 
 .launcher h1,.startCard h2{font-family:var(--font-body),"Instrument Sans",sans-serif;color:var(--plum)}.everydayTask h2{color:var(--paper)}
+
+.header{border-bottom:0;background:#fffdfbcc}.hero{margin:12px 2% 24px}.heroFrame{border-radius:clamp(30px,5vw,60px);top:10px;height:calc(100svh - 20px);box-shadow:0 28px 70px -42px #240b2166}.promiseBlock,.footer{border-top:0}.footer{background:linear-gradient(#f5f1f2,#fffdfb)}.featuredTask,.everydayTask{border-radius:38px}.startCard{border-radius:30px}.startGrid{gap:18px}
+@media(max-width:760px){.hero{margin-left:3%;margin-right:3%}.heroFrame{border-radius:30px;height:auto;top:0}.featuredTask,.everydayTask{border-radius:30px}}
+
+.phoneActions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:24px 0 0}.phoneActions>a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:#654a4e;font-size:14px;text-underline-offset:5px}@media(max-width:600px){.phoneActions{margin-top:16px}.phoneActions>a{font-size:13px}}

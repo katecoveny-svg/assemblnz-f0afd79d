@@ -36,3 +36,11 @@
 
 /* Chapter controls need their own readable glass over the daylight floor. */
 @media(min-width:651px){.rail .chapterSteps button{background:#240b21ad;border-radius:8px;padding:12px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}.rail .chapterSteps button[data-active=true]{background:#240b21d4;border-top:2px solid #fffdfb}}
+
+/* Keep the accepted camera rail; soften only the frame and chapter furniture. */
+.rail{margin:12px 12px 0;border-radius:40px;background:#fffdfb}
+.frame{top:10px;height:calc(100svh - 20px);border-radius:40px;background:#240b21;box-shadow:0 24px 65px -38px #240b2173}
+.chapterBody{border-radius:28px;border-color:#fffdfb30}.rail .chapterSteps button,.rail .chapterSteps button[data-active=true]{border-top:0;border-radius:16px}
+.rail .chapterSteps button[data-active=true]{box-shadow:inset 0 0 0 1px #fffdfb99}.jobNote{border-radius:23px;border-color:#fffdfb26}
+.rail[data-static] .stillSummary{border-radius:0 0 36px 36px;background:linear-gradient(#fffdfb,#f5f1f2)}.stillSummary article{border:0;padding-top:12px}
+@media(max-width:650px){.rail{margin:8px 8px 0;border-radius:28px}.frame{top:8px;height:calc(100svh - 16px);border-radius:28px;padding-left:5%;padding-right:5%}.rail .chapterSteps button{border:0;border-radius:14px}.rail .copy h1{font-size:clamp(56px,15.4vw,88px)}}

@@ -95,3 +95,6 @@
     font-size: 44px;
   }
 }
+
+.film{margin:24px 2%;border-radius:clamp(32px,5vw,64px);box-shadow:0 28px 65px -40px #240b2166}
+@media(max-width:700px){.film{margin:20px 3%;border-radius:32px}.copy{padding-left:8%;padding-right:8%}.copy h2{font-size:clamp(35px,9vw,44px)}}

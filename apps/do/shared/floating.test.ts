@@ -1,89 +1,143 @@
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { describe, expect, it, vi } from 'vitest';
-const source = readFileSync('apps/do/extension/floating.js', 'utf8');
-// This fake models only pointer events and element geometry, not browser page access.
+import { DO_DISTRIBUTION_ORIGIN, doWidgetScript } from './distribution';
+
+// Deterministic event/geometry fixture, not a substitute for browser visual proof.
 class Element {
   children: Element[] = [];
   style: Record<string, string> = {};
   handlers: Record<string, (e: any) => void> = {};
-  textContent = '';
-  innerHTML = '';
-  className = '';
-  capture = false;
-  removed = false;
-  append(...children: Element[]) {
-    this.children.push(...children);
-  }
-  attachShadow() {
-    const root = new Element();
-    this.children.push(root);
-    return root;
-  }
-  setAttribute() {}
-  addEventListener(name: string, fn: (e: any) => void) {
-    this.handlers[name] = fn;
-  }
+  attrs: Record<string, string> = {};
+  textContent = ''; innerHTML = ''; className = ''; value = ''; src = '';
+  hidden = false; capture = false;
+  contentWindow = { postMessage: vi.fn() };
+  append(...nodes: Element[]) { this.children.push(...nodes); }
+  attachShadow() { const e = new Element(); this.children.push(e); return e; }
+  setAttribute(k: string, v: string) { this.attrs[k] = v; }
+  addEventListener(k: string, f: (e: any) => void) { this.handlers[k] = f; }
   getBoundingClientRect() {
-    return {
-      left: Number.parseFloat(this.style.left || '100'),
-      top: Number.parseFloat(this.style.top || '100'),
-    };
+    return { left: parseFloat(this.style.left || '100'), top: parseFloat(this.style.top || '100'), width: this.className === 'launch' ? 76 : 480, height: this.className === 'launch' ? 92 : 480 };
   }
-  setPointerCapture() {
-    this.capture = true;
-  }
-  hasPointerCapture() {
-    return this.capture;
-  }
-  releasePointerCapture() {
-    this.capture = false;
-  }
-  remove() {
-    this.removed = true;
-  }
+  setPointerCapture() { this.capture = true; }
+  hasPointerCapture() { return this.capture; }
+  releasePointerCapture() { this.capture = false; }
+  focus() {} select() {}
 }
-function setup() {
-  const page = new Element();
-  const send = vi.fn((_m, cb) => cb({ ok: true }));
-  runInNewContext(source, {
-    document: { createElement: () => new Element(), documentElement: page },
-    chrome: { runtime: { sendMessage: send } },
-    window: { addEventListener: vi.fn(), removeEventListener: vi.fn() },
-    innerWidth: 800,
-    innerHeight: 600,
+function setup(embedded = false, legacyPosition?: string) {
+  const body = new Element();
+  const listeners: Record<string, (e: any) => void> = {};
+  const saved = new Map<string, string>();
+  if (legacyPosition) saved.set('assembl:do:companion-position:v1', legacyPosition);
+  const query = vi.fn((element: any) => { let visited = false; return { nextNode: () => { if (visited) return null; visited = true; return { textContent: element.textContent, parentElement: element }; } }; });
+  const documentListeners: Record<string, (e: any) => void> = {};
+  const frames: (() => void)[] = [];
+  const area = { textContent: 'Prepare the Thursday proposal.', tagName: 'P', parentElement: null,
+    closest: (selector: string): any => selector.startsWith('p,h1') ? area : null,
+    getBoundingClientRect: () => ({ left: 20, top: 20, right: 220, bottom: 60, width: 200, height: 40 }),
+  };
+  const window: any = { addEventListener: (k: string, f: (e: any) => void) => { listeners[k] = f; }, removeEventListener: vi.fn() };
+  window.self = window; window.top = embedded ? {} : window;
+  runInNewContext(doWidgetScript(DO_DISTRIBUTION_ORIGIN), {
+    document: { createElement: () => new Element(), body, createTreeWalker: query,
+      elementFromPoint: () => area, createRange: () => ({ selectNodeContents() {}, getClientRects: () => [area.getBoundingClientRect()] }),
+      addEventListener: (k: string, fn: (e: any) => void) => { documentListeners[k] = fn; },
+      removeEventListener: (k: string) => { delete documentListeners[k]; },
+    },
+    NodeFilter: { SHOW_TEXT: 4 }, getComputedStyle: () => ({ opacity: '1' }),
+    window, location: { origin: DO_DISTRIBUTION_ORIGIN, pathname: '/do/widget' },
+    innerWidth: 800, innerHeight: 600, URL, crypto: { randomUUID: () => 'context-test-id' },
+    cancelAnimationFrame: vi.fn(), requestAnimationFrame: (f: () => void) => { frames.push(f); return frames.length; },
+    localStorage: { getItem: (k: string) => saved.get(k), setItem: (k: string, v: string) => saved.set(k, v) },
   });
-  const root = page.children[0].children[0];
-  const wrap = root.children[1];
-  return { page, wrap, orb: wrap.children[0], send };
+  const all = (e: Element): Element[] => [e, ...e.children.flatMap(all)];
+  const find = (name: string) => all(body).find(e => e.className === name)!;
+  const panel = find('panel');
+  return { body, window, find, panel, saved, query, listeners, documentListeners, area, flush: () => { frames.splice(0).forEach(f => f()); }, frame: panel?.children.at(-1)! };
 }
-describe('draggable page companion', () => {
-  it('does not use a star clip-path mark', () => {
-    expect(source).not.toMatch(/clip-path:\s*polygon/);
-    expect(source).toMatch(/M16 12H29C44 12/);
+const click = { detail: 1 };
+describe('portable DO companion', () => {
+  it('packages the exact website companion in the extension', () => {
+    expect(readFileSync('apps/do/extension/floating.js', 'utf8')).toBe("'use strict';\n// Generated by scripts/generate-do-companion.ts.\n" + doWidgetScript(DO_DISTRIBUTION_ORIGIN) + '\n');
   });
-  it('does not read a page or open anything on injection', () => {
-    expect(setup().send).not.toHaveBeenCalled();
+  it('does not read the page or load the workspace on injection', () => {
+    const s = setup(); expect(s.query).not.toHaveBeenCalled(); expect(s.frame.src).toBe(''); expect(s.panel.hidden).toBe(true); expect(s.saved.size).toBe(0);
   });
-  it('opens the panel only on a click, not after a drag', () => {
+  it('keeps and clamps the previous companion position when upgrading', () => {
+    const s = setup(false, '{"left":5000,"top":120}');
+    expect(s.find('launch').style.left).toBe('716px'); expect(s.find('launch').style.top).toBe('120px');
+    expect(setup(false, '{"left":"invalid","top":120}').find('launch').style.left).toBeUndefined();
+  });
+  it('does not recursively mount inside the embedded workspace', () => { expect(setup(true).body.children).toHaveLength(0); });
+  it('clamps dragging to the viewport and suppresses the resulting click', () => {
+    const s = setup(), orb = s.find('launch');
+    orb.handlers.pointerdown({ button: 0, isPrimary: true, clientX: 110, clientY: 110, pointerId: 1 });
+    orb.handlers.pointermove({ clientX: 5000, clientY: 5000, pointerId: 1 });
+    orb.handlers.pointerup({ clientX: 5000, clientY: 5000, pointerId: 1 });
+    orb.handlers.click(click);
+    expect(s.frame.src).toBe(''); expect(orb.style.left).toBe('716px'); expect(orb.style.top).toBe('500px');
+    expect([...s.saved.values()].join('')).toBe('{"launch":{"x":716,"y":500}}');
+    orb.handlers.click(click); expect(s.frame.src).toBe(DO_DISTRIBUTION_ORIGIN + '/do/widget'); expect(s.panel.hidden).toBe(false);
+  });
+  it('offers keyboard movement for the launcher and panel without capturing context', () => {
+    const s = setup(), preventDefault = vi.fn();
+    s.find('launch').handlers.keydown({ key: 'ArrowRight', altKey: true, preventDefault });
+    expect(s.find('launch').style.left).toBe('124px');
+    s.window.assemblDo.open(); s.find('grab').handlers.keydown({ key: 'ArrowDown', preventDefault });
+    expect(s.panel.style.top).toBe('112px'); expect(s.query).not.toHaveBeenCalled();
+  });
+  it('requires review before handoff, bounds context, strips URL tokens, and accepts only its own iframe readiness', () => {
     const s = setup();
-    s.orb.handlers.pointerdown({ button: 0, clientX: 110, clientY: 110, pointerId: 1 });
-    s.orb.handlers.pointermove({ clientX: 5000, clientY: 5000 });
-    s.orb.handlers.pointerup({ pointerId: 1 });
-    s.orb.handlers.click({});
-    expect(s.send).not.toHaveBeenCalled();
-    expect(s.wrap.style.left).toBe('708px');
-    expect(s.wrap.style.top).toBe('490px');
-    s.orb.handlers.click({});
-    expect(s.send).toHaveBeenCalledWith({ type: 'do:open-panel' }, expect.any(Function));
+    s.window.assemblDo.open({ text: 'z'.repeat(13000), title: 'Source', url: 'https://example.nz/brief?secret=hidden#private' });
+    const review = s.find('review'), textarea = review.children[0].children[0];
+    expect(textarea.value).toHaveLength(12000); expect(review.children[1].textContent).toBe('Source · https://example.nz/brief');
+    expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
+    s.find('use').handlers.click(click);
+    s.listeners.message({ source: s.frame.contentWindow, origin: 'https://evil.example', data: { type: 'assembl-do:ready' } });
+    s.listeners.message({ source: {}, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:ready' } });
+    expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
+    s.listeners.message({ source: s.frame.contentWindow, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:ready' } });
+    expect(s.frame.contentWindow.postMessage).toHaveBeenCalledExactlyOnceWith({ type: 'assembl-do:context', contextId: 'context-test-id', text: 'z'.repeat(12000), title: 'Source', url: 'https://example.nz/brief' }, DO_DISTRIBUTION_ORIGIN);
+    expect(s.find('status').textContent).toContain('Waiting for the editor');
+    s.listeners.message({ source: s.frame.contentWindow, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:context-received', contextId: 'context-test-id' } });
+    expect(s.find('status').textContent).toContain('Context added');
+    // Keep a usable copy when an iframe is blocked, and never persist page content.
+    expect(textarea.value).toHaveLength(12000); expect(review.hidden).toBe(false); expect(s.saved.size).toBe(0);
   });
-  it('offers keyboard movement and removal', () => {
-    const s = setup();
-    const preventDefault = vi.fn();
-    s.orb.handlers.keydown({ key: 'ArrowRight', preventDefault });
-    expect(s.wrap.style.left).toBe('124px');
-    expect(preventDefault).toHaveBeenCalled();
-    s.wrap.children[2].handlers.click({});
-    expect(s.page.children[0].removed).toBe(true);
+  it('previews pointed text locally, intercepts the page click and requires a second review action to hand it to DO', () => {
+    const s = setup(); s.window.assemblDo.open();
+    s.find('tools').children[0].handlers.click(click);
+    expect(s.query).not.toHaveBeenCalled();
+    s.documentListeners.pointermove({ clientX: 30, clientY: 30 }); s.flush();
+    expect(s.find('picker-preview').textContent).toBe(s.area.textContent);
+    expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
+    const event = { target: s.area, clientX: 30, clientY: 30, preventDefault: vi.fn(), stopImmediatePropagation: vi.fn() };
+    s.documentListeners.pointerdown(event); s.documentListeners.click(event);
+    expect(event.preventDefault).toHaveBeenCalledTimes(2); expect(event.stopImmediatePropagation).toHaveBeenCalledTimes(2);
+    expect(s.find('review').hidden).toBe(false); expect(s.find('review').children[0].children[0].value).toBe(s.area.textContent);
+    expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled(); expect(s.documentListeners.click).toBeUndefined();
+  });
+  it('cancels picking and removes interception on Escape', () => {
+    const s = setup(); s.window.assemblDo.pick();
+    s.documentListeners.keydown({ key: 'Escape', preventDefault: vi.fn(), stopImmediatePropagation: vi.fn() });
+    expect(s.find('picker-bar').hidden).toBe(true); expect(s.documentListeners.pointerdown).toBeUndefined();
+    expect(s.query).not.toHaveBeenCalled(); expect(s.find('review').hidden).toBe(true);
+  });
+  it('blocks keyboard activation of an underlying page control while choosing context', () => {
+    const s = setup(); s.window.assemblDo.pick();
+    const event = { key: ' ', target: s.area, preventDefault: vi.fn(), stopImmediatePropagation: vi.fn() };
+    s.documentListeners.keydown(event); expect(event.preventDefault).toHaveBeenCalled(); expect(event.stopImmediatePropagation).toHaveBeenCalled();
+    expect(s.find('review').hidden).toBe(false); expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
+  });
+  it('discard cancels context queued while the frame was blocked', () => {
+    const s = setup(); s.window.assemblDo.open({ text: 'Private draft' }); s.find('use').handlers.click(click);
+    s.find('review-actions').children.at(-1)!.handlers.click(click);
+    s.listeners.message({ source: s.frame.contentWindow, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:ready' } });
+    expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
+  });
+  it('minimising keeps the iframe draft and ends area selection', () => {
+    const s = setup(); s.window.assemblDo.open(); s.find('close').handlers.click(click);
+    expect(s.panel.hidden).toBe(true); expect(s.frame.src).toBe(DO_DISTRIBUTION_ORIGIN + '/do/widget');
+    expect(s.find('launch').attrs['aria-expanded']).toBe('false');
   });
 });

@@ -8,6 +8,8 @@ import { LivingBrief, ProductDoors } from './ImmersiveExperience';
 import { LivePursuitCanvas } from '../pursuit/LivePursuitCanvas';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { HERO } from './copy';
+import { FluidField } from '../craft/FluidField';
+import '../craft/fluid-type.css';
 import './assembl-the-work.css';
 import './assembl-spatial.css';
 import './immersive-home.css';
@@ -22,9 +24,9 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <LivePursuitCanvas />
     {/* The existing, explicitly labelled illustration remains separate from real research. */}
     <LivingBrief />
-    <section className="immersive-statement" aria-labelledby="statement-title"><p>less starting over. more moving forward.</p><h2 id="statement-title">The idea is only<br />the <span>beginning.</span></h2><div><p>Find the opening. Prepare the work. Give the possibility a form someone can see, change and try.</p><Link href="/creative-studio">See what Studio can do <ArrowUpRight size={19} /></Link></div></section>
+    <section className="immersive-statement" aria-labelledby="statement-title"><FluidField tone="plum" /><p>less starting over. more moving forward.</p><h2 id="statement-title">The idea is only<br />the <span className="fluid-text fluid-text-light">beginning.</span></h2><div><p>Find the opening. Prepare the work. Give the possibility a form someone can see, change and try.</p><Link href="/creative-studio">See what Studio can do <ArrowUpRight size={19} /></Link></div></section>
     <DoFilm />
-    <section className="immersive-close" id="choose" aria-labelledby="choose-title"><div><p className="atw-kicker">start with the work in front of you.</p><h2 id="choose-title">What could we<br /><span>assembl together?</span></h2><p>Bring an opportunity, a repetitive job or an idea that needs to be seen. Start with one product, or connect the whole system.</p><Link className="atw-pill atw-pill-dark" href="/contact?product=system">Bring us the work <ArrowUpRight size={18} /></Link></div><aside aria-label="Existing workspaces"><p>Already working with assembl?</p><a href={PRODUCT_DESTINATIONS.pursuit.workspace} target="_blank" rel="noopener noreferrer"><span><small>Pursuit</small>Open client hubs</span><ArrowUpRight size={20} /></a><a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer"><span><small>Studio</small>Open Creative Studio</span><ArrowUpRight size={20} /></a><small><LockKeyhole size={12} />Your existing private workspaces. Sign-in required.</small></aside></section>
+    <section className="immersive-close" id="choose" aria-labelledby="choose-title"><FluidField /><div><p className="atw-kicker">start with the work in front of you.</p><h2 id="choose-title">What could we<br /><span className="fluid-text">assembl together?</span></h2><p>Bring an opportunity, a repetitive job or an idea that needs to be seen. Start with one product, or connect the whole system.</p><Link className="atw-pill atw-pill-dark" href="/contact?product=system">Bring us the work <ArrowUpRight size={18} /></Link></div><aside aria-label="Existing workspaces"><p>Already working with assembl?</p><a href={PRODUCT_DESTINATIONS.pursuit.workspace} target="_blank" rel="noopener noreferrer"><span><small>Pursuit</small>Open client hubs</span><ArrowUpRight size={20} /></a><a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer"><span><small>Studio</small>Open Creative Studio</span><ArrowUpRight size={20} /></a><small><LockKeyhole size={12} />Your existing private workspaces. Sign-in required.</small></aside></section>
     <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in New Zealand.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/tools/agents">Agent tools</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>Good work comes together.</span></footer>
   </div>;
 }

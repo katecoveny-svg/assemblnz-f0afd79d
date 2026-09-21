@@ -225,7 +225,7 @@ document.getElementById('float').addEventListener('click', async () => {
       throw new Error('Click DO’s toolbar icon on a normal webpage first. Browser settings and PDF viewer pages may block extensions.');
     }
     await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['floating.js'] });
-    status.textContent = 'DO is on this page. Drag the purple D-mark, or focus it and use arrow keys. Click it to reopen this panel. Dragging does not share the screen.';
+    status.textContent = 'DO is on this page. Drag the glowing D-mark, or focus it and use Alt and arrow keys. Open it and choose Point at an area to review context. Dragging does not share the screen.';
   } catch (e) {
     status.textContent = e instanceof Error ? e.message : 'Could not place DO. Click its toolbar icon on this tab and try again.';
   }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ArrowUpRight, AudioLines, CalendarDays, ReceiptText } from "lucide-react";
+import { DoShareButton } from "@/components/do/DoShareButton";
 import { DoPresence } from "@/components/do/DoPresence";
 import { DoGlowCard } from "@/components/do/DoGlowCard";
 import Link from "next/link";
@@ -216,6 +217,7 @@ export function DoHome() {
             <strong>Open DO Bills <ArrowUpRight size={22} aria-hidden="true" /></strong>
           </Link>
         </div>
+        <div className={styles.phoneActions}><Link href="/do/install#phone">Use DO on your phone <ArrowUpRight size={16} /></Link><DoShareButton /></div>
         <div className={styles.startLinks}>
           <Link href="/do/install#chrome">Browser companion · setup guide ↗</Link>
           <Link href="#do-explain">How DO works ↓</Link>
