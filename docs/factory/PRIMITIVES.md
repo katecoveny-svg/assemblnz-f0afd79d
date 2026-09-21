@@ -29,6 +29,8 @@ Do not extract something merely because it might be reused. Prefer extraction af
 | Shared context manifest | existing | `config/context-manifest.json`, `docs/context/*` | Codex, Claude, Grok, Hermes, DO runtimes | `pnpm context:check` | one repo-backed memory spine across harnesses |
 | Agent-paid tool gate | active | `lib/tools/` (`auth`, `keys`, `sandbox`, `cap`, `receipts`, `invoke`, `store`, `registry`) | `/api/tools/nz-who-runs-it`, `nz-trade-finder`, `meeting-enhance`, `nz-compliance-ping` | `lib/tools/__tests__/agent-paid-tools.test.ts` + route tests | URL + key + daily cap + receipt; `test_` sandbox never hits live upstreams |
 
+| DO shared financial foundation | review build; demo + local CSV; Redbark adapter only | apps/do/finance/, app/do/bills/ | Bills now; Money/Business/Tradie contract | financial domain/adapter tests; browser proof pending | integer money, scoped reads, checked invoice dates, recurring candidates and editable enquiries; no live bank auth or financial writes |
+
 ## Candidates to inventory
 
 - Builderdoo repo execution adapters (GitHub-connected worker, local harness, external coding harness)

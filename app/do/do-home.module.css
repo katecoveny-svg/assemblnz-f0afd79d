@@ -389,7 +389,7 @@
 .launcher { width:100%; max-width:1120px; margin:0 auto; padding:clamp(36px,6vw,72px) clamp(20px,5vw,48px); scroll-margin-top:100px; }
 .launcher h1 { font-size:clamp(38px,5.4vw,64px); letter-spacing:-.045em; line-height:1.08; font-weight:500; margin:14px 0; }
 .startIntro { max-width:540px; font-size:16px; line-height:1.65; }
-.startGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:30px 0 22px; }
+.startGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:30px 0 22px; }
 .startCard { min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:26px; border:1px solid #240b2126; border-radius:18px; background:var(--paper); box-shadow:0 12px 32px -25px #240b2138; }
 .startCard:hover { border-color:var(--rose); background:var(--chalk); }
 .startCard h2 { font-size:24px; font-weight:500; letter-spacing:-.03em; }

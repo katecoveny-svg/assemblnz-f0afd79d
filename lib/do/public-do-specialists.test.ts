@@ -34,7 +34,6 @@ describe('public DO entry boundaries', () => {
       expect.arrayContaining([
         'Personal DO',
         'Inbox DO',
-        'Bills DO',
         'Writing DO',
         'Creative DO',
         'Detail DO',
@@ -44,7 +43,6 @@ describe('public DO entry boundaries', () => {
     expect(BANNED_PUBLIC_DO_HREFS).toEqual(
       expect.arrayContaining([
         '/do/family',
-        '/do/bills',
         '/do/builder',
         '/do/office',
         '/do/tasks',
@@ -56,6 +54,7 @@ describe('public DO entry boundaries', () => {
 
   it('allows working entry paths without exposing unfinished operator tools', () => {
     expect(isAllowedPublicDoHref('/do')).toBe(true);
+    expect(isAllowedPublicDoHref('/do/bills')).toBe(true);
     expect(isAllowedPublicDoHref('/do/meetings')).toBe(true);
     expect(isAllowedPublicDoHref('/do/widget')).toBe(true);
     expect(isAllowedPublicDoHref('/do/widget?task=plan')).toBe(true);
@@ -86,6 +85,7 @@ describe('public DO entry boundaries', () => {
     expect(doHomePublic).not.toMatch(/\bpaused\b/i);
     expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
     expect(doHome).not.toMatch(/DoLivingBlob/);
+    expect(doHome).toMatch(/href="\/do\/bills"/);
     expect(doHome).toMatch(/href="\/do\/meetings"/);
     expect(doHome).toMatch(/href="\/do\/widget"/);
     expect(doHome).toMatch(/href="\/do\/widget\?task=plan"/);

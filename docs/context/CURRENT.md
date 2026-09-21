@@ -51,6 +51,9 @@ Pursuit remains broader than tenders, although tender/procurement work is a high
 
 ### DO — do the work
 
+**Accepted Bills task (21 Sep 2026):** Kate requested the job-specific DO / Redbark proposal be built into the existing product. The first review build extends /do/bills with a clearly fictional demonstration, local NZD CSV analysis, checked invoice dates, editable enquiries and local evidence/review records. /do/bills/compare retains the existing bill reader and sourced research. Bills may now be linked from DO home and shared navigation; this supersedes the earlier Bills promotion restriction only. Live Redbark OAuth, durable banking records, financial writes, full Money/Business/Tradie/LockedIn products and production deployment are not established by this change. Details: docs/do-bills/FINANCIAL-FOUNDATION.md.
+
+
 DO is the portable execution and safe-action layer.
 
 It should work where the user already is — browser, hosted workspace, native desktop, PWA/mobile/share surfaces and connected tools — rather than forcing every job into a new standalone application.

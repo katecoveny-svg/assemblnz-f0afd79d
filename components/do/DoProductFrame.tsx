@@ -33,6 +33,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
           <Link href="/do" {...linkProps}>DO home</Link>
           <Link href="/do/widget" {...linkProps}>Writing, voice &amp; vision</Link>
           <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
+          <Link href="/do/bills" {...linkProps}>Watch my bills</Link>
           <Link href="/do/office" {...linkProps}>Office</Link>
           <Link href={`/do/tasks?board=${encodeURIComponent(board)}`} {...linkProps}>Saved tasks</Link>
           <Link href="/do/connections" {...linkProps}>Connections</Link>

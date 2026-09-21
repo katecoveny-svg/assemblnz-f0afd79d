@@ -202,6 +202,11 @@ export function DoHome() {
             <h2>School &amp; family</h2><p>Turn a school notice or family to-do list into a plan you can check and keep.</p>
             <strong>Organise a notice <span aria-hidden="true">↗</span></strong>
           </Link>
+          <Link className={styles.startCard} href="/do/bills">
+            <span className={styles.startStatus}>FICTIONAL EXAMPLE · YOUR CSV</span>
+            <h2>Watch my bills</h2><p>Spot recurring payments, check due dates and prepare an enquiry you can review.</p>
+            <strong>Open DO Bills <span aria-hidden="true">↗</span></strong>
+          </Link>
         </div>
         <div className={styles.startLinks}>
           <Link href="/do/install#chrome">Browser companion · setup guide ↗</Link>
