@@ -35,6 +35,15 @@ Do not extract something merely because it might be reused. Prefer extraction af
 
 ## Candidates to inventory
 
+### Household flexibility simulation (review implementation)
+
+- **Creates:** `lib/flex/adapter.ts` — a provider-neutral read/prepare/execute/override boundary with a simulated-only implementation, exact-plan approval, expiry, replay protection and revocation.
+- **Uses:** Journey `ProposedAction`, canonical DO identity; one shared experience serves `/do/flex`, `/creative-studio/flex` and `/pursuit/flex`.
+- **Evidence:** `lib/flex/adapter.test.ts`. Scope and live-provider prerequisites: `docs/ASSEMBL-FLEX.md`.
+- **Limit:** browser-local simulation, not production identity/authorisation, grid control or settlement. No verified Kraken integration.
+
+### Other candidates
+
 - Builderdoo repo execution adapters (GitHub-connected worker, local harness, external coding harness)
 - Builder/Office execution outcome receipts linked to `os_evidence` / `model_calls`
 - model/token/cost usage rail from `model_calls`
