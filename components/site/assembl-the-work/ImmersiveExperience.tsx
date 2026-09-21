@@ -7,6 +7,7 @@ import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScrol
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, FileText, Layers3, LockKeyhole, Play, ScanLine } from 'lucide-react';
 import { DoMark } from '@/components/do/DoMark';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
+import { POSITIONING } from './copy';
 import styles from './immersive-experience.module.css';
 
 const steps = [
@@ -75,9 +76,9 @@ export function LivingBrief() {
 }
 
 const doors = [
-  { id: 'pursuit', name: 'Pursuit', verb: 'find it.', heading: 'See the opening.', body: 'Turn business signals, tenders and customer context into opportunities worth acting on.', tags: 'signals / opportunities / client hubs', href: PRODUCT_DESTINATIONS.pursuit.overview, action: 'Explore Pursuit', workspace: PRODUCT_DESTINATIONS.pursuit.workspace, workspaceLabel: 'Open client hubs' },
-  { id: 'do', name: 'DO', verb: 'DO it.', heading: 'Move the work.', body: 'Bring agents, context and tools to the work in front of you. Keep control of what happens next.', tags: 'context / tools / approved action', href: PRODUCT_DESTINATIONS.do.overview, action: 'Open DO', workspace: '/do/widget', workspaceLabel: 'Open workspace' },
-  { id: 'studio', name: 'Studio', verb: 'show it.', heading: 'Make it tangible.', body: 'Build the demonstrator, website, pitch, campaign or film that makes an idea real to someone else.', tags: 'web / demos / image / film', href: PRODUCT_DESTINATIONS.studio.overview, action: 'Explore Studio', workspace: PRODUCT_DESTINATIONS.studio.workspace, workspaceLabel: 'Open Creative Studio' },
+  { id: 'pursuit', name: 'Pursuit', verb: 'find it.', heading: 'See the opening.', body: POSITIONING.pursuit, tags: 'signals / opportunities / client hubs', href: PRODUCT_DESTINATIONS.pursuit.overview, action: 'Explore Pursuit', workspace: PRODUCT_DESTINATIONS.pursuit.workspace, workspaceLabel: 'Open client hubs' },
+  { id: 'do', name: 'DO', verb: 'DO it.', heading: 'Move the work.', body: POSITIONING.do, tags: 'context / permissions / evidence', href: PRODUCT_DESTINATIONS.do.overview, action: 'Open DO', workspace: '/do/widget', workspaceLabel: 'Open workspace' },
+  { id: 'studio', name: 'Studio', verb: 'show it.', heading: 'Make it tangible.', body: POSITIONING.studio, tags: 'demonstrations / proposals / experiences', href: PRODUCT_DESTINATIONS.studio.overview, action: 'Explore Studio', workspace: PRODUCT_DESTINATIONS.studio.workspace, workspaceLabel: 'Open Creative Studio' },
 ] as const;
 
 function ProductDoor({ product, index }: { product: typeof doors[number]; index: number }) {
