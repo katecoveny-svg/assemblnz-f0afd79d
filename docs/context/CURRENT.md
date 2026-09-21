@@ -10,6 +10,8 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## current shape
 
+**Public positioning (21 Sep 2026):** Kate supplied the homepage/outreach explanation: “assembl is a platform that turns live business signals into governed agentic work.” Pursuit finds meaningful changes and opportunities; DO assembles context, agents, tools and permissions with human approval for consequential steps and evidence; Studio creates demonstrations, proposals and customer experiences. Exact approved wording is in `docs/assembl-copy-standard.md`. This updates the public explanation, not the runtime status of every capability below.
+
 assembl is becoming an **intelligence-powered software factory for finding, doing and showing valuable work**.
 
 Working company shorthand:
@@ -98,7 +100,7 @@ Sponsored Journeys should stay provider-neutral and utility-led.
 
 Treat DO as **one portable runtime with multiple surfaces**, not a collection of unrelated apps.
 
-**Public `/do` access correction (20 Sep 2026, review branch):** Kate asked for a visible DO entry point and working core actions. This supersedes the 17 Sep explanation-only / hidden-tool direction. The homepage should say Open DO; `/do` should offer the hosted writing workspace, Meeting DO with its sign-in requirement, and school/family notice preparation before the preserved atelier story. The browser companion is a setup guide. Do not imply a full family Today feed, automatic meeting join, live bus tracking, cross-tab execution or autonomous work exists. Private operator and fictional household surfaces remain outside public promotion. Authentication, source consent and external-action approvals remain intact.
+**Public `/do` access correction (merged in #1404; live entry verified 21 Sep 2026):** Kate asked for a visible DO entry point and working core actions. This supersedes the 17 Sep explanation-only / hidden-tool direction. The homepage should say Open DO; `/do` should offer the hosted writing workspace, Meeting DO with its sign-in requirement, and school/family notice preparation before the preserved atelier story. The browser companion is a setup guide. Do not imply a full family Today feed, automatic meeting join, live bus tracking, cross-tab execution or autonomous work exists. Private operator and fictional household surfaces remain outside public promotion. Authentication, source consent and external-action approvals remain intact.
 
 Current/active surfaces include:
 

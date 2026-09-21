@@ -3,7 +3,7 @@
 > Canonical public copy standard for assembl websites, product interfaces, demonstrators, proposals and sales material.
 
 **Status:** Locked  
-**Last updated:** 17 September 2026  
+**Last updated:** 21 September 2026
 **Typography:** Instrument Sans for normal copy. IBM Plex Mono only for evidence, timestamps, permissions, receipts and proof metadata.
 
 This standard overrides older public phrasing when it conflicts with the current company architecture.
@@ -20,7 +20,11 @@ This standard overrides older public phrasing when it conflicts with the current
 
 ### Plain explanation
 
-assembl connects business signals, useful agents and tools so organisations can find worthwhile work, get more of it done and make the result tangible enough to review, approve or sell.
+assembl is a platform that turns live business signals into governed agentic work.
+
+Pursuit finds the work by identifying meaningful changes and opportunities. DO assembles the context, agents, tools and permissions to act, with human approval for consequential steps and evidence of what happened. Studio turns that work into demonstrations, proposals and customer experiences.
+
+Kate supplied this positioning on 21 September 2026 to align the homepage with company outreach, including the AWS letter. Use it as the shared company explanation. The homepage hero, product descriptions and search/social description draw from `POSITIONING` in `components/site/assembl-the-work/copy.ts`. This positioning does not change which integrations or actions are live; retain product-specific preview and approval boundaries.
 
 ### Product structure
 

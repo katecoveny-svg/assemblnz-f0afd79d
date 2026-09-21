@@ -1,7 +1,14 @@
 /** Public homepage positioning. Product demonstrations are labelled at their entry points. */
+export const POSITIONING = {
+  company: 'assembl is a platform that turns live business signals into governed agentic work.',
+  pursuit: 'Pursuit finds the work by identifying meaningful changes and opportunities.',
+  do: 'DO assembles the context, agents, tools and permissions to act, with human approval for consequential steps and evidence of what happened.',
+  studio: 'Studio turns that work into demonstrations, proposals and customer experiences.',
+} as const;
+
 export const HOME_META = {
   title: 'assembl — find it. DO it. show it.',
-  description: 'Pursuit finds evidence-backed work. DO moves it forward with agents, tools and permissioned action. Studio turns the result into proof, pitches and experiences.',
+  description: POSITIONING.company,
 } as const;
 
 export const PREVIEW_META = {
@@ -22,11 +29,11 @@ export const NAV = {
 } as const;
 
 export const HERO = {
-  brand: 'One system for finding, doing and showing valuable work.',
+  brand: POSITIONING.company,
   headline: 'assembl the work.',
   subhead: 'find it. DO it. show it.',
-  body: 'Pursuit finds the work. DO does the work. Studio shows the possibility.',
-  explanation: 'Find the opportunity. Bring together the right agents, tools and context to act on it. Turn the result into something people can see, approve, test or buy.',
+  body: POSITIONING.company,
+  explanation: `${POSITIONING.pursuit} ${POSITIONING.do} ${POSITIONING.studio}`,
   ctaPrimary: { label: 'see the system →', href: '#products' },
   ctaSecondary: { label: 'meet DO', href: '/do' },
   productLine: 'Pursuit · DO · Studio',
@@ -51,19 +58,19 @@ export const PRODUCTS = {
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
-      body: 'For teams finding their next opportunity. Pursuit brings live signals, source evidence and business context together so the next move is clear.',
+      body: POSITIONING.pursuit,
       href: '/pursuit',
       external: false,
       explore: 'Explore Pursuit', note: 'Start with the public story, then move into a private Pursuit workspace when the work is live.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'DO is the action layer. It brings the right agent, context, tools and permissions to a bounded job, then keeps the result and next action visible.',
+      body: POSITIONING.do,
       href: '/do', explore: 'Meet DO', note: 'Use DO where the work already happens, with consequential actions kept behind explicit approval.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
-      body: 'For teams making an idea tangible. Turn a brief or completed work into demonstrators, pitches, websites, campaigns, imagery, film and interactive experiences.',
+      body: POSITIONING.studio,
       href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
     },
   ],
