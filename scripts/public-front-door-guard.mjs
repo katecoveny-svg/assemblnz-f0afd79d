@@ -84,12 +84,11 @@ const publicFiles = [
   'app/do/DoUtilityDock.tsx',
   'components/site/assembl-the-work/AssemblWorldHero.tsx',
 ];
-const bannedPromos = ['Personal DO', 'Inbox DO', 'Bills DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
+const bannedPromos = ['Personal DO', 'Inbox DO', 'Writing DO', 'Creative DO', 'Detail DO', 'Builder DO'];
 const bannedHrefs = [
   'href="/pursuit/playground"',
   'href="/studio/do-maker"',
   'href="/do/family"',
-  'href="/do/bills"',
   'href="/do/builder"',
   'href="/do/office"',
   'href="/do/tasks"',
@@ -160,7 +159,7 @@ if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
 // Product access must not regress to a contact-only explanation page again.
-for (const href of ['/do/widget', '/do/meetings', '/do/widget?task=plan']) {
+for (const href of ['/do/bills', '/do/widget', '/do/meetings', '/do/widget?task=plan']) {
   if (!doHome.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
 }
 if (!doHome.includes('SIGN IN FOR NOTES')) errors.push('Meeting entry must explain the sign-in requirement');

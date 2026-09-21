@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowUpRight, AudioLines, CalendarDays, ReceiptText } from "lucide-react";
+import { DoPresence } from "@/components/do/DoPresence";
+import { DoGlowCard } from "@/components/do/DoGlowCard";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
@@ -183,24 +186,34 @@ export function DoHome() {
       </header>
 
       <section id="do-start" className={styles.launcher} aria-labelledby="do-start-title">
-        <p className={styles.sectionEyebrow}>ONE DO. A FEW WAYS TO START.</p>
-        <h1 id="do-start-title">What needs doing?</h1>
-        <p className={styles.startIntro}>Choose the work in front of you. Bring the context, then review what DO prepares.</p>
+        <div className={styles.launcherHeading}>
+          <div><p className={styles.sectionEyebrow}>ONE DO. A FEW WAYS TO START.</p>
+            <h1 id="do-start-title">What needs<br /><span>doing?</span></h1></div>
+          <p className={styles.startIntro}>Choose the work in front of you. Bring the context, then review what DO prepares.</p>
+        </div>
         <div className={styles.startGrid}>
-          <Link className={styles.startCard} href="/do/widget">
-            <span className={styles.startStatus}>PASTE TEXT · TRY A DRAFT</span>
-            <h2>Everyday work</h2><p>Write a reply, make a plan, compare options or find the details.</p>
-            <strong>Open Everyday DO <span aria-hidden="true">↗</span></strong>
+          <DoGlowCard as="div" variant="bare" className={styles.featuredTask}>
+            <Link className={`${styles.startCard} ${styles.everydayTask}`} href="/do/widget">
+              <span className={styles.startStatus}>01 / PASTE TEXT · TRY A DRAFT</span>
+              <div className={styles.taskSculpture}><DoPresence size="large" /></div>
+              <div className={styles.featuredCopy}><h2>Less admin.<br /><span>More mahi.</span></h2><p>Write a reply, make a plan, compare options or find the details.</p></div>
+              <strong>Open Everyday DO <ArrowUpRight size={24} aria-hidden="true" /></strong>
+            </Link>
+          </DoGlowCard>
+          <Link className={`${styles.startCard} ${styles.meetingTask}`} href="/do/meetings">
+            <div className={styles.taskTop}><span className={styles.startStatus}>02 / PREVIEW · SIGN IN FOR NOTES</span><AudioLines size={28} strokeWidth={1.3} aria-hidden="true" /></div>
+            <h2>Meet. Then move.</h2><p>Record or paste a transcript. Review notes and prepare the follow-up.</p>
+            <strong>Open Meeting DO <ArrowUpRight size={22} aria-hidden="true" /></strong>
           </Link>
-          <Link className={styles.startCard} href="/do/meetings">
-            <span className={styles.startStatus}>PREVIEW · SIGN IN FOR NOTES</span>
-            <h2>Meetings</h2><p>Record or paste a transcript. Review notes and prepare the follow-up.</p>
-            <strong>Open Meeting DO <span aria-hidden="true">↗</span></strong>
+          <Link className={`${styles.startCard} ${styles.familyTask}`} href="/do/widget?task=plan">
+            <div className={styles.taskTop}><span className={styles.startStatus}>03 / PASTE A NOTICE · REVIEW A PLAN</span><CalendarDays size={28} strokeWidth={1.3} aria-hidden="true" /></div>
+            <h2>Life, a little lighter.</h2><p>Turn a school notice or family to-do list into a plan you can check and keep.</p>
+            <strong>Organise a notice <ArrowUpRight size={22} aria-hidden="true" /></strong>
           </Link>
-          <Link className={styles.startCard} href="/do/widget?task=plan">
-            <span className={styles.startStatus}>PASTE A NOTICE · REVIEW A PLAN</span>
-            <h2>School &amp; family</h2><p>Turn a school notice or family to-do list into a plan you can check and keep.</p>
-            <strong>Organise a notice <span aria-hidden="true">↗</span></strong>
+          <Link className={`${styles.startCard} ${styles.billsTask}`} href="/do/bills">
+            <div className={styles.taskTop}><span className={styles.startStatus}>04 / FICTIONAL EXAMPLE · YOUR CSV</span><ReceiptText size={28} strokeWidth={1.3} aria-hidden="true" /></div>
+            <h2>Stay ahead of bills.</h2><p>Spot recurring payments, check due dates and prepare an enquiry you can review.</p>
+            <strong>Open DO Bills <ArrowUpRight size={22} aria-hidden="true" /></strong>
           </Link>
         </div>
         <div className={styles.startLinks}>

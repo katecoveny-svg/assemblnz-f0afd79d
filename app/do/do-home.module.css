@@ -385,18 +385,32 @@
   }
 }
 
-/* Reach useful work before the product story. Ordinary links also work without JS. */
-.launcher { width:100%; max-width:1120px; margin:0 auto; padding:clamp(36px,6vw,72px) clamp(20px,5vw,48px); scroll-margin-top:100px; }
-.launcher h1 { font-size:clamp(38px,5.4vw,64px); letter-spacing:-.045em; line-height:1.08; font-weight:500; margin:14px 0; }
-.startIntro { max-width:540px; font-size:16px; line-height:1.65; }
-.startGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:30px 0 22px; }
-.startCard { min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:14px; padding:26px; border:1px solid #240b2126; border-radius:18px; background:var(--paper); box-shadow:0 12px 32px -25px #240b2138; }
-.startCard:hover { border-color:var(--rose); background:var(--chalk); }
-.startCard h2 { font-size:24px; font-weight:500; letter-spacing:-.03em; }
-.startCard p { font-size:14px; line-height:1.65; }
-.startCard strong { margin-top:auto; padding-top:12px; font-size:14px; font-weight:550; }
-.startStatus { font:9px/1.7 var(--font-mono),"IBM Plex Mono",monospace; letter-spacing:.045em; }
-.startLinks { display:flex; flex-wrap:wrap; gap:10px 26px; font-size:14px; }
-.startLinks a { padding:10px 0; min-height:44px; text-decoration:underline; text-underline-offset:4px; }
-.startNote { font-size:12px; line-height:1.7; margin-top:12px!important; }
-@media(max-width:760px) { .startGrid { grid-template-columns:1fr; } .startCard { padding:22px; gap:10px; } .launcher { padding-top:32px; } }
+/* Task navigation comes before the preserved atelier walkthrough. */
+.launcher{width:100%;max-width:1440px;margin:0 auto;padding:clamp(38px,6vw,90px) clamp(20px,5vw,72px) 60px;scroll-margin-top:100px}
+.launcherHeading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:42px}
+.launcher h1{font-size:clamp(64px,8.4vw,116px);letter-spacing:-.065em;line-height:.96;font-weight:500;margin:22px 0 0}
+.launcher h1 span{color:var(--rose)}
+.startIntro{max-width:285px;font-size:17px;line-height:1.65;padding-bottom:6px;color:var(--muted)}
+.startGrid{display:grid;grid-template-columns:1.08fr 1fr;gap:14px;margin-bottom:24px}
+.featuredTask{grid-row:span 3;min-width:0;border-radius:26px}
+.startCard{position:relative;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:27px 32px;border:1px solid #240b2117;border-radius:22px;background:var(--paper);overflow:hidden;isolation:isolate;transition:box-shadow .3s,border-color .3s}
+.startCard::before{content:"";position:absolute;z-index:-1;width:210px;height:210px;right:-75px;top:-80px;border-radius:50%;background:radial-gradient(circle,#d6a5bd40,transparent 70%);transition:transform .6s}
+.startCard:hover{border-color:#916a7080;box-shadow:0 14px 30px -22px #240b2160}
+.startCard h2{font-size:clamp(28px,2.8vw,38px);font-weight:500;letter-spacing:-.045em;line-height:1.1}
+.startCard p{font-size:14px;line-height:1.65;max-width:390px;color:var(--muted)}
+.startCard strong{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;margin-top:auto;padding-top:7px;font-size:13px;font-weight:550}
+.startCard strong svg{transition:transform .3s;flex-shrink:0}
+.startStatus{font:9px/1.7 var(--font-mono),"IBM Plex Mono",monospace;letter-spacing:.045em}
+.taskTop{display:flex;align-items:center;justify-content:space-between;width:100%;gap:15px}.taskTop>svg{color:var(--rose);flex-shrink:0}
+.everydayTask{height:100%;min-height:655px;border-radius:26px;border-color:#654a4e;background:radial-gradient(ellipse at 58% 18%,#654a4e 0%,#240b21 58%);color:var(--paper)!important;padding:32px 38px}
+.everydayTask::before{display:none}.everydayTask:hover{background:radial-gradient(ellipse at 58% 18%,#654a4e 0%,#240b21 58%);border-color:#d6a5bd}
+.everydayTask .startStatus{color:#e6d5df}.taskSculpture{display:grid;place-items:center;align-self:center;margin:2px 0 0;width:100%;flex:1;min-height:260px}
+.featuredCopy h2{font-size:clamp(40px,4.6vw,65px);line-height:1.01;letter-spacing:-.055em}.featuredCopy h2 span{color:#d6a5bd}.featuredCopy p{color:#e6d5df;max-width:300px;margin-top:18px}
+.everydayTask strong{border-top:1px solid #fffdfb30;padding-top:24px;margin-top:26px;font-size:15px}.everydayTask strong svg{border:1px solid #d6a5bd73;border-radius:50%;width:44px;height:44px;padding:9px}
+.meetingTask{background:#f5f1f2}.familyTask{background:linear-gradient(115deg,#fffdfb 30%,#f2e6e9)}.billsTask{background:linear-gradient(115deg,#f5f1f2,#fffdfb)}
+.startLinks{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:14px}.startLinks a{padding:10px 0;min-height:44px;text-decoration:underline;text-underline-offset:4px}.startNote{font-size:12px;line-height:1.7;margin-top:12px!important;color:var(--muted)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.startCard:hover strong svg{transform:translate(2px,-2px)}.startCard:hover::before{transform:scale(1.8)}}
+@media(max-width:760px){.launcher{padding-top:34px}.launcherHeading{display:block;margin-bottom:28px}.launcher h1{font-size:clamp(64px,12vw,90px)}.startIntro{margin-top:22px;max-width:380px;font-size:16px}.startGrid{grid-template-columns:1fr}.featuredTask{grid-row:auto}.everydayTask{min-height:530px;padding:27px}.taskSculpture{min-height:220px}.featuredCopy h2{font-size:49px}.startCard{padding:25px}.startCard h2{font-size:31px}.featuredCopy h2{font-size:49px}}
+@media(prefers-reduced-motion:reduce){.startCard,.startCard::before,.startCard strong svg{transition:none}}
+
+.launcher h1,.startCard h2{font-family:var(--font-body),"Instrument Sans",sans-serif;color:var(--plum)}.everydayTask h2{color:var(--paper)}

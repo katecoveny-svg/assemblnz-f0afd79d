@@ -10,6 +10,8 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## current shape
 
+**Visual direction (21 Sep 2026, accepted brief; implementation in review):** Kate asked for much stronger typography, glow, scroll parallax and motion across the homepage product sections and working DO UI, referencing Pasticcino/Monogrid and Kononenko Group. Preserve the existing walkthroughs she likes and exact approved platform wording. Use the plum/rose canon and canonical DO identity. The review implementation layers product compositions, a task launcher and shared DO surfaces onto the Bills foundation; it does not establish live bank connectivity or production deployment. See `docs/ASSEMBL-VISUAL-CRAFT-20260921.md`.
+
 **Public positioning (21 Sep 2026):** Kate supplied the homepage/outreach explanation: “assembl is a platform that turns live business signals into governed agentic work.” Pursuit finds meaningful changes and opportunities; DO assembles context, agents, tools and permissions with human approval for consequential steps and evidence; Studio creates demonstrations, proposals and customer experiences. Exact approved wording is in `docs/assembl-copy-standard.md`. This updates the public explanation, not the runtime status of every capability below.
 
 assembl is becoming an **intelligence-powered software factory for finding, doing and showing valuable work**.
@@ -50,6 +52,9 @@ Do not describe these preview surfaces as live client integrations or live adver
 Pursuit remains broader than tenders, although tender/procurement work is a high-value vertical and commercial wedge.
 
 ### DO — do the work
+
+**Accepted Bills task (21 Sep 2026):** Kate requested the job-specific DO / Redbark proposal be built into the existing product. The first review build extends /do/bills with a clearly fictional demonstration, local NZD CSV analysis, checked invoice dates, editable enquiries and local evidence/review records. /do/bills/compare retains the existing bill reader and sourced research. Bills may now be linked from DO home and shared navigation; this supersedes the earlier Bills promotion restriction only. Live Redbark OAuth, durable banking records, financial writes, full Money/Business/Tradie/LockedIn products and production deployment are not established by this change. Details: docs/do-bills/FINANCIAL-FOUNDATION.md.
+
 
 DO is the portable execution and safe-action layer.
 

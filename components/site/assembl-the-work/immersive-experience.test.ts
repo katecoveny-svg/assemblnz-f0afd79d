@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { LivingBrief, ProductDoors, StudioGallery } from './ImmersiveExperience';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
+import { POSITIONING } from './copy';
 
 describe('immersive public experience', () => {
   it('renders useful example content and native controls before JavaScript', () => {
@@ -20,6 +21,10 @@ describe('immersive public experience', () => {
     const html = renderToStaticMarkup(createElement(ProductDoors));
     for (const href of ['/pursuit', '/do', '/creative-studio', PRODUCT_DESTINATIONS.pursuit.workspace, PRODUCT_DESTINATIONS.studio.workspace]) expect(html).toContain(`href="${href}"`);
     expect(html).toContain('Sign-in required.');
+    for (const body of [POSITIONING.pursuit, POSITIONING.do, POSITIONING.studio]) expect(html).toContain(body);
+    expect(html).toContain('Illustrative workflow · no live activity');
+    expect(html).toContain('assembl concept work · not a client endorsement');
+    expect(html).not.toContain('<canvas');
     expect(html).not.toContain('/studio/do-maker');
     expect(html).not.toContain('/pursuit/playground');
   });

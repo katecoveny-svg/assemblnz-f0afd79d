@@ -1,7 +1,8 @@
 /**
  * Legacy specialist metadata retained for existing consumers.
  * The 20 September access correction makes /do a task entry point.
- * Meeting and the hosted workspace may be linked; unfinished operator and
+ * The 21 September Bills brief also permits the explicit demo/local-CSV entry.
+ * Meeting, Bills and the hosted workspace may be linked; unfinished operator and
  * private-family surfaces stay out of public promotion.
  */
 
@@ -33,7 +34,6 @@ export type PublicDoSpecialistId = PublicDoSpecialist['id'];
 export const BANNED_PUBLIC_DO_PROMOS = [
   'Personal DO',
   'Inbox DO',
-  'Bills DO',
   'Writing DO',
   'Creative DO',
   'Detail DO',
@@ -43,7 +43,6 @@ export const BANNED_PUBLIC_DO_PROMOS = [
 /** Destinations that must not be promoted from public shelf/Glow/home CTAs. */
 export const BANNED_PUBLIC_DO_HREFS = [
   '/do/family',
-  '/do/bills',
   '/do/builder',
   '/do/office',
   '/do/tasks',
@@ -55,7 +54,7 @@ export const BANNED_PUBLIC_DO_HREFS = [
 
 /** Reviewed public entry routes. This list grants no authentication or action authority. */
 export function isAllowedPublicDoHref(href: string): boolean {
-  return ['/do', '/do/widget', '/do/widget?task=plan', '/do/meetings', '/do/install#chrome'].includes(href);
+  return ['/do', '/do/bills', '/do/widget', '/do/widget?task=plan', '/do/meetings', '/do/install#chrome'].includes(href);
 }
 
 /** Scan a public surface source file for banned shelf promos and hrefs. */

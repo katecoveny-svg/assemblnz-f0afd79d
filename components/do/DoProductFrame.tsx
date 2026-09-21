@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSyncExternalStore, type ReactNode } from 'react';
-import { DoMark } from './DoMark';
+import { DoPresence } from './DoPresence';
 import { DoInstallPwaCta } from './DoInstallPwaCta';
 import styles from './do-product-focus.module.css';
 
@@ -24,7 +24,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
   return <main className={styles.shell}>
     <header className={styles.header}>
       <Link href="/do" {...linkProps} className={styles.brand} aria-label="DO home">
-        <span className={styles.mark}><DoMark /></span><span>DO <small>/ {product}</small></span>
+        <DoPresence size="small" /><span>DO <small>/ {product}</small></span>
       </Link>
       <details className={styles.menu}>
         <summary aria-label="More DO tools">More <span aria-hidden="true">＋</span></summary>
@@ -33,6 +33,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
           <Link href="/do" {...linkProps}>DO home</Link>
           <Link href="/do/widget" {...linkProps}>Writing, voice &amp; vision</Link>
           <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
+          <Link href="/do/bills" {...linkProps}>Watch my bills</Link>
           <Link href="/do/office" {...linkProps}>Office</Link>
           <Link href={`/do/tasks?board=${encodeURIComponent(board)}`} {...linkProps}>Saved tasks</Link>
           <Link href="/do/connections" {...linkProps}>Connections</Link>

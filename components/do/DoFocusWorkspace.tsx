@@ -9,6 +9,7 @@ import { DoVision } from '@/app/do/DoVision';
 import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
 import styles from './do-product-focus.module.css';
+import { DoPresence } from './DoPresence';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build';
@@ -29,10 +30,12 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     setOfferedContext({ text, id: Date.now() }); setMode('write'); return true;
   }
   return <DoProductFrame product="your workspace">
-    <section className={styles.hero}>
+    <section className={`${styles.hero} ${styles.workspaceHero}`}>
+      <div className={styles.workspaceIntro}>
       <p className={styles.kicker}>A LITTLE HELP, RIGHT HERE</p>
       <h1>What needs doing?</h1>
       <p>Bring the context. Choose a task. Leave with something useful.</p>
+      </div><DoPresence />
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">

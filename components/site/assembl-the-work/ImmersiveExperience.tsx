@@ -2,12 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState, type PointerEvent } from 'react';
-import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, FileText, Layers3, LockKeyhole, Play, ScanLine } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, FileText, Layers3, Play, ScanLine } from 'lucide-react';
 import { DoMark } from '@/components/do/DoMark';
-import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
-import { POSITIONING } from './copy';
 import styles from './immersive-experience.module.css';
 
 const steps = [
@@ -75,83 +73,7 @@ export function LivingBrief() {
   );
 }
 
-const doors = [
-  { id: 'pursuit', name: 'Pursuit', verb: 'find it.', heading: 'See the opening.', body: POSITIONING.pursuit, tags: 'signals / opportunities / client hubs', href: PRODUCT_DESTINATIONS.pursuit.overview, action: 'Explore Pursuit', workspace: PRODUCT_DESTINATIONS.pursuit.workspace, workspaceLabel: 'Open client hubs' },
-  { id: 'do', name: 'DO', verb: 'DO it.', heading: 'Move the work.', body: POSITIONING.do, tags: 'context / permissions / evidence', href: PRODUCT_DESTINATIONS.do.overview, action: 'Open DO', workspace: '/do/widget', workspaceLabel: 'Open workspace' },
-  { id: 'studio', name: 'Studio', verb: 'show it.', heading: 'Make it tangible.', body: POSITIONING.studio, tags: 'demonstrations / proposals / experiences', href: PRODUCT_DESTINATIONS.studio.overview, action: 'Explore Studio', workspace: PRODUCT_DESTINATIONS.studio.workspace, workspaceLabel: 'Open Creative Studio' },
-] as const;
-
-function ProductDoor({ product, index }: { product: typeof doors[number]; index: number }) {
-  const reduced = useReducedMotion();
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(y, { stiffness: 180, damping: 26 });
-  const rotateY = useSpring(x, { stiffness: 180, damping: 26 });
-  const move = (event: PointerEvent<HTMLElement>) => {
-    if (reduced || event.pointerType !== 'mouse') return;
-    const box = event.currentTarget.getBoundingClientRect();
-    x.set(((event.clientX - box.left) / box.width - 0.5) * 7);
-    y.set(-((event.clientY - box.top) / box.height - 0.5) * 5);
-  };
-  const reset = () => { x.set(0); y.set(0); };
-  const external = product.workspace.startsWith('https://');
-  return (
-    <motion.article
-      className={styles.door}
-      data-product={product.id}
-      id={product.id}
-      style={{
-        rotateX: reduced ? 0 : rotateX,
-        rotateY: reduced ? 0 : rotateY,
-        transformPerspective: 1400,
-      }}
-      whileHover={reduced ? undefined : { y: -12, scale: 1.018 }}
-      whileTap={reduced ? undefined : { scale: 0.995 }}
-      transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1], delay: index * 0.06 }}
-      onPointerMove={move}
-      onPointerLeave={reset}
-      onPointerCancel={reset}
-    >
-      <div className={styles.doorTop}><span>0{index + 1}</span><span>{product.verb}</span><ArrowUpRight size={18} aria-hidden="true" /></div>
-      <h3>{product.name}</h3>
-      <div className={styles.doorArt} aria-hidden="true">
-        {product.id === 'pursuit' ? (
-          <div className={styles.visualCard + ' ' + styles.pursuitVisual}>
-            <Image src="/pursuit/media/pursuit-canvas-poster.jpg" alt="" fill sizes="(max-width: 760px) 90vw, 30vw" />
-            <span>signals become an opportunity.</span>
-          </div>
-        ) : product.id === 'do' ? (
-          <div className={styles.visualCard + ' ' + styles.doVisual}>
-            <Image src="/do/canvas/identity-plum.svg" alt="" fill sizes="(max-width: 760px) 90vw, 30vw" />
-            <span>context. permission. work.</span>
-          </div>
-        ) : (
-          <div className={styles.visualCard + ' ' + styles.studioArt}>
-            <Image src="/do/office/office-poster.webp" alt="" fill sizes="(max-width: 760px) 90vw, 30vw" />
-            <span>give the idea a world.</span>
-          </div>
-        )}
-      </div>
-      <p className={styles.doorTags}>{product.tags}</p>
-      <h4>{product.heading}</h4>
-      <p className={styles.doorBody}>{product.body}</p>
-      <div className={styles.doorActions}>
-        <Link href={product.href}>{product.action}<ArrowRight size={17} aria-hidden="true" /></Link>
-        {external ? <a href={product.workspace} target="_blank" rel="noopener noreferrer">{product.workspaceLabel}<LockKeyhole size={13} aria-hidden="true" /></a> : <Link href={product.workspace}>{product.workspaceLabel}<ArrowUpRight size={14} aria-hidden="true" /></Link>}
-      </div>
-    </motion.article>
-  );
-}
-
-export function ProductDoors() {
-  return <section className={styles.products} id="products" aria-labelledby="products-title">
-    <motion.header
-      className={styles.sectionHead}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-    ><div><p className={styles.eyebrow}>pursuit / DO / studio</p><h2 id="products-title">Start anywhere.<br /><span>Keep it connected.</span></h2></div><p>Use one. Connect two. Run the whole loop.<br /><small>Client hubs and Creative Studio open your existing private workspaces. Sign-in required.</small></p></motion.header>
-    <div className={styles.doors}>{doors.map((product, index) => <ProductDoor key={product.id} product={product} index={index} />)}</div>
-  </section>;
-}
+export { ProductScenes as ProductDoors } from './ProductScenes';
 
 const studies = [
   { id:'space', name:'Spatial', title:'An idea you can step inside.', body:'Explore the existing atelier: three spaces, one scroll-led experience.', image:'/do/world/atelier-poster.png', href:'/preview/do-world', action:'Explore the space' },
