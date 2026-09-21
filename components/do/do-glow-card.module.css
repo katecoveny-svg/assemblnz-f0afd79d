@@ -95,3 +95,9 @@
     transform: none;
   }
 }
+
+/* Bare compositions share the pointer light without a second card around the artwork. */
+.card[data-variant="bare"] .inner{border:0;border-radius:inherit;background:transparent;box-shadow:none}
+.card[data-variant="bare"] .spotlight{border-radius:inherit}
+.card[data-variant="bare"][data-active="true"]{transform:none}
+.card[data-variant="bare"] .glow{inset:-2px;filter:blur(1px)}

@@ -18,16 +18,18 @@ export function DoGlowCard({
   children,
   className = "",
   as: Tag = "article",
+  variant = "paper",
 }: {
   children: ReactNode;
   className?: string;
   as?: "article" | "div" | "li";
+  variant?: "paper" | "bare";
 }) {
   const root = useRef<HTMLElement>(null);
 
   const onMove = useCallback((event: MouseEvent<HTMLElement>) => {
     const el = root.current;
-    if (!el) return;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const rect = el.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 100;
     const y = ((event.clientY - rect.top) / rect.height) * 100;
@@ -50,6 +52,7 @@ export function DoGlowCard({
   return (
     <Tag
       ref={root as never}
+      data-variant={variant}
       className={`${styles.card} ${className}`.trim()}
       style={{ "--glow-x": "50%", "--glow-y": "50%" } as CSSProperties}
       onMouseMove={onMove}

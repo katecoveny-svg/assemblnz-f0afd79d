@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSyncExternalStore, type ReactNode } from 'react';
-import { DoMark } from './DoMark';
+import { DoPresence } from './DoPresence';
 import { DoInstallPwaCta } from './DoInstallPwaCta';
 import styles from './do-product-focus.module.css';
 
@@ -24,7 +24,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
   return <main className={styles.shell}>
     <header className={styles.header}>
       <Link href="/do" {...linkProps} className={styles.brand} aria-label="DO home">
-        <span className={styles.mark}><DoMark /></span><span>DO <small>/ {product}</small></span>
+        <DoPresence size="small" /><span>DO <small>/ {product}</small></span>
       </Link>
       <details className={styles.menu}>
         <summary aria-label="More DO tools">More <span aria-hidden="true">＋</span></summary>
