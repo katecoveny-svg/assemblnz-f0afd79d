@@ -1,0 +1,24 @@
+.presence{--presence-size:180px;position:relative;width:var(--presence-size);height:var(--presence-size);flex-shrink:0;isolation:isolate;perspective:800px;display:grid;place-items:center;pointer-events:none}
+.presence[data-size=small]{--presence-size:52px}
+.presence[data-size=large]{--presence-size:310px}
+.light{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(ellipse,#d6a5bd9e 0%,#916a7040 37%,#916a7000 70%);filter:blur(16px);opacity:.8}
+.orbit{position:absolute;inset:6%;border:1px solid #916a7042;border-radius:50%;transform:rotateX(68deg) rotateZ(-18deg);box-shadow:0 0 30px #916a7012}
+.sculpture{position:relative;width:62%;height:62%;transform:rotateX(15deg) rotateY(-22deg) rotateZ(-11deg);transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.face,.edge{position:absolute;inset:0;border-radius:29%;background:#240b21}
+.edge{transform:translate3d(6px,9px,-10px);background:linear-gradient(150deg,#916a70,#240b21 80%);box-shadow:4px 10px 13px #240b2124}
+.face{display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 10% 0%,#916a70 0%,#654a4e 22%,#240b21 69%);border:1px solid #fffdfb73;box-shadow:inset 1px 2px 3px #fffdfb80,inset -2px -3px 5px #240b21,0 0 0 1px #240b2173,0 18px 40px #240b2142;color:#fffdfb}
+.face>svg{position:relative;z-index:1;width:80%;height:80%;filter:drop-shadow(0 0 4px #fffdfb80) drop-shadow(0 0 17px #d6a5bd);transform:translateZ(5px)}
+.reflection{position:absolute;inset:0;background:linear-gradient(130deg,transparent 10%,#fffdfb1a 31%,transparent 46%);border-radius:inherit}
+.shadow{position:absolute;left:19%;right:11%;bottom:4%;height:14%;border-radius:50%;background:#240b214d;filter:blur(17px);transform:rotate(-8deg)}
+.glint{position:absolute;width:8px;height:8px;right:24%;top:16%;border-radius:50%;background:#fffdfb;box-shadow:0 0 13px 5px #d6a5bd70}
+.presence[data-size=small] .orbit,.presence[data-size=small] .glint{display:none}
+.presence[data-size=small] .light{inset:-18%;filter:blur(9px)}
+.presence[data-size=small] .shadow{filter:blur(6px)}
+.presence[data-size=small] .edge{transform:translate3d(2px,3px,-3px)}
+.presence[data-size=small] .face{border-radius:28%}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){*:hover>.presence .sculpture{transform:rotateX(7deg) rotateY(-12deg) rotateZ(-5deg)}}
+@media(prefers-reduced-motion:no-preference){.presence[data-working] .light{animation:do-working-light 1.8s ease-in-out infinite}.presence[data-working] .orbit{animation:do-working-orbit 2.6s ease-in-out infinite}}
+@keyframes do-working-light{50%{opacity:1;scale:1.18}}
+@keyframes do-working-orbit{50%{transform:rotateX(68deg) rotateZ(8deg);opacity:.45}}
+@media(max-width:600px){.presence[data-size=large]{--presence-size:240px}}
+@media(prefers-reduced-motion:reduce){.sculpture{transition:none}.presence[data-working] .light,.presence[data-working] .orbit{animation:none}}

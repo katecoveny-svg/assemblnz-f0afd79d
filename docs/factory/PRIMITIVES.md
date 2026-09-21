@@ -31,6 +31,8 @@ Do not extract something merely because it might be reused. Prefer extraction af
 
 | DO shared financial foundation | review build; demo + local CSV; Redbark adapter only | apps/do/finance/, app/do/bills/ | Bills now; Money/Business/Tradie contract | financial domain/adapter tests; browser proof pending | integer money, scoped reads, checked invoice dates, recurring candidates and editable enquiries; no live bank auth or financial writes |
 
+| DO sculpted identity + composition light | review build | `components/do/DoPresence.tsx`, `DoGlowCard.tsx` | Public product scenes, DO launcher, workspace, Bills | build/SSR checks; desktop and 375px visual proof pending | Canonical SVG with CSS depth; no WebGL dependency; decorative, never connectivity evidence; reduced-motion fallback; extends existing glow primitive with bare composition variant |
+
 ## Candidates to inventory
 
 - Builderdoo repo execution adapters (GitHub-connected worker, local harness, external coding harness)

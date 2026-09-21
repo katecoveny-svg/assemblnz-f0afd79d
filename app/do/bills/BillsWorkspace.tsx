@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useMemo, useRef, useState, type FormEvent } from 'react';
+import { DoPresence } from '@/components/do/DoPresence';
 import { DoProductFrame } from '@/components/do/DoProductFrame';
 import { billCalendar, matchInvoices, recurringPayments, type RecurringPayment } from '@/apps/do/finance/analysis';
 import { editFinancialDraft, financialReceipt, prepareFinancialDraft, reviewFinancialDraft, type FinancialAction, type FinancialDraft } from '@/apps/do/finance/actions';
@@ -112,10 +113,12 @@ export function BillsWorkspace() {
   return <DoProductFrame product="bills">
     <div className={styles.page}>
       <section className={styles.hero} aria-labelledby="bills-title">
+        <div className={styles.heroCopy}>
         <p className={styles.kicker}>DO BILLS · LESS ADMIN, MORE MAHI.</p>
         <h1 id="bills-title">Know what’s coming.<br />Get the next step ready.</h1>
         <p>Find recurring payments, check bill dates and prepare the questions worth asking.</p>
         <Link className={styles.textLink} href="/do/bills/compare">Compare a bill against current offers ↗</Link>
+        </div><DoPresence className={styles.heroPresence} working={busy} />
       </section>
 
       <section className={styles.sourcePanel} aria-labelledby="source-title">

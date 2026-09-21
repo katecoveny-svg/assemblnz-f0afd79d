@@ -10,6 +10,8 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## current shape
 
+**Visual direction (21 Sep 2026, accepted brief; implementation in review):** Kate asked for much stronger typography, glow, scroll parallax and motion across the homepage product sections and working DO UI, referencing Pasticcino/Monogrid and Kononenko Group. Preserve the existing walkthroughs she likes and exact approved platform wording. Use the plum/rose canon and canonical DO identity. The review implementation layers product compositions, a task launcher and shared DO surfaces onto the Bills foundation; it does not establish live bank connectivity or production deployment. See `docs/ASSEMBL-VISUAL-CRAFT-20260921.md`.
+
 **Public positioning (21 Sep 2026):** Kate supplied the homepage/outreach explanation: “assembl is a platform that turns live business signals into governed agentic work.” Pursuit finds meaningful changes and opportunities; DO assembles context, agents, tools and permissions with human approval for consequential steps and evidence; Studio creates demonstrations, proposals and customer experiences. Exact approved wording is in `docs/assembl-copy-standard.md`. This updates the public explanation, not the runtime status of every capability below.
 
 assembl is becoming an **intelligence-powered software factory for finding, doing and showing valuable work**.
