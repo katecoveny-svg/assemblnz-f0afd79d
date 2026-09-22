@@ -67,8 +67,8 @@ export function AssemblHero() {
           </h1>
           <p className={styles.lede}>{HERO.lede}</p>
           <div className={styles.actions}>
-            <Link href="/genome">
-              {HERO.actions.primary} <ArrowRight aria-hidden />
+            <Link href="/do">
+              Open DO <ArrowRight aria-hidden />
             </Link>
             <Link href="/pilot-sprint" className={styles.secondaryAction}>
               {HERO.actions.secondary} <ArrowRight aria-hidden />
