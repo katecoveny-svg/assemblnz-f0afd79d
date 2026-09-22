@@ -143,5 +143,5 @@ export async function ensureAdmin(redirectTo?: string): Promise<AdminUser> {
   }
 
   // Signed in but not an operator — send them to the public front door.
-  redirect('/living-site');
+  redirect('/do');
 }

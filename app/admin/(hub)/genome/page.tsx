@@ -70,8 +70,8 @@ export default async function AdminGenomePage() {
             <span aria-hidden style={{ width: 7, height: 7, borderRadius: '50%', background: live ? TEAL : '#b8964f' }} />
             {live ? 'live from the database' : 'static mirror'}
           </span>
-          <Link href="/genome" style={{ color: MUTED, fontSize: 13, textDecoration: 'none' }}>
-            Public view →
+          <Link href="/how-it-works" style={{ color: MUTED, fontSize: 13, textDecoration: 'none' }}>
+            Current company overview →
           </Link>
         </div>
       </header>

@@ -24,14 +24,14 @@ function detectWebgl(): boolean | null {
   return webglSupport;
 }
 
-export function GenomeDomeVisual({ link = true, label = 'Explore the Business Genome' }: { link?: boolean; label?: string }) {
+export function GenomeDomeVisual({ link = true, label = 'See how assembl works' }: { link?: boolean; label?: string }) {
   const webgl = useSyncExternalStore(() => () => {}, detectWebgl, () => null);
   const surfaces = GENOME_SURFACES.map((surface) => ({ id: surface.id, name: surface.name }));
   return (
     <div className={styles.visual}>
       {webgl ? <DomeScene surfaces={surfaces} /> : <DomePoster className={styles.poster} />}
       <span className={styles.context}>Tāmaki Makaurau · Auckland</span>
-      {link ? <Link href="/genome" className={styles.link}>{label} <span aria-hidden>↗</span></Link> : null}
+      {link ? <Link href="/how-it-works" className={styles.link}>{label} <span aria-hidden>↗</span></Link> : null}
     </div>
   );
 }
