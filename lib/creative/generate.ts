@@ -86,7 +86,7 @@ export async function generateImages(
     const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [{ text: prompt }];
     if (reference) parts.push({ inlineData: { mimeType: reference[1], data: reference[2] } });
     const results = await Promise.all(Array.from({ length: count }, async () => {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/${model}:generateContent`, {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         signal: opts.signal,
         method: "POST",
         headers: { "Content-Type": "application/json", "x-goog-api-key": g },
@@ -94,11 +94,18 @@ export async function generateImages(
           contents: [{ role: "user", parts }],
           generationConfig: {
             responseModalities: ["IMAGE"],
-            responseFormat: { image: { aspectRatio, imageSize: "1K" } },
+            imageConfig: { aspectRatio, imageSize: "1K" },
           },
         }),
       });
-      if (!res.ok) throw new Error(`Image generation is unavailable (${res.status}). Please try again later.`);
+      if (!res.ok) {
+        const failure = await res.json().catch(() => ({})) as { error?: { status?: string; message?: string } };
+        // Log schema field names only, never request bodies, image bytes or provider prose.
+        const invalidFields = Array.from((failure.error?.message ?? "").matchAll(/(?:Unknown name "([^"\n]+)"|Invalid value at '([^'\n]+)')/g))
+          .map(match => match[1] ?? match[2]).filter(field => /^[a-zA-Z0-9_.[\]]{1,100}$/.test(field));
+        console.warn("creative_image_provider_error", { httpStatus: res.status, invalidFields });
+        throw new Error(`Image generation is unavailable (${res.status}). Please try again later.`);
+      }
       const d = await res.json() as { candidates?: Array<{ content?: { parts?: Array<{ thought?: boolean; inlineData?: { mimeType?: string; data?: string } }> } }> };
       return (d.candidates ?? []).flatMap(candidate => (candidate.content?.parts ?? [])
         .filter(part => !part.thought && part.inlineData?.data && /^image\/(png|jpeg|webp)$/.test(part.inlineData.mimeType ?? ""))

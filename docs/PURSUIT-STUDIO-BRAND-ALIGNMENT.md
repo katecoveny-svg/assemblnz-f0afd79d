@@ -48,3 +48,8 @@ Kate also asked for a copy-skill pass, a clearer public example and working publ
 Verification before the follow-up push: 70 focused tests across 13 files, TypeScript, changed-file ESLint, brand/front-door guards, Python syntax and diff checks passed. CI checks real PNG dimensions at 375px and 1440px using a mocked provider response; that test is explicitly not evidence of a real generation. The first browser build hit an unrelated Spline package export failure under webpack. The workflow was restored to the normal production build after the concurrent Immersive review successfully built this same source with Turbopack.
 
 Provider migration reference: https://ai.google.dev/gemini-api/docs/generate-content/image-generation (checked 22 September 2026).
+
+
+Live follow-up verification found that the longer research request reached a response (about 42 seconds) but its outreach shape was rejected. The existing formatter only repaired the pitch, not the campaign. A single constrained formatting pass now repairs the complete response, with no extra search, the original length checks and rejection of newly inserted source URLs. Two regression tests exercise this boundary.
+
+The first native image call returned HTTP 400 with the guide’s v1 `responseFormat` payload. The request now follows the installed Google SDK 2.22.0 serialization and API reference: v1beta `generateContent` with `imageConfig`. Structured logs expose rejected field names only, never reference bytes, briefs or provider error prose. Real-provider recheck remains required after this correction.

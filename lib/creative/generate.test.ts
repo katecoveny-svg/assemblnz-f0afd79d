@@ -14,12 +14,12 @@ describe('native Google image generation', () => {
     const signal = new AbortController().signal;
     const result = await generateImages('A paper atelier', { count: 1, aspectRatio: '4:5', referenceDataUrl: 'data:image/jpeg;base64,cGhvdG8=', signal });
     const [url, init] = fetcher.mock.calls[0];
-    expect(url).toBe('https://generativelanguage.googleapis.com/v1/models/gemini-3.1-flash-image:generateContent');
+    expect(url).toBe('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent');
     expect(url).not.toContain('test-key');
     expect(init.signal).toBe(signal);
     const body = JSON.parse(init.body);
     expect(body.contents[0].parts[1]).toEqual({ inlineData: { mimeType: 'image/jpeg', data: 'cGhvdG8=' } });
-    expect(body.generationConfig.responseFormat.image).toEqual({ aspectRatio: '4:5', imageSize: '1K' });
+    expect(body.generationConfig.imageConfig).toEqual({ aspectRatio: '4:5', imageSize: '1K' });
     expect(result).toMatchObject({ provider: 'gemini', images: ['data:image/png;base64,finished'] });
   });
 

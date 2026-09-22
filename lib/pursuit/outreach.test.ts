@@ -70,3 +70,35 @@ describe('website-led outreach boundaries', () => {
     await expect(runPublicResearch(input, false, vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 503 })))).rejects.toThrow('research_provider_http_503');
   });
 });
+
+describe('outreach formatting repair', () => {
+  const researched = (value: unknown, extraUrls: string[] = []) => Response.json({ stop_reason: 'end_turn', content: [
+    { type: 'server_tool_use', name: 'web_search' },
+    { type: 'web_search_tool_result', content: [...urls, ...extraUrls].map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+    { type: 'text', text: JSON.stringify(value) },
+  ] });
+  it('repairs an overlong campaign once without starting another search', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign).toEqual(campaign);
+    expect(result.trace.providerCalls).toBe(2);
+    expect(result.trace.webSearches).toBe(1);
+    const formatting = JSON.parse(String(fetcher.mock.calls[1][1]?.body));
+    expect(formatting.tools).toBeUndefined();
+    expect(formatting.output_config.format.schema.properties.campaign).toBeDefined();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('rejects a new source inserted during formatting even if search returned it', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
+    const altered = structuredClone(campaign); altered.prospects[0].contactUrl = 'https://buyer.example.com/contact';
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }, [altered.prospects[0].contactUrl!]))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: altered }) }] }));
+    await expect(runPublicResearch(input, false, fetcher)).rejects.toThrow('untraced_source');
+  });
+});
