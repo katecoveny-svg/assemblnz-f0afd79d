@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { outreachExport, parseOutreach, publicWebsite, reviewFingerprint, type OutreachCampaign } from './outreach';
 import { TrialInput } from './public-contract';
 import { runPublicResearch } from './public-research';
+import { ASSEMBL_PUBLIC_OFFER } from './public-knowledge';
 
 const campaign: OutreachCampaign = {
   seller: { name: 'Fixture seller', website: 'https://seller.example.com/', offer: 'A fictional service for testing only.' },
@@ -69,6 +70,7 @@ describe('website-led outreach boundaries', () => {
     ], usage: { input_tokens: 100, output_tokens: 100 } }), { status: 200 }));
     const result = await runPublicResearch(input, false, fetcher);
     expect(result.campaign?.prospects).toHaveLength(1); expect(result.trace.sources).toHaveLength(3);
+    expect(result.campaign?.seller.offer).toBe(campaign.seller.offer);
     expect(fetcher).toHaveBeenCalledTimes(1);
     const request = JSON.parse(String(fetcher.mock.calls[0][1]?.body));
     expect(request.tools[0].max_uses).toBe(5); expect(request.system).toContain('SELLER');
@@ -76,6 +78,21 @@ describe('website-led outreach boundaries', () => {
   it('does not substitute leads after a provider failure', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     await expect(runPublicResearch(input, false, vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 503 })))).rejects.toThrow('research_provider_http_503');
+  });
+  it('uses the current owned offer only when the seller is Assembl', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const website = 'https://www.assembl.co.nz/';
+    const stale = { ...campaign, seller: { name:'assembl', website, offer:'Retired pilot offer from an old search snippet.' }, prospects:[] };
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(Response.json({ stop_reason:'end_turn',content:[
+      {type:'server_tool_use',name:'web_search'},
+      {type:'web_search_tool_result',content:[{type:'web_search_result',url:website,title:'Assembl'}]},
+      {type:'text',text:JSON.stringify({draft:{...draft,evidence:[{...draft.evidence[0],url:website}]},campaign:stale})},
+    ]}));
+    const result = await runPublicResearch({...input,company:website},false,fetcher);
+    expect(result.campaign?.seller.offer).toBe(ASSEMBL_PUBLIC_OFFER);
+    expect(result.trace.knowledgeIds).toEqual(['platform','pursuit','do','studio']);
+    const prompt=JSON.parse(JSON.parse(String(fetcher.mock.calls[0][1]?.body)).messages[0].content);
+    expect(prompt.currentSellerOffer).toBe(ASSEMBL_PUBLIC_OFFER);
   });
 });
 
