@@ -1,21 +1,25 @@
-.page { min-height: 100svh; background: #240b21; color: #fffdfb; font-family: var(--font-body), 'Instrument Sans', sans-serif; }
+.page { min-height: 100svh; background: radial-gradient(ellipse at 95% 15%, #916a701c, transparent 55%), #f5f1f2; color: #240b21; font-family: var(--font-body), 'Instrument Sans', sans-serif; }
 .header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px 5%; background: #fffdfb; color: #240b21; }
 .wordmark { font-size: 32px; font-weight: 500; letter-spacing: -.065em; }
 .header nav { display: flex; gap: 28px; font-size: 16px; }
 .header a[aria-current] { text-decoration: underline; text-underline-offset: 7px; }
 .page a:focus-visible, .page button:focus-visible { outline: 2px solid #916a70; outline-offset: 5px; }
-.intro { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 8%; padding: 42px 5%; color: #240b21; background: radial-gradient(ellipse at 85% 10%, #916a7026, transparent 65%), #fffdfb; }
-.eyebrow { margin: 0 0 18px; font: 12px var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; }
-.intro h1 { font-size: clamp(42px, 5vw, 76px); line-height: .98; letter-spacing: -.055em; font-weight: 500; margin: 0 0 22px; }
+.intro { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 8%; margin: 0 14px; padding: 32px 4%; border-radius: 0 0 32px 32px; color: #240b21; background: radial-gradient(ellipse at 85% 10%, #916a7026, transparent 65%), #fffdfb; }
+.eyebrow { margin: 0 0 18px; font-size: 14px; letter-spacing: .06em; }
+.intro h1 { font-size: clamp(38px, 4vw, 62px); line-height: 1.02; letter-spacing: -.055em; font-weight: 500; margin: 0 0 18px; color: #240b21; }
 .intro p { max-width: 570px; font-size: 16px; line-height: 1.65; }
 .brand { max-width: 410px; }
 .brand strong { font-size: 22px; font-weight: 500; }
 .brand a { display: inline-block; margin-top: 12px; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
-.palette { display: flex; margin-bottom: 20px; border: 1px solid #240b2126; border-radius: 16px; overflow: hidden; height: 46px; }
+.palette { display: flex; margin-bottom: 20px; border: 1px solid #240b2126; border-radius: 16px; overflow: hidden; height: 32px; }
 .palette span { flex: 1; }
-.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 20px 5%; border-bottom: 1px solid #fffdfb30; }
-.tools button, .toolButton { min-height: 44px; border: 1px solid #916a70; padding: 10px 20px; border-radius: 999px; font-size: 14px; color: #fffdfb; }
-.tools button[aria-pressed='true'] { background: #f5f1f2; color: #240b21; border-color: #f5f1f2; }
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 20px 5%; }
+.tools button, .toolButton { min-height: 44px; border: 1px solid #916a7055; padding: 10px 20px; border-radius: 999px; font-size: 14px; color: #240b21; background: #fffdfb; }
+.tools button[aria-pressed='true'] { background: #240b21; color: #fffdfb; border-color: #240b21; }
 .tools p { margin-left: auto; font-size: 14px; }
 .page canvas { border-radius: 20px; }
-@media (max-width: 650px) { .header { padding: 18px 5%; } .header nav { gap: 18px; font-size: 14px; } .intro { grid-template-columns: 1fr; padding: 30px 5%; gap: 28px; } .brand { max-width: none; } .palette { height: 24px; margin-bottom: 14px; } .brand strong { font-size: 18px; } .brand p { margin: 10px 0; } .tools { gap: 8px; } .tools button { padding: 10px 14px; } .tools p { margin: 4px 0 0; width: 100%; } }
+.page section section { box-shadow: 0 12px 40px #240b2106; }
+.page section :is(input:not([type='range']):not([type='checkbox']):not([type='color']), textarea) { border-radius: 12px; }
+.page section button, .page section label:has(input[type='file']) { border-radius: 14px; min-height: 44px; }
+.page section button[aria-pressed='true'] { box-shadow: inset 0 0 0 1px #654a4e; }
+@media (max-width: 650px) { .header { padding: 18px 5%; } .header nav { gap: 18px; font-size: 14px; } .intro { grid-template-columns: 1fr; margin: 0 8px; padding: 24px 5%; gap: 20px; } .brand { max-width: none; } .palette { height: 20px; margin-bottom: 14px; } .brand strong { font-size: 18px; } .brand p { margin: 10px 0; } .tools { gap: 8px; } .tools button { padding: 10px 14px; } .tools p { margin: 4px 0 0; width: 100%; } }

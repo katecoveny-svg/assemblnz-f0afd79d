@@ -5,6 +5,8 @@ on:
       - 'lib/pursuit/**'
       - 'lib/product-destinations*'
       - 'lib/creative/assembl-brand.ts'
+      - 'lib/creative/generate*'
+      - 'lib/creative/costs.ts'
       - 'lib/creative/canvas-font.ts'
       - 'components/creative-studio/**'
       - 'app/creative-studio/assembl/**'
@@ -43,9 +45,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm test app/api/creative/image/route.test.ts lib/product-destinations.test.ts lib/public-nav-allowlist.test.ts lib/auth/public-entry.test.ts components/site/public-company-pages.test.ts lib/pursuit/outreach.test.ts lib/pursuit/public-format.test.ts lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
-      - run: pnpm exec eslint components/site/pursuit/WebsiteOutreach.tsx lib/pursuit/outreach.ts lib/pursuit/outreach-prompt.ts lib/pursuit/outreach.test.ts components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts lib/pursuit/public-format.ts lib/pursuit/public-response.ts lib/pursuit/public-research.ts lib/pursuit/public-store.ts app/api/knowledge app/api/pursuit/research
-      - run: pnpm build
+      - run: pnpm test lib/creative/generate.test.ts app/api/pursuit/research/route.test.ts app/api/creative/image/route.test.ts lib/product-destinations.test.ts lib/public-nav-allowlist.test.ts lib/auth/public-entry.test.ts components/site/public-company-pages.test.ts lib/pursuit/outreach.test.ts lib/pursuit/public-format.test.ts lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
+      - run: pnpm exec eslint lib/creative/generate.ts lib/creative/generate.test.ts components/creative-studio/CreativeStudioShell.tsx components/creative-studio/BrandImageMaker.tsx components/site/pursuit/useResearchAvailability.ts components/site/pursuit/PursuitCanvasHero.tsx components/site/pursuit/WebsiteOutreach.tsx lib/pursuit/outreach.ts lib/pursuit/outreach-prompt.ts lib/pursuit/outreach.test.ts components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts lib/pursuit/public-format.ts lib/pursuit/public-response.ts lib/pursuit/public-research.ts lib/pursuit/public-store.ts app/api/knowledge app/api/pursuit/research
+      - name: Build the browser review with webpack and existing brand guards
+        # The clean Turbopack build currently fails in the pre-existing Air NZ
+        # Inter Tight font module. Keep production settings unchanged while
+        # exercising the complete application in this UI/export verification.
+        run: |
+          node scripts/brand-guard.mjs
+          node scripts/public-front-door-guard.mjs
+          pnpm exec next build --webpack
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
       - run: |
           pnpm start > /tmp/assembl-public.log 2>&1 &

@@ -1,5 +1,5 @@
 // AUAHA generation core — server-only. Real providers, honest fallbacks.
-// Image  : Google Imagen 4.0        → Fal Flux Pro
+// Image  : Gemini 3.1 Flash Image  → Fal Flux Pro (text-only fallback)
 // Video  : Runway Gen-4 (i2v)        → Fal Kling/Luma → Google Veo 3.1
 // Copy   : Gemini 2.5 Flash (streamed)
 // Podcast: ElevenLabs               → Gemini (Google) TTS
@@ -59,7 +59,7 @@ async function bufToB64(res: Response): Promise<string> {
 
 // ── IMAGE ─────────────────────────────────────────────────────────────────────
 export interface ImageResult {
-  provider: "imagen" | "fal";
+  provider: "gemini" | "imagen" | "fal";
   model: string;
   images: string[]; // data URLs
   aspectRatio: string;
@@ -76,26 +76,40 @@ export async function generateImages(
     : brief;
   const g = keys.gemini();
   if (g) {
-    const model = "imagen-4.0-generate-001";
-    const res = await fetch(`${GLB}/models/${model}:predict?key=${g}`, {
-      signal: opts.signal,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        instances: [{ prompt }],
-        parameters: { sampleCount: count, aspectRatio, personGeneration: "allow_adult" },
-      }),
-    });
-    if (res.ok) {
-      const d = (await res.json()) as { predictions?: Array<{ bytesBase64Encoded?: string }> };
-      const images = (d.predictions ?? [])
-        .map((p) => p.bytesBase64Encoded)
-        .filter(Boolean)
-        .map((b) => dataUrl("image/png", b as string));
-      if (images.length) return { provider: "imagen", model, images, aspectRatio };
+    // Imagen was retired in September 2026. Use native image generation.
+    // https://ai.google.dev/gemini-api/docs/generate-content/image-generation
+    const model = "gemini-3.1-flash-image";
+    const reference = opts.referenceDataUrl?.match(/^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/=]+)$/);
+    if (opts.referenceDataUrl && (!reference || opts.referenceDataUrl.length > 8_000_000)) {
+      throw new Error("Choose a JPEG, PNG or WebP reference smaller than 6MB.");
     }
-    // fall through to Fal on non-200 or empty
+    const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [{ text: prompt }];
+    if (reference) parts.push({ inlineData: { mimeType: reference[1], data: reference[2] } });
+    const results = await Promise.all(Array.from({ length: count }, async () => {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/${model}:generateContent`, {
+        signal: opts.signal,
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": g },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts }],
+          generationConfig: {
+            responseModalities: ["IMAGE"],
+            responseFormat: { image: { aspectRatio, imageSize: "1K" } },
+          },
+        }),
+      });
+      if (!res.ok) throw new Error(`Image generation is unavailable (${res.status}). Please try again later.`);
+      const d = await res.json() as { candidates?: Array<{ content?: { parts?: Array<{ thought?: boolean; inlineData?: { mimeType?: string; data?: string } }> } }> };
+      return (d.candidates ?? []).flatMap(candidate => (candidate.content?.parts ?? [])
+        .filter(part => !part.thought && part.inlineData?.data && /^image\/(png|jpeg|webp)$/.test(part.inlineData.mimeType ?? ""))
+        .map(part => dataUrl(part.inlineData!.mimeType!, part.inlineData!.data!))).slice(0, 1);
+    }));
+    const images = results.flat();
+    if (!images.length) throw new Error("No image was returned. Adjust the brief and try again.");
+    return { provider: "gemini", model, images, aspectRatio };
   }
+  // A text-only fallback cannot honour image reference pixels.
+  if (opts.referenceDataUrl) throw new NotConfigured("GEMINI_API_KEY", "Image references need the Google image provider. Disable the visual reference to use text-only generation.");
   const f = keys.fal();
   if (f) {
     const images = await falFlux(prompt, count, f, opts.signal);
@@ -109,7 +123,7 @@ export async function generateImages(
   if (edge) return { provider: "fal", model: "generate-image edge · flux", images: [edge], aspectRatio };
   throw new NotConfigured(
     "GEMINI_API_KEY",
-    "Image generation needs GEMINI_API_KEY (Imagen), FAL_KEY (Flux), or the generate-image edge function (Supabase env). None responded.",
+    "Image generation needs GEMINI_API_KEY (Gemini image), FAL_KEY (Flux), or the generate-image edge function (Supabase env). None responded.",
   );
 }
 

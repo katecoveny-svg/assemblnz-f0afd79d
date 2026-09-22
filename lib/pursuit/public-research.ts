@@ -11,6 +11,7 @@ Write plain New Zealand English. No quiet/quietly, seamless, unlock, unleash, re
 Return ONLY JSON: {company,title,summary,evidence:[{claim,url}],opportunity,proposedWork,deliverables:[string],nextSteps:[string],unknowns:[string]}. Evidence contains 1-3 concise factual paraphrases with EXACT URLs returned by web search, not invented URLs. Every other business inference must be phrased as a proposal or question. Title <=80 chars; summary 30-300 chars; each claim 20-220 chars; opportunity/proposedWork 40-300 chars each; 2-3 deliverables and nextSteps, 1-3 unknowns, each a PLAIN STRING of 3-160 chars. Do not include unverified dates, metrics or named personal contacts. Distinguish an old closed tender from an active opportunity. Mention missing information in unknowns. The output is an independent draft, not an endorsement.`;
 const obj=(v:unknown):v is Record<string,unknown>=>Boolean(v&&typeof v==='object'&&!Array.isArray(v));
 export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,fetcher:typeof fetch=fetch):Promise<PublicResearchResult>{
+ const deadline=AbortSignal.timeout(100000);
  const outreach=input.workflow==='website_outreach';
  const searchLimit=outreach?5:3;
  const key=process.env.ANTHROPIC_API_KEY;if(!key)throw new Error('research_provider_unavailable');
@@ -19,7 +20,7 @@ export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,f
  const messages:unknown[]=[{role:'user',content:JSON.stringify({company:input.company,goal:input.goal,currentDate:at.slice(0,10),publishedAssemblKnowledge:knowledge,instruction:outreach?'Research the seller website, then find up to three evidence-backed prospect accounts matching the target brief. Return draft and campaign JSON.':'Find one useful opening. Search public sources and return the JSON draft.'})}];
  let webSearches=0,inputTokens=0,outputTokens=0,providerCalls=0,finalText='';
  for(let turn=0;turn<2;turn++){
-  const response=await fetcher('https://api.anthropic.com/v1/messages',{method:'POST',redirect:'error',cache:'no-store',signal:AbortSignal.timeout(35000),headers:{'x-api-key':key,'anthropic-version':'2023-06-01','Content-Type':'application/json'},body:JSON.stringify({model,max_tokens:outreach?5000:2400,system:outreach?OUTREACH_SYSTEM:SYSTEM,messages,tools:[{type:'web_search_20250305',name:'web_search',max_uses:Math.max(1,searchLimit-webSearches)}]})});
+  const response=await fetcher('https://api.anthropic.com/v1/messages',{method:'POST',redirect:'error',cache:'no-store',signal:AbortSignal.any([deadline,AbortSignal.timeout(75000)]),headers:{'x-api-key':key,'anthropic-version':'2023-06-01','Content-Type':'application/json'},body:JSON.stringify({model,max_tokens:outreach?5000:2400,system:outreach?OUTREACH_SYSTEM:SYSTEM,messages,tools:[{type:'web_search_20250305',name:'web_search',max_uses:Math.max(1,searchLimit-webSearches)}]})});
   providerCalls++;if(!response.ok){await response.body?.cancel();throw new Error(`research_provider_http_${response.status}`);}
   const raw:unknown=await response.json();if(!obj(raw)||!Array.isArray(raw.content))throw new Error('research_protocol_error');
   if(obj(raw.usage)){inputTokens+=Number(raw.usage.input_tokens)||0;outputTokens+=Number(raw.usage.output_tokens)||0;}
@@ -37,7 +38,7 @@ export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,f
  let draft;
  if(valid.success){draft=parseGroundedDraft(valid.data,[...sources.values()]);}
  else if(providerCalls<2){
-  const edited=await formatPublicDraft(value,[...sources.values()],model,key,fetcher);
+  const edited=await formatPublicDraft(value,[...sources.values()],model,key,fetcher,deadline);
   providerCalls++;inputTokens+=edited.inputTokens;outputTokens+=edited.outputTokens;draft=edited.draft;
  }else{throw valid.error;}
  let typesafe:PublicResearchResult['trace']['typesafe']={status:input.useTypeSafe?'unavailable':'not_requested'};

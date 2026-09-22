@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { ArrowRight, ArrowUpRight, Download, Search, Check } from 'lucide-react';
 import { Draft, type PublicResearchResult } from '@/lib/pursuit/public-contract';
 import { buildPitchHtml } from '@/lib/pursuit/pitch-export';
 import styles from './live-pursuit.module.css';
+import { useResearchAvailability, refreshResearchAvailability } from './useResearchAvailability';
 
-type Status = { ready: boolean; typesafeReady: boolean };
 const EXAMPLES = [
   { company: 'NZ Post', goal: 'Find a source-backed customer service opportunity where a small demonstrator could make parcel delivery questions easier to resolve.' },
   { company: 'New Zealand retirement villages', goal: 'Research one useful way to help families prepare questions and compare publicly stated services before contacting a village.' },
@@ -20,7 +20,7 @@ function saveFile(name: string, text: string, type: string) {
 }
 
 export function LivePursuitCanvas() {
-  const [status, setStatus] = useState<Status | null>(null);
+  const status = useResearchAvailability();
   const [company, setCompany] = useState('');
   const [goal, setGoal] = useState('');
   const [consent, setConsent] = useState(false);
@@ -30,35 +30,28 @@ export function LivePursuitCanvas() {
   const [result, setResult] = useState<PublicResearchResult | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [tab, setTab] = useState<'evidence' | 'proposal' | 'plan'>('evidence');
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch('/api/pursuit/research', { signal: controller.signal, cache: 'no-store' })
-      .then(r => r.ok ? r.json() : null).then(value => setStatus(value ?? { ready: false, typesafeReady: false }))
-      .catch(() => { if (!controller.signal.aborted) setStatus({ ready: false, typesafeReady: false }); });
-    return () => controller.abort();
-  }, []);
 
   async function submit(event: FormEvent) {
     event.preventDefault(); if (busy || !status?.ready) return;
     setBusy(true); setError(''); setResult(null); setReviewed(false);
     try {
       const response = await fetch('/api/pursuit/research', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ requestId: crypto.randomUUID(), company, goal, consent, useTypeSafe: useTypeSafe && status.typesafeReady }), signal: AbortSignal.timeout(85000) });
+        body: JSON.stringify({ requestId: crypto.randomUUID(), company, goal, consent, useTypeSafe: useTypeSafe && status.typesafeReady }), signal: AbortSignal.timeout(115000) });
       const value = await response.json();
       if (!response.ok) throw new Error(typeof value.error === 'string' ? value.error : 'Research was not completed.');
       Draft.parse(value.draft);
       if (value.mode !== 'live' || !Array.isArray(value.trace?.sources) || !value.trace.sources.length) throw new Error('The response did not include a source trail.');
       setResult(value); setTab('evidence');
     } catch (e) { setError(e instanceof Error ? e.message : 'Research could not be completed.'); }
-    finally { setBusy(false); }
+    finally { setBusy(false); refreshResearchAvailability(); }
   }
 
   const title = result?.draft.title ?? 'An opportunity starts with a question.';
   return <section className={styles.section} id="try-pursuit" aria-labelledby="try-pursuit-title">
-    <header className={styles.heading}><div><p className={styles.kicker}>Pursuit / research you can use</p><h2 id="try-pursuit-title">Find an opening.<br /><span>Make the pitch.</span></h2></div><p>Give the agent a company and a useful question. Review the sources, develop the idea and take away an Assembl-branded pitch.</p></header>
+    <header className={styles.heading}><div><p className={styles.kicker}>Pursuit / research you can use</p><h2 id="try-pursuit-title">Already have<br /><span>a company in mind?</span></h2></div><p>Ask a specific question about a company or sector. Review the research and download an editable pitch with its sources.</p></header>
     <div className={styles.canvas}>
       <form onSubmit={submit} className={styles.form}>
-        <p className={styles.status}>{status === null ? 'Checking research availability…' : status.ready ? 'Public-source research available' : 'Live research is not enabled on this deployment'}</p>
+        <p className={styles.status}>{status?.message ?? (status === null ? 'Checking research availability…' : status.ready ? 'Public research is available.' : 'Live research is temporarily unavailable.')}</p>
         <label>Company or sector<input name="company" value={company} onChange={e => setCompany(e.target.value)} minLength={2} maxLength={120} required placeholder="A New Zealand company or sector" /></label>
         <label>What should the agent investigate?<textarea name="goal" value={goal} onChange={e => setGoal(e.target.value)} minLength={12} maxLength={700} required rows={5} placeholder="Find a specific customer problem we could demonstrate a better way to solve." /></label>
         <div className={styles.examples} aria-label="Example research briefs">{EXAMPLES.map(example => <button key={example.company} type="button" disabled={busy} onClick={() => { setCompany(example.company); setGoal(example.goal); }}>{example.company}<ArrowUpRight size={13} /></button>)}</div>
@@ -71,7 +64,7 @@ export function LivePursuitCanvas() {
       <div className={styles.board} aria-busy={busy}>
         <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
         <h3>{title}</h3>
-        {!result ? <div className={styles.empty}><div className={styles.paperStack} aria-hidden="true"><i /><i /><i /><Search size={34} /></div><p>{busy ? 'The provider is handling your research request. The source trail appears when a complete result is returned.' : 'This is not a scripted result. The canvas stays empty until a research request returns with sources.'}</p><ol><li>Find published evidence.</li><li>Develop a proposed opportunity.</li><li>Review and export the pitch.</li></ol></div> : <>
+        {!result ? <div className={styles.empty}><div className={styles.paperStack} aria-hidden="true"><i /><i /><i /><Search size={34} /></div><p>{busy ? 'Searching public sources and preparing the brief. This can take a minute or two.' : 'Your research will appear here, with links to the evidence and a proposed next step.'}</p><ol><li>Find published evidence.</li><li>Develop a proposed opportunity.</li><li>Review and export the pitch.</li></ol></div> : <>
           <p>{result.draft.summary}</p>
           <div className={styles.tabs} aria-label="Review your pursuit">{(['evidence', 'proposal', 'plan'] as const).map(name => <button key={name} type="button" onClick={() => setTab(name)} aria-pressed={tab === name}>{name}<ArrowRight size={14} /></button>)}</div>
           <div className={styles.cards}>

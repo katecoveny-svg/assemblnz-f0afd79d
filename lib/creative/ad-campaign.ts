@@ -22,7 +22,7 @@ export interface AdVariant {
   kind: "scene" | "abstract";
   prompt: string;
   image: string; // data URL
-  provider: "imagen" | "fal";
+  provider: "gemini" | "imagen" | "fal";
 }
 
 /** Spec for the pattern-ad variant. The Pattern Studio engine is browser
@@ -50,7 +50,7 @@ export interface AdCampaign {
   imagePrompt: string;
   /** legacy mirror of the scene variant's image (data URL) */
   image: string;
-  imageProvider: "imagen" | "fal";
+  imageProvider: "gemini" | "imagen" | "fal";
   copyProvider: "muse" | "genome";
   /** generated base stills: scene always; abstract when generation succeeds */
   variants: AdVariant[];

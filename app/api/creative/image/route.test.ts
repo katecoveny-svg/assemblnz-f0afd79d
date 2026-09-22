@@ -31,8 +31,24 @@ describe('Assembl image generation brand context', () => {
     expect(mocks.generate.mock.calls[0][0]).toBe('Client-approved blue product photography');
   });
 
+  it('forwards an explicitly supplied image reference with the brand direction', async () => {
+    const response = await POST(request({ brandProfile: ASSEMBL_CREATIVE_PROFILE, referenceDataUrl: 'data:image/png;base64,cGhvdG8=' }));
+    expect(mocks.generate.mock.calls[0][1].referenceDataUrl).toBe('data:image/png;base64,cGhvdG8=');
+    expect(mocks.generate.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal);
+    expect(JSON.stringify(await response.json())).toContain('ref upload');
+  });
+
+  it('reports an interrupted generation without claiming provider configuration is missing', async () => {
+    const controller = new AbortController();
+    controller.abort();
+    mocks.generate.mockRejectedValue(new Error('aborted'));
+    const response = await POST(new Request(request(), { signal: controller.signal }));
+    expect(response.status).toBe(504);
+    expect((await response.json()).error).toContain('current image is still available');
+  });
+
   it('rejects malformed briefs and unknown profiles before consuming a trial', async () => {
-    for (const input of [{ brief: {} }, { brief: 'x'.repeat(6001) }, { brandProfile: 'old-gold-brand' }]) {
+    for (const input of [{ brief: {} }, { brief: 'x'.repeat(6001) }, { brandProfile: 'old-gold-brand' }, { referenceDataUrl: 'https://untrusted.example/photo.png' }]) {
       expect((await POST(request(input))).status).toBe(400);
     }
     expect(mocks.consume).not.toHaveBeenCalled();

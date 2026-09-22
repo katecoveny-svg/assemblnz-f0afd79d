@@ -576,7 +576,7 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
 
   return (
     <div className="mx-auto max-w-[1480px] px-4 py-8 md:px-7 md:py-12 min-[1920px]:max-w-[2200px] min-[1920px]:px-12 min-[1920px]:py-20">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 text-base leading-7 text-[#F5F1F2]">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 text-base leading-7 text-[#240B21]">
         <p>Choose your message, layout and format. Download a full-size PNG when it is ready.</p>
         {assembl && <button type="button" className="rounded-full border border-[#916A70] px-5 py-2 focus-visible:outline focus-visible:outline-2" onClick={() => {
           setKit(defaultKit); setLogoSrc(""); setLogoLabel("assembl wordmark");
@@ -585,24 +585,24 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
         }}>Reset to assembl</button>}
       </div>
       {assembl && <div className="mb-6 flex flex-wrap gap-3" aria-label="Assembl image references">
-        {ASSEMBL_CREATIVE_ASSETS.map((asset) => <button key={asset.id} type="button" className="rounded-full border border-white/30 px-5 py-2 text-sm text-[#FFFDFB] focus-visible:outline focus-visible:outline-2" onClick={() => { setBackgroundSrc(asset.src); setBackgroundLabel(asset.label); }}>{asset.label}</button>)}
+        {ASSEMBL_CREATIVE_ASSETS.map((asset) => <button key={asset.id} type="button" className="rounded-full border border-white/30 px-5 py-2 text-sm text-[#240B21] focus-visible:outline focus-visible:outline-2" onClick={() => { setBackgroundSrc(asset.src); setBackgroundLabel(asset.label); }}>{asset.label}</button>)}
       </div>}
 
       <div className="grid gap-7 xl:grid-cols-[0.86fr_1.14fr] min-[1920px]:gap-10">
         <div className="space-y-5 min-[1920px]:space-y-8">
-          <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
+          <section className="rounded-[28px] border border-[#240B21]/10 bg-[#FFFDFB] p-4 md:p-6">
+            <p className="text-[14px] tracking-[0.14em] text-[#240B21]">
               01 · Your brand
             </p>
             <label className="mt-4 block">
-              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+              <span className="mb-2 block text-[14px] tracking-[0.09em] text-[#654A4E]">
                 brand name
               </span>
               <input
                 value={kit.brandName}
                 maxLength={44}
                 onChange={(event) => updateKit("brandName", event.target.value)}
-                className="min-h-12 w-full border border-white/15 bg-[#240B21] px-4 py-3 text-[15px] text-[#FFFDFB] outline-none focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
+                className="min-h-12 w-full border border-[#240B21]/15 bg-[#FFFDFB] px-4 py-3 text-[15px] text-[#240B21] outline-none focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
               />
             </label>
 
@@ -619,18 +619,18 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                       paper: preset.paper,
                     }))
                   }
-                  className="border border-white/15 bg-[#240B21] p-3 text-left outline-none hover:border-[#916A70] focus-visible:ring-2 focus-visible:ring-[#916A70]"
+                  className="border border-[#240B21]/15 bg-[#FFFDFB] p-3 text-left outline-none hover:border-[#916A70] focus-visible:ring-2 focus-visible:ring-[#916A70]"
                 >
                   <span className="flex gap-1" aria-hidden="true">
                     {[preset.primary, preset.accent, preset.paper].map((colour) => (
                       <span
                         key={colour}
-                        className="h-4 flex-1 border border-white/15"
+                        className="h-4 flex-1 border border-[#240B21]/15"
                         style={{ backgroundColor: colour }}
                       />
                     ))}
                   </span>
-                  <span className="mt-2 block font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+                  <span className="mt-2 block text-[14px] tracking-[0.08em] text-[#654A4E]">
                     {preset.label}
                   </span>
                 </button>
@@ -646,17 +646,17 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                 ] as const
               ).map(([key, label]) => (
                 <label key={key} className="min-w-0">
-                  <span className="mb-2 block truncate font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+                  <span className="mb-2 block truncate text-[14px] tracking-[0.08em] text-[#654A4E]">
                     {label}
                   </span>
-                  <span className="flex min-h-10 items-center gap-2 border border-white/15 bg-[#240B21] px-2">
+                  <span className="flex min-h-10 items-center gap-2 border border-[#240B21]/15 bg-[#FFFDFB] px-2">
                     <input
                       type="color"
                       value={kit[key]}
                       onChange={(event) => updateKit(key, event.target.value)}
                       className="h-7 w-7 shrink-0 cursor-pointer border-0 bg-transparent p-0"
                     />
-                    <span className="min-w-0 truncate font-mono text-[12px] uppercase text-[#B6ACB3]">
+                    <span className="min-w-0 truncate text-[14px] text-[#654A4E]">
                       {kit[key]}
                     </span>
                   </span>
@@ -665,7 +665,7 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
             </div>
 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-center text-[14px] font-medium tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB]">
                 {logoSrc ? "replace logo" : "add logo"}
                 <input
                   type="file"
@@ -688,22 +688,22 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                   setNotice("Logo removed. The brand name will be typeset instead.");
                 }}
                 disabled={!logoSrc}
-                className="min-h-12 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70] disabled:cursor-not-allowed disabled:opacity-35"
+                className="min-h-12 border border-[#240B21]/15 px-4 py-3 text-[14px] tracking-[0.09em] text-[#654A4E] outline-none hover:border-[#916A70] hover:text-[#240B21] focus-visible:ring-2 focus-visible:ring-[#916A70] disabled:cursor-not-allowed disabled:opacity-35"
               >
                 use brand name
               </button>
             </div>
-            <p className="mt-3 truncate font-mono text-[12px] uppercase tracking-[0.06em] text-[#8A7B85]">
+            <p className="mt-3 truncate text-[14px] tracking-[0.06em] text-[#654A4E]">
               {logoLabel}
             </p>
           </section>
 
-          <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
+          <section className="rounded-[28px] border border-[#240B21]/10 bg-[#FFFDFB] p-4 md:p-6">
+            <p className="text-[14px] tracking-[0.14em] text-[#240B21]">
               02 · Message and image
             </p>
             <label className="mt-4 block">
-              <span className="mb-2 flex justify-between font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+              <span className="mb-2 flex justify-between text-[14px] tracking-[0.09em] text-[#654A4E]">
                 headline <span>{kit.headline.length}/90</span>
               </span>
               <textarea
@@ -711,11 +711,11 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                 maxLength={90}
                 rows={3}
                 onChange={(event) => updateKit("headline", event.target.value)}
-                className="w-full resize-y border border-white/15 bg-[#240B21] px-4 py-3 text-[16px] leading-6 text-[#FFFDFB] outline-none focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
+                className="w-full resize-y border border-[#240B21]/15 bg-[#FFFDFB] px-4 py-3 text-[16px] leading-6 text-[#240B21] outline-none focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
               />
             </label>
             <label className="mt-4 block">
-              <span className="mb-2 flex justify-between font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+              <span className="mb-2 flex justify-between text-[14px] tracking-[0.09em] text-[#654A4E]">
                 supporting line <span>{kit.supporting.length}/180</span>
               </span>
               <textarea
@@ -723,12 +723,12 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                 maxLength={180}
                 rows={4}
                 onChange={(event) => updateKit("supporting", event.target.value)}
-                className="w-full resize-y border border-white/15 bg-[#240B21] px-4 py-3 text-[14px] leading-6 text-[#FFFDFB] outline-none focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
+                className="w-full resize-y border border-[#240B21]/15 bg-[#FFFDFB] px-4 py-3 text-[14px] leading-6 text-[#240B21] outline-none focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
               />
             </label>
 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70]/60 px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#916A70] focus-within:ring-2 focus-within:ring-[#916A70]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70]/60 px-4 py-3 text-center text-[14px] font-medium tracking-[0.1em] text-[#240B21] outline-none hover:border-[#916A70] focus-within:ring-2 focus-within:ring-[#916A70]">
                 {backgroundSrc ? "replace photograph" : "add photograph"}
                 <input
                   type="file"
@@ -752,12 +752,12 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                   setBackgroundLabel("brand colour field");
                   setNotice("Photograph removed. Your colours now form the background.");
                 }}
-                className="min-h-12 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
+                className="min-h-12 border border-[#240B21]/15 px-4 py-3 text-[14px] tracking-[0.09em] text-[#654A4E] outline-none hover:border-[#916A70] hover:text-[#240B21] focus-visible:ring-2 focus-visible:ring-[#916A70]"
               >
                 use colour field
               </button>
             </div>
-            <p className="mt-3 truncate font-mono text-[12px] uppercase tracking-[0.06em] text-[#8A7B85]">
+            <p className="mt-3 truncate text-[14px] tracking-[0.06em] text-[#654A4E]">
               {backgroundLabel}
             </p>
 
@@ -774,10 +774,10 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                   type="button"
                   onClick={() => updateKit("layout", id)}
                   aria-pressed={kit.layout === id}
-                  className={`min-h-11 border px-2 py-2 font-mono text-[12px] uppercase tracking-[0.07em] outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
+                  className={`min-h-11 border px-2 py-2 text-[14px] tracking-[0.07em] outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                     kit.layout === id
                       ? "border-[#916A70] bg-[#F5F1F2] text-[#240B21]"
-                      : "border-white/15 bg-[#240B21] text-[#B6ACB3]"
+                      : "border-[#240B21]/15 bg-[#FFFDFB] text-[#654A4E]"
                   }`}
                 >
                   {label}
@@ -788,22 +788,22 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
         </div>
 
         <div className="xl:sticky xl:top-[112px] xl:self-start">
-          <section className="border border-[#916A70]/25 bg-[#240B21] p-4 md:p-6">
+          <section className="rounded-[28px] border border-[#916A70]/25 bg-[#FFFDFB] p-4 md:p-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
+                <p className="text-[14px] tracking-[0.14em] text-[#240B21]">
                   03 · Ready to shape and share
                 </p>
-                <h3 className="mt-2 font-sans text-[26px] font-medium tracking-[-0.035em] text-[#FFFDFB]">
+                <h3 className="mt-2 font-sans text-[26px] font-medium tracking-[-0.035em] text-[#240B21]">
                   {kit.brandName || "your brand"}
                 </h3>
               </div>
-              <p className="font-mono text-[12px] uppercase tracking-[0.07em] text-[#B6ACB3]">
+              <p className="text-[14px] tracking-[0.07em] text-[#654A4E]">
                 {format.label} · {format.note}
               </p>
             </div>
 
-            <div className="mt-5 overflow-hidden border border-white/10 bg-[#0B030A]">
+            <div className="mt-5 overflow-hidden border border-[#240B21]/10 bg-[#F5F1F2]">
               <canvas
                 ref={canvasRef}
                 className="block h-auto max-h-[66svh] w-full object-contain"
@@ -821,18 +821,18 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                   className={`border px-3 py-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                     formatId === item.id
                       ? "border-[#916A70] bg-[#F5F1F2] text-[#240B21]"
-                      : "border-white/15 bg-[#240B21] text-[#F5F1F2]"
+                      : "border-[#240B21]/15 bg-[#FFFDFB] text-[#240B21]"
                   }`}
                 >
-                  <span className="block text-[12px] font-medium">{item.label}</span>
-                  <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.06em] opacity-65">
+                  <span className="block text-[14px] font-medium">{item.label}</span>
+                  <span className="mt-1 block text-[14px] tracking-[0.06em] opacity-65">
                     {item.note}
                   </span>
                 </button>
               ))}
             </div>
 
-            <label className="mt-5 flex min-h-11 items-center gap-3 border border-white/15 px-3 font-mono text-[12px] uppercase leading-4 tracking-[0.08em] text-[#B6ACB3]">
+            <label className="mt-5 flex min-h-11 items-center gap-3 border border-[#240B21]/15 px-3 text-[14px] leading-4 tracking-[0.08em] text-[#654A4E]">
               <input
                 type="checkbox"
                 checked={kit.creditAssembl}
@@ -847,7 +847,7 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                 type="button"
                 onClick={() => void download()}
                 disabled={busy}
-                className="min-h-12 border border-[#916A70] bg-[#F5F1F2] px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] disabled:cursor-wait disabled:opacity-60"
+                className="min-h-12 border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-[14px] font-medium tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] disabled:cursor-wait disabled:opacity-60"
               >
                 {busy ? "preparing…" : "download PNG"}
               </button>
@@ -855,35 +855,35 @@ export function BrandImageMaker({ assembl = false, imageSeed }: { assembl?: bool
                 type="button"
                 onClick={() => void shareImage()}
                 disabled={busy}
-                className="min-h-12 border border-[#916A70]/70 px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#FFFDFB] outline-none hover:border-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70] disabled:cursor-wait disabled:opacity-60"
+                className="min-h-12 border border-[#916A70]/70 px-4 py-3 text-[14px] font-medium tracking-[0.1em] text-[#240B21] outline-none hover:border-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70] disabled:cursor-wait disabled:opacity-60"
               >
                 share image
               </button>
               <button
                 type="button"
                 onClick={saveKit}
-                className="min-h-11 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
+                className="min-h-11 border border-[#240B21]/15 px-4 py-3 text-[14px] tracking-[0.08em] text-[#654A4E] outline-none hover:border-[#916A70] hover:text-[#240B21] focus-visible:ring-2 focus-visible:ring-[#916A70]"
               >
                 save kit on this device
               </button>
               <button
                 type="button"
                 onClick={() => void copyMakerLink()}
-                className="min-h-11 border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
+                className="min-h-11 border border-[#240B21]/15 px-4 py-3 text-[14px] tracking-[0.08em] text-[#654A4E] outline-none hover:border-[#916A70] hover:text-[#240B21] focus-visible:ring-2 focus-visible:ring-[#916A70]"
               >
                 copy maker link
               </button>
             </div>
 
             <p
-              className="mt-4 min-h-5 font-mono text-[12px] uppercase leading-4 tracking-[0.07em] text-[#B6ACB3]"
+              className="mt-4 min-h-5 text-[14px] leading-4 tracking-[0.07em] text-[#654A4E]"
               aria-live="polite"
             >
               {notice}
             </p>
             {error && (
               <p
-                className="mt-3 border border-[#916A70]/45 bg-[#240B21] px-3 py-3 text-[12px] leading-5 text-[#FFFDFB]"
+                className="mt-3 border border-[#916A70]/45 bg-[#FFFDFB] px-3 py-3 text-[14px] leading-5 text-[#240B21]"
                 role="alert"
               >
                 {error}

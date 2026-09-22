@@ -10,6 +10,7 @@ const nzd = (usd: number) => Math.round(usd * USD_TO_NZD * 100) / 100;
 
 /** Indicative unit costs in US$. Labelled "est." wherever surfaced. */
 export const COST_USD = {
+  geminiImagePerImage: 0.07, // 1K output ~$0.067 + input allowance; ai.google.dev/gemini-api/docs/pricing (22 Sep 2026)
   imagenPerImage: 0.04, // Imagen 4.0 generate
   falFluxPerImage: 0.05, // Fal Flux Pro v1.1
   veoPerSecond: 0.2, // Veo 3.1 fast (with audio) — indicative
@@ -20,8 +21,8 @@ export const COST_USD = {
   googleTtsPerKChar: 0.016, // Gemini TTS fallback
 } as const;
 
-export function imageCostNzd(count: number, provider: "imagen" | "fal"): number {
-  const unit = provider === "imagen" ? COST_USD.imagenPerImage : COST_USD.falFluxPerImage;
+export function imageCostNzd(count: number, provider: "gemini" | "imagen" | "fal"): number {
+  const unit = provider === "gemini" ? COST_USD.geminiImagePerImage : provider === "imagen" ? COST_USD.imagenPerImage : COST_USD.falFluxPerImage;
   return nzd(unit * count);
 }
 export function videoCostNzd(provider: "veo" | "fal" | "runway", seconds = 8): number {

@@ -202,6 +202,18 @@ function blobToDataUrl(blob: Blob) {
   });
 }
 
+async function prepareReferenceDataUrl(src: string) {
+  const image = await loadImage(src);
+  const scale = Math.min(1, 1536 / Math.max(image.naturalWidth, image.naturalHeight));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("The reference image could not be prepared.");
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", 0.86);
+}
+
 function looksLikePhoto(file: File) {
   return (
     file.type.startsWith("image/") ||
@@ -231,21 +243,6 @@ async function browserReadyPhoto(file: File) {
   return converted;
 }
 
-async function prepareReferenceDataUrl(src: string) {
-  const image = await loadImage(src);
-  const longest = Math.max(image.naturalWidth, image.naturalHeight);
-  const scale = Math.min(1, 1536 / longest);
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
-  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("The reference image could not be prepared.");
-  context.imageSmoothingEnabled = true;
-  context.imageSmoothingQuality = "high";
-  context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg", 0.86);
-}
-
 export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
   const [activeTab, setActiveTab] = useState<StudioTab>(initialTool === "image" ? "image" : "brand");
   const [designImage, setDesignImage] = useState<{ src: string; label: string } | undefined>();
@@ -256,7 +253,7 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   };
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <header className={styles.header}>
         <Link href="/" className={styles.wordmark} aria-label="assembl home">assembl</Link>
         <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio" aria-current="page">Studio</Link></nav>
@@ -265,7 +262,7 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
         <div><p className={styles.eyebrow}>Studio / make with assembl</p><h1 id="studio-title">Make it look<br />like assembl.</h1><p>The same world as the homepage. Shape a post, prepare an image and download something you can use.</p></div>
         <aside className={styles.brand} aria-label="Current assembl brand">
           <div className={styles.palette}>{Object.entries(ASSEMBL_CREATIVE_BRAND.palette).map(([name, colour]) => <span key={name} style={{ background: colour }} title={`${name} ${colour}`} />)}</div>
-          <strong>One shared visual direction.</strong><p>Plum. Rose. Paper. Instrument Sans. Sculptural spaces and useful things coming together.</p>
+          <strong>The Assembl palette.</strong><p>Plum, rose and paper. The homepage imagery and type are ready to use.</p>
           <a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer">Open private Creative Studio ↗</a>
         </aside>
       </section>
@@ -276,7 +273,7 @@ export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
       </nav>
       <section hidden={activeTab !== "brand"} aria-label="Design a post"><BrandImageMaker assembl imageSeed={designImage} /></section>
       <section hidden={activeTab !== "image"} aria-label="Prepare an image"><AssemblImageMaker onUseImage={(src, label) => { setDesignImage({ src, label }); chooseTab("brand"); }} /></section>
-    </main>
+    </div>
   );
 }
 
@@ -287,8 +284,8 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
   const [intensity, setIntensity] = useState(76);
   const [wordmark, setWordmark] = useState(true);
   const [selectedAssetId, setSelectedAssetId] = useState(BRAND_ASSETS[0].id);
-  const [referenceSrc, setReferenceSrc] = useState(BRAND_ASSETS[0].src);
   const [imageSrc, setImageSrc] = useState(BRAND_ASSETS[0].src);
+  const [useImageReference, setUseImageReference] = useState(true);
   const [sourceLabel, setSourceLabel] = useState(BRAND_ASSETS[0].label);
   const [busy, setBusy] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -340,13 +337,14 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
 
   const chooseAsset = (asset: BrandAsset) => {
     setSelectedAssetId(asset.id);
-    setReferenceSrc(asset.src);
+    setUseImageReference(true);
+
     setImageSrc(asset.src);
     setSourceLabel(asset.label);
     setReceipt(null);
     setError("");
     setNotice(
-      `${asset.label} is ready. Apply a plum treatment, download it, or use it as the generation reference.`,
+      `${asset.label} is ready. Apply a plum treatment, download it, or use its composition notes for a new image.`,
     );
   };
 
@@ -368,13 +366,14 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
       const dataUrl = await blobToDataUrl(photo);
       await loadImage(dataUrl);
       setSelectedAssetId("upload");
-      setReferenceSrc(dataUrl);
+      setUseImageReference(false);
+
       setImageSrc(dataUrl);
       setSourceLabel(file.name);
       setReceipt(null);
       setError("");
       setNotice(
-        "Your upload stays in this browser unless you choose generate. Plum treatment is ready now.",
+        "Your photo is ready to edit or export. Turn on the visual reference below if you want to use it to generate a new image.",
       );
     } catch {
       setError(
@@ -397,20 +396,19 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
     setNotice("Preparing one on-brand draft for you to review…");
 
     try {
-      const referenceDataUrl = referenceSrc
-        ? await prepareReferenceDataUrl(referenceSrc)
-        : undefined;
+      const referenceDataUrl = useImageReference ? await prepareReferenceDataUrl(imageSrc) : undefined;
       const response = await fetch("/api/creative/image", {
         method: "POST",
+        signal: AbortSignal.timeout(55000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           brief: brief.trim(),
           brandProfile: ASSEMBL_CREATIVE_PROFILE,
           brandAssetId: selectedAsset?.id,
+          referenceDataUrl,
           aspectRatio: aspectId,
           count: 1,
           agent: "prism",
-          referenceDataUrl,
         }),
       });
       const data = (await response.json().catch(() => ({}))) as {
@@ -431,7 +429,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
       }
 
       setImageSrc(data.images[0]);
-      setReferenceSrc(data.images[0]);
+
       setSelectedAssetId("generated");
       setSourceLabel("generated draft");
       setReceipt(data.receipt ?? null);
@@ -443,7 +441,9 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
         }`,
       );
     } catch (generationError) {
-      setError((generationError as Error).message);
+      setError((generationError as Error).name === "TimeoutError"
+        ? "Generation took too long. Your current image is still available; try again in a moment."
+        : (generationError as Error).message);
       setNotice(
         "The included assembl assets and upload filter are still available.",
       );
@@ -489,23 +489,23 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
 
   return (
     <div className="mx-auto max-w-[1480px] px-4 py-8 md:px-7 md:py-12 min-[1920px]:max-w-[2200px] min-[1920px]:px-12 min-[1920px]:py-20">
-      <p className="mb-6 max-w-[720px] text-base leading-7 text-[#F5F1F2]">Choose a current Assembl reference, upload your own, or generate a draft. Use the result in your post, or export the image. Nothing publishes automatically.</p>
+      <p className="mb-6 max-w-[720px] text-base leading-7 text-[#240B21]">Choose an assembl image, add your own photograph, or generate from a brief. Use the result in your post, or export the image. Nothing publishes automatically.</p>
 
       <div className="grid gap-7 xl:grid-cols-[0.82fr_1.18fr] min-[1920px]:gap-10">
         <div className="space-y-6 min-[1920px]:space-y-10">
-          <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
+          <section className="rounded-[28px] border border-[#240B21]/10 bg-[#FFFDFB] p-4 md:p-6">
             <div className="mb-4">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
+                <p className="text-[14px] tracking-[0.14em] text-[#240B21]">
                   01 · Starting point
                 </p>
-                <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#FFFDFB]">
+                <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#240B21]">
                   assembl assets
                 </h2>
               </div>
             </div>
             <div className="mb-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-center text-[14px] font-medium tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
                 {uploading ? "opening photo…" : "choose a photo"}
                 <input
                   type="file"
@@ -520,7 +520,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                   }}
                 />
               </label>
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70]/55 px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#916A70] focus-within:ring-2 focus-within:ring-[#916A70] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70]/55 px-4 py-3 text-center text-[14px] font-medium tracking-[0.1em] text-[#240B21] outline-none hover:border-[#916A70] focus-within:ring-2 focus-within:ring-[#916A70] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
                 take a photo
                 <input
                   type="file"
@@ -537,7 +537,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                 />
               </label>
             </div>
-            <p className="mb-4 font-mono text-[12px] leading-4 uppercase tracking-[0.08em] text-[#B6ACB3]">
+            <p className="mb-4 text-[14px] leading-4 tracking-[0.08em] text-[#654A4E]">
               Camera roll, files or camera · JPEG, PNG, WebP and HEIC · up to 25MB
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -552,7 +552,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                     className={`group overflow-hidden border text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                       selected
                         ? "border-[#916A70]"
-                        : "border-white/10 hover:border-[#916A70]/55"
+                        : "border-[#240B21]/10 hover:border-[#916A70]/55"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -561,11 +561,11 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                       alt=""
                       className="aspect-[4/3] w-full object-cover"
                     />
-                    <span className="block bg-[#240B21] p-3">
-                      <span className="block text-[12px] font-medium text-[#FFFDFB]">
+                    <span className="block bg-[#FFFDFB] p-3">
+                      <span className="block text-[14px] font-medium text-[#240B21]">
                         {asset.label}
                       </span>
-                      <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+                      <span className="mt-1 block text-[14px] tracking-[0.08em] text-[#654A4E]">
                         {asset.note}
                       </span>
                     </span>
@@ -575,19 +575,20 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
             </div>
           </section>
 
-          <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
+          <section className="rounded-[28px] border border-[#240B21]/10 bg-[#FFFDFB] p-4 md:p-6">
+            <p className="text-[14px] tracking-[0.14em] text-[#240B21]">
               02 · Image brief
             </p>
             <label className="mt-4 block">
-              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.1em] text-[#B6ACB3]">
+              <span className="mb-2 block text-[14px] tracking-[0.1em] text-[#654A4E]">
                 what should the image show?
               </span>
               <textarea
                 value={brief}
                 onChange={(event) => setBrief(event.target.value)}
                 rows={5}
-                className="w-full resize-y border border-white/15 bg-[#240B21] px-4 py-3 text-[14px] leading-6 text-[#FFFDFB] outline-none placeholder:text-[#8A7B85] focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
+                maxLength={6000}
+                className="w-full resize-y border border-[#240B21]/15 bg-[#FFFDFB] px-4 py-3 text-[14px] leading-6 text-[#240B21] outline-none placeholder:text-[#654A4E] focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
               />
             </label>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -596,7 +597,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                   type="button"
                   key={starter.label}
                   onClick={() => setBrief(starter.brief)}
-                  className="border border-white/15 px-3 py-2 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
+                  className="border border-[#240B21]/15 px-3 py-2 text-[14px] tracking-[0.08em] text-[#654A4E] outline-none hover:border-[#916A70] hover:text-[#240B21] focus-visible:ring-2 focus-visible:ring-[#916A70]"
                 >
                   {starter.label}
                 </button>
@@ -604,7 +605,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
             </div>
 
             <div className="mt-5">
-              <span className="mb-2 block font-mono text-[12px] uppercase tracking-[0.1em] text-[#B6ACB3]">
+              <span className="mb-2 block text-[14px] tracking-[0.1em] text-[#654A4E]">
                 social format
               </span>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -617,13 +618,13 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                     className={`border px-3 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                       aspectId === item.id
                         ? "border-[#916A70] bg-[#F5F1F2] text-[#240B21]"
-                        : "border-white/15 bg-[#240B21] text-[#F5F1F2]"
+                        : "border-[#240B21]/15 bg-[#FFFDFB] text-[#240B21]"
                     }`}
                   >
-                    <span className="block text-[12px] font-medium">
+                    <span className="block text-[14px] font-medium">
                       {item.label}
                     </span>
-                    <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.06em] opacity-70">
+                    <span className="mt-1 block text-[14px] tracking-[0.06em] opacity-70">
                       {item.note}
                     </span>
                   </button>
@@ -631,41 +632,43 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
               </div>
             </div>
 
+            <label className="mt-5 flex items-start gap-3 text-sm leading-6 text-[#240B21]">
+              <input type="checkbox" className="mt-1" checked={useImageReference} disabled={busy} onChange={event => setUseImageReference(event.target.checked)} />
+              <span>Use this image as a visual reference</span>
+            </label>
             <button
               type="button"
               onClick={() => void generate()}
               disabled={busy}
-              className="mt-5 min-h-12 w-full border border-[#916A70] bg-[#F5F1F2] px-5 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#240B21] disabled:cursor-wait disabled:opacity-60"
+              className="mt-5 min-h-12 w-full border border-[#916A70] bg-[#F5F1F2] px-5 py-3 text-[14px] font-medium tracking-[0.12em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#240B21] disabled:cursor-wait disabled:opacity-60"
             >
               {busy ? "preparing one draft…" : "generate on-brand image"}
             </button>
-            <p className="mt-3 font-mono text-[12px] uppercase leading-4 tracking-[0.06em] text-[#8A7B85]">
-              Your brief and chosen reference are sent securely to the
-              generation provider when you press generate. Review every draft
-              before use.
+            <p className="mt-3 text-[14px] leading-4 tracking-[0.06em] text-[#654A4E]">
+              Generate sends your brief and Assembl art direction to the image provider. With visual reference on, it also sends the image shown here. Uploading alone does not send it.
             </p>
           </section>
         </div>
 
         <div className="xl:sticky xl:top-[112px] xl:self-start">
-          <section className="border border-[#916A70]/25 bg-[#240B21] p-4 md:p-6">
+          <section className="rounded-[28px] border border-[#916A70]/25 bg-[#FFFDFB] p-4 md:p-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
+                <p className="text-[14px] tracking-[0.14em] text-[#240B21]">
                   03 · Plum treatment
                 </p>
-                <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#FFFDFB]">
+                <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#240B21]">
                   {sourceLabel}
                 </h2>
               </div>
               {receipt?.provider && (
-                <p className="font-mono text-[12px] uppercase tracking-[0.07em] text-[#B6ACB3]">
+                <p className="text-[14px] tracking-[0.07em] text-[#654A4E]">
                   {receipt.provider} · {receipt.model}
                 </p>
               )}
             </div>
 
-            <div className="mt-5 overflow-hidden border border-white/10 bg-[#0B030A]">
+            <div className="mt-5 overflow-hidden border border-[#240B21]/10 bg-[#F5F1F2]">
               <canvas
                 ref={canvasRef}
                 className="block h-auto max-h-[68svh] w-full object-contain"
@@ -683,13 +686,13 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                   className={`border px-3 py-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                     filter === item.id
                       ? "border-[#916A70] bg-[#F5F1F2] text-[#240B21]"
-                      : "border-white/15 bg-[#240B21] text-[#F5F1F2]"
+                      : "border-[#240B21]/15 bg-[#FFFDFB] text-[#240B21]"
                   }`}
                 >
-                  <span className="block text-[12px] font-medium">
+                  <span className="block text-[14px] font-medium">
                     {item.label}
                   </span>
-                  <span className="mt-1 hidden font-mono text-[12px] uppercase tracking-[0.06em] opacity-65 sm:block">
+                  <span className="mt-1 hidden text-[14px] tracking-[0.06em] opacity-65 sm:block">
                     {item.note}
                   </span>
                 </button>
@@ -698,7 +701,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
 
             <div className="mt-5 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
               <label>
-                <span className="mb-2 flex items-center justify-between font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3]">
+                <span className="mb-2 flex items-center justify-between text-[14px] tracking-[0.09em] text-[#654A4E]">
                   filter strength <span>{intensity}%</span>
                 </span>
                 <input
@@ -711,7 +714,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                   className="h-2 w-full cursor-pointer accent-[#916A70] disabled:opacity-35"
                 />
               </label>
-              <label className="flex min-h-10 items-center gap-2 border border-white/15 px-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
+              <label className="flex min-h-10 items-center gap-2 border border-[#240B21]/15 px-3 text-[14px] tracking-[0.08em] text-[#654A4E]">
                 <input
                   type="checkbox"
                   checked={wordmark}
@@ -741,34 +744,35 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
               <button
                 type="button"
                 onClick={() => void download()}
-                className="min-h-11 flex-1 border border-[#916A70] bg-[#F5F1F2] px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.11em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB]"
+                className="min-h-11 flex-1 border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-[14px] font-medium tracking-[0.11em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB]"
               >
                 download full-size PNG
               </button>
               <button
                 type="button"
                 onClick={() => {
-                  setReferenceSrc("");
+
                   setSelectedAssetId("none");
+                  setUseImageReference(false);
                   setNotice(
-                    "Reference cleared. The current preview remains available to filter and download.",
+                    "Composition notes cleared. Your preview remains available to filter and download.",
                   );
                 }}
-                className="border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
+                className="border border-[#240B21]/15 px-4 py-3 text-[14px] tracking-[0.09em] text-[#654A4E] outline-none hover:border-[#916A70] hover:text-[#240B21] focus-visible:ring-2 focus-visible:ring-[#916A70]"
               >
-                clear reference
+                clear composition notes
               </button>
             </div>
 
             <p
-              className="mt-4 min-h-5 font-mono text-[12px] uppercase leading-4 tracking-[0.07em] text-[#B6ACB3]"
+              className="mt-4 min-h-5 text-[14px] leading-4 tracking-[0.07em] text-[#654A4E]"
               aria-live="polite"
             >
               {notice}
             </p>
             {error && (
               <p
-                className="mt-3 border border-[#916A70]/45 bg-[#240B21] px-3 py-3 text-[12px] leading-5 text-[#FFFDFB]"
+                className="mt-3 border border-[#916A70]/45 bg-[#FFFDFB] px-3 py-3 text-[14px] leading-5 text-[#240B21]"
                 role="alert"
               >
                 {error}

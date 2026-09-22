@@ -32,3 +32,19 @@ Canvas exports resolve the actual next/font family instead of silently falling b
 To replace the separately hosted old homepage and update its private agency maker, open this task from the workspace that owns that existing Site. Reuse its source and identity; preserve client records and access. Do not create a replacement Site to bypass missing access.
 
 Reversal: revert this PR. The private workspaces and saved client content are unaffected.
+
+## Follow-up: public demo, copy and reliability
+
+Kate also asked for a copy-skill pass, a clearer public example and working public research links. Write Like Me was used with the repo copy standard; available writing samples were limited, so the canonical positioning and Kate’s direct instructions led the edit.
+
+- Pursuit now uses a paper/plum layout and the actual homepage atelier image. The old low-contrast gradient heading and generic animated tiles are replaced by a selectable, explicitly fictional bakery/shopfitter example. No sample claims are presented as live research.
+- The public website preset now fills only Assembl’s website. It no longer inserts the internal Flex energy-retailer sales brief. The separate Flex simulator is unchanged.
+- Both public research forms show the current network/site allowance and UTC reset, and refresh after either submits. Atomic database reservation remains the authority. A limit response includes `Retry-After`; failed provider attempts still count because they may incur cost.
+- Read-only inspection of `assembl-prod` found a live policy of 1 attempt/network and 5/site daily, with a timeout recorded on 22 September. Under Kate’s request to increase the allowance, a conditional update changed that existing enabled policy to 3/network and 20/site. A subsequent SELECT verified it. No schema, activation, TypeSafe or billing change was made. To reverse this configuration change, restore those two values to 1 and 5; reverting code alone does not reverse it.
+- Research provider calls now allow 75 seconds per request within a shared 100-second research deadline; the route allows 120 seconds and the browser 115. The former 35-second call deadline was too short for a multi-search brief. Search count and token limits remain bounded.
+- The native Google image connection replaces retired Imagen with `gemini-3.1-flash-image`. Reference bytes are passed as `inlineData`, and intermediate thought images are excluded. Uploaded photographs default to reference off; selecting an included homepage asset turns it on. The disclosure sits beside Generate. A provider that cannot use reference pixels cannot silently substitute a text-only result.
+- Studio controls use paper surfaces, legible plum type and rounded previews. Existing canvas exports, local editing and image-to-post handoff remain the working primitives.
+
+Verification before the follow-up push: 70 focused tests across 13 files, TypeScript, changed-file ESLint, brand/front-door guards, Python syntax and diff checks passed. CI checks real PNG dimensions at 375px and 1440px using a mocked provider response; that test is explicitly not evidence of a real generation. The browser workflow uses webpack because the baseline clean Turbopack build fails in the unrelated Air NZ Inter Tight font module.
+
+Provider migration reference: https://ai.google.dev/gemini-api/docs/generate-content/image-generation (checked 22 September 2026).

@@ -1,5 +1,5 @@
 """Local-build UI proof. Research POST is mocked: this does not prove a provider call."""
-import asyncio,json
+import asyncio,json,base64,struct
 from pathlib import Path
 from playwright.async_api import async_playwright,expect
 OUT=Path('visual-evidence/public-pursuit');OUT.mkdir(parents=True,exist_ok=True)
@@ -48,13 +48,19 @@ async def main():
           await route.fulfill(json=outreach_fixture)
       await page.route('**/api/pursuit/research',outreach_mock)
       await page.goto('http://127.0.0.1:3000/pursuit',wait_until='domcontentloaded')
+      await page.screenshot(path=str(OUT/f'pursuit-hero-{width}.png'),timeout=60000)
+      await page.get_by_role('button',name='03 The draft',exact=False).click()
+      await expect(page.get_by_role('heading',name='“Would a layout sketch help?”')).to_be_visible()
       outreach=page.locator('#website-outreach')
+      await outreach.get_by_role('button',name='Use Assembl as an example').click()
+      await expect(outreach.get_by_label('Your business website',exact=True)).to_have_value('https://www.assembl.co.nz')
+      await expect(outreach.get_by_label('Who would you like to work with? (optional)',exact=True)).to_have_value('')
       await outreach.scroll_into_view_if_needed()
       await outreach.get_by_label('Your business website',exact=True).fill('https://seller.example.com/')
       await outreach.get_by_label('Who would you like to work with? (optional)',exact=True).fill('Find businesses for a fictional service pilot.')
-      await expect(outreach.get_by_role('button',name='Find my next openings')).to_be_disabled()
+      await expect(outreach.get_by_role('button',name='Find prospects')).to_be_disabled()
       await outreach.get_by_label('Research these public details',exact=False).check()
-      await outreach.get_by_role('button',name='Find my next openings').click()
+      await outreach.get_by_role('button',name='Find prospects').click()
       await expect(outreach.get_by_role('heading',name='Fixture seller',exact=True)).to_be_visible()
       export_button=outreach.get_by_role('button',name='Download reviewed outreach')
       await expect(export_button).to_be_disabled()
@@ -76,6 +82,43 @@ async def main():
       await expect(outreach.get_by_role('heading',name='Fixture seller',exact=True)).to_have_count(0)
       assert not errors,errors
       report.append({'width':width,'websiteOutreach':'review, edit invalidation, export and changed-brief reset passed','providerCall':False})
+      # Assembl maker: actual canvas exports; provider response is a labelled fixture.
+      generation_requests=[]
+      asset=base64.b64encode(Path('public/do/world/atelier-poster.png').read_bytes()).decode()
+      async def image_mock(route):
+        body=route.request.post_data_json
+        assert body['brandProfile']=='assembl-2026-09' and body['count']==1
+        assert body['referenceDataUrl'].startswith('data:image/jpeg;base64,')
+        assert len(base64.b64decode(body['referenceDataUrl'].split(',')[1]))>1000
+        generation_requests.append(body)
+        await route.fulfill(json={'images':['data:image/png;base64,'+asset],'remaining':2})
+      await page.route('**/api/creative/image',image_mock)
+      await page.goto('http://127.0.0.1:3000/creative-studio/assembl',wait_until='domcontentloaded')
+      design=page.get_by_role('region',name='Design a post',exact=True)
+      await design.get_by_label('headline',exact=False).fill('Good work comes together.')
+      for label,dimensions in [('LinkedIn 1200 × 627',(1200,627)),('square 1080 × 1080',(1080,1080)),('portrait 1080 × 1350',(1080,1350)),('story 1080 × 1920',(1080,1920))]:
+        await design.get_by_role('button',name=label,exact=True).click()
+        async with page.expect_download() as png:
+          await design.get_by_role('button',name='download PNG',exact=True).click()
+        file=await png.value
+        target=OUT/f'studio-{width}-{dimensions[0]}x{dimensions[1]}.png'
+        await file.save_as(target)
+        assert struct.unpack('>II',target.read_bytes()[16:24])==dimensions
+      await design.get_by_role('button',name='LinkedIn 1200 × 627',exact=True).click()
+      await page.screenshot(path=str(OUT/f'studio-post-{width}.png'),full_page=True,timeout=60000)
+      assert not generation_requests
+      await page.get_by_role('button',name='02 / Prepare an image',exact=True).click()
+      image_maker=page.get_by_role('region',name='Prepare an image',exact=True)
+      await image_maker.get_by_role('button',name='generate on-brand image',exact=True).click()
+      await expect(image_maker.get_by_role('heading',name='generated draft',exact=True)).to_be_visible()
+      assert len(generation_requests)==1
+      await page.screenshot(path=str(OUT/f'studio-image-{width}.png'),full_page=True,timeout=60000)
+      await image_maker.get_by_role('button',name='Use image in my post',exact=True).click()
+      await expect(design).to_be_visible()
+      await expect(design.get_by_label('headline',exact=False)).to_have_value('Good work comes together.')
+      assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
+      assert not errors,errors
+      report.append({'width':width,'AssemblStudio':'four PNG sizes, explicit generation, image-to-post handoff and preserved editable headline passed','providerCall':False})
       await ctx.close()
     request=await p.request.new_context(base_url='http://127.0.0.1:3000')
     r=await request.get('/api/knowledge/search?q=pursuit');data=await r.json();assert r.status==200 and data['records'] and data['privateKnowledge']==False
