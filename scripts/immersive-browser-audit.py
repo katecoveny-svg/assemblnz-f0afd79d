@@ -42,7 +42,11 @@ async def separated_brief_controls(page):
 async def hold_scene(page):
     pause = page.get_by_role('button', name='Pause scene motion', exact=True)
     if await pause.count() and await pause.is_enabled():
-        await pause.click()
+        # Exercise the keyboard control without waiting for two stable frames
+        # from software-rendered WebGL on the CI runner.
+        await pause.focus()
+        await pause.press('Enter')
+        await expect(page.get_by_role('button', name='Resume scene motion', exact=True)).to_have_attribute('aria-pressed', 'true')
         await page.wait_for_timeout(400)
 
 async def main():

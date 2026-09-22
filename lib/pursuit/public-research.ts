@@ -11,6 +11,7 @@ Write plain New Zealand English. No quiet/quietly, seamless, unlock, unleash, re
 Return ONLY JSON: {company,title,summary,evidence:[{claim,url}],opportunity,proposedWork,deliverables:[string],nextSteps:[string],unknowns:[string]}. Evidence contains 1-3 concise factual paraphrases with EXACT URLs returned by web search, not invented URLs. Every other business inference must be phrased as a proposal or question. Title <=80 chars; summary 30-300 chars; each claim 20-220 chars; opportunity/proposedWork 40-300 chars each; 2-3 deliverables and nextSteps, 1-3 unknowns, each a PLAIN STRING of 3-160 chars. Do not include unverified dates, metrics or named personal contacts. Distinguish an old closed tender from an active opportunity. Mention missing information in unknowns. The output is an independent draft, not an endorsement.`;
 const obj=(v:unknown):v is Record<string,unknown>=>Boolean(v&&typeof v==='object'&&!Array.isArray(v));
 export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,fetcher:typeof fetch=fetch):Promise<PublicResearchResult>{
+ const started=Date.now();
  const deadline=AbortSignal.timeout(100000);
  const outreach=input.workflow==='website_outreach';
  const searchLimit=outreach?5:3;
@@ -38,7 +39,9 @@ export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,f
  const value=outreach&&obj(output)?output.draft:output;
  const valid=Draft.safeParse(value);
  const campaignValue=outreach&&obj(output)?output.campaign:undefined;
- if(outreach&&(!valid.success||!OutreachCampaign.safeParse(campaignValue).success)&&providerCalls<2){
+ const campaignValidation=outreach?OutreachCampaign.safeParse(campaignValue):null;
+ console.info('public_research_stage',{requestId:input.requestId,stage:'researched',elapsedMs:Date.now()-started,providerCalls,webSearches,issues:[...(!valid.success?valid.error.issues:[]),...(campaignValidation&&!campaignValidation.success?campaignValidation.error.issues:[])].map(issue=>({path:issue.path,code:issue.code}))});
+ if(outreach&&(!valid.success||!campaignValidation?.success)&&providerCalls<2){
   const edited=await formatPublicOutreach(output,[...sources.values()],input.company,model,key,fetcher,deadline);
   providerCalls++;inputTokens+=edited.inputTokens;outputTokens+=edited.outputTokens;draft=edited.draft;campaign=edited.campaign;
  }else{

@@ -1,6 +1,6 @@
 # Pursuit links and Assembl creative direction
 
-22 September 2026. Review implementation; no production deployment from this task.
+22 September 2026. The owner merged PR #1412 during verification. Provider corrections and the broader signal story continue in PR #1413; no production merge by this task.
 
 Kate reported that the hosted Pursuit address showed the old company homepage and asked for Pursuit and Assembl creative output to match the current main site.
 
@@ -27,7 +27,7 @@ Canvas exports resolve the actual next/font family instead of silently falling b
 - Middleware checks cover the public maker and retired Pursuit redirect on apex, www and preview hosts, alongside existing private client gating.
 - Navigation/company tests were reconciled with already-accepted September 21 copy and DO entry rules. Their old assertions also failed on the baseline before this change.
 - Local TypeScript, focused ESLint and brand/front-door/macron checks passed during implementation. See PR for final test/build results.
-- Browser visual review at desktop and 375px and a real configured provider generation remain required. The cloud browser cannot open the local server. Do not treat mocked generation or a successful build as image quality proof.
+- Browser review at 375px and 1440px passed, including four exported PNG dimensions. A real configured Gemini image generation also succeeded. The cloud browser cannot open the local server. Do not treat mocked generation or a successful build as image quality proof.
 
 To replace the separately hosted old homepage and update its private agency maker, open this task from the workspace that owns that existing Site. Reuse its source and identity; preserve client records and access. Do not create a replacement Site to bypass missing access.
 
@@ -37,7 +37,7 @@ Reversal: revert this PR. The private workspaces and saved client content are un
 
 Kate also asked for a copy-skill pass, a clearer public example and working public research links. Write Like Me was used with the repo copy standard; available writing samples were limited, so the canonical positioning and Kate’s direct instructions led the edit.
 
-- Pursuit now uses a paper/plum layout and the actual homepage atelier image. The old low-contrast gradient heading and generic animated tiles are replaced by a selectable, explicitly fictional bakery/shopfitter example. No sample claims are presented as live research.
+- Pursuit now uses a paper/plum layout and the actual homepage atelier image. The old low-contrast gradient heading and generic animated tiles are replaced by a selectable policy-to-business research path, following Kate’s correction that the example must show Assembl’s breadth. No sample claims are presented as live research.
 - The public website preset now fills only Assembl’s website. It no longer inserts the internal Flex energy-retailer sales brief. The separate Flex simulator is unchanged.
 - Both public research forms show the current network/site allowance and UTC reset, and refresh after either submits. Atomic database reservation remains the authority. A limit response includes `Retry-After`; failed provider attempts still count because they may incur cost.
 - Read-only inspection of `assembl-prod` found a live policy of 1 attempt/network and 5/site daily, with a timeout recorded on 22 September. Under Kate’s request to increase the allowance, a conditional update changed that existing enabled policy to 3/network and 20/site. A subsequent SELECT verified it. No schema, activation, TypeSafe or billing change was made. To reverse this configuration change, restore those two values to 1 and 5; reverting code alone does not reverse it.
@@ -52,4 +52,9 @@ Provider migration reference: https://ai.google.dev/gemini-api/docs/generate-con
 
 Live follow-up verification found that the longer research request reached a response (about 42 seconds) but its outreach shape was rejected. The existing formatter only repaired the pitch, not the campaign. A single constrained formatting pass now repairs the complete response, with no extra search, the original length checks and rejection of newly inserted source URLs. Two regression tests exercise this boundary.
 
-The first native image call returned HTTP 400 with the guide’s v1 `responseFormat` payload. The request now follows the installed Google SDK 2.22.0 serialization and API reference: v1beta `generateContent` with `imageConfig`. Structured logs expose rejected field names only, never reference bytes, briefs or provider error prose. Real-provider recheck remains required after this correction.
+The first native image call returned HTTP 400 with the guide’s v1 `responseFormat` payload. The request now follows the installed Google SDK 2.22.0 serialization and API reference: v1beta `generateContent` with `imageConfig`. Structured logs expose rejected field names only, never reference bytes, briefs or provider error prose. The real-provider recheck succeeded: Gemini returned an architectural image using the included homepage reference. Image-to-post handoff and four PNG dimensions also passed the separate browser build test.
+
+
+Kate’s latest correction replaces the small-business opening with Parliament, NZBN, legislation, Beehive, Waka Kotahi and GeoNet. The hero links to official source pages and distinguishes an illustrative research path from the public web-search trial. It reads actual document/change totals from the existing homepage endpoint; no simulated ticker or invented counts. Keyed connections are not labelled active without evidence. The primary CTA now opens general company/sector research before the optional website outreach form.
+
+The second outreach live check timed out after approximately 84 seconds. The formatter had a separate 28-second cap; its cap is now 45 seconds within the unchanged 100-second overall deadline. Provider documentation confirms that initial schema compilation adds latency. The prompt requests shorter drafts and stage logs record only timing, counts and validation paths, never researched content. Final live research verification remains pending.
