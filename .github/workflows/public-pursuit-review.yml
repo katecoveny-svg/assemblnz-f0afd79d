@@ -39,7 +39,10 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test lib/pursuit/outreach.test.ts lib/pursuit/public-format.test.ts lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
       - run: pnpm exec eslint components/site/pursuit/WebsiteOutreach.tsx lib/pursuit/outreach.ts lib/pursuit/outreach-prompt.ts lib/pursuit/outreach.test.ts components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts lib/pursuit/public-format.ts lib/pursuit/public-response.ts lib/pursuit/public-research.ts lib/pursuit/public-store.ts app/api/knowledge app/api/pursuit/research
-      - run: pnpm build
+      # Fresh Turbopack builds currently fail resolving legacy Google font URLs.
+      # Use Next's supported webpack build for UI proof; Vercel and the separate
+      # immersive workflow still exercise the default production bundler.
+      - run: pnpm build --webpack
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
       - run: |
           pnpm start > /tmp/assembl-public.log 2>&1 &

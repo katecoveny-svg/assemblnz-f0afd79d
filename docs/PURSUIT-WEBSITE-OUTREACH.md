@@ -46,3 +46,9 @@ Rollback: revert this feature commit; no migrations, credentials, customer data 
 ## Next verified integration
 
 Extend the existing agent email transport and DO approval/evidence primitives only after verifying ownership, recipient provenance, appropriate contact permission, suppression/unsubscribe handling, sender health, exact-content approvals, retry safety and delivery receipts. Do not treat an exported draft as a sent message.
+
+## Verification update
+
+25 focused tests, standalone typecheck, focused lint, brand/front-door guards and macron checks passed locally. The first PR CI run also passed typecheck, tests and lint, then hit `next/font/google queries have exactly one entry` in existing customer font imports during the default Turbopack build. Vercel built the same feature commit successfully.
+
+The Public Pursuit UI-proof workflow now uses the officially supported `pnpm build --webpack` path (https://nextjs.org/docs/app/api-reference/turbopack). This is explicit alternate-bundler UI evidence, not proof that the fresh Turbopack issue is fixed. Production build settings and the separate immersive/default-build workflow are unchanged. The Vercel preview requires sign-in in the available cloud browser; no authentication protection was removed.
