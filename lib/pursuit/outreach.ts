@@ -31,18 +31,35 @@ export type OutreachProspect = OutreachCampaign['prospects'][number];
 
 export function parseOutreach(value: unknown, sourceUrls: string[], sellerWebsite: string): OutreachCampaign {
   const campaign = OutreachCampaign.parse(value);
-  const known = new Set(sourceUrls.map(publicWebsite).filter(Boolean));
-  const traced = (value: string) => {
-    const url = publicWebsite(value);
-    if (!url || !known.has(url)) throw new Error('untraced_outreach_source');
-  };
-  traced(campaign.seller.website);
+  const known = new Set(sourceUrls.map(publicWebsite).filter((url): url is string => Boolean(url)));
   const host = (value: string) => new URL(publicWebsite(value)!).hostname.replace(/^www\./, '');
+  const exact = (value: string) => {
+    const url = publicWebsite(value);
+    return url && known.has(url) ? url : null;
+  };
+  // A search may return a company's news/about page, without returning its
+  // homepage. Link the company to an observed page on that same domain.
+  // This does not establish a new fact, a contact route or a buying signal.
+  const identityPage = (value: string) => exact(value) ?? (publicWebsite(value)
+    ? [...known].find(source => host(source) === host(value)) ?? value : value);
+  const traced = (value: string, field: string) => {
+    const url = publicWebsite(value);
+    if (!url || !known.has(url)) {
+      console.warn('public_research_source_validation', { field });
+      throw new Error('untraced_outreach_source');
+    }
+  };
+  campaign.seller.website = identityPage(campaign.seller.website);
+  traced(campaign.seller.website, 'seller.website');
   if (host(campaign.seller.website) !== host(sellerWebsite)) throw new Error('seller_website_mismatch');
   const seen = new Set<string>();
   for (const prospect of campaign.prospects) {
-    traced(prospect.website); traced(prospect.signal.url);
-    if (prospect.contactUrl) traced(prospect.contactUrl);
+    prospect.website = identityPage(prospect.website);
+    traced(prospect.website, 'prospect.website');
+    traced(prospect.signal.url, 'prospect.signal.url');
+    // A guessed /contact page must not be presented as discovered evidence.
+    // Missing optional contact data should not discard a sourced account.
+    prospect.contactUrl = prospect.contactUrl ? exact(prospect.contactUrl) : null;
     const domain = host(prospect.website);
     if (seen.has(domain) || domain === host(sellerWebsite)) throw new Error('duplicate_outreach_account');
     seen.add(domain);

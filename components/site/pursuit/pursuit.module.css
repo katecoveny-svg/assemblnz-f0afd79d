@@ -34,7 +34,7 @@
 .header nav a[aria-current='page'] { border-bottom:1px solid #916a70; }
 .heroGrid { display:grid; grid-template-columns:1fr 1.12fr; gap:6%; padding:32px 6% 42px; align-items:center; max-width:1650px; margin:auto; }
 .eyebrow { font:11px/1.6 var(--font-mono),'IBM Plex Mono',monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-.heroCopy h1 { font-size:clamp(46px,5.5vw,84px); line-height:1.01; letter-spacing:-.06em; color:var(--ink); margin:22px 0 28px; }
+.heroCopy h1 { font-size:clamp(46px,5vw,76px); line-height:1.01; letter-spacing:-.06em; color:var(--ink); margin:22px 0 28px; }
 .heroCopy h1 span { color:var(--muted); }
 .lead { font-size:19px; line-height:1.55; max-width:430px; color:var(--muted); margin-bottom:28px!important; }
 .primary,.primaryDark { display:inline-flex; align-items:center; justify-content:space-between; gap:22px; border:1px solid var(--ink); border-radius:32px; padding:16px 22px; min-height:56px; font-size:15px; background:var(--ink); color:var(--paper)!important; }
@@ -102,7 +102,7 @@
 .connected {
   padding: 85px 8% 90px;
   background: #2b142b;
-  color: #fff4f6;
+  color: var(--ink);
 }
 
 .connectedIntro {
@@ -119,13 +119,13 @@
 .connected h2 {
   font-size: clamp(38px, 4.2vw, 60px);
   line-height: 1.04;
-  color: #fff4f6;
+  color: var(--ink);
 }
 
 .connectedIntro > p:last-child {
   font-size: 17px;
   line-height: 1.65;
-  color: #d9bfd1;
+  color: var(--muted);
   max-width: 480px;
 }
 
@@ -144,33 +144,33 @@
 .productLinks > a {
   position: relative;
   border-top: 1px solid #d3a1bf77;
-  padding: 26px 0 40px;
+  padding: 28px 28px 54px;
 }
 
 .productLinks span {
   font: 10px var(--font-mono), 'IBM Plex Mono', monospace;
   letter-spacing: 0.1em;
-  color: #d6a4c3;
+  color: var(--muted);
 }
 
 .productLinks h3 {
   font-size: 26px;
   line-height: 1.15;
   margin: 18px 0 12px;
-  color: #fff4f6;
+  color: var(--ink);
 }
 
 .productLinks p {
   font-size: 15px;
   line-height: 1.6;
-  color: #d9bfd1;
+  color: var(--muted);
   max-width: 240px;
 }
 
 .productLinks > a > svg {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 24px;
+  bottom: 20px;
   width: 20px;
 }
 

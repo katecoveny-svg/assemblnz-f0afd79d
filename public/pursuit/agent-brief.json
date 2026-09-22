@@ -4,18 +4,19 @@
   "product": "Pursuit",
   "url": "https://www.assembl.co.nz/pursuit",
   "hub": "https://assembl-pursuit.katecoveny.chatgpt.site/studios",
-  "summary": "Assembl brings New Zealand live intelligence and signals into a demonstrator / client Pursuit.",
+  "summary": "Pursuit researches business and sector changes, connects published evidence and prepares a proposal for review.",
   "plainEnglish": [
-    "Assembl finds NZ opportunities and signals and turns them into a client Pursuit demonstrator.",
-    "Radar, live intelligence and API calls power the work behind the scenes.",
-    "The public page shows the canvas experience: rearrange agent-suggested parts, then move into a brand or client frame.",
-    "The working hub is the external ChatGPT Pursuit workspace — not the public marketing page."
+    "Assembl connects public APIs, official records and company news.",
+    "The page shows Parliament, NZBN, legislation, Beehive, transport and GeoNet as source connections. Some connections require configured access.",
+    "The public trial searches the web for a company, sector or seller website and returns research for review, subject to availability and daily limits.",
+    "Existing private client work continues in the separately authenticated Pursuit hubs."
   ],
   "publicSees": [
-    "NZ signals and opportunities",
-    "Canvas rearrange of an agent-suggested idea",
-    "Brand / client demonstrator framing",
-    "Link to the Pursuit hub"
+    "Official source links and an illustrative research path",
+    "Public company and sector research",
+    "Source-linked draft proposals and reviewed exports",
+    "Optional website-led account research",
+    "Links to DO, Studio and private client hubs"
   ],
   "publicDoesNotSee": [
     "API keys",
@@ -24,8 +25,8 @@
     "Internal radar plumbing"
   ],
   "primaryCta": {
-    "label": "Open private client hubs",
-    "href": "https://assembl-pursuit.katecoveny.chatgpt.site/studios"
+    "label": "Research an opportunity",
+    "href": "/pursuit#try-pursuit"
   },
   "related": {
     "studio": "/creative-studio",
@@ -39,10 +40,8 @@
     "/studio/do-maker"
   ],
   "media": {
-    "heroLoop": "/pursuit/media/pursuit-canvas-loop.mp4",
-    "heroLoopWebm": "/pursuit/media/pursuit-canvas-loop.webm",
-    "poster": "/pursuit/media/pursuit-canvas-poster.jpg",
-    "dropInNote": "Replace PREVIEW loop with a muted screen recording of the real Pursuit canvas (rearrange → brand). Keep the same filenames or update PursuitCanvasHero."
+    "poster": "/do/world/atelier-poster.png",
+    "description": "The Assembl atelier, shared with the main homepage and creative maker."
   },
-  "updated": "2026-09-17"
+  "updated": "2026-09-22"
 }

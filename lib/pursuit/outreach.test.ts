@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { outreachExport, parseOutreach, publicWebsite, reviewFingerprint, type OutreachCampaign } from './outreach';
 import { TrialInput } from './public-contract';
 import { runPublicResearch } from './public-research';
+import { ASSEMBL_PUBLIC_OFFER } from './public-knowledge';
 
 const campaign: OutreachCampaign = {
   seller: { name: 'Fixture seller', website: 'https://seller.example.com/', offer: 'A fictional service for testing only.' },
@@ -28,11 +29,19 @@ describe('website-led outreach boundaries', () => {
     for (const url of ['http://seller.com', 'https://127.0.0.1', 'https://[::1]', 'https://user:pw@seller.com', 'https://service.local', 'https://service.internal', 'javascript:alert(1)']) expect(publicWebsite(url)).toBeNull();
     expect(publicWebsite('seller.co.nz')).toBe('https://seller.co.nz/');
   });
-  it('requires every company, signal and contact link to have a returned source', () => {
+  it('requires published signal evidence and omits undiscovered optional contact links', () => {
     expect(parseOutreach(campaign, urls, input.company).prospects).toHaveLength(1);
     expect(() => parseOutreach(campaign, urls.slice(0, 2), input.company)).toThrow('untraced_outreach_source');
     const changed = structuredClone(campaign); changed.prospects[0].contactUrl = 'https://buyer.example.com/contact';
-    expect(() => parseOutreach(changed, urls, input.company)).toThrow('untraced_outreach_source');
+    expect(parseOutreach(changed, urls, input.company).prospects[0].contactUrl).toBeNull();
+  });
+  it('links business identities to actual returned pages on their own domain', () => {
+    const observed = ['https://www.seller.example.com/about', 'https://buyer.example.com/news'];
+    const result = parseOutreach(campaign, observed, input.company);
+    expect(result.seller.website).toBe(observed[0]);
+    expect(result.prospects[0].website).toBe(observed[1]);
+    expect(result.prospects[0].signal.url).toBe(campaign.prospects[0].signal.url);
+    expect(() => parseOutreach(campaign, ['https://unrelated.example.com/', observed[1]], input.company)).toThrow('untraced_outreach_source');
   });
   it('rejects substituted sellers and duplicate prospect domains', () => {
     expect(() => parseOutreach(campaign, urls, 'https://different.example.com')).toThrow('seller_website_mismatch');
@@ -61,6 +70,7 @@ describe('website-led outreach boundaries', () => {
     ], usage: { input_tokens: 100, output_tokens: 100 } }), { status: 200 }));
     const result = await runPublicResearch(input, false, fetcher);
     expect(result.campaign?.prospects).toHaveLength(1); expect(result.trace.sources).toHaveLength(3);
+    expect(result.campaign?.seller.offer).toBe(campaign.seller.offer);
     expect(fetcher).toHaveBeenCalledTimes(1);
     const request = JSON.parse(String(fetcher.mock.calls[0][1]?.body));
     expect(request.tools[0].max_uses).toBe(5); expect(request.system).toContain('SELLER');
@@ -68,5 +78,52 @@ describe('website-led outreach boundaries', () => {
   it('does not substitute leads after a provider failure', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     await expect(runPublicResearch(input, false, vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 503 })))).rejects.toThrow('research_provider_http_503');
+  });
+  it('uses the current owned offer only when the seller is Assembl', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const website = 'https://www.assembl.co.nz/';
+    const stale = { ...campaign, seller: { name:'assembl', website, offer:'Retired pilot offer from an old search snippet.' }, prospects:[] };
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(Response.json({ stop_reason:'end_turn',content:[
+      {type:'server_tool_use',name:'web_search'},
+      {type:'web_search_tool_result',content:[{type:'web_search_result',url:website,title:'Assembl'}]},
+      {type:'text',text:JSON.stringify({draft:{...draft,evidence:[{...draft.evidence[0],url:website}]},campaign:stale})},
+    ]}));
+    const result = await runPublicResearch({...input,company:website},false,fetcher);
+    expect(result.campaign?.seller.offer).toBe(ASSEMBL_PUBLIC_OFFER);
+    expect(result.trace.knowledgeIds).toEqual(['platform','pursuit','do','studio']);
+    const prompt=JSON.parse(JSON.parse(String(fetcher.mock.calls[0][1]?.body)).messages[0].content);
+    expect(prompt.currentSellerOffer).toBe(ASSEMBL_PUBLIC_OFFER);
+  });
+});
+
+describe('outreach formatting repair', () => {
+  const researched = (value: unknown, extraUrls: string[] = []) => Response.json({ stop_reason: 'end_turn', content: [
+    { type: 'server_tool_use', name: 'web_search' },
+    { type: 'web_search_tool_result', content: [...urls, ...extraUrls].map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+    { type: 'text', text: JSON.stringify(value) },
+  ] });
+  it('repairs an overlong campaign once without starting another search', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign).toEqual(campaign);
+    expect(result.trace.providerCalls).toBe(2);
+    expect(result.trace.webSearches).toBe(1);
+    const formatting = JSON.parse(String(fetcher.mock.calls[1][1]?.body));
+    expect(formatting.tools).toBeUndefined();
+    expect(formatting.output_config.format.schema.properties.campaign).toBeDefined();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('rejects a new source inserted during formatting even if search returned it', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
+    const altered = structuredClone(campaign); altered.prospects[0].contactUrl = 'https://buyer.example.com/contact';
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }, [altered.prospects[0].contactUrl!]))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: altered }) }] }));
+    await expect(runPublicResearch(input, false, fetcher)).rejects.toThrow('untraced_source');
   });
 });

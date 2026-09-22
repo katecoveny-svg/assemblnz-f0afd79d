@@ -1,4 +1,5 @@
 import {createHash} from 'node:crypto';
+import {ZodError} from 'zod';
 import {TrialInput,containsCredential} from '@/lib/pursuit/public-contract';
 import {runPublicResearch} from '@/lib/pursuit/public-research';
 import {publicFailureCode} from '@/lib/pursuit/public-response';
@@ -30,5 +31,5 @@ export async function POST(request:Request){let id='',principal='';try{
  if(reservation.status==='replay')return Response.json(reservation.result,{headers:noStore});
  if(reservation.status!=='reserved'){const resetsAt=nextTrialReset();const limited=['daily_limit','client_limit'].includes(reservation.status);return Response.json({error:limited?(reservation.status==='client_limit'?'Your network’s daily research allowance has been used. It resets at 00:00 UTC.':'Today’s site-wide research allowance has been used. It resets at 00:00 UTC.'):reservation.status==='disabled'?'Live research is not enabled yet.':'This request is already being handled. Start a new brief to try again.',code:reservation.status,...(limited?{resetsAt}:{})},{status:limited?429:reservation.status==='disabled'?503:409,headers:{...noStore,...(limited?{'Retry-After':String(Math.ceil((Date.parse(resetsAt)-Date.now())/1000))}:{})}});}
  id=input.data.requestId;const result=await runPublicResearch(input.data,Boolean(reservation.typesafeEnabled));await completeTrial(id,principal,result);await countPublicTool('public_pursuit_complete');return Response.json(result,{headers:noStore});
- }catch(error:unknown){const code=publicFailureCode(error);if(id){await failTrial(id,principal,code);await countPublicTool('public_pursuit_failed');}return Response.json({error:'The research could not be completed with a saved source trail. No invented result has been substituted. Please try again later.',code,requestId:id||undefined},{status:503,headers:noStore});}
+ }catch(error:unknown){const code=publicFailureCode(error);if(error instanceof ZodError)console.warn('public_research_validation',{requestId:id,issues:error.issues.map(issue=>({path:issue.path,code:issue.code}))});if(id){await failTrial(id,principal,code);await countPublicTool('public_pursuit_failed');}return Response.json({error:'The research could not be completed with a saved source trail. No invented result has been substituted. Please try again later.',code,requestId:id||undefined},{status:503,headers:noStore});}
 }
