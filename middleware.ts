@@ -10,6 +10,7 @@ import {
   verifyInviteSlug,
 } from '@/lib/demo-invites/crypto';
 import { HUB_DEMO_MARKER, verifyHubToken } from '@/lib/demo-invites/gate';
+import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { isDoReturn } from '@/lib/auth/redirect';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
@@ -854,7 +855,7 @@ export async function middleware(request: NextRequest) {
       pathname === '/pursuit/playground' ||
       pathname.startsWith('/pursuit/playground/')
     ) {
-      return NextResponse.redirect('https://assembl-pursuit.katecoveny.chatgpt.site/', 308);
+      return NextResponse.redirect(new URL(PRODUCT_DESTINATIONS.pursuit.overview, request.url), 308);
     }
     if (matchesPrefix(pathname, '/studio/do-maker')) {
       const url = request.nextUrl.clone();

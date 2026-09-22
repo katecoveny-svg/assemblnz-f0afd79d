@@ -15,12 +15,12 @@ vi.mock('./cinematic/CinematicSubpage', () => ({ CinematicSubpage: ({ spec }: { 
 describe('current public company surfaces', () => {
   it('gives Studio visual work visitors can actually open', () => {
     const html = renderToStaticMarkup(createElement(ProductLanding, { product: 'studio' }));
-    expect(html).toContain('See the work');
+    expect(html).toContain('See the possibilities');
     expect(html).toContain('/preview/do-world');
-    expect(html).toContain('/contact?product=do');
+    expect(html).toContain('/creative-studio/assembl');
     expect(html).not.toContain('/do/meetings');
     expect(html).not.toContain('/studio/do-maker');
-    expect(html).not.toContain('/do/office');
+    expect(html).not.toContain('href="/do/office"');
     expect(html).not.toContain('/cinematic-nature/ocean-assembly.webp');
     expect(html).toContain('https://assembl-pursuit.katecoveny.chatgpt.site');
   });
@@ -32,7 +32,7 @@ describe('current public company surfaces', () => {
   });
   it('explains the current products without unverified hosting or compliance claims', () => {
     const html = renderToStaticMarkup(createElement(AboutPage));
-    for (const product of ['Pursuit', 'DO', 'Studio', 'Factory']) expect(html).toContain(product);
+    for (const product of ['Pursuit', 'DO', 'Studio']) expect(html).toContain(product);
     expect(html).not.toContain('NZ agency');
     expect(html).not.toContain('NZ Privacy Act compliant');
     expect(html).not.toContain('NZ-hosted');

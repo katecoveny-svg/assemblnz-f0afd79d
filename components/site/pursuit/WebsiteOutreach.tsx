@@ -5,10 +5,11 @@ import { ArrowRight, ArrowUpRight, Check, Download, Search } from 'lucide-react'
 import { Draft, type PublicResearchResult } from '@/lib/pursuit/public-contract';
 import { outreachExport, parseOutreach, publicWebsite, reviewFingerprint, type OutreachCopy } from '@/lib/pursuit/outreach';
 import styles from './website-outreach.module.css';
+import { useResearchAvailability, refreshResearchAvailability } from './useResearchAvailability';
 
-type Status = 'checking' | 'ready' | 'unavailable';
 export function WebsiteOutreach() {
-  const [status, setStatus] = useState<Status>('checking');
+  const availability = useResearchAvailability();
+  const status = availability === null ? 'checking' : availability.ready ? 'ready' : 'unavailable';
   const [website, setWebsite] = useState('');
   const [market, setMarket] = useState('');
   const [consent, setConsent] = useState(false);
@@ -20,13 +21,7 @@ export function WebsiteOutreach() {
   const [copies, setCopies] = useState<OutreachCopy[]>([]);
   const [review, setReview] = useState('');
   const request = useRef<AbortController | null>(null);
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch('/api/pursuit/research', { cache: 'no-store', signal: controller.signal })
-      .then(r => r.ok ? r.json() : null).then(r => setStatus(r?.ready ? 'ready' : 'unavailable'))
-      .catch(() => { if (!controller.signal.aborted) setStatus('unavailable'); });
-    return () => { controller.abort(); request.current?.abort(); };
-  }, []);
+  useEffect(() => () => request.current?.abort(), []);
 
   async function research(event: FormEvent) {
     event.preventDefault();
@@ -35,7 +30,7 @@ export function WebsiteOutreach() {
     if (busy || !consent || status !== 'ready') return;
     setBusy(true); setError(''); setNotice(''); setResult(null); setReview('');
     const controller = new AbortController(); request.current = controller;
-    const timeout = setTimeout(() => controller.abort(), 85000);
+    const timeout = setTimeout(() => controller.abort(), 115000);
     try {
       const response = await fetch('/api/pursuit/research', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
@@ -49,7 +44,7 @@ export function WebsiteOutreach() {
       setResult({ ...value, campaign }); setSelected(0);
       setCopies(campaign.prospects.map(p => ({ subject: p.subject, opening: p.opening, followUp: p.followUp })));
     } catch (e) { setError(controller.signal.aborted ? 'The request timed out. No result has been substituted. You can try again.' : e instanceof Error ? e.message : 'Research could not be completed.'); }
-    finally { clearTimeout(timeout); request.current = null; setBusy(false); }
+    finally { clearTimeout(timeout); refreshResearchAvailability(); request.current = null; setBusy(false); }
   }
   const campaign = result?.campaign;
   const prospect = campaign?.prospects[selected];
@@ -70,22 +65,22 @@ export function WebsiteOutreach() {
     setNotice('Reviewed draft downloaded with its sources. Nothing has been sent.');
   }
   return <section id="website-outreach" className={styles.section} aria-labelledby="outreach-title">
-    <header className={styles.heading}><div><p className={styles.eyebrow}>Pursuit / website to conversation</p><h2 id="outreach-title">Your website.<br /><span>Your next opening.</span></h2></div><p>Start with what you sell. Find businesses with a reason to talk. Shape an approach that earns its place in their inbox.</p></header>
+    <header className={styles.heading}><div><p className={styles.eyebrow}>Pursuit / website to conversation</p><h2 id="outreach-title">Who needs<br /><span>what you do?</span></h2></div><p>Add your website. Pursuit researches your offer and looks for up to three businesses that could be a fit.</p></header>
     <ol className={styles.steps} aria-label="Outreach steps"><li aria-current={!result ? 'step' : undefined}>01 <span>Understand your offer</span></li><li aria-current={result && !approved ? 'step' : undefined}>02 <span>Review the fit</span></li><li aria-current={approved ? 'step' : undefined}>03 <span>Prepare the approach</span></li></ol>
     <div className={styles.workspace}>
       <form className={styles.brief} onSubmit={research}>
         <span className={styles.eyebrow}>The starting point</span>
         <label htmlFor="seller-website">Your business website</label><input id="seller-website" name="website" inputMode="url" autoComplete="url" placeholder="yourcompany.co.nz" value={website} maxLength={120} required disabled={busy} onChange={e => { setWebsite(e.target.value); setReview(''); setResult(null); }} />
         <label htmlFor="outreach-market">Who would you like to work with? (optional)</label><textarea id="outreach-market" name="market" placeholder="Leave blank to suggest a market from your website, or specify a sector, location and opportunity." value={market} minLength={12} maxLength={700} rows={5} disabled={busy} onChange={e => { setMarket(e.target.value); setReview(''); setResult(null); }} />
-        <button className={styles.example} type="button" disabled={busy} onClick={() => { setWebsite('https://www.assembl.co.nz'); setMarket('Find New Zealand energy retailers with published household flexibility or electrification initiatives. Assembl proposes a governed household-energy agent concept. Find a plausible pilot conversation; do not imply the concept is already a live integration.'); setReview(''); setResult(null); }}>Use the Assembl Flex brief <ArrowUpRight size={14} /></button>
+        <button className={styles.example} type="button" disabled={busy} onClick={() => { setWebsite('https://www.assembl.co.nz'); setMarket(''); setReview(''); setResult(null); }}>Use Assembl as an example <ArrowUpRight size={14} /></button>
         <label className={styles.check}><input type="checkbox" checked={consent} disabled={busy} onChange={e => setConsent(e.target.checked)} /><span>Research these public details with the provider. Results are stored for retries and abuse control. I have excluded private information.</span></label>
-        <button type="submit" className={styles.primary} disabled={busy || status !== 'ready' || !consent}>{busy ? 'Researching your next openings…' : 'Find my next openings'}<Search size={17} /></button>
-        <p className={styles.small} role="status">{status === 'checking' ? 'Checking live research availability…' : status === 'unavailable' ? 'Live research is unavailable on this deployment. No sample leads will be substituted.' : 'A bounded live search. Up to three accounts, with sources.'}</p>
-        <p className={styles.small}>Draft preparation only. Contact verification and connected sending are not available here. Draft edits stay in this tab; download to keep them.</p>
+        <button type="submit" className={styles.primary} disabled={busy || status !== 'ready' || !consent}>{busy ? 'Researching businesses…' : 'Find prospects'}<Search size={17} /></button>
+        <p className={styles.small} role="status">{availability?.message ?? (status === 'checking' ? 'Checking research availability…' : status === 'unavailable' ? 'Live research is temporarily unavailable.' : 'Public research is available.')} {status === 'ready' && 'Research can take a minute or two.'}</p>
+        <p className={styles.small}>Review before making contact. Nothing is sent here. Download your edits to keep them.</p>
         {error && <p role="alert" className={styles.error}>{error}</p>}
       </form>
       <div className={styles.results} aria-busy={busy}>
-        {!campaign ? <div className={styles.empty}><span className={styles.eyebrow}>{busy ? 'Research in progress' : 'A useful approach starts here'}</span><div className={styles.assembly} aria-hidden="true"><span>your offer</span><ArrowRight /><span>their signal</span><ArrowRight /><span>a reason to talk</span></div><h3>Something specific<br />to bring to the table.</h3><p>{busy ? 'Reading the public offer and looking for relevant accounts. The completed result will include sources, hypotheses and missing facts.' : 'Your shortlist will show what is published, why your offer may fit, and the smallest useful proof to propose.'}</p><div className={styles.emptyNotes}><span>01 / Published evidence</span><span>02 / Commercial hypothesis</span><span>03 / Your review</span></div></div> : <>
+        {!campaign ? <div className={styles.empty}><span className={styles.eyebrow}>{busy ? 'Research in progress' : 'A useful approach starts here'}</span><div className={styles.assembly} aria-hidden="true"><span>your offer</span><ArrowRight /><span>their signal</span><ArrowRight /><span>a reason to talk</span></div><h3>A shortlist,<br />with the reasons attached.</h3><p>{busy ? 'Reading the public offer and looking for relevant accounts. The completed result will include sources, hypotheses and missing facts.' : 'See the source, check why your offer might fit, then edit a draft introduction.'}</p><div className={styles.emptyNotes}><span>01 / Published evidence</span><span>02 / Commercial hypothesis</span><span>03 / Your review</span></div></div> : <>
           <header className={styles.seller}><span className={styles.eyebrow}>Offer understood / check before using</span><h3>{campaign.seller.name}</h3><p>{campaign.seller.offer}</p><a href={campaign.seller.website} target="_blank" rel="noopener noreferrer">Seller source <ArrowUpRight size={14} /></a><p className={styles.small}>{campaign.market}</p></header>
           <div className={styles.accounts} aria-label="Researched accounts">{campaign.prospects.map((p, index) => <button type="button" key={p.website} aria-pressed={selected === index} onClick={() => { setSelected(index); setReview(''); setNotice(''); }}><span>0{index + 1}</span>{p.company}<ArrowUpRight size={14} /></button>)}</div>
           {!prospect && <p className={styles.noMatches}>No sufficiently supported accounts were found. Refine the market brief using the research gaps below.</p>}

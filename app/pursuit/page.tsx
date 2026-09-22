@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { PursuitLanding } from '@/components/site/pursuit/PursuitLanding';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { graph, breadcrumbNode, SITE_URL } from '@/lib/seo/schema';
-import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { PURSUIT_AGENT_BRIEF } from '@/lib/pursuit/agent-brief';
 
 export const metadata: Metadata = {
@@ -30,11 +30,11 @@ const pursuitNode = {
     name: 'assembl Pursuit',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: PURSUIT_SITE_ORIGIN,
+    url: PRODUCT_DESTINATIONS.pursuit.workspace,
     description: PURSUIT_AGENT_BRIEF.summary,
     featureList: [...PURSUIT_AGENT_BRIEF.publicSees],
   },
-  significantLink: PURSUIT_SITE_ORIGIN,
+  significantLink: PRODUCT_DESTINATIONS.pursuit.workspace,
 };
 
 export default function PursuitPage() {

@@ -24,7 +24,7 @@ describe('public install discovery', () => {
   it('lists canonical indexable product entries without private, preview or redirect URLs', async () => {
     const entries = sitemap();
     const urls = entries.map((entry) => entry.url);
-    const products = ['/do', '/do/meetings', '/do/household', '/creative-studio', '/do/install'];
+    const products = ['/pursuit', '/do', '/creative-studio'];
     for (const product of products) {
       expect(entries.find((entry) => entry.url === `https://www.assembl.co.nz${product}`), product).toMatchObject({
         priority: 0.9,
@@ -36,7 +36,7 @@ describe('public install discovery', () => {
       expect(new URL(url).origin).toBe('https://www.assembl.co.nz');
       expect(new URL(url).search).toBe('');
       expect(new URL(url).pathname).not.toMatch(
-        /^\/(?:admin|auth|login|api|customers|journeys\/one-nz|worlds\/(?:onenz|one-nz)|preview|studio|pursuit|do\/(?:browser|sponsored|tasks|widget|maker))(?:\/|$)/,
+        /^\/(?:admin|auth|login|api|customers|journeys\/one-nz|worlds\/(?:onenz|one-nz)|preview|studio|do\/(?:browser|sponsored|tasks|widget|maker|meetings|household))(?:\/|$)/,
       );
       expect(['/insurance', '/toro']).not.toContain(new URL(url).pathname);
     }
@@ -93,13 +93,15 @@ describe('retired public Pursuit maker / partner doors', () => {
     }
   });
 
-  it.each(publicHosts)('redirects Pursuit playground to the ChatGPT hub on %s', async (host) => {
+  it.each(publicHosts)('keeps the Assembl maker open on %s', async (host) => {
+    await expectPublicEntry('/creative-studio/assembl', host);
+  });
+
+  it.each(publicHosts)('redirects retired Pursuit playground to current Pursuit on %s', async (host) => {
     for (const path of ['/pursuit/playground', '/pursuit/playground/']) {
       const response = await middleware(request(path, host));
       expect(response.status, path).toBe(308);
-      expect(response.headers.get('location'), path).toMatch(
-        /^https:\/\/assembl-pursuit\.katecoveny\.chatgpt\.site\/?$/,
-      );
+      expect(response.headers.get('location'), path).toBe(`https://${host}/pursuit`);
     }
   });
 

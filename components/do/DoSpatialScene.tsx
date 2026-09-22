@@ -10,7 +10,7 @@ const COMPANY = [
   {
     label: "Pursuit",
     title: "Find the opening.",
-    href: "https://assembl-pursuit.katecoveny.chatgpt.site",
+    href: "/pursuit",
     glyph: "↗",
   },
   { label: "DO", title: "Move the work forward.", href: "/do", glyph: "✦" },

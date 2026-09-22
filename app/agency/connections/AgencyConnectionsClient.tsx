@@ -10,7 +10,7 @@ export function AgencyConnectionsClient() {
       <header className={styles.topbar}>
         <Link className={styles.brand} href="/">assembl</Link>
         <nav aria-label="Connections">
-          <a className={styles.navPill} href="https://assembl-pursuit.katecoveny.chatgpt.site" target="_blank" rel="noopener noreferrer">Pursuit</a>
+          <a className={styles.navPill} href="/pursuit" target="_blank" rel="noopener noreferrer">Pursuit</a>
           <Link className={styles.navPill} href="/do/connections">DO connections</Link>
           <Link className={styles.navPill} href="/legal/privacy">Privacy</Link>
         </nav>

@@ -3,7 +3,7 @@
   "name": "Pursuit",
   "product": "Pursuit",
   "url": "https://www.assembl.co.nz/pursuit",
-  "hub": "https://assembl-pursuit.katecoveny.chatgpt.site",
+  "hub": "https://assembl-pursuit.katecoveny.chatgpt.site/studios",
   "summary": "Assembl brings New Zealand live intelligence and signals into a demonstrator / client Pursuit.",
   "plainEnglish": [
     "Assembl finds NZ opportunities and signals and turns them into a client Pursuit demonstrator.",
@@ -24,8 +24,8 @@
     "Internal radar plumbing"
   ],
   "primaryCta": {
-    "label": "Open the Pursuit hub",
-    "href": "https://assembl-pursuit.katecoveny.chatgpt.site"
+    "label": "Open private client hubs",
+    "href": "https://assembl-pursuit.katecoveny.chatgpt.site/studios"
   },
   "related": {
     "studio": "/creative-studio",

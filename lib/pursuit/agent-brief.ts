@@ -2,14 +2,14 @@
  * Machine-readable Pursuit brief for agents and answer engines.
  * No secrets, keys, endpoints or tool-health detail.
  */
-import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 
 export const PURSUIT_AGENT_BRIEF = {
   id: 'assembl-pursuit-public',
   name: 'Pursuit',
   product: 'Pursuit',
   url: 'https://www.assembl.co.nz/pursuit',
-  hub: PURSUIT_SITE_ORIGIN,
+  hub: PRODUCT_DESTINATIONS.pursuit.workspace,
   summary:
     'Assembl brings New Zealand live intelligence and signals into a demonstrator / client Pursuit.',
   plainEnglish: [
@@ -31,8 +31,8 @@ export const PURSUIT_AGENT_BRIEF = {
     'Internal radar plumbing',
   ],
   primaryCta: {
-    label: 'Open the Pursuit hub',
-    href: PURSUIT_SITE_ORIGIN,
+    label: 'Open private client hubs',
+    href: PRODUCT_DESTINATIONS.pursuit.workspace,
   },
   related: {
     studio: '/creative-studio',
